@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 274F14EE8E1
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 09:14:33 +0200 (CEST)
-Received: from localhost ([::1]:59038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22244EE8E5
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 09:14:36 +0200 (CEST)
+Received: from localhost ([::1]:59258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naBUN-000113-Q2
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 03:14:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37088)
+	id 1naBUR-0001Bb-TF
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 03:14:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1naBRh-0007Tw-Dr; Fri, 01 Apr 2022 03:11:45 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50302)
+ id 1naBRo-0007ah-1E; Fri, 01 Apr 2022 03:11:52 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:50304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1naBRe-0005bE-PA; Fri, 01 Apr 2022 03:11:45 -0400
+ id 1naBRm-0005bx-ER; Fri, 01 Apr 2022 03:11:51 -0400
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 538A0C60912;
- Fri,  1 Apr 2022 09:11:36 +0200 (CEST)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 4D6A5C60912;
+ Fri,  1 Apr 2022 09:11:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1648797096;
+ t=1648797108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+bNY+yFfIwOSM7YjNmiig5uFX0wp/BEd4vzumv+cyIA=;
- b=JrQXDH5dgnhcoqhh1o5+UyeQHllQcz6MuJ+NlwcPzpMIH6XlBfeY4Xa2rVPfaG3a0JGwBe
- JNUQf2OU+oOBCif8Rqdx2IfuIaEtarJjhuBDN1M+lB74kJw5gDWMGM1A5AVi1+9NaFPDx+
- o9M4F2VH8dtnL14mXQ9uIZY1aMGA63gR12uFd0z3O8tYGODmtkdqCMvXRRe0TuUNwYoVrU
- E3GcsnxFpN0E4jmPGOyO0I8vrK+pp/FMPwQv0ZhfVfzoDrBoVH7sfj4JyJo+DL9Kvv+ZSa
- w2+tzlwsIms1AS7GnIgZc4DIaJxDzjHu5h8NCV0wWYh9VG2mjWAVQ0KJhkN1sQ==
-Date: Fri, 1 Apr 2022 09:11:36 +0200
+ bh=v4Sh7C5xjfxkoBa7PXcY56UAN93dnkD7s6YXvpCk5Y4=;
+ b=gpsZ/6WUeQtmfAm0pL0YTwJgwRUtTHyeIn/TljcEdNKvZtJ2OcTp24JPzTEGAY7/gt9yQ5
+ l0AJvctkEL83+YgoEfP1Sg7HhYk7dpFZaxWCJyQzUuLxbYl0mUeTl94MSd6wALZHMmjjgX
+ KWQqEAofNXRCpQFRaxpA5TDA3dAbVy1oTeyXM7Dqk2DNmXoG8g0HFBB5eO1A2l82+1dVks
+ 1behUW+js1ucA/NydFadleEjQxq8ngVjd8xvjJAnzkUGqSqI8LAUd8IoNF4w5MZbfAUlUu
+ f8uLLf1mC1u14cLqmfRfMXQqP7xmcyYk3W2la+GeODwz+Yb5jFl/HSbyPix7Bw==
+Date: Fri, 1 Apr 2022 09:11:48 +0200
 From: Luc Michel <luc@lmichel.fr>
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v1 1/2] timer: cadence_ttc: Break out header file to
- allow embedding
-Message-ID: <YkalqFmUFje2WQHM@sekoia-pc.home.lmichel.fr>
+Subject: Re: [PATCH v1 2/2] hw/arm/xlnx-zynqmp: Connect 4 TTC timers
+Message-ID: <YkaltOpNAOkuk/5E@sekoia-pc.home.lmichel.fr>
 References: <20220331222017.2914409-1-edgar.iglesias@gmail.com>
- <20220331222017.2914409-2-edgar.iglesias@gmail.com>
+ <20220331222017.2914409-3-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220331222017.2914409-2-edgar.iglesias@gmail.com>
+In-Reply-To: <20220331222017.2914409-3-edgar.iglesias@gmail.com>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
@@ -75,128 +74,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 00:20 Fri 01 Apr     , Edgar E. Iglesias wrote:
 > From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
 > 
-> Break out header file to allow embedding of the the TTC.
+> Connect the 4 TTC timers on the ZynqMP.
 > 
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 
 > ---
->  include/hw/timer/cadence_ttc.h | 54 ++++++++++++++++++++++++++++++++++
->  hw/timer/cadence_ttc.c         | 32 ++------------------
->  2 files changed, 56 insertions(+), 30 deletions(-)
->  create mode 100644 include/hw/timer/cadence_ttc.h
+>  include/hw/arm/xlnx-zynqmp.h |  4 ++++
+>  hw/arm/xlnx-zynqmp.c         | 22 ++++++++++++++++++++++
+>  2 files changed, 26 insertions(+)
 > 
-> diff --git a/include/hw/timer/cadence_ttc.h b/include/hw/timer/cadence_ttc.h
-> new file mode 100644
-> index 0000000000..e1251383f2
-> --- /dev/null
-> +++ b/include/hw/timer/cadence_ttc.h
-> @@ -0,0 +1,54 @@
-> +/*
-> + * Xilinx Zynq cadence TTC model
-> + *
-> + * Copyright (c) 2011 Xilinx Inc.
-> + * Copyright (c) 2012 Peter A.G. Crosthwaite (peter.crosthwaite@petalogix.com)
-> + * Copyright (c) 2012 PetaLogix Pty Ltd.
-> + * Written By Haibing Ma
-> + *            M. Habib
-> + *
-> + * This program is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU General Public License
-> + * as published by the Free Software Foundation; either version
-> + * 2 of the License, or (at your option) any later version.
-> + *
-> + * You should have received a copy of the GNU General Public License along
-> + * with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +#ifndef HW_TIMER_CADENCE_TTC_H
-> +#define HW_TIMER_CADENCE_TTC_H
-> +
-> +#include "hw/sysbus.h"
-> +#include "qemu/timer.h"
-> +
-> +typedef struct {
-> +    QEMUTimer *timer;
-> +    int freq;
-> +
-> +    uint32_t reg_clock;
-> +    uint32_t reg_count;
-> +    uint32_t reg_value;
-> +    uint16_t reg_interval;
-> +    uint16_t reg_match[3];
-> +    uint32_t reg_intr;
-> +    uint32_t reg_intr_en;
-> +    uint32_t reg_event_ctrl;
-> +    uint32_t reg_event;
-> +
-> +    uint64_t cpu_time;
-> +    unsigned int cpu_time_valid;
-> +
-> +    qemu_irq irq;
-> +} CadenceTimerState;
-> +
-> +#define TYPE_CADENCE_TTC "cadence_ttc"
-> +OBJECT_DECLARE_SIMPLE_TYPE(CadenceTTCState, CADENCE_TTC)
-> +
-> +struct CadenceTTCState {
-> +    SysBusDevice parent_obj;
-> +
-> +    MemoryRegion iomem;
-> +    CadenceTimerState timer[3];
-> +};
-> +
-> +#endif
-> diff --git a/hw/timer/cadence_ttc.c b/hw/timer/cadence_ttc.c
-> index 64108241ba..e57a0f5f09 100644
-> --- a/hw/timer/cadence_ttc.c
-> +++ b/hw/timer/cadence_ttc.c
-> @@ -24,6 +24,8 @@
->  #include "qemu/timer.h"
->  #include "qom/object.h"
->  
+> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+> index 9d9a9d0bf9..85fd9f53da 100644
+> --- a/include/hw/arm/xlnx-zynqmp.h
+> +++ b/include/hw/arm/xlnx-zynqmp.h
+> @@ -41,6 +41,7 @@
+>  #include "hw/or-irq.h"
+>  #include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
+>  #include "hw/misc/xlnx-zynqmp-crf.h"
 > +#include "hw/timer/cadence_ttc.h"
-> +
->  #ifdef CADENCE_TTC_ERR_DEBUG
->  #define DB_PRINT(...) do { \
->      fprintf(stderr,  ": %s: ", __func__); \
-> @@ -49,36 +51,6 @@
->  #define CLOCK_CTRL_PS_EN    0x00000001
->  #define CLOCK_CTRL_PS_V     0x0000001e
 >  
-> -typedef struct {
-> -    QEMUTimer *timer;
-> -    int freq;
-> -
-> -    uint32_t reg_clock;
-> -    uint32_t reg_count;
-> -    uint32_t reg_value;
-> -    uint16_t reg_interval;
-> -    uint16_t reg_match[3];
-> -    uint32_t reg_intr;
-> -    uint32_t reg_intr_en;
-> -    uint32_t reg_event_ctrl;
-> -    uint32_t reg_event;
-> -
-> -    uint64_t cpu_time;
-> -    unsigned int cpu_time_valid;
-> -
-> -    qemu_irq irq;
-> -} CadenceTimerState;
-> -
-> -#define TYPE_CADENCE_TTC "cadence_ttc"
-> -OBJECT_DECLARE_SIMPLE_TYPE(CadenceTTCState, CADENCE_TTC)
-> -
-> -struct CadenceTTCState {
-> -    SysBusDevice parent_obj;
-> -
-> -    MemoryRegion iomem;
-> -    CadenceTimerState timer[3];
-> -};
-> -
->  static void cadence_timer_update(CadenceTimerState *s)
+>  #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
+>  OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+> @@ -84,6 +85,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+>  #define XLNX_ZYNQMP_MAX_RAM_SIZE (XLNX_ZYNQMP_MAX_LOW_RAM_SIZE + \
+>                                    XLNX_ZYNQMP_MAX_HIGH_RAM_SIZE)
+>  
+> +#define XLNX_ZYNQMP_NUM_TTC 4
+> +
+>  /*
+>   * Unimplemented mmio regions needed to boot some images.
+>   */
+> @@ -128,6 +131,7 @@ struct XlnxZynqMPState {
+>      qemu_or_irq qspi_irq_orgate;
+>      XlnxZynqMPAPUCtrl apu_ctrl;
+>      XlnxZynqMPCRF crf;
+> +    CadenceTTCState ttc[XLNX_ZYNQMP_NUM_TTC];
+>  
+>      char *boot_cpu;
+>      ARMCPU *boot_cpu_ptr;
+> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+> index 5bfe285a19..375309e68e 100644
+> --- a/hw/arm/xlnx-zynqmp.c
+> +++ b/hw/arm/xlnx-zynqmp.c
+> @@ -68,6 +68,9 @@
+>  #define APU_ADDR            0xfd5c0000
+>  #define APU_IRQ             153
+>  
+> +#define TTC0_ADDR           0xFF110000
+> +#define TTC0_IRQ            36
+> +
+>  #define IPI_ADDR            0xFF300000
+>  #define IPI_IRQ             64
+>  
+> @@ -316,6 +319,24 @@ static void xlnx_zynqmp_create_crf(XlnxZynqMPState *s, qemu_irq *gic)
+>      sysbus_connect_irq(sbd, 0, gic[CRF_IRQ]);
+>  }
+>  
+> +static void xlnx_zynqmp_create_ttc(XlnxZynqMPState *s, qemu_irq *gic)
+> +{
+> +    SysBusDevice *sbd;
+> +    int i, irq;
+> +
+> +    for (i = 0; i < XLNX_ZYNQMP_NUM_TTC; i++) {
+> +        object_initialize_child(OBJECT(s), "ttc[*]", &s->ttc[i],
+> +                                TYPE_CADENCE_TTC);
+> +        sbd = SYS_BUS_DEVICE(&s->ttc[i]);
+> +
+> +        sysbus_realize(sbd, &error_fatal);
+> +        sysbus_mmio_map(sbd, 0, TTC0_ADDR + i * 0x10000);
+> +        for (irq = 0; irq < 3; irq++) {
+> +            sysbus_connect_irq(sbd, irq, gic[TTC0_IRQ + i * 3 + irq]);
+> +        }
+> +    }
+> +}
+> +
+>  static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
 >  {
->      qemu_set_irq(s->irq, !!(s->reg_intr & s->reg_intr_en));
+>      static const struct UnimpInfo {
+> @@ -721,6 +742,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>      xlnx_zynqmp_create_efuse(s, gic_spi);
+>      xlnx_zynqmp_create_apu_ctrl(s, gic_spi);
+>      xlnx_zynqmp_create_crf(s, gic_spi);
+> +    xlnx_zynqmp_create_ttc(s, gic_spi);
+>      xlnx_zynqmp_create_unimp_mmio(s);
+>  
+>      for (i = 0; i < XLNX_ZYNQMP_NUM_GDMA_CH; i++) {
 > -- 
 > 2.25.1
 > 
