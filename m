@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FEA4EF37D
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:26:09 +0200 (CEST)
-Received: from localhost ([::1]:44654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21234EF3A3
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:26:37 +0200 (CEST)
+Received: from localhost ([::1]:44948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naJA7-0003HV-UY
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:26:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50808)
+	id 1naJAa-0003TA-Kw
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:26:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1naJ7c-0000yq-6s
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:23:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55859)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1naJ7e-0000z2-Bb
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:23:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1naJ7Y-0000qW-KB
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:23:30 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1naJ7c-0000qr-0S
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:23:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648826607;
+ s=mimecast20190719; t=1648826611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=mBLb78cmgOJuG4Xr50xJE+HAkXIz/zo2QX5PltG2e7w=;
- b=jRz99/2WdS/ynDnx2BkmaG6jXcg7OPVh5zBGIgS0bLT8329XQBfvRt3jc8X9bBsIJj410o
- d5OHDlVp8AoShb+rN1lokMAJJa1PPrw+MYAlUFTkKdc0GXzxmOBo3REWfUW/sahuoTej0G
- y6SiushoYTn2sibjX6eASv1mw88aFE0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kUFthdLADyGYhqg960Ti2tj+IEQt1bOcOPf+CdvzN2Y=;
+ b=M6hxX4iMCcMXgs8BZy6dNPHgvQJVlexam9TAx9PtsGVSs7pkYLjM+TNtVBgqm2RxVhpR3v
+ jSMPAbqZaEP3Vu7B7gdypGnfcO6e1W4xHcYdf/NHQxNST4ZbwTIvCT3XWcemHTVpdM3HFo
+ mBlcAd+bAufhXTV0Gyc3iFwCLbcSM88=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77-L6zDnPG1N-64z_nuGrr1Uw-1; Fri, 01 Apr 2022 11:23:26 -0400
-X-MC-Unique: L6zDnPG1N-64z_nuGrr1Uw-1
+ us-mta-169-zp7BYuAMMd-HUSMUzlnD6Q-1; Fri, 01 Apr 2022 11:23:28 -0400
+X-MC-Unique: zp7BYuAMMd-HUSMUzlnD6Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B66580005D;
- Fri,  1 Apr 2022 15:23:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27B3F811E7A;
+ Fri,  1 Apr 2022 15:23:28 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B74802166B4E;
- Fri,  1 Apr 2022 15:23:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C377A2166B4E;
+ Fri,  1 Apr 2022 15:23:26 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/6] Misc fixes for 7.0
-Date: Fri,  1 Apr 2022 17:23:17 +0200
-Message-Id: <20220401152323.52519-1-thuth@redhat.com>
+Subject: [PULL 1/6] misc: Fixes MAINTAINERS's path
+ .github/workflows/lockdown.yml
+Date: Fri,  1 Apr 2022 17:23:18 +0200
+Message-Id: <20220401152323.52519-2-thuth@redhat.com>
+In-Reply-To: <20220401152323.52519-1-thuth@redhat.com>
+References: <20220401152323.52519-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Authentication-Results: relay.mimecast.com;
@@ -75,50 +79,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9b617b1bb4056e60b39be4c33be20c10928a6a5c:
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-  Merge tag 'trivial-branch-for-7.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-04-01 10:23:27 +0100)
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+Message-Id: <20220323080755.156-4-luoyonggang@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-04-01
-
-for you to fetch changes up to e32aaa5a19e24233180042f84a0235a209de71cc:
-
-  trace: fix compilation with lttng-ust >= 2.13 (2022-04-01 13:06:07 +0200)
-
-----------------------------------------------------------------
-* Fix some compilation issues
-* Fix overflow calculation in s390x emulation
-* Update location of lockdown.yml in MAINTAINERS file
-
-----------------------------------------------------------------
-Bruno Haible (2):
-      target/s390x: Fix determination of overflow condition code after addition
-      target/s390x: Fix determination of overflow condition code after subtraction
-
-Marc-André Lureau (1):
-      trace: fix compilation with lttng-ust >= 2.13
-
-Thomas Huth (1):
-      meson.build: Fix dependency of page-vary-common.c to config-poison.h
-
-Will Cohen (1):
-      9p: move P9_XATTR_SIZE_MAX from 9p.h to 9p.c
-
-Yonggang Luo (1):
-      misc: Fixes MAINTAINERS's path .github/workflows/lockdown.yml
-
- meson.build                              |  6 +++---
- hw/9pfs/9p.h                             | 18 ------------------
- hw/9pfs/9p.c                             | 28 +++++++++++++++++++++++-----
- target/s390x/tcg/cc_helper.c             |  8 ++++----
- MAINTAINERS                              |  2 +-
- scripts/tracetool/format/ust_events_h.py |  4 ++--
- 6 files changed, 33 insertions(+), 33 deletions(-)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc364afef7..d8b2601981 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3615,7 +3615,7 @@ M: Thomas Huth <thuth@redhat.com>
+ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+ R: Beraldo Leal <bleal@redhat.com>
+ S: Maintained
+-F: .github/lockdown.yml
++F: .github/workflows/lockdown.yml
+ F: .gitlab-ci.yml
+ F: .gitlab-ci.d/
+ F: .travis.yml
+-- 
+2.27.0
 
 
