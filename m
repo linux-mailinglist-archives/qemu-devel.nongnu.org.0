@@ -2,75 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E424EEBFF
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 13:05:08 +0200 (CEST)
-Received: from localhost ([::1]:36394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88074EEC02
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 13:06:48 +0200 (CEST)
+Received: from localhost ([::1]:39276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naF5W-0002bx-Ti
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 07:05:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48858)
+	id 1naF7A-0004lR-1j
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 07:06:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1naF2I-0000p1-FL
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 07:01:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60012)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1naF2G-0006mN-Gw
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 07:01:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648810903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5kl2v3pMs0GECEKMzuvXjteSbterczGemfw9e0cwnCU=;
- b=YK7Z8dakSZLy0VfVHTjTwp3HpI7O/gN/W7A2L+ZP7H5geQKC9Mjwjla/l5B6kj2ebqpq4m
- PFwqcV0LHc5wl7OVCTb0nIf3Z251mjuJPALZ0eyF9dKGo81RE3qsAvMfjZ0uE5ZG/LFKLQ
- 0DbBXE9lztZkiYX+UGR3hlEEdiGnnjg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-xwbJVMi3OmGR8pY93BRWHQ-1; Fri, 01 Apr 2022 07:01:40 -0400
-X-MC-Unique: xwbJVMi3OmGR8pY93BRWHQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDB332800965;
- Fri,  1 Apr 2022 11:01:34 +0000 (UTC)
-Received: from [10.39.192.17] (unknown [10.39.192.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD4DF1400C2B;
- Fri,  1 Apr 2022 11:01:32 +0000 (UTC)
-Message-ID: <fa63b692-a1be-d4f9-d2ee-e8e4c1af4890@redhat.com>
-Date: Fri, 1 Apr 2022 13:01:31 +0200
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1naF2W-00018O-4s; Fri, 01 Apr 2022 07:02:01 -0400
+Received: from [2a00:1450:4864:20::530] (port=44978
+ helo=mail-ed1-x530.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1naF2T-0006nN-U0; Fri, 01 Apr 2022 07:01:59 -0400
+Received: by mail-ed1-x530.google.com with SMTP id w25so2487731edi.11;
+ Fri, 01 Apr 2022 04:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wxMwicRUY1sVW1DL+XjEHIQ4dKKR2OMSKjK5bMu2A4g=;
+ b=e0hpiQnH1cKlGegNRU41qNpJJshoOx2QA9UAwoE65XNaZ2xE980IEjNKoFq2Qnj/iT
+ kP+JcDP0rtkVe6XBRZtf5+eH6r7HGK351CmARONIJ0DJ2p/nAjIBXmha0jc7jJyx9xia
+ RPJdBMfB5+ffnRne0BgbgdGtyPMkN18m5UJ7wDHjIalNjJG/TZL+jZzLu9hg+KouFnoz
+ upcrGQI71AXMC7+OEhmGV8De9njciCxK9/m9w4YCYyCf+5vdnoGQHAPgAqAvPN18lCG/
+ lmM7qP6S174uCUr5cQT3B86bWMGEfHaGjH6/jkgKFBnzq20fiYNOarWbHz/xphlbWRux
+ 8Q9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wxMwicRUY1sVW1DL+XjEHIQ4dKKR2OMSKjK5bMu2A4g=;
+ b=ldoXMP/dftixAvihLkGxdSfiUM2xUGmBIO5dMF6rg1DD5bUj9egeKO4F5qT4hGQLvj
+ lamg3KKP9Yfdj7PfgUGl4f/yhhG+9yYKiN78lRD3Xu4eP/5G47AmtxtTCwkXAXomXWLB
+ ScQdEGBzgJHzHU3TW00ZfepNDdEKKBv5raJPTGcICRzSyOhJZtb1HpkD3ZnYzUAAMJMk
+ Jj94hSbUHVBgcOALw/P60j73uc2AoLGdsMyPUAM6Hyrpr1IRJoCAQ/t5zb755FOk2IYz
+ 64Y8cGfrGQGtygQVZaI9+0Iz6AW/uSDDuM/PKuhcPkM3BIdH93RVCu15n1VHQC72cNK8
+ wLqA==
+X-Gm-Message-State: AOAM530evEGM+ooryEgnuLqZwn8KncUtoUCfeoIjbTtpueQ/JWFRjqVW
+ isELLYvfv7mAYW3W8EeuKc8=
+X-Google-Smtp-Source: ABdhPJyGo04zYWJC59NP8Gv9PuE4hV6Luu2GYxNKWL9irIi48zeZZUuW7fXlZG+6P6wZs7msAwoi3A==
+X-Received: by 2002:aa7:cc82:0:b0:410:d2b0:1a07 with SMTP id
+ p2-20020aa7cc82000000b00410d2b01a07mr20557405edt.359.1648810915646; 
+ Fri, 01 Apr 2022 04:01:55 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:8ca6:a836:a237:fed1?
+ ([2001:b07:6468:f312:8ca6:a836:a237:fed1])
+ by smtp.googlemail.com with ESMTPSA id
+ b20-20020a1709063f9400b006e12836e07fsm912519ejj.154.2022.04.01.04.01.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Apr 2022 04:01:55 -0700 (PDT)
+Message-ID: <69b2ce82-4826-71ed-9c32-d323df69b7c4@redhat.com>
+Date: Fri, 1 Apr 2022 13:01:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2] 9p: move P9_XATTR_SIZE_MAX from 9p.h to 9p.c
-To: Will Cohen <wwcohen@gmail.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20220331182651.887-1-wwcohen@gmail.com>
- <CAFEAcA9Ab_+8K-RcJeCFAmGkeu6xqL-dsAQuTETqRhCM6ncZmA@mail.gmail.com>
- <CAB26zV2UkS4unxXkTLiF8T5aY9YaCpcUd2DRbzb0_FHTt+uyyw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAB26zV2UkS4unxXkTLiF8T5aY9YaCpcUd2DRbzb0_FHTt+uyyw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 0/5] Removal of AioContext lock, bs->parents and
+ ->children: proof of concept
 Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220301142113.163174-1-eesposit@redhat.com>
+ <Yh89L8gT46MbSJCQ@stefanha-x1.localdomain>
+ <af53599c-c7de-d2b8-00fa-0e7d28121251@redhat.com>
+ <e9eeec7b-d03e-5e8e-cc42-568c670726ca@redhat.com>
+ <c8d45cd9-e7de-9acd-3fd6-13de58f5ce48@redhat.com>
+ <c6a12090-b6c3-31d8-fb90-a76c9dd2e949@redhat.com>
+ <88f2798b-9327-e54f-5792-e37404b94ef7@redhat.com>
+ <8ae70388-ff46-6ec1-7f84-14d41ca9a6dd@redhat.com>
+ <311c2e0a-fb2c-241c-cbd1-1162f7e74e18@redhat.com>
+ <9d3c36f0-0834-ec9c-8473-d052d64a61dd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <9d3c36f0-0834-ec9c-8473-d052d64a61dd@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,69 +104,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fabian Franz <fabianfranz.oss@gmail.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- qemu Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
- hi@alyssa.is
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/03/2022 22.06, Will Cohen wrote:
-> On Thu, Mar 31, 2022 at 4:00 PM Peter Maydell <peter.maydell@linaro.org 
-> <mailto:peter.maydell@linaro.org>> wrote:
+On 4/1/22 10:05, Emanuele Giuseppe Esposito wrote:
+>> The list itself would be used internally to implement the write-side
+>> lock and unlock primitives, but it would not be protected by the above
+>> functions.  So there would be a couple additional functions:
+>>
+>>    bdrv_graph_list_lock <-> cpu_list_lock
+>>    bdrv_graph_list_unlock <-> cpu_list_unlock
 > 
->     On Thu, 31 Mar 2022 at 19:27, Will Cohen <wwcohen@gmail.com
->     <mailto:wwcohen@gmail.com>> wrote:
->      >
->      > The patch set adding 9p functionality to darwin introduced an issue
->      > where limits.h, which defines XATTR_SIZE_MAX, is included in 9p.c,
->      > though the referenced constant is needed in 9p.h. This commit fixes that
->      > issue by moving the definition of P9_XATTR_SIZE_MAX, which uses
->      > XATTR_SIZE_MAX, to also be in 9p.c.
->      >
->      > Additionally, this commit moves the location of the system headers
->      > include in 9p.c to occur before the project headers.
->      >
->      > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/950
->     <https://gitlab.com/qemu-project/qemu/-/issues/950>
->      > Fixes: 38d7fd68b0 ("9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX")
->      >
->      > Signed-off-by: Will Cohen <wwcohen@gmail.com <mailto:wwcohen@gmail.com>>
->      > ---
->      >  hw/9pfs/9p.c | 28 +++++++++++++++++++++++-----
->      >  hw/9pfs/9p.h | 18 ------------------
->      >  2 files changed, 23 insertions(+), 23 deletions(-)
->      >
->      > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
->      > index dcaa602d4c..b9152c7882 100644
->      > --- a/hw/9pfs/9p.c
->      > +++ b/hw/9pfs/9p.c
->      > @@ -16,6 +16,11 @@
->      >   * https://wiki.qemu.org/Documentation/9p
->     <https://wiki.qemu.org/Documentation/9p>
->      >   */
->      >
->      > +#ifdef CONFIG_LINUX
->      > +#include <linux/limits.h>
->      > +#else
->      > +#include <limits.h>
->      > +#endif
->      >  #include "qemu/osdep.h"
-> 
->     osdep.h must always be the first include line in any .c file.
-> 
-> Understood, apologies -- if there's other changes for a v3 I can resubmit 
-> accordingly, but if this otherwise looks okay then I would be fine with a 
-> QEMU maintainer adjusting the header placement as needed when preparing for 
-> submission to the main tree.
+> The list would be graph_bdrv_states, why do we need to protect it with a
+> lock? Currently it is protected by BQL, and theoretically only
+> bdrv_graph_wrlock iterates on it. And as we defined in the assertion
+> below, wrlock is always in the main loop too.
 
-Makes sense. I'm currently assembling a pull req with some misc fixes for 
-7.0 ... if Christian & Greg do not have any other patches pending right now, 
-I could throw this in, with the osdep.h location fixed.
+You're right, CPU_FOREACH only appears in start_exclusive; so likewise 
+you only need to walk the list in bdrv_graph_wrlock, i.e. only under BQL.
 
-  Thomas
+My thought was that, within the implementation, you'll need a mutex to 
+protect has_waiter, and protecting the list with the same mutex made 
+sense to me.  But indeed it's not necessary.
 
+Paolo
+
+>>> +void bdrv_graph_list_rdlock(BlockDriverState *bs);
+>>> +void bdrv_graph_list_rdunlock(BlockDriverState *bs);
+>>
+>> Apart from the naming change, these two would be coroutine_fn.
+>>
+>>> +#define BS_GRAPH_READER(bs) /* in main loop OR bs->reading_graph */
+>>> +#define BS_GRAPH_WRITER(bs) /* in main loop AND bs->bs_graph_pending_op
+>>
+>> bs_graph_pending_op is not part of bs->, it is a global variable
+>> (corresponding to pending_cpus in cpus-common.c).  I would call it
+>> bs_graph_pending_reader since you have "has_writer" below.
 
