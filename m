@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B3C4EEB12
+	by mail.lfdr.de (Postfix) with ESMTPS id 377A14EEB11
 	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 12:13:06 +0200 (CEST)
-Received: from localhost ([::1]:53078 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:53040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naEHB-0006ER-Cs
+	id 1naEHB-0006Ct-8S
 	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 06:13:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38834)
+Received: from eggs.gnu.org ([209.51.188.92]:38840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1naECe-0003Zu-OB
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:08:24 -0400
-Received: from [2a00:1450:4864:20::12d] (port=38403
- helo=mail-lf1-x12d.google.com)
+ id 1naECf-0003aD-1c
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:08:25 -0400
+Received: from [2a00:1450:4864:20::22c] (port=41944
+ helo=mail-lj1-x22c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1naECb-0006FA-Ri
+ id 1naECc-0006FJ-Gg
  for qemu-devel@nongnu.org; Fri, 01 Apr 2022 06:08:24 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id bq24so3976174lfb.5
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 03:08:21 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id 17so3218097ljw.8
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 03:08:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A7PV3U0jlWrJUVYNZWk3wSiLas2jl6YKvOTVDaNyvz8=;
- b=3IvvXJj+34mtoL28y6VkAPzztKuR7DX+vNH/+1J7O3M5G/GojGX9Z6t/axAAF7JlVQ
- F92SZtKN+rBMvoXd2IYhjP59sgyt8NxYrKHkRxJbYnK9XbGsu5FQRW4qsm7xOrqPuBXM
- dBt13xns9a1oVbns0gJrG1xGw+O1p2kmETE1/fW+8DUQzHDr5TwtT1QjERpN8/mAL/V3
- F5i5pqOUhQFPb4xA70lV9sHU0rQ6ETrCc09mR4KWSZlNW00oz6iNPTBa4rxjdVWudzpk
- VrVrDNA4tntcXO2wEdBUqcFKpH55H3PcRyT9mkNvesRAiE9n51erohjQ8tjrwzmJ4sKT
- E2dQ==
+ bh=JCM+e/erm3McXLWinJjX2dOQQh5g/u6Lzw6OUZI54tA=;
+ b=oPJs0XiLRMJBubrnhLfwxqlzpn9V199F7ZbBxij97qWd1uB00PBiC8E5/ZYVzvcwWF
+ 4w2mJRuZM+U8YAqlGNVgMZl5MH36K/EUPVFuRFQeAmf9j/YRmUFARRpaR8KrvFkcc89x
+ ZGznn9bkcr6yn66FItjbm+OjAgh49H65dubbvEMXj2RJPfJydTdI9gMmrVacnHVzNOgK
+ ByEg6AJ48o0NmLmRNruC6hZwqM+w+F6bDCL4fQxu8+PueN9BGTZ9kLCaB1Rae8pZb7Y8
+ TWgSDM2oDBP0UFybCqXzlBbWJZ4MjO9w33oYNFIropDDZWFEhIxpc6YFmyDRGajmTuTI
+ /ixQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A7PV3U0jlWrJUVYNZWk3wSiLas2jl6YKvOTVDaNyvz8=;
- b=T+Ug1kEvc5TWU0aGOn4x4Nm0194vP/8xFOoDqbmvU+JSoVUU+w1KYsOhPJNw2wmRPz
- ZbmIypOMmn6fe7Yk5l3BinKQdYG3sQSVyPVmjg4a9A+DXHNpEZ7yILQo2umI32YL2axI
- CfFa5zA1eXkfm/rV9N2pQD3h6ZwOOfKzBNPFNKfTWfM7RzEV0YzOzSJjZsfo6UBrIOLu
- GilgkimVx/guJKCb0RaaqIf0K2lTa8BWWDKqKlB69dX2M7IrBm+gw42X2MgAXqzFMmIu
- X+QG82XDizl/+yPngGa/E5A2LqZ0Ja1kXcp2LGqcaC/ADr0VlmSU38qKXXY5FYjW5Ece
- lSvA==
-X-Gm-Message-State: AOAM533xX4lq3mTVBE8qK8ueAgHlPX97U9FFJLOaHxKm8+0hH79Z2y1C
- xt8i0NqyS5rOYx42K6z1KMnFPw==
-X-Google-Smtp-Source: ABdhPJxDWssVjUwCv8+MHz0VQYbvaLR3lBrko257TaaDPbRzaYkXlusNsCOtni2Yg1ssgSbTUd4GpA==
-X-Received: by 2002:a05:6512:2251:b0:44a:9707:b54e with SMTP id
- i17-20020a056512225100b0044a9707b54emr13797087lfu.189.1648807700140; 
+ bh=JCM+e/erm3McXLWinJjX2dOQQh5g/u6Lzw6OUZI54tA=;
+ b=rTJ3YBFywEdpCsOiKLpDpmZ9CBI2qiHF+PYgXjnmDk1iiVCxMq6PvDzS87WCrxP0pc
+ Kryn5M/S/9sLHTq0jbQOtIt+S59tZ4emXVsi4wSDzQZIo2jTEPipBdpIOdoZ2xvdSHvd
+ z2b4D9OBUFuR3gEZivyKocCWyKMCovSENOEUidntBXFhdt1OL7OjX8D578tF8jH/AHKp
+ 4fxm7OruRq7RrjLMv+BNSDZquHk+SJ84Or4cC4WpOpgVncCYB0XlwuNECd499KxWlyPD
+ WIVmBf6qHvkjhs8ItELpYCiTVWJFl1itGmLOPRQXfRWIt5MBIYE5D1kkZhMLV8ZpQKwE
+ +avQ==
+X-Gm-Message-State: AOAM532M/oozBpJMs8+nXoer0beSFOrTAk/Vs6vJb08bwUIAWANpxDiH
+ 0ToGp0WDk0Kd6e0MqS6dUyPZpg==
+X-Google-Smtp-Source: ABdhPJxAFbZjtCjMOKYlcHYSUbvnsmzQGTulsZ+dP/AA1A5eb8DFlj+/MCoIeF5+Nq8xtR1qf+iiwQ==
+X-Received: by 2002:a05:651c:2103:b0:249:7e8c:d5fc with SMTP id
+ a3-20020a05651c210300b002497e8cd5fcmr12593790ljq.33.1648807700763; 
  Fri, 01 Apr 2022 03:08:20 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
- a3-20020a195f43000000b0044a997dea6bsm197508lfj.288.2022.04.01.03.08.19
+ a3-20020a195f43000000b0044a997dea6bsm197508lfj.288.2022.04.01.03.08.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 03:08:19 -0700 (PDT)
+ Fri, 01 Apr 2022 03:08:20 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 1/3] block: block_dirty_bitmap_merge(): fix error path
-Date: Fri,  1 Apr 2022 13:08:02 +0300
-Message-Id: <20220401100804.315728-2-vsementsov@openvz.org>
+Subject: [PATCH v3 2/3] block: improve block_dirty_bitmap_merge(): don't
+ allocate extra bitmap
+Date: Fri,  1 Apr 2022 13:08:03 +0300
+Message-Id: <20220401100804.315728-3-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220401100804.315728-1-vsementsov@openvz.org>
 References: <20220401100804.315728-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lf1-x12d.google.com
+ helo=mail-lj1-x22c.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -97,31 +98,103 @@ Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, nikita.lapshin@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the end we ignore failure of bdrv_merge_dirty_bitmap() and report
-success. And still set errp. That's wrong.
+We don't need extra bitmap. All we need is to backup the original
+bitmap when we do first merge. So, drop extra temporary bitmap and work
+directly with target and backup.
+
+Still to keep old semantics, that on failure target is unchanged and
+user don't need to restore, we need a local_backup variable and do
+restore ourselves on failure path.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-Reviewed-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 ---
- block/monitor/bitmap-qmp-cmds.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ block/monitor/bitmap-qmp-cmds.c | 39 ++++++++++++++++-----------------
+ 1 file changed, 19 insertions(+), 20 deletions(-)
 
 diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
-index 8e35616c2e..4db704c015 100644
+index 4db704c015..07d0da323b 100644
 --- a/block/monitor/bitmap-qmp-cmds.c
 +++ b/block/monitor/bitmap-qmp-cmds.c
-@@ -309,7 +309,10 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+@@ -261,8 +261,9 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+                                           HBitmap **backup, Error **errp)
+ {
+     BlockDriverState *bs;
+-    BdrvDirtyBitmap *dst, *src, *anon;
++    BdrvDirtyBitmap *dst, *src;
+     BlockDirtyBitmapMergeSourceList *lst;
++    HBitmap *local_backup = NULL;
+ 
+     GLOBAL_STATE_CODE();
+ 
+@@ -271,12 +272,6 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+         return NULL;
      }
  
-     /* Merge into dst; dst is unchanged on failure. */
--    bdrv_merge_dirty_bitmap(dst, anon, backup, errp);
-+    if (!bdrv_merge_dirty_bitmap(dst, anon, backup, errp)) {
-+        dst = NULL;
-+        goto out;
-+    }
+-    anon = bdrv_create_dirty_bitmap(bs, bdrv_dirty_bitmap_granularity(dst),
+-                                    NULL, errp);
+-    if (!anon) {
+-        return NULL;
+-    }
+-
+     for (lst = bms; lst; lst = lst->next) {
+         switch (lst->value->type) {
+             const char *name, *node;
+@@ -285,8 +280,7 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+             src = bdrv_find_dirty_bitmap(bs, name);
+             if (!src) {
+                 error_setg(errp, "Dirty bitmap '%s' not found", name);
+-                dst = NULL;
+-                goto out;
++                goto fail;
+             }
+             break;
+         case QTYPE_QDICT:
+@@ -294,29 +288,34 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
+             name = lst->value->u.external.name;
+             src = block_dirty_bitmap_lookup(node, name, NULL, errp);
+             if (!src) {
+-                dst = NULL;
+-                goto out;
++                goto fail;
+             }
+             break;
+         default:
+             abort();
+         }
  
-  out:
-     bdrv_release_dirty_bitmap(anon);
+-        if (!bdrv_merge_dirty_bitmap(anon, src, NULL, errp)) {
+-            dst = NULL;
+-            goto out;
++        /* We do backup only for first merge operation */
++        if (!bdrv_merge_dirty_bitmap(dst, src,
++                                     local_backup ? NULL : &local_backup,
++                                     errp))
++        {
++            goto fail;
+         }
+     }
+ 
+-    /* Merge into dst; dst is unchanged on failure. */
+-    if (!bdrv_merge_dirty_bitmap(dst, anon, backup, errp)) {
+-        dst = NULL;
+-        goto out;
++    if (backup) {
++        *backup = local_backup;
+     }
+ 
+- out:
+-    bdrv_release_dirty_bitmap(anon);
+     return dst;
++
++fail:
++    if (local_backup) {
++        bdrv_restore_dirty_bitmap(dst, local_backup);
++    }
++
++    return NULL;
+ }
+ 
+ void qmp_block_dirty_bitmap_merge(const char *node, const char *target,
 -- 
 2.35.1
 
