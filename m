@@ -2,70 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6341F4EF3AC
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:26:55 +0200 (CEST)
-Received: from localhost ([::1]:46844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 271EA4EF478
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:31:44 +0200 (CEST)
+Received: from localhost ([::1]:60636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naJAs-0004oZ-Fe
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:26:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50976)
+	id 1naJFX-0005gL-7p
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:31:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1naJ7v-0001qN-5F
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:23:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27650)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1naJ9P-00044r-Qv; Fri, 01 Apr 2022 11:25:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46956
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1naJ7t-0000u4-8F
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:23:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648826628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4HPbeD6AAeDVJtEb3Om9tQ7uY4+AVoVcac7NPB0sl1Q=;
- b=EWLXtz85muxivJhaagLHnkf8iTaS9IQJeXpBJPYVtwzNZBXh/bbMng/zHEkqQPk6VtJVfe
- SLi+FmoDoXe/0YvHzCnR0QWBZUel38jduB/QzrK77EW1RSfBOoaFUcrS0OkwF//0tO5t+p
- 8P2TGC8FakK8F9zNEjdW/nSNURr8bIo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-xTI_6KQ9PbiAGHbYf9dALA-1; Fri, 01 Apr 2022 11:23:45 -0400
-X-MC-Unique: xTI_6KQ9PbiAGHbYf9dALA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35D1986B8AC;
- Fri,  1 Apr 2022 15:23:45 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D58C2166B4E;
- Fri,  1 Apr 2022 15:23:33 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] trace: fix compilation with lttng-ust >= 2.13
-Date: Fri,  1 Apr 2022 17:23:23 +0200
-Message-Id: <20220401152323.52519-7-thuth@redhat.com>
-In-Reply-To: <20220401152323.52519-1-thuth@redhat.com>
-References: <20220401152323.52519-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1naJ9N-0001CO-V2; Fri, 01 Apr 2022 11:25:23 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 231DCQfU025156; 
+ Fri, 1 Apr 2022 15:25:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=8eMD+6c2bY2ZEWiSk/A0ojtvBFq7Pr+VYwKweZBunw0=;
+ b=PnlDxb6ZsfKWewo8UPSozd1uhz3bY4LkKtR1Ou557j2X5MQx6nOKkpQkK96Vdmtadchb
+ N8OM1dZhhx/75UUO4TMHGv2ovwi4ouoEygMBpzzxjG02YDboCW2uU6/aidfiRHxc+jwJ
+ a5kM5DFS8jDBFc9XPkO7PfIyhETIUuWtFlMSlD5AflnCwwbyg5lckFwV1XmKCIqknTyv
+ x4p/ncoe4YOTsrtKXOXQLgNzYp9PBd60fZ/fxOZgadg1Q6QzlCJGWo3Q5//4Kx8qruhe
+ 9llqb8nkui59e96NJZTDuQ/gZzDCZ87YUqVOlbQ/6UxgqVdkzNOQK7Ttsb3An3J1I7hx fA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3f622sau9u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Apr 2022 15:25:18 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 231F9Zi1021358;
+ Fri, 1 Apr 2022 15:25:18 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3f622sau92-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Apr 2022 15:25:18 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 231FE1iZ030035;
+ Fri, 1 Apr 2022 15:25:16 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3f1tf9na1d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 01 Apr 2022 15:25:16 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 231FPDvh26804722
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 1 Apr 2022 15:25:13 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E49B84C058;
+ Fri,  1 Apr 2022 15:25:12 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 78E9A4C050;
+ Fri,  1 Apr 2022 15:25:12 +0000 (GMT)
+Received: from [9.171.0.19] (unknown [9.171.0.19])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  1 Apr 2022 15:25:12 +0000 (GMT)
+Message-ID: <05661926-6d26-9d78-b576-a33391e25c24@linux.ibm.com>
+Date: Fri, 1 Apr 2022 17:25:12 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 10/11] tests/tcg/s390x: Tests for Vector Enhancements
+ Facility 2
+Content-Language: en-US
+To: David Miller <dmiller423@gmail.com>
+References: <20220322000441.26495-1-dmiller423@gmail.com>
+ <20220322000441.26495-11-dmiller423@gmail.com>
+ <c3bb72da-c390-f9b5-5254-f8c16df21427@redhat.com>
+ <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
+ <95ad366c-509d-d41f-209b-dc66054de4b8@redhat.com>
+ <CAEgyohVUHa+yd-inLOv3zTf143-_2Z35+K_XatUz74bqxDK9CA@mail.gmail.com>
+ <CAEgyohWR6C1z8OyuGwkv8LT-P5fR9eVsCFw4LmGUxZCDNszoSg@mail.gmail.com>
+ <58110f3f-3190-7af4-6839-9a30fce05855@linux.ibm.com>
+ <CAEgyohUqmHrbQC5yqAtuhcqmnx-q5YxE+6xctbCVROGz+cqrqw@mail.gmail.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <CAEgyohUqmHrbQC5yqAtuhcqmnx-q5YxE+6xctbCVROGz+cqrqw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: SQ13A5jkbZFvsX_0HQls3NkhQkH0pW3I
+X-Proofpoint-GUID: MqcSFQKKsd2gEGc0qdVVF4ReuAt8skNW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-01_05,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0
+ priorityscore=1501 mlxlogscore=999 suspectscore=0 lowpriorityscore=0
+ spamscore=0 malwarescore=0 phishscore=0 mlxscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204010072
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,75 +121,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ farman@linux.ibm.com, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Am 01.04.22 um 17:02 schrieb David Miller:
+> vrr is almost a perfect match (it is for this, larger than imm4 would
+> need to be split).
+> 
+> .long : this would be uglier.
+> use enough to be filled with nops after ?
+> or use a 32b and 16b instead if it's in .text it should make no difference.
 
-On Fedora 36, with lttng-ust 2.13.1, compilation fails with:
-
-In file included from trace/trace-ust-all.h:49085,
-                 from trace/trace-ust-all.c:13:
-/usr/include/lttng/tracepoint-event.h:67:10: error: #include expects "FILENAME" or <FILENAME>
-   67 | #include LTTNG_UST_TRACEPOINT_INCLUDE
-      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In lttng-ust commit 41858e2b6e8 ("Fix: don't do macro expansion in
-tracepoint file name") from 2012, starting from lttng-ust 2.1, the API
-was changed to expect TRACEPOINT_INCLUDE to be defined as a string.
-
-In lttng-ust commit d2966b4b0b2 ("Remove TRACEPOINT_INCLUDE_FILE
-macro"), in 2021, the compatibility macro was removed.
-
-Use the "new" API from 2012, and bump the version requirement to 2.1 to
-fix compilation with >= 2.13.
-
-According to repology, all distributions we support have >= 2.1 (centos
-8 has oldest with 2.8.1 afaict)
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220328084717.367993-2-marcandre.lureau@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- meson.build                              | 4 ++--
- scripts/tracetool/format/ust_events_h.py | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meson.build b/meson.build
-index 04ce33fef1..861de93c4f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -455,8 +455,8 @@ if 'CONFIG_GIO' in config_host
- endif
- lttng = not_found
- if 'ust' in get_option('trace_backends')
--  lttng = dependency('lttng-ust', required: true, method: 'pkg-config',
--                     kwargs: static_kwargs)
-+  lttng = dependency('lttng-ust', required: true, version: '>= 2.1',
-+                     method: 'pkg-config', kwargs: static_kwargs)
- endif
- pixman = not_found
- if have_system or have_tools
-diff --git a/scripts/tracetool/format/ust_events_h.py b/scripts/tracetool/format/ust_events_h.py
-index 6ce559f6cc..b99fe6896b 100644
---- a/scripts/tracetool/format/ust_events_h.py
-+++ b/scripts/tracetool/format/ust_events_h.py
-@@ -29,8 +29,8 @@ def generate(events, backend, group):
-         '#undef TRACEPOINT_PROVIDER',
-         '#define TRACEPOINT_PROVIDER qemu',
-         '',
--        '#undef TRACEPOINT_INCLUDE_FILE',
--        '#define TRACEPOINT_INCLUDE_FILE ./%s' % include,
-+        '#undef TRACEPOINT_INCLUDE',
-+        '#define TRACEPOINT_INCLUDE "./%s"' % include,
-         '',
-         '#if !defined (TRACE_%s_GENERATED_UST_H) || \\'  % group.upper(),
-         '     defined(TRACEPOINT_HEADER_MULTI_READ)',
--- 
-2.27.0
-
+I will let Richard or David decide what they prefer.
 
