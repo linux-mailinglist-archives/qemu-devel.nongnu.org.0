@@ -2,101 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D1A4EE4EB
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 01:50:24 +0200 (CEST)
-Received: from localhost ([::1]:55240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9253E4EE54C
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 02:23:04 +0200 (CEST)
+Received: from localhost ([::1]:43844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na4YZ-0006ys-1U
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 19:50:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51092)
+	id 1na54A-0003dO-UN
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 20:23:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <prvs=08287e7cc=alistair.francis@opensource.wdc.com>)
- id 1na4TR-0004f9-DG
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 19:45:05 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:58851)
+ (envelope-from <prvs=083ec5d20=alistair.francis@opensource.wdc.com>)
+ id 1na50c-0002iA-EA
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 20:19:25 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:48129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <prvs=08287e7cc=alistair.francis@opensource.wdc.com>)
- id 1na4TP-00007b-NG
- for qemu-devel@nongnu.org; Thu, 31 Mar 2022 19:45:05 -0400
+ (envelope-from <prvs=083ec5d20=alistair.francis@opensource.wdc.com>)
+ id 1na50Z-0007FC-Qz
+ for qemu-devel@nongnu.org; Thu, 31 Mar 2022 20:19:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1648770304; x=1680306304;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=xjmMS+kIAcQinSufgq5Ahmy6xPuVneaoFUn5VAHI1is=;
- b=AfdDqldNgxWzIrEoWLdI/htPsz8vMhhcKw8YNfvvahCB78LYr0b8MGk7
- WtYu866I5IegAqp/jA7tKrfNnUNI965+Cuv3/PtBs7IVLBTWie1q3oEmx
- jiMNBqF7LDXzh7dxn4AVxJ2M5eV9Xvgnzcyp4dhOlgkrWto4StYOPadM4
- +Zsm4qDuHDS3d/MWRvdsttcjQsEThZKD1g7bec1B/tUyRysjlQf2cigLR
- nKtc4LEuWIRUs2PGMy+KBLLaxwRM56clLg1WSdQqU450dkwTS/u7YZFqC
- yzAKqA+CL3sP1BQev2Yg7nclZdgEJ01ro047cpXtjU6UkIHCN7/dGn6uh w==;
-X-IronPort-AV: E=Sophos;i="5.90,225,1643644800"; d="scan'208";a="197691433"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Apr 2022 07:45:04 +0800
-IronPort-SDR: 1yl1ERdSMQ+AWz0Lzr0sLSB2CE+Svwws8cDHyZpSSylwJ2I3D0eoHzZYtaFf5vNTmTtNEF4V83
- H6tZiSCAki9B3s3rETkXzCh3mYOMkxoSUvZ9/n0Ei3o/D9/iLe9sXK+2FiL0HvxmXlezi4MiHe
- GZk4/J9na1QPwN/tG9GeA5p5e48dfvWdHKCnAt0/ibU8JXVwz9ZF5IoeyPGmMkuY5qRPL+OWzu
- /DGDgAmW4+6HnyyJnp8OSU5XN84nwt6PhdyQsgupfiPvTA/e9NMVvNNjuBvhT0GsUxv+EaGckm
- WkzPG//15gqMBDpUOrSjCLLQ
+ t=1648772358; x=1680308358;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Zjf/rkpNgyjimgM6fecK37xXhvCXdQFaoc4ojq4+dJo=;
+ b=SM6XtD++Wy3eoOd0MOjQBf2T1JURiLg8LOfT3BPIAEWLbOmJGwq/f1XS
+ k4RLvbjHM/2PqWVE1jB9tfHSwOBhVfpXyT3fmW1s8qpn1MBpGJNyCZu2O
+ moyhHfL935qImT4E39ZaHQ/1AHqKCTWP/SWCCqkurDDsUWfHOaqDvSlsY
+ BNkJ0iNmuEdhpeintpD8A11+oS59fS8aNSKgF7k0Kg39jFvXuKH8JtZ4l
+ TdVbV9DVUXG5K9pT0WBQ6WiC6nHihygtR6pxwl/ktySr+xIUnWPInQQ/+
+ 5N+PmbH0mydl8b7eFCxfArRjy/5tgoUe3ZSDdBUniuZQocRPwH1TvImwV Q==;
+X-IronPort-AV: E=Sophos;i="5.90,225,1643644800"; d="scan'208";a="196788803"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Apr 2022 08:19:15 +0800
+IronPort-SDR: 4sioDhELjZQAyvENc3qCL0KKwl7VNZs0bWttJVGzJPqa0iv1j6GFW+Y7uI4TuuzdoBGhcknYL+
+ h9soutr7xtmtBC+MEJzvem61EMUqwVHtK5Vx1t+CgjDra8PT8LxA+isAxmJrg13o3qHvmU6fpD
+ Hv4jji9VcS9VnrTbFsTjxP827/ORmNmTTazZgkYrVwkpE2s8ovyXjQf+DURFRPCyp5Xm80HJok
+ wnF5Yds1ILQOPkFXV/aN+KCZJ3L8J3vc/a3qgfOsVYTNMV5uVl6/jJoQYXsU/XZ2/M1wPeqnzE
+ hRk39CfX9jr5S1GV5FiSL5Eo
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 31 Mar 2022 16:16:43 -0700
-IronPort-SDR: IsPoxiDV3FLJQILtMtYPRHOiML82jB2B7U/uuddxF+rGm4bbN36cW+SdTDc44x8TiRHFv3rdaD
- b0haIyH00ReuTkT2Aou5ghHjpX3+3c0vmDMvPmwbIw19hch3nnDZiNpg4XYuW4Dy+hHU7TVIdL
- C1bBoJOwoy6o83Qqw8dS4Xt3t6FG/LNQyEt137O8CVB1/F6HAIZzU6hyXn7WQPntFE0mIUo96/
- vpgpTpuD1WFoZ06aS2Z9DLMSLTXHjywF30s99h/T7WPF1ZbvI6r0tP5T51fHtiRWV+5ATy5NXR
- cAc=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 31 Mar 2022 16:50:04 -0700
+IronPort-SDR: 8iRju8HIb4MsBQXHn6OyyGDWvZi6/ftk2n4CpfyYiMOiD5WiTygTGOgVqEsvO/w6XrKlEQdbWf
+ WXhD3Albb26A3dRxONhC4gaeFw5EczHQIoWQq4EPk20YJ3U6UhJQ50523Y5fp4fLJAaA9NhO5r
+ bgnz+8f/8XizFwI6lOZBH1ybAztaPC8pUyQK0gHSLmUZz95v8TGJXjdbDI0nWuqDQqCimBq18i
+ sF/UO9bGUHp5C09twwNdGAl0n3zu9XuwuWyb2hBm89I+cEopZFKp0m+ZLlyHusQGX3SjepjjM/
+ 4lw=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 31 Mar 2022 16:45:03 -0700
+ 31 Mar 2022 17:19:15 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KV0KB5MTNz1Rwrw
- for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 16:45:02 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KV14g3Z97z1SVnx
+ for <qemu-devel@nongnu.org>; Thu, 31 Mar 2022 17:19:15 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1648770302; x=1651362303; bh=xjmMS+k
- IAcQinSufgq5Ahmy6xPuVneaoFUn5VAHI1is=; b=flbnGs2HOt/l5V1X3F3R3P9
- ufavgRfLwBaXtkOZmYJJDiwIFY62RZyVMj06aisIWQd2zJXZ7ApZjbLQ2LG78cLg
- o6W/U0JB9/agpzkR9EnKTHDya7xrFjDRkZwtXGRezcVOwY+hS0rCgaFd5i0eEyLx
- vgfIYWtP96CK/hHL3JhX9Iy5tLIYNRHuGu1HXQO7QONR0eKV9tTcAOlgG0Bu8Jpa
- CB8/u2WCr6leK0Ct5u/3bBnOa2m5XTzgeDsrp2Sjj3j0Rkohc1qi96YNb0eYxeQU
- vekXt3Sii5NM5yweaEJLGP1eR3EpXyXrAKT3RAuvvYGLNXNduquMql8sbIKGSbg=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1648772355;
+ x=1651364356; bh=Zjf/rkpNgyjimgM6fecK37xXhvCXdQFaoc4ojq4+dJo=; b=
+ QJHYjjgZ5lLKDaOS0patmgyfn88W9FCK9JPcFCbttIWqYRnoL0O3+DNurNPlvSeY
+ Q+Ev1rj6wdB28/PN74ht3wwuNuSWG4Fa8ILsijgmEO8HNkjaxR38dEVEuZQtjhtR
+ oSklLDZ5Zx8kF2NxS2QYNI8Pnkzw2D2TMOR+20Qrvq40NdbdeGBSAR/1AbL60ble
+ hMmQ/MBFQkZIssPtG/9SYGQE7AD/B1gFLbo7gJ5ph0TAahUFky7nSBdZNHsMDGnT
+ 7g6ZDI+lAj2aRagsFMQjizesl5ZqDg9aInJFoa0D8BO8nsetUQQAsc1lhy5gMVY9
+ zJHUkev18DMq7pT5l327vQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id Gn1hXYcWcrpi for <qemu-devel@nongnu.org>;
- Thu, 31 Mar 2022 16:45:02 -0700 (PDT)
+ port 10026) with ESMTP id BxXEAoJvotT1 for <qemu-devel@nongnu.org>;
+ Thu, 31 Mar 2022 17:19:15 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.114])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KV0K76Rkkz1Rvlx;
- Thu, 31 Mar 2022 16:44:59 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KV14b2hw9z1Rvlx;
+ Thu, 31 Mar 2022 17:19:10 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, "Yueh-Ting (eop) Chen" <eop.chen@sifive.com>,
- Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 2/2] target/riscv: rvv: Add missing early exit condition for
- whole register load/store
-Date: Fri,  1 Apr 2022 09:44:41 +1000
-Message-Id: <20220331234441.15920-3-alistair.francis@opensource.wdc.com>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com,
+ Bin Meng <bin.meng@windriver.com>, palmer@dabbelt.com, bmeng.cn@gmail.com
+Subject: [PATCH] hw/riscv: Enable TPM backends
+Date: Fri,  1 Apr 2022 10:19:04 +1000
+Message-Id: <20220401001904.415226-1-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220331234441.15920-1-alistair.francis@opensource.wdc.com>
-References: <20220331234441.15920-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=08287e7cc=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=083ec5d20=alistair.francis@opensource.wdc.com;
+ helo=esa5.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -119,52 +114,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Yueh-Ting (eop) Chen" <eop.chen@sifive.com>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-According to v-spec (section 7.9):
-The instructions operate with an effective vector length, evl=3DNFIELDS*V=
-LEN/EEW,
-regardless of current settings in vtype and vl. The usual property that n=
-o
-elements are written if vstart =E2=89=A5 vl does not apply to these instr=
-uctions.
-Instead, no elements are written if vstart =E2=89=A5 evl.
+Imply the TPM sysbus devices. This allows users to add TPM devices to
+the RISC-V virt board.
 
-Signed-off-by: eop Chen <eop.chen@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <164762720573.18409.3931931227997483525-0@git.sr.ht>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/942
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/riscv/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
-trans/trans_rvv.c.inc
-index 275fded6e4..4ea7e41e1a 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -1121,6 +1121,10 @@ static bool ldst_whole_trans(uint32_t vd, uint32_t=
- rs1, uint32_t nf,
-                              gen_helper_ldst_whole *fn, DisasContext *s,
-                              bool is_store)
- {
-+    uint32_t evl =3D (s->cfg_ptr->vlen / 8) * nf / (1 << s->sew);
-+    TCGLabel *over =3D gen_new_label();
-+    tcg_gen_brcondi_tl(TCG_COND_GEU, cpu_vstart, evl, over);
-+
-     TCGv_ptr dest;
-     TCGv base;
-     TCGv_i32 desc;
-@@ -1140,6 +1144,7 @@ static bool ldst_whole_trans(uint32_t vd, uint32_t =
-rs1, uint32_t nf,
-     if (!is_store) {
-         mark_vs_dirty(s);
-     }
-+    gen_set_label(over);
-=20
-     return true;
- }
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index 91bb9d21c4..fccc14ca0b 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -34,6 +34,7 @@ config RISCV_VIRT
+     imply PCI_DEVICES
+     imply VIRTIO_VGA
+     imply TEST_DEVICES
++    imply TPM_TIS_SYSBUS
+     select RISCV_NUMA
+     select GOLDFISH_RTC
+     select MSI_NONBROKEN
 --=20
 2.35.1
 
