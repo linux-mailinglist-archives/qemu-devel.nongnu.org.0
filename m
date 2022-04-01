@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA674EEDD7
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:08:25 +0200 (CEST)
-Received: from localhost ([::1]:53438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94ECA4EEDE5
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:13:05 +0200 (CEST)
+Received: from localhost ([::1]:58158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naH0q-0006fe-KB
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:08:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48376)
+	id 1naH5L-00021A-Tp
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:13:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1naGyn-0004wB-6W; Fri, 01 Apr 2022 09:06:17 -0400
-Received: from [2607:f8b0:4864:20::72e] (port=44028
- helo=mail-qk1-x72e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1naGyk-0004Vd-Rt; Fri, 01 Apr 2022 09:06:16 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id p25so1993839qkj.10;
- Fri, 01 Apr 2022 06:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=mVDseWzN+HlrxL3HARbsfofjeBFHFWJXWmLN8j6f44w=;
- b=WVloQNIPT7NwHJlhutoCIdY5UqKVKzx+oCF1lNSNFldW8FcyJ7BS+kJMPEvr02QVLk
- dIePl4M3dy4IMQJk8G2/dsORgl+AYn4WTiXnREidqufLurYUeTLDslfMuUvQnS2qVtdQ
- NQ2bYYwNx284TwwH38CNR7o+r7aouw0LA0en0a/1OkYrM/mbkyCbMwZFPY+0N13COrXT
- izLm8ACwfZWNOlXiP5jBRoDVnvTimS+jkVST3FMslcTfnvlQJV5LooXdcUK8DjetlYQJ
- b1YeRykQAKe/XtYKfdubKpVA7RN8NUqt3nG6hRbvBqiqoGN6wXxRffPUuOyh8pbGMxi4
- Qz5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=mVDseWzN+HlrxL3HARbsfofjeBFHFWJXWmLN8j6f44w=;
- b=QrUcY+f1HqMtU/qvgtB5X18aCeKi8EkY8x82BZFONj48MTJNbCWL1+Sg8lrgiWDG6U
- AKxZSwMVc+Xldq6B9Ui+1I7liLFtQrVuI223Y4QyaGR23B71gZYT2A2sGS7bW/1rjcqq
- 1iBdtXY4Gf142A11Nd6JrO+Q66MUEsQm3sMgwztKFC7u17gFRnhzFeJYjELhu4wMd7ft
- bwtZWyJ/Guk+HvtqN69OcW9MKeZ5U3JFTPpYb5IDxkG71tw1oLZyibcirffnpXChffXu
- 1s4hTrLXB9im+NWCiMljXjYaCHB8YWM4rAyqnbiqt4YWKZHl4JXuDuD8vUSfdyMLl+rn
- P0Ow==
-X-Gm-Message-State: AOAM533T8lwEUKhqlNeY5KOXveButCPes6LItOB3Tr+q7WyJNbpprDki
- WFyYiZ4K+cI+K9B3WhaTKg==
-X-Google-Smtp-Source: ABdhPJwTWIFiTd4zTfL3lSvVYl17vdHd+EEJakocBWyePlqR8B3CinAbAQB+XrA3SdWqWECS38IrfA==
-X-Received: by 2002:a37:a18c:0:b0:67b:2d46:4db5 with SMTP id
- k134-20020a37a18c000000b0067b2d464db5mr6473380qke.67.1648818372049; 
- Fri, 01 Apr 2022 06:06:12 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.144.75])
- by smtp.gmail.com with ESMTPSA id
- b13-20020ac85bcd000000b002e06856b04fsm1822635qtb.51.2022.04.01.06.06.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 06:06:11 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:18b8:c103:5b12:b0c4])
- by serve.minyard.net (Postfix) with ESMTPSA id 72D251800BB;
- Fri,  1 Apr 2022 13:06:10 +0000 (UTC)
-Date: Fri, 1 Apr 2022 08:06:09 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [RFC PATCH 0/4] hw/i2c: i2c slave mode support
-Message-ID: <20220401130609.GG29333@minyard.net>
-References: <20220331165737.1073520-1-its@irrelevant.dk>
- <20220331203205.GB29333@minyard.net> <Ykabr0wQe9VLISu2@apples>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1naH3Z-0008Qs-3K
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:11:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1naH3V-0005Is-MR
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:11:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648818668;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7QzhvMgRSG7uxMleh/UexUJtViOTgZ11K3uZvY68ki8=;
+ b=HdjKWFM5X7N4YfxCog7pqkzIeQWsjFbhqQ76Rq7Z1K0HeytS176IIVqXN68cDB2cP+NLIs
+ NpZ6pqveuC4Sg/RcB7d6lxevMyXF4OktItZ8LZvONfTivn1LFYYNDT+SIPGDt8o9PnsQsB
+ M9UDzaESzN5svWWAsEBXQY2HkLUgPaA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-616-mD_i2nkuPuKS5Nq9iP1MPQ-1; Fri, 01 Apr 2022 09:11:05 -0400
+X-MC-Unique: mD_i2nkuPuKS5Nq9iP1MPQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 263AC80418F;
+ Fri,  1 Apr 2022 13:11:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F1EE9C28102;
+ Fri,  1 Apr 2022 13:11:04 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A4F4C21E691D; Fri,  1 Apr 2022 15:11:03 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: use of uninitialized variable involving visit_type_uint32() and
+ friends
+References: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
+ <CABgObfbu3MK6SCNGOFGGHWO72e3dYygUybgyavALKq5_pnWK0A@mail.gmail.com>
+ <87y20p88qq.fsf@pond.sub.org>
+ <e17c3f3b-000f-4bab-1e3a-2adbafbcdcbb@redhat.com>
+Date: Fri, 01 Apr 2022 15:11:03 +0200
+In-Reply-To: <e17c3f3b-000f-4bab-1e3a-2adbafbcdcbb@redhat.com> (Paolo
+ Bonzini's message of "Fri, 1 Apr 2022 13:16:19 +0200")
+Message-ID: <875ynt54pk.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ykabr0wQe9VLISu2@apples>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=tcminyard@gmail.com; helo=mail-qk1-x72e.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,91 +84,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
- Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Jeremy Kerr <jk@ozlabs.org>, qemu-arm@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
- Matt Johnston <matt@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 01, 2022 at 08:29:03AM +0200, Klaus Jensen wrote:
-> On Mar 31 15:32, Corey Minyard wrote:
-> > On Thu, Mar 31, 2022 at 06:57:33PM +0200, Klaus Jensen wrote:
-> > > From: Klaus Jensen <k.jensen@samsung.com>
-> > > 
-> > > Hi all,
-> > > 
-> > > This RFC series adds I2C "slave mode" support for the Aspeed I2C
-> > > controller as well as the necessary infrastructure in the i2c core to
-> > > support this.
-> > 
-> > I've been wondering when this would happen :).  I had put some thought
-> > into how this would work, but hadn't come up with anything good.
-> > 
-> > The big disadvantage of this is you are adding an interface that is
-> > incompatible with the current masters and slaves.  So you are using the
-> > same I2C bus, but slaves written this way cannot talk to existing
-> > masters, and masters written this way cannot talk to existing slave.
-> > You could adapt the masters to be able to work either way, and I suppose
-> > some slaves that could do it could have both an async send and a normal
-> > send. 
-> 
-> Would it make sense to introduce a QOM Interface to differentiate
-> between the slave/master types?
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Yes, that would be a good idea, as Damien said.  You will have a type
-that is capable of both for both sync and async for the master and the
-slave, then types that are capable of one sync and async so the code
-can sort out what can talk to what.
+> On 4/1/22 11:15, Markus Armbruster wrote:
+>>   +    assert (v->type == expected_type);
+>>   +    if (expected_type & (VISITOR_INPUT | VISITOR_DEALLOC)) {
+>> 
+>> Backwards.
+>
+> Yes, I always get input vs output wrong.
 
-> 
-> > But you could not adapt a slave device for the Aspeed to do both.
-> 
-> Exactly, the Aspeed must be able to defer the ack, so it cannot
-> implement send(). Even if it buffered up the write, I don't think it
-> would be correct to Ack the transfer until the host has Acked it.
-> 
-> > But that said, I don't know of a better way to handle this.
-> > 
-> > You don't have the ability to nack a byte in what you have currently.
-> > That's probably something that will be needed.
-> 
-> True. Didn't consider that. Since the ack is basically defined as the
-> scheduling of the bh, I guess I have to come up with something where I
-> can also pass a "return value".
-> 
-> > 
-> > This is obviously not something useful by itself.  How do you plan to
-> > tie this in to something else that would use it?
-> > 
-> 
-> This is specifically for implementing an NVMe-MI device which uses MCTP
-> transactions (in which both requests and replies are master->slave
-> transfers). I just wanted to get a feel for how you maintaines would
-> envision this begin done before posting that. The NVMe-MI device will
-> function exactly like the example i2c echo device (i.e. receive an MCTP
-> transaction using the normal i2c slave interface, parse the
-> transaction/request, master the bus and start a new transfer).
+Output becomes input becomes output.  How not to be confused!
 
-Ok, so you aren't planning to add some sort of interface that would
-allow a net connection to hook up as an I2C master.
+>> With an input visitor @v,
+>> 
+>>      visit_type_uint32(v, "name", &val, errp)
+>> 
+>> stores to @val without looking at it first.  In other words,
+>> uninitialized @val is fine, just like for val = ...
+>> 
+>> Note: you don't actually need VISITOR_DEALLOC here, because a
+>> deallocation visitor isn't going to do anything for non-pointer values.
+>
+> There's a philosophical question on whether other deallocation visitors 
+> can exist than "the" deallocation visitor, but it's not particularly 
+> germane to the topic.
 
-Someone submitted something a while ago for doing an I2C slave that way,
-but there were some issues and nothing came of it.  It's tricky to do
-because it has to be non-blocking.
+Agreed.  Same for "the" clone visitor.
 
-IIRC, there was also some work that allowed two emulations to go on at a
-time in a qemu instance, that could allow a BMC and a main processor to
-run together.  This might be useful in that scenario.  My question was
-really just more curiousity, wondering what else is coming in the
-future.
+>> Two changes:
+>> 
+>> * Skip copying to and from full-width buffer @value:
+>> 
+>>    - Skip @value = *obj when we're going to overwrite @value without
+>>      reading it first.
+>> 
+>>      This leaves @value uninitialized instead of initializing it from a
+>>      (commonly) uninitialized variable.
+>> 
+>>      I'm not sure how this helps static analysis, but if it does...
+>
+> If it can do really serious interprocedural analysis, it _might_ be able 
+> to see through the visitor constructor and know that the "value = *obj" 
+> is not initialized (e.g. "all callers of object_property_set use an 
+> input visitor").  I doubt that honestly, but a man can dream.
 
-Thanks,
+I'm wary of arguments based on "a sufficiently smart compiler can"...
 
--corey
+> If the conditionals are enough to shut it up, then we won the battle 
+> (for now).
+
+If they get us more milage per unit of work out of Coverity, I'm in
+favor.  I'll want a comment explaining the conditionals, though.
+
+> If the conditionals are not enough to shut it up, then you have a bit 
+> more confidence when marking the false positives.
+>
+>>    - Skip *obj = @value when value must be *obj anyway.
+>> 
+>>      Should have no observable effect.
+>> 
+>>      Again, I'm not sure how this helps static analysis.
+>
+> Mostly consistency, could also be changed to an assert(*obj == value); 
+> /* output visitors don't really need obj to be passed by reference */
+
+I guess whatever is easier to explain in a comment.
+
+>> * Pass visitor type in addition to the visitor.  Can you explain why
+>>    that's useful?
+>
+> Because it communicates what the caller expects: "I have left this 
+> uninitialized because I expect my "v" argument to be the kind of visitor 
+> that fills it in".  It's this argument that gives me the confidence 
+> needed to shut up Coverity's false positives.
+>
+> Embedding the visitor type in the signature makes it impossible not to 
+> pass it, unlike e.g. an assertion in every getter or setter.
+
+I think we got two kinds of code calling visitor methods:
+
+1. Code for use with one kind of visitor only
+
+   We get to pass a literal argument to the additional parameter you
+   propose.
+
+2. Code for use with arbitrary visitors (such as qapi-visit*.c)
+
+   We need to pass v->type, where @v is the existing visitor argument.
+   Except we can't: struct Visitor and VisitorType are private, defined
+   in <visitor-impl.h>.  Easy enough to work around, but has a distinct
+   "this design is falling apart" smell, at least to me.
+
+Note that "intent explicit in every method call" is sufficient, but not
+necessary for "intent is locally explicit, which lets us dismiss false
+positives with confidence".  We could do "every function that calls
+methods".  Like checking a precondition.  We already have
+visit_is_input().  We could have visit_is_output().
+
+The sane way to make output intent explicit is of course passing the
+thing by value rather than by reference.  To get that, we could generate
+even more code.  So, if the amount of code we currently generate isn't
+disgusting enough, ...
+
 
