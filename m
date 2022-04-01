@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583014EF790
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 18:16:08 +0200 (CEST)
-Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C35A4EF793
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 18:18:33 +0200 (CEST)
+Received: from localhost ([::1]:42524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naJwV-0008C5-2c
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 12:16:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33380)
+	id 1naJyq-0001QL-7F
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 12:18:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naJvE-0007V2-Qv
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 12:14:48 -0400
-Received: from [2607:f8b0:4864:20::112c] (port=40802
- helo=mail-yw1-x112c.google.com)
+ id 1naJx9-0000bf-OW
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 12:16:50 -0400
+Received: from [2607:f8b0:4864:20::1132] (port=35195
+ helo=mail-yw1-x1132.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naJvD-0000UB-2p
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 12:14:48 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2e5e9025c20so38378717b3.7
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 09:14:46 -0700 (PDT)
+ id 1naJx4-0000u5-CS
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 12:16:47 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-2ea1b9b3813so38755277b3.2
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 09:16:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hM+lLyyq/1PweNHE6epEjgJ4puRtDRVWjvAIYETNWak=;
- b=vSEdnCVDhsctRIRfGf0WQF0GkfSPSXP2H/AYrrUQyun42RJPPiqMd51Q7paRy1pL9O
- tsoZADK/OR4kR8KRGSi/IvQ8+Lufd7hmRNiCxzEGGHADy4zIvnaLOceUirOBEAl9pDeB
- alJZuq2HoTvqoequvl5c4vxF/qNhNGDlmumk/GITO+XPnb8ZOLEaBUUglU0EXosDaqtA
- SPj1djxW4vtuys8HnohfjY7DTSlTfq7o7qLwVlRTOXOqfWKAZboSIGsLYbbFhRySLo14
- ny+Wv1cupl+PX9I8jcgx94iH4SNf54rI/+EhaEb6NsbsRekVqGF5X5nw+hZNtqNqR86h
- RoxQ==
+ :cc; bh=CYBsodgyvCIUKqabMqIuWN4Bu7ng4vljHVHmfXx9dmM=;
+ b=BVGYv5MJk4wASENFElbWFr7AKAFc2BuWwOs+OSIpxJtXFRrw7NwY45Bxhic1bsQk4B
+ GQkhU8IPYj9h2D6603xcn4tw3YFqXolDxGN6ZMhKZ68ssrcCz68nJS5p3TFjJhe2Q4aH
+ e8K0qu1isPZnMo0B9aWGc8Qt3cr7QiL2OrWLY1TJ5IFnPGu/dTecHvKEQQfdQpZE7+7Q
+ HZGuECww3xJwYTc/cZayKRps9lI+quHqorBVQL5kQTO4iyfHrEvl7JSNIQqy6NKwhH94
+ eqmD9xwLd/vCemgyArwxzjpAgCQkWWtVdcvmMiHo5QMO6JdSNbcxL/Xh6DIInpE8xlDD
+ gFJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=hM+lLyyq/1PweNHE6epEjgJ4puRtDRVWjvAIYETNWak=;
- b=PfJLBx7R7Ssq5sPysOF8qdyCiKJ0DAJ9GmAd6LOxUi5us0jiFSak/4/kC0hLVH/JvN
- BoyEphrXuMJCVYsUQ9Eq4toejECSbY+oGPsb1C29oFg+UvGk++DreDgg8ulQ3ZMIF7/z
- 3e8jLkbQ2OQefj+ZRbRAfv0WWa0DhiqXrqt8hDDNITSKWxPybOK6aKEGW3Q7DdWp9vLo
- LfgblO7yvLh5q5CV78wxy7MkjWWgrf62BiipCCnoS8QyErmzA/mrBD9P092/mRfuica5
- kGAQpv/Fv6LKVaI/TQjAoE2vr7fmiomEg0n+Z1VXt9IQx/2tQIJeDX/McTx+BQgRUi5B
- sGDw==
-X-Gm-Message-State: AOAM5326SRSVZyYQklkgliSjHBoNH/m9HMcdTtxIjBKdhK2v/c1YH0rW
- EoVL6y4boWlnfLxcjbZPOSalUAg4NZYkMJKYu0yD/w==
-X-Google-Smtp-Source: ABdhPJy8/lljuFL25m8CYG9KqMm8gBySfhbeQqFCLtFfUn5QgKIcvsn/k+94qVsjHvQTUSdVhwnmUqBqtGVfNckTI3k=
-X-Received: by 2002:a81:db05:0:b0:2ea:2b92:c317 with SMTP id
- u5-20020a81db05000000b002ea2b92c317mr11017752ywm.329.1648829686113; Fri, 01
- Apr 2022 09:14:46 -0700 (PDT)
+ bh=CYBsodgyvCIUKqabMqIuWN4Bu7ng4vljHVHmfXx9dmM=;
+ b=Sn/oVlBO+9X8xq23ypRpn/GLTavMvBydajyd2dQvi6AQW+PPDetb6leXbi9zHQ1A3L
+ SQZFPWGDL8aTgi6+IUlx3ZPZQm2/ADpHQGDUVeStRPBInOKZxcUzwAg2okeDen2x4hT7
+ O3JKSHjRGhZG+XTgTAWmaklcrfEzCY4Pb5iJjwHEQzrsLXif6r2Bb/GQ/zqC+chqN/X9
+ pPF1NKV2M6aclAbWjKP5vte4g2JJywRgFRaXpF94yaaNpAwpqSSTxQfZMirjUJ0+QAEP
+ wwFwHxeHzz7i+xbqUs4qzqgvh+CFz80m5wnYUpOiTarVKtSm4B/nskS7ZAUa50L0w46e
+ xA9w==
+X-Gm-Message-State: AOAM533U6IayMAGXERIBwpAJlX5zBMKZPQHu7+io9tqdmTgWjvrLJFna
+ YTZ6tW22acqLPSoY9C6cfW2OjGe4o/EK8F320LOaKKMTnwFDgg==
+X-Google-Smtp-Source: ABdhPJwMteIwWJEffOhX22ac8W/nxMGaeptkn7lTrZ7BtVta3eU6guOzbmIS8enwMjfmwWJu6nHRlyZxq3dR1mzGE4U=
+X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
+ g3-20020a0df603000000b002d157e50234mr11230133ywf.469.1648829800224; Fri, 01
+ Apr 2022 09:16:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAFEAcA_17Mzz7AiQd+1z50Jp-wWhfChCVi=8kjWCU6daUVqV_Q@mail.gmail.com>
- <YkXzToltd73X4WgY@xz-m1.local>
- <CACGkMEs41rX5FqtKst4qZc1QXyY1VvMK_GMo_4NRD45zh9VSHg@mail.gmail.com>
- <633f66f9-2a86-6d52-15de-d0c557412bf7@amd.com>
-In-Reply-To: <633f66f9-2a86-6d52-15de-d0c557412bf7@amd.com>
+References: <20220331234441.15920-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20220331234441.15920-1-alistair.francis@opensource.wdc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Apr 2022 17:14:35 +0100
-Message-ID: <CAFEAcA9KogtFm0g1+T40Kfz4GDRMtfhDeJ0jTb5dfax5E4voMQ@mail.gmail.com>
-Subject: Re: who's maintaining amd_iommu.c these days?
-To: Wei Huang <wei.huang2@amd.com>
+Date: Fri, 1 Apr 2022 17:16:29 +0100
+Message-ID: <CAFEAcA9uP+ZpetBCdGU=4mcVgXeHbUUiuEVV=WfdpM7+g5fvig@mail.gmail.com>
+Subject: Re: [PULL 0/2] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -85,36 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 1 Apr 2022 at 17:11, Wei Huang <wei.huang2@amd.com> wrote:
+On Fri, 1 Apr 2022 at 00:50, Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
 >
+> From: Alistair Francis <alistair.francis@wdc.com>
 >
+> The following changes since commit d5341e09135b871199073572f53bc11ae9b44897:
 >
-> On 3/31/22 21:09, Jason Wang wrote:
-> > On Fri, Apr 1, 2022 at 2:30 AM Peter Xu <peterx@redhat.com> wrote:
-> >>
-> >> On Thu, Mar 31, 2022 at 05:01:52PM +0100, Peter Maydell wrote:
-> >>> (4) The claimed bit layout of the event structure doesn't
-> >>> match up with the one in the spec document I found. This
-> >>> could be because I found a document for some other bit
-> >>> of hardware, of course.
-> Could you elaborate? Are you referring to amdvi_setevent_bits(evt, info,
-> 55, 8)?
+>   Merge tag 'pull-tcg-20220331' of https://gitlab.com/rth7680/qemu into staging (2022-03-31 18:36:08 +0100)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220401
+>
+> for you to fetch changes up to 8ff8ac63298611c8373b294ec936475b1a33f63f:
+>
+>   target/riscv: rvv: Add missing early exit condition for whole register load/store (2022-04-01 08:40:55 +1000)
+>
+> ----------------------------------------------------------------
+> Sixth RISC-V PR for QEMU 7.0
+>
+> This is a last minute RISC-V PR for 7.0.
+>
+> It includes a fix to avoid leaking no translation TLB entries. This
+> incorrectly cached uncachable baremetal entries. This would break Linux
+> boot while single stepping. As the fix is pretty straight forward (flush
+> the cache more often) it's being pulled in for 7.0.
+>
+> At the same time I have included a RISC-V vector extension fixup patch.
+>
+> ----------------------------------------------------------------
 
-https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
-was the spec I found through random googling, but the event
-structure layouts in chapter 2.5 of that document aren't
-at all like the one that amdvi_encode_event() is using.
-Maybe that's the wrong spec, as I say.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
 -- PMM
 
