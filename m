@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647E94EEEA6
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:58:24 +0200 (CEST)
-Received: from localhost ([::1]:60360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8E64EEE8E
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:53:47 +0200 (CEST)
+Received: from localhost ([::1]:50954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naHnD-0006NF-Gr
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:58:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57696)
+	id 1naHik-0008Bd-Js
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:53:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naHfK-0005kf-Us
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:50:15 -0400
-Received: from [2607:f8b0:4864:20::b30] (port=43718
- helo=mail-yb1-xb30.google.com)
+ id 1naHfl-0005q7-8h
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:50:41 -0400
+Received: from [2607:f8b0:4864:20::b2a] (port=36454
+ helo=mail-yb1-xb2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naHfI-00036e-Sc
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:50:14 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id v35so5076363ybi.10
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:50:11 -0700 (PDT)
+ id 1naHfj-00038q-QE
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:50:40 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id f38so5146092ybi.3
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:50:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cWmLecHljmM0e7tYKyTmUILJi8nWEf2HHYTitotFxwU=;
- b=WGQ+KevU7NHTS2um/PU75HNQgU2OEuL7FxDdZltS34JjPz100C8EST7OdFOj02PAp+
- KLEgJBgqXnfwpYT7e0ePd8UeR8Bw38+KzqyC2/RlRRdXNCs+pKXyHBZAYx6H46CwOVWy
- E/nLM3TEvCxp28bpi+HKT2EXoTO00i2WEdCiOmcWZtLuflxSIdnbyLidrupo9RzTB2qA
- rot/3UT9eQG4mfVlQPiEn81aXkx7j7LdiP5UjpSXcdENLNE2IxMe3aY/mNrw53DPxQkI
- Yoke8FhmnxApVcd3QqCmaKNxXzLKnbKSCH5iNNqt4pQumSd7cpheHab8JiuXgq/wYyp1
- W9xw==
+ :cc; bh=ej7V6dylC7de1Ib1y7u/6sdKykMvqCzdkfbnZlqFKsk=;
+ b=OIQi1Z+CjTO9XE9OEEyMGT+shj+++pPFt1MFHwhmGkuARhd89mM6eVmvtARjdcrc1U
+ BxFee7ISYK+yzSF7NUNVPfL6aTimuwH4+3W4iYAbqbY5hfeZu47VbHWux7K8mI8Nq/wR
+ +BxlGjuOahThCx/MSWbUiVu3JClDoMByY7e20Fv9+ldTNoUqHB1t/927Bi3aWeLt2+rZ
+ rXCsKjp0CMHJZHdMSaS+DKnYdtz6YQ1Du0Dt/e6a4D1ZHQv384XSuQsBx0ytocS6yNAH
+ fJ5bC7Aej33SfA7C0VMksno3KLigVoukrtS5kKFuKOhyda2iv2y1g6+6hPcO9qc6k1Yy
+ mHYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cWmLecHljmM0e7tYKyTmUILJi8nWEf2HHYTitotFxwU=;
- b=3VpcBwvOBnDcTAbR8oupuU8iOdr1NG8Yn8X3k7nysuE2ki/Wpj/7lQU746bXVVzai4
- ttFGWGABWAvnOUNHxBmV+4+pb2CKCA8GK2RGjMUoRtxABHBppZbu3cjabyRJxPxAddS3
- 0oVmLBTFjVLDniBlutovRF4ienT3b8SAqdG3ZbdzzMCV29uMzdumYMjLOYHPLItQVPCl
- U6eCTXJ+GuQgQ9q+dlOPwXjax6XzVsbwV0m8l7tOUVk0qsFExmU9bJ4S3tn2poh1UYbM
- RTWS+58p6NnaURA/ckp6BUQBgSbki+XbT7QQG5+fbkJKpPK/qOWC6eTKTDkcHEcMJNLq
- 8tMA==
-X-Gm-Message-State: AOAM533jizM7gz0SnK11YUwKl7ep3AqeXuYOaTkevDyWpUYrUV2awDH3
- r7hS6+hhx3/6YF1lyYUNu2TvzCRkLMEbzCYoa1240A==
-X-Google-Smtp-Source: ABdhPJyTuGCGkNsXxkq1uCpbCrzU6V7I9+6IzbkGwlWBDI0n/YpkVcfL4AW97CfCNi0eytlP/shC1cUjC/gzHXre5Nc=
-X-Received: by 2002:a05:6902:1502:b0:63d:4d6f:dc1 with SMTP id
- q2-20020a056902150200b0063d4d6f0dc1mr5269850ybu.140.1648821010518; Fri, 01
- Apr 2022 06:50:10 -0700 (PDT)
+ bh=ej7V6dylC7de1Ib1y7u/6sdKykMvqCzdkfbnZlqFKsk=;
+ b=M6o3k/SzXDnr7KWhflAgvgTO4vVKQEbGb6XyPqe/hKJlea5T2vtOQDUPSJrUJoX5gJ
+ hDwAynYL/3zUV5tsw4oRCtP3J+hhryzBScbJ8TJ8ZM9Hgzv8vSmN4Bh+uhKD8PbqlfwH
+ w4MNjRQ97blScd0xnuRo2/CeFz+wkMau6/JJcoYearjHROAKM3Aa97BlE/SdvEi33QU5
+ mt7xwZsSXrfw5NfYtRaelMjwLoiQ1RszwKQTO7y2aRFfAgx6WfCfE3ZqatVnt+0wgCHZ
+ MalIPafOFjyn3MEMudh6FV9kDrHC6+DyEAJZjBKenT/6szgbNt8GL3RR9FDjrXBV7gd4
+ AGqg==
+X-Gm-Message-State: AOAM530bEfn3z8TfA+L2wflHryw7vg7BXhF67QcsIm1fGgLYzm9PYTqo
+ wd25Gi8sgVXp6iCXsDQGfvpoWUP4TTNZgv40JTCCFYWZ66EXVQ==
+X-Google-Smtp-Source: ABdhPJwmwhfBESo9gOrqbYAMqI7G6uQdcG8RIhIX4bj8jQQ24OhX3hdCpCM+ulN7YC3tfjwJzadAJgbrfDyxpG2O4dM=
+X-Received: by 2002:a05:6902:701:b0:638:9404:baff with SMTP id
+ k1-20020a056902070100b006389404baffmr8785697ybt.479.1648821038525; Fri, 01
+ Apr 2022 06:50:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220401132240.79730-1-richard.henderson@linaro.org>
- <20220401132240.79730-3-richard.henderson@linaro.org>
-In-Reply-To: <20220401132240.79730-3-richard.henderson@linaro.org>
+ <20220401132240.79730-4-richard.henderson@linaro.org>
+In-Reply-To: <20220401132240.79730-4-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Apr 2022 14:49:59 +0100
-Message-ID: <CAFEAcA9V+jLU0q27ztHXHgpnv4JXQ8B6n4peXB8u7J=8b0df4A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] softfloat: Use FloatRelation within partsN_compare
+Date: Fri, 1 Apr 2022 14:50:27 +0100
+Message-ID: <CAFEAcA_YNg0LAO5-rz2OFJgJnfu-L+Q-eN2FC2iWTyfA7OfhuQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] softfloat: Use FloatRelation for fracN_cmp
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,13 +89,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 1 Apr 2022 at 14:22, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> As the return type is FloatRelation, it's clearer to
-> use the type for 'cmp' within the function.
+> Since the caller, partsN_compare, is now exclusively
+> using FloatRelation, it's clearer to use it here too.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  fpu/softfloat-parts.c.inc | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
