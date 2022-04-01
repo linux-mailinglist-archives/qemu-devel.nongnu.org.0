@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568C44EF22B
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:02:53 +0200 (CEST)
-Received: from localhost ([::1]:42734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3394EF22D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:02:57 +0200 (CEST)
+Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naInc-0006Vl-E4
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:02:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44994)
+	id 1naInf-0006gZ-UJ
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:02:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naIlx-0003gj-0g
+ id 1naIlx-0003hB-70
  for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:09 -0400
-Received: from [2a00:1450:4864:20::331] (port=43995
- helo=mail-wm1-x331.google.com)
+Received: from [2a00:1450:4864:20::42d] (port=39761
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naIlu-0005hl-Fy
+ id 1naIlv-0005iB-AT
  for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:08 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- p12-20020a05600c430c00b0038cbdf52227so1638793wme.2
+Received: by mail-wr1-x42d.google.com with SMTP id j18so4664648wrd.6
  for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 08:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=n69SDyB9UIAW3KHjm5y4sX5YK4nF3J1IMIpH0a4tlR8=;
- b=vNFjxZ42fXfviIIYweayv3HL0i9k5v0qAUMMCeqT0aZNbSRoinV2GcMBf7jB0K4eQx
- VLCS8BhXzFbjknvxu22KAAJnUUDYMLjLkrw3aLpVMiTq08vuAHgFdEsgf6qQlcR65JLs
- CXsvzrpg+e1NF0lCHImITKt90B6lIHOx8E6YrL+RbuMKjg6LyG2nHl1YTc4aK9alF0Aj
- 1d8ZQ9AqlX9qbLmsXPOuZeAAQcubE7Ls3a316/deMgEAoAYjqWx0QvkKmu52Lu1eWVe6
- Z/iyuE70PmXgD6eqe9SaQltC+xjVWIjak0mqe7qNvxMy1SLcqA6TldxTHMOngsIVRJLy
- DviQ==
+ bh=Z1XQpnTzzax90Lh6sULRJEKvqLBLpmW6JvIqcejUeVw=;
+ b=wNkQqP6naLIT65DWIY2ns+pOgLwMThCwDBD/G+hCmKKItN7pQkyYmPUo5F2oTJe5Gy
+ LrTpAYtjeh8NHletIJISzg8NPIEtV0dGPcxVVklTWRnpTHwtpEWIWGOtAp/1jdHOm3hh
+ 9AOlOrIyBb7AfWdIKaM6yQsmIZdKQ71tidADf5/EGyzPtOFOBxUshGKDM6OHw2hQTTu8
+ u6xaZrE1XOluOvK+Ea+ZZm67WGaWKPaaDrobZI4D5aQLvRIixcIXv8/mQXVlV/4ITz6R
+ ll/MRqlwe7omqOC3qYRw9thwD13Qop1FtSVN6KHATdqHjhHg1vIcktUjYnZIIEPiGqzL
+ 4caQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=n69SDyB9UIAW3KHjm5y4sX5YK4nF3J1IMIpH0a4tlR8=;
- b=v1ZJyFuXo/+MAAXgUSFPEbDqCafEjiFXodUBRN4KlKKJ2gz9piEQxzXLfp74rrHPqx
- TiRN9vV5QHvyNUO/11IM3Vz11lY5rXvundpuPSEl8DzoHnN6Ep5m3zcU0SxgoW4MHNEw
- 5vChST6QX/99uQa5pzh2D3vEwZj96KumM2tf+L4zO1tUgb+sKvJpGLg6oeFsQZnK28is
- iqUU3eLOI6vyvNWOr3lB+zTHkRa9ewBDhEc0Nir+v54ymMAXBjvi8GM+i69nw3LASsxI
- kbFvLKdcNY5Z6IutJJXQRZrmj8su/0sNHVMGLE0HGNsjFQiKktJOwiobXvA5tPO+zWz7
- pVbQ==
-X-Gm-Message-State: AOAM533LsMoOVfqZtFwHw+pv1MuvGI4qVFOWAJi/6hiHI8vNAyRLDi+1
- 8Di/Bz07vSwYb8C9FmYXPyZ7idI+qT8fbA==
-X-Google-Smtp-Source: ABdhPJxMKPCylB20c7lwGJlzcLBmDfbpUvhGrp0LPZKB4tOGPbUKl8V/GdYJrD9glbxHJHcHtAsdcQ==
-X-Received: by 2002:a7b:c14d:0:b0:38c:801a:a8b3 with SMTP id
- z13-20020a7bc14d000000b0038c801aa8b3mr8979351wmi.40.1648825265078; 
+ bh=Z1XQpnTzzax90Lh6sULRJEKvqLBLpmW6JvIqcejUeVw=;
+ b=x/p7vCBeWa2GyKlxMxWtYOkfmgvdJZoryyQIqLNTR88ySmdS/Co2ttUBTeqIf6z5zU
+ ULNSB7lglzGsGjXRZfa0fRUS2O66D1VGPwPdkKmC3nqTjVP96/0jdueAJLfrCvdeaTYp
+ Tk3zQFSP2GPlsxXrfSeoVZn7RJZF07vKJznsU/hq8okLkCdg11vHf6fRNRVw2ryhF1fX
+ Yp1rNqjPlsrOrOy1fg/by2L7goi/KgaHVDADYYd1PlFI8bq7Up0sY2FRlmuVlkWVHkid
+ fPHzj/i8BguW0YtJsdqHedu5ry1nLWRvl9IaRaO5qXFT2Up3GFPS6YEMA8J9ODUXjQg8
+ 2LsQ==
+X-Gm-Message-State: AOAM533Pv/e0HLNz3yEylrDeyBzB84MuPoWC+j8SUJsnzK2yS7ogLYh5
+ iKBGx5r0rC5xCmTBC0UrhOQNhTJAoh8xjw==
+X-Google-Smtp-Source: ABdhPJynz/8khrhlXYAF/jteC+4GaQQUexE3dS07pT1MRV0zwx2SWz9pDY2iouGk3k2/A9zBdszlcg==
+X-Received: by 2002:adf:bb54:0:b0:203:e244:fbe4 with SMTP id
+ x20-20020adfbb54000000b00203e244fbe4mr7980525wrg.313.1648825265908; 
  Fri, 01 Apr 2022 08:01:05 -0700 (PDT)
 Received: from orth.archaic.org.uk ([2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- 6-20020a05600c020600b0038cbb21fb00sm2084023wmi.39.2022.04.01.08.01.04
+ 6-20020a05600c020600b0038cbb21fb00sm2084023wmi.39.2022.04.01.08.01.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 08:01:04 -0700 (PDT)
+ Fri, 01 Apr 2022 08:01:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/6] target/arm: Determine final stage 2 output PA space based
- on original IPA
-Date: Fri,  1 Apr 2022 16:00:53 +0100
-Message-Id: <20220401150055.421608-5-peter.maydell@linaro.org>
+Subject: [PULL 5/6] MAINTAINERS: change Fred Konrad's email address
+Date: Fri,  1 Apr 2022 16:00:54 +0100
+Message-Id: <20220401150055.421608-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220401150055.421608-1-peter.maydell@linaro.org>
 References: <20220401150055.421608-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,61 +93,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Idan Horowitz <idan.horowitz@gmail.com>
+From: Frederic Konrad <konrad@adacore.com>
 
-As per the AArch64.S2Walk() pseudo-code in the ARMv8 ARM, the final
-decision as to the output address's PA space based on the SA/SW/NSA/NSW
-bits needs to take the input IPA's PA space into account, and not the
-PA space of the result of the stage 2 walk itself.
+frederic.konrad@adacore.com and konrad@adacore.com will stop working starting
+2022-04-01.
 
-Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220327093427.1548629-4-idan.horowitz@gmail.com
-[PMM: fixed commit message typo]
+Use my personal email instead.
+
+Signed-off-by: Frederic Konrad <frederic.konrad@adacore.com>
+Reviewed-by: Fabien Chouteau <chouteau@adacore.com <clg@kaod.org>>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 1648643217-15811-1-git-send-email-frederic.konrad@adacore.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ .mailmap    | 3 ++-
+ MAINTAINERS | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 6fd5c27340e..7d14650615c 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -12644,6 +12644,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-             hwaddr ipa;
-             int s2_prot;
-             int ret;
-+            bool ipa_secure;
-             ARMCacheAttrs cacheattrs2 = {};
-             ARMMMUIdx s2_mmu_idx;
-             bool is_el0;
-@@ -12657,14 +12658,15 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-                 return ret;
-             }
+diff --git a/.mailmap b/.mailmap
+index 09dcd8c2169..2976a675ea5 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -56,7 +56,8 @@ Alexander Graf <agraf@csgraf.de> <agraf@suse.de>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ Christian Borntraeger <borntraeger@linux.ibm.com> <borntraeger@de.ibm.com>
+ Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
+-Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
++Frederic Konrad <konrad.frederic@yahoo.fr> <fred.konrad@greensocs.com>
++Frederic Konrad <konrad.frederic@yahoo.fr> <konrad@adacore.com>
+ Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc364afef73..68142340bd1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1533,7 +1533,7 @@ F: include/hw/rtc/sun4v-rtc.h
  
-+            ipa_secure = attrs->secure;
-             if (arm_is_secure_below_el3(env)) {
--                if (attrs->secure) {
-+                if (ipa_secure) {
-                     attrs->secure = !(env->cp15.vstcr_el2.raw_tcr & VSTCR_SW);
-                 } else {
-                     attrs->secure = !(env->cp15.vtcr_el2.raw_tcr & VTCR_NSW);
-                 }
-             } else {
--                assert(!attrs->secure);
-+                assert(!ipa_secure);
-             }
- 
-             s2_mmu_idx = attrs->secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_Stage2;
-@@ -12701,7 +12703,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
- 
-             /* Check if IPA translates to secure or non-secure PA space. */
-             if (arm_is_secure_below_el3(env)) {
--                if (attrs->secure) {
-+                if (ipa_secure) {
-                     attrs->secure =
-                         !(env->cp15.vstcr_el2.raw_tcr & (VSTCR_SA | VSTCR_SW));
-                 } else {
+ Leon3
+ M: Fabien Chouteau <chouteau@adacore.com>
+-M: KONRAD Frederic <frederic.konrad@adacore.com>
++M: Frederic Konrad <konrad.frederic@yahoo.fr>
+ S: Maintained
+ F: hw/sparc/leon3.c
+ F: hw/*/grlib*
 -- 
 2.25.1
 
