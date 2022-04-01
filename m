@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62F14EEA73
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:32:05 +0200 (CEST)
-Received: from localhost ([::1]:60362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DA84EEABA
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 11:49:22 +0200 (CEST)
+Received: from localhost ([::1]:59102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naDdU-0004NY-PV
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:32:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57810)
+	id 1naDuD-0006sK-0q
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 05:49:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1naDRV-0000GH-Ez
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:19:42 -0400
-Received: from [2a00:1450:4864:20::12f] (port=34799
- helo=mail-lf1-x12f.google.com)
+ id 1naDRW-0000Gf-NM
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:19:44 -0400
+Received: from [2a00:1450:4864:20::22e] (port=43859
+ helo=mail-lj1-x22e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1naDRQ-0006sY-OC
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:19:38 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id 5so3799945lfp.1
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:19:35 -0700 (PDT)
+ id 1naDRU-0006se-Uq
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 05:19:42 -0400
+Received: by mail-lj1-x22e.google.com with SMTP id b43so3057382ljr.10
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 02:19:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BvaFLpB9Qxdj63+E8QSxgo2K5UB1eFL9k2Jwsg42K0M=;
- b=FUdpCMeVIy4oqLOJdgdBCl0hguuq/CEDVkyY3uZEyW82QMlbiaSYZnWSlfEM85RCUl
- QVj4B15pLijDNLxVTe82O4FDT6CxIYAqJjR56RnBUcGAuZwqfoL/iD0WilUTeVQCJnqC
- RLXvSlKfOapviTuyHqhRRTTneAPil2Cn9AOW5ubxIU2NKRjeeXA8aZyLsABWsWerJT/6
- e9mBvmhs4eFHBwhCE5h55snkpZtzitJhMxvJznMkBSEblw/Fz37etuSDHrU/kWBfrg7T
- 3gJLnzKQBPfuLNNHKKwKzrTqkeNh+sNKSswEmmA1GZdJFHfOEE8bsvQ7KhbaugykcZaq
- CqRA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=63KOcHkFUD4WLCydVmQXmoksEDdiR3xCGd3+SRNPvy4=;
+ b=YC5zoMu5N14vxV6JFMDQSRZRKYC2L7P9k/hMWjgr8IJ5dfoWvtSRwXCeXl5e9QNhxJ
+ p/Yh4zgFf02ASAxslGB25Dicxnk2Xe3nD73CPqn1+u2WWFkMtIgrMHcu9degneL/Iw8R
+ DV56K//pdnSJeA4+T2FA6nmFqqQRjJ3kPAZCbwz3XLVfmqnIxVkZ1DLdkXV9BqxsEw/A
+ z2xKF9yzu3dbnLDCzfS17d3youLUe+KTgQFTRf9TUmGf2aLDeQaIB/b/xNnKKn98bsRx
+ YhWkmJys94Mgl6Mrhsy3KM3yiD2UvJRqNYbaKl3qjnXxcSKEl5u5aQkCapEae+Xup2w0
+ 0fww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BvaFLpB9Qxdj63+E8QSxgo2K5UB1eFL9k2Jwsg42K0M=;
- b=bAbkHAS4SLblvyU3X9/JPWs7YdRFehbH/dLVX/Yk6tQKOOEPzoku6a78yn6+gHcFO7
- YfcPF4TUv8sgmj8vWTlSwW418DeVSCglmeqUT71z8rY1DOudjoGdVrTKtt77Ap9WBItx
- ZEvxq8KcIA1zxg/KtRMvgnL9CByRYow28nUqc+Z8fkPRf49QM/GIe6rBAuvt6vrY8UMB
- UDsgh6M9Zk0rN4j/P6FsmMa94LQjWXGRmSOkrkHXr6any1xEciNVbiddYvC3mmuC2cq7
- TYxzwAX1UH4sGnh6zwWg69sGFQ7o4awgbtEPvl2vsH8n1ctzIrqUtC+Wr1gPb02iUo4+
- iWSg==
-X-Gm-Message-State: AOAM530MtLgj+Te3cWU1Z6D+7qem+OLCxO7weKswHfE8rE6I31ubwToS
- s6/Ll0FFZPlGNIuJixr6mc2H9Q==
-X-Google-Smtp-Source: ABdhPJxMDyaSL0h+fSebkFffFaJmcEr9i7zzr7mZ4OrguCCvw7O24uVzg+7EH7KgnlalaO+owZ9kfA==
-X-Received: by 2002:a05:6512:32c8:b0:44a:27fd:cd06 with SMTP id
- f8-20020a05651232c800b0044a27fdcd06mr13829824lfg.239.1648804774176; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=63KOcHkFUD4WLCydVmQXmoksEDdiR3xCGd3+SRNPvy4=;
+ b=iTMBTsUxuNgaA4Wt+QWloaaEbOpiGe2LvbX2kNeJKj59y78ZT1oVYApCzXw5nJYAZG
+ FrfE/9kktbSkupeRtiffm5PFqKJUWcnUQ9z3MIeYY1TtyyJN63054BQ5vDBYKR03GANd
+ A2xRkElC+yx+EDKrwdMFoGeurauFycA/dRUT7CzsGgzyE1zr3qgozspiZnL3WZ/RPaD/
+ 4GcqGOlRPqbidc7zdLWmeeYTUbI+sUgffD52I8gkZTxfbrt/MET5aJNujDOv6SVuyTY8
+ yFeAgXS3ZSBvc2RfdoJ8oyt7hfEoxhFYoTfFpIl1B4CrbT98+CB4HOHSX44PCLdAyaO9
+ PgNQ==
+X-Gm-Message-State: AOAM531Ahgo8WYFJDcjUckfAun16Vhs3cdpvrizAW5ysCJ/mKJS/hSo9
+ QZ4TVCbK57gC/EKNSOdsJIVDhw==
+X-Google-Smtp-Source: ABdhPJyJZNrKghyQU8lIbJVCUUIVWnsMPoIPCmfxIvK6o/1OjJDGuyk4pHFxwbK0y1hZKDBb3G9Hxw==
+X-Received: by 2002:a2e:2e16:0:b0:24a:f25e:41e with SMTP id
+ u22-20020a2e2e16000000b0024af25e041emr6422545lju.45.1648804774864; 
  Fri, 01 Apr 2022 02:19:34 -0700 (PDT)
 Received: from fedora.. ([185.215.60.153]) by smtp.gmail.com with ESMTPSA id
- d16-20020a2eb050000000b002461d8f365bsm155135ljl.38.2022.04.01.02.19.33
+ d16-20020a2eb050000000b002461d8f365bsm155135ljl.38.2022.04.01.02.19.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 02:19:33 -0700 (PDT)
+ Fri, 01 Apr 2022 02:19:34 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 0/7] copy-before-write: on-cbw-error and cbw-timeout
-Date: Fri,  1 Apr 2022 12:19:13 +0300
-Message-Id: <20220401091920.287612-1-vsementsov@openvz.org>
+Subject: [PATCH v2 1/7] block/copy-before-write: refactor option parsing
+Date: Fri,  1 Apr 2022 12:19:14 +0300
+Message-Id: <20220401091920.287612-2-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220401091920.287612-1-vsementsov@openvz.org>
+References: <20220401091920.287612-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lf1-x12f.google.com
+ helo=mail-lj1-x22e.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -95,50 +97,129 @@ Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+We are going to add one more option of enum type. Let's refactor option
+parsing so that we can simply work with BlockdevOptionsCbw object.
 
-Here are two new options for copy-before-write filter:
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+---
+ block/copy-before-write.c | 68 +++++++++++++++++++++++----------------
+ 1 file changed, 41 insertions(+), 27 deletions(-)
 
-on-cbw-error allows to alter the behavior on copy-before-write operation
-failure: not break guest write but break the snapshot (and therefore
-backup process)
-
-cbw-timeout allows to limit cbw operation by some timeout.
-
-So, for example, using cbw-timeout=60 and on-cbw-error=break-snapshot
-you can be sure that guest write will not stuck for more than 60
-seconds and will never fail due to backup problems.
-
-This series unites and fixes my
-"[PATCH 0/3] block: copy-before-write: on-cbw-error behavior" and
-"[PATCH 0/4] block: copy-before-write: cbw-timeout"
-
-Supersedes: <20220301205929.2006041-1-vsementsov@openvz.org>
-Supersedes: <20220302162442.2052461-1-vsementsov@openvz.org>
-
-Vladimir Sementsov-Ogievskiy (7):
-  block/copy-before-write: refactor option parsing
-  block/copy-before-write: add on-cbw-error open parameter
-  iotests: add copy-before-write: on-cbw-error tests
-  util: add qemu-co-timeout
-  block/block-copy: block_copy(): add timeout_ns parameter
-  block/copy-before-write: implement cbw-timeout option
-  iotests: copy-before-write: add cases for cbw-timeout option
-
- block/block-copy.c                            |  26 ++-
- block/copy-before-write.c                     | 136 +++++++++---
- include/block/block-copy.h                    |   2 +-
- include/qemu/coroutine.h                      |  13 ++
- qapi/block-core.json                          |  30 ++-
- tests/qemu-iotests/tests/copy-before-write    | 206 ++++++++++++++++++
- .../qemu-iotests/tests/copy-before-write.out  |   5 +
- util/meson.build                              |   1 +
- util/qemu-co-timeout.c                        |  89 ++++++++
- 9 files changed, 464 insertions(+), 44 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/copy-before-write
- create mode 100644 tests/qemu-iotests/tests/copy-before-write.out
- create mode 100644 util/qemu-co-timeout.c
-
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index a8a06fdc09..394e73b094 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qapi/qmp/qjson.h"
+ 
+ #include "sysemu/block-backend.h"
+ #include "qemu/cutils.h"
+@@ -328,46 +329,49 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
+     }
+ }
+ 
+-static bool cbw_parse_bitmap_option(QDict *options, BdrvDirtyBitmap **bitmap,
+-                                    Error **errp)
++static BlockdevOptionsCbw *cbw_parse_options(QDict *options, Error **errp)
+ {
+-    QDict *bitmap_qdict = NULL;
+-    BlockDirtyBitmap *bmp_param = NULL;
++    QDict *cbw_qdict = NULL;
++    BlockdevOptionsCbw *opts = NULL;
+     Visitor *v = NULL;
+-    bool ret = false;
+ 
+-    *bitmap = NULL;
++    cbw_qdict = qdict_clone_shallow(options);
+ 
+-    qdict_extract_subqdict(options, &bitmap_qdict, "bitmap.");
+-    if (!qdict_size(bitmap_qdict)) {
+-        ret = true;
+-        goto out;
+-    }
+-
+-    v = qobject_input_visitor_new_flat_confused(bitmap_qdict, errp);
++    /*
++     * Delete BlockdevOptions base fields, that are not part of
++     * BlockdevOptionsCbw.
++     */
++    qdict_del(cbw_qdict, "driver");
++    qdict_del(cbw_qdict, "node-name");
++    qdict_del(cbw_qdict, "discard");
++    qdict_del(cbw_qdict, "cache");
++    qdict_extract_subqdict(cbw_qdict, NULL, "cache.");
++    qdict_del(cbw_qdict, "read-only");
++    qdict_del(cbw_qdict, "auto-read-only");
++    qdict_del(cbw_qdict, "force-share");
++    qdict_del(cbw_qdict, "detect-zeroes");
++
++    v = qobject_input_visitor_new_flat_confused(cbw_qdict, errp);
+     if (!v) {
+         goto out;
+     }
+ 
+-    visit_type_BlockDirtyBitmap(v, NULL, &bmp_param, errp);
+-    if (!bmp_param) {
+-        goto out;
+-    }
+-
+-    *bitmap = block_dirty_bitmap_lookup(bmp_param->node, bmp_param->name, NULL,
+-                                        errp);
+-    if (!*bitmap) {
++    visit_type_BlockdevOptionsCbw(v, NULL, &opts, errp);
++    if (!opts) {
+         goto out;
+     }
+ 
+-    ret = true;
++    /*
++     * Delete options which we are going to parse through BlockdevOptionsCbw
++     * object for original options.
++     */
++    qdict_extract_subqdict(options, NULL, "bitmap");
+ 
+ out:
+-    qapi_free_BlockDirtyBitmap(bmp_param);
+     visit_free(v);
+-    qobject_unref(bitmap_qdict);
++    qobject_unref(cbw_qdict);
+ 
+-    return ret;
++    return opts;
+ }
+ 
+ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+@@ -376,6 +380,12 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+     BDRVCopyBeforeWriteState *s = bs->opaque;
+     BdrvDirtyBitmap *bitmap = NULL;
+     int64_t cluster_size;
++    g_autoptr(BlockdevOptionsCbw) opts = NULL;
++
++    opts = cbw_parse_options(options, errp);
++    if (!opts) {
++        return -EINVAL;
++    }
+ 
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+@@ -390,8 +400,12 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+         return -EINVAL;
+     }
+ 
+-    if (!cbw_parse_bitmap_option(options, &bitmap, errp)) {
+-        return -EINVAL;
++    if (opts->has_bitmap) {
++        bitmap = block_dirty_bitmap_lookup(opts->bitmap->node,
++                                           opts->bitmap->name, NULL, errp);
++        if (!bitmap) {
++            return -EINVAL;
++        }
+     }
+ 
+     bs->total_sectors = bs->file->bs->total_sectors;
 -- 
 2.35.1
 
