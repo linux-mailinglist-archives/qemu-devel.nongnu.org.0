@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76FE4EE6EF
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 05:53:06 +0200 (CEST)
-Received: from localhost ([::1]:42498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A45D4EE6EE
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 05:52:50 +0200 (CEST)
+Received: from localhost ([::1]:41102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1na8LR-0003fL-OI
-	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 23:53:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35748)
+	id 1na8LB-0002jd-Gf
+	for lists+qemu-devel@lfdr.de; Thu, 31 Mar 2022 23:52:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
- id 1na8GQ-0001iG-C2; Thu, 31 Mar 2022 23:47:54 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:31406)
+ id 1na8GW-00026b-Im; Thu, 31 Mar 2022 23:48:00 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:35455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jamin_lin@aspeedtech.com>)
- id 1na8GO-0000pm-A2; Thu, 31 Mar 2022 23:47:54 -0400
+ id 1na8GU-0000r5-GI; Thu, 31 Mar 2022 23:48:00 -0400
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 2313Zqov095945;
- Fri, 1 Apr 2022 11:35:53 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 2313Zqow095945;
+ Fri, 1 Apr 2022 11:35:54 +0800 (GMT-8)
  (envelope-from jamin_lin@aspeedtech.com)
 Received: from localhost.localdomain (192.168.70.87) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 1 Apr
- 2022 11:46:53 +0800
+ 2022 11:46:54 +0800
 From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Alistair Francis <alistair@alistair23.me>, Peter Maydell
- <peter.maydell@linaro.org>, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?=
- <clg@kaod.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, "Wainer dos
- Santos Moschetta" <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- "open list:STM32F205" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: [PATCH v4 3/9] aspeed/wdt: Fix ast2500/ast2600 default reload value.
-Date: Fri, 1 Apr 2022 11:46:45 +0800
-Message-ID: <20220401034651.9066-4-jamin_lin@aspeedtech.com>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
+ <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
+ <joel@jms.id.au>, Alistair Francis <alistair@alistair23.me>, Cleber Rosa
+ <crosa@redhat.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ "Beraldo Leal" <bleal@redhat.com>, "open list:ASPEED BMCs"
+ <qemu-arm@nongnu.org>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+Subject: [PATCH v4 4/9] aspeed/wdt: Add AST1030 support
+Date: Fri, 1 Apr 2022 11:46:46 +0800
+Message-ID: <20220401034651.9066-5-jamin_lin@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220401034651.9066-1-jamin_lin@aspeedtech.com>
 References: <20220401034651.9066-1-jamin_lin@aspeedtech.com>
@@ -46,7 +46,7 @@ X-Originating-IP: [192.168.70.87]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2313Zqov095945
+X-MAIL: twspam01.aspeedtech.com 2313Zqow095945
 Received-SPF: pass client-ip=211.20.114.71;
  envelope-from=jamin_lin@aspeedtech.com; helo=twspam01.aspeedtech.com
 X-Spam_score_int: -18
@@ -73,75 +73,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Steven Lee <steven_lee@aspeedtech.com>
 
-Per ast2500_2520_datasheet_v1.8 and ast2600v11.pdf, the default value of
-WDT00 and WDT04 is 0x014FB180 for ast2500/ast2600.
-Add default_status and default_reload_value attributes for storing
-counter status and reload value as they are different from ast2400.
+AST1030 wdt controller is similiar to AST2600's wdt, but it has extra
+registers.
+Introduce ast1030 object class and increse the number of regs(offset) of
+ast1030 model.
 
 Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/watchdog/wdt_aspeed.c         | 10 ++++++++--
- include/hw/watchdog/wdt_aspeed.h |  2 ++
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ hw/watchdog/wdt_aspeed.c         | 24 ++++++++++++++++++++++++
+ include/hw/watchdog/wdt_aspeed.h |  1 +
+ 2 files changed, 25 insertions(+)
 
 diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 6aa6f90b66..386928e9c0 100644
+index 386928e9c0..31855afdf4 100644
 --- a/hw/watchdog/wdt_aspeed.c
 +++ b/hw/watchdog/wdt_aspeed.c
-@@ -232,8 +232,8 @@ static void aspeed_wdt_reset(DeviceState *dev)
-     AspeedWDTState *s = ASPEED_WDT(dev);
-     AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(s);
- 
--    s->regs[WDT_STATUS] = 0x3EF1480;
--    s->regs[WDT_RELOAD_VALUE] = 0x03EF1480;
-+    s->regs[WDT_STATUS] = awc->default_status;
-+    s->regs[WDT_RELOAD_VALUE] = awc->default_reload_value;
-     s->regs[WDT_RESTART] = 0;
-     s->regs[WDT_CTRL] = awc->sanitize_ctrl(0);
-     s->regs[WDT_RESET_WIDTH] = 0xFF;
-@@ -319,6 +319,8 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
-     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
-     awc->wdt_reload = aspeed_wdt_reload;
-     awc->sanitize_ctrl = aspeed_2400_sanitize_ctrl;
-+    awc->default_status = 0x03EF1480;
-+    awc->default_reload_value = 0x03EF1480;
- }
- 
- static const TypeInfo aspeed_2400_wdt_info = {
-@@ -355,6 +357,8 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-     awc->wdt_reload = aspeed_wdt_reload_1mhz;
-     awc->sanitize_ctrl = aspeed_2500_sanitize_ctrl;
-+    awc->default_status = 0x014FB180;
-+    awc->default_reload_value = 0x014FB180;
- }
- 
- static const TypeInfo aspeed_2500_wdt_info = {
-@@ -376,6 +380,8 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-     awc->wdt_reload = aspeed_wdt_reload_1mhz;
-     awc->sanitize_ctrl = aspeed_2600_sanitize_ctrl;
-+    awc->default_status = 0x014FB180;
-+    awc->default_reload_value = 0x014FB180;
- }
- 
- static const TypeInfo aspeed_2600_wdt_info = {
-diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-index f945cd6c58..0e37f39f38 100644
---- a/include/hw/watchdog/wdt_aspeed.h
-+++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -45,6 +45,8 @@ struct AspeedWDTClass {
-     void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
-     void (*wdt_reload)(AspeedWDTState *s);
-     uint64_t (*sanitize_ctrl)(uint64_t data);
-+    uint32_t default_status;
-+    uint32_t default_reload_value;
+@@ -391,6 +391,29 @@ static const TypeInfo aspeed_2600_wdt_info = {
+     .class_init = aspeed_2600_wdt_class_init,
  };
  
- #endif /* WDT_ASPEED_H */
++static void aspeed_1030_wdt_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
++
++    dc->desc = "ASPEED 1030 Watchdog Controller";
++    awc->offset = 0x80;
++    awc->ext_pulse_width_mask = 0xfffff; /* TODO */
++    awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
++    awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
++    awc->wdt_reload = aspeed_wdt_reload_1mhz;
++    awc->sanitize_ctrl = aspeed_2600_sanitize_ctrl;
++    awc->default_status = 0x014FB180;
++    awc->default_reload_value = 0x014FB180;
++}
++
++static const TypeInfo aspeed_1030_wdt_info = {
++    .name = TYPE_ASPEED_1030_WDT,
++    .parent = TYPE_ASPEED_WDT,
++    .instance_size = sizeof(AspeedWDTState),
++    .class_init = aspeed_1030_wdt_class_init,
++};
++
+ static void wdt_aspeed_register_types(void)
+ {
+     watchdog_add_model(&model);
+@@ -398,6 +421,7 @@ static void wdt_aspeed_register_types(void)
+     type_register_static(&aspeed_2400_wdt_info);
+     type_register_static(&aspeed_2500_wdt_info);
+     type_register_static(&aspeed_2600_wdt_info);
++    type_register_static(&aspeed_1030_wdt_info);
+ }
+ 
+ type_init(wdt_aspeed_register_types)
+diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
+index 0e37f39f38..dfa5dfa424 100644
+--- a/include/hw/watchdog/wdt_aspeed.h
++++ b/include/hw/watchdog/wdt_aspeed.h
+@@ -19,6 +19,7 @@ OBJECT_DECLARE_TYPE(AspeedWDTState, AspeedWDTClass, ASPEED_WDT)
+ #define TYPE_ASPEED_2400_WDT TYPE_ASPEED_WDT "-ast2400"
+ #define TYPE_ASPEED_2500_WDT TYPE_ASPEED_WDT "-ast2500"
+ #define TYPE_ASPEED_2600_WDT TYPE_ASPEED_WDT "-ast2600"
++#define TYPE_ASPEED_1030_WDT TYPE_ASPEED_WDT "-ast1030"
+ 
+ #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
+ 
 -- 
 2.17.1
 
