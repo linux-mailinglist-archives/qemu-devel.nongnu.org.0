@@ -2,78 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBE14EFA40
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 21:04:31 +0200 (CEST)
-Received: from localhost ([::1]:41442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 868B74EFA7B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 21:41:28 +0200 (CEST)
+Received: from localhost ([::1]:53072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naMZR-0003Vc-PO
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 15:04:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35358)
+	id 1naN9D-0007Hr-BI
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 15:41:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naMXk-0002oa-2y
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 15:02:44 -0400
-Received: from [2a00:1450:4864:20::635] (port=35504
- helo=mail-ej1-x635.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naMXi-0000Ut-Lo
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 15:02:43 -0400
-Received: by mail-ej1-x635.google.com with SMTP id yy13so7787055ejb.2
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 12:02:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Qas/d64QhQzK6/1Vbuwj4Rdt35DYGLG/DMoXYM3wotY=;
- b=SCum9YOCkz/T2EO0XIxsGsuhnjGzSRBd0KhgUUFv9U0WAMvUN5BvlRWdJpoVUVKJl0
- TpLpIS3EDryT4fpvTztpodkQsT/pGXXpvlMsp4VCCfmNlC3PcCDfFx3MfKIqCYEsDIVj
- dv7bXp7TWz6PT4NxVI9Uh4f04XpmXI+RAz3Y5LJXrSCt/Dqb3wHYzSIhCZIm/2bMVZnP
- 99SOBWkUg55j+bcuznMUj7G9DFeFgOsj28THIQK2Iib9x1Yzxyz+eu/LyodySYs/oFEW
- BXXgPS/dut5ibu/OqtKGx879wjFQO6fz9oxsMUBlef4CXG3xwjpQ862YTOJckk+Maasi
- JW5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Qas/d64QhQzK6/1Vbuwj4Rdt35DYGLG/DMoXYM3wotY=;
- b=08poIfoAs670AoxWQTLVyoYD8JN7NtgWbgcn23fTDZ8ijW7K1fE3x77bmlGkWCYtio
- ojPIukBKK5+2D9p4T5uggeYaP4+mG7H5XmI9PN8nfbgrk2Yl5A0tSPNUooHVt24M0JWu
- AqK+TSd6rXqAIiJprkODplQUEaN+vEGLHzdI8bO8ayLV5CD+H9puSJ85CpiRjY9Ci1S7
- Vq/X2Aadu8G5FROHF4bsTOHbTi3e+ZWRcbZtsgA1TAw0lsMVLE4qxzsRnj9/gLt5gmUj
- cMpcZOpA2CklkT3RJSeOyjZ6fNGt74kbD0ouB7QiP89nP8pZlk5LSdoPz3qKOXy6Vnis
- UfcQ==
-X-Gm-Message-State: AOAM533KELRWVEhfzsSXZt8EmwZO00BgcgGgxUoMoanzZxTCWWpkSy9W
- 79bt0gQdnvAX8wsrC7zhL9nqh9FfAAORmODsgLQ=
-X-Google-Smtp-Source: ABdhPJy0f4fH1/oAJMO+VODQ2GEH/Gbcs8WXp38cryZZdecDhtkR3akt5sk58A25pkcs3vFc12wbBA==
-X-Received: by 2002:a17:907:97cc:b0:6df:83bc:314c with SMTP id
- js12-20020a17090797cc00b006df83bc314cmr1037885ejc.587.1648839761140; 
- Fri, 01 Apr 2022 12:02:41 -0700 (PDT)
-Received: from localhost.localdomain ([185.81.138.17])
- by smtp.gmail.com with ESMTPSA id
- p12-20020a17090635cc00b006e055c9c91esm1264231ejb.101.2022.04.01.12.02.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 12:02:40 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] plugins: Assert mmu_idx in range before use in
- qemu_plugin_get_hwaddr
-Date: Fri,  1 Apr 2022 13:02:33 -0600
-Message-Id: <20220401190233.329360-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <tongh@xilinx.com>)
+ id 1naN7G-0006Gj-TL; Fri, 01 Apr 2022 15:39:27 -0400
+Received: from [2a01:111:f400:fe59::60e] (port=46624
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tongh@xilinx.com>)
+ id 1naN7E-0005Pg-EE; Fri, 01 Apr 2022 15:39:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fafjSQCvtwbfZ+6v1EynbSLX0+K7/T7N7v+OD0VydumZmj0mEJIN4xwy8sCbh4QQtUW944yfpNHcCuTtd0o6QJ3OxSyC1x5W5CzSU4HZ3kB0X7OBCujjqpXMA+zQmSiZuLaSX8Bchif901rmxz59FVKwcCbyN4KbytbNs9HPXI4AvHcDrNW905caUA2eOUYRz/iD5C+5J0UjdcfdetH1RT3rW41rooKsy7oZj5nnkKkYgCzqZ7hdPqOJM0Y3BZRn4kfXI6BBsUGH4MjTwCijqr47rSuqiNB+xwJSJh4c5AZqe9q8cQ4dPkdFBl9N0ICoit6V/QVYyJkgiWzCWRW3Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wtc/FaJHJCAf9xUKEV7X9QEBQsycVqxtSqzPRcgmyUw=;
+ b=I8pFfIqB2XvyzCJN7/qasolGEPqs58x1S5hIZdNRGSt+8pFhCS4qzXc7HDqVqXFkXPQ5gTJBz7HMExwMf5tLU6w1jKNYVXUau+o14iwjq7t/TD4h3azrLzT0bIC+LJjm3Y5gQtlbKrr1lGdw19KU2vgMhEIZbcrJS8t9RbP+LfXuS3sF2cOopYYrkx7jKRQVMKtpLTuV3Ex4As4UQJDhD2kfA2nFX4uG+Z5ds801t0kYRGAKlGhDnxEIzQFvZNzNybDYIo1Ou8GGUvG5tP1nF9tkY5+hD6cEUqdR3QbMZcgUokuP6/w+7pTTCGM3pOt6atrWwO03SIwX0xXBFAZMMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wtc/FaJHJCAf9xUKEV7X9QEBQsycVqxtSqzPRcgmyUw=;
+ b=fiZppbPcfLCUWwVKDXMeLZXcAy9iQAtrbpMxv80jigrbZRor5aUDJ8cTtsLAItszQNL6Sm7RVdqGlpNi5l7mYB9s0AtJ6qii2YX2svFK3CI0HnkBTxivEx0y+jetMyrRX4XhQSGmspeWqU6UcDYNIGEbgpMl9qMkUM31zbmS5U0=
+Received: from SA9PR13CA0155.namprd13.prod.outlook.com (2603:10b6:806:28::10)
+ by CO6PR02MB7650.namprd02.prod.outlook.com (2603:10b6:303:b2::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.26; Fri, 1 Apr
+ 2022 19:06:32 +0000
+Received: from SN1NAM02FT0017.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:806:28:cafe::2c) by SA9PR13CA0155.outlook.office365.com
+ (2603:10b6:806:28::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.26 via Frontend
+ Transport; Fri, 1 Apr 2022 19:06:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT0017.mail.protection.outlook.com (10.97.4.104) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5123.19 via Frontend Transport; Fri, 1 Apr 2022 19:06:32 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Fri, 1 Apr 2022 12:06:31 -0700
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Fri, 1 Apr 2022 12:06:31 -0700
+Received: from [172.19.2.40] (port=36786 helo=xsjtongh40.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <tong.ho@xilinx.com>)
+ id 1naMbP-000Fiy-Qp; Fri, 01 Apr 2022 12:06:31 -0700
+From: Tong Ho <tong.ho@xilinx.com>
+To: <qemu-arm@nongnu.org>
+Subject: [PATCH 0/1] xlnx-bbram: hw/nvram: Fix Coverity CID 1487233
+Date: Fri, 1 Apr 2022 12:06:30 -0700
+Message-ID: <20220401190631.1697408-1-tong.ho@xilinx.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0be94b32-6268-487a-3243-08da1412bc22
+X-MS-TrafficTypeDiagnostic: CO6PR02MB7650:EE_
+X-Microsoft-Antispam-PRVS: <CO6PR02MB7650A0CEE07602C12001683DCDE09@CO6PR02MB7650.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 47SNTRMgiOkWzt1QAZ89Vv5K/MrjEI+Q3NZvTpxTUXb7QkA7VEworizYM/k7AkH/VUl46UWCUEN6viOrHgbL0Yhbwh0YmsAIoY4I8IggdHtrf2KuhizfUkuuaYIzDWy+aLgCng3J2E/+cMsR6iY2+iYDtFi2SUeLPBEWuXkrHpo4KIkKBMqFPN4Y4ToTggDf+XdqRz7ewEsarMrAkDIsplHuf1OeNeNTTcRlX9ZbEMVVh3THnW0875gibZpKnyI4joJtd73EUrVkTYMYVcc1tCiI0K6zcgvETPXLXfn1TxLfdzlO4OfNWd8oU+cAje6AduYTgH6iJIN3XW0qowUjC1D0qy+tLIunL1/55QBE9cWqdVkOhFst0UZUembFOnKNyEUsLlANoj/s28EqlYZ03k6yQbi1bR6523FPs3sKAmetwiHyeqG6FaOGyeXqo1hm8B6N6noMcTMa0D/lSidi9lgp9B5WwGr31g8+K8pEut+8iU3mG6kVwacCUavBdhzE2ioDunEu70Rg0pU4aleakyS2v4N52sFmoJImMS9yKhgHJaWjle7lCP47BDkSQLhI/FA3rZaNbR/XX60XOmrsaLbpnZywGkI4xlGVkka5Hclanplzd5KMsWR5ZiACaaFusX/nWpc6AA74XPKnn11BS9vp6ioZ8I6r6uaBWY8y4CwllM2UQIF8lhDzVjg0H9Hu06ZEfR4Jf5j5XXajqURnSw==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(44832011)(9786002)(5660300002)(558084003)(8936002)(70206006)(70586007)(36756003)(6916009)(2906002)(316002)(54906003)(508600001)(7696005)(8676002)(4326008)(107886003)(426003)(40460700003)(186003)(83380400001)(26005)(36860700001)(7636003)(2616005)(336012)(82310400004)(1076003)(356005)(47076005)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2022 19:06:32.3889 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0be94b32-6268-487a-3243-08da1412bc22
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0017.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB7650
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe59::60e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2a01:111:f400:fe59::60e;
+ envelope-from=tongh@xilinx.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,32 +123,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: edgar.iglesias@gmail.com, alistair@alistair23.me, tong.ho@xilinx.com,
+ qemu-devel@nongnu.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity reports out-of-bound accesses here.  This should be a
-false positive due to how the index is decoded from MemOpIdx.
+This patch addresses Coverity CID 1487233 by adding the required
+initialiation of a local variable of type Error *.
 
-Fixes: Coverity CID 1487201
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- plugins/api.c | 2 ++
- 1 file changed, 2 insertions(+)
+Tong Ho (1):
+  xlnx-bbram: hw/nvram: Fix uninitialized Error *
 
-diff --git a/plugins/api.c b/plugins/api.c
-index 7bf71b189d..2078b16edb 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -289,6 +289,8 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
-     enum qemu_plugin_mem_rw rw = get_plugin_meminfo_rw(info);
-     hwaddr_info.is_store = (rw & QEMU_PLUGIN_MEM_W) != 0;
- 
-+    assert(mmu_idx < NB_MMU_MODES);
-+
-     if (!tlb_plugin_lookup(cpu, vaddr, mmu_idx,
-                            hwaddr_info.is_store, &hwaddr_info)) {
-         error_report("invalid use of qemu_plugin_get_hwaddr");
+ hw/nvram/xlnx-bbram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
 2.25.1
 
