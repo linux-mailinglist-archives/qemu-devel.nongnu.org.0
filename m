@@ -2,80 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F414EEE18
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:27:54 +0200 (CEST)
-Received: from localhost ([::1]:58360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2744EEE28
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:32:05 +0200 (CEST)
+Received: from localhost ([::1]:37286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naHJh-0005f9-Qx
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:27:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51916)
+	id 1naHNk-0002i9-IU
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:32:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naHEm-0007j2-FP
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:48 -0400
-Received: from [2607:f8b0:4864:20::234] (port=35446
- helo=mail-oi1-x234.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1naHEk-0006y4-SH
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:48 -0400
-Received: by mail-oi1-x234.google.com with SMTP id e4so2806717oif.2
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hR2ubnJbTaR/99ZxIVHKnu/SsnV6lFaufZKu6ufkBwc=;
- b=w53LLeTF/FjRLW8+OQPpqfYzRL4IsXbrnAppHQqmTr58ljRXUzFJjNBIKk7yU7acfS
- UQlVKxNVPDlde2zCz33ZGZesUVoH5kRRsKl6KJXpiNAB02qE36gqEU/+gOg6310gF8lK
- lcxDp5iervWv3jzMnfjnTex6gPWo/jxqi4o0b+Tj/pyqocOaRMhR0NWvmivG/73mPLco
- 6W+lY28zN3u/GepK6JDtnowwkEzOHS2oUqOdBwD1WwA5nCgeFCMaoBQk9Nxvi8ixTRDL
- r8NJL7hyHRRMEifzo1DnF+bX9OgNguR3dAee9k5a1dRX24EGwfYikNqx2EeNHAIi8B+j
- MCPw==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naHEv-00083o-2h
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naHEr-0006yq-VS
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:22:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648819372;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dp6wTNe+q493YeoslecqYNe/OvjP9ZJplAT9keJXq6E=;
+ b=A/cSJIY0CZLIyauTRLOgl18ms9tiwKFic6Krv/Vw6eLtthuGlVRZchd5OjWqeAHo/iuZTO
+ Rf/Tc8R6n/1PeY3huwDv9UgJBP7wG4BYh2ywxGtPZNjmSxyaMSBgmoeSc62sBhlYKeG+E7
+ 9VVP9ebwf0xatTdCDFvwyPUCBms2YSo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-75-_nm-xPuUMh-tQr0LIYbS8A-1; Fri, 01 Apr 2022 09:22:51 -0400
+X-MC-Unique: _nm-xPuUMh-tQr0LIYbS8A-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ l14-20020aa7cace000000b003f7f8e1cbbdso1506773edt.20
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:22:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hR2ubnJbTaR/99ZxIVHKnu/SsnV6lFaufZKu6ufkBwc=;
- b=6QB1yktLq+tDjiGov4Xx16JWVxAdfoh1+mqcxoiWQMzxfk7ljl2hdXPe2KjQsdisjO
- S+MgEY9wBuflVAkI2m2/cNecr8eEf9T6rUrRnKau3nSny7Q88qOGCL/hnkSzIQ0nTRtL
- MT64krpE/1MzBaBLsOUxvzI+aZW7M8AeSeyufgsjiWOmYVS1Wjh0juNbZlM55yLM9Pwd
- A5EVjG2z1FirDj0Awu7zZ6Txjc9m0b+3TrhqTClWCPXTy3ioercQ4mixDLihMyiUopms
- 8q7/fXGl+zQzHGaiCbQ+O0ZYOMHdXDUo4kLaHKuMPuhWoYWEft9Qf2y0AAQKtT2JBN5j
- MBCA==
-X-Gm-Message-State: AOAM533GMk5o/C4GJQSfKNeSqVd4C1XzVGdmqJtBttcB95uFzzXMrgJg
- wjhpYYFUXsOVBcBbcSVypRPr3pDmhFJGX5bE4+8=
-X-Google-Smtp-Source: ABdhPJx5LDoGhaqWtiRG4w62I1vrz7AE998Iurl9Fd4bJ2vSClBD5/JtKSscfKIFJJnW1/w7BH3gvQ==
-X-Received: by 2002:a05:6808:1294:b0:2f7:5e83:f0f with SMTP id
- a20-20020a056808129400b002f75e830f0fmr4948992oiw.77.1648819365818; 
- Fri, 01 Apr 2022 06:22:45 -0700 (PDT)
-Received: from localhost.localdomain (fixed-187-188-190-73.totalplay.net.
- [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
- x1-20020a4ae781000000b00320d5d238efsm1006935oov.3.2022.04.01.06.22.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 06:22:45 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] softfloat: Use FloatRelation for fracN_cmp
-Date: Fri,  1 Apr 2022 07:22:40 -0600
-Message-Id: <20220401132240.79730-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220401132240.79730-1-richard.henderson@linaro.org>
-References: <20220401132240.79730-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=Dp6wTNe+q493YeoslecqYNe/OvjP9ZJplAT9keJXq6E=;
+ b=0F/2k8/oLiskA4fwPzilZo6RT29C7xnLUmM6j1YmFu2/RxDV5ew+pDGAWYFHbgKZ0l
+ 7apo7mboJGApnBhtv2mWm37QjTV3qoTKOELK+ZPQLkeKjrs7h690qkn0e7z7AV0Z8V6h
+ R5lkt8ZPJMJAakoYJ2mTQ5iuHNCHd/SmBgyJA+HZVMWjkMev5snYlpeBQ/9vo811swY0
+ dIbN3XBMtN9YkKqpaEnwyiGFGCUnbyKA7xzCiQX+NAmDhkjAtNPOjkS0Iwd7+0oz0z4N
+ Zu8NogT/jLVhL3UCnLwFpeoMOvT5JVLHYOZNEI6cm0e/CNtqsDQjvea6B1muPTth7rH0
+ vwAg==
+X-Gm-Message-State: AOAM5320cihGorituJUD7ZdyIpejyJWNAjOxJERAyGuE7QkyLHlCu9bx
+ gm26FlCYOzUuvVVybUR0RcWL1qRuE+SucffltErGChIS45ODxX8V2Twv1HmD2niTpAUWqOSrmcR
+ siwoQ0ZyEunkGyfk=
+X-Received: by 2002:a17:907:6d16:b0:6e4:dc4b:c75c with SMTP id
+ sa22-20020a1709076d1600b006e4dc4bc75cmr1785219ejc.603.1648819370643; 
+ Fri, 01 Apr 2022 06:22:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx60t6aMKTDigy2bDfSKLKNlaga8OMKnWtPAKS2axO/ZFpYqLK4JtDe3kWA4jB1hCoZaQeRgg==
+X-Received: by 2002:a17:907:6d16:b0:6e4:dc4b:c75c with SMTP id
+ sa22-20020a1709076d1600b006e4dc4bc75cmr1785192ejc.603.1648819370412; 
+ Fri, 01 Apr 2022 06:22:50 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ r22-20020a17090638d600b006d584aaa9c9sm1034563ejd.133.2022.04.01.06.22.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Apr 2022 06:22:50 -0700 (PDT)
+Message-ID: <331b24f6-4ff5-bee0-5f49-8b61709655e5@redhat.com>
+Date: Fri, 1 Apr 2022 15:22:49 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 5/7] block/block-copy: block_copy(): add timeout_ns
+ parameter
+From: Hanna Reitz <hreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+References: <20220401091920.287612-1-vsementsov@openvz.org>
+ <20220401091920.287612-6-vsementsov@openvz.org>
+ <929f2a0d-e3d7-afad-b95b-d7f8b29fe077@redhat.com>
+In-Reply-To: <929f2a0d-e3d7-afad-b95b-d7f8b29fe077@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::234
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x234.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,52 +106,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, vsementsov@openvz.org,
+ stefanha@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the caller, partsN_compare, is now exclusively
-using FloatRelation, it's clearer to use it here too.
+On 01.04.22 15:16, Hanna Reitz wrote:
+> On 01.04.22 11:19, Vladimir Sementsov-Ogievskiy wrote:
+>> Add possibility to limit block_copy() call in time. To be used in the
+>> next commit.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+>> ---
+>>   block/block-copy.c         | 26 +++++++++++++++++++-------
+>>   block/copy-before-write.c  |  2 +-
+>>   include/block/block-copy.h |  2 +-
+>>   3 files changed, 21 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/block/block-copy.c b/block/block-copy.c
+>> index ec46775ea5..b47cb188dd 100644
+>> --- a/block/block-copy.c
+>> +++ b/block/block-copy.c
+>
+> [...]
+>
+>> @@ -894,12 +902,16 @@ int coroutine_fn block_copy(BlockCopyState *s, 
+>> int64_t start, int64_t bytes,
+>>           .max_workers = BLOCK_COPY_MAX_WORKERS,
+>>       };
+>>   -    return block_copy_common(&call_state);
+>> -}
+>> +    ret = qemu_co_timeout(block_copy_async_co_entry, call_state, 
+>> timeout_ns,
+>> +                          g_free);
+>
+> A direct path for timeout_ns == 0 might still be nice to have.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- fpu/softfloat.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 7e62fcf414..9f2d4e7a29 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -957,21 +957,23 @@ static void frac128_allones(FloatParts128 *a)
- 
- #define frac_allones(A)  FRAC_GENERIC_64_128(allones, A)(A)
- 
--static int frac64_cmp(FloatParts64 *a, FloatParts64 *b)
-+static FloatRelation frac64_cmp(FloatParts64 *a, FloatParts64 *b)
- {
--    return a->frac == b->frac ? 0 : a->frac < b->frac ? -1 : 1;
-+    return (a->frac == b->frac ? float_relation_equal
-+            : a->frac < b->frac ? float_relation_less
-+            : float_relation_greater);
- }
- 
--static int frac128_cmp(FloatParts128 *a, FloatParts128 *b)
-+static FloatRelation frac128_cmp(FloatParts128 *a, FloatParts128 *b)
- {
-     uint64_t ta = a->frac_hi, tb = b->frac_hi;
-     if (ta == tb) {
-         ta = a->frac_lo, tb = b->frac_lo;
-         if (ta == tb) {
--            return 0;
-+            return float_relation_equal;
-         }
-     }
--    return ta < tb ? -1 : 1;
-+    return ta < tb ? float_relation_less : float_relation_greater;
- }
- 
- #define frac_cmp(A, B)  FRAC_GENERIC_64_128(cmp, A)(A, B)
--- 
-2.25.1
+Ah, never mind, just saw that qemu_co_timeout() itself has a direct path 
+for this.  Hadn’t noticed that before.
 
 
