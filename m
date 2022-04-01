@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79774EF22F
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:03:57 +0200 (CEST)
-Received: from localhost ([::1]:46034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568C44EF22B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 17:02:53 +0200 (CEST)
+Received: from localhost ([::1]:42734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naIof-0000JX-0B
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:03:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44974)
+	id 1naInc-0006Vl-E4
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 11:02:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naIlw-0003f2-2M
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:08 -0400
-Received: from [2a00:1450:4864:20::435] (port=38476
- helo=mail-wr1-x435.google.com)
+ id 1naIlx-0003gj-0g
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:09 -0400
+Received: from [2a00:1450:4864:20::331] (port=43995
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naIlt-0005hU-L0
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:07 -0400
-Received: by mail-wr1-x435.google.com with SMTP id i4so4669403wrb.5
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 08:01:05 -0700 (PDT)
+ id 1naIlu-0005hl-Fy
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 11:01:08 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ p12-20020a05600c430c00b0038cbdf52227so1638793wme.2
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 08:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DHc7BQYY98e10RYi3BhMNIgyC3D1Tj1tjFvf8ofOuj8=;
- b=Dh3HV8VWOcYu6JR9t1jjxKF7NZJmGK8Gpn/DSr/NTMXvrdoWfNp4FdhkXrk4WK3lQv
- xrmw5nC0Rg7L3BbRZcKklJclKYUwZ1Jc96I7PC856f+t8OA4sTk9kc0ED6XB6ywcuj7P
- lGUQpXSc7ZITUgKL5kuZNm6gzga22OEvmnJ+W6pu1thsrfw203Wm+PxJYhSc/pzk1low
- 5UtgnsU80rXWJfXbIGMtI1jvXNbwTOymIkHXjquxtVK3BjwTt3FIeCoIMPG7mf//lY4r
- fOhqWORw+MNCxF6YOJINkYz1U7Az22Ea1e1TkRAWkobC4RKu6hENJi0oOFIUMhBauaaE
- DJXg==
+ bh=n69SDyB9UIAW3KHjm5y4sX5YK4nF3J1IMIpH0a4tlR8=;
+ b=vNFjxZ42fXfviIIYweayv3HL0i9k5v0qAUMMCeqT0aZNbSRoinV2GcMBf7jB0K4eQx
+ VLCS8BhXzFbjknvxu22KAAJnUUDYMLjLkrw3aLpVMiTq08vuAHgFdEsgf6qQlcR65JLs
+ CXsvzrpg+e1NF0lCHImITKt90B6lIHOx8E6YrL+RbuMKjg6LyG2nHl1YTc4aK9alF0Aj
+ 1d8ZQ9AqlX9qbLmsXPOuZeAAQcubE7Ls3a316/deMgEAoAYjqWx0QvkKmu52Lu1eWVe6
+ Z/iyuE70PmXgD6eqe9SaQltC+xjVWIjak0mqe7qNvxMy1SLcqA6TldxTHMOngsIVRJLy
+ DviQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DHc7BQYY98e10RYi3BhMNIgyC3D1Tj1tjFvf8ofOuj8=;
- b=npZUfC6gQV1gnKCu+2xMWThyVtYDJu8S4Iphb+8X0w05adh+sGMLXvOJ9C8ohJXdLY
- R9648GLKS90KdtEaOIkNBMMQqg7aLiGVOp5IokalJ47HXS90a+eTyV0jyQ5q1W6NstQ7
- E2Ox33xPz5f8RaFpIQhwV3OxqpI3S1ZFkYdvXjZCrf1tJhXskpIFD52V2SDusFzR8hVJ
- htP40jahd/yZvnHGbg7tOne2i8jQCg8nXcKiBAYR/bTf6pRnImGGM5YVTfx/UTG8DFE0
- HEJ9YP5eZjLGHFDsfsXoIiUjZqswQ9cAa5fcqVWIARDJSFE2A6n/u7pJCMClLG5MTQi8
- F0tA==
-X-Gm-Message-State: AOAM531mq7YMuaxmXnpXg3NzI6gAw6zEjn1ZC9zcWT/ZI5JgliS2usll
- 6oCT79/XEumluGLl7s9UlW2JZ5O0qfsXUg==
-X-Google-Smtp-Source: ABdhPJyanopvSQInYSgfPGQveLPua3weCpyDVzjNwYU/i5YfLnWFhflPeLFwInPUZlAy8KZqLS36jg==
-X-Received: by 2002:a05:6000:510:b0:203:e469:f0a3 with SMTP id
- a16-20020a056000051000b00203e469f0a3mr8239408wrf.710.1648825264229; 
- Fri, 01 Apr 2022 08:01:04 -0700 (PDT)
+ bh=n69SDyB9UIAW3KHjm5y4sX5YK4nF3J1IMIpH0a4tlR8=;
+ b=v1ZJyFuXo/+MAAXgUSFPEbDqCafEjiFXodUBRN4KlKKJ2gz9piEQxzXLfp74rrHPqx
+ TiRN9vV5QHvyNUO/11IM3Vz11lY5rXvundpuPSEl8DzoHnN6Ep5m3zcU0SxgoW4MHNEw
+ 5vChST6QX/99uQa5pzh2D3vEwZj96KumM2tf+L4zO1tUgb+sKvJpGLg6oeFsQZnK28is
+ iqUU3eLOI6vyvNWOr3lB+zTHkRa9ewBDhEc0Nir+v54ymMAXBjvi8GM+i69nw3LASsxI
+ kbFvLKdcNY5Z6IutJJXQRZrmj8su/0sNHVMGLE0HGNsjFQiKktJOwiobXvA5tPO+zWz7
+ pVbQ==
+X-Gm-Message-State: AOAM533LsMoOVfqZtFwHw+pv1MuvGI4qVFOWAJi/6hiHI8vNAyRLDi+1
+ 8Di/Bz07vSwYb8C9FmYXPyZ7idI+qT8fbA==
+X-Google-Smtp-Source: ABdhPJxMKPCylB20c7lwGJlzcLBmDfbpUvhGrp0LPZKB4tOGPbUKl8V/GdYJrD9glbxHJHcHtAsdcQ==
+X-Received: by 2002:a7b:c14d:0:b0:38c:801a:a8b3 with SMTP id
+ z13-20020a7bc14d000000b0038c801aa8b3mr8979351wmi.40.1648825265078; 
+ Fri, 01 Apr 2022 08:01:05 -0700 (PDT)
 Received: from orth.archaic.org.uk ([2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- 6-20020a05600c020600b0038cbb21fb00sm2084023wmi.39.2022.04.01.08.01.03
+ 6-20020a05600c020600b0038cbb21fb00sm2084023wmi.39.2022.04.01.08.01.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 08:01:03 -0700 (PDT)
+ Fri, 01 Apr 2022 08:01:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/6] target/arm: Take VSTCR.SW,
- VTCR.NSW into account in final stage 2 walk
-Date: Fri,  1 Apr 2022 16:00:52 +0100
-Message-Id: <20220401150055.421608-4-peter.maydell@linaro.org>
+Subject: [PULL 4/6] target/arm: Determine final stage 2 output PA space based
+ on original IPA
+Date: Fri,  1 Apr 2022 16:00:53 +0100
+Message-Id: <20220401150055.421608-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220401150055.421608-1-peter.maydell@linaro.org>
 References: <20220401150055.421608-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,41 +96,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Idan Horowitz <idan.horowitz@gmail.com>
 
-As per the AArch64.SS2InitialTTWState() psuedo-code in the ARMv8 ARM the
-initial PA space used for stage 2 table walks is assigned based on the SW
-and NSW bits of the VSTCR and VTCR registers.
-This was already implemented for the recursive stage 2 page table walks
-in S1_ptw_translate(), but was missing for the final stage 2 walk.
+As per the AArch64.S2Walk() pseudo-code in the ARMv8 ARM, the final
+decision as to the output address's PA space based on the SA/SW/NSA/NSW
+bits needs to take the input IPA's PA space into account, and not the
+PA space of the result of the stage 2 walk itself.
 
 Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220327093427.1548629-3-idan.horowitz@gmail.com
+Message-id: 20220327093427.1548629-4-idan.horowitz@gmail.com
+[PMM: fixed commit message typo]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ target/arm/helper.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a65b39625db..6fd5c27340e 100644
+index 6fd5c27340e..7d14650615c 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -12657,6 +12657,16 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+@@ -12644,6 +12644,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+             hwaddr ipa;
+             int s2_prot;
+             int ret;
++            bool ipa_secure;
+             ARMCacheAttrs cacheattrs2 = {};
+             ARMMMUIdx s2_mmu_idx;
+             bool is_el0;
+@@ -12657,14 +12658,15 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
                  return ret;
              }
  
-+            if (arm_is_secure_below_el3(env)) {
-+                if (attrs->secure) {
-+                    attrs->secure = !(env->cp15.vstcr_el2.raw_tcr & VSTCR_SW);
-+                } else {
-+                    attrs->secure = !(env->cp15.vtcr_el2.raw_tcr & VTCR_NSW);
-+                }
-+            } else {
-+                assert(!attrs->secure);
-+            }
-+
-             s2_mmu_idx = attrs->secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_Stage2;
-             is_el0 = mmu_idx == ARMMMUIdx_E10_0 || mmu_idx == ARMMMUIdx_SE10_0;
++            ipa_secure = attrs->secure;
+             if (arm_is_secure_below_el3(env)) {
+-                if (attrs->secure) {
++                if (ipa_secure) {
+                     attrs->secure = !(env->cp15.vstcr_el2.raw_tcr & VSTCR_SW);
+                 } else {
+                     attrs->secure = !(env->cp15.vtcr_el2.raw_tcr & VTCR_NSW);
+                 }
+             } else {
+-                assert(!attrs->secure);
++                assert(!ipa_secure);
+             }
  
+             s2_mmu_idx = attrs->secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_Stage2;
+@@ -12701,7 +12703,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+ 
+             /* Check if IPA translates to secure or non-secure PA space. */
+             if (arm_is_secure_below_el3(env)) {
+-                if (attrs->secure) {
++                if (ipa_secure) {
+                     attrs->secure =
+                         !(env->cp15.vstcr_el2.raw_tcr & (VSTCR_SA | VSTCR_SW));
+                 } else {
 -- 
 2.25.1
 
