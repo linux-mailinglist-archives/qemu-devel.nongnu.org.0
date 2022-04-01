@@ -2,75 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300E94EEE51
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:39:44 +0200 (CEST)
-Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD6E4EEE5C
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Apr 2022 15:42:07 +0200 (CEST)
+Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naHV9-0007bj-8E
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:39:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54564)
+	id 1naHXS-000247-M8
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 09:42:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naHRR-0002Kp-2j
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:35:53 -0400
-Received: from [2607:f8b0:4864:20::b33] (port=33455
- helo=mail-yb1-xb33.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1naHRO-0000kM-Gz
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:35:52 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id j2so5161054ybu.0
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ITyy9MXaeEOsnJnDyxk/ZxSyG8YY0CsdmowKVaSIqWM=;
- b=JiNoNc4n4WgapQOJxCS5ypF2GBMG7EMqT4B2jzPyhkgc140/XQSkHpXZ9USPQS0SvH
- F+WVZ1WpK2ecfXKtZYhGtu8BjHxIj2KbUQthSPWupC6brwOBE1J3+hDGBD1wV+3O4dfO
- VOM5sDaPJQPCEWaXG7hLOtXw/y9JfbXekw1M0oJMIm0vJd+o1Hge5K1T73QdHyyWs2uj
- ffSODRDlIGM0BD9pQLfb4xW5IyiSux29GklMzD8KOprOIdlgfe++LQUJ/Rvv48pM9pGB
- 8BteRhLEuF0dEEq7/1nAx8pFMhAS3tdraaWHcBcZo67r+LkUA/GhE7ZR5cMYmCxQ+oCz
- 8/4Q==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naHRs-0002mC-LN
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:36:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1naHRr-0000mE-0K
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 09:36:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648820178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fqd+JX4PVTYe/HncXdyfq5EKML16QRo+1mpk2ZInk94=;
+ b=MmZRWW9Qkmh+1D+p3Nsz3pxVV5b7x1kWwl1vbsWTlR0Zsiz93jx42bg5b5M2Z0IqdE0spx
+ 3eaG+5pcgm1Cl7qEwXpVUrw2Hik6qFN9ZHv8f4u4+LlcvyR3EHtfRdw5dDoG4ysYgoTc3D
+ /mN8e0p+tjsI1c3mvhkK6HCG3cqaOWs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-597-lkheCs0KONeDOJV85D0bYA-1; Fri, 01 Apr 2022 09:36:17 -0400
+X-MC-Unique: lkheCs0KONeDOJV85D0bYA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ s9-20020a50d489000000b00418d556edbdso1563714edi.4
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 06:36:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ITyy9MXaeEOsnJnDyxk/ZxSyG8YY0CsdmowKVaSIqWM=;
- b=N1qZkZxn+ksPQau3hyKL2gghy2B1i586ERyk/PQTPVc4GSryqlT2N7FSrZBt0e/cSz
- NQkP06LylEXbZ9N0nX6TrOpBroGPxNN0z5ZUhBdxoaxb5RHZj1Jhfaj4XZ9ZhfgK3YKw
- w7efVDx5lPGCYyHJss91WKnEi1hHlJFTU0ebZzRKZ1iG7kA9OfOeDqjypqpMgGoPaAOv
- AjRnRSeNatf/GarsBsAo9tqVY+DVrW6deBnfHR8VbxoaRCl7Nz17HzNbLVu3FKYRuWRr
- OnltW23UV2sTFSM8lsgDNYGz5ggZ3MjZ5Zaf2VCNJAq+rzoyt4DJId9v8Xl936H0pI+x
- dVcA==
-X-Gm-Message-State: AOAM5306eWhh9L+T63a9AjBMO+KAVzXboVO5kquSWd0cKnDasbLw70gU
- HJJCAA8tPmEAgy3HceTPbukrvQWp9HfP4/GbySCxAA==
-X-Google-Smtp-Source: ABdhPJxpNoJzAL1wue0YqB6owOeyjjaXBUcXErrQQYKFZ0Y3eTcjFx81Ci5r5POPRvrECdJOlCDL/wAnGUWacVfXmbo=
-X-Received: by 2002:a05:6902:1502:b0:63d:4d6f:dc1 with SMTP id
- q2-20020a056902150200b0063d4d6f0dc1mr5211374ybu.140.1648820147643; Fri, 01
- Apr 2022 06:35:47 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=fqd+JX4PVTYe/HncXdyfq5EKML16QRo+1mpk2ZInk94=;
+ b=yJ07bbGA7/EBrkiY7XblHaI/d/TCRoyGhxqEBF2Y3psSZ54ItKi+FYXqDrssS+K3xM
+ ADBv2VpKaiZoiNTCZ3iooondz3/d33iW+uf1XBhG8JwjzHFQzYDkyl5zyuT+YlMoWtPh
+ GmUoTEKXezExQ3znx1EwIJE2mx0VY9ufwFytCLVeB7VUklBtH2BK4jm6nAI0znku2eK/
+ AzrldAGwJ285Eet0naaNxcAxIFs80ZM7GlFMq/1crbZts1g/D28eezMXCP3ByB/TIqRR
+ 6jPKHp7+w7Lx0bEl9WGwKQKtS9wuKbdfLSVxaB0i0qkXfkUc41k8TCCsQQFlShI+wslz
+ 7Ffw==
+X-Gm-Message-State: AOAM532ap8vVqsPOzyWkdacsNQXzoRGNKi2qpd4X9d079JTSsaHflNVl
+ m1zH+g5Hg61Ejnl1cVOZXSw+RBcOsP6qr6f2M2pt8XPDEmgvczq/TebjtX+37NVsYPKHp9IwIAi
+ w6hQfeeeO7wYDNgg=
+X-Received: by 2002:a17:906:3e03:b0:6e4:7fee:733c with SMTP id
+ k3-20020a1709063e0300b006e47fee733cmr9538469eji.288.1648820176139; 
+ Fri, 01 Apr 2022 06:36:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwX+0vRWqAbbB1Z8LMTvH8GzS5Hpu5MjWQaHfIYYSzxuT/9hRafg20B8EHaJcFB6zRqCHu58w==
+X-Received: by 2002:a17:906:3e03:b0:6e4:7fee:733c with SMTP id
+ k3-20020a1709063e0300b006e47fee733cmr9538445eji.288.1648820175935; 
+ Fri, 01 Apr 2022 06:36:15 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ a18-20020a170906671200b006e05929e66csm1047339ejp.20.2022.04.01.06.36.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Apr 2022 06:36:15 -0700 (PDT)
+Message-ID: <7b733d36-dc0f-a6c7-dfcf-e1b245286086@redhat.com>
+Date: Fri, 1 Apr 2022 15:36:14 +0200
 MIME-Version: 1.0
-References: <20220324181557.203805-1-zongyuan.li@smartx.com>
- <20220324181557.203805-4-zongyuan.li@smartx.com>
-In-Reply-To: <20220324181557.203805-4-zongyuan.li@smartx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Apr 2022 14:35:36 +0100
-Message-ID: <CAFEAcA_rMuWkobjBoFJdYQqc=qvyUPrq9_-W+TkrNdTf+iBgsw@mail.gmail.com>
-Subject: Re: [PATCH v5 3/4] hw/intc/exynos4210: replace 'qemu_split_irq' in
- combiner and gic
-To: Zongyuan Li <zongyuan.li@smartx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b33
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 3/7] iotests: add copy-before-write: on-cbw-error tests
+To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ qemu-block@nongnu.org
+References: <20220401091920.287612-1-vsementsov@openvz.org>
+ <20220401091920.287612-4-vsementsov@openvz.org>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220401091920.287612-4-vsementsov@openvz.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,29 +104,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
- "open list:Exynos" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, vsementsov@openvz.org,
+ stefanha@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Mar 2022 at 18:16, Zongyuan Li <zongyuan.li@smartx.com> wrote:
+On 01.04.22 11:19, Vladimir Sementsov-Ogievskiy wrote:
+> Add tests for new option of copy-before-write filter: on-cbw-error.
 >
-> Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 > ---
->  hw/arm/exynos4210.c           | 26 +++++++++++
->  hw/intc/exynos4210_combiner.c | 81 +++++++++++++++++++++++++++--------
->  hw/intc/exynos4210_gic.c      | 36 +++++++++++++---
->  include/hw/arm/exynos4210.h   | 11 ++---
->  include/hw/core/split-irq.h   |  5 +--
->  5 files changed, 126 insertions(+), 33 deletions(-)
+>   tests/qemu-iotests/tests/copy-before-write    | 128 ++++++++++++++++++
+>   .../qemu-iotests/tests/copy-before-write.out  |   5 +
+>   2 files changed, 133 insertions(+)
+>   create mode 100755 tests/qemu-iotests/tests/copy-before-write
+>   create mode 100644 tests/qemu-iotests/tests/copy-before-write.out
 
-Looking at this patch, I think it's ended up quite complicated
-because the exynos4210 code as it stands today is doing
-some rather odd things with interrupts. I'm going to have a
-go at some refactoring patches which try to clean some of that
-oddness up into code more like what we'd write today, which
-should make getting rid of the use of qemu_split_irq() a bit easier.
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
-thanks
--- PMM
 
