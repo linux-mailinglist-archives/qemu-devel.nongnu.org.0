@@ -2,86 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B154EFDEF
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 04:22:04 +0200 (CEST)
-Received: from localhost ([::1]:41096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62EB94EFDF4
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 04:29:27 +0200 (CEST)
+Received: from localhost ([::1]:45110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naTOt-0002FM-L2
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 22:22:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58694)
+	id 1naTW2-0005HB-6j
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 22:29:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1naTNm-00013j-Mv
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 22:20:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33370)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1naTTw-0003er-2w; Fri, 01 Apr 2022 22:27:16 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:5141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1naTNj-0008JD-KU
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 22:20:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648866050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IIDmzNSQ5wsCNyrwFnSXQXkbm9AZuu4zhs8SitZcJNU=;
- b=IqS80qM5vcRyFaPLbCk7n/ZuV/A/qtDvudScilUcbh0Ck9gNSot3u76xF04a/5Y+4MWOIE
- szoM5jAXeXd85lPYCJ4YNBBQ+U5v7TDJUzBUlg0gWmnAwInOA7Yu7eflyUboCqtFycuLuF
- 7CYNz3HClhwLYoNUbqYRrGGX8mNU+dM=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-Iy42wsYLMYqbuoauSXZwpQ-1; Fri, 01 Apr 2022 22:20:49 -0400
-X-MC-Unique: Iy42wsYLMYqbuoauSXZwpQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- 126-20020a2e0584000000b0024af05cbffdso1307257ljf.19
- for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 19:20:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IIDmzNSQ5wsCNyrwFnSXQXkbm9AZuu4zhs8SitZcJNU=;
- b=xOOJJTbqwTJBNkeJFQ1S8sFYYDNQWAbt4FchcEuX8lzBgUQnSXgK+vv0R2DL1xAbLN
- 1oHZoVMod5rZr34F63SY+utnZzzf4BDwjOJBBZwdC/StKAdW7UKT83f34STiAn8cdl2f
- 6skA2xh4x+cA2zWY+kmFDpHomWeHzAyZjHVbCFruicUGQxnqW/x/Fzim1WciEOOQhK8s
- Iytj5aC+HCZB0DivEPqihgiX6/ALJ1zJXq/MnHQ3NBAIO7g4I8uhRJp042xRCgT4mncJ
- +6wcKydACouUpe5C8e1RkSDV2UaeQIt2in3+dXNBDp13Uw/E3jIsv/vGNGwKEgWW7WvR
- LXLw==
-X-Gm-Message-State: AOAM530VexnVPwBIDKEkqDwf0PF+hNj/Ph0oUmEUyY/l3F9pjYEg7aYV
- Xdknjrg8mthikMAIov0HKJbn7oxUC0mbhbcgcRIXN8Y7BQHtssiAiYW0xuQ31+G2z/Y1pAzYJ9M
- 9ob3nu2SwZ4Dryl9ZBlV4WJLto5DLxfk=
-X-Received: by 2002:a05:6512:2203:b0:44a:12c9:8696 with SMTP id
- h3-20020a056512220300b0044a12c98696mr16252131lfu.98.1648866048029; 
- Fri, 01 Apr 2022 19:20:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOZmdH7RJklM0giOeUKilItp2PblCf+pnWHLsarVgyMdnC2xUQvmEpF+F3xFFZkHgjoIB7Aw/ML8RlrAs+3N8=
-X-Received: by 2002:a05:6512:2203:b0:44a:12c9:8696 with SMTP id
- h3-20020a056512220300b0044a12c98696mr16252110lfu.98.1648866047593; Fri, 01
- Apr 2022 19:20:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1naTTt-0000fU-Eg; Fri, 01 Apr 2022 22:27:15 -0400
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KVgq94J4wzDqCc;
+ Sat,  2 Apr 2022 10:24:53 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.21; Sat, 2 Apr 2022 10:27:08 +0800
+Subject: Re: [PATCH v3 1/4] hw/arm/virt: Consider SMP configuration in CPU
+ topology
+To: Igor Mammedov <imammedo@redhat.com>, Gavin Shan <gshan@redhat.com>
+CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, <drjones@redhat.com>,
+ <peter.maydell@linaro.org>, <richard.henderson@linaro.org>,
+ <zhenyzha@redhat.com>, <shan.gavin@gmail.com>
+References: <20220323072438.71815-1-gshan@redhat.com>
+ <20220323072438.71815-2-gshan@redhat.com>
+ <20220325141949.66fc0083@redhat.com>
+ <e46061b3-cebf-c4be-758e-c465cf7879c1@redhat.com>
+ <20220330145046.175de97b@redhat.com>
+Message-ID: <0de9dab3-83ee-95b9-b211-3677838ec8b0@huawei.com>
+Date: Sat, 2 Apr 2022 10:27:08 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <1648718713-7637-1-git-send-email-qiudayu@archeros.com>
- <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
- <CACGkMEuQ_YW+aSysnFtDrjy=Wjq_U3KouOobYSC+e5+5SR0zEA@mail.gmail.com>
- <ab772bc3-4acd-bb79-7f97-0518e04bb7fe@oracle.com>
-In-Reply-To: <ab772bc3-4acd-bb79-7f97-0518e04bb7fe@oracle.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Sat, 2 Apr 2022 10:20:36 +0800
-Message-ID: <CACGkMEv8+XC39G4wK_bUY0ZdFd29YoR7D3ugrMy-iT7cO1arew@mail.gmail.com>
-Subject: Re: [PATCH v4] vdpa: reset the backend device in the end of
- vhost_net_stop()
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20220330145046.175de97b@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme701-chm.china.huawei.com (10.1.199.97) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,307 +69,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cindy Lu <lulu@redhat.com>, mst <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, eperezma <eperezma@redhat.com>,
- Michael Qiu <qiudayu@archeros.com>, Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-Adding Michael.
-
-On Sat, Apr 2, 2022 at 7:08 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+On 2022/3/30 20:50, Igor Mammedov wrote:
+> On Sat, 26 Mar 2022 02:49:59 +0800
+> Gavin Shan <gshan@redhat.com> wrote:
 >
+>> Hi Igor,
+>>
+>> On 3/25/22 9:19 PM, Igor Mammedov wrote:
+>>> On Wed, 23 Mar 2022 15:24:35 +0800
+>>> Gavin Shan <gshan@redhat.com> wrote:
+>>>> Currently, the SMP configuration isn't considered when the CPU
+>>>> topology is populated. In this case, it's impossible to provide
+>>>> the default CPU-to-NUMA mapping or association based on the socket
+>>>> ID of the given CPU.
+>>>>
+>>>> This takes account of SMP configuration when the CPU topology
+>>>> is populated. The die ID for the given CPU isn't assigned since
+>>>> it's not supported on arm/virt machine yet. Besides, the cluster
+>>>> ID for the given CPU is assigned because it has been supported
+>>>> on arm/virt machine.
+>>>>
+>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>>> ---
+>>>>    hw/arm/virt.c     | 11 +++++++++++
+>>>>    qapi/machine.json |  6 ++++--
+>>>>    2 files changed, 15 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>>> index d2e5ecd234..064eac42f7 100644
+>>>> --- a/hw/arm/virt.c
+>>>> +++ b/hw/arm/virt.c
+>>>> @@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>>>        int n;
+>>>>        unsigned int max_cpus = ms->smp.max_cpus;
+>>>>        VirtMachineState *vms = VIRT_MACHINE(ms);
+>>>> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
+>>>>    
+>>>>        if (ms->possible_cpus) {
+>>>>            assert(ms->possible_cpus->len == max_cpus);
+>>>> @@ -2518,6 +2519,16 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>>>            ms->possible_cpus->cpus[n].type = ms->cpu_type;
+>>>>            ms->possible_cpus->cpus[n].arch_id =
+>>>>                virt_cpu_mp_affinity(vms, n);
+>>>> +
+>>>> +        assert(!mc->smp_props.dies_supported);
+>>>> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
+>>>> +        ms->possible_cpus->cpus[n].props.socket_id =
+>>>> +            n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
+>>>> +        ms->possible_cpus->cpus[n].props.has_cluster_id = true;
+>>>> +        ms->possible_cpus->cpus[n].props.cluster_id =
+>>>> +            n / (ms->smp.cores * ms->smp.threads);
+>>> are there any relation cluster values here and number of clusters with
+>>> what virt_cpu_mp_affinity() calculates?
+>>>    
+>> They're different clusters. The cluster returned by virt_cpu_mp_affinity()
+>> is reflected to MPIDR_EL1 system register, which is mainly used by VGIC2/3
+>> interrupt controller to send send group interrupts to the CPU cluster. It's
+>> notable that the value returned from virt_cpu_mp_affinity() is always
+>> overrided by KVM. It means this value is only used by TCG for the emulated
+>> GIC2/GIC3.
+>>
+>> The cluster in 'ms->possible_cpus' is passed to ACPI PPTT table to populate
+>> the CPU topology.
+>>
+>>
+>>>> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
+>>>> +        ms->possible_cpus->cpus[n].props.core_id = n / ms->smp.threads;
+>>>    
+>>>>            ms->possible_cpus->cpus[n].props.has_thread_id = true;
+>>>>            ms->possible_cpus->cpus[n].props.thread_id = n;
+>>> of cause target has the right to decide how to allocate IDs, and mgmt
+>>> is supposed to query these IDs before using them.
+>>> But:
+>>>    * IDs within 'props' are supposed to be arch defined.
+>>>      (on x86 IDs in range [0-smp.foo_id), on ppc it something different)
+>>>      Question is what real hardware does here in ARM case (i.e.
+>>>      how .../cores/threads are described on bare-metal)?
+>>>     
+>> On ARM64 bare-metal machine, the core/cluster ID assignment is pretty arbitrary.
+>> I checked the CPU topology on my bare-metal machine, which has following SMP
+>> configurations.
+>>
+>>       # lscpu
+>>         :
+>>       Thread(s) per core: 4
+>>       Core(s) per socket: 28
+>>       Socket(s):          2
+>>
+>>       smp.sockets  = 2
+>>       smp.clusters = 1
+>>       smp.cores    = 56   (28 per socket)
+>>       smp.threads  = 4
+>>
+>>       // CPU0-111 belongs to socket0 or package0
+>>       // CPU112-223 belongs to socket1 or package1
+>>       # cat /sys/devices/system/cpu/cpu0/topology/package_cpus
+>>       00000000,00000000,00000000,0000ffff,ffffffff,ffffffff,ffffffff
+>>       # cat /sys/devices/system/cpu/cpu111/topology/package_cpus
+>>       00000000,00000000,00000000,0000ffff,ffffffff,ffffffff,ffffffff
+>>       # cat /sys/devices/system/cpu/cpu112/topology/package_cpus
+>>       ffffffff,ffffffff,ffffffff,ffff0000,00000000,00000000,00000000
+>>       # cat /sys/devices/system/cpu/cpu223/topology/package_cpus
+>>       ffffffff,ffffffff,ffffffff,ffff0000,00000000,00000000,00000000
+>>
+>>       // core/cluster ID spans from 0 to 27 on socket0
+>>       # for i in `seq 0 27`; do cat /sys/devices/system/cpu/cpu$i/topology/core_id; done
+>>       0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+>>       # for i in `seq 28 55`; do cat /sys/devices/system/cpu/cpu$i/topology/core_id; done
+>>       0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+>>       # for i in `seq 0 27`; do cat /sys/devices/system/cpu/cpu$i/topology/cluster_id; done
+>>       0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+>>       # for i in `seq 28 55`; do cat /sys/devices/system/cpu/cpu$i/topology/cluster_id; done
+>>       0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
+>>       
+>>       // However, core/cluster ID starts from 256 on socket1
+>>       # for i in `seq 112 139`; do cat /sys/devices/system/cpu/cpu$i/topology/core_id; done
+>>       256 257 258 259 260 261 262 263 264 265 266 267 268 269
+>>       270 271 272 273 274 275 276 277 278 279 280 281 282 283
+>>       # for i in `seq 140 167`; do cat /sys/devices/system/cpu/cpu$i/topology/core_id; done
+>>       256 257 258 259 260 261 262 263 264 265 266 267 268 269
+>>       270 271 272 273 274 275 276 277 278 279 280 281 282 283
+>>       # for i in `seq 112 139`; do cat /sys/devices/system/cpu/cpu$i/topology/cluster_id; done
+>>       256 257 258 259 260 261 262 263 264 265 266 267 268 269
+>>       270 271 272 273 274 275 276 277 278 279 280 281 282 283
+>>       # for i in `seq 140 167`; do cat /sys/devices/system/cpu/cpu$i/topology/cluster_id; done
+>>       256 257 258 259 260 261 262 263 264 265 266 267 268 269
+>>       270 271 272 273 274 275 276 277 278 279 280 281 282 283
+> so it seems that IDs are repeatable within a socket.
+> If there no arch defined way or other objections it might be better
+> to stick to what x86 does for consistency reasons  (i.e. socket/die/
+> cluster/core/thread are in range [0..x) including thread-id being
+> in range [0..threads) ) instead of inventing arm/virt specific scheme.
+Agreed.
+>>      
+>>>    * maybe related: looks like build_pptt() and build_madt() diverge on
+>>>      the meaning of 'ACPI Processor ID' and how it's generated.
+>>>      My understanding of 'ACPI Processor ID' is that it should match
+>>>      across all tables. So UIDs generated in build_pptt() look wrong to me.
+>>>
+>>>    * maybe related: build_pptt() looks broken wrt core/thread where it
+>>>      may create at the same time a  leaf core with a leaf thread underneath it,
+>>>      is such description actually valid?
+>>>    
+>> Yes, the UIDs in MADT/PPTT should match. I'm not sure if I missed anything here.
+>> I don't see how the UID in MADT and PPTT table are diverged. In both functions,
+>> 'thread_id' is taken as UID.
+>>
+>> In build_pptt(), when the entries for the cores becomes leaf, nothing will be
+>> pushed into @list, @length becomes zero for the loop to create entries for
+>> the threads. In this case, we won't have any entries created for threads.
+>>
+>>>    
+>>>>        }
+>>>> diff --git a/qapi/machine.json b/qapi/machine.json
+>>>> index 42fc68403d..99c945f258 100644
+>>>> --- a/qapi/machine.json
+>>>> +++ b/qapi/machine.json
+>>>> @@ -868,10 +868,11 @@
+>>>>    # @node-id: NUMA node ID the CPU belongs to
+>>>>    # @socket-id: socket number within node/board the CPU belongs to
+>>>>    # @die-id: die number within socket the CPU belongs to (since 4.1)
+>>>> -# @core-id: core number within die the CPU belongs to
+>>>> +# @cluster-id: cluster number within die the CPU belongs to
+>>>> +# @core-id: core number within cluster the CPU belongs to
+>>> s:cluster:cluster/die:
+>>>    
+>> Ok. I will amend it like below in next respin:
+>>
+>>       # @core-id: core number within cluster/die the CPU belongs to
+>>
+>> I'm not sure if we need make similar changes for 'cluster_id' like below?
+>>
+>>      # @cluster-id: cluster number within die/socket the CPU belongs to
+>>                                            ^^^^^^^^^^
+> maybe postpone it till die is supported?
 >
->
-> On 3/31/2022 7:53 PM, Jason Wang wrote:
-> > On Fri, Apr 1, 2022 at 9:31 AM Michael Qiu <qiudayu@archeros.com> wrote:
-> >> Currently, when VM poweroff, it will trigger vdpa
-> >> device(such as mlx bluefield2 VF) reset many times(with 1 datapath
-> >> queue pair and one control queue, triggered 3 times), this
-> >> leads to below issue:
-> >>
-> >> vhost VQ 2 ring restore failed: -22: Invalid argument (22)
-> >>
-> >> This because in vhost_net_stop(), it will stop all vhost device bind to
-> >> this virtio device, and in vhost_dev_stop(), qemu tries to stop the device
-> >> , then stop the queue: vhost_virtqueue_stop().
-> >>
-> >> In vhost_dev_stop(), it resets the device, which clear some flags
-> >> in low level driver, and in next loop(stop other vhost backends),
-> >> qemu try to stop the queue corresponding to the vhost backend,
-> >>   the driver finds that the VQ is invalied, this is the root cause.
-> >>
-> >> To solve the issue, vdpa should set vring unready, and
-> >> remove reset ops in device stop: vhost_dev_start(hdev, false).
-> >>
-> >> and implement a new function vhost_dev_reset, only reset backend
-> >> device after all vhost(per-queue) stoped.
-> > Typo.
-> >
-> >> Signed-off-by: Michael Qiu<qiudayu@archeros.com>
-> >> Acked-by: Jason Wang <jasowang@redhat.com>
-> > Rethink this patch, consider there're devices that don't support
-> > set_vq_ready(). I wonder if we need
-> >
-> > 1) uAPI to tell the user space whether or not it supports set_vq_ready()
-> I guess what's more relevant here is to define the uAPI semantics for
-> unready i.e. set_vq_ready(0) for resuming/stopping virtqueue processing,
-> as starting vq is comparatively less ambiguous.
-
-Yes.
-
-> Considering the
-> likelihood that this interface may be used for live migration, it would
-> be nice to come up with variants such as 1) discard inflight request
-> v.s. 2) waiting for inflight processing to be done,
-
-Or inflight descriptor reporting (which seems to be tricky). But we
-can start from net that a discarding may just work.
-
->and 3) timeout in
-> waiting.
-
-Actually, that's the plan and Eugenio is proposing something like this
-via virtio spec:
-
-https://lists.oasis-open.org/archives/virtio-dev/202111/msg00020.html
-
->
-> > 2) userspace will call SET_VRING_ENABLE() when the device supports
-> > otherwise it will use RESET.
-> Are you looking to making virtqueue resume-able through the new
-> SET_VRING_ENABLE() uAPI?
->
-> I think RESET is inevitable in some case, i.e. when guest initiates
-> device reset by writing 0 to the status register.
-
-Yes, that's all my plan.
-
-> For suspend/resume and
-> live migration use cases, indeed RESET can be substituted with
-> SET_VRING_ENABLE. Again, it'd need quite some code refactoring to
-> accommodate this change. Although I'm all for it, it'd be the best to
-> lay out the plan for multiple phases rather than overload this single
-> patch too much. You can count my time on this endeavor if you don't mind. :)
-
-You're welcome, I agree we should choose a way to go first:
-
-1) manage to use SET_VRING_ENABLE (more like a workaround anyway)
-2) go with virtio-spec (may take a while)
-3) don't wait for the spec, have a vDPA specific uAPI first. Note that
-I've chatted with most of the vendors and they seem to be fine with
-the _S_STOP. If we go this way, we can still provide the forward
-compatibility of _S_STOP
-4) or do them all (in parallel)
-
-Any thoughts?
-
-Thanks
-
->
-> >
-> > And for safety, I suggest tagging this as 7.1.
-> +1
->
-> Regards,
-> -Siwei
->
-> >
-> >> ---
-> >> v4 --> v3
-> >>      Nothing changed, becasue of issue with mimecast,
-> >>      when the From: tag is different from the sender,
-> >>      the some mail client will take the patch as an
-> >>      attachment, RESEND v3 does not work, So resend
-> >>      the patch as v4
-> >>
-> >> v3 --> v2:
-> >>      Call vhost_dev_reset() at the end of vhost_net_stop().
-> >>
-> >>      Since the vDPA device need re-add the status bit
-> >>      VIRTIO_CONFIG_S_ACKNOWLEDGE and VIRTIO_CONFIG_S_DRIVER,
-> >>      simply, add them inside vhost_vdpa_reset_device, and
-> >>      the only way calling vhost_vdpa_reset_device is in
-> >>      vhost_net_stop(), so it keeps the same behavior as before.
-> >>
-> >> v2 --> v1:
-> >>     Implement a new function vhost_dev_reset,
-> >>     reset the backend kernel device at last.
-> >> ---
-> >>   hw/net/vhost_net.c        | 24 +++++++++++++++++++++---
-> >>   hw/virtio/vhost-vdpa.c    | 15 +++++++++------
-> >>   hw/virtio/vhost.c         | 15 ++++++++++++++-
-> >>   include/hw/virtio/vhost.h |  1 +
-> >>   4 files changed, 45 insertions(+), 10 deletions(-)
-> >>
-> >> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> >> index 30379d2..422c9bf 100644
-> >> --- a/hw/net/vhost_net.c
-> >> +++ b/hw/net/vhost_net.c
-> >> @@ -325,7 +325,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-> >>       int total_notifiers = data_queue_pairs * 2 + cvq;
-> >>       VirtIONet *n = VIRTIO_NET(dev);
-> >>       int nvhosts = data_queue_pairs + cvq;
-> >> -    struct vhost_net *net;
-> >> +    struct vhost_net *net = NULL;
-> >>       int r, e, i, index_end = data_queue_pairs * 2;
-> >>       NetClientState *peer;
-> >>
-> >> @@ -391,8 +391,17 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-> >>   err_start:
-> >>       while (--i >= 0) {
-> >>           peer = qemu_get_peer(ncs , i);
-> >> -        vhost_net_stop_one(get_vhost_net(peer), dev);
-> >> +
-> >> +        net = get_vhost_net(peer);
-> >> +
-> >> +        vhost_net_stop_one(net, dev);
-> >>       }
-> >> +
-> >> +    /* We only reset backend vdpa device */
-> >> +    if (net && net->dev.vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA) {
-> >> +        vhost_dev_reset(&net->dev);
-> >> +    }
-> >> +
-> >>       e = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
-> >>       if (e < 0) {
-> >>           fprintf(stderr, "vhost guest notifier cleanup failed: %d\n", e);
-> >> @@ -410,6 +419,7 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
-> >>       VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
-> >>       VirtIONet *n = VIRTIO_NET(dev);
-> >>       NetClientState *peer;
-> >> +    struct vhost_net *net = NULL;
-> >>       int total_notifiers = data_queue_pairs * 2 + cvq;
-> >>       int nvhosts = data_queue_pairs + cvq;
-> >>       int i, r;
-> >> @@ -420,7 +430,15 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
-> >>           } else {
-> >>               peer = qemu_get_peer(ncs, n->max_queue_pairs);
-> >>           }
-> >> -        vhost_net_stop_one(get_vhost_net(peer), dev);
-> >> +
-> >> +        net = get_vhost_net(peer);
-> >> +
-> >> +        vhost_net_stop_one(net, dev);
-> >> +    }
-> >> +
-> >> +    /* We only reset backend vdpa device */
-> >> +    if (net && net->dev.vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA) {
-> >> +        vhost_dev_reset(&net->dev);
-> >>       }
-> > So we've already reset the device in vhost_vdpa_dev_start(), any
-> > reason we need to do it again here?
-> >
-> >>       r = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
-> >> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >> index c5ed7a3..3ef0199 100644
-> >> --- a/hw/virtio/vhost-vdpa.c
-> >> +++ b/hw/virtio/vhost-vdpa.c
-> >> @@ -708,6 +708,11 @@ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
-> >>
-> >>       ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
-> >>       trace_vhost_vdpa_reset_device(dev, status);
-> >> +
-> >> +    /* Add back this status, so that the device could work next time*/
-> >> +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> >> +                               VIRTIO_CONFIG_S_DRIVER);
-> > This seems to contradict the semantic of reset.
-> >
-> >> +
-> >>       return ret;
-> >>   }
-> >>
-> >> @@ -719,14 +724,14 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
-> >>       return idx;
-> >>   }
-> >>
-> >> -static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
-> >> +static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, unsigned int ready)
-> >>   {
-> >>       int i;
-> >>       trace_vhost_vdpa_set_vring_ready(dev);
-> >>       for (i = 0; i < dev->nvqs; ++i) {
-> >>           struct vhost_vring_state state = {
-> >>               .index = dev->vq_index + i,
-> >> -            .num = 1,
-> >> +            .num = ready,
-> >>           };
-> >>           vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
-> >>       }
-> >> @@ -1088,8 +1093,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-> >>           if (unlikely(!ok)) {
-> >>               return -1;
-> >>           }
-> >> -        vhost_vdpa_set_vring_ready(dev);
-> >> +        vhost_vdpa_set_vring_ready(dev, 1);
-> >>       } else {
-> >> +        vhost_vdpa_set_vring_ready(dev, 0);
-> >>           ok = vhost_vdpa_svqs_stop(dev);
-> >>           if (unlikely(!ok)) {
-> >>               return -1;
-> >> @@ -1105,9 +1111,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-> >>           memory_listener_register(&v->listener, &address_space_memory);
-> >>           return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-> >>       } else {
-> >> -        vhost_vdpa_reset_device(dev);
-> >> -        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> >> -                                   VIRTIO_CONFIG_S_DRIVER);
-> >>           memory_listener_unregister(&v->listener);
-> >>
-> >>           return 0;
-> >> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> >> index b643f42..7e0cdb6 100644
-> >> --- a/hw/virtio/vhost.c
-> >> +++ b/hw/virtio/vhost.c
-> >> @@ -1820,7 +1820,6 @@ fail_features:
-> >>   void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-> >>   {
-> >>       int i;
-> >> -
-> > Unnecessary changes.
-> >
-> >>       /* should only be called after backend is connected */
-> >>       assert(hdev->vhost_ops);
-> >>
-> >> @@ -1854,3 +1853,17 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
-> >>
-> >>       return -ENOSYS;
-> >>   }
-> >> +
-> >> +int vhost_dev_reset(struct vhost_dev *hdev)
-> >> +{
-> > Let's use a separate patch for this.
-> >
-> > Thanks
-> >
-> >> +    int ret = 0;
-> >> +
-> >> +    /* should only be called after backend is connected */
-> >> +    assert(hdev->vhost_ops);
-> >> +
-> >> +    if (hdev->vhost_ops->vhost_reset_device) {
-> >> +        ret = hdev->vhost_ops->vhost_reset_device(hdev);
-> >> +    }
-> >> +
-> >> +    return ret;
-> >> +}
-> >> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> >> index 58a73e7..b8b7c20 100644
-> >> --- a/include/hw/virtio/vhost.h
-> >> +++ b/include/hw/virtio/vhost.h
-> >> @@ -114,6 +114,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
-> >>   void vhost_dev_cleanup(struct vhost_dev *hdev);
-> >>   int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
-> >>   void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-> >> +int vhost_dev_reset(struct vhost_dev *hdev);
-> >>   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
-> >>   void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
-> >>
-> >> --
-> >> 1.8.3.1
-> >>
-> >>
-> >>
->
+>>>>    # @thread-id: thread number within core the CPU belongs to
+>>>>    #
+>>>> -# Note: currently there are 5 properties that could be present
+>>>> +# Note: currently there are 6 properties that could be present
+>>>>    #       but management should be prepared to pass through other
+>>>>    #       properties with device_add command to allow for future
+>>>>    #       interface extension. This also requires the filed names to be kept in
+>>>> @@ -883,6 +884,7 @@
+>>>>      'data': { '*node-id': 'int',
+>>>>                '*socket-id': 'int',
+>>>>                '*die-id': 'int',
+>>>> +            '*cluster-id': 'int',
+>>>>                '*core-id': 'int',
+>>>>                '*thread-id': 'int'
+>>>>      }
+>> Thanks,
+>> Gavin
+>>
+> .
 
 
