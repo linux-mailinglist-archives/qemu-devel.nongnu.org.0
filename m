@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965924EFEE3
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 07:18:30 +0200 (CEST)
-Received: from localhost ([::1]:38218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA17A4EFF3F
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 09:06:14 +0200 (CEST)
+Received: from localhost ([::1]:53980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naW9d-0004wD-8i
-	for lists+qemu-devel@lfdr.de; Sat, 02 Apr 2022 01:18:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44726)
+	id 1naXpt-0005su-CQ
+	for lists+qemu-devel@lfdr.de; Sat, 02 Apr 2022 03:06:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1naW6x-0004D0-4P
- for qemu-devel@nongnu.org; Sat, 02 Apr 2022 01:15:43 -0400
-Received: from smtpbg139.qq.com ([175.27.65.136]:18403 helo=smtpbg.qq.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1naW6t-0004tG-IA
- for qemu-devel@nongnu.org; Sat, 02 Apr 2022 01:15:42 -0400
-X-QQ-mid: bizesmtp89t1648876488tzv9e1c4
-Received: from [10.25.15.160] ( [222.190.105.194])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Sat, 02 Apr 2022 13:14:46 +0800 (CST)
-X-QQ-SSF: 00000000002000803000B00A0000000
-X-QQ-FEAT: k0yT7W7BRd2g+D8AkeTYknYC7BlGd3DX8YHRakbFKvXOP87Xv+t9KTVu0mvwZ
- rCx5cb6HWpi8qPsWo6SF4TgApbfp3pegSJl6sTj6518tGXucnjmHBu25e2hpy3ljPfdzbkI
- pgNQAKBELAEphItkdWS3/vYtnQacDZoU8glaiNvMoIrG9sj/YYWscXeV+Of2SujVKnkkTgY
- agyVqhRvsgzPi/pv9HTIaEj/74n3FM1ZaQ3CVnVrJmuIOc5hHPETdq/A1MKf/c4S1+SJBtf
- mbTM+MSSxiQEeMGY4DcUBaf9PHLv0dSv2P2wQ/nFYNcEWrqstwXaUqOs1jdQyW4vsoi2k6Y
- do5X9DNltLOZ4WmalcQu1yjokWH7w==
-X-QQ-GoodBg: 0
-Message-ID: <f4ac0e4e-38ae-ecd6-6b0d-ab6abb535e54@archeros.com>+B0B60B7CDC850D03
-Date: Sat, 2 Apr 2022 13:14:46 +0800
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1naXoD-00058U-0g
+ for qemu-devel@nongnu.org; Sat, 02 Apr 2022 03:04:30 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:33720
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1naXo7-0004X2-W0
+ for qemu-devel@nongnu.org; Sat, 02 Apr 2022 03:04:27 -0400
+HMM_SOURCE_IP: 172.18.0.188:56194.850146068
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 4AF9E2800CD;
+ Sat,  2 Apr 2022 15:04:01 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id 8363f005eb054d0aab7bb198b8d024ff for
+ wucy11@chinatelecom.cn; Sat, 02 Apr 2022 15:04:12 CST
+X-Transaction-ID: 8363f005eb054d0aab7bb198b8d024ff
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+Message-ID: <80aa611e-55da-e76c-d09b-bda3a94f3169@chinatelecom.cn>
+Date: Sat, 2 Apr 2022 15:04:00 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 1/3] vhost: Refactor vhost_reset_device() in VhostOps
-To: Jason Wang <jasowang@redhat.com>, mst@redhat.com, si-wei.liu@oracle.com
-References: <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
- <1648811173-15293-1-git-send-email-qiudayu@archeros.com>
- <1648811173-15293-2-git-send-email-qiudayu@archeros.com>
- <c8e8459d-32b5-55ff-44f4-1f03edb8a597@redhat.com>
-From: Michael Qiu <qiudayu@archeros.com>
-In-Reply-To: <c8e8459d-32b5-55ff-44f4-1f03edb8a597@redhat.com>
+Subject: Re: [PATCH v2 1/4] kvm: Dynamically adjust the rate of dirty ring
+ reaper thread
+To: wucy11@chinatelecom.cn, qemu-devel@nongnu.org
+References: <cover.1648091539.git.wucy11@chinatelecom.cn>
+ <7e786b6ab74e0c62661176fa7aec243c7b9bea8d.1648091540.git.wucy11@chinatelecom.cn>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <7e786b6ab74e0c62661176fa7aec243c7b9bea8d.1648091540.git.wucy11@chinatelecom.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:archeros.com:qybgspam:qybgspam6
-Received-SPF: none client-ip=175.27.65.136; envelope-from=qiudayu@archeros.com;
- helo=smtpbg.qq.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
- INVALID_MSGID=0.568, KHOP_HELO_FCRDNS=0.187, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.226;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,221 +66,273 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma@redhat.com, lingshan.zhu@intel.com, qemu-devel@nongnu.org,
- lulu@redhat.com
+Cc: tugy@chinatelecom.cn, David Hildenbrand <david@redhat.com>,
+ yuanmh12@chinatelecom.cn, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ f4bug@amsat.org, dengpc12@chinatelecom.cn, Paolo Bonzini <pbonzini@redhat.com>,
+ baiyw2@chinatelecom.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 2022/4/2 10:38, Jason Wang wrote:
+在 2022/3/28 9:32, wucy11@chinatelecom.cn 写道:
+> From: Chongyun Wu <wucy11@chinatelecom.cn>
 > 
-> 在 2022/4/1 下午7:06, Michael Qiu 写道:
->> Currently in vhost framwork, vhost_reset_device() is misnamed.
->> Actually, it should be vhost_reset_owner().
->>
->> In vhost user, it make compatible with reset device ops, but
->> vhost kernel does not compatible with it, for vhost vdpa, it
->> only implement reset device action.
->>
->> So we need seperate the function into vhost_reset_owner() and
->> vhost_reset_device(). So that different backend could use the
->> correct function.
+> Dynamically adjust the dirty ring collection thread to
+> reduce the occurrence of ring full, thereby reducing the
+> impact on customers, improving the efficiency of dirty
+> page collection, and thus improving the migration efficiency.
 > 
+> Implementation:
+> 1) Define different collection speeds for the reap thread.
 > 
-> I see no reason when RESET_OWNER needs to be done for kernel backend.
+> 2) Divide the total number of dirty pages collected each
+> time by the ring size to get a ratio which indicates the
+> occupancy rate of dirty pages in the ring. The higher the
+> ratio, the higher the possibility that the ring will be full.
 > 
+> 3) Different ratios correspond to different running speeds.
+> A higher ratio value indicates that a higher running speed
+> is required to collect dirty pages as soon as possible to
+> ensure that too many ring fulls will not be generated,
+> which will affect the customer's business.
 
-In kernel vhost, RESET_OWNER  indeed do vhost device level reset: 
-vhost_net_reset_owner()
+> 
+> This patch can significantly reduce the number of ring full
+> occurrences in the case of high memory dirty page pressure,
+> and minimize the impact on guests.
+> 
+Increase the frequency of reaping dirty ring can reduce the guest
+vcpu block time obviously and consequently improve the guest memory 
+performance.
 
-static long vhost_net_reset_owner(struct vhost_net *n)
-{
+But this also make the write-memory vcpu run more time and dirty more 
+memory, so the migration time may become longer. Maybe we
+should also focus on the migraiton time and compare with traditional  algo.
+> Using this patch for the qeum guestperf test, the memory
+> performance during the migration process is somewhat improved
+> compared to the bitmap method, and is significantly improved
+> compared to the unoptimized dirty ring method. For detailed
+> test data, please refer to the follow-up series of patches.
+> 
+> Signed-off-by: Chongyun Wu <wucy11@chinatelecom.cn>
+> ---
+>   accel/kvm/kvm-all.c | 149 ++++++++++++++++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 144 insertions(+), 5 deletions(-)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 27864df..65a4de8 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -91,6 +91,27 @@ enum KVMDirtyRingReaperState {
+>       KVM_DIRTY_RING_REAPER_REAPING,
+>   };
+>  
+> +enum KVMDirtyRingReaperRunLevel {
+> +    /* The reaper runs at default normal speed */
+> +    KVM_DIRTY_RING_REAPER_RUN_NORMAL = 0,
+> +    /* The reaper starts to accelerate in different gears */
+> +    KVM_DIRTY_RING_REAPER_RUN_FAST1,
+> +    KVM_DIRTY_RING_REAPER_RUN_FAST2,
+> +    KVM_DIRTY_RING_REAPER_RUN_FAST3,
+> +    KVM_DIRTY_RING_REAPER_RUN_FAST4,
+> +    /* The reaper runs at the fastest speed */
+> +    KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED,
+> +};
+> + > +enum KVMDirtyRingReaperSpeedControl {
+> +    /* Maintain current speed */
+> +    KVM_DIRTY_RING_REAPER_SPEED_CONTROL_KEEP = 0,
+> +    /* Accelerate current speed */
+> +    KVM_DIRTY_RING_REAPER_SPEED_CONTROL_UP,
+> +    /* Decrease current speed */
+> +    KVM_DIRTY_RING_REAPER_SPEED_CONTROL_DOWN
+> +};
+> +
+>   /*
+>    * KVM reaper instance, responsible for collecting the KVM dirty bits
+>    * via the dirty ring.
+> @@ -100,6 +121,11 @@ struct KVMDirtyRingReaper {
+>       QemuThread reaper_thr;
+>       volatile uint64_t reaper_iteration; /* iteration number of reaper thr */
+>       volatile enum KVMDirtyRingReaperState reaper_state; /* reap thr state */
+> +    /* Control the running speed of the reaper thread to fit dirty page rate */
+> +    enum KVMDirtyRingReaperRunLevel run_level;
+> +    uint64_t ring_full_cnt;
+> +    float ratio_adjust_threshold;
+> +    int stable_count_threshold;
+Could you add some comments about the introduced field?
+>   };
+>   
+>   struct KVMState
+> @@ -1449,11 +1475,115 @@ out:
+>       kvm_slots_unlock();
+>   }
+>   
 [...]
-         err = vhost_dev_check_owner(&n->dev);
-         if (err)
-                 goto done;
-         umem = vhost_dev_reset_owner_prepare();
-         if (!umem) {
-                 err = -ENOMEM;
-                 goto done;
-         }
-         vhost_net_stop(n, &tx_sock, &rx_sock);
-         vhost_net_flush(n);
-         vhost_dev_stop(&n->dev);
-         vhost_dev_reset_owner(&n->dev, umem);
-         vhost_net_vq_reset(n);
-[...]
+> +static uint64_t calcu_sleep_time(KVMState *s,
+> +                                       uint64_t dirty_count,
+> +                                       uint64_t ring_full_cnt_last,
+> +                                       uint32_t *speed_down_cnt)
+Code isn't aligned
+> +{
+> +    float ratio = 0.0;
+> +    uint64_t sleep_time = 1000000;
+> +    enum KVMDirtyRingReaperRunLevel run_level_want;
+> +    enum KVMDirtyRingReaperSpeedControl speed_control;
+> +
+> +    /*
+> +     * When the number of dirty pages collected exceeds
+> +     * the given percentage of the ring size,the speed
+> +     * up action will be triggered.
+> +     */
+> +    s->reaper.ratio_adjust_threshold = 0.1;
+> +    s->reaper.stable_count_threshold = 5;
+> +
+> +    ratio = (float)dirty_count / s->kvm_dirty_ring_size;
+> +
+> +    if (s->reaper.ring_full_cnt > ring_full_cnt_last) {
+> +        /* If get a new ring full need speed up reaper thread */
+> +        if (s->reaper.run_level != KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED) {
+> +            s->reaper.run_level++;
+> +        }
+> +    } else {
+> +        /*
+> +         * If get more dirty pages this loop and this status continus
+> +         * for many times try to speed up reaper thread.
+> +         * If the status is stable and need to decide which speed need
+> +         * to use.
+> +         */
+> +        if (ratio < s->reaper.ratio_adjust_threshold) {
+> +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_NORMAL;
+> +        } else if (ratio < s->reaper.ratio_adjust_threshold * 2) {
+> +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST1;
+> +        } else if (ratio < s->reaper.ratio_adjust_threshold * 3) {
+> +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST2;
+> +        } else if (ratio < s->reaper.ratio_adjust_threshold * 4) {
+> +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST3;
+> +        } else if (ratio < s->reaper.ratio_adjust_threshold * 5) {
+> +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_FAST4;
+> +        } else {
+> +            run_level_want = KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED;
+> +        }
+> +
+> +        /* Get if need speed up or slow down */
+> +        if (run_level_want > s->reaper.run_level) {
+> +            speed_control = KVM_DIRTY_RING_REAPER_SPEED_CONTROL_UP;
+> +            *speed_down_cnt = 0;
+> +        } else if (run_level_want < s->reaper.run_level) {
+> +            speed_control = KVM_DIRTY_RING_REAPER_SPEED_CONTROL_DOWN;
+> +            *speed_down_cnt++;
+> +        } else {
+> +            speed_control = KVM_DIRTY_RING_REAPER_SPEED_CONTROL_KEEP;
+> +        }
+> +
+> +        /* Control reaper thread run in sutiable run speed level */
+> +        if (speed_control == KVM_DIRTY_RING_REAPER_SPEED_CONTROL_UP) {
+> +            /* If need speed up do not check its stable just do it */
+> +            s->reaper.run_level++;
+> +        } else if (speed_control ==
+> +            KVM_DIRTY_RING_REAPER_SPEED_CONTROL_DOWN) {
+> +            /* If need speed down we should filter this status */
+> +            if (*speed_down_cnt > s->reaper.stable_count_threshold) {
+> +                s->reaper.run_level--;
+> +            }
+> +        }
+> +    }
+> +
+> +    /* Set the actual running rate of the reaper */
+> +    switch (s->reaper.run_level) {
+> +    case KVM_DIRTY_RING_REAPER_RUN_NORMAL:
+> +        sleep_time = 1000000;
+> +        break;
+> +    case KVM_DIRTY_RING_REAPER_RUN_FAST1:
+> +        sleep_time = 500000;
+> +        break;
+> +    case KVM_DIRTY_RING_REAPER_RUN_FAST2:
+> +        sleep_time = 250000;
+> +        break;
+> +    case KVM_DIRTY_RING_REAPER_RUN_FAST3:
+> +        sleep_time = 125000;
+> +        break;
+> +    case KVM_DIRTY_RING_REAPER_RUN_FAST4:
+> +        sleep_time = 100000;
+> +        break;
+> +    case KVM_DIRTY_RING_REAPER_RUN_MAX_SPEED:
+> +        sleep_time = 80000;
+> +        break;
+> +    default:
+> +        sleep_time = 1000000;
+> +        error_report("Bad reaper thread run level, use default");
+> +    }
+> +
+> +    return sleep_time;
+> +}
+> +I think how to calculate the sleep time needs discuussion, including why 
+we define 5 levels, why we choose the time constants and in what 
+scenarios this algo works fine.
 
-}
+The other thing is i still think it's nicer we have the simplest 
+algorithm firstly, which should be very easy to verify.
+>   static void *kvm_dirty_ring_reaper_thread(void *data)
+>   {
+>       KVMState *s = data;
+>       struct KVMDirtyRingReaper *r = &s->reaper;
+>   
+> +    uint64_t count = 0;
+> +    uint64_t sleep_time = 1000000;
+> +    uint64_t ring_full_cnt_last = 0;
+> +    /* Filter speed jitter */
+> +    uint32_t speed_down_cnt = 0;
+> +
+>       rcu_register_thread();
+>   
+>       trace_kvm_dirty_ring_reaper("init");
+> @@ -1461,18 +1591,26 @@ static void *kvm_dirty_ring_reaper_thread(void *data)
+>       while (true) {
+>           r->reaper_state = KVM_DIRTY_RING_REAPER_WAIT;
+>           trace_kvm_dirty_ring_reaper("wait");
+> -        /*
+> -         * TODO: provide a smarter timeout rather than a constant?
+> -         */
+> -        sleep(1);
+> +
+> +       ring_full_cnt_last = s->reaper.ring_full_cnt;
+> +
+> +        usleep(sleep_time);
+>   
+>           trace_kvm_dirty_ring_reaper("wakeup");
+>           r->reaper_state = KVM_DIRTY_RING_REAPER_REAPING;
+>   
+>           qemu_mutex_lock_iothread();
+> -        kvm_dirty_ring_reap(s);
+> +        count = kvm_dirty_ring_reap(s);
+>           qemu_mutex_unlock_iothread();
+>   
+> +        /*
+> +         * Calculate the appropriate sleep time according to
+> +         * the speed of the current dirty page.
+> +         */
+> +        sleep_time = calcu_sleep_time(s, count,
+> +                                      ring_full_cnt_last,
+> +                                      &speed_down_cnt);
+> +
+>           r->reaper_iteration++;
+>       }
+>   
+> @@ -2958,6 +3096,7 @@ int kvm_cpu_exec(CPUState *cpu)
+>               trace_kvm_dirty_ring_full(cpu->cpu_index);
+>               qemu_mutex_lock_iothread();
+>               kvm_dirty_ring_reap(kvm_state);
+> +            kvm_state->reaper.ring_full_cnt++;
+>               qemu_mutex_unlock_iothread();
+>               ret = 0;
+>               break;
 
-In the history of QEMU, There is a commit:
-commit d1f8b30ec8dde0318fd1b98d24a64926feae9625
-Author: Yuanhan Liu <yuanhan.liu@linux.intel.com>
-Date:   Wed Sep 23 12:19:57 2015 +0800
+Thanks.
+-- 
+Best regard
 
-     vhost: rename VHOST_RESET_OWNER to VHOST_RESET_DEVICE
-
-     Quote from Michael:
-
-         We really should rename VHOST_RESET_OWNER to VHOST_RESET_DEVICE.
-
-but finally, it has been reverted by the author:
-commit 60915dc4691768c4dc62458bb3e16c843fab091d
-Author: Yuanhan Liu <yuanhan.liu@linux.intel.com>
-Date:   Wed Nov 11 21:24:37 2015 +0800
-
-     vhost: rename RESET_DEVICE backto RESET_OWNER
-
-     This patch basically reverts commit d1f8b30e.
-
-     It turned out that it breaks stuff, so revert it:
- 
-http://lists.nongnu.org/archive/html/qemu-devel/2015-10/msg00949.html
-
-Seems kernel take RESET_OWNER for reset,but QEMU never call to this 
-function to do a reset.
-
-> And if I understand the code correctly, vhost-user "abuse" RESET_OWNER 
-> for reset. So the current code looks fine?
-> 
-> 
->>
->> Signde-off-by: Michael Qiu <qiudayu@archeros.com>
->> ---
->>   hw/scsi/vhost-user-scsi.c         |  6 +++++-
->>   hw/virtio/vhost-backend.c         |  4 ++--
->>   hw/virtio/vhost-user.c            | 22 ++++++++++++++++++----
->>   include/hw/virtio/vhost-backend.h |  2 ++
->>   4 files changed, 27 insertions(+), 7 deletions(-)
->>
->> diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
->> index 1b2f7ee..f179626 100644
->> --- a/hw/scsi/vhost-user-scsi.c
->> +++ b/hw/scsi/vhost-user-scsi.c
->> @@ -80,8 +80,12 @@ static void vhost_user_scsi_reset(VirtIODevice *vdev)
->>           return;
->>       }
->> -    if (dev->vhost_ops->vhost_reset_device) {
->> +    if (virtio_has_feature(dev->protocol_features,
->> +                           VHOST_USER_PROTOCOL_F_RESET_DEVICE) &&
->> +                           dev->vhost_ops->vhost_reset_device) {
->>           dev->vhost_ops->vhost_reset_device(dev);
->> +    } else if (dev->vhost_ops->vhost_reset_owner) {
->> +        dev->vhost_ops->vhost_reset_owner(dev);
-> 
-> 
-> Actually, I fail to understand why we need an indirection via vhost_ops. 
-> It's guaranteed to be vhost_user_ops.
-> 
-> 
->>       }
->>   }
->> diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
->> index e409a86..abbaa8b 100644
->> --- a/hw/virtio/vhost-backend.c
->> +++ b/hw/virtio/vhost-backend.c
->> @@ -191,7 +191,7 @@ static int vhost_kernel_set_owner(struct vhost_dev 
->> *dev)
->>       return vhost_kernel_call(dev, VHOST_SET_OWNER, NULL);
->>   }
->> -static int vhost_kernel_reset_device(struct vhost_dev *dev)
->> +static int vhost_kernel_reset_owner(struct vhost_dev *dev)
->>   {
->>       return vhost_kernel_call(dev, VHOST_RESET_OWNER, NULL);
->>   }
->> @@ -317,7 +317,7 @@ const VhostOps kernel_ops = {
->>           .vhost_get_features = vhost_kernel_get_features,
->>           .vhost_set_backend_cap = vhost_kernel_set_backend_cap,
->>           .vhost_set_owner = vhost_kernel_set_owner,
->> -        .vhost_reset_device = vhost_kernel_reset_device,
->> +        .vhost_reset_owner = vhost_kernel_reset_owner,
-> 
-> 
-> I think we can delete the current vhost_reset_device() since it not used 
-> in any code path.
-> 
-
-I planned to use it for vDPA reset, and vhost-user-scsi also use device 
-reset.
-
-Thanks,
-Michael
-
-> Thanks
-> 
-> 
->>           .vhost_get_vq_index = vhost_kernel_get_vq_index,
->>   #ifdef CONFIG_VHOST_VSOCK
->>           .vhost_vsock_set_guest_cid = vhost_kernel_vsock_set_guest_cid,
->> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->> index 6abbc9d..4412008 100644
->> --- a/hw/virtio/vhost-user.c
->> +++ b/hw/virtio/vhost-user.c
->> @@ -1475,16 +1475,29 @@ static int vhost_user_get_max_memslots(struct 
->> vhost_dev *dev,
->>       return 0;
->>   }
->> +static int vhost_user_reset_owner(struct vhost_dev *dev)
->> +{
->> +    VhostUserMsg msg = {
->> +        .hdr.request = VHOST_USER_RESET_OWNER,
->> +        .hdr.flags = VHOST_USER_VERSION,
->> +    };
->> +
->> +    return vhost_user_write(dev, &msg, NULL, 0);
->> +}
->> +
->>   static int vhost_user_reset_device(struct vhost_dev *dev)
->>   {
->>       VhostUserMsg msg = {
->> +        .hdr.request = VHOST_USER_RESET_DEVICE,
->>           .hdr.flags = VHOST_USER_VERSION,
->>       };
->> -    msg.hdr.request = virtio_has_feature(dev->protocol_features,
->> -                                         
->> VHOST_USER_PROTOCOL_F_RESET_DEVICE)
->> -        ? VHOST_USER_RESET_DEVICE
->> -        : VHOST_USER_RESET_OWNER;
->> +    /* Caller must ensure the backend has 
->> VHOST_USER_PROTOCOL_F_RESET_DEVICE
->> +     * support */
->> +    if (!virtio_has_feature(dev->protocol_features,
->> +                       VHOST_USER_PROTOCOL_F_RESET_DEVICE)) {
->> +        return -EPERM;
->> +    }
->>       return vhost_user_write(dev, &msg, NULL, 0);
->>   }
->> @@ -2548,6 +2561,7 @@ const VhostOps user_ops = {
->>           .vhost_set_features = vhost_user_set_features,
->>           .vhost_get_features = vhost_user_get_features,
->>           .vhost_set_owner = vhost_user_set_owner,
->> +        .vhost_reset_owner = vhost_user_reset_owner,
->>           .vhost_reset_device = vhost_user_reset_device,
->>           .vhost_get_vq_index = vhost_user_get_vq_index,
->>           .vhost_set_vring_enable = vhost_user_set_vring_enable,
->> diff --git a/include/hw/virtio/vhost-backend.h 
->> b/include/hw/virtio/vhost-backend.h
->> index 81bf310..affeeb0 100644
->> --- a/include/hw/virtio/vhost-backend.h
->> +++ b/include/hw/virtio/vhost-backend.h
->> @@ -77,6 +77,7 @@ typedef int (*vhost_get_features_op)(struct 
->> vhost_dev *dev,
->>                                        uint64_t *features);
->>   typedef int (*vhost_set_backend_cap_op)(struct vhost_dev *dev);
->>   typedef int (*vhost_set_owner_op)(struct vhost_dev *dev);
->> +typedef int (*vhost_reset_owner_op)(struct vhost_dev *dev);
->>   typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
->>   typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx);
->>   typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
->> @@ -150,6 +151,7 @@ typedef struct VhostOps {
->>       vhost_get_features_op vhost_get_features;
->>       vhost_set_backend_cap_op vhost_set_backend_cap;
->>       vhost_set_owner_op vhost_set_owner;
->> +    vhost_reset_owner_op vhost_reset_owner;
->>       vhost_reset_device_op vhost_reset_device;
->>       vhost_get_vq_index_op vhost_get_vq_index;
->>       vhost_set_vring_enable_op vhost_set_vring_enable;
-> 
-> 
+Hyman Huang(黄勇)
 
