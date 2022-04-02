@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FAE4EFE4C
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 05:55:42 +0200 (CEST)
-Received: from localhost ([::1]:58658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965924EFEE3
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 07:18:30 +0200 (CEST)
+Received: from localhost ([::1]:38218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naUrV-0002ch-3P
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 23:55:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38190)
+	id 1naW9d-0004wD-8i
+	for lists+qemu-devel@lfdr.de; Sat, 02 Apr 2022 01:18:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1naUq4-0001vz-2Z
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 23:54:12 -0400
-Received: from smtpbg136.qq.com ([106.55.201.188]:21199 helo=smtpbg.qq.com)
+ id 1naW6x-0004D0-4P
+ for qemu-devel@nongnu.org; Sat, 02 Apr 2022 01:15:43 -0400
+Received: from smtpbg139.qq.com ([175.27.65.136]:18403 helo=smtpbg.qq.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1naUpz-0003BT-Al
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 23:54:11 -0400
-X-QQ-mid: bizesmtp69t1648871597t6g0ny50
+ id 1naW6t-0004tG-IA
+ for qemu-devel@nongnu.org; Sat, 02 Apr 2022 01:15:42 -0400
+X-QQ-mid: bizesmtp89t1648876488tzv9e1c4
 Received: from [10.25.15.160] ( [222.190.105.194])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Sat, 02 Apr 2022 11:53:15 +0800 (CST)
-X-QQ-SSF: 01000000002000803000B00A0000000
-X-QQ-FEAT: w0nHo3vL0ne46KfKp/CZut8iLdDmwSFEhdjFvab+2SS7tWB7OcJPLd9szjAAA
- tgt8uG3Y0Od+wYuH/MI4JQrXCO1aiK/vSa8+6qanQ1jvgFuC9Aw0I3ZspjLJr2wlLeqfgyq
- 2X+Iqxjw9WIqceXr4EC1wentq0xYNOCnJx4sEcex4H5GZUtntCSnz3L/Z459KBAeLWv9es6
- 2+SNWnW1DRbdc8rcfXE3huovDCfgdHNUiGph12G2knHAQ8tkVBlhytAtnMNnGjFC+Rg48c9
- 6doMKH9i19tQ19r5QiraGS3WbT5ouPbBa9HIvy+lliwTk1+NiGYSxCXYcHnp62RUoSDIlor
- GOf9fdXiKsXadTn+12OUvs1laSZSA==
+ id ; Sat, 02 Apr 2022 13:14:46 +0800 (CST)
+X-QQ-SSF: 00000000002000803000B00A0000000
+X-QQ-FEAT: k0yT7W7BRd2g+D8AkeTYknYC7BlGd3DX8YHRakbFKvXOP87Xv+t9KTVu0mvwZ
+ rCx5cb6HWpi8qPsWo6SF4TgApbfp3pegSJl6sTj6518tGXucnjmHBu25e2hpy3ljPfdzbkI
+ pgNQAKBELAEphItkdWS3/vYtnQacDZoU8glaiNvMoIrG9sj/YYWscXeV+Of2SujVKnkkTgY
+ agyVqhRvsgzPi/pv9HTIaEj/74n3FM1ZaQ3CVnVrJmuIOc5hHPETdq/A1MKf/c4S1+SJBtf
+ mbTM+MSSxiQEeMGY4DcUBaf9PHLv0dSv2P2wQ/nFYNcEWrqstwXaUqOs1jdQyW4vsoi2k6Y
+ do5X9DNltLOZ4WmalcQu1yjokWH7w==
 X-QQ-GoodBg: 0
-Message-ID: <0d2055c0-37fe-3aa4-a291-a1fc0da6059c@archeros.com>+FFA31D18764F7868
-Date: Sat, 2 Apr 2022 11:53:15 +0800
+Message-ID: <f4ac0e4e-38ae-ecd6-6b0d-ab6abb535e54@archeros.com>+B0B60B7CDC850D03
+Date: Sat, 2 Apr 2022 13:14:46 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v4] vdpa: reset the backend device in the end of
- vhost_net_stop()
-To: Jason Wang <jasowang@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>
-References: <1648718713-7637-1-git-send-email-qiudayu@archeros.com>
- <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
- <CACGkMEuQ_YW+aSysnFtDrjy=Wjq_U3KouOobYSC+e5+5SR0zEA@mail.gmail.com>
- <ab772bc3-4acd-bb79-7f97-0518e04bb7fe@oracle.com>
- <CACGkMEv8+XC39G4wK_bUY0ZdFd29YoR7D3ugrMy-iT7cO1arew@mail.gmail.com>
+Subject: Re: [PATCH 1/3] vhost: Refactor vhost_reset_device() in VhostOps
+To: Jason Wang <jasowang@redhat.com>, mst@redhat.com, si-wei.liu@oracle.com
+References: <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
+ <1648811173-15293-1-git-send-email-qiudayu@archeros.com>
+ <1648811173-15293-2-git-send-email-qiudayu@archeros.com>
+ <c8e8459d-32b5-55ff-44f4-1f03edb8a597@redhat.com>
 From: Michael Qiu <qiudayu@archeros.com>
-In-Reply-To: <CACGkMEv8+XC39G4wK_bUY0ZdFd29YoR7D3ugrMy-iT7cO1arew@mail.gmail.com>
+In-Reply-To: <c8e8459d-32b5-55ff-44f4-1f03edb8a597@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:archeros.com:qybgspam:qybgspam7
-Received-SPF: none client-ip=106.55.201.188; envelope-from=qiudayu@archeros.com;
+Feedback-ID: bizesmtp:archeros.com:qybgspam:qybgspam6
+Received-SPF: none client-ip=175.27.65.136; envelope-from=qiudayu@archeros.com;
  helo=smtpbg.qq.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
@@ -71,320 +69,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma <eperezma@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
- mst <mst@redhat.com>
+Cc: eperezma@redhat.com, lingshan.zhu@intel.com, qemu-devel@nongnu.org,
+ lulu@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 2022/4/2 10:20, Jason Wang wrote:
-> Adding Michael.
+On 2022/4/2 10:38, Jason Wang wrote:
 > 
-> On Sat, Apr 2, 2022 at 7:08 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+> 在 2022/4/1 下午7:06, Michael Qiu 写道:
+>> Currently in vhost framwork, vhost_reset_device() is misnamed.
+>> Actually, it should be vhost_reset_owner().
 >>
+>> In vhost user, it make compatible with reset device ops, but
+>> vhost kernel does not compatible with it, for vhost vdpa, it
+>> only implement reset device action.
 >>
->>
->> On 3/31/2022 7:53 PM, Jason Wang wrote:
->>> On Fri, Apr 1, 2022 at 9:31 AM Michael Qiu <qiudayu@archeros.com> wrote:
->>>> Currently, when VM poweroff, it will trigger vdpa
->>>> device(such as mlx bluefield2 VF) reset many times(with 1 datapath
->>>> queue pair and one control queue, triggered 3 times), this
->>>> leads to below issue:
->>>>
->>>> vhost VQ 2 ring restore failed: -22: Invalid argument (22)
->>>>
->>>> This because in vhost_net_stop(), it will stop all vhost device bind to
->>>> this virtio device, and in vhost_dev_stop(), qemu tries to stop the device
->>>> , then stop the queue: vhost_virtqueue_stop().
->>>>
->>>> In vhost_dev_stop(), it resets the device, which clear some flags
->>>> in low level driver, and in next loop(stop other vhost backends),
->>>> qemu try to stop the queue corresponding to the vhost backend,
->>>>    the driver finds that the VQ is invalied, this is the root cause.
->>>>
->>>> To solve the issue, vdpa should set vring unready, and
->>>> remove reset ops in device stop: vhost_dev_start(hdev, false).
->>>>
->>>> and implement a new function vhost_dev_reset, only reset backend
->>>> device after all vhost(per-queue) stoped.
->>> Typo.
->>>
->>>> Signed-off-by: Michael Qiu<qiudayu@archeros.com>
->>>> Acked-by: Jason Wang <jasowang@redhat.com>
->>> Rethink this patch, consider there're devices that don't support
->>> set_vq_ready(). I wonder if we need
->>>
->>> 1) uAPI to tell the user space whether or not it supports set_vq_ready()
->> I guess what's more relevant here is to define the uAPI semantics for
->> unready i.e. set_vq_ready(0) for resuming/stopping virtqueue processing,
->> as starting vq is comparatively less ambiguous.
+>> So we need seperate the function into vhost_reset_owner() and
+>> vhost_reset_device(). So that different backend could use the
+>> correct function.
 > 
-> Yes.
 > 
->> Considering the
->> likelihood that this interface may be used for live migration, it would
->> be nice to come up with variants such as 1) discard inflight request
->> v.s. 2) waiting for inflight processing to be done,
-> 
-> Or inflight descriptor reporting (which seems to be tricky). But we
-> can start from net that a discarding may just work.
-> 
->> and 3) timeout in
->> waiting.
-> 
-> Actually, that's the plan and Eugenio is proposing something like this
-> via virtio spec:
-> 
-> https://lists.oasis-open.org/archives/virtio-dev/202111/msg00020.html
-> 
->>
->>> 2) userspace will call SET_VRING_ENABLE() when the device supports
->>> otherwise it will use RESET.
->> Are you looking to making virtqueue resume-able through the new
->> SET_VRING_ENABLE() uAPI?
->>
->> I think RESET is inevitable in some case, i.e. when guest initiates
->> device reset by writing 0 to the status register.
-> 
-> Yes, that's all my plan.
-> 
->> For suspend/resume and
->> live migration use cases, indeed RESET can be substituted with
->> SET_VRING_ENABLE. Again, it'd need quite some code refactoring to
->> accommodate this change. Although I'm all for it, it'd be the best to
->> lay out the plan for multiple phases rather than overload this single
->> patch too much. You can count my time on this endeavor if you don't mind. :)
-> 
-> You're welcome, I agree we should choose a way to go first:
-> 
-> 1) manage to use SET_VRING_ENABLE (more like a workaround anyway)
-> 2) go with virtio-spec (may take a while)
-> 3) don't wait for the spec, have a vDPA specific uAPI first. Note that
-> I've chatted with most of the vendors and they seem to be fine with
-> the _S_STOP. If we go this way, we can still provide the forward
-> compatibility of _S_STOP
-> 4) or do them all (in parallel)
-> 
-> Any thoughts?
+> I see no reason when RESET_OWNER needs to be done for kernel backend.
 > 
 
-virtio-spec should be long-term, not only because the spec goes very 
-slowly, but also the hardware upgrade should be a problem.
+In kernel vhost, RESET_OWNER  indeed do vhost device level reset: 
+vhost_net_reset_owner()
 
-For short-term, better to take the first one?
+static long vhost_net_reset_owner(struct vhost_net *n)
+{
+[...]
+         err = vhost_dev_check_owner(&n->dev);
+         if (err)
+                 goto done;
+         umem = vhost_dev_reset_owner_prepare();
+         if (!umem) {
+                 err = -ENOMEM;
+                 goto done;
+         }
+         vhost_net_stop(n, &tx_sock, &rx_sock);
+         vhost_net_flush(n);
+         vhost_dev_stop(&n->dev);
+         vhost_dev_reset_owner(&n->dev, umem);
+         vhost_net_vq_reset(n);
+[...]
+
+}
+
+In the history of QEMU, There is a commit:
+commit d1f8b30ec8dde0318fd1b98d24a64926feae9625
+Author: Yuanhan Liu <yuanhan.liu@linux.intel.com>
+Date:   Wed Sep 23 12:19:57 2015 +0800
+
+     vhost: rename VHOST_RESET_OWNER to VHOST_RESET_DEVICE
+
+     Quote from Michael:
+
+         We really should rename VHOST_RESET_OWNER to VHOST_RESET_DEVICE.
+
+but finally, it has been reverted by the author:
+commit 60915dc4691768c4dc62458bb3e16c843fab091d
+Author: Yuanhan Liu <yuanhan.liu@linux.intel.com>
+Date:   Wed Nov 11 21:24:37 2015 +0800
+
+     vhost: rename RESET_DEVICE backto RESET_OWNER
+
+     This patch basically reverts commit d1f8b30e.
+
+     It turned out that it breaks stuff, so revert it:
+ 
+http://lists.nongnu.org/archive/html/qemu-devel/2015-10/msg00949.html
+
+Seems kernel take RESET_OWNER for reset,but QEMU never call to this 
+function to do a reset.
+
+> And if I understand the code correctly, vhost-user "abuse" RESET_OWNER 
+> for reset. So the current code looks fine?
+> 
+> 
+>>
+>> Signde-off-by: Michael Qiu <qiudayu@archeros.com>
+>> ---
+>>   hw/scsi/vhost-user-scsi.c         |  6 +++++-
+>>   hw/virtio/vhost-backend.c         |  4 ++--
+>>   hw/virtio/vhost-user.c            | 22 ++++++++++++++++++----
+>>   include/hw/virtio/vhost-backend.h |  2 ++
+>>   4 files changed, 27 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
+>> index 1b2f7ee..f179626 100644
+>> --- a/hw/scsi/vhost-user-scsi.c
+>> +++ b/hw/scsi/vhost-user-scsi.c
+>> @@ -80,8 +80,12 @@ static void vhost_user_scsi_reset(VirtIODevice *vdev)
+>>           return;
+>>       }
+>> -    if (dev->vhost_ops->vhost_reset_device) {
+>> +    if (virtio_has_feature(dev->protocol_features,
+>> +                           VHOST_USER_PROTOCOL_F_RESET_DEVICE) &&
+>> +                           dev->vhost_ops->vhost_reset_device) {
+>>           dev->vhost_ops->vhost_reset_device(dev);
+>> +    } else if (dev->vhost_ops->vhost_reset_owner) {
+>> +        dev->vhost_ops->vhost_reset_owner(dev);
+> 
+> 
+> Actually, I fail to understand why we need an indirection via vhost_ops. 
+> It's guaranteed to be vhost_user_ops.
+> 
+> 
+>>       }
+>>   }
+>> diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+>> index e409a86..abbaa8b 100644
+>> --- a/hw/virtio/vhost-backend.c
+>> +++ b/hw/virtio/vhost-backend.c
+>> @@ -191,7 +191,7 @@ static int vhost_kernel_set_owner(struct vhost_dev 
+>> *dev)
+>>       return vhost_kernel_call(dev, VHOST_SET_OWNER, NULL);
+>>   }
+>> -static int vhost_kernel_reset_device(struct vhost_dev *dev)
+>> +static int vhost_kernel_reset_owner(struct vhost_dev *dev)
+>>   {
+>>       return vhost_kernel_call(dev, VHOST_RESET_OWNER, NULL);
+>>   }
+>> @@ -317,7 +317,7 @@ const VhostOps kernel_ops = {
+>>           .vhost_get_features = vhost_kernel_get_features,
+>>           .vhost_set_backend_cap = vhost_kernel_set_backend_cap,
+>>           .vhost_set_owner = vhost_kernel_set_owner,
+>> -        .vhost_reset_device = vhost_kernel_reset_device,
+>> +        .vhost_reset_owner = vhost_kernel_reset_owner,
+> 
+> 
+> I think we can delete the current vhost_reset_device() since it not used 
+> in any code path.
+> 
+
+I planned to use it for vDPA reset, and vhost-user-scsi also use device 
+reset.
 
 Thanks,
 Michael
+
 > Thanks
 > 
->>
->>>
->>> And for safety, I suggest tagging this as 7.1.
->> +1
->>
->> Regards,
->> -Siwei
->>
->>>
->>>> ---
->>>> v4 --> v3
->>>>       Nothing changed, becasue of issue with mimecast,
->>>>       when the From: tag is different from the sender,
->>>>       the some mail client will take the patch as an
->>>>       attachment, RESEND v3 does not work, So resend
->>>>       the patch as v4
->>>>
->>>> v3 --> v2:
->>>>       Call vhost_dev_reset() at the end of vhost_net_stop().
->>>>
->>>>       Since the vDPA device need re-add the status bit
->>>>       VIRTIO_CONFIG_S_ACKNOWLEDGE and VIRTIO_CONFIG_S_DRIVER,
->>>>       simply, add them inside vhost_vdpa_reset_device, and
->>>>       the only way calling vhost_vdpa_reset_device is in
->>>>       vhost_net_stop(), so it keeps the same behavior as before.
->>>>
->>>> v2 --> v1:
->>>>      Implement a new function vhost_dev_reset,
->>>>      reset the backend kernel device at last.
->>>> ---
->>>>    hw/net/vhost_net.c        | 24 +++++++++++++++++++++---
->>>>    hw/virtio/vhost-vdpa.c    | 15 +++++++++------
->>>>    hw/virtio/vhost.c         | 15 ++++++++++++++-
->>>>    include/hw/virtio/vhost.h |  1 +
->>>>    4 files changed, 45 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
->>>> index 30379d2..422c9bf 100644
->>>> --- a/hw/net/vhost_net.c
->>>> +++ b/hw/net/vhost_net.c
->>>> @@ -325,7 +325,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
->>>>        int total_notifiers = data_queue_pairs * 2 + cvq;
->>>>        VirtIONet *n = VIRTIO_NET(dev);
->>>>        int nvhosts = data_queue_pairs + cvq;
->>>> -    struct vhost_net *net;
->>>> +    struct vhost_net *net = NULL;
->>>>        int r, e, i, index_end = data_queue_pairs * 2;
->>>>        NetClientState *peer;
->>>>
->>>> @@ -391,8 +391,17 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
->>>>    err_start:
->>>>        while (--i >= 0) {
->>>>            peer = qemu_get_peer(ncs , i);
->>>> -        vhost_net_stop_one(get_vhost_net(peer), dev);
->>>> +
->>>> +        net = get_vhost_net(peer);
->>>> +
->>>> +        vhost_net_stop_one(net, dev);
->>>>        }
->>>> +
->>>> +    /* We only reset backend vdpa device */
->>>> +    if (net && net->dev.vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA) {
->>>> +        vhost_dev_reset(&net->dev);
->>>> +    }
->>>> +
->>>>        e = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
->>>>        if (e < 0) {
->>>>            fprintf(stderr, "vhost guest notifier cleanup failed: %d\n", e);
->>>> @@ -410,6 +419,7 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
->>>>        VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
->>>>        VirtIONet *n = VIRTIO_NET(dev);
->>>>        NetClientState *peer;
->>>> +    struct vhost_net *net = NULL;
->>>>        int total_notifiers = data_queue_pairs * 2 + cvq;
->>>>        int nvhosts = data_queue_pairs + cvq;
->>>>        int i, r;
->>>> @@ -420,7 +430,15 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
->>>>            } else {
->>>>                peer = qemu_get_peer(ncs, n->max_queue_pairs);
->>>>            }
->>>> -        vhost_net_stop_one(get_vhost_net(peer), dev);
->>>> +
->>>> +        net = get_vhost_net(peer);
->>>> +
->>>> +        vhost_net_stop_one(net, dev);
->>>> +    }
->>>> +
->>>> +    /* We only reset backend vdpa device */
->>>> +    if (net && net->dev.vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA) {
->>>> +        vhost_dev_reset(&net->dev);
->>>>        }
->>> So we've already reset the device in vhost_vdpa_dev_start(), any
->>> reason we need to do it again here?
->>>
->>>>        r = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
->>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>>> index c5ed7a3..3ef0199 100644
->>>> --- a/hw/virtio/vhost-vdpa.c
->>>> +++ b/hw/virtio/vhost-vdpa.c
->>>> @@ -708,6 +708,11 @@ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
->>>>
->>>>        ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
->>>>        trace_vhost_vdpa_reset_device(dev, status);
->>>> +
->>>> +    /* Add back this status, so that the device could work next time*/
->>>> +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->>>> +                               VIRTIO_CONFIG_S_DRIVER);
->>> This seems to contradict the semantic of reset.
->>>
->>>> +
->>>>        return ret;
->>>>    }
->>>>
->>>> @@ -719,14 +724,14 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev *dev, int idx)
->>>>        return idx;
->>>>    }
->>>>
->>>> -static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
->>>> +static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev, unsigned int ready)
->>>>    {
->>>>        int i;
->>>>        trace_vhost_vdpa_set_vring_ready(dev);
->>>>        for (i = 0; i < dev->nvqs; ++i) {
->>>>            struct vhost_vring_state state = {
->>>>                .index = dev->vq_index + i,
->>>> -            .num = 1,
->>>> +            .num = ready,
->>>>            };
->>>>            vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
->>>>        }
->>>> @@ -1088,8 +1093,9 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->>>>            if (unlikely(!ok)) {
->>>>                return -1;
->>>>            }
->>>> -        vhost_vdpa_set_vring_ready(dev);
->>>> +        vhost_vdpa_set_vring_ready(dev, 1);
->>>>        } else {
->>>> +        vhost_vdpa_set_vring_ready(dev, 0);
->>>>            ok = vhost_vdpa_svqs_stop(dev);
->>>>            if (unlikely(!ok)) {
->>>>                return -1;
->>>> @@ -1105,9 +1111,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->>>>            memory_listener_register(&v->listener, &address_space_memory);
->>>>            return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
->>>>        } else {
->>>> -        vhost_vdpa_reset_device(dev);
->>>> -        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->>>> -                                   VIRTIO_CONFIG_S_DRIVER);
->>>>            memory_listener_unregister(&v->listener);
->>>>
->>>>            return 0;
->>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->>>> index b643f42..7e0cdb6 100644
->>>> --- a/hw/virtio/vhost.c
->>>> +++ b/hw/virtio/vhost.c
->>>> @@ -1820,7 +1820,6 @@ fail_features:
->>>>    void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
->>>>    {
->>>>        int i;
->>>> -
->>> Unnecessary changes.
->>>
->>>>        /* should only be called after backend is connected */
->>>>        assert(hdev->vhost_ops);
->>>>
->>>> @@ -1854,3 +1853,17 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
->>>>
->>>>        return -ENOSYS;
->>>>    }
->>>> +
->>>> +int vhost_dev_reset(struct vhost_dev *hdev)
->>>> +{
->>> Let's use a separate patch for this.
->>>
->>> Thanks
->>>
->>>> +    int ret = 0;
->>>> +
->>>> +    /* should only be called after backend is connected */
->>>> +    assert(hdev->vhost_ops);
->>>> +
->>>> +    if (hdev->vhost_ops->vhost_reset_device) {
->>>> +        ret = hdev->vhost_ops->vhost_reset_device(hdev);
->>>> +    }
->>>> +
->>>> +    return ret;
->>>> +}
->>>> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
->>>> index 58a73e7..b8b7c20 100644
->>>> --- a/include/hw/virtio/vhost.h
->>>> +++ b/include/hw/virtio/vhost.h
->>>> @@ -114,6 +114,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
->>>>    void vhost_dev_cleanup(struct vhost_dev *hdev);
->>>>    int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
->>>>    void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
->>>> +int vhost_dev_reset(struct vhost_dev *hdev);
->>>>    int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
->>>>    void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
->>>>
->>>> --
->>>> 1.8.3.1
->>>>
->>>>
->>>>
->>
+> 
+>>           .vhost_get_vq_index = vhost_kernel_get_vq_index,
+>>   #ifdef CONFIG_VHOST_VSOCK
+>>           .vhost_vsock_set_guest_cid = vhost_kernel_vsock_set_guest_cid,
+>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>> index 6abbc9d..4412008 100644
+>> --- a/hw/virtio/vhost-user.c
+>> +++ b/hw/virtio/vhost-user.c
+>> @@ -1475,16 +1475,29 @@ static int vhost_user_get_max_memslots(struct 
+>> vhost_dev *dev,
+>>       return 0;
+>>   }
+>> +static int vhost_user_reset_owner(struct vhost_dev *dev)
+>> +{
+>> +    VhostUserMsg msg = {
+>> +        .hdr.request = VHOST_USER_RESET_OWNER,
+>> +        .hdr.flags = VHOST_USER_VERSION,
+>> +    };
+>> +
+>> +    return vhost_user_write(dev, &msg, NULL, 0);
+>> +}
+>> +
+>>   static int vhost_user_reset_device(struct vhost_dev *dev)
+>>   {
+>>       VhostUserMsg msg = {
+>> +        .hdr.request = VHOST_USER_RESET_DEVICE,
+>>           .hdr.flags = VHOST_USER_VERSION,
+>>       };
+>> -    msg.hdr.request = virtio_has_feature(dev->protocol_features,
+>> -                                         
+>> VHOST_USER_PROTOCOL_F_RESET_DEVICE)
+>> -        ? VHOST_USER_RESET_DEVICE
+>> -        : VHOST_USER_RESET_OWNER;
+>> +    /* Caller must ensure the backend has 
+>> VHOST_USER_PROTOCOL_F_RESET_DEVICE
+>> +     * support */
+>> +    if (!virtio_has_feature(dev->protocol_features,
+>> +                       VHOST_USER_PROTOCOL_F_RESET_DEVICE)) {
+>> +        return -EPERM;
+>> +    }
+>>       return vhost_user_write(dev, &msg, NULL, 0);
+>>   }
+>> @@ -2548,6 +2561,7 @@ const VhostOps user_ops = {
+>>           .vhost_set_features = vhost_user_set_features,
+>>           .vhost_get_features = vhost_user_get_features,
+>>           .vhost_set_owner = vhost_user_set_owner,
+>> +        .vhost_reset_owner = vhost_user_reset_owner,
+>>           .vhost_reset_device = vhost_user_reset_device,
+>>           .vhost_get_vq_index = vhost_user_get_vq_index,
+>>           .vhost_set_vring_enable = vhost_user_set_vring_enable,
+>> diff --git a/include/hw/virtio/vhost-backend.h 
+>> b/include/hw/virtio/vhost-backend.h
+>> index 81bf310..affeeb0 100644
+>> --- a/include/hw/virtio/vhost-backend.h
+>> +++ b/include/hw/virtio/vhost-backend.h
+>> @@ -77,6 +77,7 @@ typedef int (*vhost_get_features_op)(struct 
+>> vhost_dev *dev,
+>>                                        uint64_t *features);
+>>   typedef int (*vhost_set_backend_cap_op)(struct vhost_dev *dev);
+>>   typedef int (*vhost_set_owner_op)(struct vhost_dev *dev);
+>> +typedef int (*vhost_reset_owner_op)(struct vhost_dev *dev);
+>>   typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
+>>   typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx);
+>>   typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
+>> @@ -150,6 +151,7 @@ typedef struct VhostOps {
+>>       vhost_get_features_op vhost_get_features;
+>>       vhost_set_backend_cap_op vhost_set_backend_cap;
+>>       vhost_set_owner_op vhost_set_owner;
+>> +    vhost_reset_owner_op vhost_reset_owner;
+>>       vhost_reset_device_op vhost_reset_device;
+>>       vhost_get_vq_index_op vhost_get_vq_index;
+>>       vhost_set_vring_enable_op vhost_set_vring_enable;
 > 
 > 
-
 
