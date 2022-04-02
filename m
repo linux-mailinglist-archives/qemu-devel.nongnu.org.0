@@ -2,174 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5704EFD86
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 02:51:41 +0200 (CEST)
-Received: from localhost ([::1]:57442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105644EFDC6
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 03:33:29 +0200 (CEST)
+Received: from localhost ([::1]:41860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naRzQ-0004KH-7e
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 20:51:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49768)
+	id 1naSdr-00071C-Kz
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 21:33:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1naRwJ-0002qH-Ja
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 20:48:27 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:28638)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1naScn-0005rw-Ow
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 21:32:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1naRwG-0004bf-OZ
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 20:48:26 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 231JrSUl026804; 
- Sat, 2 Apr 2022 00:48:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=vLgoGr2rJyeqDr46Z/EYMOlvAXZL8wTjJsWIpcq5RmY=;
- b=OB7gHHWC/jIWoPazpw1fa+L3TXjMkvp6Rfre9sElEcveXy5ElwhWYRPYL1J8wlLT0dDT
- r+lI7DyW5I10EBRLNtfvZtsSU8eZoJmUHiVt2d5KkLDVav8amkQ3whhG3+12Qm6cFIHr
- 5yyHi7cVyKTPLXUUQ0SolygTmwrYs3OuFbhWv29FVfMDBce94jGGrJ7AUJR9qTSstD0H
- wR5UyoHasDfNUhVHGxx0Z+X4ZL0LH4pElj8gAC/oj4JBVH1PbV00wevqtVSh6lAymwr8
- Lqrg5eD8bH1Ed4lIG3yBQjorR1LBV7PXDNP8CGygperVZp28zPxZADK7DHvyzjA8vbk5 8g== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com with ESMTP id 3f1tqbfxxu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 02 Apr 2022 00:48:18 +0000
-Received: from pps.filterd
- (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 2320kTab004166; Sat, 2 Apr 2022 00:48:16 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2105.outbound.protection.outlook.com [104.47.70.105])
- by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3f1s99gakj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 02 Apr 2022 00:48:16 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U5XekY/e9gOSBKtRvI443xJTM/YTkEfN9vs67EgagLrPEcvTRlYnFd3lHS4LCzBZFMrrfAWkLUhYoZ/6R+7ZvEXkHvgDbTpInf9VnWzIizRhntzx/F3l/v4DjNhkZrCTDkuZT8APsBjI5iWZz+YdPvvgdFmprcmFuHqKcareNkCAHWY4xFY+gZ/Xl1O/iN8JkeAkZpqy6hzOvj5fpTvg/WIVV7zTBS3TSNWqLTFCf1PbQqIkUPOIVjo5xaNC12+sfuNbRlgPiukio9ajOhgWJQnz2jvZuK27ZQu1dWFteT5+D1FstBiUL1t29ScBQZ2sVDLLsmOU21dHm2tqUVCZQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vLgoGr2rJyeqDr46Z/EYMOlvAXZL8wTjJsWIpcq5RmY=;
- b=X3Z9U4dBsOcOaB51aEWeWh+ma5e8NnrNxJvRVuXVcRrW71+cFNVNvrZGpwOApXC1EBoVomdYEev1nm49nNMjE0xUD/gpLey25L+S1lFiJtgxxzF6gB9V6owV59PeONW/jOPyfrgDO+VJ0mR7FLaY89IlyrREtsjNGHyIdXlj3Qu+Y7stNz4knpapQFQxTOnxyVm1XjH+AU0yvMaCqiDrSNFucl4LZoQi2WstR2QByLrAxHJ0W5tcXpHCjI1rwNj9MkVgfaAIBi5ksNji89ilkRbrmp1e9BGrt5fYt0L7nFBTSO4rCAClwXGsF5aAqQM7X/JXQ1c7r2XzMsaVz5BlAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vLgoGr2rJyeqDr46Z/EYMOlvAXZL8wTjJsWIpcq5RmY=;
- b=oxkXDaiJrxKz8VbCxYDVarX7UOpbOyP+qNq7rNAYfWhIrVaMYKIKUCw4Pwchl+0mAXHHbzGOVIvGl+zrwX5RVO3r9VicioeWPPdPBBwF23b1NCC08P8+WBYNmhj5khmPHwDVOdnXkOC3PZ18WEDACE6PHUma1zVvA+cWlSMWscs=
-Received: from BYAPR10MB3287.namprd10.prod.outlook.com (2603:10b6:a03:15c::11)
- by DM6PR10MB4364.namprd10.prod.outlook.com (2603:10b6:5:223::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.28; Sat, 2 Apr
- 2022 00:48:15 +0000
-Received: from BYAPR10MB3287.namprd10.prod.outlook.com
- ([fe80::9d4f:2df4:8bd8:f468]) by BYAPR10MB3287.namprd10.prod.outlook.com
- ([fe80::9d4f:2df4:8bd8:f468%3]) with mapi id 15.20.5123.023; Sat, 2 Apr 2022
- 00:48:15 +0000
-Message-ID: <7118cf9e-992a-baa7-1eb1-4e527f81d61a@oracle.com>
-Date: Fri, 1 Apr 2022 17:48:09 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 2/3] vhost: add vhost_dev_reset()
-Content-Language: en-US
-To: Michael Qiu <qiudayu@archeros.com>, jasowang@redhat.com, mst@redhat.com
-References: <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
- <1648811173-15293-1-git-send-email-qiudayu@archeros.com>
- <1648811173-15293-3-git-send-email-qiudayu@archeros.com>
-From: Si-Wei Liu <si-wei.liu@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <1648811173-15293-3-git-send-email-qiudayu@archeros.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR04CA0011.namprd04.prod.outlook.com
- (2603:10b6:a03:40::24) To BYAPR10MB3287.namprd10.prod.outlook.com
- (2603:10b6:a03:15c::11)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1naScj-00026y-SX
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 21:32:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648863136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YMl+oCJf5ownBL+sTkh/XHBx5mduOfwaENyaukOw97o=;
+ b=bDUrFh7hVHa99Z1N4kIJbJ2ZUoePvuQRjpfXgSBDBeryx1yO5oqCV9UOc1zNNq3Emixe8w
+ +nXVYL1PkesE0C30i5/0DQy0PbrSI0LYUgEt7XNRnhswrD/+astR+ud5W3E0vTaLMtnYhR
+ DHgJuRpPUleAk7/hnwHtcH3gFAiPEWI=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-616-teTzL6VXOk2EWS9Om6CBhA-1; Fri, 01 Apr 2022 21:32:14 -0400
+X-MC-Unique: teTzL6VXOk2EWS9Om6CBhA-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ bi4-20020a0565120e8400b0044acdd98ce2so1893642lfb.17
+ for <qemu-devel@nongnu.org>; Fri, 01 Apr 2022 18:32:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YMl+oCJf5ownBL+sTkh/XHBx5mduOfwaENyaukOw97o=;
+ b=yBX2WHMKlcAt8ysN/s12mTuOoxgGNDMKBsETZYCmz/RZWs/B/69h61NGhc8VSj9+0E
+ ai0n48WSzIpw4SpC2N1OiJ9TYUtDwfew1fks8ED8JmXnbEhudAG9jBTCPi3CnuuHZz9F
+ 2BOjqwzGFSVWlaKqdOBTG/ICV+e15I/zUO3TqJkebsf/Fauz4NCTGqsnT5eQxKmbRlgX
+ Y1oTKHFGB7H3WHSgpFF3+lp5zjYgBBeEpH7vFCUoM88VkjjOPmHC74PuxdOVVhS2+2eW
+ r7LreQPR7Y/y5SA0HSyUmzV/9TwEhGu/G+sNCC94pAUIGCIU/r/LO+cjEDYKnPTfabvU
+ 999Q==
+X-Gm-Message-State: AOAM531WYd2XR4IOPBVH/wg2bjbvyHC3ZWKHWqJIMqdSE2H7eoBuilxe
+ 3+fZUa+R49AFSE1SgEEXHPQiuVf8UxqK9ykam1vZlskIYJ9/YKlomtUqsn1/4hbm0jfvGtTNj+l
+ xs346SdUAVVTfDChZks/Cuikv+XaT6XQ=
+X-Received: by 2002:a2e:534a:0:b0:24a:f64f:a1d6 with SMTP id
+ t10-20020a2e534a000000b0024af64fa1d6mr7596645ljd.315.1648863133206; 
+ Fri, 01 Apr 2022 18:32:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzH2S7l9irroTTGJjO7fTj5aJYiTRVZiehKh3GQe79ZXrT/h9Wyk9FT04oMiZjqbU7E8LTFW3bNrrCcTpLXGUM=
+X-Received: by 2002:a2e:534a:0:b0:24a:f64f:a1d6 with SMTP id
+ t10-20020a2e534a000000b0024af64fa1d6mr7596632ljd.315.1648863132943; Fri, 01
+ Apr 2022 18:32:12 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b8cd8281-c8d6-4437-b5cb-08da14427872
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4364:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR10MB4364C254193593DA453CACC5B1E39@DM6PR10MB4364.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hFbE/g82nkr8SQT24YgQo733IfITBKUAzmvAzPUG7gdskFS/zBhgYKVCSkKO08NFTptUhYd3Z5MUFuNssGFGdFt7Ei6bBKo7vucgw7/mNgevYq8CguBoT3H1s4t/l+b1IrAdEMOdmG/3HXp86ZR3x3HYOSbHQktdZx+5N2iLqPBu+KVxqM+k9qFkz8r35PC1mkWzIWvNFIkD/E7nVl7QuklGdsIdNxswNu6magsUvxg13MvmARFv3tvFdlHlyqeCpKAYuCKL+SNvJk+L315l5ISHqrBXO16Xt7OuDuJkUqeo8moeuPe9jPBw7qCHVOYZNOpqIf0qsgmCB5gKuvC0/rIEyNAJ7clYZbQfWf2LtOfjGMt42Sk95RGaQTGTAdyjR+tSf5EpaU+7QLDkUIMkDXhr3JiKI0MrMs5CODAmI2HQwvBrvvEc1CzduZGiMH37/KBmAwZ1LSefohTf4C2vdSMOeXePpRtdVAIDJYny8xecLBDu1DMaP/xQKmytD/TBHx1uB+AqIqLu19rM0zDaaVJ4smcBOQAA/Qa0zruz7D8PK8XhFyaDwzsZXe+nUXOLW2zHHNmobZkw2j8977id4B9GwzlaqVQlW/QnWN0BduCUne94/IJmMnMNHZmFdActuIp0qknRe4CwLJ7Ya3kWgZkPdkK5mMQ0/62/zAX6mNmdN/lRsNoonFMnY1Ij4Dr3Q7gu4YSvF4ACsq89nNlJvClC+hceh1bLE0ozX5eKjKc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3287.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6512007)(2616005)(53546011)(2906002)(6506007)(31686004)(5660300002)(8936002)(36756003)(66556008)(6486002)(86362001)(508600001)(8676002)(66476007)(66946007)(4326008)(31696002)(6666004)(26005)(186003)(316002)(36916002)(38100700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmQ1U2ZBeGJ2d05nUk1PcEhJOGNoaTJxdEZheXNxekhUQ1BtODBMSTZiZG9x?=
- =?utf-8?B?WklnT2xBU08zSDhESHVMck5QbHVxalVoY1pVMHNwVG8rUU5aTkRTMDl4dDhC?=
- =?utf-8?B?d3lkdnk1aTc2aTNpQUV1Y3hyWUIvR3luRlBkZlpTKzdPb3BHT3JKMHVvZmFs?=
- =?utf-8?B?MXFvdDhIS1RBVTRqdzlhVUtNWFB5U3ZaY0lxeGlpZ1RBK3FmV3cwanVEUzZH?=
- =?utf-8?B?cUsyUXZSRXdnWGx0dHM0OTNuSlNGSVo4dXVCZy92UXN1ZlZNTlBwVUJYTExU?=
- =?utf-8?B?VVd0U0hKSXFqNzNvaDZ5cElCL1RLTS9COTdJZHlGeDJQVEF4c00wU3I2d01o?=
- =?utf-8?B?NitEckNoci9VeEREUEN5cGdkTWJIMGEyRWhzSy9BSjluWWwyVTh6cndxeVNH?=
- =?utf-8?B?L2VKNEZXNGlPVmw2eG15Q2xBdlZKRmxkVUtjUGw1QXdNZDEvN2ZVeDJmdzk4?=
- =?utf-8?B?MjFYb1F0dGgzaDRmdTRrWEloQmxGME8zeG1EeFRQeC9SNjRneGVuckFXbDAy?=
- =?utf-8?B?ZkZuRlZ6TFJhb3NTbkVnMDNob3ZsemxYN01qdnJlRjNjUTJGK0FqR0ZEN2E1?=
- =?utf-8?B?QXJXWWJXblRPa09SRUtOMXpsWk10ODRjZE1KL0pBUTBoanVlTHU1KzVXTGU5?=
- =?utf-8?B?VnA1Y1puRG1ZSXJycGFSSE5Yd3NQOERsWGV4RWhGMURGN1RVbFVvR3UxeFBD?=
- =?utf-8?B?dnVRc3dDY3RxT0NpajE1eWJHK2Yzeks5WXJaTXlWVXhWL3dTd3hoeHl2eVVZ?=
- =?utf-8?B?WHpLQlBxUlEwZnArOVZtckZKVWRMU0dFU1NaMU9nN0oxK0kyU1AwZUFFTG9I?=
- =?utf-8?B?dndPcnhYc1hVUWdlTTF3eTVUOFM2Q2JQTmtvaGpvdHhCTlFLV1Zxb1ZWYi9B?=
- =?utf-8?B?dEcvaWJnMU5JNzdDeUI5dUhqdElsd1FjeUNCZUVBa3N4TEROaW9EZG52Qzly?=
- =?utf-8?B?V0JEUzQyRktERE5DZm1PL3Y3K0F3RCthMTFhaXM3MzE1NEk0UzVxYzV3VmlC?=
- =?utf-8?B?dHFFbmJwWTBqYzRXNlkyeTZwa2FNRG52YlYxVlVqZmFEKzlteER0VXY1dmlu?=
- =?utf-8?B?Ti9CS0NFa2tsUUNHQjkxSnl0YTZZK2d3UDZTaGQ4emN6VlNoT3pjVHhCSmVr?=
- =?utf-8?B?ZXZNSVFxZE5iak51aU9GMWQ0QjI3YURhNmNRN29CK2ZDVkZHTmV2a25IYWJ3?=
- =?utf-8?B?NFlTTzFQalkyU0UvZkJPSkZDdlZGblpwdEVtd2Rpd3hJakh0UDc4SnpNcGdV?=
- =?utf-8?B?Rm1rcmMwNzNuVGdSR2tJQnlYdCtETXR4dkNRMC8wTUlXR1dHZDMwV0FuTUhx?=
- =?utf-8?B?MEppRUFUZHNaMEpJcElQQnU3cG5JMFdVQUNVV2ZIUmhQTTV2dy93Qy9lTHNl?=
- =?utf-8?B?ZjhHTi9OZk5RdWZrYnhzNmRWcjNCS3lod3lHa3FUMkZSa3ozZnE0VlFjRWtw?=
- =?utf-8?B?U3BhN3VRV0FFalJyc3UrRlB6dXpDcGt3QUVvcThLRE9YMWNyd0FvOStHdVJI?=
- =?utf-8?B?ZzByemlzTU5Va0tXRkw2TU85M3JWaDRKQ3NWdk01d0Nxb1VIUC9xaWNpaFo3?=
- =?utf-8?B?ZHdNSXpXbHRWL0RjRUIwYTlCN002SytmeWU3QzVWVkYzOHorVUlCZEFSSkEr?=
- =?utf-8?B?Zmc0N0ROOUgzY1ZYNDlSakdHQU5hTXZaek8rUGZjVTBmUXlEdVlXYnJoTEo5?=
- =?utf-8?B?dDJJT1RmQ2lWbHIva0FkSmhtT0JOT0xXb1NaS1JCR2tudEkwcDk0NjlYb1hm?=
- =?utf-8?B?OGZ0clh0aHZUSDgxd09qOEFMRlJzdTRzTnhLZjVUdTY0M1VXZ2NwcHRhRllU?=
- =?utf-8?B?SGY5UDRuS1dFU0VLVzRSRXZkRzZ3ZEU1QzZ0TkZid1pHcXJhS2paL3ZEU3lV?=
- =?utf-8?B?S3JsUFM2V0x1eWhqV1lZaGNCZDl3S1ROTk45d3FUWmlEeWlKMmlEVUkvV2Iv?=
- =?utf-8?B?cjBCSE5rM3l5YjdoaGNCRk9CeUNSYXgwZC9ZU2llSDh2WnJFbHNBT28vbC91?=
- =?utf-8?B?K0N6Rm5qOXgyckJKNHdwamZ3VmtrYkorTWZDSkZJQ05oUWdWVmJ1WWZ3NTNj?=
- =?utf-8?B?ZnZkNGhHZllIRUU4bmZ5WTBiaHU3UEQxSDYyT2RMNHBEWnk2Q2xlb3pnWFg1?=
- =?utf-8?B?UGhPall4SnhadWNGUzNiQTFNU3l0b2R1c2VTMk1jQzFjNGppWEN1WEVSWjlQ?=
- =?utf-8?B?TFVmZmNvOCt6bTFsN2dJS3g4emNTcVVhb3A1SnBqNU1yWWhVZk5KWHpFcVdH?=
- =?utf-8?B?NEs5aHVCSHhzbFI2MkZWZUpXLzlSZ0FCSW9lQlBrT0wwZ2gzY08xUDN0SDd2?=
- =?utf-8?B?VWZ5Y0xvN1FUQ1dXc2V6d3d1SXh3MU4zdG84K1kvQkN3ajl6Z0ZsNzBSR1lp?=
- =?utf-8?Q?81vEcBgbU6ctdLt4=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8cd8281-c8d6-4437-b5cb-08da14427872
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3287.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2022 00:48:15.0339 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rApo3Hfo/hTGFxvfqF8Ew4P9JsUAwX04x2r660Z71nhvkkB/S4sIsxrODAqP3CQmLraQKf2jB4xTgNfT5AOVwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4364
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.850
- definitions=2022-04-01_08:2022-03-30,
- 2022-04-01 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0
- phishscore=0 mlxlogscore=999 spamscore=0 mlxscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204020002
-X-Proofpoint-GUID: K0lhL_8vJTlftsboxp6BQwySJ-votJAN
-X-Proofpoint-ORIG-GUID: K0lhL_8vJTlftsboxp6BQwySJ-votJAN
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=si-wei.liu@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220331181451.534433-1-eperezma@redhat.com>
+ <CACGkMEsfBRFHMRVSUFDxjnLGc6WdmtcEwAiXGmuue7j4_-Ybew@mail.gmail.com>
+ <CAJaqyWfJtf=SJmpFo8M-HO=9qJRV7HEh5uv4rcHWsrD96OuauQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWfJtf=SJmpFo8M-HO=9qJRV7HEh5uv4rcHWsrD96OuauQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Sat, 2 Apr 2022 09:32:02 +0800
+Message-ID: <CACGkMEuR_tiPCs+5jkN_1=Z6JTYX80K7EcBpJL1+Sgs2K4-tfg@mail.gmail.com>
+Subject: Re: [PATCH] vhost: Fix bad return of descriptors to SVQ
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
@@ -185,61 +96,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma@redhat.com, lingshan.zhu@intel.com, qemu-devel@nongnu.org,
- lulu@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 4/1/2022 4:06 AM, Michael Qiu wrote:
-> Not all vhost-user backends support ops->vhost_reset_device(). Instead
-> of adding backend check and call backend ops directly, it's better to
-> implement a function in vhost framework, so that it could hide vhost_ops
-> details.
+On Fri, Apr 1, 2022 at 3:31 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+rote:
 >
-> SIgned-off-by: Michael Qiu <qiudayu@archeros.com>
-> ---
->   hw/virtio/vhost.c         | 14 ++++++++++++++
->   include/hw/virtio/vhost.h |  1 +
->   2 files changed, 15 insertions(+)
+> On Fri, Apr 1, 2022 at 4:30 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Fri, Apr 1, 2022 at 2:14 AM Eugenio P=C3=A9rez <eperezma@redhat.com>=
+ wrote:
+> > >
+> > > Only the first one of them were properly enqueued back.
+> > >
+> > > Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > ---
+> > >  hw/virtio/vhost-shadow-virtqueue.c | 17 +++++++++++++++--
+> > >  1 file changed, 15 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-sha=
+dow-virtqueue.c
+> > > index b232803d1b..c17506df20 100644
+> > > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > > @@ -333,13 +333,25 @@ static void vhost_svq_disable_notification(Vhos=
+tShadowVirtqueue *svq)
+> > >      svq->vring.avail->flags |=3D cpu_to_le16(VRING_AVAIL_F_NO_INTERR=
+UPT);
+> > >  }
+> > >
+> > > +static uint16_t vhost_svq_last_desc_of_chain(VhostShadowVirtqueue *s=
+vq,
+> > > +                                             uint16_t i)
+> > > +{
+> > > +    vring_desc_t *descs =3D svq->vring.desc;
+> > > +
+> > > +    while (le16_to_cpu(descs[i].flags) & VRING_DESC_F_NEXT) {
+> > > +        i =3D le16_to_cpu(descs[i].next);
+> >
+> >
+> > This seems to be a guest trigger-able infinite loop?
+> >
 >
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index b643f42..26667ae 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -1854,3 +1854,17 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
->   
->       return -ENOSYS;
->   }
-> +
-> +int vhost_dev_reset(struct vhost_dev *hdev)
-Maybe vhost_user_scsi_reset() can call this function instead?
+> This is the list of the SVQ vring. We could consider an infinite loop
+> triggable by the device if it can write the vring directly.
+>
 
--Siwei
-> +{
-> +    int ret = 0;
-> +
-> +    /* should only be called after backend is connected */
-> +    assert(hdev->vhost_ops);
-> +
-> +    if (hdev->vhost_ops->vhost_reset_device) {
-> +        ret = hdev->vhost_ops->vhost_reset_device(hdev);
-> +    }
-> +
-> +    return ret;
-> +}
-> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> index 58a73e7..b8b7c20 100644
-> --- a/include/hw/virtio/vhost.h
-> +++ b/include/hw/virtio/vhost.h
-> @@ -114,6 +114,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
->   void vhost_dev_cleanup(struct vhost_dev *hdev);
->   int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
->   void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-> +int vhost_dev_reset(struct vhost_dev *hdev);
->   int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
->   void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
->   
+Ok.
+
+> I can add a counter in the loop, or to maintain an internal copy of
+> the vring so it's completely hardened against malicious/bad devices.
+> It should be done for packed vring anyway.
+
+Yes, let's do that. It would be better if we don't trust the device.
+
+Thanks
+
+>
+> Thanks!
+>
+> > Thanks
+> >
+> >
+> > > +    }
+> > > +
+> > > +    return i;
+> > > +}
+> > > +
+> > >  static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq=
+,
+> > >                                             uint32_t *len)
+> > >  {
+> > >      vring_desc_t *descs =3D svq->vring.desc;
+> > >      const vring_used_t *used =3D svq->vring.used;
+> > >      vring_used_elem_t used_elem;
+> > > -    uint16_t last_used;
+> > > +    uint16_t last_used, last_used_chain;
+> > >
+> > >      if (!vhost_svq_more_used(svq)) {
+> > >          return NULL;
+> > > @@ -365,7 +377,8 @@ static VirtQueueElement *vhost_svq_get_buf(VhostS=
+hadowVirtqueue *svq,
+> > >          return NULL;
+> > >      }
+> > >
+> > > -    descs[used_elem.id].next =3D svq->free_head;
+> > > +    last_used_chain =3D vhost_svq_last_desc_of_chain(svq, used_elem.=
+id);
+> > > +    descs[last_used_chain].next =3D svq->free_head;
+> > >      svq->free_head =3D used_elem.id;
+> > >
+> > >      *len =3D used_elem.len;
+> > > --
+> > > 2.27.0
+> > >
+> >
+>
 
 
