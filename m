@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CAB4F0102
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 13:21:59 +0200 (CEST)
-Received: from localhost ([::1]:54896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D414F0471
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 17:32:27 +0200 (CEST)
+Received: from localhost ([::1]:48510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nabpO-0002kJ-6d
-	for lists+qemu-devel@lfdr.de; Sat, 02 Apr 2022 07:21:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49546)
+	id 1nafjm-0005hL-Dl
+	for lists+qemu-devel@lfdr.de; Sat, 02 Apr 2022 11:32:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1naboB-00021m-Ge
- for qemu-devel@nongnu.org; Sat, 02 Apr 2022 07:20:43 -0400
-Received: from [2607:f8b0:4864:20::112f] (port=43204
- helo=mail-yw1-x112f.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nafid-0004ui-17
+ for qemu-devel@nongnu.org; Sat, 02 Apr 2022 11:31:15 -0400
+Received: from [2a00:1450:4864:20::634] (port=42837
+ helo=mail-ej1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nabo9-0000q0-RD
- for qemu-devel@nongnu.org; Sat, 02 Apr 2022 07:20:43 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2e5e31c34bfso56065777b3.10
- for <qemu-devel@nongnu.org>; Sat, 02 Apr 2022 04:20:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qqioWiBIwW6rsyOFImTV+eWLi6qkTL9+6ydS13uA4LE=;
- b=VaLoDo1BqKkIAm20Hb/R6OyMPHTmfqjS4cg9PkwocSUJGhxICz3rUf0vgLedPxar3K
- PlNqkSE3xyK1INlKZbC6eDrj9RToi/8ogcyr/07Gg82x1YwLWIBwi/p/+71ylzAGzAwE
- HYsGGnDzLxGvuFMF9SifN9sciGbvf1bMm7iGxJVC9/r+bNfWepKDldLpKPLy5IetBN2U
- fvwJkt/wgfRp+faXvSANQjlGhzPS5VAz2nJwWohAcOzTmDwx8FvWaGPGTPTwePlnAPi/
- 2zVy8YWdgZBNYMWHZK2V5fPc0o1nvcVSwd1mN3IKHc+AeBwNebucvvcDEHKlnFtZRvyL
- CQVw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nafib-00057K-EX
+ for qemu-devel@nongnu.org; Sat, 02 Apr 2022 11:31:14 -0400
+Received: by mail-ej1-x634.google.com with SMTP id i27so4448308ejd.9
+ for <qemu-devel@nongnu.org>; Sat, 02 Apr 2022 08:31:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=lOhb3kJMGZ1xP9WG2zUmc9UCS5rzmeXuASIZVL7aOg8=;
+ b=C4EhfamaX9mRvDvMJNItlWNctGcu4gqUpL2CfOTf/Mba36NqrBPIZQ5rK+xmVTycnr
+ dqzUYEtfKblCVaQZwfqJJRc8NF7875bKAFH5iBwpjbvdC8IkQFVUMOSPvtKDroOLLI65
+ +i9H/DuOgjkSixxKC7b0f6+j1qgxswl01aW1MV11EygWFZw1c1p3cEqnab6OvXBxnvPR
+ +YngM8uzwZagFA8IC3haDr/uMPllSpPl8J3UjqI7rJFLY9A1fovMYa5s/A5AQOD26WSG
+ Pfj8byLUpapcQMU6MLXBFkXwNaVvwPgdipM1NsrelFkAfJ8v8VocSMJHqTp6At1LN4Xe
+ KiRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qqioWiBIwW6rsyOFImTV+eWLi6qkTL9+6ydS13uA4LE=;
- b=2xw/FDhrX091TsPDlo2JqHQJNlDtoNIt+Zybgmq62yviv11VfPeoTWKIP7uNIA4+3l
- cdF5OefUkNoFZ56GBAg9z8O7XKA9p1mNBdJhlQUfEKpdLi0K1Q8MSelzJyPmxCyNaq26
- shwHnN4kBATU0H9s5Z66cYbekoHqm8Zp0RipiQeu6wTVMFHlGGBE6zK1oM6NRuCh3qha
- TqvrBH/WxsCXonD5HTpzrEztMeeczDk8vg9gBL6W4L1WRIp7KQaKAn66WZ+HXhV2WNfn
- QDC83dohxGhh0KamaolOc7eBUut6iD5cl7BiQjoVxtLGLOEVXuIdzDVhqmcvlW05H6gE
- hdAg==
-X-Gm-Message-State: AOAM533Tczo5rgUWsh2u9+d1WiPE5xwoMWUrZtrLezZduLNb/C4I/DLE
- fg2fkT3A1DwxMh6Pquc2Yzzznk5bfru8hZQnh7U=
-X-Google-Smtp-Source: ABdhPJyfdNMATnkg7kHBH3elD3mR5VNrkZITYyIrfrs5mvrr0tO9W0U/9+uT9CxXoUYsO2RaO97pLVhSJmgLCpHlUj0=
-X-Received: by 2002:a81:ad7:0:b0:2e6:84de:3223 with SMTP id
- 206-20020a810ad7000000b002e684de3223mr14287329ywk.209.1648898435329; Sat, 02
- Apr 2022 04:20:35 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lOhb3kJMGZ1xP9WG2zUmc9UCS5rzmeXuASIZVL7aOg8=;
+ b=WQP0d5gqK3dD/7VDYKOfRjGJ279F78vDbGufvMIqkpc3QM4SnS4udHndDDAtzf2v39
+ BOh+MXPUW65MXgbzkhyGBqkT0PHGuNbVVba11UqW5WSEmQ4w2N1PWCDez3IfiEmY6Tqp
+ 8if3x2qQXrH2PBN/2WfDGEkBp33hPrJoKntBdxzfqxMKhivJp4BsI6IMjBAE0n7lkqaQ
+ Ium7Kli8WMwEJ3MqfHOGMuYfe8Tu6n43KLoP94VaL92sVoJlFzWU62gF+VzJ0vHTELur
+ flsz7CFOvME/gZwsi335CJzu81coLS9r1DBXDORWAV7wKEUGHczhnFn/I+VLa66Cv/pP
+ XVSw==
+X-Gm-Message-State: AOAM532AUdHR2F2/oCRobPWyVHognMLdy+gq3FlUFiCGIn3pVNS2b7aV
+ bM364A8A7BvZKRXJajVJAt1GtA==
+X-Google-Smtp-Source: ABdhPJyR0y8bYH+4DQVZz/zfDwPkzFKDrCAm4Dkx+Rrt0euopYevtZzeyTfJt0hn5FpPD5nPSAJLEw==
+X-Received: by 2002:a17:907:7ea5:b0:6e1:13c3:e35f with SMTP id
+ qb37-20020a1709077ea500b006e113c3e35fmr4194154ejc.99.1648913471161; 
+ Sat, 02 Apr 2022 08:31:11 -0700 (PDT)
+Received: from [192.168.31.109] ([185.81.138.21])
+ by smtp.gmail.com with ESMTPSA id
+ k8-20020a1709067ac800b006e0d47d3a63sm2196234ejo.84.2022.04.02.08.31.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 02 Apr 2022 08:31:10 -0700 (PDT)
+Message-ID: <11a19b72-6115-7a41-6c5f-31bbc50df539@linaro.org>
+Date: Sat, 2 Apr 2022 09:30:53 -0600
 MIME-Version: 1.0
-References: <20220322154213.86475-1-bmeng.cn@gmail.com>
- <CAFEAcA8RdqQ5fzoZtb5SaYe41FA=oKo21veergqhMgo=eFmB6Q@mail.gmail.com>
- <CAEUhbmVXiB+mbbjhy0sT2PhQHNJgdHmehXfcE18g=E3SPffndQ@mail.gmail.com>
- <87wngj3aj2.fsf@linaro.org>
- <CAFEAcA_O8=0KZ=sjzP7GZ=ytSQm0P+zB_t=jQ2nZnw6b721Yxw@mail.gmail.com>
- <CAEUhbmWjjqihJb70x2k4+yf9dr8yh+_eMRu0MubofSbw+C9izQ@mail.gmail.com>
- <CAFEAcA_m0wUWqJQ2-n5bYZq=xPkUW+SOU2555-z=LMgzrm2W0Q@mail.gmail.com>
- <CAEUhbmV7BnHHAoY+jHAioiYo2Vz-2VJOpgcz7WRFx6+FGvaYxA@mail.gmail.com>
-In-Reply-To: <CAEUhbmV7BnHHAoY+jHAioiYo2Vz-2VJOpgcz7WRFx6+FGvaYxA@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 2 Apr 2022 19:20:24 +0800
-Message-ID: <CAEUhbmXNBt1L0jqma2XwCEr5C70r=3z0mH-A_1qq=3zKee1f1Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gdbstub: Set current_cpu for memory read write
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112f
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] target/s390x: Fix the accumulation of ccm in op_icm
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20220401193659.332079-1-richard.henderson@linaro.org>
+ <b3df0aa3-46eb-b7ed-93ab-1e5b3ec9f23f@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <b3df0aa3-46eb-b7ed-93ab-1e5b3ec9f23f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x112f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -91,87 +93,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 12:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Mon, Mar 28, 2022 at 5:10 PM Peter Maydell <peter.maydell@linaro.org> =
-wrote:
-> >
-> > On Mon, 28 Mar 2022 at 03:10, Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > IMHO it's too bad to just ignore this bug forever.
-> > >
-> > > This is a valid use case. It's not about whether we intentionally wan=
-t
-> > > to inspect the GIC register value from gdb. The case is that when
-> > > single stepping the source codes it triggers the core dump for no
-> > > reason if the instructions involved contain load/store to any of the
-> > > GIC registers.
-> >
-> > Huh? Single-stepping the instruction should execute it inside
-> > QEMU, which will do the load in the usual way. That should not
-> > be going via gdbstub reads and writes.
->
-> Yes, single-stepping the instruction is executed in the vCPU context,
-> but a gdb client sends additional commands, more than just telling
-> QEMU to execute a single instruction.
->
-> For example, the following is the sequence a gdb client sent when doing a=
- "si":
->
-> gdbstub_io_command Received: Z0,100000,4
-> gdbstub_io_reply Sent: OK
-> gdbstub_io_got_ack Got ACK
-> gdbstub_io_command Received: m18c430,4
-> gdbstub_io_reply Sent: ff430091
-> gdbstub_io_got_ack Got ACK
-> gdbstub_io_command Received: vCont;s:p1.1;c:p1.-1
-> gdbstub_op_stepping Stepping CPU 0
-> gdbstub_op_continue_cpu Continuing CPU 1
-> gdbstub_op_continue_cpu Continuing CPU 2
-> gdbstub_op_continue_cpu Continuing CPU 3
-> gdbstub_hit_break RUN_STATE_DEBUG
-> gdbstub_io_reply Sent: T05thread:p01.01;
-> gdbstub_io_got_ack Got ACK
-> gdbstub_io_command Received: g
-> gdbstub_io_reply Sent:
-> 3848ed0000000000f08fa6100000000003000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-000000000000000000000000000100000000000000000000000000000000000000000000000=
-000000000000000000000000000000000000000000000000000000000000000000000000000=
-00000000000000000000000000000000000001f90000000030a5ec000000000034c41800000=
-00000c9030000
-> gdbstub_io_got_ack Got ACK
-> gdbstub_io_command Received: m18c434,4
-> gdbstub_io_reply Sent: 00e004d1
-> gdbstub_io_got_ack Got ACK
-> gdbstub_io_command Received: m18c430,4
-> gdbstub_io_reply Sent: ff430091
-> gdbstub_io_got_ack Got ACK
-> gdbstub_io_command Received: m18c434,4
-> gdbstub_io_reply Sent: 00e004d1
-> gdbstub_io_got_ack Got ACK
-> gdbstub_io_command Received: m18c400,40
-> gdbstub_io_reply Sent:
-> ff4300d1e00300f980370058000040f900a00191000040f900b00091000040f900e004911=
-e7800f9fe0340f91e0000f9ff43009100e004d174390094bb390094
-> gdbstub_io_got_ack Got ACK
-> gdbstub_io_command Received: mf9010000,4
->
-> Here "mf9010000,4" triggers the bug where 0xf9010000 is the GIC register.
->
-> This is not something QEMU can ignore or control. The logic is inside
-> the gdb client.
->
+On 4/2/22 02:38, Thomas Huth wrote:
+> On 01/04/2022 21.36, Richard Henderson wrote:
+>> Coverity rightly reports that 0xff << pos can overflow.
+>> This would affect the ICMH instruction.
+>>
+>> Fixes: Coverity CID 1487161
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/s390x/tcg/translate.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+>> index 5acfc0ff9b..ea7baf0832 100644
+>> --- a/target/s390x/tcg/translate.c
+>> +++ b/target/s390x/tcg/translate.c
+>> @@ -2622,7 +2622,7 @@ static DisasJumpType op_icm(DisasContext *s, DisasOps *o)
+>>                   tcg_gen_qemu_ld8u(tmp, o->in2, get_mem_index(s));
+>>                   tcg_gen_addi_i64(o->in2, o->in2, 1);
+>>                   tcg_gen_deposit_i64(o->out, o->out, tmp, pos, 8);
+>> -                ccm |= 0xff << pos;
+>> +                ccm |= 0xffull << pos;
+>>               }
+>>               m3 = (m3 << 1) & 0xf;
+>>               pos -= 8;
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+> Is this still something for 7.0, or can it wait for the 7.1 cycle?
 
-Ping for this series?
+The bug has been present since 2012, affecting only the cc value of icmh.  It could wait 
+for 7.1.
 
-Regards,
-Bin
+r~
 
