@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD2A4EFE45
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 05:45:34 +0200 (CEST)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FAE4EFE4C
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 05:55:42 +0200 (CEST)
+Received: from localhost ([::1]:58658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naUhh-00008f-GI
-	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 23:45:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37338)
+	id 1naUrV-0002ch-3P
+	for lists+qemu-devel@lfdr.de; Fri, 01 Apr 2022 23:55:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1naUgb-0007vV-Is
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 23:44:25 -0400
-Received: from smtpbg138.qq.com ([106.55.201.18]:26099 helo=smtpbg.qq.com)
+ id 1naUq4-0001vz-2Z
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 23:54:12 -0400
+Received: from smtpbg136.qq.com ([106.55.201.188]:21199 helo=smtpbg.qq.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qiudayu@archeros.com>)
- id 1naUgY-0001nd-Cg
- for qemu-devel@nongnu.org; Fri, 01 Apr 2022 23:44:25 -0400
-X-QQ-mid: bizesmtp69t1648871018tafjlu4x
+ id 1naUpz-0003BT-Al
+ for qemu-devel@nongnu.org; Fri, 01 Apr 2022 23:54:11 -0400
+X-QQ-mid: bizesmtp69t1648871597t6g0ny50
 Received: from [10.25.15.160] ( [222.190.105.194])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Sat, 02 Apr 2022 11:43:37 +0800 (CST)
+ id ; Sat, 02 Apr 2022 11:53:15 +0800 (CST)
 X-QQ-SSF: 01000000002000803000B00A0000000
-X-QQ-FEAT: YOSTkFbe9CTwfXW4kWoTSyYloV5ZhX3tPGaUqzRZvgPdaLa3VBk/82aQ8KcKt
- 7ans0+KLw18ZImQXLL7LA/e08nz2hiNVWSwI/onGGCjBWSOEU6bkjRfIb5uOnNpfB7Td9Qh
- pLBYzQ9jn1LpEF1sQDssD7m4tV+bofv0To94zam+mbVbKFBWZKARi6fb2cwvr1z5Cw2pHhu
- 7E0F8ZL2TFOpnTsid4gmCdMbFwl2+m+v+vO6JtMeZOS95c53o3M5WS4eeAFesLYFbanffhG
- 7d8C/ltWNbcJyoO+ovbOqUc6IudR8soQwym3FUGBKdCf0zLin8hbN/qEU6gmlcn6S2pRRi6
- 2w0MxdAlDkaPUwF28g=
+X-QQ-FEAT: w0nHo3vL0ne46KfKp/CZut8iLdDmwSFEhdjFvab+2SS7tWB7OcJPLd9szjAAA
+ tgt8uG3Y0Od+wYuH/MI4JQrXCO1aiK/vSa8+6qanQ1jvgFuC9Aw0I3ZspjLJr2wlLeqfgyq
+ 2X+Iqxjw9WIqceXr4EC1wentq0xYNOCnJx4sEcex4H5GZUtntCSnz3L/Z459KBAeLWv9es6
+ 2+SNWnW1DRbdc8rcfXE3huovDCfgdHNUiGph12G2knHAQ8tkVBlhytAtnMNnGjFC+Rg48c9
+ 6doMKH9i19tQ19r5QiraGS3WbT5ouPbBa9HIvy+lliwTk1+NiGYSxCXYcHnp62RUoSDIlor
+ GOf9fdXiKsXadTn+12OUvs1laSZSA==
 X-QQ-GoodBg: 0
-Message-ID: <6aafb332-8bcf-b69e-0a70-cde300022332@archeros.com>+98EC4E1FFA0BD7B6
-Date: Sat, 2 Apr 2022 11:43:36 +0800
+Message-ID: <0d2055c0-37fe-3aa4-a291-a1fc0da6059c@archeros.com>+FFA31D18764F7868
+Date: Sat, 2 Apr 2022 11:53:15 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
 Subject: Re: [PATCH v4] vdpa: reset the backend device in the end of
  vhost_net_stop()
-To: Jason Wang <jasowang@redhat.com>
+To: Jason Wang <jasowang@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>
 References: <1648718713-7637-1-git-send-email-qiudayu@archeros.com>
  <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
  <CACGkMEuQ_YW+aSysnFtDrjy=Wjq_U3KouOobYSC+e5+5SR0zEA@mail.gmail.com>
- <62466fff.1c69fb81.8817a.d813SMTPIN_ADDED_BROKEN@mx.google.com>
- <CACGkMEsRr-Di3Rd=XUCN=e+N6r+HWe7bqVLUAkAa9ek-PuUPwQ@mail.gmail.com>
+ <ab772bc3-4acd-bb79-7f97-0518e04bb7fe@oracle.com>
+ <CACGkMEv8+XC39G4wK_bUY0ZdFd29YoR7D3ugrMy-iT7cO1arew@mail.gmail.com>
 From: Michael Qiu <qiudayu@archeros.com>
-In-Reply-To: <CACGkMEsRr-Di3Rd=XUCN=e+N6r+HWe7bqVLUAkAa9ek-PuUPwQ@mail.gmail.com>
+In-Reply-To: <CACGkMEv8+XC39G4wK_bUY0ZdFd29YoR7D3ugrMy-iT7cO1arew@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:archeros.com:qybgspam:qybgspam10
-Received-SPF: none client-ip=106.55.201.18; envelope-from=qiudayu@archeros.com;
+Feedback-ID: bizesmtp:archeros.com:qybgspam:qybgspam7
+Received-SPF: none client-ip=106.55.201.188; envelope-from=qiudayu@archeros.com;
  helo=smtpbg.qq.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
 X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
  INVALID_MSGID=0.568, KHOP_HELO_FCRDNS=0.187, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,22 +71,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cindy Lu <lulu@redhat.com>, mst <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, eperezma <eperezma@redhat.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>, Zhu Lingshan <lingshan.zhu@intel.com>
+Cc: eperezma <eperezma@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>,
+ mst <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 2022/4/2 9:48, Jason Wang wrote:
-> On Fri, Apr 1, 2022 at 11:22 AM Michael Qiu <qiudayu@archeros.com> wrote:
+On 2022/4/2 10:20, Jason Wang wrote:
+> Adding Michael.
+> 
+> On Sat, Apr 2, 2022 at 7:08 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
 >>
 >>
 >>
->> On 2022/4/1 10:53, Jason Wang wrote:
+>> On 3/31/2022 7:53 PM, Jason Wang wrote:
 >>> On Fri, Apr 1, 2022 at 9:31 AM Michael Qiu <qiudayu@archeros.com> wrote:
->>>>
 >>>> Currently, when VM poweroff, it will trigger vdpa
 >>>> device(such as mlx bluefield2 VF) reset many times(with 1 datapath
 >>>> queue pair and one control queue, triggered 3 times), this
@@ -108,110 +109,84 @@ On 2022/4/2 9:48, Jason Wang wrote:
 >>>>
 >>>> and implement a new function vhost_dev_reset, only reset backend
 >>>> device after all vhost(per-queue) stoped.
->>>
 >>> Typo.
 >>>
->>>>
 >>>> Signed-off-by: Michael Qiu<qiudayu@archeros.com>
 >>>> Acked-by: Jason Wang <jasowang@redhat.com>
->>>
 >>> Rethink this patch, consider there're devices that don't support
 >>> set_vq_ready(). I wonder if we need
 >>>
 >>> 1) uAPI to tell the user space whether or not it supports set_vq_ready()
+>> I guess what's more relevant here is to define the uAPI semantics for
+>> unready i.e. set_vq_ready(0) for resuming/stopping virtqueue processing,
+>> as starting vq is comparatively less ambiguous.
+> 
+> Yes.
+> 
+>> Considering the
+>> likelihood that this interface may be used for live migration, it would
+>> be nice to come up with variants such as 1) discard inflight request
+>> v.s. 2) waiting for inflight processing to be done,
+> 
+> Or inflight descriptor reporting (which seems to be tricky). But we
+> can start from net that a discarding may just work.
+> 
+>> and 3) timeout in
+>> waiting.
+> 
+> Actually, that's the plan and Eugenio is proposing something like this
+> via virtio spec:
+> 
+> https://lists.oasis-open.org/archives/virtio-dev/202111/msg00020.html
+> 
+>>
 >>> 2) userspace will call SET_VRING_ENABLE() when the device supports
 >>> otherwise it will use RESET.
+>> Are you looking to making virtqueue resume-able through the new
+>> SET_VRING_ENABLE() uAPI?
 >>
->> if the device does not support set_vq_ready() in kernel, it will trigger
->> kernel oops, at least in current kernel, it does not check where
->> set_vq_ready has been implemented.
->>
->> And I checked all vdpa driver in kernel, all drivers has implemented
->> this ops.
+>> I think RESET is inevitable in some case, i.e. when guest initiates
+>> device reset by writing 0 to the status register.
 > 
-> Actually, it's not about whether or not the set_vq_ready() is
-> implemented. It's about whether the parent supports it correctly:
+> Yes, that's all my plan.
 > 
-> The ability to suspend and resume a virtqueue is currently beyond the
-> ability of some transport (e.g PCI).
+>> For suspend/resume and
+>> live migration use cases, indeed RESET can be substituted with
+>> SET_VRING_ENABLE. Again, it'd need quite some code refactoring to
+>> accommodate this change. Although I'm all for it, it'd be the best to
+>> lay out the plan for multiple phases rather than overload this single
+>> patch too much. You can count my time on this endeavor if you don't mind. :)
 > 
-
-OK, Got it
-
-> For IFCVF:
+> You're welcome, I agree we should choose a way to go first:
 > 
-> static void ifcvf_vdpa_set_vq_ready(struct vdpa_device *vdpa_dev,
->                                      u16 qid, bool ready)
-> {
->          struct ifcvf_hw *vf = vdpa_to_vf(vdpa_dev);
+> 1) manage to use SET_VRING_ENABLE (more like a workaround anyway)
+> 2) go with virtio-spec (may take a while)
+> 3) don't wait for the spec, have a vDPA specific uAPI first. Note that
+> I've chatted with most of the vendors and they seem to be fine with
+> the _S_STOP. If we go this way, we can still provide the forward
+> compatibility of _S_STOP
+> 4) or do them all (in parallel)
 > 
->          vf->vring[qid].ready = ready;
-> }
-> 
-> It seems to follow the PCI transport, so if you just set it to zero,
-> it simply doesn't work at all. I can see some tricks that are used in
-> the DPDK driver, maybe we can use the same to "fix" this.
-> 
-> For VDUSE, we are basically the same:
-> 
-> static void vduse_vdpa_set_vq_ready(struct vdpa_device *vdpa,
->                                          u16 idx, bool ready)
-> {
->          struct vduse_dev *dev = vdpa_to_vduse(vdpa);
->          struct vduse_virtqueue *vq = &dev->vqs[idx];
-> 
->          vq->ready = ready;
-> }
-> 
-> It can't be stopped correctly if we just set it to zero.
-> 
-> For vp_vdpa, it basically wants to abuse the queue_enable, which may
-> result in a warning in Qemu (and the device isn't stopped).
-> 
-> static void vp_vdpa_set_vq_ready(struct vdpa_device *vdpa,
->                                   u16 qid, bool ready)
-> {
->          struct virtio_pci_modern_device *mdev = vdpa_to_mdev(vdpa);
-> 
->          vp_modern_set_queue_enable(mdev, qid, ready);
-> }
-> 
-> ENI did a trick in writing 0 to virtqueue address, so it works for
-> stop but not the start.
-> 
-> static void eni_vdpa_set_vq_ready(struct vdpa_device *vdpa, u16 qid,
->                                    bool ready)
-> {
->          struct virtio_pci_legacy_device *ldev = vdpa_to_ldev(vdpa);
-> 
->          /* ENI is a legacy virtio-pci device. This is not supported
->           * by specification. But we can disable virtqueue by setting
->           * address to 0.
->           */
->          if (!ready)
->                  vp_legacy_set_queue_address(ldev, qid, 0);
-> }
-> 
-> mlx5 call suspend_vq() which should be fine.
-> 
-> Simulator is probably fine.
-> 
-> So I worry if we use the set_vq_ready(0) it won't work correctly and
-> will have other issues. The idea is:
-> 
-> - advertise the suspend/resume capability via uAPI, then mlx5_vdpa and
-> simulator can go with set_vq_ready()
-> - others can still go with reset(), and we can try to fix them
-> gradually (and introduce this in the virtio spec).
+> Any thoughts?
 > 
 
-Totally agreet.
+virtio-spec should be long-term, not only because the spec goes very 
+slowly, but also the hardware upgrade should be a problem.
 
->>
->> So I think it is OK to call set_vq_ready without check.
+For short-term, better to take the first one?
+
+Thanks,
+Michael
+> Thanks
+> 
 >>
 >>>
 >>> And for safety, I suggest tagging this as 7.1.
+>> +1
+>>
+>> Regards,
+>> -Siwei
+>>
 >>>
 >>>> ---
 >>>> v4 --> v3
@@ -295,18 +270,9 @@ Totally agreet.
 >>>> +    if (net && net->dev.vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA) {
 >>>> +        vhost_dev_reset(&net->dev);
 >>>>        }
->>>
 >>> So we've already reset the device in vhost_vdpa_dev_start(), any
 >>> reason we need to do it again here?
->>
->> reset device in vhost_vdpa_dev_start if there is some error with start.
-> 
-> The rest should have been done in vhost_net_stop_one()?
-> 
->>
->>
 >>>
->>>>
 >>>>        r = k->set_guest_notifiers(qbus->parent, total_notifiers, false);
 >>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
 >>>> index c5ed7a3..3ef0199 100644
@@ -320,34 +286,7 @@ Totally agreet.
 >>>> +    /* Add back this status, so that the device could work next time*/
 >>>> +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
 >>>> +                               VIRTIO_CONFIG_S_DRIVER);
->>>
->>> This seems to contradict the semantic of reset
->>
->> Yes, but it's hard to put it in other place, seems only vhost-vdpa need
->> it, and for VM shutdown, qemu_del_nic() will do cleanup this like close
->> vhost fds, which will call reset in kernel space without set those features.
->>
->> So at last I put it here with no other inpact.
-> 
-> Can we move this to the suitable caller of this function?
-> 
-
-This is vhost_vdpa backend specific requirement, if we move to the 
-caller, we need a backend check after each vhost_dev_reset() been called.
-
-Otherwise we need a new vhost API vhost_add_status(), it a bit
-complex because we should consider live migration and error recovery as 
-Si-Wei mentioned.
-
-Could we just leave it here and move it to right place next time.
-
-Thanks,
-Michael
-> Thanks
-> 
->>
->> Thanks,
->> Michael
+>>> This seems to contradict the semantic of reset.
 >>>
 >>>> +
 >>>>        return ret;
@@ -400,7 +339,6 @@ Michael
 >>>>    {
 >>>>        int i;
 >>>> -
->>>
 >>> Unnecessary changes.
 >>>
 >>>>        /* should only be called after backend is connected */
@@ -413,7 +351,6 @@ Michael
 >>>> +
 >>>> +int vhost_dev_reset(struct vhost_dev *hdev)
 >>>> +{
->>>
 >>> Let's use a separate patch for this.
 >>>
 >>> Thanks
@@ -446,12 +383,8 @@ Michael
 >>>>
 >>>>
 >>>>
->>>
->>>
->>>
->>
->>
 >>
 > 
 > 
+
 
