@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC14D4EFFDA
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 11:02:37 +0200 (CEST)
-Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CAB4F0102
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Apr 2022 13:21:59 +0200 (CEST)
+Received: from localhost ([::1]:54896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naZeW-0008Kk-Gi
-	for lists+qemu-devel@lfdr.de; Sat, 02 Apr 2022 05:02:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53858)
+	id 1nabpO-0002kJ-6d
+	for lists+qemu-devel@lfdr.de; Sat, 02 Apr 2022 07:21:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wucy11@chinatelecom.cn>)
- id 1naZbv-0007QR-Fl
- for qemu-devel@nongnu.org; Sat, 02 Apr 2022 04:59:55 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:40681
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wucy11@chinatelecom.cn>) id 1naZbs-0003Tz-Fh
- for qemu-devel@nongnu.org; Sat, 02 Apr 2022 04:59:55 -0400
-HMM_SOURCE_IP: 172.18.0.218:50652.1936847047
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 3989E2800E8;
- Sat,  2 Apr 2022 16:59:28 +0800 (CST)
-X-189-SAVE-TO-SEND: wucy11@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id b06ee3e3d9ac461e809a86c6b8966eb6 for
- huangy81@chinatelecom.cn; Sat, 02 Apr 2022 16:59:45 CST
-X-Transaction-ID: b06ee3e3d9ac461e809a86c6b8966eb6
-X-Real-From: wucy11@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Message-ID: <bc185240-6711-893b-6755-127e4410613d@chinatelecom.cn>
-Date: Sat, 2 Apr 2022 16:59:24 +0800
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1naboB-00021m-Ge
+ for qemu-devel@nongnu.org; Sat, 02 Apr 2022 07:20:43 -0400
+Received: from [2607:f8b0:4864:20::112f] (port=43204
+ helo=mail-yw1-x112f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nabo9-0000q0-RD
+ for qemu-devel@nongnu.org; Sat, 02 Apr 2022 07:20:43 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2e5e31c34bfso56065777b3.10
+ for <qemu-devel@nongnu.org>; Sat, 02 Apr 2022 04:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=qqioWiBIwW6rsyOFImTV+eWLi6qkTL9+6ydS13uA4LE=;
+ b=VaLoDo1BqKkIAm20Hb/R6OyMPHTmfqjS4cg9PkwocSUJGhxICz3rUf0vgLedPxar3K
+ PlNqkSE3xyK1INlKZbC6eDrj9RToi/8ogcyr/07Gg82x1YwLWIBwi/p/+71ylzAGzAwE
+ HYsGGnDzLxGvuFMF9SifN9sciGbvf1bMm7iGxJVC9/r+bNfWepKDldLpKPLy5IetBN2U
+ fvwJkt/wgfRp+faXvSANQjlGhzPS5VAz2nJwWohAcOzTmDwx8FvWaGPGTPTwePlnAPi/
+ 2zVy8YWdgZBNYMWHZK2V5fPc0o1nvcVSwd1mN3IKHc+AeBwNebucvvcDEHKlnFtZRvyL
+ CQVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qqioWiBIwW6rsyOFImTV+eWLi6qkTL9+6ydS13uA4LE=;
+ b=2xw/FDhrX091TsPDlo2JqHQJNlDtoNIt+Zybgmq62yviv11VfPeoTWKIP7uNIA4+3l
+ cdF5OefUkNoFZ56GBAg9z8O7XKA9p1mNBdJhlQUfEKpdLi0K1Q8MSelzJyPmxCyNaq26
+ shwHnN4kBATU0H9s5Z66cYbekoHqm8Zp0RipiQeu6wTVMFHlGGBE6zK1oM6NRuCh3qha
+ TqvrBH/WxsCXonD5HTpzrEztMeeczDk8vg9gBL6W4L1WRIp7KQaKAn66WZ+HXhV2WNfn
+ QDC83dohxGhh0KamaolOc7eBUut6iD5cl7BiQjoVxtLGLOEVXuIdzDVhqmcvlW05H6gE
+ hdAg==
+X-Gm-Message-State: AOAM533Tczo5rgUWsh2u9+d1WiPE5xwoMWUrZtrLezZduLNb/C4I/DLE
+ fg2fkT3A1DwxMh6Pquc2Yzzznk5bfru8hZQnh7U=
+X-Google-Smtp-Source: ABdhPJyfdNMATnkg7kHBH3elD3mR5VNrkZITYyIrfrs5mvrr0tO9W0U/9+uT9CxXoUYsO2RaO97pLVhSJmgLCpHlUj0=
+X-Received: by 2002:a81:ad7:0:b0:2e6:84de:3223 with SMTP id
+ 206-20020a810ad7000000b002e684de3223mr14287329ywk.209.1648898435329; Sat, 02
+ Apr 2022 04:20:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 3/4] kvm: Introduce a dirty rate calculation method
- based on dirty ring
-To: Hyman Huang <huangy81@chinatelecom.cn>, qemu-devel@nongnu.org
-References: <cover.1648091539.git.wucy11@chinatelecom.cn>
- <046226dadeccb0f66709c915098d7f15ab534353.1648091540.git.wucy11@chinatelecom.cn>
- <a58111a4-5674-7d47-5f7d-a29a444e36c6@chinatelecom.cn>
-From: Chongyun Wu <wucy11@chinatelecom.cn>
-In-Reply-To: <a58111a4-5674-7d47-5f7d-a29a444e36c6@chinatelecom.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.228;
- envelope-from=wucy11@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220322154213.86475-1-bmeng.cn@gmail.com>
+ <CAFEAcA8RdqQ5fzoZtb5SaYe41FA=oKo21veergqhMgo=eFmB6Q@mail.gmail.com>
+ <CAEUhbmVXiB+mbbjhy0sT2PhQHNJgdHmehXfcE18g=E3SPffndQ@mail.gmail.com>
+ <87wngj3aj2.fsf@linaro.org>
+ <CAFEAcA_O8=0KZ=sjzP7GZ=ytSQm0P+zB_t=jQ2nZnw6b721Yxw@mail.gmail.com>
+ <CAEUhbmWjjqihJb70x2k4+yf9dr8yh+_eMRu0MubofSbw+C9izQ@mail.gmail.com>
+ <CAFEAcA_m0wUWqJQ2-n5bYZq=xPkUW+SOU2555-z=LMgzrm2W0Q@mail.gmail.com>
+ <CAEUhbmV7BnHHAoY+jHAioiYo2Vz-2VJOpgcz7WRFx6+FGvaYxA@mail.gmail.com>
+In-Reply-To: <CAEUhbmV7BnHHAoY+jHAioiYo2Vz-2VJOpgcz7WRFx6+FGvaYxA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 2 Apr 2022 19:20:24 +0800
+Message-ID: <CAEUhbmXNBt1L0jqma2XwCEr5C70r=3z0mH-A_1qq=3zKee1f1Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] gdbstub: Set current_cpu for memory read write
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x112f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,179 +91,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tugy@chinatelecom.cn, David Hildenbrand <david@redhat.com>,
- yuanmh12@chinatelecom.cn, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- dengpc12@chinatelecom.cn, Paolo Bonzini <pbonzini@redhat.com>,
- baiyw2@chinatelecom.cn
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Mar 29, 2022 at 12:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Mon, Mar 28, 2022 at 5:10 PM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+> >
+> > On Mon, 28 Mar 2022 at 03:10, Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > IMHO it's too bad to just ignore this bug forever.
+> > >
+> > > This is a valid use case. It's not about whether we intentionally wan=
+t
+> > > to inspect the GIC register value from gdb. The case is that when
+> > > single stepping the source codes it triggers the core dump for no
+> > > reason if the instructions involved contain load/store to any of the
+> > > GIC registers.
+> >
+> > Huh? Single-stepping the instruction should execute it inside
+> > QEMU, which will do the load in the usual way. That should not
+> > be going via gdbstub reads and writes.
+>
+> Yes, single-stepping the instruction is executed in the vCPU context,
+> but a gdb client sends additional commands, more than just telling
+> QEMU to execute a single instruction.
+>
+> For example, the following is the sequence a gdb client sent when doing a=
+ "si":
+>
+> gdbstub_io_command Received: Z0,100000,4
+> gdbstub_io_reply Sent: OK
+> gdbstub_io_got_ack Got ACK
+> gdbstub_io_command Received: m18c430,4
+> gdbstub_io_reply Sent: ff430091
+> gdbstub_io_got_ack Got ACK
+> gdbstub_io_command Received: vCont;s:p1.1;c:p1.-1
+> gdbstub_op_stepping Stepping CPU 0
+> gdbstub_op_continue_cpu Continuing CPU 1
+> gdbstub_op_continue_cpu Continuing CPU 2
+> gdbstub_op_continue_cpu Continuing CPU 3
+> gdbstub_hit_break RUN_STATE_DEBUG
+> gdbstub_io_reply Sent: T05thread:p01.01;
+> gdbstub_io_got_ack Got ACK
+> gdbstub_io_command Received: g
+> gdbstub_io_reply Sent:
+> 3848ed0000000000f08fa6100000000003000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000100000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+00000000000000000000000000000000000001f90000000030a5ec000000000034c41800000=
+00000c9030000
+> gdbstub_io_got_ack Got ACK
+> gdbstub_io_command Received: m18c434,4
+> gdbstub_io_reply Sent: 00e004d1
+> gdbstub_io_got_ack Got ACK
+> gdbstub_io_command Received: m18c430,4
+> gdbstub_io_reply Sent: ff430091
+> gdbstub_io_got_ack Got ACK
+> gdbstub_io_command Received: m18c434,4
+> gdbstub_io_reply Sent: 00e004d1
+> gdbstub_io_got_ack Got ACK
+> gdbstub_io_command Received: m18c400,40
+> gdbstub_io_reply Sent:
+> ff4300d1e00300f980370058000040f900a00191000040f900b00091000040f900e004911=
+e7800f9fe0340f91e0000f9ff43009100e004d174390094bb390094
+> gdbstub_io_got_ack Got ACK
+> gdbstub_io_command Received: mf9010000,4
+>
+> Here "mf9010000,4" triggers the bug where 0xf9010000 is the GIC register.
+>
+> This is not something QEMU can ignore or control. The logic is inside
+> the gdb client.
+>
 
-on 4/2/2022 3:28 PM, Hyman Huang wrote:
-> 
-> 
-> 在 2022/3/28 9:32, wucy11@chinatelecom.cn 写道:
->> From: Chongyun Wu <wucy11@chinatelecom.cn>
->>
->> A new structure KVMDirtyRingDirtyCounter is introduced in
->> KVMDirtyRingReaper to record the number of dirty pages
->> within a period of time.
->>
->> When kvm_dirty_ring_mark_page collects dirty pages, if it
->> finds that the current dirty pages are not duplicates, it
->> increases the dirty_pages_period count.
->>
->> Divide the dirty_pages_period count by the interval to get
->> the dirty page rate for this period.
->>
->> And use dirty_pages_period_peak_rate to count the highest
->> dirty page rate, to solve the problem that the dirty page
->> collection rate may change greatly during a period of time,
->> resulting in a large change in the dirty page rate.
->>
->> Through sufficient testing, it is found that the dirty rate
->> calculated after kvm_dirty_ring_flush usually matches the actual
->> pressure, and the dirty rate counted per second may change in the
->> subsequent seconds, so record the peak dirty rate as the real
->> dirty pages rate.
->>
->> This dirty pages rate is mainly used as the subsequent autoconverge
->> calculation speed limit throttle.
-> As Peter's advice, i think the better way is exporting or adapting the existing 
-> implemenation of dirty page rate calculation instead of building different blocks.
-Yes,that right. But this is a little different.
-Qemu currently already has a variety of dirty page rate calculation methods, 
-which are used in different scenarios. This method is mainly to calculate the 
-appropriate speed limit threshold in the process of hot migration of the dirty 
-ring. It is realized by making full use of the characteristics of the dirty 
-ring, that is, statistics are performed when collecting dirty pages, which 
-cannot be achieved by the old bitmap method, and it will not add too much extra 
-overhead, such as starting new threads, etc. There is no need to input 
-parameters such as a suitable sampling period, etc., which is simple and 
-convenient. Through the test, the pressure of the actual stress added can be 
-relatively accurately calculated.
+Ping for this series?
 
->>
->> Signed-off-by: Chongyun Wu <wucy11@chinatelecom.cn>
->> ---
->>   accel/kvm/kvm-all.c  | 64 +++++++++++++++++++++++++++++++++++++++++++++++++++-
->>   include/sysemu/kvm.h |  2 ++
->>   2 files changed, 65 insertions(+), 1 deletion(-)
->>
->> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
->> index 5e02700..a158b1c 100644
->> --- a/accel/kvm/kvm-all.c
->> +++ b/accel/kvm/kvm-all.c
->> @@ -114,6 +114,13 @@ enum KVMDirtyRingReaperSpeedControl {
->>       KVM_DIRTY_RING_REAPER_SPEED_CONTROL_DOWN
->>   };
->> +struct KVMDirtyRingDirtyCounter {
->> +    int64_t time_last_count;
->> +    uint64_t dirty_pages_period;
->> +    int64_t dirty_pages_rate;
->> +    int64_t dirty_pages_period_peak_rate;
->> +};
->> +
->>   /*
->>    * KVM reaper instance, responsible for collecting the KVM dirty bits
->>    * via the dirty ring.
->> @@ -128,6 +135,7 @@ struct KVMDirtyRingReaper {
->>       uint64_t ring_full_cnt;
->>       float ratio_adjust_threshold;
->>       int stable_count_threshold;
->> +    struct KVMDirtyRingDirtyCounter counter; /* Calculate dirty pages rate */
->>   };
->>   struct KVMState
->> @@ -739,7 +747,9 @@ static void kvm_dirty_ring_mark_page(KVMState *s, uint32_t 
->> as_id,
->>           return;
->>       }
->> -    set_bit(offset, mem->dirty_bmap);
->> +    if (!test_and_set_bit(offset, mem->dirty_bmap)) {
->> +        s->reaper.counter.dirty_pages_period++;
->> +    }
->>   }
->>   static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
->> @@ -783,6 +793,56 @@ static uint32_t kvm_dirty_ring_reap_one(KVMState *s, 
->> CPUState *cpu)
->>       return count;
->>   }
->> +int64_t kvm_dirty_ring_get_rate(void)
->> +{
->> +    return kvm_state->reaper.counter.dirty_pages_rate;
->> +}
->> +
->> +int64_t kvm_dirty_ring_get_peak_rate(void)
->> +{
->> +    return kvm_state->reaper.counter.dirty_pages_period_peak_rate;
->> +}
->> +
->> +static void kvm_dirty_ring_reap_count(KVMState *s)
->> +{
->> +    int64_t spend_time = 0;
->> +    int64_t end_time;
->> +
->> +    if (!s->reaper.counter.time_last_count) {
->> +        s->reaper.counter.time_last_count =
->> +            qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
->> +    }
->> +
->> +    end_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
->> +    spend_time = end_time - s->reaper.counter.time_last_count;
->> +
->> +    if (!s->reaper.counter.dirty_pages_period ||
->> +        !spend_time) {
->> +        return;
->> +    }
->> +
->> +    /*
->> +     * More than 1 second = 1000 millisecons,
->> +     * or trigger by kvm_log_sync_global which spend time
->> +     * more than 300 milliscons.
->> +     */
->> +    if (spend_time > 1000) {
->> +        /* Count the dirty page rate during this period */
->> +        s->reaper.counter.dirty_pages_rate =
->> +            s->reaper.counter.dirty_pages_period * 1000 / spend_time;
->> +        /* Update the peak dirty page rate at this period */
->> +        if (s->reaper.counter.dirty_pages_rate >
->> +            s->reaper.counter.dirty_pages_period_peak_rate) {
->> +            s->reaper.counter.dirty_pages_period_peak_rate =
->> +                s->reaper.counter.dirty_pages_rate;
->> +        }
->> +
->> +        /* Reset counters */
->> +        s->reaper.counter.dirty_pages_period = 0;
->> +        s->reaper.counter.time_last_count = 0;
->> +    }
->> +}
->> +
->>   /* Must be with slots_lock held */
->>   static uint64_t kvm_dirty_ring_reap_locked(KVMState *s)
->>   {
->> @@ -793,6 +853,8 @@ static uint64_t kvm_dirty_ring_reap_locked(KVMState *s)
->>       stamp = get_clock();
->> +    kvm_dirty_ring_reap_count(s);
->> +
->>       CPU_FOREACH(cpu) {
->>           total += kvm_dirty_ring_reap_one(s, cpu);
->>       }
->> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
->> index a783c78..05846f9 100644
->> --- a/include/sysemu/kvm.h
->> +++ b/include/sysemu/kvm.h
->> @@ -582,4 +582,6 @@ bool kvm_cpu_check_are_resettable(void);
->>   bool kvm_arch_cpu_check_are_resettable(void);
->>   bool kvm_dirty_ring_enabled(void);
->> +int64_t kvm_dirty_ring_get_rate(void);
->> +int64_t kvm_dirty_ring_get_peak_rate(void);
->>   #endif
-> 
-
--- 
-Best Regard,
-Chongyun Wu
+Regards,
+Bin
 
