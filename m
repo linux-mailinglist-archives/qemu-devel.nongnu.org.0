@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776CC4F09DD
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Apr 2022 15:17:40 +0200 (CEST)
-Received: from localhost ([::1]:39350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A20BC4F0A3C
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Apr 2022 16:42:16 +0200 (CEST)
+Received: from localhost ([::1]:55948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nb06t-0001jp-3s
-	for lists+qemu-devel@lfdr.de; Sun, 03 Apr 2022 09:17:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33572)
+	id 1nb1Qk-0001Wu-2K
+	for lists+qemu-devel@lfdr.de; Sun, 03 Apr 2022 10:42:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1nb04f-00013N-UR
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 09:15:27 -0400
-Received: from redisdead.crans.org ([185.230.79.39]:42882)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nb1P0-0000gQ-ON
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 10:40:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1nb04Y-0005ts-G5
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 09:15:17 -0400
-Received: from [IPV6:2a02:8428:4db:b001:2da1:28b8:3745:ec97]
- (2a02-8428-04db-b001-2da1-28b8-3745-ec97.rev.sfr.net
- [IPv6:2a02:8428:4db:b001:2da1:28b8:3745:ec97])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nb1Ox-0000do-F2
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 10:40:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648996821;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7/jYUUQuCPdPXgGpkz+btQZRIIuoiftErKQ8NGgsTao=;
+ b=ViB5An+tNL566gOlnqmzU4tzDUaDd2K05uAisAgz0HP7cMwGi0ovxrjwy/lEZ5ZeHcuHEp
+ kVylbEWQ/T4Ynd1NZgJ27+3XYOj8yDif3P9db8AfY5m/cZbM9Akqtn1rmDSr/S++0O1HzH
+ nMAs/j1nERBKa4t0/RQhl23vXtypaek=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-rLd1C-NVM7CD-Qwm6JAJkQ-1; Sun, 03 Apr 2022 10:40:18 -0400
+X-MC-Unique: rLd1C-NVM7CD-Qwm6JAJkQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by redisdead.crans.org (Postfix) with ESMTPSA id 7CC10204;
- Sun,  3 Apr 2022 15:14:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
- t=1648991692; bh=yPFRX4joWxMqddmuIKibUvnVqPH0bHpk+p7lTHgfUe0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Zi1iZtq0PDx7kBU9kvCO2ZC+xGpM/KnWPRuqSRFpkWeG50iWBVNVIFY+hD2IBgEta
- B/bcRpd7Q0Db5Tiyv4exhwQVUYBbi6gJoZMSeDsU9KWPEhJeD2ZlGP3A2yCi05gAVZ
- E6c9G6oUX0vLkznzTvlKjRx+brlF6I87AwdVaAD+ClMNJJ7VWcoITFNN3lPQwDg6bq
- X36vSe8RbJOKRTFbyRosHAF24ecODgbxxWp4H6GnoBPFY2pW1C2Crhu9VYMs5PRfem
- Baps3XD+7RQ4aWrRusaC9dR/ABRRROnwOrrEm6RlRsjhGTfFs9qK8d1RIjkUn+OGm6
- uLv1hGlgsZVV+I654fOP7DAj0BVyCgeTY+deF+BB4zweiUkl9d/LMWElvFj9O3L/Q6
- R/LLgkzaP1WSb7/HM+WPTfwUD6jy2jdC+sDqwOPMczq0o9a2K30Pc4coGHfp8KfPGs
- atFIqDMh5H8GAmZfa2v3y9nLuXDiW5NOPkfttePC85pjlw5WfEMaOJ8RwPz62Pb9f1
- LrYLp9leVXIFoLzvxRt/V4L3CaUh/uY8TkwFLRx4orPb+OQtTsVlg+RazvHwBILawD
- cSiHuZmnrslNU3mhkDhCIuLljmD4EeASNCtJHvDKri78yYDUNOWtuVWFQO8s/uBUqs
- /ADjsqoARcpRMBu3ug1ZX0HQ=
-Message-ID: <660f1295-73dd-ba1f-5a95-094ccdbd2de3@crans.org>
-Date: Sun, 3 Apr 2022 15:14:49 +0200
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64ECE3804526;
+ Sun,  3 Apr 2022 14:40:18 +0000 (UTC)
+Received: from [10.72.12.82] (ovpn-12-82.pek2.redhat.com [10.72.12.82])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D651456C56;
+ Sun,  3 Apr 2022 14:40:13 +0000 (UTC)
+Subject: Re: [PATCH v3 3/4] hw/acpi/aml-build: Use existing CPU topology to
+ build PPTT table
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20220323072438.71815-1-gshan@redhat.com>
+ <20220323072438.71815-4-gshan@redhat.com>
+ <20220330161059.14e3a990@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <0d1766cb-569e-f0dd-cd58-737beddfaaa8@redhat.com>
+Date: Sun, 3 Apr 2022 22:40:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v1 2/2] plugins: extend execlog to filter matches
+In-Reply-To: <20220330161059.14e3a990@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220328152614.2452259-1-alex.bennee@linaro.org>
- <20220328152614.2452259-3-alex.bennee@linaro.org>
-From: Alexandre IOOSS <erdnaxe@crans.org>
-Organization: Crans
-In-Reply-To: <20220328152614.2452259-3-alex.bennee@linaro.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------1GvwnhHrF9o1rLt8hEd48J20"
-Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
- helo=redisdead.crans.org
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,70 +85,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aaron@os.amperecomputing.com, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- Luke.Craig@ll.mit.edu, kuhn.chenqun@huawei.com, ma.mandourr@gmail.com
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
+ qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------1GvwnhHrF9o1rLt8hEd48J20
-Content-Type: multipart/mixed; boundary="------------jUyCC09it0i0dUynHNxZLyfs";
- protected-headers="v1"
-From: Alexandre IOOSS <erdnaxe@crans.org>
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
- cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
- robhenry@microsoft.com, mahmoudabdalghany@outlook.com
-Message-ID: <660f1295-73dd-ba1f-5a95-094ccdbd2de3@crans.org>
-Subject: Re: [PATCH v1 2/2] plugins: extend execlog to filter matches
-References: <20220328152614.2452259-1-alex.bennee@linaro.org>
- <20220328152614.2452259-3-alex.bennee@linaro.org>
-In-Reply-To: <20220328152614.2452259-3-alex.bennee@linaro.org>
+Hi Igor,
 
---------------jUyCC09it0i0dUynHNxZLyfs
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 3/30/22 10:10 PM, Igor Mammedov wrote:
+> On Wed, 23 Mar 2022 15:24:37 +0800
+> Gavin Shan <gshan@redhat.com> wrote:
+> 
+>> When the PPTT table is built, the CPU topology is re-calculated, but
+>> it's unecessary because the CPU topology has been populated in
+>> virt_possible_cpu_arch_ids() on arm/virt machine.
+>>
+>> This avoids to re-calculate the CPU topology by reusing the existing
+>> one in ms->possible_cpus. Currently, the only user of build_pptt() is
+>> arm/virt machine.
+>>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> ---
+>>   hw/acpi/aml-build.c | 96 +++++++++++++++++++++++++++++++++------------
+>>   1 file changed, 72 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>> index 4086879ebf..10a2d63b96 100644
+>> --- a/hw/acpi/aml-build.c
+>> +++ b/hw/acpi/aml-build.c
+>> @@ -2002,18 +2002,27 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>                   const char *oem_id, const char *oem_table_id)
+>>   {
+>>       MachineClass *mc = MACHINE_GET_CLASS(ms);
+>> +    CPUArchIdList *cpus = ms->possible_cpus;
+>> +    GQueue *socket_list = g_queue_new();
+>> +    GQueue *cluster_list = g_queue_new();
+>> +    GQueue *core_list = g_queue_new();
+>>       GQueue *list = g_queue_new();
+>>       guint pptt_start = table_data->len;
+>>       guint parent_offset;
+>>       guint length, i;
+>> -    int uid = 0;
+>> -    int socket;
+>> +    int n, socket_id, cluster_id, core_id, thread_id;
+>>       AcpiTable table = { .sig = "PPTT", .rev = 2,
+>>                           .oem_id = oem_id, .oem_table_id = oem_table_id };
+>>   
+>>       acpi_table_begin(&table, table_data);
+>>   
+>> -    for (socket = 0; socket < ms->smp.sockets; socket++) {
+>> +    for (n = 0; n < cpus->len; n++) {
+>> +        socket_id = cpus->cpus[n].props.socket_id;
+>> +        if (g_queue_find(socket_list, GUINT_TO_POINTER(socket_id))) {
+>> +            continue;
+>> +        }
+> 
+> maybe instead of scanning cpus[n] every time for each topology level
+> and trying to keep code flattened (which mimics PPTT fattened tree
+> table for not much of the reason, spec doesn't require entries
+> from the same level to e described contiguously),
+> try to rebuild hierarchy tree from flat cpus[n] in 1 pass first
+> and then use nested loops or recursion to build PPTT table,
+> something like:
+> 
+>   sockets = cpus_to_topo(possible)
+>   build_pptt_level(items = sockets, parent_ref = 0)
+>    for item in items
+>       level_ref = table_data->len - pptt_start
+>       build_processor_hierarchy_node(item {id, flags, ...}, parent_ref)
+>       if not leaf:
+>          build_pptt_level(item, level_ref)
+> 
+> which is much more compact and easier to read compared to
+> unrolled impl. it's now with all push/pop stack emulation.
+> 
 
-DQpPbiAzLzI4LzIyIDE3OjI2LCBBbGV4IEJlbm7DqWUgd3JvdGU6DQo+IFNvbWV0aW1lcyB0
-aGUgd2hvbGUgZXhlY2xvZyBpcyBqdXN0IHR3byBtdWNoIHNvIGFkZCB0aGUgYWJpbGl0eSB0
-bw0KPiBmaWx0ZXIgYnkgaW5zdHJ1Y3Rpb24gb3Bjb2RlIG9yIGFkZHJlc3MuDQo+IA0KPiBb
-QUpCOiB0aGlzIHNob3dzIGZvciBleGFtcGxlDQo+IA0KPiAgIC5xZW11LXN5c3RlbS1hYXJj
-aDY0IC1kaXNwbGF5IG5vbmUgLXNlcmlhbCBtb246c3RkaW8gXA0KPiAgICAgLU0gdmlydCAt
-Y3B1IG1heCBcDQo+ICAgICAtc2VtaWhvc3RpbmctY29uZmlnIGVuYWJsZT1vbiBcDQo+ICAg
-ICAta2VybmVsIC4vdGVzdHMvdGNnL2FhcmNoNjQtc29mdG1tdS9tZW1vcnktc3ZlIFwNCj4g
-ICAgIC1wbHVnaW4gLi9jb250cmliL3BsdWdpbnMvbGliZXhlY2xvZy5zbyxpZmlsdGVyPXN0
-MXcsYWZpbHRlcj0weDQwMDAxODA4IC1kIHBsdWdpbiAtRCBwbHVnaW4ub3V0DQo+IA0KPiB0
-aGUgc3QxdyBTVkUgaW5zdHJ1Y3Rpb24gaXMgbm90IGluc3RydW1lbnRpbmcgaXRzIHN0b3Jl
-cy5dDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbGV4IEJlbm7DqWUgPGFsZXguYmVubmVlQGxp
-bmFyby5vcmc+DQo+IENjOiBSb2JlcnQgSGVucnkgPHJvYmhlbnJ5QG1pY3Jvc29mdC5jb20+
-DQo+IENjOiBBYXJvbiBMaW5kc2F5IDxhYXJvbkBvcy5hbXBlcmVjb21wdXRpbmcuY29tPg0K
-DQpUaGFua3MhDQoNClJldmlld2VkLWJ5OiBBbGV4YW5kcmUgSW9vc3MgPGVyZG5heGVAY3Jh
-bnMub3JnPg0KDQotLSANCkFsZXhhbmRyZQ0K
+I missed your comments when v4 was posted. Sorry about this. I'm using
+thunderbird mail client and have some filters running to put incoming
+mails into the corresponding folders, but this reply has been put into
+wrong folder. It's why I always copy my private email while sending
+patches and emails. Please ignore v4 and review v5 directly.
 
---------------jUyCC09it0i0dUynHNxZLyfs--
+Thanks for the suggestion, but it's going to introduce duplicate entries
+for same socket/cluster/core, or I missed something. Otherwise, the
+CPUs need to be iterated to check if they're in the corresponding level.
 
---------------1GvwnhHrF9o1rLt8hEd48J20
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+In order to make it simplified and remove the stack emulation stuff,
+I will introduce variables to track the socket/cluster/core IDs whose
+ACPI table entries have been added. Once the socket, cluster or core ID
+changes while iterating 'ms->possible_cpus', the corresponding ACPI table
+entry is added and the IDs for child levels are invalidated. With this,
+all needed ACPI table entries will be created in one loop on 'ms->possible_cpus'
 
------BEGIN PGP SIGNATURE-----
+The changes will be included to v5, which will be posted shortly.
 
-wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmJJnckFAwAAAAAACgkQbHknjz/NzALM
-zBAAsh4rzb+2kjsezxu3cDrbMclT6AuP8bD1i/ViLd6o5vIIvs/EZTe4ztQDXq9OonbxwEGpE2Qb
-dkss1aCJ8cyA7UjOioaDCZUny3NwucA4DDA7TeyHdRvLKeFG02FEPV409gCA49Z2zFrfxMOZC4kU
-/RZxVIh4Qk78U9kZJZPmauS2HyU7rJxcHemUkLexTSBgRD96ujEg1zkOvAh65Rw5RzMuEVajep+e
-KR8YgXFG5vKl2vX7LS0+4ENVT1w78mzedJugUcsWhcULJCXHfWx/G6cGA6CK2rbAWB/78zcv4XsB
-CXYzPI7LUbXMkJHRb9elOTjT89yN8qR30YxgDVJFlnxdSttJUmhswJfpjZLYS6CH2CPDPwTJfJE7
-rUoEcCYM5q2GebVuU4pHFN5ibXhFwDZIhfPczIiyXPfpBrbR4gMN7BHWJCnT3/qfaKGNmxPOh10z
-xX+YTbShLQuyx5uK9iU6R6uFqDPyAUcbidF8iGGv30Nsayy6RSEQXYhnzuV4YY5JC3AwZ0zzt0gQ
-vkYjU6nlVD7CTXsK70sRJkvE5lzn55QDSGOJ4QjBlrpJUqcxXJYwiUnr89oiZxIalRlSKjjZYp5w
-aPesza2K3cw8vqZA3L32Yr8fWlyvD8gsc98xwCB5t5GmVSWvWuuNPlHDE37BalI/uiZaGQbfdUqR
-0Iw=
-=B+31
------END PGP SIGNATURE-----
+Thanks,
+Gavin
 
---------------1GvwnhHrF9o1rLt8hEd48J20--
+> 
+>> +
+>> +        g_queue_push_tail(socket_list, GUINT_TO_POINTER(socket_id));
+>>           g_queue_push_tail(list,
+>>               GUINT_TO_POINTER(table_data->len - pptt_start));
+>>           build_processor_hierarchy_node(
+>> @@ -2023,65 +2032,104 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>                * of a physical package
+>>                */
+>>               (1 << 0),
+>> -            0, socket, NULL, 0);
+>> +            0, socket_id, NULL, 0);
+>>       }
+>>   
+>>       if (mc->smp_props.clusters_supported) {
+>>           length = g_queue_get_length(list);
+>>           for (i = 0; i < length; i++) {
+>> -            int cluster;
+>> -
+>>               parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+>> -            for (cluster = 0; cluster < ms->smp.clusters; cluster++) {
+>> +            socket_id = GPOINTER_TO_UINT(g_queue_pop_head(socket_list));
+>> +
+>> +            for (n = 0; n < cpus->len; n++) {
+>> +                if (cpus->cpus[n].props.socket_id != socket_id) {
+>> +                    continue;
+>> +                }
+>> +
+>> +                cluster_id = cpus->cpus[n].props.cluster_id;
+>> +                if (g_queue_find(cluster_list, GUINT_TO_POINTER(cluster_id))) {
+>> +                    continue;
+>> +                }
+>> +
+>> +                g_queue_push_tail(cluster_list, GUINT_TO_POINTER(cluster_id));
+>>                   g_queue_push_tail(list,
+>>                       GUINT_TO_POINTER(table_data->len - pptt_start));
+>>                   build_processor_hierarchy_node(
+>>                       table_data,
+>>                       (0 << 0), /* not a physical package */
+>> -                    parent_offset, cluster, NULL, 0);
+>> +                    parent_offset, cluster_id, NULL, 0);
+>>               }
+>>           }
+>>       }
+>>   
+>>       length = g_queue_get_length(list);
+>>       for (i = 0; i < length; i++) {
+>> -        int core;
+>> -
+>>           parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+>> -        for (core = 0; core < ms->smp.cores; core++) {
+>> -            if (ms->smp.threads > 1) {
+>> -                g_queue_push_tail(list,
+>> -                    GUINT_TO_POINTER(table_data->len - pptt_start));
+>> -                build_processor_hierarchy_node(
+>> -                    table_data,
+>> -                    (0 << 0), /* not a physical package */
+>> -                    parent_offset, core, NULL, 0);
+>> -            } else {
+>> +        if (!mc->smp_props.clusters_supported) {
+>> +            socket_id = GPOINTER_TO_UINT(g_queue_pop_head(socket_list));
+>> +        } else {
+>> +            cluster_id = GPOINTER_TO_UINT(g_queue_pop_head(cluster_list));
+>> +        }
+>> +
+>> +        for (n = 0; n < cpus->len; n++) {
+>> +            if (!mc->smp_props.clusters_supported &&
+>> +                cpus->cpus[n].props.socket_id != socket_id) {
+>> +                continue;
+>> +            }
+>> +
+>> +            if (mc->smp_props.clusters_supported &&
+>> +                cpus->cpus[n].props.cluster_id != cluster_id) {
+>> +                continue;
+>> +            }
+>> +
+>> +            core_id = cpus->cpus[n].props.core_id;
+>> +            if (ms->smp.threads <= 1) {
+>>                   build_processor_hierarchy_node(
+>>                       table_data,
+>>                       (1 << 1) | /* ACPI Processor ID valid */
+>>                       (1 << 3),  /* Node is a Leaf */
+>> -                    parent_offset, uid++, NULL, 0);
+>> +                    parent_offset, core_id, NULL, 0);
+>> +                continue;
+>> +            }
+>> +
+>> +            if (g_queue_find(core_list, GUINT_TO_POINTER(core_id))) {
+>> +                continue;
+>>               }
+>> +
+>> +            g_queue_push_tail(core_list, GUINT_TO_POINTER(core_id));
+>> +            g_queue_push_tail(list,
+>> +                GUINT_TO_POINTER(table_data->len - pptt_start));
+>> +            build_processor_hierarchy_node(
+>> +                table_data,
+>> +                (0 << 0), /* not a physical package */
+>> +                parent_offset, core_id, NULL, 0);
+>>           }
+>>       }
+>>   
+>>       length = g_queue_get_length(list);
+>>       for (i = 0; i < length; i++) {
+>> -        int thread;
+>> -
+>>           parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+>> -        for (thread = 0; thread < ms->smp.threads; thread++) {
+>> +        core_id = GPOINTER_TO_UINT(g_queue_pop_head(core_list));
+>> +
+>> +        for (n = 0; n < cpus->len; n++) {
+>> +            if (cpus->cpus[n].props.core_id != core_id) {
+>> +                continue;
+>> +            }
+>> +
+>> +            thread_id = cpus->cpus[n].props.thread_id;
+>>               build_processor_hierarchy_node(
+>>                   table_data,
+>>                   (1 << 1) | /* ACPI Processor ID valid */
+>>                   (1 << 2) | /* Processor is a Thread */
+>>                   (1 << 3),  /* Node is a Leaf */
+>> -                parent_offset, uid++, NULL, 0);
+>> +                parent_offset, thread_id, NULL, 0);
+>>           }
+>>       }
+>>   
+>>       g_queue_free(list);
+>> +    g_queue_free(core_list);
+>> +    g_queue_free(cluster_list);
+>> +    g_queue_free(socket_list);
+>>       acpi_table_end(linker, &table);
+>>   }
+>>   
+> 
+
 
