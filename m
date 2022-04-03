@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0EA4F08D1
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Apr 2022 12:53:59 +0200 (CEST)
-Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7164F08E0
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Apr 2022 13:03:43 +0200 (CEST)
+Received: from localhost ([::1]:43668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naxrq-0002So-Fs
-	for lists+qemu-devel@lfdr.de; Sun, 03 Apr 2022 06:53:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44800)
+	id 1nay1G-00071r-Gt
+	for lists+qemu-devel@lfdr.de; Sun, 03 Apr 2022 07:03:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1naxpX-00012U-90
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 06:51:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23810)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1naxyl-0004hz-1j
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 07:01:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1naxpV-0000Hu-Rl
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 06:51:35 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1naxyf-0001VG-Co
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 07:01:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648983092;
+ s=mimecast20190719; t=1648983660;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JBEnWqyMQ1F/diQPdJNiGAXPo6FyWmt7GSjoEuLeaJs=;
- b=RcS6nBgyELZko58NHZKyfr9HyWC0w0m9aJgaFYP8Fz1yzkGhIQoQlHohIddB5IOxmcriit
- uO2y+L8VA9LZvLm9LJkPqQIakHkS7zoGQ3kMfF+RHlSVjIVVuxL5xDm7F1szfNtaRI7NUC
- An7YGnjL29Wo1k0/HjYVEJx0y4YVBvQ=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=s2QKMtJSbKYwZ3Fs4Cvv4gGrh4h+Z1nu9GE+rJgCLkI=;
+ b=Psy5Q9px1uu79oPHBx39b7MFYpxBbVvapnlsfk/SAPCYLJgkEi2rWBmN/9b3TNAzHqCcNy
+ bgyhwVzg/jn77awo8X7undSaFrIfDUbYU6ss5AqBdhTrl89HOnKbgpfLj+EUU6CdoQFLW2
+ aR984GSzZMJi2IwQ0EhgxGu+WOmqBF0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-cg9pIYeLPoif9KSIEC-6aQ-1; Sun, 03 Apr 2022 06:51:31 -0400
-X-MC-Unique: cg9pIYeLPoif9KSIEC-6aQ-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-2eb5980c4f8so7841717b3.23
- for <qemu-devel@nongnu.org>; Sun, 03 Apr 2022 03:51:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JBEnWqyMQ1F/diQPdJNiGAXPo6FyWmt7GSjoEuLeaJs=;
- b=JEIE6a+fMnWW/4dOyUBxLbCF+QLdwYEQhuCcr9VvAAVAZ+61HLXja2U+gFldMNeQtR
- AaqsdOneDptMU+CK18z3TSEVtUeAd4nIEGfUYKxCk6qfCO5xEUzMSr9qc3x5pOb5cUkz
- dOVfMmkv66f6WLF46QTOpv52MFO34Gb7kvWMtSM9vLRupMtTZsLSYwxEJzRdpHPkwvmZ
- EFZOesem740mA9w7gsfpiHTF7P3OK3FTdBb7hh8xPMJ4WglAKj3tUkmI9cevkhu5rbYv
- FlC5ccoqPBw6FUq2MAfr07sBR+ZYXhJlwfRmOIQHowlX383IyfTg4sLY3WigXCQGNDXs
- 86GQ==
-X-Gm-Message-State: AOAM533q2FY4LGyEsWS/ueKDCI0i6eGSzXi3JFhC3KYCCGoEWxFoKcWj
- QfZNG9Xs40jq9G9RHzJkPW6+7AwQEqpEEMOiXuWDR7XPOEifk7GE40OdigD6Ii1lveyD0DxlOaG
- h4GEvo3hWfVePPazuCIIheJktEvhGUR8=
-X-Received: by 2002:a0d:cc8a:0:b0:2eb:3faa:474c with SMTP id
- o132-20020a0dcc8a000000b002eb3faa474cmr5469482ywd.385.1648983090854; 
- Sun, 03 Apr 2022 03:51:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzs6x8qyjRYyjq+5+KBD3NpyBVs+AgNk4zCwsD9tXs1X1nI9GXr6vBSXv1Lg3SthZd2PTVQXrgCluyOc2LnnZI=
-X-Received: by 2002:a0d:cc8a:0:b0:2eb:3faa:474c with SMTP id
- o132-20020a0dcc8a000000b002eb3faa474cmr5469469ywd.385.1648983090589; Sun, 03
- Apr 2022 03:51:30 -0700 (PDT)
+ us-mta-447-fJAs5RHOMZyTB-TZI_fdDg-1; Sun, 03 Apr 2022 07:00:57 -0400
+X-MC-Unique: fJAs5RHOMZyTB-TZI_fdDg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95C8E3C01D8B;
+ Sun,  3 Apr 2022 11:00:56 +0000 (UTC)
+Received: from gshan.redhat.com (ovpn-12-82.pek2.redhat.com [10.72.12.82])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9351F40D02E1;
+ Sun,  3 Apr 2022 11:00:51 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v4 0/3] hw/arm/virt: Fix CPU's default NUMA node ID
+Date: Sun,  3 Apr 2022 19:00:33 +0800
+Message-Id: <20220403110036.5531-1-gshan@redhat.com>
 MIME-Version: 1.0
-References: <20220331201127.2006038-1-marcandre.lureau@redhat.com>
- <05601508-78fc-e861-53a5-539634d7d536@gmail.com>
-In-Reply-To: <05601508-78fc-e861-53a5-539634d7d536@gmail.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Sun, 3 Apr 2022 13:51:19 +0300
-Message-ID: <CAPMcbCostn5qHtvP-fJLNL6cy9sr6OXzmW1jgAZER3MngGaeSQ@mail.gmail.com>
-Subject: Re: [PATCH] build-sys: remove MSI's QEMU_GA_MSI_MINGW_DLL_PATH
-To: qemu-devel@nongnu.org
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kkostiuk@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000005b0b9d05dbbdcbe3"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,73 +75,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>, Michael Roth <michael.roth@amd.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
+ shan.gavin@gmail.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005b0b9d05dbbdcbe3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+When the CPU-to-NUMA association isn't provided by user, the default NUMA
+node ID for the specific CPU is returned from virt_get_default_cpu_node_id().
+Unfortunately, the default NUMA node ID breaks socket boundary and leads to
+the broken CPU topology warning message in Linux guest. This series intends
+to fix the issue.
 
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+  PATCH[1/3] Uses SMP configuration to populate CPU topology
+  PATCH[2/3] Fixes the broken CPU topology by considering the socket boundary
+             when the default NUMA node ID is given
+  PATCH[3/3] Uses the populated CPU topology to build PPTT table, instead of
+             calculate it again
 
-On Thu, Mar 31, 2022 at 11:34 PM Philippe Mathieu-Daud=C3=A9 <
-philippe.mathieu.daude@gmail.com> wrote:
+Changelog
+=========
+v4:
+   * Apply '% ms->smp.{clusters, cores, threads} as x86 does
+     in virt_possible_cpu_arch_ids()                            (Igor)
+   * s/within cluster/within cluster\/die/ for 'core-id' in
+     qapi/machine.json                                          (Igor)
+   * Use [0 - possible_cpus->len] as ACPI processor UID to
+     build PPTT table and PATCH[v3 4/4] is dropped              (Igor)
+v3:
+   * Split PATCH[v2 1/3] to PATCH[v3 1/4] and PATCH[v3 2/4]     (Yanan)
+   * Don't take account of die ID in CPU topology population
+     and added assert(!mc->smp_props.dies_supported)            (Yanan/Igor)
+   * Assign cluster_id and use it when building PPTT table      (Yanan/Igor)
+v2:
+   * Populate the CPU topology in virt_possible_cpu_arch_ids()
+     so that it can be reused in virt_get_default_cpu_node_id() (Igor)
+   * Added PATCH[2/3] to use the existing CPU topology when the
+     PPTT table is built                                        (Igor)
+   * Added PATCH[3/3] to take thread ID as ACPI processor ID
+     in MADT and SRAT table                                     (Gavin)
 
-> On 31/3/22 22:11, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Since the introduction of the variable in commit 9dacf32d2cb ("qemu-ga:
-> > Building Windows MSI installation with configure/Makefile"), nothing
-> > makes use of the Mingw_dlls variable in the .wxs file.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   configure       | 3 ---
-> >   qga/meson.build | 1 -
-> >   2 files changed, 4 deletions(-)
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
->
 
---0000000000005b0b9d05dbbdcbe3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Gavin Shan (3):
+  hw/arm/virt: Consider SMP configuration in CPU topology
+  hw/arm/virt: Fix CPU's default NUMA node ID
+  hw/acpi/aml-build: Use existing CPU topology to build PPTT table
 
-<div dir=3D"ltr"><div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a hr=
-ef=3D"mailto:kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>=
-&gt;</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">On Thu, Mar 31, 2022 at 11:34 PM Philippe Mathieu-Daud=C3=A9 &lt;<a hre=
-f=3D"mailto:philippe.mathieu.daude@gmail.com">philippe.mathieu.daude@gmail.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">On 31/3/22 22:11, <a href=3D"mailto:marcandre.lureau@redhat.com" target=
-=3D"_blank">marcandre.lureau@redhat.com</a> wrote:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; Since the introduction of the variable in commit 9dacf32d2cb (&quot;qe=
-mu-ga:<br>
-&gt; Building Windows MSI installation with configure/Makefile&quot;), noth=
-ing<br>
-&gt; makes use of the Mingw_dlls variable in the .wxs file.<br>
-&gt; <br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0| 3 ---<br>
-&gt;=C2=A0 =C2=A0qga/meson.build | 1 -<br>
-&gt;=C2=A0 =C2=A02 files changed, 4 deletions(-)<br>
-<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
-org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-<br>
-</blockquote></div></div>
+ hw/acpi/aml-build.c | 95 +++++++++++++++++++++++++++++++++------------
+ hw/arm/virt.c       | 19 ++++++++-
+ qapi/machine.json   |  6 ++-
+ 3 files changed, 92 insertions(+), 28 deletions(-)
 
---0000000000005b0b9d05dbbdcbe3--
+-- 
+2.23.0
 
 
