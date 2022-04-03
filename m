@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7164F08E0
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AE44F08E1
 	for <lists+qemu-devel@lfdr.de>; Sun,  3 Apr 2022 13:03:43 +0200 (CEST)
-Received: from localhost ([::1]:43668 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nay1G-00071r-Gt
+	id 1nay1G-00074I-Kc
 	for lists+qemu-devel@lfdr.de; Sun, 03 Apr 2022 07:03:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45788)
+Received: from eggs.gnu.org ([209.51.188.92]:45816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1naxyl-0004hz-1j
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 07:01:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50851)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1naxym-0004iX-Gb
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 07:01:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1naxyf-0001VG-Co
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 07:01:05 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1naxyl-0001Vo-1F
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 07:01:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648983660;
+ s=mimecast20190719; t=1648983666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=s2QKMtJSbKYwZ3Fs4Cvv4gGrh4h+Z1nu9GE+rJgCLkI=;
- b=Psy5Q9px1uu79oPHBx39b7MFYpxBbVvapnlsfk/SAPCYLJgkEi2rWBmN/9b3TNAzHqCcNy
- bgyhwVzg/jn77awo8X7undSaFrIfDUbYU6ss5AqBdhTrl89HOnKbgpfLj+EUU6CdoQFLW2
- aR984GSzZMJi2IwQ0EhgxGu+WOmqBF0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oajsqjR8bPNJ8RgYFOKeA32YOHvDw97Kf82KabV+weA=;
+ b=HR/hYH1ZsYGUufHyMtHibS9yFC39xJucFA/Zl5MsbpiBlHDh3fGIK2zz0IFgfXFJ0g+w0j
+ QrwCELasNpc/MttmmoHq91Bgfm92V726yrJLjVx9lfDxLpfQ3DNW7X/Mp/ZKrmvUa/MGfB
+ qFQN0bJXahxoldZ7AwiOumNkZj6RmWM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-fJAs5RHOMZyTB-TZI_fdDg-1; Sun, 03 Apr 2022 07:00:57 -0400
-X-MC-Unique: fJAs5RHOMZyTB-TZI_fdDg-1
+ us-mta-150-5AmNAiTVPwi41g3XKPFGnw-1; Sun, 03 Apr 2022 07:01:02 -0400
+X-MC-Unique: 5AmNAiTVPwi41g3XKPFGnw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95C8E3C01D8B;
- Sun,  3 Apr 2022 11:00:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CDC0D811E75;
+ Sun,  3 Apr 2022 11:01:01 +0000 (UTC)
 Received: from gshan.redhat.com (ovpn-12-82.pek2.redhat.com [10.72.12.82])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9351F40D02E1;
- Sun,  3 Apr 2022 11:00:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 656E840D02E1;
+ Sun,  3 Apr 2022 11:00:57 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
-Subject: [PATCH v4 0/3] hw/arm/virt: Fix CPU's default NUMA node ID
-Date: Sun,  3 Apr 2022 19:00:33 +0800
-Message-Id: <20220403110036.5531-1-gshan@redhat.com>
+Subject: [PATCH v4 1/3] hw/arm/virt: Consider SMP configuration in CPU topology
+Date: Sun,  3 Apr 2022 19:00:34 +0800
+Message-Id: <20220403110036.5531-2-gshan@redhat.com>
+In-Reply-To: <20220403110036.5531-1-gshan@redhat.com>
+References: <20220403110036.5531-1-gshan@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Authentication-Results: relay.mimecast.com;
@@ -53,14 +56,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -81,51 +84,83 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the CPU-to-NUMA association isn't provided by user, the default NUMA
-node ID for the specific CPU is returned from virt_get_default_cpu_node_id().
-Unfortunately, the default NUMA node ID breaks socket boundary and leads to
-the broken CPU topology warning message in Linux guest. This series intends
-to fix the issue.
+Currently, the SMP configuration isn't considered when the CPU
+topology is populated. In this case, it's impossible to provide
+the default CPU-to-NUMA mapping or association based on the socket
+ID of the given CPU.
 
-  PATCH[1/3] Uses SMP configuration to populate CPU topology
-  PATCH[2/3] Fixes the broken CPU topology by considering the socket boundary
-             when the default NUMA node ID is given
-  PATCH[3/3] Uses the populated CPU topology to build PPTT table, instead of
-             calculate it again
+This takes account of SMP configuration when the CPU topology
+is populated. The die ID for the given CPU isn't assigned since
+it's not supported on arm/virt machine yet. Besides, the cluster
+ID for the given CPU is assigned because it has been supported
+on arm/virt machine.
 
-Changelog
-=========
-v4:
-   * Apply '% ms->smp.{clusters, cores, threads} as x86 does
-     in virt_possible_cpu_arch_ids()                            (Igor)
-   * s/within cluster/within cluster\/die/ for 'core-id' in
-     qapi/machine.json                                          (Igor)
-   * Use [0 - possible_cpus->len] as ACPI processor UID to
-     build PPTT table and PATCH[v3 4/4] is dropped              (Igor)
-v3:
-   * Split PATCH[v2 1/3] to PATCH[v3 1/4] and PATCH[v3 2/4]     (Yanan)
-   * Don't take account of die ID in CPU topology population
-     and added assert(!mc->smp_props.dies_supported)            (Yanan/Igor)
-   * Assign cluster_id and use it when building PPTT table      (Yanan/Igor)
-v2:
-   * Populate the CPU topology in virt_possible_cpu_arch_ids()
-     so that it can be reused in virt_get_default_cpu_node_id() (Igor)
-   * Added PATCH[2/3] to use the existing CPU topology when the
-     PPTT table is built                                        (Igor)
-   * Added PATCH[3/3] to take thread ID as ACPI processor ID
-     in MADT and SRAT table                                     (Gavin)
+Signed-off-by: Gavin Shan <gshan@redhat.com>
+---
+ hw/arm/virt.c     | 15 ++++++++++++++-
+ qapi/machine.json |  6 ++++--
+ 2 files changed, 18 insertions(+), 3 deletions(-)
 
-
-Gavin Shan (3):
-  hw/arm/virt: Consider SMP configuration in CPU topology
-  hw/arm/virt: Fix CPU's default NUMA node ID
-  hw/acpi/aml-build: Use existing CPU topology to build PPTT table
-
- hw/acpi/aml-build.c | 95 +++++++++++++++++++++++++++++++++------------
- hw/arm/virt.c       | 19 ++++++++-
- qapi/machine.json   |  6 ++-
- 3 files changed, 92 insertions(+), 28 deletions(-)
-
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index d2e5ecd234..f628e86f78 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+     int n;
+     unsigned int max_cpus = ms->smp.max_cpus;
+     VirtMachineState *vms = VIRT_MACHINE(ms);
++    MachineClass *mc = MACHINE_GET_CLASS(vms);
+ 
+     if (ms->possible_cpus) {
+         assert(ms->possible_cpus->len == max_cpus);
+@@ -2518,8 +2519,20 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+         ms->possible_cpus->cpus[n].type = ms->cpu_type;
+         ms->possible_cpus->cpus[n].arch_id =
+             virt_cpu_mp_affinity(vms, n);
++
++        assert(!mc->smp_props.dies_supported);
++        ms->possible_cpus->cpus[n].props.has_socket_id = true;
++        ms->possible_cpus->cpus[n].props.socket_id =
++            n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
++        ms->possible_cpus->cpus[n].props.has_cluster_id = true;
++        ms->possible_cpus->cpus[n].props.cluster_id =
++            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters;
++        ms->possible_cpus->cpus[n].props.has_core_id = true;
++        ms->possible_cpus->cpus[n].props.core_id =
++            (n / ms->smp.threads) % ms->smp.cores;
+         ms->possible_cpus->cpus[n].props.has_thread_id = true;
+-        ms->possible_cpus->cpus[n].props.thread_id = n;
++        ms->possible_cpus->cpus[n].props.thread_id =
++            n % ms->smp.threads;
+     }
+     return ms->possible_cpus;
+ }
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 9c460ec450..ea22b574b0 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -868,10 +868,11 @@
+ # @node-id: NUMA node ID the CPU belongs to
+ # @socket-id: socket number within node/board the CPU belongs to
+ # @die-id: die number within socket the CPU belongs to (since 4.1)
+-# @core-id: core number within die the CPU belongs to
++# @cluster-id: cluster number within die the CPU belongs to
++# @core-id: core number within cluster/die the CPU belongs to
+ # @thread-id: thread number within core the CPU belongs to
+ #
+-# Note: currently there are 5 properties that could be present
++# Note: currently there are 6 properties that could be present
+ #       but management should be prepared to pass through other
+ #       properties with device_add command to allow for future
+ #       interface extension. This also requires the filed names to be kept in
+@@ -883,6 +884,7 @@
+   'data': { '*node-id': 'int',
+             '*socket-id': 'int',
+             '*die-id': 'int',
++            '*cluster-id': 'int',
+             '*core-id': 'int',
+             '*thread-id': 'int'
+   }
 -- 
 2.23.0
 
