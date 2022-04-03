@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435E04F0896
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Apr 2022 11:36:52 +0200 (CEST)
-Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07ACC4F0899
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Apr 2022 11:55:58 +0200 (CEST)
+Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nawfC-0005Vd-Qu
-	for lists+qemu-devel@lfdr.de; Sun, 03 Apr 2022 05:36:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36726)
+	id 1nawxg-00088R-St
+	for lists+qemu-devel@lfdr.de; Sun, 03 Apr 2022 05:55:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1nawdJ-0004m0-UL
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 05:34:54 -0400
-Received: from [2a00:1450:4864:20::630] (port=44946
- helo=mail-ej1-x630.google.com)
+ id 1nawwV-0007S3-TW
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 05:54:44 -0400
+Received: from [2a00:1450:4864:20::536] (port=45907
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1nawdI-0006sf-F1
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 05:34:53 -0400
-Received: by mail-ej1-x630.google.com with SMTP id qh7so4253974ejb.11
- for <qemu-devel@nongnu.org>; Sun, 03 Apr 2022 02:34:50 -0700 (PDT)
+ id 1nawwU-0000vs-C9
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 05:54:43 -0400
+Received: by mail-ed1-x536.google.com with SMTP id u28so1416086eda.12
+ for <qemu-devel@nongnu.org>; Sun, 03 Apr 2022 02:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bCP76kMhp+smqZ9p7BOGmSxcs8Eg35ns9wRdFYuQm7g=;
- b=BVgFNv0S946BvHRWqZmo9fVOUEbdwxKg+SKPY+NkjuZa+Y8dcCNBI6tRhOTpAfAtDi
- XSuL+vK3BYhj1uNf8wrSNgbh9WsusBJBvYzd3XvunoeNXv87i+ROhR4G51y+yEwew+IP
- 8MkOD6EjF6yl6PUA2gNeFLN/1AloOiSg2k4cGQ89I5tM1Kbx1aucS9xyrvfWaFBkKUPm
- lHAX3KiQrNRm8HeZ8RAiFwHCGHSCQpM75JA4hR9V6Eq6MYTPKmWKW/Nd7XqMoNr0Ynmr
- eBdvNM2eKq8D4XML+W8Z1P1ZW6qEW2NkLQ4Rr1ccsNEB6dHRdJxD+LplfdqDN7yNjPNJ
- Y/ow==
+ bh=x0uqxdLPrjHgY49PDES4xM7M8hh2w1B9x+ITezH2sqU=;
+ b=QHwWorLGhAf+efhtxu3f1g4wS6Jc/r8i1YSYbTxTXJZ1lzSQT2TMrDDPdFX2sH+aV4
+ ZnlYbXaHaqOr9B4561Xrmz2pRWvgPB0e2Nec5xGVt+gUELoQJCc4jUCHV8m7MEC6AXKv
+ wq9yjGGHf+WKFREpZk0gAuGo+1UvH3n03ZjUiasbzvIU0XKfefqpzBZv79KZM6cbwkw7
+ DD+ziw/zSvOgssxVzYmB4VbYnMsNZpXweeVip0ddTLlUO9lPEl3idJ4ihov2gytXeZGE
+ OLorcyRYfN6tGYq56oYgFgPAr1MJ1BnWW6Ekc9ivaEcbTMBDILPuAiPfd4Ur+mnHRyO/
+ JOLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bCP76kMhp+smqZ9p7BOGmSxcs8Eg35ns9wRdFYuQm7g=;
- b=Zjv+UYZF8/YOESRxAeB4tiyCwCuUXtk48/7PB/UgybyJu0d0aF6B/6lCHvWipJ//OD
- Lp3yk4574zsLrn62KQP++X5Qw06zPqlLPd7tK1LMIm/+ZAy3Ees9CwMKygGKshaT0Zx+
- gi34IcVV5/IzI/uWoi5yLzH74dQQvSdE/OoiCDVd84m6R55a0u1AH3+Fu7FfSyNF/PKx
- 1LYSt4nMFdJjvdRoRxZDYqlSp4romBaTbX3PG6VufMD8fHh6cu9dZSyn4MchSEX14c7d
- 9xEJoKMTJFbbpA+10X7ZbYomgf2EfMjsLrPcF3XbP5C95qa03U1wRKXZPZ7mt0elVHIB
- phlw==
-X-Gm-Message-State: AOAM5307CjtBgvlU39BBINh1rs3Tz/x95zSVLybJyBRtpTIsz/brab/F
- cnh7ZuN7Lksid+0DVbY2br+tHHjcE38=
-X-Google-Smtp-Source: ABdhPJy2WKcJxnSRQwUCfBCacM7XCtOUAKNP+DAfuvyAeBDboOocnNzaGFsJK8B0YRKxxZUanCLlCQ==
-X-Received: by 2002:a17:907:c018:b0:6df:fb9b:e6f8 with SMTP id
- ss24-20020a170907c01800b006dffb9be6f8mr6380482ejc.495.1648978488774; 
- Sun, 03 Apr 2022 02:34:48 -0700 (PDT)
+ bh=x0uqxdLPrjHgY49PDES4xM7M8hh2w1B9x+ITezH2sqU=;
+ b=jAdLwyTqw9HRsjLdFrx6k9HAMjPHu95bLSdiCmG6qHi3FexvW5/ulI1NOEqv/9d4+h
+ AsbKM0EytKe8QsUgvwAjDarCM6wNn+ssW/Ldki3+sF3OgGzjXD6YbaNknmUuoRZ7tS3x
+ BXbnFSPQUgMwudKwbe4TztRlgfylPmTCRUALaT5QLuaSiTS7j4kzRCg996SDoOZiMF+I
+ mbu5DLbNPcQHBO1RsrFs9Ef8qA3wFPlYlWMACCy9SLrddCVR6jgcNghLH2fV5wpe+3MR
+ cQhyV3xDqNWZjP7FE/qxPvomhTPEYGrXiEWVNJv8zH70SUQqx44azKMxtCDWcBdzlxnR
+ wf9Q==
+X-Gm-Message-State: AOAM532LDqPe09uQUNMKq2ox2yKegB/UqVdjpTYhiJK86zv6KoRLYMeK
+ Om9JtVJiUY2vI9QKRMqhjHefxk2XQbI=
+X-Google-Smtp-Source: ABdhPJy5CRXZwA8LwMzXEhtQWwGA1//5f0ECizR8kdepyLIeulV0WQa9ikUDV2oXFBfYbeoYx3udCg==
+X-Received: by 2002:a05:6402:909:b0:415:cdbf:4748 with SMTP id
+ g9-20020a056402090900b00415cdbf4748mr28033184edz.395.1648979679083; 
+ Sun, 03 Apr 2022 02:54:39 -0700 (PDT)
 Received: from localhost.localdomain ([5.29.20.198])
  by smtp.gmail.com with ESMTPSA id
- x17-20020a170906297100b006e49a9535f3sm3037549ejd.114.2022.04.03.02.34.47
+ c13-20020a17090654cd00b006e0db351d01sm3068631ejp.124.2022.04.03.02.54.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Apr 2022 02:34:48 -0700 (PDT)
+ Sun, 03 Apr 2022 02:54:38 -0700 (PDT)
 From: Yuval Shaia <yuval.shaia.ml@gmail.com>
 To: qemu-devel@nongnu.org, yuval.shaia.ml@gmail.com,
  marcel.apfelbaum@gmail.com, mcascell@redhat.com, wxhusst@gmail.com
-Subject: [PATCH v2] hw/pvrdma: Protect against buggy or malicious guest driver
-Date: Sun,  3 Apr 2022 12:32:44 +0300
-Message-Id: <20220403093244.1055-1-yuval.shaia.ml@gmail.com>
+Subject: [PATCH v3] hw/pvrdma: Protect against buggy or malicious guest driver
+Date: Sun,  3 Apr 2022 12:52:34 +0300
+Message-Id: <20220403095234.2210-1-yuval.shaia.ml@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=yuval.shaia.ml@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=yuval.shaia.ml@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: 23
 X-Spam_score: 2.3
 X-Spam_bar: ++
@@ -98,17 +98,16 @@ We need to protect againts such case.
 
 Fixes: CVE-2022-1050
 
-While there, fix some coding style errors.
-
 Reported-by: Raven <wxhusst@gmail.com>
 Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
 ---
 v1 -> v2:
 	* Commit message changes
+v2 -> v3:
+	* Exclude cosmetic changes
 ---
- hw/rdma/vmw/pvrdma_cmd.c  | 6 ++++++
- hw/rdma/vmw/pvrdma_main.c | 9 +++++----
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ hw/rdma/vmw/pvrdma_cmd.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
 index da7ddfa548..89db963c46 100644
@@ -127,37 +126,6 @@ index da7ddfa548..89db963c46 100644
      if (dsr_info->req->hdr.cmd >= sizeof(cmd_handlers) /
                        sizeof(struct cmd_handler)) {
          rdma_error_report("Unsupported command");
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 91206dbb8e..aae382af59 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -159,13 +159,13 @@ static void free_dsr(PVRDMADev *dev)
-     free_dev_ring(pci_dev, &dev->dsr_info.cq, dev->dsr_info.cq_ring_state);
- 
-     rdma_pci_dma_unmap(pci_dev, dev->dsr_info.req,
--                         sizeof(union pvrdma_cmd_req));
-+                       sizeof(union pvrdma_cmd_req));
- 
-     rdma_pci_dma_unmap(pci_dev, dev->dsr_info.rsp,
--                         sizeof(union pvrdma_cmd_resp));
-+                       sizeof(union pvrdma_cmd_resp));
- 
-     rdma_pci_dma_unmap(pci_dev, dev->dsr_info.dsr,
--                         sizeof(struct pvrdma_device_shared_region));
-+                       sizeof(struct pvrdma_device_shared_region));
- 
-     dev->dsr_info.dsr = NULL;
- }
-@@ -249,7 +249,8 @@ static void init_dsr_dev_caps(PVRDMADev *dev)
- {
-     struct pvrdma_device_shared_region *dsr;
- 
--    if (dev->dsr_info.dsr == NULL) {
-+    if (!dev->dsr_info.dsr) {
-+        /* Buggy or malicious guest driver */
-         rdma_error_report("Can't initialized DSR");
-         return;
-     }
 -- 
 2.20.1
 
