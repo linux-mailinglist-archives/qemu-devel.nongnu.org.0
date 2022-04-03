@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932C84F08D0
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Apr 2022 12:52:10 +0200 (CEST)
-Received: from localhost ([::1]:34498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0EA4F08D1
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Apr 2022 12:53:59 +0200 (CEST)
+Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1naxq4-0000B9-Ai
-	for lists+qemu-devel@lfdr.de; Sun, 03 Apr 2022 06:52:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44442)
+	id 1naxrq-0002So-Fs
+	for lists+qemu-devel@lfdr.de; Sun, 03 Apr 2022 06:53:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1naxmV-0006zc-Pj
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 06:48:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52958)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1naxpX-00012U-90
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 06:51:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1naxmT-0008Gi-28
- for qemu-devel@nongnu.org; Sun, 03 Apr 2022 06:48:26 -0400
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1naxpV-0000Hu-Rl
+ for qemu-devel@nongnu.org; Sun, 03 Apr 2022 06:51:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648982904;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1648983092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UYw3wN8HR62CbXyVWDGuunk04pRh30+eHbdN4l9yMe0=;
- b=B08eKhjLrZgZccku7S26da86QlcpK0uWfjE9EU7vujWXpRan1FbaLu4ufgtvQE0Eh8e206
- PvnoSru7ADYl7KxclULPPsGtqJWwLnsAaygeesuFCeb2W77zE7vrgrYRQoPuQv60iEN93V
- MWdnODW4j9p4wWQNQ9kWrcBx9q3ZWOA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JBEnWqyMQ1F/diQPdJNiGAXPo6FyWmt7GSjoEuLeaJs=;
+ b=RcS6nBgyELZko58NHZKyfr9HyWC0w0m9aJgaFYP8Fz1yzkGhIQoQlHohIddB5IOxmcriit
+ uO2y+L8VA9LZvLm9LJkPqQIakHkS7zoGQ3kMfF+RHlSVjIVVuxL5xDm7F1szfNtaRI7NUC
+ An7YGnjL29Wo1k0/HjYVEJx0y4YVBvQ=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-322-q7-4qP_VMECFXFkOlYqrGQ-1; Sun, 03 Apr 2022 06:48:21 -0400
-X-MC-Unique: q7-4qP_VMECFXFkOlYqrGQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49E0B3801EC0;
- Sun,  3 Apr 2022 10:48:21 +0000 (UTC)
-Received: from [10.72.12.82] (ovpn-12-82.pek2.redhat.com [10.72.12.82])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D0B8555901;
- Sun,  3 Apr 2022 10:48:16 +0000 (UTC)
-Subject: Re: [PATCH v3 1/4] hw/arm/virt: Consider SMP configuration in CPU
- topology
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20220323072438.71815-1-gshan@redhat.com>
- <20220323072438.71815-2-gshan@redhat.com>
- <20220330151832.3da04abf@redhat.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <3e4ee12d-0dc9-15e9-3e22-3f39e57582dd@redhat.com>
-Date: Sun, 3 Apr 2022 18:48:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ us-mta-356-cg9pIYeLPoif9KSIEC-6aQ-1; Sun, 03 Apr 2022 06:51:31 -0400
+X-MC-Unique: cg9pIYeLPoif9KSIEC-6aQ-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-2eb5980c4f8so7841717b3.23
+ for <qemu-devel@nongnu.org>; Sun, 03 Apr 2022 03:51:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JBEnWqyMQ1F/diQPdJNiGAXPo6FyWmt7GSjoEuLeaJs=;
+ b=JEIE6a+fMnWW/4dOyUBxLbCF+QLdwYEQhuCcr9VvAAVAZ+61HLXja2U+gFldMNeQtR
+ AaqsdOneDptMU+CK18z3TSEVtUeAd4nIEGfUYKxCk6qfCO5xEUzMSr9qc3x5pOb5cUkz
+ dOVfMmkv66f6WLF46QTOpv52MFO34Gb7kvWMtSM9vLRupMtTZsLSYwxEJzRdpHPkwvmZ
+ EFZOesem740mA9w7gsfpiHTF7P3OK3FTdBb7hh8xPMJ4WglAKj3tUkmI9cevkhu5rbYv
+ FlC5ccoqPBw6FUq2MAfr07sBR+ZYXhJlwfRmOIQHowlX383IyfTg4sLY3WigXCQGNDXs
+ 86GQ==
+X-Gm-Message-State: AOAM533q2FY4LGyEsWS/ueKDCI0i6eGSzXi3JFhC3KYCCGoEWxFoKcWj
+ QfZNG9Xs40jq9G9RHzJkPW6+7AwQEqpEEMOiXuWDR7XPOEifk7GE40OdigD6Ii1lveyD0DxlOaG
+ h4GEvo3hWfVePPazuCIIheJktEvhGUR8=
+X-Received: by 2002:a0d:cc8a:0:b0:2eb:3faa:474c with SMTP id
+ o132-20020a0dcc8a000000b002eb3faa474cmr5469482ywd.385.1648983090854; 
+ Sun, 03 Apr 2022 03:51:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzs6x8qyjRYyjq+5+KBD3NpyBVs+AgNk4zCwsD9tXs1X1nI9GXr6vBSXv1Lg3SthZd2PTVQXrgCluyOc2LnnZI=
+X-Received: by 2002:a0d:cc8a:0:b0:2eb:3faa:474c with SMTP id
+ o132-20020a0dcc8a000000b002eb3faa474cmr5469469ywd.385.1648983090589; Sun, 03
+ Apr 2022 03:51:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220330151832.3da04abf@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+References: <20220331201127.2006038-1-marcandre.lureau@redhat.com>
+ <05601508-78fc-e861-53a5-539634d7d536@gmail.com>
+In-Reply-To: <05601508-78fc-e861-53a5-539634d7d536@gmail.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Sun, 3 Apr 2022 13:51:19 +0300
+Message-ID: <CAPMcbCostn5qHtvP-fJLNL6cy9sr6OXzmW1jgAZER3MngGaeSQ@mail.gmail.com>
+Subject: Re: [PATCH] build-sys: remove MSI's QEMU_GA_MSI_MINGW_DLL_PATH
+To: qemu-devel@nongnu.org
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kkostiuk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Content-Type: multipart/alternative; boundary="0000000000005b0b9d05dbbdcbe3"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,102 +93,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
- qemu-arm@nongnu.org, shan.gavin@gmail.com
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>, Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
+--0000000000005b0b9d05dbbdcbe3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/30/22 9:18 PM, Igor Mammedov wrote:
-> On Wed, 23 Mar 2022 15:24:35 +0800
-> Gavin Shan <gshan@redhat.com> wrote:
-> 
->> Currently, the SMP configuration isn't considered when the CPU
->> topology is populated. In this case, it's impossible to provide
->> the default CPU-to-NUMA mapping or association based on the socket
->> ID of the given CPU.
->>
->> This takes account of SMP configuration when the CPU topology
->> is populated. The die ID for the given CPU isn't assigned since
->> it's not supported on arm/virt machine yet. Besides, the cluster
->> ID for the given CPU is assigned because it has been supported
->> on arm/virt machine.
->>
->> Signed-off-by: Gavin Shan <gshan@redhat.com>
->> ---
->>   hw/arm/virt.c     | 11 +++++++++++
->>   qapi/machine.json |  6 ++++--
->>   2 files changed, 15 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index d2e5ecd234..064eac42f7 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>       int n;
->>       unsigned int max_cpus = ms->smp.max_cpus;
->>       VirtMachineState *vms = VIRT_MACHINE(ms);
->> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
->>   
->>       if (ms->possible_cpus) {
->>           assert(ms->possible_cpus->len == max_cpus);
->> @@ -2518,6 +2519,16 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>           ms->possible_cpus->cpus[n].type = ms->cpu_type;
->>           ms->possible_cpus->cpus[n].arch_id =
->>               virt_cpu_mp_affinity(vms, n);
->> +
->> +        assert(!mc->smp_props.dies_supported);
->> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
->> +        ms->possible_cpus->cpus[n].props.socket_id =
->> +            n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
->> +        ms->possible_cpus->cpus[n].props.has_cluster_id = true;
->> +        ms->possible_cpus->cpus[n].props.cluster_id =
->> +            n / (ms->smp.cores * ms->smp.threads);
->> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
->> +        ms->possible_cpus->cpus[n].props.core_id = n / ms->smp.threads;
->>           ms->possible_cpus->cpus[n].props.has_thread_id = true;
->>           ms->possible_cpus->cpus[n].props.thread_id = n;
-> 
-> shouldn't be above values calculated similar to the way they are
-> calculated in x86_topo_ids_from_idx()? /note '% foo' part/
-> 
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-I think it's fine not to have '% foo' here. However, I think it'd
-better to have the similar '% foo' as x86 does. I will add this part
-in v4.
+On Thu, Mar 31, 2022 at 11:34 PM Philippe Mathieu-Daud=C3=A9 <
+philippe.mathieu.daude@gmail.com> wrote:
 
->>       }
->> diff --git a/qapi/machine.json b/qapi/machine.json
->> index 42fc68403d..99c945f258 100644
->> --- a/qapi/machine.json
->> +++ b/qapi/machine.json
->> @@ -868,10 +868,11 @@
->>   # @node-id: NUMA node ID the CPU belongs to
->>   # @socket-id: socket number within node/board the CPU belongs to
->>   # @die-id: die number within socket the CPU belongs to (since 4.1)
->> -# @core-id: core number within die the CPU belongs to
->> +# @cluster-id: cluster number within die the CPU belongs to
->> +# @core-id: core number within cluster the CPU belongs to
->>   # @thread-id: thread number within core the CPU belongs to
->>   #
->> -# Note: currently there are 5 properties that could be present
->> +# Note: currently there are 6 properties that could be present
->>   #       but management should be prepared to pass through other
->>   #       properties with device_add command to allow for future
->>   #       interface extension. This also requires the filed names to be kept in
->> @@ -883,6 +884,7 @@
->>     'data': { '*node-id': 'int',
->>               '*socket-id': 'int',
->>               '*die-id': 'int',
->> +            '*cluster-id': 'int',
->>               '*core-id': 'int',
->>               '*thread-id': 'int'
->>     }
+> On 31/3/22 22:11, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Since the introduction of the variable in commit 9dacf32d2cb ("qemu-ga:
+> > Building Windows MSI installation with configure/Makefile"), nothing
+> > makes use of the Mingw_dlls variable in the .wxs file.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >   configure       | 3 ---
+> >   qga/meson.build | 1 -
+> >   2 files changed, 4 deletions(-)
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+>
 
-Thanks,
-Gavin
+--0000000000005b0b9d05dbbdcbe3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a hr=
+ef=3D"mailto:kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>=
+&gt;</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
+tr">On Thu, Mar 31, 2022 at 11:34 PM Philippe Mathieu-Daud=C3=A9 &lt;<a hre=
+f=3D"mailto:philippe.mathieu.daude@gmail.com">philippe.mathieu.daude@gmail.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">On 31/3/22 22:11, <a href=3D"mailto:marcandre.lureau@redhat.com" target=
+=3D"_blank">marcandre.lureau@redhat.com</a> wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; Since the introduction of the variable in commit 9dacf32d2cb (&quot;qe=
+mu-ga:<br>
+&gt; Building Windows MSI installation with configure/Makefile&quot;), noth=
+ing<br>
+&gt; makes use of the Mingw_dlls variable in the .wxs file.<br>
+&gt; <br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0| 3 ---<br>
+&gt;=C2=A0 =C2=A0qga/meson.build | 1 -<br>
+&gt;=C2=A0 =C2=A02 files changed, 4 deletions(-)<br>
+<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
+org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+<br>
+</blockquote></div></div>
+
+--0000000000005b0b9d05dbbdcbe3--
 
 
