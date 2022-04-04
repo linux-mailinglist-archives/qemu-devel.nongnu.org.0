@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701154F1432
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 14:00:21 +0200 (CEST)
-Received: from localhost ([::1]:53346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5BE4F1453
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 14:05:01 +0200 (CEST)
+Received: from localhost ([::1]:57350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbLNb-0007pV-V9
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 08:00:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39658)
+	id 1nbLS7-0002W3-Sw
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 08:04:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nbLLC-0006UU-Oc
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 07:57:53 -0400
-Received: from [2a00:1450:4864:20::12c] (port=47072
- helo=mail-lf1-x12c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <maxim.davydov@openvz.org>)
- id 1nbLL8-0001Dx-AF
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 07:57:48 -0400
-Received: by mail-lf1-x12c.google.com with SMTP id e16so16730074lfc.13
- for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 04:57:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=openvz-org.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/NFCTH5hx3/L6Fx7CBc63ZRqEHSrze49qnhbCWVLxq4=;
- b=N44RQzAYW50nVfgRKugMJFS80JBLb7fTF+nfVWORH/7cWQdqgFRwY5yNbLvQcbw1+O
- CxydtJULu6PJPF7udX/zEY54ZfVO4oUeJg0mzP4pJf1ueOXFYo2VAeuAlSkraGbgE3/B
- /5CVsQAdKl1OTduaOnFg+jiVYL6oCHs2rDvabPrln7JJnNQcuDG/SYHgq3MxBh6FY+Ft
- 3c5XUB9qYiPvMP7/vyQ+xQByztziKi8FzYItFS7h8ToUNdyyazPjRnzcVWrEob1aLjzb
- uDIlCCVWdnA4Cqc9INhp5ag3RTTNWtqrQZC47y1AmMcPCLioCxFzNT2AkV/x4M25YeJl
- CFog==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nbLQg-0001Wz-5Y
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 08:03:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nbLQb-0002Im-6m
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 08:03:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649073803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qYh0ZCQabxEewuaJGpqXzDYGhcd5FkfM22Q4Uw4AyGc=;
+ b=OWGjJuBTBLrX3oNEnTMapowEeyNWAGoQend2EYWYImSggxnxQKIuqg/dwv1WTFc+uxlZfY
+ xVaUf5Zy10bAbbWATxUgioG/gxD9bvDb8ROIGvBhRKxU/SsLf86ahaTXS7rt50pL+/qnzQ
+ d1aQXwQwhGIQu37hJNuEvukCuNRv+Xs=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-351-hSVYUKHeNrSGttGmjc6z_A-1; Mon, 04 Apr 2022 08:03:22 -0400
+X-MC-Unique: hSVYUKHeNrSGttGmjc6z_A-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ sg13-20020a170907a40d00b006e7e8234ae2so1279470ejc.2
+ for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 05:03:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/NFCTH5hx3/L6Fx7CBc63ZRqEHSrze49qnhbCWVLxq4=;
- b=VsADWhsV1hDo/x7lXI03h/hPY8Z70O++aCVTQIiC4GXONNDTjZ+Sm1Fw/0HfVlwgDF
- zypXUIJlBlTOKtVPKuDmNnDl76F7gbNhEQjWnHfcVcCZPQY2v2FTcpSvBeOlWyrZWBM1
- ep1QyOqX87s30KUTKFS+rN7dH8IFYv4K0BOvsj6RoOHD3q2cqBviNee7hTNtppQ03yCf
- L52hRzXkdQ46K7iYkH0VUfV6aPKDj58HE7BtCA5ArPYAue7YxSDan487VPqtvQ9oauV3
- wXsleHb2O+5zKecS83BG53KrymitPuAzlMrUZ5sH7wURaIM4WOkU6Sx4JvupefsU3Hcl
- AOfw==
-X-Gm-Message-State: AOAM5326g/Tw5T/G/Fij+fV4SK1pBoJERREjD0Omuxt2xAl+TzI3kAYm
- ybuOXx75LzaDPVyBXNwmfMXmAw==
-X-Google-Smtp-Source: ABdhPJxSaN1wm6D/14vqLfNDxULkIUDl8dKCxaBTZ/N1hN+u2bNgo6RW8lGD/n8esivLE0f5m6cvyw==
-X-Received: by 2002:a05:6512:22cd:b0:44a:6d2c:8b9f with SMTP id
- g13-20020a05651222cd00b0044a6d2c8b9fmr22006165lfu.142.1649073463906; 
- Mon, 04 Apr 2022 04:57:43 -0700 (PDT)
-Received: from [192.168.50.150] ([93.175.1.181])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qYh0ZCQabxEewuaJGpqXzDYGhcd5FkfM22Q4Uw4AyGc=;
+ b=dL5hpz+dL1LpM+xMI1nbnONW3y9Vhx1w3LxzV5blqEZtu70kYp1abotqLJ9P6jIwMN
+ lq3oNNwltozP/gBCGkU1cO5k4oIDvCeq8s4ectWWWzokF5Qjy7dHiAMVhLJChJGyOsCR
+ VuWNudThQs68PrzYUuS/5tzLAIsdExejAUkKPr7mvUylri1WBhAphm05M7liPUfjxiKq
+ DayNHGrH9viFViQKPJzqclA3IHtMHIb6fxkLaYZYGLk1j6UvuZ+obUAsqUvib3Ph2Uka
+ lx8ahpXLzOjJLv4iandAoazo6C0FnJkj8675UPLXGS5hAKCz9TpJazrfNjTrseIaW/bu
+ azdQ==
+X-Gm-Message-State: AOAM530XGX7EDcpCBBNS5xjCboyrJzef4d3HNTyTN4Yo9f+Nz/UV6KhC
+ ZcEDgu7rPkBZCwiblxazjXTjUw2STUgXKSOBvUxbml1KKWqkexz8UdIclMEbkuD8bqyk6dxNzDJ
+ g4EOo7xmv0xZfMC4=
+X-Received: by 2002:a05:6402:2816:b0:419:2a8e:6d3e with SMTP id
+ h22-20020a056402281600b004192a8e6d3emr32236164ede.47.1649073800811; 
+ Mon, 04 Apr 2022 05:03:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwg6OE9U8NvZtqlpgR41e1weJ1AZ9gFHx3g/McrrVGFolFkE+r9NST4OcsZ/sGRMuRn5cypSw==
+X-Received: by 2002:a05:6402:2816:b0:419:2a8e:6d3e with SMTP id
+ h22-20020a056402281600b004192a8e6d3emr32236121ede.47.1649073800459; 
+ Mon, 04 Apr 2022 05:03:20 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- f26-20020a19381a000000b0044ad7a29b4csm1112539lfa.37.2022.04.04.04.57.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Apr 2022 04:57:43 -0700 (PDT)
-Message-ID: <60926e96-6a85-63bc-d6ae-9113c397a77b@openvz.org>
-Date: Mon, 4 Apr 2022 14:57:41 +0300
+ lj20-20020a170906f9d400b006e7f1e1f4a0sm1158595ejb.60.2022.04.04.05.03.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Apr 2022 05:03:19 -0700 (PDT)
+Date: Mon, 4 Apr 2022 14:03:18 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v5 2/4] hw/arm/virt: Consider SMP configuration in CPU
+ topology
+Message-ID: <20220404140318.5afd6c58@redhat.com>
+In-Reply-To: <17bd5453-ef36-6bbc-3913-d806e0ed7a38@redhat.com>
+References: <20220403145953.10522-1-gshan@redhat.com>
+ <20220403145953.10522-3-gshan@redhat.com>
+ <YkquyMTJqq+jFvm0@redhat.com>
+ <17bd5453-ef36-6bbc-3913-d806e0ed7a38@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v1 3/9] mem: appropriate handling getting mem region
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- qemu-devel@nongnu.org, imammedo@redhat.com
-References: <20220328211539.90170-1-maxim.davydov@openvz.org>
- <20220328211539.90170-4-maxim.davydov@openvz.org>
- <4cb6d834-48cf-3b9f-77b0-38cec020a3dc@mail.ru>
-From: Maxim Davydov <maxim.davydov@openvz.org>
-In-Reply-To: <4cb6d834-48cf-3b9f-77b0-38cec020a3dc@mail.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=maxim.davydov@openvz.org; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,135 +104,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, berrange@redhat.com, xiaoguangrong.eric@gmail.com,
- mst@redhat.com, jsnow@redhat.com, crosa@redhat.com, f4bug@amsat.org,
- lizhijian@fujitsu.com, armbru@redhat.com, wangyanan55@huawei.com,
- marcandre.lureau@redhat.com, chen.zhang@intel.com, pbonzini@redhat.com,
- ani@anisinha.ca, den@openvz.org, eblake@redhat.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, zhenyzha@redhat.com,
+ wangyanan55@huawei.com, qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 4 Apr 2022 18:48:00 +0800
+Gavin Shan <gshan@redhat.com> wrote:
 
-On 3/30/22 14:27, Vladimir Sementsov-Ogievskiy wrote:
-> 29.03.2022 00:15, Maxim Davydov wrote:
->> Attempt to get memory region if the device doesn't have hostmem may 
->> not be
->> an error. This can be happen immediately after initialization (getting
->> value without default one).
->>
->> Signed-off-by: Maxim Davydov <maxim.davydov@openvz.org>
->> ---
->>   hw/i386/sgx-epc.c | 5 ++++-
->>   hw/mem/nvdimm.c   | 6 ++++++
->>   hw/mem/pc-dimm.c  | 5 +++++
->>   3 files changed, 15 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
->> index d664829d35..1a4c8acdcc 100644
->> --- a/hw/i386/sgx-epc.c
->> +++ b/hw/i386/sgx-epc.c
->> @@ -121,9 +121,12 @@ static MemoryRegion 
->> *sgx_epc_md_get_memory_region(MemoryDeviceState *md,
->>   {
->>       SGXEPCDevice *epc = SGX_EPC(md);
->>       HostMemoryBackend *hostmem;
->> +    DeviceState *dev = DEVICE(epc);
->>         if (!epc->hostmem) {
->> -        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be 
->> set");
->> +        if (dev->realized) {
->> +            error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property 
->> must be set");
->> +        }
->>           return NULL;
->>       }
->
-> I can't judge, is it really and error or not.
->
-> But the way you change the logic is not correct, as you change the 
-> semantics:
->
-> Old semantics: on error return NULL and set errp, on success return 
-> non-NULL and not set errp
->
-> New semantics: on error return NULL and set errp, on success return 
-> anything (may be NULL) and not set errp.
->
-> Callers are not prepared to this. For example, look at 
-> memory_device_unplug:
-> it does
->
->   mr = mdc->get_memory_region(md, &error_abort);
->
-> assume it returns NULL, which is not an error (so we don't crash on 
-> error_abort)
->
-> and then pass mr  to memory_region_del_subregion(), which in turn 
-> access mr->container, which will crash if mr is NULL.
->
-> Most probably the situation I describe is not possible, but I just 
-> want to illustrate the idea.
->
-> Moreover, in QEMU functions which has "Error **errp" argument and 
-> return pointer are recommended to return NULL on failure and nonNULL 
-> on success. In other words, return value of function with "Error 
-> **errp" argument should report success/failure information. And having 
-> NULL as possible success return value is not recommended, as it's 
-> ambiguous and leads to bugs (see big comment at start of 
-> include/qapi/error.h).
->
-> So, if it's really needed to change the semantics in such 
-> not-recommended way, you should check that all callers are OK with it 
-> and also describe new semantics in a comment near get_memory_region 
-> declaration. But better is deal with returned error as it is.. What is 
-> an exact problem you trying to solve with this commit?
-I tried to solve the problem with errors from request MemoryRegion (via 
-*md_get_memory_region()) that was called immediately after 
-object_new_with_class(). But it does seem to change the semantics. 
-Perhaps better solution would be to ignore these errors or to add an 
-exception to handle the object properties correctly.
->
->>   diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
->> index 7c7d777781..61e77e5476 100644
->> --- a/hw/mem/nvdimm.c
->> +++ b/hw/mem/nvdimm.c
->> @@ -166,9 +166,15 @@ static MemoryRegion 
->> *nvdimm_md_get_memory_region(MemoryDeviceState *md,
->>                                                    Error **errp)
->>   {
->>       NVDIMMDevice *nvdimm = NVDIMM(md);
->> +    PCDIMMDevice *dimm = PC_DIMM(nvdimm);
->>       Error *local_err = NULL;
->>         if (!nvdimm->nvdimm_mr) {
->> +        /* Not error if we try get memory region after init */
->> +        if (!dimm->hostmem) {
->> +            return NULL;
->> +        }
->> +
->>           nvdimm_prepare_memory_region(nvdimm, &local_err);
->>           if (local_err) {
->>               error_propagate(errp, local_err);
->> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
->> index f27e1a11ba..6fd74de97f 100644
->> --- a/hw/mem/pc-dimm.c
->> +++ b/hw/mem/pc-dimm.c
->> @@ -240,6 +240,11 @@ static void 
->> pc_dimm_md_set_addr(MemoryDeviceState *md, uint64_t addr,
->>   static MemoryRegion *pc_dimm_md_get_memory_region(MemoryDeviceState 
->> *md,
->>                                                     Error **errp)
->>   {
->> +    PCDIMMDevice *dimm = PC_DIMM(md);
->> +    /* Not error if we try get memory region after init */
->> +    if (!dimm->hostmem) {
->> +        return NULL;
->> +    }
->>       return pc_dimm_get_memory_region(PC_DIMM(md), errp);
->>   }
->
->
--- 
-Best regards,
-Maxim Davydov
+> Hi Daniel,
+>=20
+> On 4/4/22 4:39 PM, Daniel P. Berrang=C3=A9 wrote:
+> > On Sun, Apr 03, 2022 at 10:59:51PM +0800, Gavin Shan wrote: =20
+> >> Currently, the SMP configuration isn't considered when the CPU
+> >> topology is populated. In this case, it's impossible to provide
+> >> the default CPU-to-NUMA mapping or association based on the socket
+> >> ID of the given CPU.
+> >>
+> >> This takes account of SMP configuration when the CPU topology
+> >> is populated. The die ID for the given CPU isn't assigned since
+> >> it's not supported on arm/virt machine yet.
+> >>
+> >> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> >> ---
+> >>   hw/arm/virt.c | 16 +++++++++++++++-
+> >>   1 file changed, 15 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> >> index d2e5ecd234..3174526730 100644
+> >> --- a/hw/arm/virt.c
+> >> +++ b/hw/arm/virt.c
+> >> @@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_ar=
+ch_ids(MachineState *ms)
+> >>       int n;
+> >>       unsigned int max_cpus =3D ms->smp.max_cpus;
+> >>       VirtMachineState *vms =3D VIRT_MACHINE(ms);
+> >> +    MachineClass *mc =3D MACHINE_GET_CLASS(vms);
+> >>  =20
+> >>       if (ms->possible_cpus) {
+> >>           assert(ms->possible_cpus->len =3D=3D max_cpus);
+> >> @@ -2518,8 +2519,21 @@ static const CPUArchIdList *virt_possible_cpu_a=
+rch_ids(MachineState *ms)
+> >>           ms->possible_cpus->cpus[n].type =3D ms->cpu_type;
+> >>           ms->possible_cpus->cpus[n].arch_id =3D
+> >>               virt_cpu_mp_affinity(vms, n);
+> >> +
+> >> +        assert(!mc->smp_props.dies_supported);
+> >> +        ms->possible_cpus->cpus[n].props.has_socket_id =3D true;
+> >> +        ms->possible_cpus->cpus[n].props.socket_id =3D
+> >> +            (n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads)=
+) %
+> >> +            ms->smp.sockets;
+> >> +        ms->possible_cpus->cpus[n].props.has_cluster_id =3D true;
+> >> +        ms->possible_cpus->cpus[n].props.cluster_id =3D
+> >> +            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.cluster=
+s;
+> >> +        ms->possible_cpus->cpus[n].props.has_core_id =3D true;
+> >> +        ms->possible_cpus->cpus[n].props.core_id =3D
+> >> +            (n / ms->smp.threads) % ms->smp.cores;
+> >>           ms->possible_cpus->cpus[n].props.has_thread_id =3D true;
+> >> -        ms->possible_cpus->cpus[n].props.thread_id =3D n;
+> >> +        ms->possible_cpus->cpus[n].props.thread_id =3D
+> >> +            n % ms->smp.threads; =20
+> >=20
+> > Does this need to be conditionalized d behind a machine property, so th=
+at
+> > we don't change behaviour of existing machine type versions ?
+> >  =20
+>=20
+> I think we probably needn't to do that because the default NUMA node
+> for the given CPU is returned based on the socket ID in next patch.
+> The socket ID is calculated in this patch. Otherwise, we will see
+> CPU topology broken warnings in Linux guest. I think we need to fix
+> this issue for all machine type versions.
+
+Agreed.
+Also guest-wise it's ACPI only change, which is 'firmware' part of QEMU,
+and by default we don't to version those changes unless we a pressed
+into it (i.e the same policy that goes for bundled firmware)
+
+> Thanks,
+> Gavin
+>=20
 
 
