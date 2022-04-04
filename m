@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE124F0FB1
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 08:59:35 +0200 (CEST)
-Received: from localhost ([::1]:45828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAB64F100B
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 09:38:32 +0200 (CEST)
+Received: from localhost ([::1]:58048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbGgX-00081T-O5
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 02:59:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56134)
+	id 1nbHIE-0001av-Nm
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 03:38:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nbGcs-0006MG-JX
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 02:55:48 -0400
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:48459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nbGcq-0001cA-Jf
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 02:55:46 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.159])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 69DCC22665;
- Mon,  4 Apr 2022 06:55:41 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 4 Apr
- 2022 08:55:40 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G00291d75ca5-c1d5-4c3a-928e-e6c84ec2f957,
- 193BEDB8EED17CFBFC1316EE01F9191BF107EB6B) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <aee7b561-c88b-f149-0d0f-a402373ec3f8@kaod.org>
-Date: Mon, 4 Apr 2022 08:55:40 +0200
+ (Exim 4.90_1) (envelope-from <hduweili@gmail.com>)
+ id 1nbHG2-0000hX-Vi
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 03:36:17 -0400
+Received: from [2607:f8b0:4864:20::12b] (port=33679
+ helo=mail-il1-x12b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hduweili@gmail.com>)
+ id 1nbHG1-0007Gy-1e
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 03:36:14 -0400
+Received: by mail-il1-x12b.google.com with SMTP id k15so1600755ils.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 00:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9LLilIuJDEkLuxzJSIWkrzFGnd1b+FrQMsn7Fb3iAQg=;
+ b=YZh9w4c19aDudWqo+YG3H+EmAJDeP/m5H7cuLPr77tn6N7Jp7rNYfHJcSezXnPYXgJ
+ FRC34VXMd91bTMWiSS6/DodS1FpQzWkx8baMkvwJzbcC06OhSUfh2mLZ1OzsOpxvCC75
+ YHKLDlNHn2VxN5JidTL46NvXb8EtqrUCxLIdZdmYVFrphd6nhgb+Maa64WFD8PxvV4X7
+ g1H0IUqTFBtLINOrlbul6X6ItgtJIIMDBeines1XHou5Y1ulfxPxDkZWOU6QUcj3Ov0h
+ UnSU7ACxyuVKwFnV8iO5FGfYz8EGsnAZss7Osp1VQPsevnQNTxDHrmnjjDpOr7Te59HE
+ 5SlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9LLilIuJDEkLuxzJSIWkrzFGnd1b+FrQMsn7Fb3iAQg=;
+ b=WeyVJZ47YwenjkVkV/6L1p33UAv1d8NXkamkCH16C9cwlIFyQppZ5ObkNpuR4UIwHI
+ 2jcM917qWMQJ6WRoeP4DaKRTDanPDzXk6nJG+oDj5jyTxBN/Obk8GAcM91Lc6BbCi9dP
+ PuyA/3HYGH8TQCVQplWSNBRBq2ILFL2K0KHcOeOeoldpZ02gHi2xB73B39q9DZJeumbU
+ dhrZQm57caIPgDXr81VqGkLAqH6ugaETCJy+9mhijISgUUe5wVjvWja3WjDPS/GBEqpN
+ 4fTpWmAl8FT5/2iiHDxzhhIAoEakLEjfWMZUg+RTr8SXNPEN6aD/8MhGF8aancP+e7xy
+ KJLQ==
+X-Gm-Message-State: AOAM532W++5s8WuduLQzMdPnRGGZ2JycuVC+cRThy3uBwFy8dtFso5BZ
+ 1IgOD6lvAT0qbVW7fhYkcKf3kr/56oeJE07BCxc=
+X-Google-Smtp-Source: ABdhPJziXhPra9IUbKeO4C8OfrjKz6fe565fo6GZSw386b9JCoskqCiO7UFRulL1A9Xx9Q3bdkkMK0x5nF3N9whswA8=
+X-Received: by 2002:a92:6a01:0:b0:2b6:87b7:180b with SMTP id
+ f1-20020a926a01000000b002b687b7180bmr5116106ilc.82.1649057771566; Mon, 04 Apr
+ 2022 00:36:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/1] hw/ppc: free env->tb_env in spapr_unrealize_vcpu()
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220329124545.529145-1-danielhb413@gmail.com>
- <20220329124545.529145-2-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220329124545.529145-2-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 98695fb3-7e87-4224-ab38-bdeef4a886b4
-X-Ovh-Tracer-Id: 10839319879487097824
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudejuddgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220325145007.448948-1-lw945lw945.ref@yahoo.com>
+ <20220325145007.448948-1-lw945lw945@yahoo.com>
+In-Reply-To: <20220325145007.448948-1-lw945lw945@yahoo.com>
+From: Wei Li <hduweili@gmail.com>
+Date: Mon, 4 Apr 2022 15:36:00 +0800
+Message-ID: <CAAHarUxAhSEAxgxk5fLK22tfAShHDokhQByuKT_7BUL1hYjWHg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] target/i386: Some mmx/sse instructions don't require
+To: Wei Li <lw945lw945@yahoo.com>
+Content-Type: multipart/alternative; boundary="000000000000b03c7605dbcf2e05"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=hduweili@gmail.com; helo=mail-il1-x12b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,99 +82,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: eduardo@habkost.net, pbonzini@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/29/22 14:45, Daniel Henrique Barboza wrote:
-> The timebase is allocated during spapr_realize_vcpu() and it's not
-> freed. This results in memory leaks when doing vcpu unplugs:
-> 
-> ==636935==
-> ==636935== 144 (96 direct, 48 indirect) bytes in 1 blocks are definitely lost in loss record 6
-> ,461 of 8,135
-> ==636935==    at 0x4897468: calloc (vg_replace_malloc.c:760)
-> ==636935==    by 0x5077213: g_malloc0 (in /usr/lib64/libglib-2.0.so.0.6400.4)
-> ==636935==    by 0x507757F: g_malloc0_n (in /usr/lib64/libglib-2.0.so.0.6400.4)
-> ==636935==    by 0x93C3FB: cpu_ppc_tb_init (ppc.c:1066)
-> ==636935==    by 0x97BC2B: spapr_realize_vcpu (spapr_cpu_core.c:268)
-> ==636935==    by 0x97C01F: spapr_cpu_core_realize (spapr_cpu_core.c:337)
-> ==636935==    by 0xD4626F: device_set_realized (qdev.c:531)
-> ==636935==    by 0xD55273: property_set_bool (object.c:2273)
-> ==636935==    by 0xD523DF: object_property_set (object.c:1408)
-> ==636935==    by 0xD588B7: object_property_set_qobject (qom-qobject.c:28)
-> ==636935==    by 0xD52897: object_property_set_bool (object.c:1477)
-> ==636935==    by 0xD4579B: qdev_realize (qdev.c:333)
-> ==636935==
-> 
-> This patch adds a cpu_ppc_tb_free() helper in hw/ppc/ppc.c to allow us
-> to free the timebase. This leak is then solved by calling
-> cpu_ppc_tb_free() in spapr_unrealize_vcpu().
-> 
-> Fixes: 6f4b5c3ec590 ("spapr: CPU hot unplug support")
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   hw/ppc/ppc.c            | 7 +++++++
->   hw/ppc/spapr_cpu_core.c | 3 +++
->   include/hw/ppc/ppc.h    | 1 +
->   3 files changed, 11 insertions(+)
+--000000000000b03c7605dbcf2e05
+Content-Type: text/plain; charset="UTF-8"
 
-Queued for ppc-7.0
+Ping......
 
-Thanks,
+And the title is target/i386: Some mmx/sse instructions don't require
+CR0.TS=0
 
-C.
+On Fri, Mar 25, 2022 at 10:55 PM Wei Li <lw945lw945@yahoo.com> wrote:
 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/427
+>
+> All instructions decoded by 'gen_see' is assumed to require CRO.TS=0. But
+> according to SDM, CRC32 doesn't require it. In fact, EMMS, FMMS and some
+> mmx/sse instructions(0F38F[0-F], 0F3AF[0-F]) don't require it.
+>
+> To solve the problem, first to move EMMS and FMMS out of gen_sse. Then
+> instructions in 'gen_sse' require it only when modrm & 0xF0 is false.
+>
+> Wei Li (2):
+>   Move EMMS and FEMMS instructions out of gen_sse
+>   Some mmx/sse instructions in 'gen_sse' don't require CRO.TS=0
+>
+>  target/i386/tcg/translate.c | 45 +++++++++++++++++--------------------
+>  1 file changed, 21 insertions(+), 24 deletions(-)
+>
+> --
+> 2.30.2
+>
+>
+>
+Thanks.
+--
+Wei Li
 
+--000000000000b03c7605dbcf2e05
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-> index faa02d6710..fea70df45e 100644
-> --- a/hw/ppc/ppc.c
-> +++ b/hw/ppc/ppc.c
-> @@ -1083,6 +1083,13 @@ clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq)
->       return &cpu_ppc_set_tb_clk;
->   }
->   
-> +void cpu_ppc_tb_free(CPUPPCState *env)
-> +{
-> +    timer_free(env->tb_env->decr_timer);
-> +    timer_free(env->tb_env->hdecr_timer);
-> +    g_free(env->tb_env);
-> +}
-> +
->   /* cpu_ppc_hdecr_init may be used if the timer is not used by HDEC emulation */
->   void cpu_ppc_hdecr_init(CPUPPCState *env)
->   {
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index ed84713960..8a4861f45a 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -189,10 +189,13 @@ static const VMStateDescription vmstate_spapr_cpu_state = {
->   
->   static void spapr_unrealize_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
->   {
-> +    CPUPPCState *env = &cpu->env;
-> +
->       if (!sc->pre_3_0_migration) {
->           vmstate_unregister(NULL, &vmstate_spapr_cpu_state, cpu->machine_data);
->       }
->       spapr_irq_cpu_intc_destroy(SPAPR_MACHINE(qdev_get_machine()), cpu);
-> +    cpu_ppc_tb_free(env);
->       qdev_unrealize(DEVICE(cpu));
->   }
->   
-> diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-> index b0ba4bd6b9..364f165b4b 100644
-> --- a/include/hw/ppc/ppc.h
-> +++ b/include/hw/ppc/ppc.h
-> @@ -54,6 +54,7 @@ struct ppc_tb_t {
->   
->   uint64_t cpu_ppc_get_tb(ppc_tb_t *tb_env, uint64_t vmclk, int64_t tb_offset);
->   clk_setup_cb cpu_ppc_tb_init (CPUPPCState *env, uint32_t freq);
-> +void cpu_ppc_tb_free(CPUPPCState *env);
->   void cpu_ppc_hdecr_init(CPUPPCState *env);
->   void cpu_ppc_hdecr_exit(CPUPPCState *env);
->   
+<div dir=3D"ltr"><div dir=3D"ltr">Ping......</div><div dir=3D"ltr"><br></di=
+v><div>And the title is=C2=A0target/i386: Some mmx/sse instructions don&#39=
+;t require CR0.TS=3D0</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Fri, Mar 25, 2022 at 10:55 PM Wei Li &lt;<a href=3D=
+"mailto:lw945lw945@yahoo.com">lw945lw945@yahoo.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">Resolves: <a href=3D"http=
+s://gitlab.com/qemu-project/qemu/-/issues/427" rel=3D"noreferrer" target=3D=
+"_blank">https://gitlab.com/qemu-project/qemu/-/issues/427</a><br>
+<br>
+All instructions decoded by &#39;gen_see&#39; is assumed to require CRO.TS=
+=3D0. But<br>
+according to SDM, CRC32 doesn&#39;t require it. In fact, EMMS, FMMS and som=
+e<br>
+mmx/sse instructions(0F38F[0-F], 0F3AF[0-F]) don&#39;t require it.<br>
+<br>
+To solve the problem, first to move EMMS and FMMS out of gen_sse. Then<br>
+instructions in &#39;gen_sse&#39; require it only when modrm &amp; 0xF0 is =
+false.<br>
+<br>
+Wei Li (2):<br>
+=C2=A0 Move EMMS and FEMMS instructions out of gen_sse<br>
+=C2=A0 Some mmx/sse instructions in &#39;gen_sse&#39; don&#39;t require CRO=
+.TS=3D0<br>
+<br>
+=C2=A0target/i386/tcg/translate.c | 45 +++++++++++++++++-------------------=
+-<br>
+=C2=A01 file changed, 21 insertions(+), 24 deletions(-)<br>
+<br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div>Thanks.</div>--<div dir=3D"ltr" c=
+lass=3D"gmail_signature"><div dir=3D"ltr"><div>Wei Li</div><div><br></div><=
+/div></div></div>
 
+--000000000000b03c7605dbcf2e05--
 
