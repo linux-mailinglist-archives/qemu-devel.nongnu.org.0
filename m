@@ -2,58 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F724F0F34
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 08:22:02 +0200 (CEST)
-Received: from localhost ([::1]:35712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A514F0F61
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 08:30:36 +0200 (CEST)
+Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbG6C-0007ts-I6
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 02:22:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49708)
+	id 1nbGEV-0001SM-7f
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 02:30:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbFyr-0006LD-QC
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 02:14:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29310)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbG8J-0000e8-T8
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 02:24:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbFyp-0003rL-5p
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 02:14:24 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbG8E-0005PJ-SU
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 02:24:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649052861;
+ s=mimecast20190719; t=1649053445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=W65qgceN4Il3Xvxwnl1ZTXv1SWdBzeC66tQk17IjDsg=;
- b=Y+sEU1aALn/jKMCPIBiQ2TcDNqETJqPS2b4P92X2RL6PIw7Kd2Z79oX1Avw90gtj97CLC3
- A4QKJ6/nxCg58m6hTjN5c505sOIQzRYTf0rTQ9n+5mkex1cceuBfUCkLHtuhCxp3eyj4H2
- HpuAHFqC8f9trEqKxoRRh/PY0YLlIoo=
+ bh=hVm4IPSMjuL70Vi4DriMR/QPpw+xesOfdIqo+xFByhA=;
+ b=MsugfGhnGWAEV07LWG01enEo4uL23zgTLF26rHylW0/k3dmg5A9znWz+vwpzw2fVVszwTN
+ slXoHMHfJFArMKytGu+MAhwWhXShaOjgboYonxRSCqvLP+SbdlY6vxUHTPGtdAOVuqMoVw
+ Ty+MxPVzvME8SRTDWeifiPEZpKJh3pE=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380--azQY_PiOaewGREwS2toVw-1; Mon, 04 Apr 2022 02:14:20 -0400
-X-MC-Unique: -azQY_PiOaewGREwS2toVw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-600-TEdNgcM9OSiLK-DEhxmMjg-1; Mon, 04 Apr 2022 02:24:04 -0400
+X-MC-Unique: TEdNgcM9OSiLK-DEhxmMjg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1EAF61C12DE0
- for <qemu-devel@nongnu.org>; Mon,  4 Apr 2022 06:14:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 162333806721;
+ Mon,  4 Apr 2022 06:24:04 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E01752156897;
- Mon,  4 Apr 2022 06:14:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E75D140F1C2E;
+ Mon,  4 Apr 2022 06:24:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6A92E21E6906; Mon,  4 Apr 2022 08:14:11 +0200 (CEST)
+ id BC25021E6906; Mon,  4 Apr 2022 08:24:02 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Victor Toso <victortoso@redhat.com>
-Subject: Re: [PATCH v1.1 1/9] qapi: fix example of netdev_add command
-References: <20220331190633.121077-2-victortoso@redhat.com>
- <20220401110712.26911-1-victortoso@redhat.com>
-Date: Mon, 04 Apr 2022 08:14:11 +0200
-In-Reply-To: <20220401110712.26911-1-victortoso@redhat.com> (Victor Toso's
- message of "Fri, 1 Apr 2022 13:07:12 +0200")
-Message-ID: <87ilrp1iks.fsf@pond.sub.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: use of uninitialized variable involving visit_type_uint32() and
+ friends
+References: <CAFEAcA-wExOSiuJ5F6nBwWXcWW2c1rqHCfT=JNrdWQ4baqu3Og@mail.gmail.com>
+ <CABgObfbu3MK6SCNGOFGGHWO72e3dYygUybgyavALKq5_pnWK0A@mail.gmail.com>
+ <87y20p88qq.fsf@pond.sub.org>
+ <e17c3f3b-000f-4bab-1e3a-2adbafbcdcbb@redhat.com>
+ <875ynt54pk.fsf@pond.sub.org>
+ <33548764-9f91-b4df-c2b6-b897713d56fd@redhat.com>
+Date: Mon, 04 Apr 2022 08:24:02 +0200
+In-Reply-To: <33548764-9f91-b4df-c2b6-b897713d56fd@redhat.com> (Paolo
+ Bonzini's message of "Fri, 1 Apr 2022 17:46:39 +0200")
+Message-ID: <87ee2d1i4d.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,41 +86,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Victor Toso <victortoso@redhat.com> writes:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> Example output has the optional member @dnssearch as string type. It
-> should be an array of strings instead. Fix it.
-
-"of String objects".  Happy to fix this in my tree.
-
+> On 4/1/22 15:11, Markus Armbruster wrote:
+>>> If it can do really serious interprocedural analysis, it _might_ be able
+>>> to see through the visitor constructor and know that the "value = *obj"
+>>> is not initialized (e.g. "all callers of object_property_set use an
+>>> input visitor").  I doubt that honestly, but a man can dream.
+>> 
+>> I'm wary of arguments based on "a sufficiently smart compiler can"...
 >
-> For reference, see NetdevUserOptions.
+> Absolutely.
 >
-> Signed-off-by: Victor Toso <victortoso@redhat.com>
-> ---
->  qapi/net.json | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>>> Because it communicates what the caller expects: "I have left this
+>>> uninitialized because I expect my "v" argument to be the kind of visitor
+>>> that fills it in".  It's this argument that gives me the confidence
+>>> needed to shut up Coverity's false positives.
+>>>
+>>> Embedding the visitor type in the signature makes it impossible not to
+>>> pass it, unlike e.g. an assertion in every getter or setter.
+>> 
+>> I think we got two kinds of code calling visitor methods:
+>> 
+>> 1. Code for use with one kind of visitor only
+>> 
+>>     We get to pass a literal argument to the additional parameter you
+>>     propose.
+>> 
+>> 2. Code for use with arbitrary visitors (such as qapi-visit*.c)
+>> 
+>>     We need to pass v->type, where @v is the existing visitor argument.
+>>     Except we can't: struct Visitor and VisitorType are private, defined
+>>     in <visitor-impl.h>.  Easy enough to work around, but has a distinct
+>>     "this design is falling apart" smell, at least to me.
 >
-> diff --git a/qapi/net.json b/qapi/net.json
-> index 0d4578bd07..b92f3f5fb4 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -51,7 +51,7 @@
->  #
->  # -> { "execute": "netdev_add",
->  #      "arguments": { "type": "user", "id": "netdev1",
-> -#                     "dnssearch": "example.org" } }
-> +#                     "dnssearch": [ { "str": "example.org" } ] } }
->  # <- { "return": {} }
->  #
->  ##
+> Hmm, maybe that's a feature though.  If we only need v->type in .c files 
+> for the generated visit_type_* functions, then it's not a huge deal that 
+> they will have to include <visitor-impl.h>.  All callers outside 
+> generated type visitors (which includes for example QMP command 
+> marshaling), instead, would _have_ to pass visitor type constants and 
+> make it clear what direction the visit is going.
 
-Preferably with the commit message tweak:
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+I quoted the generated qapi-visit*.c as an example.  There may
+handwritten instances, too.
+
+>> Note that "intent explicit in every method call" is sufficient, but not
+>> necessary for "intent is locally explicit, which lets us dismiss false
+>> positives with confidence".  We could do "every function that calls
+>> methods".  Like checking a precondition.  We already have
+>> visit_is_input().  We could have visit_is_output().
+>> 
+>> The sane way to make output intent explicit is of course passing the
+>> thing by value rather than by reference.  To get that, we could generate
+>> even more code.  So, if the amount of code we currently generate isn't
+>> disgusting enough, ...
+>
+> Yeah, that would be ugly.  Or, we could generate the same code plus some 
+> static inline wrappers that take a
+>
+>    struct InputVisitor {
+>        Visitor dont_use_me_it_hurts;
+>    }
+>    struct OutputVisitor {
+>        Visitor dont_use_me_it_hurts;
+>    }
+>
+> That would be zero-cost abstraction at runtime.
+
+Looks worth exploring!
 
 
