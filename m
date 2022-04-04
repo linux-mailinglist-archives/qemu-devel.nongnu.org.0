@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB774F1925
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 18:03:14 +0200 (CEST)
-Received: from localhost ([::1]:53370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CA84F1929
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 18:07:31 +0200 (CEST)
+Received: from localhost ([::1]:34026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbPAf-0007pu-54
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 12:03:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44714)
+	id 1nbPEo-0005T0-Bc
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 12:07:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nbOvH-00050Z-Au
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:19 -0400
-Received: from [2a00:1450:4864:20::42f] (port=38879
- helo=mail-wr1-x42f.google.com)
+ id 1nbOvI-00051x-6E
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:21 -0400
+Received: from [2a00:1450:4864:20::430] (port=35741
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nbOvD-0000Vx-J0
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:18 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id j12so7543914wrb.5
- for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 08:47:13 -0700 (PDT)
+ id 1nbOvF-0000WX-FD
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:19 -0400
+Received: by mail-wr1-x430.google.com with SMTP id w21so15182279wra.2
+ for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 08:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OUNuH1OrmQHlLHSJWhZiFssMXN7AYK8/2scwMC66OkU=;
- b=cXaleMaH2gS3x7m/eq6A0mKB7wnGm8opjk008R8tXhDpbKO2E7pFy/IL/h3UNl4AIq
- U0iiFunAIF+pwnaF85l/2agd19JpsluGk21wB4md3cUS9dbsXpWwOd1hTn4bnqkQHMSv
- GeUwgQu1rg8mHHEAi48BcSLWSD4Sksarb8RK7Weq7NRgShXV6b6soKO2s3m5HpjvoTTl
- gdWbRHnwItN5sjfU1WFVqnCLJiQHjmvVlYOK/sXg4JmYGGqbKtAd4cKitgcfCh+XVovs
- qZ4ChAJ7jGzldGCjABmEoW0QnMWp1WxdQBGnAa4TLhhzluUmCXA7g6S8cs1Pge/zifIa
- xaKw==
+ bh=iNTiGveDONdrHQD+VX0mvi3HRu/RqOepB5gwWTWxkaQ=;
+ b=BoK0bbSrVYlqwUlNVooDuesrca50dFq+TTRPDjHm43YAk8Q473N/RQEFfivoo1Z47L
+ 5v0IyxVgVlRcQsKRQb9/TsL9qmzGAWyo9Z1mGoWfyVVmle3rHWOqeiJLmgQ4c1rrTwDB
+ yVdiOoYFSQ1BaSG0jpJ391JSFPM8lVMkCui6W01zs6reMTfFYYQol94khzbHx5cJzl4h
+ A2Xb1D/xXPU6YAUroG8sH9eneSXdAabUBq8R+uZJ7NmMtCdg0MjTjCqB+LQJq/E9A0WQ
+ bL+rL4PVe3HriJr8izSOcJi4pGdP7XcC0UZcinQHh+jAOKBVJmmuc/VkJWTySMM4QeeP
+ Txxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OUNuH1OrmQHlLHSJWhZiFssMXN7AYK8/2scwMC66OkU=;
- b=odwblxBdchvATpPunluldFmpY29c4rWvv8jfwb0muGpaDM8U1KS1ftWgAXYOLJM6v4
- iG3Og3W0Dgd0rWnMFxm7ej1c/ReKPdJsIl8+1UWf1wCoXvRv4vBNAsmEMifLijDmgRwd
- 0Om8p/SIeqVU5SNQ1WiGtgcj3o1qxqXoWpZ+k91dIUw9HNEGDXqTnucKUsnWciDI/ESg
- b+SCswkrOJ/tnTTSHugXjusToovttMyMq2XRiBjpADiM0GagNHyzvEFryVf/FQVTKlIR
- dMIg/4i4DfJ0OfWh70bAIMupSLmsOjTcTKAjJWEdJIt/Td96EMfMIHPcV3WHY1o1Ad7h
- LzRw==
-X-Gm-Message-State: AOAM530KCZcIMk+wzCqv58Ym8Blz6eQwGoT3W1Hm8pBkL41OnWMzJEuT
- l0tG/JkfAy+5If/HT01Rm0Elxw==
-X-Google-Smtp-Source: ABdhPJwvtz/lYMEggL7xQvF0YmfnLfJZv2lioxaGm9zT0y2IGKYrijB9XZJ/ndLTXNyGAXaeHNdXBA==
-X-Received: by 2002:a05:6000:18a8:b0:203:eb58:9733 with SMTP id
- b8-20020a05600018a800b00203eb589733mr274798wri.151.1649087232910; 
- Mon, 04 Apr 2022 08:47:12 -0700 (PDT)
+ bh=iNTiGveDONdrHQD+VX0mvi3HRu/RqOepB5gwWTWxkaQ=;
+ b=wEVa15IL0pIjIp5EkQ0lbeNwkSgzOTorUpERRDlszBHKlDO0PZTfv5PUjDch8jFdif
+ zx7qtkVtxY6hAkwKVxs5Nxdk7VYOfnMKKAgsZAmnKYfCn9Ec4b/CVNZQl1RbVoesdgJy
+ QnUQafg3/3Jv6t6eMd8G+IyBLOmAzzIq0h++W7PxN26ThiLzWJoiP+y37hkMaqn9nQkA
+ +U0f8/iMhoQ7SH/QcOy9W4v1LeZqXM2tHIg8lFxiSXZsxzEeJaZMf70YstBtZZDZj3kj
+ Ri9T4IgvXt6Ptii7WX6xmgOiVP6ShQu/WMASuhahzKgCT4Kfk/YFo2e5BgvdUT0XJ3q1
+ RF5A==
+X-Gm-Message-State: AOAM531h7vSfXnLkoKigVBgmtQb70OIPNmC/ZV60fVdHUkDPR3mNcNUG
+ iHqV5qxabBQDwm3M9xOrVrVZ9w==
+X-Google-Smtp-Source: ABdhPJyFpF60GkmhBVTUB2KytHUetjeyC9hbIWBfxsqRJLnvzVBQs6ztByK4CyURqfv4V4kz00d3IQ==
+X-Received: by 2002:a5d:526b:0:b0:206:d11:7b6d with SMTP id
+ l11-20020a5d526b000000b002060d117b6dmr267715wrc.135.1649087234334; 
+ Mon, 04 Apr 2022 08:47:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c8-20020a056000184800b002040e925afasm11731347wri.59.2022.04.04.08.47.12
+ c8-20020a056000184800b002040e925afasm11731347wri.59.2022.04.04.08.47.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Apr 2022 08:47:12 -0700 (PDT)
+ Mon, 04 Apr 2022 08:47:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 13/18] hw/arm/exynos4210: Fill in irq_table[] for
- internal-combiner-only IRQ lines
-Date: Mon,  4 Apr 2022 16:46:53 +0100
-Message-Id: <20220404154658.565020-14-peter.maydell@linaro.org>
+Subject: [PATCH for-7.1 14/18] hw/arm/exynos4210: Connect MCT_G0 and MCT_G1 to
+ both combiners
+Date: Mon,  4 Apr 2022 16:46:54 +0100
+Message-Id: <20220404154658.565020-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220404154658.565020-1-peter.maydell@linaro.org>
 References: <20220404154658.565020-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,44 +95,47 @@ Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In exynos4210_init_board_irqs(), the loop that handles IRQ lines that
-are in a range that applies to the internal combiner only creates a
-splitter for those interrupts which go to both the internal combiner
-and to the external GIC, but it does nothing at all for the
-interrupts which don't go to the external GIC, leaving the
-irq_table[] array element empty for those.  (This will result in
-those interrupts simply being lost, not in a QEMU crash.)
+Currently for the interrupts MCT_G0 and MCT_G1 which are
+the only ones in the input range of the external combiner
+and which are also wired to the external GIC, we connect
+them only to the internal combiner and the external GIC.
+This seems likely to be a bug, as all other interrupts
+which are in the input range of both combiners are
+connected to both combiners. (The fact that the code in
+exynos4210_combiner_get_gpioin() is also trying to wire
+up these inputs on both combiners also suggests this.)
 
-I don't have a reliable datasheet for this SoC, but since we do wire
-up one interrupt line in this category (the HDMI I2C device on
-interrupt 16,1), this seems like it must be a bug in the existing
-QEMU code.  Fill in the irq_table[] entries where we're not splitting
-the IRQ to both the internal combiner and the external GIC with the
-IRQ line of the internal combiner.  (That is, these IRQ lines go to
-just one device, not multiple.)
-
-This bug didn't have any visible guest effects because the only
-implemented device that was affected was the HDMI I2C controller,
-and we never connect any I2C devices to that bus.
+Wire these interrupts up to both combiners, like the rest.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/exynos4210.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/arm/exynos4210.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
-index 919821833b5..a4527f819ef 100644
+index a4527f819ef..962d6d0ac2a 100644
 --- a/hw/arm/exynos4210.c
 +++ b/hw/arm/exynos4210.c
-@@ -310,6 +310,8 @@ static void exynos4210_init_board_irqs(Exynos4210State *s)
-             qdev_connect_gpio_out(splitter, 0, is->int_combiner_irq[n]);
-             qdev_connect_gpio_out(splitter, 1,
+@@ -281,16 +281,15 @@ static void exynos4210_init_board_irqs(Exynos4210State *s)
+ 
+         assert(splitcount < EXYNOS4210_NUM_SPLITTERS);
+         splitter = DEVICE(&s->splitter[splitcount]);
+-        qdev_prop_set_uint16(splitter, "num-lines", 2);
++        qdev_prop_set_uint16(splitter, "num-lines", irq_id ? 3 : 2);
+         qdev_realize(splitter, NULL, &error_abort);
+         splitcount++;
+         s->irq_table[n] = qdev_get_gpio_in(splitter, 0);
+         qdev_connect_gpio_out(splitter, 0, is->int_combiner_irq[n]);
++        qdev_connect_gpio_out(splitter, 1, is->ext_combiner_irq[n]);
+         if (irq_id) {
+-            qdev_connect_gpio_out(splitter, 1,
++            qdev_connect_gpio_out(splitter, 2,
                                    qdev_get_gpio_in(extgicdev, irq_id - 32));
-+        } else {
-+            s->irq_table[n] = is->int_combiner_irq[n];
+-        } else {
+-            qdev_connect_gpio_out(splitter, 1, is->ext_combiner_irq[n]);
          }
      }
-     /*
+     for (; n < EXYNOS4210_MAX_INT_COMBINER_IN_IRQ; n++) {
 -- 
 2.25.1
 
