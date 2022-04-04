@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFF84F18F2
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 17:56:26 +0200 (CEST)
-Received: from localhost ([::1]:32872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0502A4F18EB
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 17:54:36 +0200 (CEST)
+Received: from localhost ([::1]:54136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbP46-0002JY-1y
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 11:56:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44184)
+	id 1nbP2J-0005xd-3r
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 11:54:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nbOv2-0004kZ-8S
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:04 -0400
-Received: from [2a00:1450:4864:20::435] (port=33542
- helo=mail-wr1-x435.google.com)
+ id 1nbOv4-0004lu-A1
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:06 -0400
+Received: from [2a00:1450:4864:20::431] (port=41608
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nbOv0-0000Rl-FX
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:03 -0400
-Received: by mail-wr1-x435.google.com with SMTP id c7so15263434wrd.0
- for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 08:47:01 -0700 (PDT)
+ id 1nbOv1-0000Rq-0X
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:05 -0400
+Received: by mail-wr1-x431.google.com with SMTP id k23so2585596wrd.8
+ for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 08:47:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=V9NOnD3vVpSF0JZLEe5MPnWt14DUTgg+N2g8DWuSWEY=;
- b=lHL+GHh0QL97DP6ASJTVgnwd/Kl1XpiJf7wph62L1RX7yFIXCXndXOn0k6iL7WnKzL
- h1l0g38UY/r0pmCUQ30aT/feCNeMVwLYV/FduVfCbCYLfNSAiR8rVSkrylM1S78/Sh+B
- NGvjHhHnVq8tNmfmrA9FceHDVn3NBQcLBbD5lMD/kfsA3Zps//YnMqQt+631yeA3yE3C
- ty5uulX4tmfGJfkz+tGrfxXvZv7zcIF7qovk8Rv/eBNE5IxE9ZGtzURooTjp4v/HD+u5
- wFqZAEv1/K4UJQ5f0XOyBAH369coOaI//JAUzQV0Bjcy18SOXnCcx8TQt0+OE2ocsLvN
- uH4Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lPVeqGU3QtuMTZFr+Heg6nSw8gOhs+MYyoNagN2IvIs=;
+ b=OtX6+S3DxsnKaCee2O008thC7nKFNzXl/Sxv/3vdg30RisSyj3K7XJ/2+PiW4+1cqO
+ gzOxKkjVCLsQigTXy3mqVSySInKZy1cIbDNogOaWZQ7TOQyMkuUajgzeRo96/1uD+bvw
+ D6qm4jAaKat5E/sVq3PcAUABe6V0SoQJmrcjwCVZttOMctiNnvSJ3gtEZMDLMQaCuVyr
+ SbdbfKPDCl8iE6L+p2pAlU08RQK5onF7WmYUEcRm/w7XVUv8mUNVgxsUyObOg3KNyajZ
+ 2DlcY05VZpxEfX/PeGF3T9s8sy9GELTSpvYn51jBGYYl4dmV45Jj48gvrSBMCGZXTIuX
+ +j3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=V9NOnD3vVpSF0JZLEe5MPnWt14DUTgg+N2g8DWuSWEY=;
- b=d6Ix8JNWCd+j8xdAiuA0KRo2gqErn4lrz6hJwFIEWQdOerbbWxUGfDA1MWBWJctDFv
- msISAFw/jtVRv7d+9vNSgkM3dseGQ8HZGEKWEv7GXMLoEbbQkWxIheExDurn+zsLCJkI
- hAnxPbfqri3tpZziqTrURIqBCA2oEtWEa0LNrZMbR8dn2tTTP4GYY9LNH9FcNOiU6UZR
- CEFxGtyZQx2O0T48qxWDANUPW8jGFrqiDHnSmDDiUJOCrssWOa3qK2nfrFtV+DhhBvbO
- 2oyXVfc3TIyjizaqDXdSeJ4MLavLQzDKEyX4cGNCfILrFAtyHRE96THpUiQxT5BDWG+j
- Xdsg==
-X-Gm-Message-State: AOAM532NHlCJel1w2bBxUbjvulkDIqNCJNGHIvPNb5qbj9WrOJm2Y7gR
- le2ozd05d1it87Dqdaij7esDew==
-X-Google-Smtp-Source: ABdhPJweinWYnkNsFbxfA2NzMPfwIozzvWlLOZZcQPYL7vU+hAOiIdUy412Wo572xtgHlZq/aix5hw==
-X-Received: by 2002:a5d:47a1:0:b0:204:9f5:e72f with SMTP id
- 1-20020a5d47a1000000b0020409f5e72fmr291561wrb.656.1649087220662; 
- Mon, 04 Apr 2022 08:47:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lPVeqGU3QtuMTZFr+Heg6nSw8gOhs+MYyoNagN2IvIs=;
+ b=H/ROiOedzvflvQdMKSNFpVHucR7X+tjf3ZR1DkaEACXIg/E1d02wqvkq6/allO0uBn
+ NJOgVkHvkhvbNXwEG/OYyO/KTWBfIWHdCoTQqQUgk73+y7MgmcqzbA2GJ/sw2mXUlY5i
+ 65KJVDW9ZsnX3NGN+HjJ7YSBMqaMt5t6CQfIMskMmboAT89JRcT8DUn21MnaGuwiNOw4
+ Q0pyl7yPIvWVdzLVDY2nqftv1TpkYfwi3/HYqfBxvn/eZi8lbvJi9Pws9FuEKMV5L+ie
+ yIMlxbpUPM6FTinS11ozWQoj4tAY/9Xs6jY5k2lygIMDyGmspudbFONz9o0qeVp0JfwF
+ P1LA==
+X-Gm-Message-State: AOAM531NoZtrnGrwtzmHL1LD6sS0Hy0T/9MhYhz/FTHUyFLWNEr/9iJV
+ cjlCcGTUjXWNkF/wFwpt9CcyUTWb0lNe5g==
+X-Google-Smtp-Source: ABdhPJxDMXxoB4OUObXJGuSl/5ENbh5YLhHk0Hoz2Ga+DipSrZnShbKZmT3Agvf0jpDMUH5D/wMqmw==
+X-Received: by 2002:adf:f24d:0:b0:206:96b:4ea1 with SMTP id
+ b13-20020adff24d000000b00206096b4ea1mr284796wrp.694.1649087221620; 
+ Mon, 04 Apr 2022 08:47:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c8-20020a056000184800b002040e925afasm11731347wri.59.2022.04.04.08.46.59
+ c8-20020a056000184800b002040e925afasm11731347wri.59.2022.04.04.08.47.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Apr 2022 08:47:00 -0700 (PDT)
+ Mon, 04 Apr 2022 08:47:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 00/18] hw/arm: Make exynos4210 use TYPE_SPLIT_IRQ
-Date: Mon,  4 Apr 2022 16:46:40 +0100
-Message-Id: <20220404154658.565020-1-peter.maydell@linaro.org>
+Subject: [PATCH for-7.1 01/18] hw/arm/exynos4210: Use TYPE_OR_IRQ instead of
+ custom OR-gate device
+Date: Mon,  4 Apr 2022 16:46:41 +0100
+Message-Id: <20220404154658.565020-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220404154658.565020-1-peter.maydell@linaro.org>
+References: <20220404154658.565020-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,91 +95,102 @@ Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The primary aim of this patchset is to make the exynos4210 code use
-the TYPE_SPLIT_IRQ device instead of the old qemu_split_irq() function
-(which we are trying to get rid of). However, the current code is
-quite complicated and so we have to do a fair amount of refactoring
-in order to be able to use TYPE_SPLIT_IRQ in a clean way.
+The Exynos4210 SoC device currently uses a custom device
+"exynos4210.irq_gate" to model the OR gate that feeds each CPU's IRQ
+line.  We have a standard TYPE_OR_IRQ device for this now, so use
+that instead.
 
-The interrupt wiring on this SoC is complicated and interrupt
-lines from devices may be wired up to multiple places:
- * a GIC device
- * an internal combiner
- * an external combiner
-(a combiner is a fairly simple "OR multiple IRQ sources together
-in groups with enable/disable and mask logic" piece of hardware).
-In some cases an interrupt is wired up to more than one input
-on each combiner.
+(This is a migration compatibility break, but that is OK for this
+machine type.)
 
-The current code has a struct Exynos4210Irq where it keeps arrays of
-qemu_irqs corresponding to the inputs of these devices, and it handles
-the "wire interrupt lines to multiple places" logic in functions which
-are called by the SoC device model but which live in the source files
-with the combiner and GIC models. This series moves the logic to the
-SoC device model's source file (because it is really part of the SoC
-wiring, not part of the individual combiner or GIC devices) and makes
-use of the TYPE_SPLIT_IRQ ability to provide more than 2 output lines
-to simplify things so that each interrupt line connects to just one
-splitter, whose outputs go to all the places they need to. In the
-new setup, these splitter devices clearly belong to the SoC object,
-and so they are created as QOM children of it. The Exynos4210Irq
-struct ends up unneeded and is deleted.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/hw/arm/exynos4210.h |  1 +
+ hw/arm/exynos4210.c         | 31 ++++++++++++++++---------------
+ 2 files changed, 17 insertions(+), 15 deletions(-)
 
-I have also done some conversion of specific child devices of this SoC
-from the old-style "call qemu_new()" to the new-style "embed the child
-device struct in the parent state struct". I haven't done a complete
-conversion, but only touched those devices where making the conversion
-was useful for the TYPE_SPLIT_IRQ changes.
-
-I don't have a datasheet for this SoC that describes all the external
-combiner and external GIC wiring, so I have mostly kept the QEMU
-behaviour the same as it is currently. In a few places, however, I
-have fixed what seem to me to be fairly clearly bugs in the current
-handling. (Largely these bugs weren't visible to the guest because
-we weren't actually connecting up devices to the affected bits of
-the interrupt line wiring.)
-
-I've tested this with a simple Linux image, which I think is basically
-the same one as the 'make check-acceptance' test. If anybody has
-access to other test images that would be interesting.
-
-thanks
--- PMM
-
-Peter Maydell (18):
-  hw/arm/exynos4210: Use TYPE_OR_IRQ instead of custom OR-gate device
-  hw/intc/exynos4210_gic: Remove unused TYPE_EXYNOS4210_IRQ_GATE
-  hw/arm/exynos4210: Put a9mpcore device into state struct
-  hw/arm/exynos4210: Drop int_gic_irq[] from Exynos4210Irq struct
-  hw/arm/exynos4210: Coalesce board_irqs and irq_table
-  hw/arm/exynos4210: Fix code style nit in combiner_grp_to_gic_id[]
-  hw/arm/exynos4210: Move exynos4210_init_board_irqs() into exynos4210.c
-  hw/arm/exynos4210: Put external GIC into state struct
-  hw/arm/exynos4210: Drop ext_gic_irq[] from Exynos4210Irq struct
-  hw/arm/exynos4210: Move exynos4210_combiner_get_gpioin() into
-    exynos4210.c
-  hw/arm/exynos4210: Delete unused macro definitions
-  hw/arm/exynos4210: Use TYPE_SPLIT_IRQ in exynos4210_init_board_irqs()
-  hw/arm/exynos4210: Fill in irq_table[] for internal-combiner-only IRQ
-    lines
-  hw/arm/exynos4210: Connect MCT_G0 and MCT_G1 to both combiners
-  hw/arm/exynos4210: Don't connect multiple lines to external GIC inputs
-  hw/arm/exynos4210: Fold combiner splits into
-    exynos4210_init_board_irqs()
-  hw/arm/exynos4210: Put combiners into state struct
-  hw/arm/exynos4210: Drop Exynos4210Irq struct
-
- include/hw/arm/exynos4210.h           |  50 ++-
- include/hw/intc/exynos4210_combiner.h |  57 ++++
- include/hw/intc/exynos4210_gic.h      |  43 +++
- hw/arm/exynos4210.c                   | 430 +++++++++++++++++++++++---
- hw/intc/exynos4210_combiner.c         | 108 +------
- hw/intc/exynos4210_gic.c              | 344 +--------------------
- MAINTAINERS                           |   2 +-
- 7 files changed, 508 insertions(+), 526 deletions(-)
- create mode 100644 include/hw/intc/exynos4210_combiner.h
- create mode 100644 include/hw/intc/exynos4210_gic.h
-
+diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
+index 60b9e126f55..3999034053e 100644
+--- a/include/hw/arm/exynos4210.h
++++ b/include/hw/arm/exynos4210.h
+@@ -102,6 +102,7 @@ struct Exynos4210State {
+     MemoryRegion bootreg_mem;
+     I2CBus *i2c_if[EXYNOS4210_I2C_NUMBER];
+     qemu_or_irq pl330_irq_orgate[EXYNOS4210_NUM_DMA];
++    qemu_or_irq cpu_irq_orgate[EXYNOS4210_NCPUS];
+ };
+ 
+ #define TYPE_EXYNOS4210_SOC "exynos4210"
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 0299e81f853..dfc0a4eec25 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -205,7 +205,6 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+ {
+     Exynos4210State *s = EXYNOS4210_SOC(socdev);
+     MemoryRegion *system_mem = get_system_memory();
+-    qemu_irq gate_irq[EXYNOS4210_NCPUS][EXYNOS4210_IRQ_GATE_NINPUTS];
+     SysBusDevice *busdev;
+     DeviceState *dev, *uart[4], *pl330[3];
+     int i, n;
+@@ -235,18 +234,13 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+ 
+     /* IRQ Gate */
+     for (i = 0; i < EXYNOS4210_NCPUS; i++) {
+-        dev = qdev_new("exynos4210.irq_gate");
+-        qdev_prop_set_uint32(dev, "n_in", EXYNOS4210_IRQ_GATE_NINPUTS);
+-        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-        /* Get IRQ Gate input in gate_irq */
+-        for (n = 0; n < EXYNOS4210_IRQ_GATE_NINPUTS; n++) {
+-            gate_irq[i][n] = qdev_get_gpio_in(dev, n);
+-        }
+-        busdev = SYS_BUS_DEVICE(dev);
+-
+-        /* Connect IRQ Gate output to CPU's IRQ line */
+-        sysbus_connect_irq(busdev, 0,
+-                           qdev_get_gpio_in(DEVICE(s->cpu[i]), ARM_CPU_IRQ));
++        DeviceState *orgate = DEVICE(&s->cpu_irq_orgate[i]);
++        object_property_set_int(OBJECT(orgate), "num-lines",
++                                EXYNOS4210_IRQ_GATE_NINPUTS,
++                                &error_abort);
++        qdev_realize(orgate, NULL, &error_abort);
++        qdev_connect_gpio_out(orgate, 0,
++                              qdev_get_gpio_in(DEVICE(s->cpu[i]), ARM_CPU_IRQ));
+     }
+ 
+     /* Private memory region and Internal GIC */
+@@ -256,7 +250,8 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+     sysbus_realize_and_unref(busdev, &error_fatal);
+     sysbus_mmio_map(busdev, 0, EXYNOS4210_SMP_PRIVATE_BASE_ADDR);
+     for (n = 0; n < EXYNOS4210_NCPUS; n++) {
+-        sysbus_connect_irq(busdev, n, gate_irq[n][0]);
++        sysbus_connect_irq(busdev, n,
++                           qdev_get_gpio_in(DEVICE(&s->cpu_irq_orgate[n]), 0));
+     }
+     for (n = 0; n < EXYNOS4210_INT_GIC_NIRQ; n++) {
+         s->irqs.int_gic_irq[n] = qdev_get_gpio_in(dev, n);
+@@ -275,7 +270,8 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+     /* Map Distributer interface */
+     sysbus_mmio_map(busdev, 1, EXYNOS4210_EXT_GIC_DIST_BASE_ADDR);
+     for (n = 0; n < EXYNOS4210_NCPUS; n++) {
+-        sysbus_connect_irq(busdev, n, gate_irq[n][1]);
++        sysbus_connect_irq(busdev, n,
++                           qdev_get_gpio_in(DEVICE(&s->cpu_irq_orgate[n]), 1));
+     }
+     for (n = 0; n < EXYNOS4210_EXT_GIC_NIRQ; n++) {
+         s->irqs.ext_gic_irq[n] = qdev_get_gpio_in(dev, n);
+@@ -488,6 +484,11 @@ static void exynos4210_init(Object *obj)
+         object_initialize_child(obj, name, orgate, TYPE_OR_IRQ);
+         g_free(name);
+     }
++
++    for (i = 0; i < ARRAY_SIZE(s->cpu_irq_orgate); i++) {
++        g_autofree char *name = g_strdup_printf("cpu-irq-orgate%d", i);
++        object_initialize_child(obj, name, &s->cpu_irq_orgate[i], TYPE_OR_IRQ);
++    }
+ }
+ 
+ static void exynos4210_class_init(ObjectClass *klass, void *data)
 -- 
 2.25.1
 
