@@ -2,95 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D304F1115
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 10:38:24 +0200 (CEST)
-Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD07F4F1118
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 10:39:59 +0200 (CEST)
+Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbIEB-0004Iz-IP
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 04:38:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47144)
+	id 1nbIFi-0005e3-Li
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 04:39:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nbICU-0003Dr-7q
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 04:36:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49489)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nbIDL-0003zm-IJ
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 04:37:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nbICN-0008NC-7e
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 04:36:37 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nbIDH-0008W2-1c
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 04:37:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649061385;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mgrAC1NKnC3BFTCqCRp2A2umBN4PXJVgCpQmG0mmFNk=;
- b=GHZQC67E6OfUxrkbqRJO+OtWyRVB3ifgxidI8EWnXLOZtCU0zwRnEBwqUjD6/IO4t+5Lb1
- 8LbzSMg1tS3/tnrEIrbgMhnhaolbr1XOfqz+HqFlXzfqNYNWo3i/luFcBwkGFGf+nrEFgb
- IKIo0sqrk/aGJPdUdygkih7Mcvs4Hx0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1649061446;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Xx2Wy6O0aYPQc7DLC8PHO3NTb6/z7sfgmtqvOWkqdQ8=;
+ b=BHcrG50wSEZ9nhtMSwjB+m0Nigm8ADAd1qnv/8AYqgiqQ6z88WG/XlAt1BvF1a2Xiannro
+ ammC9bIbS7ZtzqqcDE14uGDFjcheeg5fdWSMNxtX1Pfrncpu6hbms3pfm+HthrbuSqu9Iu
+ ecvTN/IpFqvgjsnc03PchfNxtJQVOKk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-218-VUq7AiQJPRmQV1E2rhiFMQ-1; Mon, 04 Apr 2022 04:36:24 -0400
-X-MC-Unique: VUq7AiQJPRmQV1E2rhiFMQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- g4-20020adfa484000000b002061151874eso317467wrb.21
- for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 01:36:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=mgrAC1NKnC3BFTCqCRp2A2umBN4PXJVgCpQmG0mmFNk=;
- b=bZ/NphU2sfNriJ4BxSm3dmXiesB3c7BKHH99M7+r3U2qOKn+GOdt9QM+w05OYtc3gZ
- 8iQ2tj3kWnzTLdJTQYgDNydISz0gCZVjn8GanFyqNej+3a2mRl8cu/KvVEtmbYZRGtTy
- ePWliz0Z3fxKOlGUQ0e0Gf2qjltFz29Xk1xCSTscp8Qbe5GreAB04SatRdc3R0IztigN
- +gjpjC4x+jD69rkdKmIk22if+wOduc4tXuv9f364m3MqLSC0DPPIf+VS5dAkCq/ogEn4
- QDW+yBJx2+Jac67KA8BtA7TEo1t5P7/nd3gF/IIlJ+bx+a9tR2heUnQggDD1jOtyoCPp
- E8BQ==
-X-Gm-Message-State: AOAM531iQ8mGOhFYZe21/4vkS6RGplccaxeDJ9pUyJYoudUIqdQRrWdH
- 5dCkofqMDnfbTHl3MouKJzAHaJ3tY9eQXWKU0i4mYoAs/BhB0bK9NvgfASBjspY62lWm6Mh/E7n
- Bmf/fYrvzQpJempc=
-X-Received: by 2002:adf:f009:0:b0:206:946:b97e with SMTP id
- j9-20020adff009000000b002060946b97emr6623606wro.588.1649061383266; 
- Mon, 04 Apr 2022 01:36:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzjOI1ejUflTs0dDprNHGOisW27zGIcxOTGrJDDfLXqIKXx5M48tAhi2gqE0gm41phirVyyeg==
-X-Received: by 2002:adf:f009:0:b0:206:946:b97e with SMTP id
- j9-20020adff009000000b002060946b97emr6623600wro.588.1649061383052; 
- Mon, 04 Apr 2022 01:36:23 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:4100:c220:ede7:17d4:6ff4?
- (p200300cbc7044100c220ede717d46ff4.dip0.t-ipconnect.de.
- [2003:cb:c704:4100:c220:ede7:17d4:6ff4])
- by smtp.gmail.com with ESMTPSA id
- m4-20020a7bcb84000000b00389efb7a5b4sm16437383wmi.17.2022.04.04.01.36.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Apr 2022 01:36:22 -0700 (PDT)
-Message-ID: <f849e9b8-31af-84bc-a93b-0d6c5414a577@redhat.com>
-Date: Mon, 4 Apr 2022 10:36:21 +0200
+ us-mta-669-jngQAXLDO72Qx4HxsQtbyw-1; Mon, 04 Apr 2022 04:37:23 -0400
+X-MC-Unique: jngQAXLDO72Qx4HxsQtbyw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 378E8833961;
+ Mon,  4 Apr 2022 08:37:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A1F4B5361C3;
+ Mon,  4 Apr 2022 08:37:15 +0000 (UTC)
+Date: Mon, 4 Apr 2022 09:37:10 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v5 1/4] qapi/machine.json: Add cluster-id
+Message-ID: <YkquNlUvAHC+sLh7@redhat.com>
+References: <20220403145953.10522-1-gshan@redhat.com>
+ <20220403145953.10522-2-gshan@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] target/s390x: Fix the accumulation of ccm in op_icm
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220401193659.332079-1-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220401193659.332079-1-richard.henderson@linaro.org>
+In-Reply-To: <20220403145953.10522-2-gshan@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,39 +81,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, thuth@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
+ qemu-arm@nongnu.org, shan.gavin@gmail.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.04.22 21:36, Richard Henderson wrote:
-> Coverity rightly reports that 0xff << pos can overflow.
-> This would affect the ICMH instruction.
+On Sun, Apr 03, 2022 at 10:59:50PM +0800, Gavin Shan wrote:
+> This adds cluster-id in CPU instance properties, which will be used
+> by arm/virt machine. Besides, the cluster-id is also verified or
+> dumped in various spots:
 > 
-> Fixes: Coverity CID 1487161
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>   * hw/core/machine.c::machine_set_cpu_numa_node() to associate
+>     CPU with its NUMA node.
+> 
+>   * hw/core/machine.c::machine_numa_finish_cpu_init() to associate
+>     CPU with NUMA node when no default association isn't provided.
+> 
+>   * hw/core/machine-hmp-cmds.c::hmp_hotpluggable_cpus() to dump
+>     cluster-id.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
 > ---
->  target/s390x/tcg/translate.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/core/machine-hmp-cmds.c |  4 ++++
+>  hw/core/machine.c          | 16 ++++++++++++++++
+>  qapi/machine.json          |  6 ++++--
+>  3 files changed, 24 insertions(+), 2 deletions(-)
+
+Missing changes to hw/core/machine-smp.c similar to 'dies' in that
+file.
+
+When 'dies' was added we added a 'dies_supported' flag, so we could
+reject use of 'dies' when it was not supported - which is everywhere
+except i386 target.
+
+We need the same for 'clusters_supported' machine property since
+AFAICT only the arm 'virt' machine is getting supported in this
+series.
+
 > 
-> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-> index 5acfc0ff9b..ea7baf0832 100644
-> --- a/target/s390x/tcg/translate.c
-> +++ b/target/s390x/tcg/translate.c
-> @@ -2622,7 +2622,7 @@ static DisasJumpType op_icm(DisasContext *s, DisasOps *o)
->                  tcg_gen_qemu_ld8u(tmp, o->in2, get_mem_index(s));
->                  tcg_gen_addi_i64(o->in2, o->in2, 1);
->                  tcg_gen_deposit_i64(o->out, o->out, tmp, pos, 8);
-> -                ccm |= 0xff << pos;
-> +                ccm |= 0xffull << pos;
->              }
->              m3 = (m3 << 1) & 0xf;
->              pos -= 8;
+> diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
+> index 4e2f319aeb..5cb5eecbfc 100644
+> --- a/hw/core/machine-hmp-cmds.c
+> +++ b/hw/core/machine-hmp-cmds.c
+> @@ -77,6 +77,10 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
+>          if (c->has_die_id) {
+>              monitor_printf(mon, "    die-id: \"%" PRIu64 "\"\n", c->die_id);
+>          }
+> +        if (c->has_cluster_id) {
+> +            monitor_printf(mon, "    cluster-id: \"%" PRIu64 "\"\n",
+> +                           c->cluster_id);
+> +        }
+>          if (c->has_core_id) {
+>              monitor_printf(mon, "    core-id: \"%" PRIu64 "\"\n", c->core_id);
+>          }
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index d856485cb4..8748b64657 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -677,6 +677,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
+>              return;
+>          }
+>  
+> +        if (props->has_cluster_id && !slot->props.has_cluster_id) {
+> +            error_setg(errp, "cluster-id is not supported");
+> +            return;
+> +        }
+> +
+>          if (props->has_socket_id && !slot->props.has_socket_id) {
+>              error_setg(errp, "socket-id is not supported");
+>              return;
+> @@ -696,6 +701,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
+>                  continue;
+>          }
+>  
+> +        if (props->has_cluster_id &&
+> +            props->cluster_id != slot->props.cluster_id) {
+> +                continue;
+> +        }
+> +
+>          if (props->has_die_id && props->die_id != slot->props.die_id) {
+>                  continue;
+>          }
+> @@ -990,6 +1000,12 @@ static char *cpu_slot_to_string(const CPUArchId *cpu)
+>          }
+>          g_string_append_printf(s, "die-id: %"PRId64, cpu->props.die_id);
+>      }
+> +    if (cpu->props.has_cluster_id) {
+> +        if (s->len) {
+> +            g_string_append_printf(s, ", ");
+> +        }
+> +        g_string_append_printf(s, "cluster-id: %"PRId64, cpu->props.cluster_id);
+> +    }
+>      if (cpu->props.has_core_id) {
+>          if (s->len) {
+>              g_string_append_printf(s, ", ");
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 9c460ec450..ea22b574b0 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -868,10 +868,11 @@
+>  # @node-id: NUMA node ID the CPU belongs to
+>  # @socket-id: socket number within node/board the CPU belongs to
+>  # @die-id: die number within socket the CPU belongs to (since 4.1)
+> -# @core-id: core number within die the CPU belongs to
+> +# @cluster-id: cluster number within die the CPU belongs to
+> +# @core-id: core number within cluster/die the CPU belongs to
+>  # @thread-id: thread number within core the CPU belongs to
+>  #
+> -# Note: currently there are 5 properties that could be present
+> +# Note: currently there are 6 properties that could be present
+>  #       but management should be prepared to pass through other
+>  #       properties with device_add command to allow for future
+>  #       interface extension. This also requires the filed names to be kept in
+> @@ -883,6 +884,7 @@
+>    'data': { '*node-id': 'int',
+>              '*socket-id': 'int',
+>              '*die-id': 'int',
+> +            '*cluster-id': 'int',
+>              '*core-id': 'int',
+>              '*thread-id': 'int'
+>    }
+> -- 
+> 2.23.0
+> 
+> 
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
+With regards,
+Daniel
 -- 
-Thanks,
-
-David / dhildenb
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
