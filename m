@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7915A4F19DA
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 20:56:30 +0200 (CEST)
-Received: from localhost ([::1]:56454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7134F19DB
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 20:57:54 +0200 (CEST)
+Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbRsE-0007Tt-Ji
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 14:56:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52864)
+	id 1nbRtg-0000wy-Si
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 14:57:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nbRqH-0006US-Ba
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 14:54:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34717)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nbRsJ-000880-Bw
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 14:56:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nbRqE-0004Qk-Fh
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 14:54:20 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nbRsH-0004uX-M1
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 14:56:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649098456;
+ s=mimecast20190719; t=1649098585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fBlK59ZVMPcc3hpDpHgS9MU0zl3rlReA3pEh5Y/+6Xw=;
- b=OcTn+nNctG6tczG1lsTdXUN9LI7Gcxg+gOPPqy0X6RPSlYPNCTVjdCTFsPx74IoRWncae8
- h5JFZiV5vnC/ycUOzS+qFG3gRhj/fswDjuKic8abcvw2QRDts3ydEspIE13+j5bk1AjHAt
- U7If2M7RKh/G3t3dIL24AIamPBjPUVk=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Lrs16vHDrVAnAq/6hvI+0Z3QMSJu4DSue2ICIH3BZQs=;
+ b=h/QDr71CMCdsApQOxnJvbV4pvx1TVXnbUJAvjhkjDxQstw/a96jjBYTFJQCV5dKgxHdOWd
+ X/WR9t0tHK0NojEdL2s8ycf6ltozwYURh20xnTHO0JBIP7f0RqGcLtkf4Aro4HAKg88n5K
+ HHzZ/wrpMy1xVce6HOmX/cqCjjgbYng=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-199-2VkJ7Oi5NQ6SYUcXLM0X-A-1; Mon, 04 Apr 2022 14:54:16 -0400
-X-MC-Unique: 2VkJ7Oi5NQ6SYUcXLM0X-A-1
-Received: by mail-vk1-f199.google.com with SMTP id
- b17-20020ac5c0d1000000b0034493923b9dso253699vkk.12
- for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 11:54:15 -0700 (PDT)
+ us-mta-563-iHOfmtT9Pv6_Bu0DwKEFRQ-1; Mon, 04 Apr 2022 14:56:22 -0400
+X-MC-Unique: iHOfmtT9Pv6_Bu0DwKEFRQ-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ p2-20020ab06242000000b0035cd628f285so970568uao.9
+ for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 11:56:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=fBlK59ZVMPcc3hpDpHgS9MU0zl3rlReA3pEh5Y/+6Xw=;
- b=Er1GMsN8p9q4wNDy7G4MoVoIeR7w1NX+PUnOLXR19Zm7/UsZsi7KaqsIs5Ei66fSiv
- rHKL3hrEOizn5CqibajY5u1ms2ZDY6zPwWlH5cbJ+QlyUvOh7g3Z9EzN7iQNnRQlCBLz
- qFbS+M7P0KC0/6Mbh14+Plb0azWcv0YrUjPgllsxanU9UdrIxucW2sZ3d1rKyhVcYaHF
- oUm9su3FTsiDQqT+I9ksI56eh3nZhVOjHhylkDyNps6BfCKQxtm3uw+sCjpmm6aaoocV
- kSSJ4g5Uc7OlFYz8AdglwwSw7WAWLWQpiTr4BMmBxyryJKDcD3N/9K9PYsPaY0nAtzNu
- 4M5A==
-X-Gm-Message-State: AOAM530osDi4Fnc/zZZR9I/EcnH3tYJ/m1Er2BFELIyi0vJQzgdU0v8z
- TzH7Hoyh6xE2pKa7BxFhtGjur42kVH+hkwVgjCyihnU2hsYKiKsGILbT1UYnpPgdygLphV8lxRe
- PvWPlsVq2oMLaiXwWKCR3Vmy/hKLlM+w=
-X-Received: by 2002:a05:6102:c91:b0:325:e47d:bab2 with SMTP id
- f17-20020a0561020c9100b00325e47dbab2mr414914vst.35.1649098455447; 
- Mon, 04 Apr 2022 11:54:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJykHMbKj6fbb6w18+nbtmzyb6zXiBW+ie2hYj8QqnI2rQ22gQcEIa8ENyN5y8LDNDp2Ubbq2M1wNmIiPzjm6PQ=
-X-Received: by 2002:a05:6102:c91:b0:325:e47d:bab2 with SMTP id
- f17-20020a0561020c9100b00325e47dbab2mr414904vst.35.1649098455270; Mon, 04 Apr
- 2022 11:54:15 -0700 (PDT)
+ bh=Lrs16vHDrVAnAq/6hvI+0Z3QMSJu4DSue2ICIH3BZQs=;
+ b=0RWOiADtAWsaK15tfyPFKLgzRJVMXQkct+Tp9txRlVKguWN+YtZEBkoavD0v8MxC6b
+ lG6lp64hsKnHJYK7zuFTETga/wnyJPVaPOEkpKirbQZKMPGVyqIoCBqJZf8r134fztt0
+ 2+SkadQdggOTcrKpIBIuodo1s097Mnb07c7obIP/43U6k6csVxKvD6W5z17afd9/iYUk
+ FykLDDBiXv2qb1+hO0dEMCTAg3AWzQTsjez/ynFfYiqYkZX4zphoSgbGEN7F5dqALuT+
+ KEj3pW4G7kVBxxkZ7cfAOB7s0yWXIPxGuuZMnzOJu2aRxJ0k/Zxg8PY7TvwDCmbC3r2M
+ UHEQ==
+X-Gm-Message-State: AOAM532ir2PNH/xx3fu0K4NlqDm4cjnp1lFCxHuPW5LWOIIQH+qP3miH
+ wpatk/v0JQR7FZNpAj0dSepyauq7/SyRK8gU3RvxQN0b3egX10/kU4Z/8RhaItGk23BkDNsRZQN
+ 7pVwEjAHyog29WgOvhE8Gtf67+gEV3OY=
+X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
+ 7-20020a056122088700b00332699e7e67mr481484vkf.35.1649098581467; 
+ Mon, 04 Apr 2022 11:56:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwoubzkiaONiJ5Vc0EbFSqwVucCS2VIDfpf3HkiZyvptoeGZLrENCvHtcZO453K5/MWYOyhzN3n0c1ju9EugDY=
+X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
+ 7-20020a056122088700b00332699e7e67mr481476vkf.35.1649098581239; Mon, 04 Apr
+ 2022 11:56:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220330182424.3438872-1-jsnow@redhat.com>
  <20220330182424.3438872-3-jsnow@redhat.com>
  <YkcwzP2lu8B8dYNu@paraplu>
-In-Reply-To: <YkcwzP2lu8B8dYNu@paraplu>
+ <CAFn=p-ZZxDNhvYuOqO4XZ1H72ED4R3te2fikoV+mF6UZ7+pqRA@mail.gmail.com>
+In-Reply-To: <CAFn=p-ZZxDNhvYuOqO4XZ1H72ED4R3te2fikoV+mF6UZ7+pqRA@mail.gmail.com>
 From: John Snow <jsnow@redhat.com>
-Date: Mon, 4 Apr 2022 14:54:04 -0400
-Message-ID: <CAFn=p-ZZxDNhvYuOqO4XZ1H72ED4R3te2fikoV+mF6UZ7+pqRA@mail.gmail.com>
+Date: Mon, 4 Apr 2022 14:56:10 -0400
+Message-ID: <CAFn=p-ZQvyyStRPo_6mgTKm7X1w9fu0KqfhmUHK7cYTCC_mmyw@mail.gmail.com>
 Subject: Re: [qemu.qmp PATCH 02/13] fork qemu.qmp from qemu.git
 To: Kashyap Chamarthy <kchamart@redhat.com>
 Authentication-Results: relay.mimecast.com;
@@ -98,78 +99,75 @@ Cc: Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 1, 2022 at 1:05 PM Kashyap Chamarthy <kchamart@redhat.com> wrote:
+On Mon, Apr 4, 2022 at 2:54 PM John Snow <jsnow@redhat.com> wrote:
 >
-> On Wed, Mar 30, 2022 at 02:24:13PM -0400, John Snow wrote:
-> > Split python/ from qemu.git, using these commands:
+> On Fri, Apr 1, 2022 at 1:05 PM Kashyap Chamarthy <kchamart@redhat.com> wrote:
 > >
-> > > git subtree split -P python/ -b python-split-v3
-> > > mkdir ~/src/tmp
-> > > cd ~/src/tmp
-> > > git clone --no-local --branch python-split-v3 --single-branch ~/src/qemu
-> > > cd qemu
-> > > git filter-repo --path qemu/machine/           \
-> >                   --path qemu/utils/             \
-> >                   --path tests/iotests-mypy.sh   \
-> >                   --path tests/iotests-pylint.sh \
-> >                   --invert-paths
+> > On Wed, Mar 30, 2022 at 02:24:13PM -0400, John Snow wrote:
+> > > Split python/ from qemu.git, using these commands:
+> > >
+> > > > git subtree split -P python/ -b python-split-v3
+> > > > mkdir ~/src/tmp
+> > > > cd ~/src/tmp
+> > > > git clone --no-local --branch python-split-v3 --single-branch ~/src/qemu
+> > > > cd qemu
+> > > > git filter-repo --path qemu/machine/           \
+> > >                   --path qemu/utils/             \
+> > >                   --path tests/iotests-mypy.sh   \
+> > >                   --path tests/iotests-pylint.sh \
+> > >                   --invert-paths
+> > >
+> > > This commit, however, only performs some minimum cleanup to reflect the
+> > > deletion of the other subpackages. It is not intended to be exhaustive,
+> > > and further edits are made in forthcoming commits.
+> > >
+> > > These fixes are broken apart into micro-changes to facilitate mailing
+> > > list review subject-by-subject. They *could* be squashed into a single
+> > > larger commit on merge if desired, but due to the nature of the fork,
+> > > bisectability across the fork boundary is going to be challenging
+> > > anyway. It may be better value to just leave these initial commits
+> > > as-is.
+> > >
+> > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > ---
+> > >  .gitignore |  2 +-
+> > >  Makefile   | 16 ++++++++--------
+> > >  setup.cfg  | 24 +-----------------------
+> > >  setup.py   |  2 +-
+> > >  4 files changed, 11 insertions(+), 33 deletions(-)
 > >
-> > This commit, however, only performs some minimum cleanup to reflect the
-> > deletion of the other subpackages. It is not intended to be exhaustive,
-> > and further edits are made in forthcoming commits.
+> > The changes here look fine to me (and thanks for making it a "micro
+> > change").  I'll let sharper eyes than mine to give a closer look at the
+> > `git filter-repo` surgery.  Although, that looks fine to me too.
 > >
-> > These fixes are broken apart into micro-changes to facilitate mailing
-> > list review subject-by-subject. They *could* be squashed into a single
-> > larger commit on merge if desired, but due to the nature of the fork,
-> > bisectability across the fork boundary is going to be challenging
-> > anyway. It may be better value to just leave these initial commits
-> > as-is.
+> > [...]
 > >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  .gitignore |  2 +-
-> >  Makefile   | 16 ++++++++--------
-> >  setup.cfg  | 24 +-----------------------
-> >  setup.py   |  2 +-
-> >  4 files changed, 11 insertions(+), 33 deletions(-)
+> > >  .PHONY: distclean
+> > >  distclean: clean
+> > > -     rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
+> > > +     rm -rf qemu.qmp.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
+> > >       rm -f .coverage .coverage.*
+> > >       rm -rf htmlcov/
+> > > diff --git a/setup.cfg b/setup.cfg
+> > > index e877ea5..4ffab73 100644
+> > > --- a/setup.cfg
+> > > +++ b/setup.cfg
+> > > @@ -1,5 +1,5 @@
+> > >  [metadata]
+> > > -name = qemu
+> > > +name = qemu.qmp
+> > >  version = file:VERSION
+> > >  maintainer = QEMU Developer Team
+> >
+> > In the spirit of patch 04 ("update maintainer metadata"), do you also
+> > want to update here too? s/QEMU Developer Team/QEMU Project?
+> >
 >
-> The changes here look fine to me (and thanks for making it a "micro
-> change").  I'll let sharper eyes than mine to give a closer look at the
-> `git filter-repo` surgery.  Although, that looks fine to me too.
->
-> [...]
->
-> >  .PHONY: distclean
-> >  distclean: clean
-> > -     rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
-> > +     rm -rf qemu.qmp.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
-> >       rm -f .coverage .coverage.*
-> >       rm -rf htmlcov/
-> > diff --git a/setup.cfg b/setup.cfg
-> > index e877ea5..4ffab73 100644
-> > --- a/setup.cfg
-> > +++ b/setup.cfg
-> > @@ -1,5 +1,5 @@
-> >  [metadata]
-> > -name = qemu
-> > +name = qemu.qmp
-> >  version = file:VERSION
-> >  maintainer = QEMU Developer Team
->
-> In the spirit of patch 04 ("update maintainer metadata"), do you also
-> want to update here too? s/QEMU Developer Team/QEMU Project?
->
+> Good spot.
 
-Good spot.
+...Or, uh. That's exactly what I update in patch 04. Are you asking me
+to fold in that change earlier? I'm confused now.
 
-> FWIW:
->
-> Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
->
-> [...]
->
-> --
-> /kashyap
->
+--js
 
 
