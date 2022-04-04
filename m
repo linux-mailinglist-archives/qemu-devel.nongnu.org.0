@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CD94F1927
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 18:06:25 +0200 (CEST)
-Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDB24F192F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 18:10:42 +0200 (CEST)
+Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbPDk-0003uY-6V
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 12:06:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41298)
+	id 1nbPHt-0001AN-Fn
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 12:10:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nbOi3-0002Ng-Sh
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:33:39 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2504)
+ id 1nbOk6-0006Om-UA
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:35:46 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nbOi2-0006qQ-42
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:33:39 -0400
-Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KXFBL4j2mz681Yv;
- Mon,  4 Apr 2022 23:31:54 +0800 (CST)
+ id 1nbOk3-0007BX-O2
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:35:46 -0400
+Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KXFDN0rKPz681Zh;
+ Mon,  4 Apr 2022 23:33:40 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Mon, 4 Apr 2022 17:33:36 +0200
+ fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 4 Apr 2022 17:35:40 +0200
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 4 Apr 2022 16:33:35 +0100
+ 15.1.2375.24; Mon, 4 Apr 2022 16:35:39 +0100
 To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
  <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
@@ -47,10 +47,9 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <dan.j.williams@intel.com>, "k . jensen @ samsung . com"
  <k.jensen@samsung.com>, Tong Zhang <t.zhang2@samsung.com>,
  <dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>
-Subject: [PATCH v9 37/45] qtests/bios-tables-test: Add a test for CXL
- emulation.
-Date: Mon, 4 Apr 2022 16:14:37 +0100
-Message-ID: <20220404151445.10955-38-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v9 41/45] qtest/cxl: Add aarch64 virt test for CXL
+Date: Mon, 4 Apr 2022 16:14:41 +0100
+Message-ID: <20220404151445.10955-42-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220404151445.10955-1-Jonathan.Cameron@huawei.com>
 References: <20220404151445.10955-1-Jonathan.Cameron@huawei.com>
@@ -86,80 +85,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-The DSDT includes several CXL specific elements and the CEDT
-table is only present if we enable CXL.
-
-The test exercises all current functionality with several
-CFMWS, CHBS structures in CEDT and ACPI0016/ACPI00017 and _OSC
-entries in DSDT.
+Add a single complex case for aarch64 virt machine.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- tests/qtest/bios-tables-test.c | 44 ++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ tests/qtest/cxl-test.c  | 48 +++++++++++++++++++++++++++++++++--------
+ tests/qtest/meson.build |  1 +
+ 2 files changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index c4a2d1e166..577b26bcec 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1537,6 +1537,49 @@ static void test_acpi_q35_viot(void)
-     free_test_data(&data);
+diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
+index 079011af6a..ac7d71fd74 100644
+--- a/tests/qtest/cxl-test.c
++++ b/tests/qtest/cxl-test.c
+@@ -17,6 +17,11 @@
+                       "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
+                       "-cxl-fixed-memory-window targets.0=cxl.0,targets.1=cxl.1,size=4G "
+ 
++#define QEMU_VIRT_2PXB_CMD "-machine virt,cxl=on "                      \
++                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
++                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 "  \
++                      "-cxl-fixed-memory-window targets.0=cxl.0,targets.1=cxl.1,size=4G "
++
+ #define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
+ 
+ /* Dual ports on first pxb */
+@@ -134,18 +139,43 @@ static void cxl_2pxb_4rp_4t3d(void)
+     qtest_end();
  }
  
-+static void test_acpi_q35_cxl(void)
++static void cxl_virt_2pxb_4rp_4t3d(void)
 +{
-+    gchar *tmp_path = g_dir_make_tmp("qemu-test-cxl.XXXXXX", NULL);
-+    gchar *params;
++    g_autoptr(GString) cmdline = g_string_new(NULL);
++    char template[] = "/tmp/cxl-test-XXXXXX";
++    const char *tmpfs;
 +
-+    test_data data = {
-+        .machine = MACHINE_Q35,
-+        .variant = ".cxl",
-+    };
-+    /*
-+     * A complex CXL setup.
-+     */
-+    params = g_strdup_printf(" -machine cxl=on"
-+                             " -object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M"
-+                             " -object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M"
-+                             " -object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M"
-+                             " -object memory-backend-file,id=cxl-mem4,mem-path=%s,size=256M"
-+                             " -object memory-backend-file,id=lsa1,mem-path=%s,size=256M"
-+                             " -object memory-backend-file,id=lsa2,mem-path=%s,size=256M"
-+                             " -object memory-backend-file,id=lsa3,mem-path=%s,size=256M"
-+                             " -object memory-backend-file,id=lsa4,mem-path=%s,size=256M"
-+                             " -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1"
-+                             " -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2"
-+                             " -device cxl-rp,port=0,bus=cxl.1,id=rp1,chassis=0,slot=2"
-+                             " -device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1"
-+                             " -device cxl-rp,port=1,bus=cxl.1,id=rp2,chassis=0,slot=3"
-+                             " -device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2"
-+                             " -device cxl-rp,port=0,bus=cxl.2,id=rp3,chassis=0,slot=5"
-+                             " -device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3"
-+                             " -device cxl-rp,port=1,bus=cxl.2,id=rp4,chassis=0,slot=6"
-+                             " -device cxl-type3,bus=rp4,memdev=cxl-mem4,lsa=lsa4"
-+                             " -cxl-fixed-memory-window targets.0=cxl.1,size=4G,interleave-granularity=8k"
-+                             " -cxl-fixed-memory-window targets.0=cxl.1,targets.1=cxl.2,size=4G,interleave-granularity=8k",
-+                             tmp_path, tmp_path, tmp_path, tmp_path,
-+                             tmp_path, tmp_path, tmp_path, tmp_path);
-+    test_acpi_one(params, &data);
++    tmpfs = mkdtemp(template);
 +
-+    g_free(params);
-+    g_assert(g_rmdir(tmp_path) == 0);
-+    g_free(tmp_path);
-+    free_test_data(&data);
++    g_string_printf(cmdline, QEMU_VIRT_2PXB_CMD QEMU_4RP QEMU_4T3D,
++                    tmpfs, tmpfs, tmpfs, tmpfs, tmpfs, tmpfs,
++                    tmpfs, tmpfs);
++
++    qtest_start(cmdline->str);
++    qtest_end();
 +}
 +
- static void test_acpi_virt_viot(void)
+ int main(int argc, char **argv)
  {
-     test_data data = {
-@@ -1742,6 +1785,7 @@ int main(int argc, char *argv[])
-             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
-         }
-         qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
-+        qtest_add_func("acpi/q35/cxl", test_acpi_q35_cxl);
-         qtest_add_func("acpi/q35/slic", test_acpi_q35_slic);
-     } else if (strcmp(arch, "aarch64") == 0) {
-         if (has_tcg) {
++    const char *arch = qtest_get_arch();
++
+     g_test_init(&argc, &argv, NULL);
+ 
+-    qtest_add_func("/pci/cxl/basic_hostbridge", cxl_basic_hb);
+-    qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
+-    qtest_add_func("/pci/cxl/pxb_with_window", cxl_pxb_with_window);
+-    qtest_add_func("/pci/cxl/pxb_x2_with_window", cxl_2pxb_with_window);
+-    qtest_add_func("/pci/cxl/rp", cxl_root_port);
+-    qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
+-    qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
+-    qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
+-    qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4", cxl_2pxb_4rp_4t3d);
++    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
++        qtest_add_func("/pci/cxl/basic_hostbridge", cxl_basic_hb);
++        qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
++        qtest_add_func("/pci/cxl/pxb_with_window", cxl_pxb_with_window);
++        qtest_add_func("/pci/cxl/pxb_x2_with_window", cxl_2pxb_with_window);
++        qtest_add_func("/pci/cxl/rp", cxl_root_port);
++        qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
++        qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
++        qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
++        qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4",
++                       cxl_2pxb_4rp_4t3d);
++    } else if (strcmp(arch, "aarch64") == 0) {
++        qtest_add_func("/pci/cxl/virt/pxb_x2_root_port_x4_type3_x4",
++                       cxl_virt_2pxb_4rp_4t3d);
++    }
++
+     return g_test_run();
+ }
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 6e1ad4dc9a..6aefde4584 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -224,6 +224,7 @@ qtests_aarch64 = \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+   (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
++  qtests_cxl +                                                                                  \
+   ['arm-cpu-features',
+    'numa-test',
+    'boot-serial-test',
 -- 
 2.32.0
 
