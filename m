@@ -2,112 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973D94F17D8
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 17:02:38 +0200 (CEST)
-Received: from localhost ([::1]:50494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B72C4F181A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 17:16:53 +0200 (CEST)
+Received: from localhost ([::1]:59286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbOE1-0002Dd-9g
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 11:02:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34476)
+	id 1nbORl-0000CC-Ti
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 11:16:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1nbOCw-0001Xl-1m
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:01:30 -0400
-Received: from [2a00:1450:4864:20::52f] (port=42609
- helo=mail-ed1-x52f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1nbOCu-00023Q-0h
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:01:29 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id k2so4214121edj.9
- for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 08:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=i+zr5M68aloOJzDo2BfmM/AByzuuaBC8sU7HTQ424Ng=;
- b=P1lRqzuiE1i5AQgVXMAadjQxuZaNvOCmKCWVC7NoAosWtxg6O6uGhV1Fs5d9UThrZ1
- zNrRtXos2DqCwVW5VD+GKbPk1i42rM9aiUb9yc0F+sIK7PRpivdnddQGLO7YoWG7oZmw
- 1x+zSzZfSodiP6Ntsi6OzrVuazT7b0XFcTsGnlR/cfyiEBMAvlIIi+by8VcRPuSXfbaq
- jvnXsXf/ijVmNTh2jlG406awsf8vRVsNEmYxTWAk77H/Jd0WSG835ZDrosun+PmVeAme
- A2bgEVeBBvzo/mxIlfxdxxqbrAD3YyIIefiix/stRu7ICwOCzguPsSvKzSzjE2W+YgM+
- 7sjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=i+zr5M68aloOJzDo2BfmM/AByzuuaBC8sU7HTQ424Ng=;
- b=RKE6QIzPaMh0cOWcBf7/py6Lc7s3D2H55SdK75K6G8qxH/5pXo3rfnt6Xvw6mfla25
- O3CGpnyaGmiZZGfBrMEVMgYQ+4tPZGkB4dqI7w2Dq8zxTSUaQBJOfTlVnpHlMnUYk5mA
- w3562cXgkMzBM0TO5pZhQHlejLIbjkmxhBrmSZ+BzQiDq2R8KujJevxqfwDxlfzOqLax
- a2JxZd8dU5NmK1bbNfMs2RDosjO7MX0qHJ6czGIk+btYEZkBRtibNiKuyT3yun1brANk
- iF6gko9+N2kGJsuLe2iIWewii/mN2mgkaU5te9FfZFlmy5Swxn9YtMPUSRcJmlz8qb6R
- Ta7Q==
-X-Gm-Message-State: AOAM531/BKhUjLpYeNWexk0BntomVq6q5SueeVi1cvvX90i6zFZLRi63
- DD4FVan8yAUjpjEnP7/A0mbKuw==
-X-Google-Smtp-Source: ABdhPJwdjQe3XZ1e4GuiLZkjz2XSDy8kccxsDVifb45M/0aMy9MY01MBSRkMjNi/1qqoMOzRLXd9XA==
-X-Received: by 2002:aa7:cdc9:0:b0:419:197e:14d9 with SMTP id
- h9-20020aa7cdc9000000b00419197e14d9mr498264edw.375.1649084485024; 
- Mon, 04 Apr 2022 08:01:25 -0700 (PDT)
-Received: from google.com (30.171.91.34.bc.googleusercontent.com.
- [34.91.171.30]) by smtp.gmail.com with ESMTPSA id
- y14-20020a056402440e00b00416046b623csm5690519eda.2.2022.04.04.08.01.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Apr 2022 08:01:24 -0700 (PDT)
-Date: Mon, 4 Apr 2022 15:01:21 +0000
-From: Quentin Perret <qperret@google.com>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Sean Christopherson <seanjc@google.com>,
- Steven Price <steven.price@arm.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm list <kvm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- the arch/x86 maintainers <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
- David Hildenbrand <david@redhat.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YksIQYdG41v3KWkr@google.com>
-References: <YkHspg+YzOsbUaCf@google.com> <YkH32nx+YsJuUbmZ@google.com>
- <YkIFW25WgV2WIQHb@google.com> <YkM7eHCHEBe5NkNH@google.com>
- <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
- <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
- <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
- <YkcTTY4YjQs5BRhE@google.com>
- <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nbOPj-0007cT-Iv
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:14:43 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nbOPg-0003qA-2P
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:14:43 -0400
+Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KXDmF4gNzz67J5F;
+ Mon,  4 Apr 2022 23:12:45 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 4 Apr 2022 17:14:27 +0200
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 4 Apr 2022 16:14:26 +0100
+To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
+ <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>, "Mark
+ Cave-Ayland" <mark.cave-ayland@ilande.co.uk>, Adam Manzanares
+ <a.manzanares@samsung.com>
+CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Peter Xu
+ <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah
+ <shreyas.shah@elastics.cloud>, Chris Browy <cbrowy@avery-design.com>,
+ "Samarth Saxena" <samarths@cadence.com>, Dan Williams
+ <dan.j.williams@intel.com>, "k . jensen @ samsung . com"
+ <k.jensen@samsung.com>, Tong Zhang <t.zhang2@samsung.com>,
+ <dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>
+Subject: [PATCH v9 00/45] CXl 2.0 emulation Support
+Date: Mon, 4 Apr 2022 16:14:00 +0100
+Message-ID: <20220404151445.10955-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=qperret@google.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -161
-X-Spam_score: -16.2
-X-Spam_bar: ----------------
-X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml717-chm.china.huawei.com (10.201.108.68) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,80 +80,286 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Friday 01 Apr 2022 at 12:56:50 (-0700), Andy Lutomirski wrote:
-> On Fri, Apr 1, 2022, at 7:59 AM, Quentin Perret wrote:
-> > On Thursday 31 Mar 2022 at 09:04:56 (-0700), Andy Lutomirski wrote:
-> 
-> 
-> > To answer your original question about memory 'conversion', the key
-> > thing is that the pKVM hypervisor controls the stage-2 page-tables for
-> > everyone in the system, all guests as well as the host. As such, a page
-> > 'conversion' is nothing more than a permission change in the relevant
-> > page-tables.
-> >
-> 
-> So I can see two different ways to approach this.
-> 
-> One is that you split the whole address space in half and, just like SEV and TDX, allocate one bit to indicate the shared/private status of a page.  This makes it work a lot like SEV and TDX.
->
-> The other is to have shared and private pages be distinguished only by their hypercall history and the (protected) page tables.  This saves some address space and some page table allocations, but it opens some cans of worms too.  In particular, the guest and the hypervisor need to coordinate, in a way that the guest can trust, to ensure that the guest's idea of which pages are private match the host's.  This model seems a bit harder to support nicely with the private memory fd model, but not necessarily impossible.
+CI passing both with the full series and at appropriate points
+for a partial series merge if desired (at end of each section
+tests are introduced)
+https://gitlab.com/jic23/qemu/-/pipelines/508396913
+Possible partial sets:
+1-15 (end with the test of the pxb-cxl host bridge)
+16-22 (end with the test for root port and type3 device)
+23-39 (end with tests on x86 pc for CFMWS including BIOS table updates)
+40-41 (arm64 virt support + simple test case)
+42 (documentation - we could pull this forwards to before the arm support)
+43-45 (switch support)
 
-Right. Perhaps one thing I should clarify as well: pKVM (as opposed to
-TDX) has only _one_ page-table per guest, and it is controllex by the
-hypervisor only. So the hypervisor needs to be involved for both shared
-and private mappings. As such, shared pages have relatively similar
-constraints when it comes to host mm stuff --  we can't migrate shared
-pages or swap them out without getting the hypervisor involved.
+Note the gitlab branch also has additional patches on top of these
+that will form the part of future postings (PCIe DOE, CDAT,
+serial number support and improved fidelity of emulation)
+Several people have asked about contributing additional features.
+As those come in I'll apply them on top of this series and handle
+rebases etc as necessary whilst we seek to get this first set
+of patches upstream.
 
-> Also, what are you trying to accomplish by having the host userspace mmap private pages?
+Changes since v8:
+ Thanks to Adam Manzanares, Alison Schofield and Mark Cave-Ayland
+ for review.
+For reference v8 thread at:
+https://lore.kernel.org/qemu-devel/20220318150635.24600-1-Jonathan.Cameron@huawei.com/
+ 
+ - Fix crash when no hostmem region provided (from CI)
+ - Fix a mid series build bug (from chasing that CI issue)
+ - (various patches) Switch the various struct cxl_dvsec_* to typdefs
+   CXLDVSECDeviceGPF etc. This reduces line lengths in a patch to add
+   write masks for PCI config space that will be part of a follow up
+   to this series.
+ - (various) Switch away from old style initializers and associated
+   renames (Mark) 
+ - (patch 2, various) Use sizeof() or local size variable rather than
+   hard coding division by 4 or 8 when indexing into register arrays (Adam)
+ - (patch 2) Add comment for strange write mask CXL_RAS_UNC_ERR_SEVERITY (Adam)
+ - (patch 2) Fix wrong mask for COR_ERR
+ - (patch 2) Add a comment explaining less than obvious fact we can use
+   a contrived order of capabilities to allow a single number to represent
+   which ones should be enabled. (Adam)
+ - (patch 2) Wrong version number for RAS cap header (Adam)
+ - (patch 2) Wrong space left for HDM decoders (Adam)
+ - (patch 2) Fix field of cxl_dvsec_port_extensions to be
+   alt_prefetch_limit_high (Adam)
+ - (patch 2) Add CXLDVSECDeviceGPF (noticed as part of follow up series prep)
+ - (patch 3) Improve docs around the large ASCI art figure (Adam)
+ - (patch 3) Rename CXL_DEVICE_REGISTERS_* to CXL_DEVICE_STATUS_REGISTERS *
+   to match the specification (Adam)
+ - (patch 3) Extra references to the specification (Adam)
+ - (patch 3) Rename a few fields in CXL_DEV_BG_CMD_STS to more closely match
+   the specification (Adam)
+ - (patch 17) Drop stale ifdef (Mark)
+ - (patch 19) Fix wrong value of part_info->nex_pmem so it now matches
+   what the spec requires (Alison)
+ - (patch 27) Fix docs to not mention OptsVisitor, to be more detailed
+   on what sizes are accepted, provid more detail on what id means and
+   update version number (Mark)
+ - (patch 27) Use loc_save()/loc_pop() to improve printed error (Mark)
+ - (patch 27) Rename config function (Mark)
+ - (patch 32) Fix address_space cleanup and move other parts of
+   instance_finalize() to pc->exit() to balance what is in pc->realize()
+   (Mark)
+ - (various) Minor typos and formatting cleanup observed whilst preparing
+   series.
+Some discussion occurred on allow for volatile memory support rather than
+just PMEM. That is postponed to a future patch set. Also some discussion
+on future work coordination.
 
-What I would really like to have is non-destructive in-place conversions
-of pages. mmap-ing the pages that have been shared back felt like a good
-fit for the private=>shared conversion, but in fact I'm not all that
-opinionated about the API as long as the behaviour and the performance
-are there. Happy to look into alternatives.
+Mark's suggestion of using PCI BDF for naming unfortunately doesn't
+work as they are not constant (or indeed enumerated at all in some cases)
 
-FWIW, there are a couple of reasons why I'd like to have in-place
-conversions:
+I'm resisting the urge to have this series continue to grow with
+additional features on the basis it is already huge and what we have
+here is useful + functional.
 
- - one goal of pKVM is to migrate some things away from the Arm
-   Trustzone environment (e.g. DRM and the likes) and into protected VMs
-   instead. This will give Linux a fighting chance to defend itself
-   against these things -- they currently have access to _all_ memory.
-   And transitioning pages between Linux and Trustzone (donations and
-   shares) is fast and non-destructive, so we really do not want pKVM to
-   regress by requiring the hypervisor to memcpy things;
+Updated background info:
 
- - it can be very useful for protected VMs to do shared=>private
-   conversions. Think of a VM receiving some data from the host in a
-   shared buffer, and then it wants to operate on that buffer without
-   risking to leak confidential informations in a transient state. In
-   that case the most logical thing to do is to convert the buffer back
-   to private, do whatever needs to be done on that buffer (decrypting a
-   frame, ...), and then share it back with the host to consume it;
+Looking in particular for:
+* Review of the PCI interactions
+* x86 and ARM machine interactions (particularly the memory maps)
+* Review of the interleaving approach - is the basic idea
+  acceptable?
+* Review of the command line interface.
+* CXL related review welcome but much of that got reviewed
+  in earlier versions and hasn't changed substantially.
 
- - similar to the previous point, a protected VM might want to
-   temporarily turn a buffer private to avoid ToCToU issues;
+TODOs:
 
- - once we're able to do device assignment to protected VMs, this might
-   allow DMA-ing to a private buffer, and make it shared later w/o
-   bouncing.
+* Volatile memory devices (easy but it's more code so left for now).
+* Hotplug?  May not need much but it's not tested yet!
+* More tests and tighter verification that values written to hardware
+  are actually valid - stuff that real hardware would check.
+* Testing, testing and more testing.  I have been running a basic
+  set of ARM and x86 tests on this, but there is always room for
+  more tests and greater automation.
+* CFMWS flags as requested by Ben.
+* Parititioning support - ability to change the balance of volatile
+  and non volatile memory on demand.
+* Trace points as suggested my Mark to help with debugging memory
+  interleaving setup.
 
-And there is probably more.
+Why do we want QEMU emulation of CXL?
 
-IIUC, the private fd proposal as it stands requires shared and private
-pages to come from entirely distinct places. So it's not entirely clear
-to me how any of the above could be supported without having the
-hypervisor memcpy the data during conversions, which I really don't want
-to do for performance reasons.
+As Ben stated in V3, QEMU support has been critical to getting OS
+software written given lack of availability of hardware supporting the
+latest CXL features (coupled with very high demand for support being
+ready in a timely fashion). What has become clear since Ben's v3
+is that situation is a continuous one. Whilst we can't talk about
+them yet, CXL 3.0 features and OS support have been prototyped on
+top of this support and a lot of the ongoing kernel work is being
+tested against these patches. The kernel CXL mocking code allows
+some forms of testing, but QEMU provides a more versatile and
+extensible platform.
 
-> Is the idea that multiple guest could share the same page until such time as one of them tries to write to it?
+Other features on the qemu-list that build on these include PCI-DOE
+/CDAT support from the Avery Design team further showing how this
+code is useful. Whilst not directly related this is also the test
+platform for work on PCI IDE/CMA + related DMTF SPDM as CXL both
+utilizes and extends those technologies and is likely to be an early
+adopter.
+Refs:
+CMA Kernel: https://lore.kernel.org/all/20210804161839.3492053-1-Jonathan.Cameron@huawei.com/
+CMA Qemu: https://lore.kernel.org/qemu-devel/1624665723-5169-1-git-send-email-cbrowy@avery-design.com/
+DOE Qemu: https://lore.kernel.org/qemu-devel/1623329999-15662-1-git-send-email-cbrowy@avery-design.com/
 
-That would certainly be possible to implement in the pKVM
-environment with the right tracking, so I think it is worth considering
-as a future goal.
+As can be seen there is non trivial interaction with other areas of
+Qemu, particularly PCI and keeping this set up to date is proving
+a burden we'd rather do without :)
+
+Ben mentioned a few other good reasons in v3:
+https://lore.kernel.org/qemu-devel/20210202005948.241655-1-ben.widawsky@intel.com/
+
+What we have here is about what you need for it to be useful for testing
+currently kernel code.  Note the kernel code is moving fast so
+since v4, some features have been introduced we don't yet support in
+QEMU (e.g. use of the PCIe serial number extended capability).
+
+All comments welcome.
+
+Additional info that was here in v5 is now in the documentation patch.
 
 Thanks,
-Quentin
+
+Jonathan
+
+Ben Widawsky (24):
+  hw/pci/cxl: Add a CXL component type (interface)
+  hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
+  hw/cxl/device: Introduce a CXL device (8.2.8)
+  hw/cxl/device: Implement the CAP array (8.2.8.1-2)
+  hw/cxl/device: Implement basic mailbox (8.2.8.4)
+  hw/cxl/device: Add memory device utilities
+  hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
+  hw/cxl/device: Timestamp implementation (8.2.9.3)
+  hw/cxl/device: Add log commands (8.2.9.4) + CEL
+  hw/pxb: Use a type for realizing expanders
+  hw/pci/cxl: Create a CXL bus type
+  hw/pxb: Allow creation of a CXL PXB (host bridge)
+  hw/cxl/rp: Add a root port
+  hw/cxl/device: Add a memory device (8.2.8.5)
+  hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
+  hw/cxl/device: Add some trivial commands
+  hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
+  hw/cxl/device: Implement get/set Label Storage Area (LSA)
+  hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
+  acpi/cxl: Add _OSC implementation (9.14.2)
+  acpi/cxl: Create the CEDT (9.14.1)
+  acpi/cxl: Introduce CFMWS structures in CEDT
+  hw/cxl/component Add a dumb HDM decoder handler
+  qtest/cxl: Add more complex test cases with CFMWs
+
+Jonathan Cameron (21):
+  MAINTAINERS: Add entry for Compute Express Link Emulation
+  cxl: Machine level control on whether CXL support is enabled
+  qtest/cxl: Introduce initial test for pxb-cxl only.
+  qtests/cxl: Add initial root port and CXL type3 tests
+  hw/cxl/component: Add utils for interleave parameter encoding/decoding
+  hw/cxl/host: Add support for CXL Fixed Memory Windows.
+  hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
+  pci/pcie_port: Add pci_find_port_by_pn()
+  CXL/cxl_component: Add cxl_get_hb_cstate()
+  mem/cxl_type3: Add read and write functions for associated hostmem.
+  cxl/cxl-host: Add memops for CFMWS region.
+  i386/pc: Enable CXL fixed memory windows
+  tests/acpi: q35: Allow addition of a CXL test.
+  qtests/bios-tables-test: Add a test for CXL emulation.
+  tests/acpi: Add tables for CXL emulation.
+  hw/arm/virt: Basic CXL enablement on pci_expander_bridge instances
+    pxb-cxl
+  qtest/cxl: Add aarch64 virt test for CXL
+  docs/cxl: Add initial Compute eXpress Link (CXL) documentation.
+  pci-bridge/cxl_upstream: Add a CXL switch upstream port
+  pci-bridge/cxl_downstream: Add a CXL switch downstream port
+  docs/cxl: Add switch documentation
+
+ MAINTAINERS                         |   7 +
+ docs/system/device-emulation.rst    |   1 +
+ docs/system/devices/cxl.rst         | 386 ++++++++++++++++++++++
+ hw/Kconfig                          |   1 +
+ hw/acpi/Kconfig                     |   5 +
+ hw/acpi/cxl-stub.c                  |  12 +
+ hw/acpi/cxl.c                       | 257 +++++++++++++++
+ hw/acpi/meson.build                 |   4 +-
+ hw/arm/Kconfig                      |   1 +
+ hw/arm/virt-acpi-build.c            |  33 ++
+ hw/arm/virt.c                       |  40 ++-
+ hw/core/machine.c                   |  28 ++
+ hw/cxl/Kconfig                      |   3 +
+ hw/cxl/cxl-component-utils.c        | 290 +++++++++++++++++
+ hw/cxl/cxl-device-utils.c           | 265 +++++++++++++++
+ hw/cxl/cxl-host-stubs.c             |  16 +
+ hw/cxl/cxl-host.c                   | 261 +++++++++++++++
+ hw/cxl/cxl-mailbox-utils.c          | 478 ++++++++++++++++++++++++++++
+ hw/cxl/meson.build                  |  12 +
+ hw/i386/acpi-build.c                |  57 +++-
+ hw/i386/pc.c                        |  57 +++-
+ hw/mem/Kconfig                      |   5 +
+ hw/mem/cxl_type3.c                  | 368 +++++++++++++++++++++
+ hw/mem/meson.build                  |   1 +
+ hw/meson.build                      |   1 +
+ hw/pci-bridge/Kconfig               |   5 +
+ hw/pci-bridge/cxl_downstream.c      | 244 ++++++++++++++
+ hw/pci-bridge/cxl_root_port.c       | 231 ++++++++++++++
+ hw/pci-bridge/cxl_upstream.c        | 211 ++++++++++++
+ hw/pci-bridge/meson.build           |   1 +
+ hw/pci-bridge/pci_expander_bridge.c | 167 +++++++++-
+ hw/pci-bridge/pcie_root_port.c      |   6 +-
+ hw/pci-host/gpex-acpi.c             |  20 +-
+ hw/pci/pci.c                        |  21 +-
+ hw/pci/pcie_port.c                  |  25 ++
+ include/hw/acpi/cxl.h               |  28 ++
+ include/hw/arm/virt.h               |   1 +
+ include/hw/boards.h                 |   2 +
+ include/hw/cxl/cxl.h                |  65 ++++
+ include/hw/cxl/cxl_component.h      | 207 ++++++++++++
+ include/hw/cxl/cxl_device.h         | 268 ++++++++++++++++
+ include/hw/cxl/cxl_pci.h            | 167 ++++++++++
+ include/hw/pci/pci.h                |  14 +
+ include/hw/pci/pci_bridge.h         |  20 ++
+ include/hw/pci/pci_bus.h            |   7 +
+ include/hw/pci/pci_ids.h            |   1 +
+ include/hw/pci/pcie_port.h          |   2 +
+ qapi/machine.json                   |  21 ++
+ qemu-options.hx                     |  38 +++
+ scripts/device-crash-test           |   1 +
+ softmmu/vl.c                        |  47 +++
+ tests/data/acpi/q35/CEDT.cxl        | Bin 0 -> 184 bytes
+ tests/data/acpi/q35/DSDT.cxl        | Bin 0 -> 9615 bytes
+ tests/qtest/bios-tables-test.c      |  44 +++
+ tests/qtest/cxl-test.c              | 181 +++++++++++
+ tests/qtest/meson.build             |   5 +
+ 56 files changed, 4612 insertions(+), 27 deletions(-)
+ create mode 100644 docs/system/devices/cxl.rst
+ create mode 100644 hw/acpi/cxl-stub.c
+ create mode 100644 hw/acpi/cxl.c
+ create mode 100644 hw/cxl/Kconfig
+ create mode 100644 hw/cxl/cxl-component-utils.c
+ create mode 100644 hw/cxl/cxl-device-utils.c
+ create mode 100644 hw/cxl/cxl-host-stubs.c
+ create mode 100644 hw/cxl/cxl-host.c
+ create mode 100644 hw/cxl/cxl-mailbox-utils.c
+ create mode 100644 hw/cxl/meson.build
+ create mode 100644 hw/mem/cxl_type3.c
+ create mode 100644 hw/pci-bridge/cxl_downstream.c
+ create mode 100644 hw/pci-bridge/cxl_root_port.c
+ create mode 100644 hw/pci-bridge/cxl_upstream.c
+ create mode 100644 include/hw/acpi/cxl.h
+ create mode 100644 include/hw/cxl/cxl.h
+ create mode 100644 include/hw/cxl/cxl_component.h
+ create mode 100644 include/hw/cxl/cxl_device.h
+ create mode 100644 include/hw/cxl/cxl_pci.h
+ create mode 100644 tests/data/acpi/q35/CEDT.cxl
+ create mode 100644 tests/data/acpi/q35/DSDT.cxl
+ create mode 100644 tests/qtest/cxl-test.c
+
+-- 
+2.32.0
+
 
