@@ -2,96 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5BE4F1453
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 14:05:01 +0200 (CEST)
-Received: from localhost ([::1]:57350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF0D4F1479
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 14:11:08 +0200 (CEST)
+Received: from localhost ([::1]:33498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbLS7-0002W3-Sw
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 08:04:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41472)
+	id 1nbLXz-0005us-VI
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 08:11:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nbLQg-0001Wz-5Y
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 08:03:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38116)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nbLWP-0005Cl-KZ; Mon, 04 Apr 2022 08:09:25 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nbLQb-0002Im-6m
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 08:03:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649073803;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qYh0ZCQabxEewuaJGpqXzDYGhcd5FkfM22Q4Uw4AyGc=;
- b=OWGjJuBTBLrX3oNEnTMapowEeyNWAGoQend2EYWYImSggxnxQKIuqg/dwv1WTFc+uxlZfY
- xVaUf5Zy10bAbbWATxUgioG/gxD9bvDb8ROIGvBhRKxU/SsLf86ahaTXS7rt50pL+/qnzQ
- d1aQXwQwhGIQu37hJNuEvukCuNRv+Xs=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-351-hSVYUKHeNrSGttGmjc6z_A-1; Mon, 04 Apr 2022 08:03:22 -0400
-X-MC-Unique: hSVYUKHeNrSGttGmjc6z_A-1
-Received: by mail-ej1-f70.google.com with SMTP id
- sg13-20020a170907a40d00b006e7e8234ae2so1279470ejc.2
- for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 05:03:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qYh0ZCQabxEewuaJGpqXzDYGhcd5FkfM22Q4Uw4AyGc=;
- b=dL5hpz+dL1LpM+xMI1nbnONW3y9Vhx1w3LxzV5blqEZtu70kYp1abotqLJ9P6jIwMN
- lq3oNNwltozP/gBCGkU1cO5k4oIDvCeq8s4ectWWWzokF5Qjy7dHiAMVhLJChJGyOsCR
- VuWNudThQs68PrzYUuS/5tzLAIsdExejAUkKPr7mvUylri1WBhAphm05M7liPUfjxiKq
- DayNHGrH9viFViQKPJzqclA3IHtMHIb6fxkLaYZYGLk1j6UvuZ+obUAsqUvib3Ph2Uka
- lx8ahpXLzOjJLv4iandAoazo6C0FnJkj8675UPLXGS5hAKCz9TpJazrfNjTrseIaW/bu
- azdQ==
-X-Gm-Message-State: AOAM530XGX7EDcpCBBNS5xjCboyrJzef4d3HNTyTN4Yo9f+Nz/UV6KhC
- ZcEDgu7rPkBZCwiblxazjXTjUw2STUgXKSOBvUxbml1KKWqkexz8UdIclMEbkuD8bqyk6dxNzDJ
- g4EOo7xmv0xZfMC4=
-X-Received: by 2002:a05:6402:2816:b0:419:2a8e:6d3e with SMTP id
- h22-20020a056402281600b004192a8e6d3emr32236164ede.47.1649073800811; 
- Mon, 04 Apr 2022 05:03:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwg6OE9U8NvZtqlpgR41e1weJ1AZ9gFHx3g/McrrVGFolFkE+r9NST4OcsZ/sGRMuRn5cypSw==
-X-Received: by 2002:a05:6402:2816:b0:419:2a8e:6d3e with SMTP id
- h22-20020a056402281600b004192a8e6d3emr32236121ede.47.1649073800459; 
- Mon, 04 Apr 2022 05:03:20 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- lj20-20020a170906f9d400b006e7f1e1f4a0sm1158595ejb.60.2022.04.04.05.03.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Apr 2022 05:03:19 -0700 (PDT)
-Date: Mon, 4 Apr 2022 14:03:18 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v5 2/4] hw/arm/virt: Consider SMP configuration in CPU
- topology
-Message-ID: <20220404140318.5afd6c58@redhat.com>
-In-Reply-To: <17bd5453-ef36-6bbc-3913-d806e0ed7a38@redhat.com>
-References: <20220403145953.10522-1-gshan@redhat.com>
- <20220403145953.10522-3-gshan@redhat.com>
- <YkquyMTJqq+jFvm0@redhat.com>
- <17bd5453-ef36-6bbc-3913-d806e0ed7a38@redhat.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nbLWN-0003Mq-FD; Mon, 04 Apr 2022 08:09:25 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 234AA8l5004672; 
+ Mon, 4 Apr 2022 12:09:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=yGuNroklm73JOuwXkhCuQatRkUm7efJqjjFIejZCfgA=;
+ b=p6bn/X8Cb6jgPm58gLuJBmJzmlW3MVzHHrqIGIfpjsjFvm4mDA3y0asqjwKhYadfUSyy
+ rPm3q1wtYsk/em0nbJBdtGRpp55zajNYoIaJ+VoGdbHvMaSWwbXEy5RrLe1oHOdp9O0O
+ 8sDU8wPhznPJMu/DFcj2WHQUofoUFKqaL4t2VlU/gL0a33xMRBQfXwWxNWZJ5SowWvJB
+ mX4QKdvbohPxL8870MyC4OgTfVwzhU0DFYL2yy7o7l9mIPrM8KrDk8sjvfmC0m1d/JpK
+ RDs+psS87aDmKTcaOwCsOwM/EnQy0qyzUt9IED6bj34P+5DmfskF/+tKJHeYkySgtUAx HQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f701s1gdy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Apr 2022 12:09:16 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 234Bie2V022042;
+ Mon, 4 Apr 2022 12:09:16 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f701s1gav-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Apr 2022 12:09:15 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 234C21Mh011931;
+ Mon, 4 Apr 2022 12:09:09 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 3f6drhkkk7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Apr 2022 12:09:08 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 234C96Oi54526274
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 4 Apr 2022 12:09:06 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A87EAE053;
+ Mon,  4 Apr 2022 12:09:06 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 83EA0AE04D;
+ Mon,  4 Apr 2022 12:09:05 +0000 (GMT)
+Received: from [9.171.47.144] (unknown [9.171.47.144])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  4 Apr 2022 12:09:05 +0000 (GMT)
+Message-ID: <76fd645d423ab0e835ef9de37aaeb9d857eae4e8.camel@linux.ibm.com>
+Subject: Re: [PATCH] multifd: Copy pages before compressing them with zlib
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Date: Mon, 04 Apr 2022 14:09:05 +0200
+In-Reply-To: <YkrUbt8Z+N5uenDT@work-vm>
+References: <20220329152123.493731-1-iii@linux.ibm.com>
+ <YkrUbt8Z+N5uenDT@work-vm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: IcurR81Tnv17JKDcnlWJbmOCK_APuZvy
+X-Proofpoint-GUID: dO2NtZZ0Y8bfi00ReR_xkg-BOFhox4ev
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-04_05,2022-03-31_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 phishscore=0 clxscore=1015 adultscore=0 bulkscore=0
+ mlxlogscore=999 priorityscore=1501 impostorscore=0 spamscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204040069
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,89 +110,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, zhenyzha@redhat.com,
- wangyanan55@huawei.com, qemu-arm@nongnu.org, shan.gavin@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ "Daniel P . =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, jinpu.wang@ionos.com,
+ s.reiter@proxmox.com, Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ peterx@redhat.com, qemu-s390x@nongnu.org,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philippe.mathieu.daude@gmail.com>,
+ hreitz@redhat.com, f.ebner@proxmox.com,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Apr 2022 18:48:00 +0800
-Gavin Shan <gshan@redhat.com> wrote:
+On Mon, 2022-04-04 at 12:20 +0100, Dr. David Alan Gilbert wrote:
+> * Ilya Leoshkevich (iii@linux.ibm.com) wrote:
+> > zlib_send_prepare() compresses pages of a running VM. zlib does not
+> > make any thread-safety guarantees with respect to changing
+> > deflate()
+> > input concurrently with deflate() [1].
+> > 
+> > One can observe problems due to this with the IBM zEnterprise Data
+> > Compression accelerator capable zlib [2]. When the hardware
+> > acceleration is enabled, migration/multifd/tcp/zlib test fails
+> > intermittently [3] due to sliding window corruption.
+> > 
+> > At the moment this problem occurs only with this accelerator, since
+> > its architecture explicitly discourages concurrent accesses [4]:
+> > 
+> >     Page 26-57, "Other Conditions":
+> > 
+> >     As observed by this CPU, other CPUs, and channel
+> >     programs, references to the parameter block, first,
+> >     second, and third operands may be multiple-access
+> >     references, accesses to these storage locations are
+> >     not necessarily block-concurrent, and the sequence
+> >     of these accesses or references is undefined.
+> > 
+> > Still, it might affect other platforms due to a future zlib update.
+> > Therefore, copy the page being compressed into a private buffer
+> > before
+> > passing it to zlib.
+> 
+> While this might work around the problem; your explanation doesn't
+> quite
+> fit with the symptoms; or if they do, then you have a separate
+> problem.
+> 
+> The live migration code relies on the fact that the source is running
+> and changing it's memory as the data is transmitted; however it also
+> relies on the fact that if this happens the 'dirty' flag is set
+> _after_
+> those changes causing another round of migration and retransmission
+> of
+> the (now stable) data.
+> 
+> We don't expect the load of the data for the first page write to be
+> correct, consistent etc - we just rely on the retransmission to be
+> correct when the page is stable.
+> 
+> If your compressor hardware is doing something undefined during the
+> first case that's fine; as long as it works fine in the stable case
+> where the data isn't changing.
+> 
+> Adding the extra copy is going to slow everyone else dowmn; and since
+> there's plenty of pthread lockingin those multifd I'm expecting them
+> to get reasonably defined ordering and thus be safe from multi
+> threading
+> problems (please correct us if we've actually done something wrong in
+> the locking there).
+> 
+> IMHO your accelerator when called from a zlib call needs to behave
+> the same as if it was the software implementation; i.e. if we've got
+> pthread calls in there that are enforcing ordering then that should
+> be
+> fine; your accelerator implementation needs to add a barrier of some
+> type or an internal copy, not penalise everyone else.
+> 
+> Dave
 
-> Hi Daniel,
->=20
-> On 4/4/22 4:39 PM, Daniel P. Berrang=C3=A9 wrote:
-> > On Sun, Apr 03, 2022 at 10:59:51PM +0800, Gavin Shan wrote: =20
-> >> Currently, the SMP configuration isn't considered when the CPU
-> >> topology is populated. In this case, it's impossible to provide
-> >> the default CPU-to-NUMA mapping or association based on the socket
-> >> ID of the given CPU.
-> >>
-> >> This takes account of SMP configuration when the CPU topology
-> >> is populated. The die ID for the given CPU isn't assigned since
-> >> it's not supported on arm/virt machine yet.
-> >>
-> >> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> >> ---
-> >>   hw/arm/virt.c | 16 +++++++++++++++-
-> >>   1 file changed, 15 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> >> index d2e5ecd234..3174526730 100644
-> >> --- a/hw/arm/virt.c
-> >> +++ b/hw/arm/virt.c
-> >> @@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_ar=
-ch_ids(MachineState *ms)
-> >>       int n;
-> >>       unsigned int max_cpus =3D ms->smp.max_cpus;
-> >>       VirtMachineState *vms =3D VIRT_MACHINE(ms);
-> >> +    MachineClass *mc =3D MACHINE_GET_CLASS(vms);
-> >>  =20
-> >>       if (ms->possible_cpus) {
-> >>           assert(ms->possible_cpus->len =3D=3D max_cpus);
-> >> @@ -2518,8 +2519,21 @@ static const CPUArchIdList *virt_possible_cpu_a=
-rch_ids(MachineState *ms)
-> >>           ms->possible_cpus->cpus[n].type =3D ms->cpu_type;
-> >>           ms->possible_cpus->cpus[n].arch_id =3D
-> >>               virt_cpu_mp_affinity(vms, n);
-> >> +
-> >> +        assert(!mc->smp_props.dies_supported);
-> >> +        ms->possible_cpus->cpus[n].props.has_socket_id =3D true;
-> >> +        ms->possible_cpus->cpus[n].props.socket_id =3D
-> >> +            (n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads)=
-) %
-> >> +            ms->smp.sockets;
-> >> +        ms->possible_cpus->cpus[n].props.has_cluster_id =3D true;
-> >> +        ms->possible_cpus->cpus[n].props.cluster_id =3D
-> >> +            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.cluster=
-s;
-> >> +        ms->possible_cpus->cpus[n].props.has_core_id =3D true;
-> >> +        ms->possible_cpus->cpus[n].props.core_id =3D
-> >> +            (n / ms->smp.threads) % ms->smp.cores;
-> >>           ms->possible_cpus->cpus[n].props.has_thread_id =3D true;
-> >> -        ms->possible_cpus->cpus[n].props.thread_id =3D n;
-> >> +        ms->possible_cpus->cpus[n].props.thread_id =3D
-> >> +            n % ms->smp.threads; =20
-> >=20
-> > Does this need to be conditionalized d behind a machine property, so th=
-at
-> > we don't change behaviour of existing machine type versions ?
-> >  =20
->=20
-> I think we probably needn't to do that because the default NUMA node
-> for the given CPU is returned based on the socket ID in next patch.
-> The socket ID is calculated in this patch. Otherwise, we will see
-> CPU topology broken warnings in Linux guest. I think we need to fix
-> this issue for all machine type versions.
+The problem with the accelerator is that during the first case the
+internal state might end up being corrupted (in particular: what goes
+into the deflate stream differs from what goes into the sliding
+window). This may affect the data integrity in the second case later
+on.
 
-Agreed.
-Also guest-wise it's ACPI only change, which is 'firmware' part of QEMU,
-and by default we don't to version those changes unless we a pressed
-into it (i.e the same policy that goes for bundled firmware)
+I've been trying to think what to do with that, and of course doing an
+internal copy is one option (a barrier won't suffice). However, I
+realized that zlib API as documented doesn't guarantee that it's safe
+to change input data concurrently with compression. On the other hand,
+today's zlib is implemented in a way that tolerates this.
 
-> Thanks,
-> Gavin
->=20
-
+So the open question for me is, whether we should honor zlib
+documentation (in which case, I would argue, QEMU needs to be changed)
+or say that the behavior of today's zlib implementation is more
+important (in which case accelerator code needs to change). I went with
+the former for now, but the latter is of course doable as well.
 
