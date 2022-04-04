@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDB24F192F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 18:10:42 +0200 (CEST)
-Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63284F1924
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Apr 2022 18:03:04 +0200 (CEST)
+Received: from localhost ([::1]:52612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbPHt-0001AN-Fn
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 12:10:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41726)
+	id 1nbPAV-0007Jt-DE
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 12:03:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nbOk6-0006Om-UA
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:35:46 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nbOk3-0007BX-O2
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:35:46 -0400
-Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KXFDN0rKPz681Zh;
- Mon,  4 Apr 2022 23:33:40 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 4 Apr 2022 17:35:40 +0200
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 4 Apr 2022 16:35:39 +0100
-To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
- <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>, "Mark
- Cave-Ayland" <mark.cave-ayland@ilande.co.uk>, Adam Manzanares
- <a.manzanares@samsung.com>
-CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
- <shameerali.kolothum.thodi@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Peter Xu
- <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah
- <shreyas.shah@elastics.cloud>, Chris Browy <cbrowy@avery-design.com>,
- "Samarth Saxena" <samarths@cadence.com>, Dan Williams
- <dan.j.williams@intel.com>, "k . jensen @ samsung . com"
- <k.jensen@samsung.com>, Tong Zhang <t.zhang2@samsung.com>,
- <dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>
-Subject: [PATCH v9 41/45] qtest/cxl: Add aarch64 virt test for CXL
-Date: Mon, 4 Apr 2022 16:14:41 +0100
-Message-ID: <20220404151445.10955-42-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220404151445.10955-1-Jonathan.Cameron@huawei.com>
-References: <20220404151445.10955-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nbOv8-0004oV-Am
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:10 -0400
+Received: from [2a00:1450:4864:20::42a] (port=44965
+ helo=mail-wr1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nbOv5-0000Sx-UM
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 11:47:10 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id b19so15122258wrh.11
+ for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 08:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MMQYFnE6zuuvSwuVT9753O37HsyaF97WHfjDEW8aW+c=;
+ b=hjY4aPQho1yO8EmKlpUp9HKLh/b0OSbIMktLaOeuvfAcJpOqYAzLwJolJTDK7MCTkS
+ X3TbIdGOvla52vW8DJfeFV+5EcdDqMs39IXt9zrjBlw15U9Nqu0WCMoYf1GSV7Ac7h98
+ A9lfq55VCLefSxMFwSoaMmNZfr7dHkkCIFGMnxAWe/5yVTMIwJ2/u7/BrcFaeMRceD0w
+ eYemyIQZWl581npwWutRzaUEo0IDpXGpvYPvqrcmyoEfKjSsz8f2K1Jg/wjoaFAF8Zvv
+ zK7dBps1JEOj/lqPnd0cCwd/4JPQ+vBUeCTX/SM3IvByzUhIWREWMS4Pu2voKykiWDrv
+ jpfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=MMQYFnE6zuuvSwuVT9753O37HsyaF97WHfjDEW8aW+c=;
+ b=qp7MYXfKSAXSDBJkl8XE6glnjXlpZbWGnU7EBlLEhpIZgz5U75jR+1/66T17uKr8F5
+ If1/NxZ76FlOaCKnuEd2HdLZ4ehyULgMgqkcnqbShrMPV2FI3nPRqfAgNccFGlQJaW0L
+ SccLInCPAfgjHNt7U2FND1Vch8JSIuS7fJLJBNfFXd5KEtUTRHDM2SJCQGW7DTaRxnoK
+ jO0Hl+jY0y/QENiaSB9GGa5I7qaVE5bmYTTw867Lpfx6zJ5jlWjQTn4fPIiCmUHaGxl9
+ 7TBUCDgWKkzSSsnFcY7oNNaQM1iOe58wpmoiqNjLqALYQ2ksyMHav18lKSd0BZSWZ96S
+ BgnQ==
+X-Gm-Message-State: AOAM533HQAX/ye2m1kiXsvBELXQlBnl2IT31bT5zryfvTPAS5kw23N7Z
+ dJV0gdNnqb1+fVQvMW8VHEQKew==
+X-Google-Smtp-Source: ABdhPJzzRfibriMZH0L741pSV2EX6OBE/6ETcUro7REUlBC4zI1LlH6C8Wp1A0yBasrxGLTjyBU1rA==
+X-Received: by 2002:adf:ce06:0:b0:206:fd5:6644 with SMTP id
+ p6-20020adfce06000000b002060fd56644mr294570wrn.624.1649087225298; 
+ Mon, 04 Apr 2022 08:47:05 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ c8-20020a056000184800b002040e925afasm11731347wri.59.2022.04.04.08.47.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Apr 2022 08:47:04 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH for-7.1 05/18] hw/arm/exynos4210: Coalesce board_irqs and
+ irq_table
+Date: Mon,  4 Apr 2022 16:46:45 +0100
+Message-Id: <20220404154658.565020-6-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220404154658.565020-1-peter.maydell@linaro.org>
+References: <20220404154658.565020-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml717-chm.china.huawei.com (10.201.108.68) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,101 +90,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Zongyuan Li <zongyuan.li@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Add a single complex case for aarch64 virt machine.
+The exynos4210 code currently has two very similar arrays of IRQs:
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+ * board_irqs is a field of the Exynos4210Irq struct which is filled
+   in by exynos4210_init_board_irqs() with the appropriate qemu_irqs
+   for each IRQ the board/SoC can assert
+ * irq_table is a set of qemu_irqs pointed to from the
+   Exynos4210State struct.  It's allocated in exynos4210_init_irq,
+   and the only behaviour these irqs have is that they pass on the
+   level to the equivalent board_irqs[] irq
+
+The extra indirection through irq_table is unnecessary, so coalesce
+these into a single irq_table[] array as a direct field in
+Exynos4210State which exynos4210_init_board_irqs() fills in.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/cxl-test.c  | 48 +++++++++++++++++++++++++++++++++--------
- tests/qtest/meson.build |  1 +
- 2 files changed, 40 insertions(+), 9 deletions(-)
+ include/hw/arm/exynos4210.h |  8 ++------
+ hw/arm/exynos4210.c         |  6 +-----
+ hw/intc/exynos4210_gic.c    | 32 ++++++++------------------------
+ 3 files changed, 11 insertions(+), 35 deletions(-)
 
-diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-index 079011af6a..ac7d71fd74 100644
---- a/tests/qtest/cxl-test.c
-+++ b/tests/qtest/cxl-test.c
-@@ -17,6 +17,11 @@
-                       "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
-                       "-cxl-fixed-memory-window targets.0=cxl.0,targets.1=cxl.1,size=4G "
+diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
+index 923ce987627..a9f186370ee 100644
+--- a/include/hw/arm/exynos4210.h
++++ b/include/hw/arm/exynos4210.h
+@@ -83,7 +83,6 @@ typedef struct Exynos4210Irq {
+     qemu_irq int_combiner_irq[EXYNOS4210_MAX_INT_COMBINER_IN_IRQ];
+     qemu_irq ext_combiner_irq[EXYNOS4210_MAX_EXT_COMBINER_IN_IRQ];
+     qemu_irq ext_gic_irq[EXYNOS4210_EXT_GIC_NIRQ];
+-    qemu_irq board_irqs[EXYNOS4210_MAX_INT_COMBINER_IN_IRQ];
+ } Exynos4210Irq;
  
-+#define QEMU_VIRT_2PXB_CMD "-machine virt,cxl=on "                      \
-+                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-+                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 "  \
-+                      "-cxl-fixed-memory-window targets.0=cxl.0,targets.1=cxl.1,size=4G "
-+
- #define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
+ struct Exynos4210State {
+@@ -92,7 +91,7 @@ struct Exynos4210State {
+     /*< public >*/
+     ARMCPU *cpu[EXYNOS4210_NCPUS];
+     Exynos4210Irq irqs;
+-    qemu_irq *irq_table;
++    qemu_irq irq_table[EXYNOS4210_MAX_INT_COMBINER_IN_IRQ];
  
- /* Dual ports on first pxb */
-@@ -134,18 +139,43 @@ static void cxl_2pxb_4rp_4t3d(void)
-     qtest_end();
- }
+     MemoryRegion chipid_mem;
+     MemoryRegion iram_mem;
+@@ -112,12 +111,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(Exynos4210State, EXYNOS4210_SOC)
+ void exynos4210_write_secondary(ARMCPU *cpu,
+         const struct arm_boot_info *info);
  
-+static void cxl_virt_2pxb_4rp_4t3d(void)
-+{
-+    g_autoptr(GString) cmdline = g_string_new(NULL);
-+    char template[] = "/tmp/cxl-test-XXXXXX";
-+    const char *tmpfs;
-+
-+    tmpfs = mkdtemp(template);
-+
-+    g_string_printf(cmdline, QEMU_VIRT_2PXB_CMD QEMU_4RP QEMU_4T3D,
-+                    tmpfs, tmpfs, tmpfs, tmpfs, tmpfs, tmpfs,
-+                    tmpfs, tmpfs);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+}
-+
- int main(int argc, char **argv)
+-/* Initialize exynos4210 IRQ subsystem stub */
+-qemu_irq *exynos4210_init_irq(Exynos4210Irq *env);
+-
+ /* Initialize board IRQs.
+  * These IRQs contain splitted Int/External Combiner and External Gic IRQs */
+-void exynos4210_init_board_irqs(Exynos4210Irq *s);
++void exynos4210_init_board_irqs(Exynos4210State *s);
+ 
+ /* Get IRQ number from exynos4210 IRQ subsystem stub.
+  * To identify IRQ source use internal combiner group and bit number
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 60fc5a2ffe7..11e321d7830 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -228,10 +228,6 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+         qdev_realize(DEVICE(cpuobj), NULL, &error_fatal);
+     }
+ 
+-    /*** IRQs ***/
+-
+-    s->irq_table = exynos4210_init_irq(&s->irqs);
+-
+     /* IRQ Gate */
+     for (i = 0; i < EXYNOS4210_NCPUS; i++) {
+         DeviceState *orgate = DEVICE(&s->cpu_irq_orgate[i]);
+@@ -296,7 +292,7 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+     sysbus_mmio_map(busdev, 0, EXYNOS4210_EXT_COMBINER_BASE_ADDR);
+ 
+     /* Initialize board IRQs. */
+-    exynos4210_init_board_irqs(&s->irqs);
++    exynos4210_init_board_irqs(s);
+ 
+     /*** Memory ***/
+ 
+diff --git a/hw/intc/exynos4210_gic.c b/hw/intc/exynos4210_gic.c
+index 794f6b5ac72..ec79b96f6d1 100644
+--- a/hw/intc/exynos4210_gic.c
++++ b/hw/intc/exynos4210_gic.c
+@@ -192,30 +192,14 @@ combiner_grp_to_gic_id[64-EXYNOS4210_MAX_EXT_COMBINER_OUT_IRQ][8] = {
+ #define EXYNOS4210_GIC_CPU_REGION_SIZE  0x100
+ #define EXYNOS4210_GIC_DIST_REGION_SIZE 0x1000
+ 
+-static void exynos4210_irq_handler(void *opaque, int irq, int level)
+-{
+-    Exynos4210Irq *s = (Exynos4210Irq *)opaque;
+-
+-    /* Bypass */
+-    qemu_set_irq(s->board_irqs[irq], level);
+-}
+-
+-/*
+- * Initialize exynos4210 IRQ subsystem stub.
+- */
+-qemu_irq *exynos4210_init_irq(Exynos4210Irq *s)
+-{
+-    return qemu_allocate_irqs(exynos4210_irq_handler, s,
+-            EXYNOS4210_MAX_INT_COMBINER_IN_IRQ);
+-}
+-
+ /*
+  * Initialize board IRQs.
+  * These IRQs contain splitted Int/External Combiner and External Gic IRQs.
+  */
+-void exynos4210_init_board_irqs(Exynos4210Irq *s)
++void exynos4210_init_board_irqs(Exynos4210State *s)
  {
-+    const char *arch = qtest_get_arch();
-+
-     g_test_init(&argc, &argv, NULL);
+     uint32_t grp, bit, irq_id, n;
++    Exynos4210Irq *is = &s->irqs;
  
--    qtest_add_func("/pci/cxl/basic_hostbridge", cxl_basic_hb);
--    qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
--    qtest_add_func("/pci/cxl/pxb_with_window", cxl_pxb_with_window);
--    qtest_add_func("/pci/cxl/pxb_x2_with_window", cxl_2pxb_with_window);
--    qtest_add_func("/pci/cxl/rp", cxl_root_port);
--    qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
--    qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
--    qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
--    qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4", cxl_2pxb_4rp_4t3d);
-+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-+        qtest_add_func("/pci/cxl/basic_hostbridge", cxl_basic_hb);
-+        qtest_add_func("/pci/cxl/basic_pxb", cxl_basic_pxb);
-+        qtest_add_func("/pci/cxl/pxb_with_window", cxl_pxb_with_window);
-+        qtest_add_func("/pci/cxl/pxb_x2_with_window", cxl_2pxb_with_window);
-+        qtest_add_func("/pci/cxl/rp", cxl_root_port);
-+        qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
-+        qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
-+        qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
-+        qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4",
-+                       cxl_2pxb_4rp_4t3d);
-+    } else if (strcmp(arch, "aarch64") == 0) {
-+        qtest_add_func("/pci/cxl/virt/pxb_x2_root_port_x4_type3_x4",
-+                       cxl_virt_2pxb_4rp_4t3d);
-+    }
-+
-     return g_test_run();
+     for (n = 0; n < EXYNOS4210_MAX_EXT_COMBINER_IN_IRQ; n++) {
+         irq_id = 0;
+@@ -230,11 +214,11 @@ void exynos4210_init_board_irqs(Exynos4210Irq *s)
+             irq_id = EXT_GIC_ID_MCT_G1;
+         }
+         if (irq_id) {
+-            s->board_irqs[n] = qemu_irq_split(s->int_combiner_irq[n],
+-                    s->ext_gic_irq[irq_id-32]);
++            s->irq_table[n] = qemu_irq_split(is->int_combiner_irq[n],
++                    is->ext_gic_irq[irq_id - 32]);
+         } else {
+-            s->board_irqs[n] = qemu_irq_split(s->int_combiner_irq[n],
+-                    s->ext_combiner_irq[n]);
++            s->irq_table[n] = qemu_irq_split(is->int_combiner_irq[n],
++                    is->ext_combiner_irq[n]);
+         }
+     }
+     for (; n < EXYNOS4210_MAX_INT_COMBINER_IN_IRQ; n++) {
+@@ -245,8 +229,8 @@ void exynos4210_init_board_irqs(Exynos4210Irq *s)
+                      EXYNOS4210_MAX_EXT_COMBINER_OUT_IRQ][bit];
+ 
+         if (irq_id) {
+-            s->board_irqs[n] = qemu_irq_split(s->int_combiner_irq[n],
+-                    s->ext_gic_irq[irq_id-32]);
++            s->irq_table[n] = qemu_irq_split(is->int_combiner_irq[n],
++                    is->ext_gic_irq[irq_id - 32]);
+         }
+     }
  }
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 6e1ad4dc9a..6aefde4584 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -224,6 +224,7 @@ qtests_aarch64 = \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-   (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
-+  qtests_cxl +                                                                                  \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
 -- 
-2.32.0
+2.25.1
 
 
