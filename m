@@ -2,91 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856F64F1DF8
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 00:08:27 +0200 (CEST)
-Received: from localhost ([::1]:38326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7AC4F1FBE
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 01:03:24 +0200 (CEST)
+Received: from localhost ([::1]:47078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbUs5-0005mm-E7
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 18:08:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33598)
+	id 1nbVjG-0006tx-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 19:03:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1nbUp3-0004TM-1n
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 18:05:17 -0400
-Received: from [2604:1380:4601:e00::1] (port=42990 helo=ams.source.kernel.org)
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1nbVhq-0006Cy-8S
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 19:01:54 -0400
+Received: from mga06.intel.com ([134.134.136.31]:29420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1nbUoz-00005S-7u
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 18:05:16 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6320CB81A2F;
- Mon,  4 Apr 2022 22:05:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5663AC34111;
- Mon,  4 Apr 2022 22:05:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649109902;
- bh=crI8OWa/ILQsosVqMgWDeCCHWKp1heV2rpDD9+ltpjk=;
- h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
- b=VSS0WYvCh8U/wTA1tky+XNuhgT9ZBOQSihN2yC977jGLr7A4FIdpX8DHWg3Xwp+94
- 4mnoqR12GB1qEYr4lsd2B0DWz0J7J+6xxdg1XLixgxZZfw7318LkINdU3v8BPjvGJ7
- DArHMpmCjlvsLUTajVXcgDPMxNYV0xVSyCHhluHKuMFkYjr640tISjOj3dKwiy2rgX
- S1/PXqn3kPkcqjNn62evu/NVfVHISL+lgZEnNdXsayL5cm7khfiVfUS6F2h/kIoOA4
- VJ5scAYLwR0ySDPXZx0xV5V5spGuHRNORpc3PFFnnQT0h0zKa483p5VIQnW08XKVcK
- A5ySxn3g4LBxQ==
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailauth.nyi.internal (Postfix) with ESMTP id E91D827C005C;
- Mon,  4 Apr 2022 18:04:59 -0400 (EDT)
-Received: from imap48 ([10.202.2.98])
- by compute2.internal (MEProxy); Mon, 04 Apr 2022 18:04:59 -0400
-X-ME-Sender: <xms:imtLYtbmuXBb-CR_X_doiTrPKcKWg4NNZfEo0QSYuGGNzrWlFCh8ag>
- <xme:imtLYkapya1yCRkOmevv2zLb3QY9mqtqV1FsUEiD7QcwgBazL00LiEzuVdvBBAFMk
- SMuE79NU7zn4AMtg_I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejfedgtdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- hicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenucggtf
- frrghtthgvrhhnpedthfehtedtvdetvdetudfgueeuhfdtudegvdelveelfedvteelfffg
- fedvkeegfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedukeeh
- ieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinhhugi
- drlhhuthhordhush
-X-ME-Proxy: <xmx:imtLYv9O2uTJPGfIAprEk78SSKii49ihDteleFopSC9LOBdDLc7JNA>
- <xmx:imtLYroo5M1o1eUy4GHtpHG0qQT3ccZnrnE5qrgORNPjETQmuS01Zg>
- <xmx:imtLYoo3eLpLZOIqK255uDXkBNwKmkll3HfP2NPulU8SHrKPTL1f2Q>
- <xmx:i2tLYlLE5fv_MDSQnedDEY1S9wLK9aHDsm-OZcMYWBwQp1uIEZI2kg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id B623D21E0073; Mon,  4 Apr 2022 18:04:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-385-g3a17909f9e-fm-20220404.001-g3a17909f
-Mime-Version: 1.0
-Message-Id: <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
-In-Reply-To: <Ykslo2eo2eRXrpFR@google.com>
-References: <YkH32nx+YsJuUbmZ@google.com> <YkIFW25WgV2WIQHb@google.com>
- <YkM7eHCHEBe5NkNH@google.com> <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
- <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
- <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
- <YkcTTY4YjQs5BRhE@google.com>
- <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
- <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
-Date: Mon, 04 Apr 2022 15:04:17 -0700
-From: "Andy Lutomirski" <luto@kernel.org>
-To: "Sean Christopherson" <seanjc@google.com>,
- "Quentin Perret" <qperret@google.com>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Content-Type: text/plain
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4601:e00::1
- (failed)
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=luto@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1nbVhn-0008DA-Ig
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 19:01:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649113311; x=1680649311;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=zRANvZO2cCjZvz5SU3JNeX3vFtoPGz/X7t9nqkVgCz0=;
+ b=eVLyhySD1TsB36p6A9hSLcE4fMR3rq7uFRdvNSfWjKjks/zBdJW1hh2H
+ py3Gy56ZGbbIy9byJ0JFXKImnaWvTNmSnBO3EXUCfIvhB9jZWKZLjGrKy
+ sfuKIz5DkMnOTNmvD90uhYEccMGIUKJGOT9VpHTOVodsQpIbDYpyYgIwS
+ Xwz128iJtyqlwSzjnGhkQocKBYszhBafWUYJNe0r9EZT/5n8YdRLzqwYs
+ oueJe17Kkd09Js4u0M2boKbX4O7tNmmf4cMXIbUHfteRZP1IF99A6Pgm+
+ liUBBH5/76Y8/O5XWVOY4rE54R5sz5/FIk9wkZVsECULu6Aqgww3EYMnx Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="321319866"
+X-IronPort-AV: E=Sophos;i="5.90,235,1643702400"; d="scan'208";a="321319866"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2022 16:01:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,235,1643702400"; d="scan'208";a="608204193"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
+ by fmsmga008.fm.intel.com with ESMTP; 04 Apr 2022 16:01:44 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 4 Apr 2022 16:01:43 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 4 Apr 2022 16:01:43 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2308.027;
+ Mon, 4 Apr 2022 16:01:43 -0700
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Subject: RE: [PATCH v1] ui/gtk-egl: Check for a valid context before making
+ EGL calls
+Thread-Topic: [PATCH v1] ui/gtk-egl: Check for a valid context before making
+ EGL calls
+Thread-Index: AQHYMd0bfnG/Blf5/E2DD1/LaebBoay0ElGAgAAdayCAAzXlgIApJKrw
+Date: Mon, 4 Apr 2022 23:01:43 +0000
+Message-ID: <a356d95f0a30413fbf60c6f212ecfa6c@intel.com>
+References: <20220307042108.296428-1-vivek.kasireddy@intel.com>
+ <CAMxuvawcUYkjPt-iopJhJ8seO_3tJJGqkECqZfEPb3_7SSWpkg@mail.gmail.com>
+ <8a19aa5fbfca434a9b1ddd57566e00ad@intel.com>
+ <CAMxuvay_aj3roDHtbPBgwi=dxpA5u65bt-KL1Pk-qTpZKRirJg@mail.gmail.com>
+In-Reply-To: <CAMxuvay_aj3roDHtbPBgwi=dxpA5u65bt-KL1Pk-qTpZKRirJg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.401.20
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Received-SPF: pass client-ip=134.134.136.31;
+ envelope-from=vivek.kasireddy@intel.com; helo=mga06.intel.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,80 +97,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H. Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
- Will Deacon <will@kernel.org>, Andi Kleen <ak@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, the arch/x86 maintainers <x86@kernel.org>,
- Hugh Dickins <hughd@google.com>, Steven Price <steven.price@arm.com>,
- Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, "Nakajima, 
- Jun" <jun.nakajima@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
- Jim Mattson <jmattson@google.com>, Dave Hansen <dave.hansen@intel.com>,
- Linux API <linux-api@vger.kernel.org>, Jeff Layton <jlayton@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: "Kim, Dongwon" <dongwon.kim@intel.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On Mon, Apr 4, 2022, at 10:06 AM, Sean Christopherson wrote:
-> On Mon, Apr 04, 2022, Quentin Perret wrote:
->> On Friday 01 Apr 2022 at 12:56:50 (-0700), Andy Lutomirski wrote:
->> FWIW, there are a couple of reasons why I'd like to have in-place
->> conversions:
->> 
->>  - one goal of pKVM is to migrate some things away from the Arm
->>    Trustzone environment (e.g. DRM and the likes) and into protected VMs
->>    instead. This will give Linux a fighting chance to defend itself
->>    against these things -- they currently have access to _all_ memory.
->>    And transitioning pages between Linux and Trustzone (donations and
->>    shares) is fast and non-destructive, so we really do not want pKVM to
->>    regress by requiring the hypervisor to memcpy things;
->
-> Is there actually a _need_ for the conversion to be non-destructive?  
-> E.g. I assume
-> the "trusted" side of things will need to be reworked to run as a pKVM 
-> guest, at
-> which point reworking its logic to understand that conversions are 
-> destructive and
-> slow-ish doesn't seem too onerous.
->
->>  - it can be very useful for protected VMs to do shared=>private
->>    conversions. Think of a VM receiving some data from the host in a
->>    shared buffer, and then it wants to operate on that buffer without
->>    risking to leak confidential informations in a transient state. In
->>    that case the most logical thing to do is to convert the buffer back
->>    to private, do whatever needs to be done on that buffer (decrypting a
->>    frame, ...), and then share it back with the host to consume it;
->
-> If performance is a motivation, why would the guest want to do two 
-> conversions
-> instead of just doing internal memcpy() to/from a private page?  I 
-> would be quite
-> surprised if multiple exits and TLB shootdowns is actually faster, 
-> especially at
-> any kind of scale where zapping stage-2 PTEs will cause lock contention 
-> and IPIs.
-
-I don't know the numbers or all the details, but this is arm64, which is a rather better architecture than x86 in this regard.  So maybe it's not so bad, at least in very simple cases, ignoring all implementation details.  (But see below.)  Also the systems in question tend to have fewer CPUs than some of the massive x86 systems out there.
-
-If we actually wanted to support transitioning the same page between shared and private, though, we have a bit of an awkward situation.  Private to shared is conceptually easy -- do some bookkeeping, reconstitute the direct map entry, and it's done.  The other direction is a mess: all existing uses of the page need to be torn down.  If the page has been recently used for DMA, this includes IOMMU entries.
-
-Quentin: let's ignore any API issues for now.  Do you have a concept of how a nondestructive shared -> private transition could work well, even in principle?  The best I can come up with is a special type of shared page that is not GUP-able and maybe not even mmappable, having a clear option for transitions to fail, and generally preventing the nasty cases from happening in the first place.
-
-Maybe there could be a special mode for the private memory fds in which specific pages are marked as "managed by this fd but actually shared".  pread() and pwrite() would work on those pages, but not mmap().  (Or maybe mmap() but the resulting mappings would not permit GUP.)  And transitioning them would be a special operation on the fd that is specific to pKVM and wouldn't work on TDX or SEV.
-
-Hmm.  Sean and Chao, are we making a bit of a mistake by making these fds technology-agnostic?  That is, would we want to distinguish between a TDX backing fd, a SEV backing fd, a software-based backing fd, etc?  API-wise this could work by requiring the fd to be bound to a KVM VM instance and possibly even configured a bit before any other operations would be allowed.
-
-(Destructive transitions nicely avoid all the nasty cases.  If something is still pinning a shared page when it's "transitioned" to private (really just replaced with a new page), then the old page continues existing for as long as needed as a separate object.)
+SGkgTWFyYy1BbmRyZSwNCg0KPiANCj4gSGkNCj4gDQo+IE9uIE1vbiwgTWFyIDcsIDIwMjIgYXQg
+MTA6MDAgUE0gS2FzaXJlZGR5LCBWaXZlaw0KPiA8dml2ZWsua2FzaXJlZGR5QGludGVsLmNvbT4g
+d3JvdGU6DQo+ID4NCj4gPiBIaSBNYXJjLUFuZHJlLA0KPiA+DQo+ID4gPg0KPiA+ID4gSGkgVml2
+ZWsNCj4gPiA+DQo+ID4gPiBPbiBNb24sIE1hciA3LCAyMDIyIGF0IDg6MzkgQU0gVml2ZWsgS2Fz
+aXJlZGR5DQo+ID4gPiA8dml2ZWsua2FzaXJlZGR5QGludGVsLmNvbT4gd3JvdGU6DQo+ID4gPiA+
+DQo+ID4gPiA+IFNpbmNlIG5vdCBhbGwgbGlzdGVuZXJzIChpLmUgVmlydHVhbENvbnNvbGVzKSBv
+ZiBHTCBldmVudHMgaGF2ZQ0KPiA+ID4gPiBhIHZhbGlkIEVHTCBjb250ZXh0LCBtYWtlIHN1cmUg
+dGhhdCB0aGVyZSBpcyBhIHZhbGlkIGNvbnRleHQNCj4gPiA+ID4gYmVmb3JlIG1ha2luZyBFR0wg
+Y2FsbHMuDQo+ID4gPiA+DQo+ID4gPiA+IFRoaXMgZml4ZXMgdGhlIGZvbGxvd2luZyBjcmFzaCBz
+ZWVuIHdoaWxlIGxhdW5jaGluZyB0aGUgVk0gd2l0aA0KPiA+ID4gPiAiLWRldmljZSB2aXJ0aW8t
+Z3B1LXBjaSxtYXhfb3V0cHV0cz0xLGJsb2I9dHJ1ZSAtZGlzcGxheSBndGssZ2w9b24iDQo+ID4g
+PiA+DQo+ID4gPiA+IE5vIHByb3ZpZGVyIG9mIGVnbENyZWF0ZUltYWdlS0hSIGZvdW5kLiAgUmVx
+dWlyZXMgb25lIG9mOg0KPiA+ID4gPiBFR0xfS0hSX2ltYWdlDQo+ID4gPiA+IEVHTF9LSFJfaW1h
+Z2VfYmFzZQ0KPiA+ID4gPg0KPiA+ID4gPiBGaXhlczogN2NjNzEyZTk4NjJmZiAoInVpOiBkaXNw
+YXRjaCBHTCBldmVudHMgdG8gYWxsIGxpc3RlbmVycyIpDQo+ID4gPg0KPiA+ID4gSSBhbSBub3Qg
+YWJsZSB0byByZXByb2R1Y2Ugb24gY3VycmVudCBtYXN0ZXIuDQo+ID4gW0thc2lyZWRkeSwgVml2
+ZWtdIEkgY2FuIHN0aWxsIHNlZSBpdCB3aXRoIGN1cnJlbnQgbWFzdGVyLiBJIHRoaW5rIHRoaXMg
+aXNzdWUNCj4gPiBpcyBvbmx5IHNlZW4gd2hlbiBydW5uaW5nIFFlbXUgaW4gYW4gWG9yZyBiYXNl
+ZCBIb3N0IGVudmlyb25tZW50IGFuZA0KPiA+IGNhbm5vdCBiZSByZXByb2R1Y2VkIGluIGEgV2F5
+bGFuZCBiYXNlZCBlbnZpcm9ubWVudCAtLSBhcyBRZW11IFVJDQo+ID4gdXNlcyB0aGUgR0xBcmVh
+IHdpZGdldCBpbiB0aGUgV2F5bGFuZCBjYXNlIHdoZXJlIHRoZSBFR0wgY29udGV4dA0KPiA+IGlz
+IG1hbmFnZWQgYnkgR1RLLg0KPiA+DQo+ID4gPg0KPiA+ID4gSXNuJ3QgaXQgZml4ZWQgd2l0aCBj
+b21taXQgYTlmYmNlNWU5ICgidWkvY29uc29sZTogZml4IGNyYXNoIHdoZW4NCj4gPiA+IHVzaW5n
+IGdsIGNvbnRleHQgd2l0aCBub24tZ2wgbGlzdGVuZXJzIikgPw0KPiA+IFtLYXNpcmVkZHksIFZp
+dmVrXSBObywgaXQgdW5mb3J0dW5hdGVseSBkb2VzIG5vdCBmaXggdGhlIGlzc3VlIEkgYW0gc2Vl
+aW5nLiBJbg0KPiA+IG15IGNhc2UsIHRoZXJlIGFyZSB0aHJlZSBWaXJ0dWFsQ29uc29sZXMgY3Jl
+YXRlZCAoInBhcmFsbGVsMCIsICJjb21wYXRtb25pdG9yMCIsDQo+ID4gInZpcnRpby1ncHUtcGNp
+IikgYW5kIGFsbCB0aHJlZSBvZiB0aGVtIHNlZW0gdG8gaGF2ZSBhIHZhbGlkIGRweV9nbF9zY2Fu
+b3V0X2RtYWJ1ZigpDQo+ID4gYnV0IG9ubHkgdmlydGlvLWdwdS1wY2kgaGFzIGEgdmFsaWQgRUdM
+IGNvbnRleHQuDQo+ID4NCj4gPiA+DQo+ID4gPiBDb3VsZCB5b3UgYWxzbyBjaGVjayBhZnRlciAi
+W1BBVENIIHYzIDAwLzEyXSBHTCAmIEQtQnVzIGRpc3BsYXkgcmVsYXRlZCBmaXhlcyIgPw0KPiA+
+IFtLYXNpcmVkZHksIFZpdmVrXSBJIGNhbiBjaGVjayBidXQgSSBkb24ndCB0aGluayB0aGlzIGlz
+c3VlIGNhbiBiZSBmaXhlZCBpbiB1aS9jb25zb2xlLmMNCj4gPiBhcyBhbGwgdGhyZWUgVmlydHVh
+bENvbnNvbGVzIHBhc3MgdGhlIGNvbnNvbGVfaGFzX2dsKCkgY2hlY2sgYW5kIG9uZSBvZiB0aGUg
+b25seSB0aGluZ3MNCj4gPiB0aGF0IGRpc3Rpbmd1aXNoZXMgdGhlbSBpcyB3aGV0aGVyIHRoZXkg
+aGF2ZSBhIHZhbGlkIEVHTCBjb250ZXh0Lg0KPiA+DQo+IA0KPiBVbmRlciBYMTEsIEkgZ2V0IHRo
+ZSBzYW1lIGVycm9yIG9uIHY2LjIuMCBhbmQgbWFzdGVyOg0KPiBxZW11LXN5c3RlbS14ODZfNjQg
+IC1tIDRHIC1vYmplY3QNCj4gbWVtb3J5LWJhY2tlbmQtbWVtZmQsaWQ9bWVtLHNpemU9NEcsc2hh
+cmU9b24gLW1hY2hpbmUNCj4gcTM1LGFjY2VsPWt2bSxtZW1vcnktYmFja2VuZD1tZW0gLWRldmlj
+ZQ0KPiB2aXJ0aW8tZ3B1LXBjaSxtYXhfb3V0cHV0cz0xLGJsb2I9dHJ1ZSAtZGlzcGxheSBndGss
+Z2w9b24gLWNkcm9tDQo+IHJhd2hpZGUuaXNvDQo+IE5vIHByb3ZpZGVyIG9mIGVnbENyZWF0ZUlt
+YWdlS0hSIGZvdW5kLiAgUmVxdWlyZXMgb25lIG9mOg0KPiAgICAgRUdMX0tIUl9pbWFnZQ0KPiAg
+ICAgRUdMX0tIUl9pbWFnZV9iYXNlDQo+IA0KPiBOb3RlIHRoYXQgd2l0aCB2aXJ0aW8tZ3B1LWds
+LXBjaSBJIGdldDoNCj4gcWVtdS1zeXN0ZW0teDg2XzY0OiAuLi9zcmMvZGlzcGF0Y2hfY29tbW9u
+LmM6ODY4Og0KPiBlcG94eV9nZXRfcHJvY19hZGRyZXNzOiBBc3NlcnRpb24gYDAgJiYgIkNvdWxk
+bid0IGZpbmQgY3VycmVudCBHTFggb3INCj4gRUdMIGNvbnRleHQuXG4iJyBmYWlsZWQuDQpbS2Fz
+aXJlZGR5LCBWaXZla10gSXQgbG9va3MgbGlrZSB0aGlzIHBhcnRpY3VsYXIgZXJyb3IgYW5kIHRo
+ZSBvbmUgSSBzYXcgYXJlDQpib3RoIHJlc29sdmVkIGJ5IHRoaXMgY29tbWl0Og0KQXV0aG9yOiBB
+a2loaWtvIE9kYWtpIDxha2loaWtvLm9kYWtpQGdtYWlsLmNvbT4NCkRhdGU6ICAgU2F0IE1hciAy
+NiAwMToxMjoxNiAyMDIyICswOTAwDQoNCiAgICB1aS9jb25zb2xlOiBDaGVjayBjb25zb2xlIGJl
+Zm9yZSBlbWl0dGluZyBHTCBldmVudA0KDQpPbiBhIGNvbXBsZXRlbHkgZGlmZmVyZW50IG5vdGUs
+IEkgYW0gd29uZGVyaW5nIGlmIHlvdSBoYXZlIGFueSBwbGFuIHRvDQpldmVudHVhbGx5IGludGVn
+cmF0ZSB0aGUgUnVzdCBiYXNlZCBHdGs0IGNsaWVudCBpbnRvIFFlbXUgc291cmNlIHJlcG8/DQpP
+ciwgaXMgaXQgZ29pbmcgdG8gc3RheSBvdXQtb2YtdHJlZSBldmVuIGFmdGVyIGl0IGlzIG5vIGxv
+bmdlciBXSVA/DQoNClRoYW5rcywNClZpdmVrDQoNCg0K
 
