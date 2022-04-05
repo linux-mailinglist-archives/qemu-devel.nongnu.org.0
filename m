@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54094F3C82
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 18:10:51 +0200 (CEST)
-Received: from localhost ([::1]:33600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3F04F3C89
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 18:16:08 +0200 (CEST)
+Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbllY-0008T8-I0
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 12:10:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
+	id 1nblqh-0005IQ-4w
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 12:16:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nbljj-00075s-0R
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 12:08:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38838)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nblnS-0003Nv-CO
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 12:12:46 -0400
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:42611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nbljg-00077e-47
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 12:08:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649174930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7r5TPGIwJiyN4Wa9L1EkyDfkVvhMk7CY56CG7O6262g=;
- b=YCk/7LHWA2UssMRCtV6n/XHqEjYtGA3fQzQvoKsVbejFctl6Dj8SvR/5juoLFAjrgJtdpI
- FhK7tR9G2mRGelzmkB944KieeMbm6rZvwL20OWSdYtjZQdpvQgCkW9YSFSdbufMSQS9O7N
- yoY6vJQK/uKf+gBgEcvHehS96Wb6Bso=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-_pPKwB2FOyWHkJAprmxA_g-1; Tue, 05 Apr 2022 12:08:49 -0400
-X-MC-Unique: _pPKwB2FOyWHkJAprmxA_g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 19DBB19705A9;
- Tue,  5 Apr 2022 16:08:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EDE4120296B6;
- Tue,  5 Apr 2022 16:08:44 +0000 (UTC)
-Date: Tue, 5 Apr 2022 11:08:42 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v3 3/3] qcow2: Add errp to rebuild_refcount_structure()
-Message-ID: <20220405160842.cyeg2qn7qyyxquyx@redhat.com>
-References: <20220405134652.19278-1-hreitz@redhat.com>
- <20220405134652.19278-4-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nblnQ-0007xh-CF
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 12:12:45 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C18CC2047F;
+ Tue,  5 Apr 2022 16:12:33 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 5 Apr
+ 2022 18:12:32 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0040752f4eb-f49b-4332-a9a9-0f4411790b01,
+ B6D6B3DA04F085AAB79815B670852A2EB9FB851F) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <66783c6a-4942-23c5-1052-0dcab389e177@kaod.org>
+Date: Tue, 5 Apr 2022 18:12:32 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220405134652.19278-4-hreitz@redhat.com>
-User-Agent: NeoMutt/20211029-539-2bb233
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 0/9] Add support for AST1030 SoC
+Content-Language: en-US
+To: Jamin Lin <jamin_lin@aspeedtech.com>, Alistair Francis
+ <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>, Andrew
+ Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Cleber Rosa
+ <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
+ Leal <bleal@redhat.com>, "open list:STM32F205" <qemu-arm@nongnu.org>, "open
+ list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20220401083850.15266-1-jamin_lin@aspeedtech.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220401083850.15266-1-jamin_lin@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 387ff193-e5a4-4999-8552-b55c5675f08d
+X-Ovh-Tracer-Id: 7669911642123701179
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudejgedgleegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeefiedukefhueejteffvedthffhkeehhefhtdejkeefheeifeejvdfgfffgieefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhm
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,65 +76,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: troy_lee@aspeedtech.com, steven_lee@aspeedtech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 05, 2022 at 03:46:52PM +0200, Hanna Reitz wrote:
-> Instead of fprint()-ing error messages in rebuild_refcount_structure()
-> and its rebuild_refcounts_write_refblocks() helper, pass them through an
-> Error object to qcow2_check_refcounts() (which will then print it).
+Hello Jamin,
+
+On 4/1/22 10:38, Jamin Lin wrote:
+> Changes from v5:
+> - remove TYPE_ASPEED_MINIBMC_MACHINE and ASPEED_MINIBMC_MACHINE
+> - remove ast1030_machine_instance_init function
 > 
-> Suggested-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  block/qcow2-refcount.c | 33 +++++++++++++++++++--------------
->  1 file changed, 19 insertions(+), 14 deletions(-)
+> Changes from v4:
+> - drop the ASPEED_SMC_FEATURE_WDT_CONTROL flag in hw/ssi/aspeed_smc.c
 > 
-> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-> index c5669eaa51..ed0ecfaa89 100644
-> --- a/block/qcow2-refcount.c
-> +++ b/block/qcow2-refcount.c
-> @@ -2465,7 +2465,8 @@ static int64_t alloc_clusters_imrt(BlockDriverState *bs,
->  static int rebuild_refcounts_write_refblocks(
->          BlockDriverState *bs, void **refcount_table, int64_t *nb_clusters,
->          int64_t first_cluster, int64_t end_cluster,
-> -        uint64_t **on_disk_reftable_ptr, uint32_t *on_disk_reftable_entries_ptr
-> +        uint64_t **on_disk_reftable_ptr, uint32_t *on_disk_reftable_entries_ptr,
-> +        Error **errp
->      )
->  {
->      BDRVQcow2State *s = bs->opaque;
-> @@ -2516,8 +2517,8 @@ static int rebuild_refcounts_write_refblocks(
->                                                    nb_clusters,
->                                                    &first_free_cluster);
->              if (refblock_offset < 0) {
-> -                fprintf(stderr, "ERROR allocating refblock: %s\n",
-> -                        strerror(-refblock_offset));
-> +                error_setg_errno(errp, -refblock_offset,
-> +                                 "ERROR allocating refblock");
+> Changes from v3:
+> - remove AspeedMiniBmcMachineState state structure and
+>    AspeedMiniBmcMachineClass class
+> - remove redundant new line in hw/arm/aspeed_ast10xx.c
 
-Most uses of error_setg* don't ALL_CAPS the first word.  But this is
-pre-existing, so I'm not insisting you change it here.
+Do we want to be in sync with the zephyr naming and use ast10x0.c ?
 
->                  return refblock_offset;
->              }
->  
-> @@ -2539,6 +2540,7 @@ static int rebuild_refcounts_write_refblocks(
->                                    on_disk_reftable_entries *
->                                    REFTABLE_ENTRY_SIZE);
->                  if (!on_disk_reftable) {
-> +                    error_setg(errp, "ERROR allocating reftable memory");
->                      return -ENOMEM;
+    https://github.com/zephyrproject-rtos/zephyr/tree/main/soc/arm/aspeed
 
-Ah, so this is also a corner case bug fix, where we didn't have a
-message on all error paths.
+This is just a question. Don't resend for this.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Thanks,
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+C.
 
