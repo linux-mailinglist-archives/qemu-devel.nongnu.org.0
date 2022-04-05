@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6ACC4F3302
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 15:07:22 +0200 (CEST)
-Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62904F3303
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 15:07:32 +0200 (CEST)
+Received: from localhost ([::1]:56462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbiu1-0001qI-II
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 09:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43012)
+	id 1nbiuB-00021B-Vi
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 09:07:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nbird-0000O1-CX
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:04:53 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:39751)
+ id 1nbirh-0000R0-EX
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:04:57 -0400
+Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e]:46460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nbirb-0003x3-OY
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:04:53 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id j83so13308421oih.6
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 06:04:51 -0700 (PDT)
+ id 1nbirf-0003xY-Gd
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:04:57 -0400
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-d39f741ba0so14245504fac.13
+ for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 06:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8dSMUBER5iWCxjQxg4cimJAVjlpSESDyGBA3rSjXR0s=;
- b=clrvte+kINfiiAdCbzPPYpJznmoI6AMsGCXGX7g10Tu7jIB91bYzwOX1K7635CovSP
- 0093fNL3utgrOhgyrjqwbmn25vXeiFAw+mZmY+6KNz5s6uBJe2dJwTg7yH1tRD5fP+kG
- cMa60OAQDRKTXeE/OlFYVesL5xby8iX88Dyctv/a/CdQJ7RFEcPT9xm1bD2krQvpWzbr
- rSy34CA88ykN28w59w+1TvWxYbQacDYTvBdVaZ3sOcFanPdCHfqeBdaS3UHpqQOb9RYM
- +AcH4BGPdjhDNe6S8AQpFv8K1dWK2NvdYfiquGgZeeFJR+AJ1kLmfq19riRZErvtvJuc
- 4raA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=akBslgGtD7yVObalqIwNNaUBrshy9tWJ6X+w0+2xKLE=;
+ b=Z7XnhHLs2FV572tRsmv7dWZtlFFPkr0yqHr7R11ZM4HUOXLaqXZ3/vRaMUaFGcFPI1
+ jN/RGJXFmdxJUsihnfxP09UCHDWWWklfg+aiMX4MGoHEy705KtsdcVT2z/RbvuzwFiO3
+ anPwXiJ4sOZ43fE+ZOZ37KAvU7xyqcmSoC2CSC7tYkp1qwcyMLd2ulN7qmgbwN4JFr17
+ fUWixE0KBh5ToTCaXqNJexCe/sLhmFDTqBKlyza3zt2BbSlwW0rzSZNc/KL7c8BAK4tu
+ qRU5cfOc7G10SmkZ2GTBCQ7Ih2biCTdb3kp7aZqdsUyGFwA46ienJ6w2R0d2SQs+Bmir
+ eGDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8dSMUBER5iWCxjQxg4cimJAVjlpSESDyGBA3rSjXR0s=;
- b=XUxCrXQXjLaox+uVSgEyZ1L0NeD9BX0IBS+gyypjGqKXTki24xf0/Re+VIA+Zgfsnk
- HUY/3SX+LftRtom5/ljGPRROr8MiplYwAYccyDF8uz86CsNpfQ5JVWeCQ3MyoLA8hegw
- n3cxoaFiWwjnwFNuO+4zK2Zzz5IHb7+DLqZfbkXubW77AKoiNF8bRRWNMRs9/NeHS6RT
- qImGSVuirrDlDHG0Kjr9OypMA9GNV5byt+dreEVSaMS9/fJKKcr1mFgQI/CdCDHeTMRc
- yilvWq4768CjX+lalPsM2hMFar2VJpd7sSMbd4//YowzOIpL+Q0BX7QO5nEPo/VrY2Df
- JK8g==
-X-Gm-Message-State: AOAM532PaEfdcMIr7BDvMQBMrUKLuvznJXxDjkjIzn0iHqwz0fc9KzBP
- iEYJc3gPEJZIjkNBGwAX1ihebhSivD8=
-X-Google-Smtp-Source: ABdhPJwb3h1nQapD8fpoYsBm/Spl0nmXQKr7+bB4oI44h9vAyYMwE/XXQXWuunG2gbrOqrP40z3lug==
-X-Received: by 2002:aca:705:0:b0:2d9:6bb6:5b0 with SMTP id
- 5-20020aca0705000000b002d96bb605b0mr1440980oih.11.1649163890119; 
- Tue, 05 Apr 2022 06:04:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=akBslgGtD7yVObalqIwNNaUBrshy9tWJ6X+w0+2xKLE=;
+ b=iV4CCxXpa7CRuASMsmdIbxP3t3tMbxuHgr8u34fR1ikO6YrW6Vqobq41idLUO+i6+w
+ CB12wkQ2lroDnCh7OoFnmoCcFWcTWrvuywaTxzfafJB4V9LYhvgZxWTGxokb4Rd0ERpR
+ UnLi1ns0ebYx/N73HxrzQlqCi1OFpxjEtufteV5rfMyD0BSr1lBMJzdtun9w+gL8BlRw
+ AANhFQ9X0CulZsEM6INDDLrouurRpPxE6EfEBSzDqzj8FsGxI2baAPlIANQLBpDJjFlQ
+ FbRyTyWMavA5D2NjKPzrBP1HcBKGb6PuVPxOVPGldXiRTx4dUBzfAejWZPCE3U5Cg13U
+ Mc+g==
+X-Gm-Message-State: AOAM530bhvSFDxRDQfYsqYk6t6oEMjOGphJ8SaOSC02EdQ9k/IbpwOc1
+ jrscRNI41ukCOrWF+gqQl3MYPzvRNQg=
+X-Google-Smtp-Source: ABdhPJxnpaOawuqQq+jA3fyZut6iHTQbR3Ejcx8PM8TnaWul2aktwDs+X1yyVXAhy9c2Z1N+ePujCw==
+X-Received: by 2002:a05:6870:c20f:b0:e2:434:c3e1 with SMTP id
+ z15-20020a056870c20f00b000e20434c3e1mr1509442oae.266.1649163894113; 
+ Tue, 05 Apr 2022 06:04:54 -0700 (PDT)
 Received: from rekt.ibmmodules.com ([2804:431:c7c6:abe8:ed:2c78:ab0c:7946])
  by smtp.gmail.com with ESMTPSA id
- 60-20020a9d0642000000b005b22a82458csm5658134otn.55.2022.04.05.06.04.48
+ 60-20020a9d0642000000b005b22a82458csm5658134otn.55.2022.04.05.06.04.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 06:04:49 -0700 (PDT)
+ Tue, 05 Apr 2022 06:04:53 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/1] add Valgrind hint in kvm_get_one_reg()
-Date: Tue,  5 Apr 2022 10:04:38 -0300
-Message-Id: <20220405130439.44253-1-danielhb413@gmail.com>
+Subject: [RFC PATCH 1/1] kvm-all.c: hint Valgrind that kvm_get_one_reg() inits
+ memory
+Date: Tue,  5 Apr 2022 10:04:39 -0300
+Message-Id: <20220405130439.44253-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220405130439.44253-1-danielhb413@gmail.com>
+References: <20220405130439.44253-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,54 +87,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+There is a lot of Valgrind warnings about conditional jump depending on
+unintialized values like this one (taken from a pSeries guest):
 
-Valgrind is not happy with how we're using KVM functions that receives a
-parameter via reference and write them. This results in a lot of
-complaints about uninitialized values when using these functions
-because, as default, Valgrind doesn't know that the variable is being
-initialized in the function.
-
-This is the overall pattern that Valgrind does not like:
-
----
-uint64_t val;
+ Conditional jump or move depends on uninitialised value(s)
+    at 0xB011DC: kvmppc_enable_cap_large_decr (kvm.c:2544)
+    by 0x92F28F: cap_large_decr_cpu_apply (spapr_caps.c:523)
+    by 0x930C37: spapr_caps_cpu_apply (spapr_caps.c:921)
+    by 0x955D3B: spapr_reset_vcpu (spapr_cpu_core.c:73)
 (...)
-kvm_get_one_reg(...., &val);
+  Uninitialised value was created by a stack allocation
+    at 0xB01150: kvmppc_enable_cap_large_decr (kvm.c:2538)
 
-if (val) {...}
+In this case, the alleged unintialized value is the 'lpcr' variable that
+is written by kvm_get_one_reg() and then used in an if clause:
+
+int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
+{
+    CPUState *cs = CPU(cpu);
+    uint64_t lpcr;
+
+    kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
+    /* Do we need to modify the LPCR? */
+    if (!!(lpcr & LPCR_LD) != !!enable) { <---- Valgrind warns here
+(...)
+
+A quick fix is to init the variable that kvm_get_one_reg() is going to
+write ('lpcr' in the example above). Another idea is to convince
+Valgrind that kvm_get_one_reg() inits the 'void *target' memory in case
+the ioctl() is successful. This will put some boilerplate in the
+function but it will bring benefit for its other callers.
+
+This patch uses the memcheck VALGRING_MAKE_MEM_DEFINED() to mark the
+'target' variable as initialized if the ioctl is successful.
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
-
-Valgrind complains that the 'if' clause is using an uninitialized
-variable.
-
-A quick fix is to init 'val' and be done with it. The drawback is that
-every single caller of kvm_get_one_reg() must also be bothered with
-initializing these variables to avoid the warnings.
-
-David suggested in [1] that, instead, we should add a Valgrind hint in
-the common KVM functions to fix this issue for everyone. This is what
-this patch accomplishes. kvm_get_one_reg() has 20+ callers so I believe
-this extra boilerplate is worth the benefits.
-
-There are more common instances of KVM functions that Valgrind complains
-about. If we're good with the approach taken here we can think about
-adding this hint for more functions.
-
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg07351.html
-
-Daniel Henrique Barboza (1):
-  kvm-all.c: hint Valgrind that kvm_get_one_reg() inits memory
-
  accel/kvm/kvm-all.c | 17 +++++++++++++++++
  1 file changed, 17 insertions(+)
 
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 5f1377ca04..d9acba23c7 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -53,6 +53,10 @@
+ #include <sys/eventfd.h>
+ #endif
+ 
++#ifdef CONFIG_VALGRIND_H
++#include <valgrind/memcheck.h>
++#endif
++
+ /* KVM uses PAGE_SIZE in its definition of KVM_COALESCED_MMIO_MAX. We
+  * need to use the real host PAGE_SIZE, as that's what KVM will use.
+  */
+@@ -3504,6 +3508,19 @@ int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target)
+     if (r) {
+         trace_kvm_failed_reg_get(id, strerror(-r));
+     }
++
++#ifdef CONFIG_VALGRIND_H
++    if (r == 0) {
++        switch (id & KVM_REG_SIZE_MASK) {
++        case KVM_REG_SIZE_U32:
++            VALGRIND_MAKE_MEM_DEFINED(target, sizeof(uint32_t));
++            break;
++        case KVM_REG_SIZE_U64:
++            VALGRIND_MAKE_MEM_DEFINED(target, sizeof(uint64_t));
++            break;
++        }
++    }
++#endif
+     return r;
+ }
+ 
 -- 
 2.35.1
 
