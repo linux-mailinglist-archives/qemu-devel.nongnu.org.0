@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7AC4F1FBE
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 01:03:24 +0200 (CEST)
-Received: from localhost ([::1]:47078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A014F2086
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 02:54:02 +0200 (CEST)
+Received: from localhost ([::1]:59980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbVjG-0006tx-Qn
-	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 19:03:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41118)
+	id 1nbXSK-0005rF-36
+	for lists+qemu-devel@lfdr.de; Mon, 04 Apr 2022 20:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1nbVhq-0006Cy-8S
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 19:01:54 -0400
-Received: from mga06.intel.com ([134.134.136.31]:29420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1nbVhn-0008DA-Ig
- for qemu-devel@nongnu.org; Mon, 04 Apr 2022 19:01:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649113311; x=1680649311;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=zRANvZO2cCjZvz5SU3JNeX3vFtoPGz/X7t9nqkVgCz0=;
- b=eVLyhySD1TsB36p6A9hSLcE4fMR3rq7uFRdvNSfWjKjks/zBdJW1hh2H
- py3Gy56ZGbbIy9byJ0JFXKImnaWvTNmSnBO3EXUCfIvhB9jZWKZLjGrKy
- sfuKIz5DkMnOTNmvD90uhYEccMGIUKJGOT9VpHTOVodsQpIbDYpyYgIwS
- Xwz128iJtyqlwSzjnGhkQocKBYszhBafWUYJNe0r9EZT/5n8YdRLzqwYs
- oueJe17Kkd09Js4u0M2boKbX4O7tNmmf4cMXIbUHfteRZP1IF99A6Pgm+
- liUBBH5/76Y8/O5XWVOY4rE54R5sz5/FIk9wkZVsECULu6Aqgww3EYMnx Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="321319866"
-X-IronPort-AV: E=Sophos;i="5.90,235,1643702400"; d="scan'208";a="321319866"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2022 16:01:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,235,1643702400"; d="scan'208";a="608204193"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by fmsmga008.fm.intel.com with ESMTP; 04 Apr 2022 16:01:44 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 4 Apr 2022 16:01:43 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 4 Apr 2022 16:01:43 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2308.027;
- Mon, 4 Apr 2022 16:01:43 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Subject: RE: [PATCH v1] ui/gtk-egl: Check for a valid context before making
- EGL calls
-Thread-Topic: [PATCH v1] ui/gtk-egl: Check for a valid context before making
- EGL calls
-Thread-Index: AQHYMd0bfnG/Blf5/E2DD1/LaebBoay0ElGAgAAdayCAAzXlgIApJKrw
-Date: Mon, 4 Apr 2022 23:01:43 +0000
-Message-ID: <a356d95f0a30413fbf60c6f212ecfa6c@intel.com>
-References: <20220307042108.296428-1-vivek.kasireddy@intel.com>
- <CAMxuvawcUYkjPt-iopJhJ8seO_3tJJGqkECqZfEPb3_7SSWpkg@mail.gmail.com>
- <8a19aa5fbfca434a9b1ddd57566e00ad@intel.com>
- <CAMxuvay_aj3roDHtbPBgwi=dxpA5u65bt-KL1Pk-qTpZKRirJg@mail.gmail.com>
-In-Reply-To: <CAMxuvay_aj3roDHtbPBgwi=dxpA5u65bt-KL1Pk-qTpZKRirJg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.401.20
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <t0rr3sp3dr0@gmail.com>)
+ id 1nbXR9-00058D-Q1
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 20:52:47 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:37488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <t0rr3sp3dr0@gmail.com>)
+ id 1nbXR7-0007LL-LA
+ for qemu-devel@nongnu.org; Mon, 04 Apr 2022 20:52:47 -0400
+Received: by mail-oi1-x231.google.com with SMTP id q129so11873062oif.4
+ for <qemu-devel@nongnu.org>; Mon, 04 Apr 2022 17:52:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MEqQPZf1iup3XqHQ662/aZcx5dNe1HrQQ3zuE3Ga/Zw=;
+ b=IuRiH9ZEMMGiXDgBtndab3KemyHcr/U2hzUse7Dr2e0V+AkktaL2pPfX9AN1pu5BX9
+ AvpTbjhIXD4/qmQ/w3RcjjTcZ25/Qs2u8IZGr7qCeyNwp6jt/qNy26TcXMuYh/O/cVMa
+ jbJoIznlHKYmBEd4bIbdZpRd0xWYdREV0Q4IBK58Y1hhlbpj2AYfk4YKjv6y0Ix1R7yS
+ jWQjxrm4tswmxvNyWZTOdvXoY9pyP9H2avWA9m+wF/uFwgDC8B7D4Fhgp71DliwPxe9q
+ Q6Jq/wgnqO5zYy7FEq//iIhEcmiFyjaRLC1PcGsM8n42twjek+pEkdalEe4UMcAVP++6
+ R9cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=MEqQPZf1iup3XqHQ662/aZcx5dNe1HrQQ3zuE3Ga/Zw=;
+ b=8HgWUq15k/vymZQ3axa02NqcOvglpKLl+OMgqNHywdlk6cEzPe0Ut1R0+4GerNwMmR
+ N3G1m3WJHTLT5Pq59mbU/do2Pltna4nOtWYk4zy+tIox9MYDXz8L6eHykFss+RNu6oSP
+ dN3KvJ/vcJiqQ5lKRE5Sw2gi1R4EAZBwZdnKk7IOV3PZq2wU/h9ZYCbCWoskIgXx33LB
+ EfGXGMTJgipsvhld1FBtYEM/U1n0ECne0yFtcUrVuvk9X8D8engnw3q3/LqXoFY1fsi2
+ Wrp52S5r57LaE8yLC/kRL1yW3KD/E/qtmZ3cpRa1BoqbswasIC/0+n4dkXJYZBfEVv0S
+ hsUw==
+X-Gm-Message-State: AOAM531/Mn8wMvj2PTLpGDn/7h8zg+VnMe24SCejOiHbhsSXjNUsDWlE
+ qwtgkgBpTWASkSfHrH55bE36NGwxh6ray0U9
+X-Google-Smtp-Source: ABdhPJxFxze8nDQfEawd7oy2nr0XpqWTqChf7e1+xFjO6NYhnUs0e8rCJJU0y8OkC/yMYXdIxVSxZg==
+X-Received: by 2002:aca:5941:0:b0:2f7:5c90:ad61 with SMTP id
+ n62-20020aca5941000000b002f75c90ad61mr446818oib.190.1649119963630; 
+ Mon, 04 Apr 2022 17:52:43 -0700 (PDT)
+Received: from localhost.localdomain ([179.34.62.223])
+ by smtp.gmail.com with ESMTPSA id
+ l12-20020a056870d3cc00b000ddeb925982sm4816399oag.38.2022.04.04.17.52.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Apr 2022 17:52:43 -0700 (PDT)
+From: =?UTF-8?q?Pedro=20T=C3=B4rres?= <t0rr3sp3dr0@gmail.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v3] hw/misc: applesmc: use host osk as default on macs
+Date: Mon,  4 Apr 2022 21:46:22 -0300
+Message-Id: <20220405004621.94982-1-t0rr3sp3dr0@gmail.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.31;
- envelope-from=vivek.kasireddy@intel.com; helo=mga06.intel.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=t0rr3sp3dr0@gmail.com; helo=mail-oi1-x231.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,64 +84,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Kim, Dongwon" <dongwon.kim@intel.com>, qemu-devel <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Phil Dennis-Jordan <phil@philjordan.eu>,
+ =?UTF-8?q?Pedro=20To=CC=82rres?= <t0rr3sp3dr0@gmail.com>,
+ =?UTF-8?q?Ren=C3=A9_Rebe?= <rene@exactcode.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Marcel Apfelbaum <marcel.a@redhat.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Alexander Graf <agraf@suse.de>,
+ Chetan Pant <chetan4windows@gmail.com>, "Gabriel L. Somlo" <gsomlo@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Alistair Francis <alistair.francis@xilinx.com>, Susanne Graf <suse@csgraf.de>,
+ =?UTF-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgTWFyYy1BbmRyZSwNCg0KPiANCj4gSGkNCj4gDQo+IE9uIE1vbiwgTWFyIDcsIDIwMjIgYXQg
-MTA6MDAgUE0gS2FzaXJlZGR5LCBWaXZlaw0KPiA8dml2ZWsua2FzaXJlZGR5QGludGVsLmNvbT4g
-d3JvdGU6DQo+ID4NCj4gPiBIaSBNYXJjLUFuZHJlLA0KPiA+DQo+ID4gPg0KPiA+ID4gSGkgVml2
-ZWsNCj4gPiA+DQo+ID4gPiBPbiBNb24sIE1hciA3LCAyMDIyIGF0IDg6MzkgQU0gVml2ZWsgS2Fz
-aXJlZGR5DQo+ID4gPiA8dml2ZWsua2FzaXJlZGR5QGludGVsLmNvbT4gd3JvdGU6DQo+ID4gPiA+
-DQo+ID4gPiA+IFNpbmNlIG5vdCBhbGwgbGlzdGVuZXJzIChpLmUgVmlydHVhbENvbnNvbGVzKSBv
-ZiBHTCBldmVudHMgaGF2ZQ0KPiA+ID4gPiBhIHZhbGlkIEVHTCBjb250ZXh0LCBtYWtlIHN1cmUg
-dGhhdCB0aGVyZSBpcyBhIHZhbGlkIGNvbnRleHQNCj4gPiA+ID4gYmVmb3JlIG1ha2luZyBFR0wg
-Y2FsbHMuDQo+ID4gPiA+DQo+ID4gPiA+IFRoaXMgZml4ZXMgdGhlIGZvbGxvd2luZyBjcmFzaCBz
-ZWVuIHdoaWxlIGxhdW5jaGluZyB0aGUgVk0gd2l0aA0KPiA+ID4gPiAiLWRldmljZSB2aXJ0aW8t
-Z3B1LXBjaSxtYXhfb3V0cHV0cz0xLGJsb2I9dHJ1ZSAtZGlzcGxheSBndGssZ2w9b24iDQo+ID4g
-PiA+DQo+ID4gPiA+IE5vIHByb3ZpZGVyIG9mIGVnbENyZWF0ZUltYWdlS0hSIGZvdW5kLiAgUmVx
-dWlyZXMgb25lIG9mOg0KPiA+ID4gPiBFR0xfS0hSX2ltYWdlDQo+ID4gPiA+IEVHTF9LSFJfaW1h
-Z2VfYmFzZQ0KPiA+ID4gPg0KPiA+ID4gPiBGaXhlczogN2NjNzEyZTk4NjJmZiAoInVpOiBkaXNw
-YXRjaCBHTCBldmVudHMgdG8gYWxsIGxpc3RlbmVycyIpDQo+ID4gPg0KPiA+ID4gSSBhbSBub3Qg
-YWJsZSB0byByZXByb2R1Y2Ugb24gY3VycmVudCBtYXN0ZXIuDQo+ID4gW0thc2lyZWRkeSwgVml2
-ZWtdIEkgY2FuIHN0aWxsIHNlZSBpdCB3aXRoIGN1cnJlbnQgbWFzdGVyLiBJIHRoaW5rIHRoaXMg
-aXNzdWUNCj4gPiBpcyBvbmx5IHNlZW4gd2hlbiBydW5uaW5nIFFlbXUgaW4gYW4gWG9yZyBiYXNl
-ZCBIb3N0IGVudmlyb25tZW50IGFuZA0KPiA+IGNhbm5vdCBiZSByZXByb2R1Y2VkIGluIGEgV2F5
-bGFuZCBiYXNlZCBlbnZpcm9ubWVudCAtLSBhcyBRZW11IFVJDQo+ID4gdXNlcyB0aGUgR0xBcmVh
-IHdpZGdldCBpbiB0aGUgV2F5bGFuZCBjYXNlIHdoZXJlIHRoZSBFR0wgY29udGV4dA0KPiA+IGlz
-IG1hbmFnZWQgYnkgR1RLLg0KPiA+DQo+ID4gPg0KPiA+ID4gSXNuJ3QgaXQgZml4ZWQgd2l0aCBj
-b21taXQgYTlmYmNlNWU5ICgidWkvY29uc29sZTogZml4IGNyYXNoIHdoZW4NCj4gPiA+IHVzaW5n
-IGdsIGNvbnRleHQgd2l0aCBub24tZ2wgbGlzdGVuZXJzIikgPw0KPiA+IFtLYXNpcmVkZHksIFZp
-dmVrXSBObywgaXQgdW5mb3J0dW5hdGVseSBkb2VzIG5vdCBmaXggdGhlIGlzc3VlIEkgYW0gc2Vl
-aW5nLiBJbg0KPiA+IG15IGNhc2UsIHRoZXJlIGFyZSB0aHJlZSBWaXJ0dWFsQ29uc29sZXMgY3Jl
-YXRlZCAoInBhcmFsbGVsMCIsICJjb21wYXRtb25pdG9yMCIsDQo+ID4gInZpcnRpby1ncHUtcGNp
-IikgYW5kIGFsbCB0aHJlZSBvZiB0aGVtIHNlZW0gdG8gaGF2ZSBhIHZhbGlkIGRweV9nbF9zY2Fu
-b3V0X2RtYWJ1ZigpDQo+ID4gYnV0IG9ubHkgdmlydGlvLWdwdS1wY2kgaGFzIGEgdmFsaWQgRUdM
-IGNvbnRleHQuDQo+ID4NCj4gPiA+DQo+ID4gPiBDb3VsZCB5b3UgYWxzbyBjaGVjayBhZnRlciAi
-W1BBVENIIHYzIDAwLzEyXSBHTCAmIEQtQnVzIGRpc3BsYXkgcmVsYXRlZCBmaXhlcyIgPw0KPiA+
-IFtLYXNpcmVkZHksIFZpdmVrXSBJIGNhbiBjaGVjayBidXQgSSBkb24ndCB0aGluayB0aGlzIGlz
-c3VlIGNhbiBiZSBmaXhlZCBpbiB1aS9jb25zb2xlLmMNCj4gPiBhcyBhbGwgdGhyZWUgVmlydHVh
-bENvbnNvbGVzIHBhc3MgdGhlIGNvbnNvbGVfaGFzX2dsKCkgY2hlY2sgYW5kIG9uZSBvZiB0aGUg
-b25seSB0aGluZ3MNCj4gPiB0aGF0IGRpc3Rpbmd1aXNoZXMgdGhlbSBpcyB3aGV0aGVyIHRoZXkg
-aGF2ZSBhIHZhbGlkIEVHTCBjb250ZXh0Lg0KPiA+DQo+IA0KPiBVbmRlciBYMTEsIEkgZ2V0IHRo
-ZSBzYW1lIGVycm9yIG9uIHY2LjIuMCBhbmQgbWFzdGVyOg0KPiBxZW11LXN5c3RlbS14ODZfNjQg
-IC1tIDRHIC1vYmplY3QNCj4gbWVtb3J5LWJhY2tlbmQtbWVtZmQsaWQ9bWVtLHNpemU9NEcsc2hh
-cmU9b24gLW1hY2hpbmUNCj4gcTM1LGFjY2VsPWt2bSxtZW1vcnktYmFja2VuZD1tZW0gLWRldmlj
-ZQ0KPiB2aXJ0aW8tZ3B1LXBjaSxtYXhfb3V0cHV0cz0xLGJsb2I9dHJ1ZSAtZGlzcGxheSBndGss
-Z2w9b24gLWNkcm9tDQo+IHJhd2hpZGUuaXNvDQo+IE5vIHByb3ZpZGVyIG9mIGVnbENyZWF0ZUlt
-YWdlS0hSIGZvdW5kLiAgUmVxdWlyZXMgb25lIG9mOg0KPiAgICAgRUdMX0tIUl9pbWFnZQ0KPiAg
-ICAgRUdMX0tIUl9pbWFnZV9iYXNlDQo+IA0KPiBOb3RlIHRoYXQgd2l0aCB2aXJ0aW8tZ3B1LWds
-LXBjaSBJIGdldDoNCj4gcWVtdS1zeXN0ZW0teDg2XzY0OiAuLi9zcmMvZGlzcGF0Y2hfY29tbW9u
-LmM6ODY4Og0KPiBlcG94eV9nZXRfcHJvY19hZGRyZXNzOiBBc3NlcnRpb24gYDAgJiYgIkNvdWxk
-bid0IGZpbmQgY3VycmVudCBHTFggb3INCj4gRUdMIGNvbnRleHQuXG4iJyBmYWlsZWQuDQpbS2Fz
-aXJlZGR5LCBWaXZla10gSXQgbG9va3MgbGlrZSB0aGlzIHBhcnRpY3VsYXIgZXJyb3IgYW5kIHRo
-ZSBvbmUgSSBzYXcgYXJlDQpib3RoIHJlc29sdmVkIGJ5IHRoaXMgY29tbWl0Og0KQXV0aG9yOiBB
-a2loaWtvIE9kYWtpIDxha2loaWtvLm9kYWtpQGdtYWlsLmNvbT4NCkRhdGU6ICAgU2F0IE1hciAy
-NiAwMToxMjoxNiAyMDIyICswOTAwDQoNCiAgICB1aS9jb25zb2xlOiBDaGVjayBjb25zb2xlIGJl
-Zm9yZSBlbWl0dGluZyBHTCBldmVudA0KDQpPbiBhIGNvbXBsZXRlbHkgZGlmZmVyZW50IG5vdGUs
-IEkgYW0gd29uZGVyaW5nIGlmIHlvdSBoYXZlIGFueSBwbGFuIHRvDQpldmVudHVhbGx5IGludGVn
-cmF0ZSB0aGUgUnVzdCBiYXNlZCBHdGs0IGNsaWVudCBpbnRvIFFlbXUgc291cmNlIHJlcG8/DQpP
-ciwgaXMgaXQgZ29pbmcgdG8gc3RheSBvdXQtb2YtdHJlZSBldmVuIGFmdGVyIGl0IGlzIG5vIGxv
-bmdlciBXSVA/DQoNClRoYW5rcywNClZpdmVrDQoNCg0K
+From: Pedro Tôrres <t0rr3sp3dr0@gmail.com>
+
+When running on a Mac, QEMU is able to get the host OSK and use it as
+the default value for the AppleSMC device. The OSK query operation
+doesn't require administrator privileges and can be executed by any user
+on the system. This patch is based on Phil Dennis-Jordan's description
+of the process for reading OSK from SCM on macOS:
+https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg02843.html
+
+In the future, this could also be extended to work on Linux and Windows
+when running on Macs. Just implement the applesmc_read_osk function for
+those platforms.
+
+The Apple SMC driver for Linux is currently being rewritten by Hector
+Martin as part of the effort to bring Linux to Macs with Apple Silicon
+(Asahi Linux). When the new driver gets merged to the Linux Kernel, it
+will be a good time to extend this to work with it.
+
+Signed-off-by: Pedro Tôrres <t0rr3sp3dr0@gmail.com>
+---
+ hw/misc/applesmc.c | 75 ++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 73 insertions(+), 2 deletions(-)
+
+diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
+index 81cd6b6423..c95e038bd2 100644
+--- a/hw/misc/applesmc.c
++++ b/hw/misc/applesmc.c
+@@ -5,6 +5,7 @@
+  *
+  *  Authors: Alexander Graf <agraf@suse.de>
+  *           Susanne Graf <suse@csgraf.de>
++ *           Pedro Tôrres <t0rr3sp3dr0@gmail.com>
+  *
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+@@ -28,8 +29,16 @@
+  * This driver was mostly created by looking at the Linux AppleSMC driver
+  * implementation and does not support IRQ.
+  *
++ * Reading OSK from SCM on macOS was implemented based on Phil Dennis-Jordan's
++ * description of the process:
++ * https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg02843.html
++ *
+  */
+ 
++#if defined(__APPLE__) && defined(__MACH__)
++#include <IOKit/IOKitLib.h>
++#endif
++
+ #include "qemu/osdep.h"
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
+@@ -312,9 +321,62 @@ static const MemoryRegionOps applesmc_err_io_ops = {
+     },
+ };
+ 
++static bool applesmc_read_osk(uint8_t *osk)
++{
++#if defined(__APPLE__) && defined(__MACH__)
++    struct AppleSMCParams {
++        uint32_t key;
++        uint8_t __pad0[16];
++        uint8_t result;
++        uint8_t __pad1[7];
++        uint32_t size;
++        uint8_t __pad2[10];
++        uint8_t data8;
++        uint8_t __pad3[5];
++        uint8_t output[32];
++    };
++
++    io_service_t svc;
++    io_connect_t conn;
++    kern_return_t ret;
++    size_t size = sizeof(struct AppleSMCParams);
++    struct AppleSMCParams params_in = { .size = 32, .data8 = 5 };
++    struct AppleSMCParams params_out = {};
++
++    svc = IOServiceGetMatchingService(0, IOServiceMatching("AppleSMC"));
++    if (svc == 0) {
++        return false;
++    }
++
++    ret = IOServiceOpen(svc, mach_task_self(), 0, &conn);
++    if (ret != 0) {
++        return false;
++    }
++
++    for (params_in.key = 'OSK0'; params_in.key <= 'OSK1'; ++params_in.key) {
++        ret = IOConnectCallStructMethod(conn, 2, &params_in, size, &params_out, &size);
++        if (ret != 0) {
++            return false;
++        }
++
++        if (params_out.result != 0) {
++            return false;
++        }
++        memcpy(osk, params_out.output, params_in.size);
++
++        osk += params_in.size;
++    }
++
++    return true;
++#else
++    return false;
++#endif
++}
++
+ static void applesmc_isa_realize(DeviceState *dev, Error **errp)
+ {
+     AppleSMCState *s = APPLE_SMC(dev);
++    bool valid_osk = false;
+ 
+     memory_region_init_io(&s->io_data, OBJECT(s), &applesmc_data_io_ops, s,
+                           "applesmc-data", 1);
+@@ -331,8 +393,17 @@ static void applesmc_isa_realize(DeviceState *dev, Error **errp)
+     isa_register_ioport(&s->parent_obj, &s->io_err,
+                         s->iobase + APPLESMC_ERR_PORT);
+ 
+-    if (!s->osk || (strlen(s->osk) != 64)) {
+-        warn_report("Using AppleSMC with invalid key");
++    if (s->osk) {
++        valid_osk = strlen(s->osk) == 64;
++    } else {
++        valid_osk = applesmc_read_osk((uint8_t *) default_osk);
++        if (valid_osk) {
++            warn_report("Using AppleSMC with host OSK");
++            s->osk = default_osk;
++        }
++    }
++    if (!valid_osk) {
++        warn_report("Using AppleSMC with invalid OSK");
+         s->osk = default_osk;
+     }
+ 
+-- 
+2.32.0 (Apple Git-132)
+
 
