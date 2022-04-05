@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6DE54F3590
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 15:51:34 +0200 (CEST)
-Received: from localhost ([::1]:55190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B82E4F3602
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 15:56:24 +0200 (CEST)
+Received: from localhost ([::1]:34384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbjao-00061M-0M
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 09:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
+	id 1nbjfT-0002ez-84
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 09:56:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nbjWa-00019N-LI
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:47:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nbjWQ-0004ey-4U
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:47:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649166421;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PxdymYwCCKwwqF9ok+P7nzQF6QPIsB+OcyXVyP6dPDM=;
- b=OkMWtzEbwRJOvQyTWvI7TSGnUblo+VPeynpHQ3zR2Kb//YyyfHb4TfFmU+Naclb6K6dxhn
- XDzMnvQMlL/z93J7Nusb3kCQjYJbOw/KtcwkzPXH+1Bm17m1DscfTES6Nsa/ysTXKOtApg
- 7wuh3Ak96TSguZS+eCNDr9VUL93CghI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-231-Qyj-2JTqN4ip-O2rQGLYaw-1; Tue, 05 Apr 2022 09:47:00 -0400
-X-MC-Unique: Qyj-2JTqN4ip-O2rQGLYaw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 336B33C11A11;
- Tue,  5 Apr 2022 13:47:00 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E35C140CF8E5;
- Tue,  5 Apr 2022 13:46:59 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 3/3] qcow2: Add errp to rebuild_refcount_structure()
-Date: Tue,  5 Apr 2022 15:46:52 +0200
-Message-Id: <20220405134652.19278-4-hreitz@redhat.com>
-In-Reply-To: <20220405134652.19278-1-hreitz@redhat.com>
-References: <20220405134652.19278-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nbjde-0001HJ-5E
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:54:30 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nbjdc-0007LD-Ih
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:54:29 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id p15so26850153ejc.7
+ for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 06:54:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=mRD2pj5OzgauYVwhz3f4/rloNXXqRLicIwcFRO3vn7M=;
+ b=YIEWYkbxawGfeXsQcfvTe1cv7yxkqsn4z569MvysYGT5BIZcXXOS/EALFNVxYIIXR4
+ bdbID2WUGhdrtAXNbji9X8LxLdVTTFLVM71DDJdE83+Wud85f5H0BAjqLFoYidZDO2RZ
+ 11q93ZRR5cNte60doOgeAmAwcIhAhX4vF5U3G57h9Q02n/1RPlQ1m19lw5bh50gYrf+K
+ Uiy253eoenObt2Gmcn3CgwpUdMk9OJCHFnb2cL0Rkq9U20GGv+rhD2Gf7ozaONIRIv3t
+ WlcEqWWpuvZ6kDc1iYMxo5VhKYDYwirm6u+UIaprAD4x3jayDyqufXC550tbY6622q0t
+ z3KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=mRD2pj5OzgauYVwhz3f4/rloNXXqRLicIwcFRO3vn7M=;
+ b=TFSN+X5dDocefhMZue0wGkW+2tw6I3VEtBTTrdrs5Js9+y4u0dFq2EtM8l5blk8sRt
+ wXVqqEPf5jZXXjcVX/jcJKAyupK4hx1JSU2I5emsjuiewbkEUR4rjvQ1ZlTDuorQuvxM
+ MR3bNupF9RhLuTtZGyJ5x20TyVslKDdUogsykCCTdYLIPQuw3VtjIwrPVN6JTU4mAv7S
+ f7ukAyY0w/qdOGG0viticY9Sbg4kaDcHXqFDHfhvSj6JuBnV2jMgn/VkdXGXkhdA4sAb
+ EaeJ+XdQQCVyTI9E7gmKXdStO/8woPKpLOEWpysSVJM2JJtwpMEiqzbGaLs2ehM+PCZt
+ 7OxA==
+X-Gm-Message-State: AOAM530Ooih5+MvnZ070sspFrYrnLCmGF5hDkHHFw7TOr08ltrnTUHlv
+ hn4351I1VStHFK+ahpl3aTZPAQ==
+X-Google-Smtp-Source: ABdhPJwFONTCRxXwDwLq28XnPmR1dxfx09kqVN6gBEiiNqC1WAkUuK4eE7gI4fsNXNXHJEUX3Grvug==
+X-Received: by 2002:a17:907:6d0a:b0:6db:f0f8:6528 with SMTP id
+ sa10-20020a1709076d0a00b006dbf0f86528mr3638692ejc.466.1649166867024; 
+ Tue, 05 Apr 2022 06:54:27 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ d7-20020a170906174700b006e80a7e3111sm849189eje.17.2022.04.05.06.54.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Apr 2022 06:54:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 661CD1FFB7;
+ Tue,  5 Apr 2022 14:54:25 +0100 (BST)
+References: <20220210145254.157790-1-eric.auger@redhat.com>
+ <20220210145254.157790-3-eric.auger@redhat.com>
+User-agent: mu4e 1.7.12; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 2/5] tests/qtest/libqos/pci: Introduce pio_limit
+Date: Tue, 05 Apr 2022 14:54:20 +0100
+In-reply-to: <20220210145254.157790-3-eric.auger@redhat.com>
+Message-ID: <874k37ljou.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,154 +89,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org
+Cc: eesposit@redhat.com, jean-philippe@linaro.org, mst@redhat.com,
+ qemu-devel@nongnu.org, Coiby.Xu@gmail.com, qemu-arm@nongnu.org, clg@kaod.org,
+ stefanha@redhat.com, pbonzini@redhat.com, eric.auger.pro@gmail.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of fprint()-ing error messages in rebuild_refcount_structure()
-and its rebuild_refcounts_write_refblocks() helper, pass them through an
-Error object to qcow2_check_refcounts() (which will then print it).
 
-Suggested-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
- block/qcow2-refcount.c | 33 +++++++++++++++++++--------------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+Eric Auger <eric.auger@redhat.com> writes:
 
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index c5669eaa51..ed0ecfaa89 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -2465,7 +2465,8 @@ static int64_t alloc_clusters_imrt(BlockDriverState *bs,
- static int rebuild_refcounts_write_refblocks(
-         BlockDriverState *bs, void **refcount_table, int64_t *nb_clusters,
-         int64_t first_cluster, int64_t end_cluster,
--        uint64_t **on_disk_reftable_ptr, uint32_t *on_disk_reftable_entries_ptr
-+        uint64_t **on_disk_reftable_ptr, uint32_t *on_disk_reftable_entries_ptr,
-+        Error **errp
-     )
- {
-     BDRVQcow2State *s = bs->opaque;
-@@ -2516,8 +2517,8 @@ static int rebuild_refcounts_write_refblocks(
-                                                   nb_clusters,
-                                                   &first_free_cluster);
-             if (refblock_offset < 0) {
--                fprintf(stderr, "ERROR allocating refblock: %s\n",
--                        strerror(-refblock_offset));
-+                error_setg_errno(errp, -refblock_offset,
-+                                 "ERROR allocating refblock");
-                 return refblock_offset;
-             }
- 
-@@ -2539,6 +2540,7 @@ static int rebuild_refcounts_write_refblocks(
-                                   on_disk_reftable_entries *
-                                   REFTABLE_ENTRY_SIZE);
-                 if (!on_disk_reftable) {
-+                    error_setg(errp, "ERROR allocating reftable memory");
-                     return -ENOMEM;
-                 }
- 
-@@ -2562,7 +2564,7 @@ static int rebuild_refcounts_write_refblocks(
-         ret = qcow2_pre_write_overlap_check(bs, 0, refblock_offset,
-                                             s->cluster_size, false);
-         if (ret < 0) {
--            fprintf(stderr, "ERROR writing refblock: %s\n", strerror(-ret));
-+            error_setg_errno(errp, -ret, "ERROR writing refblock");
-             return ret;
-         }
- 
-@@ -2578,7 +2580,7 @@ static int rebuild_refcounts_write_refblocks(
-         ret = bdrv_pwrite(bs->file, refblock_offset, on_disk_refblock,
-                           s->cluster_size);
-         if (ret < 0) {
--            fprintf(stderr, "ERROR writing refblock: %s\n", strerror(-ret));
-+            error_setg_errno(errp, -ret, "ERROR writing refblock");
-             return ret;
-         }
- 
-@@ -2601,7 +2603,8 @@ static int rebuild_refcounts_write_refblocks(
- static int rebuild_refcount_structure(BlockDriverState *bs,
-                                       BdrvCheckResult *res,
-                                       void **refcount_table,
--                                      int64_t *nb_clusters)
-+                                      int64_t *nb_clusters,
-+                                      Error **errp)
- {
-     BDRVQcow2State *s = bs->opaque;
-     int64_t reftable_offset = -1;
-@@ -2652,7 +2655,7 @@ static int rebuild_refcount_structure(BlockDriverState *bs,
-         rebuild_refcounts_write_refblocks(bs, refcount_table, nb_clusters,
-                                           0, *nb_clusters,
-                                           &on_disk_reftable,
--                                          &on_disk_reftable_entries);
-+                                          &on_disk_reftable_entries, errp);
-     if (reftable_size_changed < 0) {
-         res->check_errors++;
-         ret = reftable_size_changed;
-@@ -2676,8 +2679,8 @@ static int rebuild_refcount_structure(BlockDriverState *bs,
-                                               refcount_table, nb_clusters,
-                                               &first_free_cluster);
-         if (reftable_offset < 0) {
--            fprintf(stderr, "ERROR allocating reftable: %s\n",
--                    strerror(-reftable_offset));
-+            error_setg_errno(errp, -reftable_offset,
-+                             "ERROR allocating reftable");
-             res->check_errors++;
-             ret = reftable_offset;
-             goto fail;
-@@ -2695,7 +2698,7 @@ static int rebuild_refcount_structure(BlockDriverState *bs,
-                                               reftable_start_cluster,
-                                               reftable_end_cluster,
-                                               &on_disk_reftable,
--                                              &on_disk_reftable_entries);
-+                                              &on_disk_reftable_entries, errp);
-         if (reftable_size_changed < 0) {
-             res->check_errors++;
-             ret = reftable_size_changed;
-@@ -2725,7 +2728,7 @@ static int rebuild_refcount_structure(BlockDriverState *bs,
-     ret = qcow2_pre_write_overlap_check(bs, 0, reftable_offset, reftable_length,
-                                         false);
-     if (ret < 0) {
--        fprintf(stderr, "ERROR writing reftable: %s\n", strerror(-ret));
-+        error_setg_errno(errp, -ret, "ERROR writing reftable");
-         goto fail;
-     }
- 
-@@ -2733,7 +2736,7 @@ static int rebuild_refcount_structure(BlockDriverState *bs,
-     ret = bdrv_pwrite(bs->file, reftable_offset, on_disk_reftable,
-                       reftable_length);
-     if (ret < 0) {
--        fprintf(stderr, "ERROR writing reftable: %s\n", strerror(-ret));
-+        error_setg_errno(errp, -ret, "ERROR writing reftable");
-         goto fail;
-     }
- 
-@@ -2746,7 +2749,7 @@ static int rebuild_refcount_structure(BlockDriverState *bs,
-                            &reftable_offset_and_clusters,
-                            sizeof(reftable_offset_and_clusters));
-     if (ret < 0) {
--        fprintf(stderr, "ERROR setting reftable: %s\n", strerror(-ret));
-+        error_setg_errno(errp, -ret, "ERROR setting reftable");
-         goto fail;
-     }
- 
-@@ -2814,11 +2817,13 @@ int qcow2_check_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
-     if (rebuild && (fix & BDRV_FIX_ERRORS)) {
-         BdrvCheckResult old_res = *res;
-         int fresh_leaks = 0;
-+        Error *local_err = NULL;
- 
-         fprintf(stderr, "Rebuilding refcount structure\n");
-         ret = rebuild_refcount_structure(bs, res, &refcount_table,
--                                         &nb_clusters);
-+                                         &nb_clusters, &local_err);
-         if (ret < 0) {
-+            error_report_err(local_err);
-             goto fail;
-         }
- 
--- 
-2.35.1
+> At the moment the IO space limit is hardcoded to
+> QPCI_PIO_LIMIT =3D 0x10000. When accesses are performed to a bar,
+> the base address of this latter is compared against the limit
+> to decide whether we perform an IO or a memory access.
+>
+> On ARM, we cannot keep this PIO limit as the arm-virt machine
+> uses [0x3eff0000, 0x3f000000 ] for the IO space map and we
+> are mandated to allocate at 0x0.
+>
+> Add a new flag in QPCIBar indicating whether it is an IO bar
+> or a memory bar. This flag is set on QPCIBar allocation and
+> provisionned based on the BAR configuration. Then the new flag
+> is used in access functions and in iomap() function.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
