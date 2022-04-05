@@ -2,82 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B82E4F3602
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 15:56:24 +0200 (CEST)
-Received: from localhost ([::1]:34384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 068194F3978
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 16:48:25 +0200 (CEST)
+Received: from localhost ([::1]:39514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbjfT-0002ez-84
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 09:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55224)
+	id 1nbkTn-00029S-D7
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 10:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nbjde-0001HJ-5E
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:54:30 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nbjdc-0007LD-Ih
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 09:54:29 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id p15so26850153ejc.7
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 06:54:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=mRD2pj5OzgauYVwhz3f4/rloNXXqRLicIwcFRO3vn7M=;
- b=YIEWYkbxawGfeXsQcfvTe1cv7yxkqsn4z569MvysYGT5BIZcXXOS/EALFNVxYIIXR4
- bdbID2WUGhdrtAXNbji9X8LxLdVTTFLVM71DDJdE83+Wud85f5H0BAjqLFoYidZDO2RZ
- 11q93ZRR5cNte60doOgeAmAwcIhAhX4vF5U3G57h9Q02n/1RPlQ1m19lw5bh50gYrf+K
- Uiy253eoenObt2Gmcn3CgwpUdMk9OJCHFnb2cL0Rkq9U20GGv+rhD2Gf7ozaONIRIv3t
- WlcEqWWpuvZ6kDc1iYMxo5VhKYDYwirm6u+UIaprAD4x3jayDyqufXC550tbY6622q0t
- z3KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=mRD2pj5OzgauYVwhz3f4/rloNXXqRLicIwcFRO3vn7M=;
- b=TFSN+X5dDocefhMZue0wGkW+2tw6I3VEtBTTrdrs5Js9+y4u0dFq2EtM8l5blk8sRt
- wXVqqEPf5jZXXjcVX/jcJKAyupK4hx1JSU2I5emsjuiewbkEUR4rjvQ1ZlTDuorQuvxM
- MR3bNupF9RhLuTtZGyJ5x20TyVslKDdUogsykCCTdYLIPQuw3VtjIwrPVN6JTU4mAv7S
- f7ukAyY0w/qdOGG0viticY9Sbg4kaDcHXqFDHfhvSj6JuBnV2jMgn/VkdXGXkhdA4sAb
- EaeJ+XdQQCVyTI9E7gmKXdStO/8woPKpLOEWpysSVJM2JJtwpMEiqzbGaLs2ehM+PCZt
- 7OxA==
-X-Gm-Message-State: AOAM530Ooih5+MvnZ070sspFrYrnLCmGF5hDkHHFw7TOr08ltrnTUHlv
- hn4351I1VStHFK+ahpl3aTZPAQ==
-X-Google-Smtp-Source: ABdhPJwFONTCRxXwDwLq28XnPmR1dxfx09kqVN6gBEiiNqC1WAkUuK4eE7gI4fsNXNXHJEUX3Grvug==
-X-Received: by 2002:a17:907:6d0a:b0:6db:f0f8:6528 with SMTP id
- sa10-20020a1709076d0a00b006dbf0f86528mr3638692ejc.466.1649166867024; 
- Tue, 05 Apr 2022 06:54:27 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- d7-20020a170906174700b006e80a7e3111sm849189eje.17.2022.04.05.06.54.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 06:54:26 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 661CD1FFB7;
- Tue,  5 Apr 2022 14:54:25 +0100 (BST)
-References: <20220210145254.157790-1-eric.auger@redhat.com>
- <20220210145254.157790-3-eric.auger@redhat.com>
-User-agent: mu4e 1.7.12; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v3 2/5] tests/qtest/libqos/pci: Introduce pio_limit
-Date: Tue, 05 Apr 2022 14:54:20 +0100
-In-reply-to: <20220210145254.157790-3-eric.auger@redhat.com>
-Message-ID: <874k37ljou.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <qtxuning1999@sjtu.edu.cn>)
+ id 1nbiDw-00039V-OF; Tue, 05 Apr 2022 08:23:54 -0400
+Received: from smtp180.sjtu.edu.cn ([202.120.2.180]:42520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qtxuning1999@sjtu.edu.cn>)
+ id 1nbiDr-0003Ud-57; Tue, 05 Apr 2022 08:23:51 -0400
+Received: from proxy02.sjtu.edu.cn (smtp188.sjtu.edu.cn [202.120.2.188])
+ by smtp180.sjtu.edu.cn (Postfix) with ESMTPS id 4E8E21008CBC5;
+ Tue,  5 Apr 2022 20:23:28 +0800 (CST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by proxy02.sjtu.edu.cn (Postfix) with ESMTP id 3370C200B89EA;
+ Tue,  5 Apr 2022 20:23:28 +0800 (CST)
+X-Virus-Scanned: amavisd-new at 
+Received: from proxy02.sjtu.edu.cn ([127.0.0.1])
+ by localhost (proxy02.sjtu.edu.cn [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id cUVqReFAAxCK; Tue,  5 Apr 2022 20:23:28 +0800 (CST)
+Received: from guozhi-ipads.ipads-lab.se.sjtu.edu.cn (unknown [202.120.40.82])
+ (Authenticated sender: qtxuning1999@sjtu.edu.cn)
+ by proxy02.sjtu.edu.cn (Postfix) with ESMTPSA id 9A2CA200B8923;
+ Tue,  5 Apr 2022 20:23:18 +0800 (CST)
+From: Guo Zhi <qtxuning1999@sjtu.edu.cn>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH v1] hw/ppc: change indentation to spaces from TABs
+Date: Tue,  5 Apr 2022 20:19:53 +0800
+Message-Id: <20220405121950.3528296-1-qtxuning1999@sjtu.edu.cn>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=202.120.2.180;
+ envelope-from=qtxuning1999@sjtu.edu.cn; helo=smtp180.sjtu.edu.cn
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 05 Apr 2022 10:36:02 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,35 +62,330 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eesposit@redhat.com, jean-philippe@linaro.org, mst@redhat.com,
- qemu-devel@nongnu.org, Coiby.Xu@gmail.com, qemu-arm@nongnu.org, clg@kaod.org,
- stefanha@redhat.com, pbonzini@redhat.com, eric.auger.pro@gmail.com,
- david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, Guo Zhi <qtxuning1999@sjtu.edu.cn>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+There are still some files in the QEMU PPC code base that use TABs for indentation instead of using  spaces.
+The TABs should be replaced so that we have a consistent coding style.
 
-Eric Auger <eric.auger@redhat.com> writes:
+If this patch is applied, issue:
 
-> At the moment the IO space limit is hardcoded to
-> QPCI_PIO_LIMIT =3D 0x10000. When accesses are performed to a bar,
-> the base address of this latter is compared against the limit
-> to decide whether we perform an IO or a memory access.
->
-> On ARM, we cannot keep this PIO limit as the arm-virt machine
-> uses [0x3eff0000, 0x3f000000 ] for the IO space map and we
-> are mandated to allocate at 0x0.
->
-> Add a new flag in QPCIBar indicating whether it is an IO bar
-> or a memory bar. This flag is set on QPCIBar allocation and
-> provisionned based on the BAR configuration. Then the new flag
-> is used in access functions and in iomap() function.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+https://gitlab.com/qemu-project/qemu/-/issues/374
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+can be closed.
 
---=20
-Alex Benn=C3=A9e
+Signed-off-by: Guo Zhi <qtxuning1999@sjtu.edu.cn>
+---
+ hw/core/uboot_image.h  | 185 ++++++++++++++++++++---------------------
+ hw/ppc/ppc440_bamboo.c |   6 +-
+ hw/ppc/spapr_rtas.c    |  18 ++--
+ include/hw/ppc/ppc.h   |  10 +--
+ 4 files changed, 109 insertions(+), 110 deletions(-)
+
+diff --git a/hw/core/uboot_image.h b/hw/core/uboot_image.h
+index 608022de6e..980e9cc014 100644
+--- a/hw/core/uboot_image.h
++++ b/hw/core/uboot_image.h
+@@ -12,7 +12,7 @@
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License along
+@@ -32,128 +32,127 @@
+ /*
+  * Operating System Codes
+  */
+-#define IH_OS_INVALID		0	/* Invalid OS	*/
+-#define IH_OS_OPENBSD		1	/* OpenBSD	*/
+-#define IH_OS_NETBSD		2	/* NetBSD	*/
+-#define IH_OS_FREEBSD		3	/* FreeBSD	*/
+-#define IH_OS_4_4BSD		4	/* 4.4BSD	*/
+-#define IH_OS_LINUX		5	/* Linux	*/
+-#define IH_OS_SVR4		6	/* SVR4		*/
+-#define IH_OS_ESIX		7	/* Esix		*/
+-#define IH_OS_SOLARIS		8	/* Solaris	*/
+-#define IH_OS_IRIX		9	/* Irix		*/
+-#define IH_OS_SCO		10	/* SCO		*/
+-#define IH_OS_DELL		11	/* Dell		*/
+-#define IH_OS_NCR		12	/* NCR		*/
+-#define IH_OS_LYNXOS		13	/* LynxOS	*/
+-#define IH_OS_VXWORKS		14	/* VxWorks	*/
+-#define IH_OS_PSOS		15	/* pSOS		*/
+-#define IH_OS_QNX		16	/* QNX		*/
+-#define IH_OS_U_BOOT		17	/* Firmware	*/
+-#define IH_OS_RTEMS		18	/* RTEMS	*/
+-#define IH_OS_ARTOS		19	/* ARTOS	*/
+-#define IH_OS_UNITY		20	/* Unity OS	*/
++#define IH_OS_INVALID 0 /* Invalid OS */
++#define IH_OS_OPENBSD 1 /* OpenBSD */
++#define IH_OS_NETBSD  2 /* NetBSD */
++#define IH_OS_FREEBSD 3 /* FreeBSD */
++#define IH_OS_4_4BSD  4 /* 4.4BSD */
++#define IH_OS_LINUX   5 /* Linux */
++#define IH_OS_SVR4    6 /* SVR4 */
++#define IH_OS_ESIX    7 /* Esix */
++#define IH_OS_SOLARIS 8 /* Solaris */
++#define IH_OS_IRIX    9 /* Irix */
++#define IH_OS_SCO     10 /* SCO */
++#define IH_OS_DELL    11 /* Dell */
++#define IH_OS_NCR     12 /* NCR */
++#define IH_OS_LYNXOS  13 /* LynxOS */
++#define IH_OS_VXWORKS 14 /* VxWorks */
++#define IH_OS_PSOS    15 /* pSOS */
++#define IH_OS_QNX     16 /* QNX */
++#define IH_OS_U_BOOT  17 /* Firmware */
++#define IH_OS_RTEMS   18 /* RTEMS */
++#define IH_OS_ARTOS   19 /* ARTOS */
++#define IH_OS_UNITY   20 /* Unity OS */
+ 
+ /*
+  * CPU Architecture Codes (supported by Linux)
+  */
+-#define IH_CPU_INVALID		0	/* Invalid CPU	*/
+-#define IH_CPU_ALPHA		1	/* Alpha	*/
+-#define IH_CPU_ARM		2	/* ARM		*/
+-#define IH_CPU_I386		3	/* Intel x86	*/
+-#define IH_CPU_IA64		4	/* IA64		*/
+-#define IH_CPU_MIPS		5	/* MIPS		*/
+-#define IH_CPU_MIPS64		6	/* MIPS	 64 Bit */
+-#define IH_CPU_PPC		7	/* PowerPC	*/
+-#define IH_CPU_S390		8	/* IBM S390	*/
+-#define IH_CPU_SH		9	/* SuperH	*/
+-#define IH_CPU_SPARC		10	/* Sparc	*/
+-#define IH_CPU_SPARC64		11	/* Sparc 64 Bit */
+-#define IH_CPU_M68K		12	/* M68K		*/
+-#define IH_CPU_NIOS		13	/* Nios-32	*/
+-#define IH_CPU_MICROBLAZE	14	/* MicroBlaze   */
+-#define IH_CPU_NIOS2		15	/* Nios-II	*/
+-#define IH_CPU_BLACKFIN		16	/* Blackfin	*/
+-#define IH_CPU_AVR32		17	/* AVR32	*/
++#define IH_CPU_INVALID    0 /* Invalid CPU */
++#define IH_CPU_ALPHA      1 /* Alpha */
++#define IH_CPU_ARM        2 /* ARM */
++#define IH_CPU_I386       3 /* Intel x86 */
++#define IH_CPU_IA64       4 /* IA64 */
++#define IH_CPU_MIPS       5 /* MIPS */
++#define IH_CPU_MIPS64     6 /* MIPS  64 Bit */
++#define IH_CPU_PPC        7 /* PowerPC */
++#define IH_CPU_S390       8 /* IBM S390 */
++#define IH_CPU_SH         9 /* SuperH */
++#define IH_CPU_SPARC      10 /* Sparc */
++#define IH_CPU_SPARC64    11 /* Sparc 64 Bit */
++#define IH_CPU_M68K       12 /* M68K */
++#define IH_CPU_NIOS       13 /* Nios-32 */
++#define IH_CPU_MICROBLAZE 14 /* MicroBlaze   */
++#define IH_CPU_NIOS2      15 /* Nios-II */
++#define IH_CPU_BLACKFIN   16 /* Blackfin */
++#define IH_CPU_AVR32      17 /* AVR32 */
+ 
+ /*
+  * Image Types
+  *
+  * "Standalone Programs" are directly runnable in the environment
+- *	provided by U-Boot; it is expected that (if they behave
+- *	well) you can continue to work in U-Boot after return from
+- *	the Standalone Program.
++ * provided by U-Boot; it is expected that (if they behave
++ * well) you can continue to work in U-Boot after return from
++ * the Standalone Program.
+  * "OS Kernel Images" are usually images of some Embedded OS which
+- *	will take over control completely. Usually these programs
+- *	will install their own set of exception handlers, device
+- *	drivers, set up the MMU, etc. - this means, that you cannot
+- *	expect to re-enter U-Boot except by resetting the CPU.
++ * will take over control completely. Usually these programs
++ * will install their own set of exception handlers, device
++ * drivers, set up the MMU, etc. - this means, that you cannot
++ * expect to re-enter U-Boot except by resetting the CPU.
+  * "RAMDisk Images" are more or less just data blocks, and their
+- *	parameters (address, size) are passed to an OS kernel that is
+- *	being started.
++ * parameters (address, size) are passed to an OS kernel that is
++ * being started.
+  * "Multi-File Images" contain several images, typically an OS
+- *	(Linux) kernel image and one or more data images like
+- *	RAMDisks. This construct is useful for instance when you want
+- *	to boot over the network using BOOTP etc., where the boot
+- *	server provides just a single image file, but you want to get
+- *	for instance an OS kernel and a RAMDisk image.
++ * (Linux) kernel image and one or more data images like
++ * RAMDisks. This construct is useful for instance when you want
++ * to boot over the network using BOOTP etc., where the boot
++ * server provides just a single image file, but you want to get
++ * for instance an OS kernel and a RAMDisk image.
+  *
+- *	"Multi-File Images" start with a list of image sizes, each
+- *	image size (in bytes) specified by an "uint32_t" in network
+- *	byte order. This list is terminated by an "(uint32_t)0".
+- *	Immediately after the terminating 0 follow the images, one by
+- *	one, all aligned on "uint32_t" boundaries (size rounded up to
+- *	a multiple of 4 bytes - except for the last file).
++ * "Multi-File Images" start with a list of image sizes, each
++ * image size (in bytes) specified by an "uint32_t" in network
++ * byte order. This list is terminated by an "(uint32_t)0".
++ * Immediately after the terminating 0 follow the images, one by
++ * one, all aligned on "uint32_t" boundaries (size rounded up to
++ * a multiple of 4 bytes - except for the last file).
+  *
+  * "Firmware Images" are binary images containing firmware (like
+- *	U-Boot or FPGA images) which usually will be programmed to
+- *	flash memory.
++ * U-Boot or FPGA images) which usually will be programmed to
++ * flash memory.
+  *
+  * "Script files" are command sequences that will be executed by
+- *	U-Boot's command interpreter; this feature is especially
+- *	useful when you configure U-Boot to use a real shell (hush)
+- *	as command interpreter (=> Shell Scripts).
++ * U-Boot's command interpreter; this feature is especially
++ * useful when you configure U-Boot to use a real shell (hush)
++ * as command interpreter (=> Shell Scripts).
+  */
+ 
+-#define IH_TYPE_INVALID		0	/* Invalid Image		*/
+-#define IH_TYPE_STANDALONE	1	/* Standalone Program		*/
+-#define IH_TYPE_KERNEL		2	/* OS Kernel Image		*/
+-#define IH_TYPE_RAMDISK		3	/* RAMDisk Image		*/
+-#define IH_TYPE_MULTI		4	/* Multi-File Image		*/
+-#define IH_TYPE_FIRMWARE	5	/* Firmware Image		*/
+-#define IH_TYPE_SCRIPT		6	/* Script file			*/
+-#define IH_TYPE_FILESYSTEM	7	/* Filesystem Image (any type)	*/
+-#define IH_TYPE_FLATDT		8	/* Binary Flat Device Tree Blob	*/
+-#define IH_TYPE_KERNEL_NOLOAD  14	/* OS Kernel Image (noload)	*/
++#define IH_TYPE_INVALID       0 /* Invalid Image */
++#define IH_TYPE_STANDALONE    1 /* Standalone Program */
++#define IH_TYPE_KERNEL        2 /* OS Kernel Image */
++#define IH_TYPE_RAMDISK       3 /* RAMDisk Image */
++#define IH_TYPE_MULTI         4 /* Multi-File Image */
++#define IH_TYPE_FIRMWARE      5 /* Firmware Image */
++#define IH_TYPE_SCRIPT        6 /* Script file */
++#define IH_TYPE_FILESYSTEM    7 /* Filesystem Image (any type) */
++#define IH_TYPE_FLATDT        8 /* Binary Flat Device Tree Blob */
++#define IH_TYPE_KERNEL_NOLOAD 14 /* OS Kernel Image (noload) */
+ 
+ /*
+  * Compression Types
+  */
+-#define IH_COMP_NONE		0	/*  No	 Compression Used	*/
+-#define IH_COMP_GZIP		1	/* gzip	 Compression Used	*/
+-#define IH_COMP_BZIP2		2	/* bzip2 Compression Used	*/
++#define IH_COMP_NONE  0 /*  No  Compression Used */
++#define IH_COMP_GZIP  1 /* gzip  Compression Used */
++#define IH_COMP_BZIP2 2 /* bzip2 Compression Used */
+ 
+-#define IH_MAGIC	0x27051956	/* Image Magic Number		*/
+-#define IH_NMLEN		32	/* Image Name Length		*/
++#define IH_MAGIC 0x27051956 /* Image Magic Number */
++#define IH_NMLEN 32 /* Image Name Length */
+ 
+ /*
+  * all data in network byte order (aka natural aka bigendian)
+  */
+ 
+ typedef struct uboot_image_header {
+-	uint32_t	ih_magic;	/* Image Header Magic Number	*/
+-	uint32_t	ih_hcrc;	/* Image Header CRC Checksum	*/
+-	uint32_t	ih_time;	/* Image Creation Timestamp	*/
+-	uint32_t	ih_size;	/* Image Data Size		*/
+-	uint32_t	ih_load;	/* Data	 Load  Address		*/
+-	uint32_t	ih_ep;		/* Entry Point Address		*/
+-	uint32_t	ih_dcrc;	/* Image Data CRC Checksum	*/
+-	uint8_t		ih_os;		/* Operating System		*/
+-	uint8_t		ih_arch;	/* CPU architecture		*/
+-	uint8_t		ih_type;	/* Image Type			*/
+-	uint8_t		ih_comp;	/* Compression Type		*/
+-	uint8_t		ih_name[IH_NMLEN];	/* Image Name		*/
++        uint32_t ih_magic;         /* Image Header Magic Number */
++        uint32_t ih_hcrc;          /* Image Header CRC Checksum */
++        uint32_t ih_time;          /* Image Creation Timestamp */
++        uint32_t ih_size;          /* Image Data Size */
++        uint32_t ih_load;          /* Data  Load  Address */
++        uint32_t ih_ep;            /* Entry Point Address */
++        uint32_t ih_dcrc;          /* Image Data CRC Checksum */
++        uint8_t ih_os;             /* Operating System */
++        uint8_t ih_arch;           /* CPU architecture */
++        uint8_t ih_type;           /* Image Type */
++        uint8_t ih_comp;           /* Compression Type */
++        uint8_t ih_name[IH_NMLEN]; /* Image Name */
+ } uboot_image_header_t;
+ 
+-
+ #endif /* UBOOT_IMAGE_H */
+diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+index 7fb620b9a0..5ec3a9a17f 100644
+--- a/hw/ppc/ppc440_bamboo.c
++++ b/hw/ppc/ppc440_bamboo.c
+@@ -3,9 +3,9 @@
+  *
+  * Copyright 2007 IBM Corporation.
+  * Authors:
+- *	Jerone Young <jyoung5@us.ibm.com>
+- *	Christian Ehrhardt <ehrhardt@linux.vnet.ibm.com>
+- *	Hollis Blanchard <hollisb@us.ibm.com>
++ *  Jerone Young <jyoung5@us.ibm.com>
++ *  Christian Ehrhardt <ehrhardt@linux.vnet.ibm.com>
++ *  Hollis Blanchard <hollisb@us.ibm.com>
+  *
+  * This work is licensed under the GNU GPL license version 2 or later.
+  *
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index d7c04237fe..d58b65e88f 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -474,16 +474,16 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+ 
+     if (spapr->fwnmi_machine_check_interlock != cpu->vcpu_id) {
+         /*
+-	 * The vCPU that hit the NMI should invoke "ibm,nmi-interlock"
++         * The vCPU that hit the NMI should invoke "ibm,nmi-interlock"
+          * This should be PARAM_ERROR, but Linux calls "ibm,nmi-interlock"
+-	 * for system reset interrupts, despite them not being interlocked.
+-	 * PowerVM silently ignores this and returns success here. Returning
+-	 * failure causes Linux to print the error "FWNMI: nmi-interlock
+-	 * failed: -3", although no other apparent ill effects, this is a
+-	 * regression for the user when enabling FWNMI. So for now, match
+-	 * PowerVM. When most Linux clients are fixed, this could be
+-	 * changed.
+-	 */
++         * for system reset interrupts, despite them not being interlocked.
++         * PowerVM silently ignores this and returns success here. Returning
++         * failure causes Linux to print the error "FWNMI: nmi-interlock
++         * failed: -3", although no other apparent ill effects, this is a
++         * regression for the user when enabling FWNMI. So for now, match
++         * PowerVM. When most Linux clients are fixed, this could be
++         * changed.
++         */
+         rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+         return;
+     }
+diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
+index 364f165b4b..02af03ada2 100644
+--- a/include/hw/ppc/ppc.h
++++ b/include/hw/ppc/ppc.h
+@@ -99,11 +99,11 @@ enum {
+     ARCH_MAC99_U3,
+ };
+ 
+-#define FW_CFG_PPC_WIDTH	(FW_CFG_ARCH_LOCAL + 0x00)
+-#define FW_CFG_PPC_HEIGHT	(FW_CFG_ARCH_LOCAL + 0x01)
+-#define FW_CFG_PPC_DEPTH	(FW_CFG_ARCH_LOCAL + 0x02)
+-#define FW_CFG_PPC_TBFREQ	(FW_CFG_ARCH_LOCAL + 0x03)
+-#define FW_CFG_PPC_CLOCKFREQ	(FW_CFG_ARCH_LOCAL + 0x04)
++#define FW_CFG_PPC_WIDTH        (FW_CFG_ARCH_LOCAL + 0x00)
++#define FW_CFG_PPC_HEIGHT       (FW_CFG_ARCH_LOCAL + 0x01)
++#define FW_CFG_PPC_DEPTH        (FW_CFG_ARCH_LOCAL + 0x02)
++#define FW_CFG_PPC_TBFREQ       (FW_CFG_ARCH_LOCAL + 0x03)
++#define FW_CFG_PPC_CLOCKFREQ    (FW_CFG_ARCH_LOCAL + 0x04)
+ #define FW_CFG_PPC_IS_KVM       (FW_CFG_ARCH_LOCAL + 0x05)
+ #define FW_CFG_PPC_KVM_HC       (FW_CFG_ARCH_LOCAL + 0x06)
+ #define FW_CFG_PPC_KVM_PID      (FW_CFG_ARCH_LOCAL + 0x07)
+-- 
+2.35.1
+
 
