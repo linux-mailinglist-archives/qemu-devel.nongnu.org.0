@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8AD4F29CF
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 12:43:34 +0200 (CEST)
-Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADE64F2AF1
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 13:07:03 +0200 (CEST)
+Received: from localhost ([::1]:34858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbgeq-0000Cu-L8
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 06:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60336)
+	id 1nbh1a-0005jS-77
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 07:07:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWr-00021o-42
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39107)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWt-00024L-HW
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWo-0008UX-8k
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:16 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWq-0000Ar-7f
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649154902;
+ s=mimecast20190719; t=1649154904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hRPyNKEHMsxDJm0GTnXmMTiP3FPrbT3yyEorugTRLj4=;
- b=bDVKJo764allMWYzsglYW17ZYd74aEdD3ihaYPVhfr0+5NTOAiCFd5oqTLfd71aE103y3V
- PbuN4aEsTlW96r/0MKI4uQR2w00qcHet4y/iesuHmxf+igLnmxOt99sX/2zNLmsDHuMNPW
- aVVQ0LVMkxsX58jkFv+XAsgVG18LdjY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FhDD5tfVu7b/WNuCXb56vIGMjaMJ7GSwjnfn2PBDlhU=;
+ b=ZTr71xfSPnwIaFayd91jTmnMhVjj2+I+WmHKC2czSEK4JOAwqeZAoT/H4H1K1XtSq8POwe
+ v6HX+c19wJ5aolyqPHnRMPKhXLZjazVMVjdPLdPJYVGsLGlvGhwSryW4He5Z6dc4xuZ5nr
+ oUYTcidJYZNatO73ftKxyDHQCBYtwN0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-aeWojYd7MkaxMS2anxXt4w-1; Tue, 05 Apr 2022 06:35:01 -0400
-X-MC-Unique: aeWojYd7MkaxMS2anxXt4w-1
+ us-mta-56-kWPKq_3rMp2qYtmTz5wRxg-1; Tue, 05 Apr 2022 06:35:01 -0400
+X-MC-Unique: kWPKq_3rMp2qYtmTz5wRxg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4DE0D101A52C;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4DC9A3C11A07;
  Tue,  5 Apr 2022 10:35:01 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C813D2167D9D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C81A1215CDAF;
  Tue,  5 Apr 2022 10:34:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AF2A721E6929; Tue,  5 Apr 2022 12:34:55 +0200 (CEST)
+ id B15E621E692C; Tue,  5 Apr 2022 12:34:55 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/10] qapi: fix example of query-colo-status command
-Date: Tue,  5 Apr 2022 12:34:51 +0200
-Message-Id: <20220405103455.4145273-7-armbru@redhat.com>
+Subject: [PULL 07/10] qapi: fix example of trace-event-get-state command
+Date: Tue,  5 Apr 2022 12:34:52 +0200
+Message-Id: <20220405103455.4145273-8-armbru@redhat.com>
 In-Reply-To: <20220405103455.4145273-1-armbru@redhat.com>
 References: <20220405103455.4145273-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -86,30 +86,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-The example output is missing the mandatory member @last-mode in the
-return value. Fix it.
+The example output is missing the mandatory member @vcpu. Fix it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
-Message-Id: <20220331190633.121077-7-victortoso@redhat.com>
+Message-Id: <20220331190633.121077-8-victortoso@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/migration.json | 2 +-
+ qapi/trace.json | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 092a63354b..f74777608a 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1679,7 +1679,7 @@
- # Example:
+diff --git a/qapi/trace.json b/qapi/trace.json
+index 119509f565..6c6982a587 100644
+--- a/qapi/trace.json
++++ b/qapi/trace.json
+@@ -69,7 +69,7 @@
  #
- # -> { "execute": "query-colo-status" }
--# <- { "return": { "mode": "primary", "reason": "request" } }
-+# <- { "return": { "mode": "primary", "last-mode": "none", "reason": "request" } }
+ # -> { "execute": "trace-event-get-state",
+ #      "arguments": { "name": "qemu_memalign" } }
+-# <- { "return": [ { "name": "qemu_memalign", "state": "disabled" } ] }
++# <- { "return": [ { "name": "qemu_memalign", "state": "disabled", "vcpu": false } ] }
  #
- # Since: 3.1
  ##
+ { 'command': 'trace-event-get-state',
 -- 
 2.35.1
 
