@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216574F458A
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 00:48:47 +0200 (CEST)
-Received: from localhost ([::1]:47854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A350D4F456C
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 00:44:52 +0200 (CEST)
+Received: from localhost ([::1]:41522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbryg-0003PL-72
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 18:48:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60888)
+	id 1nbrut-0007Ta-Pe
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 18:44:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3zMRMYggKCqEXVIBPUTIHPPHMF.DPNRFNV-EFWFMOPOHOV.PSH@flex--wuhaotsh.bounces.google.com>)
- id 1nbroY-0004Iq-NR
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 18:38:22 -0400
-Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049]:55198)
+ <3zsRMYggKCqMZXKDRWVKJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--wuhaotsh.bounces.google.com>)
+ id 1nbroU-0004FN-Eo
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 18:38:15 -0400
+Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449]:34657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3zMRMYggKCqEXVIBPUTIHPPHMF.DPNRFNV-EFWFMOPOHOV.PSH@flex--wuhaotsh.bounces.google.com>)
- id 1nbroT-00031k-1X
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 18:38:18 -0400
-Received: by mail-pj1-x1049.google.com with SMTP id
- i19-20020a17090adc1300b001ca70b4a71aso388117pjv.4
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 15:38:05 -0700 (PDT)
+ <3zsRMYggKCqMZXKDRWVKJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--wuhaotsh.bounces.google.com>)
+ id 1nbroS-000321-2d
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 18:38:14 -0400
+Received: by mail-pf1-x449.google.com with SMTP id
+ y26-20020aa793da000000b004fb7c6f5d10so445588pff.1
+ for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 15:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=7y16m+YhgKT9axQ8vzxH2jNiZz8ZOwdWe+v7jicPkRA=;
- b=CAjxTBZ5DCHGqgRFAP0vBgTsvNnqKGZNo3ys8caHzWv+VMd8oRqKLUemGlFhbq7IGr
- S0M67zfwqtEbbRNII5fWZE0st5BaCBKhdkF8ilrkt1AYTNMQU2qlvcVTPZwzvZsr/DgU
- C2YvL+MlQUDya6QLsHSWzSnLgggvGU9FSIcx+UOVd1EizfA1lhNfVPA9RZNfoS99gMeo
- OA5RhDcY/z8jHd4g8KpANPD/Yv6L5BW/DozqmKUyYnTEwE8rdudB1VBW5Fiq3QwDxAYH
- mXJ6YfTymzxLKK8tLoIuU7oYuTRJUWRAFWkswT3YbU7Wht6sWjcbBbvazTEOR/c2ZQ+D
- 5dqQ==
+ :cc; bh=4lqFJfMyhM5gSqksn2scdDmPoQUw1eXlvt2iNImqMZo=;
+ b=NkBN9HzCvrPiJUXUlaFo+UKNf6vHPCa7lbPQAeayYzaPskdNrBj5EhmgUNZIQMYsRG
+ qcZ2gMCW+WKcnecwaYcidX8Pk/GAaIEz2DHNvU91o0jAD8oeTTVSPN0Knjl9nFklUi+i
+ L3YzC8Bxsvc9y2lTiggaYkycGSfPq0+tlYMiQoVLdXeX8Mn8jcFN+U5OUhurTC5BhAP0
+ STpwKwVY4wE1QwLtYlRBzII8+SZeD7xSO7zbf8Lr453QKx69iQdjQNYD+ztmi7VL75yh
+ EUtAVc7B2Oo2uciIZPZSre95cbbXaOTsMzJJ8HIk9bYfn1aH394UCK+BKNV3ZjsyuG5L
+ XnNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=7y16m+YhgKT9axQ8vzxH2jNiZz8ZOwdWe+v7jicPkRA=;
- b=fL/mqv2aYAokqJ3k12CbWixyKNPmsSRddvN3n/fZFZq5u3T5JT/9DPTnPb+Q2nDUK0
- Mgfns05dFgV7GdjIZgZDrfhK45owvp29ZVyiWiQV5UvxPND9Z+u2s8ifMVZU55pWBFY7
- /CE1nhCv9p/JqcjGpIj1YEsse3lrncQxdbbpdayr+kHrhfHutZFwuimTlRKHG+YjMLcv
- VFJIfW/+NQFo8W8+j3yYUdDOsH/n2kUN3MtaCr7TkRWg6ougNBAPurg5508DMJ7J+iNz
- fC+ZslsWhTDnsumNxSLd2VBoOsb22YNXDkYvKOQFVh59FJAyY9ppJNeFtxSIufHRHn1z
- /tlw==
-X-Gm-Message-State: AOAM530sqAZ/X41+QrOuoXH2vB489YvwRsVdtRGFoMWzNZ/+GbH+dn2P
- gsZ2Tfvzgyryeyx8ZPiLarCpCha4RYyTxg==
-X-Google-Smtp-Source: ABdhPJxpusjdlY51IWZ0qzhmN7APqSQp3bJPPBm1r/RABBGCCYfy90xThzOk2vZUIhKUR4DoyMY29C80KzD59Q==
+ bh=4lqFJfMyhM5gSqksn2scdDmPoQUw1eXlvt2iNImqMZo=;
+ b=LQ56Qrt94I2IHuGM1sQAE15y0gtj1+ZgQzKoNTr/qJKkFQAixmQBzYc/ausZYg6m+0
+ x53ObPZYbrx+WHvUVlbjsYz7l8v+zAGFzeX/6w5PAouiLBTVCawd9gL8JpFLr7OzMNUX
+ VIyjnIFsqUIIqLra68K+abLFpp2jVzcKvY1w9SApp0zJ2sSXOLKXs09JaQEYOT0OgZX6
+ ZISnexOWF3rtwK2TCCac7mFtYrjMxScLYOzeuSqsyXZu5lYj8MZNJWBGYtxDbQVN40Yk
+ aiRbuJgJp2OfD4E3kV9jGWAM0NxIJa7FQU037Ro+ezr/eR5+VSRtfZ6K3kfa/eg8ko9a
+ MbKA==
+X-Gm-Message-State: AOAM533bKQzC2io5kEnOXyEWsZXDqMUl6bxJACtEUG04QqSClraS4q70
+ TTgR8kJVcPSKGX8A0hKQKjxDgOlfXpjgyg==
+X-Google-Smtp-Source: ABdhPJzGwjyQB8yFJyT/NYQRUohdtzSIg3Lr/RQCShxna7awGJMQbDAcxDTUd/j7cGVocTp42+QAFthd8N/4tA==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:902:ce02:b0:153:bd65:5c0e with SMTP
- id k2-20020a170902ce0200b00153bd655c0emr5586875plg.160.1649198284850; Tue, 05
- Apr 2022 15:38:04 -0700 (PDT)
-Date: Tue,  5 Apr 2022 15:36:34 -0700
+ (user=wuhaotsh job=sendgmr) by 2002:a17:90a:858b:b0:1c6:5bc8:781a with SMTP
+ id m11-20020a17090a858b00b001c65bc8781amr69727pjn.0.1649198286447; Tue, 05
+ Apr 2022 15:38:06 -0700 (PDT)
+Date: Tue,  5 Apr 2022 15:36:35 -0700
 In-Reply-To: <20220405223640.2595730-1-wuhaotsh@google.com>
-Message-Id: <20220405223640.2595730-6-wuhaotsh@google.com>
+Message-Id: <20220405223640.2595730-7-wuhaotsh@google.com>
 Mime-Version: 1.0
 References: <20220405223640.2595730-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.35.1.1094.g7c7d902a7c-goog
-Subject: [PATCH for-7.1 05/11] hw/misc: Store DRAM size in NPCM8XX GCR Module
+Subject: [PATCH for-7.1 06/11] hw/intc: Add a property to allow GIC to reset
+ into non secure mode
 From: Hao Wu <wuhaotsh@google.com>
 To: peter.maydell@linaro.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
@@ -65,9 +66,9 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com,
  hskinnemoen@google.com, Uri.Trichter@nuvoton.com, Vishal.Soni@microsoft.com, 
  titusr@google.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
- envelope-from=3zMRMYggKCqEXVIBPUTIHPPHMF.DPNRFNV-EFWFMOPOHOV.PSH@flex--wuhaotsh.bounces.google.com;
- helo=mail-pj1-x1049.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
+ envelope-from=3zsRMYggKCqMZXKDRWVKJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pf1-x449.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -91,124 +92,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NPCM8XX boot block stores the DRAM size in SCRPAD_B register in GCR
-module. Since we don't simulate a detailed memory controller, we
-need to store this information directly similar to the NPCM7XX's
-INCTR3 register.
+This property allows certain boards like NPCM8xx to boot the kernel
+directly into non-secure mode. This is necessary since we do not
+support secure boot features for NPCM8xx now.
 
 Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Reviwed-by: Titus Rwantare <titusr@google.com>
+Reviewed-by: Patrick Venture <venture@google.com>
 ---
- hw/misc/npcm_gcr.c         | 33 ++++++++++++++++++++++++++++++---
- include/hw/misc/npcm_gcr.h |  1 +
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ hw/intc/arm_gic_common.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/misc/npcm_gcr.c b/hw/misc/npcm_gcr.c
-index 2349949599..14c298602a 100644
---- a/hw/misc/npcm_gcr.c
-+++ b/hw/misc/npcm_gcr.c
-@@ -267,7 +267,7 @@ static const struct MemoryRegionOps npcm_gcr_ops = {
-     },
+diff --git a/hw/intc/arm_gic_common.c b/hw/intc/arm_gic_common.c
+index 7b44d5625b..7ddc5cfbd0 100644
+--- a/hw/intc/arm_gic_common.c
++++ b/hw/intc/arm_gic_common.c
+@@ -358,6 +358,8 @@ static Property arm_gic_common_properties[] = {
+     /* True if the GIC should implement the virtualization extensions */
+     DEFINE_PROP_BOOL("has-virtualization-extensions", GICState, virt_extn, 0),
+     DEFINE_PROP_UINT32("num-priority-bits", GICState, n_prio_bits, 8),
++    /* True if we want to directly booting a kernel into NonSecure */
++    DEFINE_PROP_BOOL("irq-reset-nonsecure", GICState, irq_reset_nonsecure, 0),
+     DEFINE_PROP_END_OF_LIST(),
  };
  
--static void npcm_gcr_enter_reset(Object *obj, ResetType type)
-+static void npcm7xx_gcr_enter_reset(Object *obj, ResetType type)
- {
-     NPCMGCRState *s = NPCM_GCR(obj);
-     NPCMGCRClass *c = NPCM_GCR_GET_CLASS(obj);
-@@ -283,6 +283,23 @@ static void npcm_gcr_enter_reset(Object *obj, ResetType type)
-     }
- }
- 
-+static void npcm8xx_gcr_enter_reset(Object *obj, ResetType type)
-+{
-+    NPCMGCRState *s = NPCM_GCR(obj);
-+    NPCMGCRClass *c = NPCM_GCR_GET_CLASS(obj);
-+
-+    switch (type) {
-+    case RESET_TYPE_COLD:
-+        memcpy(s->regs, c->cold_reset_values, c->nr_regs * sizeof(uint32_t));
-+        /* These 3 registers are at the same location in both 7xx and 8xx. */
-+        s->regs[NPCM8XX_GCR_PWRON] = s->reset_pwron;
-+        s->regs[NPCM8XX_GCR_MDLR] = s->reset_mdlr;
-+        s->regs[NPCM8XX_GCR_INTCR3] = s->reset_intcr3;
-+        s->regs[NPCM8XX_GCR_SCRPAD_B] = s->reset_scrpad_b;
-+        break;
-+    }
-+}
-+
- static void npcm_gcr_realize(DeviceState *dev, Error **errp)
- {
-     ERRP_GUARD();
-@@ -326,6 +343,14 @@ static void npcm_gcr_realize(DeviceState *dev, Error **errp)
-      * https://github.com/Nuvoton-Israel/u-boot/blob/2aef993bd2aafeb5408dbaad0f3ce099ee40c4aa/board/nuvoton/poleg/poleg.c#L244
-      */
-     s->reset_intcr3 |= ctz64(dram_size / NPCM7XX_GCR_MIN_DRAM_SIZE) << 8;
-+
-+    /*
-+     * The boot block starting from 0.0.6 for NPCM8xx SoCs stores the DRAM size
-+     * in the SCRPAD2 registers. We need to set this field correctly since
-+     * the initialization is skipped as we mentioned above.
-+     * https://github.com/Nuvoton-Israel/u-boot/blob/npcm8mnx-v2019.01_tmp/board/nuvoton/arbel/arbel.c#L737
-+     */
-+    s->reset_scrpad_b = dram_size;
- }
- 
- static void npcm_gcr_init(Object *obj)
-@@ -355,12 +380,10 @@ static Property npcm_gcr_properties[] = {
- 
- static void npcm_gcr_class_init(ObjectClass *klass, void *data)
- {
--    ResettableClass *rc = RESETTABLE_CLASS(klass);
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->realize = npcm_gcr_realize;
-     dc->vmsd = &vmstate_npcm_gcr;
--    rc->phases.enter = npcm_gcr_enter_reset;
- 
-     device_class_set_props(dc, npcm_gcr_properties);
- }
-@@ -369,24 +392,28 @@ static void npcm7xx_gcr_class_init(ObjectClass *klass, void *data)
- {
-     NPCMGCRClass *c = NPCM_GCR_CLASS(klass);
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
- 
-     QEMU_BUILD_BUG_ON(NPCM7XX_GCR_REGS_END > NPCM_GCR_MAX_NR_REGS);
-     QEMU_BUILD_BUG_ON(NPCM7XX_GCR_REGS_END != NPCM7XX_GCR_NR_REGS);
-     dc->desc = "NPCM7xx System Global Control Registers";
-     c->nr_regs = NPCM7XX_GCR_NR_REGS;
-     c->cold_reset_values = npcm7xx_cold_reset_values;
-+    rc->phases.enter = npcm7xx_gcr_enter_reset;
- }
- 
- static void npcm8xx_gcr_class_init(ObjectClass *klass, void *data)
- {
-     NPCMGCRClass *c = NPCM_GCR_CLASS(klass);
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
- 
-     QEMU_BUILD_BUG_ON(NPCM8XX_GCR_REGS_END > NPCM_GCR_MAX_NR_REGS);
-     QEMU_BUILD_BUG_ON(NPCM8XX_GCR_REGS_END != NPCM8XX_GCR_NR_REGS);
-     dc->desc = "NPCM8xx System Global Control Registers";
-     c->nr_regs = NPCM8XX_GCR_NR_REGS;
-     c->cold_reset_values = npcm8xx_cold_reset_values;
-+    rc->phases.enter = npcm8xx_gcr_enter_reset;
- }
- 
- static const TypeInfo npcm_gcr_info[] = {
-diff --git a/include/hw/misc/npcm_gcr.h b/include/hw/misc/npcm_gcr.h
-index ac3d781c2e..bd69199d51 100644
---- a/include/hw/misc/npcm_gcr.h
-+++ b/include/hw/misc/npcm_gcr.h
-@@ -39,6 +39,7 @@ typedef struct NPCMGCRState {
-     uint32_t reset_pwron;
-     uint32_t reset_mdlr;
-     uint32_t reset_intcr3;
-+    uint32_t reset_scrpad_b;
- } NPCMGCRState;
- 
- typedef struct NPCMGCRClass {
 -- 
 2.35.1.1094.g7c7d902a7c-goog
 
