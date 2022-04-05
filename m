@@ -2,82 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CFC4F295F
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 11:14:12 +0200 (CEST)
-Received: from localhost ([::1]:53254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB254F2971
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 11:29:27 +0200 (CEST)
+Received: from localhost ([::1]:58152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbfGN-0004cF-3l
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 05:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37782)
+	id 1nbfV8-0008RW-FT
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 05:29:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nbfCu-0003BC-I7
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:10:38 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2514)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nbfIj-0006Av-RS
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:16:39 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:37754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nbfCn-0000CV-Sm
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:10:33 -0400
-Received: from fraeml703-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KXhcM3vlKz67hFv;
- Tue,  5 Apr 2022 17:07:31 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml703-chm.china.huawei.com (10.206.15.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Tue, 5 Apr 2022 11:10:25 +0200
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 5 Apr
- 2022 10:10:24 +0100
-Date: Tue, 5 Apr 2022 10:10:22 +0100
-To: Adam Manzanares <a.manzanares@samsung.com>
-CC: "linuxarm@huawei.com" <linuxarm@huawei.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, "Markus
- Armbruster" <armbru@redhat.com>, "linux-cxl@vger.kernel.org"
- <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, Shameerali Kolothum Thodi
- <shameerali.kolothum.thodi@huawei.com>, Philippe =?ISO-8859-1?Q?Mathieu-D?=
- =?ISO-8859-1?Q?aud=E9?= <f4bug@amsat.org>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Saransh Gupta1 <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, 
- Chris Browy <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, 
- Dan Williams <dan.j.williams@intel.com>, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>, "dave@stgolabs.net" <dave@stgolabs.net>,
- Tong Zhang <t.zhang2@samsung.com>, "k.jensen@samsung.com"
- <k.jensen@samsung.com>, Heekwon Park <heekwon.p@samsung.com>, Jaemin Jung
- <j.jaemin@samsung.com>, Jongmin Gim <gim.jongmin@samsung.com>,
- "mcgrof@kernel.org" <mcgrof@kernel.org>
-Subject: Re: [PATCH v8 04/46] hw/cxl/device: Introduce a CXL device (8.2.8)
-Message-ID: <20220405101022.00003f06@huawei.com>
-In-Reply-To: <20220404151500.GA57759@bgt-140510-bm01>
-References: <20220318150635.24600-1-Jonathan.Cameron@huawei.com>
- <20220318150635.24600-5-Jonathan.Cameron@huawei.com>
- <CGME20220329181401uscas1p2b229afdbb479a012e140f84367c35ccd@uscas1p2.samsung.com>
- <20220329181353.GA59203@bgt-140510-bm01>
- <20220330184848.000027f7@huawei.com>
- <20220331221319.GA2411@bgt-140510-bm01>
- <20220401143034.0000015f@huawei.com>
- <20220404151500.GA57759@bgt-140510-bm01>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nbfIh-0001HU-SY
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:16:37 -0400
+Received: from [192.168.13.13] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id A083B20779;
+ Tue,  5 Apr 2022 09:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1649150192;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jvEOy2CTlglwrFmfjjelsJJvYsXvwBqq2ojcHMWkcvA=;
+ b=Tz8nr8e5m7djl4kDQBQ5hYDSN/1vstQLWWe6p2dzaA++L/JEluqauGkQ7mPXH4IDJd9AgS
+ SQMBBs2u4BnXy94qbIMaSOG2mQy1TX9VmjcXRzqMKqwbx40rK9RNR40AeAMT5nAKBA9us1
+ cxusT1L5HNfzgDpvm9qhE3WMRKdR4ec=
+Message-ID: <50204b1e-2bf5-8fa7-83f3-0ee8b9cc4ab5@greensocs.com>
+Date: Tue, 5 Apr 2022 11:16:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [qemu.qmp PATCH 10/13] docs: add versioning policy to README
+Content-Language: en-US-large
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20220330182424.3438872-1-jsnow@redhat.com>
+ <20220330182424.3438872-11-jsnow@redhat.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <20220330182424.3438872-11-jsnow@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml717-chm.china.huawei.com (10.201.108.68) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,139 +67,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-...
 
-> > > > > 
-> > > > > Can we switch this to mem_size and drop the persistent comment? It is my 
-> > > > > understanding that HDM is independent of persistence.    
-> > > > 
-> > > > Discussed in the other branch of this thread.  Short answer is we don't
-> > > > support non persistent yet but it's on the todo list.  What exactly
-> > > > that looks like is to be determined.  One aspect of that is there
-> > > > isn't currently a software stack to test volatile memory.    
-> > > 
-> > > If you can elaborate more here on what is needed to test the volatile memory 
-> > > stack we may be able to help out.  
-> > 
-> > There are a bunch of different ways this could be done - ultimate we probably
-> > want to do all of them.
-> > 
-> > https://urldefense.com/v3/__https://cdrdv2.intel.com/v1/dl/getContent/643805?wapkw=CXL*20memory*20device*20sw*20guide__;JSUlJQ!!EwVzqGoTKBqv-0DWAJBm!HzD_Dh_I9m9MydppOSSyhuzvwTawlg7LE77bEYiZ1i3AMgxV_YOI56VeZgkg-KuX7XMA$ 
-> > has some suggestions (though no one is obliged to follow them!) See 2.4
-> > 
-> > First assumption is that for volatile devices, a common approach will be to do
-> > all the setup in firmware before the OS boots and just present normal SRAT, HMAT
-> > and memory tables as if it were any other memory.  If we want to go that way
-> > for testing purposes then we'd need an open source firmware to implement
-> > setup similar to that done in Linux - probably EDK2.
-> > 
-> > Of course, volatile memory might be hot added, in which case the OS may be involved.
-> > In that case I think the main missing part would be actually doing the final memory
-> > hotplug event to expose it to the OS + the necessary dynamic updating of the
-> > OS numa description etc. There is work on going to get the information needed
-> > but I think we are still some way off actually tying everything together.
-> > 
-> > Dan / Ben and team may be able to share more status information.  
+
+On 3/30/22 20:24, John Snow wrote:
+> The package is in an alpha state, but there's a method to the madness.
 > 
-> Great, thanks for all of the information. We will start planning out our next
-> steps. I'll add Luis on cc since he has chatted with me about setting up a 
-> test framework for the CXL kernel code that will rely on QEMU.
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   README.rst | 21 +++++++++++++++++++++
+>   1 file changed, 21 insertions(+)
 > 
-> >   
-> > >   
-> > > >     
-> > > > >     
-> > > > > > +} CXLDeviceState;
-> > > > > > +
-> > > > > > +/* Initialize the register block for a device */
-> > > > > > +void cxl_device_register_block_init(Object *obj, CXLDeviceState *dev);  
-> > 
-> > ...
-> >   
-> > > > > +cc Dave, Klaus, Tong
-> > > > > Other than the minor issues raised.
-> > > > > 
-> > > > > Looks good.
-> > > > > 
-> > > > > Reviewed by: Adam Manzanares <a.manzanares@samsung.com>    
-> > > > 
-> > > > Btw I haven't accepted all changes, but have been picking up
-> > > > your RB.  Shout if that's not fine with you.    
-> > > 
-> > > Definitely fine with me and was my intention. Let us know how we can help move
-> > > the work forward. I am kick starting reviewing and will try to bring others in.  
-> > 
-> > Great.  For various reasons I'll not bother mention here (see my employer ;)
-> > I need to keep any discussions on mailing list or in a 'published' form.
-> > So discussion on mailing list + at conferences works best for me but we can
-> > organize some suitably hosted public calls if needed to align plans.
-> > There is a plan for uconf at Plumbers this year which will hopefully let  
-> 
-> We would also prefer to keep discussions in the public domain. We have plans to
-> attend Plumbers this year, so we look forward to discussing in person. 
+> diff --git a/README.rst b/README.rst
+> index 8593259..88efe84 100644
+> --- a/README.rst
+> +++ b/README.rst
+> @@ -154,6 +154,27 @@ fail. These checks use their own virtual environments and won't pollute
+>   your working space.
+>   
+>   
+> +Stability and Versioning
+> +------------------------
+> +
+> +This package uses a major.minor.micro SemVer versioning, with the
+> +following additional semantics during the alpha/beta period (Major
+> +version 0):
+> +
+> +This package treats 0.0.z versions as "alpha" versions. Each micro
+> +version update may change the API incompatibly. Early users are advised
+> +to pin against explicit versions, but check for updates often.
+> +
+> +A planned 0.1.z version will introduce the first "beta", whereafter each
+> +micro update will be backwards compatible, but each minor update will
+> +not be. The first beta version will be released after legacy.py is
+> +removed, and the API is tentatively "stable".
+> +
+> +Thereafter, normal SemVer/PEP440 rules will apply; micro updates will
+> +always be bugfixes, and minor updates will be reserved for backwards
+> +compatible feature changes.
+> +
+> +
+>   Changelog
+>   ---------
+>   
 
-Excellent.  If it's useful to have a public discussion before plumbers then the nice
-folk at Linaro have been kind enough to host similar discussion in the
-past (and deal with posting recordings etc afterwards for those who missed
-the live call) and I expect they'd help us out again (Hi Alex ;)
-
-> 
-> > us do any longer term planning.  Shorter term my aims around QEMU side of things
-> > are:
-> > 
-> > 1) Get the initial support upstream as I'm getting bored of rebasing :)
-> >    I think we are in a fairly good state for doing that once qemu 7.0 is
-> >    out.
-> > 2) Improved tests so it doesn't break when no one is paying attention.  
-> 
-> Luis may have some thoughts here. 
-
-Excellent. A testing expert is always useful. It would be nice to think about
-getting something beyond a basic 'does it boot' test into the qemu CI but
-I've not really looked into how one might do that.
-
-> 
-> > 3) Expand out the feature set to keep up with what is going on Linux kernel
-> >    wise (personally no other OS of interest, but it would be great if anyone
-> >    wanted to help deal with other operating systems that care).
-> >   * RAS
-> >   * CDAT for switches etc, host table updates for generic port definition
-> >    - What ever else I've missed recently.  When the region code finalizes
-> >      I suspect we'll want to add a load more tests to stress various corners
-> >      of that.
-> >   * Alison may help with partitioning support.
-> > 4) Expand features where we have currently taken a short cut such as enabling
-> >    multiple HDM decoders.
-> > 5) Use it as a path for testing spec features before publication (obviously can't
-> >    talk about that on list but I've open in appropriate venue about that).
-> > 
-> > Happy to have help on any of the above, but 'features' that are reasonably separate
-> > such as RAS support might be a good place for contributions that won't be
-> > greatly affected by any other refactoring going on.
-> > 
-> > I've pushed all but SPDM support and stuff for which the spec isn't public yet up on
-> > https://urldefense.com/v3/__https://gitlab.com/jic23/qemu/-/commits/cxl-v9-draft-1__;!!EwVzqGoTKBqv-0DWAJBm!HzD_Dh_I9m9MydppOSSyhuzvwTawlg7LE77bEYiZ1i3AMgxV_YOI56VeZgkg-EMwmPTV$ 
-> > (as you can see CI found a segfault today so I'll push the fix out for that
-> >  shortly - that also highlighted a build breakage mid series that I've fixed up.).
-> >   
-> 
-> Once again thanks for all of the pointers. 
-
-You are welcome. It's nice to see this work gain traction :)
-
-Anyhow, v9 is on it's way (slowly) through our firewall (got log anti spam
-send rate limits) so fingers crossed we are nearly ready with this first bit
-of support to build more fun stuff on top of.
-
-Jonathan
-
-> 
-> > Jonathan
-
-
+Looks reasonable to me.
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
 
