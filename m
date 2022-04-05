@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5CF4F3D7B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 22:03:27 +0200 (CEST)
-Received: from localhost ([::1]:55754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3984E4F3D7A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 22:03:23 +0200 (CEST)
+Received: from localhost ([::1]:55674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbpOg-0002RS-9q
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 16:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56408)
+	id 1nbpOc-0002O5-7h
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 16:03:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nbpHj-0003r7-5Z; Tue, 05 Apr 2022 15:56:15 -0400
+ id 1nbpHl-0003wy-T4; Tue, 05 Apr 2022 15:56:17 -0400
 Received: from [187.72.171.209] (port=24543 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nbpHh-00049c-H8; Tue, 05 Apr 2022 15:56:14 -0400
+ id 1nbpHk-00049c-2r; Tue, 05 Apr 2022 15:56:17 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 5 Apr 2022 16:56:02 -0300
+ Tue, 5 Apr 2022 16:56:03 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 3584B8000CB;
- Tue,  5 Apr 2022 16:56:02 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 3B4D98000CB;
+ Tue,  5 Apr 2022 16:56:03 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 2/9] target/ppc: Implemented vector divide instructions
-Date: Tue,  5 Apr 2022 16:55:51 -0300
-Message-Id: <20220405195558.66144-3-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v2 3/9] target/ppc: Implemented vector divide quadword
+Date: Tue,  5 Apr 2022 16:55:52 -0300
+Message-Id: <20220405195558.66144-4-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220405195558.66144-1-lucas.araujo@eldorado.org.br>
 References: <20220405195558.66144-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 05 Apr 2022 19:56:02.0745 (UTC)
- FILETIME=[2DBEA290:01D84927]
+X-OriginalArrivalTime: 05 Apr 2022 19:56:03.0730 (UTC)
+ FILETIME=[2E54EF20:01D84927]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,102 +67,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vdivsw: Vector Divide Signed Word
-vdivuw: Vector Divide Unsigned Word
-vdivsd: Vector Divide Signed Doubleword
-vdivud: Vector Divide Unsigned Doubleword
+vdivsq: Vector Divide Signed Quadword
+vdivuq: Vector Divide Unsigned Quadword
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 ---
- target/ppc/insn32.decode            |  7 ++++
- target/ppc/translate/vmx-impl.c.inc | 59 +++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
+ target/ppc/helper.h                 |  2 ++
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/int_helper.c             | 21 +++++++++++++++++++++
+ target/ppc/translate/vmx-impl.c.inc |  2 ++
+ 4 files changed, 27 insertions(+)
 
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 57da11c77e..4cfdf7b3ec 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -171,6 +171,8 @@ DEF_HELPER_FLAGS_3(VMULOSW, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(VMULOUB, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(VMULOUH, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(VMULOUW, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VDIVSQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VDIVUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_3(vslo, void, avr, avr, avr)
+ DEF_HELPER_3(vsro, void, avr, avr, avr)
+ DEF_HELPER_3(vsrv, void, avr, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index ac2d3da9a7..597768558b 100644
+index 597768558b..3a88a0b5bc 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -703,3 +703,10 @@ XVTLSBB         111100 ... -- 00010 ..... 111011011 . - @XX2_bf_xb
- &XL_s           s:uint8_t
- @XL_s           ......-------------- s:1 .......... -   &XL_s
- RFEBB           010011-------------- .   0010010010 -   @XL_s
+@@ -710,3 +710,5 @@ VDIVSW          000100 ..... ..... ..... 00110001011    @VX
+ VDIVUW          000100 ..... ..... ..... 00010001011    @VX
+ VDIVSD          000100 ..... ..... ..... 00111001011    @VX
+ VDIVUD          000100 ..... ..... ..... 00011001011    @VX
++VDIVSQ          000100 ..... ..... ..... 00100001011    @VX
++VDIVUQ          000100 ..... ..... ..... 00000001011    @VX
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 492f34c499..ba5d4193ff 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1036,6 +1036,27 @@ void helper_XXPERMX(ppc_vsr_t *t, ppc_vsr_t *s0, ppc_vsr_t *s1, ppc_vsr_t *pcv,
+     *t = tmp;
+ }
+ 
++void helper_VDIVSQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
++{
++    Int128 neg1 = int128_makes64(-1);
++    Int128 int128_min = int128_make128(0, INT64_MIN);
++    if (likely(int128_nz(b->s128) &&
++              (int128_ne(a->s128, int128_min) || int128_ne(b->s128, neg1)))) {
++        t->s128 = int128_divs(a->s128, b->s128);
++    } else {
++        t->s128 = a->s128; /* Undefined behavior */
++    }
++}
 +
-+## Vector Division Instructions
++void helper_VDIVUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
++{
++    if (int128_nz(b->s128)) {
++        t->s128 = int128_divu(a->s128, b->s128);
++    } else {
++        t->s128 = a->s128; /* Undefined behavior */
++    }
++}
 +
-+VDIVSW          000100 ..... ..... ..... 00110001011    @VX
-+VDIVUW          000100 ..... ..... ..... 00010001011    @VX
-+VDIVSD          000100 ..... ..... ..... 00111001011    @VX
-+VDIVUD          000100 ..... ..... ..... 00011001011    @VX
+ void helper_VPERM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
+ {
+     ppc_avr_t result;
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 6101bca3fd..be35d6fdf3 100644
+index be35d6fdf3..bac0db7128 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -3236,6 +3236,65 @@ TRANS(VMULHSD, do_vx_mulh, true , do_vx_vmulhd_i64)
- TRANS(VMULHUW, do_vx_mulh, false, do_vx_vmulhw_i64)
- TRANS(VMULHUD, do_vx_mulh, false, do_vx_vmulhd_i64)
+@@ -3292,6 +3292,8 @@ TRANS_VDIV_VMOD(ISA310, VDIVSW, MO_32, do_divsw, NULL)
+ TRANS_VDIV_VMOD(ISA310, VDIVUW, MO_32, do_divuw, NULL)
+ TRANS_VDIV_VMOD(ISA310, VDIVSD, MO_64, NULL, do_divsd)
+ TRANS_VDIV_VMOD(ISA310, VDIVUD, MO_64, NULL, do_divud)
++TRANS_FLAGS2(ISA310, VDIVSQ, do_vx_helper, gen_helper_VDIVSQ)
++TRANS_FLAGS2(ISA310, VDIVUQ, do_vx_helper, gen_helper_VDIVUQ)
  
-+#define TRANS_VDIV_VMOD(FLAGS, NAME, VECE, FNI4_FUNC, FNI8_FUNC)        \
-+static bool trans_##NAME(DisasContext *ctx, arg_VX *a)                  \
-+{                                                                       \
-+    static const GVecGen3 op = {                                        \
-+        .fni4 = FNI4_FUNC,                                              \
-+        .fni8 = FNI8_FUNC,                                              \
-+        .vece = VECE                                                    \
-+    };                                                                  \
-+                                                                        \
-+    REQUIRE_VECTOR(ctx);                                                \
-+    REQUIRE_INSNS_FLAGS2(ctx, FLAGS);                                   \
-+                                                                        \
-+    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),    \
-+                   avr_full_offset(a->vrb), 16, 16, &op);               \
-+                                                                        \
-+    return true;                                                        \
-+}
-+
-+#define DO_VDIV_VMOD(NAME, SZ, DIV, SIGNED)                             \
-+static void NAME(TCGv_i##SZ t, TCGv_i##SZ a, TCGv_i##SZ b)              \
-+{                                                                       \
-+    /*                                                                  \
-+     *  If N/0 the instruction used by the backend might deliver        \
-+     *  an invalid division signal to the process, so if b = 0 return   \
-+     *  N/1 and if signed instruction, the same for a = int_min, b = -1 \
-+     */                                                                 \
-+    if (SIGNED) {                                                       \
-+        TCGv_i##SZ t0 = tcg_temp_new_i##SZ();                           \
-+        TCGv_i##SZ t1 = tcg_temp_new_i##SZ();                           \
-+        tcg_gen_setcondi_i##SZ(TCG_COND_EQ, t0, a, INT##SZ##_MIN);      \
-+        tcg_gen_setcondi_i##SZ(TCG_COND_EQ, t1, b, -1);                 \
-+        tcg_gen_and_i##SZ(t0, t0, t1);                                  \
-+        tcg_gen_setcondi_i##SZ(TCG_COND_EQ, t1, b, 0);                  \
-+        tcg_gen_or_i##SZ(t0, t0, t1);                                   \
-+        tcg_gen_movi_i##SZ(t1, 0);                                      \
-+        tcg_gen_movcond_i##SZ(TCG_COND_NE, b, t0, t1, t0, b);           \
-+        DIV(t, a, b);                                                   \
-+        tcg_temp_free_i##SZ(t0);                                        \
-+        tcg_temp_free_i##SZ(t1);                                        \
-+    } else {                                                            \
-+        TCGv_i##SZ zero = tcg_constant_i##SZ(0);                        \
-+        TCGv_i##SZ one = tcg_constant_i##SZ(1);                         \
-+        tcg_gen_movcond_i##SZ(TCG_COND_EQ, b, b, zero, one, b);         \
-+        DIV(t, a, b);                                                   \
-+    }                                                                   \
-+}
-+
-+DO_VDIV_VMOD(do_divsw, 32, tcg_gen_div_i32, true)
-+DO_VDIV_VMOD(do_divuw, 32, tcg_gen_divu_i32, false)
-+DO_VDIV_VMOD(do_divsd, 64, tcg_gen_div_i64, true)
-+DO_VDIV_VMOD(do_divud, 64, tcg_gen_divu_i64, false)
-+
-+TRANS_VDIV_VMOD(ISA310, VDIVSW, MO_32, do_divsw, NULL)
-+TRANS_VDIV_VMOD(ISA310, VDIVUW, MO_32, do_divuw, NULL)
-+TRANS_VDIV_VMOD(ISA310, VDIVSD, MO_64, NULL, do_divsd)
-+TRANS_VDIV_VMOD(ISA310, VDIVUD, MO_64, NULL, do_divud)
-+
-+#undef DO_VDIV_VMOD
-+
- #undef GEN_VR_LDX
- #undef GEN_VR_STX
- #undef GEN_VR_LVE
+ #undef DO_VDIV_VMOD
+ 
 -- 
 2.31.1
 
