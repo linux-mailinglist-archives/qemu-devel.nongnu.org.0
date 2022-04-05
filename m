@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91874F3C58
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 17:35:53 +0200 (CEST)
-Received: from localhost ([::1]:45810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B2C4F3C5A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 17:36:07 +0200 (CEST)
+Received: from localhost ([::1]:46388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nblDk-0002fn-Sw
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 11:35:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53270)
+	id 1nblDy-000337-VP
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 11:36:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nblBY-0008KI-Fm
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 11:33:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23380)
+ id 1nblBZ-0008OP-Ri
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 11:33:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nblBW-0003wq-Nr
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 11:33:36 -0400
+ id 1nblBY-0003xG-2M
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 11:33:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649172814;
+ s=mimecast20190719; t=1649172815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GuhMYgQSjvwA+WE+0m5ZgSh1iQlddJXFUZbFhus+bSY=;
- b=Gb9ACSVDJCLr9Q78tZzlnhw5xSq6P++hzwfBweTbFLgKAUrnnuT6CQma0Uq33pD/OYlMZI
- hfyWubnwiffC3BDW17NIvCWsaB6BRfNc5BHOIs6REpQ8GyV9MTMrOT2enL81I9A6Rdm1Dt
- RuR3Z50v+ZVLAUz8nGJsiwXdOf4hrM4=
+ bh=qtIiIG5cYjGFrp5Olf62TgllKgB7t+S2bdDeFCbd31o=;
+ b=CCFct1UpxOrQOslODufsYkGU9nYmn22MiaAvlkemwDAzh/1/kCFbdq6OkNXtqWXFuwQ+f2
+ 5LDB13pDL87yNZXw9qyxDTGb7ZX7yk4XH4ZdqQzp/9ulR2oyYfkKDU1K1dQtIVjSCGi/kC
+ DSIBPrWD2/AY+0i8Us8g/fCp7F5GdlQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-606-fy1ZiO-6NkKymuXDbk_OSQ-1; Tue, 05 Apr 2022 11:33:31 -0400
-X-MC-Unique: fy1ZiO-6NkKymuXDbk_OSQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-427-J6BCTVEgOKa8_i_NYAx8cg-1; Tue, 05 Apr 2022 11:33:32 -0400
+X-MC-Unique: J6BCTVEgOKa8_i_NYAx8cg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92C42802803;
- Tue,  5 Apr 2022 15:33:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 110C8802819;
+ Tue,  5 Apr 2022 15:33:32 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B58B40CF8F7;
- Tue,  5 Apr 2022 15:33:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA342C28109;
+ Tue,  5 Apr 2022 15:33:31 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC v2 3/8] block: pass size to bdrv_unregister_buf()
-Date: Tue,  5 Apr 2022 16:33:18 +0100
-Message-Id: <20220405153323.2082242-4-stefanha@redhat.com>
+Subject: [RFC v2 4/8] block: add BDRV_REQ_REGISTERED_BUF request flag
+Date: Tue,  5 Apr 2022 16:33:19 +0100
+Message-Id: <20220405153323.2082242-5-stefanha@redhat.com>
 In-Reply-To: <20220405153323.2082242-1-stefanha@redhat.com>
 References: <20220405153323.2082242-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,154 +94,208 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only implementor of bdrv_register_buf() is block/nvme.c, where the
-size is not needed when unregistering a buffer. This is because
-util/vfio-helpers.c can look up mappings by address.
+Block drivers may optimize I/O requests accessing buffers previously
+registered with bdrv_register_buf(). Checking whether all elements of a
+request's QEMUIOVector are within previously registered buffers is
+expensive, so we need a hint from the user to avoid costly checks.
 
-Future block drivers that implement bdrv_register_buf() may not be able
-to do their job given only the buffer address. Add a size argument to
-bdrv_unregister_buf().
+Add a BDRV_REQ_REGISTERED_BUF request flag to indicate that all
+QEMUIOVector elements in an I/O request are known to be within
+previously registered buffers.
 
-Also document the assumptions about
-bdrv_register_buf()/bdrv_unregister_buf() calls. The same <host, size>
-values that were given to bdrv_register_buf() must be given to
-bdrv_unregister_buf().
+bdrv_aligned_preadv() is strict in validating supported read flags and
+its assertions fail when it sees BDRV_REQ_REGISTERED_BUF. There is no
+harm in passing BDRV_REQ_REGISTERED_BUF to block drivers that do not
+support it, so update the assertions to ignore BDRV_REQ_REGISTERED_BUF.
 
-gcc 11.2.1 emits a spurious warning that img_bench()'s buf_size local
-variable might be uninitialized, so it's necessary to silence the
-compiler.
+Care must be taken to clear the flag when the block layer or filter
+drivers replace QEMUIOVector elements with bounce buffers since these
+have not been registered with bdrv_register_buf(). A lot of the changes
+in this commit deal with clearing the flag in those cases.
+
+Ensuring that the flag is cleared properly is somewhat invasive to
+implement across the block layer and it's hard to spot when future code
+changes accidentally break it. Another option might be to add a flag to
+QEMUIOVector itself and clear it in qemu_iovec_*() functions that modify
+elements. That is more robust but somewhat of a layering violation, so I
+haven't attempted that.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/block/block-global-state.h          | 5 ++++-
- include/block/block_int-common.h            | 2 +-
- include/sysemu/block-backend-global-state.h | 2 +-
- block/block-backend.c                       | 4 ++--
- block/io.c                                  | 6 +++---
- block/nvme.c                                | 2 +-
- qemu-img.c                                  | 4 ++--
- 7 files changed, 14 insertions(+), 11 deletions(-)
+ include/block/block-common.h |  9 +++++++++
+ block/blkverify.c            |  4 ++--
+ block/crypto.c               |  2 ++
+ block/io.c                   | 30 +++++++++++++++++++++++-------
+ block/mirror.c               |  2 ++
+ block/raw-format.c           |  2 ++
+ 6 files changed, 40 insertions(+), 9 deletions(-)
 
-diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 25bb69bbef..2295a7c767 100644
---- a/include/block/block-global-state.h
-+++ b/include/block/block-global-state.h
-@@ -244,9 +244,12 @@ void bdrv_del_child(BlockDriverState *parent, BdrvChild *child, Error **errp);
-  * Register/unregister a buffer for I/O. For example, VFIO drivers are
-  * interested to know the memory areas that would later be used for I/O, so
-  * that they can prepare IOMMU mapping etc., to get better performance.
-+ *
-+ * Buffers must not overlap and they must be unregistered with the same <host,
-+ * size> values that they were registered with.
-  */
- void bdrv_register_buf(BlockDriverState *bs, void *host, size_t size);
--void bdrv_unregister_buf(BlockDriverState *bs, void *host);
-+void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size);
- 
- void bdrv_cancel_in_flight(BlockDriverState *bs);
- 
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 8947abab76..b7a7cbd3a5 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -435,7 +435,7 @@ struct BlockDriver {
-      * DMA mapping for hot buffers.
+diff --git a/include/block/block-common.h b/include/block/block-common.h
+index fdb7306e78..061606e867 100644
+--- a/include/block/block-common.h
++++ b/include/block/block-common.h
+@@ -80,6 +80,15 @@ typedef enum {
       */
-     void (*bdrv_register_buf)(BlockDriverState *bs, void *host, size_t size);
--    void (*bdrv_unregister_buf)(BlockDriverState *bs, void *host);
-+    void (*bdrv_unregister_buf)(BlockDriverState *bs, void *host, size_t size);
+     BDRV_REQ_MAY_UNMAP          = 0x4,
  
-     /*
-      * This field is modified only under the BQL, and is part of
-diff --git a/include/sysemu/block-backend-global-state.h b/include/sysemu/block-backend-global-state.h
-index 2e93a74679..989ec0364b 100644
---- a/include/sysemu/block-backend-global-state.h
-+++ b/include/sysemu/block-backend-global-state.h
-@@ -107,7 +107,7 @@ void blk_io_limits_update_group(BlockBackend *blk, const char *group);
- void blk_set_force_allow_inactivate(BlockBackend *blk);
++    /*
++     * An optimization hint when all QEMUIOVector elements are within
++     * previously registered bdrv_register_buf() memory ranges.
++     *
++     * Code that replaces the user's QEMUIOVector elements with bounce buffers
++     * must take care to clear this flag.
++     */
++    BDRV_REQ_REGISTERED_BUF     = 0x8,
++
+     BDRV_REQ_FUA                = 0x10,
+     BDRV_REQ_WRITE_COMPRESSED   = 0x20,
  
- void blk_register_buf(BlockBackend *blk, void *host, size_t size);
--void blk_unregister_buf(BlockBackend *blk, void *host);
-+void blk_unregister_buf(BlockBackend *blk, void *host, size_t size);
+diff --git a/block/blkverify.c b/block/blkverify.c
+index e4a37af3b2..d624f4fd05 100644
+--- a/block/blkverify.c
++++ b/block/blkverify.c
+@@ -235,8 +235,8 @@ blkverify_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
+     qemu_iovec_init(&raw_qiov, qiov->niov);
+     qemu_iovec_clone(&raw_qiov, qiov, buf);
  
- const BdrvChild *blk_root(BlockBackend *blk);
+-    ret = blkverify_co_prwv(bs, &r, offset, bytes, qiov, &raw_qiov, flags,
+-                            false);
++    ret = blkverify_co_prwv(bs, &r, offset, bytes, qiov, &raw_qiov,
++                            flags & ~BDRV_REQ_REGISTERED_BUF, false);
  
-diff --git a/block/block-backend.c b/block/block-backend.c
-index e0e1aff4b1..8af00d8a36 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2591,10 +2591,10 @@ void blk_register_buf(BlockBackend *blk, void *host, size_t size)
-     bdrv_register_buf(blk_bs(blk), host, size);
- }
+     cmp_offset = qemu_iovec_compare(qiov, &raw_qiov);
+     if (cmp_offset != -1) {
+diff --git a/block/crypto.c b/block/crypto.c
+index 1ba82984ef..c900355adb 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -473,6 +473,8 @@ block_crypto_co_pwritev(BlockDriverState *bs, int64_t offset, int64_t bytes,
+     uint64_t sector_size = qcrypto_block_get_sector_size(crypto->block);
+     uint64_t payload_offset = qcrypto_block_get_payload_offset(crypto->block);
  
--void blk_unregister_buf(BlockBackend *blk, void *host)
-+void blk_unregister_buf(BlockBackend *blk, void *host, size_t size)
- {
-     GLOBAL_STATE_CODE();
--    bdrv_unregister_buf(blk_bs(blk), host);
-+    bdrv_unregister_buf(blk_bs(blk), host, size);
- }
- 
- int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
++    flags &= ~BDRV_REQ_REGISTERED_BUF;
++
+     assert(!(flags & ~BDRV_REQ_FUA));
+     assert(payload_offset < INT64_MAX);
+     assert(QEMU_IS_ALIGNED(offset, sector_size));
 diff --git a/block/io.c b/block/io.c
-index 3280144a17..a8a7920e29 100644
+index a8a7920e29..139e36c2e1 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -3365,16 +3365,16 @@ void bdrv_register_buf(BlockDriverState *bs, void *host, size_t size)
-     }
- }
+@@ -1556,11 +1556,14 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
+     max_transfer = QEMU_ALIGN_DOWN(MIN_NON_ZERO(bs->bl.max_transfer, INT_MAX),
+                                    align);
  
--void bdrv_unregister_buf(BlockDriverState *bs, void *host)
-+void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size)
+-    /* TODO: We would need a per-BDS .supported_read_flags and
++    /*
++     * TODO: We would need a per-BDS .supported_read_flags and
+      * potential fallback support, if we ever implement any read flags
+      * to pass through to drivers.  For now, there aren't any
+-     * passthrough flags.  */
+-    assert(!(flags & ~(BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH)));
++     * passthrough flags except the BDRV_REQ_REGISTERED_BUF optimization hint.
++     */
++    assert(!(flags & ~(BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH |
++                       BDRV_REQ_REGISTERED_BUF)));
+ 
+     /* Handle Copy on Read and associated serialisation */
+     if (flags & BDRV_REQ_COPY_ON_READ) {
+@@ -1601,7 +1604,7 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
+         goto out;
+     }
+ 
+-    assert(!(flags & ~bs->supported_read_flags));
++    assert(!(flags & ~(bs->supported_read_flags | BDRV_REQ_REGISTERED_BUF)));
+ 
+     max_bytes = ROUND_UP(MAX(0, total_bytes - offset), align);
+     if (bytes <= max_bytes && bytes <= max_transfer) {
+@@ -1790,7 +1793,8 @@ static void bdrv_padding_destroy(BdrvRequestPadding *pad)
+ static int bdrv_pad_request(BlockDriverState *bs,
+                             QEMUIOVector **qiov, size_t *qiov_offset,
+                             int64_t *offset, int64_t *bytes,
+-                            BdrvRequestPadding *pad, bool *padded)
++                            BdrvRequestPadding *pad, bool *padded,
++                            BdrvRequestFlags *flags)
  {
-     BdrvChild *child;
+     int ret;
  
-     GLOBAL_STATE_CODE();
-     if (bs->drv && bs->drv->bdrv_unregister_buf) {
--        bs->drv->bdrv_unregister_buf(bs, host);
-+        bs->drv->bdrv_unregister_buf(bs, host, size);
+@@ -1818,6 +1822,10 @@ static int bdrv_pad_request(BlockDriverState *bs,
+     if (padded) {
+         *padded = true;
      }
-     QLIST_FOREACH(child, &bs->children, next) {
--        bdrv_unregister_buf(child->bs, host);
-+        bdrv_unregister_buf(child->bs, host, size);
-     }
++    if (flags) {
++        /* Can't use optimization hint with bounce buffer */
++        *flags &= ~BDRV_REQ_REGISTERED_BUF;
++    }
+ 
+     return 0;
  }
- 
-diff --git a/block/nvme.c b/block/nvme.c
-index 552029931d..88485e77f1 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -1592,7 +1592,7 @@ static void nvme_register_buf(BlockDriverState *bs, void *host, size_t size)
+@@ -1872,7 +1880,7 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
      }
- }
  
--static void nvme_unregister_buf(BlockDriverState *bs, void *host)
-+static void nvme_unregister_buf(BlockDriverState *bs, void *host, size_t size)
- {
-     BDRVNVMeState *s = bs->opaque;
- 
-diff --git a/qemu-img.c b/qemu-img.c
-index 1caddfb23a..493fad758a 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -4363,7 +4363,7 @@ static int img_bench(int argc, char **argv)
-     struct timeval t1, t2;
-     int i;
-     bool force_share = false;
--    size_t buf_size;
-+    size_t buf_size = 0;
- 
-     for (;;) {
-         static const struct option long_options[] = {
-@@ -4585,7 +4585,7 @@ static int img_bench(int argc, char **argv)
- 
- out:
-     if (data.buf) {
--        blk_unregister_buf(blk, data.buf);
-+        blk_unregister_buf(blk, data.buf, buf_size);
+     ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
+-                           NULL);
++                           NULL, &flags);
+     if (ret < 0) {
+         goto fail;
      }
-     qemu_vfree(data.buf);
-     blk_unref(blk);
+@@ -1917,6 +1925,11 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+         return -ENOTSUP;
+     }
+ 
++    /* By definition there is no user buffer so this flag doesn't make sense */
++    if (flags & BDRV_REQ_REGISTERED_BUF) {
++        return -EINVAL;
++    }
++
+     /* Invalidate the cached block-status data range if this write overlaps */
+     bdrv_bsc_invalidate_range(bs, offset, bytes);
+ 
+@@ -2202,6 +2215,9 @@ static int coroutine_fn bdrv_co_do_zero_pwritev(BdrvChild *child,
+     bool padding;
+     BdrvRequestPadding pad;
+ 
++    /* This flag doesn't make sense for padding or zero writes */
++    flags &= ~BDRV_REQ_REGISTERED_BUF;
++
+     padding = bdrv_init_padding(bs, offset, bytes, &pad);
+     if (padding) {
+         assert(!(flags & BDRV_REQ_NO_WAIT));
+@@ -2319,7 +2335,7 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
+          * alignment only if there is no ZERO flag.
+          */
+         ret = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad,
+-                               &padded);
++                               &padded, &flags);
+         if (ret < 0) {
+             return ret;
+         }
+diff --git a/block/mirror.c b/block/mirror.c
+index d8ecb9efa2..3a0773622d 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1477,6 +1477,8 @@ static int coroutine_fn bdrv_mirror_top_pwritev(BlockDriverState *bs,
+         qemu_iovec_init(&bounce_qiov, 1);
+         qemu_iovec_add(&bounce_qiov, bounce_buf, bytes);
+         qiov = &bounce_qiov;
++
++        flags &= ~BDRV_REQ_REGISTERED_BUF;
+     }
+ 
+     ret = bdrv_mirror_top_do_write(bs, MIRROR_METHOD_COPY, offset, bytes, qiov,
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 69fd650eaf..9bae3dd7f2 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -258,6 +258,8 @@ static int coroutine_fn raw_co_pwritev(BlockDriverState *bs, int64_t offset,
+         qemu_iovec_add(&local_qiov, buf, 512);
+         qemu_iovec_concat(&local_qiov, qiov, 512, qiov->size - 512);
+         qiov = &local_qiov;
++
++        flags &= ~BDRV_REQ_REGISTERED_BUF;
+     }
+ 
+     ret = raw_adjust_offset(bs, &offset, bytes, true);
 -- 
 2.35.1
 
