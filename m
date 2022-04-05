@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BBB4F3D55
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 21:22:33 +0200 (CEST)
-Received: from localhost ([::1]:33536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEBA24F3D5D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 21:39:17 +0200 (CEST)
+Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbol6-00026X-6C
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 15:22:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50210)
+	id 1nbp1I-0001RP-9b
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 15:39:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nboho-0008Ea-HK
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 15:19:12 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:36126)
+ id 1nbozY-0000GB-6h; Tue, 05 Apr 2022 15:37:28 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:38822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nbohl-0005E6-5B
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 15:19:07 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-df22f50e0cso458726fac.3
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 12:19:04 -0700 (PDT)
+ id 1nbozW-0000JJ-Ck; Tue, 05 Apr 2022 15:37:27 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id
+ 88-20020a9d0ee1000000b005d0ae4e126fso238993otj.5; 
+ Tue, 05 Apr 2022 12:37:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=LlHFSGsCx3uaNI1Et0co1h/Ncej6B2P7Uj2emuDmtRg=;
- b=ZrxjFwBioE0X5hsbsshJQXThGgjXQ2lFFy+ZDDujNWHNGy3ndPa/hHXh70Fg9665xD
- JCtRa0u43fdISsvJhFGUIqzk1te4wNOgXgPfkZ4U4QfYcuTM6KmP7TWHsQ0KDtA3SOI2
- CgWSlYUJM2gt+0apGtsMhBvz9+UzUTK+MWZu9alJ/eH3Y0ZJsxm+biennzXD1FtZrRuX
- sjF2Ki3heDy2vKHbVthq8BursppdiPzAFq+IDuJcRErYV8K8Mntankkj78rdWOfBDbyL
- E9lumdhs9pJzdLoA4oYqLd7BE8HcUA9U0cBDWI6JARB1j1olVI2wu9TBd7JX40umJ1DQ
- HaGg==
+ bh=a7pfyIUGYw2Noev/qPFdyT2u6YXxXpOmwpkdefB+a3g=;
+ b=BK/+VIjcoyvSCtCYw+0jrNM3bS5oDLWj55ktVT9C4jJFLX3QzdSUSBqJbqros1HyrU
+ NZySEg5PTlYlv47ICtdiSwosxyNo4ESJk6NTzZwr9AzwyN3bS6Cr3p22WNZpVtq8Ztvo
+ hySm0cp36n2U5y5IF/eRI8S1zzs1m3KPNQtrq/wxVUGlXLoVhEdkZZHdK//Whuq1Mf65
+ H9zClKSArXqyvuTvQ/Zh1Ib7j85b9zUPSFzRMlT0tVczc5roc+Mf0MKveqXxBkxKINrc
+ 1z6vgGjyP/v4wBt+X70BFDNtQPJLFD7S67JC7z/ecWzI79kn8HRgNysZ5/lJSxRiMPDH
+ lDbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=LlHFSGsCx3uaNI1Et0co1h/Ncej6B2P7Uj2emuDmtRg=;
- b=V4zWiMM4yGxfw3hS+STNfhNz4rG2d09nQiIBiOmsiDnaWRXOmllWddFEaGt4GKNkWj
- dBxwMF3W9hGrI16rSKxT4yAOZV9EZNavbDcx4Qf0BabgTGN63J6TsXYHPYgf3r0jEHwk
- t7yDDc8Nd3V2WcLOoc/bVJw4BbvED2VRyyirMzIEmXmqLjsYaVBWnqxvfPCTSoO7egsq
- 3tPSq4LRTxcwvdbhvVTk4p+6G51isiTcVprvToR0+gCBiVxm4AlrwpGn0KCL5VrymKkq
- 9CEFSfsQsuCRA7M3XskfsOiDAQdsL6b3v1sFfms8Mxhwy3NMCdbVmnMjMjdjPE5pPcOR
- 8BtA==
-X-Gm-Message-State: AOAM531wa98/Oh/GTvMLNiIbj81j0daCLhbYUq7E9mEqSv4D8nyF9QXp
- EmK+MUKKpqJ4GmfwA4Qfocw=
-X-Google-Smtp-Source: ABdhPJwWo0nuM4g0B9QzGhHU4bQ0sInenmvKSJcwTsGiA+MVD5HYGVtcvRdrO81IpCSNci90ZfUGIA==
-X-Received: by 2002:a05:6870:a901:b0:da:cf13:4023 with SMTP id
- eq1-20020a056870a90100b000dacf134023mr2214998oab.90.1649186342672; 
- Tue, 05 Apr 2022 12:19:02 -0700 (PDT)
+ bh=a7pfyIUGYw2Noev/qPFdyT2u6YXxXpOmwpkdefB+a3g=;
+ b=wpgMv/ZoiAZMVLaeUhf6oJdOfhGxfJ1Z+rUgi/EtnnfterNB8CiSW4u2ySwq28f/sn
+ eHtjdwGtkWi4PWz7NBnnuB//L4I9ee92dTIdkgSHmg5euElKus6SUmi93hcq3mhMhLcP
+ MLm5aNwzq0K4y7+FQDqbbNPSkbklCxPmv2wBtG3q1YtIddU4VcoqNUT3Eip8qftekLHG
+ JeJ2f89VNJd9EuX7j3DA/h2bmTAcGFMI7fCK2djnREhEcN1iuDDO84STLWTSuGoqX1fM
+ fT5/MNnhjf/o3x+f873foPA3vNvpobzwknQnvySfn/I6GxUjgduJijrc0epzT6huqVUa
+ FuAA==
+X-Gm-Message-State: AOAM532Eyw0SsRqoR0nosYlMopV/kblC2euGmZXl3IZDHXyBETABwaej
+ lhLKWmW1BVFHWKMtuct2+bE=
+X-Google-Smtp-Source: ABdhPJyVyt53wW6GBYV1ih/LqTM70E1FHVbgbAy/W0lVK/ZCCUxIw/n/8WDS7xzmXNhwHjqVcVHz/Q==
+X-Received: by 2002:a05:6830:1418:b0:5cd:8cd1:11ca with SMTP id
+ v24-20020a056830141800b005cd8cd111camr1860939otp.310.1649187434704; 
+ Tue, 05 Apr 2022 12:37:14 -0700 (PDT)
 Received: from ?IPV6:2804:431:c7c7:7ee3:afd9:f010:3a9:fd23?
  ([2804:431:c7c7:7ee3:afd9:f010:3a9:fd23])
  by smtp.gmail.com with ESMTPSA id
- w1-20020a056808090100b002da82caced5sm5614285oih.3.2022.04.05.12.19.00
+ d3-20020a9d2903000000b005cda765f578sm6011861otb.0.2022.04.05.12.37.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Apr 2022 12:19:02 -0700 (PDT)
-Message-ID: <e39b819c-76f1-07d8-cd5f-69c08a8c95b6@gmail.com>
-Date: Tue, 5 Apr 2022 16:18:59 -0300
+ Tue, 05 Apr 2022 12:37:14 -0700 (PDT)
+Message-ID: <73b8f910-ada4-b084-1808-588b8747da18@gmail.com>
+Date: Tue, 5 Apr 2022 16:37:11 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 1/1] kvm-all.c: hint Valgrind that kvm_get_one_reg()
- inits memory
+Subject: Re: [PATCH v2 2/4] target/ppc: init 'lpcr' in
+ kvmppc_enable_cap_large_decr()
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20220405130439.44253-1-danielhb413@gmail.com>
- <20220405130439.44253-2-danielhb413@gmail.com>
- <CAFEAcA-YkrrhFsGg0eWdQgU_VR4cSX5tLnHYCk8tK77cb-9Grg@mail.gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20220331001717.616938-1-danielhb413@gmail.com>
+ <20220331001717.616938-3-danielhb413@gmail.com> <YkUDCdUsjjmzFgJr@yekko>
+ <d5b622c6-81b4-9d3f-9777-5233fe5a2be4@gmail.com>
+ <5e48daaf-d881-2588-c323-30a9bc95a75f@linaro.org>
+ <b292e516-80dc-9e5c-991b-49c77c0fe044@gmail.com> <YkZ0OGtA8mVk1Q0p@yekko>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <CAFEAcA-YkrrhFsGg0eWdQgU_VR4cSX5tLnHYCk8tK77cb-9Grg@mail.gmail.com>
+In-Reply-To: <YkZ0OGtA8mVk1Q0p@yekko>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,65 +94,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, clg@kaod.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 4/5/22 11:30, Peter Maydell wrote:
-> On Tue, 5 Apr 2022 at 14:07, Daniel Henrique Barboza
-> <danielhb413@gmail.com> wrote:
+On 4/1/22 00:40, David Gibson wrote:
+> On Thu, Mar 31, 2022 at 03:46:57PM -0300, Daniel Henrique Barboza wrote:
 >>
->> There is a lot of Valgrind warnings about conditional jump depending on
->> unintialized values like this one (taken from a pSeries guest):
 >>
->>   Conditional jump or move depends on uninitialised value(s)
->>      at 0xB011DC: kvmppc_enable_cap_large_decr (kvm.c:2544)
->>      by 0x92F28F: cap_large_decr_cpu_apply (spapr_caps.c:523)
->>      by 0x930C37: spapr_caps_cpu_apply (spapr_caps.c:921)
->>      by 0x955D3B: spapr_reset_vcpu (spapr_cpu_core.c:73)
->> (...)
->>    Uninitialised value was created by a stack allocation
->>      at 0xB01150: kvmppc_enable_cap_large_decr (kvm.c:2538)
+>> On 3/31/22 14:36, Richard Henderson wrote:
+>>> On 3/31/22 11:17, Daniel Henrique Barboza wrote:
+>>>>> Hmm... this is seeming a bit like whack-a-mole.  Could we instead use
+>>>>> one of the valgrind hinting mechanisms to inform it that
+>>>>> kvm_get_one_reg() writes the variable at *target?
+>>>>
+>>>> I didn't find a way of doing that looking in the memcheck helpers
+>>>> (https://valgrind.org/docs/manual/mc-manual.html section 4.7). That would be a
+>>>> good way of solving this warning because we would put stuff inside a specific
+>>>> function X and all callers of X would be covered by it.
+>>>>
+>>>> What I did find instead is a memcheck macro called VALGRIND_MAKE_MEM_DEFINED that
+>>>> tells Valgrind that the var was initialized.
+>>>>
+>>>> This patch would then be something as follows:
+>>>>
+>>>>
+>>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>>>> index dc93b99189..b0e22fa283 100644
+>>>> --- a/target/ppc/kvm.c
+>>>> +++ b/target/ppc/kvm.c
+>>>> @@ -56,6 +56,10 @@
+>>>>    #define DEBUG_RETURN_GUEST 0
+>>>>    #define DEBUG_RETURN_GDB   1
+>>>>
+>>>> +#ifdef CONFIG_VALGRIND_H
+>>>> +#include <valgrind/memcheck.h>
+>>>> +#endif
+>>>> +
+>>>>    const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+>>>>        KVM_CAP_LAST_INFO
+>>>>    };
+>>>> @@ -2539,6 +2543,10 @@ int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
+>>>>        CPUState *cs = CPU(cpu);
+>>>>        uint64_t lpcr;
+>>>>
+>>>> +#ifdef CONFIG_VALGRIND_H
+>>>> +    VALGRIND_MAKE_MEM_DEFINED(lpcr, sizeof(uint64_t));
+>>>> +#endif
+>>>> +
+>>>>        kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
+>>>>        /* Do we need to modify the LPCR? */
+>>>>
+>>>>
+>>>> CONFIG_VALGRIND_H needs 'valgrind-devel´ installed.
+>>>>
+>>>> I agree that this "Valgrind is complaining about variable initialization" is a whack-a-mole
+>>>> situation that will keep happening in the future if we keep adding this same code pattern
+>>>> (passing as reference an uninitialized var). For now, given that we have only 4 instances
+>>>> to fix it in ppc code (as far as I'm aware of), and we don't have a better way of telling
+>>>> Valgrind that we know what we're doing, I think we're better of initializing these vars.
+>>>
+>>> I would instead put this annotation inside kvm_get_one_reg, so that it covers all kvm hosts.  But it's too late to do this for 7.0.
 >>
->> In this case, the alleged unintialized value is the 'lpcr' variable that
->> is written by kvm_get_one_reg() and then used in an if clause:
+>> I wasn't planning on pushing these changes for 7.0 since they aren't fixing mem
+>> leaks or anything really bad. It's more of a quality of life improvement when
+>> using Valgrind.
 >>
->> int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
->> {
->>      CPUState *cs = CPU(cpu);
->>      uint64_t lpcr;
->>
->>      kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
->>      /* Do we need to modify the LPCR? */
->>      if (!!(lpcr & LPCR_LD) != !!enable) { <---- Valgrind warns here
->> (...)
->>
->> A quick fix is to init the variable that kvm_get_one_reg() is going to
->> write ('lpcr' in the example above). Another idea is to convince
->> Valgrind that kvm_get_one_reg() inits the 'void *target' memory in case
->> the ioctl() is successful. This will put some boilerplate in the
->> function but it will bring benefit for its other callers.
+>> I also tried to put this annotation in kvm_get_one_reg() and it didn't solve the
+>> warning.
 > 
-> Doesn't Valgrind have a way of modelling ioctls where it
-> knows what data is read and written ? In general
-> ioctl-using programs don't need to have special case
-> "I am running under valgrind" handling, so this seems to
-> me like valgrind is missing support for this particular ioctl.
+> That's weird, I'm pretty sure that should work.  I'd double check to
+> make sure you had all the parameters right (e.g. could you have marked
+> the pointer itself as initialized, rather than the memory it points
+> to).
 
-I don't know if Valgrind is capable of doing that. Guess it's worth a look.
 
-> 
-> More generally, how much use is running QEMU with KVM enabled
-> under valgrind anyway? Valgrind has no way of knowing about
-> writes to memory that the guest vCPUs do...
+You're right. I got confused with different setups here and there and thought that
+it didn't work.
 
-At least in the hosts I have access to, I wasn't able to get a pSeries guest
-booting up to prompt with Valgrind + TCG. It was painfully slow. Valgrind + KVM
-is slow but doable. Granted, vCPUs reads/writes can't be profiled with it when
-using KVM, but for everything else is alright.
+I sent a patch to kvm-all.c that tries to do that:
+
+
+https://lists.gnu.org/archive/html/qemu-devel/2022-04/msg00507.html
+
+
+As for this series, for now I'm willing to take it since it improves the situation with
+simple initializations. We can reconsider it if we make good progress through the common
+code. At any rate these are 7.1 patches, so we have time.
+
 
 
 Thanks,
@@ -161,7 +195,20 @@ Thanks,
 Daniel
 
 
+
 > 
-> thanks
-> -- PMM
+>> I didn't find a way of telling Valgrind "consider that every time this
+>> function is called with parameter X it initializes X". That would be a good solution
+>> to put in the common KVM files and fix the problem for everybody.
+>>
+>>
+>> Daniel
+>>
+>>
+>>
+>>>
+>>>
+>>> r~
+>>
+> 
 
