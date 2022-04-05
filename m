@@ -2,86 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E869C4F236D
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 08:37:25 +0200 (CEST)
-Received: from localhost ([::1]:33396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE6E4F237D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 08:42:31 +0200 (CEST)
+Received: from localhost ([::1]:38190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbcoe-0004Kx-Dk
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 02:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56868)
+	id 1nbctZ-0007wa-Ob
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 02:42:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1nbcTn-0008MR-6P
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 02:15:51 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:40280)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nbcnv-0005Yi-QF
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 02:36:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1nbcTj-0006Nk-QR
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 02:15:50 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nbcns-0003pE-Hg
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 02:36:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649140595;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hKgKZlgYC04pIvK3YPR2QspNXKMOSQacNc53HmmqnRU=;
+ b=J9fIjsms/EvCEQQU7wAEwE0QIGS1gqPe2hC5vRRcEA1bjxHKzg5bSDViZtFabxFhjGmZi+
+ VfmqePJ0ZtVCrg8v+5bbPHI1mF3uM6Qkf4HRIOT2MAAkrwsTMaoUbcAE+v4yqx4QsSWi9R
+ UNUOvVheL+ZOomaGDzW/PK2Mk5LR4HQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-28-3YKEPsuGONiNSMJEdMKWDg-1; Tue, 05 Apr 2022 02:36:32 -0400
+X-MC-Unique: 3YKEPsuGONiNSMJEdMKWDg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id A43A23FCE3
- for <qemu-devel@nongnu.org>; Tue,  5 Apr 2022 06:15:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1649139343;
- bh=UjTVTKScWuRJa4TXOjUh4bZMVEJuLP5NbZn4FJ6m2Bk=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=k+UcLX9A8mLQa2Lb/ou0XH3WnXxozEGa+9jPgUm2p/H9htZkbcrSzPSifjjtIMApg
- lRrmOtxL9qbzehTz0aqGehW7R5se0jlhfGz/3BLmcXXlOAPYhpLpj77QVO43rR37mR
- NiIqcLs79qqCJ/2ZdLO5Oei1W6yrTPCTnrUbL1OYqKxQLjASB5UWDk+G44x5R3++cJ
- Uc95T1R8JFAIHOfuIYuFWmgtJbq7f+bAP0XCXfr7zHD0Gmh5dX8ybzCNIKb2axofgs
- FCdb1ob0c4FmX43NEkcMFc/8ZipI1+uMxFJiFo6rONPugH5EPFWKd5bSUDzGUp15zK
- wuKz1d5OqW6jA==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9D1F22E824D
- for <qemu-devel@nongnu.org>; Tue,  5 Apr 2022 06:15:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 05 Apr 2022 06:07:46 -0000
-From: Frank Heimes <1967814@bugs.launchpad.net>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8323805F46;
+ Tue,  5 Apr 2022 06:36:31 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 467F043203D;
+ Tue,  5 Apr 2022 06:36:30 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=ubuntu-z-systems; status=New; importance=High;
- assignee=skipper-screen-team; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=canonical-server; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
- component=main; status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: architecture-s39064 bugnameltc-195744 severity-high
- targetmilestone-inin---
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bugproxy fheimes
-X-Launchpad-Bug-Reporter: bugproxy (bugproxy)
-X-Launchpad-Bug-Modifier: Frank Heimes (fheimes)
-References: <164910836405.47300.12765269348955076743.malonedeb@daniels.canonical.com>
-Message-Id: <164913886694.50407.5976873424931908962.malone@daniels.canonical.com>
-Subject: [Bug 1967814] Re: Ubuntu 20.04.3 - ilzlnx3g1 - virtio-scsi devs on
- KVM guest having miscompares on disktests when there is a failed path.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="98132e33014dffc15ffeea1182b7db54e65752bd"; Instance="production"
-X-Launchpad-Hash: d4fc086791285de819e46898fb7fb8fc8951180f
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Subject: [PATCH] vdpa: Add missing tracing to batch mapping functions
+Date: Tue,  5 Apr 2022 08:36:28 +0200
+Message-Id: <20220405063628.853745-1-eperezma@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,89 +77,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1967814 <1967814@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changing the affected package from "linux (Ubuntu)" (kernel) to "qemu
-(Ubuntu)" as affected package, since the attached patch set is for qemu.
+These functions were not traced properly.
 
-** Package changed: linux (Ubuntu) =3D> qemu (Ubuntu)
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost-vdpa.c | 2 ++
+ hw/virtio/trace-events | 2 ++
+ 2 files changed, 4 insertions(+)
 
-** Also affects: qemu
-   Importance: Undecided
-       Status: New
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 8adf7c0b92..9e5fe15d03 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -129,6 +129,7 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
+         .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
+     };
 
-** No longer affects: qemu
++    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.iotlb.type);
+     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+         error_report("failed to write, fd=%d, errno=%d (%s)",
+                      fd, errno, strerror(errno));
+@@ -163,6 +164,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+     msg.type = v->msg_type;
+     msg.iotlb.type = VHOST_IOTLB_BATCH_END;
 
-** Also affects: ubuntu-z-systems
-   Importance: Undecided
-       Status: New
-
-** Changed in: ubuntu-z-systems
-     Assignee: (unassigned) =3D> Skipper Bug Screeners (skipper-screen-team)
-
-** Changed in: qemu (Ubuntu)
-     Assignee: Skipper Bug Screeners (skipper-screen-team) =3D> Canonical S=
-erver Team (canonical-server)
-
-** Changed in: ubuntu-z-systems
-   Importance: Undecided =3D> High
-
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1967814
-
-Title:
-  Ubuntu 20.04.3 - ilzlnx3g1 - virtio-scsi devs on KVM guest having
-  miscompares on disktests when there is a failed path.
-
-Status in Ubuntu on IBM z Systems:
-  New
-Status in qemu package in Ubuntu:
-  New
-Status in qemu source package in Focal:
-  New
-
-Bug description:
-  =3D=3D Comment: #63 - Halil Pasic <PASIC@de.ibm.com> - 2022-03-28 17:33:3=
-4 =3D=3D
-  I'm pretty confident I've figured out what is going on.=20
-
-  From the guest side, the decision whether the SCSI command was completed =
-successfully or not comes down to looking at the sense data. Prior to commit
-  a108557bbf ("scsi: inline sg_io_sense_from_errno() into the callers."), w=
-e don't
-  build sense data as a response to seeing a host status presented by the h=
-ost SCSI stack (e.g. kernel).
-
-  Thus when the kernel tells us that  a given SCSI command did not get comp=
-leted via
-  SCSI_HOST_TRANSPORT_DISRUPTED or SCSI_HOST_NO_LUN, we end up  fooling the=
- guest into believing that the command completed successfully.
-
-  The guest kernel, and especially virtio and multipath are at no fault
-  (AFAIU). Given these facts, it isn't all that surprising, that we end
-  up with corruptions.
-
-  All we have to do is do backports for QEMU (when necessary). I didn't
-  investigate vhost-scsi -- my guess is, that it ain't affected.
-
-  How do we want to handle the back-ports?
-
-  =3D=3D Comment: #66 - Halil Pasic <PASIC@de.ibm.com> - 2022-04-04 05:36:3=
-3 =3D=3D
-  This is a proposed backport containing 7 patches in mbox format. I tried =
-to pick patches sanely, and all I had to do was basically resolving merge c=
-onflicts.
-
-  I have to admit I have no extensive experience in doing such invasive
-  backports, and my knowledge of the QEMU SCSI stack is very limited. I
-  would be happy if the Ubuntu folks would have a good look at this, and
-  if possible improve on it.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/ubuntu-z-systems/+bug/1967814/+subscriptions
++    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
+     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+         error_report("failed to write, fd=%d, errno=%d (%s)",
+                      fd, errno, strerror(errno));
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index a5102eac9e..333348d9d5 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -25,6 +25,8 @@ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"
+ # vhost-vdpa.c
+ vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+ vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
++vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
++vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+ vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
+ vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
+ vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
+--
+2.27.0
 
 
