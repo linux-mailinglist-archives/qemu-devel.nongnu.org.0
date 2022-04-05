@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6011A4F3857
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 16:33:02 +0200 (CEST)
-Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E27A4F38F3
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 16:38:42 +0200 (CEST)
+Received: from localhost ([::1]:33858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbkEv-0003Ez-H5
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 10:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36848)
+	id 1nbkKO-0006a4-Vv
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 10:38:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nbkCe-00027G-Jh
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 10:30:40 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:44031)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nbkIr-0005VW-3l
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 10:37:05 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:34774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nbkCc-00036s-Pl
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 10:30:40 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id w134so15817767ybe.10
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 07:30:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nbkIp-0005Xr-9V
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 10:37:04 -0400
+Received: by mail-ed1-x536.google.com with SMTP id r10so9435342eda.1
+ for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 07:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LbBj51u2ep0swGILZwFiquMlcZJ8xUUa1hba8VU3Gnc=;
- b=Y6p1bhHLSbHsPbtniFwytYf+wMfjCKzHR2yoXyWH4OsRlsVZYJJg6DKM7iXDmGlQTk
- el85tKzV0P/5d30nJ7Iz6jbCIiXiF+1g+n+pxt7fKP0ybZrdXMTnCFtsf7nm4Eq16nyf
- ol4i0jo+tT29+fT3Ai3vrp5OA8Qo8QXwNjBoClLQnAO26HtSfjqgnvZ/W2zdAD0qXGzf
- WsUXVucpY+lTGOIr/WyddzRkbHwe/06HaddgEFIPKy8q5bjyRjyhmBu5QrAbPtdSCbTu
- JgeNJFNXnGp2sZ4271A5JUYwtdNJ8SYb5QlINVCEJ8bhI4jEfpOe4HeDZfWwpAV0FzSX
- TYow==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=9a22BYVOc/W6HWs8BgKyA2VVh43njI+QuH6k5mecZEA=;
+ b=Vu0CDbwexOfa5eVYRY946mO//6NVarULyyyZVjaHvLdbDcgMBQT7l6GSpbGiDG8d0j
+ hQ8FXBXlD/7MCm8xZFPmFoqcQZ1XxvwlRcY1Rr4UAeBK44sxTDcFRtQmhYNAmzjcG/sH
+ CF2LaAmH8J3CWf/AqXRrwd6yEUP80Qc82m5Zjyo4jgiDVgA6+/cz8mbefHhKSr3mknnC
+ hrRDoJaxe46nsLNTGCwdEHD+eHDCFh46v2Qw0iS5WZTUlOA34QiC4CFAkrvLt5oraPUI
+ 6cXJknbt5BIIEpE/GZSWczrx+iDzIgFse+PJInrf3WmDygImgI3dMypKkBMn4bbKPf3x
+ cumw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LbBj51u2ep0swGILZwFiquMlcZJ8xUUa1hba8VU3Gnc=;
- b=gvc8tJ8t2uJASGqCPS42vY9XaODS8jYbo2VztoTWDHm9h11m7gHMw4GY7U9iAlNDOB
- mkqSEwo3saFqnZmu7DluyJsXnqpHAJzCCo/RXy3sy3Usw+SxnbhzEmN6v7/k95GhBgXH
- KmxnwQ51/h+ILbTJ8/Ej+z0BVTzz4FPrhoantxR0EHSDN5ncln/QWX7NtAH6oyH6P8q0
- Esk8/UaxzH9uttUxefXm2UKWdavp6WoVNbT2nVNRmC7xSqcyi+34mlclovCIplrL4EmH
- rQMm837SV6AP6v7vnmLyiZRKxTu5tF7iWSysb+CgESFyjcPksDEsLeMmj7GYc9NuSK12
- Y/Bg==
-X-Gm-Message-State: AOAM531P5CmWCU96gjueFuGU16xOroxLq91yUMwcgSMJYiAKx3UUuMHa
- ojtNDWTo/V21Tlm3EoVBqoQz23VroQmTbzfjhIBPHmj+Mb0=
-X-Google-Smtp-Source: ABdhPJzFuKNQlFzINGbVhVEKZFZADuLzQVxH3vthKiK1GvudRtKNNtvBbItRzDcd+k+nYwkdkj3QmhplZ1GHniXto0k=
-X-Received: by 2002:a25:d8c3:0:b0:633:c81f:737d with SMTP id
- p186-20020a25d8c3000000b00633c81f737dmr2658201ybg.193.1649169037788; Tue, 05
- Apr 2022 07:30:37 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=9a22BYVOc/W6HWs8BgKyA2VVh43njI+QuH6k5mecZEA=;
+ b=qaLZGuh+Hw/WtxOPNmZtJ5Ry4OxDJtBTOmbRyjBpobZNzwaR7+5VwbqczjgqscNeE3
+ Sfg+5KQKUZN2Jq9a/GcvQk3rtfBNSg7OkFnnjxXUHv13xgfa2NM+uyNXafEdZw9I69Ea
+ aXYlrcqng69Q4BT/PT9JPC2F3r+vRHwEQcCWle8qTe6gJHkhpMJimaGlW/96X8lCaflJ
+ XbyXHXt0B3ETwRNraxKumfkwiQcNlqlxkA+NB6B2Jr7GJ97WWd+KgLyDawNjxzOAXG5t
+ 65OYTMJc4qO5RzptPzglcDdRX7TDXqN4iK/2CmHG/K2RqjeFpEKU2/yHAxPZYegRj7W3
+ S9eQ==
+X-Gm-Message-State: AOAM5305Ka632DgYPF83h4U7OLj1TEqtRiSHcCwLAbCAbh/GNqJ3WZHb
+ aQMWdUKQPQOkhWJuWWocOGDwLA==
+X-Google-Smtp-Source: ABdhPJyGUol43JcqDpwz1Wp8gwDsZbq+LszdnDsa0FcMVpLu6UkrnbH4y6EI+EJw2RcR//hwkKNXuA==
+X-Received: by 2002:aa7:d0cc:0:b0:41c:b59c:c461 with SMTP id
+ u12-20020aa7d0cc000000b0041cb59cc461mr3937593edo.285.1649169421431; 
+ Tue, 05 Apr 2022 07:37:01 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ s4-20020a170906a18400b006db0a78bde8sm5610712ejy.87.2022.04.05.07.37.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Apr 2022 07:37:00 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D86421FFB7;
+ Tue,  5 Apr 2022 15:36:59 +0100 (BST)
+References: <20220210145254.157790-1-eric.auger@redhat.com>
+ <20220210145254.157790-4-eric.auger@redhat.com>
+User-agent: mu4e 1.7.12; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 3/5] tests/qtest/libqos: Skip hotplug tests if pci
+ root bus is not hotpluggable
+Date: Tue, 05 Apr 2022 15:36:53 +0100
+In-reply-to: <20220210145254.157790-4-eric.auger@redhat.com>
+Message-ID: <87zgkzk35g.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220405130439.44253-1-danielhb413@gmail.com>
- <20220405130439.44253-2-danielhb413@gmail.com>
-In-Reply-To: <20220405130439.44253-2-danielhb413@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 Apr 2022 15:30:26 +0100
-Message-ID: <CAFEAcA-YkrrhFsGg0eWdQgU_VR4cSX5tLnHYCk8tK77cb-9Grg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/1] kvm-all.c: hint Valgrind that kvm_get_one_reg()
- inits memory
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,55 +90,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+Cc: eesposit@redhat.com, jean-philippe@linaro.org, mst@redhat.com,
+ qemu-devel@nongnu.org, Coiby.Xu@gmail.com, qemu-arm@nongnu.org, clg@kaod.org,
+ stefanha@redhat.com, pbonzini@redhat.com, eric.auger.pro@gmail.com,
  david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Apr 2022 at 14:07, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
->
-> There is a lot of Valgrind warnings about conditional jump depending on
-> unintialized values like this one (taken from a pSeries guest):
->
->  Conditional jump or move depends on uninitialised value(s)
->     at 0xB011DC: kvmppc_enable_cap_large_decr (kvm.c:2544)
->     by 0x92F28F: cap_large_decr_cpu_apply (spapr_caps.c:523)
->     by 0x930C37: spapr_caps_cpu_apply (spapr_caps.c:921)
->     by 0x955D3B: spapr_reset_vcpu (spapr_cpu_core.c:73)
-> (...)
->   Uninitialised value was created by a stack allocation
->     at 0xB01150: kvmppc_enable_cap_large_decr (kvm.c:2538)
->
-> In this case, the alleged unintialized value is the 'lpcr' variable that
-> is written by kvm_get_one_reg() and then used in an if clause:
->
-> int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
-> {
->     CPUState *cs = CPU(cpu);
->     uint64_t lpcr;
->
->     kvm_get_one_reg(cs, KVM_REG_PPC_LPCR_64, &lpcr);
->     /* Do we need to modify the LPCR? */
->     if (!!(lpcr & LPCR_LD) != !!enable) { <---- Valgrind warns here
-> (...)
->
-> A quick fix is to init the variable that kvm_get_one_reg() is going to
-> write ('lpcr' in the example above). Another idea is to convince
-> Valgrind that kvm_get_one_reg() inits the 'void *target' memory in case
-> the ioctl() is successful. This will put some boilerplate in the
-> function but it will bring benefit for its other callers.
 
-Doesn't Valgrind have a way of modelling ioctls where it
-knows what data is read and written ? In general
-ioctl-using programs don't need to have special case
-"I am running under valgrind" handling, so this seems to
-me like valgrind is missing support for this particular ioctl.
+Eric Auger <eric.auger@redhat.com> writes:
 
-More generally, how much use is running QEMU with KVM enabled
-under valgrind anyway? Valgrind has no way of knowing about
-writes to memory that the guest vCPUs do...
+> ARM does not not support hotplug on pcie.0. Add a flag on the bus
+> which tells if devices can be hotplugged and skip hotplug tests
+> if the bus cannot be hotplugged. This is a temporary solution to
+> enable the other pci tests on aarch64.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
 
-thanks
--- PMM
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+<snip>
+
+--=20
+Alex Benn=C3=A9e
 
