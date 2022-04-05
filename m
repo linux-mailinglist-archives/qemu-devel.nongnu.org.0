@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3F04F3C89
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 18:16:08 +0200 (CEST)
-Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB7B4F3CBC
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 19:05:58 +0200 (CEST)
+Received: from localhost ([::1]:53506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nblqh-0005IQ-4w
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 12:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34702)
+	id 1nbmcr-0000HM-CJ
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 13:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nblnS-0003Nv-CO
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 12:12:46 -0400
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:42611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nblnQ-0007xh-CF
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 12:12:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C18CC2047F;
- Tue,  5 Apr 2022 16:12:33 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 5 Apr
- 2022 18:12:32 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R0040752f4eb-f49b-4332-a9a9-0f4411790b01,
- B6D6B3DA04F085AAB79815B670852A2EB9FB851F) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <66783c6a-4942-23c5-1052-0dcab389e177@kaod.org>
-Date: Tue, 5 Apr 2022 18:12:32 +0200
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nbmaq-0007dO-8L; Tue, 05 Apr 2022 13:03:48 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:38411)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nbmao-0007Xz-5i; Tue, 05 Apr 2022 13:03:47 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id r8so14023483oib.5;
+ Tue, 05 Apr 2022 10:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9eaQx/vAVJq+7v6Er5T1x/t2Veg/9RQ+Eb9hRKiESgw=;
+ b=qAY7CEGf6ELem4MzbzKzhlmd6AJRiyp7GPaqH/E5qHh9WB9RL3P54CJroTGA51CT7i
+ vxr9UizJe02xcVvAX2r/c9l2KpfEZwZuavOYDwingoTTw2UcCQ+4GdQvBd3mIG/GOK4Y
+ FcETQQ07anP1qcnrfXCc3cpyYwC7RrZhIGrKWiv2DkaH3n4rTw7yaQiu9dXbZ6mWOxaF
+ mNOFv2ZjloOAB5AV7FUAtvM5oqkYGlbrgLcCgssddT1ZCawDCzBHyOorH2ytmbId3BK8
+ BuPey0nrbebHpBGAw6td7cRrxiTW806IiukhM8IyaKAFzjvRl+cJaQ+KF/aJgh2UnDZo
+ jhWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9eaQx/vAVJq+7v6Er5T1x/t2Veg/9RQ+Eb9hRKiESgw=;
+ b=ndfPF588oU5UrV/zKEIkTSfq3FLh2f4K9sNMzrIEQk30TqN1N8ffKJs/o/ZPDmELxC
+ r7BErpvktHWNl2gHhwe9n8nae730lBg1nG/6KaA3K2Czv2tA4jpiN6axIvLldUfMOfT2
+ JI+5pMBBST/ruoe1vx+el3HlzmXsep8dxBv/2MUVqMZRYngWp7v1fImJvdVeU/tRvk6x
+ HvO0zVJe4QJYKT8JnauhF3R0LtDU+O6qw2QJW2+jLcwSuKU+P8thDwGutiSQZLJ0FTQO
+ 1xhVdsh+MO7TV04rmR6CYcUy140EM2aC+K59BoJZkrIIcRgX+o0noOfZ5du2+t7n2+3D
+ gMRg==
+X-Gm-Message-State: AOAM532RnOHgocmO2jrzGKSRJ3/atL5HSFkIRX/7n0gHpXg4ISVgGqmi
+ rW+QShGETHFTpEj+BuIdwaeflLTB/xIMdyCe3o4=
+X-Google-Smtp-Source: ABdhPJxSaP8OT/EC5gI2q20VQAK47FeOuMq2ugl3KrtVMPEYEwsKnki8hAPsVq12zs5ImdNNtQQEcRLxU8SdL+GC5nA=
+X-Received: by 2002:aca:ead4:0:b0:2ec:ba66:12df with SMTP id
+ i203-20020acaead4000000b002ecba6612dfmr2059532oih.194.1649178224186; Tue, 05
+ Apr 2022 10:03:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 0/9] Add support for AST1030 SoC
-Content-Language: en-US
-To: Jamin Lin <jamin_lin@aspeedtech.com>, Alistair Francis
- <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>, Andrew
- Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, Cleber Rosa
- <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>, Beraldo
- Leal <bleal@redhat.com>, "open list:STM32F205" <qemu-arm@nongnu.org>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20220401083850.15266-1-jamin_lin@aspeedtech.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220401083850.15266-1-jamin_lin@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 387ff193-e5a4-4999-8552-b55c5675f08d
-X-Ovh-Tracer-Id: 7669911642123701179
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudejgedgleegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeefiedukefhueejteffvedthffhkeehhefhtdejkeefheeifeejvdfgfffgieefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehtrhhohigplhgvvgesrghsphgvvgguthgvtghhrdgtohhm
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
+References: <20220322000441.26495-1-dmiller423@gmail.com>
+ <20220322000441.26495-11-dmiller423@gmail.com>
+ <c3bb72da-c390-f9b5-5254-f8c16df21427@redhat.com>
+ <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
+ <95ad366c-509d-d41f-209b-dc66054de4b8@redhat.com>
+ <CAEgyohVUHa+yd-inLOv3zTf143-_2Z35+K_XatUz74bqxDK9CA@mail.gmail.com>
+ <CAEgyohWR6C1z8OyuGwkv8LT-P5fR9eVsCFw4LmGUxZCDNszoSg@mail.gmail.com>
+ <58110f3f-3190-7af4-6839-9a30fce05855@linux.ibm.com>
+ <CAEgyohUqmHrbQC5yqAtuhcqmnx-q5YxE+6xctbCVROGz+cqrqw@mail.gmail.com>
+ <05661926-6d26-9d78-b576-a33391e25c24@linux.ibm.com>
+ <654b2fcd-0532-4484-d9cf-f875acedf7ee@redhat.com>
+In-Reply-To: <654b2fcd-0532-4484-d9cf-f875acedf7ee@redhat.com>
+From: David Miller <dmiller423@gmail.com>
+Date: Tue, 5 Apr 2022 13:03:32 -0400
+Message-ID: <CAEgyohVRpn51FDaJ4xa5Ysfjo51g3yOpeJCjJqCK0SXkEHmQqg@mail.gmail.com>
+Subject: Re: [PATCH v4 10/11] tests/tcg/s390x: Tests for Vector Enhancements
+ Facility 2
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=dmiller423@gmail.com; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,32 +87,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: troy_lee@aspeedtech.com, steven_lee@aspeedtech.com
+Cc: Thomas Huth <thuth@redhat.com>, farman@linux.ibm.com, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Jamin,
+Recommendation for comment?
 
-On 4/1/22 10:38, Jamin Lin wrote:
-> Changes from v5:
-> - remove TYPE_ASPEED_MINIBMC_MACHINE and ASPEED_MINIBMC_MACHINE
-> - remove ast1030_machine_instance_init function
-> 
-> Changes from v4:
-> - drop the ASPEED_SMC_FEATURE_WDT_CONTROL flag in hw/ssi/aspeed_smc.c
-> 
-> Changes from v3:
-> - remove AspeedMiniBmcMachineState state structure and
->    AspeedMiniBmcMachineClass class
-> - remove redundant new line in hw/arm/aspeed_ast10xx.c
+/* vri-d encoding matches vrr for 4b imm.
+  .insn does not handle this encoding variant.
+*/
 
-Do we want to be in sync with the zephyr naming and use ast10x0.c ?
+Christian: I will push another patch version as soon as that's decided.
+(unless you prefer to choose the comment and edit during staging)
 
-    https://github.com/zephyrproject-rtos/zephyr/tree/main/soc/arm/aspeed
-
-This is just a question. Don't resend for this.
-
-Thanks,
-
-C.
+On Tue, Apr 5, 2022 at 6:13 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 01.04.22 17:25, Christian Borntraeger wrote:
+> > Am 01.04.22 um 17:02 schrieb David Miller:
+> >> vrr is almost a perfect match (it is for this, larger than imm4 would
+> >> need to be split).
+> >>
+> >> .long : this would be uglier.
+> >> use enough to be filled with nops after ?
+> >> or use a 32b and 16b instead if it's in .text it should make no difference.
+> >
+> > I will let Richard or David decide what they prefer.
+> >
+>
+> I don't particularly care as long as there is a comment stating why we
+> need this hack.
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
 
