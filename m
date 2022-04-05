@@ -2,75 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F106C4F29A2
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 11:52:33 +0200 (CEST)
-Received: from localhost ([::1]:53920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E964F29B1
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 12:16:44 +0200 (CEST)
+Received: from localhost ([::1]:37190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbfrU-0000YG-6m
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 05:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
+	id 1nbgEs-0000g1-TG
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 06:16:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbfkN-000694-9f
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:45:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31486)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nbgC5-0008JR-85
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:13:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbfkK-00034D-Qj
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:45:10 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nbgC2-0001hp-9B
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:13:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649151906;
+ s=mimecast20190719; t=1649153624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Laj5u9CPwXc98ThrzwO1zqTtpi5dXzhm9mlTh/hOVu8=;
- b=X+OrNuXtYfqFaCGwMgFY3n2ITuj6LtbcpswgbACCvVU6KkPzkmT5MlhRvWt5hi8XJ5EvoV
- xCBe/Wtr3auLm39eGzzqocax7VElMvWKlUFNL24mXP5ceA8wu40JoSz1z1/xFnqzq407HP
- Y3+TbwGHf6xbnT+BA/FaWu8TY7gBoHs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Yg6FE74BO7tuv20rRJcTMxGdvb7mbFR/lILx0DhFy7c=;
+ b=X3aX80XguDOZ8Mr8KOycVudlKsFgPip9w1qS/uFQEHfKD3vRzk+1r0g9rJ5Eaa1YgsZkSf
+ HHgidA0f2xeLU9liSN+Csd0PGkKm01KtkB90/HEqhfA30C2R850PQXbRlN7WFLx2n2r6Z5
+ GoT2aEhOSNBUBhwuWVkOqchLyKNP8po=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-8NcOx2d6MqSJq1b8ykV6ow-1; Tue, 05 Apr 2022 05:45:05 -0400
-X-MC-Unique: 8NcOx2d6MqSJq1b8ykV6ow-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69F04811E75;
- Tue,  5 Apr 2022 09:45:05 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 470BF40E250D;
- Tue,  5 Apr 2022 09:45:05 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2CC5321E6906; Tue,  5 Apr 2022 11:45:04 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Damien Hedde <damien.hedde@greensocs.com>
-Subject: Re: [RFC PATCH] python: add qmp-send program to send raw qmp
- commands to qemu
-References: <20220316095455.6473-1-damien.hedde@greensocs.com>
- <CAFn=p-bBExx6yKmRSvg2FJP74TP+7bB3w4xTZSJmj8RdkJiqdw@mail.gmail.com>
- <3d52da6c-124d-4de6-432d-be9e0bb16dfe@greensocs.com>
-Date: Tue, 05 Apr 2022 11:45:04 +0200
-In-Reply-To: <3d52da6c-124d-4de6-432d-be9e0bb16dfe@greensocs.com> (Damien
- Hedde's message of "Tue, 5 Apr 2022 11:02:47 +0200")
-Message-ID: <87y20j984f.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-636-AmXSxFwCPFajlXffT7Rtbw-1; Tue, 05 Apr 2022 06:13:43 -0400
+X-MC-Unique: AmXSxFwCPFajlXffT7Rtbw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c19-20020a05600c4a1300b0038e6b4a104cso1102249wmp.9
+ for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 03:13:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=Yg6FE74BO7tuv20rRJcTMxGdvb7mbFR/lILx0DhFy7c=;
+ b=LzUe5wQaFXgCvEkpDnIZqhtuYXB9dUANFFgHoS1LjlSAod7SvN9Vi0lbOTHvy5TJhH
+ gBfc4uE7oQrbEdgnM0d/9AGAKT0l3aR/NuwtiORVgtJP4FFP1KBHfyGUG787117zICd/
+ s+EaPkppbQ5jtL5A7Mo583dKXDxAPwplG5JGH8t5+V3OshxjYlqfEy4COjZKnUoYDmw2
+ zRZFBoJ+/Ak1McKBzDBZSnVHIb4kUrPYO9SODcBYUZtfEGTuszHClsNfmVFb4spd+qkV
+ Ts6L0Cq/g13IhoPKIMen6uE5fNwQl16VunWB6MXJTbwg++LDm4ZbTtFfsEIBgW6RWUao
+ qiHg==
+X-Gm-Message-State: AOAM5327gHCaLYxjaPo/ucNHLwTEIVcATYvUdK87lNi6QffY+o8KJp3z
+ VoMpzlM6hXZAgT2qTf6G4W/OSABUG3fsMnEyHTPIhIt78eAQUtuUu125J1yUJObCVDc1IVhHw2K
+ tGuiAQb+1FCzMvuI=
+X-Received: by 2002:a5d:6d8a:0:b0:204:909:2d9a with SMTP id
+ l10-20020a5d6d8a000000b0020409092d9amr2153815wrs.435.1649153621432; 
+ Tue, 05 Apr 2022 03:13:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzOVyFuXWssBHGhLgMoX+/ycrhM6R6qUFRD1Fui1Q7hVnoCvmOhVUVU5Nhd6PBrSoQdpoKTQ==
+X-Received: by 2002:a5d:6d8a:0:b0:204:909:2d9a with SMTP id
+ l10-20020a5d6d8a000000b0020409092d9amr2153790wrs.435.1649153621115; 
+ Tue, 05 Apr 2022 03:13:41 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c707:c900:f06e:62c8:b5ce:6d27?
+ (p200300cbc707c900f06e62c8b5ce6d27.dip0.t-ipconnect.de.
+ [2003:cb:c707:c900:f06e:62c8:b5ce:6d27])
+ by smtp.gmail.com with ESMTPSA id
+ b1-20020adfd1c1000000b002058537af75sm12135007wrd.104.2022.04.05.03.13.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Apr 2022 03:13:40 -0700 (PDT)
+Message-ID: <654b2fcd-0532-4484-d9cf-f875acedf7ee@redhat.com>
+Date: Tue, 5 Apr 2022 12:13:38 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v4 10/11] tests/tcg/s390x: Tests for Vector Enhancements
+ Facility 2
+To: Christian Borntraeger <borntraeger@linux.ibm.com>,
+ David Miller <dmiller423@gmail.com>
+References: <20220322000441.26495-1-dmiller423@gmail.com>
+ <20220322000441.26495-11-dmiller423@gmail.com>
+ <c3bb72da-c390-f9b5-5254-f8c16df21427@redhat.com>
+ <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
+ <95ad366c-509d-d41f-209b-dc66054de4b8@redhat.com>
+ <CAEgyohVUHa+yd-inLOv3zTf143-_2Z35+K_XatUz74bqxDK9CA@mail.gmail.com>
+ <CAEgyohWR6C1z8OyuGwkv8LT-P5fR9eVsCFw4LmGUxZCDNszoSg@mail.gmail.com>
+ <58110f3f-3190-7af4-6839-9a30fce05855@linux.ibm.com>
+ <CAEgyohUqmHrbQC5yqAtuhcqmnx-q5YxE+6xctbCVROGz+cqrqw@mail.gmail.com>
+ <05661926-6d26-9d78-b576-a33391e25c24@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <05661926-6d26-9d78-b576-a33391e25c24@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,31 +115,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: farman@linux.ibm.com, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ qemu-s390x@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Damien Hedde <damien.hedde@greensocs.com> writes:
+On 01.04.22 17:25, Christian Borntraeger wrote:
+> Am 01.04.22 um 17:02 schrieb David Miller:
+>> vrr is almost a perfect match (it is for this, larger than imm4 would
+>> need to be split).
+>>
+>> .long : this would be uglier.
+>> use enough to be filled with nops after ?
+>> or use a 32b and 16b instead if it's in .text it should make no difference.
+> 
+> I will let Richard or David decide what they prefer.
+> 
 
-> On 4/4/22 22:34, John Snow wrote:
->> On Wed, Mar 16, 2022 at 5:55 AM Damien Hedde <damien.hedde@greensocs.com> wrote:
+I don't particularly care as long as there is a comment stating why we
+need this hack.
 
-[...]
+-- 
+Thanks,
 
->> I recommend putting this in qemu/util/qmp_send.py instead.
->> I'm in the process of pulling out the AQMP lib and hosting it
->> separately. Scripts like this I think should stay in the QEMU tree, so
->> moving it to util instead is probably best. Otherwise, I'll *really*
->> have to commit to the syntax, and that's probably a bigger hurdle than
->> you want to deal with.
->
-> If it stays in QEMU tree, what licensing should I use ? LGPL does not
-> hurt, no ?
-
-GPLv2+ is the default, and for a reason.
-
-[...]
+David / dhildenb
 
 
