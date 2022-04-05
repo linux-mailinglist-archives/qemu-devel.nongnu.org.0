@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A6B4F2A73
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 12:59:47 +0200 (CEST)
-Received: from localhost ([::1]:51576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39524F2A23
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 12:52:52 +0200 (CEST)
+Received: from localhost ([::1]:38756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbguY-0005uV-9f
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 06:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60382)
+	id 1nbgnr-0005Pc-A4
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 06:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWs-00021y-Gj
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42532)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWq-00021d-GR
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWo-0000E4-9n
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWm-0008U5-0n
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649154904;
+ s=mimecast20190719; t=1649154900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f1us6Z7wynsN+WqqJUqHyIOcvnXd6Cb0EgqeYHjiAvU=;
- b=I5xT8p1abWQP4KX71XXH4pa90erEDUcdXC1IWKzan3sB2RrYhqLHRqycXW7lMK/YJBM3wQ
- nxQxQreUR6p2BSMWzbMIs9uHsf/L3/TbTYEk58yTx2bYMkbIcorDo26d67Tvp295LDTS/w
- S1VAeqOuQ4PQht/FEV8YVS/WvgvjjVA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=q6lay5PQgbXC6WyOlIPl+zxefhrhffbFvp+wY8EgszQ=;
+ b=Um4dLZtKYd4RPw8SG3pMVO0yiZ3aLDFUnd2D6yRhvZuQP0Ya1R6a8acc+dpq44nGyeQUNS
+ eDNJiwVf4zd+qcK2DAh31t5tA2D/I0pQrjVWztnVbgKQiVnsv4IYiEEADJ3U4MO7NaNfU6
+ pvlASSKs87RhHmS0HxX7/vwKXAEul2o=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-Zoyo1FzUNIuV-SnWeFJ3Eg-1; Tue, 05 Apr 2022 06:34:57 -0400
-X-MC-Unique: Zoyo1FzUNIuV-SnWeFJ3Eg-1
+ us-mta-280-wX6NS7A7OVOgOgF4Wp8KiA-1; Tue, 05 Apr 2022 06:34:57 -0400
+X-MC-Unique: wX6NS7A7OVOgOgF4Wp8KiA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFF07833959;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E04E2296A604;
  Tue,  5 Apr 2022 10:34:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC946492D55;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC901492D53;
  Tue,  5 Apr 2022 10:34:56 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A853921E6920; Tue,  5 Apr 2022 12:34:55 +0200 (CEST)
+ id AA7DE21E6923; Tue,  5 Apr 2022 12:34:55 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/10] qapi: fix example of query-named-block-nodes command
-Date: Tue,  5 Apr 2022 12:34:48 +0200
-Message-Id: <20220405103455.4145273-4-armbru@redhat.com>
+Subject: [PULL 04/10] qapi: fix example of query-spice command
+Date: Tue,  5 Apr 2022 12:34:49 +0200
+Message-Id: <20220405103455.4145273-5-armbru@redhat.com>
 In-Reply-To: <20220405103455.4145273-1-armbru@redhat.com>
 References: <20220405103455.4145273-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -86,28 +86,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Toso <victortoso@redhat.com>
 
-Example output is missing mandatory member @detect_zeroes. Fix it.
+Example output is missing mandatory members @migrated and @mouse-mode.
+Fix it.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
-Message-Id: <20220331190633.121077-4-victortoso@redhat.com>
+Message-Id: <20220331190633.121077-5-victortoso@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/block-core.json | 1 +
- 1 file changed, 1 insertion(+)
+ qapi/ui.json | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 4a7a6940a3..beeb91952a 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1776,6 +1776,7 @@
- #                    "file":"disks/test.qcow2",
- #                    "node-name": "my-node",
- #                    "backing_file_depth":1,
-+#                    "detect_zeroes":"off",
- #                    "bps":1000000,
- #                    "bps_rd":0,
- #                    "bps_wr":0,
+diff --git a/qapi/ui.json b/qapi/ui.json
+index a810ed680c..c039b8b3cb 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -324,8 +324,10 @@
+ #          "enabled": true,
+ #          "auth": "spice",
+ #          "port": 5920,
++#          "migrated":false,
+ #          "tls-port": 5921,
+ #          "host": "0.0.0.0",
++#          "mouse-mode":"client",
+ #          "channels": [
+ #             {
+ #                "port": "54924",
 -- 
 2.35.1
 
