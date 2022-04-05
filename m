@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031274F2A25
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 12:52:55 +0200 (CEST)
-Received: from localhost ([::1]:38874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A55B4F2A79
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 13:03:58 +0200 (CEST)
+Received: from localhost ([::1]:58430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbgnu-0005Wg-33
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 06:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60334)
+	id 1nbgyb-0002GY-F9
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 07:03:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWr-00021n-3T
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWs-00021w-6b
  for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52566)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWo-0008UA-8o
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:16 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nbgWo-0000H1-9Z
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649154901;
+ s=mimecast20190719; t=1649154912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SYJFK375EVHF13X75qdQym4cgTboUnR7CTLpK9blyLc=;
- b=Ee7OWSSWyzwnP0PgUjOmAWdTzjuGSROZD5vcvkcsOlaLua407cojbT/qzTP1sd3wIQkOhf
- k7QhVSSVZUbR2BZpnCMI7uDlZhPfuH0jLtSXHXIDDYkp1LhGJ2cwdpPGXdbVc/tINeunJj
- MC7YApF94Avq0QtYugzPZTCIXrwvD/0=
+ bh=HAYlcSOjelFUVVkytt3FoJg5qyQ3x6afFGMG4S6Gqlk=;
+ b=Xxpw16j/hiY7Of8pWlDgU4G9vn0QuPB6lCRrH/pJKcfAiNGexVMOWlfy6sHuKxmifcva1Q
+ IIQDDqpnHr2lyM9qdIhrSQn2yT/qpeBhtVI2mExE2faOqaw3Cbmkg6R6ABzl4Qtsmz3iH4
+ MI463IhgJsuweffIoRTEhv+XJoPbzgA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-WuZWdNt-OnKkGtpY84VaSg-1; Tue, 05 Apr 2022 06:34:58 -0400
-X-MC-Unique: WuZWdNt-OnKkGtpY84VaSg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-316-S9bZoDpZMw6RDjfXQKVc7A-1; Tue, 05 Apr 2022 06:34:58 -0400
+X-MC-Unique: S9bZoDpZMw6RDjfXQKVc7A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC25F1C068CA;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAB4A3822203;
  Tue,  5 Apr 2022 10:34:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8174C15D40;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C8882492D58;
  Tue,  5 Apr 2022 10:34:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B6A9221E6933; Tue,  5 Apr 2022 12:34:55 +0200 (CEST)
+ id B7FD021E6936; Tue,  5 Apr 2022 12:34:55 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/10] qapi: fix example of query-memdev command
-Date: Tue,  5 Apr 2022 12:34:54 +0200
-Message-Id: <20220405103455.4145273-10-armbru@redhat.com>
+Subject: [PULL 10/10] qapi: Fix calc-dirty-rate example
+Date: Tue,  5 Apr 2022 12:34:55 +0200
+Message-Id: <20220405103455.4145273-11-armbru@redhat.com>
 In-Reply-To: <20220405103455.4145273-1-armbru@redhat.com>
 References: <20220405103455.4145273-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,39 +84,29 @@ Cc: peter.maydell@linaro.org, Victor Toso <victortoso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Victor Toso <victortoso@redhat.com>
+The example shows {"command": ...}, which is wrong.  Fix it to
+{"execute": ...}.
 
-Example output is missing mandatory argument @share for the return
-JSON object. Add it.
-
-Signed-off-by: Victor Toso <victortoso@redhat.com>
-Message-Id: <20220331190633.121077-10-victortoso@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20220401082028.3583296-1-armbru@redhat.com>
+Reviewed-by: Victor Toso <victortoso@redhat.com>
 ---
- qapi/machine.json | 2 ++
- 1 file changed, 2 insertions(+)
+ qapi/migration.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 968f912989..d25a481ce4 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -839,6 +839,7 @@
- #          "merge": false,
- #          "dump": true,
- #          "prealloc": false,
-+#          "share": false,
- #          "host-nodes": [0, 1],
- #          "policy": "bind"
- #        },
-@@ -847,6 +848,7 @@
- #          "merge": false,
- #          "dump": true,
- #          "prealloc": true,
-+#          "share": false,
- #          "host-nodes": [2, 3],
- #          "policy": "preferred"
- #        }
+diff --git a/qapi/migration.json b/qapi/migration.json
+index f74777608a..27d7b28158 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1845,7 +1845,7 @@
+ # Since: 5.2
+ #
+ # Example:
+-#   {"command": "calc-dirty-rate", "arguments": {"calc-time": 1,
++#   {"execute": "calc-dirty-rate", "arguments": {"calc-time": 1,
+ #                                                'sample-pages': 512} }
+ #
+ ##
 -- 
 2.35.1
 
