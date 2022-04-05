@@ -2,70 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D465A4F2A6E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 12:56:07 +0200 (CEST)
-Received: from localhost ([::1]:45238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D6E4F2A71
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 12:58:34 +0200 (CEST)
+Received: from localhost ([::1]:48632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbgr0-0001Ta-BI
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 06:56:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
+	id 1nbgtN-0003tj-9l
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 06:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1nbgWx-00024P-EE
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1nbgWq-0000Eq-97
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:35:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649154911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=47ewJs8quyFFhN+9svZIjCXIKOn2Q5HE6bg6HKFg+RA=;
- b=cRPMSITs8A3DJXacLV7IkWk9AFl2GWFO8HQi+qSw7UpU5nEoz2JidG3iCefx8UnLJod6Ej
- 8tElC6/BpOOnl8f4Cfzgsy5Nb4Hsd9MHlRPOCZStBy+lCXTb2m2wz3V9Q2QQILVMi8+JME
- YIGZYyrg0t3FQRYqk5fdFpXEfJ5CDQ4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-ys5hNhMOMsmEujqgj_6-iw-1; Tue, 05 Apr 2022 06:35:10 -0400
-X-MC-Unique: ys5hNhMOMsmEujqgj_6-iw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03EF485A5BC
- for <qemu-devel@nongnu.org>; Tue,  5 Apr 2022 10:35:10 +0000 (UTC)
-Received: from f35-work.redhat.com (unknown [10.39.194.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BC981415125;
- Tue,  5 Apr 2022 10:35:09 +0000 (UTC)
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] display/qxl-render: fix race condition in qxl_cursor
- (CVE-2022-4207)
-Date: Tue,  5 Apr 2022 12:35:05 +0200
-Message-Id: <20220405103505.106034-1-mcascell@redhat.com>
+ (Exim 4.90_1) (envelope-from <qperret@google.com>)
+ id 1nbgY5-0003AH-V8
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:36:34 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:44995)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <qperret@google.com>)
+ id 1nbgY3-0000mu-Qb
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:36:33 -0400
+Received: by mail-ed1-x533.google.com with SMTP id d7so2454896edn.11
+ for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 03:36:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=M+9t9GPp8kQkcOpf9/1bOVcjxUYWjperAKVBlci1EH0=;
+ b=YoxHIZZ3G33PpP4KmdhCg75x+dpK6knIWVV8om3MTD9ItxOCrXniFFZ+EvxkQJ749N
+ TZNSlhHf4yWYtlJeFdnSgzWzKhMprnLWCYXMXUTjbzKQ4/AX1ZqSMnT1SfxHkylpJTA7
+ TcIjcf/eAxyNT9pvVGShATH+k7UpVvaxHcSaiQOwLh3eYOzlDTpuPyS5UNG1XNCwsFhM
+ md0yH5dJ7w10QqUB206n1HWdLrv0jotHk49fIRHox0SvuqO4dIa/vG90Ckw+UKkNkWMc
+ sq0j21T+LRsTluEbkq+UsOFNTncjQe37S6SdEaPevdA/gEDmNPTD2BCQT7M2E3fUdzaK
+ aNHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=M+9t9GPp8kQkcOpf9/1bOVcjxUYWjperAKVBlci1EH0=;
+ b=7dwDU1D8yZAtzmlei0m/sDkuX3tC8JVdSW0jLZ6DsZQlMkyl2dpZUcQtsRsh88y5GI
+ cwV/itn52z0xpDXuF0MU8O7hLjIVmrdFRJNN9aRrWkJ8aThkJDZTT4tzBtiZ4enAKyjR
+ 9sAfwizD+8GnaL7CrWkBv3/Ip4UsOg68czW6YeFk9J3cvsdczT23fpcp+nFkEUTZB620
+ mCOCqLBBp/u88BDxsB2ytMqS8oJJFNSfVMqmRMal0aa+9sr+hGaNz6sscofsSftv5fBV
+ Y74iN9vBo9eahjptUCWR1J/8y3SmCyZDj/5yfvIuuEBqhj6SaiHvt+Z9J/O9j4WkPcIu
+ XYYg==
+X-Gm-Message-State: AOAM530zGOJVPWUqn+GAPskLpMVQXcDlEnMUzOkXbENyYqH52gUXpjQA
+ cAksFub0QEBjWMpXDtWqEysGMA==
+X-Google-Smtp-Source: ABdhPJzcpd3vW+XvDHpPAXOPJtyGzauj0UiVcmYc+CSIkw4TBey0PHa06nPTqe7WSTtid7CYCX8XcQ==
+X-Received: by 2002:a05:6402:d4c:b0:410:a415:fd95 with SMTP id
+ ec12-20020a0564020d4c00b00410a415fd95mr2848428edb.288.1649154990022; 
+ Tue, 05 Apr 2022 03:36:30 -0700 (PDT)
+Received: from google.com (30.171.91.34.bc.googleusercontent.com.
+ [34.91.171.30]) by smtp.gmail.com with ESMTPSA id
+ d4-20020a056402000400b00412d60fee38sm6428799edu.11.2022.04.05.03.36.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Apr 2022 03:36:29 -0700 (PDT)
+Date: Tue, 5 Apr 2022 10:36:26 +0000
+From: Quentin Perret <qperret@google.com>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Sean Christopherson <seanjc@google.com>,
+ Steven Price <steven.price@arm.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm list <kvm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <Ykwbqv90C7+8K+Ao@google.com>
+References: <YkM7eHCHEBe5NkNH@google.com>
+ <88620519-029e-342b-0a85-ce2a20eaf41b@arm.com>
+ <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
+ <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
+ <YkcTTY4YjQs5BRhE@google.com>
+ <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
+ <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=qperret@google.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,34 +117,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mcascell@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid fetching 'width' and 'height' a second time to prevent possible
-race condition. Refer to security advisory
-https://starlabs.sg/advisories/22-4207/ for more information.
+On Monday 04 Apr 2022 at 15:04:17 (-0700), Andy Lutomirski wrote:
+> 
+> 
+> On Mon, Apr 4, 2022, at 10:06 AM, Sean Christopherson wrote:
+> > On Mon, Apr 04, 2022, Quentin Perret wrote:
+> >> On Friday 01 Apr 2022 at 12:56:50 (-0700), Andy Lutomirski wrote:
+> >> FWIW, there are a couple of reasons why I'd like to have in-place
+> >> conversions:
+> >> 
+> >>  - one goal of pKVM is to migrate some things away from the Arm
+> >>    Trustzone environment (e.g. DRM and the likes) and into protected VMs
+> >>    instead. This will give Linux a fighting chance to defend itself
+> >>    against these things -- they currently have access to _all_ memory.
+> >>    And transitioning pages between Linux and Trustzone (donations and
+> >>    shares) is fast and non-destructive, so we really do not want pKVM to
+> >>    regress by requiring the hypervisor to memcpy things;
+> >
+> > Is there actually a _need_ for the conversion to be non-destructive?  
+> > E.g. I assume
+> > the "trusted" side of things will need to be reworked to run as a pKVM 
+> > guest, at
+> > which point reworking its logic to understand that conversions are 
+> > destructive and
+> > slow-ish doesn't seem too onerous.
+> >
+> >>  - it can be very useful for protected VMs to do shared=>private
+> >>    conversions. Think of a VM receiving some data from the host in a
+> >>    shared buffer, and then it wants to operate on that buffer without
+> >>    risking to leak confidential informations in a transient state. In
+> >>    that case the most logical thing to do is to convert the buffer back
+> >>    to private, do whatever needs to be done on that buffer (decrypting a
+> >>    frame, ...), and then share it back with the host to consume it;
+> >
+> > If performance is a motivation, why would the guest want to do two 
+> > conversions
+> > instead of just doing internal memcpy() to/from a private page?  I 
+> > would be quite
+> > surprised if multiple exits and TLB shootdowns is actually faster, 
+> > especially at
+> > any kind of scale where zapping stage-2 PTEs will cause lock contention 
+> > and IPIs.
+> 
+> I don't know the numbers or all the details, but this is arm64, which is a rather better architecture than x86 in this regard.  So maybe it's not so bad, at least in very simple cases, ignoring all implementation details.  (But see below.)  Also the systems in question tend to have fewer CPUs than some of the massive x86 systems out there.
 
-Fixes: CVE-2022-4207
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
----
- hw/display/qxl-render.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yep. I can try and do some measurements if that's really necessary, but
+I'm really convinced the cost of the TLBI for the shared->private
+conversion is going to be significantly smaller than the cost of memcpy
+the buffer twice in the guest for us. To be fair, although the cost for
+the CPU update is going to be low, the cost for IOMMU updates _might_ be
+higher, but that very much depends on the hardware. On systems that use
+e.g. the Arm SMMU, the IOMMUs can use the CPU page-tables directly, and
+the iotlb invalidation is done on the back of the CPU invalidation. So,
+on systems with sane hardware the overhead is *really* quite small.
 
-diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
-index d28849b121..237ed293ba 100644
---- a/hw/display/qxl-render.c
-+++ b/hw/display/qxl-render.c
-@@ -266,7 +266,7 @@ static QEMUCursor *qxl_cursor(PCIQXLDevice *qxl, QXLCursor *cursor,
-         }
-         break;
-     case SPICE_CURSOR_TYPE_ALPHA:
--        size = sizeof(uint32_t) * cursor->header.width * cursor->header.height;
-+        size = sizeof(uint32_t) * c->width * c->height;
-         qxl_unpack_chunks(c->data, size, qxl, &cursor->chunk, group_id);
-         if (qxl->debug > 2) {
-             cursor_print_ascii_art(c, "qxl/alpha");
--- 
-2.35.1
+Also, memcpy requires double the memory, it is pretty bad for power, and
+it causes memory traffic which can't be a good thing for things running
+concurrently.
 
+> If we actually wanted to support transitioning the same page between shared and private, though, we have a bit of an awkward situation.  Private to shared is conceptually easy -- do some bookkeeping, reconstitute the direct map entry, and it's done.  The other direction is a mess: all existing uses of the page need to be torn down.  If the page has been recently used for DMA, this includes IOMMU entries.
+>
+> Quentin: let's ignore any API issues for now.  Do you have a concept of how a nondestructive shared -> private transition could work well, even in principle?
+
+I had a high level idea for the workflow, but I haven't looked into the
+implementation details.
+
+The idea would be to allow KVM *or* userspace to take a reference
+to a page in the fd in an exclusive manner. KVM could take a reference
+on a page (which would be necessary before to donating it to a guest)
+using some kind of memfile_notifier as proposed in this series, and
+userspace could do the same some other way (mmap presumably?). In both
+cases, the operation might fail.
+
+I would imagine the boot and private->shared flow as follow:
+
+ - the VMM uses fallocate on the private fd, and associates the <fd,
+   offset, size> with a memslot;
+
+ - the guest boots, and as part of that KVM takes references to all the
+   pages that are donated to the guest. If userspace happens to have a
+   mapping to a page, KVM will fail to take the reference, which would
+   be fatal for the guest.
+
+ - once the guest has booted, it issues a hypercall to share a page back
+   with the host;
+
+ - KVM is notified, and at that point it drops its reference to the
+   page. It then exits to userspace to notify it of the share;
+
+ - host userspace receives the share, and mmaps the shared page with
+   MAP_FIXED to access it, which takes a reference on the fd-backed
+   page.
+
+There are variations of that idea: e.g. allow userspace to mmap the
+entire private fd but w/o taking a reference on pages mapped with
+PROT_NONE. And then the VMM can use mprotect() in response to
+share/unshare requests. I think Marc liked that idea as it keeps the
+userspace API closer to normal KVM -- there actually is a
+straightforward gpa->hva relation. Not sure how much that would impact
+the implementation at this point.
+
+For the shared=>private conversion, this would be something like so:
+
+ - the guest issues a hypercall to unshare a page;
+
+ - the hypervisor forwards the request to the host;
+
+ - the host kernel forwards the request to userspace;
+
+ - userspace then munmap()s the shared page;
+
+ - KVM then tries to take a reference to the page. If it succeeds, it
+   re-enters the guest with a flag of some sort saying that the share
+   succeeded, and the hypervisor will adjust pgtables accordingly. If
+   KVM failed to take a reference, it flags this and the hypervisor will
+   be responsible for communicating that back to the guest. This means
+   the guest must handle failures (possibly fatal).
+
+(There are probably many ways in which we can optimize this, e.g. by
+having the host proactively munmap() pages it no longer needs so that
+the unshare hypercall from the guest doesn't need to exit all the way
+back to host userspace.)
+
+A nice side-effect of the above is that it allows userspace to dump a
+payload in the private fd before booting the guest. It just needs to
+mmap the fd, copy what it wants in there, munmap, and only then pass the
+fd to KVM which will be happy enough as long as there are no current
+references to the pages. Note: in a previous email I've said that
+Android doesn't need this (which is correct as our guest bootloader
+currently receives the payload over virtio) but this might change some
+day, and there might be other implementations as well, so it's a nice
+bonus if we can make this work.
+
+> The best I can come up with is a special type of shared page that is not GUP-able and maybe not even mmappable, having a clear option for transitions to fail, and generally preventing the nasty cases from happening in the first place.
+
+Right, that sounds reasonable to me.
+
+> Maybe there could be a special mode for the private memory fds in which specific pages are marked as "managed by this fd but actually shared".  pread() and pwrite() would work on those pages, but not mmap().  (Or maybe mmap() but the resulting mappings would not permit GUP.)  And transitioning them would be a special operation on the fd that is specific to pKVM and wouldn't work on TDX or SEV.
+
+Aha, didn't think of pread()/pwrite(). Very interesting.
+
+I'd need to check what our VMM actually does, but as an initial
+reaction it feels like this might require a pretty significant rework in
+userspace. Maybe it's a good thing? Dunno. Maybe more important, those
+shared pages are used for virtio communications, so the cost of issuing
+syscalls every time the VMM needs to access the shared page will need to
+be considered...
+
+Thanks,
+Quentin
 
