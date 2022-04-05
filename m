@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40CD54F2BB6
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 13:18:10 +0200 (CEST)
-Received: from localhost ([::1]:50694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F5C4F2CBA
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 13:32:20 +0200 (CEST)
+Received: from localhost ([::1]:33530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbhCL-0000Pe-8I
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 07:18:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39328)
+	id 1nbhQ2-0000P7-Hq
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 07:32:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nbh59-0003TW-4j
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 07:10:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nbh56-0004zd-E9
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 07:10:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649157039;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PA+6dUq+g45Fw6xKoiNzttttZED/DJNhnKzQqiHxzbU=;
- b=Om6m42s5NpyYSkJYl60FY/qzskn/MQ7QXta+dDJvI4GyImBO3IwDOD/pbXeHzU4U0+qSvv
- 0RboAjtDwjKo7UaA9pCaRBdiDjoWSux8duwfmcvupnqLHcm6WUU5okWSrr3Sq0XWS4QgBk
- bpQxEAS/ujmMrlWrnSTeXUSCjMI+n3s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-pfSP0D4xMuiO4TSCdFjt_Q-1; Tue, 05 Apr 2022 07:10:38 -0400
-X-MC-Unique: pfSP0D4xMuiO4TSCdFjt_Q-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4393E101AA4D
- for <qemu-devel@nongnu.org>; Tue,  5 Apr 2022 11:10:38 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17885402D8F;
- Tue,  5 Apr 2022 11:10:38 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AD54C1800916; Tue,  5 Apr 2022 13:10:36 +0200 (CEST)
-Date: Tue, 5 Apr 2022 13:10:36 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Mauro Matteo Cascella <mcascell@redhat.com>
-Subject: Re: [PATCH] display/qxl-render: fix race condition in qxl_cursor
- (CVE-2022-4207)
-Message-ID: <20220405111036.7pik35u3ynln3luv@sirius.home.kraxel.org>
-References: <20220405103505.106034-1-mcascell@redhat.com>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nbhMv-0007VX-Cd; Tue, 05 Apr 2022 07:29:07 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1nbhMu-0005dk-13; Tue, 05 Apr 2022 07:29:05 -0400
+Received: by mail-ej1-x636.google.com with SMTP id bg10so26070366ejb.4;
+ Tue, 05 Apr 2022 04:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YSCtYurY6Y3ujiAxlIPVesqQ6HVNrkQwNiorsuyqVkA=;
+ b=UPvbaAC5mJh4o0CgFFQii1tnut/sqzFjLwCC44bhB5TfzBoSXUCyiUFtAsfafsn6zg
+ p8Bxxm76qIDi82s/y36URu2vkItM5feB7jnkytj4/TXlrpcBPp40B7Li+dkNUKPImVFn
+ eDBL2CVLHTjAIdcZuOv2IxPniKwB19Tbzii5KMQ6wQR5b/xWH+cW37Y8a9XBc9eapMot
+ wLrIiD60RD57pxcAT+fa3WdVfwz4/ThddkbCl9IGk3hMHwmBKUZ6Ti9zackJ3LCi370S
+ V7F0ef4CJSiKGOSFxhCTHwJuvTr9e/+YpKHqWEgzeoMnrbNPQXpkFf6P/WjlcPpNYA0Q
+ bplw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YSCtYurY6Y3ujiAxlIPVesqQ6HVNrkQwNiorsuyqVkA=;
+ b=iuqaUL8D+D5089TAOijHm+oGaVH5QDhCM0vLBUCujzK0ty5A7VEWBjiWQV52CzpSgO
+ RVArUnddIt3hxm8WgBi+1ycYKQmvLeAbzG7bO2gzepksbXGT4YiqUcyqe4xYBKSflZv2
+ xilJnvGFXuii9az0chENV3MAyJy9cagVB51gGvO50FEi3lVe7MRBcrCXz0ADIasjrC9z
+ mQGa95Fa6vngFKwHPnHGRuxnteLRKRIox3LEXs/6JrwvDRRXeHJ05B5pjLzZK1mmNME1
+ SvNvHyWHYx6Emk/ys3b2hvfZp0q6yLs4E6j+xeg/gL0BhyAsWQw44fmhtFmQaP13EJnm
+ hfeg==
+X-Gm-Message-State: AOAM532y2enXWIg8GMf8/jBZfy/N+/9zFuusMzmZ4MxYGNkvgP14D9HC
+ BB5iBzt5NEppxDbFrAlLeMhtXICMYn8=
+X-Google-Smtp-Source: ABdhPJzlkECfHZ0MpHc+7BtZFRGgMYEmjkwKnK5HT8rUcfi0brHZ24hCk+ia8B1eE4SZtH0kyVeMGA==
+X-Received: by 2002:a17:907:728e:b0:6e0:5ce7:d7c7 with SMTP id
+ dt14-20020a170907728e00b006e05ce7d7c7mr3046218ejc.113.1649158139752; 
+ Tue, 05 Apr 2022 04:28:59 -0700 (PDT)
+Received: from Provence.localdomain
+ (dynamic-077-013-166-174.77.13.pool.telefonica.de. [77.13.166.174])
+ by smtp.gmail.com with ESMTPSA id
+ sb15-20020a1709076d8f00b006dfe4cda58fsm5384973ejc.95.2022.04.05.04.28.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Apr 2022 04:28:59 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/ppc/ppc405_boards: Initialize g_autofree pointer
+Date: Tue,  5 Apr 2022 13:28:38 +0200
+Message-Id: <20220405112838.15360-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <20220405103505.106034-1-mcascell@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,21 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+ "open list:405 ref405ep and..." <qemu-ppc@nongnu.org>,
+ Bernhard Beschow <shentey@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 05, 2022 at 12:35:05PM +0200, Mauro Matteo Cascella wrote:
-> Avoid fetching 'width' and 'height' a second time to prevent possible
-> race condition. Refer to security advisory
-> https://starlabs.sg/advisories/22-4207/ for more information.
-> 
-> Fixes: CVE-2022-4207
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+Resolves the only compiler warning when building a full QEMU under Arch Linux:
 
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+  Compiling C object libqemu-ppc-softmmu.fa.p/hw_ppc_ppc405_boards.c.o
+  In file included from /usr/include/glib-2.0/glib.h:114,
+                   from qemu/include/glib-compat.h:32,
+                   from qemu/include/qemu/osdep.h:132,
+                   from ../src/hw/ppc/ppc405_boards.c:25:
+  ../src/hw/ppc/ppc405_boards.c: In function ‘ref405ep_init’:
+  /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: warning: ‘filename’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     28 |   g_free (*pp);
+        |   ^~~~~~~~~~~~
+  ../src/hw/ppc/ppc405_boards.c:265:26: note: ‘filename’ was declared here
+    265 |         g_autofree char *filename;
+        |                          ^~~~~~~~
 
-take care,
-  Gerd
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ hw/ppc/ppc405_boards.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 7e1a4ac955..326353ea25 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -262,7 +262,7 @@ static void ref405ep_init(MachineState *machine)
+     /* allocate and load BIOS */
+     if (machine->firmware) {
+         MemoryRegion *bios = g_new(MemoryRegion, 1);
+-        g_autofree char *filename;
++        g_autofree char *filename = NULL;
+         long bios_size;
+ 
+         memory_region_init_rom(bios, NULL, "ef405ep.bios", BIOS_SIZE,
+-- 
+2.35.1
 
 
