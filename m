@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5678A4F29C4
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 12:38:48 +0200 (CEST)
-Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59A54F29D1
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 12:49:17 +0200 (CEST)
+Received: from localhost ([::1]:35616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbgaE-0002TP-CA
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 06:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
+	id 1nbgkO-000358-HD
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 06:49:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1nbgTZ-0007yO-BE
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:31:55 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:37917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1nbgTX-0007PV-QZ
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:31:52 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-dacc470e03so13898174fac.5
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 03:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i17K8XY98jAxrKtRgcT2YbUSda5Yi5b2a96BbnFqKvw=;
- b=HXtRmylg+uiiplvBnW4QuPRc15XTNi3zSPi+OHdHxat4aYnskCPURj8nShrXOy6OFA
- 2AETyXDDXNHT7lIWWK21g6RalRd0ghtg5jodPcC9iQ+qPjDeiLWDTFu0sC56il7Bb5Ji
- M8/zKwpiCOlDKDbS2vHJj7Gp5qispSXUeYs4zoamNt5Ytzcr+vuPgB+0ukkE4u8JEx5G
- QR4F9Pzuxv+nNYrIouwm6OYGPNX0znD25uX6ZMrGiYGseqaTqVVBT8+Vw47rtri+GdN2
- /fprh22FCh7Qh8yn5+Bg9dn4IO+ydwizG0GIG86qM8oIHVILUyDrOd8lKKkUZTB+3gAf
- kq2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=i17K8XY98jAxrKtRgcT2YbUSda5Yi5b2a96BbnFqKvw=;
- b=OV7NlIpbNtnvYUgMmlC5AQX25ZOlFT/OmadvUxJV4G91lScEXEa42amaC4by+CotVm
- bqmEy3YlQqGxLweQHFW6DL5dcNryfGRgi6yvpbV4YLDOzUlystLr3OubGw1NU1Dy//7x
- NTls5A5g7ACdYB2ieOp7cCxutTMicDZHZudNxzAfNfUt4geFzXzd/g+XJmynYMNLb8jD
- /9pN1qZ67MQw8+lXbBnYcmc0dbtqGbHLL+pCMf4IaYNbTe7htw5NjmnaZmGhfNAYC/Ie
- wlE9fKY8x5Pv3dAXLuhSwDbj/nTjiCKuDnGVaaqV/V0Sapc2gZIyFi30Fv2F9yTMkzTF
- M6dQ==
-X-Gm-Message-State: AOAM5302X3s5dcAHdi7tzvpMpKmO5wYW9Q0kQgbh3BMdHbOwLDw0iBTL
- tY/Uwk0uktjN9yCPissyIGvBRMgoYbEnkYDJAks=
-X-Google-Smtp-Source: ABdhPJyjwC/TMFEyVQJEIaqdMPVHodZrkh6adoKhOERxcZwq+puVQhiT6CE1dP+mZ9yuST8mau2ks3HiilnKTw4csFU=
-X-Received: by 2002:a05:6870:207:b0:db:f749:2936 with SMTP id
- j7-20020a056870020700b000dbf7492936mr1200878oad.274.1649154710672; Tue, 05
- Apr 2022 03:31:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1nbgUz-0000ZC-T0
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:33:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55955)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1nbgUt-0008JB-2J
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 06:33:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649154793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tj4lzragWy8xiHEwmvqG10AMGbWKUyu6f1FtpXMuCfw=;
+ b=FtE6XtMfUIhS2zdzI9sHAy63CyPE2GbndCq05ytvlyvAAOiUj8crQAElELptcFszxQf/Ko
+ kgy5/n20f3srgnZNO8W/jI52lC31c6U2nMkRi+TERiVNMZTUY5FR1lxFmOU4HKLRnJCNoU
+ NjCjnU/AvWykdAFGy2coDvy1jq/lKEE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-554-rINWx_H2MqG_nInpvVFBqw-1; Tue, 05 Apr 2022 06:33:12 -0400
+X-MC-Unique: rINWx_H2MqG_nInpvVFBqw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E51EE3C11A07
+ for <qemu-devel@nongnu.org>; Tue,  5 Apr 2022 10:33:11 +0000 (UTC)
+Received: from f35-work.redhat.com (unknown [10.39.194.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44FA5C15D40;
+ Tue,  5 Apr 2022 10:33:11 +0000 (UTC)
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] ui/cursor: fix integer overflow in cursor_alloc
+ (CVE-2022-4206)
+Date: Tue,  5 Apr 2022 12:32:58 +0200
+Message-Id: <20220405103258.105701-1-mcascell@redhat.com>
 MIME-Version: 1.0
-References: <20220403095234.2210-1-yuval.shaia.ml@gmail.com>
-In-Reply-To: <20220403095234.2210-1-yuval.shaia.ml@gmail.com>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Tue, 5 Apr 2022 12:31:39 +0200
-Message-ID: <CAC_L=vXsKpai6Wr0Fi2r5sr4U+tshPB9VizqntDppqE=1_FbVQ@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/pvrdma: Protect against buggy or malicious guest
- driver
-To: Yuval Shaia <yuval.shaia.ml@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-oa1-x32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,61 +78,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wxhusst@gmail.com, Mauro Matteo Cascella <mcascell@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
+Cc: mcascell@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yuval,
-Thank you for the changes.
+Prevent potential integer overflow by limiting 'width' and 'height' to
+512x512. Also change 'datasize' type to size_t. Refer to security
+advisory https://starlabs.sg/advisories/22-4206/ for more information.
 
-On Sun, Apr 3, 2022 at 11:54 AM Yuval Shaia <yuval.shaia.ml@gmail.com> wrote:
->
-> Guest driver might execute HW commands when shared buffers are not yet
-> allocated.
-> This could happen on purpose (malicious guest) or because of some other
-> guest/host address mapping error.
-> We need to protect againts such case.
->
-> Fixes: CVE-2022-1050
->
-> Reported-by: Raven <wxhusst@gmail.com>
-> Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-> ---
-> v1 -> v2:
->         * Commit message changes
-> v2 -> v3:
->         * Exclude cosmetic changes
-> ---
->  hw/rdma/vmw/pvrdma_cmd.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
-> index da7ddfa548..89db963c46 100644
-> --- a/hw/rdma/vmw/pvrdma_cmd.c
-> +++ b/hw/rdma/vmw/pvrdma_cmd.c
-> @@ -796,6 +796,12 @@ int pvrdma_exec_cmd(PVRDMADev *dev)
->
->      dsr_info = &dev->dsr_info;
->
-> +    if (!dsr_info->dsr) {
-> +            /* Buggy or malicious guest driver */
-> +            rdma_error_report("Exec command without dsr, req or rsp buffers");
-> +            goto out;
-> +    }
-> +
->      if (dsr_info->req->hdr.cmd >= sizeof(cmd_handlers) /
->                        sizeof(struct cmd_handler)) {
->          rdma_error_report("Unsupported command");
-> --
-> 2.20.1
->
+Fixes: CVE-2022-4206
+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+---
+ hw/display/qxl-render.c |  7 +++++++
+ ui/cursor.c             | 12 +++++++++++-
+ 2 files changed, 18 insertions(+), 1 deletion(-)
 
-cc-ing Peter and Philippe for a question:
-Do we have a "Security Fixes" or a "Misc" subtree? Otherwise it will
-have to wait a week or so.
+diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
+index d28849b121..dc3c4edd05 100644
+--- a/hw/display/qxl-render.c
++++ b/hw/display/qxl-render.c
+@@ -247,6 +247,13 @@ static QEMUCursor *qxl_cursor(PCIQXLDevice *qxl, QXLCursor *cursor,
+     size_t size;
+ 
+     c = cursor_alloc(cursor->header.width, cursor->header.height);
++
++    if (!c) {
++        qxl_set_guest_bug(qxl, "%s: cursor %ux%u alloc error", __func__,
++                cursor->header.width, cursor->header.height);
++        goto fail;
++    }
++
+     c->hot_x = cursor->header.hot_spot_x;
+     c->hot_y = cursor->header.hot_spot_y;
+     switch (cursor->header.type) {
+diff --git a/ui/cursor.c b/ui/cursor.c
+index 1d62ddd4d0..7cfb08a030 100644
+--- a/ui/cursor.c
++++ b/ui/cursor.c
+@@ -46,6 +46,13 @@ static QEMUCursor *cursor_parse_xpm(const char *xpm[])
+ 
+     /* parse pixel data */
+     c = cursor_alloc(width, height);
++
++    if (!c) {
++        fprintf(stderr, "%s: cursor %ux%u alloc error\n",
++                __func__, width, height);
++        return NULL;
++    }
++
+     for (pixel = 0, y = 0; y < height; y++, line++) {
+         for (x = 0; x < height; x++, pixel++) {
+             idx = xpm[line][x];
+@@ -91,7 +98,10 @@ QEMUCursor *cursor_builtin_left_ptr(void)
+ QEMUCursor *cursor_alloc(int width, int height)
+ {
+     QEMUCursor *c;
+-    int datasize = width * height * sizeof(uint32_t);
++    size_t datasize = width * height * sizeof(uint32_t);
++
++    if (width > 512 || height > 512)
++        return NULL;
+ 
+     c = g_malloc0(sizeof(QEMUCursor) + datasize);
+     c->width  = width;
+-- 
+2.35.1
 
-Reviewed by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Thanks,
-Marcel
 
