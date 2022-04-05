@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3984E4F3D7A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 22:03:23 +0200 (CEST)
-Received: from localhost ([::1]:55674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07EF14F3D80
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 22:07:37 +0200 (CEST)
+Received: from localhost ([::1]:60550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbpOc-0002O5-7h
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 16:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56440)
+	id 1nbpSi-0005nM-37
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 16:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nbpHl-0003wy-T4; Tue, 05 Apr 2022 15:56:17 -0400
+ id 1nbpHo-00040r-BO; Tue, 05 Apr 2022 15:56:20 -0400
 Received: from [187.72.171.209] (port=24543 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nbpHk-00049c-2r; Tue, 05 Apr 2022 15:56:17 -0400
+ id 1nbpHm-00049c-Ng; Tue, 05 Apr 2022 15:56:19 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 5 Apr 2022 16:56:03 -0300
+ Tue, 5 Apr 2022 16:56:04 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 3B4D98000CB;
- Tue,  5 Apr 2022 16:56:03 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 27BA58000CB;
+ Tue,  5 Apr 2022 16:56:04 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 3/9] target/ppc: Implemented vector divide quadword
-Date: Tue,  5 Apr 2022 16:55:52 -0300
-Message-Id: <20220405195558.66144-4-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v2 4/9] target/ppc: Implemented vector divide extended word
+Date: Tue,  5 Apr 2022 16:55:53 -0300
+Message-Id: <20220405195558.66144-5-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220405195558.66144-1-lucas.araujo@eldorado.org.br>
 References: <20220405195558.66144-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 05 Apr 2022 19:56:03.0730 (UTC)
- FILETIME=[2E54EF20:01D84927]
+X-OriginalArrivalTime: 05 Apr 2022 19:56:04.0620 (UTC)
+ FILETIME=[2EDCBCC0:01D84927]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,85 +67,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vdivsq: Vector Divide Signed Quadword
-vdivuq: Vector Divide Unsigned Quadword
+vdivesw: Vector Divide Extended Signed Word
+vdiveuw: Vector Divide Extended Unsigned Word
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 ---
- target/ppc/helper.h                 |  2 ++
- target/ppc/insn32.decode            |  2 ++
- target/ppc/int_helper.c             | 21 +++++++++++++++++++++
- target/ppc/translate/vmx-impl.c.inc |  2 ++
- 4 files changed, 27 insertions(+)
+ target/ppc/insn32.decode            |  3 ++
+ target/ppc/translate/vmx-impl.c.inc | 48 +++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 57da11c77e..4cfdf7b3ec 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -171,6 +171,8 @@ DEF_HELPER_FLAGS_3(VMULOSW, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VMULOUB, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VMULOUH, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VMULOUW, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VDIVSQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VDIVUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_3(vslo, void, avr, avr, avr)
- DEF_HELPER_3(vsro, void, avr, avr, avr)
- DEF_HELPER_3(vsrv, void, avr, avr, avr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 597768558b..3a88a0b5bc 100644
+index 3a88a0b5bc..8c115c9c60 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -710,3 +710,5 @@ VDIVSW          000100 ..... ..... ..... 00110001011    @VX
- VDIVUW          000100 ..... ..... ..... 00010001011    @VX
- VDIVSD          000100 ..... ..... ..... 00111001011    @VX
+@@ -712,3 +712,6 @@ VDIVSD          000100 ..... ..... ..... 00111001011    @VX
  VDIVUD          000100 ..... ..... ..... 00011001011    @VX
-+VDIVSQ          000100 ..... ..... ..... 00100001011    @VX
-+VDIVUQ          000100 ..... ..... ..... 00000001011    @VX
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 492f34c499..ba5d4193ff 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1036,6 +1036,27 @@ void helper_XXPERMX(ppc_vsr_t *t, ppc_vsr_t *s0, ppc_vsr_t *s1, ppc_vsr_t *pcv,
-     *t = tmp;
- }
- 
-+void helper_VDIVSQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    Int128 neg1 = int128_makes64(-1);
-+    Int128 int128_min = int128_make128(0, INT64_MIN);
-+    if (likely(int128_nz(b->s128) &&
-+              (int128_ne(a->s128, int128_min) || int128_ne(b->s128, neg1)))) {
-+        t->s128 = int128_divs(a->s128, b->s128);
-+    } else {
-+        t->s128 = a->s128; /* Undefined behavior */
-+    }
-+}
+ VDIVSQ          000100 ..... ..... ..... 00100001011    @VX
+ VDIVUQ          000100 ..... ..... ..... 00000001011    @VX
 +
-+void helper_VDIVUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    if (int128_nz(b->s128)) {
-+        t->s128 = int128_divu(a->s128, b->s128);
-+    } else {
-+        t->s128 = a->s128; /* Undefined behavior */
-+    }
-+}
-+
- void helper_VPERM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
- {
-     ppc_avr_t result;
++VDIVESW         000100 ..... ..... ..... 01110001011    @VX
++VDIVEUW         000100 ..... ..... ..... 01010001011    @VX
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index be35d6fdf3..bac0db7128 100644
+index bac0db7128..8799e945bd 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -3292,6 +3292,8 @@ TRANS_VDIV_VMOD(ISA310, VDIVSW, MO_32, do_divsw, NULL)
- TRANS_VDIV_VMOD(ISA310, VDIVUW, MO_32, do_divuw, NULL)
- TRANS_VDIV_VMOD(ISA310, VDIVSD, MO_64, NULL, do_divsd)
- TRANS_VDIV_VMOD(ISA310, VDIVUD, MO_64, NULL, do_divud)
-+TRANS_FLAGS2(ISA310, VDIVSQ, do_vx_helper, gen_helper_VDIVSQ)
-+TRANS_FLAGS2(ISA310, VDIVUQ, do_vx_helper, gen_helper_VDIVUQ)
+@@ -3295,6 +3295,54 @@ TRANS_VDIV_VMOD(ISA310, VDIVUD, MO_64, NULL, do_divud)
+ TRANS_FLAGS2(ISA310, VDIVSQ, do_vx_helper, gen_helper_VDIVSQ)
+ TRANS_FLAGS2(ISA310, VDIVUQ, do_vx_helper, gen_helper_VDIVUQ)
  
++static void do_dives_i32(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
++{
++    TCGv_i64 val1, val2;
++
++    val1 = tcg_temp_new_i64();
++    val2 = tcg_temp_new_i64();
++
++    tcg_gen_ext_i32_i64(val1, a);
++    tcg_gen_ext_i32_i64(val2, b);
++
++    /* (a << 32)/b */
++    tcg_gen_shli_i64(val1, val1, 32);
++    tcg_gen_div_i64(val1, val1, val2);
++
++    /* if quotient doesn't fit in 32 bits the result is undefined */
++    tcg_gen_extrl_i64_i32(t, val1);
++
++    tcg_temp_free_i64(val1);
++    tcg_temp_free_i64(val2);
++}
++
++static void do_diveu_i32(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
++{
++    TCGv_i64 val1, val2;
++
++    val1 = tcg_temp_new_i64();
++    val2 = tcg_temp_new_i64();
++
++    tcg_gen_extu_i32_i64(val1, a);
++    tcg_gen_extu_i32_i64(val2, b);
++
++    /* (a << 32)/b */
++    tcg_gen_shli_i64(val1, val1, 32);
++    tcg_gen_divu_i64(val1, val1, val2);
++
++    /* if quotient doesn't fit in 32 bits the result is undefined */
++    tcg_gen_extrl_i64_i32(t, val1);
++
++    tcg_temp_free_i64(val1);
++    tcg_temp_free_i64(val2);
++}
++
++DO_VDIV_VMOD(do_divesw, 32, do_dives_i32, true)
++DO_VDIV_VMOD(do_diveuw, 32, do_diveu_i32, false)
++
++TRANS_VDIV_VMOD(ISA310, VDIVESW, MO_32, do_divesw, NULL)
++TRANS_VDIV_VMOD(ISA310, VDIVEUW, MO_32, do_diveuw, NULL)
++
  #undef DO_VDIV_VMOD
  
+ #undef GEN_VR_LDX
 -- 
 2.31.1
 
