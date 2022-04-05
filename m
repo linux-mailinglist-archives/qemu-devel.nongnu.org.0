@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD90F4F299A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 11:47:40 +0200 (CEST)
-Received: from localhost ([::1]:51142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525934F2997
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 11:45:02 +0200 (CEST)
+Received: from localhost ([::1]:48412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbfml-0006wt-Qm
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 05:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43276)
+	id 1nbfkD-0004yf-EG
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 05:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nbfT0-0003G9-A5
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:27:14 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40543)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nbfSs-0002vu-1I
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:27:09 -0400
-Received: by mail-wr1-x431.google.com with SMTP id d3so7526994wrb.7
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 02:26:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=ljO+cAdYFAzNeekbMGXlqD4Ycub0kBMsKwkWirsXUSE=;
- b=X4qtK6/9ayGXlGS3/ImgO4+UctbulaMVt1pZHfrVr8Ey4BwAQ0QrVR0MkyrTThsYfz
- CtvjCKKqW2KdUa4kK6xvkKQP1iSXFjPqG8ulayOX4pZ8sA2gm0pS4UrPTcK3pEm+wmqH
- urfUHaHYHmm8cRmuZKMBJVUEXfO+T2meKVaSYjmSFNkgAtQkDpSwa+KDT5OlsnjTey4D
- W6FlgDToeYDgztezz2FzM6qx6/PoxqcgeJtBQw/+SS4nDd/i5p9zikGACrAtzYibDTtt
- 51/CeaUF6xOMsyW/4rmKwLqwLSe0aECDbAk5u+H/3bvtpStCPSIwScmQ3FdTbc5XTjJb
- upew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ljO+cAdYFAzNeekbMGXlqD4Ycub0kBMsKwkWirsXUSE=;
- b=OXXc4E5/phpNbw2tBy53GZmdn/TRUfhiOOXm+bthgI6EBqL4HRvsjvkGX2eVD052vn
- bXxh64r+0D3UqI1j/nuAAz58jcWMN3sk6tTscYwyaY3XpB7whMnxF3ng5sGWdOB3Oc3o
- sIZ8+DhcyYfvWZ5kxrjT36LOP67qnnNwS36Xu/IXLLwLnGVoRXkOEGUgijzD5UrgaPBT
- REwxVy10dXK4cdRVPz9pX9/X31gqs4pcBsha9mug5dlsiu+aylj+UZQFvqBHTZvcjKd8
- PrggnvJNLFkarenp7IlOrMw+MlktgeXpIeJemKOcuDc4evhzmYruEoQ0RtRWWwT2BtIM
- PAdg==
-X-Gm-Message-State: AOAM532QUkr0N03MMjwpaukZR+jUOtyLAQITLUY0QowYssF4k64/iAtW
- lq8Zc4zxNJpghOMaWiAyI9dk7IzRgafU6Q==
-X-Google-Smtp-Source: ABdhPJx4sRrxzNXUEVne/q0v/OFauOw21Jod15qZXEzsBu1VLqqItA6fIGuhGPyrb/aMb6rZQZXwzg==
-X-Received: by 2002:a5d:5545:0:b0:206:1685:ac61 with SMTP id
- g5-20020a5d5545000000b002061685ac61mr1943508wrw.53.1649150818639; 
- Tue, 05 Apr 2022 02:26:58 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- r15-20020a5d6c6f000000b002040552e88esm13467159wrz.29.2022.04.05.02.26.57
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 02:26:57 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] docs/system/devices/can.rst: correct links to CTU CAN FD
- IP core documentation.
-Date: Tue,  5 Apr 2022 10:26:51 +0100
-Message-Id: <20220405092651.725041-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220405092651.725041-1-peter.maydell@linaro.org>
-References: <20220405092651.725041-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nbffP-0003CK-4R
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:40:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nbffM-0007sD-Eu
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:40:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649151599;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nrYa9sUqSln5BlV4oX1sXA10ZfPvKOOyzeD33RJTsgU=;
+ b=OAWRw8ixkSrDBPyp82Ym7c08CwvJdNa07er/YnxD0PwbJ1rpfEv1LwXvlo/vR5z+10si4p
+ +khXRfJ+LCMMHUzPj+/p30n6bdIpUqaeGz7mVX5wKzqrWF3w4yrt2Dx4zfS60GhwpeK1BY
+ UcOkeX843FiBnUmMhHffZwvC6LK5ZWo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-203-7wL0Uv2UNTGrKGnkDybJVw-1; Tue, 05 Apr 2022 05:39:56 -0400
+X-MC-Unique: 7wL0Uv2UNTGrKGnkDybJVw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF571811E75;
+ Tue,  5 Apr 2022 09:39:55 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E283AFFE1;
+ Tue,  5 Apr 2022 09:39:52 +0000 (UTC)
+Date: Tue, 5 Apr 2022 10:39:51 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 0/5] Removal of AioContext lock, bs->parents and
+ ->children: proof of concept
+Message-ID: <YkwOZ19J1mk8OSTa@stefanha-x1.localdomain>
+References: <e9eeec7b-d03e-5e8e-cc42-568c670726ca@redhat.com>
+ <c8d45cd9-e7de-9acd-3fd6-13de58f5ce48@redhat.com>
+ <c6a12090-b6c3-31d8-fb90-a76c9dd2e949@redhat.com>
+ <88f2798b-9327-e54f-5792-e37404b94ef7@redhat.com>
+ <8ae70388-ff46-6ec1-7f84-14d41ca9a6dd@redhat.com>
+ <311c2e0a-fb2c-241c-cbd1-1162f7e74e18@redhat.com>
+ <9d3c36f0-0834-ec9c-8473-d052d64a61dd@redhat.com>
+ <69b2ce82-4826-71ed-9c32-d323df69b7c4@redhat.com>
+ <Ykq5cZPiC9uw9T1a@stefanha-x1.localdomain>
+ <CABgObfZ96TOf9nxdrHrtKtrfyG0sZS9rPqAaReQgxNQ+AkKKpA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZIO8P9w2A6tpIu7x"
+Content-Disposition: inline
+In-Reply-To: <CABgObfZ96TOf9nxdrHrtKtrfyG0sZS9rPqAaReQgxNQ+AkKKpA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,35 +86,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
 
-Signed-off-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Message-id: 20220402204523.32643-1-pisa@cmp.felk.cvut.cz
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/devices/can.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+--ZIO8P9w2A6tpIu7x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/docs/system/devices/can.rst b/docs/system/devices/can.rst
-index 16d72c3ac37..fe37af82237 100644
---- a/docs/system/devices/can.rst
-+++ b/docs/system/devices/can.rst
-@@ -182,7 +182,7 @@ Links to other resources
-  (5) `GNU/Linux, CAN and CANopen in Real-time Control Applications Slides from LinuxDays 2017 (include updated RTLWS 2015 content) <https://www.linuxdays.cz/2017/video/Pavel_Pisa-CAN_canopen.pdf>`_
-  (6) `Linux SocketCAN utilities <https://github.com/linux-can/can-utils>`_
-  (7) `CTU CAN FD project including core VHDL design, Linux driver, test utilities etc. <https://gitlab.fel.cvut.cz/canbus/ctucanfd_ip_core>`_
-- (8) `CTU CAN FD Core Datasheet Documentation <http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/Progdokum.pdf>`_
-- (9) `CTU CAN FD Core System Architecture Documentation <http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/ctu_can_fd_architecture.pdf>`_
-- (10) `CTU CAN FD Driver Documentation <http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/driver_doc/ctucanfd-driver.html>`_
-+ (8) `CTU CAN FD Core Datasheet Documentation <http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/doc/Datasheet.pdf>`_
-+ (9) `CTU CAN FD Core System Architecture Documentation <http://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/doc/System_Architecture.pdf>`_
-+ (10) `CTU CAN FD Driver Documentation <https://canbus.pages.fel.cvut.cz/ctucanfd_ip_core/doc/linux_driver/build/ctucanfd-driver.html>`_
-  (11) `Integration with PCIe interfacing for Intel/Altera Cyclone IV based board <https://gitlab.fel.cvut.cz/canbus/pcie-ctu_can_fd>`_
--- 
-2.25.1
+On Mon, Apr 04, 2022 at 11:41:04AM +0200, Paolo Bonzini wrote:
+> On Mon, Apr 4, 2022 at 11:25 AM Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> > - The new API still needs to be combined with bdrv_drained_begin/end()
+> >   to ensure in-flight requests are done.
+> >
+>=20
+> I don't think so, because in-flight requests would take the lock for
+> reading. The write side would not start until those in-flight requests
+> release the lock.
+
+Good point!
+
+> - It's not obvious to me whether the new API obsoletes is_external. I thi=
+nk
+> > it probably doesn't.
+> >
+>=20
+> I agree that it doesn't. This new lock is only protecting ->parents and
+> ->children. bdrv_drained_begin()/end() remains necessary, for example, wh=
+en
+> you need to send a request during the drained section. An example is
+> block_resize.
+>=20
+> In addition, bdrv_drained_begin()/end() ensures that the callback of
+> blk_aio_*() functions has been invoked (see commit 46aaf2a566,
+> "block-backend: Decrease in_flight only after callback", 2018-09-25).  Th=
+is
+> new lock would not ensure that.
+>=20
+> As an aside, instead of is_external, QEMU could remove/add the ioeventfd
+> handler in the blk->dev_ops->drained_begin and blk->dev_ops->drained_end
+> callbacks respectively. But that's just a code cleanup.
+
+Interesting idea. If is_external is a block layer-specific feature that
+nothing else in QEMU uses then I like the idea because it's cleaner and
+more obvious than is_external.
+
+Stefan
+
+--ZIO8P9w2A6tpIu7x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJMDmcACgkQnKSrs4Gr
+c8ilpwf/cSj8jx2yTFGcv/W19pDyhuM+yWFw5pzU9KPA86xJ8ltsex910HMYk3sn
+DaiwQLZuNTofbwr3sJ+319U5/FHuCk4it6g/tQ0R6sqWgFKns6T4Fa04l/CRIoF8
+pOPrxTHlmUeLlglLePGVwIs5NQ4UiVqh8QFLZcvQk7qgDPB9E7FqPTaiLUr/9Lt6
+xp22YolAlnwoWNgslwuB3G4PScD2pbfLwy0atfOTfbs8WKfrRg7SI1FK/O0fFGEX
+9Ecc6/qcMq1hY7Sn+hyfXYtJ7r+Lek3F2lOaMYgyzhupt/RLNfS3rnOwZ+1/66Mn
+EDKo2pS7wiVwnL8ATRUJs3+ibEhY8A==
+=XqtJ
+-----END PGP SIGNATURE-----
+
+--ZIO8P9w2A6tpIu7x--
 
 
