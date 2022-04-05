@@ -2,100 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFD64F3D33
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 20:26:39 +0200 (CEST)
-Received: from localhost ([::1]:60520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74334F3D35
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 20:33:19 +0200 (CEST)
+Received: from localhost ([::1]:37106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbnt0-0003Vq-Ao
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 14:26:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37234)
+	id 1nbnzS-00074o-8D
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 14:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nbnr7-000219-9p
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 14:24:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nbnr3-0002q5-Ld
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 14:24:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649183075;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/wf1uuv4V3nJajsV1lyP+xs6pGJ6VISRly9wLyaaz5U=;
- b=ZUAgI6uqrh8JdlWlADWgm5CB4GhvkfCXTxPzgs61DUl0sk3DsyvcUWVuMC7fsa9hk1AQrJ
- po1CdasRFQjEz4Wr52Po11XosjKp+0neeLVdm4N03H2gUAlJDCzqFM6XOWTffo0lCw2Q3S
- 30XRr9PmkmHoePJGkSlIlJXZcWAo6xs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-204-yfLJPpk6PaODAfffzmRXjQ-1; Tue, 05 Apr 2022 14:24:34 -0400
-X-MC-Unique: yfLJPpk6PaODAfffzmRXjQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j6-20020a05600c1c0600b0038e7d07ebcaso1626wms.0
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 11:24:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nbnx1-00069o-KV
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 14:30:51 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:44031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1nbnwx-0008GK-Jg
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 14:30:47 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ c15-20020a17090a8d0f00b001c9c81d9648so303505pjo.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 11:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=G8+4mXlfXEhZHOhFIRvGTNgBOyulQouXw+I2k4OPfSs=;
+ b=JEAiwwWf8T9LZvKvUJKSgjehqTRQAgWTmIg0Kl3BSYJYTC+v/3bm2x1/9Hy8KfSmg+
+ cHSPWpCpQx/B9uyWSDx7KDa583awqWBLkdvoEKwQ/QBUVRp4lZ6Cj73ZO0l8R1jsuMTu
+ f4CTIP1KefeADG3WAL+m7kzbPsENWR2ewqxk3Vv6zcy974PyQLpH4p1GEvsWlPaOBnDD
+ BG/d5Cparj8Y2vpN7tIW/k4gGVthNC5Ac8769ebux1ZwYDdSobMpJ6R2kheemPJpQheC
+ Hjen7QcB7kjlOMvcpc1sK+TrMXslHzsMWklqEGe8pGwPZ2paBwziGZrdbb+U0gJgoIyn
+ aHEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=/wf1uuv4V3nJajsV1lyP+xs6pGJ6VISRly9wLyaaz5U=;
- b=eSrlKrd7D6+4jhoKUgcgOHOJar1O9OrZYjkSosa2Usq5XX6pHK5fVHST37GysKPKsJ
- E264ukO8yVUR1jCiFmL24cz5Xd+PK5Q7qZQJ03bUdLchMC41UIgbe8+7/dgctTh3T4f0
- 1FIV3WH961fyAvKPAHABiD4YPGVMB8S7as/IVk4Oput1kxAwZytq1fdOMA5ITUiPzOfd
- 4Qhkh6AJCT1TDopN5O6LZAg/vvuHYD4GxZ3RHkZEWpIl4n9Cx4pwlfdlmXT2xNnOJ4N0
- OZUT83mmYYjuDo4ceXXyndfS3jMJ4lmF110huPvrcL//R56Oxgduu78ftcL8VfGXRB6V
- TYAA==
-X-Gm-Message-State: AOAM532ENSC1Hl52yJStCxLNc47YXStDjS9uCQCNzjXN+Ka+r0ttcisn
- gQuiCDBrzXa1yjL1hCCFcSZbTf4qpkJuOgB5IYzc5mv2LM3MLCbgaveZRV1EOOy4G8DKm/ZaBwV
- gYw0zdSwZFpwJgtw=
-X-Received: by 2002:a05:6000:144b:b0:204:d97:8d12 with SMTP id
- v11-20020a056000144b00b002040d978d12mr3841332wrx.572.1649183073712; 
- Tue, 05 Apr 2022 11:24:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyu88DMILyI0Y/WzLLWxI6yO8iLNUI3GOSneNNLk+9ur2PZsrP2EGkNUg/JQjIb46hk6adZpw==
-X-Received: by 2002:a05:6000:144b:b0:204:d97:8d12 with SMTP id
- v11-20020a056000144b00b002040d978d12mr3841305wrx.572.1649183073365; 
- Tue, 05 Apr 2022 11:24:33 -0700 (PDT)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- 3-20020a5d47a3000000b0020412ba45f6sm15170700wrb.8.2022.04.05.11.24.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Apr 2022 11:24:32 -0700 (PDT)
-Message-ID: <88a3d2df-5c34-c547-e59d-98ce81c35af0@redhat.com>
-Date: Tue, 5 Apr 2022 20:24:31 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=G8+4mXlfXEhZHOhFIRvGTNgBOyulQouXw+I2k4OPfSs=;
+ b=O40Ra6i/d/xL/JSduCCMq/jxsLhi4thghqx4Ufyxt8ks3A3xCx73k6WdFyUdQv/XOD
+ oSdm+UyYhWmMuNW3CTKjeJSOE5/HtfnbwaNrBMf3GoCd1M2xOz9RG6PRlcAIAjeoopTP
+ 4uylUfhVG6ts+MccPNAXGocS/FyNNIsCMffcFZ+/S1OC/H/X+hY+M7IuPZAq7vynHkkP
+ pQ5vuVS180avBZFDuduGMrvW6TW9l1CBmAazSysGk4w081AYqsgPzatYj3ZyqGBrDgoH
+ Ga7axRsmX/dQdIkav534fpQEW663IgILM+NzgYLKCeSymFSU8BmVc8PT8B/v5XEOb5Ip
+ BiSg==
+X-Gm-Message-State: AOAM531WYDGNwhFm4/cmdaZ3I8giCDav4xA2EYovWhK8576/GLWy5zEY
+ UQ8aFcaLmgsZ7HOTo5xCTBUANw==
+X-Google-Smtp-Source: ABdhPJyua072a4AGX8ZFGYAQtmIMqiU1fY+N03i9KlJ21rU1Sdp03j8ltrsaSuySC/JcuYQKVUW/ZQ==
+X-Received: by 2002:a17:902:8217:b0:156:9c4f:90eb with SMTP id
+ x23-20020a170902821700b001569c4f90ebmr4788820pln.121.1649183440130; 
+ Tue, 05 Apr 2022 11:30:40 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
+ i7-20020a628707000000b004fa6eb33b02sm16131023pfe.49.2022.04.05.11.30.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Apr 2022 11:30:39 -0700 (PDT)
+Date: Tue, 5 Apr 2022 18:30:35 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Quentin Perret <qperret@google.com>, Steven Price <steven.price@arm.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm list <kvm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <YkyKywkQYbr9U0CA@google.com>
+References: <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
+ <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
+ <YkcTTY4YjQs5BRhE@google.com>
+ <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
+ <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
+ <Ykwbqv90C7+8K+Ao@google.com>
+ <54acbba9-f4fd-48c1-9028-d596d9f63069@www.fastmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] block/stream: Drain subtree around graph change
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20220324125756.9950-1-hreitz@redhat.com>
- <YkwWbAoYmkVuHlQA@redhat.com>
- <87fb6a17-c1e8-cb50-5f0f-3979b8cc5ca6@redhat.com>
- <YkxagL00suVaVipU@redhat.com>
- <014d1e09-0e75-f7e3-cef8-9bb36d1cb48d@redhat.com>
-In-Reply-To: <014d1e09-0e75-f7e3-cef8-9bb36d1cb48d@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54acbba9-f4fd-48c1-9028-d596d9f63069@www.fastmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,87 +115,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Apr 05, 2022, Andy Lutomirski wrote:
+> On Tue, Apr 5, 2022, at 3:36 AM, Quentin Perret wrote:
+> > On Monday 04 Apr 2022 at 15:04:17 (-0700), Andy Lutomirski wrote:
+> >> The best I can come up with is a special type of shared page that is not
+> >> GUP-able and maybe not even mmappable, having a clear option for
+> >> transitions to fail, and generally preventing the nasty cases from
+> >> happening in the first place.
+> >
+> > Right, that sounds reasonable to me.
+> 
+> At least as a v1, this is probably more straightforward than allowing mmap().
+> Also, there's much to be said for a simpler, limited API, to be expanded if
+> genuinely needed, as opposed to starting out with a very featureful API.
 
+Regarding "genuinely needed", IMO the same applies to supporting this at all.
+Without numbers from something at least approximating a real use case, we're just
+speculating on which will be the most performant approach.
 
-Am 05/04/2022 um 19:53 schrieb Emanuele Giuseppe Esposito:
+> >> Maybe there could be a special mode for the private memory fds in which
+> >> specific pages are marked as "managed by this fd but actually shared".
+> >> pread() and pwrite() would work on those pages, but not mmap().  (Or maybe
+> >> mmap() but the resulting mappings would not permit GUP.)  And
+> >> transitioning them would be a special operation on the fd that is specific
+> >> to pKVM and wouldn't work on TDX or SEV.
+> >
+> > Aha, didn't think of pread()/pwrite(). Very interesting.
 > 
-> 
-> Am 05/04/2022 um 17:04 schrieb Kevin Wolf:
->> Am 05.04.2022 um 15:09 hat Emanuele Giuseppe Esposito geschrieben:
->>> Am 05/04/2022 um 12:14 schrieb Kevin Wolf:
->>>> I think all of this is really relevant for Emanuele's work, which
->>>> involves adding AIO_WAIT_WHILE() deep inside graph update functions. I
->>>> fully expect that we would see very similar problems, and just stacking
->>>> drain sections over drain sections that might happen to usually fix
->>>> things, but aren't guaranteed to, doesn't look like a good solution.
->>>
->>> Yes, I think at this point we all agreed to drop subtree_drain as
->>> replacement for AioContext.
->>>
->>> The alternative is what Paolo proposed in the other thread " Removal of
->>> AioContext lock, bs->parents and ->children: proof of concept"
->>> I am not sure which thread you replied first :)
->>
->> This one, I think. :-)
->>
->>> I think that proposal is not far from your idea, and it avoids to
->>> introduce or even use drains at all.
->>> Not sure why you called it a "step backwards even from AioContext locks".
->>
->> I was only referring to the lock locality there. AioContext locks are
->> really coarse, but still a finer granularity than a single global lock.
->>
->> In the big picture, it's still be better than the AioContext lock, but
->> that's because it's a different type of lock, not because it has better
->> locality.
->>
->> So I was just wondering if we can't have the different type of lock and
->> make it local to the BDS, too.
-> 
-> I guess this is the right time to discuss this.
-> 
-> I think that a global lock will be easier to handle, and we already have
-> a concrete implementation (cpus-common).
-> 
-> I think that the reads in some sense are already BDS-specific, because
-> each BDS that is reading has an internal a flag.
-> Writes, on the other hand, are global. If a write is happening, no other
-> read at all can run, even if it has nothing to do with it.
-> 
-> The question then is: how difficult would be to implement a BDS-specific
-> write?
-> From the API prospective, change
-> bdrv_graph_wrlock(void);
-> into
-> bdrv_graph_wrlock(BlockDriverState *parent, BlockDriverState *child);
-> I am not sure if/how complicated it will be. For sure all the global
-> variables would end up in the BDS struct.
-> 
-> On the other side, also making instead read generic could be interesting.
-> Think about drain: it is a recursive function, and it doesn't really
-> make sense to take the rdlock for each node it traverses.
+> There are plenty of use cases for which pread()/pwrite()/splice() will be as
+> fast or even much faster than mmap()+memcpy().
 
-Otherwise a simple solution for drains that require no change at allis
-to just take the rdlock on the bs calling drain, and since each write
-waits for all reads to complete, it will work anyways.
+...
 
-The only detail is that assert_bdrv_graph_readable() will then need to
-iterate through all nodes to be sure that at leas one of them is
-actually reading.
-
-So yeah I know this might be hard to realize without an implementation,
-but my conclusion is to leave the lock as it is for now.
-
-> Even though I don't know an easy way to replace ->has_waiter and
-> ->reading_graph flags...
+> resume guest
+> *** host -> hypervisor -> guest ***
+> Guest unshares the page.
+> *** guest -> hypervisor ***
+> Hypervisor removes PTE.  TLBI.
+> *** hypervisor -> guest ***
 > 
-> Emanuele
+> Obviously considerable cleverness is needed to make a virt IOMMU like this
+> work well, but still.
 > 
+> Anyway, my suggestion is that the fd backing proposal get slightly modified
+> to get it ready for multiple subtypes of backing object, which should be a
+> pretty minimal change.  Then, if someone actually needs any of this
+> cleverness, it can be added later.  In the mean time, the
+> pread()/pwrite()/splice() scheme is pretty good.
 
+Tangentially related to getting private-fd ready for multiple things, what about
+implementing the pread()/pwrite()/splice() scheme in pKVM itself?  I.e. read() on
+the VM fd, with the offset corresponding to gfn in some way.
+
+Ditto for mmap() on the VM fd, though that would require additional changes outside
+of pKVM.
+
+That would allow pKVM to support in-place conversions without the private-fd having
+to differentiate between the type of protected VM, and without having to provide
+new APIs from the private-fd.  TDX, SNP, etc... Just Work by not supporting the pKVM
+APIs.
+
+And assuming we get multiple consumers down the road, pKVM will need to be able to
+communicate the "true" state of a page to other consumers, because in addition to
+being a consumer, pKVM is also an owner/enforcer analogous to the TDX Module and
+the SEV PSP.
 
