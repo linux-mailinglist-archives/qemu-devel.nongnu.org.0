@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0FA4F3D3B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 20:49:03 +0200 (CEST)
-Received: from localhost ([::1]:47364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC61F4F3D47
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 21:08:25 +0200 (CEST)
+Received: from localhost ([::1]:55872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nboEg-0006mo-EP
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 14:49:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
+	id 1nboXQ-0005tV-9y
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 15:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nboCk-0005vD-Ht
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 14:47:02 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:33836)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nboCi-0002iP-TM
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 14:47:02 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-2db2add4516so2034787b3.1
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 11:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/buYJ+2IpTAYt9YHgByQ0YxywhG63n3G7r6wkTpS6gE=;
- b=EnWB/4qGQdciE4LzExQcd9LUdDMe7PgQ5/kYIJVNcnOp9kAK6DOjgUmApkX76w58xM
- ViHwPNe9phw0PE25xnoLhNcBAfgS8UHobmZIuyGubHNxUEFhcZNZMm71bCkhO/e4YgUz
- A7JUkKJ7+wXTMuNU5oQa4eQBDCccAlcSnJfDgIFqmbZ1TDFUpD9gW8Von6ydm7kN2Hoc
- msFcjZmG++4ybz1NkKggm2l05gn8i/UTh43dFc8V2j2U9BGFhutJhZTIfz25+UmvjeHs
- wDgpXmFfS0BxCm0iibeuN5IGGlgibUGWpW4mN1gKQCH+xJnbG6SQTfDa0lKbIs3HwIzj
- IJlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/buYJ+2IpTAYt9YHgByQ0YxywhG63n3G7r6wkTpS6gE=;
- b=xWZ4ITpPsn7aZpa1RCNJ0RH4+Fr3Ci3Vn+Y2wq73HJmDxN97VzKhPAQ65LBbRp7njd
- zfJAOyYzZq+mx1azf7HcFg05pcckX0WVWrHYrRuzAs32OUYFwUMvBtVq35KCOmudloLg
- 4nSxV8loUwYm6I3f3jF2uJtBUFf8O+FQEw29Zou1YaSZD33fG3z6GDnKJ/+PzBl+zYXb
- tJ2tGEc0tu0w7lJmpkKKCK03ASAbWLgVQWa4moPPz4QfXbv/wgBhy7FKtOY3D1iryLpR
- 6UdD8JEBUtWKeeUzlyAIX/hKId/gpxDLOgfDaJlYpURN61TGD4lWhVHjV7qNp4TyWVx2
- p5Sw==
-X-Gm-Message-State: AOAM530n8qFR+ESMNHMRsG43lVm9SREUQmHAzKIxJFmSlA/KrNxHvInk
- s4pqKD1hnu5SAnSxcwirOD+m7W1vDJ7YM9+0fZfOZw==
-X-Google-Smtp-Source: ABdhPJwrW9m0tOuv2ccvL52gb0SlVo7358VfHv+AGlL1kx3Kp5khVvrO3cZX5d3Nql9Mri8Lp+m/jFItCLCbV4KXMgY=
-X-Received: by 2002:a81:4655:0:b0:2eb:2e0e:9d47 with SMTP id
- t82-20020a814655000000b002eb2e0e9d47mr3954506ywa.455.1649184418877; Tue, 05
- Apr 2022 11:46:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nboWV-0005CR-PY
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 15:07:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nboWT-00035m-9Q
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 15:07:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649185643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QWOYvQ03ayYS52o2WTzRzv3wbynn0OyOLmCFXW0vQ9s=;
+ b=ih4Qx5GYio/X3agGcZ2AlWi4l68UFAT0ccNPLYP9+Vga2S1LKCT3X+WvBcx3XSZLShCNX8
+ rPvhLrY1fvKSKuXbeFr6JO2tvoDksgCPiHdJfJ/JMfGa0MCkoV5UbNU8tZ/d1aeybzzmTY
+ l6cWQLXqeL6wj0Y9gPfz1htrq/3JPC4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-288-z3pBpIkPMdKHOOqUrbQ-fQ-1; Tue, 05 Apr 2022 15:07:22 -0400
+X-MC-Unique: z3pBpIkPMdKHOOqUrbQ-fQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD55C85A5BE;
+ Tue,  5 Apr 2022 19:07:21 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.39.195.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C79A112C08E;
+ Tue,  5 Apr 2022 19:07:03 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, mst@redhat.com, imammedo@redhat.com,
+ alex.williamson@redhat.com
+Subject: [PATCH] acpi: Bodge acpi_index migration
+Date: Tue,  5 Apr 2022 20:06:58 +0100
+Message-Id: <20220405190658.65187-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20220405092001.104507-1-pbonzini@redhat.com>
-In-Reply-To: <20220405092001.104507-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 Apr 2022 19:46:47 +0100
-Message-ID: <CAFEAcA_X_JGTx04ydZ+w2ZYvx4uGPRRWVaq+d7-6wSMw7tuiKQ@mail.gmail.com>
-Subject: Re: [PULL 0/3] Misc changes for 2022-04-05
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: application/octet-stream; x-default=true
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,46 +77,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, leobras@redhat.com, peterx@redhat.com,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Apr 2022 at 10:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit 20661b75ea6093f5e59079d00a778a972d6732c5:
->
->   Merge tag 'pull-ppc-20220404' of https://github.com/legoater/qemu into staging (2022-04-04 15:48:55 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 776a6a32b4982a68d3b7a77cbfaae6c2b363a0b8:
->
->   docs/system/i386: Add measurement calculation details to amd-memory-encryption (2022-04-05 10:42:06 +0200)
->
-> ----------------------------------------------------------------
-> * fix vss-win32 compilation with clang++
->
-> * update Coverity model
->
-> * add measurement calculation to amd-memory-encryption docs
->
-> ----------------------------------------------------------------
-> Dov Murik (1):
->       docs/system/i386: Add measurement calculation details to amd-memory-encryption
->
-> Helge Konetzka (1):
->       qga/vss-win32: fix compilation with clang++
->
-> Paolo Bonzini (1):
->       coverity: update model for latest tools
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
+The 'acpi_index' field is a statically configured field, which for
+some reason is migrated; this never makes much sense because it's
+command line static.
 
-Applied, thanks.
+However, on piix4 it's conditional, and the condition/test function
+ends up having the wrong pointer passed to it (it gets a PIIX4PMState
+not the AcpiPciHpState it was expecting, because VMSTATE_PCI_HOTPLUG
+is a macro and not another struct).  This means the field is randomly
+loaded/saved based on a random pointer.  In 6.x this random pointer
+randomly seems to get 0 for everyone (!); in 7.0rc it's getting junk
+and trying to load a field that the source didn't send.  The migration
+stream gets out of line and hits the section footer.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+The bodge is on piix4 never to load the field:
+  a) Most 6.x builds never send it, so most of the time the migration
+    will work.
+  b) We can backport this fix to 6.x to remove the boobytrap.
+  c) It should never have made a difference anyway since the acpi-index
+    is command line configured and should be correct on the destination
+    anyway
+  d) ich9 is still sending/receiving this (unconditionally all the time)
+    but due to (c) should never notice.  We could follow up to make it
+    skip.
 
--- PMM
+It worries me just when (a) actually happens.
+
+Fixes: b32bd76 ("pci: introduce acpi-index property for PCI device")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/932
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ hw/acpi/acpi-pci-hotplug-stub.c |  4 ----
+ hw/acpi/pcihp.c                 |  6 ------
+ hw/acpi/piix4.c                 | 11 ++++++++++-
+ include/hw/acpi/pcihp.h         |  2 --
+ 4 files changed, 10 insertions(+), 13 deletions(-)
+
+diff --git a/hw/acpi/acpi-pci-hotplug-stub.c b/hw/acpi/acpi-pci-hotplug-stub.c
+index 734e4c5986..a43f6dafc9 100644
+--- a/hw/acpi/acpi-pci-hotplug-stub.c
++++ b/hw/acpi/acpi-pci-hotplug-stub.c
+@@ -41,7 +41,3 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
+     return;
+ }
+ 
+-bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
+-{
+-    return false;
+-}
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 6351bd3424..bf65bbea49 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -554,12 +554,6 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
+                                    OBJ_PROP_FLAG_READ);
+ }
+ 
+-bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
+-{
+-     AcpiPciHpState *s = opaque;
+-     return s->acpi_index;
+-}
+-
+ const VMStateDescription vmstate_acpi_pcihp_pci_status = {
+     .name = "acpi_pcihp_pci_status",
+     .version_id = 1,
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index cc37fa3416..48aeedd5f0 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -267,6 +267,15 @@ static bool piix4_vmstate_need_smbus(void *opaque, int version_id)
+     return pm_smbus_vmstate_needed();
+ }
+ 
++/*
++ * This is a fudge to turn off the acpi_index field, whose
++ * test was always broken on piix4.
++ */
++static bool vmstate_test_never(void *opaque, int version_id)
++{
++    return false;
++}
++
+ /* qemu-kvm 1.2 uses version 3 but advertised as 2
+  * To support incoming qemu-kvm 1.2 migration, change version_id
+  * and minimum_version_id to 2 below (which breaks migration from
+@@ -297,7 +306,7 @@ static const VMStateDescription vmstate_acpi = {
+             struct AcpiPciHpPciStatus),
+         VMSTATE_PCI_HOTPLUG(acpi_pci_hotplug, PIIX4PMState,
+                             vmstate_test_use_acpi_hotplug_bridge,
+-                            vmstate_acpi_pcihp_use_acpi_index),
++                            vmstate_test_never),
+         VMSTATE_END_OF_LIST()
+     },
+     .subsections = (const VMStateDescription*[]) {
+diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+index af1a169fc3..7e268c2c9c 100644
+--- a/include/hw/acpi/pcihp.h
++++ b/include/hw/acpi/pcihp.h
+@@ -73,8 +73,6 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off);
+ 
+ extern const VMStateDescription vmstate_acpi_pcihp_pci_status;
+ 
+-bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id);
+-
+ #define VMSTATE_PCI_HOTPLUG(pcihp, state, test_pcihp, test_acpi_index) \
+         VMSTATE_UINT32_TEST(pcihp.hotplug_select, state, \
+                             test_pcihp), \
+-- 
+2.35.1
+
 
