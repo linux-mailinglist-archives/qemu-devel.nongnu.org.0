@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57634F2981
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 11:35:31 +0200 (CEST)
-Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0B44F2990
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 11:38:41 +0200 (CEST)
+Received: from localhost ([::1]:44136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbfb1-0008PQ-0f
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 05:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
+	id 1nbfe2-0001re-4x
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 05:38:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nbfMB-0006mO-Kd
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:20:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34526)
+ id 1nbfMP-0006pZ-HA
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:20:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nbfM8-0001os-4x
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:20:10 -0400
+ id 1nbfMI-0001qR-AM
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 05:20:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649150405;
+ s=mimecast20190719; t=1649150417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=65LAApyknJ4Ap/WBTWbz9LDqY048gEZBR+OKXqDXuFo=;
- b=L3q8GMJd3SRnA2aNrRaJEDfsGCG5QTDkT3RoPSfKUjULFOEljr8m3UY6IdPey/c8bl4xrE
- jUGu0Wnep3xlBFE4jOwBL1AUmaHR/29nbQkiKejkvptjSUmXbiiPuSV6t0gibx0f1WS8gM
- VZG4xL3MGaiLyVPCdF6AlaNhcXlPviw=
+ bh=GjZaBCs6xPPvOTcK99tzAcs0y9oxheE4duMLgEWctqc=;
+ b=ENbw0KvFX2RhqFYUs41Uojtv6wppwzk/aba262ibSk4hYpabbTsqfo5MPXSH3igRo1VAy7
+ WuE0swk+ynHsPtUmMXKBdW/SfIK9E1JR3/fzZR7Hog8ID0mVIHwXQzwVrYgujk1Kvxgvc9
+ LxkzpLqgM8zmvNbfeeL9y/0Xo8+7tT8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-144-P4gyo0feNF-kgldOZDbNEw-1; Tue, 05 Apr 2022 05:20:04 -0400
-X-MC-Unique: P4gyo0feNF-kgldOZDbNEw-1
+ us-mta-380-XOLbiRrmNvKyyXxRutNxyw-1; Tue, 05 Apr 2022 05:20:14 -0400
+X-MC-Unique: XOLbiRrmNvKyyXxRutNxyw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB436801585
- for <qemu-devel@nongnu.org>; Tue,  5 Apr 2022 09:20:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 556C3800882;
+ Tue,  5 Apr 2022 09:20:14 +0000 (UTC)
 Received: from avogadro.mxp.redhat.com (unknown [10.32.181.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C6582167D9B
- for <qemu-devel@nongnu.org>; Tue,  5 Apr 2022 09:20:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27A902167D9B;
+ Tue,  5 Apr 2022 09:20:04 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/3] coverity: update model for latest tools
-Date: Tue,  5 Apr 2022 11:19:59 +0200
-Message-Id: <20220405092001.104507-2-pbonzini@redhat.com>
+Subject: [PULL 2/3] qga/vss-win32: fix compilation with clang++
+Date: Tue,  5 Apr 2022 11:20:00 +0200
+Message-Id: <20220405092001.104507-3-pbonzini@redhat.com>
 In-Reply-To: <20220405092001.104507-1-pbonzini@redhat.com>
 References: <20220405092001.104507-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -80,32 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Helge Konetzka <hk@zapateado.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity is now rejecting incomplete types in the modeling file.
-Just use a random number (in the neighborhood of the actual one)
-for the size of a GIOChannel.
+From: Helge Konetzka <hk@zapateado.de>
 
+This fixes:
+
+qga/vss-win32/install.cpp:49:24: error: cannot initialize a variable of
+type 'char *' with an rvalue of type 'const char *'
+    char *msg = NULL, *nul = strchr(text, '(');
+                       ^     ~~~~~~~~~~~~~~~~~
+
+Signed-off-by: Helge Konetzka <hk@zapateado.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+Message-Id: <39400817-3dc9-516d-9096-bc1f68862531@zapateado.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/coverity-scan/model.c | 3 ++-
+ qga/vss-win32/install.cpp | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/coverity-scan/model.c b/scripts/coverity-scan/model.c
-index 9d4fba53d9..686d1a3008 100644
---- a/scripts/coverity-scan/model.c
-+++ b/scripts/coverity-scan/model.c
-@@ -356,7 +356,8 @@ int g_poll (GPollFD *fds, unsigned nfds, int timeout)
- typedef struct _GIOChannel GIOChannel;
- GIOChannel *g_io_channel_unix_new(int fd)
- {
--    GIOChannel *c = g_malloc0(sizeof(GIOChannel));
-+    /* cannot use incomplete type, the actual struct is roughly this size.  */
-+    GIOChannel *c = g_malloc0(20 * sizeof(void *));
-     __coverity_escape__(fd);
-     return c;
- }
+diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
+index 8076efe3cb..b57508fbe0 100644
+--- a/qga/vss-win32/install.cpp
++++ b/qga/vss-win32/install.cpp
+@@ -46,7 +46,8 @@ void errmsg(DWORD err, const char *text)
+      * If text doesn't contains '(', negative precision is given, which is
+      * treated as though it were missing.
+      */
+-    char *msg = NULL, *nul = strchr(text, '(');
++    char *msg = NULL;
++    const char *nul = strchr(text, '(');
+     int len = nul ? nul - text : -1;
+ 
+     FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
 -- 
 2.35.1
 
