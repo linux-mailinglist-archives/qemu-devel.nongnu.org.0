@@ -2,49 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CEC4F3D85
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 22:12:56 +0200 (CEST)
-Received: from localhost ([::1]:40830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E2F4F3DBC
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Apr 2022 22:35:54 +0200 (CEST)
+Received: from localhost ([::1]:51974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbpXr-0003Av-IJ
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 16:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56590)
+	id 1nbpu5-00033D-AS
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 16:35:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nbpI1-0004QS-FB; Tue, 05 Apr 2022 15:56:33 -0400
-Received: from [187.72.171.209] (port=24543 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nbpHz-00049c-Q6; Tue, 05 Apr 2022 15:56:33 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 5 Apr 2022 16:56:11 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id E12EA8000CB;
- Tue,  5 Apr 2022 16:56:10 -0300 (-03)
-From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v2 9/9] target/ppc: Implemented vector module quadword
-Date: Tue,  5 Apr 2022 16:55:58 -0300
-Message-Id: <20220405195558.66144-10-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220405195558.66144-1-lucas.araujo@eldorado.org.br>
-References: <20220405195558.66144-1-lucas.araujo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nbpsn-000208-Ty; Tue, 05 Apr 2022 16:34:34 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:42675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nbpsm-0006qC-Fp; Tue, 05 Apr 2022 16:34:33 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-de3ca1efbaso659541fac.9; 
+ Tue, 05 Apr 2022 13:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2jMKnPBPugQHjysmPi7lP3JyjjJfKRQXtU4J6yVPL+M=;
+ b=PMhupQ6w0KVozTsS8qVqtdpjeB5V1xTmCo1a+qi/ta4UOePRr5PCGw7Zh4Ok93qOgX
+ q64qSzDlI47l9xRefRkcw/Ob369P8DdDxYtXXXavxes3TwwS3PpiIfwhMJN2gGtfi3Ot
+ YyE2JOvF6tnpw5/j+msgRowHk7BhCfu05MHtKkgd31USpuRPduIQKlko5312Z6ljRoG6
+ PxaONbXfhKgGPaTxmgjy47y8bSKaU73o8WtT+h2FQ1VCl02mSa3rfKWxaN13+fl22Ivd
+ e60clVZF9sL87b/VGqNRsyAWxBTEandHSKHZTXlb40AhL5S39hlFr7uS/zvet9H3oTaG
+ acpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2jMKnPBPugQHjysmPi7lP3JyjjJfKRQXtU4J6yVPL+M=;
+ b=IAZNSCEXGpDBfdvDptUAjBysnda7bIvp1eeUXKTK+ee6FHHrmDfq296nxYnNTzJ/kV
+ SkzxUwbFx3M/ObOF3J1EEXsz25TovB7Ds6tVy41kOCAhtXwL4FHf6HiQYuxZC4ed3p92
+ xhjtk76f88OX3VTkqiKFajQn9fwc6YFV3XqZtrCg2txlxhT4JRAgD+HIndiyv4DjTWXv
+ H+K6w+W6g3YrnGAsNlwIjLYC/FJG6C4ielaQhd3ne4IKDy2exv16z1N/hGc0vtIEiYXx
+ r+Ogd4wy8N0ySN3F2WkXqdeMJtS290JQzKA129UNg4/ZnitAgmyP0wF1Wlz91gcg79V2
+ Cg5g==
+X-Gm-Message-State: AOAM533Xj2zzGxYhjRMvPQOPkngPrbUTgPEZeTrmZ40YXnwMCnpTS9hn
+ 6Ky+tlYq2c4XZzWWzdpubQ+BrPJRg4k=
+X-Google-Smtp-Source: ABdhPJwXoVbZSaQWtYgl7gk8ozdhVKncyPWwNiWdL97od/iX3F0M2u+vaxQwLZZZPpiGOWrGMd7fQA==
+X-Received: by 2002:a05:6871:78b:b0:d4:2636:b26 with SMTP id
+ o11-20020a056871078b00b000d426360b26mr2399323oap.14.1649190870668; 
+ Tue, 05 Apr 2022 13:34:30 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:7ee3:afd9:f010:3a9:fd23])
+ by smtp.gmail.com with ESMTPSA id
+ v33-20020a056870b52100b000e1efaa5fecsm3319553oap.19.2022.04.05.13.34.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Apr 2022 13:34:30 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-7.1 0/1] Coverity fixes in hw/ppc/spapr_nvdimm.c
+Date: Tue,  5 Apr 2022 17:34:15 -0300
+Message-Id: <20220405203416.75952-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 05 Apr 2022 19:56:11.0391 (UTC)
- FILETIME=[32E5E8F0:01D84927]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,96 +82,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org,
- Greg Kurz <groug@kaod.org>,
- "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>, clg@kaod.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+Hi,
 
-Implement the following PowerISA v3.1 instructions:
-vmodsq: Vector Modulo Signed Quadword
-vmoduq: Vector Modulo Unsigned Quadword
+This is a simple patch to fix 2 Coverity issues in
+hw/ppc/spapr_nvdimm.c. Aiming it to 7.1 because it's not critical enough
+for 7.0.
 
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
----
- target/ppc/helper.h                 |  2 ++
- target/ppc/insn32.decode            |  2 ++
- target/ppc/int_helper.c             | 21 +++++++++++++++++++++
- target/ppc/translate/vmx-impl.c.inc |  2 ++
- 4 files changed, 27 insertions(+)
+Daniel Henrique Barboza (1):
+  hw/ppc: check if spapr_drc_index() returns NULL in spapr_nvdimm.c
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 67ecff2c9a..881e03959a 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -177,6 +177,8 @@ DEF_HELPER_FLAGS_3(VDIVESD, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VDIVEUD, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VDIVESQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(VDIVEUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VMODSQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_3(VMODUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_3(vslo, void, avr, avr, avr)
- DEF_HELPER_3(vsro, void, avr, avr, avr)
- DEF_HELPER_3(vsrv, void, avr, avr, avr)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 36b42e41d2..b53efe1915 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -724,3 +724,5 @@ VMODSW          000100 ..... ..... ..... 11110001011    @VX
- VMODUW          000100 ..... ..... ..... 11010001011    @VX
- VMODSD          000100 ..... ..... ..... 11111001011    @VX
- VMODUD          000100 ..... ..... ..... 11011001011    @VX
-+VMODSQ          000100 ..... ..... ..... 11100001011    @VX
-+VMODUQ          000100 ..... ..... ..... 11000001011    @VX
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 17a10c4412..72b2b06078 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1121,6 +1121,27 @@ void helper_VDIVEUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-     }
- }
- 
-+void helper_VMODSQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    Int128 neg1 = int128_makes64(-1);
-+    Int128 int128_min = int128_make128(0, INT64_MIN);
-+    if (likely(int128_nz(b->s128) &&
-+              (int128_ne(a->s128, int128_min) || int128_ne(b->s128, neg1)))) {
-+        t->s128 = int128_rems(a->s128, b->s128);
-+    } else {
-+        t->s128 = int128_zero(); /* Undefined behavior */
-+    }
-+}
-+
-+void helper_VMODUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
-+{
-+    if (likely(int128_nz(b->s128))) {
-+        t->s128 = int128_remu(a->s128, b->s128);
-+    } else {
-+        t->s128 = int128_zero(); /* Undefined behavior */
-+    }
-+}
-+
- void helper_VPERM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
- {
-     ppc_avr_t result;
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index c5178a0f1e..7ced7ad655 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -3356,6 +3356,8 @@ TRANS_VDIV_VMOD(ISA310, VMODSW, MO_32, do_modsw , NULL)
- TRANS_VDIV_VMOD(ISA310, VMODUW, MO_32, do_moduw, NULL)
- TRANS_VDIV_VMOD(ISA310, VMODSD, MO_64, NULL, do_modsd)
- TRANS_VDIV_VMOD(ISA310, VMODUD, MO_64, NULL, do_modud)
-+TRANS_FLAGS2(ISA310, VMODSQ, do_vx_helper, gen_helper_VMODSQ)
-+TRANS_FLAGS2(ISA310, VMODUQ, do_vx_helper, gen_helper_VMODUQ)
- 
- #undef DO_VDIV_VMOD
- 
+ hw/ppc/spapr_nvdimm.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
+
 -- 
-2.31.1
+2.35.1
 
 
