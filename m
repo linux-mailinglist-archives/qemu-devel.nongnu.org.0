@@ -2,63 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC354F5A50
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 11:55:16 +0200 (CEST)
-Received: from localhost ([::1]:33914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E2F4F5A57
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 11:57:27 +0200 (CEST)
+Received: from localhost ([::1]:36142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc2Nf-0003Nc-06
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 05:55:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43394)
+	id 1nc2Pm-0004yO-79
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 05:57:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nc2D8-0006el-RN
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:44:22 -0400
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:36091)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nc2DD-0006fq-BY
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:44:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nc2D6-0006u9-DR
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:44:22 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.147])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6A09E20072;
- Wed,  6 Apr 2022 09:44:16 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
- 2022 11:44:15 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004e37354b5-eb92-482b-9607-7a52aa0dd4c0,
- ACAFAA60954BC139C96B6B3855CBF7BDA7777862) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e18fbf21-7038-c116-279f-d95e3c0c7919@kaod.org>
-Date: Wed, 6 Apr 2022 11:44:14 +0200
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nc2DA-0006uu-IZ
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:44:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649238263;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dlTWxEFxHSkmTzDHMjAMOK6B8OvXsMzS2uEdN2nFsqQ=;
+ b=P7t93lr/eTFh9uwix/3ruizINz2/X6ktE+BW0nXhtiICjqTu6Nki9EIeKGfJCaFpP+mYo0
+ kBZGEQRYaz49zHm5zryM+cczNI75QfqJCf1hJRe09Thqb3KiIfZY/eiCrvKAFnE6yTLFOF
+ cr/nvQva9J8/2KE1DVLp6QNMXdJWcDM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-44-sXKcwi9COJSl0OIppr9GrA-1; Wed, 06 Apr 2022 05:44:22 -0400
+X-MC-Unique: sXKcwi9COJSl0OIppr9GrA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n17-20020a05600c501100b0038e731cf5e1so1085541wmr.2
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 02:44:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=dlTWxEFxHSkmTzDHMjAMOK6B8OvXsMzS2uEdN2nFsqQ=;
+ b=f7UnvfjEKtXuKhFv2RRDjJUGa7WTxxW3YFy6hDKDk9wIOG52R/PXPQh3hGow0gBi3r
+ 2KOqJMEvsPUzukTKIsmgf6HuwgqpAeQ5JmJ0FU0oHvB2YYz80+6JZT6LYEmwMT3NOBqS
+ 6WBMYfdugT5mx5Nn9hygxHdt6xiBf1zCAv5d13uKozcfvLFVDZI0ct/VeckHucMrdz3A
+ opiS2MmV0iHw7Uil1Jn0cXr3TAa+GGBdFATo/bAH+1Lt2nJr1f4nQ/f/UioOuYgnAcks
+ raKh9+qLMnrlPZ1qC6eEdwfLVn2h3F00NurmyVD8jqrcmQlsCmg3Cs0mBHP3o2tiX4+G
+ TMbw==
+X-Gm-Message-State: AOAM533QfBmhoTfhrZd0iYizKTjxPw48Ick/mm6Euncjefggpo3Xv/kq
+ t+aHjafniwuR1hFYXsjhgjhyxUx3cjOQzMBl09BJNW3plHDjfA8vWsJSTRyPsRExjKJWYwB66l4
+ MSd0+WY0MxWjVKvg=
+X-Received: by 2002:a05:6000:1acf:b0:203:fe67:a8dc with SMTP id
+ i15-20020a0560001acf00b00203fe67a8dcmr5891000wry.212.1649238261696; 
+ Wed, 06 Apr 2022 02:44:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzowT5VW3lLYIbAmSf2ZNYlO4pVEYia2Zi++EPxTBfjJhQGSIjmGBjUkLny4P9Zfi6qggIk9w==
+X-Received: by 2002:a05:6000:1acf:b0:203:fe67:a8dc with SMTP id
+ i15-20020a0560001acf00b00203fe67a8dcmr5890973wry.212.1649238261423; 
+ Wed, 06 Apr 2022 02:44:21 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ 2-20020a056000154200b00203ee1fd1desm15226703wry.64.2022.04.06.02.44.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 02:44:20 -0700 (PDT)
+Date: Wed, 6 Apr 2022 10:44:18 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH] acpi: Bodge acpi_index migration
+Message-ID: <Yk1g8hchG0GGVdw8@work-vm>
+References: <20220406083531.10217-1-dgilbert@redhat.com>
+ <20220406113446.73ab4e1b@redhat.com> <Yk1fq+B9RD+9+4I3@work-vm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 3/4] hw/i2c: add slave mode for aspeed_i2c
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20220331165737.1073520-1-its@irrelevant.dk>
- <20220331165737.1073520-4-its@irrelevant.dk>
- <356b3f59-b915-3da1-7155-8082b55932fb@kaod.org> <Yk1EAHE2dUv7Z6gq@apples>
- <f669416c-6e17-23c0-3dfa-dd6cceebc05b@kaod.org> <Yk1aYldO+VjF3iqB@apples>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <Yk1aYldO+VjF3iqB@apples>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 8d891a89-82ff-4d58-8814-91993fd184a1
-X-Ovh-Tracer-Id: 6985083024360705016
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudejiedgvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepkhdrjhgvnhhsvghnsehsrghmshhunhhgrdgtohhm
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <Yk1fq+B9RD+9+4I3@work-vm>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -73,165 +100,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
- Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Jeremy Kerr <jk@ozlabs.org>,
- Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
- Matt Johnston <matt@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>
+Cc: peter.maydell@linaro.org, quintela@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, alex.williamson@redhat.com,
+ leobras@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/6/22 11:16, Klaus Jensen wrote:
-> On Apr  6 10:52, Cédric Le Goater wrote:
->> On 4/6/22 09:40, Klaus Jensen wrote:
->>> On Apr  6 08:14, Cédric Le Goater wrote:
->>>> Hello Klaus,
->>>>
->>>> On 3/31/22 18:57, Klaus Jensen wrote:
->>>>> From: Klaus Jensen <k.jensen@samsung.com>
->>>>>
->>>>> Add slave mode functionality for the Aspeed I2C controller. This is
->>>>> implemented by creating an Aspeed I2C Slave device that attaches to the
->>>>> bus.
->>>>>
->>>>> This i2c slave device only implements the asynchronous version of
->>>>> i2c_send() and the event callback.
->>>>>
->>>>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->>>>> ---
->>>>>     hw/i2c/aspeed_i2c.c         | 95 +++++++++++++++++++++++++++++++++----
->>>>>     hw/i2c/trace-events         |  2 +-
->>>>>     hw/misc/meson.build         |  2 +
->>>>>     include/hw/i2c/aspeed_i2c.h |  8 ++++
->>>>>     4 files changed, 97 insertions(+), 10 deletions(-)
->>>>>
->>>>> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
->>>>> index 03a4f5a91010..61b6424434f7 100644
->>>>> --- a/hw/i2c/aspeed_i2c.c
->>>>> +++ b/hw/i2c/aspeed_i2c.c
->>>>> @@ -163,10 +163,15 @@ static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
->>>>>               bus->intr_status & I2CD_INTR_TX_NAK ? "nak|" : "",
->>>>>               bus->intr_status & I2CD_INTR_TX_ACK ? "ack|" : "",
->>>>>               bus->intr_status & I2CD_INTR_RX_DONE ? "done|" : "",
->>>>> +          bus->intr_status & I2CD_INTR_SLAVE_ADDR_RX_MATCH ? "slave-match|" : "",
->>>>>               bus->intr_status & I2CD_INTR_NORMAL_STOP ? "normal|" : "",
->>>>>               bus->intr_status & I2CD_INTR_ABNORMAL ? "abnormal" : "");
->>>>
->>>> Troy introduced a similar change in his "new mode" proposal. I think
->>>> it is time to change the 'aspeed_i2c_bus_raise_interrupt' trace event
->>>>
->>>> Could you please update trace_aspeed_i2c_bus_raise_interrupt() to take
->>>> a single status string ?
->>>>
->>>
->>> I'm not sure it will be "prettier". But I'll give it a shot.
->>
->> It will be easier to extend. We have 3 different patchsets modifying this
->> same event on the mailing list :)
->>
+* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> * Igor Mammedov (imammedo@redhat.com) wrote:
+> > On Wed,  6 Apr 2022 09:35:31 +0100
+> > "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
+> > 
+> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > > 
+> > > The 'acpi_index' field is a statically configured field, which for
+> > > some reason is migrated; this never makes much sense because it's
+> > > command line static.
+> > 
+> > that's true only for the field that's part of PCIDEvice,
+> > however AcpiPciHpState::acpi_index is runtime state and _must_
+> > be migrated if set, otherwise guest might get wrong index
+> > if it's in process of querying it
 > 
-> True :)
+> So this patch only changes the piix4.c version; I'm confused, is there
+> a AcpiPciHpState::acpi_index that's runtime setable in there?
 > 
->>>>> -    bus->intr_status &= bus->intr_ctrl;
->>>>> +    /*
->>>>> +     * WORKAROUND: the Linux Aspeed I2C driver masks SLAVE_ADDR_RX_MATCH for
->>>>> +     * some reason, not sure if it is a bug...
->>>>> +     */
->>>>> +    bus->intr_status &= (bus->intr_ctrl | I2CD_INTR_SLAVE_ADDR_RX_MATCH);
->>>>
->>>> It comes from the initial support for the AST2400 SoC.
->>>>
->>>> We should introduce a 'intr_ctrl_mask' attribute in AspeedI2CClass and
->>>> fix the AST24000 value to 0x7FFF ...
->>>>
->>>
->>> I'm not sure I understand. Do you suggest that we always use a fixed
->>> mask here and disregard what the host sets in intr_ctrl?
->>
->> No. sorry. There are multiple fixes required I think.
->>
->> The layout of the Interrupt Control Register (0x0C) differs on the
->> AST2400, AST2500, AST2600 SoCs. We need to clarify that first.
->> bits 11:7 and 31:16 are reserved on all. AST2400 lacks bit 15 which
->> enables a slave timeout interrupt on AST2500 and AST2600.
->>
->> Then, the Interrupt Status Register differs also. The AST2400 doesn't
->> have the Slave Address match indicator and the Slave Address Receiving
->> pending bits. On the AST2600, there are 3 possibles addresses, only
->> 2 on the AST2500 (and only 1 on the AST2400). So that modifies the
->> I2CD_INTR_SLAVE_ADDR_RX_MATCH bit.
->>
+> >  
+> > > However, on piix4 it's conditional, and the condition/test function
+> > > ends up having the wrong pointer passed to it (it gets a PIIX4PMState
+> > > not the AcpiPciHpState it was expecting, because VMSTATE_PCI_HOTPLUG
+> > > is a macro and not another struct).  This means the field is randomly
+> > > loaded/saved based on a random pointer.  In 6.x this random pointer
+> > > randomly seems to get 0 for everyone (!); in 7.0rc it's getting junk
+> > > and trying to load a field that the source didn't send.  The migration
+> > > stream gets out of line and hits the section footer.
+> > 
+> > I'm a bit confused by description,
+> > do you have a reproducer for me to try?
 > 
-> Ugh. I'm heavily burden by the fact that I do not have a spec sheet
-> available... I'll try to request one from Aspeed. I reversed this from
-> the Linux driver, so I'm just tried to match up with how that behaves.
+> Yeh, see the linked gitlab case command line:
+>   https://gitlab.com/qemu-project/qemu/-/issues/932
 > 
-> With Slave Address Match indicator, you mean bit 31? There is only one
-> bit, so how does it work with the third address?
+> ./x86_64-softmmu/qemu-system-x86_64 -M pc-q35-6.2 -m 512 -device virtio-scsi-pci,id=scsihw0,bus=pcie.0,addr=0x5,acpi-index=3 -drive if=none,my.qcow2,format=qcow2,id=drive-scsi0,node-name=scsi0 -device 'scsi-hd,bus=scsihw0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0'  -nographic
 
-On the AST2400 (only 1 slave address)
+Oops no, wrong line; -M pc-i440fx-6.2  triggers this; q35 doesn't.
 
-   * no upper bits
+Dave
 
-On the AST2500 (2 possible slave addresses),
-
-   * bit[31] : Slave Address match indicator
-   * bit[30] : Slave Address Receiving pending
-
-On the AST2600 (3 possible slave addresses),
-
-   * bit[31-30] : Slave Address match indicator
-   * bit[29] : Slave Address Receiving pending
-
->> Since these 2 or 3 bits are read-only. I wonder how this is impacting
->> your slave implementation. is it ? If not, may be slave address match can
->> wait for now.
+> just migrating from a 6.2 to a head triggers this.
 > 
-> As far as I can tell, the kernel driver uses bit 7 (called
-> SLAVE_ADDR_RX_MATCH in QEMU and SLAVE_MATCH in Linux) to start the slave
-> state machinery. It does not use bit 31 (SLAVE_ADDR_MATCH in QEMU). The
-> naming for bit 7 in Linux is probably off and should be ranamed to match
-> QEMU?
-
-No. This is a mess :) Both are correct. bit 7 is an interrupt enable/status.
-bit 31 "indicates" which address : 1, 2, 3.
-
-> I understand that this shouldn't assume to only work with the slave
-> machinery in Linux, but that is the only platfrom I can currently
-> experiment with.
+> Dave
 > 
->>> In any case, isn't it a bug in the Linux kernel driver that it neglects
->>> to set bit 7 (slave match) in the INTR_CTRL register?>
->>>
->>>>>         if (bus->intr_status) {
->>>>>             bus->controller->intr_status |= 1 << bus->id;
->>>>>             qemu_irq_raise(aic->bus_get_irq(bus));
->>>>> @@ -196,6 +201,9 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
->>>>>         case I2CD_INTR_STS_REG:
->>>>>             value = bus->intr_status;
->>>>>             break;
->>>>> +    case I2CD_DEV_ADDR_REG:
->>>>> +        value = bus->dev_addr;
->>>>> +        break;
->>>>
->>>> You can introduce support for this register in a preliminary patch but
->>>> keep the slave activation for later (I2CD_SLAVE_EN bit)
->>>>
->>>
->>> Understood.
->>
->> thanks, we will address the full layout of this register later when needed.
->> But there are fields for each address.
->>
-> 
-> Right. Again, I just reversed from the kernel driver and it only sets
-> the lower byte.
+> > > The bodge is on piix4 never to load the field:
+> > >   a) Most 6.x builds never send it, so most of the time the migration
+> > >     will work.
+> > >   b) We can backport this fix to 6.x to remove the boobytrap.
+> > >   c) It should never have made a difference anyway since the acpi-index
+> > >     is command line configured and should be correct on the destination
+> > >     anyway
+> > >   d) ich9 is still sending/receiving this (unconditionally all the time)
+> > >     but due to (c) should never notice.  We could follow up to make it
+> > >     skip.
+> > > 
+> > > It worries me just when (a) actually happens.
+> > > 
+> > > Fixes: b32bd76 ("pci: introduce acpi-index property for PCI device")
+> > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/932
+> > > 
+> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > ---
+> > >  hw/acpi/acpi-pci-hotplug-stub.c |  4 ----
+> > >  hw/acpi/pcihp.c                 |  6 ------
+> > >  hw/acpi/piix4.c                 | 11 ++++++++++-
+> > >  include/hw/acpi/pcihp.h         |  2 --
+> > >  4 files changed, 10 insertions(+), 13 deletions(-)
+> > > 
+> > > diff --git a/hw/acpi/acpi-pci-hotplug-stub.c b/hw/acpi/acpi-pci-hotplug-stub.c
+> > > index 734e4c5986..a43f6dafc9 100644
+> > > --- a/hw/acpi/acpi-pci-hotplug-stub.c
+> > > +++ b/hw/acpi/acpi-pci-hotplug-stub.c
+> > > @@ -41,7 +41,3 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
+> > >      return;
+> > >  }
+> > >  
+> > > -bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
+> > > -{
+> > > -    return false;
+> > > -}
+> > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > > index 6351bd3424..bf65bbea49 100644
+> > > --- a/hw/acpi/pcihp.c
+> > > +++ b/hw/acpi/pcihp.c
+> > > @@ -554,12 +554,6 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
+> > >                                     OBJ_PROP_FLAG_READ);
+> > >  }
+> > >  
+> > > -bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
+> > > -{
+> > > -     AcpiPciHpState *s = opaque;
+> > > -     return s->acpi_index;
+> > > -}
+> > > -
+> > >  const VMStateDescription vmstate_acpi_pcihp_pci_status = {
+> > >      .name = "acpi_pcihp_pci_status",
+> > >      .version_id = 1,
+> > > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> > > index cc37fa3416..48aeedd5f0 100644
+> > > --- a/hw/acpi/piix4.c
+> > > +++ b/hw/acpi/piix4.c
+> > > @@ -267,6 +267,15 @@ static bool piix4_vmstate_need_smbus(void *opaque, int version_id)
+> > >      return pm_smbus_vmstate_needed();
+> > >  }
+> > >  
+> > > +/*
+> > > + * This is a fudge to turn off the acpi_index field, whose
+> > > + * test was always broken on piix4.
+> > > + */
+> > > +static bool vmstate_test_never(void *opaque, int version_id)
+> > > +{
+> > > +    return false;
+> > > +}
+> > > +
+> > >  /* qemu-kvm 1.2 uses version 3 but advertised as 2
+> > >   * To support incoming qemu-kvm 1.2 migration, change version_id
+> > >   * and minimum_version_id to 2 below (which breaks migration from
+> > > @@ -297,7 +306,7 @@ static const VMStateDescription vmstate_acpi = {
+> > >              struct AcpiPciHpPciStatus),
+> > >          VMSTATE_PCI_HOTPLUG(acpi_pci_hotplug, PIIX4PMState,
+> > >                              vmstate_test_use_acpi_hotplug_bridge,
+> > > -                            vmstate_acpi_pcihp_use_acpi_index),
+> > > +                            vmstate_test_never),
+> > >          VMSTATE_END_OF_LIST()
+> > >      },
+> > >      .subsections = (const VMStateDescription*[]) {
+> > > diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+> > > index af1a169fc3..7e268c2c9c 100644
+> > > --- a/include/hw/acpi/pcihp.h
+> > > +++ b/include/hw/acpi/pcihp.h
+> > > @@ -73,8 +73,6 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off);
+> > >  
+> > >  extern const VMStateDescription vmstate_acpi_pcihp_pci_status;
+> > >  
+> > > -bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id);
+> > > -
+> > >  #define VMSTATE_PCI_HOTPLUG(pcihp, state, test_pcihp, test_acpi_index) \
+> > >          VMSTATE_UINT32_TEST(pcihp.hotplug_select, state, \
+> > >                              test_pcihp), \
+> > 
+> -- 
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-That's fine for now. the first 7bits in each byte represents a slave address.
-
-Thanks,
-
-C.
 
