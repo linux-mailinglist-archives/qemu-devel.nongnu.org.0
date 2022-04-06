@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144684F5163
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 04:36:11 +0200 (CEST)
-Received: from localhost ([::1]:43366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB814F52D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 05:33:48 +0200 (CEST)
+Received: from localhost ([::1]:54340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbvWj-0006Sh-Ju
-	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 22:36:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41394)
+	id 1nbwQV-0008Nb-FR
+	for lists+qemu-devel@lfdr.de; Tue, 05 Apr 2022 23:33:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nbvV4-0005i0-KQ
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 22:34:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27935)
+ id 1nbwOh-0007gx-OZ
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 23:31:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nbvV1-0001ub-UC
- for qemu-devel@nongnu.org; Tue, 05 Apr 2022 22:34:25 -0400
+ id 1nbwOe-0006ri-9k
+ for qemu-devel@nongnu.org; Tue, 05 Apr 2022 23:31:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649212461;
+ s=mimecast20190719; t=1649215910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JEfH59eCzTW51aCh4/1DCQHrAE2meERMIw31zysG1tg=;
- b=ZShgae2uwWMGM5GiLdgEdTlGe2RNhtNgiwNYC80bBXgB0qp51i7uAGKscQYPVdSYZnWQI6
- MZYpQqtY0YyHMqn1NJRC4yMrlAmYusZo954WDbp4g1rdH8y8oJztF7z7K+2H6E9r5QcD91
- ezyIjNxUSf3K6n5dtHi9HASBJ+R8YVk=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HPWKzAY0LP2qvjWouVOFehmkkGblp5mm8+QVTWfLvOU=;
+ b=iajfW0VbDbAkdwEyYRCW3T+gCz+XTagevXOxzJcCbcOGknIaG33ABOgGM1b0r4ZkEesgli
+ BKsT/pN/LJTLq+6NfNeLyYaVTpqxfTPBu9XZcPqqOzodnXSANTDR9i/PERcKQZ9VJXATqb
+ DoIjooXjlyIGwjn/2MHLOJXYtBrwvDM=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-Cse7mS43PfeugEyV9C0evQ-1; Tue, 05 Apr 2022 22:34:20 -0400
-X-MC-Unique: Cse7mS43PfeugEyV9C0evQ-1
-Received: by mail-pj1-f69.google.com with SMTP id
- d7-20020a17090ad98700b001c6834c71ffso792409pjv.1
- for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 19:34:20 -0700 (PDT)
+ us-mta-513-98ts5Vn8OF-KxCoPBvok6w-1; Tue, 05 Apr 2022 23:31:47 -0400
+X-MC-Unique: 98ts5Vn8OF-KxCoPBvok6w-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ q5-20020a2e9145000000b002497bf0eaa1so379657ljg.5
+ for <qemu-devel@nongnu.org>; Tue, 05 Apr 2022 20:31:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JEfH59eCzTW51aCh4/1DCQHrAE2meERMIw31zysG1tg=;
- b=vYOwU87MQp3SwzCKXgu1QWDJnOcxHICHZsQoJOCUGWRTOPSTlHQ2ep6VvXxyKsISDr
- /4LUeNaim+5A99YKFTrohobBjxMwbKUnpHZ/GjEdcAHJeJLF1TpEmDZ5QRlOVGbzaDMm
- +hwBpGC8Ne1mqmjUlJEK4z5zlcYBd0Ocq7TT/VtijIc2l0Cg9DkIHm5idY9XJD9AugrP
- Ld8cjI125dZd6U8TcKFV2ehvuHBdfcJ8+yqpcHUtjEKm0MsPYCXFIdcAgO0NkdoT23Zw
- U+ty14BjMst+LK6ZygOERrmH8GYN5IIH0SaOXu2Jabfyczz3UbFn8f5yIT0izvMFctjh
- dePQ==
-X-Gm-Message-State: AOAM533D/2fa/4zWWvDK/5M/oIGRL19JBv9Jx3vuWv/Zx3WVNJNVzD2F
- 1PZNSUdE6BHplhNSSx/aZg0nKYcuZB05ofn35y8zPesrCcb5VyEu96ojO3+XmtRnVFHzZ/rQgDf
- rplV8MlWtrGRHKjs=
-X-Received: by 2002:a17:90b:4a47:b0:1c6:42c6:fef2 with SMTP id
- lb7-20020a17090b4a4700b001c642c6fef2mr7240382pjb.147.1649212459127; 
- Tue, 05 Apr 2022 19:34:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzXoI89XPOzb94gM11SrK/WksXiKxp2poiSlhQPjDH8BARpfzONebuEstITIACkPHmNezzYKA==
-X-Received: by 2002:a17:90b:4a47:b0:1c6:42c6:fef2 with SMTP id
- lb7-20020a17090b4a4700b001c642c6fef2mr7240351pjb.147.1649212458628; 
- Tue, 05 Apr 2022 19:34:18 -0700 (PDT)
-Received: from [10.72.12.58] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- mr10-20020a17090b238a00b001caab109ff3sm3590472pjb.23.2022.04.05.19.34.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Apr 2022 19:34:18 -0700 (PDT)
-Message-ID: <120ddabc-08df-853a-3a67-533215827710@redhat.com>
-Date: Wed, 6 Apr 2022 10:34:10 +0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HPWKzAY0LP2qvjWouVOFehmkkGblp5mm8+QVTWfLvOU=;
+ b=DBJow0XG9yPu4L8m+INK84o0TaBNMXDVcjvqEInAky4nP4ONjn2rSW9Pc1lgaAYrNH
+ lzT5y/vSzYm6CYuMSDie9W7sf6jC0N0dEbAKJLAiEJsytAvjCL5OHMF2dqEK0MFA1uMn
+ Qoj3wjwiSu16puBUUMJMASZB3eb9aRbY51gFP94B8T3CE6cFpQHEE49q9b/HUIZpu5AN
+ 7RUeiWA83JuroSdf7jAkVFYp6qu0ZuoxdHCtOGyz5qtJ6rS9WwbkrUVh1mj4pBvLKHZv
+ zVBw6TV+BQvYHNUcZozEXsZSlT50lOcW9C1yFULQyYk7RQ9dwDR64nghLCFOE7UFUsJk
+ GLeA==
+X-Gm-Message-State: AOAM530RHmH3LZEVEtIwyfz+NnIH1UFZW5HR2TgVjod22CuAITORu45v
+ XiJAkEtr+lHH5fb9KAh6tJ+5NZ+s5JTQo3idhik3NQsxWdX3F2GdvIxUyw2L8XZRjAvwifhUxkD
+ kU7A3g3zU3TTs+v/SFWEuRypKm0/2IXM=
+X-Received: by 2002:a2e:b946:0:b0:24a:fdff:1205 with SMTP id
+ 6-20020a2eb946000000b0024afdff1205mr4037987ljs.73.1649215905934; 
+ Tue, 05 Apr 2022 20:31:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx1Sq4gyU6ijeuj0L05dGInDI/LDQtl2ZgHtSNzs/W/MWhWrSaVnvnAoKEULJKKZwT9Iw3vR02CAyfIcEXh4ps=
+X-Received: by 2002:a2e:b946:0:b0:24a:fdff:1205 with SMTP id
+ 6-20020a2eb946000000b0024afdff1205mr4037971ljs.73.1649215905628; Tue, 05 Apr
+ 2022 20:31:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH] vdpa: Add missing tracing to batch mapping functions
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-References: <20220405063628.853745-1-eperezma@redhat.com>
+References: <20220321055429.10260-1-jasowang@redhat.com>
+ <20220321055429.10260-5-jasowang@redhat.com>
+ <BN9PR11MB527635384D3CD8F0FB4232388C1D9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <CACGkMEv4gN4=SzeWroMXdOouxQnzarQX_U5Jv528_fROoYNHyw@mail.gmail.com>
+ <BN9PR11MB5276FB0451ABA184476BD4038C1F9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <CACGkMEvpwFpzV44gLjscouLvcFc9-3Y4Qcw05vgX9ZvJha3-7g@mail.gmail.com>
+ <BL1PR11MB5271699ED3A244F52C9D1EA68CE39@BL1PR11MB5271.namprd11.prod.outlook.com>
+In-Reply-To: <BL1PR11MB5271699ED3A244F52C9D1EA68CE39@BL1PR11MB5271.namprd11.prod.outlook.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220405063628.853745-1-eperezma@redhat.com>
+Date: Wed, 6 Apr 2022 11:31:34 +0800
+Message-ID: <CACGkMEsPQ1nj=sdjC5+7F-4C-GBv5XiejcxPc7231oU8NTfckg@mail.gmail.com>
+Subject: Re: [PATCH V2 4/4] intel-iommu: PASID support
+To: "Tian, Kevin" <kevin.tian@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -88,8 +83,8 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,61 +98,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Liu, Yi L" <yi.l.liu@intel.com>,
+ "yi.y.sun@linux.intel.com" <yi.y.sun@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "peterx@redhat.com" <peterx@redhat.com>, "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/4/5 下午2:36, Eugenio Pérez 写道:
-> These functions were not traced properly.
+On Sat, Apr 2, 2022 at 3:24 PM Tian, Kevin <kevin.tian@intel.com> wrote:
 >
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-
-> ---
->   hw/virtio/vhost-vdpa.c | 2 ++
->   hw/virtio/trace-events | 2 ++
->   2 files changed, 4 insertions(+)
+> > From: Jason Wang <jasowang@redhat.com>
+> > Sent: Wednesday, March 30, 2022 4:32 PM
+> >
+> > On Wed, Mar 30, 2022 at 4:02 PM Tian, Kevin <kevin.tian@intel.com> wrote:
+> > >
+> > > > From: Jason Wang <jasowang@redhat.com>
+> > > > Sent: Tuesday, March 29, 2022 12:49 PM
+> > > >
+> > > > On Mon, Mar 28, 2022 at 3:03 PM Tian, Kevin <kevin.tian@intel.com>
+> > wrote:
+> > > > >
+> > > > > > From: Jason Wang
+> > > > > > Sent: Monday, March 21, 2022 1:54 PM
+> > > > > >
+> > > > > > +    /*
+> > > > > > +     * vtd-spec v3.4 3.14:
+> > > > > > +     *
+> > > > > > +     * """
+> > > > > > +     * Requests-with-PASID with input address in range 0xFEEx_xxxx
+> > are
+> > > > > > +     * translated normally like any other request-with-PASID through
+> > > > > > +     * DMA-remapping hardware. However, if such a request is
+> > processed
+> > > > > > +     * using pass-through translation, it will be blocked as described
+> > > > > > +     * in the paragraph below.
+> > > > >
+> > > > > While PASID+PT is blocked as described in the below paragraph, the
+> > > > > paragraph itself applies to all situations:
+> > > > >
+> > > > >   1) PT + noPASID
+> > > > >   2) translation + noPASID
+> > > > >   3) PT + PASID
+> > > > >   4) translation + PASID
+> > > > >
+> > > > > because...
+> > > > >
+> > > > > > +     *
+> > > > > > +     * Software must not program paging-structure entries to remap
+> > any
+> > > > > > +     * address to the interrupt address range. Untranslated requests
+> > > > > > +     * and translation requests that result in an address in the
+> > > > > > +     * interrupt range will be blocked with condition code LGN.4 or
+> > > > > > +     * SGN.8.
+> > > > >
+> > > > > ... if you look at the definition of LGN.4 or SGN.8:
+> > > > >
+> > > > > LGN.4:  When legacy mode (RTADDR_REG.TTM=00b) is enabled,
+> > hardware
+> > > > >         detected an output address (i.e. address after remapping) in the
+> > > > >         interrupt address range (0xFEEx_xxxx). For Translated requests and
+> > > > >         requests with pass-through translation type (TT=10), the output
+> > > > >         address is the same as the address in the request
+> > > > >
+> > > > > The last sentence in the first paragraph above just highlights the fact
+> > that
+> > > > > when input address of PT is in interrupt range then it is blocked by
+> > LGN.4
+> > > > > or SGN.8 due to output address also in interrupt range.
+> > > > >
+> > > > > > +     * """
+> > > > > > +     *
+> > > > > > +     * We enable per as memory region (iommu_ir_fault) for catching
+> > > > > > +     * the tranlsation for interrupt range through PASID + PT.
+> > > > > > +     */
+> > > > > > +    if (pt && as->pasid != PCI_NO_PASID) {
+> > > > > > +        memory_region_set_enabled(&as->iommu_ir_fault, true);
+> > > > > > +    } else {
+> > > > > > +        memory_region_set_enabled(&as->iommu_ir_fault, false);
+> > > > > > +    }
+> > > > > > +
+> > > > >
+> > > > > Given above this should be a bug fix for nopasid first and then apply it
+> > > > > to pasid path too.
+> > > >
+> > > > Actually, nopasid path patches were posted here.
+> > > >
+> > > > https://www.mail-archive.com/qemu-
+> > devel@nongnu.org/msg867878.html
+> > > >
+> > > > Thanks
+> > > >
+> > >
+> > > Can you elaborate why they are handled differently?
+> >
+> > It's because that patch is for the case where pasid mode is not
+> > implemented. We might need it for -stable.
+> >
 >
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 8adf7c0b92..9e5fe15d03 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -129,6 +129,7 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
->           .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
->       };
+> So will that patch be replaced after this one goes in?
+
+That path will be merged first if I understand correctly. Then this
+patch could be applied on top.
+
+> By any means
+> the new iommu_ir_fault region could be applied to both nopasid
+> and pasid i.e. no need toggle it when address space is switched.
+
+Actually it's needed only when PT is enabled. When PT is disabled, the
+translation is done via iommu_translate.
+
+Considering the previous patch will be merged, I will fix this !PT in
+the next version.
+
+Thanks
+
 >
-> +    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.iotlb.type);
->       if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
->           error_report("failed to write, fd=%d, errno=%d (%s)",
->                        fd, errno, strerror(errno));
-> @@ -163,6 +164,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
->       msg.type = v->msg_type;
->       msg.iotlb.type = VHOST_IOTLB_BATCH_END;
->
-> +    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
->       if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
->           error_report("failed to write, fd=%d, errno=%d (%s)",
->                        fd, errno, strerror(errno));
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index a5102eac9e..333348d9d5 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -25,6 +25,8 @@ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"
->   # vhost-vdpa.c
->   vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
->   vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-> +vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-> +vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
->   vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
->   vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
->   vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
-> --
-> 2.27.0
->
+> Thanks
+> Kevin
 
 
