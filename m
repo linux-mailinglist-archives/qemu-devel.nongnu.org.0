@@ -2,107 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607344F5A97
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 12:37:04 +0200 (CEST)
-Received: from localhost ([::1]:34736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F734F5A98
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 12:37:07 +0200 (CEST)
+Received: from localhost ([::1]:34838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc327-0006kS-5a
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 06:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55410)
+	id 1nc32A-0006oM-OK
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 06:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1nc2zY-0005MI-FB
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 06:34:27 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:46971)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <qperret@google.com>)
- id 1nc2zW-0005cz-QH
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 06:34:24 -0400
-Received: by mail-ej1-x634.google.com with SMTP id n6so3249708ejc.13
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 03:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=iTXPlXz9Zr5EQou03o/EzBtB8wT2GGE1Oxj4KHnssrs=;
- b=ayqp+jO7yOZ05GUhmKmLMJU9illW53IQuWYj97Bq0h7OEyqmw3078v9FFmpHAsDAsX
- spKmsJURhryre2eQUlppZX9/HUMI+W6eoOizaX7iehhukxIce2QAtRFltzvot97mqi5g
- wkzLHd/GXAJerFP3q1x2xzOele+vfbjGw1VTYhqxLnyW66oK1u7wRDE72iuiN53gsanI
- rXtjHuLiferpfP6GaXR+e/2+55LTuT8kg2k0SD2i6I/8Spe3SQIHjv+mc1I1GC7cM2Bn
- lfPpqaubm9GgEOe61Moi+rdCo7ZOQ3yLidHpWgZcNsZorkDZClOB35C15vOMByW5gWia
- Ohgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iTXPlXz9Zr5EQou03o/EzBtB8wT2GGE1Oxj4KHnssrs=;
- b=vt6pRaBtVOpTSnnbZlNo1y5hgLiis9qDGfmKjK2/3WQXqWd6LfOzqZiLR3szQk2RA5
- FERCCpEU3ID8xGJGTj1CVVMsEW6YAs2BbuZSOUDnZ2kKFac7UUlux4nwGlDe2yG0Ey21
- 6h2kOlo+qS0cmQVfMggDJy9ViiYbBGrqJBRvAPYIqwZ6IPiEIjLJXZcFTFbR71byqnZe
- WEgDzGBnIY+x+hqCSyrAMB3XQqshaCHKBc65pD7pI29+KJ4eSboSTv/fyRAt5CYVt/i3
- c5fEwY59FE8E1wRQbtb6CiVQQUGf4x/u7x15/KSU3M+zjHn3Gzc5M5rh6VeAwu4opcuI
- F54Q==
-X-Gm-Message-State: AOAM533CFJkFFWcUTjDxbrpraezZQrS7tKKpTqufoQfWDoAjPfYlRjff
- URB0m9igaM0ENOn7jt+XfuzH3Q==
-X-Google-Smtp-Source: ABdhPJx9uNXrv9QkGvgAJYDqUioNGXqvB3w7Wp/JIXcWJjl7z4UKv44fp6VMiLyGHlZ2RnmerugK6g==
-X-Received: by 2002:a17:907:3f02:b0:6e7:7172:4437 with SMTP id
- hq2-20020a1709073f0200b006e771724437mr7358942ejc.361.1649241258989; 
- Wed, 06 Apr 2022 03:34:18 -0700 (PDT)
-Received: from google.com (30.171.91.34.bc.googleusercontent.com.
- [34.91.171.30]) by smtp.gmail.com with ESMTPSA id
- x3-20020a50d9c3000000b0041c8ce4bcd7sm6543091edj.63.2022.04.06.03.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 03:34:18 -0700 (PDT)
-Date: Wed, 6 Apr 2022 10:34:15 +0000
-From: Quentin Perret <qperret@google.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Steven Price <steven.price@arm.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm list <kvm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- the arch/x86 maintainers <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
- David Hildenbrand <david@redhat.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <Yk1spw4zIxR73VX8@google.com>
-References: <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
- <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
- <YkcTTY4YjQs5BRhE@google.com>
- <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
- <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
- <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
- <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nc2zg-0005Mt-3P
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 06:34:32 -0400
+Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:37713)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nc2zc-0005dE-Af
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 06:34:31 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 8836920A91;
+ Wed,  6 Apr 2022 10:34:24 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
+ 2022 12:34:24 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002633a7d76-4a6a-458e-8ec8-74c28cbcca97,
+ 0E2A66C590FA5C0A512BFD2BB471688DAC8686BD) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <9c680f88-72ef-f105-9827-f4308acabd09@kaod.org>
+Date: Wed, 6 Apr 2022 12:34:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkyEaYiL0BrDYcZv@google.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=qperret@google.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 4/7] aspeed: i2c: Use reg array instead of individual
+ vars
+Content-Language: en-US
+To: Joe Komlodi <komlodi@google.com>, <qemu-devel@nongnu.org>
+References: <20220331043248.2237838-1-komlodi@google.com>
+ <20220331043248.2237838-5-komlodi@google.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220331043248.2237838-5-komlodi@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: ec558df1-5e9a-4259-ab76-cbd8b46714dc
+X-Ovh-Tracer-Id: 7831759752981351206
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudejiedgfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehvvghnthhurhgvsehgohhoghhlvgdrtghomh
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
+ helo=1.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,60 +72,655 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: andrew@aj.id.au, peter.maydell@linaro.org, joel@jms.id.au,
+ venture@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tuesday 05 Apr 2022 at 18:03:21 (+0000), Sean Christopherson wrote:
-> On Tue, Apr 05, 2022, Quentin Perret wrote:
-> > On Monday 04 Apr 2022 at 15:04:17 (-0700), Andy Lutomirski wrote:
-> > > >>  - it can be very useful for protected VMs to do shared=>private
-> > > >>    conversions. Think of a VM receiving some data from the host in a
-> > > >>    shared buffer, and then it wants to operate on that buffer without
-> > > >>    risking to leak confidential informations in a transient state. In
-> > > >>    that case the most logical thing to do is to convert the buffer back
-> > > >>    to private, do whatever needs to be done on that buffer (decrypting a
-> > > >>    frame, ...), and then share it back with the host to consume it;
-> > > >
-> > > > If performance is a motivation, why would the guest want to do two
-> > > > conversions instead of just doing internal memcpy() to/from a private
-> > > > page?  I would be quite surprised if multiple exits and TLB shootdowns is
-> > > > actually faster, especially at any kind of scale where zapping stage-2
-> > > > PTEs will cause lock contention and IPIs.
-> > > 
-> > > I don't know the numbers or all the details, but this is arm64, which is a
-> > > rather better architecture than x86 in this regard.  So maybe it's not so
-> > > bad, at least in very simple cases, ignoring all implementation details.
-> > > (But see below.)  Also the systems in question tend to have fewer CPUs than
-> > > some of the massive x86 systems out there.
-> > 
-> > Yep. I can try and do some measurements if that's really necessary, but
-> > I'm really convinced the cost of the TLBI for the shared->private
-> > conversion is going to be significantly smaller than the cost of memcpy
-> > the buffer twice in the guest for us.
+On 3/31/22 06:32, Joe Komlodi wrote:
+> Using a register array will allow us to represent old-mode and new-mode
+> I2C registers by using the same underlying register array, instead of
+> adding an entire new set of variables to represent new mode.
+
+I agree with this change. Please do it first before introducing the
+the register field definitions.
+
+Some comments below,
+
 > 
-> It's not just the TLB shootdown, the VM-Exits aren't free.
+> As part of this, we also do additional cleanup to use ARRAY_FIELD_
+> macros instead of FIELD_ macros on registers.
+> 
+> Signed-off-by: Joe Komlodi <komlodi@google.com>
+> Change-Id: Ib94996b17c361b8490c042b43c99d8abc69332e3
+> ---
+>   hw/i2c/aspeed_i2c.c         | 286 +++++++++++++++++-------------------
+>   include/hw/i2c/aspeed_i2c.h |  11 +-
+>   2 files changed, 133 insertions(+), 164 deletions(-)
+> 
+> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+> index be81a798cc..e938055150 100644
+> --- a/hw/i2c/aspeed_i2c.c
+> +++ b/hw/i2c/aspeed_i2c.c
+> @@ -133,30 +133,30 @@ REG32(I2CD_DMA_LEN, 0x28) /* DMA Transfer Length < 4KB */
+>   
+>   static inline bool aspeed_i2c_bus_is_master(AspeedI2CBus *bus)
+>   {
+> -    return FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL, MASTER_EN);
+> +    return ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL, MASTER_EN);
+>   }
+>   
+>   static inline bool aspeed_i2c_bus_is_enabled(AspeedI2CBus *bus)
+>   {
+> -    return FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL, MASTER_EN) ||
+> -           FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL, SLAVE_EN);
+> +    return ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL, MASTER_EN) ||
+> +           ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL, SLAVE_EN);
+>   }
+>   
+>   static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
+>   {
+>       AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
+>   
+> -    trace_aspeed_i2c_bus_raise_interrupt(bus->intr_status,
+> -        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, TX_NAK) ? "nak|" : "",
+> -        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, TX_ACK) ? "ack|" : "",
+> -        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, RX_DONE) ? "done|" : "",
+> -        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, NORMAL_STOP) ? "normal|"
+> -                                                                 : "",
+> -        FIELD_EX32(bus->intr_status, I2CD_INTR_STS, ABNORMAL) ? "abnormal"
+> -                                                              : "");
+> -
+> -    bus->intr_status &= bus->intr_ctrl;
+> -    if (bus->intr_status) {
+> +    trace_aspeed_i2c_bus_raise_interrupt(bus->regs[R_I2CD_INTR_STS],
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, TX_NAK) ? "nak|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, TX_ACK) ? "ack|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, RX_DONE) ? "done|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, NORMAL_STOP) ? "normal|"
+> +                                                                  : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, ABNORMAL) ? "abnormal"
+> +                                                               : "");
+> +
+> +    bus->regs[R_I2CD_INTR_STS] &= bus->regs[R_I2CD_INTR_CTRL];
+> +    if (bus->regs[R_I2CD_INTR_STS]) {
+>           bus->controller->intr_status |= 1 << bus->id;
+>           qemu_irq_raise(aic->bus_get_irq(bus));
+>       }
+> @@ -167,46 +167,33 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
+>   {
+>       AspeedI2CBus *bus = opaque;
+>       AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
+> -    uint64_t value = -1;
+> +    uint64_t value = bus->regs[offset / sizeof(*bus->regs)];
 
-Ack, but we can at least work on the rest (number of exits, locking, ...).
-The cost of the memcpy and the TLBI are really incompressible.
+please introduce a reg variable.
 
-> And barring non-trivial
-> improvements to KVM's MMU, e.g. sharding of mmu_lock, modifying the page tables will
-> block all other updates and MMU operations.  Taking mmu_lock for read, should arm64
-> ever convert to a rwlock, is not an option because KVM needs to block other
-> conversions to avoid races.
+>   
+>       switch (offset) {
+>       case A_I2CD_FUN_CTRL:
+> -        value = bus->ctrl;
+> -        break;
+>       case A_I2CD_AC_TIMING1:
+> -        value = bus->timing[0];
+> -        break;
+>       case A_I2CD_AC_TIMING2:
+> -        value = bus->timing[1];
+> -        break;
+>       case A_I2CD_INTR_CTRL:
+> -        value = bus->intr_ctrl;
+> -        break;
+>       case A_I2CD_INTR_STS:
+> -        value = bus->intr_status;
+> -        break;
+>       case A_I2CD_POOL_CTRL:
+> -        value = bus->pool_ctrl;
+> -        break;
+>       case A_I2CD_BYTE_BUF:
+> -        value = bus->buf;
+> +        /* Value is already set, don't do anything. */
+>           break;
+>       case A_I2CD_CMD:
+> -        value = bus->cmd | (i2c_bus_busy(bus->bus) << 16);
+> +        value = FIELD_DP32(value, I2CD_CMD, BUS_BUSY_STS,
+> +                           i2c_bus_busy(bus->bus));
+>           break;
+>       case A_I2CD_DMA_ADDR:
+>           if (!aic->has_dma) {
+>               qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __func__);
+> -            break;
+> +            value = -1;
+>           }
+> -        value = bus->dma_addr;
+>           break;
+>       case A_I2CD_DMA_LEN:
+>           if (!aic->has_dma) {
+>               qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __func__);
+> -            break;
+> +            value = -1;
+>           }
+> -        value = bus->dma_len;
+>           break;
+>   
+>       default:
+> @@ -222,12 +209,12 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
+>   
+>   static void aspeed_i2c_set_state(AspeedI2CBus *bus, uint8_t state)
+>   {
+> -    bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, TX_STATE, state);
+> +    ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, TX_STATE, state);
+>   }
+>   
+>   static uint8_t aspeed_i2c_get_state(AspeedI2CBus *bus)
+>   {
+> -    return FIELD_EX32(bus->cmd, I2CD_CMD, TX_STATE);
+> +    return ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_STATE);
+>   }
+>   
+>   static int aspeed_i2c_dma_read(AspeedI2CBus *bus, uint8_t *data)
+> @@ -235,16 +222,16 @@ static int aspeed_i2c_dma_read(AspeedI2CBus *bus, uint8_t *data)
+>       MemTxResult result;
+>       AspeedI2CState *s = bus->controller;
+>   
+> -    result = address_space_read(&s->dram_as, bus->dma_addr,
+> +    result = address_space_read(&s->dram_as, bus->regs[R_I2CD_DMA_ADDR],
+>                                   MEMTXATTRS_UNSPECIFIED, data, 1);
+>       if (result != MEMTX_OK) {
+>           qemu_log_mask(LOG_GUEST_ERROR, "%s: DRAM read failed @%08x\n",
+> -                      __func__, bus->dma_addr);
+> +                      __func__, bus->regs[R_I2CD_DMA_ADDR]);
+>           return -1;
+>       }
+>   
+> -    bus->dma_addr++;
+> -    bus->dma_len--;
+> +    bus->regs[R_I2CD_DMA_ADDR]++;
+> +    bus->regs[R_I2CD_DMA_LEN]--;
+>       return 0;
+>   }
+>   
+> @@ -253,9 +240,9 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uint8_t pool_start)
+>       AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
+>       int ret = -1;
+>       int i;
+> -    int pool_tx_count = FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, TX_COUNT);
+> +    int pool_tx_count = ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, TX_COUNT);
+>   
+> -    if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN)) {
+> +    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN)) {
+>           for (i = pool_start; i < pool_tx_count; i++) {
+>               uint8_t *pool_base = aic->bus_pool_base(bus);
+>   
+> @@ -266,21 +253,23 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uint8_t pool_start)
+>                   break;
+>               }
+>           }
+> -        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, TX_BUFF_EN, 0);
+> -    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)) {
+> -        while (bus->dma_len) {
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, TX_BUFF_EN, 0);
+> +    } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN)) {
+> +        while (bus->regs[R_I2CD_DMA_LEN]) {
+>               uint8_t data;
+>               aspeed_i2c_dma_read(bus, &data);
+> -            trace_aspeed_i2c_bus_send("DMA", bus->dma_len, bus->dma_len, data);
+> +            trace_aspeed_i2c_bus_send("DMA", bus->regs[R_I2CD_DMA_LEN],
+> +                                      bus->regs[R_I2CD_DMA_LEN], data);
+>               ret = i2c_send(bus->bus, data);
+>               if (ret) {
+>                   break;
+>               }
+>           }
+> -        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, TX_DMA_EN, 0);
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, TX_DMA_EN, 0);
+>       } else {
+> -        trace_aspeed_i2c_bus_send("BYTE", pool_start, 1, bus->buf);
+> -        ret = i2c_send(bus->bus, bus->buf);
+> +        trace_aspeed_i2c_bus_send("BYTE", pool_start, 1,
+> +                                  bus->regs[R_I2CD_BYTE_BUF]);
+> +        ret = i2c_send(bus->bus, bus->regs[R_I2CD_BYTE_BUF]);
+>       }
+>   
+>       return ret;
+> @@ -292,9 +281,9 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
+>       AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
+>       uint8_t data;
+>       int i;
+> -    int pool_rx_count = FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, RX_COUNT);
+> +    int pool_rx_count = ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, RX_COUNT);
+>   
+> -    if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN)) {
+> +    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_BUFF_EN)) {
+>           uint8_t *pool_base = aic->bus_pool_base(bus);
+>   
+>           for (i = 0; i < pool_rx_count; i++) {
+> @@ -304,32 +293,33 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
+>           }
+>   
+>           /* Update RX count */
+> -        bus->pool_ctrl = FIELD_DP32(bus->pool_ctrl, I2CD_POOL_CTRL, RX_COUNT,
+> -                                    i & 0xff);
+> -        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, RX_BUFF_EN, 0);
+> -    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN)) {
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_POOL_CTRL, RX_COUNT, i & 0xff);
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, RX_BUFF_EN, 0);
+> +    } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_DMA_EN)) {
+>           uint8_t data;
+>   
+> -        while (bus->dma_len) {
+> +        while (bus->regs[R_I2CD_DMA_LEN]) {
+>               MemTxResult result;
+>   
+>               data = i2c_recv(bus->bus);
+> -            trace_aspeed_i2c_bus_recv("DMA", bus->dma_len, bus->dma_len, data);
+> -            result = address_space_write(&s->dram_as, bus->dma_addr,
+> +            trace_aspeed_i2c_bus_recv("DMA", bus->regs[R_I2CD_DMA_LEN],
+> +                                      bus->regs[R_I2CD_DMA_LEN], data);
+> +            result = address_space_write(&s->dram_as,
+> +                                         bus->regs[R_I2CD_DMA_ADDR],
+>                                            MEMTXATTRS_UNSPECIFIED, &data, 1);
+>               if (result != MEMTX_OK) {
+>                   qemu_log_mask(LOG_GUEST_ERROR, "%s: DRAM write failed @%08x\n",
+> -                              __func__, bus->dma_addr);
+> +                              __func__, bus->regs[R_I2CD_DMA_ADDR]);
+>                   return;
+>               }
+> -            bus->dma_addr++;
+> -            bus->dma_len--;
+> +            bus->regs[R_I2CD_DMA_ADDR]++;
+> +            bus->regs[R_I2CD_DMA_LEN]--;
+>           }
+> -        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, RX_DMA_EN, 0);
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, RX_DMA_EN, 0);
+>       } else {
+>           data = i2c_recv(bus->bus);
+> -        trace_aspeed_i2c_bus_recv("BYTE", 1, 1, bus->buf);
+> -        bus->buf = FIELD_DP32(bus->buf, I2CD_BYTE_BUF, RX_BUF, data);
+> +        trace_aspeed_i2c_bus_recv("BYTE", 1, 1, bus->regs[R_I2CD_BYTE_BUF]);
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_BYTE_BUF, RX_BUF, data);
+>       }
+>   }
+>   
+> @@ -337,12 +327,12 @@ static void aspeed_i2c_handle_rx_cmd(AspeedI2CBus *bus)
+>   {
+>       aspeed_i2c_set_state(bus, I2CD_MRXD);
+>       aspeed_i2c_bus_recv(bus);
+> -    bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS, RX_DONE, 1);
+> -    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST)) {
+> +    ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, RX_DONE, 1);
+> +    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST)) {
+>           i2c_nack(bus->bus);
+>       }
+> -    bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_RX_CMD, 0);
+> -    bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST, 0);
+> +    ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_RX_CMD, 0);
+> +    ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST, 0);
+>       aspeed_i2c_set_state(bus, I2CD_MACTIVE);
+>   }
+>   
+> @@ -350,17 +340,17 @@ static uint8_t aspeed_i2c_get_addr(AspeedI2CBus *bus)
+>   {
+>       AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(bus->controller);
+>   
+> -    if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN)) {
+> +    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN)) {
+>           uint8_t *pool_base = aic->bus_pool_base(bus);
+>   
+>           return pool_base[0];
+> -    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)) {
+> +    } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN)) {
+>           uint8_t data;
+>   
+>           aspeed_i2c_dma_read(bus, &data);
+>           return data;
+>       } else {
+> -        return bus->buf;
+> +        return bus->regs[R_I2CD_BYTE_BUF];
+>       }
+>   }
+>   
+> @@ -368,10 +358,10 @@ static bool aspeed_i2c_check_sram(AspeedI2CBus *bus)
+>   {
+>       AspeedI2CState *s = bus->controller;
+>       AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
+> -    bool dma_en = FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN)  ||
+> -                  FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)  ||
+> -                  FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN) ||
+> -                  FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN);
+> +    bool dma_en = ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_DMA_EN)  ||
+> +                  ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN)  ||
+> +                  ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_BUFF_EN) ||
+> +                  ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN);
+>       if (!aic->check_sram) {
+>           return true;
+>       }
+> @@ -392,26 +382,27 @@ static void aspeed_i2c_bus_cmd_dump(AspeedI2CBus *bus)
+>   {
+>       g_autofree char *cmd_flags = NULL;
+>       uint32_t count;
+> -    if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN)) {
+> -        count = FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, TX_COUNT);
+> -    } else if (FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN)) {
+> -        count = bus->dma_len;
+> +    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_BUFF_EN)) {
+> +        count = ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, TX_COUNT);
+> +    } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_DMA_EN)) {
+> +        count = bus->regs[R_I2CD_DMA_LEN];
+>       } else { /* BYTE mode */
+>           count = 1;
+>       }
+>   
+>       cmd_flags = g_strdup_printf("%s%s%s%s%s%s%s%s%s",
+> -             FIELD_EX32(bus->cmd, I2CD_CMD, M_START_CMD) ? "start|" : "",
+> -             FIELD_EX32(bus->cmd, I2CD_CMD, RX_DMA_EN) ? "rxdma|" : "",
+> -             FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN) ? "txdma|" : "",
+> -             FIELD_EX32(bus->cmd, I2CD_CMD, RX_BUFF_EN) ? "rxbuf|" : "",
+> -             FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN) ? "txbuf|" : "",
+> -             FIELD_EX32(bus->cmd, I2CD_CMD, M_TX_CMD) ? "tx|" : "",
+> -             FIELD_EX32(bus->cmd, I2CD_CMD, M_RX_CMD) ? "rx|" : "",
+> -             FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST) ? "last|" : "",
+> -             FIELD_EX32(bus->cmd, I2CD_CMD, M_STOP_CMD) ? "stop" : "");
+> -
+> -    trace_aspeed_i2c_bus_cmd(bus->cmd, cmd_flags, count, bus->intr_status);
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_START_CMD) ? "start|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_DMA_EN) ? "rxdma|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN) ? "txdma|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, RX_BUFF_EN) ? "rxbuf|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN) ? "txbuf|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_TX_CMD) ? "tx|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_RX_CMD) ? "rx|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST) ? "last|" : "",
+> +          ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_STOP_CMD) ? "stop" : "");
+> +
+> +    trace_aspeed_i2c_bus_cmd(bus->regs[R_I2CD_CMD], cmd_flags, count,
+> +                             bus->regs[R_I2CD_INTR_STS]);
+>   }
+>   
+>   /*
+> @@ -422,8 +413,8 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+>   {
+>       uint8_t pool_start = 0;
+>   
+> -    bus->cmd &= ~0xFFFF;
+> -    bus->cmd |= value & 0xFFFF;
+> +    bus->regs[R_I2CD_CMD] &= ~0xFFFF;
+> +    bus->regs[R_I2CD_CMD] |= value & 0xFFFF;
+>   
+>       if (!aspeed_i2c_check_sram(bus)) {
+>           return;
+> @@ -433,7 +424,7 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+>           aspeed_i2c_bus_cmd_dump(bus);
+>       }
+>   
+> -    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_START_CMD)) {
+> +    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_START_CMD)) {
+>           uint8_t state = aspeed_i2c_get_state(bus) & I2CD_MACTIVE ?
+>               I2CD_MSTARTR : I2CD_MSTART;
+>           uint8_t addr;
+> @@ -444,23 +435,21 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+>   
+>           if (i2c_start_transfer(bus->bus, extract32(addr, 1, 7),
+>                                  extract32(addr, 0, 1))) {
+> -            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+> -                                          TX_NAK, 1);
+> +            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, TX_NAK, 1);
+>           } else {
+> -            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+> -                                          TX_ACK, 1);
+> +            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, TX_ACK, 1);
+>           }
+>   
+> -        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_START_CMD, 0);
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_START_CMD, 0);
+>   
+>           /*
+>            * The START command is also a TX command, as the slave
+>            * address is sent on the bus. Drop the TX flag if nothing
+>            * else needs to be sent in this sequence.
+>            */
+> -        if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_BUFF_EN)) {
+> -            if (FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, TX_COUNT) == 1) {
+> -                bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
+> +        if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_BUFF_EN)) {
+> +            if (ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, TX_COUNT) == 1) {
+> +                ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_TX_CMD, 0);
+>               } else {
+>                   /*
+>                    * Increase the start index in the TX pool buffer to
+> @@ -468,12 +457,12 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+>                    */
+>                   pool_start++;
+>               }
+> -        } else if (FIELD_EX32(bus->cmd, I2CD_CMD, TX_DMA_EN)) {
+> -            if (bus->dma_len == 0) {
+> -                bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
+> +        } else if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, TX_DMA_EN)) {
+> +            if (bus->regs[R_I2CD_DMA_LEN] == 0) {
+> +                ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_TX_CMD, 0);
+>               }
+>           } else {
+> -            bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
+> +            ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_TX_CMD, 0);
+>           }
+>   
+>           /* No slave found */
+> @@ -483,38 +472,34 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *bus, uint64_t value)
+>           aspeed_i2c_set_state(bus, I2CD_MACTIVE);
+>       }
+>   
+> -    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_TX_CMD)) {
+> +    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_TX_CMD)) {
+>           aspeed_i2c_set_state(bus, I2CD_MTXD);
+>           if (aspeed_i2c_bus_send(bus, pool_start)) {
+> -            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+> -                                          TX_NAK, 1);
+> +            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, TX_NAK, 1);
+>               i2c_end_transfer(bus->bus);
+>           } else {
+> -            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+> -                                          TX_ACK, 1);
+> +            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, TX_ACK, 1);
+>           }
+> -        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_TX_CMD, 0);
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_TX_CMD, 0);
+>           aspeed_i2c_set_state(bus, I2CD_MACTIVE);
+>       }
+>   
+> -    if ((FIELD_EX32(bus->cmd, I2CD_CMD, M_RX_CMD) ||
+> -         FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST)) &&
+> -        !FIELD_EX32(bus->intr_status, I2CD_INTR_STS, RX_DONE)) {
+> +    if ((ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_RX_CMD) ||
+> +         ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST)) &&
+> +        !ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, RX_DONE)) {
+>           aspeed_i2c_handle_rx_cmd(bus);
+>       }
+>   
+> -    if (FIELD_EX32(bus->cmd, I2CD_CMD, M_STOP_CMD)) {
+> +    if (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_STOP_CMD)) {
+>           if (!(aspeed_i2c_get_state(bus) & I2CD_MACTIVE)) {
+>               qemu_log_mask(LOG_GUEST_ERROR, "%s: abnormal stop\n", __func__);
+> -            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+> -                                          ABNORMAL, 1);
+> +            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, ABNORMAL, 1);
+>           } else {
+>               aspeed_i2c_set_state(bus, I2CD_MSTOP);
+>               i2c_end_transfer(bus->bus);
+> -            bus->intr_status = FIELD_DP32(bus->intr_status, I2CD_INTR_STS,
+> -                                          NORMAL_STOP, 1);
+> +            ARRAY_FIELD_DP32(bus->regs, I2CD_INTR_STS, NORMAL_STOP, 1);
+>           }
+> -        bus->cmd = FIELD_DP32(bus->cmd, I2CD_CMD, M_STOP_CMD, 0);
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_CMD, M_STOP_CMD, 0);
+>           aspeed_i2c_set_state(bus, I2CD_IDLE);
+>       }
+>   }
+> @@ -535,27 +520,27 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+>                             __func__);
+>               break;
+>           }
+> -        bus->ctrl = value & 0x0071C3FF;
+> +        bus->regs[R_I2CD_FUN_CTRL] = value & 0x0071C3FF;
+>           break;
+>       case A_I2CD_AC_TIMING1:
+> -        bus->timing[0] = value & 0xFFFFF0F;
+> +        bus->regs[R_I2CD_AC_TIMING1] = value & 0xFFFFF0F;
+>           break;
+>       case A_I2CD_AC_TIMING2:
+> -        bus->timing[1] = value & 0x7;
+> +        bus->regs[R_I2CD_AC_TIMING2] = value & 0x7;
+>           break;
+>       case A_I2CD_INTR_CTRL:
+> -        bus->intr_ctrl = value & 0x7FFF;
+> +        bus->regs[R_I2CD_INTR_CTRL] = value & 0x7FFF;
+>           break;
+>       case A_I2CD_INTR_STS:
+> -        handle_rx = FIELD_EX32(bus->intr_status, I2CD_INTR_STS, RX_DONE) &&
+> +        handle_rx = ARRAY_FIELD_EX32(bus->regs, I2CD_INTR_STS, RX_DONE) &&
+>                       FIELD_EX32(value, I2CD_INTR_STS, RX_DONE);
+> -        bus->intr_status &= ~(value & 0x7FFF);
+> -        if (!bus->intr_status) {
+> +        bus->regs[R_I2CD_INTR_STS] &= ~(value & 0x7FFF);
+> +        if (!bus->regs[R_I2CD_INTR_STS]) {
+>               bus->controller->intr_status &= ~(1 << bus->id);
+>               qemu_irq_lower(aic->bus_get_irq(bus));
+>           }
+> -        if (handle_rx && (FIELD_EX32(bus->cmd, I2CD_CMD, M_RX_CMD) ||
+> -                         FIELD_EX32(bus->cmd, I2CD_CMD, M_S_RX_CMD_LAST))) {
+> +        if (handle_rx && (ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_RX_CMD) ||
+> +                      ARRAY_FIELD_EX32(bus->regs, I2CD_CMD, M_S_RX_CMD_LAST))) {
+>               aspeed_i2c_handle_rx_cmd(bus);
+>               aspeed_i2c_bus_raise_interrupt(bus);
+>           }
+> @@ -565,12 +550,12 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+>                         __func__);
+>           break;
+>       case A_I2CD_POOL_CTRL:
+> -        bus->pool_ctrl &= ~0xffffff;
+> -        bus->pool_ctrl |= (value & 0xffffff);
+> +        bus->regs[R_I2CD_POOL_CTRL] &= ~0xffffff;
+> +        bus->regs[R_I2CD_POOL_CTRL] |= (value & 0xffffff);
+>           break;
+>   
+>       case A_I2CD_BYTE_BUF:
+> -        bus->buf = FIELD_DP32(bus->buf, I2CD_BYTE_BUF, TX_BUF, value);
+> +        ARRAY_FIELD_DP32(bus->regs, I2CD_BYTE_BUF, TX_BUF, value);
+>           break;
+>       case A_I2CD_CMD:
+>           if (!aspeed_i2c_bus_is_enabled(bus)) {
+> @@ -599,7 +584,7 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+>               break;
+>           }
+>   
+> -        bus->dma_addr = value & 0x3ffffffc;
+> +        bus->regs[R_I2CD_DMA_ADDR] = value & 0x3ffffffc;
+>           break;
+>   
+>       case A_I2CD_DMA_LEN:
+> @@ -608,8 +593,8 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+>               break;
+>           }
+>   
+> -        bus->dma_len = value & 0xfff;
+> -        if (!bus->dma_len) {
+> +        bus->regs[R_I2CD_DMA_LEN] = value & 0xfff;
+> +        if (!bus->regs[R_I2CD_DMA_LEN]) {
+>               qemu_log_mask(LOG_UNIMP, "%s: invalid DMA length\n",  __func__);
+>           }
+>           break;
+> @@ -706,19 +691,10 @@ static const MemoryRegionOps aspeed_i2c_pool_ops = {
+>   
+>   static const VMStateDescription aspeed_i2c_bus_vmstate = {
+>       .name = TYPE_ASPEED_I2C,
+> -    .version_id = 3,
+> -    .minimum_version_id = 3,
+> +    .version_id = 4,
+> +    .minimum_version_id = 4,
+>       .fields = (VMStateField[]) {
+> -        VMSTATE_UINT8(id, AspeedI2CBus),
+> -        VMSTATE_UINT32(ctrl, AspeedI2CBus),
+> -        VMSTATE_UINT32_ARRAY(timing, AspeedI2CBus, 2),
+> -        VMSTATE_UINT32(intr_ctrl, AspeedI2CBus),
+> -        VMSTATE_UINT32(intr_status, AspeedI2CBus),
+> -        VMSTATE_UINT32(cmd, AspeedI2CBus),
+> -        VMSTATE_UINT32(buf, AspeedI2CBus),
+> -        VMSTATE_UINT32(pool_ctrl, AspeedI2CBus),
+> -        VMSTATE_UINT32(dma_addr, AspeedI2CBus),
+> -        VMSTATE_UINT32(dma_len, AspeedI2CBus),
+> +        VMSTATE_UINT32_ARRAY(regs, AspeedI2CBus, ASPEED_I2C_OLD_NUM_REG),
+>           VMSTATE_END_OF_LIST()
+>       }
+>   };
+> @@ -858,12 +834,12 @@ static void aspeed_i2c_bus_reset(DeviceState *dev)
+>   {
+>       AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
+>   
+> -    s->intr_ctrl = 0;
+> -    s->intr_status = 0;
+> -    s->cmd = 0;
+> -    s->buf = 0;
+> -    s->dma_addr = 0;
+> -    s->dma_len = 0;
+> +    s->regs[R_I2CD_INTR_CTRL] = 0;
+> +    s->regs[R_I2CD_INTR_STS] = 0;
+> +    s->regs[R_I2CD_CMD] = 0;
+> +    s->regs[R_I2CD_BYTE_BUF] = 0;
+> +    s->regs[R_I2CD_DMA_ADDR] = 0;
+> +    s->regs[R_I2CD_DMA_LEN] = 0;
 
-FWIW the host mmu_lock isn't all that useful for pKVM. The host doesn't
-have _any_ control over guest page-tables, and the hypervisor can't
-safely rely on the host for locking, so we have hypervisor-level
-synchronization.
+memset() ?
 
-> Hmm, though batching multiple pages into a single request would mitigate most of
-> the overhead.
+>       i2c_end_transfer(s->bus);
+>   }
+>   
+> @@ -921,10 +897,10 @@ static qemu_irq aspeed_2400_i2c_bus_get_irq(AspeedI2CBus *bus)
+>   static uint8_t *aspeed_2400_i2c_bus_pool_base(AspeedI2CBus *bus)
+>   {
+>       uint8_t *pool_page =
+> -        &bus->controller->pool[FIELD_EX32(bus->ctrl, I2CD_FUN_CTRL,
+> -                                          POOL_PAGE_SEL) * 0x100];
+> +        &bus->controller->pool[ARRAY_FIELD_EX32(bus->regs, I2CD_FUN_CTRL,
+> +                                                POOL_PAGE_SEL) * 0x100];
+>   
+> -    return &pool_page[FIELD_EX32(bus->pool_ctrl, I2CD_POOL_CTRL, OFFSET)];
+> +    return &pool_page[ARRAY_FIELD_EX32(bus->regs, I2CD_POOL_CTRL, OFFSET)];
+>   }
+>   
+>   static void aspeed_2400_i2c_class_init(ObjectClass *klass, void *data)
+> diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+> index 3912fcc3ff..e9f83a9540 100644
+> --- a/include/hw/i2c/aspeed_i2c.h
+> +++ b/include/hw/i2c/aspeed_i2c.h
+> @@ -33,6 +33,7 @@ OBJECT_DECLARE_TYPE(AspeedI2CState, AspeedI2CClass, ASPEED_I2C)
+>   
+>   #define ASPEED_I2C_NR_BUSSES 16
+>   #define ASPEED_I2C_MAX_POOL_SIZE 0x800
+> +#define ASPEED_I2C_OLD_NUM_REG 11
 
-Yep, there are a few tricks we can play to make this fairly efficient in
-the most common cases. And fine-grain locking at EL2 is really high up
-on the todo list :-)
+Just use a number big enough for both modes.
 
 Thanks,
-Quentin
+
+C.
+
+>   
+>   struct AspeedI2CState;
+>   
+> @@ -49,15 +50,7 @@ struct AspeedI2CBus {
+>       uint8_t id;
+>       qemu_irq irq;
+>   
+> -    uint32_t ctrl;
+> -    uint32_t timing[2];
+> -    uint32_t intr_ctrl;
+> -    uint32_t intr_status;
+> -    uint32_t cmd;
+> -    uint32_t buf;
+> -    uint32_t pool_ctrl;
+> -    uint32_t dma_addr;
+> -    uint32_t dma_len;
+> +    uint32_t regs[ASPEED_I2C_OLD_NUM_REG];
+>   };
+>   
+>   struct AspeedI2CState {
+
 
