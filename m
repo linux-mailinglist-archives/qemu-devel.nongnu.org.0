@@ -2,87 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7764F5D0F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 14:19:44 +0200 (CEST)
-Received: from localhost ([::1]:42750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A964F5DDD
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 14:32:29 +0200 (CEST)
+Received: from localhost ([::1]:52258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc4dS-0004lS-Vw
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 08:19:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53664)
+	id 1nc4pn-0003Qw-KC
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 08:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nc4ca-0003zW-RP
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:18:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46912)
+ (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
+ id 1nc4nW-0001bp-P1
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:30:07 -0400
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:12269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nc4cY-0002MB-5W
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:18:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649247524;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JL+SYbue1/AKvypd8xzzyl0EL+X13Ku4REAq0dryNEM=;
- b=EW0ZcSod5aRI7G49iJFiL1pqrIq7zVCtyU5CiMjJRjlrgSLNshdBg/Os/z/R0Zm/gQC8Aq
- WYOcz5pzEpyZe1+njMUC/jTd4dcxHhfkOSFoEtravNtHbOR0tnF/ydqBERV9ihdFA+9nYc
- /ni2VqfFVLrJxC0XccgQuZ6S7qF3MqQ=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-dzSu9j3PM9ikaO2xLSU2mg-1; Wed, 06 Apr 2022 08:18:43 -0400
-X-MC-Unique: dzSu9j3PM9ikaO2xLSU2mg-1
-Received: by mail-il1-f200.google.com with SMTP id
- i14-20020a056e020ece00b002ca198245e6so1613902ilk.4
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 05:18:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JL+SYbue1/AKvypd8xzzyl0EL+X13Ku4REAq0dryNEM=;
- b=ppKDXa1pxw23SKI5TpRZ8argKNwiEXvs2Z/ZiwdcyYKOGrNc5VSbaRh1w7LKNL3n7k
- 7b2xRDuZ3UE+5+fUQ7/1jl5U4YxgHASKJynuKkhUiRIoj94+W3NVxDGfqFqfZKbqtoOc
- GWkTaSdrSpIo6wG3pXIX2uGHtQJH3gQxHNB7s3Z5WT9c+XIhSz54O8SxDmO+2chCeeGm
- iswtlos2rxzjZ6+2ifiio21sNjbFDtF7fsjGTTDlmeYmXq7sutwvSWECms0TnyY/uzXS
- dU9Bb3ljmG4u7Sy+sH8BIFUEx3R/aySd+b1lbnzR96dCTCGj+WsrHkTtwXHraYrcddU4
- z9Vw==
-X-Gm-Message-State: AOAM530tOLdL8S6vOPrLJ64ilUgIFo1XwyyonIu1LmqnjG6bqfhEm3Y8
- wpfytEimhFdN7Dyqc3cm8x+sNR/9F3X3Rp6ghtQbOG2qkZ+FaTx9uxzKpL+lLmk6DVdRBSPxFyQ
- fW/Wa2BY/h/bumqo=
-X-Received: by 2002:a05:6602:185a:b0:645:d914:35e9 with SMTP id
- d26-20020a056602185a00b00645d91435e9mr3845045ioi.154.1649247522545; 
- Wed, 06 Apr 2022 05:18:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYGwA6CDEACWJp62n/OqJnfoLVGOEG4UrweVqycKyX7aXCHXWy39rvKo70mKRmCY4gfvC97Q==
-X-Received: by 2002:a05:6602:185a:b0:645:d914:35e9 with SMTP id
- d26-20020a056602185a00b00645d91435e9mr3845037ioi.154.1649247522295; 
- Wed, 06 Apr 2022 05:18:42 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- c15-20020a92b74f000000b002c9cc44ede9sm9159407ilm.86.2022.04.06.05.18.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 05:18:42 -0700 (PDT)
-Date: Wed, 6 Apr 2022 08:18:41 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] migration: Fix operator type
-Message-ID: <Yk2FIdSMF4LRoT8C@xz-m1.local>
-References: <20220406102515.96320-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
+ id 1nc4nT-0005EF-2k
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:30:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
+ h=to:cc:from:subject:message-id:date:mime-version;
+ bh=FhtxbETLEUGQqmhtBrPSQ8eTFo+l++6DZ6Ms3RgvVj0=;
+ b=Xn2t9gN8N6Nab2ebXjfOK4zVM0hTUom9hsX84UqeybTeQefB5OD/OBki
+ RPcUPdykK/FmdjIkU4tP0pvi+Za7ymk0Dgi9Zss56Z7AynhfIWOd9aZIG
+ RFasQWdGQkI6uPct7nhwmqf3RICQk8I8+n0qz4XqQF5fbxMSxr+IJr/UC 8=;
+Authentication-Results: mail3-relais-sop.national.inria.fr;
+ dkim=none (message not signed) header.i=none;
+ spf=SoftFail smtp.mailfrom=Brice.Goglin@inria.fr;
+ dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,239,1643670000"; d="scan'208,217";a="10741472"
+Received: from clt-128-93-176-131.vpn.inria.fr (HELO [128.93.176.131])
+ ([128.93.176.131]) by mail3-relais-sop.national.inria.fr with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 14:29:57 +0200
+To: qemu-devel@nongnu.org
+From: Brice Goglin <Brice.Goglin@inria.fr>
+Subject: [PATCH] hmat acpi: Don't require initiator value in -numa when hmat=on
+Message-ID: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
+Date: Wed, 6 Apr 2022 14:29:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220406102515.96320-1-dgilbert@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="bbyAOoRRTIcckH998DlyvodkMLdpIy85b"
+Received-SPF: pass client-ip=192.134.164.104;
+ envelope-from=Brice.Goglin@inria.fr; helo=mail3-relais-sop.national.inria.fr
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,23 +66,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: leobras@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>, Liu Jingqi <jingqi.liu@intel.com>,
+ Tao Xu <tao3.xu@intel.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 06, 2022 at 11:25:15AM +0100, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Clang spotted an & that should have been an &&; fix it.
-> 
-> Reported by: David Binderman / https://gitlab.com/dcb
-> Fixes: 65dacaa04fa ("migration: introduce save_normal_page()")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/963
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--bbyAOoRRTIcckH998DlyvodkMLdpIy85b
+Content-Type: multipart/mixed; boundary="UXPzPJ3yuSrDT3MoSss6A2Q5kXnchvZGh";
+ protected-headers="v1"
+From: Brice Goglin <Brice.Goglin@inria.fr>
+To: qemu-devel@nongnu.org
+Cc: Liu Jingqi <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>
+Message-ID: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
+Subject: [PATCH] hmat acpi: Don't require initiator value in -numa when
+ hmat=on
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+--UXPzPJ3yuSrDT3MoSss6A2Q5kXnchvZGh
+Content-Type: multipart/alternative;
+ boundary="------------653D3DE1DC2F048FF2D0059F"
+Content-Language: en-US
 
--- 
-Peter Xu
+This is a multi-part message in MIME format.
+--------------653D3DE1DC2F048FF2D0059F
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
+From: Brice Goglin <Brice.Goglin@inria.fr>
+
+The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
+has a "Processor Proximity Domain Valid" flag that is currently
+always set because Qemu -numa requires initiator=3DX when hmat=3Don.
+
+Unsetting this flag allows to create more complex memory topologies
+by having multiple best initiators for a single memory target.
+
+This patch allows -numa with initiator=3DX when hmat=3Don by keeping
+the default value MAX_NODES in numa_state->nodes[i].initiator.
+All places reading numa_state->nodes[i].initiator already check
+whether it's different from MAX_NODES before using it. And
+hmat_build_table_structs() already unset the Valid flag when needed.
+
+Tested with
+qemu-system-x86_64 -accel kvm \
+  -machine pc,hmat=3Don \
+  -drive if=3Dpflash,format=3Draw,file=3D./OVMF.fd \
+  -drive media=3Ddisk,format=3Dqcow2,file=3Defi.qcow2 \
+  -smp 4 \
+  -m 3G \
+  -object memory-backend-ram,size=3D1G,id=3Dram0 \
+  -object memory-backend-ram,size=3D1G,id=3Dram1 \
+  -object memory-backend-ram,size=3D1G,id=3Dram2 \
+  -numa node,nodeid=3D0,memdev=3Dram0,cpus=3D0-1 \
+  -numa node,nodeid=3D1,memdev=3Dram1,cpus=3D2-3 \
+  -numa node,nodeid=3D2,memdev=3Dram2 \
+  -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Da=
+ccess-latency,latency=3D10 \
+  -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Da=
+ccess-bandwidth,bandwidth=3D10485760 \
+  -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Da=
+ccess-latency,latency=3D20 \
+  -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Da=
+ccess-bandwidth,bandwidth=3D5242880 \
+  -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3Da=
+ccess-latency,latency=3D30 \
+  -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3Da=
+ccess-bandwidth,bandwidth=3D1048576 \
+  -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Da=
+ccess-latency,latency=3D20 \
+  -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Da=
+ccess-bandwidth,bandwidth=3D5242880 \
+  -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Da=
+ccess-latency,latency=3D10 \
+  -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Da=
+ccess-bandwidth,bandwidth=3D10485760 \
+  -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3Da=
+ccess-latency,latency=3D30 \
+  -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3Da=
+ccess-bandwidth,bandwidth=3D1048576 \
+
+This exposes NUMA node2 at same distance from both node0 and node1 as see=
+n in lstopo:
+
+Machine (2966MB total) + Package P#0
+   NUMANode P#2 (979MB)
+   Group0
+     NUMANode P#0 (980MB)
+     Core P#0 + PU P#0
+     Core P#1 + PU P#1
+   Group0
+     NUMANode P#1 (1007MB)
+     Core P#2 + PU P#2
+     Core P#3 + PU P#3
+
+Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
+---
+  hw/core/machine.c | 4 +---
+  1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index d856485cb4..9884ef7ac6 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1012,9 +1012,7 @@ static void numa_validate_initiator(NumaState *numa=
+_state)
+ =20
+      for (i =3D 0; i < numa_state->num_nodes; i++) {
+          if (numa_info[i].initiator =3D=3D MAX_NODES) {
+-            error_report("The initiator of NUMA node %d is missing, use =
+"
+-                         "'-numa node,initiator' option to declare it", =
+i);
+-            exit(1);
++            continue;
+          }
+ =20
+          if (!numa_info[numa_info[i].initiator].present) {
+--=20
+2.30.2
+
+
+
+--------------653D3DE1DC2F048FF2D0059F
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+
+    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <pre>From: Brice Goglin <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
+ilto:Brice.Goglin@inria.fr">&lt;Brice.Goglin@inria.fr&gt;</a>
+
+The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
+has a "Processor Proximity Domain Valid" flag that is currently
+always set because Qemu -numa requires initiator=3DX when hmat=3Don.
+
+Unsetting this flag allows to create more complex memory topologies
+by having multiple best initiators for a single memory target.
+
+This patch allows -numa with initiator=3DX when hmat=3Don by keeping
+the default value MAX_NODES in numa_state-&gt;nodes[i].initiator.
+All places reading numa_state-&gt;nodes[i].initiator already check
+whether it's different from MAX_NODES before using it. And
+hmat_build_table_structs() already unset the Valid flag when needed.
+
+Tested with
+qemu-system-x86_64 -accel kvm \
+ -machine pc,hmat=3Don \
+ -drive if=3Dpflash,format=3Draw,file=3D./OVMF.fd \
+ -drive media=3Ddisk,format=3Dqcow2,file=3Defi.qcow2 \
+ -smp 4 \
+ -m 3G \
+ -object memory-backend-ram,size=3D1G,id=3Dram0 \
+ -object memory-backend-ram,size=3D1G,id=3Dram1 \
+ -object memory-backend-ram,size=3D1G,id=3Dram2 \
+ -numa node,nodeid=3D0,memdev=3Dram0,cpus=3D0-1 \
+ -numa node,nodeid=3D1,memdev=3Dram1,cpus=3D2-3 \
+ -numa node,nodeid=3D2,memdev=3Dram2 \
+ -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
+cess-latency,latency=3D10 \
+ -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
+cess-bandwidth,bandwidth=3D10485760 \
+ -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
+cess-latency,latency=3D20 \
+ -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
+cess-bandwidth,bandwidth=3D5242880 \
+ -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3Dac=
+cess-latency,latency=3D30 \
+ -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3Dac=
+cess-bandwidth,bandwidth=3D1048576 \
+ -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
+cess-latency,latency=3D20 \
+ -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
+cess-bandwidth,bandwidth=3D5242880 \
+ -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
+cess-latency,latency=3D10 \
+ -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
+cess-bandwidth,bandwidth=3D10485760 \
+ -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3Dac=
+cess-latency,latency=3D30 \
+ -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3Dac=
+cess-bandwidth,bandwidth=3D1048576 \
+
+This exposes NUMA node2 at same distance from both node0 and node1 as see=
+n in lstopo:
+
+Machine (2966MB total) + Package P#0
+  NUMANode P#2 (979MB)
+  Group0
+    NUMANode P#0 (980MB)
+    Core P#0 + PU P#0
+    Core P#1 + PU P#1
+  Group0
+    NUMANode P#1 (1007MB)
+    Core P#2 + PU P#2
+    Core P#3 + PU P#3
+
+Signed-off-by: Brice Goglin <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
+ilto:Brice.Goglin@inria.fr">&lt;Brice.Goglin@inria.fr&gt;</a>
+---
+ hw/core/machine.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index d856485cb4..9884ef7ac6 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1012,9 +1012,7 @@ static void numa_validate_initiator(NumaState *numa=
+_state)
+=20
+     for (i =3D 0; i &lt; numa_state-&gt;num_nodes; i++) {
+         if (numa_info[i].initiator =3D=3D MAX_NODES) {
+-            error_report("The initiator of NUMA node %d is missing, use =
+"
+-                         "'-numa node,initiator' option to declare it", =
+i);
+-            exit(1);
++            continue;
+         }
+=20
+         if (!numa_info[numa_info[i].initiator].present) {
+--=20
+2.30.2
+
+
+</pre>
+  </body>
+</html>
+
+--------------653D3DE1DC2F048FF2D0059F--
+
+--UXPzPJ3yuSrDT3MoSss6A2Q5kXnchvZGh--
+
+--bbyAOoRRTIcckH998DlyvodkMLdpIy85b
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEelpOgOQAl7r26tY4RJGQ8yNavTsFAmJNh8QFAwAAAAAACgkQRJGQ8yNavTsT
+RxAAmTcrYcitRGmsiuIWNriGM/VzrOM54b8FmTT4jyXJL8Ffrz34qZlNW/SqZbsTKC7I8he5fPfQ
+0emGEYzM0yfkH3fclfprqYXzvv92KM8oYQPV0tGttdE05TKMWt6NHhJ1jZn2cVz3dcWgca1a/Md/
+rpry0eBNB+0zAegY3hxgDEkWLTzmxIaSk5YjJ0yAQHkxMI63wl9azdPE1JFfMg0bRPdA9osCxjI8
+5kE8en6fot1thJ2cFPIYBkd4OwKaGu80jTMTj4NthmwhgSUEWyHXXGN23+NLBtOaSReEcBF+wXgI
+wLV/KFHGk9Ssz6MO8V9bO6zIxJOMgwKybjHIfjnhzlkOOScuHTZEYbzkhungGvHshq3K7kyo8sQx
+4IZqupw6bfPb0XSlqzvBTxDUyL/JsqVX8ctkc0w/7+QfeODR5jR1IZ3LNGVnoHbM88Zi/dMwVJvN
+Zyki4nrpHIeWietxyOmX0EOVUQXcQlUXiowFu0fLXRKtarHpo7xwv2ifqFsbGtDj9cZIE2RHvcVV
+LDXHWn2/LQA3azjLxaPgDRjPz0l9/RSkqZhU7lBDvObd/b5EgTOr5EtUl2rfT/FUPLAff92GUKeZ
+vgQ8GAHazOW1Y7cpzj03D+3eB2f3lzEXDuvpbrg55e9Ubv8RzDenJzRA7Zx50U1xL+JMpcsxs+xN
+yC0=
+=KmkG
+-----END PGP SIGNATURE-----
+
+--bbyAOoRRTIcckH998DlyvodkMLdpIy85b--
 
