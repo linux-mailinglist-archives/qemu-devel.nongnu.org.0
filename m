@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5AA4F601D
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:48:23 +0200 (CEST)
-Received: from localhost ([::1]:60450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EBAD4F6020
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:48:43 +0200 (CEST)
+Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc61F-0000LI-V2
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:48:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52932)
+	id 1nc61a-0000vE-6g
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc5yn-000632-Kp
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:45:53 -0400
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30]:42997)
+ id 1nc60J-0007n9-RB
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:47:23 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:42847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc5ym-0002Lm-37
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:45:49 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id e22so2223585qvf.9
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:45:46 -0700 (PDT)
+ id 1nc60I-0002b5-8C
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:47:23 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id t2so4256484qtw.9
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:47:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IRs2XlgbRjd3AVcx4Yl1FqSk5Lm9JglxOjDnhLWXYA0=;
- b=Qlx03AY1duIE6ZYxfc0be7MF0M0/75kL/UM799ZOY38vcDKEOAijHSliLxU+xs37l7
- GBlXZLReALUIHOBJioUWHYce/AsYVd1ptyiymHEjPsnNcSXCsPs/6x9nIsXpHIfM+88o
- lSMFuJ1CWrCsyzhnnR6zBPadg6cobTBQtUt7OoI+PMyi5W6PRWpua9XtRxLIISuBQOw3
- JW2ETwPTyBBCmmPhMr5hAWtnQy6m6CO0gR0YewElRwEQWwvovA7j8mOq72WF3I4DjPeo
- U2omTbbJd5Q69aMHiXnFJqZ35UfHGc5IsmPKtiMvZ+dMp2B1anQUOffawo3cjOuC107Y
- 4iMg==
+ bh=cWOjChsKc+caA4Aog3n5qoCEdt3BhXmG/WMTNFBIIVE=;
+ b=TiZhejnZ5GLuRUUZZ9KrQ88oQuzBNbjtzlebtWDC5Vper8qe8FUEKVqbKIx7vsWeEx
+ ZtHJLEPUgnUoRZfGV2QliFJEGZvKlx918UlmyQeNK1KAYlzcEY+ZCTPEFSgMnsLpxVVG
+ jn6rapo6nPQn5iRfpCDxhAFckWJ5+4DMcEh+PJjITOPpGknkmqv8RF2b6zxo9FgILmSh
+ MkY5e3YCnepQTzVFCEZwISxfz93BMn6IcXrTdJexgp0BOH6yivmFHSSwvjJ9nvPEorwi
+ o7F93Fes6zmuLy0vA2OM9wueo1A3KqtUh/58eoE1D+J2PjHhnRhBklUc9oHJA4s3/S3s
+ lcdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=IRs2XlgbRjd3AVcx4Yl1FqSk5Lm9JglxOjDnhLWXYA0=;
- b=DyrH9PUql5SX0CmtR9Y5xNSM2G2Aqw4yi0/QNYWOEJ+OjjzI/P1Q2jNFzK4U5Ra7oe
- Fn5yYGwcXVdINO62yaEkDni6UyFq3IMzXVZAow770v+J8JmxjYtX40HrXilxCEgX0OxF
- Can/PtRGOjGMealAhELegwlIVVzB+8SkNvsGfHG4w++psUz0NV68sA2yP6KWX20ZyWNa
- ecdzsPkSNhIJrIrWloY45CsjPJ8ZINdGalibG9tL3wpcsGXy2o72ypmsoZibMJuaIOiJ
- UclSeKsEhDGZJV9eZNbba1a+07r+eDcbiD2/5DS2cMJ+EBqkeK8s5puKgx7KmYISLv8Z
- JrHA==
-X-Gm-Message-State: AOAM532FWjM57kZB98UYkouypKQ3OnzNGeEe6HZfA/DWt/PzW5PNMDJN
- TaIa0fSitkfAFZeKUs51Ep+UfQ==
-X-Google-Smtp-Source: ABdhPJxZwN1MOrgOPhHcnR4ZFdeyGlhwwEjkWAexEVe8O6NX1qF/vPXBg03n5VSC3emHmG3Xx1iQuw==
-X-Received: by 2002:a05:6214:c62:b0:441:3ec2:c99f with SMTP id
- t2-20020a0562140c6200b004413ec2c99fmr7527678qvj.121.1649252745368; 
- Wed, 06 Apr 2022 06:45:45 -0700 (PDT)
+ bh=cWOjChsKc+caA4Aog3n5qoCEdt3BhXmG/WMTNFBIIVE=;
+ b=ZWIElhpkk6NfBX+Tre5rPrZzWeT0z949A+OXP54WxhrCNShfG6P7LRdoC87ulRdR9d
+ ZUfLxftxgh8REjqXlogyFeWzg3/Ywmik5MtQ+2B8Gj/hV3mse/G+g+xUI+opABVn9GSN
+ 8jDSIf94VDYkvkyO3TurKhXZLoNh+2XvddaoeESroeaQ+RN53kWPmMl5VArTb86KEkEi
+ ODVspT2aNFnXP/sZRewtS5OrsApQdlu25pKoMv1eY5YGvffz2Lvm0fND+Mz1n5EY8rHK
+ jy0OwoHCDEf4egq0IjFWBcXx325nPRwH+Hm43b8H+RxGUXSn4vcB9FTjmXYr8L/UAHOX
+ bliA==
+X-Gm-Message-State: AOAM5332StE6TM412/Ze1j5Vv9pBw+Zf2kh6tprqa1yEOuGrM4JTYgcW
+ TBGuk3R/7PnImWA9SRFYeIraog==
+X-Google-Smtp-Source: ABdhPJzXkW5VchW7dJ3i2SFPlkClK3LPBLIatHBRz2UfWoZMTnrbkBAjQ2/Dsof4KV2gsfrc5DNqeA==
+X-Received: by 2002:a37:644f:0:b0:67d:1717:6338 with SMTP id
+ y76-20020a37644f000000b0067d17176338mr5617623qkb.389.1649252841132; 
+ Wed, 06 Apr 2022 06:47:21 -0700 (PDT)
 Received: from [10.10.117.62] (fixed-187-188-190-73.totalplay.net.
  [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
- t19-20020ac85893000000b002e1afa26591sm14709210qta.52.2022.04.06.06.45.43
+ u11-20020a05622a14cb00b002e1fd9dce3dsm13459453qtx.60.2022.04.06.06.47.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Apr 2022 06:45:44 -0700 (PDT)
-Message-ID: <7b50b211-10e5-fc21-e6da-b454bb299dae@linaro.org>
-Date: Wed, 6 Apr 2022 08:45:42 -0500
+ Wed, 06 Apr 2022 06:47:20 -0700 (PDT)
+Message-ID: <574f442e-4dc3-d035-f928-de42d4eeff18@linaro.org>
+Date: Wed, 6 Apr 2022 08:47:18 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.1 05/18] hw/arm/exynos4210: Coalesce board_irqs and
- irq_table
+Subject: Re: [PATCH for-7.1 06/18] hw/arm/exynos4210: Fix code style nit in
+ combiner_grp_to_gic_id[]
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220404154658.565020-1-peter.maydell@linaro.org>
- <20220404154658.565020-6-peter.maydell@linaro.org>
+ <20220404154658.565020-7-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220404154658.565020-6-peter.maydell@linaro.org>
+In-Reply-To: <20220404154658.565020-7-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,26 +97,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/4/22 10:46, Peter Maydell wrote:
-> The exynos4210 code currently has two very similar arrays of IRQs:
-> 
->   * board_irqs is a field of the Exynos4210Irq struct which is filled
->     in by exynos4210_init_board_irqs() with the appropriate qemu_irqs
->     for each IRQ the board/SoC can assert
->   * irq_table is a set of qemu_irqs pointed to from the
->     Exynos4210State struct.  It's allocated in exynos4210_init_irq,
->     and the only behaviour these irqs have is that they pass on the
->     level to the equivalent board_irqs[] irq
-> 
-> The extra indirection through irq_table is unnecessary, so coalesce
-> these into a single irq_table[] array as a direct field in
-> Exynos4210State which exynos4210_init_board_irqs() fills in.
+> Fix a missing set of spaces around '-' in the definition of
+> combiner_grp_to_gic_id[]. We're about to move this code, so
+> fix the style issue first to keep checkpatch happy with the
+> code-motion patch.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   include/hw/arm/exynos4210.h |  8 ++------
->   hw/arm/exynos4210.c         |  6 +-----
->   hw/intc/exynos4210_gic.c    | 32 ++++++++------------------------
->   3 files changed, 11 insertions(+), 35 deletions(-)
+>   hw/intc/exynos4210_gic.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
