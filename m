@@ -2,88 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD02F4F697B
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 21:00:21 +0200 (CEST)
-Received: from localhost ([::1]:57120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF6E4F6961
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 20:44:13 +0200 (CEST)
+Received: from localhost ([::1]:46382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncAtA-000378-FZ
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 15:00:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
+	id 1ncAdY-0005RU-IH
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 14:44:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ncAbJ-0002ws-Es; Wed, 06 Apr 2022 14:41:53 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:49637)
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ncAcI-0003u6-KH
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 14:42:54 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:57868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ncAbH-0000d0-6s; Wed, 06 Apr 2022 14:41:53 -0400
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ncAcG-0000jW-II
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 14:42:54 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6B4EA61CAF;
+ Wed,  6 Apr 2022 18:42:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30FAFC385A6;
+ Wed,  6 Apr 2022 18:42:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649270562;
+ bh=sbHbRXEyEAYhEDFwzan7utBqpNK0sjzefEArFgF8uSU=;
+ h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+ b=eIaWhMw6qdMVoRFxQeR1SfjCYwZy9RX4+1QgPmQTaYkMgXq5EQ0sAVb/ULadR9MI7
+ LH+S/c+4WuHCz9BUADIJglVSfcRcc6WejwYyM8Zb7kxiMxjNjlQQDilGIN/w8F20LF
+ hrAlrpaJiEnF7GwrtgY3GeH3IG43iicZf7iLsWrBPdjz0Xcg62zOdFu6x9zo7xgJk5
+ hq2ap75faI5QFkM7ufk+5PP4JDHKHirOI6tOCxRHtxkvbVauUHCe7lAi4Fdoyzj8y9
+ G3ucqOIFtsChrg/dqSy9ybRF2yetOLigWYzb0CjPhvgDFTZx/nxy8vUOVNf/cZzrqO
+ oArXJrEdmbMlg==
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 7DB3C5C0183;
- Wed,  6 Apr 2022 14:41:49 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 06 Apr 2022 14:41:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=6+XqGsvn/ukGBhUEQbWvzHSWpuMTQe
- dakN4clA1ThM4=; b=fPq3sgfSfPsZ0zwg1Q9z/HFGdM02NJpORR2rBplMOXORrG
- FCRsxcL3qO1qbMJwLejWoOTuPXoJq+eeYES2n3CfL1DZ9J7399QXDXIBafGc6KNl
- 3cisGC8EZ25YNZlPaxBE8b1Zk+FcntNbz9wyS3MbwYIQWJpltf1Coq+Eq8thWUwo
- kN+1iQDJ8ZIaN3ZJoRYieRBwNjwL4eTKWjzT0MUSHdGr74Z/pG5uhfGoALVoNXza
- H4WKjsFxnQWsOPCHiCnCEM1ygsz48fS/gK479MUrTSut4IFTVvrENqQ2NOp6npHn
- 1XpNbA4pwtTqMvQe0S/sruHNM6NoVkrw8U2aPb9w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=6+XqGsvn/ukGBhUEQ
- bWvzHSWpuMTQedakN4clA1ThM4=; b=f3Gx3IUQ+4u6tLYmvoNsqqOJxdft79E7O
- uWXHDXFERVRpznWMqZKOcnN+nhbuf/jaird0fv/kIkDqtyQRCZUoGtpqsgU9NiTN
- GpVb8K9hDc06C2r9cW0d3yHZMWvDMxjfwOxj5pwzRVBr/UhIZ0rGQxYMuQeQckP2
- yBiapGUAP8v3FW5QnB4BjIYLMVPmZjLfApioKwOiB+YTSfXFWIrdQ9vauBmQ0NEr
- 8Aot2A18E+O0Gbi2OAO6onXmCstAt3yhMmcwxoDHHm3LIAjxiO6DZBrUrTkidd1J
- 6/KeEphp4UScvZrQJtUKNkdPBc0tLX4f9JzjCI0DfiFX0F7Sg3Frg==
-X-ME-Sender: <xms:695NYhk4M6nq5KOQhxfyXE7Zav-03k1K8emgBiFV6O7Qp9xNCMNowA>
- <xme:695NYs10N7ymwNypFa10imX6mn1EtU_cU_V1prydOK7BseHam5M6wz2Kq279AKHMr
- cl7d_em6V1yuNH5HtI>
-X-ME-Received: <xmr:695NYnpB6WDAlOpe9DJzSNgZvW7YQZqyj1CEhJsGFN1IeZ-2w0BF7bogB455-Q9ISSWjqbBA6JG8YthevVw>
+ by mailauth.nyi.internal (Postfix) with ESMTP id 0C18527C005B;
+ Wed,  6 Apr 2022 14:42:39 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+ by compute2.internal (MEProxy); Wed, 06 Apr 2022 14:42:40 -0400
+X-ME-Sender: <xms:Ht9NYhmq5xzhyiIJCwoSNR5UKnnggxn-w-bA7jJiiVPF0uyVtVnVhQ>
+ <xme:Ht9NYs3-dzZtMQe620UwGT8ssxHBBO-eBkOnyr5HtekaozhZyGx33dQF5TpjmUy85
+ LbHHkaqaYX2JUhBy4I>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejiedguddvkecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:695NYhnpf0HN9DIxePuZj4ecJ87EjcqUgVJ-e9rDKgKaOPqOHcpLEw>
- <xmx:695NYv15MpwSl7dvPvywne3tFyCGHZtfcYPcsefoCCPbcUEfu0hUrA>
- <xmx:695NYgvbOTccGCYjq151dnnQnwrSm33viCgG9T0MWC-PBRAuRG76pg>
- <xmx:7d5NYtPuO59PSrCDBiJkVLBglNnnsnD8FkU4LJo7nGBmRNO99-FvjQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 Apr 2022 14:41:45 -0400 (EDT)
-Date: Wed, 6 Apr 2022 20:41:43 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Delevoryas <pdel@fb.com>
-Subject: Re: [RFC PATCH 0/4] hw/i2c: i2c slave mode support
-Message-ID: <Yk3e50/gr+7RwNuY@apples>
-References: <20220331165737.1073520-1-its@irrelevant.dk>
- <CA9A7D12-EA42-450B-B378-92D53D3D22EF@fb.com>
- <Yk0uP2BHaOTBQDf2@apples>
- <3BBAF589-4650-4F12-8343-828210B78FB4@fb.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="waiERP1w1YigxTqS"
-Content-Disposition: inline
-In-Reply-To: <3BBAF589-4650-4F12-8343-828210B78FB4@fb.com>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
+ ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
+ ftrfgrthhtvghrnheptdfhheettddvtedvtedugfeuuefhtddugedvleevleefvdetleff
+ gfefvdekgeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+ homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
+ heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
+ igrdhluhhtohdruhhs
+X-ME-Proxy: <xmx:Ht9NYnoDYKLmq3-m68aE4ZmTtDuPp5nNnCT76TQ2-A9bkXUgsPDoLQ>
+ <xmx:Ht9NYhmDXKudHVFzfFNB9vrnlRpFqFnPc15MUqY9W5FRFPjkhgnWOw>
+ <xmx:Ht9NYv0LfNldKQsbPRd1ZzGo2WkQjQkgAIaqEiMoePxTGJRS43r7JA>
+ <xmx:H99NYqX58bpe62swpvglNF4SOMgzeqaX78xe7NzkfeRGX_q08j8zpA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8341B21E006E; Wed,  6 Apr 2022 14:42:38 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-385-g3a17909f9e-fm-20220404.001-g3a17909f
+Mime-Version: 1.0
+Message-Id: <4ae11ddc-0fe6-4644-a30e-006d99dba456@www.fastmail.com>
+In-Reply-To: <YkyKywkQYbr9U0CA@google.com>
+References: <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
+ <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
+ <YkcTTY4YjQs5BRhE@google.com>
+ <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
+ <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
+ <Ykwbqv90C7+8K+Ao@google.com>
+ <54acbba9-f4fd-48c1-9028-d596d9f63069@www.fastmail.com>
+ <YkyKywkQYbr9U0CA@google.com>
+Date: Wed, 06 Apr 2022 11:42:17 -0700
+From: "Andy Lutomirski" <luto@kernel.org>
+To: "Sean Christopherson" <seanjc@google.com>
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Content-Type: text/plain
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=luto@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,236 +99,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
- Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
- Klaus Jensen <k.jensen@samsung.com>,
- Cameron Esfahani via <qemu-devel@nongnu.org>, Jeremy Kerr <jk@ozlabs.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
- Matt Johnston <matt@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Chao Peng <chao.p.peng@linux.intel.com>,
+ Will Deacon <will@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
+ Andi Kleen <ak@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ the arch/x86 maintainers <x86@kernel.org>, Hugh Dickins <hughd@google.com>,
+ Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Borislav Petkov <bp@alien8.de>, "Nakajima, 
+ Jun" <jun.nakajima@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Jim Mattson <jmattson@google.com>, Quentin Perret <qperret@google.com>,
+ Linux API <linux-api@vger.kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---waiERP1w1YigxTqS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Apr  6 17:03, Peter Delevoryas wrote:
->=20
->=20
-> > On Apr 5, 2022, at 11:07 PM, Klaus Jensen <its@irrelevant.dk> wrote:
-> >=20
-> > On Apr 5 20:52, Peter Delevoryas wrote:
-> >>=20
-> >>=20
-> >>> On Mar 31, 2022, at 9:57 AM, Klaus Jensen <its@irrelevant.dk> wrote:
-> >>>=20
-> >>> From: Klaus Jensen <k.jensen@samsung.com>
-> >>>=20
-> >>> Hi all,
-> >>>=20
-> >>> This RFC series adds I2C "slave mode" support for the Aspeed I2C
-> >>> controller as well as the necessary infrastructure in the i2c core to
-> >>> support this.
-> >>>=20
-> >>> Background
-> >>> ~~~~~~~~~~
-> >>> We are working on an emulated NVM Express Management Interface[1] for
-> >>> testing and validation purposes. NVMe-MI is based on the MCTP
-> >>> protocol[2] which may use a variety of underlying transports. The one=
- we
-> >>> are interested in is I2C[3].
-> >>>=20
-> >>> The first general trickery here is that all MCTP transactions are bas=
-ed
-> >>> on the SMBus Block Write bus protocol[4]. This means that the slave m=
-ust
-> >>> be able to master the bus to communicate. As you know, hw/i2c/core.c
-> >>> currently does not support this use case.
-> >>=20
-> >> This is great, I=E2=80=99m attempting to use your changes right now fo=
-r the same thing (MCTP).
-> >>=20
-> >=20
-> > Awesome!
-> >=20
-> >>>=20
-> >>> The second issue is how to interact with these mastering devices. Jer=
-emy
-> >>> and Matt (CC'ed) have been working on an MCTP stack for the Linux Ker=
-nel
-> >>> (already upstream) and an I2C binding driver[5] is currently under
-> >>> review. This binding driver relies on I2C slave mode support in the I=
-2C
-> >>> controller.
-> >>>=20
-> >>> This series
-> >>> ~~~~~~~~~~~
-> >>> Patch 1 adds support for multiple masters in the i2c core, allowing
-> >>> slaves to master the bus and safely issue i2c_send/recv(). Patch 2 ad=
-ds
-> >>> an asynchronous send i2c_send_async(I2CBus *, uint8) on the bus that
-> >>> must be paired with an explicit ack using i2c_ack(I2CBus *).
-> >>>=20
-> >>> Patch 3 adds the slave mode functionality to the emulated Aspeed I2C
-> >>> controller. The implementation is probably buggy since I had to rely =
-on
-> >>> the implementation of the kernel driver to reverse engineer the behav=
-ior
-> >>> of the controller slave mode (I do not have access to a spec sheet for
-> >>> the Aspeed, but maybe someone can help me out with that?).
-> >>>=20
-> >>> Finally, patch 4 adds an example device using this new API. The device
-> >>> is a simple "echo" device that upon being sent a set of bytes uses the
-> >>> first byte as the address of the slave to echo to.
-> >>>=20
-> >>> With this combined I am able to boot up Linux on an emulated Aspeed 2=
-600
-> >>> evaluation board and have the i2c echo device write into a Linux slave
-> >>> EEPROM. Assuming the echo device is on address 0x42:
-> >>>=20
-> >>> # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-15/new_device
-> >>> i2c i2c-15: new_device: Instantiated device slave-24c02 at 0x64
-> >>> # i2cset -y 15 0x42 0x64 0x00 0xaa i
-> >>> # hexdump /sys/bus/i2c/devices/15-1064/slave-eeprom
-> >>> 0000000 ffaa ffff ffff ffff ffff ffff ffff ffff
-> >>> 0000010 ffff ffff ffff ffff ffff ffff ffff ffff
-> >>> *
-> >>> 0000100
-> >>=20
-> >> When I try this with my system, it seems like the i2c-echo device take=
-s over
-> >> the bus but never echoes the data to the EEPROM. Am I missing somethin=
-g to
-> >> make this work? It seems like the =E2=80=9Ci2c_send_async=E2=80=9D cal=
-ls aren=E2=80=99t happening,
-> >> which must be because the bottom half isn=E2=80=99t being scheduled, r=
-ight? After
-> >> the i2c_do_start_transfer, how is the bottom half supposed to be sched=
-uled
-> >> again? Is the slave receiving (the EEPROM) supposed to call i2c_ack or=
- something?
-> >>=20
-> >> root@bmc-oob:~# echo 24c02 0x1064 > /sys/bus/i2c/devices/i2c-8/new_dev=
-ice
-> >> [ 135.559719] at24 8-1064: 256 byte 24c02 EEPROM, writable, 1 bytes/wr=
-ite
-> >> [ 135.562661] i2c i2c-8: new_device: Instantiated device 24c02 at 0x64
-> >> root@bmc-oob:~# i2cset -y 8 0x42 0x64 0x00 0xaa i
-> >> i2c_echo_event: start send
-> >> i2c_echo_send: data[0] =3D 0x64
-> >> i2c_echo_send: data[1] =3D 0x00
-> >> i2c_echo_send: data[2] =3D 0xaa
-> >> i2c_echo_event: scheduling bottom-half
-> >> i2c_echo_bh: attempting to gain mastery of bus
-> >> i2c_echo_bh: starting a send to address 0x64
-> >> root@bmc-oob:~# hexdump -C /sys/bus/i2c/devices/8-1064/eeprom
-> >> 00000000 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 |............=
-=2E...|
-> >> *
-> >> 00000100
-> >>=20
-> >> Thanks again for this, it=E2=80=99s exactly what I needed.
-> >>=20
-> >=20
-> > Hmmm. The only obvious difference I see here is that I write
-> > "slave-24c02" and not just "24c02" to new_device. Not sure if that has
-> > any implications? Also, looks like your EEPROM is initialized with
-> > zeroes, mine is all ones. This hints at the device being instantiated is
-> > different. I'm also not seeing the 'at24', which upon looking in the
-> > kernel code is a different device?
->=20
-> Are you letting the kernel control the EEPROM?
->=20
-> If I actually let the kernel control it, then I can=E2=80=99t use i2cset,=
- because
-> the kernel seems to be keeping the bus busy/etc. I tried i2c bus 9 this t=
-ime.
->=20
-> root@bmc-oob:~# i2cset -y 9 0x64 0x00 0xaa i
-> Error: Could not set address to 0x64: Device or resource busy
->=20
-> However, if I don=E2=80=99t instantiate a kernel device, and I just use i=
-2cset/i2cget,
-> I can control the EEPROM:
->=20
-> root@bmc-oob:~# i2cset -y 9 0x64 0x00 0xcc i
-> root@bmc-oob:~# i2cget -y 9 0x64 0x00 i
-> 0xcc 0xb9 0x4d 0xe1 0x42 0x56 0x00 0x00 0xc5 0x5b 0x28 0xe1 0x42 0x56 0x0=
-0 0x00 0x00 0x61 0x13 0xe2 0x42 0x56 0x00 0x00 0xb7 0x64 0x28 0xe1 0x42
->  0x56 0x00 0x00
->=20
-> Unfortunately, i2c-echo still doesn=E2=80=99t seem to send its data:
->=20
-> root@bmc-oob:~# i2cset -y 9 0x42 0x64 0x00 0xaa i
-> i2c_echo_event: start send
-> i2c_echo_send: data[0] =3D 0x64
-> i2c_echo_send: data[1] =3D 0x00
-> i2c_echo_send: data[2] =3D 0xaa
-> i2c_echo_event: scheduling bottom-half
-> i2c_echo_bh: attempting to gain mastery of bus
-> i2c_echo_bh: starting a send to address 0x64
->=20
-> What is the exact sequence of events once i2c-echo
-> starts a new transfer? Does the slave device ACK
-> the start, or does it just wait for data to be sent?
->=20
-> And then if I try to read the EEPROM:
->=20
-> root@bmc-oob:~# i2cget -y 9 0x64 0x00 i
-> smbus: error: Unexpected send start condition in state 1
-> smbus: error: Unexpected write in state -1
-> smbus: error: Unexpected recv start condition in state -1
-> smbus: error: Unexpected read in state -1
-> smbus: error: Unexpected read in state -1
-> smbus: error: Unexpected read in state -1
->=20
-> I=E2=80=99ll try debugging/refactoring further to see why it=E2=80=99s no=
-t working.
->=20
-> By the way, this is my i2c_init code in QEMU to ensure
-> a QEMU EEPROM model is present:
->=20
-> static void fby35_i2c_init(AspeedMachineState *bmc)
-> {
->     I2CBus *i2c[16];
->=20
->     for (int i =3D 0; i < 16; i++) {
->         i2c[i] =3D aspeed_i2c_get_bus(&bmc->soc.i2c, i);
->         assert(i2c[i] !=3D NULL);
->     }
->=20
->     i2c_slave_create_simple(i2c[9], "i2c-echo", 0x42);
->     uint8_t buf[256] =3D {0xff};
->     smbus_eeprom_init_one(i2c[9], 0x64, buf);
-> }
->=20
-> This is an AST2600-based board too.
->=20
+On Tue, Apr 5, 2022, at 11:30 AM, Sean Christopherson wrote:
+> On Tue, Apr 05, 2022, Andy Lutomirski wrote:
 
-Oh. You are trying to echo to an actual EEPROM device on the board? In
-that case yes. The new async API currently only works with the slave
-device on the i2c controller. The i2c echo device cannot talk to any
-other slave devices since they do not implement the asynchronous send.
+>
+>> resume guest
+>> *** host -> hypervisor -> guest ***
+>> Guest unshares the page.
+>> *** guest -> hypervisor ***
+>> Hypervisor removes PTE.  TLBI.
+>> *** hypervisor -> guest ***
+>> 
+>> Obviously considerable cleverness is needed to make a virt IOMMU like this
+>> work well, but still.
+>> 
+>> Anyway, my suggestion is that the fd backing proposal get slightly modified
+>> to get it ready for multiple subtypes of backing object, which should be a
+>> pretty minimal change.  Then, if someone actually needs any of this
+>> cleverness, it can be added later.  In the mean time, the
+>> pread()/pwrite()/splice() scheme is pretty good.
+>
+> Tangentially related to getting private-fd ready for multiple things, 
+> what about
+> implementing the pread()/pwrite()/splice() scheme in pKVM itself?  I.e. 
+> read() on
+> the VM fd, with the offset corresponding to gfn in some way.
+>
 
---waiERP1w1YigxTqS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJN3uAACgkQTeGvMW1P
-Dem3AggAlOWgAi3nwXXD3LxBZJ61U15BVsyT9mqzmaYXNCb+PbkzVbh8h3J8RG8l
-wGVFYP/JpZCR5Gx7qvRPZfQh2HOZTeepO4FR/JUcaGsPJy7VMXM15vLwt6p/9vM1
-V1uD2uCBR7vs8JfgIM2n5Oupr3Y74QfFjH3m/of3YDkb7oXfvJN14niY4ayfNceo
-BtwfUrNR053un6m8bwSPQ0KN++tbeg9GKZwiXzCAyczYGPl0W6z3HeT5qx9LvGLd
-CO5tgjlAJwzCr7kfnDhgjCs2qo/07wYaZqhs6Y2IuPSPTI5ZEXoS9NnHdGzJY0aH
-fMZXjU9AJpXF9dEL9h0GD7ZXirDVxQ==
-=C38N
------END PGP SIGNATURE-----
-
---waiERP1w1YigxTqS--
+Hmm, could make sense.
 
