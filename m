@@ -2,90 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E2F4F5A57
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 11:57:27 +0200 (CEST)
-Received: from localhost ([::1]:36142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 376094F5A5F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 11:59:44 +0200 (CEST)
+Received: from localhost ([::1]:38552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc2Pm-0004yO-79
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 05:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43452)
+	id 1nc2Rz-0006dv-AJ
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 05:59:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nc2DD-0006fq-BY
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:44:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57551)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nc2Q1-0005el-DB
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:57:42 -0400
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:38605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nc2DA-0006uu-IZ
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:44:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649238263;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dlTWxEFxHSkmTzDHMjAMOK6B8OvXsMzS2uEdN2nFsqQ=;
- b=P7t93lr/eTFh9uwix/3ruizINz2/X6ktE+BW0nXhtiICjqTu6Nki9EIeKGfJCaFpP+mYo0
- kBZGEQRYaz49zHm5zryM+cczNI75QfqJCf1hJRe09Thqb3KiIfZY/eiCrvKAFnE6yTLFOF
- cr/nvQva9J8/2KE1DVLp6QNMXdJWcDM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-sXKcwi9COJSl0OIppr9GrA-1; Wed, 06 Apr 2022 05:44:22 -0400
-X-MC-Unique: sXKcwi9COJSl0OIppr9GrA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n17-20020a05600c501100b0038e731cf5e1so1085541wmr.2
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 02:44:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=dlTWxEFxHSkmTzDHMjAMOK6B8OvXsMzS2uEdN2nFsqQ=;
- b=f7UnvfjEKtXuKhFv2RRDjJUGa7WTxxW3YFy6hDKDk9wIOG52R/PXPQh3hGow0gBi3r
- 2KOqJMEvsPUzukTKIsmgf6HuwgqpAeQ5JmJ0FU0oHvB2YYz80+6JZT6LYEmwMT3NOBqS
- 6WBMYfdugT5mx5Nn9hygxHdt6xiBf1zCAv5d13uKozcfvLFVDZI0ct/VeckHucMrdz3A
- opiS2MmV0iHw7Uil1Jn0cXr3TAa+GGBdFATo/bAH+1Lt2nJr1f4nQ/f/UioOuYgnAcks
- raKh9+qLMnrlPZ1qC6eEdwfLVn2h3F00NurmyVD8jqrcmQlsCmg3Cs0mBHP3o2tiX4+G
- TMbw==
-X-Gm-Message-State: AOAM533QfBmhoTfhrZd0iYizKTjxPw48Ick/mm6Euncjefggpo3Xv/kq
- t+aHjafniwuR1hFYXsjhgjhyxUx3cjOQzMBl09BJNW3plHDjfA8vWsJSTRyPsRExjKJWYwB66l4
- MSd0+WY0MxWjVKvg=
-X-Received: by 2002:a05:6000:1acf:b0:203:fe67:a8dc with SMTP id
- i15-20020a0560001acf00b00203fe67a8dcmr5891000wry.212.1649238261696; 
- Wed, 06 Apr 2022 02:44:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzowT5VW3lLYIbAmSf2ZNYlO4pVEYia2Zi++EPxTBfjJhQGSIjmGBjUkLny4P9Zfi6qggIk9w==
-X-Received: by 2002:a05:6000:1acf:b0:203:fe67:a8dc with SMTP id
- i15-20020a0560001acf00b00203fe67a8dcmr5890973wry.212.1649238261423; 
- Wed, 06 Apr 2022 02:44:21 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- 2-20020a056000154200b00203ee1fd1desm15226703wry.64.2022.04.06.02.44.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 02:44:20 -0700 (PDT)
-Date: Wed, 6 Apr 2022 10:44:18 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH] acpi: Bodge acpi_index migration
-Message-ID: <Yk1g8hchG0GGVdw8@work-vm>
-References: <20220406083531.10217-1-dgilbert@redhat.com>
- <20220406113446.73ab4e1b@redhat.com> <Yk1fq+B9RD+9+4I3@work-vm>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nc2Pz-000347-BJ
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:57:40 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.171])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2D7DA21237;
+ Wed,  6 Apr 2022 09:57:36 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
+ 2022 11:57:35 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002fa282546-d722-4839-842b-80131e22101d,
+ 0E2A66C590FA5C0A512BFD2BB471688DAC8686BD) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <68c152fe-8bc6-7c18-3e72-9d52738d5847@kaod.org>
+Date: Wed, 6 Apr 2022 11:57:35 +0200
 MIME-Version: 1.0
-In-Reply-To: <Yk1fq+B9RD+9+4I3@work-vm>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 2/7] aspeed: i2c: Add ctrl_global_rsvd property
+Content-Language: en-US
+To: Joe Komlodi <komlodi@google.com>, <qemu-devel@nongnu.org>
+References: <20220331043248.2237838-1-komlodi@google.com>
+ <20220331043248.2237838-3-komlodi@google.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220331043248.2237838-3-komlodi@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: dbaa3a03-616c-47e3-95bc-2c947521b93b
+X-Ovh-Tracer-Id: 7210263004828175142
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudejiedgvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehvvghnthhurhgvsehgohhoghhlvgdrtghomh
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,156 +71,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, quintela@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, peterx@redhat.com, alex.williamson@redhat.com,
- leobras@redhat.com
+Cc: andrew@aj.id.au, peter.maydell@linaro.org, joel@jms.id.au,
+ venture@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> * Igor Mammedov (imammedo@redhat.com) wrote:
-> > On Wed,  6 Apr 2022 09:35:31 +0100
-> > "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
-> > 
-> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > > 
-> > > The 'acpi_index' field is a statically configured field, which for
-> > > some reason is migrated; this never makes much sense because it's
-> > > command line static.
-> > 
-> > that's true only for the field that's part of PCIDEvice,
-> > however AcpiPciHpState::acpi_index is runtime state and _must_
-> > be migrated if set, otherwise guest might get wrong index
-> > if it's in process of querying it
-> 
-> So this patch only changes the piix4.c version; I'm confused, is there
-> a AcpiPciHpState::acpi_index that's runtime setable in there?
-> 
-> >  
-> > > However, on piix4 it's conditional, and the condition/test function
-> > > ends up having the wrong pointer passed to it (it gets a PIIX4PMState
-> > > not the AcpiPciHpState it was expecting, because VMSTATE_PCI_HOTPLUG
-> > > is a macro and not another struct).  This means the field is randomly
-> > > loaded/saved based on a random pointer.  In 6.x this random pointer
-> > > randomly seems to get 0 for everyone (!); in 7.0rc it's getting junk
-> > > and trying to load a field that the source didn't send.  The migration
-> > > stream gets out of line and hits the section footer.
-> > 
-> > I'm a bit confused by description,
-> > do you have a reproducer for me to try?
-> 
-> Yeh, see the linked gitlab case command line:
->   https://gitlab.com/qemu-project/qemu/-/issues/932
-> 
-> ./x86_64-softmmu/qemu-system-x86_64 -M pc-q35-6.2 -m 512 -device virtio-scsi-pci,id=scsihw0,bus=pcie.0,addr=0x5,acpi-index=3 -drive if=none,my.qcow2,format=qcow2,id=drive-scsi0,node-name=scsi0 -device 'scsi-hd,bus=scsihw0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0'  -nographic
+Hello Joe,
 
-Oops no, wrong line; -M pc-i440fx-6.2  triggers this; q35 doesn't.
+On 3/31/22 06:32, Joe Komlodi wrote:
+> The Aspeed I2C controller is used across other SKUs that have different
+> reserved bits for the ctrl_global_rsvd register.
 
-Dave
+So some AST2600 SoCs can not set the new/old modes and the clock divider ?
+  
 
-> just migrating from a 6.2 to a head triggers this.
+> Signed-off-by: Joe Komlodi <komlodi@google.com>
+> Change-Id: I606c5933c527274a9d2b0afe559b2e895767636c
+> ---
+>   hw/arm/aspeed_ast2600.c     | 2 ++
+>   hw/i2c/aspeed_i2c.c         | 4 ++++
+>   include/hw/i2c/aspeed_i2c.h | 2 ++
+>   3 files changed, 8 insertions(+)
 > 
-> Dave
-> 
-> > > The bodge is on piix4 never to load the field:
-> > >   a) Most 6.x builds never send it, so most of the time the migration
-> > >     will work.
-> > >   b) We can backport this fix to 6.x to remove the boobytrap.
-> > >   c) It should never have made a difference anyway since the acpi-index
-> > >     is command line configured and should be correct on the destination
-> > >     anyway
-> > >   d) ich9 is still sending/receiving this (unconditionally all the time)
-> > >     but due to (c) should never notice.  We could follow up to make it
-> > >     skip.
-> > > 
-> > > It worries me just when (a) actually happens.
-> > > 
-> > > Fixes: b32bd76 ("pci: introduce acpi-index property for PCI device")
-> > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/932
-> > > 
-> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > ---
-> > >  hw/acpi/acpi-pci-hotplug-stub.c |  4 ----
-> > >  hw/acpi/pcihp.c                 |  6 ------
-> > >  hw/acpi/piix4.c                 | 11 ++++++++++-
-> > >  include/hw/acpi/pcihp.h         |  2 --
-> > >  4 files changed, 10 insertions(+), 13 deletions(-)
-> > > 
-> > > diff --git a/hw/acpi/acpi-pci-hotplug-stub.c b/hw/acpi/acpi-pci-hotplug-stub.c
-> > > index 734e4c5986..a43f6dafc9 100644
-> > > --- a/hw/acpi/acpi-pci-hotplug-stub.c
-> > > +++ b/hw/acpi/acpi-pci-hotplug-stub.c
-> > > @@ -41,7 +41,3 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
-> > >      return;
-> > >  }
-> > >  
-> > > -bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
-> > > -{
-> > > -    return false;
-> > > -}
-> > > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> > > index 6351bd3424..bf65bbea49 100644
-> > > --- a/hw/acpi/pcihp.c
-> > > +++ b/hw/acpi/pcihp.c
-> > > @@ -554,12 +554,6 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
-> > >                                     OBJ_PROP_FLAG_READ);
-> > >  }
-> > >  
-> > > -bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
-> > > -{
-> > > -     AcpiPciHpState *s = opaque;
-> > > -     return s->acpi_index;
-> > > -}
-> > > -
-> > >  const VMStateDescription vmstate_acpi_pcihp_pci_status = {
-> > >      .name = "acpi_pcihp_pci_status",
-> > >      .version_id = 1,
-> > > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> > > index cc37fa3416..48aeedd5f0 100644
-> > > --- a/hw/acpi/piix4.c
-> > > +++ b/hw/acpi/piix4.c
-> > > @@ -267,6 +267,15 @@ static bool piix4_vmstate_need_smbus(void *opaque, int version_id)
-> > >      return pm_smbus_vmstate_needed();
-> > >  }
-> > >  
-> > > +/*
-> > > + * This is a fudge to turn off the acpi_index field, whose
-> > > + * test was always broken on piix4.
-> > > + */
-> > > +static bool vmstate_test_never(void *opaque, int version_id)
-> > > +{
-> > > +    return false;
-> > > +}
-> > > +
-> > >  /* qemu-kvm 1.2 uses version 3 but advertised as 2
-> > >   * To support incoming qemu-kvm 1.2 migration, change version_id
-> > >   * and minimum_version_id to 2 below (which breaks migration from
-> > > @@ -297,7 +306,7 @@ static const VMStateDescription vmstate_acpi = {
-> > >              struct AcpiPciHpPciStatus),
-> > >          VMSTATE_PCI_HOTPLUG(acpi_pci_hotplug, PIIX4PMState,
-> > >                              vmstate_test_use_acpi_hotplug_bridge,
-> > > -                            vmstate_acpi_pcihp_use_acpi_index),
-> > > +                            vmstate_test_never),
-> > >          VMSTATE_END_OF_LIST()
-> > >      },
-> > >      .subsections = (const VMStateDescription*[]) {
-> > > diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
-> > > index af1a169fc3..7e268c2c9c 100644
-> > > --- a/include/hw/acpi/pcihp.h
-> > > +++ b/include/hw/acpi/pcihp.h
-> > > @@ -73,8 +73,6 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off);
-> > >  
-> > >  extern const VMStateDescription vmstate_acpi_pcihp_pci_status;
-> > >  
-> > > -bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id);
-> > > -
-> > >  #define VMSTATE_PCI_HOTPLUG(pcihp, state, test_pcihp, test_acpi_index) \
-> > >          VMSTATE_UINT32_TEST(pcihp.hotplug_select, state, \
-> > >                              test_pcihp), \
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index 43f8223139..9f14a35a75 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -344,6 +344,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>                      serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>   
+>       /* I2C */
+> +    object_property_set_int(OBJECT(&s->i2c), "ctrl-global-rsvd", 0xfffc3e00,
+> +                            &error_abort);
+
+Ideally, this should be set from a specific machine and not from the SoC
+as it impacts all machines. One way to do this is to use an alias. See the
+hw-strap1/2 properties.
+
+Thanks,
+
+C.
+
+>       object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
+>                                &error_abort);
+>       if (!sysbus_realize(SYS_BUS_DEVICE(&s->i2c), errp)) {
+> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+> index 03a4f5a910..97eb9d5792 100644
+> --- a/hw/i2c/aspeed_i2c.c
+> +++ b/hw/i2c/aspeed_i2c.c
+> @@ -648,6 +648,7 @@ static void aspeed_i2c_ctrl_write(void *opaque, hwaddr offset,
+>   
+>       switch (offset) {
+>       case I2C_CTRL_GLOBAL:
+> +        value &= ~s->ctrl_global_rsvd;
+>           s->ctrl_global = value;
+>           break;
+>       case I2C_CTRL_STATUS:
+> @@ -730,6 +731,7 @@ static const VMStateDescription aspeed_i2c_vmstate = {
+>       .minimum_version_id = 2,
+>       .fields = (VMStateField[]) {
+>           VMSTATE_UINT32(intr_status, AspeedI2CState),
+> +        VMSTATE_UINT32(ctrl_global_rsvd, AspeedI2CState),
+>           VMSTATE_STRUCT_ARRAY(busses, AspeedI2CState,
+>                                ASPEED_I2C_NR_BUSSES, 1, aspeed_i2c_bus_vmstate,
+>                                AspeedI2CBus),
+> @@ -828,6 +830,8 @@ static void aspeed_i2c_realize(DeviceState *dev, Error **errp)
+>   static Property aspeed_i2c_properties[] = {
+>       DEFINE_PROP_LINK("dram", AspeedI2CState, dram_mr,
+>                        TYPE_MEMORY_REGION, MemoryRegion *),
+> +    DEFINE_PROP_UINT32("ctrl-global-rsvd", AspeedI2CState, ctrl_global_rsvd,
+> +                       0xfffffffe),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+> diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+> index 4b9be09274..3912fcc3ff 100644
+> --- a/include/hw/i2c/aspeed_i2c.h
+> +++ b/include/hw/i2c/aspeed_i2c.h
+> @@ -71,6 +71,8 @@ struct AspeedI2CState {
+>       MemoryRegion pool_iomem;
+>       uint8_t pool[ASPEED_I2C_MAX_POOL_SIZE];
+>   
+> +    uint32_t ctrl_global_rsvd;
+
+
+
+> +
+>       AspeedI2CBus busses[ASPEED_I2C_NR_BUSSES];
+>       MemoryRegion *dram_mr;
+>       AddressSpace dram_as;
 
 
