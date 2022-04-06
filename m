@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 511864F5D09
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 14:13:09 +0200 (CEST)
-Received: from localhost ([::1]:39274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7764F5D0F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 14:19:44 +0200 (CEST)
+Received: from localhost ([::1]:42750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc4X5-00025R-If
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 08:13:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51320)
+	id 1nc4dS-0004lS-Vw
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 08:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nc4VW-0001O3-Bv
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:11:30 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:40395)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nc4VU-000861-Lr
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:11:30 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2e5e9025c20so23571087b3.7
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 05:11:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hMDdU/IVi4xFA95TT0dX+9hzhAbp5Gd8rsRU6m5Rn0Q=;
- b=eiKCWjpPkgdxdrJvKg6NBbDa7UXfh+aLO5rpBertn8efBWanAXP43mQjO2mUSY6nuf
- W4cJwCWBzXbq9ZNHDfAbEerAPTQfUnSXoBZWw7DQ8XcavaeVjkHzARDZ3p79vM8KytlO
- F9QC1q9/Kw+hRKajxPgWYeYPGdiONH7tdP+dCteriL1/Hq0anjzToyDAil92QyUXdnDA
- kNImb5rRUmOptDMheENldpsy0+MNtR7o9gM2SYf1OxqaUCKrusb+mRkZyHentqq4A2Wh
- Z7YcxHi37SJz1PCzZIUVlU0Ai6u5Q3yhtRkK5+kzXDbrV+DXbg+Bm0S/Fg5qD3ptwZi5
- Qz3A==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nc4ca-0003zW-RP
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:18:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46912)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nc4cY-0002MB-5W
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:18:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649247524;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JL+SYbue1/AKvypd8xzzyl0EL+X13Ku4REAq0dryNEM=;
+ b=EW0ZcSod5aRI7G49iJFiL1pqrIq7zVCtyU5CiMjJRjlrgSLNshdBg/Os/z/R0Zm/gQC8Aq
+ WYOcz5pzEpyZe1+njMUC/jTd4dcxHhfkOSFoEtravNtHbOR0tnF/ydqBERV9ihdFA+9nYc
+ /ni2VqfFVLrJxC0XccgQuZ6S7qF3MqQ=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-671-dzSu9j3PM9ikaO2xLSU2mg-1; Wed, 06 Apr 2022 08:18:43 -0400
+X-MC-Unique: dzSu9j3PM9ikaO2xLSU2mg-1
+Received: by mail-il1-f200.google.com with SMTP id
+ i14-20020a056e020ece00b002ca198245e6so1613902ilk.4
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 05:18:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hMDdU/IVi4xFA95TT0dX+9hzhAbp5Gd8rsRU6m5Rn0Q=;
- b=X6CRd4sFbGtXdKErgg0ndF+O+5cZmpZIPgH/MagJu6u2qpVsUFxFdobDz9oYslGa+f
- V/w3MN8M4EY9p6o7W2qotp0BMl9LTXpd1Lg8XyZAGO0HQGK6mifbGmBhuYt1FCp+C+T7
- xv3h1rcyEmRAgmNAnx8P04f9SdHi1jTqvrRCNX/KPE80oTSKUNjeV0FxpVSrEX28yDI7
- lKHe1JacUQqCFf4hekm/is0CCJV44LK9FJE67eQzFJsS1GoGqfzf1JRzCQXWcsWHAIS1
- KMgTVr3SZIX2EhqyC1GTm/K3PQNfZ40ZRX2aqHUcruhU5hs9pmK0ThvL5SlQFZSF7gnJ
- 5l0Q==
-X-Gm-Message-State: AOAM5312FptKsdQ4qSIOPxa/VzRJ9Nq5our28FErdmOO5Gwd8J0dPYDk
- rP3lacyj2TTHJ1eFGru8CMY+L4tDlrwLnJ/Pz9XTjw==
-X-Google-Smtp-Source: ABdhPJwweUMMdnoRC85BPT3bmOrUJQjAG53870BZrWvJm9cVKtxFb5eMNHqHYQhwNgOWfn80sImrr0vK7k0THRiqJdw=
-X-Received: by 2002:a81:1592:0:b0:2eb:5472:c681 with SMTP id
- 140-20020a811592000000b002eb5472c681mr6679491ywv.10.1649247087562; Wed, 06
- Apr 2022 05:11:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220406102515.96320-1-dgilbert@redhat.com>
-In-Reply-To: <20220406102515.96320-1-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 6 Apr 2022 13:11:16 +0100
-Message-ID: <CAFEAcA_FJ4GKntsDm2zddEXgnX2W60rSydFDi=rj3jgjNFbGSg@mail.gmail.com>
-Subject: Re: [PATCH] migration: Fix operator type
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JL+SYbue1/AKvypd8xzzyl0EL+X13Ku4REAq0dryNEM=;
+ b=ppKDXa1pxw23SKI5TpRZ8argKNwiEXvs2Z/ZiwdcyYKOGrNc5VSbaRh1w7LKNL3n7k
+ 7b2xRDuZ3UE+5+fUQ7/1jl5U4YxgHASKJynuKkhUiRIoj94+W3NVxDGfqFqfZKbqtoOc
+ GWkTaSdrSpIo6wG3pXIX2uGHtQJH3gQxHNB7s3Z5WT9c+XIhSz54O8SxDmO+2chCeeGm
+ iswtlos2rxzjZ6+2ifiio21sNjbFDtF7fsjGTTDlmeYmXq7sutwvSWECms0TnyY/uzXS
+ dU9Bb3ljmG4u7Sy+sH8BIFUEx3R/aySd+b1lbnzR96dCTCGj+WsrHkTtwXHraYrcddU4
+ z9Vw==
+X-Gm-Message-State: AOAM530tOLdL8S6vOPrLJ64ilUgIFo1XwyyonIu1LmqnjG6bqfhEm3Y8
+ wpfytEimhFdN7Dyqc3cm8x+sNR/9F3X3Rp6ghtQbOG2qkZ+FaTx9uxzKpL+lLmk6DVdRBSPxFyQ
+ fW/Wa2BY/h/bumqo=
+X-Received: by 2002:a05:6602:185a:b0:645:d914:35e9 with SMTP id
+ d26-20020a056602185a00b00645d91435e9mr3845045ioi.154.1649247522545; 
+ Wed, 06 Apr 2022 05:18:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxYGwA6CDEACWJp62n/OqJnfoLVGOEG4UrweVqycKyX7aXCHXWy39rvKo70mKRmCY4gfvC97Q==
+X-Received: by 2002:a05:6602:185a:b0:645:d914:35e9 with SMTP id
+ d26-20020a056602185a00b00645d91435e9mr3845037ioi.154.1649247522295; 
+ Wed, 06 Apr 2022 05:18:42 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ c15-20020a92b74f000000b002c9cc44ede9sm9159407ilm.86.2022.04.06.05.18.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 05:18:42 -0700 (PDT)
+Date: Wed, 6 Apr 2022 08:18:41 -0400
+From: Peter Xu <peterx@redhat.com>
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Subject: Re: [PATCH] migration: Fix operator type
+Message-ID: <Yk2FIdSMF4LRoT8C@xz-m1.local>
+References: <20220406102515.96320-1-dgilbert@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20220406102515.96320-1-dgilbert@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,42 +97,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: leobras@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- quintela@redhat.com
+Cc: leobras@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Apr 2022 at 11:31, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
+On Wed, Apr 06, 2022 at 11:25:15AM +0100, Dr. David Alan Gilbert (git) wrote:
 > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
+> 
 > Clang spotted an & that should have been an &&; fix it.
->
+> 
 > Reported by: David Binderman / https://gitlab.com/dcb
 > Fixes: 65dacaa04fa ("migration: introduce save_normal_page()")
 > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/963
 > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  migration/ram.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 3532f64ecb..0ef4bd63eb 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -1289,7 +1289,7 @@ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
->                                           offset | RAM_SAVE_FLAG_PAGE));
->      if (async) {
->          qemu_put_buffer_async(rs->f, buf, TARGET_PAGE_SIZE,
-> -                              migrate_release_ram() &
-> +                              migrate_release_ram() &&
->                                migration_in_postcopy());
->      } else {
->          qemu_put_buffer(rs->f, buf, TARGET_PAGE_SIZE);
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-thanks
--- PMM
+-- 
+Peter Xu
+
 
