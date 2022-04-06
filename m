@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4024F6B71
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 22:29:29 +0200 (CEST)
-Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEEF4F6B75
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 22:32:05 +0200 (CEST)
+Received: from localhost ([::1]:33526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncCHO-00022i-VO
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 16:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40720)
+	id 1ncCJw-0003cf-9M
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 16:32:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncCGX-0001MT-Fk
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 16:28:33 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:46854)
+ id 1ncCHE-0002QX-Pe
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 16:29:16 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:42110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncCGW-0001Rz-12
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 16:28:33 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id d138so6009303ybc.13
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 13:28:31 -0700 (PDT)
+ id 1ncCHD-0001VR-1T
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 16:29:16 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2eb680211d9so39707897b3.9
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 13:29:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eYvqeAjOgeGc+YG5DsEZ27Jw8lzgwU2BLaiun8eA2mk=;
- b=c4dCOxhpcpPiQXytJgBV2LXiZHSZYD2DbZp+RHgru0fpE/0udn0/Ir/yBKKYMa6dvJ
- 1sdhPnqH8xY5itdPRHNtdPhHGNRnbHM4b4v85HX2iw1aJklO3Vg5xqnNRYPGnkw5F2io
- /DTweqWTlg2ig1Y2tCJjmFFBR2c0T77k2aCzjQ9pizjtvGws4DXcENGLq3fVIvXNGgKG
- HlsSRg/zFPMLeCoU9nf9s9MjPxnFDL+vF8BZID2RybooP2W38+23JIz4fe346z7VLahX
- eCyePJdcplkfOj1XdEls5Lvzv1hGDLWFH7h+QxKteNzzTG8lpFuN9O+RvGWdtLZ4UVym
- p+QQ==
+ :cc; bh=UzEtRY9xucka5enL+HyWJDFYrwwyjo9/kjQFkntIPn4=;
+ b=ynVYPFPJPvqd4IQlbwWnTHWNrRVgCkX+3E8JoP6U0jH+fs7JtF6g2a9MTOW/wlowoc
+ myvl+6NdkQc4l5ibYoFyBiKToi3Evk86ilYLYJBfei0jN+QQd+enAPhFLRLL41jPS59I
+ 99CMDHN9mgR90oi798Y2cciv5q3D4Q1fCnBcPfmam2dJ7tPeotJlXuOVbtg/IWka+A7e
+ 9xbmkYa0Rp+3O2IaZ74HXt5ZOZ/id3N0UWmj3Rpn1ZUfiq37H7koR3JjiJsk4fqFfwGw
+ FIqw3ByXko9gsOI6kipr/WIWg82Y4B/yx/euQbKeI7Su7h4JGTl7pZ1gGs04fNdpDH/e
+ buJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eYvqeAjOgeGc+YG5DsEZ27Jw8lzgwU2BLaiun8eA2mk=;
- b=BM/sXY/Qc4S6nWC2kv67pX1zUY+VWT6ypV45I4iDdKN8Q89efMwUQ9DXvocgV26pqS
- iGsh4Q0fuq2ghptyIJ4MoZ+TOGPJ6EYIBhmYyfzefEGhjaELtWA7u/5UDtqMnZDG6GrL
- cGtc9zsxctAC0ZDrqUZ2tm/JHhHFdMRF0oTkmkjSA58fxu/C1s6NuOF3ieo8Hik9bKT7
- jHRrb13EgF1AE9DEjW12iyhkk55gUSrqeaTKJjugLGFFiM0oPfwerir6K+CH8kGroHvj
- KIvFIB9+gyAxNy/iQGZ6jeCGpIqrHCyRQfxCGtpn4qWbXjofXa0V+d34l+ilOCHT1L1/
- UbGg==
-X-Gm-Message-State: AOAM5333jt8cRgmWAGe8lnymgfUXiDCePaGKyCD7aWN+2Yx9qNog8kdv
- 6CcWPHIeFiZlJOFglsYK5MJzhsPs2giYDYEoCoC1vA==
-X-Google-Smtp-Source: ABdhPJx0pJvw57kt0Np5GGJV5ejbCsjIIbMl6YJUk78WKC1ze13yfDlE+Af659yJVPlhWfLxZOAkYsDSBS18WlCoHoE=
-X-Received: by 2002:a25:3d0:0:b0:63d:c88a:fafa with SMTP id
- 199-20020a2503d0000000b0063dc88afafamr7635328ybd.479.1649276910990; Wed, 06
- Apr 2022 13:28:30 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=UzEtRY9xucka5enL+HyWJDFYrwwyjo9/kjQFkntIPn4=;
+ b=ApWUeCWlvC/Mpx/NdPUsOAc4bhvS2hEbdRFoGUxnBmu2Bh8mBG8dKkeTzQSzmfnhhp
+ 5jjf7q64Ghi3UVcAmno99+fzRmK/9E5Mgi+uje3/TacWzzDGnOKGJ3JeA+dniyRvIt4s
+ 4Qxbw6MX+XfMvrujUpV4hslqNh9axGirE6OqbZ2tw59w0gOHa3mt6kyPuAQJ/INrdQys
+ 2U8kyavkcLK0kymcA9Z8FRNcs7odSQB9zXt3A39P+IA0Zr+KUIWx7MmBuR1N28T367D3
+ Ol1fbV4lWiB+XzUZiniglJF1CcNrKhEBWXpkJfTXq+jWNxG+35d2v7VhKKAyofj858zC
+ Y+hg==
+X-Gm-Message-State: AOAM531s/SdQQZUC0q8O/3nBHlV+GF0vAvq600S6j0O3eKpKaoEwr5iq
+ +w8F3OhJwgQhuhEoWJz3G4wAKfIQMDpylxK/J5b33A==
+X-Google-Smtp-Source: ABdhPJwrTaUAiZ0LZOhBtA2JrSgtD2ejrNeC3rulj1eXgnTBBUFRAs090c1N75eG7DaSTT6fz45f5Rq8TEUW2vE3avw=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr9064226ywb.257.1649276953911; Wed, 06 Apr
+ 2022 13:29:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220406173356.1891500-1-alex.bennee@linaro.org>
- <CAFEAcA-iFROkDQ=myCjbBxo5jJKqwCjQb_3tbANYdeNk=YizLw@mail.gmail.com>
- <87wng2ht6c.fsf@linaro.org>
-In-Reply-To: <87wng2ht6c.fsf@linaro.org>
+References: <20220406185812.1055724-1-imammedo@redhat.com>
+ <Yk3jILX8JfQG2ABl@work-vm>
+In-Reply-To: <Yk3jILX8JfQG2ABl@work-vm>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 6 Apr 2022 21:28:20 +0100
-Message-ID: <CAFEAcA_ecAbd1EucBG=Hy82E7VLcaYkt=_2k5VK=ZpmY-6_O3g@mail.gmail.com>
-Subject: Re: [RFC PATCH] tests/qtest: properly initialise the vring used idx
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Wed, 6 Apr 2022 21:29:02 +0100
+Message-ID: <CAFEAcA_mGDuzMZEz3uDyxyB9_Zp503FoLr6sdz-7hUF+CFaLRQ@mail.gmail.com>
+Subject: Re: [PATCH v2] acpi: fix acpi_index migration
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,58 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Eric Auger <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: quintela@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, alex.williamson@redhat.com, leobras@redhat.com,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Apr 2022 at 21:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
+On Wed, 6 Apr 2022 at 19:59, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
 >
+> * Igor Mammedov (imammedo@redhat.com) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >
+> > vmstate_acpi_pcihp_use_acpi_index() was expecting AcpiPciHpState
+> > as state but it actually received PIIX4PMState, because
+> > VMSTATE_PCI_HOTPLUG is a macro and not another struct.
+> > So it ended up accessing random pointer, which resulted
+> > in 'false' return value and acpi_index field wasn't ever
+> > sent.
+> >
+> > However in 7.0 that pointer de-references to value > 0, and
+> > destination QEMU starts to expect the field which isn't
+> > sent in migratioon stream from older QEMU (6.2 and older).
+> > As result migration fails with:
+> >   qemu-system-x86_64: Missing section footer for 0000:00:01.3/piix4_pm
+> >   qemu-system-x86_64: load of migration failed: Invalid argument
+> >
+> > In addition with QEMU-6.2, destination due to not expected
+> > state, also never expects the acpi_index field in migration
+> > stream.
+> >
+> > Q35 is not affected as it always sends/expects the field as
+> > long as acpi based PCI hotplug is enabled.
+> >
+> > Fix issue by introducing compat knob to never send/expect
+> > acpi_index in migration stream for 6.2 and older PC machine
+> > types and always send it for 7.0 and newer PC machine types.
+> >
+> > Diagnosed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Fixes: b32bd76 ("pci: introduce acpi-index property for PCI device")
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/932
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 >
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > Guest memory is generally zero at startup. Do we manage to
-> > hit the bit of memory at the start of the virt machine's RAM
-> > where we store the DTB ? (As you say, initializing the data
-> > structures is the right thing anyway.)
->
-> I don't know - where is the DTB loaded?
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Start of RAM (that's physaddr 0x4000_0000). The thing I'm not sure
-about is whether these qtests go through the code in hw/arm/boot.c
-that loads the DTB into guest RAM or not.
-
-> Currently we are using the first
-> couple of pages in qtest because that where the qtest allocater is
-> initialised:
->
->   static void *qos_create_machine_arm_virt(QTestState *qts)
->   {
->       QVirtMachine *machine =3D g_new0(QVirtMachine, 1);
->
->       alloc_init(&machine->alloc, 0,
->                  ARM_VIRT_RAM_ADDR,
->                  ARM_VIRT_RAM_ADDR + ARM_VIRT_RAM_SIZE,
->                  ARM_PAGE_SIZE);
->       qvirtio_mmio_init_device(&machine->virtio_mmio, qts, VIRTIO_MMIO_BA=
-SE_ADDR,
->                                VIRTIO_MMIO_SIZE);
->
->       qos_create_generic_pcihost(&machine->bridge, qts, &machine->alloc);
->
->       machine->obj.get_device =3D virt_get_device;
->       machine->obj.get_driver =3D virt_get_driver;
->       machine->obj.destructor =3D virt_destructor;
->       return machine;
->   }
->
-> I don't know if there is a more sane piece of memory we should be using.
-
-The first part of RAM is fine, it's just you can't assume it's
-all zeroes :-)
+Applied to master for rc3, thanks.
 
 -- PMM
 
