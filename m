@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F654F60AE
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:55:39 +0200 (CEST)
-Received: from localhost ([::1]:48312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1A74F60B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:57:48 +0200 (CEST)
+Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc68I-0002qR-Bx
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:55:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54998)
+	id 1nc6AN-0004lg-EP
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc65f-00009Q-Ke
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:52:56 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:39799)
+ id 1nc68S-0003bT-Rh
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:55:48 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:34308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc65c-0003vl-0A
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:52:53 -0400
-Received: by mail-qt1-x833.google.com with SMTP id s7so4339493qtk.6
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:52:51 -0700 (PDT)
+ id 1nc68Q-0004ll-K1
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:55:47 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-e1dcc0a327so2982488fac.1
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Eu9q923+4mh1ex17Ktmti+jtR1M/Zz7kkNryAeOmTuQ=;
- b=U2Z++EihF6WGUTTrHjn+PlaOzjhwwfLOQB3o/xScQEcvgPvdkX2wv/RmmXhTTQsCgD
- EnYU63QbBkCDg2YbMdu0+Axds6/YDgSuOgtDw2s2kZptEXaQpQuRAAn88gi0H2z4Yv6k
- cvo+uYu51X+Cf2HZb4HHBZ53eL8vT6u1FU9m2ki2z5UxL2d5BfpcNVfZJEqv70eAwMmI
- Mpt3bj/s9AW30OWcxYKkShOMfh0TolOTv177jY+P4QpGwvfn+qgSb6UJOOSjmOC8PRKA
- BkiyU9oLpSaiQ5MRw1hyoV+pR696o0N17R9S5Lb4a8mySBthOACSyqbgYWkcB5vDnhj0
- 8OOQ==
+ bh=uzpK1boCHcQcR5pc8ogFi5sT1PU+IpQ+ZQqdstika2Q=;
+ b=UotZuXq9aJNHzadIdnjyScBmVfb+Eu5m2h42ZUb/iUP2hsq4JvjrfybgMQHtiGnQ8+
+ AdQDRgacI6FZlSaXTEaKXuAS+qf4oLS/pHVzT3b9DN7YqWki4gEQg3Xeszm/7o2WsSIK
+ P/JfvXJ6pNSYe2G3uap5VCpmUepz5Z7Gkf4I9fjd41nG36qwv55CT+ejnHVzhApA/SSL
+ Lh3RfBPJ0/6+E5IVTJoED53RkgZ8AJs+6WPGGEvR4NbhXV/KoIQ4rgTcMDArOTPEkPb2
+ cp4Ec86ZAXyhSX9Zmd2jvsY4XE7pRLqJBhlA9PA19kXl+wSyy4smhTkp/QHOwttqOS+2
+ sq/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Eu9q923+4mh1ex17Ktmti+jtR1M/Zz7kkNryAeOmTuQ=;
- b=suTR4+k33mYtGLOVa+LYleZGBOogYHnfC+iEObn3X8Janvamm6VFxQZrfnPS4l1ZC6
- OEEVKprnc//fwQC/nsuRs7a1Cw/bG0cauSUEIT4moLvnHz3YIE5k+nCHn0XuuNzc0vCh
- mNMNj6BM4JKsOOe81200Z0SncJuhUohi1ABJHGNTW+dzM7rWFGSjzthjgJzbQPssOiJu
- u/Upg3xGjD7tZ0jUTwtMH9FVdsgDk7r/RlllxBi3RrpLiuSHtHn78nOmqNquhZL+WlZf
- bBMw4eNIPEznpjOYcZMl4OKI+2IV3W7gr20GQ9x0M0aSQPxxCDjCUnUGqQhYxp6/wBYa
- Vktw==
-X-Gm-Message-State: AOAM531P91nFsTKTnNTJ610XUEeWIMyL9NFmtvR7Sf7Zc4kvycL6BMWz
- tRd4iXAH+sxn8nkOYDtxBeSmvA==
-X-Google-Smtp-Source: ABdhPJwzNoRbPtflDt8dHed3gZwSbouukiu6cjSwDcih7BXTX1g6vrs2DpiwtghaoYQBO998AZo2SQ==
-X-Received: by 2002:a05:620a:1371:b0:67b:303d:b5cd with SMTP id
- d17-20020a05620a137100b0067b303db5cdmr5794619qkl.320.1649253171208; 
- Wed, 06 Apr 2022 06:52:51 -0700 (PDT)
+ bh=uzpK1boCHcQcR5pc8ogFi5sT1PU+IpQ+ZQqdstika2Q=;
+ b=IYkcKVd4bWmr9vECdHpV9rMnrR9hU1cYIOzfzdlyM/yRIzBkvJkmgU9SjjdHj0FRHC
+ 485jvolUdTBzjdOr29U/vsQxRcjcPY8SSqHVAz6suV0NDqTQ5C9F2lcqotwAsB5cLj4U
+ t+ZB3STdUFxa5P/MOrDa+qLfJCrM455ciRKoVIW86//zwhDXC6GFK/QhR+EjUK3IIoYJ
+ qrVWCtGKSqAUycaICGm91cea5A3IyQu3RBEkTopX8ZhMyEyVsIa4Gf9r43V5CftXjQ50
+ ahv2ISHUDZt1CU+F92TU7srhS6UHyzY9N7zguhaqESVxLfB76Wa7+kT85jWtbZHz9eem
+ J1Jg==
+X-Gm-Message-State: AOAM533TjZ9JdoOGw6L1UmqQUovwaL5hwgmW4RE5NOO9uUJ0UoCItbMQ
+ Yu8cmhukAhOPuGsObylKEqzKgw==
+X-Google-Smtp-Source: ABdhPJytKnH7etKjo5D51qbPo90M0LySr1f6f/8msv8fQJMr1GOdfHzmz7bql0e0yWC+SdvaGBrXpg==
+X-Received: by 2002:a05:6870:d5a2:b0:de:f682:6c4d with SMTP id
+ u34-20020a056870d5a200b000def6826c4dmr3832950oao.283.1649253342752; 
+ Wed, 06 Apr 2022 06:55:42 -0700 (PDT)
 Received: from [10.10.117.62] (fixed-187-188-190-73.totalplay.net.
  [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
- u21-20020ae9c015000000b0067d4b2e1050sm9543140qkk.55.2022.04.06.06.52.49
+ z26-20020a9d62da000000b005b23f5488cdsm6781958otk.52.2022.04.06.06.55.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Apr 2022 06:52:49 -0700 (PDT)
-Message-ID: <be2a2b37-5cdb-3283-055e-764c49b70d8e@linaro.org>
-Date: Wed, 6 Apr 2022 08:52:47 -0500
+ Wed, 06 Apr 2022 06:55:41 -0700 (PDT)
+Message-ID: <0556b3d1-56b8-1278-069e-42cdbd94fccb@linaro.org>
+Date: Wed, 6 Apr 2022 08:55:39 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.1 11/18] hw/arm/exynos4210: Delete unused macro
- definitions
+Subject: Re: [PATCH for-7.1 12/18] hw/arm/exynos4210: Use TYPE_SPLIT_IRQ in
+ exynos4210_init_board_irqs()
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220404154658.565020-1-peter.maydell@linaro.org>
- <20220404154658.565020-12-peter.maydell@linaro.org>
+ <20220404154658.565020-13-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220404154658.565020-12-peter.maydell@linaro.org>
+In-Reply-To: <20220404154658.565020-13-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,12 +98,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/4/22 10:46, Peter Maydell wrote:
-> Delete a couple of #defines which are never used.
+> In exynos4210_init_board_irqs(), use the TYPE_SPLIT_IRQ device
+> instead of qemu_irq_split().
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   include/hw/arm/exynos4210.h | 4 ----
->   1 file changed, 4 deletions(-)
+>   include/hw/arm/exynos4210.h |  9 ++++++++
+>   hw/arm/exynos4210.c         | 41 +++++++++++++++++++++++++++++--------
+>   2 files changed, 42 insertions(+), 8 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
