@@ -2,87 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0709E4F5694
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 08:46:46 +0200 (CEST)
-Received: from localhost ([::1]:58060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3F74F56A4
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 08:56:25 +0200 (CEST)
+Received: from localhost ([::1]:50906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nbzRD-0004lb-IS
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 02:46:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51280)
+	id 1nbzaa-0001vW-No
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 02:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nbypv-0000kc-UV; Wed, 06 Apr 2022 02:08:11 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:38541)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nbyvj-0001N8-Kq
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 02:14:12 -0400
+Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:43121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nbypt-00052E-Fq; Wed, 06 Apr 2022 02:08:11 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id B9FD53200E89;
- Wed,  6 Apr 2022 02:08:04 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 06 Apr 2022 02:08:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=iGpnY3BRU/Yj75JHGrz8yskg0Hbvxp
- p9rfOdtMAnEJI=; b=c7z0R7QtuarD56nBp6TePafzl7CWpAe/JrtDT0phhQdUjW
- 6EO/xoJaBrkMO+ChaDfcdbayLS/ZuygPEQYCros5WXOU9W4dXI9s6wuWEnVgk0Oi
- KVK8/n6O7j9NrPTr032zOeuD/YVWjRa+uxvFwvzPJsQ3zRfhZN505b2d4sFQOj7n
- lJWoPFfLM01qsPCii7Sg5kYu7uQ/hAIlUi6O6She2mowbig9OB1uwzaBUPMlhgCo
- T1cQi5YGg8f6NzXf0WMRVeOJrVU7zgLzradZYZlzyl5M9UQZWUvH1dQUl4Qmitcr
- qKjB8Lzqi2wSMxgSDDMkUrv6KfL2vkQ7/q/V6oEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=iGpnY3BRU/Yj75JHG
- rz8yskg0Hbvxpp9rfOdtMAnEJI=; b=mC4DY4b1xRr8bSco3z+aZPv5OOvvxB6YA
- 6eRRDeXD4OLQ1sUoSId9/b5lQWgFcz6L+FC8Hp/2vLI0NvzeE4ZuGA4uxKt7P/S6
- ueSuQlL4Vif5nGLPaag5JyyrLD8nVb56PJjPl0RpEpp9iqqLBBxobA9RG2XS6p/v
- w4r4Kwfi+1JkHZ/11qRkUzxzLpCUEPYmGkC7cUm3SO8w+Pwy1Wh+WcvVAp9hDw8z
- Cyerz9DUa2ENXEXTozas62XimtKPjZbJMsyhAfkEPFRgGioauHRXh5PvKhKBovn9
- BJqchObasbuIPtoIxruBSz2WComLGD+rggEx5uVTMwTxBYQL0irVg==
-X-ME-Sender: <xms:Qi5NYiwnk60pe3ZQ8wrS0BTDHfJEllT5uNTqTjuiPzfJdoMgQBMpdw>
- <xme:Qi5NYuRRX6m37bgXrgw3DHZJg6-mxkJbX66ayDoseTpgCDDBEjkCzVRoZDkvbCscx
- rapzHRzPHl5mPsFr80>
-X-ME-Received: <xmr:Qi5NYkUOue4TjcCBT4OqDvVwmqUaVJKzEYq6pDxCAaSb_LQO0ZOJVLHyXLAWMhmRgcuDdy5n5KYLcfqWs8k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejhedguddtvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Qi5NYoh9HCpbW4hRRplMowlWAlDdjPJmXXpKrcnNxN9B7FWlDaHWFg>
- <xmx:Qi5NYkBnjWxAxgRvVSR3ZTJ09EEYf9_FVwl4eHSiEM0eIEbGBZQC3Q>
- <xmx:Qi5NYpIS33KOa4U4lSYWUuNHGyBELqzXx7KI4iunqmr3q4NRk_-RnQ>
- <xmx:RC5NYg5ygDLmiIO8mqPaQ3OCY41ltc8OCu08t12m5wKDbTwEyE_BEw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 Apr 2022 02:08:00 -0400 (EDT)
-Date: Wed, 6 Apr 2022 08:07:59 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Delevoryas <pdel@fb.com>
-Subject: Re: [RFC PATCH 0/4] hw/i2c: i2c slave mode support
-Message-ID: <Yk0uP2BHaOTBQDf2@apples>
-References: <20220331165737.1073520-1-its@irrelevant.dk>
- <CA9A7D12-EA42-450B-B378-92D53D3D22EF@fb.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nbyvh-0005rG-4F
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 02:14:11 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.21])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 93C6F23C8D;
+ Wed,  6 Apr 2022 06:14:03 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
+ 2022 08:14:02 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R00173b1c205-ad61-485d-a1e1-f71865f98288,
+ 0E2A66C590FA5C0A512BFD2BB471688DAC8686BD) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <356b3f59-b915-3da1-7155-8082b55932fb@kaod.org>
+Date: Wed, 6 Apr 2022 08:14:02 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QBSQvCIOV172E1V8"
-Content-Disposition: inline
-In-Reply-To: <CA9A7D12-EA42-450B-B378-92D53D3D22EF@fb.com>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 3/4] hw/i2c: add slave mode for aspeed_i2c
+Content-Language: en-US
+To: Klaus Jensen <its@irrelevant.dk>, <qemu-devel@nongnu.org>
+References: <20220331165737.1073520-1-its@irrelevant.dk>
+ <20220331165737.1073520-4-its@irrelevant.dk>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220331165737.1073520-4-its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 15ae8ba8-d3a5-4c2c-9c45-677d523aa9af
+X-Ovh-Tracer-Id: 3434839141360372728
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudejhedguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepkhdrjhgvnhhsvghnsehsrghmshhunhhgrdgtohhm
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,141 +73,290 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Arun Kumar Kashinath Agasar <arun.kka@samsung.com>,
  Corey Minyard <cminyard@mvista.com>, Andrew Jeffery <andrew@aj.id.au>,
- Klaus Jensen <k.jensen@samsung.com>,
- Cameron Esfahani via <qemu-devel@nongnu.org>, Jeremy Kerr <jk@ozlabs.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
- Matt Johnston <matt@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>
+ Klaus Jensen <k.jensen@samsung.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
+ Matt Johnston <matt@codeconstruct.com.au>, Jeremy Kerr <jk@ozlabs.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello Klaus,
 
---QBSQvCIOV172E1V8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3/31/22 18:57, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Add slave mode functionality for the Aspeed I2C controller. This is
+> implemented by creating an Aspeed I2C Slave device that attaches to the
+> bus.
+> 
+> This i2c slave device only implements the asynchronous version of
+> i2c_send() and the event callback.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>   hw/i2c/aspeed_i2c.c         | 95 +++++++++++++++++++++++++++++++++----
+>   hw/i2c/trace-events         |  2 +-
+>   hw/misc/meson.build         |  2 +
+>   include/hw/i2c/aspeed_i2c.h |  8 ++++
+>   4 files changed, 97 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+> index 03a4f5a91010..61b6424434f7 100644
+> --- a/hw/i2c/aspeed_i2c.c
+> +++ b/hw/i2c/aspeed_i2c.c
+> @@ -163,10 +163,15 @@ static inline void aspeed_i2c_bus_raise_interrupt(AspeedI2CBus *bus)
+>             bus->intr_status & I2CD_INTR_TX_NAK ? "nak|" : "",
+>             bus->intr_status & I2CD_INTR_TX_ACK ? "ack|" : "",
+>             bus->intr_status & I2CD_INTR_RX_DONE ? "done|" : "",
+> +          bus->intr_status & I2CD_INTR_SLAVE_ADDR_RX_MATCH ? "slave-match|" : "",
+>             bus->intr_status & I2CD_INTR_NORMAL_STOP ? "normal|" : "",
+>             bus->intr_status & I2CD_INTR_ABNORMAL ? "abnormal" : "");
 
-On Apr  5 20:52, Peter Delevoryas wrote:
->=20
->=20
-> > On Mar 31, 2022, at 9:57 AM, Klaus Jensen <its@irrelevant.dk> wrote:
-> >=20
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > Hi all,
-> >=20
-> > This RFC series adds I2C "slave mode" support for the Aspeed I2C
-> > controller as well as the necessary infrastructure in the i2c core to
-> > support this.
-> >=20
-> > Background
-> > ~~~~~~~~~~
-> > We are working on an emulated NVM Express Management Interface[1] for
-> > testing and validation purposes. NVMe-MI is based on the MCTP
-> > protocol[2] which may use a variety of underlying transports. The one we
-> > are interested in is I2C[3].
-> >=20
-> > The first general trickery here is that all MCTP transactions are based
-> > on the SMBus Block Write bus protocol[4]. This means that the slave must
-> > be able to master the bus to communicate. As you know, hw/i2c/core.c
-> > currently does not support this use case.
->=20
-> This is great, I=E2=80=99m attempting to use your changes right now for t=
-he same thing (MCTP).
->=20
+Troy introduced a similar change in his "new mode" proposal. I think
+it is time to change the 'aspeed_i2c_bus_raise_interrupt' trace event
 
-Awesome!
+Could you please update trace_aspeed_i2c_bus_raise_interrupt() to take
+a single status string ?
 
-> >=20
-> > The second issue is how to interact with these mastering devices. Jeremy
-> > and Matt (CC'ed) have been working on an MCTP stack for the Linux Kernel
-> > (already upstream) and an I2C binding driver[5] is currently under
-> > review. This binding driver relies on I2C slave mode support in the I2C
-> > controller.
-> >=20
-> > This series
-> > ~~~~~~~~~~~
-> > Patch 1 adds support for multiple masters in the i2c core, allowing
-> > slaves to master the bus and safely issue i2c_send/recv(). Patch 2 adds
-> > an asynchronous send i2c_send_async(I2CBus *, uint8) on the bus that
-> > must be paired with an explicit ack using i2c_ack(I2CBus *).
-> >=20
-> > Patch 3 adds the slave mode functionality to the emulated Aspeed I2C
-> > controller. The implementation is probably buggy since I had to rely on
-> > the implementation of the kernel driver to reverse engineer the behavior
-> > of the controller slave mode (I do not have access to a spec sheet for
-> > the Aspeed, but maybe someone can help me out with that?).
-> >=20
-> > Finally, patch 4 adds an example device using this new API. The device
-> > is a simple "echo" device that upon being sent a set of bytes uses the
-> > first byte as the address of the slave to echo to.
-> >=20
-> > With this combined I am able to boot up Linux on an emulated Aspeed 2600
-> > evaluation board and have the i2c echo device write into a Linux slave
-> > EEPROM. Assuming the echo device is on address 0x42:
-> >=20
-> >  # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-15/new_device
-> >  i2c i2c-15: new_device: Instantiated device slave-24c02 at 0x64
-> >  # i2cset -y 15 0x42 0x64 0x00 0xaa i
-> >  # hexdump /sys/bus/i2c/devices/15-1064/slave-eeprom
-> >  0000000 ffaa ffff ffff ffff ffff ffff ffff ffff
-> >  0000010 ffff ffff ffff ffff ffff ffff ffff ffff
-> >  *
-> >  0000100
->=20
-> When I try this with my system, it seems like the i2c-echo device takes o=
-ver
-> the bus but never echoes the data to the EEPROM. Am I missing something to
-> make this work? It seems like the =E2=80=9Ci2c_send_async=E2=80=9D calls =
-aren=E2=80=99t happening,
-> which must be because the bottom half isn=E2=80=99t being scheduled, righ=
-t? After
-> the i2c_do_start_transfer, how is the bottom half supposed to be scheduled
-> again? Is the slave receiving (the EEPROM) supposed to call i2c_ack or so=
-mething?
->=20
-> root@bmc-oob:~# echo 24c02 0x1064 > /sys/bus/i2c/devices/i2c-8/new_device
-> [  135.559719] at24 8-1064: 256 byte 24c02 EEPROM, writable, 1 bytes/write
-> [  135.562661] i2c i2c-8: new_device: Instantiated device 24c02 at 0x64
-> root@bmc-oob:~# i2cset -y 8 0x42 0x64 0x00 0xaa i
-> i2c_echo_event: start send
-> i2c_echo_send: data[0] =3D 0x64
-> i2c_echo_send: data[1] =3D 0x00
-> i2c_echo_send: data[2] =3D 0xaa
-> i2c_echo_event: scheduling bottom-half
-> i2c_echo_bh: attempting to gain mastery of bus
-> i2c_echo_bh: starting a send to address 0x64
-> root@bmc-oob:~# hexdump -C /sys/bus/i2c/devices/8-1064/eeprom
-> 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |............=
-=2E...|
-> *
-> 00000100
->=20
-> Thanks again for this, it=E2=80=99s exactly what I needed.
->=20
+> -    bus->intr_status &= bus->intr_ctrl;
+> +    /*
+> +     * WORKAROUND: the Linux Aspeed I2C driver masks SLAVE_ADDR_RX_MATCH for
+> +     * some reason, not sure if it is a bug...
+> +     */
+> +    bus->intr_status &= (bus->intr_ctrl | I2CD_INTR_SLAVE_ADDR_RX_MATCH);
 
-Hmmm. The only obvious difference I see here is that I write
-"slave-24c02" and not just "24c02" to new_device. Not sure if that has
-any implications? Also, looks like your EEPROM is initialized with
-zeroes, mine is all ones. This hints at the device being instantiated is
-different. I'm also not seeing the 'at24', which upon looking in the
-kernel code is a different device?
+It comes from the initial support for the AST2400 SoC.
 
---QBSQvCIOV172E1V8
-Content-Type: application/pgp-signature; name="signature.asc"
+We should introduce a 'intr_ctrl_mask' attribute in AspeedI2CClass and
+fix the AST24000 value to 0x7FFF ...
 
------BEGIN PGP SIGNATURE-----
+>       if (bus->intr_status) {
+>           bus->controller->intr_status |= 1 << bus->id;
+>           qemu_irq_raise(aic->bus_get_irq(bus));
+> @@ -196,6 +201,9 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwaddr offset,
+>       case I2CD_INTR_STS_REG:
+>           value = bus->intr_status;
+>           break;
+> +    case I2CD_DEV_ADDR_REG:
+> +        value = bus->dev_addr;
+> +        break;
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJNLj0ACgkQTeGvMW1P
-DelL9gf6AuZRrXjif6kk4UeTvX5yBridTTRjzwmsq89r+OeBs9SkXQAJhABbvZSv
-Uqphha1XEGKWQh1GbMR7u+jxwlm65yrGQ0X1/lA86xmgfRWJE381Ic3oLP6fqmCc
-4ySPgy/2kM7L8iVe3whWCv1C8xRvRZqDzAmpeQUXJBzKDJtseWwEFBjecX6eNSez
-B4XCzS1oIsWVF+EcJ+fExmuyUP3HEirZMZ2fCKKFZeCYFVS+++01qyrYcI55hUzb
-zMAF/m57w2FCKfUglcfBmU33Qc6Oo0Daf5M38CKp6pGq2NrPlnAnyqjzdEsPjzKk
-qPN9iWSLGtUR1t8WAFKQgepXCwKTwg==
-=ZS/Y
------END PGP SIGNATURE-----
+You can introduce support for this register in a preliminary patch but
+keep the slave activation for later (I2CD_SLAVE_EN bit)
 
---QBSQvCIOV172E1V8--
+>       case I2CD_POOL_CTRL_REG:
+>           value = bus->pool_ctrl;
+>           break;
+> @@ -535,10 +543,9 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+>       switch (offset) {
+>       case I2CD_FUN_CTRL_REG:
+>           if (value & I2CD_SLAVE_EN) {
+> -            qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
+> -                          __func__);
+> -            break;
+> +            i2c_slave_set_address(&bus->slave->i2c, bus->dev_addr);
+>           }
+> +
+>           bus->ctrl = value & 0x0071C3FF;
+>           break;
+>       case I2CD_AC_TIMING_REG1:
+> @@ -558,14 +565,19 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr offset,
+>               bus->controller->intr_status &= ~(1 << bus->id);
+>               qemu_irq_lower(aic->bus_get_irq(bus));
+>           }
+> -        if (handle_rx && (bus->cmd & (I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_LAST))) {
+> -            aspeed_i2c_handle_rx_cmd(bus);
+> -            aspeed_i2c_bus_raise_interrupt(bus);
+> +
+> +        if (handle_rx) {
+> +            if (bus->cmd & (I2CD_M_RX_CMD | I2CD_M_S_RX_CMD_LAST)) {
+> +                aspeed_i2c_handle_rx_cmd(bus);
+> +                aspeed_i2c_bus_raise_interrupt(bus);
+> +            } else if (aspeed_i2c_get_state(bus) == I2CD_STXD) {
+> +                i2c_ack(bus->bus);
+> +            }
+>           }
+> +
+>
+>           break;
+>       case I2CD_DEV_ADDR_REG:
+> -        qemu_log_mask(LOG_UNIMP, "%s: slave mode not implemented\n",
+> -                      __func__);
+> +        bus->dev_addr = value;
+>           break;
+>       case I2CD_POOL_CTRL_REG:
+>           bus->pool_ctrl &= ~0xffffff;
+> @@ -852,12 +864,74 @@ static const TypeInfo aspeed_i2c_info = {
+>       .abstract   = true,
+>   };
+>   
+> +static int aspeed_i2c_slave_event(I2CSlave *slave, enum i2c_event event)
+> +{
+> +    AspeedI2CSlave *s = ASPEED_I2C_SLAVE(slave);
+> +    AspeedI2CBus *bus = s->bus;
+> +
+> +    switch (event) {
+> +    case I2C_START_SEND:
+> +        bus->buf = bus->dev_addr << 1;
+> +
+> +        bus->buf &= I2CD_BYTE_BUF_RX_MASK;
+> +        bus->buf <<= I2CD_BYTE_BUF_RX_SHIFT;
+> +
+> +        bus->intr_status |= (I2CD_INTR_SLAVE_ADDR_RX_MATCH | I2CD_INTR_RX_DONE);
+> +        aspeed_i2c_set_state(bus, I2CD_STXD);
+> +
+> +        break;
+> +
+> +    case I2C_FINISH:
+> +        bus->intr_status |= I2CD_INTR_NORMAL_STOP;
+> +        aspeed_i2c_set_state(bus, I2CD_IDLE);
+> +
+> +        break;
+> +
+> +    default:
+> +        return -1;
+> +    }
+> +
+> +    aspeed_i2c_bus_raise_interrupt(bus);
+> +
+> +    return 0;
+> +}
+> +
+> +static void aspeed_i2c_slave_send_async(I2CSlave *slave, uint8_t data)
+> +{
+> +    AspeedI2CSlave *s = ASPEED_I2C_SLAVE(slave);
+> +    AspeedI2CBus *bus = s->bus;
+> +
+> +    bus->buf = (data & I2CD_BYTE_BUF_RX_MASK) << I2CD_BYTE_BUF_RX_SHIFT;
+> +    bus->intr_status |= I2CD_INTR_RX_DONE;
+> +
+> +    aspeed_i2c_bus_raise_interrupt(bus);
+> +}
+> +
+> +static void aspeed_i2c_slave_class_init(ObjectClass *klass, void *Data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    I2CSlaveClass *sc = I2C_SLAVE_CLASS(klass);
+> +
+> +    dc->desc = "Aspeed I2C Bus Slave";
+> +
+> +    sc->event = aspeed_i2c_slave_event;
+> +    sc->send_async = aspeed_i2c_slave_send_async;
+> +}
+> +
+> +static const TypeInfo aspeed_i2c_slave_info = {
+> +    .name          = TYPE_ASPEED_I2C_SLAVE,
+> +    .parent        = TYPE_I2C_SLAVE,
+> +    .instance_size = sizeof(AspeedI2CSlave),
+> +    .class_init    = aspeed_i2c_slave_class_init,
+> +};
+> +
+>   static void aspeed_i2c_bus_reset(DeviceState *dev)
+>   {
+>       AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
+>   
+>       s->intr_ctrl = 0;
+>       s->intr_status = 0;
+> +    s->dev_addr = 0;
+
+Please include the new reg in vmstate.
+
+>       s->cmd = 0;
+>       s->buf = 0;
+>       s->dma_addr = 0;
+> @@ -881,6 +955,8 @@ static void aspeed_i2c_bus_realize(DeviceState *dev, Error **errp)
+>       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+>   
+>       s->bus = i2c_init_bus(dev, name);
+> +    s->slave = ASPEED_I2C_SLAVE(i2c_slave_create_simple(s->bus, TYPE_ASPEED_I2C_SLAVE, 0xff));
+> +    s->slave->bus = s;
+>   
+>       memory_region_init_io(&s->mr, OBJECT(s), &aspeed_i2c_bus_ops,
+>                             s, name, aic->reg_size);
+> @@ -1016,6 +1092,7 @@ static const TypeInfo aspeed_2600_i2c_info = {
+>   static void aspeed_i2c_register_types(void)
+>   {
+>       type_register_static(&aspeed_i2c_bus_info);
+> +    type_register_static(&aspeed_i2c_slave_info);
+>       type_register_static(&aspeed_i2c_info);
+>       type_register_static(&aspeed_2400_i2c_info);
+>       type_register_static(&aspeed_2500_i2c_info);
+> diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
+> index 7d8907c1eede..85e4bddff936 100644
+> --- a/hw/i2c/trace-events
+> +++ b/hw/i2c/trace-events
+> @@ -9,7 +9,7 @@ i2c_recv(uint8_t address, uint8_t data) "recv(addr:0x%02x) data:0x%02x"
+>   # aspeed_i2c.c
+>   
+>   aspeed_i2c_bus_cmd(uint32_t cmd, const char *cmd_flags, uint32_t count, uint32_t intr_status) "handling cmd=0x%x %s count=%d intr=0x%x"
+> -aspeed_i2c_bus_raise_interrupt(uint32_t intr_status, const char *str1, const char *str2, const char *str3, const char *str4, const char *str5) "handled intr=0x%x %s%s%s%s%s"
+> +aspeed_i2c_bus_raise_interrupt(uint32_t intr_status, const char *str1, const char *str2, const char *str3, const char *str4, const char *str5, const char *str6) "handled intr=0x%x %s%s%s%s%s%s"
+>   aspeed_i2c_bus_read(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
+>   aspeed_i2c_bus_write(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
+>   aspeed_i2c_bus_send(const char *mode, int i, int count, uint8_t byte) "%s send %d/%d 0x%02x"
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index 6fb69612e064..c1c1abea41dd 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -122,6 +122,8 @@ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
+>   
+>   softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_ahb_apb_pnp.c'))
+>   
+> +softmmu_ss.add(when: 'CONFIG_I2C', if_true: files('i2c-echo.c'))
+
+That's for another patch.
+
+> +
+>   specific_ss.add(when: 'CONFIG_AVR_POWER', if_true: files('avr_power.c'))
+>   
+>   specific_ss.add(when: 'CONFIG_IMX', if_true: files('imx6_src.c'))
+> diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+> index 4b9be09274c7..3f1a9c07a00b 100644
+> --- a/include/hw/i2c/aspeed_i2c.h
+> +++ b/include/hw/i2c/aspeed_i2c.h
+> @@ -42,6 +42,7 @@ struct AspeedI2CBus {
+>       SysBusDevice parent_obj;
+>   
+>       struct AspeedI2CState *controller;
+> +    struct AspeedI2CSlave *slave;
+>   
+>       MemoryRegion mr;
+>   
+> @@ -53,6 +54,7 @@ struct AspeedI2CBus {
+>       uint32_t timing[2];
+>       uint32_t intr_ctrl;
+>       uint32_t intr_status;
+> +    uint32_t dev_addr;
+>       uint32_t cmd;
+>       uint32_t buf;
+>       uint32_t pool_ctrl;
+> @@ -76,6 +78,12 @@ struct AspeedI2CState {
+>       AddressSpace dram_as;
+>   };
+>   
+> +#define TYPE_ASPEED_I2C_SLAVE "aspeed.i2c.slave"
+> +OBJECT_DECLARE_SIMPLE_TYPE(AspeedI2CSlave, ASPEED_I2C_SLAVE)
+> +struct AspeedI2CSlave {
+> +    I2CSlave i2c;
+> +    AspeedI2CBus *bus;
+> +};
+
+AFAICT, AspeedI2CSlave is not that useful since it doesn't maintain any
+state. The QOM interface proposal looks like a better approach.
+
+>   struct AspeedI2CClass {
+>       SysBusDeviceClass parent_class;
+
+
+If you could send these 3 patches :
+  
+   - aspeed_i2c_bus_raise_interrupt trace event rework
+   - intr_ctrl_mask class attribute
+   - dev_addr support
+
+I will queue them quickly and we will focus on adding slave support only.
+
+
+Thanks,
+
+C.
 
