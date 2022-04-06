@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979494F6017
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:44:42 +0200 (CEST)
-Received: from localhost ([::1]:55036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF0C4F601C
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:46:44 +0200 (CEST)
+Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc5xh-00051N-Nd
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:44:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52228)
+	id 1nc5zf-0006jc-CA
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc5wf-00049B-QI
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:43:37 -0400
-Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:36385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc5we-0001kj-5j
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:43:37 -0400
-Received: by mail-qv1-xf2c.google.com with SMTP id kc20so2247192qvb.3
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:43:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=z/L5KSTn8cENzzXMrH/98LOK/NOhLWEYpy0sV8oTgow=;
- b=m27HrFBih1nnwUbSyA32ILeuMtXqNesTbmjQ/gYD8trzKnfIoHCC04bKQuAitRjo8s
- 7VSLTW+lkEJM5gbFJp+XR10/PZCQ4qjOxNAcLXLmnnZEPo8akC39PdBu7vHr1Bw/Jyjw
- TQ3pNEvPziFYEzMr4aBMLFYN4yEPTeWJs/bkJyjRuPD7qq2cZqBMDLcS4xEPkkuVMUx9
- VJUuHg34RxjKd1EBRpT3p0BijCxSrF/cnWeXSxAlha7bG52A66jVVqlglM3GlTz4AMHe
- Jh80zpvCpIBa8nsCEqbUfIAMqnXFooWUbYN+O5fUOOBV3VxqsYtfiS8ksx1I3H9GnB1y
- EnBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=z/L5KSTn8cENzzXMrH/98LOK/NOhLWEYpy0sV8oTgow=;
- b=JlUyFyuDYqmqETqP1gNo25oHsCI2L0DacPFxzyVu9ZXRkDgcxkkuVJ/mSgNBje6DUg
- NbmOp3eeolnq0R3MfgGgPsQYAlAc8yAjLDCupY7vgskTugkr6QY/y5mH4nFh+ey8HC16
- wtu2qygiGdJn0ZTzcrFixrSuYs914KUMM3eIcTE14vr8Hz/GiVgqk7KUn/w9txNOw2/X
- Q8TS7b9BFDh54j5oBfV41RhG//ilygSfKqH29RhPEQ/mkWosNuwN1zHkDVovTXo6oNnZ
- a0W2HPfsStM2PhL4NVnfXzMyW9dSwJwr8DvY8qrNMPRCSX8jJClaeFWqlJIgwvSiabYj
- bkjA==
-X-Gm-Message-State: AOAM531TeNJXtbMNkiSZDGhltgFOHz+v4GnW4Kb77969kAjtpjPn+SLP
- 1rwkqsNL/W5CavDqkT1KdUEwFQ==
-X-Google-Smtp-Source: ABdhPJyqeqwRX49FhYrBrmI8JbN6T2E403ekDJ79751yK/ycH4uIyoFFSzMINm0/qWn3GfCWy1T5kQ==
-X-Received: by 2002:a05:6214:e45:b0:441:73e0:40f9 with SMTP id
- o5-20020a0562140e4500b0044173e040f9mr7501471qvc.40.1649252615188; 
- Wed, 06 Apr 2022 06:43:35 -0700 (PDT)
-Received: from [10.10.117.62] (fixed-187-188-190-73.totalplay.net.
- [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
- x20-20020ac85f14000000b002e1ee1c56c3sm13638579qta.76.2022.04.06.06.43.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Apr 2022 06:43:34 -0700 (PDT)
-Message-ID: <775aad48-03ed-9e27-f6f8-a22999e4d668@linaro.org>
-Date: Wed, 6 Apr 2022 08:43:31 -0500
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nc5xq-0005mU-9j
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:44:53 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2515)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nc5xl-0001v2-SN
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:44:48 -0400
+Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KYQfB0ZW1z67K73;
+ Wed,  6 Apr 2022 21:41:38 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 6 Apr 2022 15:44:35 +0200
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
+ 2022 14:44:34 +0100
+Date: Wed, 6 Apr 2022 14:44:33 +0100
+To: Brice Goglin <Brice.Goglin@inria.fr>
+CC: <qemu-devel@nongnu.org>, Eduardo Habkost <eduardo@habkost.net>, Liu Jingqi
+ <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Yanan Wang
+ <wangyanan55@huawei.com>
+Subject: Re: [PATCH] hmat acpi: Don't require initiator value in -numa when
+ hmat=on
+Message-ID: <20220406144433.000049e3@huawei.com>
+In-Reply-To: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
+References: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.1 04/18] hw/arm/exynos4210: Drop int_gic_irq[] from
- Exynos4210Irq struct
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220404154658.565020-1-peter.maydell@linaro.org>
- <20220404154658.565020-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220404154658.565020-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml717-chm.china.huawei.com (10.201.108.68) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,27 +70,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Zongyuan Li <zongyuan.li@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On 4/4/22 10:46, Peter Maydell wrote:
-> The only time we use the int_gic_irq[] array in the Exynos4210Irq
-> struct is in the exynos4210_realize() function: we initialize it with
-> the GPIO inputs of the a9mpcore device, and then a bit later on we
-> connect those to the outputs of the internal combiner.  Now that the
-> a9mpcore object is easily accessible as s->a9mpcore we can make the
-> connection directly from one device to the other without going via
-> this array.
+On Wed, 6 Apr 2022 14:29:56 +0200
+Brice Goglin <Brice.Goglin@inria.fr> wrote:
+
+> From: Brice Goglin <Brice.Goglin@inria.fr>
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
+> has a "Processor Proximity Domain Valid" flag that is currently
+> always set because Qemu -numa requires initiator=X when hmat=on.
+> 
+> Unsetting this flag allows to create more complex memory topologies
+> by having multiple best initiators for a single memory target.
+> 
+> This patch allows -numa with initiator=X when hmat=on by keeping
+> the default value MAX_NODES in numa_state->nodes[i].initiator.
+> All places reading numa_state->nodes[i].initiator already check
+> whether it's different from MAX_NODES before using it. And
+> hmat_build_table_structs() already unset the Valid flag when needed.
+> 
+> Tested with
+> qemu-system-x86_64 -accel kvm \
+>   -machine pc,hmat=on \
+>   -drive if=pflash,format=raw,file=./OVMF.fd \
+>   -drive media=disk,format=qcow2,file=efi.qcow2 \
+>   -smp 4 \
+>   -m 3G \
+>   -object memory-backend-ram,size=1G,id=ram0 \
+>   -object memory-backend-ram,size=1G,id=ram1 \
+>   -object memory-backend-ram,size=1G,id=ram2 \
+>   -numa node,nodeid=0,memdev=ram0,cpus=0-1 \
+>   -numa node,nodeid=1,memdev=ram1,cpus=2-3 \
+>   -numa node,nodeid=2,memdev=ram2 \
+>   -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \
+>   -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+>   -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \
+>   -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+>   -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+>   -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
+>   -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \
+>   -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+>   -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \
+>   -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+>   -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+>   -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
+> 
+> This exposes NUMA node2 at same distance from both node0 and node1 as seen in lstopo:
+> 
+> Machine (2966MB total) + Package P#0
+>    NUMANode P#2 (979MB)
+>    Group0
+>      NUMANode P#0 (980MB)
+>      Core P#0 + PU P#0
+>      Core P#1 + PU P#1
+>    Group0
+>      NUMANode P#1 (1007MB)
+>      Core P#2 + PU P#2
+>      Core P#3 + PU P#3
+> 
+> Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Useful fix / extension of what can be described.
+
+Thanks,
+
+Jonathan
 > ---
->   include/hw/arm/exynos4210.h | 1 -
->   hw/arm/exynos4210.c         | 6 ++----
->   2 files changed, 2 insertions(+), 5 deletions(-)
+>   hw/core/machine.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index d856485cb4..9884ef7ac6 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -1012,9 +1012,7 @@ static void numa_validate_initiator(NumaState *numa_state)
+>   
+>       for (i = 0; i < numa_state->num_nodes; i++) {
+>           if (numa_info[i].initiator == MAX_NODES) {
+> -            error_report("The initiator of NUMA node %d is missing, use "
+> -                         "'-numa node,initiator' option to declare it", i);
+> -            exit(1);
+> +            continue;
+>           }
+>   
+>           if (!numa_info[numa_info[i].initiator].present) {
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
 
