@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091624F62AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 17:13:30 +0200 (CEST)
-Received: from localhost ([::1]:59734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969024F62B6
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 17:17:52 +0200 (CEST)
+Received: from localhost ([::1]:34792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc7Lc-0000Bk-M4
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 11:13:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47542)
+	id 1nc7Pr-0002be-AE
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 11:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nc7KP-0007qF-HR
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 11:12:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27805)
+ (Exim 4.90_1) (envelope-from <vprutyan@redhat.com>)
+ id 1nc7OJ-0001br-Im
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 11:16:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nc7KM-0005Xp-Du
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 11:12:12 -0400
+ (Exim 4.90_1) (envelope-from <vprutyan@redhat.com>)
+ id 1nc7OH-0006eG-62
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 11:16:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649257929;
+ s=mimecast20190719; t=1649258171;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QCpwan+z0tt4Sd2AfZw5TPgVV3+jgMWv5C+lU2AeGZc=;
- b=bPaHypzRvMIRg5ROIkHigwVwlgjeCg2BaRuQqg67Q1Nkj9EmH3aMTj0UJZ+Va4oC8FshKP
- sN305+tqD0oQFD+NBfzWKecduzT/DZsNMPT3+1oUUmHd/MIxEuCHBYqY3zgIH444XWx6d4
- 7VCYqjAkbPxXBzrfxD0wOQ9i8786ccc=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jMzcOUYqszA+5wyWvy6j8EWEdUuaC9DLYtGJbl5+6yk=;
+ b=X/W2KR/Wi5HnQcR8ki4IilBJl3NV/ICRX+W5BIHUXDp4rlLGiekWxCRoi59JdiaaqQg9mU
+ Ju0YcphMcD9p/RXaVEHkFI2VXZ1l4VMazt/Dd4hYsRVt2AczUNSzolHSJi7Tx6VTog/b8Q
+ Feqsrgwc/rU62ikaHoQbUWHvrgWMgCE=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-330-k19F-V0KOSi4Smv_yFX69Q-1; Wed, 06 Apr 2022 11:12:06 -0400
-X-MC-Unique: k19F-V0KOSi4Smv_yFX69Q-1
-Received: by mail-ua1-f72.google.com with SMTP id
- l6-20020ab04386000000b0034c80915685so1274736ual.5
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 08:12:05 -0700 (PDT)
+ us-mta-670-G2fOEJGyN6Oc-H3HLcjgqg-1; Wed, 06 Apr 2022 11:16:11 -0400
+X-MC-Unique: G2fOEJGyN6Oc-H3HLcjgqg-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ h8-20020a25e208000000b00628c0565607so2041657ybe.0
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 08:16:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QCpwan+z0tt4Sd2AfZw5TPgVV3+jgMWv5C+lU2AeGZc=;
- b=SwmxxRLLt+uWVOk37NhNZrBF2RnhoVZniDGoepf4gSgeawTXlbUsLRTdG6zlh0eCuF
- cvlNhzHqgKec76aJ0Wxlf2slsKXRYLO2LNJLBFQ3XhUgFFRJWpR8mayTYgVx2rGS/VdN
- t+krj9qHvYJg4TaPPbCFGlywmAO4URB0ibuwSFyPeQQsNwWLmFjrYH53hM0i+scB0RRA
- clzAXOUZ0FsdN9WPXOQl8fuj7rsyS7doR9D6FDUzLshxYrn0In4kQGLUbCH8MXy3cqh5
- GuGXFaO3ST6ZeZISviz/cVB6Tm6SQiBV7brkJltglqhuvdkBSoohLIJtlVS1oxCMaIGj
- 6tQQ==
-X-Gm-Message-State: AOAM5308CLoOHPc8A8iU2J3dJDbfmcgpeLr/nE+Av6BLMdoM5vOnXVbT
- YENXtrOiiboJTwoKw0EBkxnoBGsdYtP1AF1e+F1ZnXKJNFJ6PNRuZZfld+/vyx1ui7XvPi5v/PA
- TV0T1wVE/TxyyMy6BCrDF0fcWEKfR8/0=
-X-Received: by 2002:a05:6122:9a6:b0:33f:f23e:bde9 with SMTP id
- g38-20020a05612209a600b0033ff23ebde9mr3393994vkd.3.1649257925468; 
- Wed, 06 Apr 2022 08:12:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywpbgTFnIMLmfQAWX18qoGlswbi4linqPbIIOHasczbsmYIUqbtPd0nbUq9QEVZMcoNpNGPuOese8MeMyM1kg=
-X-Received: by 2002:a05:6122:9a6:b0:33f:f23e:bde9 with SMTP id
- g38-20020a05612209a600b0033ff23ebde9mr3393984vkd.3.1649257925165; Wed, 06 Apr
- 2022 08:12:05 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jMzcOUYqszA+5wyWvy6j8EWEdUuaC9DLYtGJbl5+6yk=;
+ b=kZ3Kw5h7lrKSRt3BrMhki9gIent4g0wBumihc6s4NUoO7iE6yioB9rQvHWp1ejWQWs
+ 9hL4VGwdzpiH5BFmXzQUwNu4yeCCMnxh3TnEV7mDJlHN7UAsLCNq6WSe7DhLu/KPy0YL
+ aYTiYHk+vwj8aVcSBut7ixWbUQTl3CGGVC7Skcm+N0BVIWRXvicmRwq/XzYibQIU9IyO
+ YM7XEwqGgDhvHlEuEhwLaGStdYiOjdeTIDYEDbyA9RMrZdbvzOtq4CwdB/UbYcGbYaxH
+ im8IFh9s3ROoQ2gzyU4Y9n9jl47U1CbqA9ZroCOOtpkiiHSYHJsbXuLuZdzshCvXe6AM
+ so+A==
+X-Gm-Message-State: AOAM5320dzDV6ZyT1lgzyiBPZo8gCqqP5llyqIal38g7k2xe3MCDTt1G
+ EP+vaUtXs+qw1dO7/PYtgSl6v+n9l1NAOqNv0dYcd6Z7NfiWhZLmK53Bi/iR692os2XxdHi3mE3
+ e6TF1t8m0goGpPfKgVEI5uzWPZfqMBVk=
+X-Received: by 2002:a25:20b:0:b0:63d:7c9b:e74f with SMTP id
+ 11-20020a25020b000000b0063d7c9be74fmr6786071ybc.378.1649258160104; 
+ Wed, 06 Apr 2022 08:16:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzX2nxIdnWMIpBbTqRVHufcgqGLIITuWAga/DHix6rf8RbbuSbWcnmPm9yaDzFjDr0t2uIYG9bX3Olq9vkRu44=
+X-Received: by 2002:a25:20b:0:b0:63d:7c9b:e74f with SMTP id
+ 11-20020a25020b000000b0063d7c9be74fmr6786045ybc.378.1649258159754; Wed, 06
+ Apr 2022 08:15:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <1c4fd757-5d08-0099-b842-4295c430a176@suse.de>
- <32ff3a63-fb50-8038-3f2e-5bfd70b01344@suse.de>
- <37635a04-b717-b7c6-88a0-1b3cecc0c4f5@suse.de>
- <8a898f41-98e1-5a02-4cd8-a697bcb6d9a1@redhat.com>
- <7a952654-c163-00c9-8538-e07afef47ca8@suse.de>
- <CAFn=p-aKWCQM29qEB6YRK6A_6DwcaMPbVTyLLbLnCZ1zG7cBtQ@mail.gmail.com>
- <CAFn=p-bvbpP=tMFDYiJaEhiAtETYnx-PAqCDGaPZ-wVU5ej7LQ@mail.gmail.com>
- <91ee90b0-05b1-3df8-e2d1-9da2b11bcefc@suse.de>
-In-Reply-To: <91ee90b0-05b1-3df8-e2d1-9da2b11bcefc@suse.de>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 6 Apr 2022 11:11:54 -0400
-Message-ID: <CAFn=p-ZaUXZQTyhSHJk7tFZat_mWFhVSC1iXVGYMfaxN-bCJww@mail.gmail.com>
-Subject: Re: iotest40 problem
-To: Li Zhang <lizhang@suse.de>
+References: <20220325195130.62090-1-viktor.prutyanov@redhat.com>
+ <20220325195130.62090-4-viktor.prutyanov@redhat.com>
+ <CAMxuvazb7TBJFeAJkT57QtSD_eYw+Y0j3AE11=vNnHTtepgamw@mail.gmail.com>
+In-Reply-To: <CAMxuvazb7TBJFeAJkT57QtSD_eYw+Y0j3AE11=vNnHTtepgamw@mail.gmail.com>
+From: Viktor Prutyanov <viktor.prutyanov@redhat.com>
+Date: Wed, 6 Apr 2022 18:15:49 +0300
+Message-ID: <CAEzbHW9WcBkCQ8MaV3VmFRL8yfrP_OLQNtxQo13pTVpn=eQE3w@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] include/qemu: add 32-bit Windows dump structures
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vprutyan@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000c5dc9005dbfdc81f"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vprutyan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,160 +96,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Vugenfirer, Yan" <yan@daynix.com>,
+ =?UTF-8?B?TWF0aGlldS1EYXVkw6ksIFBoaWxpcHBl?= <f4bug@amsat.org>,
+ viktor.prutyanov@phystech.edu, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c5dc9005dbfdc81f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi
 
-On Wed, Apr 6, 2022, 10:53 AM Li Zhang <lizhang@suse.de> wrote:
+On Wed, Apr 6, 2022 at 10:51 AM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Hi
+>
+> On Fri, Mar 25, 2022 at 11:51 PM Viktor Prutyanov
+> <viktor.prutyanov@redhat.com> wrote:
+> >
+> > These structures are required to produce 32-bit guest Windows Complete
+> > Memory Dump. Add 32-bit Windows dump header, CPU context and physical
+> > memory descriptor structures along with corresponding definitions.
+> >
+> > Signed-off-by: Viktor Prutyanov <viktor.prutyanov@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> Back when the initial support was introduced, I guess I thought those
+> structures were defined by the fwcfg driver. I realize they are
+> actually Windows structures. What's your reference for them? It's hard
+> to find a good source, it seemed it was reverse-engineered by various
+> projects.
 
-> On 3/31/22 16:46, John Snow wrote:
-> >
-> >
-> > On Thu, Mar 31, 2022, 10:37 AM John Snow <jsnow@redhat.com
-> > <mailto:jsnow@redhat.com>> wrote:
-> >
-> >
-> >
-> >     On Thu, Mar 31, 2022, 6:47 AM Li Zhang <lizhang@suse.de
-> >     <mailto:lizhang@suse.de>> wrote:
-> >
-> >         On 3/31/22 08:10, Hanna Reitz wrote:
-> >          > On 29.03.22 18:49, Li Zhang wrote:
-> >          >> Update what I observed.
-> >          >>
-> >          >> It seems that aqmp is not stable when running test cases.
-> >          >> So I revert the patches as the following, iotest40/41 test
-> >         cases work
-> >          >> well.
-> >          >
-> >          > Thanks for bisecting.  I haven=E2=80=99t seen this problem b=
-efore, so
-> >         I didn=E2=80=99t
-> >          > look into it; CC-ing John, perhaps he figures something.
-> >          >
-> >         Thanks a lot.
-> >         It happens occassionally. I didn't find a way to reproduce it
-> >         manually.
-> >
-> >
-> >     Sorry for the instability.
-> >
-> >     A few questions then:
-> >
-> >     - what operating system and version
-> >     - kernel version
-> >     - architecture (looks like x86 and others?)
-> >     - what commit/version of QEMU are you testing?
-> >     - what python version are you using to run iotests?
-> >
-> >
-> > I'll also point out these patchsets, because we're in different
-> > timezones and if I'm lucky it will be the answer:
-> >
-> > [1] https://patchew.org/QEMU/20220201041134.1237016-1-jsnow@redhat.com/
-> > <https://patchew.org/QEMU/20220201041134.1237016-1-jsnow@redhat.com/>
-> >
-> > [2] https://patchew.org/QEMU/20220225205948.3693480-1-jsnow@redhat.com/
-> > <https://patchew.org/QEMU/20220225205948.3693480-1-jsnow@redhat.com/>
+The various structures presented here have different sources of varying
+degrees of completeness.
+
+As for WinContext*, WIN_CTX_* definitions, they are fully available as
+I386_CONTEXT, AMD64_CONTEXT, CONTEXT_* definitions in the Wine project:
+https://github.com/wine-mirror/wine/blob/master/include/winnt.h
+
+As for the Complete Memory Dump header, the main fully open source of
+this structure is the Volatility project:
+https://github.com/volatilityfoundation/volatility/blob/master/volatility/p=
+lugins/overlays/windows/crash_vtypes.py
+
+Besides of that, this information can be revealed experimentally by
+comparing dumps between them and by analyzing manually constructed
+dumps in WinDbg and noticing which of the data is available and which
+is not. It is also possible because some fields of the header are also
+presented as debug symbols provided by Microsoft in PDB and because
+WinDbg sometimes provides verbose output on error. For example, this is
+how the logic of win_dump.c was made.
+
+So that, no reverse-engineering at least from my side is involved, all
+of the information was obtained from scattered but open sources.
+
 >
-> Thanks a lot.
->
-> I backport aqmp related patches, it looks good to run the cases
-> iotest040/041.
+> Otherwise lgtm,
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
 
-Excellent, thanks for reporting back!
+Best regards,
+Viktor Prutyanov
 
---000000000000c5dc9005dbfdc81f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Apr 6, 2022, 10:53 AM Li Zhang &lt;<a href=3D"=
-mailto:lizhang@suse.de">lizhang@suse.de</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex">On 3/31/22 16:46, John Snow wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Thu, Mar 31, 2022, 10:37 AM John Snow &lt;<a href=3D"mailto:jsnow@r=
-edhat.com" target=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank" rel=
-=3D"noreferrer">jsnow@redhat.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On Thu, Mar 31, 2022, 6:47 AM Li Zhang &lt;<a href=
-=3D"mailto:lizhang@suse.de" target=3D"_blank" rel=3D"noreferrer">lizhang@su=
-se.de</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:lizhang@suse.de" targe=
-t=3D"_blank" rel=3D"noreferrer">lizhang@suse.de</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0On 3/31/22 08:10, Hanna Reitz wrote:<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; On 29.03.22 18:49, Li Zhang wro=
-te:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt; Update what I observed.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt; It seems that aqmp is not s=
-table when running test cases.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt; So I revert the patches as =
-the following, iotest40/41 test<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cases work<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt; well.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; Thanks for bisecting.=C2=A0 I h=
-aven=E2=80=99t seen this problem before, so<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0I didn=E2=80=99t<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; look into it; CC-ing John, perh=
-aps he figures something.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Thanks a lot.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0It happens occassionally. I didn&#39;=
-t find a way to reproduce it<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0manually.<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Sorry for the instability.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0A few questions then:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0- what operating system and version<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- kernel version<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- architecture (looks like x86 and others?)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- what commit/version of QEMU are you testing?<br>
-&gt;=C2=A0 =C2=A0 =C2=A0- what python version are you using to run iotests?=
-<br>
-&gt; <br>
-&gt; <br>
-&gt; I&#39;ll also point out these patchsets, because we&#39;re in differen=
-t <br>
-&gt; timezones and if I&#39;m lucky it will be the answer:<br>
-&gt; <br>
-&gt; [1] <a href=3D"https://patchew.org/QEMU/20220201041134.1237016-1-jsnow=
-@redhat.com/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://patch=
-ew.org/QEMU/20220201041134.1237016-1-jsnow@redhat.com/</a> <br>
-&gt; &lt;<a href=3D"https://patchew.org/QEMU/20220201041134.1237016-1-jsnow=
-@redhat.com/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://patch=
-ew.org/QEMU/20220201041134.1237016-1-jsnow@redhat.com/</a>&gt;<br>
-&gt; <br>
-&gt; [2] <a href=3D"https://patchew.org/QEMU/20220225205948.3693480-1-jsnow=
-@redhat.com/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://patch=
-ew.org/QEMU/20220225205948.3693480-1-jsnow@redhat.com/</a> <br>
-&gt; &lt;<a href=3D"https://patchew.org/QEMU/20220225205948.3693480-1-jsnow=
-@redhat.com/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://patch=
-ew.org/QEMU/20220225205948.3693480-1-jsnow@redhat.com/</a>&gt;<br>
-<br>
-Thanks a lot.<br>
-<br>
-I backport aqmp related patches, it looks good to run the cases <br>
-iotest040/041.<br></blockquote></div></div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Excellent, thanks for reporting back!</div></div>
-
---000000000000c5dc9005dbfdc81f--
+> > ---
+> >  include/qemu/win_dump_defs.h | 107 +++++++++++++++++++++++++++++++++++
+> >  1 file changed, 107 insertions(+)
+> >
+> > diff --git a/include/qemu/win_dump_defs.h b/include/qemu/win_dump_defs.=
+h
+> > index 5a5e5a5e09..73a44e2408 100644
+> > --- a/include/qemu/win_dump_defs.h
+> > +++ b/include/qemu/win_dump_defs.h
+> > @@ -11,11 +11,22 @@
+> >  #ifndef QEMU_WIN_DUMP_DEFS_H
+> >  #define QEMU_WIN_DUMP_DEFS_H
+> >
+> > +typedef struct WinDumpPhyMemRun32 {
+> > +    uint32_t BasePage;
+> > +    uint32_t PageCount;
+> > +} QEMU_PACKED WinDumpPhyMemRun32;
+> > +
+> >  typedef struct WinDumpPhyMemRun64 {
+> >      uint64_t BasePage;
+> >      uint64_t PageCount;
+> >  } QEMU_PACKED WinDumpPhyMemRun64;
+> >
+> > +typedef struct WinDumpPhyMemDesc32 {
+> > +    uint32_t NumberOfRuns;
+> > +    uint32_t NumberOfPages;
+> > +    WinDumpPhyMemRun32 Run[86];
+> > +} QEMU_PACKED WinDumpPhyMemDesc32;
+> > +
+> >  typedef struct WinDumpPhyMemDesc64 {
+> >      uint32_t NumberOfRuns;
+> >      uint32_t unused;
+> > @@ -33,6 +44,39 @@ typedef struct WinDumpExceptionRecord {
+> >      uint64_t ExceptionInformation[15];
+> >  } QEMU_PACKED WinDumpExceptionRecord;
+> >
+> > +typedef struct WinDumpHeader32 {
+> > +    char Signature[4];
+> > +    char ValidDump[4];
+> > +    uint32_t MajorVersion;
+> > +    uint32_t MinorVersion;
+> > +    uint32_t DirectoryTableBase;
+> > +    uint32_t PfnDatabase;
+> > +    uint32_t PsLoadedModuleList;
+> > +    uint32_t PsActiveProcessHead;
+> > +    uint32_t MachineImageType;
+> > +    uint32_t NumberProcessors;
+> > +    union {
+> > +        struct {
+> > +            uint32_t BugcheckCode;
+> > +            uint32_t BugcheckParameter1;
+> > +            uint32_t BugcheckParameter2;
+> > +            uint32_t BugcheckParameter3;
+> > +            uint32_t BugcheckParameter4;
+> > +        };
+> > +        uint8_t BugcheckData[20];
+> > +    };
+> > +    uint8_t VersionUser[32];
+> > +    uint32_t reserved0;
+> > +    uint32_t KdDebuggerDataBlock;
+> > +    union {
+> > +        WinDumpPhyMemDesc32 PhysicalMemoryBlock;
+> > +        uint8_t PhysicalMemoryBlockBuffer[700];
+> > +    };
+> > +    uint8_t reserved1[3200];
+> > +    uint32_t RequiredDumpSpace;
+> > +    uint8_t reserved2[92];
+> > +} QEMU_PACKED WinDumpHeader32;
+> > +
+> >  typedef struct WinDumpHeader64 {
+> >      char Signature[4];
+> >      char ValidDump[4];
+> > @@ -81,25 +125,49 @@ typedef struct WinDumpHeader64 {
+> >      uint8_t reserved[4018];
+> >  } QEMU_PACKED WinDumpHeader64;
+> >
+> > +typedef union WinDumpHeader {
+> > +    struct {
+> > +        char Signature[4];
+> > +        char ValidDump[4];
+> > +    };
+> > +    WinDumpHeader32 x32;
+> > +    WinDumpHeader64 x64;
+> > +} WinDumpHeader;
+> > +
+> >  #define KDBG_OWNER_TAG_OFFSET64             0x10
+> >  #define KDBG_MM_PFN_DATABASE_OFFSET64       0xC0
+> >  #define KDBG_KI_BUGCHECK_DATA_OFFSET64      0x88
+> >  #define KDBG_KI_PROCESSOR_BLOCK_OFFSET64    0x218
+> >  #define KDBG_OFFSET_PRCB_CONTEXT_OFFSET64   0x338
+> >
+> > +#define KDBG_OWNER_TAG_OFFSET           KDBG_OWNER_TAG_OFFSET64
+> > +#define KDBG_MM_PFN_DATABASE_OFFSET     KDBG_MM_PFN_DATABASE_OFFSET64
+> > +#define KDBG_KI_BUGCHECK_DATA_OFFSET    KDBG_KI_BUGCHECK_DATA_OFFSET64
+> > +#define KDBG_KI_PROCESSOR_BLOCK_OFFSET  KDBG_KI_PROCESSOR_BLOCK_OFFSET=
+64
+> > +#define KDBG_OFFSET_PRCB_CONTEXT_OFFSET KDBG_OFFSET_PRCB_CONTEXT_OFFSE=
+T64
+> > +
+> >  #define VMCOREINFO_ELF_NOTE_HDR_SIZE    24
+> > +#define VMCOREINFO_WIN_DUMP_NOTE_SIZE64 (sizeof(WinDumpHeader64) + \
+> > +                                         VMCOREINFO_ELF_NOTE_HDR_SIZE)
+> > +#define VMCOREINFO_WIN_DUMP_NOTE_SIZE32 (sizeof(WinDumpHeader32) + \
+> > +                                         VMCOREINFO_ELF_NOTE_HDR_SIZE)
+> >
+> >  #define WIN_CTX_X64 0x00100000L
+> > +#define WIN_CTX_X86 0x00010000L
+> >
+> >  #define WIN_CTX_CTL 0x00000001L
+> >  #define WIN_CTX_INT 0x00000002L
+> >  #define WIN_CTX_SEG 0x00000004L
+> >  #define WIN_CTX_FP  0x00000008L
+> >  #define WIN_CTX_DBG 0x00000010L
+> > +#define WIN_CTX_EXT 0x00000020L
+> >
+> >  #define WIN_CTX64_FULL  (WIN_CTX_X64 | WIN_CTX_CTL | WIN_CTX_INT | WIN=
+_CTX_FP)
+> >  #define WIN_CTX64_ALL   (WIN_CTX64_FULL | WIN_CTX_SEG | WIN_CTX_DBG)
+> >
+> > +#define WIN_CTX32_FULL (WIN_CTX_X86 | WIN_CTX_CTL | WIN_CTX_INT | WIN_=
+CTX_SEG)
+> > +#define WIN_CTX32_ALL (WIN_CTX32_FULL | WIN_CTX_FP | WIN_CTX_DBG | WIN=
+_CTX_EXT)
+> > +
+> >  #define LIVE_SYSTEM_DUMP    0x00000161
+> >
+> >  typedef struct WinM128A {
+> > @@ -107,6 +175,40 @@ typedef struct WinM128A {
+> >      int64_t high;
+> >  } QEMU_ALIGNED(16) WinM128A;
+> >
+> > +typedef struct WinContext32 {
+> > +    uint32_t ContextFlags;
+> > +
+> > +    uint32_t Dr0;
+> > +    uint32_t Dr1;
+> > +    uint32_t Dr2;
+> > +    uint32_t Dr3;
+> > +    uint32_t Dr6;
+> > +    uint32_t Dr7;
+> > +
+> > +    uint8_t  FloatSave[112];
+> > +
+> > +    uint32_t SegGs;
+> > +    uint32_t SegFs;
+> > +    uint32_t SegEs;
+> > +    uint32_t SegDs;
+> > +
+> > +    uint32_t Edi;
+> > +    uint32_t Esi;
+> > +    uint32_t Ebx;
+> > +    uint32_t Edx;
+> > +    uint32_t Ecx;
+> > +    uint32_t Eax;
+> > +
+> > +    uint32_t Ebp;
+> > +    uint32_t Eip;
+> > +    uint32_t SegCs;
+> > +    uint32_t EFlags;
+> > +    uint32_t Esp;
+> > +    uint32_t SegSs;
+> > +
+> > +    uint8_t ExtendedRegisters[512];
+> > +} QEMU_ALIGNED(16) WinContext32;
+> > +
+> >  typedef struct WinContext64 {
+> >      uint64_t PHome[6];
+> >
+> > @@ -176,4 +278,9 @@ typedef struct WinContext64 {
+> >      uint64_t LastExceptionFromRip;
+> >  } QEMU_ALIGNED(16) WinContext64;
+> >
+> > +typedef union WinContext {
+> > +    WinContext32 x32;
+> > +    WinContext64 x64;
+> > +} WinContext;
+> > +
+> >  #endif /* QEMU_WIN_DUMP_DEFS_H */
+> > --
+> > 2.35.1
+> >
+>
 
 
