@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4B54F5A18
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 11:39:23 +0200 (CEST)
-Received: from localhost ([::1]:47574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA314F5A40
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 11:42:39 +0200 (CEST)
+Received: from localhost ([::1]:50728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc28I-00029r-Oe
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 05:39:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41746)
+	id 1nc2BP-00045H-UL
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 05:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nc25K-0000Xn-D5
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:36:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33966)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nc27w-0002eZ-RZ
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:39:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nc250-0005iV-UQ
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:36:00 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nc27u-00066E-VH
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 05:39:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649237758;
+ s=mimecast20190719; t=1649237938;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XTB8oIHYAcoHVxTSfvzY6ZtjSXioyXpjIQsV2uD7fTg=;
- b=OYQjwGCxATBBZIr9zU9ULdR6hOhyRWU0kvR9mwlAIRakRuh2+pOJr87/Kf92YRWaoFeFPK
- 2uRHPCPGgXSRGoqWSCbHceJILFflG9pHWW7ZcLzhqEc58xLiiBmhoYohZTY8IPdvkFhCRl
- EX/KGWBUOhgFCCoAX/7wQ6kIYQjOOd4=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=27qbEuuRLIzV1GlSr7cEvfeDiGKgW4cUg1NzikXAzZo=;
+ b=jQgrPvOrBNYfBLG+67RSR5EPqrRFBnsXLpsD/1chUSo6/QY697BZ+QvicR+ju0+AuH1Kha
+ SO5Bu3TPt96P7Z0obxNRKhN+We5HBxEU7wdj5GkilePx7wAKYKNpbglC2MPyVQb5QgKQyG
+ RbPHVxdTWABEaWAVJcI4KxnoV2lGA3Q=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-326-P28JLP4zOn2Fzg7gpsHwlQ-1; Wed, 06 Apr 2022 05:35:57 -0400
-X-MC-Unique: P28JLP4zOn2Fzg7gpsHwlQ-1
-Received: by mail-yb1-f199.google.com with SMTP id
- b12-20020a056902030c00b0061d720e274aso1329731ybs.20
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 02:35:57 -0700 (PDT)
+ us-mta-110-v8RikrfgO0Wcj-XZnvhVAA-1; Wed, 06 Apr 2022 05:38:56 -0400
+X-MC-Unique: v8RikrfgO0Wcj-XZnvhVAA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s13-20020adfa28d000000b00205e049cff2so309437wra.17
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 02:38:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=XTB8oIHYAcoHVxTSfvzY6ZtjSXioyXpjIQsV2uD7fTg=;
- b=cGKWfklhbTR+XfC8SlM3Cu76o1GS1JMuK2DjfTsQYuzxD1W1jiCbjhguF+WJlXdI6+
- mkfzeaKOmu/2/qBbI3XM14HkblllqyyzieeJVjh2Uv1G8tGwd3Q4Zrr3UyWihSlMIeDO
- s8bVZKOXWzE9UwoyDYaXPyEuX3PylNbwrqaw16ENwUBfiL29VnS3sO/EpgWbfPX0fEdo
- JiCDIXabqNMEzPDStfWuPqtZzL1eJgOqqBALP0uOkhjebkiknri7/ZjdsamY31gf8ppZ
- Qxi/gPcFrPC67eTQqJrIWGNBl9/moh0JhZDJcDEb1jd7ZxtjQbYgUX/RJhCL0CpmeO7n
- MeVw==
-X-Gm-Message-State: AOAM532nV8wqt9oFYBmVg7X9BN4g4z4DgtMkmuJYVcRh7rdQgBg5HkQz
- Jm/M7nl2acm5/STGE2vTMYeXETsx4OoRZaXAL/ckjp1nQb9zqw9Ci6glijF19YpnY1Tf6D64A0E
- BRQp4vfzLmY6R9JKuKbLUuhKeer4m+WY=
-X-Received: by 2002:a81:d42:0:b0:2eb:6e52:15c5 with SMTP id
- 63-20020a810d42000000b002eb6e5215c5mr6221062ywn.312.1649237755673; 
- Wed, 06 Apr 2022 02:35:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9g4PlceI5L8jJPUIB9QMGx3O6dPG+eXWqy2AO1q5UeGK5gzHodFGnhdoeRIAG0lmHBtwnolD5pXGMRbwKMxM=
-X-Received: by 2002:a81:d42:0:b0:2eb:6e52:15c5 with SMTP id
- 63-20020a810d42000000b002eb6e5215c5mr6221055ywn.312.1649237755497; Wed, 06
- Apr 2022 02:35:55 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=27qbEuuRLIzV1GlSr7cEvfeDiGKgW4cUg1NzikXAzZo=;
+ b=SCEfye7shxnd1UCUgubHoY3hMPao0Y/74YBsuCASgv0it4HQA2UrD1KUkIZCsLHDpZ
+ 1EYKISIRPRuBG+2P+At8wQFX+4Bty+bVQdOlrRsmHqOnj1c4MeT6pOpHptA/XC50ZWST
+ W3dmTMXm7ZOgGwR3Pj7N97K9yI3ec9YqmKuD1q62VzrKLUzTJOfGopoKAVssqarZqhbV
+ QU7B5FahiafNpc85YGzjzpmQfBDzndvXiCEmrV0WnLlDF7ZEKe15nArRuopDeL8oEtwe
+ KbKz3I8yAO8yTQgJEke18B3vcgqP1lO+No2oEZ663EYdXLn+7+Zb9Epvlc+chGiPGSBm
+ gaEg==
+X-Gm-Message-State: AOAM530HlUUgLNa0obXeEVjyi1PJ3atjnucY/y3pPbOoaEHWYWCJpK4Y
+ wn+F+VnyCe3Lz0qRAAPZe1NDI9+Wj9JfECLbX6rIW9odgQBksJ3ZTdSU6eRF70aMXs332+h9vRm
+ 7qS/JP/LxOMuRL3k=
+X-Received: by 2002:a1c:7216:0:b0:38e:7e58:8376 with SMTP id
+ n22-20020a1c7216000000b0038e7e588376mr6809727wmc.35.1649237934740; 
+ Wed, 06 Apr 2022 02:38:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzl+FePjV8Uo1YU5ot/HwfTheVqKWjSoj4GSrr+6tAjoK879DZ1nZodYDvn9LKhf+VnIWGZ3Q==
+X-Received: by 2002:a1c:7216:0:b0:38e:7e58:8376 with SMTP id
+ n22-20020a1c7216000000b0038e7e588376mr6809706wmc.35.1649237934452; 
+ Wed, 06 Apr 2022 02:38:54 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ p29-20020a1c545d000000b0038e70d5217dsm6200988wmi.45.2022.04.06.02.38.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 02:38:53 -0700 (PDT)
+Date: Wed, 6 Apr 2022 10:38:51 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH] acpi: Bodge acpi_index migration
+Message-ID: <Yk1fq+B9RD+9+4I3@work-vm>
+References: <20220406083531.10217-1-dgilbert@redhat.com>
+ <20220406113446.73ab4e1b@redhat.com>
 MIME-Version: 1.0
-References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
- <20220323155743.1585078-14-marcandre.lureau@redhat.com>
- <87fsmqr34l.fsf@pond.sub.org>
-In-Reply-To: <87fsmqr34l.fsf@pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 6 Apr 2022 13:35:44 +0400
-Message-ID: <CAMxuvazZMQFJ4-8my4kLOe_XuJQNSqttXd2tn7zXGS9U+6FeEA@mail.gmail.com>
-Subject: Re: [PATCH 13/32] error-report: replace deprecated
- g_get_current_time() with glib >= 2.62
-To: Markus Armbruster <armbru@redhat.com>
+In-Reply-To: <20220406113446.73ab4e1b@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,103 +100,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, quintela@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, alex.williamson@redhat.com,
+ leobras@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+* Igor Mammedov (imammedo@redhat.com) wrote:
+> On Wed,  6 Apr 2022 09:35:31 +0100
+> "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
+> 
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > The 'acpi_index' field is a statically configured field, which for
+> > some reason is migrated; this never makes much sense because it's
+> > command line static.
+> 
+> that's true only for the field that's part of PCIDEvice,
+> however AcpiPciHpState::acpi_index is runtime state and _must_
+> be migrated if set, otherwise guest might get wrong index
+> if it's in process of querying it
 
-On Wed, Apr 6, 2022 at 1:08 PM Markus Armbruster <armbru@redhat.com> wrote:
->
-> marcandre.lureau@redhat.com writes:
->
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > According to GLib API:
-> > g_get_current_time has been deprecated since version 2.62 and should no=
-t
-> > be used in newly-written code. GTimeVal is not year-2038-safe. Use
-> > g_get_real_time() instead.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+So this patch only changes the piix4.c version; I'm confused, is there
+a AcpiPciHpState::acpi_index that's runtime setable in there?
+
+>  
+> > However, on piix4 it's conditional, and the condition/test function
+> > ends up having the wrong pointer passed to it (it gets a PIIX4PMState
+> > not the AcpiPciHpState it was expecting, because VMSTATE_PCI_HOTPLUG
+> > is a macro and not another struct).  This means the field is randomly
+> > loaded/saved based on a random pointer.  In 6.x this random pointer
+> > randomly seems to get 0 for everyone (!); in 7.0rc it's getting junk
+> > and trying to load a field that the source didn't send.  The migration
+> > stream gets out of line and hits the section footer.
+> 
+> I'm a bit confused by description,
+> do you have a reproducer for me to try?
+
+Yeh, see the linked gitlab case command line:
+  https://gitlab.com/qemu-project/qemu/-/issues/932
+
+./x86_64-softmmu/qemu-system-x86_64 -M pc-q35-6.2 -m 512 -device virtio-scsi-pci,id=scsihw0,bus=pcie.0,addr=0x5,acpi-index=3 -drive if=none,my.qcow2,format=qcow2,id=drive-scsi0,node-name=scsi0 -device 'scsi-hd,bus=scsihw0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0'  -nographic
+
+just migrating from a 6.2 to a head triggers this.
+
+Dave
+
+> > The bodge is on piix4 never to load the field:
+> >   a) Most 6.x builds never send it, so most of the time the migration
+> >     will work.
+> >   b) We can backport this fix to 6.x to remove the boobytrap.
+> >   c) It should never have made a difference anyway since the acpi-index
+> >     is command line configured and should be correct on the destination
+> >     anyway
+> >   d) ich9 is still sending/receiving this (unconditionally all the time)
+> >     but due to (c) should never notice.  We could follow up to make it
+> >     skip.
+> > 
+> > It worries me just when (a) actually happens.
+> > 
+> > Fixes: b32bd76 ("pci: introduce acpi-index property for PCI device")
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/932
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > > ---
-> >  include/glib-compat.h | 10 ++++++++++
-> >  util/qemu-error.c     | 17 ++++++++++++++---
-> >  2 files changed, 24 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/include/glib-compat.h b/include/glib-compat.h
-> > index 3113a7d2af84..dc14d3ec0d1e 100644
-> > --- a/include/glib-compat.h
-> > +++ b/include/glib-compat.h
-> > @@ -145,6 +145,16 @@ qemu_g_test_slow(void)
-> >  #define g_test_thorough() qemu_g_test_slow()
-> >  #define g_test_quick() (!qemu_g_test_slow())
-> >
-> > +#if GLIB_CHECK_VERSION(2,62,0)
-> > +static inline gchar *
-> > +g_date_time_format_iso8601_compat(GDateTime *datetime)
-> > +{
-> > +    return g_date_time_format_iso8601(datetime);
-> > +}
-> > +
-> > +#define g_date_time_format_iso8601 g_date_time_format_iso8601_compat
-> > +#endif
->
-> I'm confused.
->
-> If we're using v2.62 or later, g_time_val_to_iso8601(dt) calls GLib's
-> g_time_val_to_iso8601().  Why do we need the inline function and the
-> macro?
-
-To hide the "deprecation" warning because GLIB_VERSION_MAX_ALLOWED is 2.56.
-
->
-> Else, I expect g_date_time_format_iso8601(dt) not to compile.
->
-> > +
-> >  #pragma GCC diagnostic pop
-> >
-> >  #endif
-> > diff --git a/util/qemu-error.c b/util/qemu-error.c
-> > index 7769aee8e791..4ea380dd4169 100644
-> > --- a/util/qemu-error.c
-> > +++ b/util/qemu-error.c
-> > @@ -180,6 +180,19 @@ static void print_loc(void)
-> >      }
+> >  hw/acpi/acpi-pci-hotplug-stub.c |  4 ----
+> >  hw/acpi/pcihp.c                 |  6 ------
+> >  hw/acpi/piix4.c                 | 11 ++++++++++-
+> >  include/hw/acpi/pcihp.h         |  2 --
+> >  4 files changed, 10 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/hw/acpi/acpi-pci-hotplug-stub.c b/hw/acpi/acpi-pci-hotplug-stub.c
+> > index 734e4c5986..a43f6dafc9 100644
+> > --- a/hw/acpi/acpi-pci-hotplug-stub.c
+> > +++ b/hw/acpi/acpi-pci-hotplug-stub.c
+> > @@ -41,7 +41,3 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
+> >      return;
 > >  }
-> >
-> > +static char *
-> > +real_time_iso8601(void)
+> >  
+> > -bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
+> > -{
+> > -    return false;
+> > -}
+> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> > index 6351bd3424..bf65bbea49 100644
+> > --- a/hw/acpi/pcihp.c
+> > +++ b/hw/acpi/pcihp.c
+> > @@ -554,12 +554,6 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
+> >                                     OBJ_PROP_FLAG_READ);
+> >  }
+> >  
+> > -bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
+> > -{
+> > -     AcpiPciHpState *s = opaque;
+> > -     return s->acpi_index;
+> > -}
+> > -
+> >  const VMStateDescription vmstate_acpi_pcihp_pci_status = {
+> >      .name = "acpi_pcihp_pci_status",
+> >      .version_id = 1,
+> > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> > index cc37fa3416..48aeedd5f0 100644
+> > --- a/hw/acpi/piix4.c
+> > +++ b/hw/acpi/piix4.c
+> > @@ -267,6 +267,15 @@ static bool piix4_vmstate_need_smbus(void *opaque, int version_id)
+> >      return pm_smbus_vmstate_needed();
+> >  }
+> >  
+> > +/*
+> > + * This is a fudge to turn off the acpi_index field, whose
+> > + * test was always broken on piix4.
+> > + */
+> > +static bool vmstate_test_never(void *opaque, int version_id)
 > > +{
-> > +#if GLIB_CHECK_VERSION(2,62,0)
-> > +    g_autoptr(GDateTime) dt =3D g_date_time_new_from_unix_utc(g_get_re=
-al_time());
-> > +    return g_date_time_format_iso8601(dt);
-> > +#else
-> > +    GTimeVal tv;
-> > +    g_get_current_time(&tv);
-> > +    return g_time_val_to_iso8601(&tv);
-> > +#endif
+> > +    return false;
 > > +}
 > > +
-> >  /*
-> >   * Print a message to current monitor if we have one, else to stderr.
-> >   * @report_type is the type of message: error, warning or informationa=
-l.
-> > @@ -189,12 +202,10 @@ static void print_loc(void)
-> >   */
-> >  static void vreport(report_type type, const char *fmt, va_list ap)
-> >  {
-> > -    GTimeVal tv;
-> >      gchar *timestr;
-> >
-> >      if (message_with_timestamp && !monitor_cur()) {
-> > -        g_get_current_time(&tv);
-> > -        timestr =3D g_time_val_to_iso8601(&tv);
-> > +        timestr =3D real_time_iso8601();
-> >          error_printf("%s ", timestr);
-> >          g_free(timestr);
-> >      }
->
+> >  /* qemu-kvm 1.2 uses version 3 but advertised as 2
+> >   * To support incoming qemu-kvm 1.2 migration, change version_id
+> >   * and minimum_version_id to 2 below (which breaks migration from
+> > @@ -297,7 +306,7 @@ static const VMStateDescription vmstate_acpi = {
+> >              struct AcpiPciHpPciStatus),
+> >          VMSTATE_PCI_HOTPLUG(acpi_pci_hotplug, PIIX4PMState,
+> >                              vmstate_test_use_acpi_hotplug_bridge,
+> > -                            vmstate_acpi_pcihp_use_acpi_index),
+> > +                            vmstate_test_never),
+> >          VMSTATE_END_OF_LIST()
+> >      },
+> >      .subsections = (const VMStateDescription*[]) {
+> > diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+> > index af1a169fc3..7e268c2c9c 100644
+> > --- a/include/hw/acpi/pcihp.h
+> > +++ b/include/hw/acpi/pcihp.h
+> > @@ -73,8 +73,6 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off);
+> >  
+> >  extern const VMStateDescription vmstate_acpi_pcihp_pci_status;
+> >  
+> > -bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id);
+> > -
+> >  #define VMSTATE_PCI_HOTPLUG(pcihp, state, test_pcihp, test_acpi_index) \
+> >          VMSTATE_UINT32_TEST(pcihp.hotplug_select, state, \
+> >                              test_pcihp), \
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
