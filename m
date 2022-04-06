@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB59C4F622E
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 16:51:11 +0200 (CEST)
-Received: from localhost ([::1]:47322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD4F4F6230
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 16:52:40 +0200 (CEST)
+Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc701-0007Yj-U1
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 10:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41184)
+	id 1nc71T-0001R0-6K
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 10:52:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nc6xq-0006rW-9U
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 10:48:54 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:39538)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nc70I-0008St-Qg; Wed, 06 Apr 2022 10:51:27 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:33347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1nc6xn-0007po-SZ
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 10:48:54 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8742B21112;
- Wed,  6 Apr 2022 14:48:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649256528; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=guigbKMGKBSyRug9leitYQPbT7lHxgfa/IP3Jxfjs24=;
- b=bOAnnRsH1AIj+S6bfaH7Ya3Y5+2RUAgH5pqWO7/d2rx7C5L5L97kcX+9ZVLEr7m1CZsy4K
- JLpafLlrKLHJP5uqymVL6s/TOx+X680/9hMIV+bVUR5smj/WMHa5S/c/bE8Vak5Ug+gPSi
- gE5wjcRMHE4OSxwbp1m1Twbq2WLhuxQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649256528;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=guigbKMGKBSyRug9leitYQPbT7lHxgfa/IP3Jxfjs24=;
- b=kw7+aOiQ/AKa+79qX38DL+LfocXfIf6S43OTLeO1UUsExht+QjbTJd09LQDT5S7Fx7zFns
- GNeNPaRk1t8oksCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 43C2913A8E;
- Wed,  6 Apr 2022 14:48:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Ka7BDlCoTWJcJwAAMHmgww
- (envelope-from <lizhang@suse.de>); Wed, 06 Apr 2022 14:48:48 +0000
-Message-ID: <91ee90b0-05b1-3df8-e2d1-9da2b11bcefc@suse.de>
-Date: Wed, 6 Apr 2022 16:48:47 +0200
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nc70H-0000Nz-5T; Wed, 06 Apr 2022 10:51:26 -0400
+Received: by mail-ot1-x334.google.com with SMTP id
+ e25-20020a0568301e5900b005b236d5d74fso1898904otj.0; 
+ Wed, 06 Apr 2022 07:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/GVje3wrK8/xLriHckpqUQ3tE/0O/0CQJ4t9CpU9KZU=;
+ b=Z5laZQ8jvd9XDOpc5Y4KUrfgklholOopznCRZFOumBrltfYGM4aaJap2GRdWjo51+8
+ V9iW0ZHBeaTY2DqYQB0KuIhMES3+kDuFD1KXJw8tXMSjWZRZgtJvyNBkdY0GmkQ8eKaw
+ tbhBj68sjJ/dzHJ8c2zfV59gRAbAW5MUq+RcOzsHN6y+FJ1uAVZ5xljjrF5LpNfTKnbW
+ 6jcVQit5zEmkPLtsBmzAd890MyGD0ZuMy3Asio3p5i8FCXm9lDjKGU2dryR3Q62bCXOj
+ LyPaY6R4K0fYpPbzm3Rq/C31LxzVfWmEONpWhmRzsl1U8eBW3YokASdlE+vdLsaZJjFS
+ 3U4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/GVje3wrK8/xLriHckpqUQ3tE/0O/0CQJ4t9CpU9KZU=;
+ b=WpII/NeM9+xQt6J1hhG/sQl8oKvEXDquuQpBsS5j3ALl9gJO+hdwYebfQqjmqwyWov
+ Gxahx+zeYrNzApfECcxcO/ozSUvmKPGXgzQ9S0OSeEuE2qFZ3qo+c6ZsJV7CzzAa5ZZT
+ lQw8vlwkGCZ3IiOuOMgF9/sfv/nzazf7gXX01eCXxTU8UnlLeIsjSunc3YUVHAvkrH9z
+ CPilLzTasjs0ib41yFSmtmWRKPLDOcjcuV6HBf1tfTJVwr44MasI9qm+FrnfZbWccyC9
+ FKYxprsYT4RMmiRUl2q3vqQ24pAAw1qqNj6yxoKK1/sn9ZJvi4llK4lWn3KqQ8VsyBAv
+ HP2A==
+X-Gm-Message-State: AOAM533Ch9ESUELV3jP5FkSHPoRI2o+WXv490AJcvFOcUxhk0fU5iTgi
+ bmsYsbGLRfn509khLE7cHNA=
+X-Google-Smtp-Source: ABdhPJzDFBHYrLbqrL1OOboI0V4pqHivvmzcKk0QQDjiEtYqaorwizTZQzgCX+tP/D6UyqilVTND0w==
+X-Received: by 2002:a05:6830:915:b0:5cd:b39e:1eb with SMTP id
+ v21-20020a056830091500b005cdb39e01ebmr3070939ott.358.1649256683132; 
+ Wed, 06 Apr 2022 07:51:23 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c7:7ee3:afd9:f010:3a9:fd23?
+ ([2804:431:c7c7:7ee3:afd9:f010:3a9:fd23])
+ by smtp.gmail.com with ESMTPSA id
+ g8-20020acab608000000b002ecf38fb699sm6534306oif.38.2022.04.06.07.51.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Apr 2022 07:51:22 -0700 (PDT)
+Message-ID: <d99eee3a-79a2-42e4-dec3-9de1c6e153e8@gmail.com>
+Date: Wed, 6 Apr 2022 11:51:20 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: iotest40 problem
+ Thunderbird/91.7.0
+Subject: Re: [PATCH qemu] ppc/vof: Fix uninitialized string tracing
 Content-Language: en-US
-To: John Snow <jsnow@redhat.com>
-References: <1c4fd757-5d08-0099-b842-4295c430a176@suse.de>
- <32ff3a63-fb50-8038-3f2e-5bfd70b01344@suse.de>
- <37635a04-b717-b7c6-88a0-1b3cecc0c4f5@suse.de>
- <8a898f41-98e1-5a02-4cd8-a697bcb6d9a1@redhat.com>
- <7a952654-c163-00c9-8538-e07afef47ca8@suse.de>
- <CAFn=p-aKWCQM29qEB6YRK6A_6DwcaMPbVTyLLbLnCZ1zG7cBtQ@mail.gmail.com>
- <CAFn=p-bvbpP=tMFDYiJaEhiAtETYnx-PAqCDGaPZ-wVU5ej7LQ@mail.gmail.com>
-From: Li Zhang <lizhang@suse.de>
-In-Reply-To: <CAFn=p-bvbpP=tMFDYiJaEhiAtETYnx-PAqCDGaPZ-wVU5ej7LQ@mail.gmail.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
+References: <20220406045013.3610172-1-aik@ozlabs.ru>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220406045013.3610172-1-aik@ozlabs.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x334.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,386 +89,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/31/22 16:46, John Snow wrote:
-> 
-> 
-> On Thu, Mar 31, 2022, 10:37 AM John Snow <jsnow@redhat.com 
-> <mailto:jsnow@redhat.com>> wrote:
-> 
-> 
-> 
->     On Thu, Mar 31, 2022, 6:47 AM Li Zhang <lizhang@suse.de
->     <mailto:lizhang@suse.de>> wrote:
-> 
->         On 3/31/22 08:10, Hanna Reitz wrote:
->          > On 29.03.22 18:49, Li Zhang wrote:
->          >> Update what I observed.
->          >>
->          >> It seems that aqmp is not stable when running test cases.
->          >> So I revert the patches as the following, iotest40/41 test
->         cases work
->          >> well.
->          >
->          > Thanks for bisecting.  I haven’t seen this problem before, so
->         I didn’t
->          > look into it; CC-ing John, perhaps he figures something.
->          >
->         Thanks a lot.
->         It happens occassionally. I didn't find a way to reproduce it
->         manually.
-> 
-> 
->     Sorry for the instability.
-> 
->     A few questions then:
-> 
->     - what operating system and version
->     - kernel version
->     - architecture (looks like x86 and others?)
->     - what commit/version of QEMU are you testing?
->     - what python version are you using to run iotests?
-> 
-> 
-> I'll also point out these patchsets, because we're in different 
-> timezones and if I'm lucky it will be the answer:
-> 
-> [1] https://patchew.org/QEMU/20220201041134.1237016-1-jsnow@redhat.com/ 
-> <https://patchew.org/QEMU/20220201041134.1237016-1-jsnow@redhat.com/>
-> 
-> [2] https://patchew.org/QEMU/20220225205948.3693480-1-jsnow@redhat.com/ 
-> <https://patchew.org/QEMU/20220225205948.3693480-1-jsnow@redhat.com/>
 
-Thanks a lot.
 
-I backport aqmp related patches, it looks good to run the cases 
-iotest040/041.
+On 4/6/22 01:50, Alexey Kardashevskiy wrote:
+> There are error paths which do not initialize propname but the trace_exit
+> label prints it anyway. This initializes the problem string.
+> 
+> Spotted by Coverity CID 1487241.
+> 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
 
-> 
-> #1 wasn't sufficient to fix the problem, but I had hoped #2 was. The 
-> second patchset was merged somewhat recently, just before rc testing for 
-> 7.0.
-> 
-> Thanks,
-> --js
-> 
-> 
-> 
-> 
-> 
->          > Hanna
->          >
->          >> commit 76cd358671e6b8e7c435ec65b1c44200254514a9
->          >>
->          >> Author: John Snow <jsnow@redhat.com <mailto:jsnow@redhat.com>>
->          >>
->          >> Date:   Tue Oct 26 13:56:12 2021 -0400
->          >>
->          >>
->          >>
->          >>     python, iotests: replace qmp with aqmp
->          >>
->          >>
->          >>
->          >>     Swap out the synchronous QEMUMonitorProtocol from
->         qemu.qmp with
->          >> the sync
->          >>
->          >>     wrapper from qemu.aqmp instead.
->          >>
->          >>
->          >>
->          >>     Add an escape hatch in the form of the environment variable
->          >>
->          >>     QEMU_PYTHON_LEGACY_QMP which allows you to cajole
->         QEMUMachine into
->          >> using
->          >>
->          >>     the old implementation, proving that both
->         implementations work
->          >>
->          >>     concurrently.
->          >>
->          >>
->          >>
->          >>     Signed-off-by: John Snow <jsnow@redhat.com
->         <mailto:jsnow@redhat.com>>
->          >>
->          >>     Reviewed-by: Kevin Wolf <kwolf@redhat.com
->         <mailto:kwolf@redhat.com>>
->          >>
->          >>     Reviewed-by: Hanna Reitz <hreitz@redhat.com
->         <mailto:hreitz@redhat.com>>
->          >>
->          >>     Message-id: 20211026175612.4127598-9-jsnow@redhat.com
->         <mailto:20211026175612.4127598-9-jsnow@redhat.com>
->          >>
->          >>     Signed-off-by: John Snow <jsnow@redhat.com
->         <mailto:jsnow@redhat.com>>
->          >>
->          >>
->          >> commit 1611e6cf4e7163f6102b37010a8b7e7120f468b5
->          >>
->          >> Author: John Snow <jsnow@redhat.com <mailto:jsnow@redhat.com>>
->          >>
->          >> Date:   Thu Nov 18 15:46:18 2021 -0500
->          >>
->          >>
->          >>
->          >>     python/machine: handle "fast" QEMU terminations
->          >>
->          >>
->          >>
->          >>     In the case that the QEMU process actually launches --
->         but then
->          >> dies so
->          >>
->          >>     quickly that we can't establish a QMP connection to it
->         -- QEMUMachine
->          >>
->          >>     currently calls _post_shutdown() assuming that it never
->         launched
->          >> the VM
->          >>
->          >>     process.
->          >>
->          >>
->          >>
->          >>     This isn't true, though: it "merely" may have failed to
->         establish
->          >> a QMP
->          >>
->          >>     connection and the process is in the middle of its own
->         exit path.
->          >>
->          >>
->          >>
->          >>     If we don't wait for the subprocess, the caller may get
->         a bogus
->          >> `None`
->          >>
->          >>     return for .exitcode(). This behavior was observed from
->          >>
->          >>     device-crash-test; after the switch to Async QMP, the
->         timings were
->          >>
->          >>     changed such that it was now seemingly possible to
->         witness the
->          >> failure
->          >>
->          >>     of "vm.launch()" *prior* to the exitcode becoming available.
->          >>
->          >>
->          >>
->          >>     The semantic of the `_launched` property is changed in this
->          >>
->          >>     patch. Instead of representing the condition "launch()
->         executed
->          >>
->          >>     successfully", it will now represent "has forked a child
->         process
->          >>
->          >>     successfully". This way, wait() when called in the exit
->         path won't
->          >>
->          >>     become a no-op.
->          >>
->          >>
->          >>
->          >>     Signed-off-by: John Snow <jsnow@redhat.com
->         <mailto:jsnow@redhat.com>>
->          >>
->          >>     Reviewed-by: Willian Rampazzo <willianr@redhat.com
->         <mailto:willianr@redhat.com>>
->          >>
->          >>     Message-id: 20211118204620.1897674-6-jsnow@redhat.com
->         <mailto:20211118204620.1897674-6-jsnow@redhat.com>
->          >>
->          >>     Signed-off-by: John Snow <jsnow@redhat.com
->         <mailto:jsnow@redhat.com>>
->          >>
->          >>
->          >>
->          >>
->          >>
->          >> On 3/25/22 11:17, Li Zhang wrote:
->          >>> Hi,
->          >>>
->          >>> I backport some iotests patches to the tree and change timeout.
->          >>> It doesn't work.
->          >>>
->          >>> Sometimes, iotest41 also reports the errors.
->          >>> [ 1347s]
->          >>>
->         +======================================================================
->          >>> [ 1347s] +ERROR: test_top_node_in_wrong_chain
->         (__main__.TestSingleDrive)
->          >>> [ 1347s]
->          >>>
->         +----------------------------------------------------------------------
->          >>> [ 1347s] +Traceback (most recent call last):
->          >>> [ 1347s] +  File
->          >>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> 
->          >>> line 399, in launch
->          >>> [ 1347s] +    self._launch()
->          >>> [ 1347s] +  File
->          >>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> 
->          >>> line 434, in _launch
->          >>> [ 1347s] +    self._post_launch()
->          >>> [ 1347s] +  File
->          >>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/qtest.py",
->         line
->          >>> 147, in _post_launch
->          >>> [ 1347s] +    super()._post_launch()
->          >>> [ 1347s] +  File
->          >>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> 
->          >>> line 340, in _post_launch
->          >>> [ 1347s] +    self._qmp.accept(self._qmp_timer)
->          >>> [ 1347s] +  File
->          >>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py",
-> 
->          >>> line 69, in accept
->          >>> [ 1347s] +    timeout
->          >>> [ 1347s] +  File
->          >>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py",
-> 
->          >>> line 42, in _sync
->          >>> [ 1347s] +    asyncio.wait_for(future, timeout=timeout)
->          >>> [ 1347s] +  File
->         "/usr/lib64/python3.6/asyncio/base_events.py", line
->          >>> 488, in run_until_complete
->          >>> [ 1347s] +    return future.result()
->          >>> [ 1347s] +  File "/usr/lib64/python3.6/asyncio/tasks.py",
->         line 362,
->          >>> in wait_for
->          >>> [ 1347s] +    raise futures.TimeoutError()
->          >>> [ 1347s] +concurrent.futures._base.TimeoutError
->          >>>
->          >>>
->          >>> I can see other errors like this, it's the problem of the
->         socket.
->          >>>
->          >>> [ 1535s] socket_accept failed: Resource temporarily unavailable
->          >>> [ 1535s] **
->          >>> [ 1535s]
->          >>>
->         ERROR:../tests/qtest/libqtest.c:321:qtest_init_without_qmp_handshake:
-> 
->          >>> assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
->          >>>
->          >>>
->          >>> The script is running the command as this:
->          >>> /usr/bin/make -O -j4 check-block V=1
->          >>>
->          >>> I can see the errors on ppc, arm or x86.
->          >>> But I couldn't reproduce it when I run it manually.
->          >>>
->          >>> It will be appreciated if any suggestions. Thanks.
->          >>>
->          >>>
->          >>> On 3/24/22 14:47, Li Zhang wrote:
->          >>>> Hi,
->          >>>>
->          >>>> When I run the testsuit on our buidling system, it reports
->         a timeout
->          >>>> sometimes not always as the following.
->          >>>> It couldn't connect qmp socket. Any ideas about this problem?
->          >>>>
->          >>>>
->          >>>> [ 1989s] ---
->          >>>>
->         /home/abuild/rpmbuild/BUILD/qemu-6.2.0/tests/qemu-iotests/040.out
->          >>>> [ 1989s] +++ 040.out.bad
->          >>>> [ 1989s] @@ -1,5 +1,55 @@
->          >>>> [ 1989s]
->          >>>>
->         -.................................................................
->          >>>> [ 1989s] +....ERROR:qemu.aqmp.qmp_client.qemu-6471:Failed to
->          >>>> establish connection: asyncio.exceptions.CancelledError
->          >>>> [ 1989s]
->          >>>>
->         +E..................................ERROR:qemu.aqmp.qmp_client.qemu-6471:Failed
-> 
->          >>>> to establish connection: asyncio.exceptions.CancelledError
->          >>>> [ 1989s] +E.........................
->          >>>> [ 1989s]
->          >>>>
->         +======================================================================
->          >>>> [ 1989s] +ERROR: test_commit_node
->         (__main__.TestActiveZeroLengthImage)
->          >>>> [ 1989s]
->          >>>>
->         +----------------------------------------------------------------------
->          >>>> [ 1989s] +Traceback (most recent call last):
->          >>>> [ 1989s] +  File
->          >>>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/tests/qemu-iotests/040",
->          >>>> line 94, in setUp
->          >>>> [ 1989s] +    self.vm.launch()
->          >>>> [ 1989s] +  File
->          >>>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> 
->          >>>> line 399, in launch
->          >>>> [ 1989s] +    self._launch()
->          >>>> [ 1989s] +  File
->          >>>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> 
->          >>>> line 434, in _launch
->          >>>> [ 1989s] +    self._post_launch()
->          >>>> [ 1989s] +  File
->          >>>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/qtest.py",
-> 
->          >>>> line 147, in _post_launch
->          >>>> [ 1989s] +    super()._post_launch()
->          >>>> [ 1989s] +  File
->          >>>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/machine/machine.py",
-> 
->          >>>> line 340, in _post_launch
->          >>>> [ 1989s] +    self._qmp.accept(self._qmp_timer)
->          >>>> [ 1989s] +  File
->          >>>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py",
-> 
->          >>>> line 67, in accept
->          >>>> [ 1989s] +    self._sync(
->          >>>> [ 1989s] +  File
->          >>>>
->         "/home/abuild/rpmbuild/BUILD/qemu-6.2.0/python/qemu/aqmp/legacy.py",
-> 
->          >>>> line 41, in _sync
->          >>>> [ 1989s] +    return self._aloop.run_until_complete(
->          >>>> [ 1989s] +  File
->         "/usr/lib64/python3.8/asyncio/base_events.py", line
->          >>>> 616, in run_until_complete
->          >>>> [ 1989s] +    return future.result()
->          >>>> [ 1989s] +  File "/usr/lib64/python3.8/asyncio/tasks.py",
->         line 501,
->          >>>> in wait_for
->          >>>> [ 1989s] +    raise exceptions.TimeoutError()
->          >>>> [ 1989s] +asyncio.exceptions.TimeoutError
->          >>>>
->          >>>
->          >>>
->          >>
->          >
-> 
-> 
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
+>   hw/ppc/vof.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+> index 2b63a6287561..5ce3ca32c998 100644
+> --- a/hw/ppc/vof.c
+> +++ b/hw/ppc/vof.c
+> @@ -294,7 +294,7 @@ static uint32_t vof_setprop(MachineState *ms, void *fdt, Vof *vof,
+>                               uint32_t nodeph, uint32_t pname,
+>                               uint32_t valaddr, uint32_t vallen)
+>   {
+> -    char propname[OF_PROPNAME_LEN_MAX + 1];
+> +    char propname[OF_PROPNAME_LEN_MAX + 1] = "";
+>       uint32_t ret = PROM_ERROR;
+>       int offset, rc;
+>       char trval[64] = "";
 
