@@ -2,62 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152534F5A8F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 12:29:40 +0200 (CEST)
-Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607344F5A97
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 12:37:04 +0200 (CEST)
+Received: from localhost ([::1]:34736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc2uw-0002RQ-LD
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 06:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53900)
+	id 1nc327-0006kS-5a
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 06:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nc2sB-0000jt-Fd
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 06:26:47 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:54321)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nc2s9-0004Oc-3e
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 06:26:47 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.17])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3AF50F3AED54;
- Wed,  6 Apr 2022 12:26:41 +0200 (CEST)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 6 Apr
- 2022 12:26:40 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0049b0d9040-5fad-4126-b06f-b3d3e83f1d66,
- ACAFAA60954BC139C96B6B3855CBF7BDA7777862) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <f7aaea2e-73fb-ef19-29a1-cf9d1d97175e@kaod.org>
-Date: Wed, 6 Apr 2022 12:26:39 +0200
+ (Exim 4.90_1) (envelope-from <qperret@google.com>)
+ id 1nc2zY-0005MI-FB
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 06:34:27 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:46971)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <qperret@google.com>)
+ id 1nc2zW-0005cz-QH
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 06:34:24 -0400
+Received: by mail-ej1-x634.google.com with SMTP id n6so3249708ejc.13
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 03:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=iTXPlXz9Zr5EQou03o/EzBtB8wT2GGE1Oxj4KHnssrs=;
+ b=ayqp+jO7yOZ05GUhmKmLMJU9illW53IQuWYj97Bq0h7OEyqmw3078v9FFmpHAsDAsX
+ spKmsJURhryre2eQUlppZX9/HUMI+W6eoOizaX7iehhukxIce2QAtRFltzvot97mqi5g
+ wkzLHd/GXAJerFP3q1x2xzOele+vfbjGw1VTYhqxLnyW66oK1u7wRDE72iuiN53gsanI
+ rXtjHuLiferpfP6GaXR+e/2+55LTuT8kg2k0SD2i6I/8Spe3SQIHjv+mc1I1GC7cM2Bn
+ lfPpqaubm9GgEOe61Moi+rdCo7ZOQ3yLidHpWgZcNsZorkDZClOB35C15vOMByW5gWia
+ Ohgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iTXPlXz9Zr5EQou03o/EzBtB8wT2GGE1Oxj4KHnssrs=;
+ b=vt6pRaBtVOpTSnnbZlNo1y5hgLiis9qDGfmKjK2/3WQXqWd6LfOzqZiLR3szQk2RA5
+ FERCCpEU3ID8xGJGTj1CVVMsEW6YAs2BbuZSOUDnZ2kKFac7UUlux4nwGlDe2yG0Ey21
+ 6h2kOlo+qS0cmQVfMggDJy9ViiYbBGrqJBRvAPYIqwZ6IPiEIjLJXZcFTFbR71byqnZe
+ WEgDzGBnIY+x+hqCSyrAMB3XQqshaCHKBc65pD7pI29+KJ4eSboSTv/fyRAt5CYVt/i3
+ c5fEwY59FE8E1wRQbtb6CiVQQUGf4x/u7x15/KSU3M+zjHn3Gzc5M5rh6VeAwu4opcuI
+ F54Q==
+X-Gm-Message-State: AOAM533CFJkFFWcUTjDxbrpraezZQrS7tKKpTqufoQfWDoAjPfYlRjff
+ URB0m9igaM0ENOn7jt+XfuzH3Q==
+X-Google-Smtp-Source: ABdhPJx9uNXrv9QkGvgAJYDqUioNGXqvB3w7Wp/JIXcWJjl7z4UKv44fp6VMiLyGHlZ2RnmerugK6g==
+X-Received: by 2002:a17:907:3f02:b0:6e7:7172:4437 with SMTP id
+ hq2-20020a1709073f0200b006e771724437mr7358942ejc.361.1649241258989; 
+ Wed, 06 Apr 2022 03:34:18 -0700 (PDT)
+Received: from google.com (30.171.91.34.bc.googleusercontent.com.
+ [34.91.171.30]) by smtp.gmail.com with ESMTPSA id
+ x3-20020a50d9c3000000b0041c8ce4bcd7sm6543091edj.63.2022.04.06.03.34.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 03:34:18 -0700 (PDT)
+Date: Wed, 6 Apr 2022 10:34:15 +0000
+From: Quentin Perret <qperret@google.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Andy Lutomirski <luto@kernel.org>, Steven Price <steven.price@arm.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm list <kvm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <Yk1spw4zIxR73VX8@google.com>
+References: <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
+ <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
+ <YkcTTY4YjQs5BRhE@google.com>
+ <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
+ <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
+ <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 1/7] hw/registerfields: Add shared fields macros
-Content-Language: en-US
-To: Joe Komlodi <komlodi@google.com>, <qemu-devel@nongnu.org>
-References: <20220331043248.2237838-1-komlodi@google.com>
- <20220331043248.2237838-2-komlodi@google.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220331043248.2237838-2-komlodi@google.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 0a062cc7-3df1-482b-ae1f-80aa53edaee6
-X-Ovh-Tracer-Id: 7701436841691810598
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudejiedgvdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepvhgvnhhtuhhrvgesghhoohhglhgvrdgtohhm
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkyEaYiL0BrDYcZv@google.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=qperret@google.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,126 +115,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andrew@aj.id.au, peter.maydell@linaro.org, joel@jms.id.au,
- venture@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/31/22 06:32, Joe Komlodi wrote:
-> Occasionally a peripheral will have different operating modes, where the
-> MMIO layout changes, but some of the register fields have the same offsets
-> and behaviors.
+On Tuesday 05 Apr 2022 at 18:03:21 (+0000), Sean Christopherson wrote:
+> On Tue, Apr 05, 2022, Quentin Perret wrote:
+> > On Monday 04 Apr 2022 at 15:04:17 (-0700), Andy Lutomirski wrote:
+> > > >>  - it can be very useful for protected VMs to do shared=>private
+> > > >>    conversions. Think of a VM receiving some data from the host in a
+> > > >>    shared buffer, and then it wants to operate on that buffer without
+> > > >>    risking to leak confidential informations in a transient state. In
+> > > >>    that case the most logical thing to do is to convert the buffer back
+> > > >>    to private, do whatever needs to be done on that buffer (decrypting a
+> > > >>    frame, ...), and then share it back with the host to consume it;
+> > > >
+> > > > If performance is a motivation, why would the guest want to do two
+> > > > conversions instead of just doing internal memcpy() to/from a private
+> > > > page?  I would be quite surprised if multiple exits and TLB shootdowns is
+> > > > actually faster, especially at any kind of scale where zapping stage-2
+> > > > PTEs will cause lock contention and IPIs.
+> > > 
+> > > I don't know the numbers or all the details, but this is arm64, which is a
+> > > rather better architecture than x86 in this regard.  So maybe it's not so
+> > > bad, at least in very simple cases, ignoring all implementation details.
+> > > (But see below.)  Also the systems in question tend to have fewer CPUs than
+> > > some of the massive x86 systems out there.
+> > 
+> > Yep. I can try and do some measurements if that's really necessary, but
+> > I'm really convinced the cost of the TLBI for the shared->private
+> > conversion is going to be significantly smaller than the cost of memcpy
+> > the buffer twice in the guest for us.
 > 
-> To help support this, we add SHARED_FIELD_XX macros that create SHIFT,
-> LENGTH, and MASK macros for the fields that are shared across registers,
-> and accessors for these fields.
-> 
-> An example use may look as follows:
-> There is a peripheral with registers REG_MODE1 and REG_MODE2 at
-> different addreses, and both have a field FIELD1 initialized by
-> SHARED_FIELD().
-> 
-> Depending on what mode the peripheral is operating in, the user could
-> extract FIELD1 via
-> SHARED_ARRAY_FIELD_EX32(s->regs, R_REG_MODE1, FIELD1)
-> or
-> SHARED_ARRAY_FIELD_EX32(s->regs, R_REG_MODE2, FIELD1)
-> 
-> Signed-off-by: Joe Komlodi <komlodi@google.com>
-> Change-Id: Id3dc53e7d2f8741c95697cbae69a81bb699fa3cb
+> It's not just the TLB shootdown, the VM-Exits aren't free.
 
-I would merge patch 1,3,7 but without the new mode definitions first
-and in another header file because we don't need to expose the register
-definitions outside the I2C model.
+Ack, but we can at least work on the rest (number of exits, locking, ...).
+The cost of the memcpy and the TLBI are really incompressible.
 
-See hw/intc/pnv_xive*regs.h for an example.
+> And barring non-trivial
+> improvements to KVM's MMU, e.g. sharding of mmu_lock, modifying the page tables will
+> block all other updates and MMU operations.  Taking mmu_lock for read, should arm64
+> ever convert to a rwlock, is not an option because KVM needs to block other
+> conversions to avoid races.
+
+FWIW the host mmu_lock isn't all that useful for pKVM. The host doesn't
+have _any_ control over guest page-tables, and the hypervisor can't
+safely rely on the host for locking, so we have hypervisor-level
+synchronization.
+
+> Hmm, though batching multiple pages into a single request would mitigate most of
+> the overhead.
+
+Yep, there are a few tricks we can play to make this fairly efficient in
+the most common cases. And fine-grain locking at EL2 is really high up
+on the todo list :-)
 
 Thanks,
-
-C.
-
-> ---
->   include/hw/registerfields.h | 70 +++++++++++++++++++++++++++++++++++++
->   1 file changed, 70 insertions(+)
-> 
-> diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
-> index f2a3c9c41f..cf3bc3a6e3 100644
-> --- a/include/hw/registerfields.h
-> +++ b/include/hw/registerfields.h
-> @@ -108,4 +108,74 @@
->   #define ARRAY_FIELD_DP64(regs, reg, field, val)                           \
->       (regs)[R_ ## reg] = FIELD_DP64((regs)[R_ ## reg], reg, field, val);
->   
-> +
-> +/*
-> + * These macros can be used for defining and extracting fields that have the
-> + * same bit position across multiple registers.
-> + */
-> +
-> +/* Define shared SHIFT, LENGTH, and MASK constants */
-> +#define SHARED_FIELD(name, shift, length)   \
-> +    enum { name ## _ ## SHIFT = (shift)};   \
-> +    enum { name ## _ ## LENGTH = (length)}; \
-> +    enum { name ## _ ## MASK = MAKE_64BIT_MASK(shift, length)};
-> +
-> +/* Extract a shared field */
-> +#define SHARED_FIELD_EX8(storage, field) \
-> +    extract8((storage), field ## _SHIFT, field ## _LENGTH)
-> +
-> +#define SHARED_FIELD_EX16(storage, field) \
-> +    extract16((storage), field ## _SHIFT, field ## _LENGTH)
-> +
-> +#define SHARED_FIELD_EX32(storage, field) \
-> +    extract32((storage), field ## _SHIFT, field ## _LENGTH)
-> +
-> +#define SHARED_FIELD_EX64(storage, field) \
-> +    extract64((storage), field ## _SHIFT, field ## _LENGTH)
-> +
-> +/* Extract a shared field from a register array */
-> +#define SHARED_ARRAY_FIELD_EX32(regs, offset, field) \
-> +    SHARED_FIELD_EX32((regs)[(offset)], field)
-> +#define SHARED_ARRAY_FIELD_EX64(regs, offset, field) \
-> +    SHARED_FIELD_EX64((regs)[(offset)], field)
-> +
-> +/* Deposit a shared field */
-> +#define SHARED_FIELD_DP8(storage, field, val) ({                        \
-> +    struct {                                                            \
-> +        unsigned int v:field ## _LENGTH;                                \
-> +    } _v = { .v = val };                                                \
-> +    uint8_t _d;                                                         \
-> +    _d = deposit32((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
-> +    _d; })
-> +
-> +#define SHARED_FIELD_DP16(storage, field, val) ({                       \
-> +    struct {                                                            \
-> +        unsigned int v:field ## _LENGTH;                                \
-> +    } _v = { .v = val };                                                \
-> +    uint16_t _d;                                                        \
-> +    _d = deposit32((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
-> +    _d; })
-> +
-> +#define SHARED_FIELD_DP32(storage, field, val) ({                       \
-> +    struct {                                                            \
-> +        unsigned int v:field ## _LENGTH;                                \
-> +    } _v = { .v = val };                                                \
-> +    uint32_t _d;                                                        \
-> +    _d = deposit32((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
-> +    _d; })
-> +
-> +#define SHARED_FIELD_DP64(storage, field, val) ({                       \
-> +    struct {                                                            \
-> +        uint64_t v:field ## _LENGTH;                                    \
-> +    } _v = { .v = val };                                                \
-> +    uint64_t _d;                                                        \
-> +    _d = deposit64((storage), field ## _SHIFT, field ## _LENGTH, _v.v); \
-> +    _d; })
-> +
-> +/* Deposit a shared field to a register array */
-> +#define SHARED_ARRAY_FIELD_DP32(regs, offset, field, val) \
-> +    (regs)[(offset)] = SHARED_FIELD_DP32((regs)[(offset)], field, val);
-> +#define SHARED_ARRAY_FIELD_DP64(regs, offset, field, val) \
-> +    (regs)[(offset)] = SHARED_FIELD_DP64((regs)[(offset)], field, val);
-> +
->   #endif
-
+Quentin
 
