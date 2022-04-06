@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5868D4F6355
+	by mail.lfdr.de (Postfix) with ESMTPS id DA59D4F6357
 	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 17:34:37 +0200 (CEST)
-Received: from localhost ([::1]:46916 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:47062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc7g4-0002vd-7Z
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 11:34:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54476)
+	id 1nc7g4-00031r-Vh
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 11:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nc7dr-0000uA-K1
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 11:32:19 -0400
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:42703)
+ id 1nc7ds-0000uR-Q2
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 11:32:21 -0400
+Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:46598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1nc7dp-0001tV-Ri
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 11:32:19 -0400
-Received: by mail-lj1-x230.google.com with SMTP id c15so3715337ljr.9
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 08:32:16 -0700 (PDT)
+ id 1nc7dp-0001te-S6
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 11:32:20 -0400
+Received: by mail-lf1-x12b.google.com with SMTP id e16so4683830lfc.13
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 08:32:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jVeljm6J+tR8QaGaKRkXn7IoJmb1f9yIz6k7qp7O13U=;
- b=cEDTG7bnMw+vCVqnL1kkYR8r+yUN6G+VYXlWMTZSQ0b8aeZVumCzatak5+WZY1m2tA
- DeJuiQ1HNBqIKNtmTiWoSxM7/XmU0SNjS7U6KuD4yveXfsEhxsTjx4YM76eL0/8V1qhU
- XuyqHvB8rw9d7dD3yjZJIrgeFmhE7qjc5//+Vi/s5pd9v5A+S5IYSlmqzfNJs5nhU7h+
- Pm/07KIwtXXIV1vTYYZKSWWxoG3enXxyQRZN+rz8YQARmsnZhbrk9Qzk7rHTwoLki4g5
- TCANdWF7Pn60QUtLSIkjdXUM2JdafQAgfvzjpyck4F0h64uq7yNbmCiMFeIS/j/DliJt
- xu6Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+YbsXez79aBIQBvhfLmRW92p3RKZFT5OA9WKYM7VT1w=;
+ b=l9Z652iWepGrrlJErYgWHQi/wC838YoB1Y19MekUDofe6GxRoGvfmTxhW0u+9Bp8K0
+ Fjq1ca/WdpSf/jitGu42cfTNIUD4uGoKdNgf0Ye48fvMoIKhgE6JntzzTbm0tXf2MHRE
+ m978u5VCJ0iDZPfWYhFc3RwUQpXFnwiwHHnjS8kgbtcgHPVvMj0dpOGkNXo/p4wG1PVP
+ xiicjVupybTQviWOqkl6wFpHVc1Y6jEIL9z+KEjbHFZ4yjlN4maBC7hFOgAf/TrLit3u
+ EIXBCK/hk7DlXf96q1ybDVczK5kezSTCH9xPzoHG9ZHMWcT9Bwjn5rYrTPozZfh74hAe
+ ZAdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jVeljm6J+tR8QaGaKRkXn7IoJmb1f9yIz6k7qp7O13U=;
- b=Ab4lnVhLjuN1jirTMoPd9nZETS8IqHohQWMu3drKRCh3KHxuGS4ef5izluJe1LJkFE
- NFgCSpTFXQnp9TjJYS/v5rFgqWvu83AxFVRUOwpyAr9Srii3Dt/S84nimPB2N+d5VQwU
- uSpTmW/b7hWrE83w1C2KNGb8XYSIkVSHjjQjUun+2qz97s2o3QXd8R7qZxx5vSAJPb0s
- TygiUnALFrwThP0DbTwR5tN8PZR/cSy7Pt4KKlZE7DQaP+i4RbSdhXrOC7cxz4wEaJ4t
- nhKCKXslfbL58i9uqbqFySakIDbxzVcFesPQlz2q9SKKsJrCfKtclpCfCV9vbsVhehm+
- z1Rg==
-X-Gm-Message-State: AOAM532nzEcz8FctdDyLDOmemfaSg7VNqKFLalVfTq9BL3IrdbltC2f2
- cVtyUTpV7z2baSDiUFoukOpZCg==
-X-Google-Smtp-Source: ABdhPJxjMVbrOwXTP3W/tnLzWppFUxDg3E0XN32QKfvD3K4WsGvg+/s0yQZ2GWBuRbxXnyQ7GG53iQ==
-X-Received: by 2002:a05:651c:2043:b0:24a:e614:c059 with SMTP id
- t3-20020a05651c204300b0024ae614c059mr5596903ljo.482.1649259135274; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=+YbsXez79aBIQBvhfLmRW92p3RKZFT5OA9WKYM7VT1w=;
+ b=NcGnir4DGaluBarEAeBfRECc0Mx0BKDmbfYaMgjILMCSuqBci13Ewh2lu3Rlixe6Z3
+ oibf3gCe27j52T3FoEdgjc68vCDYTFxv3RTm4jWx7ahj3QN/QSCMuM0vhudSQU+Aq4xd
+ 7urHun4CoFxFdH/5htNW1Ej1Ba9ZOyQXt7+tsNH0LPVebUN5WziNeprz2iHQ0c0S+Wj7
+ GwB3VnPRJjeDn44Ag+5h7FQSsRnxTnsZAe9z1nrOzv6sOw4SPBkD3yUZvJ5F5YZhbMID
+ HNXdC5p+W6cICDv7F2fTIPqlE4E32cfmhT8KSouOQC4OTplOCpmQkkaR3wu9Ea/UhS2+
+ A93g==
+X-Gm-Message-State: AOAM531WMIqijPzvbzHb5eXXkzL3hNi3i7f9kJuiDFQllhXt8HNAGhjC
+ QrXiowratxo424ZAMJhCUO1GLA==
+X-Google-Smtp-Source: ABdhPJwYAOxSv5dQjd1e4i1YOp7QmsDGFuFz6GSsTeUMOyf1lUD8RfYJ6m/th/7Jn/Rmd1MwT0mxqQ==
+X-Received: by 2002:a05:6512:b1b:b0:44a:9ae9:b9bf with SMTP id
+ w27-20020a0565120b1b00b0044a9ae9b9bfmr6275935lfu.365.1649259135946; 
  Wed, 06 Apr 2022 08:32:15 -0700 (PDT)
 Received: from fedora.. ([185.215.60.161]) by smtp.gmail.com with ESMTPSA id
- m20-20020a056512115400b0044aa2184999sm1861378lfg.142.2022.04.06.08.32.13
+ m20-20020a056512115400b0044aa2184999sm1861378lfg.142.2022.04.06.08.32.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 08:32:14 -0700 (PDT)
+ Wed, 06 Apr 2022 08:32:15 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-7.1 0/2] throttle-groups: use QEMU_CLOCK_REALTIME
-Date: Wed,  6 Apr 2022 18:32:00 +0300
-Message-Id: <20220406153202.332186-1-vsementsov@openvz.org>
+Subject: [PATCH 1/2] block/throttle-groups: use QEMU_CLOCK_REALTIME for qtest
+ too
+Date: Wed,  6 Apr 2022 18:32:01 +0300
+Message-Id: <20220406153202.332186-2-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220406153202.332186-1-vsementsov@openvz.org>
+References: <20220406153202.332186-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lj1-x230.google.com
+ helo=mail-lf1-x12b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,28 +94,29 @@ Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Virtual clock just doesn't tick for iotests, and throttling just not
+work. Let's use realtime clock.
 
-Honestly, I don't know why QEMU_CLOCK_VIRTUAL is used here. Comment say
-that that's specially for throttle tests, but the simple test (patch 02)
-just hangs because QEMU_CLOCK_VIRTUAL clock just doesn't tick in this
-environment.. And if we change the clock to QEMU_CLOCK_REALTIME, new
-test works, and old tests work as well.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+---
+ block/throttle-groups.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-What the relation between QEMU_CLOCK_VIRTUAL, qtest and throttle?
-This code is here since "throttle: Add throttle group support" of 2015..
-
-Vladimir Sementsov-Ogievskiy (2):
-  block/throttle-groups: use QEMU_CLOCK_REALTIME for qtest too
-  iotests: add throttle test
-
- block/throttle-groups.c               |  4 ---
- tests/qemu-iotests/tests/throttle     | 50 +++++++++++++++++++++++++++
- tests/qemu-iotests/tests/throttle.out |  0
- 3 files changed, 50 insertions(+), 4 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/throttle
- create mode 100644 tests/qemu-iotests/tests/throttle.out
-
+diff --git a/block/throttle-groups.c b/block/throttle-groups.c
+index fb203c3ced..029158d797 100644
+--- a/block/throttle-groups.c
++++ b/block/throttle-groups.c
+@@ -753,10 +753,6 @@ static void throttle_group_obj_init(Object *obj)
+     ThrottleGroup *tg = THROTTLE_GROUP(obj);
+ 
+     tg->clock_type = QEMU_CLOCK_REALTIME;
+-    if (qtest_enabled()) {
+-        /* For testing block IO throttling only */
+-        tg->clock_type = QEMU_CLOCK_VIRTUAL;
+-    }
+     tg->is_initialized = false;
+     qemu_mutex_init(&tg->lock);
+     throttle_init(&tg->ts);
 -- 
 2.35.1
 
