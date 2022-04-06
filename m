@@ -2,58 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A964F5DDD
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 14:32:29 +0200 (CEST)
-Received: from localhost ([::1]:52258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8D14F5EE7
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:06:54 +0200 (CEST)
+Received: from localhost ([::1]:39834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc4pn-0003Qw-KC
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 08:32:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56508)
+	id 1nc5N7-0000tO-Eo
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
- id 1nc4nW-0001bp-P1
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:30:07 -0400
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:12269)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Brice.Goglin@inria.fr>)
- id 1nc4nT-0005EF-2k
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 08:30:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
- h=to:cc:from:subject:message-id:date:mime-version;
- bh=FhtxbETLEUGQqmhtBrPSQ8eTFo+l++6DZ6Ms3RgvVj0=;
- b=Xn2t9gN8N6Nab2ebXjfOK4zVM0hTUom9hsX84UqeybTeQefB5OD/OBki
- RPcUPdykK/FmdjIkU4tP0pvi+Za7ymk0Dgi9Zss56Z7AynhfIWOd9aZIG
- RFasQWdGQkI6uPct7nhwmqf3RICQk8I8+n0qz4XqQF5fbxMSxr+IJr/UC 8=;
-Authentication-Results: mail3-relais-sop.national.inria.fr;
- dkim=none (message not signed) header.i=none;
- spf=SoftFail smtp.mailfrom=Brice.Goglin@inria.fr;
- dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,239,1643670000"; d="scan'208,217";a="10741472"
-Received: from clt-128-93-176-131.vpn.inria.fr (HELO [128.93.176.131])
- ([128.93.176.131]) by mail3-relais-sop.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2022 14:29:57 +0200
-To: qemu-devel@nongnu.org
-From: Brice Goglin <Brice.Goglin@inria.fr>
-Subject: [PATCH] hmat acpi: Don't require initiator value in -numa when hmat=on
-Message-ID: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
-Date: Wed, 6 Apr 2022 14:29:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <qperret@google.com>)
+ id 1nc5Li-000854-Q9
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:05:26 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:39661)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <qperret@google.com>)
+ id 1nc5Lg-0001Fe-U1
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:05:26 -0400
+Received: by mail-ed1-x532.google.com with SMTP id g20so2543228edw.6
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=PM54LwgT2Mgw5AMkSV1qMvIZs90k76HVAm+mIhFW/Ko=;
+ b=dDSmSxNu4cKou0wKKJy2RxvoXv2oI6xKR2vY3pb3rpGtbFJSq+v9Sour4amtkG8OmK
+ /mIlDVEuFioJxUYt/uLZELUgdXQw0ov1GNV1lrpYe6lLXJddt79EqvJAQITLd3WaNVH7
+ RZkDvqmMSe65o+jVNmIxDSjYRyulxd4z4O6RUWbk8rC6zzIUeWQYB0okxXTU0SvhHXZA
+ FOlx5xH2zFxCf3OE8/9JHhuxHDnwAY1LJRZbWwasq6aNf43sSQc+pAeLfaWwXG6joBqH
+ 7NUBr0fvlYsspSPTWRfWfZ9QRS8Vfkb6O9IoizmZOkjDfsVP23+M9cveQTa0tzHjUgJl
+ d64Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PM54LwgT2Mgw5AMkSV1qMvIZs90k76HVAm+mIhFW/Ko=;
+ b=iNt8bT6qUZ6sV8u+CV4vRm2X8/WVqx6NmyAH8DnvGvm7Sot1gQAU8Q3kPnZBfJkQUE
+ Gwv488koU8gjBPv/t8aWHQE+DOlW0VD2A2082ny4O4P+aVSYujhxEgeZiQjt9XSBJ+Sg
+ HcgATEw84KLuUwOROlD8scQ7qB+66SK1OYdo2dCC1Ojn4pGda9vH/xMzvvsg7HI/E54e
+ WlvZdMW4wybb92c63xhAKscYmfKxN5iWBfxQB7SXOQ+Mtws/Igs2zByptKNpBTwl0nHZ
+ eyDUxNRDRT7DZxT34HX2vZec1sledwpfSXSJ3EGCVb3C64vSujbuEY5ZNn2F0rJG5uwH
+ z8iA==
+X-Gm-Message-State: AOAM530tav42omTjyMA3adanOeN7qAa2OUNIp8MTtTcS2gHukNpjuKa+
+ cZeVEzGC4S+VtjBKG3U9tB24nw==
+X-Google-Smtp-Source: ABdhPJyAEVGuwpVr2eJbNmM3Bn7rwdqn15Yyq6WvWvI8cuWdHW0Fh3+ITY+ecK+a12QzHGzVyv/MtQ==
+X-Received: by 2002:a05:6402:34cf:b0:419:75b1:99ad with SMTP id
+ w15-20020a05640234cf00b0041975b199admr8672622edc.228.1649250322915; 
+ Wed, 06 Apr 2022 06:05:22 -0700 (PDT)
+Received: from google.com (30.171.91.34.bc.googleusercontent.com.
+ [34.91.171.30]) by smtp.gmail.com with ESMTPSA id
+ j22-20020a50ed16000000b00419366b2146sm8158326eds.43.2022.04.06.06.05.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 06:05:22 -0700 (PDT)
+Date: Wed, 6 Apr 2022 13:05:18 +0000
+From: Quentin Perret <qperret@google.com>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Sean Christopherson <seanjc@google.com>,
+ Steven Price <steven.price@arm.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm list <kvm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <Yk2QDmvKR2ipsA29@google.com>
+References: <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
+ <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
+ <YkcTTY4YjQs5BRhE@google.com>
+ <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
+ <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
+ <Ykwbqv90C7+8K+Ao@google.com>
+ <54acbba9-f4fd-48c1-9028-d596d9f63069@www.fastmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="bbyAOoRRTIcckH998DlyvodkMLdpIy85b"
-Received-SPF: pass client-ip=192.134.164.104;
- envelope-from=Brice.Goglin@inria.fr; helo=mail3-relais-sop.national.inria.fr
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54acbba9-f4fd-48c1-9028-d596d9f63069@www.fastmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=qperret@google.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,268 +117,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Liu Jingqi <jingqi.liu@intel.com>,
- Tao Xu <tao3.xu@intel.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---bbyAOoRRTIcckH998DlyvodkMLdpIy85b
-Content-Type: multipart/mixed; boundary="UXPzPJ3yuSrDT3MoSss6A2Q5kXnchvZGh";
- protected-headers="v1"
-From: Brice Goglin <Brice.Goglin@inria.fr>
-To: qemu-devel@nongnu.org
-Cc: Liu Jingqi <jingqi.liu@intel.com>, Tao Xu <tao3.xu@intel.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>
-Message-ID: <44e67628-7d58-600d-2268-dbc7c77a8d27@inria.fr>
-Subject: [PATCH] hmat acpi: Don't require initiator value in -numa when
- hmat=on
+On Tuesday 05 Apr 2022 at 10:51:36 (-0700), Andy Lutomirski wrote:
+> Let's try actually counting syscalls and mode transitions, at least approximately.  For non-direct IO (DMA allocation on guest side, not straight to/from pagecache or similar):
+> 
+> Guest writes to shared DMA buffer.  Assume the guest is smart and reuses the buffer.
+> Guest writes descriptor to shared virtio ring.
+> Guest rings virtio doorbell, which causes an exit.
+> *** guest -> hypervisor -> host ***
+> host reads virtio ring (mmaped shared memory)
+> host does pread() to read the DMA buffer or reads mmapped buffer
+> host does the IO
+> resume guest
+> *** host -> hypervisor -> guest ***
+> 
+> This is essentially optimal in terms of transitions.  The data is copied on the guest side (which may well be mandatory depending on what guest userspace did to initiate the IO) and on the host (which may well be mandatory depending on what the host is doing with the data).
+> 
+> Now let's try straight-from-guest-pagecache or otherwise zero-copy on the guest side.  Without nondestructive changes, the guest needs a bounce buffer and it looks just like the above.  One extra copy, zero extra mode transitions.  With nondestructive changes, it's a bit more like physical hardware with an IOMMU:
+> 
+> Guest shares the page.
+> *** guest -> hypervisor ***
+> Hypervisor adds a PTE.  Let's assume we're being very optimal and the host is not synchronously notified.
+> *** hypervisor -> guest ***
+> Guest writes descriptor to shared virtio ring.
+> Guest rings virtio doorbell, which causes an exit.
+> *** guest -> hypervisor -> host ***
+> host reads virtio ring (mmaped shared memory)
+> 
+> mmap  *** syscall ***
+> host does the IO
+> munmap *** syscall, TLBI ***
+> 
+> resume guest
+> *** host -> hypervisor -> guest ***
+> Guest unshares the page.
+> *** guest -> hypervisor ***
+> Hypervisor removes PTE.  TLBI.
+> *** hypervisor -> guest ***
+> 
+> This is quite expensive.  For small IO, pread() or splice() in the host may be a lot faster.  Even for large IO, splice() may still win.
 
---UXPzPJ3yuSrDT3MoSss6A2Q5kXnchvZGh
-Content-Type: multipart/alternative;
- boundary="------------653D3DE1DC2F048FF2D0059F"
-Content-Language: en-US
+Right, that would work nicely for pages that are shared transiently, but
+less so for long-term shares. But I guess your proposal below should do
+the trick.
 
-This is a multi-part message in MIME format.
---------------653D3DE1DC2F048FF2D0059F
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+> I can imagine clever improvements.  First, let's get rid of mmap() + munmap().  Instead use a special device mapping with special semantics, not regular memory.  (mmap and munmap are expensive even ignoring any arch and TLB stuff.)  The rule is that, if the page is shared, access works, and if private, access doesn't, but it's still mapped.  The hypervisor and the host cooperate to make it so.
 
-From: Brice Goglin <Brice.Goglin@inria.fr>
+As long as the page can't be GUP'd I _think_ this shouldn't be a
+problem. We can have the hypervisor re-inject the fault in the host. And
+the host fault handler will deal with it just fine if the fault was
+taken from userspace (inject a SEGV), or from the kernel through uaccess
+macros. But we do get into issues if the host kernel can be tricked into
+accessing the page via e.g. kmap(). I've been able to trigger this by
+strace-ing a userspace process which passes a pointer to private memory
+to a syscall. strace will inspect the syscall argument using
+process_vm_readv(), which will pin_user_pages_remote() and access the
+page via kmap(), and then we're in trouble. But preventing GUP would
+prevent this by construction I think?
 
-The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
-has a "Processor Proximity Domain Valid" flag that is currently
-always set because Qemu -numa requires initiator=3DX when hmat=3Don.
+FWIW memfd_secret() did look like a good solution to this, but it lacks
+the bidirectional notifiers with KVM that is offered by this patch
+series, which is needed to allow KVM to handle guest faults, and also
+offers a good framework to support future extensions (e.g.
+hypervisor-assisted page migration, swap, ...). So yes, ideally
+pKVM would use a kind of hybrid between memfd_secret and the private fd
+proposed here, or something else providing similar properties.
 
-Unsetting this flag allows to create more complex memory topologies
-by having multiple best initiators for a single memory target.
-
-This patch allows -numa with initiator=3DX when hmat=3Don by keeping
-the default value MAX_NODES in numa_state->nodes[i].initiator.
-All places reading numa_state->nodes[i].initiator already check
-whether it's different from MAX_NODES before using it. And
-hmat_build_table_structs() already unset the Valid flag when needed.
-
-Tested with
-qemu-system-x86_64 -accel kvm \
-  -machine pc,hmat=3Don \
-  -drive if=3Dpflash,format=3Draw,file=3D./OVMF.fd \
-  -drive media=3Ddisk,format=3Dqcow2,file=3Defi.qcow2 \
-  -smp 4 \
-  -m 3G \
-  -object memory-backend-ram,size=3D1G,id=3Dram0 \
-  -object memory-backend-ram,size=3D1G,id=3Dram1 \
-  -object memory-backend-ram,size=3D1G,id=3Dram2 \
-  -numa node,nodeid=3D0,memdev=3Dram0,cpus=3D0-1 \
-  -numa node,nodeid=3D1,memdev=3Dram1,cpus=3D2-3 \
-  -numa node,nodeid=3D2,memdev=3Dram2 \
-  -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Da=
-ccess-latency,latency=3D10 \
-  -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Da=
-ccess-bandwidth,bandwidth=3D10485760 \
-  -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Da=
-ccess-latency,latency=3D20 \
-  -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Da=
-ccess-bandwidth,bandwidth=3D5242880 \
-  -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3Da=
-ccess-latency,latency=3D30 \
-  -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3Da=
-ccess-bandwidth,bandwidth=3D1048576 \
-  -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Da=
-ccess-latency,latency=3D20 \
-  -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Da=
-ccess-bandwidth,bandwidth=3D5242880 \
-  -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Da=
-ccess-latency,latency=3D10 \
-  -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Da=
-ccess-bandwidth,bandwidth=3D10485760 \
-  -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3Da=
-ccess-latency,latency=3D30 \
-  -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3Da=
-ccess-bandwidth,bandwidth=3D1048576 \
-
-This exposes NUMA node2 at same distance from both node0 and node1 as see=
-n in lstopo:
-
-Machine (2966MB total) + Package P#0
-   NUMANode P#2 (979MB)
-   Group0
-     NUMANode P#0 (980MB)
-     Core P#0 + PU P#0
-     Core P#1 + PU P#1
-   Group0
-     NUMANode P#1 (1007MB)
-     Core P#2 + PU P#2
-     Core P#3 + PU P#3
-
-Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
----
-  hw/core/machine.c | 4 +---
-  1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index d856485cb4..9884ef7ac6 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1012,9 +1012,7 @@ static void numa_validate_initiator(NumaState *numa=
-_state)
- =20
-      for (i =3D 0; i < numa_state->num_nodes; i++) {
-          if (numa_info[i].initiator =3D=3D MAX_NODES) {
--            error_report("The initiator of NUMA node %d is missing, use =
-"
--                         "'-numa node,initiator' option to declare it", =
-i);
--            exit(1);
-+            continue;
-          }
- =20
-          if (!numa_info[numa_info[i].initiator].present) {
---=20
-2.30.2
-
-
-
---------------653D3DE1DC2F048FF2D0059F
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-
-    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <pre>From: Brice Goglin <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:Brice.Goglin@inria.fr">&lt;Brice.Goglin@inria.fr&gt;</a>
-
-The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
-has a "Processor Proximity Domain Valid" flag that is currently
-always set because Qemu -numa requires initiator=3DX when hmat=3Don.
-
-Unsetting this flag allows to create more complex memory topologies
-by having multiple best initiators for a single memory target.
-
-This patch allows -numa with initiator=3DX when hmat=3Don by keeping
-the default value MAX_NODES in numa_state-&gt;nodes[i].initiator.
-All places reading numa_state-&gt;nodes[i].initiator already check
-whether it's different from MAX_NODES before using it. And
-hmat_build_table_structs() already unset the Valid flag when needed.
-
-Tested with
-qemu-system-x86_64 -accel kvm \
- -machine pc,hmat=3Don \
- -drive if=3Dpflash,format=3Draw,file=3D./OVMF.fd \
- -drive media=3Ddisk,format=3Dqcow2,file=3Defi.qcow2 \
- -smp 4 \
- -m 3G \
- -object memory-backend-ram,size=3D1G,id=3Dram0 \
- -object memory-backend-ram,size=3D1G,id=3Dram1 \
- -object memory-backend-ram,size=3D1G,id=3Dram2 \
- -numa node,nodeid=3D0,memdev=3Dram0,cpus=3D0-1 \
- -numa node,nodeid=3D1,memdev=3Dram1,cpus=3D2-3 \
- -numa node,nodeid=3D2,memdev=3Dram2 \
- -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
-cess-latency,latency=3D10 \
- -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
-cess-bandwidth,bandwidth=3D10485760 \
- -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
-cess-latency,latency=3D20 \
- -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
-cess-bandwidth,bandwidth=3D5242880 \
- -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3Dac=
-cess-latency,latency=3D30 \
- -numa hmat-lb,initiator=3D0,target=3D2,hierarchy=3Dmemory,data-type=3Dac=
-cess-bandwidth,bandwidth=3D1048576 \
- -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
-cess-latency,latency=3D20 \
- -numa hmat-lb,initiator=3D1,target=3D0,hierarchy=3Dmemory,data-type=3Dac=
-cess-bandwidth,bandwidth=3D5242880 \
- -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
-cess-latency,latency=3D10 \
- -numa hmat-lb,initiator=3D1,target=3D1,hierarchy=3Dmemory,data-type=3Dac=
-cess-bandwidth,bandwidth=3D10485760 \
- -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3Dac=
-cess-latency,latency=3D30 \
- -numa hmat-lb,initiator=3D1,target=3D2,hierarchy=3Dmemory,data-type=3Dac=
-cess-bandwidth,bandwidth=3D1048576 \
-
-This exposes NUMA node2 at same distance from both node0 and node1 as see=
-n in lstopo:
-
-Machine (2966MB total) + Package P#0
-  NUMANode P#2 (979MB)
-  Group0
-    NUMANode P#0 (980MB)
-    Core P#0 + PU P#0
-    Core P#1 + PU P#1
-  Group0
-    NUMANode P#1 (1007MB)
-    Core P#2 + PU P#2
-    Core P#3 + PU P#3
-
-Signed-off-by: Brice Goglin <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:Brice.Goglin@inria.fr">&lt;Brice.Goglin@inria.fr&gt;</a>
----
- hw/core/machine.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index d856485cb4..9884ef7ac6 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1012,9 +1012,7 @@ static void numa_validate_initiator(NumaState *numa=
-_state)
-=20
-     for (i =3D 0; i &lt; numa_state-&gt;num_nodes; i++) {
-         if (numa_info[i].initiator =3D=3D MAX_NODES) {
--            error_report("The initiator of NUMA node %d is missing, use =
-"
--                         "'-numa node,initiator' option to declare it", =
-i);
--            exit(1);
-+            continue;
-         }
-=20
-         if (!numa_info[numa_info[i].initiator].present) {
---=20
-2.30.2
-
-
-</pre>
-  </body>
-</html>
-
---------------653D3DE1DC2F048FF2D0059F--
-
---UXPzPJ3yuSrDT3MoSss6A2Q5kXnchvZGh--
-
---bbyAOoRRTIcckH998DlyvodkMLdpIy85b
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEEelpOgOQAl7r26tY4RJGQ8yNavTsFAmJNh8QFAwAAAAAACgkQRJGQ8yNavTsT
-RxAAmTcrYcitRGmsiuIWNriGM/VzrOM54b8FmTT4jyXJL8Ffrz34qZlNW/SqZbsTKC7I8he5fPfQ
-0emGEYzM0yfkH3fclfprqYXzvv92KM8oYQPV0tGttdE05TKMWt6NHhJ1jZn2cVz3dcWgca1a/Md/
-rpry0eBNB+0zAegY3hxgDEkWLTzmxIaSk5YjJ0yAQHkxMI63wl9azdPE1JFfMg0bRPdA9osCxjI8
-5kE8en6fot1thJ2cFPIYBkd4OwKaGu80jTMTj4NthmwhgSUEWyHXXGN23+NLBtOaSReEcBF+wXgI
-wLV/KFHGk9Ssz6MO8V9bO6zIxJOMgwKybjHIfjnhzlkOOScuHTZEYbzkhungGvHshq3K7kyo8sQx
-4IZqupw6bfPb0XSlqzvBTxDUyL/JsqVX8ctkc0w/7+QfeODR5jR1IZ3LNGVnoHbM88Zi/dMwVJvN
-Zyki4nrpHIeWietxyOmX0EOVUQXcQlUXiowFu0fLXRKtarHpo7xwv2ifqFsbGtDj9cZIE2RHvcVV
-LDXHWn2/LQA3azjLxaPgDRjPz0l9/RSkqZhU7lBDvObd/b5EgTOr5EtUl2rfT/FUPLAff92GUKeZ
-vgQ8GAHazOW1Y7cpzj03D+3eB2f3lzEXDuvpbrg55e9Ubv8RzDenJzRA7Zx50U1xL+JMpcsxs+xN
-yC0=
-=KmkG
------END PGP SIGNATURE-----
-
---bbyAOoRRTIcckH998DlyvodkMLdpIy85b--
+Thanks,
+Quentin
 
