@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E7C4F6898
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 20:11:12 +0200 (CEST)
-Received: from localhost ([::1]:34764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FF24F689D
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 20:14:59 +0200 (CEST)
+Received: from localhost ([::1]:47426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncA7a-0003MH-Re
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 14:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37426)
+	id 1ncABG-0003T4-Fw
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 14:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1ncA5E-0000OM-8H
+ id 1ncA5E-0000OQ-9N
  for qemu-devel@nongnu.org; Wed, 06 Apr 2022 14:08:44 -0400
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b]:37447)
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:42894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1ncA59-0001y6-Nx
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 14:08:41 -0400
-Received: by mail-lj1-x22b.google.com with SMTP id bx37so4333963ljb.4
+ id 1ncA5A-0001yS-F8
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 14:08:43 -0400
+Received: by mail-lj1-x234.google.com with SMTP id c15so4315857ljr.9
  for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 11:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oqg7f41+VM2vEfQWhjrNPCfXrEnJ1rvaBBV839r4i28=;
- b=tZqQOhJ+FJW7OQXuUYaOCWrw+ctsybVQ3DdMTLoihmdJWg8iiVtpICTtiMSvjG/d1q
- 4iNDmIjU8x/OKUJsYB6e7Vou44Wl4XUbMpZIGt83xqFlvrvT3Ym1PSJlu1JnnaIShuXr
- j/YDUNCJGf+6jeu6Q+Izc2OE+TKmKWTuIkY7wO4FK18FCnMEUCoN50TCBA+g7vZgPkvq
- VoHYotSBq/6gPOADBm/J43HUxaDdjKCrJDE13sXslgjoKriSaMAJityjsFn+bf39i9MC
- YfYLt2wOqI4olpE80Swa0TxOv9aehFY1Ae8wd6CJCPubZnO/mzV/xHgm1tWcSVaHhbt3
- S/HQ==
+ bh=1ENmWFN7sIJ5AH9c9BqRXvLC/5EA/2JEQfd9vHLRWLo=;
+ b=rCnzh7A8a0iasWaR+3W5o/oA6Q7Kl0AJj7UZ4Po+mh1v1Ra3P/+PM4oFN7NCFcqPlw
+ HnoIUYe+U0jLVUTY1F4jE+Sn+VbWl0Xd/14OJNaRLDtvTGb+hERdyIk+TRguaxhUj32g
+ Fa+vzOV8WHEZXdt9hKHF3+a0GljZkyHlJ8it2B8OoII4r5dmGTtzJq5nRXz1TgzT8RM1
+ Vwo8ofM0QSGQ+BREWthSdwKLMZejzPFqEzpYGx+deX+iGPr3dfq86I3w4w1O4BOUXC7T
+ g6Jiv03QwLPpoXyQOTRJDS0ttKgNW3l66aP8+NsStEXUpVrlgmiLeIxwTNhG6J7q+Q1L
+ 0kJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oqg7f41+VM2vEfQWhjrNPCfXrEnJ1rvaBBV839r4i28=;
- b=S9fgHrdaeG1dCcuE7aAo34UWSXNAEryT7GjbGqSBMesIIT+6I4aQ6aOSnKmqSGexro
- ynNzwBiOe9YDbSyYiZXVdgxiT6BPx2ap+TIV2KIe5GPD0ZVCzUhsdWishI2Ni9EnCukI
- pSjpmOgMq1sPSuqXkxP2gZaYeXSB7jiY660NSFJCbQP8RK2HBXRcoDw+2qRsGr+HMVlI
- LnrI/so6HeBISO4yaL6d4w1HFfNmIiS5lKPPygJ0ZQtIiTwr6/+/yMPdnbSb0zAD5RT6
- 4jeKsmwKyxNX/2SnijFWC/FxyBdXT7W83t2mIVxCeme0qAWcdXSpoZ/sNliFOZXuT1G/
- WjVA==
-X-Gm-Message-State: AOAM533RzWCcaXnRRMhsld5pA5O9JVQstvfMWdTWLlETSn63gAiy4HpY
- JDQ7EbyzehO4GQstZuF+OcNEkA==
-X-Google-Smtp-Source: ABdhPJwj3mf0XV/kHzNKQywxGJVrrlMd5vlSUVQyg3lPOi/ADhEJFI3JngUfu6hgRi9NI92mKu1T6w==
-X-Received: by 2002:a05:651c:50e:b0:249:89ef:101b with SMTP id
- o14-20020a05651c050e00b0024989ef101bmr5902530ljp.109.1649268518136; 
+ bh=1ENmWFN7sIJ5AH9c9BqRXvLC/5EA/2JEQfd9vHLRWLo=;
+ b=fTp7hO7tG7sZZ6rft5LS+rmoExolWfvgXmTHGT2FGMsJwnBnn0UOS9IiaDgvJcrYMv
+ gLjFawSBw2SJVxiZpuruZDX0f02GC0GbL7Gta8wySlJ+h/+wywOA9LYC1Q+WXSkaWXuj
+ DrnHKd1cyKIjTztnuXu2K86VuTJjnQ4qapsSISsXFJKVOrZTty491io8Bnbnra6tUwYx
+ MbV3R6sPYxAzhhiZ4KqwSoxEjZBnTLj61/49qiPR5oqnZbROk7j8GWnIMBugTLII1JBK
+ Uq9qf/WYLvvYteQ8Fi3t5+lYjNphuAN2v9VqcEi2COkL/heeNkmO7yha2y9zrZzTnXQq
+ DaDQ==
+X-Gm-Message-State: AOAM531jnuGoX6xD8AMvcaH0s6GzBfv1Vvl9JwCGYQWJErc1G+Dc0Myi
+ eGkz+tdFyjVVMQxX5LaMWkm4Ow==
+X-Google-Smtp-Source: ABdhPJzJClnjdhpRSYhuRrWmF0+Df6pnnycgnJZaJ/6Lvb94A/3xdBfrzpMm1lJPmJpmC9/eXvuuQQ==
+X-Received: by 2002:a2e:9e13:0:b0:247:e32a:ddce with SMTP id
+ e19-20020a2e9e13000000b00247e32addcemr6390017ljk.9.1649268518801; 
  Wed, 06 Apr 2022 11:08:38 -0700 (PDT)
 Received: from fedora.. ([185.215.60.161]) by smtp.gmail.com with ESMTPSA id
- a20-20020a194f54000000b0044a9afab7e7sm1904321lfk.290.2022.04.06.11.08.37
+ a20-20020a194f54000000b0044a9afab7e7sm1904321lfk.290.2022.04.06.11.08.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 11:08:37 -0700 (PDT)
+ Wed, 06 Apr 2022 11:08:38 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 5/7] block/block-copy: block_copy(): add timeout_ns
- parameter
-Date: Wed,  6 Apr 2022 21:07:59 +0300
-Message-Id: <20220406180801.374844-6-vsementsov@openvz.org>
+Subject: [PATCH v3 6/7] block/copy-before-write: implement cbw-timeout option
+Date: Wed,  6 Apr 2022 21:08:00 +0300
+Message-Id: <20220406180801.374844-7-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220406180801.374844-1-vsementsov@openvz.org>
 References: <20220406180801.374844-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lj1-x22b.google.com
+ helo=mail-lj1-x234.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,103 +94,112 @@ Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add possibility to limit block_copy() call in time. To be used in the
-next commit.
+In some scenarios, when copy-before-write operations lasts too long
+time, it's better to cancel it.
 
-As timed-out block_copy() call will continue in background anyway (we
-can't immediately cancel IO operation), it's important also give user a
-possibility to pass a callback, to do some additional actions on
-block-copy call finish.
+Most useful would be to use the new option together with
+on-cbw-error=break-snapshot: this way if cbw operation takes too long
+time we'll just cancel backup process but do not disturb the guest too
+much.
+
+Note the tricky point of realization: we keep additional point in
+bs->in_fligth during block_copy operation even if it's timed-out.
+Background "cancelled" block_copy operations will finish at some point
+and will want to access state. We should care to not free the state in
+.bdrv_close() earlier.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- include/block/block-copy.h |  4 +++-
- block/block-copy.c         | 33 ++++++++++++++++++++++++++-------
- block/copy-before-write.c  |  2 +-
- 3 files changed, 30 insertions(+), 9 deletions(-)
+ qapi/block-core.json      |  8 +++++++-
+ block/copy-before-write.c | 23 ++++++++++++++++++++++-
+ 2 files changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 68bbd344b2..ba0b425d78 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -40,7 +40,9 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
-                                      int64_t offset, int64_t *count);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 085f1666af..e9cd7e88f6 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4206,12 +4206,18 @@
+ # @on-cbw-error: Behavior on failure of copy-before-write operation.
+ #                Default is @break-guest-write. (Since 7.0)
+ #
++# @cbw-timeout: Zero means no limit. Non-zero sets the timeout in seconds
++#               for copy-before-write operation. When a timeout occurs,
++#               the respective copy-before-write operation will fail, and
++#               the @on-cbw-error parameter will decide how this failure
++#               is handled. Default 0. (Since 7.1)
++#
+ # Since: 6.2
+ ##
+ { 'struct': 'BlockdevOptionsCbw',
+   'base': 'BlockdevOptionsGenericFormat',
+   'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap',
+-            '*on-cbw-error': 'OnCbwError' } }
++            '*on-cbw-error': 'OnCbwError', '*cbw-timeout': 'uint32' } }
  
- int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
--                            bool ignore_ratelimit);
-+                            bool ignore_ratelimit, uint64_t timeout_ns,
-+                            BlockCopyAsyncCallbackFunc cb,
-+                            void *cb_opaque);
- 
- /*
-  * Run block-copy in a coroutine, create corresponding BlockCopyCallState
-diff --git a/block/block-copy.c b/block/block-copy.c
-index ec46775ea5..bb947afdda 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -883,23 +883,42 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
-     return ret;
- }
- 
-+static void coroutine_fn block_copy_async_co_entry(void *opaque)
-+{
-+    block_copy_common(opaque);
-+}
-+
- int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
--                            bool ignore_ratelimit)
-+                            bool ignore_ratelimit, uint64_t timeout_ns,
-+                            BlockCopyAsyncCallbackFunc cb,
-+                            void *cb_opaque)
- {
--    BlockCopyCallState call_state = {
-+    int ret;
-+    BlockCopyCallState *call_state = g_new(BlockCopyCallState, 1);
-+
-+    *call_state = (BlockCopyCallState) {
-         .s = s,
-         .offset = start,
-         .bytes = bytes,
-         .ignore_ratelimit = ignore_ratelimit,
-         .max_workers = BLOCK_COPY_MAX_WORKERS,
-+        .cb = cb,
-+        .cb_opaque = cb_opaque,
-     };
- 
--    return block_copy_common(&call_state);
--}
-+    ret = qemu_co_timeout(block_copy_async_co_entry, call_state, timeout_ns,
-+                          g_free);
-+    if (ret < 0) {
-+        assert(ret == -ETIMEDOUT);
-+        block_copy_call_cancel(call_state);
-+        /* call_state will be freed by running coroutine. */
-+        return ret;
-+    }
- 
--static void coroutine_fn block_copy_async_co_entry(void *opaque)
--{
--    block_copy_common(opaque);
-+    ret = call_state->ret;
-+    g_free(call_state);
-+
-+    return ret;
- }
- 
- BlockCopyCallState *block_copy_async(BlockCopyState *s,
+ ##
+ # @BlockdevOptions:
 diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index ffb05d22f8..b7487e4ffe 100644
+index b7487e4ffe..13992d28c2 100644
 --- a/block/copy-before-write.c
 +++ b/block/copy-before-write.c
-@@ -111,7 +111,7 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
+@@ -42,6 +42,7 @@ typedef struct BDRVCopyBeforeWriteState {
+     BlockCopyState *bcs;
+     BdrvChild *target;
+     OnCbwError on_cbw_error;
++    uint32_t cbw_timeout_ns;
+ 
+     /*
+      * @lock: protects access to @access_bitmap, @done_bitmap and
+@@ -83,6 +84,14 @@ static coroutine_fn int cbw_co_preadv(
+     return bdrv_co_preadv(bs->file, offset, bytes, qiov, flags);
+ }
+ 
++static void block_copy_cb(void *opaque)
++{
++    BlockDriverState *bs = opaque;
++
++    bs->in_flight--;
++    aio_wait_kick();
++}
++
+ /*
+  * Do copy-before-write operation.
+  *
+@@ -111,7 +120,16 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
      off = QEMU_ALIGN_DOWN(offset, cluster_size);
      end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
  
--    ret = block_copy(s->bcs, off, end - off, true);
-+    ret = block_copy(s->bcs, off, end - off, true, 0, NULL, NULL);
+-    ret = block_copy(s->bcs, off, end - off, true, 0, NULL, NULL);
++    /*
++     * Increase in_flight, so that in case of timed-out block-copy, the
++     * remaining background block_copy() request (which can't be immediately
++     * cancelled by timeout) is presented in bs->in_flight. This way we are
++     * sure that on bs close() we'll previously wait for all timed-out but yet
++     * running block_copy calls.
++     */
++    bs->in_flight++;
++    ret = block_copy(s->bcs, off, end - off, true, s->cbw_timeout_ns,
++                     block_copy_cb, bs);
      if (ret < 0 && s->on_cbw_error == ON_CBW_ERROR_BREAK_GUEST_WRITE) {
          return ret;
      }
+@@ -377,6 +395,7 @@ static BlockdevOptions *cbw_parse_options(QDict *options, Error **errp)
+      */
+     qdict_extract_subqdict(options, NULL, "bitmap");
+     qdict_del(options, "on-cbw-error");
++    qdict_del(options, "cbw-timeout");
+ 
+ out:
+     visit_free(v);
+@@ -422,6 +441,8 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+     s->on_cbw_error = opts->has_on_cbw_error ? opts->on_cbw_error :
+             ON_CBW_ERROR_BREAK_GUEST_WRITE;
++    s->cbw_timeout_ns = opts->has_cbw_timeout ?
++        opts->cbw_timeout * NANOSECONDS_PER_SECOND : 0;
+ 
+     bs->total_sectors = bs->file->bs->total_sectors;
+     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
 -- 
 2.35.1
 
