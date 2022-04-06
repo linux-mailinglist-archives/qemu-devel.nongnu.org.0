@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EBAC4F6899
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 20:11:16 +0200 (CEST)
-Received: from localhost ([::1]:35248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1224F689A
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 20:11:49 +0200 (CEST)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncA7f-0003gU-Hk
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 14:11:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37352)
+	id 1ncA8C-00046Y-0A
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 14:11:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1ncA5A-0000NS-Pj
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 14:08:43 -0400
-Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:37445)
+ id 1ncA5E-0000OS-Aa
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 14:08:44 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:38400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1ncA57-0001vl-Ol
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 14:08:40 -0400
-Received: by mail-lj1-x229.google.com with SMTP id bx37so4333860ljb.4
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 11:08:37 -0700 (PDT)
+ id 1ncA58-0001xq-EB
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 14:08:41 -0400
+Received: by mail-lf1-x136.google.com with SMTP id b21so5490957lfb.5
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 11:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t6lsn4nW3rcF/M2cWGQSYle4tgbfFEygVPAUIGkb6Ik=;
- b=fuy7yht0WPSesHZesg4jFRv20FATiALL2yFY0b3wMNeSBO3QGBlgF7SIiIUryZEUEq
- 0iq/7xn9Id+in8VxFlm13mWHl7Md1Lm7XT6o9+Lx0Ay1xpOnsnV6AFrz0mJipVAWEOP5
- Up8xshetbv0Yz259M3BmOWVVTPz4QMl7C20pxvPySw8aS1IVEppWWAx/VncQrMQQ5AB8
- 0U0il8VYa6SacK6vmiwLhrm2TQby629kTKyapqygETPoAkcSIoYH3bxVKGg2rmPAQToS
- w0ulrd/K/wRDAT5zpFdAHX8Q6BsiwAhRByDZrEjJKQah2CFv9/wtF1A+ncFy5RaKdNaP
- Ixeg==
+ bh=rJRsr0n/uu+BAoATVvTtIWzH8Hkbp0PXJYDRy4MnElY=;
+ b=hPEmyY2Ul2xSbKfx62i/US4tKCwChfc+OtOD8Dg7bds8mUnEIU9b7pHggG8U+DQJAR
+ q40tk3DL5YWgf/xIJuB519yT4xRN2U4ZYijOHkmWvFzL65eJmrOZrZeUYyB7K9DNXXPQ
+ 4xRr7oaiz6bQ85zyuS/8CHuM7ifDA65wKkizBunkOjBPJaKsEd7R88Xg5I2lwNrafeYJ
+ G1c9Q+3Ze+R25r16AAKUJ/g9WO9q4OvGTsLWEsGyAI0GrQYSvOTxgbdT1tfCxcXVgvRN
+ uvr80sdKNeM53C5eCmToac2hZP340iWV6F71ru16AGHvoBOMswj6Co76e93+aXYf3CB8
+ O6oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t6lsn4nW3rcF/M2cWGQSYle4tgbfFEygVPAUIGkb6Ik=;
- b=yvlefpJojpuxyJ47pudatFvB7k7zjiit6Yak6t5O4mHsCj5tG9MoSkKwJ1PZq5VU5d
- XvdTWJB6BzZEwz8VBXl9Wf3a1bya3aGLhY+BBab58bU+XcHTmGAZREIoLtGI8YDVWtG0
- SscgZQ889Zeh3Ql0xjTiSw/9aZ6EwBKfDZ6yevTeWJkQj5qzUzo0BgOsWv/qJUJxCo59
- 18EH9yxsro9BV5hdGvzV+D9DctWx4shgStyq71jTxfCCPA0t2+4O4tA5pHeMAEohcq/I
- cOWjNR+3Y+1dbIt7ILIb3v0dmKVUfqSG7TMHk1DP55fmq537kWhkLCN+gTLuPiauXMHG
- 5+iQ==
-X-Gm-Message-State: AOAM533Uf0vJFxHXZZt+l3n7V4D6fikgBQXHDKUAQ2SYtDU+XpJ0A2v7
- 76lHmslCbsT7oejSPBJsL+kfnA==
-X-Google-Smtp-Source: ABdhPJw1Zl2bzjzWHsZhttOXmFE0aGVp8vA4I6h6wfcyep6fh22kX6406M/cYKkJZWbiy27G82VRbA==
-X-Received: by 2002:a2e:a592:0:b0:24b:d8f:ae55 with SMTP id
- m18-20020a2ea592000000b0024b0d8fae55mr5970013ljp.460.1649268516059; 
+ bh=rJRsr0n/uu+BAoATVvTtIWzH8Hkbp0PXJYDRy4MnElY=;
+ b=uya9U3INl5XbJFsh9JpyEdiTKa7EJMUh+62Gk2cakX6XeyKAK4r17B3HRDAdhjyJNR
+ mZlK3i1qUCchTk69wLhd2Q7IugHrUAzz6Z8qbbbhGwFykEy/VcC/iPSsVU+Li1PHADxc
+ 7LkmkYPTe/PhEie21z77rv5BGRUTM4SBHlMEL89Yt3iCpzn1EdyPQBLRGUkOcS9hI4Ru
+ 6Elfy2K3rC0Zsry2EB7nfHH1uOwj/179jZIsP35AG760+nD8fn1C/Ate4k4A7IsWqeww
+ paSaYcFD81mG8bhatirRF+q7OW3wG0c2Wn0X8qCr5W9m+Ji6ZBGWRlhKz3GFBxbv6BFU
+ tl8A==
+X-Gm-Message-State: AOAM530Eks9SQSm+VNKz4eY2wg/48Ri05BXutlVCbxDcE8XTkHk+jr3C
+ wgqL11v9ffUnSziRe/pdvVe84Q==
+X-Google-Smtp-Source: ABdhPJyJ4QCNU8+EcVtbjTNM1NbUY0b4X6WhWu3bJ+1aoIvDIWAigrCP2X1WfqHQK+hmbFnqQekvGg==
+X-Received: by 2002:ac2:4250:0:b0:44a:ff88:3795 with SMTP id
+ m16-20020ac24250000000b0044aff883795mr6848801lfl.384.1649268516748; 
  Wed, 06 Apr 2022 11:08:36 -0700 (PDT)
 Received: from fedora.. ([185.215.60.161]) by smtp.gmail.com with ESMTPSA id
- a20-20020a194f54000000b0044a9afab7e7sm1904321lfk.290.2022.04.06.11.08.35
+ a20-20020a194f54000000b0044a9afab7e7sm1904321lfk.290.2022.04.06.11.08.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 11:08:35 -0700 (PDT)
+ Wed, 06 Apr 2022 11:08:36 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 2/7] block/copy-before-write: add on-cbw-error open
- parameter
-Date: Wed,  6 Apr 2022 21:07:56 +0300
-Message-Id: <20220406180801.374844-3-vsementsov@openvz.org>
+Subject: [PATCH v3 3/7] iotests: add copy-before-write: on-cbw-error tests
+Date: Wed,  6 Apr 2022 21:07:57 +0300
+Message-Id: <20220406180801.374844-4-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220406180801.374844-1-vsementsov@openvz.org>
 References: <20220406180801.374844-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lj1-x229.google.com
+ helo=mail-lf1-x136.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,158 +94,162 @@ Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, behavior on copy-before-write operation failure is simple:
-report error to the guest.
-
-Let's implement alternative behavior: break the whole copy-before-write
-process (and corresponding backup job or NBD client) but keep guest
-working. It's needed if we consider guest stability as more important.
-
-The realisation is simple: on copy-before-write failure we set
-s->snapshot_ret and continue guest operations. s->snapshot_ret being
-set will lead to all further snapshot API requests. Note that all
-in-flight snapshot-API requests may still success: we do wait for them
-on BREAK_SNAPSHOT-failure path in cbw_do_copy_before_write().
+Add tests for new option of copy-before-write filter: on-cbw-error.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- qapi/block-core.json      | 25 ++++++++++++++++++++++++-
- block/copy-before-write.c | 32 ++++++++++++++++++++++++++++++--
- 2 files changed, 54 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/tests/copy-before-write    | 128 ++++++++++++++++++
+ .../qemu-iotests/tests/copy-before-write.out  |   5 +
+ 2 files changed, 133 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/copy-before-write
+ create mode 100644 tests/qemu-iotests/tests/copy-before-write.out
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index beeb91952a..085f1666af 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4163,6 +4163,25 @@
-   'base': 'BlockdevOptionsGenericFormat',
-   'data': { '*bottom': 'str' } }
- 
-+##
-+# @OnCbwError:
+diff --git a/tests/qemu-iotests/tests/copy-before-write b/tests/qemu-iotests/tests/copy-before-write
+new file mode 100755
+index 0000000000..a32608f597
+--- /dev/null
++++ b/tests/qemu-iotests/tests/copy-before-write
+@@ -0,0 +1,128 @@
++#!/usr/bin/env python3
++# group: auto backup
 +#
-+# An enumeration of possible behaviors for copy-before-write operation
-+# failures.
++# Copyright (c) 2022 Virtuozzo International GmbH
 +#
-+# @break-guest-write: report the error to the guest. This way, the guest
-+#                     will not be able to overwrite areas that cannot be
-+#                     backed up, so the backup process remains valid.
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
 +#
-+# @break-snapshot: continue guest write. Doing so will make the provided
-+#                  snapshot state invalid and any backup or export
-+#                  process based on it will finally fail.
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
 +#
-+# Since: 7.1
-+##
-+{ 'enum': 'OnCbwError',
-+  'data': [ 'break-guest-write', 'break-snapshot' ] }
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
- ##
- # @BlockdevOptionsCbw:
- #
-@@ -4184,11 +4203,15 @@
- #          modifications (or removing) of specified bitmap doesn't
- #          influence the filter. (Since 7.0)
- #
-+# @on-cbw-error: Behavior on failure of copy-before-write operation.
-+#                Default is @break-guest-write. (Since 7.0)
-+#
- # Since: 6.2
- ##
- { 'struct': 'BlockdevOptionsCbw',
-   'base': 'BlockdevOptionsGenericFormat',
--  'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap' } }
-+  'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap',
-+            '*on-cbw-error': 'OnCbwError' } }
- 
- ##
- # @BlockdevOptions:
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 6877ff893a..ffb05d22f8 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -41,6 +41,7 @@
- typedef struct BDRVCopyBeforeWriteState {
-     BlockCopyState *bcs;
-     BdrvChild *target;
-+    OnCbwError on_cbw_error;
- 
-     /*
-      * @lock: protects access to @access_bitmap, @done_bitmap and
-@@ -65,6 +66,14 @@ typedef struct BDRVCopyBeforeWriteState {
-      * node. These areas must not be rewritten by guest.
-      */
-     BlockReqList frozen_read_reqs;
++import os
++import re
 +
-+    /*
-+     * @snapshot_error is normally zero. But on first copy-before-write failure
-+     * when @on_cbw_error == ON_CBW_ERROR_BREAK_SNAPSHOT, @snapshot_error takes
-+     * value of this error (<0). After that all in-flight and further
-+     * snapshot-API requests will fail with that error.
-+     */
-+    int snapshot_error;
- } BDRVCopyBeforeWriteState;
- 
- static coroutine_fn int cbw_co_preadv(
-@@ -95,16 +104,27 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
-         return 0;
-     }
- 
-+    if (s->snapshot_error) {
-+        return 0;
-+    }
++import iotests
++from iotests import qemu_img_create, qemu_io
 +
-     off = QEMU_ALIGN_DOWN(offset, cluster_size);
-     end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
- 
-     ret = block_copy(s->bcs, off, end - off, true);
--    if (ret < 0) {
-+    if (ret < 0 && s->on_cbw_error == ON_CBW_ERROR_BREAK_GUEST_WRITE) {
-         return ret;
-     }
- 
-     WITH_QEMU_LOCK_GUARD(&s->lock) {
--        bdrv_set_dirty_bitmap(s->done_bitmap, off, end - off);
-+        if (ret < 0) {
-+            assert(s->on_cbw_error == ON_CBW_ERROR_BREAK_SNAPSHOT);
-+            if (!s->snapshot_error) {
-+                s->snapshot_error = ret;
++
++temp_img = os.path.join(iotests.test_dir, 'temp')
++source_img = os.path.join(iotests.test_dir, 'source')
++size = '1M'
++
++
++class TestCbwError(iotests.QMPTestCase):
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(temp_img)
++        os.remove(source_img)
++
++    def setUp(self):
++        qemu_img_create('-f', iotests.imgfmt, source_img, size)
++        qemu_img_create('-f', iotests.imgfmt, temp_img, size)
++        qemu_io('-c', 'write 0 1M', source_img)
++
++        self.vm = iotests.VM()
++        self.vm.launch()
++
++    def do_cbw_error(self, on_cbw_error):
++        result = self.vm.qmp('blockdev-add', {
++            'node-name': 'cbw',
++            'driver': 'copy-before-write',
++            'on-cbw-error': on_cbw_error,
++            'file': {
++                'driver': iotests.imgfmt,
++                'file': {
++                    'driver': 'file',
++                    'filename': source_img,
++                }
++            },
++            'target': {
++                'driver': iotests.imgfmt,
++                'file': {
++                    'driver': 'blkdebug',
++                    'image': {
++                        'driver': 'file',
++                        'filename': temp_img
++                    },
++                    'inject-error': [
++                        {
++                            'event': 'write_aio',
++                            'errno': 5,
++                            'immediately': False,
++                            'once': True
++                        }
++                    ]
++                }
 +            }
-+        } else {
-+            bdrv_set_dirty_bitmap(s->done_bitmap, off, end - off);
-+        }
-         reqlist_wait_all(&s->frozen_read_reqs, off, end - off, &s->lock);
-     }
- 
-@@ -176,6 +196,11 @@ static BlockReq *cbw_snapshot_read_lock(BlockDriverState *bs,
- 
-     QEMU_LOCK_GUARD(&s->lock);
- 
-+    if (s->snapshot_error) {
-+        g_free(req);
-+        return NULL;
-+    }
++        })
++        self.assert_qmp(result, 'return', {})
 +
-     if (bdrv_dirty_bitmap_next_zero(s->access_bitmap, offset, bytes) != -1) {
-         g_free(req);
-         return NULL;
-@@ -351,6 +376,7 @@ static BlockdevOptions *cbw_parse_options(QDict *options, Error **errp)
-      * object for original options.
-      */
-     qdict_extract_subqdict(options, NULL, "bitmap");
-+    qdict_del(options, "on-cbw-error");
- 
- out:
-     visit_free(v);
-@@ -394,6 +420,8 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
-             return -EINVAL;
-         }
-     }
-+    s->on_cbw_error = opts->has_on_cbw_error ? opts->on_cbw_error :
-+            ON_CBW_ERROR_BREAK_GUEST_WRITE;
- 
-     bs->total_sectors = bs->file->bs->total_sectors;
-     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
++        result = self.vm.qmp('blockdev-add', {
++            'node-name': 'access',
++            'driver': 'snapshot-access',
++            'file': 'cbw'
++        })
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm.hmp_qemu_io('cbw', 'write 0 1M')
++        self.assert_qmp(result, 'return', '')
++
++        result = self.vm.hmp_qemu_io('access', 'read 0 1M')
++        self.assert_qmp(result, 'return', '')
++
++        self.vm.shutdown()
++        log = self.vm.get_log()
++        log = re.sub(r'^\[I \d+\.\d+\] OPENED\n', '', log)
++        log = re.sub(r'\[I \+\d+\.\d+\] CLOSED\n?$', '', log)
++        log = iotests.filter_qemu_io(log)
++        return log
++
++    def test_break_snapshot_on_cbw_error(self):
++        """break-snapshot behavior:
++        Guest write succeed, but further snapshot-read fails, as snapshot is
++        broken.
++        """
++        log = self.do_cbw_error('break-snapshot')
++
++        self.assertEqual(log, """\
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read failed: Permission denied
++""")
++
++    def test_break_guest_write_on_cbw_error(self):
++        """break-guest-write behavior:
++        Guest write fails, but snapshot-access continues working and further
++        snapshot-read succeeds.
++        """
++        log = self.do_cbw_error('break-guest-write')
++
++        self.assertEqual(log, """\
++write failed: Input/output error
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++""")
++
++
++if __name__ == '__main__':
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/tests/copy-before-write.out b/tests/qemu-iotests/tests/copy-before-write.out
+new file mode 100644
+index 0000000000..fbc63e62f8
+--- /dev/null
++++ b/tests/qemu-iotests/tests/copy-before-write.out
+@@ -0,0 +1,5 @@
++..
++----------------------------------------------------------------------
++Ran 2 tests
++
++OK
 -- 
 2.35.1
 
