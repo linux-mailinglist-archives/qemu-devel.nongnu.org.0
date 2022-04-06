@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E1E4F60AC
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:53:07 +0200 (CEST)
-Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEFB4F60AD
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:54:11 +0200 (CEST)
+Received: from localhost ([::1]:46158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc65q-0007V1-Fd
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:53:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54458)
+	id 1nc66s-0001O9-Ao
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:54:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc644-0005Rq-T8
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:51:16 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:46608)
+ id 1nc65S-00089g-Kx
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:52:42 -0400
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:40744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc643-0003au-8X
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:51:16 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id kk12so2223242qvb.13
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:51:14 -0700 (PDT)
+ id 1nc65Q-0003uI-1z
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:52:42 -0400
+Received: by mail-qt1-x835.google.com with SMTP id i4so4325171qti.7
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/ClRovqhWFUDMMN2830oVGY9eSLbwTn4rmtw4G9Gq6c=;
- b=oKeSDLebzVkrXlDRFP/Q8XD3NNutAt3qDgoyKOy57G/K9mhrQTmvYMzK0+2UmNY4xv
- QeG28D1XvyUUTR2aDS+24HFyGTzHan2lcfnzYfQiV5Lf2/oN9KHlfcDn/A/kROylZZRK
- NUKTHk7IVmLMgyBFe6miunXcz3rGLmJVeMu3TW34VLisecfvjApGdfY1U2QZ2F+gFaTU
- 2pGFHvEsG4O2Q7kYz1h/Nz6OwwQP7WgHGx7ZsS0HPm6GujlY3Ult60qqQTLMpPII2PiB
- sFDzV3gfi9znSshd+Zt1MCh37sSnUc5/Qpt0EmxwHcDEDDAZG4e3BVb1EUzum1aDYTMk
- 3M+Q==
+ bh=J96nQ92cyv+EOuupFrNNTIWr0oDK9CNOnAjcMHGwprI=;
+ b=bLA2Rwy5ZEcnOO9pwouiLGfFpknBiNWYAE4QJB9144o4prbBvcBtx6fc42k2o5oIN2
+ i60f+Lm8ohAx4sFMdqaMfu+g1MoqSs/2lriUxOOvCI1Yzhwfs3UGHit3W8neJAQlhUGz
+ 2+9/x/lW9B1b8XktsM4hIZAjPgZjrILs8ULCDkXtKeFG6+S2GcvXoudKBCLoDK0Eyflz
+ EQUc5nmaoPPsZ2ujAjK93qFAR6wHG41uNZPMCkEmuHZg3KjynnLeHp3R7PiGrhXuZpnQ
+ 53Os405R9Y6+1qI+eyxpyro65piKBaP6eXNccytJ+qkMMGjEIfpQNHsiN2rL65IqLJ+P
+ 9PdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/ClRovqhWFUDMMN2830oVGY9eSLbwTn4rmtw4G9Gq6c=;
- b=FayI2+ow+ijMP+/fFIT9bzB/XPFx5iovf03hUHePiZs3JFp+2h2HaGh3J3DEn+pZmL
- 5a0udvp9c/DrRU7npz6Y0vpmY1BeyAO/nIpkmSE4enx8mCsYIZhu3xfNxBgLOLbc+X7X
- hbefIBLcmbGuu+1pXByXvSva6pWsXGdZLmtVR+7vhd4owlcDnX/2jz1WXgZiwG4v4uUf
- TESCR5A4uZPwwDE2ASyJNJ3hbGac80lf9Jn/5wGA6TghQqGBlWxHPCqU/C1mDMP9/V2K
- KSCEablRA3BF9wTRhCOGxcskQN9LxvqGBLPruIgYwj2myJuyjcb+Jg0yQhtl3/TAv6Uz
- t67A==
-X-Gm-Message-State: AOAM531gjZrvbFSIavlijAodd41eAsxn680bLDZV/WtQX5IqgUXdPbJa
- 1M4hjL9Ahs5cqQpGQvrMDH1/Vg==
-X-Google-Smtp-Source: ABdhPJyyvwalvl6PZuvyXGFN74ns/bQdBt5ZftnY5/Bf62lFAxlY8aIDOoZQqPZ3ldouRkrUa5XAIA==
-X-Received: by 2002:a05:6214:e6d:b0:441:734e:8eae with SMTP id
- jz13-20020a0562140e6d00b00441734e8eaemr7301445qvb.30.1649253074368; 
- Wed, 06 Apr 2022 06:51:14 -0700 (PDT)
+ bh=J96nQ92cyv+EOuupFrNNTIWr0oDK9CNOnAjcMHGwprI=;
+ b=l/PNf9cL9rTGQ4MxN45OBVT1LKIBd264ZLS0htP0nZ3HY60hEiU9deIIhBCY1sczF/
+ pwPVd1kbTRe5f8xzGbew6qyIstF3F0feQLoZkB5RmQ0UqqzJGtOcBy+B4X+MHfwS3zrl
+ EK6pYaK1J1yZNhLYc/IQly6u0NiRUR+Kipck1vVOH21svl4mhTJvgweoqwacGWQd50e/
+ d3IHb+LyWc4aKVWuzgCRRNKleXwZYD7S0moSFkDbMqWdd0kd29cumHYdWfoGFm4zyp8X
+ 0K3pS/82skHVe8GXj1/f0nGRWw9GV0sUdlm5cUn9Z8wRxRycKikLZLZQBK1RDlljTeFA
+ qIWQ==
+X-Gm-Message-State: AOAM533xeOhU4yq+8Ez+qurx6e8oT+KeYbD0QP8ImpVsr3rMxUKc03UM
+ g5Qym1+Bq49M0j6z0Flz/LRW3w==
+X-Google-Smtp-Source: ABdhPJyAitoqEm3kSLC0a3wQufH4SV33t4TVg24xL0iofe3Gtsvfq4eXwCDPdy7p6XNeyaUk6xK61g==
+X-Received: by 2002:a05:620a:783:b0:67d:4c9d:d103 with SMTP id
+ 3-20020a05620a078300b0067d4c9dd103mr5683187qka.250.1649253159054; 
+ Wed, 06 Apr 2022 06:52:39 -0700 (PDT)
 Received: from [10.10.117.62] (fixed-187-188-190-73.totalplay.net.
  [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
- 188-20020a3709c5000000b0067b147584c2sm9779868qkj.102.2022.04.06.06.51.12
+ c65-20020a37b344000000b00699aa260f5dsm8711630qkf.1.2022.04.06.06.52.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Apr 2022 06:51:13 -0700 (PDT)
-Message-ID: <71415f4b-0eb1-edfd-7f6d-346589c83e2c@linaro.org>
-Date: Wed, 6 Apr 2022 08:51:10 -0500
+ Wed, 06 Apr 2022 06:52:38 -0700 (PDT)
+Message-ID: <87d2342f-9ec7-6b31-0af4-437abd5bfe7d@linaro.org>
+Date: Wed, 6 Apr 2022 08:52:35 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.1 09/18] hw/arm/exynos4210: Drop ext_gic_irq[] from
- Exynos4210Irq struct
+Subject: Re: [PATCH for-7.1 10/18] hw/arm/exynos4210: Move
+ exynos4210_combiner_get_gpioin() into exynos4210.c
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220404154658.565020-1-peter.maydell@linaro.org>
- <20220404154658.565020-10-peter.maydell@linaro.org>
+ <20220404154658.565020-11-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220404154658.565020-10-peter.maydell@linaro.org>
+In-Reply-To: <20220404154658.565020-11-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x835.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,19 +97,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/4/22 10:46, Peter Maydell wrote:
-> The only time we use the ext_gic_irq[] array in the Exynos4210Irq
-> struct is during realize of the SoC -- we initialize it with the
-> input IRQs of the external GIC device, and then connect those to
-> outputs of other devices further on in realize (including in the
-> exynos4210_init_board_irqs() function).  Now that the ext_gic object
-> is easily accessible as s->ext_gic we can make the connections
-> directly from one device to the other without going via this array.
+> The function exynos4210_combiner_get_gpioin() currently lives in
+> exynos4210_combiner.c, but it isn't really part of the combiner
+> device itself -- it is a function that implements the wiring up of
+> some interrupt sources to multiple combiner inputs.  Move it to live
+> with the other SoC-level code in exynos4210.c, along with a few
+> macros previously defined in exynos4210.h which are now used only
+> in exynos4210.c.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   include/hw/arm/exynos4210.h |  1 -
->   hw/arm/exynos4210.c         | 12 ++++++------
->   2 files changed, 6 insertions(+), 7 deletions(-)
+>   include/hw/arm/exynos4210.h   | 11 -----
+>   hw/arm/exynos4210.c           | 82 +++++++++++++++++++++++++++++++++++
+>   hw/intc/exynos4210_combiner.c | 77 --------------------------------
+>   3 files changed, 82 insertions(+), 88 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
