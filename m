@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C334F66FD
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 19:33:44 +0200 (CEST)
-Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC454F6704
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 19:36:10 +0200 (CEST)
+Received: from localhost ([::1]:56768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc9XL-000293-1K
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 13:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
+	id 1nc9Zh-0004Ah-Hd
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 13:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nc9Vw-0001JD-FD
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 13:32:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nc9Vt-0002A6-So
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 13:32:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649266331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gBsF+SU0EEI1vsb8WZTuk/GR3nXlygaVNg5hscMxn34=;
- b=Lpi9eB8VzIpmrtUDAPwquD4cnICHjFqYz/E79A5kKG7fxogRss813Sqika2LoDcrk5GWzl
- HfJSKp70VmvUDrrzmheprQaW9DbKDgmKVwzBdiUXBulLotu0++xBYtwS0bDnvDJYO6kzrM
- sEIpjUfVxI8bu6WcXE3+MfZ3OV8rArQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-99_HU7AKPpWBxPu2Si9Htg-1; Wed, 06 Apr 2022 13:32:08 -0400
-X-MC-Unique: 99_HU7AKPpWBxPu2Si9Htg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B5BA185A7B2;
- Wed,  6 Apr 2022 17:32:08 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 621A84029A4;
- Wed,  6 Apr 2022 17:32:05 +0000 (UTC)
-Date: Wed, 6 Apr 2022 19:32:04 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RFC v2 1/8] blkio: add io_uring block driver using libblkio
-Message-ID: <Yk3OlNBaEifS9bZD@redhat.com>
-References: <20220405153323.2082242-1-stefanha@redhat.com>
- <20220405153323.2082242-2-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nc9Xm-0002wl-Cg
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 13:34:10 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nc9Xk-0002P2-JT
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 13:34:10 -0400
+Received: by mail-ej1-x634.google.com with SMTP id i27so5727545ejd.9
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 10:34:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zJhJE0L1jlhUd2sHuMKxqOvmmtQD0eXyLIqAEEV6JQ4=;
+ b=TXn5Y0AESTrepH955fOd8bd2N4wlfRVidu4imVaUyHvy/sh3Y25UdbQtwOdPSZFlZ8
+ yyw5QMigkDXiMM18Uc1+lqZWmbjZHrF7AOxpyJ4bxJ+Un0hHh9rmbCiyyEVnMsOXV8MG
+ YgLvvL5Q9KnfFh6eR4wbxojQHFYOXKNuy8sD4r50jntFO1jQCwn1/Y6FQKdM1DO+cGWJ
+ 83pTjRuy2vKlWFBsWBCP5GrrvWZh4pc/jF4bwWSIxFK0yaUaLGuLLyLTJiXosO6vVUS2
+ kuvVyvH+wJLg9dz6ahz+ZzWkAr9xjxxZKYhCBnryTUPk+1WiIDjgrD/Uv5dKQSwx/f0c
+ vfpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zJhJE0L1jlhUd2sHuMKxqOvmmtQD0eXyLIqAEEV6JQ4=;
+ b=DcXQPVCazP9WcmhEwqc89b4tDjFpqRLZnnBqNsTGTuekQ2PGjT0/Gv3SWEn8Q4+zao
+ PzCKp6ro1O4ti7Ki33n2LuRQlsTzAQIJArBJIHxFMa9qWmjOdCxJknOnfVWdLNqJIvkP
+ ++q0IOjZ7iVVuMuRs9SOucM/ud7eOu6Wghf9KurDDXdjbLGAB9E+IjztXDlSUWkRgUu1
+ kmKrfgUPK/sZ+hHtE3KOZJ7d6oxsFNUVSCvxSIPWQnDgQh/7vXL7RNl7OphUMBdfOIOp
+ Ffp+TEPuQxlf+WKMkr9fUQi+pSEYOe+ShkUex3O+B20aJKRt9LuJjrw6uppkTA3XqMgL
+ og2w==
+X-Gm-Message-State: AOAM533+1Efia6yfNmPuZqjiPIxbHZkN+4cfNMt6gpJKcXpb+zLYHJyo
+ aaR5MANkpc5lJV1Ur6j2r57UmA==
+X-Google-Smtp-Source: ABdhPJzwo4PLmw6we3SF2Hm2gGaUfpg4MyrLIgqltRX13GoG1YBv1Rdf4Xg+0/nHBCYkWF3G/VPs2g==
+X-Received: by 2002:a17:907:6ea2:b0:6e0:4ef5:1a2c with SMTP id
+ sh34-20020a1709076ea200b006e04ef51a2cmr9309231ejc.350.1649266446506; 
+ Wed, 06 Apr 2022 10:34:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ o17-20020a056402439100b0041938757232sm8198513edc.17.2022.04.06.10.34.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 10:34:05 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7CF671FFB7;
+ Wed,  6 Apr 2022 18:34:04 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] tests/qtest: properly initialise the vring used idx
+Date: Wed,  6 Apr 2022 18:33:56 +0100
+Message-Id: <20220406173356.1891500-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20220405153323.2082242-2-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,63 +86,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <eduardo@habkost.net>,
- Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Alberto Faria <afaria@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, sgarzare@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Eric Auger <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 05.04.2022 um 17:33 hat Stefan Hajnoczi geschrieben:
-> libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
-> high-performance disk I/O. It currently supports io_uring with
-> additional drivers planned.
-> 
-> One of the reasons for developing libblkio is that other applications
-> besides QEMU can use it. This will be particularly useful for
-> vhost-user-blk which applications may wish to use for connecting to
-> qemu-storage-daemon.
-> 
-> libblkio also gives us an opportunity to develop in Rust behind a C API
-> that is easy to consume from QEMU.
-> 
-> This commit adds an io_uring BlockDriver to QEMU using libblkio. For now
-> I/O buffers are copied through bounce buffers if the libblkio driver
-> requires it. Later commits add an optimization for pre-registering guest
-> RAM to avoid bounce buffers. It will be easy to add other libblkio
-> drivers since they will share the majority of code.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Eric noticed while attempting to enable the vhost-user-blk-test for
+Aarch64 that that things didn't work unless he put in a dummy
+guest_malloc() at the start of the test. Without it
+qvirtio_wait_used_elem() would assert when it reads a junk value for
+idx resulting in:
 
-> +static BlockDriver bdrv_io_uring = {
-> +    .format_name                = "io_uring",
-> +    .protocol_name              = "io_uring",
-> +    .instance_size              = sizeof(BDRVBlkioState),
-> +    .bdrv_needs_filename        = true,
-> +    .bdrv_parse_filename        = blkio_parse_filename_io_uring,
-> +    .bdrv_file_open             = blkio_file_open,
-> +    .bdrv_close                 = blkio_close,
-> +    .bdrv_getlength             = blkio_getlength,
-> +    .has_variable_length        = true,
+  qvirtqueue_get_buf: idx:2401 last_idx:0
+  qvirtqueue_get_buf: 0x7ffcb6d3fe74, (nil)
+  qvirtio_wait_used_elem: 3000000/0
+  ERROR:../../tests/qtest/libqos/virtio.c:226:qvirtio_wait_used_elem: assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
+  Bail out! ERROR:../../tests/qtest/libqos/virtio.c:226:qvirtio_wait_used_elem: assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
 
-This one is a bad idea. It means that every request will call
-blkio_getlength() first, which looks up the "capacity" property in
-libblkio and then calls lseek() for the io_uring backend.
+What was actually happening is the guest_malloc() effectively pushed
+the allocation of the vring into the next page which just happened to
+have clear memory. After much tedious tracing of the code I could see
+that qvring_init() does attempt initialise a bunch of the vring
+structures but skips the vring->used.idx value. It is probably not
+wise to assume guest memory is zeroed anyway. Once the ring is
+properly initialised the hack is no longer needed to get things
+working.
 
-For other backends like the vhost_user one (where I just copied your
-definition and then noticed this behaviour), it involve a message over
-the vhost socket, which is even worse.
+Thanks-to: John Snow <jsnow@redhat.com> for helping debug
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/qtest/libqos/virtio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-.has_variable_length was only meant for the host_floppy/cdrom drivers
-that have to deal with media change. Everything else just requires an
-explicit block_resize monitor command to be resized.
-
-Kevin
+diff --git a/tests/qtest/libqos/virtio.c b/tests/qtest/libqos/virtio.c
+index 6fe7bf9555..fba9186659 100644
+--- a/tests/qtest/libqos/virtio.c
++++ b/tests/qtest/libqos/virtio.c
+@@ -260,6 +260,8 @@ void qvring_init(QTestState *qts, const QGuestAllocator *alloc, QVirtQueue *vq,
+ 
+     /* vq->used->flags */
+     qvirtio_writew(vq->vdev, qts, vq->used, 0);
++    /* vq->used->idx */
++    qvirtio_writew(vq->vdev, qts, vq->used + 2, 0);
+     /* vq->used->avail_event */
+     qvirtio_writew(vq->vdev, qts, vq->used + 2 +
+                    sizeof(struct vring_used_elem) * vq->size, 0);
+-- 
+2.30.2
 
 
