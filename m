@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123AC4F6015
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:42:07 +0200 (CEST)
-Received: from localhost ([::1]:52430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979494F6017
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Apr 2022 15:44:42 +0200 (CEST)
+Received: from localhost ([::1]:55036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nc5vC-00039Y-22
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:42:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
+	id 1nc5xh-00051N-Nd
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 09:44:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc5tD-0001ve-OQ
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:40:03 -0400
-Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:44022)
+ id 1nc5wf-00049B-QI
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:43:37 -0400
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:36385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nc5tC-0000mt-9i
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:40:03 -0400
-Received: by mail-qv1-xf2b.google.com with SMTP id f3so2208750qvz.10
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:40:01 -0700 (PDT)
+ id 1nc5we-0001kj-5j
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 09:43:37 -0400
+Received: by mail-qv1-xf2c.google.com with SMTP id kc20so2247192qvb.3
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 06:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=JsIhCE1HfNCOoKQx4sW1hpRr4RYsON+3L+H+2XmG1Sw=;
- b=eMTDcyUqnKL8mTaHi26ic9OVeN826l0I2t+4bbrBq8o1HtdoxemJB8igORK3hHEOD1
- XDZp94u0S0TfIMN9YjtTdNs7irhnaJnQlx4q8WE/44yV08vytS0JGweNo/sdbXA2VxWU
- zBghkVKbd4mBfPS5gRgrUtSeA82JFJoYb+qFP8iAwEet53+jgWFtoA+GJXb5A7C+x58U
- 4j1UlrRhViYq81a5KkK7nUbsUppk0W194WkKi+RWM6JVeAy9iRpQy+qWfdqviRb0dKB5
- MG6mMctU2Sg5iJKk6/1hynxdSKALqnK2R0vfA8TKuRPr6c4MtVelRfojGuiaEcJPfOQM
- eZXw==
+ bh=z/L5KSTn8cENzzXMrH/98LOK/NOhLWEYpy0sV8oTgow=;
+ b=m27HrFBih1nnwUbSyA32ILeuMtXqNesTbmjQ/gYD8trzKnfIoHCC04bKQuAitRjo8s
+ 7VSLTW+lkEJM5gbFJp+XR10/PZCQ4qjOxNAcLXLmnnZEPo8akC39PdBu7vHr1Bw/Jyjw
+ TQ3pNEvPziFYEzMr4aBMLFYN4yEPTeWJs/bkJyjRuPD7qq2cZqBMDLcS4xEPkkuVMUx9
+ VJUuHg34RxjKd1EBRpT3p0BijCxSrF/cnWeXSxAlha7bG52A66jVVqlglM3GlTz4AMHe
+ Jh80zpvCpIBa8nsCEqbUfIAMqnXFooWUbYN+O5fUOOBV3VxqsYtfiS8ksx1I3H9GnB1y
+ EnBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JsIhCE1HfNCOoKQx4sW1hpRr4RYsON+3L+H+2XmG1Sw=;
- b=gkAqxIiPu+elAzD7WwsF+ccmsIc/ZNjtuPV9l0frv3Sh7PoJN5wT9Gfgj4ESZVIJEo
- uZL2MokBWukSLMxZL+G9CtowoD8tNaLW8eKWnP3iaXucZ1z25tyudWdqx5UYWCFfcnWf
- cfMUvqIeD6BszDygJjHr3yj4XbvUZajdaZXlGE9Nju6mZPL2vZDkSIbGt3ZtrqjkEr/p
- YQWk2WFkfbOFsGvpYGnCqGWNbNtttGUOHSdst5gpshMTbp0VeXhOjB98BvH03Iq78lL/
- 4Z5+vkqCaF3LUkvveZ2TTenwu+EMR9pJCh7aUVh5SayBUXyiufhGuulHz4FJwE56Gpbk
- Jb4Q==
-X-Gm-Message-State: AOAM5302XdAOD/aHZ5Rdj8pt0zZGhPaByQJKlGmF2lTjhb/jPNIQM1yQ
- Egqls4AJD8GNW1wejpowVBbclg==
-X-Google-Smtp-Source: ABdhPJydW56O4sZZlUMEGqQ7eHAHZ0oQNGzw/IkWOUyLDrgDBS1PcRMGlGYrCe/mInhux3In0Cskzg==
-X-Received: by 2002:a05:6214:528b:b0:441:13b4:9523 with SMTP id
- kj11-20020a056214528b00b0044113b49523mr7243774qvb.3.1649252400845; 
- Wed, 06 Apr 2022 06:40:00 -0700 (PDT)
+ bh=z/L5KSTn8cENzzXMrH/98LOK/NOhLWEYpy0sV8oTgow=;
+ b=JlUyFyuDYqmqETqP1gNo25oHsCI2L0DacPFxzyVu9ZXRkDgcxkkuVJ/mSgNBje6DUg
+ NbmOp3eeolnq0R3MfgGgPsQYAlAc8yAjLDCupY7vgskTugkr6QY/y5mH4nFh+ey8HC16
+ wtu2qygiGdJn0ZTzcrFixrSuYs914KUMM3eIcTE14vr8Hz/GiVgqk7KUn/w9txNOw2/X
+ Q8TS7b9BFDh54j5oBfV41RhG//ilygSfKqH29RhPEQ/mkWosNuwN1zHkDVovTXo6oNnZ
+ a0W2HPfsStM2PhL4NVnfXzMyW9dSwJwr8DvY8qrNMPRCSX8jJClaeFWqlJIgwvSiabYj
+ bkjA==
+X-Gm-Message-State: AOAM531TeNJXtbMNkiSZDGhltgFOHz+v4GnW4Kb77969kAjtpjPn+SLP
+ 1rwkqsNL/W5CavDqkT1KdUEwFQ==
+X-Google-Smtp-Source: ABdhPJyqeqwRX49FhYrBrmI8JbN6T2E403ekDJ79751yK/ycH4uIyoFFSzMINm0/qWn3GfCWy1T5kQ==
+X-Received: by 2002:a05:6214:e45:b0:441:73e0:40f9 with SMTP id
+ o5-20020a0562140e4500b0044173e040f9mr7501471qvc.40.1649252615188; 
+ Wed, 06 Apr 2022 06:43:35 -0700 (PDT)
 Received: from [10.10.117.62] (fixed-187-188-190-73.totalplay.net.
  [187.188.190.73]) by smtp.gmail.com with ESMTPSA id
- f19-20020a05620a409300b00680c933fb1csm11502357qko.20.2022.04.06.06.39.59
+ x20-20020ac85f14000000b002e1ee1c56c3sm13638579qta.76.2022.04.06.06.43.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Apr 2022 06:40:00 -0700 (PDT)
-Message-ID: <6602d9c2-0f50-6ea0-c84c-786668f9bc64@linaro.org>
-Date: Wed, 6 Apr 2022 08:39:57 -0500
+ Wed, 06 Apr 2022 06:43:34 -0700 (PDT)
+Message-ID: <775aad48-03ed-9e27-f6f8-a22999e4d668@linaro.org>
+Date: Wed, 6 Apr 2022 08:43:31 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.1 03/18] hw/arm/exynos4210: Put a9mpcore device into
- state struct
+Subject: Re: [PATCH for-7.1 04/18] hw/arm/exynos4210: Drop int_gic_irq[] from
+ Exynos4210Irq struct
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220404154658.565020-1-peter.maydell@linaro.org>
- <20220404154658.565020-4-peter.maydell@linaro.org>
+ <20220404154658.565020-5-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220404154658.565020-4-peter.maydell@linaro.org>
+In-Reply-To: <20220404154658.565020-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,21 +97,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/4/22 10:46, Peter Maydell wrote:
-> The exynos4210 SoC mostly creates its child devices as if it were
-> board code.  This includes the a9mpcore object.  Switch that to a
-> new-style "embedded in the state struct" creation, because in the
-> next commit we're going to want to refer to the object again further
-> down in the exynos4210_realize() function.
+> The only time we use the int_gic_irq[] array in the Exynos4210Irq
+> struct is in the exynos4210_realize() function: we initialize it with
+> the GPIO inputs of the a9mpcore device, and then a bit later on we
+> connect those to the outputs of the internal combiner.  Now that the
+> a9mpcore object is easily accessible as s->a9mpcore we can make the
+> connection directly from one device to the other without going via
+> this array.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
-> I don't propose to try to do a full conversion of every child
-> device; I'm only going to do them where it makes a subsequent
-> commit a bit nicer, like this one.
-> ---
->   include/hw/arm/exynos4210.h |  2 ++
->   hw/arm/exynos4210.c         | 11 ++++++-----
->   2 files changed, 8 insertions(+), 5 deletions(-)
+>   include/hw/arm/exynos4210.h | 1 -
+>   hw/arm/exynos4210.c         | 6 ++----
+>   2 files changed, 2 insertions(+), 5 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
