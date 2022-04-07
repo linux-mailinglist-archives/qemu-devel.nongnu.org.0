@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC714F80E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 15:44:00 +0200 (CEST)
-Received: from localhost ([::1]:33612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A524F80F1
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 15:47:40 +0200 (CEST)
+Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncSQZ-0004wc-5m
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 09:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51686)
+	id 1ncSU7-0001Ge-86
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 09:47:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ncSKo-0001yF-TG
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:38:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50407)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ncSKr-000214-Hd
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:38:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ncSKn-0001Dj-EZ
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:38:02 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ncSKq-0001ET-4t
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:38:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649338680;
+ s=mimecast20190719; t=1649338683;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qhL/0kZcgBGsYUXAbgjknUi3zb6t3/ixNfEEP/co0sQ=;
- b=M670p16z75xL2bh6PqJGE6hOEjkhCugCwyQRJsv15m+WaIjiynX2fpp7pxPffhdCLL/3DE
- KahuTOqXfPC4aWRQgZgEx3t0NMbL0b/tqh1ay+41IDIqLStmR5FhCl53CKx9FmBmzOFXQf
- EhFZDy64RRhQB5zbawRhfAE16l61/vo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Cu53vvn5A8LnUt/5E7opHp5vpQBFC/LwNhTarutxcNg=;
+ b=NZ3cAqKHR612RXOGAzp40RC/OQFO0KsTOdGI67yQYa+/wqHEtwBW09LSC4PDYm0EST4Eny
+ V288PGEcKc7VWbtBYVfTI8vRWfUDezUSji0nkljg38VpWayWLfFGheMH55T/5X7tP6V6dG
+ 7m5079n4JFumhQj3OVl2XVqu9pBnMwc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-455-AIWiFI1SNQGj8nKho9f9yA-1; Thu, 07 Apr 2022 09:37:58 -0400
-X-MC-Unique: AIWiFI1SNQGj8nKho9f9yA-1
+ us-mta-133-UDQcOXwmMv2eoXz8_2THlg-1; Thu, 07 Apr 2022 09:38:00 -0400
+X-MC-Unique: UDQcOXwmMv2eoXz8_2THlg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 483542999B5A;
- Thu,  7 Apr 2022 13:37:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 208C6899EEC;
+ Thu,  7 Apr 2022 13:38:00 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.195.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9831F54AC9E;
- Thu,  7 Apr 2022 13:37:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 00B9F482CD2;
+ Thu,  7 Apr 2022 13:37:55 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] libvhost-user: Fix extra vu_add/rem_mem_reg reply
-Date: Thu,  7 Apr 2022 15:36:56 +0200
-Message-Id: <20220407133657.155281-3-kwolf@redhat.com>
+Subject: [PATCH 3/3] vhost-user: Don't pass file descriptor for
+ VHOST_USER_REM_MEM_REG
+Date: Thu,  7 Apr 2022 15:36:57 +0200
+Message-Id: <20220407133657.155281-4-kwolf@redhat.com>
 In-Reply-To: <20220407133657.155281-1-kwolf@redhat.com>
 References: <20220407133657.155281-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -83,54 +84,65 @@ Cc: kwolf@redhat.com, raphael.norwitz@nutanix.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Outside of postcopy mode, neither VHOST_USER_ADD_MEM_REG nor
-VHOST_USER_REM_MEM_REG are supposed to send a reply unless explicitly
-requested with the need_reply flag. Their current implementation always
-sends a reply, even if it isn't requested. This confuses the master
-because it will interpret the reply as a reply for the next message for
-which it actually expects a reply.
+The spec clarifies now that QEMU should not send a file descriptor in a
+request to remove a memory region. Change it accordingly.
 
-need_reply is already handled correctly by vu_dispatch(), so just don't
-send a reply in the non-postcopy part of the message handler for these
-two commands.
+For libvhost-user, this is a bug fix that makes it compatible with
+rust-vmm's implementation that doesn't send a file descriptor. Keep
+accepting, but ignoring a file descriptor for compatibility with older
+QEMU versions.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- subprojects/libvhost-user/libvhost-user.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ hw/virtio/vhost-user.c                    | 2 +-
+ subprojects/libvhost-user/libvhost-user.c | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 6abbc9da32..82caf607e5 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -751,7 +751,7 @@ static int send_remove_regions(struct vhost_dev *dev,
+             vhost_user_fill_msg_region(&region_buffer, shadow_reg, 0);
+             msg->payload.mem_reg.region = region_buffer;
+ 
+-            ret = vhost_user_write(dev, msg, &fd, 1);
++            ret = vhost_user_write(dev, msg, NULL, 0);
+             if (ret < 0) {
+                 return ret;
+             }
 diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index 47d2efc60f..eccaff5168 100644
+index eccaff5168..d0041c864b 100644
 --- a/subprojects/libvhost-user/libvhost-user.c
 +++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -800,8 +800,7 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+@@ -822,15 +822,15 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+     int i;
+     bool found = false;
  
-         DPRINT("Successfully added new region\n");
-         dev->nregions++;
--        vmsg_set_reply_u64(vmsg, 0);
--        return true;
-+        return false;
+-    if (vmsg->fd_num != 1) {
++    if (vmsg->fd_num > 1) {
+         vmsg_close_fds(vmsg);
+-        vu_panic(dev, "VHOST_USER_REM_MEM_REG received %d fds - only 1 fd "
++        vu_panic(dev, "VHOST_USER_REM_MEM_REG received %d fds - at most 1 fd "
+                       "should be sent for this message type", vmsg->fd_num);
+         return false;
      }
- }
  
-@@ -874,15 +873,13 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-         }
-     }
- 
--    if (found) {
--        vmsg_set_reply_u64(vmsg, 0);
--    } else {
-+    if (!found) {
+     if (vmsg->size < VHOST_USER_MEM_REG_SIZE) {
+-        close(vmsg->fds[0]);
++        vmsg_close_fds(vmsg);
+         vu_panic(dev, "VHOST_USER_REM_MEM_REG requires a message size of at "
+                       "least %d bytes and only %d bytes were received",
+                       VHOST_USER_MEM_REG_SIZE, vmsg->size);
+@@ -877,7 +877,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
          vu_panic(dev, "Specified region not found\n");
      }
  
-     close(vmsg->fds[0]);
+-    close(vmsg->fds[0]);
++    vmsg_close_fds(vmsg);
  
--    return true;
-+    return false;
+     return false;
  }
- 
- static bool
 -- 
 2.35.1
 
