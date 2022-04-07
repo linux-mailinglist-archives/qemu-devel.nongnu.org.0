@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA6A4F71DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 04:07:46 +0200 (CEST)
-Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B4C4F71E0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 04:09:44 +0200 (CEST)
+Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncHYn-00080N-4F
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 22:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52312)
+	id 1ncHag-0004oc-RD
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 22:09:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=089d0ce6d=alistair.francis@opensource.wdc.com>)
- id 1ncHWK-00052c-El
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:05:13 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:21873)
+ id 1ncHWP-0005Dx-VT
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:05:18 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:34929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=089d0ce6d=alistair.francis@opensource.wdc.com>)
- id 1ncHWI-0007Ng-3S
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:05:12 -0400
+ id 1ncHWO-0007Oc-9X
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:05:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1649297109; x=1680833109;
+ t=1649297115; x=1680833115;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6W9Q3f9HKhqO8NzY38idQYoPrAEDcxn3lMCoVDZrHmY=;
- b=CbTCCihvSzojxy2O6jmXQqN+hgnuYd4f6ygLQVn54Vxba0SHxr/e8ylm
- dmsWUI6Do7otAlJiHO8pU4RztcET8yKJ4r9frofaUqEPMK5Wt7DCV80pA
- Q9bb74sLzwkpafd38Onjkc9D/Qp0wiTEAaaSpdAG4p4hOls3dJuQ4yyYx
- L64RcZwTEuMA0Wolug6YMwEyi7p5fZAv2PmlSRi+97el5BrfgfAScMBNO
- 7SofrFbvcCcawy+IkiwxiwH9JhythS3FxD2EHPOq94NUpH0JfkdWUgfn9
- MUwF8A+Gc0i/H8jWrU7rajumAOB5RMbYCnYDzcT+1RDzuH5oL6QvPxZOD g==;
-X-IronPort-AV: E=Sophos;i="5.90,241,1643644800"; d="scan'208";a="196170950"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ bh=zccCpHtADMwu8/xP6fpo6+pa/5CgvCwfBlKHz72a2Pk=;
+ b=hqUtJMe0NJTa7mRADNZmHbdlEx/vCeMtz56Tb1sI4acp42W43aWOoZYv
+ MK02Q+sX06rJ6zaEjwSPoX+OimzxJmB3N+Bh1d+Ha+DibFncmsQ9+3qlF
+ 33K/fgb97WkwZWe9nx81SEln5MQod9/NIehqnD1S/Ec/uF8Clc2BRyaJi
+ Uwqh9ncbXnf1QBxfA9OS/UueD50B4oiCrNciv5FWx8s5fs2j0Os0uk3No
+ byZ+t0G/JjCyJz9F72jjdWhK8Z9PUAmiq9+ExVAAshCM4goZYZF0vYPmV
+ Bb1UlW2iEnxkiEkUjP0nX0ycQRYVFqUOVfPwOOASkEUTlk9DfRyBxBJ+g g==;
+X-IronPort-AV: E=Sophos;i="5.90,241,1643644800"; d="scan'208";a="202145865"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Apr 2022 10:05:06 +0800
-IronPort-SDR: N4RH4Rzf99BpGsPCnuH7JYFdQRkYPt52DRWhuSy1xUHslc+TXKWY1Z64cW1ICYwit7vsAX+4sA
- SrldPlGWPS6J3doyx5sCAg2WaeMyr4m2naiUrZ//+Fl9GPURlHhXCsoLYpoZId7e5nH4ihCx/y
- umC6kEzH57G/JU5QVHY4B5VYr1D3BVb3W9eHe/mNZxDxhtkSif7vOEUFTHB2fgUL84N8vQcynN
- gelJhFJ0oBwW/uLKDhkOfYbe8ThpfiGEjI66iE21aIyA260UsYpuOLrzp4p3m9UAdaA6jTrwvd
- e6a0+JGGTvJl3vHYuinyznEV
+ by ob1.hgst.iphmx.com with ESMTP; 07 Apr 2022 10:05:11 +0800
+IronPort-SDR: N0BSdSgh76JFmq5L3lqu0E/UHyySbwyz4KMelwHewTHsyCijJscxyM8qnBROfySOmlbslb1OMp
+ Ih1WnpxyWBn9pIm/st45D7kvoxgb9or1L40dbxnoUmNdGxJNl8AQrYGmSXbOFN6Q3+QCD6hVd5
+ anIG0JWviuD7mZNzPzxwr9wX1SolesKAG5JpTjFrGjVn5sswTKt6utaWEVS2F//kFHwkEWgCjg
+ 7E2ihJJkh+j3mJ4KM4/Ds2vtlEuAptpOvZXXATxVTSW2gjWcnJH7obi7cb/G5HXzGzWBy/yYOE
+ Dm1mULxMG0GFi8w1yYmDVxL3
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Apr 2022 18:35:47 -0700
-IronPort-SDR: FR57G39Fhzh7BC2QQIw+55vfKU4vvAMfcMojYdlSVlTwzMxJ5938kfdf0TCZa3bb4RDk6EZGxx
- yJkVx7q8k3JqeiQGS54WldB3yLDHrlM7w53xBkHGI10q70ibtq20fiH6TL84kuN2Yt7gfy1ct3
- gkV4njkjJen4R/tj8BSH7i+FZTSIUw5NJlHFSpnupjYxAZVblipye9sqlia6VOS2ZPzLRDsHBE
- PdqQfXi9HpxatfdBd7YqJTbaCvW+d5Yf3EmJgY+R4qpQDYdarai0+KP9Eux9McjUl317FBTBaE
- jik=
+ 06 Apr 2022 18:35:53 -0700
+IronPort-SDR: b2zXrDlSjS5WaHUApoGeOV/c66ZxMxSXCfwGuXd9PF9teWJPhuWc7V7S8sMS+DuigiEwDA2hRe
+ +0ihOqwkKw8Ikj7v/9TO5ZSrmXlxm2BHSksRCvl/phjiF2/0pA5EeJtSlGDEJPA2JkEWmIL8iN
+ F5/DNLpeElPehsieDdikl8H8a5JFrv3AUsH+Ms63UACF1go/jkAgZkCdZMai0aGafBFIl+fFoK
+ 4pIKTw4d4k++9G+hLVnjiGgR8DQkXlmk7qYZEBUAgJqU7P6V8igPHqYFDUoogyF312q/08haNT
+ 4a8=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Apr 2022 19:05:07 -0700
+ 06 Apr 2022 19:05:13 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KYl8150rfz1SVpB
- for <qemu-devel@nongnu.org>; Wed,  6 Apr 2022 19:05:05 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KYl873v71z1SVp2
+ for <qemu-devel@nongnu.org>; Wed,  6 Apr 2022 19:05:11 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1649297104; x=1651889105; bh=6W9Q3f9HKhqO8NzY38
- idQYoPrAEDcxn3lMCoVDZrHmY=; b=LABEiFNPH+c0UMZ+1HZt+6t0585apyLdro
- xU+W4IWH9WaSFtUbvH0Nnlu3zn/uUMGYV8d+It4mc2/BxBR2/BjjAQRYaH2ADzwZ
- 4ZtMUdxXn+2ZvA++eayPvtIHBaVinatimbfCEy7l4SfmqhK7NRZL+389jZnOItW0
- nvUKNbIuNV72FRMFtGAlqEu9LGKJWdli1S3gfJzuSS8KBuzWa4D9mUlJnC+MZt2o
- XgF7911H73u88c7OLu7DS2OezCnPWESOrLFck8aM9+aNuhD4ZoL9SMuctHTjalQj
- b3UXV5lVEpprfq5GhvqCxnqneK9uM6y7e16Jj0rQJN1S+1vf1T7g==
+ :from; s=dkim; t=1649297110; x=1651889111; bh=zccCpHtADMwu8/xP6f
+ po6+pa/5CgvCwfBlKHz72a2Pk=; b=ArwyqFdzHv2QU/v89duN/CEM2VSo6mPNoJ
+ 3zukbdInGyVh3Byogq0n9mDpt9EBXmdwgcl8FMfjW+78fHdmb9KnjFwJpOQ8AdqX
+ g5Iqy3fBZMU1G8NC3tNGfC85Y1fsf0ioF6V/evnrzvsTYabSLCYV50CGB3g7S6hm
+ CFJFDXTWy02VuE1t8i9YQyq+8+NYIWPVwzS4VY+KdMo7Wnm4+Z+rnRXj2Zli7UhB
+ oeRtmonGM8ED85MVapSDWFU54BfemNu2VLaLz6mqkMZYhf5azQAw6CkTxh+ypdHT
+ BfvEbWqVLVDdNIIWpgik/8fWmG5KI6G7zPubWQr5cvTGDBdFFxjw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id JCAE0drOecEh for <qemu-devel@nongnu.org>;
- Wed,  6 Apr 2022 19:05:04 -0700 (PDT)
+ port 10026) with ESMTP id 4iplh994NXZr for <qemu-devel@nongnu.org>;
+ Wed,  6 Apr 2022 19:05:10 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.114])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KYl7v1jHdz1Rvlx;
- Wed,  6 Apr 2022 19:04:58 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KYl814Fjmz1SVp3;
+ Wed,  6 Apr 2022 19:05:05 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -88,18 +88,17 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
  Palmer Dabbelt <palmer@dabbelt.com>, bmeng.cn@gmail.com,
  Bin Meng <bin.meng@windriver.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v2 4/6] hw/riscv: virt: Add support for generateing platform
- FDT entries
-Date: Thu,  7 Apr 2022 12:04:30 +1000
-Message-Id: <20220407020432.4062829-5-alistair.francis@opensource.wdc.com>
+Subject: [PATCH v2 5/6] hw/riscv: virt: Add device plug support
+Date: Thu,  7 Apr 2022 12:04:31 +1000
+Message-Id: <20220407020432.4062829-6-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220407020432.4062829-1-alistair.francis@opensource.wdc.com>
 References: <20220407020432.4062829-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.42;
+Received-SPF: pass client-ip=216.71.153.141;
  envelope-from=prvs=089d0ce6d=alistair.francis@opensource.wdc.com;
- helo=esa4.hgst.iphmx.com
+ helo=esa3.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -124,85 +123,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Similar to the ARM virt machine add support for adding device tree
-entries for dynamically created devices.
+Add support for plugging in devices, this was tested with the TPM
+device.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/virt.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ hw/riscv/virt.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
 diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index b066725be6..eba8495e9a 100644
+index eba8495e9a..bec83d26fd 100644
 --- a/hw/riscv/virt.c
 +++ b/hw/riscv/virt.c
-@@ -28,6 +28,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/char/serial.h"
- #include "target/riscv/cpu.h"
-+#include "hw/core/sysbus-fdt.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/virt.h"
- #include "hw/riscv/boot.h"
-@@ -411,6 +412,12 @@ static void create_fdt_socket_aclint(RISCVVirtState =
-*s,
-         qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0)=
-;
-         qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
-         riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
-+
-+        platform_bus_add_all_fdt_nodes(mc->fdt, name,
-+                                       memmap[VIRT_PLATFORM_BUS].base,
-+                                       memmap[VIRT_PLATFORM_BUS].size,
-+                                       VIRT_PLATFORM_BUS_IRQ);
-+
-         g_free(name);
-     }
+@@ -1564,10 +1564,37 @@ static void virt_set_aclint(Object *obj, bool val=
+ue, Error **errp)
+     s->have_aclint =3D value;
+ }
 =20
-@@ -469,6 +476,12 @@ static void create_fdt_socket_plic(RISCVVirtState *s=
-,
-     riscv_socket_fdt_write_id(mc, mc->fdt, plic_name, socket);
-     qemu_fdt_setprop_cell(mc->fdt, plic_name, "phandle",
-         plic_phandles[socket]);
++static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *ma=
+chine,
++                                                        DeviceState *dev=
+)
++{
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
 +
-+    platform_bus_add_all_fdt_nodes(mc->fdt, plic_name,
-+                                   memmap[VIRT_PLATFORM_BUS].base,
-+                                   memmap[VIRT_PLATFORM_BUS].size,
-+                                   VIRT_PLATFORM_BUS_IRQ);
++    if (device_is_dynamic_sysbus(mc, dev)) {
++        return HOTPLUG_HANDLER(machine);
++    }
++    return NULL;
++}
 +
-     g_free(plic_name);
++static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
++                                        DeviceState *dev, Error **errp)
++{
++    RISCVVirtState *s =3D RISCV_VIRT_MACHINE(hotplug_dev);
++
++    if (s->platform_bus_dev) {
++        MachineClass *mc =3D MACHINE_GET_CLASS(s);
++
++        if (device_is_dynamic_sysbus(mc, dev)) {
++            platform_bus_link_device(PLATFORM_BUS_DEVICE(s->platform_bus=
+_dev),
++                                     SYS_BUS_DEVICE(dev));
++        }
++    }
++}
++
+ static void virt_machine_class_init(ObjectClass *oc, void *data)
+ {
+     char str[128];
+     MachineClass *mc =3D MACHINE_CLASS(oc);
++    HotplugHandlerClass *hc =3D HOTPLUG_HANDLER_CLASS(oc);
 =20
-     g_free(plic_cells);
-@@ -546,6 +559,12 @@ static void create_fdt_imsic(RISCVVirtState *s, cons=
-t MemMapEntry *memmap,
-             IMSIC_MMIO_GROUP_MIN_SHIFT);
-     }
-     qemu_fdt_setprop_cell(mc->fdt, imsic_name, "phandle", *msi_m_phandle=
-);
+     mc->desc =3D "RISC-V VirtIO board";
+     mc->init =3D virt_machine_init;
+@@ -1579,6 +1606,10 @@ static void virt_machine_class_init(ObjectClass *o=
+c, void *data)
+     mc->get_default_cpu_node_id =3D riscv_numa_get_default_cpu_node_id;
+     mc->numa_mem_supported =3D true;
+     mc->default_ram_id =3D "riscv_virt_board.ram";
++    assert(!mc->get_hotplug_handler);
++    mc->get_hotplug_handler =3D virt_machine_get_hotplug_handler;
 +
-+    platform_bus_add_all_fdt_nodes(mc->fdt, imsic_name,
-+                                   memmap[VIRT_PLATFORM_BUS].base,
-+                                   memmap[VIRT_PLATFORM_BUS].size,
-+                                   VIRT_PLATFORM_BUS_IRQ);
-+
-     g_free(imsic_name);
++    hc->plug =3D virt_machine_device_plug_cb;
 =20
-     /* S-level IMSIC node */
-@@ -683,6 +702,12 @@ static void create_fdt_socket_aplic(RISCVVirtState *=
-s,
-         VIRT_IRQCHIP_NUM_SOURCES);
-     riscv_socket_fdt_write_id(mc, mc->fdt, aplic_name, socket);
-     qemu_fdt_setprop_cell(mc->fdt, aplic_name, "phandle", aplic_s_phandl=
-e);
-+
-+    platform_bus_add_all_fdt_nodes(mc->fdt, aplic_name,
-+                                   memmap[VIRT_PLATFORM_BUS].base,
-+                                   memmap[VIRT_PLATFORM_BUS].size,
-+                                   VIRT_PLATFORM_BUS_IRQ);
-+
-     g_free(aplic_name);
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
 =20
-     g_free(aplic_cells);
+@@ -1609,6 +1640,10 @@ static const TypeInfo virt_machine_typeinfo =3D {
+     .class_init =3D virt_machine_class_init,
+     .instance_init =3D virt_machine_instance_init,
+     .instance_size =3D sizeof(RISCVVirtState),
++    .interfaces =3D (InterfaceInfo[]) {
++         { TYPE_HOTPLUG_HANDLER },
++         { }
++    },
+ };
+=20
+ static void virt_machine_init_register_types(void)
 --=20
 2.35.1
 
