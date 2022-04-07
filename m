@@ -2,110 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1114F71DC
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 04:07:57 +0200 (CEST)
-Received: from localhost ([::1]:40892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8CE4F7246
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 04:48:35 +0200 (CEST)
+Received: from localhost ([::1]:59908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncHYy-00009n-4S
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 22:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52460)
+	id 1ncICH-0006Ov-OI
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 22:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=089d0ce6d=alistair.francis@opensource.wdc.com>)
- id 1ncHWW-0005M4-Fi
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:05:27 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:43521)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1ncIAq-0005ZH-Eo
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:47:04 -0400
+Received: from mga07.intel.com ([134.134.136.100]:5850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=089d0ce6d=alistair.francis@opensource.wdc.com>)
- id 1ncHWT-0007QG-Ke
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:05:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1649297121; x=1680833121;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=l0CXaP+tbwyurpGlT0CWLXD+mibNyZO0xUI/IwjNBKM=;
- b=Re97wjrpEcqVu6mHIBulexzCcobgZaX+SExEJc2vIT4ALfXvGMHKhfyw
- 0aFGHBMBi1PDNuxomV1hlYwOQKwRDR2vOQcnVNVM2WpX+eC4JBvLDn9YD
- RHyitmKp1iJRNEgYT/9nnGIegwaCTFP5IJIiib0b9AuxvSL6D1rY9Wurn
- WDPcjp51oHJQ9H09YUrBZwkmXlwdAWMLvEB46GEN65ZhTsKgWLKs+cdT8
- R3I6orl1LjUYJz9rrvIuvC3R/LN7ew9Uxlh5yXhx4rXPEqwWT0Rq4nR18
- Is/qmiwcuIP73aLRxCz9HZc31Z04t2DBt5G3+E132hRBN3XVK39+C9SDm A==;
-X-IronPort-AV: E=Sophos;i="5.90,241,1643644800"; d="scan'208";a="309261477"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Apr 2022 10:05:17 +0800
-IronPort-SDR: SlFo8+bRjirC36Ovjszu5m/R6w3AhqrxJ2CSALZedjqqE3gDxzTQL7cY7GrDS4qJ8V1SscFNNr
- eIskcjAvXo0T8tXsaJI7Bw3U7DIUNIYiFC5PC1MWr/keFy8s983TbLE2Wt7xlxk7qOvrwLcc8D
- kEzhPngm8+ZUvF3n9aN17uaN5e7w3epyvWYfcG9g1pcLkhjyQLfYJrG5g8cIz0ai852TJZp4w8
- SvhzVcqbgH/CrtDmnPw+YEF3tJnomjVZob2uFngrBanSmVhfa5mEqJGgVqTUFPIaF+e96ek0Sg
- 04os1SbPUCNlgnco1cV0dMjS
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Apr 2022 18:36:48 -0700
-IronPort-SDR: iEZIiLt1qS5oIXfSp0sxue+mnDGMDEuYd0KKTmZ1QO1L64Yj5Ge1xuWf0IMLRzLNMtoHDQDK4q
- xgNfyeqQ6kGlhsJvhZqcCxOZMImW0OAeiqR+nLZKfX7Qp3j4A8DoVx1oaqsQSMuWL3l86MBl+b
- w/v8lQE+Kp9XnHFWR42lpHEVZX9k4YN/A706R49B5PIYX+BYq4TCQnhwrSHKf7/MBEPxdvp3uu
- dbcFUDVVwnyGRHPR9WqSi/JpSJcqa73xPIytaJC2sxPXS+NW3kNdBunmzCfiPdOWww/pLQakLB
- 9/M=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Apr 2022 19:05:18 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KYl8F1WGNz1SVp3
- for <qemu-devel@nongnu.org>; Wed,  6 Apr 2022 19:05:17 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1649297116; x=1651889117; bh=l0CXaP+tbwyurpGlT0
- CWLXD+mibNyZO0xUI/IwjNBKM=; b=tBV02YX/ACTTIJpGJl/ln73gdNY1E5RPIz
- T0ygfOpE/6oFs/dbu/4fIQFjInGRzTuoElsemrrEBVetaQ7R44/1bKzZ/3LBNTM2
- Ge3Kf2q6G4kp6C3rp0nk/UKzHHcgEpjGL8hPe9jrKVzsGFEcEILDy3WwtOLgQ+mR
- 7GteRCCQ0TTPK3jf4anDwiym2SnBhCjfMOqVVr3AiFhjgTOvzK4pzeC8jDJiIlQ5
- JqSQdmB3+dBYbwdBIDg/JzQt4Mnd/UVW66PXntn1M6ZRCfL1HF5ES5gppyLuEFdv
- n2BBNmY718FIJ9SJhlEWi1oFgNvLr4xScpeM+DWui4xj70ac9fjg==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id jR9XaHjBUyr3 for <qemu-devel@nongnu.org>;
- Wed,  6 Apr 2022 19:05:16 -0700 (PDT)
-Received: from toolbox.alistair23.me (unknown [10.225.165.114])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KYl873v9cz1SVp4;
- Wed,  6 Apr 2022 19:05:11 -0700 (PDT)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
- richard.henderson@linaro.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, alistair23@gmail.com,
- Palmer Dabbelt <palmer@dabbelt.com>, bmeng.cn@gmail.com,
- Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v2 6/6] hw/riscv: Enable TPM backends
-Date: Thu,  7 Apr 2022 12:04:32 +1000
-Message-Id: <20220407020432.4062829-7-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407020432.4062829-1-alistair.francis@opensource.wdc.com>
-References: <20220407020432.4062829-1-alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1ncIAn-00064p-M5
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:47:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649299621; x=1680835621;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=2UEuQrDHOfOzQMemRxGuH5+xTZQPxUP8PXaL37pxIA8=;
+ b=haW7nmS/szNkj6+a/1Bhv+v74StT67JQzPxXiEcrxHkthZzsr4WhPjMq
+ ClteF31X6nXth3JV4MhoJLSPBcj2attxZwVOtswmUYIMhgvUusFBGJqjW
+ tp7t6LS1RTSaDDfHwUI8xQ14ooYqHAeqGVqPFKjuSwuLwyJipoxn1xu5d
+ p+7gPElhbpVWNikts53OINFd583DoF5HrPoojPBsfaPizuv84yAhmqe2Q
+ oXpwg/CLjuPBC+nxHkeYIXvtzJnVuBCyPAEMvghoi5kAd+PmU/t9OT2PJ
+ 3wZ+Ciy9IYXAEvkOn6YGh+d8c91LEgrRqsvhIVp9LfnNCDhvDrfbKaFMy A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="324376576"
+X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="324376576"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2022 19:46:43 -0700
+X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="722770004"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.125])
+ ([10.255.28.125])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2022 19:46:41 -0700
+Message-ID: <8785e6a8-5723-ac13-1ea5-7cd6242cb331@intel.com>
+Date: Thu, 7 Apr 2022 10:46:39 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=089d0ce6d=alistair.francis@opensource.wdc.com;
- helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.7.0
+Subject: Re: [PATCH RESEND v1] trace: Split address space and slot id in
+ trace_kvm_set_user_memory()
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, mtosatti@redhat.com,
+ richard.henderson@linaro.org
+References: <20220310122215.804233-1-xiaoyao.li@intel.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220310122215.804233-1-xiaoyao.li@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=xiaoyao.li@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,71 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On 3/10/2022 8:22 PM, Xiaoyao Li wrote:
+> The upper 16 bits of kvm_userspace_memory_region::slot are
+> address space id. Parse it separately in trace_kvm_set_user_memory().
 
-Imply the TPM sysbus devices. This allows users to add TPM devices to
-the RISC-V virt board.
+Hi QEMU maintainers,
 
-This was tested by first creating an emulated TPM device:
+I think this patch is simple and straightforward. Please take your time 
+to look at it.
 
-    swtpm socket --tpm2 -t -d --tpmstate dir=3D/tmp/tpm \
-        --ctrl type=3Dunixio,path=3Dswtpm-sock
+Thanks,
+-Xiaoyao
 
-Then launching QEMU with:
-
-    -chardev socket,id=3Dchrtpm,path=3Dswtpm-sock \
-    -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \
-    -device tpm-tis-device,tpmdev=3Dtpm0
-
-The TPM device can be seen in the memory tree and the generated device
-tree.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/942
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/virt.c  | 4 ++++
- hw/riscv/Kconfig | 1 +
- 2 files changed, 5 insertions(+)
-
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index bec83d26fd..e435b1f118 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -43,6 +43,7 @@
- #include "sysemu/device_tree.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tpm.h"
- #include "hw/pci/pci.h"
- #include "hw/pci-host/gpex.h"
- #include "hw/display/ramfb.h"
-@@ -1612,6 +1613,9 @@ static void virt_machine_class_init(ObjectClass *oc=
-, void *data)
-     hc->plug =3D virt_machine_device_plug_cb;
-=20
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-+#ifdef CONFIG_TPM
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_TPM_TIS_SYSBUS);
-+#endif
-=20
-     object_class_property_add_bool(oc, "aclint", virt_get_aclint,
-                                    virt_set_aclint);
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index da790f5936..79ff61c464 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -34,6 +34,7 @@ config RISCV_VIRT
-     imply PCI_DEVICES
-     imply VIRTIO_VGA
-     imply TEST_DEVICES
-+    imply TPM_TIS_SYSBUS
-     select RISCV_NUMA
-     select GOLDFISH_RTC
-     select MSI_NONBROKEN
---=20
-2.35.1
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> ---
+> Resend:
+>   - rebase to 2048c4eba2b4 ("Merge remote-tracking branch 'remotes/philmd/tags/pmbus-20220308' into staging")
+> ---
+>   accel/kvm/kvm-all.c    | 5 +++--
+>   accel/kvm/trace-events | 2 +-
+>   2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 0e66ebb49717..6b9fd943494b 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -379,8 +379,9 @@ static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, boo
+>       ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
+>       slot->old_flags = mem.flags;
+>   err:
+> -    trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
+> -                              mem.memory_size, mem.userspace_addr, ret);
+> +    trace_kvm_set_user_memory(mem.slot >> 16, (uint16_t)mem.slot, mem.flags,
+> +                              mem.guest_phys_addr, mem.memory_size,
+> +                              mem.userspace_addr, ret);
+>       if (ret < 0) {
+>           error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
+>                        " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
+> diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
+> index 399aaeb0ec75..14ebfa1b991c 100644
+> --- a/accel/kvm/trace-events
+> +++ b/accel/kvm/trace-events
+> @@ -15,7 +15,7 @@ kvm_irqchip_update_msi_route(int virq) "Updating MSI route virq=%d"
+>   kvm_irqchip_release_virq(int virq) "virq %d"
+>   kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%" PRIx64 " val=0x%x assign: %d size: %d match: %d"
+>   kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
+> -kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
+> +kvm_set_user_memory(uint16_t as, uint16_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "AddrSpace#%d Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
+>   kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
+>   kvm_resample_fd_notify(int gsi) "gsi %d"
+>   kvm_dirty_ring_full(int id) "vcpu %d"
 
 
