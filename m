@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E3A4F819B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 16:29:45 +0200 (CEST)
-Received: from localhost ([::1]:45732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7454F81BD
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 16:33:13 +0200 (CEST)
+Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncT8q-0000DL-Ag
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 10:29:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54172)
+	id 1ncTCC-0003om-Jb
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 10:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1ncMmp-0008R1-Br; Thu, 07 Apr 2022 03:42:35 -0400
-Received: from mail-mw2nam12on20624.outbound.protection.outlook.com
- ([2a01:111:f400:fe5a::624]:26593
- helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ id 1ncMx2-00047s-3x; Thu, 07 Apr 2022 03:53:08 -0400
+Received: from mail-dm6nam10on2060b.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::60b]:40324
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1ncMml-00039w-GV; Thu, 07 Apr 2022 03:42:33 -0400
+ id 1ncMwz-00050e-Ku; Thu, 07 Apr 2022 03:53:07 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ONwectkNBdB/+BpkvZGUBVAECr9njAUsNskaPlbeeIhnnjcmc66E+d9kOLxm3rtXsX1VLDGbpz2dGQlurcgZbf/RD6mr1iEQaR9d5Hp+UZOf6e7wUBrg9ddl1hWBKxqRddwzc5tAcLi0QnWorXBjQvYGVeKmJCaIGhS+gzR0LcodOTWbl66w1lUQh0LBUAKpMALB4CYzxIvnjk8iJ3Q9SMSkrH3muiQJB7PTH9jCvlorFfgq61nggQ7IuY+Y0TtS6l0S+b2vRyR/iSP/6u4OAyUMLH2IPoDN+oon2LHnE6AAqFRwGy3hSPyI+tpwWlwJeNdUqv0fGeURJD9P3MzypA==
+ b=MfZOYx64iXjuMVt0MCSIL7tLjx+h0PG2/QIOTilTjlP4p44r99byhackjMUD3aI0YaLzPOZKPB1bHeVxeRnuqQN9Aukhuk7PeYBNiUJ1AiOXq6RN4Gdrz5ZWIhzC3Ia43m9KrdEkEMZpVzpZAa0dVrVOmK9po0/LUoDXjjpS6H5Y+QRvEZAWr9KvbSw50bwM9p4if3sru7ORW38z0XjZ9+85X8EfiZkmZ+cLZA+7mljBOpVo7fJGvi00E6PX+ir62+azQe/hIDWwPgjc1H3Rwqo4lJnIIiPTnXdJqc+nuZD0GkZ+BQJpn3JFZZG2h4aX3mIvE8AAVQEH+gcgOTIeeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rkMzVTfkD5GbqtDq3zRQ7DITlczx0CIzHW+6NFD92jw=;
- b=Qpd35tgO4V8Pcwxlq/TJtYEKvux3vVpA/ttaf8yq0XpRS6pVHHWYPzWvpWZWu5wQ7ePpuyhMW2oXErowMLjIa7IE+GOoKjmrWnHPLw14omCIWEhlOhR7l+Fo/NDBI91SHSllLoh7wbTmwQmQH52/ysR+zPEYVGytV+zgIsNkSSzmJFBecIeyYzmFZ0eBh965HywzU+g1XB7CDEdns7nfLry7ETElg+Xp/hajL732nKI8r+Nestx3HESOXcG+Ad06dbv68cAENVtENoeshYzmAmwaGaC0vVOUVa4mQhETdqoPt0B0pF4v2MQHql3YIlyZIkO4vmWv3VkVqs54kiU0MA==
+ bh=3/gRxFs19ufnTZOfc+8+HV7Vdc5FVGWsWZVTPA/99uA=;
+ b=Gp372BNHnLEYU5nQW/Lnx/Rwhn0hrxR0dWEzwv2yfYSLFOMccw5cW2ZG1lo6scgZhw3QK04s68ZlhgHgou9oyvfWn8kOJJrEHroQBptWQfvzDoWg2jFrDVU5sH5XFHmvmUltKtIBBziL0m4bs6lDCc2DlvhXArRoLBqFQmehTD1cuvAQmH1h4zfa7z9Pb2MrM1mgusrUZTjnsPmAdDslcMInMxVkaUvEQta+aj9puMw/8I1w1VsINTsffsFF6HmptySSxrhPstDKfRKLTLJrY0VtsICHakQE6JYx1ZO5bs3IC94np/FT3a+pnISauhZdkF3aif4PmHrMH88/iVSzWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
  dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rkMzVTfkD5GbqtDq3zRQ7DITlczx0CIzHW+6NFD92jw=;
- b=XjvwSSohKYYTOKB/2AYuWrbdpcOwQDHD6P8pCKvaoYxh2qWwJ/1BXhc13BeMSQta907nuZczup/puLTfcsLo1txt8rdxvEemNlV8OXv52w205g+ia7TfxHyN9/Awd+YUbMMluJMnXFyiU/zWsmgHzurJENSgR1MgSbd/igtb2Bo=
+ bh=3/gRxFs19ufnTZOfc+8+HV7Vdc5FVGWsWZVTPA/99uA=;
+ b=Qh6maevmwb2PJ2giVcTeMMJxo2TiPqCbxR7cc0KgYuG2OAWhOhrGrjRAKmllXnP2wv2+roGJ3fT5NdwyJTO466je6c/eYpdXSEEit6RWCIAzru9RwY8k+U7e1CDWbV2cjSl9FNJRnmFOmWsZgYGTL78Aha4HmMMxaJZp/Xit5kc=
 Received: from BY5PR02MB6354.namprd02.prod.outlook.com (2603:10b6:a03:1fd::12)
- by SA1PR02MB8463.namprd02.prod.outlook.com (2603:10b6:806:1f7::24)
+ by SN6PR02MB4765.namprd02.prod.outlook.com (2603:10b6:805:9b::25)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Thu, 7 Apr
- 2022 07:42:26 +0000
+ 2022 07:52:57 +0000
 Received: from BY5PR02MB6354.namprd02.prod.outlook.com
  ([fe80::3854:75c0:3d7f:299a]) by BY5PR02MB6354.namprd02.prod.outlook.com
  ([fe80::3854:75c0:3d7f:299a%5]) with mapi id 15.20.5144.022; Thu, 7 Apr 2022
- 07:42:26 +0000
+ 07:52:57 +0000
 From: Frederic Konrad <fkonrad@xilinx.com>
 To: Edgar Iglesias <edgari@xilinx.com>, "qemu-devel@nongnu.org"
  <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v1 1/4] hw/arm: versal: Create an APU CPU Cluster
-Thread-Topic: [PATCH v1 1/4] hw/arm: versal: Create an APU CPU Cluster
-Thread-Index: AQHYSd3GAlDp92qGH02YL3f4FzzVMqzkEgFQ
-Date: Thu, 7 Apr 2022 07:42:26 +0000
-Message-ID: <BY5PR02MB63541D2F97A9AA9B6C23639ACCE69@BY5PR02MB6354.namprd02.prod.outlook.com>
+Subject: RE: [PATCH v1 2/4] hw/arm: versal: Add the Cortex-R5Fs
+Thread-Topic: [PATCH v1 2/4] hw/arm: versal: Add the Cortex-R5Fs
+Thread-Index: AQHYSd3J0xrbGlFuCEaTpceNHKUMYazkFPVQ
+Date: Thu, 7 Apr 2022 07:52:57 +0000
+Message-ID: <BY5PR02MB6354E807520390D37D3E78FFCCE69@BY5PR02MB6354.namprd02.prod.outlook.com>
 References: <20220406174303.2022038-1-edgar.iglesias@xilinx.com>
- <20220406174303.2022038-2-edgar.iglesias@xilinx.com>
-In-Reply-To: <20220406174303.2022038-2-edgar.iglesias@xilinx.com>
+ <20220406174303.2022038-3-edgar.iglesias@xilinx.com>
+In-Reply-To: <20220406174303.2022038-3-edgar.iglesias@xilinx.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -62,64 +62,64 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=xilinx.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8a1db6e8-5570-493a-2b71-08da186a296d
-x-ms-traffictypediagnostic: SA1PR02MB8463:EE_
-x-microsoft-antispam-prvs: <SA1PR02MB8463211B48F4980622E897F8CCE69@SA1PR02MB8463.namprd02.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 5ec4f926-d6be-4aca-5331-08da186ba155
+x-ms-traffictypediagnostic: SN6PR02MB4765:EE_
+x-microsoft-antispam-prvs: <SN6PR02MB47655EC7BF70A841BFDFF528CCE69@SN6PR02MB4765.namprd02.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: f2g1yOKz2Cxm8LE89d6U5kugU5uX5x3XddD9YjA9uVGGW2CtkFxxgdzLc7Jl7w9NI8zgwlBGQBEmQR++SwLXNIvyjCBOwUOdPyCyfs/59oi/0KwTr33cczvGJLT6//7UOU9lmMpb4AQ+CZGq9vlTQiQIRMKVBpitDZ7pZV9mK1w+OfXya+DiIYiLD2rzK9LX/fMOevkEqBR7sXfI+H2yrpOUoaPsDxRo4gewU7+NsA/XfZw8ln2cQqK2ZCTgkGKKepsR6mOru4TTJjlJ+or4jFiTG6E0xrECcM1KTPQ8xGsNK8p7j3vYGgrw4EisFoJCeFgcC2O3KB8HvgzmXWWxHWCLC7wheep9TNBkIvxfYoophJ2Ge8E9DJkdk0bHj1XWiC5iYoF7gD8BkzStM8K74zKBanm99m9oebcbmQVAX2Mdd6YqShwime5t9xbIhSve0WkTCQvoHs+uAUfmA2SO9+MyajrGVVPwWJPdCDdGM8cO6YoA5uXknNp8GLZeH1AYcSSwWZTymzLw5D5F+RMAb/Y8ZV9qse+VVkrkY9JCsb49fa9WPqa//MiYo5NHRDOZzA8WCfukdMU/Q5Ivhj3xVrDCgpIE4OInhW4u6C+Xz4QMongBqItyCWQ7b8ALKJo/9Yeo4Cua0/QQ5afxL7FXloviReGwd+6KWVGKBUYYqQbHy9DlHoJGiS0AudUJQ5bXKoCPVJUVO0yX4GJDC6GwJw==
+x-microsoft-antispam-message-info: 9p57lT8QES9fvoGcDj1l1m1B8Fy8n0SFn9W75AcEJ5W4h8jYKd7+GwD+GgnT/pNCdGMjrjnw52LpTJL2pdKuLgp+ULfksVABZSVBWpGJL9XPMnpNkpfTykdCeF16kz8QoyQQcFmuKEIx1rCKq0OhVUKWldMIGX5CbS22e3eFlNsqnNUtzhC9UOAWz1y3EQB2vzQtqRf4suVl22T0HN7UgS5+yOlulTMgAk6/cDtPRFgeoaTDZdOqV+x4x0h8WJN08hxLGeWnKknSkQRgG3kiH6CvgefFlTZ3fRJi/HxkOfZ/rLkO9802yuNFz9o3Lytg8250uaj9l97CcZTo/PbkrL3w8AyJB2oR3QZ6E0PvEDitwIVDpMdkzNUhMGLVVCiKD+RNtMp3faNQeOYvYjiLR9ZrSApWNSSJ/9tGzXZIuNTyiiUw38bxSvFq1/XcTLLz0oZ32KJi+SC/rh0gKINkIrJxhYpC8f31Aj2m9mJdiT4BFleMZn+YJB/0RxD/mNDbituXMfTx6Y/MPlLCsagoJba+P0H+KsqPsAmpG/pin4y4xhI8rZ8zE5+IQqGJiYtdW+Ybd7KURo3cwwrCvsLVFVMgreIarHRNzYwhUAG53kxA3EtVfkR3ybnlbUbA3rtun8rtQ7ss9Cd4QFtgJzqRUs4cDLvblVB9dl4w+bM+RgKEUnQFjyuQ6zmMeQoQmdS0XOikMW3CewFMGWUqE60W8Q==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR02MB6354.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(7696005)(6506007)(38100700002)(316002)(53546011)(64756008)(66946007)(66446008)(66476007)(66556008)(8676002)(4326008)(9686003)(86362001)(76116006)(83380400001)(110136005)(122000001)(54906003)(508600001)(55016003)(186003)(2906002)(71200400001)(52536014)(8936002)(38070700005)(33656002)(26005)(5660300002);
+ SFS:(13230001)(4636009)(366004)(9686003)(71200400001)(55016003)(38100700002)(86362001)(186003)(26005)(6506007)(7696005)(316002)(52536014)(38070700005)(8676002)(8936002)(4326008)(5660300002)(33656002)(122000001)(53546011)(54906003)(110136005)(66476007)(508600001)(66556008)(64756008)(66446008)(2906002)(76116006)(83380400001)(66946007);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pDWPf7hM9hM4w7ahAT/mocjLx7IlT8kOLACC1sf3shh1E4h7yJDoPO2rpV0O?=
- =?us-ascii?Q?stCdDQgMTH+btAxzHkGyIjzaJsY7FNHOfBOqDVl9YF7ELsdcn6KmDDSo1h03?=
- =?us-ascii?Q?lrMxQ0rlrf0+HUnKaL77/0Nneqg68LxCn9KEhNM2FMcHBFHjDU9GSxvjDrzO?=
- =?us-ascii?Q?uXFAK++qXd6nuMoZNe/lRhv8T98MsVPUCyygD56UTpsJJnHLLbEL/n+QJ1k9?=
- =?us-ascii?Q?/gQV2nLwWi3pTIqV47axv5lYtNPfPAzz3h0250d14+ylhbqFkdkFcCeerOv9?=
- =?us-ascii?Q?zyevPKPmovRmkSpu5ptjV/5OZN5IuKI0mwDSgZcOUnwpmIqjwyQCScWmVUm7?=
- =?us-ascii?Q?ODPfYGrYf9DgQpxiWJkQS/dWa2lHctg4mVjGwXUA0azvth4DmvLCiSBqqSEo?=
- =?us-ascii?Q?k9ePyw4f54O0CbrNpYSx3Pf3kJTjOhjENhk/MCxhYA029TuW+GkFVTWTaVaS?=
- =?us-ascii?Q?6MZ49kAwq+HY25lIhXkOhhqa2ulg7G3cofRlHa+h+q5h1nsGfc98G6MM9USn?=
- =?us-ascii?Q?dQNOU60uC5y9KBqWtiIYIds8EvT2hepgV+iSBfnJU5ubKDkI7WYIE6vOkcFd?=
- =?us-ascii?Q?e2trrhFHX2sz5pWSvdQFHmcGxut9SVcihZW2kIX7d06waAUZQBbSCAx5nrlV?=
- =?us-ascii?Q?Lq9FUV2NMZM9a6j94tmNxgwupWvFVHeZwhpOhLgZFnWaXeIYxQgXsSRNd5Lh?=
- =?us-ascii?Q?XW4WesHYwy2BvaLlBaOm8i/AbVg4fmdwkw/OA+HiUmFosAwF4mXxR+wNj5zB?=
- =?us-ascii?Q?6E+8UMUjE7TfOTclkkp7JAdsZAtjRsdOA1spssjy0qbe22a+u+tJgo3c/+0k?=
- =?us-ascii?Q?/qQbXDQskUfhhqgvCEciPGGpU9h3UYVpahrs2s4DaaeI13yqyFZdHJcbhYTk?=
- =?us-ascii?Q?5WKj2k26NAnezlz2GvGFWGp6hyGxZZwe7Xmo2UoSnXhKGCuKx37qkyZZYRZd?=
- =?us-ascii?Q?RfAMM9MhmjpM3LMX0yk8zPsqrraYOk4PWKI1bP0S2vaFehreKWX265eh+fzE?=
- =?us-ascii?Q?KGufBbTOXnINCL7mRVEbMOg18RdOoCb3JNL36WAqiQBtKxeVLD296XNeIQON?=
- =?us-ascii?Q?wmCPrenkFy0Zw1E0QGShXUyBd9/AX+pVWqUA/+5inpmD5/4MkfYCtkU88fOS?=
- =?us-ascii?Q?ZjPYFlq36lh5tyEE4QY/jprhaGalf6EoDRrFwm0pj6KWbZL7xWSBcflhotut?=
- =?us-ascii?Q?7gT1S3C9GKo0lxFE46GLbBhqpLTxkDvo0O+lW7BMAZbd3YNISZfVzoUkXy50?=
- =?us-ascii?Q?QebVrhsAB8CffJBgIiFGPQAhYh+Yjuag2nzg6gClzaSh20VafrhHSkM4Yg3p?=
- =?us-ascii?Q?hVaO9Op/XktQcAmqajcoG7m052flhuuJQPewIvI4R09ypIoDyb083LDUbLHZ?=
- =?us-ascii?Q?eCMPFPc1HpD/YSR2oC25mpzHMnyznb19upBTzn4zv5qhz6ZJek6OMm5dzcci?=
- =?us-ascii?Q?LhDFSKwrIcoNzmdbdF5aHM7c3byYp+NPkV3aFfx1s9a8i7bgUxIaIByQ/5F1?=
- =?us-ascii?Q?4vI013NTtdoV2Me/kLBRH7fE9++Dj0Ye3+0Z6+xfW77bWD2+w2a/yPtM0jBV?=
- =?us-ascii?Q?icckLFKiqNUFqV/JrlnbXSDeZ0dkqxODQ8jGR5GT2ADr5aR8bmuOdBsGFiyQ?=
- =?us-ascii?Q?f3dyDCYAHHSs5W2z3Mc3qUYHX5LY2NCYY1Y6BMWWPSIwdN9H2dQNphTwyOHH?=
- =?us-ascii?Q?ih1yjXl2rTp2oOlJ+Wq/ge+SjNdGGDQoFgEOKEGAPiNiW/38PdT3Yt1MH9oq?=
- =?us-ascii?Q?Sb2G94A1bw=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lf1prrsM1lIE+8EP7LvEUj43dZL+FfEKuAlvM6P+K4s0Fh1c7JDeSSkPDUPc?=
+ =?us-ascii?Q?1Cr6IS7cQjBZi5NAZRueSjV6l41NK4CYd9G4YCbE76JXkrO5O89Je83BCgPc?=
+ =?us-ascii?Q?9FKzFUN6vz3UloxyLFGN1tf9ecrq82/CPsQheGUJhNqQBT4mW0aGDKjqeSOz?=
+ =?us-ascii?Q?MQEGMtPY7Wmz60xr43OTmo2AC81+5dWCyGNxkOSXwZ5rgfjKWuw8sv6Z41Vk?=
+ =?us-ascii?Q?+pih//ZeInigJQvQ0W6g6ssta4HUBO+WpTqgKhk+SO6LWYolsulsUfwcOQP5?=
+ =?us-ascii?Q?2KkU1PrsZQW/9XCFi24tVtSIe273WNlTWl1f/ILyanFWkf8665BL5RMIJfPS?=
+ =?us-ascii?Q?Y3eV9psP4N6HuQbEY0Vucneuu9JeAvw1CnuWRpOuIsDp7BgYzAYh2JhGC6zO?=
+ =?us-ascii?Q?DPiJIR+rQib01wTIL0uL0EVLVGK5RibcDdN43EYqLmHzAxb2853B7Ojjwj8f?=
+ =?us-ascii?Q?UDcXDq/kgUBvFSuhltCByPITYiB/dAGLtanA1jCit/3rwdb/9jmdBKeKIGpc?=
+ =?us-ascii?Q?531JT79mV6tYHVJtQh6HdgsEDXfbsJG6Ct7Zw0kZ3iRrQhYXl9+oTF2TE51G?=
+ =?us-ascii?Q?3FMjYbeROt+usdz4p6p31ybRKcou3iC7/K5gRBptHaY/emQAl0DjM3KgXB7Z?=
+ =?us-ascii?Q?LBofu08vfxBMDOFGKkLlQQFRvK5Xa6d06TRjjKYGDUBt9KhQjfj2HrPTi66v?=
+ =?us-ascii?Q?PDeRLq97o5y2qwRxZFidrmkbgpv0D53aoMgCAsmDkD1JA02vem/M1eQX0mTT?=
+ =?us-ascii?Q?MDcKUU6jJfpZlhUPnD2bOJvU0UXU9guLQwzRyMyIGOjL9bYZnbCK3W3D59br?=
+ =?us-ascii?Q?buOe2+Wwwyat/tsys+1TUvDDmXirFygr4Yg9AxXP2XrL+cq5VjgCZ4xwDEPU?=
+ =?us-ascii?Q?O2xyhdjJ2518HyStVxFKVrZ1dAyWD71DQRJr3PAq5U78MOlLL6Ix6kXw8wRJ?=
+ =?us-ascii?Q?QTrcU6h6gEyu9r3O6C2lp36f1ciPjaWcbI7fPCaM3K573VriAhjPdO6vnA+Z?=
+ =?us-ascii?Q?SE6r3LhJndk49mUlVYPhzvSUj70LbJwDzLWAxoiMDrRCT7nXohypEMIMpkAF?=
+ =?us-ascii?Q?FVGnXeKUFk26URI1LkqHlHKENKmxdERsaJdKCSOKogf8a32EhIX1W63if6Rt?=
+ =?us-ascii?Q?zJI/6Scdkon616e4feOJlj96fYf2/pzid2HVowhlj0zqIBp2JSxB8PMRURMP?=
+ =?us-ascii?Q?GhNyji/oePSI8RwT7XzyBxmFSHipsSK4qIEzH3ZjeIHjw9EMHjy2gY9/jH8x?=
+ =?us-ascii?Q?3yV5jcS1W5xSCSFahG+rfLj35oltAC+vuWw4zarOjgXu37pD3Vng1FeZ1b1t?=
+ =?us-ascii?Q?zK+Ua8/eeid8qkg1IiNp7XckNDUzGWRMt2jMRylryMq1hH0Wuc7pW0izEojp?=
+ =?us-ascii?Q?ChAwID2rf5+2W3tE1016ZRVRex7/t3GVGAuEZ5OrcUdRVLO48Yfck3P0avzG?=
+ =?us-ascii?Q?AQJwMVYn6ZyC5DLvSYUkVPwxt+Tk8o006lWzFW5akWefQEMImSFHaEKae8U5?=
+ =?us-ascii?Q?nwFq2xGoRI9mjxnyu7pdzsxYnGt8qvmOgKlCha6hWJ9JUAwCZB2Cs5NW4xOj?=
+ =?us-ascii?Q?+SJrppFCp/pz9A6t1+2YVyhwSxuSafBP63YFbuIfn/WkAlTCblYq60CLtUzp?=
+ =?us-ascii?Q?E4E0XHPCsKU9vOwGaGrNrPvhpFhE58IvPr0CQCQyvwtXiwZiI+BMQlSLcdEn?=
+ =?us-ascii?Q?MEREGpJMnrw4W/HZ0eDnxpOHTs5FufGmYYDHe0y0CWmAsNtDg5v55v8cvWHt?=
+ =?us-ascii?Q?/u6y73cspA=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: xilinx.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6354.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a1db6e8-5570-493a-2b71-08da186a296d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2022 07:42:26.5873 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ec4f926-d6be-4aca-5331-08da186ba155
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2022 07:52:57.3012 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0uQ5cIUo8BW+WSUccq4uiR3Fu3neXRughZ3EW/FEeNbuz8HilxQ4NlFKAwZUXsQBiDDLDJ3Hvb30m1/fu5yAkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR02MB8463
-Received-SPF: pass client-ip=2a01:111:f400:fe5a::624;
+X-MS-Exchange-CrossTenant-userprincipalname: RRYciROLTGWJnDcEeKuZ2LyEbt4WpSV2tYlN0BDQSFktEvKM/bEyD2CferPD9bcNX3AZyT4sUy7xttcFJb7Xeg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4765
+Received-SPF: pass client-ip=2a01:111:f400:7e88::60b;
  envelope-from=fkonrad@xilinx.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -127,7 +127,7 @@ X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 07 Apr 2022 10:25:47 -0400
+X-Mailman-Approved-At: Thu, 07 Apr 2022 10:25:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,68 +163,146 @@ Cc: qemu-arm@nongnu.org; peter.maydell@linaro.org; richard.henderson@linaro=
 ias@gmail.com; Francisco Eduardo Iglesias <figlesia@xilinx.com>; Sai Pavan =
 Boddu <saipava@xilinx.com>; Frederic Konrad <fkonrad@xilinx.com>; Edgar Igl=
 esias <edgari@xilinx.com>; edgar.iglesias@amd.com
-Subject: [PATCH v1 1/4] hw/arm: versal: Create an APU CPU Cluster
+Subject: [PATCH v1 2/4] hw/arm: versal: Add the Cortex-R5Fs
 
 From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
 
-Create an APU CPU Cluster. This is in preparation to add the RPU.
+Add the Cortex-R5Fs of the Versal RPU (Real-time Processing Unit) subsystem=
+.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 ---
- hw/arm/xlnx-versal.c         | 9 ++++++++-
- include/hw/arm/xlnx-versal.h | 2 ++
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ hw/arm/xlnx-versal-virt.c    |  6 +++---
+ hw/arm/xlnx-versal.c         | 36 ++++++++++++++++++++++++++++++++++++
+ include/hw/arm/xlnx-versal.h | 10 ++++++++++
+ 3 files changed, 49 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c index 2551dfc22d..=
-4415ee413f 100644
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c index 7c=
+7baff8b7..66a2de7e13 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -721,9 +721,9 @@ static void versal_virt_machine_class_init(ObjectClass =
+*oc, void *data)
+=20
+     mc->desc =3D "Xilinx Versal Virtual development board";
+     mc->init =3D versal_virt_init;
+-    mc->min_cpus =3D XLNX_VERSAL_NR_ACPUS;
+-    mc->max_cpus =3D XLNX_VERSAL_NR_ACPUS;
+-    mc->default_cpus =3D XLNX_VERSAL_NR_ACPUS;
++    mc->min_cpus =3D XLNX_VERSAL_NR_ACPUS + XLNX_VERSAL_NR_RCPUS;
++    mc->max_cpus =3D XLNX_VERSAL_NR_ACPUS + XLNX_VERSAL_NR_RCPUS;
++    mc->default_cpus =3D XLNX_VERSAL_NR_ACPUS + XLNX_VERSAL_NR_RCPUS;
+     mc->no_cdrom =3D true;
+     mc->default_ram_id =3D "ddr";
+ }
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c index 4415ee413f..=
+ebad8dbb6d 100644
 --- a/hw/arm/xlnx-versal.c
 +++ b/hw/arm/xlnx-versal.c
-@@ -34,10 +34,15 @@ static void versal_create_apu_cpus(Versal *s)  {
-     int i;
+@@ -25,6 +25,7 @@
+ #include "hw/sysbus.h"
 =20
-+    object_initialize_child(OBJECT(s), "apu-cluster", &s->fpd.apu.cluster,
-+                            TYPE_CPU_CLUSTER);
-+    qdev_prop_set_uint32(DEVICE(&s->fpd.apu.cluster), "cluster-id", 0);
-+
-     for (i =3D 0; i < ARRAY_SIZE(s->fpd.apu.cpu); i++) {
-         Object *obj;
+ #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
++#define XLNX_VERSAL_RCPU_TYPE ARM_CPU_TYPE_NAME("cortex-r5f")
+ #define GEM_REVISION        0x40070106
 =20
--        object_initialize_child(OBJECT(s), "apu-cpu[*]", &s->fpd.apu.cpu[i=
-],
-+        object_initialize_child(OBJECT(&s->fpd.apu.cluster),
-+                                "apu-cpu[*]", &s->fpd.apu.cpu[i],
-                                 XLNX_VERSAL_ACPU_TYPE);
-         obj =3D OBJECT(&s->fpd.apu.cpu[i]);
-         if (i) {
-@@ -52,6 +57,8 @@ static void versal_create_apu_cpus(Versal *s)
-                                  &error_abort);
-         qdev_realize(DEVICE(obj), NULL, &error_fatal);
+ #define VERSAL_NUM_PMC_APB_IRQS 3
+@@ -130,6 +131,35 @@ static void versal_create_apu_gic(Versal *s, qemu_irq =
+*pic)
      }
-+
-+    qdev_realize(DEVICE(&s->fpd.apu.cluster), NULL, &error_fatal);
  }
 =20
- static void versal_create_apu_gic(Versal *s, qemu_irq *pic) diff --git a/i=
-nclude/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h index 0728316ec7=
-..d2d3028e18 100644
++static void versal_create_rpu_cpus(Versal *s) {
++    int i;
++
++    object_initialize_child(OBJECT(s), "rpu-cluster", &s->lpd.rpu.cluster,
++                            TYPE_CPU_CLUSTER);
++    qdev_prop_set_uint32(DEVICE(&s->lpd.rpu.cluster), "cluster-id", 1);
++
++    for (i =3D 0; i < ARRAY_SIZE(s->lpd.rpu.cpu); i++) {
++        Object *obj;
++
++        object_initialize_child(OBJECT(&s->lpd.rpu.cluster),
++                                "rpu-cpu[*]", &s->lpd.rpu.cpu[i],
++                                XLNX_VERSAL_RCPU_TYPE);
++        obj =3D OBJECT(&s->lpd.rpu.cpu[i]);
++        object_property_set_bool(obj, "start-powered-off", true,
++                                 &error_abort);
++
++        object_property_set_int(obj, "mp-affinity", 0x100 | i, &error_abor=
+t);
++        object_property_set_int(obj, "core-count", ARRAY_SIZE(s->lpd.rpu.c=
+pu),
++                                &error_abort);
++        object_property_set_link(obj, "memory", OBJECT(&s->lpd.rpu.mr),
++                                 &error_abort);
++        qdev_realize(DEVICE(obj), NULL, &error_fatal);
++    }
++
++    qdev_realize(DEVICE(&s->lpd.rpu.cluster), NULL, &error_fatal); }
++
+ static void versal_create_uarts(Versal *s, qemu_irq *pic)  {
+     int i;
+@@ -638,6 +668,7 @@ static void versal_realize(DeviceState *dev, Error **er=
+rp)
+=20
+     versal_create_apu_cpus(s);
+     versal_create_apu_gic(s, pic);
++    versal_create_rpu_cpus(s);
+     versal_create_uarts(s, pic);
+     versal_create_usbs(s, pic);
+     versal_create_gems(s, pic);
+@@ -659,6 +690,8 @@ static void versal_realize(DeviceState *dev, Error **er=
+rp)
+=20
+     memory_region_add_subregion_overlap(&s->mr_ps, MM_OCM, &s->lpd.mr_ocm,=
+ 0);
+     memory_region_add_subregion_overlap(&s->fpd.apu.mr, 0, &s->mr_ps, 0);
++    memory_region_add_subregion_overlap(&s->lpd.rpu.mr, 0,
++                                        &s->lpd.rpu.mr_ps_alias, 0);
+ }
+=20
+ static void versal_init(Object *obj)
+@@ -666,7 +699,10 @@ static void versal_init(Object *obj)
+     Versal *s =3D XLNX_VERSAL(obj);
+=20
+     memory_region_init(&s->fpd.apu.mr, obj, "mr-apu", UINT64_MAX);
++    memory_region_init(&s->lpd.rpu.mr, obj, "mr-rpu", UINT64_MAX);
+     memory_region_init(&s->mr_ps, obj, "mr-ps-switch", UINT64_MAX);
++    memory_region_init_alias(&s->lpd.rpu.mr_ps_alias, OBJECT(s),
++                             "mr-rpu-ps-alias", &s->mr_ps, 0,=20
++ UINT64_MAX);
+ }
+=20
+ static Property versal_properties[] =3D { diff --git a/include/hw/arm/xlnx=
+-versal.h b/include/hw/arm/xlnx-versal.h index d2d3028e18..155e8c4b8c 10064=
+4
 --- a/include/hw/arm/xlnx-versal.h
 +++ b/include/hw/arm/xlnx-versal.h
-@@ -14,6 +14,7 @@
+@@ -35,6 +35,7 @@
+ OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
 =20
- #include "hw/sysbus.h"
- #include "hw/arm/boot.h"
-+#include "hw/cpu/cluster.h"
- #include "hw/or-irq.h"
- #include "hw/sd/sdhci.h"
- #include "hw/intc/arm_gicv3.h"
-@@ -49,6 +50,7 @@ struct Versal {
-     struct {
-         struct {
-             MemoryRegion mr;
+ #define XLNX_VERSAL_NR_ACPUS   2
++#define XLNX_VERSAL_NR_RCPUS   2
+ #define XLNX_VERSAL_NR_UARTS   2
+ #define XLNX_VERSAL_NR_GEMS    2
+ #define XLNX_VERSAL_NR_ADMAS   8
+@@ -73,6 +74,15 @@ struct Versal {
+             VersalUsb2 usb;
+         } iou;
+=20
++        /* Real-time Processing Unit.  */
++        struct {
++            MemoryRegion mr;
++            MemoryRegion mr_ps_alias;
++
 +            CPUClusterState cluster;
-             ARMCPU cpu[XLNX_VERSAL_NR_ACPUS];
-             GICv3State gic;
-         } apu;
++            ARMCPU cpu[XLNX_VERSAL_NR_RCPUS];
++        } rpu;
++
+         struct {
+             qemu_or_irq irq_orgate;
+             XlnxXramCtrl ctrl[XLNX_VERSAL_NR_XRAM];
 --
 2.25.1
 
