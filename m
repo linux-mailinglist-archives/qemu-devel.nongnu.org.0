@@ -2,99 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE9B4F79F4
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 10:39:25 +0200 (CEST)
-Received: from localhost ([::1]:37110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45934F79FB
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 10:41:50 +0200 (CEST)
+Received: from localhost ([::1]:40924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncNfo-0002Ii-4k
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 04:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42928)
+	id 1ncNiA-000517-2Q
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 04:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1ncNcq-0000TH-WA
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 04:36:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60211)
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1ncNgC-00043k-AI; Thu, 07 Apr 2022 04:39:49 -0400
+Received: from relay.virtuozzo.com ([130.117.225.111]:57732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1ncNco-0005v1-KF
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 04:36:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649320577;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XdyZuAV21LEGWhQggj68jETHCga3RPCveWRii1PvJOI=;
- b=IOqa92ikMJ/eYK+y/YXWx/CWtgpRWAaGbnwHVvKNeUw/Wn//qVogqjGCz0l3X4nGmhXcLp
- p/u406PJLuNeey0ko0s1kBmrq5kpgzUtvksndgXrD2HenCsyNslNTx+R1AMy0aafComM8A
- 0BK6VgCpXCzCr+SuAqE0Xs2pwxC5nb8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-131-hyJhJwGSNOinTX2FKhBDQA-1; Thu, 07 Apr 2022 04:36:16 -0400
-X-MC-Unique: hyJhJwGSNOinTX2FKhBDQA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n17-20020a05600c501100b0038e731cf5e1so2655943wmr.2
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 01:36:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=XdyZuAV21LEGWhQggj68jETHCga3RPCveWRii1PvJOI=;
- b=ySbsVNBvmVPlRQ+bMMsXN5PRosRwkdf3Bnmcc/WtYJ0FWZYblq+uOS08gtW8f5Hy1K
- gJjb/76F6OFhO/1GttNB8QIYS9IwTXi/GlRwKgt7OsYJBAArXNFcnU7Gqr9GCkqocShR
- 8MqZNoRM37VH+BzRcroxFXrps5NSCQ8DFBvZMG8it4VCt0jidiyARVPF/cYcEP3pHXxe
- EHTqKo/OnNJ8E/KoxhVke081JzbawvuR2XqxPFM/aagYLgMrBPgeWBQjoS4daI43Gdhn
- icrJwdkoA9aQ0N8PgQayBbk0q/lwIXrr1g8/YT+dcUC1lWt8oNJj1VwB/kxcqB8xEcCk
- 9cCg==
-X-Gm-Message-State: AOAM533O9q+MLDBYy/t7GWL47fh9xrKufZm1GWUTEJJcAC98r8xmT/3g
- MlhuNaU4vu0zhsBllzTc/1i+/Te5KtYgP2OOr6YAo4KTCqUa+gqIBjSDStNLnVCrtazr/OJXA73
- mluE9gKmzExqpIZw=
-X-Received: by 2002:adf:e70d:0:b0:207:8c1b:b758 with SMTP id
- c13-20020adfe70d000000b002078c1bb758mr863108wrm.19.1649320575742; 
- Thu, 07 Apr 2022 01:36:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzKu5Uaw8sg6imX0/oLNBC8YYm3d18C/Wbs/B6lorWdVocwYQe6Hc1LkfKNXKHI2QvIOkjMvQ==
-X-Received: by 2002:adf:e70d:0:b0:207:8c1b:b758 with SMTP id
- c13-20020adfe70d000000b002078c1bb758mr863097wrm.19.1649320575562; 
- Thu, 07 Apr 2022 01:36:15 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- o8-20020a5d6488000000b002051f1028f6sm19466031wri.111.2022.04.07.01.36.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Apr 2022 01:36:15 -0700 (PDT)
-Subject: Re: [PATCH v3 4/5] tests/qtest/vhost-user-blk-test: Temporary hack to
- get tests passing on aarch64
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220210145254.157790-1-eric.auger@redhat.com>
- <20220210145254.157790-5-eric.auger@redhat.com> <871qyajetd.fsf@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <7e297db9-7935-4a0d-9109-c0203ee1be5c@redhat.com>
-Date: Thu, 7 Apr 2022 10:36:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <den@openvz.org>)
+ id 1ncNgA-0006TB-5p; Thu, 07 Apr 2022 04:39:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
+ Content-Type; bh=ubV5LpIcAIveBZrlRKfIODTIzXx2C6lOGsNPaiESMwg=; b=sY+N21kUPcsP
+ Onr5cvLBV9WuhIPtCEFSmfJXPsd0mhV/8QUIvn8eNb9p2Mr3CK2WmAiAsbKfcW23MSTbaDpmAOkvC
+ vMl0qMhW4mwE+EJ0qs1etq1+cF28UNpo7UqNYCQaHsul+iCDrONzJIanjkydNYw/1IgVc3fEC16qT
+ F8ak8=;
+Received: from [185.231.240.5] (helo=iris.sw.ru)
+ by relay.virtuozzo.com with esmtp (Exim 4.94.2)
+ (envelope-from <den@openvz.org>)
+ id 1ncNfm-007qOL-NO; Thu, 07 Apr 2022 10:39:33 +0200
+From: "Denis V. Lunev" <den@openvz.org>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 1/1] qemu-img: properly list formats which have consistency
+ check implemented
+Date: Thu,  7 Apr 2022 11:39:32 +0300
+Message-Id: <20220407083932.531965-1-den@openvz.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <871qyajetd.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
+ helo=relay.virtuozzo.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,45 +57,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: eesposit@redhat.com, jean-philippe@linaro.org, mst@redhat.com,
- qemu-devel@nongnu.org, Coiby.Xu@gmail.com, qemu-arm@nongnu.org, clg@kaod.org,
- stefanha@redhat.com, pbonzini@redhat.com, eric.auger.pro@gmail.com,
- david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+Simple grep for the .bdrv_co_check callback presence gives the following
+list of block drivers
+* QED
+* VDI
+* VHDX
+* VMDK
+* Parallels
+which have this callback. The presense of the callback means that
+consistency check is supported.
 
-On 4/6/22 7:34 PM, Alex Bennée wrote:
-> Eric Auger <eric.auger@redhat.com> writes:
->
->> When run on ARM, basic and indirect tests currently fail with the
->> following error:
->>
->> ERROR:../tests/qtest/libqos/virtio.c:224:qvirtio_wait_used_elem:
->> assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
->> Bail out! ERROR:../tests/qtest/libqos/virtio.c:224: qvirtio_wait_used_elem:
->> assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
->>
->> I noticed it worked when I set up MSI and I further reduced the
->> code to a simple guest_alloc() that removes the error. At the moment
->> I am not able to identify where ths issue is and this blocks the
->> whole pci/aarch64 enablement.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Hi Eric,
->
-> I sent a RFC patch which I think avoids the need for this hack:
->
->   Subject: [RFC PATCH] tests/qtest: properly initialise the vring used idx
->   Date: Wed,  6 Apr 2022 18:33:56 +0100
->   Message-Id: <20220406173356.1891500-1-alex.bennee@linaro.org>
->
-Indeed this fixes my issue! Many thanks for the debug & fix.
+The patch updates documentation accordingly.
 
-I will respin with your R-b's.
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+CC: Kevin Wolf <kwolf@redhat.com>
+CC: Hanna Reitz <hreitz@redhat.com>
+---
+ docs/tools/qemu-img.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Eric
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index 8885ea11cf..85a6e05b35 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -332,8 +332,8 @@ by the used format or see the format descriptions below for details.
+   ``-r all`` fixes all kinds of errors, with a higher risk of choosing the
+   wrong fix or hiding corruption that has already occurred.
+ 
+-  Only the formats ``qcow2``, ``qed`` and ``vdi`` support
+-  consistency checks.
++  Only the formats ``qcow2``, ``qed``, ``parallels``, ``vhdx``, ``vmdk`` and
++  ``vdi`` support consistency checks.
+ 
+   In case the image does not have any inconsistencies, check exits with ``0``.
+   Other exit codes indicate the kind of inconsistency found or if another error
+-- 
+2.32.0
 
 
