@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 067CC4F7C5D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 12:07:06 +0200 (CEST)
-Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667B74F7CAC
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 12:24:54 +0200 (CEST)
+Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncP2e-0005mR-KL
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 06:07:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36528)
+	id 1ncPJs-0001EE-VD
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 06:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncOzG-0004sk-4K
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 06:03:34 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:34139)
+ id 1ncPFX-0000MZ-Dz
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 06:20:25 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:37455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncOzA-0005WS-PF
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 06:03:33 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2db2add4516so56106147b3.1
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 03:03:28 -0700 (PDT)
+ id 1ncPFU-0000DN-Vr
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 06:20:22 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id l14so8731756ybe.4
+ for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 03:20:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d24atL9hj9V0U5q9epBivFWuqvOpJzUdZLF2FPrxjGM=;
- b=vct3iid4d3D3vRdhD1toskpk1LuxOLU0eIZIJU1w4eVIXFkZAdDfk7S3FeW8zuHRqT
- X5pcjZJo3ybwKIoqTOiOie4ok5//6I1aOxgr7WkrOdp3GFPcYkort2sHB1tkh9/A/nHU
- o/cSFOJQcfoCnMDlvxE/KOofCDlDyaTMVRxS9wNsCRw52gX6LvgQCszA4z1q7dVbTQhB
- 1OY5gMY+vedsW+cotzBFw3Yr9EOUq+Nva4+aK9DkOzHBWSWXYRoj/NYEWkYsWSmhr+a9
- YEuB3RJNPpkTuj77pirzVPqNaxiAEM3OasbLWYV0QBoPNtVxfAN/F7/sUA0mkgKKikaR
- AGMQ==
+ :cc; bh=i/gXCSQAvC2H9jOtooDSiH6zB/h+Szxjo+xam5JcAaI=;
+ b=lLkJ/hPBcu/37w4UM5tyxNePsGglo4SDHoCFu5wAydICfhfmWQwexfTNG5CPJa+u1C
+ ACXawTj7TApSHQsEGAX/Tqgv4m++h3zt5Dk+E8kIO/Jd+8kcVDC3ykx4mROPGyJaj7ro
+ mMdSIVZk5I0yEJCjGvgKxPpZzjBHhTZB9IdZqJmAedFJTG4suIE0LFG3l5TfHgdmGqHL
+ /AQUJfBB/yVAO5vna3rlZZmpo0G536bX9O71u6sJskKnEKryk/jF+AqWU3Y90EH0zP2d
+ WvHIZsy7HYbT9UUSA5SAwAMozeU1xhF/gRs9YAa6WR8ZaKZtc+thB0ZwdloAXlpymHvs
+ BcAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=d24atL9hj9V0U5q9epBivFWuqvOpJzUdZLF2FPrxjGM=;
- b=tHk7OuJl8zjDe0Y75NkH3rw3PmIpV4/9qz99jTwuCTcU8eWoz0XL7WRlMzn3Q0sEEJ
- L9NpXxfPB52+2azd8TPbWBIy6KzZepCXGSQEFWGytU/WbJjY0GAbP5DyzEK1bLmiGU7Q
- B6IHhTFtUGg/qpc1SgI6ZeN3G7a86LanS5mnG+QBPvhKmnc4p4J81wiYjGMpXuq/ZOMc
- 35C9etmx1kPJSwcPlwsIYNw89ZZJ6NBTuzgGnLTbN8lxr5mRGVw9SRGOqjSdVGAg5gFW
- oc1iTwQgS2mmFZWVib5bkf8IHh6YxJ5n9zkt+a790dAMqX6z27SWLoY/yzPfdvHnYDKR
- DBmg==
-X-Gm-Message-State: AOAM531MLaaq6pngQrfUkW1tSDiaf/jfUG/JhWjTF3TNwWxAKT5tz6No
- 10nhEPGNmBjh/zee2SW6Dc4WEM8Zb5aFsE/dDCjb/Q==
-X-Google-Smtp-Source: ABdhPJx+hSTSr5YrBOgqDOaQAHmlrAcVcrt722YgZDFy+gvnhrabshEOX3cRuWgzeXW667V8NNlgYgvICajsYvrJvGA=
-X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
- g3-20020a0df603000000b002d157e50234mr11211639ywf.469.1649325807813; Thu, 07
- Apr 2022 03:03:27 -0700 (PDT)
+ bh=i/gXCSQAvC2H9jOtooDSiH6zB/h+Szxjo+xam5JcAaI=;
+ b=5sFuH+W3g+8I/rkglqygouA6r4lzviSTEotvvBA4zqgjGlt3OpskyvSkqWyvd8xBJm
+ uEyjlbPJu3/kT/I6Q/rwD3TlJCsnAk4Fd5bjpgOP948/b7DV4yFajodlXe2PvIPt+2t4
+ q6OAJ/L3eAq7/fQMR2+CBmcEjwb8KLsdGILVtmuI2yiWl51Pj2OnHXi+EZlKh5uMEKJj
+ bQGZfyClA0ao/TwrCNXL3VN/wdQr51zfVu7BOtdYXoSJjJSIzhBsmlvc7Kn9yt9vKg/E
+ 8oQu2Xy8tayHlRTSvl/WzDVb95Qg8QlqPunfEdEMz8A/lw3bWhW9raRqBPG9Y7+TiAFP
+ 7xPw==
+X-Gm-Message-State: AOAM532XmuQ5SBkVTnY19dizS4uhurj3ybHthNm/d3w16EJZ0jKzjnhS
+ 2CK6P2N9xZeL2/4TMBe8CJx5U49BIXiA24GpHPe7SA==
+X-Google-Smtp-Source: ABdhPJxNV6TEVNnbd0LB6BsKVADNZ7vdlW1EBkeZs/WG+FSuqjXDhWpJKoTw1R6KXObZRwlYzbUxIaJ5a1uQZRB8csk=
+X-Received: by 2002:a25:418c:0:b0:63d:84a2:2364 with SMTP id
+ o134-20020a25418c000000b0063d84a22364mr9556261yba.85.1649326819720; Thu, 07
+ Apr 2022 03:20:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220407095047.50371-1-mst@redhat.com>
-In-Reply-To: <20220407095047.50371-1-mst@redhat.com>
+References: <20220217172500.60500-1-dgilbert@redhat.com>
+ <20220217172500.60500-10-dgilbert@redhat.com>
+In-Reply-To: <20220217172500.60500-10-dgilbert@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Apr 2022 11:03:16 +0100
-Message-ID: <CAFEAcA8upf6nA8dUPeAyY_Q-F_oscqZonPGCKT2OUZORcX4FuQ@mail.gmail.com>
-Subject: Re: [PATCH for-7.0] virtio-iommu: use-after-free fix
-To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Thu, 7 Apr 2022 11:20:08 +0100
+Message-ID: <CAFEAcA9m2U2fcUYXpRJwt09UgGqDA2K3BDt1xgXZL63jc1EWEQ@mail.gmail.com>
+Subject: Re: [PULL 09/12] virtiofsd: Create new file with security context
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,26 +78,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, qemu-devel@nongnu.org,
- Wentao Liang <Wentao_Liang_g@163.com>
+Cc: slp@redhat.com, sebastian.hasler@stuvus.uni-stuttgart.de,
+ qemu-devel@nongnu.org, groug@kaod.org, virtio-fs@redhat.com,
+ stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Apr 2022 at 10:52, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Thu, 17 Feb 2022 at 17:40, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
 >
-> From: Wentao Liang <Wentao_Liang_g@163.com>
+> From: Vivek Goyal <vgoyal@redhat.com>
 >
-> A potential Use-after-free was reported in virtio_iommu_handle_command
-> when using virtio-iommu:
+> This patch adds support for creating new file with security context
+> as sent by client. It basically takes three paths.
 >
-> > I find a potential Use-after-free in QEMU 6.2.0, which is in
-> > virtio_iommu_handle_command() (./hw/virtio/virtio-iommu.c).
+> - If no security context enabled, then it continues to create files without
+>   security context.
+>
+> - If security context is enabled and but security.selinux has not been
+>   remapped, then it uses /proc/thread-self/attr/fscreate knob to set
+>   security context and then create the file. This will make sure that
+>   newly created file gets the security context as set in "fscreate" and
+>   this is atomic w.r.t file creation.
+>
+>   This is useful and host and guest SELinux policies don't conflict and
+>   can work with each other. In that case, guest security.selinux xattr
+>   is not remapped and it is passthrough as "security.selinux" xattr
+>   on host.
+>
+> - If security context is enabled but security.selinux xattr has been
+>   remapped to something else, then it first creates the file and then
+>   uses setxattr() to set the remapped xattr with the security context.
+>   This is a non-atomic operation w.r.t file creation.
+>
+>   This mode will be most versatile and allow host and guest to have their
+>   own separate SELinux xattrs and have their own separate SELinux policies.
+>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> Message-Id: <20220208204813.682906-9-vgoyal@redhat.com>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-So, this isn't a regression. Do you think it's critically necessary
-it goes in 7.0, or is it in the category "put it into 7.0 if we
-need an rc4 for some other reason anyway" ?
+Hi; Coverity reports some issues (CID 1487142, 1487195), because
+it is not a fan of the error-handling pattern used in this code:
 
-(I have a feeling we'll need an rc4, but we'll see.)
+> +static int do_mknod_symlink_secctx(fuse_req_t req, struct lo_inode *dir,
+> +                                   const char *name, const char *secctx_name)
+> +{
+> +    int path_fd, err;
+> +    char procname[64];
+> +    struct lo_data *lo = lo_data(req);
+> +
+> +    if (!req->secctx.ctxlen) {
+> +        return 0;
+> +    }
+> +
+> +    /* Open newly created element with O_PATH */
+> +    path_fd = openat(dir->fd, name, O_PATH | O_NOFOLLOW);
+> +    err = path_fd == -1 ? errno : 0;
+> +    if (err) {
+> +        return err;
+> +    }
+
+We set err based on whether path_fd is -1 or not, but we decide
+whether to early-return based on the value of err. Coverity
+doesn't know that openat() will always set errno to something
+non-zero if it returns -1, so it complains because it thinks
+there's a code path where openat() returns -1, but errno is 0,
+and so we don't take the early-return and instead continue
+through all the code below to the "close(path_fd)", which
+should not be being passed a negative value for the filedescriptor.
+
+I could just mark these as false-positives, but it does seem a bit
+odd that we are using two different conditions here. Perhaps it would
+be better to rephrase? For instance, for the openat() we could write:
+
+   path_fd = openat(dir->fd, name, O_PATH | O_NOFOLLOW);
+   if (path_fd == -1) {
+       return errno;
+   }
+and similarly for the openat() in open_set_proc_fscreate().
+
+> +    sprintf(procname, "%i", path_fd);
+> +    FCHDIR_NOFAIL(lo->proc_self_fd);
+> +    /* Set security context. This is not atomic w.r.t file creation */
+> +    err = setxattr(procname, secctx_name, req->secctx.ctx, req->secctx.ctxlen,
+> +                   0);
+> +    if (err) {
+> +        err = errno;
+> +    }
+
+> +    FCHDIR_NOFAIL(lo->root.fd);
+> +    close(path_fd);
+> +    return err;
+> +}
 
 thanks
 -- PMM
