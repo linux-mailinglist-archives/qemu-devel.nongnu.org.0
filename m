@@ -2,97 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342304F79C7
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 10:31:34 +0200 (CEST)
-Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D374F79BA
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 10:31:22 +0200 (CEST)
+Received: from localhost ([::1]:54084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncNYD-00030D-2h
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 04:31:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37530)
+	id 1ncNXz-0002oV-B6
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 04:31:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ncNPR-0005nL-AV
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 04:22:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56563)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ncNPP-0002Y6-Cv
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 04:22:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649319746;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qHcFzRWuIE9zcbYdHp7jsyBMzmn4b1/rxLmDaEUYQI0=;
- b=HkTUTfCSs35B/Gux5wG2CWxG5JjQCn55vQt0wdHe+ht/jRkMvK6UT48U75rTBFdnL9z8Gi
- SbghD+p8UBdADRSxOzF6ZUSeZUZOJfl1rr/YPl/JuS2s/hFwclBtynoouSD6ackLSlS4oA
- H97jB1Knnaomf4+X4MI9tdkJ9wY3MfA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-mtLxgbwUMnKjkqFMCnWAMQ-1; Thu, 07 Apr 2022 04:22:25 -0400
-X-MC-Unique: mtLxgbwUMnKjkqFMCnWAMQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- m23-20020a056402051700b0041cd56be44cso2542308edv.10
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 01:22:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ncNS5-0007re-IS
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 04:25:17 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ncNS3-00033I-Ls
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 04:25:13 -0400
+Received: by mail-wr1-x431.google.com with SMTP id j12so6690127wrb.5
+ for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 01:25:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7CPpi31xbD96eiWrdqre0Vls01EA+2iq0FB3FOnzNKA=;
+ b=c7gKC5Z0BlMlE4TVgk7RbzZ3RUnmh+wPzL4zir7ihnG3lnm2DqwjLhXQ352ts+fPbs
+ sP7p4hyRny9TPw6EW1paMM1WqnyHFJHBR95iEhqqAWml4qcT3MQGVmq16a+Cs5GcUMM8
+ zbc9hPbK/8snqHB+xSoksIbTkxIkXoxBch6pRDro+sT/lS6z7oVkw1TcGg+AW3LSUq/f
+ jzHEAbh+1jDqNPj4P1xUUYbft7pO9YVTAOPHmNv5zOrhQbmfV1/EXfARgAdoQXM8slAB
+ w4B9oplWiDuJ9T7j/0teyDzuFC1iqhOBRTAZO+NRIFuTo5o/0PMk/SpUA6psV8CJ1E71
+ +XPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qHcFzRWuIE9zcbYdHp7jsyBMzmn4b1/rxLmDaEUYQI0=;
- b=ohdPhu/cqae6g7aJoxZ4k6rqfzyI602qJOlxVxZoQRGK99I/p+SajxjpnuPaUaW5hT
- Q1EyKpwunN0Nrz3H8uDG2v9CWLM0T2vXoA2zAxeETBNy+qn86rIywp0ix6FPmnwZHl15
- JhxK2F5CGY2uecuukaRQKWBGoH44nlFFB9rVNcb2uAcnTnCDCZbjeVtuMxIfAmgP3472
- e9QcsdSnwQZW6PPtw4mK97lAvv10n28bxQj5jxdJ+pf8Xg2VclSp6iOSXryUn9E1DAfZ
- D32GcWAKQXu8D/Jyiw0pKNHDzHZl/hN/QeJi/4Pf/Ha+nCmQTLZ912B84XdE6Twkt34S
- GT1w==
-X-Gm-Message-State: AOAM531T87hMAoEvFUM4Yum1UXqRWyo4deFg7F5sUZ/w3L6+MqjcrOU/
- eExskKmTI9HVBQJgmTJXzqG56ZUd9ZLGqisVtQZWObwovXT9gxA5KvnZEJ2/E6Pe/zkH3SaVSq5
- IfHPYkWGWt+1gHIU=
-X-Received: by 2002:aa7:c307:0:b0:41c:d381:d60e with SMTP id
- l7-20020aa7c307000000b0041cd381d60emr12930453edq.184.1649319744291; 
- Thu, 07 Apr 2022 01:22:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIQ4wWAAd7ReeG9HIG/VG7ZhyjrBgNyQkfjxhkIQ0DKl++/ASzuYT7BkKgCDDPiAKe56UDUg==
-X-Received: by 2002:aa7:c307:0:b0:41c:d381:d60e with SMTP id
- l7-20020aa7c307000000b0041cd381d60emr12930427edq.184.1649319744008; 
- Thu, 07 Apr 2022 01:22:24 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=7CPpi31xbD96eiWrdqre0Vls01EA+2iq0FB3FOnzNKA=;
+ b=Sawg2lwl/fhDp6BhI4pMBXFnCTPzikzCICCuUXzry5ogVP90C2e3Jhhw+B0435qics
+ d41D5FRl3R4TuR1M+1JPhQ+cME4h0muk23qwuUFN0Urtr3VpCq7IxPQwBDmyulMVuB3w
+ hxvxPFG3CbRau0SIwX3PXhmqytyEpZTKkPGTpdQ2DPB6cxwc5WNhrINlkffdS3jQGjd+
+ BaUDoiW7w/Ea7oZBZzcvyerWpK7cltNJX0ko7/OXqjRpO4w7r00ekOhrLO4QGFW3B1rc
+ Rk8SffgeCibZnJnCQtQVFek9qQLnCDb2M4iUCnUPAa6m0D4IQevW61nYwST/ph9K93FW
+ wQDA==
+X-Gm-Message-State: AOAM532Y6I2HApJOofbirRIAimq8UogBKZ2mxuXYv5qrMaJc1Mgs5VbY
+ NDNcyRBJJ9eqc2MAHcgS7lvzEA==
+X-Google-Smtp-Source: ABdhPJwsYH3BWo7uQz+zgIgZw8RXvuguSRBZ8k/Bb572/4PC1uW1dbjqVjgi94X3WWJpTBK+4mduKg==
+X-Received: by 2002:a5d:6d04:0:b0:204:12b6:9eb with SMTP id
+ e4-20020a5d6d04000000b0020412b609ebmr9963317wrq.44.1649319909925; 
+ Thu, 07 Apr 2022 01:25:09 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- o22-20020a170906289600b006e44a0c1105sm7453174ejd.46.2022.04.07.01.22.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Apr 2022 01:22:23 -0700 (PDT)
-Message-ID: <ec47e2d2-57e8-bf7d-5226-9881cf635579@redhat.com>
-Date: Thu, 7 Apr 2022 10:22:22 +0200
+ p29-20020a1c545d000000b0038e70d5217dsm9541870wmi.45.2022.04.07.01.25.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Apr 2022 01:25:08 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CAF051FFB7;
+ Thu,  7 Apr 2022 09:25:07 +0100 (BST)
+References: <20220406173356.1891500-1-alex.bennee@linaro.org>
+ <CAFEAcA-iFROkDQ=myCjbBxo5jJKqwCjQb_3tbANYdeNk=YizLw@mail.gmail.com>
+ <87wng2ht6c.fsf@linaro.org>
+ <CAFEAcA_ecAbd1EucBG=Hy82E7VLcaYkt=_2k5VK=ZpmY-6_O3g@mail.gmail.com>
+User-agent: mu4e 1.7.12; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC PATCH] tests/qtest: properly initialise the vring used idx
+Date: Thu, 07 Apr 2022 09:24:20 +0100
+In-reply-to: <CAFEAcA_ecAbd1EucBG=Hy82E7VLcaYkt=_2k5VK=ZpmY-6_O3g@mail.gmail.com>
+Message-ID: <87sfqpi9lo.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 2/7] block/copy-before-write: add on-cbw-error open
- parameter
-To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-References: <20220406180801.374844-1-vsementsov@openvz.org>
- <20220406180801.374844-3-vsementsov@openvz.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220406180801.374844-3-vsementsov@openvz.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,60 +91,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, vsementsov@openvz.org,
- stefanha@redhat.com, eblake@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Eric Auger <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.04.22 20:07, Vladimir Sementsov-Ogievskiy wrote:
-> Currently, behavior on copy-before-write operation failure is simple:
-> report error to the guest.
+
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Wed, 6 Apr 2022 at 21:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>>
+>>
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>> > Guest memory is generally zero at startup. Do we manage to
+>> > hit the bit of memory at the start of the virt machine's RAM
+>> > where we store the DTB ? (As you say, initializing the data
+>> > structures is the right thing anyway.)
+>>
+>> I don't know - where is the DTB loaded?
 >
-> Let's implement alternative behavior: break the whole copy-before-write
-> process (and corresponding backup job or NBD client) but keep guest
-> working. It's needed if we consider guest stability as more important.
+> Start of RAM (that's physaddr 0x4000_0000). The thing I'm not sure
+> about is whether these qtests go through the code in hw/arm/boot.c
+> that loads the DTB into guest RAM or not.
+
+Yes because it's linked to the machine creation:
+
+Thread 1 hit Breakpoint 1, arm_load_dtb (addr=3D1073741824, binfo=3Dbinfo@e=
+ntry=3D0x55bc4ce26970, addr_limit=3D0, as=3Das@entry=3D0x55bc4d119c50, ms=
+=3Dms@entry=3D0x55bc4ce26800) at ../../hw/arm/boot.c:534
+534     {
+(rr) bt
+#0  arm_load_dtb (addr=3D1073741824, binfo=3Dbinfo@entry=3D0x55bc4ce26970, =
+addr_limit=3D0, as=3Das@entry=3D0x55bc4d119c50, ms=3Dms@entry=3D0x55bc4ce26=
+800) at ../../hw/arm/boot.c:534
+#1  0x000055bc4a9f7ded in virt_machine_done (notifier=3D0x55bc4ce26910, dat=
+a=3D<optimized out>) at ../../hw/arm/virt.c:1637
+#2  0x000055bc4aebc807 in notifier_list_notify (list=3Dlist@entry=3D0x55bc4=
+b5f8b20 <machine_init_done_notifiers>, data=3Ddata@entry=3D0x0) at ../../ut=
+il/notify.c:39
+#3  0x000055bc4a7f82db in qdev_machine_creation_done () at ../../hw/core/ma=
+chine.c:1235
+#4  0x000055bc4a744b19 in qemu_machine_creation_done () at ../../softmmu/vl=
+.c:2725
+#5  qmp_x_exit_preconfig (errp=3D<optimized out>) at ../../softmmu/vl.c:2748
+#6  0x000055bc4a748a14 in qmp_x_exit_preconfig (errp=3D<optimized out>) at =
+../../softmmu/vl.c:2741
+#7  qemu_init (argc=3D<optimized out>, argv=3D<optimized out>, envp=3D<opti=
+mized out>) at ../../softmmu/vl.c:3776
+#8  0x000055bc4a6de639 in main (argc=3D<optimized out>, argv=3D<optimized o=
+ut>, envp=3D<optimized out>) at ../../softmmu/main.c:49
+
+(ION: yay, I can capture qtest runs in rr now ;-)
+
 >
-> The realisation is simple: on copy-before-write failure we set
-> s->snapshot_ret and continue guest operations. s->snapshot_ret being
-> set will lead to all further snapshot API requests. Note that all
-> in-flight snapshot-API requests may still success: we do wait for them
-> on BREAK_SNAPSHOT-failure path in cbw_do_copy_before_write().
+>> Currently we are using the first
+>> couple of pages in qtest because that where the qtest allocater is
+>> initialised:
+>>
+>>   static void *qos_create_machine_arm_virt(QTestState *qts)
+>>   {
+>>       QVirtMachine *machine =3D g_new0(QVirtMachine, 1);
+>>
+>>       alloc_init(&machine->alloc, 0,
+>>                  ARM_VIRT_RAM_ADDR,
+>>                  ARM_VIRT_RAM_ADDR + ARM_VIRT_RAM_SIZE,
+>>                  ARM_PAGE_SIZE);
+>>       qvirtio_mmio_init_device(&machine->virtio_mmio, qts, VIRTIO_MMIO_B=
+ASE_ADDR,
+>>                                VIRTIO_MMIO_SIZE);
+>>
+>>       qos_create_generic_pcihost(&machine->bridge, qts, &machine->alloc);
+>>
+>>       machine->obj.get_device =3D virt_get_device;
+>>       machine->obj.get_driver =3D virt_get_driver;
+>>       machine->obj.destructor =3D virt_destructor;
+>>       return machine;
+>>   }
+>>
+>> I don't know if there is a more sane piece of memory we should be using.
 >
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-> ---
->   qapi/block-core.json      | 25 ++++++++++++++++++++++++-
->   block/copy-before-write.c | 32 ++++++++++++++++++++++++++++++--
->   2 files changed, 54 insertions(+), 3 deletions(-)
+> The first part of RAM is fine, it's just you can't assume it's
+> all zeroes :-)
 >
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index beeb91952a..085f1666af 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
+> -- PMM
 
-[...]
 
-> @@ -4184,11 +4203,15 @@
->   #          modifications (or removing) of specified bitmap doesn't
->   #          influence the filter. (Since 7.0)
->   #
-> +# @on-cbw-error: Behavior on failure of copy-before-write operation.
-> +#                Default is @break-guest-write. (Since 7.0)
-
-With *7.1:
-
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-
-> +#
->   # Since: 6.2
->   ##
->   { 'struct': 'BlockdevOptionsCbw',
->     'base': 'BlockdevOptionsGenericFormat',
-> -  'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap' } }
-> +  'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap',
-> +            '*on-cbw-error': 'OnCbwError' } }
->   
->   ##
->   # @BlockdevOptions:
-
+--=20
+Alex Benn=C3=A9e
 
