@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9464F800F
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 15:07:10 +0200 (CEST)
-Received: from localhost ([::1]:50586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23AB44F8010
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 15:07:24 +0200 (CEST)
+Received: from localhost ([::1]:51098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncRqv-0002Cc-By
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 09:07:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44510)
+	id 1ncRr9-0002YM-6W
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 09:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1ncRp7-0000zn-BT
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:05:17 -0400
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:36389)
+ id 1ncRpS-0001A6-LX
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:05:40 -0400
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:41714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1ncRp5-0004Dd-MA
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:05:17 -0400
-Received: by mail-lf1-x132.google.com with SMTP id i38so1210536lfv.3
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 06:05:14 -0700 (PDT)
+ id 1ncRpQ-0004PS-T6
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:05:38 -0400
+Received: by mail-lf1-x130.google.com with SMTP id p15so9507315lfk.8
+ for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 06:05:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Ybikp2ZD+yoog3VX2RcZSheCoHRwYo89MLZX0qR4hrA=;
- b=EnE2jA1U1BV1ck+jikFfNZp5+0tUR2YgYiwda/xzzLOJqocY3S71LTAEJ17GbcCZh5
- lcf8XhcGTs8g9KxNA4QCxZNSjTTqt3wmD31BlvR8iUi4jmvgp8AXMTegIPM0r6qnjoQf
- sxTcIH7VZ6Te1E6B9Rew5ohHHN7WyyXv0dguugb7/0ULa/5KN4fKkgt3Q293cB6p8Ejq
- WvJCMo+02CPd8+r5sw0HEJwlA8/6BegQki1SEzWI+WsxT9qReL7W47om0AU2I7eWpDrZ
- rqa6vgx+Df2XaFXavDueNAZVpsuJmRi7baX4xfwvfjrv24vpYK5bHYHxV23VOgK/w//S
- 3ZWQ==
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=6rHDvnVUvXSepkr/MKaZSTO5jOKquWIXsJH1bLFINTM=;
+ b=dQC5HX+ierhRqPnMc648yXZv//dAz203RSR2H4lFpHM5t8iWqZst/dY0U0ZUFF/kQV
+ PEW8sAPYQ5//WKJaHYTHTAkaYO6gFkrKJBwySK8mh9MqYoElGxQNkr98uZkEYqCb4TwM
+ frpmbVsMGFqYsBjUXyMnf3NvlQMWa6fBMmqOXECbgF/XIANNJihhl3bG+5LilQoxck4G
+ 8cgIgV1uqisMVz3nXUjmDeDjuq0rFOUtD8UetHUG1TAUKuZb43CgzsX9SH5T3eeAZVDS
+ G62uWevDVchVPyBN9v21daEEliaCRn8wuJCHdWl2aQCryQdGGUieP3us5F12pbe8Vmnb
+ mFww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ybikp2ZD+yoog3VX2RcZSheCoHRwYo89MLZX0qR4hrA=;
- b=bfOV2CUNhpWBKVDj+KEgEoqy0h/XHRY8VxqTVVOe9h/csShwmZUbMO1EVfFgBjUf46
- jnPpAr6l365fBIZGppdCMWe44a/vnGGugiM7nd4E/j4rNkbFH1tvMCLu4hRIrzJuF95x
- RN1zCOA7QObuFSNDoGuJ+BVAy5+C44WfIy59UYPzXuCcHxizn4+4xIzOwKZJJiA835ed
- yCKC9gPiFMCNGeR2loUD2UqiGQlfg24EII2sxiaafHXs2SOYWffVVXRT+zSSfgNf8hQ+
- CUauJmriyC4O/fUSi8L2l713k5MgVC6mV8XAhdYI4/mCsOIfUFQF3Mag2W8zA10kquvB
- FdgQ==
-X-Gm-Message-State: AOAM533S1oxICgSFZcOhcA3qclOEm6TvJI75CVis8jDoBYLjURAEDqU+
- H5rNs9gDEQFP8FSNEfeVwfY=
-X-Google-Smtp-Source: ABdhPJzScgalODvSr2DGLOrlMP7brDd80ref3mi9k+bjZw0iEscyXh/qnI2BHadFopiA1wcuUoYaeg==
-X-Received: by 2002:ac2:5119:0:b0:450:d4e7:99ca with SMTP id
- q25-20020ac25119000000b00450d4e799camr9287474lfb.95.1649336713110; 
- Thu, 07 Apr 2022 06:05:13 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=6rHDvnVUvXSepkr/MKaZSTO5jOKquWIXsJH1bLFINTM=;
+ b=ViZ7l74kBDqx2SrPZs6DEFxLvvdLG9bjpGp/cv0fmHe+vzCikJHPGUuU5wZJVOmEtQ
+ NIpLdxm/loetukOwYNQnwdOoxJQABlxL3WfLpbVdiWvDQ2jGYDnW/uwC9IbEryPHmicm
+ MJn80wkSnIr0Ty4URVuEwKkVL/SpY2jSMr83Z0irWL9nRFwArL9wuLk79J1WXzypSNs4
+ gd4ZFfkx207pjCl5n476er8DASf1xT1whz9hTuqumv1ylPj1EHcc4UEZyDbUwoT7VxmP
+ akEbyPhby7mLJY8WGiqWO0E9rqA3oKt6K1MyK+m8xnYtW2jXQkn9jsH7XMWChjSnGQF0
+ 6RQQ==
+X-Gm-Message-State: AOAM530XN1l475njzB/1Ox5+IjrVQXWSXmjE5r5Pop+21MWdycmKFH92
+ vZS3R0X+x+EOy2BtgOomXm8=
+X-Google-Smtp-Source: ABdhPJwhcFX/dnFPccPXOb19NhPDWsCb5hoGdeMoR1AC1kZzji95APgZyP4hoptGXzJ259RfmLOOYA==
+X-Received: by 2002:a05:6512:b28:b0:44a:9b62:3212 with SMTP id
+ w40-20020a0565120b2800b0044a9b623212mr9404623lfu.320.1649336735027; 
+ Thu, 07 Apr 2022 06:05:35 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
  by smtp.gmail.com with ESMTPSA id
- d14-20020a19384e000000b00464f6d13785sm166858lfj.176.2022.04.07.06.05.12
+ g15-20020a056512118f00b0044a835fd17esm2160900lfr.162.2022.04.07.06.05.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 06:05:12 -0700 (PDT)
-Date: Thu, 7 Apr 2022 15:05:11 +0200
+ Thu, 07 Apr 2022 06:05:34 -0700 (PDT)
+Date: Thu, 7 Apr 2022 15:05:33 +0200
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: Damien Hedde <damien.hedde@greensocs.com>
-Subject: Re: [PATCH v2 1/5] qdev: add
- user_creatable_requires_machine_allowance class flag
-Message-ID: <20220407130511.GB3143488@toto>
+Subject: Re: [PATCH v2 2/5] machine: update machine allowed list related
+ functions/fields
+Message-ID: <20220407130533.GC3143488@toto>
 References: <20220331115312.30018-1-damien.hedde@greensocs.com>
- <20220331115312.30018-2-damien.hedde@greensocs.com>
+ <20220331115312.30018-3-damien.hedde@greensocs.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220331115312.30018-2-damien.hedde@greensocs.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::132;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x132.google.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220331115312.30018-3-damien.hedde@greensocs.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,74 +96,151 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 01:53:08PM +0200, Damien Hedde wrote:
-> This flag will be used in device_add to check if
-> the device needs special allowance from the machine
-> model.
+On Thu, Mar 31, 2022 at 01:53:09PM +0200, Damien Hedde wrote:
+> The list will now accept any device (not only sysbus devices) so
+> we rename the related code and documentation.
 > 
-> It will replace the current check based only on the
-> device being a TYPE_SYB_BUS_DEVICE.
+> Create some temporary inline functions with old names until
+> we've udpated callsites as well.
 > 
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Looks good to me!
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
 
 
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
+>  include/hw/boards.h | 50 +++++++++++++++++++++++++++------------------
+>  hw/core/machine.c   | 10 ++++-----
+>  2 files changed, 35 insertions(+), 25 deletions(-)
 > 
-> v2:
->  + change the flag name and put it just below user_creatable
-> ---
->  include/hw/qdev-core.h | 9 +++++++++
->  hw/core/qdev.c         | 1 +
->  hw/core/sysbus.c       | 1 +
->  3 files changed, 11 insertions(+)
-> 
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 92c3d65208..6a040fcd3b 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -122,6 +122,15 @@ struct DeviceClass {
->       * TODO remove once we're there
->       */
->      bool user_creatable;
-> +    /*
-> +     * Some devices can be user created under certain conditions (eg:
-> +     * specific machine support for sysbus devices), but it is
-> +     * preferable to prevent global allowance for the reasons
-> +     * described above.
-> +     * This flag is an additional constraint over user_creatable:
-> +     * user_creatable still needs to be set to true.
-> +     */
-> +    bool user_creatable_requires_machine_allowance;
->      bool hotpluggable;
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index c92ac8815c..1814793175 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -38,35 +38,45 @@ void machine_parse_smp_config(MachineState *ms,
+>                                const SMPConfiguration *config, Error **errp);
 >  
->      /* callbacks */
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 84f3019440..0844c85a21 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -833,6 +833,7 @@ static void device_class_init(ObjectClass *class, void *data)
->       */
->      dc->hotpluggable = true;
->      dc->user_creatable = true;
-> +    dc->user_creatable_requires_machine_allowance = false;
->      vc->get_id = device_vmstate_if_get_id;
->      rc->get_state = device_get_reset_state;
->      rc->child_foreach = device_reset_child_foreach;
-> diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-> index 05c1da3d31..5f771ed1e9 100644
-> --- a/hw/core/sysbus.c
-> +++ b/hw/core/sysbus.c
-> @@ -325,6 +325,7 @@ static void sysbus_device_class_init(ObjectClass *klass, void *data)
->       * subclass needs to override it and set user_creatable=true.
->       */
->      k->user_creatable = false;
-> +    k->user_creatable_requires_machine_allowance = true;
+>  /**
+> - * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+> + * machine_class_allow_dynamic_device: Add type to list of valid devices
+>   * @mc: Machine class
+> - * @type: type to allow (should be a subtype of TYPE_SYS_BUS_DEVICE)
+> + * @type: type to allow (should be a subtype of TYPE_DEVICE having the
+> + *        uc_requires_machine_allowance flag)
+>   *
+>   * Add the QOM type @type to the list of devices of which are subtypes
+> - * of TYPE_SYS_BUS_DEVICE but which are still permitted to be dynamically
+> - * created (eg by the user on the command line with -device).
+> - * By default if the user tries to create any devices on the command line
+> - * that are subtypes of TYPE_SYS_BUS_DEVICE they will get an error message;
+> - * for the special cases which are permitted for this machine model, the
+> - * machine model class init code must call this function to add them
+> - * to the list of specifically permitted devices.
+> + * of TYPE_DEVICE but which are only permitted to be dynamically
+> + * created (eg by the user on the command line with -device) if the
+> + * machine allowed it.
+> + *
+> + * Otherwise if the user tries to create such a device on the command line,
+> + * it will get an error message.
+>   */
+> -void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type);
+> +void machine_class_allow_dynamic_device(MachineClass *mc, const char *type);
+> +static inline void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc,
+> +                                                          const char *type)
+> +{
+> +    machine_class_allow_dynamic_device(mc, type);
+> +}
+>  
+>  /**
+> - * device_type_is_dynamic_sysbus: Check if type is an allowed sysbus device
+> + * device_type_is_dynamic_allowed: Check if type is an allowed device
+>   * type for the machine class.
+>   * @mc: Machine class
+> - * @type: type to check (should be a subtype of TYPE_SYS_BUS_DEVICE)
+> + * @type: type to check (should be a subtype of TYPE_DEVICE)
+>   *
+>   * Returns: true if @type is a type in the machine's list of
+> - * dynamically pluggable sysbus devices; otherwise false.
+> + * dynamically pluggable devices; otherwise false.
+>   *
+> - * Check if the QOM type @type is in the list of allowed sysbus device
+> - * types (see machine_class_allowed_dynamic_sysbus_dev()).
+> + * Check if the QOM type @type is in the list of allowed device
+> + * types (see machine_class_allowed_dynamic_device()).
+>   * Note that if @type has a parent type in the list, it is allowed too.
+>   */
+> -bool device_type_is_dynamic_sysbus(MachineClass *mc, const char *type);
+> +bool device_type_is_dynamic_allowed(MachineClass *mc, const char *type);
+> +static inline bool device_type_is_dynamic_sysbus(MachineClass *mc,
+> +                                                 const char *type)
+> +{
+> +    return device_type_is_dynamic_allowed(mc, type);
+> +}
+>  
+>  /**
+>   * device_is_dynamic_sysbus: test whether device is a dynamic sysbus device
+> @@ -74,12 +84,12 @@ bool device_type_is_dynamic_sysbus(MachineClass *mc, const char *type);
+>   * @dev: device to check
+>   *
+>   * Returns: true if @dev is a sysbus device on the machine's list
+> - * of dynamically pluggable sysbus devices; otherwise false.
+> + * of dynamically pluggable devices; otherwise false.
+>   *
+>   * This function checks whether @dev is a valid dynamic sysbus device,
+>   * by first confirming that it is a sysbus device and then checking it
+> - * against the list of permitted dynamic sysbus devices which has been
+> - * set up by the machine using machine_class_allow_dynamic_sysbus_dev().
+> + * against the list of permitted dynamic devices which has been
+> + * set up by the machine using machine_class_allow_dynamic_device().
+>   *
+>   * It is valid to call this with something that is not a subclass of
+>   * TYPE_SYS_BUS_DEVICE; the function will return false in this case.
+> @@ -263,7 +273,7 @@ struct MachineClass {
+>      bool ignore_memory_transaction_failures;
+>      int numa_mem_align_shift;
+>      const char **valid_cpu_types;
+> -    strList *allowed_dynamic_sysbus_devices;
+> +    strList *allowed_dynamic_devices;
+>      bool auto_enable_numa_with_memhp;
+>      bool auto_enable_numa_with_memdev;
+>      bool ignore_boot_device_suffixes;
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index d856485cb4..fb1f7c8e5a 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -545,9 +545,9 @@ static void machine_set_nvdimm_persistence(Object *obj, const char *value,
+>      nvdimms_state->persistence_string = g_strdup(value);
 >  }
 >  
->  static const TypeInfo sysbus_device_type_info = {
+> -void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type)
+> +void machine_class_allow_dynamic_device(MachineClass *mc, const char *type)
+>  {
+> -    QAPI_LIST_PREPEND(mc->allowed_dynamic_sysbus_devices, g_strdup(type));
+> +    QAPI_LIST_PREPEND(mc->allowed_dynamic_devices, g_strdup(type));
+>  }
+>  
+>  bool device_is_dynamic_sysbus(MachineClass *mc, DeviceState *dev)
+> @@ -558,16 +558,16 @@ bool device_is_dynamic_sysbus(MachineClass *mc, DeviceState *dev)
+>          return false;
+>      }
+>  
+> -    return device_type_is_dynamic_sysbus(mc, object_get_typename(obj));
+> +    return device_type_is_dynamic_allowed(mc, object_get_typename(obj));
+>  }
+>  
+> -bool device_type_is_dynamic_sysbus(MachineClass *mc, const char *type)
+> +bool device_type_is_dynamic_allowed(MachineClass *mc, const char *type)
+>  {
+>      bool allowed = false;
+>      strList *wl;
+>      ObjectClass *klass = object_class_by_name(type);
+>  
+> -    for (wl = mc->allowed_dynamic_sysbus_devices;
+> +    for (wl = mc->allowed_dynamic_devices;
+>           !allowed && wl;
+>           wl = wl->next) {
+>          allowed |= !!object_class_dynamic_cast(klass, wl->value);
 > -- 
 > 2.35.1
 > 
