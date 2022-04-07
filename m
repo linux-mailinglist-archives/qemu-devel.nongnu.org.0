@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711A24F7831
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 09:53:14 +0200 (CEST)
-Received: from localhost ([::1]:60412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B204F7846
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 09:54:52 +0200 (CEST)
+Received: from localhost ([::1]:34672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncMx7-00033S-3v
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 03:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55652)
+	id 1ncMyh-0004kO-QP
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 03:54:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ncMum-0001bU-Ti
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 03:50:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50948)
+ id 1ncMwD-000352-5B
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 03:52:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ncMuj-0004f8-2Z
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 03:50:47 -0400
+ id 1ncMw9-0004u2-Bw
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 03:52:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649317843;
+ s=mimecast20190719; t=1649317932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tvYCl0Imz3tWePigcFvD0vVdYzSy5naqkwAOvh3bokc=;
- b=Ttels1244MHoUJI9yL68bME2+jK6jwwOKg25kZTbC7jc+ZKCtki+Jbd5K6p799OBfmbF2t
- kvfoehGWqEmWPUSSTfHgdY0LL431tukRViZ+UqwQi/D2XgkldcZ5Y0Q6qxFLIaXg/1Lz0o
- zT10br7KB0PKFQw975Nv17xqRu51cbY=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FAQkXpFaRgMAddU8Z9iGvo9uVeJA99RqXMvsuQV1kZw=;
+ b=aTO7E6QuYFVZXqq3nlDCJzRNadUPohoPchBPXBmUGsPCGoPW976wM/d7rS/cpKU9dipvSM
+ 10yqAMRCvt3rKIp7MP74KGQhUHly2TR4hr9+U0+Qcrdivx/Dfli0/ppD3BQHCR7B//XrD/
+ yVcuRJvfdx6QXLPVZt8RVAxAB58UJ8M=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-et4-w1MWPPiO9uB-8x3-rg-1; Thu, 07 Apr 2022 03:50:42 -0400
-X-MC-Unique: et4-w1MWPPiO9uB-8x3-rg-1
-Received: by mail-pl1-f200.google.com with SMTP id
- p8-20020a170902e74800b001564f2593a5so2425193plf.2
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 00:50:42 -0700 (PDT)
+ us-mta-626-04BWvYCTNSyJFSw-yVW3ng-1; Thu, 07 Apr 2022 03:52:10 -0400
+X-MC-Unique: 04BWvYCTNSyJFSw-yVW3ng-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ w3-20020a17090ac98300b001b8b914e91aso3167695pjt.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 00:52:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tvYCl0Imz3tWePigcFvD0vVdYzSy5naqkwAOvh3bokc=;
- b=gBLy3Ge9aJLW5P8LnJwcZwzdBRH1A2GlFT4z6aqyutzZQO5q2tJpysmJMd4atD1r/H
- y/cF9lT0t2dfzyMeNOf2ykg4o1E52weZvG2cg+ZnhqqF92rVNLRhKLgSl4sWZAL7xEt2
- GM1CVn6ky90Fo0VSe1S0ngdnIBTqiANo8iWws+/ozlKSgIfsPiSd8J5yLhLLEi6jxYcI
- 07FcFbeSbn4JPLW1C6LmIwcMcaTMl+7MA1LuhZBTwazBbnYvNdIcJjKqOi/VyvHvhE3l
- 8gp0nA3yqZB41sKUpXEAZuoUuJQOw3WTr7IQgKa4y/dgEZmQ05E2Z6VqSeVHHcmpDjHN
- yWWw==
-X-Gm-Message-State: AOAM532zzivWdX+jQqd06CwnntNLI6deFCm2de2iqzHjX/ViTrj5DtsI
- CofBb947WIwP+q+L8utlJgGzUBCrlSFsCPzYD83yXZRspJY34MbbSGbBElwcO0iU5ZpamO4V4vI
- 9BTaMaH407tLjWdU=
-X-Received: by 2002:a65:6e41:0:b0:39c:c97b:2aef with SMTP id
- be1-20020a656e41000000b0039cc97b2aefmr1201022pgb.473.1649317841345; 
- Thu, 07 Apr 2022 00:50:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxdwFt1Gg0KXXUYxn9V+4r+TBK0txcGLcE+i9j0PS1XMVNmTz/GFCcsLuOVJ0nShGLJKPXNg==
-X-Received: by 2002:a65:6e41:0:b0:39c:c97b:2aef with SMTP id
- be1-20020a656e41000000b0039cc97b2aefmr1201006pgb.473.1649317840888; 
- Thu, 07 Apr 2022 00:50:40 -0700 (PDT)
+ bh=FAQkXpFaRgMAddU8Z9iGvo9uVeJA99RqXMvsuQV1kZw=;
+ b=Jfl8zN0VRzXCiGbWgf9ZLlS2RUysH4KBf2daY82565qyFJSvd9E80ZOkBN5ckUExe0
+ nNUqKKBjlf0Xy5gc9KZ938Uuhj+spja4j6YWct8mP9WlhY+X/EBAmL4l3uf0qmPKhcDr
+ 64WapiJ6oEBJsGmG2L3VNWrvWfjx+FCdAJhwX44B9WfU67WvrtsVmWVct//evXd0Xllo
+ 9YM392xgNtyo+cjlPRjdpIL0FQeurLAuDLv7fRfO6yrsvubOzhJsXULjcjvZHWSZoXj1
+ H8PxCenCyvvVQXsNo1++hAo5WpLOn2xrNkxTpesf0utxxacYTAywFA6+/LRS0WNdkLUo
+ sgBQ==
+X-Gm-Message-State: AOAM533x+4XP+JZN6Lc2GWI3jRpqc+0YCfM6gfcEjWF+TKwz4YaJe8AT
+ shJDknH1b5l1EHY/h5esxLXZ9VKCctqGqTqOj5dYgSBhUHLBggxqezA7hvMKEU7GDaP5vxWvwSC
+ mpkq139AMthL/2tkNzdUpLnv4HhVQZV52Zja7O6H5aimBbRsDRlTwAkQUIJ09vr8y3V8=
+X-Received: by 2002:a05:6a00:4007:b0:4fa:9505:8ac0 with SMTP id
+ by7-20020a056a00400700b004fa95058ac0mr12853784pfb.67.1649317929252; 
+ Thu, 07 Apr 2022 00:52:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFSWkxbQKHHSyoYZuV7AY2YWap7LO0lPBJPEqM3YM/HKwj8vAp3bjFK7QqROsPGAlYyLYvPw==
+X-Received: by 2002:a05:6a00:4007:b0:4fa:9505:8ac0 with SMTP id
+ by7-20020a056a00400700b004fa95058ac0mr12853754pfb.67.1649317928599; 
+ Thu, 07 Apr 2022 00:52:08 -0700 (PDT)
 Received: from [10.72.13.105] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- nu16-20020a17090b1b1000b001c77c6a391csm8215114pjb.26.2022.04.07.00.50.37
+ i187-20020a62c1c4000000b004faafada2ffsm22375133pfg.204.2022.04.07.00.52.07
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Apr 2022 00:50:40 -0700 (PDT)
-Message-ID: <6a1e7563-94d9-ea30-d94c-a2197c04ecac@redhat.com>
-Date: Thu, 7 Apr 2022 15:50:35 +0800
+ Thu, 07 Apr 2022 00:52:08 -0700 (PDT)
+Message-ID: <26d50ea3-8aa6-ec99-bd45-0281b1284e2d@redhat.com>
+Date: Thu, 7 Apr 2022 15:52:05 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.7.0
 Subject: Re: [PATCH v4] vdpa: reset the backend device in the end of
  vhost_net_stop()
-To: Si-Wei Liu <si-wei.liu@oracle.com>
+To: qemu-devel@nongnu.org
 References: <1648718713-7637-1-git-send-email-qiudayu@archeros.com>
  <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
  <CACGkMEuQ_YW+aSysnFtDrjy=Wjq_U3KouOobYSC+e5+5SR0zEA@mail.gmail.com>
  <ab772bc3-4acd-bb79-7f97-0518e04bb7fe@oracle.com>
  <CACGkMEv8+XC39G4wK_bUY0ZdFd29YoR7D3ugrMy-iT7cO1arew@mail.gmail.com>
- <379df944-f46a-ecbc-3566-8776cfefa3f1@oracle.com>
+ <6247c8f5.1c69fb81.848e0.8b49SMTPIN_ADDED_BROKEN@mx.google.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <379df944-f46a-ecbc-3566-8776cfefa3f1@oracle.com>
+In-Reply-To: <6247c8f5.1c69fb81.848e0.8b49SMTPIN_ADDED_BROKEN@mx.google.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -109,20 +110,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cindy Lu <lulu@redhat.com>, mst <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, eperezma <eperezma@redhat.com>,
- Michael Qiu <qiudayu@archeros.com>, Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/4/6 上午8:56, Si-Wei Liu 写道:
+在 2022/4/2 上午11:53, Michael Qiu 写道:
 >
 >
-> On 4/1/2022 7:20 PM, Jason Wang wrote:
+> On 2022/4/2 10:20, Jason Wang wrote:
 >> Adding Michael.
 >>
 >> On Sat, Apr 2, 2022 at 7:08 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+>>>
 >>>
 >>>
 >>> On 3/31/2022 7:53 PM, Jason Wang wrote:
@@ -164,38 +163,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 >>> unready i.e. set_vq_ready(0) for resuming/stopping virtqueue 
 >>> processing,
 >>> as starting vq is comparatively less ambiguous.
+>>
 >> Yes.
 >>
 >>> Considering the
 >>> likelihood that this interface may be used for live migration, it would
 >>> be nice to come up with variants such as 1) discard inflight request
 >>> v.s. 2) waiting for inflight processing to be done,
+>>
 >> Or inflight descriptor reporting (which seems to be tricky). But we
 >> can start from net that a discarding may just work.
 >>
 >>> and 3) timeout in
 >>> waiting.
+>>
 >> Actually, that's the plan and Eugenio is proposing something like this
 >> via virtio spec:
 >>
->> https://urldefense.com/v3/__https://lists.oasis-open.org/archives/virtio-dev/202111/msg00020.html__;!!ACWV5N9M2RV99hQ!bcX6i6_atR-6Gcl-4q5Tekab_xDuXr7lDAMw2E1hilZ_1cZIX1c5mztQtvsnjiiy$ 
+>> https://lists.oasis-open.org/archives/virtio-dev/202111/msg00020.html
 >>
-> Thanks for the pointer, I seem to recall I saw it some time back 
-> though I wonder if there's follow-up for the v3? My impression was 
-> that this is still a work-in-progress spec proposal, while the 
-> semantics of various F_STOP scenario is unclear yet and not all of the 
-> requirements (ex: STOP_FAILED, rewind & !IN_ORDER) for live migration 
-> do seem to get accommodated?
-
-
-My understanding is that, the reason for STOP_FAILED and IN_ORDER is 
-because we don't have a way to report inflight descriptors. We will try 
-to overcome those by allow the device to report inflight descriptors in 
-the next version.
-
-
->
->>
+>>>
 >>>> 2) userspace will call SET_VRING_ENABLE() when the device supports
 >>>> otherwise it will use RESET.
 >>> Are you looking to making virtqueue resume-able through the new
@@ -203,6 +190,7 @@ the next version.
 >>>
 >>> I think RESET is inevitable in some case, i.e. when guest initiates
 >>> device reset by writing 0 to the status register.
+>>
 >> Yes, that's all my plan.
 >>
 >>> For suspend/resume and
@@ -212,96 +200,11 @@ the next version.
 >>> lay out the plan for multiple phases rather than overload this single
 >>> patch too much. You can count my time on this endeavor if you don't 
 >>> mind. :)
+>>
 >> You're welcome, I agree we should choose a way to go first:
 >>
 >> 1) manage to use SET_VRING_ENABLE (more like a workaround anyway)
-> For networking device and the vq suspend/resume and live migration use 
-> cases to support, I thought it might suffice?
-
-
-Without config space change it would be sufficient. And anyhow the vDPA 
-parent can prevent the config change if all the virtqueue is disabled.
-
-
-> We may drop inflight or unused ones for Ethernet...
-
-
-Yes.
-
-
-> What other part do you think may limit its extension to become a 
-> general uAPI or add new uAPI to address similar VQ stop requirement if 
-> need be? 
-
-
-For networking, we don't need other.
-
-
-> Or we might well define subsystem specific uAPI to stop the virtqueue, 
-> for vdpa device specifically?
-
-
-Anyhow we need a uAPI consider we have some parent that doesn't support 
-virtqueue stop. So this could be another way to go.
-
-But if we decide to bother with new uAPI, I would rather go with a new 
-uAPI for stop the device. It can help for the config space change as well.
-
-
-> I think the point here is given that we would like to avoid guest side 
-> modification to support live migration, we can define specific uAPI 
-> for specific live migration requirement without having to involve 
-> guest driver change. It'd be easy to get started this way and 
-> generalize them all to a full blown _S_STOP when things are eventually 
-> settled.
-
-
-Yes, note that the status seen by guest is mediated by the hypervisor. 
-So the hypervisor can choose not to hide the _S_STOP from the guest to 
-keep the migration work without modifications in the guest driver.
-
-
->
 >> 2) go with virtio-spec (may take a while)
-> I feel it might be still quite early for now to get to a full blown 
-> _S_STOP spec level amendment that works for all types of virtio 
-> (vendor) devices. Generally there can be very specific 
-> subsystem-dependent ways to stop each type of virtio devices that 
-> satisfies the live migration of virtio subsystem devices.
-
-
-Yes.
-
-
-> For now the discussion mostly concerns with vq index rewind, inflight 
-> handling, notification interrupt and configuration space such kind of 
-> virtio level things, but real device backend has implication on the 
-> other parts such as the order of IO/DMA quiescing and interrupt masking.
-
-
-It's the charge of the vDPA parent to perform any necessary quiescing to 
-satisfy the semantic of _S_STOP, it's an implementation detail which is 
-out of the scope of the spec.
-
-
-> If the subsystem virtio guest drivers today somehow don't support any 
-> of those _S_STOP new behaviors, I guess it's with little point to 
-> introduce the same or similar _S_STOP functionality to the guest 
-> driver to effectively support live migration.
-
-
-See above, the live migration is transparent to the guest. For the 
-driver that doesn't support _S_STOP, we can still live migrate it. The 
-only interesting part is nesting: if we want to live migrate a nested 
-guest we need to the guest driver must support _S_STOP.
-
-Thanks
-
-
->
->
-> Thanks,
-> -Siwei
 >> 3) don't wait for the spec, have a vDPA specific uAPI first. Note that
 >> I've chatted with most of the vendors and they seem to be fine with
 >> the _S_STOP. If we go this way, we can still provide the forward
@@ -310,14 +213,33 @@ Thanks
 >>
 >> Any thoughts?
 >>
+>
+> virtio-spec should be long-term, not only because the spec goes very 
+> slowly, but also the hardware upgrade should be a problem.
+>
+> For short-term, better to take the first one?
+
+
+Consider we need a new uAPI anyhow, I prefer for 2) but you can try 1) 
+and see what people think.
+
+Thanks
+
+
+>
+> Thanks,
+> Michael
 >> Thanks
 >>
+>>>
+>>>>
 >>>> And for safety, I suggest tagging this as 7.1.
 >>> +1
 >>>
 >>> Regards,
 >>> -Siwei
 >>>
+>>>>
 >>>>> ---
 >>>>> v4 --> v3
 >>>>>       Nothing changed, becasue of issue with mimecast,
@@ -534,6 +456,10 @@ Thanks
 >>>>>
 >>>>>
 >>>>>
+>>>
+>>
+>>
+>
 >
 
 
