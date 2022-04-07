@@ -2,81 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61784F741E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 05:36:32 +0200 (CEST)
-Received: from localhost ([::1]:40972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D88064F7469
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 06:13:41 +0200 (CEST)
+Received: from localhost ([::1]:46286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncIwh-0006O0-En
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 23:36:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38980)
+	id 1ncJWe-0003Un-G3
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 00:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ncIv2-0005jD-Ic
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 23:34:50 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:35514)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ncIv0-0007fU-C3
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 23:34:47 -0400
-Received: by mail-pg1-x530.google.com with SMTP id z128so3899097pgz.2
- for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 20:34:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=0iZ2sotYZOzbqSqUpyeSc7B8BnJGBEDyaVitrg3NLso=;
- b=n9WgJo8C46EpNGNnbqktqHgeD6BNGm3vqWBpScDfWviPUAjpcgTBV7QplxGFkqOJcL
- 0enHIDvJEEvk+aJtJsbNmeqqNiBRmD/hX3LpU6eieqKq0qHC/y34j3yXvtvWm1gfpZrE
- x4OyvDM/G9OvExWlXzjprpLjveCkdxHThU7LXI5qKZ6+IE3Y+reTZyH3mGjzqEWRID3Q
- AwwZwrAlPP/ScIhLtPIDOpQyWfji6K97fKzwWmLNWk4Lu1AOBKXfPdWTkfH1xKMqd7VE
- Kv04cYdLFZYLEOOLBF/1oI3M1ujkhElDfyCQT6BZ3+wJ8I26vmzKf8EYXZA5VVd6aKF8
- 6nmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0iZ2sotYZOzbqSqUpyeSc7B8BnJGBEDyaVitrg3NLso=;
- b=rt+Tiysy1fNhVZVaFmXmi39rE4WGokvloqBdeaA5d6RJqoN9u9e3eyOQYhcujWPH68
- gPVnXNEiD3qp7kzvbUifPStEhDkpacRfYBbG6qXtifkKAI9LseWjCX5CQt3jbysccma3
- UHs/lQk7YlBN+2iy60VO07cjtHt9Gk8IUsZVGN2tcyapUDlp/tooKaHKPVhKKq4KzgJZ
- zY0GyQ1W8BLuF+JsThylXpCMuv5pdYA/DvHaLPXGJA4Urkvt1+6UfigoLlr87MEQ93ue
- 9mFM9loMhDTzlAXHBcHZbvBP5DNvYV7EAqS7Kl9zYsD13WAZ3zP4Ej8QLLfHreOkbCxd
- rNPA==
-X-Gm-Message-State: AOAM531ZOEYt65rtCtmAS+5fbJSJimlOvtvPEsfRltbg8+rBCpC5jMWQ
- yyIIiBE0uw9MfbV6upZSCXQYQQ==
-X-Google-Smtp-Source: ABdhPJzUa0uuxd2n/djEBIewsxOzY2aC6WHVNEPw+mzVrfU0AngwSMJsxvRbTytv8uhlVW35VOqUBQ==
-X-Received: by 2002:a65:5245:0:b0:39c:ce49:e97d with SMTP id
- q5-20020a655245000000b0039cce49e97dmr163588pgp.301.1649302484654; 
- Wed, 06 Apr 2022 20:34:44 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- c9-20020aa78c09000000b004fdac35673bsm20372186pfd.147.2022.04.06.20.34.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Apr 2022 20:34:43 -0700 (PDT)
-Message-ID: <79fa875e-0f67-5e21-c22f-9df700716575@linaro.org>
-Date: Wed, 6 Apr 2022 22:34:41 -0500
+ (Exim 4.90_1) (envelope-from <xueshuai@linux.alibaba.com>)
+ id 1ncJUA-0001EZ-O1
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 00:11:06 -0400
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:47088)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xueshuai@linux.alibaba.com>)
+ id 1ncJU2-0006xt-Cl
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 00:11:01 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04400; MF=xueshuai@linux.alibaba.com;
+ NM=1; PH=DS; RN=2; SR=0; TI=SMTPD_---0V9P6jIs_1649304648; 
+Received: from 30.240.121.162(mailfrom:xueshuai@linux.alibaba.com
+ fp:SMTPD_---0V9P6jIs_1649304648) by smtp.aliyun-inc.com(127.0.0.1);
+ Thu, 07 Apr 2022 12:10:49 +0800
+Message-ID: <3036a482-33f5-c283-9ca2-93de1a4f2165@linux.alibaba.com>
+Date: Thu, 7 Apr 2022 12:10:48 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] x86: Implement Linear Address Masking support
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [BUG]QEMU jump into interrupt when single-stepping on aarch64
 Content-Language: en-US
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- qemu-devel@nongnu.org
-References: <20220407010107.34734-1-kirill.shutemov@linux.intel.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220407010107.34734-1-kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <3dc5add1-1353-584b-b655-a9546743df1c@linux.alibaba.com>
+ <0fe68d69-1b9c-2bac-4fd4-5e31e84eaac2@linaro.org>
+From: Shuai Xue <xueshuai@linux.alibaba.com>
+In-Reply-To: <0fe68d69-1b9c-2bac-4fd4-5e31e84eaac2@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.56;
+ envelope-from=xueshuai@linux.alibaba.com;
+ helo=out30-56.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,31 +65,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/6/22 20:01, Kirill A. Shutemov wrote:
-> Linear Address Masking feature makes CPU ignore some bits of the virtual
-> address. These bits can be used to encode metadata.
+在 2022/4/7 AM12:57, Richard Henderson 写道:
+> On 4/6/22 09:30, Shuai Xue wrote:
+>> Dear, folks,
+>>
+>> I try to debug Linux kernel with QEMU in single-stepping mode on aarch64 platform,
+>> the added breakpoint hits but after I type `step`, the gdb always jumps into interrupt.
+>>
+>> My env:
+>>
+>>     gdb-10.2
+>>     qemu-6.2.0
+>>     host kernel: 5.10.84
+>>     VM kernel: 5.10.84
+>>
+>> The steps to reproduce:
+>>     # host console: run a VM with only one core, the import arg: <qemu:arg value='-s'/>
+>>     # details can be found here: https://www.redhat.com/en/blog/debugging-kernel-qemulibvirt
+>>     virsh create dev_core0.xml
+>>     
+>>     # run gdb client
+>>     gdb ./vmlinux
+>>
+>>     # gdb client on host console
+>>     (gdb) dir ./usr/src/debug/kernel-5.10.84/linux-5.10.84-004.alpha.ali5000.alios7.aarch64
+>>     (gdb) target remote localhost:1234
+>>     (gdb) info b
+>>     Num     Type           Disp Enb Address            What
+>>     1       breakpoint     keep y   <MULTIPLE>
+>>     1.1                         y   0xffff800010361444 mm/memory-failure.c:1318
+>>     1.2                         y   0xffff800010361450 in memory_failure
+>>                                                     at mm/memory-failure.c:1488
+>>     (gdb) c
+>>     Continuing.
+>>
+>>     # console in VM, use madvise to inject a hwposion at virtual address vaddr,
+>>     # which will hit the b inmemory_failur: madvise(vaddr, pagesize, MADV_HWPOISON);
+>>     # and the VM pause
+>>     ./run_madvise.c
+>>
+>>     # gdb client on host console
+>>     (gdb)
+>>     Continuing.
+>>     Breakpoint 1, 0xffff800010361444 in memory_failure () at mm/memory-failure.c:1318
+>>     1318                    res = -EHWPOISON;
+>>     (gdb) n
+>>     vectors () at arch/arm64/kernel/entry.S:552
+>>     552             kernel_ventry   1, irq                          // IRQ EL1h
 > 
-> The feature is enumerated with CPUID.(EAX=07H, ECX=01H):EAX.LAM[bit 26].
+> The 'n' command is not a single-step: use stepi, which will suppress interrupts.
+> Anyway, not a bug.
 > 
-> CR3.LAM_U57[bit 62] allows to encode 6 bits of metadata in bits 62:57 of
-> user pointers.
-> 
-> CR3.LAM_U48[bit 61] allows to encode 15 bits of metadata in bits 62:48
-> of user pointers.
-> 
-> CR4.LAM_SUP[bit 28] allows to encode metadata of supervisor pointers.
-> If 5-level paging is in use, 6 bits of metadata can be encoded in 62:57.
-> For 4-level paging, 15 bits of metadata can be encoded in bits 62:48.
-> 
-> QEMU strips address from the metadata bits and gets it to canonical
-> shape before handling memory access. It has to be done very early before
-> TLB lookup.
+> r~
 
-The new hook is incorrect, in that it doesn't apply to addresses along the tlb fast path.
+Hi, Richard,
 
-But it isn't really needed.  You can do all of the work in the existing tlb_fill hook. 
-AArch64 has a similar feature, and that works fine.
+Thank you for your quick reply, I also try `stepi`, but it does NOT work either.
+
+	(gdb) c
+	Continuing.
+
+	Breakpoint 1, memory_failure (pfn=1273982, flags=1) at mm/memory-failure.c:1488
+	1488    {
+	(gdb) stepi
+	vectors () at arch/arm64/kernel/entry.S:552
+	552             kernel_ventry   1, irq                          // IRQ EL1h
+
+According to QEMU doc[1]: the default single stepping behavior is step with the IRQs
+and timer service routines off. I checked the MASK bits used to control the single
+stepping IE on my machine as bellow:
+
+	# gdb client on host (x86 plafrom)
+	(gdb) maintenance packet qqemu.sstepbits
+	sending: "qqemu.sstepbits"
+	received: "ENABLE=1,NOIRQ=2,NOTIMER=4"
+
+The sstep MASK looks as expected, but does not work as expected.
+
+I also try the same kernel and qemu version on X86 platform:
+>>     gdb-10.2
+>>     qemu-6.2.0
+>>     host kernel: 5.10.84
+>>     VM kernel: 5.10.84
 
 
-r~
+The command `n` jumps to the next instruction.
+
+	# gdb client on host (x86 plafrom)
+	(gdb) b memory-failure.c:1488
+	Breakpoint 1, memory_failure (pfn=1128931, flags=1) at mm/memory-failure.c:1488
+	1488    {
+	(gdb) n
+	1497            if (!sysctl_memory_failure_recovery)
+	(gdb) stepi
+	0xffffffff812efdbc      1497            if (!sysctl_memory_failure_recovery)
+	(gdb) stepi
+	0xffffffff812efdbe      1497            if (!sysctl_memory_failure_recovery)
+	(gdb) n
+	1500            p = pfn_to_online_page(pfn);
+	(gdb) l
+	1496
+	1497            if (!sysctl_memory_failure_recovery)
+	1498                    panic("Memory failure on page %lx", pfn);
+	1499
+	1500            p = pfn_to_online_page(pfn);
+	1501            if (!p) {
+
+Best Regrades,
+Shuai
+
+
+[1] https://github.com/qemu/qemu/blob/master/docs/system/gdb.rst
 
