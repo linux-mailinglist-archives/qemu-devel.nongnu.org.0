@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85CD4F8124
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 15:59:47 +0200 (CEST)
-Received: from localhost ([::1]:53182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA1B4F8125
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 15:59:57 +0200 (CEST)
+Received: from localhost ([::1]:53486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncSfq-0001qS-GD
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 09:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56674)
+	id 1ncSg0-00022J-Sg
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 09:59:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ncSdl-0008Fc-RH
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:57:37 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:47708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ncSdj-0004jT-K6
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:57:37 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 35899212B7;
- Thu,  7 Apr 2022 13:57:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649339854; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ncSeB-0000G8-Pk
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:58:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52923)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ncSe9-0004lh-4B
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:58:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649339866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gqVIGfs3sHCiJj2iXIFfsZS4lb3kCWCoU3MSRyjZOsw=;
- b=NIfh4ZKOu/Pfa+hIOYC5hg4t7ppN14T3aCzT8E03rXo3sFlk9XjcP5JdKXudxKCLMmd4wz
- 3iAPh5wuPbQO+Ybj3IQBSrqOhQq6remncRsQv1wCT3b6iE5yoA2jOcjM1qx06cQPGhs0KO
- aNhIPYLOqC6IrfLq0HG3NiYFJ/xtiO4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649339854;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gqVIGfs3sHCiJj2iXIFfsZS4lb3kCWCoU3MSRyjZOsw=;
- b=yfkDfH7Rnbuu6UaIuNzewWARwK29BLkt5vgR+W31GIL2+kaipZ/WBwwBHj7JQ1rR2IhQe6
- XcpyKsXa31zJhEAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=kEP02RqBl5f9YW7+8Vy9Np6+IZhweo9l5Or3QR70rPI=;
+ b=gx2/aF+co5/m+4owdlx9L59TMQAjuEPaI00u5bBhkolQiP1pWevTfWRH6xLqIO/nucAsw8
+ bph1SrLGvEhbzNReCRURK0lg0JpYesULjqR05sqSnZmsNfEZ7svF1wd9rY2noK8wlHE3b/
+ Xi02ga/x82gpqDBwsBnEE7yAyAdf8Os=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-503-TXoPL8EUPyCwEENJt8alBQ-1; Thu, 07 Apr 2022 09:57:43 -0400
+X-MC-Unique: TXoPL8EUPyCwEENJt8alBQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F3FF713A66;
- Thu,  7 Apr 2022 13:57:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id P/rPOc3tTmIXQwAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 07 Apr 2022 13:57:33 +0000
-Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
- performance
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
- <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
- <737974fa-905c-d171-05b0-ec4df42bc762@suse.de> <Yj2nh1LRZ54BXuds@redhat.com>
- <47af35ec-2ca8-26ae-f4e4-d81f18f2a05b@suse.de> <YkFycBMT0HsYUfJr@redhat.com>
- <c5924d0a-78e4-29ed-e856-e8ab823bc560@suse.de> <Ykv/TLS8zgwh/ros@work-vm>
- <9e990c54-746f-eb97-1e6a-1ce298d511b9@suse.de> <Yk7s3CSYTKiZPPON@work-vm>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <33b6e8a9-5fe1-146c-3a0c-f5d8e9367ce8@suse.de>
-Date: Thu, 7 Apr 2022 15:57:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39AD01C07854;
+ Thu,  7 Apr 2022 13:57:43 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80F2840D2853;
+ Thu,  7 Apr 2022 13:57:41 +0000 (UTC)
+Date: Thu, 7 Apr 2022 08:57:39 -0500
+From: Eric Blake <eblake@redhat.com>
+To: "Denis V. Lunev" <den@openvz.org>
+Subject: Re: [PATCH 1/1] qemu-img: properly list formats which have
+ consistency check implemented
+Message-ID: <20220407135739.onyeybgnnqhqwhet@redhat.com>
+References: <20220407083932.531965-1-den@openvz.org>
 MIME-Version: 1.0
-In-Reply-To: <Yk7s3CSYTKiZPPON@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220407083932.531965-1-den@openvz.org>
+User-Agent: NeoMutt/20211029-554-53973f
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,179 +79,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
- Jiri Denemark <jdenemar@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/22 3:53 PM, Dr. David Alan Gilbert wrote:
-> * Claudio Fontana (cfontana@suse.de) wrote:
->> On 4/5/22 10:35 AM, Dr. David Alan Gilbert wrote:
->>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>> On 3/28/22 10:31 AM, Daniel P. Berrangé wrote:
->>>>> On Sat, Mar 26, 2022 at 04:49:46PM +0100, Claudio Fontana wrote:
->>>>>> On 3/25/22 12:29 PM, Daniel P. Berrangé wrote:
->>>>>>> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
->>>>>>>> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
->>>>>>>>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>>>>>>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
->>>>>>>>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
->>>>>>>>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
->>>>>>>>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
->>>>>>>>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
->>>>>>>>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
->>>>>>>>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
->>>>>>>>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
->>>>>>>>>>>>>>>>>> the first user is the qemu driver,
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> This improves the situation by 400%.
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
->>>>>>>>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>>>>>>>>>>>>>> ---
->>>>>>>>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
->>>>>>>>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
->>>>>>>>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
->>>>>>>>>>>>>>>>>>  src/util/virfile.h        |  1 +
->>>>>>>>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
->>>>>>>>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
->>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
->>>>>>>>>>>>
->>>>>>>>>>>>
->>>>>>>>>>>>> Current results show these experimental averages maximum throughput
->>>>>>>>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
->>>>>>>>>>>>> "query-migrate", tests repeated 5 times for each).
->>>>>>>>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
->>>>>>>>>>>>> through user application allocating and touching all memory with
->>>>>>>>>>>>> pseudorandom data.
->>>>>>>>>>>>>
->>>>>>>>>>>>> 64K:     5200 Mbps (current situation)
->>>>>>>>>>>>> 128K:    5800 Mbps
->>>>>>>>>>>>> 256K:   20900 Mbps
->>>>>>>>>>>>> 512K:   21600 Mbps
->>>>>>>>>>>>> 1M:     22800 Mbps
->>>>>>>>>>>>> 2M:     22800 Mbps
->>>>>>>>>>>>> 4M:     22400 Mbps
->>>>>>>>>>>>> 8M:     22500 Mbps
->>>>>>>>>>>>> 16M:    22800 Mbps
->>>>>>>>>>>>> 32M:    22900 Mbps
->>>>>>>>>>>>> 64M:    22900 Mbps
->>>>>>>>>>>>> 128M:   22800 Mbps
->>>>>>>>>>>>>
->>>>>>>>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
->>>>>>>>>>>>
->>>>>>>>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
->>>>>>>>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
->>>>>>>>>>>> not try to go higher.
->>>>>>>>>>>>
->>>>>>>>>>>>> As for the theoretical limit for the libvirt architecture,
->>>>>>>>>>>>> I ran a qemu migration directly issuing the appropriate QMP
->>>>>>>>>>>>> commands, setting the same migration parameters as per libvirt,
->>>>>>>>>>>>> and then migrating to a socket netcatted to /dev/null via
->>>>>>>>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
->>>>>>>>>>>>>
->>>>>>>>>>>>> QMP:    37000 Mbps
->>>>>>>>>>>>
->>>>>>>>>>>>> So although the Pipe size improves things (in particular the
->>>>>>>>>>>>> large jump is for the 256K size, although 1M seems a very good value),
->>>>>>>>>>>>> there is still a second bottleneck in there somewhere that
->>>>>>>>>>>>> accounts for a loss of ~14200 Mbps in throughput.
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
->>>>>>>>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
->>>>>>>>>>
->>>>>>>>>> ~50000 mbps qemu to netcat socket to /dev/null
->>>>>>>>>> ~35500 mbps virsh save to /dev/null
->>>>>>>>>>
->>>>>>>>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
->>>>>>>>>
->>>>>>>>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
->>>>>>>>
->>>>>>>> I was thinking about sendfile(2) in iohelper, but that probably
->>>>>>>> can't work as the input fd is a socket, I am getting EINVAL.
->>>>>>>
->>>>>>> Yep, sendfile() requires the input to be a mmapable FD,
->>>>>>> and the output to be a socket.
->>>>>>>
->>>>>>> Try splice() instead  which merely requires 1 end to be a
->>>>>>> pipe, and the other end can be any FD afaik.
->>>>>>>
->>>>>>
->>>>>> I did try splice(), but performance is worse by around 500%.
->>>>>
->>>>> Hmm, that's certainly unexpected !
->>>>>
->>>>>> Any ideas welcome,
->>>>>
->>>>> I learnt there is also a newer  copy_file_range call, not sure if that's
->>>>> any better.
->>>>>
->>>>> You passed len as 1 MB, I wonder if passing MAXINT is viable ? We just
->>>>> want to copy everything IIRC.
->>>>>
->>>>> With regards,
->>>>> Daniel
->>>>>
->>>>
->>>> Crazy idea, would trying to use the parallel migration concept for migrating to/from a file make any sense?
->>>>
->>>> Not sure if applying the qemu multifd implementation of this would apply, maybe it could be given another implementation for "toFile", trying to use more than one cpu to do the transfer?
->>>
->>> I can't see a way that would help; well, I could if you could
->>> somehow have multiple io helper threads that dealt with it.
->>
->> The first issue I encounter here for both the "virsh save" and "virsh restore" scenarios is that libvirt uses fd: migration, not unix: migration.
->> QEMU supports multifd for unix:, tcp:, vsock: as far as I can see.
->>
->> Current save procedure in QMP in short:
->>
->> {"execute":"migrate-set-capabilities", ...}
->> {"execute":"migrate-set-parameters", ...}
->> {"execute":"getfd","arguments":{"fdname":"migrate"}, ...} fd=26
->> QEMU_MONITOR_IO_SEND_FD: fd=26
->> {"execute":"migrate","arguments":{"uri":"fd:migrate"}, ...}
->>
->>
->> Current restore procedure in QMP in short:
->>
->> (start QEMU)
->> {"execute":"migrate-incoming","arguments":{"uri":"fd:21"}, ...}
->>
->>
->> Should I investigate changing libvirt to use unix: for save/restore?
->> Or should I look into changing qemu to somehow accept fd: for multifd, meaning I guess providing multiple fd: uris in the migrate command?
+On Thu, Apr 07, 2022 at 11:39:32AM +0300, Denis V. Lunev wrote:
+> Simple grep for the .bdrv_co_check callback presence gives the following
+> list of block drivers
+> * QED
+> * VDI
+> * VHDX
+> * VMDK
+> * Parallels
+> which have this callback. The presense of the callback means that
+> consistency check is supported.
 > 
-> So I'm not sure this is the right direction; i.e. if multifd is the
-> right answer to your problem.
-
-Of course, just exploring the space.
-
-> However, I think the qemu code probably really really wants to be a
-> socket.
-
-Understood, I'll try to bend libvirt to use unix:/// and see how far I get,
-
-Thanks,
-
-Claudio
-
+> The patch updates documentation accordingly.
 > 
-> Dave
-> 
->>
->> Thank you for your help,
->>
->> Claudio
->>
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> CC: Kevin Wolf <kwolf@redhat.com>
+> CC: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  docs/tools/qemu-img.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
