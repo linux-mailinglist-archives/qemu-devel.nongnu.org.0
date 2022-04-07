@@ -2,100 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B804F8514
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 18:39:45 +0200 (CEST)
-Received: from localhost ([::1]:58806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933194F859F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 19:12:20 +0200 (CEST)
+Received: from localhost ([::1]:53766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncVAe-0004ND-5Y
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 12:39:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39142)
+	id 1ncVgB-0004tl-AX
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 13:12:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ncV9o-0003eg-Cc
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 12:38:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40047)
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ncVeU-00047P-2H
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 13:10:34 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:58006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ncV9l-0007U9-3M
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 12:38:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649349527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pXoWnBS2sD19MsejeYecpc+fcNrWjXGXmzggffKM+QI=;
- b=I3CnJEsBDfS4wQsadFUAbEKFKdGd6UWiBm/IwJjlMtjR+gTgLpK46jk04s2s7HI1q/f2/4
- C7QNf72IHF0rfSRqzv3EjwK5sMGOfywxhyldfP15LzLYy/bEbD9YpqBERc4wJC8HALU+QT
- TsQLIFf2UPJfyTkbt1OltCOMCyMsiVM=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-Unz1bAt6MfyRw6xjjcrLkg-1; Thu, 07 Apr 2022 12:38:46 -0400
-X-MC-Unique: Unz1bAt6MfyRw6xjjcrLkg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- sc14-20020a1709078a0e00b006e773507c0cso3394444ejc.10
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 09:38:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pXoWnBS2sD19MsejeYecpc+fcNrWjXGXmzggffKM+QI=;
- b=x55750VDquo1EtFC31izolbNOJhw3d5NacK3h+tMPigjPYfH4AOSm56pX/ElmyDDjp
- WwH3wo0QwVG/eUuLOEmBWieoLkv7i038PxfTmWahDs4o1rFx5KVuDQx9pQaWM9xWrBzk
- KENX5jX79GO4ahGpRyorDr4xDOQqvT/qWFUMFrVOfZeuNVOmdY7ZhBcX2Z+3XojVKhpi
- C657Rypv6o+ey0PccTTpzC430973iRdg62aKLGH0CCl5VFuhPeIVZYxtrKHUw8Y+BH+x
- LUC1JZ0govlIeBB6mjfJjophn0FzRCEeMNv4PoFfhB98DrxVfGv73mx/gxtLq2dux1nq
- Wm8w==
-X-Gm-Message-State: AOAM532XB2LyJ59D308V35p00ooP1gbNjeByPIBu/XfV19aoFW/n8P3+
- GWeMPx2laHkucc/ahEucHeq56HroqeXPpiNYNVvCl4O1Yxno4g0b0sgItOjKG9MrkaFUpA8QAou
- Lgd0Bw7Eq1OT84a8=
-X-Received: by 2002:a17:907:6296:b0:6da:745b:7b40 with SMTP id
- nd22-20020a170907629600b006da745b7b40mr14517798ejc.750.1649349524779; 
- Thu, 07 Apr 2022 09:38:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz7Vg8dkImnfJV7UjdtDJLoEzC6H04hc+pBarKJrs/TENnA/f3OIJgvsssPedI76/x5fGfebA==
-X-Received: by 2002:a17:907:6296:b0:6da:745b:7b40 with SMTP id
- nd22-20020a170907629600b006da745b7b40mr14517779ejc.750.1649349524530; 
- Thu, 07 Apr 2022 09:38:44 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- kb28-20020a1709070f9c00b006d5d8bf1b72sm7719844ejc.78.2022.04.07.09.38.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Apr 2022 09:38:43 -0700 (PDT)
-Message-ID: <d6455021-2522-c4e0-8c5a-b7852ec0d967@redhat.com>
-Date: Thu, 7 Apr 2022 18:38:40 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] x86: Implement Linear Address Masking support
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220407010107.34734-1-kirill.shutemov@linux.intel.com>
- <79fa875e-0f67-5e21-c22f-9df700716575@linaro.org>
- <20220407131843.ahmoqqoylu6jsmm3@black.fi.intel.com>
- <4c409502-55e3-3c62-eb43-854996c47805@linaro.org>
- <20220407152734.miad3m2aqtbsfin3@black.fi.intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220407152734.miad3m2aqtbsfin3@black.fi.intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ncVeS-0004WG-0Y
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 13:10:33 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B1EE1B8284D;
+ Thu,  7 Apr 2022 17:10:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64194C385A4;
+ Thu,  7 Apr 2022 17:10:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649351419;
+ bh=4Bi+StaZdOPFXAdU/bNHFV7mZV6B2itRPcHJI8amDrg=;
+ h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+ b=u9TLtj76C8m9CC/tH7uQ7MlfCEWIi+QNH/YhOnoZ9xa/e9MdwAaItd74EmSTmNJKj
+ HOr5CIZ7jsLIxtluoCWxg8Ao3Zx+DUVpo4P5PQ1vGpMcDrKfRyLTBGLnd6BLBkkYaZ
+ BYBhwWLsbrQLvaln61cfErbSWkxUEMoyB6idvNPq8Y0+s2XiS+LCdpMxfs2N/5cLoH
+ WN6cIKF8yDkDa37YZGAvsL10YCBchgRdWDMJw7Ez/xSwxKFZSOD1tSm0nuKrPyGsOn
+ w9B1VnQyj/no82a/jOGdxOucrTSdfFvGcU1ABMXjbwjTxx2Np1xrFjgzvAIpM5JOkG
+ Og7zspGQiS5sA==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailauth.nyi.internal (Postfix) with ESMTP id 43D7427C0054;
+ Thu,  7 Apr 2022 13:10:17 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+ by compute2.internal (MEProxy); Thu, 07 Apr 2022 13:10:17 -0400
+X-ME-Sender: <xms:9xpPYiwigi4XrLyD8aQhAtA3_YTzg5eSJ6ZATs9IpU1MaIGI2aZwdw>
+ <xme:9xpPYuQwoqgTttF5HfpG6tdWD_Hpos3j_Ms_B-QvDWqIXv3kuCCtj_qbT8wGqNWEa
+ wRjaIy3kU_T0uHyIME>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejkedguddutdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+ nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
+ ggtffrrghtthgvrhhnpedvleehjeejvefhuddtgeegffdtjedtffegveethedvgfejieev
+ ieeufeevuedvteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+ hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
+ keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
+ hugidrlhhuthhordhush
+X-ME-Proxy: <xmx:9xpPYkUBjEYrRtFpUrgzG-httf3qhdjIXmL8z_XpnJtMzXXUWbHEmA>
+ <xmx:9xpPYoj0PxmCUASx1bpPa_AbhKN79WQgg59JHpV1YZtxdNU4Z67Mkw>
+ <xmx:9xpPYkASkc8dReovZGQ8JvhGvgz9cxZty7kHQflwPrPmFSM1NWuh2A>
+ <xmx:-RpPYksc_XgrMpOOUS14uwdssfqA4aFocpF7qDkidsJfDRUc2jxlRQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id AC96021E006E; Thu,  7 Apr 2022 13:10:15 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-386-g4174665229-fm-20220406.001-g41746652
+Mime-Version: 1.0
+Message-Id: <02e18c90-196e-409e-b2ac-822aceea8891@www.fastmail.com>
+In-Reply-To: <Yk8L0CwKpTrv3Rg3@google.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-5-chao.p.peng@linux.intel.com>
+ <Yk8L0CwKpTrv3Rg3@google.com>
+Date: Thu, 07 Apr 2022 10:09:55 -0700
+From: "Andy Lutomirski" <luto@kernel.org>
+To: "Sean Christopherson" <seanjc@google.com>,
+ "Chao Peng" <chao.p.peng@linux.intel.com>
+Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
+ against RLIMIT_MEMLOCK
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=luto@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,57 +95,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ the arch/x86 maintainers <x86@kernel.org>, Hugh Dickins <hughd@google.com>,
+ Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Borislav Petkov <bp@alien8.de>, "Nakajima, 
+ Jun" <jun.nakajima@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Vlastimil Babka <vbabka@suse.cz>,
+ Jim Mattson <jmattson@google.com>, Dave Hansen <dave.hansen@intel.com>,
+ Linux API <linux-api@vger.kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/22 17:27, Kirill A. Shutemov wrote:
-> On Thu, Apr 07, 2022 at 07:28:54AM -0700, Richard Henderson wrote:
->> On 4/7/22 06:18, Kirill A. Shutemov wrote:
->>>> The new hook is incorrect, in that it doesn't apply to addresses along
->>>> the tlb fast path.
->>>
->>> I'm not sure what you mean by that. tlb_hit() mechanics works. We strip
->>> the tag bits before tlb lookup.
->>>
->>> Could you elaborate?
->>
->> The fast path does not clear the bits, so you enter the slow path before you
->> get to clearing the bits.  You've lost most of the advantage of the tlb
->> already.
-> 
-> Sorry for my ignorance, but what do you mean by fast path here?
 
-The fast path is the TLB lookup code that is generated by the JIT 
-compiler.  If the TLB hits, the memory access doesn't go through any C 
-code.  I think tagged addresses always fail the fast path in your patch.
 
->> While a proper tagged address will have the tag removed in CR2 during a
->> page fault, an improper tagged address (with bit 63 != {47,56}) should
->> have the original address reported to CR2.
-> 
-> Hm. I don't see it in spec. It rather points to other direction:
-> 
-> 	Page faults report the faulting linear address in CR2. Because LAM
-> 	masking (by sign-extension) applies before paging, the faulting
-> 	linear address recorded in CR2 does not contain the masked
-> 	metadata.
-> 
-> Yes, it talks about CR2 in case of page fault, not #GP due to canonicality
-> checking, but still.
-> 
->> I could imagine a hook that could aid the victim cache in ignoring the tag,
->> so that we need go through tlb_fill fewer times.  But I wouldn't want to
->> include that in the base version of this feature, and I'd want take more
->> than a moment in the design so that it could be used by ARM and RISC-V as
->> well.
-> 
-> But what other options do you see. Clering the bits before TLB look up
-> matches the architectural spec and makes INVLPG match described behaviour
-> without special handling.
+On Thu, Apr 7, 2022, at 9:05 AM, Sean Christopherson wrote:
+> On Thu, Mar 10, 2022, Chao Peng wrote:
+>> Since page migration / swapping is not supported yet, MFD_INACCESSIBLE
+>> memory behave like longterm pinned pages and thus should be accounted=
+ to
+>> mm->pinned_vm and be restricted by RLIMIT_MEMLOCK.
+>>=20
+>> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+>> ---
+>>  mm/shmem.c | 25 ++++++++++++++++++++++++-
+>>  1 file changed, 24 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/mm/shmem.c b/mm/shmem.c
+>> index 7b43e274c9a2..ae46fb96494b 100644
+>> --- a/mm/shmem.c
+>> +++ b/mm/shmem.c
+>> @@ -915,14 +915,17 @@ static void notify_fallocate(struct inode *inod=
+e, pgoff_t start, pgoff_t end)
+>>  static void notify_invalidate_page(struct inode *inode, struct folio=
+ *folio,
+>>  				   pgoff_t start, pgoff_t end)
+>>  {
+>> -#ifdef CONFIG_MEMFILE_NOTIFIER
+>>  	struct shmem_inode_info *info =3D SHMEM_I(inode);
+>> =20
+>> +#ifdef CONFIG_MEMFILE_NOTIFIER
+>>  	start =3D max(start, folio->index);
+>>  	end =3D min(end, folio->index + folio_nr_pages(folio));
+>> =20
+>>  	memfile_notifier_invalidate(&info->memfile_notifiers, start, end);
+>>  #endif
+>> +
+>> +	if (info->xflags & SHM_F_INACCESSIBLE)
+>> +		atomic64_sub(end - start, &current->mm->pinned_vm);
+>
+> As Vishal's to-be-posted selftest discovered, this is broken as=20
+> current->mm may
+> be NULL.  Or it may be a completely different mm, e.g. AFAICT there's=20
+> nothing that
+> prevents a different process from punching hole in the shmem backing.
+>
 
-Ah, INVLPG handling is messy indeed.
+How about just not charging the mm in the first place?  There=E2=80=99s =
+precedent: ramfs and hugetlbfs (at least sometimes =E2=80=94 I=E2=80=99v=
+e lost track of the current status).
 
-Paolo
+In any case, for an administrator to try to assemble the various rlimits=
+ into a coherent policy is, and always has been, quite messy. ISTM cgrou=
+p limits, which can actually add across processes usefully, are much bet=
+ter.
 
+So, aside from the fact that these fds aren=E2=80=99t in a filesystem an=
+d are thus available by default, I=E2=80=99m not convinced that this acc=
+ounting is useful or necessary.
+
+Maybe we could just have some switch require to enable creation of priva=
+te memory in the first place, and anyone who flips that switch without c=
+onfiguring cgroups is subject to DoS.
 
