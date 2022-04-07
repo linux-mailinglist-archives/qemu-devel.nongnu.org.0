@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8CE4F7246
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 04:48:35 +0200 (CEST)
-Received: from localhost ([::1]:59908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3FA4F72B2
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 05:10:31 +0200 (CEST)
+Received: from localhost ([::1]:36404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncICH-0006Ov-OI
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 22:48:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
+	id 1ncIXW-0002CW-GS
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 23:10:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1ncIAq-0005ZH-Eo
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:47:04 -0400
-Received: from mga07.intel.com ([134.134.136.100]:5850)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1ncIAn-00064p-M5
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:47:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649299621; x=1680835621;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=2UEuQrDHOfOzQMemRxGuH5+xTZQPxUP8PXaL37pxIA8=;
- b=haW7nmS/szNkj6+a/1Bhv+v74StT67JQzPxXiEcrxHkthZzsr4WhPjMq
- ClteF31X6nXth3JV4MhoJLSPBcj2attxZwVOtswmUYIMhgvUusFBGJqjW
- tp7t6LS1RTSaDDfHwUI8xQ14ooYqHAeqGVqPFKjuSwuLwyJipoxn1xu5d
- p+7gPElhbpVWNikts53OINFd583DoF5HrPoojPBsfaPizuv84yAhmqe2Q
- oXpwg/CLjuPBC+nxHkeYIXvtzJnVuBCyPAEMvghoi5kAd+PmU/t9OT2PJ
- 3wZ+Ciy9IYXAEvkOn6YGh+d8c91LEgrRqsvhIVp9LfnNCDhvDrfbKaFMy A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="324376576"
-X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="324376576"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2022 19:46:43 -0700
-X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="722770004"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.125])
- ([10.255.28.125])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Apr 2022 19:46:41 -0700
-Message-ID: <8785e6a8-5723-ac13-1ea5-7cd6242cb331@intel.com>
-Date: Thu, 7 Apr 2022 10:46:39 +0800
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ncIW2-0001KY-Fi
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 23:08:58 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:51894)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ncIW0-0003Qa-3b
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 23:08:58 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id fu5so4367113pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 06 Apr 2022 20:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Rb12aTedKXMaL/2srowPpO/6SKAPfWCX0kbKsVCG2ZI=;
+ b=1ocCr86dzNuW+y5JEY+mtIMehZbJjrXNqFZcWlNcHYZc0YWfX2ayF9iMZWhksBTmXa
+ pTa4Ke5j1v2CLsQib73oTzvhPrKqAVC68vRgC9A0edKgcTJsxy9ds0fUWAtmzcBKwImF
+ WlhKNOStNxi9vh516PBDIrth+84G9i4OxiUUQgjROXh+5BxGAUeDtrqUaDBAaVqn64gq
+ YXp4p/mTvnxWhU/1H25sQahJpN6CQ/kz01fukwnnxxfRe1Sr440QClKJgvxZeweM7Xav
+ lCr0U/rWMyz+IStLv8V9vbdYvJcmSsIvifcVEKKdBoD7ZdKQzppL52mQVdHAcLiluakL
+ TCWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Rb12aTedKXMaL/2srowPpO/6SKAPfWCX0kbKsVCG2ZI=;
+ b=iQ8gES8hW7vVNeIl3ufbqsbGK7TjX2RUBehWQvU1g7/0Tgc3UZBOldYGEFjAo2Bcr5
+ zp0bg6WhillfodDl06QW1cx1SwrCR1xWmBsOcPns+enoqGc+od0VgZX1xMYbfdrW1BhH
+ 9ha1ecynsbS3283cIGJeCc6uQGaAUIYk8Gd/cb4uAzBTcvgYyRIj/yBX4nRDdhzzkKet
+ CzBlt7CgRSugI7EtyTfC8k0Sr2Jfmi+t245gLr0mUVjxy+6iSgl21sJXsaTtFG1laYGA
+ x4hzQVTIbwqPY8UBtbcnjQ2NB64VyS66JipfXn87s6iEtO54pjhQNwN49Aq+wLrPhjau
+ SWEQ==
+X-Gm-Message-State: AOAM5329blwuri+dnIOUhRH5mH45JUbEFbIc1qFCysnyWZs1+i4jZ9Ki
+ xkxBES9X9JljDNxLbqkA3B3j+A==
+X-Google-Smtp-Source: ABdhPJwwrChU8tfeX70FS/29H0kl+mRl9jN+R9jXdCTpBwoRkaRBy4n/AejNqZ77SOKSIxGcKEj2mA==
+X-Received: by 2002:a17:903:186:b0:154:3606:7a73 with SMTP id
+ z6-20020a170903018600b0015436067a73mr11832172plg.89.1649300933179; 
+ Wed, 06 Apr 2022 20:08:53 -0700 (PDT)
+Received: from [192.168.10.153] (203-7-124-83.dyn.iinet.net.au. [203.7.124.83])
+ by smtp.gmail.com with ESMTPSA id
+ c4-20020a056a00248400b004faad8c81bcsm21724878pfv.127.2022.04.06.20.08.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Apr 2022 20:08:52 -0700 (PDT)
+Message-ID: <2d756e15-ed5d-84da-1720-a2ba112c6d19@ozlabs.ru>
+Date: Thu, 7 Apr 2022 13:08:48 +1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.7.0
-Subject: Re: [PATCH RESEND v1] trace: Split address space and slot id in
- trace_kvm_set_user_memory()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
+ Thunderbird/96.0
+Subject: Re: [PATCH qemu] ppc/spapr/ddw: Add 2M pagesize
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, mtosatti@redhat.com,
- richard.henderson@linaro.org
-References: <20220310122215.804233-1-xiaoyao.li@intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20220310122215.804233-1-xiaoyao.li@intel.com>
+To: qemu-ppc@nongnu.org
+References: <20220321071945.918669-1-aik@ozlabs.ru>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <20220321071945.918669-1-aik@ozlabs.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=xiaoyao.li@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=aik@ozlabs.ru; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,59 +87,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/2022 8:22 PM, Xiaoyao Li wrote:
-> The upper 16 bits of kvm_userspace_memory_region::slot are
-> address space id. Parse it separately in trace_kvm_set_user_memory().
 
-Hi QEMU maintainers,
 
-I think this patch is simple and straightforward. Please take your time 
-to look at it.
-
-Thanks,
--Xiaoyao
-
-> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> ---
-> Resend:
->   - rebase to 2048c4eba2b4 ("Merge remote-tracking branch 'remotes/philmd/tags/pmbus-20220308' into staging")
-> ---
->   accel/kvm/kvm-all.c    | 5 +++--
->   accel/kvm/trace-events | 2 +-
->   2 files changed, 4 insertions(+), 3 deletions(-)
+On 21/03/2022 18:19, Alexey Kardashevskiy wrote:
+> Recently the LoPAPR spec got a new 2MB pagesize to support in Dynamic DMA
+> Windows API (DDW), this adds the new flag.
 > 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 0e66ebb49717..6b9fd943494b 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -379,8 +379,9 @@ static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, boo
->       ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
->       slot->old_flags = mem.flags;
->   err:
-> -    trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
-> -                              mem.memory_size, mem.userspace_addr, ret);
-> +    trace_kvm_set_user_memory(mem.slot >> 16, (uint16_t)mem.slot, mem.flags,
-> +                              mem.guest_phys_addr, mem.memory_size,
-> +                              mem.userspace_addr, ret);
->       if (ret < 0) {
->           error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
->                        " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
-> diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
-> index 399aaeb0ec75..14ebfa1b991c 100644
-> --- a/accel/kvm/trace-events
-> +++ b/accel/kvm/trace-events
-> @@ -15,7 +15,7 @@ kvm_irqchip_update_msi_route(int virq) "Updating MSI route virq=%d"
->   kvm_irqchip_release_virq(int virq) "virq %d"
->   kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%" PRIx64 " val=0x%x assign: %d size: %d match: %d"
->   kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
-> -kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
-> +kvm_set_user_memory(uint16_t as, uint16_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "AddrSpace#%d Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
->   kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
->   kvm_resample_fd_notify(int gsi) "gsi %d"
->   kvm_dirty_ring_full(int id) "vcpu %d"
+> Linux supports it since
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=38727311871
+> 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 
+ping?
+
+> ---
+> PHYP added support for it in development builds as well.
+> ---
+>   include/hw/ppc/spapr.h  | 1 +
+>   hw/ppc/spapr_rtas_ddw.c | 1 +
+>   2 files changed, 2 insertions(+)
+> 
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index f5c33dcc8616..14b01c3f5963 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -745,6 +745,7 @@ void push_sregs_to_kvm_pr(SpaprMachineState *spapr);
+>   #define RTAS_DDW_PGSIZE_128M     0x20
+>   #define RTAS_DDW_PGSIZE_256M     0x40
+>   #define RTAS_DDW_PGSIZE_16G      0x80
+> +#define RTAS_DDW_PGSIZE_2M       0x100
+>   
+>   /* RTAS tokens */
+>   #define RTAS_TOKEN_BASE      0x2000
+> diff --git a/hw/ppc/spapr_rtas_ddw.c b/hw/ppc/spapr_rtas_ddw.c
+> index 3e826e1308c4..13d339c807c1 100644
+> --- a/hw/ppc/spapr_rtas_ddw.c
+> +++ b/hw/ppc/spapr_rtas_ddw.c
+> @@ -72,6 +72,7 @@ static uint32_t spapr_page_mask_to_query_mask(uint64_t page_mask)
+>       const struct { int shift; uint32_t mask; } masks[] = {
+>           { 12, RTAS_DDW_PGSIZE_4K },
+>           { 16, RTAS_DDW_PGSIZE_64K },
+> +        { 21, RTAS_DDW_PGSIZE_2M },
+>           { 24, RTAS_DDW_PGSIZE_16M },
+>           { 25, RTAS_DDW_PGSIZE_32M },
+>           { 26, RTAS_DDW_PGSIZE_64M },
 
