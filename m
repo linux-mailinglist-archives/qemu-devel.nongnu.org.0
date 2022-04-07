@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A924F80AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 15:35:44 +0200 (CEST)
-Received: from localhost ([::1]:51802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ACDF4F80CF
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 15:39:22 +0200 (CEST)
+Received: from localhost ([::1]:56890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncSIZ-0006KD-IW
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 09:35:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49492)
+	id 1ncSM5-0001OU-AM
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 09:39:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1ncSAr-00077r-16
+ id 1ncSAr-00077w-1X
  for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:27:45 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:43947)
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:33539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1)
  (envelope-from <vladimir.sementsov-ogievskiy@openvz.org>)
- id 1ncSAn-0007tb-EI
+ id 1ncSAo-0007uL-G0
  for qemu-devel@nongnu.org; Thu, 07 Apr 2022 09:27:44 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id x17so498965lfa.10
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 06:27:41 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id bu29so9723505lfb.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 06:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Imy0BAVZtr4vdL6h6uvdSBror6j/vhyw0fg7WP9NYCI=;
- b=gVPyTeAn0IV3/AAyKFK6YY4jmWCNahbv7X1HHxVlvn2nWKBT0LdxqJCmrfzLnAdLKI
- kgTzi6XWt5ypRMyvWcO0IyhgNtxzdkNHeOugRPTVzoVEYLsuYha6vYagpr8G7Fn+Lgdg
- FzsiQHb4+6h3aPSWs87j+sIO4qA+R5/0NmvSV2hXUHGX7f5YaQEyC6zOkpqyVegtmgLw
- HzAbD3GTiavLlXGnN+anujr0HQ3Rq6SHFRBBne4esW9wTKfEXlev9wp+AKqklBEUzAV7
- AdGUOfSYLKw/bKNww4mQlnfLIAEwHi2u4IGOFFoJYh16j+uBlkHaC3nXx6wf2YCKv/MM
- cbTw==
+ bh=/10aFJpOBf3AAl4GLfLE1OLig8oWXVs06ng3GxyYuOk=;
+ b=yxFoKi4F0PVwofhIUCxXddXPaogZ+K1B9fix3plHnLiYIKTx4DHmsiuVOIEmFOcJUI
+ LxC6RH1OkfAmIEPRA/4+80lyvdt3u/CbbYkCW51WKKw2WKstgJbdwTZOVLzR5HM7YFHN
+ MKr1imoBGsObma3DnN5tnOcaIoS8ee8/+Nt7Nzh6AA4WdaGL2QdG5Gufd3PyLsfTb/cJ
+ YkWf2VBOJDpfBjPy7bFYsBtv2esnbcQlwSyZIRK6hdTf9Bmsrthohq94y0yI2qvTP/mB
+ 9jAnJIDnTtkvXfoSP3fcg6YNCFG2NMbryv2vBi0QxgCHeql2nfEM4chlgVNrfuNOv/9Z
+ iL5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Imy0BAVZtr4vdL6h6uvdSBror6j/vhyw0fg7WP9NYCI=;
- b=r8ah70aB7c5odokOqLsYuPTNu4J96ErKeQa35HiOaPUGREMjIZVdZft1Ch1FdbKBSH
- 5M3U5+nYZLpYUFsBRKPuc5/SfSuNMrU0XEBlZ+U04sVslJaUgibiWaW8HswEVod6yHbX
- Ki9NcUxCzrfn7iolqDTrt861MhmOYKJ+RYLak2qm5oXCIYOOiLpuJGFQMJolkjE//+Rn
- SmIW2LG20Dk6fBLKKXCfQYxC41Hv3K5D741jiDH4Fyf6QdhnSmnN+eMT20sZyrEg8ZmB
- JFRdFJeArIO7k7ESDBcs78HBeqoEkXAEVRxrhtXl6mRdiTG9Bynlc8zhYqt+zqWQJHM8
- zVgQ==
-X-Gm-Message-State: AOAM530JzTuwBGzUCjrWl86eokFQadVM26Dw5t07PcysbYhs1i7NY7Sp
- VjZRd+V1vJUG+DehWFJSVFHYLQ==
-X-Google-Smtp-Source: ABdhPJynKg0FarBq2ZMIV35n0J50P3yfr4u+yOdkmjE13iN9RXgLB27f8d3nm53IsSQOlC3s7G+hTA==
-X-Received: by 2002:a05:6512:280d:b0:44f:5af8:1958 with SMTP id
- cf13-20020a056512280d00b0044f5af81958mr9315788lfb.533.1649338059734; 
- Thu, 07 Apr 2022 06:27:39 -0700 (PDT)
+ bh=/10aFJpOBf3AAl4GLfLE1OLig8oWXVs06ng3GxyYuOk=;
+ b=GJj3bNRLSWxCOOTSH72CIEagrgDhXCaGCRPe65z+wTVxXOpRfNm9uTGPS581gPNPjE
+ 9n8YNpm3nlTDD4XAHq3nBJ8vefqn8myh6QB+r62Ib1jejLeKJznk1ZYpz3oYt4fhhXWC
+ QdX+OzPOrIy9PJEwStHycUmUarySc6LfhYO8JgVRFBUPGSEosb+Xp06+trswoaxnWYv2
+ zBgaUCXbpp5q0/AXGHJF4skQ/gNU7p5fz+lPspkR1GjxHiHPU4/LIs+26OBPuZq5kz5l
+ +sIpqAQpbQCcfnEZ7b/u4nQY91bmNULGzv6iAlONT6ZjWfBWmajt8kkqAXG55p+PBrih
+ FNDA==
+X-Gm-Message-State: AOAM530NyU0REJjTGn5r2UN/EmfGEHRftjTeLQb4MSr2wvWdsJIfKgSW
+ AsgCH/jnJOb1LDx4jL0Omf+Rzg==
+X-Google-Smtp-Source: ABdhPJySJ27iUfqqURvs5WzlpIhU9CG8v7rQiWukMT4D40wDCYJNEz/eSUJo69T+qsVFLSTYy0xbgw==
+X-Received: by 2002:a05:6512:400e:b0:450:e09d:c9a6 with SMTP id
+ br14-20020a056512400e00b00450e09dc9a6mr10197620lfb.243.1649338060550; 
+ Thu, 07 Apr 2022 06:27:40 -0700 (PDT)
 Received: from fedora.. ([185.215.60.161]) by smtp.gmail.com with ESMTPSA id
  o15-20020a2e90cf000000b0024b0437ed8asm1929271ljg.7.2022.04.07.06.27.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 06:27:39 -0700 (PDT)
+ Thu, 07 Apr 2022 06:27:40 -0700 (PDT)
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 X-Google-Original-From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 3/7] iotests: add copy-before-write: on-cbw-error tests
-Date: Thu,  7 Apr 2022 16:27:22 +0300
-Message-Id: <20220407132726.85114-4-vsementsov@openvz.org>
+Subject: [PATCH v4 4/7] util: add qemu-co-timeout
+Date: Thu,  7 Apr 2022 16:27:23 +0300
+Message-Id: <20220407132726.85114-5-vsementsov@openvz.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220407132726.85114-1-vsementsov@openvz.org>
 References: <20220407132726.85114-1-vsementsov@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
  envelope-from=vladimir.sementsov-ogievskiy@openvz.org;
- helo=mail-lf1-x12b.google.com
+ helo=mail-lf1-x136.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,185 +93,148 @@ Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add tests for new option of copy-before-write filter: on-cbw-error.
-
-Note that we use QEMUMachine instead of VM class, because in further
-commit we'll want to use throttling which doesn't work with -accel
-qtest used by VM.
-
-We also touch pylintrc to not break iotest 297.
+Add new API, to make a time limited call of the coroutine.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/pylintrc                   |   5 +
- tests/qemu-iotests/tests/copy-before-write    | 132 ++++++++++++++++++
- .../qemu-iotests/tests/copy-before-write.out  |   5 +
- 3 files changed, 142 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/copy-before-write
- create mode 100644 tests/qemu-iotests/tests/copy-before-write.out
+ include/qemu/coroutine.h | 13 ++++++
+ util/qemu-co-timeout.c   | 89 ++++++++++++++++++++++++++++++++++++++++
+ util/meson.build         |  1 +
+ 3 files changed, 103 insertions(+)
+ create mode 100644 util/qemu-co-timeout.c
 
-diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
-index 32ab77b8bb..f4f823a991 100644
---- a/tests/qemu-iotests/pylintrc
-+++ b/tests/qemu-iotests/pylintrc
-@@ -51,3 +51,8 @@ notes=FIXME,
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index c828a95ee0..8704b05da8 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -316,6 +316,19 @@ static inline void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns)
+     qemu_co_sleep_ns_wakeable(&w, type, ns);
+ }
  
- # Maximum number of characters on a single line.
- max-line-length=79
++typedef void CleanupFunc(void *opaque);
++/**
++ * Run entry in a coroutine and start timer. Wait for entry to finish or for
++ * timer to elapse, what happen first. If entry finished, return 0, if timer
++ * elapsed earlier, return -ETIMEDOUT.
++ *
++ * Be careful, entry execution is not canceled, user should handle it somehow.
++ * If @clean is provided, it's called after coroutine finish if timeout
++ * happened.
++ */
++int coroutine_fn qemu_co_timeout(CoroutineEntry *entry, void *opaque,
++                                 uint64_t timeout_ns, CleanupFunc clean);
 +
-+
-+[SIMILARITIES]
-+
-+min-similarity-lines=6
-diff --git a/tests/qemu-iotests/tests/copy-before-write b/tests/qemu-iotests/tests/copy-before-write
-new file mode 100755
-index 0000000000..6c7638965e
---- /dev/null
-+++ b/tests/qemu-iotests/tests/copy-before-write
-@@ -0,0 +1,132 @@
-+#!/usr/bin/env python3
-+# group: auto backup
-+#
-+# Copyright (c) 2022 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import re
-+
-+from qemu.machine import QEMUMachine
-+
-+import iotests
-+from iotests import qemu_img_create, qemu_io
-+
-+
-+temp_img = os.path.join(iotests.test_dir, 'temp')
-+source_img = os.path.join(iotests.test_dir, 'source')
-+size = '1M'
-+
-+
-+class TestCbwError(iotests.QMPTestCase):
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        os.remove(temp_img)
-+        os.remove(source_img)
-+
-+    def setUp(self):
-+        qemu_img_create('-f', iotests.imgfmt, source_img, size)
-+        qemu_img_create('-f', iotests.imgfmt, temp_img, size)
-+        qemu_io('-c', 'write 0 1M', source_img)
-+
-+        self.vm = QEMUMachine(iotests.qemu_prog)
-+        self.vm.launch()
-+
-+    def do_cbw_error(self, on_cbw_error):
-+        result = self.vm.qmp('blockdev-add', {
-+            'node-name': 'cbw',
-+            'driver': 'copy-before-write',
-+            'on-cbw-error': on_cbw_error,
-+            'file': {
-+                'driver': iotests.imgfmt,
-+                'file': {
-+                    'driver': 'file',
-+                    'filename': source_img,
-+                }
-+            },
-+            'target': {
-+                'driver': iotests.imgfmt,
-+                'file': {
-+                    'driver': 'blkdebug',
-+                    'image': {
-+                        'driver': 'file',
-+                        'filename': temp_img
-+                    },
-+                    'inject-error': [
-+                        {
-+                            'event': 'write_aio',
-+                            'errno': 5,
-+                            'immediately': False,
-+                            'once': True
-+                        }
-+                    ]
-+                }
-+            }
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp('blockdev-add', {
-+            'node-name': 'access',
-+            'driver': 'snapshot-access',
-+            'file': 'cbw'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp('human-monitor-command',
-+                             command_line='qemu-io cbw "write 0 1M"')
-+        self.assert_qmp(result, 'return', '')
-+
-+        result = self.vm.qmp('human-monitor-command',
-+                             command_line='qemu-io access "read 0 1M"')
-+        self.assert_qmp(result, 'return', '')
-+
-+        self.vm.shutdown()
-+        log = self.vm.get_log()
-+        log = re.sub(r'^\[I \d+\.\d+\] OPENED\n', '', log)
-+        log = re.sub(r'\[I \+\d+\.\d+\] CLOSED\n?$', '', log)
-+        log = iotests.filter_qemu_io(log)
-+        return log
-+
-+    def test_break_snapshot_on_cbw_error(self):
-+        """break-snapshot behavior:
-+        Guest write succeed, but further snapshot-read fails, as snapshot is
-+        broken.
-+        """
-+        log = self.do_cbw_error('break-snapshot')
-+
-+        self.assertEqual(log, """\
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read failed: Permission denied
-+""")
-+
-+    def test_break_guest_write_on_cbw_error(self):
-+        """break-guest-write behavior:
-+        Guest write fails, but snapshot-access continues working and further
-+        snapshot-read succeeds.
-+        """
-+        log = self.do_cbw_error('break-guest-write')
-+
-+        self.assertEqual(log, """\
-+write failed: Input/output error
-+read 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+""")
-+
-+
-+if __name__ == '__main__':
-+    iotests.main(supported_fmts=['qcow2'],
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/copy-before-write.out b/tests/qemu-iotests/tests/copy-before-write.out
+ /**
+  * Wake a coroutine if it is sleeping in qemu_co_sleep_ns. The timer will be
+  * deleted. @sleep_state must be the variable whose address was given to
+diff --git a/util/qemu-co-timeout.c b/util/qemu-co-timeout.c
 new file mode 100644
-index 0000000000..fbc63e62f8
+index 0000000000..00cd335649
 --- /dev/null
-+++ b/tests/qemu-iotests/tests/copy-before-write.out
-@@ -0,0 +1,5 @@
-+..
-+----------------------------------------------------------------------
-+Ran 2 tests
++++ b/util/qemu-co-timeout.c
+@@ -0,0 +1,89 @@
++/*
++ * Helper functionality for distributing a fixed total amount of
++ * an abstract resource among multiple coroutines.
++ *
++ * Copyright (c) 2022 Virtuozzo International GmbH
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
-+OK
++#include "qemu/osdep.h"
++#include "qemu/coroutine.h"
++#include "block/aio.h"
++
++typedef struct QemuCoTimeoutState {
++    CoroutineEntry *entry;
++    void *opaque;
++    QemuCoSleep sleep_state;
++    bool marker;
++    CleanupFunc *clean;
++} QemuCoTimeoutState;
++
++static void coroutine_fn qemu_co_timeout_entry(void *opaque)
++{
++    QemuCoTimeoutState *s = opaque;
++
++    s->entry(s->opaque);
++
++    if (s->marker) {
++        assert(!s->sleep_state.to_wake);
++        /* .marker set by qemu_co_timeout, it have been failed */
++        if (s->clean) {
++            s->clean(s->opaque);
++        }
++        g_free(s);
++    } else {
++        s->marker = true;
++        qemu_co_sleep_wake(&s->sleep_state);
++    }
++}
++
++int coroutine_fn qemu_co_timeout(CoroutineEntry *entry, void *opaque,
++                                 uint64_t timeout_ns, CleanupFunc clean)
++{
++    QemuCoTimeoutState *s;
++    Coroutine *co;
++
++    if (timeout_ns == 0) {
++        entry(opaque);
++        return 0;
++    }
++
++    s = g_new(QemuCoTimeoutState, 1);
++    *s = (QemuCoTimeoutState) {
++        .entry = entry,
++        .opaque = opaque,
++        .clean = clean
++    };
++
++    co = qemu_coroutine_create(qemu_co_timeout_entry, s);
++
++    aio_co_enter(qemu_get_current_aio_context(), co);
++    qemu_co_sleep_ns_wakeable(&s->sleep_state, QEMU_CLOCK_REALTIME, timeout_ns);
++
++    if (s->marker) {
++        /* .marker set by qemu_co_timeout_entry, success */
++        g_free(s);
++        return 0;
++    }
++
++    /* Don't free s, as we can't cancel qemu_co_timeout_entry execution */
++    s->marker = true;
++    return -ETIMEDOUT;
++}
+diff --git a/util/meson.build b/util/meson.build
+index f6ee74ad0c..249891db72 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -83,6 +83,7 @@ if have_block
+   util_ss.add(files('block-helpers.c'))
+   util_ss.add(files('qemu-coroutine-sleep.c'))
+   util_ss.add(files('qemu-co-shared-resource.c'))
++  util_ss.add(files('qemu-co-timeout.c'))
+   util_ss.add(files('thread-pool.c', 'qemu-timer.c'))
+   util_ss.add(files('readline.c'))
+   util_ss.add(files('throttle.c'))
 -- 
 2.35.1
 
