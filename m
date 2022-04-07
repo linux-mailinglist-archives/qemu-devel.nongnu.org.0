@@ -2,145 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1CC94F88F0
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 00:00:11 +0200 (CEST)
-Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D8D4F89A6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 00:14:59 +0200 (CEST)
+Received: from localhost ([::1]:38948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncaAk-0004Me-Dl
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 18:00:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45540)
+	id 1ncaP4-0003Ow-70
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 18:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1nca8r-0002Tc-Uq; Thu, 07 Apr 2022 17:58:13 -0400
-Received: from mail-he1eur04on070a.outbound.protection.outlook.com
- ([2a01:111:f400:fe0d::70a]:11239
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <t.zhang2@samsung.com>)
+ id 1ncZLg-0000QK-CZ
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 17:07:24 -0400
+Received: from mailout1.w2.samsung.com ([211.189.100.11]:30232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1nca8o-0008KB-Nl; Thu, 07 Apr 2022 17:58:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CgIcADDcZUNcdAny+FCk4z6HHbm1FgkMavl1Wf87ORChSj6hHHqJrBXkKxBtAh//W4mKOdnSDkJcKeWHjp+NLDKFkqi38RsI7b7uZ5NEr2kYJWYjcrX79w5gARehGofLty6E4bprzTjYSMS+hYwsE9ficQ6WkvZvCRXieDcglv7JA8HPryUw7teKOBOx0xN3D/Qkamt1fUnJbjpU/t+rWJHv1IXeWyNkRkUuvU1I2RmD9hxk9q7THQJcsLjwKHuL2VjEJdK4FN5wT8K5764Jl+GzWg7YOwt6pms4F5QD0UBWg/Zyukw89gDTNjR1vv1y6zOuMeMvb2/7rhwCswpUcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fI3EHttSkpDh89N2sUc9j397ZkXOnW8XL8pakQ+chS8=;
- b=ihgOh10PKPYaRW/FWs2S6AEpO7whOgM0icwxBb/QoETmmS6Xdbx3qN8sUveyo7/506OYCM7D+rGEl7y/CrO/j144ObyEuEsjpEcJsZk+v1mgbKQvPsYPCOIBLOScyHzmqFGsL9XPGs9WphuRujd/TPc1Z5hYedkBZXh5h/tbRd21JN6wlUAyE1HfwAjOgrj0CCwzutqGIvuz4BdSHRMyoRsL8ww4jIaxjLsxbH/0T7s7daOrDwTKCoDtEsRNr9U0eY/XL0nd/pGpR4EYMBblfhDMvoWxjdtQAc8NkwvdcpYGXRIXBnIyjovRuq+DjJoKAI7L7HQqF9dLX7+6m1orDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fI3EHttSkpDh89N2sUc9j397ZkXOnW8XL8pakQ+chS8=;
- b=RXqs2BH4+Ml4AbPz6fJEw34ffNkscfEJ49jCaboEcAOTmeI9VKi+H/o6yQI4nu0GaxmqeFiPhxllkZ9N0RGqs42tf7unQaeC4j2+WvEV1H/v8qF24biLCyDGthWLedqve/xVZsI4/+O2cV21maTm8RKWXy0GnpWgujRnzMPmdyM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
- by VI1PR08MB2941.eurprd08.prod.outlook.com (2603:10a6:802:1d::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Thu, 7 Apr
- 2022 21:58:05 +0000
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::8d23:cb3d:8eb4:e3b5]) by PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::8d23:cb3d:8eb4:e3b5%6]) with mapi id 15.20.5144.022; Thu, 7 Apr 2022
- 21:58:05 +0000
-Message-ID: <efc590d3-52ea-5c19-7d27-1be5df200c42@virtuozzo.com>
-Date: Fri, 8 Apr 2022 00:58:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH for 7.1 1/1] block: add 'force' parameter to
- 'blockdev-change-medium' command
+ (Exim 4.90_1) (envelope-from <t.zhang2@samsung.com>)
+ id 1ncZLe-0000mB-3J
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 17:07:24 -0400
+Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
+ by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20220407210709usoutp01d79a60f0940303b6a42501e3aee8b62b~juU0HrqUu0478304783usoutp01V;
+ Thu,  7 Apr 2022 21:07:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
+ 20220407210709usoutp01d79a60f0940303b6a42501e3aee8b62b~juU0HrqUu0478304783usoutp01V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1649365629;
+ bh=8ztwd6FwriKvt2oDJnhlLB/97uMSyYNnTRn4+LhCoUg=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+ b=X1oXFb+H6LgZb7DePxYCMr6396xNYwXrWWvISqvAl/7hW16lJBUhLGzA4Y8WePCIt
+ ya69QDK4o1hWNyRJfgSl1FtzTm7F2rd+Pb1jE58qGH9OxurW5nJUmJei7u/WVBZxAe
+ XtmEU7NXppP705bJi4AMPXjpvbC0d1weOEDaukA4=
+Received: from ussmges1new.samsung.com (u109.gpu85.samsung.co.kr
+ [203.254.195.109]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220407210708uscas1p29cb73242b9b16692bf37bed2138b5b1b~juUzuGxJT2037420374uscas1p23;
+ Thu,  7 Apr 2022 21:07:08 +0000 (GMT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+ ussmges1new.samsung.com (USCPEMTA) with SMTP id 98.47.09760.C725F426; Thu, 
+ 7 Apr 2022 17:07:08 -0400 (EDT)
+Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
+ [203.254.195.91]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220407210707uscas1p15e77e16a23897a79d15a368dd098e842~juUzJDiyy1644716447uscas1p1n;
+ Thu,  7 Apr 2022 21:07:07 +0000 (GMT)
+X-AuditID: cbfec36d-503ff70000002620-b7-624f527ced50
+Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.146]) by
+ ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id 5D.C8.09672.B725F426; Thu, 
+ 7 Apr 2022 17:07:07 -0400 (EDT)
+Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
+ SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2242.4; Thu, 7 Apr 2022 14:07:06 -0700
+Received: from SSI-EX2.ssi.samsung.com ([fe80::2149:7df2:31b5:d9a0]) by
+ SSI-EX2.ssi.samsung.com ([fe80::719f:92d1:f17f:5400%4]) with mapi id
+ 15.01.2242.008; Thu, 7 Apr 2022 14:07:06 -0700
+From: Tong Zhang <t.zhang2@samsung.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, "linuxarm@huawei.com"
+ <linuxarm@huawei.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, Marcel Apfelbaum
+ <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>, "Mark
+ Cave-Ayland" <mark.cave-ayland@ilande.co.uk>, Adam Manzanares
+ <a.manzanares@samsung.com>
+Subject: Re: [PATCH v9 33/45] cxl/cxl-host: Add memops for CFMWS region.
+Thread-Topic: [PATCH v9 33/45] cxl/cxl-host: Add memops for CFMWS region.
+Thread-Index: AQHYSDkUJ08UOGfKTUOYMlZSJLRxo6zla7+A
+Date: Thu, 7 Apr 2022 21:07:06 +0000
+Message-ID: <7a17a19d-dcd4-61d5-b699-7ba06c9600bd@samsung.com>
+In-Reply-To: <20220404151445.10955-34-Jonathan.Cameron@huawei.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Eric Blake <eblake@redhat.com>
-References: <20220407204812.691015-1-den@openvz.org>
- <ff0ffd84-2333-7779-5888-c5d5a44836b0@mail.ru>
-From: "Denis V. Lunev" <den@virtuozzo.com>
-In-Reply-To: <ff0ffd84-2333-7779-5888-c5d5a44836b0@mail.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM5PR1001CA0015.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:2::28) To PAXPR08MB6956.eurprd08.prod.outlook.com
- (2603:10a6:102:1db::9)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1974E8420EBA2D44931D0345BA4AD8A5@ssi.samsung.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d3875860-a724-457e-35e2-08da18e1b1a7
-X-MS-TrafficTypeDiagnostic: VI1PR08MB2941:EE_
-X-Microsoft-Antispam-PRVS: <VI1PR08MB294168471C3E64B523736481B6E69@VI1PR08MB2941.eurprd08.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: X/gx8cWYzA3kBjJ8DdkqtVkgc4M/N3fio7UssKZ//jPhCZxA4S2NRylfOg3qS3O9qpggYos3fD1CMJe3VczkhuDmdQctu0Grr69MG2V0kMDPxzYRCbK2q2VyiCx2U2hwUly7hQ8l5/Vyo98ORdbCsT4WmK1mpMVWsUaO7FanvS4m6hS/S/NpIkL4wBF9LEQS4ITnbhmHKdY7XmxMICi9sb/Sg5r4TzDUK1Z2m93LGxEodJRcp1tli51qBEL801BC1wZOcj8Uw1R+DZytKmjCCYTB5WwE6wdEEgHNee1a2B6dJ5qTQolSKaO31E9mA/F5g/3dT9LjgDdZk5lgi1iHld/oX8F5WJ+IzKWSKoGCdQVDp47NbHBH5yIOuW6if+Ib+PoZ3q8QlJv3teCh3zTCoqeitIhZeE/Ff4HfQL+hoRqiujJXCkNlzukku26GJFzch4LBEO4iifi9tI10AkYl2C3gbcF5z9FqTQIWiw/xRwiZXMxOcj1/5bwVr33pStbwjBkxIcRIw0Prh1hxbMP/5VO7NkrzDKwf226lotlbz4/GX0fVowR6HA5nxuewic5rsjID0yTLsAq7e8GtLGPHYrl0EbTH6JzWwBuWUWc0TfSELdDD+7CciGRIyXzYluXfw+OaeuzBRsyiyijOCWkR8/9O3LkB4rF7RuIbXULPps2YZDNO667yAMNfGMWtttwL5a7HZzkyPNoHRxng9l/EMbyhn6g3TVuEKm7Eam6V5E7hXygsxyBGHQUYLAdrPMccq0PxLF2lAMXVh3EX4CIV9vI5S0zWnoVHsKn2LWG3A5E=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(66556008)(38100700002)(38350700002)(26005)(31696002)(86362001)(54906003)(31686004)(2906002)(186003)(316002)(66476007)(8676002)(66946007)(508600001)(83380400001)(4326008)(36756003)(5660300002)(2616005)(8936002)(52116002)(6506007)(6486002)(6512007)(53546011)(43740500002)(45980500001)(309714004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?azU0MXU3WklTYytBNDhsQWRTSk56TElJRFFYcHF1M2VJcXZHVis5dkFLbGhM?=
- =?utf-8?B?WnJ1K29JYW5RYTBpQ1NzSTVPM0cvb2d5VTZwSlVXL3NpM2pUVUx1WUF0TWow?=
- =?utf-8?B?SWVSQ0ZPR3YwQUtmK2pjd3dlZTRJd3lheUxPSEVnRFIwS0xrWDNQaVlJWHRH?=
- =?utf-8?B?VERvaEFiZ2hGd0lESHFxZDVSNkdtaTBJWWtZRk41a2tTSzFPZzRiYVluVFdr?=
- =?utf-8?B?UEFBRGFHV2g0UDcyRjVPa29aWFBjK2RteEFxRm9lcEZmLzZIVzRYQ2YxdFFP?=
- =?utf-8?B?QjdJbDJocFA0WDZ3WU90K0NmdVdTNUNTVVh4Zkx6NlR4bHlXUTVXQ2V6ZUJm?=
- =?utf-8?B?eDlvb0lub2h5L1JjUm4zdWo5bnMrYTQ0emlSTUU0cHZFVjNRU3Z3Z0RmKzlT?=
- =?utf-8?B?M1NlTVd6MGpIQmtBUzZUS1RyREdzVkQyYjdpQ2VOYTQzMmlrTGRqSHZ4blVK?=
- =?utf-8?B?OFFId0VweG5KTGplcVBxOTdBOHpRcTdaUjl4MmlBMHloME9aRHpqV0RnWWJV?=
- =?utf-8?B?clBGbzhxVThROCtZVUFFczJmRXhlTWRkcGtYVHNkU0NoNHY1Z3o5NmovRUR4?=
- =?utf-8?B?eUIrcnVINVMybGU1OVppRGg0SjEvb0dXTGpwVDJGVkVvTEFlY0NXRTFCMVNL?=
- =?utf-8?B?WFhtZ28vemVUZUZvcjhBOXFVNjhSMDgzUGl6dmpWQVIxWHMvSzdibFVOaGVX?=
- =?utf-8?B?REhreTVQYkl6RU52Wm5sZUEwUlR3cEN4WEcxbUhaNXZlTnBtRTE4MWZDUmwx?=
- =?utf-8?B?ZlJEc0JBQW5SRG4zcDlhN09kRnlsd2d6MU5iS1ptMzV5dWsxeEMvd3phOU1q?=
- =?utf-8?B?RVRXaW5PbHZuWkh5ZzBjM3pTa040TGI3TzVjVW1IR1pvQkJKR0VmV0dPRXRr?=
- =?utf-8?B?WnB4Uk8rOGFXSEpPYitPS0xMOEJDZ0Rwb3duYTh0bHMzMlFYdTZUbnFxK1RH?=
- =?utf-8?B?dkt3ZENteE9wMStOOWlNZUhtRy9CZmUzNGs3alVNRElWQVBNZmIvUlVvcHpE?=
- =?utf-8?B?UzBETEFnOTdoMGl3VklZV0lzVW9kRnNQZlV3RGx3SkdkSnJHYzRUWGpZcHdB?=
- =?utf-8?B?V1BTWTFmT1MvcDVNYTRneVpVZ1pXUFZnME4zejJEczVjQ0E0b3ZOK2Qxdmhk?=
- =?utf-8?B?bGhBK2pWYjRyWTA5aGVwajdPd3lUUERWNmJPZEhuWDZFbjlYQ1JMT09hT292?=
- =?utf-8?B?dm5taWJmcEgzVTcyRVA5OENrQmJ3UFVIUms2TkNkQmNwQzJZLzJpQ290RlZO?=
- =?utf-8?B?T1J3YkNRNW9rNFo5QlJSb0Ftdmp3clE5aUhvdnhaeU5iNS9zOElYY0R4WG5x?=
- =?utf-8?B?QXJMcmkrdVdad01JNFpQZDc3dytrcFNVTTFadk1jaHYxV29MTHJhQWxudTVO?=
- =?utf-8?B?dkRKQktrYjh2a2Y0ajhDbmRJTEJER3lRZmZtUjQzNG1uVXB3Q0hlQjB1cjEy?=
- =?utf-8?B?emg3ZDB2OTZaVGtDcGE0Rm81K0tUV3FkRUtCQW1ROUd6V052L0lrV2QrVDIr?=
- =?utf-8?B?TUd0VThoRkRLbks4L1ExVmh6MXpqS3NhWkhGVlA1UVR5Q3Uyakx5UmhodHVz?=
- =?utf-8?B?anRzaWFhdmdqUllMUm02c29ENHBrbHpFVFMzS2k5MkIxRGdzTTRlb3NYRXFi?=
- =?utf-8?B?bWIwSjdGa3dxNmZDci95NHJBZ29OZkRqZndkc0diazNvV2tQSkkxNHQ1QUpW?=
- =?utf-8?B?RTFIcnp6bnplbVFxMVZnaEsrYzJWdGQrMno3TFoxSVg0cFd2cVNQeGRrc1pu?=
- =?utf-8?B?S0ZSTTN5b3VlMVpXY0pWbkQrUmFGbmVqU2RpL29zbXdNYUlFY0p0YzZ2RHJS?=
- =?utf-8?B?b05kclhrT0wxMGtJUis5RWpTVW02bWtsK0d2SW9zUm50dWJLSThpRXRWeFJF?=
- =?utf-8?B?bzVCVFI1N0h2R3ZGVDlONTF2cDZNa2t5a2pHZVpGZDkyTUpSQjhhYlBNWVRB?=
- =?utf-8?B?N2R5bEJ1RFZkT0ZhbFNFTThvYys4aGd0bUFxSy9CcDF4cThJc3NTemhvNHZH?=
- =?utf-8?B?K3hoc0xOSXMxNzBVWFFTT250UjFXQmc4cWVRS09mc3BCWDVEOS8xQU03eERW?=
- =?utf-8?B?SWxVc0JSMWhaNXV2NGM3WW1hRTlTSkF2SFk1U1d3aDdNRlduNWJsVWVHb1U0?=
- =?utf-8?B?NTg4L3NNSFcxK1FRUUc3NFpQVEhCTTI2RGo0dTRlb1Q3MmpHdDNFTU5iTkwr?=
- =?utf-8?B?c2kxbmdVcy9YMkJBUFFVdm5ma1dwc1NvcndZODlmZjdDd0E4ZTBWb1pwVFRT?=
- =?utf-8?B?OHdTckVFQ1BsS29lWnVkQUF0czRlWExQMktFVU5BTzRZVGMxWUh4UzJRRzFz?=
- =?utf-8?B?NnNGbjZRZnJHc0JGSXZqd3VSV3E1M1lJVEp6TWZ2MURzSW1CbnovZz09?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3875860-a724-457e-35e2-08da18e1b1a7
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2022 21:58:05.4986 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tw/Vyvm1Bs6T5L1ln7bLKNN0XpEEQOj6LfICjRUHlgboWb7BNDigM5+5suLpT9+OaUOF2J0a0rhEjVL7Uv4hqA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2941
-Received-SPF: pass client-ip=2a01:111:f400:fe0d::70a;
- envelope-from=den@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTVxzHOfdZisDlETni4iIjcZqBsph4Fhc2xGV3CwluGc64JVrkhsdo
+ S1rRwZbRzfFoGa+N2lBAHkYUKAOBQWW1VIQ5wNruIaNIAXkpLHMQYLLycLQXM/77/M73+/2d
+ b06OAPdtoQIFiZKznEwiSg6ihETbT0uWkM/fj449MKV6EeWMKQCyT1gpVNEwSiDVdAGOci1N
+ AGnUVoDqbTqAlhodOPq5+RaO+ntycFRXNUAhi7aPQLev38WQsqeARIpeCXrmmCVRZ9s6icru
+ jhGotfMfGt3J0xPI+ks9gfJGVgnUfv8rEl1vU1Ood9ZCvbmDNT2uolnrd4Ukq1P+ibGlc4sY
+ e0Nrp9mvu/8i2Sn7BZrVlK/i7GXDDMYODxgodnKgBWP/Nt6nWHVpBrvQvOuY10nh63FccuI5
+ TrY//LQwYalIQ6asbvt07mIPqQDWbSrgLoDMQVi3lgtUQCjwZWoBrBhfIPghE4NZU63guWu+
+ +CbJCw0A5pqubA5zALY038P4oRPAko5nuDNCMXugQ1lNOQV/xozD2oZ6lwtn8im4sv4H4XT5
+ MSz8dWLVxf7MO3C40kDy/CosG7e5NhFMMHz8m51ysicTDnXtC7ST3Zkj0Dja6zoHzHb4tE+H
+ ORlnAuDQZAXGF/eB1aUGnOftcL3jIcXzbjj6dGZjj2DDvxc2duzno+FwVF9N8LwbFuc+pPlr
+ fWBvySTBR3fAW9cGXY8EmSohdNT2bz7SUZj5Y+fm/p1wzV6z2SEDlgwtAz7wDYC67kaaFw5D
+ R4+BLgTB2i29tf930m7ppN3SSbulUyUg60BAqlwujufkYRLufKhcJJanSuJDz0jFzWDjX/ev
+ 3xbrgX5oPrQLYALQBaAAD/L3TBdHxfp6xonS0jmZ9JQsNZmTd4GdAiIowLMmsUnky8SLznKf
+ cFwKJ3uuYgL3QAWWLTWYR3UMpr/6CtUS+UjaFPNuyJFz6bFfRuTviipPy698o1jZ8SQ17LWX
+ yg4yNLQrij0y+9wK57O7E6Y9/n3PLDvv0/TDmRMpN/D55U4vz2sz5TcL2j+I6urI00dWE/ar
+ v9ddSPELH3Hz0JpjTMGhaSeWxzR6R0aFo9vPOGsz3VGbIsaTii6H5ew7PmwMTFIQR73vrfUN
+ TmuUrfSipWjwQLV02NvPa23l2N4i+/ePTl7qb3kSV+NnifQZ9/VOVpXUz2SfdkuLecHmX59k
+ M352KN0Q8sXHV4od6tCRxRU2piom+oE5Imvg7ZeXS23qtyY+Ilaivz30oVuU6kGyJOvwpVNB
+ hDxBFLYPl8lF/wEYhuopRgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPKsWRmVeSWpSXmKPExsWS2cA0Sbc6yD/JYMl3Y4uOBw2MFncfX2Cz
+ mL/2PotF17N+Zovu8xsYLaZPvcBosfrmGkaLr+t/MVuc2HSQ2eL00Q5mi1ULr7FZnJ91isXi
+ 8MYzTBadR/tZLRpO5ln8//WK1WL/tn+sFnPOPGCx2LL/G7vF8d4dLBYXLq5msei994fFYvvV
+ JlaLjdumslmcfHWezUHS48CLheweFyZPYPVY0/mayWP2hy9MHjtn3WX3aDnyltXj6d1mdo/p
+ c/8weyze85LJ4861PWweT65tZvJ4v+8qm8fU2fUenzfJBfBFcdmkpOZklqUW6dslcGV8nTid
+ teAPT8WHaUdZGxgv8HQxcnJICJhIfJyyl7WLkYtDSGA1o8S5U9eZIZwPjBK3X/9ignD2M0rM
+ WnaHDaSFTUBd4lfnIjaQhIjAWWaJlWtXM4EkmAX62CTW75QBsYUFPCQuPf7DAmKLCHhK3Fmw
+ hxXCNpKY8+gmM4jNIqAi8eLyXbChvAJ2Emu2f2aH2HaGUeLR8o3sIAlOASeJffdPghUxCohJ
+ fD+1BmqZuMStJ/OZIJ4QkFiy5zwzhC0q8fLxP1YIW1Hi/veXQHM4gOo1Jdbv0odotZO4v2MR
+ C4StKDGl+yE7xA2CEidnPmGBaJWUOLjiBssEoL+RbJuFMGkWkkmzkEyahWTSAkbWVYzipcXF
+ uekVxUZ5qeV6xYm5xaV56XrJ+bmbGIFp7vS/w9E7GG/f+qh3iJGJg/EQowQHs5IIb1WuT5IQ
+ b0piZVVqUX58UWlOavEhRmkOFiVx3pdRE+OFBNITS1KzU1MLUotgskwcnFINTMbR+q/6H35W
+ Z8o71fjI9j53HIPGsbUu5hd8uN/zaAvNOHeMdc69M4YbXhoKp51Su+g9Qz3bJljqe9su6/cT
+ lObGLX2ez8SkYab+pj31W3tVt5K34QYNEed3t1XOcF/P3sD4acU8loki0o8Wf/p2MTXT4ytL
+ /5I1nnekpG9GZrDUfPVzVy5OSxCc+nCKh4tkGOPhrWssuHUlZn3fqP2r//fvy+mMawUKDM+y
+ 5LnPexK/5EibdVvuiWd+HGumRSX5F17OK1T0NlnLFv1GZ2Ov+oSCwsvePNG7Gep9eqTzZqmE
+ r6gt8eg0TuGfEHJCI4L/iH7E2kXvU9Tn7NedvGfGy1sN93gfyFxk763df/OjEktxRqKhFnNR
+ cSIA/6hkROIDAAA=
+X-CMS-MailID: 20220407210707uscas1p15e77e16a23897a79d15a368dd098e842
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20220404153138uscas1p2e261ac1dab4f0b2904e9d877acf77510
+References: <20220404151445.10955-1-Jonathan.Cameron@huawei.com>
+ <CGME20220404153138uscas1p2e261ac1dab4f0b2904e9d877acf77510@uscas1p2.samsung.com>
+ <20220404151445.10955-34-Jonathan.Cameron@huawei.com>
+Received-SPF: pass client-ip=211.189.100.11; envelope-from=t.zhang2@samsung.com;
+ helo=mailout1.w2.samsung.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 07 Apr 2022 18:13:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,131 +144,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Ben Widawsky <ben.widawsky@intel.com>, David Hildenbrand <david@redhat.com>,
+ "k . jensen @ samsung . com" <k.jensen@samsung.com>,
+ Samarth Saxena <samarths@cadence.com>, Chris Browy <cbrowy@avery-design.com>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, Shreyas Shah <shreyas.shah@elastics.cloud>,
+ Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ "ztong0001@gmail.com" <ztong0001@gmail.com>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
+ "dave@stgolabs.net" <dave@stgolabs.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.04.2022 00:51, 'Vladimir Sementsov-Ogievskiy' via den wrote:
-> 07.04.2022 23:48, Denis V. Lunev wrote:
->> 'blockdev-change-medium' is a convinient wrapper for the following
->> sequence of commands:
->>   * blockdev-open-tray
->>   * blockdev-remove-medium
->>   * blockdev-insert-medium
->>   * blockdev-close-tray
->> and should be used f.e. to change ISO image inside the CD-ROM tray.
->> Though the guest could lock the tray and some linux guests like
->> CentOS 8.5 actually does that. In this case the execution if this
->> command results in the error like the following:
->>    Device 'scsi0-0-1-0' is locked and force was not specified,
->>    wait for tray to open and try again.
->>
->> This situation is could be resolved 'blockdev-open-tray' by passing
->> flag 'force' inside. Thus is seems reasonable to add the same
->> capability for 'blockdev-change-medium' too.
->>
->> Signed-off-by: Denis V. Lunev <den@openvz.org>
->> CC: Kevin Wolf <kwolf@redhat.com>
->> CC: Hanna Reitz <hreitz@redhat.com>
->> CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->> CC: Eric Blake <eblake@redhat.com>
->> CC: Markus Armbruster <armbru@redhat.com>
->> ---
->>   block/qapi-sysemu.c | 3 ++-
->>   monitor/hmp-cmds.c  | 4 +++-
->>   qapi/block.json     | 6 ++++++
->>   3 files changed, 11 insertions(+), 2 deletions(-)
->>
->> diff --git a/block/qapi-sysemu.c b/block/qapi-sysemu.c
->> index 8498402ad4..5b4fb75787 100644
->> --- a/block/qapi-sysemu.c
->> +++ b/block/qapi-sysemu.c
->> @@ -318,6 +318,7 @@ void qmp_blockdev_change_medium(bool has_device, 
->> const char *device,
->>                                   bool has_id, const char *id,
->>                                   const char *filename,
->>                                   bool has_format, const char *format,
->> +                                bool has_force, bool force,
->>                                   bool has_read_only,
->>                                   BlockdevChangeReadOnlyMode read_only,
->>                                   Error **errp)
->> @@ -380,7 +381,7 @@ void qmp_blockdev_change_medium(bool has_device, 
->> const char *device,
->>         rc = do_open_tray(has_device ? device : NULL,
->>                         has_id ? id : NULL,
->> -                      false, &err);
->> +                      has_force ? force : false, &err);
->
-> It's guaranteed for force to be false when has_force is false (ans 
-> similarly for pointers), so that can be written as
->
->   rc = do_open_tray(device, id, force, &err);
-you right :)
-
->
->>       if (rc && rc != -ENOSYS) {
->>           error_propagate(errp, err);
->>           goto fail;
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index 634968498b..d8b98bed6c 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -1472,6 +1472,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
->>       const char *target = qdict_get_str(qdict, "target");
->>       const char *arg = qdict_get_try_str(qdict, "arg");
->>       const char *read_only = qdict_get_try_str(qdict, 
->> "read-only-mode");
->> +    bool force = qdict_get_try_bool(qdict, "force", false);
->>       BlockdevChangeReadOnlyMode read_only_mode = 0;
->>       Error *err = NULL;
->>   @@ -1508,7 +1509,8 @@ void hmp_change(Monitor *mon, const QDict 
->> *qdict)
->>           }
->>             qmp_blockdev_change_medium(true, device, false, NULL, 
->> target,
->> -                                   !!arg, arg, !!read_only, 
->> read_only_mode,
->> +                                   !!arg, arg, true, force,
->> +                                   !!read_only, read_only_mode,
->>                                      &err);
->>       }
->
-> Should we also update hmp-commands.hx ? Or you just can pass "false, 
-> false" if you don't really need hmp interface for new feature.
->
-good point, I have added query for the dictionary thus it would be 
-logical to make an update in .hx file too
-
-> Also, I don't know what ui/cocoa.m is, but seems it has call to 
-> qmp_blockdev_change_medium(), which most probably should be updated too.
->
-Objective C file, looking like for MacOS UI
-
->> diff --git a/qapi/block.json b/qapi/block.json
->> index 82fcf2c914..3f100d4887 100644
->> --- a/qapi/block.json
->> +++ b/qapi/block.json
->> @@ -326,6 +326,11 @@
->>   # @read-only-mode: change the read-only mode of the device; defaults
->>   #                  to 'retain'
->>   #
->> +# @force: if false (the default), an eject request through 
->> blockdev-open-tray
->> +#         will be sent to the guest if it has locked the tray (and 
->> the tray
->> +#         will not be opened immediately); if true, the tray will be 
->> opened
->> +#         regardless of whether it is locked. (since 7.1)
->> +#
->>   # Features:
->>   # @deprecated: Member @device is deprecated.  Use @id instead.
->>   #
->> @@ -367,6 +372,7 @@
->>               '*id': 'str',
->>               'filename': 'str',
->>               '*format': 'str',
->> +            '*force': 'bool',
->>               '*read-only-mode': 'BlockdevChangeReadOnlyMode' } }
->
->
-
+DQpPbiA0LzQvMjIgMDg6MTQsIEpvbmF0aGFuIENhbWVyb24gd3JvdGU6DQo+IEZyb206IEpvbmF0
+aGFuIENhbWVyb24gPGpvbmF0aGFuLmNhbWVyb25AaHVhd2VpLmNvbT4NCj4NCj4NCj4gK3N0YXRp
+YyBNZW1UeFJlc3VsdCBjeGxfcmVhZF9jZm13cyh2b2lkICpvcGFxdWUsIGh3YWRkciBhZGRyLCB1
+aW50NjRfdCAqZGF0YSwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNp
+Z25lZCBzaXplLCBNZW1UeEF0dHJzIGF0dHJzKQ0KPiArew0KPiArICAgIENYTEZpeGVkV2luZG93
+ICpmdyA9IG9wYXF1ZTsNCj4gKyAgICBQQ0lEZXZpY2UgKmQ7DQo+ICsNCj4gKyAgICBkID0gY3hs
+X2NmbXdzX2ZpbmRfZGV2aWNlKGZ3LCBhZGRyKTsNCj4gKyAgICBpZiAoZCA9PSBOVUxMKSB7DQo+
+ICsgICAgICAgICpkYXRhID0gMDsNCg0KSSdtIGxvb2tpbmcgYXQgdGhpcyBjb2RlIGFuZCBjb21w
+YXJpbmcgaXQgdG8gQ1hMMi4wIHNwZWMgOC4yLjUuMTIuMiBDWEwgSERNDQoNCkRlY29kZXIgR2xv
+YmFsIENvbnRyb2wgUmVnaXN0ZXIgKE9mZnNldCAwNGgpIHRhYmxlLiBJdCBzZWVtcyB0aGF0IHdl
+IHNob3VsZA0KDQpjaGVjayBQT1NJT05fT05fRVJSX0VOIGJpdCwgaWYgdGhpcyBiaXQgaXMgc2V0
+LCB3ZSByZXR1cm4gcG9pc29uLCBvdGhlcndpc2UNCg0Kc2hvdWxkIHJldHVybiBhbGwgMSdzIGRh
+dGEuDQoNCkFsc28sIGZyb20gdGhlIHNwZWMsIHRoaXMgYml0IGlzIGltcGxlbWVudGF0aW9uIHNw
+ZWNpZmljIGFuZCBoYXJkIA0Kd2lyZWQoUk8pIHRvIGVpdGhlciAxIG9yIDAsDQoNCmJ1dCBmb3Ig
+dHlwZTMgZGV2aWNlIGxvb2tzIGxpa2Ugd2UgYXJlIGN1cnJlbnRseSBhbGxvd2luZyBpdCB0byBi
+ZSANCm92ZXJ3cml0dGVuIGluIGN0M2RfcmVnX3dyaXRlKCkNCg0KZnVuY3Rpb24uIFdlIHByb2Jh
+Ymx5IGFsc28gbmVlZCBtb3JlIHNhbml0YXRpb24gaW4gY3QzZF9yZWdfd3JpdGUuIChBbHNvIA0K
+Zm9yIEhETQ0KDQpyYW5nZS9pbnRlcmxlYXZpbmcgc2V0dGluZ3MuKQ0KDQo+ICsgICAgICAgIC8q
+IFJlYWRzIHRvIGludmFsaWQgYWRkcmVzcyByZXR1cm4gcG9pc29uICovDQo+ICsgICAgICAgIHJl
+dHVybiBNRU1UWF9FUlJPUjsNCj4gKyAgICB9DQo+ICsNCj4gKyAgICByZXR1cm4gY3hsX3R5cGUz
+X3JlYWQoZCwgYWRkciArIGZ3LT5iYXNlLCBkYXRhLCBzaXplLCBhdHRycyk7DQo+ICt9DQo+ICsN
+Cg0KLSBUb25nDQoNCg==
 
