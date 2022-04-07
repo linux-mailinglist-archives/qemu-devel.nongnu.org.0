@@ -2,87 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D374F7BCA
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 11:37:40 +0200 (CEST)
-Received: from localhost ([::1]:46616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C644B4F7C2C
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 11:50:40 +0200 (CEST)
+Received: from localhost ([::1]:58324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncOaB-0005HI-0Z
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 05:37:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56204)
+	id 1ncOml-0005Ga-DS
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 05:50:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1ncOPc-0005o6-LP
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 05:26:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23784)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1ncOkq-0004VS-3y
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 05:48:40 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1ncOPa-0007XE-Sb
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 05:26:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649323602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+AUGyBYLcX6+8/oE7ohtvrjrNIWeBIbq3OPX8DufCIo=;
- b=N304PEAgIaxg23IxVEAJu/coVPvHjhm9y91QNLLANeDakjHbwR2KtbPx5dKBGTYFmI6yBw
- 89WxttYTu9C5vweM9Ryj35AZ5ZKnh4/pqWp2d8rbAJF1ZouCvjf6NLUIXf0+swc/j7l7ua
- 89VCXxxH0ZfGpkG6FfpzoUPntaJeh0w=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-fOkBYSFvNGmh2vEL9-prOg-1; Thu, 07 Apr 2022 05:26:41 -0400
-X-MC-Unique: fOkBYSFvNGmh2vEL9-prOg-1
-Received: by mail-pg1-f200.google.com with SMTP id
- t6-20020a6549c6000000b00398a43dbdf8so2870176pgs.10
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 02:26:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+AUGyBYLcX6+8/oE7ohtvrjrNIWeBIbq3OPX8DufCIo=;
- b=3fJs1SVNVrwQs6qfAYdKErP2u/EPFCdulz6YuEIkmUe/UOhBVD6kBBfcd11pjfskir
- Nj2ZPZu7Xw321QO2CVhfLH1j7Ww8lKgMle4lAW/vyfvfM/YVh35NkjPjORro3iOEtihr
- EksHJ6YaIJvOIoM0L8L2oatF7QAO+CCV8nCrYqpjush9spA42DfaHNeY9XrAsFxZcQfk
- 6neb6zyRjM94Me31PwzOydX1kZEuBvjccWKWW5yHzsY9roH/uf0Qz83vILIyu8v9sDsW
- L97UT+lGrVA652oDCrNiiLL+GNBFquas3WBaQeJ+kiFs+WHoRVVHP3HVED9pQ8YcqA7l
- 88yQ==
-X-Gm-Message-State: AOAM531Zs5EKlFmNUV8mwbdAynqwIcPp7yKgv923ruVAFoaIionzQful
- TI1VLFL0OObEUT5rJGq/htIM/E20l6o6rxkaQE1BJLFvCX2k0AFq718KCMfbX3flP9u07zvUXp7
- qSumbBhG26EH0oq6xK5vaFUwnTmtrf+U=
-X-Received: by 2002:a17:902:bb94:b0:157:2ce:fac1 with SMTP id
- m20-20020a170902bb9400b0015702cefac1mr2966394pls.25.1649323600037; 
- Thu, 07 Apr 2022 02:26:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8BvmlHqCTQwUgff+21F1DP/pIgF2+rtww8jsiJupK1fX5YwJqScsDXinW4KDAc+ZmoYhh5nqSY7ZixRKbUbU=
-X-Received: by 2002:a17:902:bb94:b0:157:2ce:fac1 with SMTP id
- m20-20020a170902bb9400b0015702cefac1mr2966377pls.25.1649323599733; Thu, 07
- Apr 2022 02:26:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1ncOko-0002js-4H
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 05:48:39 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2377o76V019758; 
+ Thu, 7 Apr 2022 09:48:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=yq1+2fI4oLtAiDsL7FDbEmYV14IgDPF68uKRwduD6UY=;
+ b=gyRVZxQPoCaFAuij0n4wCFYbbTi6HfU4sGlEVSLJhAuukKewGCxqYVwGKEEh2hA8jq5X
+ M/PNFAQnylCguVPyYjrbMvsvzjC+nwEwt3WzoYcg2jqSTHAu77LE4eXfIclE9fDfJrAs
+ 1pMlTEahzr3CC8EnEJwCXLrvMU+bm7eu8GsGJseW5XkyZnpIBbh2T/D7TGVyyaNOiMvh
+ OKf60puHL6In71XWv7ol1PfyGydziBLazZ+6yel+KdcTT3vjTuuW9TaSWQv7wwTHd3dN
+ gGiwJwciErmLRF28koAoOln0YbRBSWg4RDavoxyfTet4cREYRZZqoFimPCd52XeaFyKl Hw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f9uwtt8vx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 07 Apr 2022 09:48:35 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2379d7Ci004817;
+ Thu, 7 Apr 2022 09:48:34 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3f9uwtt8vk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 07 Apr 2022 09:48:34 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2379lbSh010784;
+ Thu, 7 Apr 2022 09:48:32 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3f6e491jjy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 07 Apr 2022 09:48:32 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2379mUNQ25821482
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 7 Apr 2022 09:48:30 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8485611C04A;
+ Thu,  7 Apr 2022 09:48:30 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 070F711C052;
+ Thu,  7 Apr 2022 09:48:30 +0000 (GMT)
+Received: from linux6.. (unknown [9.114.12.104])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu,  7 Apr 2022 09:48:29 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4] dump: Remove the sh_info variable
+Date: Thu,  7 Apr 2022 09:48:24 +0000
+Message-Id: <20220407094824.5074-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <CAJ+F1CL89C6sKaQhp4bCQLtxT-duZfJhKb4dvFur6eKkPbVjSQ@mail.gmail.com>
+References: <CAJ+F1CL89C6sKaQhp4bCQLtxT-duZfJhKb4dvFur6eKkPbVjSQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220407081712.345609-1-mcascell@redhat.com>
- <CAJ+F1C+HB5Nbsjk4E-KgFQEpyAWFaCkJvswMQj1yu4Rm-rOQ-g@mail.gmail.com>
-In-Reply-To: <CAJ+F1C+HB5Nbsjk4E-KgFQEpyAWFaCkJvswMQj1yu4Rm-rOQ-g@mail.gmail.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Thu, 7 Apr 2022 11:26:28 +0200
-Message-ID: <CAA8xKjXxnuHqhAMjvAtDnD1JB55a2y9=-gZZVZ=JvEzTv4en8A@mail.gmail.com>
-Subject: Re: [PATCH v3] ui/cursor: fix integer overflow in cursor_alloc
- (CVE-2021-4206)
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: pwxRTkVLYwMg_GUtiFog5Z4HKXeIW4zJ
+X-Proofpoint-GUID: mp2Q2zT1vWntKq3Oj6Lg91PCKjAn7hGh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-06_13,2022-04-06_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ mlxlogscore=999 lowpriorityscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 clxscore=1015 adultscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204070048
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,121 +110,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org,
+ marcandre.lureau@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 7, 2022 at 11:17 AM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
->
->
-> On Thu, Apr 7, 2022 at 12:23 PM Mauro Matteo Cascella <mcascell@redhat.co=
-m> wrote:
->>
->> Prevent potential integer overflow by limiting 'width' and 'height' to
->> 512x512. Also change 'datasize' type to size_t. Refer to security
->> advisory https://starlabs.sg/advisories/22-4206/ for more information.
->>
->> Fixes: CVE-2021-4206
->
->
-> (the Starlabs advisory has 2022, I guess it's wrong then)
+There's no need to have phdr_num and sh_info at the same time. We can
+make phdr_num 32 bit and set PN_XNUM when we write the header if
+phdr_num >= PN_XNUM.
 
-Yep, that is wrong. I asked them to update the page.
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
-Thanks.
+A question out of general curiosity:
+Is PN_XNUM a real concern anyway?
+Are architectures using >65k segments in real life?
 
->> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
->
->
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
->
->>
->> ---
->> v3:
->> - fix CVE id (CVE-2021-4206 instead of CVE-2022-4206)
->>
->>  hw/display/qxl-render.c | 7 +++++++
->>  hw/display/vmware_vga.c | 2 ++
->>  ui/cursor.c             | 8 +++++++-
->>  3 files changed, 16 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
->> index d28849b121..dc3c4edd05 100644
->> --- a/hw/display/qxl-render.c
->> +++ b/hw/display/qxl-render.c
->> @@ -247,6 +247,13 @@ static QEMUCursor *qxl_cursor(PCIQXLDevice *qxl, QX=
-LCursor *cursor,
->>      size_t size;
->>
->>      c =3D cursor_alloc(cursor->header.width, cursor->header.height);
->> +
->> +    if (!c) {
->> +        qxl_set_guest_bug(qxl, "%s: cursor %ux%u alloc error", __func__=
-,
->> +                cursor->header.width, cursor->header.height);
->> +        goto fail;
->> +    }
->> +
->>      c->hot_x =3D cursor->header.hot_spot_x;
->>      c->hot_y =3D cursor->header.hot_spot_y;
->>      switch (cursor->header.type) {
->> diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
->> index 98c83474ad..45d06cbe25 100644
->> --- a/hw/display/vmware_vga.c
->> +++ b/hw/display/vmware_vga.c
->> @@ -515,6 +515,8 @@ static inline void vmsvga_cursor_define(struct vmsvg=
-a_state_s *s,
->>      int i, pixels;
->>
->>      qc =3D cursor_alloc(c->width, c->height);
->> +    assert(qc !=3D NULL);
->> +
->>      qc->hot_x =3D c->hot_x;
->>      qc->hot_y =3D c->hot_y;
->>      switch (c->bpp) {
->> diff --git a/ui/cursor.c b/ui/cursor.c
->> index 1d62ddd4d0..835f0802f9 100644
->> --- a/ui/cursor.c
->> +++ b/ui/cursor.c
->> @@ -46,6 +46,8 @@ static QEMUCursor *cursor_parse_xpm(const char *xpm[])
->>
->>      /* parse pixel data */
->>      c =3D cursor_alloc(width, height);
->> +    assert(c !=3D NULL);
->> +
->>      for (pixel =3D 0, y =3D 0; y < height; y++, line++) {
->>          for (x =3D 0; x < height; x++, pixel++) {
->>              idx =3D xpm[line][x];
->> @@ -91,7 +93,11 @@ QEMUCursor *cursor_builtin_left_ptr(void)
->>  QEMUCursor *cursor_alloc(int width, int height)
->>  {
->>      QEMUCursor *c;
->> -    int datasize =3D width * height * sizeof(uint32_t);
->> +    size_t datasize =3D width * height * sizeof(uint32_t);
->> +
->> +    if (width > 512 || height > 512) {
->> +        return NULL;
->> +    }
->>
->>      c =3D g_malloc0(sizeof(QEMUCursor) + datasize);
->>      c->width  =3D width;
->> --
->> 2.35.1
->>
->>
->
->
-> --
-> Marc-Andr=C3=A9 Lureau
+	* Uses MIN()
+	* Added explanation for the PN_XNUM usage
 
+---
+ dump/dump.c           | 44 +++++++++++++++++++++++--------------------
+ include/sysemu/dump.h |  3 +--
+ 2 files changed, 25 insertions(+), 22 deletions(-)
 
-
---=20
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+diff --git a/dump/dump.c b/dump/dump.c
+index 58c4923fce..56cd1b2bb8 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -124,6 +124,12 @@ static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
+ 
+ static void write_elf64_header(DumpState *s, Error **errp)
+ {
++    /*
++     * phnum in the elf header is 16 bit, if we have more segments we
++     * set phnum to PN_XNUM and write the real number of segments to a
++     * special section.
++     */
++    uint16_t phnum = MIN(s->phdr_num, PN_XNUM);
+     Elf64_Ehdr elf_header;
+     int ret;
+ 
+@@ -138,9 +144,9 @@ static void write_elf64_header(DumpState *s, Error **errp)
+     elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+     elf_header.e_phoff = cpu_to_dump64(s, sizeof(Elf64_Ehdr));
+     elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf64_Phdr));
+-    elf_header.e_phnum = cpu_to_dump16(s, s->phdr_num);
++    elf_header.e_phnum = cpu_to_dump16(s, phnum);
+     if (s->have_section) {
+-        uint64_t shoff = sizeof(Elf64_Ehdr) + sizeof(Elf64_Phdr) * s->sh_info;
++        uint64_t shoff = sizeof(Elf64_Ehdr) + sizeof(Elf64_Phdr) * s->phdr_num;
+ 
+         elf_header.e_shoff = cpu_to_dump64(s, shoff);
+         elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf64_Shdr));
+@@ -155,6 +161,12 @@ static void write_elf64_header(DumpState *s, Error **errp)
+ 
+ static void write_elf32_header(DumpState *s, Error **errp)
+ {
++    /*
++     * phnum in the elf header is 16 bit, if we have more segments we
++     * set phnum to PN_XNUM and write the real number of segments to a
++     * special section.
++     */
++    uint16_t phnum = MIN(s->phdr_num, PN_XNUM);
+     Elf32_Ehdr elf_header;
+     int ret;
+ 
+@@ -169,9 +181,9 @@ static void write_elf32_header(DumpState *s, Error **errp)
+     elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+     elf_header.e_phoff = cpu_to_dump32(s, sizeof(Elf32_Ehdr));
+     elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf32_Phdr));
+-    elf_header.e_phnum = cpu_to_dump16(s, s->phdr_num);
++    elf_header.e_phnum = cpu_to_dump16(s, phnum);
+     if (s->have_section) {
+-        uint32_t shoff = sizeof(Elf32_Ehdr) + sizeof(Elf32_Phdr) * s->sh_info;
++        uint32_t shoff = sizeof(Elf32_Ehdr) + sizeof(Elf32_Phdr) * s->phdr_num;
+ 
+         elf_header.e_shoff = cpu_to_dump32(s, shoff);
+         elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf32_Shdr));
+@@ -358,12 +370,12 @@ static void write_elf_section(DumpState *s, int type, Error **errp)
+     if (type == 0) {
+         shdr_size = sizeof(Elf32_Shdr);
+         memset(&shdr32, 0, shdr_size);
+-        shdr32.sh_info = cpu_to_dump32(s, s->sh_info);
++        shdr32.sh_info = cpu_to_dump32(s, s->phdr_num);
+         shdr = &shdr32;
+     } else {
+         shdr_size = sizeof(Elf64_Shdr);
+         memset(&shdr64, 0, shdr_size);
+-        shdr64.sh_info = cpu_to_dump32(s, s->sh_info);
++        shdr64.sh_info = cpu_to_dump32(s, s->phdr_num);
+         shdr = &shdr64;
+     }
+ 
+@@ -478,13 +490,6 @@ static void write_elf_loads(DumpState *s, Error **errp)
+     hwaddr offset, filesz;
+     MemoryMapping *memory_mapping;
+     uint32_t phdr_index = 1;
+-    uint32_t max_index;
+-
+-    if (s->have_section) {
+-        max_index = s->sh_info;
+-    } else {
+-        max_index = s->phdr_num;
+-    }
+ 
+     QTAILQ_FOREACH(memory_mapping, &s->list.head, next) {
+         get_offset_range(memory_mapping->phys_addr,
+@@ -502,7 +507,7 @@ static void write_elf_loads(DumpState *s, Error **errp)
+             return;
+         }
+ 
+-        if (phdr_index >= max_index) {
++        if (phdr_index >= s->phdr_num) {
+             break;
+         }
+     }
+@@ -1801,22 +1806,21 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+         s->phdr_num += s->list.num;
+         s->have_section = false;
+     } else {
++        /* sh_info of section 0 holds the real number of phdrs */
+         s->have_section = true;
+-        s->phdr_num = PN_XNUM;
+-        s->sh_info = 1; /* PT_NOTE */
+ 
+         /* the type of shdr->sh_info is uint32_t, so we should avoid overflow */
+         if (s->list.num <= UINT32_MAX - 1) {
+-            s->sh_info += s->list.num;
++            s->phdr_num += s->list.num;
+         } else {
+-            s->sh_info = UINT32_MAX;
++            s->phdr_num = UINT32_MAX;
+         }
+     }
+ 
+     if (s->dump_info.d_class == ELFCLASS64) {
+         if (s->have_section) {
+             s->memory_offset = sizeof(Elf64_Ehdr) +
+-                               sizeof(Elf64_Phdr) * s->sh_info +
++                               sizeof(Elf64_Phdr) * s->phdr_num +
+                                sizeof(Elf64_Shdr) + s->note_size;
+         } else {
+             s->memory_offset = sizeof(Elf64_Ehdr) +
+@@ -1825,7 +1829,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+     } else {
+         if (s->have_section) {
+             s->memory_offset = sizeof(Elf32_Ehdr) +
+-                               sizeof(Elf32_Phdr) * s->sh_info +
++                               sizeof(Elf32_Phdr) * s->phdr_num +
+                                sizeof(Elf32_Shdr) + s->note_size;
+         } else {
+             s->memory_offset = sizeof(Elf32_Ehdr) +
+diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+index 250143cb5a..b463fc9c02 100644
+--- a/include/sysemu/dump.h
++++ b/include/sysemu/dump.h
+@@ -154,8 +154,7 @@ typedef struct DumpState {
+     GuestPhysBlockList guest_phys_blocks;
+     ArchDumpInfo dump_info;
+     MemoryMappingList list;
+-    uint16_t phdr_num;
+-    uint32_t sh_info;
++    uint32_t phdr_num;
+     bool have_section;
+     bool resume;
+     bool detached;
+-- 
+2.32.0
 
 
