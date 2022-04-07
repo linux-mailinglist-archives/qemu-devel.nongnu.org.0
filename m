@@ -2,69 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873AF4F7769
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 09:24:38 +0200 (CEST)
-Received: from localhost ([::1]:52098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 859F64F77BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 09:38:22 +0200 (CEST)
+Received: from localhost ([::1]:55022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncMVR-0004Uu-FM
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 03:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50518)
+	id 1ncMij-000746-6e
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 03:38:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ncMTS-0003fx-6O
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 03:22:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31494)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ncMgc-0006LT-1W
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 03:36:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ncMTP-0008Uo-Bo
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 03:22:32 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ncMgZ-00021y-AF
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 03:36:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649316150;
+ s=mimecast20190719; t=1649316965;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0W+MR6VYyIOa3CMNCmIE+Nk35cIq3ohT9FCThlqt8dY=;
- b=JBFeE8Za2Mx7lLD+QSD7Z2mTHS+VeupXhCOKlKktPRr4bl1b0j8llWzea9XDbfae0KqkfP
- C2gScFU0GghRGEu7mbgzf5lVS/4Z0xeQn0OhMiiGXbHI4cHeLMIzSV79uamAUVv1AJdAvK
- HQQnUEUV12fDi8Is3EUrrafPSIhv8nE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UY6Kljsx3hCATJknas1ddKf9mSnMiRytcRNFBRk+wzw=;
+ b=R0Die4OF7rpy9uijA29NW1uBpHrIQIMnW2lw5cb9Czv7oJcdme3NLDNn2L9ueLb3DP3Rga
+ YzRjoSeTtOcRAXISzw4l0yPP3eOT2ROsK3Wd/gVm4h/fb68PiYbN65u/ak65z2clgr7gip
+ mIx+YqdWsdpYAwhdXW+TrsE+9JMmU+A=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-LRLLVFaqMWiW6OE_ctrylw-1; Thu, 07 Apr 2022 03:22:26 -0400
-X-MC-Unique: LRLLVFaqMWiW6OE_ctrylw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08CBA80418B;
- Thu,  7 Apr 2022 07:22:20 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4130C404729B;
- Thu,  7 Apr 2022 07:22:17 +0000 (UTC)
-Date: Thu, 7 Apr 2022 08:22:15 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [RFC v2 1/8] blkio: add io_uring block driver using libblkio
-Message-ID: <Yk6RJ2GScOVajsJD@stefanha-x1.localdomain>
-References: <20220405153323.2082242-1-stefanha@redhat.com>
- <20220405153323.2082242-2-stefanha@redhat.com>
- <Yk3OlNBaEifS9bZD@redhat.com>
+ us-mta-528-4SvYAhoTOhWO76V-LV9XZw-1; Thu, 07 Apr 2022 03:36:05 -0400
+X-MC-Unique: 4SvYAhoTOhWO76V-LV9XZw-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ mm2-20020a17090b358200b001bf529127dfso3110211pjb.6
+ for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 00:36:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:cc:in-reply-to
+ :content-transfer-encoding;
+ bh=UY6Kljsx3hCATJknas1ddKf9mSnMiRytcRNFBRk+wzw=;
+ b=Q5oGCmrj7LaFDLmyFKCYAzrVF3dZ/QHHxBkAhQ6H28iqXgQiEz0oMZVhfmQzNmcrrw
+ LlvbEUETQsneqFWwhbfar8+LsfrXjfw0eh8r7JikFZhZg1C3g5eWXJ/nPRGimdCZfJ8F
+ ek9skJZ5YO4EQfYtzpB1BS3KnZJilw4MB0PxgaFSI+nWq+PlFI2m0IR/9iNMRVMnz/Eo
+ VEdC9CJKZk8rYfuLMvOl0qA2Q/CKhL6ZTkHvS2fPXFlFniBllaCdGLLqYFFv2nd/49qY
+ QYWxACf5lzsAB4T1vQaJWpZPNXJUy+K1SXLthahKpNXEvE2/86z3VDBDFcZIGe/zy3Xk
+ bvKA==
+X-Gm-Message-State: AOAM530XuKugEKzDidZD+ls9FQjlRSP4zw2JtIXS8+acQILg3Id6+/pM
+ wtSQ0SdksyFjCe/q1ZWqkUheMyp8grfn0i5WtYIqsUw+DUzWRDgwyPhioFqN/kHPxeuPA6NzX60
+ K6iCmtC3dZd4ubZfyqJnmFyoAQz5/aDF/myjmluPS7qW/dJ4V/VB5VYuRMAKqlteNwTg=
+X-Received: by 2002:a17:902:8309:b0:156:486f:35d8 with SMTP id
+ bd9-20020a170902830900b00156486f35d8mr12793886plb.143.1649316963566; 
+ Thu, 07 Apr 2022 00:36:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0Rn5zswk+0kD7Iz7wBQbQsacoQZr/o9oLCJXX71LI0n0bZa4UQ6X9R8u5PL81p7YqWiXnQg==
+X-Received: by 2002:a17:902:8309:b0:156:486f:35d8 with SMTP id
+ bd9-20020a170902830900b00156486f35d8mr12793841plb.143.1649316963096; 
+ Thu, 07 Apr 2022 00:36:03 -0700 (PDT)
+Received: from [10.72.13.105] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ e10-20020a17090a630a00b001c685cfd9d1sm7709856pjj.20.2022.04.07.00.36.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Apr 2022 00:36:02 -0700 (PDT)
+Message-ID: <8740bef3-bf55-ac94-a2a2-a0776ae5f5b6@redhat.com>
+Date: Thu, 7 Apr 2022 15:35:58 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EIVaJ/fNIl7YYLTF"
-Content-Disposition: inline
-In-Reply-To: <Yk3OlNBaEifS9bZD@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH 1/3] vhost: Refactor vhost_reset_device() in VhostOps
+To: qemu-devel@nongnu.org, Michael Qiu <qiudayu@archeros.com>
+References: <1648776683-23739-1-git-send-email-qiudayu@archeros.com>
+ <1648811173-15293-1-git-send-email-qiudayu@archeros.com>
+ <1648811173-15293-2-git-send-email-qiudayu@archeros.com>
+ <c8e8459d-32b5-55ff-44f4-1f03edb8a597@redhat.com>
+ <6247dc22.1c69fb81.4244.a88bSMTPIN_ADDED_BROKEN@mx.google.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <6247dc22.1c69fb81.4244.a88bSMTPIN_ADDED_BROKEN@mx.google.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,102 +107,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <eduardo@habkost.net>,
- Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Alberto Faria <afaria@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, sgarzare@redhat.com
+Cc: Si-Wei Liu <si-wei.liu@oracle.com>,
+ Eugenio Perez Martin <eperezma@redhat.com>, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---EIVaJ/fNIl7YYLTF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+在 2022/4/2 下午1:14, Michael Qiu 写道:
+>
+>
+> On 2022/4/2 10:38, Jason Wang wrote:
+>>
+>> 在 2022/4/1 下午7:06, Michael Qiu 写道:
+>>> Currently in vhost framwork, vhost_reset_device() is misnamed.
+>>> Actually, it should be vhost_reset_owner().
+>>>
+>>> In vhost user, it make compatible with reset device ops, but
+>>> vhost kernel does not compatible with it, for vhost vdpa, it
+>>> only implement reset device action.
+>>>
+>>> So we need seperate the function into vhost_reset_owner() and
+>>> vhost_reset_device(). So that different backend could use the
+>>> correct function.
+>>
+>>
+>> I see no reason when RESET_OWNER needs to be done for kernel backend.
+>>
+>
+> In kernel vhost, RESET_OWNER  indeed do vhost device level reset: 
+> vhost_net_reset_owner()
+>
+> static long vhost_net_reset_owner(struct vhost_net *n)
+> {
+> [...]
+>         err = vhost_dev_check_owner(&n->dev);
+>         if (err)
+>                 goto done;
+>         umem = vhost_dev_reset_owner_prepare();
+>         if (!umem) {
+>                 err = -ENOMEM;
+>                 goto done;
+>         }
+>         vhost_net_stop(n, &tx_sock, &rx_sock);
+>         vhost_net_flush(n);
+>         vhost_dev_stop(&n->dev);
+>         vhost_dev_reset_owner(&n->dev, umem);
+>         vhost_net_vq_reset(n);
+> [...]
+>
+> }
+>
+> In the history of QEMU, There is a commit:
+> commit d1f8b30ec8dde0318fd1b98d24a64926feae9625
+> Author: Yuanhan Liu <yuanhan.liu@linux.intel.com>
+> Date:   Wed Sep 23 12:19:57 2015 +0800
+>
+>     vhost: rename VHOST_RESET_OWNER to VHOST_RESET_DEVICE
+>
+>     Quote from Michael:
+>
+>         We really should rename VHOST_RESET_OWNER to VHOST_RESET_DEVICE.
+>
+> but finally, it has been reverted by the author:
+> commit 60915dc4691768c4dc62458bb3e16c843fab091d
+> Author: Yuanhan Liu <yuanhan.liu@linux.intel.com>
+> Date:   Wed Nov 11 21:24:37 2015 +0800
+>
+>     vhost: rename RESET_DEVICE backto RESET_OWNER
+>
+>     This patch basically reverts commit d1f8b30e.
+>
+>     It turned out that it breaks stuff, so revert it:
+>
+> http://lists.nongnu.org/archive/html/qemu-devel/2015-10/msg00949.html
+>
+> Seems kernel take RESET_OWNER for reset,but QEMU never call to this 
+> function to do a reset.
 
-On Wed, Apr 06, 2022 at 07:32:04PM +0200, Kevin Wolf wrote:
-> Am 05.04.2022 um 17:33 hat Stefan Hajnoczi geschrieben:
-> > libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
-> > high-performance disk I/O. It currently supports io_uring with
-> > additional drivers planned.
-> >=20
-> > One of the reasons for developing libblkio is that other applications
-> > besides QEMU can use it. This will be particularly useful for
-> > vhost-user-blk which applications may wish to use for connecting to
-> > qemu-storage-daemon.
-> >=20
-> > libblkio also gives us an opportunity to develop in Rust behind a C API
-> > that is easy to consume from QEMU.
-> >=20
-> > This commit adds an io_uring BlockDriver to QEMU using libblkio. For now
-> > I/O buffers are copied through bounce buffers if the libblkio driver
-> > requires it. Later commits add an optimization for pre-registering guest
-> > RAM to avoid bounce buffers. It will be easy to add other libblkio
-> > drivers since they will share the majority of code.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
-> > +static BlockDriver bdrv_io_uring =3D {
-> > +    .format_name                =3D "io_uring",
-> > +    .protocol_name              =3D "io_uring",
-> > +    .instance_size              =3D sizeof(BDRVBlkioState),
-> > +    .bdrv_needs_filename        =3D true,
-> > +    .bdrv_parse_filename        =3D blkio_parse_filename_io_uring,
-> > +    .bdrv_file_open             =3D blkio_file_open,
-> > +    .bdrv_close                 =3D blkio_close,
-> > +    .bdrv_getlength             =3D blkio_getlength,
-> > +    .has_variable_length        =3D true,
->=20
-> This one is a bad idea. It means that every request will call
-> blkio_getlength() first, which looks up the "capacity" property in
-> libblkio and then calls lseek() for the io_uring backend.
 
-Thanks for pointing this out. I didn't think this through. More below on
-what I was trying to do.
+The question is, we manage to survive by not using RESET_OWNER for past 
+10 years. Any reason that we want to use that now?
 
-> For other backends like the vhost_user one (where I just copied your
-> definition and then noticed this behaviour), it involve a message over
-> the vhost socket, which is even worse.
+Note that the RESET_OWNER is only useful the process want to drop the 
+its mm refcnt from vhost, it doesn't reset the device (e.g it does not 
+even call vhost_vq_reset()).
 
-(A vhost-user-blk driver could cache the capacity field and update it
-when a Configuration Change Notification is received. There is no need
-to send a vhost-user protocol message every time.)
+(Especially, it was deprecated in by the vhost-user protocol since its 
+semantics is ambiguous)
 
-> .has_variable_length was only meant for the host_floppy/cdrom drivers
-> that have to deal with media change. Everything else just requires an
-> explicit block_resize monitor command to be resized.
 
-I was trying to support devices that can be resized below QEMU (e.g.
-vhost-user-blk, vhost-vdpa-blk, and virtio-blk-pci). That was
-unnecessary since QEMU doesn't support that model. If an LVM volume is
-resized, for example, you still need to execute a monitor command to let
-QEMU know.
+>
+>> And if I understand the code correctly, vhost-user "abuse" 
+>> RESET_OWNER for reset. So the current code looks fine?
+>>
+>>
+>>>
+>>> Signde-off-by: Michael Qiu <qiudayu@archeros.com>
+>>> ---
+>>>   hw/scsi/vhost-user-scsi.c         |  6 +++++-
+>>>   hw/virtio/vhost-backend.c         |  4 ++--
+>>>   hw/virtio/vhost-user.c            | 22 ++++++++++++++++++----
+>>>   include/hw/virtio/vhost-backend.h |  2 ++
+>>>   4 files changed, 27 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
+>>> index 1b2f7ee..f179626 100644
+>>> --- a/hw/scsi/vhost-user-scsi.c
+>>> +++ b/hw/scsi/vhost-user-scsi.c
+>>> @@ -80,8 +80,12 @@ static void vhost_user_scsi_reset(VirtIODevice 
+>>> *vdev)
+>>>           return;
+>>>       }
+>>> -    if (dev->vhost_ops->vhost_reset_device) {
+>>> +    if (virtio_has_feature(dev->protocol_features,
+>>> + VHOST_USER_PROTOCOL_F_RESET_DEVICE) &&
+>>> + dev->vhost_ops->vhost_reset_device) {
+>>>           dev->vhost_ops->vhost_reset_device(dev);
+>>> +    } else if (dev->vhost_ops->vhost_reset_owner) {
+>>> +        dev->vhost_ops->vhost_reset_owner(dev);
+>>
+>>
+>> Actually, I fail to understand why we need an indirection via 
+>> vhost_ops. It's guaranteed to be vhost_user_ops.
+>>
+>>
+>>>       }
+>>>   }
+>>> diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+>>> index e409a86..abbaa8b 100644
+>>> --- a/hw/virtio/vhost-backend.c
+>>> +++ b/hw/virtio/vhost-backend.c
+>>> @@ -191,7 +191,7 @@ static int vhost_kernel_set_owner(struct 
+>>> vhost_dev *dev)
+>>>       return vhost_kernel_call(dev, VHOST_SET_OWNER, NULL);
+>>>   }
+>>> -static int vhost_kernel_reset_device(struct vhost_dev *dev)
+>>> +static int vhost_kernel_reset_owner(struct vhost_dev *dev)
+>>>   {
+>>>       return vhost_kernel_call(dev, VHOST_RESET_OWNER, NULL);
+>>>   }
+>>> @@ -317,7 +317,7 @@ const VhostOps kernel_ops = {
+>>>           .vhost_get_features = vhost_kernel_get_features,
+>>>           .vhost_set_backend_cap = vhost_kernel_set_backend_cap,
+>>>           .vhost_set_owner = vhost_kernel_set_owner,
+>>> -        .vhost_reset_device = vhost_kernel_reset_device,
+>>> +        .vhost_reset_owner = vhost_kernel_reset_owner,
+>>
+>>
+>> I think we can delete the current vhost_reset_device() since it not 
+>> used in any code path.
+>>
+>
+> I planned to use it for vDPA reset, 
 
-I'll drop .has_variable_length.
 
-Stefan
+For vhost-vDPA it can call vhost_vdpa_reset_device() directly.
 
---EIVaJ/fNIl7YYLTF
-Content-Type: application/pgp-signature; name="signature.asc"
+As I mentioned before, the only user of vhost_reset_device config ops is 
+vhost-user-scsi but it should directly call the vhost_user_reset_device().
 
------BEGIN PGP SIGNATURE-----
+Thanks
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJOkScACgkQnKSrs4Gr
-c8jGOQf9ELBQ5ycW9s0vuMeNILwray4ZLFl/0CWYnpKDCLZgKEsTDNYUg7QTNJ9i
-0mgBgmSygMa7hhus6A60+J2X3VFF19nGCQNrrDi9fEmb+Xgd4VOvMcmTzfmOF2H3
-YBzJwpSyKQmFiPHGpfCbnUrin79sbkVEDTjfnLKoFhonu++qFqNrd/LSY326vtHQ
-ZGmPguiyokml9b0yMiT8rMKIN5dZaFbfjnaI4Ue0afcZkUQZhrKIGA3I2s3gZkxw
-WUIMj7fYl0tv4+/hSdxKIeNiW/tGSvvc+uI91uVT+X2A62KjHW/tFGk/fMqUlmsp
-Qd2plrsTw8fXWUP7vtSthC5XIa9R8Q==
-=kJj1
------END PGP SIGNATURE-----
 
---EIVaJ/fNIl7YYLTF--
+> and vhost-user-scsi also use device reset.
+>
+> Thanks,
+> Michael
+>
+>> Thanks
+>>
+>>
+>>>           .vhost_get_vq_index = vhost_kernel_get_vq_index,
+>>>   #ifdef CONFIG_VHOST_VSOCK
+>>>           .vhost_vsock_set_guest_cid = 
+>>> vhost_kernel_vsock_set_guest_cid,
+>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>>> index 6abbc9d..4412008 100644
+>>> --- a/hw/virtio/vhost-user.c
+>>> +++ b/hw/virtio/vhost-user.c
+>>> @@ -1475,16 +1475,29 @@ static int 
+>>> vhost_user_get_max_memslots(struct vhost_dev *dev,
+>>>       return 0;
+>>>   }
+>>> +static int vhost_user_reset_owner(struct vhost_dev *dev)
+>>> +{
+>>> +    VhostUserMsg msg = {
+>>> +        .hdr.request = VHOST_USER_RESET_OWNER,
+>>> +        .hdr.flags = VHOST_USER_VERSION,
+>>> +    };
+>>> +
+>>> +    return vhost_user_write(dev, &msg, NULL, 0);
+>>> +}
+>>> +
+>>>   static int vhost_user_reset_device(struct vhost_dev *dev)
+>>>   {
+>>>       VhostUserMsg msg = {
+>>> +        .hdr.request = VHOST_USER_RESET_DEVICE,
+>>>           .hdr.flags = VHOST_USER_VERSION,
+>>>       };
+>>> -    msg.hdr.request = virtio_has_feature(dev->protocol_features,
+>>> - VHOST_USER_PROTOCOL_F_RESET_DEVICE)
+>>> -        ? VHOST_USER_RESET_DEVICE
+>>> -        : VHOST_USER_RESET_OWNER;
+>>> +    /* Caller must ensure the backend has 
+>>> VHOST_USER_PROTOCOL_F_RESET_DEVICE
+>>> +     * support */
+>>> +    if (!virtio_has_feature(dev->protocol_features,
+>>> +                       VHOST_USER_PROTOCOL_F_RESET_DEVICE)) {
+>>> +        return -EPERM;
+>>> +    }
+>>>       return vhost_user_write(dev, &msg, NULL, 0);
+>>>   }
+>>> @@ -2548,6 +2561,7 @@ const VhostOps user_ops = {
+>>>           .vhost_set_features = vhost_user_set_features,
+>>>           .vhost_get_features = vhost_user_get_features,
+>>>           .vhost_set_owner = vhost_user_set_owner,
+>>> +        .vhost_reset_owner = vhost_user_reset_owner,
+>>>           .vhost_reset_device = vhost_user_reset_device,
+>>>           .vhost_get_vq_index = vhost_user_get_vq_index,
+>>>           .vhost_set_vring_enable = vhost_user_set_vring_enable,
+>>> diff --git a/include/hw/virtio/vhost-backend.h 
+>>> b/include/hw/virtio/vhost-backend.h
+>>> index 81bf310..affeeb0 100644
+>>> --- a/include/hw/virtio/vhost-backend.h
+>>> +++ b/include/hw/virtio/vhost-backend.h
+>>> @@ -77,6 +77,7 @@ typedef int (*vhost_get_features_op)(struct 
+>>> vhost_dev *dev,
+>>>                                        uint64_t *features);
+>>>   typedef int (*vhost_set_backend_cap_op)(struct vhost_dev *dev);
+>>>   typedef int (*vhost_set_owner_op)(struct vhost_dev *dev);
+>>> +typedef int (*vhost_reset_owner_op)(struct vhost_dev *dev);
+>>>   typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
+>>>   typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx);
+>>>   typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
+>>> @@ -150,6 +151,7 @@ typedef struct VhostOps {
+>>>       vhost_get_features_op vhost_get_features;
+>>>       vhost_set_backend_cap_op vhost_set_backend_cap;
+>>>       vhost_set_owner_op vhost_set_owner;
+>>> +    vhost_reset_owner_op vhost_reset_owner;
+>>>       vhost_reset_device_op vhost_reset_device;
+>>>       vhost_get_vq_index_op vhost_get_vq_index;
+>>>       vhost_set_vring_enable_op vhost_set_vring_enable;
+>>
+>>
+>
 
 
