@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E8F4F71D9
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 04:07:33 +0200 (CEST)
-Received: from localhost ([::1]:39004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB40F4F71DA
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 04:07:35 +0200 (CEST)
+Received: from localhost ([::1]:39140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncHYZ-0007ME-VS
-	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 22:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52022)
+	id 1ncHYc-0007RZ-NZ
+	for lists+qemu-devel@lfdr.de; Wed, 06 Apr 2022 22:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=089d0ce6d=alistair.francis@opensource.wdc.com>)
- id 1ncHW0-0004XN-WE
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:04:53 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:21842)
+ id 1ncHW3-0004ZF-QF
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:04:56 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:26703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=089d0ce6d=alistair.francis@opensource.wdc.com>)
- id 1ncHVy-00078r-Ci
- for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:04:51 -0400
+ id 1ncHW1-00079w-Pg
+ for qemu-devel@nongnu.org; Wed, 06 Apr 2022 22:04:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1649297090; x=1680833090;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=oYMGMo7iSqDxWE6BrjILNoIiUBwtZZhnoBsmDHXyqT4=;
- b=Watw7OKPtkaZp0YTs8/HcIauDfPU/0TaDZn4pwK7cqO0vnKaVhZStvDi
- JNfKoRXPvki3kefnuEI31AqAIVRfJnrtYv58WeZ3HgvuXvjhvGObBSQqX
- qDcgvdtvedCOWI5uSedJuZrzdvdjk5jw1m1g6Xc+ZhPC9b5UfWyyeGw3l
- XVVMFzdWIHvmGKr7ppw7N3cYO/R8RiDE47mquiuEJEOlfsFc7CIC/qfuj
- WqZFqoeLyUk9xmbKcpyulTs5HRiFn6GLxvJcqPC4gjJqe/Esd3bvoLDuw
- APQIRANaP8CiSleeASh96qzz6JlWbd3o4vPFxH/7XoPvGgCCq4fofgc/x A==;
-X-IronPort-AV: E=Sophos;i="5.90,241,1643644800"; d="scan'208";a="196170915"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Apr 2022 10:04:43 +0800
-IronPort-SDR: wBKrHcAqIPWV6x//JgeOAsi21NVJEXXN2OxQdiuE/Zun1kBOYZ/kuFZ8CQZgcstyifjKBaOAB0
- TOnJm4BdEukWiBmilxfO3XL1+uFs/q4fq9JAcmtPUj0oKC1EiOpmLhCMycRsXLMc++7nL+JzEn
- mcM6L5Tt+TG10jeKco8FVYUQAgfuLYh9ukmmzN7UkqZr+UBnsGO33OePmeOxSyNyX9EHB//NIg
- VNYHRv6TOgzyBpNqWCIpx5KMMnf3pkVIpp9zviK7caAgeLV7cYz67E2CMhepwsd4Fn43AcD+KO
- oqmv0Kfys7pz40McJ4zRCXO6
+ t=1649297093; x=1680833093;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=3rHBwKMCHbwZDHfBtuUh4TGCYl673DE9Sft6y2lR7ew=;
+ b=oCfWu3V7wy+px3VBOa9gF86OOd718rCKcWg7Jxii0BK43jwSHN5sWBps
+ xlUncefA1BkrkZV4nvv6PKqheF8RaM9U+SKsnM5UgiaPhF1CHM95CKwJG
+ wny9vxFI82fn10mOe9F/hJZqUbViA7LixNHYwTbkd44aXF9U5YLN5fyo9
+ dyAA/iAqzTWoFRJMcN5yNs26RPB8dtgsCoFtC49EyyvdSTCznj+tVyk8e
+ ilkejOfFEQFBA1onLDktm33HeTFs5jpAd0+w3k+QbxXSG36MqQYtfQ/6p
+ 82fPACoDnpy+Jk6bJURNv0kTlaaTJDnrsT6n5gre2G2YGHkOcrAE8DGZx g==;
+X-IronPort-AV: E=Sophos;i="5.90,241,1643644800"; d="scan'208";a="301467843"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 07 Apr 2022 10:04:49 +0800
+IronPort-SDR: VGTRjNe5nzACG5vuORaW1q258LYwwpiYRMeocVPkuBjPHU9q+CXkXXx+Uy0WszCynUTI8KyUGL
+ +jJu4MQZhbihLoNvIY5b5liWHK3fjJLqIK9+wTORbIYggp4BgLj/MYFOBvaT1cFK3oKEYGYcAc
+ 3EJKRxO0DDK1d4Cyq7BDBRiqsahtd5Axc5pOq0EalN6/2Wox57WYmmhjVZJ2EOdPIhwdwBh8y6
+ HXF0l6FqAAx34fl8DcRl+zL13gs8zHxDUrVE8+ijVcOe6u70zKVDsaV7QjJD5BFJOvuN7aFtjG
+ tKSP/sQyVhzW1bwDbhSC7f4f
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Apr 2022 18:36:13 -0700
-IronPort-SDR: eJOeiVovMYdc3B8XPOsrXS1opCXQjVVW1+6580kRpJrKMbWkOnYyIp0M/svhHgank1jKGIDNJP
- XE3tVZCz3WGOHQP2gHLAyvi6O/fug5H+wO6Lmxag+aOFECCP+gfabPcjMQZp4+AInA84kvwvZg
- i0zb3IZhOr9WvnVfmZPvUMSg7OwexuTVb9QvwTlAmYHq3/vQ7ORk9DKXkfUCwOk3/USr5oMK69
- C/sQOi6dtFJ8ZqdNFpMoMEKTLGsVSkwDuBPSBDz9d5YAeSL3F6AX1REOjbO0ikaoBC3w/tbYBS
- 2RU=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 06 Apr 2022 18:35:30 -0700
+IronPort-SDR: 8mSnAjFyQTpBPLMpg827bZEr5/1aMGJG4KG7+71o1mRdT5kI0yUB8eG/ImLyU66owE1oJmUp5+
+ LELhsmr7wQ26FcYuzGKZ4RlqCX8fe7GUKC4doE6A0KrRI0t/TrJ0h2/8NzS1cdfRtDb/rENA2n
+ QT/wl6Bcu5x/xdort6jiwj0EuDrHtS8Am7Z9pJ1/5Mk24wR4cUGbO2VKjtv/g7jPWpzXsWGMic
+ p5mUrY3eIkju34YUBnGcauxFIvgRQtzeEqbaKgvBMWH8LOmw9AeT378YnO2DL40qrJxktVkQkt
+ f4U=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 06 Apr 2022 19:04:44 -0700
+ 06 Apr 2022 19:04:50 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KYl7Z6YNTz1SVp8
- for <qemu-devel@nongnu.org>; Wed,  6 Apr 2022 19:04:42 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KYl7h6Vtmz1SVp6
+ for <qemu-devel@nongnu.org>; Wed,  6 Apr 2022 19:04:48 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
- :content-type:x-mailer:message-id:date:subject:to:from; s=dkim;
- t=1649297082; x=1651889083; bh=oYMGMo7iSqDxWE6BrjILNoIiUBwtZZhn
- oBsmDHXyqT4=; b=AGZD4H9TsuMA4gnGO0ncZnzv+CtdMpymqp7fMtl70+qyC3f7
- lGZ61y6t3Vud+MRFCBVBa6F+mmr7G6L3kzH6Xvy3uNEwbA7o9Dd5SK5oxOYUyPaZ
- 2s2BSXeqtLNlSvBzp00OvvBQjAApZhuwgjx6TEacAFqVhoYkMniZYutsXa0e5tnz
- 9vHgRUD5mBR8dk3ugW6d/Tf4GoD82xUN9NyGm943aSpu4z7dV+wx2Dkl5mprMuPU
- njsoazlDR0f1VR5oFAmdhgyOU8yCiePSHHWSRuXdpVXeJGKi6sdRz19QiQ57abs4
- ZIdN8wEfParbiegeJj/w7mq6zEddGwE1SxwQ5A==
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1649297087; x=1651889088; bh=3rHBwKMCHbwZDHfBtu
+ Uh4TGCYl673DE9Sft6y2lR7ew=; b=oQTIkapuCbQ/zBFiXa+brNTUj+y1qG3n47
+ d/+TcqsEDbrTO/pAec3xUWv7H2G5Ob6RavzH3foO4J47u1Ea4DEN3I3sfE7o3Ouo
+ yzC9y+FJQNUGZhbvccC9cjTz6IXz690JQm5IhjDv1PTSZJlaJX8aB02ZzfCn0lD0
+ hO9kOUR4YgFE7tlIUNYi4X3lqRLU6PgoWmBYc9d6+98HuQ//wWqoIkJsJBrBO2Z+
+ e0y53pZppa54lIjfnqhapVyCmjV92OtRD+7iqm/tYZPphXIOkUibxOpiqYEWMCCD
+ 34FdUlp/509Ep9Ls0SVAFcFYEE8aXntsY2jUbMr+N9V1FZChzmsw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id EniwiwkTGJox for <qemu-devel@nongnu.org>;
- Wed,  6 Apr 2022 19:04:42 -0700 (PDT)
+ port 10026) with ESMTP id ES7_paXw5MPh for <qemu-devel@nongnu.org>;
+ Wed,  6 Apr 2022 19:04:47 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.114])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KYl7S5Vr0z1Rvlx;
- Wed,  6 Apr 2022 19:04:36 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KYl7Z4SMQz1SHwl;
+ Wed,  6 Apr 2022 19:04:42 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-riscv@nongnu.org,
 	qemu-devel@nongnu.org
@@ -88,16 +88,17 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
  Palmer Dabbelt <palmer@dabbelt.com>, bmeng.cn@gmail.com,
  Bin Meng <bin.meng@windriver.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v2 0/6] hw/riscv: Add TPM support to the virt board
-Date: Thu,  7 Apr 2022 12:04:26 +1000
-Message-Id: <20220407020432.4062829-1-alistair.francis@opensource.wdc.com>
+Subject: [PATCH v2 1/6] hw/riscv: virt: Add a machine done notifier
+Date: Thu,  7 Apr 2022 12:04:27 +1000
+Message-Id: <20220407020432.4062829-2-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220407020432.4062829-1-alistair.francis@opensource.wdc.com>
+References: <20220407020432.4062829-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.42;
+Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=089d0ce6d=alistair.francis@opensource.wdc.com;
- helo=esa4.hgst.iphmx.com
+ helo=esa2.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -120,49 +121,267 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>=0D
+From: Alistair Francis <alistair.francis@wdc.com>
 
-This series adds support for connecting TPM devices to the RISC-V virt=0D
-board. This is similar to how it works for the ARM virt board.=0D
-=0D
-This was tested by first creating an emulated TPM device:=0D
-=0D
-    swtpm socket --tpm2 -t -d --tpmstate dir=3D/tmp/tpm \=0D
-        --ctrl type=3Dunixio,path=3Dswtpm-sock=0D
-=0D
-Then launching QEMU with:=0D
-=0D
-    -chardev socket,id=3Dchrtpm,path=3Dswtpm-sock \=0D
-    -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \=0D
-    -device tpm-tis-device,tpmdev=3Dtpm0=0D
-=0D
-The TPM device can be seen in the memory tree and the generated device=0D
-tree.=0D
-=0D
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/942=0D
-=0D
-Alistair Francis (6):=0D
-  hw/riscv: virt: Add a machine done notifier=0D
-  hw/core: Move the ARM sysbus-fdt to core=0D
-  hw/riscv: virt: Create a platform bus=0D
-  hw/riscv: virt: Add support for generateing platform FDT entries=0D
-  hw/riscv: virt: Add device plug support=0D
-  hw/riscv: Enable TPM backends=0D
-=0D
- include/hw/{arm =3D> core}/sysbus-fdt.h |   0=0D
- include/hw/riscv/virt.h               |   8 +-=0D
- hw/arm/virt.c                         |   2 +-=0D
- hw/arm/xlnx-versal-virt.c             |   1 -=0D
- hw/{arm =3D> core}/sysbus-fdt.c         |   2 +-=0D
- hw/riscv/virt.c                       | 312 +++++++++++++++++---------=0D
- hw/arm/meson.build                    |   1 -=0D
- hw/core/meson.build                   |   1 +=0D
- hw/riscv/Kconfig                      |   2 +=0D
- 9 files changed, 221 insertions(+), 108 deletions(-)=0D
- rename include/hw/{arm =3D> core}/sysbus-fdt.h (100%)=0D
- rename hw/{arm =3D> core}/sysbus-fdt.c (99%)=0D
-=0D
--- =0D
-2.35.1=0D
-=0D
+Move the binary and device tree loading code to the machine done
+notifier. This allows us to prepare for editing the device tree as part
+of the notifier.
+
+This is based on similar code in the ARM virt machine.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ include/hw/riscv/virt.h |   1 +
+ hw/riscv/virt.c         | 180 +++++++++++++++++++++-------------------
+ 2 files changed, 97 insertions(+), 84 deletions(-)
+
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index 78b058ec86..8b8db3fb7c 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -45,6 +45,7 @@ struct RISCVVirtState {
+     MachineState parent;
+=20
+     /*< public >*/
++    Notifier machine_done;
+     RISCVHartArrayState soc[VIRT_SOCKETS_MAX];
+     DeviceState *irqchip[VIRT_SOCKETS_MAX];
+     PFlashCFI01 *flash[2];
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index da50cbed43..3f065b540e 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1156,6 +1156,99 @@ static DeviceState *virt_create_aia(RISCVVirtAIATy=
+pe aia_type, int aia_guests,
+     return aplic_m;
+ }
+=20
++static
++void virt_machine_done(Notifier *notifier, void *data)
++{
++    RISCVVirtState *s =3D container_of(notifier, RISCVVirtState,
++                                     machine_done);
++    const MemMapEntry *memmap =3D virt_memmap;
++    MachineState *machine =3D MACHINE(s);
++    target_ulong start_addr =3D memmap[VIRT_DRAM].base;
++    target_ulong firmware_end_addr, kernel_start_addr;
++    uint32_t fdt_load_addr;
++    uint64_t kernel_entry;
++
++    /* create device tree */
++    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
++               riscv_is_32bit(&s->soc[0]));
++
++    /*
++     * Only direct boot kernel is currently supported for KVM VM,
++     * so the "-bios" parameter is ignored and treated like "-bios none"
++     * when KVM is enabled.
++     */
++    if (kvm_enabled()) {
++        g_free(machine->firmware);
++        machine->firmware =3D g_strdup("none");
++    }
++
++    if (riscv_is_32bit(&s->soc[0])) {
++        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
++                                    RISCV32_BIOS_BIN, start_addr, NULL);
++    } else {
++        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
++                                    RISCV64_BIOS_BIN, start_addr, NULL);
++    }
++
++    if (machine->kernel_filename) {
++        kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
++                                                         firmware_end_ad=
+dr);
++
++        kernel_entry =3D riscv_load_kernel(machine->kernel_filename,
++                                         kernel_start_addr, NULL);
++
++        if (machine->initrd_filename) {
++            hwaddr start;
++            hwaddr end =3D riscv_load_initrd(machine->initrd_filename,
++                                           machine->ram_size, kernel_ent=
+ry,
++                                           &start);
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
++                                  "linux,initrd-start", start);
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd=
+-end",
++                                  end);
++        }
++    } else {
++       /*
++        * If dynamic firmware is used, it doesn't know where is the next=
+ mode
++        * if kernel argument is not set.
++        */
++        kernel_entry =3D 0;
++    }
++
++    if (drive_get(IF_PFLASH, 0, 0)) {
++        /*
++         * Pflash was supplied, let's overwrite the address we jump to a=
+fter
++         * reset to the base of the flash.
++         */
++        start_addr =3D virt_memmap[VIRT_FLASH].base;
++    }
++
++    /*
++     * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the d=
+evice
++     * tree cannot be altered and we get FDT_ERR_NOSPACE.
++     */
++    s->fw_cfg =3D create_fw_cfg(machine);
++    rom_set_fw(s->fw_cfg);
++
++    /* Compute the fdt load address in dram */
++    fdt_load_addr =3D riscv_load_fdt(memmap[VIRT_DRAM].base,
++                                   machine->ram_size, machine->fdt);
++    /* load the reset vector */
++    riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
++                              virt_memmap[VIRT_MROM].base,
++                              virt_memmap[VIRT_MROM].size, kernel_entry,
++                              fdt_load_addr, machine->fdt);
++
++    /*
++     * Only direct boot kernel is currently supported for KVM VM,
++     * So here setup kernel start address and fdt address.
++     * TODO:Support firmware loading and integrate to TCG start
++     */
++    if (kvm_enabled()) {
++        riscv_setup_direct_kernel(kernel_entry, fdt_load_addr);
++    }
++}
++
+ static void virt_machine_init(MachineState *machine)
+ {
+     const MemMapEntry *memmap =3D virt_memmap;
+@@ -1163,10 +1256,6 @@ static void virt_machine_init(MachineState *machin=
+e)
+     MemoryRegion *system_memory =3D get_system_memory();
+     MemoryRegion *mask_rom =3D g_new(MemoryRegion, 1);
+     char *soc_name;
+-    target_ulong start_addr =3D memmap[VIRT_DRAM].base;
+-    target_ulong firmware_end_addr, kernel_start_addr;
+-    uint32_t fdt_load_addr;
+-    uint64_t kernel_entry;
+     DeviceState *mmio_irqchip, *virtio_irqchip, *pcie_irqchip;
+     int i, base_hartid, hart_count;
+=20
+@@ -1296,92 +1385,12 @@ static void virt_machine_init(MachineState *machi=
+ne)
+     memory_region_add_subregion(system_memory, memmap[VIRT_DRAM].base,
+         machine->ram);
+=20
+-    /* create device tree */
+-    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+-               riscv_is_32bit(&s->soc[0]));
+-
+     /* boot rom */
+     memory_region_init_rom(mask_rom, NULL, "riscv_virt_board.mrom",
+                            memmap[VIRT_MROM].size, &error_fatal);
+     memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
+                                 mask_rom);
+=20
+-    /*
+-     * Only direct boot kernel is currently supported for KVM VM,
+-     * so the "-bios" parameter is ignored and treated like "-bios none"
+-     * when KVM is enabled.
+-     */
+-    if (kvm_enabled()) {
+-        g_free(machine->firmware);
+-        machine->firmware =3D g_strdup("none");
+-    }
+-
+-    if (riscv_is_32bit(&s->soc[0])) {
+-        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
+-                                    RISCV32_BIOS_BIN, start_addr, NULL);
+-    } else {
+-        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
+-                                    RISCV64_BIOS_BIN, start_addr, NULL);
+-    }
+-
+-    if (machine->kernel_filename) {
+-        kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
+-                                                         firmware_end_ad=
+dr);
+-
+-        kernel_entry =3D riscv_load_kernel(machine->kernel_filename,
+-                                         kernel_start_addr, NULL);
+-
+-        if (machine->initrd_filename) {
+-            hwaddr start;
+-            hwaddr end =3D riscv_load_initrd(machine->initrd_filename,
+-                                           machine->ram_size, kernel_ent=
+ry,
+-                                           &start);
+-            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+-                                  "linux,initrd-start", start);
+-            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd=
+-end",
+-                                  end);
+-        }
+-    } else {
+-       /*
+-        * If dynamic firmware is used, it doesn't know where is the next=
+ mode
+-        * if kernel argument is not set.
+-        */
+-        kernel_entry =3D 0;
+-    }
+-
+-    if (drive_get(IF_PFLASH, 0, 0)) {
+-        /*
+-         * Pflash was supplied, let's overwrite the address we jump to a=
+fter
+-         * reset to the base of the flash.
+-         */
+-        start_addr =3D virt_memmap[VIRT_FLASH].base;
+-    }
+-
+-    /*
+-     * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the d=
+evice
+-     * tree cannot be altered and we get FDT_ERR_NOSPACE.
+-     */
+-    s->fw_cfg =3D create_fw_cfg(machine);
+-    rom_set_fw(s->fw_cfg);
+-
+-    /* Compute the fdt load address in dram */
+-    fdt_load_addr =3D riscv_load_fdt(memmap[VIRT_DRAM].base,
+-                                   machine->ram_size, machine->fdt);
+-    /* load the reset vector */
+-    riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
+-                              virt_memmap[VIRT_MROM].base,
+-                              virt_memmap[VIRT_MROM].size, kernel_entry,
+-                              fdt_load_addr, machine->fdt);
+-
+-    /*
+-     * Only direct boot kernel is currently supported for KVM VM,
+-     * So here setup kernel start address and fdt address.
+-     * TODO:Support firmware loading and integrate to TCG start
+-     */
+-    if (kvm_enabled()) {
+-        riscv_setup_direct_kernel(kernel_entry, fdt_load_addr);
+-    }
+-
+     /* SiFive Test MMIO device */
+     sifive_test_create(memmap[VIRT_TEST].base);
+=20
+@@ -1417,6 +1426,9 @@ static void virt_machine_init(MachineState *machine=
+)
+                                   drive_get(IF_PFLASH, 0, i));
+     }
+     virt_flash_map(s, system_memory);
++
++    s->machine_done.notify =3D virt_machine_done;
++    qemu_add_machine_init_done_notifier(&s->machine_done);
+ }
+=20
+ static void virt_machine_instance_init(Object *obj)
+--=20
+2.35.1
+
 
