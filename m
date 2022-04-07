@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7454F81BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 16:33:13 +0200 (CEST)
-Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8906B4F81DA
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 16:35:05 +0200 (CEST)
+Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncTCC-0003om-Jb
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 10:33:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56134)
+	id 1ncTE0-00060O-5y
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 10:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1ncMx2-00047s-3x; Thu, 07 Apr 2022 03:53:08 -0400
-Received: from mail-dm6nam10on2060b.outbound.protection.outlook.com
- ([2a01:111:f400:7e88::60b]:40324
- helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ id 1ncNPK-0005id-Us; Thu, 07 Apr 2022 04:22:25 -0400
+Received: from mail-dm6nam11on2062e.outbound.protection.outlook.com
+ ([2a01:111:f400:7eaa::62e]:16993
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fkonrad@xilinx.com>)
- id 1ncMwz-00050e-Ku; Thu, 07 Apr 2022 03:53:07 -0400
+ id 1ncNPG-0002Wm-Nb; Thu, 07 Apr 2022 04:22:22 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MfZOYx64iXjuMVt0MCSIL7tLjx+h0PG2/QIOTilTjlP4p44r99byhackjMUD3aI0YaLzPOZKPB1bHeVxeRnuqQN9Aukhuk7PeYBNiUJ1AiOXq6RN4Gdrz5ZWIhzC3Ia43m9KrdEkEMZpVzpZAa0dVrVOmK9po0/LUoDXjjpS6H5Y+QRvEZAWr9KvbSw50bwM9p4if3sru7ORW38z0XjZ9+85X8EfiZkmZ+cLZA+7mljBOpVo7fJGvi00E6PX+ir62+azQe/hIDWwPgjc1H3Rwqo4lJnIIiPTnXdJqc+nuZD0GkZ+BQJpn3JFZZG2h4aX3mIvE8AAVQEH+gcgOTIeeA==
+ b=POP744w+G35F8+nwySce8kCdxeQ9KMs2Rsm56hrsHOUspJWWQswqTgJZ8PMY4spHQZHh6lJhHLU6vXPDrtR/3ljpu1URnqdB8fjK7G9Cd2Lro2/oU9kZnkyUG3clFadGNAEp6bQymmZgnJHfkSr8xWH0ZzbJeuuQCFWeXebVz1t0Ap9kvVgwZEV7CbhcVRvz7QvHQooPygA1G7b2uQxcvM87cXbENX2SEtLcVaD5VYI7soDrXRghYFULJugnoqAYTJZcHjgKFDciC/peXB0G/ZfMR6v0VnJRP7YdiLzFb3m4asR74oNUo/0EMkhBvqswbBRB4srGqw0avWJv3ccI4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3/gRxFs19ufnTZOfc+8+HV7Vdc5FVGWsWZVTPA/99uA=;
- b=Gp372BNHnLEYU5nQW/Lnx/Rwhn0hrxR0dWEzwv2yfYSLFOMccw5cW2ZG1lo6scgZhw3QK04s68ZlhgHgou9oyvfWn8kOJJrEHroQBptWQfvzDoWg2jFrDVU5sH5XFHmvmUltKtIBBziL0m4bs6lDCc2DlvhXArRoLBqFQmehTD1cuvAQmH1h4zfa7z9Pb2MrM1mgusrUZTjnsPmAdDslcMInMxVkaUvEQta+aj9puMw/8I1w1VsINTsffsFF6HmptySSxrhPstDKfRKLTLJrY0VtsICHakQE6JYx1ZO5bs3IC94np/FT3a+pnISauhZdkF3aif4PmHrMH88/iVSzWQ==
+ bh=KndvMsQCrRT8GjB9N8OdzQbsKE6OLcV9CSZgDozIlAg=;
+ b=SYXpa0gAMtYazt8Ma1u33mS+7yYDqVZg1jdO4/iEQLM93nmS7aFOfxtSDjpRtgtK4v63n6m+rOrZA8p+H6GRQOty3S9I51eG24BfSaou7nygLruMSO6OqNHvrQEny5yFt/pnNuOA9ZQTdfFJGgmOMdqTF6O13x8X7zwWsHPwzlLVdOjnYeFN41CaaDbkba8a9T+NvLD0ZA5N+Hybv/9sBDPZzrOmvm24l3+jvBeKLD6O3HlnfJrD8i/WM8uwqcn5UO9K3tOd0EpVNUE2XJFRmyYVOttnXZHNgHcGohZFpxCJdDLsDt/cqUdMBab0vHkeD6yFynmzUrbFSTw23+rMFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
  dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3/gRxFs19ufnTZOfc+8+HV7Vdc5FVGWsWZVTPA/99uA=;
- b=Qh6maevmwb2PJ2giVcTeMMJxo2TiPqCbxR7cc0KgYuG2OAWhOhrGrjRAKmllXnP2wv2+roGJ3fT5NdwyJTO466je6c/eYpdXSEEit6RWCIAzru9RwY8k+U7e1CDWbV2cjSl9FNJRnmFOmWsZgYGTL78Aha4HmMMxaJZp/Xit5kc=
+ bh=KndvMsQCrRT8GjB9N8OdzQbsKE6OLcV9CSZgDozIlAg=;
+ b=Tj5rqgPknDKX8mK4dN8puzux0r4dFjKQBf9fxw3WdV/IF+ih8oe+jJjx7er+OSc1EWZrRORUYtGSE+WVyXyte8UDvQGs0xqwBiuD6TD7niKMBLr0CmzuyvNKRuwpGi/s/wZ5IbaDvULdMShpb9iqARPB+iKom8OzBbYXi5bQfyg=
 Received: from BY5PR02MB6354.namprd02.prod.outlook.com (2603:10b6:a03:1fd::12)
- by SN6PR02MB4765.namprd02.prod.outlook.com (2603:10b6:805:9b::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Thu, 7 Apr
- 2022 07:52:57 +0000
+ by DM6PR02MB5819.namprd02.prod.outlook.com (2603:10b6:5:17d::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Thu, 7 Apr
+ 2022 08:22:02 +0000
 Received: from BY5PR02MB6354.namprd02.prod.outlook.com
  ([fe80::3854:75c0:3d7f:299a]) by BY5PR02MB6354.namprd02.prod.outlook.com
  ([fe80::3854:75c0:3d7f:299a%5]) with mapi id 15.20.5144.022; Thu, 7 Apr 2022
- 07:52:57 +0000
+ 08:22:02 +0000
 From: Frederic Konrad <fkonrad@xilinx.com>
 To: Edgar Iglesias <edgari@xilinx.com>, "qemu-devel@nongnu.org"
  <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v1 2/4] hw/arm: versal: Add the Cortex-R5Fs
-Thread-Topic: [PATCH v1 2/4] hw/arm: versal: Add the Cortex-R5Fs
-Thread-Index: AQHYSd3J0xrbGlFuCEaTpceNHKUMYazkFPVQ
-Date: Thu, 7 Apr 2022 07:52:57 +0000
-Message-ID: <BY5PR02MB6354E807520390D37D3E78FFCCE69@BY5PR02MB6354.namprd02.prod.outlook.com>
+Subject: RE: [PATCH v1 3/4] hw/misc: Add a model of the Xilinx Versal CRL
+Thread-Topic: [PATCH v1 3/4] hw/misc: Add a model of the Xilinx Versal CRL
+Thread-Index: AQHYSd3JIEQmO/7/IkWYZeWs/5rtlKzkHK6Q
+Date: Thu, 7 Apr 2022 08:22:02 +0000
+Message-ID: <BY5PR02MB6354B4580E6AF804D054F2D2CCE69@BY5PR02MB6354.namprd02.prod.outlook.com>
 References: <20220406174303.2022038-1-edgar.iglesias@xilinx.com>
- <20220406174303.2022038-3-edgar.iglesias@xilinx.com>
-In-Reply-To: <20220406174303.2022038-3-edgar.iglesias@xilinx.com>
+ <20220406174303.2022038-4-edgar.iglesias@xilinx.com>
+In-Reply-To: <20220406174303.2022038-4-edgar.iglesias@xilinx.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -62,64 +62,64 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=xilinx.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5ec4f926-d6be-4aca-5331-08da186ba155
-x-ms-traffictypediagnostic: SN6PR02MB4765:EE_
-x-microsoft-antispam-prvs: <SN6PR02MB47655EC7BF70A841BFDFF528CCE69@SN6PR02MB4765.namprd02.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 1e4d3a8f-7f83-44be-3850-08da186fb1af
+x-ms-traffictypediagnostic: DM6PR02MB5819:EE_
+x-microsoft-antispam-prvs: <DM6PR02MB5819E70BB7E9B9887F3296FECCE69@DM6PR02MB5819.namprd02.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9p57lT8QES9fvoGcDj1l1m1B8Fy8n0SFn9W75AcEJ5W4h8jYKd7+GwD+GgnT/pNCdGMjrjnw52LpTJL2pdKuLgp+ULfksVABZSVBWpGJL9XPMnpNkpfTykdCeF16kz8QoyQQcFmuKEIx1rCKq0OhVUKWldMIGX5CbS22e3eFlNsqnNUtzhC9UOAWz1y3EQB2vzQtqRf4suVl22T0HN7UgS5+yOlulTMgAk6/cDtPRFgeoaTDZdOqV+x4x0h8WJN08hxLGeWnKknSkQRgG3kiH6CvgefFlTZ3fRJi/HxkOfZ/rLkO9802yuNFz9o3Lytg8250uaj9l97CcZTo/PbkrL3w8AyJB2oR3QZ6E0PvEDitwIVDpMdkzNUhMGLVVCiKD+RNtMp3faNQeOYvYjiLR9ZrSApWNSSJ/9tGzXZIuNTyiiUw38bxSvFq1/XcTLLz0oZ32KJi+SC/rh0gKINkIrJxhYpC8f31Aj2m9mJdiT4BFleMZn+YJB/0RxD/mNDbituXMfTx6Y/MPlLCsagoJba+P0H+KsqPsAmpG/pin4y4xhI8rZ8zE5+IQqGJiYtdW+Ybd7KURo3cwwrCvsLVFVMgreIarHRNzYwhUAG53kxA3EtVfkR3ybnlbUbA3rtun8rtQ7ss9Cd4QFtgJzqRUs4cDLvblVB9dl4w+bM+RgKEUnQFjyuQ6zmMeQoQmdS0XOikMW3CewFMGWUqE60W8Q==
+x-microsoft-antispam-message-info: OChMOSshcQk9YPHUzrDu2oz9dPeahtZT905WM5gYgKhYZXtLI6zlHHBdvNh/2ooIuXEQnFNz8F6s270X584I+6xUMMEo30H/2bInpJ3QWUDYAb3hUNdn0w+c6B2JAfx7QIqdrVQYOuM0y4/4U3v/Knt34dU5cKM/l34u0YIdkFa7ear7IJdwyeqJ7wBMG6AoPIBtawIn6uQ1fwu7rtx3yDDzziv05vT2CRr+i56k2D2Z2JA4sucRpy4tlGUhxOEUI8At//hvCUmzG5/PeqZZX4K3ru2qdFQLom4JuXrZkyFaIoFl5/yN4PTsjwbJVbmDhXc/+MZw0ecMU1cUFAmTN8OZA7tqHxT849T97pAEE1MjDCZ7KjdF0fKOBJBPrpVJSJNPu8WyNa8A++berEK/ZSQUhuB1k4tHPtr9oVxtqKU+h6gkf0sXncSpYTtmBEgJp+bqAUjSa9EIpgA+HuJQK+dLaxSA9CRWjq6+hCA7jcVm8aSQbKeMIDglkleYXInwC1SuA46AdWAfERut0a33x08FzM0mlLpxJfeWrDig4o8pWxCe3kq0VAez1MH75bLcwkJlDcgMD7N38o06F1QCnWlzUKXcVwWYZiO11K2rPL5OA9CGWTAaoW3l1qqU+rgshNGcNCHCytpP3rFkw2fZU/WE3XpboWA3QSdPfRMPLBknl8SqQ0Do2/0eIkTJLl7B5BxHgGNEaYD4HedIygBq/Q==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR02MB6354.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(9686003)(71200400001)(55016003)(38100700002)(86362001)(186003)(26005)(6506007)(7696005)(316002)(52536014)(38070700005)(8676002)(8936002)(4326008)(5660300002)(33656002)(122000001)(53546011)(54906003)(110136005)(66476007)(508600001)(66556008)(64756008)(66446008)(2906002)(76116006)(83380400001)(66946007);
+ SFS:(13230001)(4636009)(366004)(76116006)(83380400001)(8676002)(64756008)(66946007)(508600001)(86362001)(66476007)(66556008)(26005)(186003)(30864003)(110136005)(33656002)(4326008)(54906003)(2906002)(9686003)(5660300002)(66446008)(55016003)(7696005)(52536014)(8936002)(38070700005)(122000001)(71200400001)(53546011)(6506007)(38100700002)(316002)(559001)(579004);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lf1prrsM1lIE+8EP7LvEUj43dZL+FfEKuAlvM6P+K4s0Fh1c7JDeSSkPDUPc?=
- =?us-ascii?Q?1Cr6IS7cQjBZi5NAZRueSjV6l41NK4CYd9G4YCbE76JXkrO5O89Je83BCgPc?=
- =?us-ascii?Q?9FKzFUN6vz3UloxyLFGN1tf9ecrq82/CPsQheGUJhNqQBT4mW0aGDKjqeSOz?=
- =?us-ascii?Q?MQEGMtPY7Wmz60xr43OTmo2AC81+5dWCyGNxkOSXwZ5rgfjKWuw8sv6Z41Vk?=
- =?us-ascii?Q?+pih//ZeInigJQvQ0W6g6ssta4HUBO+WpTqgKhk+SO6LWYolsulsUfwcOQP5?=
- =?us-ascii?Q?2KkU1PrsZQW/9XCFi24tVtSIe273WNlTWl1f/ILyanFWkf8665BL5RMIJfPS?=
- =?us-ascii?Q?Y3eV9psP4N6HuQbEY0Vucneuu9JeAvw1CnuWRpOuIsDp7BgYzAYh2JhGC6zO?=
- =?us-ascii?Q?DPiJIR+rQib01wTIL0uL0EVLVGK5RibcDdN43EYqLmHzAxb2853B7Ojjwj8f?=
- =?us-ascii?Q?UDcXDq/kgUBvFSuhltCByPITYiB/dAGLtanA1jCit/3rwdb/9jmdBKeKIGpc?=
- =?us-ascii?Q?531JT79mV6tYHVJtQh6HdgsEDXfbsJG6Ct7Zw0kZ3iRrQhYXl9+oTF2TE51G?=
- =?us-ascii?Q?3FMjYbeROt+usdz4p6p31ybRKcou3iC7/K5gRBptHaY/emQAl0DjM3KgXB7Z?=
- =?us-ascii?Q?LBofu08vfxBMDOFGKkLlQQFRvK5Xa6d06TRjjKYGDUBt9KhQjfj2HrPTi66v?=
- =?us-ascii?Q?PDeRLq97o5y2qwRxZFidrmkbgpv0D53aoMgCAsmDkD1JA02vem/M1eQX0mTT?=
- =?us-ascii?Q?MDcKUU6jJfpZlhUPnD2bOJvU0UXU9guLQwzRyMyIGOjL9bYZnbCK3W3D59br?=
- =?us-ascii?Q?buOe2+Wwwyat/tsys+1TUvDDmXirFygr4Yg9AxXP2XrL+cq5VjgCZ4xwDEPU?=
- =?us-ascii?Q?O2xyhdjJ2518HyStVxFKVrZ1dAyWD71DQRJr3PAq5U78MOlLL6Ix6kXw8wRJ?=
- =?us-ascii?Q?QTrcU6h6gEyu9r3O6C2lp36f1ciPjaWcbI7fPCaM3K573VriAhjPdO6vnA+Z?=
- =?us-ascii?Q?SE6r3LhJndk49mUlVYPhzvSUj70LbJwDzLWAxoiMDrRCT7nXohypEMIMpkAF?=
- =?us-ascii?Q?FVGnXeKUFk26URI1LkqHlHKENKmxdERsaJdKCSOKogf8a32EhIX1W63if6Rt?=
- =?us-ascii?Q?zJI/6Scdkon616e4feOJlj96fYf2/pzid2HVowhlj0zqIBp2JSxB8PMRURMP?=
- =?us-ascii?Q?GhNyji/oePSI8RwT7XzyBxmFSHipsSK4qIEzH3ZjeIHjw9EMHjy2gY9/jH8x?=
- =?us-ascii?Q?3yV5jcS1W5xSCSFahG+rfLj35oltAC+vuWw4zarOjgXu37pD3Vng1FeZ1b1t?=
- =?us-ascii?Q?zK+Ua8/eeid8qkg1IiNp7XckNDUzGWRMt2jMRylryMq1hH0Wuc7pW0izEojp?=
- =?us-ascii?Q?ChAwID2rf5+2W3tE1016ZRVRex7/t3GVGAuEZ5OrcUdRVLO48Yfck3P0avzG?=
- =?us-ascii?Q?AQJwMVYn6ZyC5DLvSYUkVPwxt+Tk8o006lWzFW5akWefQEMImSFHaEKae8U5?=
- =?us-ascii?Q?nwFq2xGoRI9mjxnyu7pdzsxYnGt8qvmOgKlCha6hWJ9JUAwCZB2Cs5NW4xOj?=
- =?us-ascii?Q?+SJrppFCp/pz9A6t1+2YVyhwSxuSafBP63YFbuIfn/WkAlTCblYq60CLtUzp?=
- =?us-ascii?Q?E4E0XHPCsKU9vOwGaGrNrPvhpFhE58IvPr0CQCQyvwtXiwZiI+BMQlSLcdEn?=
- =?us-ascii?Q?MEREGpJMnrw4W/HZ0eDnxpOHTs5FufGmYYDHe0y0CWmAsNtDg5v55v8cvWHt?=
- =?us-ascii?Q?/u6y73cspA=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ErWQ4vnEpZP3PVRSInKv3Req7cLOEWywPY3S5dr6TdzTnf2yWDCMD26n5+ji?=
+ =?us-ascii?Q?qEqegTpDVr45uyWQFYk3b9m0Jba46P7d4Fr2h9qFgOfHjISQfw9gJX4CxuRb?=
+ =?us-ascii?Q?7AO8PZmgWclicbXRBt4C+rBKDA1zAQ0yeR5c3thETL1hDp3CEf7UcMos/Uok?=
+ =?us-ascii?Q?CxJH05Dc3N84SgEoUv5AV4vqSzrve4OvRUKlV9M5WAN0bE5jKpaFpUWPwKfh?=
+ =?us-ascii?Q?o/dOQRAU6y+oQPdlZ/N3XabDBcB8vgZOspf6FE+vKf6ks0Ygiz/L+Wp748aX?=
+ =?us-ascii?Q?PtILBzLimuWKvW4jVmlGcaqUWZZ9ruBZ031Cv9h8YG1lf12cXuQE0qCaG0Qb?=
+ =?us-ascii?Q?zA7pmM32B/aoxQtE3nzFgx48XH2fTcBofvezI8UI3cQnT5YqnQ51jtzEXbKX?=
+ =?us-ascii?Q?HGv3koJsvXvzVkfFzPml1pF/H+AR5Ki7OmK0/PdS+6vGpIjfHwqmw2GgGEpL?=
+ =?us-ascii?Q?JkNrH41spfqMWUGpiFNwK3HubZ2xNGe4UqAaWpEvQWDDkVyNJt7IkcsMRkK9?=
+ =?us-ascii?Q?6rYqzwtJpmIFVQB1Bfx/7Rsf1RUugEQ14o8EoTVUsLwtUMlSsIg/a7A/a3Zj?=
+ =?us-ascii?Q?FCIVxfjT3scZidI2MOkNRnkqfQ5kFjxOz1dvxhTfU6CyFN/2Lq+ap4fecnjz?=
+ =?us-ascii?Q?QYKJVqej/9PbNDj/1EcovGCcBl60EBVUMaqF+x3sqf+kcE2v1Ozg8iTCZkGD?=
+ =?us-ascii?Q?nTFr78oarUkaJ9nQJgQDfJcZ8XTQewZPS0b9wAjwX+GT76z/gLuK6zJ94b7L?=
+ =?us-ascii?Q?L6jpUu+/l3O3pLMghXtm8RCkPNEJWhJxR1+0zKlMWjygq7Vi6DuodKw5HfPZ?=
+ =?us-ascii?Q?IcCQCJmEi0Sw3SZpO9WEeiiYYLCj6QAYe4TwIAWe0aS6boPE3FQFuwcUNVvf?=
+ =?us-ascii?Q?Tb4N3i6NGtePU+Ud1ni+Wr/DEAMJkFjj17n9iiRMQFcRWLzVZvcCmyNmogY9?=
+ =?us-ascii?Q?67qlCk/3NgicNYufTwqSqSmQDEumVKPaENS9xtKpLqV39wqw1vT3XI/fEsdD?=
+ =?us-ascii?Q?DEILrIgImPVwE/vsuQHIjW3Wfkxua1bN8I3OB50gJldcs4T2cPG+kGqltozv?=
+ =?us-ascii?Q?2th2NFmqG96aNYpQ9VIrAuVLU3vBVCGVBTYxYedS0/RkDsMgQx/2C6hhFr+d?=
+ =?us-ascii?Q?D62007M13hL2jofnbxNYF/8TUSb3dmXzsbJ7pKrGbfHSt6Ge7zDBo6KUWWbb?=
+ =?us-ascii?Q?mDw8VA8H93C1K7UzOtSL2JzHvJdl/LdAUqY4tFduY70GnhCJl24x/cbgqUcC?=
+ =?us-ascii?Q?mZCuvCAsvtrF/WLRdJ3J6LvF9WfqLIn5h1QJZ3hgUdtMmKnE+H5ORDMKLfnh?=
+ =?us-ascii?Q?aXrJsJ03PYKPhLEDVomB3X5+dHJ/86vfpLjODD/XWcjjL5IBOc3FL8VsURwa?=
+ =?us-ascii?Q?meNcqjtk85xoBYvhoKlXSfFEqj3V485emgeU0BtvCYIU49lqxyc8Z+QBMpSK?=
+ =?us-ascii?Q?QwkJbaNqsjEz5c5oD23uCAfpNWSy4g90yZs/Px9nJSrmHgukfBrZLnesCojH?=
+ =?us-ascii?Q?5lB4kZbBPsT/CXlAl127V6oXd7PMkzvZKCxYCoQ9muloFhCAa4go7qGQ/Qpa?=
+ =?us-ascii?Q?rCXxkARgLk7JV1HrrtdxxZ/tC8Fz3345i0GDsVhP6Nbnn3wWA9WQIHlDPKkV?=
+ =?us-ascii?Q?J5vT4HL3xlkeLMBVxFyGCqiDkvf9zKvb/PRCxcmMEcRBA4f/HNU4PgQxShae?=
+ =?us-ascii?Q?PISvkIGaU+WFgvej8LMncjLnSrIftpcG9duZU5wYssbMg4sL/nxY1QtqnwcV?=
+ =?us-ascii?Q?4U9an4U0sw=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: xilinx.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6354.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ec4f926-d6be-4aca-5331-08da186ba155
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2022 07:52:57.3012 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e4d3a8f-7f83-44be-3850-08da186fb1af
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2022 08:22:02.6739 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RRYciROLTGWJnDcEeKuZ2LyEbt4WpSV2tYlN0BDQSFktEvKM/bEyD2CferPD9bcNX3AZyT4sUy7xttcFJb7Xeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4765
-Received-SPF: pass client-ip=2a01:111:f400:7e88::60b;
+X-MS-Exchange-CrossTenant-userprincipalname: ZdGA6X2XOHcuTEuc/h8mV45EZA7nMJlXJXAvtgY53tMyhxkfPBa1Ot5Cvhr4mtyN1jEKC0p2bbWhJVX3w4tTwA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5819
+Received-SPF: pass client-ip=2a01:111:f400:7eaa::62e;
  envelope-from=fkonrad@xilinx.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -154,157 +154,728 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
------Original Message-----
-From: Edgar E. Iglesias <edgar.iglesias@xilinx.com>=20
-Sent: 06 April 2022 18:43
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org; peter.maydell@linaro.org; richard.henderson@linaro=
-.org; alistair@alistair23.me; luc@lmichel.fr; f4bug@amsat.org; frasse.igles=
-ias@gmail.com; Francisco Eduardo Iglesias <figlesia@xilinx.com>; Sai Pavan =
-Boddu <saipava@xilinx.com>; Frederic Konrad <fkonrad@xilinx.com>; Edgar Igl=
-esias <edgari@xilinx.com>; edgar.iglesias@amd.com
-Subject: [PATCH v1 2/4] hw/arm: versal: Add the Cortex-R5Fs
+> -----Original Message-----
+> From: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Sent: 06 April 2022 18:43
+> To: qemu-devel@nongnu.org
+> Cc: qemu-arm@nongnu.org; peter.maydell@linaro.org;
+> richard.henderson@linaro.org; alistair@alistair23.me; luc@lmichel.fr;
+> f4bug@amsat.org; frasse.iglesias@gmail.com; Francisco Eduardo Iglesias
+> <figlesia@xilinx.com>; Sai Pavan Boddu <saipava@xilinx.com>; Frederic
+> Konrad <fkonrad@xilinx.com>; Edgar Iglesias <edgari@xilinx.com>;
+> edgar.iglesias@amd.com
+> Subject: [PATCH v1 3/4] hw/misc: Add a model of the Xilinx Versal CRL
+>=20
+> From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
+>=20
+> Add a model of the Xilinx Versal CRL.
+>=20
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
+> ---
+>  hw/misc/meson.build               |   1 +
+>  hw/misc/xlnx-versal-crl.c         | 421 ++++++++++++++++++++++++++++++
+>  include/hw/misc/xlnx-versal-crl.h | 235 +++++++++++++++++
+>  3 files changed, 657 insertions(+)
+>  create mode 100644 hw/misc/xlnx-versal-crl.c
+>  create mode 100644 include/hw/misc/xlnx-versal-crl.h
+>=20
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index 6fb69612e0..2ff05c7afa 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -86,6 +86,7 @@ softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true:
+> files('slavio_misc.c'))
+>  softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq_slcr.c'))
+>  specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-
+> zynqmp-crf.c'))
+>  specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-
+> zynqmp-apu-ctrl.c'))
+> +specific_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal-
+> crl.c'))
+>  softmmu_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files(
+>    'xlnx-versal-xramc.c',
+>    'xlnx-versal-pmc-iou-slcr.c',
+> diff --git a/hw/misc/xlnx-versal-crl.c b/hw/misc/xlnx-versal-crl.c
+> new file mode 100644
+> index 0000000000..767106b7a3
+> --- /dev/null
+> +++ b/hw/misc/xlnx-versal-crl.c
+> @@ -0,0 +1,421 @@
+> +/*
+> + * QEMU model of the Clock-Reset-LPD (CRL).
+> + *
+> + * Copyright (c) 2022 Advanced Micro Devices, Inc.
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * Written by Edgar E. Iglesias <edgar.iglesias@amd.com>
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/log.h"
+> +#include "qemu/bitops.h"
+> +#include "migration/vmstate.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/irq.h"
+> +#include "hw/register.h"
+> +#include "hw/resettable.h"
+> +
+> +#include "target/arm/arm-powerctl.h"
+> +#include "hw/misc/xlnx-versal-crl.h"
+> +
+> +#ifndef XLNX_VERSAL_CRL_ERR_DEBUG
+> +#define XLNX_VERSAL_CRL_ERR_DEBUG 0
+> +#endif
+> +
+> +static void crl_update_irq(XlnxVersalCRL *s)
+> +{
+> +    bool pending =3D s->regs[R_IR_STATUS] & ~s->regs[R_IR_MASK];
+> +    qemu_set_irq(s->irq, pending);
+> +}
+> +
+> +static void crl_status_postw(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +    crl_update_irq(s);
+> +}
+> +
+> +static uint64_t crl_enable_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +    uint32_t val =3D val64;
+> +
+> +    s->regs[R_IR_MASK] &=3D ~val;
+> +    crl_update_irq(s);
+> +    return 0;
+> +}
+> +
+> +static uint64_t crl_disable_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +    uint32_t val =3D val64;
+> +
+> +    s->regs[R_IR_MASK] |=3D val;
+> +    crl_update_irq(s);
+> +    return 0;
+> +}
+> +
+> +static void crl_reset_dev(XlnxVersalCRL *s, DeviceState *dev,
+> +                          bool rst_old, bool rst_new)
+> +{
+> +    device_cold_reset(dev);
+> +}
+> +
+> +static void crl_reset_cpu(XlnxVersalCRL *s, ARMCPU *armcpu,
+> +                          bool rst_old, bool rst_new)
+> +{
+> +    if (rst_new) {
+> +        arm_set_cpu_off(armcpu->mp_affinity);
+> +    } else {
+> +        arm_set_cpu_on_and_reset(armcpu->mp_affinity);
+> +    }
+> +}
+> +
+> +#define REGFIELD_RESET(type, s, reg, f, new_val, dev) {     \
+> +    bool old_f =3D ARRAY_FIELD_EX32((s)->regs, reg, f);       \
+> +    bool new_f =3D FIELD_EX32(new_val, reg, f);               \
+> +                                                            \
+> +    /* Detect edges.  */                                    \
+> +    if (dev && old_f !=3D new_f) {                            \
+> +        crl_reset_ ## type(s, dev, old_f, new_f);           \
+> +    }                                                       \
+> +}
+> +
+> +static uint64_t crl_rst_r5_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +
+> +    REGFIELD_RESET(cpu, s, RST_CPU_R5, RESET_CPU0, val64, s-
+> >cfg.cpu_r5[0]);
+> +    REGFIELD_RESET(cpu, s, RST_CPU_R5, RESET_CPU1, val64, s-
+> >cfg.cpu_r5[1]);
+> +    return val64;
+> +}
+> +
+> +static uint64_t crl_rst_adma_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +    int i;
+> +
+> +    /* A single register fans out to all ADMA reset inputs.  */
+> +    for (i =3D 0; i < ARRAY_SIZE(s->cfg.adma); i++) {
+> +        REGFIELD_RESET(dev, s, RST_ADMA, RESET, val64, s->cfg.adma[i]);
+> +    }
+> +    return val64;
+> +}
+> +
+> +static uint64_t crl_rst_uart0_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +
+> +    REGFIELD_RESET(dev, s, RST_UART0, RESET, val64, s->cfg.uart[0]);
+> +    return val64;
+> +}
+> +
+> +static uint64_t crl_rst_uart1_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +
+> +    REGFIELD_RESET(dev, s, RST_UART1, RESET, val64, s->cfg.uart[1]);
+> +    return val64;
+> +}
+> +
+> +static uint64_t crl_rst_gem0_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +
+> +    REGFIELD_RESET(dev, s, RST_GEM0, RESET, val64, s->cfg.gem[0]);
+> +    return val64;
+> +}
+> +
+> +static uint64_t crl_rst_gem1_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +
+> +    REGFIELD_RESET(dev, s, RST_GEM1, RESET, val64, s->cfg.gem[1]);
+> +    return val64;
+> +}
+> +
+> +static uint64_t crl_rst_usb_prew(RegisterInfo *reg, uint64_t val64)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(reg->opaque);
+> +
+> +    REGFIELD_RESET(dev, s, RST_USB0, RESET, val64, s->cfg.usb);
+> +    return val64;
+> +}
+> +
+> +static const RegisterAccessInfo crl_regs_info[] =3D {
+> +    {   .name =3D "ERR_CTRL",  .addr =3D A_ERR_CTRL,
+> +    },{ .name =3D "IR_STATUS",  .addr =3D A_IR_STATUS,
+> +        .w1c =3D 0x1,
+> +        .post_write =3D crl_status_postw,
+> +    },{ .name =3D "IR_MASK",  .addr =3D A_IR_MASK,
+> +        .reset =3D 0x1,
+> +        .ro =3D 0x1,
+> +    },{ .name =3D "IR_ENABLE",  .addr =3D A_IR_ENABLE,
+> +        .pre_write =3D crl_enable_prew,
+> +    },{ .name =3D "IR_DISABLE",  .addr =3D A_IR_DISABLE,
+> +        .pre_write =3D crl_disable_prew,
+> +    },{ .name =3D "WPROT",  .addr =3D A_WPROT,
+> +    },{ .name =3D "PLL_CLK_OTHER_DMN",  .addr =3D A_PLL_CLK_OTHER_DMN,
+> +        .reset =3D 0x1,
+> +        .rsvd =3D 0xe,
+> +    },{ .name =3D "RPLL_CTRL",  .addr =3D A_RPLL_CTRL,
+> +        .reset =3D 0x24809,
+> +        .rsvd =3D 0xf88c00f6,
+> +    },{ .name =3D "RPLL_CFG",  .addr =3D A_RPLL_CFG,
+> +        .reset =3D 0x2000000,
+> +        .rsvd =3D 0x1801210,
+> +    },{ .name =3D "RPLL_FRAC_CFG",  .addr =3D A_RPLL_FRAC_CFG,
+> +        .rsvd =3D 0x7e330000,
+> +    },{ .name =3D "PLL_STATUS",  .addr =3D A_PLL_STATUS,
+> +        .reset =3D R_PLL_STATUS_RPLL_STABLE_MASK |
+> +                 R_PLL_STATUS_RPLL_LOCK_MASK,
+> +        .rsvd =3D 0xfa,
+> +        .ro =3D 0x5,
+> +    },{ .name =3D "RPLL_TO_XPD_CTRL",  .addr =3D A_RPLL_TO_XPD_CTRL,
+> +        .reset =3D 0x2000100,
+> +        .rsvd =3D 0xfdfc00ff,
+> +    },{ .name =3D "LPD_TOP_SWITCH_CTRL",  .addr =3D
+> A_LPD_TOP_SWITCH_CTRL,
+> +        .reset =3D 0x6000300,
+> +        .rsvd =3D 0xf9fc00f8,
+> +    },{ .name =3D "LPD_LSBUS_CTRL",  .addr =3D A_LPD_LSBUS_CTRL,
+> +        .reset =3D 0x2000800,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "CPU_R5_CTRL",  .addr =3D A_CPU_R5_CTRL,
+> +        .reset =3D 0xe000300,
+> +        .rsvd =3D 0xe1fc00f8,
+> +    },{ .name =3D "IOU_SWITCH_CTRL",  .addr =3D A_IOU_SWITCH_CTRL,
+> +        .reset =3D 0x2000500,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "GEM0_REF_CTRL",  .addr =3D A_GEM0_REF_CTRL,
+> +        .reset =3D 0xe000a00,
+> +        .rsvd =3D 0xf1fc00f8,
+> +    },{ .name =3D "GEM1_REF_CTRL",  .addr =3D A_GEM1_REF_CTRL,
+> +        .reset =3D 0xe000a00,
+> +        .rsvd =3D 0xf1fc00f8,
+> +    },{ .name =3D "GEM_TSU_REF_CTRL",  .addr =3D A_GEM_TSU_REF_CTRL,
+> +        .reset =3D 0x300,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "USB0_BUS_REF_CTRL",  .addr =3D A_USB0_BUS_REF_CTRL,
+> +        .reset =3D 0x2001900,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "UART0_REF_CTRL",  .addr =3D A_UART0_REF_CTRL,
+> +        .reset =3D 0xc00,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "UART1_REF_CTRL",  .addr =3D A_UART1_REF_CTRL,
+> +        .reset =3D 0xc00,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "SPI0_REF_CTRL",  .addr =3D A_SPI0_REF_CTRL,
+> +        .reset =3D 0x600,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "SPI1_REF_CTRL",  .addr =3D A_SPI1_REF_CTRL,
+> +        .reset =3D 0x600,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "CAN0_REF_CTRL",  .addr =3D A_CAN0_REF_CTRL,
+> +        .reset =3D 0xc00,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "CAN1_REF_CTRL",  .addr =3D A_CAN1_REF_CTRL,
+> +        .reset =3D 0xc00,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "I2C0_REF_CTRL",  .addr =3D A_I2C0_REF_CTRL,
+> +        .reset =3D 0xc00,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "I2C1_REF_CTRL",  .addr =3D A_I2C1_REF_CTRL,
+> +        .reset =3D 0xc00,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "DBG_LPD_CTRL",  .addr =3D A_DBG_LPD_CTRL,
+> +        .reset =3D 0x300,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "TIMESTAMP_REF_CTRL",  .addr =3D A_TIMESTAMP_REF_CTRL,
+> +        .reset =3D 0x2000c00,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "CRL_SAFETY_CHK",  .addr =3D A_CRL_SAFETY_CHK,
+> +    },{ .name =3D "PSM_REF_CTRL",  .addr =3D A_PSM_REF_CTRL,
+> +        .reset =3D 0xf04,
+> +        .rsvd =3D 0xfffc00f8,
+> +    },{ .name =3D "DBG_TSTMP_CTRL",  .addr =3D A_DBG_TSTMP_CTRL,
+> +        .reset =3D 0x300,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "CPM_TOPSW_REF_CTRL",  .addr =3D
+> A_CPM_TOPSW_REF_CTRL,
+> +        .reset =3D 0x300,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "USB3_DUAL_REF_CTRL",  .addr =3D A_USB3_DUAL_REF_CTRL,
+> +        .reset =3D 0x3c00,
+> +        .rsvd =3D 0xfdfc00f8,
+> +    },{ .name =3D "RST_CPU_R5",  .addr =3D A_RST_CPU_R5,
+> +        .reset =3D 0x17,
+> +        .rsvd =3D 0x8,
+> +        .pre_write =3D crl_rst_r5_prew,
+> +    },{ .name =3D "RST_ADMA",  .addr =3D A_RST_ADMA,
+> +        .reset =3D 0x1,
+> +        .pre_write =3D crl_rst_adma_prew,
+> +    },{ .name =3D "RST_GEM0",  .addr =3D A_RST_GEM0,
+> +        .reset =3D 0x1,
+> +        .pre_write =3D crl_rst_gem0_prew,
+> +    },{ .name =3D "RST_GEM1",  .addr =3D A_RST_GEM1,
+> +        .reset =3D 0x1,
+> +        .pre_write =3D crl_rst_gem1_prew,
+> +    },{ .name =3D "RST_SPARE",  .addr =3D A_RST_SPARE,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_USB0",  .addr =3D A_RST_USB0,
+> +        .reset =3D 0x1,
+> +        .pre_write =3D crl_rst_usb_prew,
+> +    },{ .name =3D "RST_UART0",  .addr =3D A_RST_UART0,
+> +        .reset =3D 0x1,
+> +        .pre_write =3D crl_rst_uart0_prew,
+> +    },{ .name =3D "RST_UART1",  .addr =3D A_RST_UART1,
+> +        .reset =3D 0x1,
+> +        .pre_write =3D crl_rst_uart1_prew,
+> +    },{ .name =3D "RST_SPI0",  .addr =3D A_RST_SPI0,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_SPI1",  .addr =3D A_RST_SPI1,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_CAN0",  .addr =3D A_RST_CAN0,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_CAN1",  .addr =3D A_RST_CAN1,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_I2C0",  .addr =3D A_RST_I2C0,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_I2C1",  .addr =3D A_RST_I2C1,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_DBG_LPD",  .addr =3D A_RST_DBG_LPD,
+> +        .reset =3D 0x33,
+> +        .rsvd =3D 0xcc,
+> +    },{ .name =3D "RST_GPIO",  .addr =3D A_RST_GPIO,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_TTC",  .addr =3D A_RST_TTC,
+> +        .reset =3D 0xf,
+> +    },{ .name =3D "RST_TIMESTAMP",  .addr =3D A_RST_TIMESTAMP,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_SWDT",  .addr =3D A_RST_SWDT,
+> +        .reset =3D 0x1,
+> +    },{ .name =3D "RST_OCM",  .addr =3D A_RST_OCM,
+> +    },{ .name =3D "RST_IPI",  .addr =3D A_RST_IPI,
+> +    },{ .name =3D "RST_FPD",  .addr =3D A_RST_FPD,
+> +        .reset =3D 0x3,
+> +    },{ .name =3D "PSM_RST_MODE",  .addr =3D A_PSM_RST_MODE,
+> +        .reset =3D 0x1,
+> +        .rsvd =3D 0xf8,
+> +    }
+> +};
+> +
+> +static void crl_reset_enter(Object *obj, ResetType type)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(obj);
+> +    unsigned int i;
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(s->regs_info); ++i) {
+> +        register_reset(&s->regs_info[i]);
+> +    }
+> +}
+> +
+> +static void crl_reset_hold(Object *obj)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(obj);
+> +
+> +    crl_update_irq(s);
+> +}
+> +
+> +static const MemoryRegionOps crl_ops =3D {
+> +    .read =3D register_read_memory,
+> +    .write =3D register_write_memory,
+> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> +    .valid =3D {
+> +        .min_access_size =3D 4,
+> +        .max_access_size =3D 4,
+> +    },
+> +};
+> +
+> +static void crl_init(Object *obj)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(obj);
+> +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
+> +    int i;
+> +
+> +    s->reg_array =3D
+> +        register_init_block32(DEVICE(obj), crl_regs_info,
+> +                              ARRAY_SIZE(crl_regs_info),
+> +                              s->regs_info, s->regs,
+> +                              &crl_ops,
+> +                              XLNX_VERSAL_CRL_ERR_DEBUG,
+> +                              CRL_R_MAX * 4);
+> +    sysbus_init_mmio(sbd, &s->reg_array->mem);
+> +    sysbus_init_irq(sbd, &s->irq);
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(s->cfg.cpu_r5); ++i) {
+> +        object_property_add_link(obj, "cpu_r5[*]", TYPE_ARM_CPU,
+> +                                 (Object **)&s->cfg.cpu_r5[i],
+> +                                 qdev_prop_allow_set_link_before_realize=
+,
+> +                                 OBJ_PROP_LINK_STRONG);
+> +    }
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(s->cfg.adma); ++i) {
+> +        object_property_add_link(obj, "adma[*]", TYPE_DEVICE,
+> +                                 (Object **)&s->cfg.adma[i],
+> +                                 qdev_prop_allow_set_link_before_realize=
+,
+> +                                 OBJ_PROP_LINK_STRONG);
+> +    }
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(s->cfg.uart); ++i) {
+> +        object_property_add_link(obj, "uart[*]", TYPE_DEVICE,
+> +                                 (Object **)&s->cfg.uart[i],
+> +                                 qdev_prop_allow_set_link_before_realize=
+,
+> +                                 OBJ_PROP_LINK_STRONG);
+> +    }
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(s->cfg.gem); ++i) {
+> +        object_property_add_link(obj, "gem[*]", TYPE_DEVICE,
+> +                                 (Object **)&s->cfg.gem[i],
+> +                                 qdev_prop_allow_set_link_before_realize=
+,
+> +                                 OBJ_PROP_LINK_STRONG);
+> +    }
+> +
+> +    object_property_add_link(obj, "usb", TYPE_DEVICE,
+> +                             (Object **)&s->cfg.gem[i],
+> +                             qdev_prop_allow_set_link_before_realize,
+> +                             OBJ_PROP_LINK_STRONG);
+> +}
+> +
+> +static void crl_finalize(Object *obj)
+> +{
+> +    XlnxVersalCRL *s =3D XLNX_VERSAL_CRL(obj);
+> +    register_finalize_block(s->reg_array);
+> +}
+> +
+> +static const VMStateDescription vmstate_crl =3D {
+> +    .name =3D TYPE_XLNX_VERSAL_CRL,
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_UINT32_ARRAY(regs, XlnxVersalCRL, CRL_R_MAX),
+> +        VMSTATE_END_OF_LIST(),
+> +    }
+> +};
+> +
+> +static void crl_class_init(ObjectClass *klass, void *data)
+> +{
+> +    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
+> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +
+> +    dc->vmsd =3D &vmstate_crl;
+> +
+> +    rc->phases.enter =3D crl_reset_enter;
+> +    rc->phases.hold =3D crl_reset_hold;
+> +}
+> +
+> +static const TypeInfo crl_info =3D {
+> +    .name          =3D TYPE_XLNX_VERSAL_CRL,
+> +    .parent        =3D TYPE_SYS_BUS_DEVICE,
+> +    .instance_size =3D sizeof(XlnxVersalCRL),
+> +    .class_init    =3D crl_class_init,
+> +    .instance_init =3D crl_init,
+> +    .instance_finalize =3D crl_finalize,
+> +};
+> +
+> +static void crl_register_types(void)
+> +{
+> +    type_register_static(&crl_info);
+> +}
+> +
+> +type_init(crl_register_types)
+> diff --git a/include/hw/misc/xlnx-versal-crl.h b/include/hw/misc/xlnx-ver=
+sal-
+> crl.h
+> new file mode 100644
+> index 0000000000..2857f4169a
+> --- /dev/null
+> +++ b/include/hw/misc/xlnx-versal-crl.h
+> @@ -0,0 +1,235 @@
+> +/*
+> + * QEMU model of the Clock-Reset-LPD (CRL).
+> + *
+> + * Copyright (c) 2022 Xilinx Inc.
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * Written by Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> + */
+> +#ifndef HW_MISC_XLNX_VERSAL_CRL_H
+> +#define HW_MISC_XLNX_VERSAL_CRL_H
+> +
+> +#include "hw/sysbus.h"
+> +#include "hw/register.h"
+> +#include "target/arm/cpu.h"
+> +
+> +#define TYPE_XLNX_VERSAL_CRL "xlnx,versal-crl"
+> +OBJECT_DECLARE_SIMPLE_TYPE(XlnxVersalCRL, XLNX_VERSAL_CRL)
+> +
+> +REG32(ERR_CTRL, 0x0)
+> +    FIELD(ERR_CTRL, SLVERR_ENABLE, 0, 1)
+> +REG32(IR_STATUS, 0x4)
+> +    FIELD(IR_STATUS, ADDR_DECODE_ERR, 0, 1)
+> +REG32(IR_MASK, 0x8)
+> +    FIELD(IR_MASK, ADDR_DECODE_ERR, 0, 1)
+> +REG32(IR_ENABLE, 0xc)
+> +    FIELD(IR_ENABLE, ADDR_DECODE_ERR, 0, 1)
+> +REG32(IR_DISABLE, 0x10)
+> +    FIELD(IR_DISABLE, ADDR_DECODE_ERR, 0, 1)
+> +REG32(WPROT, 0x1c)
+> +    FIELD(WPROT, ACTIVE, 0, 1)
+> +REG32(PLL_CLK_OTHER_DMN, 0x20)
+> +    FIELD(PLL_CLK_OTHER_DMN, APLL_BYPASS, 0, 1)
+> +REG32(RPLL_CTRL, 0x40)
+> +    FIELD(RPLL_CTRL, POST_SRC, 24, 3)
+> +    FIELD(RPLL_CTRL, PRE_SRC, 20, 3)
+> +    FIELD(RPLL_CTRL, CLKOUTDIV, 16, 2)
+> +    FIELD(RPLL_CTRL, FBDIV, 8, 8)
+> +    FIELD(RPLL_CTRL, BYPASS, 3, 1)
+> +    FIELD(RPLL_CTRL, RESET, 0, 1)
+> +REG32(RPLL_CFG, 0x44)
+> +    FIELD(RPLL_CFG, LOCK_DLY, 25, 7)
+> +    FIELD(RPLL_CFG, LOCK_CNT, 13, 10)
+> +    FIELD(RPLL_CFG, LFHF, 10, 2)
+> +    FIELD(RPLL_CFG, CP, 5, 4)
+> +    FIELD(RPLL_CFG, RES, 0, 4)
+> +REG32(RPLL_FRAC_CFG, 0x48)
+> +    FIELD(RPLL_FRAC_CFG, ENABLED, 31, 1)
+> +    FIELD(RPLL_FRAC_CFG, SEED, 22, 3)
+> +    FIELD(RPLL_FRAC_CFG, ALGRTHM, 19, 1)
+> +    FIELD(RPLL_FRAC_CFG, ORDER, 18, 1)
+> +    FIELD(RPLL_FRAC_CFG, DATA, 0, 16)
+> +REG32(PLL_STATUS, 0x50)
+> +    FIELD(PLL_STATUS, RPLL_STABLE, 2, 1)
+> +    FIELD(PLL_STATUS, RPLL_LOCK, 0, 1)
+> +REG32(RPLL_TO_XPD_CTRL, 0x100)
+> +    FIELD(RPLL_TO_XPD_CTRL, CLKACT, 25, 1)
+> +    FIELD(RPLL_TO_XPD_CTRL, DIVISOR0, 8, 10)
+> +REG32(LPD_TOP_SWITCH_CTRL, 0x104)
+> +    FIELD(LPD_TOP_SWITCH_CTRL, CLKACT_ADMA, 26, 1)
+> +    FIELD(LPD_TOP_SWITCH_CTRL, CLKACT, 25, 1)
+> +    FIELD(LPD_TOP_SWITCH_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(LPD_TOP_SWITCH_CTRL, SRCSEL, 0, 3)
+> +REG32(LPD_LSBUS_CTRL, 0x108)
+> +    FIELD(LPD_LSBUS_CTRL, CLKACT, 25, 1)
+> +    FIELD(LPD_LSBUS_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(LPD_LSBUS_CTRL, SRCSEL, 0, 3)
+> +REG32(CPU_R5_CTRL, 0x10c)
+> +    FIELD(CPU_R5_CTRL, CLKACT_OCM2, 28, 1)
+> +    FIELD(CPU_R5_CTRL, CLKACT_OCM, 27, 1)
+> +    FIELD(CPU_R5_CTRL, CLKACT_CORE, 26, 1)
+> +    FIELD(CPU_R5_CTRL, CLKACT, 25, 1)
+> +    FIELD(CPU_R5_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(CPU_R5_CTRL, SRCSEL, 0, 3)
+> +REG32(IOU_SWITCH_CTRL, 0x114)
+> +    FIELD(IOU_SWITCH_CTRL, CLKACT, 25, 1)
+> +    FIELD(IOU_SWITCH_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(IOU_SWITCH_CTRL, SRCSEL, 0, 3)
+> +REG32(GEM0_REF_CTRL, 0x118)
+> +    FIELD(GEM0_REF_CTRL, CLKACT_RX, 27, 1)
+> +    FIELD(GEM0_REF_CTRL, CLKACT_TX, 26, 1)
+> +    FIELD(GEM0_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(GEM0_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(GEM0_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(GEM1_REF_CTRL, 0x11c)
+> +    FIELD(GEM1_REF_CTRL, CLKACT_RX, 27, 1)
+> +    FIELD(GEM1_REF_CTRL, CLKACT_TX, 26, 1)
+> +    FIELD(GEM1_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(GEM1_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(GEM1_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(GEM_TSU_REF_CTRL, 0x120)
+> +    FIELD(GEM_TSU_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(GEM_TSU_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(GEM_TSU_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(USB0_BUS_REF_CTRL, 0x124)
+> +    FIELD(USB0_BUS_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(USB0_BUS_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(USB0_BUS_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(UART0_REF_CTRL, 0x128)
+> +    FIELD(UART0_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(UART0_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(UART0_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(UART1_REF_CTRL, 0x12c)
+> +    FIELD(UART1_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(UART1_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(UART1_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(SPI0_REF_CTRL, 0x130)
+> +    FIELD(SPI0_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(SPI0_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(SPI0_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(SPI1_REF_CTRL, 0x134)
+> +    FIELD(SPI1_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(SPI1_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(SPI1_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(CAN0_REF_CTRL, 0x138)
+> +    FIELD(CAN0_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(CAN0_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(CAN0_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(CAN1_REF_CTRL, 0x13c)
+> +    FIELD(CAN1_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(CAN1_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(CAN1_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(I2C0_REF_CTRL, 0x140)
+> +    FIELD(I2C0_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(I2C0_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(I2C0_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(I2C1_REF_CTRL, 0x144)
+> +    FIELD(I2C1_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(I2C1_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(I2C1_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(DBG_LPD_CTRL, 0x148)
+> +    FIELD(DBG_LPD_CTRL, CLKACT, 25, 1)
+> +    FIELD(DBG_LPD_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(DBG_LPD_CTRL, SRCSEL, 0, 3)
+> +REG32(TIMESTAMP_REF_CTRL, 0x14c)
+> +    FIELD(TIMESTAMP_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(TIMESTAMP_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(TIMESTAMP_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(CRL_SAFETY_CHK, 0x150)
+> +REG32(PSM_REF_CTRL, 0x154)
+> +    FIELD(PSM_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(PSM_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(DBG_TSTMP_CTRL, 0x158)
+> +    FIELD(DBG_TSTMP_CTRL, CLKACT, 25, 1)
+> +    FIELD(DBG_TSTMP_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(DBG_TSTMP_CTRL, SRCSEL, 0, 3)
+> +REG32(CPM_TOPSW_REF_CTRL, 0x15c)
+> +    FIELD(CPM_TOPSW_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(CPM_TOPSW_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(CPM_TOPSW_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(USB3_DUAL_REF_CTRL, 0x160)
+> +    FIELD(USB3_DUAL_REF_CTRL, CLKACT, 25, 1)
+> +    FIELD(USB3_DUAL_REF_CTRL, DIVISOR0, 8, 10)
+> +    FIELD(USB3_DUAL_REF_CTRL, SRCSEL, 0, 3)
+> +REG32(RST_CPU_R5, 0x300)
+> +    FIELD(RST_CPU_R5, RESET_PGE, 4, 1)
+> +    FIELD(RST_CPU_R5, RESET_AMBA, 2, 1)
+> +    FIELD(RST_CPU_R5, RESET_CPU1, 1, 1)
+> +    FIELD(RST_CPU_R5, RESET_CPU0, 0, 1)
+> +REG32(RST_ADMA, 0x304)
+> +    FIELD(RST_ADMA, RESET, 0, 1)
+> +REG32(RST_GEM0, 0x308)
+> +    FIELD(RST_GEM0, RESET, 0, 1)
+> +REG32(RST_GEM1, 0x30c)
+> +    FIELD(RST_GEM1, RESET, 0, 1)
+> +REG32(RST_SPARE, 0x310)
+> +    FIELD(RST_SPARE, RESET, 0, 1)
+> +REG32(RST_USB0, 0x314)
+> +    FIELD(RST_USB0, RESET, 0, 1)
+> +REG32(RST_UART0, 0x318)
+> +    FIELD(RST_UART0, RESET, 0, 1)
+> +REG32(RST_UART1, 0x31c)
+> +    FIELD(RST_UART1, RESET, 0, 1)
+> +REG32(RST_SPI0, 0x320)
+> +    FIELD(RST_SPI0, RESET, 0, 1)
+> +REG32(RST_SPI1, 0x324)
+> +    FIELD(RST_SPI1, RESET, 0, 1)
+> +REG32(RST_CAN0, 0x328)
+> +    FIELD(RST_CAN0, RESET, 0, 1)
+> +REG32(RST_CAN1, 0x32c)
+> +    FIELD(RST_CAN1, RESET, 0, 1)
+> +REG32(RST_I2C0, 0x330)
+> +    FIELD(RST_I2C0, RESET, 0, 1)
+> +REG32(RST_I2C1, 0x334)
+> +    FIELD(RST_I2C1, RESET, 0, 1)
+> +REG32(RST_DBG_LPD, 0x338)
+> +    FIELD(RST_DBG_LPD, RPU_DBG1_RESET, 5, 1)
+> +    FIELD(RST_DBG_LPD, RPU_DBG0_RESET, 4, 1)
+> +    FIELD(RST_DBG_LPD, RESET_HSDP, 1, 1)
+> +    FIELD(RST_DBG_LPD, RESET, 0, 1)
+> +REG32(RST_GPIO, 0x33c)
+> +    FIELD(RST_GPIO, RESET, 0, 1)
+> +REG32(RST_TTC, 0x344)
+> +    FIELD(RST_TTC, TTC3_RESET, 3, 1)
+> +    FIELD(RST_TTC, TTC2_RESET, 2, 1)
+> +    FIELD(RST_TTC, TTC1_RESET, 1, 1)
+> +    FIELD(RST_TTC, TTC0_RESET, 0, 1)
+> +REG32(RST_TIMESTAMP, 0x348)
+> +    FIELD(RST_TIMESTAMP, RESET, 0, 1)
+> +REG32(RST_SWDT, 0x34c)
+> +    FIELD(RST_SWDT, RESET, 0, 1)
+> +REG32(RST_OCM, 0x350)
+> +    FIELD(RST_OCM, RESET, 0, 1)
+> +REG32(RST_IPI, 0x354)
+> +    FIELD(RST_IPI, RESET, 0, 1)
+> +REG32(RST_SYSMON, 0x358)
+> +    FIELD(RST_SYSMON, SEQ_RST, 1, 1)
+> +    FIELD(RST_SYSMON, CFG_RST, 0, 1)
+> +REG32(RST_FPD, 0x360)
+> +    FIELD(RST_FPD, SRST, 1, 1)
+> +    FIELD(RST_FPD, POR, 0, 1)
+> +REG32(PSM_RST_MODE, 0x370)
+> +    FIELD(PSM_RST_MODE, WAKEUP, 2, 1)
+> +    FIELD(PSM_RST_MODE, RST_MODE, 0, 2)
+> +
+> +#define CRL_R_MAX (R_PSM_RST_MODE + 1)
+> +
+> +#define RPU_MAX_CPU 2
+> +
+> +struct XlnxVersalCRL {
+> +    SysBusDevice parent_obj;
+> +    qemu_irq irq;
+> +
+> +    struct {
+> +        ARMCPU *cpu_r5[RPU_MAX_CPU];
+> +        DeviceState *adma[8];
+> +        DeviceState *uart[2];
+> +        DeviceState *gem[2];
+> +        DeviceState *usb;
+> +    } cfg;
+> +
+> +    RegisterInfoArray *reg_array;
+> +    uint32_t regs[CRL_R_MAX];
+> +    RegisterInfo regs_info[CRL_R_MAX];
+> +};
+> +#endif
+> --
+> 2.25.1
 
-From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
-
-Add the Cortex-R5Fs of the Versal RPU (Real-time Processing Unit) subsystem=
-.
-
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
----
- hw/arm/xlnx-versal-virt.c    |  6 +++---
- hw/arm/xlnx-versal.c         | 36 ++++++++++++++++++++++++++++++++++++
- include/hw/arm/xlnx-versal.h | 10 ++++++++++
- 3 files changed, 49 insertions(+), 3 deletions(-)
-
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c index 7c=
-7baff8b7..66a2de7e13 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -721,9 +721,9 @@ static void versal_virt_machine_class_init(ObjectClass =
-*oc, void *data)
-=20
-     mc->desc =3D "Xilinx Versal Virtual development board";
-     mc->init =3D versal_virt_init;
--    mc->min_cpus =3D XLNX_VERSAL_NR_ACPUS;
--    mc->max_cpus =3D XLNX_VERSAL_NR_ACPUS;
--    mc->default_cpus =3D XLNX_VERSAL_NR_ACPUS;
-+    mc->min_cpus =3D XLNX_VERSAL_NR_ACPUS + XLNX_VERSAL_NR_RCPUS;
-+    mc->max_cpus =3D XLNX_VERSAL_NR_ACPUS + XLNX_VERSAL_NR_RCPUS;
-+    mc->default_cpus =3D XLNX_VERSAL_NR_ACPUS + XLNX_VERSAL_NR_RCPUS;
-     mc->no_cdrom =3D true;
-     mc->default_ram_id =3D "ddr";
- }
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c index 4415ee413f..=
-ebad8dbb6d 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -25,6 +25,7 @@
- #include "hw/sysbus.h"
-=20
- #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
-+#define XLNX_VERSAL_RCPU_TYPE ARM_CPU_TYPE_NAME("cortex-r5f")
- #define GEM_REVISION        0x40070106
-=20
- #define VERSAL_NUM_PMC_APB_IRQS 3
-@@ -130,6 +131,35 @@ static void versal_create_apu_gic(Versal *s, qemu_irq =
-*pic)
-     }
- }
-=20
-+static void versal_create_rpu_cpus(Versal *s) {
-+    int i;
-+
-+    object_initialize_child(OBJECT(s), "rpu-cluster", &s->lpd.rpu.cluster,
-+                            TYPE_CPU_CLUSTER);
-+    qdev_prop_set_uint32(DEVICE(&s->lpd.rpu.cluster), "cluster-id", 1);
-+
-+    for (i =3D 0; i < ARRAY_SIZE(s->lpd.rpu.cpu); i++) {
-+        Object *obj;
-+
-+        object_initialize_child(OBJECT(&s->lpd.rpu.cluster),
-+                                "rpu-cpu[*]", &s->lpd.rpu.cpu[i],
-+                                XLNX_VERSAL_RCPU_TYPE);
-+        obj =3D OBJECT(&s->lpd.rpu.cpu[i]);
-+        object_property_set_bool(obj, "start-powered-off", true,
-+                                 &error_abort);
-+
-+        object_property_set_int(obj, "mp-affinity", 0x100 | i, &error_abor=
-t);
-+        object_property_set_int(obj, "core-count", ARRAY_SIZE(s->lpd.rpu.c=
-pu),
-+                                &error_abort);
-+        object_property_set_link(obj, "memory", OBJECT(&s->lpd.rpu.mr),
-+                                 &error_abort);
-+        qdev_realize(DEVICE(obj), NULL, &error_fatal);
-+    }
-+
-+    qdev_realize(DEVICE(&s->lpd.rpu.cluster), NULL, &error_fatal); }
-+
- static void versal_create_uarts(Versal *s, qemu_irq *pic)  {
-     int i;
-@@ -638,6 +668,7 @@ static void versal_realize(DeviceState *dev, Error **er=
-rp)
-=20
-     versal_create_apu_cpus(s);
-     versal_create_apu_gic(s, pic);
-+    versal_create_rpu_cpus(s);
-     versal_create_uarts(s, pic);
-     versal_create_usbs(s, pic);
-     versal_create_gems(s, pic);
-@@ -659,6 +690,8 @@ static void versal_realize(DeviceState *dev, Error **er=
-rp)
-=20
-     memory_region_add_subregion_overlap(&s->mr_ps, MM_OCM, &s->lpd.mr_ocm,=
- 0);
-     memory_region_add_subregion_overlap(&s->fpd.apu.mr, 0, &s->mr_ps, 0);
-+    memory_region_add_subregion_overlap(&s->lpd.rpu.mr, 0,
-+                                        &s->lpd.rpu.mr_ps_alias, 0);
- }
-=20
- static void versal_init(Object *obj)
-@@ -666,7 +699,10 @@ static void versal_init(Object *obj)
-     Versal *s =3D XLNX_VERSAL(obj);
-=20
-     memory_region_init(&s->fpd.apu.mr, obj, "mr-apu", UINT64_MAX);
-+    memory_region_init(&s->lpd.rpu.mr, obj, "mr-rpu", UINT64_MAX);
-     memory_region_init(&s->mr_ps, obj, "mr-ps-switch", UINT64_MAX);
-+    memory_region_init_alias(&s->lpd.rpu.mr_ps_alias, OBJECT(s),
-+                             "mr-rpu-ps-alias", &s->mr_ps, 0,=20
-+ UINT64_MAX);
- }
-=20
- static Property versal_properties[] =3D { diff --git a/include/hw/arm/xlnx=
--versal.h b/include/hw/arm/xlnx-versal.h index d2d3028e18..155e8c4b8c 10064=
-4
---- a/include/hw/arm/xlnx-versal.h
-+++ b/include/hw/arm/xlnx-versal.h
-@@ -35,6 +35,7 @@
- OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
-=20
- #define XLNX_VERSAL_NR_ACPUS   2
-+#define XLNX_VERSAL_NR_RCPUS   2
- #define XLNX_VERSAL_NR_UARTS   2
- #define XLNX_VERSAL_NR_GEMS    2
- #define XLNX_VERSAL_NR_ADMAS   8
-@@ -73,6 +74,15 @@ struct Versal {
-             VersalUsb2 usb;
-         } iou;
-=20
-+        /* Real-time Processing Unit.  */
-+        struct {
-+            MemoryRegion mr;
-+            MemoryRegion mr_ps_alias;
-+
-+            CPUClusterState cluster;
-+            ARMCPU cpu[XLNX_VERSAL_NR_RCPUS];
-+        } rpu;
-+
-         struct {
-             qemu_or_irq irq_orgate;
-             XlnxXramCtrl ctrl[XLNX_VERSAL_NR_XRAM];
---
-2.25.1
-
+Looks ok to me:
 Reviewed-by: Frederic Konrad <fkonrad@amd.com>
 
