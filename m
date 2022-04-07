@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853384F7C36
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 11:56:45 +0200 (CEST)
-Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067CC4F7C5D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 12:07:06 +0200 (CEST)
+Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncOse-00029J-4B
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 05:56:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33966)
+	id 1ncP2e-0005mR-KL
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 06:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ncOpN-0007Yg-1T
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 05:53:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ncOpJ-0003YP-MC
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 05:53:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649325197;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wQ6i1gh5L1tSoVPzY24MEa0A2/yfj3Sn0gX9Dxyu0kE=;
- b=B5CJEpnhlcNmXx82okpEBeq/DeKbEIJ6uXv0GRjYgW8ET478Bgu3K7JNb5dY0lBEkLQT/2
- 13UY/8EHxUqccYlXjL4x+tpVSfieN0/jqu6vzB4QNKXSQ+87b9KXOwFySRpqrBnsoBWbMp
- bzCcif5nz64p/FPxhxSgiFeXWJA9hKM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-159-judsNxWEMIClsffcWleqew-1; Thu, 07 Apr 2022 05:53:16 -0400
-X-MC-Unique: judsNxWEMIClsffcWleqew-1
-Received: by mail-wm1-f71.google.com with SMTP id
- a16-20020a05600c349000b0038e6392a346so2733093wmq.4
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 02:53:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ncOzG-0004sk-4K
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 06:03:34 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:34139)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ncOzA-0005WS-PF
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 06:03:33 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-2db2add4516so56106147b3.1
+ for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 03:03:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=d24atL9hj9V0U5q9epBivFWuqvOpJzUdZLF2FPrxjGM=;
+ b=vct3iid4d3D3vRdhD1toskpk1LuxOLU0eIZIJU1w4eVIXFkZAdDfk7S3FeW8zuHRqT
+ X5pcjZJo3ybwKIoqTOiOie4ok5//6I1aOxgr7WkrOdp3GFPcYkort2sHB1tkh9/A/nHU
+ o/cSFOJQcfoCnMDlvxE/KOofCDlDyaTMVRxS9wNsCRw52gX6LvgQCszA4z1q7dVbTQhB
+ 1OY5gMY+vedsW+cotzBFw3Yr9EOUq+Nva4+aK9DkOzHBWSWXYRoj/NYEWkYsWSmhr+a9
+ YEuB3RJNPpkTuj77pirzVPqNaxiAEM3OasbLWYV0QBoPNtVxfAN/F7/sUA0mkgKKikaR
+ AGMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wQ6i1gh5L1tSoVPzY24MEa0A2/yfj3Sn0gX9Dxyu0kE=;
- b=mOqQj0VJk7mLbLvGvU4sbIECuUL9sZwTC6Alqrpu7boxBJopOyYrXqapYfYv4+f548
- Fto+f83efeynBwKLfpr6u88kV+kgzBKRtS9SExIW7yj4rstOj0R1Hy8Qmof26Udfoz87
- ftNC6Jx9I5/ocDgXWu02BAlP72yCuUx40UbMMUwxGdhDrPEw9Q+E4cTxz0mEjkiRpbWs
- cLVTt0yeb/TIPuD7Lgnn3xNQxKiMJgpeIx24M4BjewCWCqACX7Bum4vgibP5OQXX+pm6
- 4CGrV9G/8pH035MT2CTWNFitGNp8IQrP8zqXEBKOFVa/UD03UgyP8N7K/jUfpMiwKXAu
- 9F6A==
-X-Gm-Message-State: AOAM530FvnDq6uLaNiecmH/FBtCYzAQ5dVcjnA03G6yNJmU2QA01zkPV
- ZbXKfQFpq43zbuHyquXyrzb2neTSQWul2tqrDEUxU/hzlXD0Xvmh9KNddrQEwwWtRi0pD1j8qaa
- A5yFBohroTZsH39w=
-X-Received: by 2002:a05:6000:2c9:b0:204:1cdb:8f8d with SMTP id
- o9-20020a05600002c900b002041cdb8f8dmr10576176wry.49.1649325194564; 
- Thu, 07 Apr 2022 02:53:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHxT6KKxOEHxZv4rBsjm6xdSzw0mGiX1Nyv50jpwZl3fnCs9ZJgPvqfQa0YbiquPxHY/F3QQ==
-X-Received: by 2002:a05:6000:2c9:b0:204:1cdb:8f8d with SMTP id
- o9-20020a05600002c900b002041cdb8f8dmr10576162wry.49.1649325194372; 
- Thu, 07 Apr 2022 02:53:14 -0700 (PDT)
-Received: from redhat.com ([2.55.139.64]) by smtp.gmail.com with ESMTPSA id
- e37-20020a5d5965000000b0020610e2631esm10532744wri.107.2022.04.07.02.53.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 02:53:13 -0700 (PDT)
-Date: Thu, 7 Apr 2022 05:53:11 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/3] virtio,pc: bugfixes
-Message-ID: <20220407055201-mutt-send-email-mst@kernel.org>
-References: <20220406211137.38840-1-mst@redhat.com>
- <CAFEAcA8ndeUiV_pph78H-LoSFWJ7DzvzXnLr-uQBD0D-V9PJQA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=d24atL9hj9V0U5q9epBivFWuqvOpJzUdZLF2FPrxjGM=;
+ b=tHk7OuJl8zjDe0Y75NkH3rw3PmIpV4/9qz99jTwuCTcU8eWoz0XL7WRlMzn3Q0sEEJ
+ L9NpXxfPB52+2azd8TPbWBIy6KzZepCXGSQEFWGytU/WbJjY0GAbP5DyzEK1bLmiGU7Q
+ B6IHhTFtUGg/qpc1SgI6ZeN3G7a86LanS5mnG+QBPvhKmnc4p4J81wiYjGMpXuq/ZOMc
+ 35C9etmx1kPJSwcPlwsIYNw89ZZJ6NBTuzgGnLTbN8lxr5mRGVw9SRGOqjSdVGAg5gFW
+ oc1iTwQgS2mmFZWVib5bkf8IHh6YxJ5n9zkt+a790dAMqX6z27SWLoY/yzPfdvHnYDKR
+ DBmg==
+X-Gm-Message-State: AOAM531MLaaq6pngQrfUkW1tSDiaf/jfUG/JhWjTF3TNwWxAKT5tz6No
+ 10nhEPGNmBjh/zee2SW6Dc4WEM8Zb5aFsE/dDCjb/Q==
+X-Google-Smtp-Source: ABdhPJx+hSTSr5YrBOgqDOaQAHmlrAcVcrt722YgZDFy+gvnhrabshEOX3cRuWgzeXW667V8NNlgYgvICajsYvrJvGA=
+X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
+ g3-20020a0df603000000b002d157e50234mr11211639ywf.469.1649325807813; Thu, 07
+ Apr 2022 03:03:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8ndeUiV_pph78H-LoSFWJ7DzvzXnLr-uQBD0D-V9PJQA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220407095047.50371-1-mst@redhat.com>
+In-Reply-To: <20220407095047.50371-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 Apr 2022 11:03:16 +0100
+Message-ID: <CAFEAcA8upf6nA8dUPeAyY_Q-F_oscqZonPGCKT2OUZORcX4FuQ@mail.gmail.com>
+Subject: Re: [PATCH for-7.0] virtio-iommu: use-after-free fix
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,44 +78,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Eric Auger <eric.auger@redhat.com>, qemu-devel@nongnu.org,
+ Wentao Liang <Wentao_Liang_g@163.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 07, 2022 at 10:18:24AM +0100, Peter Maydell wrote:
-> On Wed, 6 Apr 2022 at 22:11, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > The following changes since commit 128e050d41794e61e5849c6c507160da5556ea61:
-> >
-> >   hw/acpi/microvm: turn on 8042 bit in FADT boot architecture flags if present (2022-03-07 17:43:14 -0500)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to f556b9a0cd20d41493afd403fb7f016c8fb01eb3:
-> >
-> >   virtio-iommu: use-after-free fix (2022-04-06 17:11:03 -0400)
-> >
-> > ----------------------------------------------------------------
-> > virtio,pc: bugfixes
-> >
-> > Several fixes all over the place
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> RC3 has gone. We're not taking any more changes unless they
-> are absolutely release-critical, which means that you need
-> to be clearly describing in the pull request cover letter
-> what the changes are and why they are release critical.
-> 
-> thanks
-> -- PMM
+On Thu, 7 Apr 2022 at 10:52, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> From: Wentao Liang <Wentao_Liang_g@163.com>
+>
+> A potential Use-after-free was reported in virtio_iommu_handle_command
+> when using virtio-iommu:
+>
+> > I find a potential Use-after-free in QEMU 6.2.0, which is in
+> > virtio_iommu_handle_command() (./hw/virtio/virtio-iommu.c).
 
-You know, after looking at it critically ;) I just sent the release critical
-patch on list. Feel free to pick it up.
+So, this isn't a regression. Do you think it's critically necessary
+it goes in 7.0, or is it in the category "put it into 7.0 if we
+need an rc4 for some other reason anyway" ?
 
--- 
-MST
+(I have a feeling we'll need an rc4, but we'll see.)
 
+thanks
+-- PMM
 
