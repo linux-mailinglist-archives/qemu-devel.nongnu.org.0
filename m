@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DD54F85E0
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 19:23:03 +0200 (CEST)
-Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660404F8689
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Apr 2022 19:49:02 +0200 (CEST)
+Received: from localhost ([::1]:37164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncVqX-0008Dd-Ta
-	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 13:23:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47602)
+	id 1ncWFg-00068c-Vx
+	for lists+qemu-devel@lfdr.de; Thu, 07 Apr 2022 13:49:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ncVpa-0007AU-0R
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 13:22:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41808)
+ id 1ncW9A-0004K4-Rr
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 13:42:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ncVpW-0006Dz-KN
- for qemu-devel@nongnu.org; Thu, 07 Apr 2022 13:22:00 -0400
+ id 1ncW98-0001CK-9E
+ for qemu-devel@nongnu.org; Thu, 07 Apr 2022 13:42:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649352117;
+ s=mimecast20190719; t=1649353332;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RN5ucvGgYYdk2QpsDqo0GMWSNeI/d4ngCM/9jv+pU5I=;
- b=Rylf21BCvd+udtj/gmPfsL0dT/BFqW/6YCOa0R/78hlfmWt8l0ur60MF62DtWg02zCYM4F
- +sldQ7ADkgVjvyp7GEWZPKT7Tahe7JoLkUBYB8u4TWNsX9K9+4vBgIKmSvvoIk823Co9j4
- 4TzfCPpLfpL88xuFBWchwUjDUkGy+4k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ty7HDKA7rZxCyje4rbZmlhSrzA+S+a3Gh5xZDz2jVTQ=;
+ b=HBB2Ow6NUiYWR4fUDJQpcz0BJzUM442SaBZUMQcyUSYbKzvTGOVU9DEutwl+vWhclnq6m8
+ hyMp4yt9VMgM/Aw4i2DquBJ7vYE6BFDgWqHYB4KB4/Omxe+77Iawgy7BDzFYfi+WEeJFIl
+ aAATj1sYcGRgWK+KXj+I8Y7u7KkG/aU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-352-IJj1VnpUNcCanBxC67aJ-g-1; Thu, 07 Apr 2022 13:21:56 -0400
-X-MC-Unique: IJj1VnpUNcCanBxC67aJ-g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p32-20020a05600c1da000b0038e9e6359dbso49615wms.9
- for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 10:21:56 -0700 (PDT)
+ us-mta-590-78BS48iHOwKfcb8w0QtPwQ-1; Thu, 07 Apr 2022 13:42:11 -0400
+X-MC-Unique: 78BS48iHOwKfcb8w0QtPwQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ l22-20020adfa396000000b0020612097035so1499808wrb.8
+ for <qemu-devel@nongnu.org>; Thu, 07 Apr 2022 10:42:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=RN5ucvGgYYdk2QpsDqo0GMWSNeI/d4ngCM/9jv+pU5I=;
- b=GhKUc1FvcS72a80XikW6zsbKo/59JQ7SvTaTMdoB3pwrUwAYI3RXRisng/V6eU0m9o
- 38+53GRZ0ofckNiBe5L8nkq2piOS5T7d0coM9QJKc8GEGMt3ej02x415YIay2EJUR3QW
- LbjGLHPJqw6sFcQlUf4giCvqF1qepeRKY7rTif4rpVxqt9xb7vAZTaXWMEdkNHDwy/Ry
- D/hDhkQOW1+iwiw97FiKXJY9+VSksmQs2hdzd5GYW+K+ajaOPLrJmXNyLCjI41Co3sdu
- U45N4nlb42FmksLI8fMvnlPUkHLHTisA9AyfORFiHZiHMT3bY9NUsvaJnxtpejlh/F73
- wLJw==
-X-Gm-Message-State: AOAM530H8BoYV1pIUUh/r2+OoPF1sDAO1KvAQFteKWPdc2W/DiIDen7Z
- xlzq/KEker1HFma8cZCMeuzSbdcvLL1JxDN8iVfm7aweSUwycDvTn0NQX2VKuffB/HzJXBXLt/d
- 4T1O92ktTvL4FZs8=
-X-Received: by 2002:adf:9090:0:b0:206:e6a:2d1 with SMTP id
- i16-20020adf9090000000b002060e6a02d1mr11785390wri.618.1649352115159; 
- Thu, 07 Apr 2022 10:21:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJygBgxh+MAXTlObbmCEUEKpYJ00B+KX7mzEX3T7Y3Vrlveup+3rXSs2UO3Vcr7vBL5Ulzxm+g==
-X-Received: by 2002:adf:9090:0:b0:206:e6a:2d1 with SMTP id
- i16-20020adf9090000000b002060e6a02d1mr11785374wri.618.1649352114881; 
- Thu, 07 Apr 2022 10:21:54 -0700 (PDT)
+ bh=ty7HDKA7rZxCyje4rbZmlhSrzA+S+a3Gh5xZDz2jVTQ=;
+ b=xK7HaTB1GjcMS8MN3E+0/yUPJmurlCbPtaBkuhzmiqw1bLkt56NNscjgB67kLqVURm
+ 9zWZoJPvIZqZ1BUqhoaXHxkkb2p4nWYDi7ZepSwdXyIwR9Hn3yRlWQeF/lIsKmWJby0R
+ QzP6zVNcEqiSBTeKhpGdnB3HWGixJQQmRdGXWzz4rJ3vjQDDpivgOKYwZgqV2OwqVUl/
+ S2TkrlVx4LIkAFkIh1faCKYWtDHgrIwYEGVmkRXJ6akOsLR7IEzGeV9zZ9QzG5SDjVaN
+ gFnF3sYTldxCUzoGt3nbiRBVTrieRfwBUUFSCGcmirZGDU5z3H1bHiw1a9C/1+efRHb3
+ iZ9A==
+X-Gm-Message-State: AOAM533pgRiFT/UH32/Q2hULP0szydri03VGzx5/vZsfeuKIwDhaPczM
+ adeJzv94Aq/1ajR0LMURpXSaTXKrTDDV4Mz7wm8nDE3qIu89RJ0A9XfKYTITOcdPaLuLg4F8mqH
+ Tcv6LusBxSN66ZKk=
+X-Received: by 2002:a1c:2904:0:b0:37b:ea53:4cbf with SMTP id
+ p4-20020a1c2904000000b0037bea534cbfmr13379089wmp.46.1649353330660; 
+ Thu, 07 Apr 2022 10:42:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyQEehup50D+i6QSTrvFkeUJn+Wgddf9hMz5ivpIw5h19S3V7dWJKx/LpV6xpBITIMf2bq+Q==
+X-Received: by 2002:a1c:2904:0:b0:37b:ea53:4cbf with SMTP id
+ p4-20020a1c2904000000b0037bea534cbfmr13379068wmp.46.1649353330458; 
+ Thu, 07 Apr 2022 10:42:10 -0700 (PDT)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- v18-20020a5d5912000000b00205a7d0c6a3sm17063830wrd.69.2022.04.07.10.21.53
+ h133-20020a1c218b000000b0038e7c143e78sm8564302wmh.45.2022.04.07.10.42.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 10:21:54 -0700 (PDT)
-Date: Thu, 7 Apr 2022 18:21:52 +0100
+ Thu, 07 Apr 2022 10:42:09 -0700 (PDT)
+Date: Thu, 7 Apr 2022 18:42:08 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v4 01/19] migration: Postpone releasing
- MigrationState.hostname
-Message-ID: <Yk8dsMwa2YoEO7kN@work-vm>
+Subject: Re: [PATCH v4 02/19] migration: Drop multifd tls_hostname cache
+Message-ID: <Yk8icGbxDXpIBydA@work-vm>
 References: <20220331150857.74406-1-peterx@redhat.com>
- <20220331150857.74406-2-peterx@redhat.com>
+ <20220331150857.74406-3-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220331150857.74406-2-peterx@redhat.com>
+In-Reply-To: <20220331150857.74406-3-peterx@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -108,52 +107,91 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Peter Xu (peterx@redhat.com) wrote:
-> We used to release it right after migrate_fd_connect().  That's not good
-> enough when there're more than one socket pair required, because it'll be
-> needed to establish TLS connection for the rest channels.
+> The hostname is cached N times, N equals to the multifd channels.
 > 
-> One example is multifd, where we copied over the hostname for each channel
-> but that's actually not needed.
+> Drop that cache because after previous patch we've got s->hostname
+> being alive for the whole lifecycle of migration procedure.
 > 
-> Keeping the hostname until the cleanup phase of migration.
-> 
+> Cc: Juan Quintela <quintela@redhat.com>
 > Cc: Daniel P. Berrange <berrange@redhat.com>
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 > ---
->  migration/channel.c   | 1 -
->  migration/migration.c | 5 +++++
->  2 files changed, 5 insertions(+), 1 deletion(-)
+>  migration/multifd.c | 10 +++-------
+>  migration/multifd.h |  2 --
+>  2 files changed, 3 insertions(+), 9 deletions(-)
 > 
-> diff --git a/migration/channel.c b/migration/channel.c
-> index c4fc000a1a..c6a8dcf1d7 100644
-> --- a/migration/channel.c
-> +++ b/migration/channel.c
-> @@ -96,6 +96,5 @@ void migration_channel_connect(MigrationState *s,
->          }
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 76b57a7177..1be4ab5d17 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -542,8 +542,6 @@ void multifd_save_cleanup(void)
+>          qemu_sem_destroy(&p->sem_sync);
+>          g_free(p->name);
+>          p->name = NULL;
+> -        g_free(p->tls_hostname);
+> -        p->tls_hostname = NULL;
+>          multifd_pages_clear(p->pages);
+>          p->pages = NULL;
+>          p->packet_len = 0;
+> @@ -763,7 +761,7 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
+>                                          Error **errp)
+>  {
+>      MigrationState *s = migrate_get_current();
+> -    const char *hostname = p->tls_hostname;
+> +    const char *hostname = s->hostname;
+>      QIOChannelTLS *tioc;
+>  
+>      tioc = migration_tls_client_create(s, ioc, hostname, errp);
+> @@ -787,7 +785,8 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
+>      MigrationState *s = migrate_get_current();
+>  
+>      trace_multifd_set_outgoing_channel(
+> -        ioc, object_get_typename(OBJECT(ioc)), p->tls_hostname, error);
+> +        ioc, object_get_typename(OBJECT(ioc)),
+> +        migrate_get_current()->hostname, error);
+>  
+>      if (!error) {
+>          if (s->parameters.tls_creds &&
+> @@ -874,7 +873,6 @@ int multifd_save_setup(Error **errp)
+>      int thread_count;
+>      uint32_t page_count = MULTIFD_PACKET_SIZE / qemu_target_page_size();
+>      uint8_t i;
+> -    MigrationState *s;
+>  
+>      if (!migrate_use_multifd()) {
+>          return 0;
+> @@ -884,7 +882,6 @@ int multifd_save_setup(Error **errp)
+>          return -1;
 >      }
->      migrate_fd_connect(s, error);
-> -    g_free(s->hostname);
->      error_free(error);
->  }
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 695f0f2900..281d33326b 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1809,6 +1809,11 @@ static void migrate_fd_cleanup(MigrationState *s)
->      qemu_bh_delete(s->cleanup_bh);
->      s->cleanup_bh = NULL;
 >  
-> +    if (s->hostname) {
-> +        g_free(s->hostname);
-> +        s->hostname = NULL;
-> +    }
-> +
->      qemu_savevm_state_cleanup();
->  
->      if (s->to_dst_file) {
+> -    s = migrate_get_current();
+>      thread_count = migrate_multifd_channels();
+>      multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
+>      multifd_send_state->params = g_new0(MultiFDSendParams, thread_count);
+> @@ -909,7 +906,6 @@ int multifd_save_setup(Error **errp)
+>          p->packet->magic = cpu_to_be32(MULTIFD_MAGIC);
+>          p->packet->version = cpu_to_be32(MULTIFD_VERSION);
+>          p->name = g_strdup_printf("multifdsend_%d", i);
+> -        p->tls_hostname = g_strdup(s->hostname);
+>          /* We need one extra place for the packet header */
+>          p->iov = g_new0(struct iovec, page_count + 1);
+>          p->normal = g_new0(ram_addr_t, page_count);
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index 4dda900a0b..3d577b98b7 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -72,8 +72,6 @@ typedef struct {
+>      uint8_t id;
+>      /* channel thread name */
+>      char *name;
+> -    /* tls hostname */
+> -    char *tls_hostname;
+>      /* channel thread id */
+>      QemuThread thread;
+>      /* communication channel */
 > -- 
 > 2.32.0
 > 
