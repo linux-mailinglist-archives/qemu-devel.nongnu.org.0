@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17934F97B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:10:04 +0200 (CEST)
-Received: from localhost ([::1]:57274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 000E34F97D3
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:18:14 +0200 (CEST)
+Received: from localhost ([::1]:39874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncpJL-000255-Fk
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:10:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39710)
+	id 1ncpRF-0001ZM-G3
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ncpGt-0008No-NW
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:07:33 -0400
-Received: from mga18.intel.com ([134.134.136.126]:31419)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ncpGr-0000uz-Rc
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:07:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649426849; x=1680962849;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=eDkQXvXOF7yKn1iuVU45nfja4Im2dxSC1xviYqR0nWQ=;
- b=VWlNUNYgSJDEPZqQ5eAYvlkqZoAusJ8V3aKvzuYc6jtXo0QIRfYuJeWl
- VRwZi/4tveO9kSAfF/mcB3hek0z4ZVK2GL4POqSK04xM33Sp+6qykNPPF
- uFPIMauhEFen8FGYaNVCH0LoUCK/XpafPn8Og+aJZZMerd02KpL+d8hZW
- xn0TGovUSXh/95561Ll0ygphZvkBvgAEsSYPkT/2NT4HxnKwk/RGR8P3m
- T8PQMKev6z1GIjVs0R+f0xk+bEmjxbzMyZg2TPiyX8NPi2tNZngo2nsXs
- h1FEnZHo6jW9sWxPXEWnqOQJEVzmix4cC9Rcnzi0AbyZmS9ylYz/4JR4I w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="243732477"
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="243732477"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 07:07:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="571498592"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 08 Apr 2022 07:07:18 -0700
-Date: Fri, 8 Apr 2022 22:07:07 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH v5 08/13] KVM: Use memfile_pfn_ops to obtain pfn for
- private pages
-Message-ID: <20220408140707.GG57095@chaop.bj.intel.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-9-chao.p.peng@linux.intel.com>
- <YkJLFu98hZOvTSrL@google.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ncpP7-0006hZ-5V
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:04 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35808)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ncpP2-0002Do-Ik
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:15:59 -0400
+Received: by mail-wr1-x430.google.com with SMTP id w21so13098903wra.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lVmU1qLkCHaTXuHr4ltB478D0Fm9VHRiDUNWCa6vyzc=;
+ b=Ow0ITSH+G0FVuhOLUelijQ3AXLTsBiwTSwkgKKFrGkZOoqN9spikJ9wgJBtPrInBQZ
+ QgV4quTuDCWuAJ1anwS/Zy6vDRVTH+viggLXhEEL6G0ap88rvI3Nr8bJJlS0rf6lXgFB
+ Lf2fdGwtBp6TJ6aFtI7mTS7RiBUa/LV5/1UiOtY9bvlqKRdX0iEame1SdleAnftbfNXy
+ Axs9/IUM5XO7fPSeasfpchoMu/1UuGpt+PBp5MZFMnDJWmSt0WroSC+Tv1vkJxYsWCf5
+ p7fAEYxYEUvjk0DL2snwNPySKHlYZFgYv4MnRRn+igaVHly+kKo9pyO+ur8ihlVc8/o+
+ P0ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lVmU1qLkCHaTXuHr4ltB478D0Fm9VHRiDUNWCa6vyzc=;
+ b=l26VzI/3ghdNUJBQH5ITzaOqOC7hikSlKOyppIwcVGONbmlh2rkOGN+LUl934Hp1HF
+ wwtisT6Q26U4U8xmlH/PYyYIn86EWcWsrA0HeXVqtLDV29eJJQcgHUEjsMkH7QT1/OGR
+ ZYq3vegIaITP89HclmD8WiM0bja+rThZAV14B1UYuLyla/zD+Bb6jtzY6/XQwPMX4lns
+ 4E9FpiHYXo29JGrXxnKCug15pTLg/id8eLdZJkjGX6j2m80Bog+nMAP1v68D/mk4btpO
+ T2SJRqXx/WzD4aeXPjIxp61vmwLcLMHhWFzwA2BNr3ukafIWnGdU97DLLNhiDJs4QBjA
+ S4hA==
+X-Gm-Message-State: AOAM531dn+hhYCYUXSheyGRS36me7Y5zfp1knNAI8d0MOua92M7i+hIC
+ aOsnl/5IkQkCZ5c/jXutT1Nf3g==
+X-Google-Smtp-Source: ABdhPJwK6mp/VhJAWLGMxWNwhzzuwwZG7/LT3LIB5exka0bcSHBxT8wm22pLZGL3qJ5gpGmd/Fg++A==
+X-Received: by 2002:adf:ea44:0:b0:206:1761:715a with SMTP id
+ j4-20020adfea44000000b002061761715amr14796367wrn.534.1649427354976; 
+ Fri, 08 Apr 2022 07:15:54 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.15.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Apr 2022 07:15:54 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 00/41] arm: Implement GICv4
+Date: Fri,  8 Apr 2022 15:15:09 +0100
+Message-Id: <20220408141550.1271295-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkJLFu98hZOvTSrL@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga18.intel.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,143 +83,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, linux-api@vger.kernel.org,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 28, 2022 at 11:56:06PM +0000, Sean Christopherson wrote:
-> On Thu, Mar 10, 2022, Chao Peng wrote:
-> > @@ -2217,4 +2220,34 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
-> >  /* Max number of entries allowed for each kvm dirty ring */
-> >  #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
-> >  
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> > +static inline long kvm_memfile_get_pfn(struct kvm_memory_slot *slot, gfn_t gfn,
-> > +				       int *order)
-> > +{
-> > +	pgoff_t index = gfn - slot->base_gfn +
-> > +			(slot->private_offset >> PAGE_SHIFT);
-> 
-> This is broken for 32-bit kernels, where gfn_t is a 64-bit value but pgoff_t is a
-> 32-bit value.  There's no reason to support this for 32-bit kernels, so...
-> 
-> The easiest fix, and likely most maintainable for other code too, would be to
-> add a dedicated CONFIG for private memory, and then have KVM check that for all
-> the memfile stuff.  x86 can then select it only for 64-bit kernels, and in turn
-> select MEMFILE_NOTIFIER iff private memory is supported.
+This patchset implements emulation of GICv4 in our TCG GIC and ITS
+models, and makes the virt board use it where appropriate.
 
-Looks good.
+The GICv4 provides a single new feature: direct injection of virtual
+interrupts from the ITS to a VM. In QEMU terms this means that if you
+have an outer QEMU which is emulating a CPU with EL2, and the outer
+guest passes through a PCI device (probably one emulated by the outer
+QEMU) to an inner guest, interrupts from that device can go directly
+to the inner guest, rather than having to go to the outer guest and
+the outer guest then synthesizing virtual interrupts to the inner
+guest. (If you aren't configuring the inner guest with a passthrough
+PCI device then this new feature is of no interest.)
 
-> 
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index ca7b2a6a452a..ee9c8c155300 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -48,7 +48,9 @@ config KVM
->         select SRCU
->         select INTERVAL_TREE
->         select HAVE_KVM_PM_NOTIFIER if PM
-> -       select MEMFILE_NOTIFIER
-> +       select HAVE_KVM_PRIVATE_MEM if X86_64
-> +       select MEMFILE_NOTIFIER if HAVE_KVM_PRIVATE_MEM
-> +
->         help
->           Support hosting fully virtualized guest machines using hardware
->           virtualization extensions.  You will need a fairly recent
-> 
-> And in addition to replacing checks on CONFIG_MEMFILE_NOTIFIER, the probing of
-> whether or not KVM_MEM_PRIVATE is allowed can be:
-> 
-> @@ -1499,23 +1499,19 @@ static void kvm_replace_memslot(struct kvm *kvm,
->         }
->  }
-> 
-> -bool __weak kvm_arch_private_memory_supported(struct kvm *kvm)
-> -{
-> -       return false;
-> -}
-> -
->  static int check_memory_region_flags(struct kvm *kvm,
->                                 const struct kvm_userspace_memory_region *mem)
->  {
->         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> 
-> -       if (kvm_arch_private_memory_supported(kvm))
-> -               valid_flags |= KVM_MEM_PRIVATE;
-> -
->  #ifdef __KVM_HAVE_READONLY_MEM
->         valid_flags |= KVM_MEM_READONLY;
->  #endif
-> 
-> +#ifdef CONFIG_KVM_HAVE_PRIVATE_MEM
-> +       valid_flags |= KVM_MEM_PRIVATE;
-> +#endif
-> +
->         if (mem->flags & ~valid_flags)
->                 return -EINVAL;
-> 
-> > +
-> > +	return slot->pfn_ops->get_lock_pfn(file_inode(slot->private_file),
-> > +					   index, order);
-> 
-> In a similar vein, get_locK_pfn() shouldn't return a "long".  KVM likely won't use
-> these APIs on 32-bit kernels, but that may not hold true for other subsystems, and
-> this code is confusing and technically wrong.  The pfns for struct page squeeze
-> into an unsigned long because PAE support is capped at 64gb, but casting to a
-> signed long could result in a pfn with bit 31 set being misinterpreted as an error.
-> 
-> Even returning an "unsigned long" for the pfn is wrong.  It "works" for the shmem
-> code because shmem deals only with struct page, but it's technically wrong, especially
-> since one of the selling points of this approach is that it can work without struct
-> page.
+The basic structure of the patchset is as follows:
 
-Hmmm, that's correct.
+(1) There are a handful of preliminary patches fixing some minor
+existing nits.
 
-> 
-> OUT params suck, but I don't see a better option than having the return value be
-> 0/-errno, with "pfn_t *pfn" for the resolved pfn.
-> 
-> > +}
-> > +
-> > +static inline void kvm_memfile_put_pfn(struct kvm_memory_slot *slot,
-> > +				       kvm_pfn_t pfn)
-> > +{
-> > +	slot->pfn_ops->put_unlock_pfn(pfn);
-> > +}
-> > +
-> > +#else
-> > +static inline long kvm_memfile_get_pfn(struct kvm_memory_slot *slot, gfn_t gfn,
-> > +				       int *order)
-> > +{
-> 
-> This should be a WARN_ON() as its usage should be guarded by a KVM_PRIVATE_MEM
-> check, and private memslots should be disallowed in this case.
-> 
-> Alternatively, it might be a good idea to #ifdef these out entirely and not provide
-> stubs.  That'd likely require a stub or two in arch code, but overall it might be
-> less painful in the long run, e.g. would force us to more carefully consider the
-> touch points for private memory.  Definitely not a requirement, just an idea.
+(2) The v4 ITS has some new in-guest-memory data structures and new
+ITS commands that let the guest set them up. The next sequence of
+patches implement all those commands. Where the command needs to
+actually do something (eg "deliver a vLPI"), these patches call
+functions in the redistributor which are left as unimplemented stubs
+to be filled in in subsequent patches. This first chunk of patches
+sticks to the data-structure handling and all the command argument
+unpacking and error checking.
 
-Make sense, let me try.
+(3) The redistributor has a new redistributor frame (ie the amount of
+guest memory used by redistributor registers is larger) with a two new
+registers in it. We implement these initially as reads-as-written.
 
-Thanks,
-Chao
+(4) The CPU interface needs relatively minor changes: as well as
+looking at the list registers to determine the highest priority
+pending virtual interrupt, we must also look at the highest priority
+pending vLPI. We implement these changes, again leaving the interfaces
+from this code into the redistributor as stubs for the moment.
+
+(5) Now we can fill in all the stub code in the redistributor.  This
+is almost all working with the pending and config tables for virtual
+LPIs. (Side note: in real hardware some of this work is done by the
+ITS rather than the redistributor, but in our implementation we split
+between the two source files slightly differently. I've made the vLPI
+handling follow the pattern of the existing LPI handling.)
+
+(6) Finally, we can update the ID registers which tell the guest about
+the presence of v4 features, allow the GIC device to accept 4 as a
+value for its QOM revision property, and make the virt board set that
+when appropriate.
+
+General notes:
+
+Since the only useful thing in GICv4 is direct virtual interrupt
+injection, it isn't expected that you would have a system with a GICv4
+and a CPU without EL2. So I've made this an error, and the virt board
+will only use GICv4 if the user also enables emulation of
+virtualization.
+
+Because the redistributor frame is twice the size in GICv4, the
+number of redistributors we can fit into a given area of memory
+is reduced. This means that when using GICv4 the maximum number
+of CPUs supported on the virt board drops from 512 to 317. (No,
+I'm not sure why this is 317 and not 256 :-))
+
+I have not particularly considered performance in this initial
+implementation. In particular, we will do a complete re-scan of a
+virtual LPI pending table every time the outer guest reschedules a
+vCPU (and writes GICR_VPENDBASER). The spec provides scope for
+optimisation here, by allowing part of the LPI table to have IMPDEF
+contents, which we could in principle use to cache information like
+the current highest priority pending vLPI. Given that emulating
+nested guests with PCI passthrough is a fairly niche activity,
+I propose that we not do this unless the three people doing that
+complain about this all being too slow :-)
+
+Tested with a Linux kernel passing through a virtio-blk device
+to an inner Linux VM with KVM/QEMU. (NB that to get the outer
+Linux kernel to actually use the new GICv4 functionality you
+need to pass it "kvm-arm.vgic_v4_enable=1", as the kernel
+will not use it by default.)
+
+thanks
+-- PMM
+
+Peter Maydell (41):
+  hw/intc/arm_gicv3_its: Add missing blank line
+  hw/intc/arm_gicv3: Sanity-check num-cpu property
+  hw/intc/arm_gicv3: Insist that redist region capacity matches CPU count
+  hw/intc/arm_gicv3: Report correct PIDR0 values for ID registers
+  target/arm/cpu.c: ignore VIRQ and VFIQ if no EL2
+  hw/intc/arm_gicv3_its: Factor out "is intid a valid LPI ID?"
+  hw/intc/arm_gicv3_its: Implement GITS_BASER2 for GICv4
+  hw/intc/arm_gicv3_its: Implement VMAPI and VMAPTI
+  hw/intc/arm_gicv3_its: Implement VMAPP
+  hw/intc/arm_gicv3_its: Distinguish success and error cases of CMD_CONTINUE
+  hw/intc/arm_gicv3_its: Factor out "find ITE given devid, eventid"
+  hw/intc/arm_gicv3_its: Factor out CTE lookup sequence
+  hw/intc/arm_gicv3_its: Split out process_its_cmd() physical interrupt code
+  hw/intc/arm_gicv3_its: Handle virtual interrupts in process_its_cmd()
+  hw/intc/arm_gicv3: Keep pointers to every connected ITS
+  hw/intc/arm_gicv3_its: Implement VMOVP
+  hw/intc/arm_gicv3_its: Implement VSYNC
+  hw/intc/arm_gicv3_its: Implement INV command properly
+  hw/intc/arm_gicv3_its: Implement INV for virtual interrupts
+  hw/intc/arm_gicv3_its: Implement VMOVI
+  hw/intc/arm_gicv3_its: Implement VINVALL
+  hw/intc/arm_gicv3: Implement GICv4's new redistributor frame
+  hw/intc/arm_gicv3: Implement new GICv4 redistributor registers
+  hw/intc/arm_gicv3_cpuif: Split "update vIRQ/vFIQ" from
+    gicv3_cpuif_virt_update()
+  hw/intc/arm_gicv3_cpuif: Support vLPIs
+  hw/intc/arm_gicv3_cpuif: Don't recalculate maintenance irq unnecessarily
+  hw/intc/arm_gicv3_redist: Factor out "update hpplpi for one LPI" logic
+  hw/intc/arm_gicv3_redist: Factor out "update hpplpi for all LPIs" logic
+  hw/intc/arm_gicv3_redist: Recalculate hppvlpi on VPENDBASER writes
+  hw/intc/arm_gicv3_redist: Factor out "update bit in pending table" code
+  hw/intc/arm_gicv3_redist: Implement gicv3_redist_process_vlpi()
+  hw/intc/arm_gicv3_redist: Implement gicv3_redist_vlpi_pending()
+  hw/intc/arm_gicv3_redist: Use set_pending_table_bit() in mov handling
+  hw/intc/arm_gicv3_redist: Implement gicv3_redist_mov_vlpi()
+  hw/intc/arm_gicv3_redist: Implement gicv3_redist_vinvall()
+  hw/intc/arm_gicv3_redist: Implement gicv3_redist_inv_vlpi()
+  hw/intc/arm_gicv3: Update ID and feature registers for GICv4
+  hw/intc/arm_gicv3: Allow 'revision' property to be set to 4
+  hw/arm/virt: Use VIRT_GIC_VERSION_* enum values in create_gic()
+  hw/arm/virt: Abstract out calculation of redistributor region capacity
+  hw/arm/virt: Support TCG GICv4
+
+ docs/system/arm/virt.rst               |   5 +-
+ hw/intc/gicv3_internal.h               | 231 ++++++-
+ include/hw/arm/virt.h                  |  19 +-
+ include/hw/intc/arm_gicv3_common.h     |  13 +
+ include/hw/intc/arm_gicv3_its_common.h |   1 +
+ hw/arm/virt.c                          | 102 ++-
+ hw/intc/arm_gicv3_common.c             |  54 +-
+ hw/intc/arm_gicv3_cpuif.c              | 195 +++++-
+ hw/intc/arm_gicv3_dist.c               |   7 +-
+ hw/intc/arm_gicv3_its.c                | 876 ++++++++++++++++++++-----
+ hw/intc/arm_gicv3_its_kvm.c            |   2 +
+ hw/intc/arm_gicv3_kvm.c                |   5 +
+ hw/intc/arm_gicv3_redist.c             | 480 +++++++++++---
+ target/arm/cpu.c                       |  12 +-
+ hw/intc/trace-events                   |  18 +-
+ 15 files changed, 1695 insertions(+), 325 deletions(-)
+
+-- 
+2.25.1
+
 
