@@ -2,97 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799524F9908
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 17:08:35 +0200 (CEST)
-Received: from localhost ([::1]:58630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47CD74F98ED
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 17:03:27 +0200 (CEST)
+Received: from localhost ([::1]:52206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncqDy-0006cj-JJ
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 11:08:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51002)
+	id 1ncq8z-00020Y-VA
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 11:03:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ncpwA-0002gs-4D
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:50:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37405)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ncq6v-0000HV-AD
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 11:01:18 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:31546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ncpw7-0007h6-UQ
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:50:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649429406;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=91iaYYgs3fMq24NZCfe009fHrqzI3APvsmUag0ANRf0=;
- b=Q2Bhf0kXUEGvyMa/ggs33sV35sFNmZIfi2jzeJF37fSFVJ2WUBNWgLyNbVtum8GZgDzOPs
- Omwn/AD+d9OXJXm1sXtZhhtVoreQWuanKR9OepLHlfYZZnv8weA7cJZz91HnKFcYWKqoKF
- HcIMQkzkTlvu+EK/ZhkPyCkiTucPxmk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ncq6t-0001XX-7N
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 11:01:16 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-eaJON9X4OfmPK6N5phXwMw-1; Fri, 08 Apr 2022 10:50:05 -0400
-X-MC-Unique: eaJON9X4OfmPK6N5phXwMw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- l24-20020a056402231800b00410f19a3103so4746664eda.5
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:50:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=91iaYYgs3fMq24NZCfe009fHrqzI3APvsmUag0ANRf0=;
- b=5NgzYTyqZVpBdQrXnWxPxCJ7kzOKI+h0RPRHzUqzjoVAzsiXo9ghvdNXe1PvvX872f
- v9aZimpRGb48PxEGLH+QTqUwkps1T+rDJvJt+9YLOLofoafqq6I0O68uGnFnZasaE0Yz
- 8JNjzzadIf+9ebShu1XJkuYjEpFQlkVhBZeSw2WZSNfS8QrHqF/a6yjdFVZTz+Ynd5zZ
- dqrF8Bk8KP2vxS6Y/gIgMXe4l+gtv24k8Z3fkFr5k1Iqk/xlYJcB418dhHESxHml33yu
- nyo0DpDUwKJltlMRZVGzwJvw5dhoXV9ZywMI18FsuPUqyM4ITbTtsyiQC417CIZIRD+G
- iJQA==
-X-Gm-Message-State: AOAM531o//iy1He+/vHXAc2NlM0NF8IInwN6VBJ4Dx5GcFq5ToBmhNch
- JKPJBrGJmI3JwOnhci5k4YBawAbWnPFKFpmyBwyoM5CkK/Z0Q+MqMCgqj7cVPR02bhOfxYASB7F
- 7icNBHv7aW2AEOtI=
-X-Received: by 2002:a17:906:5e53:b0:6e7:681e:b4bc with SMTP id
- b19-20020a1709065e5300b006e7681eb4bcmr18998467eju.139.1649429404662; 
- Fri, 08 Apr 2022 07:50:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx/Kut4TBpG+B2W3S6sQ+0W7leJowfVGCJ+IdFazE/sRTJ1PdKu9q8duMt8EuKJGPhotqDCwA==
-X-Received: by 2002:a17:906:5e53:b0:6e7:681e:b4bc with SMTP id
- b19-20020a1709065e5300b006e7681eb4bcmr18998454eju.139.1649429404509; 
- Fri, 08 Apr 2022 07:50:04 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id
- n24-20020a170906689800b006e835893777sm1791080ejr.52.2022.04.08.07.50.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 07:50:04 -0700 (PDT)
-Message-ID: <a98919f8-4805-0d2d-9255-c484050f5256@redhat.com>
-Date: Fri, 8 Apr 2022 16:50:02 +0200
+ us-mta-659-_70mehF6Nhmun0Ca0rkJFw-1; Fri, 08 Apr 2022 11:01:03 -0400
+X-MC-Unique: _70mehF6Nhmun0Ca0rkJFw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9DE4811E7A;
+ Fri,  8 Apr 2022 15:01:02 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.164])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A656400F24;
+ Fri,  8 Apr 2022 15:01:00 +0000 (UTC)
+Date: Fri, 8 Apr 2022 17:00:59 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v9 09/11] 9p: darwin: Implement compatibility for mknodat
+Message-ID: <20220408170059.1134a039@bahia>
+In-Reply-To: <1684580.f98VPQ1boI@silver>
+References: <20220227223522.91937-1-wwcohen@gmail.com>
+ <20220227223522.91937-10-wwcohen@gmail.com>
+ <1684580.f98VPQ1boI@silver>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 7/7] iotests: copy-before-write: add cases for
- cbw-timeout option
-To: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- qemu-block@nongnu.org
-References: <20220407132726.85114-1-vsementsov@openvz.org>
- <20220407132726.85114-8-vsementsov@openvz.org>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220407132726.85114-8-vsementsov@openvz.org>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,23 +68,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, vsementsov@openvz.org, stefanha@redhat.com,
- eblake@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, hi@alyssa.is,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.04.22 15:27, Vladimir Sementsov-Ogievskiy wrote:
-> Add two simple test-cases: timeout failure with
-> break-snapshot-on-cbw-error behavior and similar with
-> break-guest-write-on-cbw-error behavior.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-> ---
->   tests/qemu-iotests/tests/copy-before-write    | 81 +++++++++++++++++++
->   .../qemu-iotests/tests/copy-before-write.out  |  4 +-
->   2 files changed, 83 insertions(+), 2 deletions(-)
+On Fri, 08 Apr 2022 15:52:25 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+> On Sonntag, 27. Februar 2022 23:35:20 CEST Will Cohen wrote:
+> > From: Keno Fischer <keno@juliacomputing.com>
+> >=20
+> > Darwin does not support mknodat. However, to avoid race conditions
+> > with later setting the permissions, we must avoid using mknod on
+> > the full path instead. We could try to fchdir, but that would cause
+> > problems if multiple threads try to call mknodat at the same time.
+> > However, luckily there is a solution: Darwin includes a function
+> > that sets the cwd for the current thread only.
+> > This should suffice to use mknod safely.
+> [...]
+> > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> > index cdb4c9e24c..bec0253474 100644
+> > --- a/hw/9pfs/9p-util-darwin.c
+> > +++ b/hw/9pfs/9p-util-darwin.c
+> > @@ -7,6 +7,8 @@
+> >=20
+> >  #include "qemu/osdep.h"
+> >  #include "qemu/xattr.h"
+> > +#include "qapi/error.h"
+> > +#include "qemu/error-report.h"
+> >  #include "9p-util.h"
+> >=20
+> >  ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const ch=
+ar
+> > *name, @@ -62,3 +64,34 @@ int fsetxattrat_nofollow(int dirfd, const cha=
+r
+> > *filename, const char *name, close_preserve_errno(fd);
+> >      return ret;
+> >  }
+> > +
+> > +/*
+> > + * As long as mknodat is not available on macOS, this workaround
+> > + * using pthread_fchdir_np is needed.
+> > + *
+> > + * Radar filed with Apple for implementing mknodat:
+> > + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
+> > + */
+> > +#if defined CONFIG_PTHREAD_FCHDIR_NP
+> > +
+> > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t d=
+ev)
+> > +{
+> > +    int preserved_errno, err;
+> > +    if (!pthread_fchdir_np) {
+> > +        error_report_once("pthread_fchdir_np() not available on this
+> > version of macOS"); +        return -ENOTSUP;
+> > +    }
+> > +    if (pthread_fchdir_np(dirfd) < 0) {
+> > +        return -1;
+> > +    }
+> > +    err =3D mknod(filename, mode, dev);
+>=20
+> I just tested this on macOS Monterey and realized mknod() seems to requir=
+e=20
+> admin privileges on macOS to work. So if you run QEMU as ordinary user on=
+=20
+> macOS then mknod() would fail with errno=3D1 (Operation not permitted).
+>=20
+> That means a lot of stuff would simply not work on macOS, unless you real=
+ly=20
+> want to run QEMU with super user privileges, which does not sound appeali=
+ng to=20
+> me. :/
+>=20
+> Should we introduce another fake behaviour here, i.e. remapping this on m=
+acOS=20
+> hosts as regular file and make guest believe it would create a device, si=
+milar=20
+> as we already do for mapped links?
+>=20
+
+I'd rather keep that for the mapped security mode only to avoid
+confusion, but qemu_mknodat() is also used in passthrough mode.
+
+Anyway, it seems that macOS's mknod() only creates device files,
+unlike linux (POSIX) which is also used to create FIFOs, sockets
+and regular files. And it also requires elevated privileges,
+CAP_MKNOD, in order to create device files.
+
+It seems that this implementation of qemu_mknodat() is just missing
+some features that can be implemented with unprivileged syscalls like
+mkfifo(), socket() and open().
+
+> > +    preserved_errno =3D errno;
+> > +    /* Stop using the thread-local cwd */
+> > +    pthread_fchdir_np(-1);
+> > +    if (err < 0) {
+> > +        errno =3D preserved_errno;
+> > +    }
+> > +    return err;
+> > +}
+> > +
+> > +#endif
+>=20
+>=20
 
 
