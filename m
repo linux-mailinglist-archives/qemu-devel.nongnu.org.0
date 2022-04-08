@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8906B4F8FA1
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 09:27:51 +0200 (CEST)
-Received: from localhost ([::1]:52298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B9C4F8FA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 09:30:06 +0200 (CEST)
+Received: from localhost ([::1]:56882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncj26-0000OL-Cd
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 03:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41088)
+	id 1ncj4G-0003d1-Tq
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 03:30:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
- id 1nciom-0000wm-Ar
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 03:14:04 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:56006)
+ id 1ncioo-0000yD-7g
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 03:14:06 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:33736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
- id 1ncioj-0004oZ-AZ
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 03:14:03 -0400
-Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 237KhbVZ032017;
- Fri, 8 Apr 2022 00:13:58 -0700
+ id 1nciol-0004pt-RD
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 03:14:05 -0400
+Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2387AHBo023969;
+ Fri, 8 Apr 2022 00:14:01 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=T+c2Gkx/I6NktWlHyo2jhS+uRIPji2xT0zo0lGeRnd4=;
- b=Sh7q0AC6BEG7NyrnxM9K42qXDbq1e/MYO+8elSe5qY1Nq8/kMHGri2CdQLaLGVfG3CkJ
- M77gi56yJrJ2o+gF8cbKI84/HwTcFxXWi4npC6c73H+QRD3qovinx4NTDKj+/0adEM0k
- t3jff6Ra/+0Ni/S4epSDBUCoF1DOu1MMwzFzKt/wrnT8r7jLR6x1m5Vw7mw2ACPgq2pI
- y6/kkhTcL03M+dH8jFYXly7VDiqu0xTUVmF04aCayBCrzfYXVe/MsJD6sH00I2avvbYU
- RHF+eEfL7UPSyk0TkAX57A7s8CtW7KfwiqpV1YZHnEVWextTeZZj2y4Ss/k6ZCcTIbA3 ZQ== 
+ bh=DLr087wiwgqVF2LkWuQviXKfRSS5CR5TFv+Ef3Tr1Ig=;
+ b=I/aLUEpc9OcKZaUHqXfpQ7dCXRasZTSeRNau97dLtE2RH8g49Rl+gK3jhj6W0uDZjMfT
+ J07e3QNlqWovgOu3MsrhajUQ+QlMy3rkI6HZheXn7js4lor07vhVuevZorGllpDyv5xZ
+ Q56qtx2xfsuiv1kTkhQ8uhee97e9hSmasHqTkA92grIxRAnIIGw1NAIFGKdxjqqd0+/f
+ 6BgKN0z9QynPXYJjrDamX74SPa9l1NJnWAJ1zz9EbelYXDR5VetwKoDMgms6fYkbDrNB
+ u0DN7c2D9whttsYMWRCOKOclwDzS5L2xmmnWlkTPn4YRxeXSUmkvrMgP/k5y/NWwlILK sg== 
 Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3f6jttw02y-1
+ (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3f6njfvs19-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Apr 2022 00:13:57 -0700
+ Fri, 08 Apr 2022 00:14:00 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MXKTZhhgQP5FTNe7Vj4IxZ5ZD2K3JAWJJlaeYO+GNu7U9DP812o+czdNknjcqIK7DsYh3mkj7gHJWDrVYerP9U48LPTALKbz/ux7vQzkw3gz1n/uXab8JrVDWrPsYrBttL3kP1denKq5cmmizcFeWGOZgjyqOYnxLX4kP2Y2cLFUDYN6UJdDb6zQY1Poxt/Xxq5Wma1mqfj2XNA+2T1+xhxxULK195LrgkqtFTwcwG1dc+HlOqONymsZOiLzcjGGnd/7daawS+KCbK33/7KFr1VTrau7W+zVAZ3Z885uyLAWcJ83XLscQ9dNpL5XL3Z2vezwa1VEZWuw/iU4OoRwew==
+ b=jyHEM5kiso4kf6y0wiSdeXII1mcIiuuOi5bg0yAaG0iMztbQydoMLcXzx3qBVSwjeu/LfMIqSNeuEgIJN5OotnMKHmHDNWSdJMbZdLFzLb6rt1KP4zctAJRNBLFSEHoafKi3WDaMHb6CgrIkHgWc7U88NetVEH9C1gwQjzlV55vRvCRSYo3A5EYMbK66/yphLAD7asi8OZcRTHV7NgDcvgvFrR8rnfKUSnZoaHcYIa44ZPQRqdIrlOJ12FNtkSL/6RE5x3tZKupDoBkRZKy2AY4Cumexm0hCU814y0CLMdP7IZpuW4rFwEcTjDsJTp+HNQksVWxmMAFwin1jep3KWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T+c2Gkx/I6NktWlHyo2jhS+uRIPji2xT0zo0lGeRnd4=;
- b=Uf0WZL7KqPmDb8ro2B9OWXjvIW0o6ffMvJFwwYg4UJ5UD2EDteBBe1bZO5klHpj1t7777fxx4JMLqFkFr6tyemZI9Pt9AywZeW4uydDAIao4IoKTwxzw917pWfAUcStvuBxNfn6c77dDJ3PCcjIaKvMLfxSw9Gv1SZuVmayYZDOsabIRl/npwAFiXyfa1RrJrF+Mqqj5wHJPoYaoTIdS2lLlKnqH9KldECrxuwm3HHLcvTMLt9G2oJDII5soSZDm4gufLLjcPPFOtLBVD+W2C1v0srX1ucY+uRsGNSA8XY7QBdUFdUBoJ6KvtRvf6ZMRnXr+jW/VDIzlaUXCupNBSg==
+ bh=DLr087wiwgqVF2LkWuQviXKfRSS5CR5TFv+Ef3Tr1Ig=;
+ b=Ro5FkBOZhcc5qA62JjL4bcSfWRACpjOEFTjFrtnDBsgJ8zaAuY7pdrpjl8INMX5h8vol79kZxZLdAR+p5r0CAY03A55UTYVVFab6r9EOkDiwOoN+5sf/tnNFiLRZCpvRj03S5TDaKy4kSkcvex40IKCH6SFivt6wgjSl7A/uOpcIHU0ATMazc59Xj5pNsvEktgaT3vLC1vKDzeNWmlz6g2G9N25yDrDIt5b3kpBrOVYTSi8dsZ3mWwEdBAX5HoaPv+2r4AnPARz43WaaPXV3rndNAC78yona1SbOC97kNlbC1cEI11HJdEwwLihC8dndYMiBOytdxB5ceE/l9+3F8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
@@ -51,16 +51,17 @@ Received: from BN7PR02MB4033.namprd02.prod.outlook.com (2603:10b6:406:f9::16)
  by BN6PR02MB3281.namprd02.prod.outlook.com (2603:10b6:405:6c::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.25; Fri, 8 Apr
- 2022 07:13:56 +0000
+ 2022 07:13:59 +0000
 Received: from BN7PR02MB4033.namprd02.prod.outlook.com
  ([fe80::df1:1d4d:e30c:55e6]) by BN7PR02MB4033.namprd02.prod.outlook.com
  ([fe80::df1:1d4d:e30c:55e6%3]) with mapi id 15.20.5144.021; Fri, 8 Apr 2022
- 07:13:56 +0000
+ 07:13:59 +0000
 From: Kshitij Suri <kshitij.suri@nutanix.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/2] Replacing CONFIG_VNC_PNG with CONFIG_PNG
-Date: Fri,  8 Apr 2022 07:13:34 +0000
-Message-Id: <20220408071336.99839-2-kshitij.suri@nutanix.com>
+Subject: [PATCH v5 2/2] Added parameter to take screenshot with screendump as
+ PNG
+Date: Fri,  8 Apr 2022 07:13:35 +0000
+Message-Id: <20220408071336.99839-3-kshitij.suri@nutanix.com>
 X-Mailer: git-send-email 2.22.3
 In-Reply-To: <20220408071336.99839-1-kshitij.suri@nutanix.com>
 References: <20220408071336.99839-1-kshitij.suri@nutanix.com>
@@ -71,71 +72,71 @@ X-ClientProxiedBy: PH0P220CA0024.NAMP220.PROD.OUTLOOK.COM
  (2603:10b6:406:f9::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1e23a79e-57ad-4c23-deca-08da192f5816
+X-MS-Office365-Filtering-Correlation-Id: 98d2667b-7863-44cd-abdd-08da192f59f3
 X-MS-TrafficTypeDiagnostic: BN6PR02MB3281:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR02MB328117BB45C817EC356B74F999E99@BN6PR02MB3281.namprd02.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <BN6PR02MB32817563E70A0CB4E9A2E4F299E99@BN6PR02MB3281.namprd02.prod.outlook.com>
 x-proofpoint-crosstenant: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: v399/exBdx2gStjbMBAoet5IKZYEcSDutCXKs+mBqacY1iWw4Lq/Ucce1CasOPNoYyG0lNY98sBZCMV96b+qHH2nVw5YdtGj+bcDVh7s5FFjqr6+t13zWJtFzVVt3cUBVeL6zywmEmc7kwG3glX6dRlJWcWcoWaacmYO4i3Iy4xo11EG+bQpJCO9BjC8+ZahxqYh+OPyOc8UAa46gV3Kl4zMEq0D50su8NsGV5QghrcmLcVsH+iWtQDZr/t0zvac5aDQFcf0PaRenZlkko9pKF9Q0EOO99s2ct4fmOkPmFWAMBLOYRV2N9h7lPzpUfQcX0zWxSHBNX9G9X0Wp4Dsoj7BAV/ze7iNOw/wBuxNukrXJkhYc55cw5B237659tG/Gz1/0HxxGm1PYHA9IphL/ej/pT6WEv7ZTda2BsoaALWkJsNdypsPpHFfObLBp5geIUSKdMDow4DQoFF7kOm15mH6ekTy14xAHh4qjNHMGxuu3oQTr8CCIyQTus4ghXGUs1f+c9g47rdTkDi6E4Tuj7qVF2Va/tmLGDGcFeGPRMuO2rkzXZaKL5ECOcJb4lL30eEIGFrbyGrvv9bv4EYilRKYnCgkaD5J4q9Oz/nJDEPYAWYt0IgRr9lrS271YVdXrNZVJk0W6htNLuC0aTrkD3mISIMcD7fMYPTsnJYTuYqyasbvFyMKIW0uMTpcfd3WoaTXUU9oMTU7mLuR2HANjA==
+X-Microsoft-Antispam-Message-Info: Tr5xiTKMsd4frIdKDSbofb6D4EMgxu6ORUhZXs6RMaKMJOwphwXQxQOPy2TlVlqKptPev9pBDR+VrbTXWuxsHOdfQkKCHmXkAvvdp7NzFIUi/uXV/k7NYGhJMBNT/2F0a79ZZrMWm4/4xN4wwqAhp7FF00f1GNvNtV5IRviwOGD0pJ7VJaRHpauSiuSsigj8b0XCFabTs7uTSXOL1Lw4yS59OmjtYtL84CJhRU4JhUWjR2hNLH/jil8/tv6MUkhfgxjekRrt2j3R88sz/NPJuJawYX+T9HyNTqd5Oc01TBFhWzpEZkjVdf6n1S7ILqVNGeYQHdwGOUKrCrj41H7XM1cHfagarp3P93Ep7NkdJh0TKAUR391kWlOC+W+uk10tLBwwfDFcKpuE7gtLIEh8XxDTBHFbp0/ZZ18kros8mzZ0nc+kkAUZ7ZCHgXXTzpXu1VyBH0RWv+z9CBti3thBhsNZZx3IKIaXm213jgvkd+uvA6gl2T+Ck3TxbVx2A20rt+hNKTca/wcaoadSq9TXLLrRSSobnIezRMG17sIafqCVxy6cQ6zFwrVoZ4psPnl0AJxD3ctano9OYrxuAmcA4lhXsfb5P4X/KSrQt82UVxDdZu3pkQdFIrjay3vIHLR6hDElTT20Jp/+NxxsYtJ39OYmIkB6QC+lYBbqzRuNA43tlM/cwOiC8zc64CHJdeUzN/T8WOHu6NmRvci2JLJ2EdhLxi4RecNAE0eiaPn3gokGVSprytwnzw/meE80kIvyJOJRV9jxBEV42c/DKVriOmXa3nEY49FETN9PDAPtg6c=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN7PR02MB4033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6916009)(316002)(1076003)(66946007)(66556008)(66476007)(38350700002)(38100700002)(8676002)(4326008)(36756003)(6486002)(2906002)(6506007)(44832011)(6512007)(7416002)(508600001)(86362001)(52116002)(6666004)(5660300002)(2616005)(107886003)(83380400001)(8936002)(26005)(186003);
+ SFS:(13230001)(366004)(6916009)(316002)(1076003)(66946007)(66556008)(66476007)(38350700002)(38100700002)(8676002)(4326008)(36756003)(966005)(6486002)(2906002)(6506007)(44832011)(6512007)(7416002)(508600001)(86362001)(52116002)(6666004)(5660300002)(2616005)(107886003)(83380400001)(8936002)(26005)(186003)(66574015);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VVNNSGtCZXJ2eFlyUXNSeEdXVGFYZ3JFcHNOaVhiTmFUeXRJSGxPNHF6VnNP?=
- =?utf-8?B?YW52Z0liYWZTQ1pkV25Ud1IrZ2JvY0JVNzIrYzJxcGorR3Y4WU9ZUnNjVEpS?=
- =?utf-8?B?aWRESXJ1MHlsaU9MdWNzeSsvZjZkVWdPZ3VZL3I5U0hIYmJaOXpFRVArUG90?=
- =?utf-8?B?Q21PMWpFeENFWTM2dWFpNFluSFYyeDdCb0VxSFdPK0JlV1RnUGl5b0ZGcXU4?=
- =?utf-8?B?QzU1UVU3d2YzT3FJUnZWRkdnSkl6OElIRUxmQXE5UFlpaHRhV1VqY2Z5bUJ6?=
- =?utf-8?B?ckpZQlMvMUNKb0hIQnJvL2ljbnBUVHV4MGVuWVZsQ0h6UXdVdHJqcmJvdDUz?=
- =?utf-8?B?aWtwY2lRSDYra243cnBpeHJ6dG1ESEQrMEIxRDlkQStFbDBsaUpZUDJlWity?=
- =?utf-8?B?MHQ3QVNWQ3BhaCtIcEg5RFVTRXphaTFBM3R6Yi9ubGRHRWJISHBnMlZQZ3VB?=
- =?utf-8?B?ZkNENlBac05DNEU3WDNoT1ZJUWlERSswMmJKeDB5ZG55aGYvNXNlS09sOGZu?=
- =?utf-8?B?ZmdXV2lCWTFhNk1udGc2TVV3UEdFbVA3S01TejJISVRTQkErSU52bmNINkNZ?=
- =?utf-8?B?aFAyOVhHaW43RFdJZG9wRW5YV1RTZnh3ZVFwQXpPS2dzSW5yRkxmUjFudzZp?=
- =?utf-8?B?MnNQK1kyQlRJNUZTOVVuK1BmNEdUZFNoalBrcU9aT3dxRzBkOW84eWY1aWlh?=
- =?utf-8?B?OWtNMnhmMDh2RUprZGNqSVl0bjlwZGVvYkxNYWtxNW15SE9ON2FBZEVlL2VB?=
- =?utf-8?B?Mk1SeGVwTXRHZVRVbEFsM3NVbVc2ekFkZ2xCcFg0SnZoOWJPVHZLSUFkcmE2?=
- =?utf-8?B?NjRZYmZJaEdMZDVXcHJNTWdRRGpFVDF5dDJzZUtjV3VKWldPVXRyS3FFRStD?=
- =?utf-8?B?WnBUL09oOWdscURVZXdaR0FGS2R2RXg3NjFhWjdoOW5jOHg3VnNkVEFRM3Ru?=
- =?utf-8?B?bkdHaWQ3VWVQWmN5NUNuVEVrV2czRTFNMkRrM2Y3L2ltTThqY1kvVTRrUERX?=
- =?utf-8?B?aFZpVG1DZnFnOFJzZnpMWmQvUEtaU0VBeW1JZ0dSbHFIV2dRc0ljZXZqZlpT?=
- =?utf-8?B?UXVNejhjWlFDa0FwdG5vd1RBOTJXdTJ5WEk1TU9LbWZVYkNYc1EvdUpiNkpX?=
- =?utf-8?B?ZFY4aUpLTUZZaTYvL0o2MUZtdWtLcWhtYjhhVFU0Mk1vbnF4UmFIRDdWaUxU?=
- =?utf-8?B?WjJ5VmJCQ3JoQkJuMWEyMlBocHp6TGxuNXR3Ty85WlBmTjVvOHZzeEM4bWt5?=
- =?utf-8?B?aXlkbWF5dDlsY2FMZkkrVmpJTHk5WlloMm5ycUxhVVdBczcvcVlTeFVxMzhq?=
- =?utf-8?B?SlRzU3lXb05DSTZQNUs1ZVgvcnFKOWFpTUZCLzJ0Tk9rMnJ0QkM4SldNZVpu?=
- =?utf-8?B?NGhIZWF2VE01Z1FNZlNBcnNRTzZ2N293UkN2M0JITUZsOXN0aytueUhlUWdG?=
- =?utf-8?B?N29SOXpQaUs5Qld4ci96azhtNVViYmtNc2l1bDEzVitzZ3VoOGhZZVcxczhZ?=
- =?utf-8?B?QVh4aFRlSVM0RTlhZkZGN2txTDBUam40USttT2s1RXZPdHg4R0VJZ0ZPWUFy?=
- =?utf-8?B?S2JwTjNZWjZoSmwxNVZwOUQ4Y3ZaQmF1Y0IxMjg4VkxzdTJJcWpOSy9UQUMv?=
- =?utf-8?B?S3JROE90Y3M5OHV6WkgyS2FaV1V3UGRMbmdpNnl1UEQ1S1psc0RuWWJYa05p?=
- =?utf-8?B?dkJyd3d5anRZSjFDOTlzUW1kKzBRYjNJOU1BcWNoVmpqa1htVlMvaVcvZ1ZT?=
- =?utf-8?B?STZUMXRoaXZoR2s5a2toVHBkSjltNXdlaDJETXdROCtSbmIwM096ZW9FUW92?=
- =?utf-8?B?dEdFQWE3UnRjMVhzeFRncEVvT2Y0MUNRL2hkMFpKd1dIMlIyWWJpL0w5TEp4?=
- =?utf-8?B?MmJHdGZGMTRISTN5V3dTa2RndkFjU3lsYXVVb3hDeW5RRWk5N2ZOWitwRTVs?=
- =?utf-8?B?N0VnK1JwVHJYVm9USlZiZE1kVWFuTUdEOXIwMVpjWGY4NTBzYnNPZ05nKzNq?=
- =?utf-8?B?cDNmSFZFWHgwSlNPL0VMYWhTdHlleFNvYnlSR0pMNFBQUXdYU3pwSm53VmND?=
- =?utf-8?B?Y3VMQWloSXphYlRWdzMrMVV3TDRlSXpTS2NaVmpyR25PbFhGNUpoUExTdnN2?=
- =?utf-8?B?UEtWNTV6bEI5SlJhdlViUEVQdXI4d2dIanlCdjVlUS9RZU9CYnpxQ2tHeUdt?=
- =?utf-8?B?aTdNQzY1SEIrL1pSMXBUQVdlWEVXYlJjek9aK2JMa08vU2EwZE9OS2ErYS9k?=
- =?utf-8?B?NytCNFNEcUFuREU4a3Q5Q0krZVhxZmZZT3p5MGpOOEVPemtXbXNPZGF1WnBR?=
- =?utf-8?B?UTJnbEhtcHgzRExYR3g3bnVsSkNMNXBScS9mUkx5UHp5QlphTXFHTHM3MVlx?=
- =?utf-8?Q?LUE85D+ziKR58aAc=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dE1iOEpPOVZDd1k4NU50TW5QajlaeXRCekR2VnNPQ1lyRkpPYVJhOVB3VnJz?=
+ =?utf-8?B?V0NoTmFzdmxqVkdXeU9oMmFyQlJMTVBySGpBN1NtOVJwa1dWZWlPaG9JV2Zh?=
+ =?utf-8?B?Z3Bxb3dUTEhFZWl3bEV0ZEd2QnF1TUNST3pMYm0vUXI1Z3kyRThXc1pzQzhE?=
+ =?utf-8?B?YjlVTUdmbGpCMUNqMm04ajlKUWdJcEh6ZnJJVVNmQlhGVzlRR2w5MVJvRzJq?=
+ =?utf-8?B?T3pxcmM4QkhFZExjTmFzSGZ2Nml2M2VnZWhGUHlYcjdPQi9EUFhhN1haUEJW?=
+ =?utf-8?B?TlFUOWx0Vm9weCtMMURScTVSWm5oTGFjWkdwY3FKK0xiUE9BSWNnTVBhMHpi?=
+ =?utf-8?B?Nm1senpsL21pTHRIdjFxeE50Q1l2ZjM4Sk5EQng2cFVvLzduSDJFdTl1SnVk?=
+ =?utf-8?B?L0s4cStyM2VWTEMxTVRrVFRFSjc1bFlHZWpWQWREU01aaGZjOTZ6dUwvMEhL?=
+ =?utf-8?B?SGFmT1NDRWNhUEN5Z212RThZYWNYNTdTQ05CaW1DMjBDMlhKNVVJNGFwd1hP?=
+ =?utf-8?B?aXBETGxQcU5GekZ6RGFuNG5WUW4xUnpaVjdUSWovdEdJVzBTNE9lSXRuQ3JM?=
+ =?utf-8?B?Z0NkbU5pSHVBV1Y4QWg3ZTNFanBnSmpjYzhLaXJpTWVVaU1iVk9rZG91L2wv?=
+ =?utf-8?B?cWNzZHBOUjYwaFlSaVY1Qkx3TmJKMTcvT0M1QnZlc09TbFVsYURraFlCTFhM?=
+ =?utf-8?B?dHlsU2RWbG5TUTRYc2RLeFhPbzZ0eHFxeU1nK1A5elJEYmxrTy92clBXakJS?=
+ =?utf-8?B?dk0yVzNadnNuNHhWRWF6a080L2dGcXdva2dQUlptU3YwMVE3Sy95akFJUU9p?=
+ =?utf-8?B?dWFnZXducWlkNW92VWllTU1ESE1qbVZNV3NPL2VhWDVHWDhHeGc0RXVkZTlQ?=
+ =?utf-8?B?SzN2TmYyZHRJUTkzVG5IR0RhUlUyQ0ZZNU8yNzZNMWZqd3ZKTEMvZHVpZkNM?=
+ =?utf-8?B?VksxRlkrOHhveHJsNjVhTkdsNUFhTEx4R0x2MlJPYjBLeUR4NjNMMU9qRTVR?=
+ =?utf-8?B?TXdLWkJNNCtsQXExSTRHbUlZRGlFZnV6N0E0MDEzTjRTZDdQTlFHbmFBbWRa?=
+ =?utf-8?B?QW1ITmZDc01ScHQ3eEQ5T1RoZjV1aDZhN1M1QllRS0didDlaS0JGL2RtYmtI?=
+ =?utf-8?B?MTgxVlVnbWxjNTd1UVFlS05SUGpiR21aNUpnK3hBaXVrWHI4R2dJdFJoUFR6?=
+ =?utf-8?B?MkNYUndIRDByMTRlSVZISllDb1FBZlZpYzRiNUJ1ajJpYlE5YklkTSt6WUpJ?=
+ =?utf-8?B?bDM3eXE2SkJ0VERmaTIrK1BrV2xqQjZHaEdJZ0phZzl5cExWTEl4UjBIT09T?=
+ =?utf-8?B?ZHhSQUt5YlIrekZYZmY4WlMvUXBqbG8xRE5USngvZGoyN0tjTzhqYTkrQy9n?=
+ =?utf-8?B?RDZhd3lBOU44eWIrMjJzUUFhSG1rRERmN0RyQUtEbmRNQlpDRFhpU3A0OFc2?=
+ =?utf-8?B?VGVoa2FYVmdWOW4rNXk1dUNHOTBndWIxVjVsRjlWZnhNUVdWWWVnNUw4SzVh?=
+ =?utf-8?B?ZVZjREZRSTE2S3lXKzB4em9KZmZBWWEwQVB5TnY4TWVGa3gxQ1B4bDdBZ2sy?=
+ =?utf-8?B?Vzl3Rytvd1NOM05LL3kxUjFtOWhEVjRGbDJSR0dza3ZGbnZ4Wk05NmxBRVdU?=
+ =?utf-8?B?SCtYRU9yNEkxODJWMGZGbkx0UHh4c3BNOEhHTWZEQndra1loTjZHdmNndWlE?=
+ =?utf-8?B?cFMzY1c2LzJJTmhjcEJ0U2Zubzc2U01kcmhnc1dQMHBJK2R4QkdXY1NkdEhY?=
+ =?utf-8?B?Z0NrVG9vWEUrSitwbVNzbDVRSEMwNGg2N0EvY2N0U2l1MXV6c0t3L3I3SlpF?=
+ =?utf-8?B?bWhMc09FendydFZ6NUllNEh3TXBXSkJNWHROZjU1WkllZitGZzdOOXlJMlhV?=
+ =?utf-8?B?TmZSTmduZlY4MHNGb1JCcnNmU0EvODJVN0d1eHA5c1hJYTluY0FXV0dLaDBR?=
+ =?utf-8?B?cndBMmFGMzA4Y0Jhc3NZY1ZvWnhMdk91ZTZlS3hvcW5BakNFRFk1dmExbng1?=
+ =?utf-8?B?M0hYMkZ6MTFrM2N0L21PL0lSRW5iRkp1K29zaGd6Y0I4Yy9MTVNLdW1RYjY1?=
+ =?utf-8?B?OUxtSWROQ3ptNjMwTFhmSm05ZldtNXh1TEEwMkM3V3Y1cXFCTlRudmF5LzRi?=
+ =?utf-8?B?aE1ZSlQzL3prcXlBN2pJQVdmV2IxRi9LeUZ0K2UzK1R4R1ltUE40QmxoRmZD?=
+ =?utf-8?B?VnNFTWhsa2ZUby8vclZDQVczMjVaNjd2UHVFRHVFSDcxTmF6WFh5eWN3dnMz?=
+ =?utf-8?B?YnJFeTNPclVnNjFQWndNMXZCRXRzcVgrb210ZGhPUTMzS2NKb0FNVzk0WjY3?=
+ =?utf-8?B?WGZGbWl2Q0JCMFpYMXgxUkdYRmpTZ3U4QVNaZzdzL3N2ZUFYdVJYcS90Rm9l?=
+ =?utf-8?Q?1bJJ5zeK0oGauX18=3D?=
 X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e23a79e-57ad-4c23-deca-08da192f5816
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98d2667b-7863-44cd-abdd-08da192f59f3
 X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4033.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 07:13:55.9178 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 07:13:59.0582 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ReXAPuTHC6UnZJ0y0XE2N0dOzXBXq5J0in0Fncs2hvxLtNUGcldEksz+PsACa9y2t6SEpB8U4yJT8cLqenPgTt/LrCok05JrhbTcwvOcuYk=
+X-MS-Exchange-CrossTenant-UserPrincipalName: X35ZBg7MqLzZv2yBO3BUaFTn8fTM2j/J7NF0pOd8Mu0AsW1KORSI7Lbvf6evUAbpxCB977KNvEDjg32DELnt3Mp0jsXr44qE8EDe/LYbN/g=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB3281
-X-Proofpoint-GUID: pVbjNYGIFz_Fm5IZhMARuyqDVW00W3W0
-X-Proofpoint-ORIG-GUID: pVbjNYGIFz_Fm5IZhMARuyqDVW00W3W0
+X-Proofpoint-GUID: KanF8E1Y5pTCdlzTleZ7EVbhs-njDBZT
+X-Proofpoint-ORIG-GUID: KanF8E1Y5pTCdlzTleZ7EVbhs-njDBZT
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-04-08_02,2022-04-07_01,2022-02-23_01
@@ -169,208 +170,265 @@ Cc: soham.ghosh@nutanix.com, peter.maydell@linaro.org, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Libpng is only detected if VNC is enabled currently. This patch adds a
-generalised png option in the meson build which is aimed to replace use of
-CONFIG_VNC_PNG with CONFIG_PNG.
+Currently screendump only supports PPM format, which is un-compressed. Added
+a "format" parameter to QMP and HMP screendump command to support PNG image
+capture using libpng.
+
+QMP example usage:
+{ "execute": "screendump", "arguments": { "filename": "/tmp/image",
+"format":"png" } }
+
+HMP example usage:
+screendump /tmp/image -f png
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/718
 
 Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- meson.build        | 12 +++++++-----
- meson_options.txt  |  4 ++--
- ui/vnc-enc-tight.c | 18 +++++++++---------
- ui/vnc.c           |  4 ++--
- ui/vnc.h           |  2 +-
- 5 files changed, 21 insertions(+), 19 deletions(-)
+diff to v4:
+  - Modified format to be an optional flag based parameter in HMP.
 
-diff --git a/meson.build b/meson.build
-index 282e7c4650..0790ccef99 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1115,14 +1115,16 @@ if gtkx11.found()
-   x11 = dependency('x11', method: 'pkg-config', required: gtkx11.found(),
-                    kwargs: static_kwargs)
- endif
--vnc = not_found
- png = not_found
-+if get_option('png').allowed() and have_system
-+   png = dependency('libpng', required: get_option('png'),
-+                    method: 'pkg-config', kwargs: static_kwargs)
-+endif
-+vnc = not_found
- jpeg = not_found
- sasl = not_found
- if get_option('vnc').allowed() and have_system
-   vnc = declare_dependency() # dummy dependency
--  png = dependency('libpng', required: get_option('vnc_png'),
--                   method: 'pkg-config', kwargs: static_kwargs)
-   jpeg = dependency('libjpeg', required: get_option('vnc_jpeg'),
-                     method: 'pkg-config', kwargs: static_kwargs)
-   sasl = cc.find_library('sasl2', has_headers: ['sasl/sasl.h'],
-@@ -1554,9 +1556,9 @@ config_host_data.set('CONFIG_TPM', have_tpm)
- config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
- config_host_data.set('CONFIG_VDE', vde.found())
- config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
-+config_host_data.set('CONFIG_PNG', png.found())
- config_host_data.set('CONFIG_VNC', vnc.found())
- config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
--config_host_data.set('CONFIG_VNC_PNG', png.found())
- config_host_data.set('CONFIG_VNC_SASL', sasl.found())
- config_host_data.set('CONFIG_VIRTFS', have_virtfs)
- config_host_data.set('CONFIG_VTE', vte.found())
-@@ -3638,11 +3640,11 @@ summary_info += {'curses support':    curses}
- summary_info += {'virgl support':     virgl}
- summary_info += {'curl support':      curl}
- summary_info += {'Multipath support': mpathpersist}
-+summary_info += {'PNG support':       png}
- summary_info += {'VNC support':       vnc}
- if vnc.found()
-   summary_info += {'VNC SASL support':  sasl}
-   summary_info += {'VNC JPEG support':  jpeg}
--  summary_info += {'VNC PNG support':   png}
- endif
- if targetos not in ['darwin', 'haiku', 'windows']
-   summary_info += {'OSS support':     oss}
-diff --git a/meson_options.txt b/meson_options.txt
-index 52b11cead4..d85734f8e6 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -177,12 +177,12 @@ option('vde', type : 'feature', value : 'auto',
-        description: 'vde network backend support')
- option('virglrenderer', type : 'feature', value : 'auto',
-        description: 'virgl rendering support')
-+option('png', type : 'feature', value : 'auto',
-+       description: 'PNG support with libpng')
- option('vnc', type : 'feature', value : 'auto',
-        description: 'VNC server')
- option('vnc_jpeg', type : 'feature', value : 'auto',
-        description: 'JPEG lossy compression for VNC server')
--option('vnc_png', type : 'feature', value : 'auto',
--       description: 'PNG compression for VNC server')
- option('vnc_sasl', type : 'feature', value : 'auto',
-        description: 'SASL authentication for VNC server')
- option('vte', type : 'feature', value : 'auto',
-diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
-index 7b86a4713d..e879cca7f5 100644
---- a/ui/vnc-enc-tight.c
-+++ b/ui/vnc-enc-tight.c
-@@ -32,7 +32,7 @@
-    INT32 definitions between jmorecfg.h (included by jpeglib.h) and
-    Win32 basetsd.h (included by windows.h). */
+ hmp-commands.hx    |  11 ++---
+ monitor/hmp-cmds.c |  12 +++++-
+ qapi/ui.json       |  24 +++++++++--
+ ui/console.c       | 101 +++++++++++++++++++++++++++++++++++++++++++--
+ 4 files changed, 136 insertions(+), 12 deletions(-)
+
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 8476277aa9..808020d005 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -244,11 +244,12 @@ ERST
  
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
- /* The following define is needed by pngconf.h. Otherwise it won't compile,
-    because setjmp.h was already included by qemu-common.h. */
- #define PNG_SKIP_SETJMP_CHECK
-@@ -95,7 +95,7 @@ static const struct {
- };
- #endif
+     {
+         .name       = "screendump",
+-        .args_type  = "filename:F,device:s?,head:i?",
+-        .params     = "filename [device [head]]",
+-        .help       = "save screen from head 'head' of display device 'device' "
+-                      "into PPM image 'filename'",
+-        .cmd        = hmp_screendump,
++        .args_type  = "filename:F,format:-fs,device:s?,head:i?",
++        .params     = "filename [-f format] [device [head]]",
++        .help       = "save screen from head 'head' of display device 'device'"
++                      "in specified format 'format' as image 'filename'."
++                      "Currently only 'png' and 'ppm' formats are supported.",
++         .cmd        = hmp_screendump,
+         .coroutine  = true,
+     },
  
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
- static const struct {
-     int png_zlib_level, png_filters;
- } tight_png_conf[] = {
-@@ -919,7 +919,7 @@ static int send_full_color_rect(VncState *vs, int x, int y, int w, int h)
-     int stream = 0;
-     ssize_t bytes;
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 634968498b..2442bfa989 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1720,9 +1720,19 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
+     const char *filename = qdict_get_str(qdict, "filename");
+     const char *id = qdict_get_try_str(qdict, "device");
+     int64_t head = qdict_get_try_int(qdict, "head", 0);
++    const char *input_format  = qdict_get_try_str(qdict, "format");
+     Error *err = NULL;
++    ImageFormat format;
  
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     if (tight_can_send_png_rect(vs, w, h)) {
-         return send_png_rect(vs, x, y, w, h, NULL);
-     }
-@@ -966,7 +966,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
-     int stream = 1;
-     int level = tight_conf[vs->tight->compression].mono_zlib_level;
- 
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     if (tight_can_send_png_rect(vs, w, h)) {
-         int ret;
-         int bpp = vs->client_pf.bytes_per_pixel * 8;
-@@ -1020,7 +1020,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
- struct palette_cb_priv {
-     VncState *vs;
-     uint8_t *header;
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     png_colorp png_palette;
- #endif
- };
-@@ -1082,7 +1082,7 @@ static int send_palette_rect(VncState *vs, int x, int y,
-     int colors;
-     ssize_t bytes;
- 
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     if (tight_can_send_png_rect(vs, w, h)) {
-         return send_png_rect(vs, x, y, w, h, palette);
-     }
-@@ -1233,7 +1233,7 @@ static int send_jpeg_rect(VncState *vs, int x, int y, int w, int h, int quality)
- /*
-  * PNG compression stuff.
-  */
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
- static void write_png_palette(int idx, uint32_t pix, void *opaque)
- {
-     struct palette_cb_priv *priv = opaque;
-@@ -1379,7 +1379,7 @@ static int send_png_rect(VncState *vs, int x, int y, int w, int h,
-     buffer_reset(&vs->tight->png);
-     return 1;
+-    qmp_screendump(filename, id != NULL, id, id != NULL, head, &err);
++    format = qapi_enum_parse(&ImageFormat_lookup, input_format,
++                              IMAGE_FORMAT_PPM, &err);
++    if (err) {
++        goto end;
++    }
++
++    qmp_screendump(filename, id != NULL, id, id != NULL, head,
++                   input_format != NULL, format, &err);
++end:
+     hmp_handle_error(mon, err);
  }
--#endif /* CONFIG_VNC_PNG */
+ 
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 664da9e462..98f0126999 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -157,12 +157,27 @@
+ ##
+ { 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOptions' }
+ 
++##
++# @ImageFormat:
++#
++# Supported image format types.
++#
++# @png: PNG format
++#
++# @ppm: PPM format
++#
++# Since: 7.1
++#
++##
++{ 'enum': 'ImageFormat',
++  'data': ['ppm', 'png'] }
++
+ ##
+ # @screendump:
+ #
+-# Write a PPM of the VGA screen to a file.
++# Capture the contents of a screen and write it to a file.
+ #
+-# @filename: the path of a new PPM file to store the image
++# @filename: the path of a new file to store the image
+ #
+ # @device: ID of the display device that should be dumped. If this parameter
+ #          is missing, the primary display will be used. (Since 2.12)
+@@ -171,6 +186,8 @@
+ #        parameter is missing, head #0 will be used. Also note that the head
+ #        can only be specified in conjunction with the device ID. (Since 2.12)
+ #
++# @format: image format for screendump. (default: ppm) (Since 7.1)
++#
+ # Returns: Nothing on success
+ #
+ # Since: 0.14
+@@ -183,7 +200,8 @@
+ #
+ ##
+ { 'command': 'screendump',
+-  'data': {'filename': 'str', '*device': 'str', '*head': 'int'},
++  'data': {'filename': 'str', '*device': 'str', '*head': 'int',
++           '*format': 'ImageFormat'},
+   'coroutine': true }
+ 
+ ##
+diff --git a/ui/console.c b/ui/console.c
+index da434ce1b2..f42f64d556 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -37,6 +37,9 @@
+ #include "exec/memory.h"
+ #include "io/channel-file.h"
+ #include "qom/object.h"
++#ifdef CONFIG_PNG
++#include <png.h>
++#endif
+ 
+ #define DEFAULT_BACKSCROLL 512
+ #define CONSOLE_CURSOR_PERIOD 500
+@@ -291,6 +294,89 @@ void graphic_hw_invalidate(QemuConsole *con)
+     }
+ }
+ 
++#ifdef CONFIG_PNG
++/**
++ * png_save: Take a screenshot as PNG
++ *
++ * Saves screendump as a PNG file
++ *
++ * Returns true for success or false for error.
++ *
++ * @fd: File descriptor for PNG file.
++ * @image: Image data in pixman format.
++ * @errp: Pointer to an error.
++ */
++static bool png_save(int fd, pixman_image_t *image, Error **errp)
++{
++    int width = pixman_image_get_width(image);
++    int height = pixman_image_get_height(image);
++    g_autofree png_struct *png_ptr = NULL;
++    g_autofree png_info *info_ptr = NULL;
++    g_autoptr(pixman_image_t) linebuf =
++                            qemu_pixman_linebuf_create(PIXMAN_a8r8g8b8, width);
++    uint8_t *buf = (uint8_t *)pixman_image_get_data(linebuf);
++    FILE *f = fdopen(fd, "wb");
++    int y;
++    if (!f) {
++        error_setg_errno(errp, errno,
++                         "Failed to create file from file descriptor");
++        return false;
++    }
++
++    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL,
++                                      NULL, NULL);
++    if (!png_ptr) {
++        error_setg(errp, "PNG creation failed. Unable to write struct");
++        fclose(f);
++        return false;
++    }
++
++    info_ptr = png_create_info_struct(png_ptr);
++
++    if (!info_ptr) {
++        error_setg(errp, "PNG creation failed. Unable to write info");
++        fclose(f);
++        png_destroy_write_struct(&png_ptr, &info_ptr);
++        return false;
++    }
++
++    png_init_io(png_ptr, f);
++
++    png_set_IHDR(png_ptr, info_ptr, width, height, 8,
++                 PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
++                 PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
++
++    png_write_info(png_ptr, info_ptr);
++
++    for (y = 0; y < height; ++y) {
++        qemu_pixman_linebuf_fill(linebuf, image, width, 0, y);
++        png_write_row(png_ptr, buf);
++    }
++    qemu_pixman_image_unref(linebuf);
++
++    png_write_end(png_ptr, NULL);
++
++    png_destroy_write_struct(&png_ptr, &info_ptr);
++
++    if (fclose(f) != 0) {
++        error_setg_errno(errp, errno,
++                         "PNG creation failed. Unable to close file");
++        return false;
++    }
++
++    return true;
++}
++
++#else /* no png support */
++
++static bool png_save(int fd, pixman_image_t *image, Error **errp)
++{
++    error_setg(errp, "Enable PNG support with libpng for screendump");
++    return false;
++}
++
 +#endif /* CONFIG_PNG */
- 
- static void vnc_tight_start(VncState *vs)
++
+ static bool ppm_save(int fd, pixman_image_t *image, Error **errp)
  {
-@@ -1706,7 +1706,7 @@ void vnc_tight_clear(VncState *vs)
- #ifdef CONFIG_VNC_JPEG
-     buffer_free(&vs->tight->jpeg);
- #endif
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     buffer_free(&vs->tight->png);
- #endif
+     int width = pixman_image_get_width(image);
+@@ -329,7 +415,8 @@ static void graphic_hw_update_bh(void *con)
+ /* Safety: coroutine-only, concurrent-coroutine safe, main thread only */
+ void coroutine_fn
+ qmp_screendump(const char *filename, bool has_device, const char *device,
+-               bool has_head, int64_t head, Error **errp)
++               bool has_head, int64_t head,
++               bool has_format, ImageFormat format, Error **errp)
+ {
+     g_autoptr(pixman_image_t) image = NULL;
+     QemuConsole *con;
+@@ -385,8 +472,16 @@ qmp_screendump(const char *filename, bool has_device, const char *device,
+      * yields and releases the BQL. It could produce corrupted dump, but
+      * it should be otherwise safe.
+      */
+-    if (!ppm_save(fd, image, errp)) {
+-        qemu_unlink(filename);
++    if (has_format && format == IMAGE_FORMAT_PNG) {
++        /* PNG format specified for screendump */
++        if (!png_save(fd, image, errp)) {
++            qemu_unlink(filename);
++        }
++    } else {
++        /* PPM format specified/default for screendump */
++        if (!ppm_save(fd, image, errp)) {
++            qemu_unlink(filename);
++        }
+     }
  }
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 310a873c21..8376291b47 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -2165,7 +2165,7 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
-             vs->features |= VNC_FEATURE_TIGHT_MASK;
-             vs->vnc_encoding = enc;
-             break;
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-         case VNC_ENCODING_TIGHT_PNG:
-             vs->features |= VNC_FEATURE_TIGHT_PNG_MASK;
-             vs->vnc_encoding = enc;
-@@ -3256,7 +3256,7 @@ static void vnc_connect(VncDisplay *vd, QIOChannelSocket *sioc,
- #ifdef CONFIG_VNC_JPEG
-     buffer_init(&vs->tight->jpeg,     "vnc-tight-jpeg/%p", sioc);
- #endif
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     buffer_init(&vs->tight->png,      "vnc-tight-png/%p", sioc);
- #endif
-     buffer_init(&vs->zlib.zlib,      "vnc-zlib/%p", sioc);
-diff --git a/ui/vnc.h b/ui/vnc.h
-index a7149831f9..a60fb13115 100644
---- a/ui/vnc.h
-+++ b/ui/vnc.h
-@@ -201,7 +201,7 @@ typedef struct VncTight {
- #ifdef CONFIG_VNC_JPEG
-     Buffer jpeg;
- #endif
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     Buffer png;
- #endif
-     int levels[4];
+ 
 -- 
 2.22.3
 
