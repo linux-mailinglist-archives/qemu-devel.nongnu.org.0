@@ -2,90 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB0C4F9C00
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 19:48:47 +0200 (CEST)
-Received: from localhost ([::1]:51438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AEF4F9C1C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 19:57:59 +0200 (CEST)
+Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncsj0-0006L1-7R
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 13:48:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34532)
+	id 1ncsru-0000en-4G
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 13:57:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ncsfw-00054p-HE
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 13:45:37 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:44792)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ncsr1-0008JZ-Gq
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 13:57:03 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:45938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ncsfu-0003kK-Bn
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 13:45:36 -0400
-Received: by mail-pl1-x632.google.com with SMTP id j8so8500364pll.11
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 10:45:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ncsqz-0005eK-PM
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 13:57:03 -0400
+Received: by mail-pl1-x636.google.com with SMTP id k13so3331614plk.12
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 10:57:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=s27MJ117DUPs53Z7xdyXtL5VHtZQFh7zZ/JJA1Nflns=;
- b=V/XQJHgMs2oCFW1wMCzCu+sTQ+qvof+T4DGcnXyShnLN40r97RvaZgCWqaB78Qch/p
- hlNQfGpJCLosKzyjptBpAtUlu2msEfNdyb/bGr9IbxmQXxwc8S43cxnLeInmnSeVV5jp
- mSp5D5zKMUHUgwIeudpGNIrVm9dVL8KrKUOHyioUdZQvPb9QSKGTlZf0zo2HVU14BTvz
- Evd//HQ+uy7+Bs8J0HiKe/NnDUBy24QcdWdFasR/HpYwnSC078Mf5dwvpsiFC2kYtwZ/
- SiWNYN+ad5d2SVglSEMGaIUqJhtmjwyYsX1T0x1z9Oqgiao6haG5JSxUyWS297eSqO9E
- r7bw==
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=IudNh/HynxxH+tLoweLS06+fVTpNQOOa59eg8I3l6dE=;
+ b=U2/eA7V9kOv67ug/CEAAH5jJ3bDdjcuxlz1/CKBkgdCZNj0JT/9J3pCPxI/ctDFSbM
+ qK1+Sr9mcyKaUr/H66Pv9yktEidb3BhejDS+0/amDof+SQfyaKA08TzT03iiUsMWJJ3J
+ 1MOBs6THAm4fpRtqfO8Z5nRoWMFj9z3GkfuNpKxv/p7ca1UQgBQvuQUPEasblyTQ9RrO
+ yn1hcR+9v3A8/OJPimHYWYuYVMj6vFYN+ei68jGp8D7XrjHDIdyTkfs0MDCZSOMFvB64
+ yHKUCeuwajm7ozlzkxvbDs/GO8MPtR8QBXSY2YgA4lYkeM/deK+/SqRK5LFaoYUgODz1
+ i3nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=s27MJ117DUPs53Z7xdyXtL5VHtZQFh7zZ/JJA1Nflns=;
- b=w2j59h8Tlxq2b3YLLSmltuYOyys2AcX4srd0JBFdNg3/l6735Q4+AJ7PYKNuVoNh3N
- es7EJkatLo3RbTr0kP8s8JixoAfSkmF6Ye4/6rxeh6/TpAQcEKLJZjSuVGMbRLYh+LSW
- PZJ3PLvi/24tNH2TPGOtuY8tvXBjqADXWA+GYRsve+3aKFZH4b9aK4Wl5TIaMh1xPwz9
- 8y98w+Z5X108zr30Ocwzu+gBtDdFZROydPuSnYL/UGEvIjHqK7eDD3yNG6QP0rZpWQ9m
- EwKdDb+Mk2bDfHJynpOBMfYEGL8hcL/BeFWelJKtM7NFzBJvMIMSb+5NvYxNsu7OJpKP
- EyZA==
-X-Gm-Message-State: AOAM532ZpVPEOlNo2zZAaTMCePqIPRmBiNJfIoy57SL60J9n1lxeKoyY
- OwmY6fbreIBZAsgNj8rX+3f3Bw==
-X-Google-Smtp-Source: ABdhPJz2PLnM5p3wbYInU8k2mPvxFUdB4gG7Xt0HvGtcuAR9qQdgQ3+6H0J5e/oTUgFcZECrT000HA==
-X-Received: by 2002:a17:90a:f189:b0:1ca:c279:1bdf with SMTP id
- bv9-20020a17090af18900b001cac2791bdfmr22988444pjb.185.1649439923187; 
- Fri, 08 Apr 2022 10:45:23 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=IudNh/HynxxH+tLoweLS06+fVTpNQOOa59eg8I3l6dE=;
+ b=dIJNKm+Ufc4G/Mmk4+2hXApQ+i1NuQZablvlnhiFl7yeT21JiSBok04r/JVZt0RP8F
+ R869aZxfIqRkD/9h3aW08ppdMF3CWZXML8dxCJnLxwcWenFlLvRpAQO9OQS9Pqr5KIMX
+ K9/+1tRTMOd98sfpO3mQGf2jAV2f+yU9lNeEbPE2441L1GATLBKgWLNbntqBF1xgs9Dg
+ w2ep21CcuwAZ9BUQRbLzTarTpfW2ePhi9t4XlgWsE5clDE6Lcr4+NaOUa9SP9guS59nN
+ Pt54dYfX/miQ8GVN35KtUjbQg15pM3HqmGvORNXbWd+uOVr9zNyIoOBNYy9eRrJ6CQjG
+ mJ2Q==
+X-Gm-Message-State: AOAM531qVHa35/qoG+xUr9eMZKycfamLghtwmN3FlkKqGmW5stTuqe4z
+ OjKOyj0S7J1ez9+0mg3e3xm/Hg==
+X-Google-Smtp-Source: ABdhPJzyqykFhKSNRm78BrrnsD1mOVmGCPlJulii4V8oRfU//P/WLig+dmASk3SzvKPSoD3usOwcWw==
+X-Received: by 2002:a17:903:2346:b0:156:9956:f437 with SMTP id
+ c6-20020a170903234600b001569956f437mr20871133plh.123.1649440620128; 
+ Fri, 08 Apr 2022 10:57:00 -0700 (PDT)
 Received: from google.com (157.214.185.35.bc.googleusercontent.com.
  [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
- y3-20020a056a00190300b004fa2411bb92sm28238078pfi.93.2022.04.08.10.45.22
+ w123-20020a623081000000b005056a4d71e3sm6021624pfw.77.2022.04.08.10.56.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 10:45:22 -0700 (PDT)
-Date: Fri, 8 Apr 2022 17:45:19 +0000
+ Fri, 08 Apr 2022 10:56:59 -0700 (PDT)
+Date: Fri, 8 Apr 2022 17:56:55 +0000
 From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
+To: Andy Lutomirski <luto@kernel.org>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm list <kvm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
  Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
  Thomas Gleixner <tglx@linutronix.de>,
  Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
  "J . Bruce Fields" <bfields@fieldses.org>,
  Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
  Steven Price <steven.price@arm.com>,
  "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
  Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
  Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com
-Subject: Re: [PATCH v5 05/13] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <YlB0r4wird8tXDrr@google.com>
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
+ David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
+ against RLIMIT_MEMLOCK
+Message-ID: <YlB3Z8fqJ+67a2Ck@google.com>
 References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-6-chao.p.peng@linux.intel.com>
- <YkIvEeC3/lgKTLPt@google.com>
- <20220408134641.GD57095@chaop.bj.intel.com>
+ <20220310140911.50924-5-chao.p.peng@linux.intel.com>
+ <Yk8L0CwKpTrv3Rg3@google.com>
+ <02e18c90-196e-409e-b2ac-822aceea8891@www.fastmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220408134641.GD57095@chaop.bj.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=seanjc@google.com; helo=mail-pl1-x632.google.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <02e18c90-196e-409e-b2ac-822aceea8891@www.fastmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -175
 X-Spam_score: -17.6
 X-Spam_bar: -----------------
@@ -109,35 +114,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 08, 2022, Chao Peng wrote:
-> On Mon, Mar 28, 2022 at 09:56:33PM +0000, Sean Christopherson wrote:
-> > struct kvm_userspace_memory_region_ext {
-> > #ifdef __KERNEL__
+On Thu, Apr 07, 2022, Andy Lutomirski wrote:
 > 
-> Is this #ifndef? As I think anonymous struct is only for kernel?
-
-Doh, yes, I inverted that.
-
-> Thanks,
-> Chao
+> On Thu, Apr 7, 2022, at 9:05 AM, Sean Christopherson wrote:
+> > On Thu, Mar 10, 2022, Chao Peng wrote:
+> >> Since page migration / swapping is not supported yet, MFD_INACCESSIBLE
+> >> memory behave like longterm pinned pages and thus should be accounted to
+> >> mm->pinned_vm and be restricted by RLIMIT_MEMLOCK.
+> >> 
+> >> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> >> ---
+> >>  mm/shmem.c | 25 ++++++++++++++++++++++++-
+> >>  1 file changed, 24 insertions(+), 1 deletion(-)
+> >> 
+> >> diff --git a/mm/shmem.c b/mm/shmem.c
+> >> index 7b43e274c9a2..ae46fb96494b 100644
+> >> --- a/mm/shmem.c
+> >> +++ b/mm/shmem.c
+> >> @@ -915,14 +915,17 @@ static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
+> >>  static void notify_invalidate_page(struct inode *inode, struct folio *folio,
+> >>  				   pgoff_t start, pgoff_t end)
+> >>  {
+> >> -#ifdef CONFIG_MEMFILE_NOTIFIER
+> >>  	struct shmem_inode_info *info = SHMEM_I(inode);
+> >>  
+> >> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> >>  	start = max(start, folio->index);
+> >>  	end = min(end, folio->index + folio_nr_pages(folio));
+> >>  
+> >>  	memfile_notifier_invalidate(&info->memfile_notifiers, start, end);
+> >>  #endif
+> >> +
+> >> +	if (info->xflags & SHM_F_INACCESSIBLE)
+> >> +		atomic64_sub(end - start, &current->mm->pinned_vm);
+> >
+> > As Vishal's to-be-posted selftest discovered, this is broken as current->mm
+> > may be NULL.  Or it may be a completely different mm, e.g. AFAICT there's
+> > nothing that prevents a different process from punching hole in the shmem
+> > backing.
+> >
 > 
-> > 	struct kvm_userspace_memory_region region;
-> > #else
-> > 	struct kvm_userspace_memory_region;
-> > #endif
-> > 	__u64 private_offset;
-> > 	__u32 private_fd;
-> > 	__u32 padding[5];
-> > };
-> > 
-> > #ifdef __KERNEL__
-> > #define kvm_user_mem_region kvm_userspace_memory_region_ext
-> > #endif
-> > 
-> > [*] https://lore.kernel.org/all/20220301145233.3689119-1-arnd@kernel.org
-> > 
-> > > +	__u64 private_offset;
-> > > +	__u32 private_fd;
-> > > +	__u32 padding[5];
-> > > +};
+> How about just not charging the mm in the first place?  There’s precedent:
+> ramfs and hugetlbfs (at least sometimes — I’ve lost track of the current
+> status).
+> 
+> In any case, for an administrator to try to assemble the various rlimits into
+> a coherent policy is, and always has been, quite messy. ISTM cgroup limits,
+> which can actually add across processes usefully, are much better.
+> 
+> So, aside from the fact that these fds aren’t in a filesystem and are thus
+> available by default, I’m not convinced that this accounting is useful or
+> necessary.
+> 
+> Maybe we could just have some switch require to enable creation of private
+> memory in the first place, and anyone who flips that switch without
+> configuring cgroups is subject to DoS.
+
+I personally have no objection to that, and I'm 99% certain Google doesn't rely
+on RLIMIT_MEMLOCK.
 
