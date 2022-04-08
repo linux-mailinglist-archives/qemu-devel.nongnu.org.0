@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0296D4F989B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:50:51 +0200 (CEST)
-Received: from localhost ([::1]:55286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BF34F98A1
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:51:50 +0200 (CEST)
+Received: from localhost ([::1]:58028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncpwn-0001DL-Rr
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:50:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43114)
+	id 1ncpxl-0003Ec-E1
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPa-0007Je-Ag
+ id 1ncpPa-0007Kx-Os
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:30 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52932)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPX-0002SG-3f
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:29 -0400
-Received: by mail-wm1-x330.google.com with SMTP id r7so5581730wmq.2
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:26 -0700 (PDT)
+ id 1ncpPX-0002T0-PB
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:30 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ i6-20020a1c3b06000000b0038e710da2dcso7685813wma.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mApTko4JykaeGu3JC9+7iWWX8yyHP0SNoqvMYS15NqA=;
- b=cC4yf2QDCw83BaUa+ixNVYmnc161X1S8M54BY70O/CIqTvUwQpNWgqMuw+OpQO3cQY
- /MHmWwgEF29OPEhW7fMQi0vzQA8v3FMvfM+9m1iqbnrSTrhLb9xHY08Dlc+t4KkdadTb
- eE+1eMknjwoFMwnKTdqj2BngQ771FrV6iydo6A6IIncyjHWwh5vTYx6rvttEy/xsOndA
- +R6TLMCJtOnmUaaNHVIosEkRcU7cVQx1P5/rl9si0V7hgdX4d+fVwaeNEwA8h93tYG8E
- DFUHqcXWzsN0FZiFHdv9GZ/h8h0fS9UFVpErcBgqE9iZK5BFzTPPKQDvXx7fiKG7CX0m
- bliA==
+ bh=LtZz4rR4JTiEt09cH5eXBwQY/mFcoau4efeuuU9fWxY=;
+ b=IQ0AkNqGdxjR/lWNvljBqpTxtqpHNLVzTAA44jXIE74VUMSoHwm/2Irh6DYtgdOwhq
+ aIcTotjRAflCsP4Cuycm1vlF4LPjQnjV6EpoYYXIasG/As2jjIsDvFyVRqNooaMnA/Bl
+ OtQX0SPIc7nnxYtmZEWcmmANuhHbW++vRdlKU2HNtLxmRCb3h09VrCTIGBuWFWGeGmEC
+ nrqTq0D0yUQvv5XkV0nMCuwa0q5Oe1ikibGvIgseWGFCyZORDRZP9BG2B6CzjqFcz7Du
+ kulpemzrKOeQo3lzGswYo/ecJf7eMKs6nzhHaB0Yu0cC+jasH1MjSBXbChFcXNfed6uU
+ 872Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mApTko4JykaeGu3JC9+7iWWX8yyHP0SNoqvMYS15NqA=;
- b=IbkRH1+vPONVkdKtmde5kdma1nNawWCTesvfGRg+u8kGUeBiM3DKBI2ue+kmY9Qb8P
- hMSMQLPeIxJHqiVP05QzZsK4qiOkr+TNNfteySJbxhe4V4IDewkpHghLM2KSJa38CAc2
- lX5yqbLRKKGrXTpKSbV3TEXHj8aamSwOu5GEjfu6G+LHwyKLVjEx4m0Z5HN5aHwXNS+f
- qEK/5flb+4xbK9M9s2E5p+3nLsZWgV/pnAP/143fcgUljAFfQCOU01I/DjZN5afGYLbC
- b5OyM/SYobzpnAUtcsQFrq7HwTmd0YO8i+AlAyfhvTPZXx9bA7RAXapcR5IXq+4GeW8m
- oVGA==
-X-Gm-Message-State: AOAM530L5+bcvIlCNcwsu5pGpZ3r4YFxElw5xPR0syqpJfYYXBf0hWXL
- fVT4EbOt5lm8kGZSw0VgneEsEUCsNPjXEQ==
-X-Google-Smtp-Source: ABdhPJx/roWEwr48+JqthWL25fUx8+BjYb2n1oW8GzQnEsQBiY/N//6BwQLY4R+mPu1PdLu45zpNwA==
-X-Received: by 2002:a05:600c:1548:b0:38e:a8df:eced with SMTP id
- f8-20020a05600c154800b0038ea8dfecedmr2427279wmg.9.1649427385540; 
- Fri, 08 Apr 2022 07:16:25 -0700 (PDT)
+ bh=LtZz4rR4JTiEt09cH5eXBwQY/mFcoau4efeuuU9fWxY=;
+ b=k2X1Mt2YwedF/MEpRqLnnYjEf8468Jef2JYFw9rxfqZF+KTzN6XfZhtynwguOPqhqJ
+ yU8DqP/EQbnwIEKI0S69AG+rovdw6PpOcJdOxbew58mYABP0bcgdORXntLhZAODIuswN
+ gVKqHlxUNDA4W8oA2VV4SPo2+XvW+7vOadK3SzkjOZyT5IQU1KGcqoQCFg9Nheb+g7aD
+ +cmXGGcjQWaFSFA/PJabupaNcjXXCYhXGuspNmeE1DKAzhkLXh0fo5hJr6v9McR+Pczz
+ Erakb3hqEvcM/yGZKpZNlbDTDHLm7yx2JIRo5WGMxCHUhWV8tac5LKQQeKzVBDg0GYot
+ yNdQ==
+X-Gm-Message-State: AOAM532G3gquogDOJP31YXWP/D70C8e+kzDYnviXT0KvtA/mFsUPjCzs
+ MyUln9GL07UtgcGtm24l2n8/HmIrYwYwhA==
+X-Google-Smtp-Source: ABdhPJxgMNxsLTK3OoCM7lvmmrc4MLYbFmkg/Oy1mP7q+5ByJtjbRLQr3n/052ud9FXTwvTaegroHQ==
+X-Received: by 2002:a7b:cf10:0:b0:38e:6a68:98c3 with SMTP id
+ l16-20020a7bcf10000000b0038e6a6898c3mr17264660wmg.156.1649427386366; 
+ Fri, 08 Apr 2022 07:16:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.16.24
+ i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.16.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 07:16:25 -0700 (PDT)
+ Fri, 08 Apr 2022 07:16:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 35/41] hw/intc/arm_gicv3_redist: Implement
- gicv3_redist_vinvall()
-Date: Fri,  8 Apr 2022 15:15:44 +0100
-Message-Id: <20220408141550.1271295-36-peter.maydell@linaro.org>
+Subject: [PATCH 36/41] hw/intc/arm_gicv3_redist: Implement
+ gicv3_redist_inv_vlpi()
+Date: Fri,  8 Apr 2022 15:15:45 +0100
+Message-Id: <20220408141550.1271295-37-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220408141550.1271295-1-peter.maydell@linaro.org>
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,34 +91,34 @@ Cc: Marc Zyngier <maz@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the gicv3_redist_vinvall() function (previously left as a
-stub).  This function handles the work of a VINVALL command: it must
-invalidate any cached information associated with a specific vCPU.
+Implement the function gicv3_redist_inv_vlpi(), which was previously
+left as a stub.  This is the function that does the work of the INV
+command for a virtual interrupt.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_redist.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ hw/intc/arm_gicv3_redist.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index 9866dd94c60..a586c9ef498 100644
+index a586c9ef498..0738d3822d1 100644
 --- a/hw/intc/arm_gicv3_redist.c
 +++ b/hw/intc/arm_gicv3_redist.c
-@@ -1090,7 +1090,13 @@ void gicv3_redist_mov_vlpi(GICv3CPUState *src, uint64_t src_vptaddr,
- 
- void gicv3_redist_vinvall(GICv3CPUState *cs, uint64_t vptaddr)
+@@ -1102,9 +1102,12 @@ void gicv3_redist_vinvall(GICv3CPUState *cs, uint64_t vptaddr)
+ void gicv3_redist_inv_vlpi(GICv3CPUState *cs, int irq, uint64_t vptaddr)
  {
--    /* The redistributor handling will be added in a subsequent commit */
-+    if (!vcpu_resident(cs, vptaddr)) {
-+        /* We don't have anything cached if the vCPU isn't resident */
-+        return;
-+    }
-+
-+    /* Otherwise, our only cached information is the HPPVLPI info */
-+    gicv3_redist_update_vlpi(cs);
+     /*
+-     * The redistributor handling for invalidating cached information
+-     * about a VLPI will be added in a subsequent commit.
++     * The only cached information for LPIs we have is the HPPLPI.
++     * We could be cleverer about identifying when we don't need
++     * to do a full rescan of the pending table, but until we find
++     * this is a performance issue, just always recalculate.
+      */
++    gicv3_redist_vinvall(cs, vptaddr);
  }
  
- void gicv3_redist_inv_vlpi(GICv3CPUState *cs, int irq, uint64_t vptaddr)
+ void gicv3_redist_set_irq(GICv3CPUState *cs, int irq, int level)
 -- 
 2.25.1
 
