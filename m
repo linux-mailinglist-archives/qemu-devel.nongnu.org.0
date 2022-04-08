@@ -2,69 +2,150 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A64F4F8EFC
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 09:05:54 +0200 (CEST)
-Received: from localhost ([::1]:60886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DE94F8F7A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 09:24:27 +0200 (CEST)
+Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncigr-0003xz-0w
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 03:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39176)
+	id 1nciyo-0005tz-AW
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 03:24:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ncieo-0002vR-08; Fri, 08 Apr 2022 03:03:46 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:35457)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nciel-0002wZ-SL; Fri, 08 Apr 2022 03:03:45 -0400
-Received: by mail-io1-xd34.google.com with SMTP id p135so3699466iod.2;
- Fri, 08 Apr 2022 00:03:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LCPAuz+QsEndKWVu/jIvae5eXZjLeuoBcm4SM3MXEuw=;
- b=JMGD8GqU56ypSGJ1RiGK9SZ9rBk9IzXJEvbOJYmU7UDdhB34VkvzOlSoTpl2kAuPQK
- YOx+La+a699UX2WRbh/aN1clteba+Ij5iwOauCEORSJy00VwQ/kXkW2z0CJ2EoWdf9lx
- dj1jqBbiWM6C2k9YoVzr0S1RxDAfgOVoagFHr+sILjKCmuCKlXuQiTkGIfAiQpMU8y/i
- nwCMFIJbk0kAdzaCfdPE7K/3MhMwLqraj66r69mIh4i1+S6GaW86nbWDMo9NQ4bBQMPJ
- 4bakA/b7A+4F+H4bwlvPEVuQn9wkjFcQWuOEyP06PDQE9OouCz5Cai48uqpwgcXGNiWW
- saYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LCPAuz+QsEndKWVu/jIvae5eXZjLeuoBcm4SM3MXEuw=;
- b=0rr5+d7e+5FxGDeLSMb3xG1SFarTcuigd9L3VnY2w/1BpPEy247lyi4+X/tZfFDWFF
- +HboLMIQBk0nxxppkt0ijKd7BN97cAa4zm/1yCDz17LaGrbo6PWBHlCNBOTDkeyz8WJn
- M5nwgCJ0MJf3FIPv4K0nqdkvh/cMvuRh232vCFne8ybZ+EOFgS0/EqX9E6qyKEU5onEW
- rHUuTIMXHFCXOwQtdQ/V1+kLoaBmUT8p8h3t9V06U26GyEoTnC2x4y7W9Tg83w/CXIjv
- 886lwdkc8TAalsltYN870/yCf06xnX1AgZ4ClYZoLXtVHf2GVaIqjtteaxNQdDeFSHAP
- 4Q5g==
-X-Gm-Message-State: AOAM531CG1PTlVY6QfTzyPUwm8epAEJT++tTntikqnaQWaC+tf13KKE6
- LXjLm8ak1xt0W2xujpRrwcMjPYnS1PIVZfiK5a4=
-X-Google-Smtp-Source: ABdhPJzB2343u391tmMIZB51RsbWZPPHYtfaGcF+kAvx5Y4h0wbvQB/J4Lti/y2JFkLlLEDztzLz0N7xkUOEbwBhfIc=
-X-Received: by 2002:a05:6602:14cb:b0:646:4868:5fd with SMTP id
- b11-20020a05660214cb00b00646486805fdmr7744439iow.31.1649401422359; Fri, 08
- Apr 2022 00:03:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1nciol-0000vB-7E
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 03:14:03 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:47150)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1ncioi-0004oS-Hs
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 03:14:02 -0400
+Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2385hDxL009873;
+ Fri, 8 Apr 2022 00:13:55 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=proofpoint20171006;
+ bh=/fgEiBc2jvQHWz/q7evZEt/0WVzghAAxKSbCeg2LVZ8=;
+ b=DTiptkM5k6yJ1x2KUkjiHxkBMJXj+wUi7z2RmofHUL/nLJr2X2l0JIPT7FZn+sMU+4Xh
+ qDUF+rU6VwzSV17n1sAEE0Pl01b0pJzaI6z2CwaXuJIs5qa878KpvuTdKWjggGIHODwt
+ EfSl0PGFLKfZEOXbnSzLB/jTo24Izrwxr3MPlVsqcAvjuX3MPRXYsb84rHAAoZaCiPgv
+ 5sZXh4ggkg4wuHuvUkYn/PbG/Xm9WQvQtWO9vwXijLtrpC9EyBlgHlrleQpAKIE7K7vt
+ O1q2yvhSma7ze+Wn1EYmVkyk0RqYkY4OhecjZfI67Nr9b2aqQTgnQiVS68bluSUlQXe8 zA== 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3f6p1ymv7a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Apr 2022 00:13:54 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OdQe0y6XhWgB0dTLYUyNwJ9Gg/OqcA/e7c2H5Hz+aDLvrq5EhBYEMmry9EsYk1yGZ2aVLNlGCJilH4AbOZAImWeBH6ehVR11fXRK9BrOpFBZU5LYPyCYVE4rl83UFvSlh7V1m+sE9c5E2awG8IFy3tuI2l+M+ZFs6VMH009rWzrwGy/roazLlgPm+tnzg0RnSnrWhq+uYFbmUnEPO0Db5oBmFQ07hJyiN24MPTSszW/Hmc/VA05FQI8B40d321Y40oz7tWfvndxcHDr6gBRvjPL5lkajYinXdT69YxifXU0pFsyT25bjIlFFVj0+3vJV9il7nJiEcVSWo9KIoraudw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/fgEiBc2jvQHWz/q7evZEt/0WVzghAAxKSbCeg2LVZ8=;
+ b=cp41t9NDRx8J65ShPPEktaBVD+YzgqrSBnqmAeu8zTPrUODEtVhJv0bbQFTdPlZqm3OtN6cQPbC1y28VdStRQRPHqzCkcw83HE4PCOVGYGK+l+RIaqRVMzcsRj/AiqfTSZNuNmEH/faOMZgMPeEH/m1sLC1bZBtJXXlY8jLyvTMX2phGVfSHMZjsSXYrB/6MKf6jV20WIR+N2NiWOXQzsYHjSY4p1PJ54XPJl0X9fAn02/InaFkbaOAPrbZ8NwgWB0aMXEkypglz8n+zM+4HG29l1hqdkk5HcXpXzGRxdSXyuOaG9SEANDNyH9SL9bMN7hRvyVWodqDAkMzOUn8oCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BN7PR02MB4033.namprd02.prod.outlook.com (2603:10b6:406:f9::16)
+ by BN6PR02MB3281.namprd02.prod.outlook.com (2603:10b6:405:6c::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.25; Fri, 8 Apr
+ 2022 07:13:52 +0000
+Received: from BN7PR02MB4033.namprd02.prod.outlook.com
+ ([fe80::df1:1d4d:e30c:55e6]) by BN7PR02MB4033.namprd02.prod.outlook.com
+ ([fe80::df1:1d4d:e30c:55e6%3]) with mapi id 15.20.5144.021; Fri, 8 Apr 2022
+ 07:13:52 +0000
+From: Kshitij Suri <kshitij.suri@nutanix.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/2] Option to take screenshot with screendump as PNG
+Date: Fri,  8 Apr 2022 07:13:33 +0000
+Message-Id: <20220408071336.99839-1-kshitij.suri@nutanix.com>
+X-Mailer: git-send-email 2.22.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PH0P220CA0024.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:d3::29) To BN7PR02MB4033.namprd02.prod.outlook.com
+ (2603:10b6:406:f9::16)
 MIME-Version: 1.0
-References: <20220331000127.2107823-1-atishp@rivosinc.com>
- <20220331000127.2107823-12-atishp@rivosinc.com>
-In-Reply-To: <20220331000127.2107823-12-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 8 Apr 2022 17:03:16 +1000
-Message-ID: <CAKmqyKMAmVjJ+EFJvb-3L9cCJgFZCfsu6ex47oMuShzxUJ+eMg@mail.gmail.com>
-Subject: Re: [PATCH v7 11/12] hw/riscv: virt: Add PMU DT node to the device
- tree
-To: Atish Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1907f56e-0948-40ce-d869-08da192f561f
+X-MS-TrafficTypeDiagnostic: BN6PR02MB3281:EE_
+X-Microsoft-Antispam-PRVS: <BN6PR02MB328116BA08FDE372C7F1A2B699E99@BN6PR02MB3281.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iUO7WvSevLy2sZn7TigiYqHu8UmYpaXF4x72bd9f+o+WjEzbGuahMWFwT+fZyKJsJt/Kkoc6/k9QligyhWu+Gc7JD+H9rhBIAkWv377S75hWvdZ33MairVoHDyTn/Wmw1Wg38ZSdlBE+mCZpa3QCvIgKiM9sRO2QMRbukXnDQOMGCZBBVzWlfB1IDSLo8ByiK6IJnXLnqEavn8ahMCx8Y4zzNZgUaD9tlaxbrubXM2q4Laz/npB8ZNnUADeBZMDHnZLr0BKJJBf0nSbzkxsN0RqUMpszGkYDJhaiggJ4hz9R4+yKQOK4vTBJBu5faMpZAjfWPYMPIAcF4hbT3OqOZVYs8qrLXTj8CmkZgt8V38ugNF7X/t6CEI9I4YXVVCC6XXKuNG0XT6UTk/W/YLjrAW+4gko6h3Zgdflie5eDEDuYxSclUoFcb1AeURxzscQcTYU3FxCqeH6Oi3dPHYf1UX1eJTFyWUKie2uQWNMbQ5fuCidS8mvYTmz1VT/u2oWc/jXOu793Q1IamLw8u8OyzzVNqr2U5TBGbjtcUI7x/HWOh0fkIwIzkNdi8u3PS0qwT4/r32KE/rvja9VDYGkKNShbktPnAzEtu6LuQ6VkUvsatO3JqU/0mVaJMgC08IuZk3lDGrsTpDX8AmF8O44AZKU3w+Vfnttp6be753OFuN82cf5oXsAs9Fs51GaDEVHYKvZ6+phg3N2zUxV+dwBNPQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN7PR02MB4033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(6916009)(316002)(1076003)(66946007)(66556008)(66476007)(38350700002)(38100700002)(8676002)(4326008)(36756003)(6486002)(2906002)(6506007)(44832011)(6512007)(7416002)(508600001)(86362001)(52116002)(6666004)(5660300002)(2616005)(107886003)(83380400001)(8936002)(26005)(186003)(66574015);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFdFT05mRnVaZ0pFeDgwV3JES0VQd1I2MTJCeFd2NWxXTHMrenRneDAxTTZL?=
+ =?utf-8?B?QjVhUVl4djRXWko1ck1XRjh4dHZvSzV6WkQ5ZTY0L3JudU1HdkgrQTM4Y3NZ?=
+ =?utf-8?B?dTUzNW51a2hzQ1BZbTlKZU8rVkNLSjlmWGtDM2hoaGNBT1F3OHQ1R2xVUzJZ?=
+ =?utf-8?B?ZTFGNFNwWjlyY1BzN1hjUThibVlMek5lZEF2TVZpakxwL1UwNWlQMzhZSFQx?=
+ =?utf-8?B?R2V5eDhBbjAxcFBucDNWMksxaWgvbytVTElzUnpxanNFcXJlK05ZcnVad0dI?=
+ =?utf-8?B?by9VOHl0WUM3ZXdGZlNRUXlESTBjZVpCTjdaUVNJOHBNdTRqM1M2cE1QSXU1?=
+ =?utf-8?B?eVRLU1M3UThBOC9aVUM5Ykc4TFVoR1prU0R2b0pCRXIzZ29iYUUzNjRRS0wz?=
+ =?utf-8?B?amFsMzlTZ05yTlNCQWxOZEZpZnNaSU5rbWhnNlF0R3Q0YzdKWGNzclNFdVZL?=
+ =?utf-8?B?ZExPRXBkVjZVRmpnU29zQk0vaTJLN09UMnByQzRFOUtSejBucWtxdGJTNUF3?=
+ =?utf-8?B?eDVaYVVpSVpBNmJlbFVySk1QWEtQaUg4VGo4M1hOSHY5OW5ybEI4YUlzTVdN?=
+ =?utf-8?B?UGxiNHJMai9pTWZYcGMrL2hqODEyaHVTRHBVVlpieFVrN2NVU1NQa2Z2REUz?=
+ =?utf-8?B?UE96cUVCRTBMclA4K0dtY1YwZHFkSFR3SFh0VW9OaldSK3R3QWRqdXNMTyts?=
+ =?utf-8?B?Um5QY0YrQytDTFhTaDdIcnlEeXNrNUZBMytnWmpPbDFBSmc0KzROZzBqY0xv?=
+ =?utf-8?B?Uk5jeGpZbkZiNDNwZUlkNkhVeEJsd2pxRDRGbUE0SzFUck0rcE9UU1VzN1h3?=
+ =?utf-8?B?VXdSc0dLZW9TY2tiYmtaR1FxSFcwYUY4bWNKZkpBdmJvUTEzOGRNemV4OUtp?=
+ =?utf-8?B?dldkaFhqemFoczhGamJZZEt6R2pXaHBIVE00SWFlMDZuRU1Lc29xa21sTjJD?=
+ =?utf-8?B?TDM2eklFWElNcjBpV2dhRk5kWVNLM2hUUkJjanJHUVh6N0ZBNW9zK2V0aHBW?=
+ =?utf-8?B?ZXBzYVlRbmRsUC9EZS9vaFJaa09MczZoWlc1Ky9EM1NtblhINWRQdDFqWG9Y?=
+ =?utf-8?B?M0hVMTFETnUzekNlMjFjVnV3R252Vk9hbUozcjBuVGJvSGZ1ZThaUjBlTXNn?=
+ =?utf-8?B?dDNVUGwyK2FSeFN5KzcycVdnbkkySlFxVEVNaWx3bTJGS0JRejVOZE4xM1Y4?=
+ =?utf-8?B?SVYxQ0wwMDd0bUVqempWUjFsR0x2SlF5blo5SzFsY1kzL0o4UUc5WTNmYlVC?=
+ =?utf-8?B?TFllRTVSMTNBRUVVQXAwK0RmSmVZOVZic3pFTTdJdjBiQ2RwWm9BdmhxbHFI?=
+ =?utf-8?B?VXhzUy9heDhkS0JHSnFhK21GT294QkMyaWdTSURuVFdrenNKZzFSUXZvTXBZ?=
+ =?utf-8?B?UmtPakdTVDBjYUphN0FwK0NCbm8rTlJoUUYrVWZvcTlmRWNVWVpxMW5abVBu?=
+ =?utf-8?B?ZjlxbEpGMVBzbXN2NjhCRm5YYXoxek9sNGdYei90cXd3YzJOVlc5cTVlelF3?=
+ =?utf-8?B?WUZ4V0U4ZWdKZlhZaHo5ZFg2N0dzL3JqNzAza2k4RmtCYTFkMmFsZlQvbG5O?=
+ =?utf-8?B?SFlxMGV3NllUbVNOdTQ5Q0tycmRiMGZYRE0zS0JKQS9STHI5ZU9Bb1Uwc2Rl?=
+ =?utf-8?B?VUtHdmJESERKOTY5TlNzdmRIb1VHdUJlaHRnZnFuZ3F6cFRPMlB4SnVZaVIz?=
+ =?utf-8?B?NUhiWFoyS3gzRjFQRmUwSmh0SHFvRDdJckxmTk5kYVVNT0diTmlkZkIzVWVT?=
+ =?utf-8?B?K3ZBdVBqNVNVRFdPUVN3cm9RTUgvZmJEUitzUmsra3RVM2JoOHJUTWJlZklR?=
+ =?utf-8?B?WjRRd1NPR291NkJBbi9nNFlpQWRyOUh6dlBWa1BXcU91ZXpKM0hYMGRhZVFW?=
+ =?utf-8?B?aG5Wc2Q5UmN2aFhqN3VRZkdFZjVQWlE1OFlIbGhuWUhzMDRoQy9tRHkxQnVN?=
+ =?utf-8?B?RnM3ZXh4QytHWUREUUFMeEtMQUxwRDlvTmNSV1JRRGRoR2NYYklEdVhQQm0z?=
+ =?utf-8?B?NFBxTzVvSE55SnZaaTZuOEdoa3ZBZGIvdUlNSUJIcnZ1VWFuanl4cENkWjlM?=
+ =?utf-8?B?MDJteG44bWxaQ3B2WW5rRG1NVFlFeWRFc3FhUjJwYno5QUZYcFZYUzQrOTFi?=
+ =?utf-8?B?NHVyT29xUldvNjN4NVVFWEFQU1E1QzlockpReHBidVZRbDdCTmZXY1BZMy9U?=
+ =?utf-8?B?dlNlTVpNNm8xNzBzeis2aXo5bGZQSlFwN2NhSVFUTnlML2FpL0lMLzFoRS9P?=
+ =?utf-8?B?MVd0dGdzWTd0QWh5ZnIxRkx2REpiUWFvWC9kT0xUQ3RLaFRCZlBsK1dNY1dJ?=
+ =?utf-8?B?Q1gxN1I4enZOQzZsMGlkbUJmOXNocER5eC9ZdVc0dTdoMlFoZjZtRzhKaVVw?=
+ =?utf-8?Q?NKBG5nP16D9uHC5k=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1907f56e-0948-40ce-d869-08da192f561f
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4033.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 07:13:52.7150 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /kLSGRb4j+jSU2D++alofQhXNqETjkFPjgKzD8s7/D0IaK2er9cPSOMK7l9HlkWuFHn1Zf5ukYt55UsB6ztddghb28P/khE0OE4EpeqLYAA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB3281
+X-Proofpoint-ORIG-GUID: abCso0OBxBWtIj2a1ObW3HQOny64RF_U
+X-Proofpoint-GUID: abCso0OBxBWtIj2a1ObW3HQOny64RF_U
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-08_02,2022-04-07_01,2022-02-23_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=kshitij.suri@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,186 +159,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: soham.ghosh@nutanix.com, peter.maydell@linaro.org, thuth@redhat.com,
+ berrange@redhat.com, prerna.saxena@nutanix.com, dgilbert@redhat.com,
+ armbru@redhat.com, Kshitij Suri <kshitij.suri@nutanix.com>,
+ philippe.mathieu.daude@gmail.com, kraxel@redhat.com, pbonzini@redhat.com,
+ prachatos.mitra@nutanix.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 10:18 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> Qemu virt machine can support few cache events and cycle/instret counters.
-> It also supports counter overflow for these events.
->
-> Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
-> capabilities. There are some dummy nodes added for testing as well.
->
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+This patch series aims to add PNG support using libpng to screendump method.
+Currently screendump only supports PPM format, which is uncompressed.
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+PATCH 1 phases out CONFIG_VNC_PNG parameter and replaces it with CONFIG_PNG
+which detects libpng support.
 
-Alistair
+PATCH 2 contains core logic for PNG creation from pixman using libpng. HMP
+command equivalent is also implemented in this patch.
 
-> ---
->  hw/riscv/virt.c    | 28 +++++++++++++++++++++++
->  target/riscv/cpu.c |  1 +
->  target/riscv/pmu.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++
->  target/riscv/pmu.h |  1 +
->  4 files changed, 87 insertions(+)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index da50cbed43ec..13d61bf476ff 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -28,6 +28,7 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/char/serial.h"
->  #include "target/riscv/cpu.h"
-> +#include "target/riscv/pmu.h"
->  #include "hw/riscv/riscv_hart.h"
->  #include "hw/riscv/virt.h"
->  #include "hw/riscv/boot.h"
-> @@ -687,6 +688,32 @@ static void create_fdt_socket_aplic(RISCVVirtState *s,
->      aplic_phandles[socket] = aplic_s_phandle;
->  }
->
-> +static void create_fdt_socket_pmu(RISCVVirtState *s,
-> +                                  int socket, uint32_t *phandle,
-> +                                  uint32_t *intc_phandles)
-> +{
-> +    int cpu;
-> +    char *pmu_name;
-> +    uint32_t *pmu_cells;
-> +    MachineState *mc = MACHINE(s);
-> +    RISCVCPU hart = s->soc[socket].harts[0];
-> +
-> +    pmu_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
-> +
-> +    for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
-> +        pmu_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
-> +        pmu_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_PMU_OVF);
-> +    }
-> +
-> +    pmu_name = g_strdup_printf("/soc/pmu");
-> +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
-> +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pmu");
-> +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
-> +
-> +    g_free(pmu_name);
-> +    g_free(pmu_cells);
-> +}
-> +
->  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
->                                 bool is_32_bit, uint32_t *phandle,
->                                 uint32_t *irq_mmio_phandle,
-> @@ -732,6 +759,7 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
->                      &intc_phandles[phandle_pos]);
->              }
->          }
-> +        create_fdt_socket_pmu(s, socket, phandle, intc_phandles);
->      }
->
->      if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 9715eed2fc4e..d834e58a8bcd 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -974,6 +974,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->          ISA_EDATA_ENTRY(zbs, ext_zbs),
->          ISA_EDATA_ENTRY(zve32f, ext_zve32f),
->          ISA_EDATA_ENTRY(zve64f, ext_zve64f),
-> +        ISA_EDATA_ENTRY(sscofpmf, ext_sscofpmf),
->          ISA_EDATA_ENTRY(svinval, ext_svinval),
->          ISA_EDATA_ENTRY(svnapot, ext_svnapot),
->          ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
-> diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-> index 1c586770682b..f5e3e6d0281e 100644
-> --- a/target/riscv/pmu.c
-> +++ b/target/riscv/pmu.c
-> @@ -20,11 +20,68 @@
->  #include "cpu.h"
->  #include "pmu.h"
->  #include "sysemu/cpu-timers.h"
-> +#include "sysemu/device_tree.h"
->
->  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
->  #define MAKE_32BIT_MASK(shift, length) \
->          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
->
-> +/**
-> + * To keep it simple, any event can be mapped to any programmable counters in
-> + * QEMU. The generic cycle & instruction count events can also be monitored
-> + * using programmable counters. In that case, mcycle & minstret must continue
-> + * to provide the correct value as well. Heterogeneous PMU per hart is not
-> + * supported yet. Thus, number of counters are same across all harts.
-> + */
-> +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_name)
-> +{
-> +    uint32_t fdt_event_ctr_map[20] = {};
-> +    uint32_t cmask;
-> +
-> +    /* All the programmable counters can map to any event */
-> +    cmask = MAKE_32BIT_MASK(3, num_ctrs);
-> +
-> +   /**
-> +    * The event encoding is specified in the SBI specification
-> +    * Event idx is a 20bits wide number encoded as follows:
-> +    * event_idx[19:16] = type
-> +    * event_idx[15:0] = code
-> +    * The code field in cache events are encoded as follows:
-> +    * event_idx.code[15:3] = cache_id
-> +    * event_idx.code[2:1] = op_id
-> +    * event_idx.code[0:0] = result_id
-> +    */
-> +
-> +   /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
-> +   fdt_event_ctr_map[0] = cpu_to_be32(0x00000001);
-> +   fdt_event_ctr_map[1] = cpu_to_be32(0x00000001);
-> +   fdt_event_ctr_map[2] = cpu_to_be32(cmask | 1 << 0);
-> +
-> +   /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
-> +   fdt_event_ctr_map[3] = cpu_to_be32(0x00000002);
-> +   fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
-> +   fdt_event_ctr_map[5] = cpu_to_be32(cmask | 1 << 2);
-> +
-> +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) */
-> +   fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
-> +   fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
-> +   fdt_event_ctr_map[8] = cpu_to_be32(cmask);
-> +
-> +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01) */
-> +   fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
-> +   fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
-> +   fdt_event_ctr_map[11] = cpu_to_be32(cmask);
-> +
-> +   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) */
-> +   fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
-> +   fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
-> +   fdt_event_ctr_map[14] = cpu_to_be32(cmask);
-> +
-> +   /* This a OpenSBI specific DT property documented in OpenSBI docs */
-> +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
-> +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
-> +}
-> +
->  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
->  {
->      if (ctr_idx < 3 || ctr_idx >= RV_MAX_MHPMCOUNTERS ||
-> diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
-> index 036653627f78..3004ce37b636 100644
-> --- a/target/riscv/pmu.h
-> +++ b/target/riscv/pmu.h
-> @@ -31,5 +31,6 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
->  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
->                                 uint32_t ctr_idx);
->  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_idx);
-> +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pmu_name);
->  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
->                            uint32_t ctr_idx);
-> --
-> 2.25.1
->
->
+v4->v5
+ - Modified format as a flag based optional parameter in HMP.
+
+v3->v4
+ - Added condition to check for libpng only in PNG option is allowed
+
+v2->v3
+ - HMP implementation fixes for png.
+ - Used enum for image format.
+ - Fixed description and updated QEMU support version.
+
+v1->v2:
+ - Removed repeated alpha conversion operation.
+ - Modified logic to mirror png conversion in vnc-enc-tight.c file.
+ - Added a new CONFIG_PNG parameter for libpng support.
+ - Changed input format to enum instead of string.
+ - Improved error handling.
+
+Kshitij Suri (2):
+  Replacing CONFIG_VNC_PNG with CONFIG_PNG
+  Added parameter to take screenshot with screendump as PNG
+
+ hmp-commands.hx    |  11 ++---
+ meson.build        |  12 +++---
+ meson_options.txt  |   4 +-
+ monitor/hmp-cmds.c |  12 +++++-
+ qapi/ui.json       |  24 +++++++++--
+ ui/console.c       | 101 +++++++++++++++++++++++++++++++++++++++++++--
+ ui/vnc-enc-tight.c |  18 ++++----
+ ui/vnc.c           |   4 +-
+ ui/vnc.h           |   2 +-
+ 9 files changed, 157 insertions(+), 31 deletions(-)
+
+-- 
+2.22.3
+
 
