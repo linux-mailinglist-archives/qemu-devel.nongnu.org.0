@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B134F9B41
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 19:01:42 +0200 (CEST)
-Received: from localhost ([::1]:50212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0604F9B5A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 19:11:25 +0200 (CEST)
+Received: from localhost ([::1]:43830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncrzR-0006Yw-7I
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 13:01:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
+	id 1ncs8q-00052d-P2
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 13:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ncrmK-00077n-LB
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:48:08 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:44706)
+ id 1ncrsl-00084L-CN
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:54:47 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:44584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ncrmH-000329-IU
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:48:08 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- v20-20020a05600c15d400b0038e9a88aee7so2832603wmf.3
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 09:47:55 -0700 (PDT)
+ id 1ncrsj-0003tJ-Tp
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:54:47 -0400
+Received: by mail-ed1-x534.google.com with SMTP id d7so10709873edn.11
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 09:54:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5QMnRBg+xsQZXK1fOjdgSZIM6gbUBuP2/PqplwQya4U=;
- b=envHThycnfrlKgSxI3LryjAquBJUq/K8cjQyjamVpUXlCCbI4A/y90tNcWMlydh2xK
- Sqa2fLzx/+A4yzwwULjum4jx9a87PpPMvVo/RgKq+3clNPWCgZwcFSsnnG0Y0B0khz/G
- 8gwiLeJ/vSaDjV0Hcf0oWMr9ahxvvTIFFDPmvFs53sMedteY/JCS2VpDY3sV6Ix3kDey
- QEEvtwKAZGo1fd1hNmn6bNFgqjdxIeAqScAtPPvb3Jr8AWeYKRUSbjNQvDs5HGK5/sAX
- oYlvS6AVnNhHc3DpYkIu5KK68L6CEo1/9mDIiCCkkNWXuuJybiXC6UnJYq0AFqQ9OTRz
- QUsg==
+ bh=BMis61C8omQYYseV7MGnkVBUiKXffiRK6pjvcW205Rg=;
+ b=JxkhP0+fU7ua0h1hkpmIU5X6+bXjFlsqJckyalU7djWibnUIH92bqeAACfEy2/jV1u
+ uNFm1BQq24YpMA1lwRp/UCHHS6xJU1p5cd/CM14bOIrbiZ8x0lI4Y7JqSUYYHKT59zzR
+ kZsDtIl3ZOdNu4ngSpzpHXYNn1JfvInC7TSDlJdm/t6lNzY1iV4BQ5XQwaVWMLZxH55C
+ M/3/X5rDtdvr988MIMfJlVZ1Ze9J+lltb5OPfCKXxxyeF+lUZXP9pNpL9GpKTWeXn7ey
+ wKi9WFtcP/+6iuWhgCi/Jo9XTIkjd8W0xlLKqHojz3000T7J6dY1CV8bc/s50lOGG5b/
+ bLpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5QMnRBg+xsQZXK1fOjdgSZIM6gbUBuP2/PqplwQya4U=;
- b=t09FUwAOK70a9SFiFHXQPtaY62Ln+uPa2HvxE4wRX6dm0ym67NIhMGUp1sNy4Zwj4W
- Y0lehSxQZeYy0xMc9JGCCOw0b3tA05iQSAU5B3lZS5Z8yFv1J8S0+waFmzBUxVH7VkVS
- 2mv2qNhUFElu9MdfHFtwo3wR89COdY2Z9+n7uYlazslj4KwtEr+AV2oInXTueDQM7cul
- aSsdP/L10N88l8GV81XDQgZD7zF5DDIjGBdc7ozozUbMQQkQn5lWc2n6LtFUa97JQSok
- YpPKLE7gPaGN50HBtrLSf1BfruneAT8H+KqGZ404w2gqnj7qAOuKlMMOPC48zZtw4Cw8
- BIhA==
-X-Gm-Message-State: AOAM531qUUkH2uypZDXjsRNzdnZ13F9LezRf4Lo3hI6uIAOOypiDkDFX
- FCXOcJbR2GvyhikI89tpsly9Hg==
-X-Google-Smtp-Source: ABdhPJwLqQbwec3sGbs//MzwQVH/HJZvSk0CsLO4dBL25IVQU5LGWiYAMfAfJS9ePa+qdzf3TT050A==
-X-Received: by 2002:a05:600c:3b99:b0:38e:aa31:a864 with SMTP id
- n25-20020a05600c3b9900b0038eaa31a864mr2264200wms.108.1649436474820; 
- Fri, 08 Apr 2022 09:47:54 -0700 (PDT)
+ bh=BMis61C8omQYYseV7MGnkVBUiKXffiRK6pjvcW205Rg=;
+ b=t7ujHsaEuT/jibIJzdhJzfl8+GVGPDQbO1Oh5L9PSQWU8UNqseUSMzK5QQxEYJErDH
+ IMGs/5owoebsfA0PCzNcqnvkuyxBxAj37WupDIvMk0O5cBGaWwi8vedHRPgc79Fb3M8T
+ s+BL+BxDTGnePbKYMTesKDSbakYVaolaxIV9tLT8REM+hrMTMsPfaGyXb2BiLIEf9w0e
+ b3Rh2mFYqWB0mnjntqkmj/5nCEhh+Q8h5r1Qsz7tNVccYvcqPsG9qdXq9beUnQLuXmwn
+ ut0XG8m9qD3VZnrnFXKA66NuzAjc6F8GllpLp1nBQb8yCguHB3mRaqoLahghJE4Z2TCx
+ zmYw==
+X-Gm-Message-State: AOAM532PN2DFINXL87DWdjvgPOyPeZttpAXxn8YWmj3eVKPUXYR9r6p+
+ /f37v91mrVSmtx7+rwpPeWr8Fg==
+X-Google-Smtp-Source: ABdhPJzOpXYzyjAGmZj9PWUCu2ZUIjtKjG5WERAFN6QaKRg0hmYsVP5mSRZFpT8NfI0UUoqDXhclvQ==
+X-Received: by 2002:a50:c3cf:0:b0:41d:5fc4:7931 with SMTP id
+ i15-20020a50c3cf000000b0041d5fc47931mr1088212edf.244.1649436884406; 
+ Fri, 08 Apr 2022 09:54:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- l28-20020a05600c1d1c00b0038e72a95ec4sm12128194wms.13.2022.04.08.09.47.47
+ z11-20020a50e68b000000b00412ec8b2180sm10614237edm.90.2022.04.08.09.54.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 09:47:49 -0700 (PDT)
+ Fri, 08 Apr 2022 09:54:43 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9B3201FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id C396F1FFC1;
  Fri,  8 Apr 2022 17:47:44 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 09/15] cputlb: add tracepoints for the protect/unprotect
- helpers
-Date: Fri,  8 Apr 2022 17:47:36 +0100
-Message-Id: <20220408164742.2844631-10-alex.bennee@linaro.org>
+Subject: [PATCH  v1 10/15] cputlb: add tracepoints for TB invalidation
+Date: Fri,  8 Apr 2022 17:47:37 +0100
+Message-Id: <20220408164742.2844631-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220408164742.2844631-1-alex.bennee@linaro.org>
 References: <20220408164742.2844631-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,61 +97,36 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This helps track when pages are tagged for detecting code changes.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/cputlb.c     | 14 ++++++++++----
- accel/tcg/trace-events |  3 +++
- 2 files changed, 13 insertions(+), 4 deletions(-)
+ accel/tcg/translate-all.c | 2 ++
+ accel/tcg/trace-events    | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 35797cea49..f2983cb2fc 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -947,18 +947,24 @@ void tlb_flush_page_bits_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-                                               idxmap, bits);
- }
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index e9f1cc179d..b0009177b9 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1180,6 +1180,8 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
  
--/* update the TLBs so that writes to code in the virtual page 'addr'
--   can be detected */
-+/*
-+ * Update the TLBs so that writes to code in the virtual page 'ram_addr'
-+ * can be detected.
-+ */
- void tlb_protect_code(ram_addr_t ram_addr)
- {
-+    trace_tlb_protect_code(ram_addr);
-     cpu_physical_memory_test_and_clear_dirty(ram_addr, TARGET_PAGE_SIZE,
-                                              DIRTY_MEMORY_CODE);
- }
+     assert_memory_lock();
  
--/* update the TLB so that writes in physical page 'phys_addr' are no longer
--   tested for self modifying code */
-+/*
-+ * Update the TLB so that writes in physical page 'ram_addr' are no longer
-+ * tested for self modifying code
-+ */
- void tlb_unprotect_code(ram_addr_t ram_addr)
- {
-+    trace_tlb_unprotect_code(ram_addr);
-     cpu_physical_memory_set_dirty_flag(ram_addr, DIRTY_MEMORY_CODE);
- }
- 
++    trace_tb_phys_invalidate(tb, tb->pc);
++
+     /* make sure no further incoming jumps will be chained to this TB */
+     qemu_spin_lock(&tb->jmp_lock);
+     qatomic_set(&tb->cflags, tb->cflags | CF_INVALID);
 diff --git a/accel/tcg/trace-events b/accel/tcg/trace-events
-index f4d1321b1b..e11e59492f 100644
+index e11e59492f..c034649dc2 100644
 --- a/accel/tcg/trace-events
 +++ b/accel/tcg/trace-events
-@@ -7,6 +7,9 @@ exec_tb_nocache(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
- exec_tb_exit(void *last_tb, unsigned int flags) "tb:%p flags=0x%x"
- 
- # cputlb.c
-+tlb_protect_code(uint64_t ram_addr) "0x%" PRIx64""
-+tlb_unprotect_code(uint64_t ram_addr) "0x%" PRIx64""
-+
- memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
+@@ -14,5 +14,6 @@ memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "
  memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
  
+ # translate-all.c
++tb_phys_invalidate(void *tb, uintptr_t pc) "tb:%p, pc:0x%"PRIxPTR""
+ tb_invalidate_phys_page_fast(uint64_t page_start, int len, uint64_t ret, int wc, void *bmap) "addr:0x%" PRIx64 "/%d pc:0x%" PRIx64" wc:%d/%p"
+ translate_block(void *tb, uintptr_t pc, const void *tb_code) "tb:%p, pc:0x%"PRIxPTR", tb_code:%p"
 -- 
 2.30.2
 
