@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFC14F95E9
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 14:38:27 +0200 (CEST)
-Received: from localhost ([::1]:50484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0344F95D5
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 14:32:24 +0200 (CEST)
+Received: from localhost ([::1]:43126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncnsg-0000rW-7l
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 08:38:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45868)
+	id 1ncnmn-00044e-VA
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 08:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1ncnj6-0001mh-Ge
+ id 1ncnj6-0001mf-HV
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:28:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40439)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1ncnj2-0008W5-6c
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:28:29 -0400
+ id 1ncnj1-0008Vv-Bw
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:28:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649420907;
+ s=mimecast20190719; t=1649420906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h7+8x56jA+0uvCY0ztzTVqj03ZGqnHkOnJgFZ4RnLC0=;
- b=VUO5/KHpHIXWC7V0uBgrdaC2EINzK71bd0Gf8G/XDA6oCTWmQlKrie5UNvsEAUbrIopYSG
- VeAeJU/dRn5Yc12GDc+dclkFUB2kTLileWIxRG4ajVKZwzaPge2GFmlKKhyB4PDVUIdSNs
- /qRGpjK84noF09jgLwHe/f219y4taNo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3c7FxJxiS1SvJJ8iCEzFEJXlV1pVaPOUGzMgzGYcfYk=;
+ b=cBUuaCMERxksfPXc/8tvOqWvUUCNFYHBhqJKna6UsygJbN7ovR1mopSN0Oey66gTzEyg63
+ hhwExtHAjYZwTMmdDiEhHXL8XmIam7XSjXiKTI5keeC8+sTceybu09GlJfz2r3DJefjlVO
+ AitmhwTS1SA+g8b2CqnjztOCvfhXGn0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-v7cupeYsOVmy_8bGbRwiog-1; Fri, 08 Apr 2022 08:28:23 -0400
-X-MC-Unique: v7cupeYsOVmy_8bGbRwiog-1
+ us-mta-425-0Y8LdFdlPMagTLKdSIKaIQ-1; Fri, 08 Apr 2022 08:28:25 -0400
+X-MC-Unique: 0Y8LdFdlPMagTLKdSIKaIQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 525B438149B7;
- Fri,  8 Apr 2022 12:28:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 611D0803524;
+ Fri,  8 Apr 2022 12:28:25 +0000 (UTC)
 Received: from max-t490s.redhat.com (unknown [10.39.208.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80103145B97F;
- Fri,  8 Apr 2022 12:28:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FDA8145BA41;
+ Fri,  8 Apr 2022 12:28:23 +0000 (UTC)
 From: Maxime Coquelin <maxime.coquelin@redhat.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
  andrew@daynix.com, yuri.benditovich@daynix.com, dgilbert@redhat.com,
  quintela@redhat.com
-Subject: [PATCH 3/5] virtio-net: add RSS support for Vhost backends
-Date: Fri,  8 Apr 2022 14:28:11 +0200
-Message-Id: <20220408122813.1357045-4-maxime.coquelin@redhat.com>
+Subject: [PATCH 4/5] docs: introduce RSS support in Vhost-user specification
+Date: Fri,  8 Apr 2022 14:28:12 +0200
+Message-Id: <20220408122813.1357045-5-maxime.coquelin@redhat.com>
 In-Reply-To: <20220408122813.1357045-1-maxime.coquelin@redhat.com>
 References: <20220408122813.1357045-1-maxime.coquelin@redhat.com>
 MIME-Version: 1.0
@@ -88,215 +88,104 @@ Cc: chenbo.xia@intel.com, Maxime Coquelin <maxime.coquelin@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch introduces new Vhost backend callbacks to
-support RSS, and makes them called in Virtio-net
-device.
+This patch documents RSS feature in Vhost-user specification.
+Two new requests are introduced backed by a dedicated
+protocol feature.
 
-It will be used by Vhost-user backend implementation to
-support RSS feature.
+First one is to query the Vhost-user slave RSS capabilities
+such as supported hash types, maximum key length and
+indirection table size.
+
+The second one is to provide the slave with driver's RSS
+configuration.
 
 Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
 ---
- hw/net/vhost_net-stub.c           | 10 ++++++
- hw/net/vhost_net.c                | 22 +++++++++++++
- hw/net/virtio-net.c               | 53 +++++++++++++++++++++----------
- include/hw/virtio/vhost-backend.h |  7 ++++
- include/net/vhost_net.h           |  4 +++
- 5 files changed, 79 insertions(+), 17 deletions(-)
+ docs/interop/vhost-user.rst | 57 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-diff --git a/hw/net/vhost_net-stub.c b/hw/net/vhost_net-stub.c
-index 89d71cfb8e..cc05e07c1f 100644
---- a/hw/net/vhost_net-stub.c
-+++ b/hw/net/vhost_net-stub.c
-@@ -101,3 +101,13 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
- {
-     return 0;
- }
-+
-+int vhost_net_get_rss(struct vhost_net *net, VirtioNetRssCapa *rss_capa)
-+{
-+    return 0;
-+}
-+
-+int vhost_net_set_rss(struct vhost_net *net, VirtioNetRssData *rss_data)
-+{
-+    return 0;
-+}
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 30379d2ca4..aa2a1e8e5f 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -512,3 +512,25 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 4dbc84fd00..9de6297568 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -258,6 +258,42 @@ Inflight description
  
-     return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
- }
-+
-+int vhost_net_get_rss(struct vhost_net *net, VirtioNetRssCapa *rss_capa)
-+{
-+    const VhostOps *vhost_ops = net->dev.vhost_ops;
-+
-+    if (!vhost_ops->vhost_net_get_rss) {
-+        return 0;
-+    }
-+
-+    return vhost_ops->vhost_net_get_rss(&net->dev, rss_capa);
-+}
-+
-+int vhost_net_set_rss(struct vhost_net *net, VirtioNetRssData *rss_data)
-+{
-+    const VhostOps *vhost_ops = net->dev.vhost_ops;
-+
-+    if (!vhost_ops->vhost_net_set_rss) {
-+        return 0;
-+    }
-+
-+    return vhost_ops->vhost_net_set_rss(&net->dev, rss_data);
-+}
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 38436e472b..237bbdb1b3 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -741,8 +741,10 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
-         return features;
-     }
+ :queue size: a 16-bit size of virtqueues
  
--    if (!ebpf_rss_is_loaded(&n->ebpf_rss)) {
--        virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
-+    if (nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
-+        if (!ebpf_rss_is_loaded(&n->ebpf_rss)) {
-+            virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
-+        }
-     }
-     features = vhost_net_get_features(get_vhost_net(nc->peer), features);
-     vdev->backend_features = features;
-@@ -1161,11 +1163,17 @@ static void virtio_net_detach_epbf_rss(VirtIONet *n);
- 
- static void virtio_net_disable_rss(VirtIONet *n)
- {
-+    NetClientState *nc = qemu_get_queue(n->nic);
++RSS capabilities description
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-     if (n->rss_data.enabled) {
-         trace_virtio_net_rss_disable();
-     }
-     n->rss_data.enabled = false;
- 
-+    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-+        vhost_net_set_rss(get_vhost_net(nc->peer), &n->rss_data);
-+    }
+++----------------------+-------------+---------------+
++| supported hash types | max key len | max indir len |
+++----------------------+-------------+---------------+
 +
-     virtio_net_detach_epbf_rss(n);
- }
- 
-@@ -1239,6 +1247,7 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
-                                       bool do_rss)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-+    NetClientState *nc = qemu_get_queue(n->nic);
-     struct virtio_net_rss_config cfg;
-     size_t s, offset = 0, size_get;
-     uint16_t queue_pairs, i;
-@@ -1354,22 +1363,29 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
-     }
-     n->rss_data.enabled = true;
- 
--    if (!n->rss_data.populate_hash) {
--        if (!virtio_net_attach_epbf_rss(n)) {
--            /* EBPF must be loaded for vhost */
--            if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
--                warn_report("Can't load eBPF RSS for vhost");
--                goto error;
-+    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-+        if (vhost_net_set_rss(get_vhost_net(nc->peer), &n->rss_data)) {
-+            warn_report("Failed to configure RSS for vhost-user");
-+            goto error;
-+        }
-+    } else {
-+        if (!n->rss_data.populate_hash) {
-+            if (!virtio_net_attach_epbf_rss(n)) {
-+                /* EBPF must be loaded for vhost */
-+                if (get_vhost_net(nc->peer)) {
-+                    warn_report("Can't load eBPF RSS for vhost");
-+                    goto error;
-+                }
-+                /* fallback to software RSS */
-+                warn_report("Can't load eBPF RSS - fallback to software RSS");
-+                n->rss_data.enabled_software_rss = true;
-             }
--            /* fallback to software RSS */
--            warn_report("Can't load eBPF RSS - fallback to software RSS");
-+        } else {
-+            /* use software RSS for hash populating */
-+            /* and detach eBPF if was loaded before */
-+            virtio_net_detach_epbf_rss(n);
-             n->rss_data.enabled_software_rss = true;
-         }
--    } else {
--        /* use software RSS for hash populating */
--        /* and detach eBPF if was loaded before */
--        virtio_net_detach_epbf_rss(n);
--        n->rss_data.enabled_software_rss = true;
-     }
- 
-     trace_virtio_net_rss_enable(n->rss_data.hash_types,
-@@ -3534,8 +3550,11 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-         n->rss_capa.max_key_size = VIRTIO_NET_RSS_DEFAULT_KEY_SIZE;
-         n->rss_capa.max_indirection_len = VIRTIO_NET_RSS_DEFAULT_TABLE_LEN;
-         n->rss_capa.supported_hashes = VIRTIO_NET_RSS_SUPPORTED_HASHES;
--
--        virtio_net_load_ebpf(n);
-+        if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-+            vhost_net_get_rss(get_vhost_net(nc->peer), &n->rss_capa);
-+        } else {
-+            virtio_net_load_ebpf(n);
-+        }
-     } else {
-         n->rss_capa.max_indirection_len = 1;
-     }
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 81bf3109f8..0b9e2ea26e 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -12,6 +12,7 @@
- #define VHOST_BACKEND_H
- 
- #include "exec/memory.h"
-+#include "hw/virtio/virtio-net.h"
- 
- typedef enum VhostBackendType {
-     VHOST_BACKEND_TYPE_NONE = 0,
-@@ -45,6 +46,10 @@ typedef int (*vhost_backend_memslots_limit)(struct vhost_dev *dev);
- typedef int (*vhost_net_set_backend_op)(struct vhost_dev *dev,
-                                 struct vhost_vring_file *file);
- typedef int (*vhost_net_set_mtu_op)(struct vhost_dev *dev, uint16_t mtu);
-+typedef int (*vhost_net_get_rss_op)(struct vhost_dev *dev,
-+                                VirtioNetRssCapa *rss_capa);
-+typedef int (*vhost_net_set_rss_op)(struct vhost_dev *dev,
-+                                VirtioNetRssData *rss_data);
- typedef int (*vhost_scsi_set_endpoint_op)(struct vhost_dev *dev,
-                                   struct vhost_scsi_target *target);
- typedef int (*vhost_scsi_clear_endpoint_op)(struct vhost_dev *dev,
-@@ -133,6 +138,8 @@ typedef struct VhostOps {
-     vhost_backend_memslots_limit vhost_backend_memslots_limit;
-     vhost_net_set_backend_op vhost_net_set_backend;
-     vhost_net_set_mtu_op vhost_net_set_mtu;
-+    vhost_net_get_rss_op vhost_net_get_rss;
-+    vhost_net_set_rss_op vhost_net_set_rss;
-     vhost_scsi_set_endpoint_op vhost_scsi_set_endpoint;
-     vhost_scsi_clear_endpoint_op vhost_scsi_clear_endpoint;
-     vhost_scsi_get_abi_version_op vhost_scsi_get_abi_version;
-diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-index 387e913e4e..9cf702e7e3 100644
---- a/include/net/vhost_net.h
-+++ b/include/net/vhost_net.h
-@@ -48,4 +48,8 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net);
- 
- int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
- 
-+int vhost_net_get_rss(struct vhost_net *net, VirtioNetRssCapa *rss_capa);
++:supported hash types: a 32-bit bitfield of supported hash types as defined
++                       in the Virtio specification
 +
-+int vhost_net_set_rss(struct vhost_net *net, VirtioNetRssData *rss_data);
++:max key len: a 8-bit maximum size of the RSS key
 +
- #endif
++:max indir len: a 16-bits maximum size of the RSS indirection table
++
++RSS data description
++^^^^^^^^^^^^^^^^^^^^
++
+++------------+---------+-----+-----------+-------------+---------------+
++| hash types | key len | key | indir len | indir table | default queue |
+++------------+---------+-----+-----------+-------------+---------------+
++
++:hash types: a 32-bit bitfield of supported hash types as defined in the
++             Virtio specification
++
++:key len: 8-bit size of the RSS key
++
++:key: a 8-bit array of 52 elements containing the RSS key
++
++:indir len: a 16-bit size of the RSS indirection table
++
++:indir table: a 16-bit array of 512 elements containing the hash indirection
++              table
++
++:default queue: the default queue index for flows not matching requested hash
++                types
++
+ C structure
+ -----------
+ 
+@@ -858,6 +894,7 @@ Protocol features
+   #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
+   #define VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS  15
+   #define VHOST_USER_PROTOCOL_F_STATUS               16
++  #define VHOST_USER_PROTOCOL_F_NET_RSS              17
+ 
+ Master message types
+ --------------------
+@@ -1371,6 +1408,26 @@ Master message types
+   query the backend for its device status as defined in the Virtio
+   specification.
+ 
++``VHOST_USER_NET_GET_RSS``
++  :id: 41
++  :equivalent ioctl: N/A
++  :slave payload: RSS capabilities description
++  :master payload: N/A
++
++  When the ``VHOST_USER_PROTOCOL_F_NET_RSS`` protocol has been successfully
++  negotiated, this message is submitted by the master to get the RSS
++  capabilities of the slave.
++
++``VHOST_USER_NET_SET_RSS``
++  :id: 42
++  :equivalent ioctl: N/A
++  :slave payload: N/A
++  :master payload: RSS data description
++
++  When the ``VHOST_USER_PROTOCOL_F_NET_RSS`` protocol has been successfully
++  negotiated, this message is submitted by the master to set the RSS
++  configuration defined by the Virtio driver.
++
+ 
+ Slave message types
+ -------------------
 -- 
 2.35.1
 
