@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D354F9698
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 15:23:48 +0200 (CEST)
-Received: from localhost ([::1]:55500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4C74F96E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 15:38:43 +0200 (CEST)
+Received: from localhost ([::1]:44912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncoaZ-0001R7-Qc
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 09:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56556)
+	id 1ncop1-0005eT-1s
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 09:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ncoYf-0000dD-7f
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:21:49 -0400
-Received: from mga09.intel.com ([134.134.136.24]:39496)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ncokv-0002mv-2G
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:34:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ncoYc-0001Bv-3i
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:21:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649424106; x=1680960106;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=yJ+a09qZfU8xn/sBjF/pizQ4GwvK+1hMB8dFu0xFHhY=;
- b=OqDyGCx/7Y6X3lR7Ru8TdMl95nKC6iYLu0F3ZPgt7wzVjUaJ4l0Nuufs
- kZvENsQq/8ZJlSF37w/ZyE7s12Rg4m7G5iSi0VsMDqnqgcyhoqms055qL
- Rg8fyIOxTWfEgDCkcG/ytkXPNnYXTl0hH6yskOTLXLofCM2L1f7FhDgVA
- ZUwTjHgQsJ+u24oD9UMX/uqaZdYa/3AHsqhVmw3/yp9SsgtCfgtdJikIE
- E8/LX+RVYBsXjJGwmgWmnbHP5n1OzMVWPfhnCDHY2Iz1Cc3K3l1+yQSHb
- nlPcCGMOtiiTMccXcQBIHAvhk38MReJpqAqwUKA2cMwFqcIAxHrn1tZhI g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261280688"
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="261280688"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 06:21:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="571485977"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 08 Apr 2022 06:21:16 -0700
-Date: Fri, 8 Apr 2022 21:21:05 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH v5 05/13] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20220408132105.GC57095@chaop.bj.intel.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-6-chao.p.peng@linux.intel.com>
- <YkIoRDNbwJH/IDeC@google.com>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ncokr-0003bI-KP
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:34:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649424864;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Jvqj1c/kK6b8sd9lqev27jK8QA7iHF4Es/CmX8TRUMY=;
+ b=OzhSgsyLGeoaCjyBdnoDzs5U/aRNT31PJpnIS4JwEDKm5elUJOcfQ0IaDVFAicuqHcAQ4V
+ 8E7SHwH6fWBAxjkn2uvnYkkCJ4i/AvoKv256CxPSKu337IgbscNDkWBtzxygpqFS7G33yE
+ OZRLcAveTvU2TsoE3C8UZROr/cDh92E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-212-Y1kxN5xSMSyT6d9zKahcFA-1; Fri, 08 Apr 2022 09:34:21 -0400
+X-MC-Unique: Y1kxN5xSMSyT6d9zKahcFA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BD47811E76;
+ Fri,  8 Apr 2022 13:34:20 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7150E1402642;
+ Fri,  8 Apr 2022 13:34:17 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v5 00/23] Net Control VQ support with asid in vDPA SVQ
+Date: Fri,  8 Apr 2022 15:33:52 +0200
+Message-Id: <20220408133415.1371760-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkIoRDNbwJH/IDeC@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=134.134.136.24;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,114 +77,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, linux-api@vger.kernel.org,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Peter Xu <peterx@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Eric Blake <eblake@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 28, 2022 at 09:27:32PM +0000, Sean Christopherson wrote:
-> On Thu, Mar 10, 2022, Chao Peng wrote:
-> > Extend the memslot definition to provide fd-based private memory support
-> > by adding two new fields (private_fd/private_offset). The memslot then
-> > can maintain memory for both shared pages and private pages in a single
-> > memslot. Shared pages are provided by existing userspace_addr(hva) field
-> > and private pages are provided through the new private_fd/private_offset
-> > fields.
-> > 
-> > Since there is no 'hva' concept anymore for private memory so we cannot
-> > rely on get_user_pages() to get a pfn, instead we use the newly added
-> > memfile_notifier to complete the same job.
-> > 
-> > This new extension is indicated by a new flag KVM_MEM_PRIVATE.
-> > 
-> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> 
-> Needs a Co-developed-by: for Yu, or a From: if Yu is the sole author.
+Control virtqueue is used by networking device for accepting various=0D
+commands from the driver. It's a must to support multiqueue and other=0D
+configurations.=0D
+=0D
+Shadow VirtQueue (SVQ) already makes possible migration of virtqueue=0D
+states, effectively intercepting them so qemu can track what regions of mem=
+ory=0D
+are dirty because device action and needs migration. However, this does not=
+=0D
+solve networking device state seen by the driver because CVQ messages, like=
+=0D
+changes on MAC addresses from the driver.=0D
+=0D
+To solve that, this series uses SVQ infraestructure proposed at SVQ to=0D
+intercept networking control messages used by the device. This way, qemu is=
+=0D
+able to update VirtIONet device model and to migrate it.=0D
+=0D
+You can run qemu in two modes after applying this series: only intercepting=
+=0D
+cvq with x-cvq-svq=3Don or intercept all the virtqueues adding cmdline x-sv=
+q=3Don:=0D
+=0D
+-netdev type=3Dvhost-vdpa,vhostdev=3D/dev/vhost-vdpa-0,id=3Dvhost-vdpa0,x-c=
+vq-svq=3Don,x-svq=3Don=0D
+=0D
+The most updated kernel part of ASID is proposed at [1].=0D
+=0D
+Other modes without x-cvq-svq have been not tested with this series. Other =
+vq=0D
+cmd commands than set mac are not tested. Some details like error control a=
+re=0D
+not 100% tested neither.=0D
+=0D
+The firsts 5 patches will be or have already been proposed sepratedly. Patc=
+h 6=0D
+enables cmdline parameter to shadow all virtqueues. The rest of commits=0D
+introduce the actual functionality.=0D
+=0D
+Comments are welcomed.=0D
+=0D
+Changes from rfc v4:=0D
+* Add missing tracing=0D
+* Add multiqueue support=0D
+* Use already sent version for replacing g_memdup=0D
+* Care with memory management=0D
+=0D
+Changes from rfc v3:=0D
+* Fix bad returning of descriptors to SVQ list.=0D
+=0D
+Changes from rfc v2:=0D
+* Fix use-after-free.=0D
+=0D
+Changes from rfc v1:=0D
+* Rebase to latest master.=0D
+* Configure ASID instead of assuming cvq asid !=3D data vqs asid.=0D
+* Update device model so (MAC) state can be migrated too.=0D
+=0D
+[1] https://lkml.kernel.org/kvm/20220224212314.1326-1-gdawar@xilinx.com/=0D
+=0D
+Eugenio P=C3=A9rez (22):=0D
+  vdpa: Add missing tracing to batch mapping functions=0D
+  vdpa: Fix bad index calculus at vhost_vdpa_get_vring_base=0D
+  util: Return void on iova_tree_remove=0D
+  vhost: Fix bad return of descriptors to SVQ=0D
+  vdpa: Add x-svq to NetdevVhostVDPAOptions=0D
+  vhost: move descriptor translation to vhost_svq_vring_write_descs=0D
+  vdpa: Fix index calculus at vhost_vdpa_svqs_start=0D
+  virtio-net: Expose ctrl virtqueue logic=0D
+  vdpa: Extract get features part from vhost_vdpa_get_max_queue_pairs=0D
+  virtio: Make virtqueue_alloc_element non-static=0D
+  vhost: Add SVQElement=0D
+  vhost: Add custom used buffer callback=0D
+  vdpa: control virtqueue support on shadow virtqueue=0D
+  vhost: Add vhost_iova_tree_find=0D
+  vdpa: Add map/unmap operation callback to SVQ=0D
+  vhost: Add vhost_svq_inject=0D
+  vdpa: add NetClientState->start() callback=0D
+  vdpa: Add vhost_vdpa_start_control_svq=0D
+  vhost: Update kernel headers=0D
+  vhost: Make possible to check for device exclusive vq group=0D
+  vdpa: Add asid attribute to vdpa device=0D
+  vdpa: Add x-cvq-svq=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (1):=0D
+  hw/virtio: Replace g_memdup() by g_memdup2()=0D
+=0D
+ qapi/net.json                                |  13 +-=0D
+ hw/virtio/vhost-iova-tree.h                  |   2 +=0D
+ hw/virtio/vhost-shadow-virtqueue.h           |  46 ++-=0D
+ include/hw/virtio/vhost-vdpa.h               |   4 +=0D
+ include/hw/virtio/vhost.h                    |   4 +=0D
+ include/hw/virtio/virtio-net.h               |   3 +=0D
+ include/hw/virtio/virtio.h                   |   1 +=0D
+ include/net/net.h                            |   2 +=0D
+ include/qemu/iova-tree.h                     |   4 +-=0D
+ include/standard-headers/linux/vhost_types.h |  11 +-=0D
+ linux-headers/linux/vhost.h                  |  25 +-=0D
+ hw/net/vhost_net.c                           |   9 +-=0D
+ hw/net/virtio-net.c                          |  82 +++--=0D
+ hw/virtio/vhost-iova-tree.c                  |  14 +=0D
+ hw/virtio/vhost-shadow-virtqueue.c           | 255 ++++++++++++---=0D
+ hw/virtio/vhost-vdpa.c                       | 201 ++++++++++--=0D
+ hw/virtio/virtio-crypto.c                    |   6 +-=0D
+ hw/virtio/virtio.c                           |   2 +-=0D
+ net/vhost-vdpa.c                             | 308 +++++++++++++++++--=0D
+ util/iova-tree.c                             |   4 +-=0D
+ hw/virtio/trace-events                       |   8 +-=0D
+ 21 files changed, 864 insertions(+), 140 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
-Yes a Co-developed-by for Yu is needed, for all the patches throught the series.
-
-> 
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  Documentation/virt/kvm/api.rst | 37 +++++++++++++++++++++++++++-------
-> >  include/linux/kvm_host.h       |  7 +++++++
-> >  include/uapi/linux/kvm.h       |  8 ++++++++
-> >  3 files changed, 45 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > index 3acbf4d263a5..f76ac598606c 100644
-> > --- a/Documentation/virt/kvm/api.rst
-> > +++ b/Documentation/virt/kvm/api.rst
-> > @@ -1307,7 +1307,7 @@ yet and must be cleared on entry.
-> >  :Capability: KVM_CAP_USER_MEMORY
-> >  :Architectures: all
-> >  :Type: vm ioctl
-> > -:Parameters: struct kvm_userspace_memory_region (in)
-> > +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
-> >  :Returns: 0 on success, -1 on error
-> >  
-> >  ::
-> > @@ -1320,9 +1320,17 @@ yet and must be cleared on entry.
-> >  	__u64 userspace_addr; /* start of the userspace allocated memory */
-> >    };
-> >  
-> > +  struct kvm_userspace_memory_region_ext {
-> > +	struct kvm_userspace_memory_region region;
-> > +	__u64 private_offset;
-> > +	__u32 private_fd;
-> > +	__u32 padding[5];
-> 
-> Uber nit, I'd prefer we pad u32 for private_fd separate from padding the size of
-> the structure for future expansion.
-> 
-> Regarding future expansion, any reason not to go crazy and pad like 128+ bytes?
-> It'd be rather embarassing if the next memslot extension needs 3 u64s and we end
-> up with region_ext2 :-)
-
-OK, so maybe:
-	__u64 private_offset;
-	__u32 private_fd;
-	__u32 pad1;
-	__u32 pad2[28];
-> 
-> > +};
-> > +
-> >    /* for kvm_memory_region::flags */
-> >    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
-> >    #define KVM_MEM_READONLY	(1UL << 1)
-> > +  #define KVM_MEM_PRIVATE		(1UL << 2)
-> >  
-> >  This ioctl allows the user to create, modify or delete a guest physical
-> >  memory slot.  Bits 0-15 of "slot" specify the slot id and this value
-> 
-> ...
-> 
-> > +static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
-> 
-> I 100% think we should usurp the name "private" for these memslots, but as prep
-> work this series should first rename KVM_PRIVATE_MEM_SLOTS to avoid confusion.
-> Maybe KVM_INTERNAL_MEM_SLOTS?
-
-Oh, I didn't realized 'PRIVATE' is already taken.  KVM_INTERNAL_MEM_SLOTS
-sounds good.
-
-Thanks,
-Chao
 
