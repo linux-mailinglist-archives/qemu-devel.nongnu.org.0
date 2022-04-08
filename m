@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60D64F97FC
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:26:15 +0200 (CEST)
-Received: from localhost ([::1]:33876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E241C4F97FA
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:26:01 +0200 (CEST)
+Received: from localhost ([::1]:33532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncpZ0-000836-OQ
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42198)
+	id 1ncpYm-0007q1-SS
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:26:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPE-0006sd-Ay
+ id 1ncpPE-0006tL-I7
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:08 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44553)
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPA-0002Gf-Vd
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:07 -0400
-Received: by mail-wr1-x436.google.com with SMTP id b19so13037465wrh.11
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:04 -0700 (PDT)
+ id 1ncpPB-0002Gs-JM
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:08 -0400
+Received: by mail-wr1-x436.google.com with SMTP id k23so13058702wrd.8
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=udZXKhjCILW7E0fUX7TNoreN3wUNIEE/HPBGgOlM0/Q=;
- b=qCzJ0W4GGxmGhN4ESxgCSs1GaRSbaDUjOtPJ5uQl9OyumJ99pEVisZ5XHsunC8G+VK
- 9CaQlWldKiUVR8Paz3go3qJZJHwNECuJAqbj3hr7Bn57srWjt20ixm2nt3CW4MFDu4xX
- rnj3zImYHyLme8j45+DLzc7SZNkKg9qoXQarPIp6WpJqpLwodgPiycVgOKBOu7SgEWHk
- thXhSUEmDxksEmGzaMD3kFa3YzxVxW3b2OpwpT4+kRPsJPipC/+XDv6A7P3ZIhbfkG+K
- uYsjS6OKcLmLmq11ZNkLOiTZbuDH+VDU6SGlRn1FqE02eopUXUOt02rTglz+S1kCrCfk
- K51g==
+ bh=JOex7zXlNRw0uzuroIWAH3oSHzCyU5BsmZyuU+iBsAg=;
+ b=Z5xyUyJtVHYr9slW6m5SYyXHiJXuuJ75Gqwz4Y24DRViQ8IrkcFmponXZVr34+OPDV
+ I53o/9vqqxp+TRsFWBTJ5wQIOJ4eHdZIZy/PPldaoS6PfzM9QfzwYZdUr6+H9kt0v7Qr
+ p0mniG4q3pQ1as/bJD6LaySREhYsUWxq/PLaU0BVX8OEQ5O0qwVdqETYTZsWcxKH9Uk4
+ dNaP9oYuDyEb5OqP7tBS3nNphBZxqFO82WJao+2olauMfTGEvPaoLzmXJqaiPjB/80cp
+ ZCsZV8iOhDJtUgfWw78p4gBwJHISqK4fAe0ZjX/YRASYFlvG+hpRFmYEUeB8EyYyElY7
+ Uw6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=udZXKhjCILW7E0fUX7TNoreN3wUNIEE/HPBGgOlM0/Q=;
- b=NPjMViFLsKQ3W75ibca3tqh0Df6nKkOdOAumA4mz5BDjdZtz/7Ua/KgJ/Ap6WLRBjT
- HBiBZ91UebNI8e1rOvzmDl023mLbUD4kZJcamuhkj5vrGga9mafPlSDE7ZNXF6RUNt3l
- ni68SXD1ty5nBie4+5usjZyGtNxlPzGH9Iu+aSqdgSZauOAMp9CUR4LKK2T5a9M+qsJG
- D7zqmBnS8Dopykq1gWQDM1G0KrWzOpBN5GKA2JNGXyTrzRjaKdEGLAAtZ2cUvBmqCuGd
- P7KQOGzSLK4ZIJiIdwReEWVCkZM3Ytgc7crlBrSw5EuEZbO7QwELPxmN4ghZq3DvENt8
- 2Wig==
-X-Gm-Message-State: AOAM532pm92xPFS/9tMnZyZozjtVD4zbJ63YRUR7+kBDQQegS6DPkXC3
- V704fi/Tb/xg4xs8TORLIiSmMA==
-X-Google-Smtp-Source: ABdhPJxk52/+U6NaOy2XoyJ48/jQkwPZIRnIvFgbCfGOCUBOE+CwSDxoNiaJV1e4b1te4mijbzXdEg==
-X-Received: by 2002:a05:6000:12c6:b0:206:100e:16f2 with SMTP id
- l6-20020a05600012c600b00206100e16f2mr14732131wrx.644.1649427363409; 
- Fri, 08 Apr 2022 07:16:03 -0700 (PDT)
+ bh=JOex7zXlNRw0uzuroIWAH3oSHzCyU5BsmZyuU+iBsAg=;
+ b=sPAkho2Kfht2pK2VcdEce2Fqp/uH5S4ozzM87O1ppLSsCCrUXJaJWW6DzA60X0snk0
+ GtR76eFFH81u3WZxZBRA+ZWriiIQNsUzHjj3TNAiKxWx3+xfINSJ8Es88BcVeQORxmRF
+ EeRQ0wx3MTZgH9SwYr+AG70m8BaxPsrsPc4eJNOzj1KdK0GBeit2EmHHrxWFwHFejbQZ
+ ZdY5kYKUEg0FFpl1NOFhvmVyistxexld+xUyf1g7gSAtXYoW7im6I7qp0422hugGyLhA
+ 2l04lnmdGyfm4bUQwp7OroXmHCjP7LMkz4H2MwqXuAU+hn4wCLmQeARWdMejheZJcs6w
+ bmbg==
+X-Gm-Message-State: AOAM531DJTteLXwIJtyJNJIr2fMrY0xADmsORqI1XcBkcAEeMpNnYoTI
+ o6/dqdUbiPaoKOZefXldDoqeZkNPXWZdvQ==
+X-Google-Smtp-Source: ABdhPJzBG/vDe/uLUoyQHgmCNpmwPyS4FE6kBOdijircEh0JqqbHa/6QDt5QdhZVzH/OqrWaywvOmQ==
+X-Received: by 2002:a05:6000:1866:b0:204:cce:c89e with SMTP id
+ d6-20020a056000186600b002040ccec89emr16011389wri.601.1649427364248; 
+ Fri, 08 Apr 2022 07:16:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.16.02
+ i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.16.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 08 Apr 2022 07:16:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 10/41] hw/intc/arm_gicv3_its: Distinguish success and error
- cases of CMD_CONTINUE
-Date: Fri,  8 Apr 2022 15:15:19 +0100
-Message-Id: <20220408141550.1271295-11-peter.maydell@linaro.org>
+Subject: [PATCH 11/41] hw/intc/arm_gicv3_its: Factor out "find ITE given devid,
+ eventid"
+Date: Fri,  8 Apr 2022 15:15:20 +0100
+Message-Id: <20220408141550.1271295-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220408141550.1271295-1-peter.maydell@linaro.org>
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
@@ -73,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,139 +90,191 @@ Cc: Marc Zyngier <maz@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the ItsCmdResult enum, we currently distinguish only CMD_STALL
-(failure, stall processing of the command queue) and CMD_CONTINUE
-(keep processing the queue), and we use the latter both for "there
-was a parameter error, go on to the next command" and "the command
-succeeded, go on to the next command".  Sometimes we would like to
-distinguish those two cases, so add CMD_CONTINUE_OK to the enum to
-represent the success situation, and use it in the relevant places.
+The operation of finding an interrupt table entry given a (DeviceID,
+EventID) pair is necessary in multiple different ITS commands.  The
+process requires first using the DeviceID as an index into the device
+table to find the DTE, and then useng the EventID as an index into
+the interrupt table specified by that DTE to find the ITE.  We also
+need to handle all the possible error cases: indexes out of range,
+table memory not readable, table entries not valid.
+
+Factor this out into a separate lookup_ite() function which we
+can then call from the places where we were previously open-coding
+this sequence. We'll also need this for some of the new GICv4.0
+commands.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_its.c | 29 ++++++++++++++++-------------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+ hw/intc/arm_gicv3_its.c | 124 +++++++++++++++++++++-------------------
+ 1 file changed, 64 insertions(+), 60 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index ea2b4b9e5a7..ba1893c072b 100644
+index ba1893c072b..fe1bea2dd81 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -78,11 +78,13 @@ typedef struct VTEntry {
-  * and continue processing.
-  * The process_* functions which handle individual ITS commands all
-  * return an ItsCmdResult which tells process_cmdq() whether it should
-- * stall or keep going.
-+ * stall, keep going because of an error, or keep going because the
-+ * command was a success.
-  */
- typedef enum ItsCmdResult {
-     CMD_STALL = 0,
-     CMD_CONTINUE = 1,
-+    CMD_CONTINUE_OK = 2,
- } ItsCmdResult;
+@@ -314,6 +314,60 @@ out:
+     return res;
+ }
  
- /* True if the ITS supports the GICv4 virtual LPI feature */
-@@ -400,9 +402,9 @@ static ItsCmdResult do_process_its_cmd(GICv3ITSState *s, uint32_t devid,
-         ITEntry ite = {};
-         /* remove mapping from interrupt translation table */
-         ite.valid = false;
--        return update_ite(s, eventid, &dte, &ite) ? CMD_CONTINUE : CMD_STALL;
-+        return update_ite(s, eventid, &dte, &ite) ? CMD_CONTINUE_OK : CMD_STALL;
-     }
--    return CMD_CONTINUE;
++/*
++ * Given a (DeviceID, EventID), look up the corresponding ITE, including
++ * checking for the various invalid-value cases. If we find a valid ITE,
++ * fill in @ite and @dte and return CMD_CONTINUE_OK. Otherwise return
++ * CMD_STALL or CMD_CONTINUE as appropriate (and the contents of @ite
++ * should not be relied on).
++ *
++ * The string @who is purely for the LOG_GUEST_ERROR messages,
++ * and should indicate the name of the calling function or similar.
++ */
++static ItsCmdResult lookup_ite(GICv3ITSState *s, const char *who,
++                               uint32_t devid, uint32_t eventid, ITEntry *ite,
++                               DTEntry *dte)
++{
++    uint64_t num_eventids;
++
++    if (devid >= s->dt.num_entries) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid command attributes: devid %d>=%d",
++                      who, devid, s->dt.num_entries);
++        return CMD_CONTINUE;
++    }
++
++    if (get_dte(s, devid, dte) != MEMTX_OK) {
++        return CMD_STALL;
++    }
++    if (!dte->valid) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid command attributes: "
++                      "invalid dte for %d\n", who, devid);
++        return CMD_CONTINUE;
++    }
++
++    num_eventids = 1ULL << (dte->size + 1);
++    if (eventid >= num_eventids) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid command attributes: eventid %d >= %"
++                      PRId64 "\n", who, eventid, num_eventids);
++        return CMD_CONTINUE;
++    }
++
++    if (get_ite(s, eventid, dte, ite) != MEMTX_OK) {
++        return CMD_STALL;
++    }
++
++    if (!ite->valid) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid command attributes: invalid ITE\n", who);
++        return CMD_CONTINUE;
++    }
++
 +    return CMD_CONTINUE_OK;
- }
- 
- static ItsCmdResult process_its_cmd(GICv3ITSState *s, const uint64_t *cmdpkt,
-@@ -495,7 +497,7 @@ static ItsCmdResult process_mapti(GICv3ITSState *s, const uint64_t *cmdpkt,
-     ite.icid = icid;
-     ite.doorbell = INTID_SPURIOUS;
-     ite.vpeid = 0;
--    return update_ite(s, eventid, &dte, &ite) ? CMD_CONTINUE : CMD_STALL;
-+    return update_ite(s, eventid, &dte, &ite) ? CMD_CONTINUE_OK : CMD_STALL;
- }
- 
- static ItsCmdResult process_vmapti(GICv3ITSState *s, const uint64_t *cmdpkt,
-@@ -574,7 +576,7 @@ static ItsCmdResult process_vmapti(GICv3ITSState *s, const uint64_t *cmdpkt,
-     ite.icid = 0;
-     ite.doorbell = doorbell;
-     ite.vpeid = vpeid;
--    return update_ite(s, eventid, &dte, &ite) ? CMD_CONTINUE : CMD_STALL;
-+    return update_ite(s, eventid, &dte, &ite) ? CMD_CONTINUE_OK : CMD_STALL;
- }
- 
++}
++
  /*
-@@ -635,7 +637,7 @@ static ItsCmdResult process_mapc(GICv3ITSState *s, const uint64_t *cmdpkt)
-         return CMD_CONTINUE;
-     }
+  * This function handles the processing of following commands based on
+  * the ItsCmdType parameter passed:-
+@@ -325,42 +379,17 @@ out:
+ static ItsCmdResult do_process_its_cmd(GICv3ITSState *s, uint32_t devid,
+                                        uint32_t eventid, ItsCmdType cmd)
+ {
+-    uint64_t num_eventids;
+     DTEntry dte;
+     CTEntry cte;
+     ITEntry ite;
++    ItsCmdResult cmdres;
  
--    return update_cte(s, icid, &cte) ? CMD_CONTINUE : CMD_STALL;
-+    return update_cte(s, icid, &cte) ? CMD_CONTINUE_OK : CMD_STALL;
- }
- 
- /*
-@@ -696,7 +698,7 @@ static ItsCmdResult process_mapd(GICv3ITSState *s, const uint64_t *cmdpkt)
-         return CMD_CONTINUE;
-     }
- 
--    return update_dte(s, devid, &dte) ? CMD_CONTINUE : CMD_STALL;
-+    return update_dte(s, devid, &dte) ? CMD_CONTINUE_OK : CMD_STALL;
- }
- 
- static ItsCmdResult process_movall(GICv3ITSState *s, const uint64_t *cmdpkt)
-@@ -725,13 +727,13 @@ static ItsCmdResult process_movall(GICv3ITSState *s, const uint64_t *cmdpkt)
- 
-     if (rd1 == rd2) {
-         /* Move to same target must succeed as a no-op */
+-    if (devid >= s->dt.num_entries) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: devid %d>=%d",
+-                      __func__, devid, s->dt.num_entries);
 -        return CMD_CONTINUE;
-+        return CMD_CONTINUE_OK;
++    cmdres = lookup_ite(s, __func__, devid, eventid, &ite, &dte);
++    if (cmdres != CMD_CONTINUE_OK) {
++        return cmdres;
      }
  
-     /* Move all pending LPIs from redistributor 1 to redistributor 2 */
-     gicv3_redist_movall_lpis(&s->gicv3->cpu[rd1], &s->gicv3->cpu[rd2]);
+-    if (get_dte(s, devid, &dte) != MEMTX_OK) {
+-        return CMD_STALL;
+-    }
+-    if (!dte.valid) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: "
+-                      "invalid dte for %d\n", __func__, devid);
+-        return CMD_CONTINUE;
+-    }
+-
+-    num_eventids = 1ULL << (dte.size + 1);
+-    if (eventid >= num_eventids) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: eventid %d >= %"
+-                      PRId64 "\n",
+-                      __func__, eventid, num_eventids);
+-        return CMD_CONTINUE;
+-    }
+-
+-    if (get_ite(s, eventid, &dte, &ite) != MEMTX_OK) {
+-        return CMD_STALL;
+-    }
+-
+-    if (!ite.valid || ite.inttype != ITE_INTTYPE_PHYSICAL) {
++    if (ite.inttype != ITE_INTTYPE_PHYSICAL) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid command attributes: invalid ITE\n",
+                       __func__);
+@@ -740,10 +769,10 @@ static ItsCmdResult process_movi(GICv3ITSState *s, const uint64_t *cmdpkt)
+ {
+     uint32_t devid, eventid;
+     uint16_t new_icid;
+-    uint64_t num_eventids;
+     DTEntry dte;
+     CTEntry old_cte, new_cte;
+     ITEntry old_ite;
++    ItsCmdResult cmdres;
  
--    return CMD_CONTINUE;
-+    return CMD_CONTINUE_OK;
- }
+     devid = FIELD_EX64(cmdpkt[0], MOVI_0, DEVICEID);
+     eventid = FIELD_EX64(cmdpkt[1], MOVI_1, EVENTID);
+@@ -751,37 +780,12 @@ static ItsCmdResult process_movi(GICv3ITSState *s, const uint64_t *cmdpkt)
  
- static ItsCmdResult process_movi(GICv3ITSState *s, const uint64_t *cmdpkt)
-@@ -845,7 +847,7 @@ static ItsCmdResult process_movi(GICv3ITSState *s, const uint64_t *cmdpkt)
+     trace_gicv3_its_cmd_movi(devid, eventid, new_icid);
  
-     /* Update the ICID field in the interrupt translation table entry */
-     old_ite.icid = new_icid;
--    return update_ite(s, eventid, &dte, &old_ite) ? CMD_CONTINUE : CMD_STALL;
-+    return update_ite(s, eventid, &dte, &old_ite) ? CMD_CONTINUE_OK : CMD_STALL;
- }
- 
- /*
-@@ -924,7 +926,7 @@ static ItsCmdResult process_vmapp(GICv3ITSState *s, const uint64_t *cmdpkt)
-         return CMD_CONTINUE;
+-    if (devid >= s->dt.num_entries) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: devid %d>=%d",
+-                      __func__, devid, s->dt.num_entries);
+-        return CMD_CONTINUE;
+-    }
+-    if (get_dte(s, devid, &dte) != MEMTX_OK) {
+-        return CMD_STALL;
++    cmdres = lookup_ite(s, __func__, devid, eventid, &old_ite, &dte);
++    if (cmdres != CMD_CONTINUE_OK) {
++        return cmdres;
      }
  
--    return update_vte(s, vpeid, &vte) ? CMD_CONTINUE : CMD_STALL;
-+    return update_vte(s, vpeid, &vte) ? CMD_CONTINUE_OK : CMD_STALL;
- }
- 
- /*
-@@ -963,7 +965,7 @@ static void process_cmdq(GICv3ITSState *s)
-     }
- 
-     while (wr_offset != rd_offset) {
--        ItsCmdResult result = CMD_CONTINUE;
-+        ItsCmdResult result = CMD_CONTINUE_OK;
-         void *hostmem;
-         hwaddr buflen;
-         uint64_t cmdpkt[GITS_CMDQ_ENTRY_WORDS];
-@@ -1055,7 +1057,8 @@ static void process_cmdq(GICv3ITSState *s)
-             trace_gicv3_its_cmd_unknown(cmd);
-             break;
-         }
--        if (result == CMD_CONTINUE) {
-+        if (result != CMD_STALL) {
-+            /* CMD_CONTINUE or CMD_CONTINUE_OK */
-             rd_offset++;
-             rd_offset %= s->cq.num_entries;
-             s->creadr = FIELD_DP64(s->creadr, GITS_CREADR, OFFSET, rd_offset);
+-    if (!dte.valid) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: "
+-                      "invalid dte for %d\n", __func__, devid);
+-        return CMD_CONTINUE;
+-    }
+-
+-    num_eventids = 1ULL << (dte.size + 1);
+-    if (eventid >= num_eventids) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: eventid %d >= %"
+-                      PRId64 "\n",
+-                      __func__, eventid, num_eventids);
+-        return CMD_CONTINUE;
+-    }
+-
+-    if (get_ite(s, eventid, &dte, &old_ite) != MEMTX_OK) {
+-        return CMD_STALL;
+-    }
+-
+-    if (!old_ite.valid || old_ite.inttype != ITE_INTTYPE_PHYSICAL) {
++    if (old_ite.inttype != ITE_INTTYPE_PHYSICAL) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid command attributes: invalid ITE\n",
+                       __func__);
 -- 
 2.25.1
 
