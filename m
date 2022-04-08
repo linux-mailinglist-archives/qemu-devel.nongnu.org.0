@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A904F97B7
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:10:41 +0200 (CEST)
-Received: from localhost ([::1]:58274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE5F4F97B0
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:08:33 +0200 (CEST)
+Received: from localhost ([::1]:54140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncpJu-0002k4-Ty
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:10:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37090)
+	id 1ncpHs-0008Pk-8E
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ncp8d-0007Bh-CZ
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:58:59 -0400
-Received: from mga17.intel.com ([192.55.52.151]:37619)
+ id 1ncp9e-0000aF-QW
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:00:06 -0400
+Received: from mga17.intel.com ([192.55.52.151]:37690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ncp8b-0007bn-CO
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:58:59 -0400
+ id 1ncp9c-0007kw-MS
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:00:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649426337; x=1680962337;
+ t=1649426400; x=1680962400;
  h=date:from:to:cc:subject:message-id:reply-to:references:
  mime-version:in-reply-to;
- bh=6BtLWIQ6HuBMCGyioka43iSSXH1vNEmJNzU6an6OpK4=;
- b=I/yAZu3krSwLEP2JN3ClP32CdnadW/qsD/ZVTVC4m3N7cBNeRonshyL/
- AjhSCrWdkAavVGmx7H7pehDFhBVCgwayG3MmCFRgXAlMmimZnrr51F6l2
- 9ZGOGmTRgEztBvtt2h1yGs8bZL5tJxLse/OC4mUG7cNi+fYedvXjaLsUC
- 53doIqRFeBfuIs5Z/tMjDmyL5OJhGsrhGjbC6xBs92VyUl3OqGRW7lncW
- aTuQt5qdHTVZGhBnReagdf2qwdpLY7t+2mWs4dsVtlLczwyQab+0f/cCb
- 6aBxOKw7xEJSaRt5qo81WaDAYGsuq/3eYNsezkgL19rzvw2PV0atXA/5c Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="242191006"
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="242191006"
+ bh=vzRh1a2g1teZIO284W8xK+WsiWROyR/t9wQMFIz6/+E=;
+ b=R+iFzD7Jag2yOhwoTGzbzGq0rNr2cHGyZs2plEFSXOPv7C0+gQBQFc+g
+ B6qU7dI8ubimvLLVM4WxAfPTMzTGAT7z4ni9JFxN+5+3WeCKoFl2QYOh5
+ 5RH7WeCHw/8pKqpvhkDc+zUJuiwD7wdt3Ta7e64mblKvHSd7pJJGOwjEL
+ GjRNHuu6ocnGFCN0CcIjvIuZYe2zkJOHdqAZy48gGR6u42n2cD5LVdwuS
+ SBt/4xAANshNGbjtEWkHpm+3mjW7c+CR6a32ddkOmdDzRoPrCutSKEyIJ
+ IwrrM/Qog9q92f1a7NvxN0E/WOip6d2qYJX6fg3OjZsqpKWuY+dLV2rXN w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="242191140"
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="242191140"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 06:58:55 -0700
+ 08 Apr 2022 06:59:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="698190122"
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="698190261"
 Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2022 06:58:48 -0700
-Date: Fri, 8 Apr 2022 21:58:37 +0800
+ by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2022 06:59:52 -0700
+Date: Fri, 8 Apr 2022 21:59:41 +0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH v5 06/13] KVM: Use kvm_userspace_memory_region_ext
-Message-ID: <20220408135837.GE57095@chaop.bj.intel.com>
+Subject: Re: [PATCH v5 07/13] KVM: Add KVM_EXIT_MEMORY_ERROR exit
+Message-ID: <20220408135941.GF57095@chaop.bj.intel.com>
 References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-7-chao.p.peng@linux.intel.com>
- <YkI2Lyv9SJaGPDz+@google.com>
+ <20220310140911.50924-8-chao.p.peng@linux.intel.com>
+ <YkI3wa3rmWTOrpmw@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YkI2Lyv9SJaGPDz+@google.com>
+In-Reply-To: <YkI3wa3rmWTOrpmw@google.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Received-SPF: none client-ip=192.55.52.151;
  envelope-from=chao.p.peng@linux.intel.com; helo=mga17.intel.com
@@ -96,88 +96,67 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 28, 2022 at 10:26:55PM +0000, Sean Christopherson wrote:
+On Mon, Mar 28, 2022 at 10:33:37PM +0000, Sean Christopherson wrote:
 > On Thu, Mar 10, 2022, Chao Peng wrote:
-> > @@ -4476,14 +4477,23 @@ static long kvm_vm_ioctl(struct file *filp,
-> >  		break;
-> >  	}
-> >  	case KVM_SET_USER_MEMORY_REGION: {
-> > -		struct kvm_userspace_memory_region kvm_userspace_mem;
-> > +		struct kvm_userspace_memory_region_ext region_ext;
-> 
-> It's probably a good idea to zero initialize the full region to avoid consuming
-> garbage stack data if there's a bug and an _ext field is accessed without first
-> checking KVM_MEM_PRIVATE.  I'm usually opposed to unnecessary initialization, but
-> this seems like something we could screw up quite easily.
-> 
-> >  		r = -EFAULT;
-> > -		if (copy_from_user(&kvm_userspace_mem, argp,
-> > -						sizeof(kvm_userspace_mem)))
-> > +		if (copy_from_user(&region_ext, argp,
-> > +				sizeof(struct kvm_userspace_memory_region)))
-> >  			goto out;
-> > +		if (region_ext.region.flags & KVM_MEM_PRIVATE) {
-> > +			int offset = offsetof(
-> > +				struct kvm_userspace_memory_region_ext,
-> > +				private_offset);
-> > +			if (copy_from_user(&region_ext.private_offset,
-> > +					   argp + offset,
-> > +					   sizeof(region_ext) - offset))
-> 
-> In this patch, KVM_MEM_PRIVATE should result in an -EINVAL as it's not yet
-> supported.  Copying the _ext on KVM_MEM_PRIVATE belongs in the "Expose KVM_MEM_PRIVATE"
-> patch.
-
-Agreed.
-
-> 
-> Mechnically, what about first reading flags via get_user(), and then doing a single
-> copy_from_user()?  It's technically more work in the common case, and requires an
-> extra check to guard against TOCTOU attacks, but this isn't a fast path by any means
-> and IMO the end result makes it easier to understand the relationship between
-> KVM_MEM_PRIVATE and the two different structs.
-
-Will use this code, thanks for typing.
-
-Chao
-> 
-> E.g.
-> 
-> 	case KVM_SET_USER_MEMORY_REGION: {
-> 		struct kvm_user_mem_region region;
-> 		unsigned long size;
-> 		u32 flags;
-> 
-> 		memset(&region, 0, sizeof(region));
-> 
-> 		r = -EFAULT;
-> 		if (get_user(flags, (u32 __user *)(argp + offsetof(typeof(region), flags))))
-> 			goto out;
-> 
-> 		if (flags & KVM_MEM_PRIVATE)
-> 			size = sizeof(struct kvm_userspace_memory_region_ext);
-> 		else
-> 			size = sizeof(struct kvm_userspace_memory_region);
-> 		if (copy_from_user(&region, argp, size))
-> 			goto out;
-> 
-> 		r = -EINVAL;
-> 		if ((flags ^ region.flags) & KVM_MEM_PRIVATE)
-> 			goto out;
-> 
-> 		r = kvm_vm_ioctl_set_memory_region(kvm, &region);
-> 		break;
-> 	}
-> 
-> > +				goto out;
-> > +		}
-> >  
-> > -		r = kvm_vm_ioctl_set_memory_region(kvm, &kvm_userspace_mem);
-> > +		r = kvm_vm_ioctl_set_memory_region(kvm, &region_ext);
-> >  		break;
-> >  	}
-> >  	case KVM_GET_DIRTY_LOG: {
-> > -- 
-> > 2.17.1
+> > This new KVM exit allows userspace to handle memory-related errors. It
+> > indicates an error happens in KVM at guest memory range [gpa, gpa+size).
+> > The flags includes additional information for userspace to handle the
+> > error. Currently bit 0 is defined as 'private memory' where '1'
+> > indicates error happens due to private memory access and '0' indicates
+> > error happens due to shared memory access.
 > > 
+> > After private memory is enabled, this new exit will be used for KVM to
+> > exit to userspace for shared memory <-> private memory conversion in
+> > memory encryption usage.
+> > 
+> > In such usage, typically there are two kind of memory conversions:
+> >   - explicit conversion: happens when guest explicitly calls into KVM to
+> >     map a range (as private or shared), KVM then exits to userspace to
+> >     do the map/unmap operations.
+> >   - implicit conversion: happens in KVM page fault handler.
+> >     * if the fault is due to a private memory access then causes a
+> >       userspace exit for a shared->private conversion request when the
+> >       page has not been allocated in the private memory backend.
+> >     * If the fault is due to a shared memory access then causes a
+> >       userspace exit for a private->shared conversion request when the
+> >       page has already been allocated in the private memory backend.
+> > 
+> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  Documentation/virt/kvm/api.rst | 22 ++++++++++++++++++++++
+> >  include/uapi/linux/kvm.h       |  9 +++++++++
+> >  2 files changed, 31 insertions(+)
+> > 
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index f76ac598606c..bad550c2212b 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -6216,6 +6216,28 @@ array field represents return values. The userspace should update the return
+> >  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
+> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
+> >  
+> > +::
+> > +
+> > +		/* KVM_EXIT_MEMORY_ERROR */
+> > +		struct {
+> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+> > +			__u32 flags;
+> > +			__u32 padding;
+> > +			__u64 gpa;
+> > +			__u64 size;
+> > +		} memory;
+> > +If exit reason is KVM_EXIT_MEMORY_ERROR then it indicates that the VCPU has
+> 
+> Doh, I'm pretty sure I suggested KVM_EXIT_MEMORY_ERROR.  Any objection to using
+> KVM_EXIT_MEMORY_FAULT instead of KVM_EXIT_MEMORY_ERROR?  "ERROR" makes me think
+> of ECC errors, i.e. uncorrected #MC in x86 land, not more generic "faults".  That
+> would align nicely with -EFAULT.
+
+Sure.
+
+> 
+> > +encountered a memory error which is not handled by KVM kernel module and
+> > +userspace may choose to handle it. The 'flags' field indicates the memory
+> > +properties of the exit.
 
