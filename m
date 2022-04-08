@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835D64FA013
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 01:21:53 +0200 (CEST)
-Received: from localhost ([::1]:33838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8868A4FA020
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 01:28:05 +0200 (CEST)
+Received: from localhost ([::1]:36998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncxvM-0006T5-BW
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 19:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36494)
+	id 1ncy1M-0000Tt-IZ
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 19:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ncxuA-00053K-MH
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 19:20:38 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39735)
+ id 1ncy06-00080G-Ep
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 19:26:46 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:50863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ncxu9-0004Ni-0e
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 19:20:38 -0400
-Received: by mail-pg1-x535.google.com with SMTP id q19so8999676pgm.6
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 16:20:36 -0700 (PDT)
+ id 1ncy03-0005q4-Sc
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 19:26:46 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id u14so10019125pjj.0
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 16:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=gEBMjtUlvyZrFoITGh51DTO9a1HWqcgSWUbZR3gfsr8=;
- b=yCb+yrfYTPaKmWfheWxp9zujtqnrGwpZW6Ws/ohtQJeOKcVjmQXhtM0GO1Q6i9TvGy
- GITjyu+3/FZ1ATbzfyXsQ8KCBca7L0+S3vyfn0RvukMAuUDAoUug8jHTfTtS+wYWXPKN
- T+FfrF/WJMFO/G9sxqrEKS8kh0wegPlmX4jEmX8jIp3gCQifc/PUfypm+zblTC0TGqeN
- 49wn/opILqLFTZuP8yiJv+Lc8o7ofhnnFqXYdmciKoBopbqRj2OZeIift9tVOvdJS0xj
- ydXqiJbNI8zfCjYWPbDyhJOdh+nZmeW0sFWDPPzQziJNUhqY9/NL+FFHWPWK2Nm6LHYE
- EMHQ==
+ bh=4WrceAjHZws/RC7AapXeXTIvMbFv9TuH+0j/xCxFGnQ=;
+ b=gnVXnMp0FzCQIk9IwHnEBs+p8YjtDktesB1MPKtYNht4Xrc/be8uxn74RQD9tqway2
+ UGWyLpkk9Jzw362PhaDn33bV33WTk1JOr0wDsONf4GlcF5te/+TOJaXTCvVjbWTtc9eK
+ jCu/ub/ArAhCKxwHHOEpw/duBf9Aan7js7PHEwDB6idPnEcA9eG2CjQ6eYi2ZE8B/NXp
+ tmaPgxcMrH3/IfEDJnHJOD5ffeFII/6HOm+OHm/bk5Kl25NPMjWakUc6WBawfN+jOHQw
+ lx52B3CogUimuWy1kh7NRIpXfgJ6NrlI26whtxroaTolLo14OKAcIz6g1UMYVRabgy9T
+ 3O7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gEBMjtUlvyZrFoITGh51DTO9a1HWqcgSWUbZR3gfsr8=;
- b=B7ehT0IZBfZetz/bSt71uNYXKkY+c+7REAHOc8XvX97p+59rLau29EesAmvHoqBK+g
- xeWEKLuNOZqBkXfZPVlhP07qlRBR6NtPi4+k7nzKo1Y3HuRJKWSPmlb5DhMn2hxC/WAD
- FKLeBedVCJszAbrtFGenIA0KuhY0SO+7zr6cAuO2FF/Ueuz4lWqpGDkMm1/qXD0b4FHa
- hTivjZ+vh1i2jBvIlAvmcPJIrUe5Ue/nOLit+OxYRnA+eUXPffhzXGa0pEDVtQjNbC3e
- QW0L4H5dThNCQhavXgH44TJSWHTJLvymLOjoqG40NXEAEHPNiWmtRcailkhLWfhXSmen
- doYA==
-X-Gm-Message-State: AOAM532IuhRbigxGsKermoK8JucDUDOOWzz61htWLwVRt+QE8nm7qkd+
- dF595YOLEE6wpaJyn6rxLU6Atg==
-X-Google-Smtp-Source: ABdhPJww/mU404lb/vKEqNWKR4xtCXAxwSxqrX4sy5Q5v/aEqmLWxIow2bxm9Mf2bDDpo/8wmxwrTQ==
-X-Received: by 2002:a05:6a00:14cb:b0:4fb:2c72:1fdc with SMTP id
- w11-20020a056a0014cb00b004fb2c721fdcmr21974057pfu.55.1649460035646; 
- Fri, 08 Apr 2022 16:20:35 -0700 (PDT)
+ bh=4WrceAjHZws/RC7AapXeXTIvMbFv9TuH+0j/xCxFGnQ=;
+ b=0TLR/EiHIf0YF4Ie4LS5NWNmzTOU6eovTle9nnnqdKp6AbXMs4msL+jaFcgIbQlHw+
+ Pwm7KNnTAavDl6qnGkfdtK2ydouTt5ewH5ywNkAKmXuHcRGcX6gg8vUurJOTmOpqfH9s
+ 0/7yyFazkAjUwSt1io38CZvMEXW8EtnJ/+XV4Nl6K7DupTZu7tbmnyGbatH1cqzRGrdy
+ zsbKDsxTvuVcamcLUj9Dc8GqZtVWdGPRHH6FOwmepNf5KiAnF1/xylyCC4b0ZHU/795E
+ Xfbap38X88EljCnjLVcuCniAmK+59HBu4OhfQ2lB+TNyw88jCe87lZVurAuN7KmgCZwg
+ LSVw==
+X-Gm-Message-State: AOAM531z3HCQkd57vLLSRPUfXA0h9pg0GzjrRsANUxcak8Kf9lUuU0Xj
+ 4SAAzAj5eC03fyPvlX010ED2cg==
+X-Google-Smtp-Source: ABdhPJwpICI17sc91YEbIWAx2Qqyn6hOG3BKiblpzZkimIFwdde7lJB2W7hCxEJTbOTvu7qRFwtNig==
+X-Received: by 2002:a17:903:230a:b0:156:9c66:5cd2 with SMTP id
+ d10-20020a170903230a00b001569c665cd2mr21233030plh.57.1649460402097; 
+ Fri, 08 Apr 2022 16:26:42 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- q9-20020a056a00088900b004fe1a045e97sm16663514pfj.118.2022.04.08.16.20.34
+ c15-20020a63350f000000b003992202f95fsm15861597pga.38.2022.04.08.16.26.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 16:20:34 -0700 (PDT)
-Message-ID: <e6830d42-f3d3-3020-17c9-61db21e1d63f@linaro.org>
-Date: Fri, 8 Apr 2022 16:20:33 -0700
+ Fri, 08 Apr 2022 16:26:41 -0700 (PDT)
+Message-ID: <84dfb42c-8bad-c66e-34a4-a240977ab2a8@linaro.org>
+Date: Fri, 8 Apr 2022 16:26:39 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 03/41] hw/intc/arm_gicv3: Insist that redist region
- capacity matches CPU count
+Subject: Re: [PATCH 04/41] hw/intc/arm_gicv3: Report correct PIDR0 values for
+ ID registers
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-4-peter.maydell@linaro.org>
+ <20220408141550.1271295-5-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220408141550.1271295-4-peter.maydell@linaro.org>
+In-Reply-To: <20220408141550.1271295-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,31 +96,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/8/22 07:15, Peter Maydell wrote:
-> Boards using the GICv3 need to configure it with both the total
-> number of CPUs and also the sizes of all the memory regions which
-> contain redistributors (one redistributor per CPU).  At the moment
-> the GICv3 checks that the number of CPUs specified is not too many to
-> fit in the defined redistributor regions, but in fact the code
-> assumes that the two match exactly.  For instance when we set the
-> GICR_TYPER.Last bit on the final redistributor in each region, we
-> assume that we don't need to consider the possibility of a region
-> being only half full of redistributors or even completely empty.  We
-> also assume in gicv3_redist_read() and gicv3_redist_write() that we
-> can calculate the CPU index from the offset within the MemoryRegion
-> and that this will always be in range.
+> We use the common function gicv3_idreg() to supply the CoreSight ID
+> register values for the GICv3 for the copies of these ID registers in
+> the distributor, redistributor and ITS register frames.  This isn't
+> quite correct, because while most of the register values are the
+> same, the PIDR0 value should vary to indicate which of these three
+> frames it is.  (You can see this and also the correct values of these
+> PIDR0 registers by looking at the GIC-600 or GIC-700 TRMs, for
+> example.)
 > 
-> Fortunately all the board code sets the redistributor region sizes to
-> exactly match the CPU count, so this isn't a visible bug.  We could
-> in theory make the GIC code handle non-full redistributor regions, or
-> have it automatically reduce the provided region sizes to match the
-> CPU count, but the simplest thing is just to strengthen the error
-> check and insist that the CPU count and redistributor region size
-> settings match exactly, since all the board code does that anyway.
+> Make gicv3_idreg() take an extra argument for the PIDR0 value.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_common.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   hw/intc/gicv3_internal.h   | 15 +++++++++++++--
+>   hw/intc/arm_gicv3_dist.c   |  2 +-
+>   hw/intc/arm_gicv3_its.c    |  2 +-
+>   hw/intc/arm_gicv3_redist.c |  2 +-
+>   4 files changed, 16 insertions(+), 5 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
