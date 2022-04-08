@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E30C4F9757
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 15:53:33 +0200 (CEST)
-Received: from localhost ([::1]:51254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F7A4F9762
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 15:55:07 +0200 (CEST)
+Received: from localhost ([::1]:55664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncp3M-0003uM-D6
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 09:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60640)
+	id 1ncp4s-0006q9-P6
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 09:55:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ncomG-0003be-3N
+ id 1ncomG-0003bg-E6
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:35:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41671)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ncom7-0003y0-64
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:35:51 -0400
+ id 1ncomD-0003z5-9Z
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:35:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649424926;
+ s=mimecast20190719; t=1649424932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=at74jLvfPBplnvuRaQUgguMyDaRAte8OVbgQmgvjYoc=;
- b=ezAzAtiCT2DFKYAt9clbYB3pU79YHqwvI58zL7xUSXzSa/yb0xUpffByAwEtwY5BqF3Ze6
- Hr5kPjIfkQGef8bLiuINpgwWFPn+Y9p73xKJjnjwPD23LIjA4V+JgWYomQi8st+dmf8SR5
- OzLw/f0gdZgZanpkTav6p0ZSDqBNenI=
+ bh=TSNmlTlHwOXjPRivKwmySsoLJZ6FYEIksDk0qAJFNLI=;
+ b=aEg67u5BERid8MeKo3e3eqSM8yvIrQ2KvQLtlH9vshP9F4g88htRiRaBNHFe7qaSCzS0D2
+ +QragkVfLa5xnqWE+06cJ0zmM/wYgCm5nGc3Yu/vicuXW2HKhrXl2jZxUd7vAtgKyA7H6j
+ OIP97TUlng/B8QY7dr4K5kXidGpx29g=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-444-kyoA1f5SNlCDuMqI6Z2tLQ-1; Fri, 08 Apr 2022 09:35:25 -0400
-X-MC-Unique: kyoA1f5SNlCDuMqI6Z2tLQ-1
+ us-mta-412-Wn3auCeCPpW7qTj8SlGHmg-1; Fri, 08 Apr 2022 09:35:28 -0400
+X-MC-Unique: Wn3auCeCPpW7qTj8SlGHmg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE81F381D8B2;
- Fri,  8 Apr 2022 13:35:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B9B63C33B23;
+ Fri,  8 Apr 2022 13:35:28 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA314145B97F;
- Fri,  8 Apr 2022 13:35:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4994B1402642;
+ Fri,  8 Apr 2022 13:35:25 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 20/23] vhost: Update kernel headers
-Date: Fri,  8 Apr 2022 15:34:12 +0200
-Message-Id: <20220408133415.1371760-21-eperezma@redhat.com>
+Subject: [RFC PATCH v5 21/23] vhost: Make possible to check for device
+ exclusive vq group
+Date: Fri,  8 Apr 2022 15:34:13 +0200
+Message-Id: <20220408133415.1371760-22-eperezma@redhat.com>
 In-Reply-To: <20220408133415.1371760-1-eperezma@redhat.com>
 References: <20220408133415.1371760-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -92,80 +93,168 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+CVQ needs to be in its own group, not shared with any data vq. Enable
+the checking of it here, before introducing address space id concepts.
+
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/standard-headers/linux/vhost_types.h | 11 ++++++++-
- linux-headers/linux/vhost.h                  | 25 ++++++++++++++++----
- 2 files changed, 30 insertions(+), 6 deletions(-)
+ include/hw/virtio/vhost.h |  2 +
+ hw/net/vhost_net.c        |  4 +-
+ hw/virtio/vhost-vdpa.c    | 79 ++++++++++++++++++++++++++++++++++++++-
+ hw/virtio/trace-events    |  1 +
+ 4 files changed, 84 insertions(+), 2 deletions(-)
 
-diff --git a/include/standard-headers/linux/vhost_types.h b/include/standard-headers/linux/vhost_types.h
-index 0bd2684a2a..ce78551b0f 100644
---- a/include/standard-headers/linux/vhost_types.h
-+++ b/include/standard-headers/linux/vhost_types.h
-@@ -87,7 +87,7 @@ struct vhost_msg {
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 58a73e7b7a..034868fa9e 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -78,6 +78,8 @@ struct vhost_dev {
+     int vq_index_end;
+     /* if non-zero, minimum required value for max_queues */
+     int num_queues;
++    /* Must be a vq group different than any other vhost dev */
++    bool independent_vq_group;
+     uint64_t features;
+     uint64_t acked_features;
+     uint64_t backend_features;
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 44a105ec29..10480e19e5 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -343,14 +343,16 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+     }
  
- struct vhost_msg_v2 {
- 	uint32_t type;
--	uint32_t reserved;
-+	uint32_t asid;
- 	union {
- 		struct vhost_iotlb_msg iotlb;
- 		uint8_t padding[64];
-@@ -153,4 +153,13 @@ struct vhost_vdpa_iova_range {
- /* vhost-net should add virtio_net_hdr for RX, and strip for TX packets. */
- #define VHOST_NET_F_VIRTIO_NET_HDR 27
+     for (i = 0; i < nvhosts; i++) {
++        bool cvq_idx = i >= data_queue_pairs;
  
-+/* Use message type V2 */
-+#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
-+/* IOTLB can accept batching hints */
-+#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
-+/* IOTLB can accept address space identifier through V2 type of IOTLB
-+ * message
-+ */
-+#define VHOST_BACKEND_F_IOTLB_ASID  0x3
+-        if (i < data_queue_pairs) {
++        if (!cvq_idx) {
+             peer = qemu_get_peer(ncs, i);
+         } else { /* Control Virtqueue */
+             peer = qemu_get_peer(ncs, n->max_queue_pairs);
+         }
+ 
+         net = get_vhost_net(peer);
++        net->dev.independent_vq_group = !!cvq_idx;
+         vhost_net_set_vq_index(net, i * 2, index_end);
+ 
+         /* Suppress the masking guest notifiers on vhost user
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index d09e06d212..dfff94d46f 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -677,7 +677,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+ {
+     uint64_t features;
+     uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
+-        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
++        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
++        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
+     int r;
+ 
+     if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
+@@ -1097,6 +1098,78 @@ static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+     return true;
+ }
+ 
++static int vhost_vdpa_get_vring_group(struct vhost_dev *dev,
++                                      struct vhost_vring_state *state)
++{
++    int ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_VRING_GROUP, state);
++    trace_vhost_vdpa_get_vring_group(dev, state->index, state->num);
++    return ret;
++}
 +
- #endif
-diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
-index c998860d7b..5e083490f1 100644
---- a/linux-headers/linux/vhost.h
-+++ b/linux-headers/linux/vhost.h
-@@ -89,11 +89,6 @@
- 
- /* Set or get vhost backend capability */
- 
--/* Use message type V2 */
--#define VHOST_BACKEND_F_IOTLB_MSG_V2 0x1
--/* IOTLB can accept batching hints */
--#define VHOST_BACKEND_F_IOTLB_BATCH  0x2
--
- #define VHOST_SET_BACKEND_FEATURES _IOW(VHOST_VIRTIO, 0x25, __u64)
- #define VHOST_GET_BACKEND_FEATURES _IOR(VHOST_VIRTIO, 0x26, __u64)
- 
-@@ -150,4 +145,24 @@
- /* Get the valid iova range */
- #define VHOST_VDPA_GET_IOVA_RANGE	_IOR(VHOST_VIRTIO, 0x78, \
- 					     struct vhost_vdpa_iova_range)
-+/* Get the number of virtqueue groups. */
-+#define VHOST_VDPA_GET_GROUP_NUM	_IOR(VHOST_VIRTIO, 0x79, unsigned int)
++static bool vhost_dev_is_independent_group(struct vhost_dev *dev)
++{
++    struct vhost_vdpa *v = dev->opaque;
++    struct vhost_vring_state this_vq_group = {
++        .index = dev->vq_index,
++    };
++    int ret;
 +
-+/* Get the number of address spaces. */
-+#define VHOST_VDPA_GET_AS_NUM		_IOR(VHOST_VIRTIO, 0x7A, unsigned int)
++    if (!(dev->backend_cap & VHOST_BACKEND_F_IOTLB_ASID)) {
++        return true;
++    }
 +
-+/* Get the group for a virtqueue: read index, write group in num,
-+ * The virtqueue index is stored in the index field of
-+ * vhost_vring_state. The group for this specific virtqueue is
-+ * returned via num field of vhost_vring_state.
-+ */
-+#define VHOST_VDPA_GET_VRING_GROUP	_IOWR(VHOST_VIRTIO, 0x7B,	\
-+					      struct vhost_vring_state)
-+/* Set the ASID for a virtqueue group. The group index is stored in
-+ * the index field of vhost_vring_state, the ASID associated with this
-+ * group is stored at num field of vhost_vring_state.
-+ */
-+#define VHOST_VDPA_SET_GROUP_ASID	_IOW(VHOST_VIRTIO, 0x7C, \
-+					     struct vhost_vring_state)
++    if (!v->shadow_vqs_enabled) {
++        return true;
++    }
 +
- #endif
++    ret = vhost_vdpa_get_vring_group(dev, &this_vq_group);
++    if (unlikely(ret)) {
++        goto call_err;
++    }
++
++    for (int i = 1; i < dev->nvqs; ++i) {
++        struct vhost_vring_state vq_group = {
++            .index = dev->vq_index + i,
++        };
++
++        ret = vhost_vdpa_get_vring_group(dev, &vq_group);
++        if (unlikely(ret)) {
++            goto call_err;
++        }
++        if (unlikely(vq_group.num != this_vq_group.num)) {
++            error_report("VQ %d group is different than VQ %d one",
++                         this_vq_group.index, vq_group.index);
++            return false;
++        }
++    }
++
++    for (int i = 0; i < dev->vq_index_end; ++i) {
++        struct vhost_vring_state vq_group = {
++            .index = i,
++        };
++
++        if (dev->vq_index <= i && i < dev->vq_index + dev->nvqs) {
++            continue;
++        }
++
++        ret = vhost_vdpa_get_vring_group(dev, &vq_group);
++        if (unlikely(ret)) {
++            goto call_err;
++        }
++        if (unlikely(vq_group.num == this_vq_group.num)) {
++            error_report("VQ %d group is the same as VQ %d one",
++                         this_vq_group.index, vq_group.index);
++            return false;
++        }
++    }
++
++    return true;
++
++call_err:
++    error_report("Can't read vq group, errno=%d (%s)", ret, g_strerror(-ret));
++    return false;
++}
++
+ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+ {
+     struct vhost_vdpa *v = dev->opaque;
+@@ -1105,6 +1178,10 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+ 
+     if (started) {
+         vhost_vdpa_host_notifiers_init(dev);
++        if (dev->independent_vq_group &&
++            !vhost_dev_is_independent_group(dev)) {
++            return -1;
++        }
+         ok = vhost_vdpa_svqs_start(dev);
+         if (unlikely(!ok)) {
+             return -1;
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index 333348d9d5..e6fdc03514 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -43,6 +43,7 @@ vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
+ vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
+ vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size, uint32_t flags) "dev: %p offset: %"PRIu32" size: %"PRIu32" flags: 0x%"PRIx32
+ vhost_vdpa_get_config(void *dev, void *config, uint32_t config_len) "dev: %p config: %p config_len: %"PRIu32
++vhost_vdpa_get_vring_group(void *dev, unsigned int index, unsigned int num) "dev: %p index: %u num: %u"
+ vhost_vdpa_dev_start(void *dev, bool started) "dev: %p started: %d"
+ vhost_vdpa_set_log_base(void *dev, uint64_t base, unsigned long long size, int refcnt, int fd, void *log) "dev: %p base: 0x%"PRIx64" size: %llu refcnt: %d fd: %d log: %p"
+ vhost_vdpa_set_vring_addr(void *dev, unsigned int index, unsigned int flags, uint64_t desc_user_addr, uint64_t used_user_addr, uint64_t avail_user_addr, uint64_t log_guest_addr) "dev: %p index: %u flags: 0x%x desc_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" log_guest_addr: 0x%"PRIx64
 -- 
 2.27.0
 
