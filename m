@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CFF14F981E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:33:24 +0200 (CEST)
-Received: from localhost ([::1]:56120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26BF4F9822
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:35:00 +0200 (CEST)
+Received: from localhost ([::1]:33958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncpfv-0006AS-CD
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:33:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42334)
+	id 1ncphU-0001kj-1a
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPH-0006un-Aw
+ id 1ncpPI-0006up-27
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:12 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52933)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:47040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPF-0002If-1u
+ id 1ncpPG-0002J4-7N
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:11 -0400
-Received: by mail-wm1-x333.google.com with SMTP id r7so5581158wmq.2
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:08 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id v2so2198220wrv.13
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KUS8jHf3RiAub0TzLvyVWR6Uq3p/cHMqxywf5Ll+/4E=;
- b=afF4d8W+FqBptO5tmuMTZ/etPs/SRTSR81/OGVbAafdL8WGkOttqb1rUwHxLinGdZD
- QtZXSZCKmPRw7BjkfYPSHreC5eodkNol6accuUITRkNBckyfQw6jGe9XgM1TXf1QwGHK
- avra9/4tzElVXqv6zx2Urw5aC4xksUb93TkblZcEQW5krHdptaarNPn6LLZCd+bM4G53
- 51fMNIrG4oHcqbCHonWxx2rdoytIisM94hrOtch494BH+KQHg4BG/xFYZW9+/dZTj7YV
- vKHCdea4Zl+xPTxtw+7BtdBu2qdUMAeEMrHuVcXxg+xxCQCAPM1RDljX5/fbOhyOz/eu
- P0sg==
+ bh=8It9aP5C1087IcKyM4TQrezews+cehKhHUndmZrknH4=;
+ b=xkPpjGL70CKmdmQ/uv+W0/ypEo1BJh3e/v/A/MyvxcKUAnHbxtnLG4YeGTtX4+9pq4
+ JreKi+V3/JSGC5jFnOetqrmwerzjiDEnbZacUGKXckntTVdDz7q2oS01SFeBZb5UfL07
+ GrPP4SxIkN/S+wWRjAKImhys+65PqKpuCm/bmLCHNCDwt/v5gRE1/Sj0bBo3dtu8Qg4k
+ gWHDri4Vyy4IzvEmFGzq3njvGQYhiFpMNisgJyhJMhatmnqgB/VndkJByezqi0AJJxYv
+ en4qN3FzUPENH0vtwUvi7aVt8J4Deia56Q/jVmgB6Z8zatUrSdKbDvSHuVwxspVh0x76
+ s9kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KUS8jHf3RiAub0TzLvyVWR6Uq3p/cHMqxywf5Ll+/4E=;
- b=agIGWRprFR6E9yPPf25bL/12/XIEnBgavX/agUG5tSm8DhxkSiBnAO+OQr1ZaGg+w6
- r2fZ3svI0kFyMTp5s17neTUdyXsPghskruJNNb04VVoi4jHcJZhFE7Hh1GxGffB19c1Y
- sSNKfRlsvH58VWiCUK/4uWgdYCNE+PnaH2envRP9vt8zKUl1H22qXT3lP6bZdtKK8ct0
- KEG4SzUMi1nfucnx33Xfw9IGbNDL7drU006shb0Fv4fVWtwC8luI6RODLX2yJj3hfPus
- YtkNzuosypV2P8KBAd0UGv8K0iqkPS5vMvF2hAjN3ywIIMJhsHm4xLindxiaCBCkh8vW
- HVkw==
-X-Gm-Message-State: AOAM531aMheOohn7HKzPDU/tgXVwA680wIAUAGfVmwN7i7s5e5ayEl+H
- bQHCRVg4ykqpIK7cazi+BYm3IKPS68C+hg==
-X-Google-Smtp-Source: ABdhPJzRmMRkdYTznXbt/1L/7OkFxGz4e3DNPWeypnKfOHlunJEAqYLKMNgnQrtuUyRxWfWg3UZ22A==
-X-Received: by 2002:a05:600c:1548:b0:38e:a8df:eced with SMTP id
- f8-20020a05600c154800b0038ea8dfecedmr2426069wmg.9.1649427367840; 
- Fri, 08 Apr 2022 07:16:07 -0700 (PDT)
+ bh=8It9aP5C1087IcKyM4TQrezews+cehKhHUndmZrknH4=;
+ b=F369Kglvw/Jb2WR/YskkUqPoNxw7FUiFAYADLCw0scq1tcflTmscIkOUAt+1dQD2C3
+ bS/u7yEt86kP7fi//soGtX718lf0Bu9D9MYJGYWbVMZfSeCnDYtDWx6faf1oYbTZpp7D
+ XRvsMmpLTrSrpgvbqYLIAaMa0+bfud3OKNaCFPiLRofWEvS5Ubnr8lHH96bGB0TpF2Tm
+ q8/yCAdtZbhnbe9rAOSoWQym8mqXuD9FTcmDsDHXzbvoWOhxMf3aNcYP1Ei5CWyHzxvD
+ r9bZZQaegYaoUrHTK+BU16MYckEm6LJGv/0mSgZ1IbjQsvUIOuYtuyhV87lnPjCHtBkW
+ GCpA==
+X-Gm-Message-State: AOAM530mi1PwKtPar4W1jWanaKu5HO0YMqcLn7gH3+MfggVZdJvEPrYH
+ dl/KxAwX0ZFo/SvQsAqRy1G2yQ==
+X-Google-Smtp-Source: ABdhPJx0yM9KJsD6TkvnUnMM7Av4FiP8NOPxGjc5Fldz0/eUH/JFLY/chH9Wo8j+8sBhKhslrrC4nQ==
+X-Received: by 2002:a5d:444e:0:b0:207:979d:67f3 with SMTP id
+ x14-20020a5d444e000000b00207979d67f3mr2447283wrr.469.1649427368687; 
+ Fri, 08 Apr 2022 07:16:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.16.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 07:16:07 -0700 (PDT)
+ Fri, 08 Apr 2022 07:16:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 15/41] hw/intc/arm_gicv3: Keep pointers to every connected ITS
-Date: Fri,  8 Apr 2022 15:15:24 +0100
-Message-Id: <20220408141550.1271295-16-peter.maydell@linaro.org>
+Subject: [PATCH 16/41] hw/intc/arm_gicv3_its: Implement VMOVP
+Date: Fri,  8 Apr 2022 15:15:25 +0100
+Message-Id: <20220408141550.1271295-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220408141550.1271295-1-peter.maydell@linaro.org>
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,102 +89,186 @@ Cc: Marc Zyngier <maz@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GICv4 ITS VMOVP command's semantics require it to perform the
-operation on every ITS connected to the same GIC that the ITS that
-received the command is attached to.  This means that the GIC object
-needs to keep a pointer to every ITS that is connected to it
-(previously it was sufficient for the ITS to have a pointer to its
-GIC).
+Implement the GICv4 VMOVP command, which updates an entry in the vPE
+table to change its rdbase field. This command is unique in the ITS
+command set because its effects must be propagated to all the other
+ITSes connected to the same GIC as the ITS which executes the VMOVP
+command.
 
-Add a glib ptrarray to the GICv3 object which holds pointers to every
-connected ITS, and make the ITS add itself to the array for the GIC
-it is connected to when it is realized.
+The GICv4 spec allows two implementation choices for handling the
+propagation to other ITSes:
+ * If GITS_TYPER.VMOVP is 1, the guest only needs to issue the command
+   on one ITS, and the implementation handles the propagation to
+   all ITSes
+ * If GITS_TYPER.VMOVP is 0, the guest must issue the command on
+   every ITS, and arrange for the ITSes to synchronize the updates
+   with each other by setting ITSList and Sequence Number fields
+   in the command packets
 
-Note that currently all QEMU machine types with an ITS have exactly
-one ITS in the system, so typically the length of this ptrarray will
-be 1.  Multiple ITSes are typically used to improve performance on
-real hardware, so we wouldn't need to have more than one unless we
-were modelling a real machine type that had multile ITSes.
+We choose the GITS_TYPER.VMOVP = 1 approach, and synchronously
+execute the update on every ITS.
+
+For GICv4.1 this command has extra fields in the command packet and
+additional behaviour.  We define the 4.1-only fields with the FIELD
+macro, but only implement the GICv4.0 version of the command.
+
+Note that we don't update the reported GITS_TYPER value here;
+we'll do that later in a commit which updates all the reported
+feature bit and ID register values for GICv4.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/gicv3_internal.h           | 9 +++++++++
- include/hw/intc/arm_gicv3_common.h | 2 ++
- hw/intc/arm_gicv3_common.c         | 2 ++
- hw/intc/arm_gicv3_its.c            | 2 ++
- hw/intc/arm_gicv3_its_kvm.c        | 2 ++
- 5 files changed, 17 insertions(+)
+ hw/intc/gicv3_internal.h | 18 ++++++++++
+ hw/intc/arm_gicv3_its.c  | 75 ++++++++++++++++++++++++++++++++++++++++
+ hw/intc/trace-events     |  1 +
+ 3 files changed, 94 insertions(+)
 
 diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 6e22c8072e9..69a59daf867 100644
+index 69a59daf867..c1467ce7263 100644
 --- a/hw/intc/gicv3_internal.h
 +++ b/hw/intc/gicv3_internal.h
-@@ -709,4 +709,13 @@ static inline void gicv3_cache_all_target_cpustates(GICv3State *s)
+@@ -329,6 +329,7 @@ FIELD(GITS_TYPER, CIL, 36, 1)
+ #define GITS_CMD_INVALL           0x0D
+ #define GITS_CMD_MOVALL           0x0E
+ #define GITS_CMD_DISCARD          0x0F
++#define GITS_CMD_VMOVP            0x22
+ #define GITS_CMD_VMAPP            0x29
+ #define GITS_CMD_VMAPTI           0x2A
+ #define GITS_CMD_VMAPI            0x2B
+@@ -389,6 +390,14 @@ FIELD(VMAPP_2, V, 63, 1)
+ FIELD(VMAPP_3, VPTSIZE, 0, 8) /* For GICv4.0, bits [7:6] are RES0 */
+ FIELD(VMAPP_3, VPTADDR, 16, 36)
  
- void gicv3_set_gicv3state(CPUState *cpu, GICv3CPUState *s);
++/* VMOVP command fields */
++FIELD(VMOVP_0, SEQNUM, 32, 16) /* not used for GITS_TYPER.VMOVP == 1 */
++FIELD(VMOVP_1, ITSLIST, 0, 16) /* not used for GITS_TYPER.VMOVP == 1 */
++FIELD(VMOVP_1, VPEID, 32, 16)
++FIELD(VMOVP_2, RDBASE, 16, 36)
++FIELD(VMOVP_2, DB, 63, 1) /* GICv4.1 only */
++FIELD(VMOVP_3, DEFAULT_DOORBELL, 0, 32) /* GICv4.1 only */
++
+ /*
+  * 12 bytes Interrupt translation Table Entry size
+  * as per Table 5.3 in GICv3 spec
+@@ -718,4 +727,13 @@ static inline void gicv3_add_its(GICv3State *s, DeviceState *its)
+     g_ptr_array_add(s->itslist, its);
+ }
  
 +/*
-+ * The ITS should call this when it is realized to add itself
-+ * to its GIC's list of connected ITSes.
++ * The ITS can use this for operations that must be performed on
++ * every ITS connected to the same GIC that it is
 + */
-+static inline void gicv3_add_its(GICv3State *s, DeviceState *its)
++static inline void gicv3_foreach_its(GICv3State *s, GFunc func, void *opaque)
 +{
-+    g_ptr_array_add(s->itslist, its);
++    g_ptr_array_foreach(s->itslist, func, opaque);
 +}
 +
  #endif /* QEMU_ARM_GICV3_INTERNAL_H */
-diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
-index fc38e4b7dca..08b27789385 100644
---- a/include/hw/intc/arm_gicv3_common.h
-+++ b/include/hw/intc/arm_gicv3_common.h
-@@ -272,6 +272,8 @@ struct GICv3State {
-     uint32_t gicd_nsacr[DIV_ROUND_UP(GICV3_MAXIRQ, 16)];
- 
-     GICv3CPUState *cpu;
-+    /* List of all ITSes connected to this GIC */
-+    GPtrArray *itslist;
- };
- 
- #define GICV3_BITMAP_ACCESSORS(BMP)                                     \
-diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index c797c82786b..dcc5ce28c6a 100644
---- a/hw/intc/arm_gicv3_common.c
-+++ b/hw/intc/arm_gicv3_common.c
-@@ -414,6 +414,8 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
-         cpuidx += s->redist_region_count[i];
-         s->cpu[cpuidx - 1].gicr_typer |= GICR_TYPER_LAST;
-     }
-+
-+    s->itslist = g_ptr_array_new();
- }
- 
- static void arm_gicv3_finalize(Object *obj)
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 21bc1a6c18b..6ff3c3b0348 100644
+index 6ff3c3b0348..bd82c84b46d 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -1680,6 +1680,8 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
-         }
-     }
+@@ -1012,6 +1012,78 @@ static ItsCmdResult process_vmapp(GICv3ITSState *s, const uint64_t *cmdpkt)
+     return update_vte(s, vpeid, &vte) ? CMD_CONTINUE_OK : CMD_STALL;
+ }
  
-+    gicv3_add_its(s->gicv3, dev);
++typedef struct VmovpCallbackData {
++    uint64_t rdbase;
++    uint32_t vpeid;
++    /*
++     * Overall command result. If more than one callback finds an
++     * error, STALL beats CONTINUE.
++     */
++    ItsCmdResult result;
++} VmovpCallbackData;
 +
-     gicv3_its_init_mmio(s, &gicv3_its_control_ops, &gicv3_its_translation_ops);
- 
-     /* set the ITS default features supported */
-diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
-index 0b4cbed28b3..529c7bd4946 100644
---- a/hw/intc/arm_gicv3_its_kvm.c
-+++ b/hw/intc/arm_gicv3_its_kvm.c
-@@ -106,6 +106,8 @@ static void kvm_arm_its_realize(DeviceState *dev, Error **errp)
-     kvm_arm_register_device(&s->iomem_its_cntrl, -1, KVM_DEV_ARM_VGIC_GRP_ADDR,
-                             KVM_VGIC_ITS_ADDR_TYPE, s->dev_fd, 0);
- 
-+    gicv3_add_its(s->gicv3, dev);
++static void vmovp_callback(gpointer data, gpointer opaque)
++{
++    /*
++     * This function is called to update the VPEID field in a VPE
++     * table entry for this ITS. This might be because of a VMOVP
++     * command executed on any ITS that is connected to the same GIC
++     * as this ITS.  We need to read the VPE table entry for the VPEID
++     * and update its RDBASE field.
++     */
++    GICv3ITSState *s = data;
++    VmovpCallbackData *cbdata = opaque;
++    VTEntry vte;
++    ItsCmdResult cmdres;
 +
-     gicv3_its_init_mmio(s, NULL, NULL);
- 
-     if (!kvm_device_check_attr(s->dev_fd, KVM_DEV_ARM_VGIC_GRP_ITS_REGS,
++    cmdres = lookup_vte(s, __func__, cbdata->vpeid, &vte);
++    switch (cmdres) {
++    case CMD_STALL:
++        cbdata->result = CMD_STALL;
++        return;
++    case CMD_CONTINUE:
++        if (cbdata->result != CMD_STALL) {
++            cbdata->result = CMD_CONTINUE;
++        }
++        return;
++    case CMD_CONTINUE_OK:
++        break;
++    }
++
++    vte.rdbase = cbdata->rdbase;
++    if (!update_vte(s, cbdata->vpeid, &vte)) {
++        cbdata->result = CMD_STALL;
++    }
++}
++
++static ItsCmdResult process_vmovp(GICv3ITSState *s, const uint64_t *cmdpkt)
++{
++    VmovpCallbackData cbdata;
++
++    if (!its_feature_virtual(s)) {
++        return CMD_CONTINUE;
++    }
++
++    cbdata.vpeid = FIELD_EX64(cmdpkt[1], VMOVP_1, VPEID);
++    cbdata.rdbase = FIELD_EX64(cmdpkt[2], VMOVP_2, RDBASE);
++
++    trace_gicv3_its_cmd_vmovp(cbdata.vpeid, cbdata.rdbase);
++
++    if (cbdata.rdbase >= s->gicv3->num_cpu) {
++        return CMD_CONTINUE;
++    }
++
++    /*
++     * Our ITS implementation reports GITS_TYPER.VMOVP == 1, which means
++     * that when the VMOVP command is executed on an ITS to change the
++     * VPEID field in a VPE table entry the change must be propagated
++     * to all the ITSes connected to the same GIC.
++     */
++    cbdata.result = CMD_CONTINUE_OK;
++    gicv3_foreach_its(s->gicv3, vmovp_callback, &cbdata);
++    return cbdata.result;
++}
++
+ /*
+  * Current implementation blocks until all
+  * commands are processed
+@@ -1136,6 +1208,9 @@ static void process_cmdq(GICv3ITSState *s)
+         case GITS_CMD_VMAPP:
+             result = process_vmapp(s, cmdpkt);
+             break;
++        case GITS_CMD_VMOVP:
++            result = process_vmovp(s, cmdpkt);
++            break;
+         default:
+             trace_gicv3_its_cmd_unknown(cmd);
+             break;
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index d529914eca2..a2dd1bdb6c3 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -190,6 +190,7 @@ gicv3_its_cmd_movi(uint32_t devid, uint32_t eventid, uint32_t icid) "GICv3 ITS:
+ gicv3_its_cmd_vmapi(uint32_t devid, uint32_t eventid, uint32_t vpeid, uint32_t doorbell) "GICv3 ITS: command VMAPI DeviceID 0x%x EventID 0x%x vPEID 0x%x Dbell_pINTID 0x%x"
+ gicv3_its_cmd_vmapti(uint32_t devid, uint32_t eventid, uint32_t vpeid, uint32_t vintid, uint32_t doorbell) "GICv3 ITS: command VMAPI DeviceID 0x%x EventID 0x%x vPEID 0x%x vINTID 0x%x Dbell_pINTID 0x%x"
+ gicv3_its_cmd_vmapp(uint32_t vpeid, uint64_t rdbase, int valid, uint64_t vptaddr, uint32_t vptsize) "GICv3 ITS: command VMAPP vPEID 0x%x RDbase 0x%" PRIx64 " V %d VPT_addr 0x%" PRIx64 " VPT_size 0x%x"
++gicv3_its_cmd_vmovp(uint32_t vpeid, uint64_t rdbase) "GICv3 ITS: command VMOVP vPEID 0x%x RDbase 0x%" PRIx64
+ gicv3_its_cmd_unknown(unsigned cmd) "GICv3 ITS: unknown command 0x%x"
+ gicv3_its_cte_read(uint32_t icid, int valid, uint32_t rdbase) "GICv3 ITS: Collection Table read for ICID 0x%x: valid %d RDBase 0x%x"
+ gicv3_its_cte_write(uint32_t icid, int valid, uint32_t rdbase) "GICv3 ITS: Collection Table write for ICID 0x%x: valid %d RDBase 0x%x"
 -- 
 2.25.1
 
