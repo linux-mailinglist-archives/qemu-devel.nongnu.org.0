@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0344F95D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 14:32:24 +0200 (CEST)
-Received: from localhost ([::1]:43126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BD34F95E4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 14:35:16 +0200 (CEST)
+Received: from localhost ([::1]:47582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncnmn-00044e-VA
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 08:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45866)
+	id 1ncnpc-00079a-0O
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 08:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1ncnj6-0001mf-HV
+ id 1ncnj8-0001mk-0G
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:28:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25241)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1ncnj1-0008Vv-Bw
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:28:28 -0400
+ id 1ncnj6-0008WH-7p
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:28:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649420906;
+ s=mimecast20190719; t=1649420910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3c7FxJxiS1SvJJ8iCEzFEJXlV1pVaPOUGzMgzGYcfYk=;
- b=cBUuaCMERxksfPXc/8tvOqWvUUCNFYHBhqJKna6UsygJbN7ovR1mopSN0Oey66gTzEyg63
- hhwExtHAjYZwTMmdDiEhHXL8XmIam7XSjXiKTI5keeC8+sTceybu09GlJfz2r3DJefjlVO
- AitmhwTS1SA+g8b2CqnjztOCvfhXGn0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zleluUqSDZ2kUtluqs0feIxnpU+msTT2TSh4UAgP4fg=;
+ b=DFFutrZZAq9LzZqvcgA+TM4Bp3roVJPHYyJic9yEqHosSbx6EpSyny7/ZuVwip/f2eNdcs
+ 8iIkeJ2IJz84QRVasBfhRyfO9JqtBdkZJR5jX3/ATlCtxAvib0DlqY6agMLYfnXG9grSHP
+ hIazEXNI/MpJCwCe67UxXghBUhGYpHI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-0Y8LdFdlPMagTLKdSIKaIQ-1; Fri, 08 Apr 2022 08:28:25 -0400
-X-MC-Unique: 0Y8LdFdlPMagTLKdSIKaIQ-1
+ us-mta-660-aGnCSZFBNQSQy_8Zkur1xg-1; Fri, 08 Apr 2022 08:28:27 -0400
+X-MC-Unique: aGnCSZFBNQSQy_8Zkur1xg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 611D0803524;
- Fri,  8 Apr 2022 12:28:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71E4738149A7;
+ Fri,  8 Apr 2022 12:28:27 +0000 (UTC)
 Received: from max-t490s.redhat.com (unknown [10.39.208.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8FDA8145BA41;
- Fri,  8 Apr 2022 12:28:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FD25145B97F;
+ Fri,  8 Apr 2022 12:28:25 +0000 (UTC)
 From: Maxime Coquelin <maxime.coquelin@redhat.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
  andrew@daynix.com, yuri.benditovich@daynix.com, dgilbert@redhat.com,
  quintela@redhat.com
-Subject: [PATCH 4/5] docs: introduce RSS support in Vhost-user specification
-Date: Fri,  8 Apr 2022 14:28:12 +0200
-Message-Id: <20220408122813.1357045-5-maxime.coquelin@redhat.com>
+Subject: [PATCH 5/5] vhost-user: add RSS support
+Date: Fri,  8 Apr 2022 14:28:13 +0200
+Message-Id: <20220408122813.1357045-6-maxime.coquelin@redhat.com>
 In-Reply-To: <20220408122813.1357045-1-maxime.coquelin@redhat.com>
 References: <20220408122813.1357045-1-maxime.coquelin@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=maxime.coquelin@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -68,7 +68,7 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,104 +88,209 @@ Cc: chenbo.xia@intel.com, Maxime Coquelin <maxime.coquelin@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch documents RSS feature in Vhost-user specification.
-Two new requests are introduced backed by a dedicated
-protocol feature.
+This patch implements the RSS feature to the
+Vhost-user backend.
 
-First one is to query the Vhost-user slave RSS capabilities
-such as supported hash types, maximum key length and
-indirection table size.
-
-The second one is to provide the slave with driver's RSS
-configuration.
+The implementation supports up to 52 bytes RSS key length,
+and 512 indirection table entries.
 
 Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
 ---
- docs/interop/vhost-user.rst | 57 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ hw/virtio/vhost-user.c | 146 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 145 insertions(+), 1 deletion(-)
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 4dbc84fd00..9de6297568 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -258,6 +258,42 @@ Inflight description
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 6abbc9da32..d047da81ba 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -81,6 +81,8 @@ enum VhostUserProtocolFeature {
+     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
+     /* Feature 14 reserved for VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. */
+     VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
++    /* Feature 16 reserved for VHOST_USER_PROTOCOL_F_STATUS. */
++    VHOST_USER_PROTOCOL_F_NET_RSS = 17,
+     VHOST_USER_PROTOCOL_F_MAX
+ };
  
- :queue size: a 16-bit size of virtqueues
+@@ -126,6 +128,10 @@ typedef enum VhostUserRequest {
+     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
+     VHOST_USER_ADD_MEM_REG = 37,
+     VHOST_USER_REM_MEM_REG = 38,
++    /* Message number 39 reserved for VHOST_USER_SET_STATUS. */
++    /* Message number 40 reserved for VHOST_USER_GET_STATUS. */
++    VHOST_USER_NET_GET_RSS = 41,
++    VHOST_USER_NET_SET_RSS = 42,
+     VHOST_USER_MAX
+ } VhostUserRequest;
  
-+RSS capabilities description
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-++----------------------+-------------+---------------+
-+| supported hash types | max key len | max indir len |
-++----------------------+-------------+---------------+
-+
-+:supported hash types: a 32-bit bitfield of supported hash types as defined
-+                       in the Virtio specification
-+
-+:max key len: a 8-bit maximum size of the RSS key
-+
-+:max indir len: a 16-bits maximum size of the RSS indirection table
-+
-+RSS data description
-+^^^^^^^^^^^^^^^^^^^^
-+
-++------------+---------+-----+-----------+-------------+---------------+
-+| hash types | key len | key | indir len | indir table | default queue |
-++------------+---------+-----+-----------+-------------+---------------+
-+
-+:hash types: a 32-bit bitfield of supported hash types as defined in the
-+             Virtio specification
-+
-+:key len: 8-bit size of the RSS key
-+
-+:key: a 8-bit array of 52 elements containing the RSS key
-+
-+:indir len: a 16-bit size of the RSS indirection table
-+
-+:indir table: a 16-bit array of 512 elements containing the hash indirection
-+              table
-+
-+:default queue: the default queue index for flows not matching requested hash
-+                types
-+
- C structure
- -----------
+@@ -196,6 +202,24 @@ typedef struct VhostUserInflight {
+     uint16_t queue_size;
+ } VhostUserInflight;
  
-@@ -858,6 +894,7 @@ Protocol features
-   #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
-   #define VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS  15
-   #define VHOST_USER_PROTOCOL_F_STATUS               16
-+  #define VHOST_USER_PROTOCOL_F_NET_RSS              17
++typedef struct VhostUserRSSCapa {
++    uint32_t supported_hash_types;
++    uint8_t max_key_len;
++    uint16_t max_indir_len;
++} VhostUserRSSCapa;
++
++#define VHOST_USER_RSS_MAX_KEY_LEN    52
++#define VHOST_USER_RSS_MAX_INDIR_LEN  512
++
++typedef struct VhostUserRSSData {
++    uint32_t hash_types;
++    uint8_t key_len;
++    uint8_t key[VHOST_USER_RSS_MAX_KEY_LEN];
++    uint16_t indir_len;
++    uint16_t indir_table[VHOST_USER_RSS_MAX_INDIR_LEN];
++    uint16_t default_queue;
++} VhostUserRSSData;
++
+ typedef struct {
+     VhostUserRequest request;
  
- Master message types
- --------------------
-@@ -1371,6 +1408,26 @@ Master message types
-   query the backend for its device status as defined in the Virtio
-   specification.
+@@ -220,6 +244,8 @@ typedef union {
+         VhostUserCryptoSession session;
+         VhostUserVringArea area;
+         VhostUserInflight inflight;
++        VhostUserRSSCapa rss_capa;
++        VhostUserRSSData rss_data;
+ } VhostUserPayload;
  
-+``VHOST_USER_NET_GET_RSS``
-+  :id: 41
-+  :equivalent ioctl: N/A
-+  :slave payload: RSS capabilities description
-+  :master payload: N/A
-+
-+  When the ``VHOST_USER_PROTOCOL_F_NET_RSS`` protocol has been successfully
-+  negotiated, this message is submitted by the master to get the RSS
-+  capabilities of the slave.
-+
-+``VHOST_USER_NET_SET_RSS``
-+  :id: 42
-+  :equivalent ioctl: N/A
-+  :slave payload: N/A
-+  :master payload: RSS data description
-+
-+  When the ``VHOST_USER_PROTOCOL_F_NET_RSS`` protocol has been successfully
-+  negotiated, this message is submitted by the master to set the RSS
-+  configuration defined by the Virtio driver.
-+
+ typedef struct VhostUserMsg {
+@@ -2178,7 +2204,123 @@ static int vhost_user_net_set_mtu(struct vhost_dev *dev, uint16_t mtu)
+         return ret;
+     }
  
- Slave message types
- -------------------
+-    /* If reply_ack supported, slave has to ack specified MTU is valid */
++    if (reply_supported) {
++        return process_message_reply(dev, &msg);
++    }
++
++    return 0;
++}
++
++static int vhost_user_net_get_rss(struct vhost_dev *dev,
++                                  VirtioNetRssCapa *rss_capa)
++{
++    int ret;
++    VhostUserMsg msg = {
++        .hdr.request = VHOST_USER_NET_GET_RSS,
++        .hdr.flags = VHOST_USER_VERSION,
++    };
++
++    if (!(dev->protocol_features & (1ULL << VHOST_USER_PROTOCOL_F_NET_RSS))) {
++        return -EPROTO;
++    }
++
++    ret = vhost_user_write(dev, &msg, NULL, 0);
++    if (ret < 0) {
++        return ret;
++    }
++
++    ret = vhost_user_read(dev, &msg);
++    if (ret < 0) {
++        return ret;
++    }
++
++    if (msg.hdr.request != VHOST_USER_NET_GET_RSS) {
++        error_report("Received unexpected msg type. Expected %d received %d",
++                     VHOST_USER_NET_GET_RSS, msg.hdr.request);
++        return -EPROTO;
++    }
++
++    if (msg.hdr.size != sizeof(msg.payload.rss_capa)) {
++        error_report("Received bad msg size.");
++        return -EPROTO;
++    }
++
++    if (msg.payload.rss_capa.max_key_len < VIRTIO_NET_RSS_MIN_KEY_SIZE) {
++        error_report("Invalid max RSS key len (%uB, minimum %uB).",
++                     msg.payload.rss_capa.max_key_len,
++                     VIRTIO_NET_RSS_MIN_KEY_SIZE);
++        return -EINVAL;
++    }
++
++    if (msg.payload.rss_capa.max_indir_len < VIRTIO_NET_RSS_MIN_TABLE_LEN) {
++        error_report("Invalid max RSS indir table entries (%u, minimum %u).",
++                     msg.payload.rss_capa.max_indir_len,
++                     VIRTIO_NET_RSS_MIN_TABLE_LEN);
++        return -EINVAL;
++    }
++
++    rss_capa->supported_hashes = msg.payload.rss_capa.supported_hash_types;
++    rss_capa->max_key_size = MIN(msg.payload.rss_capa.max_key_len,
++                                 VHOST_USER_RSS_MAX_KEY_LEN);
++    rss_capa->max_indirection_len = MIN(msg.payload.rss_capa.max_indir_len,
++                                        VHOST_USER_RSS_MAX_INDIR_LEN);
++
++    return 0;
++}
++
++static int vhost_user_net_set_rss(struct vhost_dev *dev,
++                                  VirtioNetRssData *rss_data)
++{
++    VhostUserMsg msg;
++    bool reply_supported = virtio_has_feature(dev->protocol_features,
++                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
++    int ret;
++
++    if (!(dev->protocol_features & (1ULL << VHOST_USER_PROTOCOL_F_NET_RSS))) {
++        return -EPROTO;
++    }
++
++    msg.hdr.request = VHOST_USER_NET_SET_RSS;
++    msg.hdr.size = sizeof(msg.payload.rss_data);
++    msg.hdr.flags = VHOST_USER_VERSION;
++    if (reply_supported) {
++        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
++    }
++
++    msg.payload.rss_data.hash_types = rss_data->hash_types;
++
++    if (rss_data->key_len > VHOST_USER_RSS_MAX_KEY_LEN) {
++        error_report("RSS key length too long (%uB, max %uB).",
++                     rss_data->key_len, VHOST_USER_RSS_MAX_KEY_LEN);
++        return -EINVAL;
++    }
++
++    msg.payload.rss_data.key_len = rss_data->key_len;
++    memset(msg.payload.rss_data.key, 0, VHOST_USER_RSS_MAX_KEY_LEN);
++    memcpy(msg.payload.rss_data.key, rss_data->key, rss_data->key_len);
++
++    if (rss_data->indirections_len > VHOST_USER_RSS_MAX_INDIR_LEN) {
++        error_report("RSS indirection table too large (%u, max %u).",
++                     rss_data->indirections_len, VHOST_USER_RSS_MAX_INDIR_LEN);
++        return -EINVAL;
++    }
++
++    msg.payload.rss_data.indir_len = rss_data->indirections_len;
++    memset(msg.payload.rss_data.indir_table, 0,
++            VHOST_USER_RSS_MAX_INDIR_LEN *
++            sizeof(*msg.payload.rss_data.indir_table));
++    memcpy(msg.payload.rss_data.indir_table, rss_data->indirections_table,
++            msg.payload.rss_data.indir_len *
++            sizeof(*msg.payload.rss_data.indir_table));
++
++    msg.payload.rss_data.default_queue = rss_data->default_queue;
++
++    ret = vhost_user_write(dev, &msg, NULL, 0);
++    if (ret < 0) {
++        return ret;
++    }
++
++    /* If reply_ack supported, slave has to ack specified RSS conf is valid */
+     if (reply_supported) {
+         return process_message_reply(dev, &msg);
+     }
+@@ -2555,6 +2697,8 @@ const VhostOps user_ops = {
+         .vhost_migration_done = vhost_user_migration_done,
+         .vhost_backend_can_merge = vhost_user_can_merge,
+         .vhost_net_set_mtu = vhost_user_net_set_mtu,
++        .vhost_net_get_rss = vhost_user_net_get_rss,
++        .vhost_net_set_rss = vhost_user_net_set_rss,
+         .vhost_set_iotlb_callback = vhost_user_set_iotlb_callback,
+         .vhost_send_device_iotlb_msg = vhost_user_send_device_iotlb_msg,
+         .vhost_get_config = vhost_user_get_config,
 -- 
 2.35.1
 
