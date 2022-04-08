@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD364F9B28
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 18:57:52 +0200 (CEST)
-Received: from localhost ([::1]:43400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83E64F9B3A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 19:00:49 +0200 (CEST)
+Received: from localhost ([::1]:48968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncrvj-0001zv-Dp
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 12:57:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51358)
+	id 1ncrya-0005kz-Tu
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 13:00:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ncrsp-0008Dx-0w
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:54:51 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:34555)
+ id 1ncrmK-000788-Up
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:48:09 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ncrsn-0003uE-BU
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:54:50 -0400
-Received: by mail-ed1-x533.google.com with SMTP id r10so10746110eda.1
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 09:54:48 -0700 (PDT)
+ id 1ncrmI-00031p-HR
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:48:08 -0400
+Received: by mail-wr1-x429.google.com with SMTP id a2so4524527wrh.5
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 09:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r/12QGg4Jo7kjR+PCLlJKZD8+ovapbNWGqrPOplat00=;
- b=LvR6ZJNoGESME2JakDF94tMpKKkCIzJ1zVKl0QvVcnHPHEZgW/WohecNmiTQh/pKZY
- 0sodehDTqRtL4nZreFuJfG6Lu8JnqQpPiGQ+RSR0gvupBk29XzRItKiPJHL28lYwqcxL
- VxpwQtLiYQWeR//+GpUMhfSXMqk0JeiZ0NejeGdsMtW4lE3ouu3K+0VHD6PuY5KB9jYm
- cIXdLyTNGvbVCnWxGea7AHmsJgP0iZt58Wdb07Ns9lDDPrtmZj4+5t8tyEcd3kbOnW26
- Jciau6OuzbCMYxTJSiSP2kWPh84iAuV0ANHFDz6Bi0OHEoE5rU5+pfGssswhOxK1xXJJ
- IMcw==
+ bh=Gs6DhXXH3OheiODrWMr7bw7KN+vJ8pkDZF2hBYggHlU=;
+ b=G/7GqOFOyj9b10vXROCsAbFk/AZyoR84IitX7+YHykcxem7Jgpsn+qK0XkRr4QfIpt
+ Ky6w4cA4pSCz8La+9WIVX7mR+VXu2oc0i1LwnZcHBS0+UoA6GiqztSfuvhf+JxyltLDZ
+ Ap0PPNpdqyO/ivIWtLSQOqGiwWYAT5kq7yxD5a1JpO/QU6835GxS3ydvrLZXfCS2PbY9
+ Kc698Fs4nVQdJhr+wOeD3fs55CoB1Wo+1OpgftPrHQqLcoXIZd35YTp7YuXpr7yEuI2J
+ WO1Bt9or+FzRsQiYIMUgBtCqhn14HuO7P4yCjoAWTUJzMb9xZn1uVmrhSEcsXl3zP3ml
+ DUdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r/12QGg4Jo7kjR+PCLlJKZD8+ovapbNWGqrPOplat00=;
- b=Iyjc0DCXPQpTYNma1q6c9f4ienNmdjf3j9f7ZUZDJKdkLyk+JLCOZPMRLeb8jMtP9M
- u+ko6kghJQDj7r+YEL42vMP5MB+V4mtTG29c4s6+avw+zdwqhzB3ZrOdWxM6IeC9arit
- adH1OxF1P1ZssR3iH2jratJgxwp1RtcWTUrUsweNpYKo1lPBkiEGUpDXLt5+kZxG2zEb
- uPo8raxBI3gC2is/ENsFyJGhp0qvFSm6SR8CF+0uqjUSkTug9019PF6U3Of5v0qxnhLG
- fjTSFTYQReHViLznBRsaVJeM757gacb3cI73zJKEmN05oUgl/Olf3CotFEV0Y8TNt/yz
- iWCQ==
-X-Gm-Message-State: AOAM531BSoRyVBxrH0axt5GYgG1eE7BhrfB0M0wgCHZURIaCiAnO34I2
- tS8CzhrUBCxuf34NThJ3XiBTFQ==
-X-Google-Smtp-Source: ABdhPJyjcbxUjuOZfZHuIw3FlzPr/CgOM8L0fwvC4wvmMa5x0msoq22XUv2XtWVl2qxj2H+Ww1fJfA==
-X-Received: by 2002:a05:6402:42c6:b0:41c:ded2:6d5 with SMTP id
- i6-20020a05640242c600b0041cded206d5mr20671726edc.41.1649436888031; 
- Fri, 08 Apr 2022 09:54:48 -0700 (PDT)
+ bh=Gs6DhXXH3OheiODrWMr7bw7KN+vJ8pkDZF2hBYggHlU=;
+ b=o27JO5SCxjNBpC0e1hWwDEvRAAeo7fURsqzamp9hR4vCEvF7LH/Pp0TbpIdeCvqqA7
+ 1azBAvJFcmZxo5VvtFutL95hWFkLS7ymrLX/epbN9eYCQkF+UqUw4l0VU3onT2zoV3UM
+ OYVaRvSB+wqlkoke9VIq7FJj7WjHQcHCkSjSCZxJpIGR/fR46DEd3beiBy4Bb3is3aVV
+ rRv8gEixXAcycZsFz2E8946q8YW7XYV6nR5EOW5K0YUzZ5PGVHvJqGrIR57K2+Zfb66a
+ rZXLv1zC9mEV6Re4H4jbVy++A+e+LXD7jgaGRsRRq1ufSniFSDJYMlP1F3BBgjJWBWsg
+ 6m8w==
+X-Gm-Message-State: AOAM532WMiTFvy9Ru1oVQ2zb46hqWcR26HwkUxA8Dlw4b7mdmHyy/aU6
+ 7lBWfXEMGyq5x1omqC3isOP/3fWeaGUc8w==
+X-Google-Smtp-Source: ABdhPJzXovumMTc9TKCJZhxZiLgp70uaJe4Qrth+cAUf+UB4dehZIFy6TBfnkI5FbHn0lafFA/VfRQ==
+X-Received: by 2002:adf:a1cd:0:b0:206:168c:1c7e with SMTP id
+ v13-20020adfa1cd000000b00206168c1c7emr15521853wrv.209.1649436471385; 
+ Fri, 08 Apr 2022 09:47:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- bn3-20020a170906c0c300b006e50416e24bsm8096427ejb.98.2022.04.08.09.54.43
+ bg8-20020a05600c3c8800b0038e4c5967besm11003039wmb.3.2022.04.08.09.47.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 09:54:43 -0700 (PDT)
+ Fri, 08 Apr 2022 09:47:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 06F221FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id 37B641FFC3;
  Fri,  8 Apr 2022 17:47:45 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 11/15] accel/tcg: add tb_invalidate_phys_page_range
- tracepoint
-Date: Fri,  8 Apr 2022 17:47:38 +0100
-Message-Id: <20220408164742.2844631-12-alex.bennee@linaro.org>
+Subject: [PATCH  v1 12/15] tests/tcg: add memory-sve test for aarch64
+Date: Fri,  8 Apr 2022 17:47:39 +0100
+Message-Id: <20220408164742.2844631-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220408164742.2844631-1-alex.bennee@linaro.org>
 References: <20220408164742.2844631-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,76 +88,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, aaron@os.amperecomputing.com,
- robhenry@microsoft.com, f4bug@amsat.org, mahmoudabdalghany@outlook.com,
- minyihh@uci.edu, cota@braap.org, Luke.Craig@ll.mit.edu, pbonzini@redhat.com,
- kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, stefanha@redhat.com,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, crosa@redhat.com,
+ aaron@os.amperecomputing.com, robhenry@microsoft.com, f4bug@amsat.org,
+ mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
+ Luke.Craig@ll.mit.edu, pbonzini@redhat.com, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This gives a little more insight into what is going on as we
-invalidate a range of TBs.
+This will be helpful in debugging problems with tracking SVE memory
+accesses via the TCG plugins system.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Robert Henry <robhenry@microsoft.com>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
 ---
- accel/tcg/translate-all.c | 9 +++++++++
- accel/tcg/trace-events    | 1 +
- 2 files changed, 10 insertions(+)
+ tests/tcg/aarch64/Makefile.softmmu-target | 7 +++++++
+ tests/tcg/aarch64/system/boot.S           | 3 ++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index b0009177b9..625c46dd9b 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1671,6 +1671,7 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-     TranslationBlock *tb;
-     tb_page_addr_t tb_start, tb_end;
-     int n;
-+    int checked = 0, removed = 0;
- #ifdef TARGET_HAS_PRECISE_SMC
-     CPUState *cpu = current_cpu;
-     CPUArchState *env = NULL;
-@@ -1695,6 +1696,7 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-        the code */
-     PAGE_FOR_EACH_TB(p, tb, n) {
-         assert_page_locked(p);
-+        checked++;
-         /* NOTE: this is subtle as a TB may span two physical pages */
-         if (n == 0) {
-             /* NOTE: tb_end may be after the end of the page, but
-@@ -1728,13 +1730,20 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-             }
- #endif /* TARGET_HAS_PRECISE_SMC */
-             tb_phys_invalidate__locked(tb);
-+            removed++;
-         }
-     }
-+
-+
- #if !defined(CONFIG_USER_ONLY)
-     /* if no code remaining, no need to continue to use slow writes */
-     if (!p->first_tb) {
-         invalidate_page_bitmap(p);
-         tlb_unprotect_code(start);
-+        trace_tb_invalidate_phys_page_range(checked, removed, 0);
-+    } else {
-+        TranslationBlock *tb = (TranslationBlock *) p->first_tb;
-+        trace_tb_invalidate_phys_page_range(checked, removed, tb->pc);
-     }
- #endif
- #ifdef TARGET_HAS_PRECISE_SMC
-diff --git a/accel/tcg/trace-events b/accel/tcg/trace-events
-index c034649dc2..fdc64e1423 100644
---- a/accel/tcg/trace-events
-+++ b/accel/tcg/trace-events
-@@ -15,5 +15,6 @@ memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index a7286ac295..cc02814065 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -31,6 +31,13 @@ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
  
- # translate-all.c
- tb_phys_invalidate(void *tb, uintptr_t pc) "tb:%p, pc:0x%"PRIxPTR""
-+tb_invalidate_phys_page_range(int checked, int removed, uintptr_t ftb_pc) "checked:%d removed:%d first_tb_pc:0x%"PRIxPTR""
- tb_invalidate_phys_page_fast(uint64_t page_start, int len, uint64_t ret, int wc, void *bmap) "addr:0x%" PRIx64 "/%d pc:0x%" PRIx64" wc:%d/%p"
- translate_block(void *tb, uintptr_t pc, const void *tb_code) "tb:%p, pc:0x%"PRIxPTR", tb_code:%p"
+ memory: CFLAGS+=-DCHECK_UNALIGNED=1
+ 
++memory-sve: memory.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
++
++memory-sve: CFLAGS+=-DCHECK_UNALIGNED=1 -march=armv8.1-a+sve -O3 -fno-tree-loop-distribute-patterns
++
++TESTS+=memory-sve
++
+ # Running
+ QEMU_BASE_MACHINE=-M virt -cpu max -display none
+ QEMU_OPTS+=$(QEMU_BASE_MACHINE) -semihosting-config enable=on,target=native,chardev=output -kernel
+diff --git a/tests/tcg/aarch64/system/boot.S b/tests/tcg/aarch64/system/boot.S
+index e190b1efa6..f136363d2a 100644
+--- a/tests/tcg/aarch64/system/boot.S
++++ b/tests/tcg/aarch64/system/boot.S
+@@ -179,12 +179,13 @@ __start:
+ 	isb
+ 
+ 	/*
+-	 * Enable FP registers. The standard C pre-amble will be
++	 * Enable FP/SVE registers. The standard C pre-amble will be
+ 	 * saving these and A-profile compilers will use AdvSIMD
+ 	 * registers unless we tell it not to.
+ 	*/
+ 	mrs	x0, cpacr_el1
+ 	orr	x0, x0, #(3 << 20)
++	orr	x0, x0, #(3 << 16)
+ 	msr	cpacr_el1, x0
+ 
+ 	/* Setup some stack space and enter the test code.
 -- 
 2.30.2
 
