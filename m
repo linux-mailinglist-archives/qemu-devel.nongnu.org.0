@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325CA4F984E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:39:41 +0200 (CEST)
-Received: from localhost ([::1]:47618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D54FA4F9812
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:30:31 +0200 (CEST)
+Received: from localhost ([::1]:47874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncpm0-0002ST-8k
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42610)
+	id 1ncpd8-0000Zy-1K
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPN-0006yt-On
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:18 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:44978)
+ id 1ncpPO-000713-Qh
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:20 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPL-0002LU-Ke
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:17 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- v20-20020a05600c15d400b0038e9a88aee7so2493684wmf.3
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:15 -0700 (PDT)
+ id 1ncpPM-0002Lp-Iu
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:18 -0400
+Received: by mail-wr1-x434.google.com with SMTP id m30so13112089wrb.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4X5gt1qh1B1TGFcyO7ZbfSY/eEx5BCkyPS7Ts12JMq0=;
- b=jOXXMYgPL3yhnk1Vp7xvzHHBDDF34JuRGXI4WS2VmoIoyK+qeJqKxfp1oeNSDyOiev
- oJSn9Wq6jW3etOPvTK/K5x5K3KyLryPaUmjF0UbFzyaJcDEbWeeoItCAvrNJbJJv6797
- xeU7eh7Eoek6zESCgxBaa4gV5oNVQDR+VZd6D096YcMnngrOU3le3y1xBOXIZDpmuzRc
- nS4+LKIaYcp6K5yZJ6DZMFHG+ZH18IjTru+cX5wZA0oRkzQCODFrDT9SelUszlOeVGpT
- knq71e2GN3wl/xykeY34/6DYOpSeKSmo6GqDIlkzYtgXNWJxGPZTBV3UG16bBro+s0/e
- 59hQ==
+ bh=RUqo09ErOg1M6skc6e7vosGnWtwA6stMdKCkU3VyoI4=;
+ b=pLVIREd6B5uU6e0heXWkw8w7cPmL0ysgt+LNIjzTRKa1OrmHhAEN5uFCt22+tMurOR
+ RoRttUgDnQgiovgbNMM/5aqp1Y8Mh2TlUlv8KNkWcangNs9NYELeKbvqEmhllF8i/KbH
+ JFmmCx5h+HxuqjwFfNRr0eY/YduvxfHgeIF1uSzhk+KBJbamcXd5QMlW5Fw8F5JEHE99
+ M4mlSd2evXK7WIYnFANA3oZ748+VZ6Iagst9tR/GWKvArdb6tFpD5gWiTCp90Aeltpgk
+ +cwVpZR0gU7P+NnErcrHwLBNndc9AfOCAzeGThqx7/LPpBI1x9b5dgIJfqBmz3qt3fT1
+ vPjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4X5gt1qh1B1TGFcyO7ZbfSY/eEx5BCkyPS7Ts12JMq0=;
- b=DqXXQ+DtwaZ+5fgIPOTRFBmFVUiQ4jGKJAloZl8DkT0S3FiYjPpnCRxmtjz6euD1pe
- A2I7Dn70PPK9q/7GN4PkS+PJs+lHGKbuQBSoVJIwCEcQ0HGOaHTqPT2zrn8dOeoAKRZq
- hRXV42u00xVL7ESylQIJ4VfRcreicRVBXtKfFN12108iTlK1zWTT+46u89m9d7TH38q0
- kTJ77cnLV6xuVs/6aDRKBE4e+olzwy1P0icGjKaEpzPE1yjA7ko/vHfifgHFo1noMvhI
- 0aPL2TLw6z3KL74633G06f6DlNjuAlHYkGL43TD5d1Zq28+aRjl7lLMiy/+HauBfBr2t
- 7arQ==
-X-Gm-Message-State: AOAM533m93vQK3kS0RbuEnrSN4tQxthfDMsW4mMnA6lvG9nGhrCQ98Bz
- AxphRT0juBXYWETS0iWzsQORqA==
-X-Google-Smtp-Source: ABdhPJziRfzfzWKDKZSFkkIwGK/4a2Eb8FXD4R+4g97EEg0QgHj2g+ZF3DPGZeQeCVPrNUSQ1Neg/A==
-X-Received: by 2002:a1c:f413:0:b0:37b:d1de:5762 with SMTP id
- z19-20020a1cf413000000b0037bd1de5762mr17267965wma.108.1649427374155; 
- Fri, 08 Apr 2022 07:16:14 -0700 (PDT)
+ bh=RUqo09ErOg1M6skc6e7vosGnWtwA6stMdKCkU3VyoI4=;
+ b=bLXEfbQKd7IjEvqEZs3lQMP0zJOy6RgKe/6YAIoh8Lmd+uAGTNiCaRftJNsz1xWa5o
+ CRxb/d3MJUtx9QohaE9Hve/3LKUGwX84UDrd9XMeO2AEzhhdRVjK0aNOZIxYVtMiBX3A
+ 1CHRMPXmfOlK4NNVyQP7FwKoLGZ6ORC79jSTK/NLXnArfGLC2grOMmp69QzDH1VVgT0r
+ FKIoeUNyV4KVTHZga9AGedKLk6N8NHTLGB7TBIN4kRIhjXFF5gCElUUL6k+sj6Krr/WL
+ KlTK828aETFn7us2/FxPCZGxLmps8lQJlQbNxWh/IjPpr2DB+hHcWq2XmEI/VfFLxasz
+ uFjA==
+X-Gm-Message-State: AOAM530u6kNZvmkKP1gnaCvnL/Luc86gy8cFvxcLqVBsIReR0aBQAQ0v
+ Z7MKrcTaae8ellBayyHKIzfHkQ==
+X-Google-Smtp-Source: ABdhPJymaXC9uwyKyLqH7Sg2/gKGyjgXHrujt6m+OUCHQC3KvqJxP7ZjbC7ZFWB9bZpOeZKhcC2qRQ==
+X-Received: by 2002:adf:ce83:0:b0:206:c45:62bd with SMTP id
+ r3-20020adfce83000000b002060c4562bdmr14265666wrn.97.1649427375057; 
+ Fri, 08 Apr 2022 07:16:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.16.13
+ i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.16.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 07:16:13 -0700 (PDT)
+ Fri, 08 Apr 2022 07:16:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 22/41] hw/intc/arm_gicv3: Implement GICv4's new redistributor
- frame
-Date: Fri,  8 Apr 2022 15:15:31 +0100
-Message-Id: <20220408141550.1271295-23-peter.maydell@linaro.org>
+Subject: [PATCH 23/41] hw/intc/arm_gicv3: Implement new GICv4 redistributor
+ registers
+Date: Fri,  8 Apr 2022 15:15:32 +0100
+Message-Id: <20220408141550.1271295-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220408141550.1271295-1-peter.maydell@linaro.org>
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,113 +90,222 @@ Cc: Marc Zyngier <maz@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GICv4 extends the redistributor register map -- where GICv3
-had two 64KB frames per CPU, GICv4 has four frames. Add support
-for the extra frame by using a new gicv3_redist_size() function
-in the places in the GIC implementation which currently use
-a fixed constant size for the redistributor register block.
-(Until we implement the extra registers they will RAZ/WI.)
+Implement the new GICv4 redistributor registers: GICR_VPROPBASER
+and GICR_VPENDBASER; for the moment we implement these as simple
+reads-as-written stubs, together with the necessary migration
+and reset handling.
 
-Any board that wants to use a GICv4 will need to also adjust
-to handle the different sized redistributor register block;
-that will be done separately.
+We don't put ID-register checks on the handling of these registers,
+because they are all in the only-in-v4 extra register frames, so
+they're not accessible in a GICv3.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/gicv3_internal.h           | 21 +++++++++++++++++++++
- include/hw/intc/arm_gicv3_common.h |  5 +++++
- hw/intc/arm_gicv3_common.c         |  2 +-
- hw/intc/arm_gicv3_redist.c         |  8 ++++----
- 4 files changed, 31 insertions(+), 5 deletions(-)
+GICv4.1 adds two further registers in the new VLPI frame,
+as well as changing the layout of VPROPBASER and VPENDBASER,
+but we aren't implementing v4.1 yet, just v4.
+---
+ hw/intc/gicv3_internal.h           | 21 +++++++++++
+ include/hw/intc/arm_gicv3_common.h |  3 ++
+ hw/intc/arm_gicv3_common.c         | 22 ++++++++++++
+ hw/intc/arm_gicv3_redist.c         | 56 ++++++++++++++++++++++++++++++
+ 4 files changed, 102 insertions(+)
 
 diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 8d58d38836f..9720ccf7507 100644
+index 9720ccf7507..795bf57d2b3 100644
 --- a/hw/intc/gicv3_internal.h
 +++ b/hw/intc/gicv3_internal.h
-@@ -489,6 +489,27 @@ FIELD(VTE, RDBASE, 42, RDBASE_PROCNUM_LENGTH)
+@@ -77,6 +77,7 @@
+  * Redistributor frame offsets from RD_base
+  */
+ #define GICR_SGI_OFFSET 0x10000
++#define GICR_VLPI_OFFSET 0x20000
  
- /* Functions internal to the emulated GICv3 */
+ /*
+  * Redistributor registers, offsets from RD_base
+@@ -109,6 +110,10 @@
+ #define GICR_IGRPMODR0        (GICR_SGI_OFFSET + 0x0D00)
+ #define GICR_NSACR            (GICR_SGI_OFFSET + 0x0E00)
  
-+/**
-+ * gicv3_redist_size:
-+ * @s: GICv3State
-+ *
-+ * Return the size of the redistributor register frame in bytes
-+ * (which depends on what GIC version this is)
-+ */
-+static inline int gicv3_redist_size(GICv3State *s)
-+{
-+    /*
-+     * Redistributor size is controlled by the redistributor GICR_TYPER.VLPIS.
-+     * It's the same for every redistributor in the GIC, so arbitrarily
-+     * use the register field in the first one.
-+     */
-+    if (s->cpu[0].gicr_typer & GICR_TYPER_VLPIS) {
-+        return GICV4_REDIST_SIZE;
-+    } else {
-+        return GICV3_REDIST_SIZE;
-+    }
-+}
++/* VLPI redistributor registers, offsets from VLPI_base */
++#define GICR_VPROPBASER       (GICR_VLPI_OFFSET + 0x70)
++#define GICR_VPENDBASER       (GICR_VLPI_OFFSET + 0x78)
 +
- /**
-  * gicv3_intid_is_special:
-  * @intid: interrupt ID
+ #define GICR_CTLR_ENABLE_LPIS        (1U << 0)
+ #define GICR_CTLR_CES                (1U << 1)
+ #define GICR_CTLR_RWP                (1U << 3)
+@@ -143,6 +148,22 @@ FIELD(GICR_PENDBASER, PTZ, 62, 1)
+ 
+ #define GICR_PROPBASER_IDBITS_THRESHOLD          0xd
+ 
++/* These are the GICv4 VPROPBASER and VPENDBASER layouts; v4.1 is different */
++FIELD(GICR_VPROPBASER, IDBITS, 0, 5)
++FIELD(GICR_VPROPBASER, INNERCACHE, 7, 3)
++FIELD(GICR_VPROPBASER, SHAREABILITY, 10, 2)
++FIELD(GICR_VPROPBASER, PHYADDR, 12, 40)
++FIELD(GICR_VPROPBASER, OUTERCACHE, 56, 3)
++
++FIELD(GICR_VPENDBASER, INNERCACHE, 7, 3)
++FIELD(GICR_VPENDBASER, SHAREABILITY, 10, 2)
++FIELD(GICR_VPENDBASER, PHYADDR, 16, 36)
++FIELD(GICR_VPENDBASER, OUTERCACHE, 56, 3)
++FIELD(GICR_VPENDBASER, DIRTY, 60, 1)
++FIELD(GICR_VPENDBASER, PENDINGLAST, 61, 1)
++FIELD(GICR_VPENDBASER, IDAI, 62, 1)
++FIELD(GICR_VPENDBASER, VALID, 63, 1)
++
+ #define ICC_CTLR_EL1_CBPR           (1U << 0)
+ #define ICC_CTLR_EL1_EOIMODE        (1U << 1)
+ #define ICC_CTLR_EL1_PMHE           (1U << 6)
 diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
-index 08b27789385..40bc404a652 100644
+index 40bc404a652..7ff5a1aa5fc 100644
 --- a/include/hw/intc/arm_gicv3_common.h
 +++ b/include/hw/intc/arm_gicv3_common.h
-@@ -38,7 +38,12 @@
+@@ -179,6 +179,9 @@ struct GICv3CPUState {
+     uint32_t gicr_igrpmodr0;
+     uint32_t gicr_nsacr;
+     uint8_t gicr_ipriorityr[GIC_INTERNAL];
++    /* VLPI_base page registers */
++    uint64_t gicr_vpropbaser;
++    uint64_t gicr_vpendbaser;
  
- #define GICV3_LPI_INTID_START 8192
- 
-+/*
-+ * The redistributor in GICv3 has two 64KB frames per CPU; in
-+ * GICv4 it has four 64KB frames per CPU.
-+ */
- #define GICV3_REDIST_SIZE 0x20000
-+#define GICV4_REDIST_SIZE 0x40000
- 
- /* Number of SGI target-list bits */
- #define GICV3_TARGETLIST_BITS 16
+     /* CPU interface */
+     uint64_t icc_sre_el1;
 diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index dcc5ce28c6a..18999e3c8bb 100644
+index 18999e3c8bb..14d76d74840 100644
 --- a/hw/intc/arm_gicv3_common.c
 +++ b/hw/intc/arm_gicv3_common.c
-@@ -295,7 +295,7 @@ void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
- 
-         memory_region_init_io(&region->iomem, OBJECT(s),
-                               ops ? &ops[1] : NULL, region, name,
--                              s->redist_region_count[i] * GICV3_REDIST_SIZE);
-+                              s->redist_region_count[i] * gicv3_redist_size(s));
-         sysbus_init_mmio(sbd, &region->iomem);
-         g_free(name);
+@@ -144,6 +144,25 @@ const VMStateDescription vmstate_gicv3_cpu_sre_el1 = {
      }
+ };
+ 
++static bool gicv4_needed(void *opaque)
++{
++    GICv3CPUState *cs = opaque;
++
++    return cs->gic->revision > 3;
++}
++
++const VMStateDescription vmstate_gicv3_gicv4 = {
++    .name = "arm_gicv3_cpu/gicv4",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = gicv4_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(gicr_vpropbaser, GICv3CPUState),
++        VMSTATE_UINT64(gicr_vpendbaser, GICv3CPUState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static const VMStateDescription vmstate_gicv3_cpu = {
+     .name = "arm_gicv3_cpu",
+     .version_id = 1,
+@@ -175,6 +194,7 @@ static const VMStateDescription vmstate_gicv3_cpu = {
+     .subsections = (const VMStateDescription * []) {
+         &vmstate_gicv3_cpu_virt,
+         &vmstate_gicv3_cpu_sre_el1,
++        &vmstate_gicv3_gicv4,
+         NULL
+     }
+ };
+@@ -444,6 +464,8 @@ static void arm_gicv3_common_reset(DeviceState *dev)
+         cs->gicr_waker = GICR_WAKER_ProcessorSleep | GICR_WAKER_ChildrenAsleep;
+         cs->gicr_propbaser = 0;
+         cs->gicr_pendbaser = 0;
++        cs->gicr_vpropbaser = 0;
++        cs->gicr_vpendbaser = 0;
+         /* If we're resetting a TZ-aware GIC as if secure firmware
+          * had set it up ready to start a kernel in non-secure, we
+          * need to set interrupts to group 1 so the kernel can use them.
 diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index 7c75dd6f072..9f1fe09a78e 100644
+index 9f1fe09a78e..c310d7f8ff2 100644
 --- a/hw/intc/arm_gicv3_redist.c
 +++ b/hw/intc/arm_gicv3_redist.c
-@@ -442,8 +442,8 @@ MemTxResult gicv3_redist_read(void *opaque, hwaddr offset, uint64_t *data,
-      * in the memory map); if so then the GIC has multiple MemoryRegions
-      * for the redistributors.
-      */
--    cpuidx = region->cpuidx + offset / GICV3_REDIST_SIZE;
--    offset %= GICV3_REDIST_SIZE;
-+    cpuidx = region->cpuidx + offset / gicv3_redist_size(s);
-+    offset %= gicv3_redist_size(s);
- 
-     cs = &s->cpu[cpuidx];
- 
-@@ -501,8 +501,8 @@ MemTxResult gicv3_redist_write(void *opaque, hwaddr offset, uint64_t data,
-      * in the memory map); if so then the GIC has multiple MemoryRegions
-      * for the redistributors.
-      */
--    cpuidx = region->cpuidx + offset / GICV3_REDIST_SIZE;
--    offset %= GICV3_REDIST_SIZE;
-+    cpuidx = region->cpuidx + offset / gicv3_redist_size(s);
-+    offset %= gicv3_redist_size(s);
- 
-     cs = &s->cpu[cpuidx];
- 
+@@ -236,6 +236,23 @@ static MemTxResult gicr_readl(GICv3CPUState *cs, hwaddr offset,
+     case GICR_IDREGS ... GICR_IDREGS + 0x2f:
+         *data = gicv3_idreg(offset - GICR_IDREGS, GICV3_PIDR0_REDIST);
+         return MEMTX_OK;
++        /*
++         * VLPI frame registers. We don't need a version check for
++         * VPROPBASER and VPENDBASER because gicv3_redist_size() will
++         * prevent pre-v4 GIC from passing us offsets this high.
++         */
++    case GICR_VPROPBASER:
++        *data = extract64(cs->gicr_vpropbaser, 0, 32);
++        return MEMTX_OK;
++    case GICR_VPROPBASER + 4:
++        *data = extract64(cs->gicr_vpropbaser, 32, 32);
++        return MEMTX_OK;
++    case GICR_VPENDBASER:
++        *data = extract64(cs->gicr_vpendbaser, 0, 32);
++        return MEMTX_OK;
++    case GICR_VPENDBASER + 4:
++        *data = extract64(cs->gicr_vpendbaser, 32, 32);
++        return MEMTX_OK;
+     default:
+         return MEMTX_ERROR;
+     }
+@@ -379,6 +396,23 @@ static MemTxResult gicr_writel(GICv3CPUState *cs, hwaddr offset,
+                       "%s: invalid guest write to RO register at offset "
+                       TARGET_FMT_plx "\n", __func__, offset);
+         return MEMTX_OK;
++        /*
++         * VLPI frame registers. We don't need a version check for
++         * VPROPBASER and VPENDBASER because gicv3_redist_size() will
++         * prevent pre-v4 GIC from passing us offsets this high.
++         */
++    case GICR_VPROPBASER:
++        cs->gicr_vpropbaser = deposit64(cs->gicr_vpropbaser, 0, 32, value);
++        return MEMTX_OK;
++    case GICR_VPROPBASER + 4:
++        cs->gicr_vpropbaser = deposit64(cs->gicr_vpropbaser, 32, 32, value);
++        return MEMTX_OK;
++    case GICR_VPENDBASER:
++        cs->gicr_vpendbaser = deposit64(cs->gicr_vpendbaser, 0, 32, value);
++        return MEMTX_OK;
++    case GICR_VPENDBASER + 4:
++        cs->gicr_vpendbaser = deposit64(cs->gicr_vpendbaser, 32, 32, value);
++        return MEMTX_OK;
+     default:
+         return MEMTX_ERROR;
+     }
+@@ -397,6 +431,17 @@ static MemTxResult gicr_readll(GICv3CPUState *cs, hwaddr offset,
+     case GICR_PENDBASER:
+         *data = cs->gicr_pendbaser;
+         return MEMTX_OK;
++        /*
++         * VLPI frame registers. We don't need a version check for
++         * VPROPBASER and VPENDBASER because gicv3_redist_size() will
++         * prevent pre-v4 GIC from passing us offsets this high.
++         */
++    case GICR_VPROPBASER:
++        *data = cs->gicr_vpropbaser;
++        return MEMTX_OK;
++    case GICR_VPENDBASER:
++        *data = cs->gicr_vpendbaser;
++        return MEMTX_OK;
+     default:
+         return MEMTX_ERROR;
+     }
+@@ -418,6 +463,17 @@ static MemTxResult gicr_writell(GICv3CPUState *cs, hwaddr offset,
+                       "%s: invalid guest write to RO register at offset "
+                       TARGET_FMT_plx "\n", __func__, offset);
+         return MEMTX_OK;
++        /*
++         * VLPI frame registers. We don't need a version check for
++         * VPROPBASER and VPENDBASER because gicv3_redist_size() will
++         * prevent pre-v4 GIC from passing us offsets this high.
++         */
++    case GICR_VPROPBASER:
++        cs->gicr_vpropbaser = value;
++        return MEMTX_OK;
++    case GICR_VPENDBASER:
++        cs->gicr_vpendbaser = value;
++        return MEMTX_OK;
+     default:
+         return MEMTX_ERROR;
+     }
 -- 
 2.25.1
 
