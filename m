@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D8E4F9B3D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 19:01:19 +0200 (CEST)
-Received: from localhost ([::1]:49970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCB74F9B4A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 19:03:30 +0200 (CEST)
+Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncrz4-0006PJ-9o
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 13:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51374)
+	id 1ncs1B-0001Ou-9X
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 13:03:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ncrsq-0008Is-KK
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:54:52 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:37752)
+ id 1ncrso-0008CL-5Y
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:54:50 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:43958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ncrsp-0003ub-3l
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:54:52 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id b15so10747380edn.4
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 09:54:50 -0700 (PDT)
+ id 1ncrsm-0003u2-L5
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:54:49 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id bq8so18457775ejb.10
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 09:54:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KFP0HbJwpn4b/8mC3zm1M94yL+pYYUEsnbWxKZ7xRO4=;
- b=w2Bx6K/BdmJ1ra+KbuXMj2STD1KouuvTD4HoMkk/yXNNX3N8aLuQPsO4YFyav47CI1
- JC//EQ1VwseGzJdmx+t6a0uUfCYhwajdNzggyuxKxk1ELCVVdYQxqnDHuc7I+6k8n6Xi
- 4iPxpLpDPzGnla51HvFWfBknyGT7jagS+glMDTokVX/ckMlhih9Xw4LpfliYULpCy2dc
- +V/sUYSXxNWYY5NNheKivWk6KBhsx4fapwHW64e0R1JGecSyyDrgoZyMAYIsJMUAXPBP
- Bjk46hSsGT3QkqTX48TMdO+J8oIB1iNK1Z0jFAG+W9vomoqSt1Mt25bUXTX6536oCk09
- cPyw==
+ bh=8RvB6WmUyabhe4EY+P1jACVM2phgaOzNjeVgtjqCztg=;
+ b=YpXssetPCMJVAp5fK20w2bhQd4q7LP8J3hqTsHNiYj7E/PGrAAZMWvf7MnoOI3x3+w
+ jnuNQzMprrqlYP0VCtAdVQfwm6bg1Sa7SZc+MyZvJFJXE+BMVQJw0T6esEnL3txH6of3
+ huURKwVbMxDiqXK36jrsHHbpK+eqp06VDZ/eWWMldGgiLIdCFPSCFyNGv0ZgqrR0mKr+
+ iLEKY5wFPlIvKXIoQr1VQtk3k68DFb4A8ddt6yJXrpiCgyFrDEMnmSSWgJUJuTU/dDla
+ i4ppY8oJsb8iLYFMAHYjNxzE/kv2pgjdnDpZApOQsaamNOXRvWdf8xxBKaxadgC9xUw2
+ LH+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KFP0HbJwpn4b/8mC3zm1M94yL+pYYUEsnbWxKZ7xRO4=;
- b=Il6SDk14BqTn/euyT2bph8MrIblUo37bclYjxRNVmDImnAcASU9X5iswyqpdA020EO
- x4HXyRU3/I+urKfzj6tcyUdUhz1TIsbpoeXoDa5zt4Umw9RCzEDBygdyOl6BHDnYFmsM
- C36ymR5QUmi7b6fAKlAyM42FCRbYMqiCjWdPlw9hGkbOJWs/g4IX1cRU1p8ZSk2dC2D9
- O/daKJh9ER+ydeI50UB8g3u/eV/a3+JLGra5hpKM8oZjRE92brhhcVnerIUcRYrOvusV
- EWVpkfxMQVP0nl4ilOLo1lkyxU0fnGYw75V5CH2uDGtc1NDTIQvxMLWL06pODsZb5Qag
- 99Hg==
-X-Gm-Message-State: AOAM533PrC9KJgj0NrR8xZ7UHqLgytrVOlk3tExFbvyeN/awzREWCBHx
- uQjgftWk+xOeUNV+zWV2jqK2+Q==
-X-Google-Smtp-Source: ABdhPJxyXKGuelWIKSLpsquIq0lZ0Ibmmy2VLe6O6eMwXK2dlGN/PgYRdETsDCO4DPx/8naAk0SHRA==
-X-Received: by 2002:a05:6402:26d0:b0:419:75eb:b3a with SMTP id
- x16-20020a05640226d000b0041975eb0b3amr20744011edd.0.1649436889750; 
- Fri, 08 Apr 2022 09:54:49 -0700 (PDT)
+ bh=8RvB6WmUyabhe4EY+P1jACVM2phgaOzNjeVgtjqCztg=;
+ b=BEfw+vzQNM3Mly01RjWjU4jAuBNt9UITMFzMfjvzkVvZXaGu3+trUGceSqCWX/YNH1
+ mXe3sDJrjamOA1379EgGsnZUBcEU3Q6W22z+pVf0QG+w7qt8sJth0b6Wq6BbvmixK8hJ
+ vCF5HbVghuHQ2P4aqQ7bcvuTib8kBJG/dNvDXxoI7isXl6x0N/i7C/sZsSokg5arhXKE
+ jJ2Ity4t/OFsOgQuYk0vjf8MBNAwukhFHl/d18WodzPoY4QaL+hAKh3o60MT1ZuMKOLF
+ yyNAlJeuZ7n5D7ZusDbqZCvPcYriwLa7ZZKlLABgXEbkfca+AWtAqV5jWjNLvDsu/pzh
+ 1mkg==
+X-Gm-Message-State: AOAM532RiEp/eeHILjAen1b+d2ngYbIy0qj5h77rKoyUE+cF1BgFRUSq
+ H+Iep8BWCLnMivFMww3TB7Jt3g==
+X-Google-Smtp-Source: ABdhPJwX/bHGn0WdDCL4jZRBF1FcEfPlWnNjGul8m02ic2NOd6LAqzfkQKfqKBZlvOSRGWxREs0L1w==
+X-Received: by 2002:a17:907:8a13:b0:6e8:289d:c744 with SMTP id
+ sc19-20020a1709078a1300b006e8289dc744mr12274489ejc.150.1649436887070; 
+ Fri, 08 Apr 2022 09:54:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- f2-20020a170906390200b006e7f5fedbe7sm5336427eje.3.2022.04.08.09.54.43
+ h7-20020a1709066d8700b006d4b4d137fbsm8914280ejt.50.2022.04.08.09.54.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 08 Apr 2022 09:54:43 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 97FCD1FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id B9F681FFC5;
  Fri,  8 Apr 2022 17:47:45 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 14/15] plugins: Assert mmu_idx in range before use in
- qemu_plugin_get_hwaddr
-Date: Fri,  8 Apr 2022 17:47:41 +0100
-Message-Id: <20220408164742.2844631-15-alex.bennee@linaro.org>
+Subject: [PATCH v1 15/15] accel/tcg: add heuristic to invalidate al TBs in a
+ page [hack!]
+Date: Fri,  8 Apr 2022 17:47:42 +0100
+Message-Id: <20220408164742.2844631-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220408164742.2844631-1-alex.bennee@linaro.org>
 References: <20220408164742.2844631-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,44 +89,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Damien Hedde <damien.hedde@greensocs.com>,
- berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  Richard Henderson <richard.henderson@linaro.org>, aaron@os.amperecomputing.com,
  robhenry@microsoft.com, f4bug@amsat.org, mahmoudabdalghany@outlook.com,
  minyihh@uci.edu, cota@braap.org, Luke.Craig@ll.mit.edu, pbonzini@redhat.com,
  kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
- Alexandre Iooss <erdnaxe@crans.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+This is a dumb attempt to reduce to the execution time of UEFI booted
+kernels and almost certainly not what the final solution should be.
 
-Coverity reports out-of-bound accesses here.  This should be a
-false positive due to how the index is decoded from MemOpIdx.
+The problem is if we have generated JIT code from running firmware we
+can spend a lot of time carefully invalidating every TB in a page when
+the kernel that eventually boots and clears all the pages in RAM.
 
-Fixes: Coverity CID 1487201
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-Message-Id: <20220401190233.329360-1-richard.henderson@linaro.org>
+This fix simply assumes any write to the start of the page should
+invalidate everything in the page. Once that is done following writes
+to the page should all follow the fast path.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- plugins/api.c | 2 ++
- 1 file changed, 2 insertions(+)
+ accel/tcg/translate-all.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/plugins/api.c b/plugins/api.c
-index 7bf71b189d..2078b16edb 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -289,6 +289,8 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
-     enum qemu_plugin_mem_rw rw = get_plugin_meminfo_rw(info);
-     hwaddr_info.is_store = (rw & QEMU_PLUGIN_MEM_W) != 0;
- 
-+    assert(mmu_idx < NB_MMU_MODES);
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 625c46dd9b..67884260fa 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1830,6 +1830,16 @@ void tb_invalidate_phys_page_fast(struct page_collection *pages,
+                                   uintptr_t retaddr)
+ {
+     PageDesc *p = page_find(start >> TARGET_PAGE_BITS);
++    unsigned int nr = start & ~TARGET_PAGE_MASK;
 +
-     if (!tlb_plugin_lookup(cpu, vaddr, mmu_idx,
-                            hwaddr_info.is_store, &hwaddr_info)) {
-         error_report("invalid use of qemu_plugin_get_hwaddr");
++    /*
++     * Assume any write to the start of the page is start of clearing
++     * the whole page. To avoid coming back multiple times lets just
++     * invalidate everything first.
++     */
++    if (nr == 0) {
++        len = TARGET_PAGE_SIZE;
++    }
+ 
+     if (trace_event_get_state_backends(TRACE_TB_INVALIDATE_PHYS_PAGE_FAST)) {
+         TranslationBlock *tb = tcg_tb_lookup(retaddr);
+@@ -1850,10 +1860,8 @@ void tb_invalidate_phys_page_fast(struct page_collection *pages,
+         build_page_bitmap(p);
+     }
+     if (p->code_bitmap) {
+-        unsigned int nr;
+         unsigned long b;
+ 
+-        nr = start & ~TARGET_PAGE_MASK;
+         b = p->code_bitmap[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG - 1));
+         if (b & ((1 << len) - 1)) {
+             goto do_invalidate;
 -- 
 2.30.2
 
