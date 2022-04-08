@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8454F9978
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 17:29:08 +0200 (CEST)
-Received: from localhost ([::1]:42392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A2E4F99FE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 17:58:29 +0200 (CEST)
+Received: from localhost ([::1]:56830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncqXr-0007QD-4u
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 11:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59642)
+	id 1ncr0F-00035b-TV
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 11:58:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ncqWM-0006ci-3o
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 11:27:34 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:56121)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ncqz7-0002P4-2L
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 11:57:17 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:43571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ncqWK-00066X-2x
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 11:27:33 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id ll10so510162pjb.5
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 08:27:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ncqz4-0003gk-Vw
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 11:57:16 -0400
+Received: by mail-ej1-x634.google.com with SMTP id bq8so18148301ejb.10
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 08:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0aLaRclTWevsKQjTpmn/3m0akbziT0JdASgI8bN4of4=;
- b=G0M+a3TXZwqnnOck/rj58iUonxXcIusHm9WxPP6Y5WAm4TUJPgKS4Zg2AQug2hUqQR
- b4o2B5m1qz1EhYt19nAW/xAUqvA6enTIqoVJzhtkbob7MSvm+TH+s5zFLMD06tJzBJkk
- H1IUOUCSxX14VfGM//Z2AcqIKkN6ojFg9jynaEVRURGWfMW1xjukQfFqrEWi3Dx4/jqf
- F/raaZ+UWkXKU3PWJTE9Aj62ZAmWWTEVVQVtxeOPlhq6jWrZotPadaDcAjbtJaDlxzzO
- NctqQSoUHzXL9VrdTmBy03Jr8MkIPq3K7G/e0CVnjGNBjU497t4uTQr6MHu64BpbCG1W
- 8lrg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eoYHxzNQsl7hp9Yi6SYJFnsQ9bA+IMRrA4aYPKvhJ9s=;
+ b=OtkRshwmZbkB+rxWI/2cbqf8dyVBXmxmgWZ0W9+fNwErM3eEgMhaLkEH/HGSjaoni7
+ 794o1YUSMU+dkN2IkXRgL1G0ZTI2IUFdcPB1J6mLZlRxdscXQ5m68aLzFL7yEzZkTy/q
+ vQrLAtfOA+V959sY5594VJbEPIg24gv/Y+Kql41h319m797it1AMfUzW7wocXLW8xcf0
+ tiHzUuelczMNF+mCHhz6Y61H3WnkdTip1SD0mDWvcwqvaXKCcho9XlD/89Fq/El+4tWK
+ 8IFpJcoEiofL3UrGHLIXH/ufc9rzK9oV0iArEPrrBMwFEHi1PkFBTf2uCciKktuvuM0+
+ sHsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=0aLaRclTWevsKQjTpmn/3m0akbziT0JdASgI8bN4of4=;
- b=Dyj8UvwkVCMZyBKLzIj8hMEpqeFKQ07ceY0L1x1+641H6p2dPZcI2oiHdQ9i1+kEQw
- enVszwBXkuWYjwSh4juA5MsmdzE3fD/iXLWOPqeMLmBNppMc8oWEf24G9fzh2677vwhk
- IFNT3X3xrpaOjfNWJIJizQGckj7bN9EgDk/3vHbStcpBIUB98KvqLaqK8l/NGrqqk7aC
- Gauwuebi9G8JugqphfnQoFkbg1B556PZYX76tMEQtZuWQnUtRr5Is91f6K62QtY29ohu
- uoMPvBf3iIQqZmFj0yrWNwubNjBil5fsg3cjlEUxE+HN2+epGBNIMfiytn9QAMcR+wrR
- Klzg==
-X-Gm-Message-State: AOAM530J1ANbLWZi5UOgpm30Lw/5dZsuZTZo+myyOlBDsJShrAohGBrw
- rs+Frq/K4ASsMODrUdMjUb2QyA==
-X-Google-Smtp-Source: ABdhPJw1zy0uf8KaIx8uN2shpvh8jfwmgxNcKj8BSeWLnxe7Jqz4ElHo2EYEIrUYaxNf/AaxOv90bA==
-X-Received: by 2002:a17:902:e5c6:b0:155:ceb9:3710 with SMTP id
- u6-20020a170902e5c600b00155ceb93710mr20348873plf.59.1649431650321; 
- Fri, 08 Apr 2022 08:27:30 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ bh=eoYHxzNQsl7hp9Yi6SYJFnsQ9bA+IMRrA4aYPKvhJ9s=;
+ b=1Xgew0oOstiESNtZWhlVrQ2DfA34kD1gFMJRXZjOA7sQQoP4CUUNi+HKpaZhBl43pj
+ NFMVyiEZvaKvn1OP9NJ7vv/TUIgfx2jh+jm05gB15oK4O2QRM99JYBh7eFbcv839Z2d2
+ 8VPsOboJH0W/E84KLUfmWzmbaNlwGy8iF8ErMPE/BXmD9dgdmlSmmMGoD3nDtWwmAKOz
+ KBxuIJMCoYbi/LgRrEAeGE25M0dwnJXLOH9cwo7CdznMueFgjGB7QEXMheocattQViBP
+ 9FQjA3BYyZ+BGrTs5o/2HPQhqSxGXH5kKbaE3yMpwJQP8x5BTGdUDs1WLJbLAAe5Ivhe
+ mfkg==
+X-Gm-Message-State: AOAM53072SLPwnO33VKsGgj6vhzkuyj0nRrmy/Zl1qCmM27pE57kJryH
+ ixN3sbwgWBQywD8msUXuUBtLIg==
+X-Google-Smtp-Source: ABdhPJylHE5yb1O7Sfz5Vqdj0/fHCKFLogj8r3LpwJMoc92BsGM5fyHgLEgZDT16a68rvNnRPmAhYg==
+X-Received: by 2002:a17:907:c309:b0:6e8:4e5:6504 with SMTP id
+ tl9-20020a170907c30900b006e804e56504mr18473511ejc.706.1649433433287; 
+ Fri, 08 Apr 2022 08:57:13 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- y14-20020a056a001c8e00b004fa829db45csm24044583pfw.218.2022.04.08.08.27.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 08:27:29 -0700 (PDT)
-Message-ID: <0567b8bc-b327-9601-9acf-75711b77a1ef@linaro.org>
-Date: Fri, 8 Apr 2022 08:27:27 -0700
+ p3-20020a1709060e8300b006d0e8ada804sm8771603ejf.127.2022.04.08.08.57.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Apr 2022 08:57:12 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8A65B1FFB7;
+ Fri,  8 Apr 2022 16:57:11 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v2] tests/qtest: attempt to enable tests for virtio-gpio
+ (!working)
+Date: Fri,  8 Apr 2022 16:57:03 +0100
+Message-Id: <20220408155704.2777166-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: Support for x86_64 on aarch64 emulation
-Content-Language: en-US
-To: Redha Gouicem <gouicem@in.tum.de>, qemu-devel@nongnu.org
-References: <648878dc-67c6-d919-c2a0-b7c6c5d613e2@in.tum.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <648878dc-67c6-d919-c2a0-b7c6c5d613e2@in.tum.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,94 +87,304 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: d.g.sprokholt@tudelft.nl
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ slp@redhat.com, mathieu.poirier@linaro.org, mst@redhat.com,
+ viresh.kumar@linaro.org, Eric Auger <eric.auger@redhat.com>,
+ stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ marcandre.lureau@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/22 05:21, Redha Gouicem wrote:
-> We are working on support for x86_64 emulation on aarch64, mainly
-> related to memory ordering issues. We first wanted to know what the
-> community thinks about our proposal, and its chance of getting merged
-> one day.
-> 
-> Note that we worked with qemu-user, so there may be issues in system
-> mode that we missed.
-> 
-> # Problem
-> 
-> When generating the TCG instructions for memory accesses, fences are
-> always inserted *before* the access, following this translation rule:
-> 
->      x86   -->     TCG     -->    aarch64
->      -------------------------------------
->      RMOV  -->  Fm_ld; ld  -->  DMBLD; LDR
->      WMOV  -->  Fm_st; st  -->  DMBFF; STR
-> 
-> Here, Fm_ld is a fence that orders any preceding memory access with
-> the subsequent load. F_m_st is a fence that orders any preceding
-> memory access with the subsequent store. This means that, in TCG, all
-> memory accesses are ordered by fences. Thus, no memory accesses can be
-> re-ordered in TCG. This is a problem, because it is *stricter than
-> x86*. Consider when a program contains:
-> 
->      WMOV; RMOV
-> 
-> 
-> x86 allows re-ordering independent store-load pairs, so the above pair
-> can safely re-order on an x86 host. However, with QEMU's current
-> translation, it becomes:
-> 
->      DMBFF; STR; DMBLD; LDR
-> 
-> In this target aarch64 code, no re-ordering is possible. Hence, QEMU
-> enforces a stronger model than x86. While that is correct, it harms
-> performance.
-> 
-> # Solution
-> 
-> We propose an alternative scheme, which we formally proved correct
-> (paper under review):
-> 
->      x86   -->      TCG    -->    aarch64
->      -------------------------------------
->      RMOV  -->  ld; Fld_m  -->  LDR; DMBLD
->      WMOV  -->  Fst_st; st -->  DMBST; STR
-> 
-> This new scheme precisely captures the observable behaviors of the
-> input program (in x86's memory model). This behavior is preserved in
-> the resulting TCG and aarch64 programs. Which the inserted fences
-> enforce (formally verified). Note that this scheme enforces fewer
-> ordering than the previous (unnecessarily strong) mapping scheme. This
-> new scheme benefits performance. We evaluated this on benchmarks
-> (PARSEC) and got up to 19.7% improvement, 6.7% on average.
-> 
-> # Implementation Considerations
->   
-> Different (source and host) architectures may demand different such
-> mapping schemes. Some schemes may place fences before an instruction,
-> while others place them after. The implementation of fence placement
-> should thus be sufficiently flexible that either is possible. Though,
-> note that write-read pairs are unordered in almost all architectures.
->   
-> We see two ways of doing this:
-> - extracting the placement of the fence from the
->    tcg_gen_qemu_ld/st_i32/i64 functions, and have each architecture
->    explicitly generate the fence at the correct place
-> - adding two parameters to these functions specifying the strength of
->    the "before" and "after" fences. The function would then generate
->    both fences in the IR (one of them may be a NOP fence), which in
->    turn will be translated back to the host
+We don't have a virtio-gpio implementation in QEMU and only
+support a vhost-user backend. The QEMU side of the code is minimal so
+it should be enough to instantiate the device and pass some vhost-user
+messages over the control socket. To do this we hook into the existing
+vhost-user-test code and just add the bits required for gpio.
 
-This has been on my to-do list for quite some time.  My previous work was
+Based-on: 20220210145254.157790-1-eric.auger@redhat.com [+ my fix]
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>
+Message-Id: <20220121151534.3654562-1-alex.bennee@linaro.org>
 
-https://patchew.org/QEMU/20210316220735.2048137-1-richard.henderson@linaro.org/
+---
+v2
+  - made progress, now starts up cleanly
+    - fix application of extra arguments (causing dupe ids)
+    - added (partial) F_CONFIG support
+  - however seems to hang qos-test which never sees the get_config msg
+    - it should have failed the test in chr_read()
+---
+ tests/qtest/libqos/virtio-gpio.h | 34 +++++++++++
+ tests/qtest/libqos/virtio-gpio.c | 98 ++++++++++++++++++++++++++++++++
+ tests/qtest/vhost-user-test.c    | 60 +++++++++++++++++++
+ tests/qtest/libqos/meson.build   |  1 +
+ 4 files changed, 193 insertions(+)
+ create mode 100644 tests/qtest/libqos/virtio-gpio.h
+ create mode 100644 tests/qtest/libqos/virtio-gpio.c
 
-I have some further work (possibly not posted?  I can't find a reference) which attempted 
-to strength reduce the barriers, and to use load-acquire/store-release insns when 
-alignment of the operation allows.  Unfortunately, for the interesting cases in question 
-(x86 and s390x guests, with the strongest guest memory models), it was rare that we could 
-prove the alignment was sufficient, so it was a fair amount of work being done for no gain.
+diff --git a/tests/qtest/libqos/virtio-gpio.h b/tests/qtest/libqos/virtio-gpio.h
+new file mode 100644
+index 0000000000..abe6967ae9
+--- /dev/null
++++ b/tests/qtest/libqos/virtio-gpio.h
+@@ -0,0 +1,34 @@
++/*
++ * virtio-gpio structures
++ *
++ * Copyright (c) 2022 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef TESTS_LIBQOS_VIRTIO_GPIO_H
++#define TESTS_LIBQOS_VIRTIO_GPIO_H
++
++#include "qgraph.h"
++#include "virtio.h"
++#include "virtio-pci.h"
++
++typedef struct QVhostUserGPIO QVhostUserGPIO;
++typedef struct QVhostUserGPIOPCI QVhostUserGPIOPCI;
++typedef struct QVhostUserGPIODevice QVhostUserGPIODevice;
++
++struct QVhostUserGPIO {
++    QVirtioDevice *vdev;
++};
++
++struct QVhostUserGPIOPCI {
++    QVirtioPCIDevice pci_vdev;
++    QVhostUserGPIO gpio;
++};
++
++struct QVhostUserGPIODevice {
++    QOSGraphObject obj;
++    QVhostUserGPIO gpio;
++};
++
++#endif
+diff --git a/tests/qtest/libqos/virtio-gpio.c b/tests/qtest/libqos/virtio-gpio.c
+new file mode 100644
+index 0000000000..a12671c8b1
+--- /dev/null
++++ b/tests/qtest/libqos/virtio-gpio.c
+@@ -0,0 +1,98 @@
++/*
++ * virtio-gpio nodes for testing
++ *
++ * Copyright (c) 2022 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "libqtest.h"
++#include "qemu/module.h"
++#include "qgraph.h"
++#include "virtio-gpio.h"
++
++static void *qvirtio_gpio_get_driver(QVhostUserGPIO *v_gpio,
++                                     const char *interface)
++{
++    if (!g_strcmp0(interface, "vhost-user-gpio")) {
++        return v_gpio;
++    }
++    if (!g_strcmp0(interface, "virtio")) {
++        return v_gpio->vdev;
++    }
++
++    fprintf(stderr, "%s not present in virtio-gpio-device\n", interface);
++    g_assert_not_reached();
++}
++
++static void *qvirtio_gpio_device_get_driver(void *object,
++                                              const char *interface)
++{
++    QVhostUserGPIODevice *v_gpio = object;
++    return qvirtio_gpio_get_driver(&v_gpio->gpio, interface);
++}
++
++static void *virtio_gpio_device_create(void *virtio_dev,
++                                         QGuestAllocator *t_alloc,
++                                         void *addr)
++{
++    QVhostUserGPIODevice *virtio_device = g_new0(QVhostUserGPIODevice, 1);
++    QVhostUserGPIO *interface = &virtio_device->gpio;
++
++    interface->vdev = virtio_dev;
++
++    virtio_device->obj.get_driver = qvirtio_gpio_device_get_driver;
++
++    return &virtio_device->obj;
++}
++
++/* virtio-gpio-pci */
++static void *qvirtio_gpio_pci_get_driver(void *object, const char *interface)
++{
++    QVhostUserGPIOPCI *v_gpio = object;
++    if (!g_strcmp0(interface, "pci-device")) {
++        return v_gpio->pci_vdev.pdev;
++    }
++    return qvirtio_gpio_get_driver(&v_gpio->gpio, interface);
++}
++
++static void *virtio_gpio_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
++                                      void *addr)
++{
++    QVhostUserGPIOPCI *virtio_spci = g_new0(QVhostUserGPIOPCI, 1);
++    QVhostUserGPIO *interface = &virtio_spci->gpio;
++    QOSGraphObject *obj = &virtio_spci->pci_vdev.obj;
++
++    virtio_pci_init(&virtio_spci->pci_vdev, pci_bus, addr);
++    interface->vdev = &virtio_spci->pci_vdev.vdev;
++
++    obj->get_driver = qvirtio_gpio_pci_get_driver;
++
++    return obj;
++}
++
++static void virtio_gpio_register_nodes(void)
++{
++    QPCIAddress addr = {
++        .devfn = QPCI_DEVFN(4, 0),
++    };
++
++    QOSGraphEdgeOptions edge_opts = { };
++
++    /* vhost-user-gpio-device */
++    edge_opts.extra_device_opts = "id=gpio0,chardev=chr-vhost-user-test";
++    qos_node_create_driver("vhost-user-gpio-device",
++                            virtio_gpio_device_create);
++    qos_node_consumes("vhost-user-gpio-device", "virtio-bus", &edge_opts);
++    qos_node_produces("vhost-user-gpio-device", "vhost-user-gpio");
++
++    /* virtio-gpio-pci */
++    edge_opts.extra_device_opts = "id=gpio0,addr=04.0,chardev=chr-vhost-user-test";
++    add_qpci_address(&edge_opts, &addr);
++    qos_node_create_driver("vhost-user-gpio-pci", virtio_gpio_pci_create);
++    qos_node_consumes("vhost-user-gpio-pci", "pci-bus", &edge_opts);
++    qos_node_produces("vhost-user-gpio-pci", "vhost-user-gpio");
++}
++
++libqos_init(virtio_gpio_register_nodes);
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index ee30f54796..836f30a4be 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -55,6 +55,7 @@
+ #define VHOST_USER_PROTOCOL_F_MQ 0
+ #define VHOST_USER_PROTOCOL_F_LOG_SHMFD 1
+ #define VHOST_USER_PROTOCOL_F_CROSS_ENDIAN   6
++#define VHOST_USER_PROTOCOL_F_CONFIG 9
+ 
+ #define VHOST_LOG_PAGE 0x1000
+ 
+@@ -78,6 +79,8 @@ typedef enum VhostUserRequest {
+     VHOST_USER_SET_PROTOCOL_FEATURES = 16,
+     VHOST_USER_GET_QUEUE_NUM = 17,
+     VHOST_USER_SET_VRING_ENABLE = 18,
++    VHOST_USER_GET_CONFIG = 24,
++    VHOST_USER_SET_CONFIG = 25,
+     VHOST_USER_MAX
+ } VhostUserRequest;
+ 
+@@ -137,6 +140,7 @@ enum {
+ 
+ enum {
+     VHOST_USER_NET,
++    VHOST_USER_GPIO,
+ };
+ 
+ typedef struct TestServer {
+@@ -194,6 +198,19 @@ static void append_vhost_net_opts(TestServer *s, GString *cmd_line,
+                            chr_opts, s->chr_name);
+ }
+ 
++/*
++ * For GPIO there are no other magic devices we need to add (like
++ * block or netdev) so all we need to worry about is the vhost-user
++ * chardev socket.
++ */
++static void append_vhost_gpio_opts(TestServer *s, GString *cmd_line,
++                             const char *chr_opts)
++{
++    g_string_append_printf(cmd_line, QEMU_CMD_CHR,
++                           s->chr_name, s->socket_path,
++                           chr_opts);
++}
++
+ static void append_mem_opts(TestServer *server, GString *cmd_line,
+                             int size, enum test_memfd memfd)
+ {
+@@ -426,6 +443,8 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+         break;
+ 
+     default:
++        g_test_message("unhandled vhost-user message: %d", msg.request);
++        g_test_fail();
+         break;
+     }
+ 
+@@ -1014,3 +1033,44 @@ static void register_vhost_user_test(void)
+                  test_multiqueue, &opts);
+ }
+ libqos_init(register_vhost_user_test);
++
++/*
++ * This stub can't handle all the message types but we should reply
++ * that we support VHOST_USER_PROTOCOL_F_CONFIG as gpio would use it
++ * talking to a read vhost-user daemon.
++ */
++static void vu_gpio_get_protocol_features(TestServer *s, CharBackend *chr,
++        VhostUserMsg *msg)
++{
++    /* send back features to qemu */
++    msg->flags |= VHOST_USER_REPLY_MASK;
++    msg->size = sizeof(m.payload.u64);
++    msg->payload.u64 = 1ULL << VHOST_USER_PROTOCOL_F_LOG_SHMFD;
++    msg->payload.u64 |= 1ULL << VHOST_USER_PROTOCOL_F_CONFIG;
++
++    qemu_chr_fe_write_all(chr, (uint8_t *)msg, VHOST_USER_HDR_SIZE + msg->size);
++}
++
++static struct vhost_user_ops g_vu_gpio_ops = {
++    .type = VHOST_USER_GPIO,
++
++    .append_opts = append_vhost_gpio_opts,
++
++    .set_features = vu_net_set_features,
++    .get_protocol_features = vu_gpio_get_protocol_features,
++};
++
++static void register_vhost_gpio_test(void)
++{
++    QOSGraphTestOptions opts = {
++        .before = vhost_user_test_setup,
++        .subprocess = true,
++        .arg = &g_vu_gpio_ops,
++    };
++
++    qemu_add_opts(&qemu_chardev_opts);
++
++    qos_add_test("read-guest-mem/memfile",
++                 "vhost-user-gpio", test_read_guest_mem, &opts);
++}
++libqos_init(register_vhost_gpio_test);
+diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
+index 8c8ee15553..f581330d8b 100644
+--- a/tests/qtest/libqos/meson.build
++++ b/tests/qtest/libqos/meson.build
+@@ -42,6 +42,7 @@ libqos_srcs = files('../libqtest.c',
+         'virtio-scsi.c',
+         'virtio-serial.c',
+         'virtio-iommu.c',
++        'virtio-gpio.c',
+         'generic-pcihost.c',
+ 
+         # qgraph machines:
+-- 
+2.30.2
 
-
-r~
 
