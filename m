@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BE64F96E7
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 15:38:44 +0200 (CEST)
-Received: from localhost ([::1]:45054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC204F9712
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 15:41:39 +0200 (CEST)
+Received: from localhost ([::1]:53678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncop1-0005kN-SH
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 09:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60136)
+	id 1ncorr-000364-0b
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 09:41:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ncol4-0002rJ-Pq
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:34:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21240)
+ id 1ncol7-0002tL-Qj
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:34:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ncol3-0003cX-0G
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:34:38 -0400
+ id 1ncol6-0003cs-8i
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:34:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649424876;
+ s=mimecast20190719; t=1649424879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n9vkaECCZXkAflzlL3P30ZPEXvMKzVcAl99HEU/aA4A=;
- b=C/nokY+jC3lE343X+MGlhsePDuxLbpn0NKbyDPEYHCfBj6OT5YNDAu2JuPQhWtwSGcIQYs
- dMHev0CREhSLfrVO+yeFkA7k4ec56riLXs5IwRSdDFUqUU1YNWTUM2sfqJGUFh3FsS1Q6y
- 2Ushe+xXMs0t1nNdkU1lLFkwFrah6M0=
+ bh=1geVC60KOCBqYcV0yzBh5c9nGhEBBky47+bYEoJUFqQ=;
+ b=R6jEUX7/IPXOBKcAgUsbn1MxNyxk/Rgd02n7pEw0MYS/uGdKnPRs9NfGsRlpQyH+mcr7y7
+ SJD+0Kx/qLzt3aov56dd9NwEeVt/d3lZHdkfP4KZ/EJLLRkJy/j5qBFnAE28WbcurnsX3M
+ 4PxBXLDHP0jhwTSGdT3kpg67I4TiHpw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-646-6J2yBloDMsalyLn6S5cbAA-1; Fri, 08 Apr 2022 09:34:33 -0400
-X-MC-Unique: 6J2yBloDMsalyLn6S5cbAA-1
+ us-mta-620-m7cUwEWzN72dRx1IyXc63w-1; Fri, 08 Apr 2022 09:34:36 -0400
+X-MC-Unique: m7cUwEWzN72dRx1IyXc63w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0BA3D28EA705;
- Fri,  8 Apr 2022 13:34:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F7F63C33B27;
+ Fri,  8 Apr 2022 13:34:36 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D9F614583E7;
- Fri,  8 Apr 2022 13:34:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6ECCC145B989;
+ Fri,  8 Apr 2022 13:34:33 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 04/23] hw/virtio: Replace g_memdup() by g_memdup2()
-Date: Fri,  8 Apr 2022 15:33:56 +0200
-Message-Id: <20220408133415.1371760-5-eperezma@redhat.com>
+Subject: [RFC PATCH v5 05/23] vhost: Fix bad return of descriptors to SVQ
+Date: Fri,  8 Apr 2022 15:33:57 +0200
+Message-Id: <20220408133415.1371760-6-eperezma@redhat.com>
 In-Reply-To: <20220408133415.1371760-1-eperezma@redhat.com>
 References: <20220408133415.1371760-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -92,67 +92,55 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Only the first one of them were properly enqueued back.
 
-Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
-
-  The old API took the size of the memory to duplicate as a guint,
-  whereas most memory functions take memory sizes as a gsize. This
-  made it easy to accidentally pass a gsize to g_memdup(). For large
-  values, that would lead to a silent truncation of the size from 64
-  to 32 bits, and result in a heap area being returned which is
-  significantly smaller than what the caller expects. This can likely
-  be exploited in various modules to cause a heap buffer overflow.
-
-Replace g_memdup() by the safer g_memdup2() wrapper.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/net/virtio-net.c       | 3 ++-
- hw/virtio/virtio-crypto.c | 6 +++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 1067e72b39..e4748a7e6c 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1443,7 +1443,8 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-         }
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index b232803d1b..c17506df20 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -333,13 +333,25 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
+     svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+ }
  
-         iov_cnt = elem->out_num;
--        iov2 = iov = g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_num);
-+        iov2 = iov = g_memdup2(elem->out_sg,
-+                               sizeof(struct iovec) * elem->out_num);
-         s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
-         iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
-         if (s != sizeof(ctrl)) {
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index dcd80b904d..0e31e3cc04 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -242,7 +242,7 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-         }
++static uint16_t vhost_svq_last_desc_of_chain(VhostShadowVirtqueue *svq,
++                                             uint16_t i)
++{
++    vring_desc_t *descs = svq->vring.desc;
++
++    while (le16_to_cpu(descs[i].flags) & VRING_DESC_F_NEXT) {
++        i = le16_to_cpu(descs[i].next);
++    }
++
++    return i;
++}
++
+ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+                                            uint32_t *len)
+ {
+     vring_desc_t *descs = svq->vring.desc;
+     const vring_used_t *used = svq->vring.used;
+     vring_used_elem_t used_elem;
+-    uint16_t last_used;
++    uint16_t last_used, last_used_chain;
  
-         out_num = elem->out_num;
--        out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-+        out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
-         out_iov = out_iov_copy;
- 
-         in_num = elem->in_num;
-@@ -605,11 +605,11 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
+     if (!vhost_svq_more_used(svq)) {
+         return NULL;
+@@ -365,7 +377,8 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+         return NULL;
      }
  
-     out_num = elem->out_num;
--    out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-+    out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
-     out_iov = out_iov_copy;
+-    descs[used_elem.id].next = svq->free_head;
++    last_used_chain = vhost_svq_last_desc_of_chain(svq, used_elem.id);
++    descs[last_used_chain].next = svq->free_head;
+     svq->free_head = used_elem.id;
  
-     in_num = elem->in_num;
--    in_iov_copy = g_memdup(elem->in_sg, sizeof(in_iov[0]) * in_num);
-+    in_iov_copy = g_memdup2(elem->in_sg, sizeof(in_iov[0]) * in_num);
-     in_iov = in_iov_copy;
- 
-     if (unlikely(iov_to_buf(out_iov, out_num, 0, &req, sizeof(req))
+     *len = used_elem.len;
 -- 
 2.27.0
 
