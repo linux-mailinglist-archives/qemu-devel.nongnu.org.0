@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5984F8D27
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 06:38:01 +0200 (CEST)
-Received: from localhost ([::1]:48614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 983544F8D2C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 06:55:41 +0200 (CEST)
+Received: from localhost ([::1]:52654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncgNk-0002yZ-FJ
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 00:38:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48204)
+	id 1ncgeq-0006Or-6b
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 00:55:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ncgLx-00027Z-72; Fri, 08 Apr 2022 00:36:11 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:47024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ncgLv-000715-Jp; Fri, 08 Apr 2022 00:36:08 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id g21so9285960iom.13;
- Thu, 07 Apr 2022 21:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1Op1NGI3vhbrbPpQV46Q1GLNGGvvtE7SZ/vf9A01uyo=;
- b=TUmk9K6KvdyFY+pS8HKQBD/6qNfvxVg7p88rt9hhWwIk5zItnuWVWQriDBj3CwmZ7h
- SS1tQfINEpf/huOj/uepr/jiKqY4nkcmsff7GzcR4G4ymi2w3ib6Y3zzqItLJmQTZ56N
- /1OhjdrqEV8FxLoAyIo1vwKCmr+UUWPnR2nv54v4hVFMOf4pZF+x2Bn5Yu5zEKtgQZp+
- xR+jvbCF6su7y/knDMQrfQrrQqHASJ2tcDHh3GkdkhmVCHGQ2Ef7HZ/wR2r4uT5pns6L
- 1Q9hRAqY/5NfeSddNmXXZOk+qW3l3yiznoq/ArDcympXeZlt2xl8vMrIhRmcDeZLFoS3
- 7dzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1Op1NGI3vhbrbPpQV46Q1GLNGGvvtE7SZ/vf9A01uyo=;
- b=TtpCmHBxiRIMAL/u7yoQugNwOogfUIoMT6eRuHLigGOk+l1E+5Kpy/GfZD5no9/kRt
- 6keuuOVbaDDVT7k45qptP/yC0Z+/yNYFUtW6Vc/+r+x5/h2EfauDFQ/iDheoGkCsIvWr
- 0UFO9otSZAPJm9yAXtTPVIiId6dByAVcuGuEypfPX0Ht5q7voA7cL3VKt+f2HHvQ/S+r
- IwTl7+sb4kbhMSzXatPz23BGfH2AKypi5fm86RjMejfkSSmBo1ujF44I/F0Oy0qth3yp
- BhYeFJJf5oX9B+m+IHNFPMi+Umcr1A7htELy6/+WG/9BO80B8J1YGMx5YujxKLF+0WuB
- SJlw==
-X-Gm-Message-State: AOAM533IrtNizMoGxz4ByZ3XT8oK1yS3i8RTCFlNp9MxytmGL8AabosA
- Np5K6Az7BSmM2L0s3/+xnQJUIerbblXKn3IwaN4=
-X-Google-Smtp-Source: ABdhPJyKgCIqyLfVtKw0mKE1RMVrBqApojOOdmWWSlYUOlyQZtY39cOmxgZPxP8Ymgdxb7et8cejOtrWp0SOxAg2bVA=
-X-Received: by 2002:a05:6602:2c0b:b0:63d:dfb2:9a95 with SMTP id
- w11-20020a0566022c0b00b0063ddfb29a95mr7886259iov.93.1649392565758; Thu, 07
- Apr 2022 21:36:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ncgcF-0004YJ-5j
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 00:52:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55633)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ncgcD-0000vK-0o
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 00:52:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649393575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=L9kfCNSkgsKJNooEIeUqtlLsLGikXlMFQlC4ezKv1Yw=;
+ b=Qm2ugbERXISLZ0Q/rkXovLTqNW85ae3c2LjdSlzrPKyw/wvq4Ez+jjvmt7Tg2MQizQE+op
+ EZCkVcztpwgr2i7vf4DsbWvP8GOThMQCPE81N1g/04//CfesAAgsQFCFngzm5/nptYbsVS
+ FrOF1ptnm+zaoYrQtlmtm4fE2kFyAc0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-601-6LQ9PDCAM8aioEEgbr5UQw-1; Fri, 08 Apr 2022 00:52:54 -0400
+X-MC-Unique: 6LQ9PDCAM8aioEEgbr5UQw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70D083800E94
+ for <qemu-devel@nongnu.org>; Fri,  8 Apr 2022 04:52:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30F61401E58;
+ Fri,  8 Apr 2022 04:52:54 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B05EA180061B; Fri,  8 Apr 2022 06:52:52 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] Fixes 20220408 patches
+Date: Fri,  8 Apr 2022 06:52:50 +0200
+Message-Id: <20220408045252.2375896-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20220401125948.79292-1-richard.henderson@linaro.org>
- <20220401125948.79292-2-richard.henderson@linaro.org>
-In-Reply-To: <20220401125948.79292-2-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 8 Apr 2022 14:35:39 +1000
-Message-ID: <CAKmqyKNar54eXe0pr=L8dBffG0FFAZnYFPAkK5X_1rnQNcoxvA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/riscv: Use cpu_loop_exit_restore directly from
- mmu faults
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,63 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 1, 2022 at 11:01 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The riscv_raise_exception function stores its argument into
-> exception_index and then exits to the main loop.  When we
-> have already set exception_index, we can just exit directly.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+The following changes since commit 95a3fcc7487e5bef262e1f937ed8636986764c4e=
+:=0D
+=0D
+  Update version for v7.0.0-rc3 release (2022-04-06 21:26:13 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/fixes-20220408-pull-request=0D
+=0D
+for you to fetch changes up to fa892e9abb728e76afcf27323ab29c57fb0fe7aa:=0D
+=0D
+  ui/cursor: fix integer overflow in cursor_alloc (CVE-2021-4206) (2022-04-=
+07 12:30:54 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+two cursor/qxl related security fixes.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Mauro Matteo Cascella (2):=0D
+  display/qxl-render: fix race condition in qxl_cursor (CVE-2021-4207)=0D
+  ui/cursor: fix integer overflow in cursor_alloc (CVE-2021-4206)=0D
+=0D
+ hw/display/qxl-render.c | 9 ++++++++-=0D
+ hw/display/vmware_vga.c | 2 ++=0D
+ ui/cursor.c             | 8 +++++++-=0D
+ 3 files changed, 17 insertions(+), 2 deletions(-)=0D
+=0D
+--=20=0D
+2.35.1=0D
+=0D
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
->  target/riscv/cpu_helper.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 1c60fb2e80..126251d5da 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -1150,7 +1150,7 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
->      env->badaddr = addr;
->      env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
->                              riscv_cpu_two_stage_lookup(mmu_idx);
-> -    riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
-> +    cpu_loop_exit_restore(cs, retaddr);
->  }
->
->  void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> @@ -1175,7 +1175,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->      env->badaddr = addr;
->      env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
->                              riscv_cpu_two_stage_lookup(mmu_idx);
-> -    riscv_raise_exception(env, cs->exception_index, retaddr);
-> +    cpu_loop_exit_restore(cs, retaddr);
->  }
->
->  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-> @@ -1311,7 +1311,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->                              first_stage_error,
->                              riscv_cpu_virt_enabled(env) ||
->                                  riscv_cpu_two_stage_lookup(mmu_idx));
-> -        riscv_raise_exception(env, cs->exception_index, retaddr);
-> +        cpu_loop_exit_restore(cs, retaddr);
->      }
->
->      return true;
-> --
-> 2.25.1
->
->
 
