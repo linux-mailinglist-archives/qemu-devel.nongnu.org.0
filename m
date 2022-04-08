@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004E94F987C
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:45:35 +0200 (CEST)
-Received: from localhost ([::1]:37804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A1A4F988C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 16:48:07 +0200 (CEST)
+Received: from localhost ([::1]:46342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncprj-0006GA-2q
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:45:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42956)
+	id 1ncpuA-0003hG-5H
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 10:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPW-0007AO-R3
+ id 1ncpPW-0007AR-TD
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:26 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39781)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ncpPS-0002Nn-2J
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:25 -0400
-Received: by mail-wr1-x435.google.com with SMTP id q19so13052545wrc.6
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:20 -0700 (PDT)
+ id 1ncpPS-0002P5-2C
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 10:16:24 -0400
+Received: by mail-wr1-x434.google.com with SMTP id d29so13037357wra.10
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 07:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/SF58xglVqb/RRANG/yGXyzTNT64YvBR8SylTgH6uh4=;
- b=fVjw8TJcGg+WmZF3ZC4Bzojik6NEsZjFvJhi1EbseEdeRbjMk3sOzaULlgea83CBBe
- Q0mK2E8NvX+K9QHud9v+5JM/7fMG4KekQotHup6mC6zv2AkXd86lVabBYQCsmjYYZ6gy
- 2Sm6rlJBKq+hf2pNgQIWT/GKeTN7eWKO4MEjbiq8Nh5lg0vxjZXpraHFN8/2XPkoDNOL
- EJTkUGImNHjpeAjfEWZDIRnNICRwJ5j6N2ID6at2vT3hDYPLwq+6opIqXeBMbUZoxu7K
- Afh4Osanvvzv8YCzU5zN7gerII327jUl5VksNysDNLH7344ty0+tBtK8nuy+AUkV1IMU
- hu+g==
+ bh=cUv1al+qPnljVWsbF0aOgpEXEQ/oxq06yGq33Wrsi0s=;
+ b=gDwUyrHd6Bcsgwyzm5ldtRWi2Xgv6Og9R8JydD9TA6nH6SibeOHaBjbMJYht99b52n
+ PCJpK26C/qDbwASIAp7jyvVM1JLnFYBYNbnwNRjVQH2gSrAG+ZJ3PUzUQT+0ppAMi4m7
+ rh1bHNmxh7jbpeqbuyVzdpY3rLomjGvS8G7PtDv0nUSyXSL8GFaQT2jK7PTBnCXpZlSM
+ 6R2CL9Wb08IFn3Fx26kTbEAg4RtolaXpEnr06nm3xGp7cUAFgEcUp7XqSJjPHFQ8X3YQ
+ uUSs1yPZC8VVDG5kiZB7KrPWjSFhYYbBcySGYo5gGoxlh6uX1DK2FVBybEvLEqEorwMO
+ Fb5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/SF58xglVqb/RRANG/yGXyzTNT64YvBR8SylTgH6uh4=;
- b=AF759cfQ+ujRroxdlcmDXVBWlP1rtzU56IPuU1FMucApKnVUl3VGqdA2+kTpNdK2RS
- /l4lwum4gytNkjbg3Kr1/YxRG/K/14LkDeUKl60V0Aqlo5BavTX5rqoHs4ShdaakGYDR
- I8oW79jW60JsWiVmuS7QMEjeIK5J7cEv3YIg1s0H69jhDsNmKtA2RlUq1RkpZRNyxil4
- RmfsBT/BF6GDwCz328DFa1f0znQrmI0JAHsfNzyEt0KOzKmjw/1X+wzxLYF7ahKLrDrI
- sJx6l5fDuLQcALV4WRvvTwesTnLzhkoM8yx7SEPwuEIup4YX7rH9O27YlB/FDeZdTlC5
- vUtQ==
-X-Gm-Message-State: AOAM533lkeN3fa5oUdOYP+7UGbBPxMnbE2lvtZkAphjFr1h4bC8ev64E
- B5H9Ib01EabGtYw4tT3T/XDgAg==
-X-Google-Smtp-Source: ABdhPJzz2cswZ8kq7/9uxqQKkXU2h8PTyWLeTPb9lgZARYn9f4GmJ4o7McBc3CtrqR6ih3a619zD3A==
-X-Received: by 2002:adf:82ee:0:b0:207:9bec:ee5d with SMTP id
- 101-20020adf82ee000000b002079becee5dmr76300wrc.634.1649427379423; 
- Fri, 08 Apr 2022 07:16:19 -0700 (PDT)
+ bh=cUv1al+qPnljVWsbF0aOgpEXEQ/oxq06yGq33Wrsi0s=;
+ b=OtT2UAJCjD5MbznroIFo0xDPhuTS+i6hTo5wlL5nKmk/TqDtt7Yh7efDja8hdMJSV8
+ LGf9dD752obMK6qYq6c00fpDKlJ/ifinCDd2V3v0FlZxNIvqeOlHo04CcUYqkPhrJfnX
+ nFQ4oEtZGkYWKAWoaW8+LiF10vBKuM1BzK3F4jiTGLWamgz+wUp1THrZ2cdyL3KYzR4j
+ KdbV6+ElD9cV/DTT2Qb2xbFTBl9qoagi5EgC5SbH/WVFDTKCLW4HOoa2wpkIF1w7fe69
+ PXFW8/KW1jZqLrSRhVrql9vZz4PRXeZqVIlApo3eZ3Cyy0MCMrv+d3SNAjaPoA7x+RIn
+ DBJw==
+X-Gm-Message-State: AOAM533WMD9YMgHyz9YrMM80YGweeYO+4FdR+IgfHk6BwrI+L1JfljyU
+ 2Wd+24UETeFWv2j8PpZ68SGBoaGN9wDjfA==
+X-Google-Smtp-Source: ABdhPJyo9ZcnPlcAPBHSkmPVz8vUmE3HVx49Q9th3UliBC9HQLC7rX6CxnWiUBUK072ymYIFnkYy2w==
+X-Received: by 2002:adf:e806:0:b0:206:1cfa:3a82 with SMTP id
+ o6-20020adfe806000000b002061cfa3a82mr14800237wrm.143.1649427380311; 
+ Fri, 08 Apr 2022 07:16:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.16.18
+ i3-20020adffc03000000b0020616ee90dbsm11498849wrr.42.2022.04.08.07.16.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 08 Apr 2022 07:16:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 28/41] hw/intc/arm_gicv3_redist: Factor out "update hpplpi for
- all LPIs" logic
-Date: Fri,  8 Apr 2022 15:15:37 +0100
-Message-Id: <20220408141550.1271295-29-peter.maydell@linaro.org>
+Subject: [PATCH 29/41] hw/intc/arm_gicv3_redist: Recalculate hppvlpi on
+ VPENDBASER writes
+Date: Fri,  8 Apr 2022 15:15:38 +0100
+Message-Id: <20220408141550.1271295-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220408141550.1271295-1-peter.maydell@linaro.org>
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,109 +90,139 @@ Cc: Marc Zyngier <maz@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor out the common part of gicv3_redist_update_lpi_only() into
-a new function update_for_all_lpis(), which does a full rescan
-of an LPI Pending table and sets the specified PendingIrq struct
-with the highest priority pending enabled LPI it finds.
+The guest uses GICR_VPENDBASER to tell the redistributor when it is
+scheduling or descheduling a vCPU.  When it writes and changes the
+VALID bit from 0 to 1, it is scheduling a vCPU, and we must update
+our view of the current highest priority pending vLPI from the new
+Pending and Configuration tables.  When it writes and changes the
+VALID bit from 1 to 0, it is descheduling, which means that there is
+no longer a highest priority pending vLPI.
+
+The specification allows the implementation to use part of the vLPI
+Pending table as an IMPDEF area where it can cache information when a
+vCPU is descheduled, so that it can avoid having to do a full rescan
+of the tables when the vCPU is scheduled again.  For now, we don't
+take advantage of this, and simply do a complete rescan.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_redist.c | 66 ++++++++++++++++++++++++++------------
- 1 file changed, 46 insertions(+), 20 deletions(-)
+ hw/intc/arm_gicv3_redist.c | 87 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 84 insertions(+), 3 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index 571e0fa8309..2379389d14e 100644
+index 2379389d14e..bfdde36a206 100644
 --- a/hw/intc/arm_gicv3_redist.c
 +++ b/hw/intc/arm_gicv3_redist.c
-@@ -103,6 +103,48 @@ static void update_for_one_lpi(GICv3CPUState *cs, int irq,
-     }
+@@ -185,6 +185,87 @@ static void gicr_write_ipriorityr(GICv3CPUState *cs, MemTxAttrs attrs, int irq,
+     cs->gicr_ipriorityr[irq] = value;
  }
  
-+/**
-+ * update_for_all_lpis: Fully scan LPI tables and find best pending LPI
-+ *
-+ * @cs: GICv3CPUState
-+ * @ptbase: physical address of LPI Pending table
-+ * @ctbase: physical address of LPI Configuration table
-+ * @ptsizebits: size of tables, specified as number of interrupt ID bits minus 1
-+ * @ds: true if priority value should not be shifted
-+ * @hpp: points to pending information to set
-+ *
-+ * Recalculate the highest priority pending enabled LPI from scratch,
-+ * and set @hpp accordingly.
-+ *
-+ * We scan the LPI pending table @ptbase; for each pending LPI, we read the
-+ * corresponding entry in the LPI configuration table @ctbase to extract
-+ * the priority and enabled information.
-+ *
-+ * We take @ptsizebits in the form idbits-1 because this is the way that
-+ * LPI table sizes are architecturally specified in GICR_PROPBASER.IDBits
-+ * and in the VMAPP command's VPT_size field.
-+ */
-+static void update_for_all_lpis(GICv3CPUState *cs, uint64_t ptbase,
-+                                uint64_t ctbase, unsigned ptsizebits,
-+                                bool ds, PendingIrq *hpp)
++static void gicv3_redist_update_vlpi_only(GICv3CPUState *cs)
 +{
-+    AddressSpace *as = &cs->gic->dma_as;
-+    uint8_t pend;
-+    uint32_t pendt_size = (1ULL << (ptsizebits + 1));
-+    int i, bit;
++    uint64_t ptbase, ctbase, idbits;
 +
-+    hpp->prio = 0xff;
-+
-+    for (i = GICV3_LPI_INTID_START / 8; i < pendt_size / 8; i++) {
-+        address_space_read(as, ptbase + i, MEMTXATTRS_UNSPECIFIED, &pend, 1);
-+        while (pend) {
-+            bit = ctz32(pend);
-+            update_for_one_lpi(cs, i * 8 + bit, ctbase, ds, hpp);
-+            pend &= ~(1 << bit);
-+        }
++    if (!FIELD_EX64(cs->gicr_vpendbaser, GICR_VPENDBASER, VALID)) {
++        cs->hppvlpi.prio = 0xff;
++        return;
 +    }
++
++    ptbase = cs->gicr_vpendbaser & R_GICR_VPENDBASER_PHYADDR_MASK;
++    ctbase = cs->gicr_vpropbaser & R_GICR_VPROPBASER_PHYADDR_MASK;
++    idbits = FIELD_EX64(cs->gicr_vpropbaser, GICR_VPROPBASER, IDBITS);
++
++    update_for_all_lpis(cs, ptbase, ctbase, idbits, true, &cs->hppvlpi);
 +}
 +
- static uint8_t gicr_read_ipriorityr(GICv3CPUState *cs, MemTxAttrs attrs,
-                                     int irq)
++static void gicv3_redist_update_vlpi(GICv3CPUState *cs)
++{
++    gicv3_redist_update_vlpi_only(cs);
++    gicv3_cpuif_virt_irq_fiq_update(cs);
++}
++
++static void gicr_write_vpendbaser(GICv3CPUState *cs, uint64_t newval)
++{
++    /* Write @newval to GICR_VPENDBASER, handling its effects */
++    bool oldvalid = FIELD_EX64(cs->gicr_vpendbaser, GICR_VPENDBASER, VALID);
++    bool newvalid = FIELD_EX64(newval, GICR_VPENDBASER, VALID);
++    bool pendinglast;
++
++    /*
++     * The DIRTY bit is read-only and for us is always zero;
++     * other fields are writeable.
++     */
++    newval &= R_GICR_VPENDBASER_INNERCACHE_MASK |
++        R_GICR_VPENDBASER_SHAREABILITY_MASK |
++        R_GICR_VPENDBASER_PHYADDR_MASK |
++        R_GICR_VPENDBASER_OUTERCACHE_MASK |
++        R_GICR_VPENDBASER_PENDINGLAST_MASK |
++        R_GICR_VPENDBASER_IDAI_MASK |
++        R_GICR_VPENDBASER_VALID_MASK;
++
++    if (oldvalid && newvalid) {
++        /*
++         * Changing other fields while VALID is 1 is UNPREDICTABLE;
++         * we choose to log and ignore the write.
++         */
++        if (cs->gicr_vpendbaser ^ newval) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: Changing GICR_VPENDBASER when VALID=1 "
++                          "is UNPREDICTABLE\n", __func__);
++        }
++        return;
++    }
++    if (!oldvalid && !newvalid) {
++        cs->gicr_vpendbaser = newval;
++        return;
++    }
++
++    if (newvalid) {
++        /*
++         * Valid going from 0 to 1: update hppvlpi from tables.
++         * If IDAI is 0 we are allowed to use the info we cached in
++         * the IMPDEF area of the table.
++         * PendingLast is RES1 when we make this transition.
++         */
++        pendinglast = true;
++    } else {
++        /*
++         * Valid going from 1 to 0:
++         * Set PendingLast if there was a pending enabled interrupt
++         * for the vPE that was just descheduled.
++         * If we cache info in the IMPDEF area, write it out here.
++         */
++        pendinglast = cs->hppvlpi.prio != 0xff;
++    }
++
++    newval = FIELD_DP64(newval, GICR_VPENDBASER, PENDINGLAST, pendinglast);
++    cs->gicr_vpendbaser = newval;
++    gicv3_redist_update_vlpi(cs);
++}
++
+ static MemTxResult gicr_readb(GICv3CPUState *cs, hwaddr offset,
+                               uint64_t *data, MemTxAttrs attrs)
  {
-@@ -657,11 +699,7 @@ void gicv3_redist_update_lpi_only(GICv3CPUState *cs)
-      * priority is lower than the last computed high priority lpi interrupt.
-      * If yes, replace current LPI as the new high priority lpi interrupt.
-      */
--    AddressSpace *as = &cs->gic->dma_as;
--    uint64_t lpipt_baddr;
--    uint32_t pendt_size = 0;
--    uint8_t pend;
--    int i, bit;
-+    uint64_t lpipt_baddr, lpict_baddr;
-     uint64_t idbits;
- 
-     idbits = MIN(FIELD_EX64(cs->gicr_propbaser, GICR_PROPBASER, IDBITS),
-@@ -671,23 +709,11 @@ void gicv3_redist_update_lpi_only(GICv3CPUState *cs)
-         return;
-     }
- 
--    cs->hpplpi.prio = 0xff;
--
-     lpipt_baddr = cs->gicr_pendbaser & R_GICR_PENDBASER_PHYADDR_MASK;
-+    lpict_baddr = cs->gicr_propbaser & R_GICR_PROPBASER_PHYADDR_MASK;
- 
--    /* Determine the highest priority pending interrupt among LPIs */
--    pendt_size = (1ULL << (idbits + 1));
--
--    for (i = GICV3_LPI_INTID_START / 8; i < pendt_size / 8; i++) {
--        address_space_read(as, lpipt_baddr + i, MEMTXATTRS_UNSPECIFIED, &pend,
--                           sizeof(pend));
--
--        while (pend) {
--            bit = ctz32(pend);
--            gicv3_redist_check_lpi_priority(cs, i * 8 + bit);
--            pend &= ~(1 << bit);
--        }
--    }
-+    update_for_all_lpis(cs, lpipt_baddr, lpict_baddr, idbits,
-+                        cs->gic->gicd_ctlr & GICD_CTLR_DS, &cs->hpplpi);
- }
- 
- void gicv3_redist_update_lpi(GICv3CPUState *cs)
+@@ -493,10 +574,10 @@ static MemTxResult gicr_writel(GICv3CPUState *cs, hwaddr offset,
+         cs->gicr_vpropbaser = deposit64(cs->gicr_vpropbaser, 32, 32, value);
+         return MEMTX_OK;
+     case GICR_VPENDBASER:
+-        cs->gicr_vpendbaser = deposit64(cs->gicr_vpendbaser, 0, 32, value);
++        gicr_write_vpendbaser(cs, deposit64(cs->gicr_vpendbaser, 0, 32, value));
+         return MEMTX_OK;
+     case GICR_VPENDBASER + 4:
+-        cs->gicr_vpendbaser = deposit64(cs->gicr_vpendbaser, 32, 32, value);
++        gicr_write_vpendbaser(cs, deposit64(cs->gicr_vpendbaser, 32, 32, value));
+         return MEMTX_OK;
+     default:
+         return MEMTX_ERROR;
+@@ -557,7 +638,7 @@ static MemTxResult gicr_writell(GICv3CPUState *cs, hwaddr offset,
+         cs->gicr_vpropbaser = value;
+         return MEMTX_OK;
+     case GICR_VPENDBASER:
+-        cs->gicr_vpendbaser = value;
++        gicr_write_vpendbaser(cs, value);
+         return MEMTX_OK;
+     default:
+         return MEMTX_ERROR;
 -- 
 2.25.1
 
