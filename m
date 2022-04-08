@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BD34F95E4
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 14:35:16 +0200 (CEST)
-Received: from localhost ([::1]:47582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B314F963B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 14:57:00 +0200 (CEST)
+Received: from localhost ([::1]:59652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncnpc-00079a-0O
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 08:35:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45878)
+	id 1ncoAd-0000sg-8M
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 08:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1ncnj8-0001mk-0G
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:28:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43699)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nco8t-0008CV-Ew
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:55:11 -0400
+Received: from mga12.intel.com ([192.55.52.136]:48953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1ncnj6-0008WH-7p
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:28:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649420910;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zleluUqSDZ2kUtluqs0feIxnpU+msTT2TSh4UAgP4fg=;
- b=DFFutrZZAq9LzZqvcgA+TM4Bp3roVJPHYyJic9yEqHosSbx6EpSyny7/ZuVwip/f2eNdcs
- 8iIkeJ2IJz84QRVasBfhRyfO9JqtBdkZJR5jX3/ATlCtxAvib0DlqY6agMLYfnXG9grSHP
- hIazEXNI/MpJCwCe67UxXghBUhGYpHI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-aGnCSZFBNQSQy_8Zkur1xg-1; Fri, 08 Apr 2022 08:28:27 -0400
-X-MC-Unique: aGnCSZFBNQSQy_8Zkur1xg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71E4738149A7;
- Fri,  8 Apr 2022 12:28:27 +0000 (UTC)
-Received: from max-t490s.redhat.com (unknown [10.39.208.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FD25145B97F;
- Fri,  8 Apr 2022 12:28:25 +0000 (UTC)
-From: Maxime Coquelin <maxime.coquelin@redhat.com>
-To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
- andrew@daynix.com, yuri.benditovich@daynix.com, dgilbert@redhat.com,
- quintela@redhat.com
-Subject: [PATCH 5/5] vhost-user: add RSS support
-Date: Fri,  8 Apr 2022 14:28:13 +0200
-Message-Id: <20220408122813.1357045-6-maxime.coquelin@redhat.com>
-In-Reply-To: <20220408122813.1357045-1-maxime.coquelin@redhat.com>
-References: <20220408122813.1357045-1-maxime.coquelin@redhat.com>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nco8q-0005AK-CO
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 08:55:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649422508; x=1680958508;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=O9odkqTVXr/6ytKIrHbe23E6RNpY/PYB3IDXxuv8ddY=;
+ b=HgcUzvh39/dP6AWWNoXWF/gyUB5H1JgpLaCphFWMKqsuk7wQP2icLBgG
+ Lf1U+73l4ECruOpuWlHRUG3Qhf49Tq6DUYSB40e+J4CDlVE/5OLOskGqN
+ LMr9O1n/f/tg4jWZ7TTEQ8zuk/f41PCImTAyJJRZ7Nl2hUS27ik9KpI8b
+ cVhNv2EolfGDdBhm8nvgJN0cufQFgfacscVIFazfgVOBANxHGoao7ivt9
+ HF+WlBRZp2m3be+4mc4uyn+cNM49RDPFNXJF3459WkTeDHIYMCOhubS2K
+ wVOziVKaXsdy/fFNSulBC40gcRmRDOJQ4UkawCa9HvBCX0i3b7EN0bJQs g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="241518269"
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="241518269"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 05:55:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="698172668"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2022 05:54:56 -0700
+Date: Fri, 8 Apr 2022 20:54:45 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Subject: Re: [PATCH v5 02/13] mm: Introduce memfile_notifier
+Message-ID: <20220408125445.GA57095@chaop.bj.intel.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-3-chao.p.peng@linux.intel.com>
+ <YkNTvFqWI5F5w+DW@google.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=maxime.coquelin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=maxime.coquelin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkNTvFqWI5F5w+DW@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,215 +74,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenbo.xia@intel.com, Maxime Coquelin <maxime.coquelin@redhat.com>,
- dmarchan@redhat.com, ktraynor@redhat.com
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, linux-api@vger.kernel.org,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements the RSS feature to the
-Vhost-user backend.
+On Tue, Mar 29, 2022 at 06:45:16PM +0000, Sean Christopherson wrote:
+> On Thu, Mar 10, 2022, Chao Peng wrote:
+> > diff --git a/mm/Makefile b/mm/Makefile
+> > index 70d4309c9ce3..f628256dce0d 100644
+> > +void memfile_notifier_invalidate(struct memfile_notifier_list *list,
+> > +				 pgoff_t start, pgoff_t end)
+> > +{
+> > +	struct memfile_notifier *notifier;
+> > +	int id;
+> > +
+> > +	id = srcu_read_lock(&srcu);
+> > +	list_for_each_entry_srcu(notifier, &list->head, list,
+> > +				 srcu_read_lock_held(&srcu)) {
+> > +		if (notifier->ops && notifier->ops->invalidate)
+> 
+> Any reason notifier->ops isn't mandatory?
 
-The implementation supports up to 52 bytes RSS key length,
-and 512 indirection table entries.
+Yes it's mandatory, will skip the check here.
 
-Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
----
- hw/virtio/vhost-user.c | 146 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 145 insertions(+), 1 deletion(-)
+> 
+> > +			notifier->ops->invalidate(notifier, start, end);
+> > +	}
+> > +	srcu_read_unlock(&srcu, id);
+> > +}
+> > +
+> > +void memfile_notifier_fallocate(struct memfile_notifier_list *list,
+> > +				pgoff_t start, pgoff_t end)
+> > +{
+> > +	struct memfile_notifier *notifier;
+> > +	int id;
+> > +
+> > +	id = srcu_read_lock(&srcu);
+> > +	list_for_each_entry_srcu(notifier, &list->head, list,
+> > +				 srcu_read_lock_held(&srcu)) {
+> > +		if (notifier->ops && notifier->ops->fallocate)
+> > +			notifier->ops->fallocate(notifier, start, end);
+> > +	}
+> > +	srcu_read_unlock(&srcu, id);
+> > +}
+> > +
+> > +void memfile_register_backing_store(struct memfile_backing_store *bs)
+> > +{
+> > +	BUG_ON(!bs || !bs->get_notifier_list);
+> > +
+> > +	list_add_tail(&bs->list, &backing_store_list);
+> > +}
+> > +
+> > +void memfile_unregister_backing_store(struct memfile_backing_store *bs)
+> > +{
+> > +	list_del(&bs->list);
+> 
+> Allowing unregistration of a backing store is broken.  Using the _safe() variant
+> is not sufficient to guard against concurrent modification.  I don't see any reason
+> to support this out of the gate, the only reason to support unregistering a backing
+> store is if the backing store is implemented as a module, and AFAIK none of the
+> backing stores we plan on supporting initially support being built as a module.
+> These aren't exported, so it's not like that's even possible.  Registration would
+> also be broken if modules are allowed, I'm pretty sure module init doesn't run
+> under a global lock.
+> 
+> We can always add this complexity if it's needed in the future, but for now the
+> easiest thing would be to tag memfile_register_backing_store() with __init and
+> make backing_store_list __ro_after_init.
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 6abbc9da32..d047da81ba 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -81,6 +81,8 @@ enum VhostUserProtocolFeature {
-     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
-     /* Feature 14 reserved for VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. */
-     VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
-+    /* Feature 16 reserved for VHOST_USER_PROTOCOL_F_STATUS. */
-+    VHOST_USER_PROTOCOL_F_NET_RSS = 17,
-     VHOST_USER_PROTOCOL_F_MAX
- };
- 
-@@ -126,6 +128,10 @@ typedef enum VhostUserRequest {
-     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
-     VHOST_USER_ADD_MEM_REG = 37,
-     VHOST_USER_REM_MEM_REG = 38,
-+    /* Message number 39 reserved for VHOST_USER_SET_STATUS. */
-+    /* Message number 40 reserved for VHOST_USER_GET_STATUS. */
-+    VHOST_USER_NET_GET_RSS = 41,
-+    VHOST_USER_NET_SET_RSS = 42,
-     VHOST_USER_MAX
- } VhostUserRequest;
- 
-@@ -196,6 +202,24 @@ typedef struct VhostUserInflight {
-     uint16_t queue_size;
- } VhostUserInflight;
- 
-+typedef struct VhostUserRSSCapa {
-+    uint32_t supported_hash_types;
-+    uint8_t max_key_len;
-+    uint16_t max_indir_len;
-+} VhostUserRSSCapa;
-+
-+#define VHOST_USER_RSS_MAX_KEY_LEN    52
-+#define VHOST_USER_RSS_MAX_INDIR_LEN  512
-+
-+typedef struct VhostUserRSSData {
-+    uint32_t hash_types;
-+    uint8_t key_len;
-+    uint8_t key[VHOST_USER_RSS_MAX_KEY_LEN];
-+    uint16_t indir_len;
-+    uint16_t indir_table[VHOST_USER_RSS_MAX_INDIR_LEN];
-+    uint16_t default_queue;
-+} VhostUserRSSData;
-+
- typedef struct {
-     VhostUserRequest request;
- 
-@@ -220,6 +244,8 @@ typedef union {
-         VhostUserCryptoSession session;
-         VhostUserVringArea area;
-         VhostUserInflight inflight;
-+        VhostUserRSSCapa rss_capa;
-+        VhostUserRSSData rss_data;
- } VhostUserPayload;
- 
- typedef struct VhostUserMsg {
-@@ -2178,7 +2204,123 @@ static int vhost_user_net_set_mtu(struct vhost_dev *dev, uint16_t mtu)
-         return ret;
-     }
- 
--    /* If reply_ack supported, slave has to ack specified MTU is valid */
-+    if (reply_supported) {
-+        return process_message_reply(dev, &msg);
-+    }
-+
-+    return 0;
-+}
-+
-+static int vhost_user_net_get_rss(struct vhost_dev *dev,
-+                                  VirtioNetRssCapa *rss_capa)
-+{
-+    int ret;
-+    VhostUserMsg msg = {
-+        .hdr.request = VHOST_USER_NET_GET_RSS,
-+        .hdr.flags = VHOST_USER_VERSION,
-+    };
-+
-+    if (!(dev->protocol_features & (1ULL << VHOST_USER_PROTOCOL_F_NET_RSS))) {
-+        return -EPROTO;
-+    }
-+
-+    ret = vhost_user_write(dev, &msg, NULL, 0);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    ret = vhost_user_read(dev, &msg);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    if (msg.hdr.request != VHOST_USER_NET_GET_RSS) {
-+        error_report("Received unexpected msg type. Expected %d received %d",
-+                     VHOST_USER_NET_GET_RSS, msg.hdr.request);
-+        return -EPROTO;
-+    }
-+
-+    if (msg.hdr.size != sizeof(msg.payload.rss_capa)) {
-+        error_report("Received bad msg size.");
-+        return -EPROTO;
-+    }
-+
-+    if (msg.payload.rss_capa.max_key_len < VIRTIO_NET_RSS_MIN_KEY_SIZE) {
-+        error_report("Invalid max RSS key len (%uB, minimum %uB).",
-+                     msg.payload.rss_capa.max_key_len,
-+                     VIRTIO_NET_RSS_MIN_KEY_SIZE);
-+        return -EINVAL;
-+    }
-+
-+    if (msg.payload.rss_capa.max_indir_len < VIRTIO_NET_RSS_MIN_TABLE_LEN) {
-+        error_report("Invalid max RSS indir table entries (%u, minimum %u).",
-+                     msg.payload.rss_capa.max_indir_len,
-+                     VIRTIO_NET_RSS_MIN_TABLE_LEN);
-+        return -EINVAL;
-+    }
-+
-+    rss_capa->supported_hashes = msg.payload.rss_capa.supported_hash_types;
-+    rss_capa->max_key_size = MIN(msg.payload.rss_capa.max_key_len,
-+                                 VHOST_USER_RSS_MAX_KEY_LEN);
-+    rss_capa->max_indirection_len = MIN(msg.payload.rss_capa.max_indir_len,
-+                                        VHOST_USER_RSS_MAX_INDIR_LEN);
-+
-+    return 0;
-+}
-+
-+static int vhost_user_net_set_rss(struct vhost_dev *dev,
-+                                  VirtioNetRssData *rss_data)
-+{
-+    VhostUserMsg msg;
-+    bool reply_supported = virtio_has_feature(dev->protocol_features,
-+                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
-+    int ret;
-+
-+    if (!(dev->protocol_features & (1ULL << VHOST_USER_PROTOCOL_F_NET_RSS))) {
-+        return -EPROTO;
-+    }
-+
-+    msg.hdr.request = VHOST_USER_NET_SET_RSS;
-+    msg.hdr.size = sizeof(msg.payload.rss_data);
-+    msg.hdr.flags = VHOST_USER_VERSION;
-+    if (reply_supported) {
-+        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-+    }
-+
-+    msg.payload.rss_data.hash_types = rss_data->hash_types;
-+
-+    if (rss_data->key_len > VHOST_USER_RSS_MAX_KEY_LEN) {
-+        error_report("RSS key length too long (%uB, max %uB).",
-+                     rss_data->key_len, VHOST_USER_RSS_MAX_KEY_LEN);
-+        return -EINVAL;
-+    }
-+
-+    msg.payload.rss_data.key_len = rss_data->key_len;
-+    memset(msg.payload.rss_data.key, 0, VHOST_USER_RSS_MAX_KEY_LEN);
-+    memcpy(msg.payload.rss_data.key, rss_data->key, rss_data->key_len);
-+
-+    if (rss_data->indirections_len > VHOST_USER_RSS_MAX_INDIR_LEN) {
-+        error_report("RSS indirection table too large (%u, max %u).",
-+                     rss_data->indirections_len, VHOST_USER_RSS_MAX_INDIR_LEN);
-+        return -EINVAL;
-+    }
-+
-+    msg.payload.rss_data.indir_len = rss_data->indirections_len;
-+    memset(msg.payload.rss_data.indir_table, 0,
-+            VHOST_USER_RSS_MAX_INDIR_LEN *
-+            sizeof(*msg.payload.rss_data.indir_table));
-+    memcpy(msg.payload.rss_data.indir_table, rss_data->indirections_table,
-+            msg.payload.rss_data.indir_len *
-+            sizeof(*msg.payload.rss_data.indir_table));
-+
-+    msg.payload.rss_data.default_queue = rss_data->default_queue;
-+
-+    ret = vhost_user_write(dev, &msg, NULL, 0);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    /* If reply_ack supported, slave has to ack specified RSS conf is valid */
-     if (reply_supported) {
-         return process_message_reply(dev, &msg);
-     }
-@@ -2555,6 +2697,8 @@ const VhostOps user_ops = {
-         .vhost_migration_done = vhost_user_migration_done,
-         .vhost_backend_can_merge = vhost_user_can_merge,
-         .vhost_net_set_mtu = vhost_user_net_set_mtu,
-+        .vhost_net_get_rss = vhost_user_net_get_rss,
-+        .vhost_net_set_rss = vhost_user_net_set_rss,
-         .vhost_set_iotlb_callback = vhost_user_set_iotlb_callback,
-         .vhost_send_device_iotlb_msg = vhost_user_send_device_iotlb_msg,
-         .vhost_get_config = vhost_user_get_config,
--- 
-2.35.1
+The only currently supported backing store shmem does not need this so
+can remove it for now.
 
+> 
+> > +}
+> > +
+> > +static int memfile_get_notifier_info(struct inode *inode,
+> > +				     struct memfile_notifier_list **list,
+> > +				     struct memfile_pfn_ops **ops)
+> > +{
+> > +	struct memfile_backing_store *bs, *iter;
+> > +	struct memfile_notifier_list *tmp;
+> > +
+> > +	list_for_each_entry_safe(bs, iter, &backing_store_list, list) {
+> > +		tmp = bs->get_notifier_list(inode);
+> > +		if (tmp) {
+> > +			*list = tmp;
+> > +			if (ops)
+> > +				*ops = &bs->pfn_ops;
+> > +			return 0;
+> > +		}
+> > +	}
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +int memfile_register_notifier(struct inode *inode,
+> 
+> Taking an inode is a bit odd from a user perspective.  Any reason not to take a
+> "struct file *" and get the inode here?  That would give callers a hint that they
+> need to hold a reference to the file for the lifetime of the registration.
+
+Yes, I can change.
+
+> 
+> > +			      struct memfile_notifier *notifier,
+> > +			      struct memfile_pfn_ops **pfn_ops)
+> > +{
+> > +	struct memfile_notifier_list *list;
+> > +	int ret;
+> > +
+> > +	if (!inode || !notifier | !pfn_ops)
+> 
+> Bitwise | instead of logical ||.  But IMO taking in a pfn_ops pointer is silly.
+> More below.
+> 
+> > +		return -EINVAL;
+> > +
+> > +	ret = memfile_get_notifier_info(inode, &list, pfn_ops);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	spin_lock(&list->lock);
+> > +	list_add_rcu(&notifier->list, &list->head);
+> > +	spin_unlock(&list->lock);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(memfile_register_notifier);
+> > +
+> > +void memfile_unregister_notifier(struct inode *inode,
+> > +				 struct memfile_notifier *notifier)
+> > +{
+> > +	struct memfile_notifier_list *list;
+> > +
+> > +	if (!inode || !notifier)
+> > +		return;
+> > +
+> > +	BUG_ON(memfile_get_notifier_info(inode, &list, NULL));
+> 
+> Eww.  Rather than force the caller to provide the inode/file and the notifier,
+> what about grabbing the backing store itself in the notifier?
+> 
+> 	struct memfile_notifier {
+> 		struct list_head list;
+> 		struct memfile_notifier_ops *ops;
+> 
+> 		struct memfile_backing_store *bs;
+> 	};
+> 
+> That also helps avoid confusing between "ops" and "pfn_ops".  IMO, exposing
+> memfile_backing_store to the caller isn't a big deal, and is preferable to having
+> to rewalk multiple lists just to delete a notifier.
+
+Agreed, good suggestion.
+
+> 
+> Then this can become:
+> 
+>   void memfile_unregister_notifier(struct memfile_notifier *notifier)
+>   {
+> 	spin_lock(&notifier->bs->list->lock);
+> 	list_del_rcu(&notifier->list);
+> 	spin_unlock(&notifier->bs->list->lock);
+> 
+> 	synchronize_srcu(&srcu);
+>   }
+> 
+> and registration can be:
+> 
+>   int memfile_register_notifier(const struct file *file,
+> 			      struct memfile_notifier *notifier)
+>   {
+> 	struct memfile_notifier_list *list;
+> 	struct memfile_backing_store *bs;
+> 	int ret;
+> 
+> 	if (!file || !notifier)
+> 		return -EINVAL;
+> 
+> 	list_for_each_entry(bs, &backing_store_list, list) {
+> 		list = bs->get_notifier_list(file_inode(file));
+> 		if (list) {
+> 			notifier->bs = bs;
+> 
+> 			spin_lock(&list->lock);
+> 			list_add_rcu(&notifier->list, &list->head);
+> 			spin_unlock(&list->lock);
+> 			return 0;
+> 		}
+> 	}
+> 
+> 	return -EOPNOTSUPP;
+>   }
 
