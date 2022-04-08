@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C5C4F9E36
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 22:31:41 +0200 (CEST)
-Received: from localhost ([::1]:46146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C8004F9F07
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 23:16:17 +0200 (CEST)
+Received: from localhost ([::1]:58756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncvGe-00086E-FE
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 16:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37168)
+	id 1ncvxk-0001zK-JT
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 17:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1ncvCy-0006cc-8e; Fri, 08 Apr 2022 16:27:53 -0400
-Received: from smtp53.i.mail.ru ([94.100.177.113]:52768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
- id 1ncvCv-0003qG-J2; Fri, 08 Apr 2022 16:27:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=8i4elAR8ibx57tkI+GC31w7ekD9PtGncfs9Ra+X4EYY=; 
- t=1649449669;x=1650055069; 
- b=ygaB7W57UbvxqgEE6DVt9YZLkFPpoKs7EU6fs6JSxnVs+DMk/BNHEHHxw39vbVFv/fLsyVbY+hMhaFqSFvcFU3iMKQ4kvd+nGxg7JIccKhVDt3ALdyqpJxe058IGFgSjBGGnIM8pHZS11/yyIpGEnCq8ynZ/X5Qmk4BDEjbLQlAptHrCUjA6DlrNH/7NyGr/L1yezxX1tdG6rgW90aC/MsA5DRjFIEWVLSrqLJoHPaJ/SUDFWFNxlGyRJKwHgiUxmpekTgPwq+k+aGqXbPnRyw1Vb9Q5c5a+DUTHKakccgCKlg4l3TFdfhKp089+O5IL0MNvO1FdE5TXrqALjXl/rA==;
-Received: by smtp53.i.mail.ru with esmtpa (envelope-from
- <v.sementsov-og@mail.ru>)
- id 1ncvCp-0001aV-Pp; Fri, 08 Apr 2022 23:27:44 +0300
-Message-ID: <f28af710-a1fd-7475-d74d-8fa46c3dd46f@mail.ru>
-Date: Fri, 8 Apr 2022 23:27:42 +0300
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ncvuj-000837-81; Fri, 08 Apr 2022 17:13:05 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:45821)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ncvuh-0001wr-Lt; Fri, 08 Apr 2022 17:13:04 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-d6ca46da48so10990397fac.12; 
+ Fri, 08 Apr 2022 14:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=s4mnwZFBwME2QPKQdq6vY2rRd5CCXFigpIgJY9cJBE0=;
+ b=XI62CC/ujqUT/lDPJvbTW/NEY3mp4Co4K3g2dG/7LbRfPAAeRVAVf+12IfxJGffJWd
+ e+Qo5jIZ3YpHKrAha8JarLl+4MYtHe5OHvwVzb6eC7Iz8kCnAOlKWpWB8dbAbcrSMC8Q
+ kBTSYjuSHywVblGV35daM9XqytaDZkz+Zjpc0FOhB0/2FBpx5tEZj5csRlFSXsx3PDIv
+ RutLjrfIW1h/aWB7qZzwRbh+tJjW0S+hrzrofRi3MBAYb0kW7Rt7spTxZN49UXC2HJ2M
+ 7kbcM+6fBUl8Xx/Qw60OwrvpZM331xglVHOLlDfpSh2KCwkUYtsmia06D+3BedvJi6JW
+ 6unw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=s4mnwZFBwME2QPKQdq6vY2rRd5CCXFigpIgJY9cJBE0=;
+ b=tcClThTQhXNnX0f1rANhm5ZKQoYk/JZYRiJ32gkCilsw+eha/REBYEwTmHRRwBbDdu
+ 7DbLztWUZNbeQ07vSghJZsx46PwboY3j6o/knAGHsyxyRfQnvciW6i9sgNBdZUE/eyaD
+ 4oFhO361M5+r5/WWtZJ0r0Eegrq5pXTQ2a02H6hCs3lg+Wyoh1Q/Jm1QYv534eeLhq9K
+ XJmHwZAdhmNPXBVDt1bcu7UcpJNEASmiS7Ytrfu8pMjeW5VxhycT2dl7rcL79LtZclx9
+ +HYMuBQRH7QI9iy2rtYowHWqNtdMmnHIviw1NOuU50x1m/O2de9W8R+kJgRBE676dW2+
+ y7ig==
+X-Gm-Message-State: AOAM5335rfJIXus0fw9tLIMCgzc5LyzkWWi9wYj+nMZik6qk7kca7E/L
+ K60x40k9rnabnr4SIeRDAvw=
+X-Google-Smtp-Source: ABdhPJz3sNzfB9WAFcokzn7PXxU352uJErpGM3QVTFlO5mJecSRbgfnpjIa28Eco/HyDXnRg1TACPA==
+X-Received: by 2002:a05:6871:78b:b0:d4:2636:b26 with SMTP id
+ o11-20020a056871078b00b000d426360b26mr9366003oap.14.1649452381679; 
+ Fri, 08 Apr 2022 14:13:01 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c7:7ee3:afd9:f010:3a9:fd23?
+ ([2804:431:c7c7:7ee3:afd9:f010:3a9:fd23])
+ by smtp.gmail.com with ESMTPSA id
+ o7-20020a056871078700b000e29ff467dcsm611997oap.50.2022.04.08.14.12.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Apr 2022 14:13:01 -0700 (PDT)
+Message-ID: <bbb026da-c168-c8bd-3126-c696dd2a8ec9@gmail.com>
+Date: Fri, 8 Apr 2022 18:12:57 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/3] qapi: nbd-export: allow select bitmaps by
- node/name pair
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/2] pcie: Don't try triggering a LSI when not defined
 Content-Language: en-US
-To: Eric Blake <eblake@redhat.com>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- armbru@redhat.com, hreitz@redhat.com, v.sementsov-og@ya.ru,
- yuriy.vasiliev@virtuozzo.com, jsnow@redhat.com
-References: <20220314213226.362217-1-v.sementsov-og@mail.ru>
- <20220314213226.362217-3-v.sementsov-og@mail.ru>
- <20220316212855.ra54pckg3u6xgwzw@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
-In-Reply-To: <20220316212855.ra54pckg3u6xgwzw@redhat.com>
+To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org, mst@redhat.com,
+ marcel.apfelbaum@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20220408131303.147840-1-fbarrat@linux.ibm.com>
+ <20220408131303.147840-2-fbarrat@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220408131303.147840-2-fbarrat@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp53.i.mail.ru;
- auth=pass smtp.auth=v.sementsov-og@mail.ru
- smtp.mailfrom=v.sementsov-og@mail.ru
-X-4EC0790: 10
-X-7564579A: 78E4E2B564C1792B
-X-77F55803: 4F1203BC0FB41BD916C41472748AFA045227E19566B3903F30656B554836768100894C459B0CD1B936B4EFE2D0CCEF073A62BAC44FAA9F3DB0AB0982458778584044E5D25B716109
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7051A6EFB787CE9C4EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006375FE8AD9F0D2764EB8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D89EEC0EC2BFE68A8B86DA52815D6F3A7E6F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE703ECDEEEF9F1DA999FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD18F04B652EEC242312D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B974A882099E279BDA471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FC62847E7D18EB4F6B3AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F79006379D61855E8167CADED81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89FDD9D78FC36703085156CCFE7AF13BCA4B5C8C57E37DE458BEDA766A37F9254B7
-X-8FC586DF: 6EFBBC1D9D64D975
-X-C1DE0DAB: 0D63561A33F958A55C6D205F054B963DF40EA0C273D5EA1C5675E03F613B7CD5D59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA75B66DA94168EAEAEF8E8E86DC7131B365E7726E8460B7C23C
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34C974B02B4EA30DFBC1FC48B2D2FE863D0DE14FDA20C5B526EADA3C5B8BB50571190D203EC442740D1D7E09C32AA3244C0B6513AF683C0AB4258808B257D336068894E9C85370243E27AC49D2B05FCCD8
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojgeI4gOLRPf1i46TFlU+LYA==
-X-Mailru-Sender: 6C3E74F07C41AE946BC06F16BD5C391328EACE344F037E860B3F68F0225B7C98DA33A499B6FD3023E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-Received-SPF: pass client-ip=94.100.177.113;
- envelope-from=v.sementsov-og@mail.ru; helo=smtp53.i.mail.ru
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,26 +94,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.03.2022 00:28, Eric Blake wrote:
->> +++ b/qapi/block-export.json
->> @@ -6,6 +6,7 @@
->>   ##
->>   
->>   { 'include': 'sockets.json' }
->> +{ 'include': 'block-core.json' }
-> Hmm.  Does this extra inclusion negatively impact qemu-storage-daemon,
-> since that is why we created block-export.json in the first place (to
-> minimize the stuff that qsd pulled in without needing all of
-> block-core.json)?  In other words, would it be better to move
-> BlockDirtyBitmapOrStr to this file?
 
-Actually, looking at storage-daemon/qapi/qapi-schema.json I see block-cores.json.
 
-That's block.json which is not mentioned in storage-daemon/qapi/qapi-schema.json.
+On 4/8/22 10:13, Frederic Barrat wrote:
+> This patch skips [de]asserting a LSI interrupt if the device doesn't
+> have any LSI defined. Doing so would trigger an assert in
+> pci_irq_handler().
+> 
+> The PCIE root port implementation in qemu requests a LSI (INTA), but a
+> subclass may want to change that behavior since it's a valid
+> configuration. For example on the POWER8/POWER9/POWER10 systems, the
+> root bridge doesn't request any LSI.
+> 
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+> ---
 
-So, I think it's OK to keep simple include for now.
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
--- 
-Best regards,
-Vladimir
+>   hw/pci/pcie.c     | 5 +++--
+>   hw/pci/pcie_aer.c | 2 +-
+>   2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> index 67a5d67372..68a62da0b5 100644
+> --- a/hw/pci/pcie.c
+> +++ b/hw/pci/pcie.c
+> @@ -353,7 +353,7 @@ static void hotplug_event_notify(PCIDevice *dev)
+>           msix_notify(dev, pcie_cap_flags_get_vector(dev));
+>       } else if (msi_enabled(dev)) {
+>           msi_notify(dev, pcie_cap_flags_get_vector(dev));
+> -    } else {
+> +    } else if (pci_intx(dev) != -1) {
+>           pci_set_irq(dev, dev->exp.hpev_notified);
+>       }
+>   }
+> @@ -361,7 +361,8 @@ static void hotplug_event_notify(PCIDevice *dev)
+>   static void hotplug_event_clear(PCIDevice *dev)
+>   {
+>       hotplug_event_update_event_status(dev);
+> -    if (!msix_enabled(dev) && !msi_enabled(dev) && !dev->exp.hpev_notified) {
+> +    if (!msix_enabled(dev) && !msi_enabled(dev) && pci_intx(dev) != -1 &&
+> +        !dev->exp.hpev_notified) {
+>           pci_irq_deassert(dev);
+>       }
+>   }
+> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+> index e1a8a88c8c..92bd0530dd 100644
+> --- a/hw/pci/pcie_aer.c
+> +++ b/hw/pci/pcie_aer.c
+> @@ -290,7 +290,7 @@ static void pcie_aer_root_notify(PCIDevice *dev)
+>           msix_notify(dev, pcie_aer_root_get_vector(dev));
+>       } else if (msi_enabled(dev)) {
+>           msi_notify(dev, pcie_aer_root_get_vector(dev));
+> -    } else {
+> +    } else if (pci_intx(dev) != -1) {
+>           pci_irq_assert(dev);
+>       }
+>   }
 
