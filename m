@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514F44F976C
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 15:56:52 +0200 (CEST)
-Received: from localhost ([::1]:60190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD154F976E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 15:57:00 +0200 (CEST)
+Received: from localhost ([::1]:60864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncp6Z-0001Td-05
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 09:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60686)
+	id 1ncp6i-0001zi-2P
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 09:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ncomG-0003bj-No
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:35:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ncoxK-0004th-1u
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:47:18 -0400
+Received: from mga01.intel.com ([192.55.52.88]:34796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ncomD-0003zG-9K
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:35:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649424935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wbglap7skzvtvKKEdfvl/EVgf/YdR4E36WaLogczy+4=;
- b=W6VFtdI7aFbmfiPnc9IXgIuUNcskPCclDj1C+K7F1yz19F8ZjmGe3cFS0jjRi3faPvP0QN
- cy+0IHJBW6anCvPR3AjriYrvynrcN/4+uoQkxq5sLsAX6iwfIIYY3NxhBvnAT+rPaD+rzp
- WG9ulgsSXYzQLtTYko3wdlzMHo1RqAo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-RgiK3JFrPO2oUpgo-TovfQ-1; Fri, 08 Apr 2022 09:35:32 -0400
-X-MC-Unique: RgiK3JFrPO2oUpgo-TovfQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 777691C12DE1;
- Fri,  8 Apr 2022 13:35:31 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A74731402642;
- Fri,  8 Apr 2022 13:35:28 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v5 22/23] vdpa: Add asid attribute to vdpa device
-Date: Fri,  8 Apr 2022 15:34:14 +0200
-Message-Id: <20220408133415.1371760-23-eperezma@redhat.com>
-In-Reply-To: <20220408133415.1371760-1-eperezma@redhat.com>
-References: <20220408133415.1371760-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ncoxA-0005br-05
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 09:47:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649425628; x=1680961628;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=Z2KoO20U5Gou3STOQQVbT5tvwIoJoZ5aoHHnzZT/K3Y=;
+ b=UJbi0GxgiqeRxKwGBdT5x/A4+JPBR8+j/0hAwcDwWjV8uHeFVpFCAEiB
+ Nyphs/WmTJec0Pfw91K3PWSDX8oPA0fH1Ui1zvesHWcrfvNAO99vgyyz0
+ f5tYj3VOaVnkfDAUImTLMYKYL5hPss0oNMv/r1HTxeYtubGuQy7yQayTE
+ N+37CYP2a22K2Ey/pK6hfMJ7OTe1xJBrdYsAganrFfPnFCJcehRFF1VyN
+ 1Be+VsZqAIU/eg2BHAlX8f892iUj6x4bGXZHKN9FOVuB6CyglEy4uPX42
+ ZC9y/voC16Li2T196ECpav1Sd69EZTzxNn9UTUFFqeOFIQCrCFfwOfqvt g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="286584555"
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="286584555"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 06:47:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="698187600"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2022 06:46:52 -0700
+Date: Fri, 8 Apr 2022 21:46:41 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Subject: Re: [PATCH v5 05/13] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220408134641.GD57095@chaop.bj.intel.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-6-chao.p.peng@linux.intel.com>
+ <YkIvEeC3/lgKTLPt@google.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkIvEeC3/lgKTLPt@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga01.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,322 +75,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Peter Xu <peterx@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Eric Blake <eblake@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, linux-api@vger.kernel.org,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can configure ASID per group, but we still use asid 0 for every vdpa
-device. Multiple asid support for cvq will be introduced in next
-patches
+On Mon, Mar 28, 2022 at 09:56:33PM +0000, Sean Christopherson wrote:
+> On Thu, Mar 10, 2022, Chao Peng wrote:
+> > Extend the memslot definition to provide fd-based private memory support
+> > by adding two new fields (private_fd/private_offset). The memslot then
+> > can maintain memory for both shared pages and private pages in a single
+> > memslot. Shared pages are provided by existing userspace_addr(hva) field
+> > and private pages are provided through the new private_fd/private_offset
+> > fields.
+> > 
+> > Since there is no 'hva' concept anymore for private memory so we cannot
+> > rely on get_user_pages() to get a pfn, instead we use the newly added
+> > memfile_notifier to complete the same job.
+> > 
+> > This new extension is indicated by a new flag KVM_MEM_PRIVATE.
+> > 
+> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  Documentation/virt/kvm/api.rst | 37 +++++++++++++++++++++++++++-------
+> >  include/linux/kvm_host.h       |  7 +++++++
+> >  include/uapi/linux/kvm.h       |  8 ++++++++
+> >  3 files changed, 45 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index 3acbf4d263a5..f76ac598606c 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -1307,7 +1307,7 @@ yet and must be cleared on entry.
+> >  :Capability: KVM_CAP_USER_MEMORY
+> >  :Architectures: all
+> >  :Type: vm ioctl
+> > -:Parameters: struct kvm_userspace_memory_region (in)
+> > +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
+> >  :Returns: 0 on success, -1 on error
+> >  
+> >  ::
+> > @@ -1320,9 +1320,17 @@ yet and must be cleared on entry.
+> >  	__u64 userspace_addr; /* start of the userspace allocated memory */
+> >    };
+> >  
+> > +  struct kvm_userspace_memory_region_ext {
+> > +	struct kvm_userspace_memory_region region;
+> 
+> Peeking ahead, the partial switch to the _ext variant is rather gross.  I would
+> prefer that KVM use an entirely different, but binary compatible, struct internally.
+> And once the kernel supports C11[*], I'm pretty sure we can make the "region" in
+> _ext an anonymous struct, and make KVM's internal struct a #define of _ext.  That
+> should minimize the churn (no need to get the embedded "region" field), reduce
+> line lengths, and avoid confusion due to some flows taking the _ext but others
+> dealing with only the "base" struct.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- include/hw/virtio/vhost-vdpa.h |  2 +
- include/hw/virtio/vhost.h      |  2 +
- hw/net/vhost_net.c             |  1 +
- hw/virtio/vhost-vdpa.c         | 97 ++++++++++++++++++++++++++++------
- net/vhost-vdpa.c               | 15 +++---
- hw/virtio/trace-events         |  9 ++--
- 6 files changed, 99 insertions(+), 27 deletions(-)
+Will try that.
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index f1ba46a860..aa572d1acc 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -32,6 +32,8 @@ typedef struct vhost_vdpa {
-     MemoryListener listener;
-     struct vhost_vdpa_iova_range iova_range;
-     uint64_t acked_features;
-+    /* one past the last vq index of this virtqueue group */
-+    int vq_group_index_end;
-     bool shadow_vqs_enabled;
-     /* IOVA mapping used by the Shadow Virtqueue */
-     VhostIOVATree *iova_tree;
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 034868fa9e..2a6819dc2e 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -78,6 +78,8 @@ struct vhost_dev {
-     int vq_index_end;
-     /* if non-zero, minimum required value for max_queues */
-     int num_queues;
-+    /* address space id */
-+    uint32_t address_space_id;
-     /* Must be a vq group different than any other vhost dev */
-     bool independent_vq_group;
-     uint64_t features;
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 10480e19e5..e8a99c8605 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -352,6 +352,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-         }
- 
-         net = get_vhost_net(peer);
-+        net->dev.address_space_id = !!cvq_idx;
-         net->dev.independent_vq_group = !!cvq_idx;
-         vhost_net_set_vq_index(net, i * 2, index_end);
- 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index dfff94d46f..1b4e03c658 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -79,14 +79,18 @@ static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-     int ret = 0;
- 
-     msg.type = v->msg_type;
-+    if (v->dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) {
-+        msg.asid = v->dev->address_space_id;
-+    }
-     msg.iotlb.iova = iova;
-     msg.iotlb.size = size;
-     msg.iotlb.uaddr = (uint64_t)(uintptr_t)vaddr;
-     msg.iotlb.perm = readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
-     msg.iotlb.type = VHOST_IOTLB_UPDATE;
- 
--   trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.iotlb.iova, msg.iotlb.size,
--                            msg.iotlb.uaddr, msg.iotlb.perm, msg.iotlb.type);
-+    trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.asid, msg.iotlb.iova,
-+                             msg.iotlb.size, msg.iotlb.uaddr, msg.iotlb.perm,
-+                             msg.iotlb.type);
- 
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-@@ -104,12 +108,15 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
-     int fd = v->device_fd;
-     int ret = 0;
- 
-+    if (v->dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) {
-+        msg.asid = v->dev->address_space_id;
-+    }
-     msg.type = v->msg_type;
-     msg.iotlb.iova = iova;
-     msg.iotlb.size = size;
-     msg.iotlb.type = VHOST_IOTLB_INVALIDATE;
- 
--    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.iotlb.iova,
-+    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.asid, msg.iotlb.iova,
-                                msg.iotlb.size, msg.iotlb.type);
- 
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-@@ -129,7 +136,12 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
-         .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
-     };
- 
--    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.iotlb.type);
-+    if (v->dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) {
-+        msg.asid = v->dev->address_space_id;
-+    }
-+
-+    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.asid,
-+                                          msg.iotlb.type);
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-                      fd, errno, strerror(errno));
-@@ -162,9 +174,13 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
-     }
- 
-     msg.type = v->msg_type;
-+    if (dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_ASID)) {
-+        msg.asid = v->dev->address_space_id;
-+    }
-     msg.iotlb.type = VHOST_IOTLB_BATCH_END;
- 
--    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
-+    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.asid,
-+                                     msg.iotlb.type);
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-                      fd, errno, strerror(errno));
-@@ -1170,10 +1186,48 @@ call_err:
-     return false;
- }
- 
-+static int vhost_vdpa_set_vq_group_address_space_id(struct vhost_dev *dev,
-+                                                struct vhost_vring_state *asid)
-+{
-+    trace_vhost_vdpa_set_vq_group_address_space_id(dev, asid->index, asid->num);
-+    return vhost_vdpa_call(dev, VHOST_VDPA_SET_GROUP_ASID, asid);
-+}
-+
-+static int vhost_vdpa_set_address_space_id(struct vhost_dev *dev)
-+{
-+    struct vhost_vring_state vq_group = {
-+        .index = dev->vq_index,
-+    };
-+    struct vhost_vring_state asid;
-+    int ret;
-+
-+    if (!dev->address_space_id) {
-+        return 0;
-+    }
-+
-+    ret = vhost_vdpa_get_vring_group(dev, &vq_group);
-+    if (unlikely(ret)) {
-+        error_report("Can't read vq group, errno=%d (%s)", ret,
-+                     g_strerror(-ret));
-+        return ret;
-+    }
-+
-+    asid.index = vq_group.num;
-+    asid.num = dev->address_space_id;
-+    ret = vhost_vdpa_set_vq_group_address_space_id(dev, &asid);
-+    if (unlikely(ret)) {
-+        error_report("Can't set vq group %u asid %u, errno=%d (%s)",
-+            asid.index, asid.num, ret, g_strerror(-ret));
-+    }
-+    return ret;
-+}
-+
- static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
- {
-     struct vhost_vdpa *v = dev->opaque;
--    bool ok;
-+    bool vq_group_end, ok;
-+    int r = 0;
-+
-     trace_vhost_vdpa_dev_start(dev, started);
- 
-     if (started) {
-@@ -1182,6 +1236,10 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-             !vhost_dev_is_independent_group(dev)) {
-             return -1;
-         }
-+        r = vhost_vdpa_set_address_space_id(dev);
-+        if (unlikely(r)) {
-+            return r;
-+        }
-         ok = vhost_vdpa_svqs_start(dev);
-         if (unlikely(!ok)) {
-             return -1;
-@@ -1195,21 +1253,26 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-     }
- 
--    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
--        return 0;
-+    vq_group_end = dev->vq_index + dev->nvqs == v->vq_group_index_end;
-+    if (vq_group_end && started) {
-+        memory_listener_register(&v->listener, &address_space_memory);
-     }
- 
--    if (started) {
--        memory_listener_register(&v->listener, &address_space_memory);
--        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
--    } else {
--        vhost_vdpa_reset_device(dev);
--        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
--                                   VIRTIO_CONFIG_S_DRIVER);
--        memory_listener_unregister(&v->listener);
-+    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
-+        if (started) {
-+            r = vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-+        } else {
-+            vhost_vdpa_reset_device(dev);
-+            vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-+                                       VIRTIO_CONFIG_S_DRIVER);
-+        }
-+    }
- 
--        return 0;
-+    if (vq_group_end && !started) {
-+        memory_listener_unregister(&v->listener);
-     }
-+
-+    return r;
- }
- 
- static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 09fcc4a88e..6207ead884 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -152,9 +152,10 @@ err_init:
- static void vhost_vdpa_cleanup(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
--    struct vhost_dev *dev = s->vhost_vdpa.dev;
-+    struct vhost_vdpa *v = &s->vhost_vdpa;
-+    struct vhost_dev *dev = v->dev;
- 
--    if (dev && dev->vq_index + dev->nvqs == dev->vq_index_end) {
-+    if (dev && dev->vq_index + dev->nvqs == v->vq_group_index_end) {
-         g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
-     }
-     if (s->vhost_net) {
-@@ -333,6 +334,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-                                        int vdpa_device_fd,
-                                        int queue_pair_index,
-                                        int nvqs,
-+                                       int vq_group_end,
-                                        bool is_datapath,
-                                        bool svq,
-                                        VhostIOVATree *iova_tree)
-@@ -354,6 +356,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     s->vhost_vdpa.index = queue_pair_index;
-     s->vhost_vdpa.shadow_vqs_enabled = svq;
-+    s->vhost_vdpa.vq_group_index_end = vq_group_end;
-     if (!is_datapath) {
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-     }
-@@ -464,16 +467,16 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
- 
-     for (i = 0; i < queue_pairs; i++) {
-         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                     vdpa_device_fd, i, 2, true, opts->x_svq,
--                                     iova_tree);
-+                                     vdpa_device_fd, i, 2, 2 * queue_pairs,
-+                                     true, opts->x_svq, iova_tree);
-         if (!ncs[i])
-             goto err;
-     }
- 
-     if (has_cvq) {
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                 vdpa_device_fd, i, 1, false, opts->x_svq,
--                                 iova_tree);
-+                                 vdpa_device_fd, i, 1, 2 * queue_pairs + 1,
-+                                 false, opts->x_svq, iova_tree);
-         if (!nc)
-             goto err;
-     }
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index e6fdc03514..2858deac60 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -23,10 +23,10 @@ vhost_user_postcopy_waker_found(uint64_t client_addr) "0x%"PRIx64
- vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"PRIx64
- 
- # vhost-vdpa.c
--vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
--vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
--vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
--vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-+vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asid, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
-+vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t asid, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-+vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint32_t asid, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" type: %"PRIu8
-+vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint32_t asid, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" type: %"PRIu8
- vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
- vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
- vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
-@@ -44,6 +44,7 @@ vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
- vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size, uint32_t flags) "dev: %p offset: %"PRIu32" size: %"PRIu32" flags: 0x%"PRIx32
- vhost_vdpa_get_config(void *dev, void *config, uint32_t config_len) "dev: %p config: %p config_len: %"PRIu32
- vhost_vdpa_get_vring_group(void *dev, unsigned int index, unsigned int num) "dev: %p index: %u num: %u"
-+vhost_vdpa_set_vq_group_address_space_id(void *dev, unsigned int index, unsigned int num) "dev: %p index: %u num: %u"
- vhost_vdpa_dev_start(void *dev, bool started) "dev: %p started: %d"
- vhost_vdpa_set_log_base(void *dev, uint64_t base, unsigned long long size, int refcnt, int fd, void *log) "dev: %p base: 0x%"PRIx64" size: %llu refcnt: %d fd: %d log: %p"
- vhost_vdpa_set_vring_addr(void *dev, unsigned int index, unsigned int flags, uint64_t desc_user_addr, uint64_t used_user_addr, uint64_t avail_user_addr, uint64_t log_guest_addr) "dev: %p index: %u flags: 0x%x desc_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" log_guest_addr: 0x%"PRIx64
--- 
-2.27.0
+> 
+> Maybe kvm_user_memory_region or kvm_user_mem_region?  Though it's tempting to be
+> evil and usurp the old kvm_memory_region :-)
+> 
+> E.g. pre-C11 do
+> 
+> struct kvm_userspace_memory_region_ext {
+> 	struct kvm_userspace_memory_region region;
+> 	__u64 private_offset;
+> 	__u32 private_fd;
+> 	__u32 padding[5];
+> };
+> 
+> #ifdef __KERNEL__
+> struct kvm_user_mem_region {
+> 	__u32 slot;
+> 	__u32 flags;
+> 	__u64 guest_phys_addr;
+> 	__u64 memory_size; /* bytes */
+> 	__u64 userspace_addr; /* start of the userspace allocated memory */
+> 	__u64 private_offset;
+> 	__u32 private_fd;
+> 	__u32 padding[5];
+> };
+> #endif
+> 
+> and then post-C11 do
+> 
+> struct kvm_userspace_memory_region_ext {
+> #ifdef __KERNEL__
 
+Is this #ifndef? As I think anonymous struct is only for kernel?
+
+Thanks,
+Chao
+
+> 	struct kvm_userspace_memory_region region;
+> #else
+> 	struct kvm_userspace_memory_region;
+> #endif
+> 	__u64 private_offset;
+> 	__u32 private_fd;
+> 	__u32 padding[5];
+> };
+> 
+> #ifdef __KERNEL__
+> #define kvm_user_mem_region kvm_userspace_memory_region_ext
+> #endif
+> 
+> [*] https://lore.kernel.org/all/20220301145233.3689119-1-arnd@kernel.org
+> 
+> > +	__u64 private_offset;
+> > +	__u32 private_fd;
+> > +	__u32 padding[5];
+> > +};
 
