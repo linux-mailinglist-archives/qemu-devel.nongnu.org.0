@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3784F9B27
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 18:57:36 +0200 (CEST)
-Received: from localhost ([::1]:42386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0ED4F9B15
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Apr 2022 18:51:37 +0200 (CEST)
+Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncrvT-0001In-5y
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 12:57:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49922)
+	id 1ncrpg-00014r-TF
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 12:51:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ncrmK-00077b-IU
+ id 1ncrmK-000786-R0
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:48:08 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40769)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ncrmH-000324-IP
+ id 1ncrmI-00032I-HT
  for qemu-devel@nongnu.org; Fri, 08 Apr 2022 12:48:08 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id d3so13789265wrb.7
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 09:47:54 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id i20so685344wrb.13
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 09:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4NTszvMqpo5kXDPKuOt5Qa+p4D0vEgJ4d0rxv9/sMM8=;
- b=cXR0BLDLld+OnrAYrhZHtjyNrW/BTXHYGGNvP0E5P00A2FxOt7tb8GHf0T7MEEz6PG
- 8csc4FAFRc22mR2dF289dfdCZ01NP66ws1FUz/TQzTfFMmKPxEz3kYEyNpIcTzpnfxcO
- Njw1Z6JDCBxtmlhJrN1fvi2AUeVCNGTFuXgHPkcZjNuRrSulzUrJ7d9oehYIPmTtiWvr
- 8AXcwFQ5KX1yvGiAfltyMXH/P04GX6ADvLKO/HTb7T+grf9uQ7cpqYW9Cs1VQHUlxiFk
- lXQsZE1kY5bQicjY0QM7QnENaZznP8QUFbaI4+841ArPh9jIhQde6ZTw83XoGw495VGo
- 68XQ==
+ bh=T2K0RiSpFnjP2SPW78zxgqkyT920bbP6nlXCBG7skz0=;
+ b=d9gzI9h7ehjTtg2PFriyt9B/IYiBeK+7Lk5iR7wL72W/dIIHtBilq1P+rMN99nnjGB
+ SssKFzQux2hDyy3xvLe7Rm78Q/Ox4Y4KCsWk6ratUJ9Sx9NPzP8EGjQVsVrBiuawsDCT
+ 0BNjJXcCOn/JhYbEie9UvWTD9Lqq0aSeJ0XDqsaytrOyIAukFvLi+L4GVCfkb+ADgpia
+ vl7kAHNviudIU5MESkfGNnmUetIQ9jD70z5vWNKRrIUoencOylNcuz8XQovq3WjMQaT8
+ h/z04U9xWV8SI2Ji7BuKjPniucgkvMaABUh1hPc7XNLuuN8iwBOF4X15l5QsCyIa7gbh
+ kOSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4NTszvMqpo5kXDPKuOt5Qa+p4D0vEgJ4d0rxv9/sMM8=;
- b=z4YOEwL6jtP9V0NoGD9RI3tPzJZlZVMeFpHmdiNNxyvXQZ0D6vFsgvTobHC0b3rRhZ
- T+gZM66ik/Ae6TmNGEoZN8TfmvXw/i6kdaYU3fqY9QoPZbaAXbZFJZXfYWU8OAdgMrem
- Rt89qkZ5c26xvdnf42oRHvAezLzPxA0ABuU/c2bL2VceGwgvKBHHKWO38/80Dmhf+82o
- wr0oNFGLYUwQVX3FbE7VtYPD5CdyJ1mdvISztNbGieV52/wHUKhqj8TTLmusijAY7A/c
- u2f2x4ZSPku4wXVniyakTVVHj7jcU+2h7P/N/pIFubBTcHGcxHs244V8iuJYLkf8Qv87
- 30qQ==
-X-Gm-Message-State: AOAM530QGD/yw7uenGLHhr99/eZkC/7QWJMPaFGPsmUjIlli20wreUcU
- pkRc2SVztaegOoG8ZpF7XG/Lww==
-X-Google-Smtp-Source: ABdhPJwn5rM+HEzmFT575xjEXxTaQO+iHeJVqIVCSVd5q92al05IWlD4qCpPK75eGt8T6Si1qvYjVw==
-X-Received: by 2002:a05:6000:178d:b0:206:134e:49c6 with SMTP id
- e13-20020a056000178d00b00206134e49c6mr15200621wrg.225.1649436473922; 
- Fri, 08 Apr 2022 09:47:53 -0700 (PDT)
+ bh=T2K0RiSpFnjP2SPW78zxgqkyT920bbP6nlXCBG7skz0=;
+ b=F0Jt6Y6qTEb4sMCXkFBMNaCHhTgl+NnX2Me8LihrtLnQ9cBVMdvcwgKGJF1fXHh/sD
+ y5A3ny1T7IHQrDwcx2SdZq+9oIh071SaIWrHAxtziMaG7oXLFn1W4vr+h40LL3oGuEAb
+ /zcwGC7SPJsyHXujZXvavpYvMachtS7WqlSlJy6usPC/06joF5OPwoZy/12TvtOVPlnt
+ 8NmHNBmESfNTTfWf4kJAwrKSZvLy+y6u9XxxirjKsFMhV+8HTDnqnaFN24VZYnK3ENsk
+ 77aFb5XoJmvhUW4qcoiDLYilcBuu114+c/IsayTtfF3glSkBVmWoQRHbWAE7vE+957Uz
+ V7Kw==
+X-Gm-Message-State: AOAM531vXVTpp45b9kd33bIdsFdK7Ne9JSpcVwAZwOVKQUf9EUWxGPqN
+ 1+yabnU8Fo/dpXO+n3OFxngizA==
+X-Google-Smtp-Source: ABdhPJwcW4E7Ohens5k6nTxWjbFH0uy1MO2SWiW95IMFv4F7kUs2vFfCNAxIAh5eYulaNe8tdJZdwg==
+X-Received: by 2002:a5d:64a7:0:b0:205:fb7a:50ee with SMTP id
+ m7-20020a5d64a7000000b00205fb7a50eemr15306727wrp.185.1649436476505; 
+ Fri, 08 Apr 2022 09:47:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- p5-20020adff205000000b0020614a499fbsm17049106wro.90.2022.04.08.09.47.44
+ r14-20020a0560001b8e00b00205918bd86esm19694439wru.78.2022.04.08.09.47.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 08 Apr 2022 09:47:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0D7031FFBE;
+ by zen.linaroharston (Postfix) with ESMTP id 30B501FFBF;
  Fri,  8 Apr 2022 17:47:44 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 06/15] monitor: expose monitor_puts to rest of code
-Date: Fri,  8 Apr 2022 17:47:33 +0100
-Message-Id: <20220408164742.2844631-7-alex.bennee@linaro.org>
+Subject: [PATCH v1 07/15] disas: generalise plugin_printf and use for
+ monitor_disas
+Date: Fri,  8 Apr 2022 17:47:34 +0100
+Message-Id: <20220408164742.2844631-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220408164742.2844631-1-alex.bennee@linaro.org>
 References: <20220408164742.2844631-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,51 +89,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com,
- Markus Armbruster <armbru@redhat.com>, crosa@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  aaron@os.amperecomputing.com, robhenry@microsoft.com, f4bug@amsat.org,
  mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Luke.Craig@ll.mit.edu,
- pbonzini@redhat.com, kuhn.chenqun@huawei.com, ma.mandourr@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+ Luke.Craig@ll.mit.edu, pbonzini@redhat.com, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This helps us construct strings elsewhere before echoing to the
-monitor. It avoids having to jump through hoops like:
-
-  monitor_printf(mon, "%s", s->str);
+Rather than assembling our output piecemeal lets use the same approach
+as the plugin disas interface to build the disassembly string before
+printing it.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/monitor/monitor.h  | 1 +
- monitor/monitor-internal.h | 1 -
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ disas.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index cc4cc6c6ad..8e291a2588 100644
---- a/include/monitor/monitor.h
-+++ b/include/monitor/monitor.h
-@@ -31,6 +31,7 @@ void monitor_resume(Monitor *mon);
- int monitor_get_fd(Monitor *mon, const char *fdname, Error **errp);
- int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp);
+diff --git a/disas.c b/disas.c
+index 3dab4482d1..9b52b2fa93 100644
+--- a/disas.c
++++ b/disas.c
+@@ -248,7 +248,7 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+     }
+ }
  
-+int monitor_puts(Monitor *mon, const char *str);
- int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
-     G_GNUC_PRINTF(2, 0);
- int monitor_printf(Monitor *mon, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index caa2e90ef2..a2cdbbf646 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -174,7 +174,6 @@ extern int mon_refcount;
+-static int plugin_printf(FILE *stream, const char *fmt, ...)
++static int gstring_printf(FILE *stream, const char *fmt, ...)
+ {
+     /* We abuse the FILE parameter to pass a GString. */
+     GString *s = (GString *)stream;
+@@ -279,7 +279,7 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
+     GString *ds = g_string_new(NULL);
  
- extern HMPCommand hmp_cmds[];
+     initialize_debug_target(&s, cpu);
+-    s.info.fprintf_func = plugin_printf;
++    s.info.fprintf_func = gstring_printf;
+     s.info.stream = (FILE *)ds;  /* abuse this slot */
+     s.info.buffer_vma = addr;
+     s.info.buffer_length = size;
+@@ -367,15 +367,19 @@ void monitor_disas(Monitor *mon, CPUState *cpu,
+ {
+     int count, i;
+     CPUDebug s;
++    g_autoptr(GString) ds = g_string_new("");
  
--int monitor_puts(Monitor *mon, const char *str);
- void monitor_data_init(Monitor *mon, bool is_qmp, bool skip_flush,
-                        bool use_io_thread);
- void monitor_data_destroy(Monitor *mon);
+     initialize_debug_target(&s, cpu);
+-    s.info.fprintf_func = qemu_fprintf;
++    s.info.fprintf_func = gstring_printf;
++    s.info.stream = (FILE *)ds;  /* abuse this slot */
++
+     if (is_physical) {
+         s.info.read_memory_func = physical_read_memory;
+     }
+     s.info.buffer_vma = pc;
+ 
+     if (s.info.cap_arch >= 0 && cap_disas_monitor(&s.info, pc, nb_insn)) {
++        monitor_puts(mon, ds->str);
+         return;
+     }
+ 
+@@ -385,13 +389,16 @@ void monitor_disas(Monitor *mon, CPUState *cpu,
+         return;
+     }
+ 
+-    for(i = 0; i < nb_insn; i++) {
+-	monitor_printf(mon, "0x" TARGET_FMT_lx ":  ", pc);
++    for (i = 0; i < nb_insn; i++) {
++        g_string_append_printf(ds, "0x" TARGET_FMT_lx ":  ", pc);
+         count = s.info.print_insn(pc, &s.info);
+-	monitor_printf(mon, "\n");
+-	if (count < 0)
+-	    break;
++        g_string_append_c(ds, '\n');
++        if (count < 0) {
++            break;
++        }
+         pc += count;
+     }
++
++    monitor_puts(mon, ds->str);
+ }
+ #endif
 -- 
 2.30.2
 
