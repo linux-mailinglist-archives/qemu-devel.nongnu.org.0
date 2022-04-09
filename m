@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5004FAAD3
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:40:31 +0200 (CEST)
-Received: from localhost ([::1]:38612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADC84FAAD6
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:41:59 +0200 (CEST)
+Received: from localhost ([::1]:42078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndHsk-0007Ba-04
-	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:40:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35738)
+	id 1ndHuA-0001BD-Hk
+	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHrc-0006H0-Eh
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:39:20 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:54833)
+ id 1ndHsO-0007bY-EP
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:40:08 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:55972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHra-0003hJ-RL
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:39:20 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id md4so3379004pjb.4
- for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:39:18 -0700 (PDT)
+ id 1ndHsM-0003vz-Qa
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:40:08 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id ll10so3242510pjb.5
+ for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ilOtw8qMiA2qqltwFUSSLccCkRnbZpgAMd/9e0E3DLY=;
- b=V6j5URpM2I6jS/WpUHpb/9faghnG35X/QNtDWXjvsSMU5mySOTm+NRH5qP3liA63uR
- aT+//cmmJ8hfUlGJ7ZE4TBXqb3YtzbsOubxlEasUKWtevVsMDxNknAhzyIGG5yihh7wc
- GrD8oc5dc6ukNMTX8MKlK5h1OMvfVZmmyx9NmNWLNhQaZl0Bd7RVb6rJQ8d6qM2i5rZJ
- /AWDJGPS3YnXj8/wj11d4W3bnDEb31RdQ8rw6a6Y4qoyU/K/L4PIk/gg+3jOn+qG09tF
- Ve0LNH8Sy1s4kKJUEz9JDcVT53HgoulWCjrDVIuTDEKG6nr0lk8L0Z1OpWuQWtVXAH/2
- PdXQ==
+ bh=A/jw9NQe8qwKLqVBXPT/ndO+16/ObXPyZz4yOTt7Lsg=;
+ b=baeWlD3SAA4Mt6ZyG4jphMLS1pvKVrFSYaSkPwArmWM2FM1Q3YqN7gkWAv5CE77wUe
+ uFJn5kWTnZW6pnun71pxVJJah4vX+HTSNJpn9XB4KD0U8GALhIwlEyfxKKnFDQzLJiix
+ d2pSpV4/mcVphS1MLR0idMSEDr8rFlFMJPRieqxgaIqfkcIb3Ng7TabA+EHN9rZiT7dp
+ 2i3FqCbHCuKT4Py20xCtU7bPuWsuUcW3+xIfz3CCsvlX4tou3/Cl1hnbxIuJCU2MpA+U
+ ykmgbcEcEWHaMd3M41hWLO1o6lVvGhkbRmacTg/20RRdyoWs05wdLsdxK4OY5NUEV5pr
+ gKiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ilOtw8qMiA2qqltwFUSSLccCkRnbZpgAMd/9e0E3DLY=;
- b=eJpBeAguap6VO2MrOs0xxcUgTab7UE0510Rl4av9sR8/HJGvTWXfoxi5qyjA4m2XE/
- /OphkekX5Jh755WqKLsDnT4urnwCaGJ2HP46Kjz2w0ORPxS1Twi4gsv0MAJG0x3DuqFd
- xECWtPncOg45jLCRy0etBUFTw+XauhI/9Ikc+4rxF91U3nkkFF05xpdKjEbNU8f4Yutp
- 0IGtotUPvzpvRvAusld7wElA2SvvtBFupijMAWBjaP0mdZer+zFn+upYVp/zeRz8mRD4
- 2TkGR6tWCdTFohEr0a3oj9y5Dc6kH6GiETKoREPlCnRWzSJmQW93pcpYpEHeGmxOgerN
- BpLQ==
-X-Gm-Message-State: AOAM530DrG7LMBLQAoyP7v3iNDSekL4zTRpls0nPW25FFyrg24Y02HrN
- L36WdmjREcLwOLajpC0uqZw9G3/CdclaQw==
-X-Google-Smtp-Source: ABdhPJyhIiOWSYRscsC8t3nZhwtRttr3k90lPb21Nikulok7u5PcRGveXKzwqaYq/5vBqeeIvpkLJA==
-X-Received: by 2002:a17:903:22c6:b0:154:4156:f397 with SMTP id
- y6-20020a17090322c600b001544156f397mr25393393plg.29.1649536757337; 
- Sat, 09 Apr 2022 13:39:17 -0700 (PDT)
+ bh=A/jw9NQe8qwKLqVBXPT/ndO+16/ObXPyZz4yOTt7Lsg=;
+ b=gop+bLBKQ0pkCyYUk4bZsfDq7HZ7QjoC6gvYz5z0FdbsaOV6hrzkDakgHMXSuf9pS7
+ HW89P4P8IsO7+/ax2VQYHL5579X+euoFhT+3hy5nJXXTynxcmSPzq/rASxlomUp9Ednt
+ 0H00otUM7yq7P2UE6kdXLXcO61jd/vWnOMkhAia7oeQ4txYfREMdhYgxquFWNE6xh64y
+ trEs2rxbmCF2xcR7a/55+fibltcJiBop50VpxOZgxIaZOue9+lJmBeJ7q3AqOmtCis4P
+ VThnxRXn8UBtfY+FFBz2udK1uCie3/tmIGVT4g+Zumaz4Y6vCNOuvfMqDkdXq3+deUmW
+ RGQw==
+X-Gm-Message-State: AOAM532fjUsJludZBJkdi5nNwdlEF4uRcSF82NErHHaCvNou8MFVED7L
+ B30MNnzMvBwHTJQYEXrjGQLtHA==
+X-Google-Smtp-Source: ABdhPJysWPGzWkfLOsx5W6MxGeTWiZ8nzDsVCcKxcyI5zuO3iqAo6zRbQ82tVNfMZFG3l6X11CKLJw==
+X-Received: by 2002:a17:90b:4f4d:b0:1c7:5324:c6a0 with SMTP id
+ pj13-20020a17090b4f4d00b001c75324c6a0mr28823644pjb.160.1649536805483; 
+ Sat, 09 Apr 2022 13:40:05 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- v126-20020a622f84000000b004fa666a1327sm19166950pfv.102.2022.04.09.13.39.16
+ b4-20020aa78104000000b00505accf8070sm688079pfi.112.2022.04.09.13.40.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Apr 2022 13:39:16 -0700 (PDT)
-Message-ID: <0ac61270-c360-9bf7-b272-3ba1434a5170@linaro.org>
-Date: Sat, 9 Apr 2022 13:39:15 -0700
+ Sat, 09 Apr 2022 13:40:05 -0700 (PDT)
+Message-ID: <cf2ca913-1f8a-adc4-c7f0-ae2aaf94811a@linaro.org>
+Date: Sat, 9 Apr 2022 13:40:03 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 34/41] hw/intc/arm_gicv3_redist: Implement
- gicv3_redist_mov_vlpi()
+Subject: Re: [PATCH 35/41] hw/intc/arm_gicv3_redist: Implement
+ gicv3_redist_vinvall()
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-35-peter.maydell@linaro.org>
+ <20220408141550.1271295-36-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220408141550.1271295-35-peter.maydell@linaro.org>
+In-Reply-To: <20220408141550.1271295-36-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,14 +96,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/8/22 07:15, Peter Maydell wrote:
-> Implement the gicv3_redist_mov_vlpi() function (previously left as a
-> stub).  This function handles the work of a VMOVI command: it marks
-> the vLPI not-pending on the source and pending on the destination.
+> Implement the gicv3_redist_vinvall() function (previously left as a
+> stub).  This function handles the work of a VINVALL command: it must
+> invalidate any cached information associated with a specific vCPU.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_redist.c | 20 ++++++++++++++++++--
->   1 file changed, 18 insertions(+), 2 deletions(-)
+>   hw/intc/arm_gicv3_redist.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
