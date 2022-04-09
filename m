@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FC74FA78B
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 14:13:14 +0200 (CEST)
-Received: from localhost ([::1]:47032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22AE4FA954
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 17:41:26 +0200 (CEST)
+Received: from localhost ([::1]:33700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nd9xp-0002j7-P6
-	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 08:13:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47900)
+	id 1ndDDI-00050o-Gr
+	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 11:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nd9ud-0000Dq-V9; Sat, 09 Apr 2022 08:09:58 -0400
-Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e]:37692)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ndDBl-0004Bf-2T
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 11:39:49 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:43968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nd9uc-0005Rg-JG; Sat, 09 Apr 2022 08:09:55 -0400
-Received: by mail-oo1-xc2e.google.com with SMTP id
- p10-20020a056820044a00b00320d7d4af22so1936258oou.4; 
- Sat, 09 Apr 2022 05:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/ZB+NAl/2RAHlVzCkyaNJO8uJxeA8ba7I+7zknXaYBA=;
- b=QdxDyQe9GTUulay6Y5lOH+Mw0C25YkKSMhPPw3rrlbKSLx5kZqRSJo1fwIcsP0XxbK
- i8qSNO4YblSTecLaxYuQryCWd9opnF8q9tJDO0H8dTvr8aw1dU//Y7SUrywehCS7ijx6
- xjJEZSj9rLV34sSdHYJUXL0g4uab4z0LAATO3XO5cxn8utcUN8fb23We1qJtuXYb61dS
- wc1ofEE2ELDo2MItYjCkVkj6yMIeYEE6G9TUWUguouUlRMBfvPVvwkLJaJa81t0Dlay3
- wEmLwt1Y89WjbOe305edcX7NghXXqtpRoYqkFZkVkG59Xl0q0RDvs20Uk1gUJ6Hj2uGE
- VuEg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ndDBj-0003Mr-7Q
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 11:39:48 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id x16so10899955pfa.10
+ for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 08:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=XKuOgXtH+HZ5PmRGbBuiped8Xv5BMxxNWPpupFiNAkM=;
+ b=HfYTDH8MZ3Wf7VPZim9bKWjZnZw1dEhNVVR6lq48iW7U/ewZdj7I+aNc4l5FgbTbXE
+ EyIXWeqcee4EgP15hbJUB1GCJxDftFBBmnU/KFWLPLo7J9KLy7CqK2hfeGxHihFgTfjo
+ YdpyAFSv8Jrlh+p/47HHyzJ9fc4kR8LuOzN0ZPIlxVfLPn/LGGl/7f0/B9W9j+O4akL9
+ ZFg8dYOzR9Wm2uc0lCske/sssQll/lnZSlvAzto7XU7QmxlIVNliS7W9HzEXSKhCV7ph
+ MDymk9rFB3b6TXVUbUEob2s4dePMkj8BJc0sX0BZrcxW2H8YpNHMWfVWu82nAU77q/6S
+ 8+kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/ZB+NAl/2RAHlVzCkyaNJO8uJxeA8ba7I+7zknXaYBA=;
- b=i2vd3s8uE13LqRE08kBDqVQ25GtvMFIcJmMYvuwFZEvH9ZQAd/EE4lQ8GTAuyUGXiU
- PIklit0CdbyQnD34CRpYwFxugJXaQPHQ+jjtXLoyTg60yCVCCW1xATE65DH6iuLXrNQn
- 8nUiL9/6QVnPyL++KKKwDvWPJz6PMMgFHgJh/mssS0jcwL3MJ+ScNAqr/16Tz7S5DJmq
- TBkKbEpGHYdTBdethHg+ttc9GZVVcfT+HniWk05xwZJPzscGkEg49UI1/f8LhNVlEvhg
- KXrjbDWn5ZQfvGHAzC9ByWIbKO0U4wyz4udQxpgYwdCLozQZNsfyJ2dwYn8Zi7hhhFDN
- cqgw==
-X-Gm-Message-State: AOAM533+D+2S03mkjXW/aQVsnlZMhOaXsbpIwuQeRntEpBeWFPyeycXA
- cO8wzHTY401TdvnGrNoBK3ax/JRVJGg=
-X-Google-Smtp-Source: ABdhPJzLzVFzcvVWOQHkQUqQCryzB8l9NImkagWcgKIlZwXJXH1JtA0zqTFNZWnAVvulHGQQy/5rNQ==
-X-Received: by 2002:a05:6820:218:b0:320:ed7b:a2f8 with SMTP id
- i24-20020a056820021800b00320ed7ba2f8mr7588047oob.32.1649506192974; 
- Sat, 09 Apr 2022 05:09:52 -0700 (PDT)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:7ee3:afd9:f010:3a9:fd23])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XKuOgXtH+HZ5PmRGbBuiped8Xv5BMxxNWPpupFiNAkM=;
+ b=Q6V2Fht2NihCrh+6ZOQJp3bOwbJivsNXyWKhwQ9ttwcekkTW3/XypqkXvxu8Gz8bBD
+ 80w19FfkIwjg45deiistiKJsPziY1VccVYQcLdeYgI3M+ndyUB88lzQPIUSH+o85iH2o
+ ACKa5tr3EJBwsDDmmLhedcd2Ns6k932hxXiTm0NRBYXslI2fKh/e4rOazYFPza01p0bu
+ ttvMHYyoSeBjVqM0A0ARHw5hYZlKW/7v4vHeQDUrDioDvyMX97ljMVasQBxoDWwbGys7
+ AkAiboWirXAknm2tTYXMqb6UPpjlJKEU/iAZ+xQeaDe5j4N8jQVmWhztVYqQX5n9sKNj
+ ILaA==
+X-Gm-Message-State: AOAM532VxY25mvIP0momQr++cO973nqDlXFPihw3/X4qo8JaKXl3t4Ji
+ MO8Oj5soX5zR9r6ZCLK4/JAKQw==
+X-Google-Smtp-Source: ABdhPJw2nNaefGtf9ULC6y4MC99Uo5vev4YK9pMwE630heyMrt5YsVC7L6esOIQbgBqi9coV/8VC4w==
+X-Received: by 2002:a63:e201:0:b0:382:6afe:f0ec with SMTP id
+ q1-20020a63e201000000b003826afef0ecmr19803487pgh.339.1649518785040; 
+ Sat, 09 Apr 2022 08:39:45 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- e9-20020a056820060900b003216277bfdasm9677598oow.19.2022.04.09.05.09.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 09 Apr 2022 05:09:52 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 v2 1/1] hw/ppc: use qdev to register spapr_nvdimm vmsd
-Date: Sat,  9 Apr 2022 09:09:40 -0300
-Message-Id: <20220409120940.263369-2-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220409120940.263369-1-danielhb413@gmail.com>
-References: <20220409120940.263369-1-danielhb413@gmail.com>
+ m15-20020a638c0f000000b003827bfe1f5csm24719473pgd.7.2022.04.09.08.39.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 09 Apr 2022 08:39:44 -0700 (PDT)
+Message-ID: <16256d45-740c-c858-b5ce-3eb1e4b10565@linaro.org>
+Date: Sat, 9 Apr 2022 08:39:42 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] target/riscv: replace TARGET_LONG_BITS in gdbstub
+Content-Language: en-US
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20220409094612.1908512-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20220409094612.1908512-2-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220409094612.1908512-2-frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,58 +91,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, Shivaprasad G Bhat <sbhat@linux.ibm.com>,
- david@gibson.dropbear.id.au
+Cc: palmer@dabbelt.com, bin.meng@windriver.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the code a little more maintainable by using dc->vmsd to register
-the vmstate instead of using vmstate_(un)register calls.
+On 4/9/22 02:46, Frédéric Pétrot wrote:
+> Now that we have misa xlen, use that in riscv gdbstub.c instead of the
+> TARGET_LONG_BITS define, and use riscv_cpu_mxl_bits to provide the number of
+> bits in a consistent way.
+> 
+> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+> ---
+>   target/riscv/gdbstub.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index 9ed049c29e..1602f76d2b 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -305,7 +305,7 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+>       CPURISCVState *env = &cpu->env;
+>       GString *s = g_string_new(NULL);
+>       riscv_csr_predicate_fn predicate;
+> -    int bitsize = 16 << env->misa_mxl_max;
+> +    int bitsize = riscv_cpu_mxl_bits(env);
 
-'instance_id' was being set to VMSTATE_INSTANCE_ID_ANY so there is no need
-for qdev_set_legacy_instance_id() calls.
+This isn't correct, changing from using max to current mxl.
 
-spapr_nvdimm_unrealize() was removed since it was only being used to
-call vmstate_unregister().
+You might think this is ok, because this will run up in startup, but it really runs 
+whenever gdb attaches to the stub.  Which could be anytime.
 
-Cc: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr_nvdimm.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index c4c97da5de..973e9d0fbe 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -866,14 +866,6 @@ static void spapr_nvdimm_realize(NVDIMMDevice *dimm, Error **errp)
-     if (!is_pmem || pmem_override) {
-         s_nvdimm->hcall_flush_required = true;
-     }
--
--    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY,
--                     &vmstate_spapr_nvdimm_states, dimm);
--}
--
--static void spapr_nvdimm_unrealize(NVDIMMDevice *dimm)
--{
--    vmstate_unregister(NULL, &vmstate_spapr_nvdimm_states, dimm);
- }
- 
- static Property spapr_nvdimm_properties[] = {
-@@ -888,8 +880,9 @@ static void spapr_nvdimm_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     NVDIMMClass *nvc = NVDIMM_CLASS(oc);
- 
-+    dc->vmsd = &vmstate_spapr_nvdimm_states;
-+
-     nvc->realize = spapr_nvdimm_realize;
--    nvc->unrealize = spapr_nvdimm_unrealize;
- 
-     device_class_set_props(dc, spapr_nvdimm_properties);
- }
--- 
-2.35.1
-
+r~
 
