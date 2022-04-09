@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F754FAAC4
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:29:37 +0200 (CEST)
-Received: from localhost ([::1]:48282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF0D4FAACA
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:34:55 +0200 (CEST)
+Received: from localhost ([::1]:57608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndHiB-00021M-UM
-	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33746)
+	id 1ndHnK-0000av-IO
+	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHgv-0000wx-RJ
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:28:19 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:47028)
+ id 1ndHko-0007sv-N0
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:32:18 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:37398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHgt-0001rV-EU
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:28:16 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- h15-20020a17090a054f00b001cb7cd2b11dso642044pjf.5
- for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:28:14 -0700 (PDT)
+ id 1ndHkn-0002fh-5P
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:32:18 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ ku13-20020a17090b218d00b001ca8fcd3adeso14856091pjb.2
+ for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+faA2Nvp2x8ZB/mkFPW2wcHKqZWuSr9R3ddZOFX2imo=;
- b=UxI9aXsYA/T0lzofI82RbOU5EGxK3JNEj1VKjNug9MNoGb//t+SqBaoCs3Z5QC1t7x
- qqs6/ZY6UOjEL3e3JwDZ4fCVbz9TJBYU2jIVAyT5ZtLYkSKbCqPYdBJUIEB7aVq9xrH6
- N6TPPlG78aull6PkAmHM2SU9LaoigHNNME1m9avKlPl/pAAWQqysme+iGHqhpue9yRgk
- x/mX1i6sCHb4bl4q8bqY6QWY1yHIHy9CdDwbvioQcFKQ3AeBWkMuhpMHo3FhAiQB4X1z
- teVH9t/XWG7ZOWF1OXjxgRLj+P0DYvY5T3z6KGjd5pOyGGZR2ASDbwILc/a1XLW8d85p
- 4UAQ==
+ bh=YUdq7AuAx6RE1moO/IQCqS2arBxXNMwukd1fD21BErA=;
+ b=svvCp7aLDgSj4/cp0MO5VFepz9dMVU0KRzyNPoP+dUyFJeyLhFO9GRtrPAC/6KSiP8
+ r6HesDsElUCYxO3PWkmWEayK/A0qFMYwcntMGGgMXPFwZPhUd1gkLR6COa/9pjTbq+E0
+ NGXVpuSUIjCYGAs5m8ZCE88tVNBSVOXyhoNgIlIgUfxGN1klkAZMy19x6zPDhtSFJ+mu
+ uX1lr0nDwJMLmm0P/FZ/Fex41CssJGUC5FVzxDfav662O4D0XsjlKtdWDvaREeFPioQS
+ jQNT7U1Wfn+f0gNW3sJkvh0etfLQKoKr7fBCbM1AFwr2mT4HmqnSgHPfUEI45qFnPG4J
+ +Ptw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+faA2Nvp2x8ZB/mkFPW2wcHKqZWuSr9R3ddZOFX2imo=;
- b=nhzReC370inDWWaBjiQwq9xX7Y590Si4fYWW/QproU9ALS+ljKRCdK9FPo8+vLC2nI
- Yyv/nwPYwmwP7vEd6lWL+WMVsmocYPDh/+eiYqeXmjCGft4uAmsFozYx8IPM7/gWnmkj
- xs56HzKT9HUk4O5ocWbn8Xx5nuQErW3cAf1T6DdeVZeoTUi8qVrTbusaPI77B1Osnmp4
- 6LfmlXWEbNh3pD6Sj4nd14DBELl89oqAaC/C8Kz6+qwjwLw1dsppU5z3UEbS0X+GAOkY
- VI2vIW6/88Ilf0nrvx/0oN79CJf0MRPePnPESkDZLRgzRpCXGRZNqwxodUOCtIAkFCCl
- QM+w==
-X-Gm-Message-State: AOAM531JkmdYPDSOL6vgaMRe/CK0hDYnxSAu41YfnJlyelw7bYrUFMHp
- adOAvSzJ9QpP3iTmY+0wL43Fhw==
-X-Google-Smtp-Source: ABdhPJzUul31QNM3fnr+GCr6Fup0shN4ViEi8M0bW6ITrdHUg1rbH9uxDfaTYCSNGtbYViCmjkLqsA==
-X-Received: by 2002:a17:90a:b384:b0:1ca:88a5:2c59 with SMTP id
- e4-20020a17090ab38400b001ca88a52c59mr28451568pjr.62.1649536093647; 
- Sat, 09 Apr 2022 13:28:13 -0700 (PDT)
+ bh=YUdq7AuAx6RE1moO/IQCqS2arBxXNMwukd1fD21BErA=;
+ b=1Axy0glrzCeT/7oeQreDmD1qdWZFp7eiOfhRfQpMIPEd6ZrLVmGaQob1ZnDBfNeNVR
+ SO0kyPPcy2v4856PtCtwA2sJQbO04B/bGgq/VdQz5/QdMyW9JFc8GnI9pvLony626xoU
+ 5hK0zm6wafVrbWMc7qULuVugorAB+4YTIpYEWu6VXBS+vP0HnSSqsC5IpDLI7vUwxzGx
+ fbXv1Ud4wO1Ewh8lyqVg9Xyn3rhz+G2DjJwIvBTZ0E2eo36MgRycrGoGbMrAHIJtD9up
+ HPOCAy8DanUHmrrOc3+EckDCrsrsaZkPhP1RGOeUWN2CDWfj8XnqiW1esUg25k/1y1sD
+ eE6w==
+X-Gm-Message-State: AOAM531Gl9xR/DQy/tELvhZ0RzL7QJoJSAeZ3+wffoHGpxR8i9droS9Z
+ ATheOhC0vI84gpcP31K1BCPVig==
+X-Google-Smtp-Source: ABdhPJxfaZ+xcJ9o6tfHBBTOLYHtShwXEr+PscCCRiqADFVT1waFFAAm5JRrf8eql+Xo7lQoQLsAmw==
+X-Received: by 2002:a17:90a:4982:b0:1cb:5c8f:e3be with SMTP id
+ d2-20020a17090a498200b001cb5c8fe3bemr6513698pjh.108.1649536335667; 
+ Sat, 09 Apr 2022 13:32:15 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- g1-20020a17090adac100b001c67cedd84esm15235354pjx.42.2022.04.09.13.28.12
+ f21-20020a056a00239500b004fb02a7a45bsm30706233pfc.214.2022.04.09.13.32.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Apr 2022 13:28:13 -0700 (PDT)
-Message-ID: <94f0b6a7-6475-ba7b-fa27-e38172da0829@linaro.org>
-Date: Sat, 9 Apr 2022 13:28:11 -0700
+ Sat, 09 Apr 2022 13:32:15 -0700 (PDT)
+Message-ID: <ca73a8a2-745e-b1a2-ac21-55cdd1574760@linaro.org>
+Date: Sat, 9 Apr 2022 13:32:13 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 31/41] hw/intc/arm_gicv3_redist: Implement
- gicv3_redist_process_vlpi()
+Subject: Re: [PATCH 32/41] hw/intc/arm_gicv3_redist: Implement
+ gicv3_redist_vlpi_pending()
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-32-peter.maydell@linaro.org>
+ <20220408141550.1271295-33-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220408141550.1271295-32-peter.maydell@linaro.org>
+In-Reply-To: <20220408141550.1271295-33-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,19 +97,57 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/8/22 07:15, Peter Maydell wrote:
-> Implement the function gicv3_redist_process_vlpi(), which was left as
-> just a stub earlier.  This function deals with being handed a VLPI by
-> the ITS.  It must set the bit in the pending table.  If the vCPU is
-> currently resident we must recalculate the highest priority pending
-> vLPI; otherwise we may need to ring a "doorbell" interrupt to let the
-> hypervisor know it might want to reschedule the vCPU.
+> Implement the function gicv3_redist_vlpi_pending(), which was
+> previously left as a stub.  This is the function that is called by
+> the CPU interface when it changes the state of a vLPI.  It's similar
+> to gicv3_redist_process_vlpi(), but we know that the vCPU is
+> definitely resident on the redistributor and the irq is in range, so
+> it is a bit simpler.
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gicv3_redist.c | 48 ++++++++++++++++++++++++++++++++++----
->   1 file changed, 44 insertions(+), 4 deletions(-)
+>   hw/intc/arm_gicv3_redist.c | 23 +++++++++++++++++++++--
+>   1 file changed, 21 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
+> index be36978b45c..eadf5e8265e 100644
+> --- a/hw/intc/arm_gicv3_redist.c
+> +++ b/hw/intc/arm_gicv3_redist.c
+> @@ -1009,9 +1009,28 @@ void gicv3_redist_movall_lpis(GICv3CPUState *src, GICv3CPUState *dest)
+>   void gicv3_redist_vlpi_pending(GICv3CPUState *cs, int irq, int level)
+>   {
+>       /*
+> -     * The redistributor handling for changing the pending state
+> -     * of a vLPI will be added in a subsequent commit.
+> +     * Change the pending state of the specified vLPI.
+> +     * Unlike gicv3_redist_process_vlpi(), we know here that the
+> +     * vCPU is definitely resident on this redistributor, and that
+> +     * the irq is in range.
+>        */
+> +    uint64_t vptbase, ctbase;
+> +
+> +    vptbase = FIELD_EX64(cs->gicr_vpendbaser, GICR_VPENDBASER, PHYADDR) << 16;
+> +
+> +    if (set_pending_table_bit(cs, vptbase, irq, level)) {
+> +        if (level) {
+> +            /* Check whether this vLPI is now the best */
+> +            ctbase = cs->gicr_vpropbaser & R_GICR_VPROPBASER_PHYADDR_MASK;
+> +            update_for_one_lpi(cs, irq, ctbase, true, &cs->hppvlpi);
+> +            gicv3_cpuif_virt_irq_fiq_update(cs);
+> +        } else {
+> +            /* Only need to recalculate if this was previously the best vLPI */
+> +            if (irq == cs->hppvlpi.irq) {
+> +                gicv3_redist_update_vlpi(cs);
+> +            }
+> +        }
+> +    }
 
+I'll note that looks a lot like the previous patch, modulo "resident".
+Perhaps this could be better factored?
+
+Anyway,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
