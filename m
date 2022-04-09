@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FA24FAADF
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:55:06 +0200 (CEST)
-Received: from localhost ([::1]:57896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A8C4FAAE0
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:57:30 +0200 (CEST)
+Received: from localhost ([::1]:34438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndI6r-0004Yd-Ev
-	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:55:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37574)
+	id 1ndI9B-0007sd-2s
+	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:57:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndI5K-0002TF-Iq
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:53:31 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46599)
+ id 1ndI7Q-0006Zy-BD
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:55:40 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:45856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndI5J-0005wo-1M
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:53:30 -0400
-Received: by mail-pl1-x634.google.com with SMTP id be5so4838302plb.13
- for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:53:28 -0700 (PDT)
+ id 1ndI7O-0006IZ-OX
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:55:40 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ a16-20020a17090a6d9000b001c7d6c1bb13so12909864pjk.4
+ for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:55:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=9RBShkMvp/3tGtI7eoNovtDiFs3ApIbKkhLHwibBIz8=;
- b=fYHwS73IRYl5hvTySBo/6v/sEqBtnXK5eFc/z3YLACC9xpQvB8F4pfd9G/J/BXn7Du
- Ej/C7F82sNqaIHOqdZsNCEz0HJ/P0aM4egp1d5tfi5ARwCRM4mKKJlmWwfLrW6TwU2wY
- nvtQKKPbRatvBC8xv11Jy5BXMTqj3FxPSNw3gE3HfHZG4Oe3Wnm4FNCtiEj1lIM2ZdmD
- BHwRJ6YQRDErSMJ7+FOIoj7tr12Vi1e5+MRNNX4VEoGoSMqhmpgh6f6iz8WZGLJXgUK1
- GhayuYsytWGxlIMA4HSptxwG12mBsB5+NFZhkSShgF3/Kh50RWMYlYNhIT1ydF0GAYVU
- 7LbA==
+ bh=aV7olfjUKb4aLyRerxOq0O8Mms/Yy9rpbRgqdtoxO2I=;
+ b=EXgvMvsjtnX8QrVzLci0yesZRN309U8qlYtDPoqbxnB7iArMYiR5dcwlx/dZo8/ewc
+ wuhffcDHKBzdwwySe733QbynRLI5P1CNRH+5r/ZoXJfYakoOT9j8zFg4c/N4oqNXUxL2
+ yIiILU4PWlOmul24arr93ph+cmY3GWFaLS+8zHxmHCwbWzXkOT2U/tfZZMWLkwQ15BbL
+ GH8d+wfYHh/wkRqWPk6t3nX4H18Nu7HBi7OKOoWGh2EPC55rtl6OKw+SuK1GAFQInz4t
+ rAd3ZlwcDK5aypH7htF9/48Xgyx2lpi1UH7CokC2ft/ys+KEtM455vphNwsEzlq/YLcJ
+ dpLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9RBShkMvp/3tGtI7eoNovtDiFs3ApIbKkhLHwibBIz8=;
- b=2R6E28PT/tRT5XSFt/aJLdNbx1AkXlwNWxJ3M2r5kBfkoqVXjYcEA58D9BTbyJuBij
- SqxaYIwLQUU7UMbyx+lZz8LPWUQ8TvQRAWtWRayZU3V5B4p8Mls1LgL6Y2GygE98w51H
- UPWSQX7uwksD9UmUc5e3IZAdYhCb8TJ0A/ZP/TW6PUvi28IwWKJFjFj/gpK8aFfn00Wn
- XdwLGrfjWQ208lqbbNuyPJjMbAn10CmfXun7nEWX4zVkit4WBg0lSfXslW6FgnkjL+Cu
- OOMv+8MHQC0h3NLzZqGFMbHy52L8v3uQQQTBKtA/3wh0LPFzr4gq1EGISNFwIeWoFNkf
- 0wpA==
-X-Gm-Message-State: AOAM530SucbxX8UTXvNJR4VXlneH5A3zUXlgA+ONZZj9fSsUkBPbbW1o
- p68mt82ipC2SKIF8+p06uR4FsQ==
-X-Google-Smtp-Source: ABdhPJzuRJEU/UPgQfvZTY1IR8w8LYyYvmTDt1hErpyNs52NhbmOnLHZU+UDNXrSnmw3SHbb08GlEw==
-X-Received: by 2002:a17:902:868b:b0:156:7afb:2ce2 with SMTP id
- g11-20020a170902868b00b001567afb2ce2mr25365002plo.27.1649537607711; 
- Sat, 09 Apr 2022 13:53:27 -0700 (PDT)
+ bh=aV7olfjUKb4aLyRerxOq0O8Mms/Yy9rpbRgqdtoxO2I=;
+ b=pOynnQsKTOesq7RKXKZgy6c3cEz/WdvSO1hY2jc913dy8z8XreKaBpTtpSz+CwfvrT
+ xcLI6Rww0g/J4z3+bG0zQ9HYzuKHyHv+RNipUPGdUQp25k1r3k2XK4wUxOvVvs2+mXEP
+ lJwA8abeB88dg2acQHMSPvwc0v1vW+viN3X9rb/CioXZiKeWEwUK5ZOR8Cl4t5hTgFOw
+ TabxT1ENdizXhYTmrxs/ih/A/il/9Kywnmasa/9n/GWvK/ynaHWlt3wtmg2e8pApUbwn
+ UqnBUahgoweZmupJh8diWxqV+dK+IB3gdRVLIoGdLCX/ACxqQRW1Mz6OEvVgNgmHKbPj
+ PpEA==
+X-Gm-Message-State: AOAM532J3LbVNJgNEFoeGFov7h1m2WwRoo4RHFJyEq82cSfhUSJVUKiM
+ iQh7hoPJELNo7KsjyO6lPeIBegDQZn69GQ==
+X-Google-Smtp-Source: ABdhPJyBcl8OzeoDErt2ny6V2GP0jGBw+WTwWINk8IT1cjT7t+xvPvNCl58KHb/QN5eZm883k0Um0w==
+X-Received: by 2002:a17:902:7684:b0:156:25b3:ef6b with SMTP id
+ m4-20020a170902768400b0015625b3ef6bmr25296568pll.39.1649537737213; 
+ Sat, 09 Apr 2022 13:55:37 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- v3-20020aa78503000000b00504e93ef182sm9966857pfn.31.2022.04.09.13.53.26
+ md4-20020a17090b23c400b001cb66e3e1f8sm2523139pjb.0.2022.04.09.13.55.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Apr 2022 13:53:27 -0700 (PDT)
-Message-ID: <7c596717-09d1-f4b4-6f49-eb357e7f0139@linaro.org>
-Date: Sat, 9 Apr 2022 13:53:25 -0700
+ Sat, 09 Apr 2022 13:55:36 -0700 (PDT)
+Message-ID: <70faae86-0eef-7f00-f629-e29b6159b934@linaro.org>
+Date: Sat, 9 Apr 2022 13:55:35 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 40/41] hw/arm/virt: Abstract out calculation of
- redistributor region capacity
+Subject: Re: [PATCH 41/41] hw/arm/virt: Support TCG GICv4
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-41-peter.maydell@linaro.org>
+ <20220408141550.1271295-42-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220408141550.1271295-41-peter.maydell@linaro.org>
+In-Reply-To: <20220408141550.1271295-42-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,18 +96,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/8/22 07:15, Peter Maydell wrote:
-> In several places in virt.c we calculate the number of redistributors that
-> fit in a region of our memory map, which is the size of the region
-> divided by the size of a single redistributor frame. For GICv4, the
-> redistributor frame is a different size from that for GICv3. Abstract
-> out the calculation of redistributor region capacity so that we have
-> one place we need to change to handle GICv4 rather than several.
+> Add support for the TCG GICv4 to the virt board. For the board,
+> the GICv4 is very similar to the GICv3, with the only difference
+> being the size of the redistributor frame. The changes here are thus:
+>   * calculating virt_redist_capacity correctly for GICv4
+>   * changing various places which were "if GICv3" to be "if not GICv2"
+>   * the commandline option handling
+> 
+> Note that using GICv4 reduces the maximum possible number of CPUs on
+> the virt board from 512 to 317, because we can now only fit half as
+> many redistributors into the redistributor regions we have defined.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   include/hw/arm/virt.h |  9 +++++++--
->   hw/arm/virt.c         | 11 ++++-------
->   2 files changed, 11 insertions(+), 9 deletions(-)
+>   docs/system/arm/virt.rst |  5 ++-
+>   include/hw/arm/virt.h    | 12 +++++--
+>   hw/arm/virt.c            | 70 ++++++++++++++++++++++++++++++----------
+>   3 files changed, 67 insertions(+), 20 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
