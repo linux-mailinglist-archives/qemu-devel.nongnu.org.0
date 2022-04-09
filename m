@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5804FAA17
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 20:08:12 +0200 (CEST)
-Received: from localhost ([::1]:37306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5579D4FAA1B
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 20:15:00 +0200 (CEST)
+Received: from localhost ([::1]:40990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndFVK-0004FE-Rp
-	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 14:08:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41682)
+	id 1ndFbv-00073b-3m
+	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 14:14:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndFU3-0003Iq-Sn
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 14:06:51 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:52855)
+ id 1ndFaB-0006DU-R8
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 14:13:11 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:46715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndFU2-0007Nt-CA
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 14:06:51 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id 2so11474268pjw.2
- for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 11:06:49 -0700 (PDT)
+ id 1ndFa9-00085k-01
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 14:13:10 -0400
+Received: by mail-pl1-x633.google.com with SMTP id be5so4655745plb.13
+ for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 11:13:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3qL844qTtxNLuWMQYo5SDrmCk+nBXcSPp7dyz62u8sM=;
- b=HKTYL8WVcpyqlevAGVZIOl3mDa7Qov3JuTUkHHChhrQDwmMfyOZZiBa2fsNFviaeZD
- gnUeV/4pXwZ/TRjw1pFjlaP0myAE2Za/JKtFKTEWAlj7NA/QTvpYY09grkCz3L9eEXhX
- 9TFaE4ReW7OYZRinqx38YN4WAX9uPnMpm1jJLisWPJU/Cd8g611B+74MqrrLaVTHP78b
- Ogra2VwEC8AkSNxzhy/abwO73W4kGwly1rGnG+psL16IKnL5jJtvewNj+gnPvozYR4Sq
- 0ZN/DOwt/29++Fkb5BYYTxGlbhp0vBuHPjOLoyOpD0wXOek5PldsQfE1b5Fh2b8coGJd
- J9hA==
+ bh=rRPxEgwcJ3oWKHXb9mESMq/3LvO0S26tuvaC6anwg9U=;
+ b=bQtjQedDAMYO1xEgNlHlG1oJfRVTV2i+Kvs6+m9qy39YU45Z6vIWwWds+e7xshbT9c
+ GQdJAdJ6RwSuWcvRBOpDsWqRfqBBUMWbFjo2RwWHAEBrcdx7HNnqMObw4biuwoHhAZsF
+ zAaf57I4F6mPXSmUGipS72n/C0fl2tyixhy6P2AWgrTswuo+8c+eSbXE04GwGVQoNn3J
+ qY7y4zF7QTnLRRSWcbUKr7nX8sKy5CsT9Mdx5fRCdYfBN2gOSu8DQC41gBFB6zL0TDnd
+ dDVT4L4tu19BtjnVmIRALmXnD9dig/3aUO4laIIAP52t7Wrf4N8WyjwQAcFT4UFbnype
+ VzhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3qL844qTtxNLuWMQYo5SDrmCk+nBXcSPp7dyz62u8sM=;
- b=x/MlWejOgTTRvdkWBOCtBMpWFZz6oTrUsLJe1TPBRJYKlAvlkwY/T6RCddW5LxyrKa
- HtSzzU5abHxfw16/udwkQFxeQX5amw1WIGUJ7iMkL7q/hlH1Xfr9r7f58alWtbnuCA06
- LdQ8y6RDkRGYqArUvKYvBsgWKZE2sTAQ23wHXfTEtwnxGignDzOWFgq6TUOux8PNh7Hw
- htgBZmsdwELfZHd/IkPMshQY9/KzehGyqEypwdv0n26BXup/WnuXAKRsfStU33BkTTMr
- wy+/7hb7vuFq+r2RC7iU7iC/rrbqoRa12mF3FynG9gQHJ8dUgZN8f0HLHDNxduNsR9Ly
- H1Ow==
-X-Gm-Message-State: AOAM532HV04fEYGsmLIUayMeVakqAvNU6De+JGdZwg/DmEpfmyn/n2ak
- Lc8xGJ4rKQK6QE5eZLxp0YIYgQ==
-X-Google-Smtp-Source: ABdhPJzJ2AckuojE0cgjzEmpONJpnS3rr8agpldsw7bWyxNHiATCwzh9OU2udwznE8R+5seOKGHNwQ==
-X-Received: by 2002:a17:90a:15d0:b0:1cb:8135:99bb with SMTP id
- w16-20020a17090a15d000b001cb813599bbmr25929pjd.227.1649527608885; 
- Sat, 09 Apr 2022 11:06:48 -0700 (PDT)
+ bh=rRPxEgwcJ3oWKHXb9mESMq/3LvO0S26tuvaC6anwg9U=;
+ b=n1t1ocxFXiHCMH1EvkD6yfjMnzmTVATh3vhvIOa1YHSQacphgmlSv8Fzhy7kaLybSv
+ MhcizMvmJyrjAsRN6a4p+Bc0Y1rhUfdXQS+opE9caeZnwXb0v/qtU7NqhBFyNYunn91y
+ PfO5yzCThe7lj/D8gw6EZNIDpMZl09yBqnQpM6OirPQQurq0Se8qR3YVQZaCi0OfG5eb
+ n6cSJDDcQnj/OupHsemonDe0984yeaH1cvWCn8j2ZkYxtCDkz32eIjEZTGQMNtSH78BG
+ YMtGMmihRzJjwL1GiRDs27zT4zprlscUju9kbL5hPrHS9ksCEmpRhZdT0NNQ24/7HE5+
+ RWbg==
+X-Gm-Message-State: AOAM532glhPd03ZemSPQtY0AUAH2Gbou6H4Mj31nEFwwrVONcxgQeSSr
+ 5P3qUn7ddhNk6tCFDNNaYSPW6Q==
+X-Google-Smtp-Source: ABdhPJwiDnwCFhx5tXAe/jcCwcD83Mp8kxSoViBwq2ZIh5bhuHofVEykzL9QxfrCIEuMkAmXMliVzA==
+X-Received: by 2002:a17:902:ec89:b0:156:c5db:356d with SMTP id
+ x9-20020a170902ec8900b00156c5db356dmr24734182plg.74.1649527987477; 
+ Sat, 09 Apr 2022 11:13:07 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- k3-20020a056a00168300b004f7e60da26csm30398820pfc.182.2022.04.09.11.06.48
+ 196-20020a6300cd000000b0039940fd184dsm16523171pga.9.2022.04.09.11.13.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Apr 2022 11:06:48 -0700 (PDT)
-Message-ID: <e216c25f-b342-b89b-45e9-a7dbb914d871@linaro.org>
-Date: Sat, 9 Apr 2022 11:06:46 -0700
+ Sat, 09 Apr 2022 11:13:07 -0700 (PDT)
+Message-ID: <9016c2e2-b665-686d-43db-b80f0a6344b1@linaro.org>
+Date: Sat, 9 Apr 2022 11:13:05 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 15/41] hw/intc/arm_gicv3: Keep pointers to every connected
- ITS
+Subject: Re: [PATCH 16/41] hw/intc/arm_gicv3_its: Implement VMOVP
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-16-peter.maydell@linaro.org>
+ <20220408141550.1271295-17-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220408141550.1271295-16-peter.maydell@linaro.org>
+In-Reply-To: <20220408141550.1271295-17-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,31 +95,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/8/22 07:15, Peter Maydell wrote:
-> The GICv4 ITS VMOVP command's semantics require it to perform the
-> operation on every ITS connected to the same GIC that the ITS that
-> received the command is attached to.  This means that the GIC object
-> needs to keep a pointer to every ITS that is connected to it
-> (previously it was sufficient for the ITS to have a pointer to its
-> GIC).
+> Implement the GICv4 VMOVP command, which updates an entry in the vPE
+> table to change its rdbase field. This command is unique in the ITS
+> command set because its effects must be propagated to all the other
+> ITSes connected to the same GIC as the ITS which executes the VMOVP
+> command.
 > 
-> Add a glib ptrarray to the GICv3 object which holds pointers to every
-> connected ITS, and make the ITS add itself to the array for the GIC
-> it is connected to when it is realized.
+> The GICv4 spec allows two implementation choices for handling the
+> propagation to other ITSes:
+>   * If GITS_TYPER.VMOVP is 1, the guest only needs to issue the command
+>     on one ITS, and the implementation handles the propagation to
+>     all ITSes
+>   * If GITS_TYPER.VMOVP is 0, the guest must issue the command on
+>     every ITS, and arrange for the ITSes to synchronize the updates
+>     with each other by setting ITSList and Sequence Number fields
+>     in the command packets
 > 
-> Note that currently all QEMU machine types with an ITS have exactly
-> one ITS in the system, so typically the length of this ptrarray will
-> be 1.  Multiple ITSes are typically used to improve performance on
-> real hardware, so we wouldn't need to have more than one unless we
-> were modelling a real machine type that had multile ITSes.
+> We choose the GITS_TYPER.VMOVP = 1 approach, and synchronously
+> execute the update on every ITS.
+> 
+> For GICv4.1 this command has extra fields in the command packet and
+> additional behaviour.  We define the 4.1-only fields with the FIELD
+> macro, but only implement the GICv4.0 version of the command.
+> 
+> Note that we don't update the reported GITS_TYPER value here;
+> we'll do that later in a commit which updates all the reported
+> feature bit and ID register values for GICv4.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/gicv3_internal.h           | 9 +++++++++
->   include/hw/intc/arm_gicv3_common.h | 2 ++
->   hw/intc/arm_gicv3_common.c         | 2 ++
->   hw/intc/arm_gicv3_its.c            | 2 ++
->   hw/intc/arm_gicv3_its_kvm.c        | 2 ++
->   5 files changed, 17 insertions(+)
+>   hw/intc/gicv3_internal.h | 18 ++++++++++
+>   hw/intc/arm_gicv3_its.c  | 75 ++++++++++++++++++++++++++++++++++++++++
+>   hw/intc/trace-events     |  1 +
+>   3 files changed, 94 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
