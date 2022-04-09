@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CF54FAAA7
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:12:38 +0200 (CEST)
-Received: from localhost ([::1]:39026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF33D4FAAB8
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:23:07 +0200 (CEST)
+Received: from localhost ([::1]:41700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndHRl-0002eJ-3M
-	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:12:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59026)
+	id 1ndHbu-0005Ql-Rz
+	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:23:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHPd-0007n2-H1
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:10:25 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:41766)
+ id 1ndHaJ-0004ON-07
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:21:27 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:41808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHPa-0007hl-Ip
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:10:25 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- e8-20020a17090a118800b001cb13402ea2so8378798pja.0
- for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:10:15 -0700 (PDT)
+ id 1ndHaH-0000oM-Db
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:21:26 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ e8-20020a17090a118800b001cb13402ea2so8393085pja.0
+ for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5gwhRLe75XhGO0u1FeswjatRtMSm7CsBZnIlbEPN5Ws=;
- b=oNXrYDvN+1pm8k9zem/Whl8ieYXKVzLsu82NcskVtX4D1rZno0vSJSTJvo4H/ZlHnE
- d9zIsxOnVJqROQZwltBdO/cDItXBAaTAGlVLBrRdESQKwMFf37XFfQFQqAe7B/MliuwX
- p/ElIFK+0XK+ab00QoUesbamitpup31Ta33jF9W7KFwDwzYPtsLr8pEl5fLiH/Tb3Heh
- cSq0XRc/h+5Cj6FVkbBXKN4V9+h3OH1lvL59VDAjpz74EFmciIyqoYXqW+YH/BHjXaTe
- z60hZoq9iSK9F4Uc5q3klEANLnAOId0uVWG20XG+UPTid8692IUTtMsn+PcdpPbtV6Te
- caJA==
+ bh=93gaETMj19berHSg8GO7GyNmTk7Dj4pHowuU39fBDW4=;
+ b=mgMkD17TZbuTYG2Ec1cXeM+9dkGnS8ruqVyuYVvIZB3CCT50bBsrpRCvSAAIni8IJu
+ h05LzKRNMQsprCVAVlKr5vk/m7jadtI7OwL+4X1va4weAWWaU7StQpku/zUTiikvRX4o
+ dOacjAnsaSKNi/+A+22gM0eK5RugkGZlaQXmddNJsF/kj8r4wSL7H3NtsX3mmcyByZFG
+ LHbulSMPRIMpQbVY6TB8GqhzaNcJtHPUvfN3x33bd9wlxjGTSWDvozHj4DLCxYB2z69w
+ pBfJTvleI5iq0y7jK23hwLoO3yvTMjkj4UjwHLFZJF6SwmeKnt94UQPyqAshiPuuXa6j
+ 70JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=5gwhRLe75XhGO0u1FeswjatRtMSm7CsBZnIlbEPN5Ws=;
- b=im3NNDgxcxGb4ezU8KTVN2zYzz3eR/NkAd2kYhZVcKk/uyN2Ez1xgqkPg/0EfFrmVz
- LRDEGSHPaboVR5HPmNbC1V36h1ociQtktsYcqo7mZ1P5Gx7kkY1kItvyc8RmW43Z0dm6
- 7y8POdNI0jT/IWpGJ5vT3QHVcCmqnfAR2n6fXFm6x8VYEu/rP6PwITJZlERsB2SqiYem
- JNyrr9HH36Lt+/BWF2kcOd5QoupkbPCi0JRI4rGk0+E/vw/PzdB182s1s44sx+V6jzku
- eQX3Yl2CCHpe0DujfT3ZamDJjB+EqYYxs/5OJKRWGmDoHenc9GyDEi+LWyvlItBQOF+1
- AC7Q==
-X-Gm-Message-State: AOAM531QkV5OtogajQFInbE7ws0eHUDEL5sRoIGWkxZZ+sbpJf9KFSsa
- 9DSiMo62f0lbbGvEl1aTLlfUfA==
-X-Google-Smtp-Source: ABdhPJwB6iJoaXoJjTAHJZPVJglf64QUWZa10XusxwpVAwYq5zN/mDW/djmw/DXiufdLUFjBR7U5vw==
-X-Received: by 2002:a17:90a:380d:b0:1c9:d9bb:7602 with SMTP id
- w13-20020a17090a380d00b001c9d9bb7602mr27902722pjb.216.1649535014333; 
- Sat, 09 Apr 2022 13:10:14 -0700 (PDT)
+ bh=93gaETMj19berHSg8GO7GyNmTk7Dj4pHowuU39fBDW4=;
+ b=WwL+HxHPaUx1g8jq2rLv/Sl0yyHDzkpTNfM360/lM+RRPE6O9kJD1qRdg9GySz0FMQ
+ n2VJpmt9rJvSHdtn0LNzCPYmey2mv7NWKZVabQn39y3+fFLsrEhBI27HupBhnmB40Ok7
+ 3YpdV5W5qe8sluMwDhkSlkmCwj9WC/9HCupFyFWDvm4RoGieEbZFE1LDril4Auqdmsdl
+ JTIq8W+hzWxd5k9Roa49kC71kVQq4AdPwquvrUOwGsCKVwylEgs8tc+v5zCMKXK0NSVj
+ PQhJFAfj9PYRjJ31Z3i/ajc0PhwD6ol1ii6JvE0Wzvnk72fWK/no5IFxK0mWJD+5tRt8
+ xepg==
+X-Gm-Message-State: AOAM5316zK1sd3X6eQAo/RamEcGbFkj0uUKhxPJsqN2ErPtXdeDJWSv7
+ U+gpRUL6vlaRiJ69zW9SXpRB9g==
+X-Google-Smtp-Source: ABdhPJxOqRmJvDEj4CrcrjdUxathCk06zAUmjtbHiOhL5R6Et2Ns8RWx2PqjsmnHjEYbvGtno1AEtw==
+X-Received: by 2002:a17:902:c94a:b0:156:ae43:4023 with SMTP id
+ i10-20020a170902c94a00b00156ae434023mr24901517pla.115.1649535682019; 
+ Sat, 09 Apr 2022 13:21:22 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- z14-20020a17090a170e00b001cb7e69ee5csm402658pjd.54.2022.04.09.13.10.13
+ v7-20020aa78507000000b0050596bcb1c5sm3353883pfn.218.2022.04.09.13.21.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Apr 2022 13:10:13 -0700 (PDT)
-Message-ID: <5d7391a6-21d6-01b4-fee0-289c3891def7@linaro.org>
-Date: Sat, 9 Apr 2022 13:10:11 -0700
+ Sat, 09 Apr 2022 13:21:21 -0700 (PDT)
+Message-ID: <a516b025-6532-b28d-0205-7b24c49c39ea@linaro.org>
+Date: Sat, 9 Apr 2022 13:21:19 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 29/41] hw/intc/arm_gicv3_redist: Recalculate hppvlpi on
- VPENDBASER writes
+Subject: Re: [PATCH 30/41] hw/intc/arm_gicv3_redist: Factor out "update bit in
+ pending table" code
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-30-peter.maydell@linaro.org>
+ <20220408141550.1271295-31-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220408141550.1271295-30-peter.maydell@linaro.org>
+In-Reply-To: <20220408141550.1271295-31-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,48 +97,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/8/22 07:15, Peter Maydell wrote:
-> +    if (oldvalid && newvalid) {
-> +        /*
-> +         * Changing other fields while VALID is 1 is UNPREDICTABLE;
-> +         * we choose to log and ignore the write.
-> +         */
-> +        if (cs->gicr_vpendbaser ^ newval) {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "%s: Changing GICR_VPENDBASER when VALID=1 "
-> +                          "is UNPREDICTABLE\n", __func__);
-> +        }
-> +        return;
-> +    }
+> +    if (extract32(pend, irq % 8, 1) == level) {
 
-...
+Here you assume level in {0,1}...
 
-> @@ -493,10 +574,10 @@ static MemTxResult gicr_writel(GICv3CPUState *cs, hwaddr offset,
->           cs->gicr_vpropbaser = deposit64(cs->gicr_vpropbaser, 32, 32, value);
->           return MEMTX_OK;
->       case GICR_VPENDBASER:
-> -        cs->gicr_vpendbaser = deposit64(cs->gicr_vpendbaser, 0, 32, value);
-> +        gicr_write_vpendbaser(cs, deposit64(cs->gicr_vpendbaser, 0, 32, value));
->           return MEMTX_OK;
->       case GICR_VPENDBASER + 4:
-> -        cs->gicr_vpendbaser = deposit64(cs->gicr_vpendbaser, 32, 32, value);
-> +        gicr_write_vpendbaser(cs, deposit64(cs->gicr_vpendbaser, 32, 32, value));
->           return MEMTX_OK;
->       default:
->           return MEMTX_ERROR;
-> @@ -557,7 +638,7 @@ static MemTxResult gicr_writell(GICv3CPUState *cs, hwaddr offset,
->           cs->gicr_vpropbaser = value;
->           return MEMTX_OK;
->       case GICR_VPENDBASER:
-> -        cs->gicr_vpendbaser = value;
-> +        gicr_write_vpendbaser(cs, value);
->           return MEMTX_OK;
->       default:
->           return MEMTX_ERROR;
+> +    pend = deposit32(pend, irq % 8, 1, level ? 1 : 0);
 
-It it really valid to write to vpendbaser with other than a 64-bit write?  I suppose it's 
-possible to order the 32-bit writes to make sure the update to valid comes last...
+... and here you force it into {0,1}.
+Better to have the compiler do that with bool level.
 
-Anyway, not really related to the real logic here,
+You might consider
+
+     uint8_t bit = 1 << (irq % 8);
+     read();
+     if (!(pend & bit) ^ level) {
+        no change
+     }
+     pend ^= bit;
+     write();
+
+as a follow up; extract + deposit seems unnecessary.
+
+Anyway, with the bool thing fixed,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
