@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7B54FAA88
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 21:56:05 +0200 (CEST)
-Received: from localhost ([::1]:55202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780EB4FAAA5
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:11:23 +0200 (CEST)
+Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndHBk-0001eN-4B
-	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 15:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56782)
+	id 1ndHQY-0008Rl-5S
+	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHAY-0000kC-Ae
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 15:54:50 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:40511)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ndHOT-0006Im-LC; Sat, 09 Apr 2022 16:09:13 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:42620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHAW-0005VF-Iv
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 15:54:49 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id h5so9779692pgc.7
- for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 12:54:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=uHj1JBKGUb/JAXg960pBTK6M12MZZYk6u8w96S4rdT8=;
- b=O6jFFMyCIK/TxncmJowGuk9EXXOAB9A8dX3tR8GAbGxceRS0TsJCG6/XClHKWbqn3h
- 4nF/953t3s+NQ7K1kBgs2egcwT/XrjPi3/anwaw5ih6VqejGH5RGZgVeL0r3IFgp/iyi
- HMYD/ROx7y8rSM+ZHvJ8/f7xYRhLAlvwy4wVtkyLp6je+5uaJhUAJAS2VFQl40umgGOH
- HPyCMVVZM67mrxpdZOZr1dk1nJpewJoo/rBtXz/l8yTEsLu1hZRr/W+cw894MdyWzaMX
- 4IsWkHizOOVT0JNFMYMBafmU8keiij5+Sz0opCpGeKkAyA5ER3+2jFYAa2b4j7dvhe0V
- GO+g==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ndHOS-0007RZ-0K; Sat, 09 Apr 2022 16:09:13 -0400
+Received: by mail-oi1-x232.google.com with SMTP id q189so12152660oia.9;
+ Sat, 09 Apr 2022 13:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ni7qN9Wb9Z3e3P7x8SuSnoMj4dzFsqzeAQEt8oeDsY0=;
+ b=bF0xTYYBG8sRpJRjirz6u8wYY7DPNxi7kg2HMRnJmXl9RFTy1LjTdegg2nGv/kGpBJ
+ Qp9gQShDYqlLaeiy3ef0tGE4Vk+gujnaWFcBnGpZyc8uithDu8npyCRRgfJ4BKsyzzko
+ NfsOEC/aLMdJSk4rfkPOTn8tQY6W/fQoEg565ZWO9z5z8goD5zo9j+KaOCSz/vhlg5dI
+ EYo13OeBjDQRdZmex+YTncDP/LVCV5WYe4+qhxp0kDQe1O5ZgB8ZCNIyPDe2oOpOTncX
+ 18x+4z2JyjeCh4+HBFNHT/lXJ0/N9jOUIT8qVXo+zUuQvpXVF57hntM7qxK2Zd9v2jh5
+ EWLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=uHj1JBKGUb/JAXg960pBTK6M12MZZYk6u8w96S4rdT8=;
- b=G2ugbYqm8qW81dC4XNsR2d5EjITdGGASKZT8PE5/ZM06qYRhijRIKNfBCZe1nUR1PS
- R/Xs+ucOjeq/FLOXF7i0+v3CBDmX4Plf8sAhTWaelhvsAAGEPZLoLZfiMsa3fyz6Nqo7
- hKnLQr+2fUCuJ9A35GieppoohH6NxEk/4XZ1jp89OhyeVqlx9TtOwrCIBaqiPNKCdC8u
- BrHkWdU9nktdda5UVhce1Quar0a91rQJ5r6XxVMP1d0/rvxp4ZfRf0hennP2+k34s3E8
- s50yGk7mi0ChuV24nG+uoaFwpgk7itVzWRwP1uesN+CCjLwYiZz3hD4PxhF4+DqwNdsz
- p7jA==
-X-Gm-Message-State: AOAM531hg7ZPf/w7souMGbrSva+Q2E1oJEDwMgJ4nJ37l/ZVylLy4t5F
- XuHzPgB5cdlhiv3FXmj1n2x8QQ==
-X-Google-Smtp-Source: ABdhPJyDd5om/wqo1hK+tj0Zm+67PMNirICRS2zCtqtP+vjMEXB3yRHeAvDKA2rS3aprbWC1FnwUfw==
-X-Received: by 2002:a05:6a00:15c6:b0:4fa:aaec:ef42 with SMTP id
- o6-20020a056a0015c600b004faaaecef42mr25501100pfu.74.1649534086796; 
- Sat, 09 Apr 2022 12:54:46 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ bh=ni7qN9Wb9Z3e3P7x8SuSnoMj4dzFsqzeAQEt8oeDsY0=;
+ b=H1I0NVf3KaIhbi4jNsfi4a/n3Frn0/dedlsZfVFR/Hf6ADwm7ReZwZbdJBCKHJ0URB
+ O8C49otRavVYOwJyatMwzPAZ4qHq2ChA2IDQnLE36s3kBC9dbOOTMdFZozu/yJ584R7u
+ 3o6ZBFQ5Tiyqk+MjT/bjSl93Q7CTk73h4VZt4doctuoHqprywH/oxqIYRmrMDo38uXPH
+ R3u+ameeQIX+r/RjRYDlEgrcQkjvgkoVCKTFkZ9JRdVjhpzCmBjWxDrMW28VWF7NPKoJ
+ qrki1kEXOc/IwnxsPOB4METOFKapRc4Ob5Wp0BWT5HqX0gRuPY6uQYuZFZLDvE/Dc2iN
+ DZsw==
+X-Gm-Message-State: AOAM530JLPThsU8TE8p8xk5GBE5j7OvyhhEuLwpHGhm8u8HY4f/Muolo
+ D7ZJESkRFWqFOQxnqiXZzhDONt6KPMI=
+X-Google-Smtp-Source: ABdhPJy3ZQNz1BmgV8f/oDjoslWw/A5JSI+jzk9mEBvuoB4j11EZ94+/JXMpvFN4Cu87alM/zm5T3w==
+X-Received: by 2002:a05:6808:1895:b0:2d9:fcf6:94b4 with SMTP id
+ bi21-20020a056808189500b002d9fcf694b4mr2289586oib.243.1649534950245; 
+ Sat, 09 Apr 2022 13:09:10 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:7ee3:afd9:f010:3a9:fd23])
  by smtp.gmail.com with ESMTPSA id
- r76-20020a632b4f000000b003820643e1c2sm25456245pgr.59.2022.04.09.12.54.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Apr 2022 12:54:46 -0700 (PDT)
-Message-ID: <4f8d81ad-521a-adb0-d8d5-745f57818b9a@linaro.org>
-Date: Sat, 9 Apr 2022 12:54:44 -0700
+ r8-20020a05683001c800b005cdadc2a837sm10457474ota.70.2022.04.09.13.09.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 09 Apr 2022 13:09:09 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/1] Coverity fixes in hw/ppc/spapr_nvdimm.c
+Date: Sat,  9 Apr 2022 17:08:55 -0300
+Message-Id: <20220409200856.283076-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 28/41] hw/intc/arm_gicv3_redist: Factor out "update hpplpi
- for all LPIs" logic
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-29-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220408141550.1271295-29-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,62 +81,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/8/22 07:15, Peter Maydell wrote:
-> Factor out the common part of gicv3_redist_update_lpi_only() into
-> a new function update_for_all_lpis(), which does a full rescan
-> of an LPI Pending table and sets the specified PendingIrq struct
-> with the highest priority pending enabled LPI it finds.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/intc/arm_gicv3_redist.c | 66 ++++++++++++++++++++++++++------------
->   1 file changed, 46 insertions(+), 20 deletions(-)
-> 
-> diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-> index 571e0fa8309..2379389d14e 100644
-> --- a/hw/intc/arm_gicv3_redist.c
-> +++ b/hw/intc/arm_gicv3_redist.c
-> @@ -103,6 +103,48 @@ static void update_for_one_lpi(GICv3CPUState *cs, int irq,
->       }
->   }
->   
-> +/**
-> + * update_for_all_lpis: Fully scan LPI tables and find best pending LPI
-> + *
-> + * @cs: GICv3CPUState
-> + * @ptbase: physical address of LPI Pending table
-> + * @ctbase: physical address of LPI Configuration table
-> + * @ptsizebits: size of tables, specified as number of interrupt ID bits minus 1
-> + * @ds: true if priority value should not be shifted
-> + * @hpp: points to pending information to set
-> + *
-> + * Recalculate the highest priority pending enabled LPI from scratch,
-> + * and set @hpp accordingly.
-> + *
-> + * We scan the LPI pending table @ptbase; for each pending LPI, we read the
-> + * corresponding entry in the LPI configuration table @ctbase to extract
-> + * the priority and enabled information.
-> + *
-> + * We take @ptsizebits in the form idbits-1 because this is the way that
-> + * LPI table sizes are architecturally specified in GICR_PROPBASER.IDBits
-> + * and in the VMAPP command's VPT_size field.
-> + */
-> +static void update_for_all_lpis(GICv3CPUState *cs, uint64_t ptbase,
-> +                                uint64_t ctbase, unsigned ptsizebits,
-> +                                bool ds, PendingIrq *hpp)
-> +{
-> +    AddressSpace *as = &cs->gic->dma_as;
-> +    uint8_t pend;
-> +    uint32_t pendt_size = (1ULL << (ptsizebits + 1));
+Changes from v1:
+- clarified in the commit message which kind of errors we aim to prevent
+- changed the H_HARDWARE return to g_assert() exit
+- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2022-04/msg00569.html
 
-Code movement, so ok, but no need for ull.
+Daniel Henrique Barboza (1):
+  hw/ppc: check if spapr_drc_index() returns NULL in spapr_nvdimm.c
 
-Anyway,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+ hw/ppc/spapr_nvdimm.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-r~
+-- 
+2.35.1
+
 
