@@ -2,71 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1AE74FA61B
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 11:00:58 +0200 (CEST)
-Received: from localhost ([::1]:60730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786264FA695
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 11:49:50 +0200 (CEST)
+Received: from localhost ([::1]:54870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nd6xl-0001D3-F3
-	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 05:00:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51960)
+	id 1nd7j3-0001uU-8Z
+	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 05:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nd6un-0000Vm-8x
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 04:57:54 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:39489)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nd6ul-0001YE-Ql
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 04:57:52 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id x21so18925029ybd.6
- for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 01:57:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g/OjocjfrF8dmHJgaNKZQmP5fjoeIg0VuaCXCfCGDvE=;
- b=hyJQVQ1RwOqMiaEQ+K17Il7kxHyLq6uDFFs4q5I4kGM2OWRb7Y6Gg5F5G1OiuK9ola
- RcPSxkT8r1pgRI1r05d+C834B2GyfuwluUDjw/7yzpMXT/XgQ8yNO8JfWrrgxIxscQjc
- P/gbKnvXcDK3TGpfOkls1m8PRYrIzpMvl2kre7ckrxbm7wPAJ+pIvq9yiFwjtzSqxFVa
- YRw1JeFhLwTkysi/ULq8M/pM8Rujxh7K8G+wHSBY+GuxZh8nPcQyOXhnYGiarLGey0FQ
- QRK4NF0QjPEP9rgQAibqcOM81HtIcXt6I8onViLGocgqh3mobt7iNI7AK2BlOkvhEfq6
- R85w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g/OjocjfrF8dmHJgaNKZQmP5fjoeIg0VuaCXCfCGDvE=;
- b=RuOJKgmiOSFxO7u+pqUqt7ZNQtIAaHZOtle440Fd+uZtseiR1b0CD5+rqPBIhcAZRd
- plvdfl6zM1Xl9NVDH2bq27aTCS4/unkZ3abqdLia0J4OHboPt3Nm6YaiPpzK/uL/VKdS
- AxLCPq5bcbpu3W8dmfO8tiHP73FnFJhFvaQL0A0mO5+7PQgClJd7B5FvPdFuYDR+BTaL
- 3Xtjx4dE5JUCS8o29gbHOj70E0jt+iGVdSWtPyd+am9X20xqmSXJQOMrHX5jDFmrodiY
- 44CDjzMyJDwP1U5rgz6F9qnJKbCztTd3QWJlcM7IFCcnBZijNSKK+fKxiez3BUMfNFA/
- 0tNQ==
-X-Gm-Message-State: AOAM530PymYUIoB5PFVAwpvP9KWijzVddDxco3eF8g+Gtic8d9j3TwKs
- ut43B4+zB/dLyhVswkXf9eP3eIdfO78NqdhP09WogQ==
-X-Google-Smtp-Source: ABdhPJwqa7WD7TDQco31q1YDgDLG74wWt+5v8Ge2wFAbI3DK77SSqs5Ic0MRyBIBw4Qtj9WqXY2XyD+LCKpWI/2vTro=
-X-Received: by 2002:a25:d4c5:0:b0:641:1569:17a8 with SMTP id
- m188-20020a25d4c5000000b00641156917a8mr3526724ybf.85.1649494669361; Sat, 09
- Apr 2022 01:57:49 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1nd7g4-0008Ae-7B; Sat, 09 Apr 2022 05:46:45 -0400
+Received: from fossa.birch.relay.mailchannels.net ([23.83.209.62]:62662)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1nd7g0-0008P5-Ot; Sat, 09 Apr 2022 05:46:43 -0400
+X-Sender-Id: hostpapa|x-authuser|frederic@petrot.fr
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+ by relay.mailchannels.net (Postfix) with ESMTP id CFB1A5A0CF5;
+ Sat,  9 Apr 2022 09:46:32 +0000 (UTC)
+Received: from hp220.hostpapa.com (unknown [127.0.0.6])
+ (Authenticated sender: hostpapa)
+ by relay.mailchannels.net (Postfix) with ESMTPA id 77CE95A0C02;
+ Sat,  9 Apr 2022 09:46:31 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1649497592; a=rsa-sha256;
+ cv=none;
+ b=jSd5JihafycdjM2qybh4wz+7H/0VS0lkpBmIjF9an7kSCtSj7FUyy0ssp3PdVLyIGpisG0
+ w0sAm+6XMuazggCW8b1XtQHDWORfGC5kYDcVhgK07+dVXP4Z64SdaRnpod08KHQaTsZkd6
+ f1DKJVhW9jrJSfJzdZoN0RH+85g3jwvVgrAAMlnRMRjLVhbPyblCTHGsyFiyaWb6gPIFBJ
+ 09vc2USKddxXBHfY0ntZNyxyCsSMrw5ghCJ8np+2JR87gcYvNRlNcPgOKBP71aYhBdWWgs
+ 4bl73QXJ2wUEHNoOsCwDMVjEWgNdMUG36ujcunFrivYtf4nrq8tW1vvBRMXq3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net; s=arc-2022; t=1649497592;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:dkim-signature;
+ bh=HWmcwwdH1xKc8gNXux8j1R+iwn7trM5HwjZnc2GT3QE=;
+ b=vaebOl2Lf+A1q/4UvcJiZtIENirsV6fHTUtR2awp/TYsAXfxZv1HSOATlLo6aSER00C4/H
+ KpVPfuKFXDvxZgkAVey5ZdDsWaDUBEIKdZbhjoxYl1tJp63qL6xYTQd5SNpe55vUtU2WFh
+ Ey/f7wDFTfsR6jUFGLbc7jbiP5R0X0yf+ln9KypyfslyPv0jgukdmPj6WJf1tM/GU9ljIU
+ j4NnrcEBRtMUWshVaSh8BwIA8IvUkAcjbNO5YAo8HDOzP/+2BKum6rUWBo+LdmsQamNylo
+ pzup/IHVURx0T/Dl4kOr5Nsp2ZylVekiZowWb5FwZtlayJt0hzhKoK2EF4ukcQ==
+ARC-Authentication-Results: i=1; rspamd-54997cf457-w6zzv;
+ auth=pass smtp.auth=hostpapa
+ smtp.mailfrom=frederic.petrot@univ-grenoble-alpes.fr
+X-Sender-Id: hostpapa|x-authuser|frederic@petrot.fr
+Received: from hp220.hostpapa.com (hp220.hostpapa.com [69.90.161.120])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
+ by 100.101.255.152 (trex/6.7.1); Sat, 09 Apr 2022 09:46:32 +0000
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostpapa|x-authuser|frederic@petrot.fr
+X-MailChannels-Auth-Id: hostpapa
+X-Fumbling-Duck: 6fde09e747fcd9b5_1649497592369_174969923
+X-MC-Loop-Signature: 1649497592369:3355481604
+X-MC-Ingress-Time: 1649497592368
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=petrot.fr; 
+ s=default;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=HWmcwwdH1xKc8gNXux8j1R+iwn7trM5HwjZnc2GT3QE=; b=VrcgfR68QNXwq4gVHjzgZtLxve
+ NRftXhom9J2rSdEsw2U/NaDnMvgsscCIfa8UhalRY3UmkOuo/3op8Yt0VFemvX5F3V4ta2aTsEFV1
+ AKyKBClMtN8vefEJCL1tYb182+gYxGEJwAK4fp7jFkSqIzMSE3d3MBQF7A+/Bw3F1jQfDPMLEJq3d
+ jdqvpNgWQZGntahHGiInSWfLneqVJ8YiqrmABNFs2ZuAOhXsljsU8belEBrjL2zi+QO6l9ysbUK9h
+ Dlc3h0T9I/p6xqZppHqDYZhczMKxvGDtIkNkqoNc0KT4BXichqE7vCF5D6uWJkRkEh5fxahy+aCs6
+ 17cjpClQ==;
+Received: from 35.201.90.79.rev.sfr.net ([79.90.201.35]:39314
+ helo=palmier.u-ga.fr) by hp220.hostpapa.com with esmtpa (Exim 4.94.2)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1nd7ft-000ltT-Eg; Sat, 09 Apr 2022 11:46:30 +0200
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH] target/riscv: use xlen in forging isa string
+Date: Sat,  9 Apr 2022 11:46:10 +0200
+Message-Id: <20220409094612.1908512-1-frederic.petrot@univ-grenoble-alpes.fr>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220407095047.50371-1-mst@redhat.com>
- <CAFEAcA8upf6nA8dUPeAyY_Q-F_oscqZonPGCKT2OUZORcX4FuQ@mail.gmail.com>
- <20220407104905-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220407104905-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 9 Apr 2022 09:57:38 +0100
-Message-ID: <CAFEAcA8xcWUvPyZj4GOHs8kS0msdh5f6_2aHHpkKpDMW+BxcxA@mail.gmail.com>
-Subject: Re: [PATCH for-7.0] virtio-iommu: use-after-free fix
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-AuthUser: frederic@petrot.fr
+Received-SPF: neutral client-ip=23.83.209.62;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=fossa.birch.relay.mailchannels.net
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,39 +109,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, qemu-devel@nongnu.org,
- Wentao Liang <Wentao_Liang_g@163.com>
+Cc: alistair.francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Apr 2022 at 15:50, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Thu, Apr 07, 2022 at 11:03:16AM +0100, Peter Maydell wrote:
-> > On Thu, 7 Apr 2022 at 10:52, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > From: Wentao Liang <Wentao_Liang_g@163.com>
-> > >
-> > > A potential Use-after-free was reported in virtio_iommu_handle_command
-> > > when using virtio-iommu:
-> > >
-> > > > I find a potential Use-after-free in QEMU 6.2.0, which is in
-> > > > virtio_iommu_handle_command() (./hw/virtio/virtio-iommu.c).
-> >
-> > So, this isn't a regression. Do you think it's critically necessary
-> > it goes in 7.0, or is it in the category "put it into 7.0 if we
-> > need an rc4 for some other reason anyway" ?
-> >
-> > (I have a feeling we'll need an rc4, but we'll see.)
-> >
-> > thanks
-> > -- PMM
->
-> I am concerned it can be used to trigger a CVE but I could not
-> find a way. So I would say if there's an rc4 pls include it
-> but if not then we can pick it up in stable.
+Since we now have xlen in misa, let's not use TARGET_LONG_BITS while
+forging the isa string, and use instead riscv_cpu_mxl_bits.
 
-We needed an rc4 for a couple of other security fixes, so I've
-applied this to master; thanks.
+Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+---
+ target/riscv/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
--- PMM
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 0c774056c5..0644b3843e 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -984,7 +984,8 @@ char *riscv_isa_string(RISCVCPU *cpu)
+     int i;
+     const size_t maxlen = sizeof("rv128") + sizeof(riscv_single_letter_exts);
+     char *isa_str = g_new(char, maxlen);
+-    char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
++    char *p = isa_str + snprintf(isa_str, maxlen, "rv%lu",
++                                 riscv_cpu_mxl_bits(&cpu->env));
+     for (i = 0; i < sizeof(riscv_single_letter_exts) - 1; i++) {
+         if (cpu->env.misa_ext & RV(riscv_single_letter_exts[i])) {
+             *p++ = qemu_tolower(riscv_single_letter_exts[i]);
+-- 
+2.35.1
+
 
