@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18C84FA0A2
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 02:25:30 +0200 (CEST)
-Received: from localhost ([::1]:40332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912CC4FA0B1
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 02:32:22 +0200 (CEST)
+Received: from localhost ([::1]:52978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ncyuv-0001yi-T7
-	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 20:25:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50096)
+	id 1ncz1Z-0002Ya-EP
+	for lists+qemu-devel@lfdr.de; Fri, 08 Apr 2022 20:32:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ncyr6-0007ZR-Tl
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 20:21:32 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:35649)
+ id 1ncysn-0000YN-Bu
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 20:23:17 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:37456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ncyr3-0005mC-M3
- for qemu-devel@nongnu.org; Fri, 08 Apr 2022 20:21:32 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- nt14-20020a17090b248e00b001ca601046a4so13332745pjb.0
- for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 17:21:29 -0700 (PDT)
+ id 1ncysl-0005sI-OD
+ for qemu-devel@nongnu.org; Fri, 08 Apr 2022 20:23:16 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id n9so9274325plc.4
+ for <qemu-devel@nongnu.org>; Fri, 08 Apr 2022 17:23:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ppoA3mvS9q/qtJs2kfHueg9IKiQGxu71Diq9gdMQUcw=;
- b=WdSsfyjyPtdJOdqULA4BTbf+QWNMudDjDaBd4mUyuDWy2YP20zliV+MfBcHxqxkn3K
- tX4IYSMRFtUwNP3aeEQGbkmr+NZ2zEVXUVoZcD0SNYAPji1x2HVJoZK+VA1WoC2Ks/x6
- rH3xNEoXT4BV6uLD4hAB51vYzZ6K84VNmtZ8+u40tsA0zVx7JzzuO+l93LDOBAi42njy
- mCEo07/wt1QaEF0gOtjxfRqS+La8KjE3NTVQFKO4QqhVt4KZIhfkXtnciRVP0xwXhfPT
- 4AyilOfASEAraxXx5PBD/eCb+/UpJNbUBHVzIoXZ2FJlQgUOv1ASgzn4MgETecw0a94Q
- d7ng==
+ bh=NOhuDfVvBAicfakL5kWe7UFW7CxJ0Qap4Lf340Yh4HM=;
+ b=q3t2krsW5LQRocO8hyLZYTU1q5BCPLRTrR+CXsW4zpx0RSSS16uISxvDFO4FwUyyP5
+ UARpvoqq/KDi3yazrGs3f9qDDKUSSf+Zs06dRLIEjSuq8yQtJgWzofHizgWgzprRoUOH
+ tCqxFfuDkJph38kbFQClpZpVvsGsRhR2mipOQim8DGAyMd3y+ehwxNaabh8XWjI5D023
+ l27IPK9JjvNVy4ekROrAWWKNX6tAmquwI2TA9IasDaS7ztuKwiXBcI+JaTZvrhxRezgC
+ LfNhAX0PUp3th+trC419TDQ3WGUowxkVPJJt6yL+e4aw7bRRutlPOffYXOkc/MwHL6Mw
+ NAbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ppoA3mvS9q/qtJs2kfHueg9IKiQGxu71Diq9gdMQUcw=;
- b=fVFxqLF3+yN6Xld5IDmLTRGnFNGLVzw1BKHsqaYdl2gs46CW73Qt/95qBU5oDilHF1
- 0RdLaMW83/dj6EBYl9Xl3EhINIJuGKHgECwx5YabzqQewsAH1T3eilt4luLmR7xUL3lw
- GuTSwj/e0Raf/gjBpYtnZz/pjU51waHEQ+njAa7YdXbVC4EX9ReEQ8jomUQ3p8Tt+mKi
- F07MaLqkFIKFX0tEHX/ENZFrco6TdPdiRPy0pyeUse+LUZc7sOEz7y/cwM4P/h5ZYjN4
- d1pom/9cpmXLycCgpCLhuFpCnSxdmBOkNENi6rEgbSxqO2nyVzh0Q737BSjahqej7zI+
- E3mA==
-X-Gm-Message-State: AOAM531MINQFvHYgdwx0JyugqubLaH/KmmIBrCIlL35Jg6UJcI+p7EYM
- OxI2ceT2b9AIF+6U/p93hmhOXg==
-X-Google-Smtp-Source: ABdhPJwXVs/5zIxGdnMJmcBKglnNNAjUwKyz62W959EuhewsmsG5kijTFY41Z2DirzN6wZirtp9N9g==
-X-Received: by 2002:a17:902:d2c3:b0:157:ebe:25c5 with SMTP id
- n3-20020a170902d2c300b001570ebe25c5mr9993107plc.59.1649463688289; 
- Fri, 08 Apr 2022 17:21:28 -0700 (PDT)
+ bh=NOhuDfVvBAicfakL5kWe7UFW7CxJ0Qap4Lf340Yh4HM=;
+ b=1NNVZvDvJ4OtUzxdefk1PemeJnr332OvlEyaD2XUZ7Yi3tFIHg/AXs49ZDiK+aSkOY
+ hIiXyql/ulp/B1hd9gCcmxaxN6bCO7A+kyyxBu/EGFUOb00fF9EVe3rH1wTHW1mIseoK
+ q3EuoFAX69BH+nBf7lmcmbx1A+Sud2uH8kawZP+sqiXQ54OcXYcKJOyb9tpbG7yNN8qr
+ cWZ2+ZdUVPArI2meYi/ShKDn7GqtAN9XE2CKCcMrCeN4Z4pT9zyrThpxTHi2sbl1NjtC
+ c3W4xYZI3tRHlNbK5foswfqXb1/16Ey5N24Mn2I39qzd676RwhN0N8QRb9BQI/LeKAmb
+ FJ6g==
+X-Gm-Message-State: AOAM533Nh1YO7ZHpMuUDAqdnAkzn0h4W6V7TDG/bCah/BLVPcfakysX8
+ C8Gu2YBgHouoI4s86XxalgiBFA==
+X-Google-Smtp-Source: ABdhPJyQ7dAYKsNSAs/13y4GggpOIK4rz9N9hGFYYKLCEnksp/KUMn8rcQm2Je+046GKoE8fXXJHVw==
+X-Received: by 2002:a17:903:28f:b0:158:1ff3:74ce with SMTP id
+ j15-20020a170903028f00b001581ff374cemr5357186plr.132.1649463794184; 
+ Fri, 08 Apr 2022 17:23:14 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- z6-20020a056a00240600b004e17ab23340sm28673734pfh.177.2022.04.08.17.21.27
+ h21-20020a056a001a5500b004fb71896e49sm26416275pfv.25.2022.04.08.17.23.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 17:21:27 -0700 (PDT)
-Message-ID: <4dd747c0-3ab7-ef2a-168f-ccec69ed2d35@linaro.org>
-Date: Fri, 8 Apr 2022 17:21:26 -0700
+ Fri, 08 Apr 2022 17:23:13 -0700 (PDT)
+Message-ID: <abc307f1-b639-4698-242c-bf95f5ec6d10@linaro.org>
+Date: Fri, 8 Apr 2022 17:23:11 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 09/41] hw/intc/arm_gicv3_its: Implement VMAPP
+Subject: Re: [PATCH 10/41] hw/intc/arm_gicv3_its: Distinguish success and
+ error cases of CMD_CONTINUE
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-10-peter.maydell@linaro.org>
+ <20220408141550.1271295-11-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220408141550.1271295-10-peter.maydell@linaro.org>
+In-Reply-To: <20220408141550.1271295-11-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,22 +96,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/8/22 07:15, Peter Maydell wrote:
-> Implement the GICv4 VMAPP command, which writes an entry to the vPE
-> table.
-> 
-> For GICv4.1 this command has extra fields in the command packet
-> and additional behaviour. We define the 4.1-only fields with the
-> FIELD macro, but only implement the GICv4.0 version of the command.
+> In the ItsCmdResult enum, we currently distinguish only CMD_STALL
+> (failure, stall processing of the command queue) and CMD_CONTINUE
+> (keep processing the queue), and we use the latter both for "there
+> was a parameter error, go on to the next command" and "the command
+> succeeded, go on to the next command".  Sometimes we would like to
+> distinguish those two cases, so add CMD_CONTINUE_OK to the enum to
+> represent the success situation, and use it in the relevant places.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
-> GICv4.1 emulation is on my todo list, but I'm starting with
-> just the 4.0 parts first.
-> ---
->   hw/intc/gicv3_internal.h | 12 ++++++
->   hw/intc/arm_gicv3_its.c  | 88 ++++++++++++++++++++++++++++++++++++++++
->   hw/intc/trace-events     |  2 +
->   3 files changed, 102 insertions(+)
+>   hw/intc/arm_gicv3_its.c | 29 ++++++++++++++++-------------
+>   1 file changed, 16 insertions(+), 13 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
