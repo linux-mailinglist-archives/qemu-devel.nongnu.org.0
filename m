@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19AD4FAADA
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:49:10 +0200 (CEST)
-Received: from localhost ([::1]:49794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329C24FAADD
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Apr 2022 22:52:38 +0200 (CEST)
+Received: from localhost ([::1]:52356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndI17-00075I-BY
-	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36848)
+	id 1ndI4T-0000ho-0q
+	for lists+qemu-devel@lfdr.de; Sat, 09 Apr 2022 16:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHzp-0005Sl-4a
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:47:49 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:35819)
+ id 1ndI2X-0008Aa-P0
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:50:39 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:36656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ndHzm-00050G-Qo
- for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:47:48 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- nt14-20020a17090b248e00b001ca601046a4so14911506pjb.0
- for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:47:46 -0700 (PDT)
+ id 1ndI2V-0005cp-3k
+ for qemu-devel@nongnu.org; Sat, 09 Apr 2022 16:50:36 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id m16so10828374plx.3
+ for <qemu-devel@nongnu.org>; Sat, 09 Apr 2022 13:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=twE9MxGPKuDn6x9Bt0K7VtxCoo4pVL4TP9mNCW6xpQs=;
- b=wkrCf48PDmOvGBUhcwVWkMTzzdfE0FOvbBqcqy5mv397HlVV9KRSQpOMwNSBHjTJNz
- x0UCzc3ZQxbW5XIVaupyH3vR+zAC29N81DICjFwI6qR9twTQVGA6YQVWi7RL+jc9ZZtu
- cyHS8YdOUGAo7QEXq4LArAMJt65DwnEoGqA5aaMgHg3XYcT+UWAvBikR33VdJ+Phd5hc
- /ZlAgd/+nlQpuTyIDTEpi07BVBsWfYCQdqMelIHe/QR2wpjh7MQ+wtx5364/CwBnVotV
- dHPEmKQhHzQM9smzm+L21j+kZJ4+7LTm0tVxyCG/lbBlFYDHk2LBKRIYkmM0gdfv/0nb
- VErw==
+ bh=VNpuLewJ4Bg0eOowEp5pClkJz2gT29vLZ7tOoLyNSg0=;
+ b=Hlvx0iNbNLySRtV/nXdEVoiX22mDVc6Mfyyf66GK1TscQ62QRVzqVMQWQMfCzWtiZK
+ NERk0qm0NkZvC16nQAAGE6PI4LLk7uk1t4wdtpmjPNtAbUEqKZ2ki+2GTdxNsHCjibCZ
+ OFqjSAkw5pzdrAigEUl8nyQPUVYQme17b8ui52wQC676pCA9+NTZSznO+1xxZCasCbYE
+ rcOdz4wmafB25eKRWyCZ/FjBYgTHwMWMcA91w+1+veoh8opatmdRy33NJvK/sheyMo/T
+ v/IiDDnsNb+y19ZZ2ipbANzMHaZVoLw96nzrIg1LoCeTl8RUUUPk4Hz64H/N7GZnBsHw
+ WK1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=twE9MxGPKuDn6x9Bt0K7VtxCoo4pVL4TP9mNCW6xpQs=;
- b=2/G6hHhKqF2LpANJo5IdAQJAoa6PsRLhFDnUuAasLz8RZOE2fPpHVTQCUmUQFQXU58
- Bw+sgw8LTAD6V9HvbMp9vQ+1EQr1NWptEi/kN4Jlahc963Halj1gRVoTwqA9zcZ2agWq
- kakjKZniQweuLuECMKo6hGnxYCyPHcYYVWWP0GyzHup6z/9e0HYkxeSOeAzZD5prMw9M
- DOTHXn4DOkp08TTvY9eZnbGg0mWkC9DmfBlWSqsK5xhu2fIFUlucYMFdNJeaZQAQA+jY
- nA+CFo5P7/i8jPAaPfMXYk2NaovLnfu1MIwa5Wbx8VEeP1nEM05XmdQJsFes+5lU6keT
- cI5w==
-X-Gm-Message-State: AOAM530KZT6NhyIopm1ikglAHxzN/EilXW3W5x4UF6V2Myik+QHqFsBn
- EC0zEQNEc7KkAuQQLiuXe5ayGw==
-X-Google-Smtp-Source: ABdhPJxqRn6iLy0dq9p+KrnH8/kF+IfCQPnrOZoERYq3B8GRm5NYcS32YnRfBeFHUbLko9BW+m0/hg==
-X-Received: by 2002:a17:902:f64c:b0:156:4349:7e9b with SMTP id
- m12-20020a170902f64c00b0015643497e9bmr25618254plg.139.1649537264994; 
- Sat, 09 Apr 2022 13:47:44 -0700 (PDT)
+ bh=VNpuLewJ4Bg0eOowEp5pClkJz2gT29vLZ7tOoLyNSg0=;
+ b=TZUHL3I+QPKsIi2cg7i4mFki7F4jNGhbfuSxThjkDRQr0wyG6mGQ89klCut2LSZRIZ
+ Fo4jg3DYknzzefjcUgubehv0GQqTtygM4Ic/OLCnv+ovo8rjKqhcVCoYYLGZ79xkZYki
+ Ab571HVl3KbpCKRuYhxHreWJeWzwqwuoCmzpqEhSZSLx9QnJ342c1pG5gZ1V1X6aPjYw
+ PiU4/j09iNBHHrizX34tPKc2FBYG2yiQF+Y018enCmLFWKiOG1oSJxtkAJQobn63c6+M
+ gXZFrIOQiP+A8mO7C4IKap/Z6I1l1tvkUOT2USLzHF/5WjGOPzp9+V8ILxTjBBPhcMRh
+ ujgw==
+X-Gm-Message-State: AOAM5333sP55NK38Jrm67D/UWJ9tbewEyo0f5mIkeKKs84lOYfWjkoe6
+ rgHtUSaE6qngo6Wbk/X9CAD+Tw==
+X-Google-Smtp-Source: ABdhPJwESzdmxDJREdkfU5IXvITeV2GtwTXgujk7iLq1NXP4P6IN5mw6xDlgZ0i/+potmMePPZmkCg==
+X-Received: by 2002:a17:90b:3b50:b0:1c7:5d55:3cb8 with SMTP id
+ ot16-20020a17090b3b5000b001c75d553cb8mr28723659pjb.78.1649537433735; 
+ Sat, 09 Apr 2022 13:50:33 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- h13-20020a056a00170d00b004fb1450229bsm32072933pfc.16.2022.04.09.13.47.44
+ 75-20020a62174e000000b0050579f94ed2sm6724853pfx.96.2022.04.09.13.50.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Apr 2022 13:47:44 -0700 (PDT)
-Message-ID: <f86902e0-8cf3-c492-f356-8d5dd438597b@linaro.org>
-Date: Sat, 9 Apr 2022 13:47:42 -0700
+ Sat, 09 Apr 2022 13:50:33 -0700 (PDT)
+Message-ID: <a77c5192-1dda-1815-0fd1-1691947fbe97@linaro.org>
+Date: Sat, 9 Apr 2022 13:50:31 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 37/41] hw/intc/arm_gicv3: Update ID and feature registers
- for GICv4
+Subject: Re: [PATCH 38/41] hw/intc/arm_gicv3: Allow 'revision' property to be
+ set to 4
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-38-peter.maydell@linaro.org>
+ <20220408141550.1271295-39-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220408141550.1271295-38-peter.maydell@linaro.org>
+In-Reply-To: <20220408141550.1271295-39-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,24 +96,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/8/22 07:15, Peter Maydell wrote:
-> Update the various GIC ID and feature registers for GICv4:
->   * PIDR2 [7:4] is the GIC architecture revision
->   * GICD_TYPER.DVIS is 1 to indicate direct vLPI injection support
->   * GICR_TYPER.VLPIS is 1 to indicate redistributor support for vLPIs
->   * GITS_TYPER.VIRTUAL is 1 to indicate vLPI support
->   * GITS_TYPER.VMOVP is 1 to indicate that our VMOVP implementation
->     handles cross-ITS synchronization for the guest
->   * ICH_VTR_EL2.nV4 is 0 to indicate direct vLPI injection support
+> Now that we have implemented all the GICv4 requirements, relax the
+> error-checking on the GIC object's 'revision' property to allow a TCG
+> GIC to be a GICv4, whilst still constraining the KVM GIC to GICv3.
+> 
+> Our 'revision' property doesn't consider the possibility of wanting
+> to specify the minor version of the GIC -- for instance there is a
+> GICv3.1 which adds support for extended SPI and PPI ranges, among
+> other things, and also GICv4.1.  But since the QOM property is
+> internal to QEMU, not user-facing, we can cross that bridge when we
+> come to it. Within the GIC implementation itself code generally
+> checks against the appropriate ID register feature bits, and the
+> only use of s->revision is for setting those ID register bits.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/intc/gicv3_internal.h   | 15 +++++++++++----
->   hw/intc/arm_gicv3_common.c |  7 +++++--
->   hw/intc/arm_gicv3_cpuif.c  |  6 +++++-
->   hw/intc/arm_gicv3_dist.c   |  7 ++++---
->   hw/intc/arm_gicv3_its.c    |  7 ++++++-
->   hw/intc/arm_gicv3_redist.c |  2 +-
->   6 files changed, 32 insertions(+), 12 deletions(-)
+>   hw/intc/arm_gicv3_common.c | 12 +++++++-----
+>   hw/intc/arm_gicv3_kvm.c    |  5 +++++
+>   2 files changed, 12 insertions(+), 5 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
