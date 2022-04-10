@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842FB4FB0D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 01:43:00 +0200 (CEST)
-Received: from localhost ([::1]:48390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3125D4FB0E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 01:51:54 +0200 (CEST)
+Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndhCt-0006gn-5d
-	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 19:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36898)
+	id 1ndhLU-0000RI-Vo
+	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 19:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1ndhBI-0005xT-Ne
- for qemu-devel@nongnu.org; Sun, 10 Apr 2022 19:41:20 -0400
-Received: from mail-vs1-xe31.google.com ([2607:f8b0:4864:20::e31]:45986)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
- id 1ndhBG-0002yp-Rd
- for qemu-devel@nongnu.org; Sun, 10 Apr 2022 19:41:20 -0400
-Received: by mail-vs1-xe31.google.com with SMTP id r1so11696034vsi.12
- for <qemu-devel@nongnu.org>; Sun, 10 Apr 2022 16:41:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ym6yqyY5sFwpGGsbfw5iz4CIsOOzqkNqAuVSMQULboY=;
- b=kazeVf/yKn7bxh/UbSspQ3E0D5/wmLtLTwY+zCFjpefwKMvBvbITBKmL2bP620SeFP
- pkl6CLK/vuntsICmAP+Dl8B21BRLkZ13YpsVhqS/Dvk7dWjYvzTj7XEYKv8JlyaA4BY1
- TR4ZZwJo0BoL/EYvYSC2RYmBUYgmUoc51UUamWmXji27x5rrHqOIfm16g4llkq5MgeH6
- EmM+j2gCCOxnnBU8HD1rHOjBm6fq8B2KNKEeB15/f4KqLTBNXbyAYO8tkCAlvHZD5Z32
- Qx4Es/v0qy7V3YnVjCVwlPE2T4blc3JA2KNELYx9KTB2W2XckTTMMS4EiTYOGkKN106/
- EAHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ym6yqyY5sFwpGGsbfw5iz4CIsOOzqkNqAuVSMQULboY=;
- b=1YlcopMkkX7FCNNKNsVcqmBVeKqfmUH5J5w66bNhL3we81cWULKWyD7UQnzuOMdGQH
- yfqmhDUNDm+MsTARB4ZOKDAYFKTntOGcCykJTf7+68bYDotKGwvKwMoBYmfAsDdgG2Nt
- 8gOgrd5pvJeMXWnB9f6C5twRAHGV7fMBkTeVL4PsT8Q3SXS3XmAsdqx+RIlv2bxSXX0q
- q8tPV1t8PGERqv8zLdWyW2p/ZyovXMrqRnjBgPLkr209u+OkapdgJ5rR8azjVsAakgjV
- rBeaGxg3QEEthWyH6LyEMB5b2vSa+oY4y0YFv1mxOxuHx2FbgXHJGy5lvozkrsyDdFf9
- NKtg==
-X-Gm-Message-State: AOAM530M29gXIOsMYooF6ZBvoxGKqIBGsPfqnwXaIC6/Hs7+9hZaqRmI
- UxQxC9ftF8lz0m2niNpKsHxfq6zEuu8m4H1Ijlc=
-X-Google-Smtp-Source: ABdhPJy1RP6DTiP3syn9sNFKJX0YBCaeXMgHl4cf7XYT7M4oBmfueEGY9X0EwVFR6FcYKpCXTO+ZidGecw3nB/lefi4=
-X-Received: by 2002:a67:ba10:0:b0:328:28e6:7066 with SMTP id
- l16-20020a67ba10000000b0032828e67066mr3158930vsn.29.1649634077012; Sun, 10
- Apr 2022 16:41:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1ndhKJ-0008A6-24
+ for qemu-devel@nongnu.org; Sun, 10 Apr 2022 19:50:39 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:41769
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1ndhKH-0004Nt-KC
+ for qemu-devel@nongnu.org; Sun, 10 Apr 2022 19:50:38 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4Kc7yy3nr2z8PbN;
+ Sun, 10 Apr 2022 19:50:34 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; s=default; bh=oy+ljPKGU
+ 8B2P6Z8f6hxa+cY89Q=; b=anWA6o1v7lCJtt7oI5/1pjtiJzwYVR6QkWOqqxcRp
+ gO7VrcPdy9fcoEsxFk/G1frXu6TWaGTazhlFVvwW4LqcHL6dRy9vvTTAy6bfPxAH
+ 7c6rbut6cX/UEZH0VzegJV0tgMfz8swh0W3LG5dT3BJmEieXkULA3wKGDKd+8pZ0
+ O0=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; q=dns; s=default; b=Je/
+ CeYY/REe42+OhTKl5dbE1TXLhnCGIku7VeJIWEqKMWDWDw36h89ZTe1v7r6IR/CW
+ wGZlGOE3WpA8E49lfQh2/bBtT2oKQ+QqcrPYj5XvP511qdKQ5ZXvNeQBxyNorRpa
+ FX30vKTdhHApq3ghvJBpuK/E9Ktz7va9zynC6DZM=
+Received: from [IPV6:2001:470:b050:6:100d:74ae:ae8c:ee48] (unknown
+ [IPv6:2001:470:b050:6:100d:74ae:ae8c:ee48])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4Kc7yy2kM9z8PbK;
+ Sun, 10 Apr 2022 19:50:34 -0400 (EDT)
+Message-ID: <b701aa9f-4dff-4a67-92a5-529fd07a7f1d@comstyle.com>
+Date: Sun, 10 Apr 2022 19:50:33 -0400
 MIME-Version: 1.0
-References: <CANW9uyuNovUDh7EpRni_f_pQBZv4g4E2QFWxaNW6amh9h-yanw@mail.gmail.com>
- <CAFEAcA9UsOqNhCu+o71YCMr6Og5as7Ht+LD3XLiujkKjSygc1g@mail.gmail.com>
-In-Reply-To: <CAFEAcA9UsOqNhCu+o71YCMr6Og5as7Ht+LD3XLiujkKjSygc1g@mail.gmail.com>
-From: Itaru Kitayama <itaru.kitayama@gmail.com>
-Date: Mon, 11 Apr 2022 08:41:06 +0900
-Message-ID: <CANW9uyt5UDNrygX_TS9FBDb5pJdJLkHAtHqDFEoyg1U0Mgz0Ug@mail.gmail.com>
-Subject: Re: Procedures adding new CPUs in sbsa-ref
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101
+ Thunderbird/100.0
+Subject: Re: [RFC PATCH for-7.1] Remove the slirp submodule (and only compile
+ with an external libslirp)
+Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e31;
- envelope-from=itaru.kitayama@gmail.com; helo=mail-vs1-xe31.google.com
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+References: <20220408164749.534758-1-thuth@redhat.com>
+ <72fe734a-8bf6-adc6-474a-47f2006c2f6d@comstyle.com>
+ <CAFEAcA-NdeN8S0JXqfrpTiDoUmfZHBXUtdAuRAdDRooTpnYipA@mail.gmail.com>
+From: Brad Smith <brad@comstyle.com>
+In-Reply-To: <CAFEAcA-NdeN8S0JXqfrpTiDoUmfZHBXUtdAuRAdDRooTpnYipA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,34 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leif Lindholm <leif@nuviainc.com>, Radoslaw Biernacki <rad@semihalf.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Good point; however per the SBSA specification, DEN0029F, there's the
-PE architecture requirement at
-each level from 1 to 7, so now I am wondering whether supporting
-cortex-a57 and a72 are good enough to
-set up a fully SBSA level 7 compliant "board" in QMEU. Also, the 'max'
-is there, but does not boot.
-
-Itaru.
-
-On Sat, Apr 9, 2022 at 12:04 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+On 4/10/2022 5:06 AM, Peter Maydell wrote:
+> On Sun, 10 Apr 2022 at 05:51, Brad Smith <brad@comstyle.com> wrote:
+>> On 4/8/2022 12:47 PM, Thomas Huth wrote:
+>>> QEMU 7.1 won't support Ubuntu 18.04 anymore, so the last big important
+>>> distro that did not have a pre-packaged libslirp has been dismissed.
+>>> All other major distros seem to have a libslirp package in their
+>>> distribution already - according to repology.org:
+>>>
+>>>             Fedora 34: 4.4.0
+>>>     CentOS 8 (RHEL-8): 4.4.0
+>>>         Debian Buster: 4.3.1 (in buster-backports)
+>>>    OpenSUSE Leap 15.3: 4.3.1
+>>>      Ubuntu LTS 20.04: 4.1.0
+>>>         FreeBSD Ports: 4.6.1
+>>>         NetBSD pkgsrc: 4.3.1
+>>>              Homebrew: 4.6.1
+>>>           MSYS2 mingw: 4.6.1
+>>>
+>>> The only one that still seems to be missing a libslirp package is
+>>> OpenBSD - but I assume that they can add it to their ports system
+>>> quickly if required.
+>> I wish I had seen this earlier as our 7.1 release was just tagged.
+>>
+>> I have whipped up a port of 4.6.1 for OpenBSD as it was pretty simple. I
+>> will
+>> see about submitting it in a number of days when the tree opens.
+> How awkward would it be for an end-user who's on OpenBSD 7.1 to
+> build a QEMU that doesn't have libslirp? (That is, is it easy
+> and common for an end user to pull in a port of libslirp that only
+> came along in a later OpenBSD, or would they instead have to
+> manually compile libslirp themselves from the upstream sources?)
 >
-> On Fri, 8 Apr 2022 at 15:59, Itaru Kitayama <itaru.kitayama@gmail.com> wrote:
-> > I'd like to add a64fx cpu to the sbsa-ref board, if there's a quick and dirty
-> > way of completing that, advice from the  maintainers is greatly appreciated.
->
-> I have cc'd the sbsa-ref maintainers (as listed in the MAINTAINERS file).
->
-> However, I'm not sure why you want to add the a64fx CPU to this
-> board model? The sbsa-ref board is intended as a platform for
-> developing firmware that runs on Server Base System Architecture
-> hardware, so it deliberately doesn't have support for every CPU
-> type QEMU implements.
+> (I'm asking here because if it's painful, then we should perhaps
+> defer dropping our submodule copy of libslirp a little longer.)
 >
 > thanks
 > -- PMM
+
+They would have to pull down a -current ports tree and build it. No package
+would exist for the release. It is possible, but not "supported". I have 
+not looked
+at the CI bits to see how difficult that would be.
+
+Our release cycles are 6 months and the next release will be in the middle
+of October.
 
