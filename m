@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF2E4FACF4
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 10:50:57 +0200 (CEST)
-Received: from localhost ([::1]:38604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C380B4FACFA
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 10:58:36 +0200 (CEST)
+Received: from localhost ([::1]:47770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndTHb-0007xz-V5
-	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 04:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
+	id 1ndTP1-0004bl-CM
+	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 04:58:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndTG0-0006vi-MF
- for qemu-devel@nongnu.org; Sun, 10 Apr 2022 04:49:16 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:33140)
+ id 1ndTNA-0003co-L3
+ for qemu-devel@nongnu.org; Sun, 10 Apr 2022 04:56:41 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:47097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndTFz-0000kh-3c
- for qemu-devel@nongnu.org; Sun, 10 Apr 2022 04:49:16 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2eba37104a2so136994087b3.0
- for <qemu-devel@nongnu.org>; Sun, 10 Apr 2022 01:49:14 -0700 (PDT)
+ id 1ndTN8-00020y-Re
+ for qemu-devel@nongnu.org; Sun, 10 Apr 2022 04:56:40 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2ebef467b1bso47831007b3.13
+ for <qemu-devel@nongnu.org>; Sun, 10 Apr 2022 01:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5HgaylN3bXv5i5n3r84vgryFTa0e6OlQHTzQOmP6jUM=;
- b=cyWbvHRpzGkGvaMnKKYfNr/Y2UluvsYv0PwIgNCsNUjNzljy8rq6e2nQkIr5pv7tyH
- +DkmkEcBCse4yyzi3p7Iy8WhuDaAPosbUgXrNuSkwb97OsdFQuH43XaVB3iHBOmFQ698
- xCIZC9CsE9fF47AgkxlBtB9+3Ai5hLnYj+40oNP7hP1mL645b6CLJrsFOQqvTsmt8dj/
- ClExYT+NWMYGaGlCf9CqoEEgrBYY+i/zwWCmQM30NaL2BYAedikegxL9rPxbaQfSDYDE
- SCet6FXZzfalVO6X4mrTmTKN/o/u2Vqbdnn7AiQKjXhvNwiIpOc+f6ctr/wheiAmRxId
- sS5A==
+ :cc; bh=XggvBUhDnV601uCEk3Xbd5mzPN3qdhXkLM5Gh1Tg0zs=;
+ b=sLXWPpPBJq5wNj4RbSSYArrp30alFTAr/kUfNi0Ya9FdR6v+z07ZtBarAlkQLGIssO
+ Rt6M+fBY8zamw2DBceAwJHPH8+g0OV3pZlZzYdF5pS7OJLrGGfaXm+8ux+dH87aboyOu
+ LkMPQkSLQx1L3+DC+n8Yi1ZFHheEzV83QZ0kkiGi9LP+0OV6iz5XXUqzh35Yd8WkGrIf
+ C4NzDq6vtWNOWv0ZIe/D797t489oNDS8DycJAXjC3RElvAzzxayD6STTDMJEGiZ9tpu9
+ akDqokuHA+kfU7/du2GiMN/0JyYvq+ksA78Qw7qyxhrpPaN4Cnb/9PqMNCYBsVukrTC1
+ 01bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5HgaylN3bXv5i5n3r84vgryFTa0e6OlQHTzQOmP6jUM=;
- b=XcKAS96TOsf8A9gI4Z1UiJQcHT16rlzYPW7wGDPGpbOBIZlsPc2gG12Amh/7MxAQDZ
- ucNUd3RfJPQ9UPnQX9NoGRZraLk5AjvsgOcRpd0xuOCN+ehONYdUxoPME737/S6+ZmK1
- nq5O10cce4dlghlhu7YsKN39GWiO6OY4xzxREteu4paP5tbecEpw7JVIGvZlTprXi53f
- y6A/U/1dtFz10+OEoF/FwgFdrDYl5EIR8huglM0/utgrlCG5ME2w0U3jUUCqIUwfcQlD
- WiCBGNKm4HvxFvOj02dkvntXRP6s82xf1HXfstaOnDk7g/J/4b7iK8cyH+F9E4oqbQ9s
- NHog==
-X-Gm-Message-State: AOAM533qw5Bghcgr+mM+fNNF0muhDV6f6otI9Gh30ywua/7dZ5TmfnbN
- RweRUmoVhPbvw3mIxVVsBjG87Em8xtUW5X7yb/8SuA==
-X-Google-Smtp-Source: ABdhPJx3i7CJIpvmRWbrYsfTfv6hZr3fp0Bo7Z4fPLvQKgCcmTK2rIT6G8r1spa4y5ODSgnuy87/cibKySuIVa9WTko=
-X-Received: by 2002:a81:1592:0:b0:2eb:5472:c681 with SMTP id
- 140-20020a811592000000b002eb5472c681mr21814153ywv.10.1649580553712; Sun, 10
- Apr 2022 01:49:13 -0700 (PDT)
+ bh=XggvBUhDnV601uCEk3Xbd5mzPN3qdhXkLM5Gh1Tg0zs=;
+ b=uRqF9WEMyzBBEbtHGMK/NWrAh14zAWIcKHobaOjhu3pd0euphLtqOo5QTCmioc9m1O
+ eKBjPnwGzJUqgYPNxwAjffGyaV2EH0JVZQSreeNSpSkfnkHOaldHJeKyhHZ1QgSDpjmD
+ Mdvlt/bU/4EuNVuRUx5wwgZAQ3hXqLsNVanTpF/l9Aa7qYslSTVcwxCe+juQmZekMzff
+ A9Cide1DkHIiSzeTRBONxIpVsL/g4Ca6PDxpitlYqbVm91AB7wvH4HmkZ/IWXnle128D
+ btyuSOGuJzqDjU/HVfNjr7fR/8i8MzTMW1K9O0AYdliHdcaPzdh1y0F4v3xWvfp1Gv6F
+ 1Jzw==
+X-Gm-Message-State: AOAM5312GjkBTVMe1Mr3z9aJ726kGdXiT7hOqmLI3NBA3ZZg3S2jsb1P
+ GEZvIY8sW+5MZTGkJiFvp9IQsBfTpJtayT7Pn95K/w==
+X-Google-Smtp-Source: ABdhPJzJPq9HsbE46zhh+03u6hT0urMnLvBSSzfQqWfsb2yvteFFG/KLGM8jNDH8gbNyajMwTfDk/4PWHRAFt1+iz8c=
+X-Received: by 2002:a81:4655:0:b0:2eb:2e0e:9d47 with SMTP id
+ t82-20020a814655000000b002eb2e0e9d47mr21511500ywa.455.1649580997545; Sun, 10
+ Apr 2022 01:56:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-26-peter.maydell@linaro.org>
- <3a9e2d33-8174-d480-50e4-4da0985bc486@linaro.org>
-In-Reply-To: <3a9e2d33-8174-d480-50e4-4da0985bc486@linaro.org>
+ <20220408141550.1271295-30-peter.maydell@linaro.org>
+ <5d7391a6-21d6-01b4-fee0-289c3891def7@linaro.org>
+In-Reply-To: <5d7391a6-21d6-01b4-fee0-289c3891def7@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 10 Apr 2022 09:49:02 +0100
-Message-ID: <CAFEAcA9hU+M6gYJPO+x4Kv1T9G=XPmuJkbSYGkeZq7GiQb0wZQ@mail.gmail.com>
-Subject: Re: [PATCH 25/41] hw/intc/arm_gicv3_cpuif: Support vLPIs
+Date: Sun, 10 Apr 2022 09:56:26 +0100
+Message-ID: <CAFEAcA87X7z_KSv7=FGHRxZe6wttRvRLwKMvnpnvNY=UZv4bkw@mail.gmail.com>
+Subject: Re: [PATCH 29/41] hw/intc/arm_gicv3_redist: Recalculate hppvlpi on
+ VPENDBASER writes
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,32 +85,14 @@ Cc: Marc Zyngier <maz@kernel.org>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 9 Apr 2022 at 20:20, Richard Henderson
+On Sat, 9 Apr 2022 at 21:10, Richard Henderson
 <richard.henderson@linaro.org> wrote:
-> On 4/8/22 07:15, Peter Maydell wrote:
-> > @@ -2632,6 +2735,12 @@ static void gicv3_cpuif_el_change_hook(ARMCPU *cpu, void *opaque)
-> >       GICv3CPUState *cs = opaque;
-> >
-> >       gicv3_cpuif_update(cs);
-> > +    /*
-> > +     * Because vLPIs are only pending in NonSecure state,
-> > +     * an EL change can change the VIRQ/VFIQ status (but
-> > +     * cannot affect the maintenance interrupt state)
-> > +     */
-> > +    gicv3_cpuif_virt_irq_fiq_update(cs);
->
-> I'm a little bit surprised this is here, and not in arm_cpu_exec_interrupt (or a
-> subroutine).  Is this because if a virq has highest priority, we have to find the highest
-> prio physical interrupt?
+> It it really valid to write to vpendbaser with other than a 64-bit write?  I suppose it's
+> possible to order the 32-bit writes to make sure the update to valid comes last...
 
-It's because if we switch from Secure to NonSecure that changes
-whether there's a highest-priority-virtual-LPI available (there
-never is for NS). This is a change from before vLPI support:
-when there are only list registers the calculation of the highest
-priority virtual interrupt doesn't care about S vs NS and thus
-not about the current EL. (In other words, what
-gicv3_cpuif_virt_irq_fiq_update() reports on the VIRQ/VFIQ
-lines now depends on S vs NS, so needs to be recalculated.)
+Yes, that's valid. The GICv3 spec states specifically when registers are
+64-bit only (see for instance GITS_SGIR). As you say, you can write the
+bottom half first and the top half with the valid bit second.
 
 thanks
 -- PMM
