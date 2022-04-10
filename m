@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C380B4FACFA
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 10:58:36 +0200 (CEST)
-Received: from localhost ([::1]:47770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A674FAD05
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 11:08:38 +0200 (CEST)
+Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndTP1-0004bl-CM
-	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 04:58:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59594)
+	id 1ndTYj-0008AY-1i
+	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 05:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndTNA-0003co-L3
- for qemu-devel@nongnu.org; Sun, 10 Apr 2022 04:56:41 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:47097)
+ id 1ndTWw-0007Qn-Dm
+ for qemu-devel@nongnu.org; Sun, 10 Apr 2022 05:06:46 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:44216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndTN8-00020y-Re
- for qemu-devel@nongnu.org; Sun, 10 Apr 2022 04:56:40 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2ebef467b1bso47831007b3.13
- for <qemu-devel@nongnu.org>; Sun, 10 Apr 2022 01:56:38 -0700 (PDT)
+ id 1ndTWu-0003Ua-DU
+ for qemu-devel@nongnu.org; Sun, 10 Apr 2022 05:06:45 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2eafabbc80aso135941727b3.11
+ for <qemu-devel@nongnu.org>; Sun, 10 Apr 2022 02:06:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XggvBUhDnV601uCEk3Xbd5mzPN3qdhXkLM5Gh1Tg0zs=;
- b=sLXWPpPBJq5wNj4RbSSYArrp30alFTAr/kUfNi0Ya9FdR6v+z07ZtBarAlkQLGIssO
- Rt6M+fBY8zamw2DBceAwJHPH8+g0OV3pZlZzYdF5pS7OJLrGGfaXm+8ux+dH87aboyOu
- LkMPQkSLQx1L3+DC+n8Yi1ZFHheEzV83QZ0kkiGi9LP+0OV6iz5XXUqzh35Yd8WkGrIf
- C4NzDq6vtWNOWv0ZIe/D797t489oNDS8DycJAXjC3RElvAzzxayD6STTDMJEGiZ9tpu9
- akDqokuHA+kfU7/du2GiMN/0JyYvq+ksA78Qw7qyxhrpPaN4Cnb/9PqMNCYBsVukrTC1
- 01bw==
+ :cc; bh=iBQ4wXbSKXeTJIh2WDuAbBMdwawoFtiy0l8EDVZPWAY=;
+ b=ooHTQCoIy1OVF2n59pNpr9uLx0jReQcvat9B3p+phHoKLDhh17mwvZuD6D+nfmJqjB
+ 97jME4rqFAAcE4GhUkRhs5O9tWGlz98VQhdMydDb6jATvFiy/GQrvLmyy8s/KIfs0Hi9
+ wvXSL9lJKsog5g3KRp5JVCokV7ielG4Rkukkwchkr7AbeYkdSg8s5Uh791/zeeTUC7wD
+ 3YhOugcSNMBYYpca3WU5BdE7cdecZ30YMQOm1e30Ajk7NqPbiylEJ/SJYyuE2axdvgRO
+ EpvYP67Zh6CkWlYos/gP4ZWAToegO/ip7pilSi2DapYNCVFUm0KKtSM7VS7hzSLnVGtV
+ TTVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XggvBUhDnV601uCEk3Xbd5mzPN3qdhXkLM5Gh1Tg0zs=;
- b=uRqF9WEMyzBBEbtHGMK/NWrAh14zAWIcKHobaOjhu3pd0euphLtqOo5QTCmioc9m1O
- eKBjPnwGzJUqgYPNxwAjffGyaV2EH0JVZQSreeNSpSkfnkHOaldHJeKyhHZ1QgSDpjmD
- Mdvlt/bU/4EuNVuRUx5wwgZAQ3hXqLsNVanTpF/l9Aa7qYslSTVcwxCe+juQmZekMzff
- A9Cide1DkHIiSzeTRBONxIpVsL/g4Ca6PDxpitlYqbVm91AB7wvH4HmkZ/IWXnle128D
- btyuSOGuJzqDjU/HVfNjr7fR/8i8MzTMW1K9O0AYdliHdcaPzdh1y0F4v3xWvfp1Gv6F
- 1Jzw==
-X-Gm-Message-State: AOAM5312GjkBTVMe1Mr3z9aJ726kGdXiT7hOqmLI3NBA3ZZg3S2jsb1P
- GEZvIY8sW+5MZTGkJiFvp9IQsBfTpJtayT7Pn95K/w==
-X-Google-Smtp-Source: ABdhPJzJPq9HsbE46zhh+03u6hT0urMnLvBSSzfQqWfsb2yvteFFG/KLGM8jNDH8gbNyajMwTfDk/4PWHRAFt1+iz8c=
-X-Received: by 2002:a81:4655:0:b0:2eb:2e0e:9d47 with SMTP id
- t82-20020a814655000000b002eb2e0e9d47mr21511500ywa.455.1649580997545; Sun, 10
- Apr 2022 01:56:37 -0700 (PDT)
+ bh=iBQ4wXbSKXeTJIh2WDuAbBMdwawoFtiy0l8EDVZPWAY=;
+ b=7gkq3tuYlayc3Gr4JMlyMjidJZ9VmJT2nbEz8NE9ddWUyJStISz8j7WV5lWSg2PYwR
+ cA9wrd/Km/6Md1N0Pvppi2HmNEGY9ruhiYdW2kvnpdEqTf9S0ptUNXUL2gDoDR5ktrBE
+ gdvEn4OgXF7FIoWNxrDPAwRb9KKD2JTwBpf/gX0/vEXENzGmr5CAyCE1KAroMYyCT6Bt
+ HTSBc868txC2IasDPDaOi8IXZDlEHOyEidNgjjkJOJbRZdyB+dAxuGbymdGAbVRJWXmL
+ 7O3x6Khk8pePa6LDZfUj3C/jzDBalP3wMnmT9uc5r7Ru1tmctGuSbo2bdJiZd24QnVeG
+ JdBQ==
+X-Gm-Message-State: AOAM532DcnB/vidCtuph2n/w+NOAkdg2JzcsED3+m5ne0q6E9S4rc72O
+ am+59DUWdVk+YBXI4AxYl8s4hrI+aPwqYh8NjF66xQ==
+X-Google-Smtp-Source: ABdhPJwcuSsjqc/rYCNsJZmdblFMs802G+gK/B9eIYwi7BO+bF5DwVSBNoGCPrk2yhlPJDC/iY6mfsyN/3b5dmp2udo=
+X-Received: by 2002:a81:db05:0:b0:2ea:2b92:c317 with SMTP id
+ u5-20020a81db05000000b002ea2b92c317mr22470376ywm.329.1649581603055; Sun, 10
+ Apr 2022 02:06:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220408141550.1271295-1-peter.maydell@linaro.org>
- <20220408141550.1271295-30-peter.maydell@linaro.org>
- <5d7391a6-21d6-01b4-fee0-289c3891def7@linaro.org>
-In-Reply-To: <5d7391a6-21d6-01b4-fee0-289c3891def7@linaro.org>
+References: <20220408164749.534758-1-thuth@redhat.com>
+ <72fe734a-8bf6-adc6-474a-47f2006c2f6d@comstyle.com>
+In-Reply-To: <72fe734a-8bf6-adc6-474a-47f2006c2f6d@comstyle.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 10 Apr 2022 09:56:26 +0100
-Message-ID: <CAFEAcA87X7z_KSv7=FGHRxZe6wttRvRLwKMvnpnvNY=UZv4bkw@mail.gmail.com>
-Subject: Re: [PATCH 29/41] hw/intc/arm_gicv3_redist: Recalculate hppvlpi on
- VPENDBASER writes
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Sun, 10 Apr 2022 10:06:31 +0100
+Message-ID: <CAFEAcA-NdeN8S0JXqfrpTiDoUmfZHBXUtdAuRAdDRooTpnYipA@mail.gmail.com>
+Subject: Re: [RFC PATCH for-7.1] Remove the slirp submodule (and only compile
+ with an external libslirp)
+To: Brad Smith <brad@comstyle.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,18 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 9 Apr 2022 at 21:10, Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> It it really valid to write to vpendbaser with other than a 64-bit write?  I suppose it's
-> possible to order the 32-bit writes to make sure the update to valid comes last...
+On Sun, 10 Apr 2022 at 05:51, Brad Smith <brad@comstyle.com> wrote:
+>
+> On 4/8/2022 12:47 PM, Thomas Huth wrote:
+> > QEMU 7.1 won't support Ubuntu 18.04 anymore, so the last big important
+> > distro that did not have a pre-packaged libslirp has been dismissed.
+> > All other major distros seem to have a libslirp package in their
+> > distribution already - according to repology.org:
+> >
+> >            Fedora 34: 4.4.0
+> >    CentOS 8 (RHEL-8): 4.4.0
+> >        Debian Buster: 4.3.1 (in buster-backports)
+> >   OpenSUSE Leap 15.3: 4.3.1
+> >     Ubuntu LTS 20.04: 4.1.0
+> >        FreeBSD Ports: 4.6.1
+> >        NetBSD pkgsrc: 4.3.1
+> >             Homebrew: 4.6.1
+> >          MSYS2 mingw: 4.6.1
+> >
+> > The only one that still seems to be missing a libslirp package is
+> > OpenBSD - but I assume that they can add it to their ports system
+> > quickly if required.
 
-Yes, that's valid. The GICv3 spec states specifically when registers are
-64-bit only (see for instance GITS_SGIR). As you say, you can write the
-bottom half first and the top half with the valid bit second.
+> I wish I had seen this earlier as our 7.1 release was just tagged.
+>
+> I have whipped up a port of 4.6.1 for OpenBSD as it was pretty simple. I
+> will
+> see about submitting it in a number of days when the tree opens.
+
+How awkward would it be for an end-user who's on OpenBSD 7.1 to
+build a QEMU that doesn't have libslirp? (That is, is it easy
+and common for an end user to pull in a port of libslirp that only
+came along in a later OpenBSD, or would they instead have to
+manually compile libslirp themselves from the upstream sources?)
+
+(I'm asking here because if it's painful, then we should perhaps
+defer dropping our submodule copy of libslirp a little longer.)
 
 thanks
 -- PMM
