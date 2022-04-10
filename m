@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436844FAF13
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 18:51:36 +0200 (CEST)
-Received: from localhost ([::1]:41798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6F44FAF16
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 18:51:58 +0200 (CEST)
+Received: from localhost ([::1]:42812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndamk-0007Cp-52
-	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 12:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39324)
+	id 1ndan7-0007t8-BU
+	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 12:51:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1ndakq-0005pG-1h; Sun, 10 Apr 2022 12:49:36 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45789)
+ id 1ndalY-0006Lp-Lk; Sun, 10 Apr 2022 12:50:21 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1ndakn-000595-Ut; Sun, 10 Apr 2022 12:49:35 -0400
-Received: by mail-wr1-x430.google.com with SMTP id w4so19668519wrg.12;
- Sun, 10 Apr 2022 09:49:32 -0700 (PDT)
+ id 1ndalX-0005Q2-72; Sun, 10 Apr 2022 12:50:20 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id q20so8529174wmq.1;
+ Sun, 10 Apr 2022 09:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:subject:from:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=muAnIhR7eb0RH2qr2mDsl/dYVinFkUmyqTfAz05NBAU=;
- b=JGNagORU/gcbVO4pGuatqzAKtzStCOw+a+9eDhScXmsCwrWxcvKM8HmW6kwBdihdnX
- H9S3RHgXd75NOn/Rm70VP2S/IVTLWJMZjih/9EQH0IYL9A4df6pYFwbegJTbPNJTodVd
- VGkao30xWWMyOFRauzSwdx478LvGeVzFyZsSGh48dbLVZbH1CthciTlVCyBV4EY1AI5e
- LIBMwpXrx98Qt8PLKxmazzQNR0vNXkU57NMc7biGC3+HkTna6INAMhzGL49BUT6BNZRv
- Z3cy7Fhblb/UygLnmM+VaZUpfQ6+g44YpZATpOv9ON9uNtuX6Lu3mWQRlLBZAURFzwMQ
- i7uw==
+ bh=aWf0S4fRzZcjK8IASz8G9xDayNVOLdhvC7qjae/r8/g=;
+ b=F/Mukm4pCFOgnn0jN0clx/GnSLvmElZODyBPX+k53NgxmBuGW82nv7TKXZ+O1kD5LY
+ rSZKNrSmwXY8600rc9Mkci0QhbXuRlA5xqhul/g8PeldUb/aj2yg6t0j0aESqmFQtMnz
+ ibgqY9cbkxLcFEqyFhfE09s9RDcEVrSvSeMxC9Jq9U3OJPIhjO1ZOVzUJcMrRaODXw2G
+ s0lMqC+AdWqPCkSPi1/CyhQDQIctT03tCqEyWZrHpu/PamV/VJWU51dUocTcHdFXo/yL
+ yNPhdDzm5sKovDnIlMATZ5A+3Hcadr/Exc7l+c5Z3yUFKVgc2nyOXzQpDVjVXGuyxxuv
+ N11g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=muAnIhR7eb0RH2qr2mDsl/dYVinFkUmyqTfAz05NBAU=;
- b=0M7BmteTutCe/K1Xsjq8/PQAt2uegBDmPtiuim5Gi6Ouno0qJIbFrohVGrgGZcWcgZ
- yxtxi/ARMFvqsFksmaLX97exVN907YWz+X6wfXgBbMThD+l0chNp1ZCedRpTvVei/vaN
- bIdZHlBppBpLB0JDWXr2r/7MNm70sNhhTjKpSjWXPHTFKGm1YdKKbm8ewS7Fy5aMaa0n
- oRNharQ+XlABq+1UCmhRy7P05YFAw2kgzG0XwHAtBAgsmAbWtyTK540Cw20sC5YkpFWE
- bJi3/YqL299mpbyggyc8YfQpEBblybN5KkLjvXG7KgBJ2Qzpnt86CbZ+VOji+9zAz8pb
- hclg==
-X-Gm-Message-State: AOAM533S8AMcOUvXdlSoFz8LROikKq++Iy11zz2MDFC531kABQybOjMF
- F4YBk5VfPJwx+0fhusmecL7KjCno6+Y=
-X-Google-Smtp-Source: ABdhPJwDfS1pR4tHbwMcnhMm5c+FFoktr2FUai/5Mm4bAtsLRIVWRiQEvnQd/CJYnxD/eb0VTOSqyg==
-X-Received: by 2002:adf:9581:0:b0:1ed:c341:4ed1 with SMTP id
- p1-20020adf9581000000b001edc3414ed1mr21296663wrp.299.1649609371724; 
- Sun, 10 Apr 2022 09:49:31 -0700 (PDT)
+ bh=aWf0S4fRzZcjK8IASz8G9xDayNVOLdhvC7qjae/r8/g=;
+ b=Lh4WGItcA5o5Ypik0MZCtIP5h4bt5N5kUFIWxDUMNjQsH3xTgWlXSwS9XnOpyJfAmM
+ hFmCrcZ7Lt/r3VomErX/w8HASL1GraKkHvcRgMw7q1q9P6O48p2PExBLyGBf9aCWxRDg
+ nAq9yHQ6xfahrph+/PuEMNUO5Dg56Zl4Pqcte3BQBsI2se/Z8YJxpBTqFiBGKSMu/ZiG
+ L4A/NSGoJ5TEVIKmnM4Z0L4Wzy1Ha7lqsDMAoE8zUbUCR4sD1BCoTH0LFXpXXyEnZ64L
+ 5bmk0lTh/qsLnA0e1Qonihx5YOHYcZSQl2oSEtCcYxsfCwjNVG+rFwpa89xKi/OmEKcC
+ B0sw==
+X-Gm-Message-State: AOAM532CjBx2srumaLiTXXcGjEmHrJ9UtwtmUuzpGzJQHwhFvW1YPDE7
+ kkBuo1+6wWoTZz5uUPxiAyU=
+X-Google-Smtp-Source: ABdhPJzzWQkI6sIjcYRCYva0FbX8kVTvjIWX3Bp3mYhjz92am8wxrdUKfbF4cSHCkrKSnKo2tTramA==
+X-Received: by 2002:a05:600c:a45:b0:346:5e67:cd54 with SMTP id
+ c5-20020a05600c0a4500b003465e67cd54mr26045638wmq.127.1649609416710; 
+ Sun, 10 Apr 2022 09:50:16 -0700 (PDT)
 Received: from smtpclient.apple (201.11.75.194.dyn.plus.net. [194.75.11.201])
  by smtp.gmail.com with ESMTPSA id
- v8-20020a5d6788000000b002060f55843csm18218409wru.19.2022.04.10.09.49.30
+ v8-20020a5d6788000000b002060f55843csm18218409wru.19.2022.04.10.09.50.16
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 10 Apr 2022 09:49:31 -0700 (PDT)
+ Sun, 10 Apr 2022 09:50:16 -0700 (PDT)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH v3 2/2] hw/display/vmware_vga: do not discard screen
- updates
+Subject: Re: [PATCH 1/1] ui/cocoa: show/hide menu in fullscreen on mouse
+ ungrab/grab
 From: Carwyn Ellis <carwynellis@gmail.com>
-In-Reply-To: <20220206183956.10694-3-carwynellis@gmail.com>
-Date: Sun, 10 Apr 2022 17:49:30 +0100
+In-Reply-To: <84cbfcca-648c-8e4c-9966-28086acfd5c0@gmail.com>
+Date: Sun, 10 Apr 2022 17:50:15 +0100
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <2CBB155B-88D6-42EC-9EA0-88968C3FD3B7@gmail.com>
-References: <20220206183956.10694-1-carwynellis@gmail.com>
- <20220206183956.10694-3-carwynellis@gmail.com>
-To: QEMU <qemu-devel@nongnu.org>
+Message-Id: <51674D9A-24E6-4DE4-9142-65F328F52D57@gmail.com>
+References: <20220103114515.24020-1-carwynellis@gmail.com>
+ <20220103114515.24020-2-carwynellis@gmail.com>
+ <84cbfcca-648c-8e4c-9966-28086acfd5c0@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
 X-Mailer: Apple Mail (2.3696.80.82.1.1)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=carwynellis@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=carwynellis@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,149 +87,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu trivial <qemu-trivial@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
+Thanks, taking a look now and will push up another patch once I=E2=80=99ve=
+ tested the changes.
 
-=
-https://patchew.org/QEMU/20220206183956.10694-1-carwynellis@gmail.com/2022=
-0206183956.10694-3-carwynellis@gmail.com/
-
-Originally submitted as one of two patches, the first patch to use trace =
-events has been merged, however the patch that fixes garbled output =
-hasn=E2=80=99t been reviewed yet.
-
-Do let me know if you think there=E2=80=99s anything else that needs =
-changing here and I=E2=80=99ll resubmit if so. FWIW I=E2=80=99ve been =
-using this fix for a couple of months now without any issues.
-
-Thanks
+Regards
 Carwyn
 
-> On 6 Feb 2022, at 18:39, Carwyn Ellis <carwynellis@gmail.com> wrote:
+> On 18 Feb 2022, at 18:42, Akihiko Odaki <akihiko.odaki@gmail.com> =
+wrote:
 >=20
-> In certain circumstances, typically when there is lots changing on the
-> screen, updates will be discarded resulting in garbled output.
+> On 2022/01/03 20:45, Carwyn Ellis wrote:
+>> The menu bar is only accessible when the Cocoa UI is windowed. In =
+order
+>> to allow the menu bar to be accessible in fullscreen mode, this =
+change
+>> makes the menu visible when the mouse is ungrabbed.
+>> When the mouse is grabbed the menu is hidden again.
+>> Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
+>> ---
+>>  ui/cocoa.m | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>> diff --git a/ui/cocoa.m b/ui/cocoa.m
+>> index 69745c483b..42dcf47da4 100644
+>> --- a/ui/cocoa.m
+>> +++ b/ui/cocoa.m
+>> @@ -1037,7 +1037,9 @@ QemuCocoaView *cocoaView;
+>>  {
+>>      COCOA_DEBUG("QemuCocoaView: grabMouse\n");
+>>  -    if (!isFullscreen) {
+>> +    if (isFullscreen) {
+>> +        [NSMenu setMenuBarVisible: FALSE];
+>> +    } else {
+>>          if (qemu_name)
+>>              [normalWindow setTitle:[NSString stringWithFormat:@"QEMU =
+%s - (Press ctrl + alt + g to release Mouse)", qemu_name]];
+>>          else
+>> @@ -1052,7 +1054,9 @@ QemuCocoaView *cocoaView;
+>>  {
+>>      COCOA_DEBUG("QemuCocoaView: ungrabMouse\n");
+>>  -    if (!isFullscreen) {
+>> +    if (isFullscreen) {
+>> +        [NSMenu setMenuBarVisible: TRUE];
+>> +    } else {
+>>          if (qemu_name)
+>>              [normalWindow setTitle:[NSString stringWithFormat:@"QEMU =
+%s", qemu_name]];
+>>          else
 >=20
-> This change simplifies the traversal of the display update FIFO queue
-> when applying updates. We just track the queue length and iterate up =
-to
-> the end of the queue.
+> [QemuCocoaView -toggleFullscreen:] also has the calls to [NSMenu =
+setMenuBarVisible:], which should be removed.
 >=20
-> Additionally when adding updates to the queue, if the buffer reaches
-> capacity we force a flush before accepting further events.
->=20
-> Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
-> ---
-> hw/display/trace-events |  1 +
-> hw/display/vmware_vga.c | 41 +++++++++++++++++++++++------------------
-> 2 files changed, 24 insertions(+), 18 deletions(-)
->=20
-> diff --git a/hw/display/trace-events b/hw/display/trace-events
-> index 91efc88f04..0c0ffcbe42 100644
-> --- a/hw/display/trace-events
-> +++ b/hw/display/trace-events
-> @@ -24,6 +24,7 @@ vmware_setmode(uint32_t w, uint32_t h, uint32_t bpp) =
-"%dx%d @ %d bpp"
-> vmware_verify_rect_less_than_zero(const char *name, const char *param, =
-int x) "%s: %s was < 0 (%d)"
-> vmware_verify_rect_greater_than_bound(const char *name, const char =
-*param, int bound, int x) "%s: %s was > %d (%d)"
-> vmware_verify_rect_surface_bound_exceeded(const char *name, const char =
-*component, int bound, const char *param1, int value1, const char =
-*param2, int value2) "%s: %s > %d (%s: %d, %s: %d)"
-> +vmware_update_rect_delayed_flush(void) "display update FIFO full - =
-forcing flush"
->=20
-> # virtio-gpu-base.c
-> virtio_gpu_features(bool virgl) "virgl %d"
-> diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-> index 0cc43a1f15..8a3c3cb8f0 100644
-> --- a/hw/display/vmware_vga.c
-> +++ b/hw/display/vmware_vga.c
-> @@ -80,7 +80,7 @@ struct vmsvga_state_s {
->     struct vmsvga_rect_s {
->         int x, y, w, h;
->     } redraw_fifo[REDRAW_FIFO_LEN];
-> -    int redraw_fifo_first, redraw_fifo_last;
-> +    int redraw_fifo_last;
-> };
->=20
-> #define TYPE_VMWARE_SVGA "vmware-svga"
-> @@ -380,33 +380,39 @@ static inline void vmsvga_update_rect(struct =
-vmsvga_state_s *s,
->     dpy_gfx_update(s->vga.con, x, y, w, h);
-> }
->=20
-> -static inline void vmsvga_update_rect_delayed(struct vmsvga_state_s =
-*s,
-> -                int x, int y, int w, int h)
-> -{
-> -    struct vmsvga_rect_s *rect =3D =
-&s->redraw_fifo[s->redraw_fifo_last++];
-> -
-> -    s->redraw_fifo_last &=3D REDRAW_FIFO_LEN - 1;
-> -    rect->x =3D x;
-> -    rect->y =3D y;
-> -    rect->w =3D w;
-> -    rect->h =3D h;
-> -}
-> -
-> static inline void vmsvga_update_rect_flush(struct vmsvga_state_s *s)
-> {
->     struct vmsvga_rect_s *rect;
->=20
->     if (s->invalidated) {
-> -        s->redraw_fifo_first =3D s->redraw_fifo_last;
-> +        s->redraw_fifo_last =3D 0;
->         return;
->     }
->     /* Overlapping region updates can be optimised out here - if =
-someone
->      * knows a smart algorithm to do that, please share.  */
-> -    while (s->redraw_fifo_first !=3D s->redraw_fifo_last) {
-> -        rect =3D &s->redraw_fifo[s->redraw_fifo_first++];
-> -        s->redraw_fifo_first &=3D REDRAW_FIFO_LEN - 1;
-> +    for (int i =3D 0; i < s->redraw_fifo_last; i++) {
-> +        rect =3D &s->redraw_fifo[i];
->         vmsvga_update_rect(s, rect->x, rect->y, rect->w, rect->h);
->     }
-> +
-> +    s->redraw_fifo_last =3D 0;
-> +}
-> +
-> +static inline void vmsvga_update_rect_delayed(struct vmsvga_state_s =
-*s,
-> +                int x, int y, int w, int h)
-> +{
-> +
-> +    if (s->redraw_fifo_last >=3D REDRAW_FIFO_LEN) {
-> +        trace_vmware_update_rect_delayed_flush();
-> +        vmsvga_update_rect_flush(s);
-> +    }
-> +
-> +    struct vmsvga_rect_s *rect =3D =
-&s->redraw_fifo[s->redraw_fifo_last++];
-> +
-> +    rect->x =3D x;
-> +    rect->y =3D y;
-> +    rect->w =3D w;
-> +    rect->h =3D h;
-> }
->=20
-> #ifdef HW_RECT_ACCEL
-> @@ -1159,7 +1165,6 @@ static void vmsvga_reset(DeviceState *dev)
->     s->config =3D 0;
->     s->svgaid =3D SVGA_ID;
->     s->cursor.on =3D 0;
-> -    s->redraw_fifo_first =3D 0;
->     s->redraw_fifo_last =3D 0;
->     s->syncing =3D 0;
->=20
-> --=20
-> 2.35.1
->=20
+> Regards,
+> Akihiko Odaki
 
 
