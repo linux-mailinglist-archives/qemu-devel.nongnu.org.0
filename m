@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127CD4FAFC9
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 21:35:54 +0200 (CEST)
-Received: from localhost ([::1]:51918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5056F4FAFC8
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 21:35:40 +0200 (CEST)
+Received: from localhost ([::1]:51070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nddLl-00075U-6z
-	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 15:35:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34470)
+	id 1nddLX-0006Uu-0Y
+	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 15:35:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1nddIZ-0004ya-Fu; Sun, 10 Apr 2022 15:32:35 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33488)
+ id 1nddIa-00050N-Ku; Sun, 10 Apr 2022 15:32:36 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1nddIY-00030R-17; Sun, 10 Apr 2022 15:32:35 -0400
-Received: by mail-wr1-x435.google.com with SMTP id c7so20247035wrd.0;
- Sun, 10 Apr 2022 12:32:33 -0700 (PDT)
+ id 1nddIZ-00030b-2n; Sun, 10 Apr 2022 15:32:36 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id e8so3759475wra.7;
+ Sun, 10 Apr 2022 12:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version:signed-off-by
- :content-transfer-encoding;
- bh=Lo7RoFpUbsV5m9Nog7tGy2Wb8iQ+/dQYwOvm/2B6FcE=;
- b=S557dbyW4lHAUowWh+wZRWe3cDnFMChx2JH4W69K3S6oDFEDXnOLt+faROOvY2ivuu
- raM9GHuXsK4HyQIECWX0PEDBKKkyU2rcp2wugMpani3VmT7tg86edPShCRxLUta4qMxd
- X2MwzjHtp8yIK7fIp4UkO54jyx1XHl9123knmzXnYMDdNxDIiBfXU0jse7BpPmyzSyD7
- h6kOgexHRp5QYKDcplwrGG7XDgYdKPf4uTG2QMkNpK5eNbxeD6VaCjiraCroovlihYyH
- TPnz1ZIOPgI7aJt+RO/zv6yiv09NxYgq5M8WxMTxrNjkNkpm2XR6TR2/bqqeNkhyx/ej
- VvvQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:signed-off-by:content-transfer-encoding;
+ bh=DxI01Lhb3PVVR1+hRo1spjyaUCy+NfvJh23lqBfJ0nM=;
+ b=Z2ub7WibYAC6D+kXdXWl2tJKCCn6nJeX733VHRg00mSkZJ1bVzMGplpTXZ2FfOVz4z
+ OSZWgT2YuK2vPz8uY2lpls+SB7DkJk/BvFV/R2DuLCEHftRARuzVm2gD6cAvYjf7ivIp
+ 95I6zgv25BLftayqEG0vDZbIbjfP8a9DWqIhncizCYwf+ZT1QyrA9pR65lhkNCSwMK6E
+ AgmKUTsv4VI5UY79zd9KMmXhKc1UaPzs9K+bxfwO82GIupvoPlGFObaj0PyJdjr1PfwG
+ 7rKJCEu4RP33xM6I51XABCu6wVf3XydzbOfyHR2RDp6SbCVlA5IeWEMx7PzYlkx5PTWS
+ zawg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :signed-off-by:content-transfer-encoding;
- bh=Lo7RoFpUbsV5m9Nog7tGy2Wb8iQ+/dQYwOvm/2B6FcE=;
- b=XNFYCBxhYXNvJMxu0hP5g6lceq/irjhygF5RN1VpmKQdLCfZeAh0CL+C/Q68ieyZNc
- 8AUBGxdw2jJaXJ/2KTQoPNrSIu5PTxM4oEq6593dDzFDCzGiA7YJanH4KSxQzdVLPDpz
- Cc2F6TP40XFY6kFA9Ox8PPM3LQ4n7idmk08+j8I1q3ChqXo2ge0x5mg5SSbKy1s3yvES
- gbCa9GWR+KY1Iimb6IXWUZ/MGjjUlNJI7rm5idTDqxMJ8O4EGSGdC4NB/o8rA7by1kWZ
- KAxQDloZ1rX/KsAQzHc1YDDeXJwwE1lh6ngBnT6TZkzpUepXVqMlITgP80lZoiXZh/5f
- Rh2w==
-X-Gm-Message-State: AOAM530xz1EXPiv46wEz06LpWmiCwZFoHWX8JDs6ZEyzYPuWqyk7qhhU
- kMjUkGO9Ls29sDd+O8s7zF3L6NF+aXs=
-X-Google-Smtp-Source: ABdhPJwn6SbJheyrIhaEzs+bfSOE7S9MDY3bJuAiSM4xRg84EJIAUF4A/T7JlEVPCyqhAsALl6LdXg==
-X-Received: by 2002:a05:6000:168e:b0:204:f92:53e9 with SMTP id
- y14-20020a056000168e00b002040f9253e9mr22941984wrd.349.1649619151846; 
- Sun, 10 Apr 2022 12:32:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:signed-off-by:content-transfer-encoding;
+ bh=DxI01Lhb3PVVR1+hRo1spjyaUCy+NfvJh23lqBfJ0nM=;
+ b=Ai+BoGfjifH/hx/+IUS1gkYu8svD23sOmkz0oiUNCkYMsNcjTKnJKoN8F3LnqSO5Rp
+ oCVgPE1pxDaW/UY4zjKG026YSRG3p8221lcDrTn532RI1StjC9FwjZ2K5SYax4sejgOJ
+ lcyrg6uYnnTxeidnzeqVrV0aEI2abYQx9BjB1qOOWUS4Y9H5um2yFB/Ed9n0o4Eps4eC
+ sh80n+hEula2bNu9Q9Erlj5mDvh7z+VykSDTi1Dloi8vQbo4nw7UYFj7G27O1Hp0vfLo
+ bfCfycIYILFgeCR4oEJwNS0HWhGG9Fz6NPp71gI33bmEBqgS/jjlyzeta9IQ6Tgs5gob
+ 9BjQ==
+X-Gm-Message-State: AOAM5335NnTvWIZLdsXoZpj37kwA5b8tWIzPceDLDXQ9ow3nt2DaWakK
+ ZcbLAERwlThu4ONS7FQBrnyo2wcGz5k=
+X-Google-Smtp-Source: ABdhPJw2fZ75tbGTGvy4RSzTebOGSf/3UF+5YRznvac/9HJFEfNsWX6O9QNB/b/5XH1EWv2O7ym0UQ==
+X-Received: by 2002:a5d:4cce:0:b0:207:a1f1:6f50 with SMTP id
+ c14-20020a5d4cce000000b00207a1f16f50mr4849111wrt.139.1649619153254; 
+ Sun, 10 Apr 2022 12:32:33 -0700 (PDT)
 Received: from localhost.localdomain (201.11.75.194.dyn.plus.net.
  [194.75.11.201]) by smtp.googlemail.com with ESMTPSA id
- t15-20020adfeb8f000000b002060d26c211sm19179596wrn.114.2022.04.10.12.32.31
+ t15-20020adfeb8f000000b002060d26c211sm19179596wrn.114.2022.04.10.12.32.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Apr 2022 12:32:31 -0700 (PDT)
+ Sun, 10 Apr 2022 12:32:32 -0700 (PDT)
 From: Carwyn Ellis <carwynellis@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] ui/cocoa: show/hide menu in fullscreen on mouse
-Date: Sun, 10 Apr 2022 20:32:19 +0100
-Message-Id: <20220410193220.99168-1-carwynellis@gmail.com>
+Subject: [PATCH v2 1/1] ui/cocoa: show/hide menu in fullscreen on mouse
+ ungrab/grab
+Date: Sun, 10 Apr 2022 20:32:20 +0100
+Message-Id: <20220410193220.99168-2-carwynellis@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220410193220.99168-1-carwynellis@gmail.com>
+References: <20220410193220.99168-1-carwynellis@gmail.com>
 MIME-Version: 1.0
 Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=carwynellis@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=carwynellis@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,21 +89,59 @@ Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Minor change to make fullscreen mode in the Cocoa UI a little more
-convenient.
+The menu bar is only accessible when the Cocoa UI is windowed. In order
+to allow the menu bar to be accessible in fullscreen mode, this change
+makes the menu visible when the mouse is ungrabbed.
 
-The menu bar is now made visible when the mouse is released (ungrabbed)
-making it accessible without having to leave fullscreen mode. Grabbing
-the mouse hides the menu.
+When the mouse is grabbed the menu is hidden again.
 
-Incorporates changes in response to feedback from Akihiko Odaki.
+Incorporates changes in response to review feedback from Akihiko Odaki.
 
-Carwyn Ellis (1):
-  ui/cocoa: show/hide menu in fullscreen on mouse ungrab/grab
-
+Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
+---
  ui/cocoa.m | 10 ++++++----
  1 file changed, 6 insertions(+), 4 deletions(-)
 
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index c4e5468f9e..ea2cd4ece0 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -656,13 +656,11 @@ - (void) toggleFullScreen:(id)sender
+         [fullScreenWindow close];
+         [normalWindow setContentView: self];
+         [normalWindow makeKeyAndOrderFront: self];
+-        [NSMenu setMenuBarVisible:YES];
+     } else { // switch from desktop to fullscreen
+         isFullscreen = TRUE;
+         [normalWindow orderOut: nil]; /* Hide the window */
+         [self grabMouse];
+         [self setContentDimensions];
+-        [NSMenu setMenuBarVisible:NO];
+         fullScreenWindow = [[NSWindow alloc] initWithContentRect:[[NSScreen mainScreen] frame]
+             styleMask:NSWindowStyleMaskBorderless
+             backing:NSBackingStoreBuffered
+@@ -1141,7 +1139,9 @@ - (void) grabMouse
+ {
+     COCOA_DEBUG("QemuCocoaView: grabMouse\n");
+ 
+-    if (!isFullscreen) {
++    if (isFullscreen) {
++        [NSMenu setMenuBarVisible: FALSE];
++    } else {
+         if (qemu_name)
+             [normalWindow setTitle:[NSString stringWithFormat:@"QEMU %s - (Press ctrl + alt + g to release Mouse)", qemu_name]];
+         else
+@@ -1156,7 +1156,9 @@ - (void) ungrabMouse
+ {
+     COCOA_DEBUG("QemuCocoaView: ungrabMouse\n");
+ 
+-    if (!isFullscreen) {
++    if (isFullscreen) {
++        [NSMenu setMenuBarVisible: TRUE];
++    } else {
+         if (qemu_name)
+             [normalWindow setTitle:[NSString stringWithFormat:@"QEMU %s", qemu_name]];
+         else
 -- 
 2.35.1
 
