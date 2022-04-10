@@ -2,72 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A674FAD05
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 11:08:38 +0200 (CEST)
-Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959064FAD1A
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Apr 2022 11:48:57 +0200 (CEST)
+Received: from localhost ([::1]:36184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndTYj-0008AY-1i
-	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 05:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60954)
+	id 1ndUBk-0001NB-7z
+	for lists+qemu-devel@lfdr.de; Sun, 10 Apr 2022 05:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndTWw-0007Qn-Dm
- for qemu-devel@nongnu.org; Sun, 10 Apr 2022 05:06:46 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:44216)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndTWu-0003Ua-DU
- for qemu-devel@nongnu.org; Sun, 10 Apr 2022 05:06:45 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2eafabbc80aso135941727b3.11
- for <qemu-devel@nongnu.org>; Sun, 10 Apr 2022 02:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iBQ4wXbSKXeTJIh2WDuAbBMdwawoFtiy0l8EDVZPWAY=;
- b=ooHTQCoIy1OVF2n59pNpr9uLx0jReQcvat9B3p+phHoKLDhh17mwvZuD6D+nfmJqjB
- 97jME4rqFAAcE4GhUkRhs5O9tWGlz98VQhdMydDb6jATvFiy/GQrvLmyy8s/KIfs0Hi9
- wvXSL9lJKsog5g3KRp5JVCokV7ielG4Rkukkwchkr7AbeYkdSg8s5Uh791/zeeTUC7wD
- 3YhOugcSNMBYYpca3WU5BdE7cdecZ30YMQOm1e30Ajk7NqPbiylEJ/SJYyuE2axdvgRO
- EpvYP67Zh6CkWlYos/gP4ZWAToegO/ip7pilSi2DapYNCVFUm0KKtSM7VS7hzSLnVGtV
- TTVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iBQ4wXbSKXeTJIh2WDuAbBMdwawoFtiy0l8EDVZPWAY=;
- b=7gkq3tuYlayc3Gr4JMlyMjidJZ9VmJT2nbEz8NE9ddWUyJStISz8j7WV5lWSg2PYwR
- cA9wrd/Km/6Md1N0Pvppi2HmNEGY9ruhiYdW2kvnpdEqTf9S0ptUNXUL2gDoDR5ktrBE
- gdvEn4OgXF7FIoWNxrDPAwRb9KKD2JTwBpf/gX0/vEXENzGmr5CAyCE1KAroMYyCT6Bt
- HTSBc868txC2IasDPDaOi8IXZDlEHOyEidNgjjkJOJbRZdyB+dAxuGbymdGAbVRJWXmL
- 7O3x6Khk8pePa6LDZfUj3C/jzDBalP3wMnmT9uc5r7Ru1tmctGuSbo2bdJiZd24QnVeG
- JdBQ==
-X-Gm-Message-State: AOAM532DcnB/vidCtuph2n/w+NOAkdg2JzcsED3+m5ne0q6E9S4rc72O
- am+59DUWdVk+YBXI4AxYl8s4hrI+aPwqYh8NjF66xQ==
-X-Google-Smtp-Source: ABdhPJwcuSsjqc/rYCNsJZmdblFMs802G+gK/B9eIYwi7BO+bF5DwVSBNoGCPrk2yhlPJDC/iY6mfsyN/3b5dmp2udo=
-X-Received: by 2002:a81:db05:0:b0:2ea:2b92:c317 with SMTP id
- u5-20020a81db05000000b002ea2b92c317mr22470376ywm.329.1649581603055; Sun, 10
- Apr 2022 02:06:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ndU8X-0000Yd-8Z
+ for qemu-devel@nongnu.org; Sun, 10 Apr 2022 05:45:37 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ndU8Q-0000mc-F3
+ for qemu-devel@nongnu.org; Sun, 10 Apr 2022 05:45:32 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23A78qA1015683; 
+ Sun, 10 Apr 2022 09:45:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=resjcE5PPsmodwrzeCmP2nvMy6MHgnWtkLQI068h/UY=;
+ b=XowqVqtyGtYxJ0Rl8FdzxQ48QKj6L2Chx47px/XCU6f4XV3Fl7174wY9RAdMqUfT1Lju
+ X6htcKAAgSh+6YCE09oKhy7d2vgVo+rXkiDrXKOAed/gNoQQpC5aBFBdhdElErbSGB9e
+ 07Dn/8d6aeIh/uJOQR1aOQ49eahGrcbTVtPrDTqCiy+UP8QRZqFx0+KkIfEhm6IF80/8
+ JVHysdY6i4pi03LnJNh4P1R4xaEtfYWRvEOldmHOklUIOGho8UanWjYWDdJC8nZnpydt
+ UUgPsY5etN9hk7FkhROUGr7IO1+v5KypjagaNYiEz6C5qVTXtOc7lHX08GtYUEtN7LPf 0Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fbkqpx2fu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 10 Apr 2022 09:45:24 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23A9irXu002909;
+ Sun, 10 Apr 2022 09:45:24 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fbkqpx2fj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 10 Apr 2022 09:45:24 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23A9hWac018648;
+ Sun, 10 Apr 2022 09:45:23 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03dal.us.ibm.com with ESMTP id 3fb1s9a320-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 10 Apr 2022 09:45:23 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23A9jL2l23069152
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 10 Apr 2022 09:45:21 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C8C8ABE058;
+ Sun, 10 Apr 2022 09:45:21 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D9D2ABE056;
+ Sun, 10 Apr 2022 09:45:18 +0000 (GMT)
+Received: from [9.160.177.197] (unknown [9.160.177.197])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Sun, 10 Apr 2022 09:45:18 +0000 (GMT)
+Message-ID: <2103654f-b638-a08c-7ea8-cdafb7018609@linux.ibm.com>
+Date: Sun, 10 Apr 2022 12:45:16 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3] qapi, target/i386/sev: Add cpu0-id to
+ query-sev-capabilities
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, Cole Robinson <crobinso@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220228093014.882288-1-dovmurik@linux.ibm.com>
+ <YhyWg1UaOPMIkODz@redhat.com>
+ <982bd5bf-a3a8-f75c-73bd-2722f72cc476@linux.ibm.com>
+ <9878f830-d581-1069-5b06-54b8486b7b8b@redhat.com>
+ <87v8vljv2q.fsf@pond.sub.org>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <87v8vljv2q.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: fn0NTVsjLD1sx_JSYoYVmj4AKzsBoNwo
+X-Proofpoint-ORIG-GUID: KrEXOe73a4T9IdHMaNhFiWTzKs56iXh0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20220408164749.534758-1-thuth@redhat.com>
- <72fe734a-8bf6-adc6-474a-47f2006c2f6d@comstyle.com>
-In-Reply-To: <72fe734a-8bf6-adc6-474a-47f2006c2f6d@comstyle.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 10 Apr 2022 10:06:31 +0100
-Message-ID: <CAFEAcA-NdeN8S0JXqfrpTiDoUmfZHBXUtdAuRAdDRooTpnYipA@mail.gmail.com>
-Subject: Re: [RFC PATCH for-7.1] Remove the slirp submodule (and only compile
- with an external libslirp)
-To: Brad Smith <brad@comstyle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-10_03,2022-04-08_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015
+ lowpriorityscore=0 phishscore=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204100063
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,50 +120,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 10 Apr 2022 at 05:51, Brad Smith <brad@comstyle.com> wrote:
->
-> On 4/8/2022 12:47 PM, Thomas Huth wrote:
-> > QEMU 7.1 won't support Ubuntu 18.04 anymore, so the last big important
-> > distro that did not have a pre-packaged libslirp has been dismissed.
-> > All other major distros seem to have a libslirp package in their
-> > distribution already - according to repology.org:
-> >
-> >            Fedora 34: 4.4.0
-> >    CentOS 8 (RHEL-8): 4.4.0
-> >        Debian Buster: 4.3.1 (in buster-backports)
-> >   OpenSUSE Leap 15.3: 4.3.1
-> >     Ubuntu LTS 20.04: 4.1.0
-> >        FreeBSD Ports: 4.6.1
-> >        NetBSD pkgsrc: 4.3.1
-> >             Homebrew: 4.6.1
-> >          MSYS2 mingw: 4.6.1
-> >
-> > The only one that still seems to be missing a libslirp package is
-> > OpenBSD - but I assume that they can add it to their ports system
-> > quickly if required.
 
-> I wish I had seen this earlier as our 7.1 release was just tagged.
->
-> I have whipped up a port of 4.6.1 for OpenBSD as it was pretty simple. I
-> will
-> see about submitting it in a number of days when the tree opens.
 
-How awkward would it be for an end-user who's on OpenBSD 7.1 to
-build a QEMU that doesn't have libslirp? (That is, is it easy
-and common for an end user to pull in a port of libslirp that only
-came along in a later OpenBSD, or would they instead have to
-manually compile libslirp themselves from the upstream sources?)
+On 07/04/2022 8:55, Markus Armbruster wrote:
+> Cole Robinson <crobinso@redhat.com> writes:
+> 
+>> On 2/28/22 4:39 AM, Dov Murik wrote:
+>>>
+>>>
+>>> On 28/02/2022 11:31, Daniel P. Berrangé wrote:
+>>>> On Mon, Feb 28, 2022 at 09:30:14AM +0000, Dov Murik wrote:
+>>>>> Add a new field 'cpu0-id' to the response of query-sev-capabilities QMP
+>>>>> command.  The value of the field is the base64-encoded unique ID of CPU0
+>>>>> (socket 0), which can be used to retrieve the signed CEK of the CPU from
+>>>>> AMD's Key Distribution Service (KDS).
+>>>>>
+>>>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>>>>
+>>>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>>>>
+>>>
+>>> Thanks Daniel for reviewing.
+>>>
+>>
+>> Hmm I don't see this in qemu.git. Who should pick this up?
+> 
+> I'd say
+> 
+>     $ scripts/get_maintainer.pl -f target/i386/sev.c 
+>     Paolo Bonzini <pbonzini@redhat.com> (supporter:X86 KVM CPUs)
+>     Marcelo Tosatti <mtosatti@redhat.com> (supporter:X86 KVM CPUs)
+>     kvm@vger.kernel.org (open list:X86 KVM CPUs)
+>     qemu-devel@nongnu.org (open list:All patches CC here)
+> 
 
-(I'm asking here because if it's painful, then we should perhaps
-defer dropping our submodule copy of libslirp a little longer.)
+I see this in Paolo's tree in branch for-upstream:
 
-thanks
--- PMM
+https://gitlab.com/bonzini/qemu/-/commit/811b4ec7f8eb3fb1fe9851848ab8e3cd926b9627
+
+-Dov
 
