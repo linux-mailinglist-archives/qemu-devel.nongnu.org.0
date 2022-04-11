@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CD24FC2E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 19:06:27 +0200 (CEST)
-Received: from localhost ([::1]:60904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A7D4FC2D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 18:58:45 +0200 (CEST)
+Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndxUg-0001RR-It
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 13:06:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
+	id 1ndxNE-0006XG-DK
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 12:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndx9g-0002c1-P8
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:44:44 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:38374)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ndxKu-0004sv-3R
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:56:20 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:44835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndx9f-000273-8Q
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:44:44 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2ec0bb4b715so43936987b3.5
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 09:44:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k9cJN4QBG+VOBSEw0DcH5QWMFxSW4ZEr+daVJ5qfJkQ=;
- b=cXQnGPu/mgUZkt5EtPfD1iBF80a4R15md9R74JH5myFdLixpFrpuvLgO0OhtiZO2uD
- 8EGUSBUcoFkrmWnFknpRKSzTmXzz3daVsXfnAoQ5MQ/me/Ef1lRfeTIEq+Rjqpx4wluh
- jrcwLhnBy3rTPZj5eDsQp/S5rbhKiYUYMxYjTGT4TGuomiMqzOYmvQTrDYDFeK2kcl69
- Ju+FcCk3Irv0ydQlaf22NtFCAlvVmroduAniRDfBsTHqgsZzmP3aMJjbcE7aRV3egeqz
- 4mHn2u3YznoLdhVTud0Myz4ZV2jgyRc0LSEjWsb0nVnhp8FZ5Yo2SDLVczN4Ie41bu0H
- ZQ4A==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ndxKs-0004E4-6r
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:56:19 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ m33-20020a05600c3b2100b0038ec0218103so1264469wms.3
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 09:56:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+YJITU/FEivEPFOU4z6PXi53AtfYvskmBxIw8YsBW5E=;
+ b=RZPfg9Dl99IoqJ7STGVJRN5NGFKkToYgoJAtvb6jJLC1qdwlmY5Fp9W2ZiMwzHyD5G
+ CWwZizMn2Om+EtzZdwM2jdSS+c6tzVhc3EQzeCkYsfutIWKzwT9ewAUOb8J9zW8KcyJ4
+ RGJJVDtPlWfwT2+eebKZO/iLAHt1H3ZXml0VeY3Z14GiVZmz5QQ0gARQ30wVoYXelu2E
+ GqWCxG0oLgk5xguHXNgd8o5/4KbLfIVjOlnCxedK3Z7Vz3BscmjD7T0AsMCSzSMDnN1d
+ 9gbJUWnTThIgMVGtyT+i6v9vuSIt8ST3fI6pz0HiCrKJuDb/gISXuu4RW7o8/Skj3tM6
+ W9qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k9cJN4QBG+VOBSEw0DcH5QWMFxSW4ZEr+daVJ5qfJkQ=;
- b=LJDfHMEX7VDChcBwCjWQB0M+RlazqwrScEqxIDY3DJE6zOpqBXo/MoqExL8gDUBsJo
- UKiLd+1GBhVTYNxdjH1c6M28JQ0EniyqM5hiZwYfsqw0Aas9pay5UxF5YCldYvxO4JNw
- HtvagiYfO36PjbJf7r6ctKi1N7wvfP94hNYUoZRDrKBCfsFgMoGRmDptYFQyOQivOHwj
- 5CkzU0dNBX7sUkYi1C4hYmcsbYynTNIabdY6uEYBnb2eaJucFg7Yu0FU0QwzpEtMJoCR
- xA3JaM4UDRvNmCeLWwu5gwnXqrhqJXdRn0hG3cnf+hfINwPrYmxsDvI5Dx7Gt04ZgGCQ
- G+TA==
-X-Gm-Message-State: AOAM533nUyi5d7f/pHVkK8w4N3sndLsVR83/pWmUwigERqyodSgjlF/T
- tMT2t6Kr8juPcDoW4Plt+rZNv807kY6uecbKdZp0Nw==
-X-Google-Smtp-Source: ABdhPJyKm3hfNzGqh/6hAo1yqlIn2c0r2+f4XqIty5zQR07EFdsukI38CmHOa8I04X+nBWMnp5oWURecR0zBVnBz3yk=
-X-Received: by 2002:a81:6642:0:b0:2eb:c364:b8e1 with SMTP id
- a63-20020a816642000000b002ebc364b8e1mr17437431ywc.64.1649695482197; Mon, 11
- Apr 2022 09:44:42 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+YJITU/FEivEPFOU4z6PXi53AtfYvskmBxIw8YsBW5E=;
+ b=Q0LYImSyM4xwggaAsQhJmsHQTEnSWsvEpUhHyxSSU7vQq1tsptsSQdkQmMMgiQbpuV
+ Dwijq9uByJfkzgxb4+DhKnV/wd65KUMjV6JbCqr6cEcm0YGmmuH3LXa17Z5VuDEX1rWl
+ 6fXLHOz/WG5zotmEt7e7b6BLFZWYrZ08TbE6RBW4hnN9QKxtMO2OMhAlI0Pvt66Esy+f
+ 45sByjvUIZsTBhZlby6w7u0adXXnljZnczDCTtlate0ks7h0pK/EwOZgmE67GpS3ha8q
+ UyLtxgqek7hUomdr1tcpkGzlrk+FLhLwyCu8Xzfu4WSCkzgbcEIoB7YuVppFymYCTpHp
+ Cl/w==
+X-Gm-Message-State: AOAM533I+MzMKcOUHOne+acG0KRKAlORrlW+2uPE+d++XzGN6tC14K+o
+ 9V9IZAsQim+qz+5OtYA6ZvA=
+X-Google-Smtp-Source: ABdhPJwfMFpjJ9NJtZvEZY7YLC5kptZMMx39xqc65sgOWhJz6iptz173JjNlXvSPah8EzQFYMNXE5g==
+X-Received: by 2002:a05:600c:19ce:b0:38c:dcc1:4cf3 with SMTP id
+ u14-20020a05600c19ce00b0038cdcc14cf3mr94965wmq.126.1649696175870; 
+ Mon, 11 Apr 2022 09:56:15 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ y11-20020a056000168b00b002041af9a73fsm30578195wrd.84.2022.04.11.09.56.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Apr 2022 09:56:15 -0700 (PDT)
+Message-ID: <6d38ebc0-e472-38e1-5791-de7976e709e3@redhat.com>
+Date: Mon, 11 Apr 2022 18:56:14 +0200
 MIME-Version: 1.0
-References: <20220410055725.380246-1-richard.henderson@linaro.org>
- <20220410055725.380246-6-richard.henderson@linaro.org>
-In-Reply-To: <20220410055725.380246-6-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Apr 2022 17:44:31 +0100
-Message-ID: <CAFEAcA_VYCDp3cF_XXfc-oWeM0WTqRJw63075Af8APF3SjQgdg@mail.gmail.com>
-Subject: Re: [PATCH 5/7] target/arm: Enable FEAT_DGH for -cpu max
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH] target/i386: avoid copying junk to extended ZMMReg
+ fields
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220411145609.3932882-1-alex.bennee@linaro.org>
+ <CAFEAcA-j2jkdoy09aogzgFVPXYH2Mn7yHXJCZyoZ=DETMMZMVg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFEAcA-j2jkdoy09aogzgFVPXYH2Mn7yHXJCZyoZ=DETMMZMVg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,22 +95,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 10 Apr 2022 at 07:07, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This extension concerns not merging memory access, which TCG does
-> not implement.  Thus we can trivially enable this feature.
-> Add a comment to handle_hint for the DGH instruction, but no code.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+On 4/11/22 17:18, Peter Maydell wrote:
+> Looking a bit more closely, this won't work on big-endian
+> hosts, because there we want to copy across the last 16
+> bytes of the struct, not the first 16. So I think we need
+> some more macro magic:
+> 
+> #if SHIFT == 0
+> #define COPY_REG(DEST, SRC) (DEST) = (SRC)
+> #else
+> #define COPY_REG(DEST, SRC) do { \
+>      (DEST).Q(0) = (SRC).Q(0);    \
+>      (DEST).Q(1) = (SRC).Q(1);    \
+>    } while (0)
+> #endif
+> 
+> and then use COPY_REG(*d, r);
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Right, I have written something similar after seeing your response to
+the bug.
 
-thanks
--- PMM
+> We could probably try to write endian-specific flavours of
+> memcpy() invocation, but "do two 64-bit word copies" is what
+> the compiler would hopefully turn the memcpy into anyway :-)
+
+Yeah, I actually wrote the memcpy() invocation because I was going to
+look at AVX later this year, which of course you couldn't know. :)
+What I came up after stealing parts of your nice comment is the
+following:
+
+/*
+  * Copy the relevant parts of a Reg value around. In the case where
+  * sizeof(Reg) > SIZE, these helpers operate only on the lower bytes of
+  * a 64 byte ZMMReg, so we must copy only those and keep the top bytes
+  * untouched in the guest-visible destination destination register.
+  * Note that the "lower bytes" are placed last in memory on big-endian
+  * hosts, which store the vector backwards in memory.  In that case the
+  * copy *starts* at B(SIZE - 1) and ends at B(0), the opposite of
+  * the little-endian case.
+  */
+#ifdef HOST_WORDS_BIGENDIAN
+#define MOVE(d, r) memcpy(&((d).B(SIZE - 1)), &(d).B(SIZE - 1), SIZE)
+#else
+#define MOVE(d, r) memcpy(&(d).B(0), &(r).B(0), SIZE)
+#endif
+
+I'll still your nice comment and submit a patch later when 7.1 opens.
+
+Paolo
 
