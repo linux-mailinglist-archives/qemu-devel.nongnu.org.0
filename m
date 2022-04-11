@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FBD4FC116
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:40:57 +0200 (CEST)
-Received: from localhost ([::1]:38146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1566A4FC172
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:49:40 +0200 (CEST)
+Received: from localhost ([::1]:51760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndw9v-0007N0-7Q
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53710)
+	id 1ndwIM-0000fl-KL
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:49:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndw7I-0005Aj-TW
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:38:13 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:35884)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndw7H-0007pl-5j
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:38:12 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2ebd70a4cf5so111320447b3.3
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 08:38:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KHD2buQ4j4vnn0IHH++ySlQ/DIoPPoqbreA7afSC2+s=;
- b=INTr20K2YNYZO+kXeC4OZLqozBFW3CEwCjVqSkLvJnZupJ9oZLtBS3pNoC4sdhlph3
- WUX5Vu9MHUZ57moR1KopyL2KDB6X8i+JHOCOy0zxWGWZ9PoaB+XBI54s0t4rNNgfXnpb
- zB713m4CeiBwMMTIEiqC2LfdXhVaQmKV2eHSZk97Kf0G+yuFvrP8/VMzt8jh1fIDKn1Z
- Iq+60N4ZMZfjNibW03y3ecbwhNjOUEd2ooy5V6VQwUzgmjB6QVoL2o3XzpNM6nv2xnX4
- 42MHBwbXQUXazoQoK0xs5wj9eS/eap5UcXJ5LJjSamnNcZ/vTYOlVgxKyVDq4QDd+TcF
- XnAQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ndwGK-00079z-VN
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:47:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ndwGH-0001Df-2Y
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:47:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649692047;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HUoW+M9S/L0saPB4p9jlR8SaSFRVW7XdFc0bsm8qgY8=;
+ b=Ly9jt1wtbgBB7L0ObdSdLCJ3886bgwr6JbgLPgEhEHGww7Fm8rMi8izyXeqw4ZaT7x0mIY
+ Wm5W1nb9Qon0Gg1bBnxZ71xM6YFLjq8PeTiE1kwNJK0MiunZ4q8CZm9W7/XaoVi9nAo8Zf
+ 3BWmoRego9I+YZC76+pOXZH6p/NyJlc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-659-36Roa4-WMAC1y2PeN24Kug-1; Mon, 11 Apr 2022 11:47:26 -0400
+X-MC-Unique: 36Roa4-WMAC1y2PeN24Kug-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q4-20020adfc504000000b002079c9cc1bfso1173987wrf.11
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 08:47:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KHD2buQ4j4vnn0IHH++ySlQ/DIoPPoqbreA7afSC2+s=;
- b=5E/OOcW70p9tG3luMECuEznFwRKpZPCwau6KLslTi72NBGBppcuIzlFGeiMuUk6KgZ
- 2S05PvZymzZrlD0LXUNfoNLvitbMRc8AG+mRUty93nM5Zc6RWS3Sro5IDlz593kykjU5
- n/teI4nu5iP7RL1oBkFKoRnqFhWPQLhwXQfrYvcu9AhjCLfxJIkO4N7TpN3UuGS4ueU5
- RFREh73UlrabTr4Rm4sUKP+04ZUNH633LG3aNw4Ly95sltkpWJ2XyBfIKgfocinHzD+t
- sXnBEBVERvHSDAJijd2+37OEhE4peWYz9ifbazfPiKMq5puPuGU2VfRVmoMKOeL89WFw
- ThQw==
-X-Gm-Message-State: AOAM531/96JPTze35NXzcKsmZREN2lNSXDER8AgTYePZrwD9gnQKPGqb
- /YWE1Gyru1TkONb+m1eZZA2r2TW/ZxDuzG9aLQl11A==
-X-Google-Smtp-Source: ABdhPJxDfLn3K/GkP5FhMlJwCl9W0DZTCW510yA9CF4Mp/ZZpqZXVifOH/DOwJDKWkV6xC5fi4pgWM/UUycgOesrCdQ=
-X-Received: by 2002:a81:13d6:0:b0:2ec:2b3f:28c6 with SMTP id
- 205-20020a8113d6000000b002ec2b3f28c6mr4252307ywt.10.1649691490149; Mon, 11
- Apr 2022 08:38:10 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=HUoW+M9S/L0saPB4p9jlR8SaSFRVW7XdFc0bsm8qgY8=;
+ b=7cyjKjGsNGR3aZIuxJKxBSLYTg0I7fwWVzSCcNsJZxMONoSsDLdv2y+oyTvSc5paye
+ Hx5VJY9H5NxsFpHOndvGWvDJUprUEHl+Ggeuwmf0uJCtPBtxeEL/umQNcCVBKBslBQv8
+ lPSIkrgbp106/lp0xT+IaFGYP8CgSCFcnZ/SgLx1ZxNkbLkjb5aagIDF5I7Fr1n1zvKI
+ Gahx4LTi3txZoFS2F51vCjgDFHAwVlkUNu8/4A52y+JhXGn0oKq8yV4KP6efY836KQZ9
+ Ufl+8/BAWjmAvkCMU6NAbmh8tbgwMptj49fAb2eu7xj3cnxTvQfQsLen481FzaDZiJyb
+ UcwA==
+X-Gm-Message-State: AOAM532561zlXljFKEdIcynKfjWuItv13KwwaIhICobRaAew+DW20Iwp
+ 1kFq19bHwi4xbUBjQJKQ+iSc/KodIfhT1SYe1xVH7kuItkXXblmgJQi8/T7li3WNmhIcr55BNMg
+ X93JN0pNRxwLAv6Y=
+X-Received: by 2002:a5d:68ca:0:b0:207:a1d3:da87 with SMTP id
+ p10-20020a5d68ca000000b00207a1d3da87mr8397323wrw.492.1649692045482; 
+ Mon, 11 Apr 2022 08:47:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbB3LrRYPytvHLrWVHHDao+73B94vSpbUzt87GItbUzzhXeTJd760xIHM492crFyyQfDv5Dw==
+X-Received: by 2002:a5d:68ca:0:b0:207:a1d3:da87 with SMTP id
+ p10-20020a5d68ca000000b00207a1d3da87mr8397311wrw.492.1649692045196; 
+ Mon, 11 Apr 2022 08:47:25 -0700 (PDT)
+Received: from redhat.com ([2.52.1.156]) by smtp.gmail.com with ESMTPSA id
+ h8-20020a05600c350800b0038cc9096507sm19389796wmq.3.2022.04.11.08.47.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Apr 2022 08:47:24 -0700 (PDT)
+Date: Mon, 11 Apr 2022 11:47:21 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] contrib/vhost-user-blk: add missing GOptionEntry NULL
+ terminator
+Message-ID: <20220411114709-mutt-send-email-mst@kernel.org>
+References: <20220411150057.3009667-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <20220409000742.293691-1-richard.henderson@linaro.org>
- <20220409000742.293691-4-richard.henderson@linaro.org>
-In-Reply-To: <20220409000742.293691-4-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Apr 2022 16:37:59 +0100
-Message-ID: <CAFEAcA_HUXLC1Rr05rVCsMyY_EgqdQxpx3mnrrJA2p-WL79c0A@mail.gmail.com>
-Subject: Re: [PATCH 03/16] target/arm: Update qemu-system-arm -cpu max to
- cortex-a57
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220411150057.3009667-1-stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,51 +96,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 9 Apr 2022 at 01:11, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Instead of starting with cortex-a15 and adding v8 features to
-> a v7 cpu, begin with a v8 cpu stripped of its aarch64 features.
-> This fixes the long-standing to-do where we only enabled v8
-> features for user-only.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Mon, Apr 11, 2022 at 04:00:57PM +0100, Stefan Hajnoczi wrote:
+> The GLib documentation says "a NULL-terminated array of GOptionEntrys"
+> so we'd better make sure there is a terminator that lets
+> g_option_context_add_main_entries() know when the end of the array has
+> been reached.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+feel free to merge
+
 > ---
->  target/arm/cpu_tcg.c | 134 ++++++++++++++++++++++++++-----------------
->  1 file changed, 80 insertions(+), 54 deletions(-)
->
-> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-> index 13d0e9b195..43ac3e27fa 100644
-> --- a/target/arm/cpu_tcg.c
-> +++ b/target/arm/cpu_tcg.c
-> @@ -938,71 +938,97 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
->  static void arm_max_initfn(Object *obj)
->  {
->      ARMCPU *cpu = ARM_CPU(obj);
-> +    uint32_t t;
->
-> -    cortex_a15_initfn(obj);
-> +    /* aarch64_a57_initfn, advertising none of the aarch64 features */
-> +    cpu->dtb_compatible = "arm,cortex-a57";
-> +    set_feature(&cpu->env, ARM_FEATURE_V8);
-> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
-> +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-> +    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-> +    set_feature(&cpu->env, ARM_FEATURE_EL2);
-> +    set_feature(&cpu->env, ARM_FEATURE_EL3);
-> +    set_feature(&cpu->env, ARM_FEATURE_PMU);
-> +    cpu->midr = 0x411fd070;
+>  contrib/vhost-user-blk/vhost-user-blk.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+> index d14b2896bf..cd4a5d7335 100644
+> --- a/contrib/vhost-user-blk/vhost-user-blk.c
+> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
+> @@ -593,7 +593,8 @@ static GOptionEntry entries[] = {
+>      {"blk-file", 'b', 0, G_OPTION_ARG_FILENAME, &opt_blk_file,
+>       "block device or file path", "PATH"},
+>      { "read-only", 'r', 0, G_OPTION_ARG_NONE, &opt_read_only,
+> -      "Enable read-only", NULL }
+> +      "Enable read-only", NULL },
+> +    { NULL, },
+>  };
+>  
+>  int main(int argc, char **argv)
+> -- 
+> 2.35.1
 
-If we're going to claim in the MIDR that we're an A57 then we
-should provide the A57's impdef sysregs, at least those of
-them that are visible to AArch32. This may otherwise cause
-problems if the guest OS tries to write to one of them as
-part of some errata workaround.
-
-thanks
--- PMM
 
