@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5964FC0DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:34:52 +0200 (CEST)
-Received: from localhost ([::1]:53356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FBD4FC116
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:40:57 +0200 (CEST)
+Received: from localhost ([::1]:38146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndw43-0006b1-0z
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:34:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51728)
+	id 1ndw9v-0007N0-7Q
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1ndw2L-0004Jl-Ff
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:33:05 -0400
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:46941)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ndw7I-0005Aj-TW
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:38:13 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:35884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1ndw2J-0006oT-O7
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:33:05 -0400
-Received: by mail-lj1-x22c.google.com with SMTP id q189so4023536ljb.13
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 08:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shutemov-name.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=xnPakWPy2yT3pIDHfh65ar6g/dls1kfh8Fm485ETQ5M=;
- b=dQKM0d07whgvlC9oDhJtSUhDkTW4MoFSVg0vfgfBTGbnyj/vLpwIRlpTJbwhAy5wXy
- t4NvGLtrVnALpqzfCg7AJJXugL5G+gxtpmDu4P3kfUwP/PxlbMFsvAkSX6LdhPrmqMXT
- qiLuU+fH5rX1P4bRYOwwYVvuKX3ABpSSlgtg6Az3/bkGGCuw7OQsN/ELNNrrh8dksm+L
- jdUaWuAeAK2VUjv+c+38AFbQNMQ+BBRMEFHjUicyzn/UUqkyKZ+8hd7a357wBJLh/+Ai
- HUBjhhdQSdLifDKyLGXJgEw/B/MdcmTILkWCG50hI08mI+XNVGIswEXj19aZoHfNzVBJ
- crnw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ndw7H-0007pl-5j
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:38:12 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2ebd70a4cf5so111320447b3.3
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 08:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KHD2buQ4j4vnn0IHH++ySlQ/DIoPPoqbreA7afSC2+s=;
+ b=INTr20K2YNYZO+kXeC4OZLqozBFW3CEwCjVqSkLvJnZupJ9oZLtBS3pNoC4sdhlph3
+ WUX5Vu9MHUZ57moR1KopyL2KDB6X8i+JHOCOy0zxWGWZ9PoaB+XBI54s0t4rNNgfXnpb
+ zB713m4CeiBwMMTIEiqC2LfdXhVaQmKV2eHSZk97Kf0G+yuFvrP8/VMzt8jh1fIDKn1Z
+ Iq+60N4ZMZfjNibW03y3ecbwhNjOUEd2ooy5V6VQwUzgmjB6QVoL2o3XzpNM6nv2xnX4
+ 42MHBwbXQUXazoQoK0xs5wj9eS/eap5UcXJ5LJjSamnNcZ/vTYOlVgxKyVDq4QDd+TcF
+ XnAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xnPakWPy2yT3pIDHfh65ar6g/dls1kfh8Fm485ETQ5M=;
- b=WAbHMxaoBqlpT4X7VwWro6nDgiKm6ubUzH61o1f2SxAxvFG+przhd1mqOtnpvzso4u
- 1aYTwve4i6RAzuMdIrVvuKaXMldwb78CsSfR4H96vkvEvG6amwd7O486W5+nRgQCG5b1
- DArFzkg/NHCYmZ2bgP6Ej4875w8/ScSKjYBE/Qz3HlLZeDFKBcR54TT2rJb+RB/43k5E
- z8ZEPPFrCOukAtyqV9NDKAhSab3Mxbk2TwLiIZ/WaeZmvwMmJm3lNMSbVKFmn48lPDBl
- PRUf+Cc6/pdG1Hb5Z7dgtvHvsS56XA8+IoDYKMBvon9dP0ET/YCiVX7reL7kLw4/J5Dd
- 9XzA==
-X-Gm-Message-State: AOAM532143Fm7daPWe488Z2ShlFSJi+adLypX4kUTN3LC40N4V7w2PWK
- P3WsKhjl43UBpuCRYbxA9dVoHg==
-X-Google-Smtp-Source: ABdhPJznGRs4U58z6UmE7zKZGIORoorFbfftosrGPlCNHfF3AfxicsXpipbZkrEfC0QnRLsaSTmPLw==
-X-Received: by 2002:a2e:3a02:0:b0:24b:6120:1be4 with SMTP id
- h2-20020a2e3a02000000b0024b61201be4mr4554362lja.451.1649691181857; 
- Mon, 11 Apr 2022 08:33:01 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
- by smtp.gmail.com with ESMTPSA id
- c25-20020a2e6819000000b00247de61d3fdsm3162062lja.113.2022.04.11.08.33.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Apr 2022 08:33:01 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
- id E5DD4103CE0; Mon, 11 Apr 2022 18:34:33 +0300 (+03)
-Date: Mon, 11 Apr 2022 18:34:33 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
- against RLIMIT_MEMLOCK
-Message-ID: <20220411153433.6sqqqd6vzhyfjee6@box.shutemov.name>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-5-chao.p.peng@linux.intel.com>
- <Yk8L0CwKpTrv3Rg3@google.com>
- <20220408130254.GB57095@chaop.bj.intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KHD2buQ4j4vnn0IHH++ySlQ/DIoPPoqbreA7afSC2+s=;
+ b=5E/OOcW70p9tG3luMECuEznFwRKpZPCwau6KLslTi72NBGBppcuIzlFGeiMuUk6KgZ
+ 2S05PvZymzZrlD0LXUNfoNLvitbMRc8AG+mRUty93nM5Zc6RWS3Sro5IDlz593kykjU5
+ n/teI4nu5iP7RL1oBkFKoRnqFhWPQLhwXQfrYvcu9AhjCLfxJIkO4N7TpN3UuGS4ueU5
+ RFREh73UlrabTr4Rm4sUKP+04ZUNH633LG3aNw4Ly95sltkpWJ2XyBfIKgfocinHzD+t
+ sXnBEBVERvHSDAJijd2+37OEhE4peWYz9ifbazfPiKMq5puPuGU2VfRVmoMKOeL89WFw
+ ThQw==
+X-Gm-Message-State: AOAM531/96JPTze35NXzcKsmZREN2lNSXDER8AgTYePZrwD9gnQKPGqb
+ /YWE1Gyru1TkONb+m1eZZA2r2TW/ZxDuzG9aLQl11A==
+X-Google-Smtp-Source: ABdhPJxDfLn3K/GkP5FhMlJwCl9W0DZTCW510yA9CF4Mp/ZZpqZXVifOH/DOwJDKWkV6xC5fi4pgWM/UUycgOesrCdQ=
+X-Received: by 2002:a81:13d6:0:b0:2ec:2b3f:28c6 with SMTP id
+ 205-20020a8113d6000000b002ec2b3f28c6mr4252307ywt.10.1649691490149; Mon, 11
+ Apr 2022 08:38:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220408130254.GB57095@chaop.bj.intel.com>
-Received-SPF: none client-ip=2a00:1450:4864:20::22c;
- envelope-from=kirill@shutemov.name; helo=mail-lj1-x22c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220409000742.293691-1-richard.henderson@linaro.org>
+ <20220409000742.293691-4-richard.henderson@linaro.org>
+In-Reply-To: <20220409000742.293691-4-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 11 Apr 2022 16:37:59 +0100
+Message-ID: <CAFEAcA_HUXLC1Rr05rVCsMyY_EgqdQxpx3mnrrJA2p-WL79c0A@mail.gmail.com>
+Subject: Re: [PATCH 03/16] target/arm: Update qemu-system-arm -cpu max to
+ cortex-a57
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,43 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 08, 2022 at 09:02:54PM +0800, Chao Peng wrote:
-> > I think the correct approach is to not do the locking automatically for SHM_F_INACCESSIBLE,
-> > and instead require userspace to do shmctl(.., SHM_LOCK, ...) if userspace knows the
-> > consumers don't support migrate/swap.  That'd require wrapping migrate_page() and then
-> > wiring up notifier hooks for migrate/swap, but IMO that's a good thing to get sorted
-> > out sooner than later.  KVM isn't planning on support migrate/swap for TDX or SNP,
-> > but supporting at least migrate for a software-only implementation a la pKVM should
-> > be relatively straightforward.  On the notifiee side, KVM can terminate the VM if it
-> > gets an unexpected migrate/swap, e.g. so that TDX/SEV VMs don't die later with
-> > exceptions and/or data corruption (pre-SNP SEV guests) in the guest.
-> 
-> SHM_LOCK sounds like a good match.
+On Sat, 9 Apr 2022 at 01:11, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Instead of starting with cortex-a15 and adding v8 features to
+> a v7 cpu, begin with a v8 cpu stripped of its aarch64 features.
+> This fixes the long-standing to-do where we only enabled v8
+> features for user-only.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu_tcg.c | 134 ++++++++++++++++++++++++++-----------------
+>  1 file changed, 80 insertions(+), 54 deletions(-)
+>
+> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+> index 13d0e9b195..43ac3e27fa 100644
+> --- a/target/arm/cpu_tcg.c
+> +++ b/target/arm/cpu_tcg.c
+> @@ -938,71 +938,97 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
+>  static void arm_max_initfn(Object *obj)
+>  {
+>      ARMCPU *cpu = ARM_CPU(obj);
+> +    uint32_t t;
+>
+> -    cortex_a15_initfn(obj);
+> +    /* aarch64_a57_initfn, advertising none of the aarch64 features */
+> +    cpu->dtb_compatible = "arm,cortex-a57";
+> +    set_feature(&cpu->env, ARM_FEATURE_V8);
+> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
+> +    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
+> +    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL2);
+> +    set_feature(&cpu->env, ARM_FEATURE_EL3);
+> +    set_feature(&cpu->env, ARM_FEATURE_PMU);
+> +    cpu->midr = 0x411fd070;
 
-Emm, no. shmctl(2) and SHM_LOCK are SysV IPC thing. I don't see how they
-fit here.
+If we're going to claim in the MIDR that we're an A57 then we
+should provide the A57's impdef sysregs, at least those of
+them that are visible to AArch32. This may otherwise cause
+problems if the guest OS tries to write to one of them as
+part of some errata workaround.
 
--- 
- Kirill A. Shutemov
+thanks
+-- PMM
 
