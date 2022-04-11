@@ -2,95 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512F94FB401
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 08:51:38 +0200 (CEST)
-Received: from localhost ([::1]:33456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9274FB454
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 09:01:46 +0200 (CEST)
+Received: from localhost ([::1]:42540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndntg-0001Wv-Rp
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 02:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40684)
+	id 1ndo3R-00080y-GJ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 03:01:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ndnnn-0006xr-Sa
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 02:45:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22518)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1ndnqk-0000LE-3W
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 02:48:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ndnnk-000559-BG
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 02:45:30 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1ndnqi-0005UG-GS
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 02:48:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649659526;
+ s=mimecast20190719; t=1649659711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nh5GAwcYXC/VyU+NtQUXI3vaiD4avmeoaF7sOhHKVv4=;
- b=De6VqY0IbTMxApGItUCSmR4lsrgtNHtft8wiwBbLQCBdKH2NxY3KMwbT58iGzJtrF1XkaB
- 7Whn1u82J/dUGb4g9ME1ZtP3661eOgIC4TclXjVjVIwh2f79raLY5F4LKqanYx1oJuEuUY
- U2mtRTp/ccDdRzAqC1DhAfIsWIAaY6k=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6krlZoPpu++1PI6K71u7bndkhvBtVYooaatRPeFuyx0=;
+ b=CLsyvTEgjCl/FdOMaFYaCIyAuznXVnZ7fsa44St0HrQksQwdhrhaoSgZIf6vSU/jQhqi6n
+ Ltn3ZXMOCkDMGkLBMm+DYJTrgQSLolqJvUr7AmrfFxHuZEdxCqipTHS1Oj7GDQxXT6S9kd
+ ZR06oyC8oUNBAJaIptqXuE1wUhXsw70=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-146-wCJdPJjvOUyKM3NYD1kF9A-1; Mon, 11 Apr 2022 02:45:25 -0400
-X-MC-Unique: wCJdPJjvOUyKM3NYD1kF9A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a16-20020a05600c349000b0038e6392a346so8294123wmq.4
- for <qemu-devel@nongnu.org>; Sun, 10 Apr 2022 23:45:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Nh5GAwcYXC/VyU+NtQUXI3vaiD4avmeoaF7sOhHKVv4=;
- b=HKmKeKsiJDmv3K0OGpB7y4NyWkfDawZabaqP+x1FlIHMSC1PMAmKIQ6b4+FjnhslNW
- D8ZZQ3g/brrClFmR+dVK2n76ANYtGThhSnfKbaH/M5MqN5MhxY5Pvbj25llOvk6CVwZS
- FDbAPCiNvNRO0ISRDgGfzj4hLZUzvOOt4kRE0Gc6kNy3PkASOILOnx2yrAzcvkH3VfsC
- Kw18tIVYrE8MuoAFmb1PqulosH/EzcKic19oeqanQv842zBUAcPoYJHSZLMtNsjUeACE
- EXegX0A/3GxZsvabIEEm9DMunG9XvrL3LzRXxgHDy5V7SuJ1jH0KIHpoh4QCueeKHoRf
- IEAg==
-X-Gm-Message-State: AOAM532O+8qB35OPM2Ho5MSR6CH+bPp/Ssa34BF/Rlz1lY1zo4WUCAZc
- 7uXCXjhoU3s+ZeBU7PSyKi8fIhzZOnlUtKSow6fsI3cuxMMlNyxY/5gEsAXE30jOwh4xcOfFwTo
- sPbDXfPUP4fzimq8=
-X-Received: by 2002:a05:600c:3ca4:b0:38e:54d0:406d with SMTP id
- bg36-20020a05600c3ca400b0038e54d0406dmr27431710wmb.199.1649659524391; 
- Sun, 10 Apr 2022 23:45:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyhPinAVPHthJAZlNcdLeMaEDJRruJztX/Tae6+U7TPWEkR6QMtf49IGsDNhKYlpFHLtRN7gg==
-X-Received: by 2002:a05:600c:3ca4:b0:38e:54d0:406d with SMTP id
- bg36-20020a05600c3ca400b0038e54d0406dmr27431695wmb.199.1649659524122; 
- Sun, 10 Apr 2022 23:45:24 -0700 (PDT)
-Received: from [192.168.42.76]
- (dynamic-046-114-150-203.46.114.pool.telefonica.de. [46.114.150.203])
- by smtp.gmail.com with ESMTPSA id
- y15-20020a056000168f00b002057a9f9f5csm30532550wrd.31.2022.04.10.23.45.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 10 Apr 2022 23:45:23 -0700 (PDT)
-Message-ID: <f4312553-1605-625e-5a33-7bf09ebbd566@redhat.com>
-Date: Mon, 11 Apr 2022 08:45:09 +0200
+ us-mta-177-Y4A1tQ9mM1ynaFzdYfEIIA-1; Mon, 11 Apr 2022 02:48:27 -0400
+X-MC-Unique: Y4A1tQ9mM1ynaFzdYfEIIA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C79A3C01C0E;
+ Mon, 11 Apr 2022 06:48:27 +0000 (UTC)
+Received: from [10.72.12.73] (ovpn-12-73.pek2.redhat.com [10.72.12.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E51562166BB1;
+ Mon, 11 Apr 2022 06:48:22 +0000 (UTC)
+Subject: Re: [PATCH v5 0/4] hw/arm/virt: Fix CPU's default NUMA node ID
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+References: <20220403145953.10522-1-gshan@redhat.com>
+Message-ID: <3b6db41b-0a05-1c81-00e3-96331950c164@redhat.com>
+Date: Mon, 11 Apr 2022 14:48:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v1] hw/ppc: change indentation to spaces from TABs
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Bin Meng <bmeng.cn@gmail.com>, Guo Zhi <qtxuning1999@sjtu.edu.cn>
-References: <20220405121950.3528296-1-qtxuning1999@sjtu.edu.cn>
- <CAEUhbmXBxU8-5qnVSbfcSqq0RJHdH+CtKUnhRiXXJB+cmmX3kA@mail.gmail.com>
- <ff00d8f2-be00-ac9d-0b43-4a73ae8b3b5b@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <ff00d8f2-be00-ac9d-0b43-4a73ae8b3b5b@gmail.com>
+In-Reply-To: <20220403145953.10522-1-gshan@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -105,64 +81,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
+ shan.gavin@gmail.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/04/2022 21.19, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 4/6/22 07:08, Bin Meng wrote:
->> On Tue, Apr 5, 2022 at 10:36 PM Guo Zhi <qtxuning1999@sjtu.edu.cn> wrote:
->>>
->>> There are still some files in the QEMU PPC code base that use TABs for 
->>> indentation instead of using  spaces.
->>> The TABs should be replaced so that we have a consistent coding style.
->>>
->>> If this patch is applied, issue:
->>>
->>> https://gitlab.com/qemu-project/qemu/-/issues/374
->>>
->>> can be closed.
-> 
-> Please add the following tag in the commit:
-> 
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/374
-> 
-> 
-> This will make Gitlab automatically close the issue when the patch is accepted.
-> 
->>>
->>> Signed-off-by: Guo Zhi <qtxuning1999@sjtu.edu.cn>
->>> ---
->>>   hw/core/uboot_image.h  | 185 ++++++++++++++++++++---------------------
->>>   hw/ppc/ppc440_bamboo.c |   6 +-
->>>   hw/ppc/spapr_rtas.c    |  18 ++--
->>>   include/hw/ppc/ppc.h   |  10 +--
->>>   4 files changed, 109 insertions(+), 110 deletions(-)
->>>
->>> diff --git a/hw/core/uboot_image.h b/hw/core/uboot_image.h
->>
->> uboot_image.h was taken from the U-Boot source, I believe it should be
->> kept as it is.
-> 
-> 
-> (CCing Thomas since het explictly listed hw/core/uboot_image.h in the bug)
-> 
-> 
-> I am not sure about keeping this file as is.
+Hi Igor and Yanan,
 
-Seems like uboot_image.h has originally been taken from U-Boot's 
-include/image.h file ... but the two files are completely out of sync 
-nowadays, e.g. U-Boot switched to enums instead of #defines at one point in 
-time. So I think it does not make much sense to keep the TABs in here, and 
-I'd rather like to see them replaced with spaces indeed.
+On 4/3/22 10:59 PM, Gavin Shan wrote:
+> When the CPU-to-NUMA association isn't provided by user, the default NUMA
+> node ID for the specific CPU is returned from virt_get_default_cpu_node_id().
+> Unfortunately, the default NUMA node ID breaks socket boundary and leads to
+> the broken CPU topology warning message in Linux guest. This series intends
+> to fix the issue.
+> 
+>    PATCH[1/4] Add cluster-id to CPU instance property
+>    PATCH[2/4] Uses SMP configuration to populate CPU topology
+>    PATCH[3/4] Fixes the broken CPU topology by considering the socket boundary
+>               when the default NUMA node ID is given
+>    PATCH[4/4] Uses the populated CPU topology to build PPTT table, instead of
+>               calculate it again
+> 
 
-  Thomas
+Please let me know if you have more comments for this series, thanks
+in advance.
 
+Thanks,
+Gavin
+
+> Changelog
+> =========
+> v4/v5:
+>     * Split PATCH[v3 1/3] to PATCH[v5 1/4] and PATCH[v5 2/4].
+>       Verify or dump 'clsuter-id' in various spots               (Yanan)
+>     * s/within cluster/within cluster\/die/ for 'core-id' in
+>       qapi/machine.json                                          (Igor)
+>     * Apply '% ms->smp.{sockets, clusters, cores, threads} in
+>       virt_possible_cpu_arch_ids() as x86 does                   (Igor)
+>     * Use [0 - possible_cpus->len] as ACPI processor UID to
+>       build PPTT table and PATCH[v3 4/4] is dropped              (Igor)
+>     * Simplified build_pptt() to add all entries in one loop
+>       on ms->possible_cpus                                       (Igor)
+> v3:
+>     * Split PATCH[v2 1/3] to PATCH[v3 1/4] and PATCH[v3 2/4]     (Yanan)
+>     * Don't take account of die ID in CPU topology population
+>       and added assert(!mc->smp_props.dies_supported)            (Yanan/Igor)
+>     * Assign cluster_id and use it when building PPTT table      (Yanan/Igor)
+> v2:
+>     * Populate the CPU topology in virt_possible_cpu_arch_ids()
+>       so that it can be reused in virt_get_default_cpu_node_id() (Igor)
+>     * Added PATCH[2/3] to use the existing CPU topology when the
+>       PPTT table is built                                        (Igor)
+>     * Added PATCH[3/3] to take thread ID as ACPI processor ID
+>       in MADT and SRAT table                                     (Gavin)
+> 
+> Gavin Shan (4):
+>    qapi/machine.json: Add cluster-id
+>    hw/arm/virt: Consider SMP configuration in CPU topology
+>    hw/arm/virt: Fix CPU's default NUMA node ID
+>    hw/acpi/aml-build: Use existing CPU topology to build PPTT table
+> 
+>   hw/acpi/aml-build.c        | 100 ++++++++++++++-----------------------
+>   hw/arm/virt.c              |  20 +++++++-
+>   hw/core/machine-hmp-cmds.c |   4 ++
+>   hw/core/machine.c          |  16 ++++++
+>   qapi/machine.json          |   6 ++-
+>   5 files changed, 80 insertions(+), 66 deletions(-)
+> 
 
 
