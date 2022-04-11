@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898D54FC6E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 23:43:31 +0200 (CEST)
-Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0504FC6E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 23:46:01 +0200 (CEST)
+Received: from localhost ([::1]:48872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ne1oo-0002SL-6O
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 17:43:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55588)
+	id 1ne1rE-00042q-FM
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 17:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ne1nh-0001XO-Os
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 17:42:21 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:40571)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ne1pi-0003KB-4z
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 17:44:27 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:39596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ne1nf-0001Va-N8
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 17:42:21 -0400
-Received: by mail-pf1-x430.google.com with SMTP id a42so9183887pfx.7
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 14:42:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ne1pf-0001fG-QF
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 17:44:25 -0400
+Received: by mail-pl1-x633.google.com with SMTP id f10so15005832plr.6
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 14:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NqsKIaMi5XfKg5n63c7gIxAq7yGOfhDRZoR8J7UOhXA=;
- b=FxP/IFcHA/zOCguX2Qesjr5Jg6+oh7Fd+A8WRI+PKPLDCmKlDvcO6/H/kmWwesrcp2
- e5W1ZqcT5q1FnAdxAOAQCKkkRs0RD+Tvbd4UH95zXP2pI6kpGmnKq0imKcFQkY4y93Ny
- mzw3gEnn7R1yst0EphWInPukKiKqDHESjr9MafWISz4uwjnDRYwkAKCl6pPLGHztM1tY
- SzrUNcieXZsmW1pKCWc0otB4rsIrlkqNNGvzAPhKMgZQHclVzuJbnqkLJ/CEBmX4r1ip
- hwiCX8WCwMPa5aZdWO81IsXXWduFrZ6VQREohiB5q1/QjsOfdhf4+TreYexYHquA02Sf
- UkvQ==
+ bh=XaYJ6mgcl4rB3hWDCQ85waJ70LRN262XexoHFlOUgWw=;
+ b=A8/k6rvI4c6rV/nBMMp+9SCGtk35pqbg22j3NyUeKV/x+GTHRBWGAw+iyv7nqkjHsM
+ BXwVBvez0FqTGH8V6GInBM1iH9hxlP/XQo+bcrQz7Bo+PxuOwb/LMCA4hHZfthPjHG64
+ 86pDvbKZeXbKK1i9sUzN9MdLw1eWWdw4J+HNIVUnvgstOTdlqiWuWPjARe4quzrrDUgy
+ JLeaGlOnBO3WP5IN7RrPHXeioxu1hexfeiS6J8E7Ox9DqczSCkkbV37mSUdib3+124GP
+ Bmrgr8E9LdjvsmGXRUdX4jV/+1YEAuXbiyRlMGut8wSNf/TdtRV+vcJXtXIOuXI1VydE
+ x0Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NqsKIaMi5XfKg5n63c7gIxAq7yGOfhDRZoR8J7UOhXA=;
- b=Bmk4mrkKYb905ZApZxHMnnxUehQ+NmE1px6hil4Yos1N4V48hJc9JuOi3R/dYUDG81
- EM9EZ21JCLjUzZelb+bdxuG3jL8WfNHLPh4W/wm2/KA9FuRztYL9t27mXJhokKxQ5Op/
- btoijfzU4mzZgUNlg87FBCR8i7jBAKqL7mDYJQ1nE94owgBfHRPUUYtQjvtsshV0MDLK
- EsL5QQ4rlcL+ZwNO/Vpz1XzbsamThH+AEo6uhezSYe7kJL78mGWjWcmeJxb9FwNBF9Og
- iNS07wP7B/9jtNdZtUF+SZZ1K2c7mFPap/h0O21v84l8mzidJ+yjq7TjjaRZqakR7Ijd
- yT/Q==
-X-Gm-Message-State: AOAM531pItI0WdAQxLBrgddzvkFcooSZ5Dl1ghK6MardllTq16fK42Rm
- 7mpZ1jV0zfFwBAN1rYOu0vfJ8g==
-X-Google-Smtp-Source: ABdhPJxNyd+vs6ohpirOxBa8qtjrfEfrfi1Zm9p/o8ZN3LQ+EV6qj3qBBvs/eFhiBAET5C5+XTtr8w==
-X-Received: by 2002:a63:69c7:0:b0:380:afc8:33be with SMTP id
- e190-20020a6369c7000000b00380afc833bemr27467886pgc.304.1649713338145; 
- Mon, 11 Apr 2022 14:42:18 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ bh=XaYJ6mgcl4rB3hWDCQ85waJ70LRN262XexoHFlOUgWw=;
+ b=cpA4IadFl9qy1oA7jmwULcDWNhf5RVFn7YPqDP/5YxJQeHG0ItCXy42ejbqCHz8qAC
+ dRXsnR9/pll/DbUVjMlkJ6c7Dalkr8FUF9lWh77Ai/XKgARJ8HjzKU497fpHzGyfRQcZ
+ 2HvJl2ZiYPYz+DaCs+yHYkFSyDA43XsaJExFftSUWs/ej09593a+WXrC9J+K1I6MqBjk
+ aCY6kimhff7gh1QeB7DaZp5/xvmUB8Q1lhDlufiFmpeVhHzvOxSyQexbKEKJt3hBz9Lx
+ oUbCqLZJSITF2QOnSDjm+j4pZfUPKLKNL2emCpB3kNbTOojpW4iVKfA2nET7PljShhB8
+ JM5Q==
+X-Gm-Message-State: AOAM531dFfyylx5lBK666QjWUTDilnU7Q8f6bxdkpNE/8o6FiQLvd9Gz
+ xjP6+XQU7mfyHqFPLboNm3I=
+X-Google-Smtp-Source: ABdhPJxk7+hI+sw1QU2idcTr8cOZicLnfyMG4qMX7VOkYDkhunDQTWKt7u9FotBTS+y1Af45bIOtJg==
+X-Received: by 2002:a17:902:be18:b0:153:2444:9c1a with SMTP id
+ r24-20020a170902be1800b0015324449c1amr34902138pls.152.1649713460829; 
+ Mon, 11 Apr 2022 14:44:20 -0700 (PDT)
+Received: from ?IPV6:2600:70ff:f07f:0:eda5:df4f:f351:d13f?
+ ([2600:70ff:f07f:0:eda5:df4f:f351:d13f])
  by smtp.gmail.com with ESMTPSA id
- s26-20020a65645a000000b0039cc7a70728sm656468pgv.5.2022.04.11.14.42.17
+ w92-20020a17090a6be500b001cb9ff8dfbcsm413119pjj.33.2022.04.11.14.44.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Apr 2022 14:42:17 -0700 (PDT)
-Message-ID: <a3846249-5be1-c72d-f871-289964f05754@linaro.org>
-Date: Mon, 11 Apr 2022 14:42:15 -0700
+ Mon, 11 Apr 2022 14:44:20 -0700 (PDT)
+Message-ID: <32abbd92-8cce-dffd-6bc3-df9ae83de64c@gmail.com>
+Date: Mon, 11 Apr 2022 23:44:14 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 13/16] target/arm: Implement virtual SError exceptions
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH] migration/dirtyrate: Replace malloc with g_new
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20220409000742.293691-1-richard.henderson@linaro.org>
- <20220409000742.293691-14-richard.henderson@linaro.org>
- <CAFEAcA_-cbZWF2KxZinSK=z88frNAmiJoj7u-kydtUgQiucFHg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_-cbZWF2KxZinSK=z88frNAmiJoj7u-kydtUgQiucFHg@mail.gmail.com>
+To: jianchunfu <jianchunfu@cmss.chinamobile.com>, richard.henderson@linaro.org
+References: <20220411094703.7000-1-jianchunfu@cmss.chinamobile.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220411094703.7000-1-jianchunfu@cmss.chinamobile.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,56 +90,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: quintela@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/11/22 09:32, Peter Maydell wrote:
-> On Sat, 9 Apr 2022 at 01:11, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Virtual SError exceptions are raised by setting HCR_EL2.VSE,
->> and are routed to EL1 just like other virtual exceptions.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 11/4/22 11:47, jianchunfu wrote:
+> Using macro g_new() to handling potential memory allocation failures
+> in dirtyrate.
 > 
->> @@ -10041,6 +10048,20 @@ static void arm_cpu_do_interrupt_aarch32(CPUState *cs)
->>           mask = CPSR_A | CPSR_I | CPSR_F;
->>           offset = 4;
->>           break;
->> +    case EXCP_VSERR:
->> +        {
->> +            /* Construct the SError syndrome from AET and ExT fields. */
->> +            ARMMMUFaultInfo fi = { .type = ARMFault_AsyncExternal, };
->> +            env->exception.fsr = arm_fi_to_sfsc(&fi);
->> +            env->exception.fsr |= env->cp15.vsesr_el2 & 0xd000;
->> +            A32_BANKED_CURRENT_REG_SET(env, dfsr, env->exception.fsr);
->> +
->> +            new_mode = ARM_CPU_MODE_ABT;
->> +            addr = 0x10;
->> +            mask = CPSR_A | CPSR_I;
->> +            offset = 8;
->> +        }
->> +        break;
->>       case EXCP_SMC:
+> Signed-off-by: jianchunfu <jianchunfu@cmss.chinamobile.com>
+> ---
+>   migration/dirtyrate.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Having looked at the following patch I came back to the AArch32 handling
-> of taking an SError in this patch...
-> 
-> (1) I think you need to look at TTBCR.EAE in the usual way to
-> decide whether to report the FSR in long-descriptor or
-> short-descriptor format
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index aace12a787..0e59aacbb0 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -522,10 +522,10 @@ static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
+>           nvcpu++;
+>       }
+>   
+> -    dirty_pages = malloc(sizeof(*dirty_pages) * nvcpu);
+> +    dirty_pages = g_new(DirtyPageRecord, nvcpu);
+>   
+>       DirtyStat.dirty_ring.nvcpu = nvcpu;
+> -    DirtyStat.dirty_ring.rates = malloc(sizeof(DirtyRateVcpu) * nvcpu);
+> +    DirtyStat.dirty_ring.rates = g_new(DirtyRateVcpu, nvcpu);
+>   
+>       dirtyrate_global_dirty_log_start();
+>   
 
-Yes, I've reread AArch32.TakeVirtualSErrorException() and you're right -- 
-AArch32.ReportDataAbort() examines EAE.
+While malloc() resources are released with free(), g_malloc/g_new()
+ones with g_free().
 
-> (2) maybe log the FSR value, the way we do for prefetch and
-> data aborts ?
-> (3) maybe mention that this is reported like a data abort but that
-> the DFAR has an unknown value ?
+So to match the API, this hunk is missing:
 
-Yes to all.
-
-
-r~
+-- >8 --
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index aace12a787..e49db7ca4c 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -159,3 +159,3 @@ static void cleanup_dirtyrate_stat(struct 
+DirtyRateConfig config)
+      if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
+-        free(DirtyStat.dirty_ring.rates);
++        g_free(DirtyStat.dirty_ring.rates);
+          DirtyStat.dirty_ring.rates = NULL;
+@@ -558,3 +558,3 @@ static void calculate_dirtyrate_dirty_ring(struct 
+DirtyRateConfig config)
+      DirtyStat.dirty_rate = dirtyrate_sum;
+-    free(dirty_pages);
++    g_free(dirty_pages);
+  }
+---
 
