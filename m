@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951E54FBFC8
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:03:17 +0200 (CEST)
-Received: from localhost ([::1]:33546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C326F4FBFA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 16:54:19 +0200 (CEST)
+Received: from localhost ([::1]:44158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndvZU-0004vP-Hh
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:03:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
+	id 1ndvQo-0000Us-L6
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 10:54:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ndvNS-0005hJ-8C
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 10:50:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22782)
+ id 1ndvNX-0005nv-M5
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 10:50:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ndvNQ-0007iv-PT
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 10:50:49 -0400
+ id 1ndvNS-0007kO-3F
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 10:50:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649688648;
+ s=mimecast20190719; t=1649688649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4hRd/1JFpc+TVhaJIVv0c3bcCXb/Sz/bn/9yvm/rPhA=;
- b=HOe3ovYUrlf6x3lkkBq3jmkgkuZFXZedkId+w7NPq3quJiBFIDArlvvfvBwvFxIDRK6UoM
- SdCA/qy6vMpOI568ZpA9OW/V/kWg9Tun8V0VNm54RdDgcM+p2FQ6TQ2Kl3ZAq89L75vWKp
- th8HGA5EYwRia0ACUTh0f72X6zRWHO0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=n9vkaECCZXkAflzlL3P30ZPEXvMKzVcAl99HEU/aA4A=;
+ b=af2F1VPS4kP2FYsBCapFy2e5AJil3ppuoAMVKrU2mXIygvt+jNFkWyiP5mzo9HuYCvQO+A
+ dpYCqX9jL5+SFpPuubQwxdN03LlOer4tmMfXlgEtZrfNmnGo8F57urqVKKt8QZG1R4VFIY
+ ZH1obZYBwcXwCoLOx3IDJAtaq4mBCak=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-zG8Q7UroMiKHD0OQRS9lvQ-1; Mon, 11 Apr 2022 10:50:44 -0400
-X-MC-Unique: zG8Q7UroMiKHD0OQRS9lvQ-1
+ us-mta-37-_W1x-OBSMPCDBrXBUelyTw-1; Mon, 11 Apr 2022 10:50:46 -0400
+X-MC-Unique: _W1x-OBSMPCDBrXBUelyTw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE2F280346F;
- Mon, 11 Apr 2022 14:50:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30B791C0B044;
+ Mon, 11 Apr 2022 14:50:46 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD93854AC99;
- Mon, 11 Apr 2022 14:50:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 200F854AC99;
+ Mon, 11 Apr 2022 14:50:43 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v6 03/23] util: Return void on iova_tree_remove
-Date: Mon, 11 Apr 2022 16:50:06 +0200
-Message-Id: <20220411145026.1618035-4-eperezma@redhat.com>
+Subject: [RFC PATCH v6 04/23] hw/virtio: Replace g_memdup() by g_memdup2()
+Date: Mon, 11 Apr 2022 16:50:07 +0200
+Message-Id: <20220411145026.1618035-5-eperezma@redhat.com>
 In-Reply-To: <20220411145026.1618035-1-eperezma@redhat.com>
 References: <20220411145026.1618035-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -89,51 +89,67 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It always returns IOVA_OK so nobody uses it.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
+
+  The old API took the size of the memory to duplicate as a guint,
+  whereas most memory functions take memory sizes as a gsize. This
+  made it easy to accidentally pass a gsize to g_memdup(). For large
+  values, that would lead to a silent truncation of the size from 64
+  to 32 bits, and result in a heap area being returned which is
+  significantly smaller than what the caller expects. This can likely
+  be exploited in various modules to cause a heap buffer overflow.
+
+Replace g_memdup() by the safer g_memdup2() wrapper.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/qemu/iova-tree.h | 4 +---
- util/iova-tree.c         | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ hw/net/virtio-net.c       | 3 ++-
+ hw/virtio/virtio-crypto.c | 6 +++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
-index c938fb0793..16bbfdf5f8 100644
---- a/include/qemu/iova-tree.h
-+++ b/include/qemu/iova-tree.h
-@@ -72,10 +72,8 @@ int iova_tree_insert(IOVATree *tree, const DMAMap *map);
-  * provided.  The range does not need to be exactly what has inserted,
-  * all the mappings that are included in the provided range will be
-  * removed from the tree.  Here map->translated_addr is meaningless.
-- *
-- * Return: 0 if succeeded, or <0 if error.
-  */
--int iova_tree_remove(IOVATree *tree, const DMAMap *map);
-+void iova_tree_remove(IOVATree *tree, const DMAMap *map);
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 1067e72b39..e4748a7e6c 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -1443,7 +1443,8 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+         }
  
- /**
-  * iova_tree_find:
-diff --git a/util/iova-tree.c b/util/iova-tree.c
-index 6dff29c1f6..fee530a579 100644
---- a/util/iova-tree.c
-+++ b/util/iova-tree.c
-@@ -164,15 +164,13 @@ void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator)
-     g_tree_foreach(tree->tree, iova_tree_traverse, iterator);
- }
+         iov_cnt = elem->out_num;
+-        iov2 = iov = g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_num);
++        iov2 = iov = g_memdup2(elem->out_sg,
++                               sizeof(struct iovec) * elem->out_num);
+         s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
+         iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
+         if (s != sizeof(ctrl)) {
+diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+index dcd80b904d..0e31e3cc04 100644
+--- a/hw/virtio/virtio-crypto.c
++++ b/hw/virtio/virtio-crypto.c
+@@ -242,7 +242,7 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+         }
  
--int iova_tree_remove(IOVATree *tree, const DMAMap *map)
-+void iova_tree_remove(IOVATree *tree, const DMAMap *map)
- {
-     const DMAMap *overlap;
+         out_num = elem->out_num;
+-        out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
++        out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
+         out_iov = out_iov_copy;
  
-     while ((overlap = iova_tree_find(tree, map))) {
-         g_tree_remove(tree->tree, overlap);
+         in_num = elem->in_num;
+@@ -605,11 +605,11 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
      }
--
--    return IOVA_OK;
- }
  
- /**
+     out_num = elem->out_num;
+-    out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
++    out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
+     out_iov = out_iov_copy;
+ 
+     in_num = elem->in_num;
+-    in_iov_copy = g_memdup(elem->in_sg, sizeof(in_iov[0]) * in_num);
++    in_iov_copy = g_memdup2(elem->in_sg, sizeof(in_iov[0]) * in_num);
+     in_iov = in_iov_copy;
+ 
+     if (unlikely(iov_to_buf(out_iov, out_num, 0, &req, sizeof(req))
 -- 
 2.27.0
 
