@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049394FBFF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:11:28 +0200 (CEST)
-Received: from localhost ([::1]:50714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFAE4FBFFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:13:03 +0200 (CEST)
+Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndvhO-000080-RC
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:11:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40940)
+	id 1ndviw-0004K1-3u
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ndvOK-0006v9-Cv
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 10:51:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ndvOC-0007sH-Jm
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 10:51:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649688695;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+usn5a0UQC9PAK+fgg4E7dk9aiGVXcN33fx7kCuvPUI=;
- b=BvMJJBFzAVaMkwcLgLC9cYRpCiNG8fMt9Einlt+z3vCYewhRIOjbyTVcI8ktnSdyUVqUNx
- vIRb1thZu+M/HIwM8VJyOdLE5vECtun0DSRwnaXjkgivWHjK7vl92894T2g/cK6gduLARZ
- +AqPPbmpWvtsPRb6VxdwdvBKjkJ/jE0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-pnQC0IuZOi2SDWfqOgSd1w-1; Mon, 11 Apr 2022 10:51:32 -0400
-X-MC-Unique: pnQC0IuZOi2SDWfqOgSd1w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38666380407A;
- Mon, 11 Apr 2022 14:51:32 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 293FF54ACB1;
- Mon, 11 Apr 2022 14:51:30 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ndvSm-0004vT-6E
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 10:56:20 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:44027)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ndvSj-0000KI-PU
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 10:56:19 -0400
+Received: by mail-ej1-x633.google.com with SMTP id g18so6490714ejc.10
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 07:56:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yPC/gOBbwwkkj0weImJlOxaU85E9fvrO7WnUDzF2s2s=;
+ b=PSFN21SXyOPMuRwpim0eg+bhbT6NGO00oTz3ZD5G1lAuefNvTx6XmHr8wgbZtJp37Q
+ lMknYOewhN6TMaZcxNEyGSwP3pFQLdyZhMjk+GI9CKC4vDGrIbx2kiP1eGmZrJQWdDsE
+ mGeZv3LlvLM8EwOlJFc5D8Kw2tlghTzU7ZcW5p7e8uyprbTK9GgJLDaTOGElRbHj3zMV
+ 0G7c7Bo4SWokkGmps/SjYmnImZKIgpA2+LBm9hUoBkzQg2Qf56jmsHmB9/rGi7WQKKYH
+ 1aIqXt/MtHm82R80iAV3r27C4f6z8+vcChxURcrJ4CqaTibIVNQsNytJqTusZ1m8Gg/d
+ BA/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yPC/gOBbwwkkj0weImJlOxaU85E9fvrO7WnUDzF2s2s=;
+ b=wzFK3HYCNNFAjV8G8tWW0sqazXlq0ad93rf8hIMzWOFiaoPW/B8IRih7BoQclMU6HC
+ jMki3r7+q9rgCHbX5eryrSSI+aPWKeEA42CmkmgLkqR3dLY8pqKM5+DbEaS/2kl5j3vV
+ TdrHcQlPGiO85lxy4NoRRDHhTHJuFGaEYBQwjJ3Q6yFByCCorK66fjW6yQvUZ8AylcAJ
+ eSZHSaGdFZcCTYGlE4Pls+fS+Wd0AK+Inm4b/F2nE5/IYJ0qFpcqEOW6ChE1Y0soi66F
+ 30/stCSXgAUueNHNoUAtvbmjKolei0VBWl16jAII98h8zMA8ghCLs7uZJkyuS5NIX5rU
+ fHLA==
+X-Gm-Message-State: AOAM533kOCOjZg0C4vvdZNLTKS2Omnig8WIxsdZq4lHv1QIrx/3am4rA
+ LU68rv6T+uZQFaulvs0/OLp/6g==
+X-Google-Smtp-Source: ABdhPJxvvE8nhqsaTAC0hnA70cLf/VVUYMUpCNROO3bFUafxyNIaPBlbmu2rEEsfe2myKuFknCxDkA==
+X-Received: by 2002:a17:906:301a:b0:6e8:a0b2:340a with SMTP id
+ 26-20020a170906301a00b006e8a0b2340amr1810885ejz.248.1649688975713; 
+ Mon, 11 Apr 2022 07:56:15 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ o5-20020a50c905000000b0041d828d0c58sm1160473edh.53.2022.04.11.07.56.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Apr 2022 07:56:14 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 443831FFB7;
+ Mon, 11 Apr 2022 15:56:14 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v6 23/23] vdpa: Add x-cvq-svq
-Date: Mon, 11 Apr 2022 16:50:26 +0200
-Message-Id: <20220411145026.1618035-24-eperezma@redhat.com>
-In-Reply-To: <20220411145026.1618035-1-eperezma@redhat.com>
-References: <20220411145026.1618035-1-eperezma@redhat.com>
+Subject: [RFC PATCH] target/i386: avoid copying junk to extended ZMMReg fields
+Date: Mon, 11 Apr 2022 15:56:09 +0100
+Message-Id: <20220411145609.3932882-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,203 +86,324 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Eli Cohen <eli@mellanox.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>
+Cc: pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This isolates shadow cvq in its own group.
+When change b7711471f5 was made to alias XMMReg to ZMMReg for the
+purposes of easing the handling of AVX512 registers we unwittingly
+broke the SSE helpers which construct a temporary value on the stack
+before copying them out. To avoid this lets encode REG_WIDTH based on
+shift and convert the pointer indirection with an explicit memcpy.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+An incomplete sampling of the affected instructions seems to indicate
+the default behaviour for legacy SSE is "the upper bits (MAXVL-1:128)
+of the corresponding YMM register destination are unmodified."
+
+Fixes: b7711471f5 ("target-i386: make xmm_regs 512-bit wide")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/420
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- qapi/net.json    |  8 +++-
- net/vhost-vdpa.c | 98 ++++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 100 insertions(+), 6 deletions(-)
+ target/i386/ops_sse.h | 71 ++++++++++++++++++++++++-------------------
+ 1 file changed, 40 insertions(+), 31 deletions(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 92848e4362..39c245e6cd 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -447,9 +447,12 @@
- #
- # @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.1)
- #         (default: false)
-+# @x-cvq-svq: Start device with (experimental) shadow virtqueue in its own
-+#             virtqueue group. (Since 7.1)
-+#             (default: false)
- #
- # Features:
--# @unstable: Member @x-svq is experimental.
-+# @unstable: Members @x-svq and x-cvq-svq are experimental.
- #
- # Since: 5.1
- ##
-@@ -457,7 +460,8 @@
-   'data': {
-     '*vhostdev':     'str',
-     '*queues':       'int',
--    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
-+    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] },
-+    '*x-cvq-svq':    {'type': 'bool', 'features' : [ 'unstable'] } } }
+diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+index 6f1fc174b3..adfb498a71 100644
+--- a/target/i386/ops_sse.h
++++ b/target/i386/ops_sse.h
+@@ -28,6 +28,7 @@
+ #define L(n) MMX_L(n)
+ #define Q(n) MMX_Q(n)
+ #define SUFFIX _mmx
++#define REG_WIDTH 8
+ #else
+ #define Reg ZMMReg
+ #define XMM_ONLY(...) __VA_ARGS__
+@@ -36,6 +37,7 @@
+ #define L(n) ZMM_L(n)
+ #define Q(n) ZMM_Q(n)
+ #define SUFFIX _xmm
++#define REG_WIDTH 16
+ #endif
  
- ##
- # @NetClientDriver:
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 29931efd6c..ca37c85e05 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -377,6 +377,17 @@ static int vhost_vdpa_get_features(int fd, uint64_t *features, Error **errp)
-     return ret;
+ void glue(helper_psrlw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+@@ -516,7 +518,7 @@ void glue(helper_pshufw, SUFFIX)(Reg *d, Reg *s, int order)
+     r.W(1) = s->W((order >> 2) & 3);
+     r.W(2) = s->W((order >> 4) & 3);
+     r.W(3) = s->W((order >> 6) & 3);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ #else
+ void helper_shufps(Reg *d, Reg *s, int order)
+@@ -527,7 +529,7 @@ void helper_shufps(Reg *d, Reg *s, int order)
+     r.L(1) = d->L((order >> 2) & 3);
+     r.L(2) = s->L((order >> 4) & 3);
+     r.L(3) = s->L((order >> 6) & 3);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
  }
  
-+static int vhost_vdpa_get_backend_features(int fd, uint64_t *features,
-+                                           Error **errp)
-+{
-+    int ret = ioctl(fd, VHOST_GET_BACKEND_FEATURES, features);
-+    if (ret) {
-+        error_setg_errno(errp, errno,
-+            "Fail to query backend features from vhost-vDPA device");
-+    }
-+    return ret;
-+}
-+
- static int vhost_vdpa_get_max_queue_pairs(int fd, uint64_t features,
-                                           int *has_cvq, Error **errp)
- {
-@@ -410,16 +421,56 @@ static int vhost_vdpa_get_max_queue_pairs(int fd, uint64_t features,
-     return 1;
+ void helper_shufpd(Reg *d, Reg *s, int order)
+@@ -536,7 +538,7 @@ void helper_shufpd(Reg *d, Reg *s, int order)
+ 
+     r.Q(0) = d->Q(order & 1);
+     r.Q(1) = s->Q((order >> 1) & 1);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
  }
  
-+/**
-+ * Check vdpa device to support CVQ group asid 1
-+ *
-+ * @vdpa_device_fd: Vdpa device fd
-+ * @queue_pairs: Queue pairs
-+ * @errp: Error
-+ */
-+static int vhost_vdpa_check_cvq_svq(int vdpa_device_fd, int queue_pairs,
-+                                    Error **errp)
-+{
-+    uint64_t backend_features;
-+    unsigned num_as;
-+    int r;
-+
-+    r = vhost_vdpa_get_backend_features(vdpa_device_fd, &backend_features,
-+                                        errp);
-+    if (unlikely(r)) {
-+        return -1;
-+    }
-+
-+    if (unlikely(!(backend_features & VHOST_BACKEND_F_IOTLB_ASID))) {
-+        error_setg(errp, "Device without IOTLB_ASID feature");
-+        return -1;
-+    }
-+
-+    r = ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, &num_as);
-+    if (unlikely(r)) {
-+        error_setg_errno(errp, errno,
-+                         "Cannot retrieve number of supported ASs");
-+        return -1;
-+    }
-+    if (unlikely(num_as < 2)) {
-+        error_setg(errp, "Insufficient number of ASs (%u, min: 2)", num_as);
-+    }
-+
-+    return 0;
-+}
-+
- int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp)
+ void glue(helper_pshufd, SUFFIX)(Reg *d, Reg *s, int order)
+@@ -547,7 +549,7 @@ void glue(helper_pshufd, SUFFIX)(Reg *d, Reg *s, int order)
+     r.L(1) = s->L((order >> 2) & 3);
+     r.L(2) = s->L((order >> 4) & 3);
+     r.L(3) = s->L((order >> 6) & 3);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void glue(helper_pshuflw, SUFFIX)(Reg *d, Reg *s, int order)
+@@ -559,7 +561,7 @@ void glue(helper_pshuflw, SUFFIX)(Reg *d, Reg *s, int order)
+     r.W(2) = s->W((order >> 4) & 3);
+     r.W(3) = s->W((order >> 6) & 3);
+     r.Q(1) = s->Q(1);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void glue(helper_pshufhw, SUFFIX)(Reg *d, Reg *s, int order)
+@@ -571,7 +573,7 @@ void glue(helper_pshufhw, SUFFIX)(Reg *d, Reg *s, int order)
+     r.W(5) = s->W(4 + ((order >> 2) & 3));
+     r.W(6) = s->W(4 + ((order >> 4) & 3));
+     r.W(7) = s->W(4 + ((order >> 6) & 3));
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ #endif
+ 
+@@ -937,7 +939,7 @@ void helper_haddps(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+     r.ZMM_S(1) = float32_add(d->ZMM_S(2), d->ZMM_S(3), &env->sse_status);
+     r.ZMM_S(2) = float32_add(s->ZMM_S(0), s->ZMM_S(1), &env->sse_status);
+     r.ZMM_S(3) = float32_add(s->ZMM_S(2), s->ZMM_S(3), &env->sse_status);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void helper_haddpd(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+@@ -946,7 +948,7 @@ void helper_haddpd(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+ 
+     r.ZMM_D(0) = float64_add(d->ZMM_D(0), d->ZMM_D(1), &env->sse_status);
+     r.ZMM_D(1) = float64_add(s->ZMM_D(0), s->ZMM_D(1), &env->sse_status);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void helper_hsubps(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+@@ -957,7 +959,7 @@ void helper_hsubps(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+     r.ZMM_S(1) = float32_sub(d->ZMM_S(2), d->ZMM_S(3), &env->sse_status);
+     r.ZMM_S(2) = float32_sub(s->ZMM_S(0), s->ZMM_S(1), &env->sse_status);
+     r.ZMM_S(3) = float32_sub(s->ZMM_S(2), s->ZMM_S(3), &env->sse_status);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void helper_hsubpd(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+@@ -966,7 +968,7 @@ void helper_hsubpd(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+ 
+     r.ZMM_D(0) = float64_sub(d->ZMM_D(0), d->ZMM_D(1), &env->sse_status);
+     r.ZMM_D(1) = float64_sub(s->ZMM_D(0), s->ZMM_D(1), &env->sse_status);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void helper_addsubps(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+@@ -1153,7 +1155,7 @@ void glue(helper_packsswb, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+     r.B(14) = satsb((int16_t)s->W(6));
+     r.B(15) = satsb((int16_t)s->W(7));
+ #endif
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void glue(helper_packuswb, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+@@ -1180,7 +1182,7 @@ void glue(helper_packuswb, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+     r.B(14) = satub((int16_t)s->W(6));
+     r.B(15) = satub((int16_t)s->W(7));
+ #endif
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void glue(helper_packssdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+@@ -1199,7 +1201,7 @@ void glue(helper_packssdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+     r.W(6) = satsw(s->L(2));
+     r.W(7) = satsw(s->L(3));
+ #endif
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ #define UNPCK_OP(base_name, base)                                       \
+@@ -1226,8 +1228,8 @@ void glue(helper_packssdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+                  r.B(13) = s->B((base << (SHIFT + 2)) + 6);             \
+                  r.B(14) = d->B((base << (SHIFT + 2)) + 7);             \
+                  r.B(15) = s->B((base << (SHIFT + 2)) + 7);             \
+-                                                                      ) \
+-            *d = r;                                                     \
++            )                                                           \
++            memcpy(d, &r, REG_WIDTH);                                  \
+     }                                                                   \
+                                                                         \
+     void glue(helper_punpck ## base_name ## wd, SUFFIX)(CPUX86State *env,\
+@@ -1245,7 +1247,7 @@ void glue(helper_packssdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+                  r.W(6) = d->W((base << (SHIFT + 1)) + 3);              \
+                  r.W(7) = s->W((base << (SHIFT + 1)) + 3);              \
+                                                                       ) \
+-            *d = r;                                                     \
++            memcpy(d, &r, REG_WIDTH);                                  \
+     }                                                                   \
+                                                                         \
+     void glue(helper_punpck ## base_name ## dq, SUFFIX)(CPUX86State *env,\
+@@ -1259,7 +1261,7 @@ void glue(helper_packssdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+                  r.L(2) = d->L((base << SHIFT) + 1);                    \
+                  r.L(3) = s->L((base << SHIFT) + 1);                    \
+                                                                       ) \
+-            *d = r;                                                     \
++            memcpy(d, &r, REG_WIDTH);                                  \
+     }                                                                   \
+                                                                         \
+     XMM_ONLY(                                                           \
+@@ -1272,7 +1274,7 @@ void glue(helper_packssdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+                                                                         \
+                  r.Q(0) = d->Q(base);                                   \
+                  r.Q(1) = s->Q(base);                                   \
+-                 *d = r;                                                \
++                 memcpy(d, &r, REG_WIDTH);                             \
+              }                                                          \
+                                                                         )
+ 
+@@ -1313,7 +1315,7 @@ void helper_pfacc(CPUX86State *env, MMXReg *d, MMXReg *s)
+ 
+     r.MMX_S(0) = float32_add(d->MMX_S(0), d->MMX_S(1), &env->mmx_status);
+     r.MMX_S(1) = float32_add(s->MMX_S(0), s->MMX_S(1), &env->mmx_status);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void helper_pfadd(CPUX86State *env, MMXReg *d, MMXReg *s)
+@@ -1378,7 +1380,7 @@ void helper_pfnacc(CPUX86State *env, MMXReg *d, MMXReg *s)
+ 
+     r.MMX_S(0) = float32_sub(d->MMX_S(0), d->MMX_S(1), &env->mmx_status);
+     r.MMX_S(1) = float32_sub(s->MMX_S(0), s->MMX_S(1), &env->mmx_status);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void helper_pfpnacc(CPUX86State *env, MMXReg *d, MMXReg *s)
+@@ -1387,7 +1389,7 @@ void helper_pfpnacc(CPUX86State *env, MMXReg *d, MMXReg *s)
+ 
+     r.MMX_S(0) = float32_sub(d->MMX_S(0), d->MMX_S(1), &env->mmx_status);
+     r.MMX_S(1) = float32_add(s->MMX_S(0), s->MMX_S(1), &env->mmx_status);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void helper_pfrcp(CPUX86State *env, MMXReg *d, MMXReg *s)
+@@ -1424,21 +1426,27 @@ void helper_pswapd(CPUX86State *env, MMXReg *d, MMXReg *s)
+ 
+     r.MMX_L(0) = s->MMX_L(1);
+     r.MMX_L(1) = s->MMX_L(0);
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ #endif
+ 
+ /* SSSE3 op helpers */
+ void glue(helper_pshufb, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
  {
-     const NetdevVhostVDPAOptions *opts;
-+    struct vhost_vdpa_iova_range iova_range;
-     uint64_t features;
-     int vdpa_device_fd;
-     g_autofree NetClientState **ncs = NULL;
-     NetClientState *nc;
-     int queue_pairs, r, i, has_cvq = 0;
-     g_autoptr(VhostIOVATree) iova_tree = NULL;
-+    ERRP_GUARD();
++    const uint8_t scm_mask = REG_WIDTH - 1;
+     int i;
+     Reg r;
  
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -444,8 +495,9 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         qemu_close(vdpa_device_fd);
-         return queue_pairs;
-     }
--    if (opts->x_svq) {
--        struct vhost_vdpa_iova_range iova_range;
-+    if (opts->x_cvq_svq || opts->x_svq) {
-+        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-+
-         uint64_t invalid_dev_features =
-             features & ~vdpa_svq_device_features &
-             /* Transport are all accepted at this point */
-@@ -457,7 +509,21 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                        invalid_dev_features);
-             goto err_svq;
-         }
--        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-+    }
-+
-+    if (opts->x_cvq_svq) {
-+        if (!has_cvq) {
-+            error_setg(errp, "Cannot use x-cvq-svq with a device without cvq");
-+            goto err_svq;
+-    for (i = 0; i < (8 << SHIFT); i++) {
+-        r.B(i) = (s->B(i) & 0x80) ? 0 : (d->B(s->B(i) & ((8 << SHIFT) - 1)));
++    for (i = 0; i < REG_WIDTH; i++) {
++        uint8_t scm = s->B(i); /* shuffle control mask */
++        if (scm & 0x80) {
++            r.B(i) = 0;
++        } else {
++            r.B(i) = d->B(scm & scm_mask);
 +        }
-+
-+        r = vhost_vdpa_check_cvq_svq(vdpa_device_fd, queue_pairs, errp);
-+        if (unlikely(r)) {
-+            error_prepend(errp, "Cannot configure CVQ SVQ: ");
-+            goto err_svq;
-+        }
-+    }
-+    if (opts->x_svq) {
-         iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
      }
  
-@@ -472,11 +538,35 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void glue(helper_phaddw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+@@ -1455,7 +1463,7 @@ void glue(helper_phaddw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+     XMM_ONLY(r.W(6) = (int16_t)s->W(4) + (int16_t)s->W(5));
+     XMM_ONLY(r.W(7) = (int16_t)s->W(6) + (int16_t)s->W(7));
+ 
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void glue(helper_phaddd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+@@ -1467,7 +1475,7 @@ void glue(helper_phaddd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+     r.L((1 << SHIFT) + 0) = (int32_t)s->L(0) + (int32_t)s->L(1);
+     XMM_ONLY(r.L(3) = (int32_t)s->L(2) + (int32_t)s->L(3));
+ 
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void glue(helper_phaddsw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+@@ -1483,7 +1491,7 @@ void glue(helper_phaddsw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+     XMM_ONLY(r.W(6) = satsw((int16_t)s->W(4) + (int16_t)s->W(5)));
+     XMM_ONLY(r.W(7) = satsw((int16_t)s->W(6) + (int16_t)s->W(7)));
+ 
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ void glue(helper_pmaddubsw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+@@ -1585,7 +1593,7 @@ void glue(helper_palignr, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
+ #undef SHR
      }
  
-     if (has_cvq) {
-+        g_autoptr(VhostIOVATree) cvq_iova_tree = NULL;
-+
-+        if (opts->x_cvq_svq) {
-+            cvq_iova_tree = vhost_iova_tree_new(iova_range.first,
-+                                                iova_range.last);
-+        }
-+
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-                                  vdpa_device_fd, i, 1,
--                                 false, opts->x_svq, iova_tree);
-+                                 false, opts->x_cvq_svq || opts->x_svq,
-+                                 opts->x_cvq_svq ? cvq_iova_tree : iova_tree);
-         if (!nc)
-             goto err;
-+
-+        if (opts->x_cvq_svq) {
-+            struct vhost_vring_state asid = {
-+                .index = 1,
-+                .num = 1,
-+            };
-+
-+            r = ioctl(vdpa_device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
-+            if (unlikely(r)) {
-+                error_setg_errno(errp, errno,
-+                                 "Cannot set cvq group independent asid");
-+                goto err;
-+            }
-+        }
-+
-+        cvq_iova_tree = NULL;
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ #define XMM0 (env->xmm_regs[0])
+@@ -1718,7 +1726,7 @@ void glue(helper_packusdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+     r.W(5) = satuw((int32_t) s->L(1));
+     r.W(6) = satuw((int32_t) s->L(2));
+     r.W(7) = satuw((int32_t) s->L(3));
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ #define FMINSB(d, s) MIN((int8_t)d, (int8_t)s)
+@@ -1984,7 +1992,7 @@ void glue(helper_mpsadbw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
+         r.W(i) += abs1(d->B(d0 + 3) - s->B(s0 + 3));
      }
  
-     iova_tree = NULL;
+-    *d = r;
++    memcpy(d, &r, REG_WIDTH);
+ }
+ 
+ /* SSE4.2 op helpers */
+@@ -2324,3 +2332,4 @@ void glue(helper_aeskeygenassist, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
+ #undef L
+ #undef Q
+ #undef SUFFIX
++#undef REG_WIDTH
 -- 
-2.27.0
+2.30.2
 
 
