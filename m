@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E34A4FC404
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 20:23:36 +0200 (CEST)
-Received: from localhost ([::1]:54506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09674FC425
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 20:33:51 +0200 (CEST)
+Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndyhL-0000PN-7y
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 14:23:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37098)
+	id 1ndyrG-00033v-M7
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 14:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ndyfK-00088N-UW
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 14:21:30 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:50558)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ndyof-000211-8E
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 14:31:09 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:56069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ndyfI-0001cZ-Re
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 14:21:30 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EB41B210FD;
- Mon, 11 Apr 2022 18:21:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649701286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mVPmB12GFpurV3EwZAsFJi6mQ8t+CeNm8ehIzejSVRs=;
- b=hxv26b6+AmY/+bcMMzRoTKQ9Aw7eVBp/CuLfQw1Jd9wAL+04HkWNWPshGuXrIjAIuHA0Q1
- psqvlm8HtzPUZ8kV6pg3NZaNt4KaDKe3L2AQ5Om0pLJZWEdyItdpR2zyS8d6cOJxXq91XG
- IAKwmnYG3aimzIqOWUB+N0eO+YCTI1g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649701286;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mVPmB12GFpurV3EwZAsFJi6mQ8t+CeNm8ehIzejSVRs=;
- b=WknCa9MpsnX6iwaqlyIFavsKQ0gmp4b2VtyF5L/WbxJa010sOQ/G/rdIXCXo0Sep+Jih0t
- 62r5H5mL3gZDhNCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B937313A93;
- Mon, 11 Apr 2022 18:21:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id nZ8tK6ZxVGLaIQAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 11 Apr 2022 18:21:26 +0000
-Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
- performance
-From: Claudio Fontana <cfontana@suse.de>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <f94f9d54-b71b-e8ff-1a5b-931e42120e4e@suse.de>
- <35da2366-99e4-7680-a1c5-46aff83d747c@suse.de> <YjNNqzb7eBBwMFJN@work-vm>
- <737974fa-905c-d171-05b0-ec4df42bc762@suse.de> <Yj2nh1LRZ54BXuds@redhat.com>
- <47af35ec-2ca8-26ae-f4e4-d81f18f2a05b@suse.de> <YkFycBMT0HsYUfJr@redhat.com>
- <c5924d0a-78e4-29ed-e856-e8ab823bc560@suse.de> <Ykv/TLS8zgwh/ros@work-vm>
- <9e990c54-746f-eb97-1e6a-1ce298d511b9@suse.de> <Yk7s3CSYTKiZPPON@work-vm>
- <33b6e8a9-5fe1-146c-3a0c-f5d8e9367ce8@suse.de>
-Message-ID: <b8ab68e2-315f-d026-21b1-b310a818dbfd@suse.de>
-Date: Mon, 11 Apr 2022 20:21:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ndyoY-00030B-Ke
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 14:31:08 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id ll10so7634270pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 11:31:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=8KqR+wJoyDIpnPBc9cCQg8EyOH0SzXZ/VZjiz/N2330=;
+ b=rTklHopX5JZoyLWyzv14NgfgZyvVvAEnTXsIOOlBXy02KDLodfYOTBBl3otLXVpzIu
+ IjvuYRZQI+viQcOeMn2XOpOllQgStxwi7lzdE+54pIQgzUvr4bHA7zsBQGOWXgkbocVx
+ hMUPygs95k65qIeXeNfKDIhCOIq5soH83X/7YmVbW9ZIfYvQNt+/WEzlXeUng7XMOtFS
+ /rGp+qr9Me2f0p14gVceZ5/98wF7bCSFt1/WFuve0g6Qu9L6c/lkG32Jyzdz8Ob6+5m+
+ Sbo7Y7gc/NPHaMOowOa+/UL6fw+lbsQOeTWwmUDFkzT9ZE8s4umieDQ7V3XArCDplyT9
+ nW2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8KqR+wJoyDIpnPBc9cCQg8EyOH0SzXZ/VZjiz/N2330=;
+ b=gc08S80Xn4a0i1EozB7LpYuO7crDPjNd5DUJNNJywU2QWBhkrrxFHFBWh+rx3aozPe
+ pTO/+Ep3R7G+DU9lSgT3rzwzkUaO8P2KDPu+41mo3TU1p3PRB5hgyVuBAYiTA09W99xr
+ CgBOiOW5jEZJ64S2zIiVDxdUAJ1aOPqSGYv6mhHkKF2jyebVVQez8sYv5CGEK6QrZ4av
+ nJbF84MJWd+Dp3Aph3rIZit4X4/VYUoh7NE8Ecx2TxM3omm1blNUm0iml0rAc+yUZM+b
+ Fa0zcnCEip5dbObQ1WOYM2cjxuSO8WK9VsvPbPkqLOE+tnpV9bxyeL3vweXAs2Grg8iG
+ oOyg==
+X-Gm-Message-State: AOAM531gT3gEuj4FRXA0MNwhUDImKMDRiaDdNxIqOdF1dRE6mypMnNU+
+ 97LPSkQq1c3PsjYaankelAML0Q==
+X-Google-Smtp-Source: ABdhPJwXkEKR468xkoKDs6vhziSfQKrKAuh7SvkdF8E92p2tVxGfyktp2EQ0CPRSSBm2jT0itqhB7g==
+X-Received: by 2002:a17:90b:1c8b:b0:1ca:1ff6:607b with SMTP id
+ oo11-20020a17090b1c8b00b001ca1ff6607bmr553450pjb.244.1649701860171; 
+ Mon, 11 Apr 2022 11:31:00 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ ga1-20020a17090b038100b001cac85761e5sm167477pjb.50.2022.04.11.11.30.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Apr 2022 11:30:59 -0700 (PDT)
+Message-ID: <925dd928-47e2-2bec-f97a-7041b6b6e649@linaro.org>
+Date: Mon, 11 Apr 2022 11:30:57 -0700
 MIME-Version: 1.0
-In-Reply-To: <33b6e8a9-5fe1-146c-3a0c-f5d8e9367ce8@suse.de>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 6/7] target/arm: Define cortex-a76
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220410055725.380246-1-richard.henderson@linaro.org>
+ <20220410055725.380246-7-richard.henderson@linaro.org>
+ <CAFEAcA_2sWO0LtKk+10Ktyhrn5WGV=9eqA+yWd5Mt=nUiJpAYg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_2sWO0LtKk+10Ktyhrn5WGV=9eqA+yWd5Mt=nUiJpAYg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,199 +90,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
- Jiri Denemark <jdenemar@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/7/22 3:57 PM, Claudio Fontana wrote:
-> On 4/7/22 3:53 PM, Dr. David Alan Gilbert wrote:
->> * Claudio Fontana (cfontana@suse.de) wrote:
->>> On 4/5/22 10:35 AM, Dr. David Alan Gilbert wrote:
->>>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>>> On 3/28/22 10:31 AM, Daniel P. Berrangé wrote:
->>>>>> On Sat, Mar 26, 2022 at 04:49:46PM +0100, Claudio Fontana wrote:
->>>>>>> On 3/25/22 12:29 PM, Daniel P. Berrangé wrote:
->>>>>>>> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
->>>>>>>>> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
->>>>>>>>>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>>>>>>>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
->>>>>>>>>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
->>>>>>>>>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
->>>>>>>>>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
->>>>>>>>>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
->>>>>>>>>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
->>>>>>>>>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
->>>>>>>>>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
->>>>>>>>>>>>>>>>>>> the first user is the qemu driver,
->>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
->>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>> This improves the situation by 400%.
->>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
->>>>>>>>>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
->>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>>>>>>>>>>>>>>> ---
->>>>>>>>>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
->>>>>>>>>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
->>>>>>>>>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
->>>>>>>>>>>>>>>>>>>  src/util/virfile.h        |  1 +
->>>>>>>>>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
->>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
->>>>>>>>>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
->>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
->>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
->>>>>>>>>>>>>
->>>>>>>>>>>>>
->>>>>>>>>>>>>> Current results show these experimental averages maximum throughput
->>>>>>>>>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
->>>>>>>>>>>>>> "query-migrate", tests repeated 5 times for each).
->>>>>>>>>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
->>>>>>>>>>>>>> through user application allocating and touching all memory with
->>>>>>>>>>>>>> pseudorandom data.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> 64K:     5200 Mbps (current situation)
->>>>>>>>>>>>>> 128K:    5800 Mbps
->>>>>>>>>>>>>> 256K:   20900 Mbps
->>>>>>>>>>>>>> 512K:   21600 Mbps
->>>>>>>>>>>>>> 1M:     22800 Mbps
->>>>>>>>>>>>>> 2M:     22800 Mbps
->>>>>>>>>>>>>> 4M:     22400 Mbps
->>>>>>>>>>>>>> 8M:     22500 Mbps
->>>>>>>>>>>>>> 16M:    22800 Mbps
->>>>>>>>>>>>>> 32M:    22900 Mbps
->>>>>>>>>>>>>> 64M:    22900 Mbps
->>>>>>>>>>>>>> 128M:   22800 Mbps
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
->>>>>>>>>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
->>>>>>>>>>>>> not try to go higher.
->>>>>>>>>>>>>
->>>>>>>>>>>>>> As for the theoretical limit for the libvirt architecture,
->>>>>>>>>>>>>> I ran a qemu migration directly issuing the appropriate QMP
->>>>>>>>>>>>>> commands, setting the same migration parameters as per libvirt,
->>>>>>>>>>>>>> and then migrating to a socket netcatted to /dev/null via
->>>>>>>>>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> QMP:    37000 Mbps
->>>>>>>>>>>>>
->>>>>>>>>>>>>> So although the Pipe size improves things (in particular the
->>>>>>>>>>>>>> large jump is for the 256K size, although 1M seems a very good value),
->>>>>>>>>>>>>> there is still a second bottleneck in there somewhere that
->>>>>>>>>>>>>> accounts for a loss of ~14200 Mbps in throughput.
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
->>>>>>>>>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
->>>>>>>>>>>
->>>>>>>>>>> ~50000 mbps qemu to netcat socket to /dev/null
->>>>>>>>>>> ~35500 mbps virsh save to /dev/null
->>>>>>>>>>>
->>>>>>>>>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
->>>>>>>>>>
->>>>>>>>>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
->>>>>>>>>
->>>>>>>>> I was thinking about sendfile(2) in iohelper, but that probably
->>>>>>>>> can't work as the input fd is a socket, I am getting EINVAL.
->>>>>>>>
->>>>>>>> Yep, sendfile() requires the input to be a mmapable FD,
->>>>>>>> and the output to be a socket.
->>>>>>>>
->>>>>>>> Try splice() instead  which merely requires 1 end to be a
->>>>>>>> pipe, and the other end can be any FD afaik.
->>>>>>>>
->>>>>>>
->>>>>>> I did try splice(), but performance is worse by around 500%.
->>>>>>
->>>>>> Hmm, that's certainly unexpected !
->>>>>>
->>>>>>> Any ideas welcome,
->>>>>>
->>>>>> I learnt there is also a newer  copy_file_range call, not sure if that's
->>>>>> any better.
->>>>>>
->>>>>> You passed len as 1 MB, I wonder if passing MAXINT is viable ? We just
->>>>>> want to copy everything IIRC.
->>>>>>
->>>>>> With regards,
->>>>>> Daniel
->>>>>>
->>>>>
->>>>> Crazy idea, would trying to use the parallel migration concept for migrating to/from a file make any sense?
->>>>>
->>>>> Not sure if applying the qemu multifd implementation of this would apply, maybe it could be given another implementation for "toFile", trying to use more than one cpu to do the transfer?
->>>>
->>>> I can't see a way that would help; well, I could if you could
->>>> somehow have multiple io helper threads that dealt with it.
->>>
->>> The first issue I encounter here for both the "virsh save" and "virsh restore" scenarios is that libvirt uses fd: migration, not unix: migration.
->>> QEMU supports multifd for unix:, tcp:, vsock: as far as I can see.
->>>
->>> Current save procedure in QMP in short:
->>>
->>> {"execute":"migrate-set-capabilities", ...}
->>> {"execute":"migrate-set-parameters", ...}
->>> {"execute":"getfd","arguments":{"fdname":"migrate"}, ...} fd=26
->>> QEMU_MONITOR_IO_SEND_FD: fd=26
->>> {"execute":"migrate","arguments":{"uri":"fd:migrate"}, ...}
->>>
->>>
->>> Current restore procedure in QMP in short:
->>>
->>> (start QEMU)
->>> {"execute":"migrate-incoming","arguments":{"uri":"fd:21"}, ...}
->>>
->>>
->>> Should I investigate changing libvirt to use unix: for save/restore?
->>> Or should I look into changing qemu to somehow accept fd: for multifd, meaning I guess providing multiple fd: uris in the migrate command?
->>
->> So I'm not sure this is the right direction; i.e. if multifd is the
->> right answer to your problem.
+On 4/11/22 11:09, Peter Maydell wrote:
+>> +    cpu->isar.id_aa64pfr0  = 0x1100000010111112ull;
 > 
-> Of course, just exploring the space.
+> This has the GIC field clear. On the one hand this is true
+> also of all our other CPU implementations. On the other hand
+> if we wire up a GICv3 in the board code then we will be
+> presenting the GIC CPU interface registers, which is what this
+> ID register field is supposed to be telling software.
+> I guess we should handle this by having gicv3_init_cpuif()
+> arrange for the ID field to be set. Which is mildly painful,
+> because that will mean the value for the cpreg isn't constant.
 
+We already handle this via id_aa64pfr0_read().
 
-I have some progress on multifd if we can call it so:
-
-I wrote a simple program that sets up a unix socket,
-listens for N_CHANNELS + 1 connections there, sets up multifd parameters, and runs the migration,
-spawning threads for each incoming connection from QEMU, creating a file to use to store the migration data coming from qemu (optionally using O_DIRECT).
-
-This program plays the role of a "iohelper"-like thing, basically just copying things over, making O_DIRECT possible.
-
-I save the data streams to multiple files; this works, for the actual results though I will have to migrate to a better hardware setup (enterprise nvme + fast cpu, under various memory configurations).
-
-The intuition would be that if we have enough cpus to spare (no libvirt in the picture as mentioned for now),
-say, the same 4 cpus already allocated for a certain VM to run, we can use those cpus (now "free" since we suspended the guest)
-to compress each multifd channel (multifd-zstd? multifd-zlib?), thus reducing the amount of stuff that needs to go to disk, making use of those cpus.
-
-Work in progress...
-
+>> +    cpu->isar.id_pfr1  = 0x10010000;
 > 
->> However, I think the qemu code probably really really wants to be a
->> socket.
-> 
-> Understood, I'll try to bend libvirt to use unix:/// and see how far I get,
-> 
-> Thanks,
-> 
-> Claudio
-> 
->>
->> Dave
->>
->>>
->>> Thank you for your help,
->>>
->>> Claudio
->>>
-> 
+> Here you have set the GIC field. We should at least be consistent :-)
 
+Oops.  :-)  We have id_pfr1_read() for that as well.
+
+>> +    cpu->midr = 0x413fd0b1;
+> 
+> This is r3p1; the r4p1 TRM is available so we might as
+> well claim to be that.
+
+Ok.
+
+> Missing (just cross-checking what other CPUs are setting):
+>    cpu->revidr
+>    cpu->reset_fpsid
+>    cpu->id_afr0
+
+revidr and id_afr0 are 0 -- explicit zero required?  We certainly assume we begin with 
+zero for other registers for other cpus...
+
+FPSID is deprecated, and not mentioned in the a76 or n1 specs.  Presumably this is because 
+it is not accessible at all: FPSID is not accessible from EL0 for VFPv3, and the A76 does 
+not support aa32 at other than EL0.
+
+>    cpu->isar.dbgdidr
+
+"If EL1 cannot use AArch32 then the implementation of this register is OPTIONAL and 
+deprecated."
+
+
+r~
 
