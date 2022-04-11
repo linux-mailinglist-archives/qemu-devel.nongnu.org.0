@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1F94FBA52
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 13:00:43 +0200 (CEST)
-Received: from localhost ([::1]:47240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3581D4FBA72
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 13:03:46 +0200 (CEST)
+Received: from localhost ([::1]:53510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndrmk-0000Ux-Ja
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 07:00:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34294)
+	id 1ndrph-0004xk-B6
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 07:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndreb-0006Qd-Fq
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:52:17 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:37733)
+ id 1ndrjc-0005Op-4z
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:57:28 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:35374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndreZ-0003Tf-Oq
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:52:17 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2ebebe631ccso75627757b3.4
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 03:52:15 -0700 (PDT)
+ id 1ndrjX-0004Do-98
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:57:25 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-2ebdf6ebd29so89436407b3.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 03:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=06ZWhCrHCc7V8kivDU9cjKy+8lGFD7ZELA3yTgE6Omc=;
- b=QGuvFFrxsGHDbq/YaOSncuHYKZzibIbvQDm1/MdHtNGa5goQolXQjjKF2Gv63X6gtD
- qIy9rlZy6lj8m3GpeWJ6lZH/vtezeylpzvw0K6jx0ytxp5VuwPz5I8jqUtIkDBULqM+I
- 9s6xtzWQA9+MRd0/WMIg9/s3+xb7i9vhWI4fOY5ivCTWcv3H+fVojMjBQBbfBgHrRDAe
- F4rQqQSuX08X/X51lo3H3VrgfhGOswbu1CwTa3dgO0FUSrmqPAlq42V4Cd6TXhjuhGKt
- cgQvgIRZxRegktirV2A+eAW5jxQBg4j20UFVRlqhDlL5I8Ehd7A3TI6pmbaPACLwzBxC
- aevg==
+ :cc; bh=OfCWCaizk9dfJOILFckcsPWNvFZDEkl+dcr6dlMzCoI=;
+ b=e0OYl00MEZULSV78ZYPpU1sZT8ki1YgTQViMdFZT7fC3XpjjaQhKTYDaS1wRiWNoz4
+ DA4/sLdRFPEOP6k0iT507KLSOIl/3qjZvYCmzkQDMTQeStXrnkVZT6B7qTUgZybE56fi
+ mFZWQPh0NFh7+8N2hMkx/lZGPtEUf+DZfRyzDPUQ2JcHpCtiT6ehWAuRaAIjSI2kfCry
+ nlrdlKB2RhwClzm5QSQ3WXvfk6Fqoh+DFHc+CGhi2oKLim8WN+S2zTOfMOkRT+X6rz3i
+ uQ3aK5HDNM0UeNrZq48qLvXHA5wk+Qp3FAT7vm+fk+IwCvPC2AkhubrIJa+NUbUqhFom
+ dm8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=06ZWhCrHCc7V8kivDU9cjKy+8lGFD7ZELA3yTgE6Omc=;
- b=4PUJqKU52a7pt1gyQKh3l0a8x/ftI2ffAi4He+oxZXCUaWBncBHFWkhjO3yW5dGMc/
- k7RrMsjiPioWrVrsVyeF4r1t7KF1NVU/Yk1tO6nc+OwMcgmiDSHDrvQruxF/qM2wpfpR
- yQ9Jc1bFQLC/Pl4nENPzVoEonMSm8vUVdybxHC9D9yDE6dIk6pO6E8/NDAe2kcev1Wm0
- VHfcp9EmPABSbxuwnFn4ga3hJtkg0ZrirjlDr1fbYn4nx71EBaHkVjI3Yiy1VWxX8vXj
- 8iEIRQCfZJKPrMenI/G44peEIZ8AiSiZK4yt2pMEPx4JohbE+7/Oc5dynbdRHzbQEUAY
- 0D5g==
-X-Gm-Message-State: AOAM532B3L58Wm254j63zaJiStacYedOLFym0dIRKTnC2kz03o7DCogg
- EV+r91jrP1zZb3QXvpsvh30TTU3Pw3f4locUdJg/ag==
-X-Google-Smtp-Source: ABdhPJzalE5McVm0SansRGPFfcbiqYfUPKJAOE4qVd9CIO8BmrUKh9IHz3u1HCpT2VF4G/5Cqvw9mlOB/5poN4e/1kc=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr25850178ywb.257.1649674334845; Mon, 11
- Apr 2022 03:52:14 -0700 (PDT)
+ bh=OfCWCaizk9dfJOILFckcsPWNvFZDEkl+dcr6dlMzCoI=;
+ b=c3fKFiSDfBY6UiZ5VLyx5m8CLhBE/LWSS84qiHMutdGvD2MMTy6LrFBVic2rXYfK8w
+ saukym6gToSiFOpIYkiL4AjBjiZP3FHmKI9J+doxgI0qw9XyaI1jgMkrHDXaTM+zqhzB
+ RYeIcLuaA0dpz7iNiqjVtVzJ+3snpodTRyVU0NBWseYLG00ByLNs7NRTzsvNwqFg2edo
+ btXEVKo8NJhAe9gboYAK2ttJQPxFbDNR2VONaBENf/cNYy3s23tSggbvYnn4pfL5Utj2
+ jZ6kV51EYXAypT3kYjmAiF4NIFkk/zVfSCxjwLjsNEfnukgmn+Pfcg5IyNm/qkuXz4Kx
+ sgTA==
+X-Gm-Message-State: AOAM5337xp6O3j+ZVr5+BenscJgnThGXw8gzymkoaeKcTHfJUi5P10Yd
+ pGH+qpcPueFfLoWRNgZwN43crdghcqZw7OFDDmwz8w==
+X-Google-Smtp-Source: ABdhPJyq5Ug8yCUdKzalfXvfZYjytq5fUF3q9cDfubRE24rivGRQtvMt5CChgGyeDiev08BxfsT/u78yVXN6dvDX68w=
+X-Received: by 2002:a81:db05:0:b0:2ea:2b92:c317 with SMTP id
+ u5-20020a81db05000000b002ea2b92c317mr25704244ywm.329.1649674642348; Mon, 11
+ Apr 2022 03:57:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220406223440.2901032-1-wuhaotsh@google.com>
- <20220406223440.2901032-2-wuhaotsh@google.com>
-In-Reply-To: <20220406223440.2901032-2-wuhaotsh@google.com>
+ <20220406223440.2901032-3-wuhaotsh@google.com>
+In-Reply-To: <20220406223440.2901032-3-wuhaotsh@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Apr 2022 11:52:03 +0100
-Message-ID: <CAFEAcA9x7zu5PnsUQmE-mHDs1n-tLWkJqNV_HczvD6Zs3=rmDg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] hw/misc: Add PWRON STRAP bit fields in GCR module
+Date: Mon, 11 Apr 2022 11:57:11 +0100
+Message-ID: <CAFEAcA-tqq=KiNw4XTZ1jD=SbPTrGdjMU1oTfSBbY+Cgh3Rkxg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/arm: Use bit fields for NPCM7XX PWRON STRAPs
 To: Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,58 +87,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 6 Apr 2022 at 23:34, Hao Wu <wuhaotsh@google.com> wrote:
 >
-> Similar to the Aspeed code in include/misc/aspeed_scu.h, we define
-> the PWRON STRAP fields in their corresponding module for NPCM7XX.
+> This patch uses the defined fields to describe PWRON STRAPs for
+> better readability.
 >
 > Signed-off-by: Hao Wu <wuhaotsh@google.com>
 > Reviewed-by: Patrick Venture <venture@google.com>
 > ---
->  include/hw/misc/npcm7xx_gcr.h | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
+>  hw/arm/npcm7xx_boards.c | 24 +++++++++++++++++++-----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
 >
-> diff --git a/include/hw/misc/npcm7xx_gcr.h b/include/hw/misc/npcm7xx_gcr.h
-> index 13109d9d32..98da5d171f 100644
-> --- a/include/hw/misc/npcm7xx_gcr.h
-> +++ b/include/hw/misc/npcm7xx_gcr.h
-> @@ -19,6 +19,36 @@
->  #include "exec/memory.h"
->  #include "hw/sysbus.h"
+> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+> index 0678a56156..62d4092657 100644
+> --- a/hw/arm/npcm7xx_boards.c
+> +++ b/hw/arm/npcm7xx_boards.c
+> @@ -30,11 +30,25 @@
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/block-backend.h"
 >
-> +/*
-> + * NPCM7XX PWRON STRAP bit fields
-> + * 12: SPI0 powered by VSBV3 at 1.8V
-> + * 11: System flash attached to BMC
-> + * 10: BSP alternative pins.
-> + * 9:8: Flash UART command route enabled.
-> + * 7: Security enabled.
-> + * 6: HI-Z state control.
-> + * 5: ECC disabled.
-> + * 4: Reserved
-> + * 3: JTAG2 enabled.
-> + * 2:0: CPU and DRAM clock frequency.
-> + */
-> +#define NPCM7XX_PWRON_STRAP_SPI0F18                 BIT(12)
-> +#define NPCM7XX_PWRON_STRAP_SFAB                    BIT(11)
-> +#define NPCM7XX_PWRON_STRAP_BSPA                    BIT(10)
-> +#define NPCM7XX_PWRON_STRAP_FUP(x)                  ((x) << 8)
-> +#define     FUP_NORM_UART2      3
-> +#define     FUP_PROG_UART3      2
-> +#define     FUP_PROG_UART2      1
-> +#define     FUP_NORM_UART3      0
-> +#define NPCM7XX_PWRON_STRAP_SECEN                   BIT(7)
-> +#define NPCM7XX_PWRON_STRAP_HIZ                     BIT(6)
-> +#define NPCM7XX_PWRON_STRAP_ECC                     BIT(5)
-> +#define NPCM7XX_PWRON_STRAP_RESERVE1                BIT(4)
-> +#define NPCM7XX_PWRON_STRAP_J2EN                    BIT(3)
-> +#define NPCM7XX_PWRON_STRAP_CKFRQ(x)                ((x) << 8)
+> -#define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
+> -#define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
+> -#define QUANTA_GBS_POWER_ON_STRAPS 0x000017ff
+> -#define KUDO_BMC_POWER_ON_STRAPS 0x00001fff
+> -#define MORI_BMC_POWER_ON_STRAPS 0x00001fff
+> +#define NPCM7XX_POWER_ON_STRAPS_DEFAULT (           \
+> +        NPCM7XX_PWRON_STRAP_SPI0F18 |               \
+> +        NPCM7XX_PWRON_STRAP_SFAB |                  \
+> +        NPCM7XX_PWRON_STRAP_BSPA |                  \
+> +        NPCM7XX_PWRON_STRAP_FUP(FUP_NORM_UART2) |   \
+> +        NPCM7XX_PWRON_STRAP_SECEN |                 \
+> +        NPCM7XX_PWRON_STRAP_HIZ |                   \
+> +        NPCM7XX_PWRON_STRAP_ECC |                   \
+> +        NPCM7XX_PWRON_STRAP_RESERVE1 |              \
+> +        NPCM7XX_PWRON_STRAP_J2EN |                  \
+> +        NPCM7XX_PWRON_STRAP_CKFRQ(CKFRQ_DEFAULT))   \
 
-Comment says clock frequency is bits [2:0] but macro definition
-puts them in bits [9:8]...
+You don't want the trailing '\' on this last line.
 
-> +#define     CKFRQ_SKIPINIT      (0x000)
-> +#define     CKFRQ_DEFAULT       (0x111)
+> +
+> +#define NPCM750_EVB_POWER_ON_STRAPS ( \
+> +        NPCM7XX_POWER_ON_STRAPS_DEFAULT & ~NPCM7XX_PWRON_STRAP_RESERVE1)
 
-These don't need parentheses around them.
+This was 0x00001ff7, but the new macro definition makes it
+0x1fef (since NPCM7XX_POWER_ON_STRAPS_DEFAULT sets all bits [12:0]
+and we then clear bit 4).
+
+> +#define QUANTA_GSJ_POWER_ON_STRAPS NPCM7XX_POWER_ON_STRAPS_DEFAULT
+> +#define QUANTA_GBS_POWER_ON_STRAPS ( \
+> +        NPCM7XX_POWER_ON_STRAPS_DEFAULT & ~NPCM7XX_PWRON_STRAP_SFAB)
+> +#define KUDO_BMC_POWER_ON_STRAPS NPCM7XX_POWER_ON_STRAPS_DEFAULT
+> +#define MORI_BMC_POWER_ON_STRAPS NPCM7XX_POWER_ON_STRAPS_DEFAULT
+>
+>  static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
 
 thanks
 -- PMM
