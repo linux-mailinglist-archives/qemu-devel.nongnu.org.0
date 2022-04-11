@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324914FC2DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 19:03:03 +0200 (CEST)
-Received: from localhost ([::1]:53410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CD24FC2E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 19:06:27 +0200 (CEST)
+Received: from localhost ([::1]:60904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndxRO-0003gl-1M
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 13:03:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42054)
+	id 1ndxUg-0001RR-It
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 13:06:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndx8c-0000Qz-38
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:43:40 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:43994)
+ id 1ndx9g-0002c1-P8
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:44:44 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:38374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndx8Z-00022h-G3
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:43:37 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id t12so8011807ybt.10
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 09:43:34 -0700 (PDT)
+ id 1ndx9f-000273-8Q
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:44:44 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-2ec0bb4b715so43936987b3.5
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 09:44:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I1M5IfmsxMfPBWC7kMQ0VDwWxmnmVjAtSlUs71etqmI=;
- b=clgTQBlfIQz1L58kZcgxzE8Z67aWuyZqQQymbJzNIre9LsnmeMvbIDzufkFDZzI27c
- pnRDjGpFv4JFXviYSD/Ocra5e4QTKtua/lvxj/VymwOe/xeIxJb5zH8GD7GqFhLFh++6
- pFvAfpthGTHeJj3ffV1E4VJdihcnb61fFwiPQ3b2zyOW/UMXusVn5GvHC8vSOIQ1CNg0
- 981ok3F+tA1q0Mt/uY9QWmdtwfMpRE+OOzrWEUgVcIXsCY3KAGqGddmoL/qJzNjxfOJQ
- EoW3n/j8HqAkrubfgriiJx+vxjVPCFaGM8QicW+C29rHTuxzCbUcGiwM0mqq3FlFYbV9
- gI2g==
+ :cc; bh=k9cJN4QBG+VOBSEw0DcH5QWMFxSW4ZEr+daVJ5qfJkQ=;
+ b=cXQnGPu/mgUZkt5EtPfD1iBF80a4R15md9R74JH5myFdLixpFrpuvLgO0OhtiZO2uD
+ 8EGUSBUcoFkrmWnFknpRKSzTmXzz3daVsXfnAoQ5MQ/me/Ef1lRfeTIEq+Rjqpx4wluh
+ jrcwLhnBy3rTPZj5eDsQp/S5rbhKiYUYMxYjTGT4TGuomiMqzOYmvQTrDYDFeK2kcl69
+ Ju+FcCk3Irv0ydQlaf22NtFCAlvVmroduAniRDfBsTHqgsZzmP3aMJjbcE7aRV3egeqz
+ 4mHn2u3YznoLdhVTud0Myz4ZV2jgyRc0LSEjWsb0nVnhp8FZ5Yo2SDLVczN4Ie41bu0H
+ ZQ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=I1M5IfmsxMfPBWC7kMQ0VDwWxmnmVjAtSlUs71etqmI=;
- b=cF1HKngmdAKObG8RH0tC0OzmwNR53gSQ9n1B0el3KyFTYc10t6wupGdx/a8y+53Rth
- ILy13cf6yKfArWQxKW9Z8wkQW2K1vKdR1pdqoAekA/35qHXebzTB/IWcraS6j3OcAZx4
- 1+KIGWQLi0oUTlXavFhUeuBY3uTDBQ3xvLNLYVByeAZJCeedRvglYw1eap5nGgapzT31
- 4/gWSJMr9JKNBhq9NBhneRAMz75T8hydzgI0qWIrnpAygLY7PfjFE2yIlFoQEnmJxeon
- JhKEt07f4LgAjXqIbVi/AbQ4+84L5mqFqDK+RLlPiDFZvfm1d0PNqHDQrq3FS8xLjY4x
- k40Q==
-X-Gm-Message-State: AOAM533xQTtJ8uHFbsqzHSPbofH99ke4LhmgLQAWghI03l5dxc+tvRtx
- 5uFRAq6BJowbS7yhoIhvQToeRZWj+5+kOIL9ss/B6FAkHGA=
-X-Google-Smtp-Source: ABdhPJyJuYty6bcnhVZT1+Pmv/YWd/3hMfO5owl6A1zzkC5laa1qlBXxbbTeQdspjXIvSGe9wJK4W/u3R8pPrdCx7sg=
-X-Received: by 2002:a25:488:0:b0:641:1c71:b0ff with SMTP id
- 130-20020a250488000000b006411c71b0ffmr8342842ybe.39.1649695414208; Mon, 11
- Apr 2022 09:43:34 -0700 (PDT)
+ bh=k9cJN4QBG+VOBSEw0DcH5QWMFxSW4ZEr+daVJ5qfJkQ=;
+ b=LJDfHMEX7VDChcBwCjWQB0M+RlazqwrScEqxIDY3DJE6zOpqBXo/MoqExL8gDUBsJo
+ UKiLd+1GBhVTYNxdjH1c6M28JQ0EniyqM5hiZwYfsqw0Aas9pay5UxF5YCldYvxO4JNw
+ HtvagiYfO36PjbJf7r6ctKi1N7wvfP94hNYUoZRDrKBCfsFgMoGRmDptYFQyOQivOHwj
+ 5CkzU0dNBX7sUkYi1C4hYmcsbYynTNIabdY6uEYBnb2eaJucFg7Yu0FU0QwzpEtMJoCR
+ xA3JaM4UDRvNmCeLWwu5gwnXqrhqJXdRn0hG3cnf+hfINwPrYmxsDvI5Dx7Gt04ZgGCQ
+ G+TA==
+X-Gm-Message-State: AOAM533nUyi5d7f/pHVkK8w4N3sndLsVR83/pWmUwigERqyodSgjlF/T
+ tMT2t6Kr8juPcDoW4Plt+rZNv807kY6uecbKdZp0Nw==
+X-Google-Smtp-Source: ABdhPJyKm3hfNzGqh/6hAo1yqlIn2c0r2+f4XqIty5zQR07EFdsukI38CmHOa8I04X+nBWMnp5oWURecR0zBVnBz3yk=
+X-Received: by 2002:a81:6642:0:b0:2eb:c364:b8e1 with SMTP id
+ a63-20020a816642000000b002ebc364b8e1mr17437431ywc.64.1649695482197; Mon, 11
+ Apr 2022 09:44:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220410055725.380246-1-richard.henderson@linaro.org>
- <20220410055725.380246-5-richard.henderson@linaro.org>
-In-Reply-To: <20220410055725.380246-5-richard.henderson@linaro.org>
+ <20220410055725.380246-6-richard.henderson@linaro.org>
+In-Reply-To: <20220410055725.380246-6-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Apr 2022 17:43:23 +0100
-Message-ID: <CAFEAcA_z4FVw=pcwcbxCxfU-WHOKtc_Ah_F49wseWziUghEEqA@mail.gmail.com>
-Subject: Re: [PATCH 4/7] target/arm: Enable FEAT_CSV3 for -cpu max
+Date: Mon, 11 Apr 2022 17:44:31 +0100
+Message-ID: <CAFEAcA_VYCDp3cF_XXfc-oWeM0WTqRJw63075Af8APF3SjQgdg@mail.gmail.com>
+Subject: Re: [PATCH 5/7] target/arm: Enable FEAT_DGH for -cpu max
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,14 +86,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sun, 10 Apr 2022 at 07:07, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> This extension concerns cache speculation, which TCG does
+> This extension concerns not merging memory access, which TCG does
 > not implement.  Thus we can trivially enable this feature.
+> Add a comment to handle_hint for the DGH instruction, but no code.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/cpu64.c   | 1 +
->  target/arm/cpu_tcg.c | 1 +
->  2 files changed, 2 insertions(+)
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
