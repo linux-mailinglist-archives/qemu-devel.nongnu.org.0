@@ -2,98 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAD74FC034
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:19:37 +0200 (CEST)
-Received: from localhost ([::1]:47214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213A84FC0B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:30:00 +0200 (CEST)
+Received: from localhost ([::1]:42354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndvpI-0000th-8r
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:19:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46054)
+	id 1ndvzK-0006qY-10
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:29:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ndvhV-00030w-RH; Mon, 11 Apr 2022 11:11:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32494
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ndvhU-00038G-6U; Mon, 11 Apr 2022 11:11:33 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23BDlsh2015706; 
- Mon, 11 Apr 2022 15:11:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : subject :
- in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=EyFtsqehe6vgXqW8H7Fm5/yajFNDRrywbXOnv/tmOQk=;
- b=N4YFGUx2J1be+xTlo6UwL0cplqRj4lkqr1aDtEhZnjbHAFrQqom7d8aVv1whP9MChtsB
- NiK+9rFUvAoouJu+hTLbPdSAPDjHNp0b6pIU0Tl1Zoj04iQLkVSbIVgI57+GyOyljrTu
- L8LUX8NXwp5gBc0b5y1TnhLewE7T6N/Gu2jMAhFsJtsCSkzQyNSYvdRUZkYLIKtpT1AV
- H5T0Mb14QSQgprR1fm7s3PrMLQg2x+kPNBrUmUcjqeIMSOBf4njzEjnevLdhpu7PCj8S
- GtJ35fcPYtQAneVY5y012CZDldEcuWs0WXb+ahFwtWh8jZCrewZ1JnhQY42Dv5fG0MyC GQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3fcnhh9xkt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Apr 2022 15:11:28 +0000
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23BE6UKb019726;
- Mon, 11 Apr 2022 15:11:27 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3fcnhh9xkg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Apr 2022 15:11:27 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23BEvkWm018833;
- Mon, 11 Apr 2022 15:11:27 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 3fb1s9cnmb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Apr 2022 15:11:27 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 23BFBQZn39977354
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Apr 2022 15:11:26 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 17B29AE060;
- Mon, 11 Apr 2022 15:11:26 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5A195AE06B;
- Mon, 11 Apr 2022 15:11:25 +0000 (GMT)
-Received: from localhost (unknown [9.160.73.163])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Mon, 11 Apr 2022 15:11:25 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
- danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH] target/ppc: Add two missing register callbacks on POWER10
-In-Reply-To: <20220411125900.352028-1-fbarrat@linux.ibm.com>
-References: <20220411125900.352028-1-fbarrat@linux.ibm.com>
-Date: Mon, 11 Apr 2022 12:11:07 -0300
-Message-ID: <87wnfvy7sk.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ndvrs-0005CD-Jh
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:22:17 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38515)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ndvrq-0004z0-4t
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:22:15 -0400
+Received: by mail-wr1-x430.google.com with SMTP id s28so7628101wrb.5
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 08:22:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zdbnT7Rq8oTQDkQClsnTdHRrbDo72Eqi93aCSp6bjUg=;
+ b=p0YpsCDFFxRir8x/JljNHiGo+twJiCrnRchMeZugO/qJBX+pdAm0GFKfZkrifkVo07
+ /nTUoPymG/HHilWz1CAd5A5eSgg8oikZP3P5DdC/cSd3gaOEEKACX/tKoZbunroCCJwu
+ INnqAeJbjOo67rSGi9D8otSiULB1EVk9z7xxfvUooDgJc6cEi+Gx2uuo3MaCP9zd3fc6
+ Sd7ZxsGTs7ONMdQS8H1pDnJ/o/5siSf9BiYGAfqApvXFEKW7uFpjRZdvCmBNnG1sWQOk
+ aAKH+0bLFyoCgaGJb62cbeB/tNH310q7SIFZ1v+BkOxu3JSBbfPfRBDXx43fQhnDZ6us
+ bZIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=zdbnT7Rq8oTQDkQClsnTdHRrbDo72Eqi93aCSp6bjUg=;
+ b=Z/gGykp8ObDf7sSr90/NSDoKYinf78iUMbfZBhzkJb9YInQX98mIlLR/lf0RT8dvvk
+ pZ5swsZfFHcz0i1pOO3/Bt8dr3Em05CBSNY0gz3khM7hU6uQvn8s7w3yyuj6+4ttmVO7
+ W4GKrmM1dYgsSDhQljnbOf4i77npJo2zjFKhYjUmgYE9RimSlhi4KXMKMdt/8yLCb+fk
+ wmZdEww/IT2M4qqtigdlamVC0uRaoE5DiLcJtiPruLcmn4KsVel6ONQNQO9nndwB/5A2
+ 8NylZ1DWwQn0mGWhdCPnS/lFatPrBNcL8vHVj/LgAjp+ezMIeiaqlB0A9MW59Bs06fDt
+ TRAQ==
+X-Gm-Message-State: AOAM532yOZqueHZHpRLk1ydDEPcu7ZK6fL6hT7CeiDb3VGmcuwbFsRQA
+ KJv1KBOXU6Eg8YuUbwzCZAYqbw==
+X-Google-Smtp-Source: ABdhPJxgq/QsfGtjIlevpQ6mCQtkx2X4QRMy/5pf6J6GLtpKxFazCs6fcmIZQIqY4pPfd7W3gaeQ6A==
+X-Received: by 2002:a05:6000:170a:b0:205:8a7f:c0c6 with SMTP id
+ n10-20020a056000170a00b002058a7fc0c6mr25875839wrc.702.1649690532187; 
+ Mon, 11 Apr 2022 08:22:12 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ o29-20020a05600c511d00b0038e3532b23csm18279701wms.15.2022.04.11.08.22.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Apr 2022 08:22:11 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8F3E51FFB7;
+ Mon, 11 Apr 2022 16:22:10 +0100 (BST)
+References: <CANW9uyuNovUDh7EpRni_f_pQBZv4g4E2QFWxaNW6amh9h-yanw@mail.gmail.com>
+ <CAFEAcA9UsOqNhCu+o71YCMr6Og5as7Ht+LD3XLiujkKjSygc1g@mail.gmail.com>
+ <CANW9uyt5UDNrygX_TS9FBDb5pJdJLkHAtHqDFEoyg1U0Mgz0Ug@mail.gmail.com>
+User-agent: mu4e 1.7.12; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Itaru Kitayama <itaru.kitayama@gmail.com>
+Subject: Re: Procedures adding new CPUs in sbsa-ref
+Date: Mon, 11 Apr 2022 16:16:54 +0100
+In-reply-to: <CANW9uyt5UDNrygX_TS9FBDb5pJdJLkHAtHqDFEoyg1U0Mgz0Ug@mail.gmail.com>
+Message-ID: <87a6cr1w7x.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 9KOrhW9WSO5HLTBFxcQSt6uRG0w5CRi6
-X-Proofpoint-ORIG-GUID: Zj9mfNIrQThQjJIcgMwvidKLEuFweLa4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-04-11_05,2022-04-11_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- phishscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204110083
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,52 +90,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>,
+ qemu-devel@nongnu.org, Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Frederic Barrat <fbarrat@linux.ibm.com> writes:
 
-> This patch adds tcg accessors for 2 SPRs which were missing on P10:
->
-> - the TBU40 register is used to write the upper 40 bits of the
-> timebase register. It is used by kvm to update the timebase when
-> entering/exiting the guest on P9 and above. The missing definition was
-> causing erratic decrementer interrupts in a pseries/kvm guest running
-> in a powernv10/tcg host, typically resulting in hangs.
->
-> - the missing DPDES SPR was found through code inspection. It exists
-> unchanged on P10.
->
-> Both existed on previous versions of the processor and a bit of git
-> archaeology hints that they were added while the P10 model was already
-> being worked on so they may have simply fallen through the cracks.
->
-> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Itaru Kitayama <itaru.kitayama@gmail.com> writes:
 
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Good point; however per the SBSA specification, DEN0029F, there's the
+> PE architecture requirement at
+> each level from 1 to 7, so now I am wondering whether supporting
+> cortex-a57 and a72 are good enough to
+> set up a fully SBSA level 7 compliant "board" in QMEU.
 
-> ---
->  target/ppc/cpu_init.c | 2 ++
->  1 file changed, 2 insertions(+)
+Not currently - we are working on cortex-a76/neoverse-n1 which will
+provide a v8.2 baseline for sbsa-ref. See:
+
+  Subject: [PATCH 00/16] target/arm: Implement features Debugv8p4, RAS, IESB
+  Date: Fri,  8 Apr 2022 17:07:26 -0700
+  Message-Id: <20220409000742.293691-1-richard.henderson@linaro.org>
+
+and:
+
+  Subject: [PATCH 0/7] target/arm: More trivial features, A76, N1
+  Date: Sat,  9 Apr 2022 22:57:18 -0700
+  Message-Id: <20220410055725.380246-1-richard.henderson@linaro.org>
+
+which are stepping stones to those concrete models. Please review if you
+can.=20
+
+> Also, the 'max'
+> is there, but does not boot.
+
+Generally the firmware has to be built with the knowledge of what system
+it is running on so will generally fall over if run on a different CPU
+feature set. However I believe Leif had a firmware branch which attempts
+to work with -cpu max by doing proper ID register probing before using
+features. However -cpu max is very a moving feast which is why there is
+a push for the concrete CPU types.
+
+I believe there is a proposal for a versioned sbsa-ref model which will
+step of the default CPU for higher levels.
+
 >
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 073fd10168..2e9a3ded54 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -6457,6 +6457,7 @@ static void init_proc_POWER10(CPUPPCState *env)
->      register_power5p_common_sprs(env);
->      register_power5p_lpar_sprs(env);
->      register_power5p_ear_sprs(env);
-> +    register_power5p_tb_sprs(env);
->      register_power6_common_sprs(env);
->      register_power6_dbg_sprs(env);
->      register_power8_tce_address_control_sprs(env);
-> @@ -6467,6 +6468,7 @@ static void init_proc_POWER10(CPUPPCState *env)
->      register_power8_pmu_user_sprs(env);
->      register_power8_tm_sprs(env);
->      register_power8_pspb_sprs(env);
-> +    register_power8_dpdes_sprs(env);
->      register_vtb_sprs(env);
->      register_power8_ic_sprs(env);
->      register_power8_book4_sprs(env);
+> Itaru.
+>
+> On Sat, Apr 9, 2022 at 12:04 AM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>>
+>> On Fri, 8 Apr 2022 at 15:59, Itaru Kitayama <itaru.kitayama@gmail.com> w=
+rote:
+>> > I'd like to add a64fx cpu to the sbsa-ref board, if there's a quick an=
+d dirty
+>> > way of completing that, advice from the  maintainers is greatly apprec=
+iated.
+>>
+>> I have cc'd the sbsa-ref maintainers (as listed in the MAINTAINERS file).
+>>
+>> However, I'm not sure why you want to add the a64fx CPU to this
+>> board model? The sbsa-ref board is intended as a platform for
+>> developing firmware that runs on Server Base System Architecture
+>> hardware, so it deliberately doesn't have support for every CPU
+>> type QEMU implements.
+>>
+>> thanks
+>> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
