@@ -2,79 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E9EA4FC0DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:33:47 +0200 (CEST)
-Received: from localhost ([::1]:48644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CAD74FC034
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:19:37 +0200 (CEST)
+Received: from localhost ([::1]:47214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndw2z-0003KL-Q3
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45226)
+	id 1ndvpI-0000th-8r
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:19:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1ndvex-0006rA-Ti
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:08:56 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:37887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1ndvew-0002WJ-3q
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:08:55 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id u19so7095008lff.4
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 08:08:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shutemov-name.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=SZ3/Vx+1Q7uH45Ete1zY0f2BZJWVMOSE6BEs5zWCYbs=;
- b=7DIUdDw1bDVY/1pX9CrYKqoUnxn4Af2165TByD3u5HZ0iXmIdkyeDLerqJVS4ILYb2
- sr8EaHNWEoVQlow3SdmLYTkP5xN8dgvPftKQlE2GzWppJ9Nm1Jc8ZkbxJeZp/XQcv+bm
- CkITSbBdcYbYkEIbRjUo+wMmeMYCl/ckl8Eyh5jpmDByZr90ijXMmjL2GuwmjJqoSc6X
- 41HpTTObRQn2DziTHtTZKAPeR3G4oO4JnMRiHaWm+nxgPN2SgqBjtuDslRAMsgbobCqJ
- zrEUAd863LfUu4IdojsoK+HRzJ1QfBeJabFS3cJ9rTqFAAPFDxSzIUbnYMV1zoLxx+KI
- BBkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SZ3/Vx+1Q7uH45Ete1zY0f2BZJWVMOSE6BEs5zWCYbs=;
- b=IpnMizTAoh3eYg2T08rx1doa7kDzTwqnN0MF9FMPkshZcXEyOjtcLEt/2D6BuQk8M1
- 16yNiTTjQ7ohIzEj+K8JWASOUc6oTQ4OVT0swLldbRiSOZI158Y+a/dNxO0YUmFdHWJV
- CN60e3a/2YF/l1zz+/lKK8edFv3xhwPbNkEW5JkgGmYyuh8sGsaCxfRwTzr24As77Jmi
- zt1htdpb7td3R8LTdeMS1Vu8DycjcfauYLZC5zavQkMEw9cQP33ldkn3tM+O8v0p5wAJ
- yViJLKMrUAPTp4WL5MRQniKMsIclu8gFkZbgrA1xUP5QvL2WaO9d4rkGTC5cYmZTASdv
- 4H+Q==
-X-Gm-Message-State: AOAM5317OeCZkTZtH2/jydHhsOnLhl1qZsXse9BTBZr4S7L86WcNY2P7
- PfcI8njfkvrAGFkLmWVnLsx2DQ==
-X-Google-Smtp-Source: ABdhPJwVzRe0aqmUWVOSiTlNptfcMMnBCa3LaWdYU4CM/MHAyK3juuV+XEpH4cZF1tu2LetUDByrEw==
-X-Received: by 2002:a05:6512:3f29:b0:450:ac79:77dd with SMTP id
- y41-20020a0565123f2900b00450ac7977ddmr21705662lfa.301.1649689731304; 
- Mon, 11 Apr 2022 08:08:51 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
- by smtp.gmail.com with ESMTPSA id
- t2-20020a05651c204200b0024b4bc5d324sm1197193ljo.79.2022.04.11.08.08.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Apr 2022 08:08:50 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
- id 41CC4103CE0; Mon, 11 Apr 2022 18:10:23 +0300 (+03)
-Date: Mon, 11 Apr 2022 18:10:23 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Subject: Re: [PATCH v5 01/13] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220411151023.4nx34pxyg5amj44m@box.shutemov.name>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-2-chao.p.peng@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1ndvhV-00030w-RH; Mon, 11 Apr 2022 11:11:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32494
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1ndvhU-00038G-6U; Mon, 11 Apr 2022 11:11:33 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23BDlsh2015706; 
+ Mon, 11 Apr 2022 15:11:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : subject :
+ in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=EyFtsqehe6vgXqW8H7Fm5/yajFNDRrywbXOnv/tmOQk=;
+ b=N4YFGUx2J1be+xTlo6UwL0cplqRj4lkqr1aDtEhZnjbHAFrQqom7d8aVv1whP9MChtsB
+ NiK+9rFUvAoouJu+hTLbPdSAPDjHNp0b6pIU0Tl1Zoj04iQLkVSbIVgI57+GyOyljrTu
+ L8LUX8NXwp5gBc0b5y1TnhLewE7T6N/Gu2jMAhFsJtsCSkzQyNSYvdRUZkYLIKtpT1AV
+ H5T0Mb14QSQgprR1fm7s3PrMLQg2x+kPNBrUmUcjqeIMSOBf4njzEjnevLdhpu7PCj8S
+ GtJ35fcPYtQAneVY5y012CZDldEcuWs0WXb+ahFwtWh8jZCrewZ1JnhQY42Dv5fG0MyC GQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3fcnhh9xkt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Apr 2022 15:11:28 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23BE6UKb019726;
+ Mon, 11 Apr 2022 15:11:27 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3fcnhh9xkg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Apr 2022 15:11:27 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23BEvkWm018833;
+ Mon, 11 Apr 2022 15:11:27 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 3fb1s9cnmb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Apr 2022 15:11:27 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23BFBQZn39977354
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Apr 2022 15:11:26 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 17B29AE060;
+ Mon, 11 Apr 2022 15:11:26 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5A195AE06B;
+ Mon, 11 Apr 2022 15:11:25 +0000 (GMT)
+Received: from localhost (unknown [9.160.73.163])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Mon, 11 Apr 2022 15:11:25 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
+ danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/ppc: Add two missing register callbacks on POWER10
+In-Reply-To: <20220411125900.352028-1-fbarrat@linux.ibm.com>
+References: <20220411125900.352028-1-fbarrat@linux.ibm.com>
+Date: Mon, 11 Apr 2022 12:11:07 -0300
+Message-ID: <87wnfvy7sk.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220310140911.50924-2-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=2a00:1450:4864:20::12b;
- envelope-from=kirill@shutemov.name; helo=mail-lf1-x12b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9KOrhW9WSO5HLTBFxcQSt6uRG0w5CRi6
+X-Proofpoint-ORIG-GUID: Zj9mfNIrQThQjJIcgMwvidKLEuFweLa4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-11_05,2022-04-11_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ phishscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204110083
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,89 +107,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, linux-api@vger.kernel.org,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022 at 10:08:59PM +0800, Chao Peng wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> 
-> Introduce a new memfd_create() flag indicating the content of the
-> created memfd is inaccessible from userspace through ordinary MMU
-> access (e.g., read/write/mmap). However, the file content can be
-> accessed via a different mechanism (e.g. KVM MMU) indirectly.
-> 
-> It provides semantics required for KVM guest private memory support
-> that a file descriptor with this flag set is going to be used as the
-> source of guest memory in confidential computing environments such
-> as Intel TDX/AMD SEV but may not be accessible from host userspace.
-> 
-> Since page migration/swapping is not yet supported for such usages
-> so these pages are currently marked as UNMOVABLE and UNEVICTABLE
-> which makes them behave like long-term pinned pages.
-> 
-> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-> also impossible for a memfd created with this flag.
-> 
-> At this time only shmem implements this flag.
-> 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+Frederic Barrat <fbarrat@linux.ibm.com> writes:
+
+> This patch adds tcg accessors for 2 SPRs which were missing on P10:
+>
+> - the TBU40 register is used to write the upper 40 bits of the
+> timebase register. It is used by kvm to update the timebase when
+> entering/exiting the guest on P9 and above. The missing definition was
+> causing erratic decrementer interrupts in a pseries/kvm guest running
+> in a powernv10/tcg host, typically resulting in hangs.
+>
+> - the missing DPDES SPR was found through code inspection. It exists
+> unchanged on P10.
+>
+> Both existed on previous versions of the processor and a bit of git
+> archaeology hints that they were added while the P10 model was already
+> being worked on so they may have simply fallen through the cracks.
+>
+> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+
 > ---
->  include/linux/shmem_fs.h   |  7 +++++
->  include/uapi/linux/memfd.h |  1 +
->  mm/memfd.c                 | 26 +++++++++++++++--
->  mm/shmem.c                 | 57 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 88 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> index e65b80ed09e7..2dde843f28ef 100644
-> --- a/include/linux/shmem_fs.h
-> +++ b/include/linux/shmem_fs.h
-> @@ -12,6 +12,9 @@
->  
->  /* inode in-kernel data */
->  
-> +/* shmem extended flags */
-> +#define SHM_F_INACCESSIBLE	0x0001  /* prevent ordinary MMU access (e.g. read/write/mmap) to file content */
-> +
->  struct shmem_inode_info {
->  	spinlock_t		lock;
->  	unsigned int		seals;		/* shmem seals */
-> @@ -24,6 +27,7 @@ struct shmem_inode_info {
->  	struct shared_policy	policy;		/* NUMA memory alloc policy */
->  	struct simple_xattrs	xattrs;		/* list of xattrs */
->  	atomic_t		stop_eviction;	/* hold when working on inode */
-> +	unsigned int		xflags;		/* shmem extended flags */
->  	struct inode		vfs_inode;
->  };
->  
-
-AFAICS, only two bits of 'flags' are used. And that's very strange that
-VM_ flags are used for the purpose. My guess that someone was lazy to
-introduce new constants for this.
-
-I think we should fix this: introduce SHM_F_LOCKED and SHM_F_NORESERVE
-alongside with SHM_F_INACCESSIBLE and stuff them all into info->flags.
-It also makes shmem_file_setup_xflags() go away.
-
--- 
- Kirill A. Shutemov
+>  target/ppc/cpu_init.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index 073fd10168..2e9a3ded54 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -6457,6 +6457,7 @@ static void init_proc_POWER10(CPUPPCState *env)
+>      register_power5p_common_sprs(env);
+>      register_power5p_lpar_sprs(env);
+>      register_power5p_ear_sprs(env);
+> +    register_power5p_tb_sprs(env);
+>      register_power6_common_sprs(env);
+>      register_power6_dbg_sprs(env);
+>      register_power8_tce_address_control_sprs(env);
+> @@ -6467,6 +6468,7 @@ static void init_proc_POWER10(CPUPPCState *env)
+>      register_power8_pmu_user_sprs(env);
+>      register_power8_tm_sprs(env);
+>      register_power8_pspb_sprs(env);
+> +    register_power8_dpdes_sprs(env);
+>      register_vtb_sprs(env);
+>      register_power8_ic_sprs(env);
+>      register_power8_book4_sprs(env);
 
