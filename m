@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A7D4FC2D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 18:58:45 +0200 (CEST)
-Received: from localhost ([::1]:45892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A57A4FC2DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 19:02:11 +0200 (CEST)
+Received: from localhost ([::1]:52058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndxNE-0006XG-DK
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 12:58:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
+	id 1ndxQX-0002fV-Q1
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 13:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ndxKu-0004sv-3R
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:56:20 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:44835)
+ (Exim 4.90_1) (envelope-from
+ <3SF5UYggKCm8jhUNbgfUTbbTYR.PbZdRZh-QRiRYabaTah.beT@flex--wuhaotsh.bounces.google.com>)
+ id 1ndxNM-0007rj-0Q
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:58:52 -0400
+Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549]:45753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ndxKs-0004E4-6r
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:56:19 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- m33-20020a05600c3b2100b0038ec0218103so1264469wms.3
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 09:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+YJITU/FEivEPFOU4z6PXi53AtfYvskmBxIw8YsBW5E=;
- b=RZPfg9Dl99IoqJ7STGVJRN5NGFKkToYgoJAtvb6jJLC1qdwlmY5Fp9W2ZiMwzHyD5G
- CWwZizMn2Om+EtzZdwM2jdSS+c6tzVhc3EQzeCkYsfutIWKzwT9ewAUOb8J9zW8KcyJ4
- RGJJVDtPlWfwT2+eebKZO/iLAHt1H3ZXml0VeY3Z14GiVZmz5QQ0gARQ30wVoYXelu2E
- GqWCxG0oLgk5xguHXNgd8o5/4KbLfIVjOlnCxedK3Z7Vz3BscmjD7T0AsMCSzSMDnN1d
- 9gbJUWnTThIgMVGtyT+i6v9vuSIt8ST3fI6pz0HiCrKJuDb/gISXuu4RW7o8/Skj3tM6
- W9qg==
+ (Exim 4.90_1) (envelope-from
+ <3SF5UYggKCm8jhUNbgfUTbbTYR.PbZdRZh-QRiRYabaTah.beT@flex--wuhaotsh.bounces.google.com>)
+ id 1ndxNK-0004es-NO
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 12:58:51 -0400
+Received: by mail-pg1-x549.google.com with SMTP id
+ b18-20020a63d812000000b0037e1aa59c0bso9173413pgh.12
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 09:58:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=Gd8UzwIrLWhk2aACZcxX0dxsFtvg/lBvgclvrDWTjY8=;
+ b=FJGCOlxGIpnnej1SmC2PFY2uVtaZLf8w4k041Mj3A89mYeH4jYC8Yt0TQzHQYSZZJM
+ lB1pzy7vhqcEb54hAuS/7WO0cgO1mgi4kpbyKxtXjIGUvSSw6VUT9JWBdSqJlx1LoYhm
+ TOsPDSB7iy41t4O1ExqTuY/g53KR08M+ezT+dSpgxhnsUOoqVoIK4q/2yVg3sjF3RSG2
+ VxOTqU2VO6gktR1r1NXEPJ18zRB9zqmN7TLmiQnLO28ABQYqLC06qHx8qYscGoMzmZqw
+ KdegVAKgCt/vZ35yG0NLMpCKVPHwiPe7CvRyeH3WRn7mZYu46YvipFhDnAFtQHGW7ggx
+ rCAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+YJITU/FEivEPFOU4z6PXi53AtfYvskmBxIw8YsBW5E=;
- b=Q0LYImSyM4xwggaAsQhJmsHQTEnSWsvEpUhHyxSSU7vQq1tsptsSQdkQmMMgiQbpuV
- Dwijq9uByJfkzgxb4+DhKnV/wd65KUMjV6JbCqr6cEcm0YGmmuH3LXa17Z5VuDEX1rWl
- 6fXLHOz/WG5zotmEt7e7b6BLFZWYrZ08TbE6RBW4hnN9QKxtMO2OMhAlI0Pvt66Esy+f
- 45sByjvUIZsTBhZlby6w7u0adXXnljZnczDCTtlate0ks7h0pK/EwOZgmE67GpS3ha8q
- UyLtxgqek7hUomdr1tcpkGzlrk+FLhLwyCu8Xzfu4WSCkzgbcEIoB7YuVppFymYCTpHp
- Cl/w==
-X-Gm-Message-State: AOAM533I+MzMKcOUHOne+acG0KRKAlORrlW+2uPE+d++XzGN6tC14K+o
- 9V9IZAsQim+qz+5OtYA6ZvA=
-X-Google-Smtp-Source: ABdhPJwfMFpjJ9NJtZvEZY7YLC5kptZMMx39xqc65sgOWhJz6iptz173JjNlXvSPah8EzQFYMNXE5g==
-X-Received: by 2002:a05:600c:19ce:b0:38c:dcc1:4cf3 with SMTP id
- u14-20020a05600c19ce00b0038cdcc14cf3mr94965wmq.126.1649696175870; 
- Mon, 11 Apr 2022 09:56:15 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- y11-20020a056000168b00b002041af9a73fsm30578195wrd.84.2022.04.11.09.56.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Apr 2022 09:56:15 -0700 (PDT)
-Message-ID: <6d38ebc0-e472-38e1-5791-de7976e709e3@redhat.com>
-Date: Mon, 11 Apr 2022 18:56:14 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH] target/i386: avoid copying junk to extended ZMMReg
- fields
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220411145609.3932882-1-alex.bennee@linaro.org>
- <CAFEAcA-j2jkdoy09aogzgFVPXYH2Mn7yHXJCZyoZ=DETMMZMVg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA-j2jkdoy09aogzgFVPXYH2Mn7yHXJCZyoZ=DETMMZMVg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=Gd8UzwIrLWhk2aACZcxX0dxsFtvg/lBvgclvrDWTjY8=;
+ b=dxRd2rKE+zS0rbcc9ZA6Z4e7XfkQWu9DhvZCpHIKbb4xCT8apRQn24RZreI7v7jgEM
+ VXtIjKfV7XLKhA4Tnx9hfTVxyzo3A5kKdvtmAWuRCvH9ZIinVOYLQBx3rnyOhT1npbCh
+ jUelZM8CwGcCQrTe2QYWW+yytHBqhU2WAObRitl2t2mTYneH4TqKJKO/2pjW0856xISa
+ jHh/OsA4AOZtuXR2bNgtGzp+JIjNG/NRsDTGaoHne8CeOm3LqRaejDGpou3ap/5+NwUK
+ 23WXJO8eo4HNYTExODGmYwxz2LaI5pYZ6YQPXmseCbyZdQ6UvcPt2PJVwWugJzrAKjR4
+ GWGg==
+X-Gm-Message-State: AOAM530hITX0AT7x5CQ4Yjm+kEpdr/0NPmMADf1u3CSma5pkVoSDKwjR
+ Y32QoTb+DePeB2Qv0X21ly/aiORjVvrvfg==
+X-Google-Smtp-Source: ABdhPJyaIoLMK9jaxSnzzhEbOU2nJHjDdUJaxYdYQp2tmn+fZPPnJZvs25HhUS+PRaCnFpdpw8Mz3FsiF+Qrhw==
+X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
+ (user=wuhaotsh job=sendgmr) by 2002:aa7:9730:0:b0:505:cc11:5e9a with SMTP id
+ k16-20020aa79730000000b00505cc115e9amr4085688pfg.66.1649696328040; Mon, 11
+ Apr 2022 09:58:48 -0700 (PDT)
+Date: Mon, 11 Apr 2022 09:58:40 -0700
+Message-Id: <20220411165842.3912945-1-wuhaotsh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.1178.g4f1659d476-goog
+Subject: [PATCH v2 0/2] Define NPCM7XX PWRON bit fields
+From: Hao Wu <wuhaotsh@google.com>
+To: peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
+ venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
+ hskinnemoen@google.com, Uri.Trichter@nuvoton.com, Vishal.Soni@microsoft.com, 
+ titusr@google.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::549;
+ envelope-from=3SF5UYggKCm8jhUNbgfUTbbTYR.PbZdRZh-QRiRYabaTah.beT@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pg1-x549.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,56 +85,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/11/22 17:18, Peter Maydell wrote:
-> Looking a bit more closely, this won't work on big-endian
-> hosts, because there we want to copy across the last 16
-> bytes of the struct, not the first 16. So I think we need
-> some more macro magic:
-> 
-> #if SHIFT == 0
-> #define COPY_REG(DEST, SRC) (DEST) = (SRC)
-> #else
-> #define COPY_REG(DEST, SRC) do { \
->      (DEST).Q(0) = (SRC).Q(0);    \
->      (DEST).Q(1) = (SRC).Q(1);    \
->    } while (0)
-> #endif
-> 
-> and then use COPY_REG(*d, r);
+Currently, the PWRON STRAP values in NPCM7XX boards are magic
+numbers. Similar to the aspeed ones in hw/arm/aspeed.c, we
+define bit fields constants for them and use these fields instead
+of the magic numbers in the current implementation. The code
+should behave exactly the same as the existing one.
 
-Right, I have written something similar after seeing your response to
-the bug.
+-- Changes since v1
+* Fix errors and apply suggestions Peter made on v1.
 
-> We could probably try to write endian-specific flavours of
-> memcpy() invocation, but "do two 64-bit word copies" is what
-> the compiler would hopefully turn the memcpy into anyway :-)
+Hao Wu (2):
+  hw/misc: Add PWRON STRAP bit fields in GCR module
+  hw/arm: Use bit fields for NPCM7XX PWRON STRAPs
 
-Yeah, I actually wrote the memcpy() invocation because I was going to
-look at AVX later this year, which of course you couldn't know. :)
-What I came up after stealing parts of your nice comment is the
-following:
+ hw/arm/npcm7xx_boards.c       | 24 +++++++++++++++++++-----
+ include/hw/misc/npcm7xx_gcr.h | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 49 insertions(+), 5 deletions(-)
 
-/*
-  * Copy the relevant parts of a Reg value around. In the case where
-  * sizeof(Reg) > SIZE, these helpers operate only on the lower bytes of
-  * a 64 byte ZMMReg, so we must copy only those and keep the top bytes
-  * untouched in the guest-visible destination destination register.
-  * Note that the "lower bytes" are placed last in memory on big-endian
-  * hosts, which store the vector backwards in memory.  In that case the
-  * copy *starts* at B(SIZE - 1) and ends at B(0), the opposite of
-  * the little-endian case.
-  */
-#ifdef HOST_WORDS_BIGENDIAN
-#define MOVE(d, r) memcpy(&((d).B(SIZE - 1)), &(d).B(SIZE - 1), SIZE)
-#else
-#define MOVE(d, r) memcpy(&(d).B(0), &(r).B(0), SIZE)
-#endif
+-- 
+2.35.1.1178.g4f1659d476-goog
 
-I'll still your nice comment and submit a patch later when 7.1 opens.
-
-Paolo
 
