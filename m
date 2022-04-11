@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46EF74FBA0D
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 12:48:24 +0200 (CEST)
-Received: from localhost ([::1]:48464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497494FBA29
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 12:54:08 +0200 (CEST)
+Received: from localhost ([::1]:33488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndrao-0006au-QE
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 06:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32952)
+	id 1ndrgN-0007Cs-D0
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 06:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndrYM-0005ju-Sv
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:45:51 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:35297)
+ id 1ndrbh-00006T-VC
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:49:19 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:32796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndrYL-0002Ey-BL
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:45:50 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2ebdf6ebd29so89135227b3.2
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 03:45:48 -0700 (PDT)
+ id 1ndrbg-0002tV-HK
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:49:17 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-2eba37104a2so160891547b3.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 03:49:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QwQVheaIV+CeYBMx/lhmKEyMdlHL+FGj1dnem+foXWc=;
- b=UirbG4hYXYykrHGtnJs/IljpRq9ChYsK+iyXhvxJagf2nMkMHqjVVOucFZVlpzaEgN
- BUGHwNncIAneysgbFy1WrKOi8TmiW4+VojrbQRvpK5m00gzHH832KuOLGOVs/KboOmrM
- 0J4Q+hRV8Nr4Q/ZEkRjwa1U0OEitPJ+N8WGZ+5yGDIHYRYq80Dqb2F48q6GcjQadI6oX
- f5aDZcs3embnp+wzlCodpdIW4cnrNX0xlfVn133rXBp0gRjZvM0Y/x+zNX8ST3wNqqdr
- JQeJHMl6t8ZHo9hjs4VqH/0oqGLq06WDYjvfLVZPn1En91uu0W3EHvWHLSFHsSIr2CB8
- OxEQ==
+ :cc; bh=QRXj/YyLfUwrdcfmKmFsxZyzXj/qjgtB4kR2XWnybdU=;
+ b=JMobpC3+jvQFjAqPz6rLSb6AIzb36JoPCP9HuqbBmKiVky6434Sx3LQ/C+hkOqqw/W
+ JzS/Fb/VW/dnX6hRsPvXCxskormijoQXSIC0ByMLdJLv63DhJEX8ypFQw8ERt4ESTj+6
+ wu2AZW5A2bkvs+A6bZjxJdZ6f4TUe1lC7Jx3ciM7IGdCtB6cFaSydTngCvjUwDUAYLvE
+ 4pQEanpQq6FrVwwmTNZWDQFs0smoRQBiJs4xxjq2Dhm32e/EC76V+ak8ToT7egWE75rW
+ EbCdvVOOBrHKZU21nh27m8Hl0od0+IaNuT8p6wrWPWjLDtB2bxRQaLWP0i5keF2iz8C+
+ VDeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=QwQVheaIV+CeYBMx/lhmKEyMdlHL+FGj1dnem+foXWc=;
- b=Cd24wRtkYwDkUjKF59JF9aqiJZ5MjidsN9sG32u2Kt5GbFAV8asjvE4a4HiPBVpErU
- jsVTmqvVD52rA0cYvC6IXMQuHJ+cfiuyFtz0mwmfnZU83hDLntSVoQrigmlZKBq5r099
- 4S0y7IzL91nOH26Q2Ohat56fAK1oR8c0DL9VhW641y9CM2rNRlj59NFcb1UhsuMQeBho
- H79wNaz/M5fc+doYTMzso0pFYIYCJkehArdbQXiXc5A4XYIO6xn2fqsaNq1VbdjPGRa8
- 4DJIzBuicrWsJmH+RsN65oIE2UmYzKr6P1nbCX8oWIj6BHe/5nxyvfvIIek/7KCGkrnP
- N5SA==
-X-Gm-Message-State: AOAM533D8CScSYbDBblk1kmnoBjpHOxNjdtqhYY9yF1FcPu4wDbQynqt
- l0dUgxKJXspSGzqnvW2wPPEkK1t5djkn2iWhtPs3Ig==
-X-Google-Smtp-Source: ABdhPJyQX9vGvPjT74vbc3LsTy5ckyrIEe0iQ1NVVOzYXoG1iLX+1T0TM0aK5dMBB20jiK4n7xHinF0A+U9++rv/M8Y=
-X-Received: by 2002:a81:4655:0:b0:2eb:2e0e:9d47 with SMTP id
- t82-20020a814655000000b002eb2e0e9d47mr24568797ywa.455.1649673948321; Mon, 11
- Apr 2022 03:45:48 -0700 (PDT)
+ bh=QRXj/YyLfUwrdcfmKmFsxZyzXj/qjgtB4kR2XWnybdU=;
+ b=w4IJviFseEClcOFFeExv3nmWWH6lGrYnnyCcde4cDyjYoRyVU3wOkQEJQCBSUG0zeW
+ +jq8+sUklTiqgNAz/gxPQdiB5j+Z1DQ1MFzy3TTK3Ank9R0fRNdnzSULqeOY2mq1qlfO
+ P9WucX+RQwMQ8wduP/l16ZplmqHacoNqbRUp1H/Mb2vg6ItS7YzZoVHyUCII8c01w7Da
+ XsQodfwddR0GyHvZny43NngP9b/LrLTDatqeSn7cWmZkwupxwRDGe4D6Q8NZu/S8wqn5
+ p3Rr/8lwavmTQpR9sqxAj/pXOI0jFucIazwHwTj8QwYOw9SPlOs+vpQ6l1FhGueU94VA
+ 0pCQ==
+X-Gm-Message-State: AOAM530Sa03tf3/ya0LTFEDwJzmdz1vdL0nWPt+GfCYKKIYK7tbnY6Ie
+ gE1DOsSuy+4jWma6klAz3C0dFWfb+9TScWPgbU0uJA==
+X-Google-Smtp-Source: ABdhPJxO8ZeWA3K3VBV7nU7Tg2n85xqpgoDAE1bd/BBuCkQ2xfVZmUPzcCvJhKTzV+dx3wbvMblH87I2MInOBOhoj/w=
+X-Received: by 2002:a81:6642:0:b0:2eb:c364:b8e1 with SMTP id
+ a63-20020a816642000000b002ebc364b8e1mr15965910ywc.64.1649674154709; Mon, 11
+ Apr 2022 03:49:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220331222017.2914409-1-edgar.iglesias@gmail.com>
-In-Reply-To: <20220331222017.2914409-1-edgar.iglesias@gmail.com>
+References: <20220406174303.2022038-1-edgar.iglesias@xilinx.com>
+In-Reply-To: <20220406174303.2022038-1-edgar.iglesias@xilinx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Apr 2022 11:45:37 +0100
-Message-ID: <CAFEAcA9Cjkz03R9Pkqa24BZBQsrXHz0Tin_Ppf3f8sPihkSreQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] hw/arm: zynqmp: Add the 4 TTC timers
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Date: Mon, 11 Apr 2022 11:49:03 +0100
+Message-ID: <CAFEAcA8nt16PM+6w2h7zkjFWhO0H0T36HjbY=8soO7fXND3sbQ@mail.gmail.com>
+Subject: Re: [PATCH v1 0/4] hw/arm: versal: Add Cortex-R5s and CRL
+To: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,28 +78,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, luc@lmichel.fr, asifsiddiqui120@gmail.com,
- edgar.iglesias@amd.com, sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- f4bug@amsat.org, francisco.iglesias@xilinx.com, frederic.konrad@adacore.com,
- qemu-arm@nongnu.org
+Cc: luc@lmichel.fr, fkonrad@xilinx.com, edgar.iglesias@amd.com,
+ sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
+ francisco.iglesias@xilinx.com, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 31 Mar 2022 at 23:20, Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
+On Wed, 6 Apr 2022 at 18:43, Edgar E. Iglesias
+<edgar.iglesias@xilinx.com> wrote:
 >
 > From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
 >
-> This adds the 4 TTC timers in the Xilinx ZynqMP.
-> This is for after the 7.0.0 release.
+> This adds the Versal Cortex-R5s in the Real-Time Processing Unit
+> (RPU) subsystem.
 >
-> Cheers,
-> Edgar
+> A model of the Clock/Reset Low-power domain (CRL) is also added
+> allowing runtime release of the Cortex-R5s. The RPU subsystem
+> is largely missing but has enough to run simple bare-metal R5
+> apps.
 >
-> Edgar E. Iglesias (2):
->   timer: cadence_ttc: Break out header file to allow embedding
->   hw/arm/xlnx-zynqmp: Connect 4 TTC timers
 
 
 
