@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497494FBA29
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 12:54:08 +0200 (CEST)
-Received: from localhost ([::1]:33488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1F94FBA52
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 13:00:43 +0200 (CEST)
+Received: from localhost ([::1]:47240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndrgN-0007Cs-D0
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 06:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
+	id 1ndrmk-0000Ux-Ja
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 07:00:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndrbh-00006T-VC
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:49:19 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:32796)
+ id 1ndreb-0006Qd-Fq
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:52:17 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:37733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndrbg-0002tV-HK
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:49:17 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2eba37104a2so160891547b3.0
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 03:49:16 -0700 (PDT)
+ id 1ndreZ-0003Tf-Oq
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:52:17 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-2ebebe631ccso75627757b3.4
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 03:52:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QRXj/YyLfUwrdcfmKmFsxZyzXj/qjgtB4kR2XWnybdU=;
- b=JMobpC3+jvQFjAqPz6rLSb6AIzb36JoPCP9HuqbBmKiVky6434Sx3LQ/C+hkOqqw/W
- JzS/Fb/VW/dnX6hRsPvXCxskormijoQXSIC0ByMLdJLv63DhJEX8ypFQw8ERt4ESTj+6
- wu2AZW5A2bkvs+A6bZjxJdZ6f4TUe1lC7Jx3ciM7IGdCtB6cFaSydTngCvjUwDUAYLvE
- 4pQEanpQq6FrVwwmTNZWDQFs0smoRQBiJs4xxjq2Dhm32e/EC76V+ak8ToT7egWE75rW
- EbCdvVOOBrHKZU21nh27m8Hl0od0+IaNuT8p6wrWPWjLDtB2bxRQaLWP0i5keF2iz8C+
- VDeg==
+ :cc; bh=06ZWhCrHCc7V8kivDU9cjKy+8lGFD7ZELA3yTgE6Omc=;
+ b=QGuvFFrxsGHDbq/YaOSncuHYKZzibIbvQDm1/MdHtNGa5goQolXQjjKF2Gv63X6gtD
+ qIy9rlZy6lj8m3GpeWJ6lZH/vtezeylpzvw0K6jx0ytxp5VuwPz5I8jqUtIkDBULqM+I
+ 9s6xtzWQA9+MRd0/WMIg9/s3+xb7i9vhWI4fOY5ivCTWcv3H+fVojMjBQBbfBgHrRDAe
+ F4rQqQSuX08X/X51lo3H3VrgfhGOswbu1CwTa3dgO0FUSrmqPAlq42V4Cd6TXhjuhGKt
+ cgQvgIRZxRegktirV2A+eAW5jxQBg4j20UFVRlqhDlL5I8Ehd7A3TI6pmbaPACLwzBxC
+ aevg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=QRXj/YyLfUwrdcfmKmFsxZyzXj/qjgtB4kR2XWnybdU=;
- b=w4IJviFseEClcOFFeExv3nmWWH6lGrYnnyCcde4cDyjYoRyVU3wOkQEJQCBSUG0zeW
- +jq8+sUklTiqgNAz/gxPQdiB5j+Z1DQ1MFzy3TTK3Ank9R0fRNdnzSULqeOY2mq1qlfO
- P9WucX+RQwMQ8wduP/l16ZplmqHacoNqbRUp1H/Mb2vg6ItS7YzZoVHyUCII8c01w7Da
- XsQodfwddR0GyHvZny43NngP9b/LrLTDatqeSn7cWmZkwupxwRDGe4D6Q8NZu/S8wqn5
- p3Rr/8lwavmTQpR9sqxAj/pXOI0jFucIazwHwTj8QwYOw9SPlOs+vpQ6l1FhGueU94VA
- 0pCQ==
-X-Gm-Message-State: AOAM530Sa03tf3/ya0LTFEDwJzmdz1vdL0nWPt+GfCYKKIYK7tbnY6Ie
- gE1DOsSuy+4jWma6klAz3C0dFWfb+9TScWPgbU0uJA==
-X-Google-Smtp-Source: ABdhPJxO8ZeWA3K3VBV7nU7Tg2n85xqpgoDAE1bd/BBuCkQ2xfVZmUPzcCvJhKTzV+dx3wbvMblH87I2MInOBOhoj/w=
-X-Received: by 2002:a81:6642:0:b0:2eb:c364:b8e1 with SMTP id
- a63-20020a816642000000b002ebc364b8e1mr15965910ywc.64.1649674154709; Mon, 11
- Apr 2022 03:49:14 -0700 (PDT)
+ bh=06ZWhCrHCc7V8kivDU9cjKy+8lGFD7ZELA3yTgE6Omc=;
+ b=4PUJqKU52a7pt1gyQKh3l0a8x/ftI2ffAi4He+oxZXCUaWBncBHFWkhjO3yW5dGMc/
+ k7RrMsjiPioWrVrsVyeF4r1t7KF1NVU/Yk1tO6nc+OwMcgmiDSHDrvQruxF/qM2wpfpR
+ yQ9Jc1bFQLC/Pl4nENPzVoEonMSm8vUVdybxHC9D9yDE6dIk6pO6E8/NDAe2kcev1Wm0
+ VHfcp9EmPABSbxuwnFn4ga3hJtkg0ZrirjlDr1fbYn4nx71EBaHkVjI3Yiy1VWxX8vXj
+ 8iEIRQCfZJKPrMenI/G44peEIZ8AiSiZK4yt2pMEPx4JohbE+7/Oc5dynbdRHzbQEUAY
+ 0D5g==
+X-Gm-Message-State: AOAM532B3L58Wm254j63zaJiStacYedOLFym0dIRKTnC2kz03o7DCogg
+ EV+r91jrP1zZb3QXvpsvh30TTU3Pw3f4locUdJg/ag==
+X-Google-Smtp-Source: ABdhPJzalE5McVm0SansRGPFfcbiqYfUPKJAOE4qVd9CIO8BmrUKh9IHz3u1HCpT2VF4G/5Cqvw9mlOB/5poN4e/1kc=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr25850178ywb.257.1649674334845; Mon, 11
+ Apr 2022 03:52:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220406174303.2022038-1-edgar.iglesias@xilinx.com>
-In-Reply-To: <20220406174303.2022038-1-edgar.iglesias@xilinx.com>
+References: <20220406223440.2901032-1-wuhaotsh@google.com>
+ <20220406223440.2901032-2-wuhaotsh@google.com>
+In-Reply-To: <20220406223440.2901032-2-wuhaotsh@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Apr 2022 11:49:03 +0100
-Message-ID: <CAFEAcA8nt16PM+6w2h7zkjFWhO0H0T36HjbY=8soO7fXND3sbQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/4] hw/arm: versal: Add Cortex-R5s and CRL
-To: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Date: Mon, 11 Apr 2022 11:52:03 +0100
+Message-ID: <CAFEAcA9x7zu5PnsUQmE-mHDs1n-tLWkJqNV_HczvD6Zs3=rmDg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/misc: Add PWRON STRAP bit fields in GCR module
+To: Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,30 +79,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luc@lmichel.fr, fkonrad@xilinx.com, edgar.iglesias@amd.com,
- sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
- francisco.iglesias@xilinx.com, qemu-arm@nongnu.org
+Cc: Uri.Trichter@nuvoton.com, titusr@google.com, venture@google.com,
+ hskinnemoen@google.com, qemu-devel@nongnu.org, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com, Vishal.Soni@microsoft.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Apr 2022 at 18:43, Edgar E. Iglesias
-<edgar.iglesias@xilinx.com> wrote:
+On Wed, 6 Apr 2022 at 23:34, Hao Wu <wuhaotsh@google.com> wrote:
 >
-> From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
+> Similar to the Aspeed code in include/misc/aspeed_scu.h, we define
+> the PWRON STRAP fields in their corresponding module for NPCM7XX.
 >
-> This adds the Versal Cortex-R5s in the Real-Time Processing Unit
-> (RPU) subsystem.
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Patrick Venture <venture@google.com>
+> ---
+>  include/hw/misc/npcm7xx_gcr.h | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
 >
-> A model of the Clock/Reset Low-power domain (CRL) is also added
-> allowing runtime release of the Cortex-R5s. The RPU subsystem
-> is largely missing but has enough to run simple bare-metal R5
-> apps.
+> diff --git a/include/hw/misc/npcm7xx_gcr.h b/include/hw/misc/npcm7xx_gcr.h
+> index 13109d9d32..98da5d171f 100644
+> --- a/include/hw/misc/npcm7xx_gcr.h
+> +++ b/include/hw/misc/npcm7xx_gcr.h
+> @@ -19,6 +19,36 @@
+>  #include "exec/memory.h"
+>  #include "hw/sysbus.h"
 >
+> +/*
+> + * NPCM7XX PWRON STRAP bit fields
+> + * 12: SPI0 powered by VSBV3 at 1.8V
+> + * 11: System flash attached to BMC
+> + * 10: BSP alternative pins.
+> + * 9:8: Flash UART command route enabled.
+> + * 7: Security enabled.
+> + * 6: HI-Z state control.
+> + * 5: ECC disabled.
+> + * 4: Reserved
+> + * 3: JTAG2 enabled.
+> + * 2:0: CPU and DRAM clock frequency.
+> + */
+> +#define NPCM7XX_PWRON_STRAP_SPI0F18                 BIT(12)
+> +#define NPCM7XX_PWRON_STRAP_SFAB                    BIT(11)
+> +#define NPCM7XX_PWRON_STRAP_BSPA                    BIT(10)
+> +#define NPCM7XX_PWRON_STRAP_FUP(x)                  ((x) << 8)
+> +#define     FUP_NORM_UART2      3
+> +#define     FUP_PROG_UART3      2
+> +#define     FUP_PROG_UART2      1
+> +#define     FUP_NORM_UART3      0
+> +#define NPCM7XX_PWRON_STRAP_SECEN                   BIT(7)
+> +#define NPCM7XX_PWRON_STRAP_HIZ                     BIT(6)
+> +#define NPCM7XX_PWRON_STRAP_ECC                     BIT(5)
+> +#define NPCM7XX_PWRON_STRAP_RESERVE1                BIT(4)
+> +#define NPCM7XX_PWRON_STRAP_J2EN                    BIT(3)
+> +#define NPCM7XX_PWRON_STRAP_CKFRQ(x)                ((x) << 8)
 
+Comment says clock frequency is bits [2:0] but macro definition
+puts them in bits [9:8]...
 
+> +#define     CKFRQ_SKIPINIT      (0x000)
+> +#define     CKFRQ_DEFAULT       (0x111)
 
-Applied to target-arm.next for 7.1, thanks.
+These don't need parentheses around them.
 
+thanks
 -- PMM
 
