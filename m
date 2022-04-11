@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9259A4FC3AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 19:51:23 +0200 (CEST)
-Received: from localhost ([::1]:36656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50CF4FC3E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 20:09:46 +0200 (CEST)
+Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndyCA-0001k6-Eo
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 13:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58218)
+	id 1ndyTx-0007cz-DU
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 14:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndy9g-0000pN-VC
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 13:48:48 -0400
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:44860)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ndySi-0006va-SM
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 14:08:28 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:52019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndy9f-0004i6-Io
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 13:48:48 -0400
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-2eafabbc80aso174069097b3.11
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 10:48:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ndySh-0007jR-7E
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 14:08:28 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id bg24so3589928pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 11:08:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WmdfrTiE5HMntn41iTvPYVO4OrYKZDbyYz2XDT/n0yQ=;
- b=YR/LO8F9sQ7ZEkdJbcoSP0WnnAk6hdQhAI+QmVL7tl884Cv+Y3Bc35AEbSQA3TIT0Z
- U4cF17EjqFVC9PTj3vbbaGI73rI0qxO6I34L4s1BQnSlETPagHk5uNtSF1QnHQG3+7Ff
- uME+dviQxNzLqtzZcQXa6q6IsYlihG/8O3u2miCQufKROR4ddnepwztH7xLk1ArOvAsj
- RWvjrS6Yo9EBg8LlwITPqu2nQQgwOG632CF2AtM2rJC1106TO0NE21zPZ2MxJZj+L2A8
- lp/Abj1iW5gBvs+GRwC1Dw+hUtQbVZWWZiS1FOVYLCEikT9eoijf1kO+0mcCnaOcealU
- xlmQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/q5ykmhmZZiQV3dZW7yrjWcXrz6MVRCX/f9L7uUwch0=;
+ b=AYtIQptG1ZCmg7gh8IL0jYuz0N2fV6POcIQrbBeZ53ToPHo+z/CacPEqtEDKgYKc4L
+ xo6BLE7rmkqBXKGttXqdEONUgoTDoFdgRHm22rVJQMUXaF2V65YFmR5vxSgXHR/qbori
+ xPjG2dx0UHhZyBhtbg4jNzD5UXgH30pouMN7Fs4IBbw3OXCCzKTwq3FHesrCAXWqQnwK
+ 81yVtdzrXNMAZMqntfQdm85l37cBwTzbP7Vwq3gdr4xEDj4x0b4lfG5ZR5MuVklEOLVj
+ /bHgi/G9wznhk069ssBYRTlFc8GDZgA6I7iYFvd16YufiRbQAgg2dcd+bzoU/5IRy5SL
+ bwAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WmdfrTiE5HMntn41iTvPYVO4OrYKZDbyYz2XDT/n0yQ=;
- b=FR0ObYUtf8wnJn1Dn17L2eNBlXxAZMDeBSHw107EBf4NN8bdopc3Lz/dLqbC9FlI+f
- YdwLCbbPh/Wo8trjGyegL9TFHDUwq+u7KlGeEV6PYWWfZD09ZKbVkyp3EwvARFDUKwF1
- CXi83DWAK+WeV+BIzIfnJffzfv7aSxFK0XRpowHgkMrm3U6TxhdYX2N9l2QDWj1drhTs
- hgR7VZ8VTbNaC0FQmNchlDCmvgWQ0Ht2fu1wP3BBo+U/vdQUdarpPIeI+G3jAkWWw/Op
- oRXCEK3hrodXqbFu2oNWR8UJSzVOvCzy5MgyuGJ1XxExKfzmpadsWN8x9IJqIMWXTUW4
- ZEkA==
-X-Gm-Message-State: AOAM531XSqGctDPRUXvUiI/DFRi8DSJBWLZxte+/RXKH/MyAO2oqLkbT
- y0+M2rY0Qc43ZQmfsnVsRu+aC6Bof3OPQVbDouRF4A==
-X-Google-Smtp-Source: ABdhPJzp0qbzZpafyNTj9CWO2QN/0RX7s9aEhoFiW8fyJNDvSSpTvifIZONJwVEAJ1szbkyAM2L0KjOt5qrvtzs1Jb4=
-X-Received: by 2002:a81:6642:0:b0:2eb:c364:b8e1 with SMTP id
- a63-20020a816642000000b002ebc364b8e1mr17695396ywc.64.1649699326572; Mon, 11
- Apr 2022 10:48:46 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/q5ykmhmZZiQV3dZW7yrjWcXrz6MVRCX/f9L7uUwch0=;
+ b=elsDtoyi56KLC7pRPbfZWIM5EGYJbHAcrNU+PWgvR8nHdT6fIrRz19GeycVBw/neov
+ vC5fGRlXu73ozwR1OVZVRlDI+re6ynpTLDyCKn7OKyW/uEr9ISHO7quIn1YFzS9Jjtf/
+ 0aOBQ5/vhfRdINhZNwWJfj5Qqy3QGbrX/waZlii3p4wGeWHCkd/8JE41OvjaTT4bFKqb
+ 91x2B5GRLSOERYsKnrHGZMQjCXAqqqzjdwcFbbvUU+kt8rhV68uH7oKJ2+GhlWUBYPhp
+ sbJCpJ3poSCE2/Xac/gfa51UNpfZoT/QmKEbAZthjD1mQqn6ZUvs7wNG0KF20QzPHmDx
+ +Glg==
+X-Gm-Message-State: AOAM531arqb6N7XZ9P/U4cia0qMm+TwpHdbZxXbMHcbu08xAdZZoGtG6
+ H8A8DhOlzqEKA5NuAMOWP7hMew==
+X-Google-Smtp-Source: ABdhPJxmHM81y1YHVQyZfg4wOErdD1WYCm+DECd8fRqdbdX+YaH/q20/qDOcU3kxFSD0QFnrRnmcxg==
+X-Received: by 2002:a17:90a:5902:b0:1cb:a0eb:8f8c with SMTP id
+ k2-20020a17090a590200b001cba0eb8f8cmr429886pji.17.1649700502268; 
+ Mon, 11 Apr 2022 11:08:22 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ n24-20020aa79058000000b00505686a982asm15229411pfo.125.2022.04.11.11.08.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Apr 2022 11:08:21 -0700 (PDT)
+Message-ID: <dea17ea8-0c00-4523-7d18-e2dee77ae80e@linaro.org>
+Date: Mon, 11 Apr 2022 11:08:20 -0700
 MIME-Version: 1.0
-References: <20220409000742.293691-1-richard.henderson@linaro.org>
- <20220409000742.293691-9-richard.henderson@linaro.org>
- <CAFEAcA-b5RHzJ0BxeyswL6C6Cr-6fzRF_a0SVkLdWQo4Xs6=dQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-b5RHzJ0BxeyswL6C6Cr-6fzRF_a0SVkLdWQo4Xs6=dQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Apr 2022 18:48:35 +0100
-Message-ID: <CAFEAcA8w6VySz=LUk4bps+hqGAs_1QsjafO7OFgvnyRW9ybnmQ@mail.gmail.com>
-Subject: Re: [PATCH 08/16] target/arm: Enable FEAT_Debugv8p2 for -cpu max
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] migration/dirtyrate: Replace malloc with g_new
+Content-Language: en-US
+To: jianchunfu <jianchunfu@cmss.chinamobile.com>
+References: <20220411094703.7000-1-jianchunfu@cmss.chinamobile.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220411094703.7000-1-jianchunfu@cmss.chinamobile.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,33 +88,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Apr 2022 at 14:09, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Sat, 9 Apr 2022 at 01:18, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > The only portion of FEAT_Debugv8p2 that is relevant to QEMU
-> > is CONTEXTIDR_EL2, which is also conditionally implemented
-> > with FEAT_VHE.  The rest of the debug extension concerns the
-> > External debug interface, which is outside the scope of QEMU.
-> >
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >  target/arm/cpu.c     | 1 +
-> >  target/arm/cpu64.c   | 1 +
-> >  target/arm/cpu_tcg.c | 2 ++
-> >  3 files changed, 4 insertions(+)
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+On 4/11/22 02:47, jianchunfu wrote:
+> Using macro g_new() to handling potential memory allocation failures
+> in dirtyrate.
+> 
+> Signed-off-by: jianchunfu<jianchunfu@cmss.chinamobile.com>
+> ---
+>   migration/dirtyrate.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-...except that I've just remembered that this patch, and the
-others in this and the other series that add support for new
-FEAT_* need to update the list in docs/system/arm/emulation.rst
-of all the features we implement.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+r~
 
