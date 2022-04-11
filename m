@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3581D4FBA72
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 13:03:46 +0200 (CEST)
-Received: from localhost ([::1]:53510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4FA4FBAFA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 13:32:41 +0200 (CEST)
+Received: from localhost ([::1]:38880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndrph-0004xk-B6
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 07:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35408)
+	id 1ndsHg-0008Pi-L6
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 07:32:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndrjc-0005Op-4z
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:57:28 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:35374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ndrjX-0004Do-98
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 06:57:25 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-2ebdf6ebd29so89436407b3.2
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 03:57:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OfCWCaizk9dfJOILFckcsPWNvFZDEkl+dcr6dlMzCoI=;
- b=e0OYl00MEZULSV78ZYPpU1sZT8ki1YgTQViMdFZT7fC3XpjjaQhKTYDaS1wRiWNoz4
- DA4/sLdRFPEOP6k0iT507KLSOIl/3qjZvYCmzkQDMTQeStXrnkVZT6B7qTUgZybE56fi
- mFZWQPh0NFh7+8N2hMkx/lZGPtEUf+DZfRyzDPUQ2JcHpCtiT6ehWAuRaAIjSI2kfCry
- nlrdlKB2RhwClzm5QSQ3WXvfk6Fqoh+DFHc+CGhi2oKLim8WN+S2zTOfMOkRT+X6rz3i
- uQ3aK5HDNM0UeNrZq48qLvXHA5wk+Qp3FAT7vm+fk+IwCvPC2AkhubrIJa+NUbUqhFom
- dm8g==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ndsG2-0007GU-AM
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 07:30:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ndsFz-0002GD-DB
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 07:30:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649676654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q5at6wxarIpSj6ax92ja7ZpPDXF6vPUahWuzrajBFnM=;
+ b=d/hTsR4S+4w2PXxaSsnp7AG+U+dqJo1uNqSna4YGXKZcQrwTHEFhO+pNMmcJyHCkTTO2Dg
+ L3VAVIj0vKyow3T3etPGolV4GUG0lyAAUWSffzzo9y4ZCPVtmEujrwLO4oyct76VFgt67F
+ 7it24mK/VJj8mEcR/p4g4yLA2KLp42M=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-206-y-0BSJyjN9yiUodHj4PVxA-1; Mon, 11 Apr 2022 07:30:52 -0400
+X-MC-Unique: y-0BSJyjN9yiUodHj4PVxA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v62-20020a1cac41000000b0038cfe6edf3fso9894603wme.5
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 04:30:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OfCWCaizk9dfJOILFckcsPWNvFZDEkl+dcr6dlMzCoI=;
- b=c3fKFiSDfBY6UiZ5VLyx5m8CLhBE/LWSS84qiHMutdGvD2MMTy6LrFBVic2rXYfK8w
- saukym6gToSiFOpIYkiL4AjBjiZP3FHmKI9J+doxgI0qw9XyaI1jgMkrHDXaTM+zqhzB
- RYeIcLuaA0dpz7iNiqjVtVzJ+3snpodTRyVU0NBWseYLG00ByLNs7NRTzsvNwqFg2edo
- btXEVKo8NJhAe9gboYAK2ttJQPxFbDNR2VONaBENf/cNYy3s23tSggbvYnn4pfL5Utj2
- jZ6kV51EYXAypT3kYjmAiF4NIFkk/zVfSCxjwLjsNEfnukgmn+Pfcg5IyNm/qkuXz4Kx
- sgTA==
-X-Gm-Message-State: AOAM5337xp6O3j+ZVr5+BenscJgnThGXw8gzymkoaeKcTHfJUi5P10Yd
- pGH+qpcPueFfLoWRNgZwN43crdghcqZw7OFDDmwz8w==
-X-Google-Smtp-Source: ABdhPJyq5Ug8yCUdKzalfXvfZYjytq5fUF3q9cDfubRE24rivGRQtvMt5CChgGyeDiev08BxfsT/u78yVXN6dvDX68w=
-X-Received: by 2002:a81:db05:0:b0:2ea:2b92:c317 with SMTP id
- u5-20020a81db05000000b002ea2b92c317mr25704244ywm.329.1649674642348; Mon, 11
- Apr 2022 03:57:22 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Q5at6wxarIpSj6ax92ja7ZpPDXF6vPUahWuzrajBFnM=;
+ b=2fLnhdwM8b1Pyj918MY+sWAg8q6M6LsiIiaPETvi+yUQXkWhkivkgB9DN5elhE5kd8
+ bhCiwRTiR25NDXFLggK/JM2azovM/eV6XpkoEp6RZvn5pszt+Hlo7biIqlSK81/afXHV
+ mPxdnDaSM2WKYQpbva+RvzDV+Xo9DTtxZ8Wd9PZ21p4dMzaclHCldXr87WaJpMDsGL+D
+ fmv15PtvYbekR4BcO/2zR6zZVdBi46BDhYDSDoWaPWzCnDEtyxf2vXZlxALgoSicers5
+ nnSQ7zmpl/KjildbhlQJnjXrCeZc6sq3auwgigHthK6sLhB0ICqgu4NHL8IfRSM1auuh
+ /Lig==
+X-Gm-Message-State: AOAM532tc3ZnIZ/+0YzMLElrrZBM85ATxlgdoQFteBWDQlYRF8En0SHW
+ Y/JOd5Br/BGodQUJaWH/eLavHqjQbIaudlSBovICnrRp9mIIjlhZfE2W5b7PqpuuiIdbJhXLekq
+ yEzwVBtFjrXz4+s4=
+X-Received: by 2002:a05:6000:15cb:b0:207:9f9e:547e with SMTP id
+ y11-20020a05600015cb00b002079f9e547emr8087943wry.549.1649676651762; 
+ Mon, 11 Apr 2022 04:30:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxoNCwE5nZmE3IM5z+sK1jPyM0qh61R6f7LpRGawqPacpxDBPVIHyM7BlKn0Uojj0IrvmVrWg==
+X-Received: by 2002:a05:6000:15cb:b0:207:9f9e:547e with SMTP id
+ y11-20020a05600015cb00b002079f9e547emr8087926wry.549.1649676651571; 
+ Mon, 11 Apr 2022 04:30:51 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ i31-20020adf90a2000000b00205ad559c87sm25926895wri.21.2022.04.11.04.30.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Apr 2022 04:30:51 -0700 (PDT)
+Date: Mon, 11 Apr 2022 12:30:49 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: jianchunfu <jianchunfu@cmss.chinamobile.com>
+Subject: Re: [PATCH] migration/dirtyrate: Replace malloc with g_new
+Message-ID: <YlQRaSNLx72WS1TN@work-vm>
+References: <20220411094703.7000-1-jianchunfu@cmss.chinamobile.com>
 MIME-Version: 1.0
-References: <20220406223440.2901032-1-wuhaotsh@google.com>
- <20220406223440.2901032-3-wuhaotsh@google.com>
-In-Reply-To: <20220406223440.2901032-3-wuhaotsh@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Apr 2022 11:57:11 +0100
-Message-ID: <CAFEAcA-tqq=KiNw4XTZ1jD=SbPTrGdjMU1oTfSBbY+Cgh3Rkxg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/arm: Use bit fields for NPCM7XX PWRON STRAPs
-To: Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220411094703.7000-1-jianchunfu@cmss.chinamobile.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,66 +99,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Uri.Trichter@nuvoton.com, titusr@google.com, venture@google.com,
- hskinnemoen@google.com, qemu-devel@nongnu.org, kfting@nuvoton.com,
- qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com, Vishal.Soni@microsoft.com
+Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Apr 2022 at 23:34, Hao Wu <wuhaotsh@google.com> wrote:
->
-> This patch uses the defined fields to describe PWRON STRAPs for
-> better readability.
->
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Patrick Venture <venture@google.com>
+* jianchunfu (jianchunfu@cmss.chinamobile.com) wrote:
+> Using macro g_new() to handling potential memory allocation failures
+> in dirtyrate.
+> 
+> Signed-off-by: jianchunfu <jianchunfu@cmss.chinamobile.com>
 > ---
->  hw/arm/npcm7xx_boards.c | 24 +++++++++++++++++++-----
->  1 file changed, 19 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-> index 0678a56156..62d4092657 100644
-> --- a/hw/arm/npcm7xx_boards.c
-> +++ b/hw/arm/npcm7xx_boards.c
-> @@ -30,11 +30,25 @@
->  #include "sysemu/sysemu.h"
->  #include "sysemu/block-backend.h"
->
-> -#define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
-> -#define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
-> -#define QUANTA_GBS_POWER_ON_STRAPS 0x000017ff
-> -#define KUDO_BMC_POWER_ON_STRAPS 0x00001fff
-> -#define MORI_BMC_POWER_ON_STRAPS 0x00001fff
-> +#define NPCM7XX_POWER_ON_STRAPS_DEFAULT (           \
-> +        NPCM7XX_PWRON_STRAP_SPI0F18 |               \
-> +        NPCM7XX_PWRON_STRAP_SFAB |                  \
-> +        NPCM7XX_PWRON_STRAP_BSPA |                  \
-> +        NPCM7XX_PWRON_STRAP_FUP(FUP_NORM_UART2) |   \
-> +        NPCM7XX_PWRON_STRAP_SECEN |                 \
-> +        NPCM7XX_PWRON_STRAP_HIZ |                   \
-> +        NPCM7XX_PWRON_STRAP_ECC |                   \
-> +        NPCM7XX_PWRON_STRAP_RESERVE1 |              \
-> +        NPCM7XX_PWRON_STRAP_J2EN |                  \
-> +        NPCM7XX_PWRON_STRAP_CKFRQ(CKFRQ_DEFAULT))   \
+>  migration/dirtyrate.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index aace12a787..0e59aacbb0 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -522,10 +522,10 @@ static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
+>          nvcpu++;
+>      }
+>  
+> -    dirty_pages = malloc(sizeof(*dirty_pages) * nvcpu);
+> +    dirty_pages = g_new(DirtyPageRecord, nvcpu);
+>  
+>      DirtyStat.dirty_ring.nvcpu = nvcpu;
+> -    DirtyStat.dirty_ring.rates = malloc(sizeof(DirtyRateVcpu) * nvcpu);
+> +    DirtyStat.dirty_ring.rates = g_new(DirtyRateVcpu, nvcpu);
+>  
+>      dirtyrate_global_dirty_log_start();
 
-You don't want the trailing '\' on this last line.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> +
-> +#define NPCM750_EVB_POWER_ON_STRAPS ( \
-> +        NPCM7XX_POWER_ON_STRAPS_DEFAULT & ~NPCM7XX_PWRON_STRAP_RESERVE1)
+>  
+> -- 
+> 2.18.4
+> 
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-This was 0x00001ff7, but the new macro definition makes it
-0x1fef (since NPCM7XX_POWER_ON_STRAPS_DEFAULT sets all bits [12:0]
-and we then clear bit 4).
-
-> +#define QUANTA_GSJ_POWER_ON_STRAPS NPCM7XX_POWER_ON_STRAPS_DEFAULT
-> +#define QUANTA_GBS_POWER_ON_STRAPS ( \
-> +        NPCM7XX_POWER_ON_STRAPS_DEFAULT & ~NPCM7XX_PWRON_STRAP_SFAB)
-> +#define KUDO_BMC_POWER_ON_STRAPS NPCM7XX_POWER_ON_STRAPS_DEFAULT
-> +#define MORI_BMC_POWER_ON_STRAPS NPCM7XX_POWER_ON_STRAPS_DEFAULT
->
->  static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
-
-thanks
--- PMM
 
