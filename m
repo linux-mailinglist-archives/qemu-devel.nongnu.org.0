@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1868E4FC792
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 00:20:53 +0200 (CEST)
-Received: from localhost ([::1]:59986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B423B4FC7A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 00:23:00 +0200 (CEST)
+Received: from localhost ([::1]:36584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ne2Oy-0005E7-78
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 18:20:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33926)
+	id 1ne2R1-000086-Ol
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 18:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1ne2Ms-0003pC-Vz
+ id 1ne2Mt-0003qA-Ec
  for qemu-devel@nongnu.org; Mon, 11 Apr 2022 18:18:43 -0400
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:45048)
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:45049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1ne2Mr-0006r1-29
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 18:18:42 -0400
-Received: by mail-lj1-x232.google.com with SMTP id u19so12268728ljd.11
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 15:18:40 -0700 (PDT)
+ id 1ne2Mr-0006r8-Tx
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 18:18:43 -0400
+Received: by mail-lj1-x233.google.com with SMTP id u19so12268755ljd.11
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 15:18:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PWxVcgWtF5yftZ3xNxI/dFnyzKGWUC6teiJKJXxkb8c=;
- b=d8eWvLkGjr1bfrXQxtoF+n8pNOqlPnTAExPvlZRGT56PyH0UkTp2g9MVRfVb2yMUC9
- eFiPovn3KDdm5LTA8vZop9knc314OC1kyfS+wlQppLkZCFAVsc0VTd3dVehy4ikRDA3z
- YS41+JOWXLdBJrQT2qnnlDSEBmDzlsokritW7fUYfp6bHbtOmroWnI4h2sZK0Ys0k9n8
- 5TpgCuZaw/wmKgc8NTvrby53JfoU/I9bj801ET2q30nCTliW3ZY7dAD4qYAB7Mgyl446
- Jj6jB30TOKXizIswBdOIjlOmpHP05AgXbnAMnKmmD0ontzq4wSJJLRKJs0S0HiAKS+Gc
- +GOw==
+ bh=e1UIucD+H7zVkiUrL9j+hlx06ir6lOyP2goZsk3QxdQ=;
+ b=PJROW4abegxRYmRvisVqJXnOkgnp2W+CDJMUz3nOOAU0xVQhJJPG2kkXoQECPtKlBy
+ vFeroyjxuwVvboehkTagAFWxsM/L8Tnid51utlty/XMpPQQbLl+UvPXCZD3p508FxCYB
+ T7ret7ngBnbjyFiblsqAq/QaoCSrq+ucIIJ8eeCythyykTTaYOr+EUvJu3AGr9ZPUhNQ
+ NDS+ODi6bTDDGb0Zs3fQrDOPlNMNX7SAHUcrXJ9rkmvQRYr7nR9D8Wt4AL5PMZKGlJUN
+ Mc6Xnud6sLpAP0AxbPVRPRtPKCknd2Gt1LKlMhj549ewUAsdLfkWqlYJ0HoDl5EonfI8
+ AgDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PWxVcgWtF5yftZ3xNxI/dFnyzKGWUC6teiJKJXxkb8c=;
- b=YtgFLhLjxuB5bO8Dxchs+ANTWEZHLc0tZlJXKYL5wwCAtZhHlvkuimcotx0fm1F+up
- cPibvu51xMKEL0G5lQdMdZGEOMJYwirp1xFeirr6674r2U/YPC1w4XUBNebk9EnjItvP
- 8YY0OWkMCtjMgehG/REPJhWHUJ+z0frRuLNkY6a2AllZixKs/g9MQckgQLLiSBHp3dPS
- HEkwI/4csfHYvfnBe48F1T7kGti8ssR8O2SPngFZzrAzo8m/lrJittN4cu2F93ds2eD7
- MXe+mlhU1lstov0bWkdtlWLPY0rkmOTBqbU+wQIF+mJm9E4fEKNLSPoitT7diHSCK2c1
- mP1w==
-X-Gm-Message-State: AOAM5338ul102mPEdAk6bkNQvu51n45xn7VVzFQ2+ao/9AhA1qZroOnG
- 0gzyQHbt0rQXp4OpE0XrkDnlKl90Pt31mA==
-X-Google-Smtp-Source: ABdhPJwd8p0/knxPtft1RelggqHXCvj6eSN7pcElPj1E9z0Sk9sLvGjlsTlmC43jg3SzowwrlZaOaA==
-X-Received: by 2002:a2e:82c5:0:b0:247:e81f:8b02 with SMTP id
- n5-20020a2e82c5000000b00247e81f8b02mr21573578ljh.90.1649715518900; 
- Mon, 11 Apr 2022 15:18:38 -0700 (PDT)
+ bh=e1UIucD+H7zVkiUrL9j+hlx06ir6lOyP2goZsk3QxdQ=;
+ b=58gciDY8YOMqCUS0Sr07sGSvodjKSPf89e1PXlRgOewsX0ChpTcvkBTGqVZh1D5CFA
+ mBeGSNbwPNYU59Wwu8E2bQrjJVJGey2HKiQzr3JnUhIAPQSVR7ebmFjwT2f5AebaG42e
+ +t7DSS5fQ6qTXQYjYgm6WCFJhs2uJ29GDLFnVSnsZTexG6zunssjG4AZCBXcbSe3nUwL
+ l4NTg5XMxJIYKf3wA9/JGBNZkdXqqbGWdUaHbuBrakKeExUs7NWsFk3SmkCKvowy5uDt
+ sPsiwETE1EJdHSHLDmkmY1hPJl2LQDb86nJzl9zX+YubzrmJkpDHPaqxs9V0ZsJ+ofvl
+ B2nA==
+X-Gm-Message-State: AOAM532qxSMt6AVPlAhhrGHy35N+/3hOgVmBlUa35kGDVbUHuzafHs7S
+ 2NN8dr/dKZE4uNa6wbqTyYCmzuAv+dQkgw==
+X-Google-Smtp-Source: ABdhPJy353NSFQDwDX0hFJ2YVgmnQdfHCuLml4n1TSfuU7ZYANh3ZeYohDdjQlLbDtCMXv4ymCR01A==
+X-Received: by 2002:a2e:9851:0:b0:24b:4b18:5e70 with SMTP id
+ e17-20020a2e9851000000b0024b4b185e70mr13412978ljj.485.1649715519793; 
+ Mon, 11 Apr 2022 15:18:39 -0700 (PDT)
 Received: from localhost.localdomain (31-208-27-151.cust.bredband2.com.
  [31.208.27.151]) by smtp.gmail.com with ESMTPSA id
  w22-20020a197b16000000b0046b89a0232esm1112829lfc.105.2022.04.11.15.18.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Apr 2022 15:18:38 -0700 (PDT)
+ Mon, 11 Apr 2022 15:18:39 -0700 (PDT)
 From: Francisco Iglesias <frasse.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] include/hw/pci/pcie_host: Correct PCIE_MMCFG_BUS_MASK
-Date: Tue, 12 Apr 2022 00:18:35 +0200
-Message-Id: <20220411221836.17699-2-frasse.iglesias@gmail.com>
+Subject: [PATCH v2 2/2] include/hw/pci/pcie_host: Correct PCIE_MMCFG_SIZE_MAX
+Date: Tue, 12 Apr 2022 00:18:36 +0200
+Message-Id: <20220411221836.17699-3-frasse.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220411221836.17699-1-frasse.iglesias@gmail.com>
 References: <20220411221836.17699-1-frasse.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x232.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x233.google.com
 X-Spam_score_int: -1020
 X-Spam_score: -102.1
 X-Spam_bar: ---------------------------------------------------
@@ -90,44 +90,32 @@ Cc: frasse.iglesias@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to [1] address bits 27 - 20 are mapped to the bus number (the
-TLPs bus number field is 8 bits). Below is the formula taken from Table
-7-1 in [1].
-
-"
-Memory Address | PCI Express Configuration Space
-A[(20+n-1):20] | Bus Number, 1 ≤ n ≤ 8
-"
+According to 7.2.2 in [1] bit 27 is the last bit that can be part of the
+bus number, this makes the ECAM max size equal to '1 << 28'. This patch
+restores back this value into the PCIE_MMCFG_SIZE_MAX define (which was
+changed in commit 58d5b22bbd5 ("ppc4xx: Add device models found in PPC440
+core SoCs")).
 
 [1] PCI Express® Base Specification Revision 5.0 Version 1.0
 
 Signed-off-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 ---
- include/hw/pci/pcie_host.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/hw/pci/pcie_host.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/hw/pci/pcie_host.h b/include/hw/pci/pcie_host.h
-index 076457b270..b3c8ce973c 100644
+index b3c8ce973c..82d92177da 100644
 --- a/include/hw/pci/pcie_host.h
 +++ b/include/hw/pci/pcie_host.h
-@@ -60,7 +60,7 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
- /*
-  * PCI express ECAM (Enhanced Configuration Address Mapping) format.
-  * AKA mmcfg address
-- * bit 20 - 28: bus number
-+ * bit 20 - 27: bus number
-  * bit 15 - 19: device number
+@@ -65,7 +65,7 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
   * bit 12 - 14: function number
   * bit  0 - 11: offset in configuration space of a given device
-@@ -68,7 +68,7 @@ void pcie_host_mmcfg_update(PCIExpressHost *e,
- #define PCIE_MMCFG_SIZE_MAX             (1ULL << 29)
+  */
+-#define PCIE_MMCFG_SIZE_MAX             (1ULL << 29)
++#define PCIE_MMCFG_SIZE_MAX             (1ULL << 28)
  #define PCIE_MMCFG_SIZE_MIN             (1ULL << 20)
  #define PCIE_MMCFG_BUS_BIT              20
--#define PCIE_MMCFG_BUS_MASK             0x1ff
-+#define PCIE_MMCFG_BUS_MASK             0xff
- #define PCIE_MMCFG_DEVFN_BIT            12
- #define PCIE_MMCFG_DEVFN_MASK           0xff
- #define PCIE_MMCFG_CONFOFFSET_MASK      0xfff
+ #define PCIE_MMCFG_BUS_MASK             0xff
 -- 
 2.20.1
 
