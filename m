@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213A84FC0B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:30:00 +0200 (CEST)
-Received: from localhost ([::1]:42354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A33AF4FC068
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Apr 2022 17:23:46 +0200 (CEST)
+Received: from localhost ([::1]:55924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ndvzK-0006qY-10
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48518)
+	id 1ndvtJ-0006Sx-Po
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 11:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ndvrs-0005CD-Jh
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:22:17 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38515)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ndvo4-0000Zz-Ag
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:18:20 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:37727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ndvrq-0004z0-4t
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:22:15 -0400
-Received: by mail-wr1-x430.google.com with SMTP id s28so7628101wrb.5
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 08:22:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ndvo2-00046l-E6
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 11:18:19 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-2ebebe631ccso84733617b3.4
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 08:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=zdbnT7Rq8oTQDkQClsnTdHRrbDo72Eqi93aCSp6bjUg=;
- b=p0YpsCDFFxRir8x/JljNHiGo+twJiCrnRchMeZugO/qJBX+pdAm0GFKfZkrifkVo07
- /nTUoPymG/HHilWz1CAd5A5eSgg8oikZP3P5DdC/cSd3gaOEEKACX/tKoZbunroCCJwu
- INnqAeJbjOo67rSGi9D8otSiULB1EVk9z7xxfvUooDgJc6cEi+Gx2uuo3MaCP9zd3fc6
- Sd7ZxsGTs7ONMdQS8H1pDnJ/o/5siSf9BiYGAfqApvXFEKW7uFpjRZdvCmBNnG1sWQOk
- aAKH+0bLFyoCgaGJb62cbeB/tNH310q7SIFZ1v+BkOxu3JSBbfPfRBDXx43fQhnDZ6us
- bZIA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zsEUsxZ4wsufP9A7XWHIFun9zYCdDQyb6jAxE8PIX2I=;
+ b=n17SL76OdYqWY/RwJkuChxIVxJ74wNUX6c3tCr6qyjbeDH+vsPwp1cu2+E5hU3EgG0
+ fE1wfI/ynAPNYwc3sn3q+YAJ8C0hHX6Su7A2tO+d+p0gY+cRdjGy5w+PlafdDVq68KKX
+ WdjLJzXIcce6Qpv4axZYoELwEOhLYteo53y2jkn0+9GqCHXaENmlvQbCQmsLo6qUTb/S
+ Lb3t6GSeNdbQblmBgRqbnVfSPXBwzTjxAgPpUjYXjNsFv0g+yibDIdTb2ind/qasoRhT
+ ZfNqMDjXLRu3BQ1ToOgVEOTEDPp04yN9Hi47EPl8qCYl+tS/dZKvHZJSAtpYMsio6TTn
+ Qatg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=zdbnT7Rq8oTQDkQClsnTdHRrbDo72Eqi93aCSp6bjUg=;
- b=Z/gGykp8ObDf7sSr90/NSDoKYinf78iUMbfZBhzkJb9YInQX98mIlLR/lf0RT8dvvk
- pZ5swsZfFHcz0i1pOO3/Bt8dr3Em05CBSNY0gz3khM7hU6uQvn8s7w3yyuj6+4ttmVO7
- W4GKrmM1dYgsSDhQljnbOf4i77npJo2zjFKhYjUmgYE9RimSlhi4KXMKMdt/8yLCb+fk
- wmZdEww/IT2M4qqtigdlamVC0uRaoE5DiLcJtiPruLcmn4KsVel6ONQNQO9nndwB/5A2
- 8NylZ1DWwQn0mGWhdCPnS/lFatPrBNcL8vHVj/LgAjp+ezMIeiaqlB0A9MW59Bs06fDt
- TRAQ==
-X-Gm-Message-State: AOAM532yOZqueHZHpRLk1ydDEPcu7ZK6fL6hT7CeiDb3VGmcuwbFsRQA
- KJv1KBOXU6Eg8YuUbwzCZAYqbw==
-X-Google-Smtp-Source: ABdhPJxgq/QsfGtjIlevpQ6mCQtkx2X4QRMy/5pf6J6GLtpKxFazCs6fcmIZQIqY4pPfd7W3gaeQ6A==
-X-Received: by 2002:a05:6000:170a:b0:205:8a7f:c0c6 with SMTP id
- n10-20020a056000170a00b002058a7fc0c6mr25875839wrc.702.1649690532187; 
- Mon, 11 Apr 2022 08:22:12 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- o29-20020a05600c511d00b0038e3532b23csm18279701wms.15.2022.04.11.08.22.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Apr 2022 08:22:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8F3E51FFB7;
- Mon, 11 Apr 2022 16:22:10 +0100 (BST)
-References: <CANW9uyuNovUDh7EpRni_f_pQBZv4g4E2QFWxaNW6amh9h-yanw@mail.gmail.com>
- <CAFEAcA9UsOqNhCu+o71YCMr6Og5as7Ht+LD3XLiujkKjSygc1g@mail.gmail.com>
- <CANW9uyt5UDNrygX_TS9FBDb5pJdJLkHAtHqDFEoyg1U0Mgz0Ug@mail.gmail.com>
-User-agent: mu4e 1.7.12; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Itaru Kitayama <itaru.kitayama@gmail.com>
-Subject: Re: Procedures adding new CPUs in sbsa-ref
-Date: Mon, 11 Apr 2022 16:16:54 +0100
-In-reply-to: <CANW9uyt5UDNrygX_TS9FBDb5pJdJLkHAtHqDFEoyg1U0Mgz0Ug@mail.gmail.com>
-Message-ID: <87a6cr1w7x.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zsEUsxZ4wsufP9A7XWHIFun9zYCdDQyb6jAxE8PIX2I=;
+ b=UFUDo/asK5bFVbD+MSnRYxkTDl4fFlWxxGWov6NinrwmyyUkwRiYlHQdiSPOg7vzeH
+ uAf4KXomYyOtCjBloXt9SpiLoWA5aNIWDw/PSJy1JQkt0a3zOzZYnarRzgKkdt1qdmcW
+ oL2hf/GojN4TyVH9PagaZ7pp7UfFzVT1BOsVc3tyh8wTQZSAy1ZXHSF+OF5IWcclxErV
+ jtNqtFA8VH8+DSpOpPLqTotqxgkLg07pnm9HjYqIAmI+1KV2vwYTDhBGr8isa6i8/L4X
+ tZL65V1oZRnPn14HESwWhi4jU19MMHKDvR1xFRMC484UbYrSD8x0a+fhCFsLDTHJARbk
+ eqqg==
+X-Gm-Message-State: AOAM532WJvqOyYo7gSiut4nRTAt0y/Xtkq/Abq3RkFWBild3grq3xar+
+ c6ibt+iHwPWXPVh4jNgql5dg64/I/O24SJ98LMgf3Z6eUgU=
+X-Google-Smtp-Source: ABdhPJySGi67ku4HGbxfnu1x9rxjhXVu6kC5xGpzeh6ByScOoujB+hq0QctnHeLJnxnXb9mL14OmPbhIIHY1j9b2IK8=
+X-Received: by 2002:a81:6642:0:b0:2eb:c364:b8e1 with SMTP id
+ a63-20020a816642000000b002ebc364b8e1mr17038989ywc.64.1649690295936; Mon, 11
+ Apr 2022 08:18:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220411145609.3932882-1-alex.bennee@linaro.org>
+In-Reply-To: <20220411145609.3932882-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 11 Apr 2022 16:18:04 +0100
+Message-ID: <CAFEAcA-j2jkdoy09aogzgFVPXYH2Mn7yHXJCZyoZ=DETMMZMVg@mail.gmail.com>
+Subject: Re: [RFC PATCH] target/i386: avoid copying junk to extended ZMMReg
+ fields
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,74 +81,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>,
- qemu-devel@nongnu.org, Radoslaw Biernacki <rad@semihalf.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Itaru Kitayama <itaru.kitayama@gmail.com> writes:
-
-> Good point; however per the SBSA specification, DEN0029F, there's the
-> PE architecture requirement at
-> each level from 1 to 7, so now I am wondering whether supporting
-> cortex-a57 and a72 are good enough to
-> set up a fully SBSA level 7 compliant "board" in QMEU.
-
-Not currently - we are working on cortex-a76/neoverse-n1 which will
-provide a v8.2 baseline for sbsa-ref. See:
-
-  Subject: [PATCH 00/16] target/arm: Implement features Debugv8p4, RAS, IESB
-  Date: Fri,  8 Apr 2022 17:07:26 -0700
-  Message-Id: <20220409000742.293691-1-richard.henderson@linaro.org>
-
-and:
-
-  Subject: [PATCH 0/7] target/arm: More trivial features, A76, N1
-  Date: Sat,  9 Apr 2022 22:57:18 -0700
-  Message-Id: <20220410055725.380246-1-richard.henderson@linaro.org>
-
-which are stepping stones to those concrete models. Please review if you
-can.=20
-
-> Also, the 'max'
-> is there, but does not boot.
-
-Generally the firmware has to be built with the knowledge of what system
-it is running on so will generally fall over if run on a different CPU
-feature set. However I believe Leif had a firmware branch which attempts
-to work with -cpu max by doing proper ID register probing before using
-features. However -cpu max is very a moving feast which is why there is
-a push for the concrete CPU types.
-
-I believe there is a proposal for a versioned sbsa-ref model which will
-step of the default CPU for higher levels.
-
+On Mon, 11 Apr 2022 at 15:56, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> Itaru.
+> When change b7711471f5 was made to alias XMMReg to ZMMReg for the
+> purposes of easing the handling of AVX512 registers we unwittingly
+> broke the SSE helpers which construct a temporary value on the stack
+> before copying them out. To avoid this lets encode REG_WIDTH based on
+> shift and convert the pointer indirection with an explicit memcpy.
 >
-> On Sat, Apr 9, 2022 at 12:04 AM Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->>
->> On Fri, 8 Apr 2022 at 15:59, Itaru Kitayama <itaru.kitayama@gmail.com> w=
-rote:
->> > I'd like to add a64fx cpu to the sbsa-ref board, if there's a quick an=
-d dirty
->> > way of completing that, advice from the  maintainers is greatly apprec=
-iated.
->>
->> I have cc'd the sbsa-ref maintainers (as listed in the MAINTAINERS file).
->>
->> However, I'm not sure why you want to add the a64fx CPU to this
->> board model? The sbsa-ref board is intended as a platform for
->> developing firmware that runs on Server Base System Architecture
->> hardware, so it deliberately doesn't have support for every CPU
->> type QEMU implements.
->>
->> thanks
->> -- PMM
+> An incomplete sampling of the affected instructions seems to indicate
+> the default behaviour for legacy SSE is "the upper bits (MAXVL-1:128)
+> of the corresponding YMM register destination are unmodified."
+>
+> Fixes: b7711471f5 ("target-i386: make xmm_regs 512-bit wide")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/420
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  target/i386/ops_sse.h | 71 ++++++++++++++++++++++++-------------------
+>  1 file changed, 40 insertions(+), 31 deletions(-)
+>
+> diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+> index 6f1fc174b3..adfb498a71 100644
+> --- a/target/i386/ops_sse.h
+> +++ b/target/i386/ops_sse.h
+> @@ -28,6 +28,7 @@
+>  #define L(n) MMX_L(n)
+>  #define Q(n) MMX_Q(n)
+>  #define SUFFIX _mmx
+> +#define REG_WIDTH 8
+>  #else
+>  #define Reg ZMMReg
+>  #define XMM_ONLY(...) __VA_ARGS__
+> @@ -36,6 +37,7 @@
+>  #define L(n) ZMM_L(n)
+>  #define Q(n) ZMM_Q(n)
+>  #define SUFFIX _xmm
+> +#define REG_WIDTH 16
+>  #endif
+>
+>  void glue(helper_psrlw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+> @@ -516,7 +518,7 @@ void glue(helper_pshufw, SUFFIX)(Reg *d, Reg *s, int =
+order)
+>      r.W(1) =3D s->W((order >> 2) & 3);
+>      r.W(2) =3D s->W((order >> 4) & 3);
+>      r.W(3) =3D s->W((order >> 6) & 3);
+> -    *d =3D r;
+> +    memcpy(d, &r, REG_WIDTH);
+>  }
 
+Looking a bit more closely, this won't work on big-endian
+hosts, because there we want to copy across the last 16
+bytes of the struct, not the first 16. So I think we need
+some more macro magic:
 
---=20
-Alex Benn=C3=A9e
+/*
+ * Copy the relevant parts of a Reg value around. For the
+ * SHIFT =3D=3D 1 case these helpers operate only on the lower
+ * 16 bytes of a 64 byte ZMMReg, so we must copy only those
+ * so the guest-visible destination register has the top
+ * bytes left untouched. For the SHIFT =3D=3D 0 case we are
+ * working with an MMXReg struct which is the correct size.
+ * Note that we can't memcpy() here because that will do
+ * the wrong thing on big-endian hosts.
+ */
+#if SHIFT =3D=3D 0
+#define COPY_REG(DEST, SRC) (DEST) =3D (SRC)
+#else
+#define COPY_REG(DEST, SRC) do { \
+    (DEST).Q(0) =3D (SRC).Q(0);    \
+    (DEST).Q(1) =3D (SRC).Q(1);    \
+  } while (0)
+#endif
+
+and then use COPY_REG(*d, r);
+
+(adjust syntax to taste, not compile tested).
+
+We could probably try to write endian-specific flavours of
+memcpy() invocation, but "do two 64-bit word copies" is what
+the compiler would hopefully turn the memcpy into anyway :-)
+
+thanks
+-- PMM
 
