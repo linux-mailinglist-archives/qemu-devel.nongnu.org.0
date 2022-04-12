@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38494FCCD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 05:03:44 +0200 (CEST)
-Received: from localhost ([::1]:37614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B526E4FCD44
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 05:44:54 +0200 (CEST)
+Received: from localhost ([::1]:54156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ne6oh-0005B1-EY
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 23:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36734)
+	id 1ne7SX-0002yG-D1
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 23:44:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1ne6n1-0004P5-R3
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 23:02:00 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34515)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ne7Qs-00028h-5C
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 23:43:10 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:44832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1ne6my-0001MG-Kk
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 23:01:59 -0400
-Received: by mail-wr1-x434.google.com with SMTP id c10so4614434wrb.1
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 20:01:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7gBXSIcbGlxuz2yagfct0kHA/bo3LZbpVETaOaZOnEY=;
- b=F2FjOT47A9tESbL8RPE7QuewcgMDHuJvXNW0lyUsLp8ovXl22gWJGooj0XIVPCGi2M
- uk+q3iLGFL2xd9aTplasnm6jjuAuCy0t98fRzQtIxGdZl97sIW4QTHPDUFUKi8n24eeE
- zHQBltP+F/btG72PRzgnNNPQNJy3HjQV/+mt9NrNoDM38MO909FtuTvvBogUYWnr3gb8
- Nxfa7RiTx/7o8vDwOErPZyQgEnCX1Y7ARMYMk6muc2pna/2AsfA4kaGQHRJQFdHi4vBa
- QUJ8a9s1hz6n7uItjJQu6kBOBOkl2t+8W9qXdpV4Gi7GEttsrqhHPGT1zni1fsJ3BU7F
- m0Hg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ne7Qq-00083n-Ho
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 23:43:09 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ h23-20020a17090a051700b001c9c1dd3acbso1458383pjh.3
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 20:43:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=V/soGH2XTP7W0Pz0skFFdxwaiQwXbgiteaaIWpTDZzQ=;
+ b=O3bwLK4Fq+x8fp3QAC9l145WoNkPxGv8bnewr8YmgbBtMaVTCkInFsdGaf2rF+Zjun
+ xwRwYXrLAYHN3xsMJG7doP7MyQbZubs/+rdfhuTYmVhKm9u8sLIY9ey3qKbyABui9JL+
+ 9kxI8q/AXQiD7kZRqIafjjSeOx9EolI0G6N0uZ6iBXVVXV9D2VCsJuVTkI0V/LfYL5ul
+ phGrHNQtHNO55tSfOw/B7fTcmMs4NKApBnvLqk3Fz81TUNrv7Sgb7eDK6KYVH0SlnWPB
+ TfTEDvr+HzgmEzm3CKADyxmx546ih+3siJ/59OTQduDsGsIIIVmw1JZWbiWLGplUiQpx
+ tG1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7gBXSIcbGlxuz2yagfct0kHA/bo3LZbpVETaOaZOnEY=;
- b=hbptAEYBqs0jCFAp1zRB14SjzGtS6ojXQc+ZOxMVAx48F/9Znmy18dKiDFy6t40fK1
- DTjg12cv9v/PUJrffoMfCwk+0h73jjcu0MpQGP+FgwO4EdtYoTYu/XZN3v4CyytDGzWX
- TpNCnWG7M/SJVw+QAt9U37rRdGSjoisflVJKvYiFSXDxduQ0WzRwRru2ZzzgFhATwTXQ
- 86QfakZM/38IzYcnfHejVCyuxLL7zn7aXN/Jk4mrjUjVNUw4NZJ4uVrth9osGZfwXAo0
- 6F2/n7BYEYFSpccgtlsjj065rH3DNLSHYzjcOZgJnMyS27badwrVtXkTmI/VuNeN8VMU
- p7RA==
-X-Gm-Message-State: AOAM532gFzLmOLB6uCQ91h0NBO/EaLmVi5Lz9SXCyvWt+BxS5YatCMza
- SEltb6MFG4zze2nU2mzuzAiBtWODhmMCl8+c6tdgqA==
-X-Google-Smtp-Source: ABdhPJzPOaRtG1bWBrWtCsjfrxx4DZEjYwt0aj/JozyeM8G2axKwZBr04Em5yOV7ImddbJd6NRt4uqXhME2OCnsUONE=
-X-Received: by 2002:adf:db86:0:b0:205:bccf:8cbf with SMTP id
- u6-20020adfdb86000000b00205bccf8cbfmr26523543wri.346.1649732512104; Mon, 11
- Apr 2022 20:01:52 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=V/soGH2XTP7W0Pz0skFFdxwaiQwXbgiteaaIWpTDZzQ=;
+ b=0lnjDXH/dMkxvL1FNxcGRrv387sA42ijf4l1v4iPUGjY+iAk87jimF3fSEOXhkuIJe
+ MJW16V40ogXv9VG69V8dzV1gsY5XBsPn0A+HI9SNvrYiIhWfioGnDleyKqetNqsH/I1F
+ 5BXOCfmo0huzD7Rzr5wFpNXUhD7KuCrsWA3p+0RUv6ACQmkSFFiGtNvCrVRG1OZqS+p7
+ FMoPfnMgYMD1neVvZLOehURJbG+Lon9LlijHKbM7no0cCeeMWwyRqkSJEzviQiL/6YFr
+ 7UnOWhOKSYst7Ady5nEK8b8vtNNobCJWvyGzmyyjIbia3W/zOw93Xp0ijLr+MR38zVlc
+ qKOg==
+X-Gm-Message-State: AOAM530NQ1XXXQ7/tVeCAgekcfRpS9UZ813M7f4Mg2QL8+Fw1AKYIqtI
+ akpNpFBHtqh+BHnro5hp3TzECA==
+X-Google-Smtp-Source: ABdhPJyT2bc6Fnr4BBDEK420THAsW2H03yMNKMoFu8Ax5Ul6nPOdTiobYLWEW+PlvNfcVmD0OxccCA==
+X-Received: by 2002:a17:902:a585:b0:14d:58ef:65 with SMTP id
+ az5-20020a170902a58500b0014d58ef0065mr35439641plb.139.1649734987062; 
+ Mon, 11 Apr 2022 20:43:07 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ s20-20020aa78d54000000b004fac74c83b3sm35465585pfe.186.2022.04.11.20.43.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Apr 2022 20:43:06 -0700 (PDT)
+Message-ID: <ee29c9a6-743e-2fce-a74e-6143337f80a7@linaro.org>
+Date: Mon, 11 Apr 2022 20:43:04 -0700
 MIME-Version: 1.0
-References: <20220401121842.2791796-1-ralf.ramsauer@oth-regensburg.de>
-In-Reply-To: <20220401121842.2791796-1-ralf.ramsauer@oth-regensburg.de>
-From: Anup Patel <anup@brainfault.org>
-Date: Tue, 12 Apr 2022 08:31:39 +0530
-Message-ID: <CAAhSdy0GnLVSaZCXsByQQruqmjQxExd=zw4hX2fV_wGmwOQkRw@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/riscv: virt: Exit if the user provided -bios in
- combination with KVM
-To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::434;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 7/9] target/ppc: Implemented remaining vector divide
+ extended
+Content-Language: en-US
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220405195558.66144-1-lucas.araujo@eldorado.org.br>
+ <20220405195558.66144-8-lucas.araujo@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220405195558.66144-8-lucas.araujo@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,65 +92,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- Alistair Francis <alistair23@gmail.com>, Jiangyifei <jiangyifei@huawei.com>
+Cc: Greg Kurz <groug@kaod.org>, danielhb413@gmail.com, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 1, 2022 at 5:48 PM Ralf Ramsauer
-<ralf.ramsauer@oth-regensburg.de> wrote:
->
-> The -bios option is silently ignored if used in combination with -enable-kvm.
-> The reason is that the machine starts in S-Mode, and the bios typically runs in
-> M-Mode.
->
-> Better exit in that case to not confuse the user.
->
-> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-
-Looks good to me.
-
-Reviewed-by: Anup Patel <anup@brainfault.org>
-
-Regards,
-Anup
-
+On 4/5/22 12:55, Lucas Mateus Castro(alqotel) wrote:
+> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
+> 
+> Implement the following PowerISA v3.1 instructions:
+> vdivesd: Vector Divide Extended Signed Doubleword
+> vdiveud: Vector Divide Extended Unsigned Doubleword
+> vdivesq: Vector Divide Extended Signed Quadword
+> vdiveuq: Vector Divide Extended Unsigned Quadword
+> 
+> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
 > ---
->  hw/riscv/virt.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index da50cbed43..09609c96e8 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1308,12 +1308,18 @@ static void virt_machine_init(MachineState *machine)
->
->      /*
->       * Only direct boot kernel is currently supported for KVM VM,
-> -     * so the "-bios" parameter is ignored and treated like "-bios none"
-> -     * when KVM is enabled.
-> +     * so the "-bios" parameter is not supported when KVM is enabled.
->       */
->      if (kvm_enabled()) {
-> -        g_free(machine->firmware);
-> -        machine->firmware = g_strdup("none");
-> +        if (machine->firmware) {
-> +            if (strcmp(machine->firmware, "none")) {
-> +                error_report("Machine mode firmware is not supported in "
-> +                             "combination with KVM.");
-> +                exit(1);
-> +            }
-> +        } else {
-> +            machine->firmware = g_strdup("none");
-> +        }
->      }
->
->      if (riscv_is_32bit(&s->soc[0])) {
-> --
-> 2.32.0
->
+>   target/ppc/helper.h                 |  4 ++
+>   target/ppc/insn32.decode            |  4 ++
+>   target/ppc/int_helper.c             | 64 +++++++++++++++++++++++++++++
+>   target/ppc/translate/vmx-impl.c.inc |  4 ++
+>   4 files changed, 76 insertions(+)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
