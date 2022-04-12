@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B174FCA1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 02:49:23 +0200 (CEST)
-Received: from localhost ([::1]:48030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66744FCADA
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 02:57:23 +0200 (CEST)
+Received: from localhost ([::1]:37700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ne4ig-0007G7-EP
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 20:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58782)
+	id 1ne4qR-0003eg-0v
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 20:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ne4Tc-0001vE-HH
+ id 1ne4Tc-0001vC-GU
  for qemu-devel@nongnu.org; Mon, 11 Apr 2022 20:33:51 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:39602)
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:40837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ne4TV-0001rf-Q3
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 20:33:44 -0400
+ id 1ne4TW-0001s1-T3
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 20:33:45 -0400
 Received: by mail-pj1-x102f.google.com with SMTP id
- mp16-20020a17090b191000b001cb5efbcab6so955281pjb.4
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 17:33:41 -0700 (PDT)
+ md20-20020a17090b23d400b001cb70ef790dso948074pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 17:33:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S41F4ejbIe/azbTfR7XiThoZ35VS3lYFkm3BNkKu8uE=;
- b=hrOaQHq9jAMul2XgiGvIkal5ZPwSj+oyr6t3NmPMUsH+odQRJYCA7VBMARxOHCHPZb
- i9rFYJ7YIcNTlbATtAFQZd1cb/6k5b7vMZJdO7QgePcUiBtroxwwvfvYANeJnuEp5iYT
- 4Xn/P9XCKqyoNytfQlQzrUvuQ7lfEfbKLLYZKhpFN9POKCNgRCu+Dy4wd2bl+eliUIuZ
- ml0UBvRsGPQaXHI/AJEoQ7w+XiQQNZx5O5ufM6NeA+AJpnVfWfkK7xYGJkrxmyQc4OWG
- un7J04D3EMeh6+2+Qv0CsseeUwIpMOqEEniz4P57BIGTDb7hxyF5o8hMo1cG1p76Wg0u
- jonQ==
+ bh=JoBBg/kSFjOXyAKcvYGCO5ADafkL/tC3ktVRL7z4yew=;
+ b=WXsxxoBZj4APndTyi5P7xAxjtSreYBr+yzse7Wh2aMGYn00MFyGrcGokp/WIMQrObv
+ DBov/cIUfpPNQmzoPU/odYQh4MKIYjbxvLjf6A0ydbt4RW0N7aaluSNlBSMbKYt07cqR
+ 4FfA+VYUpYWVwo6EKHRk6IsixFeDikL3xhsOtqAdPRzj/DlZ3jFa+3fnaj/HlERCofcx
+ hVt6giRgjf5ycYpx6sICskzYSgovHDiOpcB7Y7bK/gNwpklWSTNpJrGl65QWOGXiVlQp
+ R0gpPBCGfoDg3pJsUA9xifSbwX5W8Sw1H6J7qInb7zTx2y55OmVc1UqVv/1ZGr0/yDAA
+ XnNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S41F4ejbIe/azbTfR7XiThoZ35VS3lYFkm3BNkKu8uE=;
- b=og8V2DZpdhyuz8eHERsDPYV2jEV6c5OF3giSHEIbVi13ozuSAzMxjxue2g3a/hdl+s
- /jkZcbkK0XY40yyruxPflPWfonIPYTdLAVDAVa3OTFdxDfOxy00bGU6qI+35jsFMzev5
- 9YbRVJvkHGXNRDvU2/rx0YhmsmGiKj4SdIjy4ZwoWARCpUg+l0cVWIKn59FFfMkJEr0k
- RL8VIZ2BXxAXByhDFd16F+7hHtcxHGaZi1k/63PjaMHCHw75lQa7/Zlg+temHnFDKg8H
- yMQXB5fr0JtkfnObCNERm1xlDdOQfFN1u13SZKtis63ntv560sIyBn9h4f1syRLQcC7g
- eWUg==
-X-Gm-Message-State: AOAM530wY2m2tNcI2d1K/wm8iguuEDCOO0tc5FbyZIiuwrxPwPAgXy6E
- kYD8xE1VX4xL9MAPAFXkeeRw6wUnTLskkA==
-X-Google-Smtp-Source: ABdhPJxPP28mWM4uGJGNZrfBWZPE2XIenEksHWn3LatrjQQHB9dgw3VTukBL9jy0zvZb8E3RQzehng==
-X-Received: by 2002:a17:903:1cc:b0:158:5db4:9073 with SMTP id
- e12-20020a17090301cc00b001585db49073mr8330395plh.154.1649723620555; 
- Mon, 11 Apr 2022 17:33:40 -0700 (PDT)
+ bh=JoBBg/kSFjOXyAKcvYGCO5ADafkL/tC3ktVRL7z4yew=;
+ b=cX/jGWTnx1OXYFJBhS+igBb/vBOp8ACgChbZbZrA6aJdF7Rkt9xZXE7IzvOsiiO5ii
+ 8N8ql+brWYjUwO/vfRQ4P4NVnc4xoouw9A32HPYIIx4vIhuupl6rbyY9s3fKUlMprSAC
+ 6RjSGJ+6sVDFuRhmb8eWfzR7DBzgP5sYiI+gIZ9TPIea2xBvhIMO12TT4G6u/2/4SeIj
+ PSWfRm0psBh7zOd+Ry4XMi6h2kY6vrgR+WnIZa4/sT3HF7u0q0AHxtoi8PIps2qHqLDa
+ cUjYfv0ScXs1Z8FDdw12QQcUG+Jh5++CQgN9ZsCKI9IN4GSKHWNevrWbNlizA3e9FyH1
+ kXrA==
+X-Gm-Message-State: AOAM5336VYIqejXvjHDQpxZ9yreC3PN6tqhVHmTw8aq31mcjBzPYJ6yi
+ ULI9IKcXTrJENH5sjIstEHElpHpDCKylIQ==
+X-Google-Smtp-Source: ABdhPJyHtoj4yFrJZfgBRTtd1BwiFhbPfOM7GvqzzrLPz74/EjVvVzl+POjbfWtNvvvZ1cEDs6W4AA==
+X-Received: by 2002:a17:903:186:b0:154:3606:7a73 with SMTP id
+ z6-20020a170903018600b0015436067a73mr35276656plg.89.1649723621412; 
+ Mon, 11 Apr 2022 17:33:41 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- g15-20020a056a0023cf00b004e17e11cb17sm38346669pfc.111.2022.04.11.17.33.39
+ g15-20020a056a0023cf00b004e17e11cb17sm38346669pfc.111.2022.04.11.17.33.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 11 Apr 2022 17:33:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/24] target/arm: Implement virtual SError exceptions
-Date: Mon, 11 Apr 2022 17:33:16 -0700
-Message-Id: <20220412003326.588530-15-richard.henderson@linaro.org>
+Subject: [PATCH v2 15/24] target/arm: Implement ESB instruction
+Date: Mon, 11 Apr 2022 17:33:17 -0700
+Message-Id: <20220412003326.588530-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220412003326.588530-1-richard.henderson@linaro.org>
 References: <20220412003326.588530-1-richard.henderson@linaro.org>
@@ -85,226 +85,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Virtual SError exceptions are raised by setting HCR_EL2.VSE,
-and are routed to EL1 just like other virtual exceptions.
+Check for and defer any pending virtual SError.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Honor EAE for reporting VSERR to aa32.
+v2: Retain m-profile check; improve comments.
 ---
- target/arm/cpu.h       |  2 ++
- target/arm/internals.h |  8 ++++++++
- target/arm/syndrome.h  |  5 +++++
- target/arm/cpu.c       | 38 +++++++++++++++++++++++++++++++++++++-
- target/arm/helper.c    | 40 +++++++++++++++++++++++++++++++++++++++-
- 5 files changed, 91 insertions(+), 2 deletions(-)
+ target/arm/helper.h        |  1 +
+ target/arm/a32.decode      | 16 ++++++++------
+ target/arm/t32.decode      | 18 ++++++++--------
+ target/arm/op_helper.c     | 43 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-a64.c | 17 +++++++++++++++
+ target/arm/translate.c     | 23 ++++++++++++++++++++
+ 6 files changed, 103 insertions(+), 15 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 1f24eeee8b..7ca2463e17 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -55,6 +55,7 @@
- #define EXCP_LSERR          21   /* v8M LSERR SecureFault */
- #define EXCP_UNALIGNED      22   /* v7M UNALIGNED UsageFault */
- #define EXCP_DIVBYZERO      23   /* v7M DIVBYZERO UsageFault */
-+#define EXCP_VSERR          24
- /* NB: add new EXCP_ defines to the array in arm_log_exception() too */
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index b463d9343b..b1334e0c42 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -54,6 +54,7 @@ DEF_HELPER_1(wfe, void, env)
+ DEF_HELPER_1(yield, void, env)
+ DEF_HELPER_1(pre_hvc, void, env)
+ DEF_HELPER_2(pre_smc, void, env, i32)
++DEF_HELPER_1(vesb, void, env)
  
- #define ARMV7M_EXCP_RESET   1
-@@ -88,6 +89,7 @@ enum {
- #define CPU_INTERRUPT_FIQ   CPU_INTERRUPT_TGT_EXT_1
- #define CPU_INTERRUPT_VIRQ  CPU_INTERRUPT_TGT_EXT_2
- #define CPU_INTERRUPT_VFIQ  CPU_INTERRUPT_TGT_EXT_3
-+#define CPU_INTERRUPT_VSERR CPU_INTERRUPT_TGT_INT_0
+ DEF_HELPER_3(cpsr_write, void, env, i32, i32)
+ DEF_HELPER_2(cpsr_write_eret, void, env, i32)
+diff --git a/target/arm/a32.decode b/target/arm/a32.decode
+index fcd8cd4f7d..f2ca480949 100644
+--- a/target/arm/a32.decode
++++ b/target/arm/a32.decode
+@@ -187,13 +187,17 @@ SMULTT           .... 0001 0110 .... 0000 .... 1110 ....      @rd0mn
  
- /* The usual mapping for an AArch64 system register to its AArch32
-  * counterpart is for the 32 bit world to have access to the lower
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index ca9782b9f0..5fdccb38d4 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -935,6 +935,14 @@ void arm_cpu_update_virq(ARMCPU *cpu);
-  */
- void arm_cpu_update_vfiq(ARMCPU *cpu);
+ {
+   {
+-    YIELD        ---- 0011 0010 0000 1111 ---- 0000 0001
+-    WFE          ---- 0011 0010 0000 1111 ---- 0000 0010
+-    WFI          ---- 0011 0010 0000 1111 ---- 0000 0011
++    [
++      YIELD      ---- 0011 0010 0000 1111 ---- 0000 0001
++      WFE        ---- 0011 0010 0000 1111 ---- 0000 0010
++      WFI        ---- 0011 0010 0000 1111 ---- 0000 0011
  
-+/**
-+ * arm_cpu_update_vserr: Update CPU_INTERRUPT_VSERR bit
-+ *
-+ * Update the CPU_INTERRUPT_VSERR bit in cs->interrupt_request,
-+ * following a change to the HCR_EL2.VSE bit.
+-    # TODO: Implement SEV, SEVL; may help SMP performance.
+-    # SEV        ---- 0011 0010 0000 1111 ---- 0000 0100
+-    # SEVL       ---- 0011 0010 0000 1111 ---- 0000 0101
++      # TODO: Implement SEV, SEVL; may help SMP performance.
++      # SEV      ---- 0011 0010 0000 1111 ---- 0000 0100
++      # SEVL     ---- 0011 0010 0000 1111 ---- 0000 0101
++
++      ESB        ---- 0011 0010 0000 1111 ---- 0001 0000
++    ]
+ 
+     # The canonical nop ends in 00000000, but the whole of the
+     # rest of the space executes as nop if otherwise unsupported.
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index 78fadef9d6..f21ad0167a 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -364,17 +364,17 @@ CLZ              1111 1010 1011 ---- 1111 .... 1000 ....      @rdm
+   [
+     # Hints, and CPS
+     {
+-      YIELD      1111 0011 1010 1111 1000 0000 0000 0001
+-      WFE        1111 0011 1010 1111 1000 0000 0000 0010
+-      WFI        1111 0011 1010 1111 1000 0000 0000 0011
++      [
++        YIELD    1111 0011 1010 1111 1000 0000 0000 0001
++        WFE      1111 0011 1010 1111 1000 0000 0000 0010
++        WFI      1111 0011 1010 1111 1000 0000 0000 0011
+ 
+-      # TODO: Implement SEV, SEVL; may help SMP performance.
+-      # SEV      1111 0011 1010 1111 1000 0000 0000 0100
+-      # SEVL     1111 0011 1010 1111 1000 0000 0000 0101
++        # TODO: Implement SEV, SEVL; may help SMP performance.
++        # SEV    1111 0011 1010 1111 1000 0000 0000 0100
++        # SEVL   1111 0011 1010 1111 1000 0000 0000 0101
+ 
+-      # For M-profile minimal-RAS ESB can be a NOP, which is the
+-      # default behaviour since it is in the hint space.
+-      # ESB      1111 0011 1010 1111 1000 0000 0001 0000
++        ESB      1111 0011 1010 1111 1000 0000 0001 0000
++      ]
+ 
+       # The canonical nop ends in 0000 0000, but the whole rest
+       # of the space is "reserved hint, behaves as nop".
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index 70b42b55fd..13076ee885 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -972,3 +972,46 @@ void HELPER(probe_access)(CPUARMState *env, target_ulong ptr,
+                      access_type, mmu_idx, ra);
+     }
+ }
++
++/*
++ * This function corresponds to AArch64.vESBOperation().
++ * Note that the AArch32 version is not functionally different.
 + */
-+void arm_cpu_update_vserr(ARMCPU *cpu);
-+
- /**
-  * arm_mmu_idx_el:
-  * @env: The cpu environment
-diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
-index 8cde8e7243..0cb26dde7d 100644
---- a/target/arm/syndrome.h
-+++ b/target/arm/syndrome.h
-@@ -287,4 +287,9 @@ static inline uint32_t syn_pcalignment(void)
-     return (EC_PCALIGNMENT << ARM_EL_EC_SHIFT) | ARM_EL_IL;
- }
- 
-+static inline uint32_t syn_serror(uint32_t extra)
-+{
-+    return (EC_SERROR << ARM_EL_EC_SHIFT) | ARM_EL_IL | extra;
-+}
-+
- #endif /* TARGET_ARM_SYNDROME_H */
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index d815d3a397..1a1b1612a8 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -84,7 +84,7 @@ static bool arm_cpu_has_work(CPUState *cs)
-     return (cpu->power_state != PSCI_OFF)
-         && cs->interrupt_request &
-         (CPU_INTERRUPT_FIQ | CPU_INTERRUPT_HARD
--         | CPU_INTERRUPT_VFIQ | CPU_INTERRUPT_VIRQ
-+         | CPU_INTERRUPT_VFIQ | CPU_INTERRUPT_VIRQ | CPU_INTERRUPT_VSERR
-          | CPU_INTERRUPT_EXITTB);
- }
- 
-@@ -508,6 +508,12 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
-             return false;
-         }
-         return !(env->daif & PSTATE_I);
-+    case EXCP_VSERR:
-+        if (!(hcr_el2 & HCR_AMO) || (hcr_el2 & HCR_TGE)) {
-+            /* VIRQs are only taken when hypervized.  */
-+            return false;
-+        }
-+        return !(env->daif & PSTATE_A);
-     default:
-         g_assert_not_reached();
-     }
-@@ -629,6 +635,17 @@ static bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-             goto found;
-         }
-     }
-+    if (interrupt_request & CPU_INTERRUPT_VSERR) {
-+        excp_idx = EXCP_VSERR;
-+        target_el = 1;
-+        if (arm_excp_unmasked(cs, excp_idx, target_el,
-+                              cur_el, secure, hcr_el2)) {
-+            /* Taking a virtual abort clears HCR_EL2.VSE */
-+            env->cp15.hcr_el2 &= ~HCR_VSE;
-+            cpu_reset_interrupt(cs, CPU_INTERRUPT_VSERR);
-+            goto found;
-+        }
-+    }
-     return false;
- 
-  found:
-@@ -681,6 +698,25 @@ void arm_cpu_update_vfiq(ARMCPU *cpu)
-     }
- }
- 
-+void arm_cpu_update_vserr(ARMCPU *cpu)
++void HELPER(vesb)(CPUARMState *env)
 +{
 +    /*
-+     * Update the interrupt level for VSERR, which is the HCR_EL2.VSE bit.
++     * The EL2Enabled() check is done inside arm_hcr_el2_eff,
++     * and will return HCR_EL2.VSE == 0, so nothing happens.
 +     */
-+    CPUARMState *env = &cpu->env;
-+    CPUState *cs = CPU(cpu);
++    uint64_t hcr = arm_hcr_el2_eff(env);
++    bool enabled = !(hcr & HCR_TGE) && (hcr & HCR_AMO);
++    bool pending = enabled && (hcr & HCR_VSE);
++    bool masked  = (env->daif & PSTATE_A);
 +
-+    bool new_state = env->cp15.hcr_el2 & HCR_VSE;
++    /* If VSE pending and masked, defer the exception.  */
++    if (pending && masked) {
++        uint32_t syndrome;
 +
-+    if (new_state != ((cs->interrupt_request & CPU_INTERRUPT_VSERR) != 0)) {
-+        if (new_state) {
-+            cpu_interrupt(cs, CPU_INTERRUPT_VSERR);
++        if (arm_el_is_aa64(env, 1)) {
++            /* Copy across IDS and ISS from VSESR. */
++            syndrome = env->cp15.vsesr_el2 & 0x1ffffff;
 +        } else {
-+            cpu_reset_interrupt(cs, CPU_INTERRUPT_VSERR);
-+        }
-+    }
-+}
-+
- #ifndef CONFIG_USER_ONLY
- static void arm_cpu_set_irq(void *opaque, int irq, int level)
- {
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index aa05a15e5c..c29409f060 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1873,7 +1873,12 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-         }
-     }
- 
--    /* External aborts are not possible in QEMU so A bit is always clear */
-+    if (hcr_el2 & HCR_AMO) {
-+        if (cs->interrupt_request & CPU_INTERRUPT_VSERR) {
-+            ret |= CPSR_A;
-+        }
-+    }
-+
-     return ret;
- }
- 
-@@ -5338,6 +5343,7 @@ static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
-     g_assert(qemu_mutex_iothread_locked());
-     arm_cpu_update_virq(cpu);
-     arm_cpu_update_vfiq(cpu);
-+    arm_cpu_update_vserr(cpu);
- }
- 
- static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-@@ -9527,6 +9533,7 @@ void arm_log_exception(CPUState *cs)
-             [EXCP_LSERR] = "v8M LSERR UsageFault",
-             [EXCP_UNALIGNED] = "v7M UNALIGNED UsageFault",
-             [EXCP_DIVBYZERO] = "v7M DIVBYZERO UsageFault",
-+            [EXCP_VSERR] = "Virtual SERR",
-         };
- 
-         if (idx >= 0 && idx < ARRAY_SIZE(excnames)) {
-@@ -10039,6 +10046,31 @@ static void arm_cpu_do_interrupt_aarch32(CPUState *cs)
-         mask = CPSR_A | CPSR_I | CPSR_F;
-         offset = 4;
-         break;
-+    case EXCP_VSERR:
-+        {
-+            /*
-+             * Note that this is reported as a data abort, but the DFAR
-+             * has an UNKNOWN value.  Construct the SError syndrome from
-+             * AET and ExT fields.
-+             */
-+            ARMMMUFaultInfo fi = { .type = ARMFault_AsyncExternal, };
++            ARMMMUFaultInfo fi = { .type = ARMFault_AsyncExternal };
 +
 +            if (extended_addresses_enabled(env)) {
-+                env->exception.fsr = arm_fi_to_lfsc(&fi);
++                syndrome = arm_fi_to_lfsc(&fi);
 +            } else {
-+                env->exception.fsr = arm_fi_to_sfsc(&fi);
++                syndrome = arm_fi_to_sfsc(&fi);
 +            }
-+            env->exception.fsr |= env->cp15.vsesr_el2 & 0xd000;
-+            A32_BANKED_CURRENT_REG_SET(env, dfsr, env->exception.fsr);
-+            qemu_log_mask(CPU_LOG_INT, "...with IFSR 0x%x\n",
-+                          env->exception.fsr);
++            /* Copy across AET and ExT from VSESR. */
++            syndrome |= env->cp15.vsesr_el2 & 0xd000;
++        }
 +
-+            new_mode = ARM_CPU_MODE_ABT;
-+            addr = 0x10;
-+            mask = CPSR_A | CPSR_I;
-+            offset = 8;
++        /* Set VDISR_EL2.A along with the syndrome. */
++        env->cp15.vdisr_el2 = syndrome | (1u << 31);
++
++        /* Clear pending virtual SError */
++        env->cp15.hcr_el2 &= ~HCR_VSE;
++        cpu_reset_interrupt(env_cpu(env), CPU_INTERRUPT_VSERR);
++    }
++}
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 9333d7be41..4fc31807ff 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1469,6 +1469,23 @@ static void handle_hint(DisasContext *s, uint32_t insn,
+             gen_helper_autib(cpu_X[17], cpu_env, cpu_X[17], cpu_X[16]);
+         }
+         break;
++    case 0b10000: /* ESB */
++        /* Without RAS, we must implement this as NOP. */
++        if (dc_isar_feature(aa64_ras, s)) {
++            /*
++             * QEMU does not have a source of physical SErrors,
++             * so we are only concerned with virtual SErrors.
++             * The pseudocode in the ARM for this case is
++             *   if PSTATE.EL IN {EL0, EL1} && EL2Enabled() then
++             *      AArch64.vESBOperation();
++             * Most of the condition can be evaluated at translation time.
++             * Test for EL2 present, and defer test for SEL2 to runtime.
++             */
++            if (s->current_el <= 1 && arm_dc_feature(s, ARM_FEATURE_EL2)) {
++                gen_helper_vesb(cpu_env);
++            }
 +        }
 +        break;
-     case EXCP_SMC:
-         new_mode = ARM_CPU_MODE_MON;
-         addr = 0x08;
-@@ -10259,6 +10291,12 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-     case EXCP_VFIQ:
-         addr += 0x100;
-         break;
-+    case EXCP_VSERR:
-+        addr += 0x180;
-+        /* Construct the SError syndrome from IDS and ISS fields. */
-+        env->exception.syndrome = syn_serror(env->cp15.vsesr_el2 & 0x1ffffff);
-+        env->cp15.esr_el[new_el] = env->exception.syndrome;
-+        break;
-     default:
-         cpu_abort(cs, "Unhandled exception 0x%x\n", cs->exception_index);
-     }
+     case 0b11000: /* PACIAZ */
+         if (s->pauth_active) {
+             gen_helper_pacia(cpu_X[30], cpu_env, cpu_X[30],
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index bf2196b9e2..fa34b0ad4d 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -6275,6 +6275,29 @@ static bool trans_WFI(DisasContext *s, arg_WFI *a)
+     return true;
+ }
+ 
++static bool trans_ESB(DisasContext *s, arg_ESB *a)
++{
++    /*
++     * For M-profile, minimal-RAS ESB can be a NOP.
++     * Without RAS, we must implement this as NOP.
++     */
++    if (!arm_dc_feature(s, ARM_FEATURE_M) && dc_isar_feature(aa32_ras, s)) {
++        /*
++         * QEMU does not have a source of physical SErrors,
++         * so we are only concerned with virtual SErrors.
++         * The pseudocode in the ARM for this case is
++         *   if PSTATE.EL IN {EL0, EL1} && EL2Enabled() then
++         *      AArch32.vESBOperation();
++         * Most of the condition can be evaluated at translation time.
++         * Test for EL2 present, and defer test for SEL2 to runtime.
++         */
++        if (s->current_el <= 1 && arm_dc_feature(s, ARM_FEATURE_EL2)) {
++            gen_helper_vesb(cpu_env);
++        }
++    }
++    return true;
++}
++
+ static bool trans_NOP(DisasContext *s, arg_NOP *a)
+ {
+     return true;
 -- 
 2.25.1
 
