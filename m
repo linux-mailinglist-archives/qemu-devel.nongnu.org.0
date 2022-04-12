@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701964FDF57
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:19:42 +0200 (CEST)
-Received: from localhost ([::1]:52700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F174FDF64
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:23:54 +0200 (CEST)
+Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neFUj-0002sj-AA
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40632)
+	id 1neFYn-0006mb-Qp
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neFP0-0004ua-OP
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:46 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37665)
+ id 1neFP2-0004wU-CQ
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:48 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neFOz-0001ND-9D
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:46 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- h126-20020a1c2184000000b0038eb17fb7d6so1643932wmh.2
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:13:44 -0700 (PDT)
+ id 1neFP0-0001Nc-TB
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:48 -0400
+Received: by mail-wr1-x436.google.com with SMTP id e8so11030995wra.7
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R4ZvnlIoUjZtjWvuejYgl9KVhXxnZ5y5G5J4vXB5mhQ=;
- b=CFRvgWU9UkjVsh5IrvLkokMJUCEh5GySXizZ19ezm0Bp2dZKss1FBCzK5nWjFvWl8K
- KfhKEjg0fzFdmdA2zm65UvxsnseKhxLnCj8m80zQ/F51jwg9NsBJxhj71dvPh/eLxbpx
- 8hWVwKRnvj7LEIF4dL5pcGHLxHokt7GVXU+cWAdn42JAlB6G3RYt7Pw9hk06PPo0mp4s
- 7vXxoQ5t8T9WRnv0ylofH540UudUz886moTqpSDvlsOrs8u4gfIWvQdJVl/0f80hVWiU
- SHGPnsTWxo/T4OtXj7AH5v5kRnYrZmY/OsOfa3kE5AnMR2qR2yP3Jxyv7Xuc3XvlSi/0
- VRKQ==
+ bh=TX8UXi4eFSnFUV2u4zCo4HCe7iBVlFy/t8He5jdXGC4=;
+ b=blBtkvCSTRWnAnpmbWZ5+L+xqJxWHO3NRHux7Ym2aFOB5QP5JalkQm5397XBXt5U1/
+ 2vjf1PB2DJVPeDP5gbSSFcnYIQjDolKIwFA6yLVBMUWp5+NNXoe/0yfUvZE4peH9+gyb
+ v4PDzveTRAG3BHlIxi7ZIFlJjhRMH6qLOd7VOaNmH4yCBdojlA4Amm1k0Vi3+BCj39RU
+ +CDwzJyPnxLJwulLSZfcLf1oxu7giIt2aDBAiMDcCF56qyyChhnEJpQJXhY/2VjmvF4g
+ w0CUjAG31gJ3LDeuykuzI/Idp1lLX3jdanl0c+dydak/PNfkY/V8ywq0pJ9i2GZSHkpp
+ n7Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=R4ZvnlIoUjZtjWvuejYgl9KVhXxnZ5y5G5J4vXB5mhQ=;
- b=HZVHw71RN4hr7O5UL8qKq/QNoo7eHEseiwexrEecaGEbwP2U8X35JTeHSIfZRctRT9
- 8/He+JY9ldWCgw2RSjHQyG+oek8csXWEMBF+1SiKad7GrBHVrCHp9PRKAGlo45kCgP6G
- OOq/dJlcdErsybBwAvhYkNrlhPiR1+fY6kwDXR88uhdolD179kZKNWv5aCaOHEZe5898
- CtkfOYg3fQajVw2p5aVkV5n8fU6ofapHjZtzNVGiJzxA/5hm3dYBSsOnuIvUK4BBBLso
- hs7RC5e1kDTJV+XV3yYX4aU8Ki/680TkZ1MdtukG4PSCay9FfqDLnfnYWWlxZBMgmZkN
- A0cw==
-X-Gm-Message-State: AOAM531Q3RMEIYWaj5scNVIXeqcElF9HU0DMJYdGfC2R8qpTLiTBW9YU
- A9waFVHyt1ZmJ3JeDXGoSQbTNFOphRC4/g==
-X-Google-Smtp-Source: ABdhPJykZxB/2X1x1TexGzGZ0YHZy4dBSEuvep3Al7GTIM7j+oWKvsid4LUmjZIFa64OP+QaPOFzng==
-X-Received: by 2002:a05:600c:1c93:b0:38e:c558:10db with SMTP id
- k19-20020a05600c1c9300b0038ec55810dbmr3764410wms.121.1649765623864; 
- Tue, 12 Apr 2022 05:13:43 -0700 (PDT)
+ bh=TX8UXi4eFSnFUV2u4zCo4HCe7iBVlFy/t8He5jdXGC4=;
+ b=LDIzN474AXhEJ0B/VLka595zoZ3LpbkFN6Qk8W6qH3f/vUsi/8BpYUNFQyOEypGhch
+ f1i0er+2HHPMLzWYKayYwKQUXn0qkLChzyGF+RO9P4iUHGU8T+XkIO96ngzWctY03IJ4
+ FOBek43pGBSzaJGNqPTnRnwM2cFtX3ayyzLho3IARpc50cFqcJWlD8verVTUoM/taGsf
+ pUz64SymTzV8NRfPFXOc/umABeN0hnE+NbleLWTvNR/KKmKP9cSKD63o5w9+OKlUjgHV
+ KMuxsssis0RWJx/7tQkdYmFbwDHznjKCqg5e8ph0g2TiyBrkNVgsVfnU4gDkmpvWEkar
+ M1DQ==
+X-Gm-Message-State: AOAM531qSTS8RejHXfFvIYzQe4m5jFrBaJKPr/f24zkm7yvTzMq2xRbx
+ FwWTFJs5cbnQAa/iW5vRKp23YZ06IVfvfw==
+X-Google-Smtp-Source: ABdhPJwAKRVL0SpmkwcjoNExmOHuTlGV//wbPQQMr9e2abNHFtEhClp1KyZuEesEitKZr+Q7mAbAog==
+X-Received: by 2002:a5d:558e:0:b0:206:f7e:4634 with SMTP id
+ i14-20020a5d558e000000b002060f7e4634mr29030890wrv.662.1649765625171; 
+ Tue, 12 Apr 2022 05:13:45 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- m18-20020a05600c4f5200b0038e8f9d7b57sm2355805wmq.42.2022.04.12.05.13.41
+ m18-20020a05600c4f5200b0038e8f9d7b57sm2355805wmq.42.2022.04.12.05.13.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 05:13:43 -0700 (PDT)
+ Tue, 12 Apr 2022 05:13:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/4] net: slirp: introduce a wrapper struct for QemuTimer
-Date: Tue, 12 Apr 2022 14:13:34 +0200
-Message-Id: <20220412121337.207203-2-pbonzini@redhat.com>
+Subject: [RFC PATCH 2/4] net: slirp: switch to slirp_new
+Date: Tue, 12 Apr 2022 14:13:35 +0200
+Message-Id: <20220412121337.207203-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412121337.207203-1-pbonzini@redhat.com>
 References: <20220412121337.207203-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,57 +90,59 @@ Cc: samuel.thibault@ens-lyon.org, thuth@redhat.com, dbuono@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This struct will be extended in the next few patches to support the
-new slirp_handle_timer() call.  For that we need to store an additional
-"int" for each SLIRP timer, in addition to the cb_opaque.
+Replace slirp_init with slirp_new, so that a more recent cfg.version
+can be specified.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- net/slirp.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ net/slirp.c | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
 
 diff --git a/net/slirp.c b/net/slirp.c
-index bc5e9e4f77..f1e25d741f 100644
+index f1e25d741f..b3a92d6e38 100644
 --- a/net/slirp.c
 +++ b/net/slirp.c
-@@ -184,23 +184,32 @@ static int64_t net_slirp_clock_get_ns(void *opaque)
-     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
- }
+@@ -389,6 +389,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+ #if defined(CONFIG_SMBD_COMMAND)
+     struct in_addr smbsrv = { .s_addr = 0 };
+ #endif
++    SlirpConfig cfg = { 0 };
+     NetClientState *nc;
+     SlirpState *s;
+     char buf[20];
+@@ -577,12 +578,26 @@ static int net_slirp_init(NetClientState *peer, const char *model,
  
-+struct SlirpTimer {
-+    QEMUTimer timer;
-+}
-+
- static void *net_slirp_timer_new(SlirpTimerCb cb,
-                                  void *cb_opaque, void *opaque)
- {
--    return timer_new_full(NULL, QEMU_CLOCK_VIRTUAL,
--                          SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
--                          cb, cb_opaque);
-+    SlirpTimer *t = g_new(SlirpTimer, 1);
-+    timer_init_full(&t->timer, NULL, QEMU_CLOCK_VIRTUAL,
-+                    SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
-+                    cb, cb_opaque);
-+    return t;
- }
+     s = DO_UPCAST(SlirpState, nc, nc);
  
- static void net_slirp_timer_free(void *timer, void *opaque)
- {
--    timer_free(timer);
-+    SlirpTimer *t = timer;
-+    timer_del(&t->timer);
-+    g_free(t);
- }
+-    s->slirp = slirp_init(restricted, ipv4, net, mask, host,
+-                          ipv6, ip6_prefix, vprefix6_len, ip6_host,
+-                          vhostname, tftp_server_name,
+-                          tftp_export, bootfile, dhcp,
+-                          dns, ip6_dns, dnssearch, vdomainname,
+-                          &slirp_cb, s);
++    cfg.version = 3;
++    cfg.restricted = restricted;
++    cfg.in_enabled = ipv4;
++    cfg.vnetwork = net;
++    cfg.vnetmask = mask;
++    cfg.vhost = host;
++    cfg.in6_enabled = ipv6;
++    cfg.vprefix_addr6 = ip6_prefix;
++    cfg.vprefix_len = vprefix6_len;
++    cfg.vhost6 = ip6_host;
++    cfg.vhostname = vhostname;
++    cfg.tftp_server_name = tftp_server_name;
++    cfg.tftp_path = tftp_export;
++    cfg.bootfile = bootfile;
++    cfg.vdhcp_start = dhcp;
++    cfg.vnameserver = dns;
++    cfg.vnameserver6 = ip6_dns;
++    cfg.vdnssearch = dnssearch;
++    cfg.vdomainname = vdomainname;
++    s->slirp = slirp_new(&cfg, &slirp_cb, s);
+     QTAILQ_INSERT_TAIL(&slirp_stacks, s, entry);
  
- static void net_slirp_timer_mod(void *timer, int64_t expire_timer,
-                                 void *opaque)
- {
--    timer_mod(timer, expire_timer);
-+    SlirpTimer *t = timer;
-+    timer_mod(&t->timer, expire_timer);
- }
- 
- static void net_slirp_register_poll_fd(int fd, void *opaque)
+     /*
 -- 
 2.35.1
 
