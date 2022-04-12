@@ -2,65 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB5E4FDF4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:14:01 +0200 (CEST)
-Received: from localhost ([::1]:43812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5D44FDF51
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:17:34 +0200 (CEST)
+Received: from localhost ([::1]:48628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neFPE-0004SS-6f
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:14:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39936)
+	id 1neFSf-0007wu-Sb
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:17:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1neFLq-0003BL-TX
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:10:30 -0400
-Received: from mga03.intel.com ([134.134.136.65]:58252)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1neFOV-0004lk-Oq
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1neFLo-0000o4-H2
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:10:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649765428; x=1681301428;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=H3y2PO8iP1I2VKt5VHY/5jS3296P+ova6WPUU37ZDYU=;
- b=P7iu60O0YirDyKCYgAKs9Ku0n4tysjsxkY8xjmn64xnfZneVQi70Kf0L
- RB/PGoENx4/P3NptMp21znfI1/GcATyu+xEzkpFyuL/Cw7PK4d66r4R9B
- kZFy77DFbIACUImUMADkMiDKbEYCvghsjGC+ykDrEiHPZvV7gHP5xF0vT
- e47RNvwG9SCOb/SucimmNxT6qBFD0U7fQ6cAG7DO8L1cNF86Gx35pvquy
- I3xb4XWgi7OUO06RyyvwVYVlCeq/BjWp5vi/O9kiA+N9EqA3cIb5D9rx4
- LG0Sf+7SVXUA549T2S/1u9zIgIgGf7CfCvmGu+xOIX5sgPb7QMxBisLoe Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="262107991"
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="262107991"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2022 05:10:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="526015878"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga002.jf.intel.com with ESMTP; 12 Apr 2022 05:10:16 -0700
-Date: Tue, 12 Apr 2022 20:10:05 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH v5 09/13] KVM: Handle page fault for private memory
-Message-ID: <20220412121005.GC7309@chaop.bj.intel.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-10-chao.p.peng@linux.intel.com>
- <YkJbxiL/Az7olWlq@google.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1neFOR-0001LM-6f
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649765589;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wirn5zzjyIvvN3s7CdHa+uGh/Gz76j4F968yOTCY2Fk=;
+ b=VNgA5yp5C9JgLGn8CpS2UuNQ4IDoBEEalLzx0MfMs7/FKCES/NwnNHremVMZ7moDdSKzMJ
+ YavGi9YVjkzitHVuqeaCn1e5Fv/WiB6pm8iNf/maVjXuBCyzw6MBlAjUWFX09C+pFRwTqQ
+ D3TqSab2thhJ+UfC67lJlMAJdDX6T4Y=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-627-4Ln06FPjNH2K_hGyHfentQ-1; Tue, 12 Apr 2022 08:13:08 -0400
+X-MC-Unique: 4Ln06FPjNH2K_hGyHfentQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ 105-20020adf82f2000000b002079aba50b9so2018020wrc.18
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:13:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wirn5zzjyIvvN3s7CdHa+uGh/Gz76j4F968yOTCY2Fk=;
+ b=obUhRYFCWoHaKILR/3aA6l80b8BbHVBadHFfRhoG/3Kva0vcs5/qe80rxoDB1kH2HK
+ F2KFY0imJ22ptrwAMn71FsxsHQAOlEJ6qlQVqPOjcjLOHnpQe7esH8RKFE4fTKdqIvcl
+ xFd5dsR9UciTKszxC50UUhkNd3cHJCYud2GGdufXAN++rfypfIOfyWDTvHxw89Xh2yLY
+ /zEtnYAAumaVbQNGOmHNVktHnZpBSU97zXqM8sDEvS0RqL+92uOLA44VM5VOHz0MoQCv
+ of2SiXcZadBeodS2E4u0uhv3FyH5p+2vH+P58MAS4JJ1aCXNxnWbxILPH/xnm0yiFptz
+ R9Zg==
+X-Gm-Message-State: AOAM531/Jb8suzRYGtdGXLni9vL118YC5W1LZAp8hyQAT2bXzm8vs7uH
+ GvLikpP4h1WCPfm63YU7m7ehh3xsMajtndwyjCRpK4j6NmUQsMAqOcwvP0zoOzcu0HlCk5DdQ10
+ xbO3K2GfaSIXBcK4=
+X-Received: by 2002:a05:6000:186f:b0:205:857d:dee8 with SMTP id
+ d15-20020a056000186f00b00205857ddee8mr28855292wri.532.1649765587006; 
+ Tue, 12 Apr 2022 05:13:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4BYPPLxvl8eCZjmRN7suoU4jyDVzWJQ6PiSOFg72SHM715ABIPokxHsYPGXfVuUQhXd3D5A==
+X-Received: by 2002:a05:6000:186f:b0:205:857d:dee8 with SMTP id
+ d15-20020a056000186f00b00205857ddee8mr28855276wri.532.1649765586777; 
+ Tue, 12 Apr 2022 05:13:06 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ 3-20020a5d47a3000000b0020412ba45f6sm34619400wrb.8.2022.04.12.05.13.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Apr 2022 05:13:06 -0700 (PDT)
+Message-ID: <f3adc652-6a89-a063-313a-4d87c11fc474@redhat.com>
+Date: Tue, 12 Apr 2022 14:13:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkJbxiL/Az7olWlq@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] Warn user if the vga flag is passed but no vga device is
+ created
+To: Gautam Agrawal <gautamnagrawal@gmail.com>, qemu-devel@nongnu.org
+References: <20220408104519.32931-1-gautamnagrawal@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220408104519.32931-1-gautamnagrawal@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,214 +102,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, linux-api@vger.kernel.org,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: peter.maydell@linaro.org, Gerd Hoffmann <kraxel@redhat.com>,
+ stefanha@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 01:07:18AM +0000, Sean Christopherson wrote:
-> On Thu, Mar 10, 2022, Chao Peng wrote:
-> > @@ -3890,7 +3893,59 @@ static bool kvm_arch_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
-> >  				  kvm_vcpu_gfn_to_hva(vcpu, gfn), &arch);
-> >  }
-> >  
-> > -static bool kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault, int *r)
-> > +static bool kvm_vcpu_is_private_gfn(struct kvm_vcpu *vcpu, gfn_t gfn)
-> > +{
-> > +	/*
-> > +	 * At this time private gfn has not been supported yet. Other patch
-> > +	 * that enables it should change this.
-> > +	 */
-> > +	return false;
-> > +}
-> > +
-> > +static bool kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
-> > +				    struct kvm_page_fault *fault,
-> > +				    bool *is_private_pfn, int *r)
-> 
-> @is_private_pfn should be a field in @fault, not a separate parameter, and it
-> should be a const property set by the original caller.  I would also name it
-> "is_private", because if KVM proceeds past this point, it will be a property of
-> the fault/access _and_ the pfn
-> 
-> I say it's a property of the fault because the below kvm_vcpu_is_private_gfn()
-> should instead be:
-> 
-> 	if (fault->is_private)
-> 
-> The kvm_vcpu_is_private_gfn() check is TDX centric.  For SNP, private vs. shared
-> is communicated via error code.  For software-only (I'm being optimistic ;-) ),
-> we'd probably need to track private vs. shared internally in KVM, I don't think
-> we'd want to force it to be a property of the gfn.
 
-Make sense.
+  Hi,
 
-> 
-> Then you can also move the fault->is_private waiver into is_page_fault_stale(),
-> and drop the local is_private_pfn in direct_page_fault().
-> 
-> > +{
-> > +	int order;
-> > +	unsigned int flags = 0;
-> > +	struct kvm_memory_slot *slot = fault->slot;
-> > +	long pfn = kvm_memfile_get_pfn(slot, fault->gfn, &order);
-> 
-> If get_lock_pfn() and thus kvm_memfile_get_pfn() returns a pure error code instead
-> of multiplexing the pfn, then this can be:
-> 
-> 	bool is_private_pfn;
-> 
-> 	is_private_pfn = !!kvm_memfile_get_pfn(slot, fault->gfn, &fault->pfn, &order);
-> 
-> That self-documents the "pfn < 0" == shared logic.
+thanks for your patch, looks pretty good already, but there is a small 
+issue: Try for example:
 
-Yes, agreed.
+  ./qemu-system-s390x -vga none
 
-> 
-> > +
-> > +	if (kvm_vcpu_is_private_gfn(vcpu, fault->addr >> PAGE_SHIFT)) {
-> > +		if (pfn < 0)
-> > +			flags |= KVM_MEMORY_EXIT_FLAG_PRIVATE;
-> > +		else {
-> > +			fault->pfn = pfn;
-> > +			if (slot->flags & KVM_MEM_READONLY)
-> > +				fault->map_writable = false;
-> > +			else
-> > +				fault->map_writable = true;
-> > +
-> > +			if (order == 0)
-> > +				fault->max_level = PG_LEVEL_4K;
-> 
-> This doesn't correctly handle order > 0, but less than the next page size, in which
-> case max_level needs to be PG_LEVEL_4k.  It also doesn't handle the case where
-> max_level > PG_LEVEL_2M.
-> 
-> That said, I think the proper fix is to have the get_lock_pfn() API return the max
-> mapping level, not the order.  KVM, and presumably any other secondary MMU that might
-> use these APIs, doesn't care about the order of the struct page, KVM cares about the
-> max size/level of page it can map into the guest.  And similar to the previous patch,
-> "order" is specific to struct page, which we are trying to avoid.
+... and it will print the warning "qemu-system-s390x: warning: No vga device 
+is created", though the user only asked for no VGA device. This seems to 
+happen if a machine does not have any VGA device by default, but still 
+requests "-vga none" on the command line.
 
-I remembered I suggested return max mapping level instead of order but
-Kirill reminded me that PG_LEVEL_* is x86 specific, then changed back
-to 'order'. It's just a matter of backing store or KVM to convert
-'order' to mapping level.
+Some more comments below...
 
-> 
-> > +			*is_private_pfn = true;
-> 
-> This is where KVM guarantees that is_private_pfn == fault->is_private.
-> 
-> > +			*r = RET_PF_FIXED;
-> > +			return true;
-> 
-> Ewww.  This is super confusing.  Ditto for the "*r = -1" magic number.  I totally
-> understand why you took this approach, it's just hard to follow because it kinda
-> follows the kvm_faultin_pfn() semantics, but then inverts true and false in this
-> one case.
-> 
-> I think the least awful option is to forego the helper and open code everything.
-> If we ever refactor kvm_faultin_pfn() to be less weird then we can maybe move this
-> to a helper.
-> 
-> Open coding isn't too bad if you reorganize things so that the exit-to-userspace
-> path is a dedicated, early check.  IMO, it's a lot easier to read this way, open
-> coded or not.
+On 08/04/2022 12.45, Gautam Agrawal wrote:
+> This patch is in regards to this issue:https://gitlab.com/qemu-project/qemu/-/issues/581#.
 
-Yes the existing way of handling this is really awful, including the handling for 'r'
-that will be finally return to KVM_RUN as part of the uAPI. Let me try your above
-suggestion.
+Better write this right in front of your Signed-off-by line:
 
-> 
-> I think this is correct?  "is_private_pfn" and "level" are locals, everything else
-> is in @fault.
-> 
-> 	if (kvm_slot_is_private(slot)) {
-> 		is_private_pfn = !!kvm_memfile_get_pfn(slot, fault->gfn,
-> 						       &fault->pfn, &level);
-> 
-> 		if (fault->is_private != is_private_pfn) {
-> 			if (is_private_pfn)
-> 				kvm_memfile_put_pfn(slot, fault->pfn);
-> 
-> 			vcpu->run->exit_reason = KVM_EXIT_MEMORY_ERROR;
-> 			if (fault->is_private)
-> 				vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
-> 			else
-> 				vcpu->run->memory.flags = 0;
-> 			vcpu->run->memory.padding = 0;
-> 			vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
-> 			vcpu->run->memory.size = PAGE_SIZE;
-> 			*r = 0;
-> 			return true;
-> 		}
-> 
-> 		/*
-> 		 * fault->pfn is all set if the fault is for a private pfn, just
-> 		 * need to update other metadata.
-> 		 */
-> 		if (fault->is_private) {
-> 			fault->max_level = min(fault->max_level, level);
-> 			fault->map_writable = !(slot->flags & KVM_MEM_READONLY);
-> 			return false;
-> 		}
-> 
-> 		/* Fault is shared, fallthrough to the standard path. */
-> 	}
-> 
-> 	async = false;
-> 
-> > @@ -4016,7 +4076,7 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-> >  	else
-> >  		write_lock(&vcpu->kvm->mmu_lock);
-> >  
-> > -	if (is_page_fault_stale(vcpu, fault, mmu_seq))
-> > +	if (!is_private_pfn && is_page_fault_stale(vcpu, fault, mmu_seq))
-> 
-> As above, I'd prefer this check go in is_page_fault_stale().  It means shadow MMUs
-> will suffer a pointless check, but I don't think that's a big issue.  Oooh, unless
-> we support software-only, which would play nice with nested and probably even legacy
-> shadow paging.  Fun :-)
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/581
 
-Sounds good.
+... then the ticket will be automatically be closed once your patch gets merged.
 
+> A global boolean variable "vga_interface_created"(declared in softmmu/globals.c)
+> has been used to track the creation of vga interface. If the vga flag is passed in the command
+> line "default_vga"(declared in softmmu/vl.c) variable is set to 0. To warn user, the condition
+> checks if vga_interface_created is false and default_vga is equal to 0.
 > 
-> >  		goto out_unlock;
-> >  
-> >  	r = make_mmu_pages_available(vcpu);
-> > @@ -4033,7 +4093,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-> >  		read_unlock(&vcpu->kvm->mmu_lock);
-> >  	else
-> >  		write_unlock(&vcpu->kvm->mmu_lock);
-> > -	kvm_release_pfn_clean(fault->pfn);
-> > +
-> > +	if (is_private_pfn)
+> The warning "No vga device is created" is logged if vga flag is passed
+> but no vga device is created. This patch has been tested for
+> x86_64, i386, sparc, sparc64 and arm boards.
 > 
-> And this can be
-> 
-> 	if (fault->is_private)
-> 
-> Same feedback for paging_tmpl.h.
+> Signed-off-by: Gautam Agrawal <gautamnagrawal@gmail.com>
+> ---
+>   hw/isa/isa-bus.c        | 1 +
+>   hw/pci/pci.c            | 1 +
+>   hw/sparc/sun4m.c        | 2 ++
+>   hw/sparc64/sun4u.c      | 1 +
+>   include/sysemu/sysemu.h | 1 +
+>   softmmu/globals.c       | 1 +
+>   softmmu/vl.c            | 3 +++
+>   7 files changed, 10 insertions(+)
 
-Agreed.
+vga_interface_type is also used in hw/mips/fuloong2e.c and 
+hw/xenpv/xen_machine_pv.c ... do they need a change, too?
 
-Thanks,
-Chao
+> diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+> index 0ad1c5fd65..cd5ad3687d 100644
+> --- a/hw/isa/isa-bus.c
+> +++ b/hw/isa/isa-bus.c
+> @@ -166,6 +166,7 @@ bool isa_realize_and_unref(ISADevice *dev, ISABus *bus, Error **errp)
+>   
+>   ISADevice *isa_vga_init(ISABus *bus)
+>   {
+> +    vga_interface_created = true;
+>       switch (vga_interface_type) {
+>       case VGA_CIRRUS:
+>           return isa_create_simple(bus, "isa-cirrus-vga");
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index dae9119bfe..fab9c80f8d 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -2038,6 +2038,7 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
+>   
+>   PCIDevice *pci_vga_init(PCIBus *bus)
+>   {
+> +    vga_interface_created = true;
+>       switch (vga_interface_type) {
+>       case VGA_CIRRUS:
+>           return pci_create_simple(bus, -1, "cirrus-vga");
+> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+> index 7f3a7c0027..f45e29acc8 100644
+> --- a/hw/sparc/sun4m.c
+> +++ b/hw/sparc/sun4m.c
+> @@ -921,6 +921,7 @@ static void sun4m_hw_init(MachineState *machine)
+>               /* sbus irq 5 */
+>               cg3_init(hwdef->tcx_base, slavio_irq[11], 0x00100000,
+>                        graphic_width, graphic_height, graphic_depth);
+> +            vga_interface_created = true;
+>           } else {
+>               /* If no display specified, default to TCX */
+>               if (graphic_depth != 8 && graphic_depth != 24) {
+> @@ -936,6 +937,7 @@ static void sun4m_hw_init(MachineState *machine)
+>   
+>               tcx_init(hwdef->tcx_base, slavio_irq[11], 0x00100000,
+>                        graphic_width, graphic_height, graphic_depth);
+> +            vga_interface_created = true;
+>           }
+>       }
+>   
+> diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+> index cda7df36e3..75334dba71 100644
+> --- a/hw/sparc64/sun4u.c
+> +++ b/hw/sparc64/sun4u.c
+> @@ -633,6 +633,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+>       switch (vga_interface_type) {
+>       case VGA_STD:
+>           pci_create_simple(pci_busA, PCI_DEVFN(2, 0), "VGA");
+> +        vga_interface_created = true;
+>           break;
+>       case VGA_NONE:
+>           break;
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index b9421e03ff..a558b895e4 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -32,6 +32,7 @@ typedef enum {
+>   } VGAInterfaceType;
+>   
+>   extern int vga_interface_type;
+> +extern bool vga_interface_created;
+>   
+>   extern int graphic_width;
+>   extern int graphic_height;
+> diff --git a/softmmu/globals.c b/softmmu/globals.c
+> index 3ebd718e35..1a5f8d42ad 100644
+> --- a/softmmu/globals.c
+> +++ b/softmmu/globals.c
+> @@ -40,6 +40,7 @@ int nb_nics;
+>   NICInfo nd_table[MAX_NICS];
+>   int autostart = 1;
+>   int vga_interface_type = VGA_NONE;
+> +bool vga_interface_created = false;
+
+This will trigger a warning from the scripts/checkpatch.pl script:
+
+ERROR: do not initialise globals to 0 or NULL
+#238: FILE: softmmu/globals.c:43:
++bool vga_interface_created = false;
+
+>   Chardev *parallel_hds[MAX_PARALLEL_PORTS];
+>   int win2k_install_hack;
+>   int singlestep;
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 6f646531a0..cb79fa1f42 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2734,6 +2734,9 @@ static void qemu_machine_creation_done(void)
+>       if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+>           exit(1);
+>       }
+> +    if (!vga_interface_created && !default_vga) {
+> +        warn_report("No vga device is created");
+
+I'm not a native speaker, and maybe it's just a matter of taste, but I'd 
+rather say it in past tense: "No VGA device has been created"
+
+> +    }
+>   }
+
+  Regards,
+   Thomas
+
 
