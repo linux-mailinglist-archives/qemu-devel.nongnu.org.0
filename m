@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961394FD2E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 10:22:24 +0200 (CEST)
-Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3FB4FD311
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 10:42:23 +0200 (CEST)
+Received: from localhost ([::1]:54444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neBn4-00089L-AS
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 04:22:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
+	id 1neC6Q-0000PJ-Al
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 04:42:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1neBgF-00076y-1v
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 04:15:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59020)
+ id 1neC4m-0007tY-DS
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 04:40:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1neBgC-0008Ad-9O
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 04:15:17 -0400
+ id 1neC4j-0003li-P6
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 04:40:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649751315;
+ s=mimecast20190719; t=1649752836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r4PXDb3dQkdfdmCtEuiANacIjmRWsWRa70/iY9WP/mQ=;
- b=ZIfAXTX3Ja0JPRsXCwJKt2qoG3EDv29WNVeXkpdcYFQ9nxC76ewRHehZkQZ037NULbk3wG
- DsjR6h1rpjK4nX+dN84RMAPd1pdUgcnosJi6D3dhH+y6jBtIGsz7kWS4qzU4Gg9LQFy1+l
- DTmC6YqiyCNpQO2+wQ2GMP3of8ai2bQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5bvGsAzqPsm976L3YReRPjVMNprkbn6m9rIbUsN8GdE=;
+ b=c0bI5+KSxr5+vT8NAYlnwGRi5a4PxYcaiMwGjyb9dRcFPX02dxQ28q01w09SrdZ86tq5MN
+ GawbEv5fHpQ5CE/cEb6UOM5Pjg3lUnyGu9c43iOw+ApKRPmc3tuDS6+U+F5n/Nn4VKwyoG
+ 1uevPiRqt7mqgSJB+aVaSYGzTCr5NQI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-LDKUriWUOx2aiQ7As9Ubrg-1; Tue, 12 Apr 2022 04:15:09 -0400
-X-MC-Unique: LDKUriWUOx2aiQ7As9Ubrg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-625-QbXa1LrkOjeJalp_0svMLQ-1; Tue, 12 Apr 2022 04:40:33 -0400
+X-MC-Unique: QbXa1LrkOjeJalp_0svMLQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CFD63C13920;
- Tue, 12 Apr 2022 08:15:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6012801585;
+ Tue, 12 Apr 2022 08:40:32 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A1FEB40EC00C;
- Tue, 12 Apr 2022 08:15:08 +0000 (UTC)
-Date: Tue, 12 Apr 2022 09:15:07 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BD6DC44B1C;
+ Tue, 12 Apr 2022 08:40:32 +0000 (UTC)
+Date: Tue, 12 Apr 2022 09:40:30 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] contrib/vhost-user-blk: add missing GOptionEntry NULL
- terminator
-Message-ID: <YlU1CwNTzildW6e5@stefanha-x1.localdomain>
-References: <20220411150057.3009667-1-stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 0/3] vhost-user: Fixes for VHOST_USER_ADD/REM_MEM_REG
+Message-ID: <YlU6/h5P8rs8Mnp3@stefanha-x1.localdomain>
+References: <20220407133657.155281-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kIAfTRybNf0JvjlF"
+ protocol="application/pgp-signature"; boundary="ChHsJqd9Tr9kQljy"
 Content-Disposition: inline
-In-Reply-To: <20220411150057.3009667-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20220407133657.155281-1-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,48 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: raphael.norwitz@nutanix.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---kIAfTRybNf0JvjlF
+--ChHsJqd9Tr9kQljy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 11, 2022 at 04:00:57PM +0100, Stefan Hajnoczi wrote:
-> The GLib documentation says "a NULL-terminated array of GOptionEntrys"
-> so we'd better make sure there is a terminator that lets
-> g_option_context_add_main_entries() know when the end of the array has
-> been reached.
+On Thu, Apr 07, 2022 at 03:36:54PM +0200, Kevin Wolf wrote:
+> While implementing a vhost-user-blk driver for libblkio, I found some
+> problems with VHOST_USER_ADD/REM_MEM_REG both in the spec and in the
+> implementations in QEMU and libvhost-user that this series addresses.
 >=20
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  contrib/vhost-user-blk/vhost-user-blk.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> I also noticed that you can use REM_MEM_REG or SET_MEM_TABLE to unmap a
+> memory region that is still in use (e.g. a block I/O request using
+> addresses from the region has been started, but not completed yet),
+> which is not great. I'm not sure how to fix this best, though.
+>=20
+> We would have to wait for these requests to complete (maybe introduce a
+> refcount and wait for it to drop to zero), but waiting seems impossible
+> in libvhost-user because it doesn't have any main loop integration. Just
+> failing the memory region removal would be safe, but potentially a
+> rather awkward interface because clients would have to implement some
+> retry logic.
+>=20
+> Kevin Wolf (3):
+>   docs/vhost-user: Clarifications for VHOST_USER_ADD/REM_MEM_REG
+>   libvhost-user: Fix extra vu_add/rem_mem_reg reply
+>   vhost-user: Don't pass file descriptor for VHOST_USER_REM_MEM_REG
+>=20
+>  docs/interop/vhost-user.rst               | 17 +++++++++++++++++
+>  hw/virtio/vhost-user.c                    |  2 +-
+>  subprojects/libvhost-user/libvhost-user.c | 17 +++++++----------
+>  3 files changed, 25 insertions(+), 11 deletions(-)
+>=20
+> --=20
+> 2.35.1
+>=20
 
-Thanks, applied to my block-next tree:
-https://gitlab.com/stefanha/qemu/commits/block-next
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Stefan
-
---kIAfTRybNf0JvjlF
+--ChHsJqd9Tr9kQljy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJVNQsACgkQnKSrs4Gr
-c8hA0wgAunnDxi1BqzkTL9o/9brcFQZuN2rdJrrPqu1mL5LwDMBUqX4ktkjlhU+g
-hseLqxrYjTqayjD/ujzeZm30I+hG3MvsZwy8I0bmOm8G1+8pfu7pS3KUYXLJGhQS
-TNc9ucgmrJ+FXhWDTWyvPFfA4GrtXh5SCtWT2sXiH+vWcP2z2yhfXMIS9c9eq8UL
-kvZOlPjcmr482iPwevZw9ZlEi/XbcmHsV46vtXMC8LXybWYVYT3CkJxB1Ys3acuz
-BfCoG94kZ66BVirB90rKcWCsvePUVc0pkzPRI6TRCiHvLm2t/NPNwC0+oegnjvpg
-uMRL5SFwOskp80VWb118EEiYUJgUyQ==
-=+nS+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJVOv4ACgkQnKSrs4Gr
+c8j/yAf/bVNI6Htbfuiknfp84WRbjVNg+MBEraxv/HrVzsnCZaxTp7VTC0byqbOt
+3dBhiT2c/skt7+On4+ntVcAIKaxAKTYU8F79+hSnK//j/d7WbRIg5NEt+50x0sPV
+LOwDhqtyYUrdMTCgXjwMaMxUJUQU49GdqWC+Lo9OTv/a8Z0VX9g1Q2pqF9Ot8EFL
+wRJB3FexDPjjsieBF8MEFjvUt+5lfYbpRX9secAmeK7Ug7wkkd8LJkjhaKLxw3+Y
+0xDIzsuxkhtuTT7zSIyTi487dZlYcK49eW6SxFYJfAeXvqqm3OstPx/VHi9Lxoc0
+eEtKuh9ASf1AydYKaKrRuaUT5vMi+w==
+=DUPh
 -----END PGP SIGNATURE-----
 
---kIAfTRybNf0JvjlF--
+--ChHsJqd9Tr9kQljy--
 
 
