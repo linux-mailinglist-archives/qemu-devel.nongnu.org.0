@@ -2,55 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B814FE140
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:56:03 +0200 (CEST)
-Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7599D4FE03A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:35:22 +0200 (CEST)
+Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neG3u-0006ac-AL
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:56:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53346)
+	id 1neFjr-0007kg-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:35:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xueshuai@linux.alibaba.com>)
- id 1neG1A-0005i5-Sd
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:53:12 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:49155)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1neFhK-0006bU-Qv
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:32:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xueshuai@linux.alibaba.com>)
- id 1neG10-0001bB-QK
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:53:05 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R611e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04400; MF=xueshuai@linux.alibaba.com;
- NM=1; PH=DS; RN=2; SR=0; TI=SMTPD_---0V9uw5OK_1649766744; 
-Received: from 30.240.121.177(mailfrom:xueshuai@linux.alibaba.com
- fp:SMTPD_---0V9uw5OK_1649766744) by smtp.aliyun-inc.com(127.0.0.1);
- Tue, 12 Apr 2022 20:32:24 +0800
-Message-ID: <84e0c8eb-a857-2a9c-917e-9c0583e7dd45@linux.alibaba.com>
-Date: Tue, 12 Apr 2022 20:32:23 +0800
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1neFhI-0004ba-J1
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:32:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649766758;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ouc2uABnjTSm9/aUQzWzGi6GiW3YulliowsOo5NICuw=;
+ b=IZzWjybx9A5pZmdxH35wya7SdRjD72UM4pG1ymIBy5lq0Ki3HMpw/s0dFwz1KmuP8pU6VN
+ tBMe7872c97S8R+xFj7iiYzdBzQsXU70lkD9ooICZ1gFJOQ0N5dp8LU0b9vmjsK8jVnvpU
+ VMeOvhcLOZfLr3eFnyJcf5UphC+UADE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-653-baiNVECOPxmUxG_Wi8sfig-1; Tue, 12 Apr 2022 08:32:35 -0400
+X-MC-Unique: baiNVECOPxmUxG_Wi8sfig-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ l14-20020adf9f0e000000b002079eeec6b6so1535121wrf.22
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:32:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=Ouc2uABnjTSm9/aUQzWzGi6GiW3YulliowsOo5NICuw=;
+ b=ifqbJODT3yABcCTof6ctx8JAASlx7Raa1PKgkLUU8Epo5XipkTGrrG5oGgY37wRtED
+ LGa6fpHq1vd9qzq7zDK07nziDEcKxajn6J/j9YE24VVKfiy95SkSUd77xq0pAWC+EXWq
+ eVhW9sXXbuCuplok2St2KYsXp/+SIfONIt5LEjF1/HUxGzjDynDQTJEOtete4w7CLEty
+ BsF8kBZGfmIPjTD0517vXcWcHgMP9L9jXoDv2RcpTOqunz+N/NdOXhmLWh5Bc2OCYYyJ
+ M8zCXiIRpZWJLbcnq+JJRjZ1XGWdb64FxAiQ9aKOn1i222oyig+yRw2YP/VNoToCOCY6
+ lx4Q==
+X-Gm-Message-State: AOAM533lm2c6LCRNWkK99jcPu+uYehdOhHjCTLrJSDC1rLvhB0hqjr4k
+ ShgANo/9BGCIKGXdTWFDZtpfghuqfsTJqvuoE+/xonNTU3yAxVzYLzyneDSh3QaxGLPfgn9lGYF
+ CEhOAGSzg7B3ouFI=
+X-Received: by 2002:a05:600c:1e11:b0:38c:b316:e6f5 with SMTP id
+ ay17-20020a05600c1e1100b0038cb316e6f5mr3896071wmb.93.1649766754666; 
+ Tue, 12 Apr 2022 05:32:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUvX2ICpFWU6za+zyMIbRn9KPnSwlb9ctIxrFdfYE2249WkJ3hyD2bsS/f6uyayXutGbfy1g==
+X-Received: by 2002:a05:600c:1e11:b0:38c:b316:e6f5 with SMTP id
+ ay17-20020a05600c1e1100b0038cb316e6f5mr3896049wmb.93.1649766754445; 
+ Tue, 12 Apr 2022 05:32:34 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c707:1800:7c14:16cc:5291:a9f3?
+ (p200300cbc70718007c1416cc5291a9f3.dip0.t-ipconnect.de.
+ [2003:cb:c707:1800:7c14:16cc:5291:a9f3])
+ by smtp.gmail.com with ESMTPSA id
+ r12-20020a5d6c6c000000b00203ec2b1255sm36437819wrz.60.2022.04.12.05.32.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Apr 2022 05:32:33 -0700 (PDT)
+Message-ID: <2e817203-a761-8395-9218-9cb348b7ef26@redhat.com>
+Date: Tue, 12 Apr 2022 14:32:32 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [BUG]QEMU jump into interrupt when single-stepping on aarch64
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v4 10/11] tests/tcg/s390x: Tests for Vector Enhancements
+ Facility 2
+To: David Miller <dmiller423@gmail.com>
+References: <20220322000441.26495-1-dmiller423@gmail.com>
+ <20220322000441.26495-11-dmiller423@gmail.com>
+ <c3bb72da-c390-f9b5-5254-f8c16df21427@redhat.com>
+ <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
+ <95ad366c-509d-d41f-209b-dc66054de4b8@redhat.com>
+ <CAEgyohVUHa+yd-inLOv3zTf143-_2Z35+K_XatUz74bqxDK9CA@mail.gmail.com>
+ <CAEgyohWR6C1z8OyuGwkv8LT-P5fR9eVsCFw4LmGUxZCDNszoSg@mail.gmail.com>
+ <58110f3f-3190-7af4-6839-9a30fce05855@linux.ibm.com>
+ <CAEgyohUqmHrbQC5yqAtuhcqmnx-q5YxE+6xctbCVROGz+cqrqw@mail.gmail.com>
+ <05661926-6d26-9d78-b576-a33391e25c24@linux.ibm.com>
+ <654b2fcd-0532-4484-d9cf-f875acedf7ee@redhat.com>
+ <CAEgyohVRpn51FDaJ4xa5Ysfjo51g3yOpeJCjJqCK0SXkEHmQqg@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <CAEgyohVRpn51FDaJ4xa5Ysfjo51g3yOpeJCjJqCK0SXkEHmQqg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: Shuai Xue <xueshuai@linux.alibaba.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <3dc5add1-1353-584b-b655-a9546743df1c@linux.alibaba.com>
- <0fe68d69-1b9c-2bac-4fd4-5e31e84eaac2@linaro.org>
- <3036a482-33f5-c283-9ca2-93de1a4f2165@linux.alibaba.com>
-In-Reply-To: <3036a482-33f5-c283-9ca2-93de1a4f2165@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.133;
- envelope-from=xueshuai@linux.alibaba.com;
- helo=out30-133.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,126 +116,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, farman@linux.ibm.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2022/4/7 PM12:10, Shuai Xue 写道:
-> 在 2022/4/7 AM12:57, Richard Henderson 写道:
->> On 4/6/22 09:30, Shuai Xue wrote:
->>> Dear, folks,
->>>
->>> I try to debug Linux kernel with QEMU in single-stepping mode on aarch64 platform,
->>> the added breakpoint hits but after I type `step`, the gdb always jumps into interrupt.
->>>
->>> My env:
->>>
->>>     gdb-10.2
->>>     qemu-6.2.0
->>>     host kernel: 5.10.84
->>>     VM kernel: 5.10.84
->>>
->>> The steps to reproduce:
->>>     # host console: run a VM with only one core, the import arg: <qemu:arg value='-s'/>
->>>     # details can be found here: https://www.redhat.com/en/blog/debugging-kernel-qemulibvirt
->>>     virsh create dev_core0.xml
->>>     
->>>     # run gdb client
->>>     gdb ./vmlinux
->>>
->>>     # gdb client on host console
->>>     (gdb) dir ./usr/src/debug/kernel-5.10.84/linux-5.10.84-004.alpha.ali5000.alios7.aarch64
->>>     (gdb) target remote localhost:1234
->>>     (gdb) info b
->>>     Num     Type           Disp Enb Address            What
->>>     1       breakpoint     keep y   <MULTIPLE>
->>>     1.1                         y   0xffff800010361444 mm/memory-failure.c:1318
->>>     1.2                         y   0xffff800010361450 in memory_failure
->>>                                                     at mm/memory-failure.c:1488
->>>     (gdb) c
->>>     Continuing.
->>>
->>>     # console in VM, use madvise to inject a hwposion at virtual address vaddr,
->>>     # which will hit the b inmemory_failur: madvise(vaddr, pagesize, MADV_HWPOISON);
->>>     # and the VM pause
->>>     ./run_madvise.c
->>>
->>>     # gdb client on host console
->>>     (gdb)
->>>     Continuing.
->>>     Breakpoint 1, 0xffff800010361444 in memory_failure () at mm/memory-failure.c:1318
->>>     1318                    res = -EHWPOISON;
->>>     (gdb) n
->>>     vectors () at arch/arm64/kernel/entry.S:552
->>>     552             kernel_ventry   1, irq                          // IRQ EL1h
->>
->> The 'n' command is not a single-step: use stepi, which will suppress interrupts.
->> Anyway, not a bug.
->>
->> r~
+On 05.04.22 19:03, David Miller wrote:
+> Recommendation for comment?
 > 
-> Hi, Richard,
+> /* vri-d encoding matches vrr for 4b imm.
+>   .insn does not handle this encoding variant.
+> */
 > 
-> Thank you for your quick reply, I also try `stepi`, but it does NOT work either.
-> 
-> 	(gdb) c
-> 	Continuing.
-> 
-> 	Breakpoint 1, memory_failure (pfn=1273982, flags=1) at mm/memory-failure.c:1488
-> 	1488    {
-> 	(gdb) stepi
-> 	vectors () at arch/arm64/kernel/entry.S:552
-> 	552             kernel_ventry   1, irq                          // IRQ EL1h
-> 
-> According to QEMU doc[1]: the default single stepping behavior is step with the IRQs
-> and timer service routines off. I checked the MASK bits used to control the single
-> stepping IE on my machine as bellow:
-> 
-> 	# gdb client on host (x86 plafrom)
-> 	(gdb) maintenance packet qqemu.sstepbits
-> 	sending: "qqemu.sstepbits"
-> 	received: "ENABLE=1,NOIRQ=2,NOTIMER=4"
-> 
-> The sstep MASK looks as expected, but does not work as expected.
-> 
-> I also try the same kernel and qemu version on X86 platform:
->>>     gdb-10.2
->>>     qemu-6.2.0
->>>     host kernel: 5.10.84
->>>     VM kernel: 5.10.84
-> 
-> 
-> The command `n` jumps to the next instruction.
-> 
-> 	# gdb client on host (x86 plafrom)
-> 	(gdb) b memory-failure.c:1488
-> 	Breakpoint 1, memory_failure (pfn=1128931, flags=1) at mm/memory-failure.c:1488
-> 	1488    {
-> 	(gdb) n
-> 	1497            if (!sysctl_memory_failure_recovery)
-> 	(gdb) stepi
-> 	0xffffffff812efdbc      1497            if (!sysctl_memory_failure_recovery)
-> 	(gdb) stepi
-> 	0xffffffff812efdbe      1497            if (!sysctl_memory_failure_recovery)
-> 	(gdb) n
-> 	1500            p = pfn_to_online_page(pfn);
-> 	(gdb) l
-> 	1496
-> 	1497            if (!sysctl_memory_failure_recovery)
-> 	1498                    panic("Memory failure on page %lx", pfn);
-> 	1499
-> 	1500            p = pfn_to_online_page(pfn);
-> 	1501            if (!p) {
-> 
-> Best Regrades,
-> Shuai
-> 
-> 
-> [1] https://github.com/qemu/qemu/blob/master/docs/system/gdb.rst
 
-Hi, Richard,
+Sorry for the late reply.
 
-I was wondering that do you have any comments to this?
+".insn doesn't handle vri-d properly. So instead, we use vrr, which
+matches vri-d with a 4b imm -- good enough for our purpose."
 
-Best Regrades,
-Shuai
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
