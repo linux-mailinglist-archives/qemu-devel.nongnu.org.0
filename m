@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7504FD336
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 11:12:00 +0200 (CEST)
-Received: from localhost ([::1]:44326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961394FD2E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 10:22:24 +0200 (CEST)
+Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neCZ5-0005Tr-5j
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 05:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
+	id 1neBn4-00089L-AS
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 04:22:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <suruifeng1@huawei.com>)
- id 1neA49-0006rV-61
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 02:31:54 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:5143)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1neBgF-00076y-1v
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 04:15:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <suruifeng1@huawei.com>)
- id 1neA45-0007E2-0Q
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 02:31:51 -0400
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KcwmK0Kj9zFpmL;
- Tue, 12 Apr 2022 14:29:05 +0800 (CST)
-Received: from dggpeml500015.china.huawei.com (7.185.36.226) by
- dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 12 Apr 2022 14:31:28 +0800
-Received: from huawei.com (10.175.104.170) by dggpeml500015.china.huawei.com
- (7.185.36.226) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 12 Apr
- 2022 14:31:28 +0800
-To: <qemu-devel@nongnu.org>
-CC: <pbonzini@redhat.com>, <peter.maydell@linaro.org>
-Subject: [PATCH] block: fix core for unlock not permitted
-Date: Tue, 12 Apr 2022 15:13:23 +0800
-Message-ID: <20220412071323.580078-1-suruifeng1@huawei.com>
-X-Mailer: git-send-email 2.23.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1neBgC-0008Ad-9O
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 04:15:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649751315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=r4PXDb3dQkdfdmCtEuiANacIjmRWsWRa70/iY9WP/mQ=;
+ b=ZIfAXTX3Ja0JPRsXCwJKt2qoG3EDv29WNVeXkpdcYFQ9nxC76ewRHehZkQZ037NULbk3wG
+ DsjR6h1rpjK4nX+dN84RMAPd1pdUgcnosJi6D3dhH+y6jBtIGsz7kWS4qzU4Gg9LQFy1+l
+ DTmC6YqiyCNpQO2+wQ2GMP3of8ai2bQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-486-LDKUriWUOx2aiQ7As9Ubrg-1; Tue, 12 Apr 2022 04:15:09 -0400
+X-MC-Unique: LDKUriWUOx2aiQ7As9Ubrg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CFD63C13920;
+ Tue, 12 Apr 2022 08:15:09 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1FEB40EC00C;
+ Tue, 12 Apr 2022 08:15:08 +0000 (UTC)
+Date: Tue, 12 Apr 2022 09:15:07 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] contrib/vhost-user-blk: add missing GOptionEntry NULL
+ terminator
+Message-ID: <YlU1CwNTzildW6e5@stefanha-x1.localdomain>
+References: <20220411150057.3009667-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.170]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500015.china.huawei.com (7.185.36.226)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=suruifeng1@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kIAfTRybNf0JvjlF"
+Content-Disposition: inline
+In-Reply-To: <20220411150057.3009667-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 12 Apr 2022 05:09:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,82 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  suruifeng <suruifeng1@huawei.com>
-From:  suruifeng via <qemu-devel@nongnu.org>
 
-qemu coredump:
-  0x00007f9e7205c81b in raise () from /usr/lib64/libc.so.6
-  0x00007f9e7205db41 in abort () from /usr/lib64/libc.so.6
-  0x00007f9e71ddbe94 in error_exit (err=<optimized out>, msg=msg@entry=0x7f9e71ec1b50 <__func__.20287> "qemu_mutex_unlock_impl")
-    at /usr/src/debug/qemu-4.1.0-170.x86_64/util/qemu-thread-posix.c:36
-  0x00007f9e71ddc61f in qemu_mutex_unlock_impl (mutex=mutex@entry=0x5559850b0b90, file=file@entry=0x7f9e71ec0978 "/home/abuild/rpmbuild/BUILD/qemu-4.1.0/util/async.c",
-    line=line@entry=524) at /usr/src/debug/qemu-4.1.0-170.x86_64/util/qemu-thread-posix.c:108
-  0x00007f9e71dd5bb5 in aio_context_release (ctx=ctx@entry=0x5559850b0b30) at /usr/src/debug/qemu-4.1.0-170.x86_64/util/async.c:524
-  0x00007f9e70dfed28 in bdrv_flush (bs=bs@entry=0x5559851f0a20) at /usr/src/debug/qemu-4.1.0-170.x86_64/block/io.c:2778
-  0x00007f9e70e37f63 in bdrv_close (bs=bs@entry=0x5559851f0a20) at /usr/src/debug/qemu-4.1.0-170.x86_64/block.c:4025
-  0x00007f9e70e38193 in bdrv_delete (bs=0x5559851f0a20) at /usr/src/debug/qemu-4.1.0-170.x86_64/block.c:4271
-  0x00007f9e70e38225 in bdrv_unref (bs=<optimized out>) at /usr/src/debug/qemu-4.1.0-170.x86_64/block.c:5612
-  0x00007f9e70df9a92 in bdrv_next (it=it@entry=0x7ffc5e3547a0) at /usr/src/debug/qemu-4.1.0-170.x86_64/block/block-backend.c:576
-  0x00007f9e70dfee76 in bdrv_flush_all () at /usr/src/debug/qemu-4.1.0-170.x86_64/block/io.c:2074
-  0x00007f9e71e3a08f in do_vm_stop (state=state@entry=RUN_STATE_SHUTDOWN, send_stop=send_stop@entry=false) at /usr/src/debug/qemu-4.1.0-170.x86_64/cpus.c:1140
-  0x00007f9e71e3a14c in vm_shutdown () at /usr/src/debug/qemu-4.1.0-170.x86_64/cpus.c:1151
 
-During mirror job run, the VM is shutdown. During the shutdown, the mirror job I/O error triggers mirror_exit_commom.
-In bdrv_flush_all(), bdrv_next() increase the ref to mirror_top_bs first,
-and then bdrv_flush(bs) call BDRV_POLL_WHILE and executes mirror_exit_common() decreases ref to mirror_top_bs,
-and finally bdrv_next() decreases the ref to mirror_top_bs, resulting in release mirror_top_bs.
+--kIAfTRybNf0JvjlF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Let's fix this by adding aio_context_acquire() and aio_context_release() to bdrv_next().
+On Mon, Apr 11, 2022 at 04:00:57PM +0100, Stefan Hajnoczi wrote:
+> The GLib documentation says "a NULL-terminated array of GOptionEntrys"
+> so we'd better make sure there is a terminator that lets
+> g_option_context_add_main_entries() know when the end of the array has
+> been reached.
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  contrib/vhost-user-blk/vhost-user-blk.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Signed-off-by: suruifeng <suruifeng1@huawei.com>
----
- block/block-backend.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Thanks, applied to my block-next tree:
+https://gitlab.com/stefanha/qemu/commits/block-next
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index e0e1aff4b1..5ae745c0ab 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -593,6 +593,7 @@ BlockBackend *blk_next(BlockBackend *blk)
- BlockDriverState *bdrv_next(BdrvNextIterator *it)
- {
-     BlockDriverState *bs, *old_bs;
-+    AioContext *ctx = NULL;
- 
-     /* Must be called from the main loop */
-     assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-@@ -613,11 +614,17 @@ BlockDriverState *bdrv_next(BdrvNextIterator *it)
-         if (it->blk) {
-             blk_ref(it->blk);
-         }
-+	ctx = blk_get_aio_context(old_blk);
-+	aio_context_acquire(ctx);
-         blk_unref(old_blk);
-+	aio_context_release(ctx);
- 
-         if (bs) {
-             bdrv_ref(bs);
-+	    ctx = bdrv_get_aio_context(old_bs);
-+	    aio_context_acquire(ctx);
-             bdrv_unref(old_bs);
-+	    aio_context_release(ctx);
-             return bs;
-         }
-         it->phase = BDRV_NEXT_MONITOR_OWNED;
-@@ -636,7 +643,10 @@ BlockDriverState *bdrv_next(BdrvNextIterator *it)
-     if (bs) {
-         bdrv_ref(bs);
-     }
-+    ctx = bdrv_get_aio_context(old_bs);
-+    aio_context_acquire(ctx);
-     bdrv_unref(old_bs);
-+    aio_context_release(ctx);
- 
-     return bs;
- }
--- 
-2.27.0
+Stefan
+
+--kIAfTRybNf0JvjlF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJVNQsACgkQnKSrs4Gr
+c8hA0wgAunnDxi1BqzkTL9o/9brcFQZuN2rdJrrPqu1mL5LwDMBUqX4ktkjlhU+g
+hseLqxrYjTqayjD/ujzeZm30I+hG3MvsZwy8I0bmOm8G1+8pfu7pS3KUYXLJGhQS
+TNc9ucgmrJ+FXhWDTWyvPFfA4GrtXh5SCtWT2sXiH+vWcP2z2yhfXMIS9c9eq8UL
+kvZOlPjcmr482iPwevZw9ZlEi/XbcmHsV46vtXMC8LXybWYVYT3CkJxB1Ys3acuz
+BfCoG94kZ66BVirB90rKcWCsvePUVc0pkzPRI6TRCiHvLm2t/NPNwC0+oegnjvpg
+uMRL5SFwOskp80VWb118EEiYUJgUyQ==
+=+nS+
+-----END PGP SIGNATURE-----
+
+--kIAfTRybNf0JvjlF--
 
 
