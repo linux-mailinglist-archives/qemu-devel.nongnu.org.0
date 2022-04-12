@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310734FD77F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 12:29:18 +0200 (CEST)
-Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849094FD9B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 12:44:14 +0200 (CEST)
+Received: from localhost ([::1]:54192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neDls-0008Ns-Pf
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 06:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43878)
+	id 1neE0L-000556-71
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 06:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1neDiA-0006nL-CV
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 06:25:29 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:34511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1neDhx-0006FE-Tl
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 06:25:22 -0400
-Received: by mail-pl1-x630.google.com with SMTP id n8so16401418plh.1
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 03:25:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vo+e8XwHkTEoVxz5IEpTN/1YQf55sAfVJWv5HhomO6Y=;
- b=c3HOTK0Ri/tKw2z2Fc1QWLTxIKKObZPCobJOQxkL/ogtWB2wssWLFLyq/NoBj7ACjb
- jv+meEkQ4CCMsKJEq5FlQwtVKju1h/WcvPNLMgQTZ9QWj5MCsc10um3vrjz1HbUkH8w2
- sSJJDdC8ETgxsGMpcFDvbtGwLG91x5UMdlSU3c/UO+FjsqEOzCbVNQUbE9cPY6MQwE0l
- exGpMoVoSGLR246HrlKRo1Yc+McwtVb20siAwQhxydwmFjEa8J3AToxoT6LXx8SdTy4Y
- E1hJSa+wmNW7S8pO2wpmgvcIYKF1bScAjtiOZfZuYdUkeVg1HRMZ+Yo5Abjk6e1vQnCE
- CxIA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1neDz3-0004P8-RW
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 06:42:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1neDz0-0000kQ-5m
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 06:42:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649760168;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T4dCEWWy8dSW2jP3Tm6XY1VFLUqo4A9vXMjSM+p5It0=;
+ b=SEzxoM7TlLPibnlWUYrUMnGe1kLKI58p/pD9duvCXwnn31MCDu4iZ4mBIxSt1ARvoql1hT
+ 2ZzbikoyX8gfwYuEIMf/g+dvmIAliEXWqnY7s4hAZXR4lf1cQTRnfZEqQ4g3WyS0s2Tf2g
+ 51FoLR0DUGZ/u4jac882oLc1UrXoerc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-583-YPxoL9KQMg2iwkwg_0KTHQ-1; Tue, 12 Apr 2022 06:42:48 -0400
+X-MC-Unique: YPxoL9KQMg2iwkwg_0KTHQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ h65-20020a1c2144000000b0038e9ce3b29cso1114319wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 03:42:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vo+e8XwHkTEoVxz5IEpTN/1YQf55sAfVJWv5HhomO6Y=;
- b=g72hGm5oAxaeHuedTnvlcUM6hRmsvG6fBA4/StkveEciLzSd/TIyua63hl2VEuu5Kf
- EX6f9a2VpIVTgMiKeVYjEO9+T8g0Q9YI+F+rQpVjrvJFSvHeLuIiKcIEfJ9518IhjhPR
- gQtsVRrL2Sa/xx49Dxmom3QCRRE2mwB0p/0nxChnXd0++asPe9viQ82p9XFakjIzq3ba
- rjQLH33y15Jmw2hxmKhhzMvfWwrobdgZorM8jYf4zEyN5RBMJFOBffXbaUysrPkirhg5
- j5bNTcewe3UHi+6mik/KqijBwRIgDaFa8shufblPny7IYkCGHVNOOT54Mj6ccnPFqUlB
- MDzg==
-X-Gm-Message-State: AOAM5325M60Lys1MQjV+FU+SssKVk//VEQ4J+swZ48I/2hFBEA5IG/4f
- NM4hER17OY70NDlmPD0QVmzBJQ==
-X-Google-Smtp-Source: ABdhPJw5zpOGNlLWF2IyuBkyt9JwXLfL2DtYY/Me9NmOeJBUW3JZzYQAcn6hfyQ4z7sCO2wEuNUr3Q==
-X-Received: by 2002:a17:90b:1bc8:b0:1c7:443:3ffb with SMTP id
- oa8-20020a17090b1bc800b001c704433ffbmr4187757pjb.84.1649759110165; 
- Tue, 12 Apr 2022 03:25:10 -0700 (PDT)
-Received: from [10.76.15.169] ([61.120.150.76])
- by smtp.gmail.com with ESMTPSA id
- f23-20020a635117000000b0039d4f859738sm2400249pgb.71.2022.04.12.03.25.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 03:25:09 -0700 (PDT)
-Message-ID: <6a4202bf-6595-a60d-369d-3b943fb98bdd@bytedance.com>
-Date: Tue, 12 Apr 2022 18:21:35 +0800
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=T4dCEWWy8dSW2jP3Tm6XY1VFLUqo4A9vXMjSM+p5It0=;
+ b=T5RFBLORBBsyI9OJzRWWB85X5pUFHQ/goDVgQtslHN3/dbxffdCnWPi9WeNj93VaIL
+ N8MWcsR+b4IM0nwNVaRXvmT1Y5MJPMuMATnDyuwWHDThufGQCnqvmyGsSmRNFgbnWpSH
+ 3CFUXUcWC/bGzqCHhDLbGydhzHJEctTP3y+R/QFrqpdfSQbc1gw0teJYLO6udaGsbzZT
+ bLRnu71a89kIuQV8+kQWRVs0inyl1RF1693L4wWFNZK7rD9GDd5Xtb7PSjHDrY/maoXA
+ hAHeO72kEiAPf5zPEjA23xzMggt7Rvgmm7o3tHWjdMA8P460lEsVAgEHMIHEKo3Vflho
+ xMOw==
+X-Gm-Message-State: AOAM532LeRpE2X9PMGJLQsu2k4bHbmsKn9Vlmzo85G6g/P4aDLEERFiz
+ mrK88Q7U2HKvNc2cutdYCj9EZar8qPltBPIj16MlrO2EM0D8iZ106niPOo096jVKU+P7jfmZjrn
+ NtHpRbjgLYtDkKDc=
+X-Received: by 2002:a05:600c:384e:b0:38c:9a8a:d205 with SMTP id
+ s14-20020a05600c384e00b0038c9a8ad205mr3453180wmr.44.1649760166783; 
+ Tue, 12 Apr 2022 03:42:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqN+ZYRdae/Yb+BFNr2uJq4Ns2BfP2GmGP9hII2bYGDhugAcz0Io5lMlCUTpWz1Bac3rtHRw==
+X-Received: by 2002:a05:600c:384e:b0:38c:9a8a:d205 with SMTP id
+ s14-20020a05600c384e00b0038c9a8ad205mr3453148wmr.44.1649760166386; 
+ Tue, 12 Apr 2022 03:42:46 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ bu17-20020a056000079100b00207a3124b1dsm6451968wrb.65.2022.04.12.03.42.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Apr 2022 03:42:45 -0700 (PDT)
+Date: Tue, 12 Apr 2022 11:42:43 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Denis V. Lunev" <den@openvz.org>
+Subject: Re: [PATCH v2 for 7.1 1/1] block: add 'force' parameter to
+ 'blockdev-change-medium' command
+Message-ID: <YlVXo9R5lpqx6hng@work-vm>
+References: <20220412095048.231030-1-den@openvz.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: Re: [PATCH v4 0/8] Introduce akcipher service for virtio-crypto
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <20220411104327.197048-1-pizhenwei@bytedance.com>
- <df758c80-ea85-d324-ad05-9bf07bb569e3@redhat.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <df758c80-ea85-d324-ad05-9bf07bb569e3@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+In-Reply-To: <20220412095048.231030-1-den@openvz.org>
+User-Agent: Mutt/2.2.1 (2022-02-19)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,130 +100,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, helei.sig11@bytedance.com, mst@redhat.com,
- jasowang@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org, arei.gonglei@huawei.com,
- linux-crypto@vger.kernel.org, Simo Sorce <simo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 4/12/22 17:47, Paolo Bonzini wrote:
+* Denis V. Lunev (den@openvz.org) wrote:
+> 'blockdev-change-medium' is a convinient wrapper for the following
+> sequence of commands:
+>  * blockdev-open-tray
+>  * blockdev-remove-medium
+>  * blockdev-insert-medium
+>  * blockdev-close-tray
+> and should be used f.e. to change ISO image inside the CD-ROM tray.
+> Though the guest could lock the tray and some linux guests like
+> CentOS 8.5 actually does that. In this case the execution if this
+> command results in the error like the following:
+>   Device 'scsi0-0-1-0' is locked and force was not specified,
+>   wait for tray to open and try again.
 > 
->> In our plan, the feature is designed for HTTPS offloading case and
->> other applications which use kernel RSA/ecdsa by keyctl syscall.
+> This situation is could be resolved 'blockdev-open-tray' by passing
+> flag 'force' inside. Thus is seems reasonable to add the same
+> capability for 'blockdev-change-medium' too.
+
+For HMP:
+
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+(Although I'd be pretty careful with this; a guest OS might feel like
+it could ignore anything else that was going on and keep it's data
+cached if it had it's drive locked).
+
+Dave
+
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> CC: Kevin Wolf <kwolf@redhat.com>
+> CC: Hanna Reitz <hreitz@redhat.com>
+> CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> CC: Eric Blake <eblake@redhat.com>
+> CC: Markus Armbruster <armbru@redhat.com>
+> CC: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+> ---
+>  block/qapi-sysemu.c |  3 ++-
+>  hmp-commands.hx     | 11 +++++++----
+>  monitor/hmp-cmds.c  |  4 +++-
+>  qapi/block.json     |  6 ++++++
+>  ui/cocoa.m          |  1 +
+>  5 files changed, 19 insertions(+), 6 deletions(-)
 > 
-> Hi Zhenwei,
+> Changes from v1:
+> - added kludge to Objective C code
+> - simplified a bit call of do_open_tray() (thanks, Vova!)
+> - added record to hmp-command.hx
 > 
-> what is the % of time spent doing asymmetric key operations in your
-> benchmark?  I am not very familiar with crypto acceleration but my
-> understanding has always been that most time is spent doing either
-> hashing (for signing) or symmetric key operations (for encryption).
+> diff --git a/block/qapi-sysemu.c b/block/qapi-sysemu.c
+> index 8498402ad4..680c7ee342 100644
+> --- a/block/qapi-sysemu.c
+> +++ b/block/qapi-sysemu.c
+> @@ -318,6 +318,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
+>                                  bool has_id, const char *id,
+>                                  const char *filename,
+>                                  bool has_format, const char *format,
+> +                                bool has_force, bool force,
+>                                  bool has_read_only,
+>                                  BlockdevChangeReadOnlyMode read_only,
+>                                  Error **errp)
+> @@ -380,7 +381,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
+>  
+>      rc = do_open_tray(has_device ? device : NULL,
+>                        has_id ? id : NULL,
+> -                      false, &err);
+> +                      force, &err);
+>      if (rc && rc != -ENOSYS) {
+>          error_propagate(errp, err);
+>          goto fail;
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 8476277aa9..6ec593ea08 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -202,9 +202,9 @@ ERST
+>  
+>      {
+>          .name       = "change",
+> -        .args_type  = "device:B,target:F,arg:s?,read-only-mode:s?",
+> -        .params     = "device filename [format [read-only-mode]]",
+> -        .help       = "change a removable medium, optional format",
+> +        .args_type  = "device:B,force:-f,target:F,arg:s?,read-only-mode:s?",
+> +        .params     = "device [-f] filename [format [read-only-mode]]",
+> +        .help       = "change a removable medium, optional format, use -f to force the operation",
+>          .cmd        = hmp_change,
+>      },
+>  
+> @@ -212,11 +212,14 @@ SRST
+>  ``change`` *device* *setting*
+>    Change the configuration of a device.
+>  
+> -  ``change`` *diskdevice* *filename* [*format* [*read-only-mode*]]
+> +  ``change`` *diskdevice* [-f] *filename* [*format* [*read-only-mode*]]
+>      Change the medium for a removable disk device to point to *filename*. eg::
+>  
+>        (qemu) change ide1-cd0 /path/to/some.iso
+>  
+> +    ``-f``
+> +      forces the operation even if the guest has locked the tray.
+> +
+>      *format* is optional.
+>  
+>      *read-only-mode* may be used to change the read-only status of the device.
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 634968498b..d8b98bed6c 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1472,6 +1472,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+>      const char *target = qdict_get_str(qdict, "target");
+>      const char *arg = qdict_get_try_str(qdict, "arg");
+>      const char *read_only = qdict_get_try_str(qdict, "read-only-mode");
+> +    bool force = qdict_get_try_bool(qdict, "force", false);
+>      BlockdevChangeReadOnlyMode read_only_mode = 0;
+>      Error *err = NULL;
+>  
+> @@ -1508,7 +1509,8 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+>          }
+>  
+>          qmp_blockdev_change_medium(true, device, false, NULL, target,
+> -                                   !!arg, arg, !!read_only, read_only_mode,
+> +                                   !!arg, arg, true, force,
+> +                                   !!read_only, read_only_mode,
+>                                     &err);
+>      }
+>  
+> diff --git a/qapi/block.json b/qapi/block.json
+> index 82fcf2c914..3f100d4887 100644
+> --- a/qapi/block.json
+> +++ b/qapi/block.json
+> @@ -326,6 +326,11 @@
+>  # @read-only-mode: change the read-only mode of the device; defaults
+>  #                  to 'retain'
+>  #
+> +# @force: if false (the default), an eject request through blockdev-open-tray
+> +#         will be sent to the guest if it has locked the tray (and the tray
+> +#         will not be opened immediately); if true, the tray will be opened
+> +#         regardless of whether it is locked. (since 7.1)
+> +#
+>  # Features:
+>  # @deprecated: Member @device is deprecated.  Use @id instead.
+>  #
+> @@ -367,6 +372,7 @@
+>              '*id': 'str',
+>              'filename': 'str',
+>              '*format': 'str',
+> +            '*force': 'bool',
+>              '*read-only-mode': 'BlockdevChangeReadOnlyMode' } }
+>  
+>  
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index c4e5468f9e..a931174397 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -1529,6 +1529,7 @@ - (void)changeDeviceMedia:(id)sender
+>                                         false, NULL,
+>                                         [file cStringUsingEncoding:
+>                                                   NSASCIIStringEncoding],
+> +                                       true, false,
+>                                         true, "raw",
+>                                         false, 0,
+>                                         &err);
+> -- 
+> 2.32.0
 > 
-> If I understand correctly, without support for acceleration these 
-> patches are more of a demonstration of virtio-crypto, or usable for 
-> testing purposes.
-> 
-
-Hi, Paolo
-
-This is the perf result of nginx+openssl CPU calculation, the heavy load 
-from openssl uses the most time(as same as you mentioned).
-27.37%    26.00%  nginx            libcrypto.so.1.1          [.] 
-__bn_sqrx8x_reduction
-20.58%    19.52%  nginx            libcrypto.so.1.1          [.] 
-mulx4x_internal
-16.73%    15.89%  nginx            libcrypto.so.1.1          [.] 
-bn_sqrx8x_internal
-  8.79%     0.00%  nginx            [unknown]                 [k] 
-0000000000000000
-  7.26%     0.00%  nginx            [unknown]                 [.] 
-0x89388669992a0cbc
-  7.00%     0.00%  nginx            [unknown]                 [k] 
-0x45f0e480d5f2a58e
-  6.76%     0.02%  nginx            [kernel.kallsyms]         [k] 
-entry_SYSCALL_64_after_hwframe
-  6.74%     0.02%  nginx            [kernel.kallsyms]         [k] 
-do_syscall_64
-  6.61%     0.00%  nginx            [unknown]                 [.] 
-0xa75a60d7820f9ffb
-  6.47%     0.00%  nginx            [unknown]                 [k] 
-0xe91223f6da36254c
-  5.51%     0.01%  nginx            [kernel.kallsyms]         [k] 
-asm_common_interrupt
-  5.46%     0.01%  nginx            [kernel.kallsyms]         [k] 
-common_interrupt
-  5.16%     0.04%  nginx            [kernel.kallsyms]         [k] 
-__softirqentry_text_start
-  4.92%     0.01%  nginx            [kernel.kallsyms]         [k] 
-irq_exit_rcu
-  4.91%     0.04%  nginx            [kernel.kallsyms]         [k] 
-net_rx_action
-
-
-This is the result of nginx+openssl keyctl offload(virtio crypto + host 
-keyctl + Intel QAT):
-30.38%     0.08%  nginx            [kernel.kallsyms]         [k] 
-entry_SYSCALL_64_after_hwframe
-30.29%     0.07%  nginx            [kernel.kallsyms]         [k] 
-do_syscall_64
-23.84%     0.00%  nginx            [unknown]                 [k] 
-0000000000000000
-14.24%     0.03%  nginx            [kernel.kallsyms]         [k] 
-asm_common_interrupt
-14.06%     0.05%  nginx            [kernel.kallsyms]         [k] 
-common_interrupt
-12.99%     0.11%  nginx            [kernel.kallsyms]         [k] 
-__softirqentry_text_start
-12.27%     0.12%  nginx            [kernel.kallsyms]         [k] 
-net_rx_action
-12.13%     0.03%  nginx            [kernel.kallsyms]         [k] __napi_poll
-12.06%     0.06%  nginx            [kernel.kallsyms]         [k] 
-irq_exit_rcu
-10.49%     0.14%  nginx            libssl.so.1.1             [.] 
-tls_process_client_key_exchange
-10.21%     0.12%  nginx            [virtio_net]              [k] 
-virtnet_poll
-10.13%     0.04%  nginx            libc-2.28.so              [.] syscall
-10.12%     0.03%  nginx            kctl-engine.so            [.] 
-kctl_rsa_priv_dec
-10.02%     0.02%  nginx            kctl-engine.so            [.] 
-kctl_hw_rsa_priv_func
-  9.98%     0.01%  nginx            libkeyutils.so.1.10       [.] 
-keyctl_pkey_decrypt
-  9.95%     0.02%  nginx            libkeyutils.so.1.10       [.] keyctl
-  9.77%     0.03%  nginx            [kernel.kallsyms]         [k] 
-keyctl_pkey_e_d_s
-  8.97%     0.00%  nginx            [unknown]                 [k] 
-0x00007f4adbb81f0b
-  8.78%     0.08%  nginx            libpthread-2.28.so        [.] 
-__libc_write
-  8.49%     0.05%  nginx            [kernel.kallsyms]         [k] 
-netif_receive_skb_list_internal
-
-The RSA part gets reduced, and the QPS of https improves to ~200%.
-
-Something may be ignored in this cover letter:
-[4] Currently RSA is supported only in builtin driver. This driver is 
-supposed to test the full feature without other software(Ex vhost 
-process) and hardware dependence.
--> Yes, this patch is a demonstration of virtio-crypto.
-
-[5] keyctl backend is in development, we will post this feature in 
-Q2-2022. keyctl backend can use hardware acceleration(Ex, Intel QAT).
--> This is our plan. Currently it's still in developing.
-
-
-> Would it be possible to extend virtio-crypto to use keys already in the
-> host keyctl, or in a PKCS#11 smartcard, so that virtio-crypto could also
-> provide the functionality of an HSM?  Or does the standard require that
-> the keys are provided by the guest?
-> 
-> Paolo
-
-I'm very interested in this, I'll try in Q3-2022 or later.
-
 -- 
-zhenwei pi
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
