@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E845D4FE182
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 15:03:39 +0200 (CEST)
-Received: from localhost ([::1]:40622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A01F4FDF47
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:10:40 +0200 (CEST)
+Received: from localhost ([::1]:41474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neGBH-0005VI-1i
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 09:03:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
+	id 1neFLy-0002az-S6
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:10:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ddtikhov@gmail.com>)
- id 1neCMm-00009l-2G; Tue, 12 Apr 2022 04:59:16 -0400
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b]:34752)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1neFKN-0001Ya-02
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:08:59 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ddtikhov@gmail.com>)
- id 1neCMj-0007TY-Nj; Tue, 12 Apr 2022 04:59:15 -0400
-Received: by mail-lj1-x22b.google.com with SMTP id 17so23231296lji.1;
- Tue, 12 Apr 2022 01:59:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1neFKG-0000Se-89
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:08:57 -0400
+Received: by mail-wr1-x432.google.com with SMTP id e21so10915879wrc.8
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:08:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=AT6qRdGiHUFbs1H5b1gZ/1m3frqPb0qf6kZjmIuArLc=;
- b=F0evcSmdxWuJ7NheXD9xLl+NulxxYWOgM9beBspCWz6s09tp3PX6Ii6iI/XcXT8N8A
- QV2wIByRrfOKGxgntRLHbxsY3duHef07euilOKMRToBEP2CC6cY7XUk8pPxShcLOLhsc
- 7ipv/5n6N9RdCvCDNB80cVecYOGTasZOweIxqx8edGv5gwul1kyupjGvivQYZKv5Mg5o
- iuwHvw+840uGK+yvXnEt9vBqb9jejhgqMVvWbi9RKkEPfgNPqwImj3MZB0KXi0WyliDf
- VcAftXG2MyEBimm60tQC/6DqoGecK6g7zqizUiel7rjQW2UWaJPKCWKU//yPc+x7rJOX
- 6l7w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=dlfuukWOmZ3t8pzk/pBVKy6HLKbxbB3g8wRXWJT0TAU6HhbVYXoGX2deyATjP3oMCv
+ uaB6GmeZDXdyGO52NZg+UIchmibzg4qhdfex0keY6XL7kCWUcXy/K6qvrTUmyxHRpFIx
+ bZ3We3aGFnFW570RtA5kdA25CMuMVKlzc3ZhN7HXlS2Au/5rJhcizsjX6DcC1DU+5PJ6
+ gOHtC0nwh7Dd02eimZKOUJpujh2Wmkyt39MUoqQ6FIT7I8J79PTqge2vO5r399xLjFSq
+ qzJFCCDcZofBjKjWGwzBa1p7mz0yAdx3mqFnhq73nzQZMgyha16M6gtUdUTZMI9YxIkt
+ /31Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=AT6qRdGiHUFbs1H5b1gZ/1m3frqPb0qf6kZjmIuArLc=;
- b=RYfv85K3sZ0H8rwsbsWyfHrYQs/TLesJqhLu9DxYXfeW3fKAqrGxjYbj5Nb+i++TBp
- QpLN/Bot31t0XPEsmIPSY5j/umD9oiZhy4y2p4JmPotPn3bDNRKkuh9h5zgMvlnzMx0H
- OQd2cUUYfZyZz4XDbzN4/zOOmMNBSoFQAfoLDyD6Sef+M2cNJxc4fwPn9ID7AbaA7RGM
- 6DK/kmvPS0Y7TW3pNmPFVrClmBiFkvCrAde0yPtXWG6KnQoA4FZoXzCDz/H6qDise0qS
- HpSYfTxT7KinpQEOUrfOVAcMliat991OtOTLUFFAVBohzo7tv7TjtPr11Qux+oru6+yX
- LZgg==
-X-Gm-Message-State: AOAM531lx9rA6jqr/D+Ij2fFSiqxzQ9azVHQLSfRzI9UdVqUy9UkcB2K
- Q4vAqia1qd6Qko6+I0o+IRFZQGwHS/xw8fEN2vY=
-X-Google-Smtp-Source: ABdhPJxKRpG2GNXwZXiCmlHtX8h1DXietNm2lxMJl5i1Zt5XOR1SkSPaG4DIbgwFKYKpiTXuZXzsyw==
-X-Received: by 2002:a2e:860e:0:b0:24b:68ff:6284 with SMTP id
- a14-20020a2e860e000000b0024b68ff6284mr3563097lji.198.1649753950512; 
- Tue, 12 Apr 2022 01:59:10 -0700 (PDT)
-Received: from localhost.localdomain ([178.69.44.101])
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=Qdeu8HVXoeJ4t6xhn2UQjM8zNkh6hR4Gvm4UW8W9nPBw82EttyTFMt5eA1EsRgPST5
+ 9gyfI0knbZTOSiKjHR5GpXSksXOOgudO5bq53vW5+KfhQEdppTjxUpaTPXxB/Jqt6z3m
+ e5mhh2pt5dueazdXHVaLzYh55Lh+8CXKPNF6FDyi51Nlq/2RwUtY+atmy1HjvHcPMqJg
+ qH7sNDz+8J5g4Xq3M8jgz+otIy0b/CkxJaknVfkuyBJSkm8Tbj+DEhJaQ1WmWm6N2EIJ
+ 1DBBoSu0gejtO54otv28oQizPvZBwH/2a7i0vyje/x3Qgl0uf0qOUS5nagPtw/VXRY7B
+ Rt9w==
+X-Gm-Message-State: AOAM533GrEET3wTIyiE80pyTAUfuOa422iLRS2P2m1Ng36mmZaiL8dT0
+ 5Ppt3M7uLlHx6RCM4O9hBK8=
+X-Google-Smtp-Source: ABdhPJwpTbcn6XANWWmSYDtM/d5bOSNKAX2o09nH2ePGDbUSV8CKbLRuD3a39tRrcGk3dpBd1EIMEA==
+X-Received: by 2002:a05:6000:1862:b0:204:e417:9cf8 with SMTP id
+ d2-20020a056000186200b00204e4179cf8mr29451833wri.593.1649765330657; 
+ Tue, 12 Apr 2022 05:08:50 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- q9-20020a196e49000000b00464f0cd58ffsm1664690lfk.89.2022.04.12.01.59.09
+ e13-20020a05600c4e4d00b0038e44e316c1sm2191613wmq.6.2022.04.12.05.08.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 01:59:10 -0700 (PDT)
-Date: Tue, 12 Apr 2022 11:59:09 +0300
-From: Dmitry Tikhov <ddtikhov@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/nvme: fix narrowing conversion
-Message-ID: <20220412085909.nppz25ifaotottjn@localhost.localdomain>
+ Tue, 12 Apr 2022 05:08:50 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-7.1] target/i386: Remove unused XMMReg,
+ YMMReg types and CPUState fields
+Date: Tue, 12 Apr 2022 14:08:48 +0200
+Message-Id: <20220412120848.206690-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220412110047.1497190-1-peter.maydell@linaro.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=ddtikhov@gmail.com; helo=mail-lj1-x22b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 12 Apr 2022 08:59:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,45 +86,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, its@irrelevant.dk, qemu-block@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since nlbas is of type int, it does not work with large namespace size
-values, e.g., 9 TB size of file backing namespace and 8 byte metadata
-with 4096 bytes lbasz gives negative nlbas value, which is later
-promoted to negative int64_t type value and results in negative
-ns->moff which breaks namespace
+Queued, thanks.
 
-Signed-off-by: Dmitry Tikhov <ddtikhov@gmail.com>
----
- hw/nvme/ns.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Paolo
 
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 324f53ea0c..af6504fad2 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -29,7 +29,8 @@ void nvme_ns_init_format(NvmeNamespace *ns)
- {
-     NvmeIdNs *id_ns = &ns->id_ns;
-     BlockDriverInfo bdi;
--    int npdg, nlbas, ret;
-+    int npdg, ret;
-+    int64_t nlbas;
- 
-     ns->lbaf = id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
-     ns->lbasz = 1 << ns->lbaf.ds;
-@@ -42,7 +43,7 @@ void nvme_ns_init_format(NvmeNamespace *ns)
-     id_ns->ncap = id_ns->nsze;
-     id_ns->nuse = id_ns->ncap;
- 
--    ns->moff = (int64_t)nlbas << ns->lbaf.ds;
-+    ns->moff = nlbas << ns->lbaf.ds;
- 
-     npdg = ns->blkconf.discard_granularity / ns->lbasz;
- 
--- 
-2.35.1
 
 
