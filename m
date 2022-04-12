@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B8D4FDF4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:15:58 +0200 (CEST)
-Received: from localhost ([::1]:46434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701964FDF57
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:19:42 +0200 (CEST)
+Received: from localhost ([::1]:52700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neFR7-0006IP-Gz
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:15:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40612)
+	id 1neFUj-0002sj-AA
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:19:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neFOy-0004u8-NT
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:44 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37673)
+ id 1neFP0-0004ua-OP
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:46 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neFOw-0001Ms-Lu
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:44 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- h126-20020a1c2184000000b0038eb17fb7d6so1643852wmh.2
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:13:42 -0700 (PDT)
+ id 1neFOz-0001ND-9D
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:13:46 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ h126-20020a1c2184000000b0038eb17fb7d6so1643932wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Kc14njMSlpkVPu2ugOxWKGqVeaWDjJIFlKF42XjqORY=;
- b=LXgHKAm07VtgzIDF3lz+GPnQsnOE4RJebhAMzT6I5EmLfOSB1/1cYpPNHAdar0Ye9m
- 6miRNTvB+z33xuHy4prEj3KogdNyzwY+AiEm2LOxOS3xPm0ZCJ7ZQlvybc8/BKbjAeYl
- m6mpVn93DB1okznOiHMwzlEnEFya66Eh6SrF8tqYVFji0nh3FUASuk/6CegohbLD94sT
- K7XEVdVRTqOndYxVCD8dqne+RGI0MP9fuRslT4MybZ+e0zyX9ot545noirK3V+eZmKcb
- Xc/iyETkafNY6YwT8mGfrPSoHTWYN+odf+iM6D612CBzcSUkrMF2tpUw/6I31T5qL+LW
- DWfg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=R4ZvnlIoUjZtjWvuejYgl9KVhXxnZ5y5G5J4vXB5mhQ=;
+ b=CFRvgWU9UkjVsh5IrvLkokMJUCEh5GySXizZ19ezm0Bp2dZKss1FBCzK5nWjFvWl8K
+ KfhKEjg0fzFdmdA2zm65UvxsnseKhxLnCj8m80zQ/F51jwg9NsBJxhj71dvPh/eLxbpx
+ 8hWVwKRnvj7LEIF4dL5pcGHLxHokt7GVXU+cWAdn42JAlB6G3RYt7Pw9hk06PPo0mp4s
+ 7vXxoQ5t8T9WRnv0ylofH540UudUz886moTqpSDvlsOrs8u4gfIWvQdJVl/0f80hVWiU
+ SHGPnsTWxo/T4OtXj7AH5v5kRnYrZmY/OsOfa3kE5AnMR2qR2yP3Jxyv7Xuc3XvlSi/0
+ VRKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Kc14njMSlpkVPu2ugOxWKGqVeaWDjJIFlKF42XjqORY=;
- b=idxy3ArbUHEfrqHlaqOWb0IRTX8FIwk/fQMtdgGgRBrWZ3epnqQVeg3AsXTDbhwQdn
- KAHWKlUHS8nkg/DGpa44GBK7NBID8mEgKzEbCtWNdOdF2btC5k1TXV5zl27apT5VDqAx
- qqw2pUYfbOQ02a1p9wAoIsrpQB1NOQzDvS+rSYcSRYHd4G3gfsOAJm1te+YFYNdhirRX
- GzfQoLeUCFWgQSgaw7SnJGXGLCk03JM4nKMS6fKVskJp6EEikVltSI/pTEvHsyvqYFlg
- 46VBsDxaqamuK6tUFLAp7wQbHvlpvjWubNfwjek9ACRiF8LNXCMkfOUSYq4I0izfDatA
- cobg==
-X-Gm-Message-State: AOAM530AoR0jiGsxhSpDr7InLLahVcNmsTh6ZZ7Zzihk+sfLT9DoS/5k
- MsU/sEC2gW9j1vtlSmmeonMsAR682Pj4xQ==
-X-Google-Smtp-Source: ABdhPJxqzJss6cDd1zoBPfedrCiIhO195XZRZWqWflX50/i+NpjTjlpMnYvvy1gSwP8EJxIxOG0wiA==
-X-Received: by 2002:a05:600c:1e17:b0:38e:ba41:2465 with SMTP id
- ay23-20020a05600c1e1700b0038eba412465mr3811908wmb.132.1649765621289; 
- Tue, 12 Apr 2022 05:13:41 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=R4ZvnlIoUjZtjWvuejYgl9KVhXxnZ5y5G5J4vXB5mhQ=;
+ b=HZVHw71RN4hr7O5UL8qKq/QNoo7eHEseiwexrEecaGEbwP2U8X35JTeHSIfZRctRT9
+ 8/He+JY9ldWCgw2RSjHQyG+oek8csXWEMBF+1SiKad7GrBHVrCHp9PRKAGlo45kCgP6G
+ OOq/dJlcdErsybBwAvhYkNrlhPiR1+fY6kwDXR88uhdolD179kZKNWv5aCaOHEZe5898
+ CtkfOYg3fQajVw2p5aVkV5n8fU6ofapHjZtzNVGiJzxA/5hm3dYBSsOnuIvUK4BBBLso
+ hs7RC5e1kDTJV+XV3yYX4aU8Ki/680TkZ1MdtukG4PSCay9FfqDLnfnYWWlxZBMgmZkN
+ A0cw==
+X-Gm-Message-State: AOAM531Q3RMEIYWaj5scNVIXeqcElF9HU0DMJYdGfC2R8qpTLiTBW9YU
+ A9waFVHyt1ZmJ3JeDXGoSQbTNFOphRC4/g==
+X-Google-Smtp-Source: ABdhPJykZxB/2X1x1TexGzGZ0YHZy4dBSEuvep3Al7GTIM7j+oWKvsid4LUmjZIFa64OP+QaPOFzng==
+X-Received: by 2002:a05:600c:1c93:b0:38e:c558:10db with SMTP id
+ k19-20020a05600c1c9300b0038ec55810dbmr3764410wms.121.1649765623864; 
+ Tue, 12 Apr 2022 05:13:43 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- m18-20020a05600c4f5200b0038e8f9d7b57sm2355805wmq.42.2022.04.12.05.13.38
+ m18-20020a05600c4f5200b0038e8f9d7b57sm2355805wmq.42.2022.04.12.05.13.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 05:13:40 -0700 (PDT)
+ Tue, 12 Apr 2022 05:13:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/4] net: support for CFI with libslirp >= 4.7
-Date: Tue, 12 Apr 2022 14:13:33 +0200
-Message-Id: <20220412121337.207203-1-pbonzini@redhat.com>
+Subject: [RFC PATCH 1/4] net: slirp: introduce a wrapper struct for QemuTimer
+Date: Tue, 12 Apr 2022 14:13:34 +0200
+Message-Id: <20220412121337.207203-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220412121337.207203-1-pbonzini@redhat.com>
+References: <20220412121337.207203-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,29 +91,59 @@ Cc: samuel.thibault@ens-lyon.org, thuth@redhat.com, dbuono@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A system libslirp (either static or dynamic) cannot be used with QEMU if
-QEMU is compiled with control-flow instrumentation, because of the way
-timers are implemented in libslirp.   libslirp passes a function pointer
-to the timer_new callback but the type information for the callback is
-missing; invoking the timer callback produces a CFI false positive.
+This struct will be extended in the next few patches to support the
+new slirp_handle_timer() call.  For that we need to store an additional
+"int" for each SLIRP timer, in addition to the cb_opaque.
 
-The fix requires the introduction of new interfaces in
-libslirp.  This series is an example of how QEMU would use
-the new interfaces introduced by libslirp merge request at
-https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/117.
-It is RFC-only because the new interfaces have not been accepted yet.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ net/slirp.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-Paolo Bonzini (4):
-  net: slirp: introduce a wrapper struct for QemuTimer
-  net: slirp: switch to slirp_new
-  net: slirp: add support for CFI-friendly timer API
-  net: slirp: allow CFI with libslirp >= 4.7
-
- meson.build | 24 +++++++--------
- net/slirp.c | 85 ++++++++++++++++++++++++++++++++++++++++++++++-------
- 2 files changed, 86 insertions(+), 23 deletions(-)
-
+diff --git a/net/slirp.c b/net/slirp.c
+index bc5e9e4f77..f1e25d741f 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -184,23 +184,32 @@ static int64_t net_slirp_clock_get_ns(void *opaque)
+     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+ }
+ 
++struct SlirpTimer {
++    QEMUTimer timer;
++}
++
+ static void *net_slirp_timer_new(SlirpTimerCb cb,
+                                  void *cb_opaque, void *opaque)
+ {
+-    return timer_new_full(NULL, QEMU_CLOCK_VIRTUAL,
+-                          SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
+-                          cb, cb_opaque);
++    SlirpTimer *t = g_new(SlirpTimer, 1);
++    timer_init_full(&t->timer, NULL, QEMU_CLOCK_VIRTUAL,
++                    SCALE_MS, QEMU_TIMER_ATTR_EXTERNAL,
++                    cb, cb_opaque);
++    return t;
+ }
+ 
+ static void net_slirp_timer_free(void *timer, void *opaque)
+ {
+-    timer_free(timer);
++    SlirpTimer *t = timer;
++    timer_del(&t->timer);
++    g_free(t);
+ }
+ 
+ static void net_slirp_timer_mod(void *timer, int64_t expire_timer,
+                                 void *opaque)
+ {
+-    timer_mod(timer, expire_timer);
++    SlirpTimer *t = timer;
++    timer_mod(&t->timer, expire_timer);
+ }
+ 
+ static void net_slirp_register_poll_fd(int fd, void *opaque)
 -- 
 2.35.1
+
 
 
