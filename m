@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F584FE536
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 17:53:44 +0200 (CEST)
-Received: from localhost ([::1]:51222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C784FE581
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 18:04:01 +0200 (CEST)
+Received: from localhost ([::1]:33224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neIpr-00008c-Bt
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 11:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44796)
+	id 1neIzn-0007Xr-BS
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 12:03:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1neIos-0007sV-6s
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 11:52:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41097)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1neIwG-0004cP-7r; Tue, 12 Apr 2022 12:00:23 -0400
+Received: from sin.source.kernel.org ([145.40.73.55]:45754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1neIoo-0008OK-Ky
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 11:52:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649778756;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SYUbUdSmRvA07QsVFvK7KVzt1tQsUP6/VUOByiW71lI=;
- b=HgOo2Z1TMn3GCRC4K8f+J9rGDmdf6IwPBVDu2k4wkFkMwWmhqRJ2niQqD206Ch7SaPI+M2
- mMH6pkL6/N3oNi9W9QSG7mcz8XJsvmA3JaOi0cYPN5RuJ6CBtHUAicEaaxrw0qz9X6RY+3
- eCwLidc7GlyzCvYHatnC+aMAJrBTfgU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-140-99sChbKePAOmeTOr-zoiMA-1; Tue, 12 Apr 2022 11:52:35 -0400
-X-MC-Unique: 99sChbKePAOmeTOr-zoiMA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1neIw9-0001DF-TL; Tue, 12 Apr 2022 12:00:16 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD20B1018AA4;
- Tue, 12 Apr 2022 15:52:34 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8390E145BA59;
- Tue, 12 Apr 2022 15:52:33 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] vhost: Track descriptor chain in private at SVQ
-Date: Tue, 12 Apr 2022 17:52:31 +0200
-Message-Id: <20220412155231.1801508-1-eperezma@redhat.com>
+ by sin.source.kernel.org (Postfix) with ESMTPS id 63FEFCE1F65;
+ Tue, 12 Apr 2022 15:59:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDDFBC385A5;
+ Tue, 12 Apr 2022 15:59:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649779196;
+ bh=x2U/qJnrsLfTLMHfTB0Cj0Pia5pGKfHf0qEDVfrCRAc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=LmEWX8tWnaUxlMDkqtvZH5v+O3+Iv0NcPnPFC8ckjz28jnwNTMRNmku60dWjo3Rhr
+ VfS/3RtXDpT3RiNmd4iWrDkwjn4+1OyYIKOMSI8s4cEKcTNxUETMtjfMIUI1OjdC9A
+ nF2RlhCLJtIy5mi5A59wJHpat61x/GZG93RFRlPHsQrxCdewYRTffL1uyemhXtlx4v
+ wM/syBuhDUBt0YsxRGtYJ5qzpfoUsBwNxwrB/6dBBBRj6QNZzZbAVdCSCabm9ZvcoB
+ qHRnUnhwDQnIu89M1tYa3/WwZg57C+iNWAhWAsSGPRc2zIie7um3IyOye2HVO8RqSv
+ TyzoOHFsd5Txw==
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1neIvq-003pME-Ee; Tue, 12 Apr 2022 16:59:54 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Date: Tue, 12 Apr 2022 16:59:54 +0100
+From: Marc Zyngier <maz@kernel.org>
+To: Atish Patra <atishp@rivosinc.com>
+Subject: Re: [RFC 1/3] serial: Enable MSI capablity and option
+In-Reply-To: <20220412021009.582424-2-atishp@rivosinc.com>
+References: <20220412021009.582424-1-atishp@rivosinc.com>
+ <20220412021009.582424-2-atishp@rivosinc.com>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <0d89f3ca4532f2afe59860e20acb4118@misterjones.org>
+X-Sender: maz@kernel.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: atishp@rivosinc.com, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, mst@redhat.com, bin.meng@windriver.com,
+ alistair.francis@wdc.com, pbonzini@redhat.com, palmer@dabbelt.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=145.40.73.55; envelope-from=maz@kernel.org;
+ helo=sin.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,126 +81,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Cindy Lu <lulu@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, Harpreet Singh Anand <hanand@xilinx.com>
+Cc: qemu-riscv@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only the first one of them were properly enqueued back.
+On 2022-04-12 03:10, Atish Patra wrote:
+> The seria-pci device doesn't support MSI. Enable the device to provide
+> MSI so that any platform with MSI support only can also use
+> this serial device. MSI can be enabled by enabling the newly introduced
+> device property. This will be disabled by default preserving the 
+> current
+> behavior of the seria-pci device.
 
-While we're at it, harden SVQ: The device could have access to modify
-them, and it definitely have access when we implement packed vq. Harden
-SVQ maintaining a private copy of the descriptor chain. Other fields
-like buffer addresses are already maintained sepparatedly.
+This seems really odd. Switching to MSI implies that you now have
+an edge signalling. This means that the guest will not be interrupted
+again if it acks the MSI and doesn't service the device, as you'd
+expect for a level interrupt (which is what the device generates today).
 
-Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+ From what I understand of the patch, you signal a MSI on each
+transition of the device state, which is equally odd (you get
+an interrupt even where the device goes idle?).
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/virtio/vhost-shadow-virtqueue.h |  6 ++++++
- hw/virtio/vhost-shadow-virtqueue.c | 27 +++++++++++++++++++++------
- 2 files changed, 27 insertions(+), 6 deletions(-)
+While this may work for some guests, this completely changes the
+semantics of the device. You may want to at least document the new
+behaviour.
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index e5e24c536d..c132c994e9 100644
---- a/hw/virtio/vhost-shadow-virtqueue.h
-+++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -53,6 +53,12 @@ typedef struct VhostShadowVirtqueue {
-     /* Next VirtQueue element that guest made available */
-     VirtQueueElement *next_guest_avail_elem;
+Thanks,
 
-+    /*
-+     * Backup next field for each descriptor so we can recover securely, not
-+     * needing to trust the device access.
-+     */
-+    uint16_t *desc_next;
-+
-     /* Next head to expose to the device */
-     uint16_t shadow_avail_idx;
+         M.
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index b232803d1b..a2531d5874 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -138,6 +138,7 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-     for (n = 0; n < num; n++) {
-         if (more_descs || (n + 1 < num)) {
-             descs[i].flags = flags | cpu_to_le16(VRING_DESC_F_NEXT);
-+            descs[i].next = cpu_to_le16(svq->desc_next[i]);
-         } else {
-             descs[i].flags = flags;
-         }
-@@ -145,10 +146,10 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-         descs[i].len = cpu_to_le32(iovec[n].iov_len);
+> 
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>  hw/char/serial-pci.c | 36 +++++++++++++++++++++++++++++++++---
+>  1 file changed, 33 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
+> index 93d6f9924425..ca93c2ce2776 100644
+> --- a/hw/char/serial-pci.c
+> +++ b/hw/char/serial-pci.c
+> @@ -31,6 +31,7 @@
+>  #include "hw/char/serial.h"
+>  #include "hw/irq.h"
+>  #include "hw/pci/pci.h"
+> +#include "hw/pci/msi.h"
+>  #include "hw/qdev-properties.h"
+>  #include "migration/vmstate.h"
+>  #include "qom/object.h"
+> @@ -39,26 +40,54 @@ struct PCISerialState {
+>      PCIDevice dev;
+>      SerialState state;
+>      uint8_t prog_if;
+> +    bool msi_enabled;
+>  };
+> 
+>  #define TYPE_PCI_SERIAL "pci-serial"
+>  OBJECT_DECLARE_SIMPLE_TYPE(PCISerialState, PCI_SERIAL)
+> 
+> +
+> +static void msi_irq_handler(void *opaque, int irq_num, int level)
+> +{
+> +    PCIDevice *pci_dev = opaque;
+> +
+> +    assert(level == 0 || level == 1);
+> +
+> +    if (msi_enabled(pci_dev)) {
+> +        msi_notify(pci_dev, 0);
+> +    }
+> +}
+> +
+>  static void serial_pci_realize(PCIDevice *dev, Error **errp)
+>  {
+>      PCISerialState *pci = DO_UPCAST(PCISerialState, dev, dev);
+>      SerialState *s = &pci->state;
+> +    Error *err = NULL;
+> +    int ret;
+> 
+>      if (!qdev_realize(DEVICE(s), NULL, errp)) {
+>          return;
+>      }
+> 
+>      pci->dev.config[PCI_CLASS_PROG] = pci->prog_if;
+> -    pci->dev.config[PCI_INTERRUPT_PIN] = 0x01;
+> -    s->irq = pci_allocate_irq(&pci->dev);
+> -
+> +    if (pci->msi_enabled) {
+> +        pci->dev.config[PCI_INTERRUPT_PIN] = 0x00;
+> +        s->irq = qemu_allocate_irq(msi_irq_handler, &pci->dev, 100);
+> +    } else {
+> +        pci->dev.config[PCI_INTERRUPT_PIN] = 0x01;
+> +        s->irq = pci_allocate_irq(&pci->dev);
+> +    }
+>      memory_region_init_io(&s->io, OBJECT(pci), &serial_io_ops, s, 
+> "serial", 8);
+>      pci_register_bar(&pci->dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->io);
+> +
+> +    if (!pci->msi_enabled) {
+> +        return;
+> +    }
+> +
+> +    ret = msi_init(&pci->dev, 0, 1, true, false, &err);
+> +    if (ret == -ENOTSUP) {
+> +        fprintf(stdout, "MSIX INIT FAILED\n");
+> +    }
+>  }
+> 
+>  static void serial_pci_exit(PCIDevice *dev)
+> @@ -83,6 +112,7 @@ static const VMStateDescription vmstate_pci_serial = 
+> {
+> 
+>  static Property serial_pci_properties[] = {
+>      DEFINE_PROP_UINT8("prog_if",  PCISerialState, prog_if, 0x02),
+> +    DEFINE_PROP_BOOL("msi",  PCISerialState, msi_enabled, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
 
-         last = i;
--        i = cpu_to_le16(descs[i].next);
-+        i = cpu_to_le16(svq->desc_next[i]);
-     }
-
--    svq->free_head = le16_to_cpu(descs[last].next);
-+    svq->free_head = le16_to_cpu(svq->desc_next[last]);
- }
-
- static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-@@ -333,13 +334,22 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
-     svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
- }
-
-+static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
-+                                             uint16_t num, uint16_t i)
-+{
-+    for (uint16_t j = 0; j < num; ++j) {
-+        i = le16_to_cpu(svq->desc_next[i]);
-+    }
-+
-+    return i;
-+}
-+
- static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
-                                            uint32_t *len)
- {
--    vring_desc_t *descs = svq->vring.desc;
-     const vring_used_t *used = svq->vring.used;
-     vring_used_elem_t used_elem;
--    uint16_t last_used;
-+    uint16_t last_used, last_used_chain, num;
-
-     if (!vhost_svq_more_used(svq)) {
-         return NULL;
-@@ -365,7 +375,10 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
-         return NULL;
-     }
-
--    descs[used_elem.id].next = svq->free_head;
-+    num = svq->ring_id_maps[used_elem.id]->in_num +
-+          svq->ring_id_maps[used_elem.id]->out_num;
-+    last_used_chain = vhost_svq_last_desc_of_chain(svq, num, used_elem.id);
-+    svq->desc_next[last_used_chain] = svq->free_head;
-     svq->free_head = used_elem.id;
-
-     *len = used_elem.len;
-@@ -540,8 +553,9 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
-     svq->vring.used = qemu_memalign(qemu_real_host_page_size, device_size);
-     memset(svq->vring.used, 0, device_size);
-     svq->ring_id_maps = g_new0(VirtQueueElement *, svq->vring.num);
-+    svq->desc_next = g_new0(uint16_t, svq->vring.num);
-     for (unsigned i = 0; i < svq->vring.num - 1; i++) {
--        svq->vring.desc[i].next = cpu_to_le16(i + 1);
-+        svq->desc_next[i] = cpu_to_le16(i + 1);
-     }
- }
-
-@@ -574,6 +588,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
-         virtqueue_detach_element(svq->vq, next_avail_elem, 0);
-     }
-     svq->vq = NULL;
-+    g_free(svq->desc_next);
-     g_free(svq->ring_id_maps);
-     qemu_vfree(svq->vring.desc);
-     qemu_vfree(svq->vring.used);
---
-2.27.0
-
+-- 
+Jazz is not dead. It just smells funny...
 
