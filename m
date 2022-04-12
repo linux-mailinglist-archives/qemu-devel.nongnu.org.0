@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBCA4FC978
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 02:44:51 +0200 (CEST)
-Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7D34FCA38
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 02:50:01 +0200 (CEST)
+Received: from localhost ([::1]:49644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ne4eI-0001cw-ET
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 20:44:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58536)
+	id 1ne4jI-0008Kz-BQ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 20:50:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ne4TS-0001sN-9g
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 20:33:40 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:38629)
+ id 1ne4TU-0001sV-TM
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 20:33:42 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:35402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ne4TQ-0001q1-Ow
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 20:33:38 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- s14-20020a17090a880e00b001caaf6d3dd1so961918pjn.3
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 17:33:36 -0700 (PDT)
+ id 1ne4TR-0001qP-Tf
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 20:33:39 -0400
+Received: by mail-pg1-x535.google.com with SMTP id z128so15650784pgz.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 17:33:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8luVauhihyr0PwbhR6mFW3lQ8iZWOtf74oqGGDI3uYM=;
- b=SMDna9xJ/wEfmSYqkkoBDDM6t1ZYkikLVsXMS6cUMcErY080AmRZm3dYRZNuQJpKPN
- tW1IYRPRz4olbl8QY4iJwlv9KQz97qdx0GvJxHpgAP6y3Ei7TO0NgymWLrEvv+bgy6Go
- HKo5LvKxiQEPtue8a03vbHP+DuQbReJGwCrOd1s/pt+Fbkt2Wf8X3CMzcEnTkvunUJ3Z
- BKhkcGOXrQifL3FJLQYgnM0GfMPJRVtzrq0Rhi/QZVI8Au/XEFPtQg3atf2iDA+29BOZ
- 5etx7vIMDPoHSaTBJhJ2jyKLH+KWY1e229PAg2bo+EeTUrsUvkm61Lfvd4jxJQ4WmXzP
- awAQ==
+ bh=13HoyrqJzJM1udVXlLkOrIOrEqLEasz9w/pSQOQ02PE=;
+ b=uc06eI913KVDNmYMzRkLJbPSOhrbxbp6qkq/KKqcbICX32n9g4IvptMVj2R2mRJuFf
+ 016UNTnOuYDO9LXC6UoRRzGd0B2HrDLqdaFX2X5+wwjyHKxvxlN8dSn0Zo10JXdc9qet
+ 9lvXlu7oXj5sx+ouZwGYURkUTdU3SH/8ib3dx8GcveXE57zuRjYyKHqeW9Gx1ftynSEi
+ arRW06W/IHZ8M1X/XcSAArQPknmP59zHuFHT9VirsdhfxldzuSOpw14pTqLtbEnTk5br
+ OpfdEXkuqB4LDuu9yrn2cNS15nhwj5nzcPowkNOiGoR7rkBWGx8qAdF5ATRz4FQdBOYW
+ U21Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8luVauhihyr0PwbhR6mFW3lQ8iZWOtf74oqGGDI3uYM=;
- b=GboVQvcx+THtREyy2CO6zGswu1F+XYLrdMO2hqjuMVA3BEgAt5UA//Ve6p6BdEOeH9
- zAzzFQnbRa7wdPgSC/x3xwFBL6pQlWd0BefVcrOCnt9y14fxu6NjSrdSBiamLz0bGopq
- IWlWxD6ALKgsQr3dVK0IzrygFbiqzAbORKBtDa4G8RVpsgzDgMvsIFu6UhbMyhHKiQud
- PfFvFI1EQgDpwlECTXQbBxT5UnLH7J6ZjQgi4AJXGSNM9cyYGMOpmpBuus3x8ZLdmveB
- hacvBuiGdANbUY0HjqEm4hqNpZ975xZG49Te7Bi/AHR63Cb72S+AoHW0eytUX3fw0m2T
- BklA==
-X-Gm-Message-State: AOAM533kZG822UQ+veXJJqhr/tgX+PGqW51qbmfYmpHOR4chsQmYB47n
- NRZ1UgRAA7bqrBO5v6fpR7XJOTGcJjaODw==
-X-Google-Smtp-Source: ABdhPJz6Iwm/ZIwgbFIBBLP3jx21pMF+CQUTAFLJB2rKbqh/F6XTwukREA/PQCQRXM05ekP1O6aF6A==
-X-Received: by 2002:a17:902:70cc:b0:154:1cc8:9df8 with SMTP id
- l12-20020a17090270cc00b001541cc89df8mr35322752plt.32.1649723615480; 
- Mon, 11 Apr 2022 17:33:35 -0700 (PDT)
+ bh=13HoyrqJzJM1udVXlLkOrIOrEqLEasz9w/pSQOQ02PE=;
+ b=r31OidhIuZXztjBzWBZZ9B2N9OYdUPIarO6EgQw7XcdwVLNNRwJB8Y5Q6hnfrIhLEw
+ u+oh64bMfg5eDHoTrqKn6/qM5rRLwlb3SeWoZT4ooAql8HfofJihqMJxeEP74MPGTG4O
+ 6yYxOpNd3TvH+NtKOGH74aNLKpDJZxqRyvHqxAToqJ2xRVLcbB6eH8SiGCjzJrLK4USi
+ INjQX/GtosjYflsy+FxamUoSTmUwCw7W3LwrN+mj6s93r90jxXBwA1MEQ45EjKlMpshe
+ 62q2GDKuEFJfww7ludi1gKipmlCGLcUx83dMNJgDstsqENTk/0/AMma8e+dwG0EVgckt
+ nVgA==
+X-Gm-Message-State: AOAM5307yxyWDzNLMmDmDtmgL40dmKG5Bj7f+fE9p4zkfADjN3jOP4z6
+ Ao8YdCdCDYSz6WkNN7Qsg53N9xw3jU70BQ==
+X-Google-Smtp-Source: ABdhPJxCqKisSonD+PTzMm9vzIhZkxz1rIDQWrFWV/gsSCposLHfNmgGuX0N0sN4x2bUNMI7D/FB9A==
+X-Received: by 2002:a05:6a02:10d:b0:381:f4c8:ad26 with SMTP id
+ bg13-20020a056a02010d00b00381f4c8ad26mr28294821pgb.135.1649723616468; 
+ Mon, 11 Apr 2022 17:33:36 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- g15-20020a056a0023cf00b004e17e11cb17sm38346669pfc.111.2022.04.11.17.33.34
+ g15-20020a056a0023cf00b004e17e11cb17sm38346669pfc.111.2022.04.11.17.33.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Apr 2022 17:33:35 -0700 (PDT)
+ Mon, 11 Apr 2022 17:33:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/24] target/arm: Use field names for manipulating EL2 and
- EL3 modes
-Date: Mon, 11 Apr 2022 17:33:10 -0700
-Message-Id: <20220412003326.588530-9-richard.henderson@linaro.org>
+Subject: [PATCH v2 09/24] target/arm: Enable FEAT_Debugv8p2 for -cpu max
+Date: Mon, 11 Apr 2022 17:33:11 -0700
+Message-Id: <20220412003326.588530-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220412003326.588530-1-richard.henderson@linaro.org>
 References: <20220412003326.588530-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,57 +88,71 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use FIELD_DP{32,64} to manipulate id_pfr1 and id_aa64pfr0
-during arm_cpu_realizefn.
+The only portion of FEAT_Debugv8p2 that is relevant to QEMU
+is CONTEXTIDR_EL2, which is also conditionally implemented
+with FEAT_VHE.  The rest of the debug extension concerns the
+External debug interface, which is outside the scope of QEMU.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+v2: Update emulation.rst
+---
+ docs/system/arm/emulation.rst | 1 +
+ target/arm/cpu.c              | 1 +
+ target/arm/cpu64.c            | 1 +
+ target/arm/cpu_tcg.c          | 2 ++
+ 4 files changed, 5 insertions(+)
 
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index 520fd39071..035f7cf9d0 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -13,6 +13,7 @@ the following architecture extensions:
+ - FEAT_BTI (Branch Target Identification)
+ - FEAT_DIT (Data Independent Timing instructions)
+ - FEAT_DPB (DC CVAP instruction)
++- FEAT_Debugv8p2 (Debug changes for v8.2)
+ - FEAT_DotProd (Advanced SIMD dot product instructions)
+ - FEAT_FCMA (Floating-point complex number instructions)
+ - FEAT_FHM (Floating-point half-precision multiplication instructions)
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5d4ca7a227..6521f350f9 100644
+index 6521f350f9..d815d3a397 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -1795,11 +1795,13 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+@@ -1800,6 +1800,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+          * feature registers as well.
           */
-         unset_feature(env, ARM_FEATURE_EL3);
- 
--        /* Disable the security extension feature bits in the processor feature
--         * registers as well. These are id_pfr1[7:4] and id_aa64pfr0[15:12].
-+        /*
-+         * Disable the security extension feature bits in the processor
-+         * feature registers as well.
-          */
--        cpu->isar.id_pfr1 &= ~0xf0;
--        cpu->isar.id_aa64pfr0 &= ~0xf000;
-+        cpu->isar.id_pfr1 = FIELD_DP32(cpu->isar.id_pfr1, ID_PFR1, SECURITY, 0);
-+        cpu->isar.id_aa64pfr0 = FIELD_DP64(cpu->isar.id_aa64pfr0,
-+                                           ID_AA64PFR0, EL3, 0);
+         cpu->isar.id_pfr1 = FIELD_DP32(cpu->isar.id_pfr1, ID_PFR1, SECURITY, 0);
++        cpu->isar.id_dfr0 = FIELD_DP32(cpu->isar.id_dfr0, ID_DFR0, COPSDBG, 0);
+         cpu->isar.id_aa64pfr0 = FIELD_DP64(cpu->isar.id_aa64pfr0,
+                                            ID_AA64PFR0, EL3, 0);
      }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index e4f630d83f..33570c3b6d 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -797,6 +797,7 @@ static void aarch64_max_initfn(Object *obj)
+     cpu->isar.id_aa64zfr0 = t;
  
-     if (!cpu->has_el2) {
-@@ -1830,12 +1832,14 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
+     t = cpu->isar.id_aa64dfr0;
++    t = FIELD_DP64(t, ID_AA64DFR0, DEBUGVER, 8);  /* FEAT_Debugv8p2 */
+     t = FIELD_DP64(t, ID_AA64DFR0, PMUVER, 5);    /* FEAT_PMUv3p4 */
+     cpu->isar.id_aa64dfr0 = t;
  
-     if (!arm_feature(env, ARM_FEATURE_EL2)) {
--        /* Disable the hypervisor feature bits in the processor feature
--         * registers if we don't have EL2. These are id_pfr1[15:12] and
--         * id_aa64pfr0_el1[11:8].
-+        /*
-+         * Disable the hypervisor feature bits in the processor feature
-+         * registers if we don't have EL2.
-          */
--        cpu->isar.id_aa64pfr0 &= ~0xf00;
--        cpu->isar.id_pfr1 &= ~0xf000;
-+        cpu->isar.id_aa64pfr0 = FIELD_DP64(cpu->isar.id_aa64pfr0,
-+                                           ID_AA64PFR0, EL2, 0);
-+        cpu->isar.id_pfr1 = FIELD_DP32(cpu->isar.id_pfr1,
-+                                       ID_PFR1, VIRTUALIZATION, 0);
-     }
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 075c187286..e719696412 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -75,6 +75,8 @@ void arm32_max_features(ARMCPU *cpu)
+     cpu->isar.id_pfr2 = t;
  
- #ifndef CONFIG_USER_ONLY
+     t = cpu->isar.id_dfr0;
++    t = FIELD_DP32(t, ID_DFR0, COPDBG, 8);        /* FEAT_Debugv8p2 */
++    t = FIELD_DP32(t, ID_DFR0, COPSDBG, 8);       /* FEAT_Debugv8p2 */
+     t = FIELD_DP32(t, ID_DFR0, PERFMON, 5);       /* FEAT_PMUv3p4 */
+     cpu->isar.id_dfr0 = t;
+ }
 -- 
 2.25.1
 
