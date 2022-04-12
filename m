@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D3D4FE92C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 21:58:54 +0200 (CEST)
-Received: from localhost ([::1]:52636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89AF64FE96F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 22:27:15 +0200 (CEST)
+Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neMf7-0000Wv-AZ
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 15:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35012)
+	id 1neN6Y-0001jp-65
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 16:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1neMdm-0007bO-Gt
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:57:30 -0400
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:39442)
+ (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
+ id 1neN5N-0000wo-OB
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 16:26:01 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:45773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1neMdk-0002qO-Nk
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:57:30 -0400
-Received: by mail-lj1-x231.google.com with SMTP id bn33so25426245ljb.6
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 12:57:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shutemov-name.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=KPcbiORevCwEqMtvKJH++KF0drE74ilJoT8gFQ34EnA=;
- b=TSKs9eKW1GlEw++EEPezIbQGa8d6xcrKEr3la4XqzpfJPISA+7b9KTTEm23XMMJ1YV
- pcXKlpyq55urGdORKzGxmT1pTvZ/5QXhjKImBF6bFGimi25oLZDpt9M2DbzXX/bDQ+u3
- 9OTNzI18CY7dO2LOX4qCsPXJJ34xmRx72tFYZ9ATSXhsUXzw1klZnP3cX0EZtk+eprNZ
- tCkMhSq3MAlnJi4/eKNm3VReaN0l0QUhoN+OmB8jE4MWy6cl5AMOOOgXwh+tCG2JI/WG
- 9+gYtMY/ams5vv8fDesBL9oYXhTRQRnTpXvK1Fa0yRuSW4SuRnnTGhhsM6HBGKFzDmOM
- KMVw==
+ (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
+ id 1neN5L-0007QK-9F
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 16:26:00 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ a16-20020a17090a6d9000b001c7d6c1bb13so4211039pjk.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 13:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VVv1Hoer+8utf70hGTcGvQoTwEkq5XxhsEIO0y6J2Q8=;
+ b=K86GHBGHBQjayar+GxHkFkNmZgxcA88+pvRZJGFxxqh+CtLgn/xV2lI+YYdoLoO/pM
+ EeRJLXPsiK8VNJpk8glGzc79Rb1dx2qvw3rKb9q41g7/ohbHizfScFwqq3FiUpU2xJYv
+ 4cb8ucAbswmRSLmGC1S10Dgc1JN/v7tFJ/ZvKmGN/4Mb06nlo29Ldc7rkHesu/YUpEBN
+ 9fiXVn29p/WlNDV1aQsStxvro/NSZmlSmNs+F/HjVZ4tFa4C2OUwanGpGeJtJqzuQHAi
+ xJWZX3QmTpvtwAERCH8jcuwcGQydONo3rvWzGvgAbtla4hPtViIODRKFndTO8+zEkasU
+ tiNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KPcbiORevCwEqMtvKJH++KF0drE74ilJoT8gFQ34EnA=;
- b=UbZFvJW59QsQYv1VKkZpCHORhXbpU7dn7zF8+YxwKtQWeWU9edk6LtCxXS36uZFxRX
- 5/K1WayFTd6oZ1AJmVcKCFz5IT7uFzDAfOfdNgjeXM4yPq7NvTotA9b+Wr/uwo7+50zh
- +nMeJLTgjCl22Fqb0RtUatmJNnunFhZeLQNjDtpgmyOLLJA8zmEpqZHhIyPuOKrgv1Gz
- /TNs7jpztHWfN6qkyvtXY5M0TVS2DziCXhyyJ035pqY57f2O5cgjIkHwEYDQVINhjtMo
- qLUYD23NgP7yKOuIUNQXOglWzsUKjsCUiuuxfCyv6LtsLLDrUU3zlhOZhH5+e4QNBAh6
- 0mvg==
-X-Gm-Message-State: AOAM531S9g1RYEjUU5Vnj6iZiG4R2KhW/rH28f2uXsiilnPgVtvGLnky
- aVLFWzqVFex9nYluu+y9uR9WCg==
-X-Google-Smtp-Source: ABdhPJzmo2kVaO0teoqOt46A1/R+kt5G8p3jezRBHquWD+rDhCqurcBAW6KPrG7h2kWuiHcT+suCXg==
-X-Received: by 2002:a2e:a795:0:b0:24c:7f68:b382 with SMTP id
- c21-20020a2ea795000000b0024c7f68b382mr1118017ljf.494.1649793446359; 
- Tue, 12 Apr 2022 12:57:26 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
- by smtp.gmail.com with ESMTPSA id
- g4-20020ac24d84000000b00464f178c0bbsm1843697lfe.96.2022.04.12.12.57.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 12:57:25 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
- id 446751030D2; Tue, 12 Apr 2022 22:58:59 +0300 (+03)
-Date: Tue, 12 Apr 2022 22:58:59 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220412195859.gjklfw3fz2lehpb5@box.shutemov.name>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <CALCETrWk1Y47JQC=V028A7Tmc9776Oo4AjgwqRtd9K=XDh6=TA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VVv1Hoer+8utf70hGTcGvQoTwEkq5XxhsEIO0y6J2Q8=;
+ b=F9CCAv3xCIUJoiphj5c6LViREjkedkNBDo6IQHJs48PtLj0TJmVnC9ntLkUHU10tnW
+ 4oackzN9q/sY+kyHiR1vvixqBEBqlkfrkIwJXiH1jJKRnKuGdFMunok9+Oa90nF4y9BG
+ 0YLiFdLqxAUDVqEbLdQNTOZbXbGD2M6HnmMJ1AMN2faAOEAm9BH0cRRIVbQNfxHUJHF8
+ mV221TowZmukgzQa2rs0+Hd2pusr3TW7QztBwTOQzVhGAngVhzgvhFYGyTbXyj6Vu85v
+ WEYQ3PQa+JqmspuKIf7+pKje628FTOljqZvMxNF2g8k1itnWa6pAbqhcyOL+ptyaJBBx
+ kBww==
+X-Gm-Message-State: AOAM531raG5IHumgB5r14WFukrOvsAgfIRV7Jy24LVsQdkACOn+lFhin
+ yNrrT/lHjtkOsHjLTfHH0Rd6MtL+D9cXqWGj94w=
+X-Google-Smtp-Source: ABdhPJwLP1XtXLlWEZVQ7VtMoK0PIi97OUrt3f3BD0idNmoIbxUvkXdY55fB2rY7VH12f2v2xyejjCWnLrhYBt1i9FI=
+X-Received: by 2002:a17:902:d5cd:b0:156:6263:bbc7 with SMTP id
+ g13-20020a170902d5cd00b001566263bbc7mr40529108plh.160.1649795157218; Tue, 12
+ Apr 2022 13:25:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALCETrWk1Y47JQC=V028A7Tmc9776Oo4AjgwqRtd9K=XDh6=TA@mail.gmail.com>
-Received-SPF: none client-ip=2a00:1450:4864:20::231;
- envelope-from=kirill@shutemov.name; helo=mail-lj1-x231.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220408104519.32931-1-gautamnagrawal@gmail.com>
+ <f3adc652-6a89-a063-313a-4d87c11fc474@redhat.com>
+In-Reply-To: <f3adc652-6a89-a063-313a-4d87c11fc474@redhat.com>
+From: Gautam Agrawal <gautamnagrawal@gmail.com>
+Date: Wed, 13 Apr 2022 01:55:45 +0530
+Message-ID: <CAG-ETXuh2-bJBO4298uyc166ptiTauimChBE=TwoYpxYx4npUA@mail.gmail.com>
+Subject: Re: [PATCH] Warn user if the vga flag is passed but no vga device is
+ created
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=gautamnagrawal@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,52 +80,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org, david@redhat.com,
- qemu-devel@nongnu.org, "J . Bruce Fields" <bfields@fieldses.org>,
- linux-mm@kvack.org, "H . Peter Anvin" <hpa@zytor.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, jun.nakajima@intel.com,
- Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
- Jim Mattson <jmattson@google.com>, dave.hansen@intel.com,
- linux-api@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
- linux-kernel@vger.kernel.org, Yu Zhang <yu.c.zhang@linux.intel.com>,
- Mike Rapoport <rppt@kernel.org>, Sean Christopherson <seanjc@google.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vishal Annapurve <vannapurve@google.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: peter.maydell@linaro.org, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel@nongnu.org, stefanha@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 28, 2022 at 01:16:48PM -0700, Andy Lutomirski wrote:
-> On Thu, Mar 10, 2022 at 6:09 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-> > This is the v5 of this series which tries to implement the fd-based KVM
-> > guest private memory. The patches are based on latest kvm/queue branch
-> > commit:
-> >
-> >   d5089416b7fb KVM: x86: Introduce KVM_CAP_DISABLE_QUIRKS2
-> 
-> Can this series be run and a VM booted without TDX?  A feature like
-> that might help push it forward.
+hi,
 
-It would require enlightenment of the guest code. We have two options.
+> thanks for your patch, looks pretty good already, but there is a small
+> issue: Try for example:
+>
+>   ./qemu-system-s390x -vga none
+>
+> ... and it will print the warning "qemu-system-s390x: warning: No vga device
+> is created", though the user only asked for no VGA device. This seems to
+> happen if a machine does not have any VGA device by default, but still
+> requests "-vga none" on the command line.
 
-Simple one is to limit enabling to the guest kernel, but it would require
-non-destructive conversion between shared->private memory. This does not
-seem to be compatible with current design.
+This can be solved by adding this condition : (vga_interface_type != VGA_NONE)
 
-Other option is get memory private from time 0 of VM boot, but it requires
-modification of virtual BIOS to setup shared ranges as needed. I'm not
-sure if anybody volunteer to work on BIOS code to make it happen.
 
-Hm.
+> On 08/04/2022 12.45, Gautam Agrawal wrote:
+> > This patch is in regards to this issue:https://gitlab.com/qemu-project/qemu/-/issues/581#.
+>
+> Better write this right in front of your Signed-off-by line:
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/581
+>
+> ... then the ticket will be automatically be closed once your patch gets merged.
+>
+I apologize for this mistake
 
--- 
- Kirill A. Shutemov
+> vga_interface_type is also used in hw/mips/fuloong2e.c and
+> hw/xenpv/xen_machine_pv.c ... do they need a change, too?
+
+I can definitely make similar changes in them too since they also
+specify the vga_interface_type, shall I proceed with this?
+
+> This will trigger a warning from the scripts/checkpatch.pl script:
+>
+> ERROR: do not initialise globals to 0 or NULL
+> #238: FILE: softmmu/globals.c:43:
+> +bool vga_interface_created = false;
+
+Could you kindly suggest a better approach to this than creating a
+global variable.
+
+
+> I'm not a native speaker, and maybe it's just a matter of taste, but I'd
+> rather say it in past tense: "No VGA device has been created"
+
+I will correct the warning message, as suggested by Peter Maydell.
+
+Regards,
+Gautam Agrawal
 
