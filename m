@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF4F4FC90D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 02:06:27 +0200 (CEST)
-Received: from localhost ([::1]:33778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEB84FC91E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 02:12:55 +0200 (CEST)
+Received: from localhost ([::1]:38604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ne438-0001eS-1x
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 20:06:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
+	id 1ne49O-0005E0-Dl
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 20:12:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ne40o-0008NM-9d
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 20:04:02 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:43961)
+ id 1ne47l-0004Oj-1y; Mon, 11 Apr 2022 20:11:13 -0400
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:46729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ne40m-0005pJ-Oh
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 20:04:01 -0400
-Received: by mail-io1-xd30.google.com with SMTP id 125so20561776iov.10
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 17:03:59 -0700 (PDT)
+ id 1ne47j-0007E4-3z; Mon, 11 Apr 2022 20:11:12 -0400
+Received: by mail-il1-x133.google.com with SMTP id f5so664500ilj.13;
+ Mon, 11 Apr 2022 17:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JJT7HXlPDg+91XaBznKcMr8OgsnBkqEg6edSnCh82qo=;
- b=d5Ap/NWbkLqx/Ms6MZNKN/2KRnqin46hVptetQPdAIP39or0BJ8o1yjZeA9eMg5NOL
- NVWtq5D2pacVS7cfixUCtbTyxoZNhAmtl2Dp1jWAUA510Lr9twlBhYyhRdPnLVrT9vta
- aJZXED2P7Q5jHnHrbNZH0Crdd7FoIem1RoLsM7cTcinOesCU35fS6v7Ic9sc5aQS3VLK
- 5EeBmTS/hFTsLwAPHWr6Mz5yyD8YONXrT5V9wUwn8/b4XEyN5Ygiq9fxxqDgmt8L/jIE
- 5BUGdyRYNRTrNfOR4d6MShGdptOlsT/VzoeGVuv+4fVULSvrBaAAGWs+ToUgUjOXcfaS
- O4NQ==
+ :cc; bh=y+2cJ4XLBJjq2wqhT1NvZHOCVv0sA032dzQwobARL1U=;
+ b=iCK0/wiksW6d7nZ4+WMtQtuPIVs9NPOL+xCD0UbLqWYe0ckFJmtZf80TUDekW3wUMi
+ dCyYyT78Bi08C/JtjhRtBrHMVtNnfv0Pt/B5qlJnZYDqHGSW2W5TiBgJ6g6c0SeGn0vS
+ SbUXOHnrC0POUNSKoskOFE2h6IXm/WOTpii3vcayoN1/jqNirPqeFsALgSFg6EylV8gm
+ ld6cIP8+wu93MwYnCz/ynTtYPPxKy54LmuwRutB+XnCiXauhHa5wACurLkShlXjrL4i6
+ QVYFKt1hIs5ZdtwfNvWfTv2pqF1ZZUPJKk3ws8j+ktREHBXJDogNA22s9Br44P/H0HB2
+ AmTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JJT7HXlPDg+91XaBznKcMr8OgsnBkqEg6edSnCh82qo=;
- b=jW2mVI+akdPrgrqBfnjGyhRjFWLKJ2xB+utmwfmMUNIY5oHPDFD59+RlIc5/j67FhW
- 504X4cPdP8/clElFrtRroANqTz1ITyVYQ9DrlRuKgNOvLBkRO4z30vC2WJcfgGG/Omt2
- kFRFamMc5QltRipsGCzCWpWrFe+HZLbiGwfVcywhcphpFFczMmBIOgpQyAgfizSGZLb8
- MHYjToNoYeI7yc9PkRS7158+/a2WFhLcjSvwnhVpQFeicVOotHoI1cATiTjjDN/bCJEn
- zI+mI/eCgu0p6t8H33lDemDNRRig0T826Qku2bHioLMDsdJtFLlCWpwk1VsbuB0+bnNM
- hRVg==
-X-Gm-Message-State: AOAM531gKYMcHvsWv+d2oRwZdYB8fAopBvErnQ8gcj5omyaweZwlngc0
- bW7lQ7RJIzomGNW60IYhyzoHd00J95o721aaPf8=
-X-Google-Smtp-Source: ABdhPJyRVPEShy1IP+IzAr5+qUEXKLYBULC/aBsDfTiwUQNYP+bo2Bpp8MYPqdsB9YPS5EyebSbcA8ApDtcvkgrfNe4=
-X-Received: by 2002:a05:6638:3720:b0:324:2e9b:1851 with SMTP id
- k32-20020a056638372000b003242e9b1851mr10229950jav.267.1649721839116; Mon, 11
- Apr 2022 17:03:59 -0700 (PDT)
+ bh=y+2cJ4XLBJjq2wqhT1NvZHOCVv0sA032dzQwobARL1U=;
+ b=nEP79gJv0ftZPFjWiDUXo1r8gDdYbNK2LFXGX4EEa57k1s7TW07Cj0RoRe5IUmeeQ/
+ zsC+ZTagISHgfirwW/jzoOOjpIiwRxM44mlL8BRFgHNRuU6x6zqqgzMJ9DinTmZ9194x
+ KGdkarhjXYNPJzDHHcFOBIdwyMgzP2t2Jz0mIVkeiqSSqKMi64HTE1KAC//b+uJOCXsi
+ cnKd4gHfUo7YjgrMSGQjLb0LVjxW+x310lmYY2zlPHrhcd3RaHz5DPqzHdQzbHYdxFQ2
+ Xhe1a4t8SYoCvcGYuGBAQp+t8A5hFZpS1hmgpsAzoBCRmCq98emB4CWMClTXv5VueXS4
+ YcSw==
+X-Gm-Message-State: AOAM531mIN9A5r2NP60sEFSHfyNgmrqyEdgi61hP33ZIdutzssYriVS/
+ kKgXFPkliDTvPap1S74xVBVojYWYuCIxgYSxpj8=
+X-Google-Smtp-Source: ABdhPJxN+fncO04OSbymUBCUIeyKhXu2DVK+jY0DnjdB++qyDPEHBl3uMx4yhbGcFDZKQJPTwo6HwKhU9TsOwP3+ZLY=
+X-Received: by 2002:a05:6e02:219b:b0:2ca:9f50:998 with SMTP id
+ j27-20020a056e02219b00b002ca9f500998mr5247365ila.55.1649722269687; Mon, 11
+ Apr 2022 17:11:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220401121842.2791796-1-ralf.ramsauer@oth-regensburg.de>
-In-Reply-To: <20220401121842.2791796-1-ralf.ramsauer@oth-regensburg.de>
+References: <20220401125948.79292-1-richard.henderson@linaro.org>
+In-Reply-To: <20220401125948.79292-1-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 12 Apr 2022 10:03:33 +1000
-Message-ID: <CAKmqyKP1SWt-qgMydudrsXp2GuizgcY5eO35CVyE6Xj3g2-y-w@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/riscv: virt: Exit if the user provided -bios in
- combination with KVM
-To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+Date: Tue, 12 Apr 2022 10:10:43 +1000
+Message-ID: <CAKmqyKOkRv7LDDrCgPENbXXv12S7+PWzkzGM=URiDtEHiHHNkw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] target/riscv: Annotate atomic operations
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -79,64 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- Jiangyifei <jiangyifei@huawei.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 1, 2022 at 10:18 PM Ralf Ramsauer
-<ralf.ramsauer@oth-regensburg.de> wrote:
+On Fri, Apr 1, 2022 at 11:00 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> The -bios option is silently ignored if used in combination with -enable-kvm.
-> The reason is that the machine starts in S-Mode, and the bios typically runs in
-> M-Mode.
+> If an atomic operation fails on RISC-V, we want to generate
+> a store/amo fault and not a load fault.
 >
-> Better exit in that case to not confuse the user.
+> Annotate amo insns, so that we can recognize them after unwinding.
+> Transform the implementation access type to store/amo for reporting.
 >
-> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+>
+> r~
+>
+>
+> Richard Henderson (2):
+>   target/riscv: Use cpu_loop_exit_restore directly from mmu faults
+>   target/riscv: Mark amo insns during translation
+>
+>  target/riscv/cpu.h                      | 15 ++++++
+>  target/riscv/cpu.c                      |  3 ++
+>  target/riscv/cpu_helper.c               | 62 +++++++++++++++++--------
+>  target/riscv/translate.c                |  9 ++++
+>  target/riscv/insn_trans/trans_rva.c.inc | 11 ++++-
+>  5 files changed, 79 insertions(+), 21 deletions(-)
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Thanks!
+
+Applied to riscv-to-apply.next
 
 Alistair
 
-> ---
->  hw/riscv/virt.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
 >
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index da50cbed43..09609c96e8 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1308,12 +1308,18 @@ static void virt_machine_init(MachineState *machine)
->
->      /*
->       * Only direct boot kernel is currently supported for KVM VM,
-> -     * so the "-bios" parameter is ignored and treated like "-bios none"
-> -     * when KVM is enabled.
-> +     * so the "-bios" parameter is not supported when KVM is enabled.
->       */
->      if (kvm_enabled()) {
-> -        g_free(machine->firmware);
-> -        machine->firmware = g_strdup("none");
-> +        if (machine->firmware) {
-> +            if (strcmp(machine->firmware, "none")) {
-> +                error_report("Machine mode firmware is not supported in "
-> +                             "combination with KVM.");
-> +                exit(1);
-> +            }
-> +        } else {
-> +            machine->firmware = g_strdup("none");
-> +        }
->      }
->
->      if (riscv_is_32bit(&s->soc[0])) {
 > --
-> 2.32.0
+> 2.25.1
+>
 >
 
