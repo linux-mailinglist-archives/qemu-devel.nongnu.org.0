@@ -2,105 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B664FE58F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 18:09:44 +0200 (CEST)
-Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403B24FE652
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 18:51:42 +0200 (CEST)
+Received: from localhost ([::1]:57052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neJ5K-0005W9-PG
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 12:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49544)
+	id 1neJju-0003IG-7r
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 12:51:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1neJ3P-0003Ig-2A; Tue, 12 Apr 2022 12:07:43 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9622)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1neJ3L-0002ef-Ob; Tue, 12 Apr 2022 12:07:42 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23CEn315007257; 
- Tue, 12 Apr 2022 16:07:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=yIvej3iwwHUtmTFinJCTkrlzYgckXvRBsHwafw6lDPw=;
- b=G9j1Wwga8Lv3Ectvme9AVyH3Sm/LSuqV9F5XfkTO5GXGDmuImslP1/5uBmMi4ZGWqQHW
- bR/Od4GxJmlpoVAMRypatRLM+nSLddx0g0ReU3jOLFHN5beipwTtE0NbQk7dToh/SLD1
- IA0l/cNwnVnrxIXn0t5Lk5adNRyHjAHEBRMUiOqaESvzxGgeuIgNLmcqcuRUHYMv2/UO
- DloEi+grY3R8LJ++HpgUGnE9Xgo/XcZNWcFfvSBgVXn1+cESkym1/skEbgAUNIy5pl/+
- 2Sa4xuFErw0jsGnWWG9deHHdaNHMCYjxFs3dQtQVzQYZ9Qk8VxOwZfX6CyuTD3vcz/sw Hg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fd7wcqj62-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Apr 2022 16:07:34 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23CFlnIR009252;
- Tue, 12 Apr 2022 16:07:34 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fd7wcqj5p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Apr 2022 16:07:34 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23CG5jLu019219;
- Tue, 12 Apr 2022 16:07:33 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 3fb1sa7gwq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Apr 2022 16:07:33 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 23CG7Wv660948778
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Apr 2022 16:07:32 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3751BAE060;
- Tue, 12 Apr 2022 16:07:32 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D2A69AE066;
- Tue, 12 Apr 2022 16:07:28 +0000 (GMT)
-Received: from [9.211.106.50] (unknown [9.211.106.50])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 12 Apr 2022 16:07:28 +0000 (GMT)
-Message-ID: <791ee8c8-a2f4-6644-7155-3bacdb3c4074@linux.ibm.com>
-Date: Tue, 12 Apr 2022 12:07:27 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 2/9] vfio: tolerate migration protocol v1 uapi renames
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
- <20220404181726.60291-3-mjrosato@linux.ibm.com>
- <ed4889b8-28c4-a3ed-b5ef-add3999023d4@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <ed4889b8-28c4-a3ed-b5ef-add3999023d4@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 43HutTQlPVGmz0MTTffho9KELnIgSbfV
-X-Proofpoint-ORIG-GUID: xUkD-T19euwEHGtuEX7l6m3YABEbOXFa
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1neJho-0002O7-7f
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 12:49:28 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:54129)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1neJhm-0001Cf-Cd
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 12:49:27 -0400
+Received: by mail-wm1-x336.google.com with SMTP id p189so12302858wmp.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 09:49:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FNZ/7Qi+rVOYiIDJ+luyeaIUoXcx0R3SL5ihlB2/PDs=;
+ b=KLEwF6jj9JQX0KLMexm+qv2IES/iCwCZcDuroo4nYn1GpinXwbWdRr6cp569IEpOO6
+ SgKt5Uqlm3PRWW4OzLZ/xDk+4flp9RYgREr+x+7MXYg1aYijhCZ244MxUGsWAb+fhE3H
+ 2FYeZwfSAAZV2nkIPiUPygPJZj1SLFUAHN5GIM7US1fEGpDFLfJOtp6AZ4L5b2ZWlTyJ
+ XYrEu9ISq6SAKtWjhx78YmnlE7JAZDpWlj1o7t29hbZTkS9GB8gGliQwxtr1sw17/mWS
+ NPIsW42RSCIRv2VU2RTzq4flA3F38bfV3XcTQ76rV+r1Miey/NQYeKikEs4PehmQQccU
+ tuXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FNZ/7Qi+rVOYiIDJ+luyeaIUoXcx0R3SL5ihlB2/PDs=;
+ b=MBoXISvtYCRpCjgvmK5Spql+GbgWE8MRgJpP0W7k9s4ieMTEgHSjo8Gz/Wz5XW+R2E
+ DcdDcm2rjUxoa3270Es9uQalBlpyzGZaiSwzI3QY1/myGCUnepUjeF+Ly7JkG+xVq6T0
+ erUimTIchTsVkNprQjBWgpc7f30HxvkxteQKL0u5fT0uM91DBj2RR/gFgTSHZsbmr8KE
+ 2FQfznuDrmV2PZDNHyjJFXWdPqWjeZybfJ+R8WJEB8eQQ3KkznMrCfAS1g4dgRIVNbp4
+ kV8/sBj2HDfs/VtJ2TAf6q5E57TJmpBvGwORyfUFZcDSxZbtNKCzr+jokzFZTV5mraXp
+ 4RHw==
+X-Gm-Message-State: AOAM532uAqm4vX864iWV8D8a+iCE/qHYwEiK9KoxBcK7ZHWA2auBMqoY
+ mXH6RY3m5J2WKafUHyd+Z21aUGqpy7NOlA==
+X-Google-Smtp-Source: ABdhPJztndgYNyWTASYHpTIbsjPW8zSA55WgWyhMBl2Do+dHzIomk6aeFSuGm7NDxcjoGEgHrDQg1g==
+X-Received: by 2002:a7b:c0cb:0:b0:38e:bac7:3c40 with SMTP id
+ s11-20020a7bc0cb000000b0038ebac73c40mr5099506wmh.6.1649782164458; 
+ Tue, 12 Apr 2022 09:49:24 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ e3-20020a5d65c3000000b00207a63b9d3esm6108746wrw.105.2022.04.12.09.49.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Apr 2022 09:49:24 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-7.1] hw/block/fdc-sysbus: Always mark sysbus floppy
+ controllers as not having DMA
+Date: Tue, 12 Apr 2022 17:49:21 +0100
+Message-Id: <20220412164921.1685453-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-12_06,2022-04-12_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 mlxlogscore=999
- malwarescore=0 adultscore=0 suspectscore=0 spamscore=0 impostorscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204120077
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,142 +83,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/12/22 11:50 AM, Pierre Morel wrote:
-> 
-> 
-> On 4/4/22 20:17, Matthew Rosato wrote:
->> The v1 uapi is deprecated and will be replaced by v2 at some point;
->> this patch just tolerates the renaming of uapi fields to reflect
->> v1 / deprecated status.
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> ---
->>   hw/vfio/common.c    |  2 +-
->>   hw/vfio/migration.c | 19 +++++++++++--------
->>   2 files changed, 12 insertions(+), 9 deletions(-)
-> 
-> 
-> I do not understand why you need this patch in this series.
-> Shouldn't it be separate?
+The sysbus floppy controllers (devices sysbus-fdc and sun-fdtwo)
+don't support DMA.  The core floppy controller code expects this to
+be indicated by setting FDCtrl::dma_chann to -1.  This used to be
+done in the device instance_init functions sysbus_fdc_initfn() and
+sun4m_fdc_initfn(), but in commit 1430759ec3e we refactored this code
+and accidentally lost the setting of dma_chann.
 
-This patch is included because of the patch 1 kernel header sync, which 
-pulls in uapi headers from kernel version 5.18-rc1 + my unmerged kernel 
-uapi changes.
+For sysbus-fdc this has no ill effects because we were redundantly
+also setting dma_chann in fdctrl_init_sysbus(), but for sun-fdtwo
+this means that guests which try to enable DMA on the floppy
+controller will cause QEMU to crash because FDCtrl::dma is NULL.
 
-This patch is unnecessary without a header sync (and in fact would break 
-QEMU compile), and is unrelated to the rest of the series -- but QEMU 
-will not compile without it once you update linux uapi headers to 
-5.18-rc1 (or greater) due to the v1 uapi for vfio migration being 
-deprecated [1].  This means that ANY series that does a linux header 
-sync starting from here on will need something like this patch to go 
-along with the header sync (or a series that replaces v1 usage with v2?).
+Set dma_chann to -1 in the common instance init, and remove the
+redundant code in fdctrl_init_sysbus() that is also setting it.
 
-If this patch looks good it could be included whenever a header sync is 
-next needed, doesn't necessarily have to be with this series.
+There is a six-year-old FIXME comment in the jazz board code to the
+effect that in theory it should support doing DMA via a custom DMA
+controller.  If anybody ever chooses to fix that they can do it by
+adding support for setting both FDCtrl::dma_chann and FDCtrl::dma.
+(A QOM link property 'dma-controller' on the sysbus device which can
+be set to an instance of IsaDmaClass is probably the way to go.)
 
-[1] https://www.spinics.net/lists/kernel/msg4288200.html
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/958
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/hw/block/fdc.h |  3 +--
+ hw/block/fdc-sysbus.c  | 14 +++++++++++---
+ hw/mips/jazz.c         |  2 +-
+ 3 files changed, 13 insertions(+), 6 deletions(-)
 
-> 
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 080046e3f5..7b1e12fb69 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -380,7 +380,7 @@ static bool 
->> vfio_devices_all_running_and_saving(VFIOContainer *container)
->>                   return false;
->>               }
->> -            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
->> +            if ((migration->device_state & 
->> VFIO_DEVICE_STATE_V1_SAVING) &&
->>                   (migration->device_state & 
->> VFIO_DEVICE_STATE_RUNNING)) {
->>                   continue;
->>               } else {
->> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
->> index ff6b45de6b..e109cee551 100644
->> --- a/hw/vfio/migration.c
->> +++ b/hw/vfio/migration.c
->> @@ -432,7 +432,7 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
->>       }
->>       ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_MASK,
->> -                                   VFIO_DEVICE_STATE_SAVING);
->> +                                   VFIO_DEVICE_STATE_V1_SAVING);
->>       if (ret) {
->>           error_report("%s: Failed to set state SAVING", vbasedev->name);
->>           return ret;
->> @@ -532,7 +532,7 @@ static int vfio_save_complete_precopy(QEMUFile *f, 
->> void *opaque)
->>       int ret;
->>       ret = vfio_migration_set_state(vbasedev, 
->> ~VFIO_DEVICE_STATE_RUNNING,
->> -                                   VFIO_DEVICE_STATE_SAVING);
->> +                                   VFIO_DEVICE_STATE_V1_SAVING);
->>       if (ret) {
->>           error_report("%s: Failed to set state STOP and SAVING",
->>                        vbasedev->name);
->> @@ -569,7 +569,7 @@ static int vfio_save_complete_precopy(QEMUFile *f, 
->> void *opaque)
->>           return ret;
->>       }
->> -    ret = vfio_migration_set_state(vbasedev, 
->> ~VFIO_DEVICE_STATE_SAVING, 0);
->> +    ret = vfio_migration_set_state(vbasedev, 
->> ~VFIO_DEVICE_STATE_V1_SAVING, 0);
->>       if (ret) {
->>           error_report("%s: Failed to set state STOPPED", 
->> vbasedev->name);
->>           return ret;
->> @@ -730,7 +730,7 @@ static void vfio_vmstate_change(void *opaque, bool 
->> running, RunState state)
->>            * start saving data.
->>            */
->>           if (state == RUN_STATE_SAVE_VM) {
->> -            value = VFIO_DEVICE_STATE_SAVING;
->> +            value = VFIO_DEVICE_STATE_V1_SAVING;
->>           } else {
->>               value = 0;
->>           }
->> @@ -768,8 +768,9 @@ static void vfio_migration_state_notifier(Notifier 
->> *notifier, void *data)
->>       case MIGRATION_STATUS_FAILED:
->>           bytes_transferred = 0;
->>           ret = vfio_migration_set_state(vbasedev,
->> -                      ~(VFIO_DEVICE_STATE_SAVING | 
->> VFIO_DEVICE_STATE_RESUMING),
->> -                      VFIO_DEVICE_STATE_RUNNING);
->> +                                       ~(VFIO_DEVICE_STATE_V1_SAVING |
->> +                                         VFIO_DEVICE_STATE_RESUMING),
->> +                                       VFIO_DEVICE_STATE_RUNNING);
->>           if (ret) {
->>               error_report("%s: Failed to set state RUNNING", 
->> vbasedev->name);
->>           }
->> @@ -864,8 +865,10 @@ int vfio_migration_probe(VFIODevice *vbasedev, 
->> Error **errp)
->>           goto add_blocker;
->>       }
->> -    ret = vfio_get_dev_region_info(vbasedev, VFIO_REGION_TYPE_MIGRATION,
->> -                                   VFIO_REGION_SUBTYPE_MIGRATION, 
->> &info);
->> +    ret = vfio_get_dev_region_info(vbasedev,
->> +                                   
->> VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
->> +                                   
->> VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
->> +                                   &info);
->>       if (ret) {
->>           goto add_blocker;
->>       }
->>
-> 
+diff --git a/include/hw/block/fdc.h b/include/hw/block/fdc.h
+index 1ecca7cac7f..35248c08379 100644
+--- a/include/hw/block/fdc.h
++++ b/include/hw/block/fdc.h
+@@ -10,8 +10,7 @@
+ #define TYPE_ISA_FDC "isa-fdc"
+ 
+ void isa_fdc_init_drives(ISADevice *fdc, DriveInfo **fds);
+-void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
+-                        hwaddr mmio_base, DriveInfo **fds);
++void fdctrl_init_sysbus(qemu_irq irq, hwaddr mmio_base, DriveInfo **fds);
+ void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
+                        DriveInfo **fds, qemu_irq *fdc_tc);
+ 
+diff --git a/hw/block/fdc-sysbus.c b/hw/block/fdc-sysbus.c
+index 57fc8773f12..6c22c3510da 100644
+--- a/hw/block/fdc-sysbus.c
++++ b/hw/block/fdc-sysbus.c
+@@ -94,8 +94,7 @@ static void fdctrl_handle_tc(void *opaque, int irq, int level)
+     trace_fdctrl_tc_pulse(level);
+ }
+ 
+-void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
+-                        hwaddr mmio_base, DriveInfo **fds)
++void fdctrl_init_sysbus(qemu_irq irq, hwaddr mmio_base, DriveInfo **fds)
+ {
+     FDCtrl *fdctrl;
+     DeviceState *dev;
+@@ -105,7 +104,6 @@ void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
+     dev = qdev_new("sysbus-fdc");
+     sys = SYSBUS_FDC(dev);
+     fdctrl = &sys->state;
+-    fdctrl->dma_chann = dma_chann; /* FIXME */
+     sbd = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(sbd, &error_fatal);
+     sysbus_connect_irq(sbd, 0, irq);
+@@ -138,6 +136,16 @@ static void sysbus_fdc_common_instance_init(Object *obj)
+     FDCtrlSysBus *sys = SYSBUS_FDC(obj);
+     FDCtrl *fdctrl = &sys->state;
+ 
++    /*
++     * DMA is not currently supported for sysbus floppy controllers.
++     * If we wanted to add support then probably the best approach is
++     * to have a QOM link property 'dma-controller' which the board
++     * code can set to an instance of IsaDmaClass, and an integer
++     * property 'dma-channel', so that we can set fdctrl->dma and
++     * fdctrl->dma_chann accordingly.
++     */
++    fdctrl->dma_chann = -1;
++
+     qdev_set_legacy_instance_id(dev, 0 /* io */, 2); /* FIXME */
+ 
+     memory_region_init_io(&fdctrl->iomem, obj,
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 44f0d48bfd7..14eaa517435 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -354,7 +354,7 @@ static void mips_jazz_init(MachineState *machine,
+         fds[n] = drive_get(IF_FLOPPY, 0, n);
+     }
+     /* FIXME: we should enable DMA with a custom IsaDma device */
+-    fdctrl_init_sysbus(qdev_get_gpio_in(rc4030, 1), -1, 0x80003000, fds);
++    fdctrl_init_sysbus(qdev_get_gpio_in(rc4030, 1), 0x80003000, fds);
+ 
+     /* Real time clock */
+     mc146818_rtc_init(isa_bus, 1980, NULL);
+-- 
+2.25.1
 
 
