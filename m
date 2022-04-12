@@ -2,51 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B89E4FDF63
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:23:51 +0200 (CEST)
-Received: from localhost ([::1]:58034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE454FDF7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:29:05 +0200 (CEST)
+Received: from localhost ([::1]:37462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neFYk-0006fZ-H1
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:23:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41940)
+	id 1neFdo-0003gl-35
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1neFVB-0004V6-13
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:20:09 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:49857)
+ id 1neFc1-000219-Ck
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:27:13 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:51513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1neFV7-0002K0-F6
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:20:08 -0400
+ id 1neFbz-0003ie-Uo
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:27:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=8v11jweXidVqThNbq+5MFLNlQ7RGyy+i/nahs63CnO0=; b=fJlo/A/B8HzGG1Bets2GolY90k
- 0AXlQliZR48/EEtxgGs1iChLh/uBzApteKRnt9b6QlIQYcSZiFVByBKfbzkQceAukJ3HPc/K4NuaJ
- i/O5CedMOKChyskJfPTpyXnZH1kqLBJRd1CxQjjvOoc3i7sFrlyl5uLpvIVrOB5cQtOz4TH/R8KRf
- Os6xGPKl5E9wB731FNwCbuaMUSM39TrSpCggcrtLV04427YIajtvirQdL2q+jLaUCfJeJ0VzldAC3
- jtc5Im6iijsa87aaFwbAxu7NrQTKtxBijGj4T5afljE+G4FGHJM5TS+t87l9KiDXSuPZev1/em3ml
- tKuceLYNkUiaDmtl0C4dB2sP0pBvmSzeqib/N/avgeUOZahEg3HvTEmFhDq3oCaii+P46PKJQeGzk
- zaAmlFPNSy26IYd+0tf47XqOcyVzeQfBaXW5X0V+SRHHnfWndAwHyxYuWpQJY6Z1/3wMdi2NtBcDy
- bbX1RJ5GbHlLjC3ebCoc5Tk3H1Uk2EjnlIdi1UMzTNSoasWDYPi01dxQTIRGMsEw43o0/bq5zufqO
- DXPWcIxI8QhWD5c9gkxTsoFjCcXCKepyqCG8za/SrfJN+EgmQ2O45/ooXyVoB+7qaYBQKYiPkUb0o
- YpOmjfBhVKbHuknKeo6jkqCTsAEcry6l4gTRMCH0U=;
+ bh=94lnfMet/iYq3YBGMHwtHfnLCLTwTwD8HISLQJ3VTps=; b=CegHCMnYRBLcA9Mi8D9Lu8/Q+t
+ K5P53Z//iYuHjUG/ldF8KHWY5xjiLZHQFyCn0vfad/XV0vZeeOvArPHbMcavM1RoN+TzHoHJNbIPa
+ dIKkMCAxxwel4Rx7HYUch8qqguTI6rL4WacwbRhhNSMFw8V4XHJrBDHr+Kx2qda6GC25xie9GGzC9
+ x5LE+pvzsP0wwD4RHYNTG0UdhLF2J+lJjs2Dcw5Sqcbv8FvlEDAHhuonaQRriMolQgbHSiI6K17tl
+ iFCGXSkmGAwXFoSB8yqzn3mB79XKhrV4UQhdWv5XXGXsbeEjtxMh/j7EBxMa0v0GSq28I5ZX3SVw8
+ z2xqAX0Ob8iNzIUeYcY4JKzvWcOl/6CA8VNgMnCulyb5sX94VmAMTXWKYcM/Sne220jNKGob5tAF5
+ r7ZGoAl/iGmSie+IzuX6xdfvL68/TRr9dqNNmrOm0c7KU4UyEZUkuAVjyPMUIrgjgpHMLkal+wpDg
+ 7ZBnoRPCSIuX2OVIEzKSrAwW21tnkAZdlVTbmjATdnuh+JEUzFxH8rG+YPs059X+4+ZEpUO+soAZe
+ Mwec2K8odwDmSe9eQkJHe4+BaVV1vwUol5s0cm7ItuMk7yOaoSQ4u7H1Zc8sC3SeaS3chkTV5SyAR
+ R74wqvnTeLwHXDioi5mvidawTJlI0UmzTd5932jYY=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>, hi@alyssa.is,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Keno Fischer <keno@juliacomputing.com>,
- Greg Kurz <groug@kaod.org>, Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v9 09/11] 9p: darwin: Implement compatibility for mknodat
-Date: Tue, 12 Apr 2022 14:19:50 +0200
-Message-ID: <17933734.zYzKuhC07K@silver>
-In-Reply-To: <20220408170059.1134a039@bahia>
-References: <20220227223522.91937-1-wwcohen@gmail.com>
- <1684580.f98VPQ1boI@silver> <20220408170059.1134a039@bahia>
+To: qemu-devel@nongnu.org, Bin Meng <bmeng.cn@gmail.com>
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [RFC PATCH 0/4] 9pfs: Add 9pfs support for Windows host
+Date: Tue, 12 Apr 2022 14:27:08 +0200
+Message-ID: <1937840.tFbQv4iVWk@silver>
+In-Reply-To: <20220408171013.912436-1-bmeng.cn@gmail.com>
+References: <20220408171013.912436-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -73,125 +67,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 8. April 2022 17:00:59 CEST Greg Kurz wrote:
-> On Fri, 08 Apr 2022 15:52:25 +0200
+On Freitag, 8. April 2022 19:10:09 CEST Bin Meng wrote:
+> At present there is no Windows support for 9p file system.
+> This series adds initial Windows support for 9p file system.
+
+Nice!
+
+> Only 'local' file system driver backend is supported. security_model
+> should be 'none' due to limitations on Windows host.
+
+We have 3 fs drivers: local, synth, proxy. I don't mind about proxy, it is in 
+bad shape and we will probably deprecate it in near future anyway. But it 
+would be good to have support for the synth driver, because we are using it 
+for running test cases and fuzzing tests (QA).
+
+What are the limitations against security_model=mapped on Windows? Keep in 
+mind that with security_model=none you are very limited in what you can do 
+with 9p.
+
+> Example command line to test:
 > 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Sonntag, 27. Februar 2022 23:35:20 CEST Will Cohen wrote:
-> > > From: Keno Fischer <keno@juliacomputing.com>
-> > > 
-> > > Darwin does not support mknodat. However, to avoid race conditions
-> > > with later setting the permissions, we must avoid using mknod on
-> > > the full path instead. We could try to fchdir, but that would cause
-> > > problems if multiple threads try to call mknodat at the same time.
-> > > However, luckily there is a solution: Darwin includes a function
-> > > that sets the cwd for the current thread only.
-> > > This should suffice to use mknod safely.
-> > 
-> > [...]
-> > 
-> > > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-> > > index cdb4c9e24c..bec0253474 100644
-> > > --- a/hw/9pfs/9p-util-darwin.c
-> > > +++ b/hw/9pfs/9p-util-darwin.c
-> > > @@ -7,6 +7,8 @@
-> > > 
-> > >  #include "qemu/osdep.h"
-> > >  #include "qemu/xattr.h"
-> > > 
-> > > +#include "qapi/error.h"
-> > > +#include "qemu/error-report.h"
-> > > 
-> > >  #include "9p-util.h"
-> > >  
-> > >  ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const
-> > >  char
-> > > 
-> > > *name, @@ -62,3 +64,34 @@ int fsetxattrat_nofollow(int dirfd, const char
-> > > *filename, const char *name, close_preserve_errno(fd);
-> > > 
-> > >      return ret;
-> > >  
-> > >  }
-> > > 
-> > > +
-> > > +/*
-> > > + * As long as mknodat is not available on macOS, this workaround
-> > > + * using pthread_fchdir_np is needed.
-> > > + *
-> > > + * Radar filed with Apple for implementing mknodat:
-> > > + * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
-> > > + */
-> > > +#if defined CONFIG_PTHREAD_FCHDIR_NP
-> > > +
-> > > +int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> > > dev)
-> > > +{
-> > > +    int preserved_errno, err;
-> > > +    if (!pthread_fchdir_np) {
-> > > +        error_report_once("pthread_fchdir_np() not available on this
-> > > version of macOS"); +        return -ENOTSUP;
-> > > +    }
-> > > +    if (pthread_fchdir_np(dirfd) < 0) {
-> > > +        return -1;
-> > > +    }
-> > > +    err = mknod(filename, mode, dev);
-> > 
-> > I just tested this on macOS Monterey and realized mknod() seems to require
-> > admin privileges on macOS to work. So if you run QEMU as ordinary user on
-> > macOS then mknod() would fail with errno=1 (Operation not permitted).
-> > 
-> > That means a lot of stuff would simply not work on macOS, unless you
-> > really
-> > want to run QEMU with super user privileges, which does not sound
-> > appealing to me. :/
-> > 
-> > Should we introduce another fake behaviour here, i.e. remapping this on
-> > macOS hosts as regular file and make guest believe it would create a
-> > device, similar as we already do for mapped links?
+>   "-fsdev local,path=c:\msys64,security_model=none,id=p9 -device
+> virtio-9p-pci,fsdev=p9,mount_tag=p9fs"
 > 
-> I'd rather keep that for the mapped security mode only to avoid
-> confusion, but qemu_mknodat() is also used in passthrough mode.
 > 
-> Anyway, it seems that macOS's mknod() only creates device files,
-> unlike linux (POSIX) which is also used to create FIFOs, sockets
-> and regular files. And it also requires elevated privileges,
-> CAP_MKNOD, in order to create device files.
+> Guohuai Shi (4):
+>   fsdev: Add missing definitions for Windows in file-op-9p.h
+>   hw/9pfs: Update 'local' file system backend driver to support Windows
+>   fsdev: Enable 'local' file system driver backend for Windows
+>   meson.build: Turn on virtfs for Windows host
 > 
-> It seems that this implementation of qemu_mknodat() is just missing
-> some features that can be implemented with unprivileged syscalls like
-> mkfifo(), socket() and open().
-
-+Akihiko on CC.
-
-Like always when it comes to POSIX APIs, Apple's documentation on this is far 
-from being great. I actually had to test out what's supported with mknod() on 
-macOS, in which way, and what is not (tested on macOS 12 "Monterey" only):
-
-* S_IFIFO: works, even as regular user.
-
-* S_IFREG: doesn't work, neither as regular user (ERRNO 1, Operation not 
-  permitted), nor as super-user (ERRNO 22, Invalid argument). So we should 
-  divert that to a regular open() call on macOS.
-
-* S_IFCHR and S_IFBLK: works as super-user, doesn't work for regular user 
-  (ERRNO 1, Operation not permitted). So if 9p is used with passthrough 
-  permissions, we should probably stick to the direct mknod() call and that 
-  the user would need to run QEMU as super-user to get this working. Whereas 
-  if 9p is used with mapped permissions, we should fake those devices by 
-  creating regular files, store their type and major, minor numbers there and 
-  that's it. We don't expect that guest ever tries to read/write such block/
-  character devices, right? I.e. I'm assuming that any read/write is handled 
-  as an overlay by Linux kernel on its guest level, correct?
-
-* S_IFSOCK: doesn't work, neither as regular user (ERRNO 1, Operation not 
-  permitted), nor as super-user (ERRNO 22, Invalid argument). So we should 
-  divert that to a socket() call on macOS.
-
-Thoughts?
-
-Best regards,
-Christian Schoenebeck
+>  meson.build         |  10 +-
+>  fsdev/file-op-9p.h  |  33 ++++++
+>  hw/9pfs/9p-util.h   |   4 +
+>  hw/9pfs/9p.h        |  22 ++++
+>  fsdev/qemu-fsdev.c  |   2 +
+>  hw/9pfs/9p-local.c  | 273 +++++++++++++++++++++++++++++++++++++++++++-
+>  hw/9pfs/9p.c        |  85 +++++++++++++-
+>  hw/9pfs/codir.c     |  17 +++
+>  fsdev/meson.build   |   1 +
+>  hw/9pfs/meson.build |  10 +-
+>  10 files changed, 449 insertions(+), 8 deletions(-)
 
 
 
