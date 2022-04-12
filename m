@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616514FE8A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 21:28:35 +0200 (CEST)
-Received: from localhost ([::1]:50550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7365C4FE90A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 21:46:06 +0200 (CEST)
+Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neMBm-0003Mc-3Y
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 15:28:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50638)
+	id 1neMSj-0000hE-1y
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 15:46:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1neMAA-0002BK-DW
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:26:54 -0400
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:40450)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1neMOx-0006LX-1O
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:11 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:44768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1neMA8-0004Xp-Cr
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:26:54 -0400
-Received: by mail-lj1-x230.google.com with SMTP id m8so7873518ljc.7
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 12:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shutemov-name.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uhp2gyxJXafqQhufiyepsQB0fVUjcBdyLXTovCl6zhk=;
- b=5r3BqAvHHqrB2sxGTnYHVAS69nI4KU7prcQCYLC+0giVYjXTuDzbhcWunmrmixMgiI
- l6KAoj+O6vndDV8nCt3/S5YfZKl20CFaNrJbcc41X99anlIpoxpW/y7x7Y1M8Moxl+/V
- 1/swlz2HX63Q+NBEhUfmJQEpWAJDocdiEL2YUckMfpe3C8nZcla3i0xFsf7D/9DkQ9ru
- eAJG41WiqDv83Av6IuPIHFgdRnfdlNyaK+rskTFa67tR2m82ZCspiqGtd/RBP6s+qYm3
- 8gfkf6bS7/JwsfLxy6EmCDw65cudX7DLbyf2e7vFavB5H90QMXcKGJMnj7FuirippGU7
- eNJQ==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1neMOu-0008Bh-UM
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:10 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ m33-20020a05600c3b2100b0038ec0218103so2261298wms.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 12:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iQMr5I9v2fSqcbuJWyn6BXe3TJyIXCvMFsRdiKECaFs=;
+ b=Ufrlr1Qk95jetuH3tJtN24+w9WfMgWwykeU/gbvCPBdh+bmTS94kukLf+Y+gVs+zpX
+ N+OECPk7Nm3do3359wZu9P0xZZawsTy71Nyl+VgnAaH98f8cJ75Fi9qw7JrbRREPV+dS
+ +MXDhuarQv3S9YZmVLqBZrF5VofwqywEEZFiZnCZ74dUYZyVhQfEcMgIj8IESyV1c78i
+ /NgGbKv2KQrnXUaKhc7hupZZZ2kKB5i74xfRAR5mx+sFYhV74mBJAFIv5KXfhK/bLTPL
+ +dZCWmolMyEWTd1NKCc//pPmmL81rBjEvwpQ6jv9y/Ru31hyTyK096xJI+AFPc5DyuiG
+ UWdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uhp2gyxJXafqQhufiyepsQB0fVUjcBdyLXTovCl6zhk=;
- b=vv0eS/tSRkmoiexaOlKNpxkPNeanfKdQDvNfyj4gqB8eIqeCSfwgq/wPgiD9sZZQ0Q
- NkxqKY5IiJV48Z0eATYkp4tiYIAXZ7gc4p31iABV1k+tptBFWMotEFt7C4tA4KyFsGB2
- KDQa7jVrogeAMvR0PpiO86IOaHzy3cvDpFTdnwcXUYeRV488jEVy2fzobVLdTfzlVceV
- 5yLb8NmkL9b3R+2dXf9+axUVwkXIObAJMMr7hxJIraWdeUqhJ6bnm0Aghf8HC5kEdnVT
- JhW/dUK2gh23cp0tc7WIW9LqfTu3RbiKkkPzmzCcC76ZhJXSPibU3FvPQF+98vLEgQtc
- wi6g==
-X-Gm-Message-State: AOAM532ycGNotk2O4DpmXhOe7Oy1w3oB0trZi6qaQ/a4NugVRfopUbiC
- +UaafLp2sFDa6kLZtg4cRDpCsA==
-X-Google-Smtp-Source: ABdhPJzNqQFsr22ki1Pj8rD15MClx6e4/Y9XgiO6Rr06pMklFiRq4YmMNE+KUcyBNh7zLIW+Z44IOA==
-X-Received: by 2002:a05:651c:1a09:b0:24a:c7df:339c with SMTP id
- by9-20020a05651c1a0900b0024ac7df339cmr25219403ljb.298.1649791610046; 
- Tue, 12 Apr 2022 12:26:50 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=iQMr5I9v2fSqcbuJWyn6BXe3TJyIXCvMFsRdiKECaFs=;
+ b=JmBOwZFNlkRXJVxtkSJgV+S/SUUDYAbeO7blqPgBesyVkHeB1ymyXmvXCiA+OJIMfv
+ o3HkDefCc/87/6dNTdgls8UVxEB9nTQRMKs4TUA/arO9/XrKgtNn9cyjc2XQlKONb5hY
+ ZpTLF1dpmwWZMuJW3zZknZvmXb/znh7l16O5/bcKKJ3Mfh2KLB0UKn7c6bK4RH+jnb6J
+ brUex8/2zXIkgpV8PpTuyp0q0qKL/ckhL+PzQFxxTR2fKt86IEu5MsEyvWmHb8/EmF9t
+ vjjXLPk0LNGGI18/JNuOWI6NFCH8rp5l8Cvg/6kf6ZJgtIlwjmm235HTA1ZVRlLYFNNf
+ xu/Q==
+X-Gm-Message-State: AOAM5328eEPX9OcCHtR9ZDxb4k8vKyayBoK4ID30S6+uD2Ba1W/Ym5YF
+ CsDjORNg5cFxj4WmFRZyAwJmcxcdwNIAsA==
+X-Google-Smtp-Source: ABdhPJw2uLc4bcEDcmCTby0UAcslEBVyBEnbfnXUiGActwVgLLW/WCRIJ/IVd9EWmmUVehwvMrInvw==
+X-Received: by 2002:a05:600c:1548:b0:38e:b434:bda5 with SMTP id
+ f8-20020a05600c154800b0038eb434bda5mr5615245wmg.166.1649792527136; 
+ Tue, 12 Apr 2022 12:42:07 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- h19-20020a056512055300b0046bb9a59e13sm309392lfl.56.2022.04.12.12.26.49
+ l3-20020a05600002a300b00207902922cesm14150978wry.15.2022.04.12.12.42.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 12:26:49 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
- id 72EEB1030D2; Tue, 12 Apr 2022 22:28:21 +0300 (+03)
-Date: Tue, 12 Apr 2022 22:28:21 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
- against RLIMIT_MEMLOCK
-Message-ID: <20220412192821.xliop57sblvjx4t4@box.shutemov.name>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-5-chao.p.peng@linux.intel.com>
- <Yk8L0CwKpTrv3Rg3@google.com>
- <20220411153233.54ljmi7zgqovhgsn@box.shutemov.name>
- <20220412133925.GG8013@chaop.bj.intel.com>
+ Tue, 12 Apr 2022 12:42:06 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-7.1 0/8] nbd: actually make s->state thread-safe
+Date: Tue, 12 Apr 2022 21:41:56 +0200
+Message-Id: <20220412194204.350889-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220412133925.GG8013@chaop.bj.intel.com>
-Received-SPF: none client-ip=2a00:1450:4864:20::230;
- envelope-from=kirill@shutemov.name; helo=mail-lj1-x230.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,47 +85,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 12, 2022 at 09:39:25PM +0800, Chao Peng wrote:
-> On Mon, Apr 11, 2022 at 06:32:33PM +0300, Kirill A. Shutemov wrote:
-> > On Thu, Apr 07, 2022 at 04:05:36PM +0000, Sean Christopherson wrote:
-> > > Hmm, shmem_writepage() already handles SHM_F_INACCESSIBLE by rejecting the swap, so
-> > > maybe it's just the page migration path that needs to be updated?
-> > 
-> > My early version prevented migration with -ENOTSUPP for
-> > address_space_operations::migratepage().
-> > 
-> > What's wrong with that approach?
-> 
-> I previously thought migratepage will not be called since we already
-> marked the pages as UNMOVABLE, sounds not correct?
+The main point of this series is patch 6, which removes the dubious and
+probably wrong use of atomics in block/nbd.c.  This in turn is enabled
+mostly by the cleanups in patches 3-5.  Together, they introduce a
+QemuMutex that synchronizes the NBD client coroutines, the reconnect_delay
+timer and nbd_cancel_in_flight() as well.
 
-Do you mean missing __GFP_MOVABLE? I can be wrong, but I don't see that it
-direclty affects if the page is migratable. It is a hint to page allocator
-to group unmovable pages to separate page block and impove availablity of
-higher order pages this way. Page allocator tries to allocate unmovable
-pages from pages blocks that already have unmovable pages.
+The fixes happen to remove an incorrect use of qemu_co_queue_restart_all
+and qemu_co_enter_next on the s->free_sema CoQueue, which was not guarded
+by s->send_mutex.
+
+The rest is bugfixes, simplifying the code a bit, and extra documentation.
+
+Paolo Bonzini (8):
+  nbd: actually implement reply_possible safeguard
+  nbd: mark more coroutine_fns
+  nbd: remove peppering of nbd_client_connected
+  nbd: keep send_mutex/free_sema handling outside
+    nbd_co_do_establish_connection
+  nbd: use a QemuMutex to synchronize reconnection with coroutines
+  nbd: move s->state under requests_lock
+  nbd: take receive_mutex when reading requests[].receiving
+  nbd: document what is protected by the CoMutexes
+
+ block/coroutines.h |   4 +-
+ block/nbd.c        | 295 +++++++++++++++++++++++----------------------
+ 2 files changed, 154 insertions(+), 145 deletions(-)
 
 -- 
- Kirill A. Shutemov
+2.35.1
+
 
