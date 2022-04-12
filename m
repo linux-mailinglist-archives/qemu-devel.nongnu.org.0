@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FA14FDD3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 13:08:38 +0200 (CEST)
-Received: from localhost ([::1]:47084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE2C4FDD9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 13:23:35 +0200 (CEST)
+Received: from localhost ([::1]:39682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neENx-0004sF-4v
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 07:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53162)
+	id 1neEcP-0003X4-Sb
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 07:23:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neEKc-0001iR-WB
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:05:11 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34800)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1neEZq-0002RS-Jx
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:20:55 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neEKZ-0004gW-1U
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:05:10 -0400
-Received: by mail-wr1-x434.google.com with SMTP id c10so6055317wrb.1
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 04:05:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=CJvU4zGekh+N/kt1H06KFuHWrUB2ucqhBdko4CKac4M=;
- b=DbAPJKzrPQotjIbvOpvnbwbMWHnl2t06n/0as4dwX+klYdnvCJPs6G02+TQeq82R/h
- QWmVwJqUA/sbQGEQIUzeJ/jwuZ7Yl00jbFNWzlCQgBRAhZ9Islr78JjfY0tr4iYdvMKM
- BOcyFkk4wjVBZZzKUkt3PUHsoM13lfGiDp7O1Xk6ByFTfTfS8BsgNlgdIrsSsVlQLc/g
- +45bF/unCzIeKm03HNWWT40OwBkMgCCZgfuRqJfwaFeoHi+G1pnenVkErwFOUqOitcZ9
- Zy6RXMjMrk8Zr7GQngbNVYSA17mZ2aqHTPAZQGf3WbS6/YNR+GahRYm5V/FYilPDVLOE
- WyEw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1neEZo-0008Uv-0z
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:20:53 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id g18so11703543ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 04:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=oOcnboi4+AkLg8hER+MJU2C/13i6+MpSAw+5Hyu1xwA=;
+ b=e1xSV7QQi7v1TpYfagbHkQINTdpnn1ytI1CIFd3j0wkzgKJIZ0aThMd/xiycLHXMR3
+ L7w/FYaeOzCTajCxKCXKicQsTKgDw7GcykKl16nYi1B3O4u9RLgbtdBYv83xykHxXhal
+ WjvMz4Qmz+dPUGiIECbT/q7r/aAfvgHqyjuY3MGH9zuzj4fN0K3omBDYPkaVZb6eaOK3
+ WeV2/44ZhTImKhsAyBvfH3sIUgc1N8ffm5f/38I9Tf4HtrzqhciTQyPuazQ5qY9txn6C
+ lBeyY6olxpPKt//QR3UCgAQ77uKkSlJYiT0roDY5vl3NQfokof7Dq2FDtmnbAL5CUyx1
+ /AZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=CJvU4zGekh+N/kt1H06KFuHWrUB2ucqhBdko4CKac4M=;
- b=o5PRYTphY9qsw2q/S3+UlQy7jO29No+1pkAV2MzddGIPNLSfKrI+gQyEbz/akkThLm
- hovkFUzl4S/nBmvCKLA/EIwd+k9FcDLcOlUQKWreAB5pgl6yBJiM6rup8Qq2zacCs2st
- Nq2nA/GAVCu3URIuvWIgQDAtPK2+mtBwFBF5wfCH6fZqn/urkl0UBtWUwMz1O3HEGxcA
- zfyONOMhx8ZI7g0qwwC4YyOIPswOzU7vpQDzAU3/26iUsPkvPhey+lSrPZxpVj6l8XOm
- s65eQLIi05+SW5z5rIgkhb7/CVAsa7ZeT9zbh74koRrOGu3nqdNnLuHrZtaBgLfXYJqb
- m2cg==
-X-Gm-Message-State: AOAM53360dD2NWdepRxMemVhGrzOTHCkHY2LQZjOE70dDCyl0C1LPLo8
- YvTMP/bpn6/4bzMfsxDOX8gh0uiHmBnUMQ==
-X-Google-Smtp-Source: ABdhPJzY0P3t2w0b+I1oXoGF9h8Z/p5p8EGhQT2IrTgvR/Ig4RwGyiqNsNRcRCc1bbebSWlLBQFnMA==
-X-Received: by 2002:a5d:6dd1:0:b0:207:92c4:eaef with SMTP id
- d17-20020a5d6dd1000000b0020792c4eaefmr17272382wrz.498.1649761502268; 
- Tue, 12 Apr 2022 04:05:02 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- p3-20020adfaa03000000b00207a1db96cfsm7919946wrd.71.2022.04.12.04.05.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 04:05:01 -0700 (PDT)
-Message-ID: <01492470-4870-b5cd-465a-7b6a84e389e1@redhat.com>
-Date: Tue, 12 Apr 2022 13:04:58 +0200
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=oOcnboi4+AkLg8hER+MJU2C/13i6+MpSAw+5Hyu1xwA=;
+ b=Fj9RSCe3MONmXTr0Le5NCmVUgjlLcC97AAjcnSmlYgdScodzdsKS/fv6a+vUs2v2c1
+ L+2Nj8yweerMg6jNR0wQIg0A2FrWDQcLLt0P9btVrOpGYfBPMzKTZ25T+uozAB4mwD1N
+ tNbh4v/7RSTcJF1XzjTi7TnHgDJj3HmVL5Zq4Z+T9XPYGnHm/kWdQemL/2LjEEwoloxv
+ w/bbWWLMJX2E90Wq6Tusgh9syuSnxE111EVImI4/JjKynjGJLBuDDezQ8xnkuiFbRL5q
+ /VLGRoy6ejZG4Pw1KK6f3sgjJMtFti49LC/f2Sg/d0j5G32tgsDpMJNgybq/5QSHH+Ei
+ 9AHA==
+X-Gm-Message-State: AOAM531YDBmAiXEIVVBjsIXgzrs6GnVZGZqXeddmwVa1k/pks/UA3nq7
+ MYIlhcnoQ8q0L1zj8tcyp4Hfcg==
+X-Google-Smtp-Source: ABdhPJzhTL0v27ZsbnAT+nfzTNC5cXtadmc+TMeJDXPi7YqNcQfFQc1KGpFJtgXvAnMUXl3mJZ/MiQ==
+X-Received: by 2002:a17:906:704f:b0:6e0:2ce5:131e with SMTP id
+ r15-20020a170906704f00b006e02ce5131emr32763605ejj.246.1649762449481; 
+ Tue, 12 Apr 2022 04:20:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ l10-20020a170906938a00b006e88c811016sm2891249ejx.145.2022.04.12.04.20.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Apr 2022 04:20:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6B28D1FFB7;
+ Tue, 12 Apr 2022 12:20:47 +0100 (BST)
+References: <20220412104519.201655-1-alex.bennee@linaro.org>
+ <CAFEAcA_j78LD=K=BY+szHK+X0kyh3RXm7ZT4gM2GDmcKTLYeCA@mail.gmail.com>
+User-agent: mu4e 1.7.12; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC PATCH] gdb/gic: expose cpu_index via MxTxAttrs
+Date: Tue, 12 Apr 2022 12:19:56 +0100
+In-reply-to: <CAFEAcA_j78LD=K=BY+szHK+X0kyh3RXm7ZT4gM2GDmcKTLYeCA@mail.gmail.com>
+Message-ID: <87o816zgxc.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] block: fix core for unlock not permitted
-Content-Language: en-US
-To: suruifeng <suruifeng1@huawei.com>, qemu-devel@nongnu.org
-References: <20220412071323.580078-1-suruifeng1@huawei.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220412071323.580078-1-suruifeng1@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,86 +89,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/12/22 09:13, suruifeng via wrote:
-> qemu coredump:
->    0x00007f9e7205c81b in raise () from /usr/lib64/libc.so.6
->    0x00007f9e7205db41 in abort () from /usr/lib64/libc.so.6
->    0x00007f9e71ddbe94 in error_exit (err=<optimized out>, msg=msg@entry=0x7f9e71ec1b50 <__func__.20287> "qemu_mutex_unlock_impl")
->      at /usr/src/debug/qemu-4.1.0-170.x86_64/util/qemu-thread-posix.c:36
->    0x00007f9e71ddc61f in qemu_mutex_unlock_impl (mutex=mutex@entry=0x5559850b0b90, file=file@entry=0x7f9e71ec0978 "/home/abuild/rpmbuild/BUILD/qemu-4.1.0/util/async.c",
->      line=line@entry=524) at /usr/src/debug/qemu-4.1.0-170.x86_64/util/qemu-thread-posix.c:108
->    0x00007f9e71dd5bb5 in aio_context_release (ctx=ctx@entry=0x5559850b0b30) at /usr/src/debug/qemu-4.1.0-170.x86_64/util/async.c:524
->    0x00007f9e70dfed28 in bdrv_flush (bs=bs@entry=0x5559851f0a20) at /usr/src/debug/qemu-4.1.0-170.x86_64/block/io.c:2778
->    0x00007f9e70e37f63 in bdrv_close (bs=bs@entry=0x5559851f0a20) at /usr/src/debug/qemu-4.1.0-170.x86_64/block.c:4025
->    0x00007f9e70e38193 in bdrv_delete (bs=0x5559851f0a20) at /usr/src/debug/qemu-4.1.0-170.x86_64/block.c:4271
->    0x00007f9e70e38225 in bdrv_unref (bs=<optimized out>) at /usr/src/debug/qemu-4.1.0-170.x86_64/block.c:5612
->    0x00007f9e70df9a92 in bdrv_next (it=it@entry=0x7ffc5e3547a0) at /usr/src/debug/qemu-4.1.0-170.x86_64/block/block-backend.c:576
->    0x00007f9e70dfee76 in bdrv_flush_all () at /usr/src/debug/qemu-4.1.0-170.x86_64/block/io.c:2074
->    0x00007f9e71e3a08f in do_vm_stop (state=state@entry=RUN_STATE_SHUTDOWN, send_stop=send_stop@entry=false) at /usr/src/debug/qemu-4.1.0-170.x86_64/cpus.c:1140
->    0x00007f9e71e3a14c in vm_shutdown () at /usr/src/debug/qemu-4.1.0-170.x86_64/cpus.c:1151
-> 
-> During mirror job run, the VM is shutdown. During the shutdown, the mirror job I/O error triggers mirror_exit_commom.
-> In bdrv_flush_all(), bdrv_next() increase the ref to mirror_top_bs first,
-> and then bdrv_flush(bs) call BDRV_POLL_WHILE and executes mirror_exit_common() decreases ref to mirror_top_bs,
-> and finally bdrv_next() decreases the ref to mirror_top_bs, resulting in release mirror_top_bs.
-> 
-> Let's fix this by adding aio_context_acquire() and aio_context_release() to bdrv_next().
 
-Hi,
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-is this reproducible with a more recent version of QEMU?  In particular, 
-bdrv_next does not have bdrv_unref anymore.
+> On Tue, 12 Apr 2022 at 11:45, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> When accessing HW via the gdbstub we can't easily figure out what the
+>> cpu_index is. The canonical case is current_cpu but for some cases
+>> that will be NULL. For debug accesses we can overload requester_id and
+>> make the GIC a bit smarter about fishing that out.
+>>
+>> [AJB: very much a PoC hack for now but interested if this makes sense.
+>> We could encode cpu_index in another field but that would grow
+>> MxTxAttrs even more.]
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/124
+>> ---
+>>  include/exec/memattrs.h |  2 +-
+>>  hw/core/cpu-sysemu.c    | 15 +++++++++++----
+>>  hw/intc/arm_gic.c       | 33 +++++++++++++++++++--------------
+>>  3 files changed, 31 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
+>> index 9fb98bc1ef..1333a34cb3 100644
+>> --- a/include/exec/memattrs.h
+>> +++ b/include/exec/memattrs.h
+>> @@ -43,7 +43,7 @@ typedef struct MemTxAttrs {
+>>       * (see MEMTX_ACCESS_ERROR).
+>>       */
+>>      unsigned int memory:1;
+>> -    /* Requester ID (for MSI for example) */
+>> +    /* Requester ID (for MSI for example) or cpu_index for debug */
+>>      unsigned int requester_id:16;
+>
+> If we want to provide a requester ID for memory transactions we
+> should provide it always, not just for debug. That way gic_get_current_cp=
+u()
+> and similar code can unconditionally use requester_id and never needs
+> to look at current_cpu. (We would also need to figure out how we want
+> to parcel out requester_ids in the system, so that PCI requester IDs
+> don't clash with CPU requester IDs.)
 
-Paolo
+We could have a requester_type field (0 for CPU, 1 for PCI for now)?
 
-> Signed-off-by: suruifeng <suruifeng1@huawei.com>
-> ---
->   block/block-backend.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
-> 
-> diff --git a/block/block-backend.c b/block/block-backend.c
-> index e0e1aff4b1..5ae745c0ab 100644
-> --- a/block/block-backend.c
-> +++ b/block/block-backend.c
-> @@ -593,6 +593,7 @@ BlockBackend *blk_next(BlockBackend *blk)
->   BlockDriverState *bdrv_next(BdrvNextIterator *it)
->   {
->       BlockDriverState *bs, *old_bs;
-> +    AioContext *ctx = NULL;
->   
->       /* Must be called from the main loop */
->       assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-> @@ -613,11 +614,17 @@ BlockDriverState *bdrv_next(BdrvNextIterator *it)
->           if (it->blk) {
->               blk_ref(it->blk);
->           }
-> +	ctx = blk_get_aio_context(old_blk);
-> +	aio_context_acquire(ctx);
->           blk_unref(old_blk);
-> +	aio_context_release(ctx);
->   
->           if (bs) {
->               bdrv_ref(bs);
-> +	    ctx = bdrv_get_aio_context(old_bs);
-> +	    aio_context_acquire(ctx);
->               bdrv_unref(old_bs);
-> +	    aio_context_release(ctx);
->               return bs;
->           }
->           it->phase = BDRV_NEXT_MONITOR_OWNED;
-> @@ -636,7 +643,10 @@ BlockDriverState *bdrv_next(BdrvNextIterator *it)
->       if (bs) {
->           bdrv_ref(bs);
->       }
-> +    ctx = bdrv_get_aio_context(old_bs);
-> +    aio_context_acquire(ctx);
->       bdrv_unref(old_bs);
-> +    aio_context_release(ctx);
->   
->       return bs;
->   }
+>
+> -- PMM
 
+
+--=20
+Alex Benn=C3=A9e
 
