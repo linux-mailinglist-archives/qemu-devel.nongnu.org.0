@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B32A4FE918
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 21:49:25 +0200 (CEST)
-Received: from localhost ([::1]:36804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A128E4FE916
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 21:49:22 +0200 (CEST)
+Received: from localhost ([::1]:36592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neMVw-0006GI-Gt
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 15:49:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58586)
+	id 1neMVt-00066O-M5
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 15:49:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neMP9-0006UA-U6
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:25 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53232)
+ id 1neMPL-0006gi-6g
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:35 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neMP8-0008Jr-11
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:23 -0400
-Received: by mail-wm1-x329.google.com with SMTP id r7so12577998wmq.2
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 12:42:21 -0700 (PDT)
+ id 1neMPG-0008LZ-Gn
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:34 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ r133-20020a1c448b000000b0038ccb70e239so2501731wma.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 12:42:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4+OnE+t66W2T2w92/xQgcGwiFkM/yVaI4DCoj9VarlU=;
- b=gVUv3cWrlNV9fyvnQ2HD58MjeKWhryo9PAYR0sZhKmF+H2yN1VWAjDOKQEA/u4lCZE
- NmWtYp58aWZwpale1tW29xqbHrNG2MhgY1TLMvJTFCEs7k8ifHRezi0aK38NLS6EqOGc
- f3AWD/vVkxuZe+Krws6r+/sDcoeC2D/2mZGaQWcOe2+7UGk5E4QTivOFx0kLK99AnD2q
- ScDe6G68xGZ6E+21kdfKO0jJj4oHGwJDJhAysXbti4LqtbZynHc1XqHJXhPsNt2s/8/D
- xUDgYm1GfuiDeQ++hk2NbvfDFX3oiptPkThRWq7KwOVv1x89r1V6ZPBTdcreUW5RZr5p
- rlCA==
+ bh=Ba4wfAaB0r3hUFfqpPUdtGRbL5KZe++vSGltbMzRdgE=;
+ b=VD3tF5HBMA+CQA7GhK3M/usVIiY+8npj0tnB9Kz1kwGUQ0suGfDRWZEmvAOQ8CHzgW
+ cJaY/Nd1B7w1rkf4QxjVF8wOQSqofnlI1thGKljq5izNjIrzILZff8rE5+WO7bJ9XMJZ
+ 7bbDUOctZUHgm8o220SL4M+bQANoPaMFUwcRnjpGpbuZdr4ZyzmsbrqjND8RN3l/5FgI
+ AOhM/lwhutUlgx/INgmtxcBVo/MRXe0bMPSJe+ueix308if2V4vjPT6ZaC7kMxlgRoGp
+ FIR2MaYUMDTxrxM4RX50tcX0+6aEIl8cpeO2dz6vtTKDCowhUqhR0rFC1XEqq8ekdrCF
+ vF2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4+OnE+t66W2T2w92/xQgcGwiFkM/yVaI4DCoj9VarlU=;
- b=SMBpFrSFe7g064wz3dEHS6JYy8OK16tfMU8tCsuO9DJaqbr9H8NMrnhI5HeWTeqWpb
- yzofLt2CEZbrteAh5/d9j/k7xag9l1w/5W3AfKpl3edLH5ivhvUUmsP9q6el8eYUaJma
- g3HrTnvAp72EHZ1Ar/SNJVYyduxQXTTVRginGd1XTehLUjvEfdpd3uerV2SWL/eWzR/V
- zTCljujHQJrnV/Iy8ErVK6WYDFooIfF+6q81Y8OCs7iwg58CEz1rbG4eOMCCGUVcxyk6
- auMDwTQUlaqLmEDBE0c5yvJdg6G4T4jtxrWjQ4PzNXuC/DdMnAIS2Mq9XNGO+OlGdooE
- DXEg==
-X-Gm-Message-State: AOAM531JUdCGhvrGA94eUveG3RuN70NuXIAPziboj14iz3S/alU9JrTa
- yxWurD/rwgutIb3vfFdPUCnMM4YJaE+zmw==
-X-Google-Smtp-Source: ABdhPJz149LUbpudIQPND0z9iNRS3cSH3rQs5Ky0I7Jo37mcURYdHN5siIFN8RuxTzwMNnju3b8UTA==
-X-Received: by 2002:a1c:f005:0:b0:38c:b6d5:5c2a with SMTP id
- a5-20020a1cf005000000b0038cb6d55c2amr5584889wmb.89.1649792540586; 
- Tue, 12 Apr 2022 12:42:20 -0700 (PDT)
+ bh=Ba4wfAaB0r3hUFfqpPUdtGRbL5KZe++vSGltbMzRdgE=;
+ b=JtlhtLVngrdmdE+6oi4m4tLCBtRAeig2pjBkf3hq/cDlPMjSgEHqkmXnr0wMHPM1vN
+ ibx8nXhraLTkc2KhurKSEl+qfACMliTaoeVpf7wF5lephT7n4qWg81tG8md90xVC2m7/
+ PnQjdHWErXRrqNbJhybtGJoQUlT/Kq9mWYFOn8zjcWWY29UlY00XmxGif3rg8Iln98AV
+ 9foJSRJkum8uDSNvZZt3N6OiC0T7YK0ItqNGKKyThhqvPz+N1rlC/e9fQunJiw4bIh8E
+ grUr5p63inIF9r9J0FMB0FMDAp6xnWoNhoy+qRyFI+hvvQVBzCTA8r3gm5IGRyvzyM0W
+ W+dQ==
+X-Gm-Message-State: AOAM5316EYbnv8OCZ8x4btxzai4FzlWgHblfcYxeg0u5Eo5PxhA/4rwl
+ ITpDhZgFCExZaQEXKEEaYNG0WCxNcWItoQ==
+X-Google-Smtp-Source: ABdhPJy7h6VISrS9vqHg6P7zyEthsdxWdIYfxlmS8tZgpEM1vE3KGJiQtGLdQk2DFTdRVaDMG3YjCQ==
+X-Received: by 2002:a05:600c:2307:b0:38e:bf05:677c with SMTP id
+ 7-20020a05600c230700b0038ebf05677cmr5478690wmo.44.1649792549077; 
+ Tue, 12 Apr 2022 12:42:29 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l3-20020a05600002a300b00207902922cesm14150978wry.15.2022.04.12.12.42.19
+ l3-20020a05600002a300b00207902922cesm14150978wry.15.2022.04.12.12.42.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 12:42:20 -0700 (PDT)
+ Tue, 12 Apr 2022 12:42:28 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 6/8] nbd: move s->state under requests_lock
-Date: Tue, 12 Apr 2022 21:42:02 +0200
-Message-Id: <20220412194204.350889-7-pbonzini@redhat.com>
+Subject: [PATCH for-7.1 7/8] nbd: take receive_mutex when reading
+ requests[].receiving
+Date: Tue, 12 Apr 2022 21:42:03 +0200
+Message-Id: <20220412194204.350889-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412194204.350889-1-pbonzini@redhat.com>
 References: <20220412194204.350889-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,257 +92,84 @@ Cc: eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the confusing, and most likely wrong, atomics.  The only function
-that used to be somewhat in a hot path was nbd_client_connected(),
-but it is not anymore after the previous patches.
+requests[].receiving is set by nbd_receive_replies() under the receive_mutex;
+Read it under the same mutex as well.  Waking up receivers on errors happens
+after each reply finishes processing, in nbd_co_receive_one_chunk().
+If there is no currently-active reply, there are two cases:
 
-The function nbd_client_connecting_wait() was used mostly to check if
-a request had to be reissued (outside requests_lock), but also
-under requests_lock in nbd_client_connecting_wait().  The two uses have to
-be separated; for the former we rename it to nbd_client_will_reconnect()
-and make it take s->requests_lock; for the latter the access can simply
-be inlined.  The new name is clearer, and ensures that a missing
-conversion is caught by the compiler.
+* either there is no active request at all, in which case no
+element of request[] can have .receiving = true
+
+* or nbd_receive_replies() must be running and waiting for receive_mutex;
+in that case it will get back to nbd_co_receive_one_chunk() because
+the socket has been shutdown, and all waiting coroutines will wake up
+in turn.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/nbd.c | 88 +++++++++++++++++++++++++++++------------------------
- 1 file changed, 48 insertions(+), 40 deletions(-)
+ block/nbd.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/block/nbd.c b/block/nbd.c
-index c908ea6ae3..6d80bd59e2 100644
+index 6d80bd59e2..8954243f50 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -35,7 +35,6 @@
- #include "qemu/option.h"
- #include "qemu/cutils.h"
- #include "qemu/main-loop.h"
--#include "qemu/atomic.h"
- 
- #include "qapi/qapi-visit-sockets.h"
- #include "qapi/qmp/qstring.h"
-@@ -73,10 +72,11 @@ typedef struct BDRVNBDState {
-     NBDExportInfo info;
- 
-     /*
--     * Protects free_sema, in_flight, requests[].coroutine,
-+     * Protects state, free_sema, in_flight, requests[].coroutine,
-      * reconnect_delay_timer.
-      */
-     QemuMutex requests_lock;
-+    NBDClientState state;
-     CoQueue free_sema;
-     int in_flight;
-     NBDClientRequest requests[MAX_NBD_REQUESTS];
-@@ -84,7 +84,6 @@ typedef struct BDRVNBDState {
- 
-     CoMutex send_mutex;
-     CoMutex receive_mutex;
--    NBDClientState state;
- 
-     QEMUTimer *open_timer;
- 
-@@ -133,11 +132,6 @@ static void nbd_clear_bdrvstate(BlockDriverState *bs)
+@@ -132,6 +132,7 @@ static void nbd_clear_bdrvstate(BlockDriverState *bs)
      s->x_dirty_bitmap = NULL;
  }
  
--static bool nbd_client_connected(BDRVNBDState *s)
--{
--    return qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTED;
--}
--
++/* Called with s->receive_mutex taken.  */
  static bool coroutine_fn nbd_recv_coroutine_wake_one(NBDClientRequest *req)
  {
      if (req->receiving) {
-@@ -160,14 +154,15 @@ static void coroutine_fn nbd_recv_coroutines_wake(BDRVNBDState *s, bool all)
-     }
+@@ -143,12 +144,13 @@ static bool coroutine_fn nbd_recv_coroutine_wake_one(NBDClientRequest *req)
+     return false;
  }
  
--static void coroutine_fn nbd_channel_error(BDRVNBDState *s, int ret)
-+/* Called with s->requests_lock held.  */
-+static void coroutine_fn nbd_channel_error_locked(BDRVNBDState *s, int ret)
+-static void coroutine_fn nbd_recv_coroutines_wake(BDRVNBDState *s, bool all)
++static void coroutine_fn nbd_recv_coroutines_wake(BDRVNBDState *s)
  {
--    if (nbd_client_connected(s)) {
-+    if (s->state == NBD_CLIENT_CONNECTED) {
-         qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-     }
+     int i;
  
-     if (ret == -EIO) {
--        if (nbd_client_connected(s)) {
-+        if (s->state == NBD_CLIENT_CONNECTED) {
-             s->state = s->reconnect_delay ? NBD_CLIENT_CONNECTING_WAIT :
-                                             NBD_CLIENT_CONNECTING_NOWAIT;
++    QEMU_LOCK_GUARD(&s->receive_mutex);
+     for (i = 0; i < MAX_NBD_REQUESTS; i++) {
+-        if (nbd_recv_coroutine_wake_one(&s->requests[i]) && !all) {
++        if (nbd_recv_coroutine_wake_one(&s->requests[i])) {
+             return;
          }
-@@ -178,6 +173,12 @@ static void coroutine_fn nbd_channel_error(BDRVNBDState *s, int ret)
-     nbd_recv_coroutines_wake(s, true);
- }
- 
-+static void coroutine_fn nbd_channel_error(BDRVNBDState *s, int ret)
-+{
-+    QEMU_LOCK_GUARD(&s->requests_lock);
-+    nbd_channel_error_locked(s, ret);
-+}
-+
- static void reconnect_delay_timer_del(BDRVNBDState *s)
- {
-     if (s->reconnect_delay_timer) {
-@@ -190,20 +191,18 @@ static void reconnect_delay_timer_cb(void *opaque)
- {
-     BDRVNBDState *s = opaque;
- 
--    if (qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTING_WAIT) {
--        s->state = NBD_CLIENT_CONNECTING_NOWAIT;
--        nbd_co_establish_connection_cancel(s->conn);
--    }
+     }
+@@ -169,8 +171,6 @@ static void coroutine_fn nbd_channel_error_locked(BDRVNBDState *s, int ret)
+     } else {
+         s->state = NBD_CLIENT_QUIT;
+     }
 -
-     reconnect_delay_timer_del(s);
-+    WITH_QEMU_LOCK_GUARD(&s->requests_lock) {
-+        if (s->state != NBD_CLIENT_CONNECTING_WAIT) {
-+            return;
-+        }
-+        s->state = NBD_CLIENT_CONNECTING_NOWAIT;
-+    }
-+    nbd_co_establish_connection_cancel(s->conn);
+-    nbd_recv_coroutines_wake(s, true);
  }
  
- static void reconnect_delay_timer_init(BDRVNBDState *s, uint64_t expire_time_ns)
- {
--    if (qatomic_load_acquire(&s->state) != NBD_CLIENT_CONNECTING_WAIT) {
--        return;
--    }
--
-     assert(!s->reconnect_delay_timer);
-     s->reconnect_delay_timer = aio_timer_new(bdrv_get_aio_context(s->bs),
-                                              QEMU_CLOCK_REALTIME,
-@@ -226,7 +225,9 @@ static void nbd_teardown_connection(BlockDriverState *bs)
-         s->ioc = NULL;
+ static void coroutine_fn nbd_channel_error(BDRVNBDState *s, int ret)
+@@ -433,11 +433,10 @@ static coroutine_fn int nbd_receive_replies(BDRVNBDState *s, uint64_t handle)
+ 
+             qemu_coroutine_yield();
+             /*
+-             * We may be woken for 3 reasons:
++             * We may be woken for 2 reasons:
+              * 1. From this function, executing in parallel coroutine, when our
+              *    handle is received.
+-             * 2. From nbd_channel_error(), when connection is lost.
+-             * 3. From nbd_co_receive_one_chunk(), when previous request is
++             * 2. From nbd_co_receive_one_chunk(), when previous request is
+              *    finished and s->reply.handle set to 0.
+              * Anyway, it's OK to lock the mutex and go to the next iteration.
+              */
+@@ -931,7 +930,7 @@ static coroutine_fn int nbd_co_receive_one_chunk(
      }
+     s->reply.handle = 0;
  
--    s->state = NBD_CLIENT_QUIT;
-+    WITH_QEMU_LOCK_GUARD(&s->requests_lock) {
-+        s->state = NBD_CLIENT_QUIT;
-+    }
+-    nbd_recv_coroutines_wake(s, false);
++    nbd_recv_coroutines_wake(s);
+ 
+     return ret;
  }
- 
- static void open_timer_del(BDRVNBDState *s)
-@@ -255,16 +256,13 @@ static void open_timer_init(BDRVNBDState *s, uint64_t expire_time_ns)
-     timer_mod(s->open_timer, expire_time_ns);
- }
- 
--static bool nbd_client_connecting(BDRVNBDState *s)
-+static bool nbd_client_will_reconnect(BDRVNBDState *s)
- {
--    NBDClientState state = qatomic_load_acquire(&s->state);
--    return state == NBD_CLIENT_CONNECTING_WAIT ||
--        state == NBD_CLIENT_CONNECTING_NOWAIT;
--}
--
--static bool nbd_client_connecting_wait(BDRVNBDState *s)
--{
--    return qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTING_WAIT;
-+    /*
-+     * Called only after a socket error, so this is not performance sensitive.
-+     */
-+    QEMU_LOCK_GUARD(&s->requests_lock);
-+    return s->state == NBD_CLIENT_CONNECTING_WAIT;
- }
- 
- /*
-@@ -351,15 +349,24 @@ int coroutine_fn nbd_co_do_establish_connection(BlockDriverState *bs,
-     qio_channel_attach_aio_context(s->ioc, bdrv_get_aio_context(bs));
- 
-     /* successfully connected */
--    s->state = NBD_CLIENT_CONNECTED;
-+    WITH_QEMU_LOCK_GUARD(&s->requests_lock) {
-+        s->state = NBD_CLIENT_CONNECTED;
-+    }
- 
-     return 0;
- }
- 
-+/* Called with s->requests_lock held.  */
-+static bool nbd_client_connecting(BDRVNBDState *s)
-+{
-+    return s->state == NBD_CLIENT_CONNECTING_WAIT ||
-+        s->state == NBD_CLIENT_CONNECTING_NOWAIT;
-+}
-+
- /* Called with s->requests_lock taken.  */
- static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
- {
--    bool blocking = nbd_client_connecting_wait(s);
-+    bool blocking = s->state == NBD_CLIENT_CONNECTING_WAIT;
- 
-     /*
-      * Now we are sure that nobody is accessing the channel, and no one will
-@@ -475,17 +482,17 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
- 
-     qemu_mutex_lock(&s->requests_lock);
-     while (s->in_flight == MAX_NBD_REQUESTS ||
--           (!nbd_client_connected(s) && s->in_flight > 0)) {
-+           (s->state != NBD_CLIENT_CONNECTED && s->in_flight > 0)) {
-         qemu_co_queue_wait(&s->free_sema, &s->requests_lock);
-     }
- 
-     s->in_flight++;
--    if (!nbd_client_connected(s)) {
-+    if (s->state != NBD_CLIENT_CONNECTED) {
-         if (nbd_client_connecting(s)) {
-             nbd_reconnect_attempt(s);
-             qemu_co_queue_restart_all(&s->free_sema);
-         }
--        if (!nbd_client_connected(s)) {
-+        if (s->state != NBD_CLIENT_CONNECTED) {
-             rc = -EIO;
-             goto err;
-         }
-@@ -529,7 +536,7 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
-     if (rc < 0) {
-         qemu_mutex_lock(&s->requests_lock);
- err:
--        nbd_channel_error(s, rc);
-+        nbd_channel_error_locked(s, rc);
-         if (i != -1) {
-             s->requests[i].coroutine = NULL;
-         }
-@@ -1193,7 +1200,7 @@ static int coroutine_fn nbd_co_request(BlockDriverState *bs, NBDRequest *request
-             error_free(local_err);
-             local_err = NULL;
-         }
--    } while (ret < 0 && nbd_client_connecting_wait(s));
-+    } while (ret < 0 && nbd_client_will_reconnect(s));
- 
-     return ret ? ret : request_ret;
- }
-@@ -1252,7 +1259,7 @@ static int coroutine_fn nbd_client_co_preadv(BlockDriverState *bs, int64_t offse
-             error_free(local_err);
-             local_err = NULL;
-         }
--    } while (ret < 0 && nbd_client_connecting_wait(s));
-+    } while (ret < 0 && nbd_client_will_reconnect(s));
- 
-     return ret ? ret : request_ret;
- }
-@@ -1410,7 +1417,7 @@ static int coroutine_fn nbd_client_co_block_status(
-             error_free(local_err);
-             local_err = NULL;
-         }
--    } while (ret < 0 && nbd_client_connecting_wait(s));
-+    } while (ret < 0 && nbd_client_will_reconnect(s));
- 
-     if (ret < 0 || request_ret < 0) {
-         return ret ? ret : request_ret;
-@@ -1442,8 +1449,9 @@ static void nbd_yank(void *opaque)
-     BlockDriverState *bs = opaque;
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
- 
--    qatomic_store_release(&s->state, NBD_CLIENT_QUIT);
-+    QEMU_LOCK_GUARD(&s->requests_lock);
-     qio_channel_shutdown(QIO_CHANNEL(s->ioc), QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-+    s->state = NBD_CLIENT_QUIT;
- }
- 
- static void nbd_client_close(BlockDriverState *bs)
 -- 
 2.35.1
 
