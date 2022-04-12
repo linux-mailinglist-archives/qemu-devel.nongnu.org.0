@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9484FE97D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 22:36:30 +0200 (CEST)
-Received: from localhost ([::1]:39080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480AD4FE9B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 22:56:56 +0200 (CEST)
+Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neNFV-0005Oo-78
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 16:36:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43898)
+	id 1neNZF-0004u6-CX
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 16:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1neNDe-0004fi-2e
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 16:34:34 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43530)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1neNDc-0000HT-Mu
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 16:34:33 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id g18so14673227ejc.10
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 13:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=d2H8TdXUQtIBh8cKdq7st2cI3IacUohi+1UxYG8hDlM=;
- b=C/yvR299MTl9OGTqKjUIzrTH2WNUBag3U9cpv8wLox/ca0Zmol4Ia/zqkAM3zEAI2u
- 6d4RNauvVaR7qcR4cCZsymGvK1dAD/V6hl+S8oUafHfTUa58IiDHmneHa3lO9BxW97ZT
- Bx8G0ZcdjmgZ7gT9Qb8m+9N0GC4y0de/L5tTKwKVY8/oJiOpNv5P2Dvmp+GZqE52X9Gm
- XqsrXnfZCM5tCXw9fSJVHB3XBKX8NJpUtmnoDkD282VZ8ADMgozesU3oy8PlJzWAF8D6
- 7zIMcWhuSKqzfn3bCUnRajKmQHSSTVZudgtsr1oiJ6Cb3EZwVRSbFUM9GHoprVxoaGbs
- iuEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=d2H8TdXUQtIBh8cKdq7st2cI3IacUohi+1UxYG8hDlM=;
- b=yyeSiaPr0iiNmYWZpCfkkoemkXH+PdHKxnWQWMHf0JBQEyW4xd5njv7BmG3LLEM8vr
- 7Ms6H/jUNxWcXstuNAcWQftvf6XUCjICYuZSECCoRo/WFaLvf5nyl4A1C1n6d0hXmrlv
- QcE6nkj63mUF4ZpX/Cr6S7dLHgujJN6y74J+ZIKFYoQU244LGdgGWZgJWF9TUTVSVyhb
- MezFG+LnGjw//O1rpDaEj+cGln20ctWUOtCvK7wGrmy3D7oiVFRK5impRwdXhdP51c7O
- k7J5Ww25MhtiasKCFrAwXNTYyb2coPyVdhIPcRP0q6q2Fm3FxHIjnoyjne5ogqOvKYrJ
- I1uw==
-X-Gm-Message-State: AOAM5334Q4abfNmkXt6CQh46GoIRO50d2RACYsre8sQOnfsiTwEr4V2Q
- J7EybRBqK+86qTgDbmrzHzB7jQ==
-X-Google-Smtp-Source: ABdhPJwdehzQhnwLJtmgRZ/d+pIBtprwpixwJY1MWFSTQ7x/SHZ/E1LndX3oD5LLPynjKh5Q2riT1g==
-X-Received: by 2002:a17:907:97cc:b0:6da:a8fb:d1db with SMTP id
- js12-20020a17090797cc00b006daa8fbd1dbmr36608322ejc.267.1649795671078; 
- Tue, 12 Apr 2022 13:34:31 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- r19-20020a17090638d300b006d6e4fc047bsm13695324ejd.11.2022.04.12.13.34.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 13:34:29 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4297C1FFB7;
- Tue, 12 Apr 2022 21:34:29 +0100 (BST)
-References: <20220326132534.543738-1-richard.henderson@linaro.org>
- <20220326132534.543738-7-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.12; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 03/39] util/log: Return bool from qemu_set_log_filename
-Date: Tue, 12 Apr 2022 21:34:24 +0100
-In-reply-to: <20220326132534.543738-7-richard.henderson@linaro.org>
-Message-ID: <87bkx6yrai.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1neNFn-0006PJ-JV; Tue, 12 Apr 2022 16:36:47 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:50123)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1neNFl-0000nm-8t; Tue, 12 Apr 2022 16:36:47 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 2F9BE3202090;
+ Tue, 12 Apr 2022 16:36:40 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Tue, 12 Apr 2022 16:36:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1649795799; x=1649882199; bh=z2
+ ry4x7Rq2/5ACX8Ur4nOE+jYRqCDL7WDGk/Ms5NoZA=; b=qrZGkJQ5SRrpZEuz9x
+ nmcxARs6ZUGc7fhHOLsKlMd90cI7mnKGz2f3G46P3t5xNMac2GEqBvLHZp9Bs0R9
+ z485UXwYFFbAQHOvdQbukj9UdhyUbrxwu/WIWBtjoEhtMc5Wj/XW49TBa2sQlW3F
+ ABPq+ylmU/zQ4iO3miYKEoMEbcYn8YyevflH4gC0uisALe5RzwtDMDTRiBxDEimb
+ 57sv5Yei75QmkR3WxNdH3KdwGgBz3Q/GNBnrqWlqZi1ywe9dB4IvGKsofn0Cla9z
+ uPzXF7m530fivCb+sEbTgE/4MFPvK73XWQn6UPNJUZRGpamSovtUCWXVH7hB5PMB
+ bQSA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1649795799; x=
+ 1649882199; bh=z2ry4x7Rq2/5ACX8Ur4nOE+jYRqCDL7WDGk/Ms5NoZA=; b=e
+ 538w8nWs2WPFNh5OS+YvToBNTO5BHPHdkEJ6OhELZhMTRQ5SyNl7Zbc4cT7XI4y4
+ l0ZCWowJAo6gNuaAnu2kJvO1ha/P6peQj0qr3IelJMNJecR84/KixpctXUHYY9OK
+ MOR5S+hMAngf3fjB1YsIL596evf3JVNNNiheFLK/0kqW7/GGc4zv/Fnqg5Fvc3+y
+ daruAcxhMtHYo7yVdzpoD7kCdFfw3JyH6+6LzNH+3V5LVFe7JH+W2V+PpT/HXuJi
+ xe3hR3Sj48lbqZq72XalU3RaUrddhB9j02JckvEYXJAqWzVRS2i802h3ApZzwEQ3
+ ZX2A5d0NLxitDohxbovWw==
+X-ME-Sender: <xms:1-JVYi1Jxw5X0jrCHVNEPW4Let-uS7I2xQlIcHLdVhTlEPvnsXchsA>
+ <xme:1-JVYlGyChpYeNW08-TVXU-iI0NiDEhe6VFEmTQhANRH5_FfOSa_5VSijqK74-7Pp
+ ul1uuTJuvL8Mvg12BA>
+X-ME-Received: <xmr:1-JVYq4Kz0rFPOw8cNEuWoqeXl62GzYYHXKzi8WVgLlqUkY6SawSlkqsAQwGy-g710AI_G5LEr029bMK22g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekkedgudehtdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
+ ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:1-JVYj1MC9_NPPDLRWgssMayGNx_ThA3p2_1UngqbOc-LMg-1W5efQ>
+ <xmx:1-JVYlEIzoiTgpZ4wQqKyighqbhmvc3m432tV97VHHOmS2F9q76qgg>
+ <xmx:1-JVYs_sxMSs11TfuQohI9ExpXzIHBXAOyD5eh4sCb8EDd7jgdCRvA>
+ <xmx:1-JVYlB9Cl0R1fQtZDQGiRqpv2S0whmuGoBKAe22-o079RZFN8c70A>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Apr 2022 16:36:38 -0400 (EDT)
+Date: Tue, 12 Apr 2022 22:36:37 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Tikhov <ddtikhov@gmail.com>
+Subject: Re: [PATCH] hw/nvme: fix narrowing conversion
+Message-ID: <YlXi1SnTOgoQZMqC@apples>
+References: <20220412085909.nppz25ifaotottjn@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="22BrRE4xthraDk36"
+Content-Disposition: inline
+In-Reply-To: <20220412085909.nppz25ifaotottjn@localhost.localdomain>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,22 +96,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kbusch@kernel.org, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+--22BrRE4xthraDk36
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Per the recommendations in qapi/error.h, return false on failure.
->
-> Use the return value in the monitor, the only place we aren't
-> already passing error_fatal or error_abort.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Apr 12 11:59, Dmitry Tikhov wrote:
+> Since nlbas is of type int, it does not work with large namespace size
+> values, e.g., 9 TB size of file backing namespace and 8 byte metadata
+> with 4096 bytes lbasz gives negative nlbas value, which is later
+> promoted to negative int64_t type value and results in negative
+> ns->moff which breaks namespace
+>=20
+> Signed-off-by: Dmitry Tikhov <ddtikhov@gmail.com>
+> ---
+>  hw/nvme/ns.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+> index 324f53ea0c..af6504fad2 100644
+> --- a/hw/nvme/ns.c
+> +++ b/hw/nvme/ns.c
+> @@ -29,7 +29,8 @@ void nvme_ns_init_format(NvmeNamespace *ns)
+>  {
+>      NvmeIdNs *id_ns =3D &ns->id_ns;
+>      BlockDriverInfo bdi;
+> -    int npdg, nlbas, ret;
+> +    int npdg, ret;
+> +    int64_t nlbas;
+> =20
+>      ns->lbaf =3D id_ns->lbaf[NVME_ID_NS_FLBAS_INDEX(id_ns->flbas)];
+>      ns->lbasz =3D 1 << ns->lbaf.ds;
+> @@ -42,7 +43,7 @@ void nvme_ns_init_format(NvmeNamespace *ns)
+>      id_ns->ncap =3D id_ns->nsze;
+>      id_ns->nuse =3D id_ns->ncap;
+> =20
+> -    ns->moff =3D (int64_t)nlbas << ns->lbaf.ds;
+> +    ns->moff =3D nlbas << ns->lbaf.ds;
+> =20
+>      npdg =3D ns->blkconf.discard_granularity / ns->lbasz;
+> =20
+> --=20
+> 2.35.1
+>=20
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Thanks Dmitry. Looks reasonable,
 
---=20
-Alex Benn=C3=A9e
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+
+--22BrRE4xthraDk36
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJV4tMACgkQTeGvMW1P
+DelXzQgAuVgMA9OGVwH18admajSsHwJYI1/wGGJGv50u7PiXOLLsQuQIz2CVhW+x
+Lb0+NtgD2Tx9CwYAxCU3+7FAJ+t1c4IE953kA8mAUra3N7N8a053wcI0AKZGKLHZ
+K5j2zWbob8zYQp5y5m3M7EDMetFhTfe3/xotofCYff/02hXKdUEVcFYwpvVAxk4C
+g1CLkI1Z/yr13ooxRlGEbR/BfDs5VBHm/CezW4ZPak0g8z26AvCM0+HYp1Cz5NUt
+AEEnutvcYSPiWYvM5BdoC516rfYrbtNVihxa2QJjenNmcpVQ31SBcGlRFxJQYtsc
+3OI+mvfQBkIYo7wfpYYIHAiRpmetNw==
+=WQKa
+-----END PGP SIGNATURE-----
+
+--22BrRE4xthraDk36--
 
