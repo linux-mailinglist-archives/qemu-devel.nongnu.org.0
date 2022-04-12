@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A4E4FCC3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 04:16:00 +0200 (CEST)
-Received: from localhost ([::1]:39312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10694FCC3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 04:14:49 +0200 (CEST)
+Received: from localhost ([::1]:37206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ne64V-0008Hx-67
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 22:15:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56378)
+	id 1ne63M-0006nm-RU
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 22:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1ne5zA-0003yy-GQ
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 22:10:30 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:39797)
+ id 1ne5zD-0003zb-22
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 22:10:31 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:34808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1ne5z7-0001jU-Tv
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 22:10:27 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id q19so15804684pgm.6
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 19:10:25 -0700 (PDT)
+ id 1ne5z9-0001kA-7H
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 22:10:29 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ g12-20020a17090a640c00b001cb59d7a57cso867497pjj.1
+ for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 19:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Npk3exz2iXtan5EfgRJNpQEjKQrWwJUx7QHX//nqxOI=;
- b=ATQXGY5D0j+e3yY0omWgCSF95dEZFOTHc0WCSfzWgynWvR2qiCoTUwJF36zjz6llQj
- 9EPpt77/HEFDTzF11fp5o/ca9oBAqkgIJpUdJLt2ENcUUCJ2PhmJgqm3fXDIPiGV5R9u
- 4DXH7gzsNSBMJVoLKg3KdHXg38m5mz83+8fKRc4LUMGwUEh1Pdkk8kmZd8WebErPiMO1
- JznK9BGP/W1zGuSznBu6e/jMDijgPByStHwslVeD6h2Jsmc2Gw1d02K1ZGwu5swjXX67
- F7tJVel3emgHz4V4JYPFb3PNp8pTACRc3B5j0YanutvoG7K30DdX0VydeTnuFLxLtM1I
- V9fg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tTOZt42cdW9ewoAI+nHU9OmE05mRjlLe8L41OPvyaxo=;
+ b=Gq5moTm/oMfKJwbdPRF1ljj0iAN+fW/Red4XsAkO7LB87Cnlo+QPyUih52dcFrgncs
+ KZIclMXGjjpI6awwZWOuC9E0lUu40J6zTtj0DKqM9mJgHEtMyxC9ZU7Yzh2FsQoqhoZ+
+ qY6INJ5bH/QyvPIixA6lImMzntWHRm+4EBvtHoSHcprZKhYKFgSulSK5kqYumB65KPFW
+ o7kZButEVpwYm6hSaUlR8Oq+k0+gbJhPtQ/HnpKHvhzHmXp6mzb3WMamM+dSRkyj18OV
+ Cwgm4d5sjiY97xy71dW5CaJ49Y1nIpW2vfviymQ74UTaXSSSEUNLDTQAQa80XUbyVQbt
+ CBag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Npk3exz2iXtan5EfgRJNpQEjKQrWwJUx7QHX//nqxOI=;
- b=HvJYBxNdkZa7akqCJJsq3K8paNPzKn8vEUG92tXWAZdg6b9WdkZqwU4xSOnoRZcjwp
- iHyY20hqk3g2YolkwxE4tUTdrbpd9tKOdH/9OoyeTrKk/aqk7eIQqhKvaly4dnOuf/g/
- TUR3ycyVM0xJ8Kr+VnwXaGHWakQ1X7jwgs/8vJ5RHgHguH0BY1V00KYem5B7Mp4t652F
- uFN0X+jW43VpZ82hhQCAXtGPGpU5VCGejCc0jBbS4iRCjz/JITPcuruDyEU4FhP4RuKM
- WnQk34TeEXn1Q/zAT0qVF61QiDkVtNR2aAOkk09v9ugugunzcm/U7DWNrJnG/GwrfNMt
- rkSw==
-X-Gm-Message-State: AOAM531EBOTvnEvEZaYoQes8+0dI8kVxJ4G6MDr+bs7PjwzVG/x95Bpw
- 2KhfquAvxVHQsClYzoVjEzH8meM/5G7flg==
-X-Google-Smtp-Source: ABdhPJz8MZLPqzqmBoU5ENh442/UPJXPUpg38OdXf1OyP6cbO8AHbmgC7ZlzqOxKc9hzxFDWY9xqtQ==
-X-Received: by 2002:a05:6a00:4199:b0:505:7a19:c0d with SMTP id
- ca25-20020a056a00419900b005057a190c0dmr20271943pfb.49.1649729423883; 
- Mon, 11 Apr 2022 19:10:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tTOZt42cdW9ewoAI+nHU9OmE05mRjlLe8L41OPvyaxo=;
+ b=BtXoDt/40EhMbw3Zp0H8fig3TTa3wIw1bCWBWgXTtJLyn/c4ReTcY5VQJ7vnyMwsZz
+ BqTrDFM3gX6KpBzclEFTak1nVAVqTcWnttWsZSAA9K50k43DZ54EeaBF+t6lGTLyqj8s
+ 6iwS4EdlKqaEn+oVjYenUseeHKNToB8mmuDlFrKzVA4SpwIfQdj57f4hmRpZ3O4VHbY4
+ jk6X2FncVqjM5i66yLdTf/EEkgqVL9tb2wJy+UNqeGUxTPntHsgjQr8CVkw3qiBCgEiO
+ hurAlGJPm58wtMWhIsrJxS6+RnBVxhiqJOF2ktxKsJozQ7QVH3rZ9fQrg0dE0QbIom+N
+ 0i/Q==
+X-Gm-Message-State: AOAM533o0SoXOBYoq/+AQknmJaT4P5ZsAsLlefUX/i3L2KUhqV+uZ8GK
+ 70J/c+20/Dri/7BMpNtaaCNHiDGnDDEeHw==
+X-Google-Smtp-Source: ABdhPJylLgEYfbxJIxB90znSyaLgjoUFd4k/Orl3orZ7QByD6G+jiIs4CD4oZ/q1IyJ+IypcS40s2w==
+X-Received: by 2002:a17:903:31cd:b0:158:542b:908d with SMTP id
+ v13-20020a17090331cd00b00158542b908dmr9870520ple.16.1649729425222; 
+ Mon, 11 Apr 2022 19:10:25 -0700 (PDT)
 Received: from atishp.ba.rivosinc.com ([66.220.2.162])
  by smtp.gmail.com with ESMTPSA id
- u9-20020a056a00158900b004faad3ae570sm37946504pfk.189.2022.04.11.19.10.22
+ u9-20020a056a00158900b004faad3ae570sm37946504pfk.189.2022.04.11.19.10.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Apr 2022 19:10:23 -0700 (PDT)
+ Mon, 11 Apr 2022 19:10:24 -0700 (PDT)
 From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC 0/3] Introduce a new Qemu machine for RISC-V
-Date: Mon, 11 Apr 2022 19:10:06 -0700
-Message-Id: <20220412021009.582424-1-atishp@rivosinc.com>
+Subject: [RFC 1/3] serial: Enable MSI capablity and option
+Date: Mon, 11 Apr 2022 19:10:07 -0700
+Message-Id: <20220412021009.582424-2-atishp@rivosinc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220412021009.582424-1-atishp@rivosinc.com>
+References: <20220412021009.582424-1-atishp@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=atishp@rivosinc.com; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=atishp@rivosinc.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,119 +92,96 @@ Cc: qemu-riscv@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The seria-pci device doesn't support MSI. Enable the device to provide
+MSI so that any platform with MSI support only can also use
+this serial device. MSI can be enabled by enabling the newly introduced
+device property. This will be disabled by default preserving the current
+behavior of the seria-pci device.
 
-The RISC-V virt machine has helped RISC-V software eco system to evolve at a
-rapid pace even in absense of the real hardware. It is definitely commendable.
-However, the number of devices & commandline options keeps growing as a result
-of that as well. That adds flexibility but will also become bit difficult
-to manage in the future as more extension support will be added. As it is the
-most commonly used qemu machine, it needs to support all kinds of device and
-interrupts as well. Moreover, virt machine has limitations on the maximum
-number of harts it can support because of all the MMIO devices it has to support.
+Signed-off-by: Atish Patra <atishp@rivosinc.com>
+---
+ hw/char/serial-pci.c | 36 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 33 insertions(+), 3 deletions(-)
 
-The RISC-V IMSIC specification allows to develop machines completely relying
-on MSI and don't care about the wired interrupts at all. It just requires
-all the devices to be present behind a PCI bus or present themselves as platform
-MSI device. The former is a more common scenario in x86 world where most
-of the devices are behind PCI bus. As there is very limited MMIO device
-support, it can also scale to very large number of harts.
-
-That's why, this patch series introduces a minimalistic yet very extensible
-forward looking machine called as "RISC-V Mini Computer" or "minic". The
-idea is to build PC or server like systems with this machine. The machine can
-work with or without virtio framework. The current implementation only
-supports RV64. I am not sure if building a RV32 machine would be of interest
-for such machines. The only mmio device it requires is clint to emulate
-the mtimecmp.
-
-"Naming is hard". I am not too attached with the name "minic". 
-I just chose least bad one out of the few on my mind :). I am definitely
-open to any other name as well. 
-
-The other alternative to provide MSI only option to aia in the 
-existing virt machine to build MSI only machines. This is certainly doable
-and here is the patch that supports that kind of setup.
-
-https://github.com/atishp04/qemu/tree/virt_imsic_only
-
-However, it even complicates the virt machine even further with additional
-command line option, branches in the code. I believe virt machine will become
-very complex if we continue this path. I am interested to learn what everyone
-else think.
-
-It is needless to say that the current version of minic machine
-is inspired from virt machine and tries to reuse as much as code possible.
-The first patch in this series adds MSI support for serial-pci device so
-console can work on such a machine. The 2nd patch moves some common functions
-between minic and the virt machine to a helper file. The PATCH3 actually
-implements the new minic machine.
-
-I have not added the fw-cfg/flash support. We probably should add those
-but I just wanted to start small and get the feedback first.
-This is a work in progress and have few more TODO items before becoming the
-new world order :)
-
-1. OpenSBI doesn't have PCI support. Thus, no console support for OpenSBI
-for now.
-2. The ns16550 driver in OpenSBI also need to support MSI/MSI-X.
-3. Add MSI-X support for serial-pci device.
-
-This series can boot Linux distros with the minic machine with or without virtio
-devices with out-of-tree Linux kernel patches[1]. Here is an example commandline 
-
-Without virtio devices (nvme, serial-pci & e1000e):
-=====================================================
-/scratch/workspace/qemu/build/qemu-system-riscv64 -cpu rv64 -M minic -m 1G -smp 4 -nographic -nodefaults \
--display none -bios /scratch/workspace/opensbi/build/platform/generic/firmware/fw_dynamic.elf \
--kernel /scratch/workspace/linux/arch/riscv/boot/Image \
--chardev stdio,mux=on,signal=off,id=charconsole0 \
--mon chardev=charconsole0,mode=readline \
--device pci-serial,msi=true,chardev=charconsole0 \
--drive id=disk3,file=/scratch/workspace/rootfs_images//fedora/Fedora-Developer-Rawhide-20211110.n.0-sda.raw,format=raw,if=none,id=drive-system-disk,cache=none,format=raw \
--device nvme,serial=deadbeef,drive=disk3 \
--netdev user,id=usernet,hostfwd=tcp::10000-:22 -device e1000e,netdev=usernet,bus=pcie.0 \
--append 'root=/dev/nvme0n1p2 rw loglevel=8 memblock=debug console=ttyS0 earlycon' -d in_asm -D log.txt -s
-
-With virtio devices (virtio-scsi-pci, serial-pci & virtio-net-pci)
-==================================================================
-/scratch/workspace/qemu/build/qemu-system-riscv64 -cpu rv64 -M minic -m 1G -smp 4 -nographic -nodefaults \
--display none -bios /scratch/workspace/opensbi/build/platform/generic/firmware/fw_dynamic.elf \
--kernel /scratch/workspace/linux/arch/riscv/boot/Image \
--chardev stdio,mux=on,signal=off,id=charconsole0 \
--mon chardev=charconsole0,mode=readline \
--device pci-serial,msi=true,chardev=charconsole0 \
--drive file=/scratch/workspace/rootfs_images//fedora/Fedora-Developer-Rawhide-20211110.n.0-sda.raw,format=raw,if=none,id=drive-system-disk,cache=none \
--device virtio-scsi-pci,id=scsi0 -device scsi-hd,bus=scsi0.0,drive=drive-system-disk,id=system-disk,bootindex=1 \
--netdev user,id=n1,hostfwd=tcp::10000-:22 -device virtio-net-pci,netdev=n1 \
--append 'root=/dev/sda2 rw loglevel=8 memblock=debug console=ttyS0 earlycon'
-
-The objective of this series is to engage the community to solve this problem.
-Please suggest if you have another alternatve solution.
-
-[1] https://github.com/atishp04/linux/tree/msi_only_console 
-
-Atish Patra (3):
-serial: Enable MSI capablity and option
-hw/riscv: virt: Move common functions to a separate helper file
-hw/riscv: Create a new qemu machine for RISC-V
-
-configs/devices/riscv64-softmmu/default.mak |   1 +
-hw/char/serial-pci.c                        |  36 +-
-hw/riscv/Kconfig                            |  11 +
-hw/riscv/machine_helper.c                   | 417 +++++++++++++++++++
-hw/riscv/meson.build                        |   2 +
-hw/riscv/minic.c                            | 438 ++++++++++++++++++++
-hw/riscv/virt.c                             | 403 ++----------------
-include/hw/riscv/machine_helper.h           |  87 ++++
-include/hw/riscv/minic.h                    |  65 +++
-include/hw/riscv/virt.h                     |  13 -
-10 files changed, 1090 insertions(+), 383 deletions(-)
-create mode 100644 hw/riscv/machine_helper.c
-create mode 100644 hw/riscv/minic.c
-create mode 100644 include/hw/riscv/machine_helper.h
-create mode 100644 include/hw/riscv/minic.h
-
---
+diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
+index 93d6f9924425..ca93c2ce2776 100644
+--- a/hw/char/serial-pci.c
++++ b/hw/char/serial-pci.c
+@@ -31,6 +31,7 @@
+ #include "hw/char/serial.h"
+ #include "hw/irq.h"
+ #include "hw/pci/pci.h"
++#include "hw/pci/msi.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "qom/object.h"
+@@ -39,26 +40,54 @@ struct PCISerialState {
+     PCIDevice dev;
+     SerialState state;
+     uint8_t prog_if;
++    bool msi_enabled;
+ };
+ 
+ #define TYPE_PCI_SERIAL "pci-serial"
+ OBJECT_DECLARE_SIMPLE_TYPE(PCISerialState, PCI_SERIAL)
+ 
++
++static void msi_irq_handler(void *opaque, int irq_num, int level)
++{
++    PCIDevice *pci_dev = opaque;
++
++    assert(level == 0 || level == 1);
++
++    if (msi_enabled(pci_dev)) {
++        msi_notify(pci_dev, 0);
++    }
++}
++
+ static void serial_pci_realize(PCIDevice *dev, Error **errp)
+ {
+     PCISerialState *pci = DO_UPCAST(PCISerialState, dev, dev);
+     SerialState *s = &pci->state;
++    Error *err = NULL;
++    int ret;
+ 
+     if (!qdev_realize(DEVICE(s), NULL, errp)) {
+         return;
+     }
+ 
+     pci->dev.config[PCI_CLASS_PROG] = pci->prog_if;
+-    pci->dev.config[PCI_INTERRUPT_PIN] = 0x01;
+-    s->irq = pci_allocate_irq(&pci->dev);
+-
++    if (pci->msi_enabled) {
++        pci->dev.config[PCI_INTERRUPT_PIN] = 0x00;
++        s->irq = qemu_allocate_irq(msi_irq_handler, &pci->dev, 100);
++    } else {
++        pci->dev.config[PCI_INTERRUPT_PIN] = 0x01;
++        s->irq = pci_allocate_irq(&pci->dev);
++    }
+     memory_region_init_io(&s->io, OBJECT(pci), &serial_io_ops, s, "serial", 8);
+     pci_register_bar(&pci->dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->io);
++
++    if (!pci->msi_enabled) {
++        return;
++    }
++
++    ret = msi_init(&pci->dev, 0, 1, true, false, &err);
++    if (ret == -ENOTSUP) {
++        fprintf(stdout, "MSIX INIT FAILED\n");
++    }
+ }
+ 
+ static void serial_pci_exit(PCIDevice *dev)
+@@ -83,6 +112,7 @@ static const VMStateDescription vmstate_pci_serial = {
+ 
+ static Property serial_pci_properties[] = {
+     DEFINE_PROP_UINT8("prog_if",  PCISerialState, prog_if, 0x02),
++    DEFINE_PROP_BOOL("msi",  PCISerialState, msi_enabled, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+-- 
 2.25.1
 
 
