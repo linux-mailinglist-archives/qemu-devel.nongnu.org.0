@@ -2,107 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7599D4FE03A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:35:22 +0200 (CEST)
-Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAEC74FE092
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:40:56 +0200 (CEST)
+Received: from localhost ([::1]:45348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neFjr-0007kg-KQ
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:35:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45042)
+	id 1neFpH-0002Yi-Pc
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1neFhK-0006bU-Qv
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:32:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26049)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1neFhI-0004ba-J1
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:32:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649766758;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ouc2uABnjTSm9/aUQzWzGi6GiW3YulliowsOo5NICuw=;
- b=IZzWjybx9A5pZmdxH35wya7SdRjD72UM4pG1ymIBy5lq0Ki3HMpw/s0dFwz1KmuP8pU6VN
- tBMe7872c97S8R+xFj7iiYzdBzQsXU70lkD9ooICZ1gFJOQ0N5dp8LU0b9vmjsK8jVnvpU
- VMeOvhcLOZfLr3eFnyJcf5UphC+UADE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-baiNVECOPxmUxG_Wi8sfig-1; Tue, 12 Apr 2022 08:32:35 -0400
-X-MC-Unique: baiNVECOPxmUxG_Wi8sfig-1
-Received: by mail-wr1-f72.google.com with SMTP id
- l14-20020adf9f0e000000b002079eeec6b6so1535121wrf.22
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:32:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1neFo0-0001pb-TT
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:39:36 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:38164)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1neFnz-00068F-5Y
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:39:36 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2ec0bb4b715so71008487b3.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:39:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=M1LZ4smoM6pzZnqzt0xXGb+zr0l2LwiCQaq+q/Md4f4=;
+ b=TPw87MVb1dwKpDyGX6m+EOFYN385K2ZXe4SMGV8DP07H+WUYbBK4oL33csDIj8rtNq
+ EbNhNewEQIKZrTZEQuH3K6oIoO7jgwHY8yPFx0cDA4pakMvcc/eV2tBgES6Jkysqt8jG
+ ghEBNBpYf2w3RHQspIBnRiSshQCpUm6VoHudv6N9vZhAanSbG/QMBT3y8F5z0N4PW7UL
+ usrCtrjDmpEmfhoBfMOyU5llIemFb7ptgVIjXjOpu/CZDdwsyduFdX/x779jvOLltrKV
+ 9qqK+dIFN5AFH6l/4psWYa4xJF9TzQmqXu/ohbZOrmYzv/Ccx2BLgdZqDjSid2Kz+W5+
+ gn8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=Ouc2uABnjTSm9/aUQzWzGi6GiW3YulliowsOo5NICuw=;
- b=ifqbJODT3yABcCTof6ctx8JAASlx7Raa1PKgkLUU8Epo5XipkTGrrG5oGgY37wRtED
- LGa6fpHq1vd9qzq7zDK07nziDEcKxajn6J/j9YE24VVKfiy95SkSUd77xq0pAWC+EXWq
- eVhW9sXXbuCuplok2St2KYsXp/+SIfONIt5LEjF1/HUxGzjDynDQTJEOtete4w7CLEty
- BsF8kBZGfmIPjTD0517vXcWcHgMP9L9jXoDv2RcpTOqunz+N/NdOXhmLWh5Bc2OCYYyJ
- M8zCXiIRpZWJLbcnq+JJRjZ1XGWdb64FxAiQ9aKOn1i222oyig+yRw2YP/VNoToCOCY6
- lx4Q==
-X-Gm-Message-State: AOAM533lm2c6LCRNWkK99jcPu+uYehdOhHjCTLrJSDC1rLvhB0hqjr4k
- ShgANo/9BGCIKGXdTWFDZtpfghuqfsTJqvuoE+/xonNTU3yAxVzYLzyneDSh3QaxGLPfgn9lGYF
- CEhOAGSzg7B3ouFI=
-X-Received: by 2002:a05:600c:1e11:b0:38c:b316:e6f5 with SMTP id
- ay17-20020a05600c1e1100b0038cb316e6f5mr3896071wmb.93.1649766754666; 
- Tue, 12 Apr 2022 05:32:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUvX2ICpFWU6za+zyMIbRn9KPnSwlb9ctIxrFdfYE2249WkJ3hyD2bsS/f6uyayXutGbfy1g==
-X-Received: by 2002:a05:600c:1e11:b0:38c:b316:e6f5 with SMTP id
- ay17-20020a05600c1e1100b0038cb316e6f5mr3896049wmb.93.1649766754445; 
- Tue, 12 Apr 2022 05:32:34 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:1800:7c14:16cc:5291:a9f3?
- (p200300cbc70718007c1416cc5291a9f3.dip0.t-ipconnect.de.
- [2003:cb:c707:1800:7c14:16cc:5291:a9f3])
- by smtp.gmail.com with ESMTPSA id
- r12-20020a5d6c6c000000b00203ec2b1255sm36437819wrz.60.2022.04.12.05.32.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 05:32:33 -0700 (PDT)
-Message-ID: <2e817203-a761-8395-9218-9cb348b7ef26@redhat.com>
-Date: Tue, 12 Apr 2022 14:32:32 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=M1LZ4smoM6pzZnqzt0xXGb+zr0l2LwiCQaq+q/Md4f4=;
+ b=L58Uwv/j9AhemYqOffqBY1d+cMe0Do1J1gDSM61xnMIC83RPJlMYh3y0u0Rd1pTldq
+ zyWElzyk1MZYKi7IdWQ7VeNnndm7JIVSoT0ry1VHQzs6KHZmK5d9jcn0k95k8RUh5PN1
+ YYKH4WneK+ub6IHm7RtcJv24NYiEGOc+x9vIQJvOQlIaqsADjOVh4KHlZcoM5YOhj/wB
+ 0OpAH15z/WiowIJs+TpoEcDVjlpdWjTd+gW+X128vtvnjr0xCQdbRebGix3g1fP/uzqZ
+ E+aelWVu7r9CISncD60AHHQ3TqJ3dSwDcdfeAYWsIogZYaEhCaVZmZLM+WTJlzBitJ8c
+ 9Rtg==
+X-Gm-Message-State: AOAM532f4TmYLPaxXp2rU8NSrfmu38RtC+tcDjUzU/D0JrrtmOLci4Ab
+ zzz91boEv6QYEAUwEToa/WhoCmHkfhiVVdzlKFwqRA==
+X-Google-Smtp-Source: ABdhPJz7eeFOX32DAurLWlsu/qZ1NrGziedBG/Mun6aejwI9I2E1n9bQva9MS5DxQ6gfNHMgqK1g+s9TSo/jpgt81Ec=
+X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
+ m125-20020a0dfc83000000b002e5b0f4c125mr30191037ywf.347.1649767174032; Tue, 12
+ Apr 2022 05:39:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v4 10/11] tests/tcg/s390x: Tests for Vector Enhancements
- Facility 2
-To: David Miller <dmiller423@gmail.com>
-References: <20220322000441.26495-1-dmiller423@gmail.com>
- <20220322000441.26495-11-dmiller423@gmail.com>
- <c3bb72da-c390-f9b5-5254-f8c16df21427@redhat.com>
- <6409f049-d938-0e06-3cea-5877b31fce00@redhat.com>
- <95ad366c-509d-d41f-209b-dc66054de4b8@redhat.com>
- <CAEgyohVUHa+yd-inLOv3zTf143-_2Z35+K_XatUz74bqxDK9CA@mail.gmail.com>
- <CAEgyohWR6C1z8OyuGwkv8LT-P5fR9eVsCFw4LmGUxZCDNszoSg@mail.gmail.com>
- <58110f3f-3190-7af4-6839-9a30fce05855@linux.ibm.com>
- <CAEgyohUqmHrbQC5yqAtuhcqmnx-q5YxE+6xctbCVROGz+cqrqw@mail.gmail.com>
- <05661926-6d26-9d78-b576-a33391e25c24@linux.ibm.com>
- <654b2fcd-0532-4484-d9cf-f875acedf7ee@redhat.com>
- <CAEgyohVRpn51FDaJ4xa5Ysfjo51g3yOpeJCjJqCK0SXkEHmQqg@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAEgyohVRpn51FDaJ4xa5Ysfjo51g3yOpeJCjJqCK0SXkEHmQqg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220408104519.32931-1-gautamnagrawal@gmail.com>
+ <f3adc652-6a89-a063-313a-4d87c11fc474@redhat.com>
+In-Reply-To: <f3adc652-6a89-a063-313a-4d87c11fc474@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Apr 2022 13:39:22 +0100
+Message-ID: <CAFEAcA9_RoxE7haPVT9701hpZb2rwSP15udj1dKL4kJvMkXOwQ@mail.gmail.com>
+Subject: Re: [PATCH] Warn user if the vga flag is passed but no vga device is
+ created
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,31 +80,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, farman@linux.ibm.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: stefanha@gmail.com, Gerd Hoffmann <kraxel@redhat.com>,
+ Gautam Agrawal <gautamnagrawal@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.04.22 19:03, David Miller wrote:
-> Recommendation for comment?
-> 
-> /* vri-d encoding matches vrr for 4b imm.
->   .insn does not handle this encoding variant.
-> */
-> 
+On Tue, 12 Apr 2022 at 13:13, Thomas Huth <thuth@redhat.com> wrote:
+> On 08/04/2022 12.45, Gautam Agrawal wrote:
+> > +    if (!vga_interface_created && !default_vga) {
+> > +        warn_report("No vga device is created");
+>
+> I'm not a native speaker, and maybe it's just a matter of taste, but I'd
+> rather say it in past tense: "No VGA device has been created"
 
-Sorry for the late reply.
+I think we could phrase the warning to tell the user more
+clearly what has happened:
 
-".insn doesn't handle vri-d properly. So instead, we use vrr, which
-matches vri-d with a 4b imm -- good enough for our purpose."
+"A -vga option was passed but this machine type does not use that
+option; no VGA device has been created"
 
-
--- 
-Thanks,
-
-David / dhildenb
-
+thanks
+-- PMM
 
