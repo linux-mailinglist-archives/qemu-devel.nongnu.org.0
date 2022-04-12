@@ -2,66 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8014FE0BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:46:37 +0200 (CEST)
-Received: from localhost ([::1]:51320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6314FE0C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:51:51 +0200 (CEST)
+Received: from localhost ([::1]:55346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neFun-000818-39
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49748)
+	id 1neFzp-0003ta-GQ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1neFsT-0006WR-BK
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:44:36 -0400
-Received: from mga18.intel.com ([134.134.136.126]:2427)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1neFy9-0002Ge-QP
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:50:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1neFsK-00074M-H0
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:44:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649767444; x=1681303444;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=dy/TdJnUMbUKhIlocJ/LouJFjjtZwg5GwrTeZmhomcI=;
- b=Ie94hS7F8YeGIzLDkxVvTCfIIxAu2shuxEb2iS0anjCGsvIRHl2FJ8xK
- hb+cIA7Bh3y9bAicroLlbzunSuQbhAWsOflaxOboGLHAZ0OzQMC0+wp+Z
- MaTeMPql784xmkc8I0lrHqoHq6Rgp/JgFlbtuGoQFFPl+QHt0EnkwQGqd
- GcCNYnMzaHyFF973QJYWI7pwazqBZevSoyMrXSkjTdVaFzp/+aJ2PKpsz
- uoRlczEZ5Q6TcYXzDLECrlojMTu7JoXWUjKrjaNJYFWegnFgWROuk4l4E
- 8d/weY++5bgBsz+JZaUxwJK1cVuRyDHOd3Hox98mE1/Vt2hPvsfyEVhqj Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="244248246"
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="244248246"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2022 05:43:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="526024498"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga002.jf.intel.com with ESMTP; 12 Apr 2022 05:43:36 -0700
-Date: Tue, 12 Apr 2022 20:43:25 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH v5 11/13] KVM: Zap existing KVM mappings when pages
- changed in the private fd
-Message-ID: <20220412124325.GB8013@chaop.bj.intel.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-12-chao.p.peng@linux.intel.com>
- <YkNcmGsOw4MThaym@google.com>
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1neFy6-0000gA-KC
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:50:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649767801;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UzZOxdO5MUApOqjYFaoIWwuPPWLZvbaIAmGsaXL3ZHw=;
+ b=eMN/jg5ymGODrIyG0THQtYV0asQo8lC8Kz6oe1fCMZg1KvFXjyzkI9BhNLZmJ2adwCNmzN
+ PwK1H2VmviGd71dBrtGuk4rt0Xz2p4JlbA6PYsGVErNEVexlCFP2BAdeLNIVQ7HKpuf2HE
+ 7/4rFThnOmdqcxJFxJLCI7jARpGYAsY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-464-qJ03EmagMAyn1mHjkdTd2A-1; Tue, 12 Apr 2022 08:48:23 -0400
+X-MC-Unique: qJ03EmagMAyn1mHjkdTd2A-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ cs18-20020a170906dc9200b006e87d61a5ccso2729291ejc.19
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 05:48:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=UzZOxdO5MUApOqjYFaoIWwuPPWLZvbaIAmGsaXL3ZHw=;
+ b=2Gnt64YhYsWrTv9KhUyz8/S+WNQ04bEnUU8FF+OxYphVsnsixBoFufWah9iq5bacCv
+ eUgpMuFrQT1VFKLqiJSMTOcQ7l7X6VKe9mjAb3UZr4YJpJLgjUcHPYSWDA4u07wy0p7i
+ 4D4kU+T+fJ00Js9thw4/QH8ezP9WiJ5cpf18sMweMkxSjAwJB7FqQbe9usVuBBNvtign
+ gRnAwiWFQTD13iGpZsnw2Ta/PX9SWOXTtZWvkMe7kxnRX/DnMIewGZ70PipCdVhOu3/h
+ je/7zXhnN+HvK4S9Mv4fp/ED653OinPvkBzupOwsOPrEA/ETB4bHHpkMJje2ONGlXCCM
+ s30Q==
+X-Gm-Message-State: AOAM5322CreuQBogECu78Q8exeYKRXHO6Rx/ZNhdvHfYlgnKkpAGR32B
+ KOTuXYwsK/RxVuBfjyvvG9th7g+Wgxc/X72GMMKgGwLN1YFDyQIr2/q7erqXlI9FHqdOUO9vQNz
+ 3cnNgRmkWpG9vw+mBGyIr2DMjUXm+Y72NNMaoBDoIUpqJ+hBqcdtjDEVZaxwb5RRJeYI=
+X-Received: by 2002:a17:907:7b84:b0:6e8:b8c2:6fe2 with SMTP id
+ ne4-20020a1709077b8400b006e8b8c26fe2mr1861389ejc.401.1649767701698; 
+ Tue, 12 Apr 2022 05:48:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4l+a+YnZ4mM+K/GgbztX9pH3HjEvKHZapGEyT152DXZBgXvIJhLc6dqMRsZQj+c00aWNjew==
+X-Received: by 2002:a17:907:7b84:b0:6e8:b8c2:6fe2 with SMTP id
+ ne4-20020a1709077b8400b006e8b8c26fe2mr1861362ejc.401.1649767701396; 
+ Tue, 12 Apr 2022 05:48:21 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id
+ z23-20020a170906435700b006b0e62bee84sm13171177ejm.115.2022.04.12.05.48.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Apr 2022 05:48:20 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Divya Garg <divya.garg@nutanix.com>
+Subject: Re: [Qemu-devel] [PATCH 6/8] i386/kvm: hv-stimer requires hv-time
+ and hv-synic
+In-Reply-To: <2dde6caa-8d02-7022-d2c2-aa56c408f5f2@nutanix.com>
+References: <2dde6caa-8d02-7022-d2c2-aa56c408f5f2@nutanix.com>
+Date: Tue, 12 Apr 2022 14:48:20 +0200
+Message-ID: <87tuay5uy3.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkNcmGsOw4MThaym@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga18.intel.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,102 +98,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, linux-api@vger.kernel.org,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 29, 2022 at 07:23:04PM +0000, Sean Christopherson wrote:
-> On Thu, Mar 10, 2022, Chao Peng wrote:
-> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > index 67349421eae3..52319f49d58a 100644
-> > --- a/virt/kvm/kvm_main.c
-> > +++ b/virt/kvm/kvm_main.c
-> > @@ -841,8 +841,43 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
-> >  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
-> >  
-> >  #ifdef CONFIG_MEMFILE_NOTIFIER
-> > +static void kvm_memfile_notifier_handler(struct memfile_notifier *notifier,
-> > +					 pgoff_t start, pgoff_t end)
-> > +{
-> > +	int idx;
-> > +	struct kvm_memory_slot *slot = container_of(notifier,
-> > +						    struct kvm_memory_slot,
-> > +						    notifier);
-> > +	struct kvm_gfn_range gfn_range = {
-> > +		.slot		= slot,
-> > +		.start		= start - (slot->private_offset >> PAGE_SHIFT),
-> > +		.end		= end - (slot->private_offset >> PAGE_SHIFT),
-> > +		.may_block 	= true,
-> > +	};
-> > +	struct kvm *kvm = slot->kvm;
-> > +
-> > +	gfn_range.start = max(gfn_range.start, slot->base_gfn);
-> > +	gfn_range.end = min(gfn_range.end, slot->base_gfn + slot->npages);
-> > +
-> > +	if (gfn_range.start >= gfn_range.end)
-> > +		return;
-> > +
-> > +	idx = srcu_read_lock(&kvm->srcu);
-> > +	KVM_MMU_LOCK(kvm);
-> > +	kvm_unmap_gfn_range(kvm, &gfn_range);
-> > +	kvm_flush_remote_tlbs(kvm);
-> 
-> This should check the result of kvm_unmap_gfn_range() and flush only if necessary.
+Divya Garg <divya.garg@nutanix.com> writes:
 
-Yep.
+> Hi Vitaly Kuznetsov !
+> I was working on hyperv flags and saw that we introduced new 
+> dependencies some
+> time back 
+> (https://sourcegraph.com/github.com/qemu/qemu/-/commit/c686193072a47032d83cb4e131dc49ae30f9e5d7?visible=1).
+> After these changes, if we try to live migrate a vm from older qemu to newer
+> one having these changes, it fails showing dependency issue.
+>
+> I was wondering if this is the expected behaviour or if there is any work
+> around for handing it ? Or something needs to be done to ensure backward
+> compatibility ?
 
-> 
-> kvm->mmu_notifier_seq needs to be incremented, otherwise KVM will incorrectly
-> install a SPTE if the mapping is zapped between retrieving the pfn in faultin and
-> installing it after acquire mmu_lock.
+Hi Divya,
 
-Good catch.
+configurations with 'hv-stimer' and without 'hv-synic'/'hv-time' were
+always incorrect as Windows can't use the feature, that's why the
+dependencies were added. It is true that it doesn't seem to be possible
+to forward-migrate such VMs to newer QEMU versions. We could've tied
+these new dependencies to newer machine types I guess (so old machine
+types would not fail to start) but we didn't do that back in 4.1 and
+it's been awhile since... Not sure whether it would make much sense to
+introduce something for pre-4.1 machine types now.
 
-Chao
-> 
-> 
-> > +	KVM_MMU_UNLOCK(kvm);
-> > +	srcu_read_unlock(&kvm->srcu, idx);
-> > +}
-> > +
-> > +static struct memfile_notifier_ops kvm_memfile_notifier_ops = {
-> > +	.invalidate = kvm_memfile_notifier_handler,
-> > +	.fallocate = kvm_memfile_notifier_handler,
-> > +};
-> > +
-> >  static inline int kvm_memfile_register(struct kvm_memory_slot *slot)
-> >  {
-> > +	slot->notifier.ops = &kvm_memfile_notifier_ops;
-> >  	return memfile_register_notifier(file_inode(slot->private_file),
-> >  					 &slot->notifier,
-> >  					 &slot->pfn_ops);
-> > @@ -1963,6 +1998,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >  	new->private_file = file;
-> >  	new->private_offset = mem->flags & KVM_MEM_PRIVATE ?
-> >  			      region_ext->private_offset : 0;
-> > +	new->kvm = kvm;
-> >  
-> >  	r = kvm_set_memslot(kvm, old, new, change);
-> >  	if (!r)
-> > -- 
-> > 2.17.1
-> > 
+Out of curiosity, why do such "incorrect" configurations exist? Can you
+just update them to include missing flags on older QEMU so they migrate
+to newer ones without issues?
+
+-- 
+Vitaly
+
 
