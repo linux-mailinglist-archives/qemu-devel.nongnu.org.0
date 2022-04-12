@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A128E4FE916
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 21:49:22 +0200 (CEST)
-Received: from localhost ([::1]:36592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D43D4FE927
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 21:56:07 +0200 (CEST)
+Received: from localhost ([::1]:46798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neMVt-00066O-M5
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 15:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58760)
+	id 1neMcQ-0004mg-C3
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 15:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neMPL-0006gi-6g
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:35 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38851)
+ id 1neMPO-0006pt-22
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:38 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1neMPG-0008LZ-Gn
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:34 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- r133-20020a1c448b000000b0038ccb70e239so2501731wma.3
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 12:42:29 -0700 (PDT)
+ id 1neMPI-0008M7-Uj
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 15:42:37 -0400
+Received: by mail-wr1-x429.google.com with SMTP id e8so12810131wra.7
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 12:42:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ba4wfAaB0r3hUFfqpPUdtGRbL5KZe++vSGltbMzRdgE=;
- b=VD3tF5HBMA+CQA7GhK3M/usVIiY+8npj0tnB9Kz1kwGUQ0suGfDRWZEmvAOQ8CHzgW
- cJaY/Nd1B7w1rkf4QxjVF8wOQSqofnlI1thGKljq5izNjIrzILZff8rE5+WO7bJ9XMJZ
- 7bbDUOctZUHgm8o220SL4M+bQANoPaMFUwcRnjpGpbuZdr4ZyzmsbrqjND8RN3l/5FgI
- AOhM/lwhutUlgx/INgmtxcBVo/MRXe0bMPSJe+ueix308if2V4vjPT6ZaC7kMxlgRoGp
- FIR2MaYUMDTxrxM4RX50tcX0+6aEIl8cpeO2dz6vtTKDCowhUqhR0rFC1XEqq8ekdrCF
- vF2A==
+ bh=SGfCTlW2iDsclwLTi5L57QKe1aCIzPtoTngcl38XRPU=;
+ b=ilRXRHA1s5V7z+L9OzTGpvFNPpHsK/FZwFiHENwPwHQHODejYu9C6ZxDrXpyp/h5k5
+ XpyvyDy7YOa9ZaWH74+3f2vnhWzvIcdO3SZUJsT4fyM0lpnWpmykolqUATCuumKxUZPZ
+ kQFuYZlQ+vHNxaAdplr3K50Z7jkcCVKj9Gv/VLGsgV9lA/D239dtYk2z7OB6fBK4vq29
+ 24I8kUo/jwYQYl/YFZElgtf3snzjVrto8/HCrHx9dveDzAbHKwjF963zBbhgnjkcRknu
+ oRn0hMjmXhH0FeBwJlvHLy5z0FHgVL+EIEFlobvrVZXvZxf2xfOkqkEaEbRGZdo9HF+T
+ RBMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Ba4wfAaB0r3hUFfqpPUdtGRbL5KZe++vSGltbMzRdgE=;
- b=JtlhtLVngrdmdE+6oi4m4tLCBtRAeig2pjBkf3hq/cDlPMjSgEHqkmXnr0wMHPM1vN
- ibx8nXhraLTkc2KhurKSEl+qfACMliTaoeVpf7wF5lephT7n4qWg81tG8md90xVC2m7/
- PnQjdHWErXRrqNbJhybtGJoQUlT/Kq9mWYFOn8zjcWWY29UlY00XmxGif3rg8Iln98AV
- 9foJSRJkum8uDSNvZZt3N6OiC0T7YK0ItqNGKKyThhqvPz+N1rlC/e9fQunJiw4bIh8E
- grUr5p63inIF9r9J0FMB0FMDAp6xnWoNhoy+qRyFI+hvvQVBzCTA8r3gm5IGRyvzyM0W
- W+dQ==
-X-Gm-Message-State: AOAM5316EYbnv8OCZ8x4btxzai4FzlWgHblfcYxeg0u5Eo5PxhA/4rwl
- ITpDhZgFCExZaQEXKEEaYNG0WCxNcWItoQ==
-X-Google-Smtp-Source: ABdhPJy7h6VISrS9vqHg6P7zyEthsdxWdIYfxlmS8tZgpEM1vE3KGJiQtGLdQk2DFTdRVaDMG3YjCQ==
-X-Received: by 2002:a05:600c:2307:b0:38e:bf05:677c with SMTP id
- 7-20020a05600c230700b0038ebf05677cmr5478690wmo.44.1649792549077; 
- Tue, 12 Apr 2022 12:42:29 -0700 (PDT)
+ bh=SGfCTlW2iDsclwLTi5L57QKe1aCIzPtoTngcl38XRPU=;
+ b=1xZzkZePI7+6KuhO0JD5J8q+XmQMwrLtXY27fyIDxEHpHU6FVM2xdPzQFZvIZ8vWci
+ hHSDjueHkfoC/Go2hW1kSC+Ki52M/uWI/7ghfmP5t5/ipfCTKvVkUoy2hqnWw3wRGHi4
+ oxU6JG66y9BwZ/eEzH6/MEmSiAAPrRR1yKsssUamkEnyP9no/RFYFv3KLZ0CTCF+wloi
+ 4N5DcocK5QVdLXnChWjnKbAPHt1hJ2Fx6Z5VcEkwMjWmFwsttjkhgS89Ll5H+2HSD2qe
+ xAMD4lcM0Yizbj6frr52msqD0Oy91WMrxc4GyoxQ8UbOdM5RzHoo6+a+PBr7CfTXm5hl
+ f6ew==
+X-Gm-Message-State: AOAM531jF0V8BOxaxAEbnFr4uHXdQqv5BdEB8TyRxlOYHBjx7ZZ5A/ML
+ 3NHPytl8z4BrQKPLKTW+YRHU3gi0OEO4zQ==
+X-Google-Smtp-Source: ABdhPJxdEPzjlPpA7dCOl+RsSI8Yt3MWLyF7XH3TrCQ+9ylPXfxUhnIpKiwZVBMvu6phvbh0I8RN8g==
+X-Received: by 2002:adf:da50:0:b0:204:7d8:b654 with SMTP id
+ r16-20020adfda50000000b0020407d8b654mr30459146wrl.607.1649792551544; 
+ Tue, 12 Apr 2022 12:42:31 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l3-20020a05600002a300b00207902922cesm14150978wry.15.2022.04.12.12.42.28
+ l3-20020a05600002a300b00207902922cesm14150978wry.15.2022.04.12.12.42.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 12:42:28 -0700 (PDT)
+ Tue, 12 Apr 2022 12:42:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1 7/8] nbd: take receive_mutex when reading
- requests[].receiving
-Date: Tue, 12 Apr 2022 21:42:03 +0200
-Message-Id: <20220412194204.350889-8-pbonzini@redhat.com>
+Subject: [PATCH for-7.1 8/8] nbd: document what is protected by the CoMutexes
+Date: Tue, 12 Apr 2022 21:42:04 +0200
+Message-Id: <20220412194204.350889-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412194204.350889-1-pbonzini@redhat.com>
 References: <20220412194204.350889-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,86 +90,36 @@ Cc: eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-requests[].receiving is set by nbd_receive_replies() under the receive_mutex;
-Read it under the same mutex as well.  Waking up receivers on errors happens
-after each reply finishes processing, in nbd_co_receive_one_chunk().
-If there is no currently-active reply, there are two cases:
-
-* either there is no active request at all, in which case no
-element of request[] can have .receiving = true
-
-* or nbd_receive_replies() must be running and waiting for receive_mutex;
-in that case it will get back to nbd_co_receive_one_chunk() because
-the socket has been shutdown, and all waiting coroutines will wake up
-in turn.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/nbd.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ block/nbd.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/block/nbd.c b/block/nbd.c
-index 6d80bd59e2..8954243f50 100644
+index 8954243f50..8297da7e89 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -132,6 +132,7 @@ static void nbd_clear_bdrvstate(BlockDriverState *bs)
-     s->x_dirty_bitmap = NULL;
- }
+@@ -82,12 +82,18 @@ typedef struct BDRVNBDState {
+     NBDClientRequest requests[MAX_NBD_REQUESTS];
+     QEMUTimer *reconnect_delay_timer;
  
-+/* Called with s->receive_mutex taken.  */
- static bool coroutine_fn nbd_recv_coroutine_wake_one(NBDClientRequest *req)
- {
-     if (req->receiving) {
-@@ -143,12 +144,13 @@ static bool coroutine_fn nbd_recv_coroutine_wake_one(NBDClientRequest *req)
-     return false;
- }
++    /* Protects sending data on the socket.  */
+     CoMutex send_mutex;
++
++    /*
++     * Protects receiving reply headers from the socket, as well as the
++     * fields reply, requests[].receiving and requests[].reply_possible
++     */
+     CoMutex receive_mutex;
++    NBDReply reply;
  
--static void coroutine_fn nbd_recv_coroutines_wake(BDRVNBDState *s, bool all)
-+static void coroutine_fn nbd_recv_coroutines_wake(BDRVNBDState *s)
- {
-     int i;
+     QEMUTimer *open_timer;
  
-+    QEMU_LOCK_GUARD(&s->receive_mutex);
-     for (i = 0; i < MAX_NBD_REQUESTS; i++) {
--        if (nbd_recv_coroutine_wake_one(&s->requests[i]) && !all) {
-+        if (nbd_recv_coroutine_wake_one(&s->requests[i])) {
-             return;
-         }
-     }
-@@ -169,8 +171,6 @@ static void coroutine_fn nbd_channel_error_locked(BDRVNBDState *s, int ret)
-     } else {
-         s->state = NBD_CLIENT_QUIT;
-     }
--
--    nbd_recv_coroutines_wake(s, true);
- }
+-    NBDReply reply;
+     BlockDriverState *bs;
  
- static void coroutine_fn nbd_channel_error(BDRVNBDState *s, int ret)
-@@ -433,11 +433,10 @@ static coroutine_fn int nbd_receive_replies(BDRVNBDState *s, uint64_t handle)
- 
-             qemu_coroutine_yield();
-             /*
--             * We may be woken for 3 reasons:
-+             * We may be woken for 2 reasons:
-              * 1. From this function, executing in parallel coroutine, when our
-              *    handle is received.
--             * 2. From nbd_channel_error(), when connection is lost.
--             * 3. From nbd_co_receive_one_chunk(), when previous request is
-+             * 2. From nbd_co_receive_one_chunk(), when previous request is
-              *    finished and s->reply.handle set to 0.
-              * Anyway, it's OK to lock the mutex and go to the next iteration.
-              */
-@@ -931,7 +930,7 @@ static coroutine_fn int nbd_co_receive_one_chunk(
-     }
-     s->reply.handle = 0;
- 
--    nbd_recv_coroutines_wake(s, false);
-+    nbd_recv_coroutines_wake(s);
- 
-     return ret;
- }
+     /* Connection parameters */
 -- 
 2.35.1
-
 
 
