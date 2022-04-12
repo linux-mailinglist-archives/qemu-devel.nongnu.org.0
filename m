@@ -2,76 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137AC4FE403
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 16:41:19 +0200 (CEST)
-Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B384FE436
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 16:54:38 +0200 (CEST)
+Received: from localhost ([::1]:55442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neHhl-0006hb-Iy
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 10:41:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53364)
+	id 1neHuf-00043d-4w
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 10:54:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1neHdL-0003j3-SV
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 10:36:44 -0400
-Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:40698)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1neHtP-0003MG-05
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 10:53:19 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:42587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jgg@ziepe.ca>) id 1neHdJ-0004XC-V2
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 10:36:43 -0400
-Received: by mail-qk1-x72b.google.com with SMTP id bk12so13840144qkb.7
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 07:36:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=evNj2CNMoMsw5e7L6RfPQYGJFzo3TZYC7FsieHWZ5Ls=;
- b=P4KDTA4ChNl8eFo5TaRAl/5FnI/hVHjJzJBo1xbfO6E6tcQCaqBfnBN1z5fv3DfE1u
- iQILgHtSz7DDusNSlvJP3Z1yMP4+yKAQ2Eyz628hQVcLvQ+BxsdlwhsUbE6fvWB/Q2is
- KJFMZcpNQuQ1kXRm/7dZww/aXDBDg6Qg87XJBXqMNal9QHP5YcfHOuo4039oAPwifclm
- Ni6jxAqEXJAsTg1vDWd5O4322/PPXZOhWqI7cTTZAicevA8+5AkWYEBaFSAdm27ELa3S
- niv0qlWzCgCFeZ31VkUUBPNxRCHtURSjk4RK/eF6eqwh/psh+4pwILguC3l2W1BosUlI
- tCIg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1neHtN-00075b-4v
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 10:53:18 -0400
+Received: by mail-pf1-x432.google.com with SMTP id j17so16251947pfi.9
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 07:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YzKVwboh6OPlfCBNxYp+FGAhFORP+py573/Bvez49Z4=;
+ b=l5x3XsUyiB5ao67KcFrwXaP4tjwpGg5t7kUogOQELNNKFEKAYEHi7shrOiGcpJtg4n
+ QumDPA9+DP0F5BPdd/HIjRnjMMDJuEcj+WnrPMvQlbxfdH9qV+sxqh3l1L3RAbysEs82
+ wnTe4C1HQzxEYDfUJ0tOsjfHn4Rp48nOqkWQiqtn4JexcfsUTUZO6RZrKQdBog8bIpso
+ mSA7jXTVxaruiNvaGbYpjdoOmTKZMpJS2q8l4ZF31Mmv+PpPrByqfCWMQ4Nb7AR+qr/f
+ SsziEJ20e5/wS4yd8GiBwn9wlURQ4/fFvwYzll1O3VzVvtBbmfgsH6dcYGZ6HrUQeP5C
+ eCTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=evNj2CNMoMsw5e7L6RfPQYGJFzo3TZYC7FsieHWZ5Ls=;
- b=rHBFjsTl40HVzVSO/UjC1+4dyNvXX6XwRz9qxvLVDuUpH3AtZEa2sbSKyy+kATWR8b
- qucbF5ZFyn0TRCzjcwVHdmoYVY6mL2qedFUK3oi4iP/cnhaqotab3DC8Fb1V6kp8Mpgq
- HARLKrJ6Yc/LtR9a7j0tBlJkk/p/EI0hhNjgVXpCNoL/5xSQB7D84IoRBlc5VJ10ZXas
- nII5+D7HKJd+XUlApvUf4s4BGSwstBW/3sxR2YfPWv7WTGSQpT+XMXK9OqWzHG9tSxxZ
- RY2h20eWccUxj62o1Bo490vJlGhTMoG9FPp9YYvfon7dktkInLIvk8e1xuPLLfnJjU+W
- qEyQ==
-X-Gm-Message-State: AOAM530M0FhRotKJIb7FRCM789arIFqD6du1BQjkIE6/2nuKBX8R7WYP
- pPANAxmAqxrfsJF2467RDjl5LQ==
-X-Google-Smtp-Source: ABdhPJySHPHmQqifS2wea+F5V8gixdYIV//Jv7wOTevmOQGVNlVLMxWAFhJpJjukoZ7Xd9/fbgNIYA==
-X-Received: by 2002:a37:990:0:b0:69a:976:be4e with SMTP id
- 138-20020a370990000000b0069a0976be4emr3264529qkj.321.1649774197434; 
- Tue, 12 Apr 2022 07:36:37 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129]) by smtp.gmail.com with ESMTPSA id
- n7-20020ac85a07000000b002f1421dac8csm324215qta.80.2022.04.12.07.36.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 07:36:36 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1neHdE-000uGn-C6; Tue, 12 Apr 2022 11:36:36 -0300
-Date: Tue, 12 Apr 2022 11:36:36 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
- against RLIMIT_MEMLOCK
-Message-ID: <20220412143636.GG64706@ziepe.ca>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-5-chao.p.peng@linux.intel.com>
- <Yk8L0CwKpTrv3Rg3@google.com>
- <02e18c90-196e-409e-b2ac-822aceea8891@www.fastmail.com>
- <YlB3Z8fqJ+67a2Ck@google.com>
- <7ab689e7-e04d-5693-f899-d2d785b09892@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YzKVwboh6OPlfCBNxYp+FGAhFORP+py573/Bvez49Z4=;
+ b=wK+9Ah0L4e8Lc60vJ4eN0vzcpAkhiCA+tBqaNr4I/zNUK3y/l748yMpq7FzJzSIBpI
+ UXHkWI8ALA/eA5xcf1rYaUtUYIsSi5TMfGWEqVPmYSwnN2hA9eVseb+f6mfwdmjcIWOO
+ gT4GIfnGrsSmAQ5lPSw0SeOeQenSYGsynTVV0JR3qOEUDRzG/IFKvAZqo4DVBfjzksVm
+ uz7sgiGAZdzMSCa/8YA4/uait6y/1Ed4XYNCy9cNVv81Goi/kaBfj1xUE84aQeYDrEug
+ VrBVFxhFUDN4Zf72gg9BriwfD2fDoMldrRdqTKHhyP93LjLDq+EW9/5+FSLyD09KxS+6
+ Xvnw==
+X-Gm-Message-State: AOAM532nvvR/lSEG0IbcFfuJAfNnu5YlQSMBxzPYwW53vLIhxvuHlrtO
+ U4kynzQ8kULKV6Xhxrqd3yEH4Mmke51UkcvEDRePBw==
+X-Google-Smtp-Source: ABdhPJyD8vlThje8NidRIPWFbapYomL1hJUGJxu3/F0ZrTrimL4HFQrwhmxKCTYadrMywfPaCB+1ZncqcJBb0l6lc4o=
+X-Received: by 2002:a63:5756:0:b0:36c:67bc:7f3f with SMTP id
+ h22-20020a635756000000b0036c67bc7f3fmr31258904pgm.389.1649775195526; Tue, 12
+ Apr 2022 07:53:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7ab689e7-e04d-5693-f899-d2d785b09892@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72b; envelope-from=jgg@ziepe.ca;
- helo=mail-qk1-x72b.google.com
+References: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
+ <20220216062912.319738-30-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20220216062912.319738-30-alistair.francis@opensource.wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Apr 2022 15:53:04 +0100
+Message-ID: <CAFEAcA-kG3SgG3beWzvo7o_5BgTVU191D=PZg7EpLYOxnRoCqg@mail.gmail.com>
+Subject: Re: [PULL v2 29/35] hw/intc: Add RISC-V AIA APLIC device emulation
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,50 +78,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, "Nakajima,
- Jun" <jun.nakajima@intel.com>, kvm list <kvm@vger.kernel.org>,
- qemu-devel@nongnu.org, "J . Bruce Fields" <bfields@fieldses.org>,
- linux-mm@kvack.org, "H. Peter Anvin" <hpa@zytor.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, Andi Kleen <ak@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- the arch/x86 maintainers <x86@kernel.org>, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
- Jim Mattson <jmattson@google.com>, Dave Hansen <dave.hansen@intel.com>,
- Sean Christopherson <seanjc@google.com>, Jeff Layton <jlayton@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Linux API <linux-api@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Cc: Frank Chang <frank.chang@sifive.com>, Anup Patel <anup@brainfault.org>,
+ Anup Patel <anup.patel@wdc.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 08, 2022 at 08:54:02PM +0200, David Hildenbrand wrote:
+On Wed, 16 Feb 2022 at 08:43, Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Anup Patel <anup.patel@wdc.com>
+>
+> The RISC-V AIA (Advanced Interrupt Architecture) defines a new
+> interrupt controller for wired interrupts called APLIC (Advanced
+> Platform Level Interrupt Controller). The APLIC is capabable of
+> forwarding wired interupts to RISC-V HARTs directly or as MSIs
+> (Message Signaled Interupts).
+>
+> This patch adds device emulation for RISC-V AIA APLIC.
 
-> RLIMIT_MEMLOCK was the obvious candidate, but as we discovered int he
-> past already with secretmem, it's not 100% that good of a fit (unmovable
-> is worth than mlocked). But it gets the job done for now at least.
+Hi; Coverity has some issues with this change; they're kind of
+false positives but they do flag up a minor issue with the code.
+This is CID 1487105, 1487113, 1487185, 1487208.
 
-No, it doesn't. There are too many different interpretations how
-MELOCK is supposed to work
+> +    } else if ((APLIC_TARGET_BASE <= addr) &&
+> +            (addr < (APLIC_TARGET_BASE + (aplic->num_irqs - 1) * 4))) {
+> +        irq = ((addr - APLIC_TARGET_BASE) >> 2) + 1;
+> +        return aplic->target[irq];
+> +    } else if (!aplic->msimode && (APLIC_IDC_BASE <= addr) &&
+> +            (addr < (APLIC_IDC_BASE + aplic->num_harts * APLIC_IDC_SIZE))) {
+> +        idc = (addr - APLIC_IDC_BASE) / APLIC_IDC_SIZE;
 
-eg VFIO accounts per-process so hostile users can just fork to go past
-it.
+In expressions like these where we're checking "is addr between
+some base address and an upper bound calculated from num_irqs
+or num_harts", Coverity warns that we calculate expressions like
+(APLIC_TARGET_BASE + (aplic->num_irqs - 1) * 4) using 32-bits and
+then compare against the 64-bit 'addr', so there might be an
+unintentional overflow. Now clearly in this case num_irqs and num_harts
+should never be so large that there is an overflow, so in that
+sense Coverity is wrong and these are false positives. However...
 
-RDMA is per-process but uses a different counter, so you can double up
+> +static void riscv_aplic_realize(DeviceState *dev, Error **errp)
+> +{
+> +    uint32_t i;
+> +    RISCVAPLICState *aplic = RISCV_APLIC(dev);
+> +
+> +    aplic->bitfield_words = (aplic->num_irqs + 31) >> 5;
+> +    aplic->sourcecfg = g_new0(uint32_t, aplic->num_irqs);
+> +    aplic->state = g_new(uint32_t, aplic->num_irqs);
+> +    aplic->target = g_new0(uint32_t, aplic->num_irqs);
+> +    if (!aplic->msimode) {
+> +        for (i = 0; i < aplic->num_irqs; i++) {
+> +            aplic->target[i] = 1;
+> +        }
+> +    }
+> +    aplic->idelivery = g_new0(uint32_t, aplic->num_harts);
+> +    aplic->iforce = g_new0(uint32_t, aplic->num_harts);
+> +    aplic->ithreshold = g_new0(uint32_t, aplic->num_harts);
+> +
+> +    memory_region_init_io(&aplic->mmio, OBJECT(dev), &riscv_aplic_ops, aplic,
+> +                          TYPE_RISCV_APLIC, aplic->aperture_size);
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &aplic->mmio);
+> +
+> +    /*
+> +     * Only root APLICs have hardware IRQ lines. All non-root APLICs
+> +     * have IRQ lines delegated by their parent APLIC.
+> +     */
+> +    if (!aplic->parent) {
+> +        qdev_init_gpio_in(dev, riscv_aplic_request, aplic->num_irqs);
+> +    }
+> +
+> +    /* Create output IRQ lines for non-MSI mode */
+> +    if (!aplic->msimode) {
+> +        aplic->external_irqs = g_malloc(sizeof(qemu_irq) * aplic->num_harts);
+> +        qdev_init_gpio_out(dev, aplic->external_irqs, aplic->num_harts);
+> +
+> +        /* Claim the CPU interrupt to be triggered by this APLIC */
+> +        for (i = 0; i < aplic->num_harts; i++) {
+> +            RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(aplic->hartid_base + i));
+> +            if (riscv_cpu_claim_interrupts(cpu,
+> +                (aplic->mmode) ? MIP_MEIP : MIP_SEIP) < 0) {
+> +                error_report("%s already claimed",
+> +                             (aplic->mmode) ? "MEIP" : "SEIP");
+> +                exit(1);
+> +            }
+> +        }
+> +    }
+> +
+> +    msi_nonbroken = true;
+> +}
 
-iouring is per-user and users a 3rd counter, so it can triple up on
-the above two
+...in the realize method we don't do any sanity checking of our
+QOM properties that set aplic->num_irqs and aplic->num_harts, so the
+creator of the device could in theory pass us some bogus values that
+cause overflow and other bad things.
 
-> So I'm open for alternative to limit the amount of unmovable memory we
-> might allocate for user space, and then we could convert seretmem as well.
+> +/*
+> + * Create APLIC device.
+> + */
+> +DeviceState *riscv_aplic_create(hwaddr addr, hwaddr size,
+> +    uint32_t hartid_base, uint32_t num_harts, uint32_t num_sources,
+> +    uint32_t iprio_bits, bool msimode, bool mmode, DeviceState *parent)
+> +{
+> +    DeviceState *dev = qdev_new(TYPE_RISCV_APLIC);
+> +    uint32_t i;
+> +
+> +    assert(num_harts < APLIC_MAX_IDC);
+> +    assert((APLIC_IDC_BASE + (num_harts * APLIC_IDC_SIZE)) <= size);
+> +    assert(num_sources < APLIC_MAX_SOURCE);
+> +    assert(APLIC_MIN_IPRIO_BITS <= iprio_bits);
+> +    assert(iprio_bits <= APLIC_MAX_IPRIO_BITS);
+> +
+> +    qdev_prop_set_uint32(dev, "aperture-size", size);
+> +    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
+> +    qdev_prop_set_uint32(dev, "num-harts", num_harts);
+> +    qdev_prop_set_uint32(dev, "iprio-mask", ((1U << iprio_bits) - 1));
+> +    qdev_prop_set_uint32(dev, "num-irqs", num_sources + 1);
 
-I think it has to be cgroup based considering where we are now :\
+You do make some assert()s on num_harts and num_sources here, but
+this is the wrong place to do this error checking, because there's
+no particular reason why a board model has to use this function
+rather than directly creating the device. Instead these checks should
+go in the realize method and should cause realize to fail.
 
-Jason
+> +    qdev_prop_set_bit(dev, "msimode", msimode);
+> +    qdev_prop_set_bit(dev, "mmode", mmode);
+> +
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+
+thanks
+-- PMM
 
