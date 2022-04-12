@@ -2,68 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C3C4FDCE7
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 13:07:16 +0200 (CEST)
-Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F544FDD8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 13:10:07 +0200 (CEST)
+Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neEMd-0000uR-7H
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 07:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52232)
+	id 1neEPM-0007FC-2l
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 07:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1neEGt-0007iw-1G
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:01:19 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1neEGj-00042S-Ek
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:01:18 -0400
-Received: by mail-wr1-x434.google.com with SMTP id u3so27176580wrg.3
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 04:00:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZMVXcyBhQ3fOCB18YZV7ZqOwoRtv4k/rTjqMPh4caqA=;
- b=YHRDp+kUhp1H20xKbu9mMWCScacLOhv8t2v8KRio1m6LetmW4hz6mNjkiFg8ulYMdG
- Py0VC/V7a51g+YsIZKvuGL/kYKSF3QfW47de/LgxWZuG0uTLXa1DcXTBFYmX29RxhbGc
- VvSMVI8EneNfcCCedIZ9BmPj9Pp70/1f+PKkBaVrrykxGJVmDey8A9sgQlM+C7Xvfe28
- YpLLzEKG0i9t1VoJ1i+D8xI8StyZjJ5uFf/zMv9SQ7mtJcogwm1p0B+0WjWB4VDzuwsX
- 2nJ5ykORFJdels5Z9AYh8Z2Z7GpAQTEDZlvUWRzXfWNDq5Tx7joT49rLAV0pwMd8cIgH
- 6mpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZMVXcyBhQ3fOCB18YZV7ZqOwoRtv4k/rTjqMPh4caqA=;
- b=xpK15QgYYDV9lFthaA3z1ln3QSAKqvYVw+GzEOFlhESGmuhHJ3a0izpsir8eikdwn2
- c0McI8SuRcKlwhlYgT7u2ABTNonxeoSn++n92jDMg7AGtks3ST6fLnR2VcGp4Aeb6GhJ
- r4Lc4f7pM4FuVyUkqWC/dZXoG5GuKV2NgMbd2UJcVu6YpY2ikcJr/22FyT7nkshXjKqg
- T1hIBNe+cuej1Aw6IpkD+dvOLdrJuWft92t4d0mspd/nr+MKHG20//fXMeoVSbeaE06+
- LOJ4w32o/NEvgL+4lOmIRsBk8VhFjWBXm0sshhQvZSN4XdldFKgofwkf5tO6AASJtlPD
- e+gQ==
-X-Gm-Message-State: AOAM530Zx+1WzU9nnQsjoTAD1CbSu1jt8tKEnoFPBcuYkVPdW9Sr+zff
- 4/WlYfJBybIAuUHdKc6dravwquiLJ75r8Q==
-X-Google-Smtp-Source: ABdhPJw/MgrGfstmH/119Iasqq7jmY2ZHTXFrsgYhiivuoIZzlDPCIfBiE+158tCppaLtcSX1oNNEA==
-X-Received: by 2002:a05:6000:178f:b0:207:a6d7:81b5 with SMTP id
- e15-20020a056000178f00b00207a6d781b5mr7448800wrg.322.1649761250377; 
- Tue, 12 Apr 2022 04:00:50 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- e13-20020a05600c4e4d00b0038e44e316c1sm2057058wmq.6.2022.04.12.04.00.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 04:00:49 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-7.1] target/i386: Remove unused XMMReg,
- YMMReg types and CPUState fields
-Date: Tue, 12 Apr 2022 12:00:47 +0100
-Message-Id: <20220412110047.1497190-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>) id 1neEIN-0000ob-H3
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:02:52 -0400
+Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>) id 1neEIJ-0004Nf-Pw
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:02:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1649761299; 
+ s=zoho; d=euphon.net; i=fam@euphon.net;
+ h=Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=8CzEsyoTNupsMIXmy2nIF8a6yklE+1ntuS7Z7ZtWQ/k=;
+ b=YlrP5CahI2MjPn6EKGAq/S2YrkLa4avUHoY8IlnwPWi0yLh4isDG1fhW8Xpqc/Fo
+ UMLNLx1a7BCA6L7v7r18mJBWWCk6kqlrgmpKESS0gaQVo3vnup5zfUhQo/qwpixxzI2
+ XuSjhij2cbtkywCazelW2tbIRG5yKf6h8SVRZ9Iw=
+Received: from localhost (91.110.139.125 [91.110.139.125]) by mx.zoho.com.cn
+ with SMTPS id 1649761296370668.3420783206761;
+ Tue, 12 Apr 2022 19:01:36 +0800 (CST)
+Date: Tue, 12 Apr 2022 12:01:25 +0100
+From: Fam Zheng <fam@euphon.net>
+To: Steven Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V6 21/27] vfio-pci: cpr part 3 (intx)
+Message-ID: <20220412110125.GA18753@fam-dell>
+References: <1628286241-217457-1-git-send-email-steven.sistare@oracle.com>
+ <1628286241-217457-22-git-send-email-steven.sistare@oracle.com>
+ <20220329110326.GA447081@fam-dell>
+ <f18cf0e7-bb4f-1b43-ee2b-5e00c0c282d6@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f18cf0e7-bb4f-1b43-ee2b-5e00c0c282d6@oracle.com>
+X-ZohoCNMailClient: External
+Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
+ helo=sender2-op-o12.zoho.com.cn
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,70 +62,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zheng Chuan <zhengchuan@huawei.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam.zheng@bytedance.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit b7711471f5 in 2014 we refactored the handling of the x86
-vector registers so that instead of separate structs XMMReg, YMMReg
-and ZMMReg for representing the 16-byte, 32-byte and 64-byte width
-vector registers and multiple fields in the CPU state, we have a
-single type (XMMReg, later renamed to ZMMReg) and a single struct
-field (xmm_regs).  However, in 2017 in commit c97d6d2cdf97ed some of
-the old struct types and CPU state fields got added back, when we
-merged in the hvf support (which had developed in a separate fork
-that had presumably not had the refactoring of b7711471f5), as part
-of code handling xsave.  Commit f585195ec07 then almost immediately
-dropped that xsave code again in favour of sharing the xsave handling
-with KVM, but forgot to remove the now unused CPU state fields and
-struct types.
+On 2022-04-11 12:23, Steven Sistare wrote:
+> On 3/29/2022 7:03 AM, Fam Zheng wrote:
+> > On 2021-08-06 14:43, Steve Sistare wrote:
+> >> Preserve vfio INTX state across cpr restart.  Preserve VFIOINTx fields as
+> >> follows:
+> >>   pin : Recover this from the vfio config in kernel space
+> >>   interrupt : Preserve its eventfd descriptor across exec.
+> >>   unmask : Ditto
+> >>   route.irq : This could perhaps be recovered in vfio_pci_post_load by
+> >>     calling pci_device_route_intx_to_irq(pin), whose implementation reads
+> >>     config space for a bridge device such as ich9.  However, there is no
+> >>     guarantee that the bridge vmstate is read before vfio vmstate.  Rather
+> >>     than fiddling with MigrationPriority for vmstate handlers, explicitly
+> >>     save route.irq in vfio vmstate.
+> >>   pending : save in vfio vmstate.
+> >>   mmap_timeout, mmap_timer : Re-initialize
+> >>   bool kvm_accel : Re-initialize
+> >>
+> >> In vfio_realize, defer calling vfio_intx_enable until the vmstate
+> >> is available, in vfio_pci_post_load.  Modify vfio_intx_enable and
+> >> vfio_intx_kvm_enable to skip vfio initialization, but still perform
+> >> kvm initialization.
+> >>
+> >> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> > 
+> > Hi Steve,
+> > 
+> > Not directly related to this patch, but since the context is close: it looks
+> > like this series only takes care of exec restart mode of vfio-pci, have you had
+> > any thoughts on kexec reboot mode with vfio-pci?
+> > 
+> > The general idea is if DMAR context is not lost during kexec, we should be able
+> > to set up irqfds again and things will just work?
+> > 
+> > Fam
+> 
+> Hi Fam,
+>   I have thought about that use case, but only in general terms.
+> IMO it best fits in the cpr framework as a new mode (rather than as 
+> a new -restore command line argument).  
 
-Delete the unused types and CPUState fields.
+Yes I think that is better, I will try that.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/i386/cpu.h | 18 ------------------
- 1 file changed, 18 deletions(-)
+> 
+> In your code below, you would have fewer code changes if you set 
+> 'reused = true' for the new mode, rather than testing both 'reused and restored' 
+> at multiple sites. Lastly, I cleaned up the vector handling somewhat from V6 
+> to V7, so you may want to try your code using V7 as a base.
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 982c5323537..77b4f5696cf 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1217,20 +1217,6 @@ typedef struct SegmentCache {
-         float64  _d_##n[(bits)/64]; \
-     }
- 
--typedef union {
--    uint8_t _b[16];
--    uint16_t _w[8];
--    uint32_t _l[4];
--    uint64_t _q[2];
--} XMMReg;
--
--typedef union {
--    uint8_t _b[32];
--    uint16_t _w[16];
--    uint32_t _l[8];
--    uint64_t _q[4];
--} YMMReg;
--
- typedef MMREG_UNION(ZMMReg, 512) ZMMReg;
- typedef MMREG_UNION(MMXReg, 64)  MMXReg;
- 
-@@ -1529,11 +1515,7 @@ typedef struct CPUArchState {
-     ZMMReg xmm_t0;
-     MMXReg mmx_t0;
- 
--    XMMReg ymmh_regs[CPU_NB_REGS];
--
-     uint64_t opmask_regs[NB_OPMASK_REGS];
--    YMMReg zmmh_regs[CPU_NB_REGS];
--    ZMMReg hi16_zmm_regs[CPU_NB_REGS];
- #ifdef TARGET_X86_64
-     uint8_t xtilecfg[64];
-     uint8_t xtiledata[8192];
--- 
-2.25.1
+I am cleaning up the kernel patches and will post both parts once ready.
 
+Fam
 
