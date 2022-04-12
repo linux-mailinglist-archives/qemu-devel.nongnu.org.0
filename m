@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD6F4FE172
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 15:02:38 +0200 (CEST)
-Received: from localhost ([::1]:39046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDCD4FE156
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 14:58:00 +0200 (CEST)
+Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neGAH-0004SC-0y
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 09:02:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52186)
+	id 1neG5n-0001KO-5i
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 08:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <suruifeng1@huawei.com>)
- id 1neFxG-0001yP-A4
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:49:11 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:4506)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1neG4V-0000Lt-VB
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:56:39 -0400
+Received: from mga14.intel.com ([192.55.52.115]:19187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <suruifeng1@huawei.com>)
- id 1neFxD-0000O3-1R
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:49:09 -0400
-Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Kd5B34KGSzdZjY;
- Tue, 12 Apr 2022 20:48:27 +0800 (CST)
-Received: from dggpeml100013.china.huawei.com (7.185.36.238) by
- dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 12 Apr 2022 20:49:02 +0800
-Received: from dggpeml500015.china.huawei.com (7.185.36.226) by
- dggpeml100013.china.huawei.com (7.185.36.238) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 12 Apr 2022 20:49:02 +0800
-Received: from dggpeml500015.china.huawei.com ([7.185.36.226]) by
- dggpeml500015.china.huawei.com ([7.185.36.226]) with mapi id 15.01.2375.024;
- Tue, 12 Apr 2022 20:49:02 +0800
-To: Paolo Bonzini <pbonzini@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: =?utf-8?B?562U5aSNOiBbUEFUQ0hdIGJsb2NrOiBmaXggY29yZSBmb3IgdW5sb2NrIG5v?=
- =?utf-8?Q?t_permitted?=
-Thread-Topic: [PATCH] block: fix core for unlock not permitted
-Thread-Index: AQHYTl0lRfUsfJASWkKVEijbLK06GKzsJtPw
-Date: Tue, 12 Apr 2022 12:49:02 +0000
-Message-ID: <0605e5c33a2c4944925a0a4fd4115b1a@huawei.com>
-References: <20220412071323.580078-1-suruifeng1@huawei.com>
- <01492470-4870-b5cd-465a-7b6a84e389e1@redhat.com>
-In-Reply-To: <01492470-4870-b5cd-465a-7b6a84e389e1@redhat.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.149.20]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1neG4T-0002II-AJ
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 08:56:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649768197; x=1681304197;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=C6dk3/dvShTsf13TiSzcqE0mSsR+MyMx9FW9JNjPSEc=;
+ b=essNIswIG9yjzI/mAIU0BFKfyefssjEBa3x/JBYAWYjDrt5gOKqB5gqj
+ 2Q/S0f/OQ5OolveoXcOXkGKsxXUq392JdAYPxQhP5yR28/AIXWvcBzHyY
+ tCKQov4zDCE20Q2y1Ty3PAj75b400s1aUCKU0Pc0lrxo7OOnEzQnAzAsn
+ Dz/RsQRYcQ5IQLIEDROiDjlX/EMAUJ7rnoSYtYDehWtI0jT/OUMU83fIX
+ FEy961o9o5wFoNbcYTTrWK/dBOR/x0Y5tos9ZgYuijVO5WCDOAgiYfLWw
+ hZPWaUqhNMwhKfcPv3Se2wyB4NOS2xAwDG+0xiGbtrSG5ahVUS/kjJtBp Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="262547301"
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="262547301"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2022 05:56:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="699824982"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by fmsmga001.fm.intel.com with ESMTP; 12 Apr 2022 05:56:28 -0700
+Date: Tue, 12 Apr 2022 20:56:18 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Subject: Re: [PATCH v5 12/13] KVM: Expose KVM_MEM_PRIVATE
+Message-ID: <20220412125618.GC8013@chaop.bj.intel.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-13-chao.p.peng@linux.intel.com>
+ <YkNaPLVLk/pO0zjr@google.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=suruifeng1@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkNaPLVLk/pO0zjr@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.115;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 12 Apr 2022 08:59:09 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,103 +74,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, linux-api@vger.kernel.org,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "suruifeng (A)" <suruifeng1@huawei.com>
-From:  "suruifeng (A)" via <qemu-devel@nongnu.org>
 
-SGksDQoNClRoZSByZWN1cnJlbmNlIHByb2JhYmlsaXR5IGlzIGV4dHJlbWVseSBsb3cuIEkgaGF2
-ZSBub3QgcmVwcm9kdWNlZCB0aGlzIGluIHRoZSBsYXRlc3QgdmVyc2lvbi4NCkhvd2V2ZXIsIGFm
-dGVyIHJldmlld2luZyB0aGUgbGF0ZXN0IGNvZGUsIHdlIGZpbmQgdGhhdCB0aGlzIGFsc28gZXhp
-c3RzLg0KDQpUaGlzIGlzIG15IHVuZGVyc3RhbmRpbmcgb2YgdGhlIGxhdGVzdCBjb2RlLCBpZiB0
-aGVyZSBpcyBhIG1pc3Rha2UgaW4gbXkgdW5kZXJzdGFuZGluZywgcGxlYXNlIHRlbGwgbWUuDQoN
-CmJkcnZfZmx1c2hfYWxsKCkJLy8gYmRydl9uZXh0KCkgaXMgYSBjeWNsaWMgZXhlY3V0aW9uLCBh
-bmQgaXMgc2hvd24gaW4gdGhlIG9yZGVyIG9mIGV4ZWN1dGlvbiBmb3IgY29udmVuaWVuY2UuDQoJ
-LT4gYmRydl9uZXh0KCkJDQoJCS0+IGJkcnZfcmVmKGJzKSAgCS8vIHJlZiBtaXJyb3JfdG9wX2Jz
-77yMIGN1cnJlbnQgcmVmPTINCgktPiBiZHJ2X2ZsdXNoKCkJICAvLyBnZW5lcmF0ZWQgYnkgYmxv
-Y2stY29yb3V0aW5lLXdyYXBwZXIucHkNCgkJLT4gYmRydl9wb2xsX2NvKCkNCgkJCS0+IEJEUlZf
-UE9MTF9XSElMRSgpDQoJCQkJLT4gbWlycm9yX2V4aXRfY29tbW9uKCkgIC8vIFRyaWdnZXJlZCBi
-eSBJL08gZXJyb3Igb24gaW90aHJlYWQgY29udGV4dA0KCQkJCQktPiBiZHJ2X3VucmVmKG1pcnJv
-cl90b3BfYnMpCS8vIHVucmVmIG1pcnJvcl90b3BfYnPvvIxjdXJyZW50IHJlZj0xDQoJDQoJLT4g
-YmRydl9uZXh0KCkJDQoJCS0+IGJkcnZfdW5yZWYob2xkX2JzKQkvLyB1bnJlZiBtaXJyb3JfdG9w
-X2Jz77yMY3VycmVudCByZWY9MA0KCQkJLT4gYmRydl9kZWxldGUoKQ0KCQkJCS0+IGJkcnZfY2xv
-c2UoKQ0KCQkJCQktPiBiZHJ2X2ZsdXNoKCkJLy8gZ2VuZXJhdGVkIGJ5IGJsb2NrLWNvcm91dGlu
-ZS13cmFwcGVyLnB5DQoJCQkJCQktPiBiZHJ2X3BvbGxfY28oKQ0KCQkJCQkJCS0+IEJEUlZfUE9M
-TF9XSElMRSgpDQoJCQkJCQkJCS0+IGFpb19jb250ZXh0X3JlbGVhc2UoY3R4Xyk7CS8vIGlvdGhy
-ZWFkX2N0eCBpcyBub3QgYWNxdWlyZSxzbyB0cmlnZ2VyZWQgdGhlIGNvcmUNCg0KU3VydWlmZW5n
-DQoNCg0KLS0tLS3pgq7ku7bljp/ku7YtLS0tLQ0K5Y+R5Lu25Lq6OiBQYW9sbyBCb256aW5pIFtt
-YWlsdG86cGFvbG8uYm9uemluaUBnbWFpbC5jb21dIOS7o+ihqCBQYW9sbyBCb256aW5pDQrlj5Hp
-gIHml7bpl7Q6IDIwMjLlubQ05pyIMTLml6UgMTk6MDUNCuaUtuS7tuS6ujogc3VydWlmZW5nIChB
-KSA8c3VydWlmZW5nMUBodWF3ZWkuY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQrkuLvpopg6
-IFJlOiBbUEFUQ0hdIGJsb2NrOiBmaXggY29yZSBmb3IgdW5sb2NrIG5vdCBwZXJtaXR0ZWQNCg0K
-T24gNC8xMi8yMiAwOToxMywgc3VydWlmZW5nIHZpYSB3cm90ZToNCj4gcWVtdSBjb3JlZHVtcDoN
-Cj4gICAgMHgwMDAwN2Y5ZTcyMDVjODFiIGluIHJhaXNlICgpIGZyb20gL3Vzci9saWI2NC9saWJj
-LnNvLjYNCj4gICAgMHgwMDAwN2Y5ZTcyMDVkYjQxIGluIGFib3J0ICgpIGZyb20gL3Vzci9saWI2
-NC9saWJjLnNvLjYNCj4gICAgMHgwMDAwN2Y5ZTcxZGRiZTk0IGluIGVycm9yX2V4aXQgKGVycj08
-b3B0aW1pemVkIG91dD4sIG1zZz1tc2dAZW50cnk9MHg3ZjllNzFlYzFiNTAgPF9fZnVuY19fLjIw
-Mjg3PiAicWVtdV9tdXRleF91bmxvY2tfaW1wbCIpDQo+ICAgICAgYXQgL3Vzci9zcmMvZGVidWcv
-cWVtdS00LjEuMC0xNzAueDg2XzY0L3V0aWwvcWVtdS10aHJlYWQtcG9zaXguYzozNg0KPiAgICAw
-eDAwMDA3ZjllNzFkZGM2MWYgaW4gcWVtdV9tdXRleF91bmxvY2tfaW1wbCAobXV0ZXg9bXV0ZXhA
-ZW50cnk9MHg1NTU5ODUwYjBiOTAsIGZpbGU9ZmlsZUBlbnRyeT0weDdmOWU3MWVjMDk3OCAiL2hv
-bWUvYWJ1aWxkL3JwbWJ1aWxkL0JVSUxEL3FlbXUtNC4xLjAvdXRpbC9hc3luYy5jIiwNCj4gICAg
-ICBsaW5lPWxpbmVAZW50cnk9NTI0KSBhdCAvdXNyL3NyYy9kZWJ1Zy9xZW11LTQuMS4wLTE3MC54
-ODZfNjQvdXRpbC9xZW11LXRocmVhZC1wb3NpeC5jOjEwOA0KPiAgICAweDAwMDA3ZjllNzFkZDVi
-YjUgaW4gYWlvX2NvbnRleHRfcmVsZWFzZSAoY3R4PWN0eEBlbnRyeT0weDU1NTk4NTBiMGIzMCkg
-YXQgL3Vzci9zcmMvZGVidWcvcWVtdS00LjEuMC0xNzAueDg2XzY0L3V0aWwvYXN5bmMuYzo1MjQN
-Cj4gICAgMHgwMDAwN2Y5ZTcwZGZlZDI4IGluIGJkcnZfZmx1c2ggKGJzPWJzQGVudHJ5PTB4NTU1
-OTg1MWYwYTIwKSBhdCAvdXNyL3NyYy9kZWJ1Zy9xZW11LTQuMS4wLTE3MC54ODZfNjQvYmxvY2sv
-aW8uYzoyNzc4DQo+ICAgIDB4MDAwMDdmOWU3MGUzN2Y2MyBpbiBiZHJ2X2Nsb3NlIChicz1ic0Bl
-bnRyeT0weDU1NTk4NTFmMGEyMCkgYXQgL3Vzci9zcmMvZGVidWcvcWVtdS00LjEuMC0xNzAueDg2
-XzY0L2Jsb2NrLmM6NDAyNQ0KPiAgICAweDAwMDA3ZjllNzBlMzgxOTMgaW4gYmRydl9kZWxldGUg
-KGJzPTB4NTU1OTg1MWYwYTIwKSBhdCAvdXNyL3NyYy9kZWJ1Zy9xZW11LTQuMS4wLTE3MC54ODZf
-NjQvYmxvY2suYzo0MjcxDQo+ICAgIDB4MDAwMDdmOWU3MGUzODIyNSBpbiBiZHJ2X3VucmVmIChi
-cz08b3B0aW1pemVkIG91dD4pIGF0IC91c3Ivc3JjL2RlYnVnL3FlbXUtNC4xLjAtMTcwLng4Nl82
-NC9ibG9jay5jOjU2MTINCj4gICAgMHgwMDAwN2Y5ZTcwZGY5YTkyIGluIGJkcnZfbmV4dCAoaXQ9
-aXRAZW50cnk9MHg3ZmZjNWUzNTQ3YTApIGF0IC91c3Ivc3JjL2RlYnVnL3FlbXUtNC4xLjAtMTcw
-Lng4Nl82NC9ibG9jay9ibG9jay1iYWNrZW5kLmM6NTc2DQo+ICAgIDB4MDAwMDdmOWU3MGRmZWU3
-NiBpbiBiZHJ2X2ZsdXNoX2FsbCAoKSBhdCAvdXNyL3NyYy9kZWJ1Zy9xZW11LTQuMS4wLTE3MC54
-ODZfNjQvYmxvY2svaW8uYzoyMDc0DQo+ICAgIDB4MDAwMDdmOWU3MWUzYTA4ZiBpbiBkb192bV9z
-dG9wIChzdGF0ZT1zdGF0ZUBlbnRyeT1SVU5fU1RBVEVfU0hVVERPV04sIHNlbmRfc3RvcD1zZW5k
-X3N0b3BAZW50cnk9ZmFsc2UpIGF0IC91c3Ivc3JjL2RlYnVnL3FlbXUtNC4xLjAtMTcwLng4Nl82
-NC9jcHVzLmM6MTE0MA0KPiAgICAweDAwMDA3ZjllNzFlM2ExNGMgaW4gdm1fc2h1dGRvd24gKCkg
-YXQgDQo+IC91c3Ivc3JjL2RlYnVnL3FlbXUtNC4xLjAtMTcwLng4Nl82NC9jcHVzLmM6MTE1MQ0K
-PiANCj4gRHVyaW5nIG1pcnJvciBqb2IgcnVuLCB0aGUgVk0gaXMgc2h1dGRvd24uIER1cmluZyB0
-aGUgc2h1dGRvd24sIHRoZSBtaXJyb3Igam9iIEkvTyBlcnJvciB0cmlnZ2VycyBtaXJyb3JfZXhp
-dF9jb21tb20uDQo+IEluIGJkcnZfZmx1c2hfYWxsKCksIGJkcnZfbmV4dCgpIGluY3JlYXNlIHRo
-ZSByZWYgdG8gbWlycm9yX3RvcF9icyANCj4gZmlyc3QsIGFuZCB0aGVuIGJkcnZfZmx1c2goYnMp
-IGNhbGwgQkRSVl9QT0xMX1dISUxFIGFuZCBleGVjdXRlcyANCj4gbWlycm9yX2V4aXRfY29tbW9u
-KCkgZGVjcmVhc2VzIHJlZiB0byBtaXJyb3JfdG9wX2JzLCBhbmQgZmluYWxseSBiZHJ2X25leHQo
-KSBkZWNyZWFzZXMgdGhlIHJlZiB0byBtaXJyb3JfdG9wX2JzLCByZXN1bHRpbmcgaW4gcmVsZWFz
-ZSBtaXJyb3JfdG9wX2JzLg0KPiANCj4gTGV0J3MgZml4IHRoaXMgYnkgYWRkaW5nIGFpb19jb250
-ZXh0X2FjcXVpcmUoKSBhbmQgYWlvX2NvbnRleHRfcmVsZWFzZSgpIHRvIGJkcnZfbmV4dCgpLg0K
-DQpIaSwNCg0KaXMgdGhpcyByZXByb2R1Y2libGUgd2l0aCBhIG1vcmUgcmVjZW50IHZlcnNpb24g
-b2YgUUVNVT8gIEluIHBhcnRpY3VsYXIsIGJkcnZfbmV4dCBkb2VzIG5vdCBoYXZlIGJkcnZfdW5y
-ZWYgYW55bW9yZS4NCg0KUGFvbG8NCg0KPiBTaWduZWQtb2ZmLWJ5OiBzdXJ1aWZlbmcgPHN1cnVp
-ZmVuZzFAaHVhd2VpLmNvbT4NCj4gLS0tDQo+ICAgYmxvY2svYmxvY2stYmFja2VuZC5jIHwgMTAg
-KysrKysrKysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspDQo+IA0KPiBk
-aWZmIC0tZ2l0IGEvYmxvY2svYmxvY2stYmFja2VuZC5jIGIvYmxvY2svYmxvY2stYmFja2VuZC5j
-IGluZGV4IA0KPiBlMGUxYWZmNGIxLi41YWU3NDVjMGFiIDEwMDY0NA0KPiAtLS0gYS9ibG9jay9i
-bG9jay1iYWNrZW5kLmMNCj4gKysrIGIvYmxvY2svYmxvY2stYmFja2VuZC5jDQo+IEBAIC01OTMs
-NiArNTkzLDcgQEAgQmxvY2tCYWNrZW5kICpibGtfbmV4dChCbG9ja0JhY2tlbmQgKmJsaykNCj4g
-ICBCbG9ja0RyaXZlclN0YXRlICpiZHJ2X25leHQoQmRydk5leHRJdGVyYXRvciAqaXQpDQo+ICAg
-ew0KPiAgICAgICBCbG9ja0RyaXZlclN0YXRlICpicywgKm9sZF9iczsNCj4gKyAgICBBaW9Db250
-ZXh0ICpjdHggPSBOVUxMOw0KPiAgIA0KPiAgICAgICAvKiBNdXN0IGJlIGNhbGxlZCBmcm9tIHRo
-ZSBtYWluIGxvb3AgKi8NCj4gICAgICAgYXNzZXJ0KHFlbXVfZ2V0X2N1cnJlbnRfYWlvX2NvbnRl
-eHQoKSA9PSANCj4gcWVtdV9nZXRfYWlvX2NvbnRleHQoKSk7IEBAIC02MTMsMTEgKzYxNCwxNyBA
-QCBCbG9ja0RyaXZlclN0YXRlICpiZHJ2X25leHQoQmRydk5leHRJdGVyYXRvciAqaXQpDQo+ICAg
-ICAgICAgICBpZiAoaXQtPmJsaykgew0KPiAgICAgICAgICAgICAgIGJsa19yZWYoaXQtPmJsayk7
-DQo+ICAgICAgICAgICB9DQo+ICsJY3R4ID0gYmxrX2dldF9haW9fY29udGV4dChvbGRfYmxrKTsN
-Cj4gKwlhaW9fY29udGV4dF9hY3F1aXJlKGN0eCk7DQo+ICAgICAgICAgICBibGtfdW5yZWYob2xk
-X2Jsayk7DQo+ICsJYWlvX2NvbnRleHRfcmVsZWFzZShjdHgpOw0KPiAgIA0KPiAgICAgICAgICAg
-aWYgKGJzKSB7DQo+ICAgICAgICAgICAgICAgYmRydl9yZWYoYnMpOw0KPiArCSAgICBjdHggPSBi
-ZHJ2X2dldF9haW9fY29udGV4dChvbGRfYnMpOw0KPiArCSAgICBhaW9fY29udGV4dF9hY3F1aXJl
-KGN0eCk7DQo+ICAgICAgICAgICAgICAgYmRydl91bnJlZihvbGRfYnMpOw0KPiArCSAgICBhaW9f
-Y29udGV4dF9yZWxlYXNlKGN0eCk7DQo+ICAgICAgICAgICAgICAgcmV0dXJuIGJzOw0KPiAgICAg
-ICAgICAgfQ0KPiAgICAgICAgICAgaXQtPnBoYXNlID0gQkRSVl9ORVhUX01PTklUT1JfT1dORUQ7
-IEBAIC02MzYsNyArNjQzLDEwIEBAIA0KPiBCbG9ja0RyaXZlclN0YXRlICpiZHJ2X25leHQoQmRy
-dk5leHRJdGVyYXRvciAqaXQpDQo+ICAgICAgIGlmIChicykgew0KPiAgICAgICAgICAgYmRydl9y
-ZWYoYnMpOw0KPiAgICAgICB9DQo+ICsgICAgY3R4ID0gYmRydl9nZXRfYWlvX2NvbnRleHQob2xk
-X2JzKTsNCj4gKyAgICBhaW9fY29udGV4dF9hY3F1aXJlKGN0eCk7DQo+ICAgICAgIGJkcnZfdW5y
-ZWYob2xkX2JzKTsNCj4gKyAgICBhaW9fY29udGV4dF9yZWxlYXNlKGN0eCk7DQo+ICAgDQo+ICAg
-ICAgIHJldHVybiBiczsNCj4gICB9DQoNCg==
+On Tue, Mar 29, 2022 at 07:13:00PM +0000, Sean Christopherson wrote:
+> On Thu, Mar 10, 2022, Chao Peng wrote:
+> > KVM_MEM_PRIVATE is not exposed by default but architecture code can turn
+> > on it by implementing kvm_arch_private_memory_supported().
+> > 
+> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  include/linux/kvm_host.h |  1 +
+> >  virt/kvm/kvm_main.c      | 24 +++++++++++++++++++-----
+> >  2 files changed, 20 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 186b9b981a65..0150e952a131 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -1432,6 +1432,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
+> >  int kvm_arch_post_init_vm(struct kvm *kvm);
+> >  void kvm_arch_pre_destroy_vm(struct kvm *kvm);
+> >  int kvm_arch_create_vm_debugfs(struct kvm *kvm);
+> > +bool kvm_arch_private_memory_supported(struct kvm *kvm);
+> >  
+> >  #ifndef __KVM_HAVE_ARCH_VM_ALLOC
+> >  /*
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index 52319f49d58a..df5311755a40 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -1485,10 +1485,19 @@ static void kvm_replace_memslot(struct kvm *kvm,
+> >  	}
+> >  }
+> >  
+> > -static int check_memory_region_flags(const struct kvm_userspace_memory_region *mem)
+> > +bool __weak kvm_arch_private_memory_supported(struct kvm *kvm)
+> > +{
+> > +	return false;
+> > +}
+> > +
+> > +static int check_memory_region_flags(struct kvm *kvm,
+> > +				const struct kvm_userspace_memory_region *mem)
+> >  {
+> >  	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
+> >  
+> > +	if (kvm_arch_private_memory_supported(kvm))
+> > +		valid_flags |= KVM_MEM_PRIVATE;
+> > +
+> >  #ifdef __KVM_HAVE_READONLY_MEM
+> >  	valid_flags |= KVM_MEM_READONLY;
+> >  #endif
+> > @@ -1900,7 +1909,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
+> >  	int as_id, id;
+> >  	int r;
+> >  
+> > -	r = check_memory_region_flags(mem);
+> > +	r = check_memory_region_flags(kvm, mem);
+> >  	if (r)
+> >  		return r;
+> >  
+> > @@ -1913,10 +1922,12 @@ int __kvm_set_memory_region(struct kvm *kvm,
+> >  		return -EINVAL;
+> >  	if (mem->guest_phys_addr & (PAGE_SIZE - 1))
+> >  		return -EINVAL;
+> > -	/* We can read the guest memory with __xxx_user() later on. */
+> >  	if ((mem->userspace_addr & (PAGE_SIZE - 1)) ||
+> > -	    (mem->userspace_addr != untagged_addr(mem->userspace_addr)) ||
+> > -	     !access_ok((void __user *)(unsigned long)mem->userspace_addr,
+> > +	    (mem->userspace_addr != untagged_addr(mem->userspace_addr)))
+> > +		return -EINVAL;
+> > +	/* We can read the guest memory with __xxx_user() later on. */
+> > +	if (!(mem->flags & KVM_MEM_PRIVATE) &&
+> > +	    !access_ok((void __user *)(unsigned long)mem->userspace_addr,
+> 
+> This should sanity check private_offset for private memslots.  At a bare minimum,
+> wrapping should be disallowed.
+
+Will add this.
+
+> 
+> >  			mem->memory_size))
+> >  		return -EINVAL;
+> >  	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
+> > @@ -1957,6 +1968,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
+> >  		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
+> >  			return -EINVAL;
+> >  	} else { /* Modify an existing slot. */
+> > +		/* Private memslots are immutable, they can only be deleted. */
+> > +		if (mem->flags & KVM_MEM_PRIVATE)
+> > +			return -EINVAL;
+> 
+> These sanity checks belong in "KVM: Register private memslot to memory backing store",
+> e.g. that patch is "broken" without the immutability restriction.  It's somewhat moot
+> because the code is unreachable, but it makes reviewing confusing/difficult.
+> 
+> But rather than move the sanity checks back, I think I'd prefer to pull all of patch 10
+> here.  I think it also makes sense to drop "KVM: Use memfile_pfn_ops to obtain pfn for
+> private pages" and add the pointer in "struct kvm_memory_slot" in patch "KVM: Extend the
+> memslot to support fd-based private memory", with the use of the ops folded into
+> "KVM: Handle page fault for private memory".  Adding code to KVM and KVM-x86 in a single
+> patch is ok, and overall makes things easier to review because the new helpers have a
+> user right away, especially since there will be #ifdeffery.
+> 
+> I.e. end up with something like:
+> 
+>   mm: Introduce memfile_notifier
+>   mm/shmem: Restrict MFD_INACCESSIBLE memory against RLIMIT_MEMLOCK
+>   KVM: Extend the memslot to support fd-based private memory
+>   KVM: Use kvm_userspace_memory_region_ext
+>   KVM: Add KVM_EXIT_MEMORY_ERROR exit
+>   KVM: Handle page fault for private memory
+>   KVM: Register private memslot to memory backing store
+>   KVM: Zap existing KVM mappings when pages changed in the private fd
+>   KVM: Enable and expose KVM_MEM_PRIVATE
+
+Thanks for the suggestion. That makes sense.
+
+Chao
+> 
+> >  		if ((mem->userspace_addr != old->userspace_addr) ||
+> >  		    (npages != old->npages) ||
+> >  		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
+> > -- 
+> > 2.17.1
+> > 
 
