@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE2C4FDD9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 13:23:35 +0200 (CEST)
-Received: from localhost ([::1]:39682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 773064FDDE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 13:43:30 +0200 (CEST)
+Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neEcP-0003X4-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 07:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56796)
+	id 1neEvh-0004Vi-6D
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 07:43:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1neEZq-0002RS-Jx
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:20:55 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1neEZo-0008Uv-0z
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:20:53 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id g18so11703543ejc.10
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 04:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=oOcnboi4+AkLg8hER+MJU2C/13i6+MpSAw+5Hyu1xwA=;
- b=e1xSV7QQi7v1TpYfagbHkQINTdpnn1ytI1CIFd3j0wkzgKJIZ0aThMd/xiycLHXMR3
- L7w/FYaeOzCTajCxKCXKicQsTKgDw7GcykKl16nYi1B3O4u9RLgbtdBYv83xykHxXhal
- WjvMz4Qmz+dPUGiIECbT/q7r/aAfvgHqyjuY3MGH9zuzj4fN0K3omBDYPkaVZb6eaOK3
- WeV2/44ZhTImKhsAyBvfH3sIUgc1N8ffm5f/38I9Tf4HtrzqhciTQyPuazQ5qY9txn6C
- lBeyY6olxpPKt//QR3UCgAQ77uKkSlJYiT0roDY5vl3NQfokof7Dq2FDtmnbAL5CUyx1
- /AZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=oOcnboi4+AkLg8hER+MJU2C/13i6+MpSAw+5Hyu1xwA=;
- b=Fj9RSCe3MONmXTr0Le5NCmVUgjlLcC97AAjcnSmlYgdScodzdsKS/fv6a+vUs2v2c1
- L+2Nj8yweerMg6jNR0wQIg0A2FrWDQcLLt0P9btVrOpGYfBPMzKTZ25T+uozAB4mwD1N
- tNbh4v/7RSTcJF1XzjTi7TnHgDJj3HmVL5Zq4Z+T9XPYGnHm/kWdQemL/2LjEEwoloxv
- w/bbWWLMJX2E90Wq6Tusgh9syuSnxE111EVImI4/JjKynjGJLBuDDezQ8xnkuiFbRL5q
- /VLGRoy6ejZG4Pw1KK6f3sgjJMtFti49LC/f2Sg/d0j5G32tgsDpMJNgybq/5QSHH+Ei
- 9AHA==
-X-Gm-Message-State: AOAM531YDBmAiXEIVVBjsIXgzrs6GnVZGZqXeddmwVa1k/pks/UA3nq7
- MYIlhcnoQ8q0L1zj8tcyp4Hfcg==
-X-Google-Smtp-Source: ABdhPJzhTL0v27ZsbnAT+nfzTNC5cXtadmc+TMeJDXPi7YqNcQfFQc1KGpFJtgXvAnMUXl3mJZ/MiQ==
-X-Received: by 2002:a17:906:704f:b0:6e0:2ce5:131e with SMTP id
- r15-20020a170906704f00b006e02ce5131emr32763605ejj.246.1649762449481; 
- Tue, 12 Apr 2022 04:20:49 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- l10-20020a170906938a00b006e88c811016sm2891249ejx.145.2022.04.12.04.20.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 04:20:48 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6B28D1FFB7;
- Tue, 12 Apr 2022 12:20:47 +0100 (BST)
-References: <20220412104519.201655-1-alex.bennee@linaro.org>
- <CAFEAcA_j78LD=K=BY+szHK+X0kyh3RXm7ZT4gM2GDmcKTLYeCA@mail.gmail.com>
-User-agent: mu4e 1.7.12; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH] gdb/gic: expose cpu_index via MxTxAttrs
-Date: Tue, 12 Apr 2022 12:19:56 +0100
-In-reply-to: <CAFEAcA_j78LD=K=BY+szHK+X0kyh3RXm7ZT4gM2GDmcKTLYeCA@mail.gmail.com>
-Message-ID: <87o816zgxc.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1neEqx-00034Z-9j
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:38:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32407)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1neEqt-00035h-JL
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 07:38:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649763510;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gc1mzdkZsq3HzQEd8C3kVAd70WJNr1x6mPofhyxy8+Q=;
+ b=J0sq/Np1ZRiFEWwj9NJttAjmwXjwtpU3LJVBTj67RsSX1L7Sbzx4vqAX7WfO04Vjw6Ki2H
+ lMFM5fXI3Q7/IV82FMwSiU99sv3b1pGK7gwhOyMQCvC5jttZeNGhv+W+rl6O18V54KUmMQ
+ hZfH8cypkSAYmQ+AdHjPLdXNbOFm9JM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-189-lz-HTiozPJqzbQLHF_HBOg-1; Tue, 12 Apr 2022 07:38:27 -0400
+X-MC-Unique: lz-HTiozPJqzbQLHF_HBOg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C84373820F61;
+ Tue, 12 Apr 2022 11:38:26 +0000 (UTC)
+Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19EFB2024CCF;
+ Tue, 12 Apr 2022 11:38:25 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH for-7.1] target/mips: Remove stale TODO file
+Date: Tue, 12 Apr 2022 13:38:24 +0200
+Message-Id: <20220412113824.297108-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,59 +76,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The last change to this file has been done in 2012, so it
+seems like this is not really used anymore, and the content
+is likely very out of date now.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ target/mips/TODO | 51 ------------------------------------------------
+ 1 file changed, 51 deletions(-)
+ delete mode 100644 target/mips/TODO
 
-> On Tue, 12 Apr 2022 at 11:45, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> When accessing HW via the gdbstub we can't easily figure out what the
->> cpu_index is. The canonical case is current_cpu but for some cases
->> that will be NULL. For debug accesses we can overload requester_id and
->> make the GIC a bit smarter about fishing that out.
->>
->> [AJB: very much a PoC hack for now but interested if this makes sense.
->> We could encode cpu_index in another field but that would grow
->> MxTxAttrs even more.]
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/124
->> ---
->>  include/exec/memattrs.h |  2 +-
->>  hw/core/cpu-sysemu.c    | 15 +++++++++++----
->>  hw/intc/arm_gic.c       | 33 +++++++++++++++++++--------------
->>  3 files changed, 31 insertions(+), 19 deletions(-)
->>
->> diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
->> index 9fb98bc1ef..1333a34cb3 100644
->> --- a/include/exec/memattrs.h
->> +++ b/include/exec/memattrs.h
->> @@ -43,7 +43,7 @@ typedef struct MemTxAttrs {
->>       * (see MEMTX_ACCESS_ERROR).
->>       */
->>      unsigned int memory:1;
->> -    /* Requester ID (for MSI for example) */
->> +    /* Requester ID (for MSI for example) or cpu_index for debug */
->>      unsigned int requester_id:16;
->
-> If we want to provide a requester ID for memory transactions we
-> should provide it always, not just for debug. That way gic_get_current_cp=
-u()
-> and similar code can unconditionally use requester_id and never needs
-> to look at current_cpu. (We would also need to figure out how we want
-> to parcel out requester_ids in the system, so that PCI requester IDs
-> don't clash with CPU requester IDs.)
+diff --git a/target/mips/TODO b/target/mips/TODO
+deleted file mode 100644
+index 1d782d8027..0000000000
+--- a/target/mips/TODO
++++ /dev/null
+@@ -1,51 +0,0 @@
+-Unsolved issues/bugs in the mips/mipsel backend
+------------------------------------------------
+-
+-General
+--------
+-- Unimplemented ASEs:
+-  - MDMX
+-  - SmartMIPS
+-  - microMIPS DSP r1 & r2 encodings
+-- MT ASE only partially implemented and not functional
+-- Shadow register support only partially implemented,
+-  lacks set switching on interrupt/exception.
+-- 34K ITC not implemented.
+-- A general lack of documentation, especially for technical internals.
+-  Existing documentation is x86-centric.
+-- Reverse endianness bit not implemented
+-- The TLB emulation is very inefficient:
+-  QEMU's softmmu implements a x86-style MMU, with separate entries
+-  for read/write/execute, a TLB index which is just a modulo of the
+-  virtual address, and a set of TLBs for each user/kernel/supervisor
+-  MMU mode.
+-  MIPS has a single entry for read/write/execute and only one MMU mode.
+-  But it is fully associative with randomized entry indices, and uses
+-  up to 256 ASID tags as additional matching criterion (which roughly
+-  equates to 256 MMU modes). It also has a global flag which causes
+-  entries to match regardless of ASID.
+-  To cope with these differences, QEMU currently flushes the TLB at
+-  each ASID change. Using the MMU modes to implement ASIDs hinges on
+-  implementing the global bit efficiently.
+-- save/restore of the CPU state is not implemented (see machine.c).
+-
+-MIPS64
+-------
+-- Userland emulation (both n32 and n64) not functional.
+-
+-"Generic" 4Kc system emulation
+-------------------------------
+-- Doesn't correspond to any real hardware. Should be removed some day,
+-  U-Boot is the last remaining user.
+-
+-PICA 61 system emulation
+-------------------------
+-- No framebuffer support yet.
+-
+-MALTA system emulation
+-----------------------
+-- We fake firmware support instead of doing the real thing
+-- Real firmware (YAMON) falls over when trying to init RAM, presumably
+-  due to lacking system controller emulation.
+-- Bonito system controller not implemented
+-- MSC1 system controller not implemented
+-- 
+2.27.0
 
-We could have a requester_type field (0 for CPU, 1 for PCI for now)?
-
->
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
