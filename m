@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AF64FE96F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 22:27:15 +0200 (CEST)
-Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9484FE97D
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 22:36:30 +0200 (CEST)
+Received: from localhost ([::1]:39080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neN6Y-0001jp-65
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 16:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41528)
+	id 1neNFV-0005Oo-78
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 16:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
- id 1neN5N-0000wo-OB
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 16:26:01 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:45773)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1neNDe-0004fi-2e
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 16:34:34 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
- id 1neN5L-0007QK-9F
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 16:26:00 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- a16-20020a17090a6d9000b001c7d6c1bb13so4211039pjk.4
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 13:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VVv1Hoer+8utf70hGTcGvQoTwEkq5XxhsEIO0y6J2Q8=;
- b=K86GHBGHBQjayar+GxHkFkNmZgxcA88+pvRZJGFxxqh+CtLgn/xV2lI+YYdoLoO/pM
- EeRJLXPsiK8VNJpk8glGzc79Rb1dx2qvw3rKb9q41g7/ohbHizfScFwqq3FiUpU2xJYv
- 4cb8ucAbswmRSLmGC1S10Dgc1JN/v7tFJ/ZvKmGN/4Mb06nlo29Ldc7rkHesu/YUpEBN
- 9fiXVn29p/WlNDV1aQsStxvro/NSZmlSmNs+F/HjVZ4tFa4C2OUwanGpGeJtJqzuQHAi
- xJWZX3QmTpvtwAERCH8jcuwcGQydONo3rvWzGvgAbtla4hPtViIODRKFndTO8+zEkasU
- tiNA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1neNDc-0000HT-Mu
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 16:34:33 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id g18so14673227ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 13:34:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=d2H8TdXUQtIBh8cKdq7st2cI3IacUohi+1UxYG8hDlM=;
+ b=C/yvR299MTl9OGTqKjUIzrTH2WNUBag3U9cpv8wLox/ca0Zmol4Ia/zqkAM3zEAI2u
+ 6d4RNauvVaR7qcR4cCZsymGvK1dAD/V6hl+S8oUafHfTUa58IiDHmneHa3lO9BxW97ZT
+ Bx8G0ZcdjmgZ7gT9Qb8m+9N0GC4y0de/L5tTKwKVY8/oJiOpNv5P2Dvmp+GZqE52X9Gm
+ XqsrXnfZCM5tCXw9fSJVHB3XBKX8NJpUtmnoDkD282VZ8ADMgozesU3oy8PlJzWAF8D6
+ 7zIMcWhuSKqzfn3bCUnRajKmQHSSTVZudgtsr1oiJ6Cb3EZwVRSbFUM9GHoprVxoaGbs
+ iuEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VVv1Hoer+8utf70hGTcGvQoTwEkq5XxhsEIO0y6J2Q8=;
- b=F9CCAv3xCIUJoiphj5c6LViREjkedkNBDo6IQHJs48PtLj0TJmVnC9ntLkUHU10tnW
- 4oackzN9q/sY+kyHiR1vvixqBEBqlkfrkIwJXiH1jJKRnKuGdFMunok9+Oa90nF4y9BG
- 0YLiFdLqxAUDVqEbLdQNTOZbXbGD2M6HnmMJ1AMN2faAOEAm9BH0cRRIVbQNfxHUJHF8
- mV221TowZmukgzQa2rs0+Hd2pusr3TW7QztBwTOQzVhGAngVhzgvhFYGyTbXyj6Vu85v
- WEYQ3PQa+JqmspuKIf7+pKje628FTOljqZvMxNF2g8k1itnWa6pAbqhcyOL+ptyaJBBx
- kBww==
-X-Gm-Message-State: AOAM531raG5IHumgB5r14WFukrOvsAgfIRV7Jy24LVsQdkACOn+lFhin
- yNrrT/lHjtkOsHjLTfHH0Rd6MtL+D9cXqWGj94w=
-X-Google-Smtp-Source: ABdhPJwLP1XtXLlWEZVQ7VtMoK0PIi97OUrt3f3BD0idNmoIbxUvkXdY55fB2rY7VH12f2v2xyejjCWnLrhYBt1i9FI=
-X-Received: by 2002:a17:902:d5cd:b0:156:6263:bbc7 with SMTP id
- g13-20020a170902d5cd00b001566263bbc7mr40529108plh.160.1649795157218; Tue, 12
- Apr 2022 13:25:57 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=d2H8TdXUQtIBh8cKdq7st2cI3IacUohi+1UxYG8hDlM=;
+ b=yyeSiaPr0iiNmYWZpCfkkoemkXH+PdHKxnWQWMHf0JBQEyW4xd5njv7BmG3LLEM8vr
+ 7Ms6H/jUNxWcXstuNAcWQftvf6XUCjICYuZSECCoRo/WFaLvf5nyl4A1C1n6d0hXmrlv
+ QcE6nkj63mUF4ZpX/Cr6S7dLHgujJN6y74J+ZIKFYoQU244LGdgGWZgJWF9TUTVSVyhb
+ MezFG+LnGjw//O1rpDaEj+cGln20ctWUOtCvK7wGrmy3D7oiVFRK5impRwdXhdP51c7O
+ k7J5Ww25MhtiasKCFrAwXNTYyb2coPyVdhIPcRP0q6q2Fm3FxHIjnoyjne5ogqOvKYrJ
+ I1uw==
+X-Gm-Message-State: AOAM5334Q4abfNmkXt6CQh46GoIRO50d2RACYsre8sQOnfsiTwEr4V2Q
+ J7EybRBqK+86qTgDbmrzHzB7jQ==
+X-Google-Smtp-Source: ABdhPJwdehzQhnwLJtmgRZ/d+pIBtprwpixwJY1MWFSTQ7x/SHZ/E1LndX3oD5LLPynjKh5Q2riT1g==
+X-Received: by 2002:a17:907:97cc:b0:6da:a8fb:d1db with SMTP id
+ js12-20020a17090797cc00b006daa8fbd1dbmr36608322ejc.267.1649795671078; 
+ Tue, 12 Apr 2022 13:34:31 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ r19-20020a17090638d300b006d6e4fc047bsm13695324ejd.11.2022.04.12.13.34.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Apr 2022 13:34:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4297C1FFB7;
+ Tue, 12 Apr 2022 21:34:29 +0100 (BST)
+References: <20220326132534.543738-1-richard.henderson@linaro.org>
+ <20220326132534.543738-7-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.12; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 03/39] util/log: Return bool from qemu_set_log_filename
+Date: Tue, 12 Apr 2022 21:34:24 +0100
+In-reply-to: <20220326132534.543738-7-richard.henderson@linaro.org>
+Message-ID: <87bkx6yrai.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220408104519.32931-1-gautamnagrawal@gmail.com>
- <f3adc652-6a89-a063-313a-4d87c11fc474@redhat.com>
-In-Reply-To: <f3adc652-6a89-a063-313a-4d87c11fc474@redhat.com>
-From: Gautam Agrawal <gautamnagrawal@gmail.com>
-Date: Wed, 13 Apr 2022 01:55:45 +0530
-Message-ID: <CAG-ETXuh2-bJBO4298uyc166ptiTauimChBE=TwoYpxYx4npUA@mail.gmail.com>
-Subject: Re: [PATCH] Warn user if the vga flag is passed but no vga device is
- created
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=gautamnagrawal@gmail.com; helo=mail-pj1-x1036.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,58 +89,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org, stefanha@gmail.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hi,
 
-> thanks for your patch, looks pretty good already, but there is a small
-> issue: Try for example:
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Per the recommendations in qapi/error.h, return false on failure.
 >
->   ./qemu-system-s390x -vga none
+> Use the return value in the monitor, the only place we aren't
+> already passing error_fatal or error_abort.
 >
-> ... and it will print the warning "qemu-system-s390x: warning: No vga device
-> is created", though the user only asked for no VGA device. This seems to
-> happen if a machine does not have any VGA device by default, but still
-> requests "-vga none" on the command line.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-This can be solved by adding this condition : (vga_interface_type != VGA_NONE)
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-
-> On 08/04/2022 12.45, Gautam Agrawal wrote:
-> > This patch is in regards to this issue:https://gitlab.com/qemu-project/qemu/-/issues/581#.
->
-> Better write this right in front of your Signed-off-by line:
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/581
->
-> ... then the ticket will be automatically be closed once your patch gets merged.
->
-I apologize for this mistake
-
-> vga_interface_type is also used in hw/mips/fuloong2e.c and
-> hw/xenpv/xen_machine_pv.c ... do they need a change, too?
-
-I can definitely make similar changes in them too since they also
-specify the vga_interface_type, shall I proceed with this?
-
-> This will trigger a warning from the scripts/checkpatch.pl script:
->
-> ERROR: do not initialise globals to 0 or NULL
-> #238: FILE: softmmu/globals.c:43:
-> +bool vga_interface_created = false;
-
-Could you kindly suggest a better approach to this than creating a
-global variable.
-
-
-> I'm not a native speaker, and maybe it's just a matter of taste, but I'd
-> rather say it in past tense: "No VGA device has been created"
-
-I will correct the warning message, as suggested by Peter Maydell.
-
-Regards,
-Gautam Agrawal
+--=20
+Alex Benn=C3=A9e
 
