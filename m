@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7A74FCC07
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 03:57:26 +0200 (CEST)
-Received: from localhost ([::1]:56698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5494FCC37
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 04:11:31 +0200 (CEST)
+Received: from localhost ([::1]:33314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ne5mX-0007z8-AD
-	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 21:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
+	id 1ne60A-0003u2-4t
+	for lists+qemu-devel@lfdr.de; Mon, 11 Apr 2022 22:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ne5le-00077V-Uj
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 21:56:30 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:34349)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ne5ld-00073Z-61
- for qemu-devel@nongnu.org; Mon, 11 Apr 2022 21:56:30 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id n8so15453400plh.1
- for <qemu-devel@nongnu.org>; Mon, 11 Apr 2022 18:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OiHO7AZsnP3YoyDsEoccbadXUEwvuSTq62g+u6qLwWs=;
- b=xDYsQta2z14IJSy4tGstjiZCTJExub4xuoqGr1KVPwTHbFzbs84jGyMD3JtLCYFXB0
- z1LOg6UUxvSS3Vw4cGxezvCGZs8i7WNszlnMu+EIZhax57B/p016VAzF5j9NajW7R5JZ
- bWpNylEU7GttzqYsfKPM4HA4KMhcoz5qvU7EjBLVaoRQlixGXj5EksVYGML8r2/Mk5q5
- ew6LvTq5j0twD061/h/e2TXT9K9VZAHpcUQIGrIDqdoltyThvkv/Vb9JGiuVIaWGne50
- AomvKSRYBjmqiP+ZmTso0dp5+n7V+qFTVS6wip0LPSR1/f2y+96B35yTb+Y4lKrDxHEN
- XksA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OiHO7AZsnP3YoyDsEoccbadXUEwvuSTq62g+u6qLwWs=;
- b=QZsyL17qHe6/PBmFd/ZEIntAzPkS05khDU20pRf//M+RUTAKpF9uB1FnIOietpmPgs
- ULk/HCii9S37yYKwSjXOJyEzRHWfeJIK9hoLf+mLGchRWqFHrM8hvjQ6/rUA4GVwAczk
- 67zNvA83TzxS0Jto/FRhA2jqNv9UmCAwzZRLdYoNlF2cNY40E/Pk9UYfJSjgjGW131Wa
- Sw0XtfbuA61mBQn9kymF7gFQ64C7t0dGcIAdHRL9zUXtT4NybpnQT27sJ3/ecNnmKtmq
- Sn/dyAYWJeoe+ALDSMU7QeW1Kyw276Y0vAbPhMkaMENHOYobom+PdbMokwY4URXeua0L
- di7A==
-X-Gm-Message-State: AOAM530ylKkse2+UOiQUv3oKGHSTLzwOavemR80GMRCcd9qQWTpgidZZ
- hCsxHQ6qxJ/ELCv02VSAYKU1RQ==
-X-Google-Smtp-Source: ABdhPJxvMNROX73nFGqnTpOVpyID/FC3xQrHVn9ASjqbKkRmlKfL0Sn5rHiZAHZ6fiSf5KNoF7U8vQ==
-X-Received: by 2002:a17:90b:352:b0:1c6:77e:a4f7 with SMTP id
- fh18-20020a17090b035200b001c6077ea4f7mr2285741pjb.77.1649728587630; 
- Mon, 11 Apr 2022 18:56:27 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- l22-20020a17090aaa9600b001ca7a005620sm702004pjq.49.2022.04.11.18.56.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Apr 2022 18:56:27 -0700 (PDT)
-Message-ID: <29213fe8-840f-7f55-df77-68b7b7999420@linaro.org>
-Date: Mon, 11 Apr 2022 18:56:24 -0700
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1ne5xu-0002co-4n
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 22:09:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44770)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1ne5xr-0001K3-Sl
+ for qemu-devel@nongnu.org; Mon, 11 Apr 2022 22:09:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649729346;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bQRTCdYnUVnxvFF4EycVANBE39ROB+aoAwgV2aW9yqc=;
+ b=S0GVxv6jimMmMWltM2/7CG9BQhPUUGf1t0e86FWZHv25R+JbIC0aMEKyN7OMr8TiW7F2Gb
+ j533wMU2OZHeLiYD2Y/6x2LDGMrfGTs7kYM0vVqodoCQWdANKVLkYr9iTCokTrDBcssKWP
+ 4yYdEzN4+O7NQjs+VycthifF5njGhP0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-186-BR6OIHo3PuCn8vM2jjtatw-1; Mon, 11 Apr 2022 22:09:03 -0400
+X-MC-Unique: BR6OIHo3PuCn8vM2jjtatw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01B39101AA46;
+ Tue, 12 Apr 2022 02:09:03 +0000 (UTC)
+Received: from [10.72.12.73] (ovpn-12-73.pek2.redhat.com [10.72.12.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E114854AC81;
+ Tue, 12 Apr 2022 02:08:54 +0000 (UTC)
+Subject: Re: [PATCH 0/5] target/arm: Support variable sized coprocessor
+ registers
+To: Andrew Jones <drjones@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20220411065842.63880-1-gshan@redhat.com>
+ <CAFEAcA-Tig6PAE4suFnERMN0f_Wco=0UVE7SrWy-Rb7gDheP_Q@mail.gmail.com>
+ <20220411120216.63r7ggy43y7ttvhp@gator>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <a7cf6aa7-6773-3ba1-c029-a42e995697b4@redhat.com>
+Date: Tue, 12 Apr 2022 10:08:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 4/9] target/ppc: Implemented vector divide extended word
+In-Reply-To: <20220411120216.63r7ggy43y7ttvhp@gator>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220405195558.66144-1-lucas.araujo@eldorado.org.br>
- <20220405195558.66144-5-lucas.araujo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220405195558.66144-5-lucas.araujo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,91 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, danielhb413@gmail.com, clg@kaod.org,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: agraf@csgraf.de, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, shan.gavin@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/5/22 12:55, Lucas Mateus Castro(alqotel) wrote:
-> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-> 
-> Implement the following PowerISA v3.1 instructions:
-> vdivesw: Vector Divide Extended Signed Word
-> vdiveuw: Vector Divide Extended Unsigned Word
-> 
-> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-> ---
->   target/ppc/insn32.decode            |  3 ++
->   target/ppc/translate/vmx-impl.c.inc | 48 +++++++++++++++++++++++++++++
->   2 files changed, 51 insertions(+)
-> 
-> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-> index 3a88a0b5bc..8c115c9c60 100644
-> --- a/target/ppc/insn32.decode
-> +++ b/target/ppc/insn32.decode
-> @@ -712,3 +712,6 @@ VDIVSD          000100 ..... ..... ..... 00111001011    @VX
->   VDIVUD          000100 ..... ..... ..... 00011001011    @VX
->   VDIVSQ          000100 ..... ..... ..... 00100001011    @VX
->   VDIVUQ          000100 ..... ..... ..... 00000001011    @VX
-> +
-> +VDIVESW         000100 ..... ..... ..... 01110001011    @VX
-> +VDIVEUW         000100 ..... ..... ..... 01010001011    @VX
-> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-> index bac0db7128..8799e945bd 100644
-> --- a/target/ppc/translate/vmx-impl.c.inc
-> +++ b/target/ppc/translate/vmx-impl.c.inc
-> @@ -3295,6 +3295,54 @@ TRANS_VDIV_VMOD(ISA310, VDIVUD, MO_64, NULL, do_divud)
->   TRANS_FLAGS2(ISA310, VDIVSQ, do_vx_helper, gen_helper_VDIVSQ)
->   TRANS_FLAGS2(ISA310, VDIVUQ, do_vx_helper, gen_helper_VDIVUQ)
->   
-> +static void do_dives_i32(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
-> +{
-> +    TCGv_i64 val1, val2;
-> +
-> +    val1 = tcg_temp_new_i64();
-> +    val2 = tcg_temp_new_i64();
-> +
-> +    tcg_gen_ext_i32_i64(val1, a);
-> +    tcg_gen_ext_i32_i64(val2, b);
-> +
-> +    /* (a << 32)/b */
-> +    tcg_gen_shli_i64(val1, val1, 32);
-> +    tcg_gen_div_i64(val1, val1, val2);
-> +
-> +    /* if quotient doesn't fit in 32 bits the result is undefined */
-> +    tcg_gen_extrl_i64_i32(t, val1);
-> +
-> +    tcg_temp_free_i64(val1);
-> +    tcg_temp_free_i64(val2);
-> +}
-> +
-> +static void do_diveu_i32(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)
-> +{
-> +    TCGv_i64 val1, val2;
-> +
-> +    val1 = tcg_temp_new_i64();
-> +    val2 = tcg_temp_new_i64();
-> +
-> +    tcg_gen_extu_i32_i64(val1, a);
-> +    tcg_gen_extu_i32_i64(val2, b);
-> +
-> +    /* (a << 32)/b */
-> +    tcg_gen_shli_i64(val1, val1, 32);
-> +    tcg_gen_divu_i64(val1, val1, val2);
-> +
-> +    /* if quotient doesn't fit in 32 bits the result is undefined */
-> +    tcg_gen_extrl_i64_i32(t, val1);
-> +
-> +    tcg_temp_free_i64(val1);
-> +    tcg_temp_free_i64(val2);
-> +}
-> +
-> +DO_VDIV_VMOD(do_divesw, 32, do_dives_i32, true)
-> +DO_VDIV_VMOD(do_diveuw, 32, do_diveu_i32, false)
+Hi Drew,
 
-Oh, I see, you do have one more use for the full min/-1 treatment.
-It would still be nice if the macro were minimal and you use a callback.
+On 4/11/22 8:02 PM, Andrew Jones wrote:
+> On Mon, Apr 11, 2022 at 10:22:59AM +0100, Peter Maydell wrote:
+>> On Mon, 11 Apr 2022 at 07:59, Gavin Shan <gshan@redhat.com> wrote:
+>>>
+>>> There are two arrays for each CPU, to store the indexes and values of the
+>>> coprocessor registers. Currently, 8 bytes fixed storage space is reserved
+>>> for each coprocessor register. However, larger coprocessor registers have
+>>> been defined and exposed by KVM. Except SVE registers, no coprocessor
+>>> register exceeds 8 bytes in size. It doesn't mean large coprocessor registers
+>>> won't be exploited in future. For example, I'm looking into SDEI virtualization
+>>> support, which isn't merged into Linux upstream yet. I have plan to add
+>>> several coprocessor ("firmware pseudo") registers to assist the migration.
+>>
+>> So, can you give an example of coprocessor registers which are
+>> not 8 bytes in size? How are they accessed by the guest?
+>> If we need to support them then we need to support them, but this
+>> cover letter/series doesn't seem to me to provide enough detail
+>> to make the case that they really are necessary.
+>>
+>> Also, we support SVE today, and we don't have variable size
+>> coprocessor registers. Is there a bug here that we would be
+>> fixing ?
+> 
+> SVE registers are KVM_REG_SIZE_U2048 and KVM_REG_SIZE_U256 sized
+> registers. They work fine (just like the VFP registers which are
+> KVM_REG_SIZE_U128 sized). They work because they don't get stored in the
+> cpreg list. SVE and CORE (which includes VFP) registers are filtered
+> out by kvm_arm_reg_syncs_via_cpreg_list(). Since they're filtered
+> out they need to be handled specifically by kvm_arch_get/put_registers()
+> 
+> I asked Gavin to check if following the SVE pattern made sense for his
+> use case prior to sending this series, but I don't see the rationale for
+> not following the SVE pattern in this cover letter. Gavin, can you please
+> explain why following the SVE pattern doesn't work? Or, are you trying to
+> avoid adding an additional special case?
+> 
 
+Yes, SVE registers are special case. They're not synchronized through
+coprocessor register list as you mentioned. For SDEI, we mimic PSCI
+because both of them are firmware interfaces.
 
-r~
+PSCI's pseudo-registers are synchronized and migrated through the
+coprocessor register list. Besides, treating SDEI as additional
+special case should work, but more maintaining load will be introduced.
+We need separate functions to get/set SDEI's pseudo registers, like
+what we did for SVE.
+
+Thanks,
+Gavin
+
 
