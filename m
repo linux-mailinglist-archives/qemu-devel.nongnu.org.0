@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD1B4FD332
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 11:07:29 +0200 (CEST)
-Received: from localhost ([::1]:41688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C974FD345
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Apr 2022 11:24:43 +0200 (CEST)
+Received: from localhost ([::1]:52472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neCUi-0003Qc-9E
-	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 05:07:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49830)
+	id 1neClO-0004IZ-Df
+	for lists+qemu-devel@lfdr.de; Tue, 12 Apr 2022 05:24:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1neCRn-0002Vq-Uk
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 05:04:28 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:52290)
+ (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
+ id 1neChh-0002q8-6E
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 05:20:53 -0400
+Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:34447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1neCRl-0008SW-Ic
- for qemu-devel@nongnu.org; Tue, 12 Apr 2022 05:04:27 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 70CC121607;
- Tue, 12 Apr 2022 09:04:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649754261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yEg6BbvCpbICBMiwd0h01FS/ZdkFoB24BOMxG0+t258=;
- b=O4ZkPMOZdaGRIXx254cUwJYcfJMFUXnYUHi6bm4erH7Ls3qvlPCp1FXSY3V4gQC/gUncUM
- wVko9qWCqYO33OUu7MaUskV65owQiNIa45WvUmEN0r4aEVs/89n8p6uIPFZQVoCFUYEwrU
- k7YHRRk1JI1Lzk8aHvG2Ca/2VSQtAk4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649754261;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yEg6BbvCpbICBMiwd0h01FS/ZdkFoB24BOMxG0+t258=;
- b=q8o8VPjh5eTBSmra3LCn7JqdIGlQ8r6yasLZYePrra6MEzmKU+Uwt0iTEyGoZa4Vr6M6bH
- t14RVd9gp7IH1fBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 30CD013780;
- Tue, 12 Apr 2022 09:04:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GVm3CZVAVWIyIwAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 12 Apr 2022 09:04:21 +0000
-Subject: Re: [libvirt RFC] virFile: new VIR_FILE_WRAPPER_BIG_PIPE to improve
- performance
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <737974fa-905c-d171-05b0-ec4df42bc762@suse.de>
- <Yj2nh1LRZ54BXuds@redhat.com> <47af35ec-2ca8-26ae-f4e4-d81f18f2a05b@suse.de>
- <YkFycBMT0HsYUfJr@redhat.com> <c5924d0a-78e4-29ed-e856-e8ab823bc560@suse.de>
- <Ykv/TLS8zgwh/ros@work-vm> <9e990c54-746f-eb97-1e6a-1ce298d511b9@suse.de>
- <Yk7s3CSYTKiZPPON@work-vm> <33b6e8a9-5fe1-146c-3a0c-f5d8e9367ce8@suse.de>
- <b8ab68e2-315f-d026-21b1-b310a818dbfd@suse.de> <YlR5DYFHKztZpU8c@work-vm>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <9e9a8ed1-d45b-e023-2973-d5142365da90@suse.de>
-Date: Tue, 12 Apr 2022 11:04:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <itaru.kitayama@gmail.com>)
+ id 1neChf-0004OW-CU
+ for qemu-devel@nongnu.org; Tue, 12 Apr 2022 05:20:52 -0400
+Received: by mail-vs1-xe29.google.com with SMTP id l21so12419029vsm.1
+ for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 02:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MoPmf7cPGlM7TqI4eCtqsvicpCw8UZyJFbAROideNE4=;
+ b=Sp9JAZRcbE4ATtjrjt8lD1NqCOxuqn1xawAu1my30LCWVHWOTq88PebfqQTfUumN1W
+ Yw6vauVZXQonBk4gucBME9jVNbLIcnkEnNDcDNO4WCHiefyi9m5GVQgUTOGROKgO5/WH
+ BU1eKcmteAgCKCkKgeEIdOjYRD87sYNshvPuKBZT8Nc31gUYOCQBMlu8PTOOEWdFoTAV
+ W/fhlpPFF6w8ipVDyK0lKp3QG3P+HX6O8OdaDInOhzA3bx9d8VWTOQcD3CLJccqX8xNl
+ iY3tIYClYd/PHgXZcExWaeIPpLWjD7Rs/R3mdKi3byIcXjXBFjMhQgG0F5Y9ydOAUW8q
+ RXaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MoPmf7cPGlM7TqI4eCtqsvicpCw8UZyJFbAROideNE4=;
+ b=hv2f9s44F3Jj+Yz2JjmtRq84WSjByZr9tZ6B40/ZThDuxM4xcAcfto2MEBNB5MIJyX
+ qJxb15d1XzIkAeSRi+Gb1gCKJ9pTmDhi0ZFqgAqNgFdkh6xUoy1eFYBN0G9aGuYeVuVH
+ EJFRsv/M04f2lKQFn9sK5cd+TIK+U2IAhdEQW52PErSYRppikFGS0ROhwg3W3A7+j8Uu
+ f0Dfc553X0YFqiAljzcH8ZO5VfZ4Xb4Kg+FMPZGc5oElUfoQgKK8zJI8zCgyaalEpVMY
+ xyNTdmDwntIWwNkV4lhiNj97CtynTJ/1VIVWv7nscCcJ+5dSYl8YVVFvR59CL7HAmPZ1
+ vgIQ==
+X-Gm-Message-State: AOAM533Lz/PzlNN7EmiLNZ8fqooLuLjTQ0INBgcOXDvcERyLXceowazu
+ 4FtTLwVNFI6hXGOG/fY585Opg81LkVXNJNMao58=
+X-Google-Smtp-Source: ABdhPJzuk64VGJ46WyNfbd1LFVOQ0fzwxJsXJpXXZko5PrzEvLgHFKal8SIXpZBheEhxPUEZ2Miq0CZ2XDOk0rI1bPw=
+X-Received: by 2002:a67:fd0b:0:b0:31b:e36d:31b1 with SMTP id
+ f11-20020a67fd0b000000b0031be36d31b1mr11244813vsr.44.1649755249937; Tue, 12
+ Apr 2022 02:20:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YlR5DYFHKztZpU8c@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <CANW9uyuNovUDh7EpRni_f_pQBZv4g4E2QFWxaNW6amh9h-yanw@mail.gmail.com>
+ <CAFEAcA9UsOqNhCu+o71YCMr6Og5as7Ht+LD3XLiujkKjSygc1g@mail.gmail.com>
+ <CANW9uyt5UDNrygX_TS9FBDb5pJdJLkHAtHqDFEoyg1U0Mgz0Ug@mail.gmail.com>
+ <87a6cr1w7x.fsf@linaro.org>
+In-Reply-To: <87a6cr1w7x.fsf@linaro.org>
+From: Itaru Kitayama <itaru.kitayama@gmail.com>
+Date: Tue, 12 Apr 2022 18:20:39 +0900
+Message-ID: <CANW9uytZ9h2SYvV9fZ54DyP9C=nt=JhJaq_xAKGzL6Pwn69Pug@mail.gmail.com>
+Subject: Re: Procedures adding new CPUs in sbsa-ref
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000a38f4505dc71934d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
+ envelope-from=itaru.kitayama@gmail.com; helo=mail-vs1-xe29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,210 +80,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, andrea.righi@canonical.com,
- Jiri Denemark <jdenemar@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>,
+ qemu-devel@nongnu.org, Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/11/22 8:53 PM, Dr. David Alan Gilbert wrote:
-> * Claudio Fontana (cfontana@suse.de) wrote:
->> On 4/7/22 3:57 PM, Claudio Fontana wrote:
->>> On 4/7/22 3:53 PM, Dr. David Alan Gilbert wrote:
->>>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>>> On 4/5/22 10:35 AM, Dr. David Alan Gilbert wrote:
->>>>>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>>>>> On 3/28/22 10:31 AM, Daniel P. Berrangé wrote:
->>>>>>>> On Sat, Mar 26, 2022 at 04:49:46PM +0100, Claudio Fontana wrote:
->>>>>>>>> On 3/25/22 12:29 PM, Daniel P. Berrangé wrote:
->>>>>>>>>> On Fri, Mar 18, 2022 at 02:34:29PM +0100, Claudio Fontana wrote:
->>>>>>>>>>> On 3/17/22 4:03 PM, Dr. David Alan Gilbert wrote:
->>>>>>>>>>>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>>>>>>>>>>> On 3/17/22 2:41 PM, Claudio Fontana wrote:
->>>>>>>>>>>>>> On 3/17/22 11:25 AM, Daniel P. Berrangé wrote:
->>>>>>>>>>>>>>> On Thu, Mar 17, 2022 at 11:12:11AM +0100, Claudio Fontana wrote:
->>>>>>>>>>>>>>>> On 3/16/22 1:17 PM, Claudio Fontana wrote:
->>>>>>>>>>>>>>>>> On 3/14/22 6:48 PM, Daniel P. Berrangé wrote:
->>>>>>>>>>>>>>>>>> On Mon, Mar 14, 2022 at 06:38:31PM +0100, Claudio Fontana wrote:
->>>>>>>>>>>>>>>>>>> On 3/14/22 6:17 PM, Daniel P. Berrangé wrote:
->>>>>>>>>>>>>>>>>>>> On Sat, Mar 12, 2022 at 05:30:01PM +0100, Claudio Fontana wrote:
->>>>>>>>>>>>>>>>>>>>> the first user is the qemu driver,
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> virsh save/resume would slow to a crawl with a default pipe size (64k).
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> This improves the situation by 400%.
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> Going through io_helper still seems to incur in some penalty (~15%-ish)
->>>>>>>>>>>>>>>>>>>>> compared with direct qemu migration to a nc socket to a file.
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>>>>>>>>>>>>>>>>> ---
->>>>>>>>>>>>>>>>>>>>>  src/qemu/qemu_driver.c    |  6 +++---
->>>>>>>>>>>>>>>>>>>>>  src/qemu/qemu_saveimage.c | 11 ++++++-----
->>>>>>>>>>>>>>>>>>>>>  src/util/virfile.c        | 12 ++++++++++++
->>>>>>>>>>>>>>>>>>>>>  src/util/virfile.h        |  1 +
->>>>>>>>>>>>>>>>>>>>>  4 files changed, 22 insertions(+), 8 deletions(-)
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> Hello, I initially thought this to be a qemu performance issue,
->>>>>>>>>>>>>>>>>>>>> so you can find the discussion about this in qemu-devel:
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> "Re: bad virsh save /dev/null performance (600 MiB/s max)"
->>>>>>>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>>>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03142.html
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> Current results show these experimental averages maximum throughput
->>>>>>>>>>>>>>>> migrating to /dev/null per each FdWrapper Pipe Size (as per QEMU QMP
->>>>>>>>>>>>>>>> "query-migrate", tests repeated 5 times for each).
->>>>>>>>>>>>>>>> VM Size is 60G, most of the memory effectively touched before migration,
->>>>>>>>>>>>>>>> through user application allocating and touching all memory with
->>>>>>>>>>>>>>>> pseudorandom data.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> 64K:     5200 Mbps (current situation)
->>>>>>>>>>>>>>>> 128K:    5800 Mbps
->>>>>>>>>>>>>>>> 256K:   20900 Mbps
->>>>>>>>>>>>>>>> 512K:   21600 Mbps
->>>>>>>>>>>>>>>> 1M:     22800 Mbps
->>>>>>>>>>>>>>>> 2M:     22800 Mbps
->>>>>>>>>>>>>>>> 4M:     22400 Mbps
->>>>>>>>>>>>>>>> 8M:     22500 Mbps
->>>>>>>>>>>>>>>> 16M:    22800 Mbps
->>>>>>>>>>>>>>>> 32M:    22900 Mbps
->>>>>>>>>>>>>>>> 64M:    22900 Mbps
->>>>>>>>>>>>>>>> 128M:   22800 Mbps
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> This above is the throughput out of patched libvirt with multiple Pipe Sizes for the FDWrapper.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Ok, its bouncing around with noise after 1 MB. So I'd suggest that
->>>>>>>>>>>>>>> libvirt attempt to raise the pipe limit to 1 MB by default, but
->>>>>>>>>>>>>>> not try to go higher.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> As for the theoretical limit for the libvirt architecture,
->>>>>>>>>>>>>>>> I ran a qemu migration directly issuing the appropriate QMP
->>>>>>>>>>>>>>>> commands, setting the same migration parameters as per libvirt,
->>>>>>>>>>>>>>>> and then migrating to a socket netcatted to /dev/null via
->>>>>>>>>>>>>>>> {"execute": "migrate", "arguments": { "uri", "unix:///tmp/netcat.sock" } } :
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> QMP:    37000 Mbps
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> So although the Pipe size improves things (in particular the
->>>>>>>>>>>>>>>> large jump is for the 256K size, although 1M seems a very good value),
->>>>>>>>>>>>>>>> there is still a second bottleneck in there somewhere that
->>>>>>>>>>>>>>>> accounts for a loss of ~14200 Mbps in throughput.
->>>>>>>>>>>>>
->>>>>>>>>>>>>
->>>>>>>>>>>>> Interesting addition: I tested quickly on a system with faster cpus and larger VM sizes, up to 200GB,
->>>>>>>>>>>>> and the difference in throughput libvirt vs qemu is basically the same ~14500 Mbps.
->>>>>>>>>>>>>
->>>>>>>>>>>>> ~50000 mbps qemu to netcat socket to /dev/null
->>>>>>>>>>>>> ~35500 mbps virsh save to /dev/null
->>>>>>>>>>>>>
->>>>>>>>>>>>> Seems it is not proportional to cpu speed by the looks of it (not a totally fair comparison because the VM sizes are different).
->>>>>>>>>>>>
->>>>>>>>>>>> It might be closer to RAM or cache bandwidth limited though; for an extra copy.
->>>>>>>>>>>
->>>>>>>>>>> I was thinking about sendfile(2) in iohelper, but that probably
->>>>>>>>>>> can't work as the input fd is a socket, I am getting EINVAL.
->>>>>>>>>>
->>>>>>>>>> Yep, sendfile() requires the input to be a mmapable FD,
->>>>>>>>>> and the output to be a socket.
->>>>>>>>>>
->>>>>>>>>> Try splice() instead  which merely requires 1 end to be a
->>>>>>>>>> pipe, and the other end can be any FD afaik.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> I did try splice(), but performance is worse by around 500%.
->>>>>>>>
->>>>>>>> Hmm, that's certainly unexpected !
->>>>>>>>
->>>>>>>>> Any ideas welcome,
->>>>>>>>
->>>>>>>> I learnt there is also a newer  copy_file_range call, not sure if that's
->>>>>>>> any better.
->>>>>>>>
->>>>>>>> You passed len as 1 MB, I wonder if passing MAXINT is viable ? We just
->>>>>>>> want to copy everything IIRC.
->>>>>>>>
->>>>>>>> With regards,
->>>>>>>> Daniel
->>>>>>>>
->>>>>>>
->>>>>>> Crazy idea, would trying to use the parallel migration concept for migrating to/from a file make any sense?
->>>>>>>
->>>>>>> Not sure if applying the qemu multifd implementation of this would apply, maybe it could be given another implementation for "toFile", trying to use more than one cpu to do the transfer?
->>>>>>
->>>>>> I can't see a way that would help; well, I could if you could
->>>>>> somehow have multiple io helper threads that dealt with it.
->>>>>
->>>>> The first issue I encounter here for both the "virsh save" and "virsh restore" scenarios is that libvirt uses fd: migration, not unix: migration.
->>>>> QEMU supports multifd for unix:, tcp:, vsock: as far as I can see.
->>>>>
->>>>> Current save procedure in QMP in short:
->>>>>
->>>>> {"execute":"migrate-set-capabilities", ...}
->>>>> {"execute":"migrate-set-parameters", ...}
->>>>> {"execute":"getfd","arguments":{"fdname":"migrate"}, ...} fd=26
->>>>> QEMU_MONITOR_IO_SEND_FD: fd=26
->>>>> {"execute":"migrate","arguments":{"uri":"fd:migrate"}, ...}
->>>>>
->>>>>
->>>>> Current restore procedure in QMP in short:
->>>>>
->>>>> (start QEMU)
->>>>> {"execute":"migrate-incoming","arguments":{"uri":"fd:21"}, ...}
->>>>>
->>>>>
->>>>> Should I investigate changing libvirt to use unix: for save/restore?
->>>>> Or should I look into changing qemu to somehow accept fd: for multifd, meaning I guess providing multiple fd: uris in the migrate command?
->>>>
->>>> So I'm not sure this is the right direction; i.e. if multifd is the
->>>> right answer to your problem.
->>>
->>> Of course, just exploring the space.
->>
->>
->> I have some progress on multifd if we can call it so:
->>
->> I wrote a simple program that sets up a unix socket,
->> listens for N_CHANNELS + 1 connections there, sets up multifd parameters, and runs the migration,
->> spawning threads for each incoming connection from QEMU, creating a file to use to store the migration data coming from qemu (optionally using O_DIRECT).
->>
->> This program plays the role of a "iohelper"-like thing, basically just copying things over, making O_DIRECT possible.
->>
->> I save the data streams to multiple files; this works, for the actual results though I will have to migrate to a better hardware setup (enterprise nvme + fast cpu, under various memory configurations).
->>
->> The intuition would be that if we have enough cpus to spare (no libvirt in the picture as mentioned for now),
->> say, the same 4 cpus already allocated for a certain VM to run, we can use those cpus (now "free" since we suspended the guest)
->> to compress each multifd channel (multifd-zstd? multifd-zlib?), thus reducing the amount of stuff that needs to go to disk, making use of those cpus.
-> 
-> Yes possibly; you have an advantage over ormal migration, in that your
-> vCPUs are stopped.
+--000000000000a38f4505dc71934d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Indeed, it seems to help immensely in the save vm case, cutting on the full transfer cost (including sync).
-In my experiment though the data is 90G generated via random() so it likely contains too many repeated patterns,
-so the effectiveness will likely depend a lot on how much we can compress.
+On Tue, Apr 12, 2022 at 0:22 Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
 
-> 
->> Work in progress...
->>
->>>
->>>> However, I think the qemu code probably really really wants to be a
->>>> socket.
->>>
->>> Understood, I'll try to bend libvirt to use unix:/// and see how far I get,
->>>
->>> Thanks,
->>>
->>> Claudio
->>>
->>>>
->>>> Dave
->>>>
->>>>>
->>>>> Thank you for your help,
->>>>>
->>>>> Claudio
->>>>>
->>>
->>
+>
+> Itaru Kitayama <itaru.kitayama@gmail.com> writes:
+>
+> > Good point; however per the SBSA specification, DEN0029F, there's the
+> > PE architecture requirement at
+> > each level from 1 to 7, so now I am wondering whether supporting
+> > cortex-a57 and a72 are good enough to
+> > set up a fully SBSA level 7 compliant "board" in QMEU.
+>
+> Not currently - we are working on cortex-a76/neoverse-n1 which will
+> provide a v8.2 baseline for sbsa-ref. See:
+>
+>   Subject: [PATCH 00/16] target/arm: Implement features Debugv8p4, RAS,
+> IESB
+>   Date: Fri,  8 Apr 2022 17:07:26 -0700
+>   Message-Id: <20220409000742.293691-1-richard.henderson@linaro.org>
+>
+> and:
+>
+>   Subject: [PATCH 0/7] target/arm: More trivial features, A76, N1
+>   Date: Sat,  9 Apr 2022 22:57:18 -0700
+>   Message-Id: <20220410055725.380246-1-richard.henderson@linaro.org>
+>
+> which are stepping stones to those concrete models. Please review if you
+> can.
 
+
+Sure, Shuichi and I will review Richard=E2=80=99s series and give feedback =
+if
+there=E2=80=99s any.
+
+Itaru.
+
+
+>
+> > Also, the 'max'
+> > is there, but does not boot.
+>
+> Generally the firmware has to be built with the knowledge of what system
+> it is running on so will generally fall over if run on a different CPU
+> feature set. However I believe Leif had a firmware branch which attempts
+> to work with -cpu max by doing proper ID register probing before using
+> features. However -cpu max is very a moving feast which is why there is
+> a push for the concrete CPU types.
+>
+> I believe there is a proposal for a versioned sbsa-ref model which will
+> step of the default CPU for higher levels.
+>
+> >
+> > Itaru.
+> >
+> > On Sat, Apr 9, 2022 at 12:04 AM Peter Maydell <peter.maydell@linaro.org=
+>
+> wrote:
+> >>
+> >> On Fri, 8 Apr 2022 at 15:59, Itaru Kitayama <itaru.kitayama@gmail.com>
+> wrote:
+> >> > I'd like to add a64fx cpu to the sbsa-ref board, if there's a quick
+> and dirty
+> >> > way of completing that, advice from the  maintainers is greatly
+> appreciated.
+> >>
+> >> I have cc'd the sbsa-ref maintainers (as listed in the MAINTAINERS
+> file).
+> >>
+> >> However, I'm not sure why you want to add the a64fx CPU to this
+> >> board model? The sbsa-ref board is intended as a platform for
+> >> developing firmware that runs on Server Base System Architecture
+> >> hardware, so it deliberately doesn't have support for every CPU
+> >> type QEMU implements.
+> >>
+> >> thanks
+> >> -- PMM
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
+
+--000000000000a38f4505dc71934d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>On Tue, Apr 12, 2022 at 0:22 Alex Benn=C3=A9e &lt;<a href=3D"mailto:al=
+ex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br></div><div><=
+div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Itaru Kitayama &lt;<a href=3D"mailto:itaru.kitayama@gmail.com" target=3D"_b=
+lank">itaru.kitayama@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Good point; however per the SBSA specification, DEN0029F, there&#39;s =
+the<br>
+&gt; PE architecture requirement at<br>
+&gt; each level from 1 to 7, so now I am wondering whether supporting<br>
+&gt; cortex-a57 and a72 are good enough to<br>
+&gt; set up a fully SBSA level 7 compliant &quot;board&quot; in QMEU.<br>
+<br>
+Not currently - we are working on cortex-a76/neoverse-n1 which will<br>
+provide a v8.2 baseline for sbsa-ref. See:<br>
+<br>
+=C2=A0 Subject: [PATCH 00/16] target/arm: Implement features Debugv8p4, RAS=
+, IESB<br>
+=C2=A0 Date: Fri,=C2=A0 8 Apr 2022 17:07:26 -0700<br>
+=C2=A0 Message-Id: &lt;<a href=3D"mailto:20220409000742.293691-1-richard.he=
+nderson@linaro.org" target=3D"_blank">20220409000742.293691-1-richard.hende=
+rson@linaro.org</a>&gt;<br>
+<br>
+and:<br>
+<br>
+=C2=A0 Subject: [PATCH 0/7] target/arm: More trivial features, A76, N1<br>
+=C2=A0 Date: Sat,=C2=A0 9 Apr 2022 22:57:18 -0700<br>
+=C2=A0 Message-Id: &lt;<a href=3D"mailto:20220410055725.380246-1-richard.he=
+nderson@linaro.org" target=3D"_blank">20220410055725.380246-1-richard.hende=
+rson@linaro.org</a>&gt;<br>
+<br>
+which are stepping stones to those concrete models. Please review if you<br=
+>
+can. </blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Sure, Shuic=
+hi and I will review Richard=E2=80=99s series and give feedback if there=E2=
+=80=99s any.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Itaru.</div=
+><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><b=
+r>
+<br>
+&gt; Also, the &#39;max&#39;<br>
+&gt; is there, but does not boot.<br>
+<br>
+Generally the firmware has to be built with the knowledge of what system<br=
+>
+it is running on so will generally fall over if run on a different CPU<br>
+feature set. However I believe Leif had a firmware branch which attempts<br=
+>
+to work with -cpu max by doing proper ID register probing before using<br>
+features. However -cpu max is very a moving feast which is why there is<br>
+a push for the concrete CPU types.<br>
+<br>
+I believe there is a proposal for a versioned sbsa-ref model which will<br>
+step of the default CPU for higher levels.<br>
+<br>
+&gt;<br>
+&gt; Itaru.<br>
+&gt;<br>
+&gt; On Sat, Apr 9, 2022 at 12:04 AM Peter Maydell &lt;<a href=3D"mailto:pe=
+ter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; =
+wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Fri, 8 Apr 2022 at 15:59, Itaru Kitayama &lt;<a href=3D"mailto:=
+itaru.kitayama@gmail.com" target=3D"_blank">itaru.kitayama@gmail.com</a>&gt=
+; wrote:<br>
+&gt;&gt; &gt; I&#39;d like to add a64fx cpu to the sbsa-ref board, if there=
+&#39;s a quick and dirty<br>
+&gt;&gt; &gt; way of completing that, advice from the=C2=A0 maintainers is =
+greatly appreciated.<br>
+&gt;&gt;<br>
+&gt;&gt; I have cc&#39;d the sbsa-ref maintainers (as listed in the MAINTAI=
+NERS file).<br>
+&gt;&gt;<br>
+&gt;&gt; However, I&#39;m not sure why you want to add the a64fx CPU to thi=
+s<br>
+&gt;&gt; board model? The sbsa-ref board is intended as a platform for<br>
+&gt;&gt; developing firmware that runs on Server Base System Architecture<b=
+r>
+&gt;&gt; hardware, so it deliberately doesn&#39;t have support for every CP=
+U<br>
+&gt;&gt; type QEMU implements.<br>
+&gt;&gt;<br>
+&gt;&gt; thanks<br>
+&gt;&gt; -- PMM<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div></div>
+
+--000000000000a38f4505dc71934d--
 
