@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E204500265
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 01:16:55 +0200 (CEST)
-Received: from localhost ([::1]:50620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC295002C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 01:44:10 +0200 (CEST)
+Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nemEH-0003nX-QD
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 19:16:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58858)
+	id 1nemee-0002w9-SL
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 19:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
- id 1nemCd-00037L-0m; Wed, 13 Apr 2022 19:15:11 -0400
-Received: from smtp-relay-canonical-1.canonical.com ([185.125.188.121]:57628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
- id 1nemCb-0006Ln-6p; Wed, 13 Apr 2022 19:15:10 -0400
-Received: from LT2ubnt.fritz.box (ip-088-152-144-107.um26.pools.vodafone-ip.de
- [88.152.144.107])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 17FF23F11D; 
- Wed, 13 Apr 2022 23:15:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1649891703;
- bh=fgJytORPX/by9LBapE5V9ok+3BZR1lC/hRPbFADFbUk=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
- b=XBRlCNQZyi3I/MrvjOt4ZLOxEVjOdqxCL6TxQ/u4bSbU/lx3ST7S9Tu/kBT/xdvLP
- W7z4hh8H/6/9rNYR8Nj8KaZKB6SHUwE+m9EAsb5Hzs22CkdqOrjARkBlH99S3iFq+d
- KY8hCClnHAvdlddwehrf3fKZQIKW8FeYi8Hv6e+/YR5Us54DwPI+rkTu9upeFhVKKf
- 7oCUOW/o3kNQvOVZ7nuheHbiRPl8TF2cFmIAFgcJWx64Qqt5CA3A1kKdr2mckKNr/O
- 86cQVURMmshOUeP3zln4GBrrR2Fh8sTu/A+re9WWBTPBjfjlY81XAiEo1BrCxIHCvN
- 0h5EMxrqybW+w==
-From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] hw/arm/virt: impact of gic-version on max CPUs
-Date: Thu, 14 Apr 2022 01:14:56 +0200
-Message-Id: <20220413231456.35811-1-heinrich.schuchardt@canonical.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nemd8-0001uF-1s; Wed, 13 Apr 2022 19:42:34 -0400
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:44860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nemd6-0001ow-86; Wed, 13 Apr 2022 19:42:33 -0400
+Received: by mail-il1-x12f.google.com with SMTP id 14so2099605ily.11;
+ Wed, 13 Apr 2022 16:42:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l3Z3l5JoIGFNp9pNEy0hu4q1r/gQE7WZEhERrgz+loM=;
+ b=pdRPEj5H2ZJMdjU0qpk90REyf9cA4EU+KFleMgS2840RsrJnbhk4C1QiNw7XkEGUhw
+ qULIevl1sa0YNdCVI9+moT1rTFscUFsG1v/CHy9me5iK1fep6vpYIrViMS8A1v4g5uqn
+ /R883mhq8aDHVALJ1pDAVcDb9VylMm7HzH86laOB1EGC0UOscuKPv5S8PzC41uGKUksh
+ lkpChoznt8hHQMyKFjMkjNgtXAmEh0BElE8nNFy0taM7uLrZSmPNbSbo6TxTNen3IijA
+ ZPUztKVSqDnkm1k0J58yQQ+fQrYMtC/RmYGCPiUXqIvmINvtOnat/CFulC3jvRcXaDSp
+ nkjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l3Z3l5JoIGFNp9pNEy0hu4q1r/gQE7WZEhERrgz+loM=;
+ b=RGv1kZ9KiiuBnLgbQdmJfW959Rad9kTyo7Kqw6V0nhugEQbewJy95gJCvlBDWFKATX
+ FMj03uMaemw4pe6erttHOUOi/kH5sI7eKO75AMKo+8RlxhyTak+I1dszb8mMa8pzr0V8
+ ea0FVxF4sKh+jaU0BTrqUQvlHoDferYaII00xSChHlgufvRyRyep2iKBYvlA8U4Qnqe7
+ IBjzcLf9pn/A7dI+hDf8jb52G/sm8c4S5g7HsH+zmFy6n0J0tC0Oobbhy/43tiRt6P9V
+ dYGld6uE1kHchxMVOcZlMqHNpE1CW18I482rNs7MIC6IH9MN4Sw5wpHGacZ5TyGkujw8
+ MYIg==
+X-Gm-Message-State: AOAM531RHsxjvX3rH+b6GmfhrQko5U1d2Y62OeaRV7e+g9W05kHg3Tp4
+ yjQ4PXxHNsGvugkauoHtlQ7p4NEwfHXQrfWZM8A=
+X-Google-Smtp-Source: ABdhPJyLx8g4v6J/ByBtKgNxyn0Cxpr8ySTMdEpuRtqlL6BeD8Q1FVYbaHWbzlJ/19mK25ESESrovd0jYPJbjLswGyQ=
+X-Received: by 2002:a05:6e02:1645:b0:2cb:dff3:86d6 with SMTP id
+ v5-20020a056e02164500b002cbdff386d6mr16044ilu.260.1649893350795; Wed, 13 Apr
+ 2022 16:42:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=185.125.188.121;
- envelope-from=heinrich.schuchardt@canonical.com;
- helo=smtp-relay-canonical-1.canonical.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <rq81o86n-17ps-92no-p65o-79o88476266@syhkavp.arg>
+In-Reply-To: <rq81o86n-17ps-92no-p65o-79o88476266@syhkavp.arg>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 14 Apr 2022 09:42:04 +1000
+Message-ID: <CAKmqyKMshHikPyf55nVMZdfKX-=VZQnj+Szmr3LXXL4CXiKGcA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv/pmp: fix NAPOT range computation overflow
+To: Nicolas Pitre <nico@fluxnic.net>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,35 +76,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Describe that the gic-version influences the maximum number of CPUs.
+On Sat, Apr 9, 2022 at 2:25 AM Nicolas Pitre <nico@fluxnic.net> wrote:
+>
+> There is an overflow with the current code where a pmpaddr value of
+> 0x1fffffff is decoded as sa=0 and ea=0 whereas it should be sa=0 and
+> ea=0xffffffff.
+>
+> Fix that by simplifying the computation. There is in fact no need for
+> ctz64() nor special case for -1 to achieve proper results.
+>
+> Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
 
-Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
----
- docs/system/arm/virt.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 1544632b67..1af3f6a0a8 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -96,9 +96,9 @@ gic-version
-   Valid values are:
- 
-   ``2``
--    GICv2
-+    GICv2 - This limits the number of CPUs to 8.
-   ``3``
--    GICv3
-+    GICv3 - This allows up to 512 CPUs.
-   ``host``
-     Use the same GIC version the host provides, when using KVM
-   ``max``
--- 
-2.34.1
+Alistair
 
+> ---
+>
+> This is in fact the same patch I posted yesterday but turns out its
+> scope is far more important than I initially thought.
+>
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index 81b61bb65c..151da3fa08 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -141,17 +141,9 @@ static void pmp_decode_napot(target_ulong a, target_ulong *sa, target_ulong *ea)
+>         0111...1111   2^(XLEN+2)-byte NAPOT range
+>         1111...1111   Reserved
+>      */
+> -    if (a == -1) {
+> -        *sa = 0u;
+> -        *ea = -1;
+> -        return;
+> -    } else {
+> -        target_ulong t1 = ctz64(~a);
+> -        target_ulong base = (a & ~(((target_ulong)1 << t1) - 1)) << 2;
+> -        target_ulong range = ((target_ulong)1 << (t1 + 3)) - 1;
+> -        *sa = base;
+> -        *ea = base + range;
+> -    }
+> +    a = (a << 2) | 0x3;
+> +    *sa = a & (a + 1);
+> +    *ea = a | (a + 1);
+>  }
+>
+>  void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index)
+>
 
