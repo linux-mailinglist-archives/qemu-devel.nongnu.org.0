@@ -2,57 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19EAF4FF9D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 17:15:11 +0200 (CEST)
-Received: from localhost ([::1]:57128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52E84FFA07
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 17:24:37 +0200 (CEST)
+Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neei4-00009w-Q6
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 11:15:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59338)
+	id 1neerE-0007GJ-Hd
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 11:24:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qtxuning1999@sjtu.edu.cn>)
- id 1neeWr-0004vi-2I; Wed, 13 Apr 2022 11:03:33 -0400
-Received: from smtp178.sjtu.edu.cn ([202.120.2.178]:44712)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1neehH-0002QS-BG
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 11:14:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qtxuning1999@sjtu.edu.cn>)
- id 1neeWn-0003BY-Eq; Wed, 13 Apr 2022 11:03:32 -0400
-Received: from mta03.sjtu.edu.cn (mta03.sjtu.edu.cn [202.121.179.7])
- by smtp178.sjtu.edu.cn (Postfix) with ESMTPS id 1407F1008CBC2;
- Wed, 13 Apr 2022 23:03:09 +0800 (CST)
-Received: from localhost (localhost [127.0.0.1])
- by mta03.sjtu.edu.cn (Postfix) with ESMTP id EBC0210DC2E;
- Wed, 13 Apr 2022 23:03:08 +0800 (CST)
-X-Virus-Scanned: amavisd-new at mta03.sjtu.edu.cn
-Received: from mta03.sjtu.edu.cn ([127.0.0.1])
- by localhost (mta03.sjtu.edu.cn [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id Br8kdR2Jze1m; Wed, 13 Apr 2022 23:03:08 +0800 (CST)
-Received: from mstore105.sjtu.edu.cn (unknown [10.118.0.105])
- by mta03.sjtu.edu.cn (Postfix) with ESMTP id C812510DA31;
- Wed, 13 Apr 2022 23:03:08 +0800 (CST)
-Date: Wed, 13 Apr 2022 23:03:08 +0800 (CST)
-From: Guo Zhi <qtxuning1999@sjtu.edu.cn>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <1629847184.11451847.1649862188392.JavaMail.zimbra@sjtu.edu.cn>
-In-Reply-To: <5b961174-4863-7e34-fce8-e910d80603ec@gmail.com>
-References: <897919466.10558377.1649695044864.JavaMail.zimbra@sjtu.edu.cn>
- <20220412021240.2080218-1-qtxuning1999@sjtu.edu.cn>
- <5b961174-4863-7e34-fce8-e910d80603ec@gmail.com>
-Subject: Re: [PATCH v2] hw/ppc: change indentation to spaces from TABs
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1neehE-0004qy-2g
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 11:14:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649862855;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mlbb+3NPsf0UrIX8UIxhAwW7IxhNAgaiqh0yQXrf/IQ=;
+ b=fA43DA0qmJmRAEzdW2y5xdo7aE+C9pSTQgHZ38BTdjvdw+gzitulwA7Er5USmEXnzWmCzV
+ jVrb6vmLvw6FnrZIhDwnqLfzv77txiC4v/F7ErlQVAazOLoGr2iqj37L6T7ljDx0V8jQe4
+ VXlE3JYkZVyblKPoSoZCkAdK4GVVbH8=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-104-u8IsXheRMuWPKeWeb5QcYw-1; Wed, 13 Apr 2022 11:14:13 -0400
+X-MC-Unique: u8IsXheRMuWPKeWeb5QcYw-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ jr12-20020a0562142a8c00b0044429017bcbso1969662qvb.20
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 08:14:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mlbb+3NPsf0UrIX8UIxhAwW7IxhNAgaiqh0yQXrf/IQ=;
+ b=xZdQsMG2yDyBqYXWSOJVllqVFvPFbf2FuKc3xUN2MY3YxeWdc31AfiaZEFLDR3ltLt
+ D6Q6aU6Lqb1PW8eeUSu0GU92vkkhp3kgQ1DV/OMEfAn/yxjXCC0yNd/fPSbqOU3FUTmO
+ XWu3XTNfcRUyvOS2aZjpo4FaYHSl/BaJ7myt5QaDBS4+WdhOYdKJ2vONd18HQBJiADma
+ EnIwtxT5/D+XwUtVDG9vgvhLHtYRKS0J+weHHIXqZ/+qu6881RYmw3N6hB3scXrv/yVJ
+ 50nlde2xe5PCkJDx2sX+dRtYbmSdEd4rzMGfqRW8aN5aaJt9V7hhwRJ0Uc93Y3utMpNL
+ cm5Q==
+X-Gm-Message-State: AOAM533gwkCmPPKXzsxeaDSOeqe/Vd0XR5cg2HL4fyThecClyLJwCt7C
+ SEamOL97zvegv0ajMeGo9giPJoQRgt3S0E7geaiXT1WwBja0y+b8boWHo7CtiKbytxKXLx7WAzW
+ 5puH12bPiNoSsdx8=
+X-Received: by 2002:a05:620a:d87:b0:67b:3105:4f7f with SMTP id
+ q7-20020a05620a0d8700b0067b31054f7fmr7280380qkl.230.1649862853016; 
+ Wed, 13 Apr 2022 08:14:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLIWwAK+YjfqdAtBYa/OZacEm+LAw57yX4RhadceRCP/8jubZ63nW2PMsVt/UUxZChlayy7A==
+X-Received: by 2002:a05:620a:d87:b0:67b:3105:4f7f with SMTP id
+ q7-20020a05620a0d8700b0067b31054f7fmr7280347qkl.230.1649862852739; 
+ Wed, 13 Apr 2022 08:14:12 -0700 (PDT)
+Received: from [192.168.149.183]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ w9-20020a05620a444900b00699b2ba4cd1sm23161996qkp.56.2022.04.13.08.14.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Apr 2022 08:14:12 -0700 (PDT)
+Message-ID: <5d34e709-fe59-70df-2723-49f252aaed78@redhat.com>
+Date: Wed, 13 Apr 2022 17:14:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [218.193.191.26]
-X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - GC100 (Mac)/8.8.15_GA_3928)
-Thread-Topic: hw/ppc: change indentation to spaces from TABs
-Thread-Index: xDhx7ukzv6GwXY0bNlZYKUwIY/kkUQ==
-Received-SPF: pass client-ip=202.120.2.178;
- envelope-from=qtxuning1999@sjtu.edu.cn; helo=smtp178.sjtu.edu.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [RFC PATCH 0/5] Removal of AioContext lock, bs->parents and
+ ->children: proof of concept
+To: Kevin Wolf <kwolf@redhat.com>
+References: <af53599c-c7de-d2b8-00fa-0e7d28121251@redhat.com>
+ <e9eeec7b-d03e-5e8e-cc42-568c670726ca@redhat.com>
+ <c8d45cd9-e7de-9acd-3fd6-13de58f5ce48@redhat.com>
+ <c6a12090-b6c3-31d8-fb90-a76c9dd2e949@redhat.com>
+ <88f2798b-9327-e54f-5792-e37404b94ef7@redhat.com>
+ <8ae70388-ff46-6ec1-7f84-14d41ca9a6dd@redhat.com>
+ <311c2e0a-fb2c-241c-cbd1-1162f7e74e18@redhat.com>
+ <9d3c36f0-0834-ec9c-8473-d052d64a61dd@redhat.com>
+ <69b2ce82-4826-71ed-9c32-d323df69b7c4@redhat.com>
+ <6b88890c-f191-7f77-93eb-91f4951e179d@redhat.com>
+ <Ylbjd3kzEsBZmgJQ@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <Ylbjd3kzEsBZmgJQ@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,128 +115,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?gb2312?Q?C=A8=A6dric?= Le Goater <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for your help, I'll pay attention to the commit specification next t=
-ime.
-
-Guo
-
------ Original Message -----
-From: "Daniel Henrique Barboza" <danielhb413@gmail.com>
-To: "Guo Zhi" <qtxuning1999@sjtu.edu.cn>, "C=A8=A6dric Le Goater" <clg@kaod=
-.org>, "David Gibson" <david@gibson.dropbear.id.au>, "Greg Kurz" <groug@kao=
-d.org>
-Cc: "qemu-ppc" <qemu-ppc@nongnu.org>, "qemu-devel@nongnu.org Developers" <q=
-emu-devel@nongnu.org>
-Sent: Wednesday, April 13, 2022 9:00:15 PM
-Subject: Re: [PATCH v2] hw/ppc: change indentation to spaces from TABs
-
-On 4/11/22 23:12, Guo Zhi wrote:
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/374
->=20
-> There are still some files in the QEMU PPC code base that use TABs for in=
-dentation instead of using  spaces. The TABs should be replaced so that we =
-have a consistent coding style.
->=20
-
-I forgot to mention about the commit msg. Ideally we want the commit msg
-to have shorter lines. If you use 'vim' you can do that by selecting
-the commit msg and hitting 'G' and 'W' in non-insert mode.
-
-I've amended it before queueing, so don't worry about it. I also moved the
-'Resolves' tag to the end of the commit msg, which I also forgot to mention
-about.
-
-> Signed-off-by: Guo Zhi <qtxuning1999@sjtu.edu.cn>
-> ---
 
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Am 13/04/2022 um 16:51 schrieb Kevin Wolf:
+> Am 13.04.2022 um 15:43 hat Emanuele Giuseppe Esposito geschrieben:
+>> So this is a more concrete and up-to-date header.
+>>
+>> Few things to notice:
+>> - we have a list of AioContext. They are registered once an aiocontext
+>> is created, and deleted when it is destroyed.
+>> This list is helpful because each aiocontext can only modify its own
+>> number of readers, avoiding unnecessary cacheline bouncing
+>>
+>> - if a coroutine changes aiocontext, it's ok with regards to the
+>> per-aiocontext reader counter. As long as the sum is correct, there's no
+>> issue. The problem comes only once the original aiocontext is deleted,
+>> and at that point we need to move the count it held to a shared global
+>> variable, otherwise we risk to lose track of readers.
+> 
+> So the idea is that we can do bdrv_graph_co_rdlock() in one thread and
+> the corresponding bdrv_graph_co_rdunlock() in a different thread?
+> 
+> Would the unlock somehow remember the original thread, or do you use the
+> "sum is correct" argument and allow negative counter values, so you can
+> end up having count +1 in A and -1 in B to represent "no active
+> readers"? If this happens, it's likely to happen many times, so do we
+> have to take integer overflows into account then?
+> 
+>> - All synchronization between the flags explained in this header is of
+>> course handled in the implementation. But for now it would be nice to
+>> have a feedback on the idea/API.
+>>
+>> So in short we need:
+>> - per-aiocontext counter
+>> - global list of aiocontext
+>> - global additional reader counter (in case an aiocontext is deleted)
+>> - global CoQueue
+>> - global has_writer flag
+>> - global QemuMutex to protect the list access
+>>
+>> Emanuele
+>>
+>> #ifndef BLOCK_LOCK_H
+>> #define BLOCK_LOCK_H
+>>
+>> #include "qemu/osdep.h"
+>>
+>> /*
+>>  * register_aiocontext:
+>>  * Add AioContext @ctx to the list of AioContext.
+>>  * This list is used to obtain the total number of readers
+>>  * currently running the graph.
+>>  */
+>> void register_aiocontext(AioContext *ctx);
+>>
+>> /*
+>>  * unregister_aiocontext:
+>>  * Removes AioContext @ctx to the list of AioContext.
+>>  */
+>> void unregister_aiocontext(AioContext *ctx);
+>>
+>> /*
+>>  * bdrv_graph_wrlock:
+>>  * Modify the graph. Nobody else is allowed to access the graph.
+>>  * Set global has_writer to 1, so that the next readers will wait
+>>  * that writer is done in a coroutine queue.
+>>  * Then keep track of the running readers by counting what is the total
+>>  * amount of readers (sum of all aiocontext readers), and wait until
+>>  * they all finish with AIO_WAIT_WHILE.
+>>  */
+>> void bdrv_graph_wrlock(void);
+> 
+> Do we need a coroutine version that yields instead of using
+> AIO_WAIT_WHILE() or are we sure this will only ever be called from
+> non-coroutine contexts?
 
+writes (graph modifications) are always done under BQL in the main loop.
+Except an unit test, I don't think a coroutine ever does that.
 
+> 
+>> /*
+>>  * bdrv_graph_wrunlock:
+>>  * Write finished, reset global has_writer to 0 and restart
+>>  * all readers that are waiting.
+>>  */
+>> void bdrv_graph_wrunlock(void);
+>>
+>> /*
+>>  * bdrv_graph_co_rdlock:
+>>  * Read the bs graph. Increases the reader counter of the current
+>> aiocontext,
+>>  * and if has_writer is set, it means that the writer is modifying
+>>  * the graph, therefore wait in a coroutine queue.
+>>  * The writer will then wake this coroutine once it is done.
+>>  *
+>>  * This lock cannot be taken recursively.
+>>  */
+>> void coroutine_fn bdrv_graph_co_rdlock(void);
+> 
+> What prevents it from being taken recursively when it's just a counter?
+> (I do see however, that you can't take a reader lock while you have the
+> writer lock or vice versa because it would deadlock.)
+> 
+I actually didn't add the assertion to prevent it from being recoursive
+yet, but I think it simplifies everything if it's not recoursive
 
->   hw/ppc/ppc440_bamboo.c |  6 +++---
->   hw/ppc/spapr_rtas.c    | 18 +++++++++---------
->   include/hw/ppc/ppc.h   | 10 +++++-----
->   3 files changed, 17 insertions(+), 17 deletions(-)
->=20
-> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-> index 7fb620b9a0..5ec3a9a17f 100644
-> --- a/hw/ppc/ppc440_bamboo.c
-> +++ b/hw/ppc/ppc440_bamboo.c
-> @@ -3,9 +3,9 @@
->    *
->    * Copyright 2007 IBM Corporation.
->    * Authors:
-> - *=09Jerone Young <jyoung5@us.ibm.com>
-> - *=09Christian Ehrhardt <ehrhardt@linux.vnet.ibm.com>
-> - *=09Hollis Blanchard <hollisb@us.ibm.com>
-> + *  Jerone Young <jyoung5@us.ibm.com>
-> + *  Christian Ehrhardt <ehrhardt@linux.vnet.ibm.com>
-> + *  Hollis Blanchard <hollisb@us.ibm.com>
->    *
->    * This work is licensed under the GNU GPL license version 2 or later.
->    *
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index d7c04237fe..d58b65e88f 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -474,16 +474,16 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
->  =20
->       if (spapr->fwnmi_machine_check_interlock !=3D cpu->vcpu_id) {
->           /*
-> -=09 * The vCPU that hit the NMI should invoke "ibm,nmi-interlock"
-> +         * The vCPU that hit the NMI should invoke "ibm,nmi-interlock"
->            * This should be PARAM_ERROR, but Linux calls "ibm,nmi-interlo=
-ck"
-> -=09 * for system reset interrupts, despite them not being interlocked.
-> -=09 * PowerVM silently ignores this and returns success here. Returning
-> -=09 * failure causes Linux to print the error "FWNMI: nmi-interlock
-> -=09 * failed: -3", although no other apparent ill effects, this is a
-> -=09 * regression for the user when enabling FWNMI. So for now, match
-> -=09 * PowerVM. When most Linux clients are fixed, this could be
-> -=09 * changed.
-> -=09 */
-> +         * for system reset interrupts, despite them not being interlock=
-ed.
-> +         * PowerVM silently ignores this and returns success here. Retur=
-ning
-> +         * failure causes Linux to print the error "FWNMI: nmi-interlock
-> +         * failed: -3", although no other apparent ill effects, this is =
-a
-> +         * regression for the user when enabling FWNMI. So for now, matc=
-h
-> +         * PowerVM. When most Linux clients are fixed, this could be
-> +         * changed.
-> +         */
->           rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->           return;
->       }
-> diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-> index 364f165b4b..02af03ada2 100644
-> --- a/include/hw/ppc/ppc.h
-> +++ b/include/hw/ppc/ppc.h
-> @@ -99,11 +99,11 @@ enum {
->       ARCH_MAC99_U3,
->   };
->  =20
-> -#define FW_CFG_PPC_WIDTH=09(FW_CFG_ARCH_LOCAL + 0x00)
-> -#define FW_CFG_PPC_HEIGHT=09(FW_CFG_ARCH_LOCAL + 0x01)
-> -#define FW_CFG_PPC_DEPTH=09(FW_CFG_ARCH_LOCAL + 0x02)
-> -#define FW_CFG_PPC_TBFREQ=09(FW_CFG_ARCH_LOCAL + 0x03)
-> -#define FW_CFG_PPC_CLOCKFREQ=09(FW_CFG_ARCH_LOCAL + 0x04)
-> +#define FW_CFG_PPC_WIDTH        (FW_CFG_ARCH_LOCAL + 0x00)
-> +#define FW_CFG_PPC_HEIGHT       (FW_CFG_ARCH_LOCAL + 0x01)
-> +#define FW_CFG_PPC_DEPTH        (FW_CFG_ARCH_LOCAL + 0x02)
-> +#define FW_CFG_PPC_TBFREQ       (FW_CFG_ARCH_LOCAL + 0x03)
-> +#define FW_CFG_PPC_CLOCKFREQ    (FW_CFG_ARCH_LOCAL + 0x04)
->   #define FW_CFG_PPC_IS_KVM       (FW_CFG_ARCH_LOCAL + 0x05)
->   #define FW_CFG_PPC_KVM_HC       (FW_CFG_ARCH_LOCAL + 0x06)
->   #define FW_CFG_PPC_KVM_PID      (FW_CFG_ARCH_LOCAL + 0x07)
+> Does this being a coroutine_fn mean that we would have to convert QMP
+> command handlers to coroutines so that they can take the rdlock while
+> they don't expect the graph to change? Or should we have a non-coroutine
+> version, too, that works with AIO_WAIT_WHILE()?
+
+Why convert the QMP command handlers? coroutine_fn was just to signal
+that it can also be called from coroutines, like the ones created by the
+blk_* API.
+A reader does not have to be a coroutine. AIO_WAIT_WHILE is not
+mandatory to allow it to finish, it helps to ensure progress in case
+some reader is waiting for something, but other than that is not
+necessary IMO.
+
+> Or should this only be taken for very small pieces of code directly
+> accessing the BdrvChild objects, and high-level users like QMP commands
+> shouldn't even consider themselves readers?
+> 
+
+No I think if we focus on small pieces of code we end up having a
+million lock/unlock pairs.
+
+>> /*
+>>  * bdrv_graph_rdunlock:
+>>  * Read terminated, decrease the count of readers in the current aiocontext.
+>>  * If the writer is waiting for reads to finish (has_writer == 1), signal
+>>  * the writer that we are done via aio_wait_kick() to let it continue.
+>>  */
+>> void coroutine_fn bdrv_graph_co_rdunlock(void);
+>>
+>> #endif /* BLOCK_LOCK_H */
+> 
+> I expect that in the final version, we might want to have some sugar
+> like a WITH_BDRV_GRAPH_RDLOCK_GUARD() macro, but obviously that doesn't
+> affect the fundamental design.
+
+Yeah I will ping you once I get to that point ;)
+
+Emanuele
+> 
+> Kevin
+> 
+
 
