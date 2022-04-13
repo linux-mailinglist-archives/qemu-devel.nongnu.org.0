@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F934FF05F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 09:10:57 +0200 (CEST)
-Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6C44FF06E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 09:17:49 +0200 (CEST)
+Received: from localhost ([::1]:53150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neX9U-00056o-Eq
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 03:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35214)
+	id 1neXG8-0001sq-BS
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 03:17:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <skagan@redhat.com>) id 1neX2d-0003WD-IK
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 03:03:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57176)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <skagan@redhat.com>) id 1neX2X-0005D2-Mc
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 03:03:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649833422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UUDe5tKVvIYdb0MNYF2RZuvrI5+TcJ4qwJs2zeGIEAE=;
- b=WRL9MkbN9ssNhNSMN8j2upR5FLybbIQs8PEtdOSchJC8n3ErekQatmmQa7YC2Xv3nuGyCC
- Q0amemY9j25VRtFuARX4EuZDJRu+Ul+65l2varW5iWY9pROoOsyP74Rs1a+y5VHptzkRQn
- 57ZAGHT88xJc/TPtmddiieA0bSdTIeE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-TKtqjt0pObi5IR09vUjidQ-1; Wed, 13 Apr 2022 03:03:39 -0400
-X-MC-Unique: TKtqjt0pObi5IR09vUjidQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f12-20020a05600c154c00b0038ea9ed0a4aso476361wmg.1
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 00:03:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1neX7B-0005iX-Lq; Wed, 13 Apr 2022 03:08:34 -0400
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:44637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1neX78-00062h-V5; Wed, 13 Apr 2022 03:08:33 -0400
+Received: by mail-il1-x132.google.com with SMTP id 14so541474ily.11;
+ Wed, 13 Apr 2022 00:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ufvu1G4xnHSQbBQkDGJjHcfzeBRgn9MlOczevk8w2uA=;
+ b=bJlm9/41Jq7rI+GoFNaR1pTzcIFjLYtfK+ipmhKzfUOq8xGk3YA5hMuT43ljGph4pE
+ ovd+XTfc8+kiVTPb5Fq8FJEwFBLJCR7Wx1A/PowYvxLL9ymQS3u0QJLMMEBfMiSFfqvG
+ b6I9kT26r1JwG6BP6gCKAdYlZ4TS80BQDAm2dUb6YBgUgo0bSNDp4Fc9wn0Z2pZNLftl
+ nr/LXxPTWV3+yqCEoCj64FgKuF1NywFtGajX2ZGHpk9quH3x/zgQ+pxOknVKu3gqo1r+
+ hGNmI2bSJhTO/lQ5nyXOgA8Qdm2VLKsnP4TNS5+Sx6dRZv7DtCB2GiQudiBo6KB5a2uK
+ jL0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UUDe5tKVvIYdb0MNYF2RZuvrI5+TcJ4qwJs2zeGIEAE=;
- b=8JLHdrPi4opkdwvKDB+wqfF7B+EXArsHoYG1ZGoaeRr1Cuqeg+2f8XnnjwQ+bwhSG3
- IL2GmtJsp1WuTa08I1dfZyl7MVpsqdD61DZxUX1hVxzH3WyiRMGT7wDAzQCnBn2qjBuS
- aoS8xZKIrjCpS7fg5pQUaokrb6NMkvlOZmXcsshAb572A46NQQyoUm8gUK2huV1T2KxN
- UFCAiTk5sQuohoODYPCA54sk7JxArW0Mjvw9B9Sy4Oul+nRHPQQuPd3s5JW6KxdtAjsr
- 0asnZZVX1ps1t2xD5IBHIe7SN9v3OPsTcgYSAuYn3XqAXEWs/PLp50EjlKMfQsPLC40S
- qhpA==
-X-Gm-Message-State: AOAM531BHrJnR5Iz+xXwqltBq66mwj1OLLXb/BcDi9vlhaYTSUYuajpK
- Puyc9l9zeOuK2QXLkAVnjVfMkl6cEukgHngQ9F8WADjh5iDftnO08IYb8YRZqp3pdhIgX/Mt+TZ
- CKZqjaEsaE8TwLRDUH/ehe40sohW37S0=
-X-Received: by 2002:a05:600c:1909:b0:38c:e8f3:8e3d with SMTP id
- j9-20020a05600c190900b0038ce8f38e3dmr7222181wmq.152.1649833418490; 
- Wed, 13 Apr 2022 00:03:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+BiZmqK8gskJLlaKQj2ZVohoF+AdEbhKUd9Kpknx7cF1joEEiS3a59V9mMCstM0xwySjG71n8A3Wwqi6MfKc=
-X-Received: by 2002:a05:600c:1909:b0:38c:e8f3:8e3d with SMTP id
- j9-20020a05600c190900b0038ce8f38e3dmr7222166wmq.152.1649833418226; Wed, 13
- Apr 2022 00:03:38 -0700 (PDT)
+ bh=ufvu1G4xnHSQbBQkDGJjHcfzeBRgn9MlOczevk8w2uA=;
+ b=y8TLW8BytUqHMa6ayK+ojpn7SF4L/P2uULj6UnyFb9J9bdQUg9EHsApr3RO2VuAJNB
+ l0s1AtLmro9vYv2ketzeVOpJE2EYZl/5oeYuPU/s9i9++EDGZjb8V2MKFdVSXEojL19T
+ rPcQBTUFADtJPgOjMzZazlDFJKxEfsXVIH1fJSn1P266i2cs+Hv+L+UF/uUjjWSW3wDQ
+ EKkNZ4KnqYwduIfUAu0mb375sQ5QEakYkYIU93zQijMP+Ek86fJryl2BwYRyWwCwcLmt
+ mzYILtbTgI8AnVxJscrIHmQh4VDX+7P4Zh//4bQh0FEcPqTdo19Cm+M2U3acm5cAOqtN
+ +Riw==
+X-Gm-Message-State: AOAM533r7lfOjaPwn0bveivNvN5grmMXXGWKCzSVWHi4C/MnN6u6kpCq
+ czYRXHs4OAbckGAriAbM0pWn685AOiTCe4aZfOE=
+X-Google-Smtp-Source: ABdhPJywqGqEEroR8gug7gYNnITcL3CRQU6Lu1speY0FxR1uM7NssgebNQqX36tNp//uhtyUE6FvUjV2YnZAMIhjzm8=
+X-Received: by 2002:a05:6e02:1bc1:b0:2cb:d893:68ab with SMTP id
+ x1-20020a056e021bc100b002cbd89368abmr176450ilv.260.1649833708037; Wed, 13 Apr
+ 2022 00:08:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAMUS3ta+RFL1M+esUzy34WpB-MOO4ofKdsPiHOUoPyBXF2GoTw@mail.gmail.com>
- <CAPMcbCoM1UOw8r=mZchbuX9ixoMS3Q4t1xs1GRyWrkmP2c94tQ@mail.gmail.com>
-In-Reply-To: <CAPMcbCoM1UOw8r=mZchbuX9ixoMS3Q4t1xs1GRyWrkmP2c94tQ@mail.gmail.com>
-From: Shelly Kagan <skagan@redhat.com>
-Date: Wed, 13 Apr 2022 10:03:27 +0300
-Message-ID: <CAMUS3tZp4GMjf_b4JNJtzMsU+n=whtqsG+QgYsnRXLjzx1xstw@mail.gmail.com>
-Subject: Re: FSFreeze on Windows VM
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=skagan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000d5106905dc83c688"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=skagan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_REMOTE_IMAGE=0.01,
+References: <20220331000127.2107823-1-atishp@rivosinc.com>
+ <20220331000127.2107823-9-atishp@rivosinc.com>
+In-Reply-To: <20220331000127.2107823-9-atishp@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 13 Apr 2022 17:08:01 +1000
+Message-ID: <CAKmqyKMmY_nfFpO7r2F+VHjFgLTO3BtB7kgCJ=H9OYJfZ7L2+Q@mail.gmail.com>
+Subject: Re: [PATCH v7 08/12] target/riscv: Add sscofpmf extension support
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,252 +77,324 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yvugenfi@redhat.com>, qemu-devel@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d5106905dc83c688
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Konstantin,
-
-The Guest Agent version
-"guestAgentVersion": "100.0.0",
-I'm running with a 2019 windows image which I understand the GA is part of
-the virtio drivers.
-Don't know if the following info also helps but:
-  "hostname": "WIN-CUCKQ65DH6K",
-  "os": {
-    "name": "Microsoft Windows",
-    "kernelRelease": "17763",
-    "version": "Microsoft Windows Server 2019",
-    "prettyName": "Windows Server 2019 Standard",
-    "versionId": "2019",
-    "kernelVersion": "10.0",
-    "machine": "x86_64",
-    "id": "mswindows"
-  },
-
-I think what is more important to me is the GA being not responsive for the
-freeze call. I'm using the fsfreeze in a feature I'm implementing, and
-since in windows there is a 10sec timeout because of the VSS the fact that
-the freeze call returns error that the GA is not available plus that when
-its not available it takes much longer for the freeze call to return is
-really time sensitive.
-
-Thanks
-
-On Wed, Apr 6, 2022 at 2:29 PM Konstantin Kostiuk <kkostiuk@redhat.com>
-wrote:
-
-> Hi Shelly,
+On Thu, Mar 31, 2022 at 10:19 AM Atish Patra <atishp@rivosinc.com> wrote:
 >
-> Can you provide your version of Guest Agent? Is it built from upstream or
-> some VirtIO-Win release?
-> Previously we had some issues related to wrong error messages from Guest
-> Agent.
+> The Sscofpmf ('Ss' for Privileged arch and Supervisor-level extensions,
+> and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
+> extension allows the perf to handle overflow interrupts and filtering
+> support. This patch provides a framework for programmable
+> counters to leverage the extension. As the extension doesn't have any
+> provision for the overflow bit for fixed counters, the fixed events
+> can also be monitoring using programmable counters. The underlying
+> counters for cycle and instruction counters are always running. Thus,
+> a separate timer device is programmed to handle the overflow.
 >
-> Best Regards,
-> Konstantin Kostiuk.
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>  target/riscv/cpu.c      |  11 ++
+>  target/riscv/cpu.h      |  25 +++
+>  target/riscv/cpu_bits.h |  55 +++++++
+>  target/riscv/csr.c      | 156 ++++++++++++++++--
+>  target/riscv/pmu.c      | 347 +++++++++++++++++++++++++++++++++++++++-
+>  target/riscv/pmu.h      |   7 +
+>  6 files changed, 590 insertions(+), 11 deletions(-)
 >
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f63602828680..9715eed2fc4e 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -22,6 +22,7 @@
+>  #include "qemu/ctype.h"
+>  #include "qemu/log.h"
+>  #include "cpu.h"
+> +#include "pmu.h"
+>  #include "internals.h"
+>  #include "exec/exec-all.h"
+>  #include "qapi/error.h"
+> @@ -696,6 +697,15 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>          set_misa(env, env->misa_mxl, ext);
+>      }
 >
-> On Tue, Mar 29, 2022 at 6:24 PM Shelly Kagan <skagan@redhat.com> wrote:
+> +#ifndef CONFIG_USER_ONLY
+> +    if (cpu->cfg.pmu_num) {
+> +        if (!riscv_pmu_init(cpu, cpu->cfg.pmu_num) && cpu->cfg.ext_sscofpmf) {
+> +            cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> +                                          riscv_pmu_timer_cb, cpu);
+> +        }
+> +     }
+> +#endif
+> +
+>      riscv_cpu_register_gdb_regs_for_features(cs);
 >
->> Hi all,
->> I'm having some weird behavior with fsfreeze in windows VM.
->> I run the fsfreeze and it returns:
->> `error: Guest agent is not responding: Guest agent not available for now`
->>
->> but checking the status returned frozen, rerunning it again returns that
->> the command is not enabled (expected since the freeze occurs)
->>
->> I checked the fsstatus and it keeps returning `frozen` even after 10
->> seconds (from my understanding the freeze in windows vm is limited to 10
->> seconds by default by the VSS. No way to change this default from my
->> understanding, is it true?) Shouldn't the status return thawed if the VSS
->> no longer keeps the freeze state?
->>
->> After a minute I did the thaw and it returned error:
->> `error: internal error: unable to execute QEMU agent command
->> 'guest-fsfreeze-thaw': couldn't hold writes: fsfreeze is limited up to 10
->> seconds:`
->>
->> but the fsstatus changed to thawed after that call.
->>
->> My questions are:
->> 1. Why would the fsfreeze return error about the guest agent but still
->> freeze the fs?
->> 2. Why would the guest agent not respond, is there a way to make sure it
->> is available before the freeze command? (running the fsstatus command
->> before it returned without issues..)
->> 3. Is it expected that the fsstatus will return frozen even if possibly
->> VSS has already thawed? and that the thaw fails but the status do change
->> after to thawed?
->>
->> Thanks for taking the time to respond and help,
->> --
->>
->> Shelly Kagan
->>
->> Senior Software Engineer
->>
->> Red Hat <https://www.redhat.com>
->> <https://www.redhat.com>
->>
+>      qemu_init_vcpu(cs);
+> @@ -795,6 +805,7 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
+>      DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
+>      DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
+> +    DEFINE_PROP_BOOL("sscofpmf", RISCVCPU, cfg.ext_sscofpmf, false),
+>      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+>      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0fa15595fb37..a0e2279ea5e6 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -131,6 +131,8 @@ typedef struct PMUCTRState {
+>      /* Snapshort value of a counter in RV32 */
+>      target_ulong mhpmcounterh_prev;
+>      bool started;
+> +    /* Value beyond UINT32_MAX/UINT64_MAX before overflow interrupt trigger */
+> +    target_ulong irq_overflow_left;
+>  } PMUCTRState;
 >
+>  struct CPUArchState {
+> @@ -291,6 +293,9 @@ struct CPUArchState {
+>      /* PMU event selector configured values. First three are unused*/
+>      target_ulong mhpmevent_val[RV_MAX_MHPMEVENTS];
+>
+> +    /* PMU event selector configured values for RV32*/
+> +    target_ulong mhpmeventh_val[RV_MAX_MHPMEVENTS];
+> +
+>      target_ulong sscratch;
+>      target_ulong mscratch;
+>
+> @@ -413,6 +418,7 @@ struct RISCVCPUConfig {
+>      bool ext_zhinxmin;
+>      bool ext_zve32f;
+>      bool ext_zve64f;
+> +    bool ext_sscofpmf;
+>
+>      /* Vendor-specific custom extensions */
+>      bool ext_XVentanaCondOps;
+> @@ -452,6 +458,12 @@ struct ArchCPU {
+>
+>      /* Configuration Settings */
+>      RISCVCPUConfig cfg;
+> +
+> +    QEMUTimer *pmu_timer;
+> +    /* A bitmask of Available programmable counters */
+> +    uint32_t pmu_avail_ctrs;
+> +    /* Mapping of events to counters */
+> +    GHashTable *pmu_event_ctr_map;
+>  };
+>
+>  static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
+> @@ -709,6 +721,19 @@ enum {
+>      CSR_TABLE_SIZE = 0x1000
+>  };
+>
+> +/**
+> + * The event id are encoded based on the encoding specified in the
+> + * SBI specification v0.3
+> + */
+> +
+> +enum riscv_pmu_event_idx {
+> +    RISCV_PMU_EVENT_HW_CPU_CYCLES = 0x01,
+> +    RISCV_PMU_EVENT_HW_INSTRUCTIONS = 0x02,
+> +    RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS = 0x10019,
+> +    RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS = 0x1001B,
+> +    RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS = 0x10021,
+> +};
+> +
+>  /* CSR function table */
+>  extern riscv_csr_operations csr_ops[CSR_TABLE_SIZE];
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 48b39e6d52a7..d0b53e5ea072 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -400,6 +400,37 @@
+>  #define CSR_MHPMEVENT29     0x33d
+>  #define CSR_MHPMEVENT30     0x33e
+>  #define CSR_MHPMEVENT31     0x33f
+> +
+> +#define CSR_MHPMEVENT3H     0x723
+> +#define CSR_MHPMEVENT4H     0x724
+> +#define CSR_MHPMEVENT5H     0x725
+> +#define CSR_MHPMEVENT6H     0x726
+> +#define CSR_MHPMEVENT7H     0x727
+> +#define CSR_MHPMEVENT8H     0x728
+> +#define CSR_MHPMEVENT9H     0x729
+> +#define CSR_MHPMEVENT10H    0x72a
+> +#define CSR_MHPMEVENT11H    0x72b
+> +#define CSR_MHPMEVENT12H    0x72c
+> +#define CSR_MHPMEVENT13H    0x72d
+> +#define CSR_MHPMEVENT14H    0x72e
+> +#define CSR_MHPMEVENT15H    0x72f
+> +#define CSR_MHPMEVENT16H    0x730
+> +#define CSR_MHPMEVENT17H    0x731
+> +#define CSR_MHPMEVENT18H    0x732
+> +#define CSR_MHPMEVENT19H    0x733
+> +#define CSR_MHPMEVENT20H    0x734
+> +#define CSR_MHPMEVENT21H    0x735
+> +#define CSR_MHPMEVENT22H    0x736
+> +#define CSR_MHPMEVENT23H    0x737
+> +#define CSR_MHPMEVENT24H    0x738
+> +#define CSR_MHPMEVENT25H    0x739
+> +#define CSR_MHPMEVENT26H    0x73a
+> +#define CSR_MHPMEVENT27H    0x73b
+> +#define CSR_MHPMEVENT28H    0x73c
+> +#define CSR_MHPMEVENT29H    0x73d
+> +#define CSR_MHPMEVENT30H    0x73e
+> +#define CSR_MHPMEVENT31H    0x73f
+> +
+>  #define CSR_MHPMCOUNTER3H   0xb83
+>  #define CSR_MHPMCOUNTER4H   0xb84
+>  #define CSR_MHPMCOUNTER5H   0xb85
+> @@ -461,6 +492,7 @@
+>  #define CSR_VSMTE           0x2c0
+>  #define CSR_VSPMMASK        0x2c1
+>  #define CSR_VSPMBASE        0x2c2
+> +#define CSR_SCOUNTOVF       0xda0
+>
+>  /* mstatus CSR bits */
+>  #define MSTATUS_UIE         0x00000001
+> @@ -635,6 +667,7 @@ typedef enum RISCVException {
+>  #define IRQ_VS_EXT                         10
+>  #define IRQ_M_EXT                          11
+>  #define IRQ_S_GEXT                         12
+> +#define IRQ_PMU_OVF                        13
+>  #define IRQ_LOCAL_MAX                      16
+>  #define IRQ_LOCAL_GUEST_MAX                (TARGET_LONG_BITS - 1)
+>
+> @@ -652,11 +685,13 @@ typedef enum RISCVException {
+>  #define MIP_VSEIP                          (1 << IRQ_VS_EXT)
+>  #define MIP_MEIP                           (1 << IRQ_M_EXT)
+>  #define MIP_SGEIP                          (1 << IRQ_S_GEXT)
+> +#define MIP_LCOFIP                         (1 << IRQ_PMU_OVF)
+>
+>  /* sip masks */
+>  #define SIP_SSIP                           MIP_SSIP
+>  #define SIP_STIP                           MIP_STIP
+>  #define SIP_SEIP                           MIP_SEIP
+> +#define SIP_LCOFIP                         MIP_LCOFIP
+>
+>  /* MIE masks */
+>  #define MIE_SEIE                           (1 << IRQ_S_EXT)
+> @@ -804,4 +839,24 @@ typedef enum RISCVException {
+>  #define HVICTL_VALID_MASK                  \
+>      (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
+>
+> +/* PMU related bits */
+> +#define MIE_LCOFIE                         (1 << IRQ_PMU_OVF)
+> +
+> +#define MHPMEVENT_BIT_OF                   BIT_ULL(63)
+> +#define MHPMEVENTH_BIT_OF                  BIT(31)
+> +#define MHPMEVENT_BIT_MINH                 BIT_ULL(62)
+> +#define MHPMEVENTH_BIT_MINH                BIT(30)
+> +#define MHPMEVENT_BIT_SINH                 BIT_ULL(61)
+> +#define MHPMEVENTH_BIT_SINH                BIT(29)
+> +#define MHPMEVENT_BIT_UINH                 BIT_ULL(60)
+> +#define MHPMEVENTH_BIT_UINH                BIT(28)
+> +#define MHPMEVENT_BIT_VSINH                BIT_ULL(59)
+> +#define MHPMEVENTH_BIT_VSINH               BIT(27)
+> +#define MHPMEVENT_BIT_VUINH                BIT_ULL(58)
+> +#define MHPMEVENTH_BIT_VUINH               BIT(26)
+> +
+> +#define MHPMEVENT_SSCOF_MASK               _ULL(0xFFFF000000000000)
+> +#define MHPMEVENT_IDX_MASK                 0xFFFFF
+> +#define MHPMEVENT_SSCOF_RESVD              16
+> +
+>  #endif
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 04796b99d0fe..519d6377fd9f 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -72,7 +72,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>      CPUState *cs = env_cpu(env);
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+>      int ctr_index;
+> -    int base_csrno = CSR_HPMCOUNTER3;
+> +    int base_csrno = CSR_CYCLE;
+>      bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
+>
+>      if (rv32 && csrno >= CSR_CYCLEH) {
+> @@ -81,11 +81,18 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>      }
+>      ctr_index = csrno - base_csrno;
+>
+> -    if (!cpu->cfg.pmu_num || ctr_index >= (cpu->cfg.pmu_num)) {
+> +    if ((csrno >= CSR_CYCLE && csrno <= CSR_INSTRET) ||
+> +        (csrno >= CSR_CYCLEH && csrno <= CSR_INSTRETH)) {
+> +        goto skip_ext_pmu_check;
+> +    }
+> +
+> +    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & BIT(ctr_index)))) {
+>          /* No counter is enabled in PMU or the counter is out of range */
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>
+> +skip_ext_pmu_check:
+> +
+>      if (env->priv == PRV_S) {
+>          switch (csrno) {
+>          case CSR_CYCLE:
+> @@ -104,7 +111,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>              }
+>              break;
+>          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> -            ctr_index = csrno - CSR_CYCLE;
+>              if (!get_field(env->mcounteren, 1 << ctr_index)) {
+>                  return RISCV_EXCP_ILLEGAL_INST;
+>              }
+> @@ -128,7 +134,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>                  }
+>                  break;
+>              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> -                ctr_index = csrno - CSR_CYCLEH;
+>                  if (!get_field(env->mcounteren, 1 << ctr_index)) {
+>                      return RISCV_EXCP_ILLEGAL_INST;
+>                  }
+> @@ -158,7 +163,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>              }
+>              break;
+>          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> -            ctr_index = csrno - CSR_CYCLE;
+>              if (!get_field(env->hcounteren, 1 << ctr_index) &&
+>                   get_field(env->mcounteren, 1 << ctr_index)) {
+>                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> @@ -186,7 +190,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>                  }
+>                  break;
+>              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> -                ctr_index = csrno - CSR_CYCLEH;
+>                  if (!get_field(env->hcounteren, 1 << ctr_index) &&
+>                       get_field(env->mcounteren, 1 << ctr_index)) {
+>                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> @@ -238,6 +241,18 @@ static RISCVException mctr32(CPURISCVState *env, int csrno)
+>      return mctr(env, csrno);
+>  }
+>
+> +static RISCVException sscofpmf(CPURISCVState *env, int csrno)
+> +{
+> +    CPUState *cs = env_cpu(env);
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +
+> +    if (!cpu->cfg.ext_sscofpmf) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  static RISCVException any(CPURISCVState *env, int csrno)
+>  {
+>      return RISCV_EXCP_NONE;
+> @@ -622,11 +637,36 @@ static int write_mhpmevent(CPURISCVState *env, int csrno, target_ulong val)
+>  {
+>      int evt_index = csrno - CSR_MCOUNTINHIBIT;
+>
+> +    if (riscv_cpu_mxl(env) != MXL_RV32) {
 
--- 
+Is this right? What if the guest writes the high bytes first?
 
-Shelly Kagan
-
-Senior Software Engineer
-
-Red Hat <https://www.redhat.com>
-<https://www.redhat.com>
-
---000000000000d5106905dc83c688
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Konstantin,<div><br></div><div>The Guest Agent version=
-=C2=A0</div><div>&quot;guestAgentVersion&quot;: &quot;100.0.0&quot;,<br></d=
-iv><div>I&#39;m running=C2=A0with a 2019 windows image which I understand t=
-he GA is part of the virtio drivers.</div><div>Don&#39;t know if the follow=
-ing info also helps but:<br>=C2=A0 &quot;hostname&quot;: &quot;WIN-CUCKQ65D=
-H6K&quot;,<br>=C2=A0 &quot;os&quot;: {<br>=C2=A0 =C2=A0 &quot;name&quot;: &=
-quot;Microsoft Windows&quot;,<br>=C2=A0 =C2=A0 &quot;kernelRelease&quot;: &=
-quot;17763&quot;,<br>=C2=A0 =C2=A0 &quot;version&quot;: &quot;Microsoft Win=
-dows Server 2019&quot;,<br>=C2=A0 =C2=A0 &quot;prettyName&quot;: &quot;Wind=
-ows Server 2019 Standard&quot;,<br>=C2=A0 =C2=A0 &quot;versionId&quot;: &qu=
-ot;2019&quot;,<br>=C2=A0 =C2=A0 &quot;kernelVersion&quot;: &quot;10.0&quot;=
-,<br>=C2=A0 =C2=A0 &quot;machine&quot;: &quot;x86_64&quot;,<br>=C2=A0 =C2=
-=A0 &quot;id&quot;: &quot;mswindows&quot;<br>=C2=A0 },<br></div><div><br></=
-div><div>I think what is more important to me is the GA being not responsiv=
-e for the freeze call. I&#39;m using the fsfreeze in a feature I&#39;m impl=
-ementing, and since in windows there is a 10sec=C2=A0timeout because of the=
- VSS the fact that the freeze call returns error that the GA is not availab=
-le plus that when its not available it takes much longer for the freeze cal=
-l to return is really time sensitive.</div><div><br></div><div>Thanks</div>=
-</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
-On Wed, Apr 6, 2022 at 2:29 PM Konstantin Kostiuk &lt;<a href=3D"mailto:kko=
-stiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
-v>Hi Shelly,</div><div><br></div><div>Can you provide your version of Guest=
- Agent? Is it built from upstream or some VirtIO-Win release? <br></div><di=
-v>Previously we had some issues related to wrong error messages from Guest =
-Agent.</div><div><div><div><br></div><div><div><div dir=3D"ltr"><div dir=3D=
-"ltr"><div>Best Regards,</div><div>Konstantin Kostiuk.</div></div></div></d=
-iv><br></div></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Tue, Mar 29, 2022 at 6:24 PM Shelly Kagan &lt;<=
-a href=3D"mailto:skagan@redhat.com" target=3D"_blank">skagan@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"ltr"><div>Hi all,</div><div>I&#39;m having some weird behavior with=
- fsfreeze in windows VM.</div><div>I run the fsfreeze and it returns:</div>=
-<div>`error: Guest agent is not responding: Guest agent not available for n=
-ow`</div><div><br>but checking the status returned frozen, rerunning it aga=
-in returns that the command is not enabled (expected since the freeze occur=
-s)</div><div><br>I checked the fsstatus and it keeps returning `frozen` eve=
-n after 10 seconds (from my understanding=C2=A0the freeze in windows vm is =
-limited to 10 seconds by default by the VSS. No way to change this default=
-=C2=A0from my understanding, is it true?) Shouldn&#39;t the status return t=
-hawed if the VSS no longer keeps the freeze state?</div><div><br>After a mi=
-nute I did the thaw and it returned error:</div><div>`error: internal error=
-: unable to execute QEMU agent command &#39;guest-fsfreeze-thaw&#39;: could=
-n&#39;t hold writes: fsfreeze is limited up to 10 seconds:`</div><div><br><=
-/div><div>but the fsstatus changed to thawed after that call.<br></div><div=
-><br></div><div>My questions are:</div><div>1. Why would the fsfreeze retur=
-n error about the guest agent but still freeze the fs?</div><div>2. Why wou=
-ld the guest agent not respond, is there a way to make sure it is available=
- before the freeze command? (running the fsstatus=C2=A0command before it re=
-turned without issues..)</div><div>3. Is it expected that the fsstatus will=
- return frozen even if possibly VSS has already thawed? and that the thaw f=
-ails but the status do change after to thawed?</div><div><br></div><div>Tha=
-nks for taking the time to respond and help,</div>-- <br><div dir=3D"ltr"><=
-div dir=3D"ltr"><div>
-        <p style=3D"font-weight:bold;margin:0px;padding:0px;font-size:14px;=
-font-family:RedHatText,sans-serif">
-          <span>Shelly</span> <span>Kagan</span><span style=3D"color:rgb(17=
-0,170,170);margin:0px"></span>
-        </p>
-       =20
-        <p style=3D"font-weight:normal;font-size:12px;margin:0px;font-famil=
-y:RedHatText,sans-serif">
-          <span>Senior Software Engineer</span>
-        </p>
-        <p style=3D"font-weight:normal;margin:0px 0px 4px;font-size:12px;fo=
-nt-family:RedHatText,sans-serif">
-          <a style=3D"color:rgb(0,136,206);font-size:12px;margin:0px;text-d=
-ecoration:none;font-family:RedHatText,sans-serif" href=3D"https://www.redha=
-t.com" target=3D"_blank">Red Hat <span></span></a>
-        </p>
-    <div style=3D"margin-bottom:4px">
-     =20
-     =20
-    </div>
-   =20
-   =20
-
-    =20
-
-   =20
-
-    <div style=3D"margin-top:12px">
-      <table border=3D"0">
-        <tbody><tr>
-          <td width=3D"100px"><a href=3D"https://www.redhat.com" target=3D"=
-_blank"> <img src=3D"https://static.redhat.com/libs/redhat/brand-assets/2/c=
-orp/logo--200.png" width=3D"90" height=3D"auto"></a> </td>
-         =20
-        </tr>
-      </tbody></table>
-    </div>
-
-  </div></div></div></div>
-</blockquote></div>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr"><div>
-        <p style=3D"font-weight:bold;margin:0px;padding:0px;font-size:14px;=
-font-family:RedHatText,sans-serif">
-          <span>Shelly</span> <span>Kagan</span><span style=3D"color:rgb(17=
-0,170,170);margin:0px"></span>
-        </p>
-       =20
-        <p style=3D"font-weight:normal;font-size:12px;margin:0px;font-famil=
-y:RedHatText,sans-serif">
-          <span>Senior Software Engineer</span>
-        </p>
-        <p style=3D"font-weight:normal;margin:0px 0px 4px;font-size:12px;fo=
-nt-family:RedHatText,sans-serif">
-          <a style=3D"color:rgb(0,136,206);font-size:12px;margin:0px;text-d=
-ecoration:none;font-family:RedHatText,sans-serif" href=3D"https://www.redha=
-t.com" target=3D"_blank">Red Hat <span></span></a>
-        </p>
-    <div style=3D"margin-bottom:4px">
-     =20
-     =20
-    </div>
-   =20
-   =20
-
-    =20
-
-   =20
-
-    <div style=3D"margin-top:12px">
-      <table border=3D"0">
-        <tbody><tr>
-          <td width=3D"100px"><a href=3D"https://www.redhat.com" target=3D"=
-_blank"> <img src=3D"https://static.redhat.com/libs/redhat/brand-assets/2/c=
-orp/logo--200.png" width=3D"90" height=3D"auto"></a> </td>
-         =20
-        </tr>
-      </tbody></table>
-    </div>
-
-  </div></div></div>
-
---000000000000d5106905dc83c688--
-
+Alistair
 
