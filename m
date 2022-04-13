@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0E44FFBC8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 18:52:34 +0200 (CEST)
-Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6849F4FFBC6
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 18:52:26 +0200 (CEST)
+Received: from localhost ([::1]:60232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1negEL-0008R2-Hf
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 12:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33642)
+	id 1negED-0007ye-HZ
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 12:52:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nefvU-0001Uj-Nw
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:33:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23643)
+ id 1nefvT-0001Ns-36
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:33:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nefvS-0003FI-Cf
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:33:04 -0400
+ id 1nefvR-0003FD-KO
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:33:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1649867581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gGMdOVqCDAmqlXLqu/8kSMc3UaX8wLPrahYooU3r9dQ=;
- b=IaOYojZRC0oN0wlbhxKM4g3LIV1v4FNmpr6eIohUHmDL3VKp1DdZOkOS8SIMKO3J9HYFA/
- ZUgCaWPEY+zZ2lINaGUHUF31S41OOPwQIJYt12sNTmQy7UpV8hgMDS7kFJUeYT1MUXod1T
- sLN83E9HTL/B84eArgArduDonSe9DxQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uUR6TjwCWYCo3LuSdLeQzS9X+JAPaHgWLCnfsrZtvRs=;
+ b=iu5+tOzzrgDixvdOH/k6skAN0t2FVvMpzGknIatfkFtRGtKq+0RJc8bK84pfllLL5EuG8R
+ Wd35GxMRyXPkQ/6nRoo7bJfp9pnCIIiVOByV81e6UGHRlTdpszEppxdv+8BrcwQ6ju0nwj
+ BcepT4H/9l4jo/uY/5dslA18DEpSlRs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-T5a04AdYM0ifNYrrZeVkXQ-1; Wed, 13 Apr 2022 12:32:56 -0400
-X-MC-Unique: T5a04AdYM0ifNYrrZeVkXQ-1
+ us-mta-577-sRL3o_r4NyqQCH4I_wJwPA-1; Wed, 13 Apr 2022 12:32:59 -0400
+X-MC-Unique: sRL3o_r4NyqQCH4I_wJwPA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 175901C01507;
- Wed, 13 Apr 2022 16:32:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D88F1014A66;
+ Wed, 13 Apr 2022 16:32:58 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 075521400B18;
- Wed, 13 Apr 2022 16:32:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C64C1454555;
+ Wed, 13 Apr 2022 16:32:56 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v7 19/25] vhost: Add vhost_svq_inject
-Date: Wed, 13 Apr 2022 18:32:00 +0200
-Message-Id: <20220413163206.1958254-20-eperezma@redhat.com>
+Subject: [RFC PATCH v7 20/25] vdpa: add NetClientState->start() callback
+Date: Wed, 13 Apr 2022 18:32:01 +0200
+Message-Id: <20220413163206.1958254-21-eperezma@redhat.com>
 In-Reply-To: <20220413163206.1958254-1-eperezma@redhat.com>
 References: <20220413163206.1958254-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,312 +89,50 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows qemu to inject packets to the device without guest's notice.
-
-This will be use to inject net CVQ messages to restore status in the destination
+It allows to inject custom code on device success start, right before
+release lock.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h |   5 +
- hw/virtio/vhost-shadow-virtqueue.c | 179 +++++++++++++++++++++++++----
- 2 files changed, 160 insertions(+), 24 deletions(-)
+ include/net/net.h  | 2 ++
+ hw/net/vhost_net.c | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index e06ac52158..2a5229e77f 100644
---- a/hw/virtio/vhost-shadow-virtqueue.h
-+++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -17,6 +17,9 @@
+diff --git a/include/net/net.h b/include/net/net.h
+index 523136c7ac..2fc3002ab4 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -44,6 +44,7 @@ typedef struct NICConf {
  
- typedef struct SVQElement {
-     VirtQueueElement elem;
-+    hwaddr in_iova;
-+    hwaddr out_iova;
-+    bool not_from_guest;
- } SVQElement;
- 
- typedef void (*VirtQueueElementCallback)(VirtIODevice *vdev,
-@@ -106,6 +109,8 @@ typedef struct VhostShadowVirtqueue {
- 
- bool vhost_svq_valid_features(uint64_t features, Error **errp);
- 
-+bool vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov,
-+                      size_t out_num, size_t in_num);
- void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
- void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd);
- void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 87980e2a9c..f3600df133 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -16,6 +16,7 @@
- #include "qemu/log.h"
- #include "qemu/memalign.h"
- #include "linux-headers/linux/vhost.h"
-+#include "qemu/iov.h"
- 
- /**
-  * Validate the transport device features that both guests can use with the SVQ
-@@ -122,7 +123,8 @@ static bool vhost_svq_translate_addr(const VhostShadowVirtqueue *svq,
-     return true;
- }
- 
--static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-+static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq,
-+                                        SVQElement *svq_elem, hwaddr *sg,
-                                         const struct iovec *iovec, size_t num,
-                                         bool more_descs, bool write)
- {
-@@ -130,15 +132,39 @@ static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
-     unsigned n;
-     uint16_t flags = write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
-     vring_desc_t *descs = svq->vring.desc;
--    bool ok;
- 
-     if (num == 0) {
-         return true;
-     }
- 
--    ok = vhost_svq_translate_addr(svq, sg, iovec, num);
--    if (unlikely(!ok)) {
--        return false;
-+    if (svq_elem->not_from_guest) {
-+        DMAMap map = {
-+            .translated_addr = (hwaddr)iovec->iov_base,
-+            .size = ROUND_UP(iovec->iov_len, 4096) - 1,
-+            .perm = write ? IOMMU_RW : IOMMU_RO,
-+        };
-+        int r;
-+
-+        if (unlikely(num != 1)) {
-+            error_report("Unexpected chain of element injected");
-+            return false;
-+        }
-+        r = vhost_iova_tree_map_alloc(svq->iova_tree, &map);
-+        if (unlikely(r != IOVA_OK)) {
-+            error_report("Cannot map injected element");
-+            return false;
-+        }
-+
-+        r = svq->map_ops->map(map.iova, map.size + 1,
-+                              (void *)map.translated_addr, !write,
-+                              svq->map_ops_opaque);
-+        assert(r == 0);
-+        sg[0] = map.iova;
-+    } else {
-+        bool ok = vhost_svq_translate_addr(svq, sg, iovec, num);
-+        if (unlikely(!ok)) {
-+            return false;
-+        }
-     }
- 
-     for (n = 0; n < num; n++) {
-@@ -166,7 +192,8 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq, SVQElement *svq_elem,
-     unsigned avail_idx;
-     vring_avail_t *avail = svq->vring.avail;
-     bool ok;
--    g_autofree hwaddr *sgs = g_new(hwaddr, MAX(elem->out_num, elem->in_num));
-+    g_autofree hwaddr *sgs = NULL;
-+    hwaddr *in_sgs, *out_sgs;
- 
-     *head = svq->free_head;
- 
-@@ -177,15 +204,23 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq, SVQElement *svq_elem,
-         return false;
-     }
- 
--    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
--                                     elem->in_num > 0, false);
-+    if (!svq_elem->not_from_guest) {
-+        sgs = g_new(hwaddr, MAX(elem->out_num, elem->in_num));
-+        in_sgs = out_sgs = sgs;
-+    } else {
-+        in_sgs = &svq_elem->in_iova;
-+        out_sgs = &svq_elem->out_iova;
-+    }
-+    ok = vhost_svq_vring_write_descs(svq, svq_elem, out_sgs, elem->out_sg,
-+                                     elem->out_num, elem->in_num > 0, false);
-     if (unlikely(!ok)) {
-         return false;
-     }
- 
--    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
--                                     true);
-+    ok = vhost_svq_vring_write_descs(svq, svq_elem, in_sgs, elem->in_sg,
-+                                     elem->in_num, false, true);
-     if (unlikely(!ok)) {
-+        /* TODO unwind out_sg */
-         return false;
-     }
- 
-@@ -230,6 +265,43 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
-     event_notifier_set(&svq->hdev_kick);
- }
- 
-+bool vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov,
-+                      size_t out_num, size_t in_num)
-+{
-+    size_t out_size = iov_size(iov, out_num);
-+    size_t out_buf_size = ROUND_UP(out_size, 4096);
-+    size_t in_size = iov_size(iov + out_num, in_num);
-+    size_t in_buf_size = ROUND_UP(in_size, 4096);
-+    SVQElement *svq_elem;
-+    uint16_t num_slots = (in_num ? 1 : 0) + (out_num ? 1 : 0);
-+
-+    if (unlikely(num_slots == 0 || svq->next_guest_avail_elem ||
-+                 vhost_svq_available_slots(svq) < num_slots)) {
-+        return false;
-+    }
-+
-+    svq_elem = virtqueue_alloc_element(sizeof(SVQElement), 1, 1);
-+    if (out_num) {
-+        void *out = qemu_memalign(4096, out_buf_size);
-+        svq_elem->elem.out_sg[0].iov_base = out;
-+        svq_elem->elem.out_sg[0].iov_len = out_size;
-+        iov_to_buf(iov, out_num, 0, out, out_size);
-+        memset(out + out_size, 0, out_buf_size - out_size);
-+    }
-+    if (in_num) {
-+        void *in = qemu_memalign(4096, in_buf_size);
-+        svq_elem->elem.in_sg[0].iov_base = in;
-+        svq_elem->elem.in_sg[0].iov_len = in_size;
-+        memset(in, 0, in_buf_size);
-+    }
-+
-+    svq_elem->not_from_guest = true;
-+    vhost_svq_add(svq, svq_elem);
-+    vhost_svq_kick(svq);
-+
-+    return true;
-+}
-+
- /**
-  * Forward available buffers.
-  *
-@@ -267,6 +339,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-                 break;
+ typedef void (NetPoll)(NetClientState *, bool enable);
+ typedef bool (NetCanReceive)(NetClientState *);
++typedef void (NetStart)(NetClientState *);
+ typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
+ typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, int);
+ typedef void (NetCleanup) (NetClientState *);
+@@ -71,6 +72,7 @@ typedef struct NetClientInfo {
+     NetReceive *receive_raw;
+     NetReceiveIOV *receive_iov;
+     NetCanReceive *can_receive;
++    NetStart *start;
+     NetCleanup *cleanup;
+     LinkStatusChanged *link_status_changed;
+     QueryRxFilter *query_rx_filter;
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 30379d2ca4..44a105ec29 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -274,6 +274,10 @@ static int vhost_net_start_one(struct vhost_net *net,
              }
- 
-+            svq_elem->not_from_guest = false;
-             elem = &svq_elem->elem;
-             if (elem->out_num + elem->in_num > vhost_svq_available_slots(svq)) {
-                 /*
-@@ -391,6 +464,31 @@ static SVQElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq, uint32_t *len)
-     return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
- }
- 
-+static int vhost_svq_unmap(VhostShadowVirtqueue *svq, hwaddr iova, size_t size)
-+{
-+    DMAMap needle = {
-+        .iova = iova,
-+        .size = size,
-+    };
-+    const DMAMap *overlap;
-+
-+    while ((overlap = vhost_iova_tree_find(svq->iova_tree, &needle))) {
-+        DMAMap needle = *overlap;
-+
-+        if (svq->map_ops->unmap) {
-+            int r = svq->map_ops->unmap(overlap->iova, overlap->size + 1,
-+                                        svq->map_ops_opaque);
-+            if (unlikely(r != 0)) {
-+                return r;
-+            }
-+        }
-+        qemu_vfree((void *)overlap->translated_addr);
-+        vhost_iova_tree_remove(svq->iova_tree, &needle);
-+    }
-+
-+    return 0;
-+}
-+
- static void vhost_svq_flush(VhostShadowVirtqueue *svq,
-                             bool check_for_avail_queue)
- {
-@@ -410,23 +508,56 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
-             }
- 
-             elem = &svq_elem->elem;
--            if (unlikely(i >= svq->vring.num)) {
--                qemu_log_mask(LOG_GUEST_ERROR,
--                         "More than %u used buffers obtained in a %u size SVQ",
--                         i, svq->vring.num);
--                virtqueue_fill(vq, elem, len, i);
--                virtqueue_flush(vq, i);
--                return;
--            }
--            virtqueue_fill(vq, elem, len, i++);
--
-             if (svq->ops && svq->ops->used_elem_handler) {
-                 svq->ops->used_elem_handler(svq->vdev, elem);
-             }
-+
-+            if (svq_elem->not_from_guest) {
-+                if (unlikely(!elem->out_num && elem->out_num != 1)) {
-+                    error_report("Unexpected out_num > 1");
-+                    return;
-+                }
-+
-+                if (elem->out_num) {
-+                    int r = vhost_svq_unmap(svq, svq_elem->out_iova,
-+                                            elem->out_sg[0].iov_len);
-+                    if (unlikely(r != 0)) {
-+                        error_report("Cannot unmap out buffer");
-+                        return;
-+                    }
-+                }
-+
-+                if (unlikely(!elem->in_num && elem->in_num != 1)) {
-+                    error_report("Unexpected in_num > 1");
-+                    return;
-+                }
-+
-+                if (elem->in_num) {
-+                    int r = vhost_svq_unmap(svq, svq_elem->in_iova,
-+                                            elem->in_sg[0].iov_len);
-+                    if (unlikely(r != 0)) {
-+                        error_report("Cannot unmap out buffer");
-+                        return;
-+                    }
-+                }
-+            } else {
-+                if (unlikely(i >= svq->vring.num)) {
-+                    qemu_log_mask(
-+                        LOG_GUEST_ERROR,
-+                        "More than %u used buffers obtained in a %u size SVQ",
-+                        i, svq->vring.num);
-+                    virtqueue_fill(vq, elem, len, i);
-+                    virtqueue_flush(vq, i);
-+                    return;
-+                }
-+                virtqueue_fill(vq, elem, len, i++);
-+            }
-         }
- 
--        virtqueue_flush(vq, i);
--        event_notifier_set(&svq->svq_call);
-+        if (i > 0) {
-+            virtqueue_flush(vq, i);
-+            event_notifier_set(&svq->svq_call);
-+        }
- 
-         if (check_for_avail_queue && svq->next_guest_avail_elem) {
-             /*
-@@ -590,13 +721,13 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
-     for (unsigned i = 0; i < svq->vring.num; ++i) {
-         g_autofree SVQElement *svq_elem = NULL;
-         svq_elem = g_steal_pointer(&svq->ring_id_maps[i]);
--        if (svq_elem) {
-+        if (svq_elem && !svq_elem->not_from_guest) {
-             virtqueue_detach_element(svq->vq, &svq_elem->elem, 0);
          }
      }
- 
-     next_avail_elem = g_steal_pointer(&svq->next_guest_avail_elem);
--    if (next_avail_elem) {
-+    if (next_avail_elem && !next_avail_elem->not_from_guest) {
-         virtqueue_detach_element(svq->vq, &next_avail_elem->elem, 0);
-     }
-     svq->vq = NULL;
++
++    if (net->nc->info->start) {
++        net->nc->info->start(net->nc);
++    }
+     return 0;
+ fail:
+     file.fd = -1;
 -- 
 2.27.0
 
