@@ -2,85 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FD24FEE62
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 06:59:13 +0200 (CEST)
-Received: from localhost ([::1]:39458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17F94FEF03
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 08:00:55 +0200 (CEST)
+Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neV60-0007Ug-Dl
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 00:59:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38992)
+	id 1neW3i-0002M5-Dg
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 02:00:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1neV3S-0006n5-K5
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 00:56:34 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:36442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1neV3P-0001XO-P4
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 00:56:34 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- o5-20020a17090ad20500b001ca8a1dc47aso5163350pju.1
- for <qemu-devel@nongnu.org>; Tue, 12 Apr 2022 21:56:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=AKE2TEdGzh5cBWAlQUBRmSK4925/MPQC+HxcnytfM9U=;
- b=T2Bpk9G26lvaNvdIQpVcGN1Ene20qn4aNGw8K6Lpo32PHQpq1pXiFxzp/Oh+2wsT+5
- E/v+KYjUR9XFJRdxg1MVy+pbESaPOxF5xP5JDDmPIzzWQZzpnoYxUX6yKyg+8JbBxtAK
- TGaHPSCvFzJsFQxHC+fNlmmIblDt92N4bDPljBs2YrazqNN6HQhm6BiY1ynx6vLw37wc
- YVzYLO9lpvtFgADbNEkA1lWeppjpuFUd2vxDk1VLuv/BeJ8YvWdyR0BK1Jxd6c04M2OY
- ncLymKLJMU65bJeAj9hVQ5Ui6V/4GZD1tL6zfvehHKi4CCdiCtuOLa/0ilLxQWkdAEx0
- psAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=AKE2TEdGzh5cBWAlQUBRmSK4925/MPQC+HxcnytfM9U=;
- b=zkhz2CeemO0tu0OFSkKZcqK7OW1cykngju8EQl2eAlT/1uVHXK9owPNaKYPAM2KE4s
- GjqEf7jYhtdEINHUZjHeUHLHBY34b6J+TwJqeFfvDadkKK6wWPLO4uB8/md6vTpVMgbe
- uu50u2lOsFCHBTRYAaiNQXJKOTWE6NJaJbCHc0CbxH2ZR/d493Cz7/zRXSkq1gA1sWvx
- R2J4hlBPGNGElXhqcl7hXc3OlaQHv7OHs5XkimXwucQX6uNx1+CTygVo9lHs/zbqeMyx
- 45lZ7Y5F0nbQH6i8oSm6lsYBq4q6QsKPf1CEKk39aKB/KdCtJddGmLcltAXex5te46SH
- hIvQ==
-X-Gm-Message-State: AOAM530OX98Rk26GccFuPhKf5We4IxaGZYJzai6y2SDjRyYkkKxpOzY2
- jXgvx0Cd1u4cOhomKKbjpF40xw==
-X-Google-Smtp-Source: ABdhPJyF5tEAfsCeibJREe5Cb7qXqPaxvKjKw8qtjsBl7hGJ2i5vw4upkkiW0xf2FysvPnidmBxWIg==
-X-Received: by 2002:a17:90b:1d08:b0:1c7:3b51:8b41 with SMTP id
- on8-20020a17090b1d0800b001c73b518b41mr8637576pjb.210.1649825788459; 
- Tue, 12 Apr 2022 21:56:28 -0700 (PDT)
-Received: from [10.61.2.177] (110-175-254-242.static.tpgi.com.au.
- [110.175.254.242]) by smtp.gmail.com with ESMTPSA id
- d16-20020a17090ad99000b001bcbc4247a0sm1159168pjv.57.2022.04.12.21.56.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 21:56:27 -0700 (PDT)
-Message-ID: <edfa8ca4-8e8a-335a-2e7e-c69661ec73da@ozlabs.ru>
-Date: Wed, 13 Apr 2022 14:56:22 +1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:99.0) Gecko/20100101
- Thunderbird/99.0
-Subject: Re: XIVE VFIO kernel resample failure in INTx mode under heavy load
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Timothy Pearson <tpearson@raptorengineering.com>
-References: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
- <20220314160952.46d5313a.alex.williamson@redhat.com>
- <9638ec8f-2edf-97df-0c14-95ae2344dc70@kaod.org>
- <6f0a92ca-9f53-b8b8-e85d-43f4da36200d@kaod.org>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <6f0a92ca-9f53-b8b8-e85d-43f4da36200d@kaod.org>
+ (Exim 4.90_1) (envelope-from <divya.garg@nutanix.com>)
+ id 1neW1X-0001Pr-2R
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 01:58:39 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:59008)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <divya.garg@nutanix.com>)
+ id 1neW1S-0002MJ-1m
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 01:58:37 -0400
+Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23D4ZYr5007100;
+ Tue, 12 Apr 2022 22:58:29 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=ZlLHEOsUj844yZkXDlJjjCcL+u3MY+zQ2Ot42wmRoR4=;
+ b=aWEEBP31UEdQpJjEKCM+masAwh1Xk9GOkH4yitfrbC/ADlTXcRjLtkb6Qf7aBJQK7R6K
+ MD0QRPJ9N9t96JCB4SdVQjEQrp/2lUZZ6JLufaM6xFlAAN7CDeCGIUnikmU3UYIzyRmN
+ 13S59Bq7y30FS5OMyH6TIS8lz6X6OWbYFe0zzFSr/TSsLtUjuappmwVYxy1qj7T0JZet
+ /XTvcfNC+uFhlHznMJe4Rn95RCBBedQbNXAxAoEgzhKNTLNHWoqBiczfurKU1KZem1Rw
+ 9h+mpcNaBgXQyMGvFCn42bxAsRRQml1ZxIe+6yb19h4OJxmpeN3cDMoA6jo3VnpM0D8n Dg== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2104.outbound.protection.outlook.com [104.47.58.104])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3fb88f86c0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Apr 2022 22:58:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I1rjyyoH4gobtCzMs+mPJGApjEkoSQtsrXF0Gp4NjB7Qact0PBaHKCw1G/mM9p0HlbaA5X623KmoAjTMAh/q7t0T01zJEWMgzOqTfq7Ngj3eyfvjNr6WGSaWlduIy6g5Ajr2YL3ZymdqRV8Dz4Fngr+klhx50AUziI3nYf/wrZdQlVU+WLzw8nYpzHCJYqHHLqcpG4YK6pN65mLawpTHUSWWJaxBfu3R83gnydDLs4yUcfCunXOTGs5wOmWCiZL3ncOAbONu9npXagxF6Y4gDiHGt/sShNuTfwJPnR8kYL9JLTTE854b3XtUTbuR+xA/L6q+HkeNQeME3eWTbylbVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZlLHEOsUj844yZkXDlJjjCcL+u3MY+zQ2Ot42wmRoR4=;
+ b=CzGww3RSbJSVG+KmlJzmZfPoreIivuvk06OYpbXjbKlQaV4iKR+nxJU82RwxJpkt7fiNSQ1RwukQP7MfYeUFPXDfxq+XQDbtlRLm2EX6H3O4pqcbHWRuVNz8ZQavbX00xRH05av2d6t20hzrVva9F8QgIyLxt7E2q/WddFFCPan306CajBe1Aq/ZQsqom5gdnRIWMnirOa5W5rteL+gZHtTIGIU4q1vBzcY7Y6iFE1ArV6ki3FwyfDMQIr6xkzeLVpamX43crYNVabP2x3IaGfMWNIDcvpNBxhKZwVWfjv3svZ9gjazl3lj/2iVHRSAFgw2lHjsXCY6S0kTBhurXbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from SJ0PR02MB7775.namprd02.prod.outlook.com (2603:10b6:a03:326::12)
+ by BYAPR02MB4120.namprd02.prod.outlook.com (2603:10b6:a02:f3::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Wed, 13 Apr
+ 2022 05:58:25 +0000
+Received: from SJ0PR02MB7775.namprd02.prod.outlook.com
+ ([fe80::3dbb:6b0e:599:f05c]) by SJ0PR02MB7775.namprd02.prod.outlook.com
+ ([fe80::3dbb:6b0e:599:f05c%7]) with mapi id 15.20.5164.018; Wed, 13 Apr 2022
+ 05:58:25 +0000
+Message-ID: <c2ff58e7-d8e7-454d-ab6e-1e87999ced64@nutanix.com>
+Date: Wed, 13 Apr 2022 11:28:19 +0530
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [Qemu-devel] [PATCH 6/8] i386/kvm: hv-stimer requires hv-time and
+ hv-synic
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+References: <2dde6caa-8d02-7022-d2c2-aa56c408f5f2@nutanix.com>
+ <87tuay5uy3.fsf@redhat.com>
+ <c9822d09-9c64-fddf-671b-389e21022e8d@nutanix.com>
+ <87r1625o3a.fsf@redhat.com>
+From: Divya Garg <divya.garg@nutanix.com>
+In-Reply-To: <87r1625o3a.fsf@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=aik@ozlabs.ru; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-ClientProxiedBy: SJ0PR13CA0138.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::23) To SJ0PR02MB7775.namprd02.prod.outlook.com
+ (2603:10b6:a03:326::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d2325f77-3050-4610-76f8-08da1d129f84
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4120:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR02MB4120B617ED8CCE69C150CD3F9AEC9@BYAPR02MB4120.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HehgX+vAwN06STDaEMHzmxpHvXIYSmbdAxnjVEeuMq2GQL9UcHGbk2QqCq28YrrMkcZUBUmbN0b3+9KrW9W+txdjMs8P2XmWxTeLeEoDdtQPDoVwPVvDwUq8GOPX4X5iOgdMv1AIc8egbdfrSAT7D1WBrQPWKMeDEkrmxHfSWApNjF+dRhF6337gMY2rwWcEcHHsLvKRLNpQe2b6x4njqkHghmUiRoypJv12XcP1x1msIyTSuRKqkhbLeXT5NdGV9G1dddNitNI89tZzqQOZh1vNCXkFYEkWX3Q2L2FSSO5s/ZOc+LX20dOXL7zlcBheF9rS4YCfBvptyZDTSxFbBVhDFLHQm5iG7aUew543eR3v9sFBxwbURbM9Ki7/4o7LEiaRMd4nx1vVPRE0hU3eLYOmme69aIN5DwGTvT/jkqOx6xZq/l0FCL0DQuHrAdM925tRiUcwKhyedzYO5Yq5KHNFcoauYK+jv/BS4m3j0Fe8EmnEp35jOlqd9S5IBGSW48g2vhHFLt5N3QGa2EcMDvjtX/q7B94RvQS+cHUOnf9MKhqMOy7fB6Q+hwyGy7u/2fiZAkmhHvXogXN6W/fdf/AXvNhAM6E6aDwMbgGAXtK0xg33V8rwEb+vjA5hulCBZ2xP6FhyJSnhMqQ3P6tRUVb/dskCfDQfA+rdP6N/ySHLAArvRk/P3zHMxt26fBV7HqdmybPJbnOBwyBg3QZqTfqUh9tMFnQ9V2bql0SFHr05KzgWjxdF2vZnqlgRwfz4Ofl+vIX5zOBipRuvGYuwnlGI6n1p86Rbi+W/bHKcBwCVnSRUQMuho6ClRu2X++62KzIxrSDCc5hd/95YHUrc7dBhQlsgDUzBxB5VmnL/VKs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR02MB7775.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(6486002)(31696002)(8936002)(2616005)(6916009)(4326008)(8676002)(5660300002)(26005)(186003)(2906002)(36756003)(31686004)(83380400001)(508600001)(66946007)(86362001)(44832011)(316002)(66556008)(66476007)(6506007)(53546011)(6512007)(6666004)(52116002)(38350700002)(38100700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SXY4SUoxN3dtUy9LOXB5WEFrb3IxZnVMbWZoZ25mTzlDSDFQclBQU0x5dWl1?=
+ =?utf-8?B?VGU4SmNDbUg1MkNPd1hDdEJ5cUNHWDYzQjR0RTlKZzRCa3dKK2R2bkdRMlJI?=
+ =?utf-8?B?bnF5V0RoaGJvcUJCbis3a2Q5Zys4WjF4RFFrSHdiM0dBYUxpelh1L0c0dksz?=
+ =?utf-8?B?YXpsRjdCcDFhK2Z4WUZTSWJHaVlueEQyTW5uUEswNVo2dUdhbnVaNjZSYkFw?=
+ =?utf-8?B?ZU40RytQTHgxS0tqZUx4MCtubnZwNS9KSjZPVFZxQVBLdVp3anFyNjVyVkFl?=
+ =?utf-8?B?aStRc1BVK2p4TVdNT3VlTWZoZmdOWXVvVEcyQURaMU9TcTN5cnRad1VRcnZU?=
+ =?utf-8?B?UmtTaU41NGN0NTFWWXJOTEJ5dkliQ2VFMVgxeXRJNmEzUmp6a0ZMWEFsV2g3?=
+ =?utf-8?B?dWQ5RXhLV3NpZlVsMmxMYVVCN3BmTUR4YnZMQVlPZGVvUWx3NGlZVlVjY1lU?=
+ =?utf-8?B?ZUU5ZDIzSllsVGlSY0lHaDZyVDRxYXY5c3RTYVU1Wi85NGRFZ0VQTzVua3Zj?=
+ =?utf-8?B?TEQ3M2thUVloM2ZTYWVzV0FwZjN0SElValVKdmxzZGh1eU9IR2twUm5XSVl5?=
+ =?utf-8?B?WnNKVG13UUZ1NGdIV2hjSDZVd2VYOUxHT2IyUTNMYU9TQUUxemI5TkZZV3gv?=
+ =?utf-8?B?WnFBeDd1cU13SkFCcVJXV1N4RUJEUHdmdmx2Z3c4MmFSUThDL2pFNFFDc0Zr?=
+ =?utf-8?B?bG05WCtqR3pvaHBOa0U3S2JwZXVVdE9sN3oxajExL3hwNWpZY0JvZjFkZnZW?=
+ =?utf-8?B?bjREK1VQN0JiNUUraE11Mmc4dStvTEdoVjkxWG1PeHhSc25LR0hSRHQ0K3Q2?=
+ =?utf-8?B?YUFkcDJudUp0WW40dFAyaVF6MlFxekVPNHNoeUtBZ24rWWpPbnYrSEdYTkFK?=
+ =?utf-8?B?M3dSSk5JV05xTG41bnZZL0ZIZnhHUmVtS2lFbDFyVTRacjA3MzlGSWhWTHJT?=
+ =?utf-8?B?a1RHblNGK1FXTitFRG1NbjhON2JMclJMdHZFVEM4R0tJdjNER1VEZWFncWJt?=
+ =?utf-8?B?ZHVyVjNsUFB3a3Z1L2FNWjgxU2k0dVV6UHQwMXpGenh4aFVpNklPQlF3eS9O?=
+ =?utf-8?B?VHpwWEtSVmZiTFlwOG5NcDN0b0pDeURiSTh2ZjEyTkFhSmZjb0Nmc0NwbG5C?=
+ =?utf-8?B?RVNXWFl6QWtERU9FRnlTTU9KNXNPTGJsZzVUbll5cEJGUFZDWGoycW9VL0tm?=
+ =?utf-8?B?VWRhOUxqK28zZysrLzNlSEhoV0hvSHg3NS9xeGo4aU1WWFc0UUNYOElpbS96?=
+ =?utf-8?B?aE5MVU1idGd3SkxXdUIrQ1kveWdNL0k1b2lYaWZrN3gzN0pjaTkyUWN1d1dp?=
+ =?utf-8?B?NXRGYTVFNk5ZR1hpM2pYa21hd1htZSsvYW9XaVpiVFoway9iRVh4NS84eGJl?=
+ =?utf-8?B?VHVwdXA5MHo2ZEZBWi9YRW9jOXRQTDdwL1BEaUhrd3RES2M3cDAzQ1lTUk9I?=
+ =?utf-8?B?Mmg4Y1AzWkdBR2RXSDNIYjUrd0dXc0RXU3hhdG8xNHJIWWxlQjQ3cTh0RHRx?=
+ =?utf-8?B?dysyRUQ3YjkxbjNGUkw4SU9vS0pHZDVqazd2Umw3QXhiWTRJb2IyZElRZTVO?=
+ =?utf-8?B?c0s4WllTczhYZ1dqK205MXdaT3NuaEROMjcwdzZyazh2NnJVcWk1dTlZQ1pE?=
+ =?utf-8?B?Yk5KTXVDdVdQQ3NBWEV5S08xSGt1cVlsbVZIeEQ2MWY4dTloNGR6c3pLd3F3?=
+ =?utf-8?B?VEk5UE9nL21OOUJMc3dsOERySlh4NzA2TjQ3UjBZazVpbFBZSjhkVWw3Ujhh?=
+ =?utf-8?B?dHc3bEJjemR1SlB6NVFic0s4RGdwZjBKeDlWOVd2SFdTd3FDT2RBY1YyZjB5?=
+ =?utf-8?B?WjdCdWVUS3hKd3MvSFVGSVpmM2RnblBiUlRod0lWZFFYMi9JZmE0SE9nZUFv?=
+ =?utf-8?B?d1IwTWV0RlV2ZU5aVFl2NHhlN1lpMXNuRXlJS2IzUU8rS2J1b0RmRVhscXZF?=
+ =?utf-8?B?T1hDMWhmbGFhSkpldjg5WExKQzlzZkdtRUJUdy9Qa2ZxSGZEVjJtUTY5V3Yr?=
+ =?utf-8?B?S1VZRjRCb3BFbUVmZUJob08wK0R4VUFyRmRrM05LQmZUWWpDS3FubzI0N2cw?=
+ =?utf-8?B?M3IxVUdweGxrMzN2RStvckJVTGZwZittY1hKcUhEVmJyd3ZEMlp6SGRsVkIz?=
+ =?utf-8?B?TUowM0h3WTRmZlM3RmwvejVMVGt2SElkbUVHMnNXQnNsd1N4eFRuZHRCS1Bo?=
+ =?utf-8?B?ZG1WR0RoVHhyUmJGRmMyOEQrSHZRVWFuUm8wY0dIODFNV0IxVmUxMXllcmxT?=
+ =?utf-8?B?MG1LUjMzSkdMVzcwTVhsQjVyUTRuVFh3OGZjeFgxQk0rdERzWTVzSXR1NWUr?=
+ =?utf-8?B?QzErQ0FvaVZuaS9OeklCLytHR0poU1hFUlN5azloMm1DdTFFNWxFZm9kTzFu?=
+ =?utf-8?Q?V1oO8EmdGi3hsVLU=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2325f77-3050-4610-76f8-08da1d129f84
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR02MB7775.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2022 05:58:25.0159 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: coAGIsv0Z8gOwEChkQM5N6piVpavyFfFpVV8n7JS22mK38dnGbY8e7/ybFPQm6kOXIoUAvt4OmpO68LEZ9gDLw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4120
+X-Proofpoint-ORIG-GUID: EN3kkwyJz1ESFAJc76lU7kGTnGX5z1mq
+X-Proofpoint-GUID: EN3kkwyJz1ESFAJc76lU7kGTnGX5z1mq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-12_06,2022-04-12_02,2022-02-23_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=divya.garg@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,199 +166,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
- "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+On 12/04/22 8:46 pm, Vitaly Kuznetsov wrote:
+> Divya Garg <divya.garg@nutanix.com> writes:
+>
+>> On 12/04/22 6:18 pm, Vitaly Kuznetsov wrote:
+>>> Divya Garg <divya.garg@nutanix.com> writes:
+>>>
+>>>> Hi Vitaly Kuznetsov !
+>>>> I was working on hyperv flags and saw that we introduced new
+>>>> dependencies some
+>>>> time back
+>>>> (https://urldefense.proofpoint.com/v2/url?u=https-3A__sourcegraph.com_github.com_qemu_qemu_-2D_commit_c686193072a47032d83cb4e131dc49ae30f9e5d7-3Fvisible-3D1&d=DwIBAg&c=s883GpUCOChKOHiocYtGcg&r=2QGHz-fTCVWImEBKe1ZcSe5t6UfasnhvdzD5DcixwOE&m=ln-t0rKlkFkOEKe97jJTLi2BoKK5E9lLMPHjPihl4kpdbvBStPeD0Ku9wTed7GPf&s=AtipQDs1Mi-0FQtb1AyvBpR34bpjp64troGF_nr_08E&e= ).
+>>>> After these changes, if we try to live migrate a vm from older qemu to newer
+>>>> one having these changes, it fails showing dependency issue.
+>>>>
+>>>> I was wondering if this is the expected behaviour or if there is any work
+>>>> around for handing it ? Or something needs to be done to ensure backward
+>>>> compatibility ?
+>>> Hi Divya,
+>>>
+>>> configurations with 'hv-stimer' and without 'hv-synic'/'hv-time' were
+>>> always incorrect as Windows can't use the feature, that's why the
+>>> dependencies were added. It is true that it doesn't seem to be possible
+>>> to forward-migrate such VMs to newer QEMU versions. We could've tied
+>>> these new dependencies to newer machine types I guess (so old machine
+>>> types would not fail to start) but we didn't do that back in 4.1 and
+>>> it's been awhile since... Not sure whether it would make much sense to
+>>> introduce something for pre-4.1 machine types now.
+>>>
+>>> Out of curiosity, why do such "incorrect" configurations exist? Can you
+>>> just update them to include missing flags on older QEMU so they migrate
+>>> to newer ones without issues?
+>>>
+>> Hi Vitaly !
+>>
+>> Thanks for the response. I understand that these were incorrect
+>> configurations
+>> and should be corrected. Only issue is, we want to avoid power cycling those
+>> VMs. But yeah I think, since the configurations were wrong we should
+>> update and
+>> power cycle the VM.  Just for understanding purpose, is it possible to
+>> disable
+>> the feature by throwing out some warning message and update libvirt to
+>> metigate
+>> this change and handle live migration ?
+>>
+> I'm not exactly sure about libvirt, I was under the impression it makes
+> sure that QEMU command line is the same on the destination and on the
+> source. If there's a way to add something, I'd suggest you add the
+> missing features (hv-time, hv-synic) on the destination rather than
+> remove 'hv-stimer' as it is probably safer.
+Yes libvirt makes sure that the configurations remains constant on 
+source and
+destination. And true that adding new features is a safer route.
+>
+>> Or maybe update libvirt to not to ask for this feature from qemu during live
+>> migration and handle different configuration on source and destination
+>> host ?
+> You can also modify QEMU locally and throw away these dependencies,
+> it'll allow these configurations again but generally speaking checking
+> that the set of hyper-v features is exactly the same on the source and
+> destination is the right thing to do: there are no guarantees that guest
+> OS (Windows) will keep behaving sane when the corresponding CPUIDs
+> change while it's running, all sorts of things are possible I believe.
+True that. Its really difficult to predict the change in behaviour of 
+guest on
+changing CPUIDs especially disabling a bit. I agree best solution will be to
+power cycle the VMs and update the correct CPUIDs maintaining correct
+dependency. Thankyou for clearing out the doubts and helping in a better
+understanding.
 
-On 3/17/22 06:16, Cédric Le Goater wrote:
-> Timothy,
-> 
-> On 3/16/22 17:29, Cédric Le Goater wrote:
->> Hello,
->>
->>
->>> I've been struggling for some time with what is looking like a
->>> potential bug in QEMU/KVM on the POWER9 platform.  It appears that
->>> in XIVE mode, when the in-kernel IRQ chip is enabled, an external
->>> device that rapidly asserts IRQs via the legacy INTx level mechanism
->>> will only receive one interrupt in the KVM guest.
->>
->> Indeed. I could reproduce with a pass-through PCI adapter using
->> 'pci=nomsi'. The virtio devices operate correctly but the network
->> adapter only receives one event (*):
->>
->>
->> $ cat /proc/interrupts
->>             CPU0       CPU1       CPU2       CPU3       CPU4       
->> CPU5       CPU6       CPU7
->>   16:       2198       1378       1519       1216          0          
->> 0          0          0  XIVE-IPI   0 Edge      IPI-0
->>   17:          0          0          0          0       2003       
->> 1936       1335       1507  XIVE-IPI   1 Edge      IPI-1
->>   18:          0       6401          0          0          0          
->> 0          0          0  XIVE-IRQ 4609 Level     virtio3, virtio0, 
->> virtio2
->>   19:          0          0          0          0          0        
->> 204          0          0  XIVE-IRQ 4610 Level     virtio1
->>   20:          0          0          0          0          0          
->> 0          0          0  XIVE-IRQ 4608 Level     xhci-hcd:usb1
->>   21:          0          1          0          0          0          
->> 0          0          0  XIVE-IRQ 4612 Level     eth1 (*)
->>   23:          0          0          0          0          0          
->> 0          0          0  XIVE-IRQ 4096 Edge      RAS_EPOW
->>   24:          0          0          0          0          0          
->> 0          0          0  XIVE-IRQ 4592 Edge      hvc_console
->>   26:          0          0          0          0          0          
->> 0          0          0  XIVE-IRQ 4097 Edge      RAS_HOTPLUG
->>
->>> Changing any one of those items appears to avoid the glitch, e.g. XICS
->>
->> XICS is very different from XIVE. The driver implements the previous
->> interrupt controller architecture (P5-P8) and the hypervisor mediates
->> the delivery to the guest. With XIVE, vCPUs are directly signaled by
->> the IC. When under KVM, we use different KVM devices for each mode :
->>
->> * KVM XIVE is a XICS-on-XIVE implementation (P9/P10 hosts) for guests
->>    not using the XIVE native interface. RHEL7 for instance.
->> * KVM XIVE native is a XIVE implementation (P9/P10 hosts) for guests
->>    using the XIVE native interface. Linux > 4.14.
->> * KVM XICS is for P8 hosts (no XIVE HW)
->>
->> VFIO adds some complexity with the source events. I think the problem
->> comes from the assertion state. I will talk about it later.
->>
->>> mode with the in-kernel IRQ chip works (all interrupts are passed
->>> through),
->>
->> All interrupts are passed through using XIVE also. Run 'info pic' in
->> the monitor. On the host, check the IRQ mapping in the debugfs file :
->>
->>    /sys/kernel/debug/powerpc/kvm-xive-*
->>
->>> and XIVE mode with the in-kernel IRQ chip disabled also works. 
->>
->> In that case, no KVM device backs the QEMU device and all state
->> is in one place.
->>
->>> We
->>> are also not seeing any problems in XIVE mode with the in-kernel
->>> chip from MSI/MSI-X devices.
->>
->> Yes. pass-through devices are expected to operate correctly :)
->>
->>> The device in question is a real time card that needs to raise an
->>> interrupt every 1ms.  It works perfectly on the host, but fails in
->>> the guest -- with the in-kernel IRQ chip and XIVE enabled, it
->>> receives exactly one interrupt, at which point the host continues to
->>> see INTx+ but the guest sees INTX-, and the IRQ handler in the guest
->>> kernel is never reentered.
->>
->> ok. Same symptom as the scenario above.
->>
->>> We have also seen some very rare glitches where, over a long period
->>> of time, we can enter a similar deadlock in XICS mode.
->>
->> with the in-kernel XICS IRQ chip ?
->>
->>> Disabling
->>> the in-kernel IRQ chip in XIVE mode will also lead to the lockup
->>> with this device, since the userspace IRQ emulation cannot keep up
->>> with the rapid interrupt firing (measurements show around 100ms
->>> required for processing each interrupt in the user mode).
->>
->> MSI emulation in QEMU is slower indeed (35%). LSI is very slow because
->> it is handled as a special case in the device/driver. To maintain the
->> assertion state, all LSI handling is done with a special HCALL :
->> H_INT_ESB which is implemented in QEMU. This generates a lot of back
->> and forth in the KVM stack.
->>
->>> My understanding is the resample mechanism does some clever tricks
->>> with level IRQs, but that QEMU needs to check if the IRQ is still
->>> asserted by the device on guest EOI.
->>
->> Yes. the problem is in that area.
->>
->>> Since a failure here would
->>> explain these symptoms I'm wondering if there is a bug in either
->>> QEMU or KVM for POWER / pSeries (SPAPr) where the IRQ is not
->>> resampled and therefore not re-fired in the guest?
->>
->> KVM I would say. The assertion state is maintained in KVM for the KVM
->> XICS-on-XIVE implementation and in QEMU for the KVM XIVE native
->> device. These are good candidates. I will take a look.
-> 
-> All works fine with KVM_CAP_IRQFD_RESAMPLE=false in QEMU. Can you please
-> try this workaround for now ? I could reach 934 Mbits/sec on the passthru
-> device.
-> 
-> I clearly overlooked that part and it has been 3 years.
-
-
-Disabling KVM_CAP_IRQFD_RESAMPLE on XIVE-capable machines seems to be 
-the right fix actually.
-
-XIVE == baremetal/vm POWER9 and newer.
-XICS == baremetal/vm POWER8 and older, or VMs on any POWER (backward 
-compat.).
-
-Tested on POWER9 with a passed through XHCI host and "-append pci=nomsi" 
-and "-machine pseries,ic-mode=xics,kernel_irqchip=on" (and s/xics/xive/).
-
-When it is XIVE-on-XIVE (host and guest are XIVE), INTx is emulated in 
-the QEMU's H_INT_ESB handler and IRQFD_RESAMPLE is just useless in such 
-case (as it is designed to eliminate going to the userspace for the 
-EOI->INTx unmasking) and there is no pathway to call the eventfd's 
-irqfd_resampler_ack() from QEMU. So the VM's XHCI device receives 
-exactly 1 interrupt and that is it. "kernel_irqchip=off" fixes it 
-(obviously).
-
-When it is XICS-on-XIVE (host is XIVE and guest is XICS), then the VM 
-receives 100000 interrupts and then it gets frozen (__report_bad_irq() 
-is called). Which happens because (unlike XICS-on-XICS), the host XIVE's 
-xive_(rm|vm)_h_eoi() does not call irqfd_resampler_ack(). This fixes it:
-
-=============
-diff --git a/arch/powerpc/kvm/book3s_xive_template.c 
-b/arch/powerpc/kvm/book3s_xive_template.c
-index b0015e05d99a..9f0d8e5c7f4b 100644 
-
---- a/arch/powerpc/kvm/book3s_xive_template.c 
-
-+++ b/arch/powerpc/kvm/book3s_xive_template.c 
-
-@@ -595,6 +595,8 @@ X_STATIC int GLUE(X_PFX,h_eoi)(struct kvm_vcpu 
-*vcpu, unsigned long xirr)
-         xc->hw_cppr = xc->cppr; 
-
-         __x_writeb(xc->cppr, __x_tima + TM_QW1_OS + TM_CPPR); 
-
- 
-
-+       kvm_notify_acked_irq(vcpu->kvm, 0, irq); 
-
-+ 
-
-         return rc; 
-
-  } 
-
-=============
-
-The host's XICS does call kvm_notify_acked_irq() (I did not test that 
-but the code seems to be doing so).
-
-After re-reading what I just wrote, I am leaning towards disabling use 
-of KVM_CAP_IRQFD_RESAMPLE as it seems last worked on POWER8 and never 
-since :)
-
-Did I miss something in the picture (hey Cedric)?
-
-
---
-Alexey
+Regards
+Divya
 
