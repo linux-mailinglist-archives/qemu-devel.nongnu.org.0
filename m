@@ -2,107 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D1E4FFA08
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 17:25:15 +0200 (CEST)
-Received: from localhost ([::1]:40698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06074FFA8E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 17:44:27 +0200 (CEST)
+Received: from localhost ([::1]:55478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neerq-0000Mc-Ez
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 11:25:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
+	id 1nefAQ-0002mh-C2
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 11:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1neep8-00060o-Ry
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 11:22:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35479)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nef90-0001WM-7L
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 11:42:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1neep5-0006ZL-TY
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 11:22:25 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nef8x-0001XX-Gb
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 11:42:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649863343;
+ s=mimecast20190719; t=1649864575;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IU/Ic3r+g6P2X0iiEVgU1eI2EqMF7JfdovjkegWy2Rs=;
- b=DWUQYJmZZbtfvy0eDwzTTnd6zlYzNdfTwCOKxM6dAKfYMdgvOLJfYna5JTDL0o3ctAqgmn
- z888FOK40gAM7YlmmJddfzlyqGOwwCWvV8CBhTE56U/+fdrD+iNFJAk1Dk9KKGPH4sRKMA
- Bt05jP7544MSyKSpDbqYpTjyndwh2vo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=p8crzsj/ks5JVzrilq0k3tC5d9+edaa4ib26eRPGB5k=;
+ b=iAAGcny1OEwVSc7IDRLx171UA5mOwaej4Tg3GyQgxok2ogE70XEKQ1cVskXEJ9MoJGbfN3
+ /x+hLiDqLhbQMCIUMEnjVCuh859kLoS/3NZv55jze715uT2qXEkaAR9bahk537J1bvPDui
+ rfvI61DVY0NqTmKddiDpXn9Z5bpj9oQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-279-Z6c_9hgWPPiM0INmq2Pskw-1; Wed, 13 Apr 2022 11:22:21 -0400
-X-MC-Unique: Z6c_9hgWPPiM0INmq2Pskw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p18-20020adfc392000000b00207a2102f9bso472318wrf.7
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 08:22:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=IU/Ic3r+g6P2X0iiEVgU1eI2EqMF7JfdovjkegWy2Rs=;
- b=HvdVcYs0FENFrke3cdoKr83mjP8dQY/HbbTxwHXFKS0/iC5EEqpLZhPevnRAY9274c
- 86v5lpssNGQl4mFxS9KBGdzVc9fPT04TIMCAmz0dDZswVENhuhTVVV9wNb3HtYoTCipq
- /9lHVrBFwGsg/Jt0YKKW9Ndi9bTZwbrdbU301Ye+wkXgsCLtcQUbqsccVmvyPNauyDP2
- JLTuEmGO3fyT8DmWzS9bCAoBvO6PXoP/aQjQ5P7xbCOiEm5byBLimsD2P0ZWbla8FF3I
- QSm/oF4OdGasWWVJSS3cZwQQub3GpcwKyqHOGn+Skgwzyofoko1uPJpHitupqgiIPatB
- RH7g==
-X-Gm-Message-State: AOAM532hhk3C2XVK56S2o5jeOpHDWypOVSoiwOVAvh6SWUgjY2f5cyQ+
- 9RWvoDskN5KuRa5XStobzabqHGKkx9tjPmGIw+/CUXohN1AkrNChl+5s38mn4AYb/uz4NR3QQL/
- TJQHUQLkPwc3oVNI=
-X-Received: by 2002:a5d:5967:0:b0:207:9b63:b4bc with SMTP id
- e39-20020a5d5967000000b002079b63b4bcmr18900286wri.264.1649863340473; 
- Wed, 13 Apr 2022 08:22:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzT5YwuigWRaPd0yVmB97bycGrwm+ydjkgdfIn/C36GHYha6NxnLT6Z/cvqROFD0b8FHy9KMg==
-X-Received: by 2002:a5d:5967:0:b0:207:9b63:b4bc with SMTP id
- e39-20020a5d5967000000b002079b63b4bcmr18900263wri.264.1649863340161; 
- Wed, 13 Apr 2022 08:22:20 -0700 (PDT)
-Received: from [192.168.149.183]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- n2-20020adfb742000000b00205eda3b3c1sm34117387wre.34.2022.04.13.08.22.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 08:22:19 -0700 (PDT)
-Message-ID: <f186f894-fe07-9313-c483-f9e30299acac@redhat.com>
-Date: Wed, 13 Apr 2022 17:22:18 +0200
+ us-mta-315-rUxffBqiPJqIvPOXmitW0A-1; Wed, 13 Apr 2022 11:42:53 -0400
+X-MC-Unique: rUxffBqiPJqIvPOXmitW0A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3FD5A1014A61
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 15:42:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E800B2166B4F;
+ Wed, 13 Apr 2022 15:42:52 +0000 (UTC)
+Date: Wed, 13 Apr 2022 10:42:51 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH for-7.1 4/8] nbd: keep send_mutex/free_sema handling
+ outside nbd_co_do_establish_connection
+Message-ID: <20220413154251.nk33rcipdvvsuvso@redhat.com>
+References: <20220412194204.350889-1-pbonzini@redhat.com>
+ <20220412194204.350889-5-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 0/5] Removal of AioContext lock, bs->parents and
- ->children: proof of concept
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <af53599c-c7de-d2b8-00fa-0e7d28121251@redhat.com>
- <e9eeec7b-d03e-5e8e-cc42-568c670726ca@redhat.com>
- <c8d45cd9-e7de-9acd-3fd6-13de58f5ce48@redhat.com>
- <c6a12090-b6c3-31d8-fb90-a76c9dd2e949@redhat.com>
- <88f2798b-9327-e54f-5792-e37404b94ef7@redhat.com>
- <8ae70388-ff46-6ec1-7f84-14d41ca9a6dd@redhat.com>
- <311c2e0a-fb2c-241c-cbd1-1162f7e74e18@redhat.com>
- <9d3c36f0-0834-ec9c-8473-d052d64a61dd@redhat.com>
- <69b2ce82-4826-71ed-9c32-d323df69b7c4@redhat.com>
- <6b88890c-f191-7f77-93eb-91f4951e179d@redhat.com>
- <Ylbjd3kzEsBZmgJQ@redhat.com>
- <5d34e709-fe59-70df-2723-49f252aaed78@redhat.com>
-In-Reply-To: <5d34e709-fe59-70df-2723-49f252aaed78@redhat.com>
+In-Reply-To: <20220412194204.350889-5-pbonzini@redhat.com>
+User-Agent: NeoMutt/20211029-6-a115bf
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,175 +80,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Apr 12, 2022 at 09:42:00PM +0200, Paolo Bonzini wrote:
+> Elevate s->in_flight early so that other incoming requests will wait
+> on the CoQueue in nbd_co_send_request; restart them after getting back
+> from nbd_reconnect_attempt.  This could be after the reconnect timer or
+> nbd_cancel_in_flight have cancelled the attempt, so there is no
+> need anymore to cancel the requests there.
+> 
+> nbd_co_send_request now handles both stopping and restarting pending
+> requests after a successful connection, and there is no need to
+> hold send_mutex in nbd_co_do_establish_connection.  The current setup
+> is confusing because nbd_co_do_establish_connection is called both with
+> send_mutex taken and without it.  Before the patch it uses free_sema which
+> (at least in theory...) is protected by send_mutex, after the patch it
+> does not anymore.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  block/coroutines.h |  4 +--
+>  block/nbd.c        | 66 ++++++++++++++++++++++------------------------
+>  2 files changed, 33 insertions(+), 37 deletions(-)
+> 
 
+> +++ b/block/nbd.c
 
-Am 13/04/2022 um 17:14 schrieb Emanuele Giuseppe Esposito:
-> 
-> 
-> Am 13/04/2022 um 16:51 schrieb Kevin Wolf:
->> Am 13.04.2022 um 15:43 hat Emanuele Giuseppe Esposito geschrieben:
->>> So this is a more concrete and up-to-date header.
->>>
->>> Few things to notice:
->>> - we have a list of AioContext. They are registered once an aiocontext
->>> is created, and deleted when it is destroyed.
->>> This list is helpful because each aiocontext can only modify its own
->>> number of readers, avoiding unnecessary cacheline bouncing
->>>
->>> - if a coroutine changes aiocontext, it's ok with regards to the
->>> per-aiocontext reader counter. As long as the sum is correct, there's no
->>> issue. The problem comes only once the original aiocontext is deleted,
->>> and at that point we need to move the count it held to a shared global
->>> variable, otherwise we risk to lose track of readers.
->>
->> So the idea is that we can do bdrv_graph_co_rdlock() in one thread and
->> the corresponding bdrv_graph_co_rdunlock() in a different thread?
->>
->> Would the unlock somehow remember the original thread, or do you use the
->> "sum is correct" argument and allow negative counter values, so you can
->> end up having count +1 in A and -1 in B to represent "no active
->> readers"? If this happens, it's likely to happen many times, so do we
->> have to take integer overflows into account then?
->>
->>> - All synchronization between the flags explained in this header is of
->>> course handled in the implementation. But for now it would be nice to
->>> have a feedback on the idea/API.
->>>
->>> So in short we need:
->>> - per-aiocontext counter
->>> - global list of aiocontext
->>> - global additional reader counter (in case an aiocontext is deleted)
->>> - global CoQueue
->>> - global has_writer flag
->>> - global QemuMutex to protect the list access
->>>
->>> Emanuele
->>>
->>> #ifndef BLOCK_LOCK_H
->>> #define BLOCK_LOCK_H
->>>
->>> #include "qemu/osdep.h"
->>>
->>> /*
->>>  * register_aiocontext:
->>>  * Add AioContext @ctx to the list of AioContext.
->>>  * This list is used to obtain the total number of readers
->>>  * currently running the graph.
->>>  */
->>> void register_aiocontext(AioContext *ctx);
->>>
->>> /*
->>>  * unregister_aiocontext:
->>>  * Removes AioContext @ctx to the list of AioContext.
->>>  */
->>> void unregister_aiocontext(AioContext *ctx);
->>>
->>> /*
->>>  * bdrv_graph_wrlock:
->>>  * Modify the graph. Nobody else is allowed to access the graph.
->>>  * Set global has_writer to 1, so that the next readers will wait
->>>  * that writer is done in a coroutine queue.
->>>  * Then keep track of the running readers by counting what is the total
->>>  * amount of readers (sum of all aiocontext readers), and wait until
->>>  * they all finish with AIO_WAIT_WHILE.
->>>  */
->>> void bdrv_graph_wrlock(void);
->>
->> Do we need a coroutine version that yields instead of using
->> AIO_WAIT_WHILE() or are we sure this will only ever be called from
->> non-coroutine contexts?
-> 
-> writes (graph modifications) are always done under BQL in the main loop.
-> Except an unit test, I don't think a coroutine ever does that.
+> @@ -359,25 +354,25 @@ int coroutine_fn nbd_co_do_establish_connection(BlockDriverState *bs,
+>  /* called under s->send_mutex */
+>  static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+>  {
+> -    assert(nbd_client_connecting(s));
+> -    assert(s->in_flight == 0);
+> -
+> -    if (nbd_client_connecting_wait(s) && s->reconnect_delay &&
+> -        !s->reconnect_delay_timer)
+> -    {
+> -        /*
+> -         * It's first reconnect attempt after switching to
+> -         * NBD_CLIENT_CONNECTING_WAIT
+> -         */
+> -        reconnect_delay_timer_init(s,
+> -            qemu_clock_get_ns(QEMU_CLOCK_REALTIME) +
+> -            s->reconnect_delay * NANOSECONDS_PER_SECOND);
+> -    }
+> +    bool blocking = nbd_client_connecting_wait(s);
+>  
+>      /*
+>       * Now we are sure that nobody is accessing the channel, and no one will
+>       * try until we set the state to CONNECTED.
+>       */
+> +    assert(nbd_client_connecting(s));
+> +    assert(s->in_flight == 1);
+> +
+> +    if (blocking && !s->reconnect_delay_timer) {
+> +        /*
+> +         * It's first reconnect attempt after switching to
 
-Additional point (1): I am also prepraring a serie with all "helpful
-fixes" I got through all other discarderd/obsolete series, like
-subtree_drain and similar.
+While moving this, we could add the missing article: "It's the first"
 
-So except for the job patches, you can discard all other series.
+> +         * NBD_CLIENT_CONNECTING_WAIT
+> +         */
+> +        g_assert(s->reconnect_delay);
+> +        reconnect_delay_timer_init(s,
+> +            qemu_clock_get_ns(QEMU_CLOCK_REALTIME) +
+> +            s->reconnect_delay * NANOSECONDS_PER_SECOND);
+> +    }
+>  
+>      /* Finalize previous connection if any */
+>      if (s->ioc) {
+> @@ -388,7 +383,9 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+>          s->ioc = NULL;
+>      }
+>  
+> -    nbd_co_do_establish_connection(s->bs, NULL);
+> +    qemu_co_mutex_unlock(&s->send_mutex);
+> +    nbd_co_do_establish_connection(s->bs, blocking, NULL);
+> +    qemu_co_mutex_lock(&s->send_mutex);
+>  
+>      /*
+>       * The reconnect attempt is done (maybe successfully, maybe not), so
+> @@ -474,21 +471,21 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
+>      qemu_co_mutex_lock(&s->send_mutex);
+>  
+>      while (s->in_flight == MAX_NBD_REQUESTS ||
+> -           (!nbd_client_connected(s) && s->in_flight > 0))
+> -    {
+> +           (!nbd_client_connected(s) && s->in_flight > 0)) {
 
-> 
->>
->>> /*
->>>  * bdrv_graph_wrunlock:
->>>  * Write finished, reset global has_writer to 0 and restart
->>>  * all readers that are waiting.
->>>  */
->>> void bdrv_graph_wrunlock(void);
->>>
->>> /*
->>>  * bdrv_graph_co_rdlock:
->>>  * Read the bs graph. Increases the reader counter of the current
->>> aiocontext,
->>>  * and if has_writer is set, it means that the writer is modifying
->>>  * the graph, therefore wait in a coroutine queue.
->>>  * The writer will then wake this coroutine once it is done.
->>>  *
->>>  * This lock cannot be taken recursively.
->>>  */
->>> void coroutine_fn bdrv_graph_co_rdlock(void);
->>
->> What prevents it from being taken recursively when it's just a counter?
->> (I do see however, that you can't take a reader lock while you have the
->> writer lock or vice versa because it would deadlock.)
->>
-> I actually didn't add the assertion to prevent it from being recoursive
-> yet, but I think it simplifies everything if it's not recoursive
+Mixing in a style change here.  Not the end of the world.
 
+The cosmetics are trivial, and the real change of enlarging the scope
+of in_flight makes sense to me.
 
-Additional point (2): I forgot that with counters there's no easy way to
-avoid recursion, so yeah theoretically it can be recursive. Still,
-better avoid doing it intentionally though.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-> 
->> Does this being a coroutine_fn mean that we would have to convert QMP
->> command handlers to coroutines so that they can take the rdlock while
->> they don't expect the graph to change? Or should we have a non-coroutine
->> version, too, that works with AIO_WAIT_WHILE()?
-> 
-> Why convert the QMP command handlers? coroutine_fn was just to signal
-> that it can also be called from coroutines, like the ones created by the
-> blk_* API.
-> A reader does not have to be a coroutine. AIO_WAIT_WHILE is not
-> mandatory to allow it to finish, it helps to ensure progress in case
-> some reader is waiting for something, but other than that is not
-> necessary IMO.
-> 
->> Or should this only be taken for very small pieces of code directly
->> accessing the BdrvChild objects, and high-level users like QMP commands
->> shouldn't even consider themselves readers?
->>
-> 
-> No I think if we focus on small pieces of code we end up having a
-> million lock/unlock pairs.
-> 
->>> /*
->>>  * bdrv_graph_rdunlock:
->>>  * Read terminated, decrease the count of readers in the current aiocontext.
->>>  * If the writer is waiting for reads to finish (has_writer == 1), signal
->>>  * the writer that we are done via aio_wait_kick() to let it continue.
->>>  */
->>> void coroutine_fn bdrv_graph_co_rdunlock(void);
->>>
->>> #endif /* BLOCK_LOCK_H */
->>
->> I expect that in the final version, we might want to have some sugar
->> like a WITH_BDRV_GRAPH_RDLOCK_GUARD() macro, but obviously that doesn't
->> affect the fundamental design.
-> 
-> Yeah I will ping you once I get to that point ;)
-> 
-> Emanuele
->>
->> Kevin
->>
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
