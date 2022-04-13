@@ -2,43 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201A5500187
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 00:05:36 +0200 (CEST)
-Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E204500265
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 01:16:55 +0200 (CEST)
+Received: from localhost ([::1]:50620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nel7F-0007VK-HO
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 18:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48772)
+	id 1nemEH-0003nX-QD
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 19:16:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
- id 1nel2b-0001J8-Fm
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 18:00:45 -0400
-Received: from smtp122.ord1d.emailsrvr.com ([184.106.54.122]:47528)
+ (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
+ id 1nemCd-00037L-0m; Wed, 13 Apr 2022 19:15:11 -0400
+Received: from smtp-relay-canonical-1.canonical.com ([185.125.188.121]:57628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
- id 1nel2Z-0004M6-4N
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 18:00:45 -0400
-X-Auth-ID: adeason@sinenomine.net
-Received: by smtp8.relay.ord1d.emailsrvr.com (Authenticated sender:
- adeason-AT-sinenomine.net) with ESMTPSA id CBB42C01B7; 
- Wed, 13 Apr 2022 18:00:17 -0400 (EDT)
-From: Andrew Deason <adeason@sinenomine.net>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] qga/commands-posix: 'guest-shutdown' for Solaris
-Date: Wed, 13 Apr 2022 17:00:07 -0500
-Message-Id: <20220413220007.14467-6-adeason@sinenomine.net>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20220413220007.14467-1-adeason@sinenomine.net>
-References: <20220413220007.14467-1-adeason@sinenomine.net>
-X-Classification-ID: 5647c629-c4e4-4626-ae9f-55e4ffbba697-6-1
-Received-SPF: pass client-ip=184.106.54.122;
- envelope-from=adeason@sinenomine.net; helo=smtp122.ord1d.emailsrvr.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
+ id 1nemCb-0006Ln-6p; Wed, 13 Apr 2022 19:15:10 -0400
+Received: from LT2ubnt.fritz.box (ip-088-152-144-107.um26.pools.vodafone-ip.de
+ [88.152.144.107])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 17FF23F11D; 
+ Wed, 13 Apr 2022 23:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1649891703;
+ bh=fgJytORPX/by9LBapE5V9ok+3BZR1lC/hRPbFADFbUk=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+ b=XBRlCNQZyi3I/MrvjOt4ZLOxEVjOdqxCL6TxQ/u4bSbU/lx3ST7S9Tu/kBT/xdvLP
+ W7z4hh8H/6/9rNYR8Nj8KaZKB6SHUwE+m9EAsb5Hzs22CkdqOrjARkBlH99S3iFq+d
+ KY8hCClnHAvdlddwehrf3fKZQIKW8FeYi8Hv6e+/YR5Us54DwPI+rkTu9upeFhVKKf
+ 7oCUOW/o3kNQvOVZ7nuheHbiRPl8TF2cFmIAFgcJWx64Qqt5CA3A1kKdr2mckKNr/O
+ 86cQVURMmshOUeP3zln4GBrrR2Fh8sTu/A+re9WWBTPBjfjlY81XAiEo1BrCxIHCvN
+ 0h5EMxrqybW+w==
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH] hw/arm/virt: impact of gic-version on max CPUs
+Date: Thu, 14 Apr 2022 01:14:56 +0200
+Message-Id: <20220413231456.35811-1-heinrich.schuchardt@canonical.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=185.125.188.121;
+ envelope-from=heinrich.schuchardt@canonical.com;
+ helo=smtp-relay-canonical-1.canonical.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -52,94 +64,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Andrew Deason <adeason@sinenomine.net>,
- Michal Privoznik <mprivozn@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Solaris, instead of the -P, -H, and -r flags, we need to provide
-the target init state to the 'shutdown' command: state 5 is poweroff,
-0 is halt, and 6 is reboot. We also need to pass -g0 to avoid the
-default 60-second delay, and -y to avoid a confirmation prompt.
+Describe that the gic-version influences the maximum number of CPUs.
 
-Implement this logic under an #ifdef CONFIG_SOLARIS, so the
-'guest-shutdown' command works properly on Solaris.
-
-Signed-off-by: Andrew Deason <adeason@sinenomine.net>
+Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
 ---
-Changes since v1:
-- new in v2
+ docs/system/arm/virt.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- qga/commands-posix.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
-
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 97e001e998..8c30a9e575 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -88,43 +88,58 @@ static void ga_wait_child(pid_t pid, int *status, Error **errp)
-     g_assert(rpid == pid);
- }
+diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+index 1544632b67..1af3f6a0a8 100644
+--- a/docs/system/arm/virt.rst
++++ b/docs/system/arm/virt.rst
+@@ -96,9 +96,9 @@ gic-version
+   Valid values are:
  
- void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
- {
-     const char *shutdown_flag;
-     Error *local_err = NULL;
-     pid_t pid;
-     int status;
- 
-+#ifdef CONFIG_SOLARIS
-+    const char *powerdown_flag = "-i5";
-+    const char *halt_flag = "-i0";
-+    const char *reboot_flag = "-i6";
-+#else
-+    const char *powerdown_flag = "-P";
-+    const char *halt_flag = "-H";
-+    const char *reboot_flag = "-r";
-+#endif
-+
-     slog("guest-shutdown called, mode: %s", mode);
-     if (!has_mode || strcmp(mode, "powerdown") == 0) {
--        shutdown_flag = "-P";
-+        shutdown_flag = powerdown_flag;
-     } else if (strcmp(mode, "halt") == 0) {
--        shutdown_flag = "-H";
-+        shutdown_flag = halt_flag;
-     } else if (strcmp(mode, "reboot") == 0) {
--        shutdown_flag = "-r";
-+        shutdown_flag = reboot_flag;
-     } else {
-         error_setg(errp,
-                    "mode is invalid (valid values are: halt|powerdown|reboot");
-         return;
-     }
- 
-     pid = fork();
-     if (pid == 0) {
-         /* child, start the shutdown */
-         setsid();
-         reopen_fd_to_null(0);
-         reopen_fd_to_null(1);
-         reopen_fd_to_null(2);
- 
-+#ifdef CONFIG_SOLARIS
-+        execle("/sbin/shutdown", "shutdown", shutdown_flag, "-g0", "-y",
-+               "hypervisor initiated shutdown", (char *)NULL, environ);
-+#else
-         execle("/sbin/shutdown", "shutdown", "-h", shutdown_flag, "+0",
-                "hypervisor initiated shutdown", (char *)NULL, environ);
-+#endif
-         _exit(EXIT_FAILURE);
-     } else if (pid < 0) {
-         error_setg_errno(errp, errno, "failed to create child process");
-         return;
-     }
- 
-     ga_wait_child(pid, &status, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
+   ``2``
+-    GICv2
++    GICv2 - This limits the number of CPUs to 8.
+   ``3``
+-    GICv3
++    GICv3 - This allows up to 512 CPUs.
+   ``host``
+     Use the same GIC version the host provides, when using KVM
+   ``max``
 -- 
-2.11.0
+2.34.1
 
 
