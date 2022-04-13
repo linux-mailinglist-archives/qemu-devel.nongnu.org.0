@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818884FFBC9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 18:52:45 +0200 (CEST)
-Received: from localhost ([::1]:33614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF134FFC52
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 19:24:27 +0200 (CEST)
+Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1negEW-0000cK-KD
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 12:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33830)
+	id 1negjB-00075L-UP
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 13:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nefvf-0002As-Ba
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:33:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nefvc-0003Hp-HY
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:33:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649867592;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WmKDI5piNsGZ4vgdJRwucZaDCrOggeMEPe3JnmT3rYA=;
- b=UVvlb1E+OHhf6JxXMzoFy+De+pAgIyMxGIK+/W/tvia1IVq+Sbw92yNHNLRafigf1WOOmj
- 7tFDp1j4sp3eZQXI8wHMQEcbhLdPOS58PQ8ia8VW3aEq1ip9sYg8AljLL/PqxL8ZCJCZOd
- XmsooqKDbahKYXyBx2JDffkGtlXWarw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-STx_8UerPN-lFj1k3Q_bew-1; Wed, 13 Apr 2022 12:33:11 -0400
-X-MC-Unique: STx_8UerPN-lFj1k3Q_bew-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 739643841D2D;
- Wed, 13 Apr 2022 16:33:10 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 605E114582F6;
- Wed, 13 Apr 2022 16:33:08 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
+ id 1neghy-00066m-Qw
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 13:23:10 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38653)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <gautamnagrawal@gmail.com>)
+ id 1neghw-0003Ad-Uk
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 13:23:10 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id n18so2523914plg.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 10:23:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GIrBGGHaOu6FGsiI3pehBsLPUA3XG5t1mTIHx3K82fk=;
+ b=lvakoWdEb4tBAnivjRbSHVUynehMUk4fjMqniu8YO+SWd0ZIOJtUjfGNWB7hofwlvq
+ lSxnoY+1ujMFJ8f7KKSEu/nvb/6f2ODHj7b5lrVa+alD2ZsaBRatEKkCyTTnHujmarEy
+ C9ndlVJuTAlUMXd600q9oPkmARuSfzSACMGeMemwergUt3X3D+koPOKomR5fhdHyJOTy
+ ZobXOV64wqlqIrjn1ZX/hJQhQywlSDh3AKpvRGEBuqXdCR8+eUyWUMuGC8Re9+Pkl7aD
+ u25EvCp5W2m8VNcng77JEtEtpz2x8SLAzBcLrLuKhpqQQ5d7z6IqfH6ZKXnxrzoEvIIA
+ mG8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GIrBGGHaOu6FGsiI3pehBsLPUA3XG5t1mTIHx3K82fk=;
+ b=0hjiMhV1kv0tPq1vK+E9F4tAFSEQQ9LDkDunSuHN6GN/wyuoMT0tWy4/Sj04Zzm6f9
+ 06Bdtxvd09aZPEBAorE6clDKgh2yo6UxEMEXKPYSSUWJrJU719qjWzGbhfTycpEBPcOX
+ Cyx2BirSr2xXTyFZFRJf6wF+fBhj9rvYJLMLn7fxKKUxkzXNgvv87orQE0wKXR+UPCwb
+ RRzSQu6sTsbPNhRuXgHvgfgdISHbx0CoQ8BVtIFd+x9RP/2vdt6UVsz1s7EKMwDDfZFc
+ 3jgE2C0vjsEpyOgzQn2PaFSiWdlEubUFmaLPgPRnzT8c8wK3/HfQYysHqaHY70mJP/YK
+ Enbg==
+X-Gm-Message-State: AOAM533Ueg+khJUlDqrGcQozgkO2gJsFG2iuANWFOzHY8NkrOyfcZMfL
+ mgwJIWW/kNFCb/rhuD6to4Bm6V0RgRc5EH0D
+X-Google-Smtp-Source: ABdhPJzRwChbKnYzrZQ1kY/fwCsb2WzlP4iTRo1EoF4kV9Ei1w3xBUZtqTChU+R6oVsgkloekq5BRQ==
+X-Received: by 2002:a17:90b:1642:b0:1c7:2497:3807 with SMTP id
+ il2-20020a17090b164200b001c724973807mr11854905pjb.176.1649870587055; 
+ Wed, 13 Apr 2022 10:23:07 -0700 (PDT)
+Received: from localhost.localdomain ([2409:4040:e07:30fa:c118:857:c6d2:f2a4])
+ by smtp.gmail.com with ESMTPSA id
+ g14-20020a65580e000000b0039ce0873289sm6636813pgr.84.2022.04.13.10.23.02
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 13 Apr 2022 10:23:06 -0700 (PDT)
+From: Gautam Agrawal <gautamnagrawal@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v7 25/25] vdpa: Add x-cvq-svq
-Date: Wed, 13 Apr 2022 18:32:06 +0200
-Message-Id: <20220413163206.1958254-26-eperezma@redhat.com>
-In-Reply-To: <20220413163206.1958254-1-eperezma@redhat.com>
-References: <20220413163206.1958254-1-eperezma@redhat.com>
+Subject: [PATCH v2] Warn user if the vga flag is passed but no vga device is
+ created
+Date: Wed, 13 Apr 2022 22:52:46 +0530
+Message-Id: <20220413172246.73708-1-gautamnagrawal@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=gautamnagrawal@gmail.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,203 +83,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Eli Cohen <eli@mellanox.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, kraxel@redhat.com,
+ Gautam Agrawal <gautamnagrawal@gmail.com>, stefanha@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This isolates shadow cvq in its own group.
+A global boolean variable "vga_interface_created"(declared in softmmu/globals.c)
+has been used to track the creation of vga interface. If the vga flag is passed
+in the command line "default_vga"(declared in softmmu/vl.c) variable is set to 0.
+To warn user, the condition checks if vga_interface_created is false
+and default_vga is equal to 0.If "-vga none" is passed, this patch will not warn the
+user regarding the creation of VGA device.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+The initialisation of Global variable "vga_interface_created" in softmmu/globals.c
+has also been corrected.
+
+The warning "A -vga option was passed but this
+machine type does not use that option; no VGA device has been created"
+is logged if vga flag is passed but no vga device is created.
+
+"vga_interface_created" has also been included in "xen_machine_pv.c" and
+"fuloong2e.c". This patch has been tested for x86_64, i386, sparc, sparc64 and arm boards.
+
+Signed-off-by: Gautam Agrawal <gautamnagrawal@gmail.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/581
 ---
- qapi/net.json    |  8 +++-
- net/vhost-vdpa.c | 98 ++++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 100 insertions(+), 6 deletions(-)
+ hw/isa/isa-bus.c          | 1 +
+ hw/mips/fuloong2e.c       | 1 +
+ hw/pci/pci.c              | 1 +
+ hw/sparc/sun4m.c          | 2 ++
+ hw/sparc64/sun4u.c        | 1 +
+ hw/xenpv/xen_machine_pv.c | 1 +
+ include/sysemu/sysemu.h   | 1 +
+ softmmu/globals.c         | 1 +
+ softmmu/vl.c              | 6 ++++++
+ 9 files changed, 15 insertions(+)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 92848e4362..39c245e6cd 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -447,9 +447,12 @@
- #
- # @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.1)
- #         (default: false)
-+# @x-cvq-svq: Start device with (experimental) shadow virtqueue in its own
-+#             virtqueue group. (Since 7.1)
-+#             (default: false)
- #
- # Features:
--# @unstable: Member @x-svq is experimental.
-+# @unstable: Members @x-svq and x-cvq-svq are experimental.
- #
- # Since: 5.1
- ##
-@@ -457,7 +460,8 @@
-   'data': {
-     '*vhostdev':     'str',
-     '*queues':       'int',
--    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
-+    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] },
-+    '*x-cvq-svq':    {'type': 'bool', 'features' : [ 'unstable'] } } }
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 0ad1c5fd65..cd5ad3687d 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -166,6 +166,7 @@ bool isa_realize_and_unref(ISADevice *dev, ISABus *bus, Error **errp)
  
- ##
- # @NetClientDriver:
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index a6f803ea4e..851dacb902 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -377,6 +377,17 @@ static int vhost_vdpa_get_features(int fd, uint64_t *features, Error **errp)
-     return ret;
- }
- 
-+static int vhost_vdpa_get_backend_features(int fd, uint64_t *features,
-+                                           Error **errp)
-+{
-+    int ret = ioctl(fd, VHOST_GET_BACKEND_FEATURES, features);
-+    if (ret) {
-+        error_setg_errno(errp, errno,
-+            "Fail to query backend features from vhost-vDPA device");
-+    }
-+    return ret;
-+}
-+
- static int vhost_vdpa_get_max_queue_pairs(int fd, uint64_t features,
-                                           int *has_cvq, Error **errp)
+ ISADevice *isa_vga_init(ISABus *bus)
  {
-@@ -410,16 +421,56 @@ static int vhost_vdpa_get_max_queue_pairs(int fd, uint64_t features,
-     return 1;
- }
++    vga_interface_created = true;
+     switch (vga_interface_type) {
+     case VGA_CIRRUS:
+         return isa_create_simple(bus, "isa-cirrus-vga");
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index c9f14e70a0..538453b426 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -321,6 +321,7 @@ static void mips_fuloong2e_init(MachineState *machine)
  
-+/**
-+ * Check vdpa device to support CVQ group asid 1
-+ *
-+ * @vdpa_device_fd: Vdpa device fd
-+ * @queue_pairs: Queue pairs
-+ * @errp: Error
-+ */
-+static int vhost_vdpa_check_cvq_svq(int vdpa_device_fd, int queue_pairs,
-+                                    Error **errp)
-+{
-+    uint64_t backend_features;
-+    unsigned num_as;
-+    int r;
-+
-+    r = vhost_vdpa_get_backend_features(vdpa_device_fd, &backend_features,
-+                                        errp);
-+    if (unlikely(r)) {
-+        return -1;
-+    }
-+
-+    if (unlikely(!(backend_features & VHOST_BACKEND_F_IOTLB_ASID))) {
-+        error_setg(errp, "Device without IOTLB_ASID feature");
-+        return -1;
-+    }
-+
-+    r = ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, &num_as);
-+    if (unlikely(r)) {
-+        error_setg_errno(errp, errno,
-+                         "Cannot retrieve number of supported ASs");
-+        return -1;
-+    }
-+    if (unlikely(num_as < 2)) {
-+        error_setg(errp, "Insufficient number of ASs (%u, min: 2)", num_as);
-+    }
-+
-+    return 0;
-+}
-+
- int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp)
+     /* GPU */
+     if (vga_interface_type != VGA_NONE) {
++        vga_interface_created = true;
+         pci_dev = pci_new(-1, "ati-vga");
+         dev = DEVICE(pci_dev);
+         qdev_prop_set_uint32(dev, "vgamem_mb", 16);
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index dae9119bfe..fab9c80f8d 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2038,6 +2038,7 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
+ 
+ PCIDevice *pci_vga_init(PCIBus *bus)
  {
-     const NetdevVhostVDPAOptions *opts;
-+    struct vhost_vdpa_iova_range iova_range;
-     uint64_t features;
-     int vdpa_device_fd;
-     g_autofree NetClientState **ncs = NULL;
-     NetClientState *nc;
-     int queue_pairs, r, i, has_cvq = 0;
-     g_autoptr(VhostIOVATree) iova_tree = NULL;
-+    ERRP_GUARD();
++    vga_interface_created = true;
+     switch (vga_interface_type) {
+     case VGA_CIRRUS:
+         return pci_create_simple(bus, -1, "cirrus-vga");
+diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+index 7f3a7c0027..f45e29acc8 100644
+--- a/hw/sparc/sun4m.c
++++ b/hw/sparc/sun4m.c
+@@ -921,6 +921,7 @@ static void sun4m_hw_init(MachineState *machine)
+             /* sbus irq 5 */
+             cg3_init(hwdef->tcx_base, slavio_irq[11], 0x00100000,
+                      graphic_width, graphic_height, graphic_depth);
++            vga_interface_created = true;
+         } else {
+             /* If no display specified, default to TCX */
+             if (graphic_depth != 8 && graphic_depth != 24) {
+@@ -936,6 +937,7 @@ static void sun4m_hw_init(MachineState *machine)
  
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -444,8 +495,9 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         qemu_close(vdpa_device_fd);
-         return queue_pairs;
-     }
--    if (opts->x_svq) {
--        struct vhost_vdpa_iova_range iova_range;
-+    if (opts->x_cvq_svq || opts->x_svq) {
-+        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-+
-         uint64_t invalid_dev_features =
-             features & ~vdpa_svq_device_features &
-             /* Transport are all accepted at this point */
-@@ -457,7 +509,21 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                        invalid_dev_features);
-             goto err_svq;
+             tcx_init(hwdef->tcx_base, slavio_irq[11], 0x00100000,
+                      graphic_width, graphic_height, graphic_depth);
++            vga_interface_created = true;
          }
--        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
+     }
+ 
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index cda7df36e3..75334dba71 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -633,6 +633,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+     switch (vga_interface_type) {
+     case VGA_STD:
+         pci_create_simple(pci_busA, PCI_DEVFN(2, 0), "VGA");
++        vga_interface_created = true;
+         break;
+     case VGA_NONE:
+         break;
+diff --git a/hw/xenpv/xen_machine_pv.c b/hw/xenpv/xen_machine_pv.c
+index 8df575a457..20c9611d71 100644
+--- a/hw/xenpv/xen_machine_pv.c
++++ b/hw/xenpv/xen_machine_pv.c
+@@ -63,6 +63,7 @@ static void xen_init_pv(MachineState *machine)
+     if (vga_interface_type == VGA_XENFB) {
+         xen_config_dev_vfb(0, "vnc");
+         xen_config_dev_vkbd(0);
++        vga_interface_created = true;
+     }
+ 
+     /* configure disks */
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index b9421e03ff..a558b895e4 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -32,6 +32,7 @@ typedef enum {
+ } VGAInterfaceType;
+ 
+ extern int vga_interface_type;
++extern bool vga_interface_created;
+ 
+ extern int graphic_width;
+ extern int graphic_height;
+diff --git a/softmmu/globals.c b/softmmu/globals.c
+index 3ebd718e35..98b64e0492 100644
+--- a/softmmu/globals.c
++++ b/softmmu/globals.c
+@@ -40,6 +40,7 @@ int nb_nics;
+ NICInfo nd_table[MAX_NICS];
+ int autostart = 1;
+ int vga_interface_type = VGA_NONE;
++bool vga_interface_created;
+ Chardev *parallel_hds[MAX_PARALLEL_PORTS];
+ int win2k_install_hack;
+ int singlestep;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 6f646531a0..8c9f31fa35 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2734,6 +2734,12 @@ static void qemu_machine_creation_done(void)
+     if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+         exit(1);
+     }
++    if (!vga_interface_created && !default_vga &&
++        vga_interface_type != VGA_NONE) {
++        warn_report("A -vga option was passed but this machine "
++                    "type does not use that option; "
++                    "No VGA device has been created");
 +    }
-+
-+    if (opts->x_cvq_svq) {
-+        if (!has_cvq) {
-+            error_setg(errp, "Cannot use x-cvq-svq with a device without cvq");
-+            goto err_svq;
-+        }
-+
-+        r = vhost_vdpa_check_cvq_svq(vdpa_device_fd, queue_pairs, errp);
-+        if (unlikely(r)) {
-+            error_prepend(errp, "Cannot configure CVQ SVQ: ");
-+            goto err_svq;
-+        }
-+    }
-+    if (opts->x_svq) {
-         iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
-     }
+ }
  
-@@ -472,11 +538,35 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     }
- 
-     if (has_cvq) {
-+        g_autoptr(VhostIOVATree) cvq_iova_tree = NULL;
-+
-+        if (opts->x_cvq_svq) {
-+            cvq_iova_tree = vhost_iova_tree_new(iova_range.first,
-+                                                iova_range.last);
-+        } else if (opts->x_svq) {
-+            cvq_iova_tree = vhost_iova_tree_acquire(iova_tree);
-+        }
-+
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-                                  vdpa_device_fd, i, 1,
--                                 false, opts->x_svq, iova_tree);
-+                                 false, opts->x_cvq_svq || opts->x_svq,
-+                                 cvq_iova_tree);
-         if (!nc)
-             goto err;
-+
-+        if (opts->x_cvq_svq) {
-+            struct vhost_vring_state asid = {
-+                .index = 1,
-+                .num = 1,
-+            };
-+
-+            r = ioctl(vdpa_device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
-+            if (unlikely(r)) {
-+                error_setg_errno(errp, errno,
-+                                 "Cannot set cvq group independent asid");
-+                goto err;
-+            }
-+        }
-     }
- 
-     return 0;
+ void qmp_x_exit_preconfig(Error **errp)
 -- 
-2.27.0
+2.34.1
 
 
