@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4294FFFEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 22:23:10 +0200 (CEST)
-Received: from localhost ([::1]:59256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893AF500025
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 22:46:00 +0200 (CEST)
+Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nejW9-0003v8-JG
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 16:23:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58114)
+	id 1nejsF-0007Z8-4c
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 16:45:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nejUP-0003EE-1M
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 16:21:21 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37610)
+ id 1nejqJ-0006kQ-4o; Wed, 13 Apr 2022 16:43:59 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nejUN-0005wx-GP
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 16:21:20 -0400
-Received: by mail-wr1-x436.google.com with SMTP id t1so4232841wra.4
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 13:21:19 -0700 (PDT)
+ id 1nejqH-0000nk-HB; Wed, 13 Apr 2022 16:43:58 -0400
+Received: by mail-wr1-x434.google.com with SMTP id w4so4261864wrg.12;
+ Wed, 13 Apr 2022 13:43:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kiFeHD+01fRleQ9LJhb7JWI9i+XDdzKbvOvWGgRUF9M=;
- b=jfOC2HWVl/jyEpqMZM1FwyBVRfog+oVzmC2jq2/Wz2r30fBvZ4+jMaNT+7U5cqL2o5
- a32/JgueCjJqgfNB+uF/DcFzSp9/LlYUYAyFRgk3qy5l+IIikANPN742AASbZP3bjnQ3
- mAA+fpfwhLB7NbWi2cMcfHZNAY/MZAi9qUNvlM4JOU6LYXLKM6Y5d97Rl6iDuQO5ppmH
- cjTtYMMEJ0R4GNRAj8tLFVLtgXPGlZaKUgGyy51/WlOuHT5q2pzMfrMV7yIM0xvPx57Z
- NUnc/6PKFDMkWcW1Vy9zyRfW/mxIrYgkpgkdigi1h4WZcnpFMYdD3O3THyi9AOHV479y
- G0Tg==
+ bh=z6hxrytZ3fBmcBTrzyJ90JXImTnrbO2ARhUA8ECYiX0=;
+ b=pCz7Mt4OZmmpeDw9VRHwvBDfvsSDQqUe7a1b+5vmVpbafstLPbqKaVnwO1KN3MFyU+
+ fCOuvCCjtpD5JFMQ9M0BjpGUWbtuan/+RzjK6dF+2LRjxYfeBxFuQShH4UdYzuFI6lv1
+ L1ZT8sm4kQZURPwSqa+O4XkUQfhunWtJfKFUzeC8uyTKUW6nlbsuEbTU1UmnixTepXLt
+ 1xpm106l3M1HEY247sztnm/VTyfVF9LWIXuzr9uKAPanqezRPbNvfyBGFX1eg7yrGhej
+ +TseArNV1o2bKGc4x9ooinmYBzsbLXkkOX0JQ5fTDEKwTCRbZFmKxWawm7bUliQPVU5B
+ sqzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kiFeHD+01fRleQ9LJhb7JWI9i+XDdzKbvOvWGgRUF9M=;
- b=o7yneCawJfJDeZfK2RKqiIXj0eqApuk07u8ID48ENVlcL89uG4ZwJmR2/Fc8T/c/O/
- QhB9jftZk4QmNzoY9myFcrddnbFoXZmXaMdTwJFLRxA8gaT92+P4BbnitCrEBKif28y/
- ZSTdb6PHjJPV+VRdCHLo1mb4xFennnpL7p17InqA3+6oELhDYCqrqnqYZSLjD1unpu+m
- vUGup1hUOYKuK0ixGqtm5dBq4lZsbuVlxOBi8TIdh/kJ3hmJbCk9nkuZt1GYGdBT1zuL
- VRwsAvF68ympoj6QTINYO5lbz5quPVT2xabx4LlB9BuDI0rKurJWd7VHZ8WSWdcnscSz
- o1DA==
-X-Gm-Message-State: AOAM530hJUWMvDCQnHjyrHK4ntmI5Gzlog6XTAL1NCis4xNePIftAIaI
- oaCXeVpQK1I8VDYQSMtcRu0=
-X-Google-Smtp-Source: ABdhPJzd85FYkpHYLsnUG6HODG7urcXUsxfRG4Lp6X6zUm3VHtNHJhaoENYdK6l8NBIXD2NsjhdkbA==
-X-Received: by 2002:a05:6000:1e0e:b0:207:bb61:78d0 with SMTP id
- bj14-20020a0560001e0e00b00207bb6178d0mr409741wrb.512.1649881278078; 
- Wed, 13 Apr 2022 13:21:18 -0700 (PDT)
+ bh=z6hxrytZ3fBmcBTrzyJ90JXImTnrbO2ARhUA8ECYiX0=;
+ b=YbX3odqY+kLQfIZWPTz4tzvYvm2Kkuyvo9DB/z2qEMk3xSIwjbE+DdPGqpxSOq6pM7
+ 4j45Eeky5Umyb5NoTpl42zacnr5QEdEAx834WUSiLwq5byW+3d+aRxcChQlEA7m/v/vi
+ CeWtNUciHKRC0x+NGUYmX2TwaekdWrq66gGFQdHUTmZQengq8SK3FhNEJ4MVSEujCVET
+ 031peHVBYWQsiTJ+BEJ1utvdTtlwkh2XNpiTYiFrTTS8ARW78AITJJIjZIdPhZiOEmU5
+ oUsBreRK1+x7NJyAQKyd+hdWUWg7b/lPe7JtaNqBptOc6K2Xv5MgCJcWdX9aIezmqBND
+ oSRw==
+X-Gm-Message-State: AOAM532FmUmOv304wQBFm9JKvazFzt7onTwr1Tt+XALlV6E5rP6QH1JK
+ egbM2xexLNDbGKM9X39dml4=
+X-Google-Smtp-Source: ABdhPJx4PAcdHQjj7eVHz/4Fm9xvi50PHWgsrC7vEnxgYvqm+VEar7rtmPP4L/jkDFVcYWqk+kB1pg==
+X-Received: by 2002:a5d:48c8:0:b0:207:afc8:13fa with SMTP id
+ p8-20020a5d48c8000000b00207afc813famr418842wrs.487.1649882635784; 
+ Wed, 13 Apr 2022 13:43:55 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- f13-20020a5d64cd000000b0020787751295sm38753wri.35.2022.04.13.13.21.17
+ k63-20020a1ca142000000b0038ff2c38e85sm493271wme.39.2022.04.13.13.43.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 13:21:17 -0700 (PDT)
-Message-ID: <52751dc3-8a7e-d920-2af2-5cd0b2df7f98@redhat.com>
-Date: Wed, 13 Apr 2022 22:21:16 +0200
+ Wed, 13 Apr 2022 13:43:55 -0700 (PDT)
+Message-ID: <b648c5f9-e8d5-956c-bf77-746d27266691@redhat.com>
+Date: Wed, 13 Apr 2022 22:43:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.1 6/8] nbd: move s->state under requests_lock
+Subject: Re: [RFC PATCH 0/5] Removal of AioContext lock, bs->parents and
+ ->children: proof of concept
 Content-Language: en-US
-To: Eric Blake <eblake@redhat.com>
-References: <20220412194204.350889-1-pbonzini@redhat.com>
- <20220412194204.350889-7-pbonzini@redhat.com>
- <20220413162313.ckrqv6a6vr2jtcjr@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+References: <c8d45cd9-e7de-9acd-3fd6-13de58f5ce48@redhat.com>
+ <c6a12090-b6c3-31d8-fb90-a76c9dd2e949@redhat.com>
+ <88f2798b-9327-e54f-5792-e37404b94ef7@redhat.com>
+ <8ae70388-ff46-6ec1-7f84-14d41ca9a6dd@redhat.com>
+ <311c2e0a-fb2c-241c-cbd1-1162f7e74e18@redhat.com>
+ <9d3c36f0-0834-ec9c-8473-d052d64a61dd@redhat.com>
+ <69b2ce82-4826-71ed-9c32-d323df69b7c4@redhat.com>
+ <6b88890c-f191-7f77-93eb-91f4951e179d@redhat.com>
+ <Ylbjd3kzEsBZmgJQ@redhat.com>
+ <5d34e709-fe59-70df-2723-49f252aaed78@redhat.com>
+ <Ylb6W+8l2d69J8dm@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220413162313.ckrqv6a6vr2jtcjr@redhat.com>
+In-Reply-To: <Ylb6W+8l2d69J8dm@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,52 +101,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/13/22 18:23, Eric Blake wrote:
->>
->> The function nbd_client_connecting_wait() was used mostly to check if
->> a request had to be reissued (outside requests_lock), but also
->> under requests_lock in nbd_client_connecting_wait().  The two uses have to
-> "Function A was used mostly..., but also under requests_lock in
-> function A."  Reading the rest of the patch, I think...[1]
-> 
->> be separated; for the former we rename it to nbd_client_will_reconnect()
->> and make it take s->requests_lock; for the latter the access can simply
->> be inlined.  The new name is clearer, and ensures that a missing
->> conversion is caught by the compiler.
-> 
-> I take it your experiments with C++ coroutines helped find this;)
-
-No, they never went that far. :)  Rather, these atomics have always 
-bugged me, and after Emanuele pointed me to the enter_all without lock, 
-I noticed that they can be fixed with the same hammer.
-
->> +    QEMU_LOCK_GUARD(&s->requests_lock);
->> +    return s->state == NBD_CLIENT_CONNECTING_WAIT;
->>  }
-> 
-> [2]...while here, you only needed two lines, using QEMU_LOCK_GUARD.
-> Both styles work, but it seems like we should be consistent, and I
-> would favor the shorter style when all that is being guarded is a
-> single line.
+On 4/13/22 18:29, Kevin Wolf wrote:
+>> A reader does not have to be a coroutine. AIO_WAIT_WHILE is not
+>> mandatory to allow it to finish, it helps to ensure progress in case
+>> some reader is waiting for something, but other than that is not
+>> necessary IMO.
+> When it's outside of a coroutine, how would you implement waiting for a
+> writer to finish if not with AIO_WAIT_WHILE()?
 > 
 
-QEMU_LOCK_GUARD() is a declaration in some sense (well, it is also a 
-declaration when you expand the macro) and QEMU in general doesn't do 
-declaration-after-statement.
+In the main thread a non-coroutine can always read the graph though, 
+because the only writer can be the main thread.
 
-Also, QEMU_LOCK_GUARD() emphasizes that the whole function is guarded, 
-while WITH_QEMU_LOCK_GUARD() has the opposite effect on the reader.
+If the critical sections are large enough, I don't think rdlock needs to 
+be taken outside a coroutine in the iothread, e.g. in a bottom half.
 
-> although the suggestion in [3] to split out the function motion to a
-> separate patch may result in the v2 series looking different enough
-> that you may want to leave off my R-b to ensure I still review things
-> carefully.
+>> No I think if we focus on small pieces of code we end up having a
+>> million lock/unlock pairs.
+> 
+> Yes, I agree. On the other hand, if we're taking the locks in high-level
+> outer operations, avoiding to take the lock recursively might become
+> harder. I guess we'll see how it works out when we actually introduce
+> callers.
 
-Will do.
+My "hope" is that taking the locks in blk_* functions covers most of the 
+calls, and then only a few (dozens) direct uses of bdrv_* remain.
+
+Unfortunately, adding assertions is not easy because "is there a reader" 
+cannot be easily answered.  But I think Emanuele has a debug mode that 
+can enable the assertions at a performance cost.
 
 Paolo
 
