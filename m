@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B864FF83D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 15:57:14 +0200 (CEST)
-Received: from localhost ([::1]:40796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59D74FF841
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 15:59:07 +0200 (CEST)
+Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nedUf-0006ZN-VX
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 09:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58652)
+	id 1nedWU-0008RV-Ks
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 09:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nedSG-00053c-Ml
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 09:54:44 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40717)
+ id 1nedTg-0006A3-9q
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 09:56:15 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nedSF-0005gC-41
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 09:54:44 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id v4so2453535edl.7
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 06:54:42 -0700 (PDT)
+ id 1nedTd-00066C-8S
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 09:56:12 -0400
+Received: by mail-ej1-x634.google.com with SMTP id ks6so4157640ejb.1
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 06:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=0USowxVcBH2GIvK410tRyiJ1RKQzSTxpJFdyy2dx8Mw=;
- b=aib72bAvUle6/3C9AZZZoEmTfECSyYqI3BMPA0mvE3aIEmlwAod7FsJf660xCRcN47
- shJpyS4rDAGpT82xF0V7T46vucx76LaW76PBaATot+Rh5LEKz2RojDEX+9nz15UNY7mj
- fwd0SnBKySCjWLb0FEIFq4v3Yvo6GcFUyYdIZ0zqqfgkVl/r6AAPmUvA1pcHlEeUJp/5
- +4UsCcgjExJfM8Q/QnvYQC915MCIDbhZD5lAMHgMpX6KCwGvN2rNRfCg7ncoU/NuBbEd
- MSHYyyWLakhp/5u77lQWA4SoUlIQCZsbPkXQX/5wMSE+OX4df8HBYhg8wEXR1O0Iu5TF
- vDyw==
+ bh=RhpImjLgfbV/h2Q0B9z2B8FTykSysM9CQYxZQ54C66U=;
+ b=AX74n2EPw2RVwMOpHFrnDpgotKbIL51S+fN7OQUYebnTeWH8CSlM0Rp4lpeXlvBC2E
+ VtANWE98FD0Ztaj6hrcUihrL6HOmXiyezEYqetjPQdy/nPATEq/5HlVW2/sU2IIlK3kJ
+ gRsIO/tEeFWIJ/yn0vTVBUsx2+uVO/2Q5gQLi857R74sWa2J/VXD5W08Kdm3dRT8LTbB
+ xNs34b07ZaMGVSrC42HFzAkwea5F+kz7UW9+LsIigeOBfjTQz8MfmJl/xpCxxfRrNTaf
+ bTsH/TAfnY/EYjm4nNcojqlRxD85D15ik3RvCjobQyuLdZvt11gqpZ4g/VHKpspNswwB
+ M5bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=0USowxVcBH2GIvK410tRyiJ1RKQzSTxpJFdyy2dx8Mw=;
- b=fdmkf3bapVnAurGPaDmrrvvKG4+oTWzV2b26KhiNqk4PxUFSmAjOLNRhchpc8JFGHK
- eWCadjlwD4GDViSKu2OfC87v7WHkZHbyEc0oM3BMFKp9lsjySo67nzLWTlnpzwy2gn59
- RvMDTWvdpl/82FlcMY0ZR0P5ltlRl1noLsN4cKcglSY9Nc2li/CUEH144WtWloT+hQ1O
- 6EJ3AFrXTb8JxLDQGWUFLcBT5oPpCjkpVMPhIzxAjL598qFW6SqqBOBti8F8KjymMP2D
- BjJkCPIQ5IovlhF/wSI1R//ScRdEVi3tzIiO9oQgGtaXBkFlYyElao6vLwR714Z4/UfC
- s/Ww==
-X-Gm-Message-State: AOAM531r9RjPAzIi01Poc3ulnGI8mVpKwSvn780WnoqwiUX2cXv2lj58
- RK1ixTddmEWEWiHuZ2BGqBmjyuVuz1d22A==
-X-Google-Smtp-Source: ABdhPJyJQqaIS6ULo5NrAD748wzOqYUPA0/wf/+o/6MGHEl8Ziiv/K7eEZSznGC0pZhe1yTfJGukzA==
-X-Received: by 2002:a50:a408:0:b0:41c:cdc7:88bd with SMTP id
- u8-20020a50a408000000b0041ccdc788bdmr43871819edb.399.1649858081279; 
- Wed, 13 Apr 2022 06:54:41 -0700 (PDT)
+ bh=RhpImjLgfbV/h2Q0B9z2B8FTykSysM9CQYxZQ54C66U=;
+ b=W5MfQdMd0zOb5ma4FHauWPX4jzkyRK7olHKt+ziRuxRYnzNhBabwzIvax0G1AHAYsf
+ y+y6TzgPw4IEL5InDuAgUr0ZPz7B8ygTCtTXsIvXojWR8DM/cy8Fw1ri2ikhg0VoY1WN
+ xvbWw202f52V0zOTfiJCGMlbTNgFyn6P7Lr3pdmNWKBg8Wt1CM4lmvr8Q+oi4MwlG0rX
+ sQsdtexlSpw600R9mehNuGHMN/m2moloc4pfIZxftYJX3/RWQCUtgwEyIbAke/16og6e
+ TXuk/Zz2edfBFTmuVIadvfliv7K/XHodiOVX7BkXr36NZUPrmMkHkomfXueDzstO64z5
+ 7SNQ==
+X-Gm-Message-State: AOAM533HQVxXWy/93tnCRCltXTQPXulsuZWdZ6Ki2sKPhzdOMhGAE2+A
+ xL7GMR7/lwXiGuO9wB0KI0PdtKFgLqEQoA==
+X-Google-Smtp-Source: ABdhPJyuiTNBVPgQJORZ8EvHXzRyyL8E+zOP2tvTZMHbw+G8OOPG9IQ4+Nc5i7QoSlwphhRCsUClHQ==
+X-Received: by 2002:a17:907:7ea6:b0:6e8:92ee:daf8 with SMTP id
+ qb38-20020a1709077ea600b006e892eedaf8mr13937633ejc.55.1649858144847; 
+ Wed, 13 Apr 2022 06:55:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a50fd8f000000b0041f95b8a90dsm736099edt.69.2022.04.13.06.54.40
+ l3-20020a509dc3000000b00420195722c7sm269210edk.6.2022.04.13.06.55.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Apr 2022 06:54:40 -0700 (PDT)
+ Wed, 13 Apr 2022 06:55:43 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C88F61FFB7;
- Wed, 13 Apr 2022 14:54:39 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 9B3B71FFB7;
+ Wed, 13 Apr 2022 14:55:42 +0100 (BST)
 References: <20220326132534.543738-1-richard.henderson@linaro.org>
- <20220326132534.543738-18-richard.henderson@linaro.org>
+ <20220326132534.543738-21-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.12; emacs 28.1.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 09/39] *: Use fprintf between qemu_log_trylock/unlock
-Date: Wed, 13 Apr 2022 14:54:35 +0100
-In-reply-to: <20220326132534.543738-18-richard.henderson@linaro.org>
-Message-ID: <87ilrdxf4w.fsf@linaro.org>
+Subject: Re: [PATCH v2 12/39] exec/translator: Pass the locked filepointer
+ to disas_log hook
+Date: Wed, 13 Apr 2022 14:55:38 +0100
+In-reply-to: <20220326132534.543738-21-richard.henderson@linaro.org>
+Message-ID: <87ee21xf35.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,12 +97,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Inside qemu_log, we perform qemu_log_trylock/unlock, which need
-> not be done if we have already performed the lock beforehand.
->
-> Always check the result of qemu_log_trylock -- only checking
-> qemu_loglevel_mask races with the acquisition of the lock on
-> the logfile.
+> We have fetched and locked the logfile in translator_loop.
+> Pass the filepointer down to the disas_log hook so that it
+> need not be fetched and locked again.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
