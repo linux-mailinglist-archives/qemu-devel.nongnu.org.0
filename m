@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59D74FF841
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 15:59:07 +0200 (CEST)
-Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589404FF8DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 16:22:21 +0200 (CEST)
+Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nedWU-0008RV-Ks
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 09:59:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58952)
+	id 1nedsx-000207-Tk
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 10:22:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nedTg-0006A3-9q
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 09:56:15 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34339)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nedTd-00066C-8S
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 09:56:12 -0400
-Received: by mail-ej1-x634.google.com with SMTP id ks6so4157640ejb.1
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 06:55:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=RhpImjLgfbV/h2Q0B9z2B8FTykSysM9CQYxZQ54C66U=;
- b=AX74n2EPw2RVwMOpHFrnDpgotKbIL51S+fN7OQUYebnTeWH8CSlM0Rp4lpeXlvBC2E
- VtANWE98FD0Ztaj6hrcUihrL6HOmXiyezEYqetjPQdy/nPATEq/5HlVW2/sU2IIlK3kJ
- gRsIO/tEeFWIJ/yn0vTVBUsx2+uVO/2Q5gQLi857R74sWa2J/VXD5W08Kdm3dRT8LTbB
- xNs34b07ZaMGVSrC42HFzAkwea5F+kz7UW9+LsIigeOBfjTQz8MfmJl/xpCxxfRrNTaf
- bTsH/TAfnY/EYjm4nNcojqlRxD85D15ik3RvCjobQyuLdZvt11gqpZ4g/VHKpspNswwB
- M5bA==
+ (Exim 4.90_1) (envelope-from <skagan@redhat.com>) id 1nedrt-0001KV-Lm
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 10:21:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47072)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <skagan@redhat.com>) id 1nedrq-0004OB-8a
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 10:21:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649859669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fxkP0Lxx1lshd9DZsSddaK/fSahZSzIqh29HRWnaYog=;
+ b=LW+bBOSAE2juZGsV8J6CuMbbtrT6GqA62wydRqMLOfKqhLGjIZZLU08uw48Rk5IJVqVFaJ
+ twiwdOw+vKlTwwDWxF8xfxQOFfFMBdgOv2rOgaY7D56+2+68CrKi6oJ/KM4mEG8mpNrxY0
+ 1/AFfAef8f6YDkXkIGYDFVg07bgf/rc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-241-mwH_dVXvMiG-M03BD8UYtA-1; Wed, 13 Apr 2022 10:21:07 -0400
+X-MC-Unique: mwH_dVXvMiG-M03BD8UYtA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a12-20020a5d6cac000000b002079e81d09eso416293wra.4
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 07:21:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=RhpImjLgfbV/h2Q0B9z2B8FTykSysM9CQYxZQ54C66U=;
- b=W5MfQdMd0zOb5ma4FHauWPX4jzkyRK7olHKt+ziRuxRYnzNhBabwzIvax0G1AHAYsf
- y+y6TzgPw4IEL5InDuAgUr0ZPz7B8ygTCtTXsIvXojWR8DM/cy8Fw1ri2ikhg0VoY1WN
- xvbWw202f52V0zOTfiJCGMlbTNgFyn6P7Lr3pdmNWKBg8Wt1CM4lmvr8Q+oi4MwlG0rX
- sQsdtexlSpw600R9mehNuGHMN/m2moloc4pfIZxftYJX3/RWQCUtgwEyIbAke/16og6e
- TXuk/Zz2edfBFTmuVIadvfliv7K/XHodiOVX7BkXr36NZUPrmMkHkomfXueDzstO64z5
- 7SNQ==
-X-Gm-Message-State: AOAM533HQVxXWy/93tnCRCltXTQPXulsuZWdZ6Ki2sKPhzdOMhGAE2+A
- xL7GMR7/lwXiGuO9wB0KI0PdtKFgLqEQoA==
-X-Google-Smtp-Source: ABdhPJyuiTNBVPgQJORZ8EvHXzRyyL8E+zOP2tvTZMHbw+G8OOPG9IQ4+Nc5i7QoSlwphhRCsUClHQ==
-X-Received: by 2002:a17:907:7ea6:b0:6e8:92ee:daf8 with SMTP id
- qb38-20020a1709077ea600b006e892eedaf8mr13937633ejc.55.1649858144847; 
- Wed, 13 Apr 2022 06:55:44 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- l3-20020a509dc3000000b00420195722c7sm269210edk.6.2022.04.13.06.55.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Apr 2022 06:55:43 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9B3B71FFB7;
- Wed, 13 Apr 2022 14:55:42 +0100 (BST)
-References: <20220326132534.543738-1-richard.henderson@linaro.org>
- <20220326132534.543738-21-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.12; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 12/39] exec/translator: Pass the locked filepointer
- to disas_log hook
-Date: Wed, 13 Apr 2022 14:55:38 +0100
-In-reply-to: <20220326132534.543738-21-richard.henderson@linaro.org>
-Message-ID: <87ee21xf35.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fxkP0Lxx1lshd9DZsSddaK/fSahZSzIqh29HRWnaYog=;
+ b=idq6ipjFUaQY913314REkShNrWqQg4Ka2BPVPew+C4CSOIlX/5AegBzNOXTk71xn7a
+ aJqTx9MQc0DP3bsBMF0qTy3RjY2fkXBVQPvCPzV5qQuRwn5vMi9UApqDY4VTVMJR1F8G
+ pXp8SqJxnIrf3MzUBSLQH0M6PU10f8w0EBRnOd3cXTv49S0m6dYL52CErEA0CEhT89GL
+ edcGEHEH1L8HLo9Xhub/1T6BWDZOCCoGNN+YKNlDHJqLdOjeUTmdNkIAs7EDXqGW1ViV
+ 9ZuTUAUk1J19Wwu8DvIobYFIJvAux7MnNlilZAvNyrGSUXBzLXaEOxu85oLaCwZswSxx
+ wBkw==
+X-Gm-Message-State: AOAM533kHlhSeaMk0uBE29r0cYqGizQ70o1Rgo4GhXG1AM5MOmBgT8lb
+ 64VkjZszXaMgItpERKymuawfr0X/A6+b/GM5XSl2aKViYdtlnREdk15sClnGmf7LtminNwiSBLQ
+ PC6hsu4qpO9rbYPkP2hJdzAlkvMNw0aE=
+X-Received: by 2002:a05:600c:3492:b0:38e:d3ea:9ae3 with SMTP id
+ a18-20020a05600c349200b0038ed3ea9ae3mr3705584wmq.174.1649859666552; 
+ Wed, 13 Apr 2022 07:21:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlTHbYTmsalsfxhycNPcvzDsNQQDF+ejOmC/9/Vw98FlBKRwIbTGCF0id0soAjGHOuo3+fk2HWJjyA9MQm2L0=
+X-Received: by 2002:a05:600c:3492:b0:38e:d3ea:9ae3 with SMTP id
+ a18-20020a05600c349200b0038ed3ea9ae3mr3705564wmq.174.1649859666316; Wed, 13
+ Apr 2022 07:21:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <CAMUS3ta+RFL1M+esUzy34WpB-MOO4ofKdsPiHOUoPyBXF2GoTw@mail.gmail.com>
+ <CAPMcbCoM1UOw8r=mZchbuX9ixoMS3Q4t1xs1GRyWrkmP2c94tQ@mail.gmail.com>
+ <CAMUS3tZp4GMjf_b4JNJtzMsU+n=whtqsG+QgYsnRXLjzx1xstw@mail.gmail.com>
+ <CAPMcbCqpC-h=1U5kSLaQjeo3U3wKW0uwTjvh83O8UTLNGuG3QQ@mail.gmail.com>
+In-Reply-To: <CAPMcbCqpC-h=1U5kSLaQjeo3U3wKW0uwTjvh83O8UTLNGuG3QQ@mail.gmail.com>
+From: Shelly Kagan <skagan@redhat.com>
+Date: Wed, 13 Apr 2022 17:20:55 +0300
+Message-ID: <CAMUS3tbj_vTP3aPsR5yEh+-PGmsEA=09AE4LooD2ed=CPrjfWw@mail.gmail.com>
+Subject: Re: FSFreeze on Windows VM
+To: Konstantin Kostiuk <kkostiuk@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=skagan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000057252c05dc89e3fa"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=skagan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_REMOTE_IMAGE=0.01,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,21 +94,358 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Yan Vugenfirer <yvugenfi@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000057252c05dc89e3fa
+Content-Type: text/plain; charset="UTF-8"
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Hi Konstantin,
+Thanks for the quick response.
+I will look into getting a newer GA version.
+Regarding the GA not available, is it relevant to the newer versions? Is
+there a way to make sure the GA is available when running the freeze? when
+it is not available it takes a lot of time to get a response back and it
+causes the freeze to delay.
+Best Regards,
+Shelly
 
-> We have fetched and locked the logfile in translator_loop.
-> Pass the filepointer down to the disas_log hook so that it
-> need not be fetched and locked again.
+On Wed, Apr 13, 2022 at 4:51 PM Konstantin Kostiuk <kkostiuk@redhat.com>
+wrote:
+
+> Hi Shelly,
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Thanks for your answer. Your version of GuestAgent is too old. The latest
+> version is 103.0.0.
+> Version 100.0.0 has a bug related to wrong error messages. When you try to
+> freeze FS, GA can return an error that the GA is not available.
+>
+> Please try again with the latest version. I think it should work fine. If
+> you still will have problems, will try to debug them.
+>
+> Best Regards,
+> Konstantin Kostiuk.
+>
+>
+> On Wed, Apr 13, 2022 at 10:03 AM Shelly Kagan <skagan@redhat.com> wrote:
+>
+>> Hi Konstantin,
+>>
+>> The Guest Agent version
+>> "guestAgentVersion": "100.0.0",
+>> I'm running with a 2019 windows image which I understand the GA is part
+>> of the virtio drivers.
+>> Don't know if the following info also helps but:
+>>   "hostname": "WIN-CUCKQ65DH6K",
+>>   "os": {
+>>     "name": "Microsoft Windows",
+>>     "kernelRelease": "17763",
+>>     "version": "Microsoft Windows Server 2019",
+>>     "prettyName": "Windows Server 2019 Standard",
+>>     "versionId": "2019",
+>>     "kernelVersion": "10.0",
+>>     "machine": "x86_64",
+>>     "id": "mswindows"
+>>   },
+>>
+>> I think what is more important to me is the GA being not responsive for
+>> the freeze call. I'm using the fsfreeze in a feature I'm implementing, and
+>> since in windows there is a 10sec timeout because of the VSS the fact that
+>> the freeze call returns error that the GA is not available plus that when
+>> its not available it takes much longer for the freeze call to return is
+>> really time sensitive.
+>>
+>> Thanks
+>>
+>> On Wed, Apr 6, 2022 at 2:29 PM Konstantin Kostiuk <kkostiuk@redhat.com>
+>> wrote:
+>>
+>>> Hi Shelly,
+>>>
+>>> Can you provide your version of Guest Agent? Is it built from upstream
+>>> or some VirtIO-Win release?
+>>> Previously we had some issues related to wrong error messages from Guest
+>>> Agent.
+>>>
+>>> Best Regards,
+>>> Konstantin Kostiuk.
+>>>
+>>>
+>>> On Tue, Mar 29, 2022 at 6:24 PM Shelly Kagan <skagan@redhat.com> wrote:
+>>>
+>>>> Hi all,
+>>>> I'm having some weird behavior with fsfreeze in windows VM.
+>>>> I run the fsfreeze and it returns:
+>>>> `error: Guest agent is not responding: Guest agent not available for
+>>>> now`
+>>>>
+>>>> but checking the status returned frozen, rerunning it again returns
+>>>> that the command is not enabled (expected since the freeze occurs)
+>>>>
+>>>> I checked the fsstatus and it keeps returning `frozen` even after 10
+>>>> seconds (from my understanding the freeze in windows vm is limited to 10
+>>>> seconds by default by the VSS. No way to change this default from my
+>>>> understanding, is it true?) Shouldn't the status return thawed if the VSS
+>>>> no longer keeps the freeze state?
+>>>>
+>>>> After a minute I did the thaw and it returned error:
+>>>> `error: internal error: unable to execute QEMU agent command
+>>>> 'guest-fsfreeze-thaw': couldn't hold writes: fsfreeze is limited up to 10
+>>>> seconds:`
+>>>>
+>>>> but the fsstatus changed to thawed after that call.
+>>>>
+>>>> My questions are:
+>>>> 1. Why would the fsfreeze return error about the guest agent but still
+>>>> freeze the fs?
+>>>> 2. Why would the guest agent not respond, is there a way to make sure
+>>>> it is available before the freeze command? (running the fsstatus command
+>>>> before it returned without issues..)
+>>>> 3. Is it expected that the fsstatus will return frozen even if possibly
+>>>> VSS has already thawed? and that the thaw fails but the status do change
+>>>> after to thawed?
+>>>>
+>>>> Thanks for taking the time to respond and help,
+>>>> --
+>>>>
+>>>> Shelly Kagan
+>>>>
+>>>> Senior Software Engineer
+>>>>
+>>>> Red Hat <https://www.redhat.com>
+>>>> <https://www.redhat.com>
+>>>>
+>>>
+>>
+>> --
+>>
+>> Shelly Kagan
+>>
+>> Senior Software Engineer
+>>
+>> Red Hat <https://www.redhat.com>
+>> <https://www.redhat.com>
+>>
+>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+-- 
 
---=20
-Alex Benn=C3=A9e
+Shelly Kagan
+
+Senior Software Engineer
+
+Red Hat <https://www.redhat.com>
+<https://www.redhat.com>
+
+--00000000000057252c05dc89e3fa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi=C2=A0Konstantin,<div>Thanks for the quick=C2=A0response=
+.</div><div>I will look into getting a newer GA version. <br>Regarding the =
+GA not available, is it relevant to the newer versions? Is there a way to m=
+ake sure the GA is available when running the freeze? when it is not availa=
+ble=C2=A0it takes a lot of time to get a response back and it causes the fr=
+eeze to delay.</div><div>Best Regards,</div><div>Shelly</div></div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 13=
+, 2022 at 4:51 PM Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.=
+com">kkostiuk@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex"><div dir=3D"ltr"><div>Hi Shelly,</div><div><br></di=
+v><div>Thanks for your answer. Your version of GuestAgent is too old. The l=
+atest version is 103.0.0. <br></div><div>Version 100.0.0 has a bug related =
+to wrong error messages. When you try to freeze FS, GA can return an error =
+that the GA is not available.</div><div><br></div><div>Please try again wit=
+h the latest version. I think it should work fine. If you still will have p=
+roblems, will try to debug them. <br></div><div><br></div><div><div><div di=
+r=3D"ltr"><div dir=3D"ltr"><div>Best Regards,</div><div>Konstantin Kostiuk.=
+</div></div></div></div><br></div></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 13, 2022 at 10:03 AM Shelly K=
+agan &lt;<a href=3D"mailto:skagan@redhat.com" target=3D"_blank">skagan@redh=
+at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex"><div dir=3D"ltr">Hi Konstantin,<div><br></div><div>The Guest Agent ve=
+rsion=C2=A0</div><div>&quot;guestAgentVersion&quot;: &quot;100.0.0&quot;,<b=
+r></div><div>I&#39;m running=C2=A0with a 2019 windows image which I underst=
+and the GA is part of the virtio drivers.</div><div>Don&#39;t know if the f=
+ollowing info also helps but:<br>=C2=A0 &quot;hostname&quot;: &quot;WIN-CUC=
+KQ65DH6K&quot;,<br>=C2=A0 &quot;os&quot;: {<br>=C2=A0 =C2=A0 &quot;name&quo=
+t;: &quot;Microsoft Windows&quot;,<br>=C2=A0 =C2=A0 &quot;kernelRelease&quo=
+t;: &quot;17763&quot;,<br>=C2=A0 =C2=A0 &quot;version&quot;: &quot;Microsof=
+t Windows Server 2019&quot;,<br>=C2=A0 =C2=A0 &quot;prettyName&quot;: &quot=
+;Windows Server 2019 Standard&quot;,<br>=C2=A0 =C2=A0 &quot;versionId&quot;=
+: &quot;2019&quot;,<br>=C2=A0 =C2=A0 &quot;kernelVersion&quot;: &quot;10.0&=
+quot;,<br>=C2=A0 =C2=A0 &quot;machine&quot;: &quot;x86_64&quot;,<br>=C2=A0 =
+=C2=A0 &quot;id&quot;: &quot;mswindows&quot;<br>=C2=A0 },<br></div><div><br=
+></div><div>I think what is more important to me is the GA being not respon=
+sive for the freeze call. I&#39;m using the fsfreeze in a feature I&#39;m i=
+mplementing, and since in windows there is a 10sec=C2=A0timeout because of =
+the VSS the fact that the freeze call returns error that the GA is not avai=
+lable plus that when its not available it takes much longer for the freeze =
+call to return is really time sensitive.</div><div><br></div><div>Thanks</d=
+iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Wed, Apr 6, 2022 at 2:29 PM Konstantin Kostiuk &lt;<a href=3D"mailto:=
+kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">=
+<div>Hi Shelly,</div><div><br></div><div>Can you provide your version of Gu=
+est Agent? Is it built from upstream or some VirtIO-Win release? <br></div>=
+<div>Previously we had some issues related to wrong error messages from Gue=
+st Agent.</div><div><div><div><br></div><div><div><div dir=3D"ltr"><div dir=
+=3D"ltr"><div>Best Regards,</div><div>Konstantin Kostiuk.</div></div></div>=
+</div><br></div></div></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Tue, Mar 29, 2022 at 6:24 PM Shelly Kagan =
+&lt;<a href=3D"mailto:skagan@redhat.com" target=3D"_blank">skagan@redhat.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+><div dir=3D"ltr"><div>Hi all,</div><div>I&#39;m having some weird behavior=
+ with fsfreeze in windows VM.</div><div>I run the fsfreeze and it returns:<=
+/div><div>`error: Guest agent is not responding: Guest agent not available =
+for now`</div><div><br>but checking the status returned frozen, rerunning i=
+t again returns that the command is not enabled (expected since the freeze =
+occurs)</div><div><br>I checked the fsstatus and it keeps returning `frozen=
+` even after 10 seconds (from my understanding=C2=A0the freeze in windows v=
+m is limited to 10 seconds by default by the VSS. No way to change this def=
+ault=C2=A0from my understanding, is it true?) Shouldn&#39;t the status retu=
+rn thawed if the VSS no longer keeps the freeze state?</div><div><br>After =
+a minute I did the thaw and it returned error:</div><div>`error: internal e=
+rror: unable to execute QEMU agent command &#39;guest-fsfreeze-thaw&#39;: c=
+ouldn&#39;t hold writes: fsfreeze is limited up to 10 seconds:`</div><div><=
+br></div><div>but the fsstatus changed to thawed after that call.<br></div>=
+<div><br></div><div>My questions are:</div><div>1. Why would the fsfreeze r=
+eturn error about the guest agent but still freeze the fs?</div><div>2. Why=
+ would the guest agent not respond, is there a way to make sure it is avail=
+able before the freeze command? (running the fsstatus=C2=A0command before i=
+t returned without issues..)</div><div>3. Is it expected that the fsstatus =
+will return frozen even if possibly VSS has already thawed? and that the th=
+aw fails but the status do change after to thawed?</div><div><br></div><div=
+>Thanks for taking the time to respond and help,</div>-- <br><div dir=3D"lt=
+r"><div dir=3D"ltr"><div>
+        <p style=3D"font-weight:bold;margin:0px;padding:0px;font-size:14px;=
+font-family:RedHatText,sans-serif">
+          <span>Shelly</span> <span>Kagan</span><span style=3D"color:rgb(17=
+0,170,170);margin:0px"></span>
+        </p>
+       =20
+        <p style=3D"font-weight:normal;font-size:12px;margin:0px;font-famil=
+y:RedHatText,sans-serif">
+          <span>Senior Software Engineer</span>
+        </p>
+        <p style=3D"font-weight:normal;margin:0px 0px 4px;font-size:12px;fo=
+nt-family:RedHatText,sans-serif">
+          <a style=3D"color:rgb(0,136,206);font-size:12px;margin:0px;text-d=
+ecoration:none;font-family:RedHatText,sans-serif" href=3D"https://www.redha=
+t.com" target=3D"_blank">Red Hat <span></span></a>
+        </p>
+    <div style=3D"margin-bottom:4px">
+     =20
+     =20
+    </div>
+   =20
+   =20
+
+    =20
+
+   =20
+
+    <div style=3D"margin-top:12px">
+      <table border=3D"0">
+        <tbody><tr>
+          <td width=3D"100px"><a href=3D"https://www.redhat.com" target=3D"=
+_blank"> <img src=3D"https://static.redhat.com/libs/redhat/brand-assets/2/c=
+orp/logo--200.png" width=3D"90" height=3D"auto"></a> </td>
+         =20
+        </tr>
+      </tbody></table>
+    </div>
+
+  </div></div></div></div>
+</blockquote></div>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+><div dir=3D"ltr"><div>
+        <p style=3D"font-weight:bold;margin:0px;padding:0px;font-size:14px;=
+font-family:RedHatText,sans-serif">
+          <span>Shelly</span> <span>Kagan</span><span style=3D"color:rgb(17=
+0,170,170);margin:0px"></span>
+        </p>
+       =20
+        <p style=3D"font-weight:normal;font-size:12px;margin:0px;font-famil=
+y:RedHatText,sans-serif">
+          <span>Senior Software Engineer</span>
+        </p>
+        <p style=3D"font-weight:normal;margin:0px 0px 4px;font-size:12px;fo=
+nt-family:RedHatText,sans-serif">
+          <a style=3D"color:rgb(0,136,206);font-size:12px;margin:0px;text-d=
+ecoration:none;font-family:RedHatText,sans-serif" href=3D"https://www.redha=
+t.com" target=3D"_blank">Red Hat <span></span></a>
+        </p>
+    <div style=3D"margin-bottom:4px">
+     =20
+     =20
+    </div>
+   =20
+   =20
+
+    =20
+
+   =20
+
+    <div style=3D"margin-top:12px">
+      <table border=3D"0">
+        <tbody><tr>
+          <td width=3D"100px"><a href=3D"https://www.redhat.com" target=3D"=
+_blank"> <img src=3D"https://static.redhat.com/libs/redhat/brand-assets/2/c=
+orp/logo--200.png" width=3D"90" height=3D"auto"></a> </td>
+         =20
+        </tr>
+      </tbody></table>
+    </div>
+
+  </div></div></div>
+</blockquote></div>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr"><div>
+        <p style=3D"font-weight:bold;margin:0px;padding:0px;font-size:14px;=
+font-family:RedHatText,sans-serif">
+          <span>Shelly</span> <span>Kagan</span><span style=3D"color:rgb(17=
+0,170,170);margin:0px"></span>
+        </p>
+       =20
+        <p style=3D"font-weight:normal;font-size:12px;margin:0px;font-famil=
+y:RedHatText,sans-serif">
+          <span>Senior Software Engineer</span>
+        </p>
+        <p style=3D"font-weight:normal;margin:0px 0px 4px;font-size:12px;fo=
+nt-family:RedHatText,sans-serif">
+          <a style=3D"color:rgb(0,136,206);font-size:12px;margin:0px;text-d=
+ecoration:none;font-family:RedHatText,sans-serif" href=3D"https://www.redha=
+t.com" target=3D"_blank">Red Hat <span></span></a>
+        </p>
+    <div style=3D"margin-bottom:4px">
+     =20
+     =20
+    </div>
+   =20
+   =20
+
+    =20
+
+   =20
+
+    <div style=3D"margin-top:12px">
+      <table border=3D"0">
+        <tbody><tr>
+          <td width=3D"100px"><a href=3D"https://www.redhat.com" target=3D"=
+_blank"> <img src=3D"https://static.redhat.com/libs/redhat/brand-assets/2/c=
+orp/logo--200.png" width=3D"90" height=3D"auto"></a> </td>
+         =20
+        </tr>
+      </tbody></table>
+    </div>
+
+  </div></div></div>
+
+--00000000000057252c05dc89e3fa--
+
 
