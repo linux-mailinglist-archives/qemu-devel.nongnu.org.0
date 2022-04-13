@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7B94FFB73
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 18:37:42 +0200 (CEST)
-Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAFB24FFB99
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 18:43:59 +0200 (CEST)
+Received: from localhost ([::1]:41602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nefzw-0007tr-Uv
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 12:37:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33256)
+	id 1neg62-0003h2-Dv
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 12:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nefup-0007qo-6u
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:32:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56485)
+ id 1nefvE-0000P1-03
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:32:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nefun-0003AO-DA
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:32:22 -0400
+ id 1nefvC-0003Cw-H6
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 12:32:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649867540;
+ s=mimecast20190719; t=1649867560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hKgKZlgYC04pIvK3YPR2QspNXKMOSQacNc53HmmqnRU=;
- b=WEU+NvbTPixVwXhnZdYpLCeNTYTyH5UOb7dZ8ccS7i0mbvSDFdrB89wO7kAg5Lt8uuOYq2
- yw9ntgYuJTpAgzabjxBgpTimeWdJytllpaWde51nekmUI9WehZrvV9RY+OIj/fr9VZNZLy
- Ng2M60YP6m8K8uPhoJ3BK1mQoRTPnwk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NY0yjFl4kansC5VeJh7l4mujK97Y5LhTofKmeL7JHAM=;
+ b=WQCDQkHYXQ7nnsYL+16KFc22ZV+oXqHV/3Z+iDen+svasLouvuM9y+OmNacuclXja5zlDF
+ lGkmZxRTWDvhXX6Q2eeoVlJOqwpbR7Mgmi2z/AeUXwpcZtJtexPmzeLgEn9/uc1s+9L/bQ
+ XlQNMnYZs9UhhYdEMMlks/Iy3gP21sQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-21-vWzSbx47P7yOkhuFuE5A6w-1; Wed, 13 Apr 2022 12:32:16 -0400
-X-MC-Unique: vWzSbx47P7yOkhuFuE5A6w-1
+ us-mta-441-5Vrzc94ZPXyyC4cnm-D2DQ-1; Wed, 13 Apr 2022 12:32:19 -0400
+X-MC-Unique: 5Vrzc94ZPXyyC4cnm-D2DQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB3E788624D;
- Wed, 13 Apr 2022 16:32:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BFDB3C1EA4B;
+ Wed, 13 Apr 2022 16:32:18 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CAEA81400B18;
- Wed, 13 Apr 2022 16:32:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C7F7145BA5D;
+ Wed, 13 Apr 2022 16:32:16 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v7 02/25] vdpa: Add missing tracing to batch mapping
- functions
-Date: Wed, 13 Apr 2022 18:31:43 +0200
-Message-Id: <20220413163206.1958254-3-eperezma@redhat.com>
+Subject: [RFC PATCH v7 03/25] vdpa: Fix bad index calculus at
+ vhost_vdpa_get_vring_base
+Date: Wed, 13 Apr 2022 18:31:44 +0200
+Message-Id: <20220413163206.1958254-4-eperezma@redhat.com>
 In-Reply-To: <20220413163206.1958254-1-eperezma@redhat.com>
 References: <20220413163206.1958254-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -90,47 +90,31 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These functions were not traced properly.
+Fixes: 6d0b222666 ("vdpa: Adapt vhost_vdpa_get_vring_base to SVQ")
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 2 ++
- hw/virtio/trace-events | 2 ++
- 2 files changed, 4 insertions(+)
+ hw/virtio/vhost-vdpa.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 8adf7c0b92..9e5fe15d03 100644
+index 9e5fe15d03..1f229ff4cb 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -129,6 +129,7 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
-         .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
-     };
+@@ -1172,11 +1172,11 @@ static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
+                                        struct vhost_vring_state *ring)
+ {
+     struct vhost_vdpa *v = dev->opaque;
++    int vdpa_idx = ring->index - dev->vq_index;
+     int ret;
  
-+    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.iotlb.type);
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-                      fd, errno, strerror(errno));
-@@ -163,6 +164,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
-     msg.type = v->msg_type;
-     msg.iotlb.type = VHOST_IOTLB_BATCH_END;
+     if (v->shadow_vqs_enabled) {
+-        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs,
+-                                                      ring->index);
++        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, vdpa_idx);
  
-+    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-                      fd, errno, strerror(errno));
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index a5102eac9e..333348d9d5 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -25,6 +25,8 @@ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"
- # vhost-vdpa.c
- vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
- vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-+vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-+vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
- vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
- vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
- vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
+         /*
+          * Setting base as last used idx, so destination will see as available
 -- 
 2.27.0
 
