@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0F74FF0AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 09:37:34 +0200 (CEST)
-Received: from localhost ([::1]:34124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4EE4FF33D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 11:19:16 +0200 (CEST)
+Received: from localhost ([::1]:33782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neXZF-0001Qn-Az
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 03:37:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44158)
+	id 1neZ9f-0001GE-0Q
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 05:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1neXXx-0000W1-RQ
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 03:36:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21708)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1neZ6S-0000DN-Jw
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 05:15:56 -0400
+Received: from mga04.intel.com ([192.55.52.120]:18697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1neXXs-0002b9-I6
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 03:36:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649835363;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t3285xSV74L3mG2MTBZ8rjfqqScqNTf5n52P+ssTlB0=;
- b=JlxT1l8lVYSkh4U5stNnZBRnqEBzQkt9aIlDiheCqhc67YpKGqn/Si5+OurIWPk7Sz0gsU
- gCcN9SeHOBAAkzYi1LEaA0g5K85kqqj9BCWsm1Vr8hWyzqz7E62GeECpN+LccZK4e3tG3o
- rVkSTETS2x1hVRy+Sq2TKhaVECKcKL0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-120-0OpjlPQ_N5qcXIsP3SjjUA-1; Wed, 13 Apr 2022 03:36:02 -0400
-X-MC-Unique: 0OpjlPQ_N5qcXIsP3SjjUA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i66-20020a1c3b45000000b0038eab4e0feaso515031wma.9
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 00:36:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=t3285xSV74L3mG2MTBZ8rjfqqScqNTf5n52P+ssTlB0=;
- b=Oe5FBTsuauMDpoKEaM8MTf5rr80RQPS0iKQVEC3Dfxe3J0RPfkzGSvcpyitWgkfdNX
- Y/Z4r6qgzYjPZUng6CaccdMNKnHcjq+t2474Z96/N2gTR5eSKvhGC/WB146pUPrQzBA/
- nVKaMGTSWnYwjzi6d16XiG8YNHUYNm5GxAolmoQ2FThUKNy77oENV4tAIyk6JaGB5akK
- 7uISem68BR0GtwJBxO5WIHbJfJpESsBH/dV1XOHLNCRP8k+cg9hPOB9b5Vc83WWU7r05
- MMzUTnNCXtbbwAmbaEHq9cm40u2cvd+6Rljm87kanVFdzGFQtHMV8zcIoFRPJXXu1aUz
- oCew==
-X-Gm-Message-State: AOAM531zmJXAcnKablqg9d7TQLLcJ4sckIL6yUyGMBC2lpFWf6NEfy8L
- bDNO9c6I6FIlAajOXXWPJTcIg3sk2LiN4kTd6eJo+5aHZr5qr5z/3NQtipuWRKiMFrIWEIIoC+l
- 2HCxmi8S9bQLhOTu/Kb4MMzRfI9w6FMHM+/kbJ54fF+YHcLzQuQz9zkDk8jqDhzUizgo=
-X-Received: by 2002:a7b:cbc2:0:b0:388:faec:2036 with SMTP id
- n2-20020a7bcbc2000000b00388faec2036mr7470270wmi.190.1649835361384; 
- Wed, 13 Apr 2022 00:36:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzoOt9ld6QnbFfa+gEyKLOcivcANanWtOYg/DtlxsZJBNkZFrKjTSXUmOSGmaXo3jJYJOSk4g==
-X-Received: by 2002:a7b:cbc2:0:b0:388:faec:2036 with SMTP id
- n2-20020a7bcbc2000000b00388faec2036mr7470245wmi.190.1649835361069; 
- Wed, 13 Apr 2022 00:36:01 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- 61-20020adf8043000000b00205e1d92a41sm32023964wrk.74.2022.04.13.00.36.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 00:36:00 -0700 (PDT)
-Message-ID: <3fe9e1f7-aa1a-0b0f-b089-a37d455d4b29@redhat.com>
-Date: Wed, 13 Apr 2022 09:35:59 +0200
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1neZ6Q-0002rm-0m
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 05:15:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649841354; x=1681377354;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=Qyg9qkfEOmRnd7ecWKODTY6fNCX00KNJAm/6F+S5OvQ=;
+ b=QtWxBlqL/wiJxwvxUw5rKsbDnGxr/KRK0wsFZacqfcKXGBQOHFuoYW3v
+ s2t6sX1/cdS0qdZIFff1cs2Q/16QS6g1lsCUlF5IxQbf9+BNu2AqNc3lx
+ F8DyJKsp9lNxTgGvb8ErLLHF/IPY2Qdcwj9uq3v87aAhH7lGPnBG5o5Lt
+ +72m2TUHQuxzMBAWKlXzKZ5Edk0sR6thRn9rxZljx+XuLnAFtZHh+rC/8
+ cbqnXGFYlb3QYpoc0q+7oAzD5MAva08UreEUgUDQ9ha1JTZ3b8Qa5lPoF
+ 0XeSifCOUYkQo5tx3v0tl2hzs4FVpUKr9YV5WN6GcyOrx0kE3W+dCLtwl w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="261464214"
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="261464214"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 02:15:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="700175232"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by fmsmga001.fm.intel.com with ESMTP; 13 Apr 2022 02:15:43 -0700
+Date: Wed, 13 Apr 2022 17:15:33 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: "Kirill A. Shutemov" <kirill@shutemov.name>
+Subject: Re: [PATCH v5 04/13] mm/shmem: Restrict MFD_INACCESSIBLE memory
+ against RLIMIT_MEMLOCK
+Message-ID: <20220413091533.GC10041@chaop.bj.intel.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-5-chao.p.peng@linux.intel.com>
+ <Yk8L0CwKpTrv3Rg3@google.com>
+ <20220411153233.54ljmi7zgqovhgsn@box.shutemov.name>
+ <20220412133925.GG8013@chaop.bj.intel.com>
+ <20220412192821.xliop57sblvjx4t4@box.shutemov.name>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH for-7.1 5/8] nbd: use a QemuMutex to synchronize
- reconnection with coroutines
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-References: <20220412194204.350889-1-pbonzini@redhat.com>
- <20220412194204.350889-6-pbonzini@redhat.com>
-In-Reply-To: <20220412194204.350889-6-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220412192821.xliop57sblvjx4t4@box.shutemov.name>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,17 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eblake@redhat.com
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/12/22 21:42, Paolo Bonzini wrote:
-> Because s->state is written in the main thread too, for example by
-> the reconnect timer callback, it cannot be protected by a CoMutex.
+On Tue, Apr 12, 2022 at 10:28:21PM +0300, Kirill A. Shutemov wrote:
+> On Tue, Apr 12, 2022 at 09:39:25PM +0800, Chao Peng wrote:
+> > On Mon, Apr 11, 2022 at 06:32:33PM +0300, Kirill A. Shutemov wrote:
+> > > On Thu, Apr 07, 2022 at 04:05:36PM +0000, Sean Christopherson wrote:
+> > > > Hmm, shmem_writepage() already handles SHM_F_INACCESSIBLE by rejecting the swap, so
+> > > > maybe it's just the page migration path that needs to be updated?
+> > > 
+> > > My early version prevented migration with -ENOTSUPP for
+> > > address_space_operations::migratepage().
+> > > 
+> > > What's wrong with that approach?
+> > 
+> > I previously thought migratepage will not be called since we already
+> > marked the pages as UNMOVABLE, sounds not correct?
+> 
+> Do you mean missing __GFP_MOVABLE?
 
-Actually by the yank callback, not the timer (which runs in the "right" 
-AioContext).
+Yes.
 
-Paolo
+> I can be wrong, but I don't see that it
+> direclty affects if the page is migratable. It is a hint to page allocator
+> to group unmovable pages to separate page block and impove availablity of
+> higher order pages this way. Page allocator tries to allocate unmovable
+> pages from pages blocks that already have unmovable pages.
 
+OK, thanks.
+
+Chao
+> 
+> -- 
+>  Kirill A. Shutemov
 
