@@ -2,100 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A534FF917
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 16:39:37 +0200 (CEST)
-Received: from localhost ([::1]:35932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D284FF975
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 16:54:06 +0200 (CEST)
+Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nee9f-0000YE-V4
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 10:39:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51504)
+	id 1neeNh-0000zI-G6
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 10:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nee7r-0007tv-Pc
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 10:37:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42593)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1neeLU-0007s1-Bw
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 10:51:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nee7p-00071n-Kz
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 10:37:43 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1neeLR-0001Oh-1u
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 10:51:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649860660;
+ s=mimecast20190719; t=1649861503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z6nP4REsayRJXlFBLR0SOCWOJQ3prc3YUwxd1Mvd4G4=;
- b=CazfkLW0+cP/Ii2TlZTOZr4szLB8STIy1BmTc4Gdk2lYDIk+7Jl1t7qHdPo4DZcPgxD+ju
- iBpqTNJQHXXcQXAKNdfwXY//xG2jp5olMB1iMjHBAneMzNdI2F6uGe5swnWgBAeG8Hb3cm
- GkLnPAWY0d+j9VGXUrxrWnRjwl6f1QQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S7ehpQIGZwUqL2WpKcwXKGQSg3E3i7aVyWbpaRkGEFg=;
+ b=V1GCvR4cRYoyIpKl3D46QMFuGRi2A5GUh+j/DePCge/Z7AeJL1dxy+2PWh5MKMp9h7+t/F
+ hnaQY9uyKEH+KokedZ8LusRMjeSQs3jbUOJHuYfkXGmW4CL/k/PesgJIxKGiM83FBml7R5
+ +e0s29pKg9fw9FRX18e/MIPsOpE/fNo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313-32alYlYhMM-zrmgRcgarWQ-1; Wed, 13 Apr 2022 10:37:39 -0400
-X-MC-Unique: 32alYlYhMM-zrmgRcgarWQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- n4-20020a5099c4000000b00418ed58d92fso1209057edb.0
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 07:37:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Z6nP4REsayRJXlFBLR0SOCWOJQ3prc3YUwxd1Mvd4G4=;
- b=F4qlZ52YCnedtTlBoYyLpY124hARnc2durkYYEDmy/oUwrKn6ldbqbnBUbo56d3oPf
- Z8vV7pkudY98OkuN/YKeDvctrd2LIFGt+AcUJVHu1oFSvQeI8leAVy77FA48WZIoknci
- gqaLOvNSKC3ZuTvLRE/N3ktdS0NFRJZC1bVqo/hbGknpcnGjd0L6QJAjzEKp/47ZBQtb
- Tb2JVrsi6MxG3UQ7EGS65Y3i7x8a2BbHqkFa7Jdwhi00fEvVbkwnLusNMxdLdySypUTY
- wOgXGaadJA9bNex2dxA9mHhEypC3yt4fPA8IGzXgD11qvDLeEiYEFX9OjkLPioZmudVN
- XxzA==
-X-Gm-Message-State: AOAM531igSa2jFazmVLmffGPBnbuzngZyV8af6DjLJvW+Ew11Pnsp8j0
- RoP1vrSK0zkjkD2mF6HYq/erolWgUyhaqDTSYcgzxm1qi7xqc4m67f4P0grNNMVelTDswp8g3op
- 0xkQE1Q6bKArqhN4=
-X-Received: by 2002:a17:906:c092:b0:6cd:f3a1:a11e with SMTP id
- f18-20020a170906c09200b006cdf3a1a11emr38217140ejz.185.1649860658159; 
- Wed, 13 Apr 2022 07:37:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyEKmwUQepaB3lXmbhRJKw9GYimEi9TFKKQgWhbBgUgLjqzP69J+KsN4eJ0m3kPWAuWVv0Gg==
-X-Received: by 2002:a17:906:c092:b0:6cd:f3a1:a11e with SMTP id
- f18-20020a170906c09200b006cdf3a1a11emr38217095ejz.185.1649860657827; 
- Wed, 13 Apr 2022 07:37:37 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- v8-20020a1709063bc800b006e898cfd926sm49493ejf.134.2022.04.13.07.37.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Apr 2022 07:37:37 -0700 (PDT)
-Date: Wed, 13 Apr 2022 16:37:35 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v7 12/17] vfio-user: IOMMU support for remote device
-Message-ID: <20220413163735.5321c2ec@redhat.com>
-In-Reply-To: <YkWhXUI/Vr7++1ru@xz-m1.local>
-References: <2fdb90acd40a1f79d571d4e68c56e6b08aded60d.1648234157.git.jag.raman@oracle.com>
- <YkL9C+oMUSav9y95@stefanha-x1.localdomain>
- <AC3FD7EB-773E-4684-9A86-176EDDAC135D@oracle.com>
- <YkMcJDFVFu/fW/a5@stefanha-x1.localdomain>
- <7022E4C4-D71A-4A6E-A5D8-222A9462654C@oracle.com>
- <YkQrKI0Az/k8Hc8g@stefanha-x1.localdomain>
- <YkRSvDscyY+c+9yM@xz-m1.local>
- <YkSAeJTGAdYkYC09@stefanha-x1.localdomain>
- <YkSPnw2Z+980+dhF@xz-m1.local>
- <YkV4tfgh3yD3uGMG@stefanha-x1.localdomain>
- <YkWhXUI/Vr7++1ru@xz-m1.local>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ us-mta-270-lsEWuBSGOaGgCnjxhWrn5A-1; Wed, 13 Apr 2022 10:51:40 -0400
+X-MC-Unique: lsEWuBSGOaGgCnjxhWrn5A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B73963820546;
+ Wed, 13 Apr 2022 14:51:39 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 28820C27D9A;
+ Wed, 13 Apr 2022 14:51:37 +0000 (UTC)
+Date: Wed, 13 Apr 2022 16:51:35 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH 0/5] Removal of AioContext lock, bs->parents and
+ ->children: proof of concept
+Message-ID: <Ylbjd3kzEsBZmgJQ@redhat.com>
+References: <af53599c-c7de-d2b8-00fa-0e7d28121251@redhat.com>
+ <e9eeec7b-d03e-5e8e-cc42-568c670726ca@redhat.com>
+ <c8d45cd9-e7de-9acd-3fd6-13de58f5ce48@redhat.com>
+ <c6a12090-b6c3-31d8-fb90-a76c9dd2e949@redhat.com>
+ <88f2798b-9327-e54f-5792-e37404b94ef7@redhat.com>
+ <8ae70388-ff46-6ec1-7f84-14d41ca9a6dd@redhat.com>
+ <311c2e0a-fb2c-241c-cbd1-1162f7e74e18@redhat.com>
+ <9d3c36f0-0834-ec9c-8473-d052d64a61dd@redhat.com>
+ <69b2ce82-4826-71ed-9c32-d323df69b7c4@redhat.com>
+ <6b88890c-f191-7f77-93eb-91f4951e179d@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <6b88890c-f191-7f77-93eb-91f4951e179d@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -110,112 +87,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- John Johnson <john.g.johnson@oracle.com>, Jag Raman <jag.raman@oracle.com>,
- "bleal@redhat.com" <bleal@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, "f4bug@amsat.org" <f4bug@amsat.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 31 Mar 2022 08:41:01 -0400
-Peter Xu <peterx@redhat.com> wrote:
-
-> On Thu, Mar 31, 2022 at 10:47:33AM +0100, Stefan Hajnoczi wrote:
-> > On Wed, Mar 30, 2022 at 01:13:03PM -0400, Peter Xu wrote:  
-> > > On Wed, Mar 30, 2022 at 05:08:24PM +0100, Stefan Hajnoczi wrote:  
-> > > > On Wed, Mar 30, 2022 at 08:53:16AM -0400, Peter Xu wrote:  
-> > > > > On Wed, Mar 30, 2022 at 11:04:24AM +0100, Stefan Hajnoczi wrote:  
-> > > > > > This makes me wonder whether there is a deeper issue with the
-> > > > > > pci_setup_iommu() API: the lack of per-device cleanup callbacks.
-> > > > > > Per-device IOMMU resources should be freed when a device is hot
-> > > > > > unplugged.
-> > > > > > 
-> > > > > > From what I can tell this is not the case today:
-> > > > > > 
-> > > > > > - hw/i386/intel_iommu.c:vtd_find_add_as() allocates and adds device
-> > > > > >   address spaces but I can't find where they are removed and freed.
-> > > > > >   VTDAddressSpace instances pointed to from vtd_bus->dev_as[] are leaked.
-> > > > > > 
-> > > > > > - hw/i386/amd_iommu.c has similar leaks.  
-> > > > > 
-> > > > > AFAICT it's because there's no device-specific data cached in the
-> > > > > per-device IOMMU address space, at least so far.  IOW, all the data
-> > > > > structures allocated here can be re-used when a new device is plugged in
-> > > > > after the old device unplugged.
-> > > > > 
-> > > > > It's definitely not ideal since after unplug (and before a new device
-> > > > > plugged in) the resource is not needed at all so it's kind of wasted, but
-> > > > > it should work functionally.  If to achieve that, some iommu_unplug() or
-> > > > > iommu_cleanup() hook sounds reasonable.  
-> > > > 
-> > > > I guess the question is whether PCI busses can be hotplugged with
-> > > > IOMMUs. If yes, then there is a memory leak that matters for
-> > > > intel_iommu.c and amd_iommu.c.  
-> > > 
-> > > It can't, and we only support one vIOMMU so far for both (commit
-> > > 1b3bf13890fd849b26).  Thanks,  
-> > 
-> > I see, thanks!
-> > 
-> > Okay, summarizing options for the vfio-user IOMMU:
-> > 
-> > 1. Use the same singleton approach as existing IOMMUs where the
-> >    MemoryRegion/AddressSpace are never freed. Don't bother deleting.
-> > 
-> > 2. Keep the approach in this patch where vfio-user code manually calls a
-> >    custom delete function (not part of the pci_setup_iommu() API). This
-> >    is slightly awkward to do without global state and that's what
-> >    started this discussion.
-> > 
-> > 3. Introduce an optional pci_setup_iommu() callback:
-> > 
-> >    typdef void (*PCIIOMMUDeviceUnplug)(PCIBus *bus, void *opaque, int devfn);
-> > 
-> >    Solves the awkwardness of option #2. Not needed by existing IOMMU
-> >    devices.  
+Am 13.04.2022 um 15:43 hat Emanuele Giuseppe Esposito geschrieben:
+> So this is a more concrete and up-to-date header.
 > 
-> Looks all workable to me.  One tiny thing is if we'd like 3) we may want to
-> pass over the PCIDevice* too because in this case IIUC we'd need to double
-> check the device class before doing anything - we may not want to call the
-> vfio-user callbacks for general emulated devices under the same pci bus.
+> Few things to notice:
+> - we have a list of AioContext. They are registered once an aiocontext
+> is created, and deleted when it is destroyed.
+> This list is helpful because each aiocontext can only modify its own
+> number of readers, avoiding unnecessary cacheline bouncing
 > 
-> I think we could also fetch that from PCIBus.devices[devfn] but that's just
-> not as obvious.
+> - if a coroutine changes aiocontext, it's ok with regards to the
+> per-aiocontext reader counter. As long as the sum is correct, there's no
+> issue. The problem comes only once the original aiocontext is deleted,
+> and at that point we need to move the count it held to a shared global
+> variable, otherwise we risk to lose track of readers.
+
+So the idea is that we can do bdrv_graph_co_rdlock() in one thread and
+the corresponding bdrv_graph_co_rdunlock() in a different thread?
+
+Would the unlock somehow remember the original thread, or do you use the
+"sum is correct" argument and allow negative counter values, so you can
+end up having count +1 in A and -1 in B to represent "no active
+readers"? If this happens, it's likely to happen many times, so do we
+have to take integer overflows into account then?
+
+> - All synchronization between the flags explained in this header is of
+> course handled in the implementation. But for now it would be nice to
+> have a feedback on the idea/API.
 > 
-> Option 4) is as mentioned previously, that we add another device unplug
-> hook that can be registered per-device.  I just didn't think thoroughly on
-can you expand on why per device hook is needed?
-
-> how it would interact with the current HotplugHandler design yet.. it looks
-> quite similar but so far it's either for the machine type or pci bus, not
-> capable of registering on one single device (and it's always a mistery to
-> me why we'd rather ignore the per-bus hook if the machine hook
-> existed.. that's in qdev_get_hotplug_handler).
-
-machine hook is there for bus-less devices mainly, if it's not defined
-code will fallback to bus handler if any exists.
-
-However machine hook can also be used to override default hotplug chain
-to do to implement non trivial plug/unplug flow.
-for example see pc_get_hotplug_handler(), corresponding
-pc_machine_device_[pre_plug|plug|unplug...]_cb() where
-plug/unplug chain is altered for some PCI devices types.
-Perhaps the same can be done for vfio.
-
+> So in short we need:
+> - per-aiocontext counter
+> - global list of aiocontext
+> - global additional reader counter (in case an aiocontext is deleted)
+> - global CoQueue
+> - global has_writer flag
+> - global QemuMutex to protect the list access
 > 
-> Copying Igor too.
+> Emanuele
 > 
+> #ifndef BLOCK_LOCK_H
+> #define BLOCK_LOCK_H
+> 
+> #include "qemu/osdep.h"
+> 
+> /*
+>  * register_aiocontext:
+>  * Add AioContext @ctx to the list of AioContext.
+>  * This list is used to obtain the total number of readers
+>  * currently running the graph.
+>  */
+> void register_aiocontext(AioContext *ctx);
+> 
+> /*
+>  * unregister_aiocontext:
+>  * Removes AioContext @ctx to the list of AioContext.
+>  */
+> void unregister_aiocontext(AioContext *ctx);
+> 
+> /*
+>  * bdrv_graph_wrlock:
+>  * Modify the graph. Nobody else is allowed to access the graph.
+>  * Set global has_writer to 1, so that the next readers will wait
+>  * that writer is done in a coroutine queue.
+>  * Then keep track of the running readers by counting what is the total
+>  * amount of readers (sum of all aiocontext readers), and wait until
+>  * they all finish with AIO_WAIT_WHILE.
+>  */
+> void bdrv_graph_wrlock(void);
+
+Do we need a coroutine version that yields instead of using
+AIO_WAIT_WHILE() or are we sure this will only ever be called from
+non-coroutine contexts?
+
+> /*
+>  * bdrv_graph_wrunlock:
+>  * Write finished, reset global has_writer to 0 and restart
+>  * all readers that are waiting.
+>  */
+> void bdrv_graph_wrunlock(void);
+> 
+> /*
+>  * bdrv_graph_co_rdlock:
+>  * Read the bs graph. Increases the reader counter of the current
+> aiocontext,
+>  * and if has_writer is set, it means that the writer is modifying
+>  * the graph, therefore wait in a coroutine queue.
+>  * The writer will then wake this coroutine once it is done.
+>  *
+>  * This lock cannot be taken recursively.
+>  */
+> void coroutine_fn bdrv_graph_co_rdlock(void);
+
+What prevents it from being taken recursively when it's just a counter?
+(I do see however, that you can't take a reader lock while you have the
+writer lock or vice versa because it would deadlock.)
+
+Does this being a coroutine_fn mean that we would have to convert QMP
+command handlers to coroutines so that they can take the rdlock while
+they don't expect the graph to change? Or should we have a non-coroutine
+version, too, that works with AIO_WAIT_WHILE()?
+
+Or should this only be taken for very small pieces of code directly
+accessing the BdrvChild objects, and high-level users like QMP commands
+shouldn't even consider themselves readers?
+
+> /*
+>  * bdrv_graph_rdunlock:
+>  * Read terminated, decrease the count of readers in the current aiocontext.
+>  * If the writer is waiting for reads to finish (has_writer == 1), signal
+>  * the writer that we are done via aio_wait_kick() to let it continue.
+>  */
+> void coroutine_fn bdrv_graph_co_rdunlock(void);
+> 
+> #endif /* BLOCK_LOCK_H */
+
+I expect that in the final version, we might want to have some sugar
+like a WITH_BDRV_GRAPH_RDLOCK_GUARD() macro, but obviously that doesn't
+affect the fundamental design.
+
+Kevin
 
 
