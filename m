@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8651E4FF70B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 14:45:59 +0200 (CEST)
-Received: from localhost ([::1]:34782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B18234FF716
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Apr 2022 14:50:07 +0200 (CEST)
+Received: from localhost ([::1]:38548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1necNi-0003th-Ag
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 08:45:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41556)
+	id 1necRi-0007DX-JJ
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 08:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
- id 1necLS-00031e-Pq
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 08:43:38 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:51009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <eop.chen@sifive.com>)
- id 1necLQ-0000Yq-9I
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 08:43:38 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id o5so1911463pjr.0
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 05:43:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:mime-version:subject:date:references:to:in-reply-to:message-id;
- bh=JFh3ABAfOEKQLpywP4l+i4xxg6duwDS526FHjCph4VA=;
- b=iZ//7BbHaWvB9jgCv+o25XZwR39E+2Pu/cB1zTLXRDWZ88BqpnMY75dDrfZkTc//v6
- e71MnFgPinH/ruGlz7uDJtzPZHqRhAKmLgvCoQJTj97OsQK72h5/s0YHS6tTNuhOAiIR
- 3BG7W6XFkYlGXubZx6vsjWIIRh9pzOXrgxqRkEUcra+iVmeXrxk1FlwkvTwmTMkpuhT6
- p53xxl9AyWl1/LZ3EzsREsC2KFyTBoSBbWtm0ER+o3DWESBYkhqOjOnyE0XBEHbyewWu
- Ai0hiEjiXHoFGHRpyICnjx11KO2vag5SF/Gda8/EAGM6VtvygIFf3iKqXwZ3f67Aiyg+
- FUxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:mime-version:subject:date:references:to
- :in-reply-to:message-id;
- bh=JFh3ABAfOEKQLpywP4l+i4xxg6duwDS526FHjCph4VA=;
- b=rgfP0ZEshMs4I59uD2uSRLslKzUIPaMhXvZj2XajpwuQXhBbjQLo2IkrrpJbP5IpnZ
- oz6bgZvrhwPxSM3p0meR9bUKTtERZ0kzKOme4G5ht5TZeCRqGSCqa4akEp5jcGTu4gNu
- 3Zip1NwDrVY8x8eR3K7od+GL4qocc8OwPhOLi2LVWh6GoTxdkao9W9zv3fDaxb3aod5m
- aS6QEOjbBR7vW12Db9kPTUB4i9qPT6sPq84TjpnrICkgdJSWQzYhKjyEEIuj3qbKhAiC
- 1kCssZ5cZjYKXLtuJ97SuHrhxfHHQXv4zLfIBVYQOfimeNekwJVHIQVkNhcQFYDz8IgV
- cGtw==
-X-Gm-Message-State: AOAM531ICK6FG48aRsbRN30/s09QwIdJN5PWcafUxWlJvhntoX8y9nnn
- hUJIXppE689b+pTyUcPdl1zNFA==
-X-Google-Smtp-Source: ABdhPJxUciGlVuYupAzq6S2zCjPHTaB4kp8Yi9b0IHL9kSfpZU4RbKyGSIkOcQ/1wMtDHT7O6/ss6A==
-X-Received: by 2002:a17:902:dad0:b0:154:740a:9094 with SMTP id
- q16-20020a170902dad000b00154740a9094mr42415105plx.107.1649853814028; 
- Wed, 13 Apr 2022 05:43:34 -0700 (PDT)
-Received: from smtpclient.apple
- (2001-b400-e45c-756e-7004-ba4f-f39d-a99d.emome-ip6.hinet.net.
- [2001:b400:e45c:756e:7004:ba4f:f39d:a99d])
- by smtp.gmail.com with ESMTPSA id
- 16-20020a17090a005000b001c7511dc31esm2858479pjb.41.2022.04.13.05.43.32
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 13 Apr 2022 05:43:33 -0700 (PDT)
-From: eop Chen <eop.chen@sifive.com>
-Content-Type: multipart/alternative;
- boundary="Apple-Mail=_22DFCD19-5F20-4993-9D8C-D0682E086D82"
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.60.0.1.1\))
-Subject: Re: [PATCH qemu v7 00/14] Add tail agnostic behavior for rvv
- instructions
-Date: Wed, 13 Apr 2022 20:43:31 +0800
-References: <164863587444.17401.9965527486691250478-0@git.sr.ht>
- <937de10f-be69-247b-562f-be34c17ca945@iscas.ac.cn>
- <CAKmqyKPtyKub=MChc_C7JpoXP7+bBwTSX_c4WhuRXaoWwWjehg@mail.gmail.com>
- <1b4004ea-68f9-b0ff-58e1-581eca7be182@iscas.ac.cn>
- <CAKmqyKNch1gN+3ieHF5p15AZki3NZjrpMcwjfpuz6n91HJZ2AA@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-In-Reply-To: <CAKmqyKNch1gN+3ieHF5p15AZki3NZjrpMcwjfpuz6n91HJZ2AA@mail.gmail.com>
-Message-Id: <8F02B25E-B66A-45DE-8E72-059FE5DA1378@sifive.com>
-X-Mailer: Apple Mail (2.3693.60.0.1.1)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=eop.chen@sifive.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1necPz-0006GF-4f
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 08:48:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30326)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1necPu-0001x2-A8
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 08:48:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649854090;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xh0KOoAvqdMWh4QNbXy+NqMiWzBjeK5iB+A6sCsmo8k=;
+ b=UiUpPYQtVRAvW98Qf0dbpjJQuHle/BgnFNH1lwmrgmwxsT0bLP190n6rK6132Cb916BvpJ
+ r4kAVf+CyZDTshmuhhVADZx0GBBKe0UkQ4TXLZJ7oIrG4yDh+ZJrTTk9BCkGxg4DQGJFEk
+ MIrnBja6yYHOyObPtiQXltclu5cvZWo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-530-pZILa09WNEKXLRMMi_Sb9Q-1; Wed, 13 Apr 2022 08:48:09 -0400
+X-MC-Unique: pZILa09WNEKXLRMMi_Sb9Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 516D980418A
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 12:48:09 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A9DA2166BA4;
+ Wed, 13 Apr 2022 12:48:04 +0000 (UTC)
+Date: Wed, 13 Apr 2022 07:48:02 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH for-7.1 3/8] nbd: remove peppering of nbd_client_connected
+Message-ID: <20220413124802.yvwub3ivse625ssx@redhat.com>
+References: <20220412194204.350889-1-pbonzini@redhat.com>
+ <20220412194204.350889-4-pbonzini@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20220412194204.350889-4-pbonzini@redhat.com>
+User-Agent: NeoMutt/20211029-6-a115bf
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,411 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Apr 12, 2022 at 09:41:59PM +0200, Paolo Bonzini wrote:
+> It is unnecessary to check nbd_client_connected() because every time
+> s->state is moved out of NBD_CLIENT_CONNECTED the socket is shut down
+> and all coroutines are resumed.
+> 
+> The only case where it was actually needed is when the NBD
+> server disconnects and there is no reconnect-delay.  In that
+> case, nbd_receive_replies() does not set s->reply.handle and
+> nbd_co_do_receive_one_chunk() cannot continue.  For that one case,
+> check the return value of nbd_receive_replies().
+> 
+> As to the others:
+> 
+> * nbd_receive_replies() can put the current coroutine to sleep if another
+> reply is ongoing; then it will be woken by nbd_channel_error() called
+> by the ongoing reply.  Or it can try itself to read a reply header and
+> fail, thus calling nbd_channel_error() itself.
+> 
+> * nbd_co_send_request() will write the body of the request and fail
+> 
+> * nbd_reply_chunk_iter_receive() will call nbd_co_receive_one_chunk()
+> and then nbd_co_do_receive_one_chunk(), which will handle the failure as
+> above; or it will just detect a previous call to nbd_iter_channel_error()
+> via iter->ret < 0.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  block/nbd.c | 17 ++++-------------
+>  1 file changed, 4 insertions(+), 13 deletions(-)
 
---Apple-Mail=_22DFCD19-5F20-4993-9D8C-D0682E086D82
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Gentle ping, it is not picked to `riscv-to-apply.next` yet.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-Thank you.
-
-Yueh-Ting (eop) Chen
-
-> Alistair Francis <alistair23@gmail.com> =E6=96=BC 2022=E5=B9=B43=E6=9C=88=
-31=E6=97=A5 =E4=B8=8A=E5=8D=8811:18 =E5=AF=AB=E9=81=93=EF=BC=9A
->=20
-> On Thu, Mar 31, 2022 at 11:24 AM Weiwei Li <liweiwei@iscas.ac.cn =
-<mailto:liweiwei@iscas.ac.cn>> wrote:
->>=20
->>=20
->> =E5=9C=A8 2022/3/31 =E4=B8=8A=E5=8D=888:11, Alistair Francis =E5=86=99=E9=
-=81=93:
->>> On Wed, Mar 30, 2022 at 10:52 PM Weiwei Li <liweiwei@iscas.ac.cn> =
-wrote:
->>>>=20
->>>> =E5=9C=A8 2022/3/30 =E4=B8=8B=E5=8D=886:24, ~eopxd =E5=86=99=E9=81=93=
-:
->>>>> According to v-spec, tail agnostic behavior can be either kept as
->>>>> undisturbed or set elements' bits to all 1s. To distinguish the
->>>>> difference of tail policies, QEMU should be able to simulate the =
-tail
->>>>> agnostic behavior as "set tail elements' bits to all 1s". An =
-option
->>>>> 'rvv_ta_all_1s' is added to enable the behavior, it is default as
->>>>> disabled.
->>>>>=20
->>>>> There are multiple possibility for agnostic elements according to
->>>>> v-spec. The main intent of this patch-set tries to add option that
->>>>> can distinguish between tail policies. Setting agnostic elements =
-to
->>>>> all 1s makes things simple and allow QEMU to express this.
->>>>>=20
->>>>> We may explore other possibility of agnostic behavior by adding
->>>>> other options in the future. Please understand that this patch-set
->>>>> is limited.
->>>>>=20
->>>>> v2 updates:
->>>>> - Addressed comments from Weiwei Li
->>>>> - Added commit tail agnostic on load / store instructions (which
->>>>>     I forgot to include into the patch-set)
->>>>>=20
->>>>> v3 updates:
->>>>> - Missed the very 1st commit, adding it back
->>>>>=20
->>>>> v4 updates:
->>>>> - Renamed vlmax to total_elems
->>>>> - Deal with tail element when vl_eq_vlmax =3D=3D true
->>>>>=20
->>>>> v5 updates:
->>>>> - Let `vext_get_total_elems` take `desc` and `esz`
->>>>> - Utilize `simd_maxsz(desc)` to get `vlenb`
->>>>> - Fix alignments to code
->>>>>=20
->>>>> v6 updates:
->>>>> - Fix `vext_get_total_elems`
->>>>>=20
->>>>> v7 updates:
->>>>> - Reuse `max_elems` for vector load / store helper functions. The
->>>>>     translation sets desc's `lmul` to `min(1, lmul)`, making
->>>>> `vext_max_elems`
->>>>>     equivalent to `vext_get_total_elems`.
->>>>>=20
->>>>> eopXD (14):
->>>>>    target/riscv: rvv: Prune redundant ESZ, DSZ parameter passed
->>>>>    target/riscv: rvv: Rename ambiguous esz
->>>>>    target/riscv: rvv: Early exit when vstart >=3D vl
->>>>>    target/riscv: rvv: Add tail agnostic for vv instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vector load / store
->>>>>      instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vx, vvm, vxm =
-instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vector integer shift
->>>>>      instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vector integer =
-comparison
->>>>>      instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vector integer merge =
-and move
->>>>>      instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vector fix-point =
-arithmetic
->>>>>      instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vector floating-point
->>>>>      instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vector reduction =
-instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vector mask =
-instructions
->>>>>    target/riscv: rvv: Add tail agnostic for vector permutation
->>>>>      instructions
->>>>>=20
->>>>>   target/riscv/cpu.c                      |    1 +
->>>>>   target/riscv/cpu.h                      |    2 +
->>>>>   target/riscv/cpu_helper.c               |    2 +
->>>>>   target/riscv/insn_trans/trans_rvv.c.inc |  164 +++
->>>>>   target/riscv/internals.h                |    5 +-
->>>>>   target/riscv/translate.c                |    2 +
->>>>>   target/riscv/vector_helper.c            | 1562 =
-++++++++++++++---------
->>>>>   7 files changed, 1121 insertions(+), 617 deletions(-)
->>>>>=20
->>>> The patchset looks good to me.
->>> Do you want to add a reviewed-by or acked-by tag?
->>>=20
->>> Alistair
->>=20
->> Is there any other prerequirement to add these tags?  If not, It's OK
->> for me to add reviewed-by on this patchset.
->=20
-> There is no single rule, it's a personal decision. Generally if you
-> have read through the code, understand it and think it works (matches
-> QEMU style and architecture, bug free, matches hardware spec, etc)
-> then you review it.
->=20
->>=20
->> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn =
-<mailto:liweiwei@iscas.ac.cn>>
->=20
-> Thanks!
->=20
-> Alistair
->=20
->>=20
->> Regards,
->>=20
->> Weiwei Li
->>=20
->>>> Regards,
->>>>=20
->>>> Weiwei Li
-
-
---Apple-Mail=_22DFCD19-5F20-4993-9D8C-D0682E086D82
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" =
-class=3D""><div><span style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, =
-0, 0);" class=3D"">Gentle ping, it is not picked to =
-`riscv-to-apply.next` yet.</span></div><div><span style=3D"caret-color: =
-rgb(0, 0, 0); color: rgb(0, 0, 0);" class=3D""><br =
-class=3D""></span></div><div><div class=3D"" style=3D"caret-color: =
-rgb(0, 0, 0); color: rgb(0, 0, 0);">Thank you.</div><div class=3D"" =
-style=3D"caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);"><br =
-class=3D""></div><div class=3D"" style=3D"caret-color: rgb(0, 0, 0); =
-color: rgb(0, 0, 0);">Yueh-Ting (eop) Chen</div></div><div =
-class=3D""><font color=3D"#000000" class=3D""><span style=3D"caret-color: =
-rgb(0, 0, 0);" class=3D""><br class=3D""></span></font><blockquote =
-type=3D"cite" class=3D""><div class=3D"">Alistair Francis &lt;<a =
-href=3D"mailto:alistair23@gmail.com" =
-class=3D"">alistair23@gmail.com</a>&gt; =E6=96=BC 2022=E5=B9=B43=E6=9C=883=
-1=E6=97=A5 =E4=B8=8A=E5=8D=8811:18 =E5=AF=AB=E9=81=93=EF=BC=9A</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><meta =
-charset=3D"UTF-8" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">On Thu, Mar 31, 2022 at 11:24 AM Weiwei Li &lt;</span><a =
-href=3D"mailto:liweiwei@iscas.ac.cn" style=3D"font-family: Helvetica; =
-font-size: 12px; font-style: normal; font-variant-caps: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; =
--webkit-text-stroke-width: 0px;" class=3D"">liweiwei@iscas.ac.cn</a><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">&gt; wrote:</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" =
-class=3D""><blockquote type=3D"cite" style=3D"font-family: Helvetica; =
-font-size: 12px; font-style: normal; font-variant-caps: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><br =
-class=3D""><br class=3D"">=E5=9C=A8 2022/3/31 =E4=B8=8A=E5=8D=888:11, =
-Alistair Francis =E5=86=99=E9=81=93:<br class=3D""><blockquote =
-type=3D"cite" class=3D"">On Wed, Mar 30, 2022 at 10:52 PM Weiwei Li =
-&lt;<a href=3D"mailto:liweiwei@iscas.ac.cn" =
-class=3D"">liweiwei@iscas.ac.cn</a>&gt; wrote:<br class=3D""><blockquote =
-type=3D"cite" class=3D""><br class=3D"">=E5=9C=A8 2022/3/30 =E4=B8=8B=E5=8D=
-=886:24, ~eopxd =E5=86=99=E9=81=93:<br class=3D""><blockquote =
-type=3D"cite" class=3D"">According to v-spec, tail agnostic behavior can =
-be either kept as<br class=3D"">undisturbed or set elements' bits to all =
-1s. To distinguish the<br class=3D"">difference of tail policies, QEMU =
-should be able to simulate the tail<br class=3D"">agnostic behavior as =
-"set tail elements' bits to all 1s". An option<br =
-class=3D"">'rvv_ta_all_1s' is added to enable the behavior, it is =
-default as<br class=3D"">disabled.<br class=3D""><br class=3D"">There =
-are multiple possibility for agnostic elements according to<br =
-class=3D"">v-spec. The main intent of this patch-set tries to add option =
-that<br class=3D"">can distinguish between tail policies. Setting =
-agnostic elements to<br class=3D"">all 1s makes things simple and allow =
-QEMU to express this.<br class=3D""><br class=3D"">We may explore other =
-possibility of agnostic behavior by adding<br class=3D"">other options =
-in the future. Please understand that this patch-set<br class=3D"">is =
-limited.<br class=3D""><br class=3D"">v2 updates:<br class=3D"">- =
-Addressed comments from Weiwei Li<br class=3D"">- Added commit tail =
-agnostic on load / store instructions (which<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;I forgot to include into the =
-patch-set)<br class=3D""><br class=3D"">v3 updates:<br class=3D"">- =
-Missed the very 1st commit, adding it back<br class=3D""><br class=3D"">v4=
- updates:<br class=3D"">- Renamed vlmax to total_elems<br class=3D"">- =
-Deal with tail element when vl_eq_vlmax =3D=3D true<br class=3D""><br =
-class=3D"">v5 updates:<br class=3D"">- Let `vext_get_total_elems` take =
-`desc` and `esz`<br class=3D"">- Utilize `simd_maxsz(desc)` to get =
-`vlenb`<br class=3D"">- Fix alignments to code<br class=3D""><br =
-class=3D"">v6 updates:<br class=3D"">- Fix `vext_get_total_elems`<br =
-class=3D""><br class=3D"">v7 updates:<br class=3D"">- Reuse `max_elems` =
-for vector load / store helper functions. The<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;translation sets desc's `lmul` to =
-`min(1, lmul)`, making<br class=3D"">`vext_max_elems`<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;equivalent to =
-`vext_get_total_elems`.<br class=3D""><br class=3D"">eopXD (14):<br =
-class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Prune redundant ESZ, DSZ =
-parameter passed<br class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: =
-Rename ambiguous esz<br class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: =
-Early exit when vstart &gt;=3D vl<br =
-class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Add tail agnostic for vv =
-instructions<br class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Add tail =
-agnostic for vector load / store<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instructions<br =
-class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Add tail agnostic for =
-vx, vvm, vxm instructions<br class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: =
-rvv: Add tail agnostic for vector integer shift<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instructions<br =
-class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Add tail agnostic for =
-vector integer comparison<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instructions<br =
-class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Add tail agnostic for =
-vector integer merge and move<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instructions<br =
-class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Add tail agnostic for =
-vector fix-point arithmetic<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instructions<br =
-class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Add tail agnostic for =
-vector floating-point<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instructions<br =
-class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Add tail agnostic for =
-vector reduction instructions<br =
-class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: rvv: Add tail agnostic for =
-vector mask instructions<br class=3D"">&nbsp;&nbsp;&nbsp;target/riscv: =
-rvv: Add tail agnostic for vector permutation<br =
-class=3D"">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instructions<br class=3D""><br =
-class=3D"">&nbsp;&nbsp;target/riscv/cpu.c =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| =
-&nbsp;&nbsp;&nbsp;1 +<br class=3D"">&nbsp;&nbsp;target/riscv/cpu.h =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| =
-&nbsp;&nbsp;&nbsp;2 +<br class=3D"">&nbsp;&nbsp;target/riscv/cpu_helper.c =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;| &nbsp;&nbsp;&nbsp;2 +<br =
-class=3D"">&nbsp;&nbsp;target/riscv/insn_trans/trans_rvv.c.inc | =
-&nbsp;164 +++<br class=3D"">&nbsp;&nbsp;target/riscv/internals.h =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;5 +-<br =
-class=3D"">&nbsp;&nbsp;target/riscv/translate.c =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;2 +<br =
-class=3D"">&nbsp;&nbsp;target/riscv/vector_helper.c =
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 1562 =
-++++++++++++++---------<br class=3D"">&nbsp;&nbsp;7 files changed, 1121 =
-insertions(+), 617 deletions(-)<br class=3D""><br =
-class=3D""></blockquote>The patchset looks good to me.<br =
-class=3D""></blockquote>Do you want to add a reviewed-by or acked-by =
-tag?<br class=3D""><br class=3D"">Alistair<br class=3D""></blockquote><br =
-class=3D"">Is there any other prerequirement to add these tags? &nbsp;If =
-not, It's OK<br class=3D"">for me to add reviewed-by on this =
-patchset.<br class=3D""></blockquote><br style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">There is no single rule, it's a personal decision. Generally =
-if you</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none;" class=3D""><span style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
-none; float: none; display: inline !important;" class=3D"">have read =
-through the code, understand it and think it works (matches</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">QEMU style and architecture, bug =
-free, matches hardware spec, etc)</span><br style=3D"caret-color: rgb(0, =
-0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" =
-class=3D"">then you review it.</span><br style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><br style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><blockquote type=3D"cite" =
-style=3D"font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D""><br class=3D"">Reviewed-by: Weiwei Li =
-&lt;<a href=3D"mailto:liweiwei@iscas.ac.cn" =
-class=3D"">liweiwei@iscas.ac.cn</a>&gt;<br class=3D""></blockquote><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">Thanks!</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;" class=3D"">Alistair</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: =
-normal; letter-spacing: normal; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none;" =
-class=3D""><blockquote type=3D"cite" style=3D"font-family: Helvetica; =
-font-size: 12px; font-style: normal; font-variant-caps: normal; =
-font-weight: normal; letter-spacing: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; =
--webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><br =
-class=3D"">Regards,<br class=3D""><br class=3D"">Weiwei Li<br =
-class=3D""><br class=3D""><blockquote type=3D"cite" class=3D""><blockquote=
- type=3D"cite" class=3D"">Regards,<br class=3D""><br class=3D"">Weiwei =
-Li</blockquote></blockquote></blockquote></div></blockquote></div><br =
-class=3D""></body></html>=
-
---Apple-Mail=_22DFCD19-5F20-4993-9D8C-D0682E086D82--
 
