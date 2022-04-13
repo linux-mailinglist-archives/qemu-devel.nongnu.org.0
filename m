@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11495002DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 02:00:07 +0200 (CEST)
-Received: from localhost ([::1]:34964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5718B5002DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 02:02:08 +0200 (CEST)
+Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nemu6-0005ys-H2
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 20:00:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36894)
+	id 1nemw2-0007WY-9x
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 20:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nemsS-0005AB-9r; Wed, 13 Apr 2022 19:58:24 -0400
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:43738)
+ id 1nemta-00064p-TQ
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 19:59:34 -0400
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:39529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nems8-0004BU-JH; Wed, 13 Apr 2022 19:58:23 -0400
-Received: by mail-il1-x12a.google.com with SMTP id d3so2126031ilr.10;
- Wed, 13 Apr 2022 16:58:03 -0700 (PDT)
+ id 1nemtY-0004OG-W4
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 19:59:34 -0400
+Received: by mail-il1-x12d.google.com with SMTP id d4so2135343iln.6
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 16:59:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qBk78eEW621GF334sY1DP1J4BPM1T+2v4E9uZGDpyH0=;
- b=Vjc5L8oXoqdO5XLThKAo7ID2Wqt99iL0A4bjTHzKKemaLF+zKJH07Dv8cfVivbpENL
- s3siD3Sa+c/M1FZ3sLcxM2vBnB5iXaTOJBnFYfpkTkcypS5BOA+wZtPaOpUqbkCV9cjH
- J71G+iTyihw5HzN8g9o+imzTreUY3xGkCaDv8Pg63TS8JLgH2jCMpYQbKDNb9ESEbPV4
- rMUl7mpa+b56q/ee4IeiIrJbFYIfsD9TPxGFz1ocFBPvwr7ZaI84eopOgzAVZHKtrUts
- ueGZ2rvJ3t9ZnqZYHV2eT01mCxgSEhV6+M00QmAfIGOyV3JMSJBDA3vGzJ/fXOYu7KFa
- xFyg==
+ :cc; bh=sDoJnTVLNoDEbiOYf3AE/l1N+TBi6SWUfAs0qXwEYBY=;
+ b=mHCzZbsXiKEKud9WKeg4wWkh/Yw4upGTN1soO8NOCBhDINd8jNZOnIOxuMP0QPenG8
+ Q9CduORgp4KQJXppqUicS0r/DcAZ0ALpCbzZvSb3JQ7jZ4cLhefpZ/cC0YllBgRRQg+P
+ 2NE7utlDfZ6VrRJfMqwbmaJkcmwrg6fmIL3+PtPsBrjZ4uBJ2Qb+mYmyat64n/DAaBfQ
+ 26AQrx242CuuHWw9WSfjE6G+9V2DNIFgck6VlI004Py+eSuIMTDl08JPyPIXvjSL1WXQ
+ 8C9e2Sj8fBIP79NUJB9thd33W+Csq9rMJkSD3dzO20PU4js5N41sTl2e7x/DrSP6QQAj
+ v0OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qBk78eEW621GF334sY1DP1J4BPM1T+2v4E9uZGDpyH0=;
- b=DKy3VvJV/qjlLQDMw9MNXQWRjx6jufvpHq32aVqgB9BSQbHMrJkXy50j7pcJty+y1H
- gO7zglHKMLhOnij3r+sHjOl8XBPO8Cx8hCXfRq+07+0ZpGxt0ihlsRn7B5WfouBr0/rc
- mAVPlW/M5qdIe4tgDpVIOKPzi4a5RpXhwH99CADtbMF7QAiUP21z0UyNbhHDrMthX+xM
- vlcEXgsR//g+SmMblx6XPYXUQc5Vd0szcfMleIZikfDcfGfw+Eiwi2tAl2FV7x0QjCEQ
- ioueOu/Sa1bKOEwsKBP5kPgW9ZXiq0Al13LApd4dn/P5QiQ1U7hshy3b711+la0MiNaw
- jItg==
-X-Gm-Message-State: AOAM533On7ZuUxdINks/PQTorVbH5WPNqBLJwVeffcLP+7g89MtmaC3r
- 4kSOVJ9eCoe517pX6eUBFHVLbUzw/C5n9OmGg3M=
-X-Google-Smtp-Source: ABdhPJw7VIH3OpJeowOzZ+8IJiqtuMugNLaAtt3HoqcYJDmdia/pR6k7sI8oUBnh1bLkA1ttuh4SSYZT1jGbv64FhFk=
-X-Received: by 2002:a92:d791:0:b0:2ca:bcb8:9a5a with SMTP id
- d17-20020a92d791000000b002cabcb89a5amr31009iln.145.1649894283071; Wed, 13 Apr
- 2022 16:58:03 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=sDoJnTVLNoDEbiOYf3AE/l1N+TBi6SWUfAs0qXwEYBY=;
+ b=v3dqVocpcJkKPN6MNitiLf/g1inT7iK7s1NtSk8lBSov/o6dlvAU09n1vGSNBd5zK5
+ e3/mnJjf646ZvKWDjnXDxB1WHLYbf9o7eiqm5qmzxO/5YNmxO6xclnw0/AicQytUVR0W
+ 0vdFNucBogcQdubiLLhJLdXTDTE54D20o22IT7tjTXY27OOb6tCslgFw8dq8GvxYDcr7
+ XZdsIE7yCp7ycIWInG+EfCYn0rb+AoTC/ICGq+8q2W6jL7Jh6NyA3Su8lJP7P+l8VUQ1
+ fM+5f9s8OaeVOAAs2GMBrsgR+ExR6KCDTB9cjMpPiFpBElnmmOWzRH6lXZTEhIbvcD+w
+ /KYw==
+X-Gm-Message-State: AOAM531GXZlrgfQPvLUbR5Oav6ZcIuhm9BfvwwqlYtgYnp5oBEAv0rOU
+ ics8HW/ELJyP9Asu8bZBMZiorOc8ysTxiTbcNQk=
+X-Google-Smtp-Source: ABdhPJwwBBBQTN3QvWp2y1gmAannv8jp+qKAzRyMA4cZ6cz6XmOAFFJnVGbNu/qrqYfHKbMh/1q6rEKOMkCAbShEzZ0=
+X-Received: by 2002:a05:6e02:1645:b0:2cb:dff3:86d6 with SMTP id
+ v5-20020a056e02164500b002cbdff386d6mr42556ilu.260.1649894371857; Wed, 13 Apr
+ 2022 16:59:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220318041944.19859-1-liweiwei@iscas.ac.cn>
- <20220318041944.19859-13-liweiwei@iscas.ac.cn>
- <e00bf2b4-3c33-ffef-93a2-338917ff50b3@iscas.ac.cn>
-In-Reply-To: <e00bf2b4-3c33-ffef-93a2-338917ff50b3@iscas.ac.cn>
+References: <20220216062912.319738-1-alistair.francis@opensource.wdc.com>
+ <20220216062912.319738-30-alistair.francis@opensource.wdc.com>
+ <CAFEAcA-kG3SgG3beWzvo7o_5BgTVU191D=PZg7EpLYOxnRoCqg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-kG3SgG3beWzvo7o_5BgTVU191D=PZg7EpLYOxnRoCqg@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 14 Apr 2022 09:57:37 +1000
-Message-ID: <CAKmqyKO+LzAO9U1TzhtrVnmPETbjbSGxdbQ-T=3pEqLzTAYi=A@mail.gmail.com>
-Subject: Re: [PATCH v9 12/14] target/riscv: rvk: add CSR support for Zkr
-To: Weiwei Li <liweiwei@iscas.ac.cn>
+Date: Thu, 14 Apr 2022 09:59:05 +1000
+Message-ID: <CAKmqyKN_FLju7sb5zCA7aRrxALgdN0cFLtYYq57SjKQs6w_S6g@mail.gmail.com>
+Subject: Re: [PULL v2 29/35] hw/intc: Add RISC-V AIA APLIC device emulation
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -80,240 +80,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, lustrew@foxmail.com,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Frank Chang <frank.chang@sifive.com>, Anup Patel <anup@brainfault.org>,
+ Anup Patel <anup.patel@wdc.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
- Alistair Francis <alistair.francis@wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ Alistair Francis <alistair.francis@opensource.wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 11, 2022 at 2:46 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+On Wed, Apr 13, 2022 at 12:53 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Hi, any comments on this patch or patchset?
->
-> Currently, read-only instruction to access Seed CSR is checked as a
-> special case in helper_csrr as suggested in
->
-> https://lists.nongnu.org/archive/html/qemu-riscv/2022-03/msg00146.html.
-
-Ah sorry, I didn't realise you had updated this.
-
->
-> (The new version for that patch is in
-> https://lists.nongnu.org/archive/html/qemu-riscv/2022-03/msg00156.html)
->
-> Regards,
->
-> Weiwei Li
->
-> =E5=9C=A8 2022/3/18 =E4=B8=8B=E5=8D=8812:19, Weiwei Li =E5=86=99=E9=81=93=
-:
-> >   - add SEED CSR which must be accessed with a read-write instruction:
-> >     A read-only instruction such as CSRRS/CSRRC with rs1=3Dx0 or CSRRSI=
-/CSRRCI
-> > with uimm=3D0 will raise an illegal instruction exception.
-> >   - add USEED, SSEED fields for MSECCFG CSR
+> On Wed, 16 Feb 2022 at 08:43, Alistair Francis
+> <alistair.francis@opensource.wdc.com> wrote:
 > >
-> > Co-authored-by: Ruibo Lu <luruibo2000@163.com>
-> > Co-authored-by: Zewen Ye <lustrew@foxmail.com>
-> > Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> > Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> > ---
-> >   target/riscv/cpu_bits.h  |  9 ++++++
-> >   target/riscv/csr.c       | 68 +++++++++++++++++++++++++++++++++++++++=
-+
-> >   target/riscv/op_helper.c |  9 ++++++
-> >   target/riscv/pmp.h       |  8 +++--
-> >   4 files changed, 91 insertions(+), 3 deletions(-)
+> > From: Anup Patel <anup.patel@wdc.com>
 > >
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index bb47cf7e77..d401100f47 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -458,6 +458,9 @@
-> >   #define CSR_VSPMMASK        0x2c1
-> >   #define CSR_VSPMBASE        0x2c2
+> > The RISC-V AIA (Advanced Interrupt Architecture) defines a new
+> > interrupt controller for wired interrupts called APLIC (Advanced
+> > Platform Level Interrupt Controller). The APLIC is capabable of
+> > forwarding wired interupts to RISC-V HARTs directly or as MSIs
+> > (Message Signaled Interupts).
 > >
-> > +/* Crypto Extension */
-> > +#define CSR_SEED            0x015
-> > +
-> >   /* mstatus CSR bits */
-> >   #define MSTATUS_UIE         0x00000001
-> >   #define MSTATUS_SIE         0x00000002
-> > @@ -800,4 +803,10 @@ typedef enum RISCVException {
-> >   #define HVICTL_VALID_MASK                  \
-> >       (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
-> >
-> > +/* seed CSR bits */
-> > +#define SEED_OPST                        (0b11 << 30)
-> > +#define SEED_OPST_BIST                   (0b00 << 30)
-> > +#define SEED_OPST_WAIT                   (0b01 << 30)
-> > +#define SEED_OPST_ES16                   (0b10 << 30)
-> > +#define SEED_OPST_DEAD                   (0b11 << 30)
-> >   #endif
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 3c61dd69af..5717a51f56 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -24,6 +24,8 @@
-> >   #include "qemu/main-loop.h"
-> >   #include "exec/exec-all.h"
-> >   #include "sysemu/cpu-timers.h"
-> > +#include "qemu/guest-random.h"
-> > +#include "qapi/error.h"
-> >
-> >   /* CSR function table public API */
-> >   void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops)
-> > @@ -292,6 +294,40 @@ static RISCVException epmp(CPURISCVState *env, int=
- csrno)
-> >   }
-> >   #endif
-> >
-> > +static RISCVException seed(CPURISCVState *env, int csrno)
+> > This patch adds device emulation for RISC-V AIA APLIC.
+>
+> Hi; Coverity has some issues with this change; they're kind of
+> false positives but they do flag up a minor issue with the code.
+> This is CID 1487105, 1487113, 1487185, 1487208.
+>
+> > +    } else if ((APLIC_TARGET_BASE <= addr) &&
+> > +            (addr < (APLIC_TARGET_BASE + (aplic->num_irqs - 1) * 4))) {
+> > +        irq = ((addr - APLIC_TARGET_BASE) >> 2) + 1;
+> > +        return aplic->target[irq];
+> > +    } else if (!aplic->msimode && (APLIC_IDC_BASE <= addr) &&
+> > +            (addr < (APLIC_IDC_BASE + aplic->num_harts * APLIC_IDC_SIZE))) {
+> > +        idc = (addr - APLIC_IDC_BASE) / APLIC_IDC_SIZE;
+>
+> In expressions like these where we're checking "is addr between
+> some base address and an upper bound calculated from num_irqs
+> or num_harts", Coverity warns that we calculate expressions like
+> (APLIC_TARGET_BASE + (aplic->num_irqs - 1) * 4) using 32-bits and
+> then compare against the 64-bit 'addr', so there might be an
+> unintentional overflow. Now clearly in this case num_irqs and num_harts
+> should never be so large that there is an overflow, so in that
+> sense Coverity is wrong and these are false positives. However...
+>
+> > +static void riscv_aplic_realize(DeviceState *dev, Error **errp)
 > > +{
-> > +    RISCVCPU *cpu =3D env_archcpu(env);
+> > +    uint32_t i;
+> > +    RISCVAPLICState *aplic = RISCV_APLIC(dev);
 > > +
-> > +    if (!cpu->cfg.ext_zkr) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    aplic->bitfield_words = (aplic->num_irqs + 31) >> 5;
+> > +    aplic->sourcecfg = g_new0(uint32_t, aplic->num_irqs);
+> > +    aplic->state = g_new(uint32_t, aplic->num_irqs);
+> > +    aplic->target = g_new0(uint32_t, aplic->num_irqs);
+> > +    if (!aplic->msimode) {
+> > +        for (i = 0; i < aplic->num_irqs; i++) {
+> > +            aplic->target[i] = 1;
+> > +        }
+> > +    }
+> > +    aplic->idelivery = g_new0(uint32_t, aplic->num_harts);
+> > +    aplic->iforce = g_new0(uint32_t, aplic->num_harts);
+> > +    aplic->ithreshold = g_new0(uint32_t, aplic->num_harts);
+> > +
+> > +    memory_region_init_io(&aplic->mmio, OBJECT(dev), &riscv_aplic_ops, aplic,
+> > +                          TYPE_RISCV_APLIC, aplic->aperture_size);
+> > +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &aplic->mmio);
+> > +
+> > +    /*
+> > +     * Only root APLICs have hardware IRQ lines. All non-root APLICs
+> > +     * have IRQ lines delegated by their parent APLIC.
+> > +     */
+> > +    if (!aplic->parent) {
+> > +        qdev_init_gpio_in(dev, riscv_aplic_request, aplic->num_irqs);
 > > +    }
 > > +
-> > +#if !defined(CONFIG_USER_ONLY)
-> > +    if (riscv_has_ext(env, RVS) && riscv_has_ext(env, RVH)) {
-> > +        /* Hypervisor extension is supported */
-> > +        if (riscv_cpu_virt_enabled(env) && (env->priv !=3D PRV_M)) {
-
-You can simplify this to just riscv_cpu_virt_enabled(). You don't need
-to check if we have the extension as well.
-
-> > +            if (env->mseccfg & MSECCFG_SSEED) {
-> > +                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> > +            } else {
-> > +                return RISCV_EXCP_ILLEGAL_INST;
+> > +    /* Create output IRQ lines for non-MSI mode */
+> > +    if (!aplic->msimode) {
+> > +        aplic->external_irqs = g_malloc(sizeof(qemu_irq) * aplic->num_harts);
+> > +        qdev_init_gpio_out(dev, aplic->external_irqs, aplic->num_harts);
+> > +
+> > +        /* Claim the CPU interrupt to be triggered by this APLIC */
+> > +        for (i = 0; i < aplic->num_harts; i++) {
+> > +            RISCVCPU *cpu = RISCV_CPU(qemu_get_cpu(aplic->hartid_base + i));
+> > +            if (riscv_cpu_claim_interrupts(cpu,
+> > +                (aplic->mmode) ? MIP_MEIP : MIP_SEIP) < 0) {
+> > +                error_report("%s already claimed",
+> > +                             (aplic->mmode) ? "MEIP" : "SEIP");
+> > +                exit(1);
 > > +            }
 > > +        }
 > > +    }
 > > +
-> > +    if (env->priv =3D=3D PRV_M) {
-> > +        return RISCV_EXCP_NONE;
-> > +    } else if (env->priv =3D=3D PRV_S && (env->mseccfg & MSECCFG_SSEED=
-)) {
-> > +        return RISCV_EXCP_NONE;
-> > +    } else if (env->priv =3D=3D PRV_U && (env->mseccfg & MSECCFG_USEED=
-)) {
-> > +        return RISCV_EXCP_NONE;
-> > +    } else {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +#else
-> > +    return RISCV_EXCP_NONE;
-> > +#endif
+> > +    msi_nonbroken = true;
 > > +}
-> > +
-> >   /* User Floating-Point CSRs */
-> >   static RISCVException read_fflags(CPURISCVState *env, int csrno,
-> >                                     target_ulong *val)
-> > @@ -2961,6 +2997,35 @@ static RISCVException write_upmbase(CPURISCVStat=
-e *env, int csrno,
-> >
-> >   #endif
-> >
-> > +/* Crypto Extension */
-> > +static RISCVException rmw_seed(CPURISCVState *env, int csrno,
-> > +                              target_ulong *ret_value,
-> > +                              target_ulong new_value, target_ulong wri=
-te_mask)
+>
+> ...in the realize method we don't do any sanity checking of our
+> QOM properties that set aplic->num_irqs and aplic->num_harts, so the
+> creator of the device could in theory pass us some bogus values that
+> cause overflow and other bad things.
+>
+> > +/*
+> > + * Create APLIC device.
+> > + */
+> > +DeviceState *riscv_aplic_create(hwaddr addr, hwaddr size,
+> > +    uint32_t hartid_base, uint32_t num_harts, uint32_t num_sources,
+> > +    uint32_t iprio_bits, bool msimode, bool mmode, DeviceState *parent)
 > > +{
-> > +    uint16_t random_v;
-> > +    Error *random_e =3D NULL;
-> > +    int random_r;
+> > +    DeviceState *dev = qdev_new(TYPE_RISCV_APLIC);
+> > +    uint32_t i;
 > > +
-> > +    random_r =3D qemu_guest_getrandom(&random_v, 2, &random_e);
-> > +    if (unlikely(random_r < 0)) {
-> > +        /*
-> > +         * Failed, for unknown reasons in the crypto subsystem.
-> > +         * The best we can do is log the reason and return a
-> > +         * failure indication to the guest.  There is no reason
-> > +         * we know to expect the failure to be transitory, so
-> > +         * indicate DEAD to avoid having the guest spin on WAIT.
-> > +         */
-> > +        qemu_log_mask(LOG_UNIMP, "%s: Crypto failure: %s",
-> > +                      __func__, error_get_pretty(random_e));
-> > +        error_free(random_e);
-> > +        *ret_value =3D SEED_OPST_DEAD;
-> > +    } else {
-> > +        *ret_value =3D random_v | SEED_OPST_ES16;
-> > +    }
+> > +    assert(num_harts < APLIC_MAX_IDC);
+> > +    assert((APLIC_IDC_BASE + (num_harts * APLIC_IDC_SIZE)) <= size);
+> > +    assert(num_sources < APLIC_MAX_SOURCE);
+> > +    assert(APLIC_MIN_IPRIO_BITS <= iprio_bits);
+> > +    assert(iprio_bits <= APLIC_MAX_IPRIO_BITS);
+> > +
+> > +    qdev_prop_set_uint32(dev, "aperture-size", size);
+> > +    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
+> > +    qdev_prop_set_uint32(dev, "num-harts", num_harts);
+> > +    qdev_prop_set_uint32(dev, "iprio-mask", ((1U << iprio_bits) - 1));
+> > +    qdev_prop_set_uint32(dev, "num-irqs", num_sources + 1);
+>
+> You do make some assert()s on num_harts and num_sources here, but
+> this is the wrong place to do this error checking, because there's
+> no particular reason why a board model has to use this function
+> rather than directly creating the device. Instead these checks should
+> go in the realize method and should cause realize to fail.
 
-Won't this seg fault if a guest does a CSR write?
-
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> >   /*
-> >    * riscv_csrrw - read and/or update control and status register
-> >    *
-> > @@ -3205,6 +3270,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
-{
-> >       [CSR_TIME]  =3D { "time",  ctr,   read_time  },
-> >       [CSR_TIMEH] =3D { "timeh", ctr32, read_timeh },
-> >
-> > +    /* Crypto Extension */
-> > +    [CSR_SEED] =3D { "seed", seed, NULL, NULL, rmw_seed },
-> > +
-> >   #if !defined(CONFIG_USER_ONLY)
-> >       /* Machine Timers and Counters */
-> >       [CSR_MCYCLE]    =3D { "mcycle",    any,   read_instret  },
-> > diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> > index e0d708091e..3d8443416d 100644
-> > --- a/target/riscv/op_helper.c
-> > +++ b/target/riscv/op_helper.c
-> > @@ -39,6 +39,15 @@ void helper_raise_exception(CPURISCVState *env, uint=
-32_t exception)
-> >
-> >   target_ulong helper_csrr(CPURISCVState *env, int csr)
-> >   {
-> > +    /*
-> > +     * The seed CSR must be accessed with a read-write instruction. A
-> > +     * read-only instruction such as CSRRS/CSRRC with rs1=3Dx0 or CSRR=
-SI/
-> > +     * CSRRCI with uimm=3D0 will raise an illegal instruction exceptio=
-n.
-> > +     */
-> > +    if (csr =3D=3D CSR_SEED) {
-> > +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-> > +    }
-> > +
-> >       target_ulong val =3D 0;
-> >       RISCVException ret =3D riscv_csrrw(env, csr, &val, 0, 0, false);
-> >
-> > diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-> > index fcb6b7c467..a8dd797476 100644
-> > --- a/target/riscv/pmp.h
-> > +++ b/target/riscv/pmp.h
-> > @@ -39,9 +39,11 @@ typedef enum {
-> >   } pmp_am_t;
-> >
-> >   typedef enum {
-> > -    MSECCFG_MML  =3D 1 << 0,
-> > -    MSECCFG_MMWP =3D 1 << 1,
-> > -    MSECCFG_RLB  =3D 1 << 2
-> > +    MSECCFG_MML   =3D 1 << 0,
-> > +    MSECCFG_MMWP  =3D 1 << 1,
-> > +    MSECCFG_RLB   =3D 1 << 2,
-
-Why are these ones being changed?
+@Anup Patel are you able to send a patch adding some error checking?
 
 Alistair
 
-> > +    MSECCFG_USEED =3D 1 << 8,
-> > +    MSECCFG_SSEED =3D 1 << 9
-> >   } mseccfg_field_t;
-> >
-> >   typedef struct {
 >
+> > +    qdev_prop_set_bit(dev, "msimode", msimode);
+> > +    qdev_prop_set_bit(dev, "mmode", mmode);
+> > +
+> > +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> > +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
 >
+> thanks
+> -- PMM
 
