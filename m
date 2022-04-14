@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C0C501A0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 19:33:38 +0200 (CEST)
-Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FBC501AAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 20:01:39 +0200 (CEST)
+Received: from localhost ([::1]:41042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nf3Lc-0004xv-SZ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 13:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52514)
+	id 1nf3mk-0007Lj-2K
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 14:01:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nf3KZ-0004JT-65
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 13:32:31 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:35641)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nf3jL-0004l9-S5
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 13:58:09 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nf3KX-0001wq-HW
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 13:32:30 -0400
-Received: by mail-pl1-x635.google.com with SMTP id y6so5242943plg.2
- for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 10:32:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=BlWq2g4GXvgFhLCkjeF3Hepu8BHQJ3J8MUMKEk4IzH8=;
- b=C/phWJsj8Q2tnGOrwtCNz/lwLVqs/n0M14/VNw52zXylIg9LkZ83T/klJdnEKxVhjc
- VU6VZnjBGrL79RG3ucjRv3JfOf11aAZq/1uxOen/AWfjbpLK0DSlYvEhWgtmUkAHV7t6
- 4p2ltCGCI+b/WhgIeoZ35OOztcdUYoB93rcrO3jk56VMOkaGcE+uPvQJ0F81m8MUy+DO
- KMdAr77SNZBUig0j0pmyfwrYkmA6jRSuFQqnBTNpnctN0kEp3YjqexGWCCHxkEEeTc6E
- lRJOP3FuVnhHVJE7NaZkOl/W4RJ6AsGyriZhip/LaUJU1ZJd291rbbVTBJft/07XOYsr
- RA3Q==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nf3jK-0005rv-9b
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 13:58:07 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ m33-20020a05600c3b2100b0038ec0218103so3713503wms.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 10:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BclqmxMc9GnSufJEBHJYPewd+2XyZYBc6vcujepgoqc=;
+ b=acotvsfn4t/MTwylV/X1am+O1GJbh3iyl6qXehPWTaoTUc6icxpjyWqTcnYViQ0EY9
+ ZtJYG6SiZ4a37E3oFPQQWW4txE+MEzhybX1mqfQhvRcy2qtdK5N9prIuf2GaWjgRJSht
+ RdpQl9iIzJ+PMMZaJd2DjqR0Y4tnJW/1Cm37/BUYuBPITjYNu97shZIUF6kjpTqKjFW7
+ Nu4uvSHezYUwaRCeNTCSisjb9Bc2Ekgmx3aGkFgWBgTCtnG88tV/+HD0+getp/x2z2mX
+ Bl1wfhcgYKuKiRk8WF3Mjd0pmMFsoiHW7UMpPQCDZQMVWn+w/EkvoSek8Ba1WZwJxUq3
+ qUSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BlWq2g4GXvgFhLCkjeF3Hepu8BHQJ3J8MUMKEk4IzH8=;
- b=WAZGC4tzPBPtj7LO89BAu7nTKI7ALK1XnQKgNDY3c8CY3bkyDf8mfx3T5l3a2c3vC4
- M84hSPDh1r3ui7Gr5ZRfX+XsKhxWBb/+HDVuOXLlIKqaBRlqhMQRyCSCYzL8UfyHR6UF
- CPyizGZMwmxYCGjn06hzITRRpzPnJDxiN0CvFYSyhtvzJa1a1+zbeUmLjdy19tAcjtA0
- GhxqhUYq78Z8p45IjOUrU6RlESVVI9uFkUihJdRIgh+RiiJcWhol74yRWlMBNz8klVXy
- WIGVIFp9+80CSACACtuA4WEYGZ2sqdkrsu0V20UD1Hots3a46h6ZHG16Iv5dZ/MZYEXn
- 3zJA==
-X-Gm-Message-State: AOAM530W+W8KvxwvIfay9vtTQkgc+5dc2YDq9NBDDeeIZE9DCN9fCP1X
- dVXl5HvA6IsvV1ePMPHUqdRkHA==
-X-Google-Smtp-Source: ABdhPJzygptwMlcXJj0vkvuYg+vVjXjMUWurrC3Vsi0UPQhY7zWXi4FTKKymQhvfqEpL6Rm8QyQFsA==
-X-Received: by 2002:a17:902:8c81:b0:156:7fee:643b with SMTP id
- t1-20020a1709028c8100b001567fee643bmr48428948plo.59.1649957547515; 
- Thu, 14 Apr 2022 10:32:27 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=BclqmxMc9GnSufJEBHJYPewd+2XyZYBc6vcujepgoqc=;
+ b=tawzs4g6de9JqvLsDQzktjgJprBw2yRq0dB+8qfj+JsBLpWkq/TIm7xbN06X5mQhgy
+ S+izTo0/R61KG+DIUBLOvKKzN4Hs/7NNvOvUjbzP+EsTlXAecDKKnkgQfAGBIbTZSXBD
+ mmFR4pQQiU1kW2RRwK22Hwn2P1Hp6ZCusnUpmClHeqIeOIhw2DNwa/zb6+GKZqkr5HWx
+ Q7JQxeTbnDz0s4nNwL3NWAtgX5YI1n734BYmsyzb9EmzlIqKUR41LlI5RgKRsYPbvOVz
+ g0jqR0uDKdB4BJxz9gAyAG2qd2bjrnsAINSWjCSlfnu14kTmBf6cAqKGtt/tua1F3FQn
+ TerQ==
+X-Gm-Message-State: AOAM530aCNn+1ttfQEkRaAHKxAxturJuglOjk1AhvQKAQL+kJjl5ft/T
+ EhYjphiHKr4vxo0Z7GYDmzNrJTLPE2qcjA==
+X-Google-Smtp-Source: ABdhPJwuhHIDH/kMRsMjZEKr6sDj2ik4Nm3JU8N15fCnL8ArdTCveYDWTGdy9L3JiqxmLtmHRRUyVA==
+X-Received: by 2002:a7b:c057:0:b0:37b:ebad:c9c8 with SMTP id
+ u23-20020a7bc057000000b0037bebadc9c8mr4622640wmc.61.1649959084256; 
+ Thu, 14 Apr 2022 10:58:04 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- x7-20020aa784c7000000b005058d220b37sm465849pfn.64.2022.04.14.10.32.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Apr 2022 10:32:26 -0700 (PDT)
-Message-ID: <687ea4a7-131f-2bee-96af-b9adc7267605@linaro.org>
-Date: Thu, 14 Apr 2022 10:32:24 -0700
+ v13-20020adfe28d000000b0020375f27a5asm2451254wri.4.2022.04.14.10.58.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Apr 2022 10:58:03 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 for-7.1 0/9] nbd: actually make s->state thread-safe
+Date: Thu, 14 Apr 2022 19:57:47 +0200
+Message-Id: <20220414175756.671165-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 27/39] util/log: Introduce qemu_set_log_filename_flags
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220326132534.543738-1-richard.henderson@linaro.org>
- <20220326132534.543738-36-richard.henderson@linaro.org>
- <87h76vvhcc.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87h76vvhcc.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,35 +85,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: v.sementsov-og@mail.ru, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/14/22 07:56, Alex Bennée wrote:
->>   #ifdef CONFIG_TRACE_LOG
->> -    qemu_loglevel |= LOG_TRACE;
->> +    log_flags |= LOG_TRACE;
->>   #endif
->> +    qemu_loglevel = log_flags;
->> +
-> 
-> This looked weird - so should we consider a qatomic_set here to avoid an
-> inconsistent set of flags being read non-atomically elsewhere?
+The main point of this series is patch 7, which removes the dubious and
+probably wrong use of atomics in block/nbd.c.  This in turn is enabled
+mostly by the cleanups in patches 3-5.  Together, they introduce a
+QemuMutex that synchronizes the NBD client coroutines, the reconnect_delay
+timer and nbd_cancel_in_flight() as well.
 
-I suppose we could do, as a separate change, since this has not been considered before. 
-But I don't believe in tears to aligned 'int' on any qemu host.
+The fixes happen to remove an incorrect use of qemu_co_queue_restart_all
+and qemu_co_enter_next on the s->free_sema CoQueue, which was not guarded
+by s->send_mutex.
 
->> +        logfile = g_new0(QemuLogFile, 1);
->> +        logfile->fd = fd;
->>           qatomic_rcu_set(&qemu_logfile, logfile);
-> 
-> I was also pondering if flags should be part of the QemuLogFile
-> structure so it's consistent with each opened file. However I see it
-> gets repurposed just for clean-up later...
+The rest is bugfixes, simplifying the code a bit, and extra documentation.
 
-I actually had this at one point in development.  But yes, there's no point in it for just 
-the release.
+v1->v2:
+- cleaner patch 1
+- fix grammar in patch 4
+- split out patch 6
 
+Paolo Bonzini (9):
+  nbd: safeguard against waking up invalid coroutine
+  nbd: mark more coroutine_fns
+  nbd: remove peppering of nbd_client_connected
+  nbd: keep send_mutex/free_sema handling outside
+    nbd_co_do_establish_connection
+  nbd: use a QemuMutex to synchronize yanking, reconnection and
+    coroutines
+  nbd: code motion and function renaming
+  nbd: move s->state under requests_lock
+  nbd: take receive_mutex when reading requests[].receiving
+  nbd: document what is protected by the CoMutexes
 
-r~
+ block/coroutines.h |   4 +-
+ block/nbd.c        | 298 +++++++++++++++++++++++----------------------
+ 2 files changed, 154 insertions(+), 148 deletions(-)
+
+-- 
+2.35.1
+
 
