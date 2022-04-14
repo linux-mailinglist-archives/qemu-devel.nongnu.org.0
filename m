@@ -2,78 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D139F5007A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 09:58:25 +0200 (CEST)
-Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FBA50082D
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 10:22:03 +0200 (CEST)
+Received: from localhost ([::1]:59188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neuMy-0002vp-O0
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 03:58:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
+	id 1neujq-0007JP-2u
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 04:22:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1neuLL-0001sr-IN
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 03:56:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27977)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1neuhg-0006Wo-5Y
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 04:19:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1neuLI-0001Lu-NG
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 03:56:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649922998;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tE0REpvIzfETV3Ec/hVy2iD2Qj4moErQjMsT8f8i/go=;
- b=VvB9px1FyEZ2Cc9xkqTKppy0p1cj/FiUiL3sYt7xGN/Hdx5A6L3/ChyJiO5Rg3byg49+nh
- DzeG/qxRI0HDSdb0hLYt+U2fhQu/I7DppuA0c9zwXsHRlIoHSd4fQVTs+h0s1rVmknqQO4
- dJ0MN/JPYKd/pU9Fe77DpctQIxJZpcY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-266-nBqjZ84GOpWbphMbF_jDNQ-1; Thu, 14 Apr 2022 03:56:37 -0400
-X-MC-Unique: nBqjZ84GOpWbphMbF_jDNQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F9B2296A611;
- Thu, 14 Apr 2022 07:56:37 +0000 (UTC)
-Received: from [10.72.13.171] (ovpn-13-171.pek2.redhat.com [10.72.13.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 40F50111D3CC;
- Thu, 14 Apr 2022 07:56:31 +0000 (UTC)
-Subject: Re: [PATCH v5 1/4] qapi/machine.json: Add cluster-id
-To: "wangyanan (Y)" <wangyanan55@huawei.com>, qemu-arm@nongnu.org
-References: <20220403145953.10522-1-gshan@redhat.com>
- <20220403145953.10522-2-gshan@redhat.com>
- <fedf507c-c5ea-aeec-9acc-586f08dcaea4@huawei.com>
- <6e27668c-0895-fcc8-165e-673aded5ba47@redhat.com>
- <f45a3f17-7cef-3d8c-e79c-e6a5898e665e@huawei.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <d615b714-90a8-8b49-8cf5-04b4f31de0c9@redhat.com>
-Date: Thu, 14 Apr 2022 15:56:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
-MIME-Version: 1.0
-In-Reply-To: <f45a3f17-7cef-3d8c-e79c-e6a5898e665e@huawei.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1neuhe-0005Ie-0x
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 04:19:47 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23E7kdsA012012; 
+ Thu, 14 Apr 2022 08:19:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=e55QwbMZXK91Zj4nMLQrcAMzyrRss+nk5fU2bobMkdo=;
+ b=d0BnIVZLuO4SE6tMSceGYagZSXFwefb6shtsrnps1G68xKxH6rbS1WcamSlmWtxYXTK2
+ WwXYE/d6EyDITJ75wfHbpn+isZWCN6KCjGbHKDViJg/AVdkahW3w6peBy83HMidBkwPX
+ uJFqHYSO5cyTVRtT1BgvQGUzgJoTDPT2ZkWTQ/g5RrY47tlqfh0ZlTnhAzx6y2D3HsIm
+ xYpmZEIWYvFhLHqA4BV+fA8xjhP5b8OHuNvjTCF0x0gPxXWMMU84mwlCtHlKqxKbgHPG
+ GB8Ml58Oc27MI9uRMaSx7yE3wRxiSy2Xzw55PO//0PN8a1u0yiICMcWSPQ4iJWfQX4W1 3w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fefh50hgg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Apr 2022 08:19:41 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23E7wsSF021872;
+ Thu, 14 Apr 2022 08:19:40 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fefh50hg7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Apr 2022 08:19:40 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23E8CBpB024015;
+ Thu, 14 Apr 2022 08:19:39 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma02dal.us.ibm.com with ESMTP id 3fb1sa7fyg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Apr 2022 08:19:39 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23E8Jc1D7537370
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Apr 2022 08:19:38 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C6E7DB2066;
+ Thu, 14 Apr 2022 08:19:38 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2441FB2065;
+ Thu, 14 Apr 2022 08:19:37 +0000 (GMT)
+Received: from [9.160.177.197] (unknown [9.160.177.197])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 14 Apr 2022 08:19:36 +0000 (GMT)
+Message-ID: <462cbf77-432a-c09c-6ec9-91556dc0f887@linux.ibm.com>
+Date: Thu, 14 Apr 2022 11:19:35 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: adding 'official' way to dump SEV VMSA
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+To: Cole Robinson <crobinso@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+References: <a713533d-c4c5-2237-58d0-57b812a56ba4@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <a713533d-c4c5-2237-58d0-57b812a56ba4@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: E1sVJig55v5buFZG-9zx5qt95Jla0gGh
+X-Proofpoint-ORIG-GUID: j_f3MH5H-n0LS9WYzrIJXbifu2cbOyTS
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-14_02,2022-04-13_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 mlxscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 phishscore=0
+ mlxlogscore=906 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204140044
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,180 +114,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: peter.maydell@linaro.org, drjones@redhat.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, zhenyzha@redhat.com, shan.gavin@gmail.com,
- imammedo@redhat.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, "Singh, Brijesh" <brijesh.singh@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yanan,
+Hi Cole,
 
-On 4/14/22 10:27 AM, wangyanan (Y) wrote:
-> On 2022/4/14 8:06, Gavin Shan wrote:
->> On 4/13/22 7:49 PM, wangyanan (Y) wrote:
->>> On 2022/4/3 22:59, Gavin Shan wrote:
->>>> This adds cluster-id in CPU instance properties, which will be used
->>>> by arm/virt machine. Besides, the cluster-id is also verified or
->>>> dumped in various spots:
->>>>
->>>>    * hw/core/machine.c::machine_set_cpu_numa_node() to associate
->>>>      CPU with its NUMA node.
->>>>
->>>>    * hw/core/machine.c::machine_numa_finish_cpu_init() to associate
->>>>      CPU with NUMA node when no default association isn't provided.
->>>>
->>>>    * hw/core/machine-hmp-cmds.c::hmp_hotpluggable_cpus() to dump
->>>>      cluster-id.
->>>>
->>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>>> ---
->>>>   hw/core/machine-hmp-cmds.c |  4 ++++
->>>>   hw/core/machine.c          | 16 ++++++++++++++++
->>>>   qapi/machine.json          |  6 ++++--
->>>>   3 files changed, 24 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
->>>> index 4e2f319aeb..5cb5eecbfc 100644
->>>> --- a/hw/core/machine-hmp-cmds.c
->>>> +++ b/hw/core/machine-hmp-cmds.c
->>>> @@ -77,6 +77,10 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
->>>>           if (c->has_die_id) {
->>>>               monitor_printf(mon, "    die-id: \"%" PRIu64 "\"\n", c->die_id);
->>>>           }
->>>> +        if (c->has_cluster_id) {
->>>> +            monitor_printf(mon, "    cluster-id: \"%" PRIu64 "\"\n",
->>>> +                           c->cluster_id);
->>>> +        }
->>>>           if (c->has_core_id) {
->>>>               monitor_printf(mon, "    core-id: \"%" PRIu64 "\"\n", c->core_id);
->>>>           }
->>>> diff --git a/hw/core/machine.c b/hw/core/machine.c
->>>> index d856485cb4..8748b64657 100644
->>>> --- a/hw/core/machine.c
->>>> +++ b/hw/core/machine.c
->>>> @@ -677,6 +677,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
->>>>               return;
->>>>           }
->>>> +        if (props->has_cluster_id && !slot->props.has_cluster_id) {
->>>> +            error_setg(errp, "cluster-id is not supported");
->>>> +            return;
->>>> +        }
->>>> +
->>>>           if (props->has_socket_id && !slot->props.has_socket_id) {
->>>>               error_setg(errp, "socket-id is not supported");
->>>>               return;
->>>> @@ -696,6 +701,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
->>>>                   continue;
->>>>           }
->>>> +        if (props->has_cluster_id &&
->>>> +            props->cluster_id != slot->props.cluster_id) {
->>>> +                continue;
->>>> +        }
->>>> +
->>>>           if (props->has_die_id && props->die_id != slot->props.die_id) {
->>>>                   continue;
->>>>           }
->>>> @@ -990,6 +1000,12 @@ static char *cpu_slot_to_string(const CPUArchId *cpu)
->>>>           }
->>>>           g_string_append_printf(s, "die-id: %"PRId64, cpu->props.die_id);
->>>>       }
->>>> +    if (cpu->props.has_cluster_id) {
->>>> +        if (s->len) {
->>>> +            g_string_append_printf(s, ", ");
->>>> +        }
->>>> +        g_string_append_printf(s, "cluster-id: %"PRId64, cpu->props.cluster_id);
->>>> +    }
->>>>       if (cpu->props.has_core_id) {
->>>>           if (s->len) {
->>>>               g_string_append_printf(s, ", ");
->>>> diff --git a/qapi/machine.json b/qapi/machine.json
->>>> index 9c460ec450..ea22b574b0 100644
->>>> --- a/qapi/machine.json
->>>> +++ b/qapi/machine.json
->>>> @@ -868,10 +868,11 @@
->>>>   # @node-id: NUMA node ID the CPU belongs to
->>>>   # @socket-id: socket number within node/board the CPU belongs to
->>>>   # @die-id: die number within socket the CPU belongs to (since 4.1)
->>>> -# @core-id: core number within die the CPU belongs to
->>>> +# @cluster-id: cluster number within die the CPU belongs to
-> We also need a "(since 7.1)" tag for cluster-id.
->>> I remember this should be "cluster number within socket..."
->>> according to Igor's comments in v3 ?
->>
->> Igor had suggestion to correct the description for 'core-id' like
->> below, but he didn't suggest anything for 'cluster-id'. The question
->> is clusters are sub-components of die, instead of socket, if die
->> is supported? You may want to me change it like below and please
->> confirm.
->>
->>   @cluster-id: cluster number within die/socket the CPU belongs to
->>
->> suggestion from Ignor in v3:
->>
->>    > +# @core-id: core number within cluster the CPU belongs to
->>
->>    s:cluster:cluster/die:
->>
-> We want "within cluster/die" description for core-id because we
-> support both "cores in cluster" for ARM and "cores in die" for X86.
-> Base on this routine, we only need "within socket" for cluster-id
-> because we currently only support "clusters in socket". Does this
-> make sense?
+On 13/04/2022 16:36, Cole Robinson wrote:
+> Hi all,
 > 
-
-Thanks for the explanation. So ARM64 doesn't have die and x86 doesn't
-have cluster? If so, I need to adjust the description for 'cluster-id'
-as you suggested in v6:
-
-   @cluster-id: cluster number within socket the CPU belongs to (since 7.1)
-    
-> Alternatively, the plainest documentation for the IDs is to simply
-> range **-id only to its next level topo like below. This may avoid
-> increasing complexity when more topo-ids are inserted middle.
-> But whether this way is acceptable is up to the Maintainers. :)
+> SEV-ES and SEV-SNP attestation require a copy of the initial VMSA to
+> validate the launch measurement. For developers dipping their toe into
+> SEV-* work, the easiest way to get sample VMSA data for their machine is
+> to grab it from a running VM.
 > 
-> # @socket-id: socket number within node/board the CPU belongs to
-> # @die-id: die number within socket the CPU belongs to (since 4.1)
-> # @cluster-id: cluster number within die the CPU belongs to (since 7.1)
-> # @core-id: core number within cluster the CPU belongs to
-> # @thread-id: thread number within core the CPU belongs to
+> There's two techniques I've seen for that: patch some printing into
+> kernel __sev_launch_update_vmsa, or use systemtap like danpb's script
+> here: https://gitlab.com/berrange/libvirt/-/blob/lgtm/scripts/sev-vmsa.stp
 > 
+> Seems like this could be friendlier though. I'd like to work on this if
+> others agree.
+> 
+> Some ideas I've seen mentioned in passing:
+> 
+> - debugfs entry in /sys/kernel/debug/kvm/.../vcpuX/
+> - new KVM ioctl
+> - something with tracepoints
+> - some kind of dump in dmesg that doesn't require a patch
+> 
+> Thoughts?
 
-I like this scheme, but needs the confirms from Igor and maintainers.
-Igor and maintainers, please let us know if the scheme is good to
-have? :)
 
->>
->>>> +# @core-id: core number within cluster/die the CPU belongs to
->>>>   # @thread-id: thread number within core the CPU belongs to
->>>>   #
->>>> -# Note: currently there are 5 properties that could be present
->>>> +# Note: currently there are 6 properties that could be present
->>>>   #       but management should be prepared to pass through other
->>>>   #       properties with device_add command to allow for future
->>>>   #       interface extension. This also requires the filed names to be kept in
->>>> @@ -883,6 +884,7 @@
->>>>     'data': { '*node-id': 'int',
->>>>               '*socket-id': 'int',
->>>>               '*die-id': 'int',
->>>> +            '*cluster-id': 'int',
->>>>               '*core-id': 'int',
->>>>               '*thread-id': 'int'
->>>>     }
->>> Otherwise, looks good to me:
->>> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
->>>
->>> Please also keep the involved Maintainers on Cc list in next version,
->>> an Ack from them is best. :)
->>>
->>
->> Thanks again for your time to review. Sure, I will do in next posting.
->>
+Brijesh suggested to me to construct the VMSA without getting any info from
+the host (except number of vcpus), because the initial state of the vcpus
+is standard and known if you use QEMU and OVMF (but that's open for discussion).
 
-Thanks,
-Gavin
+I took his approach (thanks Brijesh!) and now it's how we calculate expected
+SNP measurements in sev-snp-measure [1].  The relevant part for VMSA construction
+is in [2].
 
+I plan to add SEV-ES and SEV measurements calculation to this 
+library/program as well.
+
+
+[1] https://github.com/IBM/sev-snp-measure
+[2] https://github.com/IBM/sev-snp-measure/blob/main/sevsnpmeasure/vmsa.py
+
+-Dov
 
