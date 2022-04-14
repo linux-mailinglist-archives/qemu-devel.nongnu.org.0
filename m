@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F796500DDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 14:43:47 +0200 (CEST)
-Received: from localhost ([::1]:39496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D13500E57
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 15:06:38 +0200 (CEST)
+Received: from localhost ([::1]:49662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neyp7-0005Fy-W0
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 08:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48950)
+	id 1nezBF-0005le-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 09:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1neymz-0003KO-RJ
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 08:41:33 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:55809)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nez6X-0001s4-BG
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:01:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1neymx-0000Hj-AR
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 08:41:32 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.102])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 54CDDF66C15B;
- Thu, 14 Apr 2022 14:41:28 +0200 (CEST)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 14 Apr
- 2022 14:41:27 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S0019ef5c68b-4b91-4514-95c6-136d1a22d27d,
- 7BAFBB9105945E47A73D0E0D6263BD86E6E855E6) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e25296b3-b1ec-a90a-ee72-ed15fe5130f6@kaod.org>
-Date: Thu, 14 Apr 2022 14:41:26 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nez6Q-0004gH-Dl
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:01:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649941297;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=c8eoRGPU128NeUSkoZyyWUFZnqGdqUiJ8Q4Nnqj0yqQ=;
+ b=iZw7WBUVS96do0KtIBjdgEGcJ9HH2x89djNva/Sxnj9LMxlAQNJ9CrHoYvKsjWUp8ydSkd
+ UOLhmyidHI293dlaKSbfj+CqQiUcodrjo++PANP3yUe4Ct3xJH2WgydOtPnUIDVDIJBsbR
+ nfIKMnHhSd+AajVFDEa4fCTeZeKJw0Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-626-Ln47yT3BOXmOZt0leo5QiA-1; Thu, 14 Apr 2022 09:01:32 -0400
+X-MC-Unique: Ln47yT3BOXmOZt0leo5QiA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2191F18E525B;
+ Thu, 14 Apr 2022 13:01:32 +0000 (UTC)
+Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA0B84050C40;
+ Thu, 14 Apr 2022 13:01:28 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH] tests/qtest: Move the fuzz tests to x86 only
+Date: Thu, 14 Apr 2022 15:01:27 +0200
+Message-Id: <20220414130127.719528-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: XIVE VFIO kernel resample failure in INTx mode under heavy load
-Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, Alex Williamson
- <alex.williamson@redhat.com>, Timothy Pearson
- <tpearson@raptorengineering.com>
-References: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
- <20220314160952.46d5313a.alex.williamson@redhat.com>
- <9638ec8f-2edf-97df-0c14-95ae2344dc70@kaod.org>
- <6f0a92ca-9f53-b8b8-e85d-43f4da36200d@kaod.org>
- <edfa8ca4-8e8a-335a-2e7e-c69661ec73da@ozlabs.ru>
- <560c8c1a-a87e-71f9-cfea-0a034933070b@ozlabs.ru>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <560c8c1a-a87e-71f9-cfea-0a034933070b@ozlabs.ru>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: ba339889-dbea-4e9e-8a7c-f9f75d81a253
-X-Ovh-Tracer-Id: 1619044069964876652
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudelfedgheehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,57 +76,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
- "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Hannes Reinecke <hare@suse.com>,
+ qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The fuzz tests are currently scheduled for all targets, but their setup
+code limits the run to "i386", so that these tests always show "SKIP"
+on other targets. Move it to the right x86 list in meson.build, then
+we can drop the architecture check during runtime, too.
 
->> After re-reading what I just wrote, I am leaning towards disabling use of KVM_CAP_IRQFD_RESAMPLE as it seems last worked on POWER8 and never since :)
->>
->> Did I miss something in the picture (hey Cedric)?
-> 
-> How about disabling it like this?
-> 
-> =====
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 5bfd4aa9e5aa..c999f7b1ab1b 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -732,7 +732,7 @@ static PCIINTxRoute spapr_route_intx_pin_to_irq(void *opaque, int pin)
->       SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(opaque);
->       PCIINTxRoute route;
-> 
-> -    route.mode = PCI_INTX_ENABLED;
-> +    route.mode = PCI_INTX_DISABLED;
-> 
-> =====
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/fuzz-lsi53c895a-test.c  |  8 ++------
+ tests/qtest/fuzz-megasas-test.c     | 12 ++++--------
+ tests/qtest/fuzz-sb16-test.c        | 12 ++++--------
+ tests/qtest/fuzz-sdcard-test.c      | 12 ++++--------
+ tests/qtest/fuzz-virtio-scsi-test.c |  8 ++------
+ tests/qtest/meson.build             | 13 ++++++-------
+ 6 files changed, 22 insertions(+), 43 deletions(-)
 
-I like it.
-
-
-You now know how to test all the combinations :) Prepare your matrix,
-variables are :
-
-  * Host OS		POWER8, POWER9+
-  * KVM device		XICS (P8), XICS-on-XIVE (P9), XIVE-on-XIVE (P9)
-  * kernel_irqchip	off, on
-  * ic-mode		xics, xive
-  * Guest OS		msi or nomsi
-
-Ideally you should check TCG, but that's like kernel_irqchip=off.
-
-Cheers,
-
-C.
-  
-> 
-> (btw what the heck is PCI_INTX_INVERTED for?)
-> 
-> 
-> -- 
-> Alexey
+diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+index ba5d468970..031d9de241 100644
+--- a/tests/qtest/fuzz-lsi53c895a-test.c
++++ b/tests/qtest/fuzz-lsi53c895a-test.c
+@@ -39,14 +39,10 @@ static void test_lsi_do_dma_empty_queue(void)
+ 
+ int main(int argc, char **argv)
+ {
+-    const char *arch = qtest_get_arch();
+-
+     g_test_init(&argc, &argv, NULL);
+ 
+-    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+-        qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
+-                       test_lsi_do_dma_empty_queue);
+-    }
++    qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
++                   test_lsi_do_dma_empty_queue);
+ 
+     return g_test_run();
+ }
+diff --git a/tests/qtest/fuzz-megasas-test.c b/tests/qtest/fuzz-megasas-test.c
+index e1141c58a4..129b182f83 100644
+--- a/tests/qtest/fuzz-megasas-test.c
++++ b/tests/qtest/fuzz-megasas-test.c
+@@ -64,16 +64,12 @@ static void test_gitlab_issue521_megasas_sgl_ovf(void)
+ 
+ int main(int argc, char **argv)
+ {
+-    const char *arch = qtest_get_arch();
+-
+     g_test_init(&argc, &argv, NULL);
+ 
+-    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+-        qtest_add_func("fuzz/test_lp1878263_megasas_zero_iov_cnt",
+-                       test_lp1878263_megasas_zero_iov_cnt);
+-        qtest_add_func("fuzz/gitlab_issue521_megasas_sgl_ovf",
+-                       test_gitlab_issue521_megasas_sgl_ovf);
+-    }
++    qtest_add_func("fuzz/test_lp1878263_megasas_zero_iov_cnt",
++                   test_lp1878263_megasas_zero_iov_cnt);
++    qtest_add_func("fuzz/gitlab_issue521_megasas_sgl_ovf",
++                   test_gitlab_issue521_megasas_sgl_ovf);
+ 
+     return g_test_run();
+ }
+diff --git a/tests/qtest/fuzz-sb16-test.c b/tests/qtest/fuzz-sb16-test.c
+index f47a8bcdbd..91fdcd1e8a 100644
+--- a/tests/qtest/fuzz-sb16-test.c
++++ b/tests/qtest/fuzz-sb16-test.c
+@@ -55,15 +55,11 @@ static void test_fuzz_sb16_0xd4(void)
+ 
+ int main(int argc, char **argv)
+ {
+-    const char *arch = qtest_get_arch();
+-
+     g_test_init(&argc, &argv, NULL);
+ 
+-   if (strcmp(arch, "i386") == 0) {
+-        qtest_add_func("fuzz/test_fuzz_sb16/1c", test_fuzz_sb16_0x1c);
+-        qtest_add_func("fuzz/test_fuzz_sb16/91", test_fuzz_sb16_0x91);
+-        qtest_add_func("fuzz/test_fuzz_sb16/d4", test_fuzz_sb16_0xd4);
+-   }
++    qtest_add_func("fuzz/test_fuzz_sb16/1c", test_fuzz_sb16_0x1c);
++    qtest_add_func("fuzz/test_fuzz_sb16/91", test_fuzz_sb16_0x91);
++    qtest_add_func("fuzz/test_fuzz_sb16/d4", test_fuzz_sb16_0xd4);
+ 
+-   return g_test_run();
++    return g_test_run();
+ }
+diff --git a/tests/qtest/fuzz-sdcard-test.c b/tests/qtest/fuzz-sdcard-test.c
+index 0f94965a66..d0f4e0e93c 100644
+--- a/tests/qtest/fuzz-sdcard-test.c
++++ b/tests/qtest/fuzz-sdcard-test.c
+@@ -164,15 +164,11 @@ static void oss_fuzz_36391(void)
+ 
+ int main(int argc, char **argv)
+ {
+-    const char *arch = qtest_get_arch();
+-
+     g_test_init(&argc, &argv, NULL);
+ 
+-   if (strcmp(arch, "i386") == 0) {
+-        qtest_add_func("fuzz/sdcard/oss_fuzz_29225", oss_fuzz_29225);
+-        qtest_add_func("fuzz/sdcard/oss_fuzz_36217", oss_fuzz_36217);
+-        qtest_add_func("fuzz/sdcard/oss_fuzz_36391", oss_fuzz_36391);
+-   }
++    qtest_add_func("fuzz/sdcard/oss_fuzz_29225", oss_fuzz_29225);
++    qtest_add_func("fuzz/sdcard/oss_fuzz_36217", oss_fuzz_36217);
++    qtest_add_func("fuzz/sdcard/oss_fuzz_36391", oss_fuzz_36391);
+ 
+-   return g_test_run();
++    return g_test_run();
+ }
+diff --git a/tests/qtest/fuzz-virtio-scsi-test.c b/tests/qtest/fuzz-virtio-scsi-test.c
+index aaf6d10e18..c9b6fe2123 100644
+--- a/tests/qtest/fuzz-virtio-scsi-test.c
++++ b/tests/qtest/fuzz-virtio-scsi-test.c
+@@ -62,14 +62,10 @@ static void test_mmio_oob_from_memory_region_cache(void)
+ 
+ int main(int argc, char **argv)
+ {
+-    const char *arch = qtest_get_arch();
+-
+     g_test_init(&argc, &argv, NULL);
+ 
+-    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+-        qtest_add_func("fuzz/test_mmio_oob_from_memory_region_cache",
+-                       test_mmio_oob_from_memory_region_cache);
+-    }
++    qtest_add_func("fuzz/test_mmio_oob_from_memory_region_cache",
++                   test_mmio_oob_from_memory_region_cache);
+ 
+     return g_test_run();
+ }
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 1709fc6ccb..22e1361210 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -17,13 +17,7 @@ slow_qtests = {
+   'test-hmp' : 120,
+ }
+ 
+-qtests_generic = \
+-  (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasas-test'] : []) + \
+-  (config_all_devices.has_key('CONFIG_LSI_SCSI_PCI') ? ['fuzz-lsi53c895a-test'] : []) + \
+-  (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? ['fuzz-virtio-scsi-test'] : []) + \
+-  (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : []) + \
+-  (config_all_devices.has_key('CONFIG_SDHCI_PCI') ? ['fuzz-sdcard-test'] : []) + \
+-  [
++qtests_generic = [
+   'cdrom-test',
+   'device-introspect-test',
+   'machine-none-test',
+@@ -67,6 +61,11 @@ qtests_i386 = \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
+   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
+   (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
++  (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasas-test'] : []) +    \
++  (config_all_devices.has_key('CONFIG_LSI_SCSI_PCI') ? ['fuzz-lsi53c895a-test'] : []) +     \
++  (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? ['fuzz-virtio-scsi-test'] : []) +     \
++  (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : []) +                   \
++  (config_all_devices.has_key('CONFIG_SDHCI_PCI') ? ['fuzz-sdcard-test'] : []) +            \
+   (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
+   (config_all_devices.has_key('CONFIG_ACPI_ERST') ? ['erst-test'] : []) +                        \
+   (config_all_devices.has_key('CONFIG_VIRTIO_NET') and                                      \
+-- 
+2.27.0
 
 
