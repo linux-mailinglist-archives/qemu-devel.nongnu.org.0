@@ -2,153 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBFC50091A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 11:00:17 +0200 (CEST)
-Received: from localhost ([::1]:40952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FB350096B
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 11:13:06 +0200 (CEST)
+Received: from localhost ([::1]:49124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nevKq-0007iF-09
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 05:00:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33644)
+	id 1nevXE-0005W5-IJ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 05:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
- id 1nevG9-0006cg-L1
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 04:55:25 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:6084)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nevUU-0003Tv-Mw
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 05:10:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
- id 1nevG6-0003nD-JR
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 04:55:24 -0400
-Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23E6g27C012421;
- Thu, 14 Apr 2022 01:55:17 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=V9ZbezWDO8EnlEYyxe/7Jw3BdSosUc6ytdykcEim45c=;
- b=XXvNh/jn0Kcj0YdEjl1zaFlNJqoLbA7Rfl15OjLt/Ta3FGQHp+eMgOJ02LD7tXyEDSMN
- MCw8HS5LioSNnaK3WrzPZsgWtFc+CRS9McjseBEFyk+iZChQFa1+zm6Ftn1Tba7GILuz
- sPdaCIxK1VeZvvjb91mK2WrGsE4TlILgA4/RfhlTNhIX70HtLXgbgvMeGnZUDP+cLUAe
- jQ1wk19KJhjLioxPk0pUoulz82sF/gPVA8dUsiZl8DAsxTSCP/1fZS0wIxOIbzc/zNyu
- DDiSQ6tu59WtHKT3xbC37V09y+7NQK2/LyV2Py4Va/Mjzyu0XZsGcceddYukQ79h0aAT pw== 
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3fdas9mk3b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Apr 2022 01:55:16 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V+wXPYahYSndyOBIOw87+a64uVaAHTbIAWLuiVEM7O69V8/jf8UV1RCxGXO4/tt3Hmyldm458DHLXe2wj7Ix0EwHq9Bz0ej9c1ZicALrohFsCPf64CKBR+yuJ2r5AX4VbU+xuy22AzOGeKRvFhawA2vB4n1mF6///YobVeGzFn1MvmvCtzMcD21qcW/cbb9zm/ik225J7TcCnDADRF4IjEhvCeYdMgxaJoGMt22uqYlS/Kb0VEnI2fnbQwOsYAfNHCNGZ8/ApzkRyO5i9fBYQgGWAIK+X/bPpWfYcF73D3WphLW1jTUOAz+WJ0cnyEfc4R7ko0fDpnzMEOH5UuoTcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V9ZbezWDO8EnlEYyxe/7Jw3BdSosUc6ytdykcEim45c=;
- b=KLR5A7Mtkq8EdNozBQx7lM88FF9HnIpFSykouAjey3kZwatajvZ2SJVJ+JyNphYtMKRKXlGBPqLkronfO9QQZDubNmcIlgGGoEYMtKCKVPzvQJR5wlRqKuUitsFt12kbx58Ioy5jYNOa9haHxx+IrtQN8abQ/p4m8eUH0glyTiuWqxAUHZp7WiyeTQggUtXUQBQfvI1NM3mDhDv46/gxK2r52y1PK7vbUrgI11MOydL9z/kvylUiBnt5BMqcUP3MQuwwX78fSm/9ADhntGUuN6PZz0JYq6LtZuH3NB6ABI1pgpGCcIwvLqq0IH2bQ1O0fBFFaXaBRwG9g1OK5GDGdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from SN6PR02MB4048.namprd02.prod.outlook.com (2603:10b6:805:2c::26)
- by DM8PR02MB8296.namprd02.prod.outlook.com (2603:10b6:8:7::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5144.29; Thu, 14 Apr 2022 08:55:15 +0000
-Received: from SN6PR02MB4048.namprd02.prod.outlook.com
- ([fe80::e405:2b7b:2a58:c447]) by SN6PR02MB4048.namprd02.prod.outlook.com
- ([fe80::e405:2b7b:2a58:c447%7]) with mapi id 15.20.5144.021; Thu, 14 Apr 2022
- 08:55:14 +0000
-Message-ID: <48d3c4c2-7e64-902d-b6ce-d0a547ba4c4c@nutanix.com>
-Date: Thu, 14 Apr 2022 14:25:01 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [PATCH v5 0/2] Option to take screenshot with screendump as PNG
-To: qemu-devel@nongnu.org
-References: <20220408071336.99839-1-kshitij.suri@nutanix.com>
-From: Kshitij Suri <kshitij.suri@nutanix.com>
-In-Reply-To: <20220408071336.99839-1-kshitij.suri@nutanix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA1PR01CA0087.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00::27)
- To SN6PR02MB4048.namprd02.prod.outlook.com
- (2603:10b6:805:2c::26)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nevUR-0005zs-Ct
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 05:10:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649927410;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lDWgaIg1DyCz97q4LMqYr7r9yDscnCy5OOrRjbpSb9s=;
+ b=aU9q3KmdPeNRsrVzIGo76MCsdpsgQpAkXSb9/fwhDh+hZbeuUdToEn+9uo4MPr5acfXoRk
+ OdxumnpJZxLJigVR7LInlCtnyQyhKMeq1Tl7siW2ZpqK9YNhLtWNUCPVMC2Wxjz89teX/V
+ G9vy5TIpvjMXsHCV0BJg+F2fPUporWI=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-354-IqdqSw_kN1yv30_F8Jn58Q-1; Thu, 14 Apr 2022 05:10:09 -0400
+X-MC-Unique: IqdqSw_kN1yv30_F8Jn58Q-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ n4-20020a2ebd04000000b0024b618dec69so933126ljq.18
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 02:10:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lDWgaIg1DyCz97q4LMqYr7r9yDscnCy5OOrRjbpSb9s=;
+ b=CEoTg6aI51g9ufYQe1Khc2cOUDJNPbI64lYoAFsgMcHoFQvUfw4d1SDtdypKaF8T5E
+ pYM4eMAjE1G610msEUjIeY6R2Kg4s2EYn7fL5G4UIOqOd0A5Q8x+Qb1cNpZ2j9c+5jFY
+ HwZ+m1onDrOZhXd4OsWPT9ZHoq8i4a0l6bJkiGsFnKoSVmgE2859l/Ro3CkUTAt2TZYy
+ 7Jfy9e0md/RaukxHrrrcSIQYCjF6/5NHaCCoP41n/9ForSlIjG/utdbn5nwZzbSkpOVx
+ uPxmMlw/apnm2lX/RTv8ne/Vk+0Hitl5lnpnrMAjvza/Q5J+Rd5+Deb6/U9Xs0+2p4Od
+ tKJA==
+X-Gm-Message-State: AOAM533tgyKVoHsw0VBWDpc+fKCl6oYzX/OeYzOXhGu2C4PkUGZJKeRx
+ izCxQTXeu1JK+IzggDYLGYCT1sw2M9KgHss5E50uuCLs6bytlNKcjtUg/LKOS6+ck0J7UoK/myW
+ JlTDJh4Xrfke2Y3oNGDbebD5qvPCzdH8=
+X-Received: by 2002:a05:651c:1605:b0:24b:4cb9:b224 with SMTP id
+ f5-20020a05651c160500b0024b4cb9b224mr1090422ljq.73.1649927407926; 
+ Thu, 14 Apr 2022 02:10:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSehbpY4cxa978hixnmRN93uRFOyqvO2VUYgjgy49JRfVPHzjUiv3G0nxAJkEQUa8cZjNCHIWqzV5BckhXMWA=
+X-Received: by 2002:a05:651c:1605:b0:24b:4cb9:b224 with SMTP id
+ f5-20020a05651c160500b0024b4cb9b224mr1090401ljq.73.1649927407575; Thu, 14 Apr
+ 2022 02:10:07 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eccc574d-cd40-40d2-dab2-08da1df47d92
-X-MS-TrafficTypeDiagnostic: DM8PR02MB8296:EE_
-X-Microsoft-Antispam-PRVS: <DM8PR02MB82969FDAE9FEC0832B9DA11799EF9@DM8PR02MB8296.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JckoHsDjpgQl97HPj2wTZ6ck7Tq+QoiXN1UXB8PjkUyaBuPdjNgTe9qUOw3dOEDuWxmUILJQHDRlZ4xN27TaEeqlfS6mp1hJzynD0iLBwc6QWJGMLU33tDc/YJS6cmVcULUJI9LouoCKlQQOTp0vsrzbPqjnChWaOMLuohQI7vl8M6dX3vzZWLfNuyVCzv8czRzuRfDJM/bxeQRXjluVqBHRPmNRW//Ufc4x/u+1FykgB90SBMnKTnV2SzzWbnhIh3Ge+uPhNgGiSZ4NLZ6Su64SojqSgHNUJNthJN5DolrgY3ehx1i1KsWf+SsErD9jhtm/2eZEDL8qqMWJBqVnTJU6EI6BB4iC75ARnBDgBO3H4YrZycqR1IyK+h9qMNHm0XR+ic87nRK+sutVyytIp8u5jU1ZdJKbdmkmIX00r5NpjWT1wjgs0vo4YDqQNw9rJ2Hacu1Ur/CC+NasFmcIkUQCGoqBAvz8+lyG7A3F4q5NqRzHBpsETqBCRCbu+ZDif6aXizLRikSUpVsrXPf7XVMJjpscXdGjlpG1A1xUyKkl2Bqyq6MciP0BuT577fwou9fyCSO+OkEjYW3KfoOkcTkSSZbqnAsIy+/SRCnS0IqTMDd1HB1tt1LGBgENEFBhPAQ8B3dYR8pXZOwpCAQEE+YtzI6/a80gtZxVLgv6EYit/8Cb+UZ3wsZNUfb8ZZ7ZiszalfodTlSqfVhvrwOmT0A5+lX349tyUDfcQdKubqZ76ERvX83id3k95abTxgcZ/QNXI7ylApE6q2yBVCtljQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR02MB4048.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6506007)(36756003)(66946007)(6512007)(38100700002)(31686004)(83380400001)(6486002)(53546011)(508600001)(38350700002)(2906002)(31696002)(316002)(2616005)(5660300002)(7416002)(44832011)(66574015)(26005)(186003)(52116002)(6666004)(66476007)(8936002)(6916009)(8676002)(86362001)(66556008)(4326008)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWZIVTB1RXZuQ0UvUE83OG1XRDF3OFJpUmt4LzhHUXpkOFJCc2REbEtSZW1k?=
- =?utf-8?B?SnNiVFlDajJQcFh0ZnhvZnlha0l4RkdSZEV6NU55YmtnUVM4RkM2anNZMVFw?=
- =?utf-8?B?YjdLVFFpbjBmYWZHSWNTUE4zdEU2QkpBeFdibEltUXRHUUJWdk1SWmNwTE5r?=
- =?utf-8?B?ckVKYkxMakxTUGltMkJUTmN0enRNVTI2dEZGRjlaaWFxUm14MFJSdzBjazlw?=
- =?utf-8?B?OW91M3k0d3F4RUpHQ1hUL0xNQm5jaDBMQmlkUTRiOG1sMElIL1hjd1YwUkVS?=
- =?utf-8?B?TlhYTk9uWDFySzFmMk94K2c5SFpjc3R2OGdzSjUyNjZXQjNVMzVwS1FjckFk?=
- =?utf-8?B?dGR1Zkp6aXhSS3dmYkNZSGpwZlR0LzNvL0R4VDJzQkhFTnVITmkxOTM0T2dX?=
- =?utf-8?B?b0FGOEJtZ3B5NlU5ekZ4cUVjcTNBY2UvdmhYMlpCRy9DVys0dEZMZWIzU3dx?=
- =?utf-8?B?bDUwTnZzVXJ4MzVyR1ZodjNIYWNseG5vKzAyaDE2SkViQS94SmRyRTgrVjdC?=
- =?utf-8?B?SzFKdjlMS0VzYTN3WEU5RlNJSWIzRGhJaktnR21PRlFybHNWd3RRcStrd1NT?=
- =?utf-8?B?SUt4eWs1WndjU2RuVEU3TkozTlVnT2huSEZqOU56QzZibm9CWDJUMnVMeTlQ?=
- =?utf-8?B?ZnliQmVkdzlQRzU3UVFUMjZLMEovYmNEVERYeCs1b3FDNk5XaWUvTmYzSU1r?=
- =?utf-8?B?RGdBRHhSZFVXVkY5eUd5QWtzSnFSYyttdjJNVU5IQUNtYlhDM3FvOURucXdO?=
- =?utf-8?B?VkphVjJXMHY4OGNGektsdUx3VmZQOFJKZmFuL0JycS9XTW9zSFM3L2M5cUg4?=
- =?utf-8?B?c0pWcEh0cjM3SmN0OHNoMnovY2pwaGpNbndmUlN2R2JDcXlpbW9CMVk5WWVm?=
- =?utf-8?B?THJxRlBQNUlac3lHMC9SR01oVlBvZUxLbjBVOS94d2djSUEwK2wyRmRMN0Za?=
- =?utf-8?B?ZDcrdkd2ampWWm9BK0FsUE5tWmFqUjlKbzdNMUxBSGNSYlBzSVZtM2xRZDNz?=
- =?utf-8?B?bzhtME9Td2RFUlFEZ0VobVloT21MQ1BmUjYreVNTaDBQT2l5NXNTMkljZXFH?=
- =?utf-8?B?TENtd2J1Snp6aW1aT0JUMlNiOGpleERIcmlpelpCUGZGZGc3ZlVLTWpBQTFU?=
- =?utf-8?B?UFFCVDRyaXBFMThCa2dGckhYOWoxRGpqc05sNThRRk95QllaamgyMFR4VUlG?=
- =?utf-8?B?V0h4WTBWcUhJcG1ZajlGZUwvV05NQXBHVWNmbGtOcjc5a0U0RXRzdE5ScUVh?=
- =?utf-8?B?TEFMazZ2QWNwckxBRGNvVWhmZjBKcFpKOHAyNUF1MWZMUjdJTUtXU2loL3By?=
- =?utf-8?B?bGt6R0xVVmwyUmxCLytRV2o3QmlEWTFmWjBId0FadUFCdmxFQ3YyeWM0cTZS?=
- =?utf-8?B?b2owNXlJV0YxMWdZaFR6UmxKZVNjd0ZJZ3ZpSVBUb1lPZG8zTjUwR2JqOXhZ?=
- =?utf-8?B?Q3IrS1BHUnVXRmZkR0FrcTlKNVVKZktWbm1XNUkzRndUVysyL240c0JnK3lB?=
- =?utf-8?B?U1F5Zzl6ejlFTHJVSDlrQmxpM05OWnEycm8ra1phY1pUVkFXQTRQRUdEd2NQ?=
- =?utf-8?B?dVdRSVc2WnNyTDZTZThDRzhxdFkvRHlZT2NEd201eVQvc0lidmdCdHRiVnZ5?=
- =?utf-8?B?bTFRQ3BVNFo1dGdycmdtTW56eG9vYjFOWjFtMDZzZjJTTy9wWEhvYmU4NUln?=
- =?utf-8?B?d1JZMlFjdTRKNVZpb1pONGZ5N1NCWktaQSt1VTNxcXVyWm5BV3ZzMFJSaTN3?=
- =?utf-8?B?Nm4xckJ0eGpNc1VKTEgySW9HN05wb2lKYkI1ZjdvRzJjQ0dmZllkQmsxc0Vk?=
- =?utf-8?B?SVpCM2ZGc0hSMS9DY1Jzb2RRZHMyWGxSa3BZVnpEamM3dUsrTGwzSzlKTFMy?=
- =?utf-8?B?c1NqQ1Roam9nWVoyS05JSVptSytJSXNZTWE0N0YycFRTYmpISzNmSWsvMXhh?=
- =?utf-8?B?TkxuMEg2UUNNMG52ZDR2eXFUOHB5Wk1vbjhtYkE2KzBMNWtZQStPYUU0eVFu?=
- =?utf-8?B?WFBJdSs0TGIzS2gySWx0MHpSa1hRdnNBSGp2dWp5czFtczhEMWhiNFhmWVZC?=
- =?utf-8?B?VGVTQ25maHpSRVYwcTQwQS9SQUJuQUZHOWZQVDZvaWtIYW9wbGJFUi9ZUWZ4?=
- =?utf-8?B?ZEdtMEZnZWpyWHpELzJPMHJNeXBCR2NtR0pqc0xCeDI3NEtlUjR1OEdnNnZM?=
- =?utf-8?B?aC9vaWJ2NFRLTFltUmUvWUVxOXJodktNWHVsaktFSTB3aUZ4RFI1ZzRDQjNz?=
- =?utf-8?B?WFVlV3phKzZpMTNWYWNNZXFGcXdxTVdqZFk4OXI3aFFnRmNHUHJrajBNL25X?=
- =?utf-8?B?NEhIZC90UTNZeFdaYWFVSVNRbEFjQ3M3b3ZYajZ2NlJ2SlBsdWd5Qi9zbGYv?=
- =?utf-8?Q?votSFCte52uDr1ZM=3D?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eccc574d-cd40-40d2-dab2-08da1df47d92
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4048.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2022 08:55:14.6879 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f0n97x7uVj0fM66RsNdM/DpaefIt0SokbjughxhM6PsGqe8M1xBhNY5dmA9inMNmKLfnss2fWdhYCXD1go3CpPx1HkekuOqUnu0NgFNuC9c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR02MB8296
-X-Proofpoint-ORIG-GUID: 0kCK9vsZcmpGBdue3iNp6ofixwzrp8cJ
-X-Proofpoint-GUID: 0kCK9vsZcmpGBdue3iNp6ofixwzrp8cJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-14_02,2022-04-13_01,2022-02-23_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=kshitij.suri@nutanix.com; helo=mx0a-002c1b01.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220413163206.1958254-1-eperezma@redhat.com>
+ <20220413163206.1958254-26-eperezma@redhat.com>
+In-Reply-To: <20220413163206.1958254-26-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 14 Apr 2022 17:09:56 +0800
+Message-ID: <CACGkMEsCA58gpjGHC=7-8Pruzsyexu+GUOTC-P4gf5HE2tkUTQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v7 25/25] vdpa: Add x-cvq-svq
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -162,65 +95,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: soham.ghosh@nutanix.com, peter.maydell@linaro.org, thuth@redhat.com,
- berrange@redhat.com, prerna.saxena@nutanix.com, dgilbert@redhat.com,
- armbru@redhat.com, philippe.mathieu.daude@gmail.com, kraxel@redhat.com,
- pbonzini@redhat.com, prachatos.mitra@nutanix.com, eblake@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Eli Cohen <eli@mellanox.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Thu, Apr 14, 2022 at 12:33 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
+rote:
+>
+> This isolates shadow cvq in its own group.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
+>  qapi/net.json    |  8 +++-
+>  net/vhost-vdpa.c | 98 ++++++++++++++++++++++++++++++++++++++++++++++--
+>  2 files changed, 100 insertions(+), 6 deletions(-)
+>
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 92848e4362..39c245e6cd 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -447,9 +447,12 @@
+>  #
+>  # @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.1)
+>  #         (default: false)
+> +# @x-cvq-svq: Start device with (experimental) shadow virtqueue in its o=
+wn
+> +#             virtqueue group. (Since 7.1)
+> +#             (default: false)
+>  #
+>  # Features:
+> -# @unstable: Member @x-svq is experimental.
+> +# @unstable: Members @x-svq and x-cvq-svq are experimental.
+>  #
+>  # Since: 5.1
+>  ##
+> @@ -457,7 +460,8 @@
+>    'data': {
+>      '*vhostdev':     'str',
+>      '*queues':       'int',
+> -    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
+> +    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] },
+> +    '*x-cvq-svq':    {'type': 'bool', 'features' : [ 'unstable'] } } }
+>
+>  ##
+>  # @NetClientDriver:
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index a6f803ea4e..851dacb902 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -377,6 +377,17 @@ static int vhost_vdpa_get_features(int fd, uint64_t =
+*features, Error **errp)
+>      return ret;
+>  }
+>
+> +static int vhost_vdpa_get_backend_features(int fd, uint64_t *features,
+> +                                           Error **errp)
+> +{
+> +    int ret =3D ioctl(fd, VHOST_GET_BACKEND_FEATURES, features);
+> +    if (ret) {
+> +        error_setg_errno(errp, errno,
+> +            "Fail to query backend features from vhost-vDPA device");
+> +    }
+> +    return ret;
+> +}
+> +
+>  static int vhost_vdpa_get_max_queue_pairs(int fd, uint64_t features,
+>                                            int *has_cvq, Error **errp)
+>  {
+> @@ -410,16 +421,56 @@ static int vhost_vdpa_get_max_queue_pairs(int fd, u=
+int64_t features,
+>      return 1;
+>  }
+>
+> +/**
+> + * Check vdpa device to support CVQ group asid 1
+> + *
+> + * @vdpa_device_fd: Vdpa device fd
+> + * @queue_pairs: Queue pairs
+> + * @errp: Error
+> + */
+> +static int vhost_vdpa_check_cvq_svq(int vdpa_device_fd, int queue_pairs,
+> +                                    Error **errp)
+> +{
+> +    uint64_t backend_features;
+> +    unsigned num_as;
+> +    int r;
+> +
+> +    r =3D vhost_vdpa_get_backend_features(vdpa_device_fd, &backend_featu=
+res,
+> +                                        errp);
+> +    if (unlikely(r)) {
+> +        return -1;
+> +    }
+> +
+> +    if (unlikely(!(backend_features & VHOST_BACKEND_F_IOTLB_ASID))) {
+> +        error_setg(errp, "Device without IOTLB_ASID feature");
+> +        return -1;
+> +    }
+> +
+> +    r =3D ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, &num_as);
+> +    if (unlikely(r)) {
+> +        error_setg_errno(errp, errno,
+> +                         "Cannot retrieve number of supported ASs");
+> +        return -1;
+> +    }
+> +    if (unlikely(num_as < 2)) {
+> +        error_setg(errp, "Insufficient number of ASs (%u, min: 2)", num_=
+as);
+> +    }
+> +
 
-Hope this mail finds everyone well! I have updated the code as required 
-and would be grateful if I could get your reviews for any changes that 
-are needed to be implemented in the patch. In case no change is 
-required, please do let me know the next steps for the same.
+This is not sufficient, we still need to check whether CVQ doesn't
+share a group with other virtqueues.
 
-Regards,
+Thanks
 
-Kshitij Suri
+> +    return 0;
+> +}
+> +
+>  int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+>                          NetClientState *peer, Error **errp)
+>  {
+>      const NetdevVhostVDPAOptions *opts;
+> +    struct vhost_vdpa_iova_range iova_range;
+>      uint64_t features;
+>      int vdpa_device_fd;
+>      g_autofree NetClientState **ncs =3D NULL;
+>      NetClientState *nc;
+>      int queue_pairs, r, i, has_cvq =3D 0;
+>      g_autoptr(VhostIOVATree) iova_tree =3D NULL;
+> +    ERRP_GUARD();
+>
+>      assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+>      opts =3D &netdev->u.vhost_vdpa;
+> @@ -444,8 +495,9 @@ int net_init_vhost_vdpa(const Netdev *netdev, const c=
+har *name,
+>          qemu_close(vdpa_device_fd);
+>          return queue_pairs;
+>      }
+> -    if (opts->x_svq) {
+> -        struct vhost_vdpa_iova_range iova_range;
+> +    if (opts->x_cvq_svq || opts->x_svq) {
+> +        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
+> +
+>          uint64_t invalid_dev_features =3D
+>              features & ~vdpa_svq_device_features &
+>              /* Transport are all accepted at this point */
+> @@ -457,7 +509,21 @@ int net_init_vhost_vdpa(const Netdev *netdev, const =
+char *name,
+>                         invalid_dev_features);
+>              goto err_svq;
+>          }
+> -        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
+> +    }
+> +
+> +    if (opts->x_cvq_svq) {
+> +        if (!has_cvq) {
+> +            error_setg(errp, "Cannot use x-cvq-svq with a device without=
+ cvq");
+> +            goto err_svq;
+> +        }
+> +
+> +        r =3D vhost_vdpa_check_cvq_svq(vdpa_device_fd, queue_pairs, errp=
+);
+> +        if (unlikely(r)) {
+> +            error_prepend(errp, "Cannot configure CVQ SVQ: ");
+> +            goto err_svq;
+> +        }
+> +    }
+> +    if (opts->x_svq) {
+>          iova_tree =3D vhost_iova_tree_new(iova_range.first, iova_range.l=
+ast);
+>      }
+>
+> @@ -472,11 +538,35 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
+ char *name,
+>      }
+>
+>      if (has_cvq) {
+> +        g_autoptr(VhostIOVATree) cvq_iova_tree =3D NULL;
+> +
+> +        if (opts->x_cvq_svq) {
+> +            cvq_iova_tree =3D vhost_iova_tree_new(iova_range.first,
+> +                                                iova_range.last);
+> +        } else if (opts->x_svq) {
+> +            cvq_iova_tree =3D vhost_iova_tree_acquire(iova_tree);
+> +        }
+> +
+>          nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+>                                   vdpa_device_fd, i, 1,
+> -                                 false, opts->x_svq, iova_tree);
+> +                                 false, opts->x_cvq_svq || opts->x_svq,
+> +                                 cvq_iova_tree);
+>          if (!nc)
+>              goto err;
+> +
+> +        if (opts->x_cvq_svq) {
+> +            struct vhost_vring_state asid =3D {
+> +                .index =3D 1,
+> +                .num =3D 1,
+> +            };
+> +
+> +            r =3D ioctl(vdpa_device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid=
+);
+> +            if (unlikely(r)) {
+> +                error_setg_errno(errp, errno,
+> +                                 "Cannot set cvq group independent asid"=
+);
+> +                goto err;
+> +            }
+> +        }
+>      }
+>
+>      return 0;
+> --
+> 2.27.0
+>
 
-On 08/04/22 12:43 pm, Kshitij Suri wrote:
-> This patch series aims to add PNG support using libpng to screendump method.
-> Currently screendump only supports PPM format, which is uncompressed.
->
-> PATCH 1 phases out CONFIG_VNC_PNG parameter and replaces it with CONFIG_PNG
-> which detects libpng support.
->
-> PATCH 2 contains core logic for PNG creation from pixman using libpng. HMP
-> command equivalent is also implemented in this patch.
->
-> v4->v5
->   - Modified format as a flag based optional parameter in HMP.
->
-> v3->v4
->   - Added condition to check for libpng only in PNG option is allowed
->
-> v2->v3
->   - HMP implementation fixes for png.
->   - Used enum for image format.
->   - Fixed description and updated QEMU support version.
->
-> v1->v2:
->   - Removed repeated alpha conversion operation.
->   - Modified logic to mirror png conversion in vnc-enc-tight.c file.
->   - Added a new CONFIG_PNG parameter for libpng support.
->   - Changed input format to enum instead of string.
->   - Improved error handling.
->
-> Kshitij Suri (2):
->    Replacing CONFIG_VNC_PNG with CONFIG_PNG
->    Added parameter to take screenshot with screendump as PNG
->
->   hmp-commands.hx    |  11 ++---
->   meson.build        |  12 +++---
->   meson_options.txt  |   4 +-
->   monitor/hmp-cmds.c |  12 +++++-
->   qapi/ui.json       |  24 +++++++++--
->   ui/console.c       | 101 +++++++++++++++++++++++++++++++++++++++++++--
->   ui/vnc-enc-tight.c |  18 ++++----
->   ui/vnc.c           |   4 +-
->   ui/vnc.h           |   2 +-
->   9 files changed, 157 insertions(+), 31 deletions(-)
->
 
