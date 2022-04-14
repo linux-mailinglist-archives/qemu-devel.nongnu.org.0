@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91C45004AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 05:36:18 +0200 (CEST)
-Received: from localhost ([::1]:56322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF89C5004B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 05:37:30 +0200 (CEST)
+Received: from localhost ([::1]:59040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neqHK-0001SS-2v
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 23:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45832)
+	id 1neqIT-0003IX-Uj
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 23:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1neqFf-0008RY-KG
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:34:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53955)
+ id 1neqHW-0002d6-U2
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:36:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1neqFe-0002Tb-7O
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:34:35 -0400
+ id 1neqHU-0002vO-0E
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:36:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649907273;
+ s=mimecast20190719; t=1649907387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nvf+vfuRXG8gTyEe3X3EWHc2wZNRi3M0GomEGH1imnQ=;
- b=dWoG428l/TDRO1MFqf8iaaakASg1WFQivx50DCXsQ6rLq4qlgdjHBYSRGWRFNGJVc+MwGl
- ZQ27SVOVbtBs/ICPWkKim6ctxn3Tj8AyMjGka/ztYtbCJeuZwgVvibroaqWPDpFMSVufT2
- j1tvCJwvsNxa9TC13AD1Vb7QZ3bIiOc=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4pmZ8TCpD5DaF7aDnl4uDr+JAEDtcOjsK+ulgH4yBk8=;
+ b=fh5/YN0zmKUPuaquL1YsTzlvHwp4bAcovZcNOfT5FnUMPYTHVETigjkcGTiJK0DPoc7wuk
+ 4L8ggkvZGGUKqbOTcuzsgUW6M1vDC+nkfFlZAsZoHaIsVndOABT2U3frVOhkgwMzfNJ7tV
+ w2hSchsp9KR0f7Z2TZsb9y/Pd4OCXfA=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655--aq2i9J_ORyGXoXBIrlKJA-1; Wed, 13 Apr 2022 23:34:32 -0400
-X-MC-Unique: -aq2i9J_ORyGXoXBIrlKJA-1
-Received: by mail-pj1-f70.google.com with SMTP id
- r15-20020a17090a4dcf00b001cb7ea0b0bdso2396268pjl.1
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 20:34:32 -0700 (PDT)
+ us-mta-457-kS5lnvBVOiqEyJ1cgQ-fiA-1; Wed, 13 Apr 2022 23:36:26 -0400
+X-MC-Unique: kS5lnvBVOiqEyJ1cgQ-fiA-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ a16-20020a62d410000000b00505734b752aso2414024pfh.4
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 20:36:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=nvf+vfuRXG8gTyEe3X3EWHc2wZNRi3M0GomEGH1imnQ=;
- b=pm7P/RJaHrBzGIQsGV5N2a+6prEb+DVf1/lXhDbd2hB7oaE+9PUQ6Fpf3J1SUjF1wd
- U1N4u3BHXgwvIxqj+WrNFPS+biI72xleSzEz6z6hZ06j/ekF/oONJrvN0SmE7XoqAzSS
- iBjaSAksibtO7y3OLp3SjZuF0FycSGc72kAq9jNi08mopFEASndoKup4F6biAsE6O+rY
- 4UGQ+iyVvwrxaY8gXS/dOZqHv1clgRBHfZ1YNCV90u7+i9xuRZ+iZNothcJIcI2OGgza
- gztlv3fJnTMRJrmaBE1eO4y7ToRcIoppS0EEyf6W17LLsr/GQ3hxbDvB86D6AcH3V5/O
- yrpg==
-X-Gm-Message-State: AOAM530Rbp2vORwDWBNi0Jos4FBcKy7AM93QM/GYQCQZn+uoyQoPyHho
- q2ulcFqA4VW+ye6/X6jpLUmK+g7Aa0bD59esYo8NytGx+GMl3ixUfOfOnFWXm6xRXZx5StwfA0/
- jFR3J/QYKFbH6Vkc=
-X-Received: by 2002:a65:6d0c:0:b0:382:a4b1:c93 with SMTP id
- bf12-20020a656d0c000000b00382a4b10c93mr676788pgb.237.1649907271331; 
- Wed, 13 Apr 2022 20:34:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwf2Bgk39mKaTJFncNWrM85sYyPH84moR2u9ntSvhAsf4x0Thzc2DNT1np52vSG06ytBFX6ow==
-X-Received: by 2002:a65:6d0c:0:b0:382:a4b1:c93 with SMTP id
- bf12-20020a656d0c000000b00382a4b10c93mr676768pgb.237.1649907271032; 
- Wed, 13 Apr 2022 20:34:31 -0700 (PDT)
+ bh=4pmZ8TCpD5DaF7aDnl4uDr+JAEDtcOjsK+ulgH4yBk8=;
+ b=Vfo/MdtxdE0Dw9mjE0+LEsjSIqxzJu2jGXPnWRT+TINuNT3TCjKxySi6ycRo6Z0RvD
+ suEhuVxH/xoOTa5J6pk/MBgJPsCDFCrz8JwVWRvtH6MEBUrNWq1nVWyr8v4I9bmyqfbP
+ dM0qNXAv8UBTrJG1+AhFQm8IalLuy/rws/hAh6N1Be9GAYdhImYfGNH0iyUHHhg4F8sw
+ E8RnWx3HkANCNe9WhmdmjmLgVugbwf2LOPar5npQARVBe0fpsiAvkVHtvACZMRODYTGN
+ 7Ocw/cqBMAfX4aiaq8IDtRILDdvtK0fpyYuHDLzr5SibtYpN+Tk+rox0XUhlqCJRlWmy
+ vJ4g==
+X-Gm-Message-State: AOAM5331GPApc+YWRq4pq3+4dYMEdBsx61HY39iDTuGH5NYnthkNisHx
+ 4STC9czPvABBstXrkF/kzOwidilQqNwXjMr//pWmi9KWwudbznZuxOLHjZcqoubZtCsDJSori3O
+ hC4wP6+ETPPxBW7A=
+X-Received: by 2002:a17:90a:4294:b0:1cd:5524:cd6a with SMTP id
+ p20-20020a17090a429400b001cd5524cd6amr2097896pjg.212.1649907385465; 
+ Wed, 13 Apr 2022 20:36:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzs+HKObjsRm9k3P8zIHXZRdG6OJOKeegOfTxgIxgnI1PPuOaaSLEEaKwKozvPkshEOhw+GdQ==
+X-Received: by 2002:a17:90a:4294:b0:1cd:5524:cd6a with SMTP id
+ p20-20020a17090a429400b001cd5524cd6amr2097866pjg.212.1649907385137; 
+ Wed, 13 Apr 2022 20:36:25 -0700 (PDT)
 Received: from [10.72.13.201] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- p1-20020a17090a0e4100b001ce188720e5sm230705pja.53.2022.04.13.20.34.24
+ y63-20020a623242000000b00505c49bd2e9sm483159pfy.219.2022.04.13.20.36.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 20:34:30 -0700 (PDT)
-Message-ID: <da439f38-00dc-e75e-63ee-3d9db15ba30b@redhat.com>
-Date: Thu, 14 Apr 2022 11:34:23 +0800
+ Wed, 13 Apr 2022 20:36:24 -0700 (PDT)
+Message-ID: <e16aee3d-9832-e213-f5f0-492b6e375212@redhat.com>
+Date: Thu, 14 Apr 2022 11:36:17 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [RFC PATCH v5 02/23] vdpa: Fix bad index calculus at
- vhost_vdpa_get_vring_base
+Subject: Re: [RFC PATCH v5 03/23] util: Return void on iova_tree_remove
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20220408133415.1371760-1-eperezma@redhat.com>
- <20220408133415.1371760-3-eperezma@redhat.com>
+ <20220408133415.1371760-4-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220408133415.1371760-3-eperezma@redhat.com>
+In-Reply-To: <20220408133415.1371760-4-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -118,37 +117,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/4/8 21:33, Eugenio Pérez 写道:
-> Fixes: 6d0b222666 ("vdpa: Adapt vhost_vdpa_get_vring_base to SVQ")
+> It always returns IOVA_OK so nobody uses it.
 >
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
 
 
 Acked-by: Jason Wang <jasowang@redhat.com>
 
-I think we need to use a separate patch for this.
 
-
->   hw/virtio/vhost-vdpa.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> ---
+>   include/qemu/iova-tree.h | 4 +---
+>   util/iova-tree.c         | 4 +---
+>   2 files changed, 2 insertions(+), 6 deletions(-)
 >
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 9e5fe15d03..1f229ff4cb 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -1172,11 +1172,11 @@ static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
->                                          struct vhost_vring_state *ring)
+> diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
+> index c938fb0793..16bbfdf5f8 100644
+> --- a/include/qemu/iova-tree.h
+> +++ b/include/qemu/iova-tree.h
+> @@ -72,10 +72,8 @@ int iova_tree_insert(IOVATree *tree, const DMAMap *map);
+>    * provided.  The range does not need to be exactly what has inserted,
+>    * all the mappings that are included in the provided range will be
+>    * removed from the tree.  Here map->translated_addr is meaningless.
+> - *
+> - * Return: 0 if succeeded, or <0 if error.
+>    */
+> -int iova_tree_remove(IOVATree *tree, const DMAMap *map);
+> +void iova_tree_remove(IOVATree *tree, const DMAMap *map);
+>   
+>   /**
+>    * iova_tree_find:
+> diff --git a/util/iova-tree.c b/util/iova-tree.c
+> index 6dff29c1f6..fee530a579 100644
+> --- a/util/iova-tree.c
+> +++ b/util/iova-tree.c
+> @@ -164,15 +164,13 @@ void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator)
+>       g_tree_foreach(tree->tree, iova_tree_traverse, iterator);
+>   }
+>   
+> -int iova_tree_remove(IOVATree *tree, const DMAMap *map)
+> +void iova_tree_remove(IOVATree *tree, const DMAMap *map)
 >   {
->       struct vhost_vdpa *v = dev->opaque;
-> +    int vdpa_idx = ring->index - dev->vq_index;
->       int ret;
+>       const DMAMap *overlap;
 >   
->       if (v->shadow_vqs_enabled) {
-> -        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs,
-> -                                                      ring->index);
-> +        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, vdpa_idx);
+>       while ((overlap = iova_tree_find(tree, map))) {
+>           g_tree_remove(tree->tree, overlap);
+>       }
+> -
+> -    return IOVA_OK;
+>   }
 >   
->           /*
->            * Setting base as last used idx, so destination will see as available
+>   /**
 
 
