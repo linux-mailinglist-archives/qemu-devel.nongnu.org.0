@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B36F50100A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 16:42:55 +0200 (CEST)
-Received: from localhost ([::1]:45968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7975010A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 16:51:32 +0200 (CEST)
+Received: from localhost ([::1]:49512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nf0gQ-000694-5l
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 10:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50972)
+	id 1nf0ol-0000Sm-E2
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 10:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nf0fJ-0005Kl-Ks
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 10:41:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nf0fG-0005XZ-KU
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 10:41:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649947300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3+Fwy/oHxej2fSp92chrKp+hxXYvXf0SncBjfpRxmdQ=;
- b=UMLjVax2K02em9d1xOFOG1glKe21HX/I+Z7qSRp7rESK+OcH115kE9dxuOR60zSuoOhdwD
- yz7VhFgqOxQn5o+npkwzkf6K022mQeZQYlQdedJvzj1xXi7jXMqoaR66mvQPFy4n1+DIh5
- 8Mc0hcUpobkAQBeyAfC2IMr9XrgeLVA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-524-kyAYK5YhNJubO-5x6U72qA-1; Thu, 14 Apr 2022 10:41:39 -0400
-X-MC-Unique: kyAYK5YhNJubO-5x6U72qA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBE43185A79C;
- Thu, 14 Apr 2022 14:41:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DAD5A111D78E;
- Thu, 14 Apr 2022 14:41:20 +0000 (UTC)
-Date: Thu, 14 Apr 2022 16:41:19 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: "Denis V. Lunev" <den@openvz.org>
-Subject: Re: [PATCH 1/1] qemu-img: properly list formats which have
- consistency check implemented
-Message-ID: <Ylgyj4VtRYkdFDwL@redhat.com>
-References: <20220407083932.531965-1-den@openvz.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nf0mu-0007iv-Mp
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 10:49:36 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:38802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nf0ms-0006VS-TB
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 10:49:36 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id z99so6679291ede.5
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 07:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=2dPQbByjBmUSpQI72Gey/qSMWkS84Wz3Mh8yU4FMj7c=;
+ b=drg3UKgfx0cNDKpY98k24uyvoI44+RhmU6Fj7dvurmY2XYSldXMLUGSqGAPSG5AReo
+ dFp90BkdPXXEk6g3qenP9n3my3RCnz2GU4i+5hS/9+Xm79kX7IEj7NzW+Xiwj9J48hKO
+ mK+jpSOv6Z3jN1pduFKcGHnNkg+4MdL8IvC+AFEyfvoxVgdS8aQ4010qIbo9vRge5JVC
+ c/AmrDfGAJXkAAAyYX1FFuv55u8Dno5LbEdD9wjR1yZoTzYVuFVNjWUXuesqcwTpOcdX
+ kq+zuAA4JT0fZg0izzPhsFMnG1rCwzXhHaOQeRrcF+NO/j5SbG6TZBIGd7cVkR/T02i9
+ Iu1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=2dPQbByjBmUSpQI72Gey/qSMWkS84Wz3Mh8yU4FMj7c=;
+ b=eWV5ZVi6LfNVhLK0uBGIAx4sdg3kOMpnZSXpasZ3BNlCGdeY4vyIpEC9VDliqm18rO
+ yjzFxPcFbuVm7Bj7So5rKCbIOF4qRP0hUj8KpfjdPkachhOJGd4CGcDaZ1imj9iHjgRq
+ +Ncj74JFZEN/IXzWDIh9k0kyaZ+dX+2d9oRveE83w9E1mRXzSF9z0RA241FgHAhbHGZn
+ F70hCZtFHgUAz4BGVo29SV+BVn5NAh+uCXo1ycQyU9bNi7CSloq+zy0NGAnNx1z7MZOr
+ unD8SeIajwW4nOOOeLq+DsBcrDA8rv5yMmq1h+bUOebaEtOSbdrt55wb5D5EX/PWU9kO
+ NuZA==
+X-Gm-Message-State: AOAM532OcwiZ09KDQ7a7QIDb195A2nK1y/tw6BFaHdcOwwxcVrnxvq4b
+ L6HsbAINWv/EoNvXfhqU89YVkA==
+X-Google-Smtp-Source: ABdhPJz7bdAqxmqlTYqputdXGqbjjjyrrcx5R36X6OyARg5v+1NyoXnnpNJTLq87sOHMQHL4RsC4DQ==
+X-Received: by 2002:a05:6402:239b:b0:41d:89a6:473d with SMTP id
+ j27-20020a056402239b00b0041d89a6473dmr3361067eda.105.1649947772898; 
+ Thu, 14 Apr 2022 07:49:32 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ bo14-20020a170906d04e00b006ce98d9c3e3sm687400ejb.194.2022.04.14.07.49.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Apr 2022 07:49:31 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D90B11FFB7;
+ Thu, 14 Apr 2022 15:49:30 +0100 (BST)
+References: <20220326132534.543738-1-richard.henderson@linaro.org>
+ <20220326132534.543738-32-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.12; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 23/39] tests/unit: Do not reference QemuLogFile directly
+Date: Thu, 14 Apr 2022 15:49:26 +0100
+In-reply-to: <20220326132534.543738-32-richard.henderson@linaro.org>
+Message-ID: <87tuavvhxh.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20220407083932.531965-1-den@openvz.org>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,30 +89,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.04.2022 um 10:39 hat Denis V. Lunev geschrieben:
-> Simple grep for the .bdrv_co_check callback presence gives the following
-> list of block drivers
-> * QED
-> * VDI
-> * VHDX
-> * VMDK
-> * Parallels
-> which have this callback. The presense of the callback means that
-> consistency check is supported.
-> 
-> The patch updates documentation accordingly.
-> 
-> Signed-off-by: Denis V. Lunev <den@openvz.org>
-> CC: Kevin Wolf <kwolf@redhat.com>
-> CC: Hanna Reitz <hreitz@redhat.com>
 
-Thanks, applied to the block branch.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Kevin
+> Use qemu_log_lock/unlock instead of the raw rcu_read.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
