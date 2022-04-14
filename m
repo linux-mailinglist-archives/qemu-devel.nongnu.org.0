@@ -2,65 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D414500BC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 13:03:55 +0200 (CEST)
-Received: from localhost ([::1]:51896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77174500C1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 13:25:23 +0200 (CEST)
+Received: from localhost ([::1]:40080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nexGU-0001gz-Aw
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 07:03:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55738)
+	id 1nexbG-0006PU-6J
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 07:25:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1nex1F-0003aO-Kh
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:48:09 -0400
-Received: from mga12.intel.com ([192.55.52.136]:34768)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nexZk-0005iV-K5
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 07:23:48 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:48775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1nex1D-0005Ka-Le
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:48:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649933287; x=1681469287;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=0P3OalrBHnBhU01QF07hMbsmlYmh/io4cNMn4gf855E=;
- b=G3hZ/nXbWaRokI6YYdLJeRk3u+Hs7cPyhTzOmPIaBOUn5+JC9LBiN2xa
- iA/6tYQyHALAFQra5nfN+BI03KQzC8C4xmqqdCD7skYVI3J5cnUGcojeg
- htF0On3uYn8E+LiL/nB+p46QVukLn2hQ+WGK9Og1gN1j2TUlGFlYVXFsL
- YYK28UrIqYipGN+WKVMih2shAGdKl/a0LhBf9H20hexauqFSaptMVtOmu
- K3ygXK5i1ySO+8Q6ydQRuhM64htaGr393PRP4t2amSaO/5qTI8ufi1zOc
- GC3dt6mscDhT63IDcDTk94zfmgVgmpi6AGB8UMpP0+6NVBQ46I/gOfRWx A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="242836525"
-X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="242836525"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 03:47:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="803091268"
-Received: from 984fee00a4c6.jf.intel.com ([10.165.58.231])
- by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2022 03:47:25 -0700
-From: Yi Liu <yi.l.liu@intel.com>
-To: alex.williamson@redhat.com,
-	cohuck@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [RFC 18/18] vfio/pci: Add an iommufd option
-Date: Thu, 14 Apr 2022 03:47:10 -0700
-Message-Id: <20220414104710.28534-19-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220414104710.28534-1-yi.l.liu@intel.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nexZh-0003TB-QM
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 07:23:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=2dxNhLdhFauPU+W81M5WwoC17Qkk0zY1KohVRE9w/lQ=; b=XOEUtmmIE3jEI8wLsMmMJTiQmx
+ 1rH8kQP5rRz9stiAe8UDVzn84iXHS2N69uxHy9wcY0wL7JOx0p5CTHUl8sFM35g8yh0NcVRBPohZH
+ CfARb6gY9CTfxQlOJBuqKB7e0SR4AMe51IlZYsOr8JHUkk2wsXNEikIMCKtFOBeIxtUEB9KIgqETV
+ xfqBRvyUzkJtCK7j5XZ3jP3UHtkenwpf4U83xrpDODx4Fw1SjKqnFjS9D56bjaxQNqQejJsra6p3/
+ gFIok73S4lQMA+m0igCmzh+0nu0/t9jCW5CVitgoAOJbHRgmSUwxwOTaaBMYHITzQyE/y58GnR+N2
+ /V92kk5moOxDZjinSEGGlM2++KqY3IJYn2+89s+PxK9dKhphe4BP5voZXoFLI0qeWLzofaFZmV5YI
+ l6s/7PeHyGtVCxp8Pm4POeliTPTqFYRRSdBAxcd2+tpI8XWGSWSJB+g5qwXUZMic9mlnGcUVuXgPp
+ gbtd2iX6+V+xSOziUAGa8Zan+PwM5k1ba8OgkFhUmsUb5o13elW3Mx1B+tVLcGmJWOMYmGE3dPM/Y
+ Fn1X+otnvEk/A121Z5Bq3O5Y7xPsKm3ONvSXwH7P3eO74vOQ6gFlTzro9AGSxt8VS4RmiwStNUarC
+ xhux2rGsxz2IYR470EwRKiG3ktMnUA2qvd8CNn/S0=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, "Shi, Guohuai" <Guohuai.Shi@windriver.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Greg Kurz <groug@kaod.org>
+Subject: Re: [RFC PATCH 0/4] 9pfs: Add 9pfs support for Windows host
+Date: Thu, 14 Apr 2022 13:23:38 +0200
+Message-ID: <9940864.osJUfx695o@silver>
+In-Reply-To: <CH2PR11MB445450AE2D1666B623ABD1BAEFEC9@CH2PR11MB4454.namprd11.prod.outlook.com>
+References: <20220408171013.912436-1-bmeng.cn@gmail.com>
+ <CAEUhbmVVnz7iFZ6RpW7V45b6xAVv-YxXWv2Esxu4YBZf4yA0LA@mail.gmail.com>
+ <CH2PR11MB445450AE2D1666B623ABD1BAEFEC9@CH2PR11MB4454.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=yi.l.liu@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,78 +66,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: akrowiak@linux.ibm.com, jjherne@linux.ibm.com, thuth@redhat.com,
- yi.l.liu@intel.com, kvm@vger.kernel.org, mjrosato@linux.ibm.com,
- jasowang@redhat.com, farman@linux.ibm.com, peterx@redhat.com,
- pasic@linux.ibm.com, eric.auger@redhat.com, yi.y.sun@intel.com,
- chao.p.peng@intel.com, nicolinc@nvidia.com, kevin.tian@intel.com,
- jgg@nvidia.com, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+On Mittwoch, 13. April 2022 05:30:57 CEST Shi, Guohuai wrote:
+> > We have 3 fs drivers: local, synth, proxy. I don't mind about proxy, it is
+> > in  bad shape and we will probably deprecate it in near future anyway.
+> > But it would be good to have support for the synth driver, because we are
+> > using it for running test cases and fuzzing tests (QA).
+> 
+> synth driver can not be built on Windows platform (or cross build on
+> Linux). So the test cases can not work on Windows.
 
-This auto/on/off option allows the user to force a the select
-the iommu BE (iommufd or legacy).
+Could you please be more specific what kind of challenge you see for making 
+the synth driver working on Windows? The synth driver is just a simple mockup 
+driver [1] that simulates in-RAM-only a filesystem with a bunch of hard coded 
+dirs and files, solely for the purpose to run test cases. So the synth driver 
+does not interact with any real filesystem on host at all. My expectation 
+therefore would be that it just needs to tweak some header includes and maybe 
+declaring missing POSIX data types, which you have done for the local driver 
+already anyway.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Yi Liu <yi.l.liu@intel.com>
----
- hw/vfio/pci.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+BTW support for macOS hosts has just been recently added for 9p, I know it is 
+different as its a POSIX OS, but maybe you might still find the diff [2] 
+helpful.
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index cf5703f94b..70a4c2b0a8 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -42,6 +42,8 @@
- #include "qapi/error.h"
- #include "migration/blocker.h"
- #include "migration/qemu-file.h"
-+#include "qapi/visitor.h"
-+#include "qapi/qapi-visit-common.h"
- 
- #define TYPE_VFIO_PCI_NOHOTPLUG "vfio-pci-nohotplug"
- 
-@@ -3246,6 +3248,26 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-+static void get_iommu_be(Object *obj, Visitor *v, const char *name,
-+                         void *opaque, Error **errp)
-+{
-+    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-+    VFIODevice *vbasedev = &vdev->vbasedev;
-+    OnOffAuto iommufd_be = vbasedev->iommufd_be;
-+
-+    visit_type_OnOffAuto(v, name, &iommufd_be, errp);
-+}
-+
-+static void set_iommu_be(Object *obj, Visitor *v, const char *name,
-+                         void *opaque, Error **errp)
-+{
-+    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-+    VFIODevice *vbasedev = &vdev->vbasedev;
-+
-+    visit_type_OnOffAuto(v, name, &vbasedev->iommufd_be, errp);
-+}
-+
-+
- static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -3253,6 +3275,10 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- 
-     dc->reset = vfio_pci_reset;
-     device_class_set_props(dc, vfio_pci_dev_properties);
-+    object_class_property_add(klass, "iommufd", "OnOffAuto",
-+                              get_iommu_be, set_iommu_be, NULL, NULL);
-+    object_class_property_set_description(klass, "iommufd",
-+                                          "Enable iommufd backend");
-     dc->desc = "VFIO-based PCI device assignment";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     pdc->realize = vfio_realize;
--- 
-2.27.0
+[1] https://wiki.qemu.org/Documentation/9p#9p_Filesystem_Drivers
+[2] https://gitlab.com/qemu-project/qemu/-/commit/f45cc81911adc772
+
+> > What are the limitations against security_model=mapped on Windows? Keep in
+> >  mind that with security_model=none you are very limited in what you can
+> > do with 9p.
+> 
+> MSYS library does not support extend attribute (e.g. getxattr),
+> And does not support POSIX permission APIs (e.g. chmod, chown).
+> Security model is useless on Windows host.
+
+That would be security_model=passthrough, yes, that's not possible with msys. 
+The recommended way in practice though is using security_model=mapped [3] for 
+all systems, which should be possible to achieve with msys as well ...
+
+[3] https://wiki.qemu.org/Documentation/9psetup#Starting_the_Guest_directly
+
+> It is possible that to "map" extend attribute to NTFS stream data.
+> However, if Windows host media is not NTFS (e.g. FAT) which does not support
+> stream data, then the "map" can not work.
+
+... yes exactly, it would make sense to use ADS [4] instead of xattr on 
+Windows. ADS are available with NTFS and ReFS and maybe also with exFAT 
+nowadays (?), not sure about the latter though. But I think it is fair enough 
+to assume Windows users to either use NTFS or ReFS. And if they don't, you can 
+still call error_report_once() to make user aware that
+seucrity_model=mapped(-xattr) requires a fileystem on Windows that supports 
+ADS.
+
+[4] https://en.wikipedia.org/wiki/NTFS#Alternate_data_stream_(ADS)
+
+Best regards,
+Christian Schoenebeck
+
 
 
