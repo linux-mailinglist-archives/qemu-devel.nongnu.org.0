@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745AF500C5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 13:48:35 +0200 (CEST)
-Received: from localhost ([::1]:45356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548F0500FD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 16:02:29 +0200 (CEST)
+Received: from localhost ([::1]:57982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nexxi-000319-8R
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 07:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38178)
+	id 1nf03H-0008Bp-SI
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 10:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nexwF-0002Ma-7w
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 07:47:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nexwC-0007Na-JF
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 07:47:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649936819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=sxRJcjT+IoKFLNBCrxq27kqQgY4IjVxW854KI0pzkA4=;
- b=GL7IYrBuhpe/HJNMQTRrWtOP7DMyYV/RgmCmSqaYEAL+cFhU/fPyMS/g6DpF6GwDNBbBvr
- OD6GRKZIUGuqSyK2Ms2zCsMrwPl7ihmh1LCS8hSKJHJgYNyLLdmtsgc8C5MlsUrOj7fP9W
- LoODPd+u3h93Z0x1DDvT34jxbM4Ylog=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-FzjhRXctMSyhfy62LKa1-Q-1; Thu, 14 Apr 2022 07:46:58 -0400
-X-MC-Unique: FzjhRXctMSyhfy62LKa1-Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9E5E866DF1;
- Thu, 14 Apr 2022 11:46:57 +0000 (UTC)
-Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15C03145830A;
- Thu, 14 Apr 2022 11:46:56 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] tests/qtest: Enable more tests for the "mipsel" target
-Date: Thu, 14 Apr 2022 13:46:55 +0200
-Message-Id: <20220414114655.604391-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <moteenshah.02@gmail.com>)
+ id 1nexf6-00084L-KD
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 07:29:20 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:43865)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <moteenshah.02@gmail.com>)
+ id 1nexf1-0004Wm-Ef
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 07:29:16 -0400
+Received: by mail-pg1-x534.google.com with SMTP id u2so4522602pgq.10
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 04:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LEzTAlbhmJy6HQ4f5aoCU83uOi6CNeuJC0p1S7WoYq4=;
+ b=MJyTPcLMfw3T7XHFywOmh+L44bSl8tezD4nkHJkSyKvWCcQ1igQjD2F9yBVkfUy0Qj
+ dS3DnRNkLK045I2FWXPYlj6pvxqapG16MpcqwhAUz2SGVY7i/jsiN5DbWFPM3TTK1LvH
+ lKP7X4DvzjOoPowlOtynNNghhlKC41Jl7xVrB7vn99+2d4fiJeUWLOGVQsCvTh1aHTLY
+ 7UpwXzn/lH6KaSlCCqvFPmpUDBBjW+fJgbXWvja2FZ+GyKfAyRFtLG6Ccws8mDGSUcs8
+ +rI6dNCeQgLIDc+hiwf76+ms7WT3nDN42zOsFfswGDlynw0GOA8RcVYLpkhpxLG7YFC/
+ Sobg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LEzTAlbhmJy6HQ4f5aoCU83uOi6CNeuJC0p1S7WoYq4=;
+ b=aK6kYtAk/ag4INSUcDzZRCzt+Cd0Re3EJuTlleYbWK2rigXX3JPKDLcR6GTx70DpPY
+ i01l2SLHypWd/b3U9bxQXJsRMmgbSXRzxcotBseBFbRidM36925iDxD7AaeCfFpwYoa9
+ DWZJjuymWWfja+tXFGgTGcd2jG0dG1gqiRgf81IzxuSzqtWXEuVBtwtPQ/mTQ4uba/+5
+ I8nN5PukChxGGAsyaSNuyXHliGL1stfV668WjO8Z+AohViuaBVRnzVyBzo143BGG+qOP
+ pp9CAS3zt6nzxurxh0VVdpduE7pIFhkYHsMBoQ23unWRJEc3NIBI0ZX5R38YxlIQAzdZ
+ rqcA==
+X-Gm-Message-State: AOAM533xztksNK2FjGRtoL1YqOZV+hl9+k6d9457PrLsXOydQbBwJoK2
+ fFJaDwRoDoZyzjjGQ3ZM/G7FmdrVbsk9Dg==
+X-Google-Smtp-Source: ABdhPJzQYdxnMwBMcpEEiDkj4XZdlVHESBLl8b0rSBJMORUTRSbYxn8Kamq6kf16RONV9PNYL20Kcw==
+X-Received: by 2002:a05:6a00:234f:b0:4fa:f52b:46a1 with SMTP id
+ j15-20020a056a00234f00b004faf52b46a1mr3475966pfj.32.1649935753653; 
+ Thu, 14 Apr 2022 04:29:13 -0700 (PDT)
+Received: from localhost.localdomain ([103.199.136.32])
+ by smtp.gmail.com with ESMTPSA id
+ j6-20020a63b606000000b003808b0ea96fsm1671764pgf.66.2022.04.14.04.29.11
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 14 Apr 2022 04:29:12 -0700 (PDT)
+From: Moteen Shah <moteenshah.02@gmail.com>
+X-Google-Original-From: Moteen Shah <codeguy.moteen@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1] virtio/virtio.c: include virtio prefix in error message
+Date: Thu, 14 Apr 2022 16:59:02 +0530
+Message-Id: <20220414112902.41390-1-codeguy.moteen@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=moteenshah.02@gmail.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 14 Apr 2022 09:59:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,58 +85,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Moteen Shah <moteenshah.02@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow the same set of tests for all MIPS targets, so that "mipsel"
-now gets some additional test coverage, too. While we're at it,
-simplify the definitions for qtests_mips64 and qtests_mips64el.
+From: Moteen Shah <moteenshah.02@gmail.com>
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+The error message in virtio_init_region_cache()
+is given a prefix virtio.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/230
+Buglink: https://bugs.launchpad.net/qemu/+bug/1919021``
+
+Signed-off-by: Moteen Shah <moteenshah.02@gmail.com>
 ---
- tests/qtest/endianness-test.c |  1 +
- tests/qtest/meson.build       | 14 +++-----------
- 2 files changed, 4 insertions(+), 11 deletions(-)
+ hw/virtio/virtio.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/endianness-test.c b/tests/qtest/endianness-test.c
-index 9c03b72dc9..2f5a88bf4c 100644
---- a/tests/qtest/endianness-test.c
-+++ b/tests/qtest/endianness-test.c
-@@ -28,6 +28,7 @@ struct TestCase {
- static const TestCase test_cases[] = {
-     { "i386", "pc", -1 },
-     { "mips", "malta", 0x10000000, .bswap = true },
-+    { "mipsel", "malta", 0x10000000 },
-     { "mips64", "magnum", 0x90000000, .bswap = true },
-     { "mips64", "pica61", 0x90000000, .bswap = true },
-     { "mips64", "malta", 0x10000000, .bswap = true },
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index d25f82bb5a..1709fc6ccb 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -143,17 +143,9 @@ qtests_mips = \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 9d637e043e..f31427bd41 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -174,7 +174,7 @@ static void virtio_init_region_cache(VirtIODevice *vdev, int n)
+     len = address_space_cache_init(&new->desc, vdev->dma_as,
+                                    addr, size, packed);
+     if (len < size) {
+-        virtio_error(vdev, "Cannot map desc");
++        virtio_error(vdev, "Virtio cannot map desc");
+         goto err_desc;
+     }
  
--qtests_mips64 = \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
--  (slirp.found() ? ['test-netfilter'] : []) + \
--  (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
--  (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
--
--qtests_mips64el = \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
--  (slirp.found() ? ['test-netfilter'] : []) + \
--  (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
--  (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
-+qtests_mipsel = qtests_mips
-+qtests_mips64 = qtests_mips
-+qtests_mips64el = qtests_mips
+@@ -182,7 +182,7 @@ static void virtio_init_region_cache(VirtIODevice *vdev, int n)
+     len = address_space_cache_init(&new->used, vdev->dma_as,
+                                    vq->vring.used, size, true);
+     if (len < size) {
+-        virtio_error(vdev, "Cannot map used");
++        virtio_error(vdev, "Virtio cannot map used");
+         goto err_used;
+     }
  
- qtests_ppc = \
-   ['test-filter-mirror', 'test-filter-redirector'] + \
+@@ -190,7 +190,7 @@ static void virtio_init_region_cache(VirtIODevice *vdev, int n)
+     len = address_space_cache_init(&new->avail, vdev->dma_as,
+                                    vq->vring.avail, size, false);
+     if (len < size) {
+-        virtio_error(vdev, "Cannot map avail");
++        virtio_error(vdev, "Virtio cannot map avail");
+         goto err_avail;
+     }
+ 
 -- 
-2.27.0
+2.35.1
 
 
