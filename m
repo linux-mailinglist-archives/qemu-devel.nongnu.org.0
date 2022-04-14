@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EA95002EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 02:11:13 +0200 (CEST)
-Received: from localhost ([::1]:42236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEC350030D
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 02:36:23 +0200 (CEST)
+Received: from localhost ([::1]:52970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nen4p-0002zM-VO
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 20:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39156)
+	id 1nenT7-0002wb-Lg
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 20:36:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nen2r-00021l-C3
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 20:09:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59959)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nenQh-0001Er-Kc
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 20:33:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nen2p-0005o1-PC
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 20:09:09 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nenQe-00012J-9z
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 20:33:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649894947;
+ s=mimecast20190719; t=1649896423;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wc8saHFTHDJVGdJxVdnsqOAZ5jFxaUefTb1pve8qx5k=;
- b=RNmIaWiChaA8gfzeDtTMrMR6ZpTjgtJiwzT0a+4BGJIv6ZSPZlYH+ElDgan25rOfTEUkGY
- pLNt5f4pXw13EctnhVTs5zYWpwuK4viIT1Q6iCKle1+gLJiis3N8RrpRYaIrpbGzbxLGja
- HDY40NULead8poLFzXj9Ydt29iVWf9M=
+ bh=lchqp532jXUJONcJZJqSFm9GdaKH1EejjeeE8vgbTUU=;
+ b=QOWNBzgvK4Ou+zKtGl0qoESKuZfm+JkpzAAU0FMUwq23VUHXmG6LF2VKUDbNwTFwzav9f9
+ SAfmpQA8feYDsGYgfQDEkNwDrmERMlcPDw6+YCetxxS6Dmwv2vntllX3v8+HYry9TcWIom
+ Camd+l1OB57G4mCM9eyZojGJIARo3MI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-KyqlbVgkPR-VagMUtJ-3Uw-1; Wed, 13 Apr 2022 20:09:06 -0400
-X-MC-Unique: KyqlbVgkPR-VagMUtJ-3Uw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-331-bCjJxFEVMdmhA0mD_kiL9w-1; Wed, 13 Apr 2022 20:33:39 -0400
+X-MC-Unique: bCjJxFEVMdmhA0mD_kiL9w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AA4318A65B2;
- Thu, 14 Apr 2022 00:09:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D20F801E95;
+ Thu, 14 Apr 2022 00:33:39 +0000 (UTC)
 Received: from [10.72.13.171] (ovpn-13-171.pek2.redhat.com [10.72.13.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FDD32166B4F;
- Thu, 14 Apr 2022 00:08:56 +0000 (UTC)
-Subject: Re: [PATCH v5 2/4] hw/arm/virt: Consider SMP configuration in CPU
- topology
-To: "wangyanan (Y)" <wangyanan55@huawei.com>, qemu-arm@nongnu.org
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3148C57C910;
+ Thu, 14 Apr 2022 00:33:32 +0000 (UTC)
+Subject: Re: [PATCH v5 4/4] hw/acpi/aml-build: Use existing CPU topology to
+ build PPTT table
+To: Igor Mammedov <imammedo@redhat.com>
 References: <20220403145953.10522-1-gshan@redhat.com>
- <20220403145953.10522-3-gshan@redhat.com>
- <6f713fec-71e6-3300-a504-817f45a82a51@huawei.com>
+ <20220403145953.10522-5-gshan@redhat.com>
+ <20220413155232.0a1f4d88@redhat.com>
 From: Gavin Shan <gshan@redhat.com>
-Message-ID: <27df8771-ebe0-b5fe-39c4-83696e21e3a3@redhat.com>
-Date: Thu, 14 Apr 2022 08:08:52 +0800
+Message-ID: <dec9ab46-746d-9810-0784-2cddefab67ae@redhat.com>
+Date: Thu, 14 Apr 2022 08:33:29 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <6f713fec-71e6-3300-a504-817f45a82a51@huawei.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+In-Reply-To: <20220413155232.0a1f4d88@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -72,7 +72,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,72 +87,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Gavin Shan <gshan@redhat.com>
 Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, zhenyzha@redhat.com, shan.gavin@gmail.com,
- imammedo@redhat.com
+ qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
+ qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yanan,
+Hi Igor,
 
-On 4/13/22 8:39 PM, wangyanan (Y) wrote:
-> On 2022/4/3 22:59, Gavin Shan wrote:
->> Currently, the SMP configuration isn't considered when the CPU
->> topology is populated. In this case, it's impossible to provide
->> the default CPU-to-NUMA mapping or association based on the socket
->> ID of the given CPU.
+On 4/13/22 9:52 PM, Igor Mammedov wrote:
+> On Sun,  3 Apr 2022 22:59:53 +0800
+> Gavin Shan <gshan@redhat.com> wrote:
+> 
+>> When the PPTT table is built, the CPU topology is re-calculated, but
+>> it's unecessary because the CPU topology has been populated in
+>> virt_possible_cpu_arch_ids() on arm/virt machine.
 >>
->> This takes account of SMP configuration when the CPU topology
->> is populated. The die ID for the given CPU isn't assigned since
->> it's not supported on arm/virt machine yet.
+>> This reworks build_pptt() to avoid by reusing the existing one in
+>> ms->possible_cpus. Currently, the only user of build_pptt() is
+>> arm/virt machine.
 >>
 >> Signed-off-by: Gavin Shan <gshan@redhat.com>
 >> ---
->>   hw/arm/virt.c | 16 +++++++++++++++-
->>   1 file changed, 15 insertions(+), 1 deletion(-)
+>>   hw/acpi/aml-build.c | 100 +++++++++++++++++---------------------------
+>>   1 file changed, 38 insertions(+), 62 deletions(-)
 >>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index d2e5ecd234..3174526730 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>       int n;
->>       unsigned int max_cpus = ms->smp.max_cpus;
->>       VirtMachineState *vms = VIRT_MACHINE(ms);
->> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
->>       if (ms->possible_cpus) {
->>           assert(ms->possible_cpus->len == max_cpus);
->> @@ -2518,8 +2519,21 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>           ms->possible_cpus->cpus[n].type = ms->cpu_type;
->>           ms->possible_cpus->cpus[n].arch_id =
->>               virt_cpu_mp_affinity(vms, n);
->> +
->> +        assert(!mc->smp_props.dies_supported);
->> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
->> +        ms->possible_cpus->cpus[n].props.socket_id =
->> +            (n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads)) %
->> +            ms->smp.sockets;
-> No need for "% ms->smp.sockets".
-
-Yeah, lets remove it in v6.
-
->> +        ms->possible_cpus->cpus[n].props.has_cluster_id = true;
->> +        ms->possible_cpus->cpus[n].props.cluster_id =
->> +            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters;
->> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
->> +        ms->possible_cpus->cpus[n].props.core_id =
->> +            (n / ms->smp.threads) % ms->smp.cores;
->>           ms->possible_cpus->cpus[n].props.has_thread_id = true;
->> -        ms->possible_cpus->cpus[n].props.thread_id = n;
->> +        ms->possible_cpus->cpus[n].props.thread_id =
->> +            n % ms->smp.threads;
->>       }
->>       return ms->possible_cpus;
->>   }
-> Otherwise, looks good to me:
-> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>> index 4086879ebf..4b0f9df3e3 100644
+>> --- a/hw/acpi/aml-build.c
+>> +++ b/hw/acpi/aml-build.c
+>> @@ -2002,86 +2002,62 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>                   const char *oem_id, const char *oem_table_id)
+>>   {
+>>       MachineClass *mc = MACHINE_GET_CLASS(ms);
+>> -    GQueue *list = g_queue_new();
+>> -    guint pptt_start = table_data->len;
+>> -    guint parent_offset;
+>> -    guint length, i;
+>> -    int uid = 0;
+>> -    int socket;
+>> +    CPUArchIdList *cpus = ms->possible_cpus;
+>> +    int64_t socket_id = -1, cluster_id = -1, core_id = -1;
+>> +    uint32_t socket_offset, cluster_offset, core_offset;
+>> +    uint32_t pptt_start = table_data->len;
+>> +    int n;
+>>       AcpiTable table = { .sig = "PPTT", .rev = 2,
+>>                           .oem_id = oem_id, .oem_table_id = oem_table_id };
+>>   
+>>       acpi_table_begin(&table, table_data);
+>>   
+>> -    for (socket = 0; socket < ms->smp.sockets; socket++) {
+>> -        g_queue_push_tail(list,
+>> -            GUINT_TO_POINTER(table_data->len - pptt_start));
+>> -        build_processor_hierarchy_node(
+>> -            table_data,
+>> -            /*
+>> -             * Physical package - represents the boundary
+>> -             * of a physical package
+>> -             */
+>> -            (1 << 0),
+>> -            0, socket, NULL, 0);
+>> -    }
+>> +    for (n = 0; n < cpus->len; n++) {
+> 
+>> +        if (cpus->cpus[n].props.socket_id != socket_id) {
+>> +            socket_id = cpus->cpus[n].props.socket_id;
+> 
+> this relies on cpus->cpus[n].props.*_id being sorted form top to down levels
+> I'd add here and for other container_id an assert() that checks for that
+> specific ID goes in only one direction, to be able to detect when rule is broken.
+> 
+> otherwise on may end up with duplicate containers silently.
 > 
 
-Thanks for your time to review :)
+Exactly. cpus->cpus[n].props.*_id is sorted as you said in virt_possible_cpu_arch_ids().
+The only user of build_pptt() is arm/virt machine. So it's fine. However, I think I
+may need add comments for this in v6.
+
+     /*
+      * This works with the assumption that cpus[n].props.*_id has been
+      * sorted from top to down levels in mc->possible_cpu_arch_ids().
+      * Otherwise, the unexpected and duplicate containers will be created.
+      */
+
+The implementation in v3 looks complicated, but comprehensive. The one
+in this revision (v6) looks simple, but the we're losing flexibility :)
+
+
+>> +            cluster_id = -1;
+>> +            core_id = -1;
+>> +            socket_offset = table_data->len - pptt_start;
+>> +            build_processor_hierarchy_node(table_data,
+>> +                (1 << 0), /* Physical package */
+>> +                0, socket_id, NULL, 0);
+>> +        }
+>>   
+>> -    if (mc->smp_props.clusters_supported) {
+>> -        length = g_queue_get_length(list);
+>> -        for (i = 0; i < length; i++) {
+>> -            int cluster;
+>> -
+>> -            parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+>> -            for (cluster = 0; cluster < ms->smp.clusters; cluster++) {
+>> -                g_queue_push_tail(list,
+>> -                    GUINT_TO_POINTER(table_data->len - pptt_start));
+>> -                build_processor_hierarchy_node(
+>> -                    table_data,
+>> -                    (0 << 0), /* not a physical package */
+>> -                    parent_offset, cluster, NULL, 0);
+>> +        if (mc->smp_props.clusters_supported) {
+>> +            if (cpus->cpus[n].props.cluster_id != cluster_id) {
+>> +                cluster_id = cpus->cpus[n].props.cluster_id;
+>> +                core_id = -1;
+>> +                cluster_offset = table_data->len - pptt_start;
+>> +                build_processor_hierarchy_node(table_data,
+>> +                    (0 << 0), /* Not a physical package */
+>> +                    socket_offset, cluster_id, NULL, 0);
+>>               }
+>> +        } else {
+>> +            cluster_offset = socket_offset;
+>>           }
+>> -    }
+>>   
+>> -    length = g_queue_get_length(list);
+>> -    for (i = 0; i < length; i++) {
+>> -        int core;
+>> -
+>> -        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+>> -        for (core = 0; core < ms->smp.cores; core++) {
+>> -            if (ms->smp.threads > 1) {
+>> -                g_queue_push_tail(list,
+>> -                    GUINT_TO_POINTER(table_data->len - pptt_start));
+>> -                build_processor_hierarchy_node(
+>> -                    table_data,
+>> +        if (ms->smp.threads <= 1) {
+> 
+> why <= instead of < is used here?
+> 
+
+It's the counterpart to the one in the original implementation,
+which is "if (ms->smp.threads > 1)". the nodes for threads won't
+be created until ms->smp.threads is bigger than 1. If we want
+to use "<" here, then the code will be changed like below in v6.
+However, I really don't think it's necessary.
+
+            if (ms->smp.threads < 2) {
+                :
+            }
+
+
+>> +            build_processor_hierarchy_node(table_data,
+>> +                (1 << 1) | /* ACPI Processor ID valid */
+>> +                (1 << 3),  /* Node is a Leaf */
+>> +                cluster_offset, n, NULL, 0);
+>> +        } else {
+>> +            if (cpus->cpus[n].props.core_id != core_id) {
+>> +                core_id = cpus->cpus[n].props.core_id;
+>> +                core_offset = table_data->len - pptt_start;
+>> +                build_processor_hierarchy_node(table_data,
+>>                       (0 << 0), /* not a physical package */
+>> -                    parent_offset, core, NULL, 0);
+>> -            } else {
+>> -                build_processor_hierarchy_node(
+>> -                    table_data,
+>> -                    (1 << 1) | /* ACPI Processor ID valid */
+>> -                    (1 << 3),  /* Node is a Leaf */
+>> -                    parent_offset, uid++, NULL, 0);
+>> +                    cluster_offset, core_id, NULL, 0);
+>>               }
+>> -        }
+>> -    }
+>> -
+>> -    length = g_queue_get_length(list);
+>> -    for (i = 0; i < length; i++) {
+>> -        int thread;
+>>   
+>> -        parent_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+>> -        for (thread = 0; thread < ms->smp.threads; thread++) {
+>> -            build_processor_hierarchy_node(
+>> -                table_data,
+>> +            build_processor_hierarchy_node(table_data,
+>>                   (1 << 1) | /* ACPI Processor ID valid */
+>>                   (1 << 2) | /* Processor is a Thread */
+>>                   (1 << 3),  /* Node is a Leaf */
+>> -                parent_offset, uid++, NULL, 0);
+>> +                core_offset, n, NULL, 0);
+>>           }
+>>       }
+>>   
+>> -    g_queue_free(list);
+>>       acpi_table_end(linker, &table);
+>>   }
+>>   
 
 Thanks,
 Gavin
