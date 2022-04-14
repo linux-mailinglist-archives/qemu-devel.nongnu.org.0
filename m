@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CC750132C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 17:17:23 +0200 (CEST)
-Received: from localhost ([::1]:43458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C790501360
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 17:19:58 +0200 (CEST)
+Received: from localhost ([::1]:49086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nf1Dm-00080n-LT
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 11:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33506)
+	id 1nf1GH-0003Jl-2m
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 11:19:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nf1CB-0006Zp-EZ
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 11:15:44 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:33637)
+ id 1nf1Cd-0006uJ-7Z
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 11:16:12 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:36712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nf1C9-0002jg-By
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 11:15:42 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id 11so1754314edw.0
- for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 08:15:40 -0700 (PDT)
+ id 1nf1Cb-0002n6-I5
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 11:16:10 -0400
+Received: by mail-ed1-x531.google.com with SMTP id u18so6791202eda.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 08:16:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=JPqK7VZ2Djad86dizYTzPMvChJCtXLgc0MQlaIc1lnE=;
- b=O0iNs+yH/+TfpZX7pua+vLfBMGXwPDtGjIWj0B6JEBzHeokDp03D7QvrlkbJ5bJsqk
- nfVXtopB/9dKc+6WfpH9JSf1QGEDUA8vqTTjecsaROUai1yCfDefEReLgGn/GWFKpX2J
- pjGU6apni0xiCDkWwFo0POEQHbSH/RU5T+aAgR6H7u62c64Fy6lflcF86jv8FLmbmTrH
- nBAl4DZZ+ZQ1ds6UcyQdyzx3W3y7EhEVN3r3J1+YFzF1hbcrohH0P58wsLkGZKoaWzZB
- ht/SOd3z/HqdEm1OB0rV9qoZWpxCXyw4zBqrjDbZE5kF2h0YpmT1Qdsw8X0E7M8VldE5
- Cfug==
+ bh=Qc7zT9psE1uu6NLXBN0ZMmRzZtOc4g3a2Na/D8oEE5c=;
+ b=smcs4VLlGV2DcaHjHqpd/GtTdpL7IwHGOOLijOWtxX3WDItY9NhQNUZ87LUu/Y+b9J
+ cTYDRgU1CfOUJVGBhYf2B93vAp7W0LXpnCpvE4aPPsLsq2K8+cz0vqTWocjGjEeIgd0g
+ PyEtV0xi/OM1rHbkTFgzmR85AWuPQ5Z38d90R3mtUpDItKGbidrV1VOhq2z0i2I/ZVar
+ 7XLtv77053FkXh95UiMISS/Q4z3TKL9aKpy8+Dt/gb6bIhHwD+dAoaA3RN+PyvXstBYt
+ LPCOE1g2VLRVfPqcHNoz8kCJxdTTJfXZvV+ihDPnYzhaTZpXPLg3rMtuVxVuefJckfJ3
+ yyrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=JPqK7VZ2Djad86dizYTzPMvChJCtXLgc0MQlaIc1lnE=;
- b=UtQzAIyDmNQeUm61v5DsIhY539O2Fd/PrU71PhbduzAd2dN5z2JZEbK0n1J/ejLi73
- QAajBZg6bR00MGCDoV6Ecnz8WQZVObK/aQ5DYhL92wn0grd6MOFL7bl4CzFr4VUOFxng
- NZzaqC324B99IspZt2ge0Bzer0L+VkVr/Y700KE0MP/O1PeZZiaBAqxcDIKtOlTIlp1D
- MtCMW+hCL+eNUcxk+8SOamu9R3oWFAZ92hfEt1SxDUW/vEYMGyfMVHlrk+ISpKWTsHGG
- dxjbBnt2OxCpTbxWoU7O0JWdGZwkL4CE8ZWgsvvcKuzkyD3KUQPvOMnphIvS26GuwqD6
- 5h1w==
-X-Gm-Message-State: AOAM530igpcBszou/W+M0xLV57iylyIeM7qfba/LBgZaYV+j0gMZUrGI
- 57NoK0FULWXMJFnuPxBuCptOfw==
-X-Google-Smtp-Source: ABdhPJwBxX9PhAL0e7gzMPSiCUgXBsjJIacyD7evk1VkKEet+au6vxpEyzPBgKmTf9p11coYxgvD2Q==
-X-Received: by 2002:a05:6402:1b0b:b0:41d:84e8:2ae8 with SMTP id
- by11-20020a0564021b0b00b0041d84e82ae8mr3457379edb.271.1649949339363; 
- Thu, 14 Apr 2022 08:15:39 -0700 (PDT)
+ bh=Qc7zT9psE1uu6NLXBN0ZMmRzZtOc4g3a2Na/D8oEE5c=;
+ b=Bryjh7teJfBd1PgRR+wp7sosYlxYT1I3kbkO2RTjqey+O/PVYc6kJbYopZ9v9mtpXU
+ MHIw+pjWSsMTBBHWVVZKhLhXApsT7ZSATAg39t+67/Ijjq9Coem6ePisb6TWau/w0XkO
+ /BYGENkx5K7aPYMHg4Sx4XY6w2/iZnM8tByyFoJ587bb4N0sMrG/pKH9fxauKDEiI/3d
+ iXWgMbmG+lCCFqOj9c8fOgIsUQ1VJkQdzi+s25LZV8bSjpcsoNlolXgE8Au01r38Db4O
+ DjH7QT3iuP+DPhm7kglgS5QomrFlQgM3iXSGYvK1e1yTR4PIbwpXVYJfY6AdIpTFc4g8
+ sRaQ==
+X-Gm-Message-State: AOAM531BBiFa0cQQ2wm4Ka7lhsHll/p/wc3+BQbvByLXu1oowe/Sf9a+
+ aOFENgpK7JofLqYeRCXQnn1q47bbicrwXA==
+X-Google-Smtp-Source: ABdhPJwEEyZ7BBX7YdO4ePbrY0vhRY9IlSzNniOrllELBtc6+IJY5uhWbHC/iM3guA3QJ69J5AFnBg==
+X-Received: by 2002:a05:6402:270f:b0:419:5b71:3493 with SMTP id
+ y15-20020a056402270f00b004195b713493mr3548901edd.72.1649949368227; 
+ Thu, 14 Apr 2022 08:16:08 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- v21-20020a1709064e9500b006e8973a14d0sm720748eju.174.2022.04.14.08.15.38
+ c13-20020a17090654cd00b006e0db351d01sm711018ejp.124.2022.04.14.08.16.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Apr 2022 08:15:38 -0700 (PDT)
+ Thu, 14 Apr 2022 08:16:07 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 91AEB1FFB7;
- Thu, 14 Apr 2022 16:15:37 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id A69AC1FFB7;
+ Thu, 14 Apr 2022 16:16:06 +0100 (BST)
 References: <20220326132534.543738-1-richard.henderson@linaro.org>
- <20220326132534.543738-38-richard.henderson@linaro.org>
+ <20220326132534.543738-39-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.12; emacs 28.1.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 29/39] linux-user: Use qemu_set_log_filename_flags
-Date: Thu, 14 Apr 2022 16:06:48 +0100
-In-reply-to: <20220326132534.543738-38-richard.henderson@linaro.org>
-Message-ID: <875ynbvgpy.fsf@linaro.org>
+Subject: Re: [PATCH v2 30/39] softmmu: Use qemu_set_log_filename_flags
+Date: Thu, 14 Apr 2022 16:16:02 +0100
+In-reply-to: <20220326132534.543738-39-richard.henderson@linaro.org>
+Message-ID: <871qxzvgp5.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,69 +96,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Perform all logfile setup in one step.
+> Perform all logfile setup at startup in one step.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/main.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
->
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index d263b2a669..0297ae8321 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -85,6 +85,7 @@ static bool enable_strace;
->   * Used to support command line arguments overriding environment variabl=
-es.
->   */
->  static int last_log_mask;
-> +static const char *last_log_filename;
->=20=20
->  /*
->   * When running 32-on-64 we should make sure we can fit all of the possi=
-ble
-> @@ -257,7 +258,7 @@ static void handle_arg_dfilter(const char *arg)
->=20=20
->  static void handle_arg_log_filename(const char *arg)
->  {
-> -    qemu_set_log_filename(arg, &error_fatal);
-> +    last_log_filename =3D arg;
->  }
->=20=20
->  static void handle_arg_set_env(const char *arg)
-> @@ -643,7 +644,6 @@ int main(int argc, char **argv, char **envp)
->      int i;
->      int ret;
->      int execfd;
-> -    int log_mask;
->      unsigned long max_reserved_va;
->      bool preserve_argv0;
->=20=20
-> @@ -677,10 +677,9 @@ int main(int argc, char **argv, char **envp)
->=20=20
->      optind =3D parse_args(argc, argv);
->=20=20
-> -    log_mask =3D last_log_mask | (enable_strace ? LOG_STRACE : 0);
-> -    if (log_mask) {
-> -        qemu_set_log(log_mask, &error_fatal);
-> -    }
-> +    qemu_set_log_filename_flags(last_log_filename,
-> +                                last_log_mask | (enable_strace * LOG_STR=
-ACE),
-> +                                &error_fatal);
-
-I guess enable_strace ? LOG_STRACE : 0 should generate the same code
-either way.
-
-Anyway:
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-
->=20=20
->      if (!trace_init_backends()) {
->          exit(1);
-
 
 --=20
 Alex Benn=C3=A9e
