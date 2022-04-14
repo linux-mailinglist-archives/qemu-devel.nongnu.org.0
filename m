@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62FBC501AAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 20:01:39 +0200 (CEST)
-Received: from localhost ([::1]:41042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B996501AAD
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 20:01:41 +0200 (CEST)
+Received: from localhost ([::1]:41226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nf3mk-0007Lj-2K
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 14:01:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57798)
+	id 1nf3ml-0007Sq-0w
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 14:01:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nf3jL-0004l9-S5
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 13:58:09 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44749)
+ id 1nf3jR-0004mA-6t
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 13:58:13 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:44751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nf3jK-0005rv-9b
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 13:58:07 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- m33-20020a05600c3b2100b0038ec0218103so3713503wms.3
- for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 10:58:05 -0700 (PDT)
+ id 1nf3jP-0005sm-BC
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 13:58:12 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ m33-20020a05600c3b2100b0038ec0218103so3713645wms.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 10:58:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BclqmxMc9GnSufJEBHJYPewd+2XyZYBc6vcujepgoqc=;
- b=acotvsfn4t/MTwylV/X1am+O1GJbh3iyl6qXehPWTaoTUc6icxpjyWqTcnYViQ0EY9
- ZtJYG6SiZ4a37E3oFPQQWW4txE+MEzhybX1mqfQhvRcy2qtdK5N9prIuf2GaWjgRJSht
- RdpQl9iIzJ+PMMZaJd2DjqR0Y4tnJW/1Cm37/BUYuBPITjYNu97shZIUF6kjpTqKjFW7
- Nu4uvSHezYUwaRCeNTCSisjb9Bc2Ekgmx3aGkFgWBgTCtnG88tV/+HD0+getp/x2z2mX
- Bl1wfhcgYKuKiRk8WF3Mjd0pmMFsoiHW7UMpPQCDZQMVWn+w/EkvoSek8Ba1WZwJxUq3
- qUSA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=31aWf6yWgE2LMOZIgY9XyxQ2VucF93P8DLahNEWZkgE=;
+ b=nJcGmqImpVof1zz39QdESoT25TRUiaJX9UclzLXOXWM11zofV77ihprJNq5eciIh+p
+ Fvy5jfo3H9BGpjoGF+w5lEkcgTixcqgYPpv2d34NIPMoqihCG4OO3oX6clC1rkFVD0k2
+ 2gg3Rztn2j3cVv+A1/wYh+oaEg0OnXmvglKJYSWyXn2KBUGF+z5RFFQGcym8HfgwUdBm
+ pFKvcYp8wYqFOYjtUtjlJMAE4yQW1lrC+rh4Hewp3JMs7/BmenTrfmMOgx4Jw3I6nsav
+ xPaiXBaur/povG6mxODa3Fg4yAPL8Ao8ZhASa8xH7wzcr2Uwq3dF8UhOEomOzjWfwAFS
+ TADA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=BclqmxMc9GnSufJEBHJYPewd+2XyZYBc6vcujepgoqc=;
- b=tawzs4g6de9JqvLsDQzktjgJprBw2yRq0dB+8qfj+JsBLpWkq/TIm7xbN06X5mQhgy
- S+izTo0/R61KG+DIUBLOvKKzN4Hs/7NNvOvUjbzP+EsTlXAecDKKnkgQfAGBIbTZSXBD
- mmFR4pQQiU1kW2RRwK22Hwn2P1Hp6ZCusnUpmClHeqIeOIhw2DNwa/zb6+GKZqkr5HWx
- Q7JQxeTbnDz0s4nNwL3NWAtgX5YI1n734BYmsyzb9EmzlIqKUR41LlI5RgKRsYPbvOVz
- g0jqR0uDKdB4BJxz9gAyAG2qd2bjrnsAINSWjCSlfnu14kTmBf6cAqKGtt/tua1F3FQn
- TerQ==
-X-Gm-Message-State: AOAM530aCNn+1ttfQEkRaAHKxAxturJuglOjk1AhvQKAQL+kJjl5ft/T
- EhYjphiHKr4vxo0Z7GYDmzNrJTLPE2qcjA==
-X-Google-Smtp-Source: ABdhPJwuhHIDH/kMRsMjZEKr6sDj2ik4Nm3JU8N15fCnL8ArdTCveYDWTGdy9L3JiqxmLtmHRRUyVA==
-X-Received: by 2002:a7b:c057:0:b0:37b:ebad:c9c8 with SMTP id
- u23-20020a7bc057000000b0037bebadc9c8mr4622640wmc.61.1649959084256; 
- Thu, 14 Apr 2022 10:58:04 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=31aWf6yWgE2LMOZIgY9XyxQ2VucF93P8DLahNEWZkgE=;
+ b=BB0j/fTyMAKSwhAjEcbXT27PPWnTKsUOLUzDf/5VvK7kQwBOmtuPUOhF2ixkYui5jO
+ D2PxwQEWpwsORWPPbQRMFMqsBID2DvO7H0ZgXuWlQb3IZWjaKYLpbsT119aSPSpXp1sK
+ mucmbg6g+3qPk5/O+E4XhTgr6ptea14J6AtrSNpiq9tPmoZraGrSnc8GQGTwzmnJxsxI
+ Zo2LcIKrpQySvwRd05r7eSHXc7xC5y9XaeSDu17pLrrgohdqHHQxXpjo1cdWyWc9JEtr
+ Bu1sXYWGjVhBS/qCfWPd8zT9wKiTNFo6F4XB5kAidzfC6fYINOJ4cw0sjwHEZo+MgC8I
+ dNxA==
+X-Gm-Message-State: AOAM5334cyZvSEVakxBQJxVRGA2qcHilRi/5rJB3wKxlK1lWB0F7Mz+v
+ UUoDpjJP9jZqMdfe0eKBcV+CsOD9mn0+BA==
+X-Google-Smtp-Source: ABdhPJydklM2cEuOH81dxeS/mluaZ69NLv2hefecCyrp0lxvqvrWYunJli22hmRaTUWpagUp688/6g==
+X-Received: by 2002:a7b:c341:0:b0:37b:c619:c9f4 with SMTP id
+ l1-20020a7bc341000000b0037bc619c9f4mr4699424wmj.38.1649959090004; 
+ Thu, 14 Apr 2022 10:58:10 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v13-20020adfe28d000000b0020375f27a5asm2451254wri.4.2022.04.14.10.58.02
+ v13-20020adfe28d000000b0020375f27a5asm2451254wri.4.2022.04.14.10.58.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Apr 2022 10:58:03 -0700 (PDT)
+ Thu, 14 Apr 2022 10:58:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 for-7.1 0/9] nbd: actually make s->state thread-safe
-Date: Thu, 14 Apr 2022 19:57:47 +0200
-Message-Id: <20220414175756.671165-1-pbonzini@redhat.com>
+Subject: [PATCH v2 for-7.1 2/9] nbd: mark more coroutine_fns
+Date: Thu, 14 Apr 2022 19:57:49 +0200
+Message-Id: <20220414175756.671165-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220414175756.671165-1-pbonzini@redhat.com>
+References: <20220414175756.671165-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,41 +91,197 @@ Cc: v.sementsov-og@mail.ru, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The main point of this series is patch 7, which removes the dubious and
-probably wrong use of atomics in block/nbd.c.  This in turn is enabled
-mostly by the cleanups in patches 3-5.  Together, they introduce a
-QemuMutex that synchronizes the NBD client coroutines, the reconnect_delay
-timer and nbd_cancel_in_flight() as well.
+Several coroutine functions in block/nbd.c are not marked as such.  This
+patch adds a few more markers; it is not exhaustive, but it focuses
+especially on:
 
-The fixes happen to remove an incorrect use of qemu_co_queue_restart_all
-and qemu_co_enter_next on the s->free_sema CoQueue, which was not guarded
-by s->send_mutex.
+- places that wake other coroutines, because aio_co_wake() has very
+different semantics inside a coroutine (queuing after yield vs. entering
+immediately);
 
-The rest is bugfixes, simplifying the code a bit, and extra documentation.
+- functions with _co_ in their names, to avoid confusion
 
-v1->v2:
-- cleaner patch 1
-- fix grammar in patch 4
-- split out patch 6
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block/nbd.c | 64 ++++++++++++++++++++++++++---------------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
-Paolo Bonzini (9):
-  nbd: safeguard against waking up invalid coroutine
-  nbd: mark more coroutine_fns
-  nbd: remove peppering of nbd_client_connected
-  nbd: keep send_mutex/free_sema handling outside
-    nbd_co_do_establish_connection
-  nbd: use a QemuMutex to synchronize yanking, reconnection and
-    coroutines
-  nbd: code motion and function renaming
-  nbd: move s->state under requests_lock
-  nbd: take receive_mutex when reading requests[].receiving
-  nbd: document what is protected by the CoMutexes
-
- block/coroutines.h |   4 +-
- block/nbd.c        | 298 +++++++++++++++++++++++----------------------
- 2 files changed, 154 insertions(+), 148 deletions(-)
-
+diff --git a/block/nbd.c b/block/nbd.c
+index d29bee1122..3cc4ea4430 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -132,7 +132,7 @@ static bool nbd_client_connected(BDRVNBDState *s)
+     return qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTED;
+ }
+ 
+-static bool nbd_recv_coroutine_wake_one(NBDClientRequest *req)
++static bool coroutine_fn nbd_recv_coroutine_wake_one(NBDClientRequest *req)
+ {
+     if (req->receiving) {
+         req->receiving = false;
+@@ -143,7 +143,7 @@ static bool nbd_recv_coroutine_wake_one(NBDClientRequest *req)
+     return false;
+ }
+ 
+-static void nbd_recv_coroutines_wake(BDRVNBDState *s, bool all)
++static void coroutine_fn nbd_recv_coroutines_wake(BDRVNBDState *s, bool all)
+ {
+     int i;
+ 
+@@ -154,7 +154,7 @@ static void nbd_recv_coroutines_wake(BDRVNBDState *s, bool all)
+     }
+ }
+ 
+-static void nbd_channel_error(BDRVNBDState *s, int ret)
++static void coroutine_fn nbd_channel_error(BDRVNBDState *s, int ret)
+ {
+     if (nbd_client_connected(s)) {
+         qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+@@ -466,9 +466,9 @@ static coroutine_fn int nbd_receive_replies(BDRVNBDState *s, uint64_t handle)
+     }
+ }
+ 
+-static int nbd_co_send_request(BlockDriverState *bs,
+-                               NBDRequest *request,
+-                               QEMUIOVector *qiov)
++static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
++                                            NBDRequest *request,
++                                            QEMUIOVector *qiov)
+ {
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+     int rc, i = -1;
+@@ -721,9 +721,9 @@ static int nbd_parse_error_payload(NBDStructuredReplyChunk *chunk,
+     return 0;
+ }
+ 
+-static int nbd_co_receive_offset_data_payload(BDRVNBDState *s,
+-                                              uint64_t orig_offset,
+-                                              QEMUIOVector *qiov, Error **errp)
++static int coroutine_fn
++nbd_co_receive_offset_data_payload(BDRVNBDState *s, uint64_t orig_offset,
++                                   QEMUIOVector *qiov, Error **errp)
+ {
+     QEMUIOVector sub_qiov;
+     uint64_t offset;
+@@ -1039,8 +1039,8 @@ break_loop:
+     return false;
+ }
+ 
+-static int nbd_co_receive_return_code(BDRVNBDState *s, uint64_t handle,
+-                                      int *request_ret, Error **errp)
++static int coroutine_fn nbd_co_receive_return_code(BDRVNBDState *s, uint64_t handle,
++                                                   int *request_ret, Error **errp)
+ {
+     NBDReplyChunkIter iter;
+ 
+@@ -1053,9 +1053,9 @@ static int nbd_co_receive_return_code(BDRVNBDState *s, uint64_t handle,
+     return iter.ret;
+ }
+ 
+-static int nbd_co_receive_cmdread_reply(BDRVNBDState *s, uint64_t handle,
+-                                        uint64_t offset, QEMUIOVector *qiov,
+-                                        int *request_ret, Error **errp)
++static int coroutine_fn nbd_co_receive_cmdread_reply(BDRVNBDState *s, uint64_t handle,
++                                                     uint64_t offset, QEMUIOVector *qiov,
++                                                     int *request_ret, Error **errp)
+ {
+     NBDReplyChunkIter iter;
+     NBDReply reply;
+@@ -1105,10 +1105,10 @@ static int nbd_co_receive_cmdread_reply(BDRVNBDState *s, uint64_t handle,
+     return iter.ret;
+ }
+ 
+-static int nbd_co_receive_blockstatus_reply(BDRVNBDState *s,
+-                                            uint64_t handle, uint64_t length,
+-                                            NBDExtent *extent,
+-                                            int *request_ret, Error **errp)
++static int coroutine_fn nbd_co_receive_blockstatus_reply(BDRVNBDState *s,
++                                                         uint64_t handle, uint64_t length,
++                                                         NBDExtent *extent,
++                                                         int *request_ret, Error **errp)
+ {
+     NBDReplyChunkIter iter;
+     NBDReply reply;
+@@ -1165,8 +1165,8 @@ static int nbd_co_receive_blockstatus_reply(BDRVNBDState *s,
+     return iter.ret;
+ }
+ 
+-static int nbd_co_request(BlockDriverState *bs, NBDRequest *request,
+-                          QEMUIOVector *write_qiov)
++static int coroutine_fn nbd_co_request(BlockDriverState *bs, NBDRequest *request,
++                                       QEMUIOVector *write_qiov)
+ {
+     int ret, request_ret;
+     Error *local_err = NULL;
+@@ -1202,9 +1202,9 @@ static int nbd_co_request(BlockDriverState *bs, NBDRequest *request,
+     return ret ? ret : request_ret;
+ }
+ 
+-static int nbd_client_co_preadv(BlockDriverState *bs, int64_t offset,
+-                                int64_t bytes, QEMUIOVector *qiov,
+-                                BdrvRequestFlags flags)
++static int coroutine_fn nbd_client_co_preadv(BlockDriverState *bs, int64_t offset,
++                                             int64_t bytes, QEMUIOVector *qiov,
++                                             BdrvRequestFlags flags)
+ {
+     int ret, request_ret;
+     Error *local_err = NULL;
+@@ -1261,9 +1261,9 @@ static int nbd_client_co_preadv(BlockDriverState *bs, int64_t offset,
+     return ret ? ret : request_ret;
+ }
+ 
+-static int nbd_client_co_pwritev(BlockDriverState *bs, int64_t offset,
+-                                 int64_t bytes, QEMUIOVector *qiov,
+-                                 BdrvRequestFlags flags)
++static int coroutine_fn nbd_client_co_pwritev(BlockDriverState *bs, int64_t offset,
++                                              int64_t bytes, QEMUIOVector *qiov,
++                                              BdrvRequestFlags flags)
+ {
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+     NBDRequest request = {
+@@ -1286,8 +1286,8 @@ static int nbd_client_co_pwritev(BlockDriverState *bs, int64_t offset,
+     return nbd_co_request(bs, &request, qiov);
+ }
+ 
+-static int nbd_client_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
+-                                       int64_t bytes, BdrvRequestFlags flags)
++static int coroutine_fn nbd_client_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
++                                                    int64_t bytes, BdrvRequestFlags flags)
+ {
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+     NBDRequest request = {
+@@ -1321,7 +1321,7 @@ static int nbd_client_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
+     return nbd_co_request(bs, &request, NULL);
+ }
+ 
+-static int nbd_client_co_flush(BlockDriverState *bs)
++static int coroutine_fn nbd_client_co_flush(BlockDriverState *bs)
+ {
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+     NBDRequest request = { .type = NBD_CMD_FLUSH };
+@@ -1336,8 +1336,8 @@ static int nbd_client_co_flush(BlockDriverState *bs)
+     return nbd_co_request(bs, &request, NULL);
+ }
+ 
+-static int nbd_client_co_pdiscard(BlockDriverState *bs, int64_t offset,
+-                                  int64_t bytes)
++static int coroutine_fn nbd_client_co_pdiscard(BlockDriverState *bs, int64_t offset,
++                                               int64_t bytes)
+ {
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+     NBDRequest request = {
+@@ -1914,7 +1914,7 @@ fail:
+     return ret;
+ }
+ 
+-static int nbd_co_flush(BlockDriverState *bs)
++static int coroutine_fn nbd_co_flush(BlockDriverState *bs)
+ {
+     return nbd_client_co_flush(bs);
+ }
 -- 
 2.35.1
+
 
 
