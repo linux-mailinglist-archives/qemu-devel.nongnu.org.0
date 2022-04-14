@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95C55004D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 05:50:48 +0200 (CEST)
-Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21295004D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 05:52:50 +0200 (CEST)
+Received: from localhost ([::1]:43942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neqVM-0002NV-01
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 23:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48634)
+	id 1neqXK-0004Gf-3X
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 23:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1neqT6-0001CS-O5
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:48:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55969)
+ id 1neqUi-0002d7-8q
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:50:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1neqT4-0004fC-P3
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:48:28 -0400
+ id 1neqUb-0004mb-D9
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:50:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649908106;
+ s=mimecast20190719; t=1649908200;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Iylr6kISQiAmwLRLbVxMIXR0lqyeKvBZNx7CpSnsWnk=;
- b=W5mwjuQfc+S2TBOlnZMl6eKAqs5NbZhvrScMXRQtt7nhchFURFaOYVEBpk4FdF/oOi21jx
- rsADxcxMuDSkNuqrmNyIswGGAKYqqU83/ObySLa2oFao2PkPC+nnZME1y/+gjp5DkDH/Nr
- 7jJV/R5IasVJUjIxznPDqTbUI7J+LKU=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5p1xXhZxDbAefvN/U2PMYKaXopJXdW8cB2JUZ/mLlUE=;
+ b=N5HjEZAIRovq/Sp+mJpf4Ae+IutGgbVYO/NjkezVoCDbC9/Ea8O6A7EPxyU/xHPZ7ODI+y
+ Qc8UheQidHYHAFSIWSeLI95myFuNt2MtLRgezMFeN4mczmhac5eKQhU+3fObr0H329Fl5Z
+ FNsnaMOJbj3SVw/6GzbJ1k5d/O9zyWI=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-U3GdJq_9NFOyQ899Fb30OA-1; Wed, 13 Apr 2022 23:48:25 -0400
-X-MC-Unique: U3GdJq_9NFOyQ899Fb30OA-1
-Received: by mail-pj1-f72.google.com with SMTP id
- i8-20020a17090a2a0800b001cb5c76ea21so2208396pjd.2
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 20:48:25 -0700 (PDT)
+ us-mta-619-8ewkzYeANP2MXP-ynDPgOQ-1; Wed, 13 Apr 2022 23:49:59 -0400
+X-MC-Unique: 8ewkzYeANP2MXP-ynDPgOQ-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ s5-20020a170902b18500b00155d6fbf4d4so2092711plr.18
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 20:49:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Iylr6kISQiAmwLRLbVxMIXR0lqyeKvBZNx7CpSnsWnk=;
- b=t52WwD5ZX98cC+UQwyDW2ZC8oqvgVW+zt/tcNXdmYtI2pEHux89cba8Z9Pfw4+7M8A
- YnMcb5vs4bdqHf6RKGmB6btLthbMch8BF3OWu9mVX/95i2gPvyHbd2sYHGErFx/Q3yOz
- NxAy3al2y18NJHcndAxOvdYo+9adP3/xkXrydLpXHTvUQBGwcUObvwOBJjvZL3B6w/zz
- Lmm7pGdoEEubpdf/jcmGS5LgdjaD9gCpkfk16ug1WnPFRcDYWevOGz0HL0u3X/PNDWI9
- G0C2JoxhhKYuc9BuSwZhO3oXExo6cWoKp3uVkrt8ct2sIQA7D9FSCNzFC3e30/X3KPkS
- ncfg==
-X-Gm-Message-State: AOAM5311e6j/pblLOneaKwvgsrVcu0CchrobZ1Gs99+7AgCtA6/ulctn
- 4i7XcdndnMEgnxou/5hfeUMhOpgfzjJSvUzgRjyN7a3oytXXNEb8PuG27+HO52JJV6USqfQ6Q+n
- i+11mfxTZ3fblzNw=
-X-Received: by 2002:a17:902:bb8d:b0:156:51a1:3f5a with SMTP id
- m13-20020a170902bb8d00b0015651a13f5amr45431578pls.65.1649908104012; 
- Wed, 13 Apr 2022 20:48:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxR120QhEOFlB+5UCKukgOxM3GhXbnLdn7E5ZK+vUwmyRt9dX/VnSEYxhWQFh+7CoLX0rpq9w==
-X-Received: by 2002:a17:902:bb8d:b0:156:51a1:3f5a with SMTP id
- m13-20020a170902bb8d00b0015651a13f5amr45431562pls.65.1649908103728; 
- Wed, 13 Apr 2022 20:48:23 -0700 (PDT)
+ bh=5p1xXhZxDbAefvN/U2PMYKaXopJXdW8cB2JUZ/mLlUE=;
+ b=cDLVv1TWktx4wCJWAgK0RQGXsWYuU7b/JoKAY/QTtvPREKFXF+O/CJXS0Qr8fagucp
+ zcDaXTRhh0j7AbI1uhPHu9iR1fTBx0+oBzaQvB2nm33dTEzjcJZJirdpYN3FzeLqSewn
+ guwbkz2GseRMUbE0cUF5KHw6AFN//A55N77Y15KbDoL4Rd5/nvS8MDou77UOI11Sk1Vg
+ Yt8Edg48ou+s/WNIRa+fi2MpkFt8bdAHaEiuMvw+/hk+RiNqTAf3OdAvMc1QYK6HqYIz
+ 1ygK/n9MYLxbsGCp8noAsfQYYQiYeIBJjLoppIJaU7xUMUHDfIiRmp40XqV08Wn5eQjk
+ xOcw==
+X-Gm-Message-State: AOAM532W2N91ZWRx2RcB3Y3uYSUGOTafLDw6mbzTfY0CU7rz6NCFpYJS
+ NTsVhMgcJd6tq5FFVjAuOAOGlGlGX7ZRTVsgZniy7/Q80m+Te1HP/DtCx6ncz+QndK+Q0fl582A
+ yf18rC8iRZTm0v54=
+X-Received: by 2002:a17:90a:3484:b0:1cb:59a0:f30b with SMTP id
+ p4-20020a17090a348400b001cb59a0f30bmr1555405pjb.92.1649908198844; 
+ Wed, 13 Apr 2022 20:49:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWM7ljwTkec7/dj/bDNvltATWR8HQj2jWk8BnxH9/sAQor5eS2Z2h00+11HLFdsAKrFquz3A==
+X-Received: by 2002:a17:90a:3484:b0:1cb:59a0:f30b with SMTP id
+ p4-20020a17090a348400b001cb59a0f30bmr1555380pjb.92.1649908198539; 
+ Wed, 13 Apr 2022 20:49:58 -0700 (PDT)
 Received: from [10.72.13.201] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- f23-20020a635117000000b0039d4f859738sm527320pgb.71.2022.04.13.20.48.19
+ l25-20020a635719000000b0039da6cdf82dsm533680pgb.83.2022.04.13.20.49.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 20:48:23 -0700 (PDT)
-Message-ID: <e9258425-f6c9-5fc4-987d-f61b6f25f676@redhat.com>
-Date: Thu, 14 Apr 2022 11:48:14 +0800
+ Wed, 13 Apr 2022 20:49:57 -0700 (PDT)
+Message-ID: <50ca9e55-4a7c-3fc5-6ab6-bd090eba12c9@redhat.com>
+Date: Thu, 14 Apr 2022 11:49:51 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [RFC PATCH v7 01/25] vhost: Track descriptor chain in private at
- SVQ
+Subject: Re: [RFC PATCH v7 02/25] vdpa: Add missing tracing to batch mapping
+ functions
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20220413163206.1958254-1-eperezma@redhat.com>
- <20220413163206.1958254-2-eperezma@redhat.com>
+ <20220413163206.1958254-3-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220413163206.1958254-2-eperezma@redhat.com>
+In-Reply-To: <20220413163206.1958254-3-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,14 +83,14 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -115,131 +115,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/4/14 00:31, Eugenio Pérez 写道:
-> Only the first one of them were properly enqueued back.
-
-
-I wonder if it's better to use two patches:
-
-1) using private chain
-
-2) fix the chain issue
-
-Patch looks good itself.
-
-Thanks
-
-
->
-> While we're at it, harden SVQ: The device could have access to modify
-> them, and it definitely have access when we implement packed vq. Harden
-> SVQ maintaining a private copy of the descriptor chain. Other fields
-> like buffer addresses are already maintained sepparatedly.
->
-> Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+> These functions were not traced properly.
 >
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
->   hw/virtio/vhost-shadow-virtqueue.h |  6 ++++++
->   hw/virtio/vhost-shadow-virtqueue.c | 27 +++++++++++++++++++++------
->   2 files changed, 27 insertions(+), 6 deletions(-)
+
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+
+>   hw/virtio/vhost-vdpa.c | 2 ++
+>   hw/virtio/trace-events | 2 ++
+>   2 files changed, 4 insertions(+)
 >
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-> index e5e24c536d..c132c994e9 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> @@ -53,6 +53,12 @@ typedef struct VhostShadowVirtqueue {
->       /* Next VirtQueue element that guest made available */
->       VirtQueueElement *next_guest_avail_elem;
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 8adf7c0b92..9e5fe15d03 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -129,6 +129,7 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
+>           .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
+>       };
 >   
-> +    /*
-> +     * Backup next field for each descriptor so we can recover securely, not
-> +     * needing to trust the device access.
-> +     */
-> +    uint16_t *desc_next;
-> +
->       /* Next head to expose to the device */
->       uint16_t shadow_avail_idx;
+> +    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.iotlb.type);
+>       if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+>           error_report("failed to write, fd=%d, errno=%d (%s)",
+>                        fd, errno, strerror(errno));
+> @@ -163,6 +164,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+>       msg.type = v->msg_type;
+>       msg.iotlb.type = VHOST_IOTLB_BATCH_END;
 >   
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-> index b232803d1b..a2531d5874 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -138,6 +138,7 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
->       for (n = 0; n < num; n++) {
->           if (more_descs || (n + 1 < num)) {
->               descs[i].flags = flags | cpu_to_le16(VRING_DESC_F_NEXT);
-> +            descs[i].next = cpu_to_le16(svq->desc_next[i]);
->           } else {
->               descs[i].flags = flags;
->           }
-> @@ -145,10 +146,10 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
->           descs[i].len = cpu_to_le32(iovec[n].iov_len);
->   
->           last = i;
-> -        i = cpu_to_le16(descs[i].next);
-> +        i = cpu_to_le16(svq->desc_next[i]);
->       }
->   
-> -    svq->free_head = le16_to_cpu(descs[last].next);
-> +    svq->free_head = le16_to_cpu(svq->desc_next[last]);
->   }
->   
->   static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-> @@ -333,13 +334,22 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
->       svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
->   }
->   
-> +static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
-> +                                             uint16_t num, uint16_t i)
-> +{
-> +    for (uint16_t j = 0; j < num; ++j) {
-> +        i = le16_to_cpu(svq->desc_next[i]);
-> +    }
-> +
-> +    return i;
-> +}
-> +
->   static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
->                                              uint32_t *len)
->   {
-> -    vring_desc_t *descs = svq->vring.desc;
->       const vring_used_t *used = svq->vring.used;
->       vring_used_elem_t used_elem;
-> -    uint16_t last_used;
-> +    uint16_t last_used, last_used_chain, num;
->   
->       if (!vhost_svq_more_used(svq)) {
->           return NULL;
-> @@ -365,7 +375,10 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
->           return NULL;
->       }
->   
-> -    descs[used_elem.id].next = svq->free_head;
-> +    num = svq->ring_id_maps[used_elem.id]->in_num +
-> +          svq->ring_id_maps[used_elem.id]->out_num;
-> +    last_used_chain = vhost_svq_last_desc_of_chain(svq, num, used_elem.id);
-> +    svq->desc_next[last_used_chain] = svq->free_head;
->       svq->free_head = used_elem.id;
->   
->       *len = used_elem.len;
-> @@ -540,8 +553,9 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
->       svq->vring.used = qemu_memalign(qemu_real_host_page_size, device_size);
->       memset(svq->vring.used, 0, device_size);
->       svq->ring_id_maps = g_new0(VirtQueueElement *, svq->vring.num);
-> +    svq->desc_next = g_new0(uint16_t, svq->vring.num);
->       for (unsigned i = 0; i < svq->vring.num - 1; i++) {
-> -        svq->vring.desc[i].next = cpu_to_le16(i + 1);
-> +        svq->desc_next[i] = cpu_to_le16(i + 1);
->       }
->   }
->   
-> @@ -574,6 +588,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
->           virtqueue_detach_element(svq->vq, next_avail_elem, 0);
->       }
->       svq->vq = NULL;
-> +    g_free(svq->desc_next);
->       g_free(svq->ring_id_maps);
->       qemu_vfree(svq->vring.desc);
->       qemu_vfree(svq->vring.used);
+> +    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
+>       if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+>           error_report("failed to write, fd=%d, errno=%d (%s)",
+>                        fd, errno, strerror(errno));
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> index a5102eac9e..333348d9d5 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -25,6 +25,8 @@ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"
+>   # vhost-vdpa.c
+>   vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+>   vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
+> +vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+> +vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+>   vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
+>   vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
+>   vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
 
 
