@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC0B5002E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 02:07:58 +0200 (CEST)
-Received: from localhost ([::1]:39842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54EA95002EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 02:11:13 +0200 (CEST)
+Received: from localhost ([::1]:42236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nen1h-0001FB-Ql
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 20:07:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38868)
+	id 1nen4p-0002zM-VO
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 20:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nen0Y-0000Lp-AY
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 20:06:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40532)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nen2r-00021l-C3
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 20:09:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nen0V-0005gC-Ps
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 20:06:46 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nen2p-0005o1-PC
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 20:09:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649894803;
+ s=mimecast20190719; t=1649894947;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=psSEEQdzJRQE9fES8durxcThSfOe5/P6W+WHQ9ytmTg=;
- b=f6YEFfPe42VCZ99Xqmnl+2bcLuWAi5/2YeJ5TQ53nkDmwRGioMf2IUwXdsq1ArYO1q6c3/
- GlrGnVbQD3bRIvoWJ+btjmCLS8/MfudZ2XZ/0E6gUsM7i7yefRtSUEdJR1KdSaw/1Y773L
- 6X8aBByfBnx2Hp+8kefksgLC79KYY88=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Wc8saHFTHDJVGdJxVdnsqOAZ5jFxaUefTb1pve8qx5k=;
+ b=RNmIaWiChaA8gfzeDtTMrMR6ZpTjgtJiwzT0a+4BGJIv6ZSPZlYH+ElDgan25rOfTEUkGY
+ pLNt5f4pXw13EctnhVTs5zYWpwuK4viIT1Q6iCKle1+gLJiis3N8RrpRYaIrpbGzbxLGja
+ HDY40NULead8poLFzXj9Ydt29iVWf9M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-194-CKpQM8pYPmOaj3OlaL7A3w-1; Wed, 13 Apr 2022 20:06:40 -0400
-X-MC-Unique: CKpQM8pYPmOaj3OlaL7A3w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-595-KyqlbVgkPR-VagMUtJ-3Uw-1; Wed, 13 Apr 2022 20:09:06 -0400
+X-MC-Unique: KyqlbVgkPR-VagMUtJ-3Uw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3CEE3C32B82;
- Thu, 14 Apr 2022 00:06:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AA4318A65B2;
+ Thu, 14 Apr 2022 00:09:05 +0000 (UTC)
 Received: from [10.72.13.171] (ovpn-13-171.pek2.redhat.com [10.72.13.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC8A040D1B98;
- Thu, 14 Apr 2022 00:06:34 +0000 (UTC)
-Subject: Re: [PATCH v5 1/4] qapi/machine.json: Add cluster-id
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FDD32166B4F;
+ Thu, 14 Apr 2022 00:08:56 +0000 (UTC)
+Subject: Re: [PATCH v5 2/4] hw/arm/virt: Consider SMP configuration in CPU
+ topology
 To: "wangyanan (Y)" <wangyanan55@huawei.com>, qemu-arm@nongnu.org
 References: <20220403145953.10522-1-gshan@redhat.com>
- <20220403145953.10522-2-gshan@redhat.com>
- <fedf507c-c5ea-aeec-9acc-586f08dcaea4@huawei.com>
+ <20220403145953.10522-3-gshan@redhat.com>
+ <6f713fec-71e6-3300-a504-817f45a82a51@huawei.com>
 From: Gavin Shan <gshan@redhat.com>
-Message-ID: <6e27668c-0895-fcc8-165e-673aded5ba47@redhat.com>
-Date: Thu, 14 Apr 2022 08:06:31 +0800
+Message-ID: <27df8771-ebe0-b5fe-39c4-83696e21e3a3@redhat.com>
+Date: Thu, 14 Apr 2022 08:08:52 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <fedf507c-c5ea-aeec-9acc-586f08dcaea4@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+In-Reply-To: <6f713fec-71e6-3300-a504-817f45a82a51@huawei.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,16 +63,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,134 +94,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Yanan,
 
-On 4/13/22 7:49 PM, wangyanan (Y) wrote:
+On 4/13/22 8:39 PM, wangyanan (Y) wrote:
 > On 2022/4/3 22:59, Gavin Shan wrote:
->> This adds cluster-id in CPU instance properties, which will be used
->> by arm/virt machine. Besides, the cluster-id is also verified or
->> dumped in various spots:
+>> Currently, the SMP configuration isn't considered when the CPU
+>> topology is populated. In this case, it's impossible to provide
+>> the default CPU-to-NUMA mapping or association based on the socket
+>> ID of the given CPU.
 >>
->>    * hw/core/machine.c::machine_set_cpu_numa_node() to associate
->>      CPU with its NUMA node.
->>
->>    * hw/core/machine.c::machine_numa_finish_cpu_init() to associate
->>      CPU with NUMA node when no default association isn't provided.
->>
->>    * hw/core/machine-hmp-cmds.c::hmp_hotpluggable_cpus() to dump
->>      cluster-id.
+>> This takes account of SMP configuration when the CPU topology
+>> is populated. The die ID for the given CPU isn't assigned since
+>> it's not supported on arm/virt machine yet.
 >>
 >> Signed-off-by: Gavin Shan <gshan@redhat.com>
 >> ---
->>   hw/core/machine-hmp-cmds.c |  4 ++++
->>   hw/core/machine.c          | 16 ++++++++++++++++
->>   qapi/machine.json          |  6 ++++--
->>   3 files changed, 24 insertions(+), 2 deletions(-)
+>>   hw/arm/virt.c | 16 +++++++++++++++-
+>>   1 file changed, 15 insertions(+), 1 deletion(-)
 >>
->> diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
->> index 4e2f319aeb..5cb5eecbfc 100644
->> --- a/hw/core/machine-hmp-cmds.c
->> +++ b/hw/core/machine-hmp-cmds.c
->> @@ -77,6 +77,10 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
->>           if (c->has_die_id) {
->>               monitor_printf(mon, "    die-id: \"%" PRIu64 "\"\n", c->die_id);
->>           }
->> +        if (c->has_cluster_id) {
->> +            monitor_printf(mon, "    cluster-id: \"%" PRIu64 "\"\n",
->> +                           c->cluster_id);
->> +        }
->>           if (c->has_core_id) {
->>               monitor_printf(mon, "    core-id: \"%" PRIu64 "\"\n", c->core_id);
->>           }
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index d856485cb4..8748b64657 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -677,6 +677,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
->>               return;
->>           }
->> +        if (props->has_cluster_id && !slot->props.has_cluster_id) {
->> +            error_setg(errp, "cluster-id is not supported");
->> +            return;
->> +        }
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index d2e5ecd234..3174526730 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>       int n;
+>>       unsigned int max_cpus = ms->smp.max_cpus;
+>>       VirtMachineState *vms = VIRT_MACHINE(ms);
+>> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
+>>       if (ms->possible_cpus) {
+>>           assert(ms->possible_cpus->len == max_cpus);
+>> @@ -2518,8 +2519,21 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>           ms->possible_cpus->cpus[n].type = ms->cpu_type;
+>>           ms->possible_cpus->cpus[n].arch_id =
+>>               virt_cpu_mp_affinity(vms, n);
 >> +
->>           if (props->has_socket_id && !slot->props.has_socket_id) {
->>               error_setg(errp, "socket-id is not supported");
->>               return;
->> @@ -696,6 +701,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
->>                   continue;
->>           }
->> +        if (props->has_cluster_id &&
->> +            props->cluster_id != slot->props.cluster_id) {
->> +                continue;
->> +        }
->> +
->>           if (props->has_die_id && props->die_id != slot->props.die_id) {
->>                   continue;
->>           }
->> @@ -990,6 +1000,12 @@ static char *cpu_slot_to_string(const CPUArchId *cpu)
->>           }
->>           g_string_append_printf(s, "die-id: %"PRId64, cpu->props.die_id);
+>> +        assert(!mc->smp_props.dies_supported);
+>> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
+>> +        ms->possible_cpus->cpus[n].props.socket_id =
+>> +            (n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads)) %
+>> +            ms->smp.sockets;
+> No need for "% ms->smp.sockets".
+
+Yeah, lets remove it in v6.
+
+>> +        ms->possible_cpus->cpus[n].props.has_cluster_id = true;
+>> +        ms->possible_cpus->cpus[n].props.cluster_id =
+>> +            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters;
+>> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
+>> +        ms->possible_cpus->cpus[n].props.core_id =
+>> +            (n / ms->smp.threads) % ms->smp.cores;
+>>           ms->possible_cpus->cpus[n].props.has_thread_id = true;
+>> -        ms->possible_cpus->cpus[n].props.thread_id = n;
+>> +        ms->possible_cpus->cpus[n].props.thread_id =
+>> +            n % ms->smp.threads;
 >>       }
->> +    if (cpu->props.has_cluster_id) {
->> +        if (s->len) {
->> +            g_string_append_printf(s, ", ");
->> +        }
->> +        g_string_append_printf(s, "cluster-id: %"PRId64, cpu->props.cluster_id);
->> +    }
->>       if (cpu->props.has_core_id) {
->>           if (s->len) {
->>               g_string_append_printf(s, ", ");
->> diff --git a/qapi/machine.json b/qapi/machine.json
->> index 9c460ec450..ea22b574b0 100644
->> --- a/qapi/machine.json
->> +++ b/qapi/machine.json
->> @@ -868,10 +868,11 @@
->>   # @node-id: NUMA node ID the CPU belongs to
->>   # @socket-id: socket number within node/board the CPU belongs to
->>   # @die-id: die number within socket the CPU belongs to (since 4.1)
->> -# @core-id: core number within die the CPU belongs to
->> +# @cluster-id: cluster number within die the CPU belongs to
-> I remember this should be "cluster number within socket..."
-> according to Igor's comments in v3 ?
-
-Igor had suggestion to correct the description for 'core-id' like
-below, but he didn't suggest anything for 'cluster-id'. The question
-is clusters are sub-components of die, instead of socket, if die
-is supported? You may want to me change it like below and please
-confirm.
-
-   @cluster-id: cluster number within die/socket the CPU belongs to
-
-suggestion from Ignor in v3:
-
-    > +# @core-id: core number within cluster the CPU belongs to
-
-    s:cluster:cluster/die:
-
-
->> +# @core-id: core number within cluster/die the CPU belongs to
->>   # @thread-id: thread number within core the CPU belongs to
->>   #
->> -# Note: currently there are 5 properties that could be present
->> +# Note: currently there are 6 properties that could be present
->>   #       but management should be prepared to pass through other
->>   #       properties with device_add command to allow for future
->>   #       interface extension. This also requires the filed names to be kept in
->> @@ -883,6 +884,7 @@
->>     'data': { '*node-id': 'int',
->>               '*socket-id': 'int',
->>               '*die-id': 'int',
->> +            '*cluster-id': 'int',
->>               '*core-id': 'int',
->>               '*thread-id': 'int'
->>     }
+>>       return ms->possible_cpus;
+>>   }
 > Otherwise, looks good to me:
 > Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 > 
-> Please also keep the involved Maintainers on Cc list in next version,
-> an Ack from them is best. :)
-> 
 
-Thanks again for your time to review. Sure, I will do in next posting.
+Thanks for your time to review :)
 
 Thanks,
 Gavin
