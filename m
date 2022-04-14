@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29AC500A01
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 11:36:43 +0200 (CEST)
-Received: from localhost ([::1]:43678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9049500A14
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 11:42:05 +0200 (CEST)
+Received: from localhost ([::1]:50730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nevu7-0004fu-0s
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 05:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41348)
+	id 1nevzI-0001Oc-R8
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 05:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nevrL-0003IN-It; Thu, 14 Apr 2022 05:33:51 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:5153)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nevvW-0006HQ-RB
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 05:38:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nevrJ-0001Nx-BZ; Thu, 14 Apr 2022 05:33:51 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4KfDgW1rLWzCr11;
- Thu, 14 Apr 2022 17:29:27 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2375.24; Thu, 14 Apr 2022 17:33:45 +0800
-Subject: Re: [PATCH v5 1/4] qapi/machine.json: Add cluster-id
-To: Gavin Shan <gshan@redhat.com>, <qemu-arm@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <imammedo@redhat.com>, <drjones@redhat.com>,
- <richard.henderson@linaro.org>, <peter.maydell@linaro.org>,
- <zhenyzha@redhat.com>, <shan.gavin@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-References: <20220403145953.10522-1-gshan@redhat.com>
- <20220403145953.10522-2-gshan@redhat.com>
- <fedf507c-c5ea-aeec-9acc-586f08dcaea4@huawei.com>
- <6e27668c-0895-fcc8-165e-673aded5ba47@redhat.com>
- <f45a3f17-7cef-3d8c-e79c-e6a5898e665e@huawei.com>
- <d615b714-90a8-8b49-8cf5-04b4f31de0c9@redhat.com>
-Message-ID: <d2b324b8-9890-24b3-b47c-2953240f0210@huawei.com>
-Date: Thu, 14 Apr 2022 17:33:45 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nevvT-00024s-05
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 05:38:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649929083;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IxQlJALb6akTKIxmEOuZwPSBZpke2zG6t668raagw8o=;
+ b=iqZMyp3ukuxYLgNdXRLTE/1gA+2iDqSDYJWYWgv0FWD8b5W0/pSQ54ehTC34DBAwY50jUO
+ TF8aqcY4VeIO9uiOjricRBFFjg/wx8dbAY7pUwCuv0uUmaSHgw3EHUxRtNVvUcX+Zzau7S
+ fH9LHooe1U9Uefs8JikRI78tr4YtEGE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-332--gHxYenWMKm1p6qL05SoCw-1; Thu, 14 Apr 2022 05:38:00 -0400
+X-MC-Unique: -gHxYenWMKm1p6qL05SoCw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D704811E78;
+ Thu, 14 Apr 2022 09:37:59 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.39.192.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 255B843247D;
+ Thu, 14 Apr 2022 09:37:57 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, pbonzini@redhat.com,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, mst@redhat.com,
+ david@gibson.dropbear.id.au, clg@kaod.org, eesposit@redhat.com,
+ Coiby.Xu@gmail.com, stefanha@redhat.com
+Subject: [PATCH v5 0/3] qtests/libqos: Allow PCI tests to be run with
+ virt-machine
+Date: Thu, 14 Apr 2022 11:37:51 +0200
+Message-Id: <20220414093754.1034556-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d615b714-90a8-8b49-8cf5-04b4f31de0c9@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme701-chm.china.huawei.com (10.1.199.97) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,194 +81,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jean-philippe@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-On 2022/4/14 15:56, Gavin Shan wrote:
-> Hi Yanan,
->
-> On 4/14/22 10:27 AM, wangyanan (Y) wrote:
->> On 2022/4/14 8:06, Gavin Shan wrote:
->>> On 4/13/22 7:49 PM, wangyanan (Y) wrote:
->>>> On 2022/4/3 22:59, Gavin Shan wrote:
->>>>> This adds cluster-id in CPU instance properties, which will be used
->>>>> by arm/virt machine. Besides, the cluster-id is also verified or
->>>>> dumped in various spots:
->>>>>
->>>>>    * hw/core/machine.c::machine_set_cpu_numa_node() to associate
->>>>>      CPU with its NUMA node.
->>>>>
->>>>>    * hw/core/machine.c::machine_numa_finish_cpu_init() to associate
->>>>>      CPU with NUMA node when no default association isn't provided.
->>>>>
->>>>>    * hw/core/machine-hmp-cmds.c::hmp_hotpluggable_cpus() to dump
->>>>>      cluster-id.
->>>>>
->>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>>>> ---
->>>>>   hw/core/machine-hmp-cmds.c |  4 ++++
->>>>>   hw/core/machine.c          | 16 ++++++++++++++++
->>>>>   qapi/machine.json          |  6 ++++--
->>>>>   3 files changed, 24 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
->>>>> index 4e2f319aeb..5cb5eecbfc 100644
->>>>> --- a/hw/core/machine-hmp-cmds.c
->>>>> +++ b/hw/core/machine-hmp-cmds.c
->>>>> @@ -77,6 +77,10 @@ void hmp_hotpluggable_cpus(Monitor *mon, const 
->>>>> QDict *qdict)
->>>>>           if (c->has_die_id) {
->>>>>               monitor_printf(mon, "    die-id: \"%" PRIu64 "\"\n", 
->>>>> c->die_id);
->>>>>           }
->>>>> +        if (c->has_cluster_id) {
->>>>> +            monitor_printf(mon, "    cluster-id: \"%" PRIu64 "\"\n",
->>>>> +                           c->cluster_id);
->>>>> +        }
->>>>>           if (c->has_core_id) {
->>>>>               monitor_printf(mon, "    core-id: \"%" PRIu64 
->>>>> "\"\n", c->core_id);
->>>>>           }
->>>>> diff --git a/hw/core/machine.c b/hw/core/machine.c
->>>>> index d856485cb4..8748b64657 100644
->>>>> --- a/hw/core/machine.c
->>>>> +++ b/hw/core/machine.c
->>>>> @@ -677,6 +677,11 @@ void machine_set_cpu_numa_node(MachineState 
->>>>> *machine,
->>>>>               return;
->>>>>           }
->>>>> +        if (props->has_cluster_id && !slot->props.has_cluster_id) {
->>>>> +            error_setg(errp, "cluster-id is not supported");
->>>>> +            return;
->>>>> +        }
->>>>> +
->>>>>           if (props->has_socket_id && !slot->props.has_socket_id) {
->>>>>               error_setg(errp, "socket-id is not supported");
->>>>>               return;
->>>>> @@ -696,6 +701,11 @@ void machine_set_cpu_numa_node(MachineState 
->>>>> *machine,
->>>>>                   continue;
->>>>>           }
->>>>> +        if (props->has_cluster_id &&
->>>>> +            props->cluster_id != slot->props.cluster_id) {
->>>>> +                continue;
->>>>> +        }
->>>>> +
->>>>>           if (props->has_die_id && props->die_id != 
->>>>> slot->props.die_id) {
->>>>>                   continue;
->>>>>           }
->>>>> @@ -990,6 +1000,12 @@ static char *cpu_slot_to_string(const 
->>>>> CPUArchId *cpu)
->>>>>           }
->>>>>           g_string_append_printf(s, "die-id: %"PRId64, 
->>>>> cpu->props.die_id);
->>>>>       }
->>>>> +    if (cpu->props.has_cluster_id) {
->>>>> +        if (s->len) {
->>>>> +            g_string_append_printf(s, ", ");
->>>>> +        }
->>>>> +        g_string_append_printf(s, "cluster-id: %"PRId64, 
->>>>> cpu->props.cluster_id);
->>>>> +    }
->>>>>       if (cpu->props.has_core_id) {
->>>>>           if (s->len) {
->>>>>               g_string_append_printf(s, ", ");
->>>>> diff --git a/qapi/machine.json b/qapi/machine.json
->>>>> index 9c460ec450..ea22b574b0 100644
->>>>> --- a/qapi/machine.json
->>>>> +++ b/qapi/machine.json
->>>>> @@ -868,10 +868,11 @@
->>>>>   # @node-id: NUMA node ID the CPU belongs to
->>>>>   # @socket-id: socket number within node/board the CPU belongs to
->>>>>   # @die-id: die number within socket the CPU belongs to (since 4.1)
->>>>> -# @core-id: core number within die the CPU belongs to
->>>>> +# @cluster-id: cluster number within die the CPU belongs to
->> We also need a "(since 7.1)" tag for cluster-id.
->>>> I remember this should be "cluster number within socket..."
->>>> according to Igor's comments in v3 ?
->>>
->>> Igor had suggestion to correct the description for 'core-id' like
->>> below, but he didn't suggest anything for 'cluster-id'. The question
->>> is clusters are sub-components of die, instead of socket, if die
->>> is supported? You may want to me change it like below and please
->>> confirm.
->>>
->>>   @cluster-id: cluster number within die/socket the CPU belongs to
->>>
->>> suggestion from Ignor in v3:
->>>
->>>    > +# @core-id: core number within cluster the CPU belongs to
->>>
->>>    s:cluster:cluster/die:
->>>
->> We want "within cluster/die" description for core-id because we
->> support both "cores in cluster" for ARM and "cores in die" for X86.
->> Base on this routine, we only need "within socket" for cluster-id
->> because we currently only support "clusters in socket". Does this
->> make sense?
->>
->
-> Thanks for the explanation. So ARM64 doesn't have die and x86 doesn't
-> have cluster?
-At least for now, yes. :)
+Up to now the virt-machine node only contains a virtio-mmio
+driver node but no driver that eventually produces any pci-bus
+interface.
 
-Thanks,
-Yanan
-> If so, I need to adjust the description for 'cluster-id'
-> as you suggested in v6:
->
->   @cluster-id: cluster number within socket the CPU belongs to (since 
-> 7.1)
->> Alternatively, the plainest documentation for the IDs is to simply
->> range **-id only to its next level topo like below. This may avoid
->> increasing complexity when more topo-ids are inserted middle.
->> But whether this way is acceptable is up to the Maintainers. :)
->>
->> # @socket-id: socket number within node/board the CPU belongs to
->> # @die-id: die number within socket the CPU belongs to (since 4.1)
->> # @cluster-id: cluster number within die the CPU belongs to (since 7.1)
->> # @core-id: core number within cluster the CPU belongs to
->> # @thread-id: thread number within core the CPU belongs to
->>
->
-> I like this scheme, but needs the confirms from Igor and maintainers.
-> Igor and maintainers, please let us know if the scheme is good to
-> have? :)
->
->>>
->>>>> +# @core-id: core number within cluster/die the CPU belongs to
->>>>>   # @thread-id: thread number within core the CPU belongs to
->>>>>   #
->>>>> -# Note: currently there are 5 properties that could be present
->>>>> +# Note: currently there are 6 properties that could be present
->>>>>   #       but management should be prepared to pass through other
->>>>>   #       properties with device_add command to allow for future
->>>>>   #       interface extension. This also requires the filed names 
->>>>> to be kept in
->>>>> @@ -883,6 +884,7 @@
->>>>>     'data': { '*node-id': 'int',
->>>>>               '*socket-id': 'int',
->>>>>               '*die-id': 'int',
->>>>> +            '*cluster-id': 'int',
->>>>>               '*core-id': 'int',
->>>>>               '*thread-id': 'int'
->>>>>     }
->>>> Otherwise, looks good to me:
->>>> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
->>>>
->>>> Please also keep the involved Maintainers on Cc list in next version,
->>>> an Ack from them is best. :)
->>>>
->>>
->>> Thanks again for your time to review. Sure, I will do in next posting.
->>>
->
-> Thanks,
-> Gavin
->
-> .
+Hence, PCI libqos tests cannot be run with aarch64 binary.
+
+This series brings the pieces needed to be able to run PCI tests
+with the aarch64 binary: a generic-pcihost driver node gets
+instantiated by the machine. This later contains a pci-bus-generic
+driver which produces a pci-bus interface. Then all tests
+consuming the pci-bus interface can be run with the libqos arm
+virt machine.
+
+One of the first goal was to be able to run the virtio-iommu-pci
+tests as the virtio-iommu was initially targetting ARM and it
+was awkard to run the tests with the pc machine. This is now
+possible.
+
+Only the tests doing hotplug cannot be run yet as hotplug is
+not possible on the root bus. This will be dealt with separately
+by adding a root port to the object tree.
+
+Best Regards
+
+Eric
+
+Depends on Alex' fix:
+tests/qtest: properly initialise the vring used idx
+
+This series can be found at:
+https://github.com/eauger/qemu/tree/libqos-pci-arm-v5
+
+History
+
+v4 -> v5:
+- Added Alex' R-b
+- Removed [PATCH v3 4/5] tests/qtest/vhost-user-blk-test:
+  Temporary hack to get tests passing on aarch64
+  following Alex' fix
+
+v3 -> v4:
+- handle endianess when accessing the cfg space (fix PPC64
+  BE failure). Tested on such machine.
+
+v2 -> v3:
+- force -cpu=max along with aarch64/virt
+- reduced the vhost-user-block-pci issue workaround to a
+  single guest_alloc() instead of enabling MSIs. Call for
+  help on this specific issue. The 2 tests which fail are:
+  test_basic and indirect.
+
+v1 -> v2:
+- copyright updated to 2022
+- QPCIBusARM renamed into QGenericPCIBus
+- QGenericPCIHost declarations and definitions moved in the same
+  place as the generic pci implementation
+- rename pci-arm.c/h in generic-pcihost.c/h and remove any ref to
+  ARM there
+- remove qos_node_produces_opts, qpci_new_arm, qpci_free_arm
+- ecam_alloc_ptr now is a field of QGenericPCIBus and not QPCIBus
+- new libqos_init to create generic-pcihost driver that contains
+  pci-bus-generic
+- QGenericPCIHost moved in the same place as the generic pci
+  bindings
+- collected Thomas A-b/R-b
+
+Eric Auger (3):
+  tests/qtest/libqos/pci: Introduce pio_limit
+  tests/qtest/libqos: Skip hotplug tests if pci root bus is not
+    hotpluggable
+  tests/qtest/libqos: Add generic pci host bridge in arm-virt machine
+
+ tests/qtest/e1000e-test.c             |   6 +
+ tests/qtest/libqos/arm-virt-machine.c |  19 ++-
+ tests/qtest/libqos/generic-pcihost.c  | 231 ++++++++++++++++++++++++++
+ tests/qtest/libqos/generic-pcihost.h  |  54 ++++++
+ tests/qtest/libqos/meson.build        |   1 +
+ tests/qtest/libqos/pci-pc.c           |   1 +
+ tests/qtest/libqos/pci-spapr.c        |   1 +
+ tests/qtest/libqos/pci.c              |  78 +++++----
+ tests/qtest/libqos/pci.h              |   6 +-
+ tests/qtest/vhost-user-blk-test.c     |  10 ++
+ tests/qtest/virtio-blk-test.c         |   5 +
+ tests/qtest/virtio-net-test.c         |   5 +
+ tests/qtest/virtio-rng-test.c         |   5 +
+ 13 files changed, 387 insertions(+), 35 deletions(-)
+ create mode 100644 tests/qtest/libqos/generic-pcihost.c
+ create mode 100644 tests/qtest/libqos/generic-pcihost.h
+
+-- 
+2.26.3
 
 
