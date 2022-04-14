@@ -2,157 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A947500ABF
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 12:07:56 +0200 (CEST)
-Received: from localhost ([::1]:37284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B97500B86
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 12:49:17 +0200 (CEST)
+Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1newOI-0004EJ-Ow
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 06:07:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47130)
+	id 1nex2K-0004cY-Ey
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 06:49:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liuyd.fnst@fujitsu.com>)
- id 1newKH-0002s5-AL
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:03:45 -0400
-Received: from esa8.fujitsucc.c3s2.iphmx.com ([68.232.159.88]:39492)
+ (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
+ id 1nex0T-0001rj-0q
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:47:21 -0400
+Received: from mga12.intel.com ([192.55.52.136]:34768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liuyd.fnst@fujitsu.com>)
- id 1newKE-0006uc-O7
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:03:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
- t=1649930623; x=1681466623;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=OijszcTIwRcllrqE4dUuXdPT4w1tr3EVAGEoVy5KkyU=;
- b=ha075mevS0gXbWHxo0P9WeVqnehZWDFDgVo/lK1MkJWNYt0glzNkXyBs
- dmi6jdjZWYiccCJUNO2KRIhCeTY5v3wjWoOfWny/CIG+oPa/pf3ScAqDd
- McFnfYDFP5MJ5ZiAbZ/oyPA65uvFBt3h5VVsL6Um2C7/tLWkd+gnuIDxx
- PLrmWMIO+MgWhw7YDu2eCHF+3UGBJOFLRLzis1pux1aCuZXR/bcSf6Uo0
- AfoMvnyAqdYO2S9RFG9x6d/0kr3FkAiFsn9XXXSHw26MqWqhA8dDFVGuO
- YdDlOEhoWwFC+kGjy8vP94zysAbfp+PIvNTQRpIlYRbGatM/DsMKYZlZ0 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="53906394"
-X-IronPort-AV: E=Sophos;i="5.90,259,1643641200"; d="scan'208";a="53906394"
-Received: from mail-tycjpn01lp2174.outbound.protection.outlook.com (HELO
- JPN01-TYC-obe.outbound.protection.outlook.com) ([104.47.23.174])
- by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 19:03:40 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bPnSXh7Mf6hVOAAlCbX8dt2cCtTswHUJGg6EJOke/u7CuzpuA/5MyzABNx+3cJA9Bp4qrNmMTCCM+WvHMlyQWaZsVTCqK26nN7WvIr2iWIIxLovdgLY7ppgoEFhRjKhnMxAv98h32F643T3yg/7uljZoeN+88zVXiYZb70G626JBAlww4xUBwRERw0HaSPb5fbS+RFmQ5dxpvXXP5ftjOX8bmcGSw/SA5j//7lEs6VRt1ZeSUL1GS3w0xvvqOEYd5vYxic/wmzJGiGkjwXZ7AAUT0OKA4hGFen6IlOU3JJG/RDR+nckVGq06YMtA8naCWCgW62iRl3sFPzKQ8lMJEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OijszcTIwRcllrqE4dUuXdPT4w1tr3EVAGEoVy5KkyU=;
- b=YgmoCB6JAmE0QP7LRDxtVkE+Efq4itKmU2vpvX8qVHaYpLcFUNg/xFnX47u5/505WvhKzkvclh671UHLjCMvnscaWR/I1YNHzYUHjbr4QmaHrswKFn04xso8z8fX9majOaWjs7vkwfimH95Ok6YEOJZiCFoOAscbKt07n1MyTkXPa3EJOhOOYrF1V98x4A6LOnya+Pt1PzhLlNUtgPQP112f9coU4OTf/qhawkZegtaq91O3lw1gRvHjBY3+NkxVg2Gm5o1qFzfaYFhJPWN/oyWMgOxbCQCbUbSdtMIfkBmtBxey3DAsNWJfRKZtG4iygjomzK6g7PH+zcqs8IdPLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OijszcTIwRcllrqE4dUuXdPT4w1tr3EVAGEoVy5KkyU=;
- b=V3KCqUrY/YS4y9CLmFadHszGprapUbdgv3ZKvzJ4vsdcBuJw/n7VbFu6Gnv8dRShjipojHaLQgbo+efpyL/AagAHSdvkFkuDwmYGY5wuVK+7nIHzrAUA6+l24omqLA/Xh6Ot/W6U4vjKrz610Q/YxqNf9WztbFzQW8c+z0EbZhM=
-Received: from OS0PR01MB6481.jpnprd01.prod.outlook.com (2603:1096:604:107::13)
- by TY2PR01MB3372.jpnprd01.prod.outlook.com (2603:1096:404:d5::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Thu, 14 Apr
- 2022 10:03:35 +0000
-Received: from OS0PR01MB6481.jpnprd01.prod.outlook.com
- ([fe80::15f2:cca0:c6a6:e39f]) by OS0PR01MB6481.jpnprd01.prod.outlook.com
- ([fe80::15f2:cca0:c6a6:e39f%7]) with mapi id 15.20.5164.020; Thu, 14 Apr 2022
- 10:03:35 +0000
-From: "liuyd.fnst@fujitsu.com" <liuyd.fnst@fujitsu.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] docs: Correct the default thread-pool-size
-Thread-Topic: [PATCH] docs: Correct the default thread-pool-size
-Thread-Index: AQHYTu3i/2SNjuhH9EapQkf/Uwifj6zu3LmAgABTOAA=
-Date: Thu, 14 Apr 2022 10:03:35 +0000
-Message-ID: <f4312201-4b5f-c109-00db-05c5f9cbb12a@fujitsu.com>
-References: <20220413042054.1484640-1-liuyd.fnst@fujitsu.com>
- <49f55a38-9e28-4af3-49a0-7d1e19a84c64@fujitsu.com>
-In-Reply-To: <49f55a38-9e28-4af3-49a0-7d1e19a84c64@fujitsu.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 626e743d-00fe-4229-f29d-08da1dfe0a28
-x-ms-traffictypediagnostic: TY2PR01MB3372:EE_
-x-microsoft-antispam-prvs: <TY2PR01MB3372FED35452D1957DF2F9AE9BEF9@TY2PR01MB3372.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: d6cNf6aVEfGE4rW0s1Vu+MiG8KcwDQVgSPBYvA5bUd5JnbxkVyShyBq4GlBcPA/7ytOvho21pfeleXv1AFw0yZIAySwK5t13Zp9TRCFjyYDMbxzIQ3y8wF16491PFjiXdHHbt5TJJjmFB00+3trCrHQnia0tIWuniLAWHsuuTRC8KYC2RivOO9wlKN88rPWFlGgNviPFKdK9rJH1KMp/xXXWl5BwWGsPAFLCg56doFnyRCQVnNxTpKvawh2WKlVhdrJMy3AvgToNHoD+jItWsaRiiPFEBxiCuUG6m8cF7KyiazNK/MSCM6HYQOmGdzGLRxjKWCJnGHGLSNEWU7bL6j/A92oqD1wNS8ZemnF2ygAp5unUlB0SReVZzPe+iKFaWCaiLCgi6vIdGLWM7P+Y8g5SVdrstOSReF5m5JT9zQIL0QA3uDy3ibXt+ZGZzvYzC/baBmvBwSFqZTHkqp0hALzwfqg7V9i9BJq0RmqCvIpEd6xY/p/lHNxlpnV5vXS8OUpe2kdQvuUrPxX9kEohhcJwaGONxQ9usfdHfad9r6R9feZJXr2SCtzO+qw19Jn10MGwsNx/mQu0P1neehma50eSAZ3/H7phZbZVrvsUtN3EqMaGLJ235aE5A9DEP4//Gt6fmQrH9Re2ISq2AhL8pH3eTfq7JrjtxxVyeaFyrOk2C2UZz8kcon4gIL35s0K3TbKvZSatIvxFCcB+tHnly6G66BDyzPw1WMuFpVQsU0SO3gtsiFRk5GUsk1Y62Lrq
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB6481.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(64756008)(66446008)(8676002)(66476007)(86362001)(38070700005)(66946007)(71200400001)(76116006)(38100700002)(66556008)(4326008)(122000001)(91956017)(508600001)(6486002)(316002)(31696002)(54906003)(6916009)(186003)(83380400001)(26005)(6512007)(82960400001)(53546011)(2616005)(6506007)(4744005)(36756003)(8936002)(85182001)(2906002)(31686004)(5660300002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eml6UUh0NTB4UmJCT2JTQzFvMHA1Y3dYU09HOWM2WWFtOWVHdUZhdWJ2Rjkx?=
- =?utf-8?B?bGxYVFNsWXMxTkR4UUtNMWc1SGpiRThDalUyajVmaDhhZDVtc2tHTEFUUjIz?=
- =?utf-8?B?cmFXVmx2b2c4cW9ndXdPM1ZQdk5aSXdXVVMxQXFmMlYrWStKRUxIOFk0UnVF?=
- =?utf-8?B?QlFoQ3NJOC92TGNINDhuRnd4YWM0Q3h6WC9iSThIRThNK1hoVGhpVldjYllT?=
- =?utf-8?B?cjZIVHFVMlU4c1hLcU5hNzJSWkdLSk9hTmpPZWtEczQyQ0JaNlZCM3I4c2po?=
- =?utf-8?B?SU1qWFU4WS9TMEwwZW5PcEVsVXdMVHdyNU93TW84TGVOKzNrT0hLdGFvRG8r?=
- =?utf-8?B?cUZ0WTNMcEhDWkVpT0J1Y3hVNktRZjB3U3NjcXJzb1h5YWhoYzRsWU04YXB2?=
- =?utf-8?B?ODVyVzNSczNYczQxZDkwRGtldVY2MzlZVThVV3BSMTc2M3NvaGJnL2I2ZGdz?=
- =?utf-8?B?MGw3ZFZiOXdNT3BwaWYyV1VLdy92SWNaLzhZb05Dcy85MDBUdmxSZ2N3cjRL?=
- =?utf-8?B?T3ZncVN1RC9MTzBTZ3J3dzFXOW9BV3dkU0FkYjFobjFDZGxGR3dhWnhKcGpH?=
- =?utf-8?B?dlNuV21reG5WQjEwNWFiZE5pUTBzWlhqRlFDejJscnBKcHBjUnRGc1RWTHRm?=
- =?utf-8?B?bjg4YncvWEQ4MUNOTVhYVk5YK013MkJzMnNCN09oRFdITE95WWFlam81WE1F?=
- =?utf-8?B?cmJhWGhvbUhWZ3k1dGJqKytQaHl0Y0xoWkdkcXl5Z1djVVVya1V5enJSZVZO?=
- =?utf-8?B?dDNXa09aYVhHd2VOSjVmU3dSdTdmdmRpMUJrSk5CR2FlZjlrY2NiVHE5Qk0y?=
- =?utf-8?B?V1lnL09rYWZqeDBWTkpmT2dkVXdsUy9PaC9qTDZveENmdXJ6ejVFSVFMVzI3?=
- =?utf-8?B?ZHA1WEJHMnlya2RJWlZtbmZmMHRrT1BIa09rdWpTcDJXdU9uWjVTR2xmazRJ?=
- =?utf-8?B?cmorSUdFVlgyNDlMMGFKZ1JBRGJZYldSZ1g2RWxwS0ZzaktWNFBHQW9NRHFB?=
- =?utf-8?B?NW5BeW05UW51U2FTdFR4RVBzTXJhbVdxY3NyRFEvTi9DMEN6TlN3QTF0MXpV?=
- =?utf-8?B?Z3M5aHY2bGpyYW13REVWZkllYS9zQlBPMXI3VHE5T3lPeXNjUDFCSGxsZ0k1?=
- =?utf-8?B?L0ZWcndUUXhZZnJYQzU1elZaMmQvMVZMV2RGWTBKZmhNTU5hb284MUFwdWh6?=
- =?utf-8?B?WnI1eWZSNWUvMjBlR0k4OVB0UnpnS29DdXg1dGNhc0FmZ3F3MmxhL3R0R1pK?=
- =?utf-8?B?cEM1M0o0YUNPVWhRUDBGbDdDZWMrZSsvRzY4alVXZUE1bStVMzRzanVJak00?=
- =?utf-8?B?U3JkMWFyc1d3clZEcXJHN0VCcWFzR2pHVmVLODFKWjdxSDIwYmI5Tk1ra3Fl?=
- =?utf-8?B?TDZxdHdXWXdFUTFpSFRZdnFyR29oVExZQ21CK1d0NEYyTkdrbU5GRUFiclZV?=
- =?utf-8?B?MnVoeWovTzNISERSanVsTEFkZnI5eXpQTlAvcFNCeVVpUG1EdndibC9yMHQw?=
- =?utf-8?B?WE9kRXFpYmx2MlFiekVjbm1nSk8ycjN3SlVQNHJWL3dJN3c1YUR6S1ZlVGo1?=
- =?utf-8?B?d29zWU9PMHV1MHZnYVJYUVNRNWVqQlRIdXZLdmp2UXhDY0hCaUxVeDhLRldy?=
- =?utf-8?B?MWZJMDFqQXQ2SjdtaUZndndkTnZRTnBubHBYTDlwU0w4NXFOWnVyMlYxUGNB?=
- =?utf-8?B?dDFkaHNMUkhVbGhaNVdieUdQZjFpRVFHdWJaYnNIVUp3UnZoQjFZT3VnSzZF?=
- =?utf-8?B?YkpZK3hjaFlmTWVyaXdrcS9EdC9HUjdNNDdmS20zdTBHcmdlaXJvS2ZvL3JY?=
- =?utf-8?B?T1ZZM3JyaFhmalZjR3Zyd2F3QTdtL1ZsYkozU3ZTbU1nUmJxNWoxbkFqZm85?=
- =?utf-8?B?YXVBcWlDUTFtN2FydGNVZE8rNW5LRVVNQkVMeDlNaVRSam9yU3dWQmdFVHhp?=
- =?utf-8?B?RHhYb01ERll2M1dJaFJOS1cxNHJEMHRaTU5ET2RqcmZVR3VFY2lROXJRRGJQ?=
- =?utf-8?B?NE9VVDQ4K2h6ZTdyR0NDeTRCalpRTlNpTDlIV0cySWE4ZStSeEdZRXZCaWZ6?=
- =?utf-8?B?akJ6SXR5Rm9lVTRuWFU1M1BZN3ZYRUFOZWkyYjEyak1FcDgrdU1wSlpyZmdB?=
- =?utf-8?B?UzRocDNxNzZ2Mk1sMTR1WjlnMjF3TUVxS1ZzV0J3WHJxVVF2eEMyZE12SlZC?=
- =?utf-8?B?aW1CTUwyb2huL3hSUFVqZUFLbnFTTE1pZlFhTmx3Z3lkN0VOd3MxY2NKZU1i?=
- =?utf-8?B?cnQ3b1UvUG0xdmJFYWxoTFFjNlRWdnhoOHhHY0E4MXE1ejM4eXBCNzZld090?=
- =?utf-8?B?QkRwejNDcnJwR2xORVY2eWtWTU8vUlo1TmlGcUpIWHdObXZXYW1sQnl1VkdQ?=
- =?utf-8?Q?qqOwlgffh4vL5ECo=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1E75CED314BD94449A77AB626EC5DF72@jpnprd01.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
+ id 1nex0P-0005Ka-46
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:47:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649933237; x=1681469237;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=48Xokbng5d6dua81VY7NaGw4smQ7xscTZ452J6IEtYA=;
+ b=njJO36zxFmYfLo/3WnVREhmpSK/Q7SoaFx8extvYaMKj50bng76ctGpI
+ +Nnu8KZjvbLhs6paY1Rfpn+gdPrc+skxRxznI4ovHyQFump6VMj7HN4u7
+ j6i4igyctdOJEyG7/Z2CegNy4YdKy6nkVmBX85w/sElEz+MPQGA6Zads8
+ iUfXXZVNir1TbppWyp0YzN9l1z4KQ/92nMPDQTDADQ7CV5eFXDHicD8Fr
+ 3DJASJ595B/UfT2Gj5kkHOAHAeKdkqG9+vjsZB0DXJuwu/tkcdK4hRZou
+ sK0J4JvWGSb1ptnYjM6vTf0YmzVVC0wU/BokjMkQy0vh7u6QvzYfXC0r4 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="242836467"
+X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="242836467"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 03:47:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="803091163"
+Received: from 984fee00a4c6.jf.intel.com ([10.165.58.231])
+ by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2022 03:47:10 -0700
+From: Yi Liu <yi.l.liu@intel.com>
+To: alex.williamson@redhat.com,
+	cohuck@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [RFC 00/18] vfio: Adopt iommufd
+Date: Thu, 14 Apr 2022 03:46:52 -0700
+Message-Id: <20220414104710.28534-1-yi.l.liu@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB6481.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 626e743d-00fe-4229-f29d-08da1dfe0a28
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2022 10:03:35.4451 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OAx6EQlF6Kn55thSWa09A4p48tCPgs9VxLxDr380yYn4XAzx3OPWOVupMgcXCi5ov0e/FFc8KV/4UiS+T57M3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB3372
-Received-SPF: pass client-ip=68.232.159.88;
- envelope-from=liuyd.fnst@fujitsu.com; helo=esa8.fujitsucc.c3s2.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=yi.l.liu@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -166,26 +71,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "stefanha@redhat.com" <stefanha@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "vgoyal@redhat.com" <vgoyal@redhat.com>
+Cc: akrowiak@linux.ibm.com, jjherne@linux.ibm.com, thuth@redhat.com,
+ yi.l.liu@intel.com, kvm@vger.kernel.org, mjrosato@linux.ibm.com,
+ jasowang@redhat.com, farman@linux.ibm.com, peterx@redhat.com,
+ pasic@linux.ibm.com, eric.auger@redhat.com, yi.y.sun@intel.com,
+ chao.p.peng@intel.com, nicolinc@nvidia.com, kevin.tian@intel.com,
+ jgg@nvidia.com, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-WytjYyBkZ2lsYmVydEByZWRoYXQuY29tIHN0ZWZhbmhhQHJlZGhhdC5jb21dDQoNCk9uIDQvMTQv
-MjIgMTowNSBQTSwgbGl1eWQuZm5zdEBmdWppdHN1LmNvbSB3cm90ZToNCj4gWytjYyB2Z295YWxA
-cmVkaGF0LmNvbV0NCj4NCj4gT24gNC8xMy8yMiAxMjoyMCBQTSwgTGl1IFlpZGluZyB3cm90ZToN
-Cj4+IFJlZmVyIHRvIDI2ZWMxOTA5NjQgdmlydGlvZnNkOiBEbyBub3QgdXNlIGEgdGhyZWFkIHBv
-b2wgYnkgZGVmYXVsdA0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IExpdSBZaWRpbmcgPGxpdXlkLmZu
-c3RAZnVqaXRzdS5jb20+DQo+PiAtLS0NCj4+ICAgIGRvY3MvdG9vbHMvdmlydGlvZnNkLnJzdCB8
-IDIgKy0NCj4+ICAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
-KQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kb2NzL3Rvb2xzL3ZpcnRpb2ZzZC5yc3QgYi9kb2NzL3Rv
-b2xzL3ZpcnRpb2ZzZC5yc3QNCj4+IGluZGV4IDBjMDU2MDIwM2MuLjMzZmVkMDhjNmYgMTAwNjQ0
-DQo+PiAtLS0gYS9kb2NzL3Rvb2xzL3ZpcnRpb2ZzZC5yc3QNCj4+ICsrKyBiL2RvY3MvdG9vbHMv
-dmlydGlvZnNkLnJzdA0KPj4gQEAgLTEyNyw3ICsxMjcsNyBAQCBPcHRpb25zDQo+PiAgICAuLiBv
-cHRpb246OiAtLXRocmVhZC1wb29sLXNpemU9TlVNDQo+PiAgICANCj4+ICAgICAgUmVzdHJpY3Qg
-dGhlIG51bWJlciBvZiB3b3JrZXIgdGhyZWFkcyBwZXIgcmVxdWVzdCBxdWV1ZSB0byBOVU0uICBU
-aGUgZGVmYXVsdA0KPj4gLSAgaXMgNjQuDQo+PiArICBpcyAwLg0KPj4gICAgDQo+PiAgICAuLiBv
-cHRpb246OiAtLWNhY2hlPW5vbmV8YXV0b3xhbHdheXMNCj4+ICAgIA0KDQotLSANCkJlc3QgUmVn
-YXJkcy4NCllpZGluZyBMaXUNCg==
+With the introduction of iommufd[1], the linux kernel provides a generic
+interface for userspace drivers to propagate their DMA mappings to kernel
+for assigned devices. This series does the porting of the VFIO devices
+onto the /dev/iommu uapi and let it coexist with the legacy implementation.
+Other devices like vpda, vfio mdev and etc. are not considered yet.
+
+For vfio devices, the new interface is tied with device fd and iommufd
+as the iommufd solution is device-centric. This is different from legacy
+vfio which is group-centric. To support both interfaces in QEMU, this
+series introduces the iommu backend concept in the form of different
+container classes. The existing vfio container is named legacy container
+(equivalent with legacy iommu backend in this series), while the new
+iommufd based container is named as iommufd container (may also be mentioned
+as iommufd backend in this series). The two backend types have their own
+way to setup secure context and dma management interface. Below diagram
+shows how it looks like with both BEs.
+
+                    VFIO                           AddressSpace/Memory
+    +-------+  +----------+  +-----+  +-----+
+    |  pci  |  | platform |  |  ap |  | ccw |
+    +---+---+  +----+-----+  +--+--+  +--+--+     +----------------------+
+        |           |           |        |        |   AddressSpace       |
+        |           |           |        |        +------------+---------+
+    +---V-----------V-----------V--------V----+               /
+    |           VFIOAddressSpace              | <------------+
+    |                  |                      |  MemoryListener
+    |          VFIOContainer list             |
+    +-------+----------------------------+----+
+            |                            |
+            |                            |
+    +-------V------+            +--------V----------+
+    |   iommufd    |            |    vfio legacy    |
+    |  container   |            |     container     |
+    +-------+------+            +--------+----------+
+            |                            |
+            | /dev/iommu                 | /dev/vfio/vfio
+            | /dev/vfio/devices/vfioX    | /dev/vfio/$group_id
+ Userspace  |                            |
+ ===========+============================+================================
+ Kernel     |  device fd                 |
+            +---------------+            | group/container fd
+            | (BIND_IOMMUFD |            | (SET_CONTAINER/SET_IOMMU)
+            |  ATTACH_IOAS) |            | device fd
+            |               |            |
+            |       +-------V------------V-----------------+
+    iommufd |       |                vfio                  |
+(map/unmap  |       +---------+--------------------+-------+
+ ioas_copy) |                 |                    | map/unmap
+            |                 |                    |
+     +------V------+    +-----V------+      +------V--------+
+     | iommfd core |    |  device    |      |  vfio iommu   |
+     +-------------+    +------------+      +---------------+
+
+[Secure Context setup]
+- iommufd BE: uses device fd and iommufd to setup secure context
+              (bind_iommufd, attach_ioas)
+- vfio legacy BE: uses group fd and container fd to setup secure context
+                  (set_container, set_iommu)
+[Device access]
+- iommufd BE: device fd is opened through /dev/vfio/devices/vfioX
+- vfio legacy BE: device fd is retrieved from group fd ioctl
+[DMA Mapping flow]
+- VFIOAddressSpace receives MemoryRegion add/del via MemoryListener
+- VFIO populates DMA map/unmap via the container BEs
+  *) iommufd BE: uses iommufd
+  *) vfio legacy BE: uses container fd
+
+This series qomifies the VFIOContainer object which acts as a base class
+for a container. This base class is derived into the legacy VFIO container
+and the new iommufd based container. The base class implements generic code
+such as code related to memory_listener and address space management whereas
+the derived class implements callbacks that depend on the kernel user space
+being used.
+
+The selection of the backend is made on a device basis using the new
+iommufd option (on/off/auto). By default the iommufd backend is selected
+if supported by the host and by QEMU (iommufd KConfig). This option is
+currently available only for the vfio-pci device. For other types of
+devices, it does not yet exist and the legacy BE is chosen by default.
+
+Test done:
+- PCI and Platform device were tested
+- ccw and ap were only compile-tested
+- limited device hotplug test
+- vIOMMU test run for both legacy and iommufd backends (limited tests)
+
+This series was co-developed by Eric Auger and me based on the exploration
+iommufd kernel[2], complete code of this series is available in[3]. As
+iommufd kernel is in the early step (only iommufd generic interface is in
+mailing list), so this series hasn't made the iommufd backend fully on par
+with legacy backend w.r.t. features like p2p mappings, coherency tracking,
+live migration, etc. This series hasn't supported PCI devices without FLR
+neither as the kernel doesn't support VFIO_DEVICE_PCI_HOT_RESET when userspace
+is using iommufd. The kernel needs to be updated to accept device fd list for
+reset when userspace is using iommufd. Related work is in progress by
+Jason[4].
+
+TODOs:
+- Add DMA alias check for iommufd BE (group level)
+- Make pci.c to be BE agnostic. Needs kernel change as well to fix the
+  VFIO_DEVICE_PCI_HOT_RESET gap
+- Cleanup the VFIODevice fields as it's used in both BEs
+- Add locks
+- Replace list with g_tree
+- More tests
+
+Patch Overview:
+
+- Preparation:
+  0001-scripts-update-linux-headers-Add-iommufd.h.patch
+  0002-linux-headers-Import-latest-vfio.h-and-iommufd.h.patch
+  0003-hw-vfio-pci-fix-vfio_pci_hot_reset_result-trace-poin.patch
+  0004-vfio-pci-Use-vbasedev-local-variable-in-vfio_realize.patch
+  0005-vfio-common-Rename-VFIOGuestIOMMU-iommu-into-iommu_m.patch
+  0006-vfio-common-Split-common.c-into-common.c-container.c.patch
+
+- Introduce container object and covert existing vfio to use it:
+  0007-vfio-Add-base-object-for-VFIOContainer.patch
+  0008-vfio-container-Introduce-vfio_attach-detach_device.patch
+  0009-vfio-platform-Use-vfio_-attach-detach-_device.patch
+  0010-vfio-ap-Use-vfio_-attach-detach-_device.patch
+  0011-vfio-ccw-Use-vfio_-attach-detach-_device.patch
+  0012-vfio-container-obj-Introduce-attach-detach-_device-c.patch
+  0013-vfio-container-obj-Introduce-VFIOContainer-reset-cal.patch
+
+- Introduce iommufd based container:
+  0014-hw-iommufd-Creation.patch
+  0015-vfio-iommufd-Implement-iommufd-backend.patch
+  0016-vfio-iommufd-Add-IOAS_COPY_DMA-support.patch
+
+- Add backend selection for vfio-pci:
+  0017-vfio-as-Allow-the-selection-of-a-given-iommu-backend.patch
+  0018-vfio-pci-Add-an-iommufd-option.patch
+
+[1] https://lore.kernel.org/kvm/0-v1-e79cd8d168e8+6-iommufd_jgg@nvidia.com/
+[2] https://github.com/luxis1999/iommufd/tree/iommufd-v5.17-rc6
+[3] https://github.com/luxis1999/qemu/tree/qemu-for-5.17-rc6-vm-rfcv1
+[4] https://lore.kernel.org/kvm/0-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com/
+
+Base commit: 4bf58c7 virtio-iommu: use-after-free fix
+
+Thanks,
+Yi & Eric
+
+Eric Auger (12):
+  scripts/update-linux-headers: Add iommufd.h
+  linux-headers: Import latest vfio.h and iommufd.h
+  hw/vfio/pci: fix vfio_pci_hot_reset_result trace point
+  vfio/pci: Use vbasedev local variable in vfio_realize()
+  vfio/container: Introduce vfio_[attach/detach]_device
+  vfio/platform: Use vfio_[attach/detach]_device
+  vfio/ap: Use vfio_[attach/detach]_device
+  vfio/ccw: Use vfio_[attach/detach]_device
+  vfio/container-obj: Introduce [attach/detach]_device container
+    callbacks
+  vfio/container-obj: Introduce VFIOContainer reset callback
+  vfio/as: Allow the selection of a given iommu backend
+  vfio/pci: Add an iommufd option
+
+Yi Liu (6):
+  vfio/common: Rename VFIOGuestIOMMU::iommu into ::iommu_mr
+  vfio/common: Split common.c into common.c, container.c and as.c
+  vfio: Add base object for VFIOContainer
+  hw/iommufd: Creation
+  vfio/iommufd: Implement iommufd backend
+  vfio/iommufd: Add IOAS_COPY_DMA support
+
+ MAINTAINERS                          |    7 +
+ hw/Kconfig                           |    1 +
+ hw/iommufd/Kconfig                   |    4 +
+ hw/iommufd/iommufd.c                 |  209 +++
+ hw/iommufd/meson.build               |    1 +
+ hw/iommufd/trace-events              |   11 +
+ hw/iommufd/trace.h                   |    1 +
+ hw/meson.build                       |    1 +
+ hw/vfio/ap.c                         |   62 +-
+ hw/vfio/as.c                         | 1042 ++++++++++++
+ hw/vfio/ccw.c                        |  118 +-
+ hw/vfio/common.c                     | 2340 ++------------------------
+ hw/vfio/container-obj.c              |  221 +++
+ hw/vfio/container.c                  | 1308 ++++++++++++++
+ hw/vfio/iommufd.c                    |  570 +++++++
+ hw/vfio/meson.build                  |    6 +
+ hw/vfio/migration.c                  |    4 +-
+ hw/vfio/pci.c                        |  133 +-
+ hw/vfio/platform.c                   |   42 +-
+ hw/vfio/spapr.c                      |   22 +-
+ hw/vfio/trace-events                 |   11 +
+ include/hw/iommufd/iommufd.h         |   37 +
+ include/hw/vfio/vfio-common.h        |   96 +-
+ include/hw/vfio/vfio-container-obj.h |  169 ++
+ linux-headers/linux/iommufd.h        |  223 +++
+ linux-headers/linux/vfio.h           |   84 +
+ meson.build                          |    1 +
+ scripts/update-linux-headers.sh      |    2 +-
+ 28 files changed, 4258 insertions(+), 2468 deletions(-)
+ create mode 100644 hw/iommufd/Kconfig
+ create mode 100644 hw/iommufd/iommufd.c
+ create mode 100644 hw/iommufd/meson.build
+ create mode 100644 hw/iommufd/trace-events
+ create mode 100644 hw/iommufd/trace.h
+ create mode 100644 hw/vfio/as.c
+ create mode 100644 hw/vfio/container-obj.c
+ create mode 100644 hw/vfio/container.c
+ create mode 100644 hw/vfio/iommufd.c
+ create mode 100644 include/hw/iommufd/iommufd.h
+ create mode 100644 include/hw/vfio/vfio-container-obj.h
+ create mode 100644 linux-headers/linux/iommufd.h
+
+-- 
+2.27.0
+
 
