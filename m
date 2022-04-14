@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DEA5004E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 06:03:35 +0200 (CEST)
-Received: from localhost ([::1]:53344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38195004F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 06:13:46 +0200 (CEST)
+Received: from localhost ([::1]:58406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neqhi-0002cZ-2u
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 00:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52620)
+	id 1neqrZ-0006VI-Gt
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 00:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1neqfd-0001ax-Sw
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 00:01:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52946)
+ id 1neqpx-0005nz-4N
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 00:12:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1neqfa-00078Y-Je
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 00:01:24 -0400
+ id 1neqpu-0000Kn-OQ
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 00:12:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649908881;
+ s=mimecast20190719; t=1649909521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XkMmaOgC6dg1oxH8dcQMnnNtyXz42hucAwsC7WmLs5o=;
- b=LEvEEKqjzwj0tH9igdn1uUrZOj9et8rqGgupxj2lTsBbyR7rZwY+/7BbZMwrnWZGkjVI5q
- XwKyLpdQADSKY1HKmU48+/G61VB+padQGkiHa7h3AHo8wtH8rcPAh5HTU0ayLpRIv4ICqu
- ph9LP5CbB3NpFPNVyootB397CHGYPbM=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6knSeqg6pDZB2pLpGnMIt7qScHVGUmCUY0xXYNvPI7c=;
+ b=K8DYE0QFMbNALes6YBSRVzVJ/vCi88OQnLws0r6PY714PJHod13xYy5BKDV+xu5RC0Bc0Q
+ lBs+GEYu7Hd7AAfzreOXoP+IBgnGEBbSYynLV3mnbU7UOu43Tu4xfsbnJiaUQsVN6CGh68
+ NhtgiGY5kRv3jtvftIlQGbPmKExpBYA=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-N1oNBE_mN6ak1VN5KYHexw-1; Thu, 14 Apr 2022 00:01:20 -0400
-X-MC-Unique: N1oNBE_mN6ak1VN5KYHexw-1
-Received: by mail-pj1-f70.google.com with SMTP id
- oj16-20020a17090b4d9000b001c7552b7546so4835817pjb.8
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 21:01:20 -0700 (PDT)
+ us-mta-19-CSio66wPOEmMqckGhq9owA-1; Thu, 14 Apr 2022 00:12:00 -0400
+X-MC-Unique: CSio66wPOEmMqckGhq9owA-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ m8-20020a62a208000000b0050593296139so2466174pff.1
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 21:12:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=XkMmaOgC6dg1oxH8dcQMnnNtyXz42hucAwsC7WmLs5o=;
- b=VsqjomOyc2y+5Nun8alr7ShoIq9+VMnB3/dfIOW8RQ9FhAUbfDl3qfnWS1ou2CX6Vw
- MkTNlkkvPUpz1lAFcG8Vo4GPE4tIzDTqNb6zXuzm80MHIW3BEEWpWBQ8BJ2rmkDLepgc
- aF/Bt8nQJbo0PY6nuFFWDE53tfCsD0/7njETda3L6B88VCJHmZDyRMbPjJqLCvtlSFfu
- n9LyNWIV/QDR360Ll2tOJTW3xMBOyc5BIYvcmcofOTalAQ76UeFgLjd5BL6F5jsMgmjN
- HGmUfn++Et3UnUd5y55L+MF0kHfaPgowLG3W5+5goiNCQbAqtf+TOFFcLxnga5M3VLP1
- iF3w==
-X-Gm-Message-State: AOAM530Zo1Cc4JuNmegcfIeT7AvVwBkdfe4Xx0/14B01++gL+1dsQkdH
- mlUJFUO39BK8PXt4rvOmho+s0gvR8Ol29evQ6YgOb6Pvm7jwKIX0IeEYYl22vsKOxzFLTL9+fke
- OHc2Ofe9pGMo8zYU=
-X-Received: by 2002:a17:90b:1e4e:b0:1cd:530d:fdc7 with SMTP id
- pi14-20020a17090b1e4e00b001cd530dfdc7mr2140769pjb.209.1649908879593; 
- Wed, 13 Apr 2022 21:01:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxtslQFgGdYY+wsSWdK8DFxoU70fB9uxkPdrWq4a5CNW/r7cc6yxUlhtEH08gLBhNPOhBz7NA==
-X-Received: by 2002:a17:90b:1e4e:b0:1cd:530d:fdc7 with SMTP id
- pi14-20020a17090b1e4e00b001cd530dfdc7mr2140724pjb.209.1649908879267; 
- Wed, 13 Apr 2022 21:01:19 -0700 (PDT)
+ bh=6knSeqg6pDZB2pLpGnMIt7qScHVGUmCUY0xXYNvPI7c=;
+ b=oLA8S+PnY7nVlsDSudnjWX98Nqo9LM2TGTRaaXJhTu61VlQFtCn4d662gL1eKJlF+w
+ jbEQXCamkYdh+ieosunopBcC8LYSPio+Qy4sUuQTN2f7v5mrHjviIaNECSaH2iwIO45i
+ +rq0u/zOqVHRxltsrnYhrZDPobcfWQXypKHKcZTEYJBfFdfbhUJprnjKHSonhdpZxLBU
+ TOE5CrLZFkFs8SN93T6t7VcMgyGeDGnKYcWC3uDzsdj4pNz0fD+3MFyj6oRPrNX2KfQk
+ elVXeiAw0vmzybahVAZ8nWlpJcV2vBETzFCF2Yug3NMRH22cbrOjvfRBp3u/RG5xqfM7
+ XfCQ==
+X-Gm-Message-State: AOAM530c0UZlXaYDL5j7YfKjXVyqYIEGRWU/2sPn7LoZgDJ8MXWK7IM+
+ l2x5/TmxSTcyCQs5aKCa3KZhM1GidejSKvHbHcN1TyKh2mYAVGkpPSOG6q1OtgBaCNjO8z8excG
+ vLWqP6Fnk+sXyVqs=
+X-Received: by 2002:a17:90b:3805:b0:1c7:6e7a:3e01 with SMTP id
+ mq5-20020a17090b380500b001c76e7a3e01mr1576918pjb.213.1649909519495; 
+ Wed, 13 Apr 2022 21:11:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+7NK+eSXHZZ0TuEOXBSLDtrz51jvb4cJRNj6/+jVT7iX3X43aMq5eQJICXKDj7Qnyy74J4w==
+X-Received: by 2002:a17:90b:3805:b0:1c7:6e7a:3e01 with SMTP id
+ mq5-20020a17090b380500b001c76e7a3e01mr1576885pjb.213.1649909519100; 
+ Wed, 13 Apr 2022 21:11:59 -0700 (PDT)
 Received: from [10.72.13.201] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- u9-20020a056a00158900b004faad3ae570sm564251pfk.189.2022.04.13.21.01.14
+ s24-20020a17090a441800b001ca9b5724a6sm533430pjg.36.2022.04.13.21.11.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 21:01:18 -0700 (PDT)
-Message-ID: <57a18f84-67d5-a83c-48db-8defaeb98781@redhat.com>
-Date: Thu, 14 Apr 2022 12:01:08 +0800
+ Wed, 13 Apr 2022 21:11:58 -0700 (PDT)
+Message-ID: <c615a02d-ea43-77f2-8a2a-b306e2f6a450@redhat.com>
+Date: Thu, 14 Apr 2022 12:11:53 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [RFC PATCH v7 05/25] hw/virtio: Replace g_memdup() by g_memdup2()
+Subject: Re: [RFC PATCH v7 06/25] vdpa: Send all updates in memory listener
+ commit
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20220413163206.1958254-1-eperezma@redhat.com>
- <20220413163206.1958254-6-eperezma@redhat.com>
+ <20220413163206.1958254-7-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220413163206.1958254-6-eperezma@redhat.com>
+In-Reply-To: <20220413163206.1958254-7-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -114,71 +115,198 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/4/14 00:31, Eugenio Pérez 写道:
-> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+> With the introduction of many ASID it can happen that many changes on
+> different listeners come before the commit call.
+
+
+I think we have at most one listener even for the case of MQ/CVQ?
+
+
+>   Since kernel vhost-vdpa
+> still does not support it, send it all in one shot.
 >
-> Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
+> This also have one extra advantage: If there is no update to notify, we
+> save the iotlb_{begin,end} calls.
 >
->    The old API took the size of the memory to duplicate as a guint,
->    whereas most memory functions take memory sizes as a gsize. This
->    made it easy to accidentally pass a gsize to g_memdup(). For large
->    values, that would lead to a silent truncation of the size from 64
->    to 32 bits, and result in a heap area being returned which is
->    significantly smaller than what the caller expects. This can likely
->    be exploited in various modules to cause a heap buffer overflow.
->
-> Replace g_memdup() by the safer g_memdup2() wrapper.
->
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
-
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-
->   hw/net/virtio-net.c       | 3 ++-
->   hw/virtio/virtio-crypto.c | 6 +++---
->   2 files changed, 5 insertions(+), 4 deletions(-)
+>   include/hw/virtio/vhost-vdpa.h |  2 +-
+>   hw/virtio/vhost-vdpa.c         | 69 +++++++++++++++++-----------------
+>   2 files changed, 36 insertions(+), 35 deletions(-)
 >
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 1067e72b39..e4748a7e6c 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -1443,7 +1443,8 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
->           }
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+> index a29dbb3f53..4961acea8b 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -27,7 +27,7 @@ typedef struct vhost_vdpa {
+>       int device_fd;
+>       int index;
+>       uint32_t msg_type;
+> -    bool iotlb_batch_begin_sent;
+> +    GArray *iotlb_updates;
+>       MemoryListener listener;
+>       struct vhost_vdpa_iova_range iova_range;
+>       uint64_t acked_features;
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 1f229ff4cb..27ee678dc9 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -85,6 +85,11 @@ static int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+>       msg.iotlb.perm = readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
+>       msg.iotlb.type = VHOST_IOTLB_UPDATE;
 >   
->           iov_cnt = elem->out_num;
-> -        iov2 = iov = g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_num);
-> +        iov2 = iov = g_memdup2(elem->out_sg,
-> +                               sizeof(struct iovec) * elem->out_num);
->           s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
->           iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
->           if (s != sizeof(ctrl)) {
-> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> index dcd80b904d..0e31e3cc04 100644
-> --- a/hw/virtio/virtio-crypto.c
-> +++ b/hw/virtio/virtio-crypto.c
-> @@ -242,7 +242,7 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
->           }
+> +    if (v->dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_IOTLB_BATCH)) {
+> +        g_array_append_val(v->iotlb_updates, msg);
+> +        return 0;
+> +    }
+
+
+I think it's better to use a consistent way for !batch and batch (E.g we 
+can do this even for the backend that doesn't support batching?)
+
+Otherwise the codes are hard to be maintained.
+
+
+> +
+>      trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.iotlb.iova, msg.iotlb.size,
+>                               msg.iotlb.uaddr, msg.iotlb.perm, msg.iotlb.type);
 >   
->           out_num = elem->out_num;
-> -        out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-> +        out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
->           out_iov = out_iov_copy;
+> @@ -109,6 +114,11 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
+>       msg.iotlb.size = size;
+>       msg.iotlb.type = VHOST_IOTLB_INVALIDATE;
 >   
->           in_num = elem->in_num;
-> @@ -605,11 +605,11 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
+> +    if (v->dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_IOTLB_BATCH)) {
+> +        g_array_append_val(v->iotlb_updates, msg);
+> +        return 0;
+> +    }
+> +
+>       trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.iotlb.iova,
+>                                  msg.iotlb.size, msg.iotlb.type);
+>   
+> @@ -121,56 +131,47 @@ static int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova,
+>       return ret;
+>   }
+>   
+> -static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
+> -{
+> -    int fd = v->device_fd;
+> -    struct vhost_msg_v2 msg = {
+> -        .type = v->msg_type,
+> -        .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
+> -    };
+> -
+> -    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.iotlb.type);
+> -    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+> -        error_report("failed to write, fd=%d, errno=%d (%s)",
+> -                     fd, errno, strerror(errno));
+> -    }
+> -}
+> -
+> -static void vhost_vdpa_iotlb_batch_begin_once(struct vhost_vdpa *v)
+> -{
+> -    if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH) &&
+> -        !v->iotlb_batch_begin_sent) {
+> -        vhost_vdpa_listener_begin_batch(v);
+> -    }
+> -
+> -    v->iotlb_batch_begin_sent = true;
+> -}
+> -
+>   static void vhost_vdpa_listener_commit(MemoryListener *listener)
+>   {
+>       struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
+> -    struct vhost_dev *dev = v->dev;
+>       struct vhost_msg_v2 msg = {};
+>       int fd = v->device_fd;
+> +    size_t num = v->iotlb_updates->len;
+>   
+> -    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
+> +    if (!num) {
+>           return;
 >       }
 >   
->       out_num = elem->out_num;
-> -    out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-> +    out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
->       out_iov = out_iov_copy;
+> -    if (!v->iotlb_batch_begin_sent) {
+> -        return;
+> +    msg.type = v->msg_type;
+> +    msg.iotlb.type = VHOST_IOTLB_BATCH_BEGIN;
+> +    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.iotlb.type);
+> +    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+
+
+We need check whehter the vhost-vDPA support batching first?
+
+
+> +        error_report("failed to write BEGIN_BATCH, fd=%d, errno=%d (%s)",
+> +                     fd, errno, strerror(errno));
+> +        goto done;
+>       }
 >   
->       in_num = elem->in_num;
-> -    in_iov_copy = g_memdup(elem->in_sg, sizeof(in_iov[0]) * in_num);
-> +    in_iov_copy = g_memdup2(elem->in_sg, sizeof(in_iov[0]) * in_num);
->       in_iov = in_iov_copy;
+> -    msg.type = v->msg_type;
+> -    msg.iotlb.type = VHOST_IOTLB_BATCH_END;
+> +    for (size_t i = 0; i < num; ++i) {
+> +        struct vhost_msg_v2 *update = &g_array_index(v->iotlb_updates,
+> +                                                     struct vhost_msg_v2, i);
+> +        if (write(fd, update, sizeof(*update)) != sizeof(*update)) {
+> +            error_report("failed to write dma update, fd=%d, errno=%d (%s)",
+> +                         fd, errno, strerror(errno));
+> +            goto done;
+
+
+Maybe it's time to introduce v3 to allow a batch of messaged to be 
+passed to vhost-vDPA in a single system call.
+
+Thanks
+
+
+> +        }
+> +    }
 >   
->       if (unlikely(iov_to_buf(out_iov, out_num, 0, &req, sizeof(req))
+> +    msg.iotlb.type = VHOST_IOTLB_BATCH_END;
+>       trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
+>       if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+>           error_report("failed to write, fd=%d, errno=%d (%s)",
+>                        fd, errno, strerror(errno));
+>       }
+>   
+> -    v->iotlb_batch_begin_sent = false;
+> +done:
+> +    g_array_set_size(v->iotlb_updates, 0);
+> +    return;
+> +
+>   }
+>   
+>   static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+> @@ -227,7 +228,6 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>           iova = mem_region.iova;
+>       }
+>   
+> -    vhost_vdpa_iotlb_batch_begin_once(v);
+>       ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
+>                                vaddr, section->readonly);
+>       if (ret) {
+> @@ -292,7 +292,6 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+>           iova = result->iova;
+>           vhost_iova_tree_remove(v->iova_tree, &mem_region);
+>       }
+> -    vhost_vdpa_iotlb_batch_begin_once(v);
+>       ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+>       if (ret) {
+>           error_report("vhost_vdpa dma unmap error!");
+> @@ -446,6 +445,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+>       dev->opaque =  opaque ;
+>       v->listener = vhost_vdpa_memory_listener;
+>       v->msg_type = VHOST_IOTLB_MSG_V2;
+> +    v->iotlb_updates = g_array_new(false, false, sizeof(struct vhost_msg_v2));
+>       ret = vhost_vdpa_init_svq(dev, v, errp);
+>       if (ret) {
+>           goto err;
+> @@ -579,6 +579,7 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+>       trace_vhost_vdpa_cleanup(dev, v);
+>       vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+>       memory_listener_unregister(&v->listener);
+> +    g_array_free(v->iotlb_updates, true);
+>       vhost_vdpa_svq_cleanup(dev);
+>   
+>       dev->opaque = NULL;
 
 
