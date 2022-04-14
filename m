@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2945500FE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 16:20:28 +0200 (CEST)
-Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CCB500FE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 16:22:23 +0200 (CEST)
+Received: from localhost ([::1]:55946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nf0Kf-00082M-U7
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 10:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45850)
+	id 1nf0MY-0001gT-8c
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 10:22:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nf0Ia-0006cU-13
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 10:18:16 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36841)
+ id 1nf0J2-00076a-2m
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 10:18:44 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:34750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nf0IY-0001ft-Cr
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 10:18:15 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id k23so10354974ejd.3
- for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 07:18:13 -0700 (PDT)
+ id 1nf0J0-0001iF-Iz
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 10:18:43 -0400
+Received: by mail-ej1-x633.google.com with SMTP id ks6so10382926ejb.1
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 07:18:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=3kZjHi2nnHf54HJbnYv/7jVI8LcRJix5h/LP3sUEo/w=;
- b=y/9qj9NaHMSgn5iDTnIoX4oC8wby4dTAcn0jHdaFNONZq3uf45QU5KQWsouqfqztYR
- C/PzfdYucUJlFZdkY32cKZ137IBcjqPhnBXAOXDwIV3zOPDQFCKwQfRinY6Hu50D2vX9
- ASQGawOqfr3lfU2mKPdazujCPlBVefAZaZAcTLGmTWtl7HihSsHdBC0w8/kq/QM5YvTA
- Ne6EYCh9abJIXw6oVvCcY4J9J7u8qtbsHdWE+JYbZlydRL2JbzOzarRFFxFlINcSDhvr
- U2xJDF3XsD52n1RnEw+eyrY/SZHxGPVgIIaKZerYSxT64qV4dhTKIcYS2frXhrL3g4IR
- 6upw==
+ bh=uOMC2nC8u6DLRHiIipL7Qk53WMB9AH6GdsFw4zSJPJo=;
+ b=vyLn8CLsmjn/um4+7m7i0J8ul0iVuMivM/nI3FPmx3ESkNu30/239f2T2dOTHoeN3x
+ 4nnwcBjkuqNyogI3eIXPNl40KaZ6It52ISbOazVlZmiLASXPaU1+e5HW0Eoe36X9DTZt
+ acOqPQob46KeNbf9+FDMWAw/Xrn3niHE2P0YoCFkYHbn0Ik2odoyN8ELljxKnt0PmasW
+ SwjyCbuBAjCh0F1WJBnTsGPTjahI0DLySb2ui9Z1AgkjCn0uE46ggHHIb7vEgHgjFLJ3
+ i2zbqnogRH3pg99SeR8hXL4+kGYN+KNlJjtnGXmpevArNbgM6UnJAkq7q+qzP6lr1by6
+ ooWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=3kZjHi2nnHf54HJbnYv/7jVI8LcRJix5h/LP3sUEo/w=;
- b=vim8yn8Ot17492fA5TBMHa39Bk7IHw7Rule1K2QcVID2NXWD3mrS0qVNTNrhl1LRL1
- QHnRyZWwclrIIp1jaBsTL9bEXj0KeAW1F4VzX0SpPb1IQeloVOu1PmbtDYX7Mixrd8F9
- /nlhW2dq5c3aqTcMfjzy7VF0Q0WT2wVuFW/l5N1JIpcr4/Dz9aX1BAqTR+jUstQV9tVy
- ZgvnJsAHLt+m8slvaBBRUpGT3rjseZIdMk6VguUl8Wg2HNerZRASFXoxYct+4qFlIOAV
- BB1Dn9s4sTlsEmcvAOy9Y17UNJ+iS+C1mtQcsipcIcOvY9vnEzZICKJnOHilfHk/6hyH
- Xekg==
-X-Gm-Message-State: AOAM530dw8o9llOYWXtXNd84vePzIC6k5XAW788UY0/+cAbtlLe/E4D6
- NNIx8yyyu34kjjiQYK7ANeXRfg==
-X-Google-Smtp-Source: ABdhPJxqMzqjXc2CialK7pkpxWuHgAIspkyvtF+F8G6BDZW+IjrtYo6XFU+h9BckuLbQ9W8OZAZe3Q==
-X-Received: by 2002:a17:906:ae83:b0:6e8:7cd3:33d4 with SMTP id
- md3-20020a170906ae8300b006e87cd333d4mr2529680ejb.462.1649945892727; 
- Thu, 14 Apr 2022 07:18:12 -0700 (PDT)
+ bh=uOMC2nC8u6DLRHiIipL7Qk53WMB9AH6GdsFw4zSJPJo=;
+ b=B3kYEOvwEM3jJnEK8bWQ1/anxPfY2gpK5Cg9SZoZ1gy0opD3/iWalNiA1xoNhyWUbe
+ tJw5Y7MrfP8zF4KyP85IEdL1NDU2z2e6yoYcV+gVSoAo0WWL+Sx5vJJKGJlhAXfHcKhj
+ gPL5Ur+XocHUJLs+r/gqdy6YsoB9xoonOfYge8PCnQvf86rmO4/PfIEyatVND7GXx1ZB
+ CMuOk9vsVu5Q2Fq+qEXfrkQBKLQg91g3/G5CqvCWgjAVNbpfZf5tf0zEpHBmjRmwhW8r
+ MMXy1K2oKKEDF87N7O/wSd462c92FVsfIWifEVBuJiNy+VmTZ6TTyjZF8HtGpUZpI10a
+ l6BA==
+X-Gm-Message-State: AOAM53048n5F8GESmksrBYqgYd76fhJA1Pvtz6EvNvsiouXSi9uoSpbU
+ PbZUdT5o05xZIMYDyIeMLief0w==
+X-Google-Smtp-Source: ABdhPJx3ngR2mYTcl1VIKNdcSLw7hHdV/Mh3N44b7ux+iFYdJfUZYYYvk/E8y3KNUd4HHp+bNO0Kqg==
+X-Received: by 2002:a17:906:7751:b0:6ce:e3c:81a6 with SMTP id
+ o17-20020a170906775100b006ce0e3c81a6mr2370265ejn.278.1649945920821; 
+ Thu, 14 Apr 2022 07:18:40 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- g9-20020aa7c849000000b00412fc6bf26dsm1056135edt.80.2022.04.14.07.18.11
+ fy11-20020a1709069f0b00b006e8b68c92d8sm663765ejc.162.2022.04.14.07.18.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Apr 2022 07:18:11 -0700 (PDT)
+ Thu, 14 Apr 2022 07:18:39 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 196C41FFB7;
- Thu, 14 Apr 2022 15:18:11 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 34CBC1FFB7;
+ Thu, 14 Apr 2022 15:18:39 +0100 (BST)
 References: <20220326132534.543738-1-richard.henderson@linaro.org>
- <20220326132534.543738-26-richard.henderson@linaro.org>
+ <20220326132534.543738-27-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.12; emacs 28.1.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 17/39] util/log: Drop return value from qemu_log
-Date: Thu, 14 Apr 2022 15:18:07 +0100
-In-reply-to: <20220326132534.543738-26-richard.henderson@linaro.org>
-Message-ID: <87o813wxy4.fsf@linaro.org>
+Subject: Re: [PATCH v2 18/39] util/log: Mark qemu_log_trylock as
+ G_GNUC_WARN_UNUSED_RESULT
+Date: Thu, 14 Apr 2022 15:18:34 +0100
+In-reply-to: <20220326132534.543738-27-richard.henderson@linaro.org>
+Message-ID: <87k0brwxxc.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,8 +97,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> The only user of this feature, tcg_dump_ops, has been
-> converted to use fprintf directly.
+> Now that all uses have been updated, consider a missing
+> test of the result of qemu_log_trylock a bug and Werror.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
