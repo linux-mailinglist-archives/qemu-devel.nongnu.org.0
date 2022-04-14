@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBA650096D
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 11:13:09 +0200 (CEST)
-Received: from localhost ([::1]:49376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B3250096C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 11:13:08 +0200 (CEST)
+Received: from localhost ([::1]:49288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nevXI-0005ft-VO
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 05:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36940)
+	id 1nevXH-0005ce-Ck
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 05:13:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nevUZ-0003YA-45
+ id 1nevUZ-0003Yr-5t
  for qemu-devel@nongnu.org; Thu, 14 Apr 2022 05:10:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60966)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nevUV-00060U-LG
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 05:10:17 -0400
+ id 1nevUW-00060Z-HI
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 05:10:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1649927415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Kk8c77B2i5QQdpxIAiTYa//hl4jH6ZoU7vJ+kMDyqg=;
- b=NAALZpC1u+S/GHdYQ65TVboGyPONhVudMhZzYQ0AT7IT7u/fxhypd8i5bHcbx1e5ff+lSo
- yRLb3uuFSczs7UwmyFkU2gkCXefetPn9JMellzWfrkSzUhhNuh/UoQKUs/FAoGQPlt2fQp
- ae5PmnYVtK0w5B3nw84DmIp2lYKO444=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AzfLclF13GsmISTufUCr38bM1cPObRbU2iSg5Bvksc4=;
+ b=HobffraN3bvIx5Z8SYMo2qY6nbgECwm22LNmKEVoT0BAdOUyq3JPEMOaRdoig3plgBZKFb
+ vGqQgtZ10YVXich7i8xWwBb0SD16lIR01PloJff+ted8+sJ6eyvaocmBoMboEgRD5M74vC
+ vcQej4gbB0nZLu59vReRt/wZU3i4EyQ=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-Okx4bADTM9aO3gZREhI-eA-1; Thu, 14 Apr 2022 05:10:12 -0400
-X-MC-Unique: Okx4bADTM9aO3gZREhI-eA-1
-Received: by mail-lj1-f199.google.com with SMTP id
- e12-20020a2ea54c000000b0024b016c795eso943904ljn.1
- for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 02:10:11 -0700 (PDT)
+ us-mta-102-HF7hIaFbMwqdd3KoMPr4Ug-1; Thu, 14 Apr 2022 05:10:14 -0400
+X-MC-Unique: HF7hIaFbMwqdd3KoMPr4Ug-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ c6-20020a2ea786000000b0024c3a85d203so939123ljf.5
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 02:10:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=5Kk8c77B2i5QQdpxIAiTYa//hl4jH6ZoU7vJ+kMDyqg=;
- b=AAQp2m6e4AfnrvhH9k9ydomcnhHV/N2oWbjMI6IBEMfOofbr6/P5i+7Kt03kS9KzMF
- 03NrSoLeMPIzvp9QEdN97ejF9Kjf3NdV3UMnD+7UvNuZ0gZ6va2o7QDQV5/UXNSnY+4T
- yklX/N3O9vUik2qgodA1sfQU1E5bj6k47kuK9cpJDvcPnlrxlsWpLNgCcVT9AOlaX5ql
- Q/C4tekYciazr95HTDlPk9laVIYbkVHIRhM8Xpeq6n5nCAG0hpw+ng0XDofbnTPPxubm
- Nbx9NwkkyDD/QFnlj8iljHXe1NEnQSYNaPWdiHz4NMH2IHL4vixC5g3afKNZD0KPru6P
- +//w==
-X-Gm-Message-State: AOAM532wkVA5bRpfm105yXxhGW4tpZu7KR4fb7W7R9sL1JIZbZxX9oAS
- SXFEdL984Rbit09ynKsq2xJTq+LeEBqopt3sBwgMAHECpSnaFkVN4Yt49904ln4DxCCMl7M+UzM
- qHu+335kyW5NBKTX8rqP2VXcjzlDRUSA=
-X-Received: by 2002:a05:6512:1395:b0:446:d382:79a5 with SMTP id
- p21-20020a056512139500b00446d38279a5mr1313625lfa.210.1649927410427; 
- Thu, 14 Apr 2022 02:10:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxeOLlzg9RqhkmvxiOd/OLl55bvt2uyBVQ4U3nG6iN2xhJyY1pUCDUEN6fkeVk1xRZhBrR9gK1K/7YSNP+6Vgo=
-X-Received: by 2002:a05:6512:1395:b0:446:d382:79a5 with SMTP id
- p21-20020a056512139500b00446d38279a5mr1313599lfa.210.1649927409942; Thu, 14
- Apr 2022 02:10:09 -0700 (PDT)
+ bh=AzfLclF13GsmISTufUCr38bM1cPObRbU2iSg5Bvksc4=;
+ b=Iy+3QI50xxbSGMJltJF2psxY3MNXUc4j0Ej+yfWzkjds/kuutDZqESinB7tjNILx0V
+ hYL2Mzao8YyoQOjncc4AdPxOmf7Zwc89NdWG3xdrHDvXFgGAdA37TuH7pk0u3VILbn8b
+ 7H/bYTBP1uKz3y1tFL9b9GrY58tcYdxKx4HXTrlarsOrujC9xVjwjsUaWkHlGTmFYID7
+ OKEaFZ4aufshU1PjSsXNdMuODEfQKS+WoQ0BrhPM9d2Cs/wH9HDoCwvJB4Zq7jVHaWsh
+ BR6dLmhaBVTD/j/malTvFEkmjLAsbIYuYCXPo3R0sWMSC+KDCXPlaT7lwAAGGavW+qad
+ 05zA==
+X-Gm-Message-State: AOAM533oyM307DdZJ4uU8Eht8AEMoJV/oe6AXcflXAk7q82ghMrDIXuC
+ VIROzWborrWxiNWE8q/Co1g9d4KfzxNHmNmlMMEgm1BS6uY3hvbvB8EmqdhvuFo6wnbZKbEp7OJ
+ NzXWZC7XNKdViOj2Tq81xqoei/axg5F4=
+X-Received: by 2002:a05:6512:1156:b0:46b:b775:6359 with SMTP id
+ m22-20020a056512115600b0046bb7756359mr1317168lfg.587.1649927412790; 
+ Thu, 14 Apr 2022 02:10:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyuKK/OCf+FItgRi7kUKuEwe5kmYYAiAirVkouFqWThmLfWp1pc+BX/5UluJYoTiflgfJjwVtEgxH35vQulieQ=
+X-Received: by 2002:a05:6512:1156:b0:46b:b775:6359 with SMTP id
+ m22-20020a056512115600b0046bb7756359mr1317125lfg.587.1649927411828; Thu, 14
+ Apr 2022 02:10:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220413163206.1958254-1-eperezma@redhat.com>
- <20220413163206.1958254-20-eperezma@redhat.com>
-In-Reply-To: <20220413163206.1958254-20-eperezma@redhat.com>
+ <20220413163206.1958254-17-eperezma@redhat.com>
+In-Reply-To: <20220413163206.1958254-17-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 14 Apr 2022 17:09:58 +0800
-Message-ID: <CACGkMEsRSXTmuyoH4sgKLm+Tj4=veQdz-PAzC+xRAPbMwWCUeA@mail.gmail.com>
-Subject: Re: [RFC PATCH v7 19/25] vhost: Add vhost_svq_inject
+Date: Thu, 14 Apr 2022 17:10:00 +0800
+Message-ID: <CACGkMEsyZ1UuYR=B=o3dBcSszOFSs8poKhRrUq75LrpnGbciuA@mail.gmail.com>
+Subject: Re: [RFC PATCH v7 16/25] vdpa: control virtqueue support on shadow
+ virtqueue
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
@@ -73,14 +74,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -107,364 +108,169 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Thu, Apr 14, 2022 at 12:32 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
 rote:
 >
-> This allows qemu to inject packets to the device without guest's notice.
-
-Does it mean it can support guests without _F_ANNOUNCE?
-
+> Introduce the control virtqueue support for vDPA shadow virtqueue. This
+> is needed for advanced networking features like multiqueue.
 >
-> This will be use to inject net CVQ messages to restore status in the dest=
-ination
+> To demonstrate command handling, VIRTIO_NET_F_CTRL_MACADDR and
+> VIRTIO_NET_CTRL_MQ are implemented. If vDPA device is started with SVQ
+> support and virtio-net driver changes MAC or the number of queues
+> virtio-net device model will be updated with the new one.
+>
+> Others cvq commands could be added here straightforwardly but they have
+> been not tested.
 
-I guess for restoring, we should set cvq.ready =3D true but all other
-(TX/RX) as false before we complete the restoring? If yes, I don't see
-codes to do that.
+If I understand the code correctly, the cvq can still see all the
+guest mappings. I wonder if it's simpler to:
+
+1) find a way to reuse the ctrl handler in virtio-net.c
+2) do not expose all the guest memory to shadow cvq.
 
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > ---
->  hw/virtio/vhost-shadow-virtqueue.h |   5 +
->  hw/virtio/vhost-shadow-virtqueue.c | 179 +++++++++++++++++++++++++----
->  2 files changed, 160 insertions(+), 24 deletions(-)
+>  net/vhost-vdpa.c | 80 ++++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 77 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-=
-virtqueue.h
-> index e06ac52158..2a5229e77f 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> @@ -17,6 +17,9 @@
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index a8dde49198..38e6912255 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -11,6 +11,7 @@
 >
->  typedef struct SVQElement {
->      VirtQueueElement elem;
-> +    hwaddr in_iova;
-> +    hwaddr out_iova;
-> +    bool not_from_guest;
+>  #include "qemu/osdep.h"
+>  #include "clients.h"
+> +#include "hw/virtio/virtio-net.h"
+>  #include "net/vhost_net.h"
+>  #include "net/vhost-vdpa.h"
+>  #include "hw/virtio/vhost-vdpa.h"
+> @@ -69,6 +70,30 @@ const int vdpa_feature_bits[] =3D {
+>      VHOST_INVALID_FEATURE_BIT
+>  };
+>
+> +/** Supported device specific feature bits with SVQ */
+> +static const uint64_t vdpa_svq_device_features =3D
+> +    BIT_ULL(VIRTIO_NET_F_CSUM) |
+> +    BIT_ULL(VIRTIO_NET_F_GUEST_CSUM) |
+> +    BIT_ULL(VIRTIO_NET_F_CTRL_GUEST_OFFLOADS) |
+> +    BIT_ULL(VIRTIO_NET_F_MTU) |
+> +    BIT_ULL(VIRTIO_NET_F_MAC) |
+> +    BIT_ULL(VIRTIO_NET_F_GUEST_TSO4) |
+> +    BIT_ULL(VIRTIO_NET_F_GUEST_TSO6) |
+> +    BIT_ULL(VIRTIO_NET_F_GUEST_ECN) |
+> +    BIT_ULL(VIRTIO_NET_F_GUEST_UFO) |
+> +    BIT_ULL(VIRTIO_NET_F_HOST_TSO4) |
+> +    BIT_ULL(VIRTIO_NET_F_HOST_TSO6) |
+> +    BIT_ULL(VIRTIO_NET_F_HOST_ECN) |
+> +    BIT_ULL(VIRTIO_NET_F_HOST_UFO) |
+> +    BIT_ULL(VIRTIO_NET_F_MRG_RXBUF) |
+> +    BIT_ULL(VIRTIO_NET_F_STATUS) |
+> +    BIT_ULL(VIRTIO_NET_F_CTRL_VQ) |
+> +    BIT_ULL(VIRTIO_NET_F_MQ) |
+> +    BIT_ULL(VIRTIO_F_ANY_LAYOUT) |
+> +    BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
+> +    BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+> +    BIT_ULL(VIRTIO_NET_F_STANDBY);
 
-Let's add a comment for those fields.
+I wonder what's the reason for having a dedicated feature whitelist for SVQ=
+?
 
->  } SVQElement;
->
->  typedef void (*VirtQueueElementCallback)(VirtIODevice *vdev,
-> @@ -106,6 +109,8 @@ typedef struct VhostShadowVirtqueue {
->
->  bool vhost_svq_valid_features(uint64_t features, Error **errp);
->
-> +bool vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov=
-,
-> +                      size_t out_num, size_t in_num);
->  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_f=
-d);
->  void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd);
->  void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
-virtqueue.c
-> index 87980e2a9c..f3600df133 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -16,6 +16,7 @@
->  #include "qemu/log.h"
->  #include "qemu/memalign.h"
->  #include "linux-headers/linux/vhost.h"
-> +#include "qemu/iov.h"
->
->  /**
->   * Validate the transport device features that both guests can use with =
-the SVQ
-> @@ -122,7 +123,8 @@ static bool vhost_svq_translate_addr(const VhostShado=
-wVirtqueue *svq,
->      return true;
->  }
->
-> -static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwadd=
-r *sg,
-> +static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq,
-> +                                        SVQElement *svq_elem, hwaddr *sg=
-,
->                                          const struct iovec *iovec, size_=
-t num,
->                                          bool more_descs, bool write)
+> +
+>  VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
 >  {
-> @@ -130,15 +132,39 @@ static bool vhost_svq_vring_write_descs(VhostShadow=
-Virtqueue *svq, hwaddr *sg,
->      unsigned n;
->      uint16_t flags =3D write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
->      vring_desc_t *descs =3D svq->vring.desc;
-> -    bool ok;
->
->      if (num =3D=3D 0) {
->          return true;
->      }
->
-> -    ok =3D vhost_svq_translate_addr(svq, sg, iovec, num);
-> -    if (unlikely(!ok)) {
-> -        return false;
-> +    if (svq_elem->not_from_guest) {
-> +        DMAMap map =3D {
-> +            .translated_addr =3D (hwaddr)iovec->iov_base,
-> +            .size =3D ROUND_UP(iovec->iov_len, 4096) - 1,
-> +            .perm =3D write ? IOMMU_RW : IOMMU_RO,
-> +        };
-> +        int r;
-> +
-> +        if (unlikely(num !=3D 1)) {
-> +            error_report("Unexpected chain of element injected");
-> +            return false;
-> +        }
-> +        r =3D vhost_iova_tree_map_alloc(svq->iova_tree, &map);
-> +        if (unlikely(r !=3D IOVA_OK)) {
-> +            error_report("Cannot map injected element");
-> +            return false;
-> +        }
-> +
-> +        r =3D svq->map_ops->map(map.iova, map.size + 1,
-> +                              (void *)map.translated_addr, !write,
-> +                              svq->map_ops_opaque);
-> +        assert(r =3D=3D 0);
-> +        sg[0] =3D map.iova;
-> +    } else {
-> +        bool ok =3D vhost_svq_translate_addr(svq, sg, iovec, num);
-> +        if (unlikely(!ok)) {
-> +            return false;
-> +        }
->      }
->
->      for (n =3D 0; n < num; n++) {
-> @@ -166,7 +192,8 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue =
-*svq, SVQElement *svq_elem,
->      unsigned avail_idx;
->      vring_avail_t *avail =3D svq->vring.avail;
->      bool ok;
-> -    g_autofree hwaddr *sgs =3D g_new(hwaddr, MAX(elem->out_num, elem->in=
-_num));
-> +    g_autofree hwaddr *sgs =3D NULL;
-> +    hwaddr *in_sgs, *out_sgs;
->
->      *head =3D svq->free_head;
->
-> @@ -177,15 +204,23 @@ static bool vhost_svq_add_split(VhostShadowVirtqueu=
-e *svq, SVQElement *svq_elem,
->          return false;
->      }
->
-> -    ok =3D vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out=
-_num,
-> -                                     elem->in_num > 0, false);
-> +    if (!svq_elem->not_from_guest) {
-> +        sgs =3D g_new(hwaddr, MAX(elem->out_num, elem->in_num));
-> +        in_sgs =3D out_sgs =3D sgs;
-> +    } else {
-> +        in_sgs =3D &svq_elem->in_iova;
-> +        out_sgs =3D &svq_elem->out_iova;
-> +    }
-> +    ok =3D vhost_svq_vring_write_descs(svq, svq_elem, out_sgs, elem->out=
-_sg,
-> +                                     elem->out_num, elem->in_num > 0, fa=
-lse);
->      if (unlikely(!ok)) {
->          return false;
->      }
->
-> -    ok =3D vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_n=
-um, false,
-> -                                     true);
-> +    ok =3D vhost_svq_vring_write_descs(svq, svq_elem, in_sgs, elem->in_s=
-g,
-> +                                     elem->in_num, false, true);
->      if (unlikely(!ok)) {
-> +        /* TODO unwind out_sg */
->          return false;
->      }
->
-> @@ -230,6 +265,43 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq=
-)
->      event_notifier_set(&svq->hdev_kick);
+>      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> @@ -196,6 +221,46 @@ static int vhost_vdpa_get_iova_range(int fd,
+>      return ret < 0 ? -errno : 0;
 >  }
 >
-> +bool vhost_svq_inject(VhostShadowVirtqueue *svq, const struct iovec *iov=
-,
-> +                      size_t out_num, size_t in_num)
+> +static void vhost_vdpa_net_handle_ctrl(VirtIODevice *vdev,
+> +                                       const VirtQueueElement *elem)
 > +{
-> +    size_t out_size =3D iov_size(iov, out_num);
-> +    size_t out_buf_size =3D ROUND_UP(out_size, 4096);
-> +    size_t in_size =3D iov_size(iov + out_num, in_num);
-> +    size_t in_buf_size =3D ROUND_UP(in_size, 4096);
-> +    SVQElement *svq_elem;
-> +    uint16_t num_slots =3D (in_num ? 1 : 0) + (out_num ? 1 : 0);
+> +    struct virtio_net_ctrl_hdr ctrl;
+> +    virtio_net_ctrl_ack status =3D VIRTIO_NET_ERR;
+> +    size_t s;
+> +    struct iovec in =3D {
+> +        .iov_base =3D &status,
+> +        .iov_len =3D sizeof(status),
+> +    };
 > +
-> +    if (unlikely(num_slots =3D=3D 0 || svq->next_guest_avail_elem ||
-> +                 vhost_svq_available_slots(svq) < num_slots)) {
-> +        return false;
+> +    s =3D iov_to_buf(elem->out_sg, elem->out_num, 0, &ctrl, sizeof(ctrl.=
+class));
+> +    if (s !=3D sizeof(ctrl.class)) {
+> +        return;
 > +    }
 > +
-> +    svq_elem =3D virtqueue_alloc_element(sizeof(SVQElement), 1, 1);
-> +    if (out_num) {
-> +        void *out =3D qemu_memalign(4096, out_buf_size);
-> +        svq_elem->elem.out_sg[0].iov_base =3D out;
-> +        svq_elem->elem.out_sg[0].iov_len =3D out_size;
-> +        iov_to_buf(iov, out_num, 0, out, out_size);
-> +        memset(out + out_size, 0, out_buf_size - out_size);
-> +    }
-> +    if (in_num) {
-> +        void *in =3D qemu_memalign(4096, in_buf_size);
-> +        svq_elem->elem.in_sg[0].iov_base =3D in;
-> +        svq_elem->elem.in_sg[0].iov_len =3D in_size;
-> +        memset(in, 0, in_buf_size);
-> +    }
-> +
-> +    svq_elem->not_from_guest =3D true;
-> +    vhost_svq_add(svq, svq_elem);
-> +    vhost_svq_kick(svq);
-> +
+> +    switch (ctrl.class) {
+> +    case VIRTIO_NET_CTRL_MAC_ADDR_SET:
+> +    case VIRTIO_NET_CTRL_MQ:
+> +        break;
+> +    default:
+> +        return;
+> +    };
 
-Should we wait for the completion before moving forward? Otherwise we
-will have a race.
+Any reason that we only support those two commands?
 
-And if we wait for the completion (e.g doing busy polling), I think we
-can avoid the auxiliary structures like
-in_iova/out_iova/not_from_guest by doing mapping before
-vhost_svq_add() to keep it clean.
+> +
+> +    s =3D iov_to_buf(elem->in_sg, elem->in_num, 0, &status, sizeof(statu=
+s));
+> +    if (s !=3D sizeof(status) || status !=3D VIRTIO_NET_OK) {
+> +        return;
+> +    }
+> +
+> +    status =3D VIRTIO_NET_ERR;
+> +    virtio_net_handle_ctrl_iov(vdev, &in, 1, elem->out_sg, elem->out_num=
+);
+> +    if (status !=3D VIRTIO_NET_OK) {
+
+status is guaranteed to be VIRTIO_NET_ERROR, so we hit the error for sure?
 
 Thanks
 
-> +    return true;
-> +}
-> +
->  /**
->   * Forward available buffers.
->   *
-> @@ -267,6 +339,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqu=
-eue *svq)
->                  break;
->              }
->
-> +            svq_elem->not_from_guest =3D false;
->              elem =3D &svq_elem->elem;
->              if (elem->out_num + elem->in_num > vhost_svq_available_slots=
-(svq)) {
->                  /*
-> @@ -391,6 +464,31 @@ static SVQElement *vhost_svq_get_buf(VhostShadowVirt=
-queue *svq, uint32_t *len)
->      return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
->  }
->
-> +static int vhost_svq_unmap(VhostShadowVirtqueue *svq, hwaddr iova, size_=
-t size)
-> +{
-> +    DMAMap needle =3D {
-> +        .iova =3D iova,
-> +        .size =3D size,
-> +    };
-> +    const DMAMap *overlap;
-> +
-> +    while ((overlap =3D vhost_iova_tree_find(svq->iova_tree, &needle))) =
-{
-> +        DMAMap needle =3D *overlap;
-> +
-> +        if (svq->map_ops->unmap) {
-> +            int r =3D svq->map_ops->unmap(overlap->iova, overlap->size +=
- 1,
-> +                                        svq->map_ops_opaque);
-> +            if (unlikely(r !=3D 0)) {
-> +                return r;
-> +            }
-> +        }
-> +        qemu_vfree((void *)overlap->translated_addr);
-> +        vhost_iova_tree_remove(svq->iova_tree, &needle);
+> +        error_report("Bad CVQ processing in model");
 > +    }
-> +
-> +    return 0;
 > +}
 > +
->  static void vhost_svq_flush(VhostShadowVirtqueue *svq,
->                              bool check_for_avail_queue)
->  {
-> @@ -410,23 +508,56 @@ static void vhost_svq_flush(VhostShadowVirtqueue *s=
-vq,
->              }
->
->              elem =3D &svq_elem->elem;
-> -            if (unlikely(i >=3D svq->vring.num)) {
-> -                qemu_log_mask(LOG_GUEST_ERROR,
-> -                         "More than %u used buffers obtained in a %u siz=
-e SVQ",
-> -                         i, svq->vring.num);
-> -                virtqueue_fill(vq, elem, len, i);
-> -                virtqueue_flush(vq, i);
-> -                return;
-> -            }
-> -            virtqueue_fill(vq, elem, len, i++);
+> +static const VhostShadowVirtqueueOps vhost_vdpa_net_svq_ops =3D {
+> +    .used_elem_handler =3D vhost_vdpa_net_handle_ctrl,
+> +};
+> +
+>  static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+>                                         const char *device,
+>                                         const char *name,
+> @@ -225,6 +290,9 @@ static NetClientState *net_vhost_vdpa_init(NetClientS=
+tate *peer,
+>      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
+>      s->vhost_vdpa.iova_tree =3D iova_tree ? vhost_iova_tree_acquire(iova=
+_tree) :
+>                                NULL;
+> +    if (!is_datapath) {
+> +        s->vhost_vdpa.shadow_vq_ops =3D &vhost_vdpa_net_svq_ops;
+> +    }
+>      ret =3D vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index,=
+ nvqs);
+>      if (ret) {
+>          if (iova_tree) {
+> @@ -315,9 +383,15 @@ int net_init_vhost_vdpa(const Netdev *netdev, const =
+char *name,
+>      }
+>      if (opts->x_svq) {
+>          struct vhost_vdpa_iova_range iova_range;
 > -
->              if (svq->ops && svq->ops->used_elem_handler) {
->                  svq->ops->used_elem_handler(svq->vdev, elem);
->              }
+> -        if (has_cvq) {
+> -            error_setg(errp, "vdpa svq does not work with cvq");
+> +        uint64_t invalid_dev_features =3D
+> +            features & ~vdpa_svq_device_features &
+> +            /* Transport are all accepted at this point */
+> +            ~MAKE_64BIT_MASK(VIRTIO_TRANSPORT_F_START,
+> +                             VIRTIO_TRANSPORT_F_END - VIRTIO_TRANSPORT_F=
+_START);
 > +
-> +            if (svq_elem->not_from_guest) {
-> +                if (unlikely(!elem->out_num && elem->out_num !=3D 1)) {
-> +                    error_report("Unexpected out_num > 1");
-> +                    return;
-> +                }
-> +
-> +                if (elem->out_num) {
-> +                    int r =3D vhost_svq_unmap(svq, svq_elem->out_iova,
-> +                                            elem->out_sg[0].iov_len);
-> +                    if (unlikely(r !=3D 0)) {
-> +                        error_report("Cannot unmap out buffer");
-> +                        return;
-> +                    }
-> +                }
-> +
-> +                if (unlikely(!elem->in_num && elem->in_num !=3D 1)) {
-> +                    error_report("Unexpected in_num > 1");
-> +                    return;
-> +                }
-> +
-> +                if (elem->in_num) {
-> +                    int r =3D vhost_svq_unmap(svq, svq_elem->in_iova,
-> +                                            elem->in_sg[0].iov_len);
-> +                    if (unlikely(r !=3D 0)) {
-> +                        error_report("Cannot unmap out buffer");
-> +                        return;
-> +                    }
-> +                }
-> +            } else {
-> +                if (unlikely(i >=3D svq->vring.num)) {
-> +                    qemu_log_mask(
-> +                        LOG_GUEST_ERROR,
-> +                        "More than %u used buffers obtained in a %u size=
- SVQ",
-> +                        i, svq->vring.num);
-> +                    virtqueue_fill(vq, elem, len, i);
-> +                    virtqueue_flush(vq, i);
-> +                    return;
-> +                }
-> +                virtqueue_fill(vq, elem, len, i++);
-> +            }
+> +        if (invalid_dev_features) {
+> +            error_setg(errp, "vdpa svq does not work with features 0x%" =
+PRIx64,
+> +                       invalid_dev_features);
+>              goto err_svq;
 >          }
->
-> -        virtqueue_flush(vq, i);
-> -        event_notifier_set(&svq->svq_call);
-> +        if (i > 0) {
-> +            virtqueue_flush(vq, i);
-> +            event_notifier_set(&svq->svq_call);
-> +        }
->
->          if (check_for_avail_queue && svq->next_guest_avail_elem) {
->              /*
-> @@ -590,13 +721,13 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
->      for (unsigned i =3D 0; i < svq->vring.num; ++i) {
->          g_autofree SVQElement *svq_elem =3D NULL;
->          svq_elem =3D g_steal_pointer(&svq->ring_id_maps[i]);
-> -        if (svq_elem) {
-> +        if (svq_elem && !svq_elem->not_from_guest) {
->              virtqueue_detach_element(svq->vq, &svq_elem->elem, 0);
->          }
->      }
->
->      next_avail_elem =3D g_steal_pointer(&svq->next_guest_avail_elem);
-> -    if (next_avail_elem) {
-> +    if (next_avail_elem && !next_avail_elem->not_from_guest) {
->          virtqueue_detach_element(svq->vq, &next_avail_elem->elem, 0);
->      }
->      svq->vq =3D NULL;
+>          vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
 > --
 > 2.27.0
 >
