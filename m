@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5365018B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 18:35:13 +0200 (CEST)
-Received: from localhost ([::1]:45796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E48501939
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 18:56:05 +0200 (CEST)
+Received: from localhost ([::1]:34318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nf2R6-00015d-2S
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 12:35:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53490)
+	id 1nf2lI-0005QQ-Cn
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 12:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nf2Pb-00081F-SR; Thu, 14 Apr 2022 12:33:39 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40711)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nf2PZ-0006p3-2J; Thu, 14 Apr 2022 12:33:39 -0400
-Received: by mail-wr1-x430.google.com with SMTP id q3so7042009wrj.7;
- Thu, 14 Apr 2022 09:33:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NuiYVnCduyAdQX3S5j9YCbOkNWgEJzF0Zsidg3XeV14=;
- b=ZxryQDDJE4+Y0XPpPegVrtg0HNYrpq4qYgiplq8sh5+NCSRSn2Z/WydzrqXuPZnBec
- jTmTGHIi2+cUOuZG+iQ6UJf1EzWmlhVAYUTPCimZCi9PRDo6k120wgI0P7O6Qu3mGVQc
- Bo63iE+46EtfSw1FAgZz7DIp9+eK/DLP8xGGoSm9mFFCCce0wWGBhBFsQLLc1vfpIeSq
- CPyIdDQfeet10IWg+JWlRmBMSjlVMvfoepD5gr4xDRZMUzGj48quMwIR0RCS2h/cTQIo
- SRrkCbArl5/iNMJa7tH+UdL5mP/7L7sFxnUWbbtddb5CFa0cXAZWhtMVpXgSC/KeVOQJ
- jJ4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=NuiYVnCduyAdQX3S5j9YCbOkNWgEJzF0Zsidg3XeV14=;
- b=r6ORqGfPttyntIgLBnFm7ew9hldaJQYqi8xDbeG38eZ0Qy61jOS3zRkLxJfVC64zPH
- Pp7UQUFzeKOGGMkplHcXKh3p5tBbL7+R1IwySr/mgtb+ZB7PQf2NtBRRcjlrHsMpGnkB
- 5zDJJTkGvK8VP5XwRER2bIPneTnHrUmZ60L/ItdIFpPApixBGt3gT7xZGnEY17ZRfZrg
- 1ySPezGiJe/rLmP/eljnsrlYln2LT/g5RZaO8RuaJFz1JwM9LN0D8jldm/Ht+fxjyST3
- yZ2RFZnHfrfeSHf5c45K+GudlIHPqkgdZQ+Yk2lDCQN3H3RjGqpNm43DmRgs3DIZBYOB
- s7gA==
-X-Gm-Message-State: AOAM532+7/l3yd7fO1PanC04YsZUbviiI5tYwTFTKWlshdEeReKp2hO7
- BEZLYVsWI6GMdARz9TC2EqE=
-X-Google-Smtp-Source: ABdhPJz02NqbqTOprZJC1nKFi1QAzQEzOPYj715N43u68X49PZ6xD266Qmk7ciiuOGSn8lsfiqjfKA==
-X-Received: by 2002:a5d:6f10:0:b0:207:aa60:f59f with SMTP id
- ay16-20020a5d6f10000000b00207aa60f59fmr2613941wrb.175.1649954014701; 
- Thu, 14 Apr 2022 09:33:34 -0700 (PDT)
-Received: from [192.168.236.175] (70.red-95-127-187.staticip.rima-tde.net.
- [95.127.187.70]) by smtp.gmail.com with ESMTPSA id
- t15-20020adfeb8f000000b002060d26c211sm2141439wrn.114.2022.04.14.09.33.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Apr 2022 09:33:34 -0700 (PDT)
-Message-ID: <d802fb40-29df-43af-d21f-4a8619865098@gmail.com>
-Date: Thu, 14 Apr 2022 18:33:28 +0200
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nf2iR-0002hE-Vl
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 12:53:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nf2iO-00047k-8v
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 12:53:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649955182;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E63BRQT1K+dPUpioVYGjgw7NNpHe4pG4LBz1mT99fY8=;
+ b=IRa8eP+oLvNVmVaIg1c12CcFKRqDrHqz2q7JFQbeq4Rjz3osAsjSQJ1q5vp77TfREnzxnq
+ CwFehUFg0GFddOxGCx3BKwc40yZFBgao4v4vq4p22VCmp+PBTYKv+sodGc9trQH1l+jfKy
+ qQhTXenN2/IFaZr9tmKG6QgcVRIvYu0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-454-XQJjw0wXOFKnvIy-K_kczQ-1; Thu, 14 Apr 2022 12:53:01 -0400
+X-MC-Unique: XQJjw0wXOFKnvIy-K_kczQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91E0C85A5BE
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 16:53:01 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F1C3145830C
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 16:53:01 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-7.1 0/5] Move memory and boot to -machine
+Date: Thu, 14 Apr 2022 12:52:55 -0400
+Message-Id: <20220414165300.555321-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [PATCH for-7.1] hw/block/fdc-sysbus: Always mark sysbus floppy
- controllers as not having DMA
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220412164921.1685453-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220412164921.1685453-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,46 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/22 18:49, Peter Maydell wrote:
-> The sysbus floppy controllers (devices sysbus-fdc and sun-fdtwo)
-> don't support DMA.  The core floppy controller code expects this to
-> be indicated by setting FDCtrl::dma_chann to -1.  This used to be
-> done in the device instance_init functions sysbus_fdc_initfn() and
-> sun4m_fdc_initfn(), but in commit 1430759ec3e we refactored this code
-> and accidentally lost the setting of dma_chann.
+As the next step in turning command line options into shortcuts, this series
+does -boot and -m.  It also makes -M memory-backend a link instead of special
+casing it in vl.c, and makes the MachineState validate memory configuration
+without needing help from vl.c.
 
-My bad :( Thanks for cleaning up.
+Paolo Bonzini (5):
+  machine: use QAPI struct for boot configuration
+  machine: add boot compound property
+  machine: add mem compound property
+  machine: make memory-backend a link property
+  machine: move more memory validation to Machine object
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ hw/arm/nseries.c        |   2 +-
+ hw/core/machine.c       | 242 +++++++++++++++++++++++++++++++++++-----
+ hw/core/numa.c          |   2 +-
+ hw/hppa/machine.c       |   6 +-
+ hw/i386/pc.c            |   2 +-
+ hw/nvram/fw_cfg.c       |  27 ++---
+ hw/ppc/mac_newworld.c   |   2 +-
+ hw/ppc/mac_oldworld.c   |   2 +-
+ hw/ppc/prep.c           |   2 +-
+ hw/ppc/spapr.c          |   4 +-
+ hw/s390x/ipl.c          |  20 +---
+ hw/sparc/sun4m.c        |   9 +-
+ hw/sparc64/sun4u.c      |   4 +-
+ include/hw/boards.h     |   7 +-
+ include/sysemu/sysemu.h |   2 -
+ qapi/machine.json       |  48 ++++++++
+ softmmu/bootdevice.c    |   3 +-
+ softmmu/globals.c       |   2 -
+ softmmu/vl.c            | 229 +++++++++++--------------------------
+ 19 files changed, 363 insertions(+), 252 deletions(-)
 
-> For sysbus-fdc this has no ill effects because we were redundantly
-> also setting dma_chann in fdctrl_init_sysbus(), but for sun-fdtwo
-> this means that guests which try to enable DMA on the floppy
-> controller will cause QEMU to crash because FDCtrl::dma is NULL.
-> 
-> Set dma_chann to -1 in the common instance init, and remove the
-> redundant code in fdctrl_init_sysbus() that is also setting it.
-> 
-> There is a six-year-old FIXME comment in the jazz board code to the
-> effect that in theory it should support doing DMA via a custom DMA
-> controller.  If anybody ever chooses to fix that they can do it by
-> adding support for setting both FDCtrl::dma_chann and FDCtrl::dma.
-> (A QOM link property 'dma-controller' on the sysbus device which can
-> be set to an instance of IsaDmaClass is probably the way to go.)
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/958
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   include/hw/block/fdc.h |  3 +--
->   hw/block/fdc-sysbus.c  | 14 +++++++++++---
->   hw/mips/jazz.c         |  2 +-
->   3 files changed, 13 insertions(+), 6 deletions(-)
+-- 
+2.31.1
+
 
