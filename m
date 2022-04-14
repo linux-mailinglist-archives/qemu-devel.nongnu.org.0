@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D13500E57
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 15:06:38 +0200 (CEST)
-Received: from localhost ([::1]:49662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E72500FC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 15:48:08 +0200 (CEST)
+Received: from localhost ([::1]:37778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nezBF-0005le-Ix
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 09:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52768)
+	id 1nezpO-0002Jm-PE
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 09:48:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nez6X-0001s4-BG
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:01:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nez6Q-0004gH-Dl
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:01:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649941297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=c8eoRGPU128NeUSkoZyyWUFZnqGdqUiJ8Q4Nnqj0yqQ=;
- b=iZw7WBUVS96do0KtIBjdgEGcJ9HH2x89djNva/Sxnj9LMxlAQNJ9CrHoYvKsjWUp8ydSkd
- UOLhmyidHI293dlaKSbfj+CqQiUcodrjo++PANP3yUe4Ct3xJH2WgydOtPnUIDVDIJBsbR
- nfIKMnHhSd+AajVFDEa4fCTeZeKJw0Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-Ln47yT3BOXmOZt0leo5QiA-1; Thu, 14 Apr 2022 09:01:32 -0400
-X-MC-Unique: Ln47yT3BOXmOZt0leo5QiA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2191F18E525B;
- Thu, 14 Apr 2022 13:01:32 +0000 (UTC)
-Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA0B84050C40;
- Thu, 14 Apr 2022 13:01:28 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] tests/qtest: Move the fuzz tests to x86 only
-Date: Thu, 14 Apr 2022 15:01:27 +0200
-Message-Id: <20220414130127.719528-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nezoX-0001QS-0A
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:47:13 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:35552)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nezoS-0004YF-8w
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:47:12 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id l7so10191670ejn.2
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 06:47:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=KX+uLkge4/8dxwGXXZEWkFsZDjrhV2xBinNdgDfcvYQ=;
+ b=kjC41c+U2hCWRt7+UKMtvZ8iUTjeY5OmuftWtWYRSbSnDD0JuOAv+bWD81tUxSLKwC
+ Slc6oL6L2KoqV56/5x8Ftgr2JEJrC/DCUfJDLMXWDqCbBxl99yAZnxsKofkrDnFBbJUC
+ bsOZ+6+Je+J7MS5ihFCGsQP8UglCdSypPOQFUGNGBzTF0A8iCm7kscsMhkoFaJH9qToU
+ qy8VLdnBxnQhumqtno5lD1QU8ROyP+6Cvn2FwUfu5mWFaMlcu6PzZ3cOEic6S9uW53tk
+ L0MJJ+OCzoWC0AO8S3fQcaxbWiHO1y99eWUF8+XSkZYrURm71iM9MrWqu/kK6KR/KSPV
+ m1uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=KX+uLkge4/8dxwGXXZEWkFsZDjrhV2xBinNdgDfcvYQ=;
+ b=sYr37H1563DJmDMW+s5bnU80Hfog2jGvUak7LlCoidlWp/MyS8XdlJE8WFPlXsAJMo
+ v1xigmheRS7fBpFWR9bJzQarEBVxB0uOe62KOm8FkeSRNRcXKsWEKbmKAb+9qq0h89dZ
+ 38qiE+NejfFKLBZNveX2GsdkZXWaGnhFB4YIKG0XRJm6l3rjjudpPJ6YBc3nuMxlJy12
+ R79AlxUFeIDjHBMzY3oEF1eMh6Em/kxK9h1Ar8l/25ViH4DR4D4ReGUXl5EyaUQyT1Rg
+ D0vbB4xA3FDjkYwh58tW1aFNeKNJM8LLfVxmhpTvmpUoMFhhUBacv+9E1pBzAFXlFcaT
+ vMBA==
+X-Gm-Message-State: AOAM530/XvCTviDaAj2yj2EZui/7lkE5h6Jgx7Cp7xY6XjKjFZ+Yxm6S
+ IQ75oSKhmkNm0Swv+d69vAGLFw==
+X-Google-Smtp-Source: ABdhPJywLCHyyWypoFUAs6G6KFWjF1FFT0tiHJgUlpj49qleX+KTNJNFRPo29F7HHy3NVDwdGWbI0A==
+X-Received: by 2002:a17:907:980b:b0:6e8:b8a8:d045 with SMTP id
+ ji11-20020a170907980b00b006e8b8a8d045mr2523438ejc.460.1649944026120; 
+ Thu, 14 Apr 2022 06:47:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ i11-20020a50e14b000000b0041cd9288aedsm1039461edl.86.2022.04.14.06.47.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Apr 2022 06:47:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 321781FFB7;
+ Thu, 14 Apr 2022 14:47:04 +0100 (BST)
+References: <20220326132534.543738-1-richard.henderson@linaro.org>
+ <20220326132534.543738-23-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.12; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 14/39] accel/tcg: Use cpu_dump_state between
+ qemu_log_trylock/unlock
+Date: Thu, 14 Apr 2022 14:46:59 +0100
+In-reply-to: <20220326132534.543738-23-richard.henderson@linaro.org>
+Message-ID: <87wnfrwzdz.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,176 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Hannes Reinecke <hare@suse.com>,
- qemu-block@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fuzz tests are currently scheduled for all targets, but their setup
-code limits the run to "i386", so that these tests always show "SKIP"
-on other targets. Move it to the right x86 list in meson.build, then
-we can drop the architecture check during runtime, too.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/fuzz-lsi53c895a-test.c  |  8 ++------
- tests/qtest/fuzz-megasas-test.c     | 12 ++++--------
- tests/qtest/fuzz-sb16-test.c        | 12 ++++--------
- tests/qtest/fuzz-sdcard-test.c      | 12 ++++--------
- tests/qtest/fuzz-virtio-scsi-test.c |  8 ++------
- tests/qtest/meson.build             | 13 ++++++-------
- 6 files changed, 22 insertions(+), 43 deletions(-)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-index ba5d468970..031d9de241 100644
---- a/tests/qtest/fuzz-lsi53c895a-test.c
-+++ b/tests/qtest/fuzz-lsi53c895a-test.c
-@@ -39,14 +39,10 @@ static void test_lsi_do_dma_empty_queue(void)
- 
- int main(int argc, char **argv)
- {
--    const char *arch = qtest_get_arch();
--
-     g_test_init(&argc, &argv, NULL);
- 
--    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
--        qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
--                       test_lsi_do_dma_empty_queue);
--    }
-+    qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
-+                   test_lsi_do_dma_empty_queue);
- 
-     return g_test_run();
- }
-diff --git a/tests/qtest/fuzz-megasas-test.c b/tests/qtest/fuzz-megasas-test.c
-index e1141c58a4..129b182f83 100644
---- a/tests/qtest/fuzz-megasas-test.c
-+++ b/tests/qtest/fuzz-megasas-test.c
-@@ -64,16 +64,12 @@ static void test_gitlab_issue521_megasas_sgl_ovf(void)
- 
- int main(int argc, char **argv)
- {
--    const char *arch = qtest_get_arch();
--
-     g_test_init(&argc, &argv, NULL);
- 
--    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
--        qtest_add_func("fuzz/test_lp1878263_megasas_zero_iov_cnt",
--                       test_lp1878263_megasas_zero_iov_cnt);
--        qtest_add_func("fuzz/gitlab_issue521_megasas_sgl_ovf",
--                       test_gitlab_issue521_megasas_sgl_ovf);
--    }
-+    qtest_add_func("fuzz/test_lp1878263_megasas_zero_iov_cnt",
-+                   test_lp1878263_megasas_zero_iov_cnt);
-+    qtest_add_func("fuzz/gitlab_issue521_megasas_sgl_ovf",
-+                   test_gitlab_issue521_megasas_sgl_ovf);
- 
-     return g_test_run();
- }
-diff --git a/tests/qtest/fuzz-sb16-test.c b/tests/qtest/fuzz-sb16-test.c
-index f47a8bcdbd..91fdcd1e8a 100644
---- a/tests/qtest/fuzz-sb16-test.c
-+++ b/tests/qtest/fuzz-sb16-test.c
-@@ -55,15 +55,11 @@ static void test_fuzz_sb16_0xd4(void)
- 
- int main(int argc, char **argv)
- {
--    const char *arch = qtest_get_arch();
--
-     g_test_init(&argc, &argv, NULL);
- 
--   if (strcmp(arch, "i386") == 0) {
--        qtest_add_func("fuzz/test_fuzz_sb16/1c", test_fuzz_sb16_0x1c);
--        qtest_add_func("fuzz/test_fuzz_sb16/91", test_fuzz_sb16_0x91);
--        qtest_add_func("fuzz/test_fuzz_sb16/d4", test_fuzz_sb16_0xd4);
--   }
-+    qtest_add_func("fuzz/test_fuzz_sb16/1c", test_fuzz_sb16_0x1c);
-+    qtest_add_func("fuzz/test_fuzz_sb16/91", test_fuzz_sb16_0x91);
-+    qtest_add_func("fuzz/test_fuzz_sb16/d4", test_fuzz_sb16_0xd4);
- 
--   return g_test_run();
-+    return g_test_run();
- }
-diff --git a/tests/qtest/fuzz-sdcard-test.c b/tests/qtest/fuzz-sdcard-test.c
-index 0f94965a66..d0f4e0e93c 100644
---- a/tests/qtest/fuzz-sdcard-test.c
-+++ b/tests/qtest/fuzz-sdcard-test.c
-@@ -164,15 +164,11 @@ static void oss_fuzz_36391(void)
- 
- int main(int argc, char **argv)
- {
--    const char *arch = qtest_get_arch();
--
-     g_test_init(&argc, &argv, NULL);
- 
--   if (strcmp(arch, "i386") == 0) {
--        qtest_add_func("fuzz/sdcard/oss_fuzz_29225", oss_fuzz_29225);
--        qtest_add_func("fuzz/sdcard/oss_fuzz_36217", oss_fuzz_36217);
--        qtest_add_func("fuzz/sdcard/oss_fuzz_36391", oss_fuzz_36391);
--   }
-+    qtest_add_func("fuzz/sdcard/oss_fuzz_29225", oss_fuzz_29225);
-+    qtest_add_func("fuzz/sdcard/oss_fuzz_36217", oss_fuzz_36217);
-+    qtest_add_func("fuzz/sdcard/oss_fuzz_36391", oss_fuzz_36391);
- 
--   return g_test_run();
-+    return g_test_run();
- }
-diff --git a/tests/qtest/fuzz-virtio-scsi-test.c b/tests/qtest/fuzz-virtio-scsi-test.c
-index aaf6d10e18..c9b6fe2123 100644
---- a/tests/qtest/fuzz-virtio-scsi-test.c
-+++ b/tests/qtest/fuzz-virtio-scsi-test.c
-@@ -62,14 +62,10 @@ static void test_mmio_oob_from_memory_region_cache(void)
- 
- int main(int argc, char **argv)
- {
--    const char *arch = qtest_get_arch();
--
-     g_test_init(&argc, &argv, NULL);
- 
--    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
--        qtest_add_func("fuzz/test_mmio_oob_from_memory_region_cache",
--                       test_mmio_oob_from_memory_region_cache);
--    }
-+    qtest_add_func("fuzz/test_mmio_oob_from_memory_region_cache",
-+                   test_mmio_oob_from_memory_region_cache);
- 
-     return g_test_run();
- }
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 1709fc6ccb..22e1361210 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -17,13 +17,7 @@ slow_qtests = {
-   'test-hmp' : 120,
- }
- 
--qtests_generic = \
--  (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasas-test'] : []) + \
--  (config_all_devices.has_key('CONFIG_LSI_SCSI_PCI') ? ['fuzz-lsi53c895a-test'] : []) + \
--  (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? ['fuzz-virtio-scsi-test'] : []) + \
--  (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : []) + \
--  (config_all_devices.has_key('CONFIG_SDHCI_PCI') ? ['fuzz-sdcard-test'] : []) + \
--  [
-+qtests_generic = [
-   'cdrom-test',
-   'device-introspect-test',
-   'machine-none-test',
-@@ -67,6 +61,11 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
-+  (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasas-test'] : []) +    \
-+  (config_all_devices.has_key('CONFIG_LSI_SCSI_PCI') ? ['fuzz-lsi53c895a-test'] : []) +     \
-+  (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? ['fuzz-virtio-scsi-test'] : []) +     \
-+  (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : []) +                   \
-+  (config_all_devices.has_key('CONFIG_SDHCI_PCI') ? ['fuzz-sdcard-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
-   (config_all_devices.has_key('CONFIG_ACPI_ERST') ? ['erst-test'] : []) +                        \
-   (config_all_devices.has_key('CONFIG_VIRTIO_NET') and                                      \
--- 
-2.27.0
+> Inside log_cpu_state, we perform qemu_log_trylock/unlock, which need
+> not be done if we have already performed the lock beforehand.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
