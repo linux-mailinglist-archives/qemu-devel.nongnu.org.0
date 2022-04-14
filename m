@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EED2500BB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 12:59:53 +0200 (CEST)
-Received: from localhost ([::1]:47060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D414500BC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 13:03:55 +0200 (CEST)
+Received: from localhost ([::1]:51896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nexCa-0006gl-DM
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 06:59:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55710)
+	id 1nexGU-0001gz-Aw
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 07:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1nex1D-0003V9-VS
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:48:08 -0400
-Received: from mga12.intel.com ([192.55.52.136]:34772)
+ id 1nex1F-0003aO-Kh
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:48:09 -0400
+Received: from mga12.intel.com ([192.55.52.136]:34768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1nex1C-0005Kn-6w
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:48:07 -0400
+ id 1nex1D-0005Ka-Le
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 06:48:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649933286; x=1681469286;
+ t=1649933287; x=1681469287;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F9ZmIqeNr50Fo8Vzy6kBuBQvKFH22JABuQLYrlJNHNM=;
- b=jtEitNVNd3vngRwFx9kHVTCZlXeBx6wnN+TcBJ3XWcxxmZoL5R5Arqcz
- 6j9hHr45tCH9mPSBJAveh3ps6+b5e6IaY4x4R8BDLLxjkpX1w59MPgx5+
- kbU/CFjHrjXjazrJ9RBPU4YQM/uQ9RMfkTGFWJ4nuJ0ul8o10I56neO9S
- 1Rhn2MOwW7AFY9B7lF3CnqYLFpgst53FAqr1KxZE97jVNJ/BO1XIXStmM
- GMv73IGPJ9WZcxXBgoxiHfxxaE6dCZpF5P+JHcRTl/wLXZKRg3Y5ilgvy
- Kh4CID/tOlq05PUSWulzBe6fve2fuQSolzyKOXaegpCKG8NYUdWelEunL Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="242836523"
-X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="242836523"
+ bh=0P3OalrBHnBhU01QF07hMbsmlYmh/io4cNMn4gf855E=;
+ b=G3hZ/nXbWaRokI6YYdLJeRk3u+Hs7cPyhTzOmPIaBOUn5+JC9LBiN2xa
+ iA/6tYQyHALAFQra5nfN+BI03KQzC8C4xmqqdCD7skYVI3J5cnUGcojeg
+ htF0On3uYn8E+LiL/nB+p46QVukLn2hQ+WGK9Og1gN1j2TUlGFlYVXFsL
+ YYK28UrIqYipGN+WKVMih2shAGdKl/a0LhBf9H20hexauqFSaptMVtOmu
+ K3ygXK5i1ySO+8Q6ydQRuhM64htaGr393PRP4t2amSaO/5qTI8ufi1zOc
+ GC3dt6mscDhT63IDcDTk94zfmgVgmpi6AGB8UMpP0+6NVBQ46I/gOfRWx A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="242836525"
+X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="242836525"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 03:47:25 -0700
+ 14 Apr 2022 03:47:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="803091263"
+X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="803091268"
 Received: from 984fee00a4c6.jf.intel.com ([10.165.58.231])
- by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2022 03:47:24 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 14 Apr 2022 03:47:25 -0700
 From: Yi Liu <yi.l.liu@intel.com>
 To: alex.williamson@redhat.com,
 	cohuck@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [RFC 17/18] vfio/as: Allow the selection of a given iommu backend
-Date: Thu, 14 Apr 2022 03:47:09 -0700
-Message-Id: <20220414104710.28534-18-yi.l.liu@intel.com>
+Subject: [RFC 18/18] vfio/pci: Add an iommufd option
+Date: Thu, 14 Apr 2022 03:47:10 -0700
+Message-Id: <20220414104710.28534-19-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220414104710.28534-1-yi.l.liu@intel.com>
 References: <20220414104710.28534-1-yi.l.liu@intel.com>
@@ -84,81 +84,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-Now we support two types of iommu backends, let's add the capability
-to select one of them. This is based on a VFIODevice auto/on/off
-iommu_be field. This field is likely to be forced to a given value or
-set by a device option.
+This auto/on/off option allows the user to force a the select
+the iommu BE (iommufd or legacy).
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Yi Liu <yi.l.liu@intel.com>
 ---
- hw/vfio/as.c                  | 31 ++++++++++++++++++++++++++++++-
- include/hw/vfio/vfio-common.h |  1 +
- 2 files changed, 31 insertions(+), 1 deletion(-)
+ hw/vfio/pci.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/hw/vfio/as.c b/hw/vfio/as.c
-index 13a6653a0d..fce7a088e9 100644
---- a/hw/vfio/as.c
-+++ b/hw/vfio/as.c
-@@ -985,16 +985,45 @@ vfio_get_container_class(VFIOIOMMUBackendType be)
-     case VFIO_IOMMU_BACKEND_TYPE_LEGACY:
-         klass = object_class_by_name(TYPE_VFIO_LEGACY_CONTAINER);
-         return VFIO_CONTAINER_OBJ_CLASS(klass);
-+    case VFIO_IOMMU_BACKEND_TYPE_IOMMUFD:
-+        klass = object_class_by_name(TYPE_VFIO_IOMMUFD_CONTAINER);
-+        return VFIO_CONTAINER_OBJ_CLASS(klass);
-     default:
-         return NULL;
-     }
- }
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index cf5703f94b..70a4c2b0a8 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -42,6 +42,8 @@
+ #include "qapi/error.h"
+ #include "migration/blocker.h"
+ #include "migration/qemu-file.h"
++#include "qapi/visitor.h"
++#include "qapi/qapi-visit-common.h"
  
-+static VFIOContainerClass *
-+select_iommu_backend(OnOffAuto value, Error **errp)
+ #define TYPE_VFIO_PCI_NOHOTPLUG "vfio-pci-nohotplug"
+ 
+@@ -3246,6 +3248,26 @@ static Property vfio_pci_dev_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static void get_iommu_be(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp)
 +{
-+    VFIOContainerClass *vccs = NULL;
++    VFIOPCIDevice *vdev = VFIO_PCI(obj);
++    VFIODevice *vbasedev = &vdev->vbasedev;
++    OnOffAuto iommufd_be = vbasedev->iommufd_be;
 +
-+    if (value == ON_OFF_AUTO_OFF) {
-+        return vfio_get_container_class(VFIO_IOMMU_BACKEND_TYPE_LEGACY);
-+    } else {
-+        int iommufd = qemu_open_old("/dev/iommu", O_RDWR);
-+
-+        vccs = vfio_get_container_class(VFIO_IOMMU_BACKEND_TYPE_IOMMUFD);
-+        if (iommufd < 0 || !vccs) {
-+            if (value == ON_OFF_AUTO_AUTO) {
-+                vccs = vfio_get_container_class(VFIO_IOMMU_BACKEND_TYPE_LEGACY);
-+            } else { /* ON */
-+                error_setg(errp, "iommufd backend is not supported by %s",
-+                           iommufd < 0 ? "the host" : "QEMU");
-+                error_append_hint(errp, "set iommufd=off\n");
-+                vccs = NULL;
-+            }
-+        }
-+        close(iommufd);
-+    }
-+    return vccs;
++    visit_type_OnOffAuto(v, name, &iommufd_be, errp);
 +}
 +
- int vfio_attach_device(VFIODevice *vbasedev, AddressSpace *as, Error **errp)
++static void set_iommu_be(Object *obj, Visitor *v, const char *name,
++                         void *opaque, Error **errp)
++{
++    VFIOPCIDevice *vdev = VFIO_PCI(obj);
++    VFIODevice *vbasedev = &vdev->vbasedev;
++
++    visit_type_OnOffAuto(v, name, &vbasedev->iommufd_be, errp);
++}
++
++
+ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
  {
-     VFIOContainerClass *vccs;
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -3253,6 +3275,10 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
  
--    vccs = vfio_get_container_class(VFIO_IOMMU_BACKEND_TYPE_LEGACY);
-+    vccs = select_iommu_backend(vbasedev->iommufd_be, errp);
-     if (!vccs) {
-         return -ENOENT;
-     }
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index bef48ddfaf..2d941aae70 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -126,6 +126,7 @@ typedef struct VFIODevice {
-     VFIOMigration *migration;
-     Error *migration_blocker;
-     OnOffAuto pre_copy_dirty_page_tracking;
-+    OnOffAuto iommufd_be;
- } VFIODevice;
- 
- struct VFIODeviceOps {
+     dc->reset = vfio_pci_reset;
+     device_class_set_props(dc, vfio_pci_dev_properties);
++    object_class_property_add(klass, "iommufd", "OnOffAuto",
++                              get_iommu_be, set_iommu_be, NULL, NULL);
++    object_class_property_set_description(klass, "iommufd",
++                                          "Enable iommufd backend");
+     dc->desc = "VFIO-based PCI device assignment";
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+     pdc->realize = vfio_realize;
 -- 
 2.27.0
 
