@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599C15004B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 05:38:56 +0200 (CEST)
-Received: from localhost ([::1]:32990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C67575004B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 05:40:13 +0200 (CEST)
+Received: from localhost ([::1]:35130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1neqJr-0004rI-6w
-	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 23:38:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46256)
+	id 1neqL6-0006IH-UY
+	for lists+qemu-devel@lfdr.de; Wed, 13 Apr 2022 23:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1neqIl-00049G-NG
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:37:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47557)
+ id 1neqJu-0005Qc-4C
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:38:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1neqIk-00030a-4D
- for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:37:47 -0400
+ id 1neqJs-00034i-Is
+ for qemu-devel@nongnu.org; Wed, 13 Apr 2022 23:38:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649907465;
+ s=mimecast20190719; t=1649907535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pJ63sx79hRqvwtsJezH4JPlWnKSW0eZRmc5GOsaPDzw=;
- b=QhyGaumJ3igvDXqKfMWRHUwnN+3BwKzRvn690ZBesSplMqhhpvmQIDN8XOORvLkQd9p1Yy
- qE6zplK0bJZ9qx4GCBGKe3H0z4TuZsY9VNCjniv/Q6QjCO9gLZ1zixmV7AxGobT0io9IuE
- KSqozGHBivxAKXG6iuE6Tfb0pvloK9g=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tjzn/njkWKVm9Aq/dD37bc+8GkjYWrurqjE4+N/0JOc=;
+ b=S2m660Hl03Fp5vSnHB8YYKa85kC86jVQ5j1k37O/RtkVMarJ7CblNeHYkoEbhmYIWsxZZ4
+ dKehMuLqqgPkBuAwD01JRwEvoMSGLYGrl019EXIFYszMm8+3PS5MX8t9fqC3SS1d5TXkdc
+ jcXrjZMHeSLFOEobi33+oQunRA8TAcQ=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-48-a3oHQR9pMhKIlXy9VXQbWA-1; Wed, 13 Apr 2022 23:37:42 -0400
-X-MC-Unique: a3oHQR9pMhKIlXy9VXQbWA-1
-Received: by mail-pl1-f200.google.com with SMTP id
- u5-20020a170902b28500b00158a978a3a8so1455466plr.19
- for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 20:37:42 -0700 (PDT)
+ us-mta-424-ZUM1-sCzMxaJ2JqtknL--g-1; Wed, 13 Apr 2022 23:38:54 -0400
+X-MC-Unique: ZUM1-sCzMxaJ2JqtknL--g-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ q13-20020a638c4d000000b003821725ad66so2088491pgn.23
+ for <qemu-devel@nongnu.org>; Wed, 13 Apr 2022 20:38:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=pJ63sx79hRqvwtsJezH4JPlWnKSW0eZRmc5GOsaPDzw=;
- b=4d1TIAcg4zm5ERA9jgJmVsRHaLfmq/RgAQtsGHuLclUcakllU3EmQ0nT1EJfZchFAW
- SBB6eIyzlFdJpbgNAcZWXWT1Z3wcNCRTjX4KTPK2cnaTzPCzubxPBFF2tdXg6SFFgTa8
- dpG1L+Y+NBlPZSH675/EshXQllc5+RpqB0TnTCZRa7jvdQ+JabyqJZ2l9vt6yeFjkgrX
- zbM6Z9xDYOJUh7z3jQRxsDtBNhJ69ApOYByYkQ5OdlcgYyt3PffQJNsZIyA9bwynYuwD
- XRGKydHcC7hYNVYFfOvQUofm/9OwDKLBcUkSDtaWLgVD2d6sQzu1F/Kh8G6GM2nH6F+W
- Zf5g==
-X-Gm-Message-State: AOAM532Egmbikdg9qMXNoNC6cKcrIYWZJXqjxYjNwmS4A6aWDn1RYQVD
- 41EGIQmtYZKVxWad5FgjdXj+GDONgPanX77/Flgf8FvCQlFxfwGaj4ZKc/gcYr6iMS2maS/NP9x
- odKd1ip6VPjUjbrI=
-X-Received: by 2002:a17:90b:19d7:b0:1c7:3413:87e0 with SMTP id
- nm23-20020a17090b19d700b001c7341387e0mr1534178pjb.132.1649907461471; 
- Wed, 13 Apr 2022 20:37:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyH9U0AAIJZef3SE/lvaxLkWVX/+jDmNBEy+kdfA78JCq8mbGuCfaCPhjpp40LqRcDba/ik/g==
-X-Received: by 2002:a17:90b:19d7:b0:1c7:3413:87e0 with SMTP id
- nm23-20020a17090b19d700b001c7341387e0mr1534162pjb.132.1649907461240; 
- Wed, 13 Apr 2022 20:37:41 -0700 (PDT)
+ bh=tjzn/njkWKVm9Aq/dD37bc+8GkjYWrurqjE4+N/0JOc=;
+ b=3ncOv2mcFRfYx8SvvyiYDVc1CV+8N+rW/HwJuSqjPE/981u2imtCXflj08go3DMikH
+ hWN0NI1IQBn+Q7xWU6Q8znDbgMbwl+P410J1xU7eXwVzTJkprb5zej5Mj0yygx0aglsU
+ jtM/ivqnJRcB2q1uui/CoFhi6aDGDcz+K9R2l4X2DHEnKmRDpGHJWa47Mas7vKJrMOlK
+ phcU88iagfnMpGjnjag2b6GX61efWeFpVNgND4eGMrSDAdOB/jtAfDFz68KfdbSFzFck
+ OAztagFO21Q7KM+SrrdQEPAAt3r0AtoXZnL2IUeSquclmqXIxR3+wJQf43tLvYP+EGdI
+ IrJQ==
+X-Gm-Message-State: AOAM532I6uIsINiB+M73gal6qOJzf6smW9oTaLQ+1MMSbzhqhhIIuFn4
+ ZfkPOwPi2l2VKbeQCYR10ZBqqCF48x8v7oMlWgM7U3kadBl3CPOos5mOoTaDyxHLEjKy1Brs9uV
+ 9gmXmq5WigC7shsg=
+X-Received: by 2002:a63:1325:0:b0:39d:8eaa:27f7 with SMTP id
+ i37-20020a631325000000b0039d8eaa27f7mr661598pgl.297.1649907533316; 
+ Wed, 13 Apr 2022 20:38:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEJ9lif8qZPp1hmvCQP/RwooeiH7VHBXpgN3Rfq7j1/dmOGCj7439e0hMJFhuwKem/lNJ8XA==
+X-Received: by 2002:a63:1325:0:b0:39d:8eaa:27f7 with SMTP id
+ i37-20020a631325000000b0039d8eaa27f7mr661567pgl.297.1649907533030; 
+ Wed, 13 Apr 2022 20:38:53 -0700 (PDT)
 Received: from [10.72.13.201] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- z6-20020a056a00240600b004e17ab23340sm515516pfh.177.2022.04.13.20.37.35
+ z7-20020a056a00240700b004e1cde37bc1sm507431pfh.84.2022.04.13.20.38.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 20:37:40 -0700 (PDT)
-Message-ID: <f2fb6570-78cc-2cdb-5a8b-740e49fd7ab2@redhat.com>
-Date: Thu, 14 Apr 2022 11:37:34 +0800
+ Wed, 13 Apr 2022 20:38:52 -0700 (PDT)
+Message-ID: <2a158730-570b-998a-0773-21c4b60e97db@redhat.com>
+Date: Thu, 14 Apr 2022 11:38:44 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [RFC PATCH v5 04/23] hw/virtio: Replace g_memdup() by g_memdup2()
+Subject: Re: [RFC PATCH v5 05/23] vhost: Fix bad return of descriptors to SVQ
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20220408133415.1371760-1-eperezma@redhat.com>
- <20220408133415.1371760-5-eperezma@redhat.com>
+ <20220408133415.1371760-6-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220408133415.1371760-5-eperezma@redhat.com>
+In-Reply-To: <20220408133415.1371760-6-eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -117,71 +117,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/4/8 21:33, Eugenio Pérez 写道:
-> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Only the first one of them were properly enqueued back.
 >
-> Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
->
->    The old API took the size of the memory to duplicate as a guint,
->    whereas most memory functions take memory sizes as a gsize. This
->    made it easy to accidentally pass a gsize to g_memdup(). For large
->    values, that would lead to a silent truncation of the size from 64
->    to 32 bits, and result in a heap area being returned which is
->    significantly smaller than what the caller expects. This can likely
->    be exploited in various modules to cause a heap buffer overflow.
->
-> Replace g_memdup() by the safer g_memdup2() wrapper.
->
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
 
 
 Acked-by: Jason Wang <jasowang@redhat.com>
 
 
->   hw/net/virtio-net.c       | 3 ++-
->   hw/virtio/virtio-crypto.c | 6 +++---
->   2 files changed, 5 insertions(+), 4 deletions(-)
+>   hw/virtio/vhost-shadow-virtqueue.c | 17 +++++++++++++++--
+>   1 file changed, 15 insertions(+), 2 deletions(-)
 >
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 1067e72b39..e4748a7e6c 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -1443,7 +1443,8 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
->           }
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+> index b232803d1b..c17506df20 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -333,13 +333,25 @@ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
+>       svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+>   }
 >   
->           iov_cnt = elem->out_num;
-> -        iov2 = iov = g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_num);
-> +        iov2 = iov = g_memdup2(elem->out_sg,
-> +                               sizeof(struct iovec) * elem->out_num);
->           s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
->           iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
->           if (s != sizeof(ctrl)) {
-> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> index dcd80b904d..0e31e3cc04 100644
-> --- a/hw/virtio/virtio-crypto.c
-> +++ b/hw/virtio/virtio-crypto.c
-> @@ -242,7 +242,7 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
->           }
+> +static uint16_t vhost_svq_last_desc_of_chain(VhostShadowVirtqueue *svq,
+> +                                             uint16_t i)
+> +{
+> +    vring_desc_t *descs = svq->vring.desc;
+> +
+> +    while (le16_to_cpu(descs[i].flags) & VRING_DESC_F_NEXT) {
+> +        i = le16_to_cpu(descs[i].next);
+> +    }
+> +
+> +    return i;
+> +}
+> +
+>   static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+>                                              uint32_t *len)
+>   {
+>       vring_desc_t *descs = svq->vring.desc;
+>       const vring_used_t *used = svq->vring.used;
+>       vring_used_elem_t used_elem;
+> -    uint16_t last_used;
+> +    uint16_t last_used, last_used_chain;
 >   
->           out_num = elem->out_num;
-> -        out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-> +        out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
->           out_iov = out_iov_copy;
->   
->           in_num = elem->in_num;
-> @@ -605,11 +605,11 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
+>       if (!vhost_svq_more_used(svq)) {
+>           return NULL;
+> @@ -365,7 +377,8 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+>           return NULL;
 >       }
 >   
->       out_num = elem->out_num;
-> -    out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-> +    out_iov_copy = g_memdup2(elem->out_sg, sizeof(out_iov[0]) * out_num);
->       out_iov = out_iov_copy;
+> -    descs[used_elem.id].next = svq->free_head;
+> +    last_used_chain = vhost_svq_last_desc_of_chain(svq, used_elem.id);
+> +    descs[last_used_chain].next = svq->free_head;
+>       svq->free_head = used_elem.id;
 >   
->       in_num = elem->in_num;
-> -    in_iov_copy = g_memdup(elem->in_sg, sizeof(in_iov[0]) * in_num);
-> +    in_iov_copy = g_memdup2(elem->in_sg, sizeof(in_iov[0]) * in_num);
->       in_iov = in_iov_copy;
->   
->       if (unlikely(iov_to_buf(out_iov, out_num, 0, &req, sizeof(req))
+>       *len = used_elem.len;
 
 
