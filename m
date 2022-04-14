@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D44501537
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 17:39:35 +0200 (CEST)
-Received: from localhost ([::1]:47748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF355501702
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 17:57:11 +0200 (CEST)
+Received: from localhost ([::1]:59800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nf1ZG-00052v-7m
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 11:39:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39686)
+	id 1nf1qE-0005ap-FS
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 11:57:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1nf1XX-0003Qq-In
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 11:37:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60831)
+ (Exim 4.90_1) (envelope-from <prvs=09613d920=niklas.cassel@wdc.com>)
+ id 1nf1ox-0004lT-Eg; Thu, 14 Apr 2022 11:55:47 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:21674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1nf1XT-0006OW-Oe
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 11:37:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649950661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CfUL2qaqlFXi9mZE+3/1hhY4kbVbT2iWiO+gyFBJ6Yw=;
- b=Bt6r/hWSTZQww40ivXYct/LSWNs5/LSUF+YL9ULP5mVDd7tIMQ9fOf/zEd6sSTsdX8sL19
- NurprtMRB6DF3CHtf+ZD4j2uruSFpGDaiQ/f+VbIU19T6rzwNVBRlSIgkayrexHjsGH1oS
- 5Vp+RcnJmtLTcR2IJYJGj7ddBcfkhJE=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-JzydLFC4NPCfjRytdvRJ3g-1; Thu, 14 Apr 2022 11:37:40 -0400
-X-MC-Unique: JzydLFC4NPCfjRytdvRJ3g-1
-Received: by mail-qv1-f69.google.com with SMTP id
- jr12-20020a0562142a8c00b0044429017bcbso4626718qvb.20
- for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 08:37:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=CfUL2qaqlFXi9mZE+3/1hhY4kbVbT2iWiO+gyFBJ6Yw=;
- b=vaz1dOhda6/43icq6xQPSijYMFuYwf8h/V44JnuED57iLDCBGTmDkTXcUG1ctrdbxN
- cYXFrwwR0lrBSpPFSQ7/rDzxW1+YkLqyxjlw/dAsgcWjUB7vMLikaDK1qc9RnPMywHKY
- a6U8N6vOWwH05eXTr4aroF/63Tj/p8rwMsjzK68ID7RuOemrpW/OosajQqDzOJb+9ew7
- JLSffgdQE+M4yfKM2w5GdlGQaxfeYNP6h/2eoDI+YsXaHhbeffsIxyfx9Af1gO6QgBsE
- h1y9EAwvfTy0QygjHMCRpqpLwaqbmumRnzqtykERIjKnZSOnkKWGRkEFLKILoeTv7Ndp
- UOtA==
-X-Gm-Message-State: AOAM532GLmm3zLX6mhxNmjThEt8lcF58slQnPyjllBNLYZ8Cd+LsSw5K
- gTjgawxYgFA56CKx6GJ88t/uBHqp2RMllaAPr+BP0yliUsjblZDJXgeOf4OrmrQPrKFDfRkHjWR
- B360opO39jxTwPw8=
-X-Received: by 2002:a0c:9045:0:b0:443:cec9:e349 with SMTP id
- o63-20020a0c9045000000b00443cec9e349mr3871346qvo.88.1649950659621; 
- Thu, 14 Apr 2022 08:37:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3HYNBpUQ/7QRRidr6ofI5JOk8jXX4/AIc1ach1ALtXI+YwjNuR/1TYx1Ai/btY3pDmjNzpQ==
-X-Received: by 2002:a0c:9045:0:b0:443:cec9:e349 with SMTP id
- o63-20020a0c9045000000b00443cec9e349mr3871320qvo.88.1649950659347; 
- Thu, 14 Apr 2022 08:37:39 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.26.186])
- by smtp.gmail.com with ESMTPSA id
- m10-20020a05622a054a00b002eb965bbc3esm1421226qtx.93.2022.04.14.08.37.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Apr 2022 08:37:39 -0700 (PDT)
-Message-ID: <3307503e-aa21-24f8-c9dc-7151eeda2f9b@redhat.com>
-Date: Thu, 14 Apr 2022 17:37:35 +0200
+ (Exim 4.90_1) (envelope-from <prvs=09613d920=niklas.cassel@wdc.com>)
+ id 1nf1ot-0000wq-Ch; Thu, 14 Apr 2022 11:55:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1649951743; x=1681487743;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ZSUa15JuP2rebAbx5D3GQJOhU3wIEw022dQbQBD30fI=;
+ b=Fw0G3qSec5CI8y3yUQSsOnTqjLXjUPWdfKPHbnhU3Wv8SiKxbmcLfKzu
+ o4k3SCmttpNkaFfNPC9w0XnkmciPzkyMbNhUmsyX15/dtaB7w+6jy8JrD
+ FT6rSK3BLn5fzkph39cukLGXnOmIgjRQ4i/cqLar/fcdXC7j34V6ftfC5
+ 6fHyHdET3CeEiGuicTbCEyxQ2WXkENxGYL6+G7yf4QHDcsb3l6DZAhXOz
+ maQOpK0V9CL7HNr6jBGR0Ue7ycyB/4EX1cQ+PawhkKSAKwe3Vl7y+BC72
+ dAaIoI1BpLyAG1wcglJ+dBoSSB4519yU8/h8phE+tnL4qj2XRURXjuQTz w==;
+X-IronPort-AV: E=Sophos;i="5.90,260,1643644800"; d="scan'208";a="196789230"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 14 Apr 2022 23:55:38 +0800
+IronPort-SDR: LQDAf1eAZ2kGQugSWwWVKy+xosKRF178xY5QjPcWcLWySvL8HBZsh9L6Mxt/VCfoVghvkl8R2u
+ mCHopHk6XkShTJznUwFFMIXaTZD3mfgtEsdmWz8/hMltW29GH4yOqVWhAGYiQ00H21tFwgkCjv
+ U3Y/zqHSsgH4XHLlcfI+f6kp3lRBY2hd29u8aniO9nEz3rvhjXK4tqycGqInZqao75pf2r7B0F
+ H5nEkD2T/kWJcU1/hxiIfG406uYKUm8/sIfNkGS9VtgwcNJknRWipiddjMgdEMoxNMPZIbhycC
+ okRdC0/4soit4D4z8g++yzHW
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 14 Apr 2022 08:26:51 -0700
+IronPort-SDR: T1Kqewkpfh4/m90/nN1rftG97IMsupQc47Sk1tBYy9B9Bx1IZ0O0CHF7VnCNE9mrHP1ugorCpw
+ eG6AB464jsc8L38AEFQyzwrLiLlo1GMySxMWTZLIQwbwWT+YQEYnzMFXzVa7qyT6/fZeFAJP2m
+ dqyrmVaf64Pi1mz2afzg9OF+1Du9DdLqNKn7YRdAmfxxp+KB/eEXUhF5cXG1dw92/Ct5J9G+w1
+ FQy+usADlnLD7YlCDXOINkwTEHsYzx/ntTnv4rreZf+It7Qw4esx0sjh34AH2L6LWY1arJruJn
+ hEw=
+WDCIronportException: Internal
+Received: from unknown (HELO x1-carbon.wdc.com) ([10.225.164.21])
+ by uls-op-cesaip01.wdc.com with ESMTP; 14 Apr 2022 08:55:38 -0700
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>
+Subject: [PATCH] hw/riscv: virt: fix DT property mmu-type when CPU mmu option
+ is disabled
+Date: Thu, 14 Apr 2022 17:55:10 +0200
+Message-Id: <20220414155510.1364147-1-niklas.cassel@wdc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] tests/qtest: Move the fuzz tests to x86 only
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220414130127.719528-1-thuth@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <20220414130127.719528-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=09613d920=niklas.cassel@wdc.com; helo=esa4.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,30 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hannes Reinecke <hare@suse.com>, qemu-block@nongnu.org,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Niklas Cassel <niklas.cassel@wdc.com>
+From:  Niklas Cassel via <qemu-devel@nongnu.org>
 
-On 14/04/2022 15:01, Thomas Huth wrote:
-> The fuzz tests are currently scheduled for all targets, but their setup
-> code limits the run to "i386", so that these tests always show "SKIP"
-> on other targets. Move it to the right x86 list in meson.build, then
-> we can drop the architecture check during runtime, too.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/qtest/fuzz-lsi53c895a-test.c  |  8 ++------
->   tests/qtest/fuzz-megasas-test.c     | 12 ++++--------
->   tests/qtest/fuzz-sb16-test.c        | 12 ++++--------
->   tests/qtest/fuzz-sdcard-test.c      | 12 ++++--------
->   tests/qtest/fuzz-virtio-scsi-test.c |  8 ++------
->   tests/qtest/meson.build             | 13 ++++++-------
->   6 files changed, 22 insertions(+), 43 deletions(-)
-> 
+The device tree property "mmu-type" is currently exported as either
+"riscv,sv32" or "riscv,sv48".
 
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+However, the riscv cpu device tree binding [1] has a specific value
+"riscv,none" for a HART without a MMU.
+
+Set the device tree property "mmu-type" to "riscv,none" when the CPU mmu
+option is disabled using rv32,mmu=off or rv64,mmu=off.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/riscv/cpus.yaml?h=v5.17
+
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+---
+ hw/riscv/virt.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index da50cbed43..3be6be9ad3 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -230,8 +230,14 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
+         cpu_name = g_strdup_printf("/cpus/cpu@%d",
+             s->soc[socket].hartid_base + cpu);
+         qemu_fdt_add_subnode(mc->fdt, cpu_name);
+-        qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
+-            (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
++        if (riscv_feature(&s->soc[socket].harts[cpu].env,
++                          RISCV_FEATURE_MMU)) {
++            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
++                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
++        } else {
++            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
++                                    "riscv,none");
++        }
+         name = riscv_isa_string(&s->soc[socket].harts[cpu]);
+         qemu_fdt_setprop_string(mc->fdt, cpu_name, "riscv,isa", name);
+         g_free(name);
+-- 
+2.35.1
 
 
