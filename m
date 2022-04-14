@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D529A5006D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 09:24:43 +0200 (CEST)
-Received: from localhost ([::1]:33264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F93A50070E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 09:38:11 +0200 (CEST)
+Received: from localhost ([::1]:42566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1netqM-00040T-Gy
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 03:24:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34102)
+	id 1neu3N-0002OE-P7
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 03:38:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1netp4-0003CJ-Kj
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 03:23:22 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:16181
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1netp2-0004WW-Vp
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 03:23:22 -0400
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4Kf9sr4ncTz8PbN;
- Thu, 14 Apr 2022 03:23:12 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=OxPziE5wT
- V6ulT0Y8puVwsAyXks=; b=pk5Df4xAYKDVI/n2nvxRgWjvNVBzmL8n/takAjKEg
- savngt1Qc9aBbzLHVaSnT5I9WYaOy+LWK1ao7G0Yq/vsDq/9U1S/cG8EcQEkTmq+
- uo9iobWVy/TZAZXsv9xEHfku+9bXudsX6/XEiQaoExdqVbb7z5NSyIyhTP6b+01B
- 2k=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=XtZ
- s3k0mwZlkyUrf5bmbqteG1IAqj/qXjw6CXv2H/G3nPnnPfsLswCUmn6rfB5MLe/a
- 6hq6G+G6AjFna8YbMLczqB010jGtzcykq73ZHOtIDAFhHyKerY5ttqks1UlKzYcq
- iEHJsnDh+DLNWP2AHT75MZrTv7PLefhNjLlUwzpA=
-Received: from [IPV6:2001:470:b050:6:1458:bf44:bad9:af63] (unknown
- [IPv6:2001:470:b050:6:1458:bf44:bad9:af63])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4Kf9sr1NBBz8PbK;
- Thu, 14 Apr 2022 03:23:12 -0400 (EDT)
-Message-ID: <dee8dc17-ea0a-2650-5bf4-3f5c233a6bca@comstyle.com>
-Date: Thu, 14 Apr 2022 03:23:11 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1neu1H-00013g-6I
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 03:35:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1neu1E-0006dk-Fu
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 03:35:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649921755;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FFNGZhOY0L7dTVI6EkMXNTjcF2XmgSOA1ML+u+cLbT0=;
+ b=UlkyCQyMkB7SZypp6SOZxrQvXcD+U2AKrFtRGS4VN+0pbywlQmbOAhorhpx45mceLUZuf6
+ sNqeGHnvEInhxEZF2Y+o92EiH/GH6yH1lSSoZhfFLZy4BXNoMJBzj/3bMHdms0Za+RIAW9
+ 5B0UOoi1Sps/GZbSy2YsgBp4MeJcNDU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-131-QCdLjFs_MIiwOHL3WeIJFg-1; Thu, 14 Apr 2022 03:35:50 -0400
+X-MC-Unique: QCdLjFs_MIiwOHL3WeIJFg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CE1838008A7;
+ Thu, 14 Apr 2022 07:35:50 +0000 (UTC)
+Received: from [10.72.13.171] (ovpn-13-171.pek2.redhat.com [10.72.13.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A98A041D40E;
+ Thu, 14 Apr 2022 07:35:45 +0000 (UTC)
+Subject: Re: [PATCH v5 2/4] hw/arm/virt: Consider SMP configuration in CPU
+ topology
+To: "wangyanan (Y)" <wangyanan55@huawei.com>, qemu-arm@nongnu.org
+References: <20220403145953.10522-1-gshan@redhat.com>
+ <20220403145953.10522-3-gshan@redhat.com>
+ <6f713fec-71e6-3300-a504-817f45a82a51@huawei.com>
+ <27df8771-ebe0-b5fe-39c4-83696e21e3a3@redhat.com>
+ <ea5ab7db-1831-83a5-1719-239930b37571@huawei.com>
+ <c49d80af-f68b-1b5c-a808-848172d88f89@redhat.com>
+ <f02ae2ce-0256-ac85-0bb7-bd34244d9781@huawei.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <503fb329-8f39-eddb-d05a-729279934fa7@redhat.com>
+Date: Thu, 14 Apr 2022 15:35:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101
- Thunderbird/100.0
-Subject: Re: [RFC PATCH for-7.1] Remove the slirp submodule (and only compile
- with an external libslirp)
+In-Reply-To: <f02ae2ce-0256-ac85-0bb7-bd34244d9781@huawei.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-References: <20220408164749.534758-1-thuth@redhat.com>
- <72fe734a-8bf6-adc6-474a-47f2006c2f6d@comstyle.com>
- <CAFEAcA-NdeN8S0JXqfrpTiDoUmfZHBXUtdAuRAdDRooTpnYipA@mail.gmail.com>
- <b701aa9f-4dff-4a67-92a5-529fd07a7f1d@comstyle.com>
- <07a2ce65-41b9-7313-d7cc-51c2edb8cfd3@redhat.com>
-From: Brad Smith <brad@comstyle.com>
-In-Reply-To: <07a2ce65-41b9-7313-d7cc-51c2edb8cfd3@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,75 +89,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, zhenyzha@redhat.com, shan.gavin@gmail.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/11/2022 2:55 AM, Thomas Huth wrote:
-> On 11/04/2022 01.50, Brad Smith wrote:
->> On 4/10/2022 5:06 AM, Peter Maydell wrote:
->>> On Sun, 10 Apr 2022 at 05:51, Brad Smith <brad@comstyle.com> wrote:
->>>> On 4/8/2022 12:47 PM, Thomas Huth wrote:
->>>>> QEMU 7.1 won't support Ubuntu 18.04 anymore, so the last big=20
->>>>> important
->>>>> distro that did not have a pre-packaged libslirp has been dismissed=
-.
->>>>> All other major distros seem to have a libslirp package in their
->>>>> distribution already - according to repology.org:
->>>>>
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-Fedora 34: 4.4.0
->>>>> =C2=A0=C2=A0=C2=A0 CentOS 8 (RHEL-8): 4.4.0
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Debian Buster: 4.3.1 (in=
- buster-backports)
->>>>> =C2=A0=C2=A0 OpenSUSE Leap 15.3: 4.3.1
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 Ubuntu LTS 20.04: 4.1.0
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FreeBSD Ports: 4.6.1
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NetBSD pkgsrc: 4.3.1
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 Homebrew: 4.6.1
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MSYS2 mingw:=
- 4.6.1
->>>>>
->>>>> The only one that still seems to be missing a libslirp package is
->>>>> OpenBSD - but I assume that they can add it to their ports system
->>>>> quickly if required.
->>>> I wish I had seen this earlier as our 7.1 release was just tagged.
->>>>
->>>> I have whipped up a port of 4.6.1 for OpenBSD as it was pretty=20
->>>> simple. I
->>>> will
->>>> see about submitting it in a number of days when the tree opens.
->>> How awkward would it be for an end-user who's on OpenBSD 7.1 to
->>> build a QEMU that doesn't have libslirp? (That is, is it easy
->>> and common for an end user to pull in a port of libslirp that only
->>> came along in a later OpenBSD, or would they instead have to
->>> manually compile libslirp themselves from the upstream sources?)
->>>
->>> (I'm asking here because if it's painful, then we should perhaps
->>> defer dropping our submodule copy of libslirp a little longer.)
->>>
->>> thanks
->>> -- PMM
->>
->> They would have to pull down a -current ports tree and build it. No=20
->> package
->> would exist for the release. It is possible, but not "supported". I=20
->> have not looked
->> at the CI bits to see how difficult that would be.
->>
->> Our release cycles are 6 months and the next release will be in the=20
->> middle
->> of October.
->
-> OK, thanks for the update, Brad ... so I guess we should defer this=20
-> patch to QEMU 7.2 (to be released in december) instead?
-> (which would be fine for me - I just wanted to get the discussion=20
-> started, that's also why I've marked this patch as RFC)
->
+Hi Yanan,
 
-I would prefer that. My libslirp port will be going in in the next=20
-couple days and
-packages for -current snaps will be built. Our 7.2 release should be out=20
-well before the
-next QEMU release.
+On 4/14/22 10:49 AM, wangyanan (Y) wrote:
+> On 2022/4/14 10:37, Gavin Shan wrote:
+>> On 4/14/22 10:27 AM, wangyanan (Y) wrote:
+>>> On 2022/4/14 8:08, Gavin Shan wrote:
+>>>> On 4/13/22 8:39 PM, wangyanan (Y) wrote:
+>>>>> On 2022/4/3 22:59, Gavin Shan wrote:
+>>>>>> Currently, the SMP configuration isn't considered when the CPU
+>>>>>> topology is populated. In this case, it's impossible to provide
+>>>>>> the default CPU-to-NUMA mapping or association based on the socket
+>>>>>> ID of the given CPU.
+>>>>>>
+>>>>>> This takes account of SMP configuration when the CPU topology
+>>>>>> is populated. The die ID for the given CPU isn't assigned since
+>>>>>> it's not supported on arm/virt machine yet.
+>>>>>>
+>>>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>>>>> ---
+>>>>>>   hw/arm/virt.c | 16 +++++++++++++++-
+>>>>>>   1 file changed, 15 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>>>>> index d2e5ecd234..3174526730 100644
+>>>>>> --- a/hw/arm/virt.c
+>>>>>> +++ b/hw/arm/virt.c
+>>>>>> @@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>>>>>       int n;
+>>>>>>       unsigned int max_cpus = ms->smp.max_cpus;
+>>>>>>       VirtMachineState *vms = VIRT_MACHINE(ms);
+>>>>>> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
+>>>>>>       if (ms->possible_cpus) {
+>>>>>>           assert(ms->possible_cpus->len == max_cpus);
+>>>>>> @@ -2518,8 +2519,21 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+>>>>>>           ms->possible_cpus->cpus[n].type = ms->cpu_type;
+>>>>>>           ms->possible_cpus->cpus[n].arch_id =
+>>>>>>               virt_cpu_mp_affinity(vms, n);
+>>>>>> +
+>>>>>> +        assert(!mc->smp_props.dies_supported);
+>>>>>> + ms->possible_cpus->cpus[n].props.has_socket_id = true;
+>>>>>> +        ms->possible_cpus->cpus[n].props.socket_id =
+>>>>>> +            (n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads)) %
+>>>>>> +            ms->smp.sockets;
+>>>>> No need for "% ms->smp.sockets".
+>>>>
+>>>> Yeah, lets remove it in v6.
+>>>>
+>>>>>> + ms->possible_cpus->cpus[n].props.has_cluster_id = true;
+>>>>>> +        ms->possible_cpus->cpus[n].props.cluster_id =
+>>>>>> +            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters;
+>>>>>> + ms->possible_cpus->cpus[n].props.has_core_id = true;
+>>>>>> +        ms->possible_cpus->cpus[n].props.core_id =
+>>>>>> +            (n / ms->smp.threads) % ms->smp.cores;
+>>>>>> ms->possible_cpus->cpus[n].props.has_thread_id = true;
+>>>>>> -        ms->possible_cpus->cpus[n].props.thread_id = n;
+>>>>>> +        ms->possible_cpus->cpus[n].props.thread_id =
+>>>>>> +            n % ms->smp.threads;
+>>>>>>       }
+>>>>>>       return ms->possible_cpus;
+>>>>>>   }
+>>>>> Otherwise, looks good to me:
+>>>>> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+>>>>>
+>>>>
+>>>> Thanks for your time to review :)
+>>>>
+>>>>
+>>> Oh, after further testing this patch breaks numa-test for aarch64,
+>>> which should be checked and fixed. I guess it's because we have
+>>> more IDs supported for ARM. We have to fully running the QEMU
+>>> tests before sending some patches to ensure that they are not
+>>> breaking anything. :)
+>>>
+>>
+>> Thanks for catching the failure and reporting back. I'm not
+>> too much familar with QEMU's test workframe. Could you please
+>> share the detailed commands to reproduce the failure? I will
+>> fix in v6, which will be done in a separate patch :)
+>>
+> There is a reference link: https://wiki.qemu.org/Testing
+> To catch the failure of this patch: "make check" will be enough.
+> 
+
+Thanks for the pointer. The issue is caused by ms->possible_cpus->cpus[n].props.thread_id.
+Before this patch, it's value of [0 ... smp.cpus]. However, it's always zero
+after this patch is applied because '%' operation is applied for the thread
+ID.
+
+What we need to do is to specify SMP configuration for the test case. I will
+add PATCH[v6 5/5] for it.
+
+diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+index 90bf68a5b3..6178ac21a5 100644
+--- a/tests/qtest/numa-test.c
++++ b/tests/qtest/numa-test.c
+@@ -223,7 +223,7 @@ static void aarch64_numa_cpu(const void *data)
+      QTestState *qts;
+      g_autofree char *cli = NULL;
+  
+-    cli = make_cli(data, "-machine smp.cpus=2 "
++    cli = make_cli(data, "-machine smp.cpus=2,smp.sockets=1,smp.cores=1,smp.threads=2 "
+
+Thanks,
+Gavin
+
+
 
