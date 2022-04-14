@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E72500FC0
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 15:48:08 +0200 (CEST)
-Received: from localhost ([::1]:37778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B24500FC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Apr 2022 15:49:05 +0200 (CEST)
+Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nezpO-0002Jm-PE
-	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 09:48:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
+	id 1nezqK-0003C0-9t
+	for lists+qemu-devel@lfdr.de; Thu, 14 Apr 2022 09:49:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nezoX-0001QS-0A
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:47:13 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:35552)
+ id 1nezom-0001nz-FA
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:47:28 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nezoS-0004YF-8w
- for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:47:12 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id l7so10191670ejn.2
- for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 06:47:07 -0700 (PDT)
+ id 1nezol-0004Z7-2W
+ for qemu-devel@nongnu.org; Thu, 14 Apr 2022 09:47:28 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id s18so10251955ejr.0
+ for <qemu-devel@nongnu.org>; Thu, 14 Apr 2022 06:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=KX+uLkge4/8dxwGXXZEWkFsZDjrhV2xBinNdgDfcvYQ=;
- b=kjC41c+U2hCWRt7+UKMtvZ8iUTjeY5OmuftWtWYRSbSnDD0JuOAv+bWD81tUxSLKwC
- Slc6oL6L2KoqV56/5x8Ftgr2JEJrC/DCUfJDLMXWDqCbBxl99yAZnxsKofkrDnFBbJUC
- bsOZ+6+Je+J7MS5ihFCGsQP8UglCdSypPOQFUGNGBzTF0A8iCm7kscsMhkoFaJH9qToU
- qy8VLdnBxnQhumqtno5lD1QU8ROyP+6Cvn2FwUfu5mWFaMlcu6PzZ3cOEic6S9uW53tk
- L0MJJ+OCzoWC0AO8S3fQcaxbWiHO1y99eWUF8+XSkZYrURm71iM9MrWqu/kK6KR/KSPV
- m1uA==
+ bh=No4LJPGovvMgH8NH4Ifv7/OZLxTuVvPBQsg7diPdQZ0=;
+ b=Fdqor0BDlOtZo9jBO98eNaCppGNLfeuy5mWmLw0K+xFtCot31qm3TrG+eYPEWguaJm
+ JwRvEH+RSb6S0z+Gi4mzBnTGS/jP3IPxI2gje1B0KjdSRouO3cA/RT9aiNrbOJUhp0F8
+ X85NOP5X44c6uSpY0OqQ1PXmUBNnbfOtFFTO2w4cPByhvN6VAtwUPcLsh7RkSBhnD9L9
+ KzQAi0U4KoGVu1mKsBoj2jggcqOzjeLbXrx8MGHtFt9PB5gWn590vPALLtWhIbNj82lj
+ rmEaWVf9Q8qb+rjN6BG0NIS6d3ruquqakPM7Bc0Thk7L40hrtCp/SJpPG9uJ66rGvRxA
+ d6yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=KX+uLkge4/8dxwGXXZEWkFsZDjrhV2xBinNdgDfcvYQ=;
- b=sYr37H1563DJmDMW+s5bnU80Hfog2jGvUak7LlCoidlWp/MyS8XdlJE8WFPlXsAJMo
- v1xigmheRS7fBpFWR9bJzQarEBVxB0uOe62KOm8FkeSRNRcXKsWEKbmKAb+9qq0h89dZ
- 38qiE+NejfFKLBZNveX2GsdkZXWaGnhFB4YIKG0XRJm6l3rjjudpPJ6YBc3nuMxlJy12
- R79AlxUFeIDjHBMzY3oEF1eMh6Em/kxK9h1Ar8l/25ViH4DR4D4ReGUXl5EyaUQyT1Rg
- D0vbB4xA3FDjkYwh58tW1aFNeKNJM8LLfVxmhpTvmpUoMFhhUBacv+9E1pBzAFXlFcaT
- vMBA==
-X-Gm-Message-State: AOAM530/XvCTviDaAj2yj2EZui/7lkE5h6Jgx7Cp7xY6XjKjFZ+Yxm6S
- IQ75oSKhmkNm0Swv+d69vAGLFw==
-X-Google-Smtp-Source: ABdhPJywLCHyyWypoFUAs6G6KFWjF1FFT0tiHJgUlpj49qleX+KTNJNFRPo29F7HHy3NVDwdGWbI0A==
-X-Received: by 2002:a17:907:980b:b0:6e8:b8a8:d045 with SMTP id
- ji11-20020a170907980b00b006e8b8a8d045mr2523438ejc.460.1649944026120; 
- Thu, 14 Apr 2022 06:47:06 -0700 (PDT)
+ bh=No4LJPGovvMgH8NH4Ifv7/OZLxTuVvPBQsg7diPdQZ0=;
+ b=hpmlEQY0c/EE13tExKRih7qHXejrrc12nvM65u5bz2uMy0onaJ6CRysBPqIRhk4a/d
+ AUzF410ITSta7zv8GAka6SF7PjxVoiAXa8mdFV9xD7lgsI/eIMP4fcHJnMboU0oz5eQq
+ vpXOrAYfiHG+KWH/gvVD2y+iRkjNPfJRvK38wVmXZw2kL2d3MH0pbAJrPmdPaF7ghGBF
+ NFqS10/PSt3vatwGGVs3CncjRytDh3CRhZQG3w6zIlPPjXHA526lebeT+PdJpfcHPCXF
+ nN9YEge0Y223RlDGypPH6AHcz2TcRtcHbyO2J0Gh7KJs/UKFUBWpGMel6xmeaZBzo1u/
+ 2ifg==
+X-Gm-Message-State: AOAM53007TJeJOrT265g7GfTq1jf5dLaBjSSpaSK8886oiT6bwj5kd+4
+ OcRTwqFi4uqgn+6VVeAaXp2UGw==
+X-Google-Smtp-Source: ABdhPJxCcDMSYsO8rI7OSDajOpJnk5qMmL07Vs9U9OwZQ1+wiTmwriMSsy99V/pTJkK0Q9A2NJ0b5A==
+X-Received: by 2002:a17:906:3707:b0:6e8:6bfe:da0e with SMTP id
+ d7-20020a170906370700b006e86bfeda0emr2467898ejc.78.1649944045841; 
+ Thu, 14 Apr 2022 06:47:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- i11-20020a50e14b000000b0041cd9288aedsm1039461edl.86.2022.04.14.06.47.04
+ z21-20020a1709063a1500b006da6436819dsm646125eje.173.2022.04.14.06.47.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Apr 2022 06:47:04 -0700 (PDT)
+ Thu, 14 Apr 2022 06:47:24 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 321781FFB7;
- Thu, 14 Apr 2022 14:47:04 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 4AD8A1FFB7;
+ Thu, 14 Apr 2022 14:47:24 +0100 (BST)
 References: <20220326132534.543738-1-richard.henderson@linaro.org>
- <20220326132534.543738-23-richard.henderson@linaro.org>
+ <20220326132534.543738-24-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.12; emacs 28.1.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 14/39] accel/tcg: Use cpu_dump_state between
- qemu_log_trylock/unlock
-Date: Thu, 14 Apr 2022 14:46:59 +0100
-In-reply-to: <20220326132534.543738-23-richard.henderson@linaro.org>
-Message-ID: <87wnfrwzdz.fsf@linaro.org>
+Subject: Re: [PATCH v2 15/39] target/nios2: Remove log_cpu_state from reset
+Date: Thu, 14 Apr 2022 14:47:20 +0100
+In-reply-to: <20220326132534.543738-24-richard.henderson@linaro.org>
+Message-ID: <87sfqfwzdf.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -90,16 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Inside log_cpu_state, we perform qemu_log_trylock/unlock, which need
-> not be done if we have already performed the lock beforehand.
+> This is redundant with the logging done in cpu_common_reset.
 >
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
