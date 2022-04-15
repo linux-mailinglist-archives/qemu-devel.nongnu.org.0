@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FFBE502813
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 12:18:37 +0200 (CEST)
-Received: from localhost ([::1]:38122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03508502872
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 12:46:28 +0200 (CEST)
+Received: from localhost ([::1]:34056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfJ2C-0007Kh-Nr
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 06:18:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35622)
+	id 1nfJT9-0001Q9-2t
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 06:46:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nfIXq-00006m-Si
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:47:14 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:55730 helo=loongson.cn)
+ id 1nfIXt-0000GV-W7
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:47:18 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:55736 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nfIXn-0005Oh-Te
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:47:14 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nfIXo-0005Oj-4e
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:47:17 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_xGqPVli41gkAA--.16856S32; 
- Fri, 15 Apr 2022 17:41:32 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_xGqPVli41gkAA--.16856S34; 
+ Fri, 15 Apr 2022 17:41:33 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 30/43] target/loongarch: Add gdb support.
-Date: Fri, 15 Apr 2022 17:40:45 +0800
-Message-Id: <20220415094058.3584233-31-yangxiaojuan@loongson.cn>
+Subject: [PATCH v1 32/43] hw/loongarch: Add LoongArch ipi interrupt
+ support(IPI)
+Date: Fri, 15 Apr 2022 17:40:47 +0800
+Message-Id: <20220415094058.3584233-33-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
 References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_xGqPVli41gkAA--.16856S32
-X-Coremail-Antispam: 1UD129KBjvAXoWfJry7ArWDZr43GF1fWF1DAwb_yoW8JF47Jo
- Wa9Fsxtr18C39Yk3WFyFn0qa9FqF1jyF4xZa43ur98Gan5J3yfGryqgwn0vFyrJrs3Wry5
- J3yFga97Wrn7Xr1fn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
+X-CM-TRANSID: AQAAf9Dx_xGqPVli41gkAA--.16856S34
+X-Coremail-Antispam: 1UD129KBjvJXoW3GF1fXw17WryDtFyUZryrWFg_yoWfGw1UpF
+ 9ruF1Fgr48JFsrGr93ta45XFn8G3Z7uFy2vF4a9a40kr47Xr10va4kKrZrZFyUA3yDJryF
+ vas3W3WjqF1UXw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -61,319 +62,300 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch realize the IPI interrupt controller.
+
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- MAINTAINERS                             |   2 +
- configs/targets/loongarch64-softmmu.mak |   1 +
- gdb-xml/loongarch-base64.xml            |  44 ++++++++++
- gdb-xml/loongarch-fpu64.xml             |  57 +++++++++++++
- target/loongarch/cpu.c                  |   7 ++
- target/loongarch/gdbstub.c              | 107 ++++++++++++++++++++++++
- target/loongarch/internals.h            |  11 +++
- target/loongarch/meson.build            |   1 +
- 8 files changed, 230 insertions(+)
- create mode 100644 configs/targets/loongarch64-softmmu.mak
- create mode 100644 gdb-xml/loongarch-base64.xml
- create mode 100644 gdb-xml/loongarch-fpu64.xml
- create mode 100644 target/loongarch/gdbstub.c
+ MAINTAINERS                      |   2 +
+ hw/intc/Kconfig                  |   3 +
+ hw/intc/loongarch_ipi.c          | 145 +++++++++++++++++++++++++++++++
+ hw/intc/meson.build              |   1 +
+ hw/intc/trace-events             |   4 +
+ hw/loongarch/Kconfig             |   1 +
+ include/hw/intc/loongarch_ipi.h  |  46 ++++++++++
+ include/hw/loongarch/loongarch.h |   2 +
+ 8 files changed, 204 insertions(+)
+ create mode 100644 hw/intc/loongarch_ipi.c
+ create mode 100644 include/hw/intc/loongarch_ipi.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 51724ad6f6..92de08b19d 100644
+index cbba09d0f4..3f5aaeeeba 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1129,6 +1129,8 @@ M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
- M: Song Gao <gaosong@loongson.cn>
- S: Maintained
- F: docs/system/loongarch/loongson3.rst
-+F: configs/targets/loongarch64-softmmu.mak
-+F: gdb-xml/loongarch*.xml
+@@ -1134,6 +1134,8 @@ F: configs/devices/loongarch64-softmmu/default.mak
+ F: gdb-xml/loongarch*.xml
+ F: hw/loongarch/
+ F: include/hw/loongarch/loongarch.h
++F: include/hw/intc/loongarch_*.h
++F: hw/intc/loongarch_*.c
  
  M68K Machines
  -------------
-diff --git a/configs/targets/loongarch64-softmmu.mak b/configs/targets/loongarch64-softmmu.mak
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index a7cf301eab..6c7e82da64 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -84,3 +84,6 @@ config GOLDFISH_PIC
+ 
+ config M68K_IRQC
+     bool
++
++config LOONGARCH_IPI
++    bool
+diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
 new file mode 100644
-index 0000000000..f33fa1590b
+index 0000000000..82070f8d14
 --- /dev/null
-+++ b/configs/targets/loongarch64-softmmu.mak
-@@ -0,0 +1 @@
-+TARGET_XML_FILES= gdb-xml/loongarch-base64.xml gdb-xml/loongarch-fpu64.xml
-diff --git a/gdb-xml/loongarch-base64.xml b/gdb-xml/loongarch-base64.xml
-new file mode 100644
-index 0000000000..4962bdbd28
---- /dev/null
-+++ b/gdb-xml/loongarch-base64.xml
-@@ -0,0 +1,44 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2021 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.loongarch.base">
-+  <reg name="r0" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r1" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r2" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r3" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r4" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r5" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r6" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r7" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r8" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r9" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r10" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r11" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r12" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r13" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r14" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r15" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r16" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r17" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r18" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r19" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r20" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r21" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r22" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r23" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r24" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r25" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r26" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r27" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r28" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r29" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r30" bitsize="64" type="uint64" group="general"/>
-+  <reg name="r31" bitsize="64" type="uint64" group="general"/>
-+  <reg name="pc" bitsize="64" type="code_ptr" group="general"/>
-+  <reg name="badvaddr" bitsize="64" type="code_ptr" group="general"/>
-+</feature>
-diff --git a/gdb-xml/loongarch-fpu64.xml b/gdb-xml/loongarch-fpu64.xml
-new file mode 100644
-index 0000000000..e52cf89fbc
---- /dev/null
-+++ b/gdb-xml/loongarch-fpu64.xml
-@@ -0,0 +1,57 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2021 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.loongarch.fpu">
-+
-+  <union id="fpu64type">
-+    <field name="f" type="ieee_single"/>
-+    <field name="d" type="ieee_double"/>
-+  </union>
-+
-+  <reg name="f0" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f1" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f2" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f3" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f4" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f5" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f6" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f7" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f8" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f9" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f10" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f11" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f12" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f13" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f14" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f15" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f16" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f17" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f18" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f19" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f20" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f21" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f22" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f23" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f24" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f25" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f26" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f27" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f28" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f29" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f30" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="f31" bitsize="64" type="fpu64type" group="float"/>
-+  <reg name="fcc0" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc1" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc2" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc3" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc4" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc5" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc6" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcc7" bitsize="8" type="uint8" group="float"/>
-+  <reg name="fcsr" bitsize="32" type="uint32" group="float"/>
-+</feature>
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index ac8d9e7d2a..47b159dba6 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -620,6 +620,13 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
-     dc->vmsd = &vmstate_loongarch_cpu;
-     cc->sysemu_ops = &loongarch_sysemu_ops;
-     cc->disas_set_info = loongarch_cpu_disas_set_info;
-+    cc->gdb_read_register = loongarch_cpu_gdb_read_register;
-+    cc->gdb_write_register = loongarch_cpu_gdb_write_register;
-+    cc->disas_set_info = loongarch_cpu_disas_set_info;
-+    cc->gdb_num_core_regs = 34;
-+    cc->gdb_core_xml_file = "loongarch-base64.xml";
-+    cc->gdb_stop_before_watchpoint = true;
-+
- #ifdef CONFIG_TCG
-     cc->tcg_ops = &loongarch_tcg_ops;
- #endif
-diff --git a/target/loongarch/gdbstub.c b/target/loongarch/gdbstub.c
-new file mode 100644
-index 0000000000..2bcaf9c811
---- /dev/null
-+++ b/target/loongarch/gdbstub.c
-@@ -0,0 +1,107 @@
++++ b/hw/intc/loongarch_ipi.c
+@@ -0,0 +1,145 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * LOONGARCH gdb server stub
++ * LoongArch ipi interrupt support
 + *
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1+
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "cpu.h"
-+#include "internals.h"
-+#include "exec/gdbstub.h"
-+#include "exec/helper-proto.h"
++#include "hw/sysbus.h"
++#include "hw/intc/loongarch_ipi.h"
++#include "hw/irq.h"
++#include "qapi/error.h"
++#include "qemu/log.h"
++#include "exec/address-spaces.h"
++#include "hw/loongarch/loongarch.h"
++#include "migration/vmstate.h"
++#include "trace.h"
 +
-+int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
++static uint64_t loongarch_ipi_readl(void *opaque, hwaddr addr, unsigned size)
 +{
-+    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    CPULoongArchState *env = &cpu->env;
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(qdev_get_machine());
++    IPICore *s = lams->ipi_core;
++    uint64_t ret = 0;
++    int index = 0;
 +
-+    if (0 <= n && n < 32) {
-+        return gdb_get_regl(mem_buf, env->gpr[n]);
-+    } else if (n == 32) {
-+        return gdb_get_regl(mem_buf, env->pc);
-+    } else if (n == 33) {
-+        return gdb_get_regl(mem_buf, env->badaddr);
++    addr &= 0xff;
++    switch (addr) {
++    case CORE_STATUS_OFF:
++        ret = s->status;
++        break;
++    case CORE_EN_OFF:
++        ret = s->en;
++        break;
++    case CORE_SET_OFF:
++        ret = 0;
++        break;
++    case CORE_CLEAR_OFF:
++        ret = 0;
++        break;
++    case CORE_BUF_20 ... CORE_BUF_38 + 4:
++        index = (addr - CORE_BUF_20) >> 2;
++        ret = s->buf[index];
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "invalid read: %x", (uint32_t)addr);
++        break;
 +    }
-+    return 0;
++
++    trace_loongarch_ipi_read(size, (uint64_t)addr, ret);
++    return ret;
 +}
 +
-+int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
++static void loongarch_ipi_writel(void *opaque, hwaddr addr, uint64_t val,
++                                 unsigned size)
 +{
-+    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    CPULoongArchState *env = &cpu->env;
-+    target_ulong tmp = ldtul_p(mem_buf);
-+    int length = 0;
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(qdev_get_machine());
++    IPICore *s = lams->ipi_core;
++    int index = 0;
 +
-+    if (0 <= n && n < 32) {
-+        env->gpr[n] = tmp;
-+        length = sizeof(target_ulong);
-+    } else if (n == 32) {
-+        env->pc = tmp;
-+        length = sizeof(target_ulong);
-+    }
-+    return length;
-+}
-+
-+static int loongarch_gdb_get_fpu(CPULoongArchState *env,
-+                                 GByteArray *mem_buf, int n)
-+{
-+    if (0 <= n && n < 32) {
-+        return gdb_get_reg64(mem_buf, env->fpr[n]);
-+    } else if (32 <= n && n < 40) {
-+        return gdb_get_reg8(mem_buf, env->cf[n - 32]);
-+    } else if (n == 40) {
-+        return gdb_get_reg32(mem_buf, env->fcsr0);
-+    }
-+    return 0;
-+}
-+
-+static int loongarch_gdb_set_fpu(CPULoongArchState *env,
-+                                 uint8_t *mem_buf, int n)
-+{
-+    int length = 0;
-+
-+    if (0 <= n && n < 32) {
-+        env->fpr[n] = ldq_p(mem_buf);
-+        length = 8;
-+    } else if (32 <= n && n < 40) {
-+        env->cf[n - 32] = ldub_p(mem_buf);
-+        length = 1;
-+    } else if (n == 40) {
-+        env->fcsr0 = ldl_p(mem_buf);
-+        length = 4;
-+    }
-+    return length;
-+}
-+
-+void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs)
-+{
-+    gdb_register_coprocessor(cs, loongarch_gdb_get_fpu, loongarch_gdb_set_fpu,
-+                             41, "loongarch-fpu64.xml", 0);
-+}
-+
-+int loongarch_read_qxfer(CPUState *cs, const char *annex, uint8_t *read_buf,
-+                         unsigned long offset, unsigned long len)
-+{
-+    if (strncmp(annex, "cpucfg", sizeof("cpucfg") - 1) == 0) {
-+        if (offset % 4 != 0 || len % 4 != 0) {
-+            return 0;
++    addr &= 0xff;
++    trace_loongarch_ipi_write(size, (uint64_t)addr, val);
++    switch (addr) {
++    case CORE_STATUS_OFF:
++        qemu_log_mask(LOG_GUEST_ERROR, "can not be written");
++        break;
++    case CORE_EN_OFF:
++        s->en = val;
++        break;
++    case CORE_SET_OFF:
++        s->status |= val;
++        if (s->status != 0 && (s->status & s->en) != 0) {
++            qemu_irq_raise(s->irq);
 +        }
-+
-+        size_t i;
-+        for (i = offset; i < offset + len; i += 4)
-+            ((uint32_t *)read_buf)[(i - offset) / 4] =
-+                helper_cpucfg(&(LOONGARCH_CPU(cs)->env), i / 4);
-+        return 32 * 4;
++        break;
++    case CORE_CLEAR_OFF:
++        s->status &= ~val;
++        if (s->status == 0 && s->en != 0) {
++            qemu_irq_lower(s->irq);
++        }
++        break;
++    case CORE_BUF_20 ... CORE_BUF_38 + 4:
++        index = (addr - CORE_BUF_20) >> 2;
++        s->buf[index] = val;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "invalid write: %x", (uint32_t)addr);
++        break;
 +    }
-+    return 0;
 +}
 +
-+int loongarch_write_qxfer(CPUState *cs, const char *annex,
-+                          const uint8_t *write_buf, unsigned long offset,
-+                          unsigned long len)
++static const MemoryRegionOps loongarch_ipi_ops = {
++    .read = loongarch_ipi_readl,
++    .write = loongarch_ipi_writel,
++    .impl.min_access_size = 4,
++    .impl.max_access_size = 4,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 8,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void loongarch_ipi_init(Object *obj)
 +{
-+    return 0;
++    LoongArchIPI *s = LOONGARCH_IPI(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    int cpu;
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(qdev_get_machine());
++
++    for (cpu = 0; cpu < MAX_IPI_CORE_NUM; cpu++) {
++        memory_region_init_io(&s->ipi_mmio[cpu], obj, &loongarch_ipi_ops,
++                              &lams->ipi_core[cpu], "loongarch_ipi", 0x100);
++        sysbus_init_mmio(sbd, &s->ipi_mmio[cpu]);
++        qdev_init_gpio_out(DEVICE(obj), &lams->ipi_core[cpu].irq, 1);
++    }
 +}
-diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
-index 410b71fced..4fb678011a 100644
---- a/target/loongarch/internals.h
-+++ b/target/loongarch/internals.h
-@@ -49,4 +49,15 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- 
- hwaddr loongarch_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- 
-+int loongarch_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n);
-+int loongarch_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n);
-+int loongarch_read_qxfer(CPUState *cs, const char *annex,
-+                         uint8_t *read_buf,
-+                         unsigned long offset, unsigned long len);
-+int loongarch_write_qxfer(CPUState *cs, const char *annex,
-+                          const uint8_t *write_buf,
-+                          unsigned long offset, unsigned long len);
 +
-+void loongarch_cpu_register_gdb_regs_for_features(CPUState *cs);
++static const VMStateDescription vmstate_loongarch_ipi = {
++    .name = TYPE_LOONGARCH_IPI,
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_END_OF_LIST()
++    }
++};
 +
- #endif
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index 74e5f3b2a7..6376f9e84b 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -11,6 +11,7 @@ loongarch_tcg_ss.add(files(
-   'fpu_helper.c',
-   'op_helper.c',
-   'translate.c',
-+  'gdbstub.c',
- ))
- loongarch_tcg_ss.add(zlib)
++static void loongarch_ipi_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->vmsd = &vmstate_loongarch_ipi;
++}
++
++static const TypeInfo loongarch_ipi_info = {
++    .name          = TYPE_LOONGARCH_IPI,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(LoongArchIPI),
++    .instance_init = loongarch_ipi_init,
++    .class_init    = loongarch_ipi_class_init,
++};
++
++static void loongarch_ipi_register_types(void)
++{
++    type_register_static(&loongarch_ipi_info);
++}
++
++type_init(loongarch_ipi_register_types)
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index d6d012fb26..bf5ab44a78 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -62,3 +62,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+ 		if_true: files('spapr_xive_kvm.c'))
+ specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+ specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
++specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 53414aa197..6ae8917d99 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -275,3 +275,7 @@ sh_intc_register(const char *s, int id, unsigned short v, int c, int m) "%s %u -
+ sh_intc_read(unsigned size, uint64_t offset, unsigned long val) "size %u 0x%" PRIx64 " -> 0x%lx"
+ sh_intc_write(unsigned size, uint64_t offset, unsigned long val) "size %u 0x%" PRIx64 " <- 0x%lx"
+ sh_intc_set(int id, int enable) "setting interrupt group %d to %d"
++
++# loongarch_ipi.c
++loongarch_ipi_read(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
++loongarch_ipi_write(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index 13e8501897..f0dad3329a 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -2,3 +2,4 @@ config LOONGARCH_VIRT
+     bool
+     select PCI
+     select PCI_EXPRESS_GENERIC_BRIDGE
++    select LOONGARCH_IPI
+diff --git a/include/hw/intc/loongarch_ipi.h b/include/hw/intc/loongarch_ipi.h
+new file mode 100644
+index 0000000000..d57b0c6192
+--- /dev/null
++++ b/include/hw/intc/loongarch_ipi.h
+@@ -0,0 +1,46 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * LoongArch ipi interrupt header files
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef HW_LOONGARCH_IPI_H
++#define HW_LOONGARCH_IPI_H
++
++#include "hw/sysbus.h"
++
++/* Mainy used by iocsr read and write */
++#define SMP_IPI_MAILBOX      0x1000ULL
++#define CORE_STATUS_OFF       0x0
++#define CORE_EN_OFF           0x4
++#define CORE_SET_OFF          0x8
++#define CORE_CLEAR_OFF        0xc
++#define CORE_BUF_20           0x20
++#define CORE_BUF_28           0x28
++#define CORE_BUF_30           0x30
++#define CORE_BUF_38           0x38
++#define IOCSR_IPI_SEND        0x40
++
++#define MAX_IPI_CORE_NUM      16
++#define MAX_IPI_MBX_NUM       4
++
++#define TYPE_LOONGARCH_IPI "loongarch_ipi"
++OBJECT_DECLARE_SIMPLE_TYPE(LoongArchIPI, LOONGARCH_IPI)
++
++typedef struct IPICore {
++    uint32_t status;
++    uint32_t en;
++    uint32_t set;
++    uint32_t clear;
++    /* 64bit buf divide into 2 32bit buf */
++    uint32_t buf[MAX_IPI_MBX_NUM * 2];
++    qemu_irq irq;
++} IPICore;
++
++struct LoongArchIPI {
++    SysBusDevice parent_obj;
++    MemoryRegion ipi_mmio[MAX_IPI_CORE_NUM];
++};
++
++#endif
+diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
+index ffe10edc65..a659be2a7f 100644
+--- a/include/hw/loongarch/loongarch.h
++++ b/include/hw/loongarch/loongarch.h
+@@ -12,6 +12,7 @@
+ #include "qemu-common.h"
+ #include "hw/boards.h"
+ #include "qemu/queue.h"
++#include "hw/intc/loongarch_ipi.h"
  
+ #define LOONGARCH_MAX_VCPUS     4
+ 
+@@ -41,6 +42,7 @@ struct LoongArchMachineState {
+     /*< private >*/
+     MachineState parent_obj;
+ 
++    IPICore ipi_core[MAX_IPI_CORE_NUM];
+     MemoryRegion lowmem;
+     MemoryRegion highmem;
+     MemoryRegion isa_io;
 -- 
 2.31.1
 
