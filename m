@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F032A502B32
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:44:24 +0200 (CEST)
-Received: from localhost ([::1]:59082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA38502AFB
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:34:01 +0200 (CEST)
+Received: from localhost ([::1]:36742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfMFM-00028T-1m
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:44:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50634)
+	id 1nfM5I-0003VD-5G
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:34:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLsI-0007HY-9S; Fri, 15 Apr 2022 09:20:36 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:42934)
+ id 1nfLsP-0007Ik-45; Fri, 15 Apr 2022 09:20:44 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:40544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLsG-0008SV-MB; Fri, 15 Apr 2022 09:20:34 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id i27so15335794ejd.9;
- Fri, 15 Apr 2022 06:20:31 -0700 (PDT)
+ id 1nfLsM-0008Td-C9; Fri, 15 Apr 2022 09:20:40 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id v4so9899717edl.7;
+ Fri, 15 Apr 2022 06:20:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A7C8lG6R8RX27Fo+XJU6Uqyin0IHJd8cGVFwfHkJe4Q=;
- b=cB5lJ7uAdz3jBbuQ8fuqA10d69GcCcXMXdVoqHmqzVNidj92/V4zkjYS33dBxACH4j
- Fruz6XN9WXatwvjY1ovw55qRaKr/e3P7A4lb2iuOvb+DZ5jSGknOIWDsAOeIHuyNS3MI
- VGj0pBS/wQ51ytCHR2H3Klp/ZFi0WjA+XpEtb3hd5ppHFNP1HCoPg8FGQJAAf0DAzXpi
- ARx5Tr3+9mIXz9GESostT4BbrprsKr9HUNMKCE7AGIfnI3MNwXIMGy/KBO+tZs7ydY+H
- 5Dp5vEfaqD4kL1sqexf8hv+OMuLV69nB1O4I9d+zSJE5vxvHPvOHysN6x0fcZpbvBj7/
- VM1Q==
+ bh=WqtILOyZNJAH6lSpTMECSN6V7UXBlL2LcrOyrAYW4Co=;
+ b=qTl/X5FIF3+gJaoVATSI1Diq4+HYQbfQLVdn7uWQ3M4rg5Au6v+U7uBui+EKHMfB9x
+ NeRteEgndg9rtlRP7cG8Penez1/2rRhlBs1ZvvaELtICITd/zli/M7WHvOB5nouPxUu6
+ DyEmahp/aTauNkaxFuPVBxV9bn8B53XHBZV4k3XAohvduRkNGNtq4tjJYnlCj2FBpMpO
+ zHe7oVxQcrqizH/7x/dVLdiqxaK5p723qVGS1O45VeWC4EBItLfk2djYU2gW42BBzbjQ
+ wXC/hLTxID40lQXAzo1z9GvLolAzipa4czdpt5W+SNbsGwqtZskNtstlBouwHSR6LvjL
+ NK5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=A7C8lG6R8RX27Fo+XJU6Uqyin0IHJd8cGVFwfHkJe4Q=;
- b=KFHgbgt29H1rcZaWGTejTj2UE07Z31+BvD8DaUKwXd200o23Y9yP3nUVNHO7Z64/C8
- wLxIb04RfA7T9befrXFsBNHW8sUYYb1UdBpAlOCAb8V/Jjjcp/gxEt1yGQ6rypVPfxvp
- uB1sO7Eq1kk1GMe6kk063v64KVueHOxFN3+BrEQ/vvs5GhN5ronSk7YVVY0v3B7/l7jk
- 1b6DQl+NkczZJNUQ9mErZmTly52W0il1W5qOsmInWVYU/0/UfcTaRhBOPvEMOlpLbZ2q
- SuG1UNjvxK66xe0zubXCySbqc/x6i4z0iC4TlULsrFVSvVTmHhuo8YaYPV9vVwnOYiib
- 37Yg==
-X-Gm-Message-State: AOAM533hcYx7/+s8vgfTwlewwVaLxO72ZogS9AkRx3qmFD6sGRJYJI5s
- m8MY0fLnVe1MTg6xmHzAPSt51aN9sTAw5w==
-X-Google-Smtp-Source: ABdhPJyXJ5VfLh7pfrCKSJNq7Ztebv+37KbUiMpjHwk/q3gUDmD5/Mo3BnvAZilaVaTsnc/5KIllKg==
-X-Received: by 2002:a17:907:3e16:b0:6df:b4f0:5cc2 with SMTP id
- hp22-20020a1709073e1600b006dfb4f05cc2mr6302462ejc.285.1650028830476; 
- Fri, 15 Apr 2022 06:20:30 -0700 (PDT)
+ bh=WqtILOyZNJAH6lSpTMECSN6V7UXBlL2LcrOyrAYW4Co=;
+ b=Ky8AeKtqzFAJ8vRYcq9ji3UKHq5IHY37QVaVEj+reJ2Wi+hkfYS3k4a30ycwTZ71TQ
+ wNSK9DTG6Ft9mr97RvmRFH2Ym8KguIyh1PwYhE+E9uD5QJzL+WdWH12yAuk10DpvRkk4
+ lzVhZf0UgNWhCzk3v6Mr+2M+yQBhwi6hJRSCRYV6dUD8QkM/fo2UcXr9ElcOvvfIvVIJ
+ zvkADkPmsisE6tLbT9D3luJUes07bLzH70CEHwLh4WNSOjTrUjSkxXYqNdBfQ39WC/Nl
+ zALjpklZtosKdolC/oc7X4gQmT2fBJqfaRt2P9bmRt35/TxtWbn0/BsjzKn8cg1HTKys
+ FA3Q==
+X-Gm-Message-State: AOAM532WikvAALualfMioQKICcHKs0mwaJ0KFx6VAsAcRKHxNUIduDNk
+ D7G7UacOdqudDlbamecNvWQ10OnR+15wkw==
+X-Google-Smtp-Source: ABdhPJyeM5Q7buk/hKAPjUQ16dKrm9VF1TA9h+wGPebZYe81KnSSQFfiqnKsLYgcHVnuS84g3LqtZA==
+X-Received: by 2002:a05:6402:1909:b0:418:d876:3119 with SMTP id
+ e9-20020a056402190900b00418d8763119mr8455403edz.266.1650028836161; 
+ Fri, 15 Apr 2022 06:20:36 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.20.22
+ dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.20.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Apr 2022 06:20:30 -0700 (PDT)
+ Fri, 15 Apr 2022 06:20:35 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/26] qed: add missing coroutine_fn annotations
-Date: Fri, 15 Apr 2022 15:18:51 +0200
-Message-Id: <20220415131900.793161-18-pbonzini@redhat.com>
+Subject: [PATCH 18/26] quorum: add missing coroutine_fn annotations
+Date: Fri, 15 Apr 2022 15:18:52 +0200
+Message-Id: <20220415131900.793161-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220415131900.793161-1-pbonzini@redhat.com>
 References: <20220415131900.793161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,31 +91,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/qed.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ block/quorum.c | 35 ++++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/block/qed.c b/block/qed.c
-index f34d9a3ac1..208128d679 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -259,7 +259,7 @@ static CachedL2Table *qed_new_l2_table(BDRVQEDState *s)
-     return l2_table;
+diff --git a/block/quorum.c b/block/quorum.c
+index f33f30d36b..5ff69d7443 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -161,11 +161,10 @@ static bool quorum_64bits_compare(QuorumVoteValue *a, QuorumVoteValue *b)
+     return a->l == b->l;
  }
  
--static bool qed_plug_allocating_write_reqs(BDRVQEDState *s)
-+static bool coroutine_fn qed_plug_allocating_write_reqs(BDRVQEDState *s)
+-static QuorumAIOCB *quorum_aio_get(BlockDriverState *bs,
+-                                   QEMUIOVector *qiov,
+-                                   uint64_t offset,
+-                                   uint64_t bytes,
+-                                   int flags)
++static QuorumAIOCB *coroutine_fn quorum_aio_get(BlockDriverState *bs,
++                                                QEMUIOVector *qiov,
++                                                uint64_t offset, uint64_t bytes,
++                                                int flags)
  {
-     qemu_co_mutex_lock(&s->table_lock);
- 
-@@ -278,7 +278,7 @@ static bool qed_plug_allocating_write_reqs(BDRVQEDState *s)
-     return true;
+     BDRVQuorumState *s = bs->opaque;
+     QuorumAIOCB *acb = g_new(QuorumAIOCB, 1);
+@@ -273,7 +272,7 @@ static void quorum_report_bad_versions(BDRVQuorumState *s,
+     }
  }
  
--static void qed_unplug_allocating_write_reqs(BDRVQEDState *s)
-+static void coroutine_fn qed_unplug_allocating_write_reqs(BDRVQEDState *s)
+-static void quorum_rewrite_entry(void *opaque)
++static void coroutine_fn quorum_rewrite_entry(void *opaque)
  {
-     qemu_co_mutex_lock(&s->table_lock);
-     assert(s->allocating_write_reqs_plugged);
+     QuorumCo *co = opaque;
+     QuorumAIOCB *acb = co->acb;
+@@ -574,7 +573,7 @@ free_exit:
+     quorum_free_vote_list(&acb->votes);
+ }
+ 
+-static void read_quorum_children_entry(void *opaque)
++static void coroutine_fn read_quorum_children_entry(void *opaque)
+ {
+     QuorumCo *co = opaque;
+     QuorumAIOCB *acb = co->acb;
+@@ -602,7 +601,7 @@ static void read_quorum_children_entry(void *opaque)
+     }
+ }
+ 
+-static int read_quorum_children(QuorumAIOCB *acb)
++static int coroutine_fn read_quorum_children(QuorumAIOCB *acb)
+ {
+     BDRVQuorumState *s = acb->bs->opaque;
+     int i;
+@@ -643,7 +642,7 @@ static int read_quorum_children(QuorumAIOCB *acb)
+     return acb->vote_ret;
+ }
+ 
+-static int read_fifo_child(QuorumAIOCB *acb)
++static int coroutine_fn read_fifo_child(QuorumAIOCB *acb)
+ {
+     BDRVQuorumState *s = acb->bs->opaque;
+     int n, ret;
+@@ -664,8 +663,9 @@ static int read_fifo_child(QuorumAIOCB *acb)
+     return ret;
+ }
+ 
+-static int quorum_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
+-                            QEMUIOVector *qiov, BdrvRequestFlags flags)
++static int coroutine_fn quorum_co_preadv(BlockDriverState *bs,
++                                         int64_t offset, int64_t bytes,
++                                         QEMUIOVector *qiov, BdrvRequestFlags flags)
+ {
+     BDRVQuorumState *s = bs->opaque;
+     QuorumAIOCB *acb = quorum_aio_get(bs, qiov, offset, bytes, flags);
+@@ -684,7 +684,7 @@ static int quorum_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
+     return ret;
+ }
+ 
+-static void write_quorum_entry(void *opaque)
++static void coroutine_fn write_quorum_entry(void *opaque)
+ {
+     QuorumCo *co = opaque;
+     QuorumAIOCB *acb = co->acb;
+@@ -715,9 +715,9 @@ static void write_quorum_entry(void *opaque)
+     }
+ }
+ 
+-static int quorum_co_pwritev(BlockDriverState *bs, int64_t offset,
+-                             int64_t bytes, QEMUIOVector *qiov,
+-                             BdrvRequestFlags flags)
++static int coroutine_fn quorum_co_pwritev(BlockDriverState *bs, int64_t offset,
++                                          int64_t bytes, QEMUIOVector *qiov,
++                                          BdrvRequestFlags flags)
+ {
+     BDRVQuorumState *s = bs->opaque;
+     QuorumAIOCB *acb = quorum_aio_get(bs, qiov, offset, bytes, flags);
+@@ -746,8 +746,9 @@ static int quorum_co_pwritev(BlockDriverState *bs, int64_t offset,
+     return ret;
+ }
+ 
+-static int quorum_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
+-                                   int64_t bytes, BdrvRequestFlags flags)
++static int coroutine_fn quorum_co_pwrite_zeroes(BlockDriverState *bs,
++                                                int64_t offset, int64_t bytes,
++                                                BdrvRequestFlags flags)
+ 
+ {
+     return quorum_co_pwritev(bs, offset, bytes, NULL,
 -- 
 2.35.1
 
