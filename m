@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2843A502AE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:23:13 +0200 (CEST)
-Received: from localhost ([::1]:36580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959EB502AE8
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:26:19 +0200 (CEST)
+Received: from localhost ([::1]:46984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfLuq-00014o-8p
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50360)
+	id 1nfLxq-00083l-Nt
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:26:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLrP-0006Vq-JE; Fri, 15 Apr 2022 09:19:39 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:46772)
+ id 1nfLrS-0006Xd-1Q; Fri, 15 Apr 2022 09:19:42 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:36596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLrC-0007pr-Gr; Fri, 15 Apr 2022 09:19:38 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id t11so15299777eju.13;
- Fri, 15 Apr 2022 06:19:20 -0700 (PDT)
+ id 1nfLrN-0007pv-QG; Fri, 15 Apr 2022 09:19:41 -0400
+Received: by mail-ed1-x535.google.com with SMTP id u18so9917313eda.3;
+ Fri, 15 Apr 2022 06:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AW9UshOwSu9Rwp97X5w5YvNGw7PfmQ7bFCKt0GNupsA=;
- b=RCEfvOj9Z8ncMCtmam5qW+qz7xydh7+9009iCOpmjC/MzRt8pC4u6wegRB8rPIUwRl
- J1h0wgdCqmMxQdgcbbG5hTw76rORJvQhQzPFdOv79OCmRPtGkeI1Typ8CtPCHjHfgXDB
- mIvaEnN1jOm06ITwYCYFOkaTTQhIFvFXNiJwJdBTSUKtmydd39MbjWqc/T2Xn+HE1IDi
- 0ZbLDoz6HzqTuemnW/5CxvsrvUdfD/sWnJL8CWMv21GMuHZ04VXqarczoShWpi72U+i0
- V5ahfc7Oc3qSmfx+CGIxs9svocnBpmx9lecUDldqOEze4Sr35Jq5Hm12yH6By8lhJe0w
- RUWA==
+ bh=VqtX2u2JuwzPoUw1zLBzVNxh3lhGq4Pi9htsltfwjw8=;
+ b=Zz1ZQmhVzD2PtSgwK0uTDjBSCPjSpIPGsLCVRf63qESXqroOUYL1oaFUK7uZQhkeJG
+ KrYnOj84aZbYv0u2HM3umRqbNqZPloTAIHJn2h/f5sEeIIepOJxEcJjsSXsYf0JLLzWJ
+ cMIWS+9DRE0Zx6EYF3J/FMxDdg5LXFjhoSg2KbNFr1X1MBcuPMOSPDlzcTxCHrQ6GARz
+ XoMbkltzyC1Xgs592QddxoNqoZUtqIizK58Y+ejj1HqlMj8XdmSNFOnZ37hDGe4xEWTb
+ YKwd8kNk9NGN2TQ+9eIpbNmFuqIcp0KsCEI9tzrn88Cpfrhj1j9vOCC3k9hfcPLjxsEM
+ yqXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AW9UshOwSu9Rwp97X5w5YvNGw7PfmQ7bFCKt0GNupsA=;
- b=e7mz5kEK21VYTCgHB3g4xP3FvmmxoQhLVVi4dDimc8/43E4rIP4k8xEKN6r0vQxxNV
- vdUSacLBvW2Rxn7xMp9c9VBlTzqG/t0+oT1NlxHGwx4MmYo3iqfJwa2dX061hWsrKVq+
- 5JQ2/xZrTLA/LwOYP9X6op8edRDxSsvwfIjU9Tqnwth2RgWRnqPqfSBjKqBzyiuka+nR
- 02xcy4fYEjYnuwnsb9DP7xAdQchTVgsIoAjEEWkZaGUsjNgjACRnC071kGt/T39wWgye
- 7+56wU7jfi60WsVqpDc3oBqgn7bsiO6b4fftdJm58EGdjec2QJW4G6LwUrS+5ALJdKKC
- ReBw==
-X-Gm-Message-State: AOAM5323IzOzd0U0kYt1QI0HYXfld9zfxVLwpOpi6Vq0e/cPt2U4QD8U
- ELkXfEJzbvSmUPTPBsGnjyxZPcWQ7nBKew==
-X-Google-Smtp-Source: ABdhPJxjDxQK0Svc2hlPuwN+gjYwMfRCkld1t2o+2g5ta6wExqucjc8Dg02yfxByHvjkS5AM76Exag==
-X-Received: by 2002:a17:907:6284:b0:6e0:f895:15a with SMTP id
- nd4-20020a170907628400b006e0f895015amr6312004ejc.713.1650028759100; 
- Fri, 15 Apr 2022 06:19:19 -0700 (PDT)
+ bh=VqtX2u2JuwzPoUw1zLBzVNxh3lhGq4Pi9htsltfwjw8=;
+ b=GkWAH8tQzudXn/28FyUEiYlJzu7XDC2fpG94PxDXiiTki27jrVjwsJ/tL9OWA65Hx7
+ VSc1I4CbtCKnWlAj9SX8ESDUjUzShhaLAmsiHQjXZXSf706Uh3zqLqikpuAGeAYzeUKG
+ s/5WhyjetSKrGcV4llIlbioWx5l+yWQQXQqp1XA2NOwK4JxdxV5EKqzCJoOZP3KiuRvJ
+ fwpdKvPQyz7NaPkEJN3qwgX9CSd+ofu4h+ZLRgQ5KXiWggXMJRPkMpcwRF38/3q4wROr
+ CdQzL9NIrxXcqwpVgZ/Mtti1P92BcOcIuS6rKBzUjbX/hdJEju3Vhjrfn30IdoY+uP1X
+ NZew==
+X-Gm-Message-State: AOAM531QpDcsqwxM57aRK85/H+oRCP46DxkLawdFf/AKfrBtmv7GUMTk
+ KyOqWvPNSmPM4Lnu1Sl1e7LGee8pksNQkQ==
+X-Google-Smtp-Source: ABdhPJznQvz5aoMS9/erfAw0aoaUYIOOf8A1R15e17cx6s1mqz9s0rxsWMaURcxOgN/GkFywNSA/mw==
+X-Received: by 2002:a05:6402:2709:b0:422:adc9:bc39 with SMTP id
+ y9-20020a056402270900b00422adc9bc39mr1809872edd.111.1650028762878; 
+ Fri, 15 Apr 2022 06:19:22 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.19.13
+ dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.19.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Apr 2022 06:19:18 -0700 (PDT)
+ Fri, 15 Apr 2022 06:19:22 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/26] qcow2: remove incorrect coroutine_fn annotations
-Date: Fri, 15 Apr 2022 15:18:36 +0200
-Message-Id: <20220415131900.793161-3-pbonzini@redhat.com>
+Subject: [PATCH 03/26] nbd: remove incorrect coroutine_fn annotations
+Date: Fri, 15 Apr 2022 15:18:37 +0200
+Message-Id: <20220415131900.793161-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220415131900.793161-1-pbonzini@redhat.com>
 References: <20220415131900.793161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,47 +91,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/qcow2-refcount.c | 4 ++--
- block/qcow2.h          | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ include/block/nbd.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index b91499410c..b6f90b2702 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -1206,7 +1206,7 @@ void qcow2_free_any_cluster(BlockDriverState *bs, uint64_t l2_entry,
-     }
- }
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index a98eb665da..5c3710fa52 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -423,6 +423,6 @@ QIOChannel *coroutine_fn
+ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
+                             bool blocking, Error **errp);
  
--int coroutine_fn qcow2_write_caches(BlockDriverState *bs)
-+int qcow2_write_caches(BlockDriverState *bs)
- {
-     BDRVQcow2State *s = bs->opaque;
-     int ret;
-@@ -1226,7 +1226,7 @@ int coroutine_fn qcow2_write_caches(BlockDriverState *bs)
-     return 0;
- }
+-void coroutine_fn nbd_co_establish_connection_cancel(NBDClientConnection *conn);
++void nbd_co_establish_connection_cancel(NBDClientConnection *conn);
  
--int coroutine_fn qcow2_flush_caches(BlockDriverState *bs)
-+int qcow2_flush_caches(BlockDriverState *bs)
- {
-     int ret = qcow2_write_caches(bs);
-     if (ret < 0) {
-diff --git a/block/qcow2.h b/block/qcow2.h
-index ba436a8d0d..c8d9e8ea79 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -874,8 +874,8 @@ void qcow2_free_any_cluster(BlockDriverState *bs, uint64_t l2_entry,
- int qcow2_update_snapshot_refcount(BlockDriverState *bs,
-     int64_t l1_table_offset, int l1_size, int addend);
- 
--int coroutine_fn qcow2_flush_caches(BlockDriverState *bs);
--int coroutine_fn qcow2_write_caches(BlockDriverState *bs);
-+int qcow2_flush_caches(BlockDriverState *bs);
-+int qcow2_write_caches(BlockDriverState *bs);
- int qcow2_check_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
-                           BdrvCheckMode fix);
- 
+ #endif
 -- 
 2.35.1
 
