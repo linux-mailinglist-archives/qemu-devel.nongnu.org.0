@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7CC502AE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:23:13 +0200 (CEST)
-Received: from localhost ([::1]:36674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6527A502AEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:28:51 +0200 (CEST)
+Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfLuq-00018B-PO
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50408)
+	id 1nfM0I-0005y5-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:28:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLrS-0006Xf-3j; Fri, 15 Apr 2022 09:19:43 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35730)
+ id 1nfLrU-0006Yt-SK; Fri, 15 Apr 2022 09:19:44 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLrP-0007qZ-KS; Fri, 15 Apr 2022 09:19:41 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id z12so9927664edl.2;
- Fri, 15 Apr 2022 06:19:37 -0700 (PDT)
+ id 1nfLrT-0007rU-9F; Fri, 15 Apr 2022 09:19:44 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id 11so4890026edw.0;
+ Fri, 15 Apr 2022 06:19:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/b+5wydA9RdU0ZF0qsuG26Wp2w9p/13mEw4B/cEDK5A=;
- b=BHdYhL9NooFAnQOXQq+DN72delKYZHJ4grdZRsxvl0jYMVoNBBuhLrNfabZPV8uDkc
- Ww+6KWY3HGNGoqZKh/EYVvxc8egfdHb8YWv2AwX+Cpeldh1ztlUaBFhqZYzSl6qP+63R
- AUoopeHW7CL98tyxpm9YfocQDgOoY/nEZRfGeA0O+bRJwHAvfFJaXRhVx8uzudeJQt+4
- h/07KH9UyyUlJsJ4TST9EwtcIp+Olb9rD8NU+Gy0hkZg4w09dRQ44E3eaYfbk7TSKCwF
- l7yFFsThwEvdYTpj0Td0uUx0QlkSJfhGEB1qRb3fkDEbB8kYk/0wzsBchgg2BzFP456O
- f2vg==
+ bh=WTccvXQfBFjZvIdZ5/aO1foOdW3bzyYb3HDSU/+9G78=;
+ b=MHn6jvBKLCt7vPOsdV7CIATZnsRWX0BspX2leoq4WzlPEJhB0Zepfl7cd078iYtD1c
+ KnEZgJWCqGnf4XsyC74ZUf0JxwDEhKscsPwUq+fDxb7wzSq7hkjmtaOExiO2kugvnLjI
+ 5fgWRaf0iNdMBNgmc1PY7UxkN8JEJdMJMUGrDPN/fJcP3EKl/jdxNGuN/iX5wWBgnWjq
+ ukD/0+dJnsmF9fU2micOMSnu70dDpb8MDhcwkWhc5xPFcRhDI21GuW4xAV8RQslGreXO
+ r6L3hjSZXzPPJK8JE/hf8S0hTGOblgg1z6r7bgb1cenCbQgpKlKnhaveTfC02z8kA6a3
+ hgPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/b+5wydA9RdU0ZF0qsuG26Wp2w9p/13mEw4B/cEDK5A=;
- b=v4RA4oFCpJhiGv/uT88p/1c16m0NKGKHnYQ3SX/6R2jca8Bdd5Y/mqUm37Q0M7ybCs
- FXpiLsvDG9gphUtB5aZy2kyoG8lzNLQxAIdJx/41SLQ0OEe1aofIGrKI6vPllFAOUr67
- yG9FUMfv/ByKqvCfKVlvxzM7NIwNMwaUBtzGFiAl+2I0qBKrqF+eS4ES/1ibTFTdPixK
- C2yglWwzF29Wj24hw0bBQ0/D2Ye7bIEx5Aldv6hVLyOWLlhgDMOw2k/pIhu5b+GymzWQ
- XeTBX+vO5EosCmG5aC0VNK33fHWZU+EawS0nTHuy30pqSJmfPWUYUG9sNRaE2m5T+KnG
- 7P6Q==
-X-Gm-Message-State: AOAM531oCUpRojjN8Yfl52+HCWkuaTTbJ4tBvO/5QSivSSA+xSwXeDEo
- ObLkMs833DyPPsYj33dc/5AQoCbP+Uo0Jg==
-X-Google-Smtp-Source: ABdhPJwTwN1ZHbe79445bwgzQVjPbA7k0zXc75Q0jR0Z2nXBToxTs5knIaUIS1uD0O7C5wTrBeuhIg==
-X-Received: by 2002:a05:6402:1148:b0:413:11e0:1f58 with SMTP id
- g8-20020a056402114800b0041311e01f58mr8143186edw.113.1650028776531; 
- Fri, 15 Apr 2022 06:19:36 -0700 (PDT)
+ bh=WTccvXQfBFjZvIdZ5/aO1foOdW3bzyYb3HDSU/+9G78=;
+ b=KSURYN/9E7b0eTW8Vr/NAnVTcgFKyD3JW0pzoSemDICsDiz2/VBjUI3uejCBrLbwTQ
+ jrka8B+rttpY0DSsvuzpCYHTpk6DhrZ417xMAaoELuc+jIpKDvB/bt/U7qR1bYBjbTK0
+ 1KiEqJkmlXPTq5rxVi3LmA43MjMIlu9D5W+lBISz6qvY//toQSkIBP9yShne4297Pyjv
+ 5zduWk7VGowXKXZLFG0CcT9sNIA2/PPJgxl2Vq7s+UffSF/VMw3Yc41fCYNzCR6ROQIC
+ NxXrzgJ2SRpUyAi1Xu6SbuTuJkhG45OeFPLuw3Bi2SFBHddncTXZw6Yd1xS5r57uM7St
+ iW/Q==
+X-Gm-Message-State: AOAM531GcbNdPfaS2Z1AyMadSr1rJs/qeWCMuTSd0eXRbaxDZaIZd4YA
+ QSeZcZ3xruishLG2tRjvvi+f1P3mc9svgg==
+X-Google-Smtp-Source: ABdhPJyQOYZafFPDc9usCVLlpV1d2yObpI3RjNBJubTfCTjrksZQqzqOtzMfSVfs4s/W02wT/rB7MQ==
+X-Received: by 2002:aa7:d543:0:b0:416:13eb:6fec with SMTP id
+ u3-20020aa7d543000000b0041613eb6fecmr8413935edr.348.1650028781296; 
+ Fri, 15 Apr 2022 06:19:41 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.19.34
+ dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.19.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Apr 2022 06:19:36 -0700 (PDT)
+ Fri, 15 Apr 2022 06:19:40 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/26] block: add missing coroutine_fn annotations
-Date: Fri, 15 Apr 2022 15:18:41 +0200
-Message-Id: <20220415131900.793161-8-pbonzini@redhat.com>
+Subject: [PATCH 08/26] file-posix: add missing coroutine_fn annotations
+Date: Fri, 15 Apr 2022 15:18:42 +0200
+Message-Id: <20220415131900.793161-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220415131900.793161-1-pbonzini@redhat.com>
 References: <20220415131900.793161-1-pbonzini@redhat.com>
@@ -91,144 +91,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/block-backend.c | 18 +++++++++---------
- block/io.c            | 24 ++++++++++++------------
- 2 files changed, 21 insertions(+), 21 deletions(-)
+ block/file-posix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index fedf2eca83..52009b8949 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1413,8 +1413,8 @@ typedef struct BlkRwCo {
-     BdrvRequestFlags flags;
- } BlkRwCo;
- 
--int blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
--                      int64_t bytes, BdrvRequestFlags flags)
-+int coroutine_fn blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
-+                                   int64_t bytes, BdrvRequestFlags flags)
- {
-     IO_OR_GS_CODE();
-     return blk_pwritev_part(blk, offset, bytes, NULL, 0,
-@@ -1534,7 +1534,7 @@ static BlockAIOCB *blk_aio_prwv(BlockBackend *blk, int64_t offset,
-     return &acb->common;
+diff --git a/block/file-posix.c b/block/file-posix.c
+index bfd9b21111..cf7b5531c8 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2143,7 +2143,7 @@ static void raw_aio_unplug(BlockDriverState *bs)
+ #endif
  }
  
--static void blk_aio_read_entry(void *opaque)
-+static void coroutine_fn blk_aio_read_entry(void *opaque)
+-static int raw_co_flush_to_disk(BlockDriverState *bs)
++static int coroutine_fn raw_co_flush_to_disk(BlockDriverState *bs)
  {
-     BlkAioEmAIOCB *acb = opaque;
-     BlkRwCo *rwco = &acb->rwco;
-@@ -1546,7 +1546,7 @@ static void blk_aio_read_entry(void *opaque)
-     blk_aio_complete(acb);
- }
- 
--static void blk_aio_write_entry(void *opaque)
-+static void coroutine_fn blk_aio_write_entry(void *opaque)
- {
-     BlkAioEmAIOCB *acb = opaque;
-     BlkRwCo *rwco = &acb->rwco;
-@@ -1580,8 +1580,8 @@ int blk_pread(BlockBackend *blk, int64_t offset, void *buf, int bytes)
-     return ret < 0 ? ret : bytes;
- }
- 
--int blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf, int bytes,
--               BdrvRequestFlags flags)
-+int coroutine_fn blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf, int bytes,
-+                            BdrvRequestFlags flags)
- {
-     int ret;
-     QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
-@@ -1681,7 +1681,7 @@ int blk_ioctl(BlockBackend *blk, unsigned long int req, void *buf)
-     return ret;
- }
- 
--static void blk_aio_ioctl_entry(void *opaque)
-+static void coroutine_fn blk_aio_ioctl_entry(void *opaque)
- {
-     BlkAioEmAIOCB *acb = opaque;
-     BlkRwCo *rwco = &acb->rwco;
-@@ -1715,7 +1715,7 @@ blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes)
-     return bdrv_co_pdiscard(blk->root, offset, bytes);
- }
- 
--static void blk_aio_pdiscard_entry(void *opaque)
-+static void coroutine_fn blk_aio_pdiscard_entry(void *opaque)
- {
-     BlkAioEmAIOCB *acb = opaque;
-     BlkRwCo *rwco = &acb->rwco;
-@@ -1771,7 +1771,7 @@ int coroutine_fn blk_co_do_flush(BlockBackend *blk)
-     return bdrv_co_flush(blk_bs(blk));
- }
- 
--static void blk_aio_flush_entry(void *opaque)
-+static void coroutine_fn blk_aio_flush_entry(void *opaque)
- {
-     BlkAioEmAIOCB *acb = opaque;
-     BlkRwCo *rwco = &acb->rwco;
-diff --git a/block/io.c b/block/io.c
-index 9769ec53b0..7db9be3c03 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -751,7 +751,7 @@ void bdrv_drain_all(void)
-  *
-  * This function should be called when a tracked request is completing.
-  */
--static void tracked_request_end(BdrvTrackedRequest *req)
-+static void coroutine_fn tracked_request_end(BdrvTrackedRequest *req)
- {
-     if (req->serialising) {
-         qatomic_dec(&req->bs->serialising_in_flight);
-@@ -766,11 +766,11 @@ static void tracked_request_end(BdrvTrackedRequest *req)
- /**
-  * Add an active request to the tracked requests list
-  */
--static void tracked_request_begin(BdrvTrackedRequest *req,
--                                  BlockDriverState *bs,
--                                  int64_t offset,
--                                  int64_t bytes,
--                                  enum BdrvTrackedRequestType type)
-+static void coroutine_fn tracked_request_begin(BdrvTrackedRequest *req,
-+                                               BlockDriverState *bs,
-+                                               int64_t offset,
-+                                               int64_t bytes,
-+                                               enum BdrvTrackedRequestType type)
- {
-     bdrv_check_request(offset, bytes, &error_abort);
- 
-@@ -809,7 +809,7 @@ static bool tracked_request_overlaps(BdrvTrackedRequest *req,
- }
- 
- /* Called with self->bs->reqs_lock held */
--static BdrvTrackedRequest *
-+static coroutine_fn BdrvTrackedRequest *
- bdrv_find_conflicting_request(BdrvTrackedRequest *self)
- {
-     BdrvTrackedRequest *req;
-@@ -1704,10 +1704,10 @@ static bool bdrv_init_padding(BlockDriverState *bs,
-     return true;
- }
- 
--static int bdrv_padding_rmw_read(BdrvChild *child,
--                                 BdrvTrackedRequest *req,
--                                 BdrvRequestPadding *pad,
--                                 bool zero_middle)
-+static coroutine_fn int bdrv_padding_rmw_read(BdrvChild *child,
-+                                              BdrvTrackedRequest *req,
-+                                              BdrvRequestPadding *pad,
-+                                              bool zero_middle)
- {
-     QEMUIOVector local_qiov;
-     BlockDriverState *bs = child->bs;
-@@ -3228,7 +3228,7 @@ out:
-     return ret;
- }
- 
--int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf)
-+int coroutine_fn bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf)
- {
-     BlockDriver *drv = bs->drv;
-     CoroutineIOCompletion co = {
+     BDRVRawState *s = bs->opaque;
+     RawPosixAIOData acb;
 -- 
 2.35.1
 
