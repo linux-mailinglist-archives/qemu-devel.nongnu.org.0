@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95BC35027C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 11:59:16 +0200 (CEST)
-Received: from localhost ([::1]:40994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425AB50286D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 12:41:02 +0200 (CEST)
+Received: from localhost ([::1]:53342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfIjT-0006Lg-On
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 05:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34676)
+	id 1nfJNp-0003MQ-F5
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 06:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nfISn-0002oR-Hz
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:42:02 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:53780 helo=loongson.cn)
+ id 1nfIXs-0000CQ-PE
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:47:16 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:55738 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nfISc-0004a8-VM
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:42:01 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nfIXn-0005Oi-U8
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:47:16 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_xGqPVli41gkAA--.16856S44; 
- Fri, 15 Apr 2022 17:41:38 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_xGqPVli41gkAA--.16856S9; 
+ Fri, 15 Apr 2022 17:41:10 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 42/43] tests/tcg/loongarch64: Add hello/memory test in
- loongarch64 system
-Date: Fri, 15 Apr 2022 17:40:57 +0800
-Message-Id: <20220415094058.3584233-43-yangxiaojuan@loongson.cn>
+Subject: [PATCH v1 07/43] target/loongarch: Add fixed point load/store
+ instruction translation
+Date: Fri, 15 Apr 2022 17:40:22 +0800
+Message-Id: <20220415094058.3584233-8-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
 References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_xGqPVli41gkAA--.16856S44
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw43Kw4Dury5WF1UJFy5urg_yoWxGF1xpw
- 4akFyrKrs7JFZrGw1xKF1rGF13Jry8CF1UuFyaqr40vFs7Ww1vqw1FgrW5JFy2qws5GrWI
- v3ZYyw1Y9F97Ja7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9Dx_xGqPVli41gkAA--.16856S9
+X-Coremail-Antispam: 1UD129KBjvAXoW3ZFW8JF15AFW7Xw4UuF4kZwb_yoW8JFW8Go
+ WUJ3W5Jr48Gr15AFyqkwnYqrWayFyj9ws3ArZ8u3WUGa4xJry7tryUGrnYva1fJryjgryr
+ J3WfJF1rJay3Xrnrn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,265 +62,414 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- We write a very minimal softmmu harness.
-- This is a very simple smoke test with no need to run a full Linux/kernel.
-- The Makefile.softmmu-target record the rule to run.
+From: Song Gao <gaosong@loongson.cn>
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+This includes:
+- LD.{B[U]/H[U]/W[U]/D}, ST.{B/H/W/D}
+- LDX.{B[U]/H[U]/W[U]/D}, STX.{B/H/W/D}
+- LDPTR.{W/D}, STPTR.{W/D}
+- PRELD
+- LD{GT/LE}.{B/H/W/D}, ST{GT/LE}.{B/H/W/D}
+- DBAR, IBAR
+
 Signed-off-by: Song Gao <gaosong@loongson.cn>
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- MAINTAINERS                                   |  1 +
- tests/tcg/loongarch64/Makefile.softmmu-target | 33 +++++++
- tests/tcg/loongarch64/system/boot.S           | 56 ++++++++++++
- tests/tcg/loongarch64/system/kernel.ld        | 30 +++++++
- tests/tcg/loongarch64/system/regdef.h         | 86 +++++++++++++++++++
- 5 files changed, 206 insertions(+)
- create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
- create mode 100644 tests/tcg/loongarch64/system/boot.S
- create mode 100644 tests/tcg/loongarch64/system/kernel.ld
- create mode 100644 tests/tcg/loongarch64/system/regdef.h
+ target/loongarch/helper.h                     |   3 +
+ .../loongarch/insn_trans/trans_memory.c.inc   | 229 ++++++++++++++++++
+ target/loongarch/insns.decode                 |  55 +++++
+ target/loongarch/op_helper.c                  |  15 ++
+ target/loongarch/translate.c                  |   6 +
+ 5 files changed, 308 insertions(+)
+ create mode 100644 target/loongarch/insn_trans/trans_memory.c.inc
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index adfbad2473..961aaa58e0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -218,6 +218,7 @@ M: Song Gao <gaosong@loongson.cn>
- M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
- S: Maintained
- F: target/loongarch/
-+F: tests/tcg/loongarch64/
- 
- M68K TCG CPUs
- M: Laurent Vivier <laurent@vivier.eu>
-diff --git a/tests/tcg/loongarch64/Makefile.softmmu-target b/tests/tcg/loongarch64/Makefile.softmmu-target
+diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
+index 04e0245d5e..100622bfc2 100644
+--- a/target/loongarch/helper.h
++++ b/target/loongarch/helper.h
+@@ -8,3 +8,6 @@ DEF_HELPER_2(raise_exception, noreturn, env, i32)
+ DEF_HELPER_FLAGS_1(bitrev_w, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_1(bitrev_d, TCG_CALL_NO_RWG_SE, tl, tl)
+ DEF_HELPER_FLAGS_1(bitswap, TCG_CALL_NO_RWG_SE, tl, tl)
++
++DEF_HELPER_FLAGS_3(asrtle_d, TCG_CALL_NO_WG, void, env, tl, tl)
++DEF_HELPER_FLAGS_3(asrtgt_d, TCG_CALL_NO_WG, void, env, tl, tl)
+diff --git a/target/loongarch/insn_trans/trans_memory.c.inc b/target/loongarch/insn_trans/trans_memory.c.inc
 new file mode 100644
-index 0000000000..908f3a8c0f
+index 0000000000..10914acf52
 --- /dev/null
-+++ b/tests/tcg/loongarch64/Makefile.softmmu-target
-@@ -0,0 +1,33 @@
-+#
-+# Loongarch64 system tests
-+#
-+
-+LOONGARCH64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/loongarch64/system
-+VPATH+=$(LOONGARCH64_SYSTEM_SRC)
-+
-+# These objects provide the basic boot code and helper functions for all tests
-+CRT_OBJS=boot.o
-+
-+LOONGARCH64_TEST_SRCS=$(wildcard $(LOONGARCH64_SYSTEM_SRC)/*.c)
-+LOONGARCH64_TESTS = $(patsubst $(LOONGARCH64_SYSTEM_SRC)/%.c, %, $(LOONGARCH64_TEST_SRCS))
-+
-+CRT_PATH=$(LOONGARCH64_SYSTEM_SRC)
-+LINK_SCRIPT=$(LOONGARCH64_SYSTEM_SRC)/kernel.ld
-+LDFLAGS=-Wl,-T$(LINK_SCRIPT)
-+TESTS+=$(LOONGARCH64_TESTS) $(MULTIARCH_TESTS)
-+CFLAGS+=-nostdlib -g -O1 -march=loongarch64 -mabi=lp64d $(MINILIB_INC)
-+LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
-+
-+# building head blobs
-+.PRECIOUS: $(CRT_OBJS)
-+
-+%.o: $(CRT_PATH)/%.S
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
-+
-+# Build and link the tests
-+%: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+memory: CFLAGS+=-DCHECK_UNALIGNED=0
-+# Running
-+QEMU_OPTS+=-serial chardev:output -kernel
-diff --git a/tests/tcg/loongarch64/system/boot.S b/tests/tcg/loongarch64/system/boot.S
-new file mode 100644
-index 0000000000..aec116a327
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/boot.S
-@@ -0,0 +1,56 @@
++++ b/target/loongarch/insn_trans/trans_memory.c.inc
+@@ -0,0 +1,229 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * Minimal LoongArch system boot code.
-+ *
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+#include "regdef.h"
-+
-+	.global _start
-+	.align 16
-+_start:
-+	la.local t0, stack_end
-+	move sp, t0
-+	bl main
-+
-+	.type _start 2
-+	.size _start, .-_start
-+
-+	.global _exit
-+	.align 16
-+_exit:
-+2:      /* QEMU ACPI poweroff */
-+	li.w  t0, 0x3c00
-+	li.w  t1, 0x100d0014
-+	st.w  t0, t1, 0
-+	idle  0
-+	bl    2b
-+
-+	.type _exit 2
-+	.size _exit, .-_exit
-+
-+	.global __sys_outc
-+__sys_outc:
-+	li.d t1, 1000000
-+loop:
-+	lu12i.w	t2, 0x1fe00
-+	ori	t0, t2, 0x1e5
-+	ld.bu	t0, t0, 0
-+	andi	t0, t0, 0x20
-+	ext.w.b	t0, t0
-+	bnez	t0, in
-+	addi.w	t1, t1, -1
-+	bnez	t1, loop
-+in:
-+	ext.w.b	a0, a0
-+	lu12i.w	t0, 0x1fe00
-+	ori	t0, t0, 0x1e0
-+	st.b	a0, t0, 0
-+	jirl	$r0, ra, 0
-+
-+	.data
-+	.align 4
-+stack:
-+	.space	65536
-+stack_end:
-diff --git a/tests/tcg/loongarch64/system/kernel.ld b/tests/tcg/loongarch64/system/kernel.ld
-new file mode 100644
-index 0000000000..f1a7c0168c
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/kernel.ld
-@@ -0,0 +1,30 @@
-+ENTRY(_start)
-+
-+SECTIONS
++static bool gen_load(DisasContext *ctx, arg_rr_i *a, MemOp mop)
 +{
-+    /* Linux kernel legacy start address.  */
-+    . = 0x9000000000200000;
-+    _text = .;
-+    .text : {
-+        *(.text)
-+    }
-+    .rodata : {
-+        *(.rodata)
-+    }
-+    _etext = .;
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv temp = NULL;
 +
-+    . = ALIGN(8192);
-+    _data = .;
-+    .got : {
-+        *(.got)
++    if (a->imm) {
++        temp = tcg_temp_new();
++        tcg_gen_addi_tl(temp, addr, a->imm);
++        addr = temp;
 +    }
-+    .data : {
-+	*(.sdata)
-+        *(.data)
++
++    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
++    gen_set_gpr(a->rd, dest, EXT_NONE);
++
++    if (temp) {
++        tcg_temp_free(temp);
 +    }
-+    _edata = .;
-+    .bss : {
-+        *(.bss)
-+    }
-+    _end = .;
++
++    return true;
 +}
-diff --git a/tests/tcg/loongarch64/system/regdef.h b/tests/tcg/loongarch64/system/regdef.h
-new file mode 100644
-index 0000000000..faa09b2377
---- /dev/null
-+++ b/tests/tcg/loongarch64/system/regdef.h
-@@ -0,0 +1,86 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+#ifndef _ASM_REGDEF_H
-+#define _ASM_REGDEF_H
 +
-+#define zero    $r0     /* wired zero */
-+#define ra      $r1     /* return address */
-+#define tp      $r2
-+#define sp      $r3     /* stack pointer */
-+#define v0      $r4     /* return value - caller saved */
-+#define v1      $r5
-+#define a0      $r4     /* argument registers */
-+#define a1      $r5
-+#define a2      $r6
-+#define a3      $r7
-+#define a4      $r8
-+#define a5      $r9
-+#define a6      $r10
-+#define a7      $r11
-+#define t0      $r12    /* caller saved */
-+#define t1      $r13
-+#define t2      $r14
-+#define t3      $r15
-+#define t4      $r16
-+#define t5      $r17
-+#define t6      $r18
-+#define t7      $r19
-+#define t8      $r20
-+                        /* $r21: Temporarily reserved */
-+#define fp      $r22    /* frame pointer */
-+#define s0      $r23    /* callee saved */
-+#define s1      $r24
-+#define s2      $r25
-+#define s3      $r26
-+#define s4      $r27
-+#define s5      $r28
-+#define s6      $r29
-+#define s7      $r30
-+#define s8      $r31
++static bool gen_store(DisasContext *ctx, arg_rr_i *a, MemOp mop)
++{
++    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv temp = NULL;
 +
-+#define gr0     $r0
-+#define gr1     $r1
-+#define gr2     $r2
-+#define gr3     $r3
-+#define gr4     $r4
-+#define gr5     $r5
-+#define gr6     $r6
-+#define gr7     $r7
-+#define gr8     $r8
-+#define gr9     $r9
-+#define gr10    $r10
-+#define gr11    $r11
-+#define gr12    $r12
-+#define gr13    $r13
-+#define gr14    $r14
-+#define gr15    $r15
-+#define gr16    $r16
-+#define gr17    $r17
-+#define gr18    $r18
-+#define gr19    $r19
-+#define gr20    $r20
-+#define gr21    $r21
-+#define gr22    $r22
-+#define gr23    $r23
-+#define gr24    $r24
-+#define gr25    $r25
-+#define gr26    $r26
-+#define gr27    $r27
-+#define gr28    $r28
-+#define gr29    $r29
-+#define gr30    $r30
-+#define gr31    $r31
++    if (a->imm) {
++        temp = tcg_temp_new();
++        tcg_gen_addi_tl(temp, addr, a->imm);
++        addr = temp;
++    }
 +
-+#define STT_NOTYPE  0
-+#define STT_OBJECT  1
-+#define STT_FUNC    2
-+#define STT_SECTION 3
-+#define STT_FILE    4
-+#define STT_COMMON  5
-+#define STT_TLS     6
++    tcg_gen_qemu_st_tl(data, addr, ctx->mem_idx, mop);
 +
-+#define ASM_NL           ;
++    if (temp) {
++        tcg_temp_free(temp);
++    }
 +
-+#endif /* _ASM_REGDEF_H */
++    return true;
++}
++
++static bool gen_loadx(DisasContext *ctx, arg_rrr *a, MemOp mop)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
++    TCGv addr = tcg_temp_new();
++
++    tcg_gen_add_tl(addr, src1, src2);
++    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
++    gen_set_gpr(a->rd, dest, EXT_NONE);
++    tcg_temp_free(addr);
++
++    return true;
++}
++
++static bool gen_storex(DisasContext *ctx, arg_rrr *a, MemOp mop)
++{
++    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
++    TCGv addr = tcg_temp_new();
++
++    tcg_gen_add_tl(addr, src1, src2);
++    tcg_gen_qemu_st_tl(data, addr, ctx->mem_idx, mop);
++    tcg_temp_free(addr);
++
++    return true;
++}
++
++static bool gen_load_gt(DisasContext *ctx, arg_rrr *a, MemOp mop)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
++
++    gen_helper_asrtgt_d(cpu_env, src1, src2);
++    tcg_gen_qemu_ld_tl(dest, src1, ctx->mem_idx, mop);
++    gen_set_gpr(a->rd, dest, EXT_NONE);
++
++    return true;
++}
++
++static bool gen_load_le(DisasContext *ctx, arg_rrr *a, MemOp mop)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
++
++    gen_helper_asrtle_d(cpu_env, src1, src2);
++    tcg_gen_qemu_ld_tl(dest, src1, ctx->mem_idx, mop);
++    gen_set_gpr(a->rd, dest, EXT_NONE);
++
++    return true;
++}
++
++static bool gen_store_gt(DisasContext *ctx, arg_rrr *a, MemOp mop)
++{
++    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
++
++    gen_helper_asrtgt_d(cpu_env, src1, src2);
++    tcg_gen_qemu_st_tl(data, src1, ctx->mem_idx, mop);
++
++    return true;
++}
++
++static bool gen_store_le(DisasContext *ctx, arg_rrr *a, MemOp mop)
++{
++    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
++
++    gen_helper_asrtle_d(cpu_env, src1, src2);
++    tcg_gen_qemu_st_tl(data, src1, ctx->mem_idx, mop);
++
++    return true;
++}
++
++static bool trans_preld(DisasContext *ctx, arg_preld *a)
++{
++    return true;
++}
++
++static bool trans_dbar(DisasContext *ctx, arg_dbar * a)
++{
++    tcg_gen_mb(TCG_BAR_SC | TCG_MO_ALL);
++    return true;
++}
++
++static bool trans_ibar(DisasContext *ctx, arg_ibar *a)
++{
++    ctx->base.is_jmp = DISAS_STOP;
++    return true;
++}
++
++static bool gen_ldptr(DisasContext *ctx, arg_rr_i *a, MemOp mop)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv temp = NULL;
++
++    if (a->imm) {
++        temp = tcg_temp_new();
++        tcg_gen_addi_tl(temp, addr, a->imm);
++        addr = temp;
++    }
++
++    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, mop);
++    gen_set_gpr(a->rd, dest, EXT_NONE);
++
++    if (temp) {
++        tcg_temp_free(temp);
++    }
++
++    return true;
++}
++
++static bool gen_stptr(DisasContext *ctx, arg_rr_i *a, MemOp mop)
++{
++    TCGv data = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv temp = NULL;
++
++    if (a->imm) {
++        temp = tcg_temp_new();
++        tcg_gen_addi_tl(temp, addr, a->im);
++        addr = temp;
++    }
++
++    tcg_gen_qemu_st_tl(data, addr, ctx->mem_idx, mop);
++
++    if (temp) {
++        tcg_temp_free(temp);
++    }
++
++    return true;
++}
++
++TRANS(ld_b, gen_load, MO_SB)
++TRANS(ld_h, gen_load, MO_TESW)
++TRANS(ld_w, gen_load, MO_TESL)
++TRANS(ld_d, gen_load, MO_TEUQ)
++TRANS(st_b, gen_store, MO_UB)
++TRANS(st_h, gen_store, MO_TEUW)
++TRANS(st_w, gen_store, MO_TEUL)
++TRANS(st_d, gen_store, MO_TEUQ)
++TRANS(ld_bu, gen_load, MO_UB)
++TRANS(ld_hu, gen_load, MO_TEUW)
++TRANS(ld_wu, gen_load, MO_TEUL)
++TRANS(ldx_b, gen_loadx, MO_SB)
++TRANS(ldx_h, gen_loadx, MO_TESW)
++TRANS(ldx_w, gen_loadx, MO_TESL)
++TRANS(ldx_d, gen_loadx, MO_TEUQ)
++TRANS(stx_b, gen_storex, MO_UB)
++TRANS(stx_h, gen_storex, MO_TEUW)
++TRANS(stx_w, gen_storex, MO_TEUL)
++TRANS(stx_d, gen_storex, MO_TEUQ)
++TRANS(ldx_bu, gen_loadx, MO_UB)
++TRANS(ldx_hu, gen_loadx, MO_TEUW)
++TRANS(ldx_wu, gen_loadx, MO_TEUL)
++TRANS(ldptr_w, gen_ldptr, MO_TESL)
++TRANS(stptr_w, gen_stptr, MO_TEUL)
++TRANS(ldptr_d, gen_ldptr, MO_TEUQ)
++TRANS(stptr_d, gen_stptr, MO_TEUQ)
++TRANS(ldgt_b, gen_load_gt, MO_SB)
++TRANS(ldgt_h, gen_load_gt, MO_TESW)
++TRANS(ldgt_w, gen_load_gt, MO_TESL)
++TRANS(ldgt_d, gen_load_gt, MO_TEUQ)
++TRANS(ldle_b, gen_load_le, MO_SB)
++TRANS(ldle_h, gen_load_le, MO_TESW)
++TRANS(ldle_w, gen_load_le, MO_TESL)
++TRANS(ldle_d, gen_load_le, MO_TEUQ)
++TRANS(stgt_b, gen_store_gt, MO_UB)
++TRANS(stgt_h, gen_store_gt, MO_TEUW)
++TRANS(stgt_w, gen_store_gt, MO_TEUL)
++TRANS(stgt_d, gen_store_gt, MO_TEUQ)
++TRANS(stle_b, gen_store_le, MO_UB)
++TRANS(stle_h, gen_store_le, MO_TEUW)
++TRANS(stle_w, gen_store_le, MO_TEUL)
++TRANS(stle_d, gen_store_le, MO_TEUQ)
+diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
+index b0bed5531b..1156e6965c 100644
+--- a/target/loongarch/insns.decode
++++ b/target/loongarch/insns.decode
+@@ -8,21 +8,25 @@
+ #
+ # Fields
+ #
++%i14s2     10:s14       !function=shl_2
+ %sa2p1     15:2         !function=plus_1
+ 
+ #
+ # Argument sets
+ #
++&i            imm
+ &r_i          rd imm
+ &rr           rd rj
+ &rrr          rd rj rk
+ &rr_i         rd rj imm
++&hint_r_i     hint rj imm
+ &rrr_sa       rd rj rk sa
+ &rr_ms_ls     rd rj ms ls
+ 
+ #
+ # Formats
+ #
++@i15                       .... ........ ..... imm:15    &i
+ @rr               .... ........ ..... ..... rj:5 rd:5    &rr
+ @rrr               .... ........ ..... rk:5 rj:5 rd:5    &rrr
+ @r_i20                          .... ... imm:s20 rd:5    &r_i
+@@ -30,7 +34,9 @@
+ @rr_ui6            .... ........ .... imm:6 rj:5 rd:5    &rr_i
+ @rr_i12                 .... ...... imm:s12 rj:5 rd:5    &rr_i
+ @rr_ui12                 .... ...... imm:12 rj:5 rd:5    &rr_i
++@rr_i14s2         .... ....  .............. rj:5 rd:5    &rr_i imm=%i14s2
+ @rr_i16                     .... .. imm:s16 rj:5 rd:5    &rr_i
++@hint_r_i12           .... ...... imm:s12 rj:5 hint:5    &hint_r_i
+ @rrr_sa2p1        .... ........ ... .. rk:5 rj:5 rd:5    &rrr_sa  sa=%sa2p1
+ @rrr_sa2        .... ........ ... sa:2 rk:5 rj:5 rd:5    &rrr_sa
+ @rrr_sa3         .... ........ .. sa:3 rk:5 rj:5 rd:5    &rrr_sa
+@@ -138,3 +144,52 @@ bstrins_w       0000 0000011 ..... 0 ..... ..... .....   @rr_2bw
+ bstrpick_w      0000 0000011 ..... 1 ..... ..... .....   @rr_2bw
+ bstrins_d       0000 000010 ...... ...... ..... .....    @rr_2bd
+ bstrpick_d      0000 000011 ...... ...... ..... .....    @rr_2bd
++
++#
++# Fixed point load/store instruction
++#
++ld_b            0010 100000 ............ ..... .....     @rr_i12
++ld_h            0010 100001 ............ ..... .....     @rr_i12
++ld_w            0010 100010 ............ ..... .....     @rr_i12
++ld_d            0010 100011 ............ ..... .....     @rr_i12
++st_b            0010 100100 ............ ..... .....     @rr_i12
++st_h            0010 100101 ............ ..... .....     @rr_i12
++st_w            0010 100110 ............ ..... .....     @rr_i12
++st_d            0010 100111 ............ ..... .....     @rr_i12
++ld_bu           0010 101000 ............ ..... .....     @rr_i12
++ld_hu           0010 101001 ............ ..... .....     @rr_i12
++ld_wu           0010 101010 ............ ..... .....     @rr_i12
++ldx_b           0011 10000000 00000 ..... ..... .....    @rrr
++ldx_h           0011 10000000 01000 ..... ..... .....    @rrr
++ldx_w           0011 10000000 10000 ..... ..... .....    @rrr
++ldx_d           0011 10000000 11000 ..... ..... .....    @rrr
++stx_b           0011 10000001 00000 ..... ..... .....    @rrr
++stx_h           0011 10000001 01000 ..... ..... .....    @rrr
++stx_w           0011 10000001 10000 ..... ..... .....    @rrr
++stx_d           0011 10000001 11000 ..... ..... .....    @rrr
++ldx_bu          0011 10000010 00000 ..... ..... .....    @rrr
++ldx_hu          0011 10000010 01000 ..... ..... .....    @rrr
++ldx_wu          0011 10000010 10000 ..... ..... .....    @rrr
++preld           0010 101011 ............ ..... .....     @hint_r_i12
++dbar            0011 10000111 00100 ...............      @i15
++ibar            0011 10000111 00101 ...............      @i15
++ldptr_w         0010 0100 .............. ..... .....     @rr_i14s2
++stptr_w         0010 0101 .............. ..... .....     @rr_i14s2
++ldptr_d         0010 0110 .............. ..... .....     @rr_i14s2
++stptr_d         0010 0111 .............. ..... .....     @rr_i14s2
++ldgt_b          0011 10000111 10000 ..... ..... .....    @rrr
++ldgt_h          0011 10000111 10001 ..... ..... .....    @rrr
++ldgt_w          0011 10000111 10010 ..... ..... .....    @rrr
++ldgt_d          0011 10000111 10011 ..... ..... .....    @rrr
++ldle_b          0011 10000111 10100 ..... ..... .....    @rrr
++ldle_h          0011 10000111 10101 ..... ..... .....    @rrr
++ldle_w          0011 10000111 10110 ..... ..... .....    @rrr
++ldle_d          0011 10000111 10111 ..... ..... .....    @rrr
++stgt_b          0011 10000111 11000 ..... ..... .....    @rrr
++stgt_h          0011 10000111 11001 ..... ..... .....    @rrr
++stgt_w          0011 10000111 11010 ..... ..... .....    @rrr
++stgt_d          0011 10000111 11011 ..... ..... .....    @rrr
++stle_b          0011 10000111 11100 ..... ..... .....    @rrr
++stle_h          0011 10000111 11101 ..... ..... .....    @rrr
++stle_w          0011 10000111 11110 ..... ..... .....    @rrr
++stle_d          0011 10000111 11111 ..... ..... .....    @rrr
+diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
+index f4b22c70a0..e6410f67f9 100644
+--- a/target/loongarch/op_helper.c
++++ b/target/loongarch/op_helper.c
+@@ -40,3 +40,18 @@ target_ulong helper_bitswap(target_ulong v)
+         ((v & (target_ulong)0x0F0F0F0F0F0F0F0FULL) << 4);
+     return v;
+ }
++
++/* loongarch assert op */
++void helper_asrtle_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
++{
++    if (rj > rk) {
++        do_raise_exception(env, EXCP_ADE, GETPC());
++    }
++}
++
++void helper_asrtgt_d(CPULoongArchState *env, target_ulong rj, target_ulong rk)
++{
++    if (rj <= rk) {
++        do_raise_exception(env, EXCP_ADE, GETPC());
++    }
++}
+diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
+index de5f55aabc..d34020f40a 100644
+--- a/target/loongarch/translate.c
++++ b/target/loongarch/translate.c
+@@ -31,6 +31,11 @@ static inline int plus_1(DisasContext *ctx, int x)
+     return x + 1;
+ }
+ 
++static inline int shl_2(DisasContext *ctx, int x)
++{
++    return x << 2;
++}
++
+ void generate_exception(DisasContext *ctx, int excp)
+ {
+     tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
+@@ -148,6 +153,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
+ #include "insn_trans/trans_arith.c.inc"
+ #include "insn_trans/trans_shift.c.inc"
+ #include "insn_trans/trans_bit.c.inc"
++#include "insn_trans/trans_memory.c.inc"
+ 
+ static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ {
 -- 
 2.31.1
 
