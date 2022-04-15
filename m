@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049E2502B0F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:38:06 +0200 (CEST)
-Received: from localhost ([::1]:45272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAED9502B42
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:49:09 +0200 (CEST)
+Received: from localhost ([::1]:35594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfM9F-0000ye-4P
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:38:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50666)
+	id 1nfMJw-0005T2-6d
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLsS-0007Iu-Kr; Fri, 15 Apr 2022 09:20:45 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:37702)
+ id 1nfLsU-0007Nq-Fx; Fri, 15 Apr 2022 09:20:46 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:44666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLsP-0008To-BI; Fri, 15 Apr 2022 09:20:44 -0400
-Received: by mail-ed1-x535.google.com with SMTP id b15so9908393edn.4;
- Fri, 15 Apr 2022 06:20:40 -0700 (PDT)
+ id 1nfLsS-0008U8-M9; Fri, 15 Apr 2022 09:20:46 -0400
+Received: by mail-ed1-x531.google.com with SMTP id c64so9888435edf.11;
+ Fri, 15 Apr 2022 06:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v1wXjy3dOvISKhKrLTVr4XDRoBc4ykMCUe9x4ZrVMjo=;
- b=VRqt2mBqqSCI++Sv9wSC9LjYb4cUzCvPamdy7ADbVLY2S099LMSy8s4G7JW/yjRdyY
- sxcKJPpjQKwPgIWkT78izK3os5zss2hKWhH4fS7CV712gFqqXkhAHJYb1kegCJvq0G/N
- Lg868L2jhPz7s13khUfVSrUacwSu/2qVBmqpG+w8NBbcc/cn2vnLtc6C/hofbIDTXk9x
- Z+jt+Dxhf61ZQhJ6/2mXsJCuTkq+1nDT/IALDaUjrKfosvyvXWo4/8hgNA1TGpA6+MPL
- pMPC+EGNuRHRVg49xKxKGQ/Bl79lTNqs2hDEIlD/S1tDw2kjx34akJpZR9W2sJOmCMjN
- urDw==
+ bh=hHG9UaL2QFsVN2h+2yuEM3KkGGegTuTWP1BniOMjvDg=;
+ b=bKOMtu3GM90eOe1rigWKdi4qhkvEsNc6Nou4JfHTSCzD8JBwWz3PiYILM7Fz+vSVOe
+ 3b4pGRAMdXUEyjkVT3XXKsSRcCwoEJJ2UOhNasOXshKeYgX0aKpxomtg4NzfngzEt4DN
+ c2XRSrnvhigXmcjkuH3W3jnJm+5+OVlwHDKCDG4RWuxV0Bg+3ceAYLiFQRYVL/a6NhUq
+ j4OSExNXI6J6JIqaHIjTbMON/aJCvgzIY1zfqwR3FU6gXmbNLP42sJohXxM5rcuiW5K0
+ 2v52qOPa9vOuzAUbafIaCSozvYE7sJhqTJDtG4oFgNUcFhyy38L8DX0Z2eZ0OSydwhK2
+ 3PKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=v1wXjy3dOvISKhKrLTVr4XDRoBc4ykMCUe9x4ZrVMjo=;
- b=y/L++x/7nKzI2K/xvUx0qFi6kydGup2PynOz7z6LcL6vgAxt+Tfu9Hl/ULPMKy7eAK
- wi74If7a+HHIEnDagLsE+WgBoFKyUOkmNBiPiVa/C1ehyPIf7Xwv2hGg+OKYLRte2DmJ
- OO2NgEU4vpba3J6j0gm7ib3QAbOyMfrrYplR3x8ErH4yhw74cma6tequf6KGJzWW7Fh8
- tuQ2+thLJ/8wDZEtVoBaUKfa7wFFjcCcfn4AIKPFtoL6RtnSXCA9YShDMy8OshwZzg/+
- PV8SUowIg5puKTHU3KxinKXIxS+lcGPbn7WcLXGY79qrimcgciBg6C9E/4H8y81/1cVj
- 1RBQ==
-X-Gm-Message-State: AOAM532xXmfmt64vTpnH1ZVRIhVBGz+r1KbqAD9GAtT/Rj6vAQf5OFGw
- K1xbnraB4mUhlqMal/ifQRjH6mC6TeYLUg==
-X-Google-Smtp-Source: ABdhPJzv+p339WCtdSxVk6vHTCJuUdOxCUCDFSnbD6sAjVZJQ1f0qJrsrNyB6BYA1KI8tuubsTpeXg==
-X-Received: by 2002:a05:6402:50d0:b0:419:7df9:55c8 with SMTP id
- h16-20020a05640250d000b004197df955c8mr8083309edb.79.1650028839704; 
- Fri, 15 Apr 2022 06:20:39 -0700 (PDT)
+ bh=hHG9UaL2QFsVN2h+2yuEM3KkGGegTuTWP1BniOMjvDg=;
+ b=uu0Sd8quPXyfjOlLl6UnFj0VywJTxCz/qWCDkxDpxrlfwOz5CIeNO35r81W2JH4A0Y
+ Ni8+K+FHxHcY7DPn4c3+679URMrkAxp3y5HZGqppoyJYDot789rxgZU4zDpVY/1pNbtC
+ X3rDkupeuaAb4eUPtpEcfUYIFCy3jjdsQ3C+nge5IAKSRQyd4mIt9j7LtugwcSZIu1uQ
+ S3x52eLOR1LUZjOn6DpVtJxdRUkKtPbJv7M4M/ivbfU68irWgOfefaSPVZM/N/1qw4o1
+ 2SnTvmd9f0Cog4yA9rNKpH2AyBKquRnu1jCCQG+SxaaNbFMh9kKAqojJTMIOKaTaDtOe
+ jF4A==
+X-Gm-Message-State: AOAM530T9HXV5KE4KQXHV0dkQSxzAVFp2H9gpuCTczi6sYaf5+ESAAaW
+ JCJ60rsRelBo0OLhFPAQz2boDHNhR7iUkg==
+X-Google-Smtp-Source: ABdhPJwTYOX9zgv8n2NCTTRcKiz22MDQe5vgjyQqLC7AGCOCTxkf1rSsgAbRvzzP7f4PxXNfzJyT1w==
+X-Received: by 2002:a50:baa8:0:b0:415:b0bc:6353 with SMTP id
+ x37-20020a50baa8000000b00415b0bc6353mr8370264ede.220.1650028842898; 
+ Fri, 15 Apr 2022 06:20:42 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.20.36
+ dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.20.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Apr 2022 06:20:39 -0700 (PDT)
+ Fri, 15 Apr 2022 06:20:42 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/26] throttle: add missing coroutine_fn annotations
-Date: Fri, 15 Apr 2022 15:18:53 +0200
-Message-Id: <20220415131900.793161-20-pbonzini@redhat.com>
+Subject: [PATCH 20/26] vmdk: add missing coroutine_fn annotations
+Date: Fri, 15 Apr 2022 15:18:54 +0200
+Message-Id: <20220415131900.793161-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220415131900.793161-1-pbonzini@redhat.com>
 References: <20220415131900.793161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,22 +91,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/throttle.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/vmdk.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/block/throttle.c b/block/throttle.c
-index 6e8d52fa24..ddd450593a 100644
---- a/block/throttle.c
-+++ b/block/throttle.c
-@@ -162,7 +162,7 @@ static int coroutine_fn throttle_co_pwritev_compressed(BlockDriverState *bs,
-                                BDRV_REQ_WRITE_COMPRESSED);
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 37c0946066..27d3732255 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -1741,10 +1741,10 @@ static int coroutine_fn vmdk_co_block_status(BlockDriverState *bs,
+     return ret;
  }
  
--static int throttle_co_flush(BlockDriverState *bs)
-+static int coroutine_fn throttle_co_flush(BlockDriverState *bs)
+-static int vmdk_write_extent(VmdkExtent *extent, int64_t cluster_offset,
+-                            int64_t offset_in_cluster, QEMUIOVector *qiov,
+-                            uint64_t qiov_offset, uint64_t n_bytes,
+-                            uint64_t offset)
++static int coroutine_fn vmdk_write_extent(VmdkExtent *extent, int64_t cluster_offset,
++                                         int64_t offset_in_cluster, QEMUIOVector *qiov,
++					  uint64_t qiov_offset, uint64_t n_bytes,
++					  uint64_t offset)
  {
-     return bdrv_co_flush(bs->file->bs);
+     int ret;
+     VmdkGrainMarker *data = NULL;
+@@ -1822,9 +1822,9 @@ static int vmdk_write_extent(VmdkExtent *extent, int64_t cluster_offset,
+     return ret;
  }
+ 
+-static int vmdk_read_extent(VmdkExtent *extent, int64_t cluster_offset,
+-                            int64_t offset_in_cluster, QEMUIOVector *qiov,
+-                            int bytes)
++static int coroutine_fn vmdk_read_extent(VmdkExtent *extent, int64_t cluster_offset,
++                                        int64_t offset_in_cluster, QEMUIOVector *qiov,
++					 int bytes)
+ {
+     int ret;
+     int cluster_bytes, buf_bytes;
+@@ -1971,9 +1971,9 @@ fail:
+  *
+  * Returns: error code with 0 for success.
+  */
+-static int vmdk_pwritev(BlockDriverState *bs, uint64_t offset,
+-                       uint64_t bytes, QEMUIOVector *qiov,
+-                       bool zeroed, bool zero_dry_run)
++static int coroutine_fn vmdk_pwritev(BlockDriverState *bs, uint64_t offset,
++				     uint64_t bytes, QEMUIOVector *qiov,
++				     bool zeroed, bool zero_dry_run)
+ {
+     BDRVVmdkState *s = bs->opaque;
+     VmdkExtent *extent = NULL;
 -- 
 2.35.1
 
