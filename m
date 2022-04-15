@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6545031DB
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 01:27:01 +0200 (CEST)
-Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC67F5031DE
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 01:30:47 +0200 (CEST)
+Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfVLA-0001vk-AU
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 19:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55178)
+	id 1nfVOo-0003Ue-Kd
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 19:30:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nfVKC-0001AO-CD
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 19:26:00 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:46684)
+ id 1nfVNM-0002mD-GY
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 19:29:16 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:36762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nfVKA-0001gt-OV
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 19:26:00 -0400
-Received: by mail-pg1-x536.google.com with SMTP id q12so8896042pgj.13
- for <qemu-devel@nongnu.org>; Fri, 15 Apr 2022 16:25:58 -0700 (PDT)
+ id 1nfVNL-0001z5-29
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 19:29:16 -0400
+Received: by mail-pg1-x530.google.com with SMTP id r66so8935766pgr.3
+ for <qemu-devel@nongnu.org>; Fri, 15 Apr 2022 16:29:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rhT+6cYDJ4GQ9ysGyz2ysTJ3wXN1C/GkTVgKgBRE1EY=;
- b=GnE+mpvjE0hfz5E045P+e+zVk2db+R2FfJr8yjNpbRf13oW0eFhcc/8c0VabM2MjSY
- eM7N0ZKNFFTJGZ7ks3jpXd5S4gfGo2IPHz6/qi1e73R3BznluBFNZAxTOb3ssVGvM6Mw
- sbWchAMyhRYjsY7Vf5OTXThnpNcvdqLEDh7Bg26LXhtOw6QJSC+mVPZhQy1uW+zyUwsm
- MtZPv3nLK+dnMg2PMHnEtpYI9kfdWaEHZYBBmL0ZTon5PR0hcsI4PtzCwzBjSQyNSknD
- PE+yfz22gHczL9qg92lpqBAde8B0gH4heOX5wpzscLH7T9dxOK1kGWmC1Mef8zLNX/yr
- e38A==
+ bh=yk6Ow+4/41f4+nRjT6Apko7MjGvLroPVlEznMkwvKBY=;
+ b=OZ8WoWXfG/vdTxnT+F/+Wub59NxWcEkvQfCuchoLHLR2xFayOJ/aGowghOW7byH8lz
+ HMdkGGbd7VICR1XiAHnvp0Okzj0uuvFxxLDeupnonJ/Gtq9FNnfHb960r4Zq5zSYJAL0
+ K5uh1qPctv4LL0NOgzovWVVTEV+s+NwhL7/Mn16qzpbTl55+yyXKtjil+rYcOuFsd6ax
+ 7zbldUFJD+/x2k9cccMUTIl99OvRtZxXGJCM8wyWsFXicfGTdeWK9mV/dLSNIuaIsnru
+ vo8b8xK5qRK+FSEFIy4EfRAezL1EgTWSqo7om3eHAqw6b63F1/cdUkQwm2w3G+hF4VFz
+ aT2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rhT+6cYDJ4GQ9ysGyz2ysTJ3wXN1C/GkTVgKgBRE1EY=;
- b=5E7Jv0gTwoCLGBc5nwmov5Z3n47sXA7FZ7XbXa96nxIDida0hcuVcgdBX1mbgdFYz7
- n5T0V4SoyPndBYQApgC098goColFsZr4gU++/tmzrtuHo+iyxB3uGumZZlbGkSSNKCbY
- MAy7+G1BDwJURE8nIJmRruJUrCfpmLAWdSuPKbtOC5id0kj5KP5InAgyKvwoY0aP32pv
- j2JxdrLzHqQKmHQohIOY6Sk92ncZMNfJOAxuF9Al27fogbH72y6DgsCNkGAood6GLP2m
- n9su4HLDKyMxAMUZf1EZoO1h3cMA19Ma19JCKG3/u1R/dR6SReIj0laHb664JQSNbF6K
- cXXQ==
-X-Gm-Message-State: AOAM532PRvVW9NEEkm56vN6nO+n3OXB2c5A2cSZfCrBv01U1SCmKBSIX
- 9dMKXHJS0o1dxVe7z+ZbMD5ijQ==
-X-Google-Smtp-Source: ABdhPJwEeSE/6M0fGNXqKKnfCXnJp3+qqHnT3DyJCBm/yw2NPIi95upattJqQy6LHgjGIncH6v2LLw==
-X-Received: by 2002:aa7:90d4:0:b0:4fd:acb9:8eac with SMTP id
- k20-20020aa790d4000000b004fdacb98eacmr1362423pfk.24.1650065157215; 
- Fri, 15 Apr 2022 16:25:57 -0700 (PDT)
+ bh=yk6Ow+4/41f4+nRjT6Apko7MjGvLroPVlEznMkwvKBY=;
+ b=W4smpAJRvGRPmQ/QUqivu14DHGABthsTlvpdVODInMcW21yOlkptEyDr3NnWPR7PE0
+ zwAr3uvagL+u7O6P0tlrVbaAY55qHcT8wxvTFD0KqA/nP8vrHujS8ZMLYcyRO8Ge5oTr
+ MiLO8IbxIxF6zIM7+KB7u6gm3zF/SqkLMAazzZfiHQW3+s6ba9jw3VrlBpTdAWwVRvy6
+ m0lnxFTmARHtOsmQ515+IBRQcuLLR1HD0Vn+s2FM1DTmlWefWyh5QjXOX+Ik4fsBQcWu
+ 5mhFtanltCocFHi3ml1QOrF4Ifr/ziohq4n13hMyVCoYPy7I8DOyLAaKwSHdJp5Zrvqr
+ v/uA==
+X-Gm-Message-State: AOAM530oQoCBtUDT791uzpaybX9XaIRI3Qr+2g1rw5VETDrwVmby5KZe
+ SAmHiKc6RCRBA+QM02xgXyguVIZMnaAWSw==
+X-Google-Smtp-Source: ABdhPJyv/1RrLuGyXWHT3A7DVzAaMPaFIMdUdGLEz7QhgHuaTyAC5zxoOBCeUAxBLddJNC/J9qtV5w==
+X-Received: by 2002:a63:2cd4:0:b0:39d:8636:3808 with SMTP id
+ s203-20020a632cd4000000b0039d86363808mr988203pgs.290.1650065353698; 
+ Fri, 15 Apr 2022 16:29:13 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- d141-20020a621d93000000b00505aa1026f1sm3863703pfd.51.2022.04.15.16.25.56
+ x6-20020a17090a294600b001cba3274bd0sm9513126pjf.28.2022.04.15.16.29.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Apr 2022 16:25:56 -0700 (PDT)
-Message-ID: <799cd2bd-fd7e-1af4-6ccb-37741008a359@linaro.org>
-Date: Fri, 15 Apr 2022 16:25:54 -0700
+ Fri, 15 Apr 2022 16:29:13 -0700 (PDT)
+Message-ID: <7956551a-265a-2a9a-75dd-3881b509edbb@linaro.org>
+Date: Fri, 15 Apr 2022 16:29:11 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v1 18/43] target/loongarch: Add system emulation
- introduction
+Subject: Re: [PATCH v1 20/43] target/loongarch: Add basic vmstate description
+ of CPU.
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
- <20220415094058.3584233-19-yangxiaojuan@loongson.cn>
+ <20220415094058.3584233-21-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220415094058.3584233-19-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220415094058.3584233-21-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,16 +95,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/15/22 02:40, Xiaojuan Yang wrote:
-> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> ---
->   MAINTAINERS                         |  8 +++++
->   docs/system/loongarch/loongson3.rst | 41 ++++++++++++++++++++++
->   target/loongarch/README             | 54 +++++++++++++++++++++++++++++
->   3 files changed, 103 insertions(+)
->   create mode 100644 docs/system/loongarch/loongson3.rst
+> +const VMStateDescription vmstate_loongarch_cpu = {
+> +    .name = "cpu",
+> +    .version_id = 0,
+> +    .minimum_version_id = 0,
+> +    .fields = (VMStateField[]) {
+> +
+> +        VMSTATE_UINTTL_ARRAY(env.gpr, LoongArchCPU, 32),
+> +        VMSTATE_UINTTL(env.pc, LoongArchCPU),
+> +        VMSTATE_UINT64_ARRAY(env.fpr, LoongArchCPU, 32),
+> +        VMSTATE_UINT32(env.fcsr0, LoongArchCPU),
+> +
+> +        /* Remaining CSRs */
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Missing save of env.cf[].
+
 
 r~
 
