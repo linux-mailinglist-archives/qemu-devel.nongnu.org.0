@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6527A502AEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:28:51 +0200 (CEST)
-Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE23E502AFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:33:49 +0200 (CEST)
+Received: from localhost ([::1]:36600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfM0I-0005y5-Gi
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50428)
+	id 1nfM57-0003Pu-2N
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLrU-0006Yt-SK; Fri, 15 Apr 2022 09:19:44 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33464)
+ id 1nfLrb-0006n1-AV; Fri, 15 Apr 2022 09:19:51 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:40550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLrT-0007rU-9F; Fri, 15 Apr 2022 09:19:44 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id 11so4890026edw.0;
- Fri, 15 Apr 2022 06:19:42 -0700 (PDT)
+ id 1nfLrZ-0007uw-UF; Fri, 15 Apr 2022 09:19:51 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id p15so15343753ejc.7;
+ Fri, 15 Apr 2022 06:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WTccvXQfBFjZvIdZ5/aO1foOdW3bzyYb3HDSU/+9G78=;
- b=MHn6jvBKLCt7vPOsdV7CIATZnsRWX0BspX2leoq4WzlPEJhB0Zepfl7cd078iYtD1c
- KnEZgJWCqGnf4XsyC74ZUf0JxwDEhKscsPwUq+fDxb7wzSq7hkjmtaOExiO2kugvnLjI
- 5fgWRaf0iNdMBNgmc1PY7UxkN8JEJdMJMUGrDPN/fJcP3EKl/jdxNGuN/iX5wWBgnWjq
- ukD/0+dJnsmF9fU2micOMSnu70dDpb8MDhcwkWhc5xPFcRhDI21GuW4xAV8RQslGreXO
- r6L3hjSZXzPPJK8JE/hf8S0hTGOblgg1z6r7bgb1cenCbQgpKlKnhaveTfC02z8kA6a3
- hgPw==
+ bh=bt/lCu7Al/ofhqAsL2EZtmQPYAWx6O0kFoKyJZvt56k=;
+ b=PjONtCzGVvJ5emVFu5cZHgiu9rU5KQA70jFQTrjny69pcRx9OwfYN0FseIvhoKnD0t
+ oQ99PK0RSuDD/ZnjLF0io844x8QV82jlNq4JeGNiWCxTrazSNmQdPlDnu/LhGcq4R6uE
+ VdxFSPD7BqmRzWw07DWY1jg6Nz1aUY7N7NAw/MV+igIGHCwZmNMhRUPAEhObhCe8BGnn
+ WxUt4n94fRUfkUs8vqhFiQaeoLDtj20i39ZUal6E4wVYzWKsX3Yu+8UulSRUUM7a3YOU
+ r5Jtc0qjr7DXa7qa+9TLQy7wokca4dGOddcYx5pBIxOT2HSyJ5VDZQilWrHnHvILaYN+
+ CagQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WTccvXQfBFjZvIdZ5/aO1foOdW3bzyYb3HDSU/+9G78=;
- b=KSURYN/9E7b0eTW8Vr/NAnVTcgFKyD3JW0pzoSemDICsDiz2/VBjUI3uejCBrLbwTQ
- jrka8B+rttpY0DSsvuzpCYHTpk6DhrZ417xMAaoELuc+jIpKDvB/bt/U7qR1bYBjbTK0
- 1KiEqJkmlXPTq5rxVi3LmA43MjMIlu9D5W+lBISz6qvY//toQSkIBP9yShne4297Pyjv
- 5zduWk7VGowXKXZLFG0CcT9sNIA2/PPJgxl2Vq7s+UffSF/VMw3Yc41fCYNzCR6ROQIC
- NxXrzgJ2SRpUyAi1Xu6SbuTuJkhG45OeFPLuw3Bi2SFBHddncTXZw6Yd1xS5r57uM7St
- iW/Q==
-X-Gm-Message-State: AOAM531GcbNdPfaS2Z1AyMadSr1rJs/qeWCMuTSd0eXRbaxDZaIZd4YA
- QSeZcZ3xruishLG2tRjvvi+f1P3mc9svgg==
-X-Google-Smtp-Source: ABdhPJyQOYZafFPDc9usCVLlpV1d2yObpI3RjNBJubTfCTjrksZQqzqOtzMfSVfs4s/W02wT/rB7MQ==
-X-Received: by 2002:aa7:d543:0:b0:416:13eb:6fec with SMTP id
- u3-20020aa7d543000000b0041613eb6fecmr8413935edr.348.1650028781296; 
- Fri, 15 Apr 2022 06:19:41 -0700 (PDT)
+ bh=bt/lCu7Al/ofhqAsL2EZtmQPYAWx6O0kFoKyJZvt56k=;
+ b=q18++tpBl9BAOk1if4xKEl+IyHQ2yxr2Id5Hm6RyJBlLKAblj087LZGGmY8krx2Xls
+ 5JmoK+XVf3yd1uscPUEmZA1RcVtvn0AN2iIHmFgkXHmV/fTEFXsykmv2rMTnlyPzYFOf
+ sqJTGS7UcF5FOg+tvGY/0JV6Ri7dmNv8+nE/xqTMACDWCrX97ru3DcTzR1V5LMqRbcl9
+ qmEXeQpvLk3nAZ+HTmEypaUQKvxKcEqdvoG7b1uQUK/lgamAWEEI2slmIXuaXIwrTY7o
+ zAAD8Ozz+lPWP3HE3P4nGwUrptHQtZjMvTS5A79LiNvcBHe7szSBInRQzThuQS3Fi0ut
+ Uk7g==
+X-Gm-Message-State: AOAM530LUjz+V5wAZJkD4zIsSA5K3RTT4wcsE+YFjmmoZ+GpQmPn4/cm
+ rX4AMdzJgiCt0Muy34dgfIHCpiPISK08FA==
+X-Google-Smtp-Source: ABdhPJxRfiQZBZq8/tt++AiUfL8c6oCXQObYxxqpdAeld8yMCYGNx7NEBArOtnzWKHjMovLQi31kxQ==
+X-Received: by 2002:a17:907:a427:b0:6e8:d248:f877 with SMTP id
+ sg39-20020a170907a42700b006e8d248f877mr6049144ejc.249.1650028788220; 
+ Fri, 15 Apr 2022 06:19:48 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.19.36
+ dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.19.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Apr 2022 06:19:40 -0700 (PDT)
+ Fri, 15 Apr 2022 06:19:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/26] file-posix: add missing coroutine_fn annotations
-Date: Fri, 15 Apr 2022 15:18:42 +0200
-Message-Id: <20220415131900.793161-9-pbonzini@redhat.com>
+Subject: [PATCH 09/26] iscsi: add missing coroutine_fn annotations
+Date: Fri, 15 Apr 2022 15:18:43 +0200
+Message-Id: <20220415131900.793161-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220415131900.793161-1-pbonzini@redhat.com>
 References: <20220415131900.793161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,22 +91,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/file-posix.c | 2 +-
+ block/iscsi.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index bfd9b21111..cf7b5531c8 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2143,7 +2143,7 @@ static void raw_aio_unplug(BlockDriverState *bs)
- #endif
+diff --git a/block/iscsi.c b/block/iscsi.c
+index d707d0b354..b33eeec794 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -290,7 +290,7 @@ iscsi_co_generic_cb(struct iscsi_context *iscsi, int status,
+     }
  }
  
--static int raw_co_flush_to_disk(BlockDriverState *bs)
-+static int coroutine_fn raw_co_flush_to_disk(BlockDriverState *bs)
+-static void iscsi_co_init_iscsitask(IscsiLun *iscsilun, struct IscsiTask *iTask)
++static void coroutine_fn iscsi_co_init_iscsitask(IscsiLun *iscsilun, struct IscsiTask *iTask)
  {
-     BDRVRawState *s = bs->opaque;
-     RawPosixAIOData acb;
+     *iTask = (struct IscsiTask) {
+         .co         = qemu_coroutine_self(),
 -- 
 2.35.1
 
