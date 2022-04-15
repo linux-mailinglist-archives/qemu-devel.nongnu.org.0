@@ -2,66 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7562502604
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 09:10:53 +0200 (CEST)
-Received: from localhost ([::1]:44180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5580502664
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 09:50:24 +0200 (CEST)
+Received: from localhost ([::1]:56388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfG6W-0000dr-Hn
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 03:10:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58002)
+	id 1nfGil-0001F4-76
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 03:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nfG4R-0008MY-T7
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 03:08:43 -0400
-Received: from mga12.intel.com ([192.55.52.136]:28677)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nfGbS-000839-6Z; Fri, 15 Apr 2022 03:42:50 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:47056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nfG4O-0004qm-5J
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 03:08:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650006520; x=1681542520;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=8XT5rTV9XwUuh7VTzFCgDiRtT+FSZYFb9vKMAlUO5qo=;
- b=oCJiY/FPuKLIsHEAQH3uUVRMFfjYWfzWIx0jn8FHMGKM5RhxnH8k21Za
- FE4p3mwyh+sMMCMLd/zMIZjyivPYiAs4td3wUgZCsPelC09IjZndeKOg5
- uJyux5TKzP2ifWzMDXVRBx0TtQCaAzLJpJncHXxxq7ChtUTYh7f21wPck
- lQAHw6dvtayRu9EF8fOxjISuUHbwTTGPoehAIzyFf1REh5lNqFn4Ao6Ac
- Ogr+Ch9nY3xFFSb6ercsPqm007f2bj05XkQ0CS0HlUx6Qsv/9ufxZpCoy
- lvylHbIJmnKD9l4hYkcpqBD7fYW7G2KQPDFCjAmnJNGuRMD7DaJId4RmX Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="243040603"
-X-IronPort-AV: E=Sophos;i="5.90,262,1643702400"; d="scan'208";a="243040603"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Apr 2022 00:07:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,262,1643702400"; d="scan'208";a="560477611"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by fmsmga007.fm.intel.com with ESMTP; 15 Apr 2022 00:07:34 -0700
-Message-ID: <7a855b5dc677a832644c08d59bba73e93174cc56.camel@linux.intel.com>
-Subject: Re: [PATCH] i386/cpu: Remove the deprecated cpu model 'Icelake-Client'
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Date: Fri, 15 Apr 2022 15:07:33 +0800
-In-Reply-To: <20220324092251.12e01ee6@redhat.com>
-References: <1647247859-4947-1-git-send-email-robert.hu@linux.intel.com>
- <20220324092251.12e01ee6@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
-Mime-Version: 1.0
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nfGbP-0002cN-PA; Fri, 15 Apr 2022 03:42:49 -0400
+Received: from [192.168.13.13] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id B6A5C20780;
+ Fri, 15 Apr 2022 07:42:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1650008562;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4Jf8CpUkmHiCcLo2+5odi8xqtOjKp0Qem77ayfImucw=;
+ b=tA1+CUyZnAxtRVi+jC0SYCaq5asK5MQYTl2DRuZyn4iqhwFyGZEgg1PsCpPHW74ftP39/U
+ HwW+V98hUnwOvD+qjaLk+JwaEQ+SBhRG26YneSF1oPgHZtuNKaywxYssbgnOJrEE63gGmZ
+ NNG4X00FbIH3buR6Ru15jU8p4xOzqU0=
+Message-ID: <7d1acb03-0a20-6641-16bf-198306c07c7b@greensocs.com>
+Date: Fri, 15 Apr 2022 09:42:40 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH 00/18] user-creatable cpu clusters
+Content-Language: en-US-large
+To: qemu-devel@nongnu.org
+References: <20220330125639.201937-1-damien.hedde@greensocs.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <20220330125639.201937-1-damien.hedde@greensocs.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=robert.hu@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,30 +64,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, robert.hu@intel.com, richard.henderson@linaro.org,
- ehabkost@redhat.com, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ qemu-riscv@nongnu.org, Alistair Francis <alistair@alistair23.me>,
+ mark.burton@greensocs.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, qemu-arm@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Vijai Kumar K <vijai@behindbytes.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2022-03-24 at 09:22 +0100, Igor Mammedov wrote:
-> On Mon, 14 Mar 2022 16:50:59 +0800
-> Robert Hoo <robert.hu@linux.intel.com> wrote:
-> 
-> > Icelake, is the codename for Intel 3rd generation Xeon Scalable
-> > server
-> > processors. There isn't ever client variants. This "Icelake-Client" 
-> > CPU
-> > model was added wrongly and imaginarily.
-> > 
-> > It has been deprecated since v5.2, now it's time to remove it
-> > completely
-> > from code.
-> > 
-> > Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-> 
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Ping !
 
-Thanks for review, Igor.
-BTW, will this patch be queued? when?
+It would be nice to have some rough feedback about this series.
+I plan to submit it in 2 sub-series (riscv-array in a separate part) but 
+would like to know first if this direction looks ok to you ?
 
+Note that I'm a bit confused by the terminology. Should a "cluster" as 
+in "machine topology's cluster" be a 1-1 match with a gdb inferior ?
+
+Thanks,
+Damien
+
+On 3/30/22 14:56, Damien Hedde wrote:
+> Hi,
+> 
+> This series add devices to be able to user-create (coldplug) cpu
+> clusters. The existing cpu cluster dictates how cpus are exposed
+> in gdb, but it does not handle the cpu objects creation. This series
+> adds a new device to handle both issues and adds support for two
+> architectures: arm and riscv.
+> 
+> Please look at patches 2 and 3 for more details about the new device.
+> 
+> Last part concerning the riscv is rfc as I do non-backward compatible
+> updates. I'm not sure what migration (or other) constraints we have
+> on these machines and I probably need to make some changes to cope
+> with them.
+> 
+> This series almost deprecates the cpu-cluster type as all uses
+> but one are replaced.
+> 
+> It is organized as follows:
+> 
+> + Patches 1 to 7 adds a new base device to replace cpu-cluster
+> 
+> + Patches 8 and 9 adds an arm specific version and replace existing
+>    clusters in the xlnx-zynqmp machine.
+> 
+> + patches 10 to 17 updates the riscv_array. It was already used to
+>    create cpus but was not a cpu cluster.
+> 
+> Thanks for any comments,
+> --
+> Damien
+> 
+> Damien Hedde (18):
+>    define MAX_CLUSTERS in cpu.h instead of cluster.h
+>    hw/cpu/cpus: introduce _cpus_ device
+>    hw/cpu/cpus: prepare to handle cpu clusters
+>    hw/cpu/cluster: make _cpu-cluster_ a subclass of _cpus_
+>    gdbstub: deal with _cpus_ object instead of _cpu-cluster_
+>    hw/cpu/cluster: remove cluster_id now that gdbstub is updated
+>    hw/cpu/cpus: add a common start-powered-off property
+>    hw/arm/arm_cpus: add arm_cpus device
+>    hw/arm/xlnx-zynqmp: convert cpu clusters to arm_cpus
+>    hw/riscv/riscv_hart: prepare transition to cpus
+>    hw/riscv: prepare riscv_hart transition to cpus
+>    hw/riscv/virt: prepare riscv_hart transition to cpus
+>    hw/riscv/spike: prepare riscv_hart transition to cpus
+>    hw/riscv/riscv_hart: use cpus as base class
+>    hw/riscv/sifive_u&microchip_pfsoc: apply riscv_hart_array update
+>    hw/riscv: update remaining machines due to riscv_hart_array update
+>    hw/riscv/riscv_hart: remove temporary features
+>    add myself as reviewer of the newly added _cpus_
+> 
+>   include/hw/arm/arm_cpus.h          |  45 +++++++
+>   include/hw/arm/xlnx-zynqmp.h       |   8 +-
+>   include/hw/core/cpu.h              |   6 +
+>   include/hw/cpu/cluster.h           |  26 ++--
+>   include/hw/cpu/cpus.h              |  93 ++++++++++++++
+>   include/hw/riscv/microchip_pfsoc.h |   2 -
+>   include/hw/riscv/riscv_hart.h      |  25 +++-
+>   include/hw/riscv/sifive_u.h        |   2 -
+>   gdbstub.c                          |  12 +-
+>   hw/arm/arm_cpus.c                  |  63 ++++++++++
+>   hw/arm/xlnx-zynqmp.c               | 121 +++++++-----------
+>   hw/cpu/cluster.c                   |  53 ++++----
+>   hw/cpu/cpus.c                      | 195 +++++++++++++++++++++++++++++
+>   hw/riscv/boot.c                    |   2 +-
+>   hw/riscv/microchip_pfsoc.c         |  28 +----
+>   hw/riscv/opentitan.c               |   4 +-
+>   hw/riscv/riscv_hart.c              |  44 ++-----
+>   hw/riscv/shakti_c.c                |   4 +-
+>   hw/riscv/sifive_e.c                |   4 +-
+>   hw/riscv/sifive_u.c                |  31 ++---
+>   hw/riscv/spike.c                   |  18 +--
+>   hw/riscv/virt.c                    |  79 +++++++-----
+>   MAINTAINERS                        |   3 +
+>   hw/arm/meson.build                 |   1 +
+>   hw/cpu/meson.build                 |   2 +-
+>   25 files changed, 612 insertions(+), 259 deletions(-)
+>   create mode 100644 include/hw/arm/arm_cpus.h
+>   create mode 100644 include/hw/cpu/cpus.h
+>   create mode 100644 hw/arm/arm_cpus.c
+>   create mode 100644 hw/cpu/cpus.c
+> 
 
