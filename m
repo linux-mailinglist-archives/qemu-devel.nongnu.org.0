@@ -2,70 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C256502699
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 10:21:41 +0200 (CEST)
-Received: from localhost ([::1]:38836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C5B502707
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 10:46:54 +0200 (CEST)
+Received: from localhost ([::1]:45708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfHD2-0008EO-Ds
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 04:21:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43882)
+	id 1nfHbR-0004ui-1M
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 04:46:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nfH6G-0004Vw-TY
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 04:14:40 -0400
-Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:33563)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nfH6F-0007Rr-6e
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 04:14:40 -0400
-Received: by mail-oo1-xc2c.google.com with SMTP id
- w20-20020a4ae9f4000000b003243aa2c71aso1283081ooc.0
- for <qemu-devel@nongnu.org>; Fri, 15 Apr 2022 01:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/QYDKt+o0ufY3I8XE9u5GC35UEFMVOv/q8vkXRHcH8Q=;
- b=jYRkDBSct6u2n9NyXH6k5LfZSYdpdYSqDrIRAvlQpJ/J3E0jZtOn1L9CQ0fYljeD/z
- /8fDzat14cOPtOTiacOm/NADintDrV1Nv2WcpGZ4P5+qBr/vmYLBtv3uKL3qi6OXxs0f
- XCxD39bUCOhAPVuys9OW2EdOtYpcAwGkrm8RHNotG3OpFla9jVN5Z2hFVfrg8IeA3uma
- KwT2NEEjuEmAXL/TwwUiy9xp4yLibFKpPo1mfLiGTGJf4iiM9Ya032Iu9ghYaZ5QrpB8
- dI86aNuXYo9nLLlyYraW3TV55x273A3yaVJPkuYZO3ffVWgdZwDG8byXg5KMAeZTUp+E
- ZfwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/QYDKt+o0ufY3I8XE9u5GC35UEFMVOv/q8vkXRHcH8Q=;
- b=ro7C+iqlDs2UqDgb15/K21cvH/Y0e+iq0mibLDlN40zG9RgeO01hSG5gjwpSZvSQ+q
- aC3BuRn2MHH53oSLfNsjVUER3bZu+7kjv/Cx05AdYqRshIWbKZH9ih86uWspUi9zW6VU
- pqmQ+PiLY5/LodsqLzfApApf8PgnJDaVZzD/XaIKOoPyBF2atr4LicEu8/r1qBXKYVoB
- XqYQ12Vyeh2EoiIrmjc8wzz464+DQ4Kyg44/VsXvoSHADIEPxmuPuT5j880YT9r5L5BR
- 1+7PO1BDM/lUnWNJ3hyJTXUl33Y3tBaiJJSNSn+xBFyfJDwty6+KNDTkSsUeXSVoOC6+
- jAxg==
-X-Gm-Message-State: AOAM5320px1S0saiH80z4fcHyIXhE1aY9EyYc1doQgdV0aDZbXZxJNGX
- k8ng8AxnbUaunbNo7Yp48aU8XT7lLh7456kGmEk=
-X-Google-Smtp-Source: ABdhPJxsNl+k+J2A7ZQ99QzgJgbEaVkYL0e8/RsPLwqFDQvTxH6RjcZ31toJBocfCC2bwPqgNJu0v/0PI77EXMayz90=
-X-Received: by 2002:a4a:e4c7:0:b0:329:afad:cb2d with SMTP id
- w7-20020a4ae4c7000000b00329afadcb2dmr1951202oov.77.1650010478026; Fri, 15 Apr
- 2022 01:14:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
+ id 1nfHXc-0003sv-WF
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 04:42:57 -0400
+Received: from mail-bn8nam11on2055.outbound.protection.outlook.com
+ ([40.107.236.55]:52576 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
+ id 1nfHXY-0003iE-W0
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 04:42:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QVh36rHAjPYvzjpZWnPyl7SnczY9GrQ0s92k79ew6OyRmXVcPzoQD6jp0Cb8exKJTiHn29rTYPltYt9FDKdIdgXDMGIiM6y4qE/JqfLsxbGrklI03Kq33HOBlFxBKvt85UpoJ0oHxkbjCDR2P/7eVq4fxv2CcXP5riLHHJraHvAKwx/357HOuBurT9bnpsOK/Jk4vjSnu0DmxWxD4fjikKpeZ82i1JTTUS5WwXc8l6eP16XiUrQztTFcepvtsEr6LWykLVepC0lhNMg0xPydo35F/tkQg2dgm+U6oSnjKgjxE5gwdMsSqBYBy9/60Me2mDzmivTp6/xuNBsTz6zYGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yAX4alm9HeuUUT16qusEd0qE86RyY6LTwwdJ2jiWols=;
+ b=Ui3jt73ywKlQHLOVI5UUzjWKj2x2j08D/Uk0dRQVvKUbLbOT6y8PZUyWvMiFGk/LrsIGa3oIzdg5TrLi1RO4YaDlaebuExOKlJ7U+NKKdNx03xz18SCJdJDWImQZM1vy9YD+nK/pxDMC+Jqc0v3+5sucVtheeQiErT/EiBc2ZD5OvsFYjlRvTw7HA3XIdSpXvamHI/3u/1+GoMhgeT1OD+d+u8P3R5iaL5dgKIkKZmTCo3F0sOBNHviM3fJmw32R/1L3oGc/ZhT0oIZFZWXgPYoItLKLeCsNFpks2yQm6ATRo5pRh23dTmZAtt4UUtEwi4yfNiu43X8MuTkz1x+saA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.235) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yAX4alm9HeuUUT16qusEd0qE86RyY6LTwwdJ2jiWols=;
+ b=V0yF+QkcDmG2j1o//dkKVXEsWJQp7fGYDCvWBcBz1UNYkbm4TdLudJCsBIW3uUl8qtQK2IpQIF3o37GyrYrAX8026untEM/iF6BVvOwxcIgyC2UXRlr4NPyE0bzvzCSQqiYc4aZGcARwnU9gjUYgLy4/UWnFq40PYDVFhNMzfZn+3uEUv1mFTQhediFKwpi78Vm35ciDMbBoGqgTo01NAjdO5o6NE9CSnh1JxWaGwqSf3sBsJtvWN0z7bLHx974hoHkaYHp5eSZQZfTOl+5wTRdMSQikZpfPU8G8o1qfr+zrsG1d6+awqYKgQBYF52JB5v4rOJk4RRHZqXrdoERRPA==
+Received: from DS7PR03CA0145.namprd03.prod.outlook.com (2603:10b6:5:3b4::30)
+ by MW3PR12MB4394.namprd12.prod.outlook.com (2603:10b6:303:54::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Fri, 15 Apr
+ 2022 08:37:45 +0000
+Received: from DM6NAM11FT003.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b4:cafe::5a) by DS7PR03CA0145.outlook.office365.com
+ (2603:10b6:5:3b4::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.21 via Frontend
+ Transport; Fri, 15 Apr 2022 08:37:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.235; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.235) by
+ DM6NAM11FT003.mail.protection.outlook.com (10.13.173.162) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5164.19 via Frontend Transport; Fri, 15 Apr 2022 08:37:44 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
+ Fri, 15 Apr 2022 08:37:44 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 15 Apr
+ 2022 01:37:43 -0700
+Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22 via Frontend
+ Transport; Fri, 15 Apr 2022 01:37:42 -0700
+Date: Fri, 15 Apr 2022 01:37:41 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Yi Liu <yi.l.liu@intel.com>
+CC: <alex.williamson@redhat.com>, <cohuck@redhat.com>,
+ <qemu-devel@nongnu.org>, <david@gibson.dropbear.id.au>, <thuth@redhat.com>,
+ <farman@linux.ibm.com>, <mjrosato@linux.ibm.com>, <akrowiak@linux.ibm.com>,
+ <pasic@linux.ibm.com>, <jjherne@linux.ibm.com>, <jasowang@redhat.com>,
+ <kvm@vger.kernel.org>, <jgg@nvidia.com>, <eric.auger@redhat.com>,
+ <eric.auger.pro@gmail.com>, <kevin.tian@intel.com>, <chao.p.peng@intel.com>,
+ <yi.y.sun@intel.com>, <peterx@redhat.com>
+Subject: Re: [RFC 00/18] vfio: Adopt iommufd
+Message-ID: <Ylku1VVsbYiAEALZ@Asurada-Nvidia>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
 MIME-Version: 1.0
-References: <20220413220007.14467-1-adeason@sinenomine.net>
- <20220413220007.14467-5-adeason@sinenomine.net>
-In-Reply-To: <20220413220007.14467-5-adeason@sinenomine.net>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 15 Apr 2022 12:14:25 +0400
-Message-ID: <CAJ+F1CK3tSYzs7WpH==qvwvxvtbn2jHyjEf8QvUxAFv4eE5tcw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] qga/commands-posix: Log all net stats failures
-To: Andrew Deason <adeason@sinenomine.net>
-Content-Type: multipart/alternative; boundary="0000000000006b24ee05dcad00c6"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-oo1-xc2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220414104710.28534-1-yi.l.liu@intel.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f56baafa-9b07-4f0b-ffc9-08da1ebb3668
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4394:EE_
+X-Microsoft-Antispam-PRVS: <MW3PR12MB439458E686C2637646EC001AABEE9@MW3PR12MB4394.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0DyiEUgtP04mcRqlNQDo1kdsrE8sMksNU/qE9qe7jDUWZZlbVlFXsCsflIxtY0Y/fBuUfkEWZJP6s7Jz7xwWYKwo/A1W0QdbQrHczcRCYoIZdEv68QXkHwbB5lldxIsmhb/mJUevSAalsk5BMm5zrqudpujkPMKOZecR09aCxRKTDrLrqSmHaIuOunt6WKvHxqtWwM7WPKcYP+w1Q+t4CXONTfd8lqeAELZdxEvIf7h/QWnjrK0ROZdKO++wRZyB1/oIyy74Cc2BKLxL/9U4BL6L0p7DHdm8C+ursaTXZYdN+DZbsN1HlEsw4Lei53PL+CDaW/abQqG3FgUszCJbnEtfNcgqkyaDSfknCU9um4bBAJoTFMCafNggMJ/FY8vI2s9oMZkwgYLJ+SC3DkrgUZH6hJz0tPyN8DUNWLMSC7i21wZLQ3wHpGzVQnWfGMjGr+eKzvlPH1v7GL9XVI1JwJ9t+2tSOhwKSf0MB3L5kUjlc2GxF9IcuViBjw6R5Zm7mmukOwnziHJULGVMyZfBeUTdpz+H1Xi8jmA48IgdhYhzP+XhkpcAX51w2rbfcGLp+8v95WroT17bwPXelespbY7zehCKfH/ubYySBp9nq2zyUw8tFdoa3Jr4Hn/NZZ6pMdA49bnCuoMarCTlhMD1ETlYvLmpShD0rs5jkhOnWEPACpmSMbb0NOVTMaLAgihlC5RHP6zQQ3je7UvDf12ABw==
+X-Forefront-Antispam-Report: CIP:12.22.5.235; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(70206006)(70586007)(426003)(47076005)(336012)(55016003)(6916009)(83380400001)(356005)(4326008)(8936002)(54906003)(8676002)(26005)(186003)(2906002)(9686003)(36860700001)(86362001)(33716001)(82310400005)(40460700003)(508600001)(4744005)(316002)(7416002)(5660300002)(81166007)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2022 08:37:44.5665 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f56baafa-9b07-4f0b-ffc9-08da1ebb3668
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.235];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT003.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4394
+Received-SPF: softfail client-ip=40.107.236.55;
+ envelope-from=nicolinc@nvidia.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,194 +129,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, QEMU <qemu-devel@nongnu.org>,
- Michal Privoznik <mprivozn@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006b24ee05dcad00c6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Thu, Apr 14, 2022 at 2:01 AM Andrew Deason <adeason@sinenomine.net>
-wrote:
+Thanks for the work!
 
-> guest_get_network_stats can silently fail in a couple of ways. Add
-> debug messages to these cases, so we're never completely silent on
-> failure.
->
-> Signed-off-by: Andrew Deason <adeason@sinenomine.net>
->
+On Thu, Apr 14, 2022 at 03:46:52AM -0700, Yi Liu wrote:
+ 
+> - More tests
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+I did a quick test on my ARM64 platform, using "iommu=smmuv3"
+string. The behaviors are different between using default and
+using legacy "iommufd=off".
 
+The legacy pathway exits the VM with:
+    vfio 0002:01:00.0:
+    failed to setup container for group 1:
+    memory listener initialization failed:
+    Region smmuv3-iommu-memory-region-16-0:
+    device 00.02.0 requires iommu MAP notifier which is not currently supported
 
-> ---
-> Changes since v1:
-> - new in v2
->
->  qga/commands-posix.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index c0b00fc488..97e001e998 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -2789,20 +2789,22 @@ static int guest_get_network_stats(const char
-> *name,
->                         GuestNetworkInterfaceStat *stats)
->  {
->  #ifdef CONFIG_LINUX
->      int name_len;
->      char const *devinfo =3D "/proc/net/dev";
->      FILE *fp;
->      char *line =3D NULL, *colon;
->      size_t n =3D 0;
->      fp =3D fopen(devinfo, "r");
->      if (!fp) {
-> +        g_debug("failed to open network stats %s: %s", devinfo,
-> +                g_strerror(errno));
->          return -1;
->      }
->      name_len =3D strlen(name);
->      while (getline(&line, &n, fp) !=3D -1) {
->          long long dummy;
->          long long rx_bytes;
->          long long rx_packets;
->          long long rx_errs;
->          long long rx_dropped;
->          long long tx_bytes;
-> @@ -2837,21 +2839,23 @@ static int guest_get_network_stats(const char
-> *name,
->              stats->tx_errs =3D tx_errs;
->              stats->tx_dropped =3D tx_dropped;
->              fclose(fp);
->              g_free(line);
->              return 0;
->          }
->      }
->      fclose(fp);
->      g_free(line);
->      g_debug("/proc/net/dev: Interface '%s' not found", name);
-> -#endif /* CONFIG_LINUX */
-> +#else /* !CONFIG_LINUX */
-> +    g_debug("Network stats reporting available only for Linux");
-> +#endif /* !CONFIG_LINUX */
->      return -1;
->  }
->
->  /*
->   * Build information about guest interfaces
->   */
->  GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp=
-)
->  {
->      GuestNetworkInterfaceList *head =3D NULL, **tail =3D &head;
->      struct ifaddrs *ifap, *ifa;
-> --
-> 2.11.0
->
->
->
+while the iommufd pathway started the VM but reported errors
+from host kernel about address translation failures, probably
+because of accessing unmapped addresses.
 
---=20
-Marc-Andr=C3=A9 Lureau
+I found iommufd pathway also calls error_propagate_prepend()
+to add to errp for not supporting IOMMU_NOTIFIER_MAP, but it
+doesn't get a chance to print errp out. Perhaps there should
+be a final error check somewhere to exit?
 
---0000000000006b24ee05dcad00c6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 14, 2022 at 2:01 AM Andre=
-w Deason &lt;<a href=3D"mailto:adeason@sinenomine.net">adeason@sinenomine.n=
-et</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">guest_get_network_stats can silently fail in a couple of ways. Add<br>
-debug messages to these cases, so we&#39;re never completely silent on<br>
-failure.<br>
-<br>
-Signed-off-by: Andrew Deason &lt;<a href=3D"mailto:adeason@sinenomine.net" =
-target=3D"_blank">adeason@sinenomine.net</a>&gt;<br></blockquote><div><br><=
-/div><div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:ma=
-rcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a=
->&gt;</div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-Changes since v1:<br>
-- new in v2<br>
-<br>
-=C2=A0qga/commands-posix.c | 6 +++++-<br>
-=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index c0b00fc488..97e001e998 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -2789,20 +2789,22 @@ static int guest_get_network_stats(const char *name=
-,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 GuestNetworkInterfaceStat *stats)<br>
-=C2=A0{<br>
-=C2=A0#ifdef CONFIG_LINUX<br>
-=C2=A0 =C2=A0 =C2=A0int name_len;<br>
-=C2=A0 =C2=A0 =C2=A0char const *devinfo =3D &quot;/proc/net/dev&quot;;<br>
-=C2=A0 =C2=A0 =C2=A0FILE *fp;<br>
-=C2=A0 =C2=A0 =C2=A0char *line =3D NULL, *colon;<br>
-=C2=A0 =C2=A0 =C2=A0size_t n =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0fp =3D fopen(devinfo, &quot;r&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0if (!fp) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;failed to open network stats %s:=
- %s&quot;, devinfo,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_strerror(errno))=
-;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0name_len =3D strlen(name);<br>
-=C2=A0 =C2=A0 =C2=A0while (getline(&amp;line, &amp;n, fp) !=3D -1) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0long long dummy;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0long long rx_bytes;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0long long rx_packets;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0long long rx_errs;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0long long rx_dropped;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0long long tx_bytes;<br>
-@@ -2837,21 +2839,23 @@ static int guest_get_network_stats(const char *name=
-,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stats-&gt;tx_errs =3D tx_er=
-rs;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stats-&gt;tx_dropped =3D tx=
-_dropped;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fclose(fp);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_free(line);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0fclose(fp);<br>
-=C2=A0 =C2=A0 =C2=A0g_free(line);<br>
-=C2=A0 =C2=A0 =C2=A0g_debug(&quot;/proc/net/dev: Interface &#39;%s&#39; not=
- found&quot;, name);<br>
--#endif /* CONFIG_LINUX */<br>
-+#else /* !CONFIG_LINUX */<br>
-+=C2=A0 =C2=A0 g_debug(&quot;Network stats reporting available only for Lin=
-ux&quot;);<br>
-+#endif /* !CONFIG_LINUX */<br>
-=C2=A0 =C2=A0 =C2=A0return -1;<br>
-=C2=A0}<br>
-<br>
-=C2=A0/*<br>
-=C2=A0 * Build information about guest interfaces<br>
-=C2=A0 */<br>
-=C2=A0GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **e=
-rrp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0GuestNetworkInterfaceList *head =3D NULL, **tail =3D &a=
-mp;head;<br>
-=C2=A0 =C2=A0 =C2=A0struct ifaddrs *ifap, *ifa;<br>
--- <br>
-2.11.0<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000006b24ee05dcad00c6--
+Nic
 
