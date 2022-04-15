@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4750F502812
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 12:18:36 +0200 (CEST)
-Received: from localhost ([::1]:37972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495DF502866
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 12:36:27 +0200 (CEST)
+Received: from localhost ([::1]:42250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfJ2B-0007ET-3T
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 06:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34684)
+	id 1nfJJS-0004JD-EV
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 06:36:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nfISn-0002oT-OD
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:42:02 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:53684 helo=loongson.cn)
+ id 1nfIXz-0000XK-Nr
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:47:23 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:55762 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nfISa-0004Zf-O2
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:42:00 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nfIXx-0005QP-R7
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:47:23 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_xGqPVli41gkAA--.16856S38; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_xGqPVli41gkAA--.16856S39; 
  Fri, 15 Apr 2022 17:41:35 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 36/43] hw/loongarch: Add irq hierarchy for the system
-Date: Fri, 15 Apr 2022 17:40:51 +0800
-Message-Id: <20220415094058.3584233-37-yangxiaojuan@loongson.cn>
+Subject: [PATCH v1 37/43] Enable common virtio pci support for LoongArch
+Date: Fri, 15 Apr 2022 17:40:52 +0800
+Message-Id: <20220415094058.3584233-38-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
 References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_xGqPVli41gkAA--.16856S38
-X-Coremail-Antispam: 1UD129KBjvJXoWxGry8WrW3tFW8ZF4DXr18Zrb_yoWrCFyDpr
- yfCrn3Kr4UXF43Xwn3K3W8Wrn8Gwn5C3W29ayakryxKr4UAryUZayvk34ktFyUJ3ykXr45
- XFy5AF1Ig3WUAw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9Dx_xGqPVli41gkAA--.16856S39
+X-Coremail-Antispam: 1UD129KBjvdXoWrKr1fZFW3KFyfXr4xCr4rZrb_yoW3trbEy3
+ WSyryrurWkJw4xZrn8WFW7Xa40g3yUua1DW3y2qw18Xw1YvwsrJr15tr15u3s8XFy7CF13
+ Gan2vr15Zw13JjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -61,141 +61,27 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add the irq hierarchy for the virt board.
-
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/loongarch/loongson3.c | 106 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 106 insertions(+)
+ softmmu/qdev-monitor.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 345226dfe9..16f0d9e7df 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -16,9 +16,113 @@
- #include "sysemu/reset.h"
- #include "sysemu/rtc.h"
- #include "hw/loongarch/loongarch.h"
-+#include "hw/intc/loongarch_ipi.h"
-+#include "hw/intc/loongarch_extioi.h"
-+#include "hw/intc/loongarch_pch_pic.h"
-+#include "hw/intc/loongarch_pch_msi.h"
-+#include "hw/pci-host/ls7a.h"
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 12fe60c467..bb5897fc76 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -60,7 +60,8 @@ typedef struct QDevAlias
+                               QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
+                               QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
+                               QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
+-                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
++                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA | \
++                              QEMU_ARCH_LOONGARCH)
+ #define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
+ #define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
  
- #include "target/loongarch/cpu.h"
- 
-+static void loongarch_irq_init(LoongArchMachineState *lams)
-+{
-+    MachineState *ms = MACHINE(lams);
-+    DeviceState *pch_pic, *pch_msi, *cpudev;
-+    DeviceState *ipi, *extioi;
-+    SysBusDevice *d;
-+    LoongArchCPU *lacpu;
-+    CPULoongArchState *env;
-+    CPUState *cpu_state;
-+
-+    int cpu, pin, i;
-+    unsigned long ipi_addr;
-+
-+    ipi = qdev_new(TYPE_LOONGARCH_IPI);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(ipi), &error_fatal);
-+
-+    extioi = qdev_new(TYPE_LOONGARCH_EXTIOI);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(extioi), &error_fatal);
-+
-+    /*
-+     * The connection of interrupts:
-+     *   +-----+    +---------+     +-------+
-+     *   | IPI |--> | CPUINTC | <-- | Timer |
-+     *   +-----+    +---------+     +-------+
-+     *                  ^
-+     *                  |
-+     *            +---------+
-+     *            | EIOINTC |
-+     *            +---------+
-+     *             ^       ^
-+     *             |       |
-+     *      +---------+ +---------+
-+     *      | PCH-PIC | | PCH-MSI |
-+     *      +---------+ +---------+
-+     *        ^      ^          ^
-+     *        |      |          |
-+     * +--------+ +---------+ +---------+
-+     * | UARTs  | | Devices | | Devices |
-+     * +--------+ +---------+ +---------+
-+     */
-+    for (cpu = 0; cpu < ms->smp.cpus; cpu++) {
-+        cpu_state = qemu_get_cpu(cpu);
-+        cpudev = DEVICE(cpu_state);
-+        lacpu = LOONGARCH_CPU(cpu_state);
-+        env = &(lacpu->env);
-+
-+        /* connect ipi irq to cpu irq */
-+        qdev_connect_gpio_out(ipi, cpu, qdev_get_gpio_in(cpudev, IRQ_IPI));
-+        /* ipi memory region */
-+        ipi_addr = SMP_IPI_MAILBOX + cpu * 0x100;
-+        memory_region_add_subregion(&env->system_iocsr, ipi_addr,
-+                                sysbus_mmio_get_region(SYS_BUS_DEVICE(ipi),
-+                                cpu));
-+        /* extioi memory region */
-+        memory_region_add_subregion(&env->system_iocsr, APIC_BASE,
-+                                sysbus_mmio_get_region(SYS_BUS_DEVICE(extioi),
-+                                cpu));
-+    }
-+
-+    /*
-+     * connect ext irq to the cpu irq
-+     * cpu_pin[9:2] <= intc_pin[7:0]
-+     */
-+    for (cpu = 0; cpu < ms->smp.cpus; cpu++) {
-+        cpudev = DEVICE(qemu_get_cpu(cpu));
-+        for (pin = 0; pin < LS3A_INTC_IP; pin++) {
-+            qdev_connect_gpio_out(extioi, (cpu * 8 + pin),
-+                                  qdev_get_gpio_in(cpudev, pin + 2));
-+        }
-+    }
-+
-+    pch_pic = qdev_new(TYPE_LOONGARCH_PCH_PIC);
-+    d = SYS_BUS_DEVICE(pch_pic);
-+    sysbus_realize_and_unref(d, &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), LS7A_IOAPIC_REG_BASE,
-+                            sysbus_mmio_get_region(d, 0));
-+    memory_region_add_subregion(get_system_memory(),
-+                            LS7A_IOAPIC_REG_BASE + PCH_PIC_ROUTE_ENTRY_OFFSET,
-+                            sysbus_mmio_get_region(d, 1));
-+    memory_region_add_subregion(get_system_memory(),
-+                            LS7A_IOAPIC_REG_BASE + PCH_PIC_INT_STATUS_LO,
-+                            sysbus_mmio_get_region(d, 2));
-+
-+    /* Connect 64 pch_pic irqs to extioi */
-+    for (int i = 0; i < PCH_PIC_IRQ_NUM; i++) {
-+        sysbus_connect_irq(d, i, qdev_get_gpio_in(extioi, i));
-+    }
-+
-+    pch_msi = qdev_new(TYPE_LOONGARCH_PCH_MSI);
-+    d = SYS_BUS_DEVICE(pch_msi);
-+    sysbus_realize_and_unref(d, &error_fatal);
-+    sysbus_mmio_map(d, 0, LS7A_PCH_MSI_ADDR_LOW);
-+    for (i = 0; i < PCH_MSI_IRQ_NUM; i++) {
-+        /* Connect 192 pch_msi irqs to extioi */
-+        sysbus_connect_irq(d, i,
-+                           qdev_get_gpio_in(extioi, i + PCH_MSI_IRQ_START));
-+    }
-+}
-+
- static void loongarch_init(MachineState *machine)
- {
-     const char *cpu_model = machine->cpu_type;
-@@ -59,6 +163,8 @@ static void loongarch_init(MachineState *machine)
-                              get_system_io(), 0, LOONGARCH_ISA_IO_SIZE);
-     memory_region_add_subregion(address_space_mem, LOONGARCH_ISA_IO_BASE,
-                                 &lams->isa_io);
-+    /* Initialize the IO interrupt subsystem */
-+    loongarch_irq_init(lams);
- }
- 
- static void loongarch_class_init(ObjectClass *oc, void *data)
 -- 
 2.31.1
 
