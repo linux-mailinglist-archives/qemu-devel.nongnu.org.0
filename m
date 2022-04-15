@@ -2,56 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5580502664
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 09:50:24 +0200 (CEST)
-Received: from localhost ([::1]:56388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBFC350266D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 09:54:37 +0200 (CEST)
+Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfGil-0001F4-76
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 03:50:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37648)
+	id 1nfGmq-0003vK-6q
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 03:54:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nfGbS-000839-6Z; Fri, 15 Apr 2022 03:42:50 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:47056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nfGbP-0002cN-PA; Fri, 15 Apr 2022 03:42:49 -0400
-Received: from [192.168.13.13] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id B6A5C20780;
- Fri, 15 Apr 2022 07:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1650008562;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4Jf8CpUkmHiCcLo2+5odi8xqtOjKp0Qem77ayfImucw=;
- b=tA1+CUyZnAxtRVi+jC0SYCaq5asK5MQYTl2DRuZyn4iqhwFyGZEgg1PsCpPHW74ftP39/U
- HwW+V98hUnwOvD+qjaLk+JwaEQ+SBhRG26YneSF1oPgHZtuNKaywxYssbgnOJrEE63gGmZ
- NNG4X00FbIH3buR6Ru15jU8p4xOzqU0=
-Message-ID: <7d1acb03-0a20-6641-16bf-198306c07c7b@greensocs.com>
-Date: Fri, 15 Apr 2022 09:42:40 +0200
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1nfGl5-0003Ek-PR
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 03:52:47 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:48036 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nfGl2-0004FI-6J
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 03:52:47 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxrxA8JFlicSwkAA--.16212S3; 
+ Fri, 15 Apr 2022 15:52:29 +0800 (CST)
+Subject: Re: [RFC PATCH v7 14/29] hw/loongarch: Add support loongson3 virt
+ machine type.
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220328125749.2918087-1-yangxiaojuan@loongson.cn>
+ <20220328125749.2918087-15-yangxiaojuan@loongson.cn>
+ <dbb17042-55e6-b9ba-8037-0b2f9013c194@linaro.org>
+ <b7b3a240-da5e-9ae6-a1e7-f887c286cdf9@ilande.co.uk>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <b822e00c-145e-b874-170d-136ada096f00@loongson.cn>
+Date: Fri, 15 Apr 2022 15:52:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 00/18] user-creatable cpu clusters
-Content-Language: en-US-large
-To: qemu-devel@nongnu.org
-References: <20220330125639.201937-1-damien.hedde@greensocs.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <20220330125639.201937-1-damien.hedde@greensocs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <b7b3a240-da5e-9ae6-a1e7-f887c286cdf9@ilande.co.uk>
+Content-Type: multipart/alternative;
+ boundary="------------9860883DC3BA1B628395BA15"
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9DxrxA8JFlicSwkAA--.16212S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrtFWDJw1fCr4xAryxKF4rXwb_yoWDWFc_Xa
+ 1fGr18Ww4jqw45Zw4DXa4F9r1xKr4jyF1kZrZYvr1fJrWUXrn8Jrn8W3saqr48Gw4xtrn5
+ Grn8ZrW3u3W7XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbIxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+ 6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2
+ z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67
+ IIx4CEVc8vx2IErcIFxwCjr7xvwVCIw2I0I7xG6c02F41lc7I2V7IY0VAS07AlzVAYIcxG
+ 8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+ Aqx4xG67AKxVWUGVWUWwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r12
+ 6r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+ kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
+ 14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa
+ 7VUb_gA7UUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,112 +77,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- qemu-riscv@nongnu.org, Alistair Francis <alistair@alistair23.me>,
- mark.burton@greensocs.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, qemu-arm@nongnu.org,
- Palmer Dabbelt <palmer@dabbelt.com>, Vijai Kumar K <vijai@behindbytes.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping !
+This is a multi-part message in MIME format.
+--------------9860883DC3BA1B628395BA15
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-It would be nice to have some rough feedback about this series.
-I plan to submit it in 2 sub-series (riscv-array in a separate part) but 
-would like to know first if this direction looks ok to you ?
+Hi,
 
-Note that I'm a bit confused by the terminology. Should a "cluster" as 
-in "machine topology's cluster" be a 1-1 match with a gdb inferior ?
+On 2022/3/29 上午5:02, Mark Cave-Ayland wrote:
+>>
+>>> +static const MemoryRegionOps loongarch_qemu_ops = {
+>>> +    .read = loongarch_qemu_read,
+>>> +    .write = loongarch_qemu_write,
+>>> +    .endianness = DEVICE_LITTLE_ENDIAN,
+>>> +    .valid = {
+>>> +        .min_access_size = 4,
+>>> +        .max_access_size = 8,
+>>> +    },
+>>> +    .impl = {
+>>> +        .min_access_size = 4,
+>>> +        .max_access_size = 8,
+>>> +    },
+>>
+>> The implementation above doesn't actually support access size 4; it 
+>> only supports 8.
+>> It doesn't seem like this should be a io region at all, but a ROM.
+>
+> Strangely enough I had a similar requirement for my q800 patches, and 
+> when I tried to implement a ROM memory region then the accesses didn't 
+> work as expected. I can't remember the exact problem however... 
+It seems that iocsr_misc may not use rom region, because the 
+MISC_FUNC_REG should be writen.
+could I modify it as a device? and define its structure and memregion 
+options.
 
-Thanks,
-Damien
+Thanks
+Xiaojuan
 
-On 3/30/22 14:56, Damien Hedde wrote:
-> Hi,
-> 
-> This series add devices to be able to user-create (coldplug) cpu
-> clusters. The existing cpu cluster dictates how cpus are exposed
-> in gdb, but it does not handle the cpu objects creation. This series
-> adds a new device to handle both issues and adds support for two
-> architectures: arm and riscv.
-> 
-> Please look at patches 2 and 3 for more details about the new device.
-> 
-> Last part concerning the riscv is rfc as I do non-backward compatible
-> updates. I'm not sure what migration (or other) constraints we have
-> on these machines and I probably need to make some changes to cope
-> with them.
-> 
-> This series almost deprecates the cpu-cluster type as all uses
-> but one are replaced.
-> 
-> It is organized as follows:
-> 
-> + Patches 1 to 7 adds a new base device to replace cpu-cluster
-> 
-> + Patches 8 and 9 adds an arm specific version and replace existing
->    clusters in the xlnx-zynqmp machine.
-> 
-> + patches 10 to 17 updates the riscv_array. It was already used to
->    create cpus but was not a cpu cluster.
-> 
-> Thanks for any comments,
-> --
-> Damien
-> 
-> Damien Hedde (18):
->    define MAX_CLUSTERS in cpu.h instead of cluster.h
->    hw/cpu/cpus: introduce _cpus_ device
->    hw/cpu/cpus: prepare to handle cpu clusters
->    hw/cpu/cluster: make _cpu-cluster_ a subclass of _cpus_
->    gdbstub: deal with _cpus_ object instead of _cpu-cluster_
->    hw/cpu/cluster: remove cluster_id now that gdbstub is updated
->    hw/cpu/cpus: add a common start-powered-off property
->    hw/arm/arm_cpus: add arm_cpus device
->    hw/arm/xlnx-zynqmp: convert cpu clusters to arm_cpus
->    hw/riscv/riscv_hart: prepare transition to cpus
->    hw/riscv: prepare riscv_hart transition to cpus
->    hw/riscv/virt: prepare riscv_hart transition to cpus
->    hw/riscv/spike: prepare riscv_hart transition to cpus
->    hw/riscv/riscv_hart: use cpus as base class
->    hw/riscv/sifive_u&microchip_pfsoc: apply riscv_hart_array update
->    hw/riscv: update remaining machines due to riscv_hart_array update
->    hw/riscv/riscv_hart: remove temporary features
->    add myself as reviewer of the newly added _cpus_
-> 
->   include/hw/arm/arm_cpus.h          |  45 +++++++
->   include/hw/arm/xlnx-zynqmp.h       |   8 +-
->   include/hw/core/cpu.h              |   6 +
->   include/hw/cpu/cluster.h           |  26 ++--
->   include/hw/cpu/cpus.h              |  93 ++++++++++++++
->   include/hw/riscv/microchip_pfsoc.h |   2 -
->   include/hw/riscv/riscv_hart.h      |  25 +++-
->   include/hw/riscv/sifive_u.h        |   2 -
->   gdbstub.c                          |  12 +-
->   hw/arm/arm_cpus.c                  |  63 ++++++++++
->   hw/arm/xlnx-zynqmp.c               | 121 +++++++-----------
->   hw/cpu/cluster.c                   |  53 ++++----
->   hw/cpu/cpus.c                      | 195 +++++++++++++++++++++++++++++
->   hw/riscv/boot.c                    |   2 +-
->   hw/riscv/microchip_pfsoc.c         |  28 +----
->   hw/riscv/opentitan.c               |   4 +-
->   hw/riscv/riscv_hart.c              |  44 ++-----
->   hw/riscv/shakti_c.c                |   4 +-
->   hw/riscv/sifive_e.c                |   4 +-
->   hw/riscv/sifive_u.c                |  31 ++---
->   hw/riscv/spike.c                   |  18 +--
->   hw/riscv/virt.c                    |  79 +++++++-----
->   MAINTAINERS                        |   3 +
->   hw/arm/meson.build                 |   1 +
->   hw/cpu/meson.build                 |   2 +-
->   25 files changed, 612 insertions(+), 259 deletions(-)
->   create mode 100644 include/hw/arm/arm_cpus.h
->   create mode 100644 include/hw/cpu/cpus.h
->   create mode 100644 hw/arm/arm_cpus.c
->   create mode 100644 hw/cpu/cpus.c
-> 
+--------------9860883DC3BA1B628395BA15
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi, <br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/3/29 上午5:02, Mark Cave-Ayland
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:b7b3a240-da5e-9ae6-a1e7-f887c286cdf9@ilande.co.uk">
+      <blockquote type="cite" style="color: #000000;"><br>
+        <blockquote type="cite" style="color: #000000;">+static const
+          MemoryRegionOps loongarch_qemu_ops = {
+          <br>
+          +    .read = loongarch_qemu_read,
+          <br>
+          +    .write = loongarch_qemu_write,
+          <br>
+          +    .endianness = DEVICE_LITTLE_ENDIAN,
+          <br>
+          +    .valid = {
+          <br>
+          +        .min_access_size = 4,
+          <br>
+          +        .max_access_size = 8,
+          <br>
+          +    },
+          <br>
+          +    .impl = {
+          <br>
+          +        .min_access_size = 4,
+          <br>
+          +        .max_access_size = 8,
+          <br>
+          +    },
+          <br>
+        </blockquote>
+        <br>
+        The implementation above doesn't actually support access size 4;
+        it only supports 8.
+        <br>
+        It doesn't seem like this should be a io region at all, but a
+        ROM.
+        <br>
+      </blockquote>
+      <br>
+      Strangely enough I had a similar requirement for my q800 patches,
+      and when I tried to implement a ROM memory region then the
+      accesses didn't work as expected. I can't remember the exact
+      problem however...
+    </blockquote>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">It
+      seems that iocsr_misc may not use rom region, because the
+      MISC_FUNC_REG should be writen.</span><br style="color: rgb(0, 0,
+      0); font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">could
+      I modify it as a device? and define its structure and memregion
+      options. </span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;"></span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">Thanks</span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">Xiaojuan</span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;"></span>
+  </body>
+</html>
+
+--------------9860883DC3BA1B628395BA15--
+
 
