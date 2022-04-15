@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7831C502B02
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:36:06 +0200 (CEST)
-Received: from localhost ([::1]:40366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814AF502CA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 17:29:34 +0200 (CEST)
+Received: from localhost ([::1]:48136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfM7J-000618-JK
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50958)
+	id 1nfNt7-0004MK-4K
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 11:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLsp-0008Tt-4K; Fri, 15 Apr 2022 09:21:07 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39736)
+ (Exim 4.90_1) (envelope-from <abrestic@rivosinc.com>)
+ id 1nfNpH-00032u-Iq
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 11:25:38 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:42563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLsn-0000Dt-7S; Fri, 15 Apr 2022 09:21:06 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id bv19so15367439ejb.6;
- Fri, 15 Apr 2022 06:21:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4Jj2He4XMwehAE3Uqy98FnggkYD9lJQ14hPgJS+DCGk=;
- b=D5TDVGUgvxiGXsu3fTJdhOytolnfG1WL2JTCRbHcdJ4C0T1ri6Cckk9rpqljPc6gW4
- nE5GDSOakuHLl7+lXVevffNrCq5Di7Pn2mJL42e8tgvOdfnYOT12/+7JFHQnADFcAdtm
- FExG4vMFjyc+OzNkw+naRYl8q618IdPdIs3GqHuRiUWGGMnsv5BTs+ZzvU3KZu1nLJ2w
- u6IPN+dl2fbu81uMPVYvW0hw6jw6+GkwNzgSYmgFuNgUi1yo3zwTzJ2LvSl5n+9LNPXr
- ISEmJvTuJ4EVQY5tyK/ooe4JaPjyP6J6Y1hjQkQMk+6vSU1XhyyCTLA+/eiffvW1S0k9
- 5BBQ==
+ (Exim 4.90_1) (envelope-from <abrestic@rivosinc.com>)
+ id 1nfNpD-0004Eb-4o
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 11:25:35 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id p65so14980101ybp.9
+ for <qemu-devel@nongnu.org>; Fri, 15 Apr 2022 08:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XtIk7+BSUBlRtrnd2suyCW2q1eM7QS/bimsI9DjkM6s=;
+ b=uEAkEKFbO8IMG/JrhwErWe4/wp8LK3ZGbkwKo20BVZJv8B54PKio/ipbOgQozX6znr
+ 5eZJrwyAsWy/l88zqVQFAe2vlr/3hmps+kNADAzvXks83y0BCGaMG18p6cwDyxNnOFbG
+ ut2T23AxJh85CVWD8/FcRw0WCbAs+BTzy6laiSfzQgu7ZFgTXGDQA0ULnwd6r67SAITx
+ FkFnaadNqnfSRTotp49hoAUlRYdNGDkibw95ztT7auNci1jHqYrrCxK4yfif+TF6cigG
+ KlaKL14c6SLmiY7uBKPQDBqyyQ5sd8io62q6GEWK+ftJ58IgoUYi1a74TVTVX9jU5btU
+ PWLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4Jj2He4XMwehAE3Uqy98FnggkYD9lJQ14hPgJS+DCGk=;
- b=23EYXLvkVGZO6OLmihoPkZKp/KsQyAh+JBUV4TDenW5Cu7uuQewIOzBWhLVFBdd2IC
- xrcglT4Ik+yXOFMCuMXHx04uqThSWTEmgNo2ndY6DrzJPsWjoC0bJVWlKCA/HtACPbng
- KAe746GlREpCUpzvO83Ff2GY13pM5iI+4koCD2afkp5ZUU1vGG/INOotrl7g1MTz6i2H
- OvHVZpss5u96JR9AlUQ9IJh31QNzYoJJiunnHxsmYygB5Smwj3HbeWXDT2oK5jGDPrrl
- 0tC5zRe5n5AipwhUNmWcsAhlmUM0pIL+4gjP2F0dJM4r9E8fs3EoQdxd+fwlEyakbo0G
- BvBw==
-X-Gm-Message-State: AOAM530htcb89nSG1EdGnNADijMfoIg2kvCALthBCWoj9XDuL3kpo2qt
- Shcfm03ctyX56B6RMugIreBHeXIwcVIFUg==
-X-Google-Smtp-Source: ABdhPJwbSZi7P9tfScj2HHBRWETQAAqZh0KHj5ov9VZHaxeVNTletqTvoAFlt8Jl8NYiUxAfxpXffQ==
-X-Received: by 2002:a17:907:9493:b0:6ef:6ade:92da with SMTP id
- dm19-20020a170907949300b006ef6ade92damr619402ejc.630.1650028863592; 
- Fri, 15 Apr 2022 06:21:03 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.gmail.com with ESMTPSA id
- dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.21.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Apr 2022 06:21:02 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 26/26] test-coroutine: add missing coroutine_fn annotations
-Date: Fri, 15 Apr 2022 15:19:00 +0200
-Message-Id: <20220415131900.793161-27-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220415131900.793161-1-pbonzini@redhat.com>
-References: <20220415131900.793161-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XtIk7+BSUBlRtrnd2suyCW2q1eM7QS/bimsI9DjkM6s=;
+ b=Nua2wfANrwEb/VwFYIZw+e9qXmMF9g3005x6rCmZ/RLtQKuNFc2Im9TChcELFpxxoS
+ /6in1bqEVQNUatoPTQUCo+kDKMsMZFnycaX4YMB87qpG4UA+lMd3JwYdGLjm6Q9fg06b
+ KbQNEho0cFq02Sfjfn3by+UR+3dmBoYtVaCAm+uP42nfdCh1t7OKbXLJFjb5K8l2MEBB
+ 4tcu/Jh9wHPk0yGG/vK/ZzbfuhyqQquGTx6btbhw6WY0/pyeNfFn2Y9KAxeBXChwXfsA
+ LQtp2owAQBZzski6Q+74nOmLDoKwgQQXcQbm+ZvI9A7U3BTo6jCCq1EFw8AOVsUS+wuy
+ Bi1Q==
+X-Gm-Message-State: AOAM53034OacFlJi4N2GfWW/tha3RKxWzy2D9APFciWANDQDHzvanJ0h
+ YwiE5Q8YLWwRl6/KtBoZSsirmJj4WNPgaeIJDQT8DA==
+X-Google-Smtp-Source: ABdhPJzmY5skClWX5/PiJn8IzF8bGbqZnMUpaNqoY45LM9BNHUTilQMJzqT2p7nFf+ClEGc4b0FH17u/o8KfBGG/ykA=
+X-Received: by 2002:a25:ad98:0:b0:641:ce37:e254 with SMTP id
+ z24-20020a25ad98000000b00641ce37e254mr5816830ybi.241.1650036329764; Fri, 15
+ Apr 2022 08:25:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, TVD_SPACE_RATIO=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220407020432.4062829-1-alistair.francis@opensource.wdc.com>
+ <20220407020432.4062829-2-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20220407020432.4062829-2-alistair.francis@opensource.wdc.com>
+From: Andrew Bresticker <abrestic@rivosinc.com>
+Date: Fri, 15 Apr 2022 11:25:19 -0400
+Message-ID: <CALE4mHpYVY_VSjGwMk08aoEOzNfb8uyxNeQ5LYHogj-LkTfptA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] hw/riscv: virt: Add a machine done notifier
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=abrestic@rivosinc.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,35 +79,277 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, malureau@redhat.com,
- hreitz@redhat.com, stefanha@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: peter.maydell@linaro.org, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ Alistair Francis <alistair@alistair23.me>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, alistair23@gmail.com,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Hi Alistair,
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20170704220346.29244-4-marcandre.lureau@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/unit/test-coroutine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Apr 6, 2022 at 10:05 PM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> Move the binary and device tree loading code to the machine done
+> notifier. This allows us to prepare for editing the device tree as part
+> of the notifier.
+>
+> This is based on similar code in the ARM virt machine.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  include/hw/riscv/virt.h |   1 +
+>  hw/riscv/virt.c         | 180 +++++++++++++++++++++-------------------
+>  2 files changed, 97 insertions(+), 84 deletions(-)
+>
+> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+> index 78b058ec86..8b8db3fb7c 100644
+> --- a/include/hw/riscv/virt.h
+> +++ b/include/hw/riscv/virt.h
+> @@ -45,6 +45,7 @@ struct RISCVVirtState {
+>      MachineState parent;
+>
+>      /*< public >*/
+> +    Notifier machine_done;
+>      RISCVHartArrayState soc[VIRT_SOCKETS_MAX];
+>      DeviceState *irqchip[VIRT_SOCKETS_MAX];
+>      PFlashCFI01 *flash[2];
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index da50cbed43..3f065b540e 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1156,6 +1156,99 @@ static DeviceState *virt_create_aia(RISCVVirtAIAType aia_type, int aia_guests,
+>      return aplic_m;
+>  }
+>
+> +static
+> +void virt_machine_done(Notifier *notifier, void *data)
+> +{
+> +    RISCVVirtState *s = container_of(notifier, RISCVVirtState,
+> +                                     machine_done);
+> +    const MemMapEntry *memmap = virt_memmap;
+> +    MachineState *machine = MACHINE(s);
+> +    target_ulong start_addr = memmap[VIRT_DRAM].base;
+> +    target_ulong firmware_end_addr, kernel_start_addr;
+> +    uint32_t fdt_load_addr;
+> +    uint64_t kernel_entry;
+> +
+> +    /* create device tree */
+> +    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+> +               riscv_is_32bit(&s->soc[0]));
 
-diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
-index aa77a3bcb3..e16b80c245 100644
---- a/tests/unit/test-coroutine.c
-+++ b/tests/unit/test-coroutine.c
-@@ -610,7 +610,7 @@ static void perf_baseline(void)
-     g_test_message("Function call %u iterations: %f s", maxcycles, duration);
- }
- 
--static __attribute__((noinline)) void perf_cost_func(void *opaque)
-+static __attribute__((noinline)) void coroutine_fn perf_cost_func(void *opaque)
- {
-     qemu_coroutine_yield();
- }
--- 
-2.35.1
+Creating the initial FDT in machine_init() is still useful for
+allowing guest-loader to add its FDT nodes. Yes it's currently broken
+because the FDT is finalized in machine_init(), but it'll remain
+broken after this patch :) How about splitting it up like the ARM virt
+machine and leaving FDT creation in machine_init() while doing the
+dynamic additions / finalization in the machine_done notifier? Happy
+to send a separate patch for that if you prefer.
 
+-Andrew
+
+> +
+> +    /*
+> +     * Only direct boot kernel is currently supported for KVM VM,
+> +     * so the "-bios" parameter is ignored and treated like "-bios none"
+> +     * when KVM is enabled.
+> +     */
+> +    if (kvm_enabled()) {
+> +        g_free(machine->firmware);
+> +        machine->firmware = g_strdup("none");
+> +    }
+> +
+> +    if (riscv_is_32bit(&s->soc[0])) {
+> +        firmware_end_addr = riscv_find_and_load_firmware(machine,
+> +                                    RISCV32_BIOS_BIN, start_addr, NULL);
+> +    } else {
+> +        firmware_end_addr = riscv_find_and_load_firmware(machine,
+> +                                    RISCV64_BIOS_BIN, start_addr, NULL);
+> +    }
+> +
+> +    if (machine->kernel_filename) {
+> +        kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
+> +                                                         firmware_end_addr);
+> +
+> +        kernel_entry = riscv_load_kernel(machine->kernel_filename,
+> +                                         kernel_start_addr, NULL);
+> +
+> +        if (machine->initrd_filename) {
+> +            hwaddr start;
+> +            hwaddr end = riscv_load_initrd(machine->initrd_filename,
+> +                                           machine->ram_size, kernel_entry,
+> +                                           &start);
+> +            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+> +                                  "linux,initrd-start", start);
+> +            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
+> +                                  end);
+> +        }
+> +    } else {
+> +       /*
+> +        * If dynamic firmware is used, it doesn't know where is the next mode
+> +        * if kernel argument is not set.
+> +        */
+> +        kernel_entry = 0;
+> +    }
+> +
+> +    if (drive_get(IF_PFLASH, 0, 0)) {
+> +        /*
+> +         * Pflash was supplied, let's overwrite the address we jump to after
+> +         * reset to the base of the flash.
+> +         */
+> +        start_addr = virt_memmap[VIRT_FLASH].base;
+> +    }
+> +
+> +    /*
+> +     * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the device
+> +     * tree cannot be altered and we get FDT_ERR_NOSPACE.
+> +     */
+> +    s->fw_cfg = create_fw_cfg(machine);
+> +    rom_set_fw(s->fw_cfg);
+> +
+> +    /* Compute the fdt load address in dram */
+> +    fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
+> +                                   machine->ram_size, machine->fdt);
+> +    /* load the reset vector */
+> +    riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
+> +                              virt_memmap[VIRT_MROM].base,
+> +                              virt_memmap[VIRT_MROM].size, kernel_entry,
+> +                              fdt_load_addr, machine->fdt);
+> +
+> +    /*
+> +     * Only direct boot kernel is currently supported for KVM VM,
+> +     * So here setup kernel start address and fdt address.
+> +     * TODO:Support firmware loading and integrate to TCG start
+> +     */
+> +    if (kvm_enabled()) {
+> +        riscv_setup_direct_kernel(kernel_entry, fdt_load_addr);
+> +    }
+> +}
+> +
+>  static void virt_machine_init(MachineState *machine)
+>  {
+>      const MemMapEntry *memmap = virt_memmap;
+> @@ -1163,10 +1256,6 @@ static void virt_machine_init(MachineState *machine)
+>      MemoryRegion *system_memory = get_system_memory();
+>      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+>      char *soc_name;
+> -    target_ulong start_addr = memmap[VIRT_DRAM].base;
+> -    target_ulong firmware_end_addr, kernel_start_addr;
+> -    uint32_t fdt_load_addr;
+> -    uint64_t kernel_entry;
+>      DeviceState *mmio_irqchip, *virtio_irqchip, *pcie_irqchip;
+>      int i, base_hartid, hart_count;
+>
+> @@ -1296,92 +1385,12 @@ static void virt_machine_init(MachineState *machine)
+>      memory_region_add_subregion(system_memory, memmap[VIRT_DRAM].base,
+>          machine->ram);
+>
+> -    /* create device tree */
+> -    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+> -               riscv_is_32bit(&s->soc[0]));
+> -
+>      /* boot rom */
+>      memory_region_init_rom(mask_rom, NULL, "riscv_virt_board.mrom",
+>                             memmap[VIRT_MROM].size, &error_fatal);
+>      memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
+>                                  mask_rom);
+>
+> -    /*
+> -     * Only direct boot kernel is currently supported for KVM VM,
+> -     * so the "-bios" parameter is ignored and treated like "-bios none"
+> -     * when KVM is enabled.
+> -     */
+> -    if (kvm_enabled()) {
+> -        g_free(machine->firmware);
+> -        machine->firmware = g_strdup("none");
+> -    }
+> -
+> -    if (riscv_is_32bit(&s->soc[0])) {
+> -        firmware_end_addr = riscv_find_and_load_firmware(machine,
+> -                                    RISCV32_BIOS_BIN, start_addr, NULL);
+> -    } else {
+> -        firmware_end_addr = riscv_find_and_load_firmware(machine,
+> -                                    RISCV64_BIOS_BIN, start_addr, NULL);
+> -    }
+> -
+> -    if (machine->kernel_filename) {
+> -        kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
+> -                                                         firmware_end_addr);
+> -
+> -        kernel_entry = riscv_load_kernel(machine->kernel_filename,
+> -                                         kernel_start_addr, NULL);
+> -
+> -        if (machine->initrd_filename) {
+> -            hwaddr start;
+> -            hwaddr end = riscv_load_initrd(machine->initrd_filename,
+> -                                           machine->ram_size, kernel_entry,
+> -                                           &start);
+> -            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+> -                                  "linux,initrd-start", start);
+> -            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end",
+> -                                  end);
+> -        }
+> -    } else {
+> -       /*
+> -        * If dynamic firmware is used, it doesn't know where is the next mode
+> -        * if kernel argument is not set.
+> -        */
+> -        kernel_entry = 0;
+> -    }
+> -
+> -    if (drive_get(IF_PFLASH, 0, 0)) {
+> -        /*
+> -         * Pflash was supplied, let's overwrite the address we jump to after
+> -         * reset to the base of the flash.
+> -         */
+> -        start_addr = virt_memmap[VIRT_FLASH].base;
+> -    }
+> -
+> -    /*
+> -     * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the device
+> -     * tree cannot be altered and we get FDT_ERR_NOSPACE.
+> -     */
+> -    s->fw_cfg = create_fw_cfg(machine);
+> -    rom_set_fw(s->fw_cfg);
+> -
+> -    /* Compute the fdt load address in dram */
+> -    fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
+> -                                   machine->ram_size, machine->fdt);
+> -    /* load the reset vector */
+> -    riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
+> -                              virt_memmap[VIRT_MROM].base,
+> -                              virt_memmap[VIRT_MROM].size, kernel_entry,
+> -                              fdt_load_addr, machine->fdt);
+> -
+> -    /*
+> -     * Only direct boot kernel is currently supported for KVM VM,
+> -     * So here setup kernel start address and fdt address.
+> -     * TODO:Support firmware loading and integrate to TCG start
+> -     */
+> -    if (kvm_enabled()) {
+> -        riscv_setup_direct_kernel(kernel_entry, fdt_load_addr);
+> -    }
+> -
+>      /* SiFive Test MMIO device */
+>      sifive_test_create(memmap[VIRT_TEST].base);
+>
+> @@ -1417,6 +1426,9 @@ static void virt_machine_init(MachineState *machine)
+>                                    drive_get(IF_PFLASH, 0, i));
+>      }
+>      virt_flash_map(s, system_memory);
+> +
+> +    s->machine_done.notify = virt_machine_done;
+> +    qemu_add_machine_init_done_notifier(&s->machine_done);
+>  }
+>
+>  static void virt_machine_instance_init(Object *obj)
+> --
+> 2.35.1
+>
+>
 
