@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81128502AF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:29:50 +0200 (CEST)
-Received: from localhost ([::1]:59234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94846502B59
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:56:00 +0200 (CEST)
+Received: from localhost ([::1]:45018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfM1F-0007vQ-Je
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50802)
+	id 1nfMQW-0003bW-60
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:55:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLsd-0007xZ-I4; Fri, 15 Apr 2022 09:20:55 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44748)
+ id 1nfLsl-0008IT-TH; Fri, 15 Apr 2022 09:21:03 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:43623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLsc-00006k-0U; Fri, 15 Apr 2022 09:20:55 -0400
-Received: by mail-ej1-x636.google.com with SMTP id u15so15298116ejf.11;
- Fri, 15 Apr 2022 06:20:53 -0700 (PDT)
+ id 1nfLsj-0000Bb-TW; Fri, 15 Apr 2022 09:21:03 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id g18so15318880ejc.10;
+ Fri, 15 Apr 2022 06:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n6inZnLXWnAkdrOe9Q2dok2RBXEig9r/WC+XNq10mjA=;
- b=YdGSahfK8tWJnhUoygEuCwQR+KuIvbvAPirEaJ1eI/09vmcJFG1Fx2Tf++MzTLXthd
- NzNR5JRNP3DINLkCUhZoG7nz+SY7gOeWaohPuSJvBVGy5Y0Po4BccfAuvuhfMPCRRrwV
- Sck+SvjBBEK6H+SdrljDvaII7WvXua27Hkk404imH+FfUaDF0taytMvP8m3sy+pZQLIm
- cd543sqxmxhXODK0Ebf3ddPMMsgZFvHH/rSaPba8oZqLA21PIoSANP5EgV6+at1F5KNe
- w/TbHS1t49C57DeK+jV3QH20dH+LB2M3MTDF94z27PrMP3FQlh+h7v+dlykZholge5Da
- sUAw==
+ bh=Ng/MMAsFc5CpeAXbm3bo8f/X5MEJRElx0xHJ1ZVX/1A=;
+ b=KaS5u96kHa+YkVSUHJ10Vb0U5cpLxvgFWKbWfQ+4H6UKlZgfAGK+EdZNosn/lazQIq
+ HHZLzvVj4w6P6iZftaScemiLXB9+I7+Bn1CQKm8zOABdKUjfdzvdPDPtfC684ggFtHms
+ DYafNrALIvmr2ATjg+OC8RSasH42BnPJe6Lq2pqDLdeMQb5j3cznv7kCK4eq2oM5uet3
+ aha2iSzi/TqMY7qGSvHQ0hry+qhLHRwq05z4g61jW+iRUXrq/q1lCPTW+DlxekJrjhVG
+ XEZtTrFy3SVxPZ4oSEIkOUwr5YUubhlda8MZJwAUkkwEhaX9vLr5S2mxlVODe52bTnkg
+ jJlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=n6inZnLXWnAkdrOe9Q2dok2RBXEig9r/WC+XNq10mjA=;
- b=FBlrCPM6VZutlX0w9twqfgD/uL/CynPbNnzQ2UqoVYODZ4l7IcZQz0DFH3NsGAee4W
- b1JeI6Ihv1xp6zAGas4swMx1ROGe4060gOX+xOTFVj59mla5TvAqcguuY2ER/AkzsSeK
- jwzptwpC+yTrWoBnOW+vpdVJpEh77iE55msuyxmbVeUMkanGZNroMfrKePhM+AM2eqKZ
- ZonwwDjFo2NTBPE4YUYpUtHYCwjOYXQJDhYNxEhTYd/KsWixyfcjFQKyisVFeuQT/QBH
- ndAa+PMsdN1wXEjjtBrStOrwqEv6OrmtKEQhgRIokssuwZnGKgcplKAIQjYAg/nkE8XU
- 1EOQ==
-X-Gm-Message-State: AOAM533u60dHFklOqCQ/6bcDgR8Agl6P2A5DprxQMXnCMJ35Fr2YJ6bq
- H2DBThR1ja+21CKaPPnNB5X4RogZ0is7DQ==
-X-Google-Smtp-Source: ABdhPJwLc4SFhZbsFRnypFtEhxowL5Sl+Yl/QSsr7u9TXrRyFw84OJTgsfw42gBs4E8jjbX4dAFweg==
-X-Received: by 2002:a17:906:944a:b0:6e8:ac79:2b6e with SMTP id
- z10-20020a170906944a00b006e8ac792b6emr6106415ejx.377.1650028852331; 
- Fri, 15 Apr 2022 06:20:52 -0700 (PDT)
+ bh=Ng/MMAsFc5CpeAXbm3bo8f/X5MEJRElx0xHJ1ZVX/1A=;
+ b=W/3p6fKX09GgTqLu5EIq8hrgTypVAjg4ub/C3YCXqIfWyJT8+1HPGC4kTPrcly6Lox
+ xt56RNM/gNWDJTl2ptSHjvmFXw5OJQCH3/x958McT0EKSOCuoPLDxp9uT0q9sNYcASTb
+ ur4ntBl+vrJ4CDYMO3PwRsUmfjM+dFsEha7odn+LL6sloVfTrCFnnBPx6liusB7wyGg9
+ bE4mzdpSA5BIxgSlH8nLh6UXfOeyCSJqWXNGqT8vv5I7TsODfGv1ocfEx3x0EmsXGMdS
+ QA5jhJEzdHRoudKSdsp4QlG/LE0g6nVMMxT56kDShuUKexzWgal/wkbgHq5gEAnRk5ng
+ gIOA==
+X-Gm-Message-State: AOAM532pWD9skXvMqodpFvvS94Sui9OPAvKkqUTF85xHQJDmiiK1QKe9
+ +sWnLesVbwK6Vv+rBa9Cg3sTaDZIR4veDw==
+X-Google-Smtp-Source: ABdhPJzbCiTh/EnTD1hQQvj/pR+1uMNeqvhXSpcFoNqcFrVoHb3HFCMgiv05Ho4e+r24EieO92B8ng==
+X-Received: by 2002:a17:907:e8b:b0:6ec:d4d:5534 with SMTP id
+ ho11-20020a1709070e8b00b006ec0d4d5534mr4948997ejc.416.1650028860223; 
+ Fri, 15 Apr 2022 06:21:00 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.20.50
+ dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.20.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Apr 2022 06:20:51 -0700 (PDT)
+ Fri, 15 Apr 2022 06:20:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/26] 9p: add missing coroutine_fn annotations
-Date: Fri, 15 Apr 2022 15:18:58 +0200
-Message-Id: <20220415131900.793161-25-pbonzini@redhat.com>
+Subject: [PATCH 25/26] migration: add missing coroutine_fn annotations
+Date: Fri, 15 Apr 2022 15:18:59 +0200
+Message-Id: <20220415131900.793161-26-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220415131900.793161-1-pbonzini@redhat.com>
 References: <20220415131900.793161-1-pbonzini@redhat.com>
@@ -63,8 +63,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -85,8 +85,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, Greg Kurz <groug@kaod.org>,
- malureau@redhat.com, hreitz@redhat.com, stefanha@redhat.com,
+Cc: kwolf@redhat.com, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, malureau@redhat.com, hreitz@redhat.com,
+ stefanha@redhat.com,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -94,44 +95,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Acked-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/9pfs/9p.h | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ migration/migration.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 994f952600..a523ac34a9 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -424,21 +424,24 @@ typedef struct V9fsGetlock
- extern int open_fd_hw;
- extern int total_open_fd;
- 
--static inline void v9fs_path_write_lock(V9fsState *s)
-+static inline void coroutine_fn
-+v9fs_path_write_lock(V9fsState *s)
- {
-     if (s->ctx.export_flags & V9FS_PATHNAME_FSCONTEXT) {
-         qemu_co_rwlock_wrlock(&s->rename_lock);
-     }
+diff --git a/migration/migration.c b/migration/migration.c
+index 4dcb511bb6..23781f6277 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -553,7 +553,8 @@ static void process_incoming_migration_bh(void *opaque)
+     migration_incoming_state_destroy();
  }
  
--static inline void v9fs_path_read_lock(V9fsState *s)
-+static inline void coroutine_fn
-+v9fs_path_read_lock(V9fsState *s)
+-static void process_incoming_migration_co(void *opaque)
++static void coroutine_fn
++process_incoming_migration_co(void *opaque)
  {
-     if (s->ctx.export_flags & V9FS_PATHNAME_FSCONTEXT) {
-         qemu_co_rwlock_rdlock(&s->rename_lock);
-     }
- }
- 
--static inline void v9fs_path_unlock(V9fsState *s)
-+static inline void coroutine_fn
-+v9fs_path_unlock(V9fsState *s)
- {
-     if (s->ctx.export_flags & V9FS_PATHNAME_FSCONTEXT) {
-         qemu_co_rwlock_unlock(&s->rename_lock);
+     MigrationIncomingState *mis = migration_incoming_get_current();
+     PostcopyState ps;
 -- 
 2.35.1
 
