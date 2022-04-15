@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4EE502824
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 12:21:11 +0200 (CEST)
-Received: from localhost ([::1]:41098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A099F5027FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 12:11:07 +0200 (CEST)
+Received: from localhost ([::1]:57806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfJ4f-0000yN-SZ
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 06:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34492)
+	id 1nfIuw-00013v-9S
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 06:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1nfISU-0002h3-Qo
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:41:49 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:53454 helo=loongson.cn)
+ id 1nfISX-0002h9-2u
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:41:50 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:53496 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1nfISQ-0004YT-L9
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:41:42 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1nfISS-0004Yf-24
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 05:41:43 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_xGqPVli41gkAA--.16856S20; 
- Fri, 15 Apr 2022 17:41:23 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_xGqPVli41gkAA--.16856S22; 
+ Fri, 15 Apr 2022 17:41:24 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 18/43] target/loongarch: Add system emulation introduction
-Date: Fri, 15 Apr 2022 17:40:33 +0800
-Message-Id: <20220415094058.3584233-19-yangxiaojuan@loongson.cn>
+Subject: [PATCH v1 20/43] target/loongarch: Add basic vmstate description of
+ CPU.
+Date: Fri, 15 Apr 2022 17:40:35 +0800
+Message-Id: <20220415094058.3584233-21-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
 References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_xGqPVli41gkAA--.16856S20
-X-Coremail-Antispam: 1UD129KBjvJXoWxGry5Gw4kKF1ftFyxtF1rXrb_yoWrKr47pF
- nxu34fKrWUXry7Crs3W34xWr1rJrn3Cr17WFs2yw1Fkr1qy34qgrn5ta48XFy7GayrAFyj
- vry8Cr1UWa1UWwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dx_xGqPVli41gkAA--.16856S22
+X-Coremail-Antispam: 1UD129KBjvJXoW3GryxGF45Ww1fXr1xXry5Arb_yoW7tF1kpr
+ y3uF17KFsFvrWxZw48G3s8Wrs8WF47W3WSkayakr1kGr1kJw4kWr10vw17XF1rJ34Yg34I
+ vr4rXasrWa1jyrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -63,141 +64,146 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- MAINTAINERS                         |  8 +++++
- docs/system/loongarch/loongson3.rst | 41 ++++++++++++++++++++++
- target/loongarch/README             | 54 +++++++++++++++++++++++++++++
- 3 files changed, 103 insertions(+)
- create mode 100644 docs/system/loongarch/loongson3.rst
+ target/loongarch/cpu.c       |  1 +
+ target/loongarch/internals.h |  2 +
+ target/loongarch/machine.c   | 85 ++++++++++++++++++++++++++++++++++++
+ target/loongarch/meson.build |  6 +++
+ 4 files changed, 94 insertions(+)
+ create mode 100644 target/loongarch/machine.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 94255cb04e..51724ad6f6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1122,6 +1122,14 @@ F: hw/net/*i82596*
- F: include/hw/net/lasi_82596.h
- F: pc-bios/hppa-firmware.img
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index fac67ab34a..436ced1549 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -331,6 +331,7 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
+     cc->class_by_name = loongarch_cpu_class_by_name;
+     cc->dump_state = loongarch_cpu_dump_state;
+     cc->set_pc = loongarch_cpu_set_pc;
++    dc->vmsd = &vmstate_loongarch_cpu;
+     cc->disas_set_info = loongarch_cpu_disas_set_info;
+ #ifdef CONFIG_TCG
+     cc->tcg_ops = &loongarch_tcg_ops;
+diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
+index 774a87ec80..8b5588bf03 100644
+--- a/target/loongarch/internals.h
++++ b/target/loongarch/internals.h
+@@ -25,4 +25,6 @@ const char *loongarch_exception_name(int32_t exception);
  
-+LoongArch Machines
-+------------------
-+Virt
-+M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-+M: Song Gao <gaosong@loongson.cn>
-+S: Maintained
-+F: docs/system/loongarch/loongson3.rst
+ void restore_fp_status(CPULoongArchState *env);
+ 
++extern const VMStateDescription vmstate_loongarch_cpu;
 +
- M68K Machines
- -------------
- an5206
-diff --git a/docs/system/loongarch/loongson3.rst b/docs/system/loongarch/loongson3.rst
+ #endif
+diff --git a/target/loongarch/machine.c b/target/loongarch/machine.c
 new file mode 100644
-index 0000000000..fa3acd01c0
+index 0000000000..d738c9c6f0
 --- /dev/null
-+++ b/docs/system/loongarch/loongson3.rst
-@@ -0,0 +1,41 @@
-+:orphan:
++++ b/target/loongarch/machine.c
+@@ -0,0 +1,85 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * QEMU LoongArch Machine State
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ */
 +
-+==========================================
-+loongson3 virt generic platform (``virt``)
-+==========================================
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "migration/cpu.h"
 +
-+The ``virt`` machine use gpex host bridge, and there are some
-+emulated devices on virt board, such as loongson7a RTC device,
-+IOAPIC device, ACPI device and so on.
++/* LoongArch CPU state */
 +
-+Supported devices
-+-----------------
++const VMStateDescription vmstate_loongarch_cpu = {
++    .name = "cpu",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
 +
-+The ``virt`` machine supports:
-+- Gpex host bridge
-+- Ls7a RTC device
-+- Ls7a IOAPIC device
-+- Ls7a ACPI device
-+- Fw_cfg device
-+- PCI/PCIe devices
-+- Memory device
-+- CPU device. Type: Loongson-3A5000.
++        VMSTATE_UINTTL_ARRAY(env.gpr, LoongArchCPU, 32),
++        VMSTATE_UINTTL(env.pc, LoongArchCPU),
++        VMSTATE_UINT64_ARRAY(env.fpr, LoongArchCPU, 32),
++        VMSTATE_UINT32(env.fcsr0, LoongArchCPU),
 +
-+CPU and machine Type
-+--------------------
++        /* Remaining CSRs */
++        VMSTATE_UINT64(env.CSR_CRMD, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_PRMD, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_EUEN, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_MISC, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_ECFG, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_ESTAT, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_ERA, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_BADV, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_BADI, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_EENTRY, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBIDX, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBEHI, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBELO0, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBELO1, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_ASID, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_PGDL, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_PGDH, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_PGD, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_PWCL, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_PWCH, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_STLBPS, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_RVACFG, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_CPUID, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_PRCFG1, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_PRCFG2, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_PRCFG3, LoongArchCPU),
++        VMSTATE_UINT64_ARRAY(env.CSR_SAVE, LoongArchCPU, 16),
++        VMSTATE_UINT64(env.CSR_TID, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TCFG, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TVAL, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_CNTC, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TICLR, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_LLBCTL, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_IMPCTL1, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_IMPCTL2, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBRENTRY, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBRBADV, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBRERA, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBRSAVE, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBRELO0, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBRELO1, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBREHI, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_TLBRPRMD, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_MERRCTL, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_MERRINFO1, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_MERRINFO2, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_MERRENTRY, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_MERRERA, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_MERRSAVE, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_CTAG, LoongArchCPU),
++        VMSTATE_UINT64_ARRAY(env.CSR_DMW, LoongArchCPU, 4),
 +
-+The ``qemu-system-loongarch64`` provides emulation for virt
-+machine. You can specify the machine type ``virt`` and
-+cpu type ``Loongson-3A5000``.
++        /* Debug CSRs */
++        VMSTATE_UINT64(env.CSR_DBG, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_DERA, LoongArchCPU),
++        VMSTATE_UINT64(env.CSR_DSAVE, LoongArchCPU),
 +
-+Boot options
-+------------
-+
-+Now the ``virt`` machine can run test program in ELF format and the
-+method of compiling is in target/loongarch/README.
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-loongarch64 -machine virt -m 4G -cpu Loongson-3A5000 \
-+      -smp 1 -kernel hello -monitor none -display none \
-+      -chardev file,path=hello.out,id=output -serial chardev:output
-diff --git a/target/loongarch/README b/target/loongarch/README
-index de141c1a58..4dcd0f1682 100644
---- a/target/loongarch/README
-+++ b/target/loongarch/README
-@@ -8,3 +8,57 @@
++        VMSTATE_END_OF_LIST()
++    },
++};
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index bcb076e55f..103f36ee15 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -14,6 +14,12 @@ loongarch_tcg_ss.add(files(
+ ))
+ loongarch_tcg_ss.add(zlib)
  
-   We can get the latest loongarch documents at https://github.com/loongson/LoongArch-Documentation/tags.
++loongarch_softmmu_ss = ss.source_set()
++loongarch_softmmu_ss.add(files(
++  'machine.c',
++))
++
+ loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
  
-+
-+- System emulation
-+
-+  Mainly emulate a virt 3A5000 board and ls7a bridge that is not exactly the same as the host.
-+  3A5000 support multiple interrupt cascading while here we just emulate the extioi interrupt
-+  cascading. LS7A1000 host bridge support multiple devices, such as sata, gmac, uart, rtc
-+  and so on. But we just realize the rtc. Others use the qemu common devices. It does not affect
-+  the general use. We also introduced the emulation of devices at docs/system/loongarch/loongson3.rst.
-+
-+  This version only supports running binary files in ELF format, and does not depend on BIOS and kernel file.
-+  You can compile the test program with 'make & make check-tcg' and run the test case with the following command:
-+
-+  1. Install LoongArch cross-tools on X86 machines.
-+
-+    Download cross-tools.
-+
-+      wget https://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-20211202-cross-tools.tar.xz
-+
-+      tar -vxf loongarch64-clfs-20211202-cross-tools.tar.xz -C /opt
-+
-+    Config cross-tools env.
-+
-+      . setenv.sh
-+
-+      setenv.sh:
-+
-+          #!/bin/sh
-+          set -x
-+          CC_PREFIX=/opt/cross-tools
-+
-+          export PATH=$CC_PREFIX/bin:$PATH
-+          export LD_LIBRARY_PATH=$CC_PREFIX/lib:$LD_LIBRARY_PATH
-+          export LD_LIBRARY_PATH=$CC_PREFIX/loongarch64-unknown-linux-gnu/lib/:$LD_LIBRARY_PATH
-+          set +x
-+
-+  2. Test tests/tcg/multiarch.
-+
-+    ./configure --disable-rdma --disable-pvrdma --prefix=/usr  \
-+            --target-list="loongarch64-softmmu"  \
-+            --disable-libiscsi --disable-libnfs --disable-libpmem \
-+            --disable-glusterfs --enable-libusb --enable-usb-redir \
-+            --disable-opengl --disable-xen --enable-spice --disable-werror \
-+            --enable-debug --disable-capstone --disable-kvm --enable-profiler
-+
-+    cd  build/
-+
-+    make && make check-tcg
-+
-+    or
-+
-+    ./build/qemu-system-loongarch64 -machine virt -m 4G -cpu Loongson-3A5000 -smp 1 -kernel build/tests/tcg/loongarch64-softmmu/hello -monitor none -display none -chardev file,path=hello.out,id=output -serial chardev:output
-+
-+- Note.
-+  We can get the latest LoongArch documents or LoongArch tools at https://github.com/loongson/
+ target_arch += {'loongarch': loongarch_ss}
++target_softmmu_arch += {'loongarch': loongarch_softmmu_ss}
 -- 
 2.31.1
 
