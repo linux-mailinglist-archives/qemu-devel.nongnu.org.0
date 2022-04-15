@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD634502AEB
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:27:10 +0200 (CEST)
-Received: from localhost ([::1]:51340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19217502AEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Apr 2022 15:28:13 +0200 (CEST)
+Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfLyf-0002hB-Ou
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50358)
+	id 1nfLzg-0004OR-7Z
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 09:28:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLrP-0006Ve-GT; Fri, 15 Apr 2022 09:19:39 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:45943)
+ id 1nfLrS-0006Xc-0f; Fri, 15 Apr 2022 09:19:42 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:36550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nfLrK-0007q0-7X; Fri, 15 Apr 2022 09:19:38 -0400
-Received: by mail-ed1-x530.google.com with SMTP id v15so9872053edb.12;
- Fri, 15 Apr 2022 06:19:25 -0700 (PDT)
+ id 1nfLrN-0007qJ-OW; Fri, 15 Apr 2022 09:19:40 -0400
+Received: by mail-ej1-x633.google.com with SMTP id k23so15364627ejd.3;
+ Fri, 15 Apr 2022 06:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ib6o6UHLWxb5ux1+EZCHcprngTMPkaRjB18C9Z4T9yw=;
- b=cWRvcAfTyWTjPdWRn1QWLL7QhIKQPDLTrIWD42tJE9lRUHV/KlzUn62Rd4p+BX+eB9
- wOMltAQ7urLqw9OA3aKvYFjUtteyxsJrhaovvdO6HNNcbq5iftXa01AT5WExblihzGNv
- /kK9mNpBsjz5QlAa7jPvwbd+P+FREiyem+SGEQAPHDbQz5ln7x7Hhj51N1DVnxK5dl47
- fGD8SPI/RuQlJMLQcNs6eJYucXF2s3H7MseVih16Vkn0yIxZYauqT81KadfB5MPJa0bk
- tkFYDbvd0qaKw/3H3jmGKNh9WFZqL+p5K4zi0kKqhlbR7sTcVr7p7gxtBe0xVF9Tx62k
- inBQ==
+ bh=M0td3BIo8+I/vX9T6ItFSnDKy+nzpzS9t1PxQm6FyM8=;
+ b=UrgTacxAwdMBaklaRWG6oXfXFpOCeDG71lESHgd3Pv2Mu7F1z1z5zzw8/IrkhdtkKh
+ ScDGI9aSV25zwpGKVUj2nrH58VE1u87e0gGzKj3+KS7u+vH3ogoMG/bdowjog/znbz8m
+ ntE7GfOF8Tk8z5p4isl5VemoFVfZOwEFZHoBJX+A2ClgKo0yif9TzN9HvcVDBpt10FGg
+ QaioWC/MBoxuXtRBu6+FAObjIf6zP+mvvJ1eL3kCf1f3iG/dlfxdWzZuNuRaWUtWnFAO
+ cO10sRYWW+WB2wtm1ALjeFq8w3L0d+AdVe0Wx+6ZRsYuCd8oY7PmDIR9piMyabJABrO2
+ ecpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ib6o6UHLWxb5ux1+EZCHcprngTMPkaRjB18C9Z4T9yw=;
- b=1UHvOE5A5FhCXCSkZwzDurntuxflIOjSU4Ve0vj40jRRat/qKR3Tr0KDL99bp/lDTF
- clDoiVBK0yC/RTmoGo6zx/pk0bwIWfc9ArX8yxEqmz6s50xO/An2vV0002jv/aPVI95u
- boxKnmdIEiVJ+BCNUHISuYtOD9ix7KApoIWc6KkPQ/x+5X9SZKjVoopF0mi0xhM0+Q7I
- SFCrfIxNYLjR90uSJ9IWTXDlza8x5ctx74O/NuIrIWLfxpaKz6XFp4yBBjnjyBf92/Lj
- TVnU9Pw/N4n/1s9MPbDtjmLAh3DHTfnFbueFkEAPuybU4HGTl4//yWx+RonH+aMgN6h8
- CiMQ==
-X-Gm-Message-State: AOAM533DCVlpgpUOv1Vv4ycojz+9dO+PHn8FA2bXf8bjhIVMPy0S/1a7
- OZFuNe1jOPORPLc8zKOklnzr4v8vRYerpw==
-X-Google-Smtp-Source: ABdhPJzHgsqAX9vGmU8iqwX966/45EtXYixesbSFZn+Xnt0UtpGiuvlErcwpf32buCen/ol0Ws3p9w==
-X-Received: by 2002:a05:6402:1e8a:b0:41d:af82:613e with SMTP id
- f10-20020a0564021e8a00b0041daf82613emr8211933edf.18.1650028764460; 
- Fri, 15 Apr 2022 06:19:24 -0700 (PDT)
+ bh=M0td3BIo8+I/vX9T6ItFSnDKy+nzpzS9t1PxQm6FyM8=;
+ b=EP+FmldwuGWB42bf79PlsvGRlCe5cP31lv2ISQgETyv89zJzo18qQBYarrLGb+mLN9
+ Rqkiu8NCLbXsLIrenmfV03TyNNnlQOoL3sfVcHTb4aI2f1H9hwe6Fz3JQRNUY5tTaqAP
+ eTvX/+74jy0DRkhU+bfGZhjFbhPMOwFjxCmZQyKCwpPKrUIt3ULQtqLx/oX0Hh8oBBz6
+ oREeP0puxhDvGUz+i5r3jms+aXzXLfVonHJIAkvLepJHew4EHE0dtlZEHdrgXIda2yQv
+ ArRBPf0z8Sm2SP8wovNiavpH2SoZuZ2asyWepRLOA8FeWnJES3uucgNqwPaciJ42GR4v
+ H5Fg==
+X-Gm-Message-State: AOAM532WGJuBypnY2x9/LnmL8155ZP4+kyRWEod6aeiulO9iqIAv83cQ
+ 5fIe3OoHUywDCYLU3d2azesW/YXUc2psfw==
+X-Google-Smtp-Source: ABdhPJxRmzelbnm3buYQbzRxGPbbrohBsr8NV3oQDcnTL7I46jbn/uUCXDyCLR3fk/tqozlqQeNDOg==
+X-Received: by 2002:a17:906:9c82:b0:6e1:2c94:1616 with SMTP id
+ fj2-20020a1709069c8200b006e12c941616mr6260461ejc.64.1650028770886; 
+ Fri, 15 Apr 2022 06:19:30 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.19.23
+ dn7-20020a17090794c700b006e8b176143bsm1683529ejc.155.2022.04.15.06.19.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Apr 2022 06:19:24 -0700 (PDT)
+ Fri, 15 Apr 2022 06:19:30 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/26] coroutine: remove incorrect coroutine_fn annotations
-Date: Fri, 15 Apr 2022 15:18:38 +0200
-Message-Id: <20220415131900.793161-5-pbonzini@redhat.com>
+Subject: [PATCH 05/26] blkdebug: add missing coroutine_fn annotations
+Date: Fri, 15 Apr 2022 15:18:39 +0200
+Message-Id: <20220415131900.793161-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220415131900.793161-1-pbonzini@redhat.com>
 References: <20220415131900.793161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,36 +91,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/coroutine.h | 2 +-
- util/qemu-coroutine.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ block/blkdebug.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 284571badb..2d9211faff 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -92,7 +92,7 @@ void coroutine_fn qemu_coroutine_yield(void);
- /**
-  * Get the AioContext of the given coroutine
-  */
--AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co);
-+AioContext *qemu_coroutine_get_aio_context(Coroutine *co);
- 
- /**
-  * Get the currently executing coroutine
-diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
-index c03b2422ff..9f2bd96fa0 100644
---- a/util/qemu-coroutine.c
-+++ b/util/qemu-coroutine.c
-@@ -200,7 +200,7 @@ bool qemu_coroutine_entered(Coroutine *co)
-     return co->caller;
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index bbf2948703..a93ba61487 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -587,8 +587,8 @@ out:
+     return ret;
  }
  
--AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co)
-+AioContext *qemu_coroutine_get_aio_context(Coroutine *co)
+-static int rule_check(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-                      BlkdebugIOType iotype)
++static int coroutine_fn rule_check(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
++                                   BlkdebugIOType iotype)
  {
-     return co->ctx;
+     BDRVBlkdebugState *s = bs->opaque;
+     BlkdebugRule *rule = NULL;
+@@ -672,7 +672,7 @@ blkdebug_co_pwritev(BlockDriverState *bs, int64_t offset, int64_t bytes,
+     return bdrv_co_pwritev(bs->file, offset, bytes, qiov, flags);
  }
+ 
+-static int blkdebug_co_flush(BlockDriverState *bs)
++static int coroutine_fn blkdebug_co_flush(BlockDriverState *bs)
+ {
+     int err = rule_check(bs, 0, 0, BLKDEBUG_IO_TYPE_FLUSH);
+ 
+@@ -791,7 +791,7 @@ static void blkdebug_close(BlockDriverState *bs)
+ }
+ 
+ /* Called with lock held.  */
+-static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
++static void coroutine_fn suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
+ {
+     BDRVBlkdebugState *s = bs->opaque;
+     BlkdebugSuspendedReq *r;
+@@ -810,8 +810,8 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
+ }
+ 
+ /* Called with lock held.  */
+-static void process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
+-                         int *action_count, int *new_state)
++static void coroutine_fn process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
++                                      int *action_count, int *new_state)
+ {
+     BDRVBlkdebugState *s = bs->opaque;
+ 
+@@ -840,7 +840,7 @@ static void process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
+     }
+ }
+ 
+-static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
++static void coroutine_fn blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
+ {
+     BDRVBlkdebugState *s = bs->opaque;
+     struct BlkdebugRule *rule, *next;
 -- 
 2.35.1
 
