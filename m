@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A90504999
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 23:16:24 +0200 (CEST)
-Received: from localhost ([::1]:47368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACF1B50499A
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 23:16:27 +0200 (CEST)
+Received: from localhost ([::1]:47568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngCFq-0004Mx-IU
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 17:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34248)
+	id 1ngCFu-0004V3-G4
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 17:16:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1ngCD4-0001rB-He; Sun, 17 Apr 2022 17:13:30 -0400
+ id 1ngCD6-0001sL-UX; Sun, 17 Apr 2022 17:13:32 -0400
 Received: from test-v6.fluff.org ([2a01:4f8:222:2004::3]:48562
  helo=hetzy.fluff.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1ngCD2-0001bW-Ig; Sun, 17 Apr 2022 17:13:30 -0400
+ id 1ngCD5-0001bW-Fd; Sun, 17 Apr 2022 17:13:32 -0400
 Received: from localhost ([127.0.0.1] helo=luna)
  by hetzy.fluff.org with esmtp (Exim 4.89)
  (envelope-from <ben@luna.fluff.org>)
- id 1nfp7E-0008Rw-RN; Sat, 16 Apr 2022 21:33:56 +0100
+ id 1nfp7E-0008Rs-65; Sat, 16 Apr 2022 21:33:56 +0100
 Received: from ben by luna with local (Exim 4.95)
- (envelope-from <ben@luna.fluff.org>) id 1nfo7v-002G1Z-UR;
+ (envelope-from <ben@luna.fluff.org>) id 1nfo7v-002G1c-Vx;
  Sat, 16 Apr 2022 20:30:35 +0100
 From: Ben Dooks <qemu@ben.fluff.org>
 To: qemu-devel@nongnu.org
-Subject: A couple of new device-tree helpers.
-Date: Sat, 16 Apr 2022 20:30:30 +0100
-Message-Id: <20220416193034.538161-1-qemu@ben.fluff.org>
+Subject: [PATCH 1/4] device_tree: add qemu_fdt_setprop_reg64 helper
+Date: Sat, 16 Apr 2022 20:30:31 +0100
+Message-Id: <20220416193034.538161-2-qemu@ben.fluff.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220416193034.538161-1-qemu@ben.fluff.org>
+References: <20220416193034.538161-1-qemu@ben.fluff.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Score: -0.6 (/)
@@ -57,18 +59,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, Alistair.Francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org
+Cc: Ben Dooks <qemu@ben.fluff.org>, palmer@dabbelt.com,
+ Alistair.Francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've been doing a bit of looking at riscv and dt creation, and
-was thinking the following two helper functions would be useful
-so implemented qemu_fdt_setprop_reg64() and qemu_fdt_setprop_strings()
-and then applied them to the hw/riscv/sifive_u.c machine.
+Add a macro qemu_fdt_setprop_reg64() to set the given
+node's reg property directly from the memory map entry
+to avoid open coding of the following:
 
-I thought I should get a review in before I continued on looking
-at more possible helpers to make the dtb creation code leaner.
+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
+        0x0, memmap[SIFIVE_U_DEV_OTP].base,
+        0x0, memmap[SIFIVE_U_DEV_OTP].size);
 
+Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
+---
+ include/sysemu/device_tree.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index ef060a9759..28352e7fcb 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -135,6 +135,21 @@ int qemu_fdt_add_path(void *fdt, const char *path);
+                          sizeof(qdt_tmp));                                    \
+     } while (0)
+ 
++/**
++ * qemu_fdt_setprop_reg64:
++ * @fdt: the device tree path
++ * @node_path: node to set property on
++ * @map: the map entry to set the reg from
++ *
++ * A helper tp set the 'reg' node on the specified node from the given map
++ * entry.
++ */
++#define qemu_fdt_setprop_reg64(fdt, path, map)                  \
++    qemu_fdt_setprop_cells(fdt, path, "reg",                    \
++                           (map)->base >> 32, (map)->base,      \
++                           (map)->size >> 32, (map)->size)
++
++
+ void qemu_fdt_dumpdtb(void *fdt, int size);
+ 
+ /**
+-- 
+2.35.1
 
 
