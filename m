@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CEA503220
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 03:06:51 +0200 (CEST)
-Received: from localhost ([::1]:58612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA99503261
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 04:27:24 +0200 (CEST)
+Received: from localhost ([::1]:41444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfWtm-00007R-Bc
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 21:06:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36882)
+	id 1nfY9j-0003Zd-B2
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 22:27:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nfWrQ-0006oF-6E
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 21:04:24 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:40460)
+ id 1nfY8v-0002vH-Ek
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 22:26:33 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:45715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nfWrM-0005p7-L3
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 21:04:23 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- md20-20020a17090b23d400b001cb70ef790dso12903273pjb.5
- for <qemu-devel@nongnu.org>; Fri, 15 Apr 2022 18:04:20 -0700 (PDT)
+ id 1nfY8t-0000DH-MR
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 22:26:33 -0400
+Received: by mail-pg1-x533.google.com with SMTP id k29so9329143pgm.12
+ for <qemu-devel@nongnu.org>; Fri, 15 Apr 2022 19:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=cnZbKC/kzqTc4WboWjp/P2hJd7CS9+C6Hw072Iqa1tM=;
- b=KWFW/8MzPMYjO5z2yP2K6bupd05xZ+cudzxVuh9ASdrt9gsCp2fgbLeBzSpVMASOdd
- MJKOwHDdCOLGtTM6J/Nn5BitQAU6TU45kRZH3oo3i5o5IoV1GIoUvhTsKfrpsVXiEGuU
- CG+BOAQkwhD0T0+IJsbddEA4EdViJA7fjZKohgYdrM9brpPl1vBX0IrSsWeZ06Zw0KeA
- ZgMr7JyV9xhOJWcbLlFiNKb0irepOW/pPlIybeMbuPgiCecwj4zjZQlnOwEJihWWrTu+
- t98/D0flE09Y1U0F7Is611Iwr+hUbTHJtcAA+B8ompdkslGHT+98dPE8Vmexiz3T/VVc
- UjMw==
+ bh=yZPoduawZrYwa7QmF+72eavNvlc739Z8LYlBGJuo8LI=;
+ b=i6UNmOpVwjsQ26IvgTJjvtpfijMMnzC2oDI+CSGreZycE/jAr7NG3r3Qqy6jggqBSL
+ Y22x7/dv2YtLqhf54xJsKk2v1Al9UPss8RL91YnKT2LbZA9vI9Np8kl1k968N/vIGYna
+ miRJC/sfwQDOakX+M7QLZom44wE/PxaUVrUBjs7MWwkLYtKPRa+JAzia2Udd0LMJ8GWD
+ +o6R4s2GFvOs6v1J1Vj8z9mgIQlJt8fQe4nE6bY72ESbRwAzrIiFzIH9Qc5D5I2E55+t
+ 8VBLOaxNRXRMhIYcMgwqvFUAZ7qk+/jpa478r6/m994974eEEKvJbEJCXtCG+TQTs2kg
+ nokA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cnZbKC/kzqTc4WboWjp/P2hJd7CS9+C6Hw072Iqa1tM=;
- b=sfOv2n7mOyoMU5+InC2HlnXg3rzlYGPhdJRp1oKQ+dz1rbeCk/o9b2tj+RdoQZxhu8
- 088dUDwBlKRgdAnQSKy0myaR84yhEGEHscmfMNGAsi6uLrGUgfMI3nQWAWZ9Lnsnd+Ul
- 0co16V/C71LUbPlsrwU/nsu8cXquQNgWwtOX/54MJ73HSPS1OEhIRxkAacGsVnvcs2an
- 2QOZ03YXHFnRiVw7vrnxIZz8Z6/NZpcwtXUKQ/In24lDrF9Cut3fxISOHSyELpgZmXMX
- yMhoQp7pfhvxwS0jiQICh9szVp0gptYeWTXEzBH+bmAvc1OETYQBTmz2xIfsV8bkqkbD
- NvNQ==
-X-Gm-Message-State: AOAM532f4GU4vZJG8j5vdTimLTX5Vbzyv9lW1qdJsr1ov4960nr2+kYu
- Z7yNftnfsR/LS0+ydMkLvTY1tQ==
-X-Google-Smtp-Source: ABdhPJyylSJddcGyCg5UwY+vospnlXSZHkyLnSzLUvqEABN8NN7Ngk0M9EFl36KDJvO0ygG4NaL+cQ==
-X-Received: by 2002:a17:902:7d81:b0:14f:e18b:2b9e with SMTP id
- a1-20020a1709027d8100b0014fe18b2b9emr1544924plm.160.1650071058860; 
- Fri, 15 Apr 2022 18:04:18 -0700 (PDT)
+ bh=yZPoduawZrYwa7QmF+72eavNvlc739Z8LYlBGJuo8LI=;
+ b=PWznJlU6MQ30x93TXufmtSE+QL486SyjNj4k0TEfykOUurPJLxfdsc5RSE86Immd4P
+ AlzLpVfZFgYPjwmTEmSReTjiQgb00IMGItIkK2AoTOcy2C7AAauYJLrKAUJca9CuGgdX
+ lzM4bk81aVxN+qTH+37YgdHVu9r/7sqh4sQ76YKTPxaStR1HBQWPXNx0vilBKvBBhYZM
+ fIA/pAunbqJUy455lMjAaa8WsOIstw3CCsIB7AjoKLvusHrmEffG118T0pFHX/fR4X8N
+ gos0XZMQ9Zdz3lrjSFZ8AW14bwp4MAdGffxXZyG5k1k1I8BrM/B99wWW7Ofq/xpGd7o4
+ yyqw==
+X-Gm-Message-State: AOAM533/pFHR4TKyKJveAbVJcwACLO5gQ3p8AnklmBYppYSdaHL6GKIZ
+ knSyf7xCulXVv8qQHgEzcYrTow==
+X-Google-Smtp-Source: ABdhPJxAQtBo2TSdHR+fT0w7/0htT0QtA5fzTe1SM6jwEhKaOPo5O9yBfsIkTg+03WPVG4N2vX7YIA==
+X-Received: by 2002:a05:6a00:2347:b0:505:b8ba:d89e with SMTP id
+ j7-20020a056a00234700b00505b8bad89emr1670383pfj.5.1650075990023; 
+ Fri, 15 Apr 2022 19:26:30 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- z7-20020a056a00240700b004e1cde37bc1sm4093610pfh.84.2022.04.15.18.04.17
+ 3-20020a17090a034300b001c779e82af6sm5758617pjf.48.2022.04.15.19.26.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Apr 2022 18:04:18 -0700 (PDT)
-Message-ID: <3409287c-ac98-2087-3d00-1bd23c1a00da@linaro.org>
-Date: Fri, 15 Apr 2022 18:04:16 -0700
+ Fri, 15 Apr 2022 19:26:29 -0700 (PDT)
+Message-ID: <7878fbf7-6352-fe32-1daa-272490fe8061@linaro.org>
+Date: Fri, 15 Apr 2022 19:26:27 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v1 25/43] target/loongarch: Add LoongArch CSR instruction
+Subject: Re: [PATCH v1 26/43] target/loongarch: Add LoongArch IOCSR instruction
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
- <20220415094058.3584233-26-yangxiaojuan@loongson.cn>
+ <20220415094058.3584233-27-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220415094058.3584233-26-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220415094058.3584233-27-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,178 +94,76 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/15/22 02:40, Xiaojuan Yang wrote:
-> +int cpu_csr_offset(unsigned csr_num);
-...
-> +static const uint64_t csr_offsets[] = {
+> +static bool trans_iocsrrd_b(DisasContext *ctx, arg_iocsrrd_b *a)
+> +static bool trans_iocsrrd_h(DisasContext *ctx, arg_iocsrrd_h *a)
+> +static bool trans_iocsrrd_w(DisasContext *ctx, arg_iocsrrd_w *a)
+> +static bool trans_iocsrrd_d(DisasContext *ctx, arg_iocsrrd_d *a)
 
-There's no reason for this array to be uint64_t.
-It really should match the function.
+You have all of these split apart, then pass an integer to a common routine...
 
-> +target_ulong helper_csrwr_estat(CPULoongArchState *env, target_ulong val)
+> +uint64_t helper_iocsr_read(CPULoongArchState *env, target_ulong r_addr,
+> +                           uint32_t size)
 > +{
-> +    int64_t old_v = env->CSR_ESTAT;
+> +    int cpuid = env_cpu(env)->cpu_index;
+> +    CPUState  *cs = qemu_get_cpu(cpuid);
+> +    env = cs->env_ptr;
+> +    uint64_t ret = 0;
 > +
-> +    /* Only IS[1:0] can be written */
-> +    env->CSR_ESTAT = FIELD_DP64(env->CSR_ESTAT, CSR_ESTAT, IS, val & 0x3);
-> +
-> +    return old_v;
-> +}
-
-This is incorrect.  You're writing to all 13 bits of ESTAT.IS with the low 2 bits of val 
--- i.e. clearing bits [12:2].
-
-You want to use: env->CSR_ESTAT = deposit64(env->CSR_ESTAT, 0, 2, val);
-
-> +target_ulong helper_csrwr_asid(CPULoongArchState *env, target_ulong val)
-> +{
-> +    int64_t old_v = env->CSR_ASID;
-> +
-> +    /* Only ASID filed of CSR_ASID can be written */
-> +    env->CSR_ASID = FIELD_DP64(env->CSR_ASID, CSR_ASID, ASID,
-> +                               val & R_CSR_ASID_ASID_MASK);
-
-You do not need to mask the 4th argument of FIELD_DP64 -- that happens as part of the 
-deposit operation.
-
-> +    if (old_v != val) {
-> +        tlb_flush(env_cpu(env));
-> +    }
-
-You shouldn't be comparing val to old_v, but old_v to the updated CSR_ASID.
-
-> +void  helper_csr_update(CPULoongArchState *env, target_ulong new_val,
-> +                        target_ulong csr_offset)
-> +{
-> +    uint64_t *csr = (void *)env + csr_offset;
-> +
-> +    *csr = new_val;
-> +}
-
-This function should not exist.
-
-
-> +static void output_r_csr(DisasContext *ctx, arg_r_csr *a,
-> +                         const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, %d", a->rd, a->csr);
-> +}
-> +
-> +static void output_rr_csr(DisasContext *ctx, arg_rr_csr *a,
-> +                          const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, r%d, %d", a->rd, a->rj, a->csr);
-> +}
-
-While this is fine, it would be nicer to print the name of CSR, when valid.
-
-> +static void gen_disas_exit(DisasContext *ctx)
-> +{
-> +    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
-> +    ctx->base.is_jmp = DISAS_EXIT;
-> +}
-
-Why this function, and not simply place the movi in loongarch_tr_tb_stop too?
-Or even just put the tcg_gen_exit_tb() here, and set DISAS_NORETURN.
-I would say: one way or the other but not this mix...
-
-> +static bool trans_csrrd(DisasContext *ctx, arg_csrrd *a)
-> +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-> +
-> +    if (check_plv(ctx)) {
-> +        return false;
+> +    /*
+> +     * Adjust the per core address such as 0x10xx(IPI)/0x18xx(EXTIOI)
+> +     */
+> +    if (((r_addr & 0xff00) == 0x1000) || ((r_addr & 0xff00) == 0x1800)) {
+> +        r_addr = r_addr + ((target_ulong)(cpuid & 0x3) << 8);
 > +    }
 > +
-> +    unsigned csr_offset = cpu_csr_offset(a->csr);
-
-This is incorrect -- csr_offset must be signed, 'int', to match cpu_csr_offset and the 
-single negative value that exists within (CPUID).
-
-> +static bool trans_csrwr(DisasContext *ctx, arg_csrwr *a)
-> +{
-> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-> +    TCGv src1 = gpr_src(ctx, a->rd, EXT_NONE);
-> +
-> +    if (check_plv(ctx) || ro_csr(a->csr)) {
-> +        return false;
-> +    }
-> +
-> +    unsigned csr_offset = cpu_csr_offset(a->csr);
-
-Again, 'int'.
-
-> +    if (csr_offset == 0) {
-> +        /* CSR is undefined: write ignored. */
-> +        return true;
-> +    }
-> +
-> +    switch (a->csr) {
-> +    case LOONGARCH_CSR_ESTAT:
-> +        gen_helper_csrwr_estat(dest, cpu_env, src1);
+> +    switch (size) {
+> +    case 1:
+> +        ret = address_space_ldub(&env->address_space_iocsr, r_addr,
+> +                                 MEMTXATTRS_UNSPECIFIED, NULL);
 > +        break;
-> +    case LOONGARCH_CSR_ASID:
-> +        gen_helper_csrwr_asid(dest, cpu_env, src1);
-> +        gen_disas_exit(ctx);
+> +    case 2:
+> +        ret = address_space_lduw(&env->address_space_iocsr, r_addr,
+> +                                 MEMTXATTRS_UNSPECIFIED, NULL);
 > +        break;
-> +    case LOONGARCH_CSR_TCFG:
-> +        gen_helper_csrwr_tcfg(dest, cpu_env, src1);
+> +    case 4:
+> +        ret = address_space_ldl(&env->address_space_iocsr, r_addr,
+> +                                MEMTXATTRS_UNSPECIFIED, NULL);
 > +        break;
-> +    case LOONGARCH_CSR_TICLR:
-> +        gen_helper_csrwr_ticlr(dest, cpu_env, src1);
+> +    case 8:
+> +        ret = address_space_ldq(&env->address_space_iocsr, r_addr,
+> +                                MEMTXATTRS_UNSPECIFIED, NULL);
 > +        break;
 > +    default:
-> +        {
-> +            TCGv temp = tcg_temp_new();
-> +            tcg_gen_ld_tl(temp, cpu_env, csr_offset);
-> +            tcg_gen_st_tl(src1, cpu_env, csr_offset);
-> +            tcg_gen_mov_tl(dest, temp);
-> +            tcg_temp_free(temp);
-> +
-> +            /* Cpu state may be changed, need exit */
-> +            if ((a->csr == LOONGARCH_CSR_CRMD) ||
-> +                (a->csr == LOONGARCH_CSR_EUEN)) {
-> +                gen_disas_exit(ctx);
-> +            }
-> +        }
+> +        g_assert_not_reached();
 > +    }
 
-I said before that you needed to split out the body of this function for re-use by csrxchg.
+... then have to split them apart again.  It would be cleaner to have 4 helpers, one for 
+each size.
 
-> +    tcg_gen_not_tl(t1, mask);
-> +    tcg_gen_and_tl(t1, old_val, t1);
+I'm concerned about the address adjustment.  My thinking is that this should be handled by 
+the address space (via a MemoryRegionOps entry).  I say this because there is nothing 
+about this adjustment in "LoongArch Reference Manual", but rather in the "LoongArch 3A5000 
+Registers Technical Reference Manual".  Which means that baking this cpu specific 
+behaviour into the generic architecture is incorrect.
 
-This is tcg_gen_andc_t1 (t1, old_val, mask).
 
-> +    switch (a->csr) {
-> +    case LOONGARCH_CSR_ESTAT:
-> +        gen_helper_csrwr_estat(dest, cpu_env, new_val);
-> +        break;
-> +    case LOONGARCH_CSR_ASID:
-> +        gen_helper_csrwr_asid(dest, cpu_env, new_val);
-> +        break;
-> +    case LOONGARCH_CSR_TCFG:
-> +        gen_helper_csrwr_tcfg(dest, cpu_env, new_val);
-> +        break;
-> +    case LOONGARCH_CSR_TICLR:
-> +        gen_helper_csrwr_ticlr(dest, cpu_env, new_val);
-> +        break;
-> +    default:
-> +        tcg_gen_mov_tl(dest, old_val);
-> +    }
+> +void helper_iocsr_write(CPULoongArchState *env, target_ulong w_addr,
+> +                        target_ulong val, uint32_t size)
+> +{
+> +    int cpuid = env_cpu(env)->cpu_index;
+> +    CPUState *cs = qemu_get_cpu(cpuid);
+> +    int mask, i;
+> +    env = cs->env_ptr;
 > +
-> +    gen_helper_csr_update(cpu_env, new_val, tcg_constant_tl(csr_offset));
+> +    /*
+> +     * For IPI send, Mailbox send and ANY send, adjust the addr and
+> +     * val accordingly. The IOCSR writes are turned to different
+> +     * MMIO writes respectively
+> +     */
+> +    switch (w_addr) {
+> +    case 0x1040: /* IPI send */
 
-Note that helper_csr_update is nothing more than the store to csr_offset.
-
-> +
-> +    if ((a->csr == LOONGARCH_CSR_ASID) || (a->csr == LOONGARCH_CSR_CRMD) ||
-> +        (a->csr == LOONGARCH_CSR_EUEN)) {
-> +        gen_disas_exit(ctx);
-> +    }
-
-Note that this list does not match the list in trans_csrwr.  This is *exactly* why I said 
-that you should split out a function for use between csrwr and csrxchg.
-
+Likewise.
 
 
 r~
