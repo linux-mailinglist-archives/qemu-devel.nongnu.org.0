@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9BC5036D0
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 15:42:11 +0200 (CEST)
-Received: from localhost ([::1]:60144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CDB503690
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 14:21:01 +0200 (CEST)
+Received: from localhost ([::1]:40494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfigk-000065-Sa
-	for lists+qemu-devel@lfdr.de; Sat, 16 Apr 2022 09:42:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
+	id 1nfhQC-0004lU-FL
+	for lists+qemu-devel@lfdr.de; Sat, 16 Apr 2022 08:21:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <btv1==1052f9740c3==rick.wertenbroek@heig-vd.ch>)
- id 1nfeXo-00044P-UB
- for qemu-devel@nongnu.org; Sat, 16 Apr 2022 05:16:41 -0400
-Received: from gwsmtp1.avdtec.ch ([145.232.233.54]:45982
- helo=mail02.heig-vd.ch)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nfhNu-0003bp-Tt
+ for qemu-devel@nongnu.org; Sat, 16 Apr 2022 08:18:39 -0400
+Received: from smtp17.mail.ru ([94.100.176.154]:52238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <btv1==1052f9740c3==rick.wertenbroek@heig-vd.ch>)
- id 1nfeXm-0004ED-9I
- for qemu-devel@nongnu.org; Sat, 16 Apr 2022 05:16:40 -0400
-X-ASG-Debug-ID: 1650100591-111d9863d113110f0001-jgbH7p
-Received: from EIMAIL03.einet.ad.eivd.ch ([193.134.222.4]) by
- mail02.heig-vd.ch with ESMTP id W9MTrznUsTC4LZsZ (version=TLSv1.2
- cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Sat, 16 Apr 2022 11:16:31 +0200 (CEST)
-X-Barracuda-Envelope-From: rick.wertenbroek@heig-vd.ch
-X-Barracuda-Effective-Source-IP: UNKNOWN[193.134.222.4]
-X-Barracuda-Apparent-Source-IP: 193.134.222.4
-Received: from EIMAIL03.einet.ad.eivd.ch (10.192.41.73) by
- EIMAIL03.einet.ad.eivd.ch (10.192.41.73) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 16 Apr 2022 11:16:31 +0200
-Received: from EIMAIL03.einet.ad.eivd.ch ([fe80::a187:168b:1702:872e]) by
- EIMAIL03.einet.ad.eivd.ch ([fe80::a187:168b:1702:872e%4]) with mapi id
- 15.01.2375.024; Sat, 16 Apr 2022 11:16:31 +0200
-From: Wertenbroek Rick <rick.wertenbroek@heig-vd.ch>
-To: "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Subject: [PATCH] hw/nvme: allow to pass a memory backend object for the CMB
-Thread-Topic: [PATCH] hw/nvme: allow to pass a memory backend object for the
- CMB
-X-ASG-Orig-Subj: [PATCH] hw/nvme: allow to pass a memory backend object for
- the CMB
-Thread-Index: AQHYUXKppwALV4kwNUeFSxNC4+9xiw==
-Date: Sat, 16 Apr 2022 09:16:31 +0000
-Message-ID: <46152B95-24DC-426B-A752-3E1F51871CE1@heig-vd.ch>
-Accept-Language: fr-CH, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3608.120.23.2.7)
-x-originating-ip: [10.192.204.11]
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <01B0723BB17F104B8F9EDB7D2F62FB68@heig-vd.ch>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@mail.ru>)
+ id 1nfhNs-0007fe-Ds
+ for qemu-devel@nongnu.org; Sat, 16 Apr 2022 08:18:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
+ s=mail4; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=JmEuTHDddtfr0G8M8xUA9QJqy/wZaojfCIPEohFQKQk=; 
+ t=1650111516;x=1650716916; 
+ b=LUDtxsCzikeDJ1neKy/YVHV24XkH/RwbD84vDf1X6HBQ+9/a1JmQrEb2lJkE+gp4BInHZTEcv21y00VsMsC7bqlLAM3I+/5VQIJIZHWmzPWe8w8YNSE6G1/YIf86uxPHIbq+PP/zaLTeRRfJlrSia4BcMEPH50suwsdhL6Ca8V3D58JT43FMrfGGrGvMb1pOeKrk09D8ZqRcrNlcNTuJ9IsFYSPpNDLxLDbhn/lScDN5NhTYmqbZZTLfpB4vbZi7Z1mVRGWSCI/a6wo2c1pCv5WwIPoQPcnOlWd/IQLspMmZP3p+bfdTo069dOESBcCdlzQjpuBUfkWTehlE6Ezcyg==;
+Received: by smtp17.mail.ru with esmtpa (envelope-from
+ <v.sementsov-og@mail.ru>)
+ id 1nfhNn-0007WB-VN; Sat, 16 Apr 2022 15:18:32 +0300
+Message-ID: <995e87bd-f0f9-3ff9-32b0-19c02c29cf89@mail.ru>
+Date: Sat, 16 Apr 2022 15:18:31 +0300
 MIME-Version: 1.0
-X-Barracuda-Connect: UNKNOWN[193.134.222.4]
-X-Barracuda-Start-Time: 1650100591
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://quarantine.heig-vd.ch:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at heig-vd.ch
-X-Barracuda-Scan-Msg-Size: 6622
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Spam-Score: 0.00
-X-Barracuda-Spam-Status: No, SCORE=0.00 using global scores of TAG_LEVEL=1000.0
- QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.97389
- Rule breakdown below
- pts rule name              description
- ---- ---------------------- --------------------------------------------------
-Received-SPF: pass client-ip=145.232.233.54;
- envelope-from=btv1==1052f9740c3==rick.wertenbroek@heig-vd.ch;
- helo=mail02.heig-vd.ch
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 for-7.1 5/9] nbd: use a QemuMutex to synchronize
+ yanking, reconnection and coroutines
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: eblake@redhat.com
+References: <20220414175756.671165-1-pbonzini@redhat.com>
+ <20220414175756.671165-6-pbonzini@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+In-Reply-To: <20220414175756.671165-6-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp17.mail.ru;
+ auth=pass smtp.auth=v.sementsov-og@mail.ru
+ smtp.mailfrom=v.sementsov-og@mail.ru
+X-4EC0790: 10
+X-7564579A: 646B95376F6C166E
+X-77F55803: 4F1203BC0FB41BD916C41472748AFA044802A7C8EAC3687C03551E4DDAECA58400894C459B0CD1B983083A3B8A790FFA1F86922D173DF8856EFFD99B36EB5CC262FD7B6C194EAF12
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE72E2D36A15E1833D8EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063795AFAF91F541EBCE8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D898D85CD0565ED8039356847F683CDEB66F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE729FBA39629FC1B7C9FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD18618001F51B5FD3F9D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8BF80095D1E57F4578A471835C12D1D977C4224003CC836476EB9C4185024447017B076A6E789B0E975F5C1EE8F4F765FCE6A2F950A10922ED3AA81AA40904B5D9CF19DD082D7633A078D18283394535A93AA81AA40904B5D98AA50765F7900637FB8025AFA01CA121D81D268191BDAD3D698AB9A7B718F8C4D1B931868CE1C5781A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89FDD9D78FC3670308535872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-8FC586DF: 6EFBBC1D9D64D975
+X-C1DE0DAB: 0D63561A33F958A5E543D03E8EE568096FF1E03AEF4D0582AA5E6C8F4EBE98CBD59269BC5F550898D99A6476B3ADF6B4886A5961035A09600383DAD389E261318FB05168BE4CE3AF
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34D4E96E2A5B1100E033965A1BB445D6EDD4DDB34EC4B614FFB6D663D13D041992877377F66D5B3EFA1D7E09C32AA3244CB93937217A846B69CBCD1A4FC13DDD5469B6CAE0477E908DFACE5A9C96DEB163
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojOmri57mKkPCBPPLdF9w0Ww==
+X-Mailru-Sender: 6C3E74F07C41AE946BC06F16BD5C3913B356E969FF6A906A0F4C1DE072915D03ED0389503CE99B38E6462B2528CDCABCE234FDC7CE4030BEBA6D275AA6409EB3BDC3C9FB484E02823A35ECB215E68A28E3F6503ABEB32C155FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+Received-SPF: pass client-ip=94.100.176.154;
+ envelope-from=v.sementsov-og@mail.ru; helo=smtp17.mail.ru
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 16 Apr 2022 09:40:44 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,188 +79,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds the optional -cmbdev=3D option that takes a QEMU memory backend
--object to be used to for the CMB (Controller Memory Buffer).
-This option takes precedence over cmb_size_mb=3D if both used.
-(The size will be deduced from the memory backend option).
+14.04.2022 20:57, Paolo Bonzini wrote:
+> The condition for waiting on the s->free_sema queue depends on
+> both s->in_flight and s->state.  The latter is currently using
+> atomics, but this is quite dubious and probably wrong.
+> 
+> Because s->state is written in the main thread too, for example by
+> the yank callback, it cannot be protected by a CoMutex.  Introduce a
+> separate lock that can be used by nbd_co_send_request(); later on this
+> lock will also be used for s->state.  There will not be any contention
+> on the lock unless there is a yank or reconnect, so this is not
+> performance sensitive.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   block/nbd.c | 46 +++++++++++++++++++++++++++-------------------
+>   1 file changed, 27 insertions(+), 19 deletions(-)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 62dd338ef3..a2414566d1 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -71,17 +71,22 @@ typedef struct BDRVNBDState {
+>       QIOChannel *ioc; /* The current I/O channel */
+>       NBDExportInfo info;
+>   
+> -    CoMutex send_mutex;
+> +    /*
+> +     * Protects free_sema, in_flight, requests[].coroutine,
+> +     * reconnect_delay_timer.
+> +     */
 
-Signed-off-by: Rick Wertenbroek <rick.wertenbroek@heig-vd.ch>
----
-hw/nvme/ctrl.c | 65 ++++++++++++++++++++++++++++++++++++++------------
-hw/nvme/nvme.h |  9 +++----
-2 files changed, 55 insertions(+), 19 deletions(-)
+requests[].coroutine is read without mutex in nbd_receive_replies
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 03760ddeae..9bcc7d6db0 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -29,6 +29,7 @@
- *      -device nvme-subsys,id=3D<subsys_id>,nqn=3D<nqn_id>
- *      -device nvme,serial=3D<serial>,id=3D<bus_name>, \
- *              cmb_size_mb=3D<cmb_size_mb[optional]>, \
-+ *              [cmbdev=3D<mem_backend_id>,] \
- *              [pmrdev=3D<mem_backend_file_id>,] \
- *              max_ioqpairs=3D<N[optional]>, \
- *              aerl=3D<N[optional]>,aer_max_queued=3D<N[optional]>, \
-@@ -44,6 +45,11 @@
- * offset 0 in BAR2 and supports only WDS, RDS and SQS for now. By default,=
- the
- * device will use the "v1.4 CMB scheme" - use the `legacy-cmb` parameter t=
-o
- * always enable the CMBLOC and CMBSZ registers (v1.3 behavior).
-+ * Enabling cmb emulation can also be achieved by pointing to a memory-bac=
-kend
-+ * For example:
-+ * -object memory-backend-ram,id=3D<mem_id>,size=3D<size> \
-+ * -device nvme,...,cmbdev=3D<mem_id>
-+ * cmbdev=3D will take precedence over cmb_size_mb=3D when both provided.
- *
- * Enabling pmr emulation can be achieved by pointing to memory-backend-fil=
-e.
- * For example:
-@@ -341,16 +347,26 @@ static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr=
-)
-        return false;
-    }
+reconnect_delay_timer_del() is called without mutex in nbd_cancel_in_flight() and in reconnect_delay_timer_cb()..
 
--    lo =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cba;
--    hi =3D lo + int128_get64(n->cmb.mem.size);
-+    if (n->cmb.dev) {
-+        lo =3D n->params.legacy_cmb ? host_memory_backend_get_memory(n->cm=
-b.dev)->addr : n->cmb.cba;
-+        hi =3D lo + int128_get64(host_memory_backend_get_memory(n->cmb.dev=
-)->size);
-+    } else {
-+        lo =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cba;
-+        hi =3D lo + int128_get64(n->cmb.mem.size);
-+    }
+Is it OK? Worth improving the comment?
 
-    return addr >=3D lo && addr < hi;
-}
+> +    QemuMutex requests_lock;
+>       CoQueue free_sema;
+> -
+> -    CoMutex receive_mutex;
+>       int in_flight;
+> +    NBDClientRequest requests[MAX_NBD_REQUESTS];
+> +    QEMUTimer *reconnect_delay_timer;
+> +
+> +    CoMutex send_mutex;
+> +    CoMutex receive_mutex;
+>       NBDClientState state;
+>   
+> -    QEMUTimer *reconnect_delay_timer;
+>       QEMUTimer *open_timer;
+>   
+> -    NBDClientRequest requests[MAX_NBD_REQUESTS];
+>       NBDReply reply;
+>       BlockDriverState *bs;
+>   
+> @@ -350,7 +355,7 @@ int coroutine_fn nbd_co_do_establish_connection(BlockDriverState *bs,
+>       return 0;
+>   }
+>   
+> -/* called under s->send_mutex */
+> +/* Called with s->requests_lock taken.  */
+>   static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+>   {
+>       bool blocking = nbd_client_connecting_wait(s);
+> @@ -382,9 +387,9 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+>           s->ioc = NULL;
+>       }
+>   
+> -    qemu_co_mutex_unlock(&s->send_mutex);
+> +    qemu_mutex_unlock(&s->requests_lock);
+>       nbd_co_do_establish_connection(s->bs, blocking, NULL);
+> -    qemu_co_mutex_lock(&s->send_mutex);
+> +    qemu_mutex_lock(&s->requests_lock);
+>   
+>       /*
+>        * The reconnect attempt is done (maybe successfully, maybe not), so
+> @@ -466,11 +471,10 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
+>       BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+>       int rc, i = -1;
+>   
+> -    qemu_co_mutex_lock(&s->send_mutex);
+> -
+> +    qemu_mutex_lock(&s->requests_lock);
+>       while (s->in_flight == MAX_NBD_REQUESTS ||
+>              (!nbd_client_connected(s) && s->in_flight > 0)) {
+> -        qemu_co_queue_wait(&s->free_sema, &s->send_mutex);
+> +        qemu_co_queue_wait(&s->free_sema, &s->requests_lock);
+>       }
+>   
+>       s->in_flight++;
+> @@ -491,13 +495,13 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
 
-static inline void *nvme_addr_to_cmb(NvmeCtrl *n, hwaddr addr)
-{
--    hwaddr base =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cba;
--    return &n->cmb.buf[addr - base];
-+    if (n->cmb.dev) {
-+        hwaddr base =3D n->params.legacy_cmb ? host_memory_backend_get_mem=
-ory(n->cmb.dev)->addr : n->cmb.cba;
-+        return memory_region_get_ram_ptr(&n->cmb.dev->mr) + (addr - base);
-+    } else {
-+        hwaddr base =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cb=
-a;
-+        return &n->cmb.buf[addr - base];
-+    }
-}
+Prior to this patch, if request sending fails, we'll not send further requests. After the patch, we can send more requests after failure on unlocking send_mutex.
 
-static bool nvme_addr_is_pmr(NvmeCtrl *n, hwaddr addr)
-@@ -6584,16 +6600,33 @@ static void nvme_init_state(NvmeCtrl *n)
+May be that's not bad..
 
-static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
-{
--    uint64_t cmb_size =3D n->params.cmb_size_mb * MiB;
-+    uint64_t cmb_size;
-    uint64_t cap =3D ldq_le_p(&n->bar.cap);
+What's wrong if we keep send_mutex critical section as is and just lock requests_lock additionally inside send_mutex-critical-section?
 
--    n->cmb.buf =3D g_malloc0(cmb_size);
--    memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
--                          "nvme-cmb", cmb_size);
--    pci_register_bar(pci_dev, NVME_CMB_BIR,
--                     PCI_BASE_ADDRESS_SPACE_MEMORY |
--                     PCI_BASE_ADDRESS_MEM_TYPE_64 |
--                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
-+    if (n->cmb.dev) {
-+        if (n->params.cmb_size_mb) {
-+            warn_report("Option cmb_size_mb is ignored when a cmbdev is pr=
-ovided");
-+        }
-+        n->params.cmb_size_mb =3D n->cmb.dev->size / MiB;
-+        cmb_size =3D n->cmb.dev->size;
-+
-+        MemoryRegion *mr =3D host_memory_backend_get_memory(n->cmb.dev);
-+        assert(mr);
-+
-+        pci_register_bar(pci_dev, NVME_CMB_BIR,
-+                         PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                         PCI_BASE_ADDRESS_MEM_TYPE_64 |
-+                         PCI_BASE_ADDRESS_MEM_PREFETCH, mr);
-+    } else {
-+        cmb_size =3D n->params.cmb_size_mb * MiB;
-+        n->cmb.buf =3D g_malloc0(cmb_size);
-+        memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
-+                              "nvme-cmb", cmb_size);
-+        pci_register_bar(pci_dev, NVME_CMB_BIR,
-+                         PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                         PCI_BASE_ADDRESS_MEM_TYPE_64 |
-+                         PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
-+    }
 
-    NVME_CAP_SET_CMBS(cap, 1);
-    stq_le_p(&n->bar.cap, cap);
-@@ -6678,7 +6711,7 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_=
-dev, Error **errp)
-        }
-    }
+>           }
+>       }
+>   
+> -    g_assert(qemu_in_coroutine());
+>       assert(i < MAX_NBD_REQUESTS);
+> -
+>       s->requests[i].coroutine = qemu_coroutine_self();
+>       s->requests[i].offset = request->from;
+>       s->requests[i].receiving = false;
+> +    qemu_mutex_unlock(&s->requests_lock);
+>   
+> +    qemu_co_mutex_lock(&s->send_mutex);
+>       request->handle = INDEX_TO_HANDLE(s, i);
+>   
+>       assert(s->ioc);
+> @@ -517,17 +521,19 @@ static int coroutine_fn nbd_co_send_request(BlockDriverState *bs,
+>       } else {
+>           rc = nbd_send_request(s->ioc, request);
+>       }
+> +    qemu_co_mutex_unlock(&s->send_mutex);
+>   
+> -err:
+>       if (rc < 0) {
+> +        qemu_mutex_lock(&s->requests_lock);
+> +err:
+>           nbd_channel_error(s, rc);
+>           if (i != -1) {
+>               s->requests[i].coroutine = NULL;
+>           }
+>           s->in_flight--;
+>           qemu_co_queue_next(&s->free_sema);
+> +        qemu_mutex_unlock(&s->requests_lock);
+>       }
+> -    qemu_co_mutex_unlock(&s->send_mutex);
+>       return rc;
+>   }
+>   
+> @@ -1017,12 +1023,11 @@ static bool nbd_reply_chunk_iter_receive(BDRVNBDState *s,
+>       return true;
+>   
+>   break_loop:
+> +    qemu_mutex_lock(&s->requests_lock);
+>       s->requests[HANDLE_TO_INDEX(s, handle)].coroutine = NULL;
+> -
+> -    qemu_co_mutex_lock(&s->send_mutex);
+>       s->in_flight--;
+>       qemu_co_queue_next(&s->free_sema);
+> -    qemu_co_mutex_unlock(&s->send_mutex);
+> +    qemu_mutex_unlock(&s->requests_lock);
+>   
+>       return false;
+>   }
+> @@ -1855,8 +1860,9 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+>       BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+>   
+>       s->bs = bs;
+> -    qemu_co_mutex_init(&s->send_mutex);
+> +    qemu_mutex_init(&s->requests_lock);
+>       qemu_co_queue_init(&s->free_sema);
+> +    qemu_co_mutex_init(&s->send_mutex);
+>       qemu_co_mutex_init(&s->receive_mutex);
+>   
+>       if (!yank_register_instance(BLOCKDEV_YANK_INSTANCE(bs->node_name), errp)) {
+> @@ -2044,9 +2050,11 @@ static void nbd_cancel_in_flight(BlockDriverState *bs)
+>   
+>       reconnect_delay_timer_del(s);
+>   
+> +    qemu_mutex_lock(&s->requests_lock);
+>       if (s->state == NBD_CLIENT_CONNECTING_WAIT) {
+>           s->state = NBD_CLIENT_CONNECTING_NOWAIT;
+>       }
+> +    qemu_mutex_unlock(&s->requests_lock);
+>   
+>       nbd_co_establish_connection_cancel(s->conn);
+>   }
 
--    if (n->params.cmb_size_mb) {
-+    if (n->params.cmb_size_mb || n->cmb.dev) {
-        nvme_init_cmb(n, pci_dev);
-    }
 
-@@ -6793,7 +6826,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pc=
-i_dev)
-    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_CSI_SUPP);
-    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_ADMIN_ONLY);
-    NVME_CAP_SET_MPSMAX(cap, 4);
--    NVME_CAP_SET_CMBS(cap, n->params.cmb_size_mb ? 1 : 0);
-+    NVME_CAP_SET_CMBS(cap, (n->params.cmb_size_mb || n->cmb.dev) ? 1 : 0);
-    NVME_CAP_SET_PMRS(cap, n->pmr.dev ? 1 : 0);
-    stq_le_p(&n->bar.cap, cap);
-
-@@ -6893,7 +6926,7 @@ static void nvme_exit(PCIDevice *pci_dev)
-    g_free(n->sq);
-    g_free(n->aer_reqs);
-
--    if (n->params.cmb_size_mb) {
-+    if (!n->cmb.dev && n->params.cmb_size_mb) {
-        g_free(n->cmb.buf);
-    }
-
-@@ -6908,6 +6941,8 @@ static Property nvme_props[] =3D {
-    DEFINE_BLOCK_PROPERTIES(NvmeCtrl, namespace.blkconf),
-    DEFINE_PROP_LINK("pmrdev", NvmeCtrl, pmr.dev, TYPE_MEMORY_BACKEND,
-                     HostMemoryBackend *),
-+    DEFINE_PROP_LINK("cmbdev", NvmeCtrl, cmb.dev, TYPE_MEMORY_BACKEND,
-+                     HostMemoryBackend *),
-    DEFINE_PROP_LINK("subsys", NvmeCtrl, subsys, TYPE_NVME_SUBSYS,
-                     NvmeSubsystem *),
-    DEFINE_PROP_STRING("serial", NvmeCtrl, params.serial),
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 739c8b8f79..63747cf967 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -434,10 +434,11 @@ typedef struct NvmeCtrl {
-    uint8_t     smart_critical_warning;
-
-    struct {
--        MemoryRegion mem;
--        uint8_t      *buf;
--        bool         cmse;
--        hwaddr       cba;
-+        MemoryRegion      mem;
-+        HostMemoryBackend *dev;
-+        uint8_t           *buf;
-+        bool              cmse;
-+        hwaddr            cba;
-    } cmb;
-
-    struct {
---=20
-2.24.3 (Apple Git-128)
-
+-- 
+Best regards,
+Vladimir
 
