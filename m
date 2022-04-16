@@ -2,84 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B8550327C
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 04:53:41 +0200 (CEST)
-Received: from localhost ([::1]:54140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DB650328F
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 05:38:00 +0200 (CEST)
+Received: from localhost ([::1]:59986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfYZA-0006ww-Uy
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 22:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
+	id 1nfZG2-0004zK-Ry
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 23:37:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nfYWk-0004NH-1Z
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 22:51:10 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:40610)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nfYWi-0003V7-Bd
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 22:51:09 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id t12so8365592pll.7
- for <qemu-devel@nongnu.org>; Fri, 15 Apr 2022 19:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OcSW40ivplWynaPtysiaX5v+rRRaY+4JHspclU179IQ=;
- b=cCiEbW+JTk1XC3JypG/Y7YCa7QAJYkqlwfJZsdtRywdC2lZh39rBu0zD43yJSPgZwn
- PIgw+C0ZACYJ1GVRGr9R261D63dsDm3+fTU8LMb7aoxnxYtnrD9oEKNicMG27snPu+5t
- mNEzzR8c7CYDjkG4SmUSZq9sJdkKSvXuwl5t8KqYaplA3bw09MTMVAlD1KLwMwLyo/jY
- giKHogS1t+lJJdhUyx3ezp7QsTgwyC/44qjsqyzCtzpOZD/dR7JKjzmAX27qirLkcuPx
- /NhVI/QKOgzqdJHIksGHJc4uTDP7PpTLQNZBtdmhnXMPQBItRfly9cB/vc4grk4gPAX6
- gvRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OcSW40ivplWynaPtysiaX5v+rRRaY+4JHspclU179IQ=;
- b=PaeIubDA5usVov7aUR/IlNPPmS3dlW/u9W5MJGhCZJPd+dbO0BpOCRcMLRwo9XVmab
- LvSTFLljwhrsmw8kvrhDxVwIHJfgbugAij/3VTrHSXzEhyh2jrO2RuGDE8IuzABjQPjZ
- iYXGoMuyHmGv+xVMBb3VfeCxIF9u7TRQcADBT/pQ0NT42ek3D7I7fJ1O36+NeLM6Kk8P
- N8c30wsiPiCL8cwLvgnVgaqGQXz7KtTNo4juGpv5VI6+qyz+iHEyHTo+STBWbJ/mTd/K
- xHUYHagYmHF/OCgVjFNpcbDhQFuKzkgcZxmGy2R7vrf9NQXW+igi54lPJy/4q7+v7HcH
- KaGQ==
-X-Gm-Message-State: AOAM532S4Qsotl46zBSwwGISAVGhQxhEk/oeDxXuk1JgTPK4GYkRJ/QU
- KNJMZ99Vy733KcCyUMpva1ieNA==
-X-Google-Smtp-Source: ABdhPJxiUZzRBHLi8iruQNkyFJgnV8lRTCM0IcGnrr/B+nEfrjeHtsNjuQWDO4DRGpfVs+okeIJyaQ==
-X-Received: by 2002:a17:902:edd1:b0:158:8318:b51e with SMTP id
- q17-20020a170902edd100b001588318b51emr1852573plk.89.1650077467019; 
- Fri, 15 Apr 2022 19:51:07 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- c25-20020a62e819000000b0050a442a510bsm2928546pfi.31.2022.04.15.19.51.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Apr 2022 19:51:06 -0700 (PDT)
-Message-ID: <ce7d328a-276e-9dac-9784-9142b760902d@linaro.org>
-Date: Fri, 15 Apr 2022 19:51:04 -0700
+ (Exim 4.90_1) (envelope-from <yvt@gabby.8vit.me>) id 1nfZFG-0004Jf-Qk
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 23:37:10 -0400
+Received: from applejack.8vit.me ([165.227.58.191]:44708)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yvt@gabby.8vit.me>) id 1nfZFF-0000od-BI
+ for qemu-devel@nongnu.org; Fri, 15 Apr 2022 23:37:10 -0400
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=192.168.28.2;
+ helo=gabby.8vit.me; envelope-from=yvt@gabby.8vit.me; receiver=<UNKNOWN> 
+Received: from gabby.8vit.me (unknown [192.168.28.2])
+ by applejack.8vit.me (Postfix) with ESMTPS id C236923F7F4;
+ Sat, 16 Apr 2022 12:28:03 +0900 (JST)
+Received: by gabby.8vit.me (Postfix, from userid 1000)
+ id 619531A610F; Sat, 16 Apr 2022 12:28:02 +0900 (JST)
+From: Tomoaki Kawada <i@yvt.jp>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/rx: swap stack pointers on clrpsw/setpsw instruction
+Date: Sat, 16 Apr 2022 12:20:09 +0900
+Message-Id: <20220416032009.1897719-1-i@yvt.jp>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v10 07/14] target/riscv: rvk: add support for zkne/zknd
- extension in RV64
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220416023549.28463-1-liweiwei@iscas.ac.cn>
- <20220416023549.28463-8-liweiwei@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220416023549.28463-8-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=165.227.58.191; envelope-from=yvt@gabby.8vit.me;
+ helo=applejack.8vit.me
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,34 +52,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
- lustrew@foxmail.com
+Cc: Tomoaki Kawada <i@yvt.jp>, Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/22 19:35, Weiwei Li wrote:
-> +target_ulong HELPER(aes64esm)(target_ulong rs1, target_ulong rs2)
-> +{
-> +    return aes64_operation(rs1, rs2, true, true);
-> +}
-> +
-> +target_ulong HELPER(aes64es)(target_ulong rs1, target_ulong rs2)
-> +{
-> +    return aes64_operation(rs1, rs2, true, false);
-> +}
-> +
-> +target_ulong HELPER(aes64ds)(target_ulong rs1, target_ulong rs2)
-> +{
-> +    return aes64_operation(rs1, rs2, false, false);
-> +}
-> +
-> +target_ulong HELPER(aes64dsm)(target_ulong rs1, target_ulong rs2)
-> +{
-> +    return aes64_operation(rs1, rs2, false, true);
-> +}
+The control register field PSW.U determines which stack pointer register
+(ISP or USP) is mapped as R0. In QEMU, this is implemented by having a
+value copied between ISP or USP and R0 whenever PSW.U is updated or
+access to ISP/USP is made by an mvtc/mvic instruction. However, this
+update process was incorrectly omitted in the clrpsw/setpsw (clear/set
+PSW) instructions, causing stack pointers to go out-of-sync.
 
-Missing REQUIRE_64BIT tests.
+This patch updates the clrpsw/setpsw translator to handle PSW.U updates
+correctly and fix this problem.
 
+Signed-off-by: Tomoaki Kawada <i@yvt.jp>
+---
+ target/rx/translate.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-r~
+diff --git a/target/rx/translate.c b/target/rx/translate.c
+index 5db8f79a82..c282433fb7 100644
+--- a/target/rx/translate.c
++++ b/target/rx/translate.c
+@@ -2135,6 +2135,7 @@ enum {
+ 
+ static inline void clrsetpsw(DisasContext *ctx, int cb, int val)
+ {
++    TCGv z;
+     if (cb < 8) {
+         switch (cb) {
+         case PSW_C:
+@@ -2160,7 +2161,22 @@ static inline void clrsetpsw(DisasContext *ctx, int cb, int val)
+             ctx->base.is_jmp = DISAS_UPDATE;
+             break;
+         case PSW_U:
++            z = tcg_const_i32(0);
++
++            /* (PSW.U ? USP : ISP) = R0 */
++            tcg_gen_movcond_i32(TCG_COND_NE, cpu_usp,
++                                cpu_psw_u, z, cpu_sp, cpu_usp);
++            tcg_gen_movcond_i32(TCG_COND_EQ, cpu_isp,
++                                cpu_psw_u, z, cpu_sp, cpu_isp);
++
++            /* Set PSW.U */
+             tcg_gen_movi_i32(cpu_psw_u, val);
++
++            /* R0 = (PSW.U ? USP : ISP) */
++            tcg_gen_movcond_i32(TCG_COND_NE, cpu_sp,
++                                cpu_psw_u, z, cpu_usp, cpu_isp);
++
++            tcg_temp_free(z);
+             break;
+         default:
+             qemu_log_mask(LOG_GUEST_ERROR, "Invalid distination %d", cb);
+-- 
+2.35.1
+
 
