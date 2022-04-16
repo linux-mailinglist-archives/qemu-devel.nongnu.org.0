@@ -2,38 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFFAE503548
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 10:41:41 +0200 (CEST)
-Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E96503595
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 11:18:41 +0200 (CEST)
+Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfdzw-0003zf-HY
-	for lists+qemu-devel@lfdr.de; Sat, 16 Apr 2022 04:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53478)
+	id 1nfeZj-0004Ze-M1
+	for lists+qemu-devel@lfdr.de; Sat, 16 Apr 2022 05:18:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
- id 1nfdyB-0003C7-HT
- for qemu-devel@nongnu.org; Sat, 16 Apr 2022 04:39:51 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3934)
+ id 1nfeVT-0002yO-92
+ for qemu-devel@nongnu.org; Sat, 16 Apr 2022 05:14:15 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:4507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
- id 1nfdy8-0007JO-VI
- for qemu-devel@nongnu.org; Sat, 16 Apr 2022 04:39:51 -0400
+ id 1nfeVQ-0003iy-0F
+ for qemu-devel@nongnu.org; Sat, 16 Apr 2022 05:14:15 -0400
 Received: from kwepemi500016.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KgRT80Kh4zgYsl;
- Sat, 16 Apr 2022 16:39:40 +0800 (CST)
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KgSD23b0xzfYrd;
+ Sat, 16 Apr 2022 17:13:22 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  kwepemi500016.china.huawei.com (7.221.188.220) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 16 Apr 2022 16:39:41 +0800
-To: <eric.auger@redhat.com>, <pbonzini@redhat.com>, <peterx@redhat.com>,
- <david@redhat.com>, <f4bug@amsat.org>
+ 15.1.2375.24; Sat, 16 Apr 2022 17:14:02 +0800
+To: <alex.williamson@redhat.com>, <damien.hedde@greensocs.com>
 CC: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, Xiang Chen
  <chenxiang66@hisilicon.com>
-Subject: [PATCH] softmmu/memory: Skip translation size instead of fixed
- granularity if translate() successfully
-Date: Sat, 16 Apr 2022 16:34:01 +0800
-Message-ID: <1650098041-127062-1-git-send-email-chenxiang66@hisilicon.com>
+Subject: [PATCH v2] hw/vfio/common: Fix a small boundary issue of a trace
+Date: Sat, 16 Apr 2022 17:08:24 +0800
+Message-ID: <1650100104-130737-1-git-send-email-chenxiang66@hisilicon.com>
 X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -68,46 +66,37 @@ From:  chenxiang via <qemu-devel@nongnu.org>
 
 From: Xiang Chen <chenxiang66@hisilicon.com>
 
-Currently memory_region_iommu_replay() does full page table walk with
-fixed granularity (page size) no matter translate() succeeds or not.
-Actually if translate() successfully, we can skip translation size
-(iotlb.addr_mask + 1) instead of fixed granularity.
+It uses [offset, offset + size - 1] to indicate that the length of range is
+size in most places in vfio trace code (such as
+trace_vfio_region_region_mmap()) execpt trace_vfio_region_sparse_mmap_entry().
+So change it for trace_vfio_region_sparse_mmap_entry(), but if size is zero,
+the trace will be weird with an underflow, so move the trace and trace it 
+only if size is not zero.
 
- Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
 ---
- softmmu/memory.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ hw/vfio/common.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index bfa5d5178c..ccfa19cf71 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1924,7 +1924,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
- {
-     MemoryRegion *mr = MEMORY_REGION(iommu_mr);
-     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
--    hwaddr addr, granularity;
-+    hwaddr addr, granularity, def_granu;
-     IOMMUTLBEntry iotlb;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 080046e3f5..345ea7bd8a 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1544,11 +1544,10 @@ static int vfio_setup_region_sparse_mmaps(VFIORegion *region,
+     region->mmaps = g_new0(VFIOMmap, sparse->nr_areas);
  
-     /* If the IOMMU has its own replay callback, override */
-@@ -1933,12 +1933,15 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
-         return;
-     }
- 
--    granularity = memory_region_iommu_get_min_page_size(iommu_mr);
-+    def_granu = memory_region_iommu_get_min_page_size(iommu_mr);
- 
-     for (addr = 0; addr < memory_region_size(mr); addr += granularity) {
-         iotlb = imrc->translate(iommu_mr, addr, IOMMU_NONE, n->iommu_idx);
-         if (iotlb.perm != IOMMU_NONE) {
-             n->notify(n, &iotlb);
-+            granularity = iotlb.addr_mask + 1;
-+        } else {
-+            granularity = def_granu;
-         }
- 
-         /* if (2^64 - MR size) < granularity, it's possible to get an
+     for (i = 0, j = 0; i < sparse->nr_areas; i++) {
+-        trace_vfio_region_sparse_mmap_entry(i, sparse->areas[i].offset,
+-                                            sparse->areas[i].offset +
+-                                            sparse->areas[i].size);
+-
+         if (sparse->areas[i].size) {
++            trace_vfio_region_sparse_mmap_entry(i, sparse->areas[i].offset,
++                                            sparse->areas[i].offset +
++                                            sparse->areas[i].size - 1);
+             region->mmaps[j].offset = sparse->areas[i].offset;
+             region->mmaps[j].size = sparse->areas[i].size;
+             j++;
 -- 
 2.33.0
 
