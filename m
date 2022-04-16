@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA99503261
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 04:27:24 +0200 (CEST)
-Received: from localhost ([::1]:41444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE8B50326E
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 04:39:15 +0200 (CEST)
+Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfY9j-0003Zd-B2
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 22:27:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
+	id 1nfYLC-0000OI-T6
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 22:39:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nfY8v-0002vH-Ek
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 22:26:33 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:45715)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nfY8t-0000DH-MR
- for qemu-devel@nongnu.org; Fri, 15 Apr 2022 22:26:33 -0400
-Received: by mail-pg1-x533.google.com with SMTP id k29so9329143pgm.12
- for <qemu-devel@nongnu.org>; Fri, 15 Apr 2022 19:26:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=yZPoduawZrYwa7QmF+72eavNvlc739Z8LYlBGJuo8LI=;
- b=i6UNmOpVwjsQ26IvgTJjvtpfijMMnzC2oDI+CSGreZycE/jAr7NG3r3Qqy6jggqBSL
- Y22x7/dv2YtLqhf54xJsKk2v1Al9UPss8RL91YnKT2LbZA9vI9Np8kl1k968N/vIGYna
- miRJC/sfwQDOakX+M7QLZom44wE/PxaUVrUBjs7MWwkLYtKPRa+JAzia2Udd0LMJ8GWD
- +o6R4s2GFvOs6v1J1Vj8z9mgIQlJt8fQe4nE6bY72ESbRwAzrIiFzIH9Qc5D5I2E55+t
- 8VBLOaxNRXRMhIYcMgwqvFUAZ7qk+/jpa478r6/m994974eEEKvJbEJCXtCG+TQTs2kg
- nokA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=yZPoduawZrYwa7QmF+72eavNvlc739Z8LYlBGJuo8LI=;
- b=PWznJlU6MQ30x93TXufmtSE+QL486SyjNj4k0TEfykOUurPJLxfdsc5RSE86Immd4P
- AlzLpVfZFgYPjwmTEmSReTjiQgb00IMGItIkK2AoTOcy2C7AAauYJLrKAUJca9CuGgdX
- lzM4bk81aVxN+qTH+37YgdHVu9r/7sqh4sQ76YKTPxaStR1HBQWPXNx0vilBKvBBhYZM
- fIA/pAunbqJUy455lMjAaa8WsOIstw3CCsIB7AjoKLvusHrmEffG118T0pFHX/fR4X8N
- gos0XZMQ9Zdz3lrjSFZ8AW14bwp4MAdGffxXZyG5k1k1I8BrM/B99wWW7Ofq/xpGd7o4
- yyqw==
-X-Gm-Message-State: AOAM533/pFHR4TKyKJveAbVJcwACLO5gQ3p8AnklmBYppYSdaHL6GKIZ
- knSyf7xCulXVv8qQHgEzcYrTow==
-X-Google-Smtp-Source: ABdhPJxAQtBo2TSdHR+fT0w7/0htT0QtA5fzTe1SM6jwEhKaOPo5O9yBfsIkTg+03WPVG4N2vX7YIA==
-X-Received: by 2002:a05:6a00:2347:b0:505:b8ba:d89e with SMTP id
- j7-20020a056a00234700b00505b8bad89emr1670383pfj.5.1650075990023; 
- Fri, 15 Apr 2022 19:26:30 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- 3-20020a17090a034300b001c779e82af6sm5758617pjf.48.2022.04.15.19.26.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Apr 2022 19:26:29 -0700 (PDT)
-Message-ID: <7878fbf7-6352-fe32-1daa-272490fe8061@linaro.org>
-Date: Fri, 15 Apr 2022 19:26:27 -0700
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nfYJK-00059y-IN; Fri, 15 Apr 2022 22:37:18 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:57212 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nfYJF-0001Pf-KO; Fri, 15 Apr 2022 22:37:18 -0400
+Received: from localhost.localdomain (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowAC34I7MK1pi9AtRAg--.25370S2;
+ Sat, 16 Apr 2022 10:37:01 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v10 00/14] support subsets of scalar crypto extension
+Date: Sat, 16 Apr 2022 10:35:35 +0800
+Message-Id: <20220416023549.28463-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v1 26/43] target/loongarch: Add LoongArch IOCSR instruction
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
- <20220415094058.3584233-27-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220415094058.3584233-27-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAC34I7MK1pi9AtRAg--.25370S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAFy7KrW8KryrJr48Zr18Krg_yoWrAr1rpr
+ 4rC3y5CrZ8J397Gryft3W8Ar15JF4rWr45Jws3J348J3y3JrWrJFZak3WYkF1UJF18Wr12
+ 93Wjyr13ua1UAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+ 628vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+ 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+ GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+ CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
+ wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+ 7VUbXdbUUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,82 +69,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
+Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com, luruibo2000@163.com, lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/15/22 02:40, Xiaojuan Yang wrote:
-> +static bool trans_iocsrrd_b(DisasContext *ctx, arg_iocsrrd_b *a)
-> +static bool trans_iocsrrd_h(DisasContext *ctx, arg_iocsrrd_h *a)
-> +static bool trans_iocsrrd_w(DisasContext *ctx, arg_iocsrrd_w *a)
-> +static bool trans_iocsrrd_d(DisasContext *ctx, arg_iocsrrd_d *a)
+This patchset implements RISC-V scalar crypto extension v1.0.0 version instructions. 
+Partial instructions are reused from B-extension.
 
-You have all of these split apart, then pass an integer to a common routine...
+Specification:
+https://github.com/riscv/riscv-crypto
 
-> +uint64_t helper_iocsr_read(CPULoongArchState *env, target_ulong r_addr,
-> +                           uint32_t size)
-> +{
-> +    int cpuid = env_cpu(env)->cpu_index;
-> +    CPUState  *cs = qemu_get_cpu(cpuid);
-> +    env = cs->env_ptr;
-> +    uint64_t ret = 0;
-> +
-> +    /*
-> +     * Adjust the per core address such as 0x10xx(IPI)/0x18xx(EXTIOI)
-> +     */
-> +    if (((r_addr & 0xff00) == 0x1000) || ((r_addr & 0xff00) == 0x1800)) {
-> +        r_addr = r_addr + ((target_ulong)(cpuid & 0x3) << 8);
-> +    }
-> +
-> +    switch (size) {
-> +    case 1:
-> +        ret = address_space_ldub(&env->address_space_iocsr, r_addr,
-> +                                 MEMTXATTRS_UNSPECIFIED, NULL);
-> +        break;
-> +    case 2:
-> +        ret = address_space_lduw(&env->address_space_iocsr, r_addr,
-> +                                 MEMTXATTRS_UNSPECIFIED, NULL);
-> +        break;
-> +    case 4:
-> +        ret = address_space_ldl(&env->address_space_iocsr, r_addr,
-> +                                MEMTXATTRS_UNSPECIFIED, NULL);
-> +        break;
-> +    case 8:
-> +        ret = address_space_ldq(&env->address_space_iocsr, r_addr,
-> +                                MEMTXATTRS_UNSPECIFIED, NULL);
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v10
 
-... then have to split them apart again.  It would be cleaner to have 4 helpers, one for 
-each size.
+To test rvk implementation, specify cpu argument with 'zks=true,zkn=true' or "zbkb=true,zbkc=true,zbkx=true,zknd=true,zkne=true,zknh=true,zksed=true,zksh=true,zkr=true" to enable K-extension support. This implementation can pass the ACT tests for K with our extended act support for qemu (available at https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v10-with-act)
 
-I'm concerned about the address adjustment.  My thinking is that this should be handled by 
-the address space (via a MemoryRegionOps entry).  I say this because there is nothing 
-about this adjustment in "LoongArch Reference Manual", but rather in the "LoongArch 3A5000 
-Registers Technical Reference Manual".  Which means that baking this cpu specific 
-behaviour into the generic architecture is incorrect.
+Review status:
+patch 5 is reviewed by Philippe Mathieu-Daudé
+patch 1~11 and 13-14 are acked or reviewed by Alistair Francis
+patch 2~11 are reviewed by Richard Henderson
 
+v10:
+(only patch 12 is modified)
+* simplify the conditions for the check in seed function
+* add NULL check for ret_val in rmw_seed function
+* remain the change of MSECCFG_* to align with the added MSECCFG_*SEED
 
-> +void helper_iocsr_write(CPULoongArchState *env, target_ulong w_addr,
-> +                        target_ulong val, uint32_t size)
-> +{
-> +    int cpuid = env_cpu(env)->cpu_index;
-> +    CPUState *cs = qemu_get_cpu(cpuid);
-> +    int mask, i;
-> +    env = cs->env_ptr;
-> +
-> +    /*
-> +     * For IPI send, Mailbox send and ANY send, adjust the addr and
-> +     * val accordingly. The IOCSR writes are turned to different
-> +     * MMIO writes respectively
-> +     */
-> +    switch (w_addr) {
-> +    case 0x1040: /* IPI send */
+v9:
+* check whether seed is accessed by a read-write instruction in helper_csrr.
+* fix disas for partial scalar crypto instructions
+* rebase on https://lists.nongnu.org/archive/html/qemu-riscv/2022-03/msg00156.html
 
-Likewise.
+v8:
+* replace large macro for trans function of sha256/512 instructions with parameters to gen_sha* function in patch 8,9,10
+* fix tcg_const_tl to tcg_constant_tl
+* fix rmw_seed function
 
+v7:
+* reuse gen_unary/gen_arith to simplify trans_* functions
+* replace DEF_HELPER_* with DEF_HEPER_FLAG_*
+* move aes64 related macros from patch 6 to patch 7
+* create common helper gen_aes32_sm4 for aes32 and sm4 related instructions
+* replace bs with shamt (bs << 3)
+* optimize trans function for sha256, sha512 and sm4 instructions to be generated inline
 
-r~
+v6:
+* add reviewed-by tags
+* rebase on upstream
+
+v5:
+* split the big patches
+
+v4:
+* drop "x-" in exposed properties
+* delete unrelated changes
+
+v3:
+* add extension check for SEED csr access
+
+v2:
+* optimize implementation for brev8, xperm, zip, unzip
+* use aes related sbox array from crypto/aes.h
+* move sm4_sbox to crypto/sm4.c, and share it with target/arm
+
+Weiwei Li (14):
+  target/riscv: rvk: add cfg properties for zbk* and zk*
+  target/riscv: rvk: add support for zbkb extension
+  target/riscv: rvk: add support for zbkc extension
+  target/riscv: rvk: add support for zbkx extension
+  crypto: move sm4_sbox from target/arm
+  target/riscv: rvk: add support for zknd/zkne extension in RV32
+  target/riscv: rvk: add support for zkne/zknd extension in RV64
+  target/riscv: rvk: add support for sha256 related instructions in zknh
+    extension
+  target/riscv: rvk: add support for sha512 related instructions for
+    RV32 in zknh extension
+  target/riscv: rvk: add support for sha512 related instructions for
+    RV64 in zknh extension
+  target/riscv: rvk: add support for zksed/zksh extension
+  target/riscv: rvk: add CSR support for Zkr
+  disas/riscv.c: rvk: add disas support for Zbk* and Zk* instructions
+  target/riscv: rvk: expose zbk* and zk* properties
+
+ crypto/meson.build                      |   1 +
+ crypto/sm4.c                            |  49 +++
+ disas/riscv.c                           | 173 ++++++++++-
+ include/crypto/sm4.h                    |   6 +
+ target/arm/crypto_helper.c              |  36 +--
+ target/riscv/bitmanip_helper.c          |  80 +++++
+ target/riscv/cpu.c                      |  36 +++
+ target/riscv/cpu.h                      |  13 +
+ target/riscv/cpu_bits.h                 |   9 +
+ target/riscv/crypto_helper.c            | 302 +++++++++++++++++++
+ target/riscv/csr.c                      |  80 +++++
+ target/riscv/helper.h                   |  22 ++
+ target/riscv/insn32.decode              |  97 ++++--
+ target/riscv/insn_trans/trans_rvb.c.inc | 116 +++++++-
+ target/riscv/insn_trans/trans_rvk.c.inc | 380 ++++++++++++++++++++++++
+ target/riscv/meson.build                |   3 +-
+ target/riscv/op_helper.c                |   9 +
+ target/riscv/pmp.h                      |   8 +-
+ target/riscv/translate.c                |   8 +
+ 19 files changed, 1357 insertions(+), 71 deletions(-)
+ create mode 100644 crypto/sm4.c
+ create mode 100644 include/crypto/sm4.h
+ create mode 100644 target/riscv/crypto_helper.c
+ create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
+
+-- 
+2.17.1
+
 
