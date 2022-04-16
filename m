@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AD6503277
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 04:47:06 +0200 (CEST)
-Received: from localhost ([::1]:41994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F076503278
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 04:47:41 +0200 (CEST)
+Received: from localhost ([::1]:44674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfYSn-000724-5j
-	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 22:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45988)
+	id 1nfYTM-0000PF-J5
+	for lists+qemu-devel@lfdr.de; Fri, 15 Apr 2022 22:47:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nfYJc-0006Aw-Ix; Fri, 15 Apr 2022 22:37:36 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:57408 helo=cstnet.cn)
+ id 1nfYRA-0006Yw-Uc; Fri, 15 Apr 2022 22:45:28 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:58528 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nfYJa-0001Qf-6i; Fri, 15 Apr 2022 22:37:36 -0400
+ id 1nfYR5-0002Oe-So; Fri, 15 Apr 2022 22:45:23 -0400
 Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowAC34I7MK1pi9AtRAg--.25370S13;
+ by APP-01 (Coremail) with SMTP id qwCowAC34I7MK1pi9AtRAg--.25370S14;
  Sat, 16 Apr 2022 10:37:09 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
  bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v10 11/14] target/riscv: rvk: add support for zksed/zksh
- extension
-Date: Sat, 16 Apr 2022 10:35:46 +0800
-Message-Id: <20220416023549.28463-12-liweiwei@iscas.ac.cn>
+Subject: [PATCH v10 12/14] target/riscv: rvk: add CSR support for Zkr
+Date: Sat, 16 Apr 2022 10:35:47 +0800
+Message-Id: <20220416023549.28463-13-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220416023549.28463-1-liweiwei@iscas.ac.cn>
 References: <20220416023549.28463-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: qwCowAC34I7MK1pi9AtRAg--.25370S13
-X-Coremail-Antispam: 1UD129KBjvJXoWxGFyUuw4ktr45Cr1kWFWrAFb_yoW7Jw15pF
- 1FkrW7CFW8JFyfZa1ftF15A343Ars7uryjva9ay3s5WayYq3yrJw1jyw4akr45XFykur1j
- ka1DAFyayF4Iq3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: qwCowAC34I7MK1pi9AtRAg--.25370S14
+X-Coremail-Antispam: 1UD129KBjvJXoWxuw1Utw4UCF43XF4fGw1UGFg_yoW7tFWrpr
+ 4UC3y3GrW5XFZ3ua1ftr45XF15Gw4rGa15Jws7u3ykAr43J3yrJFnYq39IqFn8Xa18Kr1j
+ 9F4qkF1Fkr4UZa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUPq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -75,155 +74,198 @@ Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- - add sm3p0, sm3p1, sm4ed and sm4ks instructions
+ - add SEED CSR which must be accessed with a read-write instruction:
+   A read-only instruction such as CSRRS/CSRRC with rs1=x0 or CSRRSI/CSRRCI
+with uimm=0 will raise an illegal instruction exception.
+ - add USEED, SSEED fields for MSECCFG CSR
 
 Co-authored-by: Ruibo Lu <luruibo2000@163.com>
+Co-authored-by: Zewen Ye <lustrew@foxmail.com>
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/crypto_helper.c            | 28 ++++++++++++
- target/riscv/helper.h                   |  3 ++
- target/riscv/insn32.decode              |  6 +++
- target/riscv/insn_trans/trans_rvk.c.inc | 58 +++++++++++++++++++++++++
- 4 files changed, 95 insertions(+)
+ target/riscv/cpu_bits.h  |  9 +++++
+ target/riscv/csr.c       | 80 ++++++++++++++++++++++++++++++++++++++++
+ target/riscv/op_helper.c |  9 +++++
+ target/riscv/pmp.h       |  8 ++--
+ 4 files changed, 103 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/crypto_helper.c b/target/riscv/crypto_helper.c
-index cb4783a1e9..2ef30281b1 100644
---- a/target/riscv/crypto_helper.c
-+++ b/target/riscv/crypto_helper.c
-@@ -271,4 +271,32 @@ target_ulong HELPER(aes64im)(target_ulong rs1)
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index bb47cf7e77..d401100f47 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -458,6 +458,9 @@
+ #define CSR_VSPMMASK        0x2c1
+ #define CSR_VSPMBASE        0x2c2
  
-     return result;
++/* Crypto Extension */
++#define CSR_SEED            0x015
++
+ /* mstatus CSR bits */
+ #define MSTATUS_UIE         0x00000001
+ #define MSTATUS_SIE         0x00000002
+@@ -800,4 +803,10 @@ typedef enum RISCVException {
+ #define HVICTL_VALID_MASK                  \
+     (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
+ 
++/* seed CSR bits */
++#define SEED_OPST                        (0b11 << 30)
++#define SEED_OPST_BIST                   (0b00 << 30)
++#define SEED_OPST_WAIT                   (0b01 << 30)
++#define SEED_OPST_ES16                   (0b10 << 30)
++#define SEED_OPST_DEAD                   (0b11 << 30)
+ #endif
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index e10f691a99..865ffb36ce 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -24,6 +24,8 @@
+ #include "qemu/main-loop.h"
+ #include "exec/exec-all.h"
+ #include "sysemu/cpu-timers.h"
++#include "qemu/guest-random.h"
++#include "qapi/error.h"
+ 
+ /* CSR function table public API */
+ void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops)
+@@ -301,6 +303,46 @@ static RISCVException debug(CPURISCVState *env, int csrno)
  }
-+
-+target_ulong HELPER(sm4ed)(target_ulong rs1, target_ulong rs2,
-+                           target_ulong shamt)
-+{
-+    uint32_t sb_in = (uint8_t)(rs2 >> shamt);
-+    uint32_t sb_out = (uint32_t)sm4_sbox[sb_in];
-+
-+    uint32_t x = sb_out ^ (sb_out << 8) ^ (sb_out << 2) ^ (sb_out << 18) ^
-+                 ((sb_out & 0x3f) << 26) ^ ((sb_out & 0xC0) << 10);
-+
-+    uint32_t rotl = rol32(x, shamt);
-+
-+    return sext32_xlen(rotl ^ (uint32_t)rs1);
-+}
-+
-+target_ulong HELPER(sm4ks)(target_ulong rs1, target_ulong rs2,
-+                           target_ulong shamt)
-+{
-+    uint32_t sb_in = (uint8_t)(rs2 >> shamt);
-+    uint32_t sb_out = sm4_sbox[sb_in];
-+
-+    uint32_t x = sb_out ^ ((sb_out & 0x07) << 29) ^ ((sb_out & 0xFE) << 7) ^
-+                 ((sb_out & 0x01) << 23) ^ ((sb_out & 0xF8) << 13);
-+
-+    uint32_t rotl = rol32(x, shamt);
-+
-+    return sext32_xlen(rotl ^ (uint32_t)rs1);
-+}
- #undef sext32_xlen
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 56519fcc26..4ef3b2251d 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1126,3 +1126,6 @@ DEF_HELPER_FLAGS_2(aes64dsm, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_2(aes64ks2, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_2(aes64ks1i, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_1(aes64im, TCG_CALL_NO_RWG_SE, tl, tl)
-+
-+DEF_HELPER_FLAGS_3(sm4ed, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(sm4ks, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index d9ebb138d1..4033565393 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -873,3 +873,9 @@ sha512sig0  00 01000 00110 ..... 001 ..... 0010011 @r2
- sha512sig1  00 01000 00111 ..... 001 ..... 0010011 @r2
- sha512sum0  00 01000 00100 ..... 001 ..... 0010011 @r2
- sha512sum1  00 01000 00101 ..... 001 ..... 0010011 @r2
-+# *** RV32 Zksh Standard Extension ***
-+sm3p0       00 01000 01000 ..... 001 ..... 0010011 @r2
-+sm3p1       00 01000 01001 ..... 001 ..... 0010011 @r2
-+# *** RV32 Zksed Standard Extension ***
-+sm4ed       .. 11000 ..... ..... 000 ..... 0110011 @k_aes
-+sm4ks       .. 11010 ..... ..... 000 ..... 0110011 @k_aes
-diff --git a/target/riscv/insn_trans/trans_rvk.c.inc b/target/riscv/insn_trans/trans_rvk.c.inc
-index b1ce4f27cf..b5e946566a 100644
---- a/target/riscv/insn_trans/trans_rvk.c.inc
-+++ b/target/riscv/insn_trans/trans_rvk.c.inc
-@@ -35,6 +35,18 @@
-     }                                           \
- } while (0)
+ #endif
  
-+#define REQUIRE_ZKSED(ctx) do {                 \
-+    if (!ctx->cfg_ptr->ext_zksed) {             \
-+        return false;                           \
-+    }                                           \
-+} while (0)
++static RISCVException seed(CPURISCVState *env, int csrno)
++{
++    RISCVCPU *cpu = env_archcpu(env);
 +
-+#define REQUIRE_ZKSH(ctx) do {                  \
-+    if (!ctx->cfg_ptr->ext_zksh) {              \
-+        return false;                           \
-+    }                                           \
-+} while (0)
++    if (!cpu->cfg.ext_zkr) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
 +
- static bool gen_aes32_sm4(DisasContext *ctx, arg_k_aes *a,
-                           void (*func)(TCGv, TCGv, TCGv, TCGv))
++#if !defined(CONFIG_USER_ONLY)
++    /*
++     * With a CSR read-write instruction:
++     * 1) The seed CSR is always available in machine mode as normal.
++     * 2) Attempted access to seed from virtual modes VS and VU always raises
++     * an exception(virtual instruction exception only if mseccfg.sseed=1).
++     * 3) Without the corresponding access control bit set to 1, any attempted
++     * access to seed from U, S or HS modes will raise an illegal instruction
++     * exception.
++     */
++    if (env->priv == PRV_M) {
++        return RISCV_EXCP_NONE;
++    } else if (riscv_cpu_virt_enabled(env)) {
++        if (env->mseccfg & MSECCFG_SSEED) {
++            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
++        } else {
++            return RISCV_EXCP_ILLEGAL_INST;
++        }
++    } else {
++        if (env->priv == PRV_S && (env->mseccfg & MSECCFG_SSEED)) {
++            return RISCV_EXCP_NONE;
++        } else if (env->priv == PRV_U && (env->mseccfg & MSECCFG_USEED)) {
++            return RISCV_EXCP_NONE;
++        } else {
++            return RISCV_EXCP_ILLEGAL_INST;
++        }
++    }
++#else
++    return RISCV_EXCP_NONE;
++#endif
++}
++
+ /* User Floating-Point CSRs */
+ static RISCVException read_fflags(CPURISCVState *env, int csrno,
+                                   target_ulong *val)
+@@ -3014,6 +3056,41 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
+ 
+ #endif
+ 
++/* Crypto Extension */
++static RISCVException rmw_seed(CPURISCVState *env, int csrno,
++                               target_ulong *ret_value,
++                               target_ulong new_value,
++                               target_ulong write_mask)
++{
++    uint16_t random_v;
++    Error *random_e = NULL;
++    int random_r;
++    target_ulong rval;
++
++    random_r = qemu_guest_getrandom(&random_v, 2, &random_e);
++    if (unlikely(random_r < 0)) {
++        /*
++         * Failed, for unknown reasons in the crypto subsystem.
++         * The best we can do is log the reason and return a
++         * failure indication to the guest.  There is no reason
++         * we know to expect the failure to be transitory, so
++         * indicate DEAD to avoid having the guest spin on WAIT.
++         */
++        qemu_log_mask(LOG_UNIMP, "%s: Crypto failure: %s",
++                      __func__, error_get_pretty(random_e));
++        error_free(random_e);
++        rval = SEED_OPST_DEAD;
++    } else {
++        rval = random_v | SEED_OPST_ES16;
++    }
++
++    if (ret_value) {
++        *ret_value = rval;
++    }
++
++    return RISCV_EXCP_NONE;
++}
++
+ /*
+  * riscv_csrrw - read and/or update control and status register
+  *
+@@ -3258,6 +3335,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_TIME]  = { "time",  ctr,   read_time  },
+     [CSR_TIMEH] = { "timeh", ctr32, read_timeh },
+ 
++    /* Crypto Extension */
++    [CSR_SEED] = { "seed", seed, NULL, NULL, rmw_seed },
++
+ #if !defined(CONFIG_USER_ONLY)
+     /* Machine Timers and Counters */
+     [CSR_MCYCLE]    = { "mcycle",    any,   read_instret  },
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index e0d708091e..3d8443416d 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -39,6 +39,15 @@ void helper_raise_exception(CPURISCVState *env, uint32_t exception)
+ 
+ target_ulong helper_csrr(CPURISCVState *env, int csr)
  {
-@@ -320,3 +332,49 @@ static bool trans_sha512sum1(DisasContext *ctx, arg_sha512sum1 *a)
-     REQUIRE_ZKNH(ctx);
-     return gen_sha512_rv64(ctx, a, EXT_NONE, tcg_gen_rotri_i64, 14, 18, 41);
- }
++    /*
++     * The seed CSR must be accessed with a read-write instruction. A
++     * read-only instruction such as CSRRS/CSRRC with rs1=x0 or CSRRSI/
++     * CSRRCI with uimm=0 will raise an illegal instruction exception.
++     */
++    if (csr == CSR_SEED) {
++        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++    }
 +
-+/* SM3 */
-+static bool gen_sm3(DisasContext *ctx, arg_r2 *a, int32_t b, int32_t c)
-+{
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-+    TCGv_i32 t0 = tcg_temp_new_i32();
-+    TCGv_i32 t1 = tcg_temp_new_i32();
-+
-+    tcg_gen_trunc_tl_i32(t0, src1);
-+    tcg_gen_rotli_i32(t1, t0, b);
-+    tcg_gen_xor_i32(t1, t0, t1);
-+    tcg_gen_rotli_i32(t0, t0, c);
-+    tcg_gen_xor_i32(t1, t1, t0);
-+    tcg_gen_ext_i32_tl(dest, t1);
-+    gen_set_gpr(ctx, a->rd, dest);
-+
-+    tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(t1);
-+    return true;
-+}
-+
-+static bool trans_sm3p0(DisasContext *ctx, arg_sm3p0 *a)
-+{
-+    REQUIRE_ZKSH(ctx);
-+    return gen_sm3(ctx, a, 9, 17);
-+}
-+
-+static bool trans_sm3p1(DisasContext *ctx, arg_sm3p1 *a)
-+{
-+    REQUIRE_ZKSH(ctx);
-+    return gen_sm3(ctx, a, 15, 23);
-+}
-+
-+/* SM4 */
-+static bool trans_sm4ed(DisasContext *ctx, arg_sm4ed *a)
-+{
-+    REQUIRE_ZKSED(ctx);
-+    return gen_aes32_sm4(ctx, a, gen_helper_sm4ed);
-+}
-+
-+static bool trans_sm4ks(DisasContext *ctx, arg_sm4ks *a)
-+{
-+    REQUIRE_ZKSED(ctx);
-+    return gen_aes32_sm4(ctx, a, gen_helper_sm4ks);
-+}
+     target_ulong val = 0;
+     RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0, false);
+ 
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index fcb6b7c467..a8dd797476 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -39,9 +39,11 @@ typedef enum {
+ } pmp_am_t;
+ 
+ typedef enum {
+-    MSECCFG_MML  = 1 << 0,
+-    MSECCFG_MMWP = 1 << 1,
+-    MSECCFG_RLB  = 1 << 2
++    MSECCFG_MML   = 1 << 0,
++    MSECCFG_MMWP  = 1 << 1,
++    MSECCFG_RLB   = 1 << 2,
++    MSECCFG_USEED = 1 << 8,
++    MSECCFG_SSEED = 1 << 9
+ } mseccfg_field_t;
+ 
+ typedef struct {
 -- 
 2.17.1
 
