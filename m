@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722885049B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 00:30:07 +0200 (CEST)
-Received: from localhost ([::1]:36454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83105049E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 00:58:01 +0200 (CEST)
+Received: from localhost ([::1]:39960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngDPC-0004FE-1R
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 18:30:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44034)
+	id 1ngDqC-0008Pz-7M
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 18:58:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngDOB-0003af-Oz
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 18:29:03 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:40759)
+ id 1ngDoJ-0007gZ-0i
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 18:56:03 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:43938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngDO9-00034c-T2
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 18:29:03 -0400
-Received: by mail-pl1-x632.google.com with SMTP id t12so11025701pll.7
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 15:29:00 -0700 (PDT)
+ id 1ngDoG-0006yg-Nt
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 18:56:02 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ j8-20020a17090a060800b001cd4fb60dccso12582480pjj.2
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 15:55:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ta5CMLcnZlN5kLmG1N71BP/5tdqqJyS7kju7odql7AM=;
- b=Q7DzsxXlSrmtIEnVG+9EHpY58AqPaW8GmOHRIu6XJVd6kcHxmtINJ66BSUOVC1kFvE
- AAdEeWngxbupas07hFV47vFx0n1o0u2h1oxEXHfIQ4NsLowLOQx+WbuY78i+ScT4Sl8O
- BHsQAVMXCJay/TS4pzxdk8Dp5sxkBCTALa0nfJEqg2BCPBUUkc9/7yRtdsovw82SNBuh
- 0sww9L7P2m4ZLk9pUQrLMbvX8BDi+iHpuPLknldU2DxMmtEontinya1ycfpajntnPwZS
- amj/wSVQ8Aw+qvqqR6tgN+/17XEHDBN61KoRkmQNaBR6fj11FBRGWfjNxGr/F1iEiyMN
- EB5Q==
+ bh=e3HCwFV7y4yg+iFwyWrAh8ze7VjValpJtAi85VB2vLw=;
+ b=hE4VV10fatpwyIJP9HXbTeWGWPNicEMsGeEDmQOrlhfF/4rUOgOJGxG6JbnZvWuDi1
+ +Okuxa+PcyYbC3rPuIj8irQVSWkHK0l7JFnVWtNpCPJklxoG73O+VO1cdIn93JIcTrMt
+ srxEOAkikmqwp5Czr7uW8upDQL26CvYlUAea1fPirvHvVHTNkrVYuiqaWNTrF4PAPQrw
+ XaxHaXNNH1a0bAi6v0LXSOb9xn9/8QAa1GNI6uo8/DWGpYs4UfVueHLj/bbQR+b2bzEz
+ AsJfL++J/B+gh/iQUvul1GAl1UdtR769SAJNj6O1nblEL1m5conXkki6WBe94n0jiTo6
+ e2XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ta5CMLcnZlN5kLmG1N71BP/5tdqqJyS7kju7odql7AM=;
- b=7+OChda0WFpfISECiW/SQq/qgp+1m4+E/P0/KjEyxbbZVdl2CCyMkVhq/TM+7SeRzN
- DKd5cqSQ661fW6yczfts4HNhcS+lBO+oRejRemk4CcWFsZDEEeHPzQ1opig5IeaNERG4
- FvaFwhuATYHb0MbfDpYPOzn6Xu9pPhiXCcLMRCC2Il1f/FyM2kUEnO9AhZ5iCksxn4xF
- tIji+vUoNFb4vdOti/EvkE4ZyT5fBpAj5Gu9ofMoKNuWy1gOWID5BDKZsw7gf+6Bulk3
- p93AY31p681Hw9BgQCREldZ84etDqnpI1b4aNIwMDEOxZfg585ZN6854PzxzAw3BVnzX
- jdEQ==
-X-Gm-Message-State: AOAM531G91Orx80q+gst1UIJbI2XMCKxslVP3AEyFkRG4zlLV0JzBy/O
- vdT8qKQmihcKoAgQ276Ztcb4WA==
-X-Google-Smtp-Source: ABdhPJwBJ4T7sZe5F2CVobLAuYWL44+OAZny5k4/m+dL67dvPZScX/HHvEp3/PuGEuCQfwDcxGRbmA==
-X-Received: by 2002:a17:90b:4c84:b0:1c7:7769:3cc7 with SMTP id
- my4-20020a17090b4c8400b001c777693cc7mr15120749pjb.73.1650234539225; 
- Sun, 17 Apr 2022 15:28:59 -0700 (PDT)
+ bh=e3HCwFV7y4yg+iFwyWrAh8ze7VjValpJtAi85VB2vLw=;
+ b=UrdauKDgqoh2HWpsNlBaLz7/+vxFMIGWQG3GTjgz1tKBdHWoeauRp8iJXl4Ns1hPa6
+ vvXktE6SS2XjovWBlt1/5wf8zJ5sBP7QzItMwO79QN/Uq6pN0pwLnhSaDTKueh74iPiK
+ IbGeYxatqhofEthKLDwysRtaI8uPLQPdPknuM+tPY9pmP7CEYsegU7Y35/ra3cpEp1oB
+ EXNpAbdrkTb/w03+pwAhhTiEXkjMRCZo8vyMmcMYwCIIk+nktTOcoYQEXRQ60mdgkA8o
+ fl6inYpV5YE2Q2L+xO0Qjw50GkiYXWV6VEkjXXPlFTn3m+NxJOFRXhPQM6f7lgN6W19F
+ Z/dw==
+X-Gm-Message-State: AOAM533sfs36Zxhm/yAnjaRyl9V/KD5G007H2pLaRGVrX30RaTLB61qo
+ aASQFHrMyHSf48bnUuAK3gthdw==
+X-Google-Smtp-Source: ABdhPJz0HrZUpxevHJ1BlxK/P5MZRA1IlFk8mAPxneiYArw8gtdrN+jkFua5lonJrmrOeB3mf2gCrg==
+X-Received: by 2002:a17:90b:3a90:b0:1d2:80bf:d968 with SMTP id
+ om16-20020a17090b3a9000b001d280bfd968mr5278020pjb.16.1650236157194; 
+ Sun, 17 Apr 2022 15:55:57 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- e1-20020a056a00162100b0050a40f75a82sm8751447pfc.113.2022.04.17.15.28.57
+ j3-20020a17090a3e0300b001cb68d28544sm14905836pjc.37.2022.04.17.15.55.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Apr 2022 15:28:58 -0700 (PDT)
-Message-ID: <63910bde-bd78-4aad-8f4c-06571e2f8877@linaro.org>
-Date: Sun, 17 Apr 2022 15:28:56 -0700
+ Sun, 17 Apr 2022 15:55:56 -0700 (PDT)
+Message-ID: <12ceda96-43ff-6108-3dbf-9149e7cdc4e3@linaro.org>
+Date: Sun, 17 Apr 2022 15:55:54 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
@@ -68,9 +69,9 @@ References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20220415094058.3584233-32-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,29 +96,158 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/15/22 02:40, Xiaojuan Yang wrote:
-> +++ b/configs/devices/loongarch64-softmmu/default.mak
-> @@ -0,0 +1,3 @@
-> +# Default configuration for loongarch64-softmmu
+> +++ b/include/hw/loongarch/loongarch.h
+> @@ -0,0 +1,51 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Definitions for loongarch board emulation.
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
 > +
-> +CONFIG_LOONGARCH_VIRT=y
+> +#ifndef HW_LOONGARCH_H
+> +#define HW_LOONGARCH_H
+> +
+> +#include "target/loongarch/cpu.h"
+> +#include "qemu-common.h"
+> +#include "hw/boards.h"
+> +#include "qemu/queue.h"
+> +
+> +#define LOONGARCH_MAX_VCPUS     4
+> +
+> +#define FEATURE_REG             0x8
+> +#define IOCSRF_TEMP             0
+> +#define IOCSRF_NODECNT          1
+> +#define IOCSRF_MSI              2
+> +#define IOCSRF_EXTIOI           3
+> +#define IOCSRF_CSRIPI           4
+> +#define IOCSRF_FREQCSR          5
+> +#define IOCSRF_FREQSCALE        6
+> +#define IOCSRF_DVFSV1           7
+> +#define IOCSRF_GMOD             9
+> +#define IOCSRF_VM               11
+> +
+> +#define IOCSR_MEM_SIZE          0x428
+> +
+> +#define VENDOR_REG              0x10
+> +#define CPUNAME_REG             0x20
+> +#define MISC_FUNC_REG           0x420
+> +#define IOCSRM_EXTIOI_EN        48
+> +
+> +#define LOONGARCH_ISA_IO_BASE   0x18000000UL
+> +#define LOONGARCH_ISA_IO_SIZE   0x0004000
+> +
+> +struct LoongArchMachineState {
+> +    /*< private >*/
+> +    MachineState parent_obj;
+> +
+> +    MemoryRegion lowmem;
+> +    MemoryRegion highmem;
+> +    MemoryRegion isa_io;
+> +};
+> +
+> +#define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
+> +OBJECT_DECLARE_SIMPLE_TYPE(LoongArchMachineState, LOONGARCH_MACHINE)
+> +#endif
 
-Again, you can't add this file until you're ready to build.
-
-We do get farther that patch 30, ending in
-
-../qemu/hw/loongarch/loongson3.c: In function ‘loongarch_init’:
-../qemu/hw/loongarch/loongson3.c:28:39: error: implicit declaration of function 
-‘get_system_memory’ [-Werror=implicit-function-declaration]
-    28 |     MemoryRegion *address_space_mem = get_system_memory();
-       |                                       ^~~~~~~~~~~~~~~~~
+Should this file instead be named "hw/loongarch/virt.h", since it contains definitions for 
+the virt machine type?  Presumably at some point you'll be defining a machine board based 
+on real hardware, at which point this will seem mis-named.
 
 
-Fix that, with proper include of "exec/address-spaces.h", and this can be the point at 
-which we're ready to build.
+> +++ b/target/loongarch/cpu.c
+> @@ -17,6 +17,8 @@
+>  #include "internals.h"
+>  #include "fpu/softfloat-helpers.h"
+>  #include "cpu-csr.h"
+> +#include "sysemu/reset.h"
+> +#include "hw/loader.h"
+>  
+>  const char * const regnames[32] = {
+>      "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
+> @@ -80,6 +82,8 @@ static void loongarch_cpu_set_pc(CPUState *cs, vaddr value)
+>      env->pc = value;
+>  }
+>  
+> +#include "hw/loongarch/loongarch.h"
+> +
+>  void loongarch_cpu_set_irq(void *opaque, int irq, int level)
+>  {
+>      LoongArchCPU *cpu = opaque;
+> @@ -103,6 +107,48 @@ void loongarch_cpu_set_irq(void *opaque, int irq, int level)
+>      }
+>  }
+>  
+> +static void loongarch_qemu_write(void *opaque, hwaddr addr,
+> +                                 uint64_t val, unsigned size)
+> +{
+> +}
+> +
+> +static uint64_t loongarch_qemu_read(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    switch (addr) {
+> +    case FEATURE_REG:
+> +        return 1UL << IOCSRF_MSI | 1UL << IOCSRF_EXTIOI |
+> +               1UL << IOCSRF_CSRIPI;
+> +    case VENDOR_REG:
+> +        return 0x6e6f73676e6f6f4c; /* "Loongson" */
+> +    case CPUNAME_REG:
+> +        return 0x303030354133;     /* "3A5000" */
+> +    case MISC_FUNC_REG:
+> +        return 1UL << IOCSRM_EXTIOI_EN;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static const MemoryRegionOps loongarch_qemu_ops = {
+> +    .read = loongarch_qemu_read,
+> +    .write = loongarch_qemu_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 8,
+> +    },
+> +    .impl = {
+> +        .min_access_size = 8,
+> +        .max_access_size = 8,
+> +    },
+> +};
+> +
+> +static void reset_cb(void *opaque)
+> +{
+> +    LoongArchCPU *cpu = opaque;
+> +
+> +    cpu_reset(CPU(cpu));
+> +}
+> +
+>  static inline bool cpu_loongarch_hw_interrupts_enabled(CPULoongArchState *env)
+>  {
+>      bool ret = 0;
+> @@ -518,11 +564,19 @@ static void loongarch_cpu_realizefn(DeviceState *dev, Error **errp)
+>  static void loongarch_cpu_init(Object *obj)
+>  {
+>      LoongArchCPU *cpu = LOONGARCH_CPU(obj);
+> +    CPULoongArchState *env = &cpu->env;
+>  
+>      cpu_set_cpustate_pointers(cpu);
+>      qdev_init_gpio_in(DEVICE(cpu), loongarch_cpu_set_irq, N_IRQS);
+>      timer_init_ns(&cpu->timer, QEMU_CLOCK_VIRTUAL,
+>                    &loongarch_constant_timer_cb, cpu);
+> +    memory_region_init_io(&env->system_iocsr, OBJECT(cpu), NULL,
+> +                      env, "iocsr", UINT64_MAX);
+> +    address_space_init(&env->address_space_iocsr, &env->system_iocsr, "IOCSR");
+> +    qemu_register_reset(reset_cb, cpu);
+> +    memory_region_init_io(&env->iocsr_mem, OBJECT(cpu), &loongarch_qemu_ops,
+> +                          NULL, "iocsr_misc", IOCSR_MEM_SIZE);
+> +    memory_region_add_subregion(&env->system_iocsr, 0, &env->iocsr_mem);
+>  }
+>  
+>  static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
 
-Or you can push a few of these files back into the previous patch so that the build begins 
-there, with zero machines registered (which should be ok, because there's no machine 
-registered to be tested with qtest, but do double-check that make check succeeds).
+These changes belong elsewhere, not while defining -M virt.
+Some of it earlier, where you defined the iocsr address space.
+
+Do not use qemu_register_reset, use device_class_set_parent_reset.
 
 
 r~
