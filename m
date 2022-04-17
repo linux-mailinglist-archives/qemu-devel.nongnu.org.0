@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3192150485F
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 18:52:51 +0200 (CEST)
-Received: from localhost ([::1]:58922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978EE504874
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 18:54:20 +0200 (CEST)
+Received: from localhost ([::1]:34904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ng88n-0006mk-Qk
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 12:52:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37426)
+	id 1ng8AF-0001Cm-P5
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 12:54:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng87a-0005j6-QD
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 12:51:34 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:35420)
+ id 1ng87b-0005jQ-9P
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 12:51:35 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:43600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng87Z-00046G-5b
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 12:51:34 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id b7so1030123plh.2
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 09:51:32 -0700 (PDT)
+ id 1ng87Z-00047Q-UL
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 12:51:35 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id u2so14832257pgq.10
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 09:51:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ei6KwopjAVMae2CIOzAJ5BdMpM6XfK5gYxy0XYg5C1k=;
- b=oG1/sL0Qms8Ep6mKe4lHtSQbsAwRcsfw/b6kJub8g2jU7Hso710ngO2+1SP6y7vheV
- lDHHcCicgDEoEJTcdIsw0RdsGgVopEKYigV165KGip8xXCsqp2ooXneZ0Xtubg7im7z6
- jQEXeZOvWM2gF/g71Klzi+7Tjfr8OlO8Z8eJY1rE7b/dfc9+Klp+7+ckOKJJSA9jO0rt
- BC0IG2s5ztWMUW7D89BxGYrvc5e3mDxLxNWcvB32ak76Jq23Jj03bMuAWPN0TzriTLeT
- DhhdU5454sB0UQPFCY2SVs8CS2Bu9XgGj9j8IRGXHcFzM2e32TkssRNzlb9qaSB93PKo
- i/lg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tgjr7uNGifmmfZHmH00wqonWc8uQdHdxbJEQboAm3jQ=;
+ b=nyOpnfoZYQ9JFegwbIWxx3WKGQ28uYlqMJiSCElJ5d4HBBG+auVO+0L1w3JPPcOw2B
+ pbR7DCSvebMk5oocxlezznvd3viTic6yyj0I61eDu966+xYLlNTa4tB5zSJ9vP0eiQjy
+ m5EJdDeXuyU6UfHk4tJ0+Y7larOcPQICydIfUGWKdBeP4aA2mlz4JJwaI2WePMSolZ0R
+ NEGzXJU+C9NQsJjYjo/2iDasyBHqGJUezGO6ZdDB0yDgEC8USrzIbvje/wrUhb9o/Ena
+ /w9PlSK06D9NzQliyPrZ0x3MCocThWm8/8rDK9xHscKpGLIai/uKhCfBF5mAseE9EPd9
+ 1VQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ei6KwopjAVMae2CIOzAJ5BdMpM6XfK5gYxy0XYg5C1k=;
- b=iiCf4Gq0kaoNB/1mZitsAhku0jKbKw3RJ7FhPltHgJwxMsDshDKbIGuvj2/A5qZv5V
- ZalCKR5nr0/JP+EdX6jFYt6IX8XhaAjLn/0F3MAgy4A0OYKle/4TvE6E1JccY4MnwgRR
- SaPktSkO4R0y7K7eudm8CaTs4KIKsIG5FKZL1gLZI5w8atZGrlSWx6CUKQTI1p87GBFh
- wYgwJW/1tBoBOUMkX6O3TmF6YkVGPgW8NUeWkY6PAHiL7iCBytQI510xGFIZvNv/CTmy
- iXavgY4nbuZqNGg2DVvAUhPDGw6XfkOZ29hBKaCp7Kwi9beBeRdwgHpjMVmogqtsM931
- 5ohw==
-X-Gm-Message-State: AOAM532WASGSrs6TKieJwiacG6foAeAw3XIAzq0l1UgxAwXqTIOnaAp8
- FrbDOwVK5ZMEkRSYqqXIACylHtR1gjEEdw==
-X-Google-Smtp-Source: ABdhPJy/+y/ngEQvzeb8GyuRoLNIgty2QDSi5EiK0xF5k9cA+TcyYYC3ADfjVpkR/bsEr80/fwOu8A==
-X-Received: by 2002:a17:902:c7cb:b0:158:3ea4:48b4 with SMTP id
- r11-20020a170902c7cb00b001583ea448b4mr7713504pla.90.1650214291598; 
- Sun, 17 Apr 2022 09:51:31 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tgjr7uNGifmmfZHmH00wqonWc8uQdHdxbJEQboAm3jQ=;
+ b=JkyM3pp4H/EmFuImPIO2coXWadb2rdd1Yd4ZP0+reJWOskIYRDbDy0FtIvEiVGrXNW
+ Hqd3ajx9wkzt010LW67nXmnQHXlAzCLPY5o3osjB6HczoX2BLpoWiVxRzT8enB/Rv31d
+ Qr4cS/OyFkeAewWdOI22xatsZ7c7x7Q7tZISjEqDBrc2k7uAIL5FqrpB+PlTlQ07I4pE
+ T+SapN8xcdQKHKVcjwCJQcKdy4UEj2pOnkX0RUSFCvPxaZqUg7EeqnAnhBPq6WINNkmG
+ 9MBMhhfN/noDGrBtariw0NATgrFO3UDa/eA9DAQGCAk7VX/RMdiJf19KthJWd96Vmn1M
+ NHyQ==
+X-Gm-Message-State: AOAM532NvCY2hdxtXIR4xTvHhgTZz+UVWu1wws3TUubV+3fFXg/uea94
+ hSEqzYQSZORfCXOE2cRHGAHNVrMrhBwMQA==
+X-Google-Smtp-Source: ABdhPJwqW8Dxpdf2SsKa5inUdWC1PHqEkciJroh4ZRVC4eoDyAZ1nVEXIm71Qh5orNEn1ul2NYRnHw==
+X-Received: by 2002:a63:714e:0:b0:398:9bdc:e11a with SMTP id
+ b14-20020a63714e000000b003989bdce11amr6720119pgn.572.1650214292549; 
+ Sun, 17 Apr 2022 09:51:32 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- f3-20020a17090aa78300b001ca7dfab2e4sm10395396pjq.25.2022.04.17.09.51.30
+ f3-20020a17090aa78300b001ca7dfab2e4sm10395396pjq.25.2022.04.17.09.51.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 09:51:31 -0700 (PDT)
+ Sun, 17 Apr 2022 09:51:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] target/rx: Track PSW.U in tb->flags
-Date: Sun, 17 Apr 2022 09:51:26 -0700
-Message-Id: <20220417165130.695085-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/4] target/rx: Put tb_flags into DisasContext
+Date: Sun, 17 Apr 2022 09:51:27 -0700
+Message-Id: <20220417165130.695085-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220417165130.695085-1-richard.henderson@linaro.org>
+References: <20220417165130.695085-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,25 +88,43 @@ Cc: i@yvt.jp, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a follow up to Kawada-san's patch for the problem
-of a missed update to the stack pointer in CLRPSW/SETPSW.
-This fixes the problem without movcond by tracking the
-current state of PSW.U within the TB.
+Copy tb->flags into ctx->tb_flags; we'll want to modify
+this value throughout the tb in future.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/rx/translate.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-r~
-
-
-Richard Henderson (4):
-  target/rx: Put tb_flags into DisasContext
-  target/rx: Store PSW.U in tb->flags
-  target/rx: Move DISAS_UPDATE check for write to PSW
-  target/rx: Swap stack pointers on clrpsw/setpsw instruction
-
- target/rx/cpu.h       |  1 +
- target/rx/translate.c | 67 +++++++++++++++++++++++--------------------
- 2 files changed, 37 insertions(+), 31 deletions(-)
-
+diff --git a/target/rx/translate.c b/target/rx/translate.c
+index 5db8f79a82..785cbd948e 100644
+--- a/target/rx/translate.c
++++ b/target/rx/translate.c
+@@ -32,6 +32,7 @@ typedef struct DisasContext {
+     DisasContextBase base;
+     CPURXState *env;
+     uint32_t pc;
++    uint32_t tb_flags;
+ } DisasContext;
+ 
+ typedef struct DisasCompare {
+@@ -231,7 +232,7 @@ static inline TCGv rx_load_source(DisasContext *ctx, TCGv mem,
+ /* Processor mode check */
+ static int is_privileged(DisasContext *ctx, int is_exception)
+ {
+-    if (FIELD_EX32(ctx->base.tb->flags, PSW, PM)) {
++    if (FIELD_EX32(ctx->tb_flags, PSW, PM)) {
+         if (is_exception) {
+             gen_helper_raise_privilege_violation(cpu_env);
+         }
+@@ -2292,6 +2293,7 @@ static void rx_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     CPURXState *env = cs->env_ptr;
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     ctx->env = env;
++    ctx->tb_flags = ctx->base.tb->flags;
+ }
+ 
+ static void rx_tr_tb_start(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.25.1
 
