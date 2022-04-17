@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72402504931
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:09:51 +0200 (CEST)
-Received: from localhost ([::1]:44010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31E850492F
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:08:02 +0200 (CEST)
+Received: from localhost ([::1]:37966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngAHO-0003OO-JC
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57256)
+	id 1ngAFd-0007h4-Vs
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fU-0000TI-KI
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:41 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:33594)
+ id 1ng9fW-0000Tw-MQ
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:46 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:36643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fR-0001nA-3R
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:40 -0400
-Received: by mail-pl1-x632.google.com with SMTP id c23so10837162plo.0
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:35 -0700 (PDT)
+ id 1ng9fS-0001nP-WF
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:41 -0400
+Received: by mail-pl1-x632.google.com with SMTP id q3so10807078plg.3
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=B2yOmG4jVDYQ3nJ0wsT3v+x6riKueIrGNetVF8RAfhk=;
- b=A0Vv3F2NSIzu3dZe1W8ld4edFr+PLTJ+ZOTq8VwSG7dZR51K8pqM5plky2XqTBEEZ3
- C8vwHl9fXoxzpTPWWH6a4f8rPRkz6CuFJkrVK5HoQv4csX6Xw7+6OHK/hdjxxZBnn5jG
- 8KhnUFlcfn9qxnzi/kU5tmLXCeal+Z5bm0J1dJ6NT0GFUQQPXBcyGwGDlKhS5d3HPIGd
- 2DcKfZ1OqX+IuTYLDmlYAlHquZYtaiNLd64s6HxWEIuPx/+EnoQXYsRSk4c8Ba4rJ4+W
- q+RhIgCdGSP2AY3n+n/fqk9QYJuMT444/lkriNWDzWpJ4ikeB8S3hNrpcMC34C8+ZM4Y
- Cetw==
+ bh=BY6AMJvNmzcszeZ7iu4WSrEG8O0G/uroM/T7KokfH/A=;
+ b=bNoB1C5VKWK3iJZ8IPwwSXCPs9nlf+deYNvwl8JEalPdYgZvjK5Yg386pY5gXHCiN5
+ Yy6TpfvNcxfkNUPz/K5FggzYVcdMpEuaOQ/1w2T7NgdERJcKCsKC1OneaMKC3/tMX4+8
+ 18K1AjxnM5JCpC8fotDmayhihr/KHvjUZy/sH7VPm/ygW+uDBV/zdTJQPVUdTeSUQDll
+ zbRtpdshFuQp63oqH0ILfyj94NGmiqZXW+Or7YkbAZ7tuEdLfG7bMc9yiPKDSU3mNp1i
+ dEgLJ0dqty5bXFk6xqToBXWFUBPqP+vVuhX/w35m6TqcIT1knOkGDH/aXt4RwobOATd/
+ UOqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B2yOmG4jVDYQ3nJ0wsT3v+x6riKueIrGNetVF8RAfhk=;
- b=3DRkPu2Iub62LREg1tiLYFuvKIBO15THMaGVX/0HkYC2fSY250Ktwmi1MXfAHZeb8S
- yASGzIkQgzUfo9F/pviS+TsHVoAfS7g4sAyebxRetgbtCj0YChBNxI3PJuhyP5VgRQeo
- duJWNMYg1RIFyxjBLWCv1J97SNl7gF7u+T0q7Y1/t0ac6/Cquf1t+toURTQKTjpGg0ot
- e+gTzvzUG+0SKqG+cPJWiQK8HVW2tyUlLz12z+BpHWepypoYLhmaEEPOFrUu3zMlE1t6
- K9eZC2vEbkWMuNycHDEY0vGqxKX6DLicELkix9PjKUERM3oVThhhZzWDRu3Bny1Wr6kr
- bTqA==
-X-Gm-Message-State: AOAM530pZoJPjKmeThvLLbmTwrdoGIP9X+w8+/oPtcGOlSGzJyVY37p/
- 4b79a+iSuZGWIbVI10zI8TJAegxihI33GQ==
-X-Google-Smtp-Source: ABdhPJzfDeGhFNjvxm0Vp5hc9MurH6T+pIVTauOGTpHkN34MwhN5QYuF+hd7F+V9RUTuQ56ls5YnBQ==
-X-Received: by 2002:a17:90a:c302:b0:1bd:14ff:15 with SMTP id
- g2-20020a17090ac30200b001bd14ff0015mr14538118pjt.19.1650220235080; 
+ bh=BY6AMJvNmzcszeZ7iu4WSrEG8O0G/uroM/T7KokfH/A=;
+ b=f5mvmKVj+edC7KfiDM2B3cjU86IFCNABIwi33Rd7jQbUBLUE8/xNRXO4Hki9gqsL3M
+ VIt7sG9I9XBIvkUizpepbh5Z53V4wKLjqG8SqSdPBeu5kSZ1yN6ZaNhe+ovi7jlgQS3s
+ DFHW29G4tDDoywL98F0beHECHfmrAf8v5j19uGGWg19hcTFvBQZij5c8UBDJELR0yNND
+ s3W20Ymt96iKvhxIjYia2KMqlXUFMP7WG+h0fC7t5YtOKgwwziy5WbB8AOR/kbNamNC9
+ URLh+FXdTg09I4KW9ojLYWsOsCzfdwyCMHUo1T/sRdl4sxf/pZ4ez8ImK2z1qMA/FCQI
+ tGjw==
+X-Gm-Message-State: AOAM533CKfbt1mIxcXm202nm+c3VXPcRNd9wxr3h828Zdm1FzxBq/eD3
+ s2L+P3wFuWAgqnBPHgybZ9XTd82zVzw4xQ==
+X-Google-Smtp-Source: ABdhPJztoBCkYKYzBNh9UX8TXC/0bfXhJ3YEoT4fY5redsl0mjCcOVDa3u87rbKtfJ+mR+E2tzljKg==
+X-Received: by 2002:a17:903:240c:b0:153:c8df:7207 with SMTP id
+ e12-20020a170903240c00b00153c8df7207mr7803432plo.44.1650220235867; 
  Sun, 17 Apr 2022 11:30:35 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.34
+ on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 11:30:34 -0700 (PDT)
+ Sun, 17 Apr 2022 11:30:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/39] util/log: Drop return value from qemu_log
-Date: Sun, 17 Apr 2022 11:29:57 -0700
-Message-Id: <20220417183019.755276-18-richard.henderson@linaro.org>
+Subject: [PATCH v3 18/39] util/log: Mark qemu_log_trylock as
+ G_GNUC_WARN_UNUSED_RESULT
+Date: Sun, 17 Apr 2022 11:29:58 -0700
+Message-Id: <20220417183019.755276-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417183019.755276-1-richard.henderson@linaro.org>
 References: <20220417183019.755276-1-richard.henderson@linaro.org>
@@ -89,61 +90,28 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only user of this feature, tcg_dump_ops, has been
-converted to use fprintf directly.
+Now that all uses have been updated, consider a missing
+test of the result of qemu_log_trylock a bug and Werror.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/log-for-trace.h |  2 +-
- util/log.c                   | 13 ++-----------
- 2 files changed, 3 insertions(+), 12 deletions(-)
+ include/qemu/log.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/log-for-trace.h b/include/qemu/log-for-trace.h
-index 5e41517227..d47c9cd446 100644
---- a/include/qemu/log-for-trace.h
-+++ b/include/qemu/log-for-trace.h
-@@ -30,6 +30,6 @@ static inline bool qemu_loglevel_mask(int mask)
- }
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index 2d9455dc85..3a1f3a6020 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -67,7 +67,7 @@ static inline bool qemu_log_separate(void)
  
- /* main logging function */
--int G_GNUC_PRINTF(1, 2) qemu_log(const char *fmt, ...);
-+void G_GNUC_PRINTF(1, 2) qemu_log(const char *fmt, ...);
+ /* Lock/unlock output. */
  
- #endif
-diff --git a/util/log.c b/util/log.c
-index 090bc3bc39..2bd4dfba1b 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -59,26 +59,17 @@ void qemu_log_unlock(FILE *fd)
-     }
- }
+-FILE *qemu_log_trylock(void);
++FILE *qemu_log_trylock(void) G_GNUC_WARN_UNUSED_RESULT;
+ void qemu_log_unlock(FILE *fd);
  
--/* Return the number of characters emitted.  */
--int qemu_log(const char *fmt, ...)
-+void qemu_log(const char *fmt, ...)
- {
-     FILE *f = qemu_log_trylock();
--    int ret = 0;
--
-     if (f) {
-         va_list ap;
- 
-         va_start(ap, fmt);
--        ret = vfprintf(f, fmt, ap);
-+        vfprintf(f, fmt, ap);
-         va_end(ap);
-         qemu_log_unlock(f);
--
--        /* Don't pass back error results.  */
--        if (ret < 0) {
--            ret = 0;
--        }
-     }
--    return ret;
- }
- 
- static void __attribute__((__constructor__)) qemu_logfile_init(void)
+ /* Logging functions: */
 -- 
 2.25.1
 
