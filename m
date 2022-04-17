@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC7B5037E1
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Apr 2022 21:05:50 +0200 (CEST)
-Received: from localhost ([::1]:33230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8FB5045EE
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 03:38:26 +0200 (CEST)
+Received: from localhost ([::1]:48838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nfnjw-0003lp-Fg
-	for lists+qemu-devel@lfdr.de; Sat, 16 Apr 2022 15:05:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35904)
+	id 1nftrs-0006D4-Ln
+	for lists+qemu-devel@lfdr.de; Sat, 16 Apr 2022 21:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1nfniQ-000343-Pc
- for qemu-devel@nongnu.org; Sat, 16 Apr 2022 15:04:14 -0400
-Received: from mout.web.de ([217.72.192.78]:40023)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1nfniO-00013C-RN
- for qemu-devel@nongnu.org; Sat, 16 Apr 2022 15:04:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1650135848;
- bh=Vrtt8eY+1+5xACfLDsJG2IgAW2POtF8cCgogxIAnCpo=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=aAIqzyIzfPbgKPF9KecmEUqYg44gjLxutYcAGN45qSo4WwWtZQiGmgvRqUl5bVWiK
- Fn3Pr2cke/kzeWlHnJd6+jGkfTZ7ROI7J18xbLIPs3wCxDfg7DIK+Mci8k8gvi987U
- 2NbRMPywADNPgztWGKrpj2nBjFc3VqZKgE7eXBVc=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([88.130.61.116]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1McZnj-1oDm1F01ld-00cudY; Sat, 16
- Apr 2022 21:04:08 +0200
-Date: Sat, 16 Apr 2022 19:03:57 +0000
-From: Lukas Straub <lukasstraub2@web.de>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 for-7.1 0/9] nbd: actually make s->state thread-safe
-Message-ID: <20220416190341.561cb3ff@gecko.fritz.box>
-In-Reply-To: <20220414175756.671165-1-pbonzini@redhat.com>
-References: <20220414175756.671165-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1nftqW-0005X1-Fu
+ for qemu-devel@nongnu.org; Sat, 16 Apr 2022 21:37:00 -0400
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:36610)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1nftqU-00063y-Rp
+ for qemu-devel@nongnu.org; Sat, 16 Apr 2022 21:37:00 -0400
+Received: by mail-lj1-x234.google.com with SMTP id o16so13321003ljp.3
+ for <qemu-devel@nongnu.org>; Sat, 16 Apr 2022 18:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Hx1zPp59cLBCSzYmNlD0hZ1wg3obVMInPT7jmKvYWe4=;
+ b=fqzpVP4cF0plezSqJZp77UyFnTbEI3Qqq/5IoCZ+exVssSJITRKooGIRjZFtlUvo50
+ quFMRayevN/yKJmysxANlymZKiLzKriNTj9UwZaQki50rGnddFXBeZtKfszXkchUEXWA
+ 9b1fJGRowv168vLii0e1PAVDABxbGwnxq5TtREqkZwYz7NRH1wHOkQWvaRthBeTv03YI
+ N1OsVHgAOV4rzdqDp6v/sGBDBzdKY7msKwckNgSWLlZb7oiq3vwzITJiBaJYGGoHCHH+
+ iuglCewZ8LoBOw/DE6MrQ2T8HE7ZaclwuuDYI7/j54vd7/DhtCnOYT2l9/eLVvcsP7P6
+ eT1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Hx1zPp59cLBCSzYmNlD0hZ1wg3obVMInPT7jmKvYWe4=;
+ b=Qn+pGPlRR56mzJb/hyU7R4XumQtQvJUnu/zs4i88Zh9lJN5qlNr596TI+089c7MJ1a
+ xbEEBoQMHGLWcd3CS23offC1yLUK7f2INEYmTe8Jfe9ZQMtPUBdCFrDu5MWNNSjDImFB
+ xitPe6HWPkjkLl3CYdTeB2N3vFQvVgewc/8tLAmDmuu9dWgu49LoZD2Km0C/A5ACzJ7J
+ CJq7z+PcBekKtljROiXMojlonIDHIZ+cVxbzeDPFgYS8OzZg8HaK/1jtGDESIwT2rjBx
+ 2V/4hv7nQK8sPPdvadonDjQom/PwoWZGqDjXDORZex9og2Etq/V5nwOr+SOadhNi2em9
+ 5Eqg==
+X-Gm-Message-State: AOAM531SjCZ6aM/L1v3d+dobZzLrAx4I2kGpnggWSCup4CQ4i0we35Wj
+ fMj7sW7kD/01VOWqK88OaJ9TOid8U53yltp3
+X-Google-Smtp-Source: ABdhPJxMNtQnQZ0PcEND/qxANx/UdvXRiqqGbGdvAQstfLwd/d1upmoVCDXwnzuILxdjylVzcgNhNg==
+X-Received: by 2002:a2e:8659:0:b0:24d:b379:4cc0 with SMTP id
+ i25-20020a2e8659000000b0024db3794cc0mr1935565ljj.289.1650159415878; 
+ Sat, 16 Apr 2022 18:36:55 -0700 (PDT)
+Received: from localhost.localdomain ([5.3.190.55])
+ by smtp.gmail.com with ESMTPSA id
+ i6-20020a198c46000000b0044424910c94sm826863lfj.113.2022.04.16.18.36.54
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 16 Apr 2022 18:36:55 -0700 (PDT)
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v3] hw/misc: applesmc: use host osk as default on macs
+Date: Sun, 17 Apr 2022 04:36:08 +0300
+Message-Id: <20220417013608.22086-1-yaroshchuk2000@gmail.com>
+X-Mailer: git-send-email 2.34.1.vfs.0.0
+In-Reply-To: <20220405004621.94982-1-t0rr3sp3dr0@gmail.com>
+References: <20220405004621.94982-1-t0rr3sp3dr0@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/hozlXK8E1uYr/.o.9HB9JUI";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:DEHkVApA+rbiiqM9mmleX1SVUEe7odHKprQUiqt5b6FXmyOofb0
- qz/gt2NvLOh2HEiOfb04f6ur9EgDZGlEDcBFcMSzWlxerHVsZ1NSW9iFVHLqm2MGRLaqrlM
- iY5bu/PpEbJ6+yl8vACf8/Q3uCh3mJ8qPnULqVs8lk7sr/rcmne2gLb7MVHbVH8pKNwZ4dr
- lJCo8sAwQeAiUqAjV5YIQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:B/ahzx+/apw=:IfjjG2nKOwyAD17z9GV0TQ
- R3ivALGFNFpZsTFuSdqUZ5U1wAfnLEzQh9qFPLoK1d0KyC9zzjaBuOUOeFbRa1AgIS1Vzviii
- //HiRjLGSO3+6FHvrOtZYO8ifZJoFgsLTXqqcmTqjDj0IgJhPaYqm+Cthjsm+R+BP3hssdvqA
- LlXAEpkkMAdV1bOU+i+qRdQIb/qY1bSZVZ+fAny3URoL2o6iwZd5j2hMqKKhu7fA7Sw5vu9Oj
- qA8tlUco4e/WlTEd4VZSK9/ZeaeLSvojOu43jkTCF95Irn46ZbQ7aqLwLaaXfva8hF4ft3oYj
- muSU5KD8liW/Sgvgd25KEj9faauMraa2Et85KpOx8d2SAZb4lkNhx15W9C/MkwWu7yVAhNz39
- JmMNC7+hK5Rf7tDKdOEQJgxjtGjfIDy0cQMZl7KghT0R52k2t1aYUi731Om3cy3qp84qT/zaj
- sZOBOkNVyXFDC4mcV+qKNh59/kdbtm3lDiCcX98ilMOLjBssNmKfoHoGodFEmEg6OXpvarQBw
- mD2DGDw3qw2BGQwpx81WH5K9y2gASsuaHftatOB2n6JoNhMVEiEdt6yuaD1AfwslrRueS4A2j
- v1/Nq6z/e5JZw8FxtRYG34P/gRn1hhGS55dAUDtt2ygegzldVrED2fJD6Xrn7WmxcNl1weQW8
- +4DVJO+HJP61K8NCsE0vJ4NEsT58KcgIdOjvmMvvYy6VWKnZIQJNaeaF/L74D7trFtcvPgBoU
- zyllRVJdeIWnnnrHLOU48YvulF8sJVgaVNROKGwFgkaWc5dGS44ymI5n8byLGi1EhDUofqzzT
- MEBu4HFnqa7qTbHq8TzgZV0qdo1uuvofNThaQhRpPxp1UAfRotj4RQu2mn8hXq+a44H08zhj4
- 7DIGUYvt0lUjPPtcvBmmuYUFY+oxwiOD/gjf4jdFy64TP6G9eCpo8xjLdh0j/g7uPN6chs7d+
- ggB04jxIpjEoQIwU/XV34qs1XBRecbh4Q0l/fKLKfl7DiijkBg/kQOV0B79Ijd4mylM89VdSL
- Z070gaCPmHqKftxKzvuzUV1S7gZ6/hc/ZyMEEgXYXD7N26twqSl1OfTOLkbLdcOCkCJo4Y9i1
- Pnc9ScDqOUmpJ0=
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lj1-x234.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,82 +85,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: v.sementsov-og@mail.ru, eblake@redhat.com, qemu-devel@nongnu.org
+Cc: t0rr3sp3dr0@gmail.com, Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/hozlXK8E1uYr/.o.9HB9JUI
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Pedro Torres,
 
-On Thu, 14 Apr 2022 19:57:47 +0200
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+Please note this threads
+https://patchew.org/QEMU/20211022161448.81579-1-yaroshchuk2000@gmail.com/
+https://patchew.org/QEMU/20220113152836.60398-1-yaroshchuk2000@gmail.com/
 
-> The main point of this series is patch 7, which removes the dubious and
-> probably wrong use of atomics in block/nbd.c.  This in turn is enabled
-> mostly by the cleanups in patches 3-5.  Together, they introduce a
-> QemuMutex that synchronizes the NBD client coroutines, the reconnect_delay
-> timer and nbd_cancel_in_flight() as well.
->=20
-> The fixes happen to remove an incorrect use of qemu_co_queue_restart_all
-> and qemu_co_enter_next on the s->free_sema CoQueue, which was not guarded
-> by s->send_mutex.
->=20
-> The rest is bugfixes, simplifying the code a bit, and extra documentation.
->=20
-> v1->v2:
-> - cleaner patch 1
-> - fix grammar in patch 4
-> - split out patch 6
->=20
-> Paolo Bonzini (9):
->   nbd: safeguard against waking up invalid coroutine
->   nbd: mark more coroutine_fns
->   nbd: remove peppering of nbd_client_connected
->   nbd: keep send_mutex/free_sema handling outside
->     nbd_co_do_establish_connection
->   nbd: use a QemuMutex to synchronize yanking, reconnection and
->     coroutines
->   nbd: code motion and function renaming
->   nbd: move s->state under requests_lock
->   nbd: take receive_mutex when reading requests[].receiving
->   nbd: document what is protected by the CoMutexes
->=20
->  block/coroutines.h |   4 +-
->  block/nbd.c        | 298 +++++++++++++++++++++++----------------------
->  2 files changed, 154 insertions(+), 148 deletions(-)
->=20
-
-For the whole series:
-
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-
-Regards,
-Lukas
-
---=20
+There was a discussion about how to preserve
+backward compatibility of emulated AppleSMC
+behaviour. The discussion has stopped, but
+if you're intended to see this feature working
+within QEMU - it'd be good to cc all the
+participans of previous threads :)
 
 
---Sig_/hozlXK8E1uYr/.o.9HB9JUI
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Thanks,
 
------BEGIN PGP SIGNATURE-----
+Vladislav Yaroshchuk 
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmJbEx0ACgkQNasLKJxd
-slgOSxAAsZR4fNLyZYgxtrzyfj0FbUtPZw4kkbfHDmgtN+2iNdEYdwdBA2SWTjJ3
-VX4jBIHp6Bb3bBb/hUl6S3ele34942kAuUWFbwp+7ygyehwKcS8760ev1VFdh6po
-OUtgdffwSdbrSkIwbQnhLuZwc9cwHOaOPRbVW8ZmybDnQkZT8XUFcoDZ/bylzvGQ
-Nmvr0YcGgEX9BT9PruBSpU/XtGKzHNPvrTIkxDVBj1E8xyN9YbhxaRVNKO7aKtba
-rbklcGsl4Qx0GXRGHfvNtZkJ/iV9U6CchU91K+jB0ppRAvz0dkmdD0gWe1dOTVG4
-1/xeK3+cAm+LBJ466zmioC0LJPc4nB9oko4pXar1RZbmi8KOmxCdX4zzXNv4oPGs
-vuH4P7D0AWwAQnU0QFs9ZhhMGA8BaPIeGAEtBrVK+NaaJw7pB8SwIclW5D9oMxiW
-fa3yEJM+F1AvBZz/dO8ewDXtI0klCHZqjaMZgCEizIcktwHfTNmsOwx8lAfKpNYg
-Nbo4Vzm/lKc/NC7PRoZd9imyIvB7udlOqshyJx3CPGn38Iij0Gm9u6XTaLimuknS
-J2KwqJoBShUtJfp4stCpTqIg431DIXveJk2ObruzuI0UVeBOe9L0sUFL+yJUEQQo
-Fqyl+GY3r/OdEYqR7uXETHdYBIIqDLvUN/aJsCJnLY1aYzrSeXo=
-=Z6Yt
------END PGP SIGNATURE-----
-
---Sig_/hozlXK8E1uYr/.o.9HB9JUI--
 
