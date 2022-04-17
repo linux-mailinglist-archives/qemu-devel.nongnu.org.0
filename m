@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A3D6504935
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:12:51 +0200 (CEST)
-Received: from localhost ([::1]:52480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60FD504932
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:10:13 +0200 (CEST)
+Received: from localhost ([::1]:45898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngAKI-0000jb-2R
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57346)
+	id 1ngAHk-0004gk-Jw
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:10:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fX-0000U1-80
+ id 1ng9fY-0000U4-Sk
  for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:49 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:43791)
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fU-0001oL-Uh
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:42 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- j8-20020a17090a060800b001cd4fb60dccso12293485pjj.2
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:40 -0700 (PDT)
+ id 1ng9fW-0001oU-E8
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:44 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ n33-20020a17090a5aa400b001d28f5ee3f9so785720pji.4
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b1JYMpL7TO2R6BVJG41yV+OL5PQM9UAMtxfbal+NfyA=;
- b=yfe6HtL/zw68n5sFn0qjUCyH7rMnaJx6Moi2MG888bSwDT1+AIFmoLsNai2XLXPW0Q
- fmc/NWt5NJtx0AQ/LVqE2MKSy0se9L/zn2W4UDZ/k7kfRsU+ZxKa9GIUEc77Zz6IFjR5
- whnjGLiiYFhcB7BL0h6tqz9iMtKYiuRA4JJAWXktgFuKuMzcZP95eQleSGmP9cmvcqBP
- hHWZjuSZC9SqUXZ40INQRw3+9ClO9AUc2acHRxrxkAExKJEHCDisx+tkhXAScQLHfJ5T
- D4NCiEKRRcoop/OUU8MHXS0Df47j1tK5/o6OgEXSyjGTyPVOuPqYaC9r39XH/4W+5c5q
- H0kg==
+ bh=MFS05VM+1nmIS90ffHb9z5k4YW8IB7HF8idrdJvOqhE=;
+ b=yJG2L9DL/hSy/pDCG7gUd9iaqRZjHV8pMMOiyIj4y8L9ilHJLGqKCidTFTqbl6YPmx
+ HPYCbcwcuK3UwESKx4SqtSH5LV49+IKF8TFo+boRCl7kMvlP1AJq3L7xi3zSeN2XD4Eo
+ vExwFNFF7RYOq1aVlv780G0yFaitiuyuz6EB9ZmRbnWvS2nd5oSSbzk8kP0dDHKbNqJN
+ Dn68ZU/xNdvnEzl8+mAMCBrS6HjRR3DBzC2OSkrdvMhh+51MvvxPQz9x6LqFetwodq7I
+ +lLyMDyWKMQmHrvcQtEGbhEn1ySLv9fv9+xiEWmBzIbHQsk35chWJc1/WCK6DpIs1XQW
+ tNEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b1JYMpL7TO2R6BVJG41yV+OL5PQM9UAMtxfbal+NfyA=;
- b=qIfvfn7EJ3XaowdEyQ9eBw8bG0HYcBwKso3FRhtsnqdLOUfA5BZfiX4CsMg80YVSHW
- mp+owksuMTc3OYxcySieD2RtImhsimWky9F+OIYywJ2yVEnggGkN7FdC+zR1XPTxihXB
- 0KSema5ZfUT1b8kCeh2jsak//yVov8iKmPpfA9a8tkFVh8XNNaMh1PIhWAqbT1JH8OLY
- 8Tm1jZchrbJYnI/1qm/2diVM6zxxD4SBDkGdpdmnKe+GeXjEI45zr4r6y+zfIXJ/GvpB
- xGsqcB46TOl+7uzlJT2i5iE7Dxq/pXVO4WWerqC2c611iIDniMqHsSycrbqkGmfh2jvu
- q7dw==
-X-Gm-Message-State: AOAM533SF8ophCbLwtqVqy4DqchYqaba0s8Eeuq5hfY6oN96B+1TfalE
- d10tzMcIK+EEQMjISkKOsncKycmckmc4YA==
-X-Google-Smtp-Source: ABdhPJzpfeTycJ+OV8qY6lc9RK47ezMDYY2Pnh2ttO8ylIhvx8mgq4lNQBBK/BcGGLZj6C0Z67lyCw==
-X-Received: by 2002:a17:902:b10c:b0:154:a3b5:b33a with SMTP id
- q12-20020a170902b10c00b00154a3b5b33amr7652514plr.3.1650220239650; 
- Sun, 17 Apr 2022 11:30:39 -0700 (PDT)
+ bh=MFS05VM+1nmIS90ffHb9z5k4YW8IB7HF8idrdJvOqhE=;
+ b=NhRYnvpF4BYk1LiYkUFVQEgn1kRnUdYLPVs19b12lnCMgp6sJCYeTw6MPzPNhcu5n5
+ 1H3nd1Gai3ncmovQ/cWZUG6LuIxN2e8wBmmCmK/xyxtKtmFxeaqGXVrKQGJTlWEH7cwb
+ JlX/FF0N1TuOF84jWutDU7bHO2nq3qVZ8SpsUf4MIp37fKGdD6gIDPOS0/ahIth0QqDQ
+ WiwkAXfm3WpUTpDaKlKBELtEdR5uaYjWdsMk7pExEVWUJsLN6qT+UTdNdixd1kSe9cr8
+ MUEw1H+pS1YsMcn/3lRCjoa4yM2FDdVWiDenF3d2/RLdQbnZZ0lCqCj81nBoJWE0FN27
+ cdsA==
+X-Gm-Message-State: AOAM533k82w7A9IE14KlGnglWJ+og4ThQ/G6eNQBRCxz5q9lx8/p/DcM
+ HJY1RoNxUpG6wQKMol2d1ATEH6dKiUvfGQ==
+X-Google-Smtp-Source: ABdhPJwlAS1Yus0eFwwYWE3LbjnkVABl5/PC08Zii9JIbevzIklP5FMDNZPTk1XKCqJ4GdYxppy/IA==
+X-Received: by 2002:a17:903:2343:b0:158:d9e2:8049 with SMTP id
+ c3-20020a170903234300b00158d9e28049mr7565243plh.3.1650220240365; 
+ Sun, 17 Apr 2022 11:30:40 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
  on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 11:30:39 -0700 (PDT)
+ Sun, 17 Apr 2022 11:30:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 22/39] linux-user: Expand log_page_dump inline
-Date: Sun, 17 Apr 2022 11:30:02 -0700
-Message-Id: <20220417183019.755276-23-richard.henderson@linaro.org>
+Subject: [PATCH v3 23/39] tests/unit: Do not reference QemuLogFile directly
+Date: Sun, 17 Apr 2022 11:30:03 -0700
+Message-Id: <20220417183019.755276-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417183019.755276-1-richard.henderson@linaro.org>
 References: <20220417183019.755276-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,114 +90,76 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have extra stuff to log at the same time.
-Hoist the qemu_log_lock/unlock to the caller and use fprintf.
+Use qemu_log_lock/unlock instead of the raw rcu_read.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/log.h | 15 ---------------
- linux-user/main.c  | 43 +++++++++++++++++++++++++++++--------------
- linux-user/mmap.c  |  7 ++++++-
- 3 files changed, 35 insertions(+), 30 deletions(-)
+ tests/unit/test-logging.c | 33 +++++++++++++++------------------
+ 1 file changed, 15 insertions(+), 18 deletions(-)
 
-diff --git a/include/exec/log.h b/include/exec/log.h
-index 06ab9841ee..ad0a40cfeb 100644
---- a/include/exec/log.h
-+++ b/include/exec/log.h
-@@ -42,19 +42,4 @@ static inline void log_cpu_state_mask(int mask, CPUState *cpu, int flags)
-     }
+diff --git a/tests/unit/test-logging.c b/tests/unit/test-logging.c
+index 54d7e8e33b..dcb8ac70df 100644
+--- a/tests/unit/test-logging.c
++++ b/tests/unit/test-logging.c
+@@ -110,12 +110,10 @@ static void test_parse_path(gconstpointer data)
+ 
+ static void test_logfile_write(gconstpointer data)
+ {
+-    QemuLogFile *logfile;
+-    QemuLogFile *logfile2;
++    FILE *logfile0, *logfile1;
+     gchar const *dir = data;
+-    g_autofree gchar *file_path = NULL;
++    g_autofree gchar *file_path0 = NULL;
+     g_autofree gchar *file_path1 = NULL;
+-    FILE *orig_fd;
+ 
+     /*
+      * Before starting test, set log flags, to ensure the file gets
+@@ -124,29 +122,28 @@ static void test_logfile_write(gconstpointer data)
+      * this is needed.
+      */
+     qemu_set_log(CPU_LOG_TB_OUT_ASM, &error_abort);
+-    file_path = g_build_filename(dir, "qemu_test_log_write0.log", NULL);
++    file_path0 = g_build_filename(dir, "qemu_test_log_write0.log", NULL);
+     file_path1 = g_build_filename(dir, "qemu_test_log_write1.log", NULL);
+ 
+     /*
+      * Test that even if an open file handle is changed,
+      * our handle remains valid due to RCU.
+      */
+-    qemu_set_log_filename(file_path, &error_abort);
+-    rcu_read_lock();
+-    logfile = qatomic_rcu_read(&qemu_logfile);
+-    orig_fd = logfile->fd;
+-    g_assert(logfile && logfile->fd);
+-    fprintf(logfile->fd, "%s 1st write to file\n", __func__);
+-    fflush(logfile->fd);
++    qemu_set_log_filename(file_path0, &error_abort);
++    logfile0 = qemu_log_trylock();
++    g_assert(logfile0);
++    fprintf(logfile0, "%s 1st write to file\n", __func__);
++    fflush(logfile0);
+ 
+     /* Change the logfile and ensure that the handle is still valid. */
+     qemu_set_log_filename(file_path1, &error_abort);
+-    logfile2 = qatomic_rcu_read(&qemu_logfile);
+-    g_assert(logfile->fd == orig_fd);
+-    g_assert(logfile2->fd != logfile->fd);
+-    fprintf(logfile->fd, "%s 2nd write to file\n", __func__);
+-    fflush(logfile->fd);
+-    rcu_read_unlock();
++    logfile1 = qemu_log_trylock();
++    g_assert(logfile1);
++    g_assert(logfile0 != logfile1);
++    fprintf(logfile0, "%s 2nd write to file\n", __func__);
++    fflush(logfile0);
++    qemu_log_unlock(logfile0);
++    qemu_log_unlock(logfile1);
  }
  
--#ifdef NEED_CPU_H
--#if defined(CONFIG_USER_ONLY)
--/* page_dump() output to the log file: */
--static inline void log_page_dump(const char *operation)
--{
--    FILE *logfile = qemu_log_trylock();
--    if (logfile) {
--        fprintf(logfile, "page layout changed following %s\n", operation);
--        page_dump(logfile);
--    }
--    qemu_log_unlock(logfile);
--}
--#endif
--#endif
--
- #endif
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 6aed4929ab..d263b2a669 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -857,21 +857,36 @@ int main(int argc, char **argv, char **envp)
-     g_free(target_environ);
- 
-     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
--        qemu_log("guest_base  %p\n", (void *)guest_base);
--        log_page_dump("binary load");
-+        FILE *f = qemu_log_trylock();
-+        if (f) {
-+            fprintf(f, "guest_base  %p\n", (void *)guest_base);
-+            fprintf(f, "page layout changed following binary load\n");
-+            page_dump(f);
- 
--        qemu_log("start_brk   0x" TARGET_ABI_FMT_lx "\n", info->start_brk);
--        qemu_log("end_code    0x" TARGET_ABI_FMT_lx "\n", info->end_code);
--        qemu_log("start_code  0x" TARGET_ABI_FMT_lx "\n", info->start_code);
--        qemu_log("start_data  0x" TARGET_ABI_FMT_lx "\n", info->start_data);
--        qemu_log("end_data    0x" TARGET_ABI_FMT_lx "\n", info->end_data);
--        qemu_log("start_stack 0x" TARGET_ABI_FMT_lx "\n", info->start_stack);
--        qemu_log("brk         0x" TARGET_ABI_FMT_lx "\n", info->brk);
--        qemu_log("entry       0x" TARGET_ABI_FMT_lx "\n", info->entry);
--        qemu_log("argv_start  0x" TARGET_ABI_FMT_lx "\n", info->arg_start);
--        qemu_log("env_start   0x" TARGET_ABI_FMT_lx "\n",
--                 info->arg_end + (abi_ulong)sizeof(abi_ulong));
--        qemu_log("auxv_start  0x" TARGET_ABI_FMT_lx "\n", info->saved_auxv);
-+            fprintf(f, "start_brk   0x" TARGET_ABI_FMT_lx "\n",
-+                    info->start_brk);
-+            fprintf(f, "end_code    0x" TARGET_ABI_FMT_lx "\n",
-+                    info->end_code);
-+            fprintf(f, "start_code  0x" TARGET_ABI_FMT_lx "\n",
-+                    info->start_code);
-+            fprintf(f, "start_data  0x" TARGET_ABI_FMT_lx "\n",
-+                    info->start_data);
-+            fprintf(f, "end_data    0x" TARGET_ABI_FMT_lx "\n",
-+                    info->end_data);
-+            fprintf(f, "start_stack 0x" TARGET_ABI_FMT_lx "\n",
-+                    info->start_stack);
-+            fprintf(f, "brk         0x" TARGET_ABI_FMT_lx "\n",
-+                    info->brk);
-+            fprintf(f, "entry       0x" TARGET_ABI_FMT_lx "\n",
-+                    info->entry);
-+            fprintf(f, "argv_start  0x" TARGET_ABI_FMT_lx "\n",
-+                    info->arg_start);
-+            fprintf(f, "env_start   0x" TARGET_ABI_FMT_lx "\n",
-+                    info->arg_end + (abi_ulong)sizeof(abi_ulong));
-+            fprintf(f, "auxv_start  0x" TARGET_ABI_FMT_lx "\n",
-+                    info->saved_auxv);
-+            qemu_log_unlock(f);
-+        }
-     }
- 
-     target_set_brk(info->brk);
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index c125031b90..bbb2c2e178 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -630,7 +630,12 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-  the_end:
-     trace_target_mmap_complete(start);
-     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
--        log_page_dump(__func__);
-+        FILE *f = qemu_log_trylock();
-+        if (f) {
-+            fprintf(f, "page layout changed following mmap\n");
-+            page_dump(f);
-+            qemu_log_unlock(f);
-+        }
-     }
-     tb_invalidate_phys_range(start, start + len);
-     mmap_unlock();
+ static void test_logfile_lock(gconstpointer data)
 -- 
 2.25.1
 
