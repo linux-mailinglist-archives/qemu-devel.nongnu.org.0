@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02FF50493D
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:13:27 +0200 (CEST)
-Received: from localhost ([::1]:54854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F847504934
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:12:02 +0200 (CEST)
+Received: from localhost ([::1]:50806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngAKs-0002Rf-S2
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:13:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57490)
+	id 1ngAJU-00082a-A1
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:12:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9ff-0000UT-0G
+ id 1ng9fb-0000UG-6q
  for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:52 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:44594)
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:40654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fY-0001ox-JX
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:47 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id j8so10764923pll.11
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:42 -0700 (PDT)
+ id 1ng9fY-0001pU-JT
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:46 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ md20-20020a17090b23d400b001cb70ef790dso15555409pjb.5
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GuwOMriXgAwu84yDvMruRBOLZ7z6LWp1DQPbJdxkC+4=;
- b=sSlbVVIjTJJ+qatV9FUqY8iZVCS4VoN8OalAf7BhXolANaQZnDJhbb/W3qRU/zZZqC
- 0frMSowxfQJ0jyykchg6xVBeqjc8j6Zn1J10HnVDfSuhDmM0w1nFg8Kuoi0x8vJUUhQ6
- P14g9FtVaM4hCdRaUBs3/DZGcLMCrGhOx9rhQZVy3jDlQMHaft04yHFSP00G9w90avS2
- 49bLKscEP1CavMCXautOo9rhXzb5LyT3NYjEAPYearoPrvUZDh78TGw65EHtluTKqhLp
- P8fi11vrAGYAMFCm7UZ7TzIZlsWd6yD9aWgSmcjYt5HeuiwGnHOKRcsNO31hXPox5UYw
- DAbA==
+ bh=6Sm3bJ8lkkLDndaTXu2LI7WsKQhrLWIrMlSZhSEKk0s=;
+ b=eRHWF7Wh8H7SW5zhV2PWB+0Tcv/jH8IDVbSOvtLvZFcowUiJblDlc6mdhLLHGX1IkU
+ Cxt29do+9KGTVxgeb1swWxD6hHnjglmEjYOxj1vFV7v2XtLha8RCLXJGIxZdPTOTQqYc
+ F7sF+Zx5TWr8/pwFz75yP5QbXtOcmg6RR/a/rldtWVDenRamkSYHMcPLPiE16Yaovg0s
+ O/duVtAsOULBXxUWdOFkECUY38aIMF4cBsDUZxFNQ4nA97TK1hzdVyxBwfaAicL7nXh4
+ b4nGs/bCTJyXU6SQ3RqeYq+T+Mc4XkhrLH6Ll/EAQn5Q7ACgBDTC2ijEBI+Cn+vUu5HX
+ 0ebQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GuwOMriXgAwu84yDvMruRBOLZ7z6LWp1DQPbJdxkC+4=;
- b=T1eSh1aexO4kbAFnjK0a3FKvxkqdIW1ZD7wf2B5ZqLqAEP7GYNuUUKh8Qu//l45Lqy
- NcXp6sVOXGMIj1FCGziR/ZMjElwaiQo0GYKRhjZtiYzTxIs11/oybjz3FqYGLXnc3CGD
- iPLx7KiX2uAbArVK5c48X2JAimrMgcv/PydIn/N2vDSgl9IUf3NfCzmABUZ+nXWEqLgl
- dhG4KYiQHGdXBeSOMm+DhvWRKzOHjAJZT4sG4rIP35ltzLM9RQ22FT8VPrrFQZcl80VS
- Iyks0K5m6zJuZ/ZCez7x7LsvSZ+6Ktjrtbks5T1BAp5oxy39JugKSWvSin6xJLk66Bhb
- 1Omg==
-X-Gm-Message-State: AOAM5312gIzdWUMB03A8iYC79st9UcpxIRb27ycUHbgH9sadG72S4A6s
- TBYovBpiHZp21VnwymugovlWKItA2V9iFA==
-X-Google-Smtp-Source: ABdhPJzVmGYwgbK3B6X2uOM6v5kY7d4VZ4ZkXSGAJTmjK9YMAoQn3gr7jylU10yhgZ1KVkzN/fh++w==
-X-Received: by 2002:a17:902:ec8e:b0:158:fd5f:2b2a with SMTP id
- x14-20020a170902ec8e00b00158fd5f2b2amr1678747plg.72.1650220242004; 
+ bh=6Sm3bJ8lkkLDndaTXu2LI7WsKQhrLWIrMlSZhSEKk0s=;
+ b=BJ5u36gJkjFyGZw0/eQNj0jslBE5KgaDKv+Qu+E6PKiTu8cDN0CpKV/16wEJrHcoiU
+ f49a0DdyWOite1sHTPAmlcbB46xgWgO6cnSn0ItSTV9sC5udznI96it7tuDA9CD7+DY8
+ azlT9VbUcbdyNLevGFTlpMCz27bQHdHxxPABvXOpAKknTILyyeKliDEtJKJLTE4hzuKb
+ GZf0vH2EUts/Spk6C78CuRKouV16jUUuzOjDLfkg0hY4kvUO4fjEPPRw+u+WJZy2YV7p
+ nlwB/EOgqFWjkEeSsSUqkVVg1pLb2oHZN09wFamfoi+5skucyM6ZFfIxcN2Rw7dKwLOz
+ Rs/A==
+X-Gm-Message-State: AOAM5336YTVEvuY9uq8ZntWNWrDyi4YnNlebjY8AZx5dK297hgPc/B42
+ W8OCzk7jw3KGtZmVlSNhhtrExj4hov7rQw==
+X-Google-Smtp-Source: ABdhPJw7YoeLp0uPIlNqbAbwf41SNIhhG0ftPtRqNx5yyvQZxmKnEQ/vihqQ5KgJuz6i3QLd+bd3SQ==
+X-Received: by 2002:a17:903:1212:b0:156:3ddc:84bd with SMTP id
+ l18-20020a170903121200b001563ddc84bdmr7716980plh.70.1650220242830; 
  Sun, 17 Apr 2022 11:30:42 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.41
+ on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 11:30:41 -0700 (PDT)
+ Sun, 17 Apr 2022 11:30:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 25/39] include/qemu/log: Move entire implementation
- out-of-line
-Date: Sun, 17 Apr 2022 11:30:05 -0700
-Message-Id: <20220417183019.755276-26-richard.henderson@linaro.org>
+Subject: [PATCH v3 26/39] sysemu/os-win32: Test for and use
+ _lock_file/_unlock_file
+Date: Sun, 17 Apr 2022 11:30:06 -0700
+Message-Id: <20220417183019.755276-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417183019.755276-1-richard.henderson@linaro.org>
 References: <20220417183019.755276-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,132 +91,75 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move QemuLogFile, qemu_logfile, and all inline functions into qemu/log.c.
-No need to expose these implementation details in the api.
+The bug referenced in os-win32.h was fixed in mingw-w64 v6.
+
+According to repology, version 5 used by ubuntu 18, which is
+not yet out of support, so provide a meson link test for it.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/log.h        | 38 ++++----------------------------------
- tests/unit/test-logging.c |  1 +
- util/log.c                | 30 +++++++++++++++++++++++++++++-
- 3 files changed, 34 insertions(+), 35 deletions(-)
+ meson.build               | 12 ++++++++++++
+ include/sysemu/os-win32.h | 16 +++++++++-------
+ 2 files changed, 21 insertions(+), 7 deletions(-)
 
-diff --git a/include/qemu/log.h b/include/qemu/log.h
-index 75973111bb..42d545f77a 100644
---- a/include/qemu/log.h
-+++ b/include/qemu/log.h
-@@ -3,46 +3,16 @@
+diff --git a/meson.build b/meson.build
+index 861de93c4f..1b8b65f171 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2054,6 +2054,18 @@ foreach k, v: config_host
+   endif
+ endforeach
  
- /* A small part of this API is split into its own header */
- #include "qemu/log-for-trace.h"
--#include "qemu/rcu.h"
--
--typedef struct QemuLogFile {
--    struct rcu_head rcu;
--    FILE *fd;
--} QemuLogFile;
--
--/* Private global variable, don't use */
--extern QemuLogFile *qemu_logfile;
--
++# Older versions of MinGW do not import _lock_file and _unlock_file properly.
++# This was fixed for v6.0.0 with commit b48e3ac8969d.
++if targetos == 'windows'
++  config_host_data.set('HAVE__LOCK_FILE', cc.links('''
++    #include <stdio.h>
++    int main(void) {
++      _lock_file(NULL);
++      _unlock_file(NULL);
++      return 0;
++    }''', name: '_lock_file and _unlock_file'))
++endif
++
+ ########################
+ # Target configuration #
+ ########################
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index 770752222a..649f417d39 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -113,20 +113,22 @@ static inline char *realpath(const char *path, char *resolved_path)
+     return resolved_path;
+ }
  
- /* 
-  * The new API:
-- *
+-/* ??? Mingw appears to export _lock_file and _unlock_file as the functions
+- * with which to lock a stdio handle.  But something is wrong in the markup,
+- * either in the header or the library, such that we get undefined references
+- * to "_imp___lock_file" etc when linking.  Since we seem to have no other
+- * alternative, and the usage within the logging functions isn't critical,
+- * ignore FILE locking.
++/*
++ * Older versions of MinGW do not import _lock_file and _unlock_file properly.
++ * This was fixed for v6.0.0 with commit b48e3ac8969d.
   */
- 
--/* Log settings checking macros: */
-+/* Returns true if qemu_log() will really write somewhere. */
-+bool qemu_log_enabled(void);
- 
--/* Returns true if qemu_log() will really write somewhere
-- */
--static inline bool qemu_log_enabled(void)
--{
--    return qemu_logfile != NULL;
--}
 -
--/* Returns true if qemu_log() will write somewhere else than stderr
-- */
--static inline bool qemu_log_separate(void)
--{
--    QemuLogFile *logfile;
--    bool res = false;
--
--    rcu_read_lock();
--    logfile = qatomic_rcu_read(&qemu_logfile);
--    if (logfile && logfile->fd != stderr) {
--        res = true;
--    }
--    rcu_read_unlock();
--    return res;
--}
-+/* Returns true if qemu_log() will write somewhere other than stderr. */
-+bool qemu_log_separate(void);
- 
- #define CPU_LOG_TB_OUT_ASM (1 << 0)
- #define CPU_LOG_TB_IN_ASM  (1 << 1)
-diff --git a/tests/unit/test-logging.c b/tests/unit/test-logging.c
-index dcb8ac70df..9b87af75af 100644
---- a/tests/unit/test-logging.c
-+++ b/tests/unit/test-logging.c
-@@ -30,6 +30,7 @@
- #include "qemu-common.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "qemu/rcu.h"
- 
- static void test_parse_range(void)
+ static inline void qemu_flockfile(FILE *f)
  {
-diff --git a/util/log.c b/util/log.c
-index caa38e707b..8b8b6a5d83 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -26,14 +26,42 @@
- #include "trace/control.h"
- #include "qemu/thread.h"
- #include "qemu/lockable.h"
-+#include "qemu/rcu.h"
-+
-+
-+typedef struct QemuLogFile {
-+    struct rcu_head rcu;
-+    FILE *fd;
-+} QemuLogFile;
++#ifdef HAVE__LOCK_FILE
++    _lock_file(f);
++#endif
+ }
  
- static char *logfilename;
- static QemuMutex qemu_logfile_mutex;
--QemuLogFile *qemu_logfile;
-+static QemuLogFile *qemu_logfile;
- int qemu_loglevel;
- static int log_append = 0;
- static GArray *debug_regions;
+ static inline void qemu_funlockfile(FILE *f)
+ {
++#ifdef HAVE__LOCK_FILE
++    _unlock_file(f);
++#endif
+ }
  
-+/* Returns true if qemu_log() will really write somewhere. */
-+bool qemu_log_enabled(void)
-+{
-+    return qemu_logfile != NULL;
-+}
-+
-+/* Returns true if qemu_log() will write somewhere other than stderr. */
-+bool qemu_log_separate(void)
-+{
-+    QemuLogFile *logfile;
-+    bool res = false;
-+
-+    rcu_read_lock();
-+    logfile = qatomic_rcu_read(&qemu_logfile);
-+    if (logfile && logfile->fd != stderr) {
-+        res = true;
-+    }
-+    rcu_read_unlock();
-+    return res;
-+}
-+
- /* Lock/unlock output. */
- 
- FILE *qemu_log_trylock(void)
+ /* We wrap all the sockets functions so that we can
 -- 
 2.25.1
 
