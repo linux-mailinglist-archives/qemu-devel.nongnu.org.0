@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9F9504952
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:34:04 +0200 (CEST)
-Received: from localhost ([::1]:47886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FA8504951
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:32:10 +0200 (CEST)
+Received: from localhost ([::1]:43380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngAep-0002NN-Ej
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:34:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57666)
+	id 1ngAcz-0007Vs-71
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:32:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fp-0000ci-Ir
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:31:01 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:43661)
+ id 1ng9fo-0000Zt-Sj
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:31:00 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:42697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fl-0001rq-O8
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:31:01 -0400
-Received: by mail-pg1-x529.google.com with SMTP id u2so15065244pgq.10
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:53 -0700 (PDT)
+ id 1ng9fl-0001rv-Nf
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:31:00 -0400
+Received: by mail-pl1-x634.google.com with SMTP id p10so10786208plf.9
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WkPO7O3SH+mqM1LpQF27rJkG3zYmP1ZHzvw0E2vUPQ8=;
- b=hUsJBNRtyg50OrA57COr3YWZiOp87mF7emQpbnL595olmO/cGg11++g7xbYeiNNCjo
- t+hOMqexUTF6bdhFbtYgv0inGhdHAdBo2tEW8pXFLU32OqXCKqWwgN1IG5LJH0HlmJss
- kLf9s2SBN6fnkQY96vPl1zeVB6NJszwCZ6o2t1M2sWOX4OZvpQNb6v2FxIZSThQu3l7h
- XIVlc7uCTvc0UwHPsgsoLqDy665miqxvq0Br5qKmbDsGB6LORChVijqjwRJhP1NF8sCo
- OdrQEMKB2KStZKLFF334U5ibaj999iZ0TEiH5vYJ6chhVMEk7Vcll+bc/pQMSc6YIU4O
- 30nQ==
+ bh=b3Menp0kqYZFAQFod9OpPtlki+3BWJBWWUmxTLO1mtY=;
+ b=QTOYny1cm665eLVaCqCzvUy1jmBvBs6lYcHT70acgWCjFk2wr47pQXqkLo6ovnJQEe
+ B33W1zgXN8UwR1jc2ExiI7VFK33p3crdXnWH4Vceyq6Rku0J8sgT7tK5DiFxArhAafar
+ /xeYOx9ESMpahRl+ADR9ranwjyHh6ALEVKXUQsikL8A0+ExmDsPe4D9N4KlWO2IDg40a
+ QlDSKnoUrSheLpMkBy4lYSEItz2UshlLr1LbAOTSlG7DzMXqRVI/7DQ0/VDqWCqmF21y
+ DElzUhqyh+9iC6UwGSrqbMqSwXFcvLXKs7ogwax0MtfYBCIlu5UcozfYeEbEN3fHMDGL
+ OGdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WkPO7O3SH+mqM1LpQF27rJkG3zYmP1ZHzvw0E2vUPQ8=;
- b=QMyQ2XB3huMPnAIvFyguuB/CheAAdhl9iGItZ30Nli43zWh/c6oC7LFqUirh7+vuLa
- ffQxonHfZbLooNFAGAHWABGhFAwCuxgmOpWyL8xHJXevTRW8HRJLMFpuWuIhM1de2t8B
- QoDjWiyeITzHM+bDqqkhCbuCf31+1j7jMDyLHFHWDSWLoPhR+tZeCwMYe7lT74H2Wth9
- nQ6Fawti/yv6QqYgPizzKPVeox4xYmhF95hK5qud9539IHBlCs4abOVhUwM0Ehs/kLW+
- X/E971FF7g1PWGo/uYrR/0AYZ7F6MmctlLQbxRL4xz6kiopo4ydftRcfy8NQGHAeJYXl
- uW7Q==
-X-Gm-Message-State: AOAM533U+pnZWQ379xGMfophsrqCCC6VNKMtXSK7r3sMkPziFY585/NS
- VX1PGojiYUFjEmctlOhBVqLn7LjbFDTe4g==
-X-Google-Smtp-Source: ABdhPJzd4bOBuw/xFTCC/uKFCpLXCXWW+Ug9YhEFYzpayMRQBr7rfZ7wWjRjx9FePw+xexMu5sR2CQ==
-X-Received: by 2002:a65:6956:0:b0:399:1f0e:6172 with SMTP id
- w22-20020a656956000000b003991f0e6172mr7146074pgq.286.1650220252559; 
- Sun, 17 Apr 2022 11:30:52 -0700 (PDT)
+ bh=b3Menp0kqYZFAQFod9OpPtlki+3BWJBWWUmxTLO1mtY=;
+ b=KdIWCbwe3sjA8X6/FH9HZAVxoVVydUF9F6nOOvSwwaAwqZLYHtxPPbLD9Kv5lQzNj8
+ NwNxPZb8FSPy3AqGYvFPibgr8wHkgZhIprA8RryiQEVCqaHU2nu3BX4Dgb4+Z3HErsNM
+ 9A7DCyhtEk9XJsv1jMHgh0ew9suC2gAgZXWftt1JK6/fJzVALz1i07TPlooPrVlfB796
+ qeo/stDfqlkln3g7oQ9F9Pv4594aLDV71Y3vPvDh5ADBensdnF9jQX5Y0VxXwAVhYS3G
+ WF/JjAGIDPCJaNTK6eYVkQorHc2oDQo7F1xmNHsij+U4rE2ngsaQvSqVikHfxC2R1YBR
+ Omkw==
+X-Gm-Message-State: AOAM533fmhnB0tQR2okKZh0OBzeTQQmw3az/GdTgPjTBYLuRlxckYJY/
+ squC6D0ST/xb3oSkHP5v9STimCfF0V5rBQ==
+X-Google-Smtp-Source: ABdhPJwq4GnOPXOzRkoOLtlXWq4Mj1ZXR2nT+7xoamk1ztytpOEV2HhNFfj+k9J5XiexR4/BHskx/g==
+X-Received: by 2002:a17:902:bf04:b0:149:c5a5:5323 with SMTP id
+ bi4-20020a170902bf0400b00149c5a55323mr7913109plb.97.1650220253296; 
+ Sun, 17 Apr 2022 11:30:53 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.51
+ on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 17 Apr 2022 11:30:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 38/39] util/log: Limit RCUCloseFILE to file closing
-Date: Sun, 17 Apr 2022 11:30:18 -0700
-Message-Id: <20220417183019.755276-39-richard.henderson@linaro.org>
+Subject: [PATCH v3 39/39] util/log: Support per-thread log files
+Date: Sun, 17 Apr 2022 11:30:19 -0700
+Message-Id: <20220417183019.755276-40-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417183019.755276-1-richard.henderson@linaro.org>
 References: <20220417183019.755276-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,168 +89,295 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use FILE* for global_file.  We can perform an rcu_read on that
-just as easily as RCUCloseFILE*.  This simplifies a couple of
-places, where previously we required taking the rcu_read_lock
-simply to avoid racing to dereference RCUCloseFile->fd.
+Add a new log flag, tid, to turn this feature on.
+Require the log filename to be set, and to contain %d.
 
-Only allocate the RCUCloseFile prior to call_rcu.
+Do not allow tid to be turned off once it is on, nor let
+the filename be change thereafter.  This avoids the need
+for signalling each thread to re-open on a name change.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Work around problem with qatomic_rcu_read vs struct _IO_FILE on musl.
+v2: Make use of CONFIG_GETTID, and fallback to SYS_gettid.
+v3: Use enum for valid_filename_template (ajb).
 ---
- util/log.c | 68 +++++++++++++++++++++++++-----------------------------
- 1 file changed, 32 insertions(+), 36 deletions(-)
+ include/qemu/log.h |   1 +
+ util/log.c         | 163 +++++++++++++++++++++++++++++++++++----------
+ 2 files changed, 128 insertions(+), 36 deletions(-)
 
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index a325bca661..c5643d8dd5 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -34,6 +34,7 @@ bool qemu_log_separate(void);
+ #define CPU_LOG_PLUGIN     (1 << 18)
+ /* LOG_STRACE is used for user-mode strace logging. */
+ #define LOG_STRACE         (1 << 19)
++#define LOG_PER_THREAD     (1 << 20)
+ 
+ /* Lock/unlock output. */
+ 
 diff --git a/util/log.c b/util/log.c
-index eb6e85b2f0..df0710720f 100644
+index df0710720f..d6eb0378c3 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -37,7 +37,7 @@ typedef struct RCUCloseFILE {
- /* Mutex covering the other global_* variables. */
+@@ -27,6 +27,9 @@
+ #include "qemu/thread.h"
+ #include "qemu/lockable.h"
+ #include "qemu/rcu.h"
++#ifdef CONFIG_LINUX
++#include <sys/syscall.h>
++#endif
+ 
+ 
+ typedef struct RCUCloseFILE {
+@@ -38,22 +41,40 @@ typedef struct RCUCloseFILE {
  static QemuMutex global_mutex;
  static char *global_filename;
--static RCUCloseFILE *global_file;
-+static FILE *global_file;
+ static FILE *global_file;
++static __thread FILE *thread_file;
  
  int qemu_loglevel;
- static int log_append = 0;
-@@ -46,46 +46,44 @@ static GArray *debug_regions;
+-static int log_append = 0;
++static bool log_append;
++static bool log_per_thread;
+ static GArray *debug_regions;
+ 
  /* Returns true if qemu_log() will really write somewhere. */
  bool qemu_log_enabled(void)
  {
--    return global_file != NULL;
-+    return qatomic_read(&global_file) != NULL;
+-    return qatomic_read(&global_file) != NULL;
++    return log_per_thread || qatomic_read(&global_file) != NULL;
  }
  
  /* Returns true if qemu_log() will write somewhere other than stderr. */
  bool qemu_log_separate(void)
  {
--    RCUCloseFILE *logfile;
--    bool res = false;
--
--    rcu_read_lock();
--    logfile = qatomic_rcu_read(&global_file);
--    if (logfile && logfile->fd != stderr) {
--        res = true;
--    }
--    rcu_read_unlock();
--    return res;
-+    FILE *logfile = qatomic_read(&global_file);
-+    return logfile && logfile != stderr;
+-    FILE *logfile = qatomic_read(&global_file);
+-    return logfile && logfile != stderr;
++    if (log_per_thread) {
++        return true;
++    } else {
++        FILE *logfile = qatomic_read(&global_file);
++        return logfile && logfile != stderr;
++    }
++}
++
++static int log_thread_id(void)
++{
++#ifdef CONFIG_GETTID
++    return gettid();
++#elif defined(SYS_gettid)
++    return syscall(SYS_gettid);
++#else
++    static int counter;
++    return qatomic_fetch_inc(&counter);
++#endif
  }
  
  /* Lock/unlock output. */
- 
- FILE *qemu_log_trylock(void)
+@@ -62,20 +83,34 @@ FILE *qemu_log_trylock(void)
  {
--    RCUCloseFILE *logfile;
-+    FILE *logfile;
+     FILE *logfile;
  
-     rcu_read_lock();
--    logfile = qatomic_rcu_read(&global_file);
-+    /*
-+     * FIXME: typeof_strip_qual, as used by qatomic_rcu_read,
-+     * does not work with pointers to undefined structures,
-+     * such as we have with struct _IO_FILE and musl libc.
-+     * Since all we want is a read of a pointer, cast to void**,
-+     * which does work with typeof_strip_qual.
-+     */
-+    logfile = qatomic_rcu_read((void **)&global_file);
+-    rcu_read_lock();
+-    /*
+-     * FIXME: typeof_strip_qual, as used by qatomic_rcu_read,
+-     * does not work with pointers to undefined structures,
+-     * such as we have with struct _IO_FILE and musl libc.
+-     * Since all we want is a read of a pointer, cast to void**,
+-     * which does work with typeof_strip_qual.
+-     */
+-    logfile = qatomic_rcu_read((void **)&global_file);
+-    if (logfile) {
+-        qemu_flockfile(logfile);
+-    } else {
+-        rcu_read_unlock();
++    logfile = thread_file;
++    if (!logfile) {
++        if (log_per_thread) {
++            g_autofree char *filename
++                = g_strdup_printf(global_filename, log_thread_id());
++            logfile = fopen(filename, "w");
++            if (!logfile) {
++                return NULL;
++            }
++            thread_file = logfile;
++        } else {
++            rcu_read_lock();
++            /*
++             * FIXME: typeof_strip_qual, as used by qatomic_rcu_read,
++             * does not work with pointers to undefined structures,
++             * such as we have with struct _IO_FILE and musl libc.
++             * Since all we want is a read of a pointer, cast to void**,
++             * which does work with typeof_strip_qual.
++             */
++            logfile = qatomic_rcu_read((void **)&global_file);
++            if (!logfile) {
++                rcu_read_unlock();
++                return NULL;
++            }
++        }
+     }
++
++    qemu_flockfile(logfile);
+     return logfile;
+ }
+ 
+@@ -84,7 +119,9 @@ void qemu_log_unlock(FILE *logfile)
      if (logfile) {
--        qemu_flockfile(logfile->fd);
--        return logfile->fd;
-+        qemu_flockfile(logfile);
-     } else {
-         rcu_read_unlock();
--        return NULL;
-     }
-+    return logfile;
- }
- 
--void qemu_log_unlock(FILE *fd)
-+void qemu_log_unlock(FILE *logfile)
- {
--    if (fd) {
--        fflush(fd);
--        qemu_funlockfile(fd);
-+    if (logfile) {
-+        fflush(logfile);
-+        qemu_funlockfile(logfile);
-         rcu_read_unlock();
+         fflush(logfile);
+         qemu_funlockfile(logfile);
+-        rcu_read_unlock();
++        if (!log_per_thread) {
++            rcu_read_unlock();
++        }
      }
  }
-@@ -110,9 +108,7 @@ static void __attribute__((__constructor__)) startup(void)
  
- static void rcu_close_file(RCUCloseFILE *r)
- {
--    if (r->fd != stderr) {
--        fclose(r->fd);
--    }
-+    fclose(r->fd);
+@@ -112,40 +149,81 @@ static void rcu_close_file(RCUCloseFILE *r)
      g_free(r);
  }
  
-@@ -122,7 +118,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
++/**
++ * valid_filename_template:
++ *
++ * Validate the filename template.  Require %d if per_thread, allow it
++ * otherwise; require no other % within the template.
++ */
++
++typedef enum {
++    vft_error,
++    vft_stderr,
++    vft_strdup,
++    vft_pid_printf,
++} ValidFilenameTemplateResult;
++
++static ValidFilenameTemplateResult
++valid_filename_template(const char *filename, bool per_thread, Error **errp)
++{
++    if (filename) {
++        char *pidstr = strstr(filename, "%");
++
++        if (pidstr) {
++            /* We only accept one %d, no other format strings */
++            if (pidstr[1] != 'd' || strchr(pidstr + 2, '%')) {
++                error_setg(errp, "Bad logfile template: %s", filename);
++                return 0;
++            }
++            return per_thread ? vft_strdup : vft_pid_printf;
++        }
++    }
++    if (per_thread) {
++        error_setg(errp, "Filename template with '%%d' required for 'tid'");
++        return vft_error;
++    }
++    return filename ? vft_strdup : vft_stderr;
++}
++
+ /* enable or disable low levels log */
+ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+                                   int log_flags, Error **errp)
  {
      bool need_to_open_file;
      bool daemonized;
--    RCUCloseFILE *logfile;
-+    FILE *logfile;
++    bool per_thread;
+     FILE *logfile;
  
      QEMU_LOCK_GUARD(&global_mutex);
      logfile = global_file;
-@@ -176,37 +172,37 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+ 
++    per_thread = log_flags & LOG_PER_THREAD;
++
+     if (changed_name) {
+         char *newname = NULL;
+ 
+         /*
+-         * Allow the user to include %d in their logfile which will be
+-         * substituted with the current PID. This is useful for debugging many
+-         * nested linux-user tasks but will result in lots of logs.
+-         *
+-         * filename may be NULL. In that case, log output is sent to stderr
++         * Once threads start opening their own log files, we have no
++         * easy mechanism to tell them all to close and re-open.
++         * There seems little cause to do so either -- this option
++         * will most often be used at user-only startup.
+          */
+-        if (filename) {
+-            char *pidstr = strstr(filename, "%");
++        if (log_per_thread) {
++            error_setg(errp, "Cannot change log filename after setting 'tid'");
++            return false;
++        }
+ 
+-            if (pidstr) {
+-                /* We only accept one %d, no other format strings */
+-                if (pidstr[1] != 'd' || strchr(pidstr + 2, '%')) {
+-                    error_setg(errp, "Bad logfile format: %s", filename);
+-                    return false;
+-                }
+-                newname = g_strdup_printf(filename, getpid());
+-            } else {
+-                newname = g_strdup(filename);
+-            }
++        switch (valid_filename_template(filename, per_thread, errp)) {
++        case vft_error:
++            return false;
++        case vft_stderr:
++            break;
++        case vft_strdup:
++            newname = g_strdup(filename);
++            break;
++        case vft_pid_printf:
++            newname = g_strdup_printf(filename, getpid());
++            break;
+         }
+ 
+         g_free(global_filename);
+@@ -153,8 +231,18 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+         filename = newname;
+     } else {
+         filename = global_filename;
++        if (per_thread &&
++            valid_filename_template(filename, true, errp) == vft_error) {
++            return false;
++        }
+     }
+ 
++    /* Once the per-thread flag is set, it cannot be unset. */
++    if (per_thread) {
++        log_per_thread = true;
++    }
++    /* The flag itself is not relevant for need_to_open_file. */
++    log_flags &= ~LOG_PER_THREAD;
+ #ifdef CONFIG_TRACE_LOG
+     log_flags |= LOG_TRACE;
+ #endif
+@@ -163,12 +251,13 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+     /*
+      * In all cases we only log if qemu_loglevel is set.
+      * Also:
++     *   If per-thread, open the file for each thread in qemu_log_lock.
+      *   If not daemonized we will always log either to stderr
+      *     or to a file (if there is a filename).
+      *   If we are daemonized, we will only log if there is a filename.
+      */
+     daemonized = is_daemonized();
+-    need_to_open_file = log_flags && (!daemonized || filename);
++    need_to_open_file = log_flags && !per_thread && (!daemonized || filename);
  
      if (logfile && (!need_to_open_file || changed_name)) {
          qatomic_rcu_set(&global_file, NULL);
--        call_rcu(logfile, rcu_close_file, rcu);
-+        if (logfile != stderr) {
-+            RCUCloseFILE *r = g_new0(RCUCloseFILE, 1);
-+            r->fd = logfile;
-+            call_rcu(r, rcu_close_file, rcu);
-+        }
-         logfile = NULL;
-     }
+@@ -354,6 +443,8 @@ const QEMULogItem qemu_log_items[] = {
+ #endif
+     { LOG_STRACE, "strace",
+       "log every user-mode syscall, its input, and its result" },
++    { LOG_PER_THREAD, "tid",
++      "open a separate log file per thread; filename must contain '%d'" },
+     { 0, NULL, NULL },
+ };
  
-     if (!logfile && need_to_open_file) {
--        FILE *fd;
--
-         if (filename) {
--            fd = fopen(filename, log_append ? "a" : "w");
--            if (!fd) {
-+            logfile = fopen(filename, log_append ? "a" : "w");
-+            if (!logfile) {
-                 error_setg_errno(errp, errno, "Error opening logfile %s",
-                                  filename);
-                 return false;
-             }
-             /* In case we are a daemon redirect stderr to logfile */
-             if (daemonized) {
--                dup2(fileno(fd), STDERR_FILENO);
--                fclose(fd);
-+                dup2(fileno(logfile), STDERR_FILENO);
-+                fclose(logfile);
-                 /* This will skip closing logfile in rcu_close_file. */
--                fd = stderr;
-+                logfile = stderr;
-             }
-         } else {
-             /* Default to stderr if no log file specified */
-             assert(!daemonized);
--            fd = stderr;
-+            logfile = stderr;
-         }
- 
-         log_append = 1;
- 
--        logfile = g_new0(RCUCloseFILE, 1);
--        logfile->fd = fd;
-         qatomic_rcu_set(&global_file, logfile);
-     }
-     return true;
 -- 
 2.25.1
 
