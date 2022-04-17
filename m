@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7F65048CD
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 20:11:01 +0200 (CEST)
-Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BFA5048C3
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 20:04:53 +0200 (CEST)
+Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ng9MS-0001lp-MU
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 14:11:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48232)
+	id 1ng9GW-0005k5-BH
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 14:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8x9-0000mH-BB
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:51 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:45720)
+ id 1ng8xA-0000pF-Cp
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:52 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:37669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8x6-0003Ka-CI
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:51 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- n33-20020a17090a5aa400b001d28f5ee3f9so732945pji.4
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:44:47 -0700 (PDT)
+ id 1ng8x6-0003LC-GT
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:52 -0400
+Received: by mail-pg1-x534.google.com with SMTP id t184so1964335pgd.4
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R9t04A2fMNf/j0rLfzwp96zli6WbNRwThiKfiyjip1Q=;
- b=pjAgOhvO4E7QNWcocOq2KdCapxIekgveVEVmm43mVJpFBMAHBGZN1h1sQvkYsyLnrl
- c02SULDFsXOIs8MhWk6ox0xfVJz/kd2o82q11AwSLnKzn4SLGuJEpsEL7XctQ7Ltthn0
- a9kSwsXW2SgMjn2n0rX5odm50rfDmbZNAvbliIliQEqm3g2MLbksvsrb+JtVmBWreR3g
- EWxzKnNXH77XfghkB+HSXz4QTibUgqdM1mNe1MnE1do5UvSK1LsaR5powSbqwrowFNrG
- Q6Wr8/1TgrBu+9oJTgovR5k6sjMAjrmzV2rBd9r507km9GGSRyofEUdyOlwuWT3gljRy
- bDvg==
+ bh=rwqJPJ//6TQT5UmISyCch80APlTh3KWpu8wgkVgb10g=;
+ b=US1SyCFaW/3LmCuUoc+LgmazZxmkCpZZpzMxB4hNYsFVGlTquh7Y86bMsdauF4M2Rn
+ NOyNH2sVKaP/SOlwj51bXQoLOWoCZ51dT5c6MkDaM3TObSt5dIvFiNwIAzyCFL+CyNlb
+ vd8mze0Rnyiwqlgj+XwW/QYG5s0+Mp9A5jjGpg8He71VgUBOwRvgwFgFjMTmQ+yt85tm
+ gr39fedn+ZCe7ZzOgTVD0P03f4Z69BxEGIUR3ICkbM8br9O5jd73eS3w5OOABxoO0PaE
+ 4Kkp2KOKChRFzEDwdRe+kRh7VAIMtE7D2o+dSrEmdx84J5Sli6/S6V1Y+NK9poyFpn1k
+ kHTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R9t04A2fMNf/j0rLfzwp96zli6WbNRwThiKfiyjip1Q=;
- b=TWPtYMwfrxy2K0MaIixPFL2A7oYJXEQY6L3UF/uWhZ/LEyWQDccr52KU9SLrwOmBwI
- Dn42zOmrQcetHp1MeBiUMFkYMFxuGD8HRnBr8oBUA3zbybBIRnxSuBpsZsHRhIfQ4t4N
- 5e5FGztRzFommijenkGWtpjQNDEvFua/qGZHKG4vxJKw0A8Y2FQc1AxNiUxW/3gEotV1
- rNthUG6xGxv6D4EeKttkZKOeRPMyiNRs8ZxmJ9ODK6yEdry+NrRG3U5CndES70yOscRZ
- w49lKQqu29gOL9c1KbIEibdohPcZQa32veLxRhoKxvcynAzhHgtSZNXDpn5RoCw6Vl+j
- lXcw==
-X-Gm-Message-State: AOAM5302yRRpqqINpZNtEilOzzQCjOZQ8TCZr+S7ysfPd7v2Lv04KVrW
- O+xQG7WKQTM/DXehC9xMbiDIYFLQGELzIg==
-X-Google-Smtp-Source: ABdhPJxkLL8oqm8nGGC4gLBM5OtTv7rWRJKxY4HqrFhdd6minrT7sMj+9L3OK3+HEW5CXUop0+WuXg==
-X-Received: by 2002:a17:90b:4f45:b0:1d2:21e5:905d with SMTP id
- pj5-20020a17090b4f4500b001d221e5905dmr8047847pjb.18.1650217486584; 
- Sun, 17 Apr 2022 10:44:46 -0700 (PDT)
+ bh=rwqJPJ//6TQT5UmISyCch80APlTh3KWpu8wgkVgb10g=;
+ b=GfKOzkogxgD7I/MoidRH82nc43ftmdLAcYT6qiz8+b2bMmAQUgMUPEQRz7BKBPu7gz
+ tKPycuLKRg6x41DiUdiLHBIj1sHm2EhXaRhyFczXMDH+vgOLD6sLm5+4z410CIQekpqj
+ gVuorPa6rYOkAiti/grbe7X6HyC6sCOGtnT4psNugf9vCklUpWrtehdMvYz3hg54bH+R
+ c0wS2141GrbKF5uyrfDen5YSJgDnaT4Yl7KGa3JK6yxcSUE8KY8KPCZzRCZpElHYMiWi
+ 6uh7327HlB+L/VzC1ekJtK4grgkTg6WOHJ6LrOmfjHchAVWug5oJYdICa0sfnQrSY6St
+ inDA==
+X-Gm-Message-State: AOAM533Nh/eY0SAQ8oZjWXrHQHMCFcoZUssvIaUJdVvx9iV0Seh0e7Eb
+ AU8Jt592MrLJX6ZgjzCqzjeGilSrkha2Ww==
+X-Google-Smtp-Source: ABdhPJyvbYO3olKLw0agNwgsM4IbVKO5jG0uEHm4uot1KOh1Dl5NfU62PQjhJhA3WvOPcAj3GPYu4Q==
+X-Received: by 2002:a63:cf41:0:b0:399:3e74:d249 with SMTP id
+ b1-20020a63cf41000000b003993e74d249mr7096851pgj.475.1650217487304; 
+ Sun, 17 Apr 2022 10:44:47 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i2-20020a17090a138200b001cb6512b579sm10372119pja.44.2022.04.17.10.44.45
+ i2-20020a17090a138200b001cb6512b579sm10372119pja.44.2022.04.17.10.44.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 17 Apr 2022 10:44:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/60] target/arm: Use tcg_constant in translate-neon.c
-Date: Sun, 17 Apr 2022 10:43:45 -0700
-Message-Id: <20220417174426.711829-20-richard.henderson@linaro.org>
+Subject: [PATCH v3 20/60] target/arm: Use smin/smax for do_sat_addsub_32
+Date: Sun, 17 Apr 2022 10:43:46 -0700
+Message-Id: <20220417174426.711829-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417174426.711829-1-richard.henderson@linaro.org>
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,136 +88,46 @@ Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use tcg_constant_{i32,i64} as appropriate throughout.
+The operation we're performing with the movcond
+is either min/max depending on cond -- simplify.
+Use tcg_constant_i64 while we're at it.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-neon.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+ target/arm/translate-sve.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
-index 384604c009..2e4d1ec87d 100644
---- a/target/arm/translate-neon.c
-+++ b/target/arm/translate-neon.c
-@@ -447,7 +447,7 @@ static bool trans_VLDST_multiple(DisasContext *s, arg_VLDST_multiple *a)
-     int mmu_idx = get_mem_index(s);
-     int size = a->size;
-     TCGv_i64 tmp64;
--    TCGv_i32 addr, tmp;
-+    TCGv_i32 addr;
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 2c23459e76..ddc3a8060b 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -1916,8 +1916,6 @@ static bool trans_PNEXT(DisasContext *s, arg_rr_esz *a)
+ static void do_sat_addsub_32(TCGv_i64 reg, TCGv_i64 val, bool u, bool d)
+ {
+     int64_t ibound;
+-    TCGv_i64 bound;
+-    TCGCond cond;
  
-     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-         return false;
-@@ -513,7 +513,6 @@ static bool trans_VLDST_multiple(DisasContext *s, arg_VLDST_multiple *a)
- 
-     tmp64 = tcg_temp_new_i64();
-     addr = tcg_temp_new_i32();
--    tmp = tcg_const_i32(1 << size);
-     load_reg_var(s, addr, a->rn);
- 
-     mop = endian | size | align;
-@@ -530,7 +529,7 @@ static bool trans_VLDST_multiple(DisasContext *s, arg_VLDST_multiple *a)
-                     neon_load_element64(tmp64, tt, n, size);
-                     gen_aa32_st_internal_i64(s, tmp64, addr, mmu_idx, mop);
-                 }
--                tcg_gen_add_i32(addr, addr, tmp);
-+                tcg_gen_addi_i32(addr, addr, 1 << size);
- 
-                 /* Subsequent memory operations inherit alignment */
-                 mop &= ~MO_AMASK;
-@@ -538,7 +537,6 @@ static bool trans_VLDST_multiple(DisasContext *s, arg_VLDST_multiple *a)
-         }
+     /* Use normal 64-bit arithmetic to detect 32-bit overflow.  */
+     if (u) {
+@@ -1928,15 +1926,12 @@ static void do_sat_addsub_32(TCGv_i64 reg, TCGv_i64 val, bool u, bool d)
+     if (d) {
+         tcg_gen_sub_i64(reg, reg, val);
+         ibound = (u ? 0 : INT32_MIN);
+-        cond = TCG_COND_LT;
++        tcg_gen_smax_i64(reg, reg, tcg_constant_i64(ibound));
+     } else {
+         tcg_gen_add_i64(reg, reg, val);
+         ibound = (u ? UINT32_MAX : INT32_MAX);
+-        cond = TCG_COND_GT;
++        tcg_gen_smin_i64(reg, reg, tcg_constant_i64(ibound));
      }
-     tcg_temp_free_i32(addr);
--    tcg_temp_free_i32(tmp);
-     tcg_temp_free_i64(tmp64);
- 
-     gen_neon_ldst_base_update(s, a->rm, a->rn, nregs * interleave * 8);
-@@ -1348,7 +1346,7 @@ static bool do_2shift_env_64(DisasContext *s, arg_2reg_shift *a,
-      * To avoid excessive duplication of ops we implement shift
-      * by immediate using the variable shift operations.
-      */
--    constimm = tcg_const_i64(dup_const(a->size, a->shift));
-+    constimm = tcg_constant_i64(dup_const(a->size, a->shift));
- 
-     for (pass = 0; pass < a->q + 1; pass++) {
-         TCGv_i64 tmp = tcg_temp_new_i64();
-@@ -1358,7 +1356,6 @@ static bool do_2shift_env_64(DisasContext *s, arg_2reg_shift *a,
-         write_neon_element64(tmp, a->vd, pass, MO_64);
-         tcg_temp_free_i64(tmp);
-     }
--    tcg_temp_free_i64(constimm);
-     return true;
+-    bound = tcg_const_i64(ibound);
+-    tcg_gen_movcond_i64(cond, reg, reg, bound, bound, reg);
+-    tcg_temp_free_i64(bound);
  }
  
-@@ -1394,7 +1391,7 @@ static bool do_2shift_env_32(DisasContext *s, arg_2reg_shift *a,
-      * To avoid excessive duplication of ops we implement shift
-      * by immediate using the variable shift operations.
-      */
--    constimm = tcg_const_i32(dup_const(a->size, a->shift));
-+    constimm = tcg_constant_i32(dup_const(a->size, a->shift));
-     tmp = tcg_temp_new_i32();
- 
-     for (pass = 0; pass < (a->q ? 4 : 2); pass++) {
-@@ -1403,7 +1400,6 @@ static bool do_2shift_env_32(DisasContext *s, arg_2reg_shift *a,
-         write_neon_element32(tmp, a->vd, pass, MO_32);
-     }
-     tcg_temp_free_i32(tmp);
--    tcg_temp_free_i32(constimm);
-     return true;
- }
- 
-@@ -1457,7 +1453,7 @@ static bool do_2shift_narrow_64(DisasContext *s, arg_2reg_shift *a,
-      * This is always a right shift, and the shiftfn is always a
-      * left-shift helper, which thus needs the negated shift count.
-      */
--    constimm = tcg_const_i64(-a->shift);
-+    constimm = tcg_constant_i64(-a->shift);
-     rm1 = tcg_temp_new_i64();
-     rm2 = tcg_temp_new_i64();
-     rd = tcg_temp_new_i32();
-@@ -1477,7 +1473,6 @@ static bool do_2shift_narrow_64(DisasContext *s, arg_2reg_shift *a,
-     tcg_temp_free_i32(rd);
-     tcg_temp_free_i64(rm1);
-     tcg_temp_free_i64(rm2);
--    tcg_temp_free_i64(constimm);
- 
-     return true;
- }
-@@ -1521,7 +1516,7 @@ static bool do_2shift_narrow_32(DisasContext *s, arg_2reg_shift *a,
-         /* size == 2 */
-         imm = -a->shift;
-     }
--    constimm = tcg_const_i32(imm);
-+    constimm = tcg_constant_i32(imm);
- 
-     /* Load all inputs first to avoid potential overwrite */
-     rm1 = tcg_temp_new_i32();
-@@ -1546,7 +1541,6 @@ static bool do_2shift_narrow_32(DisasContext *s, arg_2reg_shift *a,
- 
-     shiftfn(rm3, rm3, constimm);
-     shiftfn(rm4, rm4, constimm);
--    tcg_temp_free_i32(constimm);
- 
-     tcg_gen_concat_i32_i64(rtmp, rm3, rm4);
-     tcg_temp_free_i32(rm4);
-@@ -2911,7 +2905,7 @@ static bool trans_VTBL(DisasContext *s, arg_VTBL *a)
-         return true;
-     }
- 
--    desc = tcg_const_i32((a->vn << 2) | a->len);
-+    desc = tcg_constant_i32((a->vn << 2) | a->len);
-     def = tcg_temp_new_i64();
-     if (a->op) {
-         read_neon_element64(def, a->vd, 0, MO_64);
-@@ -2926,7 +2920,6 @@ static bool trans_VTBL(DisasContext *s, arg_VTBL *a)
- 
-     tcg_temp_free_i64(def);
-     tcg_temp_free_i64(val);
--    tcg_temp_free_i32(desc);
-     return true;
- }
- 
+ /* Similarly with 64-bit values.  */
 -- 
 2.25.1
 
