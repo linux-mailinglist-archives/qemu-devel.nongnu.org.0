@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DF15048CE
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 20:11:56 +0200 (CEST)
-Received: from localhost ([::1]:36490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D255048D7
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 20:15:51 +0200 (CEST)
+Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ng9NL-0003Mj-J8
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 14:11:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48360)
+	id 1ng9R8-0001fj-Mg
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 14:15:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8xC-0000v7-F1
+ id 1ng8xB-0000u0-Nk
  for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:54 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:44583)
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:33300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8x8-0003Lc-FP
+ id 1ng8x9-0003Lx-Ef
  for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:53 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id j71so1444109pge.11
+Received: by mail-pj1-x102c.google.com with SMTP id
+ n11-20020a17090a73cb00b001d1d3a7116bso2625391pjk.0
  for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:44:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EjDsRVrr40sK4EqnjCDkGgI2/MSKp18+eb6X2mYbvxs=;
- b=r0V1/2VKGSm5JnKWZq0XEM9IyawtQwL+Qi0+lzvFBfLw6fLdrjJ0ACEA4qgpUfL6qd
- JMfOT1GeV7xx2GRDwB51YYLSB+KUtUlFeTHPkNNW6SjUy51r1S6ENQcYggTyO5nsIbuu
- bdraHueUHupFOLDpWvXGilF/2XKv74wZjIXY7dqXfnN+o6dw++qunoR9sU9bixEt6nRF
- Hyq7Vh86/gMwp0KE+3wUDpzGisOiIBLBEAQa03JH/F8m+yLY1rJEx/VXC/8pNx4Dabyb
- Fxi+tD+OqWxglrBtoVR7/5hkrhiC8TS3iWKOFUcKeMRq5DoYthHpUkbH8TWZEEKzN+7N
- P1og==
+ bh=d/uFztF2R9mSbyAkaIbJngefgd7536mac94QZAXGuz0=;
+ b=xERJDA756fJ3VZkY5DZkGuGfp2LDg5vlQUqtlbbT/YyGE7Ky5H+Fmti4vuYBqtjigR
+ IlNYHtVb1RsKUiu9N7tJPEoVWShwHhzYpSeafu0xvjnbtxcWpbLbFaLPI8fs1o0tx9T1
+ wUchWRcG8jgg04mDn9L4IiZiZ0QFoLAYPaQv7Kq5Y7F8Y1nVU4Coxi1fGQXx08Amn7Dd
+ eAYowdbgp6bZ6TZ0kVnj4BqtKh5Isf/y1iMg09uOvrzbBw/QN/Pb5OCcg5xbomuiYc4K
+ az+TLK9dH0dqzy6r+g/9NKz91HWqqOUUFIl9docFXkuOvJele0Ovs8MLcgX05qVLh6Hg
+ asnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EjDsRVrr40sK4EqnjCDkGgI2/MSKp18+eb6X2mYbvxs=;
- b=ndp5e42AKbRjWJ5Z4j8PoTpkZhFbcLnQ4RkmS6j36vmP68OHGyO2iHbfFu7+5UDWVN
- izgNecEsp0BZC5/E3hxGmmnq8/R4L3nM0ATB+xcs2ypFVfsrWDhyFPJ/YG8MwCK0TRlt
- rBiukDBDt7nLoElD1L2k3TRMbian+A2QNaze07ISi20Mh942UU2ejoBEwSCzAeXrJwzk
- jnV/ZqVBY28xNmcpGszrjGUhyJSnSuQJ27yG1ePxPTUPlmzRpmkKlGfIlqkIza96F1px
- lax4eNHU2S5in69M68tjRHMlY68jHhq39rWxBgZ3Mx3DXdP7dBNAfxmEOiGvrTrH7aJM
- 35gg==
-X-Gm-Message-State: AOAM53273Edik43wSa2RX6+ddKM0FXcyX9+w/bdVglwcvXhlwlslqsG9
- fB4NGGk5dZdjoTl+MpChfLuvFCsAUOiBXg==
-X-Google-Smtp-Source: ABdhPJw4rlKo6XCj0zQeRQUXGSKFpU7K7uF8xPMUg54mLI+NbbEpgw+Tl/kE2zSlUTst9wWaHCYeSw==
-X-Received: by 2002:aa7:8049:0:b0:4fd:bfde:45eb with SMTP id
- y9-20020aa78049000000b004fdbfde45ebmr8518125pfm.76.1650217488880; 
- Sun, 17 Apr 2022 10:44:48 -0700 (PDT)
+ bh=d/uFztF2R9mSbyAkaIbJngefgd7536mac94QZAXGuz0=;
+ b=1oc/UDoJFyn+++8CEoqexlrTlRRXETBZ12ZThARRyiC/igMt+pilaTZ3BP9DdepDp4
+ dLTmhlVvYhFMFcijaiAZy11MipEFQWNQ+pGurrbBsj3+t5BGkm0xNZ5+8W8b/fEPcObY
+ IuUN3L3GCDhem9ceqFdA4J2lE0CAonnX63XJ9UXN2XQRqu+xJL1nIIsHKhk13LsUZ7yz
+ Kxvtj40T1Ou+ABIF+hwpsPRhZpfs6Cwx/vZuzchdYPxLaoD40+pc3EbApVhYcMRlDpC5
+ HZ7Ov6GDrLavjuSuxVd/Ni3ypyULMIW65GQ30jKaEdBjRnKm7QsJoMKXT6BREx5xUGeD
+ oF2g==
+X-Gm-Message-State: AOAM530jUQQUDt79uuL81BV06/woKRJzbBDveppZllWvltExB8YC1wYP
+ 4mbusBssy8rnS/zVOdmjRVV024VpoOIxUg==
+X-Google-Smtp-Source: ABdhPJzBEJebcMPclpK6sm1ri2DdiDnW9SA4HEhSKQTgo9BBRm2svVkf38tx78+6C1s5092i82R9Zw==
+X-Received: by 2002:a17:90a:b307:b0:1bd:37f3:f0fc with SMTP id
+ d7-20020a17090ab30700b001bd37f3f0fcmr14460341pjr.132.1650217489722; 
+ Sun, 17 Apr 2022 10:44:49 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i2-20020a17090a138200b001cb6512b579sm10372119pja.44.2022.04.17.10.44.48
+ i2-20020a17090a138200b001cb6512b579sm10372119pja.44.2022.04.17.10.44.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 10:44:48 -0700 (PDT)
+ Sun, 17 Apr 2022 10:44:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 22/60] target/arm: Use tcg_constant in translate-vfp.c
-Date: Sun, 17 Apr 2022 10:43:48 -0700
-Message-Id: <20220417174426.711829-23-richard.henderson@linaro.org>
+Subject: [PATCH v3 23/60] target/arm: Use tcg_constant_i32 in translate.h
+Date: Sun, 17 Apr 2022 10:43:49 -0700
+Message-Id: <20220417174426.711829-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417174426.711829-1-richard.henderson@linaro.org>
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,268 +89,35 @@ Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use tcg_constant_{i32,i64} as appropriate throughout.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-vfp.c | 76 ++++++++++++--------------------------
- 1 file changed, 23 insertions(+), 53 deletions(-)
+ target/arm/translate.h | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index 17f796e32a..32b784b9c8 100644
---- a/target/arm/translate-vfp.c
-+++ b/target/arm/translate-vfp.c
-@@ -180,8 +180,7 @@ static void gen_update_fp_context(DisasContext *s)
-         gen_helper_vfp_set_fpscr(cpu_env, fpscr);
-         tcg_temp_free_i32(fpscr);
-         if (dc_isar_feature(aa32_mve, s)) {
--            TCGv_i32 z32 = tcg_const_i32(0);
--            store_cpu_field(z32, v7m.vpr);
-+            store_cpu_field(tcg_constant_i32(0), v7m.vpr);
-         }
-         /*
-          * We just updated the FPSCR and VPR. Some of this state is cached
-@@ -317,7 +316,7 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-         TCGv_i64 frn, frm, dest;
-         TCGv_i64 tmp, zero, zf, nf, vf;
- 
--        zero = tcg_const_i64(0);
-+        zero = tcg_constant_i64(0);
- 
-         frn = tcg_temp_new_i64();
-         frm = tcg_temp_new_i64();
-@@ -335,27 +334,22 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-         vfp_load_reg64(frm, rm);
-         switch (a->cc) {
-         case 0: /* eq: Z */
--            tcg_gen_movcond_i64(TCG_COND_EQ, dest, zf, zero,
--                                frn, frm);
-+            tcg_gen_movcond_i64(TCG_COND_EQ, dest, zf, zero, frn, frm);
-             break;
-         case 1: /* vs: V */
--            tcg_gen_movcond_i64(TCG_COND_LT, dest, vf, zero,
--                                frn, frm);
-+            tcg_gen_movcond_i64(TCG_COND_LT, dest, vf, zero, frn, frm);
-             break;
-         case 2: /* ge: N == V -> N ^ V == 0 */
-             tmp = tcg_temp_new_i64();
-             tcg_gen_xor_i64(tmp, vf, nf);
--            tcg_gen_movcond_i64(TCG_COND_GE, dest, tmp, zero,
--                                frn, frm);
-+            tcg_gen_movcond_i64(TCG_COND_GE, dest, tmp, zero, frn, frm);
-             tcg_temp_free_i64(tmp);
-             break;
-         case 3: /* gt: !Z && N == V */
--            tcg_gen_movcond_i64(TCG_COND_NE, dest, zf, zero,
--                                frn, frm);
-+            tcg_gen_movcond_i64(TCG_COND_NE, dest, zf, zero, frn, frm);
-             tmp = tcg_temp_new_i64();
-             tcg_gen_xor_i64(tmp, vf, nf);
--            tcg_gen_movcond_i64(TCG_COND_GE, dest, tmp, zero,
--                                dest, frm);
-+            tcg_gen_movcond_i64(TCG_COND_GE, dest, tmp, zero, dest, frm);
-             tcg_temp_free_i64(tmp);
-             break;
-         }
-@@ -367,13 +361,11 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-         tcg_temp_free_i64(zf);
-         tcg_temp_free_i64(nf);
-         tcg_temp_free_i64(vf);
--
--        tcg_temp_free_i64(zero);
-     } else {
-         TCGv_i32 frn, frm, dest;
-         TCGv_i32 tmp, zero;
- 
--        zero = tcg_const_i32(0);
-+        zero = tcg_constant_i32(0);
- 
-         frn = tcg_temp_new_i32();
-         frm = tcg_temp_new_i32();
-@@ -382,27 +374,22 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-         vfp_load_reg32(frm, rm);
-         switch (a->cc) {
-         case 0: /* eq: Z */
--            tcg_gen_movcond_i32(TCG_COND_EQ, dest, cpu_ZF, zero,
--                                frn, frm);
-+            tcg_gen_movcond_i32(TCG_COND_EQ, dest, cpu_ZF, zero, frn, frm);
-             break;
-         case 1: /* vs: V */
--            tcg_gen_movcond_i32(TCG_COND_LT, dest, cpu_VF, zero,
--                                frn, frm);
-+            tcg_gen_movcond_i32(TCG_COND_LT, dest, cpu_VF, zero, frn, frm);
-             break;
-         case 2: /* ge: N == V -> N ^ V == 0 */
-             tmp = tcg_temp_new_i32();
-             tcg_gen_xor_i32(tmp, cpu_VF, cpu_NF);
--            tcg_gen_movcond_i32(TCG_COND_GE, dest, tmp, zero,
--                                frn, frm);
-+            tcg_gen_movcond_i32(TCG_COND_GE, dest, tmp, zero, frn, frm);
-             tcg_temp_free_i32(tmp);
-             break;
-         case 3: /* gt: !Z && N == V */
--            tcg_gen_movcond_i32(TCG_COND_NE, dest, cpu_ZF, zero,
--                                frn, frm);
-+            tcg_gen_movcond_i32(TCG_COND_NE, dest, cpu_ZF, zero, frn, frm);
-             tmp = tcg_temp_new_i32();
-             tcg_gen_xor_i32(tmp, cpu_VF, cpu_NF);
--            tcg_gen_movcond_i32(TCG_COND_GE, dest, tmp, zero,
--                                dest, frm);
-+            tcg_gen_movcond_i32(TCG_COND_GE, dest, tmp, zero, dest, frm);
-             tcg_temp_free_i32(tmp);
-             break;
-         }
-@@ -414,8 +401,6 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-         tcg_temp_free_i32(frn);
-         tcg_temp_free_i32(frm);
-         tcg_temp_free_i32(dest);
--
--        tcg_temp_free_i32(zero);
-     }
- 
-     return true;
-@@ -547,7 +532,7 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
-         fpst = fpstatus_ptr(FPST_FPCR);
-     }
- 
--    tcg_shift = tcg_const_i32(0);
-+    tcg_shift = tcg_constant_i32(0);
- 
-     tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rounding));
-     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
-@@ -595,8 +580,6 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
-     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
-     tcg_temp_free_i32(tcg_rmode);
- 
--    tcg_temp_free_i32(tcg_shift);
--
-     tcg_temp_free_ptr(fpst);
- 
-     return true;
-@@ -850,15 +833,11 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
-         case ARM_VFP_MVFR2:
-         case ARM_VFP_FPSID:
-             if (s->current_el == 1) {
--                TCGv_i32 tcg_reg, tcg_rt;
--
-                 gen_set_condexec(s);
-                 gen_set_pc_im(s, s->pc_curr);
--                tcg_reg = tcg_const_i32(a->reg);
--                tcg_rt = tcg_const_i32(a->rt);
--                gen_helper_check_hcr_el2_trap(cpu_env, tcg_rt, tcg_reg);
--                tcg_temp_free_i32(tcg_reg);
--                tcg_temp_free_i32(tcg_rt);
-+                gen_helper_check_hcr_el2_trap(cpu_env,
-+                                              tcg_constant_i32(a->rt),
-+                                              tcg_constant_i32(a->reg));
-             }
-             /* fall through */
-         case ARM_VFP_FPEXC:
-@@ -2388,8 +2367,6 @@ MAKE_VFM_TRANS_FNS(dp)
- 
- static bool trans_VMOV_imm_hp(DisasContext *s, arg_VMOV_imm_sp *a)
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 050d80f6f9..6f0ebdc88e 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -332,16 +332,9 @@ static inline void gen_ss_advance(DisasContext *s)
+ static inline void gen_exception(int excp, uint32_t syndrome,
+                                  uint32_t target_el)
  {
--    TCGv_i32 fd;
+-    TCGv_i32 tcg_excp = tcg_const_i32(excp);
+-    TCGv_i32 tcg_syn = tcg_const_i32(syndrome);
+-    TCGv_i32 tcg_el = tcg_const_i32(target_el);
 -
-     if (!dc_isar_feature(aa32_fp16_arith, s)) {
-         return false;
-     }
-@@ -2402,9 +2379,7 @@ static bool trans_VMOV_imm_hp(DisasContext *s, arg_VMOV_imm_sp *a)
-         return true;
-     }
- 
--    fd = tcg_const_i32(vfp_expand_imm(MO_16, a->imm));
--    vfp_store_reg32(fd, a->vd);
--    tcg_temp_free_i32(fd);
-+    vfp_store_reg32(tcg_constant_i32(vfp_expand_imm(MO_16, a->imm)), a->vd);
-     return true;
+-    gen_helper_exception_with_syndrome(cpu_env, tcg_excp,
+-                                       tcg_syn, tcg_el);
+-
+-    tcg_temp_free_i32(tcg_el);
+-    tcg_temp_free_i32(tcg_syn);
+-    tcg_temp_free_i32(tcg_excp);
++    gen_helper_exception_with_syndrome(cpu_env, tcg_constant_i32(excp),
++                                       tcg_constant_i32(syndrome),
++                                       tcg_constant_i32(target_el));
  }
  
-@@ -2440,7 +2415,7 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
-         }
-     }
- 
--    fd = tcg_const_i32(vfp_expand_imm(MO_32, a->imm));
-+    fd = tcg_constant_i32(vfp_expand_imm(MO_32, a->imm));
- 
-     for (;;) {
-         vfp_store_reg32(fd, vd);
-@@ -2454,7 +2429,6 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
-         vd = vfp_advance_sreg(vd, delta_d);
-     }
- 
--    tcg_temp_free_i32(fd);
-     return true;
- }
- 
-@@ -2495,7 +2469,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
-         }
-     }
- 
--    fd = tcg_const_i64(vfp_expand_imm(MO_64, a->imm));
-+    fd = tcg_constant_i64(vfp_expand_imm(MO_64, a->imm));
- 
-     for (;;) {
-         vfp_store_reg64(fd, vd);
-@@ -2509,7 +2483,6 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
-         vd = vfp_advance_dreg(vd, delta_d);
-     }
- 
--    tcg_temp_free_i64(fd);
-     return true;
- }
- 
-@@ -3294,7 +3267,7 @@ static bool trans_VCVT_fix_hp(DisasContext *s, arg_VCVT_fix_sp *a)
-     vfp_load_reg32(vd, a->vd);
- 
-     fpst = fpstatus_ptr(FPST_FPCR_F16);
--    shift = tcg_const_i32(frac_bits);
-+    shift = tcg_constant_i32(frac_bits);
- 
-     /* Switch on op:U:sx bits */
-     switch (a->opc) {
-@@ -3328,7 +3301,6 @@ static bool trans_VCVT_fix_hp(DisasContext *s, arg_VCVT_fix_sp *a)
- 
-     vfp_store_reg32(vd, a->vd);
-     tcg_temp_free_i32(vd);
--    tcg_temp_free_i32(shift);
-     tcg_temp_free_ptr(fpst);
-     return true;
- }
-@@ -3353,7 +3325,7 @@ static bool trans_VCVT_fix_sp(DisasContext *s, arg_VCVT_fix_sp *a)
-     vfp_load_reg32(vd, a->vd);
- 
-     fpst = fpstatus_ptr(FPST_FPCR);
--    shift = tcg_const_i32(frac_bits);
-+    shift = tcg_constant_i32(frac_bits);
- 
-     /* Switch on op:U:sx bits */
-     switch (a->opc) {
-@@ -3387,7 +3359,6 @@ static bool trans_VCVT_fix_sp(DisasContext *s, arg_VCVT_fix_sp *a)
- 
-     vfp_store_reg32(vd, a->vd);
-     tcg_temp_free_i32(vd);
--    tcg_temp_free_i32(shift);
-     tcg_temp_free_ptr(fpst);
-     return true;
- }
-@@ -3418,7 +3389,7 @@ static bool trans_VCVT_fix_dp(DisasContext *s, arg_VCVT_fix_dp *a)
-     vfp_load_reg64(vd, a->vd);
- 
-     fpst = fpstatus_ptr(FPST_FPCR);
--    shift = tcg_const_i32(frac_bits);
-+    shift = tcg_constant_i32(frac_bits);
- 
-     /* Switch on op:U:sx bits */
-     switch (a->opc) {
-@@ -3452,7 +3423,6 @@ static bool trans_VCVT_fix_dp(DisasContext *s, arg_VCVT_fix_dp *a)
- 
-     vfp_store_reg64(vd, a->vd);
-     tcg_temp_free_i64(vd);
--    tcg_temp_free_i32(shift);
-     tcg_temp_free_ptr(fpst);
-     return true;
- }
+ /* Generate an architectural singlestep exception */
 -- 
 2.25.1
 
