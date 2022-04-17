@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318AF504940
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:16:40 +0200 (CEST)
-Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBB5504936
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:13:11 +0200 (CEST)
+Received: from localhost ([::1]:54330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngANz-0007nq-9X
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:16:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57650)
+	id 1ngAKc-00022L-5T
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:13:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fo-0000XO-4n
+ id 1ng9fm-0000XL-Rs
  for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:31:00 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:35759)
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:40615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fl-0001qr-87
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:59 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id k62so9002601pgd.2
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:49 -0700 (PDT)
+ id 1ng9ff-0001r2-OT
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:58 -0400
+Received: by mail-pg1-x531.google.com with SMTP id h5so15063595pgc.7
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8g8xUltHBVQUHV98Q/wu8AvtaiRfGRVKXLPd8aD+jcM=;
- b=ihyVe4PP/zrSSRSjQVdvBHE8vf/Jw6bMHL6TgU+Z8aSMaUoO3TCyZkaCWHN9K7ME1P
- nS6N0eNSFfuZbi8jGv49y20heY3is0oESEv7ujw9Nhr2FIJmVOFV0usWHu4tac2pA5Fz
- kX7yfzzcT26uDKMYDtXJBWWnIYOhQ8PuKZmRWbeCe7EF1lyu0kqg5TkMgisEUgD/81dC
- HUTYF62Yk/E4yIut5VZzLUH6NYZoDwHcYc5a+eoN1RvBL1UPGJwm2dzsvW+DmV1wNoB4
- Dzfjmdm6h/E55gc02GSCHTxt8GCPmYxYEgCVXg0CwWqFC09ocGu0DmOc2CE/Aj/LCtMl
- RDSw==
+ bh=K6kWjTcY58iKATI6rD2DZBTFfVyFhkk5JFKA13ecjWE=;
+ b=bQWpD/JSIfvzlU0ahsv+s72X0exoEegNg6srMbKDLbkHxIx7OX5yHysofy3oNuqE3W
+ DiuBorSYyPSPb2DOlzI42aKWmADNhhDIEKpFIlvRxVCvFODQbgDJec9HltFu1gzBmdX7
+ gS/ndnySRs23cf3VqIZzdyRDRKTTY4sZmV1oHz0A2MGNwG25gswe5omBjBI22eHiBq4Z
+ CodjOp4Qni38GPolAIM5Xue20iJRoZlW8quKLB+J81/uS601ErK2nxl13noucjkyp8F+
+ ZjOeRqyDPFCvU3xZc+I5biP+Eb9g6XOtMru49TZKMiQG8E+RuzX73+T8xGFwExQ+VYLo
+ ZK0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8g8xUltHBVQUHV98Q/wu8AvtaiRfGRVKXLPd8aD+jcM=;
- b=E4+JzaPIgiuyk5pUc7IHpxK4wkZuvZczQwsLa6FuiuYF5TUp2IgX9iNnaNZXoMn8Qz
- Ms+XEnxi8EM5xRUFA4B/t6Hz3ehxB0tfWNxP4x9BzYb/P8Eh4upXyh4igfuXSfwqhJX+
- KQElM/khf3djWvVpgEY986KFBWwSEHXoJly7W/HAu8vmtDf71/b7KwtABg0j7tjsB2oB
- Zaa4DCCDtuiSA4XvAPmYyVC9UJbj3FA2b674kQXfpaOzdJpHk0s0MU09pykkEdEE3rKU
- +Xv9HBmUGjUTYr0J96cFbD+oiKQi62f5d6gIXKpx7tSV/svBppkxHV3ijVLFYtAUXBPf
- cK5A==
-X-Gm-Message-State: AOAM5310DVcWATmxNJVZijrqGiyD7MbyLeOJ6Zs3JjKOcWIyppDPhe2Q
- Q+5JazuM2kbmP7uPXJpcVy65STUPfOJT9g==
-X-Google-Smtp-Source: ABdhPJxSLwxkG8RRgYUvWZX2Eis+4R5ca6qVLaJKelm/w09nXQdf2IFi9/mhg5ZzdQDNuKtdRsTJLQ==
-X-Received: by 2002:a63:4c52:0:b0:398:db25:d2b8 with SMTP id
- m18-20020a634c52000000b00398db25d2b8mr7470619pgl.432.1650220248965; 
- Sun, 17 Apr 2022 11:30:48 -0700 (PDT)
+ bh=K6kWjTcY58iKATI6rD2DZBTFfVyFhkk5JFKA13ecjWE=;
+ b=ylv/Lu048OQWuQQrdtUsWrslpXr6Ja7OjLLJ5nQYHZASKlm9UeZ3YlFJ4ZgiLBpN8V
+ 5rLWpyMBXZRq31rD9RJpwSh+lKgG7uiMwFfWESpXT1YNeF0qYjanLPjMHHjDqkrUR7SP
+ j83froatAzdihyuDwK28mh8BOgV5jTcBW+GecOK9WzmSOnNFrlhW119JMipJmE/h4Y6B
+ 58lWw8gxxbUhhAkQaP5ZIhh4Y+PRo7icQNYp2iDnpgs2y9S33w9bcH6TNHTlQr2gYwKI
+ 2zJ2azEbJtQcxELA4em9WgypGEqJxIS4UTA4l6MKF/GPRbNmaU+xVY1IQn0uCuSaxuUs
+ g5Cw==
+X-Gm-Message-State: AOAM532jidWnDA2aC0Eks4lqh45HNOGuuAew820WGwlhqeETIbpnYxYN
+ gH0pG30FfciFs4GnWEFNl6NkA+w4YXbNWQ==
+X-Google-Smtp-Source: ABdhPJz722IkUEEvXQodj8HKwKEBFxHMxaQlmfH0iR+dUgVK4s7OjADiBFTOQ9/GD2y/1OX8HKK2dQ==
+X-Received: by 2002:a63:f452:0:b0:382:7af1:6ad6 with SMTP id
+ p18-20020a63f452000000b003827af16ad6mr7074010pgk.500.1650220249792; 
+ Sun, 17 Apr 2022 11:30:49 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.48
+ on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 11:30:48 -0700 (PDT)
+ Sun, 17 Apr 2022 11:30:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 34/39] util/log: Rename qemu_logfile_mutex to global_mutex
-Date: Sun, 17 Apr 2022 11:30:14 -0700
-Message-Id: <20220417183019.755276-35-richard.henderson@linaro.org>
+Subject: [PATCH v3 35/39] util/log: Hoist the eval of is_daemonized in
+ qemu_set_log_internal
+Date: Sun, 17 Apr 2022 11:30:15 -0700
+Message-Id: <20220417183019.755276-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417183019.755276-1-richard.henderson@linaro.org>
 References: <20220417183019.755276-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,56 +86,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: alex.bennee@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename to emphasize this covers the file-scope global variables.
+Only call is_daemonized once.
+We require the result on all paths after this point.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- util/log.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ util/log.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/util/log.c b/util/log.c
-index 425f0064b0..bb201664ac 100644
+index bb201664ac..631856e231 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -34,9 +34,11 @@ typedef struct QemuLogFile {
-     FILE *fd;
- } QemuLogFile;
- 
-+/* Mutex covering the other global_* variables. */
-+static QemuMutex global_mutex;
- static char *global_filename;
--static QemuMutex qemu_logfile_mutex;
- static QemuLogFile *global_file;
-+
- int qemu_loglevel;
- static int log_append = 0;
- static GArray *debug_regions;
-@@ -101,9 +103,9 @@ void qemu_log(const char *fmt, ...)
-     }
- }
- 
--static void __attribute__((__constructor__)) qemu_logfile_init(void)
-+static void __attribute__((__constructor__)) startup(void)
+@@ -123,6 +123,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+                                   int log_flags, Error **errp)
  {
--    qemu_mutex_init(&qemu_logfile_mutex);
-+    qemu_mutex_init(&global_mutex);
- }
- 
- static void qemu_logfile_free(QemuLogFile *logfile)
-@@ -123,7 +125,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
      bool need_to_open_file;
++    bool daemonized;
      QemuLogFile *logfile;
  
--    QEMU_LOCK_GUARD(&qemu_logfile_mutex);
-+    QEMU_LOCK_GUARD(&global_mutex);
-     logfile = global_file;
+     QEMU_LOCK_GUARD(&global_mutex);
+@@ -178,7 +179,8 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+      *     or to a file (if there is a filename).
+      *   If we are daemonized, we will only log if there is a filename.
+      */
+-    need_to_open_file = log_flags && (!is_daemonized() || filename);
++    daemonized = is_daemonized();
++    need_to_open_file = log_flags && (!daemonized || filename);
  
-     if (changed_name) {
+     if (logfile && !need_to_open_file) {
+         qatomic_rcu_set(&global_file, NULL);
+@@ -196,7 +198,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+                 return false;
+             }
+             /* In case we are a daemon redirect stderr to logfile */
+-            if (is_daemonized()) {
++            if (daemonized) {
+                 dup2(fileno(fd), STDERR_FILENO);
+                 fclose(fd);
+                 /* This will skip closing logfile in qemu_logfile_free. */
+@@ -204,7 +206,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+             }
+         } else {
+             /* Default to stderr if no log file specified */
+-            assert(!is_daemonized());
++            assert(!daemonized);
+             fd = stderr;
+         }
+ 
 -- 
 2.25.1
 
