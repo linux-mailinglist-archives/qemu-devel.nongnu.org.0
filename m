@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE83504916
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 20:56:08 +0200 (CEST)
-Received: from localhost ([::1]:56880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F34504921
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 21:01:11 +0200 (CEST)
+Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngA47-00074H-GJ
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 14:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57122)
+	id 1ngA90-0001nX-Ep
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 15:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fN-0000QZ-Oz
+ id 1ng9fN-0000Qb-Qh
  for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:37 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:40720)
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:39800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng9fJ-0001kB-G4
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:31 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id t12so10786458pll.7
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:26 -0700 (PDT)
+ id 1ng9fK-0001kG-9h
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:33 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id q19so15082246pgm.6
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Rr/RffNvDVGLD4+joN+/CEx/FD3wfnt5ywEdlwbeVrE=;
- b=vnU6CHu2lzGJJ0pJQEq3JWPgd5/ws5bMdP/lk1AW85FYvNqQ4uUHCZdeqTY4Xxo1lS
- 0FCGfdYbnpz8vB7oRokbyuH5jOP5iIX61URvqDGVDCwtbxTI7wERL2OdsgyHkwIGcPoC
- r9gfzA1GAn/7zyB4/OYcBmUvOpFYkOoC+qxx3D0MaDDldjAKohOhQOyAmNFkRYN4JPMi
- 9t6SicsH5Dhcq90OhP2NncbmbEhFvcuOOgZoUiwiIE5rRDsxu8qHa9/dD3ArarzEXUJU
- gMnsES6TUT2QdfByIiyVFXTysguqKBcj2zFlYaR+KXlVC6sni5yJfLfYyBXf5Soe/rQc
- bPDg==
+ bh=f4gZGeDj81kW07oUkPIpEtb00RVDQbHtNOHmkzlnrKI=;
+ b=NERzjEBPQZm77FSgyODPpu97MEEUqjY1wtPpittKb0uv8l/R4SGkegdnxbJ5QjuaBA
+ 7iDzn3alj3pa6ecHXN2lP1/A1cncf/BbKqo3KTAXHRPs3zkAmmvT9RtVQxJltxWNZMhU
+ Vw/8FmQ5HgWhGSus/H5E3cEvLg9DYINSlSFXgVk6lU9WOOnqNCr2UHmmtvbKTdM8QkPz
+ +aj1WPidkqGghvfVnM2RTYxAzbCyDiBjWfDafs4NgvWConLcdvYqlpT73DEVvux/CXAq
+ u5B0GcSl9x7htYmSY5VPeISjvBEJaNF+338L2aoHikQKYmpHRRnjSolOkIWuAQ+BN3uL
+ vjTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Rr/RffNvDVGLD4+joN+/CEx/FD3wfnt5ywEdlwbeVrE=;
- b=OP7RDxQKIoPlhLWzEkhBpdMkABhCMkp/j9FyldNIWuM0mRwMtrNd/hDPYS7IF7c2/x
- UqxLv+WL11qDFc3OSdIf1L69vxIAGF3NhzQj702Omh68plzslW2RBFHj+75OWJEdHsEl
- LM5kwCYmTZ+dVTQvRshnPNfXhJmk7qhrIzBvWx0Kp+gBi2Htb9Bjs5GnhH+WtlxgY9Oz
- UjKI/2b9fm1uEZ4YqLPLh5QVvUGXWrE3F24yFF/5B0oT0FGGs+4U4QN+hf2CV7RJMOvF
- AOIfSTBKlWreoMt4wWZJWgW3MENqeusOMzrQRU/pOEuE0o/BueFnACU/CU3MeJHkG//o
- BI9w==
-X-Gm-Message-State: AOAM530E6f00uqxVXA3mBiCmWLoU9/UmsS9VvPJ2DBcVlkN8mb5n1ZCw
- PR++YDVvs9vpYfJXrzGR6etJ10t7xOCStA==
-X-Google-Smtp-Source: ABdhPJxQX2+qSFXrRAeFwpcWi0ZXxkaBVWnIs4jI0kbGMsCWZ0j+mk1YkvnOKcg5xTqWiW3nB9Hy3A==
-X-Received: by 2002:a17:902:b692:b0:14c:935b:2b03 with SMTP id
- c18-20020a170902b69200b0014c935b2b03mr7804894pls.81.1650220225418; 
- Sun, 17 Apr 2022 11:30:25 -0700 (PDT)
+ bh=f4gZGeDj81kW07oUkPIpEtb00RVDQbHtNOHmkzlnrKI=;
+ b=LVhGB7T9mv5zLSH0DzBWOXNTSZzHRnbWVqB/kTwhCEo33nnjUcHxyJjKS69iVY357e
+ MN8QibrrJZkeSniNRLR38pVnk/tj9KIwq2ypfBNthtEnITW5mmTDvUhLZQz7q0A4xCsP
+ Fy8NF0Df7GIBC9Jx3qXRcvKILu5qz7YEe08NbVA88hN/bi6yzb5d6uVlas8FSXvGxvXa
+ GZ1vUG//bQOTlbV5xZNXEvI3D5ZNdz31rHAUHD9enQXMUTn9BBB1S1UEbOzguPFMFf8C
+ WKr6LpV9IV6RCDtyjiAaL6IzWf3LfgOgwn+604Kn4AONUK7ALw90oUYg7MHqFq50JH0q
+ CMAQ==
+X-Gm-Message-State: AOAM532j6lb1CzrqRdZdfdjQARTddgzLFEbuWmmCo78GtjaFjxcCf9G4
+ cZL//SiJ9U2vKNh5mMS0+XfnAElKSXZxew==
+X-Google-Smtp-Source: ABdhPJzfhxfmJHAIXXW6eSe5R34kLrR6seyIVRl9C2xWWFZITZtH4am9BJFs4vPElLiUgnJEZtlQQg==
+X-Received: by 2002:a05:6a00:1895:b0:50a:6a91:e833 with SMTP id
+ x21-20020a056a00189500b0050a6a91e833mr3131033pfh.26.1650220226133; 
+ Sun, 17 Apr 2022 11:30:26 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.24
+ on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 17 Apr 2022 11:30:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/39] util/log: Move qemu_log_lock,
- qemu_log_unlock out of line
-Date: Sun, 17 Apr 2022 11:29:46 -0700
-Message-Id: <20220417183019.755276-7-richard.henderson@linaro.org>
+Subject: [PATCH v3 07/39] util/log: Rename qemu_log_lock to qemu_log_trylock
+Date: Sun, 17 Apr 2022 11:29:47 -0700
+Message-Id: <20220417183019.755276-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417183019.755276-1-richard.henderson@linaro.org>
 References: <20220417183019.755276-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,93 +85,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This function can fail, which makes it more like ftrylockfile
+or pthread_mutex_trylock than flockfile or pthread_mutex_lock,
+so rename it.
+
+To closer match the other trylock functions, release rcu_read_lock
+along the failure path, so that qemu_log_unlock need not be called
+on failure.
+
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/log.h | 28 +++-------------------------
- util/log.c         | 23 +++++++++++++++++++++++
- 2 files changed, 26 insertions(+), 25 deletions(-)
+v2: Rename the function as well as change the semantics, so drop r-b.
+---
+ include/exec/log.h          | 2 +-
+ include/qemu/log.h          | 2 +-
+ accel/tcg/cpu-exec.c        | 2 +-
+ accel/tcg/translate-all.c   | 2 +-
+ accel/tcg/translator.c      | 2 +-
+ cpu.c                       | 2 +-
+ hw/net/can/can_sja1000.c    | 2 +-
+ net/can/can_socketcan.c     | 2 +-
+ target/i386/tcg/translate.c | 2 +-
+ tcg/tcg.c                   | 8 ++++----
+ tests/unit/test-logging.c   | 2 +-
+ util/log.c                  | 6 ++++--
+ 12 files changed, 18 insertions(+), 16 deletions(-)
 
+diff --git a/include/exec/log.h b/include/exec/log.h
+index 3c7fa65ead..fb595d1eb7 100644
+--- a/include/exec/log.h
++++ b/include/exec/log.h
+@@ -71,7 +71,7 @@ static inline void log_disas(const void *code, unsigned long size)
+ /* page_dump() output to the log file: */
+ static inline void log_page_dump(const char *operation)
+ {
+-    FILE *logfile = qemu_log_lock();
++    FILE *logfile = qemu_log_trylock();
+     if (logfile) {
+         qemu_log("page layout changed following %s\n", operation);
+         page_dump(logfile);
 diff --git a/include/qemu/log.h b/include/qemu/log.h
-index 0b892f5e90..6a6b1efce5 100644
+index 6a6b1efce5..d090faf22a 100644
 --- a/include/qemu/log.h
 +++ b/include/qemu/log.h
-@@ -65,32 +65,10 @@ static inline bool qemu_log_separate(void)
- /* LOG_STRACE is used for user-mode strace logging. */
- #define LOG_STRACE         (1 << 19)
+@@ -67,7 +67,7 @@ static inline bool qemu_log_separate(void)
  
--/* Lock output for a series of related logs.  Since this is not needed
-- * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
-- * assume that qemu_loglevel_mask has already been tested, and that
-- * qemu_loglevel is never set when qemu_logfile is unset.
-- */
-+/* Lock/unlock output. */
+ /* Lock/unlock output. */
  
--static inline FILE *qemu_log_lock(void)
--{
--    QemuLogFile *logfile;
--    rcu_read_lock();
--    logfile = qatomic_rcu_read(&qemu_logfile);
--    if (logfile) {
--        qemu_flockfile(logfile->fd);
--        return logfile->fd;
--    } else {
--        return NULL;
--    }
--}
--
--static inline void qemu_log_unlock(FILE *fd)
--{
--    if (fd) {
--        qemu_funlockfile(fd);
--    }
--    rcu_read_unlock();
--}
-+FILE *qemu_log_lock(void);
-+void qemu_log_unlock(FILE *fd);
+-FILE *qemu_log_lock(void);
++FILE *qemu_log_trylock(void);
+ void qemu_log_unlock(FILE *fd);
  
  /* Logging functions: */
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index c997c2e8e0..8d0315de75 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -215,7 +215,7 @@ static inline void log_cpu_exec(target_ulong pc, CPUState *cpu,
  
+ #if defined(DEBUG_DISAS)
+         if (qemu_loglevel_mask(CPU_LOG_TB_CPU)) {
+-            FILE *logfile = qemu_log_lock();
++            FILE *logfile = qemu_log_trylock();
+             int flags = 0;
+ 
+             if (qemu_loglevel_mask(CPU_LOG_TB_FPU)) {
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 5971cd53ab..71ab863c18 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1528,7 +1528,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+ #ifdef DEBUG_DISAS
+     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM) &&
+         qemu_log_in_addr_range(tb->pc)) {
+-        FILE *logfile = qemu_log_lock();
++        FILE *logfile = qemu_log_trylock();
+         int code_size, data_size;
+         const tcg_target_ulong *rx_data_gen_ptr;
+         size_t chunk_start;
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index f06c314266..1506755f3c 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -139,7 +139,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+ #ifdef DEBUG_DISAS
+     if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
+         && qemu_log_in_addr_range(db->pc_first)) {
+-        FILE *logfile = qemu_log_lock();
++        FILE *logfile = qemu_log_trylock();
+         qemu_log("----------------\n");
+         ops->disas_log(db, cpu);
+         qemu_log("\n");
+diff --git a/cpu.c b/cpu.c
+index be1f8b074c..ddcbfc724d 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -400,7 +400,7 @@ void cpu_abort(CPUState *cpu, const char *fmt, ...)
+     fprintf(stderr, "\n");
+     cpu_dump_state(cpu, stderr, CPU_DUMP_FPU | CPU_DUMP_CCOP);
+     if (qemu_log_separate()) {
+-        FILE *logfile = qemu_log_lock();
++        FILE *logfile = qemu_log_trylock();
+         qemu_log("qemu: fatal: ");
+         qemu_log_vprintf(fmt, ap2);
+         qemu_log("\n");
+diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
+index 3ba803e947..300313dfb8 100644
+--- a/hw/net/can/can_sja1000.c
++++ b/hw/net/can/can_sja1000.c
+@@ -247,7 +247,7 @@ int can_sja_accept_filter(CanSJA1000State *s,
+ static void can_display_msg(const char *prefix, const qemu_can_frame *msg)
+ {
+     int i;
+-    FILE *logfile = qemu_log_lock();
++    FILE *logfile = qemu_log_trylock();
+ 
+     qemu_log("%s%03X [%01d] %s %s",
+              prefix,
+diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
+index 4b68f60c6b..4a505643e9 100644
+--- a/net/can/can_socketcan.c
++++ b/net/can/can_socketcan.c
+@@ -76,7 +76,7 @@ QEMU_BUILD_BUG_ON(offsetof(qemu_can_frame, data)
+ static void can_host_socketcan_display_msg(struct qemu_can_frame *msg)
+ {
+     int i;
+-    FILE *logfile = qemu_log_lock();
++    FILE *logfile = qemu_log_trylock();
+     qemu_log("[cansocketcan]: %03X [%01d] %s %s",
+              msg->can_id & QEMU_CAN_EFF_MASK,
+              msg->can_dlc,
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index c393913fe0..3fb8b530d8 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -2580,7 +2580,7 @@ static void gen_unknown_opcode(CPUX86State *env, DisasContext *s)
+     gen_illegal_opcode(s);
+ 
+     if (qemu_loglevel_mask(LOG_UNIMP)) {
+-        FILE *logfile = qemu_log_lock();
++        FILE *logfile = qemu_log_trylock();
+         target_ulong pc = s->pc_start, end = s->pc;
+ 
+         qemu_log("ILLOPC: " TARGET_FMT_lx ":", pc);
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 33a97eabdb..2f09114bf9 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -756,7 +756,7 @@ void tcg_prologue_init(TCGContext *s)
+ 
+ #ifdef DEBUG_DISAS
+     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
+-        FILE *logfile = qemu_log_lock();
++        FILE *logfile = qemu_log_trylock();
+         qemu_log("PROLOGUE: [size=%zu]\n", prologue_size);
+         if (s->data_gen_ptr) {
+             size_t code_size = s->data_gen_ptr - s->code_gen_ptr;
+@@ -4200,7 +4200,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
+ #ifdef DEBUG_DISAS
+     if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_OP)
+                  && qemu_log_in_addr_range(tb->pc))) {
+-        FILE *logfile = qemu_log_lock();
++        FILE *logfile = qemu_log_trylock();
+         qemu_log("OP:\n");
+         tcg_dump_ops(s, false);
+         qemu_log("\n");
+@@ -4245,7 +4245,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
+ #ifdef DEBUG_DISAS
+         if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_OP_IND)
+                      && qemu_log_in_addr_range(tb->pc))) {
+-            FILE *logfile = qemu_log_lock();
++            FILE *logfile = qemu_log_trylock();
+             qemu_log("OP before indirect lowering:\n");
+             tcg_dump_ops(s, false);
+             qemu_log("\n");
+@@ -4266,7 +4266,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
+ #ifdef DEBUG_DISAS
+     if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_OP_OPT)
+                  && qemu_log_in_addr_range(tb->pc))) {
+-        FILE *logfile = qemu_log_lock();
++        FILE *logfile = qemu_log_trylock();
+         qemu_log("OP after optimization and liveness analysis:\n");
+         tcg_dump_ops(s, true);
+         qemu_log("\n");
+diff --git a/tests/unit/test-logging.c b/tests/unit/test-logging.c
+index 93c6d666e8..54d7e8e33b 100644
+--- a/tests/unit/test-logging.c
++++ b/tests/unit/test-logging.c
+@@ -163,7 +163,7 @@ static void test_logfile_lock(gconstpointer data)
+      * our handle remains valid for use due to RCU.
+      */
+     qemu_set_log_filename(file_path, &error_abort);
+-    logfile = qemu_log_lock();
++    logfile = qemu_log_trylock();
+     g_assert(logfile);
+     fprintf(logfile, "%s 1st write to file\n", __func__);
+     fflush(logfile);
 diff --git a/util/log.c b/util/log.c
-index bab4d29ecb..1a3121610a 100644
+index 1a3121610a..6b7b358573 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -34,6 +34,29 @@ int qemu_loglevel;
- static int log_append = 0;
- static GArray *debug_regions;
+@@ -36,15 +36,17 @@ static GArray *debug_regions;
  
-+/* Lock/unlock output. */
-+
-+FILE *qemu_log_lock(void)
-+{
-+    QemuLogFile *logfile;
-+    rcu_read_lock();
-+    logfile = qatomic_rcu_read(&qemu_logfile);
-+    if (logfile) {
-+        qemu_flockfile(logfile->fd);
-+        return logfile->fd;
-+    } else {
-+        return NULL;
-+    }
-+}
-+
-+void qemu_log_unlock(FILE *fd)
-+{
-+    if (fd) {
-+        qemu_funlockfile(fd);
-+    }
-+    rcu_read_unlock();
-+}
-+
- /* Return the number of characters emitted.  */
- int qemu_log(const char *fmt, ...)
+ /* Lock/unlock output. */
+ 
+-FILE *qemu_log_lock(void)
++FILE *qemu_log_trylock(void)
  {
+     QemuLogFile *logfile;
++
+     rcu_read_lock();
+     logfile = qatomic_rcu_read(&qemu_logfile);
+     if (logfile) {
+         qemu_flockfile(logfile->fd);
+         return logfile->fd;
+     } else {
++        rcu_read_unlock();
+         return NULL;
+     }
+ }
+@@ -53,8 +55,8 @@ void qemu_log_unlock(FILE *fd)
+ {
+     if (fd) {
+         qemu_funlockfile(fd);
++        rcu_read_unlock();
+     }
+-    rcu_read_unlock();
+ }
+ 
+ /* Return the number of characters emitted.  */
 -- 
 2.25.1
 
