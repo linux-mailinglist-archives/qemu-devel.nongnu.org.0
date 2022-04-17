@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4954504902
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 20:47:25 +0200 (CEST)
-Received: from localhost ([::1]:57436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FCBE50491B
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 20:58:23 +0200 (CEST)
+Received: from localhost ([::1]:36976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ng9vg-0005GI-Pi
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 14:47:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49958)
+	id 1ngA6I-0004Ia-Ht
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 14:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng90c-0004pT-EV
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:48:28 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:46696)
+ id 1ng9fG-0000P4-37
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:31 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:39927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng90a-00047v-FC
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:48:25 -0400
-Received: by mail-pg1-x533.google.com with SMTP id q12so14941980pgj.13
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:48:22 -0700 (PDT)
+ id 1ng9fD-0001j7-QV
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 14:30:25 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ mp16-20020a17090b191000b001cb5efbcab6so15555238pjb.4
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 11:30:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rPFD4Uf75Ys0SRC54fKBDAw6RK6wxGzSGtCN20boZmA=;
- b=lc4+E0VSsqAiX5c9RB/KR2vwi/A0tUaaOd7nYMHe7cc6iYUSD2Ms9LybeplVxBPBgc
- 4uNBfukBDr4AGchjLsN5u84npFWOij2/DLiGwyF8RQLAG7zeHkduYGmiOozKtfhYR8/H
- JNxDXwNAex8UIhQRqn25a+ITbJoN99NYqDeeb/NixIfqjGrTZDt8A9bSvTqejDWIHvRK
- rM0oZG4DHhbYYKmfi2E8BSKRSVk98CdeqOC6Wkpl4TyMy5cmJlWTg9i/bgUIyUjnFDMY
- a+Z8Q4CR3nLRBQWhh+VgaGnB15sdZNQslqSUJQiBCOVrkKWRVgQADGx1/i7l82VZHwei
- Bp8A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KYZWMLCOPqytMKjpTxt4PChntLmKz4ywnYurORPkagE=;
+ b=JxIVY3nVJ3MUMsa7dVmmv0b3U+xljxlVhNPig5a6y7/XyVDcdha6+KfyFvfmRsZhW1
+ UOnXEl4l8oVMfrrGhlLeDjm0K7CzTRMKhKnZIDpzcK5BkW+yUwmT1tS7AlOMv5dRjJ6m
+ 1dMqvGETTGnJPNjMk2ypNklVdrlBqton+XgPJ99p/r5uIvKYzUoOEZc/M56L09+wjaVi
+ psUJyquCAjoMHnYQOaRHmWH95B89K8EuTijmlV655ooPso3zSMD5J63xv8GQiuvPhbYU
+ izx1RNmDUyPZmm8goRUJnsCEIdHE5QyKbP7Ir8pTOANuOnnJisNoDPQbAhsSEIMP2SD/
+ 4Fog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rPFD4Uf75Ys0SRC54fKBDAw6RK6wxGzSGtCN20boZmA=;
- b=CJJUtDyHShGwji8EBaOjVxLLU0xueqEKe4N0DclUXg9m4SWn4QjuQtO90jin02Sben
- SlXE89Hk+XKyHzeMjIG0K056rga82FBZLjzAMZcqYgVkLKSKPWG6AZp4tM4dSR3nU/Qj
- iZsOqGjgMtSanZtDFURfMEKYJC19pGve5UDkKxxRwO2zvECzQn9XbLlc5PIUf2mqOq20
- 9iniiiZNFvPgsaZizamcD8VKL3ShG7rHQ3r+IATE7ydY8wGRcZpbkRtc+kOsN8aa5mK+
- TtC+ra/Y5ZscZCy73venNZ6Ftffl9XB/hwslZ0Rxj26JSC5R+O/UtxL7m2M1KzqsWcKa
- b3Qg==
-X-Gm-Message-State: AOAM533b59Zrq/EWRjrTHYc27W9qKxZMa0ydytpoqn5u4s8uJaQWwtNY
- JVzpNrJpkBn1ZMWdjrY9TJhGfvS0zXXsAg==
-X-Google-Smtp-Source: ABdhPJy31xiESbFUa8kVicl+R+bYw/Fv8C130rjQxEMtsvQnUj/2wwGlTmOV2px1sTQPvJ5lKvAlDg==
-X-Received: by 2002:a65:68c2:0:b0:39e:18d3:fe43 with SMTP id
- k2-20020a6568c2000000b0039e18d3fe43mr7183281pgt.602.1650217701857; 
- Sun, 17 Apr 2022 10:48:21 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KYZWMLCOPqytMKjpTxt4PChntLmKz4ywnYurORPkagE=;
+ b=FkJCB7UaxZZajeA1bg+hTTIT4ohCGhOkKVVxYVOwiY/wdJs0NBkm2Hv+Ds5ZSXv/jG
+ Iz3Zo+CwMzlI7rNna8D+tp1ssJzolEqbguDaKEM2m/8yvpp4pu5ImyHYuiV6qlKRPrXa
+ FaplVKfm9hADT1J7kmbt9/R2tRsjZHG97WWy05oGRtIK9jx85ezXwwvDr7vGmstDUlxt
+ +IiaPNcxlVteYxH0EioPLbmtBS83wJHKMDv7FOkbRpwL5teqBn3ikaNbAyrh8HmcE34+
+ 9H1lY9+SOYYRIuxhQM7hgVkV7A0NAhcfw/TQjpafjWKn3E1Eh3+Rq5FQ9o/jjEpwI8OG
+ F6sA==
+X-Gm-Message-State: AOAM5320qKys6buW8xbBmpW0XlkWLHy2n0PFv5N1G0dsCVXk/4n057Mc
+ HC2Bcd5EWd1frdO/u0R3ZBaj06WBQYHcPg==
+X-Google-Smtp-Source: ABdhPJyYMLAy8xTmKQR0YCPwByIpWKGqif0K2kUjBE93uUivNGZ/mJa+Zl6COz2GJTbTSo3oepmoaQ==
+X-Received: by 2002:a17:90b:1a8b:b0:1d1:a447:7419 with SMTP id
+ ng11-20020a17090b1a8b00b001d1a4477419mr9201209pjb.169.1650220220579; 
+ Sun, 17 Apr 2022 11:30:20 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- e14-20020aa78c4e000000b00506475da4cesm9372055pfd.49.2022.04.17.10.48.21
+ on10-20020a17090b1d0a00b001d08a7d569csm8154011pjb.56.2022.04.17.11.30.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 10:48:21 -0700 (PDT)
+ Sun, 17 Apr 2022 11:30:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 60/60] target/arm: Define neoverse-n1
-Date: Sun, 17 Apr 2022 10:44:26 -0700
-Message-Id: <20220417174426.711829-61-richard.henderson@linaro.org>
+Subject: [PATCH v3 00/39] Logging cleanup and per-thread logfiles
+Date: Sun, 17 Apr 2022 11:29:40 -0700
+Message-Id: <20220417183019.755276-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220417174426.711829-1-richard.henderson@linaro.org>
-References: <20220417174426.711829-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,140 +84,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable the n1 for virt and sbsa board use.
+Most of the changes here reduce the amount of locking involved
+in logging, due to repeated qemu_log calls, each of which takes
+and releases the rcu_read_lock.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- docs/system/arm/virt.rst |  1 +
- hw/arm/sbsa-ref.c        |  1 +
- hw/arm/virt.c            |  1 +
- target/arm/cpu64.c       | 66 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 69 insertions(+)
+This makes more use of qemu_log_lock/unlock around code blocks,
+which both keeps the output together in the face of threads and
+also plays the rcu_read_lock game only once for the block.
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index e9ff81aa21..e8e851a15b 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -58,6 +58,7 @@ Supported guest CPU types:
- - ``cortex-a76`` (64-bit)
- - ``a64fx`` (64-bit)
- - ``host`` (with KVM only)
-+- ``neoverse-n1`` (64-bit)
- - ``max`` (same as ``host`` for KVM; best possible emulation with TCG)
- 
- Note that the default is ``cortex-a15``, so for an AArch64 guest you must
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 2ddde88f5e..dac8860f2d 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -146,6 +146,7 @@ static const char * const valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a57"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-     ARM_CPU_TYPE_NAME("cortex-a76"),
-+    ARM_CPU_TYPE_NAME("neoverse-n1"),
-     ARM_CPU_TYPE_NAME("max"),
- };
- 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ce15c36a7f..82dd934de6 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -204,6 +204,7 @@ static const char *valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-     ARM_CPU_TYPE_NAME("cortex-a76"),
-     ARM_CPU_TYPE_NAME("a64fx"),
-+    ARM_CPU_TYPE_NAME("neoverse-n1"),
-     ARM_CPU_TYPE_NAME("host"),
-     ARM_CPU_TYPE_NAME("max"),
- };
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index d046351991..da311b2eb5 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -259,6 +259,71 @@ static void aarch64_a76_initfn(Object *obj)
-     cpu->isar.mvfr2 = 0x00000043;
- }
- 
-+static void aarch64_neoverse_n1_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,neoverse-n1";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+
-+    /* Ordered by B2.4 AArch64 registers by functional group */
-+    cpu->clidr = 0x82000023;
-+    cpu->ctr = 0x8444c004;
-+    cpu->dcz_blocksize = 4;
-+    cpu->isar.id_aa64dfr0  = 0x0000000110305408ull;
-+    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
-+    cpu->isar.id_aa64isar1 = 0x0000000000100001ull;
-+    cpu->isar.id_aa64mmfr0 = 0x0000000000101125ull;
-+    cpu->isar.id_aa64mmfr1 = 0x0000000010212122ull;
-+    cpu->isar.id_aa64mmfr2 = 0x0000000000001011ull;
-+    cpu->isar.id_aa64pfr0  = 0x1100000010111112ull; /* GIC filled in later */
-+    cpu->isar.id_aa64pfr1  = 0x0000000000000020ull;
-+    cpu->id_afr0       = 0x00000000;
-+    cpu->isar.id_dfr0  = 0x04010088;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00010142;
-+    cpu->isar.id_isar5 = 0x01011121;
-+    cpu->isar.id_isar6 = 0x00000010;
-+    cpu->isar.id_mmfr0 = 0x10201105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02122211;
-+    cpu->isar.id_mmfr4 = 0x00021110;
-+    cpu->isar.id_pfr0  = 0x10010131;
-+    cpu->isar.id_pfr1  = 0x00010000; /* GIC filled in later */
-+    cpu->isar.id_pfr2  = 0x00000011;
-+    cpu->midr = 0x414fd0c1;          /* r4p1 */
-+    cpu->revidr = 0;
-+
-+    /* From B2.23 CCSIDR_EL1 */
-+    cpu->ccsidr[0] = 0x701fe01a; /* 64KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe01a; /* 64KB L1 icache */
-+    cpu->ccsidr[2] = 0x70ffe03a; /* 1MB L2 cache */
-+
-+    /* From B2.98 SCTLR_EL3 */
-+    cpu->reset_sctlr = 0x30c50838;
-+
-+    /* From B4.23 ICH_VTR_EL2 */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+
-+    /* From B5.1 AdvSIMD AArch64 register summary */
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x13211111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+}
-+
- void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
- {
-     /*
-@@ -946,6 +1011,7 @@ static const ARMCPUInfo aarch64_cpus[] = {
-     { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
-     { .name = "cortex-a76",         .initfn = aarch64_a76_initfn },
-     { .name = "a64fx",              .initfn = aarch64_a64fx_initfn },
-+    { .name = "neoverse-n1",        .initfn = aarch64_neoverse_n1_initfn },
-     { .name = "max",                .initfn = aarch64_max_initfn },
- #if defined(CONFIG_KVM) || defined(CONFIG_HVF)
-     { .name = "host",               .initfn = aarch64_host_initfn },
+Finally, add a -d tid option to open per-thread logfiles.
+This can be extremely helpful in debugging user-only threads.
+
+Changes for v3:
+  * Updates for review:
+    - use 0x%x
+    - use enum for valid_filename_template
+
+Changes for v2:
+  * Rename qemu_log_lock to qemu_log_trylock to emphasize that
+    the call is not guaranteed to succeed.
+  * Work around a musl compilation error, caused by our own
+    typeof_strip_qual macro not working with incomplete structs.
+  * Use CONFIG_GETTID properly.
+
+Patches lacking review:
+  24-include-exec-log-Do-not-reference-QemuLogFile-dir.patch
+  27-util-log-Introduce-qemu_set_log_filename_flags.patch
+
+
+r~
+
+
+Richard Henderson (39):
+  util/log: Drop manual log buffering
+  target/hexagon: Remove qemu_set_log in hexagon_translate_init
+  util/log: Return bool from qemu_set_log_filename
+  util/log: Pass Error pointer to qemu_set_log
+  os-posix: Use qemu_log_enabled
+  util/log: Move qemu_log_lock, qemu_log_unlock out of line
+  util/log: Rename qemu_log_lock to qemu_log_trylock
+  hw/xen: Split out xen_pv_output_msg
+  *: Use fprintf between qemu_log_trylock/unlock
+  util/log: Remove qemu_log_vprintf
+  tcg: Pass the locked filepointer to tcg_dump_ops
+  exec/translator: Pass the locked filepointer to disas_log hook
+  exec/log: Remove log_disas and log_target_disas
+  accel/tcg: Use cpu_dump_state between qemu_log_trylock/unlock
+  target/nios2: Remove log_cpu_state from reset
+  util/log: Use qemu_log_trylock/unlock in qemu_log
+  util/log: Drop return value from qemu_log
+  util/log: Mark qemu_log_trylock as G_GNUC_WARN_UNUSED_RESULT
+  util/log: Remove qemu_log_flush
+  util/log: Drop call to setvbuf
+  bsd-user: Expand log_page_dump inline
+  linux-user: Expand log_page_dump inline
+  tests/unit: Do not reference QemuLogFile directly
+  include/exec/log: Do not reference QemuLogFile directly
+  include/qemu/log: Move entire implementation out-of-line
+  sysemu/os-win32: Test for and use _lock_file/_unlock_file
+  util/log: Introduce qemu_set_log_filename_flags
+  bsd-user: Use qemu_set_log_filename_flags
+  linux-user: Use qemu_set_log_filename_flags
+  softmmu: Use qemu_set_log_filename_flags
+  util/log: Remove qemu_log_close
+  util/log: Rename logfilename to global_filename
+  util/log: Rename qemu_logfile to global_file
+  util/log: Rename qemu_logfile_mutex to global_mutex
+  util/log: Hoist the eval of is_daemonized in qemu_set_log_internal
+  util/log: Combine two logfile closes
+  util/log: Rename QemuLogFile to RCUCloseFILE
+  util/log: Limit RCUCloseFILE to file closing
+  util/log: Support per-thread log files
+
+ meson.build                          |  12 +
+ include/exec/log.h                   |  52 +---
+ include/exec/translator.h            |   2 +-
+ include/qemu/log-for-trace.h         |   2 +-
+ include/qemu/log.h                   |  93 +------
+ include/sysemu/os-win32.h            |  16 +-
+ accel/tcg/cpu-exec.c                 |  18 +-
+ accel/tcg/translate-all.c            | 118 +++++----
+ accel/tcg/translator.c               |  12 +-
+ bsd-user/main.c                      |  54 ++--
+ cpu.c                                |  16 +-
+ hw/net/can/can_sja1000.c             |  25 +-
+ hw/xen/xen_pvdev.c                   |  45 ++--
+ linux-user/main.c                    |  55 ++--
+ linux-user/mmap.c                    |   7 +-
+ monitor/misc.c                       |   9 +-
+ net/can/can_socketcan.c              |  24 +-
+ os-posix.c                           |   2 +-
+ qemu-img.c                           |   2 +-
+ qemu-io.c                            |   2 +-
+ qemu-nbd.c                           |   2 +-
+ scsi/qemu-pr-helper.c                |   2 +-
+ softmmu/vl.c                         |  21 +-
+ storage-daemon/qemu-storage-daemon.c |   2 +-
+ target/alpha/translate.c             |   7 +-
+ target/arm/translate-a64.c           |   6 +-
+ target/arm/translate.c               |   7 +-
+ target/avr/translate.c               |   7 +-
+ target/cris/translate.c              |   7 +-
+ target/hexagon/translate.c           |  13 +-
+ target/hppa/translate.c              |  15 +-
+ target/i386/tcg/translate.c          |  22 +-
+ target/m68k/translate.c              |   7 +-
+ target/microblaze/translate.c        |   7 +-
+ target/mips/tcg/translate.c          |   7 +-
+ target/nios2/cpu.c                   |   5 -
+ target/nios2/translate.c             |   7 +-
+ target/openrisc/translate.c          |   7 +-
+ target/ppc/translate.c               |   7 +-
+ target/riscv/translate.c             |  10 +-
+ target/rx/translate.c                |   7 +-
+ target/s390x/tcg/translate.c         |  11 +-
+ target/sh4/translate.c               |   7 +-
+ target/sparc/translate.c             |   7 +-
+ target/tricore/translate.c           |   7 +-
+ target/xtensa/translate.c            |   7 +-
+ tcg/tcg.c                            | 184 ++++++-------
+ tests/unit/test-logging.c            |  42 ++-
+ util/log.c                           | 377 +++++++++++++++++----------
+ 49 files changed, 724 insertions(+), 659 deletions(-)
+
 -- 
 2.25.1
 
