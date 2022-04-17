@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E620F5048AB
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 19:53:39 +0200 (CEST)
-Received: from localhost ([::1]:42650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712515048B5
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 19:58:10 +0200 (CEST)
+Received: from localhost ([::1]:51476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ng95f-0003ET-13
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 13:53:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47724)
+	id 1ng9A1-0000pK-Gr
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 13:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8wu-0000eP-70
+ id 1ng8wu-0000eW-SZ
  for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:39 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:38745)
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:44579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8ws-0003Fj-Lt
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:35 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- s14-20020a17090a880e00b001caaf6d3dd1so15524710pjn.3
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:44:33 -0700 (PDT)
+ id 1ng8wt-0003G1-7n
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:36 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id j71so1443550pge.11
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:44:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vxLFgR2+O/yEO8CWTOhGko5rMSYgERGzbB2hOUZT2qw=;
- b=DI2wNBxyNTHyxEmGRPu3vdwxS/laH9SsS+E2H6qdbjNXas4N9p99jvRv0GaJaJMqCJ
- 8n9osSuqzQnMuH91TtrbZq2/+hLJlBmd4ipexGdLwxPbLBIBnNBdiauOefPJcMMIAvYO
- 0u7+JqGV1Mm982Pmkw7gwVSXHMH1/DqKX953whZfxpSgwKUxSWlsWpMkjEDn7RdlqYaZ
- FBtarDC8e0BMwHf9v6vl4u56sZlHMfWszW1wFhAToFYV+GaEkIyrAEZKLOJJaRKjZ/ZP
- kK4MekSXaa1PNUtNp6wDSWdiGubCJ04KU4Chqe0OgbVO6/NZupWo4Ixzl6FIAbQKtuE7
- P+Jg==
+ bh=QU3oeydO4deqKs71AOrHq4mL0RBHni0rDESBhTtVtZg=;
+ b=QuHfkcAa45CVHNhWIt5J9EguM6s0DglhM2qCMAOia+jzJ5jEmbq/eZgmSZMXu+9Jcz
+ evGbGUhTefzInCOFnHboL4DEIFTv1RUGO3o1lG+l5SYB29R2ikvOifJxIZuUbnq65sad
+ PPxeIJKD0T19WIEoi6axKLrZS8cGM3JIYZ8QcfpFJYVoUTBTtoEjCWLHJAgyP5Hm5gFj
+ li8G0ND1j/RVNoREFGSURvmPCFxuO4wUp08jOO7qLz2lFvB7F3Uli7KBdj8+8IzdFeze
+ e929xuBSZAWfFrjvf15McWULdX/kfJWrVy5qUKXQiY39vxAn7Lfig0wczP5JEApAErX0
+ SK6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vxLFgR2+O/yEO8CWTOhGko5rMSYgERGzbB2hOUZT2qw=;
- b=przrJ8xm+WJ28cmcU1MhwLzmyEg4agtcSsQCHcsDnvP8EqUDdX6tfVeHzBT9rOUsCZ
- iY/GIcOF0+gW3j4oRwdv265wbmuyVL2r1ItbfzxgNSsdjl7IqH0Yj7uzOpF7NDEX9OHd
- he+uaDpfXHNLC+5rhiHWGyvdgYgq9FYh7TxcHk7ncjLJeUil1WuWgqKPR3nsHCnX98PV
- BmbJgsd46M8yESB5GBEYf2IC+gi/7NbSr4eL/JIYcTFkAfUbM50q6Q2jPSYGsT4SWzVG
- ptDZRZQymlL6PDWEZ7EJi8k+C8OwgLfk3MAciz5UM+/keDuDlKIoPW6kEuArfnWiZZZW
- OPDQ==
-X-Gm-Message-State: AOAM530XTCo1q9FVDg0q5HYQR5OnakFpAJVCuFpHwJeExQXLC2N6kFX2
- opmm5xbv7ZWKAJLN6OlhS0w8HDNZjMBP4w==
-X-Google-Smtp-Source: ABdhPJxvniTuUuh/Utr9BFNaoR+rydMo7iN3wi7zFARoTUekHeWlvKy1bi70PjLsjMsXRDK2zxsJMA==
-X-Received: by 2002:a17:90b:1a81:b0:1d2:63f5:e24e with SMTP id
- ng1-20020a17090b1a8100b001d263f5e24emr7088951pjb.124.1650217473013; 
+ bh=QU3oeydO4deqKs71AOrHq4mL0RBHni0rDESBhTtVtZg=;
+ b=yPITRyyGRwpA26lHidiSuvsgk/X1O3X7nzaQMXSnN/zNK0s4DG+IPoKfRwtImSwie7
+ Gs4A3YKbtUBXr0mEYkha7g4w4yPTewbBPgRiM+GyfYtAMuycamqvQ2At5xGnZWkNztRp
+ sTR90MdRYaUkqLhCGhbwDacoowftOtVw9soJmm4kroyEfm0KI/Ux0sBl8x8spAF8Ncf8
+ rmufcVy9T2arASZzxcQFeJs4glX6gpc8uciMUOiCBtUXnldXfmBCTitGRQnV7Z560KA0
+ v0hUckEM/0oFug6jnEP1t9bwZMapCPlFbf62tkQeoZLy6A4wea3FL/UUPqxvo3YEqatv
+ nlmg==
+X-Gm-Message-State: AOAM532coOkSYYD+AoaHoyFAC/rnxYWaTpJTqkv7l9UtGif3/VXRgvwR
+ uYlf59Az398YD79Mu9uogM32WQZHxcnzBQ==
+X-Google-Smtp-Source: ABdhPJyIUrhaNGX913yNF2s9iULMRmpnYJ34k60apYo3YK88J0WprPqzTLMQPNiRrwMA16BXajJHGA==
+X-Received: by 2002:a05:6a00:997:b0:506:1e25:435e with SMTP id
+ u23-20020a056a00099700b005061e25435emr8268538pfg.9.1650217473977; 
  Sun, 17 Apr 2022 10:44:33 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i2-20020a17090a138200b001cb6512b579sm10372119pja.44.2022.04.17.10.44.32
+ i2-20020a17090a138200b001cb6512b579sm10372119pja.44.2022.04.17.10.44.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 10:44:32 -0700 (PDT)
+ Sun, 17 Apr 2022 10:44:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/60] target/arm: Update SCTLR bits to ARMv9.2
-Date: Sun, 17 Apr 2022 10:43:30 -0700
-Message-Id: <20220417174426.711829-5-richard.henderson@linaro.org>
+Subject: [PATCH v3 05/60] target/arm: Change DisasContext.aarch64 to bool
+Date: Sun, 17 Apr 2022 10:43:31 -0700
+Message-Id: <20220417174426.711829-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417174426.711829-1-richard.henderson@linaro.org>
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,38 +88,61 @@ Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update SCTLR_ELx fields per ARM DDI0487 H.a.
+Bool is a more appropriate type for this value.
+Move the member down in the struct to keep the
+bool type members together and remove a hole.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ target/arm/translate.h     | 2 +-
+ target/arm/translate-a64.c | 2 +-
+ target/arm/translate.c     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index f843c62c83..9ae9c935a2 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1232,6 +1232,20 @@ void pmu_init(ARMCPU *cpu);
- #define SCTLR_ATA0    (1ULL << 42) /* v8.5-MemTag */
- #define SCTLR_ATA     (1ULL << 43) /* v8.5-MemTag */
- #define SCTLR_DSSBS_64 (1ULL << 44) /* v8.5, AArch64 only */
-+#define SCTLR_TWEDEn  (1ULL << 45)  /* FEAT_TWED */
-+#define SCTLR_TWEDEL  MAKE_64_MASK(46, 4)  /* FEAT_TWED */
-+#define SCTLR_TMT0    (1ULL << 50) /* FEAT_TME */
-+#define SCTLR_TMT     (1ULL << 51) /* FEAT_TME */
-+#define SCTLR_TME0    (1ULL << 52) /* FEAT_TME */
-+#define SCTLR_TME     (1ULL << 53) /* FEAT_TME */
-+#define SCTLR_EnASR   (1ULL << 54) /* FEAT_LS64_V */
-+#define SCTLR_EnAS0   (1ULL << 55) /* FEAT_LS64_ACCDATA */
-+#define SCTLR_EnALS   (1ULL << 56) /* FEAT_LS64 */
-+#define SCTLR_EPAN    (1ULL << 57) /* FEAT_PAN3 */
-+#define SCTLR_EnTP2   (1ULL << 60) /* FEAT_SME */
-+#define SCTLR_NMI     (1ULL << 61) /* FEAT_NMI */
-+#define SCTLR_SPINTMASK (1ULL << 62) /* FEAT_NMI */
-+#define SCTLR_TIDCP   (1ULL << 63) /* FEAT_TIDCP1 */
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 3a0db801d3..8b7dd1a4c0 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -59,12 +59,12 @@ typedef struct DisasContext {
+      * so that top level loop can generate correct syndrome information.
+      */
+     uint32_t svc_imm;
+-    int aarch64;
+     int current_el;
+     /* Debug target exception level for single-step exceptions */
+     int debug_target_el;
+     GHashTable *cp_regs;
+     uint64_t features; /* CPU features bits */
++    bool aarch64;
+     /* Because unallocated encodings generate different exception syndrome
+      * information from traps due to FP being disabled, we can't do a single
+      * "is fp access disabled" check at a high level in the decode tree.
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 9333d7be41..4dad23db48 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14664,7 +14664,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->isar = &arm_cpu->isar;
+     dc->condjmp = 0;
  
- #define CPTR_TCPAC    (1U << 31)
- #define CPTR_TTA      (1U << 20)
+-    dc->aarch64 = 1;
++    dc->aarch64 = true;
+     /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
+      * there is no secure EL1, so we route exceptions to EL3.
+      */
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index bf2196b9e2..480e58f49e 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -9334,7 +9334,7 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     dc->isar = &cpu->isar;
+     dc->condjmp = 0;
+ 
+-    dc->aarch64 = 0;
++    dc->aarch64 = false;
+     /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
+      * there is no secure EL1, so we route exceptions to EL3.
+      */
 -- 
 2.25.1
 
