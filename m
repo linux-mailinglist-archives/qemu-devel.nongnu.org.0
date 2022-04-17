@@ -2,51 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1C150499B
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 23:16:31 +0200 (CEST)
-Received: from localhost ([::1]:47924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722885049B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 00:30:07 +0200 (CEST)
+Received: from localhost ([::1]:36454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngCFy-0004ne-Gs
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 17:16:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34278)
+	id 1ngDPC-0004FE-1R
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 18:30:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1ngCD9-0001wf-Im; Sun, 17 Apr 2022 17:13:36 -0400
-Received: from test-v6.fluff.org ([2a01:4f8:222:2004::3]:48562
- helo=hetzy.fluff.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1ngCD7-0001bW-VD; Sun, 17 Apr 2022 17:13:35 -0400
-Received: from localhost ([127.0.0.1] helo=luna)
- by hetzy.fluff.org with esmtp (Exim 4.89)
- (envelope-from <ben@luna.fluff.org>)
- id 1nfp7D-0008Ro-Aj; Sat, 16 Apr 2022 21:33:55 +0100
-Received: from ben by luna with local (Exim 4.95)
- (envelope-from <ben@luna.fluff.org>) id 1nfo7w-002G1l-3F;
- Sat, 16 Apr 2022 20:30:36 +0100
-From: Ben Dooks <qemu@ben.fluff.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] hw/riscv: use qemu_fdt_setprop_strings() in sifive_u.c
-Date: Sat, 16 Apr 2022 20:30:34 +0100
-Message-Id: <20220416193034.538161-5-qemu@ben.fluff.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220416193034.538161-1-qemu@ben.fluff.org>
-References: <20220416193034.538161-1-qemu@ben.fluff.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngDOB-0003af-Oz
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 18:29:03 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:40759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngDO9-00034c-T2
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 18:29:03 -0400
+Received: by mail-pl1-x632.google.com with SMTP id t12so11025701pll.7
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 15:29:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ta5CMLcnZlN5kLmG1N71BP/5tdqqJyS7kju7odql7AM=;
+ b=Q7DzsxXlSrmtIEnVG+9EHpY58AqPaW8GmOHRIu6XJVd6kcHxmtINJ66BSUOVC1kFvE
+ AAdEeWngxbupas07hFV47vFx0n1o0u2h1oxEXHfIQ4NsLowLOQx+WbuY78i+ScT4Sl8O
+ BHsQAVMXCJay/TS4pzxdk8Dp5sxkBCTALa0nfJEqg2BCPBUUkc9/7yRtdsovw82SNBuh
+ 0sww9L7P2m4ZLk9pUQrLMbvX8BDi+iHpuPLknldU2DxMmtEontinya1ycfpajntnPwZS
+ amj/wSVQ8Aw+qvqqR6tgN+/17XEHDBN61KoRkmQNaBR6fj11FBRGWfjNxGr/F1iEiyMN
+ EB5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ta5CMLcnZlN5kLmG1N71BP/5tdqqJyS7kju7odql7AM=;
+ b=7+OChda0WFpfISECiW/SQq/qgp+1m4+E/P0/KjEyxbbZVdl2CCyMkVhq/TM+7SeRzN
+ DKd5cqSQ661fW6yczfts4HNhcS+lBO+oRejRemk4CcWFsZDEEeHPzQ1opig5IeaNERG4
+ FvaFwhuATYHb0MbfDpYPOzn6Xu9pPhiXCcLMRCC2Il1f/FyM2kUEnO9AhZ5iCksxn4xF
+ tIji+vUoNFb4vdOti/EvkE4ZyT5fBpAj5Gu9ofMoKNuWy1gOWID5BDKZsw7gf+6Bulk3
+ p93AY31p681Hw9BgQCREldZ84etDqnpI1b4aNIwMDEOxZfg585ZN6854PzxzAw3BVnzX
+ jdEQ==
+X-Gm-Message-State: AOAM531G91Orx80q+gst1UIJbI2XMCKxslVP3AEyFkRG4zlLV0JzBy/O
+ vdT8qKQmihcKoAgQ276Ztcb4WA==
+X-Google-Smtp-Source: ABdhPJwBJ4T7sZe5F2CVobLAuYWL44+OAZny5k4/m+dL67dvPZScX/HHvEp3/PuGEuCQfwDcxGRbmA==
+X-Received: by 2002:a17:90b:4c84:b0:1c7:7769:3cc7 with SMTP id
+ my4-20020a17090b4c8400b001c777693cc7mr15120749pjb.73.1650234539225; 
+ Sun, 17 Apr 2022 15:28:59 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ e1-20020a056a00162100b0050a40f75a82sm8751447pfc.113.2022.04.17.15.28.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 17 Apr 2022 15:28:58 -0700 (PDT)
+Message-ID: <63910bde-bd78-4aad-8f4c-06571e2f8877@linaro.org>
+Date: Sun, 17 Apr 2022 15:28:56 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v1 31/43] hw/loongarch: Add support loongson3 virt machine
+ type.
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
+ <20220415094058.3584233-32-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220415094058.3584233-32-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -0.6 (/)
-X-SA-Exim-Connect-IP: 127.0.0.1
-X-SA-Exim-Mail-From: ben@luna.fluff.org
-X-SA-Exim-Scanned: No (on hetzy.fluff.org); SAEximRunCond expanded to false
-Received-SPF: none client-ip=2a01:4f8:222:2004::3;
- envelope-from=ben@luna.fluff.org; helo=hetzy.fluff.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.187,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,72 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ben Dooks <qemu@ben.fluff.org>, palmer@dabbelt.com,
- Alistair.Francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org
+Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the qemu_fdt_setprop_strings() in sifve_u.c to simplify
-the code.
+On 4/15/22 02:40, Xiaojuan Yang wrote:
+> +++ b/configs/devices/loongarch64-softmmu/default.mak
+> @@ -0,0 +1,3 @@
+> +# Default configuration for loongarch64-softmmu
+> +
+> +CONFIG_LOONGARCH_VIRT=y
 
-Signed-off-by; Ben Dooks <qemu@ben.fluff.org>
----
- hw/riscv/sifive_u.c | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+Again, you can't add this file until you're ready to build.
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 1fe364cbb0..b00086d86e 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -103,13 +103,6 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     char *nodename;
-     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
-     uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
--    static const char * const ethclk_names[2] = { "pclk", "hclk" };
--    static const char * const clint_compat[2] = {
--        "sifive,clint0", "riscv,clint0"
--    };
--    static const char * const plic_compat[2] = {
--        "sifive,plic-1.0.0", "riscv,plic0"
--    };
- 
-     if (ms->dtb) {
-         fdt = s->fdt = load_device_tree(ms->dtb, &s->fdt_size);
-@@ -221,8 +214,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     nodename = g_strdup_printf("/soc/clint@%lx",
-         (long)memmap[SIFIVE_U_DEV_CLINT].base);
-     qemu_fdt_add_subnode(fdt, nodename);
--    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
--        (char **)&clint_compat, ARRAY_SIZE(clint_compat));
-+    qemu_fdt_setprop_strings(fdt, nodename, "compatible",
-+                             "sifive,clint0", "riscv,clint0");
-     qemu_fdt_setprop_reg64(fdt, nodename, &memmap[SIFIVE_U_DEV_CLINT]);
-     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
-         cells, ms->smp.cpus * sizeof(uint32_t) * 4);
-@@ -273,8 +266,10 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-         (long)memmap[SIFIVE_U_DEV_PLIC].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-     qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 1);
--    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
--        (char **)&plic_compat, ARRAY_SIZE(plic_compat));
-+    //qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
-+    //    (char **)&plic_compat, ARRAY_SIZE(plic_compat));
-+    qemu_fdt_setprop_strings(fdt, nodename, "compatbile",
-+                             "sifive,plic-1.0.0", "riscv,plic0");
-     qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
-         cells, (ms->smp.cpus * 4 - 2) * sizeof(uint32_t));
-@@ -410,8 +405,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_GEM_IRQ);
-     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-         prci_phandle, PRCI_CLK_GEMGXLPLL, prci_phandle, PRCI_CLK_GEMGXLPLL);
--    qemu_fdt_setprop_string_array(fdt, nodename, "clock-names",
--        (char **)&ethclk_names, ARRAY_SIZE(ethclk_names));
-+    qemu_fdt_setprop_strings(fdt, nodename, "clock-names", "pclk", "hclk");
-     qemu_fdt_setprop(fdt, nodename, "local-mac-address",
-         s->soc.gem.conf.macaddr.a, ETH_ALEN);
-     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
--- 
-2.35.1
+We do get farther that patch 30, ending in
 
+../qemu/hw/loongarch/loongson3.c: In function ‘loongarch_init’:
+../qemu/hw/loongarch/loongson3.c:28:39: error: implicit declaration of function 
+‘get_system_memory’ [-Werror=implicit-function-declaration]
+    28 |     MemoryRegion *address_space_mem = get_system_memory();
+       |                                       ^~~~~~~~~~~~~~~~~
+
+
+Fix that, with proper include of "exec/address-spaces.h", and this can be the point at 
+which we're ready to build.
+
+Or you can push a few of these files back into the previous patch so that the build begins 
+there, with zero machines registered (which should be ok, because there's no machine 
+registered to be tested with qtest, but do double-check that make check succeeds).
+
+
+r~
 
