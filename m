@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267EA5048A9
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 19:53:39 +0200 (CEST)
-Received: from localhost ([::1]:42652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810CD5048B6
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 19:58:24 +0200 (CEST)
+Received: from localhost ([::1]:52548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ng95e-0003Ef-7b
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 13:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47922)
+	id 1ng9AF-0001Wr-KS
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 13:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8x0-0000fZ-7O
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:43 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:38738)
+ id 1ng8x3-0000h8-C0
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:45 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:41960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8wx-0003HP-AS
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:41 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- s14-20020a17090a880e00b001caaf6d3dd1so15524804pjn.3
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:44:38 -0700 (PDT)
+ id 1ng8wz-0003IG-50
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:44:43 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id s14so10738174plk.8
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=28ulwBk/DdHKOhHfzeHCOUU8iGC2wvWNCEyLXBlgf/g=;
- b=JAj8bIiAgO5uzz4Oe7l6bjlADn4o1Vg69i2QGlT6tTEESbK2OvQj0MnybKY8D2Cueu
- 1ZwlHh3eDqwI3DmWLxOCZODdIknmUVWVaCJ0J8CVER5YBmY3OU2W6pZxCj3x74+Ha0sr
- vsNYCAHIUrZradqz33jQEAdKI2001/xqhGJ/MVnd3Wq3CDGt81iI+25K9fnRU7FYRMFB
- lY/PL7cJO6jyrgYTAXqHfctZpiBdNNp+VyQf9FEsGpXnJsFA1gGYpTDR0ELQ6nnuwhNe
- dNW9Pt2tY8g4XXPN5OlaEQ1SUCeTytlvf8TbLp47OyXgpt6ChGWv3TjOPtOCiSEFr9Ot
- G97w==
+ bh=vG6RbvXKJEF7LRvBZL+ritf7+gssSLdu8vjdxGvJ4Ws=;
+ b=H47D5x6Shn7fQGf+4FEQc6oC2xBpiuTUjJSGhhQf7fGGK/ZGJuURsYLJOwvB/YM6W/
+ 4KrGqKbGS5DyGW4XFoYZLL7WkebZauxspjQQ6+LoMUalKOf0isUx5xhGlB1TYGcmXazB
+ uA0pjFk+IJYaEm9t1wAgTEEKj9zsnRKcfeL/zQHm4/C0IaLMR9lRfO8e02UeAWz17E7J
+ 3dOlnqUduqenGWONIp3hNVIkndOg1msT4Zil+7gW8aL4vL95y08/7aBipM/7Rt1ooaJD
+ V5f1x0ljqVWMw9DM7GlqNTzHVvjffw7JrvtttwrsqqgGXsYRwddNUW94xIBVqJ5kfrBw
+ p6aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=28ulwBk/DdHKOhHfzeHCOUU8iGC2wvWNCEyLXBlgf/g=;
- b=BNMOZMknVYIz4s2XFUQ3A/SqQn2OmRSfDXLEMh9DfAFN33PHkzegQKkv42kprBR4aS
- diFCSWxoLHi1gI3zHHNfgZgtMLlEZLQ0vvwhS/I09kq+8Xoap+5ctlb6WyiW3FXQc9gk
- BOc01oa9yrvjgySw4/tHsCx18Sc6+Vn6711TPUIKrXdFJaWjHLZSNYYbOV4uuSCbzNnK
- 9z4z/YvgJocCMTePDtJprIFJxf1y8w1ylc9ZvLkMHlT1i/gF54MZ/2l8aKOHBBbMtdpA
- 8UpFodqNeb9rAFUY53SEYJwdEuaQgeuxYliYb3woKjk8mlRDlaO77h5HBBaoqxjYm/uK
- 0t6w==
-X-Gm-Message-State: AOAM53121C8Ke55OwRwf4LmY9d5LKyry5soYf99WvA4SkB7XwprRt5jp
- xNoEiQV9or5faJkt5OBhNCDeZ92xfFhlLg==
-X-Google-Smtp-Source: ABdhPJwXPF47FuVlVKGf2CpbPZmCHTt3kiBHIeaAb3nVEjpawCc6tWQ5rKIh5sx2pXBXSjOWEJh/Kg==
-X-Received: by 2002:a17:90a:5902:b0:1cb:a0eb:8f8c with SMTP id
- k2-20020a17090a590200b001cba0eb8f8cmr8955487pji.17.1650217477378; 
- Sun, 17 Apr 2022 10:44:37 -0700 (PDT)
+ bh=vG6RbvXKJEF7LRvBZL+ritf7+gssSLdu8vjdxGvJ4Ws=;
+ b=r2VE+5uCnChaoS2gcEgI3HKQMO+uLP76yiG139mJNpFMiSSfHveP5P5oUjwMRrGNIi
+ S03QDo2cuXV1bl4ulXx3CqbgOemBlL9r0Unv3H4HmkhMW7PRrjaBOxauSyyGeQ9pV2wr
+ L44sIOrDNfCqdAq2eHNnQvFg/qKCtyZevPVrP4vjghyhHjLXfTcqop0Hg9O9V2vd1w2x
+ tDivRvEfOBkgqoYg53YAwoZNSeK2IDQ6yo90KIxPPIuoE1bqAqQZBhH4GjKnzfjb00Zz
+ AoEosf3E+sVpO2vfKm0A/zcisb0iNh1qfClYP+Iv7MMs4HICzcD/GBfVZbxhwcQOzmoX
+ zHfw==
+X-Gm-Message-State: AOAM533yqdas3Z2iqEg53lg21S9uKPsyatS30ohmtNK41SSO8Q1o4G/o
+ nQD/yIQeKYa7ElM5bk0ed/o+Vu/fg+GAJw==
+X-Google-Smtp-Source: ABdhPJwY2sIhSlxHP632cvTztUmEqt5dw7twamz93m/NpNRWt/GbS7nOr+7hL56CvdmMpVwVpq7T8w==
+X-Received: by 2002:a17:90a:4bc2:b0:1b8:cdd3:53e2 with SMTP id
+ u2-20020a17090a4bc200b001b8cdd353e2mr14253075pjl.219.1650217479905; 
+ Sun, 17 Apr 2022 10:44:39 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i2-20020a17090a138200b001cb6512b579sm10372119pja.44.2022.04.17.10.44.36
+ i2-20020a17090a138200b001cb6512b579sm10372119pja.44.2022.04.17.10.44.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 10:44:36 -0700 (PDT)
+ Sun, 17 Apr 2022 10:44:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/60] target/arm: Change CPUArchState.thumb to bool
-Date: Sun, 17 Apr 2022 10:43:35 -0700
-Message-Id: <20220417174426.711829-10-richard.henderson@linaro.org>
+Subject: [PATCH v3 12/60] target/arm: Split out gen_rebuild_hflags
+Date: Sun, 17 Apr 2022 10:43:38 -0700
+Message-Id: <20220417174426.711829-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417174426.711829-1-richard.henderson@linaro.org>
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,94 +88,155 @@ Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bool is a more appropriate type for this value.
-Adjust the assignments to use true/false.
+For aa32, the function has a parameter to use the new el.
+For aa64, that never happens.
+Use tcg_constant_i32 while we're at it.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h          | 2 +-
- linux-user/arm/cpu_loop.c | 2 +-
- target/arm/cpu.c          | 2 +-
- target/arm/m_helper.c     | 6 +++---
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ target/arm/translate-a64.c | 21 +++++++++-----------
+ target/arm/translate.c     | 40 +++++++++++++++++++++++---------------
+ 2 files changed, 33 insertions(+), 28 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a61a52e2f6..4eb378ede2 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -259,6 +259,7 @@ typedef struct CPUArchState {
-      */
-     uint32_t pstate;
-     bool aarch64; /* True if CPU is in aarch64 state; inverse of PSTATE.nRW */
-+    bool thumb;   /* True if CPU is in thumb mode; cpsr[5] */
- 
-     /* Cached TBFLAGS state.  See below for which bits are included.  */
-     CPUARMTBFlags hflags;
-@@ -285,7 +286,6 @@ typedef struct CPUArchState {
-     uint32_t ZF; /* Z set if zero.  */
-     uint32_t QF; /* 0 or 1 */
-     uint32_t GE; /* cpsr[19:16] */
--    uint32_t thumb; /* cpsr[5]. 0 = arm mode, 1 = thumb mode. */
-     uint32_t condexec_bits; /* IT bits.  cpsr[15:10,26:25].  */
-     uint32_t btype;  /* BTI branch type.  spsr[11:10].  */
-     uint64_t daif; /* exception masks, in the bits they are in PSTATE */
-diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index aae375d617..2979109f92 100644
---- a/linux-user/arm/cpu_loop.c
-+++ b/linux-user/arm/cpu_loop.c
-@@ -231,7 +231,7 @@ do_kernel_trap(CPUARMState *env)
-     /* Jump back to the caller.  */
-     addr = env->regs[14];
-     if (addr & 1) {
--        env->thumb = 1;
-+        env->thumb = true;
-         addr &= ~1;
-     }
-     env->regs[15] = addr;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 30e0d16ad4..561f180067 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -51,7 +51,7 @@ static void arm_cpu_set_pc(CPUState *cs, vaddr value)
- 
-     if (is_a64(env)) {
-         env->pc = value;
--        env->thumb = 0;
-+        env->thumb = false;
-     } else {
-         env->regs[15] = value & ~1;
-         env->thumb = value & 1;
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index b7a0fe0114..a740c3e160 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -564,7 +564,7 @@ void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
-         env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
-     }
-     switch_v7m_security_state(env, dest & 1);
--    env->thumb = 1;
-+    env->thumb = true;
-     env->regs[15] = dest & ~1;
-     arm_rebuild_hflags(env);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index a85ca380a9..a00a882145 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -341,6 +341,11 @@ static void a64_free_cc(DisasCompare64 *c64)
+     tcg_temp_free_i64(c64->value);
  }
-@@ -590,7 +590,7 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-          * except that the low bit doesn't indicate Thumb/not.
+ 
++static void gen_rebuild_hflags(DisasContext *s)
++{
++    gen_helper_rebuild_hflags_a64(cpu_env, tcg_constant_i32(s->current_el));
++}
++
+ static void gen_exception_internal(int excp)
+ {
+     TCGv_i32 tcg_excp = tcg_const_i32(excp);
+@@ -1667,9 +1672,7 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
+         } else {
+             clear_pstate_bits(PSTATE_UAO);
+         }
+-        t1 = tcg_const_i32(s->current_el);
+-        gen_helper_rebuild_hflags_a64(cpu_env, t1);
+-        tcg_temp_free_i32(t1);
++        gen_rebuild_hflags(s);
+         break;
+ 
+     case 0x04: /* PAN */
+@@ -1681,9 +1684,7 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
+         } else {
+             clear_pstate_bits(PSTATE_PAN);
+         }
+-        t1 = tcg_const_i32(s->current_el);
+-        gen_helper_rebuild_hflags_a64(cpu_env, t1);
+-        tcg_temp_free_i32(t1);
++        gen_rebuild_hflags(s);
+         break;
+ 
+     case 0x05: /* SPSel */
+@@ -1741,9 +1742,7 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
+             } else {
+                 clear_pstate_bits(PSTATE_TCO);
+             }
+-            t1 = tcg_const_i32(s->current_el);
+-            gen_helper_rebuild_hflags_a64(cpu_env, t1);
+-            tcg_temp_free_i32(t1);
++            gen_rebuild_hflags(s);
+             /* Many factors, including TCO, go into MTE_ACTIVE. */
+             s->base.is_jmp = DISAS_UPDATE_NOCHAIN;
+         } else if (dc_isar_feature(aa64_mte_insn_reg, s)) {
+@@ -1990,9 +1989,7 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+          * A write to any coprocessor regiser that ends a TB
+          * must rebuild the hflags for the next TB.
           */
-         env->regs[14] = nextinst;
--        env->thumb = 1;
-+        env->thumb = true;
-         env->regs[15] = dest & ~1;
-         return;
-     }
-@@ -626,7 +626,7 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-     }
-     env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
-     switch_v7m_security_state(env, 0);
--    env->thumb = 1;
-+    env->thumb = true;
-     env->regs[15] = dest;
-     arm_rebuild_hflags(env);
+-        TCGv_i32 tcg_el = tcg_const_i32(s->current_el);
+-        gen_helper_rebuild_hflags_a64(cpu_env, tcg_el);
+-        tcg_temp_free_i32(tcg_el);
++        gen_rebuild_hflags(s);
+         /*
+          * We default to ending the TB on a coprocessor register write,
+          * but allow this to be suppressed by the register definition
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index c745b7fc91..6b293f8279 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -351,6 +351,26 @@ void gen_set_cpsr(TCGv_i32 var, uint32_t mask)
+     tcg_temp_free_i32(tmp_mask);
  }
+ 
++static void gen_rebuild_hflags(DisasContext *s, bool new_el)
++{
++    bool m_profile = arm_dc_feature(s, ARM_FEATURE_M);
++
++    if (new_el) {
++        if (m_profile) {
++            gen_helper_rebuild_hflags_m32_newel(cpu_env);
++        } else {
++            gen_helper_rebuild_hflags_a32_newel(cpu_env);
++        }
++    } else {
++        TCGv_i32 tcg_el = tcg_constant_i32(s->current_el);
++        if (m_profile) {
++            gen_helper_rebuild_hflags_m32(cpu_env, tcg_el);
++        } else {
++            gen_helper_rebuild_hflags_a32(cpu_env, tcg_el);
++        }
++    }
++}
++
+ static void gen_exception_internal(int excp)
+ {
+     TCGv_i32 tcg_excp = tcg_const_i32(excp);
+@@ -4885,17 +4905,7 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+              * A write to any coprocessor register that ends a TB
+              * must rebuild the hflags for the next TB.
+              */
+-            TCGv_i32 tcg_el = tcg_const_i32(s->current_el);
+-            if (arm_dc_feature(s, ARM_FEATURE_M)) {
+-                gen_helper_rebuild_hflags_m32(cpu_env, tcg_el);
+-            } else {
+-                if (ri->type & ARM_CP_NEWEL) {
+-                    gen_helper_rebuild_hflags_a32_newel(cpu_env);
+-                } else {
+-                    gen_helper_rebuild_hflags_a32(cpu_env, tcg_el);
+-                }
+-            }
+-            tcg_temp_free_i32(tcg_el);
++            gen_rebuild_hflags(s, ri->type & ARM_CP_NEWEL);
+             /*
+              * We default to ending the TB on a coprocessor register write,
+              * but allow this to be suppressed by the register definition
+@@ -6445,7 +6455,7 @@ static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
+     tcg_temp_free_i32(addr);
+     tcg_temp_free_i32(reg);
+     /* If we wrote to CONTROL, the EL might have changed */
+-    gen_helper_rebuild_hflags_m32_newel(cpu_env);
++    gen_rebuild_hflags(s, true);
+     gen_lookup_tb(s);
+     return true;
+ }
+@@ -8897,7 +8907,7 @@ static bool trans_CPS(DisasContext *s, arg_CPS *a)
+ 
+ static bool trans_CPS_v7m(DisasContext *s, arg_CPS_v7m *a)
+ {
+-    TCGv_i32 tmp, addr, el;
++    TCGv_i32 tmp, addr;
+ 
+     if (!arm_dc_feature(s, ARM_FEATURE_M)) {
+         return false;
+@@ -8920,9 +8930,7 @@ static bool trans_CPS_v7m(DisasContext *s, arg_CPS_v7m *a)
+         gen_helper_v7m_msr(cpu_env, addr, tmp);
+         tcg_temp_free_i32(addr);
+     }
+-    el = tcg_const_i32(s->current_el);
+-    gen_helper_rebuild_hflags_m32(cpu_env, el);
+-    tcg_temp_free_i32(el);
++    gen_rebuild_hflags(s, false);
+     tcg_temp_free_i32(tmp);
+     gen_lookup_tb(s);
+     return true;
 -- 
 2.25.1
 
