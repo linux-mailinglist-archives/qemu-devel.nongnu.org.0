@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426C85048E3
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 20:24:54 +0200 (CEST)
-Received: from localhost ([::1]:37144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57515048E9
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Apr 2022 20:29:18 +0200 (CEST)
+Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ng9Zt-0005zk-Bx
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 14:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48902)
+	id 1ng9e9-0003XW-O8
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 14:29:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8xP-0001Zz-Ap
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:45:07 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:39552)
+ id 1ng90K-0004Lm-2k
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:48:08 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:37746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ng8xN-0003Ue-8U
- for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:45:06 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id q19so14969381pgm.6
- for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:45:04 -0700 (PDT)
+ id 1ng90I-00041T-1y
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 13:48:07 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id v12so10752466plv.4
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 10:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hifCwEGN2LJwACcTt38/T1y33ShijigpbIfXemOwv90=;
- b=bIU79iLYpnr7IjvMxoxod5GuDpIgVIn1Avh2GoMgxsmZLL2IoqwwzjcNoIuS/a+W8z
- s9dKhfNRJwa8u4nfYbN2PwoV1ppvEBt+C+ptX4nDlv3UEmc2zKqUY43kZ8JhpUkb+GS9
- MapzNxpClvFm2U1cGk+hxTnsrtTGqQZVsqrZ0ECWAqBBakG94xgvL9TwmWSAlpR94nsQ
- vuTR0IFstPBZZKfaeGFCz/sJwo6OIHHHzlLHws0QejNpsl7bSZppGL1MSMCYVXfzxkzl
- M8Mag44UVqQ09aUtSv/yZdgWhSFeFAhDcxS4zJ5VMXdVzT8oxj1ydXILyOQ399NAR59q
- QMSQ==
+ bh=SQLjPgr/00ZHzz+LXu9cgSfnxSwNm0BkUh4Gx2ZNmzI=;
+ b=mIyi9tON29gCMputm9X387391rlIQRigK/2td+qN81SyAhQ0d22YW7PCoxlsh/mMpH
+ PylBOWsaBCK3yEbbCVTBKU8ygZsxCUp8+lfwQIA9uYo1iVltbaPPJymwqyMzrGDpQv6o
+ YySd8xchjrIJ/D8y14i4jByoSzy46K8ADqXfldvy/xuEY9K8849cAwaUwLcstmaROEtU
+ ijnhgBmvMZSE5Nse732dIkF5SqeVghln0+sHqBOd34QwLwfQnsmGcZX/ZMFJtPF00AxX
+ LYIwDwjrz80vrZ66iAqOoBqcPzMmVbQpunRvGWfPm9ONlko2SHzmU1PLnZlHY9tpXrFh
+ pzCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hifCwEGN2LJwACcTt38/T1y33ShijigpbIfXemOwv90=;
- b=SsYl74+VmrsG4xJA2zbnqaejGD4wvbkKLf02PXFfebZigrbRu7jNGdaSIo1Ri4AJOa
- kc9D7Sl05txwyqiRmP0iHOLp7cRW/Cwst2uOpjoZJ3Ie26pbugZsudECh/AMrcDMphGs
- pQTMgD7lvTX172T2VqeTRX5Qg5msT+1mRuXgqD2HIZFcCP1ZGj/arxqF0M97XOwdlLWQ
- s68gXSCGn9Sj9gQY7BR1eF8Mj5c3w0e0AKV9ZYuBInLWLAGWxPsDN6F+4UeUv5OlLheq
- XJ80PStvxxvCA0D2O70myDl+0UoIfLbaTiRQBSTz9RIF8hNFVfDmM6386p7g/EVkYcMD
- UAKw==
-X-Gm-Message-State: AOAM5313gXnda6fOHsTIkxYeN9rm8xVbrUjtY0SVgulvBd/n+X/W//GA
- NoQHV6DDrCbWYJ6qLUfQcu6gWsSrN4u8xw==
-X-Google-Smtp-Source: ABdhPJw3VtM8hoKlhaOIlcNozX6XO8ky6LPqwVGQDw86qYq6+83+ssoRKWkOV1Pak2fIxRt/9INYHg==
-X-Received: by 2002:aa7:9522:0:b0:4e1:d277:ce8 with SMTP id
- c2-20020aa79522000000b004e1d2770ce8mr8479794pfp.16.1650217503114; 
- Sun, 17 Apr 2022 10:45:03 -0700 (PDT)
+ bh=SQLjPgr/00ZHzz+LXu9cgSfnxSwNm0BkUh4Gx2ZNmzI=;
+ b=n+vTKODzJI8EYNHOWShHYF+sG+10jGuL9VXbQU+1ktm5nc0g9NOYiPY76Go+YUk04+
+ MklrLua+LCQKgwTOXiCzfwhoKDkXEDQQzaP35yYSokPA/1rgasg5NR2L+X8ukvEnNbrP
+ 7os+YOgmPKTesVpnSaVgz2y0IKvP3ESl/byC91ZJeXV2ex/jW/A+/tdP2kgr3AFIJHwx
+ Zta1ezmmUsHVv7cXebLMEm98dpTI7KqoDUGiK2Zb2e1QXlGQtFs9rh4/6v7Og7xeAl+y
+ APc3Ih7T4AvWRQze39LtXQizd6F00J2Ldcgzw3AiKrWo6UstrpF7mCxLdQElIocpIQhb
+ QBWA==
+X-Gm-Message-State: AOAM532W2SRDqWxk4jk/sGeLDejiyFwkbujd9T+fGz6A4GK71CZF5wvT
+ bV+3AI+rbAkEprO83nRa55UYSkx6lgsnFA==
+X-Google-Smtp-Source: ABdhPJzfm2aATVzjjTYGD5Ksr83PRThd18L1oihvWJS/m+SVri1UySiegkAfViatU/F8UV4dYEtsEg==
+X-Received: by 2002:a17:90b:38cb:b0:1d2:6c52:5be0 with SMTP id
+ nn11-20020a17090b38cb00b001d26c525be0mr6620290pjb.32.1650217684476; 
+ Sun, 17 Apr 2022 10:48:04 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i2-20020a17090a138200b001cb6512b579sm10372119pja.44.2022.04.17.10.45.02
+ e14-20020aa78c4e000000b00506475da4cesm9372055pfd.49.2022.04.17.10.48.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Apr 2022 10:45:02 -0700 (PDT)
+ Sun, 17 Apr 2022 10:48:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 39/60] target/arm: Adjust definition of CONTEXTIDR_EL2
-Date: Sun, 17 Apr 2022 10:44:05 -0700
-Message-Id: <20220417174426.711829-40-richard.henderson@linaro.org>
+Subject: [PATCH v3 40/60] target/arm: Move cortex impdef sysregs to cpu_tcg.c
+Date: Sun, 17 Apr 2022 10:44:06 -0700
+Message-Id: <20220417174426.711829-41-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220417174426.711829-1-richard.henderson@linaro.org>
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,54 +84,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This register is present for either VHE or Debugv8p2.
+Previously we were defining some of these in user-only mode,
+but none of them are accessible from user-only, therefore
+define them only in system mode.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This will shortly be used from cpu_tcg.c also.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v3: Rely on EL3-no-EL2 squashing during registration.
+v2: New patch.
 ---
- target/arm/helper.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ target/arm/internals.h |  6 ++++
+ target/arm/cpu64.c     | 64 +++---------------------------------------
+ target/arm/cpu_tcg.c   | 59 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 69 insertions(+), 60 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e762054b5d..3570212089 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7256,11 +7256,14 @@ static const ARMCPRegInfo jazelle_regs[] = {
-       .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
- };
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 7f696cd36a..96a57ee68f 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1295,4 +1295,10 @@ int aarch64_fpu_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg);
+ int aarch64_fpu_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg);
+ #endif
  
-+static const ARMCPRegInfo contextidr_el2 = {
-+    .name = "CONTEXTIDR_EL2", .state = ARM_CP_STATE_AA64,
-+    .opc0 = 3, .opc1 = 4, .crn = 13, .crm = 0, .opc2 = 1,
-+    .access = PL2_RW,
-+    .fieldoffset = offsetof(CPUARMState, cp15.contextidr_el[2])
++#ifdef CONFIG_USER_ONLY
++static inline void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu) { }
++#else
++void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu);
++#endif
++
+ #endif
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index c40373bd18..67d628c0af 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -34,65 +34,9 @@
+ #include "hvf_arm.h"
+ #include "qapi/visitor.h"
+ #include "hw/qdev-properties.h"
+-#include "cpregs.h"
++#include "internals.h"
+ 
+ 
+-#ifndef CONFIG_USER_ONLY
+-static uint64_t a57_a53_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+-{
+-    ARMCPU *cpu = env_archcpu(env);
+-
+-    /* Number of cores is in [25:24]; otherwise we RAZ */
+-    return (cpu->core_count - 1) << 24;
+-}
+-#endif
+-
+-static const ARMCPRegInfo cortex_a72_a57_a53_cp_reginfo[] = {
+-#ifndef CONFIG_USER_ONLY
+-    { .name = "L2CTLR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 11, .crm = 0, .opc2 = 2,
+-      .access = PL1_RW, .readfn = a57_a53_l2ctlr_read,
+-      .writefn = arm_cp_write_ignore },
+-    { .name = "L2CTLR",
+-      .cp = 15, .opc1 = 1, .crn = 9, .crm = 0, .opc2 = 2,
+-      .access = PL1_RW, .readfn = a57_a53_l2ctlr_read,
+-      .writefn = arm_cp_write_ignore },
+-#endif
+-    { .name = "L2ECTLR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 11, .crm = 0, .opc2 = 3,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "L2ECTLR",
+-      .cp = 15, .opc1 = 1, .crn = 9, .crm = 0, .opc2 = 3,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "L2ACTLR", .state = ARM_CP_STATE_BOTH,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 0, .opc2 = 0,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "CPUACTLR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 0,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "CPUACTLR",
+-      .cp = 15, .opc1 = 0, .crm = 15,
+-      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+-    { .name = "CPUECTLR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 1,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "CPUECTLR",
+-      .cp = 15, .opc1 = 1, .crm = 15,
+-      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+-    { .name = "CPUMERRSR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 2,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "CPUMERRSR",
+-      .cp = 15, .opc1 = 2, .crm = 15,
+-      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+-    { .name = "L2MERRSR_EL1", .state = ARM_CP_STATE_AA64,
+-      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 3,
+-      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+-    { .name = "L2MERRSR",
+-      .cp = 15, .opc1 = 3, .crm = 15,
+-      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
+-};
+-
+ static void aarch64_a57_initfn(Object *obj)
+ {
+     ARMCPU *cpu = ARM_CPU(obj);
+@@ -143,7 +87,7 @@ static void aarch64_a57_initfn(Object *obj)
+     cpu->gic_num_lrs = 4;
+     cpu->gic_vpribits = 5;
+     cpu->gic_vprebits = 5;
+-    define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
++    define_cortex_a72_a57_a53_cp_reginfo(cpu);
+ }
+ 
+ static void aarch64_a53_initfn(Object *obj)
+@@ -196,7 +140,7 @@ static void aarch64_a53_initfn(Object *obj)
+     cpu->gic_num_lrs = 4;
+     cpu->gic_vpribits = 5;
+     cpu->gic_vprebits = 5;
+-    define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
++    define_cortex_a72_a57_a53_cp_reginfo(cpu);
+ }
+ 
+ static void aarch64_a72_initfn(Object *obj)
+@@ -247,7 +191,7 @@ static void aarch64_a72_initfn(Object *obj)
+     cpu->gic_num_lrs = 4;
+     cpu->gic_vpribits = 5;
+     cpu->gic_vprebits = 5;
+-    define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
++    define_cortex_a72_a57_a53_cp_reginfo(cpu);
+ }
+ 
+ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 9338088b22..d078f06931 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -20,6 +20,65 @@
+ #endif
+ #include "cpregs.h"
+ 
++#ifndef CONFIG_USER_ONLY
++static uint64_t l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    ARMCPU *cpu = env_archcpu(env);
++
++    /* Number of cores is in [25:24]; otherwise we RAZ */
++    return (cpu->core_count - 1) << 24;
++}
++
++static const ARMCPRegInfo cortex_a72_a57_a53_cp_reginfo[] = {
++    { .name = "L2CTLR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 11, .crm = 0, .opc2 = 2,
++      .access = PL1_RW, .readfn = l2ctlr_read,
++      .writefn = arm_cp_write_ignore },
++    { .name = "L2CTLR",
++      .cp = 15, .opc1 = 1, .crn = 9, .crm = 0, .opc2 = 2,
++      .access = PL1_RW, .readfn = l2ctlr_read,
++      .writefn = arm_cp_write_ignore },
++    { .name = "L2ECTLR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 11, .crm = 0, .opc2 = 3,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "L2ECTLR",
++      .cp = 15, .opc1 = 1, .crn = 9, .crm = 0, .opc2 = 3,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "L2ACTLR", .state = ARM_CP_STATE_BOTH,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 0, .opc2 = 0,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "CPUACTLR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 0,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "CPUACTLR",
++      .cp = 15, .opc1 = 0, .crm = 15,
++      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
++    { .name = "CPUECTLR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 1,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "CPUECTLR",
++      .cp = 15, .opc1 = 1, .crm = 15,
++      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
++    { .name = "CPUMERRSR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 2,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "CPUMERRSR",
++      .cp = 15, .opc1 = 2, .crm = 15,
++      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
++    { .name = "L2MERRSR_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 1, .crn = 15, .crm = 2, .opc2 = 3,
++      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "L2MERRSR",
++      .cp = 15, .opc1 = 3, .crm = 15,
++      .access = PL1_RW, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
 +};
 +
- static const ARMCPRegInfo vhe_reginfo[] = {
--    { .name = "CONTEXTIDR_EL2", .state = ARM_CP_STATE_AA64,
--      .opc0 = 3, .opc1 = 4, .crn = 13, .crm = 0, .opc2 = 1,
--      .access = PL2_RW,
--      .fieldoffset = offsetof(CPUARMState, cp15.contextidr_el[2]) },
-     { .name = "TTBR1_EL2", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 1,
-       .access = PL2_RW, .writefn = vmsa_tcr_ttbr_el2_write,
-@@ -8222,6 +8225,10 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         define_one_arm_cp_reg(cpu, &ssbs_reginfo);
-     }
++void define_cortex_a72_a57_a53_cp_reginfo(ARMCPU *cpu)
++{
++    define_arm_cp_regs(cpu, cortex_a72_a57_a53_cp_reginfo);
++}
++#endif /* !CONFIG_USER_ONLY */
++
+ /* CPU models. These are not needed for the AArch64 linux-user build. */
+ #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
  
-+    if (cpu_isar_feature(aa64_vh, cpu) ||
-+        cpu_isar_feature(aa64_debugv8p2, cpu)) {
-+        define_one_arm_cp_reg(cpu, &contextidr_el2);
-+    }
-     if (arm_feature(env, ARM_FEATURE_EL2) && cpu_isar_feature(aa64_vh, cpu)) {
-         define_arm_cp_regs(cpu, vhe_reginfo);
-     }
 -- 
 2.25.1
 
