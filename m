@@ -2,51 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA95504A33
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 02:36:53 +0200 (CEST)
-Received: from localhost ([::1]:58916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763D6504A32
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 02:26:21 +0200 (CEST)
+Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngFNr-0003kd-RM
-	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 20:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37778)
+	id 1ngFDg-0007qh-1s
+	for lists+qemu-devel@lfdr.de; Sun, 17 Apr 2022 20:26:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@fluff.org>)
- id 1ngCb4-0004Lk-D9; Sun, 17 Apr 2022 17:38:18 -0400
-Received: from test-v6.fluff.org ([2a01:4f8:222:2004::3]:48712
- helo=hetzy.fluff.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@fluff.org>)
- id 1ngCb1-00052P-HL; Sun, 17 Apr 2022 17:38:17 -0400
-Received: from ben by hetzy.fluff.org with local (Exim 4.89)
- (envelope-from <ben@fluff.org>)
- id 1ngCam-0005ud-BV; Sun, 17 Apr 2022 22:38:00 +0100
-Date: Sun, 17 Apr 2022 22:38:00 +0100
-From: Ben Dooks <ben@fluff.org>
-To: Ben Dooks <qemu@ben.fluff.org>
-Subject: Re: [PATCH 4/4] hw/riscv: use qemu_fdt_setprop_strings() in sifive_u.c
-Message-ID: <20220417213800.w74xbqeancspa255@hetzy.fluff.org>
-References: <20220416193034.538161-1-qemu@ben.fluff.org>
- <20220416193034.538161-5-qemu@ben.fluff.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngFCN-00075l-79
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 20:24:59 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:41903)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngFCL-0001zO-Jl
+ for qemu-devel@nongnu.org; Sun, 17 Apr 2022 20:24:58 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ e8-20020a17090a118800b001cb13402ea2so12724729pja.0
+ for <qemu-devel@nongnu.org>; Sun, 17 Apr 2022 17:24:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=bSLVZu4kEojhUwmcp8aXGxF6EpCHL+vCdFuUHcRkjCA=;
+ b=WEFxRHNA1QZA6JOZk2XIQcvAWB3HacoKj+QtI7uH9Mm7WIhVliXenH9PQ/jKiLAGA4
+ xD5WkNlIOsIIVLwc5ZzRJkDaW/aXDW6yr/28YEj2ZrCSCyEH0iO4DDzyGYX0CFIsS5Nz
+ A5jmk7QaQC5cqH7qmMMEquLA75GAPPoaIy6atj9pSb8aKKUtbMZdWSGoVf1YIyux8UC9
+ /3TktSB0Dzqvdz7mOySk79MljiFr1k8K24mcnlT4OWjkPS1koM7t3dbZVReaqhDKgK6H
+ 6Mm/aE739VoDxlEH0rPSiPOFWdGQVzHMK6ALdavf0nkPP2C2Pm2OTJab8QeQpJ3fbYoe
+ 7RSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bSLVZu4kEojhUwmcp8aXGxF6EpCHL+vCdFuUHcRkjCA=;
+ b=n7tJHpDJsFozAZ2nw/haAx/rMMpI49cXWX538PIdF4Uu1Paije8RRRs4ih0g/SPQcE
+ atY8xexMcc6hElHGt8/nQp3PMH2AKQCwFKY/d+cUNo3SEjg0oOwnFbHrZfGNX3WAUkjI
+ Sn5Zv2ixdCxrR+fKXvzWuoZgjAnPRPyO33Ec5o8nOnmOb4fLfmXT++aEnIKF/3ceh8oB
+ W7bhQ46sRY878/jfSeJBiqISF8NH1Xa3lxe11VzI6Cec9UEiJoJ7euUXX5zC5/t/QEuz
+ 57EmNUlzfWRY+j60QDOcMFQWoV2LwRfiRThDcHXXN5GNgCPWQIl4wXCkTXOuovFTEoWu
+ pFlQ==
+X-Gm-Message-State: AOAM531+T5uIZGMzLNemmXkHX17BQ1kQIbbrws9p8317gWFkIfyzkcAs
+ 2p+Sx8ziaZCovDRTpKKdP7clxQ==
+X-Google-Smtp-Source: ABdhPJyTjlVJHArRqMG3jOPGt+0lKbhF+5BUPRIcXAg1M++mVhQG3XY5KSIqX3DBv8wLjrPXw8dKAQ==
+X-Received: by 2002:a17:902:7c01:b0:158:3dd6:d1ba with SMTP id
+ x1-20020a1709027c0100b001583dd6d1bamr8522182pll.120.1650241495917; 
+ Sun, 17 Apr 2022 17:24:55 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ e6-20020a17090a728600b001cb646a4adfsm14521431pjg.52.2022.04.17.17.24.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 17 Apr 2022 17:24:55 -0700 (PDT)
+Message-ID: <69e01fa9-3200-4f38-ed1e-2cb4b9301582@linaro.org>
+Date: Sun, 17 Apr 2022 17:24:53 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220416193034.538161-5-qemu@ben.fluff.org>
-X-Disclaimer: These are my views alone.
-X-URL: http://www.fluff.org/
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: ben@fluff.org
-X-SA-Exim-Scanned: No (on hetzy.fluff.org); SAEximRunCond expanded to false
-Received-SPF: pass client-ip=2a01:4f8:222:2004::3; envelope-from=ben@fluff.org;
- helo=hetzy.fluff.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v1 32/43] hw/loongarch: Add LoongArch ipi interrupt
+ support(IPI)
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
+ <20220415094058.3584233-33-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220415094058.3584233-33-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 17 Apr 2022 20:33:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,64 +91,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
- qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 16, 2022 at 08:30:34PM +0100, Ben Dooks wrote:
-> Use the qemu_fdt_setprop_strings() in sifve_u.c to simplify
-> the code.
-> 
-> Signed-off-by; Ben Dooks <qemu@ben.fluff.org>
-> ---
->  hw/riscv/sifive_u.c | 20 +++++++-------------
->  1 file changed, 7 insertions(+), 13 deletions(-)
-> 
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 1fe364cbb0..b00086d86e 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -103,13 +103,6 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->      char *nodename;
->      uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
->      uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
-> -    static const char * const ethclk_names[2] = { "pclk", "hclk" };
-> -    static const char * const clint_compat[2] = {
-> -        "sifive,clint0", "riscv,clint0"
-> -    };
-> -    static const char * const plic_compat[2] = {
-> -        "sifive,plic-1.0.0", "riscv,plic0"
-> -    };
->  
->      if (ms->dtb) {
->          fdt = s->fdt = load_device_tree(ms->dtb, &s->fdt_size);
-> @@ -221,8 +214,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->      nodename = g_strdup_printf("/soc/clint@%lx",
->          (long)memmap[SIFIVE_U_DEV_CLINT].base);
->      qemu_fdt_add_subnode(fdt, nodename);
-> -    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
-> -        (char **)&clint_compat, ARRAY_SIZE(clint_compat));
-> +    qemu_fdt_setprop_strings(fdt, nodename, "compatible",
-> +                             "sifive,clint0", "riscv,clint0");
->      qemu_fdt_setprop_reg64(fdt, nodename, &memmap[SIFIVE_U_DEV_CLINT]);
->      qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
->          cells, ms->smp.cpus * sizeof(uint32_t) * 4);
-> @@ -273,8 +266,10 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->          (long)memmap[SIFIVE_U_DEV_PLIC].base);
->      qemu_fdt_add_subnode(fdt, nodename);
->      qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 1);
-> -    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
-> -        (char **)&plic_compat, ARRAY_SIZE(plic_compat));
-> +    //qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
-> +    //    (char **)&plic_compat, ARRAY_SIZE(plic_compat));
+On 4/15/22 02:40, Xiaojuan Yang wrote:
+> +static const VMStateDescription vmstate_loongarch_ipi = {
+> +    .name = TYPE_LOONGARCH_IPI,
+> +    .version_id = 0,
+> +    .minimum_version_id = 0,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_END_OF_LIST()
+> +    }
 
-Whoops, will fix this conversion, should have removed the original
-instead of commenting it out.
+Why are there no fields here?  There's definitely state you should be saving.
 
--- 
-Ben Dooks, ben@fluff.org, http://www.fluff.org/ben/
 
-Large Hadron Colada: A large Pina Colada that makes the universe disappear.
+> diff --git a/include/hw/intc/loongarch_ipi.h b/include/hw/intc/loongarch_ipi.h
+> new file mode 100644
+> index 0000000000..d57b0c6192
+> --- /dev/null
+> +++ b/include/hw/intc/loongarch_ipi.h
+> @@ -0,0 +1,46 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * LoongArch ipi interrupt header files
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#ifndef HW_LOONGARCH_IPI_H
+> +#define HW_LOONGARCH_IPI_H
+> +
+> +#include "hw/sysbus.h"
+> +
+> +/* Mainy used by iocsr read and write */
+> +#define SMP_IPI_MAILBOX      0x1000ULL
+> +#define CORE_STATUS_OFF       0x0
+> +#define CORE_EN_OFF           0x4
+> +#define CORE_SET_OFF          0x8
+> +#define CORE_CLEAR_OFF        0xc
+> +#define CORE_BUF_20           0x20
+> +#define CORE_BUF_28           0x28
+> +#define CORE_BUF_30           0x30
+> +#define CORE_BUF_38           0x38
+> +#define IOCSR_IPI_SEND        0x40
+> +
+> +#define MAX_IPI_CORE_NUM      16
 
+So... 16 cores, but...
+
+> diff --git a/include/hw/loongarch/loongarch.h b/include/hw/loongarch/loongarch.h
+> index ffe10edc65..a659be2a7f 100644
+> --- a/include/hw/loongarch/loongarch.h
+> +++ b/include/hw/loongarch/loongarch.h
+> @@ -12,6 +12,7 @@
+>   #include "qemu-common.h"
+>   #include "hw/boards.h"
+>   #include "qemu/queue.h"
+> +#include "hw/intc/loongarch_ipi.h"
+>   
+>   #define LOONGARCH_MAX_VCPUS     4
+
+... only 4 cpus.
+
+>   
+> @@ -41,6 +42,7 @@ struct LoongArchMachineState {
+>       /*< private >*/
+>       MachineState parent_obj;
+>   
+> +    IPICore ipi_core[MAX_IPI_CORE_NUM];
+
+So why 16 cores here?
+
+
+r~
 
