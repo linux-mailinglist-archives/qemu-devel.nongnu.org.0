@@ -2,50 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95169505CC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 18:50:57 +0200 (CEST)
-Received: from localhost ([::1]:42976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1598505D9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 19:44:11 +0200 (CEST)
+Received: from localhost ([::1]:37640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngUaW-0004yi-NC
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 12:50:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39072)
+	id 1ngVQ2-00070k-Hu
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 13:44:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ngUR2-0000Lt-I4; Mon, 18 Apr 2022 12:41:08 -0400
-Received: from [187.72.171.209] (port=5022 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ngUQz-0006YK-8K; Mon, 18 Apr 2022 12:41:08 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 18 Apr 2022 13:39:04 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id E51518000A0;
- Mon, 18 Apr 2022 13:39:03 -0300 (-03)
-From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH for-7.1 10/10] target/ppc: implement cdtbcd
-Date: Mon, 18 Apr 2022 13:38:23 -0300
-Message-Id: <20220418163823.61866-11-victor.colombo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220418163823.61866-1-victor.colombo@eldorado.org.br>
-References: <20220418163823.61866-1-victor.colombo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1ngVLW-0004k5-Py
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 13:39:30 -0400
+Received: from nowt.default.pbrook.uk0.bigv.io
+ ([2001:41c8:51:832:fcff:ff:fe00:46dd]:41340)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1ngVLU-0006Zx-LF
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 13:39:30 -0400
+Received: from cpc91554-seac25-2-0-cust857.7-2.cable.virginm.net
+ ([82.27.199.90] helo=wren.home)
+ by nowt.default.pbrook.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
+ (envelope-from <paul@nowt.org>)
+ id 1ngVLO-000364-TE; Mon, 18 Apr 2022 18:39:22 +0100
+From: Paul Brook <paul@nowt.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] AVX guest implementation
+Date: Mon, 18 Apr 2022 18:39:00 +0100
+Message-Id: <20220418173904.3746036-1-paul@nowt.org>
+X-Mailer: git-send-email 2.35.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 18 Apr 2022 16:39:04.0252 (UTC)
- FILETIME=[D0BE77C0:01D85342]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2001:41c8:51:832:fcff:ff:fe00:46dd;
+ envelope-from=paul@nowt.org; helo=nowt.default.pbrook.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,107 +51,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, groug@kaod.org, victor.colombo@eldorado.org.br,
- clg@kaod.org, matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Paul Brook <paul@nowt.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Patch series to implement AXV/AVX2 guest support in TCG.
 
-Implements the Convert Declets To Binary Coded Decimal instruction.
-Since libdecnumber doesn't expose the methods for direct conversion
-(decDigitsFromDPD, DPD2BCD, etc), a positive decimal32 with zero
-exponent is used as an intermediate value to convert the declets.
+All the system level code for this (cpid, xsave, wider registers, etc)
+already exists, we just need to implement the instruction translation.
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
----
- target/ppc/dfp_helper.c                    | 26 ++++++++++++++++++++++
- target/ppc/helper.h                        |  1 +
- target/ppc/insn32.decode                   |  1 +
- target/ppc/translate/fixedpoint-impl.c.inc |  7 ++++++
- 4 files changed, 35 insertions(+)
+The majority of the new 256-bit operations operate on each 128-bit
+"lane" independently, so in theory we could use a single set of 128-bit
+helpers to implement both widths piecemeal. However this would further
+complicate the already over-long gen_sse function. Instead I chose to
+generate a whole new set of 256 bit "ymm" helpers using the framework
+already in place for 64/128 bit mm/xmm operations.
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index db9e994c8c..5ba74b2124 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -1392,6 +1392,32 @@ DFP_HELPER_SHIFT(DSCLIQ, 128, 1)
- DFP_HELPER_SHIFT(DSCRI, 64, 0)
- DFP_HELPER_SHIFT(DSCRIQ, 128, 0)
- 
-+target_ulong helper_CDTBCD(target_ulong s)
-+{
-+    uint64_t res = 0;
-+    uint32_t dec32, declets;
-+    uint8_t bcd[6];
-+    int i, w, sh;
-+    decNumber a;
-+
-+    for (w = 1; w >= 0; w--) {
-+        res <<= 32;
-+        declets = extract64(s, 32 * w, 20);
-+        if (declets) {
-+            /* decimal32 with zero exponent and word "w" declets */
-+            dec32 = (0x225ULL << 20) | declets;
-+            decimal32ToNumber((decimal32 *)&dec32, &a);
-+            decNumberGetBCD(&a, bcd);
-+            for (i = 0; i < a.digits; i++) {
-+                sh = 4 * (a.digits - 1 - i);
-+                res |= (uint64_t)bcd[i] << sh;
-+            }
-+        }
-+    }
-+
-+    return res;
-+}
-+
- target_ulong helper_CBCDTD(target_ulong s)
- {
-     uint64_t res = 0;
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 3fffd3f3ba..31252939c3 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -54,6 +54,7 @@ DEF_HELPER_3(sraw, tl, env, tl, tl)
- DEF_HELPER_FLAGS_2(CFUGED, TCG_CALL_NO_RWG_SE, i64, i64, i64)
- DEF_HELPER_FLAGS_2(PDEPD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
- DEF_HELPER_FLAGS_2(PEXTD, TCG_CALL_NO_RWG_SE, i64, i64, i64)
-+DEF_HELPER_FLAGS_1(CDTBCD, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_1(CBCDTD, TCG_CALL_NO_RWG_SE, tl, tl)
- #if defined(TARGET_PPC64)
- DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 0f9dd3706a..8f80fcaece 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -302,6 +302,7 @@ PEXTD           011111 ..... ..... ..... 0010111100 -   @X
- ## BCD Assist
- 
- ADDG6S          011111 ..... ..... ..... - 001001010 -  @X
-+CDTBCD          011111 ..... ..... ----- 0100011010 -   @X_sa
- CBCDTD          011111 ..... ..... ----- 0100111010 -   @X_sa
- 
- ### Float-Point Load Instructions
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index d9174d2ba3..9362c4bde8 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -528,6 +528,13 @@ static bool trans_ADDG6S(DisasContext *ctx, arg_X *a)
-     return true;
- }
- 
-+static bool trans_CDTBCD(DisasContext *ctx, arg_X_sa *a)
-+{
-+    REQUIRE_INSNS_FLAGS2(ctx, BCDA_ISA206);
-+    gen_helper_CDTBCD(cpu_gpr[a->ra], cpu_gpr[a->rs]);
-+    return true;
-+}
-+
- static bool trans_CBCDTD(DisasContext *ctx, arg_X_sa *a)
- {
-     REQUIRE_INSNS_FLAGS2(ctx, BCDA_ISA206);
+I've included the tests I used during development to the linux-user
+testsuite, and also ran these manually inside a debian x86-64 guest.
+
+Appologies for the big patch, but I can't think of a good way to split
+the bulk of the instruction translation.
+
+Paul Brook (4):
+  Add AVX_EN hflag
+  TCG support for AVX
+  Enable all x86-64 cpu features in user mode
+  AVX tests
+
+ linux-user/x86_64/target_elf.h |    2 +-
+ target/i386/cpu.c              |    8 +-
+ target/i386/cpu.h              |    3 +
+ target/i386/helper.c           |   12 +
+ target/i386/helper.h           |    2 +
+ target/i386/ops_sse.h          | 2606 +++++++++++++-----
+ target/i386/ops_sse_header.h   |  364 ++-
+ target/i386/tcg/fpu_helper.c   |    4 +
+ target/i386/tcg/translate.c    | 1902 ++++++++++---
+ tests/tcg/i386/Makefile.target |   10 +-
+ tests/tcg/i386/README          |    9 +
+ tests/tcg/i386/test-avx.c      |  347 +++
+ tests/tcg/i386/test-avx.py     |  352 +++
+ tests/tcg/i386/x86.csv         | 4658 ++++++++++++++++++++++++++++++++
+ 14 files changed, 8988 insertions(+), 1291 deletions(-)
+ create mode 100644 tests/tcg/i386/test-avx.c
+ create mode 100755 tests/tcg/i386/test-avx.py
+ create mode 100644 tests/tcg/i386/x86.csv
+
 -- 
-2.25.1
+2.35.2
 
 
