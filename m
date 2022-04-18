@@ -2,55 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811E8504E3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 11:10:00 +0200 (CEST)
-Received: from localhost ([::1]:33934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1055504E67
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 11:31:02 +0200 (CEST)
+Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngNOR-0005Qk-D7
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 05:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41256)
+	id 1ngNin-0002lX-5z
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 05:31:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ngNMI-0003wf-Rm
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 05:07:46 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ngNMG-0003N7-Tx
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 05:07:46 -0400
-Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ngNLJ-000A8Q-E2; Mon, 18 Apr 2022 10:06:49 +0100
-Message-ID: <433fdc93-b483-3dc6-43e7-28b54a95318c@ilande.co.uk>
-Date: Mon, 18 Apr 2022 10:07:33 +0100
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1ngNSw-00029g-Ei
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 05:14:38 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:53416 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1ngNSt-0004LX-20
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 05:14:37 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Ax6sztK11imaMnAA--.56728S3; 
+ Mon, 18 Apr 2022 17:14:21 +0800 (CST)
+Subject: Re: [PATCH v1 33/43] hw/intc: Add LoongArch ls7a interrupt controller
+ support(PCH-PIC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
+ <20220415094058.3584233-34-yangxiaojuan@loongson.cn>
+ <832efe6e-f647-9691-202c-e8713caf97d5@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <cb22faf4-8166-e91a-1cdb-3f0bd5736fe3@loongson.cn>
+Date: Mon, 18 Apr 2022 17:14:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
+In-Reply-To: <832efe6e-f647-9691-202c-e8713caf97d5@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------84453B67596C30FE186C1442"
 Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- "Shi, Guohuai" <Guohuai.Shi@windriver.com>
-References: <20220408171013.912436-1-bmeng.cn@gmail.com>
- <9940864.osJUfx695o@silver>
- <CH2PR11MB445407B4D35ECD8B77AD53F7EFEF9@CH2PR11MB4454.namprd11.prod.outlook.com>
- <4649965.RNUEIdHhq1@silver>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <4649965.RNUEIdHhq1@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH 0/4] 9pfs: Add 9pfs support for Windows host
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-CM-TRANSID: AQAAf9Ax6sztK11imaMnAA--.56728S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7AF48Ary8uw4UXr1kZr45trb_yoW8Gr1UpF
+ W8Jr4UCryUJw18Jr1DJw1UJryUAr1UJw1Utr18JF18JrWUJFnYqr1UXr12gr1DGr4xJF1j
+ yF45WryUZr1UAwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv214x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2
+ z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67
+ IIx4CEVc8vx2IErcIFxwCjr7xvwVCIw2I0I7xG6c02F41lc7I2V7IY0VAS07AlzVAYIcxG
+ 8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+ Aqx4xG67AKxVWUGVWUWwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r12
+ 6r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+ kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
+ 14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa
+ 7VUb_gA7UUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,137 +75,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>
+Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/04/2022 13:55, Christian Schoenebeck wrote:
+This is a multi-part message in MIME format.
+--------------84453B67596C30FE186C1442
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> On Donnerstag, 14. April 2022 19:25:04 CEST Shi, Guohuai wrote:
->>> -----Original Message-----
->>> From: Christian Schoenebeck <qemu_oss@crudebyte.com>
->>> Sent: 2022年4月14日 19:24
->>> To: qemu-devel@nongnu.org; Shi, Guohuai <Guohuai.Shi@windriver.com>
->>> Cc: Bin Meng <bmeng.cn@gmail.com>; Greg Kurz <groug@kaod.org>
->>> Subject: Re: [RFC PATCH 0/4] 9pfs: Add 9pfs support for Windows host
->>>
->>> [Please note: This e-mail is from an EXTERNAL e-mail address]
->>>
->>> On Mittwoch, 13. April 2022 05:30:57 CEST Shi, Guohuai wrote:
->>>
->>>>> We have 3 fs drivers: local, synth, proxy. I don't mind about proxy,
->>>>> it is in  bad shape and we will probably deprecate it in near future
->>>>> anyway. But it would be good to have support for the synth driver,
->>>>> because we are using it for running test cases and fuzzing tests
->>>>> (QA).
-> [...]
->> For 9p-synth:
->>
->> I had enabled 9p-synth.c and built it successfully on Windows platform.
->> However, test cases code are not built on Windows host.
->> So I think it is useless that enable synth on Windows host (no way to run
->> it).
-> 
-> Please, don't give up too soon. Looking at tests/qtest/meson.build it starts
-> with:
-> 
-> # All QTests for now are POSIX-only, but the dependencies are
-> # really in libqtest, not in the testcases themselves.
-> if not config_host.has_key('CONFIG_POSIX')
->    subdir_done()
-> endif
-> 
-> And looking at tests/qtest/libqtest.c I "think" this should be working on
-> Windows as well. It uses socket APIs which are available on Windows. I don't
-> see a real show stopper here for Windows.
-> 
-> Could you please try if you can compile the tests on Windows? What we would
-> need is test/qtest/qos-test, we don't need all the other tests:
-> 
-> https://wiki.qemu.org/Documentation/9p#Test_Cases
-> 
->>>> It is possible that to "map" extend attribute to NTFS stream data.
->>>> However, if Windows host media is not NTFS (e.g. FAT) which does not
->>>> support stream data, then the "map" can not work.
->>>
->>> ... yes exactly, it would make sense to use ADS [4] instead of xattr on
->>> Windows. ADS are available with NTFS and ReFS and maybe also with exFAT
->>> nowadays (?), not sure about the latter though. But I think it is fair
->>> enough to assume Windows users to either use NTFS or ReFS. And if they
->>> don't, you can still call error_report_once() to make user aware that
->>> seucrity_model=mapped(-xattr) requires a fileystem on Windows that
->>> supports ADS.
->>> [4] https://en.wikipedia.org/wiki/NTFS#Alternate_data_stream_(ADS)
->>>
->>
->> Windows does not support POSIX permission.
->> So I think that only allow user to use security_model=none is reasonable on
->> Windows host.
-> 
-> It depends on the use case. I assume your use case are Windows guests, in that
-> case you don't have the concept of POSIX permissions neither on guest side,
-> nor on host side (on the long-term I am pretty sure though that Windows guest
-> users would want to have some kind of Windows ACL mapping implementation as
-> well).
-> 
->> There is a difficulty to support "mapped" or "mapped-file" on Windows host:
->> There are many functions in 9p-code using APIs like "openat", "mkdirat",
->> etc. MSYS does not support that (openat is not valid on Windows host). I
->> remember that 9p replaced "open" by "openat" for a long time.
->> To fully support "security_model=mapped", 9p for Windows need to replace
->> "openat" by "open". This may impact too many functions.
->>
->> I would have a try to enable "mapped" by using ADS, but it looks like a big
->> refactor for 9p-local.c
-> 
-> Regarding openat(): We had a similar challenge for macOS host implementation;
-> macOS does not have mknodat(), so what we're currently doing is
-> 
->    pthread_fchdir_np(...)
->    mknod(...)
-> 
->    https://github.com/qemu/qemu/blob/master/hw/9pfs/9p-util-darwin.c#L84
-> 
-> So on Windows you could do:
-> 
->    chdir(...)
->    open(...)
-> 
-> as workaround for providing openat() for msys.
-> 
-> For security_model=mapped(-xattr) to work on Windows you basically would need
-> to provide a replacement implementation (based on Windows ADS) in
-> 9p-util-windows.c for:
-> 
->    ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char
->                                 *name, void *value, size_t size);
-> 
->    ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
->                                  char *list, size_t size);
-> 
->    ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
->                                    const char *name);
-> 
->    int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
->                             void *value, size_t size, int flags);
-> 
-> So it does not look too bad I think to get security_model=mapped working, and
-> it would make Windows 9p host support much more usable (for Linux guests,
-> macOS guests, but also for Windows guests with mapped Windows ACL in future).
+Hi, Richard
 
-FWIW even just having security_model=none would be very useful here, since then 9pfs 
-could be used to share host files across all of Windows, MacOS and POSIX OSs which is 
-something that can't yet be done with virtiofsd.
+On 2022/4/18 上午11:15, Richard Henderson wrote:
+> On 4/15/22 02:40, Xiaojuan Yang wrote:
+>> +static void pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,
+>> +                               int level, int hi)
+>> +{
+>> +    uint32_t val, irq;
+>> +
+>> +    if (level == 1) {
+>> +        if (hi) {
+>> +            val = mask & s->intirr_hi & (~s->int_mask_hi);
+>> +            irq = find_first_bit((unsigned long *)&val, 32);
+>
+> This does not work -- you're accessing beyond the end of the uint32_t 
+> for all LP64 hosts.  I think you just want ctz32()...
+>
+>
+>> +            if (irq != 32) {
+>> +                s->intisr_hi |= 1ULL << irq;
+>> + qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 1);
+>> +            }
+>
+> ... which should in fact only be tested if val != 0, which is to what 
+> this IF equates.
+>
+> Is there a good reason that this function is treating hi and lo 
+> separately, as opposed to simply doing all of the computation on 
+> uint64_t?
+>
 
-Whilst using ADS would allow the xattrs to be attached to files, how would this work 
-in the case of ACLs which are stored as a "system.posix_acl_access" attribute? My 
-concern would be that files copied from the guest to the host wouldn't have sensible 
-permissions when read directly on the host. Presumably there would be some existing 
-precedent for how this is handled in WSL2?
+In the part of linux kernel, pch pic driver use 32 bits for reading and 
+writing.
+e.g in the drivers/irqchip/irq-loongson-pch-pic.c， pch_pic_mask_irq() 
+function use writel() to write pch_pic mask reg.
 
+Thanks.
+Xiaojuan
+>
+> r~
 
-ATB,
+--------------84453B67596C30FE186C1442
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Mark.
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi, Richard<br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/4/18 上午11:15, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:832efe6e-f647-9691-202c-e8713caf97d5@linaro.org">On
+      4/15/22 02:40, Xiaojuan Yang wrote:
+      <br>
+      <blockquote type="cite">+static void
+        pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,
+        <br>
+        +                               int level, int hi)
+        <br>
+        +{
+        <br>
+        +    uint32_t val, irq;
+        <br>
+        +
+        <br>
+        +    if (level == 1) {
+        <br>
+        +        if (hi) {
+        <br>
+        +            val = mask &amp; s-&gt;intirr_hi &amp;
+        (~s-&gt;int_mask_hi);
+        <br>
+        +            irq = find_first_bit((unsigned long *)&amp;val,
+        32);
+        <br>
+      </blockquote>
+      <br>
+      This does not work -- you're accessing beyond the end of the
+      uint32_t for all LP64 hosts.  I think you just want ctz32()...
+      <br>
+      <br>
+      <br>
+      <blockquote type="cite">+            if (irq != 32) {
+        <br>
+        +                s-&gt;intisr_hi |= 1ULL &lt;&lt; irq;
+        <br>
+        +               
+        qemu_set_irq(s-&gt;parent_irq[s-&gt;htmsi_vector[irq + 32]], 1);
+        <br>
+        +            }
+        <br>
+      </blockquote>
+      <br>
+      ... which should in fact only be tested if val != 0, which is to
+      what this IF equates.
+      <br>
+      <br>
+      Is there a good reason that this function is treating hi and lo
+      separately, as opposed to simply doing all of the computation on
+      uint64_t?
+      <br>
+      <br>
+    </blockquote>
+    <br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">In
+      the part of linux kernel, pch pic driver use 32 bits for reading
+      and writing. </span><br style="color: rgb(0, 0, 0); font-family:
+      宋体, arial, Verdana, sans-serif; font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">e.g 
+      in the drivers/irqchip/irq-loongson-pch-pic.c， pch_pic_mask_irq()
+      function use writel() to write pch_pic mask reg.</span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;"></span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">Thanks.</span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">Xiaojuan</span>
+    <blockquote type="cite"
+      cite="mid:832efe6e-f647-9691-202c-e8713caf97d5@linaro.org">
+      <br>
+      r~
+      <br>
+    </blockquote>
+  </body>
+</html>
+
+--------------84453B67596C30FE186C1442--
+
 
