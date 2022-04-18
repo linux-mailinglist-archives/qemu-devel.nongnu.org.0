@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF9E505D29
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 18:56:30 +0200 (CEST)
-Received: from localhost ([::1]:49182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A00A6505CA6
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 18:46:56 +0200 (CEST)
+Received: from localhost ([::1]:34928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngUft-0000us-5y
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 12:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38784)
+	id 1ngUWd-0007tU-HM
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 12:46:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ngUPg-00070m-St; Mon, 18 Apr 2022 12:39:44 -0400
-Received: from [187.72.171.209] (port=20022 helo=outlook.eldorado.org.br)
+ id 1ngUQm-0008EM-MV; Mon, 18 Apr 2022 12:40:52 -0400
+Received: from [187.72.171.209] (port=5022 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ngUPf-0006A6-AT; Mon, 18 Apr 2022 12:39:44 -0400
+ id 1ngUQl-0006YK-0e; Mon, 18 Apr 2022 12:40:52 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Mon, 18 Apr 2022 13:39:03 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id CA3A98000A0;
- Mon, 18 Apr 2022 13:39:02 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 1CEBF80060F;
+ Mon, 18 Apr 2022 13:39:03 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH for-7.1 06/10] target/ppc: Implement mffscdrn[i] instructions
-Date: Mon, 18 Apr 2022 13:38:19 -0300
-Message-Id: <20220418163823.61866-7-victor.colombo@eldorado.org.br>
+Subject: [PATCH for-7.1 07/10] target/ppc: Add flag for ISA v2.06 BCDA
+ instructions
+Date: Mon, 18 Apr 2022 13:38:20 -0300
+Message-Id: <20220418163823.61866-8-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220418163823.61866-1-victor.colombo@eldorado.org.br>
 References: <20220418163823.61866-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 18 Apr 2022 16:39:03.0154 (UTC)
- FILETIME=[D016ED20:01D85342]
+X-OriginalArrivalTime: 18 Apr 2022 16:39:03.0482 (UTC)
+ FILETIME=[D048F9A0:01D85342]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,82 +64,86 @@ Cc: danielhb413@gmail.com, groug@kaod.org, victor.colombo@eldorado.org.br,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+
+Adds an insns_flags2 for the BCD assist instructions introduced in
+Power ISA 2.06. These instructions are not listed in the manuals for
+e5500[1] and e6500[2], so the flag is only added for POWER7/8/9/10
+models.
+
+[1] https://www.nxp.com/files-static/32bit/doc/ref_manual/EREF_RM.pdf
+[2] https://www.nxp.com/docs/en/reference-manual/E6500RM.pdf
+
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
- target/ppc/insn32.decode           |  5 +++++
- target/ppc/translate/fp-impl.c.inc | 35 ++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ target/ppc/cpu.h      | 4 +++-
+ target/ppc/cpu_init.c | 9 +++++----
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 177aa49878..e16fad2853 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -130,6 +130,9 @@
- &X_imm2         rt imm
- @X_imm2         ...... rt:5 ..... ... imm:2 .......... .        &X_imm2
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 047b24ba50..6163d28c5a 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2284,6 +2284,8 @@ enum {
+     PPC2_ISA300        = 0x0000000000080000ULL,
+     /* POWER ISA 3.1                                                         */
+     PPC2_ISA310        = 0x0000000000100000ULL,
++    /* ISA 2.06 BCD assist instructions                                      */
++    PPC2_BCDA_ISA206   = 0x0000000000200000ULL,
  
-+&X_imm3         rt imm
-+@X_imm3         ...... rt:5 ..... .. imm:3 .......... .         &X_imm3
-+
- %x_xt           0:1 21:5
- &X_imm5         xt imm:uint8_t vrb
- @X_imm5         ...... ..... imm:5 vrb:5 .......... .           &X_imm5 xt=%x_xt
-@@ -330,7 +333,9 @@ MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
- MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
- MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
- MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-+MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
- MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-+MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
+ #define PPC_TCG_INSNS2 (PPC2_BOOKE206 | PPC2_VSX | PPC2_PRCNTL | PPC2_DBRX | \
+                         PPC2_ISA205 | PPC2_VSX207 | PPC2_PERM_ISA206 | \
+@@ -2292,7 +2294,7 @@ enum {
+                         PPC2_BCTAR_ISA207 | PPC2_LSQ_ISA207 | \
+                         PPC2_ALTIVEC_207 | PPC2_ISA207S | PPC2_DFP | \
+                         PPC2_FP_CVT_S64 | PPC2_TM | PPC2_PM_ISA206 | \
+-                        PPC2_ISA300 | PPC2_ISA310)
++                        PPC2_ISA300 | PPC2_ISA310 | PPC2_BCDA_ISA206)
+ };
  
- ### Decimal Floating-Point Arithmetic Instructions
- 
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index b294e286fb..32ddad49f5 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -679,6 +679,41 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
-     return true;
- }
- 
-+static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_tb *a)
-+{
-+    TCGv_i64 t1;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_FPU(ctx);
-+
-+    t1 = tcg_temp_new_i64();
-+    get_fpr(t1, a->rb);
-+    tcg_gen_andi_i64(t1, t1, FP_DRN);
-+
-+    do_mffsc(a->rt, t1, FP_DRN | FP_ENABLES | FP_NI | FP_RN, ~FP_DRN, 0x0100);
-+
-+    tcg_temp_free_i64(t1);
-+
-+    return true;
-+}
-+
-+static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
-+{
-+    TCGv_i64 t1;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_FPU(ctx);
-+
-+    t1 = tcg_temp_new_i64();
-+    tcg_gen_movi_i64(t1, (uint64_t)a->imm << FPSCR_DRN0);
-+
-+    do_mffsc(a->rt, t1, FP_DRN | FP_ENABLES | FP_NI | FP_RN, ~FP_DRN, 0x0100);
-+
-+    tcg_temp_free_i64(t1);
-+
-+    return true;
-+}
-+
- /* mtfsb0 */
- static void gen_mtfsb0(DisasContext *ctx)
- {
+ /*****************************************************************************/
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 073fd10168..dd8486f614 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -5984,7 +5984,7 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
+                         PPC2_PERM_ISA206 | PPC2_DIVE_ISA206 |
+                         PPC2_ATOMIC_ISA206 | PPC2_FP_CVT_ISA206 |
+                         PPC2_FP_TST_ISA206 | PPC2_FP_CVT_S64 |
+-                        PPC2_PM_ISA206;
++                        PPC2_PM_ISA206 | PPC2_BCDA_ISA206;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_VR) |
+                     (1ull << MSR_VSX) |
+@@ -6157,7 +6157,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
+                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+-                        PPC2_TM | PPC2_PM_ISA206;
++                        PPC2_TM | PPC2_PM_ISA206 | PPC2_BCDA_ISA206;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+@@ -6375,7 +6375,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
+                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+-                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
++                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_BCDA_ISA206;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
+@@ -6588,7 +6588,8 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+                         PPC2_FP_TST_ISA206 | PPC2_BCTAR_ISA207 |
+                         PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+                         PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_S64 |
+-                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_ISA310;
++                        PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL | PPC2_ISA310 |
++                        PPC2_BCDA_ISA206;
+     pcc->msr_mask = (1ull << MSR_SF) |
+                     (1ull << MSR_HV) |
+                     (1ull << MSR_TM) |
 -- 
 2.25.1
 
