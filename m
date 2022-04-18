@@ -2,55 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD17504E12
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 10:59:44 +0200 (CEST)
-Received: from localhost ([::1]:54650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F355B504E31
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 11:07:54 +0200 (CEST)
+Received: from localhost ([::1]:59410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngNEV-0008Ev-8r
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 04:59:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39286)
+	id 1ngNMP-0003Xq-IZ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 05:07:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ngNCP-0007Id-RB
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 04:57:33 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ngNCO-0001o6-Ab
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 04:57:33 -0400
-Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ngNBW-000A4c-84; Mon, 18 Apr 2022 09:56:38 +0100
-Message-ID: <9f27b53d-d2bf-1fb5-3a46-c910a34d5e3d@ilande.co.uk>
-Date: Mon, 18 Apr 2022 09:57:26 +0100
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1ngNJx-0002cY-SU
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 05:05:26 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53227)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1ngNJu-0002tV-G1
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 05:05:20 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id 2so12528658pjw.2
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 02:05:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dLsN6PiZxS665U21WnYzKoY1I6R6IUBqThGDNUEmUYU=;
+ b=dgPasdnY61ksrkjLeOB5x5pj2bA4qnQe9vojVOt96xFVBH6isybUmHbLsXgb8wzvdj
+ RJvtS3ngCOulpaTTez43Lw/X8sgn8Yb/ylAfebRfImrvP8mRNKWiaFhR7igbV3Ae3+kz
+ mV9qRmVByaj3HlNI6sllrAoEo+swrTZetlyFpL93YHHU8vtMJxT1va6q+WghGlh08Eid
+ pIEWZAqS+BmJe9NEzl4C/uSAAT9jyjEGkEq7UmRH9AZ75I81SMMrW2soiA21QZhJWxQ7
+ yuUpoxBk9U4Wc5MOuwQJHVIHLcT5WlwdXm7xtY7SpLiVFq6MSNLiGGj/oiuToylKlmMn
+ Ki6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dLsN6PiZxS665U21WnYzKoY1I6R6IUBqThGDNUEmUYU=;
+ b=I8K9FqreDhzw+272Xj7BSFi1JPblW6F6SPLPQQWz9/jTomVRtptTZ/ZJEIO4O9x5dJ
+ 0GJYIiJFJNkJ/MWE92iN2CbobjAv6lux2b1GSrC12WFbjNdhwvNUbzIQSUJUtpWMY/W6
+ GnDd87U1u4QImBeVhuzD0Y5XHZZLLULvRSeGd4XP/9YyJQ/qo2AKudKv4L4isXjVbUht
+ WkoKhP6b4JRR71pLx2NL3hYM2srfnyxN3m8F6/G0coI1/4mFm2mrUFc5lhEctZhSiH0P
+ 2iLu1F5m5ywwvscksbk0WZ7eofWPIb2unh93QCXt7QMDomlawTDwYom3FgbaIZC5b+rn
+ iK4A==
+X-Gm-Message-State: AOAM530IyLUxLbBb/qK5OEckX7QnGU+gzXp0Tv7iSKpsMu59RB4BEisj
+ WFIsV5z2ykRvSagBn54qTK6BZb2RMvhGOwiXhqI=
+X-Google-Smtp-Source: ABdhPJxjvv8aljcPljXz89dnWibe10COt/StqlMSShvZWhdkqQSMP6aT7atj7jZbsddoK80uznZjvQ==
+X-Received: by 2002:a17:90b:4c43:b0:1d2:aa8f:f687 with SMTP id
+ np3-20020a17090b4c4300b001d2aa8ff687mr2245801pjb.230.1650272715914; 
+ Mon, 18 Apr 2022 02:05:15 -0700 (PDT)
+Received: from fedora.. ([101.206.166.4]) by smtp.gmail.com with ESMTPSA id
+ j13-20020a056a00130d00b004f1025a4361sm12434644pfu.202.2022.04.18.02.05.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Apr 2022 02:05:15 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH 2/2] Use io_ring_register_ring_fd() to skip fd operations
+Date: Mon, 18 Apr 2022 17:05:04 +0800
+Message-Id: <20220418090504.50107-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
- <20220415094058.3584233-36-yangxiaojuan@loongson.cn>
- <6d62ce6d-acc2-b07e-71ac-dee03bbfd22f@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <6d62ce6d-acc2-b07e-71ac-dee03bbfd22f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v1 35/43] hw/intc: Add LoongArch extioi interrupt
- controller(EIOINTC)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,53 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gaosong@loongson.cn
+Cc: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Damien Le Moal <Damien.LeMoal@wdc.com>,
+ Sam Li <faithilikerun@gmail.com>, Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/04/2022 04:48, Richard Henderson wrote:
+fix code style issue.
 
-> On 4/15/22 02:40, Xiaojuan Yang wrote:
->> +        memory_region_init(&s->mmio[cpu], OBJECT(s),
->> +                           "loongarch_extioi", EXTIOI_SIZE);
->> +
->> +        memory_region_init_io(&s->mmio_nodetype[cpu], OBJECT(s),
->> +                              &extioi_nodetype_ops, s,
->> +                              EXTIOI_LINKNAME(.nodetype),
->> +                              IPMAP_OFFSET - APIC_BASE);
->> +        memory_region_add_subregion(&s->mmio[cpu], 0, &s->mmio_nodetype[cpu]);
->> +
->> +        memory_region_init_io(&s->mmio_ipmap_enable[cpu], OBJECT(s),
->> +                              &extioi_ipmap_enable_ops, s,
->> +                              EXTIOI_LINKNAME(.ipmap_enable),
->> +                              BOUNCE_OFFSET - IPMAP_OFFSET);
->> +        memory_region_add_subregion(&s->mmio[cpu], IPMAP_OFFSET - APIC_BASE,
->> +                                    &s->mmio_ipmap_enable[cpu]);
->> +
->> +        memory_region_init_io(&s->mmio_bounce_coreisr[cpu], OBJECT(s),
->> +                              &extioi_bounce_coreisr_ops, s,
->> +                              EXTIOI_LINKNAME(.bounce_coreisr),
->> +                              COREMAP_OFFSET - BOUNCE_OFFSET);
->> +        memory_region_add_subregion(&s->mmio[cpu], BOUNCE_OFFSET - APIC_BASE,
->> +                                    &s->mmio_bounce_coreisr[cpu]);
->> +
->> +        memory_region_init_io(&s->mmio_coremap[cpu], OBJECT(s),
->> +                              &extioi_coremap_ops, s,
->> +                              EXTIOI_LINKNAME(.coremap),
->> +                              EXTIOI_COREMAP_END);
->> +        memory_region_add_subregion(&s->mmio[cpu], COREMAP_OFFSET - APIC_BASE,
->> +                                    &s->mmio_coremap[cpu]);
-> 
-> Why are these separate memory regions, instead of one region?  They're certainly 
-> described in a single table in section 11.2 of the 3A5000 manual...
+Signed-off-by: Sam Li <faithilikerun@gmail.com>
+---
+ block/io_uring.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-The reason it was done like this is because there were different access sizes in the 
-relevant _ops definitions. Certainly when I looked at the patches previously I wasn't 
-able to easily see how these could be consolidated without digging deeper into the 
-documentation.
+diff --git a/block/io_uring.c b/block/io_uring.c
+index 2942967126..57745ecfa1 100644
+--- a/block/io_uring.c
++++ b/block/io_uring.c
+@@ -436,10 +436,15 @@ LuringState *luring_init(Error **errp)
+ 
+     ioq_init(&s->io_q);
+     if (io_uring_register_ring_fd(&s->ring) < 0) {
+-        error_setg_errno(errp, errno, "failed to register linux io_uring ring file descriptor");
++        /*
++         * If the function fails, it will fallback to the non-optimized io_uring
++         * operations.
++         */
++        error_setg_errno(errp, errno,
++                         "failed to register linux io_uring ring file descriptor");
+     }
+-    return s;
+ 
++    return s;
+ }
+ 
+ void luring_cleanup(LuringState *s)
+-- 
+2.35.1
 
-
-ATB,
-
-Mark.
 
