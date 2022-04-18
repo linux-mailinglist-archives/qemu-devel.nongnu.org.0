@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5E3506045
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 01:36:01 +0200 (CEST)
-Received: from localhost ([::1]:57724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCDD506044
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 01:35:51 +0200 (CEST)
+Received: from localhost ([::1]:57292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngauV-0001th-TY
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 19:35:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60954)
+	id 1ngauM-0001cP-62
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 19:35:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1ngash-0000Ih-NP
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 19:34:08 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:37383)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngasb-0000Fv-UQ
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 19:34:01 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1ngasg-0000mZ-6L
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 19:34:07 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- mm4-20020a17090b358400b001cb93d8b137so668250pjb.2
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 16:34:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XRCUYaUS0iizOIPfgxkPP1xgvWVZPhNiUXIGykl/OMQ=;
- b=GJ5r8afuwpTL8qbccQWHNa/0sfg2rr6RK0WLSaJSMMygtE/MZL9KNEYr9Xyl+mpVOt
- HSz7WQbetZPRESBgz1fTiTfuFRC/dsZsyXx3KEuxKp/U7IcD4i+k/9Y6XqyNe/e9M2Uf
- IqA7aScnA8yUn6BwfOw13VRJrKbXrFhe2DYGqffSmvNpmLb7vsjqEiKxdPRpUjdVLnuc
- A6pH+OSx9fAm0ngXZ+YQg00uX5NBZO6D+vU/nyaJSAF4vz4WWfWiAKl5xtN8J5uSD3v8
- 8YrYmQXFIJOUuong9LoRqEa2LIj505J/jlXfXPEajZoH98v2/3pYQix05v0u4NzGlotD
- lCwA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngasZ-0000ly-0i
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 19:34:01 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id md4so14251263pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 16:33:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ztbNfoFJSg6lixHbleD1xvXYBQtFL8u3ztV/rFmSWMg=;
+ b=bQ8MlODrAjT3uIKGO/techzfYA3p0WKVnuwm+ETm25DrYkk3TnfmFlIALJc6wBbGjL
+ 8IU7nzPNfCSHRQCaqAz6npd5EzlsQCnwPrTBOauELqC/hhx0pYHx/Q3fBga/SUk7jQCK
+ Ff0mCfErnttLBxX4IP6uS7jjHyrSYLghD3ROzmQqXVS+gczJwkgYZw7R44WX/LNFdva6
+ GOpKOjDlsdntcmbxV3LMWdst8oVkA3qZVfxdA4qI9p5mLYFcJCCManvYrxKDgj2rB20L
+ 3F/zCMPz99mc2HTrY6cEWgWGoxA8Chqd/V/Z9D3rY6z43BwZNoUipqik3dCU3XYzhZzL
+ j/vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=XRCUYaUS0iizOIPfgxkPP1xgvWVZPhNiUXIGykl/OMQ=;
- b=ZsOLnivCQYXeyqw/mmSQxo4oAv6SMlQxdeek21NbvQHPp2buMFbNolVwFfvebxdJNq
- zWXcUDDY5qj5+wq1YGFZAwZ8tWOXwmzUAdr27OzhyCRhaOs0Zwdj8FeTcLaE44XCPRh8
- leH9ne5wJ2IigbAAuBpbx63I+SC4TvSFBVyZ7wH0PtBNueEoHMMJSEKoynQOuRBTPXpx
- hXmG8P0hMPrR0osQF0ZyqxZJyBhaLi6udOuq+jKiL2L1SnaMlIiV9Mc3/LWLwUVKCypR
- Djl0hQhpnJCQ5GeblrUzTSzDoIMFO/A+dIerEOclQ05AiVRw/fBW+of5hw0fsKIMclOm
- yW0g==
-X-Gm-Message-State: AOAM531P6nZHn0KqhCWljJWZSldxfGacEzHlP1VtMuNsvTh0bRBtS6Bg
- 2+HLdkflh6LmqT0qABC10ZfswjQ5dEM4RAs2
-X-Google-Smtp-Source: ABdhPJyAOtW9kzSBjzC2hBu3LcZZjmLY6vaaXAc5G6RGYLiJF+/UUU2ix2T1zBsN6Zt+744KyTy9Ww==
-X-Received: by 2002:a17:90a:de87:b0:1cb:b207:a729 with SMTP id
- n7-20020a17090ade8700b001cbb207a729mr15556094pjv.144.1650324844769; 
- Mon, 18 Apr 2022 16:34:04 -0700 (PDT)
-Received: from fedora.. ([101.206.166.4]) by smtp.gmail.com with ESMTPSA id
- x5-20020aa79ac5000000b0050a4f4c4251sm10377096pfp.206.2022.04.18.16.34.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 16:34:04 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v3] Use io_uring_register_ring_fd() to skip fd operations
-Date: Tue, 19 Apr 2022 07:33:31 +0800
-Message-Id: <20220418233331.7528-1-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ bh=ztbNfoFJSg6lixHbleD1xvXYBQtFL8u3ztV/rFmSWMg=;
+ b=kJbuujR2cyCL0oKL8SmjeYEkixzN+yzlUojpFpD+ABwX40t3LnfYeZRtVtVpv5f9Tb
+ gaRkQekGJyiiG0xF/S4GBkC/p5gznOe9s0p6vWBr5SqdeO9GRssQ0ldOTQEPXomkkcjg
+ 8f5ELflya2bfIpNx/ExP7u+rsCb9hcudprktxc6CL33r+JohVi2ZH0KQZkyNRLQMC/B2
+ /Ih2CZxyr8S/dMBHs7rxkrYNasvOc6PfIGKjMNa3x9x3SWGwxCy8M0VIVD3mIcjTYGvI
+ mp9v6797u/FHzy1nMUDuCrWgIJIFU0jp/CtPsj/Q7TyuGfwhZeST1le2fQKusQKb9DzW
+ RC4Q==
+X-Gm-Message-State: AOAM532787GVZBPaz/MjozINiwcEJs1KBCS6AEUIFV5rzyLY9rK67mCl
+ awHdMl9eLhgvhYfHJnCU8cs6uw==
+X-Google-Smtp-Source: ABdhPJw3OYqWZX2rBJ1cgWnrdGAKfdSFn2mY7wIi/5tA3biSKCOiLg2RYL47Z92aPMSjUAn5UHj2kg==
+X-Received: by 2002:a17:902:b489:b0:158:f23a:c78f with SMTP id
+ y9-20020a170902b48900b00158f23ac78fmr10780037plr.65.1650324837293; 
+ Mon, 18 Apr 2022 16:33:57 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ d9-20020a056a00198900b00508379f2121sm14054378pfl.52.2022.04.18.16.33.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Apr 2022 16:33:56 -0700 (PDT)
+Message-ID: <09d9c016-fb7d-2728-32b5-3578374cdc70@linaro.org>
+Date: Mon, 18 Apr 2022 16:33:54 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x102a.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH v3 1/5] ppc64: Add semihosting support
+Content-Language: en-US
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
+ <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,48 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Damien Le Moal <Damien.LeMoal@wdc.com>,
- Sam Li <faithilikerun@gmail.com>, Hannes Reinecke <hare@suse.de>
+Cc: danielhb413@gmail.com, groug@kaod.org, clg@kaod.org, pbonzini@redhat.com,
+ alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux recently added a new io_uring(7) optimization API that QEMU
-doesn't take advantage of yet. The liburing library that QEMU uses
-has added a corresponding new API calling io_uring_register_ring_fd().
-When this API is called after creating the ring, the io_uring_submit()
-library function passes a flag to the io_uring_enter(2) syscall
-allowing it to skip the ring file descriptor fdget()/fdput()
-operations. This saves some CPU cycles.
+On 4/18/22 12:10, Leandro Lupori wrote:
+> Add semihosting support for PPC64. This implementation is
+> based on the standard for ARM semihosting version 2.0, as
+> implemented by QEMU and documented in
+> 
+>      https://github.com/ARM-software/abi-aa/releases
+> 
+> The PPC64 specific differences are the following:
+> 
+> Semihosting Trap Instruction: sc 7
+> Operation Number Register: r3
+> Parameter Register: r4
+> Return Register: r3
+> Data block field size: 64 bits
+> 
+> Signed-off-by: Leandro Lupori<leandro.lupori@eldorado.org.br>
+> ---
+>   configs/devices/ppc64-softmmu/default.mak |  3 +++
+>   qemu-options.hx                           | 18 ++++++++-----
+>   semihosting/arm-compat-semi.c             | 33 +++++++++++++++++++++++
+>   target/ppc/cpu.h                          |  3 ++-
+>   target/ppc/excp_helper.c                  |  9 +++++++
+>   target/ppc/translate.c                    | 14 ++++++++++
+>   6 files changed, 72 insertions(+), 8 deletions(-)
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
----
- block/io_uring.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Modulo whatever sc number yall settle on,
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index 782afdb433..51f4834b69 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -435,8 +435,16 @@ LuringState *luring_init(Error **errp)
-     }
- 
-     ioq_init(&s->io_q);
--    return s;
-+    if (io_uring_register_ring_fd(&s->ring) < 0) {
-+        /*
-+         * Only warn about this error: we will fallback to the non-optimized
-+         * io_uring operations.
-+         */
-+        error_setg_errno(errp, errno,
-+                         "failed to register linux io_uring ring file descriptor");
-+    }
- 
-+    return s;
- }
- 
- void luring_cleanup(LuringState *s)
--- 
-2.35.1
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
