@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F882505C8C
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 18:42:34 +0200 (CEST)
-Received: from localhost ([::1]:52376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4CD505CA3
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 18:46:01 +0200 (CEST)
+Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngUSP-0000jI-6Q
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 12:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38680)
+	id 1ngUVk-0006Nc-6N
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 12:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ngUPQ-0006SH-Dz; Mon, 18 Apr 2022 12:39:28 -0400
+ id 1ngUPU-0006Wz-9Q; Mon, 18 Apr 2022 12:39:32 -0400
 Received: from [187.72.171.209] (port=20022 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ngUPO-0006A6-CZ; Mon, 18 Apr 2022 12:39:28 -0400
+ id 1ngUPR-0006A6-Nq; Mon, 18 Apr 2022 12:39:32 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Mon, 18 Apr 2022 13:39:01 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 1E4FA8000A0;
+ by p9ibm (Postfix) with ESMTP id 6D04380060F;
  Mon, 18 Apr 2022 13:39:01 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH for-7.1 00/10] BCDA and mffscdrn implementations
-Date: Mon, 18 Apr 2022 13:38:13 -0300
-Message-Id: <20220418163823.61866-1-victor.colombo@eldorado.org.br>
+Subject: [PATCH for-7.1 01/10] target/ppc: Fix insn32.decode style issues
+Date: Mon, 18 Apr 2022 13:38:14 -0300
+Message-Id: <20220418163823.61866-2-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220418163823.61866-1-victor.colombo@eldorado.org.br>
+References: <20220418163823.61866-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 18 Apr 2022 16:39:01.0498 (UTC)
- FILETIME=[CF1A3DA0:01D85342]
+X-OriginalArrivalTime: 18 Apr 2022 16:39:01.0802 (UTC)
+ FILETIME=[CF48A0A0:01D85342]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,35 +63,101 @@ Cc: danielhb413@gmail.com, groug@kaod.org, victor.colombo@eldorado.org.br,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set of patches containing implementations for some instructions that
-were missing before. Also, moves some related instructions to
-decodetree
+Some lines in insn32.decode have inconsistent alignment when compared
+to others.
+Fix this by changing the alignment of some lines, making it more
+consistent throughout the file.
 
-Matheus Ferst (4):
-  target/ppc: Add flag for ISA v2.06 BCDA instructions
-  target/ppc: implement addg6s
-  target/ppc: implement cbcdtd
-  target/ppc: implement cdtbcd
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+---
+ target/ppc/insn32.decode | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-Víctor Colombo (6):
-  target/ppc: Fix insn32.decode style issues
-  target/ppc: Move mffs[.] to decodetree
-  target/ppc: Move mffsl to decodetree
-  target/ppc: Move mffsce to decodetree
-  target/ppc: Move mffscrn[i] to decodetree
-  target/ppc: Implement mffscdrn[i] instructions
-
- target/ppc/cpu.h                           |   4 +-
- target/ppc/cpu_init.c                      |   9 +-
- target/ppc/dfp_helper.c                    |  65 ++++++++
- target/ppc/helper.h                        |   2 +
- target/ppc/insn32.decode                   |  58 +++++--
- target/ppc/internal.h                      |   3 -
- target/ppc/translate/fixedpoint-impl.c.inc |  49 ++++++
- target/ppc/translate/fp-impl.c.inc         | 168 ++++++++++-----------
- target/ppc/translate/fp-ops.c.inc          |   9 --
- 9 files changed, 248 insertions(+), 119 deletions(-)
-
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index ac2d3da9a7..accfc8418b 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -18,11 +18,11 @@
+ #
+ 
+ &D              rt ra si:int64_t
+-@D              ...... rt:5 ra:5 si:s16                 &D
++@D              ...... rt:5 ra:5 si:s16                         &D
+ 
+ &D_bf           bf l:bool ra imm
+-@D_bfs          ...... bf:3 - l:1 ra:5 imm:s16          &D_bf
+-@D_bfu          ...... bf:3 - l:1 ra:5 imm:16           &D_bf
++@D_bfs          ...... bf:3 . l:1 ra:5 imm:s16                  &D_bf
++@D_bfu          ...... bf:3 . l:1 ra:5 imm:16                   &D_bf
+ 
+ %dq_si          4:s12  !function=times_16
+ %dq_rtp         22:4   !function=times_2
+@@ -35,7 +35,7 @@
+ @DQ_TSXP        ...... ..... ra:5 ............ ....             &D si=%dq_si rt=%rt_tsxp
+ 
+ %ds_si          2:s14  !function=times_4
+-@DS             ...... rt:5 ra:5 .............. ..      &D si=%ds_si
++@DS             ...... rt:5 ra:5 .............. ..              &D si=%ds_si
+ 
+ %ds_rtp         22:4   !function=times_2
+ @DS_rtp         ...... ....0 ra:5 .............. ..             &D rt=%ds_rtp si=%ds_si
+@@ -46,10 +46,10 @@
+ 
+ &DX             rt d
+ %dx_d           6:s10 16:5 0:1
+-@DX             ...... rt:5  ..... .......... ..... .   &DX d=%dx_d
++@DX             ...... rt:5  ..... .......... ..... .           &DX d=%dx_d
+ 
+ &VA             vrt vra vrb rc
+-@VA             ...... vrt:5 vra:5 vrb:5 rc:5 ......    &VA
++@VA             ...... vrt:5 vra:5 vrb:5 rc:5 ......            &VA
+ 
+ &VC             vrt vra vrb rc:bool
+ @VC             ...... vrt:5 vra:5 vrb:5 rc:1 ..........        &VC
+@@ -58,7 +58,7 @@
+ @VN             ...... vrt:5 vra:5 vrb:5 .. sh:3 ......         &VN
+ 
+ &VX             vrt vra vrb
+-@VX             ...... vrt:5 vra:5 vrb:5 .......... .   &VX
++@VX             ...... vrt:5 vra:5 vrb:5 .......... .           &VX
+ 
+ &VX_bf          bf vra vrb
+ @VX_bf          ...... bf:3 .. vra:5 vrb:5 ...........          &VX_bf
+@@ -73,13 +73,13 @@
+ @VX_tb_rc       ...... vrt:5 ..... vrb:5 rc:1 ..........        &VX_tb_rc
+ 
+ &VX_uim4        vrt uim vrb
+-@VX_uim4        ...... vrt:5 . uim:4 vrb:5 ...........  &VX_uim4
++@VX_uim4        ...... vrt:5 . uim:4 vrb:5 ...........          &VX_uim4
+ 
+ &VX_tb          vrt vrb
+-@VX_tb          ...... vrt:5 ..... vrb:5 ...........    &VX_tb
++@VX_tb          ...... vrt:5 ..... vrb:5 ...........            &VX_tb
+ 
+ &X              rt ra rb
+-@X              ...... rt:5 ra:5 rb:5 .......... .      &X
++@X              ...... rt:5 ra:5 rb:5 .......... .              &X
+ 
+ &X_rc           rt ra rb rc:bool
+ @X_rc           ...... rt:5 ra:5 rb:5 .......... rc:1           &X_rc
+@@ -101,7 +101,7 @@
+ @X_t_bp_rc      ...... rt:5 ..... ....0 .......... rc:1         &X_tb_rc rb=%x_frbp
+ 
+ &X_bi           rt bi
+-@X_bi           ...... rt:5 bi:5 ----- .......... -     &X_bi
++@X_bi           ...... rt:5 bi:5 ..... .......... .             &X_bi
+ 
+ &X_bf           bf ra rb
+ @X_bf           ...... bf:3 .. ra:5 rb:5 .......... .           &X_bf
+@@ -116,7 +116,7 @@
+ @X_bf_uim_bp    ...... bf:3 . uim:6 ....0 .......... .          &X_bf_uim rb=%x_frbp
+ 
+ &X_bfl          bf l:bool ra rb
+-@X_bfl          ...... bf:3 - l:1 ra:5 rb:5 ..........- &X_bfl
++@X_bfl          ...... bf:3 . l:1 ra:5 rb:5 .......... .        &X_bfl
+ 
+ %x_xt           0:1 21:5
+ &X_imm5         xt imm:uint8_t vrb
 -- 
 2.25.1
 
