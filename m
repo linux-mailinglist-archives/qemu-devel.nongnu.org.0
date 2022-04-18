@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00A6505CA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 18:46:56 +0200 (CEST)
-Received: from localhost ([::1]:34928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2D1505CA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 18:46:25 +0200 (CEST)
+Received: from localhost ([::1]:33708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngUWd-0007tU-HM
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 12:46:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38990)
+	id 1ngUW8-000742-I3
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 12:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ngUQm-0008EM-MV; Mon, 18 Apr 2022 12:40:52 -0400
-Received: from [187.72.171.209] (port=5022 helo=outlook.eldorado.org.br)
+ id 1ngUPj-00079H-Ks; Mon, 18 Apr 2022 12:39:47 -0400
+Received: from [187.72.171.209] (port=20022 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1ngUQl-0006YK-0e; Mon, 18 Apr 2022 12:40:52 -0400
+ id 1ngUPh-0006A6-Qi; Mon, 18 Apr 2022 12:39:47 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Mon, 18 Apr 2022 13:39:03 -0300
