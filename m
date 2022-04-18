@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE774505EE2
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 22:24:08 +0200 (CEST)
-Received: from localhost ([::1]:49174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77DE0505EE3
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 22:28:47 +0200 (CEST)
+Received: from localhost ([::1]:54776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngXup-0003sw-I0
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 16:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
+	id 1ngXzK-0007oB-4j
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 16:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ngXtk-0002tl-N6
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 16:23:00 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:51059)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ngXy6-0006aW-4C
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 16:27:30 -0400
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:48057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ngXtg-0005Aj-Uq
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 16:22:59 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.44])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 91755F7E725C;
- Mon, 18 Apr 2022 22:22:44 +0200 (CEST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ngXy3-0005uo-Td
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 16:27:29 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.179])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E0E43205C1;
+ Mon, 18 Apr 2022 20:27:23 +0000 (UTC)
 Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 18 Apr
- 2022 22:22:42 +0200
+ 2022 22:27:23 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004a65ebdc5-707e-496e-b076-8a7242cf3715,
+ (GARM-101G004c996b7c2-0d1a-4fce-a3c0-c6060a1c0828,
  3C3EC69A9BBCF5E3F551F02F0EFEFD6AB1600A8C) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <1d3aaac9-5aa1-9ff9-6b3c-5109ad7f4361@kaod.org>
-Date: Mon, 18 Apr 2022 22:22:35 +0200
+Message-ID: <4b6fff2c-897a-5ae6-c738-216db821b507@kaod.org>
+Date: Mon, 18 Apr 2022 22:27:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC PATCH v3 1/5] ppc64: Add semihosting support
+Subject: Re: [RFC PATCH v3 3/5] tests/tcg/ppc64: Add basic softmmu test support
 Content-Language: en-US
 To: Leandro Lupori <leandro.lupori@eldorado.org.br>, <qemu-devel@nongnu.org>, 
  <qemu-ppc@nongnu.org>
 References: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
- <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
+ <20220418191100.270334-4-leandro.lupori@eldorado.org.br>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
+In-Reply-To: <20220418191100.270334-4-leandro.lupori@eldorado.org.br>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 3b29eea5-e264-4c51-8dd7-67efcd39046b
-X-Ovh-Tracer-Id: 14452614156605033394
+X-Ovh-Tracer-GUID: 3f13dc6b-f0eb-4d3a-a68c-c56b5afdf0e6
+X-Ovh-Tracer-Id: 14531708624486435631
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtuddgudegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekfeeiudekhfeujeetffevtdfhhfekheehhfdtjeekfeehieefjedvgfffgfeifeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtuddgudeglecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffjeeikeevvdfgleektdduvdelvdfhjedtgefgueethfdtteejudeutdefkeffkeenucffohhmrghinhepghhithhhuhgsrdgtohhmpdgsohhothdrshgspdgrphgrtghhvgdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,243 +73,322 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- Nicholas Piggin <npiggin@gmail.com>, pbonzini@redhat.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au
+ pbonzini@redhat.com, alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/18/22 21:10, Leandro Lupori wrote:
-> Add semihosting support for PPC64. This implementation is
-> based on the standard for ARM semihosting version 2.0, as
-> implemented by QEMU and documented in
+> Add support to build and run the multiarch hello test, that simply
+> prints a message and exits, through semihosting operations.
 > 
->      https://github.com/ARM-software/abi-aa/releases
+> The linker script was imported from
+> https://github.com/legoater/pnv-test, that are the Microwatt tests
+> adapted to use a PowerNV console. Boot.S code was inspired on
+> mmu/head.S, also from pnv-test repo.
 > 
-> The PPC64 specific differences are the following:
-> 
-> Semihosting Trap Instruction: sc 7
-> Operation Number Register: r3
-> Parameter Register: r4
-> Return Register: r3
-> Data block field size: 64 bits
-
-'sc' is a good way to implement semi hosting but we should make sure
-that it is not colliding with future extensions, at least with the
-next POWERPC processor. Is that the case ? if not, then the lev could
-be reserved.
-
-I think the part adding POWERPC_EXCP_SEMIHOST should be proposed in a
-separate patch.
-
 > Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 > ---
->   configs/devices/ppc64-softmmu/default.mak |  3 +++
->   qemu-options.hx                           | 18 ++++++++-----
->   semihosting/arm-compat-semi.c             | 33 +++++++++++++++++++++++
->   target/ppc/cpu.h                          |  3 ++-
->   target/ppc/excp_helper.c                  |  9 +++++++
->   target/ppc/translate.c                    | 14 ++++++++++
->   6 files changed, 72 insertions(+), 8 deletions(-)
+>   MAINTAINERS                             |  2 +
+>   tests/tcg/ppc64/Makefile.softmmu-target | 56 +++++++++++++++++
+>   tests/tcg/ppc64/system/include/asm.h    | 68 ++++++++++++++++++++
+>   tests/tcg/ppc64/system/lib/boot.S       | 84 +++++++++++++++++++++++++
+>   tests/tcg/ppc64/system/lib/powerpc.lds  | 27 ++++++++
+>   5 files changed, 237 insertions(+)
+>   create mode 100644 tests/tcg/ppc64/Makefile.softmmu-target
+>   create mode 100644 tests/tcg/ppc64/system/include/asm.h
+>   create mode 100644 tests/tcg/ppc64/system/lib/boot.S
+>   create mode 100644 tests/tcg/ppc64/system/lib/powerpc.lds
 > 
-> diff --git a/configs/devices/ppc64-softmmu/default.mak b/configs/devices/ppc64-softmmu/default.mak
-> index b90e5bf455..43b618fa32 100644
-> --- a/configs/devices/ppc64-softmmu/default.mak
-> +++ b/configs/devices/ppc64-softmmu/default.mak
-> @@ -8,3 +8,6 @@ CONFIG_POWERNV=y
->   
->   # For pSeries
->   CONFIG_PSERIES=y
-> +
-> +CONFIG_SEMIHOSTING=y
-> +CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 34e9b32a5c..6e76f7de96 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -4527,11 +4527,12 @@ SRST
->   ERST
->   DEF("semihosting", 0, QEMU_OPTION_semihosting,
->       "-semihosting    semihosting mode\n",
-> -    QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA |
-> -    QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
-> +    QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA | QEMU_ARCH_MIPS |
-> +    QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV | QEMU_ARCH_PPC)
->   SRST
->   ``-semihosting``
-> -    Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V only).
-> +    Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V and
-> +    PPC only).
->   
->       Note that this allows guest direct access to the host filesystem, so
->       should only be used with a trusted guest OS.
-> @@ -4542,12 +4543,12 @@ ERST
->   DEF("semihosting-config", HAS_ARG, QEMU_OPTION_semihosting_config,
->       "-semihosting-config [enable=on|off][,target=native|gdb|auto][,chardev=id][,arg=str[,...]]\n" \
->       "                semihosting configuration\n",
-> -QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA |
-> -QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
-> +QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA | QEMU_ARCH_MIPS |
-> +QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV | QEMU_ARCH_PPC)
->   SRST
->   ``-semihosting-config [enable=on|off][,target=native|gdb|auto][,chardev=id][,arg=str[,...]]``
-> -    Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V
-> -    only).
-> +    Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II,
-> +    RISC-V, PPC only).
->   
->       Note that this allows guest direct access to the host filesystem, so
->       should only be used with a trusted guest OS.
-> @@ -4563,6 +4564,9 @@ SRST
->   
->       On RISC-V this implements the standard semihosting API, version 0.2.
->   
-> +    On PPC this implements the standard Arm semihosting API, version 2.0,
-> +    with only the trap instruction and register definitions changed.
-> +
->       ``target=native|gdb|auto``
->           Defines where the semihosting calls will be addressed, to QEMU
->           (``native``) or to GDB (``gdb``). The default is ``auto``, which
-> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-> index 7a51fd0737..e1279c316c 100644
-> --- a/semihosting/arm-compat-semi.c
-> +++ b/semihosting/arm-compat-semi.c
-> @@ -268,6 +268,31 @@ common_semi_sys_exit_extended(CPUState *cs, int nr)
->   
->   #endif
->   
-> +#ifdef TARGET_PPC64
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4ad2451e03..54f917f8ea 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -266,6 +266,7 @@ M: Cédric Le Goater <clg@kaod.org>
+>   M: Daniel Henrique Barboza <danielhb413@gmail.com>
+>   R: David Gibson <david@gibson.dropbear.id.au>
+>   R: Greg Kurz <groug@kaod.org>
+> +R: Leandro Lupori <leandro.lupori@eldorado.org.br>
+>   L: qemu-ppc@nongnu.org
+>   S: Maintained
+>   F: target/ppc/
+> @@ -273,6 +274,7 @@ F: hw/ppc/ppc.c
+>   F: hw/ppc/ppc_booke.c
+>   F: include/hw/ppc/ppc.h
+>   F: disas/ppc.c
+> +F: tests/tcg/ppc64/
 
-This PPC ifdef in an ARM file seems wrong.
 
-The rest looks OK.
+May be separate the ppc64 tests entry, unless you want to become a Reviewer
+of the PPC arch. Which is fine for me but I am not sure this is what you
+want. If you do separate the ppc64 tests, please declare yourself as a
+maintainer because you are clearly among the persons who know the most
+about it.
 
 Thanks,
 
 C.
 
 
-> +static inline target_ulong
-> +common_semi_arg(CPUState *cs, int argno)
-> +{
-> +    PowerPCCPU *cpu = POWERPC_CPU(cs);
-> +    CPUPPCState *env = &cpu->env;
-> +    return env->gpr[3 + argno];
-> +}
+>   RISC-V TCG CPUs
+>   M: Palmer Dabbelt <palmer@dabbelt.com>
+> diff --git a/tests/tcg/ppc64/Makefile.softmmu-target b/tests/tcg/ppc64/Makefile.softmmu-target
+> new file mode 100644
+> index 0000000000..948427b70d
+> --- /dev/null
+> +++ b/tests/tcg/ppc64/Makefile.softmmu-target
+> @@ -0,0 +1,56 @@
+> +#
+> +# PowerPC64 system tests
+> +#
 > +
-> +static inline void
-> +common_semi_set_ret(CPUState *cs, target_ulong ret)
-> +{
-> +    PowerPCCPU *cpu = POWERPC_CPU(cs);
-> +    CPUPPCState *env = &cpu->env;
-> +    env->gpr[3] = ret;
-> +}
+> +# For now, disable tests that are failing
+> +DISABLED_TESTS := memory
+> +DISABLED_EXTRA_RUNS := run-gdbstub-memory
 > +
-> +static inline bool
-> +common_semi_sys_exit_extended(CPUState *cs, int nr)
-> +{
-> +    return (nr == TARGET_SYS_EXIT_EXTENDED || sizeof(target_ulong) == 8);
-> +}
+> +PPC64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/ppc64/system
+> +VPATH+=$(PPC64_SYSTEM_SRC)
+> +
+> +# These objects provide the basic boot code and helper functions for all tests
+> +CRT_PATH=$(PPC64_SYSTEM_SRC)/lib
+> +CRT_OBJS=boot.o
+> +
+> +LINK_SCRIPT=$(CRT_PATH)/powerpc.lds
+> +# NOTE: --build-id is stored before the first code section in the linked
+> +#       binary, which causes problems for most tests, that expect to
+> +#       begin at address 0.
+> +LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,--build-id=none -static -nostdlib \
+> +    $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
+> +TESTS += $(filter-out $(DISABLED_TESTS),$(MULTIARCH_TESTS))
+> +EXTRA_RUNS += $(filter-out $(DISABLED_EXTRA_RUNS),$(MULTIARCH_RUNS))
+> +
+> +# NOTE: -Os doesn't work well with -Wl,--oformat=binary
+> +#       Some linker generated functions, such as savegpr*/restgpr*,
+> +#       end up being undefined.
+> +CFLAGS = -O -g -Wall -std=c99 -msoft-float -mno-vsx -mno-altivec \
+> +         -fno-stack-protector -ffreestanding \
+> +         -I $(PPC64_SYSTEM_SRC)/include $(MINILIB_INC) \
+> +         -mcpu=power8
+> +
+> +# Uncomment to test in LE
+> +# override EXTRA_CFLAGS += -mlittle-endian -mabi=elfv2
+> +
+> +# Leave the .elf files, to make debugging easier
+> +.PRECIOUS: $(CRT_OBJS) $(addsuffix .elf,$(TESTS))
+> +
+> +# Build CRT objects
+> +%.o: $(CRT_PATH)/%.S
+> +	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
+> +
+> +# Build and link the tests
+> +
+> +# The .elf files are just for debugging
+> +%.elf: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
+> +	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+> +
+> +%: %.c %.elf $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
+> +	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS) -Wl,--oformat=binary
+> +
+> +memory: CFLAGS+=-DCHECK_UNALIGNED=1
+> +
+> +# Running
+> +QEMU_BASE_MACHINE=-cpu power9 -M powernv9 -m 1G -vga none -nographic
+> +QEMU_OPTS+=$(QEMU_BASE_MACHINE) -serial chardev:output -bios
+> diff --git a/tests/tcg/ppc64/system/include/asm.h b/tests/tcg/ppc64/system/include/asm.h
+> new file mode 100644
+> index 0000000000..127ed46730
+> --- /dev/null
+> +++ b/tests/tcg/ppc64/system/include/asm.h
+> @@ -0,0 +1,68 @@
+> +#ifndef PPC64_ASM_H
+> +#define PPC64_ASM_H
+> +
+> +#define XCONCAT(a, b)       a ## b
+> +#define CONCAT(a, b)        XCONCAT(a, b)
+> +
+> +/* Load an immediate 64-bit value into a register */
+> +#define LOAD_IMM64(r, e)                        \
+> +    lis     r, (e)@highest;                     \
+> +    ori     r, r, (e)@higher;                   \
+> +    rldicr  r, r, 32, 31;                       \
+> +    oris    r, r, (e)@h;                        \
+> +    ori     r, r, (e)@l;
+> +
+> +/* Switch CPU to little-endian mode, if needed */
+> +#define FIXUP_ENDIAN \
+> +    tdi   0, 0, 0x48;   /* Reverse endian of b . + 8 */             \
+> +    b     $ + 44;       /* Skip trampoline if endian is good */     \
+> +    .long 0xa600607d;   /* mfmsr r11 */                             \
+> +    .long 0x01006b69;   /* xori r11,r11,1 */                        \
+> +    .long 0x00004039;   /* li r10,0 */                              \
+> +    .long 0x6401417d;   /* mtmsrd r10,1 */                          \
+> +    .long 0x05009f42;   /* bcl 20,31,$+4 */                         \
+> +    .long 0xa602487d;   /* mflr r10 */                              \
+> +    .long 0x14004a39;   /* addi r10,r10,20 */                       \
+> +    .long 0xa6035a7d;   /* mtsrr0 r10 */                            \
+> +    .long 0xa6037b7d;   /* mtsrr1 r11 */                            \
+> +    .long 0x2400004c    /* rfid */
+> +
+> +/* Handle differences between ELFv1 and ELFv2 ABIs */
+> +
+> +#define DOT_LABEL(name)     CONCAT(., name)
+> +
+> +#if !defined(_CALL_ELF) || _CALL_ELF == 1
+> +#define FUNCTION(name)                          \
+> +    .section ".opd", "aw";                      \
+> +    .p2align 3;                                 \
+> +    .globl   name;                              \
+> +name:                                           \
+> +    .quad   DOT_LABEL(name), .TOC.@tocbase, 0;  \
+> +    .previous;                                  \
+> +DOT_LABEL(name):
+> +
+> +#define CALL(fn)                                \
+> +    LOAD_IMM64(%r12, fn);                       \
+> +    ld      %r12, 0(%r12);                      \
+> +    mtctr   %r12;                               \
+> +    bctrl
+> +
+> +#define CALL_LOCAL(fn)                          \
+> +    bl      DOT_LABEL(fn)
+> +
+> +#else
+> +#define FUNCTION(name)                          \
+> +    .globl   name;                              \
+> +name:
+> +
+> +#define CALL(fn)                                \
+> +    LOAD_IMM64(%r12, fn);                       \
+> +    mtctr   %r12;                               \
+> +    bctrl
+> +
+> +#define CALL_LOCAL(fn)                          \
+> +    bl      fn
 > +
 > +#endif
 > +
->   /*
->    * Allocate a new guest file descriptor and return it; if we
->    * couldn't allocate a new fd then return -1.
-> @@ -450,6 +475,12 @@ static target_ulong common_semi_flen_buf(CPUState *cs)
->   
->       sp = env->gpr[xSP];
->   #endif
-> +#ifdef TARGET_PPC64
-> +    PowerPCCPU *cpu = POWERPC_CPU(cs);
-> +    CPUPPCState *env = &cpu->env;
-> +
-> +    sp = env->gpr[1];
 > +#endif
->   
->       return sp - 64;
->   }
-> @@ -780,6 +811,8 @@ static inline bool is_64bit_semihosting(CPUArchState *env)
->       return is_a64(env);
->   #elif defined(TARGET_RISCV)
->       return riscv_cpu_mxl(env) != MXL_RV32;
-> +#elif defined(TARGET_PPC64)
-> +    return true;
->   #else
->   #error un-handled architecture
->   #endif
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 047b24ba50..349104ad79 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -129,8 +129,9 @@ enum {
->       POWERPC_EXCP_SYSCALL_VECTORED = 102, /* scv exception                     */
->       POWERPC_EXCP_PERFM_EBB = 103,    /* Performance Monitor EBB Exception    */
->       POWERPC_EXCP_EXTERNAL_EBB = 104, /* External EBB Exception               */
-> +    POWERPC_EXCP_SEMIHOST = 105,     /* Semihosting Exception                */
->       /* EOL                                                                   */
-> -    POWERPC_EXCP_NB       = 105,
-> +    POWERPC_EXCP_NB       = 106,
->       /* QEMU exceptions: special cases we want to stop translation            */
->       POWERPC_EXCP_SYSCALL_USER = 0x203, /* System call in user mode only      */
->   };
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index d3e2cfcd71..af34a57082 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -25,6 +25,7 @@
->   #include "helper_regs.h"
->   
->   #include "trace.h"
-> +#include "semihosting/common-semi.h"
->   
->   #ifdef CONFIG_TCG
->   #include "exec/helper-proto.h"
-> @@ -100,6 +101,7 @@ static const char *powerpc_excp_name(int excp)
->       case POWERPC_EXCP_SDOOR_HV: return "SDOOR_HV";
->       case POWERPC_EXCP_HVIRT:    return "HVIRT";
->       case POWERPC_EXCP_SYSCALL_VECTORED: return "SYSCALL_VECTORED";
-> +    case POWERPC_EXCP_SEMIHOST: return "SEMIHOST";
->       default:
->           g_assert_not_reached();
->       }
-> @@ -1327,6 +1329,13 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
->       target_ulong msr, new_msr, vector;
->       int srr0, srr1, lev = -1;
->   
-> +    /* Handle semihost exceptions first */
-> +    if (excp == POWERPC_EXCP_SEMIHOST) {
-> +        env->gpr[3] = do_common_semihosting(cs);
-> +        env->nip += 4;
-> +        return;
-> +    }
+> diff --git a/tests/tcg/ppc64/system/lib/boot.S b/tests/tcg/ppc64/system/lib/boot.S
+> new file mode 100644
+> index 0000000000..b3bcd8a7da
+> --- /dev/null
+> +++ b/tests/tcg/ppc64/system/lib/boot.S
+> @@ -0,0 +1,84 @@
+> +/* Copyright 2013-2014 IBM Corp.
+> + *
+> + * Licensed under the Apache License, Version 2.0 (the "License");
+> + * you may not use this file except in compliance with the License.
+> + * You may obtain a copy of the License at
+> + *
+> + *     http://www.apache.org/licenses/LICENSE-2.0
+> + *
+> + * Unless required by applicable law or agreed to in writing, software
+> + * distributed under the License is distributed on an "AS IS" BASIS,
+> + * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+> + * implied.
+> + * See the License for the specific language governing permissions and
+> + * limitations under the License.
+> + */
 > +
->       /* new srr1 value excluding must-be-zero bits */
->       msr = env->msr & ~0x783f0000ULL;
->   
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 408ae26173..c013889a84 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -4520,6 +4520,20 @@ static void gen_sc(DisasContext *ctx)
->       uint32_t lev;
->   
->       lev = (ctx->opcode >> 5) & 0x7F;
+> +#include "asm.h"
 > +
-> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+> +#define SPR_HID0                        0x3f0
+> +#define SPR_HID0_POWER9_HILE            0x0800000000000000
+> +
+> +#define ADP_STOPPED_APPLICATIONEXIT     0x20026
+> +
+> +    .section ".head","ax"
+> +
+> +    /* QEMU enters in BE at 0x10 by default */
+> +    . = 0x10
+> +.global start
+> +start:
+> +    FIXUP_ENDIAN
+> +
+> +    /* Setup TOC */
+> +    LOAD_IMM64(%r2, .TOC.)
+> +
+> +    /* Configure interrupt endian */
+> +#ifdef __LITTLE_ENDIAN__
+> +    mfspr   %r10, SPR_HID0
+> +    LOAD_IMM64(%r11, SPR_HID0_POWER9_HILE)
+> +    or      %r10, %r10, %r11
+> +    mtspr   SPR_HID0, %r10
+> +#endif
+> +
+> +    /* Clear .bss */
+> +    LOAD_IMM64(%r10, __bss_start)
+> +    LOAD_IMM64(%r11, __bss_end)
+> +    subf    %r11, %r10, %r11
+> +    addi    %r11, %r11, 63
+> +    srdi.   %r11, %r11, 6
+> +    beq     2f
+> +    mtctr   %r11
+> +1:  dcbz    0, %r10
+> +    addi    %r10, %r10, 64
+> +    bdnz    1b
+> +
+> +    /* Setup stack */
+> +2:  LOAD_IMM64(%r1, __stack_top)
+> +    li      %r0, 0
+> +    stdu    %r0, -32(%r1)
+> +
+> +    CALL(main)
+> +
+> +    /* Terminate on exit */
+> +    CALL_LOCAL(sys_exit)
+> +    b       .
+> +
+> +FUNCTION(sys_exit)
 > +    /*
-> +     * PowerPC semihosting uses the following
-> +     * instruction to flag a semihosting call:
-> +     *
-> +     *      sc 7            0x440000e2
+> +     * As semihosting operations are executed by non-translated QEMU code,
+> +     * we shouldn't need to save LR.
 > +     */
-> +    if (lev == 7) {
-> +        gen_exception(ctx, POWERPC_EXCP_SEMIHOST);
-> +        return;
-> +    }
-> +#endif
+> +    LOAD_IMM64(%r4, ADP_STOPPED_APPLICATIONEXIT)
+> +    std     %r4, -16(%r1)
+> +    std     %r3, -8(%r1)
+> +    li      %r3, 0x18
+> +    addi    %r4, %r1, -16
+> +    sc      7
+> +    blr
 > +
->       gen_exception_err(ctx, POWERPC_SYSCALL, lev);
->   }
->   
+> +FUNCTION(__sys_outc)
+> +    addi    %r4, %r1, -1
+> +    stb     %r3, 0(%r4)
+> +    li      %r3, 0x03
+> +    sc      7
+> +    blr
+> diff --git a/tests/tcg/ppc64/system/lib/powerpc.lds b/tests/tcg/ppc64/system/lib/powerpc.lds
+> new file mode 100644
+> index 0000000000..db451e1fb9
+> --- /dev/null
+> +++ b/tests/tcg/ppc64/system/lib/powerpc.lds
+> @@ -0,0 +1,27 @@
+> +SECTIONS
+> +{
+> +    . = 0;
+> +    _start = .;
+> +    .head : {
+> +        KEEP(*(.head))
+> +    }
+> +    . = ALIGN(0x1000);
+> +    .text : { *(.text) *(.text.*) *(.rodata) *(.rodata.*) }
+> +    . = ALIGN(0x1000);
+> +    .data : { *(.data) *(.data.*) *(.got) *(.toc) }
+> +    . = ALIGN(0x80);
+> +    __bss_start = .;
+> +    .bss : {
+> +        *(.dynsbss)
+> +        *(.sbss)
+> +        *(.scommon)
+> +        *(.dynbss)
+> +        *(.bss)
+> +        *(.common)
+> +        *(.bss.*)
+> +    }
+> +    . = ALIGN(0x80);
+> +    __bss_end = .;
+> +    . = . + 0x4000;
+> +    __stack_top = .;
+> +}
 
 
