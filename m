@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656BE505E4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 21:14:46 +0200 (CEST)
-Received: from localhost ([::1]:40990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE0B505E59
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 21:19:30 +0200 (CEST)
+Received: from localhost ([::1]:48726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngWph-0000Xh-At
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 15:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40012)
+	id 1ngWuH-0005qA-SO
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 15:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1ngWmx-0006h0-CQ; Mon, 18 Apr 2022 15:11:57 -0400
+ id 1ngWn1-0006hj-9C; Mon, 18 Apr 2022 15:11:59 -0400
 Received: from [187.72.171.209] (port=10848 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1ngWmv-00036o-Ce; Mon, 18 Apr 2022 15:11:55 -0400
+ id 1ngWmy-00036o-CL; Mon, 18 Apr 2022 15:11:59 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 18 Apr 2022 16:11:49 -0300
+ Mon, 18 Apr 2022 16:11:52 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 989E08000A0;
- Mon, 18 Apr 2022 16:11:48 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 7D7E18000A0;
+ Mon, 18 Apr 2022 16:11:52 -0300 (-03)
 From: Leandro Lupori <leandro.lupori@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [RFC PATCH v3 3/5] tests/tcg/ppc64: Add basic softmmu test support
-Date: Mon, 18 Apr 2022 16:10:58 -0300
-Message-Id: <20220418191100.270334-4-leandro.lupori@eldorado.org.br>
+Subject: [RFC PATCH v3 4/5] tests/tcg/ppc64: Add MMU test sources
+Date: Mon, 18 Apr 2022 16:10:59 -0300
+Message-Id: <20220418191100.270334-5-leandro.lupori@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
 References: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 18 Apr 2022 19:11:49.0087 (UTC)
- FILETIME=[27694EF0:01D85358]
+X-OriginalArrivalTime: 18 Apr 2022 19:11:52.0994 (UTC)
+ FILETIME=[29BD7820:01D85358]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,189 +63,31 @@ Cc: Leandro Lupori <leandro.lupori@eldorado.org.br>, danielhb413@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support to build and run the multiarch hello test, that simply
-prints a message and exits, through semihosting operations.
+Add MMU test sources, from https://github.com/legoater/pnv-test,
+based on Microwatt tests but with some adaptations.
 
-The linker script was imported from
-https://github.com/legoater/pnv-test, that are the Microwatt tests
-adapted to use a PowerNV console. Boot.S code was inspired on
-mmu/head.S, also from pnv-test repo.
+In particular, the tests that check updates to RC bits were
+removed, because, apparently, Microwatt never updates RC bits, but
+just raise an exception when they must be updated, leaving the
+task to the OS
+(https://github.com/antonblanchard/microwatt/blob/master/mmu.vhdl#L402).
 
 Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 ---
- MAINTAINERS                             |  2 +
- tests/tcg/ppc64/Makefile.softmmu-target | 56 +++++++++++++++++
- tests/tcg/ppc64/system/include/asm.h    | 68 ++++++++++++++++++++
- tests/tcg/ppc64/system/lib/boot.S       | 84 +++++++++++++++++++++++++
- tests/tcg/ppc64/system/lib/powerpc.lds  | 27 ++++++++
- 5 files changed, 237 insertions(+)
- create mode 100644 tests/tcg/ppc64/Makefile.softmmu-target
- create mode 100644 tests/tcg/ppc64/system/include/asm.h
- create mode 100644 tests/tcg/ppc64/system/lib/boot.S
- create mode 100644 tests/tcg/ppc64/system/lib/powerpc.lds
+ tests/tcg/ppc64/system/mmu-head.S | 142 ++++++
+ tests/tcg/ppc64/system/mmu.c      | 764 ++++++++++++++++++++++++++++++
+ tests/tcg/ppc64/system/mmu.h      |   9 +
+ 3 files changed, 915 insertions(+)
+ create mode 100644 tests/tcg/ppc64/system/mmu-head.S
+ create mode 100644 tests/tcg/ppc64/system/mmu.c
+ create mode 100644 tests/tcg/ppc64/system/mmu.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4ad2451e03..54f917f8ea 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -266,6 +266,7 @@ M: Cédric Le Goater <clg@kaod.org>
- M: Daniel Henrique Barboza <danielhb413@gmail.com>
- R: David Gibson <david@gibson.dropbear.id.au>
- R: Greg Kurz <groug@kaod.org>
-+R: Leandro Lupori <leandro.lupori@eldorado.org.br>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: target/ppc/
-@@ -273,6 +274,7 @@ F: hw/ppc/ppc.c
- F: hw/ppc/ppc_booke.c
- F: include/hw/ppc/ppc.h
- F: disas/ppc.c
-+F: tests/tcg/ppc64/
- 
- RISC-V TCG CPUs
- M: Palmer Dabbelt <palmer@dabbelt.com>
-diff --git a/tests/tcg/ppc64/Makefile.softmmu-target b/tests/tcg/ppc64/Makefile.softmmu-target
+diff --git a/tests/tcg/ppc64/system/mmu-head.S b/tests/tcg/ppc64/system/mmu-head.S
 new file mode 100644
-index 0000000000..948427b70d
+index 0000000000..e9e01f0642
 --- /dev/null
-+++ b/tests/tcg/ppc64/Makefile.softmmu-target
-@@ -0,0 +1,56 @@
-+#
-+# PowerPC64 system tests
-+#
-+
-+# For now, disable tests that are failing
-+DISABLED_TESTS := memory
-+DISABLED_EXTRA_RUNS := run-gdbstub-memory
-+
-+PPC64_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/ppc64/system
-+VPATH+=$(PPC64_SYSTEM_SRC)
-+
-+# These objects provide the basic boot code and helper functions for all tests
-+CRT_PATH=$(PPC64_SYSTEM_SRC)/lib
-+CRT_OBJS=boot.o
-+
-+LINK_SCRIPT=$(CRT_PATH)/powerpc.lds
-+# NOTE: --build-id is stored before the first code section in the linked
-+#       binary, which causes problems for most tests, that expect to
-+#       begin at address 0.
-+LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,--build-id=none -static -nostdlib \
-+    $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
-+TESTS += $(filter-out $(DISABLED_TESTS),$(MULTIARCH_TESTS))
-+EXTRA_RUNS += $(filter-out $(DISABLED_EXTRA_RUNS),$(MULTIARCH_RUNS))
-+
-+# NOTE: -Os doesn't work well with -Wl,--oformat=binary
-+#       Some linker generated functions, such as savegpr*/restgpr*,
-+#       end up being undefined.
-+CFLAGS = -O -g -Wall -std=c99 -msoft-float -mno-vsx -mno-altivec \
-+         -fno-stack-protector -ffreestanding \
-+         -I $(PPC64_SYSTEM_SRC)/include $(MINILIB_INC) \
-+         -mcpu=power8
-+
-+# Uncomment to test in LE
-+# override EXTRA_CFLAGS += -mlittle-endian -mabi=elfv2
-+
-+# Leave the .elf files, to make debugging easier
-+.PRECIOUS: $(CRT_OBJS) $(addsuffix .elf,$(TESTS))
-+
-+# Build CRT objects
-+%.o: $(CRT_PATH)/%.S
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@
-+
-+# Build and link the tests
-+
-+# The .elf files are just for debugging
-+%.elf: %.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+%: %.c %.elf $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS) -Wl,--oformat=binary
-+
-+memory: CFLAGS+=-DCHECK_UNALIGNED=1
-+
-+# Running
-+QEMU_BASE_MACHINE=-cpu power9 -M powernv9 -m 1G -vga none -nographic
-+QEMU_OPTS+=$(QEMU_BASE_MACHINE) -serial chardev:output -bios
-diff --git a/tests/tcg/ppc64/system/include/asm.h b/tests/tcg/ppc64/system/include/asm.h
-new file mode 100644
-index 0000000000..127ed46730
---- /dev/null
-+++ b/tests/tcg/ppc64/system/include/asm.h
-@@ -0,0 +1,68 @@
-+#ifndef PPC64_ASM_H
-+#define PPC64_ASM_H
-+
-+#define XCONCAT(a, b)       a ## b
-+#define CONCAT(a, b)        XCONCAT(a, b)
-+
-+/* Load an immediate 64-bit value into a register */
-+#define LOAD_IMM64(r, e)                        \
-+    lis     r, (e)@highest;                     \
-+    ori     r, r, (e)@higher;                   \
-+    rldicr  r, r, 32, 31;                       \
-+    oris    r, r, (e)@h;                        \
-+    ori     r, r, (e)@l;
-+
-+/* Switch CPU to little-endian mode, if needed */
-+#define FIXUP_ENDIAN \
-+    tdi   0, 0, 0x48;   /* Reverse endian of b . + 8 */             \
-+    b     $ + 44;       /* Skip trampoline if endian is good */     \
-+    .long 0xa600607d;   /* mfmsr r11 */                             \
-+    .long 0x01006b69;   /* xori r11,r11,1 */                        \
-+    .long 0x00004039;   /* li r10,0 */                              \
-+    .long 0x6401417d;   /* mtmsrd r10,1 */                          \
-+    .long 0x05009f42;   /* bcl 20,31,$+4 */                         \
-+    .long 0xa602487d;   /* mflr r10 */                              \
-+    .long 0x14004a39;   /* addi r10,r10,20 */                       \
-+    .long 0xa6035a7d;   /* mtsrr0 r10 */                            \
-+    .long 0xa6037b7d;   /* mtsrr1 r11 */                            \
-+    .long 0x2400004c    /* rfid */
-+
-+/* Handle differences between ELFv1 and ELFv2 ABIs */
-+
-+#define DOT_LABEL(name)     CONCAT(., name)
-+
-+#if !defined(_CALL_ELF) || _CALL_ELF == 1
-+#define FUNCTION(name)                          \
-+    .section ".opd", "aw";                      \
-+    .p2align 3;                                 \
-+    .globl   name;                              \
-+name:                                           \
-+    .quad   DOT_LABEL(name), .TOC.@tocbase, 0;  \
-+    .previous;                                  \
-+DOT_LABEL(name):
-+
-+#define CALL(fn)                                \
-+    LOAD_IMM64(%r12, fn);                       \
-+    ld      %r12, 0(%r12);                      \
-+    mtctr   %r12;                               \
-+    bctrl
-+
-+#define CALL_LOCAL(fn)                          \
-+    bl      DOT_LABEL(fn)
-+
-+#else
-+#define FUNCTION(name)                          \
-+    .globl   name;                              \
-+name:
-+
-+#define CALL(fn)                                \
-+    LOAD_IMM64(%r12, fn);                       \
-+    mtctr   %r12;                               \
-+    bctrl
-+
-+#define CALL_LOCAL(fn)                          \
-+    bl      fn
-+
-+#endif
-+
-+#endif
-diff --git a/tests/tcg/ppc64/system/lib/boot.S b/tests/tcg/ppc64/system/lib/boot.S
-new file mode 100644
-index 0000000000..b3bcd8a7da
---- /dev/null
-+++ b/tests/tcg/ppc64/system/lib/boot.S
-@@ -0,0 +1,84 @@
++++ b/tests/tcg/ppc64/system/mmu-head.S
+@@ -0,0 +1,142 @@
 +/* Copyright 2013-2014 IBM Corp.
 + *
 + * Licensed under the Apache License, Version 2.0 (the "License");
@@ -265,105 +106,915 @@ index 0000000000..b3bcd8a7da
 +
 +#include "asm.h"
 +
-+#define SPR_HID0                        0x3f0
-+#define SPR_HID0_POWER9_HILE            0x0800000000000000
++#include "lib/boot.S"
 +
-+#define ADP_STOPPED_APPLICATIONEXIT     0x20026
++    /* Read a location with translation on */
++FUNCTION(test_read)
++    mfmsr   %r9
++    ori     %r8,%r9,0x10    /* set MSR_DR */
++    mtmsrd  %r8,0
++    mr      %r6,%r3
++    li      %r3,0
++    ld      %r5,0(%r6)
++    li      %r3,1
++    /* land here if DSI occurred */
++    mtmsrd  %r9,0
++    std     %r5,0(%r4)
++    blr
 +
-+    .section ".head","ax"
++    /* Write a location with translation on */
++FUNCTION(test_write)
++    mfmsr   %r9
++    ori     %r8,%r9,0x10    /* set MSR_DR */
++    mtmsrd  %r8,0
++    mr      %r6,%r3
++    li      %r3,0
++    std     %r4,0(%r6)
++    li      %r3,1
++    /* land here if DSI occurred */
++    mtmsrd  %r9,0
++    blr
 +
-+    /* QEMU enters in BE at 0x10 by default */
-+    . = 0x10
-+.global start
-+start:
-+    FIXUP_ENDIAN
++    /* Do a dcbz with translation on */
++FUNCTION(test_dcbz)
++    mfmsr   %r9
++    ori     %r8,%r9,0x10    /* set MSR_DR */
++    mtmsrd  %r8,0
++    mr      %r6,%r3
++    li      %r3,0
++    dcbz    0,%r6
++    li      %r3,1
++    /* land here if DSI occurred */
++    mtmsrd  %r9,0
++    blr
 +
-+    /* Setup TOC */
-+    LOAD_IMM64(%r2, .TOC.)
++FUNCTION(test_exec)
++    mtsrr0  %r4
++    mtsrr1  %r5
++    rfid
 +
-+    /* Configure interrupt endian */
++#define EXCEPTION(nr)        \
++    .= nr                   ;\
++    li      %r3, (nr >> 4)  ;\
++    CALL_LOCAL(sys_exit)
++
++    /* DSI vector - skip the failing instruction + the next one */
++    . = 0x300
++    mtsprg0 %r10
++    mfsrr0  %r10
++    addi    %r10,%r10,8
++    mtsrr0  %r10
++    rfid
++
++    EXCEPTION(0x380)
++
++    /*
++     * ISI vector - jump to LR to return from the test,
++     * with r3 cleared
++     */
++    . = 0x400
++    li      %r3,0
++    blr
++
++    /* More exception stubs */
++    EXCEPTION(0x480)
++    EXCEPTION(0x500)
++    EXCEPTION(0x600)
++    EXCEPTION(0x700)
++    EXCEPTION(0x800)
++    EXCEPTION(0x900)
++    EXCEPTION(0x980)
++    EXCEPTION(0xa00)
++    EXCEPTION(0xb00)
++
++    /*
++     * System call - used to exit from tests where MSR[PR]
++     * may have been set.
++     */
++    . = 0xc00
++    blr
++
++    EXCEPTION(0xd00)
++    EXCEPTION(0xe00)
++    EXCEPTION(0xe20)
++    EXCEPTION(0xe40)
++    EXCEPTION(0xe60)
++    EXCEPTION(0xe80)
++    EXCEPTION(0xf00)
++    EXCEPTION(0xf20)
++    EXCEPTION(0xf40)
++    EXCEPTION(0xf60)
++    EXCEPTION(0xf80)
++
++    . = 0x1000
++    /*
++     * This page gets mapped at various locations and
++     * the tests try to execute from it.
++     * r3 contains the test number.
++     */
++FUNCTION(test_start)
++    nop
++    nop
++    cmpdi   %r3,1
++    beq     test_1
++    cmpdi   %r3,2
++    beq     test_2
++test_return:
++    li      %r3,1
++    sc
++
++    . = 0x1ff8
++    /* test a branch near the end of a page */
++test_1:     b   test_return
++
++    /* test flowing from one page to the next */
++test_2:     nop
++    b       test_return
+diff --git a/tests/tcg/ppc64/system/mmu.c b/tests/tcg/ppc64/system/mmu.c
+new file mode 100644
+index 0000000000..8e9fca2675
+--- /dev/null
++++ b/tests/tcg/ppc64/system/mmu.c
+@@ -0,0 +1,764 @@
++#include <stddef.h>
++#include <stdint.h>
++#include <stdbool.h>
++
++#include "minilib.h"
++#include "mmu.h"
++
++#define MSR_LE    0x01
++#define MSR_DR    0x10
++#define MSR_IR    0x20
++#define MSR_HV    0x1000000000000000ul
++#define MSR_SF    0x8000000000000000ul
++
 +#ifdef __LITTLE_ENDIAN__
-+    mfspr   %r10, SPR_HID0
-+    LOAD_IMM64(%r11, SPR_HID0_POWER9_HILE)
-+    or      %r10, %r10, %r11
-+    mtspr   SPR_HID0, %r10
++#define MSR_DFLT    (MSR_SF | MSR_HV | MSR_LE)
++#else
++#define MSR_DFLT    (MSR_SF | MSR_HV)
 +#endif
 +
-+    /* Clear .bss */
-+    LOAD_IMM64(%r10, __bss_start)
-+    LOAD_IMM64(%r11, __bss_end)
-+    subf    %r11, %r10, %r11
-+    addi    %r11, %r11, 63
-+    srdi.   %r11, %r11, 6
-+    beq     2f
-+    mtctr   %r11
-+1:  dcbz    0, %r10
-+    addi    %r10, %r10, 64
-+    bdnz    1b
++#define XSTR(x)     #x
++#define STR(x)      XSTR(x)
 +
-+    /* Setup stack */
-+2:  LOAD_IMM64(%r1, __stack_top)
-+    li      %r0, 0
-+    stdu    %r0, -32(%r1)
++#define RIC_TLB     0
++#define RIC_PWC     1
++#define RIC_ALL     2
 +
-+    CALL(main)
++#define PRS         1
 +
-+    /* Terminate on exit */
-+    CALL_LOCAL(sys_exit)
-+    b       .
++#define IS(x)       ((unsigned long)(x) << 10)
++#define IS_VA       IS(0)
++#define IS_PID      IS(1)
++#define IS_LPID     IS(2)
++#define IS_ALL      IS(3)
 +
-+FUNCTION(sys_exit)
-+    /*
-+     * As semihosting operations are executed by non-translated QEMU code,
-+     * we shouldn't need to save LR.
-+     */
-+    LOAD_IMM64(%r4, ADP_STOPPED_APPLICATIONEXIT)
-+    std     %r4, -16(%r1)
-+    std     %r3, -8(%r1)
-+    li      %r3, 0x18
-+    addi    %r4, %r1, -16
-+    sc      7
-+    blr
++#define TLBIE_5(rb, rs, ric, prs, r)                \
++    __asm__ volatile(".long 0x7c000264 | "          \
++        "%0 << 21 | "                               \
++        STR(ric) " << 18 | "                        \
++        STR(prs) " << 17 | "                        \
++        STR(r) "<< 16 | "                           \
++        "%1 << 11"                                  \
++        : : "r" (rs), "r" (rb) : "memory")
 +
-+FUNCTION(__sys_outc)
-+    addi    %r4, %r1, -1
-+    stb     %r3, 0(%r4)
-+    li      %r3, 0x03
-+    sc      7
-+    blr
-diff --git a/tests/tcg/ppc64/system/lib/powerpc.lds b/tests/tcg/ppc64/system/lib/powerpc.lds
-new file mode 100644
-index 0000000000..db451e1fb9
---- /dev/null
-+++ b/tests/tcg/ppc64/system/lib/powerpc.lds
-@@ -0,0 +1,27 @@
-+SECTIONS
++static inline void tlbie_all(int prs)
 +{
-+    . = 0;
-+    _start = .;
-+    .head : {
-+        KEEP(*(.head))
++    if (prs) {
++        TLBIE_5(IS_ALL, 0, RIC_ALL, 1, 1);
++    } else {
++        TLBIE_5(IS_ALL, 0, RIC_ALL, 0, 1);
 +    }
-+    . = ALIGN(0x1000);
-+    .text : { *(.text) *(.text.*) *(.rodata) *(.rodata.*) }
-+    . = ALIGN(0x1000);
-+    .data : { *(.data) *(.data.*) *(.got) *(.toc) }
-+    . = ALIGN(0x80);
-+    __bss_start = .;
-+    .bss : {
-+        *(.dynsbss)
-+        *(.sbss)
-+        *(.scommon)
-+        *(.dynbss)
-+        *(.bss)
-+        *(.common)
-+        *(.bss.*)
-+    }
-+    . = ALIGN(0x80);
-+    __bss_end = .;
-+    . = . + 0x4000;
-+    __stack_top = .;
 +}
++
++static inline void tlbie_va(unsigned long va, int prs)
++{
++    va &= ~0xffful;
++
++    if (prs) {
++        TLBIE_5(IS_VA | va, 0, RIC_TLB, 1, 1);
++    } else {
++        TLBIE_5(IS_VA | va, 0, RIC_TLB, 0, 1);
++    }
++    __asm__ volatile("eieio; tlbsync; ptesync" : : : "memory");
++}
++
++#define DSISR       18
++#define DAR         19
++#define SRR0        26
++#define SRR1        27
++#define PID         48
++#define LPCR        318
++#define PTCR        464
++
++#define PPC_BIT(x)  (0x8000000000000000ul >> (x))
++
++#define LPCR_UPRT   PPC_BIT(41)
++#define LPCR_HR     PPC_BIT(43)
++
++#define PATE_HR     PPC_BIT(0)
++
++static inline unsigned long mfspr(int sprnum)
++{
++    long val;
++
++    __asm__ volatile("mfspr %0,%1" : "=r" (val) : "i" (sprnum));
++    return val;
++}
++
++static inline void mtspr(int sprnum, unsigned long val)
++{
++    __asm__ volatile("mtspr %0,%1" : : "i" (sprnum), "r" (val));
++}
++
++static inline void store_pte(unsigned long *p, unsigned long pte)
++{
++#ifdef __LITTLE_ENDIAN__
++    __asm__ volatile("stdbrx %1,0,%0" : : "r" (p), "r" (pte) : "memory");
++#else
++    __asm__ volatile("stdx   %1,0,%0" : : "r" (p), "r" (pte) : "memory");
++#endif
++    __asm__ volatile("ptesync" : : : "memory");
++}
++
++#define CACHE_LINE_SIZE    64
++
++void zero_memory(void *ptr, unsigned long nbytes)
++{
++    unsigned long nb, i, nl;
++    void *p;
++
++    for (; nbytes != 0; nbytes -= nb, ptr += nb) {
++        nb = -((unsigned long)ptr) & (CACHE_LINE_SIZE - 1);
++        if (nb == 0 && nbytes >= CACHE_LINE_SIZE) {
++            nl = nbytes / CACHE_LINE_SIZE;
++            p = ptr;
++            for (i = 0; i < nl; ++i) {
++                __asm__ volatile("dcbz 0,%0" : : "r" (p) : "memory");
++                p += CACHE_LINE_SIZE;
++            }
++            nb = nl * CACHE_LINE_SIZE;
++        } else {
++            if (nb > nbytes) {
++                nb = nbytes;
++            }
++            for (i = 0; i < nb; ++i) {
++                ((unsigned char *)ptr)[i] = 0;
++            }
++        }
++    }
++}
++
++#define PAGE_SHIFT      12
++#define PAGE_SIZE       (1ul << PAGE_SHIFT)
++
++/* Partition Page Dir params */
++#define PPD_L1_BITS     5
++#define PPD_L2_BITS     14    /* virtual level 2 PGD address bits */
++#define PPD_PA_INC      (1ul << (PAGE_SHIFT + PPD_L2_BITS))
++
++#define RPTE_V          PPC_BIT(0)
++#define RPTE_L          PPC_BIT(1)
++#define RPTE_RPN_MASK   0x01fffffffffff000ul
++#define RPTE_R          PPC_BIT(55)
++#define RPTE_C          PPC_BIT(56)
++#define RPTE_PRIV       PPC_BIT(60)
++#define RPTE_RD         PPC_BIT(61)
++#define RPTE_RW         PPC_BIT(62)
++#define RPTE_EX         PPC_BIT(63)
++#define RPTE_PERM_ALL   (RPTE_RD | RPTE_RW | RPTE_EX)
++
++#define PERM_EX         RPTE_EX
++#define PERM_WR         RPTE_RW
++#define PERM_RD         RPTE_RD
++#define PERM_PRIV       RPTE_PRIV
++#define ATTR_NC         0x020
++#define CHG             RPTE_C
++#define REF             RPTE_R
++
++#define DFLT_PERM       (PERM_WR | PERM_RD | REF | CHG)
++
++/*
++ * Set up an MMU translation tree using memory starting at the 64k point.
++ * We use 2 levels, mapping 2GB (the minimum size possible), with a
++ * 8kB PGD level pointing to 4kB PTE pages.
++ */
++unsigned long *pgdir = (unsigned long *) 0x10000;
++unsigned long *proc_tbl = (unsigned long *) 0x12000;
++unsigned long *part_tbl = (unsigned long *) 0x13000;
++unsigned long *part_pgdir = (unsigned long *) 0x14000;
++unsigned long free_ptr = 0x15000;
++void *eas_mapped[4];
++int neas_mapped;
++
++void init_mmu(void)
++{
++    int i, n;
++    unsigned long pa, pte;
++
++    /* Select Radix MMU (HR), with HW process table */
++    mtspr(LPCR, mfspr(LPCR) | LPCR_UPRT | LPCR_HR);
++
++    /*
++     * Set up partition page dir, needed to translate process table
++     * addresses.
++     * We use only 1 level, mapping 2GB 1-1, with 32 64M pages.
++     */
++    zero_memory(part_tbl, PAGE_SIZE);
++    store_pte(&part_tbl[0], PATE_HR | (unsigned long) part_pgdir |
++            PPD_L1_BITS);
++
++    for (i = 0, n = 1 << PPD_L1_BITS, pa = 0;
++            i < n; i++, pa += PPD_PA_INC) {
++        pte = RPTE_V | RPTE_L | (pa & RPTE_RPN_MASK) | RPTE_PERM_ALL;
++        store_pte(&part_pgdir[i], pte);
++    }
++
++    /* set up partition table */
++    store_pte(&part_tbl[1], (unsigned long)proc_tbl);
++    /* set up process table */
++    zero_memory(proc_tbl, 512 * sizeof(unsigned long));
++    mtspr(PTCR, (unsigned long)part_tbl);
++    mtspr(PID, 1);
++    zero_memory(pgdir, 1024 * sizeof(unsigned long));
++    /* RTS = 0 (2GB address space), RPDS = 10 (1024-entry top level) */
++    store_pte(&proc_tbl[2 * 1], (unsigned long) pgdir | 10);
++    tlbie_all(0);   /* invalidate all TLB entries */
++}
++
++static unsigned long *read_pgd(unsigned long i)
++{
++    unsigned long ret;
++
++#ifdef __LITTLE_ENDIAN__
++    __asm__ volatile("ldbrx %0,%1,%2" : "=r" (ret) : "b" (pgdir),
++                     "r" (i * sizeof(unsigned long)));
++#else
++    __asm__ volatile("ldx   %0,%1,%2" : "=r" (ret) : "b" (pgdir),
++                     "r" (i * sizeof(unsigned long)));
++#endif
++    return (unsigned long *) (ret & 0x00ffffffffffff00);
++}
++
++void map(void *ea, void *pa, unsigned long perm_attr)
++{
++    unsigned long epn = (unsigned long) ea >> 12;
++    unsigned long i, j;
++    unsigned long *ptep;
++
++    i = (epn >> 9) & 0x3ff;
++    j = epn & 0x1ff;
++    if (pgdir[i] == 0) {
++        zero_memory((void *)free_ptr, 512 * sizeof(unsigned long));
++        store_pte(&pgdir[i], 0x8000000000000000 | free_ptr | 9);
++        free_ptr += 512 * sizeof(unsigned long);
++    }
++    ptep = read_pgd(i);
++    store_pte(&ptep[j], 0xc000000000000000 | ((unsigned long)pa &
++                                              0x00fffffffffff000) | perm_attr);
++    eas_mapped[neas_mapped++] = ea;
++}
++
++void unmap(void *ea)
++{
++    unsigned long epn = (unsigned long) ea >> 12;
++    unsigned long i, j;
++    unsigned long *ptep;
++
++    i = (epn >> 9) & 0x3ff;
++    j = epn & 0x1ff;
++    if (pgdir[i] == 0) {
++        return;
++    }
++    ptep = read_pgd(i);
++    store_pte(&ptep[j], 0);
++    tlbie_va((unsigned long)ea, PRS);
++}
++
++void unmap_all(void)
++{
++    int i;
++
++    for (i = 0; i < neas_mapped; ++i) {
++        unmap(eas_mapped[i]);
++    }
++    neas_mapped = 0;
++}
++
++int mmu_test_1(void)
++{
++    long *ptr = (long *) 0x123000;
++    long val;
++
++    /* this should fail */
++    if (test_read(ptr, &val, 0xdeadbeefd00d)) {
++        return 1;
++    }
++    /* dest reg of load should be unchanged */
++    if (val != 0xdeadbeefd00d) {
++        return 2;
++    }
++    /* DAR and DSISR should be set correctly */
++    if (mfspr(DAR) != (long) ptr || mfspr(DSISR) != 0x40000000) {
++        return 3;
++    }
++    return 0;
++}
++
++int mmu_test_2(void)
++{
++    long *mem = (long *) 0x8000;
++    long *ptr = (long *) 0x124000;
++    long *ptr2 = (long *) 0x1124000;
++    long val;
++
++    /* create PTE */
++    map(ptr, mem, DFLT_PERM);
++    /* initialize the memory content */
++    mem[33] = 0xbadc0ffee;
++    /* this should succeed and be a cache miss */
++    if (!test_read(&ptr[33], &val, 0xdeadbeefd00d)) {
++        return 1;
++    }
++    /* dest reg of load should have the value written */
++    if (val != 0xbadc0ffee) {
++        return 2;
++    }
++    /* load a second TLB entry in the same set as the first */
++    map(ptr2, mem, DFLT_PERM);
++    /* this should succeed and be a cache hit */
++    if (!test_read(&ptr2[33], &val, 0xdeadbeefd00d)) {
++        return 3;
++    }
++    /* dest reg of load should have the value written */
++    if (val != 0xbadc0ffee) {
++        return 4;
++    }
++    /* check that the first entry still works */
++    if (!test_read(&ptr[33], &val, 0xdeadbeefd00d)) {
++        return 5;
++    }
++    if (val != 0xbadc0ffee) {
++        return 6;
++    }
++    return 0;
++}
++
++int mmu_test_3(void)
++{
++    long *mem = (long *) 0x9000;
++    long *ptr = (long *) 0x14a000;
++    long val;
++
++    /* create PTE */
++    map(ptr, mem, DFLT_PERM);
++    /* initialize the memory content */
++    mem[45] = 0xfee1800d4ea;
++    /* this should succeed and be a cache miss */
++    if (!test_read(&ptr[45], &val, 0xdeadbeefd0d0)) {
++        return 1;
++    }
++    /* dest reg of load should have the value written */
++    if (val != 0xfee1800d4ea) {
++        return 2;
++    }
++    /* remove the PTE */
++    unmap(ptr);
++    /* this should fail */
++    if (test_read(&ptr[45], &val, 0xdeadbeefd0d0)) {
++        return 3;
++    }
++    /* dest reg of load should be unchanged */
++    if (val != 0xdeadbeefd0d0) {
++        return 4;
++    }
++    /* DAR and DSISR should be set correctly */
++    if (mfspr(DAR) != (long) &ptr[45] || mfspr(DSISR) != 0x40000000) {
++        return 5;
++    }
++    return 0;
++}
++
++int mmu_test_4(void)
++{
++    long *mem = (long *) 0xa000;
++    long *ptr = (long *) 0x10b000;
++    long *ptr2 = (long *) 0x110b000;
++    long val;
++
++    /* create PTE */
++    map(ptr, mem, DFLT_PERM);
++    /* initialize the memory content */
++    mem[27] = 0xf00f00f00f00;
++    /* this should succeed and be a cache miss */
++    if (!test_write(&ptr[27], 0xe44badc0ffee)) {
++        return 1;
++    }
++    /* memory should now have the value written */
++    if (mem[27] != 0xe44badc0ffee) {
++        return 2;
++    }
++    /* load a second TLB entry in the same set as the first */
++    map(ptr2, mem, DFLT_PERM);
++    /* this should succeed and be a cache hit */
++    if (!test_write(&ptr2[27], 0x6e11ae)) {
++        return 3;
++    }
++    /* memory should have the value written */
++    if (mem[27] != 0x6e11ae) {
++        return 4;
++    }
++    /* check that the first entry still exists */
++    /* (assumes TLB is 2-way associative or more) */
++    if (!test_read(&ptr[27], &val, 0xdeadbeefd00d)) {
++        return 5;
++    }
++    if (val != 0x6e11ae) {
++        return 6;
++    }
++    return 0;
++}
++
++int mmu_test_5(void)
++{
++    long *mem = (long *) 0xbffd;
++    long *ptr = (long *) 0x39fffd;
++    long val;
++
++    /* create PTE */
++    map(ptr, mem, DFLT_PERM);
++    /* this should fail */
++    if (test_read(ptr, &val, 0xdeadbeef0dd0)) {
++        return 1;
++    }
++    /* dest reg of load should be unchanged */
++    if (val != 0xdeadbeef0dd0) {
++        return 2;
++    }
++    /* DAR and DSISR should be set correctly */
++    if (mfspr(DAR) != ((long)ptr & ~0xfff) + 0x1000 ||
++            mfspr(DSISR) != 0x40000000) {
++        return 3;
++    }
++    return 0;
++}
++
++int mmu_test_6(void)
++{
++    long *mem = (long *) 0xbffd;
++    long *ptr = (long *) 0x39fffd;
++
++    /* create PTE */
++    map(ptr, mem, DFLT_PERM);
++    /* initialize memory */
++    *mem = 0x123456789abcdef0;
++    /* this should fail */
++    if (test_write(ptr, 0xdeadbeef0dd0)) {
++        return 1;
++    }
++    /* DAR and DSISR should be set correctly */
++    if (mfspr(DAR) != ((long)ptr & ~0xfff) + 0x1000 ||
++            mfspr(DSISR) != 0x42000000) {
++        return 2;
++    }
++    return 0;
++}
++
++int mmu_test_7(void)
++{
++    long *mem = (long *) 0x8000;
++    long *ptr = (long *) 0x124000;
++    long val;
++
++    *mem = 0x123456789abcdef0;
++    /* create PTE without read or write permission */
++    map(ptr, mem, REF);
++    /* this should fail */
++    if (test_read(ptr, &val, 0xdeadd00dbeef)) {
++        return 1;
++    }
++    /* dest reg of load should be unchanged */
++    if (val != 0xdeadd00dbeef) {
++        return 2;
++    }
++    /* DAR and DSISR should be set correctly */
++    if (mfspr(DAR) != (long) ptr || mfspr(DSISR) != 0x08000000) {
++        return 3;
++    }
++    /* this should fail */
++    if (test_write(ptr, 0xdeadbeef0dd1)) {
++        return 4;
++    }
++    /* DAR and DSISR should be set correctly */
++    if (mfspr(DAR) != (long)ptr || mfspr(DSISR) != 0x0a000000) {
++        return 5;
++    }
++    /* memory should be unchanged */
++    if (*mem != 0x123456789abcdef0) {
++        return 6;
++    }
++    return 0;
++}
++
++int mmu_test_8(void)
++{
++    long *mem = (long *) 0x8000;
++    long *ptr = (long *) 0x124000;
++    long val;
++
++    *mem = 0x123456789abcdef0;
++    /* create PTE with read but not write permission */
++    map(ptr, mem, REF | PERM_RD);
++    /* this should succeed */
++    if (!test_read(ptr, &val, 0xdeadd00dbeef)) {
++        return 1;
++    }
++    /* this should fail */
++    if (test_write(ptr, 0xdeadbeef0dd1)) {
++        return 2;
++    }
++    /* DAR and DSISR should be set correctly */
++    if (mfspr(DAR) != (long)ptr || mfspr(DSISR) != 0x0a000000) {
++        return 3;
++    }
++    /* memory should be unchanged */
++    if (*mem != 0x123456789abcdef0) {
++        return 4;
++    }
++    return 0;
++}
++
++int mmu_test_9(void)
++{
++    unsigned long ptr = 0x523000;
++
++    /* this should fail */
++    if (test_exec(0, ptr, MSR_DFLT | MSR_IR)) {
++        return 1;
++    }
++    /* SRR0 and SRR1 should be set correctly */
++    if (mfspr(SRR0) != (long) ptr ||
++            mfspr(SRR1) != (MSR_DFLT | 0x40000000 | MSR_IR)) {
++        return 2;
++    }
++    return 0;
++}
++
++int mmu_test_10(void)
++{
++    unsigned long mem = 0x1000;
++    unsigned long ptr = 0x324000;
++    unsigned long ptr2 = 0x1324000;
++
++    /* create PTE */
++    map((void *)ptr, (void *)mem, PERM_EX | REF);
++    /* this should succeed and be a cache miss */
++    if (!test_exec(0, ptr, MSR_DFLT | MSR_IR)) {
++        return 1;
++    }
++    /* create a second PTE */
++    map((void *)ptr2, (void *)mem, PERM_EX | REF);
++    /* this should succeed and be a cache hit */
++    if (!test_exec(0, ptr2, MSR_DFLT | MSR_IR)) {
++        return 2;
++    }
++    return 0;
++}
++
++int mmu_test_11(void)
++{
++    unsigned long mem = 0x1000;
++    unsigned long ptr = 0x349000;
++    unsigned long ptr2 = 0x34a000;
++
++    /* create a PTE */
++    map((void *)ptr, (void *)mem, PERM_EX | REF);
++    /* this should succeed */
++    if (!test_exec(1, ptr, MSR_DFLT | MSR_IR)) {
++        return 1;
++    }
++    /* invalidate the PTE */
++    unmap((void *)ptr);
++    /* install a second PTE */
++    map((void *)ptr2, (void *)mem, PERM_EX | REF);
++    /* this should fail */
++    if (test_exec(1, ptr, MSR_DFLT | MSR_IR)) {
++        return 2;
++    }
++    /* SRR0 and SRR1 should be set correctly */
++    if (mfspr(SRR0) != (long) ptr ||
++            mfspr(SRR1) != (MSR_DFLT | 0x40000000 | MSR_IR)) {
++        return 3;
++    }
++    return 0;
++}
++
++int mmu_test_12(void)
++{
++    unsigned long mem = 0x1000;
++    unsigned long mem2 = 0x2000;
++    unsigned long ptr = 0x30a000;
++    unsigned long ptr2 = 0x30b000;
++
++    /* create a PTE */
++    map((void *)ptr, (void *)mem, PERM_EX | REF);
++    /* this should fail due to second page not being mapped */
++    if (test_exec(2, ptr, MSR_DFLT | MSR_IR)) {
++        return 1;
++    }
++    /* SRR0 and SRR1 should be set correctly */
++    if (mfspr(SRR0) != ptr2 ||
++            mfspr(SRR1) != (MSR_DFLT | 0x40000000 | MSR_IR)) {
++        return 2;
++    }
++    /* create a PTE for the second page */
++    map((void *)ptr2, (void *)mem2, PERM_EX | REF);
++    /* this should succeed */
++    if (!test_exec(2, ptr, MSR_DFLT | MSR_IR)) {
++        return 3;
++    }
++    return 0;
++}
++
++int mmu_test_13(void)
++{
++    unsigned long mem = 0x1000;
++    unsigned long ptr = 0x324000;
++
++    /* create a PTE without execute permission */
++    map((void *)ptr, (void *)mem, DFLT_PERM);
++    /* this should fail */
++    if (test_exec(0, ptr, MSR_DFLT | MSR_IR)) {
++        return 1;
++    }
++    /* SRR0 and SRR1 should be set correctly */
++    if (mfspr(SRR0) != ptr ||
++            mfspr(SRR1) != (MSR_DFLT | 0x10000000 | MSR_IR)) {
++        return 2;
++    }
++    return 0;
++}
++
++int mmu_test_14(void)
++{
++    unsigned long mem = 0x1000;
++    unsigned long mem2 = 0x2000;
++    unsigned long ptr = 0x30a000;
++    unsigned long ptr2 = 0x30b000;
++
++    /* create a PTE */
++    map((void *)ptr, (void *)mem, PERM_EX | REF);
++    /* create a PTE for the second page without execute permission */
++    map((void *)ptr2, (void *)mem2, PERM_RD | REF);
++    /* this should fail due to second page being no-execute */
++    if (test_exec(2, ptr, MSR_DFLT | MSR_IR)) {
++        return 1;
++    }
++    /* SRR0 and SRR1 should be set correctly */
++    if (mfspr(SRR0) != ptr2 ||
++            mfspr(SRR1) != (MSR_DFLT | 0x10000000 | MSR_IR)) {
++        return 2;
++    }
++    /* create a PTE for the second page with execute permission */
++    map((void *)ptr2, (void *)mem2, PERM_RD | PERM_EX | REF);
++    /* this should succeed */
++    if (!test_exec(2, ptr, MSR_DFLT | MSR_IR)) {
++        return 3;
++    }
++    return 0;
++}
++
++int mmu_test_15(void)
++{
++    unsigned long mem = 0x1000;
++    unsigned long ptr = 0x349000;
++
++    /* create a PTE without ref or execute permission */
++    map((void *)ptr, (void *)mem, 0);
++    /* this should fail */
++    if (test_exec(2, ptr, MSR_DFLT | MSR_IR)) {
++        return 1;
++    }
++    /* SRR0 and SRR1 should be set correctly */
++    /* RC update fail bit should not be set */
++    if (mfspr(SRR0) != (long) ptr ||
++            mfspr(SRR1) != (MSR_DFLT | 0x10000000 | MSR_IR)) {
++        return 2;
++    }
++    return 0;
++}
++
++int mmu_test_16(void)
++{
++    long *mem = (long *) 0x8000;
++    long *ptr = (long *) 0x124000;
++    long *ptr2 = (long *) 0x1124000;
++
++    /* create PTE */
++    map(ptr, mem, DFLT_PERM);
++    /* this should succeed and be a cache miss */
++    if (!test_dcbz(&ptr[129])) {
++        return 1;
++    }
++    /* create a second PTE */
++    map(ptr2, mem, DFLT_PERM);
++    /* this should succeed and be a cache hit */
++    if (!test_dcbz(&ptr2[130])) {
++        return 2;
++    }
++    return 0;
++}
++
++int mmu_test_17(void)
++{
++    long *mem = (long *) 0x8000;
++    long *ptr = (long *) 0x124000;
++
++    *mem = 0x123456789abcdef0;
++    /* create PTE with read but not write permission */
++    map(ptr, mem, REF | PERM_RD);
++    /* this should fail and create a TLB entry */
++    if (test_write(ptr, 0xdeadbeef0dd1)) {
++        return 1;
++    }
++    /* DAR and DSISR should be set correctly */
++    if (mfspr(DAR) != (long)ptr || mfspr(DSISR) != 0x0a000000) {
++        return 2;
++    }
++    /* Update the PTE to have write permission */
++    map(ptr, mem, REF | CHG | PERM_RD | PERM_WR);
++    /* this should succeed */
++    if (!test_write(ptr, 0xdeadbeef0dd1)) {
++        return 3;
++    }
++    return 0;
++}
++
++int fail;
++
++void do_test(int num, int (*test)(void))
++{
++    int ret;
++
++    mtspr(DSISR, 0);
++    mtspr(DAR, 0);
++    unmap_all();
++    ml_printf("test %d:", num);
++    ret = test();
++    if (ret == 0) {
++        ml_printf("PASS\r\n");
++    } else {
++        fail = 1;
++        ml_printf("FAIL %d", ret);
++        if (num <= 10 || num == 19) {
++            ml_printf(" DAR=%lx DSISR=%lx", mfspr(DAR), mfspr(DSISR));
++        } else {
++            ml_printf(" SRR0=%lx SRR1=%lx", mfspr(SRR0), mfspr(SRR1));
++        }
++        ml_printf("\r\n");
++    }
++}
++
++int main(void)
++{
++    init_mmu();
++
++    do_test(1, mmu_test_1);
++    do_test(2, mmu_test_2);
++    do_test(3, mmu_test_3);
++    do_test(4, mmu_test_4);
++    do_test(5, mmu_test_5);
++    do_test(6, mmu_test_6);
++    do_test(7, mmu_test_7);
++    do_test(8, mmu_test_8);
++    do_test(9, mmu_test_9);
++    do_test(10, mmu_test_10);
++    do_test(11, mmu_test_11);
++    do_test(12, mmu_test_12);
++    do_test(13, mmu_test_13);
++    do_test(14, mmu_test_14);
++    do_test(15, mmu_test_15);
++    do_test(16, mmu_test_16);
++    do_test(17, mmu_test_17);
++
++    return fail;
++}
+diff --git a/tests/tcg/ppc64/system/mmu.h b/tests/tcg/ppc64/system/mmu.h
+new file mode 100644
+index 0000000000..eb191e4bd0
+--- /dev/null
++++ b/tests/tcg/ppc64/system/mmu.h
+@@ -0,0 +1,9 @@
++#ifndef PPC64_MMU_H
++#define PPC64_MMU_H
++
++int test_read(long *addr, long *ret, long init);
++int test_write(long *addr, long val);
++int test_dcbz(long *addr);
++int test_exec(int testno, unsigned long pc, unsigned long msr);
++
++#endif
 -- 
 2.25.1
 
