@@ -2,162 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3D7504E06
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 10:54:29 +0200 (CEST)
-Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD17504E12
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 10:59:44 +0200 (CEST)
+Received: from localhost ([::1]:54650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngN9P-0003tO-Ad
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 04:54:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37922)
+	id 1ngNEV-0008Ev-8r
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 04:59:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
- id 1ngN57-0001gG-1E
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 04:50:02 -0400
-Received: from mga18.intel.com ([134.134.136.126]:16887)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ngNCP-0007Id-RB
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 04:57:33 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
- id 1ngN53-0000KT-Aa
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 04:50:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650271797; x=1681807797;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=85/a2DWuy9JB48tS0g+xgmPL0C5MXFpsE99eykdFRgQ=;
- b=MeKfNS9QMgFobrxn8rzhxGtyybsdPqH3dj6BY74r/YZ+X41m4lg3L0x3
- a7df37h5oKToj4FJkIGckhWaAEepOTyNoO98pAD/P+md2ao0BsUoriUVw
- qN8hkhSkoTSTZg9F6gZkTeydhIJbsEz7G8wEtPKik5Vdi1aNb/KcmHjlm
- dD37mjw9UPPD7I/Ed7XmZlICo5w4AnJfmu8X6dOk/+SXAY012MVPhpwQc
- S+uYldibJwfcaxxIeQ31w9GaVBLdSmbZPMH2an0hf2nwQY6GfPYHvtMVL
- nHvQmervLeIIerC116cJOh6xVuchWYwOjfgYFOUuMA6lHcGNRU8QjWIYQ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10320"; a="245372483"
-X-IronPort-AV: E=Sophos;i="5.90,269,1643702400"; d="scan'208";a="245372483"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Apr 2022 01:49:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,269,1643702400"; d="scan'208";a="804230018"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga006.fm.intel.com with ESMTP; 18 Apr 2022 01:49:49 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 18 Apr 2022 01:49:49 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 18 Apr 2022 01:49:48 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 18 Apr 2022 01:49:48 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 18 Apr 2022 01:49:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hiOcTYaHDN3ezV2JtDUfZaYd/3IfwiqFqsxRQ4YB0GUeqit5TfMHabLvFIVMnkZhjxyf04lJQaHdGnznE8Xquw/QDsIcjwCq9XdNRpaODz+pwPm2Yf72IrIG+wOkrjU8Yi7PPrIW1tmppc/Vneu9cZzubIzrplaeJYno9anG36pfjYSa8VMvDx/tZIgere3jOazS40z2Vec/V1xIPIhDBIH1ukoK6vO+GUfj191qIMA3KnxdwC5EhEcaSgQrKIXzUQRgm4JTUrAildOkGKFYW8LG68jv0yN4Vi8pWMNW0AIjnyTCpIVTCpqZlX1PQARWyHpxC0ZYjRxAYpV8f2r6BQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IqYWZktFZFwoW3Wn8hyxK7Up1I4j2b2wXGGri2gHu7o=;
- b=ip55wsKcsAaM7IYGlsg/icCK3LXk+P3GHHGmtPkqjrY834cGBgJy/BmTLYva6ne24PSmKi++f4KXHOsPa8qXD8MVbd/UScpucIc4IVbv9oLNt4qf3WXuC7bOj0mybD5yCSKttOzFwoJBY6zRPpwIYo6BIEwoZFyXJ0ZaCvxoesWWJepJq8mNjlxAMyfGMCjWIMJdcNQrdA+V/8plzw4xRlf022USMwYu6mC7HSAjisNyOlBB9d94rXwVbBxmmrMXPesNn5WK17drGKvzK5mjJoY8fWR8i3E7BpbCzBffntmFdFTLcKfEbjDxpn5ZqR9k7HIvkwbjo6L79kRRdBTWQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by BN8PR11MB3793.namprd11.prod.outlook.com (2603:10b6:408:86::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Mon, 18 Apr
- 2022 08:49:46 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::c4ea:a404:b70b:e54e]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::c4ea:a404:b70b:e54e%8]) with mapi id 15.20.5164.025; Mon, 18 Apr 2022
- 08:49:46 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: "Liu, Yi L" <yi.l.liu@intel.com>, "alex.williamson@redhat.com"
- <alex.williamson@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [RFC 00/18] vfio: Adopt iommufd
-Thread-Topic: [RFC 00/18] vfio: Adopt iommufd
-Thread-Index: AQHYT+0D1ejJho1As0eoIzmf/Uaf8qz1XItw
-Date: Mon, 18 Apr 2022 08:49:46 +0000
-Message-ID: <BN9PR11MB5276085CDF750807005A775B8CF39@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
-In-Reply-To: <20220414104710.28534-1-yi.l.liu@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.401.20
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e680ca19-9e70-4904-25cd-08da211863fd
-x-ms-traffictypediagnostic: BN8PR11MB3793:EE_
-x-microsoft-antispam-prvs: <BN8PR11MB379322D999BBD88E0B3991CE8CF39@BN8PR11MB3793.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: j8JVx5lsqx75yFhFa94oopP15+3W7hPo2WnizHZpbh5k6aNk2qbK+iSMm+ZrIgy1XM2bk6RSzw6QsjMJofiwhhe6d4MnOyTaOJfejYRjYvpG6hH+lJ+M8uLaSCaoMTZZJh6i5+sAhmQTMRKpb2XIULd6P7gIldNC41Hy+umYv781VnLWdY29kZmy1UUKhGrgLK4JVo4mjWmVHdI76WMgcCzT1p2O1sQ1GyUE3t6POvqlvPFf7EcEz/pGLQIvrkUBXVkIukQJA50xKdKWp8vOn4cLAYhyxv8bolceReqGFk8TRG1G9gDL5U3w2wtY0zbUnVHDu4T6nu1JYluFdbohSs6Ip0B3YmlebjED84+djGFouey/ExVinsNW55ts9ULNIIzWQXmGgY88wjNaqClPIW8uAS9tXFK2DppVvOsEVMfLVt0GDwAg3AhJ4B02hK7omv+8gCBaSDSNA8lZ6iPkoqyr8piNffYCFCfVrNnyH0E/9WX4FvA5wjOG6phqgw1TJfjydxlVL/nriW9auKiKtFvLBFuMyYO1C6Tw71KS3Q1HmaLjJdgrnk/s4gUvIxur/zvBSXCPmP+5kSHFoC3R9lUhd9lFyHmLRYhl1oigQl81s7bqCqXjgzSIjSX9Rmah7qDGCwGE7T86OEai+Wq9DiRhd9Shfx1h6vktjUtCZVnZw8Iun3QSHfnwd1BYUCJmpWkva960wgNoEXUvBzn9Jj1ZEfpBNoh1OehcasfTSxjml3BiOMjwDvCn6oFsS8GS7h1YD5kkCKpAhbQyeK0hZW6fV0UzE46PhSCRvcJCCPFNuLaX/92BtppIKY5MWyLTbZDqaA+DWm0dQ0KFCaPy7g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(33656002)(2906002)(508600001)(110136005)(83380400001)(316002)(19627235002)(71200400001)(7696005)(122000001)(38070700005)(6506007)(38100700002)(82960400001)(26005)(186003)(966005)(54906003)(9686003)(86362001)(55016003)(4326008)(8676002)(8936002)(52536014)(66556008)(66476007)(7416002)(5660300002)(66446008)(66946007)(64756008)(76116006);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?HtsdydHuS8Zt4PNYwUi7ruBXpWitkPTtL3kSnA6p+Kr/1qZYeBIi1EAYU+Nj?=
- =?us-ascii?Q?ThVlXSzgh5ab8qNvBAwfhLTxKgwTSa4dI7BdiQI2XsesnZBdUwirfjohmwCu?=
- =?us-ascii?Q?VJbR0KLQJax6/oT3DVOZA4qQCCpnuALTX5OawANvXD0flvIhtaLM7/zAYjS2?=
- =?us-ascii?Q?Mgf7zfxB/Pk0HR65dwRqkwgPPAC+gKrqx1IGQCFSkzt1wUCPaXb7qlDxnOZB?=
- =?us-ascii?Q?d6LaaGVRk0B7ALG5Hwo9cj0/ewoFnYfxopb1fHpHVnBrRd7zkRLfnBZlO6jh?=
- =?us-ascii?Q?nrLw0uINiXQ78znWoWZhk/aa1WwBYpTD1zWpgLIf1AkuJ2VUs5+c1PlkEjhu?=
- =?us-ascii?Q?HwFDna9b4TaNWHAVOSn/qEgwJLQAeslXzxdwpKCguKrQ0uBtEhAOOwjECFMj?=
- =?us-ascii?Q?OZCy+Dy2KP7HS7hPh7Grlz0nYWl5zQwgl8UTgFiZiuEVMiXWjOa+xb/PL3CH?=
- =?us-ascii?Q?H5IoJBhldJK1PrUdv63v5oD6cUd/p9fHqwnpyqhEwb/NlBKJ80NZMsybdA8g?=
- =?us-ascii?Q?ijuVfq8DBmP/uTo5H8GJWPrGM5oB9sgcAYDjDc9oeBbs82m5dgwSMJd+f2NM?=
- =?us-ascii?Q?H6+QaIOaOtSlF3FMl8DQXWlCu1fr+R7U+qgGNk1/3AYgkVGXnU4XfK6hrANh?=
- =?us-ascii?Q?16ugcSaWCj0nJJhxYV788ydQpORI0P6/Cb/4X0dQBS9ofwtYvjcHjlgqO9XC?=
- =?us-ascii?Q?i1uq65GmHTOtS7Vgi1kwtvlcdK2J3DqZWspC5LKHd2Upx4SKMNd0ymH/+Ubf?=
- =?us-ascii?Q?2EtqMXLiT7X8NyPdkZJiZ2IggXI3tNwULBrgEOIrCqfpXBoz0qHl2ycQUZSf?=
- =?us-ascii?Q?QFCc0rvK7SdP6w1hguofmltepW4CbU6xiaOLARLxPEkYc4Bue/WFzztAEmhj?=
- =?us-ascii?Q?TXfFTKK0KlRJGFrsmUYNrw8rpzlaWTyAIMrpGreztPvCGtI54AcqcJjOqYls?=
- =?us-ascii?Q?V0SxSb1TM+1ycSFOA7hqsqcvGtxv+WN5JXBNq3VoxSQTcDsi2S6zoCGtHube?=
- =?us-ascii?Q?MQMWdA5yyaXAD1RfTMwwst3yOwzxdTf+w7qDEYGU0U0gEXu914JqRC2BaycH?=
- =?us-ascii?Q?qUMFCay8cyv1F+m/UR93uc6B3AwhHN1n5nGpY4Q+AcHr2ERXUbRGNrwMqyPb?=
- =?us-ascii?Q?oO6qI4OOb1H82fa1mkUWmhJddBPVEFU7lJXUuafUP9I97XM10VxDCU1XD4Gq?=
- =?us-ascii?Q?JdmvWl6Y9/daHAV69X8DBOlCD4ywuLjG8hIo7e97enqzHA7tRtkHzR72soEo?=
- =?us-ascii?Q?6Gcy6NhvHtRNUzYFgumXPNfKxwOIs6ha40i1YVgMH4rpetSd7Bj9Mx+R8xs/?=
- =?us-ascii?Q?oXKzFYd8D5Sgoy1B9+pIEv0p3TDghlZ6bbbfUSlgmfaSXqO4ojsIG/S/sHR3?=
- =?us-ascii?Q?rGw0Yc1koAY3Vhfui9Qr673xBeQJgyhyFV0BouQS7RVzmyvWRSe688dkE8U0?=
- =?us-ascii?Q?VcyJwp4Ra4MKlKZ35mZ3UzD7+LHN5BjxWsnWNBYdpPYLEcLwtdAD14Stg4vY?=
- =?us-ascii?Q?6D7sviblQwZ2hTxNz2YOV3YcNFG+qfj+BkkxYbg5DGfhaPdEKzQS2uVKTRuu?=
- =?us-ascii?Q?NNryK1feRid0lNuUzmNra790jlXVLgw6ZRBDEABJscj3iBTYwpw2l+6UBRjr?=
- =?us-ascii?Q?AgI6L3js+2zEWUzT+9d7vbNTIidMa7GIiWeefhyGgWhKpSsYhir1qz7epgLt?=
- =?us-ascii?Q?2Gq9pEQkvP7Y4Nsl/1RL+vQMR1ORMii4bN/uwpIa8ZTdjvglZeurl74PlAEP?=
- =?us-ascii?Q?e2Z7HPaJTw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ngNCO-0001o6-Ab
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 04:57:33 -0400
+Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ngNBW-000A4c-84; Mon, 18 Apr 2022 09:56:38 +0100
+Message-ID: <9f27b53d-d2bf-1fb5-3a46-c910a34d5e3d@ilande.co.uk>
+Date: Mon, 18 Apr 2022 09:57:26 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e680ca19-9e70-4904-25cd-08da211863fd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Apr 2022 08:49:46.6031 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ey72bEnadolCCyGUHG/SNyo2dOxeGdYxQ7zcfls5NRRN9cQoNhr5cSumf1iyJxAQCjmoHTNF6jsoG+rAB6v3ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR11MB3793
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=kevin.tian@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
+ <20220415094058.3584233-36-yangxiaojuan@loongson.cn>
+ <6d62ce6d-acc2-b07e-71ac-dee03bbfd22f@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <6d62ce6d-acc2-b07e-71ac-dee03bbfd22f@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v1 35/43] hw/intc: Add LoongArch extioi interrupt
+ controller(EIOINTC)
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -172,221 +64,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "thuth@redhat.com" <thuth@redhat.com>, "Peng, Chao P" <chao.p.peng@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>, "Sun, Yi
- Y" <yi.y.sun@intel.com>, "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
- "jgg@nvidia.com" <jgg@nvidia.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Liu, Yi L <yi.l.liu@intel.com>
-> Sent: Thursday, April 14, 2022 6:47 PM
->=20
-> With the introduction of iommufd[1], the linux kernel provides a generic
-> interface for userspace drivers to propagate their DMA mappings to kernel
-> for assigned devices. This series does the porting of the VFIO devices
-> onto the /dev/iommu uapi and let it coexist with the legacy implementatio=
-n.
-> Other devices like vpda, vfio mdev and etc. are not considered yet.
+On 18/04/2022 04:48, Richard Henderson wrote:
 
-vfio mdev has no special support in Qemu. Just that it's not supported
-by iommufd yet thus can only be operated in legacy container interface at
-this point. Later once it's supported by the kernel suppose no additional
-enabling work is required for mdev in Qemu.
+> On 4/15/22 02:40, Xiaojuan Yang wrote:
+>> +        memory_region_init(&s->mmio[cpu], OBJECT(s),
+>> +                           "loongarch_extioi", EXTIOI_SIZE);
+>> +
+>> +        memory_region_init_io(&s->mmio_nodetype[cpu], OBJECT(s),
+>> +                              &extioi_nodetype_ops, s,
+>> +                              EXTIOI_LINKNAME(.nodetype),
+>> +                              IPMAP_OFFSET - APIC_BASE);
+>> +        memory_region_add_subregion(&s->mmio[cpu], 0, &s->mmio_nodetype[cpu]);
+>> +
+>> +        memory_region_init_io(&s->mmio_ipmap_enable[cpu], OBJECT(s),
+>> +                              &extioi_ipmap_enable_ops, s,
+>> +                              EXTIOI_LINKNAME(.ipmap_enable),
+>> +                              BOUNCE_OFFSET - IPMAP_OFFSET);
+>> +        memory_region_add_subregion(&s->mmio[cpu], IPMAP_OFFSET - APIC_BASE,
+>> +                                    &s->mmio_ipmap_enable[cpu]);
+>> +
+>> +        memory_region_init_io(&s->mmio_bounce_coreisr[cpu], OBJECT(s),
+>> +                              &extioi_bounce_coreisr_ops, s,
+>> +                              EXTIOI_LINKNAME(.bounce_coreisr),
+>> +                              COREMAP_OFFSET - BOUNCE_OFFSET);
+>> +        memory_region_add_subregion(&s->mmio[cpu], BOUNCE_OFFSET - APIC_BASE,
+>> +                                    &s->mmio_bounce_coreisr[cpu]);
+>> +
+>> +        memory_region_init_io(&s->mmio_coremap[cpu], OBJECT(s),
+>> +                              &extioi_coremap_ops, s,
+>> +                              EXTIOI_LINKNAME(.coremap),
+>> +                              EXTIOI_COREMAP_END);
+>> +        memory_region_add_subregion(&s->mmio[cpu], COREMAP_OFFSET - APIC_BASE,
+>> +                                    &s->mmio_coremap[cpu]);
+> 
+> Why are these separate memory regions, instead of one region?  They're certainly 
+> described in a single table in section 11.2 of the 3A5000 manual...
 
->=20
-> For vfio devices, the new interface is tied with device fd and iommufd
-> as the iommufd solution is device-centric. This is different from legacy
-> vfio which is group-centric. To support both interfaces in QEMU, this
-> series introduces the iommu backend concept in the form of different
-> container classes. The existing vfio container is named legacy container
-> (equivalent with legacy iommu backend in this series), while the new
-> iommufd based container is named as iommufd container (may also be
-> mentioned
-> as iommufd backend in this series). The two backend types have their own
-> way to setup secure context and dma management interface. Below diagram
-> shows how it looks like with both BEs.
->=20
->                     VFIO                           AddressSpace/Memory
->     +-------+  +----------+  +-----+  +-----+
->     |  pci  |  | platform |  |  ap |  | ccw |
->     +---+---+  +----+-----+  +--+--+  +--+--+     +----------------------=
-+
->         |           |           |        |        |   AddressSpace       =
-|
->         |           |           |        |        +------------+---------=
-+
->     +---V-----------V-----------V--------V----+               /
->     |           VFIOAddressSpace              | <------------+
->     |                  |                      |  MemoryListener
->     |          VFIOContainer list             |
->     +-------+----------------------------+----+
->             |                            |
->             |                            |
->     +-------V------+            +--------V----------+
->     |   iommufd    |            |    vfio legacy    |
->     |  container   |            |     container     |
->     +-------+------+            +--------+----------+
->             |                            |
->             | /dev/iommu                 | /dev/vfio/vfio
->             | /dev/vfio/devices/vfioX    | /dev/vfio/$group_id
->  Userspace  |                            |
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
->  Kernel     |  device fd                 |
->             +---------------+            | group/container fd
->             | (BIND_IOMMUFD |            | (SET_CONTAINER/SET_IOMMU)
->             |  ATTACH_IOAS) |            | device fd
->             |               |            |
->             |       +-------V------------V-----------------+
->     iommufd |       |                vfio                  |
-> (map/unmap  |       +---------+--------------------+-------+
->  ioas_copy) |                 |                    | map/unmap
->             |                 |                    |
->      +------V------+    +-----V------+      +------V--------+
->      | iommfd core |    |  device    |      |  vfio iommu   |
->      +-------------+    +------------+      +---------------+
+The reason it was done like this is because there were different access sizes in the 
+relevant _ops definitions. Certainly when I looked at the patches previously I wasn't 
+able to easily see how these could be consolidated without digging deeper into the 
+documentation.
 
-last row: s/iommfd/iommufd/
 
-overall this sounds a reasonable abstraction. Later when vdpa starts
-supporting iommufd probably the iommufd BE will become even
-smaller with more logic shareable between vfio and vdpa.
+ATB,
 
->=20
-> [Secure Context setup]
-> - iommufd BE: uses device fd and iommufd to setup secure context
->               (bind_iommufd, attach_ioas)
-> - vfio legacy BE: uses group fd and container fd to setup secure context
->                   (set_container, set_iommu)
-> [Device access]
-> - iommufd BE: device fd is opened through /dev/vfio/devices/vfioX
-> - vfio legacy BE: device fd is retrieved from group fd ioctl
-> [DMA Mapping flow]
-> - VFIOAddressSpace receives MemoryRegion add/del via MemoryListener
-> - VFIO populates DMA map/unmap via the container BEs
->   *) iommufd BE: uses iommufd
->   *) vfio legacy BE: uses container fd
->=20
-> This series qomifies the VFIOContainer object which acts as a base class
-
-what does 'qomify' mean? I didn't find this word from dictionary...
-
-> for a container. This base class is derived into the legacy VFIO containe=
-r
-> and the new iommufd based container. The base class implements generic
-> code
-> such as code related to memory_listener and address space management
-> whereas
-> the derived class implements callbacks that depend on the kernel user spa=
-ce
-
-'the kernel user space'?
-
-> being used.
->=20
-> The selection of the backend is made on a device basis using the new
-> iommufd option (on/off/auto). By default the iommufd backend is selected
-> if supported by the host and by QEMU (iommufd KConfig). This option is
-> currently available only for the vfio-pci device. For other types of
-> devices, it does not yet exist and the legacy BE is chosen by default.
->=20
-> Test done:
-> - PCI and Platform device were tested
-
-In this case PCI uses iommufd while platform device uses legacy?
-
-> - ccw and ap were only compile-tested
-> - limited device hotplug test
-> - vIOMMU test run for both legacy and iommufd backends (limited tests)
->=20
-> This series was co-developed by Eric Auger and me based on the exploratio=
-n
-> iommufd kernel[2], complete code of this series is available in[3]. As
-> iommufd kernel is in the early step (only iommufd generic interface is in
-> mailing list), so this series hasn't made the iommufd backend fully on pa=
-r
-> with legacy backend w.r.t. features like p2p mappings, coherency tracking=
-,
-
-what does 'coherency tracking' mean here? if related to iommu enforce
-snoop it is fully handled by the kernel so far. I didn't find any use of
-VFIO_DMA_CC_IOMMU in current Qemu.
-
-> live migration, etc. This series hasn't supported PCI devices without FLR
-> neither as the kernel doesn't support VFIO_DEVICE_PCI_HOT_RESET when
-> userspace
-> is using iommufd. The kernel needs to be updated to accept device fd list=
- for
-> reset when userspace is using iommufd. Related work is in progress by
-> Jason[4].
->=20
-> TODOs:
-> - Add DMA alias check for iommufd BE (group level)
-> - Make pci.c to be BE agnostic. Needs kernel change as well to fix the
->   VFIO_DEVICE_PCI_HOT_RESET gap
-> - Cleanup the VFIODevice fields as it's used in both BEs
-> - Add locks
-> - Replace list with g_tree
-> - More tests
->=20
-> Patch Overview:
->=20
-> - Preparation:
->   0001-scripts-update-linux-headers-Add-iommufd.h.patch
->   0002-linux-headers-Import-latest-vfio.h-and-iommufd.h.patch
->   0003-hw-vfio-pci-fix-vfio_pci_hot_reset_result-trace-poin.patch
->   0004-vfio-pci-Use-vbasedev-local-variable-in-vfio_realize.patch
->   0005-vfio-common-Rename-VFIOGuestIOMMU-iommu-into-
-> iommu_m.patch
-
-3-5 are pure cleanups which could be sent out separately=20
-
->   0006-vfio-common-Split-common.c-into-common.c-container.c.patch
->=20
-> - Introduce container object and covert existing vfio to use it:
->   0007-vfio-Add-base-object-for-VFIOContainer.patch
->   0008-vfio-container-Introduce-vfio_attach-detach_device.patch
->   0009-vfio-platform-Use-vfio_-attach-detach-_device.patch
->   0010-vfio-ap-Use-vfio_-attach-detach-_device.patch
->   0011-vfio-ccw-Use-vfio_-attach-detach-_device.patch
->   0012-vfio-container-obj-Introduce-attach-detach-_device-c.patch
->   0013-vfio-container-obj-Introduce-VFIOContainer-reset-cal.patch
->=20
-> - Introduce iommufd based container:
->   0014-hw-iommufd-Creation.patch
->   0015-vfio-iommufd-Implement-iommufd-backend.patch
->   0016-vfio-iommufd-Add-IOAS_COPY_DMA-support.patch
->=20
-> - Add backend selection for vfio-pci:
->   0017-vfio-as-Allow-the-selection-of-a-given-iommu-backend.patch
->   0018-vfio-pci-Add-an-iommufd-option.patch
->=20
-> [1] https://lore.kernel.org/kvm/0-v1-e79cd8d168e8+6-
-> iommufd_jgg@nvidia.com/
-> [2] https://github.com/luxis1999/iommufd/tree/iommufd-v5.17-rc6
-> [3] https://github.com/luxis1999/qemu/tree/qemu-for-5.17-rc6-vm-rfcv1
-> [4] https://lore.kernel.org/kvm/0-v1-a8faf768d202+125dd-
-> vfio_mdev_no_group_jgg@nvidia.com/
-
-Following is probably more relevant to [4]:
-
-https://lore.kernel.org/all/10-v1-33906a626da1+16b0-vfio_kvm_no_group_jgg@n=
-vidia.com/
-
-Thanks
-Kevin
+Mark.
 
