@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C8250547B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 15:06:45 +0200 (CEST)
-Received: from localhost ([::1]:35680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208AA50545A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 15:03:40 +0200 (CEST)
+Received: from localhost ([::1]:60744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngR5Y-0003e4-GQ
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 09:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35050)
+	id 1ngR2Z-0001Id-7W
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 09:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <natalia.kuzmina@openvz.org>)
- id 1ngPCY-0007MU-4m
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 07:05:50 -0400
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:45008)
+ id 1ngPDS-0007U7-2f
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 07:06:46 -0400
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:33342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <natalia.kuzmina@openvz.org>)
- id 1ngPCW-0005K1-FF
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 07:05:49 -0400
-Received: by mail-lf1-x129.google.com with SMTP id w19so23599736lfu.11
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 04:05:46 -0700 (PDT)
+ id 1ngPDL-0005XG-Ro
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 07:06:44 -0400
+Received: by mail-lf1-x133.google.com with SMTP id bu29so23706141lfb.0
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 04:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=openvz-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=btwyOXkmeAqfb3ol9kva0PB9oKAgCBN5T65eeafyCTI=;
- b=MWqXZPG70Q1jtx/N58yVldmXZgOQYoZbk1xlOqGIfEal9OdEeOQviVXz62GGSx0jdc
- EJb3OJZbF7uTsm1/O8mr/HWGJet6BQ0JJtOwBle6DkZ1DXmGj+uUlDncohsQYg9bGy0e
- GAncasS3/SouDGvUhFQzc/sVsRmXSc3EGj2Dy/+y0BH3fsXpnbMiyUD0TWip5olfhJJU
- MAs34a1NFAdKNJPryiwpaxb80yzdRWdWB5LpbPuyS64fASIb9J080VNtjOEuygo0+xUf
- xeGE3IuxE/QOZUUHwkXm62vxzKVJlAhwmaOF1l+7498rBJBxuurwUi315mDZvz3O4lgG
- EkVg==
+ bh=kjSLGqjWh0PuAgWNTDMEuCzgKCJdcagFaDGKk4VwhNY=;
+ b=Ki6+ebtwx7j0N7TxMTS2Od9r4S1lACC1h0trYyI/reB1PpKMwlIlEjAn0Hg1sqPQCv
+ 7ZOnTt60n75b8oefvVrbgLIRblseqLeBqjskQcbxqb5zQhapuEJYw9Wj+bMkbLL2gW66
+ kYUSBNL2GG5929t0k9mAl6rLDDc+td/Er3g6G09gBsJsc9di2FNDiDS6mpE80MhqFIR7
+ B2rlh/9Ix8feLpIfxLFBFCdz7P5nI1LW0+DNSg7345+i9J1TAKgsM7NtVEws2MsfqV+F
+ OaSqDXjITMtLtCVvU1amhMtMxeCuBVNsOZ+VNJB+kNfoBPBk9IIO4FpsR32hEAmTRG4Q
+ lWjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=btwyOXkmeAqfb3ol9kva0PB9oKAgCBN5T65eeafyCTI=;
- b=FCLYYw04+xZuP0tTQY32AhcQ7zl1fa8J7lv3H0A3djXigg0HnxS7nSpM7sCSp6PeeJ
- BB5aysTQuwekRAQP4Njn9iphqbowtNTJd47AaPPn800v6CeaiUp4b+zGZHOgGB/NnJ6H
- ftamosS7fErUDl5EgJReH2iWEuX/Vyho/T+xPNaE9IkZ1RmQGlp9/XR5adlH5xM1i2H8
- i5yq4vgvFhzIvai844tkuusOIuWdpCzRgYeANaxdI//GcWbz4k0j/ipQbrEySsWaKZ2/
- gymBXaD1B1sqfnqfs0a7LWiRji4ZxLpkMysUc52Z6F0Ju1jiXPDpkfk9OaYrxzO6Oauz
- 6CEg==
-X-Gm-Message-State: AOAM533CVgwe4v0wCtaYpTLDq0ECC1h9a4zm6EX7SV+vbYEX80ax9Qle
- FsFf8nvgyc/LuvZjZny/6DXrTMcxll7r
-X-Google-Smtp-Source: ABdhPJxLl2avtGBBZtbmfrmaXYu6g5g6UvJ4906g8pVukQp5AsceBBqZsYYyUZhN82tmPKE2+pa/kg==
-X-Received: by 2002:ac2:5e21:0:b0:46b:b663:5539 with SMTP id
- o1-20020ac25e21000000b0046bb6635539mr7614999lfg.119.1650279944998; 
- Mon, 18 Apr 2022 04:05:44 -0700 (PDT)
+ bh=kjSLGqjWh0PuAgWNTDMEuCzgKCJdcagFaDGKk4VwhNY=;
+ b=4vAoSg0mwPIQPMJoNPHOW2x0HD0OQohpVkcqMWDEM7U5j0Fyo1E/2rCjtew5pJz00t
+ WOQIjFRA+0E4xsCUy98xcoaSK1UO3ES1lC3QQK7e6ZwWpklAyyWiiNfMkTE3rO46wRJ9
+ Qix7mw+ysb+cDXBDNmz0tglZTFjTsItmUu/SKtTEps5B/TiqT05JxR/lg8058qff69bL
+ JRjl0h2x+u57vqwyw6/oi5xeCE369WlCZiOLoElk3v8zdtMUHFjaNkC4AQQRvUlCcqJi
+ hWoi5CZNkEztsy97/dt3O+SSXMQynrdxlJiaLh8zAJs1tjt0kLkuY361mOpZjeMvLmrU
+ cLQQ==
+X-Gm-Message-State: AOAM5314tgSpRhr9wJxdI3ovNxMgM7pbP3nkHI7ybXUbvsnlObpIl8z0
+ MErpVOIb8Rzeq+R8K376Zj7RdgKx2bEU
+X-Google-Smtp-Source: ABdhPJxeCEZbVr7OHrAtKjWktwBEgfomY1TExoDSsU2VaK2f7RVUV2kEz6NlmNI4HwgbJCtd3y4MKg==
+X-Received: by 2002:a05:6512:3f04:b0:44a:8de0:15a5 with SMTP id
+ y4-20020a0565123f0400b0044a8de015a5mr7688801lfa.278.1650279992594; 
+ Mon, 18 Apr 2022 04:06:32 -0700 (PDT)
 Received: from localhost.localdomain ([93.175.7.89])
  by smtp.gmail.com with ESMTPSA id
- q21-20020a194315000000b00471083815c8sm580041lfa.168.2022.04.18.04.05.44
+ q21-20020a194315000000b00471083815c8sm580041lfa.168.2022.04.18.04.06.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 04:05:44 -0700 (PDT)
+ Mon, 18 Apr 2022 04:06:32 -0700 (PDT)
 From: Natalia Kuzmina <natalia.kuzmina@openvz.org>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH 1/3] qemu-img check: fixing duplicated clusters for parallels
- format
-Date: Mon, 18 Apr 2022 14:04:28 +0300
-Message-Id: <20220418110430.319911-2-natalia.kuzmina@openvz.org>
+Subject: [PATCH 2/3] iotests: 314 test on duplicated clusters (parallels
+ format)
+Date: Mon, 18 Apr 2022 14:04:29 +0300
+Message-Id: <20220418110430.319911-3-natalia.kuzmina@openvz.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220418110430.319911-1-natalia.kuzmina@openvz.org>
 References: <20220418110430.319911-1-natalia.kuzmina@openvz.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=natalia.kuzmina@openvz.org; helo=mail-lf1-x129.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=natalia.kuzmina@openvz.org; helo=mail-lf1-x133.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,124 +93,168 @@ Cc: kwolf@redhat.com, v.sementsov-og@mail.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let qemu-img check fix corruption in the image file: two
-guest memory areas refer to the same host memory area
-(duplicated offsets in BAT).
+Reading from duplicated offset and from original offset returns
+the same data. After repairing changing either of these
+blocks of data does not affect another one.
 
 Signed-off-by: Natalia Kuzmina <natalia.kuzmina@openvz.org>
 ---
- block/parallels.c | 66 +++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 64 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/314                        |  88 ++++++++++++++++++
+ tests/qemu-iotests/314.out                    |  36 +++++++
+ .../parallels-2-duplicated-cluster.bz2        | Bin 0 -> 148 bytes
+ 3 files changed, 124 insertions(+)
+ create mode 100755 tests/qemu-iotests/314
+ create mode 100644 tests/qemu-iotests/314.out
+ create mode 100644 tests/qemu-iotests/sample_images/parallels-2-duplicated-cluster.bz2
 
-diff --git a/block/parallels.c b/block/parallels.c
-index 6ebad2a2bb..6a73933d45 100644
---- a/block/parallels.c
-+++ b/block/parallels.c
-@@ -418,9 +418,11 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
-                                            BdrvCheckMode fix)
- {
-     BDRVParallelsState *s = bs->opaque;
--    int64_t size, prev_off, high_off;
-+    int64_t size, prev_off, high_off, idx_host, sector_num;
-     int ret;
-     uint32_t i;
-+    int64_t *buf;
-+    int *reversed_bat;
-     bool flush_bat = false;
- 
-     size = bdrv_getlength(bs->file->bs);
-@@ -442,8 +444,14 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
-     }
- 
-     res->bfi.total_clusters = s->bat_size;
-+    res->bfi.allocated_clusters = 0;
-     res->bfi.compressed_clusters = 0; /* compression is not supported */
- 
-+    reversed_bat = g_malloc(s->bat_size * sizeof(int));
-+    for (i = 0; i < s->bat_size; i++) {
-+        reversed_bat[i] = -1;
-+    }
+diff --git a/tests/qemu-iotests/314 b/tests/qemu-iotests/314
+new file mode 100755
+index 0000000000..167b75d1af
+--- /dev/null
++++ b/tests/qemu-iotests/314
+@@ -0,0 +1,88 @@
++#!/usr/bin/env bash
++# group: rw auto quick
++#
++# Test qemu-img check on duplicated clusters
++#
++# Copyright (C) 2009 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-     high_off = 0;
-     prev_off = 0;
-     for (i = 0; i < s->bat_size; i++) {
-@@ -453,6 +461,59 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
-             continue;
-         }
- 
-+        /* checking bat entry uniqueness */
-+        idx_host = (off - ((s->header->data_off) << BDRV_SECTOR_BITS))
-+            / (s->cluster_size);
-+        if (reversed_bat[idx_host] != -1) { /* duplicated cluster */
-+            fprintf(stderr, "%s cluster %u is duplicated (with cluster %u)\n",
-+                    fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR",
-+                    i, reversed_bat[idx_host]);
-+            res->corruptions++;
-+            res->bfi.allocated_clusters--; /* not to count this cluster twice */
-+            if (fix & BDRV_FIX_ERRORS) {
-+                /* copy data to new cluster */
-+                sector_num = bat2sect(s, reversed_bat[idx_host]);
-+                buf = g_malloc(s->cluster_size);
-+                ret = bdrv_pread(bs->file, sector_num << BDRV_SECTOR_BITS,
-+                                 buf, s->cluster_size);
-+                if (ret < 0) {
-+                    res->check_errors++;
-+                    g_free(buf);
-+                    goto out;
-+                }
++# creator
++owner=natalia.kuzmina@openvz.org
 +
-+                ret = bdrv_pwrite(bs->file, s->data_end << BDRV_SECTOR_BITS,
-+                                  buf, s->cluster_size);
-+                if (ret < 0) {
-+                    res->check_errors++;
-+                    g_free(buf);
-+                    goto out;
-+                }
++seq=`basename $0`
++echo "QA output created by $seq"
 +
-+                s->bat_bitmap[i] = cpu_to_le32(s->data_end / s->off_multiplier);
-+                s->data_end += s->tracks;
-+                bitmap_set(s->bat_dirty_bmap,
-+                           bat_entry_off(i) / s->bat_dirty_block, 1);
-+                g_free(buf);
++status=1    # failure is the default!
 +
-+                res->corruptions_fixed++;
-+                flush_bat = true;
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
 +
-+                /* these values are invalid after repairing */
-+                off = bat2sect(s, i) << BDRV_SECTOR_BITS;
-+                idx_host = (off - ((s->header->data_off) << BDRV_SECTOR_BITS))
-+                    / (s->cluster_size);
-+                size = bdrv_getlength(bs->file->bs);
-+                if (size < 0) {
-+                    res->check_errors++;
-+                    ret = size;
-+                    goto out;
-+                }
-+            }
-+        }
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++. ./common.pattern
 +
-+        reversed_bat[idx_host] = i;
++_supported_fmt parallels
++_supported_proto file
++_supported_os Linux
 +
-         /* cluster outside the image */
-         if (off > size) {
-             fprintf(stderr, "%s cluster %u is outside image\n",
-@@ -472,7 +533,7 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
-             high_off = off;
-         }
- 
--        if (prev_off != 0 && (prev_off + s->cluster_size) != off) {
-+        if (prev_off != 0 && (off - prev_off) % s->cluster_size != 0) {
-             res->bfi.fragmented_clusters++;
-         }
-         prev_off = off;
-@@ -514,6 +575,7 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
-     }
- 
- out:
-+    g_free(reversed_bat);
-     qemu_co_mutex_unlock(&s->lock);
-     return ret;
- }
++echo
++echo "using sample corrupted image"
++echo
++_use_sample_img parallels-2-duplicated-cluster.bz2
++
++CLUSTER_SIZE=65536
++
++#read one cluster from original offset
++$QEMU_IO -c "read -P 0x11 0 $CLUSTER_SIZE" "$TEST_IMG" | \
++    _filter_qemu_io
++#read from duplicated offset (data must be the same as on original offset)
++$QEMU_IO -c "read -P 0x11 $((4 * CLUSTER_SIZE)) $CLUSTER_SIZE" "$TEST_IMG" | \
++    _filter_qemu_io
++#change data from original offset
++$QEMU_IO -c "write -P 0x55 0 $CLUSTER_SIZE" "$TEST_IMG" | \
++    _filter_qemu_io
++#read from duplicated offset (data must be the same as on original offset)
++$QEMU_IO -c "read -P 0x55 $((4 * CLUSTER_SIZE)) $CLUSTER_SIZE" "$TEST_IMG" | \
++    _filter_qemu_io
++echo
++echo "check and repair the image" 
++echo
++_check_test_img -r all
++echo
++
++#read one cluster from original offset
++$QEMU_IO -c "read -P 0x55 0 $CLUSTER_SIZE" "$TEST_IMG" | \
++    _filter_qemu_io 
++#read copied data from new offset
++$QEMU_IO -c "read -P 0x55 $((4 * CLUSTER_SIZE)) $CLUSTER_SIZE" "$TEST_IMG" | \
++    _filter_qemu_io 
++#change data from original offset
++$QEMU_IO -c "write -P 0x11 0 $CLUSTER_SIZE" "$TEST_IMG" | \
++    _filter_qemu_io
++#read from new offset (fail, now this data was left unchanged)
++$QEMU_IO -c "read -P 0x11 $((4 * CLUSTER_SIZE)) $CLUSTER_SIZE" "$TEST_IMG" | \
++    _filter_qemu_io 
++    
++echo
++echo
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/314.out b/tests/qemu-iotests/314.out
+new file mode 100644
+index 0000000000..efb138e6a1
+--- /dev/null
++++ b/tests/qemu-iotests/314.out
+@@ -0,0 +1,36 @@
++QA output created by 314
++
++using sample corrupted image
++
++read 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 262144
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 262144
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++check and repair the image
++
++Repairing cluster 4 is duplicated (with cluster 0)
++The following inconsistencies were found and repaired:
++
++    0 leaked clusters
++    1 corruptions
++
++Double checking the fixed image now...
++No errors were found on the image.
++
++read 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 262144
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Pattern verification failed at offset 262144, 65536 bytes
++read 65536/65536 bytes at offset 262144
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++
++*** done
+diff --git a/tests/qemu-iotests/sample_images/parallels-2-duplicated-cluster.bz2 b/tests/qemu-iotests/sample_images/parallels-2-duplicated-cluster.bz2
+new file mode 100644
+index 0000000000000000000000000000000000000000..ee8f0149b5ecffc4fdc5e2c0cf45b731610378af
+GIT binary patch
+literal 148
+zcmZ>Y%CIzaj8qGboOfsS0tPO%`U`(O5*Pv)I2hO&I2yDPt~od`068263_Exd7-leV
+zwiz(^Ft8k0sa3TsBZG0}Vv}35zt?O%VET5A+3Q2o4%bdpm~pLC^&`WR2CW6$VGH;&
+vm{u|@;OhXBE0|U>d|v){U)AOQJ)h70iu-<&;S?CYW~db}a<vGU0CEKYoE$uo
+
+literal 0
+HcmV?d00001
+
 -- 
 2.25.1
 
