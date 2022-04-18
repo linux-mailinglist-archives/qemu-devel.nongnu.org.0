@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF79505A16
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 16:37:31 +0200 (CEST)
-Received: from localhost ([::1]:55482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9C3505A2A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 16:41:31 +0200 (CEST)
+Received: from localhost ([::1]:58448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngSVN-0008I7-Ml
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 10:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43648)
+	id 1ngSZG-0002DL-SP
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 10:41:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngSSR-0007UC-G5
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 10:34:27 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:44810)
+ id 1ngSXi-0001Il-4g
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 10:39:54 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngSSP-0005Lg-BD
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 10:34:27 -0400
-Received: by mail-pg1-x532.google.com with SMTP id j71so5690790pge.11
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 07:34:24 -0700 (PDT)
+ id 1ngSXg-000654-I0
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 10:39:53 -0400
+Received: by mail-pg1-x535.google.com with SMTP id t184so6235393pgd.4
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 07:39:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=BVawxdyYjTM41b0/D63v5y2ACTfQ8Mgh1OsRzFkK2pw=;
- b=lsypfTu7RM6xTolL5rjfrRWlDU09EXbvD6LNgsXlx90vVMgcqtCCGOh9p1g53IAE00
- 3a5SPpq6m+qRcVUgyhEVr3bc7RppWh+Poq31bWO08uvejST7NwEletSxMRg62NyukTS1
- 78rvGemn+nJNfhxczEInFa4i3gPZ54/JGCdcb+IschtoIOeDZOqtwOHR5bDIktQ2h7Ix
- 9TVtmg2f6bavOd6RPkVtUAAob73aypGoPh2i0lEnknWIEiXD0gF5Zwt6BQSgbdEKj5uH
- dtEHxP7h7sOyemQZQFmE/7hPhHm90HSFh+PdSn9eohKa9cT+iTGpXKQl1KvQw7yfgyjT
- F4Fw==
+ bh=juoRlV6qiPR0k3zVsERBhIT+ltOLuZsTRvVFc+AbJ1Y=;
+ b=fDcXIe1dMBjYRRTfwUB4jHaJRUmFhPcPHHnxu3TQvJgMCtjqT0UJoxQ8DlBh6Nh8/X
+ pHqlaKRKgHI39AKEmwAelsSoqYbdOCayzQ66KVxo71/cTi1LVbpXRXpHNNd030g+XW+1
+ fzkFkXaXmHQhDw72K7h/lkaIw5aV6nfMbFr2JczZHOnB6d34qr4CjkPXWb7WpN3MrsAV
+ 69Eb2+nTkm95c/2HJr+KSBZ2SZlJp+SnbPR0bT0xDqW7nGI/6Wnb/r+MGTuk+SDMVhwE
+ CfYyJh0nDFA4laR3HG/Fi1KwlEaDc+aUDezJcKHvCZBGoDHwOw8YNXG9lyt8wxJ/NPhE
+ RFGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BVawxdyYjTM41b0/D63v5y2ACTfQ8Mgh1OsRzFkK2pw=;
- b=40PLmEb5FfmGhwSDGyDL76vShc43rsCX2uLUiUB58mI059gVFl9wjJRzymzEv3Ak/E
- +v4p0QBjwLIxFY6RpRo4XIjbtq5fIiw/JCRXOzHL1J+HfWAqUngaKqWp9wq6r9nrckot
- kLOCFPP8jy8/xnkMpADcxFWXzocCqZfw5B9sJoPgMQ4pV1gVebZzIPSCpB4ULOLhEPQP
- 8NGsc54suRhXxUldXkDVc7dcTlu2FUrLckU4XXLlyVPeb2I3fwPb4dgRJsT1GlxMPUQq
- 8t68r7BeU2YDFXsUNPWC4iTCYV8KmJF0Dm+ZWxQv/djE9vXJzF2ByHTeNmOdU82aV1Jb
- GVow==
-X-Gm-Message-State: AOAM533pZ3C2yTs9A0LeTGUiN0zOy5rjsDwaqKzxyurKpDiX0A6h0y+3
- widFnzY/rDhl9Ub4eSMM2JnTFA==
-X-Google-Smtp-Source: ABdhPJwSBcsws8NIPZJp7+pBEfrHNA7NgmC1XXRLLnjz4hWwyvbwwpmfpZBwo+Pdb08pKDhZpyovhQ==
-X-Received: by 2002:a63:a61:0:b0:39c:b654:b753 with SMTP id
- z33-20020a630a61000000b0039cb654b753mr10292994pgk.117.1650292463645; 
- Mon, 18 Apr 2022 07:34:23 -0700 (PDT)
+ bh=juoRlV6qiPR0k3zVsERBhIT+ltOLuZsTRvVFc+AbJ1Y=;
+ b=sAjy0iaB5VAXmbH4/WMv4LlxqukQVbCGDe60NFO/FmF743A89zVI5VfPEdJp4r8GWe
+ D2t6HdGyDfV477xao2/gJP8T4qykUFRTIvEg4UyuVTdgErxCLYLIEHsVR52Leky5J3dJ
+ 3eYiLB4ciHUpbmiAXUPMnPsiOjvpQ+To3VHZQPNcCP/Ojv/dbiaWqkFYSv09++G+OZ+Q
+ hxl5ydo0kgIyiMJbiheJoP0cBESSJBxmbcfAchiWuOrka8MUi2CndQOMv5vl58rFs3UY
+ F/0oSv4o0/FJe4ghJaL+9wl1spXduhtDNCmvgsDp+DP6gylVCwYtSpazxjvCQYhraLhI
+ OnWQ==
+X-Gm-Message-State: AOAM531mGvo9puEvsIXC3QB/xH3zn5QlR5SyY1A1nmfgqkSaFlTonmM1
+ knUMRrFKZ5YCo3LJCGcCUvCA3A==
+X-Google-Smtp-Source: ABdhPJzuhc4PyOO3r9ZwKLaAqkp+HQ75n2ulzb6C1MSR9pkQJa7zFD50OF0v0lJcS5BREShRMjQ2kQ==
+X-Received: by 2002:a63:5b61:0:b0:39d:2aef:c024 with SMTP id
+ l33-20020a635b61000000b0039d2aefc024mr10497189pgm.589.1650292790930; 
+ Mon, 18 Apr 2022 07:39:50 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- c15-20020a17090a674f00b001cba1008a3csm13295349pjm.51.2022.04.18.07.34.22
+ m13-20020a62a20d000000b004fe0ce6d7a1sm12903243pff.193.2022.04.18.07.39.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Apr 2022 07:34:22 -0700 (PDT)
-Message-ID: <be252b59-9794-7743-6908-22fec9b255c0@linaro.org>
-Date: Mon, 18 Apr 2022 07:34:20 -0700
+ Mon, 18 Apr 2022 07:39:50 -0700 (PDT)
+Message-ID: <5c8d218b-ad1a-ae6f-2540-8499c4808d42@linaro.org>
+Date: Mon, 18 Apr 2022 07:39:48 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v1 25/43] target/loongarch: Add LoongArch CSR instruction
+Subject: Re: [PATCH v1 33/43] hw/intc: Add LoongArch ls7a interrupt controller
+ support(PCH-PIC)
 Content-Language: en-US
 To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
- <20220415094058.3584233-26-yangxiaojuan@loongson.cn>
- <3409287c-ac98-2087-3d00-1bd23c1a00da@linaro.org>
- <e556f5bd-8fb5-7244-c812-e0dd019c52e0@loongson.cn>
+ <20220415094058.3584233-34-yangxiaojuan@loongson.cn>
+ <832efe6e-f647-9691-202c-e8713caf97d5@linaro.org>
+ <cb22faf4-8166-e91a-1cdb-3f0bd5736fe3@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <e556f5bd-8fb5-7244-c812-e0dd019c52e0@loongson.cn>
+In-Reply-To: <cb22faf4-8166-e91a-1cdb-3f0bd5736fe3@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,26 +96,45 @@ Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/18/22 05:38, yangxiaojuan wrote:
+On 4/18/22 02:14, yangxiaojuan wrote:
+> Hi, Richard
 > 
-> On 2022/4/16 上午9:04, Richard Henderson wrote:
->>> +int cpu_csr_offset(unsigned csr_num);
->> ...
->>> +static const uint64_t csr_offsets[] = {
+> On 2022/4/18 上午11:15, Richard Henderson wrote:
+>> On 4/15/22 02:40, Xiaojuan Yang wrote:
+>>> +static void pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,
+>>> +                               int level, int hi)
+>>> +{
+>>> +    uint32_t val, irq;
+>>> +
+>>> +    if (level == 1) {
+>>> +        if (hi) {
+>>> +            val = mask & s->intirr_hi & (~s->int_mask_hi);
+>>> +            irq = find_first_bit((unsigned long *)&val, 32);
 >>
->> There's no reason for this array to be uint64_t.
->> It really should match the function. 
-> Yes,  we shoud do this.
+>> This does not work -- you're accessing beyond the end of the uint32_t for all LP64 
+>> hosts.  I think you just want ctz32()...
+>>
+>>
+>>> +            if (irq != 32) {
+>>> +                s->intisr_hi |= 1ULL << irq;
+>>> + qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 1);
+>>> +            }
+>>
+>> ... which should in fact only be tested if val != 0, which is to what this IF equates.
+>>
+>> Is there a good reason that this function is treating hi and lo separately, as opposed 
+>> to simply doing all of the computation on uint64_t?
+>>
 > 
-> If we use 'int', we may get a warning:
-> ../target/loongarch/csr_helper.c:49:30: warning: overflow in implicit constant conversion 
-> [-Woverflow]
->        [LOONGARCH_CSR_CPUID] = offsetof(CPUState, cpu_index)
->                                                  ^~~~~~~~
-> How about use 'long'?  I had tested it no warning.
+> In the part of linux kernel, pch pic driver use 32 bits for reading and writing.
+> e.g in the drivers/irqchip/irq-loongson-pch-pic.c， pch_pic_mask_irq() function use 
+> writel() to write pch_pic mask reg.
 
-That is because offsetof() result is size_t, which is unsigned, and a "negative" unsigned 
-number is a large positive.  Cast each offsetof to int.
+So?  update_irq is not writel.
+
+I expect that you should have done something (manual deposit64 or .impl.min_access_size = 
+8) with the actual writel, but by the time we arrive in this subroutine we have a complete 
+uint64_t.
 
 
 r~
