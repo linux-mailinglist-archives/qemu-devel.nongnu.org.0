@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B37A504D50
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 09:54:27 +0200 (CEST)
-Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08372504D99
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Apr 2022 10:16:16 +0200 (CEST)
+Received: from localhost ([::1]:55236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngMDJ-0005tq-O4
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 03:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56184)
+	id 1ngMYQ-0003zD-BH
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 04:16:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1ngMBl-0005CA-BY
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 03:52:49 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34607)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1ngMBj-0000Jt-Mu
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 03:52:48 -0400
-Received: by mail-pg1-x530.google.com with SMTP id t4so17523709pgc.1
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 00:52:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KqQ9F/BxoUOIOer4ASBIZkssuY8wg5EFCPZtpdDxDyE=;
- b=NkYV+SagXJHn0oWpp+Y1oP+Ea+qI1QOB1o7G+s8V8/UOgrtoV071rvjWXWGdPbmy9u
- lm+VtlwIY0fwHHv3vts+90UHQ69zeGO6bwS+Am2+c1vYTBUw427gOpQfpSsKgYmV6+An
- W+dbyK0wSPSIdCF2gSzWh5dWWxFdGvW9jTlTDJeP7ngJde9FHFAsykGqWWvHCV9/dUIS
- DHsVrA1w6qVS9jEvqX1Qj2jcd99gYf3Y16AXvNDlbTDoM2LoAcG504XAXp38T6TdXUc/
- Iq39TGqPLYfM4MolB6q7PLqQ4cnPsHsAhPHaMi1KDdw4XKFfXr9GmpbUP5dFdgPRss+v
- JMgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KqQ9F/BxoUOIOer4ASBIZkssuY8wg5EFCPZtpdDxDyE=;
- b=xB4CyXfsOsEvCR1YkZTbGeQQrxgifF3+P+Z0VCtKnypAEWHaHlaKfuWvmZbb9QRJ42
- /cNhV0Z5bAuARBa3TppBkQ1eemBQ+BxwxtLAkf0dNAQbKqZAucJ8Vd4LOdMEaSqQmm/3
- fc/I1KntzxUKvhe0WLYtv1+7uSba5EpZuYHTF6ANuNgrkS3HHSy638pO+0rfBE1laIvZ
- LMaNCxfIGouWlOh0eVH1p8UTeHhuFrYa153wAE7hpaEH9nRjGUp0tBVuFCXHJddwxGhF
- ABDpi5hfyrDqywlkOIUkxAGKPkxS+xPPH5DUIRtVPZRQKhYHcDcDn26hY9SVp3YPVUKZ
- YG+Q==
-X-Gm-Message-State: AOAM5335cVyDlCWfWUxKsgeTt0U+CP5uUxU5LVjrpgtLxycYxM1Wz5As
- TVgoAYbrlsnR7i+6Z9Nc34JxAaZw5QovyYxfw+Y=
-X-Google-Smtp-Source: ABdhPJwTcfOpTS0B8LYJuMHvkiN1V1LOw7XKjipnOOya9IcTQHTr4oOSHMjnxwrQrCcuqy/MGItZUw==
-X-Received: by 2002:a05:6a00:164c:b0:50a:472a:6b0a with SMTP id
- m12-20020a056a00164c00b0050a472a6b0amr10838573pfc.77.1650268365839; 
- Mon, 18 Apr 2022 00:52:45 -0700 (PDT)
-Received: from fedora.. ([101.206.166.4]) by smtp.gmail.com with ESMTPSA id
- 81-20020a621854000000b005082b6d2b19sm11125870pfy.53.2022.04.18.00.52.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 00:52:45 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH] Use io_uring_register_ring_fd() to skip fd operations
-Date: Mon, 18 Apr 2022 15:52:28 +0800
-Message-Id: <20220418075228.42882-1-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ngMV9-00039F-2H; Mon, 18 Apr 2022 04:12:51 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ngMV6-0003Tt-MD; Mon, 18 Apr 2022 04:12:50 -0400
+Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ngMUA-0009qh-CT; Mon, 18 Apr 2022 09:11:54 +0100
+Message-ID: <fc307865-bf41-3ba7-8852-d100c3c6944b@ilande.co.uk>
+Date: Mon, 18 Apr 2022 09:12:38 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20220412164921.1685453-1-peter.maydell@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220412164921.1685453-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH for-7.1] hw/block/fdc-sysbus: Always mark sysbus floppy
+ controllers as not having DMA
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,41 +59,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Damien Le Moal <Damien.LeMoal@wdc.com>,
- Sam Li <faithilikerun@gmail.com>, Hannes Reinecke <hare@suse.de>
+Cc: John Snow <jsnow@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux recently added a new io_uring(7) optimization API that QEMU
-doesn't take advantage of yet. The liburing library that QEMU uses
-has added a corresponding new API calling io_uring_register_ring_fd().
-When this API is called after creating the ring, the io_uring_submit()
-library function passes a flag to the io_uring_enter(2) syscall
-allowing it to skip the ring file descriptor fdget()/fdput()
-operations. This saves some CPU cycles.
+On 12/04/2022 17:49, Peter Maydell wrote:
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
----
- block/io_uring.c | 3 +++
- 1 file changed, 3 insertions(+)
+> The sysbus floppy controllers (devices sysbus-fdc and sun-fdtwo)
+> don't support DMA.  The core floppy controller code expects this to
+> be indicated by setting FDCtrl::dma_chann to -1.  This used to be
+> done in the device instance_init functions sysbus_fdc_initfn() and
+> sun4m_fdc_initfn(), but in commit 1430759ec3e we refactored this code
+> and accidentally lost the setting of dma_chann.
+> 
+> For sysbus-fdc this has no ill effects because we were redundantly
+> also setting dma_chann in fdctrl_init_sysbus(), but for sun-fdtwo
+> this means that guests which try to enable DMA on the floppy
+> controller will cause QEMU to crash because FDCtrl::dma is NULL.
+> 
+> Set dma_chann to -1 in the common instance init, and remove the
+> redundant code in fdctrl_init_sysbus() that is also setting it.
+> 
+> There is a six-year-old FIXME comment in the jazz board code to the
+> effect that in theory it should support doing DMA via a custom DMA
+> controller.  If anybody ever chooses to fix that they can do it by
+> adding support for setting both FDCtrl::dma_chann and FDCtrl::dma.
+> (A QOM link property 'dma-controller' on the sysbus device which can
+> be set to an instance of IsaDmaClass is probably the way to go.)
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/958
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   include/hw/block/fdc.h |  3 +--
+>   hw/block/fdc-sysbus.c  | 14 +++++++++++---
+>   hw/mips/jazz.c         |  2 +-
+>   3 files changed, 13 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/hw/block/fdc.h b/include/hw/block/fdc.h
+> index 1ecca7cac7f..35248c08379 100644
+> --- a/include/hw/block/fdc.h
+> +++ b/include/hw/block/fdc.h
+> @@ -10,8 +10,7 @@
+>   #define TYPE_ISA_FDC "isa-fdc"
+>   
+>   void isa_fdc_init_drives(ISADevice *fdc, DriveInfo **fds);
+> -void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
+> -                        hwaddr mmio_base, DriveInfo **fds);
+> +void fdctrl_init_sysbus(qemu_irq irq, hwaddr mmio_base, DriveInfo **fds);
+>   void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
+>                          DriveInfo **fds, qemu_irq *fdc_tc);
+>   
+> diff --git a/hw/block/fdc-sysbus.c b/hw/block/fdc-sysbus.c
+> index 57fc8773f12..6c22c3510da 100644
+> --- a/hw/block/fdc-sysbus.c
+> +++ b/hw/block/fdc-sysbus.c
+> @@ -94,8 +94,7 @@ static void fdctrl_handle_tc(void *opaque, int irq, int level)
+>       trace_fdctrl_tc_pulse(level);
+>   }
+>   
+> -void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
+> -                        hwaddr mmio_base, DriveInfo **fds)
+> +void fdctrl_init_sysbus(qemu_irq irq, hwaddr mmio_base, DriveInfo **fds)
+>   {
+>       FDCtrl *fdctrl;
+>       DeviceState *dev;
+> @@ -105,7 +104,6 @@ void fdctrl_init_sysbus(qemu_irq irq, int dma_chann,
+>       dev = qdev_new("sysbus-fdc");
+>       sys = SYSBUS_FDC(dev);
+>       fdctrl = &sys->state;
+> -    fdctrl->dma_chann = dma_chann; /* FIXME */
+>       sbd = SYS_BUS_DEVICE(dev);
+>       sysbus_realize_and_unref(sbd, &error_fatal);
+>       sysbus_connect_irq(sbd, 0, irq);
+> @@ -138,6 +136,16 @@ static void sysbus_fdc_common_instance_init(Object *obj)
+>       FDCtrlSysBus *sys = SYSBUS_FDC(obj);
+>       FDCtrl *fdctrl = &sys->state;
+>   
+> +    /*
+> +     * DMA is not currently supported for sysbus floppy controllers.
+> +     * If we wanted to add support then probably the best approach is
+> +     * to have a QOM link property 'dma-controller' which the board
+> +     * code can set to an instance of IsaDmaClass, and an integer
+> +     * property 'dma-channel', so that we can set fdctrl->dma and
+> +     * fdctrl->dma_chann accordingly.
+> +     */
+> +    fdctrl->dma_chann = -1;
+> +
+>       qdev_set_legacy_instance_id(dev, 0 /* io */, 2); /* FIXME */
+>   
+>       memory_region_init_io(&fdctrl->iomem, obj,
+> diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+> index 44f0d48bfd7..14eaa517435 100644
+> --- a/hw/mips/jazz.c
+> +++ b/hw/mips/jazz.c
+> @@ -354,7 +354,7 @@ static void mips_jazz_init(MachineState *machine,
+>           fds[n] = drive_get(IF_FLOPPY, 0, n);
+>       }
+>       /* FIXME: we should enable DMA with a custom IsaDma device */
+> -    fdctrl_init_sysbus(qdev_get_gpio_in(rc4030, 1), -1, 0x80003000, fds);
+> +    fdctrl_init_sysbus(qdev_get_gpio_in(rc4030, 1), 0x80003000, fds);
+>   
+>       /* Real time clock */
+>       mc146818_rtc_init(isa_bus, 1980, NULL);
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index 782afdb433..2942967126 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -435,6 +435,9 @@ LuringState *luring_init(Error **errp)
-     }
- 
-     ioq_init(&s->io_q);
-+    if (io_uring_register_ring_fd(&s->ring) < 0) {
-+        error_setg_errno(errp, errno, "failed to register linux
- io_uring ring file descriptor");
-+    }
-     return s;
- 
- }
--- 
-2.35.1
+Looks good to me so:
 
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+
+ATB,
+
+Mark.
 
