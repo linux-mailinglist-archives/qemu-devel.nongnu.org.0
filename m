@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13C950769E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 19:33:39 +0200 (CEST)
-Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6C65076F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 19:59:29 +0200 (CEST)
+Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngrjN-0003Rh-37
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 13:33:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36434)
+	id 1ngs8O-00032K-Kb
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 13:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmueller@suse.de>)
- id 1ngrVv-0002tt-7w; Tue, 19 Apr 2022 13:19:44 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:46816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmueller@suse.de>)
- id 1ngrVt-0006EJ-LW; Tue, 19 Apr 2022 13:19:42 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngs7F-00021z-Cb
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 13:58:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50207)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngs7C-0004GJ-6J
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 13:58:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650391093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QRr+A1qUEQetGXB98M8xPGw9Nlwdjnz/hvBS0pJkeaY=;
+ b=Gq8sUBD/f+sKH/9eiN8IqSW5xjHVcJQOgX6/PHlJLBo26O7aakP9LRN0MLuiRa63VeasCM
+ O2cYEGvAjV2o3kwUz3v42KXdQciHlNNuDDSss0x1CbqCPn3aTMTMTvYHNtT+/XYk2KsxOm
+ 47sYmFy8IaxHvq0xBx3NZxB/jHwIf+0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-475-5DPCPspoNaCvsykg-gPgLA-1; Tue, 19 Apr 2022 13:58:10 -0400
+X-MC-Unique: 5DPCPspoNaCvsykg-gPgLA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AF2DD1F746;
- Tue, 19 Apr 2022 17:19:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1650388778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+WcqpviF2uafczEsbloBwil9ky/sjFJ4ViC2Q6a99rw=;
- b=MB2N/OQSBm8G0JI5wQbZ7xw1bcPvJRFt2Bjy5+x3RvmKcdV6RH/yyALyOylDL3H2HM7p2W
- ahdunl7WTn8JsKy7tNI5z+oBxvh9ko+bCBJGV5EJOZjtp/+aL8bRELczoZo12jzp9pTasG
- yGFbgSXj9Pen+8b9IbvqzxXpadG27cE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1650388778;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+WcqpviF2uafczEsbloBwil9ky/sjFJ4ViC2Q6a99rw=;
- b=gAIM0bCm7bH2xGRQhXINsP1W/eoqIzIh/kqR1svmd86RUR48eHzemECyF7ZRgWBU6DOw7y
- /IoeizePdrWkO/BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92E78139BE;
- Tue, 19 Apr 2022 17:19:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EhznIirvXmLYZgAAMHmgww
- (envelope-from <dmueller@suse.de>); Tue, 19 Apr 2022 17:19:38 +0000
-From: =?UTF-8?q?Dirk=20M=C3=BCller?= <dmueller@suse.de>
-To: qemu-block@nongnu.org
-Subject: [PATCH] Only advertise aio=io_uring if support is actually available
-Date: Tue, 19 Apr 2022 19:19:31 +0200
-Message-Id: <20220419171931.26192-1-dmueller@suse.de>
-X-Mailer: git-send-email 2.35.3
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC874805F63;
+ Tue, 19 Apr 2022 17:58:09 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.17.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 47709200BC61;
+ Tue, 19 Apr 2022 17:57:56 +0000 (UTC)
+Date: Tue, 19 Apr 2022 12:57:54 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 01/26] block: remove incorrect coroutine_fn annotations
+Message-ID: <20220419175006.q52jsc3yqodmqlj7@redhat.com>
+References: <20220415131900.793161-1-pbonzini@redhat.com>
+ <20220415131900.793161-2-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=dmueller@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220415131900.793161-2-pbonzini@redhat.com>
+User-Agent: NeoMutt/20211029-35-db88c3
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Description: ify-labels-then-hide>-deleted
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 19 Apr 2022 13:32:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,71 +80,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eblake@redhat.com, qemu-devel@nongnu.org,
- =?UTF-8?q?Dirk=20M=C3=BCller?= <dmueller@suse.de>
+Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows $qemu --help runtime configure checks for detecting
-the host support.
+On Fri, Apr 15, 2022 at 03:18:35PM +0200, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Signed-off-by: Dirk Müller <dmueller@suse.de>
----
- block/file-posix.c | 4 ++++
- qemu-nbd.c         | 4 ++++
- qemu-options.hx    | 6 +++++-
- 3 files changed, 13 insertions(+), 1 deletion(-)
+Might be nice to document in the commit message why the annotation was
+incorrect, so someone stumbling across this commit in a bisect but
+otherwise unfamiliar with the rules of when to annotate doesn't get
+lost.  If I understand right, the argument is more-or-less:
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 39a3d6dbe6..aec4763862 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -544,7 +544,11 @@ static QemuOptsList raw_runtime_opts = {
-         {
-             .name = "aio",
-             .type = QEMU_OPT_STRING,
-+#ifdef CONFIG_LINUX_IO_URING
-             .help = "host AIO implementation (threads, native, io_uring)",
-+#else
-+            .help = "host AIO implementation (threads, native)",
-+#endif
-         },
-         {
-             .name = "aio-max-batch",
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 713e7557a9..4634a0fc42 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -147,7 +147,11 @@ static void usage(const char *name)
- "      --cache=MODE          set cache mode used to access the disk image, the\n"
- "                            valid options are: 'none', 'writeback' (default),\n"
- "                            'writethrough', 'directsync' and 'unsafe'\n"
-+#ifdef CONFIG_LINUX_IO_URING
- "      --aio=MODE            set AIO mode (native, io_uring or threads)\n"
-+#else
-+"      --aio=MODE            set AIO mode (native or threads)\n"
-+#endif
- "      --discard=MODE        set discard mode (ignore, unmap)\n"
- "      --detect-zeroes=MODE  set detect-zeroes mode (off, on, unmap)\n"
- "      --image-opts          treat FILE as a full set of image options\n"
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 34e9b32a5c..973125cfca 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1338,7 +1338,11 @@ DEF("drive", HAS_ARG, QEMU_OPTION_drive,
-     "       [,cache=writethrough|writeback|none|directsync|unsafe][,format=f]\n"
-     "       [,snapshot=on|off][,rerror=ignore|stop|report]\n"
-     "       [,werror=ignore|stop|report|enospc][,id=name]\n"
--    "       [,aio=threads|native|io_uring]\n"
-+    "       [,aio=threads|native"
-+#if defined(CONFIG_LINUX_IO_URING)
-+    "|io_uring"
-+#endif
-+    "]\n"
-     "       [,readonly=on|off][,copy-on-read=on|off]\n"
-     "       [,discard=ignore|unmap][,detect-zeroes=on|off|unmap]\n"
-     "       [[,bps=b]|[[,bps_rd=r][,bps_wr=w]]]\n"
+This function defers to the generated blk_do_pwritev_part, which is
+safe to call outside coroutine context.
+
+But although the commit message is weak, the change itself appears
+correct from what I have observed with the annotation in other places.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> ---
+>  block/block-backend.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index e0e1aff4b1..fedf2eca83 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -1391,10 +1391,10 @@ int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
+>      return blk_co_pwritev_part(blk, offset, bytes, qiov, 0, flags);
+>  }
+>  
+> -static int coroutine_fn blk_pwritev_part(BlockBackend *blk, int64_t offset,
+> -                                         int64_t bytes,
+> -                                         QEMUIOVector *qiov, size_t qiov_offset,
+> -                                         BdrvRequestFlags flags)
+> +static int blk_pwritev_part(BlockBackend *blk, int64_t offset,
+> +                            int64_t bytes,
+> +                            QEMUIOVector *qiov, size_t qiov_offset,
+> +                            BdrvRequestFlags flags)
+>  {
+>      int ret;
+>  
+> -- 
+> 2.35.1
+> 
+> 
+> 
+
 -- 
-2.35.3
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
