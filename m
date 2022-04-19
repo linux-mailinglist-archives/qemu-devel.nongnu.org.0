@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADAA50795D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:47:27 +0200 (CEST)
-Received: from localhost ([::1]:56310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657B3507967
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:49:19 +0200 (CEST)
+Received: from localhost ([::1]:60818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngsso-0003nY-7l
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50850)
+	id 1ngsuc-0006zL-6C
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngsoU-0002BK-BE
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:42:58 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:42552)
+ id 1ngspj-00036J-Ss
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:44:15 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:39747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngsoP-0002RU-AP
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:42:57 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- z6-20020a17090a398600b001cb9fca3210so2783968pjb.1
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:42:46 -0700 (PDT)
+ id 1ngspi-0002Y1-Bf
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:44:15 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ mp16-20020a17090b191000b001cb5efbcab6so2688797pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:44:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0e9X/HSVKOqmtHaUpwok/lcFZZBy/z9L7Vm2RhwBKwo=;
- b=OGnsK0YGxPmHqGSlmRH+N66sEgKDJNH+Z82i7tuAKf4fGZ0NIrOZjhs2C/Qi5x7gQc
- zaxu6dO5MznbFUFm40YsPDpTmgI/JRun/Xx142IyqSGpJqldnY9EeXCWBdfhst+sATu9
- Co2W58LPwcUGZmh825hubIazWBnNB8pmLPD3Gs/c5woN5li0Z6KaHw4yCai6vn7zwSCp
- c0m2n0BDASwuBRhvHj/kpA9vp4sxiubOTz0IkSbBIFyZVupM9UJJw1jjAfvoxomGOU41
- fQiU2f2DHB7Wx7SCvfFQyY+ba9E/E7Q8Or2kfNF/6xmkjFY3bI0xcRmat+xOfLXDocfQ
- mRAw==
+ bh=m8lWloNN3Se/AH9V9cJ26hi4QrIsbqFEyi409JkvP8Y=;
+ b=VfTMHkdoHcAIZBbZ5SS2DatAbgJTKZygO/kwzsgajtJBjjZv6oOMCEeT2srzdgvivj
+ TJxrcgHJRIOqY0oRmO1+Vz2U3jeufhe9fO9Ngo0WSpHfM42b8l7QnsYwh+fj29Sy2iWZ
+ OO1NOS6nGdu6HNHslyqKx2FGXpSrPX3Af5p+6ah41epWO3doWN6zOpc6QN9DCf/71j96
+ 1xO9oAVSDfRgdAtMk2q/kvEX8ryLohsW+cWoNwabqs7wP9RSD45hzaJlyHD1c74Fcllb
+ /OX13qB3HrUaoJKbGmEZjHuRn8jDz3mtzcyquITA04NlwYJPMLL/nAu3ksp+l3cAIfoB
+ aCmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0e9X/HSVKOqmtHaUpwok/lcFZZBy/z9L7Vm2RhwBKwo=;
- b=28ObVSv4yxgYquv0DlMmTUc4Qxmg9kFUp72AbHJykt/T+sz8J8YOGFkOPOkiahSotd
- 9IacDMicVwZDyFqv8PB5mAlE5jJCr8JuSnuUUj8lrv1FxYXi1RMc/2m8jnoYocn4HUQ5
- O6hcouCVITHExRso5kwJURirhaiN81sNwo1MJs/8oXguKqzaKSvmNj+rCN+Nmkjd7E9g
- P+mS0dtzRQJyZtoeR01gxx/ceUqq7o9EUUDuU8a02YU+qUJQuU+6jBAo7N316e+Zhpd4
- 714CrbcDYL2VmFhJEqgLEUNGmC85wDW+3a3eudgsLt4Sf2Z3bXMqStMx6xi6SJeKqpL5
- gBsQ==
-X-Gm-Message-State: AOAM533RB9EPLtUqL9poNDuT6F9j/TvN/DDUdg5y05q/s5LvdYUsGueP
- HMyO1meJOkLHcEE16ofSYL5Htg==
-X-Google-Smtp-Source: ABdhPJxf98CV1bnW60V8IH/cyZLv3ZY7/tNClNeMYBHL8NxVRCruD/cMd8iJl1YU18N3Pa6iT9d0HQ==
-X-Received: by 2002:a17:902:a503:b0:15a:1050:d605 with SMTP id
- s3-20020a170902a50300b0015a1050d605mr4318238plq.87.1650393765083; 
- Tue, 19 Apr 2022 11:42:45 -0700 (PDT)
+ bh=m8lWloNN3Se/AH9V9cJ26hi4QrIsbqFEyi409JkvP8Y=;
+ b=sj8ENuyJ+Zo0z9Qw2bZ7+11j9xgjpEa5gXS5nClHIrMVNMYzTaxI5Mqf7ICL/WL5P/
+ YitFu2ckRzJ6qKU3bVhzIC2PshCgGrE57TAwFkSsYvpv6PwTBXQDrp039wMI+sgJoqTz
+ DxgfvBJoQ5Vd1FjuUaVeg1QtiCk50cMRT7yu+b2xRCaSMN5hVd6qLRwB/TzOuuChXXIU
+ U1tkcN7YSPRkL5KB2wo94+tQEzstbpzUXqwCKEKqry0pwSLOrfx3MdsxtlVSTV8sVIVm
+ dQVDb9BfSf0AeSV5IsY42g/4s/vJEUsF7P02PYtLPY8h3VrRUuJyrwGiYgahB/GHWFos
+ 07mw==
+X-Gm-Message-State: AOAM531DZHFZSgXJdceE6xppwt4JyVLcTMQyVeUHojPcqqXmUME6NFap
+ kpwDeQL3jwHo7IEMzNWTk3ULcw==
+X-Google-Smtp-Source: ABdhPJxQzD3LSGhWq048TIwhkYWur9Dg1pimPoCaKTxHmGzN8SwpdTRZ6UCuHo4Zm8KTo8Tto78m/g==
+X-Received: by 2002:a17:902:7fc5:b0:158:1de9:4646 with SMTP id
+ t5-20020a1709027fc500b001581de94646mr16712764plb.91.1650393850146; 
+ Tue, 19 Apr 2022 11:44:10 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- bu7-20020a056a00410700b0050a4ccc6138sm13504236pfb.139.2022.04.19.11.42.44
+ s10-20020a63e80a000000b0039e5c888996sm17417625pgh.86.2022.04.19.11.44.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Apr 2022 11:42:44 -0700 (PDT)
-Message-ID: <41fbe512-f7e7-03c8-a39a-a1f862956c45@linaro.org>
-Date: Tue, 19 Apr 2022 11:42:42 -0700
+ Tue, 19 Apr 2022 11:44:09 -0700 (PDT)
+Message-ID: <d1313d2b-ffe3-5fc8-36c4-9ebfb133fc30@linaro.org>
+Date: Tue, 19 Apr 2022 11:44:07 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v1 08/25] tests/docker: inline variable definitions or
- move close to use
+Subject: Re: [PATCH v1 09/25] tests/docker: remove unnecessary filtering of
+ $(DOCKER_IMAGES)
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20220419091020.3008144-1-alex.bennee@linaro.org>
- <20220419091020.3008144-9-alex.bennee@linaro.org>
+ <20220419091020.3008144-10-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220419091020.3008144-9-alex.bennee@linaro.org>
+In-Reply-To: <20220419091020.3008144-10-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,16 +102,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 4/19/22 02:10, Alex Bennée wrote:
 > From: Paolo Bonzini<pbonzini@redhat.com>
 > 
-> Variables that are defined with ":=" are handled imperatively, so moving
-> them closer to the first use ensures that all the assignments prior to
-> the first use are taken into account.
+> Now that DOCKER_IMAGES is only defined after DOCKER_VIRTUAL_IMAGES is
+> complete, there is no need to re-filter DOCKER_IMAGES against it.
 > 
 > Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> Message-Id:<20220401141326.1244422-6-pbonzini@redhat.com>
+> Message-Id:<20220401141326.1244422-7-pbonzini@redhat.com>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   tests/docker/Makefile.include | 32 ++++++++++++++++----------------
->   1 file changed, 16 insertions(+), 16 deletions(-)
+>   tests/docker/Makefile.include | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
