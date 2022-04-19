@@ -2,109 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C45507CB8
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 00:44:53 +0200 (CEST)
-Received: from localhost ([::1]:49140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18466507CAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 00:41:50 +0200 (CEST)
+Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngwaa-0003Cf-C6
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 18:44:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33936)
+	id 1ngwXZ-0001SA-2i
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 18:41:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1ngwYJ-0002OF-8g
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 18:42:33 -0400
-Received: from mail-mw2nam10on2078.outbound.protection.outlook.com
- ([40.107.94.78]:2535 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1ngwYG-0003KD-LP
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 18:42:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=guYXRRZ9kkicPOXJzHQVnW4/Uk63PU2/bG1XTzxoz48cXWQdBvkBRPReNcd1YtD0dA80VeS9ZfQUIeXDvYAQYHHgcRDB/QK8Q7zoj1M7IFjJQyTyoM03a/SeTY5VtjdrRLbVVw37zWV2FjTlgsTde52ipt9BptB3B3q6Z9ewhMa/dSy/7vHgD5j69rxWLEeCQLlX3NuZZGTTUqv0KwBFIGBeEuPzbbUHZih0cvTeQtOiYe65ztZXEzGO6vzJj8B+Mm+wp5kEYb56g8xwmakK7IzxD9903U3JXn0EZUrhdGu0Tprv8DwcYZrYZ38VrbcLuKZnudiruyRmQXPwDkUtnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ONqAY7/07fLM4xZhyc/UiUnu90STLemiuskEt64lRFY=;
- b=fF67sLr/TJPx4ScLDB8AatHufCwlI3cyVoUimWYO9WGpO85AQVacszqbZ+SH61o5Aey9uA9WddAsOSuoXvcs8rLtJbrM4wbRnEgTbzsdHnWXgLQYEJUyDsq70vO/D+y7hwkH/fR4TQug7qJ4YP1GKs5Sw0KbuE+/YOtVTr2YCu0R9kvNhIldxhyLK4qLoMghqS+I+0jqUXG5k3Wo1rZCkoJJ0J6hy+6MEgWPP4ggD6KDZKbMe1mnwwt3KId5keIt3+gpDRuwaaMulTiyyn6Xlq7gPk33Oz8ywCBE3TRxZtKKbqIvO+8GTCCCmQL5Ox09dLDFDgtg1RkU2Ou+JgHPrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ONqAY7/07fLM4xZhyc/UiUnu90STLemiuskEt64lRFY=;
- b=wOQLo9uNfUFoYPmQS/1O23+wOzxNu802DFLtPvQ4ZdIxDihvo7MUBoqv8r6bX8tcHeFoB8Ymb4/0hRMFBKprovLf/oZJw2GWtKqW+T2cN+pi8ETjcMfXzdyg+VS4W45PHiuVXACMhYgmQtNfXQUL875926OzAWiyQW0edvmpUTM=
-Received: from BN1PR13CA0022.namprd13.prod.outlook.com (2603:10b6:408:e2::27)
- by BYAPR12MB3607.namprd12.prod.outlook.com (2603:10b6:a03:dd::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Tue, 19 Apr
- 2022 22:37:21 +0000
-Received: from BN8NAM11FT040.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e2:cafe::9b) by BN1PR13CA0022.outlook.office365.com
- (2603:10b6:408:e2::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13 via Frontend
- Transport; Tue, 19 Apr 2022 22:37:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT040.mail.protection.outlook.com (10.13.177.166) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5164.19 via Frontend Transport; Tue, 19 Apr 2022 22:37:20 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 19 Apr
- 2022 17:37:19 -0500
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
+ id 1ngwWH-0000fD-KM
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 18:40:25 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:46973)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
+ id 1ngwWF-00035y-M7
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 18:40:25 -0400
+Received: by mail-pl1-x630.google.com with SMTP id be5so42438plb.13
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 15:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jj65B/Q5u+6/PbNUYjs1QdIcGYmBVQVJnII5Wt+lIX4=;
+ b=I1nobehVf5LWIA7uopWD44Vv9PFicIlwJ83srfQrmZBtflj2atQJNxVv37gj4T4l6v
+ ScNi3IZVoLT5qpIizY9su9A+Gg9F3EImVTRjv9aQAAxS2kei4tEtl7sH9RRka1Mc+h0i
+ 3J1w1FYAB9pXAlDmlVX9UJydCY8Hw6IJX2CqVhTFuZprTscj2mU2kcxYbydeeIrRNG+0
+ /hdiIk2glg2k2TPStCK1q71Rq2aAqP23tYdUpYm5CzdhY0DW9Ssn6m9sVY8WEQyaIIQA
+ ZlAaw8heoEOaMNA8nyRAyYDxmBrb15yBY5YrSLDiOl1MOET5f0HiV/cXzEtZGNQ6Jz+o
+ 1c7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jj65B/Q5u+6/PbNUYjs1QdIcGYmBVQVJnII5Wt+lIX4=;
+ b=nrzKWyFrmXz8yB3JhLIl1z/XBS7PRiTTAjAS5cl38TkiRHd2bC7yezSRLNsnlCGfS5
+ IwXKrSQFZm3z2hYGYoESb1Ft8ajtmiFntZQPAFRGb6uSvnnmJOKIxqkKqlW1MR2TpneO
+ t1nMkq72HIZYB34jGutno90ymAE0Rrt6M1AS94WFkeb+Ezbve5IgARKELpowA3BNOJlu
+ IpsKaQz09RmTMH2bdOmREmgHWThq5rNxRr9lqGQKCg1ZVheGfIjCh0WKPoBRwXgaXm8q
+ Y7ul+rnFGSdC8vyWoZnIZymRXjpka9wMV3h5aVGOa4KGUjs654dGuRODqpEpImPper6+
+ v5DQ==
+X-Gm-Message-State: AOAM531xdKqipafnGuAvwOKO2239k86G3uRfp2caEsDyN6gWJEaVL2K4
+ L1xSDfpxUMG8/bo1x9DFn2wtZs4OCttIf5YZEBfkJg==
+X-Google-Smtp-Source: ABdhPJww/F0+ShnRulehEAsze0oZV1m6PnQGb4q7nZZiU5Dg58u6Z1IHEBgnXvUTReeiVw8AeB78Z4kC+sTgEsLi9v4=
+X-Received: by 2002:a17:90b:4d86:b0:1d2:cd59:d275 with SMTP id
+ oj6-20020a17090b4d8600b001d2cd59d275mr888317pjb.119.1650408020788; Tue, 19
+ Apr 2022 15:40:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Subject: [ANNOUNCE] QEMU 7.0.0 is now available
-From: Michael Roth <michael.roth@amd.com>
-To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Apr 2022 17:37:01 -0500
-Message-ID: <165040782187.31569.305804975297186026@amd.com>
-User-Agent: alot/0.9
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 077f8bf2-88fe-478c-ee3f-08da22552a43
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3607:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB3607D0F1F7F3F0D552912B6C95F29@BYAPR12MB3607.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eCIOZhfjY4yRBlAUnkG2GWnoCAxwMTNDrZjflg181iws/jfUqzN8Xe2c53aQk+ON8daSbNMiGSc3fQcb1Zg6/v5Csayar9WLEjNprrTTi0gW1a89yGYSiMMxUbovKSjYWYMObs6iDw+o+Zgzc7NKMu2PzNcHfOIVRF15MhjVdoenLibqUUkSo56CG2Vf7IsiAspf/W+S2IFl5tTHllShy+R80Xl1qbqXr1holtZDf+s/tQMoblkm35jT735ldzsu4PeKFyEvpZu+QGdjGKXwYuYV3oCiHeIb2EeQShg2wKvyIHyBD/nvP4elhiWhIM9UqY6zDbRQhE50qXk75SWyN5preqv6OQfIzfcA4KrT5xM7OX5OpBCVvl/nztFHnLaDx6so4a26KX5YQng/vhMJXa8biJJ7sNuhwEaBFDzknPdyuNh/CQQ/LRn9yelkMkGq46t61YhhK8awY7VjUV+zORlL6ihFB8l74F8gVG5n1dzfX845UoDEGnyvbunZjXZVKtYOGxp52tHrb6UeghihczEFXD5bmZapMG1zV4v78gC7aLJemzEWFqJ6oOzPBlByYyHQCi2yW6CSUbQ9FqmIX2Nx6WPUxciPqdJ01Ykk8yOv6YFuQ+Z2dVC9Fi1vM+yHip7INvmcio2VofXvIi2eRSMALvkuok7GVOxcAjeZOALNy35VB28HDNFzd6DfSYbC3ptwzfMVgGxWY0l/MHEebPrqq0J0rJe8r5qnEkinf8jW4xm9wGM6pMNoiN4wgDUiDkve/kMILu5BHsazjSG/QNVBTKxS3Lxt7jWNXRveJs0=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(4326008)(70206006)(966005)(47076005)(6666004)(5660300002)(44832011)(8936002)(83380400001)(8676002)(2906002)(36756003)(40460700003)(186003)(16526019)(26005)(2616005)(426003)(336012)(6916009)(36860700001)(70586007)(81166007)(316002)(508600001)(356005)(82310400005)(86362001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2022 22:37:20.2537 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 077f8bf2-88fe-478c-ee3f-08da22552a43
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT040.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3607
-Received-SPF: softfail client-ip=40.107.94.78;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-4-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220310140911.50924-4-chao.p.peng@linux.intel.com>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Tue, 19 Apr 2022 15:40:09 -0700
+Message-ID: <CAGtprH9X-v-R+UiAvdvKgqAqoc4MBJAWTnoEtP+Y2nip_y8Heg@mail.gmail.com>
+Subject: Re: [PATCH v5 03/13] mm/shmem: Support memfile_notifier
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, 
+ Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=vannapurve@google.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,52 +101,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Thu, Mar 10, 2022 at 6:10 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+>
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+>
+> It maintains a memfile_notifier list in shmem_inode_info structure and
+> implements memfile_pfn_ops callbacks defined by memfile_notifier. It
+> then exposes them to memfile_notifier via
+> shmem_get_memfile_notifier_info.
+>
+> We use SGP_NOALLOC in shmem_get_lock_pfn since the pages should be
+> allocated by userspace for private memory. If there is no pages
+> allocated at the offset then error should be returned so KVM knows that
+> the memory is not private memory.
+>
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  include/linux/shmem_fs.h |  4 +++
+>  mm/shmem.c               | 76 ++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 80 insertions(+)
+>
+> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> index 2dde843f28ef..7bb16f2d2825 100644
+> --- a/include/linux/shmem_fs.h
+> +++ b/include/linux/shmem_fs.h
+> @@ -9,6 +9,7 @@
+>  #include <linux/percpu_counter.h>
+>  #include <linux/xattr.h>
+>  #include <linux/fs_parser.h>
+> +#include <linux/memfile_notifier.h>
+>
+>  /* inode in-kernel data */
+>
+> @@ -28,6 +29,9 @@ struct shmem_inode_info {
+>         struct simple_xattrs    xattrs;         /* list of xattrs */
+>         atomic_t                stop_eviction;  /* hold when working on inode */
+>         unsigned int            xflags;         /* shmem extended flags */
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +       struct memfile_notifier_list memfile_notifiers;
+> +#endif
+>         struct inode            vfs_inode;
+>  };
+>
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 9b31a7056009..7b43e274c9a2 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -903,6 +903,28 @@ static struct folio *shmem_get_partial_folio(struct inode *inode, pgoff_t index)
+>         return page ? page_folio(page) : NULL;
+>  }
+>
+> +static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
+> +{
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +       struct shmem_inode_info *info = SHMEM_I(inode);
+> +
+> +       memfile_notifier_fallocate(&info->memfile_notifiers, start, end);
+> +#endif
+> +}
+> +
+> +static void notify_invalidate_page(struct inode *inode, struct folio *folio,
+> +                                  pgoff_t start, pgoff_t end)
+> +{
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +       struct shmem_inode_info *info = SHMEM_I(inode);
+> +
+> +       start = max(start, folio->index);
+> +       end = min(end, folio->index + folio_nr_pages(folio));
+> +
+> +       memfile_notifier_invalidate(&info->memfile_notifiers, start, end);
+> +#endif
+> +}
+> +
+>  /*
+>   * Remove range of pages and swap entries from page cache, and free them.
+>   * If !unfalloc, truncate or punch hole; if unfalloc, undo failed fallocate.
+> @@ -946,6 +968,8 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
+>                         }
+>                         index += folio_nr_pages(folio) - 1;
+>
+> +                       notify_invalidate_page(inode, folio, start, end);
+> +
+>                         if (!unfalloc || !folio_test_uptodate(folio))
+>                                 truncate_inode_folio(mapping, folio);
+>                         folio_unlock(folio);
+> @@ -1019,6 +1043,9 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
+>                                         index--;
+>                                         break;
+>                                 }
+> +
+> +                               notify_invalidate_page(inode, folio, start, end);
+> +
 
-On behalf of the QEMU Team, I'd like to announce the availability of
-the QEMU 7.0.0 release. This release contains 2500+ commits from 225
-authors.
+Should this be done in batches or done once for all of range [start, end)?
 
-You can grab the tarball from our download page here:
-
-  https://www.qemu.org/download/#source
-
-The full list of changes are available at:
-
-  https://wiki.qemu.org/ChangeLog/7.0
-
-Highlights include:
-
- * ACPI: support for logging guest events via ACPI ERST interface
- * virtiofs: improved security label support
- * block: improved flexibility for fleecing backups, including support
-   for non-qcow2 images
-
- * ARM: 'virt' board support for virtio-mem-pci, specifying guest CPU
-   topology, and enabling PAuth when using KVM/hvf
- * ARM: 'xlnx-versal-virt' board support for PMC SLCR and emulating the
-   OSPI flash memory controller
- * ARM: 'xlnx-zynqmp' now models the CRF and APU control
- * HPPA: support for up to 16 vCPUs, improved graphics driver for HP-UX
-   VDE/CDE environments, setting SCSI boot order, and a number of other
-   new features
- * OpenRISC: 'sim' board support for up to 4 cores, loading an external
-   initrd image, and automatically generating a device tree for the boot
-   kernel
- * PowerPC: 'pseries' emulation support for running guests as a nested
-   KVM hypervisor, and new support for spapr-nvdimm device
- * PowerPC: 'powernv' emulation improvements for XIVE and PHB 3/4, and
-   new support for XIVE2 and PHB5
- * RISC-V: support for KVM
- * RISC-V: support for ratified 1.0 Vector extension, as well as Zve64f,
-   Zve32f, Zfhmin, Zfh, zfinx, zdinx, and zhinx{min} extensions.
- * RISC-V: 'spike' machine support for OpenSBI binary loading
- * RISC-V: 'virt' machine support for 32 cores, and AIA support.
- * s390x: support for "Miscellaneous-Instruction-Extensions Facility 3"
-   (a z15 extension)
- * x86: Support for Intel AMX
-
- * and lots more...
-
-Thank you to everyone involved!
+>                                 VM_BUG_ON_FOLIO(folio_test_writeback(folio),
+>                                                 folio);
+>                                 truncate_inode_folio(mapping, folio);
+> @@ -2279,6 +2306,9 @@ static struct inode *shmem_get_inode(struct super_block *sb, const struct inode
+>                 info->flags = flags & VM_NORESERVE;
+>                 INIT_LIST_HEAD(&info->shrinklist);
+>                 INIT_LIST_HEAD(&info->swaplist);
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +               memfile_notifier_list_init(&info->memfile_notifiers);
+> +#endif
+>                 simple_xattrs_init(&info->xattrs);
+>                 cache_no_acl(inode);
+>                 mapping_set_large_folios(inode->i_mapping);
+> @@ -2802,6 +2832,7 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+>         if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + len > inode->i_size)
+>                 i_size_write(inode, offset + len);
+>         inode->i_ctime = current_time(inode);
+> +       notify_fallocate(inode, start, end);
+>  undone:
+>         spin_lock(&inode->i_lock);
+>         inode->i_private = NULL;
+> @@ -3909,6 +3940,47 @@ static struct file_system_type shmem_fs_type = {
+>         .fs_flags       = FS_USERNS_MOUNT,
+>  };
+>
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +static long shmem_get_lock_pfn(struct inode *inode, pgoff_t offset, int *order)
+> +{
+> +       struct page *page;
+> +       int ret;
+> +
+> +       ret = shmem_getpage(inode, offset, &page, SGP_NOALLOC);
+> +       if (ret)
+> +               return ret;
+> +
+> +       *order = thp_order(compound_head(page));
+> +
+> +       return page_to_pfn(page);
+> +}
+> +
+> +static void shmem_put_unlock_pfn(unsigned long pfn)
+> +{
+> +       struct page *page = pfn_to_page(pfn);
+> +
+> +       VM_BUG_ON_PAGE(!PageLocked(page), page);
+> +
+> +       set_page_dirty(page);
+> +       unlock_page(page);
+> +       put_page(page);
+> +}
+> +
+> +static struct memfile_notifier_list* shmem_get_notifier_list(struct inode *inode)
+> +{
+> +       if (!shmem_mapping(inode->i_mapping))
+> +               return NULL;
+> +
+> +       return  &SHMEM_I(inode)->memfile_notifiers;
+> +}
+> +
+> +static struct memfile_backing_store shmem_backing_store = {
+> +       .pfn_ops.get_lock_pfn = shmem_get_lock_pfn,
+> +       .pfn_ops.put_unlock_pfn = shmem_put_unlock_pfn,
+> +       .get_notifier_list = shmem_get_notifier_list,
+> +};
+> +#endif /* CONFIG_MEMFILE_NOTIFIER */
+> +
+>  int __init shmem_init(void)
+>  {
+>         int error;
+> @@ -3934,6 +4006,10 @@ int __init shmem_init(void)
+>         else
+>                 shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
+>  #endif
+> +
+> +#ifdef CONFIG_MEMFILE_NOTIFIER
+> +       memfile_register_backing_store(&shmem_backing_store);
+> +#endif
+>         return 0;
+>
+>  out1:
+> --
+> 2.17.1
+>
 
