@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F16506A03
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 13:24:50 +0200 (CEST)
-Received: from localhost ([::1]:58090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5BD506A6A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 13:34:00 +0200 (CEST)
+Received: from localhost ([::1]:37822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nglyT-00010y-DW
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 07:24:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33740)
+	id 1ngm7L-0006nu-3b
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 07:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nglrf-00013D-Db
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:17:47 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:42970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nglre-0003PD-0a
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:17:47 -0400
-Received: by mail-ed1-x532.google.com with SMTP id t25so20802925edt.9
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 04:17:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=iETGV5qo0z387bQOm7LnS+jma7C+qGtn2wufH4Q664w=;
- b=c3dRxGg5Z6DodIqZms7bZMX9qTRO+vbTgZeZtx163SU5guc7UjXZIaq9YAuFUl0MA7
- U28XTOp1iJKZwJHN+1UygN+QAl5Tng6nFweq/wJwlIVB9Hce9m9TfjOGT+NlH9Dkxl/3
- 2h2b2b+DIzV2WplXO3XZPUQ5U/xZ8EhMkMnsTdUq8f3Lqh7XgbXfTy5KuA01AuTJ5EdW
- CBfLdNKwqPzBggNd9oeKAtcdKIeP7U5YwwqbpfnoGCQk8FyWLCqMmOcSFJpgRuLpULVL
- PnWGUk0gi7W5cPDAzBpXl1pEVBphB4S9lVUJ3JsnJSC9zewC6yHvKDuwm/cxTE1yjo1s
- Pifw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=iETGV5qo0z387bQOm7LnS+jma7C+qGtn2wufH4Q664w=;
- b=kHsuvZzMc5stMmdukBf+lIJXsM4/MCwHpujtdUtKwfNkyyr7y2H8QvXYuKO4lzLwAY
- aslZngy5H6sK/FtV9SPxRjscpxBcMfJYqnVeb1bszIKaNe9G9XIJa0/03Ig5wiL2RB0x
- HNE3R44rIRR3RS6fU4nSxew3+GBWw9kAbrt0nerindcj4MYjEXpVNsRHP34RCNlFv7Vd
- 7g2saC7cisKAq+SGLP4xuxB1NuhM7nFIp0Iof1laz20Y1Iji+25uwRPha26uw2inVPqd
- EjIT0napxa4tK1gh+WnYsCImxBb2HxsJiw0P920PyJcjpNUyMftZcq3knNd/73+5fKU7
- 96Ug==
-X-Gm-Message-State: AOAM533AOjlhbrNlvFQUpxLW7mmF8UCI7TfNdH3WoyP1wamqJW1g98dP
- lxCkT71ZWgLDbIdsP7DwDKPa5A==
-X-Google-Smtp-Source: ABdhPJwmhGjM05XVIXBeLzF4B2eI024CaCz2TBBPrrthlYRDJRfpemh06HOjFHV8a7tCtX1CILPEmg==
-X-Received: by 2002:a05:6402:438c:b0:423:f57a:596f with SMTP id
- o12-20020a056402438c00b00423f57a596fmr5717449edc.367.1650367064567; 
- Tue, 19 Apr 2022 04:17:44 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- lo15-20020a170906fa0f00b006e8a81cb623sm5566573ejb.224.2022.04.19.04.17.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 04:17:43 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3AA481FFB7;
- Tue, 19 Apr 2022 12:17:43 +0100 (BST)
-References: <20220417174426.711829-1-richard.henderson@linaro.org>
- <20220417174426.711829-7-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.13; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: 
-Date: Tue, 19 Apr 2022 12:17:39 +0100
-In-reply-to: <20220417174426.711829-7-richard.henderson@linaro.org>
-Message-ID: <87lew1wcdk.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
+ id 1ngm6G-0005Nj-2a
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:32:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
+ id 1ngm6C-0005aa-VO
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:32:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650367967;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IzWVUknzT342xWDLAbeGzn+eMKHYH5Od3NPLMPktXmI=;
+ b=HcxKhn9Y5xAWi20Y9jobVdsFC7PwpNP/syfHzyUZhJSlhhac1PVdZsV8y6dYoTqJ8jQpeP
+ tdqHNk5hljkVcfWkwSdcV0G4wSJf4rLGVDvK32sVusWnFLlcOoQrEfPeYWyvMADEmf7NJM
+ EGs6M9oR8jxlkNdJnGEwQIcvbZLGubo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-475-F-eEY3EtND2C0s6AayR9nQ-1; Tue, 19 Apr 2022 07:32:46 -0400
+X-MC-Unique: F-eEY3EtND2C0s6AayR9nQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 022323C02B79;
+ Tue, 19 Apr 2022 11:32:46 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.193.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B206040CF910;
+ Tue, 19 Apr 2022 11:32:44 +0000 (UTC)
+From: Florian Weimer <fweimer@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: Portable inline asm to get address of TLS variable
+References: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
+ <87leyaznm6.fsf@oldenburg.str.redhat.com>
+ <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
+ <877d9uzgsd.fsf@oldenburg.str.redhat.com>
+ <Yg4VV+VFe3Bc1BQ6@stefanha-x1.localdomain>
+ <8735k1q452.fsf@oldenburg.str.redhat.com>
+ <Yh4iHeb6FsnxLUNn@stefanha-x1.localdomain>
+Date: Tue, 19 Apr 2022 13:32:42 +0200
+In-Reply-To: <Yh4iHeb6FsnxLUNn@stefanha-x1.localdomain> (Stefan Hajnoczi's
+ message of "Tue, 1 Mar 2022 13:39:41 +0000")
+Message-ID: <87lew12tr9.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=fweimer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=fweimer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,20 +86,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Thomas Rodgers <trodgers@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Stefan Hajnoczi:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Bool is a more appropriate type for this value.
-> Adjust the assignments to use true/false.
+> On Tue, Mar 01, 2022 at 12:54:49PM +0100, Florian Weimer wrote:
+>> > I took a quick look at C++20 coroutines since they are available in
+>> > compilers but the primitives look hard to use even from C++, let alone
+>> > from C.
+>> 
+>> Could you go into details what makes them hard to use?  Is it because
+>> coroutines are infectious across the call stack?
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Here is the simplest tutorial on C++20 coroutines I found:
+> https://itnext.io/c-20-coroutines-complete-guide-7c3fc08db89d
+>
+> The amount of boilerplate for trivial coroutine functions is ridiculous.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Would an execution agent library reduce that usage overhead?
 
---=20
-Alex Benn=C3=A9e
+Cc:ing Thomas, who might know the answer.
+
+Thanks,
+Florian
+
 
