@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C647B5069AB
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 13:19:38 +0200 (CEST)
-Received: from localhost ([::1]:46592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140925069BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 13:21:48 +0200 (CEST)
+Received: from localhost ([::1]:49400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngltR-0002SL-Um
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 07:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33088)
+	id 1nglvW-0004Li-34
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 07:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nglpF-000785-6u
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:15:17 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:43521)
+ id 1nglqY-0008QL-GO
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:16:38 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:36558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nglpD-0002qm-Hl
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:15:16 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id b24so20766638edu.10
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 04:15:15 -0700 (PDT)
+ id 1nglqX-0003HH-0K
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:16:38 -0400
+Received: by mail-ej1-x631.google.com with SMTP id k23so32164278ejd.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 04:16:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=q8haGWnl+VkxCrXySm267dM5NAYTNc55DyJ2QFSk3r8=;
- b=lW08qAv4CjWQcz1HwvQogChxSfQYf3OhpGLhz9jue1uTYVuYZpV1lOj/+GoINKPBdp
- ccMmIkEvbX7PCUEO9dBDLi6a34XKo9rBqfAOxjzFL0RM9EceoV536EQ0wVDlAcC3UlcT
- xjl4CcYfjH53Z91qMpyZcY+wdO32QBDrcwFM32gDMOT1ChB4vk707964Npuvu9qlBu5B
- 0+05ndsz41B1T2C9eoHhlbgCDa2KrJLeFscPbzlji0l/0yfN7cGNzAxcYULiaNajr5Ru
- 5PL49UXLd8KJkxieNt8er9im7+Gt5J2OnVq4HnbP0ThaPERRxasQKmtojjXbxJzt+5HJ
- hnZQ==
+ bh=FTz/EifYevEfRJUpkmXrJSbI7BVb1qxS5BSat36D7Iw=;
+ b=jAlNNYNDpV+vtMqS4qdQABybp9lcrq4MfOLw+wQPCAMXWnhUL7/d8gOXfo1yCDc6tb
+ xFDfJyXSzF/ZtvMpRbRkCRwTRbHv4/0mWJaAZiarNNLfAO9Md67ALp0erLmRl3Wty8Yg
+ pbnp8JtId24d15ZEn0g1Udob6zcpOivO5eDOUje+gkcWofGPWVeXxJCKCtix3QWLHrjU
+ /8xmeM097cTRfbpqa3TqqEQBKQ/5vrYrqF9YGBaFU1MXuVauZDPdTvqGj02/GAZD5Mhi
+ jG6QD4JMjbWQx3UmEDlpae+01ZBGGA8InqQuvkbYSUe+Nuf8hIgzkQjX/p90s5gPF9qD
+ 9R1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=q8haGWnl+VkxCrXySm267dM5NAYTNc55DyJ2QFSk3r8=;
- b=htjsK9VG7DOTsfj+NA+P1BOfGaiJlPFN1+bpBnznyk0arWgu6zmBywcJdL9QUDq703
- PNM98Jyb21wFwOj4XiuHjHT/IUdcHbm9Vtg6eoOPncA18EtYxb/xiKrXbA42lPLMdzl0
- h322RO5EDLXkmomnqJaptkx5t9ctOlmjOHGaaUG6sygbyCIO6kSm5oxX+q5aKxmaXnUc
- o7iEyrHpzQ4h4k0QjOvGRWpEggNoB43pss1elzpRoSILkH95WKlNOi3H5gzCSJGGkao4
- MTV2uq/+YcOiwmz4QT1KcC8ep/rwyNSN/Ow/vl6LZTDwuUpw55Hc5t4I7tQ1NWVIaR+G
- rBUg==
-X-Gm-Message-State: AOAM530fYE0yHZzrxoYjSD2hnew7xsRgYQSyjGdT1RMutneTdZRa9XMn
- IX2YMfKKDlG2XdaiSfbQCu1pQb+5ySM/nA==
-X-Google-Smtp-Source: ABdhPJyBp4E1mC+ktTtlRhtKc6rfpZkPvm8OxLYQtJpXtd87v0S0aBnYEoFZzaWxdPp+hgR24MIg6w==
-X-Received: by 2002:a05:6402:458:b0:418:78a4:ac3f with SMTP id
- p24-20020a056402045800b0041878a4ac3fmr16661926edw.196.1650366913992; 
- Tue, 19 Apr 2022 04:15:13 -0700 (PDT)
+ bh=FTz/EifYevEfRJUpkmXrJSbI7BVb1qxS5BSat36D7Iw=;
+ b=juHSyAm4VySqBuOO8ux/Mvm6zoftAoAcwGf7+DLB1ILktzXNLN6oi6gF8PQ9PcP2Cm
+ wa0UevEpr54/2oew226C4q2WVyQT9pQbhGbBYUZpufnaEq9R+zoqnkLtHgdba95SuVE5
+ cdI7BXQPwGIa9ta1pIWnyaYAsWVYYdUI71wBGjM5bnyM9CGk+sduOWkEr8Mr63AihNs5
+ nknDosiRJjdc/3tJ7H1Dj49HDHVBz/8uWiCVXN2OIlaeTCseh6wm/yWITiNKZqiU6+3E
+ ucYR8lvfiuTtbs4biwsNsWjY3v3I3JDYvXW/vTnOB/mOolo9QobqNwO64Bm31KeqCKew
+ W2gg==
+X-Gm-Message-State: AOAM533ACTpzRgoVra/MDRYdBhiiMSqQpIVBB7rVtkz+48MGdourgpfn
+ nIhWWN1GNehdTYkgJso6K432nA==
+X-Google-Smtp-Source: ABdhPJzEWRzfYJ+Kw76Hu4sgkX9sNvIIVUs5j34PESU0yE7kf/9AwLC+XRDe5pY5Yt/Sdm+GaJlE0A==
+X-Received: by 2002:a17:907:7e92:b0:6e8:8df7:cf92 with SMTP id
+ qb18-20020a1709077e9200b006e88df7cf92mr12426789ejc.541.1650366995692; 
+ Tue, 19 Apr 2022 04:16:35 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- vw17-20020a170907059100b006e8732d1944sm5522828ejb.5.2022.04.19.04.15.12
+ ce21-20020a170906b25500b006e89869cbf9sm5593359ejb.105.2022.04.19.04.16.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 04:15:12 -0700 (PDT)
+ Tue, 19 Apr 2022 04:16:34 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 27F451FFB7;
- Tue, 19 Apr 2022 12:15:12 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 4B0EC1FFB7;
+ Tue, 19 Apr 2022 12:16:34 +0100 (BST)
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
- <20220417174426.711829-4-richard.henderson@linaro.org>
+ <20220417174426.711829-5-richard.henderson@linaro.org>
 User-agent: mu4e 1.7.13; emacs 28.1.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 03/60] target/arm: Update SCR_EL3 bits to ARMv8.8
-Date: Tue, 19 Apr 2022 12:14:35 +0100
-In-reply-to: <20220417174426.711829-4-richard.henderson@linaro.org>
-Message-ID: <87y201wchr.fsf@linaro.org>
+Subject: Re: [PATCH v3 04/60] target/arm: Update SCTLR bits to ARMv9.2
+Date: Tue, 19 Apr 2022 12:16:29 +0100
+In-reply-to: <20220417174426.711829-5-richard.henderson@linaro.org>
+Message-ID: <87tuapwcfh.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,42 +96,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Update SCR_EL3 fields per ARM DDI0487 H.a.
+> Update SCTLR_ELx fields per ARM DDI0487 H.a.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Aside: I notice you have added FEAT_foo comments to the SCTLR bits next,
-it might be worth at least flagging the FEAT_RME ones here.
-
-> ---
->  target/arm/cpu.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 9a29a4a215..f843c62c83 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -1544,6 +1544,18 @@ static inline void xpsr_write(CPUARMState *env, ui=
-nt32_t val, uint32_t mask)
->  #define SCR_FIEN              (1U << 21)
->  #define SCR_ENSCXT            (1U << 25)
->  #define SCR_ATA               (1U << 26)
-> +#define SCR_FGTEN             (1U << 27)
-> +#define SCR_ECVEN             (1U << 28)
-> +#define SCR_TWEDEN            (1U << 29)
-> +#define SCR_TWEDEL            MAKE_64BIT_MASK(30, 4)
-> +#define SCR_TME               (1ULL << 34)
-> +#define SCR_AMVOFFEN          (1ULL << 35)
-> +#define SCR_ENAS0             (1ULL << 36)
-> +#define SCR_ADEN              (1ULL << 37)
-> +#define SCR_HXEN              (1ULL << 38)
-> +#define SCR_TRNDR             (1ULL << 40)
-> +#define SCR_ENTP2             (1ULL << 41)
-> +#define SCR_GPF               (1ULL << 48)
->=20=20
->  #define HSTR_TTEE (1 << 16)
->  #define HSTR_TJDBX (1 << 17)
-
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
