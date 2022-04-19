@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11755064A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:38:11 +0200 (CEST)
-Received: from localhost ([::1]:58274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AD05064E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:54:40 +0200 (CEST)
+Received: from localhost ([::1]:47710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nghV4-0006tL-Un
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:38:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33254)
+	id 1nghl1-0002l5-Ox
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ngglw-0001A3-5r
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:36 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34572)
+ id 1ngglz-0001AC-11
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:38 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ngglt-0004QW-Pv
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:31 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id c10so20947458wrb.1
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:29 -0700 (PDT)
+ id 1ngglu-0004Qv-Sy
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:32 -0400
+Received: by mail-wr1-x431.google.com with SMTP id k22so20924239wrd.2
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dTOCe+fx+0QlZrMhUIaxDBklKAMEi+ux1ML0cki4e7U=;
- b=OKmLr+Sgd1rAWNnyV1ZbjZI8mkBSR+Fek1SeMUbxc/63w+rb1cycYKZR/RRNahZ8+c
- dM5cR6oE563BZR5r7zhOaaf3dS8gJjPqzUYAT89PxDkwpHEbtby7LZr4kEnarEAXCEP4
- 9x3KumuFX2+tBedfQXEDpsaNmdSMmIued4GQLPf6k7qYMV8lMUsb89sSqd9KAnQwAvqu
- 7GYlOVrcmlHC6nYzq32ehMe7VdIviD/rQdbft8HdAmXTdhjxz9CD9XQmvM34ieJzhsAS
- Zb3GRgXULMVUgmnTkTwHigvqc1wIJ/20KG9HTPalRxoro1iFDbkewjxoMC/0svwyGPfa
- nvzQ==
+ bh=54DtW3V9fXKiMM8ZvlFi5rLnJng8Z0PQBdNNEZOkJFU=;
+ b=PtZ9TUslypFyaLhFQzGkR0CZtL+efLQpfonqczAWiq9sy49l/OO0N9VKHFUiARIsjD
+ 7swKxn3OKOy4VVMuMPP3DsQfYL4voDvzkFrU9Libp9R0p2hB29wCJ4ygMtRUt4U8Zi03
+ SXLgSO6UWwQnTRjhkota9GwzEP1ktM5le/DL3/4xlYX/wsxyXostvtbL+UrGiNM2DXDx
+ YyU5dvjNynow5O6RVXLIbUoelxXPaQ2mS1VUiYapOaBLnFXQzOE/CD+l/8DDyju0kk4E
+ k1UhHgo9vVw2f2sgpehMKBo2eCbTcJAC+Iz13ohs6dbMBuHa2vE+Q3JNnDUu5dWqIvxl
+ hqVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dTOCe+fx+0QlZrMhUIaxDBklKAMEi+ux1ML0cki4e7U=;
- b=61OugcX3os+s9+bRtwWF5fASYaiuGLqj/R3ItldGIPgY+P4Y7DyNcfORodzOMvRm6Y
- N8R3MHQbh5smOhGteZGxTfir4dU8sT4ZMzVY7QzIHIwdwo1zQ1mb0Pvo5TGWIln22NaY
- W+plqBj4J5H1hEoHVc30lS4JhD1KIEBH/oJEkkwMh//F7M2G6Bt+A3JN10DNZ1UMM3Mq
- bcQytB6TejjWJzMlyPxRfhZyfqzPYQuuyC5VYwbktJhgLtoC46cWHjv1mKzQNstDY0j6
- iYyUWm198rjrRNiwNIpzRdx18a9eka6qVT8DqY5rAJ+CTmIE5esGieqYWIa/EQU9C1f+
- vJtg==
-X-Gm-Message-State: AOAM532Bdd7bB2Gbrq/RK9n21pcKmqe8Re5o+GIj9XxsHVaz43w0KOzd
- AawRyVU6ZKbVkl8A3CJL4n1jo1NAJhZRwA==
-X-Google-Smtp-Source: ABdhPJz2LfSVh1T0p2iwxyhGTGkCcs3m2l0JubQk73HIYpBUIbH24RqF4AZSiB7O2lBVvuPLS+VNIw==
-X-Received: by 2002:a5d:64ed:0:b0:20a:a5ea:e0cd with SMTP id
- g13-20020a5d64ed000000b0020aa5eae0cdmr1575694wri.520.1650347488384; 
- Mon, 18 Apr 2022 22:51:28 -0700 (PDT)
+ bh=54DtW3V9fXKiMM8ZvlFi5rLnJng8Z0PQBdNNEZOkJFU=;
+ b=x1zXQNhq3pEGDCnZskwbfdAb8H8nyQTtD8HtHR8bx4DKTe6LG1bMRd/Jym68H/nkrD
+ mUXnNwR88d5gXoy9uaFZWqVTOpBRaxwi8XE7OMyd7s0k1YQIsl19cPBbr+hX0M9wl497
+ P2ZZNGAyAHcDaFD0lP6wgiwmRvQQT7lhSntN2Yp+ymN/XoncObhpl1fVfWoyHBYu1Cc4
+ l3pIjoNZwEo6XO6IWRPhhEYgHlNGSIDqGHgrlhjptzaFqTIHvqs+OD+825l8b4CceoYG
+ 8LYlzMwLJT4JL+2ZpjVe/2S6ENkBNpDAi01nGFuOirLvwyNw4Z4nV5D/cOYUK9erTtnG
+ pNqA==
+X-Gm-Message-State: AOAM531b3n66PWjJE77w0ycSnkGzVPFHkQcEgrK0Bwuacz/uPbNf2mjb
+ 3TgUbRdP7CyzD5AeyzD026ErFveiIg9Fwg==
+X-Google-Smtp-Source: ABdhPJwljDg76rmbWVoLJQMvDsd8hbCa6q2OBxrB7LSDlQzxGC2+Bo11M1gFuO1oUwyL86D0/a0cEg==
+X-Received: by 2002:a5d:49c1:0:b0:20a:a65b:4648 with SMTP id
+ t1-20020a5d49c1000000b0020aa65b4648mr1374632wrs.707.1650347489143; 
+ Mon, 18 Apr 2022 22:51:29 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.27
+ bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 18 Apr 2022 22:51:28 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/53] include: move qemu_pipe() to osdep.h
-Date: Tue, 19 Apr 2022 07:50:39 +0200
-Message-Id: <20220419055109.142788-24-pbonzini@redhat.com>
+Subject: [PULL 24/53] include: move coroutine IO functions to coroutine.h
+Date: Tue, 19 Apr 2022 07:50:40 +0200
+Message-Id: <20220419055109.142788-25-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
 References: <20220419055109.142788-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -94,43 +94,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220323155743.1585078-19-marcandre.lureau@redhat.com>
+Message-Id: <20220323155743.1585078-20-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu-common.h | 4 ----
- include/qemu/osdep.h  | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ include/qemu-common.h    | 23 -----------------------
+ include/qemu/coroutine.h | 23 +++++++++++++++++++++++
+ 2 files changed, 23 insertions(+), 23 deletions(-)
 
 diff --git a/include/qemu-common.h b/include/qemu-common.h
-index c6f3ed94bc..2e1e76014a 100644
+index 2e1e76014a..fdb0b16166 100644
 --- a/include/qemu-common.h
 +++ b/include/qemu-common.h
-@@ -24,10 +24,6 @@
- int qemu_main(int argc, char **argv, char **envp);
- #endif
+@@ -45,29 +45,6 @@ bool set_preferred_target_page_bits(int bits);
+  */
+ void finalize_target_page_bits(void);
  
--#ifndef _WIN32
--int qemu_pipe(int pipefd[2]);
--#endif
+-/**
+- * Sends a (part of) iovec down a socket, yielding when the socket is full, or
+- * Receives data into a (part of) iovec from a socket,
+- * yielding when there is no data in the socket.
+- * The same interface as qemu_sendv_recvv(), with added yielding.
+- * XXX should mark these as coroutine_fn
+- */
+-ssize_t qemu_co_sendv_recvv(int sockfd, struct iovec *iov, unsigned iov_cnt,
+-                            size_t offset, size_t bytes, bool do_send);
+-#define qemu_co_recvv(sockfd, iov, iov_cnt, offset, bytes) \
+-  qemu_co_sendv_recvv(sockfd, iov, iov_cnt, offset, bytes, false)
+-#define qemu_co_sendv(sockfd, iov, iov_cnt, offset, bytes) \
+-  qemu_co_sendv_recvv(sockfd, iov, iov_cnt, offset, bytes, true)
 -
- void cpu_exec_init_all(void);
- void cpu_exec_step_atomic(CPUState *cpu);
+-/**
+- * The same as above, but with just a single buffer
+- */
+-ssize_t qemu_co_send_recv(int sockfd, void *buf, size_t bytes, bool do_send);
+-#define qemu_co_recv(sockfd, buf, bytes) \
+-  qemu_co_send_recv(sockfd, buf, bytes, false)
+-#define qemu_co_send(sockfd, buf, bytes) \
+-  qemu_co_send_recv(sockfd, buf, bytes, true)
+-
+ void qemu_progress_init(int enabled, float min_skip);
+ void qemu_progress_end(void);
+ void qemu_progress_print(float delta, int max);
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index c828a95ee0..284571badb 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -343,4 +343,27 @@ void qemu_coroutine_decrease_pool_batch_size(unsigned int additional_pool_size);
  
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 259436ff53..a733294710 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -530,6 +530,10 @@ static inline void qemu_timersub(const struct timeval *val1,
- ssize_t qemu_write_full(int fd, const void *buf, size_t count)
-     G_GNUC_WARN_UNUSED_RESULT;
+ #include "qemu/lockable.h"
  
-+#ifndef _WIN32
-+int qemu_pipe(int pipefd[2]);
-+#endif
++/**
++ * Sends a (part of) iovec down a socket, yielding when the socket is full, or
++ * Receives data into a (part of) iovec from a socket,
++ * yielding when there is no data in the socket.
++ * The same interface as qemu_sendv_recvv(), with added yielding.
++ * XXX should mark these as coroutine_fn
++ */
++ssize_t qemu_co_sendv_recvv(int sockfd, struct iovec *iov, unsigned iov_cnt,
++                            size_t offset, size_t bytes, bool do_send);
++#define qemu_co_recvv(sockfd, iov, iov_cnt, offset, bytes) \
++  qemu_co_sendv_recvv(sockfd, iov, iov_cnt, offset, bytes, false)
++#define qemu_co_sendv(sockfd, iov, iov_cnt, offset, bytes) \
++  qemu_co_sendv_recvv(sockfd, iov, iov_cnt, offset, bytes, true)
 +
- void qemu_set_cloexec(int fd);
- 
- void fips_set_state(bool requested);
++/**
++ * The same as above, but with just a single buffer
++ */
++ssize_t qemu_co_send_recv(int sockfd, void *buf, size_t bytes, bool do_send);
++#define qemu_co_recv(sockfd, buf, bytes) \
++  qemu_co_send_recv(sockfd, buf, bytes, false)
++#define qemu_co_send(sockfd, buf, bytes) \
++  qemu_co_send_recv(sockfd, buf, bytes, true)
++
+ #endif /* QEMU_COROUTINE_H */
 -- 
 2.35.1
 
