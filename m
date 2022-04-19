@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5E050644D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:16:33 +0200 (CEST)
-Received: from localhost ([::1]:60750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B412506474
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:29:47 +0200 (CEST)
+Received: from localhost ([::1]:49796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nghA8-0005YR-60
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:16:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33162)
+	id 1nghMw-0000mD-CG
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:29:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nggls-00019I-W9
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:30 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37705)
+ id 1ngglt-00019L-1j
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:34 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nggll-0004OR-PT
+ id 1ngglm-0004Od-JH
  for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:27 -0400
-Received: by mail-wr1-x433.google.com with SMTP id t1so20933272wra.4
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:21 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id u3so20941253wrg.3
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EudXO8h9XD9KUaDC7++TnDRZ/qGkK5mTD4IKIHzQbCQ=;
- b=b7U0KFtrrEvBUBEhd+6tPkKBggVrkcXn9rJnGy2fmRgmy8ACrGMUt6V0wq0Z8fvKUE
- ahz0UYyd4xKxiKOrZJwfIaWlDXHDBDeHqBtB4biGA+q1QyteCkyTVLKBq8Xz5NOjs5NZ
- BiNFN9VtMyMIw1hMPF9JMpiHZS003O7+oQiJk3OAlIICH+eN03WiJIT/aXQS2b4zPVzN
- ZLBZtMMBAeB9z8z7FqqO46NcnjJdY9YaXyj/thxspv+5pHwvoO6p43b+XnUa2FLSZkh/
- F05IkRsaWYjL2fowZ33w5q06fDHylby1+ZMhW+f3xYdD0U7IU8RtnpFUO/JjJGaUAobN
- AkDw==
+ bh=ix/sBUkghawyvXNAtg4+299GFgUXewXIHtXQ1Ljug6g=;
+ b=oyPETp0oN1Z1ZZs6+50mh4nqou3Nilo7qp85DlJ8VGiCAcpSnnby5MMGaWuLEvrLO4
+ X5BP79HQlhavDvTd7jT7EmND1RnWN79LkY4043VSrnqFlhfqs7raeCK/+D6Ku3xMCX9k
+ 80KVhWU/+tRGVTSruonbIxZyu7mjWhLX6GPhYSChhdBv6w+mW8h3Ekf8BiFPHF20U4vw
+ 84TmXUhhnt7tqJYpiWb6oBNky+5+X4tEN6KFy6d/sANxse1kAguRqAGN5LWbjD45AvF8
+ BUUxNZMrc/Xh5uHe+HRIo2TmP/+Sm2vQx+fEuPK4zLCZOi4WJOObx0VMXMb+cxwYbjDZ
+ lGiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EudXO8h9XD9KUaDC7++TnDRZ/qGkK5mTD4IKIHzQbCQ=;
- b=i0ZgGHvMV2vqaPWBU1dv97zE3OKRutX6fvZ9F2P8rsP+tvaPpTKta62Z4/SZWhsm9c
- XuGXQxUFpyYm4MR22gwndvEZEbxU13f2GpvbHd6hJskaecHwBzDow1fOnFNGU+muSBB0
- /uk0XP++iyl8dB+iDILttaAO9UwgYEt1Y9/d+1hvcCt0UGH3x6Khtq+N7aSHyJ80+2PR
- zRvyVn6V1wI49HsRkybBw+zXfdp/+2suizVe9bNs573fk44d/k4UaYVzYZf2NrlDQpCa
- RnchqAmvZIFTB4dodKbgsAiK8fNV2Z0wQ3SjFnkbnkdsqRpc/k1xVHU5fvcicPO0TCcN
- U+1Q==
-X-Gm-Message-State: AOAM5339vQ1WKJC+rMWnUuK3wDJ9KgUX70slPPVRVfTtFxKaFY6aPFxd
- EmHDOQw+2dhV8DWFT37oCsCn9NC192o84g==
-X-Google-Smtp-Source: ABdhPJziMynv27Ca4Y8LoBkZ/cYAU1HTZMlnS9TIb5YBgZF1pkpMO+WG6hMucUmQrFE50Qv9UnQcqw==
-X-Received: by 2002:a5d:588a:0:b0:204:1f46:cf08 with SMTP id
- n10-20020a5d588a000000b002041f46cf08mr10819875wrf.133.1650347479938; 
- Mon, 18 Apr 2022 22:51:19 -0700 (PDT)
+ bh=ix/sBUkghawyvXNAtg4+299GFgUXewXIHtXQ1Ljug6g=;
+ b=vsXYzpmxue7+Z5Ce/pOHCMdU05nAwSzzyuxg23KSEPmDKIHYfCBm+jwBt091FKHGiB
+ r2rTRykoA/xk3AocVHVWMZSpnhkf3TO2UbQFuUiZ4lgN2O9g1k3wm6GFSTltv2dpx1Em
+ X9CthdNeECLNusbYBAAVymtxz7lso5F1ZEWtHooWB73nm38heXyTt/0HItGGaTMz0Uxn
+ EZma3WGH0TEB+rs1wbqNKvePAdxAhBz42599hKhrvgjUEVt0AdVbDJq1kOnnRqq2v3PL
+ 2KrFGvqQ0hp0zveYKRxAHI3L3ZNb4EP2xENH6zvG0cYFXyABLRZ9PEr9wXFYB3o6VsiP
+ 3rag==
+X-Gm-Message-State: AOAM5327HDccAC6r1NwckUwrT3NsFrG6K8tUCEZgaiM3SMCVGK+haFNG
+ XSdyR02L0syk34r6EqRR4A3w0voU2EiIiQ==
+X-Google-Smtp-Source: ABdhPJw3y0qPvUzpPdNdeaEa8RKLLRxeFkzx3CuMdetNw+LcdpcListafot6A9nRD6rJFq7s0jTL8A==
+X-Received: by 2002:adf:dc0b:0:b0:20a:a549:d3a6 with SMTP id
+ t11-20020adfdc0b000000b0020aa549d3a6mr1898683wri.34.1650347480821; 
+ Mon, 18 Apr 2022 22:51:20 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.19
+ bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 22:51:19 -0700 (PDT)
+ Mon, 18 Apr 2022 22:51:20 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/53] Replace config-time define HOST_WORDS_BIGENDIAN
-Date: Tue, 19 Apr 2022 07:50:27 +0200
-Message-Id: <20220419055109.142788-12-pbonzini@redhat.com>
+Subject: [PULL 12/53] Replace TARGET_WORDS_BIGENDIAN
+Date: Tue, 19 Apr 2022 07:50:28 +0200
+Message-Id: <20220419055109.142788-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
 References: <20220419055109.142788-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -89,769 +89,1022 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Halil Pasic <pasic@linux.ibm.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Replace a config-time define with a compile time condition
-define (compatible with clang and gcc) that must be declared prior to
-its usage. This avoids having a global configure time define, but also
-prevents from bad usage, if the config header wasn't included before.
-
-This can help to make some code independent from qemu too.
-
-gcc supports __BYTE_ORDER__ from about 4.6 and clang from 3.2.
+Convert the TARGET_WORDS_BIGENDIAN macro, similarly to what was done
+with HOST_BIG_ENDIAN. The new TARGET_BIG_ENDIAN macro is either 0 or 1,
+and thus should always be defined to prevent misuse.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-[ For the s390x parts I'm involved in ]
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Suggested-by: Halil Pasic <pasic@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220323155743.1585078-7-marcandre.lureau@redhat.com>
+Message-Id: <20220323155743.1585078-8-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c                     |  4 +-
- accel/tcg/atomic_template.h             |  4 +-
- audio/audio.h                           |  2 +-
- audio/dbusaudio.c                       |  2 +-
- disas.c                                 |  2 +-
- hw/core/loader.c                        |  4 +-
- hw/display/artist.c                     |  6 +--
- hw/display/pl110_template.h             |  6 +--
- hw/display/pxa2xx_lcd.c                 |  2 +-
- hw/display/vga.c                        | 12 +++---
- hw/display/virtio-gpu-gl.c              |  2 +-
- hw/net/can/ctucan_core.h                |  2 +-
- hw/net/vmxnet3.h                        |  4 +-
- hw/s390x/event-facility.c               |  2 +-
- hw/virtio/vhost.c                       |  2 +-
- include/exec/cpu-all.h                  |  7 ++--
- include/exec/cpu-common.h               |  2 +-
- include/exec/memop.h                    |  2 +-
- include/exec/memory.h                   |  2 +-
- include/fpu/softfloat-types.h           |  2 +-
- include/hw/core/cpu.h                   |  2 +-
- include/hw/i386/intel_iommu.h           |  6 +--
- include/hw/i386/x86-iommu.h             |  4 +-
- include/hw/virtio/virtio-access.h       |  6 +--
- include/hw/virtio/virtio-gpu-bswap.h    |  2 +-
- include/libdecnumber/dconfig.h          |  2 +-
- include/net/eth.h                       |  2 +-
- include/qemu/bswap.h                    |  8 ++--
- include/qemu/host-utils.h               |  2 +-
- include/qemu/int128.h                   |  2 +-
- include/ui/qemu-pixman.h                |  2 +-
- linux-user/arm/nwfpe/double_cpdo.c      |  4 +-
- linux-user/arm/nwfpe/fpa11_cpdt.c       |  4 +-
- linux-user/ppc/signal.c                 |  3 +-
- linux-user/syscall.c                    |  6 +--
- meson.build                             |  1 -
- net/net.c                               |  4 +-
- net/util.h                              |  2 +-
- target/alpha/translate.c                |  2 +-
- target/arm/cpu.h                        |  8 ++--
- target/arm/crypto_helper.c              |  2 +-
- target/arm/helper.c                     |  2 +-
- target/arm/kvm64.c                      |  4 +-
- target/arm/neon_helper.c                |  2 +-
- target/arm/sve_helper.c                 |  4 +-
- target/arm/translate-a64.h              |  2 +-
- target/arm/translate-sve.c              |  6 +--
- target/arm/translate-vfp.c              |  2 +-
- target/arm/translate.c                  |  2 +-
- target/arm/vec_internal.h               |  2 +-
- target/hppa/translate.c                 |  2 +-
- target/i386/cpu.h                       |  2 +-
- target/i386/tcg/translate.c             |  2 +-
- target/mips/cpu.h                       |  2 +-
- target/mips/tcg/lmmi_helper.c           |  2 +-
- target/mips/tcg/msa_helper.c            | 54 ++++++++++++-------------
- target/ppc/arch_dump.c                  |  2 +-
- target/ppc/cpu.h                        |  2 +-
- target/ppc/int_helper.c                 | 22 +++++-----
- target/ppc/kvm.c                        |  4 +-
- target/ppc/mem_helper.c                 |  2 +-
- target/ppc/translate/vmx-impl.c.inc     |  4 +-
- target/ppc/translate/vsx-impl.c.inc     |  2 +-
- target/riscv/insn_trans/trans_rvv.c.inc |  4 +-
- target/riscv/vector_helper.c            |  2 +-
- target/s390x/tcg/translate.c            |  2 +-
- target/s390x/tcg/translate_vx.c.inc     |  2 +-
- target/s390x/tcg/vec.h                  |  2 +-
- target/sparc/vis_helper.c               |  4 +-
- target/xtensa/cpu.h                     |  2 +-
- tcg/aarch64/tcg-target.c.inc            |  4 +-
- tcg/arm/tcg-target.c.inc                |  4 +-
- tcg/mips/tcg-target.c.inc               |  2 +-
- tcg/ppc/tcg-target.c.inc                | 10 ++---
- tcg/riscv/tcg-target.c.inc              |  4 +-
- tcg/tcg-op.c                            |  4 +-
- tcg/tcg.c                               | 12 +++---
- tests/fp/platform.h                     |  4 +-
- tests/qtest/vhost-user-blk-test.c       |  2 +-
- tests/qtest/virtio-blk-test.c           |  2 +-
- ui/vdagent.c                            |  2 +-
- ui/vnc.c                                |  2 +-
- util/bitmap.c                           |  2 +-
- util/host-utils.c                       |  2 +-
- 84 files changed, 173 insertions(+), 174 deletions(-)
+ accel/kvm/kvm-all.c                        |  2 +-
+ bsd-user/qemu.h                            |  2 +-
+ configs/targets/aarch64_be-linux-user.mak  |  2 +-
+ configs/targets/armeb-linux-user.mak       |  2 +-
+ configs/targets/hppa-linux-user.mak        |  2 +-
+ configs/targets/hppa-softmmu.mak           |  2 +-
+ configs/targets/m68k-linux-user.mak        |  2 +-
+ configs/targets/m68k-softmmu.mak           |  2 +-
+ configs/targets/microblaze-linux-user.mak  |  2 +-
+ configs/targets/microblaze-softmmu.mak     |  2 +-
+ configs/targets/mips-linux-user.mak        |  2 +-
+ configs/targets/mips-softmmu.mak           |  2 +-
+ configs/targets/mips64-linux-user.mak      |  2 +-
+ configs/targets/mips64-softmmu.mak         |  2 +-
+ configs/targets/mipsn32-linux-user.mak     |  2 +-
+ configs/targets/or1k-linux-user.mak        |  2 +-
+ configs/targets/or1k-softmmu.mak           |  2 +-
+ configs/targets/ppc-linux-user.mak         |  2 +-
+ configs/targets/ppc-softmmu.mak            |  2 +-
+ configs/targets/ppc64-linux-user.mak       |  2 +-
+ configs/targets/ppc64-softmmu.mak          |  2 +-
+ configs/targets/s390x-linux-user.mak       |  2 +-
+ configs/targets/s390x-softmmu.mak          |  2 +-
+ configs/targets/sh4eb-linux-user.mak       |  2 +-
+ configs/targets/sh4eb-softmmu.mak          |  2 +-
+ configs/targets/sparc-linux-user.mak       |  2 +-
+ configs/targets/sparc-softmmu.mak          |  2 +-
+ configs/targets/sparc32plus-linux-user.mak |  2 +-
+ configs/targets/sparc64-linux-user.mak     |  2 +-
+ configs/targets/sparc64-softmmu.mak        |  2 +-
+ configs/targets/xtensaeb-linux-user.mak    |  2 +-
+ configs/targets/xtensaeb-softmmu.mak       |  2 +-
+ cpu.c                                      |  2 +-
+ disas.c                                    |  2 +-
+ docs/devel/loads-stores.rst                |  2 +-
+ hw/arm/armv7m.c                            |  2 +-
+ hw/display/vga.c                           |  2 +-
+ hw/microblaze/boot.c                       |  2 +-
+ hw/mips/gt64xxx_pci.c                      |  6 +++---
+ hw/mips/jazz.c                             |  2 +-
+ hw/mips/malta.c                            | 24 +++++++++++-----------
+ hw/mips/mipssim.c                          |  2 +-
+ hw/nios2/boot.c                            |  2 +-
+ hw/xtensa/sim.c                            |  2 +-
+ hw/xtensa/xtfpga.c                         |  4 ++--
+ include/exec/cpu-all.h                     |  7 +++----
+ include/exec/cpu_ldst.h                    |  2 +-
+ include/exec/gdbstub.h                     |  2 +-
+ include/exec/memop.h                       |  2 +-
+ include/exec/memory.h                      |  2 +-
+ include/exec/poison.h                      |  2 +-
+ include/hw/core/cpu.h                      |  2 +-
+ include/hw/mips/bios.h                     |  2 +-
+ include/hw/virtio/virtio-access.h          |  2 +-
+ linux-user/aarch64/cpu_loop.c              |  2 +-
+ linux-user/aarch64/signal.c                |  4 ++--
+ linux-user/aarch64/target_syscall.h        |  2 +-
+ linux-user/arm/cpu_loop.c                  |  2 +-
+ linux-user/arm/target_syscall.h            |  2 +-
+ linux-user/elfload.c                       |  6 +++---
+ linux-user/ppc/signal.c                    |  4 ++--
+ linux-user/ppc/target_syscall.h            |  2 +-
+ linux-user/qemu.h                          |  2 +-
+ linux-user/syscall.c                       |  6 +++---
+ linux-user/uname.c                         |  2 +-
+ linux-user/user-internals.h                |  2 +-
+ linux-user/xtensa/signal.c                 |  2 +-
+ linux-user/xtensa/target_structs.h         |  2 +-
+ meson.build                                |  5 +++++
+ softmmu/memory.c                           |  2 +-
+ softmmu/qtest.c                            |  2 +-
+ target/arm/cpu.c                           |  2 +-
+ target/arm/cpu.h                           |  8 ++++----
+ target/mips/cpu.c                          |  4 ++--
+ target/mips/tcg/msa_helper.c               | 10 ++++-----
+ target/ppc/cpu_init.c                      |  2 +-
+ target/ppc/gdbstub.c                       |  4 ++--
+ target/ppc/mem_helper.c                    |  2 +-
+ target/ppc/translate.c                     |  2 +-
+ target/xtensa/cpu.h                        |  2 +-
+ target/xtensa/overlay_tool.h               |  2 +-
+ target/xtensa/translate.c                  |  6 +++---
+ tests/tcg/xtensa/Makefile.softmmu-target   |  2 +-
+ 83 files changed, 120 insertions(+), 116 deletions(-)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 5f1377ca04..1c129dc90c 100644
+index 1c129dc90c..8d9d2367ee 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -1202,8 +1202,8 @@ void kvm_hwpoison_page_add(ram_addr_t ram_addr)
+@@ -1202,7 +1202,7 @@ void kvm_hwpoison_page_add(ram_addr_t ram_addr)
  
  static uint32_t adjust_ioeventfd_endianness(uint32_t val, uint32_t size)
  {
--#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
--    /* The kernel expects ioeventfd values in HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
-+    /* The kernel expects ioeventfd values in HOST_BIG_ENDIAN
+-#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
++#if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
+     /* The kernel expects ioeventfd values in HOST_BIG_ENDIAN
       * endianness, but the memory core hands them in target endianness.
       * For example, PPC is always treated as big-endian even if running
-      * on KVM and on PPC64LE.  Correct here.
-diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
-index fc165031e8..404a530f7c 100644
---- a/accel/tcg/atomic_template.h
-+++ b/accel/tcg/atomic_template.h
-@@ -63,7 +63,7 @@
-    the ATOMIC_NAME macro, and redefined below.  */
- #if DATA_SIZE == 1
- # define END
--#elif defined(HOST_WORDS_BIGENDIAN)
-+#elif HOST_BIG_ENDIAN
- # define END  _be
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index 21c06f2e70..be6105385e 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -465,7 +465,7 @@ static inline void *lock_user_string(abi_ulong guest_addr)
+ static inline uint64_t target_arg64(uint32_t word0, uint32_t word1)
+ {
+ #if TARGET_ABI_BITS == 32
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     return ((uint64_t)word0 << 32) | word1;
  #else
- # define END  _le
-@@ -196,7 +196,7 @@ GEN_ATOMIC_HELPER_FN(umax_fetch, MAX,  DATA_TYPE, new)
+     return ((uint64_t)word1 << 32) | word0;
+diff --git a/configs/targets/aarch64_be-linux-user.mak b/configs/targets/aarch64_be-linux-user.mak
+index d3ee10c00f..7794424745 100644
+--- a/configs/targets/aarch64_be-linux-user.mak
++++ b/configs/targets/aarch64_be-linux-user.mak
+@@ -1,6 +1,6 @@
+ TARGET_ARCH=aarch64
+ TARGET_BASE_ARCH=arm
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml
+ TARGET_HAS_BFLT=y
+ CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+diff --git a/configs/targets/armeb-linux-user.mak b/configs/targets/armeb-linux-user.mak
+index f81e5bf1fe..a249cc2e29 100644
+--- a/configs/targets/armeb-linux-user.mak
++++ b/configs/targets/armeb-linux-user.mak
+@@ -1,7 +1,7 @@
+ TARGET_ARCH=arm
+ TARGET_SYSTBL_ABI=common,oabi
+ TARGET_SYSTBL=syscall.tbl
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
+ TARGET_HAS_BFLT=y
+ CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+diff --git a/configs/targets/hppa-linux-user.mak b/configs/targets/hppa-linux-user.mak
+index f01e0a7b9e..db873a8796 100644
+--- a/configs/targets/hppa-linux-user.mak
++++ b/configs/targets/hppa-linux-user.mak
+@@ -2,4 +2,4 @@ TARGET_ARCH=hppa
+ TARGET_SYSTBL_ABI=common,32
+ TARGET_SYSTBL=syscall.tbl
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/hppa-softmmu.mak b/configs/targets/hppa-softmmu.mak
+index e3e71eb21b..44f07b0332 100644
+--- a/configs/targets/hppa-softmmu.mak
++++ b/configs/targets/hppa-softmmu.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=hppa
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_SUPPORTS_MTTCG=y
+diff --git a/configs/targets/m68k-linux-user.mak b/configs/targets/m68k-linux-user.mak
+index 805d16c6ab..579b5d299c 100644
+--- a/configs/targets/m68k-linux-user.mak
++++ b/configs/targets/m68k-linux-user.mak
+@@ -1,6 +1,6 @@
+ TARGET_ARCH=m68k
+ TARGET_SYSTBL_ABI=common
+ TARGET_SYSTBL=syscall.tbl
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_XML_FILES= gdb-xml/cf-core.xml gdb-xml/cf-fp.xml gdb-xml/m68k-core.xml gdb-xml/m68k-fp.xml
+ TARGET_HAS_BFLT=y
+diff --git a/configs/targets/m68k-softmmu.mak b/configs/targets/m68k-softmmu.mak
+index 5df1a2b7d7..bbcd0bada6 100644
+--- a/configs/targets/m68k-softmmu.mak
++++ b/configs/targets/m68k-softmmu.mak
+@@ -1,3 +1,3 @@
+ TARGET_ARCH=m68k
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_XML_FILES= gdb-xml/cf-core.xml gdb-xml/cf-fp.xml gdb-xml/m68k-core.xml gdb-xml/m68k-fp.xml
+diff --git a/configs/targets/microblaze-linux-user.mak b/configs/targets/microblaze-linux-user.mak
+index 2a25bf2fa3..4249a37f65 100644
+--- a/configs/targets/microblaze-linux-user.mak
++++ b/configs/targets/microblaze-linux-user.mak
+@@ -1,5 +1,5 @@
+ TARGET_ARCH=microblaze
+ TARGET_SYSTBL_ABI=common
+ TARGET_SYSTBL=syscall.tbl
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_HAS_BFLT=y
+diff --git a/configs/targets/microblaze-softmmu.mak b/configs/targets/microblaze-softmmu.mak
+index 33f2a00402..8385e2d333 100644
+--- a/configs/targets/microblaze-softmmu.mak
++++ b/configs/targets/microblaze-softmmu.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=microblaze
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_SUPPORTS_MTTCG=y
+ TARGET_NEED_FDT=y
+diff --git a/configs/targets/mips-linux-user.mak b/configs/targets/mips-linux-user.mak
+index 19f5779831..71fa77d464 100644
+--- a/configs/targets/mips-linux-user.mak
++++ b/configs/targets/mips-linux-user.mak
+@@ -3,4 +3,4 @@ TARGET_ABI_MIPSO32=y
+ TARGET_SYSTBL_ABI=o32
+ TARGET_SYSTBL=syscall_o32.tbl
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/mips-softmmu.mak b/configs/targets/mips-softmmu.mak
+index 8a49999a47..7787a4d94c 100644
+--- a/configs/targets/mips-softmmu.mak
++++ b/configs/targets/mips-softmmu.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=mips
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_SUPPORTS_MTTCG=y
+diff --git a/configs/targets/mips64-linux-user.mak b/configs/targets/mips64-linux-user.mak
+index 32fd1acdf2..5a4771f22d 100644
+--- a/configs/targets/mips64-linux-user.mak
++++ b/configs/targets/mips64-linux-user.mak
+@@ -4,4 +4,4 @@ TARGET_BASE_ARCH=mips
+ TARGET_SYSTBL_ABI=n64
+ TARGET_SYSTBL=syscall_n64.tbl
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/mips64-softmmu.mak b/configs/targets/mips64-softmmu.mak
+index ece25b9624..568d66650c 100644
+--- a/configs/targets/mips64-softmmu.mak
++++ b/configs/targets/mips64-softmmu.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=mips64
+ TARGET_BASE_ARCH=mips
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/mipsn32-linux-user.mak b/configs/targets/mipsn32-linux-user.mak
+index b8c2441ad0..1e80b302fc 100644
+--- a/configs/targets/mipsn32-linux-user.mak
++++ b/configs/targets/mipsn32-linux-user.mak
+@@ -5,4 +5,4 @@ TARGET_BASE_ARCH=mips
+ TARGET_SYSTBL_ABI=n32
+ TARGET_SYSTBL=syscall_n32.tbl
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/or1k-linux-user.mak b/configs/targets/or1k-linux-user.mak
+index 1dfb93e46d..39558f77ec 100644
+--- a/configs/targets/or1k-linux-user.mak
++++ b/configs/targets/or1k-linux-user.mak
+@@ -1,2 +1,2 @@
+ TARGET_ARCH=openrisc
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/or1k-softmmu.mak b/configs/targets/or1k-softmmu.mak
+index 9e1d4a1fb1..263e970870 100644
+--- a/configs/targets/or1k-softmmu.mak
++++ b/configs/targets/or1k-softmmu.mak
+@@ -1,3 +1,3 @@
+ TARGET_ARCH=openrisc
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_NEED_FDT=y
+diff --git a/configs/targets/ppc-linux-user.mak b/configs/targets/ppc-linux-user.mak
+index ca4187e4aa..cc0439a528 100644
+--- a/configs/targets/ppc-linux-user.mak
++++ b/configs/targets/ppc-linux-user.mak
+@@ -1,5 +1,5 @@
+ TARGET_ARCH=ppc
+ TARGET_SYSTBL_ABI=common,nospu,32
+ TARGET_SYSTBL=syscall.tbl
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_XML_FILES= gdb-xml/power-core.xml gdb-xml/power-fpu.xml gdb-xml/power-altivec.xml gdb-xml/power-spe.xml
+diff --git a/configs/targets/ppc-softmmu.mak b/configs/targets/ppc-softmmu.mak
+index f4eef1819a..774440108f 100644
+--- a/configs/targets/ppc-softmmu.mak
++++ b/configs/targets/ppc-softmmu.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=ppc
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_XML_FILES= gdb-xml/power-core.xml gdb-xml/power-fpu.xml gdb-xml/power-altivec.xml gdb-xml/power-spe.xml
+ TARGET_NEED_FDT=y
+diff --git a/configs/targets/ppc64-linux-user.mak b/configs/targets/ppc64-linux-user.mak
+index 3133346676..4d81969f4a 100644
+--- a/configs/targets/ppc64-linux-user.mak
++++ b/configs/targets/ppc64-linux-user.mak
+@@ -3,5 +3,5 @@ TARGET_BASE_ARCH=ppc
+ TARGET_ABI_DIR=ppc
+ TARGET_SYSTBL_ABI=common,nospu,64
+ TARGET_SYSTBL=syscall.tbl
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_XML_FILES= gdb-xml/power64-core.xml gdb-xml/power-fpu.xml gdb-xml/power-altivec.xml gdb-xml/power-spe.xml gdb-xml/power-vsx.xml
+diff --git a/configs/targets/ppc64-softmmu.mak b/configs/targets/ppc64-softmmu.mak
+index 84fbf46be9..ddf0c39617 100644
+--- a/configs/targets/ppc64-softmmu.mak
++++ b/configs/targets/ppc64-softmmu.mak
+@@ -1,6 +1,6 @@
+ TARGET_ARCH=ppc64
+ TARGET_BASE_ARCH=ppc
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_SUPPORTS_MTTCG=y
+ TARGET_XML_FILES= gdb-xml/power64-core.xml gdb-xml/power-fpu.xml gdb-xml/power-altivec.xml gdb-xml/power-spe.xml gdb-xml/power-vsx.xml
+ TARGET_NEED_FDT=y
+diff --git a/configs/targets/s390x-linux-user.mak b/configs/targets/s390x-linux-user.mak
+index 9e31ce6457..e2978248ed 100644
+--- a/configs/targets/s390x-linux-user.mak
++++ b/configs/targets/s390x-linux-user.mak
+@@ -1,5 +1,5 @@
+ TARGET_ARCH=s390x
+ TARGET_SYSTBL_ABI=common,64
+ TARGET_SYSTBL=syscall.tbl
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
+diff --git a/configs/targets/s390x-softmmu.mak b/configs/targets/s390x-softmmu.mak
+index fd9fbd870d..258b4cf358 100644
+--- a/configs/targets/s390x-softmmu.mak
++++ b/configs/targets/s390x-softmmu.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=s390x
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_SUPPORTS_MTTCG=y
+ TARGET_XML_FILES= gdb-xml/s390x-core64.xml gdb-xml/s390-acr.xml gdb-xml/s390-fpr.xml gdb-xml/s390-vx.xml gdb-xml/s390-cr.xml gdb-xml/s390-virt.xml gdb-xml/s390-gs.xml
+diff --git a/configs/targets/sh4eb-linux-user.mak b/configs/targets/sh4eb-linux-user.mak
+index 9b6fb4c1bb..6724165efe 100644
+--- a/configs/targets/sh4eb-linux-user.mak
++++ b/configs/targets/sh4eb-linux-user.mak
+@@ -2,5 +2,5 @@ TARGET_ARCH=sh4
+ TARGET_SYSTBL_ABI=common
+ TARGET_SYSTBL=syscall.tbl
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_HAS_BFLT=y
+diff --git a/configs/targets/sh4eb-softmmu.mak b/configs/targets/sh4eb-softmmu.mak
+index 382e9a80f8..dc8b30bf7a 100644
+--- a/configs/targets/sh4eb-softmmu.mak
++++ b/configs/targets/sh4eb-softmmu.mak
+@@ -1,3 +1,3 @@
+ TARGET_ARCH=sh4
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/sparc-linux-user.mak b/configs/targets/sparc-linux-user.mak
+index 53dc7aaed5..00e7bc1f07 100644
+--- a/configs/targets/sparc-linux-user.mak
++++ b/configs/targets/sparc-linux-user.mak
+@@ -2,4 +2,4 @@ TARGET_ARCH=sparc
+ TARGET_SYSTBL_ABI=common,32
+ TARGET_SYSTBL=syscall.tbl
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/sparc-softmmu.mak b/configs/targets/sparc-softmmu.mak
+index 9ba3d7b07f..a849190f01 100644
+--- a/configs/targets/sparc-softmmu.mak
++++ b/configs/targets/sparc-softmmu.mak
+@@ -1,3 +1,3 @@
+ TARGET_ARCH=sparc
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/sparc32plus-linux-user.mak b/configs/targets/sparc32plus-linux-user.mak
+index e4c51df3dc..a65c0951a1 100644
+--- a/configs/targets/sparc32plus-linux-user.mak
++++ b/configs/targets/sparc32plus-linux-user.mak
+@@ -5,4 +5,4 @@ TARGET_ABI_DIR=sparc
+ TARGET_SYSTBL_ABI=common,32
+ TARGET_SYSTBL=syscall.tbl
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/sparc64-linux-user.mak b/configs/targets/sparc64-linux-user.mak
+index 9d23ab4a26..20fcb93fa4 100644
+--- a/configs/targets/sparc64-linux-user.mak
++++ b/configs/targets/sparc64-linux-user.mak
+@@ -4,4 +4,4 @@ TARGET_ABI_DIR=sparc
+ TARGET_SYSTBL_ABI=common,64
+ TARGET_SYSTBL=syscall.tbl
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/sparc64-softmmu.mak b/configs/targets/sparc64-softmmu.mak
+index 8dd3217800..c626ac3eae 100644
+--- a/configs/targets/sparc64-softmmu.mak
++++ b/configs/targets/sparc64-softmmu.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=sparc64
+ TARGET_BASE_ARCH=sparc
+ TARGET_ALIGNED_ONLY=y
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+diff --git a/configs/targets/xtensaeb-linux-user.mak b/configs/targets/xtensaeb-linux-user.mak
+index 1ea0f1ba91..bce2d1d65d 100644
+--- a/configs/targets/xtensaeb-linux-user.mak
++++ b/configs/targets/xtensaeb-linux-user.mak
+@@ -1,5 +1,5 @@
+ TARGET_ARCH=xtensa
+ TARGET_SYSTBL_ABI=common
+ TARGET_SYSTBL=syscall.tbl
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_HAS_BFLT=y
+diff --git a/configs/targets/xtensaeb-softmmu.mak b/configs/targets/xtensaeb-softmmu.mak
+index 405cf5acbb..b02e11b820 100644
+--- a/configs/targets/xtensaeb-softmmu.mak
++++ b/configs/targets/xtensaeb-softmmu.mak
+@@ -1,3 +1,3 @@
+ TARGET_ARCH=xtensa
+-TARGET_WORDS_BIGENDIAN=y
++TARGET_BIG_ENDIAN=y
+ TARGET_SUPPORTS_MTTCG=y
+diff --git a/cpu.c b/cpu.c
+index be1f8b074c..d34c3439bb 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -469,7 +469,7 @@ int cpu_memory_rw_debug(CPUState *cpu, vaddr addr,
  
- /* Define reverse-host-endian atomic operations.  Note that END is used
-    within the ATOMIC_NAME macro.  */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- # define END  _le
+ bool target_words_bigendian(void)
+ {
+-#if defined(TARGET_WORDS_BIGENDIAN)
++#if TARGET_BIG_ENDIAN
+     return true;
  #else
- # define END  _be
-diff --git a/audio/audio.h b/audio/audio.h
-index cbb10f4816..3d5ecdecd5 100644
---- a/audio/audio.h
-+++ b/audio/audio.h
-@@ -32,7 +32,7 @@
- 
- typedef void (*audio_callback_fn) (void *opaque, int avail);
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define AUDIO_HOST_ENDIANNESS 1
- #else
- #define AUDIO_HOST_ENDIANNESS 0
-diff --git a/audio/dbusaudio.c b/audio/dbusaudio.c
-index f178b47dee..a3d656d3b0 100644
---- a/audio/dbusaudio.c
-+++ b/audio/dbusaudio.c
-@@ -122,7 +122,7 @@ static size_t dbus_put_buffer_out(HWVoiceOut *hw, void *buf, size_t size)
-     return size;
- }
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define AUDIO_HOST_BE TRUE
- #else
- #define AUDIO_HOST_BE FALSE
+     return false;
 diff --git a/disas.c b/disas.c
-index 3dab4482d1..2d2565ac57 100644
+index 2d2565ac57..8c16e55c7e 100644
 --- a/disas.c
 +++ b/disas.c
-@@ -144,7 +144,7 @@ static void initialize_debug_host(CPUDebug *s)
- 
-     s->info.read_memory_func = host_read_memory;
-     s->info.print_address_func = host_print_address;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
+@@ -126,7 +126,7 @@ static void initialize_debug_target(CPUDebug *s, CPUState *cpu)
+     s->cpu = cpu;
+     s->info.read_memory_func = target_read_memory;
+     s->info.print_address_func = print_address;
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
      s->info.endian = BFD_ENDIAN_BIG;
  #else
      s->info.endian = BFD_ENDIAN_LITTLE;
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index ca2f2431fb..8d9b2df6e7 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -474,7 +474,7 @@ ssize_t load_elf_ram_sym(const char *filename,
-         ret = ELF_LOAD_NOT_ELF;
-         goto fail;
-     }
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     data_order = ELFDATA2MSB;
+diff --git a/docs/devel/loads-stores.rst b/docs/devel/loads-stores.rst
+index 8f0035c821..ad5dfe133e 100644
+--- a/docs/devel/loads-stores.rst
++++ b/docs/devel/loads-stores.rst
+@@ -275,7 +275,7 @@ called during the translator callback ``translate_insn``.
+ 
+ There is a set of functions ending in ``_swap`` which, if the parameter
+ is true, returns the value in the endianness that is the reverse of
+-the guest native endianness, as determined by ``TARGET_WORDS_BIGENDIAN``.
++the guest native endianness, as determined by ``TARGET_BIG_ENDIAN``.
+ 
+ Function names follow the pattern:
+ 
+diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+index 41cfca0f22..32349ec94b 100644
+--- a/hw/arm/armv7m.c
++++ b/hw/arm/armv7m.c
+@@ -577,7 +577,7 @@ void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_size)
+     int asidx;
+     CPUState *cs = CPU(cpu);
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     big_endian = 1;
  #else
-     data_order = ELFDATA2LSB;
-@@ -511,7 +511,7 @@ ssize_t load_elf_ram_sym(const char *filename,
- 
- static void bswap_uboot_header(uboot_image_header_t *hdr)
- {
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-     bswap32s(&hdr->ih_magic);
-     bswap32s(&hdr->ih_hcrc);
-     bswap32s(&hdr->ih_time);
-diff --git a/hw/display/artist.c b/hw/display/artist.c
-index 1d877998b9..69a8f9eea8 100644
---- a/hw/display/artist.c
-+++ b/hw/display/artist.c
-@@ -26,7 +26,7 @@
- #define TYPE_ARTIST "artist"
- OBJECT_DECLARE_SIMPLE_TYPE(ARTISTState, ARTIST)
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define ROP8OFF(_i) (3 - (_i))
- #else
- #define ROP8OFF
-@@ -712,7 +712,7 @@ static void combine_write_reg(hwaddr addr, uint64_t val, int size, void *out)
-      * FIXME: is there a qemu helper for this?
-      */
- 
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-     addr ^= 3;
- #endif
- 
-@@ -1087,7 +1087,7 @@ static uint64_t combine_read_reg(hwaddr addr, int size, void *in)
-      * FIXME: is there a qemu helper for this?
-      */
- 
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-     addr ^= 3;
- #endif
- 
-diff --git a/hw/display/pl110_template.h b/hw/display/pl110_template.h
-index 877419aa81..0087785322 100644
---- a/hw/display/pl110_template.h
-+++ b/hw/display/pl110_template.h
-@@ -15,18 +15,18 @@
- 
- #if ORDER == 0
- #define NAME glue(lblp_, BORDER)
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define SWAP_WORDS 1
- #endif
- #elif ORDER == 1
- #define NAME glue(bbbp_, BORDER)
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
- #define SWAP_WORDS 1
- #endif
- #else
- #define SWAP_PIXELS 1
- #define NAME glue(lbbp_, BORDER)
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define SWAP_WORDS 1
- #endif
- #endif
-diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
-index 0f06ed6e9f..7859c5d1cd 100644
---- a/hw/display/pxa2xx_lcd.c
-+++ b/hw/display/pxa2xx_lcd.c
-@@ -199,7 +199,7 @@ typedef struct QEMU_PACKED {
-         SKIP_PIXEL(to);          \
-     } while (0)
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- # define SWAP_WORDS 1
- #endif
- 
+     big_endian = 0;
 diff --git a/hw/display/vga.c b/hw/display/vga.c
-index a7a291fa20..737cfbde98 100644
+index 737cfbde98..5dca2d1528 100644
 --- a/hw/display/vga.c
 +++ b/hw/display/vga.c
-@@ -94,19 +94,19 @@ const uint8_t gr_mask[16] = {
-                 (((uint32_t)(__x) & (uint32_t)0x00ff0000UL) >>  8) | \
-                 (((uint32_t)(__x) & (uint32_t)0xff000000UL) >> 24) ))
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define PAT(x) cbswap_32(x)
+@@ -2242,7 +2242,7 @@ bool vga_common_init(VGACommonState *s, Object *obj, Error **errp)
+      * into a device attribute set by the machine/platform to remove
+      * all target endian dependencies from this file.
+      */
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     s->default_endian_fb = true;
  #else
- #define PAT(x) (x)
+     s->default_endian_fb = false;
+diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
+index 8821d009f1..03c030aa2c 100644
+--- a/hw/microblaze/boot.c
++++ b/hw/microblaze/boot.c
+@@ -138,7 +138,7 @@ void microblaze_load_kernel(MicroBlazeCPU *cpu, hwaddr ddr_base,
+         uint32_t base32;
+         int big_endian = 0;
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+         big_endian = 1;
  #endif
  
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define BIG 1
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+index e0ff1b5566..19d0d9889f 100644
+--- a/hw/mips/gt64xxx_pci.c
++++ b/hw/mips/gt64xxx_pci.c
+@@ -986,7 +986,7 @@ static void gt64120_reset(DeviceState *dev)
+     /* FIXME: Malta specific hw assumptions ahead */
+ 
+     /* CPU Configuration */
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     s->regs[GT_CPU]           = 0x00000000;
  #else
- #define BIG 0
+     s->regs[GT_CPU]           = 0x00001000;
+@@ -1097,7 +1097,7 @@ static void gt64120_reset(DeviceState *dev)
+     s->regs[GT_TC_CONTROL]    = 0x00000000;
+ 
+     /* PCI Internal */
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     s->regs[GT_PCI0_CMD]      = 0x00000000;
+ #else
+     s->regs[GT_PCI0_CMD]      = 0x00010001;
+@@ -1118,7 +1118,7 @@ static void gt64120_reset(DeviceState *dev)
+     s->regs[GT_PCI0_SSCS10_BAR] = 0x00000000;
+     s->regs[GT_PCI0_SSCS32_BAR] = 0x01000000;
+     s->regs[GT_PCI0_SCS3BT_BAR] = 0x1f000000;
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     s->regs[GT_PCI1_CMD]      = 0x00000000;
+ #else
+     s->regs[GT_PCI1_CMD]      = 0x00010001;
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 44f0d48bfd..4d6b44de34 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -158,7 +158,7 @@ static void mips_jazz_init(MachineState *machine,
+         [JAZZ_PICA61] = {33333333, 4},
+     };
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     big_endian = 1;
+ #else
+     big_endian = 0;
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 6288511723..c4474b927c 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -367,7 +367,7 @@ static uint64_t malta_fpga_read(void *opaque, hwaddr addr,
+ 
+     /* STATUS Register */
+     case 0x00208:
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+         val = 0x00000012;
+ #else
+         val = 0x00000010;
+@@ -695,7 +695,7 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+     stw_p(p++, 0xe040); stw_p(p++, 0x0681);
+                                 /* lui t1, %hi(0xb4000000)      */
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ 
+     stw_p(p++, 0xe020); stw_p(p++, 0x0be1);
+                                 /* lui t0, %hi(0xdf000000)      */
+@@ -894,7 +894,7 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+     /* Load BAR registers as done by YAMON */
+     stl_p(p++, 0x3c09b400);                  /* lui t1, 0xb400 */
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     stl_p(p++, 0x3c08df00);                  /* lui t0, 0xdf00 */
+ #else
+     stl_p(p++, 0x340800df);                  /* ori t0, r0, 0x00df */
+@@ -903,39 +903,39 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+ 
+     stl_p(p++, 0x3c09bbe0);                  /* lui t1, 0xbbe0 */
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     stl_p(p++, 0x3c08c000);                  /* lui t0, 0xc000 */
+ #else
+     stl_p(p++, 0x340800c0);                  /* ori t0, r0, 0x00c0 */
  #endif
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define GET_PLANE(data, p) (((data) >> (24 - (p) * 8)) & 0xff)
+     stl_p(p++, 0xad280048);                  /* sw t0, 0x0048(t1) */
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     stl_p(p++, 0x3c084000);                  /* lui t0, 0x4000 */
  #else
- #define GET_PLANE(data, p) (((data) >> ((p) * 8)) & 0xff)
-@@ -133,7 +133,7 @@ static const uint32_t mask16[16] = {
- 
- #undef PAT
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define PAT(x) (x)
- #else
- #define PAT(x) cbswap_32(x)
-@@ -1296,7 +1296,7 @@ static void vga_draw_text(VGACommonState *s, int full_update)
-                 if (cx > cx_max)
-                     cx_max = cx;
-                 *ch_attr_ptr = ch_attr;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-                 ch = ch_attr >> 8;
-                 cattr = ch_attr & 0xff;
- #else
-@@ -1477,7 +1477,7 @@ static void vga_draw_graphic(VGACommonState *s, int full_update)
-     vga_draw_line_func *vga_draw_line = NULL;
-     bool share_surface, force_shadow = false;
-     pixman_format_code_t format;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     bool byteswap = !s->big_endian_fb;
- #else
-     bool byteswap = s->big_endian_fb;
-diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
-index 6cc4313b1a..0bca887703 100644
---- a/hw/display/virtio-gpu-gl.c
-+++ b/hw/display/virtio-gpu-gl.c
-@@ -108,7 +108,7 @@ static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **errp)
- {
-     VirtIOGPU *g = VIRTIO_GPU(qdev);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     error_setg(errp, "virgl is not supported on bigendian platforms");
-     return;
+     stl_p(p++, 0x34080040);                  /* ori t0, r0, 0x0040 */
  #endif
-diff --git a/hw/net/can/ctucan_core.h b/hw/net/can/ctucan_core.h
-index bbc09ae067..608307a631 100644
---- a/hw/net/can/ctucan_core.h
-+++ b/hw/net/can/ctucan_core.h
-@@ -31,7 +31,7 @@
- #include "exec/hwaddr.h"
- #include "net/can_emu.h"
+     stl_p(p++, 0xad280050);                  /* sw t0, 0x0050(t1) */
  
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
- #define __LITTLE_ENDIAN_BITFIELD 1
- #endif
- 
-diff --git a/hw/net/vmxnet3.h b/hw/net/vmxnet3.h
-index 5b3b76ba7a..bf4f6de74a 100644
---- a/hw/net/vmxnet3.h
-+++ b/hw/net/vmxnet3.h
-@@ -35,7 +35,7 @@
- #define __le32  uint32_t
- #define __le64  uint64_t
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define __BIG_ENDIAN_BITFIELD
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     stl_p(p++, 0x3c088000);                  /* lui t0, 0x8000 */
  #else
+     stl_p(p++, 0x34080080);                  /* ori t0, r0, 0x0080 */
  #endif
-@@ -800,7 +800,7 @@ struct Vmxnet3_DriverShared {
- #undef __le16
- #undef __le32
- #undef __le64
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #undef __BIG_ENDIAN_BITFIELD
+     stl_p(p++, 0xad280058);                  /* sw t0, 0x0058(t1) */
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     stl_p(p++, 0x3c083f00);                  /* lui t0, 0x3f00 */
+ #else
+     stl_p(p++, 0x3408003f);                  /* ori t0, r0, 0x003f */
  #endif
+     stl_p(p++, 0xad280060);                  /* sw t0, 0x0060(t1) */
  
-diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-index 6fa47b889c..faa51aa4c7 100644
---- a/hw/s390x/event-facility.c
-+++ b/hw/s390x/event-facility.c
-@@ -28,7 +28,7 @@ typedef struct SCLPEventsBus {
- } SCLPEventsBus;
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     stl_p(p++, 0x3c08c100);                  /* lui t0, 0xc100 */
+ #else
+     stl_p(p++, 0x340800c1);                  /* ori t0, r0, 0x00c1 */
+ #endif
+     stl_p(p++, 0xad280080);                  /* sw t0, 0x0080(t1) */
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     stl_p(p++, 0x3c085e00);                  /* lui t0, 0x5e00 */
+ #else
+     stl_p(p++, 0x3408005e);                  /* ori t0, r0, 0x005e */
+@@ -1030,7 +1030,7 @@ static uint64_t load_kernel(void)
+     int prom_index = 0;
+     uint64_t (*xlate_to_kseg0) (void *opaque, uint64_t addr);
  
- /* we need to save 32 bit chunks for compatibility */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define RECV_MASK_LOWER 1
- #define RECV_MASK_UPPER 0
- #else /* little endian host */
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index b643f42ea4..e55ac32bf3 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -989,7 +989,7 @@ static inline bool vhost_needs_vring_endian(VirtIODevice *vdev)
-     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-         return false;
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     big_endian = 1;
+ #else
+     big_endian = 0;
+@@ -1272,7 +1272,7 @@ void mips_malta_init(MachineState *machine)
+                                     ram_low_postio);
      }
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     return vdev->device_endian == VIRTIO_DEVICE_ENDIAN_LITTLE;
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     be = 1;
  #else
-     return vdev->device_endian == VIRTIO_DEVICE_ENDIAN_BIG;
+     be = 0;
+@@ -1353,7 +1353,7 @@ void mips_malta_init(MachineState *machine)
+          * In little endian mode the 32bit words in the bios are swapped,
+          * a neat trick which allows bi-endian firmware.
+          */
+-#ifndef TARGET_WORDS_BIGENDIAN
++#if !TARGET_BIG_ENDIAN
+         {
+             uint32_t *end, *addr;
+             const size_t swapsize = MIN(bios_size, 0x3e0000);
+diff --git a/hw/mips/mipssim.c b/hw/mips/mipssim.c
+index 27a46bd538..30bc1c4f08 100644
+--- a/hw/mips/mipssim.c
++++ b/hw/mips/mipssim.c
+@@ -65,7 +65,7 @@ static uint64_t load_kernel(void)
+     ram_addr_t initrd_offset;
+     int big_endian;
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     big_endian = 1;
+ #else
+     big_endian = 0;
+diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+index 5b3e4efed5..e889595d5c 100644
+--- a/hw/nios2/boot.c
++++ b/hw/nios2/boot.c
+@@ -140,7 +140,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base,
+         uint64_t entry, high;
+         int big_endian = 0;
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+         big_endian = 1;
+ #endif
+ 
+diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
+index 2028fe793d..946c71cb5b 100644
+--- a/hw/xtensa/sim.c
++++ b/hw/xtensa/sim.c
+@@ -96,7 +96,7 @@ XtensaCPU *xtensa_sim_common_init(MachineState *machine)
+ void xtensa_sim_load_kernel(XtensaCPU *cpu, MachineState *machine)
+ {
+     const char *kernel_filename = machine->kernel_filename;
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     int big_endian = true;
+ #else
+     int big_endian = false;
+diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
+index c1e004e882..2a5556a35f 100644
+--- a/hw/xtensa/xtfpga.c
++++ b/hw/xtensa/xtfpga.c
+@@ -219,7 +219,7 @@ static const MemoryRegionOps xtfpga_io_ops = {
+ 
+ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
+ {
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     int be = 1;
+ #else
+     int be = 0;
+@@ -430,7 +430,7 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
+         }
+         if (entry_point != env->pc) {
+             uint8_t boot[] = {
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+                 0x60, 0x00, 0x08,       /* j    1f */
+                 0x00,                   /* .literal_position */
+                 0x00, 0x00, 0x00, 0x00, /* .literal entry_pc */
 diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index c0f0fab28a..f77070da5f 100644
+index f77070da5f..5d5290deb5 100644
 --- a/include/exec/cpu-all.h
 +++ b/include/exec/cpu-all.h
-@@ -34,13 +34,14 @@
- 
- /* some important defines:
-  *
-- * HOST_WORDS_BIGENDIAN : if defined, the host cpu is big endian and
-+ * HOST_BIG_ENDIAN : whether the host cpu is big endian and
+@@ -37,11 +37,10 @@
+  * HOST_BIG_ENDIAN : whether the host cpu is big endian and
   * otherwise little endian.
   *
-- * TARGET_WORDS_BIGENDIAN : same for target cpu
-+ * TARGET_WORDS_BIGENDIAN : if defined, the host cpu is big endian and otherwise
-+ * little endian.
+- * TARGET_WORDS_BIGENDIAN : if defined, the host cpu is big endian and otherwise
+- * little endian.
++ * TARGET_BIG_ENDIAN : same for the target cpu
   */
  
--#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
+-#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
++#if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
  #define BSWAP_NEEDED
  #endif
  
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 50a7d2912e..c7d50fac95 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -46,7 +46,7 @@ enum device_endian {
-     DEVICE_LITTLE_ENDIAN,
- };
+@@ -121,7 +120,7 @@ static inline void tswap64s(uint64_t *s)
+ /* Target-endianness CPU memory access functions. These fit into the
+  * {ld,st}{type}{sign}{size}{endian}_p naming scheme described in bswap.h.
+  */
+-#if defined(TARGET_WORDS_BIGENDIAN)
++#if TARGET_BIG_ENDIAN
+ #define lduw_p(p) lduw_be_p(p)
+ #define ldsw_p(p) ldsw_be_p(p)
+ #define ldl_p(p) ldl_be_p(p)
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index 6adacf8928..d0c7c0d5fe 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -377,7 +377,7 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
  
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define DEVICE_HOST_ENDIAN DEVICE_BIG_ENDIAN
- #else
- #define DEVICE_HOST_ENDIAN DEVICE_LITTLE_ENDIAN
+ #endif /* defined(CONFIG_USER_ONLY) */
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ # define cpu_lduw_data        cpu_lduw_be_data
+ # define cpu_ldsw_data        cpu_ldsw_be_data
+ # define cpu_ldl_data         cpu_ldl_be_data
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index 89edf94d28..c35d7334b4 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -110,7 +110,7 @@ static inline int gdb_get_reg128(GByteArray *buf, uint64_t val_hi,
+                                  uint64_t val_lo)
+ {
+     uint64_t to_quad;
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     to_quad = tswap64(val_hi);
+     g_byte_array_append(buf, (uint8_t *) &to_quad, 8);
+     to_quad = tswap64(val_lo);
 diff --git a/include/exec/memop.h b/include/exec/memop.h
-index 2a885f3917..44f923ed46 100644
+index 44f923ed46..25d027434a 100644
 --- a/include/exec/memop.h
 +++ b/include/exec/memop.h
-@@ -28,7 +28,7 @@ typedef enum MemOp {
-     MO_SIGN  = 0x08,   /* Sign-extended, otherwise zero-extended.  */
- 
-     MO_BSWAP = 0x10,   /* Host reverse endian.  */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     MO_LE    = MO_BSWAP,
-     MO_BE    = 0,
+@@ -36,7 +36,7 @@ typedef enum MemOp {
+     MO_BE    = MO_BSWAP,
+ #endif
+ #ifdef NEED_CPU_H
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     MO_TE    = MO_BE,
  #else
+     MO_TE    = MO_LE,
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 4d5997e6bb..e40653f0d1 100644
+index e40653f0d1..f1c19451bc 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
 @@ -2931,7 +2931,7 @@ static inline MemOp devend_memop(enum device_endian end)
      QEMU_BUILD_BUG_ON(DEVICE_HOST_ENDIAN != DEVICE_LITTLE_ENDIAN &&
                        DEVICE_HOST_ENDIAN != DEVICE_BIG_ENDIAN);
  
--#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
+-#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
++#if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
      /* Swap if non-host endianness or native (target) endianness */
      return (end == DEVICE_HOST_ENDIAN) ? 0 : MO_BSWAP;
  #else
-diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
-index 8abd9ab4ec..7a6ea881d8 100644
---- a/include/fpu/softfloat-types.h
-+++ b/include/fpu/softfloat-types.h
-@@ -103,7 +103,7 @@ typedef struct {
- #define make_floatx80(exp, mant) ((floatx80) { mant, exp })
- #define make_floatx80_init(exp, mant) { .low = mant, .high = exp }
- typedef struct {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     uint64_t high, low;
- #else
-     uint64_t low, high;
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index 7c5c02f03f..9f1ca3409c 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -38,7 +38,7 @@
+ #pragma GCC poison TARGET_HAS_BFLT
+ #pragma GCC poison TARGET_NAME
+ #pragma GCC poison TARGET_SUPPORTS_MTTCG
+-#pragma GCC poison TARGET_WORDS_BIGENDIAN
++#pragma GCC poison TARGET_BIG_ENDIAN
+ #pragma GCC poison BSWAP_NEEDED
+ 
+ #pragma GCC poison TARGET_LONG_BITS
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 136973655c..b0e2e5b9d2 100644
+index b0e2e5b9d2..13adb251b2 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -187,7 +187,7 @@ struct CPUClass {
- typedef union IcountDecr {
-     uint32_t u32;
-     struct {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         uint16_t high;
-         uint16_t low;
+@@ -1028,7 +1028,7 @@ void cpu_exec_unrealizefn(CPUState *cpu);
+  * target_words_bigendian:
+  * Returns true if the (default) endianness of the target is big endian,
+  * false otherwise. Note that in target-specific code, you can use
+- * TARGET_WORDS_BIGENDIAN directly instead. On the other hand, common
++ * TARGET_BIG_ENDIAN directly instead. On the other hand, common
+  * code should normally never need to know about the endianness of the
+  * target, so please do *not* use this function unless you know very well
+  * what you are doing!
+diff --git a/include/hw/mips/bios.h b/include/hw/mips/bios.h
+index c03007999a..44acb6815b 100644
+--- a/include/hw/mips/bios.h
++++ b/include/hw/mips/bios.h
+@@ -5,7 +5,7 @@
+ #include "cpu.h"
+ 
+ #define BIOS_SIZE (4 * MiB)
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ #define BIOS_FILENAME "mips_bios.bin"
  #else
-diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-index 3b5ac869db..bfa982a419 100644
---- a/include/hw/i386/intel_iommu.h
-+++ b/include/hw/i386/intel_iommu.h
-@@ -145,7 +145,7 @@ enum {
- /* Interrupt Remapping Table Entry Definition */
- union VTD_IR_TableEntry {
-     struct {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         uint32_t __reserved_1:8;     /* Reserved 1 */
-         uint32_t vector:8;           /* Interrupt Vector */
-         uint32_t irte_mode:1;        /* IRTE Mode */
-@@ -172,7 +172,7 @@ union VTD_IR_TableEntry {
- #endif
-         uint32_t dest_id;            /* Destination ID */
-         uint16_t source_id;          /* Source-ID */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         uint64_t __reserved_2:44;    /* Reserved 2 */
-         uint64_t sid_vtype:2;        /* Source-ID Validation Type */
-         uint64_t sid_q:2;            /* Source-ID Qualifier */
-@@ -191,7 +191,7 @@ union VTD_IR_TableEntry {
- /* Programming format for MSI/MSI-X addresses */
- union VTD_IR_MSIAddress {
-     struct {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         uint32_t __head:12;          /* Should always be: 0x0fee */
-         uint32_t index_l:15;         /* Interrupt index bit 14-0 */
-         uint32_t int_mode:1;         /* Interrupt format */
-diff --git a/include/hw/i386/x86-iommu.h b/include/hw/i386/x86-iommu.h
-index 5ba0c056d6..7637edb430 100644
---- a/include/hw/i386/x86-iommu.h
-+++ b/include/hw/i386/x86-iommu.h
-@@ -87,7 +87,7 @@ struct X86IOMMUIrq {
- struct X86IOMMU_MSIMessage {
-     union {
-         struct {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-             uint32_t __addr_head:12; /* 0xfee */
-             uint32_t dest:8;
-             uint32_t __reserved:8;
-@@ -108,7 +108,7 @@ struct X86IOMMU_MSIMessage {
-     };
-     union {
-         struct {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-             uint16_t trigger_mode:1;
-             uint16_t level:1;
-             uint16_t __resved:3;
+ #define BIOS_FILENAME "mipsel_bios.bin"
 diff --git a/include/hw/virtio/virtio-access.h b/include/hw/virtio/virtio-access.h
-index 6818a23a2d..90cbb77782 100644
+index 90cbb77782..07aae69042 100644
 --- a/include/hw/virtio/virtio-access.h
 +++ b/include/hw/virtio/virtio-access.h
-@@ -149,7 +149,7 @@ static inline uint64_t virtio_ldq_p(VirtIODevice *vdev, const void *ptr)
- 
- static inline uint16_t virtio_tswap16(VirtIODevice *vdev, uint16_t s)
+@@ -28,7 +28,7 @@ static inline bool virtio_access_is_big_endian(VirtIODevice *vdev)
  {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     return virtio_access_is_big_endian(vdev) ? s : bswap16(s);
- #else
-     return virtio_access_is_big_endian(vdev) ? bswap16(s) : s;
-@@ -215,7 +215,7 @@ static inline void virtio_tswap16s(VirtIODevice *vdev, uint16_t *s)
+ #if defined(LEGACY_VIRTIO_IS_BIENDIAN)
+     return virtio_is_big_endian(vdev);
+-#elif defined(TARGET_WORDS_BIGENDIAN)
++#elif TARGET_BIG_ENDIAN
+     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+         /* Devices conforming to VIRTIO 1.0 or later are always LE. */
+         return false;
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index 1737e2ea65..31a66a4fa0 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -202,7 +202,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+     }
+     env->pc = regs->pc;
+     env->xregs[31] = regs->sp;
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     env->cp15.sctlr_el[1] |= SCTLR_E0E;
+     for (i = 1; i < 4; ++i) {
+         env->cp15.sctlr_el[i] |= SCTLR_EE;
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index df9e39a4ba..7de4c96eb9 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -147,7 +147,7 @@ static void target_setup_fpsimd_record(struct target_fpsimd_context *fpsimd,
  
- static inline uint32_t virtio_tswap32(VirtIODevice *vdev, uint32_t s)
+     for (i = 0; i < 32; i++) {
+         uint64_t *q = aa64_vfp_qreg(env, i);
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+         __put_user(q[0], &fpsimd->vregs[i * 2 + 1]);
+         __put_user(q[1], &fpsimd->vregs[i * 2]);
+ #else
+@@ -233,7 +233,7 @@ static void target_restore_fpsimd_record(CPUARMState *env,
+ 
+     for (i = 0; i < 32; i++) {
+         uint64_t *q = aa64_vfp_qreg(env, i);
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+         __get_user(q[0], &fpsimd->vregs[i * 2 + 1]);
+         __get_user(q[1], &fpsimd->vregs[i * 2]);
+ #else
+diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
+index a98f568ab4..c055133725 100644
+--- a/linux-user/aarch64/target_syscall.h
++++ b/linux-user/aarch64/target_syscall.h
+@@ -8,7 +8,7 @@ struct target_pt_regs {
+     uint64_t        pstate;
+ };
+ 
+-#if defined(TARGET_WORDS_BIGENDIAN)
++#if TARGET_BIG_ENDIAN
+ #define UNAME_MACHINE "aarch64_be"
+ #else
+ #define UNAME_MACHINE "aarch64"
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index aae375d617..e4bca93749 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -519,7 +519,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+     for(i = 0; i < 16; i++) {
+         env->regs[i] = regs->uregs[i];
+     }
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     /* Enable BE8.  */
+     if (EF_ARM_EABI_VERSION(info->elf_flags) >= EF_ARM_EABI_VER4
+         && (info->elf_flags & EF_ARM_BE8)) {
+diff --git a/linux-user/arm/target_syscall.h b/linux-user/arm/target_syscall.h
+index f04f9c9e3d..412ad434cf 100644
+--- a/linux-user/arm/target_syscall.h
++++ b/linux-user/arm/target_syscall.h
+@@ -18,7 +18,7 @@ struct target_pt_regs {
+ #define ARM_NR_set_tls	  (ARM_NR_BASE + 5)
+ #define ARM_NR_get_tls    (ARM_NR_BASE + 6)
+ 
+-#if defined(TARGET_WORDS_BIGENDIAN)
++#if TARGET_BIG_ENDIAN
+ #define UNAME_MACHINE "armv5teb"
+ #else
+ #define UNAME_MACHINE "armv5tel"
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index c45da4d633..c501c246dc 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -105,7 +105,7 @@ int info_is_fdpic(struct image_info *info)
+ #define ELIBBAD 80
+ #endif
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ #define ELF_DATA        ELFDATA2MSB
+ #else
+ #define ELF_DATA        ELFDATA2LSB
+@@ -483,7 +483,7 @@ static const char *get_elf_platform(void)
  {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     return virtio_access_is_big_endian(vdev) ? s : bswap32(s);
- #else
-     return virtio_access_is_big_endian(vdev) ? bswap32(s) : s;
-@@ -229,7 +229,7 @@ static inline void virtio_tswap32s(VirtIODevice *vdev, uint32_t *s)
+     CPUARMState *env = thread_cpu->env_ptr;
  
- static inline uint64_t virtio_tswap64(VirtIODevice *vdev, uint64_t s)
- {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     return virtio_access_is_big_endian(vdev) ? s : bswap64(s);
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ # define END  "b"
  #else
-     return virtio_access_is_big_endian(vdev) ? bswap64(s) : s;
-diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virtio-gpu-bswap.h
-index 5faac0d8d5..9124108485 100644
---- a/include/hw/virtio/virtio-gpu-bswap.h
-+++ b/include/hw/virtio/virtio-gpu-bswap.h
-@@ -29,7 +29,7 @@ virtio_gpu_ctrl_hdr_bswap(struct virtio_gpu_ctrl_hdr *hdr)
- static inline void
- virtio_gpu_bswap_32(void *ptr, size_t size)
- {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
+ # define END  "l"
+@@ -514,7 +514,7 @@ static const char *get_elf_platform(void)
  
-     size_t i;
-     struct virtio_gpu_ctrl_hdr *hdr = (struct virtio_gpu_ctrl_hdr *) ptr;
-diff --git a/include/libdecnumber/dconfig.h b/include/libdecnumber/dconfig.h
-index 0f7dccef1f..2bc0ba7f14 100644
---- a/include/libdecnumber/dconfig.h
-+++ b/include/libdecnumber/dconfig.h
-@@ -28,7 +28,7 @@
-    02110-1301, USA.  */
- 
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define WORDS_BIGENDIAN 1
+ #define ELF_ARCH        EM_AARCH64
+ #define ELF_CLASS       ELFCLASS64
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ # define ELF_PLATFORM    "aarch64_be"
  #else
- #define WORDS_BIGENDIAN 0
-diff --git a/include/net/eth.h b/include/net/eth.h
-index 7767ae880e..6e699b0d7a 100644
---- a/include/net/eth.h
-+++ b/include/net/eth.h
-@@ -159,7 +159,7 @@ struct tcp_hdr {
-     u_short     th_dport;   /* destination port */
-     uint32_t    th_seq;     /* sequence number */
-     uint32_t    th_ack;     /* acknowledgment number */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     u_char  th_off : 4,     /* data offset */
-         th_x2:4;            /* (unused) */
- #else
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 2d3bb8bbed..9dff7c7dbb 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -84,7 +84,7 @@ static inline void bswap64s(uint64_t *s)
-     *s = bswap64(*s);
- }
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define be_bswap(v, size) (v)
- #define le_bswap(v, size) glue(bswap, size)(v)
- #define be_bswaps(v, size)
-@@ -188,7 +188,7 @@ CPU_CONVERT(le, 64, uint64_t)
-  * a compile-time constant if you pass in a constant.  So this can be
-  * used to initialize static variables.
-  */
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- # define const_le32(_x)                          \
-     ((((_x) & 0x000000ffU) << 24) |              \
-      (((_x) & 0x0000ff00U) <<  8) |              \
-@@ -211,7 +211,7 @@ typedef union {
- 
- typedef union {
-     float64 d;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     struct {
-         uint32_t upper;
-         uint32_t lower;
-@@ -235,7 +235,7 @@ typedef union {
- 
- typedef union {
-     float128 q;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     struct {
-         uint32_t upmost;
-         uint32_t upper;
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index ca979dc6cc..f19bd29105 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -88,7 +88,7 @@ static inline uint64_t muldiv64(uint64_t a, uint32_t b, uint32_t c)
-     union {
-         uint64_t ll;
-         struct {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-             uint32_t high, low;
- #else
-             uint32_t low, high;
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index 2c4064256c..37e07fd6dd 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -205,7 +205,7 @@ typedef struct Int128 Int128;
-  * a union with other integer types).
-  */
- struct Int128 {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     int64_t hi;
-     uint64_t lo;
- #else
-diff --git a/include/ui/qemu-pixman.h b/include/ui/qemu-pixman.h
-index 806ddcd7cd..0c775604d1 100644
---- a/include/ui/qemu-pixman.h
-+++ b/include/ui/qemu-pixman.h
-@@ -19,7 +19,7 @@
-  * feeding libjpeg / libpng and writing screenshots.
-  */
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- # define PIXMAN_BE_r8g8b8     PIXMAN_r8g8b8
- # define PIXMAN_BE_x8r8g8b8   PIXMAN_x8r8g8b8
- # define PIXMAN_BE_a8r8g8b8   PIXMAN_a8r8g8b8
-diff --git a/linux-user/arm/nwfpe/double_cpdo.c b/linux-user/arm/nwfpe/double_cpdo.c
-index 1cef380852..d45ece2e2f 100644
---- a/linux-user/arm/nwfpe/double_cpdo.c
-+++ b/linux-user/arm/nwfpe/double_cpdo.c
-@@ -150,7 +150,7 @@ unsigned int DoubleCPDO(const unsigned int opcode)
-       case MNF_CODE:
-       {
-          unsigned int *p = (unsigned int*)&rFm;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-          p[0] ^= 0x80000000;
- #else
-          p[1] ^= 0x80000000;
-@@ -162,7 +162,7 @@ unsigned int DoubleCPDO(const unsigned int opcode)
-       case ABS_CODE:
-       {
-          unsigned int *p = (unsigned int*)&rFm;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-          p[0] &= 0x7fffffff;
- #else
-          p[1] &= 0x7fffffff;
-diff --git a/linux-user/arm/nwfpe/fpa11_cpdt.c b/linux-user/arm/nwfpe/fpa11_cpdt.c
-index c32b0c2faa..fee525937c 100644
---- a/linux-user/arm/nwfpe/fpa11_cpdt.c
-+++ b/linux-user/arm/nwfpe/fpa11_cpdt.c
-@@ -44,7 +44,7 @@ void loadDouble(const unsigned int Fn, target_ulong addr)
-    unsigned int *p;
-    p = (unsigned int*)&fpa11->fpreg[Fn].fDouble;
-    fpa11->fType[Fn] = typeDouble;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-    /* FIXME - handle failure of get_user() */
-    get_user_u32(p[0], addr); /* sign & exponent */
-    get_user_u32(p[1], addr + 4);
-@@ -147,7 +147,7 @@ void storeDouble(const unsigned int Fn, target_ulong addr)
-       default: val = fpa11->fpreg[Fn].fDouble;
-    }
-    /* FIXME - handle put_user() failures */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-    put_user_u32(p[0], addr);	/* msw */
-    put_user_u32(p[1], addr + 4);	/* lsw */
- #else
+ # define ELF_PLATFORM    "aarch64"
 diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
-index ce5a4682cd..ca29d64579 100644
+index ca29d64579..07729c1653 100644
 --- a/linux-user/ppc/signal.c
 +++ b/linux-user/ppc/signal.c
-@@ -215,8 +215,7 @@ static target_ulong get_sigframe(struct target_sigaction *ka,
+@@ -215,7 +215,7 @@ static target_ulong get_sigframe(struct target_sigaction *ka,
      return (oldsp - frame_size) & ~0xFUL;
  }
  
--#if ((defined(TARGET_WORDS_BIGENDIAN) && defined(HOST_WORDS_BIGENDIAN)) || \
--     (!defined(HOST_WORDS_BIGENDIAN) && !defined(TARGET_WORDS_BIGENDIAN)))
-+#if defined(TARGET_WORDS_BIGENDIAN) == HOST_BIG_ENDIAN
+-#if defined(TARGET_WORDS_BIGENDIAN) == HOST_BIG_ENDIAN
++#if TARGET_BIG_ENDIAN == HOST_BIG_ENDIAN
  #define PPC_VEC_HI      0
  #define PPC_VEC_LO      1
  #else
+@@ -542,7 +542,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     env->nip = (target_ulong) ka->_sa_handler;
+ #endif
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     /* Signal handlers are entered in big-endian mode.  */
+     ppc_store_msr(env, env->msr & ~(1ull << MSR_LE));
+ #else
+diff --git a/linux-user/ppc/target_syscall.h b/linux-user/ppc/target_syscall.h
+index 7df9118937..77b36d0b46 100644
+--- a/linux-user/ppc/target_syscall.h
++++ b/linux-user/ppc/target_syscall.h
+@@ -59,7 +59,7 @@ struct target_revectored_struct {
+  */
+ 
+ #if defined(TARGET_PPC64)
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ #define UNAME_MACHINE "ppc64"
+ #else
+ #define UNAME_MACHINE "ppc64le"
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 98dfbf2096..46550f5e21 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -236,7 +236,7 @@ static inline bool access_ok(CPUState *cpu, int type,
+     } while (0)
+ 
+ 
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ # define __put_user(x, hptr)  __put_user_e(x, hptr, be)
+ # define __get_user(x, hptr)  __get_user_e(x, hptr, be)
+ #else
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f65045efe6..31ca8cc229 100644
+index 31ca8cc229..dd0d92ba4e 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
 @@ -8132,7 +8132,7 @@ static int is_proc_myself(const char *filename, const char *entry)
      return 0;
  }
  
--#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN) || \
-+#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN) || \
+-#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN) || \
++#if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
      defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
  static int is_proc(const char *filename, const char *entry)
  {
@@ -859,8 +1112,8 @@ index f65045efe6..31ca8cc229 100644
  }
  #endif
  
--#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
+-#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
++#if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
  static int open_net_route(void *cpu_env, int fd)
  {
      FILE *fp;
@@ -868,1199 +1121,349 @@ index f65045efe6..31ca8cc229 100644
          { "stat", open_self_stat, is_proc_myself },
          { "auxv", open_self_auxv, is_proc_myself },
          { "cmdline", open_self_cmdline, is_proc_myself },
--#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
+-#if HOST_BIG_ENDIAN != defined(TARGET_WORDS_BIGENDIAN)
++#if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
          { "/proc/net/route", open_net_route, is_proc },
  #endif
  #if defined(TARGET_SPARC) || defined(TARGET_HPPA)
+diff --git a/linux-user/uname.c b/linux-user/uname.c
+index 1d82608c10..0856783b21 100644
+--- a/linux-user/uname.c
++++ b/linux-user/uname.c
+@@ -41,7 +41,7 @@ const char *cpu_to_uname_machine(void *cpu_env)
+ 
+     /* in theory, endianness is configurable on some ARM CPUs, but this isn't
+      * used in user mode emulation */
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ #define utsname_suffix "b"
+ #else
+ #define utsname_suffix "l"
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index ee152ccfaa..2a80bc83ae 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -115,7 +115,7 @@ static inline int is_error(abi_long ret)
+ #if (TARGET_ABI_BITS == 32) && !defined(TARGET_ABI_MIPSN32)
+ static inline uint64_t target_offset64(uint32_t word0, uint32_t word1)
+ {
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     return ((uint64_t)word0 << 32) | word1;
+ #else
+     return ((uint64_t)word1 << 32) | word0;
+diff --git a/linux-user/xtensa/signal.c b/linux-user/xtensa/signal.c
+index 06d91a37ec..f5fb8b5cbe 100644
+--- a/linux-user/xtensa/signal.c
++++ b/linux-user/xtensa/signal.c
+@@ -130,7 +130,7 @@ static int setup_sigcontext(struct target_rt_sigframe *frame,
+ 
+ static void install_sigtramp(uint8_t *tramp)
+ {
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     /* Generate instruction:  MOVI a2, __NR_rt_sigreturn */
+     __put_user(0x22, &tramp[0]);
+     __put_user(0x0a, &tramp[1]);
+diff --git a/linux-user/xtensa/target_structs.h b/linux-user/xtensa/target_structs.h
+index 9cde6844b8..cb1b3411cf 100644
+--- a/linux-user/xtensa/target_structs.h
++++ b/linux-user/xtensa/target_structs.h
+@@ -15,7 +15,7 @@ struct target_ipc_perm {
+ 
+ struct target_semid64_ds {
+   struct target_ipc_perm sem_perm;
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+   abi_ulong __unused1;
+   abi_ulong sem_otime;
+   abi_ulong __unused2;
 diff --git a/meson.build b/meson.build
-index 6e4a3d6326..9abc30d5ce 100644
+index 9abc30d5ce..08f8183a66 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1592,7 +1592,6 @@ config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2]
+@@ -2186,6 +2186,9 @@ foreach target : target_dirs
+   if 'TARGET_ABI_DIR' not in config_target
+     config_target += {'TARGET_ABI_DIR': config_target['TARGET_ARCH']}
+   endif
++  if 'TARGET_BIG_ENDIAN' not in config_target
++    config_target += {'TARGET_BIG_ENDIAN': 'n'}
++  endif
  
- config_host_data.set_quoted('CONFIG_HOST_DSOSUF', host_dsosuf)
- config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
--config_host_data.set('HOST_WORDS_BIGENDIAN', host_machine.endian() == 'big')
+   foreach k, v: disassemblers
+     if host_arch.startswith(k) or config_target['TARGET_BASE_ARCH'].startswith(k)
+@@ -2210,6 +2213,8 @@ foreach target : target_dirs
+       config_target_data.set_quoted(k, v)
+     elif v == 'y'
+       config_target_data.set(k, 1)
++    elif v == 'n'
++      config_target_data.set(k, 0)
+     else
+       config_target_data.set(k, v)
+     endif
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index bfa5d5178c..7ba2048836 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -350,7 +350,7 @@ static void flatview_simplify(FlatView *view)
  
- have_coroutine_pool = get_option('coroutine_pool')
- if get_option('debug_stack_usage') and have_coroutine_pool
-diff --git a/net/net.c b/net/net.c
-index f0d14dbfc1..9f17ab2044 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -524,7 +524,7 @@ void qemu_set_vnet_hdr_len(NetClientState *nc, int len)
- 
- int qemu_set_vnet_le(NetClientState *nc, bool is_le)
+ static bool memory_region_big_endian(MemoryRegion *mr)
  {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     if (!nc || !nc->info->set_vnet_le) {
-         return -ENOSYS;
-     }
-@@ -537,7 +537,7 @@ int qemu_set_vnet_le(NetClientState *nc, bool is_le)
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     return mr->ops->endianness != DEVICE_LITTLE_ENDIAN;
+ #else
+     return mr->ops->endianness == DEVICE_BIG_ENDIAN;
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index 010d11513d..f8acef2628 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -714,7 +714,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         qtest_send(chr, "OK\n");
+     } else if (strcmp(words[0], "endianness") == 0) {
+         qtest_send_prefix(chr);
+-#if defined(TARGET_WORDS_BIGENDIAN)
++#if TARGET_BIG_ENDIAN
+         qtest_sendf(chr, "OK big\n");
+ #else
+         qtest_sendf(chr, "OK little\n");
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 5d4ca7a227..0980d33901 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -812,7 +812,7 @@ static void arm_disas_set_info(CPUState *cpu, disassemble_info *info)
  
- int qemu_set_vnet_be(NetClientState *nc, bool is_be)
- {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     return 0;
+     sctlr_b = arm_sctlr_b(env);
+     if (bswap_code(sctlr_b)) {
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+         info->endian = BFD_ENDIAN_LITTLE;
  #else
-     if (!nc || !nc->info->set_vnet_be) {
-diff --git a/net/util.h b/net/util.h
-index 358185fd50..288312979f 100644
---- a/net/util.h
-+++ b/net/util.h
-@@ -30,7 +30,7 @@
-  * Structure of an internet header, naked of options.
-  */
- struct ip {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     uint8_t ip_v:4,         /* version */
-             ip_hl:4;        /* header length */
- #else
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index 66768ab47a..4e887311ab 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -235,7 +235,7 @@ static TCGv dest_fpr(DisasContext *ctx, unsigned reg)
- static int get_flag_ofs(unsigned shift)
- {
-     int ofs = offsetof(CPUAlphaState, flags);
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     ofs += 3 - (shift / 8);
- #else
-     ofs += shift / 8;
+         info->endian = BFD_ENDIAN_BIG;
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 23879de5fa..816aa0394e 100644
+index 816aa0394e..ccf635ac5c 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -95,7 +95,7 @@ enum {
-  * therefore useful to be able to pass TCG the offset of the least
-  * significant half of a uint64_t struct member.
-  */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define offsetoflow32(S, M) (offsetof(S, M) + sizeof(uint32_t))
- #define offsetofhigh32(S, M) offsetof(S, M)
- #else
-@@ -382,7 +382,7 @@ typedef struct CPUArchState {
-         union { /* Fault address registers. */
-             struct {
-                 uint64_t _unused_far0;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-                 uint32_t ifar_ns;
-                 uint32_t dfar_ns;
-                 uint32_t ifar_s;
-@@ -419,7 +419,7 @@ typedef struct CPUArchState {
-         uint64_t c9_pminten; /* perf monitor interrupt enables */
-         union { /* Memory attribute redirection */
-             struct {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-                 uint64_t _unused_mair_0;
-                 uint32_t mair1_ns;
-                 uint32_t mair0_ns;
-@@ -1093,7 +1093,7 @@ void aarch64_add_pauth_properties(Object *obj);
-  */
- static inline uint64_t *sve_bswap64(uint64_t *dst, uint64_t *src, int nr)
+@@ -3549,12 +3549,12 @@ static inline int cpu_mmu_index(CPUARMState *env, bool ifetch)
+ static inline bool bswap_code(bool sctlr_b)
  {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     int i;
- 
-     for (i = 0; i < nr; ++i) {
-diff --git a/target/arm/crypto_helper.c b/target/arm/crypto_helper.c
-index 28a84c2dbd..4c8fd34aec 100644
---- a/target/arm/crypto_helper.c
-+++ b/target/arm/crypto_helper.c
-@@ -23,7 +23,7 @@ union CRYPTO_STATE {
-     uint64_t   l[2];
- };
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define CR_ST_BYTE(state, i)   ((state).bytes[(15 - (i)) ^ 8])
- #define CR_ST_WORD(state, i)   ((state).words[(3 - (i)) ^ 2])
- #else
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 7d14650615..50d287f289 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8642,7 +8642,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-                 r2->cp = 15;
-             }
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-             if (r2->fieldoffset) {
-                 r2->fieldoffset += sizeof(uint32_t);
-             }
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index ccadfbbe72..9ec8875150 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -1023,7 +1023,7 @@ static int kvm_arch_put_fpsimd(CPUState *cs)
- 
-     for (i = 0; i < 32; i++) {
-         uint64_t *q = aa64_vfp_qreg(env, i);
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         uint64_t fp_val[2] = { q[1], q[0] };
-         reg.addr = (uintptr_t)fp_val;
- #else
-@@ -1242,7 +1242,7 @@ static int kvm_arch_get_fpsimd(CPUState *cs)
-         if (ret) {
-             return ret;
-         } else {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-             uint64_t t;
-             t = q[0], q[0] = q[1], q[1] = t;
- #endif
-diff --git a/target/arm/neon_helper.c b/target/arm/neon_helper.c
-index 338b9189d5..bc6c4a54e9 100644
---- a/target/arm/neon_helper.c
-+++ b/target/arm/neon_helper.c
-@@ -23,7 +23,7 @@ typedef struct \
- { \
-     type v1; \
- } neon_##name;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define NEON_TYPE2(name, type) \
- typedef struct \
- { \
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index d45d088615..e0f9aa9983 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -2802,7 +2802,7 @@ static void swap_memmove(void *vd, void *vs, size_t n)
-     uintptr_t o = (d | s | n) & 7;
-     size_t i;
- 
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-     o = 0;
- #endif
-     switch (o) {
-@@ -2864,7 +2864,7 @@ static void swap_memzero(void *vd, size_t n)
-         return;
-     }
- 
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-     o = 0;
- #endif
-     switch (o) {
-diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index 58f50abca4..38884158aa 100644
---- a/target/arm/translate-a64.h
-+++ b/target/arm/translate-a64.h
-@@ -71,7 +71,7 @@ static inline int vec_reg_offset(DisasContext *s, int regno,
- {
-     int element_size = 1 << size;
-     int offs = element * element_size;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     /* This is complicated slightly because vfp.zregs[n].d[0] is
-      * still the lowest and vfp.zregs[n].d[15] the highest of the
-      * 256 byte vector, even on big endian systems.
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 2c23459e76..180e14d9f8 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -2872,7 +2872,7 @@ static TCGv_i64 load_last_active(DisasContext *s, TCGv_i32 last,
-      * The final adjustment for the vector register base
-      * is added via constant offset to the load.
+ #ifdef CONFIG_USER_ONLY
+-    /* BE8 (SCTLR.B = 0, TARGET_WORDS_BIGENDIAN = 1) is mixed endian.
+-     * The invalid combination SCTLR.B=1/CPSR.E=1/TARGET_WORDS_BIGENDIAN=0
++    /* BE8 (SCTLR.B = 0, TARGET_BIG_ENDIAN = 1) is mixed endian.
++     * The invalid combination SCTLR.B=1/CPSR.E=1/TARGET_BIG_ENDIAN=0
+      * would also end up as a mixed-endian mode with BE code, LE data.
       */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     /* Adjust for element ordering.  See vec_reg_offset.  */
-     if (esz < 3) {
-         tcg_gen_xori_i32(last, last, 8 - (1 << esz));
-@@ -5711,7 +5711,7 @@ static void do_ldrq(DisasContext *s, int zt, int pg, TCGv_i64 addr, int dtype)
-          * for this load operation.
-          */
-         TCGv_i64 tmp = tcg_temp_new_i64();
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         poff += 6;
+     return
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+         1 ^
  #endif
-         tcg_gen_ld16u_i64(tmp, cpu_env, poff);
-@@ -5790,7 +5790,7 @@ static void do_ldro(DisasContext *s, int zt, int pg, TCGv_i64 addr, int dtype)
-          * for this load operation.
-          */
-         TCGv_i64 tmp = tcg_temp_new_i64();
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         poff += 4;
+         sctlr_b;
+@@ -3570,7 +3570,7 @@ static inline bool bswap_code(bool sctlr_b)
+ static inline bool arm_cpu_bswap_data(CPUARMState *env)
+ {
+     return
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+        1 ^
  #endif
-         tcg_gen_ld32u_i64(tmp, cpu_env, poff);
-diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index 17f796e32a..6a95a67a69 100644
---- a/target/arm/translate-vfp.c
-+++ b/target/arm/translate-vfp.c
-@@ -93,7 +93,7 @@ uint64_t vfp_expand_imm(int size, uint8_t imm8)
- static inline long vfp_f16_offset(unsigned reg, bool top)
- {
-     long offs = vfp_reg_offset(false, reg);
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     if (!top) {
-         offs += 2;
-     }
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index bf2196b9e2..e8dfa71364 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -1158,7 +1158,7 @@ long neon_element_offset(int reg, int element, MemOp memop)
- {
-     int element_size = 1 << (memop & MO_SIZE);
-     int ofs = element * element_size;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     /*
-      * Calculate the offset assuming fully little-endian,
-      * then XOR to account for the order of the 8-byte units.
-diff --git a/target/arm/vec_internal.h b/target/arm/vec_internal.h
-index 2a33558290..fb43a2380e 100644
---- a/target/arm/vec_internal.h
-+++ b/target/arm/vec_internal.h
-@@ -29,7 +29,7 @@
-  * The H1_<N> macros are used when performing byte arithmetic and then
-  * casting the final pointer to a type of size N.
-  */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define H1(x)   ((x) ^ 7)
- #define H1_2(x) ((x) ^ 6)
- #define H1_4(x) ((x) ^ 4)
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 5c0b1eb274..0b83ee4d98 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -566,7 +566,7 @@ static void save_gpr(DisasContext *ctx, unsigned reg, TCGv_reg t)
-     }
- }
+        arm_cpu_data_is_big_endian(env);
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index af287177d5..ad74fbe636 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -189,7 +189,7 @@ static void mips_cpu_reset(DeviceState *dev)
+     /* Reset registers to their default values */
+     env->CP0_PRid = env->cpu_model->CP0_PRid;
+     env->CP0_Config0 = env->cpu_model->CP0_Config0;
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     env->CP0_Config0 |= (1 << CP0C0_BE);
+ #endif
+     env->CP0_Config1 = env->cpu_model->CP0_Config1;
+@@ -418,7 +418,7 @@ static void mips_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+     CPUMIPSState *env = &cpu->env;
  
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- # define HI_OFS  0
- # define LO_OFS  4
+     if (!(env->insn_flags & ISA_NANOMIPS32)) {
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+         info->print_insn = print_insn_big_mips;
  #else
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 982c532353..ccf627d2c5 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1248,7 +1248,7 @@ typedef struct BNDCSReg {
- #define BNDCFG_BNDPRESERVE  2ULL
- #define BNDCFG_BDIR_MASK    TARGET_PAGE_MASK
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define ZMM_B(n) _b_ZMMReg[63 - (n)]
- #define ZMM_W(n) _w_ZMMReg[31 - (n)]
- #define ZMM_L(n) _l_ZMMReg[15 - (n)]
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index c393913fe0..3ba1c99fff 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -359,7 +359,7 @@ static void gen_update_cc_op(DisasContext *s)
- 
- #endif /* !TARGET_X86_64 */
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define REG_B_OFFSET (sizeof(target_ulong) - 1)
- #define REG_H_OFFSET (sizeof(target_ulong) - 2)
- #define REG_W_OFFSET (sizeof(target_ulong) - 2)
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 52ce08a94d..5335ac10a3 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -35,7 +35,7 @@ union fpr_t {
-  *define FP_ENDIAN_IDX to access the same location
-  * in the fpr_t union regardless of the host endianness
-  */
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #  define FP_ENDIAN_IDX 1
- #else
- #  define FP_ENDIAN_IDX 0
-diff --git a/target/mips/tcg/lmmi_helper.c b/target/mips/tcg/lmmi_helper.c
-index abeb7736ae..2c8732525c 100644
---- a/target/mips/tcg/lmmi_helper.c
-+++ b/target/mips/tcg/lmmi_helper.c
-@@ -37,7 +37,7 @@ typedef union {
- } LMIValue;
- 
- /* Some byte ordering issues can be mitigated by XORing in the following.  */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- # define BYTE_ORDER_XOR(N) N
- #else
- # define BYTE_ORDER_XOR(N) 0
+         info->print_insn = print_insn_little_mips;
 diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
-index 5667b1f0a1..389c42e4ba 100644
+index 389c42e4ba..4dde5d639a 100644
 --- a/target/mips/tcg/msa_helper.c
 +++ b/target/mips/tcg/msa_helper.c
-@@ -4146,7 +4146,7 @@ void helper_msa_ilvev_b(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->b[8]  = pws->b[9];
-     pwd->b[9]  = pwt->b[9];
-     pwd->b[10] = pws->b[11];
-@@ -4190,7 +4190,7 @@ void helper_msa_ilvev_h(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->h[4] = pws->h[5];
-     pwd->h[5] = pwt->h[5];
-     pwd->h[6] = pws->h[7];
-@@ -4218,7 +4218,7 @@ void helper_msa_ilvev_w(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->w[2] = pws->w[3];
-     pwd->w[3] = pwt->w[3];
-     pwd->w[0] = pws->w[1];
-@@ -4250,7 +4250,7 @@ void helper_msa_ilvod_b(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->b[7]  = pwt->b[6];
-     pwd->b[6]  = pws->b[6];
-     pwd->b[5]  = pwt->b[4];
-@@ -4294,7 +4294,7 @@ void helper_msa_ilvod_h(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->h[3] = pwt->h[2];
-     pwd->h[2] = pws->h[2];
-     pwd->h[1] = pwt->h[0];
-@@ -4322,7 +4322,7 @@ void helper_msa_ilvod_w(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->w[1] = pwt->w[0];
-     pwd->w[0] = pws->w[0];
-     pwd->w[3] = pwt->w[2];
-@@ -4354,7 +4354,7 @@ void helper_msa_ilvl_b(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->b[7]  = pwt->b[15];
-     pwd->b[6]  = pws->b[15];
-     pwd->b[5]  = pwt->b[14];
-@@ -4398,7 +4398,7 @@ void helper_msa_ilvl_h(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->h[3] = pwt->h[7];
-     pwd->h[2] = pws->h[7];
-     pwd->h[1] = pwt->h[6];
-@@ -4426,7 +4426,7 @@ void helper_msa_ilvl_w(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->w[1] = pwt->w[3];
-     pwd->w[0] = pws->w[3];
-     pwd->w[3] = pwt->w[2];
-@@ -4458,7 +4458,7 @@ void helper_msa_ilvr_b(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->b[8]  = pws->b[0];
-     pwd->b[9]  = pwt->b[0];
-     pwd->b[10] = pws->b[1];
-@@ -4502,7 +4502,7 @@ void helper_msa_ilvr_h(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->h[4] = pws->h[0];
-     pwd->h[5] = pwt->h[0];
-     pwd->h[6] = pws->h[1];
-@@ -4530,7 +4530,7 @@ void helper_msa_ilvr_w(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->w[2] = pws->w[0];
-     pwd->w[3] = pwt->w[0];
-     pwd->w[0] = pws->w[1];
-@@ -4661,7 +4661,7 @@ void helper_msa_pckev_b(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->b[8]  = pws->b[9];
-     pwd->b[10] = pws->b[13];
-     pwd->b[12] = pws->b[1];
-@@ -4705,7 +4705,7 @@ void helper_msa_pckev_h(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->h[4] = pws->h[5];
-     pwd->h[6] = pws->h[1];
-     pwd->h[0] = pwt->h[5];
-@@ -4733,7 +4733,7 @@ void helper_msa_pckev_w(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->w[2] = pws->w[3];
-     pwd->w[0] = pwt->w[3];
-     pwd->w[3] = pws->w[1];
-@@ -4765,7 +4765,7 @@ void helper_msa_pckod_b(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->b[7]  = pwt->b[6];
-     pwd->b[5]  = pwt->b[2];
-     pwd->b[3]  = pwt->b[14];
-@@ -4810,7 +4810,7 @@ void helper_msa_pckod_h(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->h[3] = pwt->h[2];
-     pwd->h[1] = pwt->h[6];
-     pwd->h[7] = pws->h[2];
-@@ -4838,7 +4838,7 @@ void helper_msa_pckod_w(CPUMIPSState *env,
-     wr_t *pws = &(env->active_fpu.fpr[ws].wr);
-     wr_t *pwt = &(env->active_fpu.fpr[wt].wr);
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     pwd->w[1] = pwt->w[0];
-     pwd->w[3] = pws->w[0];
-     pwd->w[0] = pwt->w[2];
-@@ -5926,7 +5926,7 @@ void helper_msa_copy_s_b(CPUMIPSState *env, uint32_t rd,
-                          uint32_t ws, uint32_t n)
- {
-     n %= 16;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     if (n < 8) {
-         n = 8 - n - 1;
-     } else {
-@@ -5940,7 +5940,7 @@ void helper_msa_copy_s_h(CPUMIPSState *env, uint32_t rd,
-                          uint32_t ws, uint32_t n)
- {
-     n %= 8;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     if (n < 4) {
-         n = 4 - n - 1;
-     } else {
-@@ -5954,7 +5954,7 @@ void helper_msa_copy_s_w(CPUMIPSState *env, uint32_t rd,
-                          uint32_t ws, uint32_t n)
- {
-     n %= 4;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     if (n < 2) {
-         n = 2 - n - 1;
-     } else {
-@@ -5975,7 +5975,7 @@ void helper_msa_copy_u_b(CPUMIPSState *env, uint32_t rd,
-                          uint32_t ws, uint32_t n)
- {
-     n %= 16;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     if (n < 8) {
-         n = 8 - n - 1;
-     } else {
-@@ -5989,7 +5989,7 @@ void helper_msa_copy_u_h(CPUMIPSState *env, uint32_t rd,
-                          uint32_t ws, uint32_t n)
- {
-     n %= 8;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     if (n < 4) {
-         n = 4 - n - 1;
-     } else {
-@@ -6003,7 +6003,7 @@ void helper_msa_copy_u_w(CPUMIPSState *env, uint32_t rd,
-                          uint32_t ws, uint32_t n)
- {
-     n %= 4;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     if (n < 2) {
-         n = 2 - n - 1;
-     } else {
-@@ -6019,7 +6019,7 @@ void helper_msa_insert_b(CPUMIPSState *env, uint32_t wd,
-     wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-     target_ulong rs = env->active_tc.gpr[rs_num];
-     n %= 16;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     if (n < 8) {
-         n = 8 - n - 1;
-     } else {
-@@ -6035,7 +6035,7 @@ void helper_msa_insert_h(CPUMIPSState *env, uint32_t wd,
-     wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-     target_ulong rs = env->active_tc.gpr[rs_num];
-     n %= 8;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     if (n < 4) {
-         n = 4 - n - 1;
-     } else {
-@@ -6051,7 +6051,7 @@ void helper_msa_insert_w(CPUMIPSState *env, uint32_t wd,
-     wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-     target_ulong rs = env->active_tc.gpr[rs_num];
-     n %= 4;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     if (n < 2) {
-         n = 2 - n - 1;
-     } else {
-diff --git a/target/ppc/arch_dump.c b/target/ppc/arch_dump.c
-index 993740897d..1139cead9f 100644
---- a/target/ppc/arch_dump.c
-+++ b/target/ppc/arch_dump.c
-@@ -161,7 +161,7 @@ static void ppc_write_elf_vmxregset(NoteFuncArg *arg, PowerPCCPU *cpu)
-         bool needs_byteswap;
-         ppc_avr_t *avr = cpu_avr_ptr(&cpu->env, i);
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         needs_byteswap = s->dump_info.d_endian == ELFDATA2LSB;
- #else
-         needs_byteswap = s->dump_info.d_endian == ELFDATA2MSB;
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 047b24ba50..627e574127 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2642,7 +2642,7 @@ static inline bool lsw_reg_in_range(int start, int nregs, int rx)
- }
- 
- /* Accessors for FP, VMX and VSX registers */
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define VsrB(i) u8[i]
- #define VsrSB(i) s8[i]
- #define VsrH(i) u16[i]
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 492f34c499..8c1674510b 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -425,7 +425,7 @@ uint64_t helper_PEXTD(uint64_t src, uint64_t mask)
- 
- /*****************************************************************************/
- /* Altivec extension helpers */
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define VECTOR_FOR_INORDER_I(index, element)                    \
-     for (index = 0; index < ARRAY_SIZE(r->element); index++)
- #else
-@@ -1177,7 +1177,7 @@ XXGENPCV(XXGENPCVDM, 8)
- #undef XXGENPCV_LE_COMP
- #undef XXGENPCV
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define VBPERMQ_INDEX(avr, i) ((avr)->u8[(i)])
- #define VBPERMD_INDEX(i) (i)
- #define VBPERMQ_DW(index) (((index) & 0x40) != 0)
-@@ -1298,7 +1298,7 @@ void helper_vpmsumd(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
- }
- 
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define PKBIG 1
- #else
- #define PKBIG 0
-@@ -1307,7 +1307,7 @@ void helper_vpkpx(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
- {
-     int i, j;
-     ppc_avr_t result;
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     const ppc_avr_t *x[2] = { a, b };
- #else
-     const ppc_avr_t *x[2] = { b, a };
-@@ -1516,7 +1516,7 @@ void helper_vslo(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
- {
-     int sh = (b->VsrB(0xf) >> 3) & 0xf;
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     memmove(&r->u8[0], &a->u8[sh], 16 - sh);
-     memset(&r->u8[16 - sh], 0, sh);
- #else
-@@ -1525,7 +1525,7 @@ void helper_vslo(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+@@ -8218,7 +8218,7 @@ void helper_msa_ffint_u_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+ #define MEMOP_IDX(DF)
  #endif
- }
  
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define ELEM_ADDR(VEC, IDX, SIZE) (&(VEC)->u8[IDX])
- #else
- #define ELEM_ADDR(VEC, IDX, SIZE) (&(VEC)->u8[15 - (IDX)] - (SIZE) + 1)
-@@ -1554,7 +1554,7 @@ VINSX(W, uint32_t)
- VINSX(D, uint64_t)
- #undef ELEM_ADDR
- #undef VINSX
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define VEXTDVLX(NAME, SIZE) \
- void helper_##NAME(CPUPPCState *env, ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b, \
-                    target_ulong index)                                         \
-@@ -1593,7 +1593,7 @@ VEXTDVLX(VEXTDUHVLX, 2)
- VEXTDVLX(VEXTDUWVLX, 4)
- VEXTDVLX(VEXTDDVLX, 8)
- #undef VEXTDVLX
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define VEXTRACT(suffix, element)                                            \
-     void helper_vextract##suffix(ppc_avr_t *r, ppc_avr_t *b, uint32_t index) \
-     {                                                                        \
-@@ -1750,7 +1750,7 @@ void helper_vsro(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ static inline uint64_t bswap16x4(uint64_t x)
  {
-     int sh = (b->VsrB(0xf) >> 3) & 0xf;
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     memmove(&r->u8[sh], &a->u8[0], 16 - sh);
-     memset(&r->u8[0], 0, sh);
- #else
-@@ -1867,7 +1867,7 @@ void helper_vsum4ubs(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
-     }
- }
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define UPKHI 1
- #define UPKLO 0
- #else
-@@ -1974,7 +1974,7 @@ VGENERIC_DO(popcntd, u64)
- 
- #undef VGENERIC_DO
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define QW_ONE { .u64 = { 0, 1 } }
- #else
- #define QW_ONE { .u64 = { 1, 0 } }
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index dc93b99189..d1f07c4f41 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -632,7 +632,7 @@ static int kvm_put_fp(CPUState *cs)
-             uint64_t *fpr = cpu_fpr_ptr(&cpu->env, i);
-             uint64_t *vsrl = cpu_vsrl_ptr(&cpu->env, i);
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-             vsr[0] = float64_val(*fpr);
-             vsr[1] = *vsrl;
- #else
-@@ -710,7 +710,7 @@ static int kvm_get_fp(CPUState *cs)
-                                         strerror(errno));
-                 return ret;
-             } else {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-                 *fpr = vsr[0];
-                 if (vsx) {
-                     *vsrl = vsr[1];
+     uint64_t m = 0x00ff00ff00ff00ffull;
+@@ -8258,7 +8258,7 @@ void helper_msa_ld_h(CPUMIPSState *env, uint32_t wd,
+      */
+     d0 = cpu_ldq_le_data_ra(env, addr + 0, ra);
+     d1 = cpu_ldq_le_data_ra(env, addr + 8, ra);
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     d0 = bswap16x4(d0);
+     d1 = bswap16x4(d1);
+ #endif
+@@ -8279,7 +8279,7 @@ void helper_msa_ld_w(CPUMIPSState *env, uint32_t wd,
+      */
+     d0 = cpu_ldq_le_data_ra(env, addr + 0, ra);
+     d1 = cpu_ldq_le_data_ra(env, addr + 8, ra);
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     d0 = bswap32x2(d0);
+     d1 = bswap32x2(d1);
+ #endif
+@@ -8345,7 +8345,7 @@ void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
+     /* Store 8 bytes at a time.  See helper_msa_ld_h. */
+     d0 = pwd->d[0];
+     d1 = pwd->d[1];
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     d0 = bswap16x4(d0);
+     d1 = bswap16x4(d1);
+ #endif
+@@ -8366,7 +8366,7 @@ void helper_msa_st_w(CPUMIPSState *env, uint32_t wd,
+     /* Store 8 bytes at a time.  See helper_msa_ld_w. */
+     d0 = pwd->d[0];
+     d1 = pwd->d[1];
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     d0 = bswap32x2(d0);
+     d1 = bswap32x2(d1);
+ #endif
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 073fd10168..5062d0e478 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -7150,7 +7150,7 @@ static void ppc_cpu_reset(DeviceState *dev)
+ #if defined(TARGET_PPC64)
+     msr |= (target_ulong)1 << MSR_TM; /* Transactional memory */
+ #endif
+-#if !defined(TARGET_WORDS_BIGENDIAN)
++#if !TARGET_BIG_ENDIAN
+     msr |= (target_ulong)1 << MSR_LE; /* Little-endian user mode */
+     if (!((env->msr_mask >> MSR_LE) & 1)) {
+         fprintf(stderr, "Selected CPU does not support little-endian.\n");
+diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+index 105c2f7dd1..1252429a2a 100644
+--- a/target/ppc/gdbstub.c
++++ b/target/ppc/gdbstub.c
+@@ -87,9 +87,9 @@ static int ppc_gdb_register_len(int n)
+ /*
+  * We need to present the registers to gdb in the "current" memory
+  * ordering.  For user-only mode we get this for free;
+- * TARGET_WORDS_BIGENDIAN is set to the proper ordering for the
++ * TARGET_BIG_ENDIAN is set to the proper ordering for the
+  * binary, and cannot be changed.  For system mode,
+- * TARGET_WORDS_BIGENDIAN is always set, and we must check the current
++ * TARGET_BIG_ENDIAN is always set, and we must check the current
+  * mode of the chip to see if we're running in little-endian.
+  */
+ void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len)
 diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
-index 39945d9ea5..f1c76a7750 100644
+index f1c76a7750..c4ff8fd632 100644
 --- a/target/ppc/mem_helper.c
 +++ b/target/ppc/mem_helper.c
-@@ -461,7 +461,7 @@ uint32_t helper_stqcx_be_parallel(CPUPPCState *env, target_ulong addr,
+@@ -32,7 +32,7 @@
  
- /*****************************************************************************/
- /* Altivec extension helpers */
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
- #define HI_IDX 0
- #define LO_IDX 1
- #else
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 6101bca3fd..764ac45409 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -173,7 +173,7 @@ static void gen_mtvscr(DisasContext *ctx)
- 
-     val = tcg_temp_new_i32();
-     bofs = avr_full_offset(rB(ctx->opcode));
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     bofs += 3 * 4;
- #endif
- 
-@@ -1692,7 +1692,7 @@ static void gen_vsplt(DisasContext *ctx, int vece)
- 
-     /* Experimental testing shows that hardware masks the immediate.  */
-     bofs += (uimm << vece) & 15;
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-     bofs ^= 15;
-     bofs &= ~((1 << vece) - 1);
- #endif
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index d1f6333314..7181a672d8 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1552,7 +1552,7 @@ static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2_uim2 *a)
-     tofs = vsr_full_offset(a->xt);
-     bofs = vsr_full_offset(a->xb);
-     bofs += a->uim << MO_32;
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-     bofs ^= 8 | 4;
- #endif
- 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 4ea7e41e1a..8d675db9a2 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3293,7 +3293,7 @@ static void load_element(TCGv_i64 dest, TCGv_ptr base,
- /* offset of the idx element with base regsiter r */
- static uint32_t endian_ofs(DisasContext *s, int r, int idx)
+ static inline bool needs_byteswap(const CPUPPCState *env)
  {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     return vreg_ofs(s, r) + ((idx ^ (7 >> s->sew)) << s->sew);
+-#if defined(TARGET_WORDS_BIGENDIAN)
++#if TARGET_BIG_ENDIAN
+   return msr_le;
  #else
-     return vreg_ofs(s, r) + (idx << s->sew);
-@@ -3303,7 +3303,7 @@ static uint32_t endian_ofs(DisasContext *s, int r, int idx)
- /* adjust the index according to the endian */
- static void endian_adjust(TCGv_i32 ofs, int sew)
+   return !msr_le;
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 408ae26173..f14f8d7309 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -193,7 +193,7 @@ struct DisasContext {
+ /* Return true iff byteswap is needed in a scalar memop */
+ static inline bool need_byteswap(const DisasContext *ctx)
  {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     tcg_gen_xori_i32(ofs, ofs, 7 >> sew);
- #endif
- }
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 3bd4aac9c9..7a6ce0a3bc 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -79,7 +79,7 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
-  * Note that vector data is stored in host-endian 64-bit chunks,
-  * so addressing units smaller than that needs a host-endian fixup.
-  */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define H1(x)   ((x) ^ 7)
- #define H1_2(x) ((x) ^ 6)
- #define H1_4(x) ((x) ^ 4)
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 5acfc0ff9b..80f1f0be9a 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -263,7 +263,7 @@ static inline int vec_reg_offset(uint8_t reg, uint8_t enr, MemOp es)
-      * 16 byte operations to handle it in a special way.
-      */
-     g_assert(es <= MO_64);
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-     offs ^= (8 - bytes);
- #endif
-     return offs + vec_full_reg_offset(reg);
-diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-index 98eb7710a4..b829ce0c7c 100644
---- a/target/s390x/tcg/translate_vx.c.inc
-+++ b/target/s390x/tcg/translate_vx.c.inc
-@@ -175,7 +175,7 @@ static void get_vec_element_ptr_i64(TCGv_ptr ptr, uint8_t reg, TCGv_i64 enr,
- 
-     /* convert it to an element offset relative to cpu_env (vec_reg_offset() */
-     tcg_gen_shli_i64(tmp, tmp, es);
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-     tcg_gen_xori_i64(tmp, tmp, 8 - NUM_VEC_ELEMENT_BYTES(es));
- #endif
-     tcg_gen_addi_i64(tmp, tmp, vec_full_reg_offset(reg));
-diff --git a/target/s390x/tcg/vec.h b/target/s390x/tcg/vec.h
-index a6e361869b..8d095efcfc 100644
---- a/target/s390x/tcg/vec.h
-+++ b/target/s390x/tcg/vec.h
-@@ -38,7 +38,7 @@ typedef union S390Vector {
-  * W:  [             1][             0] - [             3][             2]
-  * DW: [                             0] - [                             1]
-  */
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
- #define H1(x)  ((x) ^ 7)
- #define H2(x)  ((x) ^ 3)
- #define H4(x)  ((x) ^ 1)
-diff --git a/target/sparc/vis_helper.c b/target/sparc/vis_helper.c
-index f917e5992d..3afdc6975c 100644
---- a/target/sparc/vis_helper.c
-+++ b/target/sparc/vis_helper.c
-@@ -42,7 +42,7 @@ target_ulong helper_array8(target_ulong pixel_addr, target_ulong cubesize)
-         GET_FIELD_SP(pixel_addr, 11, 12);
- }
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- #define VIS_B64(n) b[7 - (n)]
- #define VIS_W64(n) w[3 - (n)]
- #define VIS_SW64(n) sw[3 - (n)]
-@@ -470,7 +470,7 @@ uint64_t helper_bshuffle(uint64_t gsr, uint64_t src1, uint64_t src2)
-     uint32_t i, mask, host;
- 
-     /* Set up S such that we can index across all of the bytes.  */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     s.ll[0] = src1;
-     s.ll[1] = src2;
-     host = 0;
+-#if defined(TARGET_WORDS_BIGENDIAN)
++#if TARGET_BIG_ENDIAN
+      return ctx->le_mode;
+ #else
+      return !ctx->le_mode;
 diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 4515f682aa..a572e831ae 100644
+index a572e831ae..f10cfabdc3 100644
 --- a/target/xtensa/cpu.h
 +++ b/target/xtensa/cpu.h
-@@ -494,7 +494,7 @@ typedef struct XtensaConfigList {
-     struct XtensaConfigList *next;
- } XtensaConfigList;
+@@ -590,7 +590,7 @@ void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+ #define XTENSA_CPU_TYPE_NAME(model) model XTENSA_CPU_TYPE_SUFFIX
+ #define CPU_RESOLVING_TYPE TYPE_XTENSA_CPU
  
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- enum {
-     FP_F32_HIGH,
-     FP_F32_LOW,
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 5e67f881f1..61e284bb5c 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1557,7 +1557,7 @@ static void tcg_out_adr(TCGContext *s, TCGReg rd, const void *target)
-  */
- static void * const qemu_ld_helpers[MO_SIZE + 1] = {
-     [MO_8]  = helper_ret_ldub_mmu,
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     [MO_16] = helper_be_lduw_mmu,
-     [MO_32] = helper_be_ldul_mmu,
-     [MO_64] = helper_be_ldq_mmu,
-@@ -1574,7 +1574,7 @@ static void * const qemu_ld_helpers[MO_SIZE + 1] = {
-  */
- static void * const qemu_st_helpers[MO_SIZE + 1] = {
-     [MO_8]  = helper_ret_stb_mmu,
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     [MO_16] = helper_be_stw_mmu,
-     [MO_32] = helper_be_stl_mmu,
-     [MO_64] = helper_be_stq_mmu,
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 4bc0420f4d..2c6c353eea 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -1296,7 +1296,7 @@ static void tcg_out_vldst(TCGContext *s, ARMInsn insn,
- static void * const qemu_ld_helpers[MO_SSIZE + 1] = {
-     [MO_UB]   = helper_ret_ldub_mmu,
-     [MO_SB]   = helper_ret_ldsb_mmu,
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     [MO_UW] = helper_be_lduw_mmu,
-     [MO_UL] = helper_be_ldul_mmu,
-     [MO_UQ] = helper_be_ldq_mmu,
-@@ -1316,7 +1316,7 @@ static void * const qemu_ld_helpers[MO_SSIZE + 1] = {
-  */
- static void * const qemu_st_helpers[MO_SIZE + 1] = {
-     [MO_8]   = helper_ret_stb_mmu,
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     [MO_16] = helper_be_stw_mmu,
-     [MO_32] = helper_be_stl_mmu,
-     [MO_64] = helper_be_stq_mmu,
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 993149d18a..bd76f0c97f 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -26,7 +26,7 @@
- 
- #include "../tcg-ldst.c.inc"
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- # define MIPS_BE  1
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+ #define XTENSA_DEFAULT_CPU_MODEL "fsf"
+ #define XTENSA_DEFAULT_CPU_NOMMU_MODEL "fsf"
  #else
- # define MIPS_BE  0
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 1f3c5c171c..cfcd121f9c 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -1864,7 +1864,7 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-             i1 = ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, hi >> 16);
-             i2 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, lo);
-         }
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         pair = (uint64_t)i1 << 32 | i2;
- #else
-         pair = (uint64_t)i2 << 32 | i1;
-@@ -3235,7 +3235,7 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-             tcg_out_mem_long(s, 0, LVEBX, out, base, offset);
-         }
-         elt = extract32(offset, 0, 4);
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-         elt ^= 15;
+diff --git a/target/xtensa/overlay_tool.h b/target/xtensa/overlay_tool.h
+index 78720734fe..701c00eed2 100644
+--- a/target/xtensa/overlay_tool.h
++++ b/target/xtensa/overlay_tool.h
+@@ -449,7 +449,7 @@
+ 
  #endif
-         tcg_out32(s, VSPLTB | VRT(out) | VRB(out) | (elt << 16));
-@@ -3248,7 +3248,7 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-             tcg_out_mem_long(s, 0, LVEHX, out, base, offset);
-         }
-         elt = extract32(offset, 1, 3);
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-         elt ^= 7;
- #endif
-         tcg_out32(s, VSPLTH | VRT(out) | VRB(out) | (elt << 16));
-@@ -3261,7 +3261,7 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-         tcg_debug_assert((offset & 3) == 0);
-         tcg_out_mem_long(s, 0, LVEWX, out, base, offset);
-         elt = extract32(offset, 2, 2);
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-         elt ^= 3;
- #endif
-         tcg_out32(s, VSPLTW | VRT(out) | VRB(out) | (elt << 16));
-@@ -3275,7 +3275,7 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-         tcg_out_mem_long(s, 0, LVX, out, base, offset & -16);
-         tcg_out_vsldoi(s, TCG_VEC_TMP1, out, out, 8);
-         elt = extract32(offset, 3, 1);
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
-         elt = !elt;
- #endif
-         if (elt) {
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 6409d9c3d5..81a83e45b1 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -854,7 +854,7 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
- static void * const qemu_ld_helpers[MO_SSIZE + 1] = {
-     [MO_UB] = helper_ret_ldub_mmu,
-     [MO_SB] = helper_ret_ldsb_mmu,
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     [MO_UW] = helper_be_lduw_mmu,
-     [MO_SW] = helper_be_ldsw_mmu,
-     [MO_UL] = helper_be_ldul_mmu,
-@@ -879,7 +879,7 @@ static void * const qemu_ld_helpers[MO_SSIZE + 1] = {
-  */
- static void * const qemu_st_helpers[MO_SIZE + 1] = {
-     [MO_8]   = helper_ret_stb_mmu,
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     [MO_16] = helper_be_stw_mmu,
-     [MO_32] = helper_be_stl_mmu,
-     [MO_64] = helper_be_stq_mmu,
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 65e1c94c2d..5d48537927 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -1156,7 +1156,7 @@ void tcg_gen_ld_i64(TCGv_i64 ret, TCGv_ptr arg2, tcg_target_long offset)
+ 
+-#if (defined(TARGET_WORDS_BIGENDIAN) != 0) == (XCHAL_HAVE_BE != 0)
++#if TARGET_BIG_ENDIAN == (XCHAL_HAVE_BE != 0)
+ #define REGISTER_CORE(core) \
+     static void __attribute__((constructor)) register_core(void) \
+     { \
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index b1491ed625..fc4e9d2c9a 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -1471,14 +1471,14 @@ static void translate_b(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_bb(DisasContext *dc, const OpcodeArg arg[],
+                          const uint32_t par[])
  {
-     /* Since arg2 and ret have different types,
-        they cannot be the same temporary */
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     tcg_gen_ld_i32(TCGV_HIGH(ret), arg2, offset);
-     tcg_gen_ld_i32(TCGV_LOW(ret), arg2, offset + 4);
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     TCGv_i32 bit = tcg_const_i32(0x80000000u);
  #else
-@@ -1167,7 +1167,7 @@ void tcg_gen_ld_i64(TCGv_i64 ret, TCGv_ptr arg2, tcg_target_long offset)
- 
- void tcg_gen_st_i64(TCGv_i64 arg1, TCGv_ptr arg2, tcg_target_long offset)
+     TCGv_i32 bit = tcg_const_i32(0x00000001u);
+ #endif
+     TCGv_i32 tmp = tcg_temp_new_i32();
+     tcg_gen_andi_i32(tmp, arg[1].in, 0x1f);
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     tcg_gen_shr_i32(bit, bit, tmp);
+ #else
+     tcg_gen_shl_i32(bit, bit, tmp);
+@@ -1493,7 +1493,7 @@ static void translate_bbi(DisasContext *dc, const OpcodeArg arg[],
+                           const uint32_t par[])
  {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     tcg_gen_st_i32(TCGV_HIGH(arg1), arg2, offset);
-     tcg_gen_st_i32(TCGV_LOW(arg1), arg2, offset + 4);
+     TCGv_i32 tmp = tcg_temp_new_i32();
+-#ifdef TARGET_WORDS_BIGENDIAN
++#if TARGET_BIG_ENDIAN
+     tcg_gen_andi_i32(tmp, arg[0].in, 0x80000000u >> arg[1].imm);
  #else
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 33a97eabdb..f8542529d0 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -51,7 +51,7 @@
- #else
- # define ELF_CLASS  ELFCLASS64
- #endif
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- # define ELF_DATA   ELFDATA2MSB
- #else
- # define ELF_DATA   ELFDATA2LSB
-@@ -883,7 +883,7 @@ TCGTemp *tcg_global_mem_new_internal(TCGType type, TCGv_ptr base,
-     TCGTemp *base_ts = tcgv_ptr_temp(base);
-     TCGTemp *ts = tcg_global_alloc(s);
-     int indirect_reg = 0, bigendian = 0;
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     bigendian = 1;
- #endif
+     tcg_gen_andi_i32(tmp, arg[0].in, 0x00000001u << arg[1].imm);
+diff --git a/tests/tcg/xtensa/Makefile.softmmu-target b/tests/tcg/xtensa/Makefile.softmmu-target
+index 9530cac2ad..973e55298e 100644
+--- a/tests/tcg/xtensa/Makefile.softmmu-target
++++ b/tests/tcg/xtensa/Makefile.softmmu-target
+@@ -2,7 +2,7 @@
+ # Xtensa softmmu tests
+ #
  
-@@ -1547,7 +1547,7 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
-         }
- #else
-         if (TCG_TARGET_REG_BITS < 64 && (typemask & 6) == dh_typecode_i64) {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-             op->args[pi++] = temp_arg(ret + 1);
-             op->args[pi++] = temp_arg(ret);
- #else
-@@ -1600,7 +1600,7 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
-              * have to get more complicated to differentiate between
-              * stack arguments and register arguments.
-              */
--#if defined(HOST_WORDS_BIGENDIAN) != defined(TCG_TARGET_STACK_GROWSUP)
-+#if HOST_BIG_ENDIAN != defined(TCG_TARGET_STACK_GROWSUP)
-             op->args[pi++] = temp_arg(args[i] + 1);
-             op->args[pi++] = temp_arg(args[i]);
- #else
-@@ -3598,7 +3598,7 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
-         /* fall through */
+-ifneq ($(TARGET_WORDS_BIGENDIAN),y)
++ifneq ($(TARGET_BIG_ENDIAN),y)
  
-     case TEMP_VAL_MEM:
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         endian_fixup = itype == TCG_TYPE_I32 ? 4 : 8;
-         endian_fixup -= 1 << vece;
- #else
-@@ -3879,7 +3879,7 @@ static bool tcg_reg_alloc_dup2(TCGContext *s, const TCGOp *op)
-         if (!itsh->mem_coherent) {
-             temp_sync(s, itsh, s->reserved_regs, 0, 0);
-         }
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-         TCGTemp *its = itsh;
- #else
-         TCGTemp *its = itsl;
-diff --git a/tests/fp/platform.h b/tests/fp/platform.h
-index c20ba70baa..6c72ad0cd0 100644
---- a/tests/fp/platform.h
-+++ b/tests/fp/platform.h
-@@ -29,9 +29,9 @@
-  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  */
--#include "config-host.h"
-+#include "qemu/compiler.h"
- 
--#ifndef HOST_WORDS_BIGENDIAN
-+#if !HOST_BIG_ENDIAN
- #define LITTLEENDIAN 1
- /* otherwise do not define it */
- #endif
-diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-index 62e670f39b..659b5050d8 100644
---- a/tests/qtest/vhost-user-blk-test.c
-+++ b/tests/qtest/vhost-user-blk-test.c
-@@ -37,7 +37,7 @@ typedef struct QVirtioBlkReq {
-     uint8_t status;
- } QVirtioBlkReq;
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- static const bool host_is_big_endian = true;
- #else
- static const bool host_is_big_endian; /* false */
-diff --git a/tests/qtest/virtio-blk-test.c b/tests/qtest/virtio-blk-test.c
-index 2a23698211..f22594a1a8 100644
---- a/tests/qtest/virtio-blk-test.c
-+++ b/tests/qtest/virtio-blk-test.c
-@@ -33,7 +33,7 @@ typedef struct QVirtioBlkReq {
- } QVirtioBlkReq;
- 
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
- const bool host_is_big_endian = true;
- #else
- const bool host_is_big_endian; /* false */
-diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 7ea4bc5d9a..02861edfb1 100644
---- a/ui/vdagent.c
-+++ b/ui/vdagent.c
-@@ -664,7 +664,7 @@ static void vdagent_chr_open(Chardev *chr,
-     VDAgentChardev *vd = QEMU_VDAGENT_CHARDEV(chr);
-     ChardevQemuVDAgent *cfg = backend->u.qemu_vdagent.data;
- 
--#if defined(HOST_WORDS_BIGENDIAN)
-+#if HOST_BIG_ENDIAN
-     /*
-      * TODO: vdagent protocol is defined to be LE,
-      * so we have to byteswap everything on BE hosts.
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 310a873c21..5cbeebb8d1 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -2340,7 +2340,7 @@ static void pixel_format_message (VncState *vs) {
-     vnc_write_u8(vs, vs->client_pf.bits_per_pixel); /* bits-per-pixel */
-     vnc_write_u8(vs, vs->client_pf.depth); /* depth */
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     vnc_write_u8(vs, 1);             /* big-endian-flag */
- #else
-     vnc_write_u8(vs, 0);             /* big-endian-flag */
-diff --git a/util/bitmap.c b/util/bitmap.c
-index 1f201393ae..f81d8057a7 100644
---- a/util/bitmap.c
-+++ b/util/bitmap.c
-@@ -376,7 +376,7 @@ static void bitmap_to_from_le(unsigned long *dst,
- {
-     long len = BITS_TO_LONGS(nbits);
- 
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-     long index;
- 
-     for (index = 0; index < len; index++) {
-diff --git a/util/host-utils.c b/util/host-utils.c
-index bcc772b8ec..96d5dc0bed 100644
---- a/util/host-utils.c
-+++ b/util/host-utils.c
-@@ -34,7 +34,7 @@ static inline void mul64(uint64_t *plow, uint64_t *phigh,
-     typedef union {
-         uint64_t ll;
-         struct {
--#ifdef HOST_WORDS_BIGENDIAN
-+#if HOST_BIG_ENDIAN
-             uint32_t high, low;
- #else
-             uint32_t low, high;
+ XTENSA_SRC = $(SRC_PATH)/tests/tcg/xtensa
+ XTENSA_ALL = $(filter-out $(XTENSA_SRC)/linker.ld.S,$(wildcard $(XTENSA_SRC)/*.S))
 -- 
 2.35.1
 
