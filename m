@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA0D5067BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:35:56 +0200 (CEST)
-Received: from localhost ([::1]:59456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1441506816
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:53:05 +0200 (CEST)
+Received: from localhost ([::1]:33062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngkH5-0004DH-EV
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
+	id 1ngkXg-0008R1-Vm
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngk1Y-0007R5-K2
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:19:52 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:43772)
+ id 1ngk1f-0007UQ-5m
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:20:01 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:37502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngk1R-0001PO-Ur
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:19:51 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id g18so31563252ejc.10
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:19:45 -0700 (PDT)
+ id 1ngk1d-0001RE-KJ
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:19:58 -0400
+Received: by mail-ej1-x633.google.com with SMTP id g13so3857549ejb.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Nhb9rVKteQQXfF9Rk3qVvt+rp0GSZP29awSEF2oCmWk=;
- b=mW69551ZATFh26+F+MXLbK9o+YpkKpGi3vGIX+yMnnIZELXcEe38lqdtBT17vg/VZ5
- 7Sy0zggetwROUbeyiqatYYKsGKjVCqAmQ41KAyS9dxtv+d05SOCFAMfbREhzJnY8HpQK
- iKuoMDeHTvvsjotbl0pQSFYJlJbu1CIpodZKNiwrsqSxymVd5/hQ40ypDQPHMW5zFpVQ
- HxMeLXjVC8p69lPAO03GHicXBXxQagQu58TYR7bZk46dS8kqQqdRZF2fKDljD5owfeYK
- al/uJfQHZGQ7Zsb51AKBJYoJKZCrEy39vomGr1X6fnBeXihk4zbzGYVO7As+2gONLQmt
- 8jSg==
+ bh=JFCx3h9+6IkiSUPwDfnta1g3m759MetaQg4zKGaDjt8=;
+ b=wZJKc47igZV3XKY4NaI+GQYL2Oi0ZkHxEyJjypUJDBSX2ceP0xX/17TxTiv5/heQeA
+ jzfjRAGRo7XOt8TTuIU1OJ1HghwIDB9SbKflFnTFZxNhqrursysh+g/sVXAArG0zSYao
+ kKZv4Eswbsg4a41kHdEJWmEwqWUeBk8gdfX27VY3QKeVUoPclHPhLixiQ+iDg1YUIreW
+ OJML7jJwbbyopWz4gh/jESmLUXBujIzMRV+s1iYlFrCq40MEev81fU4amfnxa361Gcim
+ hM+9XgI1uRvjAVdVJ267qTVw5HKcW0opd4wVYbRRvD1tSbQiwL1r/tiaDyDk12VYoWY+
+ KCpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Nhb9rVKteQQXfF9Rk3qVvt+rp0GSZP29awSEF2oCmWk=;
- b=pT0QELZUuJcFplWbmxuQ/+54ODWWv5jlDi/cznLk323458OojIf9iJAstyzAb1ZKAv
- c4GkXCDsigCgdhAuviXsgoDImnjBqpPC9ndR5LvgEqBg3y3X0yMYwZir8PFDjTB4VB+B
- WgGn0PTDqvWukH2+d6KW9PiF+dhhHwaEiGemqLrHs6Wjw9KMXdgsLYUyqtHyC/Je4fUd
- 51F2AKfUCW/t+ZIqrgRoHuGfk0TtpiPbAxnj3yUv+dHwAYRCAPHFA1jbTY7bWGGD9VMO
- tlLlp33mZe8VHMP+Iz4vLqB/IYjCDg9TuZU1g/qdFgfHEOJBvVQyz6CySZMU8z0Hoywz
- rSrA==
-X-Gm-Message-State: AOAM5310PC1qBTJ+hpCgKw8MgxCpFcOfIrnkGAwe2SP79ViVfhKbSQmy
- rn0LPvYk6u52fKWppW0OJgNWhQ==
-X-Google-Smtp-Source: ABdhPJyFBFehtVYQWo8IGbrXZj8f+QLFp1u/D0l/JhDAA+TViJzh24POig2l5D7Nuu81ge3oCHhdsA==
-X-Received: by 2002:a17:907:d90:b0:6eb:557e:91e6 with SMTP id
- go16-20020a1709070d9000b006eb557e91e6mr12423053ejc.376.1650359984487; 
- Tue, 19 Apr 2022 02:19:44 -0700 (PDT)
+ bh=JFCx3h9+6IkiSUPwDfnta1g3m759MetaQg4zKGaDjt8=;
+ b=As+lv5ECZS/LbB9nQwgSRJHT7H3wPoGEB/XswWjOslvOPArbIrxxNALgwtsDL5OoQr
+ 9hVB69Y5BPI+NJTlEbwPmQyw9aZVzjSbl/+Jn/eO6qGUI0gZHXqDLja7SaoSZmK+pPXj
+ Cdowuy+lzOlahYwxM2S0nNAk9qINrOv12lzaysOnOFu3p8Mye291UC5/mHSH0nAPJ3I2
+ icKSjY23FpqZl8QNJm+TCHuFUNjU9J9R+6KJlYkKtkw3L7YuKe9zRNiCI6Zg8k4Xy3We
+ k+2cBFnG+vJ/M7bLePHJbBJapvkd5S2PkPCeaLWE5H4ASec5yhwfnnhaKOxmLn1ETgsb
+ +iCg==
+X-Gm-Message-State: AOAM530s6j2WleL7W8DaCMQWen1dBNn9gbYvOW94wa1Hue3Q87VyjlK8
+ 9CgPuXR1Qa4P2R4e9h1wyabRxg==
+X-Google-Smtp-Source: ABdhPJxOUYz8S6Qxcp0V2kbAJCOSJfe5jZXacgkbyRklV8zeOr+77ZqJbPpdjP0VULDu15ZDJFdqMg==
+X-Received: by 2002:a17:907:1ca0:b0:6e9:9eef:a8d2 with SMTP id
+ nb32-20020a1709071ca000b006e99eefa8d2mr12283427ejc.719.1650359996280; 
+ Tue, 19 Apr 2022 02:19:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- n10-20020a170906700a00b006efdb748e8dsm591744ejj.88.2022.04.19.02.19.43
+ g9-20020aa7c849000000b00412fc6bf26dsm8223362edt.80.2022.04.19.02.19.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 02:19:43 -0700 (PDT)
+ Tue, 19 Apr 2022 02:19:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 157EF1FFCC;
+ by zen.linaroharston (Postfix) with ESMTP id 2BFCE1FFCD;
  Tue, 19 Apr 2022 10:10:22 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 20/25] tests/tcg: fix non-static build
-Date: Tue, 19 Apr 2022 10:10:15 +0100
-Message-Id: <20220419091020.3008144-21-alex.bennee@linaro.org>
+Subject: [PATCH  v1 21/25] tests/tcg: remove duplicate sha512-sse case
+Date: Tue, 19 Apr 2022 10:10:16 +0100
+Message-Id: <20220419091020.3008144-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220419091020.3008144-1-alex.bennee@linaro.org>
 References: <20220419091020.3008144-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,36 +88,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
+Cc: fam@euphon.net, Eduardo Habkost <eduardo@habkost.net>, berrange@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+We already generate the sha512-sse case in the i386 makefile which
+works for both i386 and x86_64.
 
-If linking with -static fails at configure time, -static should not be used
-at build time either. Do not include BUILD_STATIC in $config_target_mak.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220401141326.1244422-18-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Fixes: f8a4c6d728 ("tests/tcg: add vectorised sha512 versions")
 ---
- tests/tcg/configure.sh | 1 -
- 1 file changed, 1 deletion(-)
+ tests/tcg/x86_64/Makefile.target | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 75603fee6d..691d90abac 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -261,7 +261,6 @@ for target in $target_list; do
-                   if do_compiler "$target_compiler" $target_compiler_cflags \
-                                  -o $TMPE $TMPC ; then
-                       got_cross_cc=yes
--                      echo "BUILD_STATIC=y" >> $config_target_mak
-                       echo "CC=$target_compiler" >> $config_target_mak
-                   fi
-               else
+diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
+index f9fcd31caf..b71a6bcd5e 100644
+--- a/tests/tcg/x86_64/Makefile.target
++++ b/tests/tcg/x86_64/Makefile.target
+@@ -22,10 +22,3 @@ test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
+ 
+ vsyscall: $(SRC_PATH)/tests/tcg/x86_64/vsyscall.c
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+-
+-# TCG does not yet support all SSE (SIGILL on pshufb)
+-# sha512-sse: CFLAGS=-march=core2 -O3
+-# sha512-sse: sha512.c
+-# 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+-
+-TESTS+=sha512-sse
 -- 
 2.30.2
 
