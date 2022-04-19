@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D88A506689
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 10:09:11 +0200 (CEST)
-Received: from localhost ([::1]:54046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77160506701
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 10:34:35 +0200 (CEST)
+Received: from localhost ([::1]:42196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngiv8-0008LO-5C
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 04:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48422)
+	id 1ngjJi-0003mV-1l
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 04:34:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1ngiWE-00058J-OE
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:43:29 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:45929)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1ngiWC-0002zr-Gs
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:43:26 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id s33so2133911ybi.12
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 00:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sUBtKgaDDO5gsavpfTA6knsKOiOHEoIstaV1p4FqyZ0=;
- b=UbwFpDJv7hY2eFYXQl7bVcai0nP1bQbVsZKsJKrVH3GKpvMZ2KS0FRyolJ/Pt7h0Rq
- znQksJdtGzXz32S1hz8goPgZ5ny1AbppwKwJTShp1is5vYkRcvYZ35muDhpYOrGuv5yp
- nTnoMs7GPS4KBPSL/3IpGNe7M9VWYek3H0MD8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sUBtKgaDDO5gsavpfTA6knsKOiOHEoIstaV1p4FqyZ0=;
- b=ZdJqujh1f6sI1AUyHkx1cj8N69GXvXjb6eunpyBbKAbHvKhd+yU0K7x3l3WXCsncEZ
- 32T8O0MhdlyQLxwfcbnl4aSJur2IPsjd43ltoA5z8NH4LZxJET1KAMCDIhhcKvb/e3qs
- O+yhBign3dYFTq0sIgRC5Rd3Un7viS9gUFkM+e6exkVF4x/9mmuYr3iG0URiIoQESARJ
- T5wcYNtTHNHcG/21Ow2QRBqfdauXz0Yh2eT34dgHCzjkn4mJiYixHXcE7pr0NDBwYVTf
- Ymq1NVkd+3xFIm8PkAVVz4sJTM6oHbyVC5IuasXWDCE6RAsP1fHqha7+NXWVgzFcB4YN
- vWLg==
-X-Gm-Message-State: AOAM533U4QWkH3MT4XBuV0rT+34kUNYKll4ZlMUo+1ka9iiHFFWfY8m2
- i2Kb87s/4n8RA8QooKcvSaI2msSCn4BbIsPbjGNk
-X-Google-Smtp-Source: ABdhPJxUXod2qiC8y1YJaRwTI/mw/v6uygQ8RcxInJBOdcN6ihj+scy4p7UUANf8hPeYryEXtVgBHUp8ty6OnaiKK3A=
-X-Received: by 2002:a25:db8c:0:b0:642:876d:2e4b with SMTP id
- g134-20020a25db8c000000b00642876d2e4bmr13938620ybf.405.1650354203085; Tue, 19
- Apr 2022 00:43:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1ngjGH-0002vd-Kj
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 04:31:03 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:44108)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1ngjGD-0002DM-Bu
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 04:30:59 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 32F0A403FC
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 08:30:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1650357051;
+ bh=q7BjoJAU6KnOXLsldKHz+4O38QW1NKQmuEt4PM9AQgc=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=Keb2eTZd3HcwiT5ZBJVz5QQuxGOfbylKXPr8ZG/meawpIKAXwqXayD3KBbs871hBy
+ mNlnOWgaciNZdFJlUecG8MQxrtGwMDJix21uq5Z9gDYe/IVEfGh/ad3uPwy5rzc2xz
+ KFb5BvFmYA4nFa33F1qmZrOlHnhbrxvx4dVUOAoztGLTZau0R6cRqoWHrlRL3ioO52
+ hdKfk8llhTWZDG45lMfFfKKEh9QEo7MlrlBVvV8cVYaH37LvhRPjfJQphIjgxcWypC
+ hI3SgvYSRlTWRS5F3FSLazB40hzfHpyVfvmCoDSjNp8wt8YcGSPcyRCXnUBfmTI2yq
+ lDrHKMHFf+eIw==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CF06D2E8236
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 08:30:49 +0000 (UTC)
 MIME-Version: 1.0
-References: <20220401125948.79292-1-richard.henderson@linaro.org>
- <20220401125948.79292-3-richard.henderson@linaro.org>
- <CAKmqyKNX_JyT0k92tKgZtiC9ZbLJVtZS2RXSoAQONnDg07dHsg@mail.gmail.com>
-In-Reply-To: <CAKmqyKNX_JyT0k92tKgZtiC9ZbLJVtZS2RXSoAQONnDg07dHsg@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Tue, 19 Apr 2022 00:43:12 -0700
-Message-ID: <CAOnJCUK98J1DMJXqaSzPdGrP75s5O432cVpvXYmzu_WtM3pKFw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/riscv: Mark amo insns during translation
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 19 Apr 2022 08:23:00 -0000
+From: Thomas Huth <1795799@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor th-huth uli-rgbg
+X-Launchpad-Bug-Reporter: 1448412 (uli-rgbg)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <153854876970.8093.8281977753870845379.malonedeb@soybean.canonical.com>
+Message-Id: <165035658061.63639.15498415580847091507.malone@dale.canonical.com>
+Subject: [Bug 1795799] Re: Cirrus video, graphical corruption, bad fonts
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5cc3bd61c85a328825183f316ddd801c0f7d7ef2"; Instance="production"
+X-Launchpad-Hash: e7f13b3c9a3930f5ed0cba6469aeb6bc8962737d
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,293 +83,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Reply-To: Bug 1795799 <1795799@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 7, 2022 at 11:17 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Fri, Apr 1, 2022 at 11:04 PM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > Atomic memory operations perform both reads and writes as part
-> > of their implementation, but always raise write faults.
-> >
-> > Use TARGET_INSN_START_EXTRA_WORDS to mark amo insns in the
-> > opcode stream, and force the access type to write at the
-> > point of raising the exception.
-> >
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->
+FWIW, issue has been re-opened here: https://gitlab.com/qemu-
+project/qemu/-/issues/988
 
-This results in the following segfault in 5.17
-Qemu tree: riscv-to-apply.next
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #988
+   https://gitlab.com/qemu-project/qemu/-/issues/988
 
-[    1.134496] Run /init as init process
-[    1.329796] mount[61]: unhandled signal 11 code 0x2 at
-0x00000000000c29c6 in busybox[10000+159000]
-[    1.331185] CPU: 2 PID: 61 Comm: mount Not tainted 5.17.0 #59
-[    1.331632] Hardware name: riscv-virtio,qemu (DT)
-[    1.332053] epc : 00000000000c29c6 ra : 00000000000a03f2 sp :
-00007fffd6707ae0
-[    1.332350]  gp : 000000000016c408 tp : 00000000001707a0 t0 :
-0000000000001000
-[    1.332575]  t1 : 0000000000000000 t2 : 0000000000080000 s0 :
-0000000000163398
-[    1.332797]  s1 : 0000000000163398 a0 : 0000000000000000 a1 :
-0000000000000000
-[    1.333018]  a2 : 0000000000171590 a3 : 0000000000000000 a4 :
-0000000000000001
-[    1.333371]  a5 : 0000000000000001 a6 : fffffffffbada498 a7 :
-000000000000003f
-[    1.333607]  s2 : 0000000000000004 s3 : 0000000000000001 s4 :
-0000000000000000
-[    1.333829]  s5 : 0000000000000003 s6 : 0000000000000000 s7 :
-000000000016c280
-[    1.334052]  s8 : 0000000000000001 s9 : 0000000000170828 s10:
-0000000000000000
-[    1.334275]  s11: 0000000000000001 t3 : 0000000000000000 t4 :
-00000000001410f0
-[    1.334500]  t5 : 0000000000000005 t6 : ffffffffffffffff
-[    1.334669] status: 0000000200004020 badaddr: 00000000000c29c6
-cause: 000000000000000f
-Segmentation fault
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1795799
 
+Title:
+  Cirrus video, graphical corruption, bad fonts
 
+Status in QEMU:
+  Expired
 
-> Alistair
->
-> > ---
-> >  target/riscv/cpu.h                      | 15 ++++++
-> >  target/riscv/cpu.c                      |  3 ++
-> >  target/riscv/cpu_helper.c               | 62 +++++++++++++++++--------
-> >  target/riscv/translate.c                |  9 ++++
-> >  target/riscv/insn_trans/trans_rva.c.inc | 11 ++++-
-> >  5 files changed, 79 insertions(+), 21 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index c069fe85fa..3de4da3fa1 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -290,6 +290,13 @@ struct CPUArchState {
-> >      /* True if in debugger mode.  */
-> >      bool debugger;
-> >
-> > +    /*
-> > +     * True if unwinding through an amo insn.  Used to transform a
-> > +     * read fault into a store_amo fault; only valid immediately
-> > +     * after cpu_restore_state().
-> > +     */
-> > +    bool unwind_amo;
-> > +
-> >      /*
-> >       * CSRs for PointerMasking extension
-> >       */
-> > @@ -517,6 +524,14 @@ FIELD(TB_FLAGS, XL, 20, 2)
-> >  FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
-> >  FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
-> >
-> > +#ifndef CONFIG_USER_ONLY
-> > +/*
-> > + * RISC-V-specific extra insn start words:
-> > + * 1: True if the instruction is AMO, false otherwise.
-> > + */
-> > +#define TARGET_INSN_START_EXTRA_WORDS 1
-> > +#endif
-> > +
-> >  #ifdef TARGET_RISCV32
-> >  #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
-> >  #else
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index ddda4906ff..3818d5ba80 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -396,6 +396,9 @@ void restore_state_to_opc(CPURISCVState *env, TranslationBlock *tb,
-> >      } else {
-> >          env->pc = data[0];
-> >      }
-> > +#ifndef CONFIG_USER_ONLY
-> > +    env->unwind_amo = data[1];
-> > +#endif
-> >  }
-> >
-> >  static void riscv_cpu_reset(DeviceState *dev)
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 126251d5da..b5bbe6fc39 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -1139,26 +1139,11 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-> >      RISCVCPU *cpu = RISCV_CPU(cs);
-> >      CPURISCVState *env = &cpu->env;
-> >
-> > -    if (access_type == MMU_DATA_STORE) {
-> > -        cs->exception_index = RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
-> > -    } else if (access_type == MMU_DATA_LOAD) {
-> > -        cs->exception_index = RISCV_EXCP_LOAD_ACCESS_FAULT;
-> > -    } else {
-> > -        cs->exception_index = RISCV_EXCP_INST_ACCESS_FAULT;
-> > +    cpu_restore_state(cs, retaddr, true);
-> > +    if (env->unwind_amo) {
-> > +        access_type = MMU_DATA_STORE;
-> >      }
-> >
-> > -    env->badaddr = addr;
-> > -    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-> > -                            riscv_cpu_two_stage_lookup(mmu_idx);
-> > -    cpu_loop_exit_restore(cs, retaddr);
-> > -}
-> > -
-> > -void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> > -                                   MMUAccessType access_type, int mmu_idx,
-> > -                                   uintptr_t retaddr)
-> > -{
-> > -    RISCVCPU *cpu = RISCV_CPU(cs);
-> > -    CPURISCVState *env = &cpu->env;
-> >      switch (access_type) {
-> >      case MMU_INST_FETCH:
-> >          cs->exception_index = RISCV_EXCP_INST_ADDR_MIS;
-> > @@ -1172,10 +1157,43 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> >      default:
-> >          g_assert_not_reached();
-> >      }
-> > +
-> >      env->badaddr = addr;
-> >      env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-> >                              riscv_cpu_two_stage_lookup(mmu_idx);
-> > -    cpu_loop_exit_restore(cs, retaddr);
-> > +    cpu_loop_exit(cs);
-> > +}
-> > +
-> > +void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> > +                                   MMUAccessType access_type, int mmu_idx,
-> > +                                   uintptr_t retaddr)
-> > +{
-> > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > +    CPURISCVState *env = &cpu->env;
-> > +
-> > +    cpu_restore_state(cs, retaddr, true);
-> > +    if (env->unwind_amo) {
-> > +        access_type = MMU_DATA_STORE;
-> > +    }
-> > +
-> > +    switch (access_type) {
-> > +    case MMU_INST_FETCH:
-> > +        cs->exception_index = RISCV_EXCP_INST_ADDR_MIS;
-> > +        break;
-> > +    case MMU_DATA_LOAD:
-> > +        cs->exception_index = RISCV_EXCP_LOAD_ADDR_MIS;
-> > +        break;
-> > +    case MMU_DATA_STORE:
-> > +        cs->exception_index = RISCV_EXCP_STORE_AMO_ADDR_MIS;
-> > +        break;
-> > +    default:
-> > +        g_assert_not_reached();
-> > +    }
-> > +
-> > +    env->badaddr = addr;
-> > +    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
-> > +                            riscv_cpu_two_stage_lookup(mmu_idx);
-> > +    cpu_loop_exit(cs);
-> >  }
-> >
-> >  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-> > @@ -1307,11 +1325,15 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-> >      } else if (probe) {
-> >          return false;
-> >      } else {
-> > +        cpu_restore_state(cs, retaddr, true);
-> > +        if (env->unwind_amo) {
-> > +            access_type = MMU_DATA_STORE;
-> > +        }
-> >          raise_mmu_exception(env, address, access_type, pmp_violation,
-> >                              first_stage_error,
-> >                              riscv_cpu_virt_enabled(env) ||
-> >                                  riscv_cpu_two_stage_lookup(mmu_idx));
-> > -        cpu_loop_exit_restore(cs, retaddr);
-> > +        cpu_loop_exit(cs);
-> >      }
-> >
-> >      return true;
-> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> > index fac998a6b5..ae4b0d1524 100644
-> > --- a/target/riscv/translate.c
-> > +++ b/target/riscv/translate.c
-> > @@ -107,6 +107,10 @@ typedef struct DisasContext {
-> >      /* PointerMasking extension */
-> >      bool pm_mask_enabled;
-> >      bool pm_base_enabled;
-> > +#ifndef CONFIG_USER_ONLY
-> > +    /* TCG op of the current insn_start.  */
-> > +    TCGOp *insn_start;
-> > +#endif
-> >  } DisasContext;
-> >
-> >  static inline bool has_ext(DisasContext *ctx, uint32_t ext)
-> > @@ -1105,7 +1109,12 @@ static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
-> >  {
-> >      DisasContext *ctx = container_of(dcbase, DisasContext, base);
-> >
-> > +#ifdef CONFIG_USER_ONLY
-> >      tcg_gen_insn_start(ctx->base.pc_next);
-> > +#else
-> > +    tcg_gen_insn_start(ctx->base.pc_next, 0);
-> > +    ctx->insn_start = tcg_last_op();
-> > +#endif
-> >  }
-> >
-> >  static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-> > diff --git a/target/riscv/insn_trans/trans_rva.c.inc b/target/riscv/insn_trans/trans_rva.c.inc
-> > index 45db82c9be..66faa8f1da 100644
-> > --- a/target/riscv/insn_trans/trans_rva.c.inc
-> > +++ b/target/riscv/insn_trans/trans_rva.c.inc
-> > @@ -37,6 +37,13 @@ static bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
-> >      return true;
-> >  }
-> >
-> > +static void record_insn_start_amo(DisasContext *ctx)
-> > +{
-> > +#ifndef CONFIG_USER_ONLY
-> > +    tcg_set_insn_start_param(ctx->insn_start, 1, 1);
-> > +#endif
-> > +}
-> > +
-> >  static bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
-> >  {
-> >      TCGv dest, src1, src2;
-> > @@ -73,6 +80,7 @@ static bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
-> >       */
-> >      tcg_gen_movi_tl(load_res, -1);
-> >
-> > +    record_insn_start_amo(ctx);
-> >      return true;
-> >  }
-> >
-> > @@ -85,8 +93,9 @@ static bool gen_amo(DisasContext *ctx, arg_atomic *a,
-> >      TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-> >
-> >      func(dest, src1, src2, ctx->mem_idx, mop);
-> > -
-> >      gen_set_gpr(ctx, a->rd, dest);
-> > +
-> > +    record_insn_start_amo(ctx);
-> >      return true;
-> >  }
-> >
-> > --
-> > 2.25.1
-> >
-> >
->
+Bug description:
+  The error
+  =3D=3D=3D
 
+  I started qemu by
 
--- 
-Regards,
-Atish
+  `shell
+  $ ./qemu-system-i386 -serial stdio -cdrom /dev/cdrom -vga cirrus
+  S1111111111S1111111111S1111111111S1111111111=E2=96=92*n*n*n*n
+  `
+
+  with the original suse7.0 cd 1 in the cdrom drive (I think
+  https://archive.org/details/suse-7.0_release_i386 has the image).
+  After some console output (that uses a vga framebuffer which seems to
+  work fine) the suse installer is started. It is displayed mostly
+  correct, but several text passages are completely garbled.
+
+  I noticed the same type of corruption when trying to run an old XF86
+  SVGA Server on a SuSE 6.2 System using the `-vga cirrus` option.
+
+  Therefore I think that the cirrus emulation might not work as intended
+  any more.
+
+  Qemu version
+  =3D=3D=3D
+
+  I used  qemu-w64-setup-20180815.exe provided by
+  https://qemu.weilnetz.de/w64/
+
+  ./qemu-system-i386 -version
+  QEMU emulator version 3.0.0 (v3.0.0-11723-ge2ddcc5879-dirty)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+  Hope you can fix it.
+
+  Best regards!
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1795799/+subscriptions
+
 
