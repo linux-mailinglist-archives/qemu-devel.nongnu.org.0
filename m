@@ -2,53 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6828506C94
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 14:37:09 +0200 (CEST)
-Received: from localhost ([::1]:40556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6FB506BAF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 14:05:01 +0200 (CEST)
+Received: from localhost ([::1]:58050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngn6S-0006pu-MR
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 08:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50852)
+	id 1ngmbL-0004Hb-S3
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 08:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <284de6154d7ad57ac6539a7318aa2364261da105@lizzy.crudebyte.com>)
- id 1ngmqj-0003OP-FY; Tue, 19 Apr 2022 08:20:53 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:56073)
+ (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
+ id 1ngmYs-0003L6-P8; Tue, 19 Apr 2022 08:02:26 -0400
+Received: from atcsqr.andestech.com ([60.248.187.195]:40256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <284de6154d7ad57ac6539a7318aa2364261da105@lizzy.crudebyte.com>)
- id 1ngmqh-0004jd-SY; Tue, 19 Apr 2022 08:20:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=XX4vAZPK+i1VCEUgVN1ZDqJ7cSYFegRWNpXFl/BkX44=; b=YsP2E
- k51azw51zOahjxrJW7yBipmKKibcnBQ6SHidv8f9S2LCOQ/ywQmZPTs3EE9JAuotGofSbL7qOPK7e
- cLNoiSfDkHNUgvP2zSHxL/SrNA+UnMMkAmpdcZJjSSVg+k1sChRQZecBLy7P8WSRoLMEos7DJS3BY
- iDMjn+9oDpPBIb/VDnvDDD6ko8qne7/n/4k6zNhmdPh4RrR2zUiQOrzQ0Q1Tl2dkstRg/JOJ8VDIE
- mW6mILcf0ujo9zWyiEJUFLRQymQ52qqnPPH9e3Dbb8D1c4wuBg5u6tCfftu0S3MP0pv+ULrcL0AtM
- DkrTbwUA6BeSijhasoBBVgAGPS9/w==;
-Message-Id: <284de6154d7ad57ac6539a7318aa2364261da105.1650370027.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1650370026.git.qemu_oss@crudebyte.com>
-References: <cover.1650370026.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 19 Apr 2022 13:43:30 +0200
-Subject: [PATCH 5/5] 9pfs: fix removing non-existent POSIX ACL xattr on macOS
- host
-To: qemu-devel@nongnu.org
-Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Keno Fischer <keno@juliacomputing.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-stable@nongnu.org
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=284de6154d7ad57ac6539a7318aa2364261da105@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dylan@andestech.com>)
+ id 1ngmYp-0002J5-Bz; Tue, 19 Apr 2022 08:02:25 -0400
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+ by Atcsqr.andestech.com with ESMTP id 23JC26CV019232;
+ Tue, 19 Apr 2022 20:02:06 +0800 (+08)
+ (envelope-from dylan@andestech.com)
+Received: from atctrx.andestech.com (10.0.12.164) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Tue, 19 Apr 2022
+ 20:02:02 +0800
+From: Dylan Jhong <dylan@andestech.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>, <bin.meng@windriver.com>,
+ <alistair.francis@wdc.com>, <palmer@dabbelt.com>
+Subject: [PATCH] hw/riscv: boot: Support 64bit fdt address.
+Date: Tue, 19 Apr 2022 19:59:45 +0800
+Message-ID: <20220419115945.37945-1-dylan@andestech.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.12.164]
+X-DNSRBL: 
+X-MAIL: Atcsqr.andestech.com 23JC26CV019232
+Received-SPF: pass client-ip=60.248.187.195; envelope-from=dylan@andestech.com;
+ helo=Atcsqr.andestech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,43 +56,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: x5710999x@gmail.com, Dylan Jhong <dylan@andestech.com>,
+ locus84@andestech.com, alankao@andestech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When mapped POSIX ACL is used, we are ignoring errors when trying
-to remove a POSIX ACL xattr that does not exist. On Linux hosts we
-would get ENODATA in such cases, on macOS hosts however we get
-ENOATTR instead, so ignore ENOATTR errors as well.
+The current riscv_load_fdt() forces fdt_load_addr to be placed at a dram address within 3GB,
+but not all platforms have dram_base within 3GB.
 
-This patch fixes e.g. a command on Linux guest like:
+This patch adds an exception for dram base not within 3GB,
+which will place fdt at dram_end align 16MB.
 
-  cp --preserve=mode old new
+riscv_setup_rom_reset_vec() also needs to be modified
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Dylan Jhong <dylan@andestech.com>
 ---
- hw/9pfs/9p-posix-acl.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ hw/riscv/boot.c         | 12 +++++++-----
+ include/hw/riscv/boot.h |  4 ++--
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/hw/9pfs/9p-posix-acl.c b/hw/9pfs/9p-posix-acl.c
-index eadae270dd..2bf155f941 100644
---- a/hw/9pfs/9p-posix-acl.c
-+++ b/hw/9pfs/9p-posix-acl.c
-@@ -65,7 +65,13 @@ static int mp_pacl_removexattr(FsContext *ctx,
-     int ret;
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 519fa455a1..852aa92bbe 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -203,9 +203,9 @@ hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
+     return *start + size;
+ }
  
-     ret = local_removexattr_nofollow(ctx, path, MAP_ACL_ACCESS);
--    if (ret == -1 && errno == ENODATA) {
-+    if (ret == -1 &&
-+          (errno == ENODATA
-+#ifdef ENOATTR
-+          || errno == ENOATTR
-+#endif
-+          )
-+    ) {
-         /*
-          * We don't get ENODATA error when trying to remove a
-          * posix acl that is not present. So don't throw the error
+-uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
++uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+ {
+-    uint32_t temp, fdt_addr;
++    uint64_t temp, fdt_addr;
+     hwaddr dram_end = dram_base + mem_size;
+     int ret, fdtsize = fdt_totalsize(fdt);
+ 
+@@ -220,7 +220,7 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+      * Thus, put it at an 16MB aligned address that less than fdt size from the
+      * end of dram or 3GB whichever is lesser.
+      */
+-    temp = MIN(dram_end, 3072 * MiB);
++    temp = (dram_base < 3072 * MiB) ? MIN(dram_end, 3072 * MiB) : dram_end;
+     fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
+ 
+     ret = fdt_pack(fdt);
+@@ -276,13 +276,15 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+                                hwaddr start_addr,
+                                hwaddr rom_base, hwaddr rom_size,
+                                uint64_t kernel_entry,
+-                               uint32_t fdt_load_addr, void *fdt)
++                               uint64_t fdt_load_addr, void *fdt)
+ {
+     int i;
+     uint32_t start_addr_hi32 = 0x00000000;
++    uint32_t fdt_load_addr_hi32 = 0x00000000;
+ 
+     if (!riscv_is_32bit(harts)) {
+         start_addr_hi32 = start_addr >> 32;
++        fdt_load_addr_hi32 = fdt_load_addr >> 32;
+     }
+     /* reset vector */
+     uint32_t reset_vec[10] = {
+@@ -295,7 +297,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+         start_addr,                  /* start: .dword */
+         start_addr_hi32,
+         fdt_load_addr,               /* fdt_laddr: .dword */
+-        0x00000000,
++        fdt_load_addr_hi32,
+                                      /* fw_dyn: */
+     };
+     if (riscv_is_32bit(harts)) {
+diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+index baff11dd8a..346441e369 100644
+--- a/include/hw/riscv/boot.h
++++ b/include/hw/riscv/boot.h
+@@ -48,12 +48,12 @@ target_ulong riscv_load_kernel(const char *kernel_filename,
+                                symbol_fn_t sym_cb);
+ hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
+                          uint64_t kernel_entry, hwaddr *start);
+-uint32_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt);
++uint64_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt);
+ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
+                                hwaddr saddr,
+                                hwaddr rom_base, hwaddr rom_size,
+                                uint64_t kernel_entry,
+-                               uint32_t fdt_load_addr, void *fdt);
++                               uint64_t fdt_load_addr, void *fdt);
+ void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
+                                   hwaddr rom_size,
+                                   uint32_t reset_vec_size,
 -- 
-2.32.0 (Apple Git-132)
+2.34.1
 
 
