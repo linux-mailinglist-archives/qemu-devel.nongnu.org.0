@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE7A50642A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:08:25 +0200 (CEST)
-Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B89506428
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:08:01 +0200 (CEST)
+Received: from localhost ([::1]:51578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngh2G-0007mM-Ix
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:08:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33026)
+	id 1ngh1s-0007NH-O3
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:08:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nggln-00017Z-Dt
+ id 1nggln-00017m-JI
  for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:25 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55971)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ngglk-0004Nz-Oe
+ id 1ngglk-0004O4-Oo
  for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:23 -0400
-Received: by mail-wm1-x330.google.com with SMTP id x3so9912972wmj.5
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:18 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id w4so20897514wrg.12
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eZK2rqC2vWrEFFlHJZT8Otsp8kMdYCdYpi/DFD/DLZA=;
- b=MX5BNpRH/VZiB3Un+vQZWsMT/h+5dTr7FMJSBdAQvyNULLoJwGKmIpi8YcV2wM3SuZ
- 2W8WrSv/LRIMZ3hRa6ZRFOh+jj4GLroj8kiWPVuIFBvdA9FWRF99dfuhjbJSXI6eWdM6
- 9kfV7y9aCDKHyrY9iLjEe8i320hBxlH285Hp/8+2u7Rlc/52qKexxGRqwas9g3PxX2a4
- 0v0aRMXmWfcjzBYH1/6KqK7qL5In0Ogz0qCXGeRl+5xbpzdESYOK/o6NoijtzKcPaV9y
- JkRDeDjPc2uNcuuQS0uX21djax0MYA96ne7ifAWyz4foEPIM3GXJ70TuZoDNpZNaOfcu
- Y40g==
+ bh=KpYzn9e+2BJl3AATGH97VY+zEiMHNod8tqPkyqs6h/g=;
+ b=MWrw5R/trAxDPY2RDZj6nHet1VXOPKp2eBOcsHsLJcbWinNfzv8AAR7q4zChZTBGVm
+ OdXLx3InkGru0TqgO/ivzPip4RpNT5I7qoo+kiyadlikZbTNi0rkxL0dUj+rw0x8bn92
+ wjRzYZiCy6cLBdJvZ4jOJxkA4vmhKkjMftuPZVS9LsCXYelFq/uDwvS1a0ew3kA12+Op
+ euMTubwfD6Ij014yvrjiDH1ROP0sjZkvZGLn98yszI7i+6CO+gSI4pS5jKxHt6kwrStt
+ /Ouuyzdkc+uuU0Vm8il3N00oFqcRrck4vNDckLBCDdETn+1E07rVpHyjAq+nmqbk8zHM
+ qElg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eZK2rqC2vWrEFFlHJZT8Otsp8kMdYCdYpi/DFD/DLZA=;
- b=Xvq9ouEMN90hDT4OJ0OxFAEY/aC3hoNf+YrqhqwaIg74uiQis4bmxgguTRcGm3XO+M
- R8EUECsbcmzVPW7mwU+2slA3UMVhzjG0T1HVWwoxUPXD8+ypkX7K6f1EVSer63dyQqo6
- BlM6Z7EcWiXVKGbHz7cYKYAkDkLczwMor0bYgCWqV5/GRSBhGUoALUv0+x+R4d85kCNo
- BsvPxXxayXfFLe3gEb4PxnYMP63D8G5NwDsGSN1DeEo00KAduzQKb70RWW5HHCMDdIZE
- Ad8OBTiwdFfIFsiKpJ/NCo1bT0dNJO38wCGziTcof2QZohTRtggGCLHR4eNaJRNj5nWY
- pbeA==
-X-Gm-Message-State: AOAM531ORzQHucx8vqUT9v8egpJjx8ua3FkFEcdJL5iwnTOtKYgsioZD
- yW9OHViuzuHpl17ycYh4DaHpNdJO+BLrlQ==
-X-Google-Smtp-Source: ABdhPJw5V+yohFLETdkGcqrfUBztQpYdOHSUeENx9Sa/8njjWccc/ZxprmZd9nVtj107jLvW0FOYww==
-X-Received: by 2002:a1c:7415:0:b0:38e:bbbf:52d9 with SMTP id
- p21-20020a1c7415000000b0038ebbbf52d9mr18201369wmc.104.1650347477488; 
- Mon, 18 Apr 2022 22:51:17 -0700 (PDT)
+ bh=KpYzn9e+2BJl3AATGH97VY+zEiMHNod8tqPkyqs6h/g=;
+ b=RgcUWaokp6qa0Yokdya2SXdnGXngyURu6ZIQttUUSoZbZ+utc7pyDlJGrKZLyAfiTp
+ e3Ynw+EbTRBlKLHg2u1N62qKWAri4iCaZYBuW8XxORqp/gpxledgiPmWIoEBe1YOX10J
+ VvMQqlULmDsv3vy3vucYXZJwtvZXE1jxPzLi/kMLFTUby5WVHLe505zWI7rqxJ2ln9wp
+ /qaCYhY90uFPqEfDOVqveZ+9hPTxH/72P02g0rDZpDs+SNY9RBqxxEDs6h4wfzwXGiY5
+ tnBg8b8hRp/bKLi6ro0UwwDi5obE2Qpf8J6dAC06ZskGPytb3SELoJOgiXFcoCt8JaVU
+ z2gA==
+X-Gm-Message-State: AOAM531kYS3BFG8TCJKpGypY9K5AA3yF+oOpKgLOWdbdd3UWKFmtP0TI
+ B52lRG5FYFtERaqhnt1QP5clLPO71uVvyA==
+X-Google-Smtp-Source: ABdhPJz/JBZNp1S94rm5O/DMm/KYABs45i3UNbsO//hwMtAIYgDflA6Lq7vPoSONek93PYAGLNtfTw==
+X-Received: by 2002:a5d:6f0c:0:b0:20a:7db1:3408 with SMTP id
+ ay12-20020a5d6f0c000000b0020a7db13408mr10381790wrb.267.1650347478181; 
+ Mon, 18 Apr 2022 22:51:18 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
  bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.17
@@ -55,9 +55,10 @@ Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  Mon, 18 Apr 2022 22:51:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/53] meson: remove unneeded py3
-Date: Tue, 19 Apr 2022 07:50:24 +0200
-Message-Id: <20220419055109.142788-9-pbonzini@redhat.com>
+Subject: [PULL 09/53] meson: remove test-qdev-global-props dependency on
+ testqapi
+Date: Tue, 19 Apr 2022 07:50:25 +0200
+Message-Id: <20220419055109.142788-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
 References: <20220419055109.142788-1-pbonzini@redhat.com>
@@ -65,8 +66,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -94,22 +95,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220323155743.1585078-4-marcandre.lureau@redhat.com>
+Message-Id: <20220323155743.1585078-5-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/meson.build | 2 --
- 1 file changed, 2 deletions(-)
+ tests/unit/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/meson.build b/tests/meson.build
-index 1d05109eb4..4f691e8465 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -1,5 +1,3 @@
--py3 = import('python').find_installation()
--
- subdir('bench')
- subdir('qemu-iotests')
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 96b295263e..026e39f520 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -148,7 +148,7 @@ if have_system
+     endif
  
+     tests += {
+-      'test-qdev-global-props': [qom, hwcore, testqapi]
++      'test-qdev-global-props': [qom, hwcore]
+     }
+   endif
+ endif
 -- 
 2.35.1
 
