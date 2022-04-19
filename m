@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE685078B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:27:23 +0200 (CEST)
-Received: from localhost ([::1]:36996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C065078F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:33:06 +0200 (CEST)
+Received: from localhost ([::1]:39402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngsZN-0005Lb-NX
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:27:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48100)
+	id 1ngsev-0007ON-J9
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:33:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngsY7-0004Ur-K2
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:26:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60985)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngsY4-0008Mw-Ou
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:26:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650392759;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ULXEEnZ/y/XURZuXQd670kxr48Rdgcsyl52MV3yPaC8=;
- b=IZaDtFelhqO0XnVyhNT9TBwQH7205CNgkDAng+bYfzBF66xdWY17dknLenalTbwYjBVw9H
- 1pWo7P8HbpHnwsSQV1p/oz8VwBqk/GhKjfqLk/nxQbEz6EFJkh906R4YXgPZw1ZhR+3I2u
- eoHpipWusOziQ8IU81K8MHLfwcozH84=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-ctZkvkWEMI2bidrdGvEt_A-1; Tue, 19 Apr 2022 14:25:58 -0400
-X-MC-Unique: ctZkvkWEMI2bidrdGvEt_A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E79E185A7BA;
- Tue, 19 Apr 2022 18:25:58 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.17.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7893C40E80F4;
- Tue, 19 Apr 2022 18:25:57 +0000 (UTC)
-Date: Tue, 19 Apr 2022 13:25:55 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 04/26] coroutine: remove incorrect coroutine_fn annotations
-Message-ID: <20220419182535.4st6oxj6cgsm72h6@redhat.com>
-References: <20220415131900.793161-1-pbonzini@redhat.com>
- <20220415131900.793161-5-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngscH-0006Mf-Uq
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:30:22 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42981)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngscG-0000XO-CW
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:30:21 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id j17so9119412pfi.9
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=GFKEvO7IhBefAgGGFG4bq7L8PrGB0rGkrH5eG2ixNj0=;
+ b=XVBIvDrHEU++XzbS3JSjcCdGwCpbbaMKRNomcRB/Qt2xqdU079fqBJ4pwVZ5M6dAJu
+ Shj2X5YiqCFKjws1LLYCnVxy1FnSnyn3G0Rk7oyMOPEL96FrQ/VgPBj1Ujj7iJyCF0Lp
+ 8oc3kBHCGkrzizT44SXsTrpKhlwzipkyJ3caudiE0c/5bRaPyDZx7mbn2w2GjLL3Agnr
+ h0LVtEZRO8wJUdI8dA/tjtNHLveUe90U9VtzFJUDQDyDAqZdk51GRKOvz7Nykju4G3E6
+ xKURVPAe3q2S2mkPZhQ5eOlNsVpm/yR6Qz9L9bzZL9+IE9OMdShNUQbEzPdttpvNihw3
+ /sBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GFKEvO7IhBefAgGGFG4bq7L8PrGB0rGkrH5eG2ixNj0=;
+ b=XCrddFS20LR4Acb3XmZ8XOf9NkdT6saHUiwkQEyFWpitMuUnKgsA1Q5CGl+GW2/sBp
+ jXiBautUhWNJd9/T0vHO2X7606pSY4wjKhQwQHCDc8tNnFvDIu6EyMwEPI5+/Mhio58F
+ Sf/ML5E5O03vA+lyoLKTmDvtEAh//vGQyYOIu8g33NYMJ0ina3wvoNrLIHvPMp7zH3Yp
+ 9FbYkeXMnX4TG8F1GSeaBqXHN5XWHT7I+rBCXfMfRFB6UfWkGQi3o7fRyRK7E6y0zcx9
+ xx6YJREtC+dUeGHRcLHxCT35o5DAxYhBUnwNE8hPeFBoxOMm0453iBvXHSjDWuaj69yl
+ PniA==
+X-Gm-Message-State: AOAM531vEVXa11uzPqmrmtm6vsjf87FfpVvVc8T2fhWMs7m3jmY0Bs+s
+ 7G2aSVOf96Uoxq+D15zJ2HpXWA==
+X-Google-Smtp-Source: ABdhPJzEHiGQxWM3qABCp/SkTmZvXsKzFZkWJqHTnsAkhFCRvOr9Ao6aRhHPiUxIx9VX81kZlXt4Mw==
+X-Received: by 2002:a63:6401:0:b0:3aa:5639:1884 with SMTP id
+ y1-20020a636401000000b003aa56391884mr1031995pgb.71.1650393017631; 
+ Tue, 19 Apr 2022 11:30:17 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ l22-20020a17090aaa9600b001ca7a005620sm16572073pjq.49.2022.04.19.11.30.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Apr 2022 11:30:16 -0700 (PDT)
+Message-ID: <a811d30d-3eb9-86a0-25eb-63e37e83a2c6@linaro.org>
+Date: Tue, 19 Apr 2022 11:30:14 -0700
 MIME-Version: 1.0
-In-Reply-To: <20220415131900.793161-5-pbonzini@redhat.com>
-User-Agent: NeoMutt/20211029-35-db88c3
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v1 02/25] docs/devel: add some notes on the
+ binfmt-image-debian targets
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20220419091020.3008144-1-alex.bennee@linaro.org>
+ <20220419091020.3008144-3-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220419091020.3008144-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,41 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 15, 2022 at 03:18:38PM +0200, Paolo Bonzini wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Again, a short summary why it is correct is helpful.
-
-> ---
->  include/qemu/coroutine.h | 2 +-
->  util/qemu-coroutine.c    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+On 4/19/22 02:09, Alex Bennée wrote:
+> We document some of this on the wiki but lets move it into our
+> official developer notes documentation.
 > 
-> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-> index 284571badb..2d9211faff 100644
-> --- a/include/qemu/coroutine.h
-> +++ b/include/qemu/coroutine.h
-> @@ -92,7 +92,7 @@ void coroutine_fn qemu_coroutine_yield(void);
->  /**
->   * Get the AioContext of the given coroutine
->   */
-> -AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co);
-> +AioContext *qemu_coroutine_get_aio_context(Coroutine *co);
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Cc: Paolo Bonzini<pbonzini@redhat.com>
+> 
+> ---
+> v2
+>    - fix some trailing ws
+> ---
+>   docs/devel/testing.rst | 38 ++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 38 insertions(+)
 
-Here, the intent is that this function is safe to call even when not
-in a coroutine, and the annotation is only needed when it is required
-that the caller already be in a coroutine.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
