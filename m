@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15E2506C49
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 14:24:20 +0200 (CEST)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3FD506C71
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 14:28:23 +0200 (CEST)
+Received: from localhost ([::1]:49094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngmu3-0006r5-Rr
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 08:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48140)
+	id 1ngmxy-0003SE-DL
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 08:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ngmhB-0006gj-FT; Tue, 19 Apr 2022 08:11:01 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:38795)
+ id 1ngmhD-0006iD-03; Tue, 19 Apr 2022 08:11:03 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:48455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ngmh8-0003li-QR; Tue, 19 Apr 2022 08:11:01 -0400
+ id 1ngmhB-0003m5-Ac; Tue, 19 Apr 2022 08:11:02 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 1643232003C0;
- Tue, 19 Apr 2022 08:10:55 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 1713532007F9;
+ Tue, 19 Apr 2022 08:10:58 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Tue, 19 Apr 2022 08:10:56 -0400
+ by compute3.internal (MEProxy); Tue, 19 Apr 2022 08:10:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1650370255; x=
- 1650456655; bh=FOaMJuv3F8/hy+3iREwbz/wapBJ6ORziEewjsiYJ3fc=; b=P
- r+awG38Thy8zRmHsGHmEgh3/GpdkOH1yxD96G1yHA4E2LGoyVHOud3mRQCoHcvJd
- GMlhcNp4Q4h6Ap1o6kWtkt/Tode/UusQrR3h/9XgMWjT6WA+Fe3xK9XJbQKkCtvt
- MH2tGNh0Xxd0QM4AhQQm8uVE+htTwwKsRSGYd0JYF0FDUFDqddO2azCRxi33mryy
- OMe40A9ouwtsy2qmYadQwlPmkjPszR3i7T7UzFcBd3cs9V5oshKH6uCBds5yixJl
- NeQL/Z2jHcRusr9+SS3sCahr0RWCfDOOZMbxWVGn2RbNy++FbUk6koIZehf2B9W6
- vK3sA1KbApkgZujnVGpxA==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1650370258; x=
+ 1650456658; bh=g1G66PylZz2tISXVyUlZvrgNwEikTnLhJ8j6MaJ97r0=; b=j
+ oIdSjbpKx+2ylopg3muM/8xw0mBbjMUSnNm/WWVxyBgpYue58MR7nf3M/F4AhisR
+ jjHjMu+h8z42OrgFttn57576BTTY9QWG2oYmsQ12X7wdVGL9RjWbschUlOSj00BX
+ 0/ScAKqixA6GLSCVlQpJB66LXdTHl8JQQE8h8LlieEAXt2IxmQSTcbEOBhDeeFKU
+ kUvm0s0ccORSjCSt6TYijgt6EfFGMUCBtUhdbYO4pTwZQ5siUoR+P2Hg2PEx+le2
+ v/CWEAYwuA7y8BRbUzyacJP0MtYfapSEd4l0fqIfaMWIv4gnY1b48uSMgsLSPF/S
+ z9urUZNWYJ5ZmJPwAuuGg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1650370255; x=1650456655; bh=FOaMJuv3F8/hy+3iREwbz/wapBJ6ORziEew
- jsiYJ3fc=; b=JQGHAHcR8/IVKk+hUKExja3Cfkh9WyXVELkJfwXccD2QMDt264D
- VPdjcyu7uERQVLMRo/VdCmzZei2dgjX/nkxD6D746vgW0qwR0zveMeC7bzbTx1EZ
- wDJ2NxWb/85/kZfXu+9Ns7Y0Yw9xuFDTjvkldeYjTgzfS9Qr8BbWu3Xa14uVu9Mw
- 5EHJq/veaLMfBXY3tlkDs5rPr0EtwihakafGQRGGZXi9hJwQGiMrtBqwlwaOwDSC
- 6qy6z6LrQ7GVOUl/w5dIlHh5uYoQlIPitUr5tu9TsenUUjSNnoLFThSDRMz6Fo5z
- kQiWovWh0pyk4lVlGXWDP2pfSkMnydutfEg==
-X-ME-Sender: <xms:z6ZeYtPN_DM2I37O6RpPFgwf--3azMi0_EZGBQrIMoOnS0xT2qPVrg>
- <xme:z6ZeYv9QCUSkYTPMFvKV-hEGcnBR-pgbc41v9UwiXkT8yAPcpiFgBQV2kA1FVLh6I
- RHPLZ6eWBr_ibaUhus>
-X-ME-Received: <xmr:z6ZeYsTuMBsnd0LOB4D_qTTspR-cV-5cdZy92kHnS5tJwXf3ProUva1EPwxoZG5X986zwx_jvBzSKqlfhbtfmQ>
+ 1650370258; x=1650456658; bh=g1G66PylZz2tISXVyUlZvrgNwEikTnLhJ8j
+ 6MaJ97r0=; b=dzZ/HbjVkVBXqhio9twkqIAXYbWi6h/FJm6YMRP5pb0dglM1ahv
+ GsBSH9v1/3nq0ut0Eg636znnuUz8Kom785Vw4LUYhho2N0oBbKN/bV+CKMXfS2wS
+ yBMS0YG3eSc6ryIwsm3ipqb0EeEfe+NNR6UWza+vAS0KrRKIO9xp9jIitvBC6ARW
+ FHuhmycKBJY9NvHxkr2gMloHafpBVTVHQg9exi2/7mV47zBOO2EkuAeXN2BAx+zy
+ 79VQdIl3VpEFRePrLCU+qUxgyj88RDmsVjnEDsB5vPX964pX5aQp1qABCvOUEdu+
+ ngSyA5QsDn2xq6qpHovIhL2p9pf4Wx0ltTA==
+X-ME-Sender: <xms:0qZeYq8URqpZDMbUGQ6mdpLX-oYvjU3p4SRAbmEmn9KYxZDyNdWypA>
+ <xme:0qZeYqsktpGHLRaCKcHMyIAkQDOCo6wEWL1GfQKDgLvlz7zhUzXAZExiES6TEBtps
+ cHoczMy-j1XtP_K4-Y>
+X-ME-Received: <xmr:0qZeYgCXg74QB39pI3aLtdnT78IiBeycAkbhnLxl1qyDVX3j7UXywMpldR1Wdoynggz6H_PUjITS9DYbSKSjXQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtfedggeekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -57,17 +57,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtfedggeekucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:z6ZeYpst7ePMbFDcp6fn_qQN1Q-L6OsHfsH0qc2YPXvyZaFj7maa0g>
- <xmx:z6ZeYldxHdRlYbKM6XLQ_cwLsryVXM1ID4yAxaUgGtWB9mbXxIMWgQ>
- <xmx:z6ZeYl0IeDNcuRCOyj10pXMWaov0vcKh_KLCTnh0PxF6tC5AmczD0Q>
- <xmx:z6ZeYuEb8zBZr8nQxStx_XUNoqylknVVwQu3YgTNfmbvqY_ubKvXTQ>
+X-ME-Proxy: <xmx:0qZeYie3lNCz2L3AtAoTLQSVFxx_2aZE0y9idVQc5L2kTHvgwKy_XA>
+ <xmx:0qZeYvPJFlJulhgs4FqmM5V_ytwWxloJhzadU2s6b8-Nm2ii6ocIlg>
+ <xmx:0qZeYsnqDtT8ph3r09d9BgRYYbm5OIEHGgFTsvBzgsPEPIc_ulso0g>
+ <xmx:0qZeYq0vZlPx0iDwI-Q9fVTbeKxUyC1GKVFJa47_0cNCFYIU2v4xGQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 19 Apr 2022 08:10:54 -0400 (EDT)
+ 19 Apr 2022 08:10:57 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] hw/nvme: do not auto-generate uuid
-Date: Tue, 19 Apr 2022 14:10:38 +0200
-Message-Id: <20220419121039.1259477-5-its@irrelevant.dk>
+Subject: [PATCH 5/5] hw/nvme: bump firmware revision
+Date: Tue, 19 Apr 2022 14:10:39 +0200
+Message-Id: <20220419121039.1259477-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419121039.1259477-1-its@irrelevant.dk>
 References: <20220419121039.1259477-1-its@irrelevant.dk>
@@ -102,32 +102,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Do not default to generate an UUID for namespaces if it is not
-explicitly specified.
+The Linux kernel quirks the QEMU NVMe controller pretty heavily because
+of the namespace identifier mess. Since this is now fixed, bump the
+firmware revision number to allow the quirk to be disabled for this
+revision.
 
-This is a technically a breaking change in behavior. However, since the
-UUID changes on every VM launch, it is not spec compliant and is of
-little use since the UUID cannot be used reliably anyway and the
-behavior prior to this patch must be considered buggy.
+As of now, bump the firmware revision number to be equal to the QEMU
+release version number.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ns.c | 2 +-
+ hw/nvme/ctrl.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 5685221f47c6..960c5124b811 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -617,7 +617,7 @@ static Property nvme_ns_props[] = {
-     DEFINE_PROP_BOOL("detached", NvmeNamespace, params.detached, false),
-     DEFINE_PROP_BOOL("shared", NvmeNamespace, params.shared, true),
-     DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
--    DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
-+    DEFINE_PROP_UUID_NODEFAULT("uuid", NvmeNamespace, params.uuid),
-     DEFINE_PROP_UINT64("eui64", NvmeNamespace, params.eui64, 0),
-     DEFINE_PROP_UINT16("ms", NvmeNamespace, params.ms, 0),
-     DEFINE_PROP_UINT8("mset", NvmeNamespace, params.mset, 0),
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 2b7828ac6952..dc298aacc422 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -6708,7 +6708,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
+     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
+     strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
+-    strpadcpy((char *)id->fr, sizeof(id->fr), "1.0", ' ');
++    strpadcpy((char *)id->fr, sizeof(id->fr), QEMU_VERSION, ' ');
+     strpadcpy((char *)id->sn, sizeof(id->sn), n->params.serial, ' ');
+ 
+     id->cntlid = cpu_to_le16(n->cntlid);
 -- 
 2.35.1
 
