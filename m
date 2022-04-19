@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE085507279
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 18:02:20 +0200 (CEST)
-Received: from localhost ([::1]:38780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EEC250729D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 18:06:59 +0200 (CEST)
+Received: from localhost ([::1]:41012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngqJ1-0002h0-KF
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 12:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47910)
+	id 1ngqNW-0004Hc-0j
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 12:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ngqGX-0001YS-UD
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 11:59:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55738)
+ id 1ngqK5-0003Xt-Kf
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 12:03:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ngqGT-0001wP-Tt
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 11:59:43 -0400
+ id 1ngqJz-0002aM-LB
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 12:03:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650383980;
+ s=mimecast20190719; t=1650384198;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C9UTiYoTGanyoDVHRbb4z4p9Vr+toG4aCvouVG/PQUk=;
- b=aTnYuktu6RVude9/9p+DheSP/A0ln0iI8QxkpN6srTzrxqUqyOlH1leXxPMUZxAzK5xLyk
- nqcEhfbul7duD4x3+GrkwoIh2NTvpM/359iVj7daPzYL7pIjHecjcBx6e8zfIw5Yj7ea5Z
- Mbz2450LtWQCsxx6Xaw+F0f74h5Xa5o=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=cz/HybSnJPGI+SpuPDHSzMp7gBORxoq1gXb1D/FPwDU=;
+ b=aAaz/l8pBdpfhXMfD96t+14Sx8nHbNCjfd5xChfHB/rCOq1Mq4rgyQkZOy0tkVxwRZIpOO
+ HQ8BIce5zpTLK3fsMHeZ14oOZS/AkCW9irOQNXt7d5i5bs5+pcZCl3tGlqGbhO7MEEAeg5
+ R3Gok46pLFifMdSdXw1gc89eCpw8YnY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-184-r9LOVbpZOAm3i1t6jsjVFQ-1; Tue, 19 Apr 2022 11:59:39 -0400
-X-MC-Unique: r9LOVbpZOAm3i1t6jsjVFQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-118-lUYSxt_wNJWzfktNGTeKrQ-1; Tue, 19 Apr 2022 12:03:15 -0400
+X-MC-Unique: lUYSxt_wNJWzfktNGTeKrQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1ED0D2999B57;
- Tue, 19 Apr 2022 15:59:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2CD4811E75;
+ Tue, 19 Apr 2022 16:03:06 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.155])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E23A440E80E0;
- Tue, 19 Apr 2022 15:59:36 +0000 (UTC)
-Date: Tue, 19 Apr 2022 16:59:34 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D791F1415125;
+ Tue, 19 Apr 2022 16:03:01 +0000 (UTC)
+Date: Tue, 19 Apr 2022 17:02:59 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Subject: Re: [PATCH v5 1/4] qapi/machine.json: Add cluster-id
-Message-ID: <Yl7cZuRxBLX9qPlw@redhat.com>
-References: <20220403145953.10522-1-gshan@redhat.com>
- <20220403145953.10522-2-gshan@redhat.com>
- <fedf507c-c5ea-aeec-9acc-586f08dcaea4@huawei.com>
- <6e27668c-0895-fcc8-165e-673aded5ba47@redhat.com>
- <f45a3f17-7cef-3d8c-e79c-e6a5898e665e@huawei.com>
+To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Subject: Re: [PATCH v3] hw/misc: applesmc: use host osk as default on macs
+Message-ID: <Yl7dM/xKG/zASa+D@redhat.com>
+References: <20220405004621.94982-1-t0rr3sp3dr0@gmail.com>
+ <20220417013608.22086-1-yaroshchuk2000@gmail.com>
+ <CADO9X9SdWwKS49NAJDWULg_GxRSoNEhABWhWCBOkD_FwZGgkXw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <f45a3f17-7cef-3d8c-e79c-e6a5898e665e@huawei.com>
+In-Reply-To: <CADO9X9SdWwKS49NAJDWULg_GxRSoNEhABWhWCBOkD_FwZGgkXw@mail.gmail.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -88,163 +83,152 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, Gavin Shan <gshan@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, zhenyzha@redhat.com, qemu-arm@nongnu.org,
- shan.gavin@gmail.com, imammedo@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Phil Dennis-Jordan <phil@philjordan.eu>,
+ Pedro =?utf-8?Q?To=CC=82rres?= <t0rr3sp3dr0@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Jan Kiszka <jan.kiszka@siemens.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ agraf@suse.de, "Gabriel L. Somlo" <gsomlo@gmail.com>,
+ marcandre.lureau@redhat.com, rene@exactcode.de,
+ Eduardo Habkost <ehabkost@redhat.com>, Marcel Apfelbaum <marcel.a@redhat.com>,
+ Alistair Francis <alistair.francis@xilinx.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ suse@csgraf.de, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Chetan Pant <chetan4windows@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ afaerber@suse.de, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 14, 2022 at 10:27:25AM +0800, wangyanan (Y) wrote:
-> Hi Gavin,
+On Sun, Apr 17, 2022 at 04:43:14PM +0300, Vladislav Yaroshchuk wrote:
+> I've CCed all the people from previous threads.
 > 
-> Cc: Daniel and Markus
-> On 2022/4/14 8:06, Gavin Shan wrote:
-> > Hi Yanan,
-> > 
-> > On 4/13/22 7:49 PM, wangyanan (Y) wrote:
-> > > On 2022/4/3 22:59, Gavin Shan wrote:
-> > > > This adds cluster-id in CPU instance properties, which will be used
-> > > > by arm/virt machine. Besides, the cluster-id is also verified or
-> > > > dumped in various spots:
-> > > > 
-> > > >    * hw/core/machine.c::machine_set_cpu_numa_node() to associate
-> > > >      CPU with its NUMA node.
-> > > > 
-> > > >    * hw/core/machine.c::machine_numa_finish_cpu_init() to associate
-> > > >      CPU with NUMA node when no default association isn't provided.
-> > > > 
-> > > >    * hw/core/machine-hmp-cmds.c::hmp_hotpluggable_cpus() to dump
-> > > >      cluster-id.
-> > > > 
-> > > > Signed-off-by: Gavin Shan <gshan@redhat.com>
-> > > > ---
-> > > >   hw/core/machine-hmp-cmds.c |  4 ++++
-> > > >   hw/core/machine.c          | 16 ++++++++++++++++
-> > > >   qapi/machine.json          |  6 ++++--
-> > > >   3 files changed, 24 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-> > > > index 4e2f319aeb..5cb5eecbfc 100644
-> > > > --- a/hw/core/machine-hmp-cmds.c
-> > > > +++ b/hw/core/machine-hmp-cmds.c
-> > > > @@ -77,6 +77,10 @@ void hmp_hotpluggable_cpus(Monitor *mon,
-> > > > const QDict *qdict)
-> > > >           if (c->has_die_id) {
-> > > >               monitor_printf(mon, "    die-id: \"%" PRIu64
-> > > > "\"\n", c->die_id);
-> > > >           }
-> > > > +        if (c->has_cluster_id) {
-> > > > +            monitor_printf(mon, "    cluster-id: \"%" PRIu64 "\"\n",
-> > > > +                           c->cluster_id);
-> > > > +        }
-> > > >           if (c->has_core_id) {
-> > > >               monitor_printf(mon, "    core-id: \"%" PRIu64
-> > > > "\"\n", c->core_id);
-> > > >           }
-> > > > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > > > index d856485cb4..8748b64657 100644
-> > > > --- a/hw/core/machine.c
-> > > > +++ b/hw/core/machine.c
-> > > > @@ -677,6 +677,11 @@ void machine_set_cpu_numa_node(MachineState
-> > > > *machine,
-> > > >               return;
-> > > >           }
-> > > > +        if (props->has_cluster_id && !slot->props.has_cluster_id) {
-> > > > +            error_setg(errp, "cluster-id is not supported");
-> > > > +            return;
-> > > > +        }
-> > > > +
-> > > >           if (props->has_socket_id && !slot->props.has_socket_id) {
-> > > >               error_setg(errp, "socket-id is not supported");
-> > > >               return;
-> > > > @@ -696,6 +701,11 @@ void machine_set_cpu_numa_node(MachineState
-> > > > *machine,
-> > > >                   continue;
-> > > >           }
-> > > > +        if (props->has_cluster_id &&
-> > > > +            props->cluster_id != slot->props.cluster_id) {
-> > > > +                continue;
-> > > > +        }
-> > > > +
-> > > >           if (props->has_die_id && props->die_id !=
-> > > > slot->props.die_id) {
-> > > >                   continue;
-> > > >           }
-> > > > @@ -990,6 +1000,12 @@ static char *cpu_slot_to_string(const
-> > > > CPUArchId *cpu)
-> > > >           }
-> > > >           g_string_append_printf(s, "die-id: %"PRId64,
-> > > > cpu->props.die_id);
-> > > >       }
-> > > > +    if (cpu->props.has_cluster_id) {
-> > > > +        if (s->len) {
-> > > > +            g_string_append_printf(s, ", ");
-> > > > +        }
-> > > > +        g_string_append_printf(s, "cluster-id: %"PRId64,
-> > > > cpu->props.cluster_id);
-> > > > +    }
-> > > >       if (cpu->props.has_core_id) {
-> > > >           if (s->len) {
-> > > >               g_string_append_printf(s, ", ");
-> > > > diff --git a/qapi/machine.json b/qapi/machine.json
-> > > > index 9c460ec450..ea22b574b0 100644
-> > > > --- a/qapi/machine.json
-> > > > +++ b/qapi/machine.json
-> > > > @@ -868,10 +868,11 @@
-> > > >   # @node-id: NUMA node ID the CPU belongs to
-> > > >   # @socket-id: socket number within node/board the CPU belongs to
-> > > >   # @die-id: die number within socket the CPU belongs to (since 4.1)
-> > > > -# @core-id: core number within die the CPU belongs to
-> > > > +# @cluster-id: cluster number within die the CPU belongs to
-> We also need a "(since 7.1)" tag for cluster-id.
-> > > I remember this should be "cluster number within socket..."
-> > > according to Igor's comments in v3 ?
-> > 
-> > Igor had suggestion to correct the description for 'core-id' like
-> > below, but he didn't suggest anything for 'cluster-id'. The question
-> > is clusters are sub-components of die, instead of socket, if die
-> > is supported? You may want to me change it like below and please
-> > confirm.
-> > 
-> >   @cluster-id: cluster number within die/socket the CPU belongs to
-> > 
-> > suggestion from Ignor in v3:
-> > 
-> >    > +# @core-id: core number within cluster the CPU belongs to
-> > 
-> >    s:cluster:cluster/die:
-> > 
-> We want "within cluster/die" description for core-id because we
-> support both "cores in cluster" for ARM and "cores in die" for X86.
-> Base on this routine, we only need "within socket" for cluster-id
-> because we currently only support "clusters in socket". Does this
-> make sense?
 > 
-> Alternatively, the plainest documentation for the IDs is to simply
-> range **-id only to its next level topo like below. This may avoid
-> increasing complexity when more topo-ids are inserted middle.
-> But whether this way is acceptable is up to the Maintainers. :)
-
-Rather saying we only support cluster on ARM and only dies on x86,
-I tend to view it as, we only support greater than 1 cluster on
-ARM, and greater than 1 die on x86.
-
-IOW, x86 implicitly always has exactly 1-and-only-1 cluster,
-and arm implicitly always has exactly 1-and-only-1 die.
-
-With this POV, then we can keep the description simple, only
-refering to the immediately above level in the hierarchy.
-
+> > [...]
+> > +static bool applesmc_read_osk(uint8_t *osk)
+> > +{
+> > +#if defined(__APPLE__) && defined(__MACH__)
+> > +    struct AppleSMCParams {
+> > +        uint32_t key;
+> > +        uint8_t __pad0[16];
+> > +        uint8_t result;
+> > +        uint8_t __pad1[7];
+> > +        uint32_t size;
+> > +        uint8_t __pad2[10];
+> > +        uint8_t data8;
+> > +        uint8_t __pad3[5];
+> > +        uint8_t output[32];
+> > +    };
+> > +
+> > +    io_service_t svc;
+> > +    io_connect_t conn;
+> > +    kern_return_t ret;
+> > +    size_t size = sizeof(struct AppleSMCParams);
+> > +    struct AppleSMCParams params_in = { .size = 32, .data8 = 5 };
 > 
-> # @socket-id: socket number within node/board the CPU belongs to
-> # @die-id: die number within socket the CPU belongs to (since 4.1)
-> # @cluster-id: cluster number within die the CPU belongs to (since 7.1)
-> # @core-id: core number within cluster the CPU belongs to
-> # @thread-id: thread number within core the CPU belongs to
+> Maybe it's better to name this magic number '5'
+> 
+> > +    struct AppleSMCParams params_out = {};
+> > +
+> 
+> params_in and params_out can be the same variable, see
+> https://patchew.org/QEMU/20211022161448.81579-1-yaroshchuk2000@gmail.com/
+> 
+> > +    svc = IOServiceGetMatchingService(0, IOServiceMatching("AppleSMC"));
+> > +    if (svc == 0) {
+> > +        return false;
+> > +    }
+> > +
+> > +    ret = IOServiceOpen(svc, mach_task_self(), 0, &conn);
+> > +    if (ret != 0) {
+> > +        return false;
+> > +    }
+> > +
+> > +    for (params_in.key = 'OSK0'; params_in.key <= 'OSK1';
+> ++params_in.key) {
+> > +        ret = IOConnectCallStructMethod(conn, 2, &params_in, size,
+> &params_out, &size);
+> 
+> Same about this magic number '2'.
+> 
+> > +        if (ret != 0) {
+> > +            return false;
+> > +        }
+> > +
+> > +        if (params_out.result != 0) {
+> > +            return false;
+> > +        }
+> > +        memcpy(osk, params_out.output, params_in.size);
+> > +
+> > +        osk += params_in.size;
+> > +     }
+> > +
+> 
+> Cleanup IOServiceClose and IOObjectReturn are not called at the
+> end of the procedure.
+> 
+> This is also mentioned in Phil Dennis-Jordan's instruction you noted (stage
+> 5):
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-10/msg02843.html
+> 
+> > +    return true;
+> > +#else
+> > +    return false;
+> > +#endif
+> > +}
+> > +
+> > [...]
+> >
+> > static void applesmc_isa_realize(DeviceState *dev, Error **errp)
+> >  {
+> >      AppleSMCState *s = APPLE_SMC(dev);
+> > +    bool valid_osk = false;
+> >
+> >      memory_region_init_io(&s->io_data, OBJECT(s), &applesmc_data_io_ops,
+> s,
+> >                            "applesmc-data", 1);
+> > @@ -331,8 +393,17 @@ static void applesmc_isa_realize(DeviceState *dev,
+> Error **errp)
+> >      isa_register_ioport(&s->parent_obj, &s->io_err,
+> >                          s->iobase + APPLESMC_ERR_PORT);
+> >
+> > -    if (!s->osk || (strlen(s->osk) != 64)) {
+> > -        warn_report("Using AppleSMC with invalid key");
+> > +    if (s->osk) {
+> > +        valid_osk = strlen(s->osk) == 64;
+> > +    } else {
+> > +        valid_osk = applesmc_read_osk((uint8_t *) default_osk);
+> > +        if (valid_osk) {
+> > +            warn_report("Using AppleSMC with host OSK");
+> > +            s->osk = default_osk;
+> > +        }
+> > +    }
+> > +    if (!valid_osk) {
+> > +        warn_report("Using AppleSMC with invalid OSK");
+> >          s->osk = default_osk;
+> >      }
+> > [...]
+> 
+> After the previous discussion we've decided (if i don't confuse anything)
+> to have a way to enable/disable host OSK reading with new property:
+> 1. properties osk=$key and hostosk=on cannot be used together (fail hard)
+> 2. for QEMU machine > 7.0 - hostosk=on by default.
+>     If unable to read - fail hard with error_setg.
+> 3. for QEMU machine <= 7.0 - hostosk=off by default,
+>    the dummy OSK is used (as previously).
+> 
+> BTW since my patches lost 7.0, I planned to wait until compat machines
+> for 7.1 are added (after 7.0 release) and then rebase the patches,
+> adding required changes into `hw/core/machine.c`
+> 
+> Now we have two versions of host OSK forwarding implementations,
+> Pedro's (this one) and mine (
+> https://patchew.org/QEMU/20220113152836.60398-1-yaroshchuk2000@gmail.com/#)
+> 
+> Do we still want to add this feature? If yes - whose version is preferred?
+> (I'm still ready to work on this)
 
-So this suggested text is fine with me.
-
+I prefer yours, since the feature is introspectable by mgmt apps,
+given the existance of the 'hostosk' property
 
 With regards,
 Daniel
