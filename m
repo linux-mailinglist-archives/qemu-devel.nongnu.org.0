@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F03506782
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:14:15 +0200 (CEST)
-Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8885067CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:37:12 +0200 (CEST)
+Received: from localhost ([::1]:33950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngjw6-0008CX-5D
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36574)
+	id 1ngkIJ-0006FB-3i
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsU-0005JC-9n
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:30 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:44730)
+ id 1ngjsa-0005P0-JW
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:36 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:46752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsQ-0008JK-TM
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:28 -0400
-Received: by mail-ej1-x632.google.com with SMTP id u15so31495216ejf.11
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:10:26 -0700 (PDT)
+ id 1ngjsV-0008K9-Fe
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:33 -0400
+Received: by mail-ed1-x532.google.com with SMTP id s25so19937271edi.13
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nfyzv/itU9SEN9fxyUmMdmNwMeyB+oe9163CObc2A6g=;
- b=aDDvUFyAK/U8Ury5sKI5jixe2GIlvFbGIdMCB4T9KFWxqljsT9d1nRwnlmge82j+zI
- Hpb9hbBrCRlotOCkKfcyPT37Y2NDgkit6oq8rzud3QYMtXSWGBOwaa1X13HimvNTtCfC
- 0qXU0Hg2CGDZo4dbcHTDvaM/TNeYS62axCYrZun6bCrOHA0MlMPDn3R9B+A81pdQZqYI
- UFEu4a6qbh1cjZKRBP3o35vmXKHsmVd+BNW4lLoEzqWaWQdlEmXSA7C7E4XLpY+V7rn1
- fiDu7T+TzDT0lFoeaz7d8Hi+8DGBwT6f4GDkmggghBA+RbDovbKr91MzqeTsm4Fp4Wq9
- GwGQ==
+ bh=dvwLTF/YUpusucxnWfO5BDXCMNh2/WY9f2hzq1Kk0Rs=;
+ b=FWujbmq5rBzRwRVpBAmOqO8nix17tdSJJ8tlBFesOo22pO5ef8j1KN8jH0Ws2hd5+s
+ FgN07XZUMwGdLJgIE1wtDFjTLo9xFpjgltPrDX0Z7X7FKE08V5pB2svoFZ4zgGMxzHRg
+ h6L1VSsH7YX8w7/73GtUHPdbvUHrXvtqfYob9xj81AQ2/w9DKyyxs3mRXhMVwj02Cozo
+ NUDGPf+MwEESGlltk5YcQxuB4urR0abjvv8IlGf04dFhxr1LLNYzdJMmkEboVtng/B0p
+ bGAREn/MyIEwbWnDGG1ficZHbNWaRvBji9F9o/HH4n0Q5T/8aGHuXtYmxMc1asfTzTAU
+ swaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nfyzv/itU9SEN9fxyUmMdmNwMeyB+oe9163CObc2A6g=;
- b=Y/g1cfN6e6hmH1CesF8u8UdP/t/UXnyDsUmyrC27cme7jhcjktRoluRrctXyTStag3
- +Zcktf+ikewE5SS3wANZnyR8hVCofJzkCLSgBLYmBj2QmT4aLEZlpdmLRCssQXryPW3h
- 1YpgNpkOpKCotkiL18Q8JLPcytgLmhixteBTqXBa4EoXgBm9K2BS73TsUJ3eSOHjZcxy
- IAARcHcq4nsSOjarOsv1EqWONWH96OBnqLpR7dgRgGvvNMDE8JhzTsc2rRJfjIOd3fJf
- PhmKmagQuicaM2/uzjGSDMgo3j73nA7lfYUd12CQ9YZnh1efEvHO5meJAtvOgRyDzxcg
- FGgw==
-X-Gm-Message-State: AOAM531n/SrAKv3FEfKtQooePiqy0LFvYZSbln7JL3arF3avh8BNAWVV
- nXCFIenasoeT7ITkHJKPDHaTcw==
-X-Google-Smtp-Source: ABdhPJwKQ8aZvxwrAplzfEsvcb2+0XPPOo66lEAMINWAWoRvKPkYi/7GsyBidtbhRQ+LvXyaaE6f5Q==
-X-Received: by 2002:a17:906:1c0d:b0:6e8:94a5:c5d6 with SMTP id
- k13-20020a1709061c0d00b006e894a5c5d6mr12359198ejg.134.1650359425147; 
- Tue, 19 Apr 2022 02:10:25 -0700 (PDT)
+ bh=dvwLTF/YUpusucxnWfO5BDXCMNh2/WY9f2hzq1Kk0Rs=;
+ b=t5P2zwhAOS13D7+HBqqTHl+ZGweb/coPwS0WPa0TPlJkI960kXS83Sx+s/C9q0CoNX
+ j//spQjktl8pbTxbc6zZY1u+kPh/ME8FIJz9YpcQzWCG70Vd6bf8xTiFF7R2iN8Y60gI
+ YDTx6GlU3/ex/XhXcxxu7oHdqtqRQCM2cCiLrs2+gScPXI0bXZEOROXw+qR1/e4aGH5a
+ aUs9tvrItUmZdsjRXUScAktdLFxrZlvK0L6YvftaJWP+btvX7uc0PxIryY5D1lQFcvuU
+ yuMawkyBF0eTgtgYj5Vb/CBWmL7unWaxAB9oIlKdBYH7vA+Ug4tpRwmBPfKDufEASlxX
+ jZbg==
+X-Gm-Message-State: AOAM532hfyWdL0w7QXBpOa+28vMcSd+YNgGFrzaIED0ycepbSYL7gsB7
+ nVTWIbecKSRfbuuavu3K5J0n6g==
+X-Google-Smtp-Source: ABdhPJyv0fX7YLwYL7YtMe6oH7Wer0MMFS5eA0AVwLAHCjye74Nt/9jdoiooCY/wFvAlpXSdfsGTwQ==
+X-Received: by 2002:aa7:cb93:0:b0:415:d57a:4603 with SMTP id
+ r19-20020aa7cb93000000b00415d57a4603mr16206361edt.62.1650359427996; 
+ Tue, 19 Apr 2022 02:10:27 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- fy11-20020a1709069f0b00b006e8b68c92d8sm5380265ejc.162.2022.04.19.02.10.20
+ t4-20020a1709067c0400b006ef810aab6fsm3285674ejo.213.2022.04.19.02.10.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 02:10:21 -0700 (PDT)
+ Tue, 19 Apr 2022 02:10:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 86C841FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 9FC751FFBB;
  Tue, 19 Apr 2022 10:10:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 02/25] docs/devel: add some notes on the
- binfmt-image-debian targets
-Date: Tue, 19 Apr 2022 10:09:57 +0100
-Message-Id: <20220419091020.3008144-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 03/25] docs/devel: drop :hidden: and :includehidden: tags
+Date: Tue, 19 Apr 2022 10:09:58 +0100
+Message-Id: <20220419091020.3008144-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220419091020.3008144-1-alex.bennee@linaro.org>
 References: <20220419091020.3008144-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,67 +94,106 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We document some of this on the wiki but lets move it into our
-official developer notes documentation.
+This was confusing and in the case of qtest was hiding the details of
+the qgraph sub-document in the qtest pages.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-
 ---
-v2
-  - fix some trailing ws
----
- docs/devel/testing.rst | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ docs/devel/index-api.rst       | 1 -
+ docs/devel/index-build.rst     | 3 +--
+ docs/devel/index-internals.rst | 1 -
+ docs/devel/index-process.rst   | 1 -
+ docs/devel/index-tcg.rst       | 1 -
+ docs/devel/index.rst           | 2 --
+ docs/devel/qtest.rst           | 1 -
+ 7 files changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 92d40cdd19..5b60a31807 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -637,6 +637,44 @@ The full set of annotations can be found here:
+diff --git a/docs/devel/index-api.rst b/docs/devel/index-api.rst
+index b749240272..60c0d7459d 100644
+--- a/docs/devel/index-api.rst
++++ b/docs/devel/index-api.rst
+@@ -6,7 +6,6 @@ generated from in-code annotations to function prototypes.
  
- https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/tsan/rtl/tsan_interface_ann.cpp
+ .. toctree::
+    :maxdepth: 2
+-   :includehidden:
  
-+docker-binfmt-image-debian-% targets
-+------------------------------------
-+
-+It is possible to combine Debian's bootstrap scripts with a configured
-+``binfmt_misc`` to bootstrap a number of Debian's distros including
-+experimental ports not yet supported by a released OS. This can
-+simplify setting up a rootfs by using docker to contain the foreign
-+rootfs rather than manually invoking chroot.
-+
-+Setting up ``binfmt_misc``
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+You can use the script ``qemu-binfmt-conf.sh`` to configure a QEMU
-+user binary to automatically run binaries for the foreign
-+architecture. While the scripts will try their best to work with
-+dynamically linked QEMU's a statically linked one will present less
-+potential complications when copying into the docker image. Modern
-+kernels support the ``F`` (fix binary) flag which will open the QEMU
-+executable on setup and avoids the need to find and re-open in the
-+chroot environment. This is triggered with the ``--persistent`` flag.
-+
-+Example invocation
-+~~~~~~~~~~~~~~~~~~
-+
-+For example to setup the HPPA ports builds of Debian::
-+
-+  make docker-binfmt-image-debian-sid-hppa \
-+    DEB_TYPE=sid DEB_ARCH=hppa \
-+    DEB_URL=http://ftp.ports.debian.org/debian-ports/ \
-+    DEB_KEYRING=/usr/share/keyrings/debian-ports-archive-keyring.gpg \
-+    EXECUTABLE=(pwd)/qemu-hppa V=1
-+
-+The ``DEB_`` variables are substitutions used by
-+``debian-boostrap.pre`` which is called to do the initial debootstrap
-+of the rootfs before it is copied into the container. The second stage
-+is run as part of the build. The final image will be tagged as
-+``qemu/debian-sid-hppa``.
-+
- VM testing
- ----------
+    bitops
+    loads-stores
+diff --git a/docs/devel/index-build.rst b/docs/devel/index-build.rst
+index d96894f07c..1002a533a6 100644
+--- a/docs/devel/index-build.rst
++++ b/docs/devel/index-build.rst
+@@ -6,8 +6,7 @@ into our testing infrastructure. You will need to understand some of
+ the basics if you are adding new files and targets to the build.
+ 
+ .. toctree::
+-   :maxdepth: 2
+-   :includehidden:
++   :maxdepth: 3
+ 
+    build-system
+    kconfig
+diff --git a/docs/devel/index-internals.rst b/docs/devel/index-internals.rst
+index bb118b8eaf..a50889c556 100644
+--- a/docs/devel/index-internals.rst
++++ b/docs/devel/index-internals.rst
+@@ -5,7 +5,6 @@ Details about QEMU's various subsystems including how to add features to them.
+ 
+ .. toctree::
+    :maxdepth: 2
+-   :includehidden:
+ 
+    qom
+    atomics
+diff --git a/docs/devel/index-process.rst b/docs/devel/index-process.rst
+index 314e9e94cc..d0d7a200fd 100644
+--- a/docs/devel/index-process.rst
++++ b/docs/devel/index-process.rst
+@@ -5,7 +5,6 @@ Notes about how to interact with the community and how and where to submit patch
+ 
+ .. toctree::
+    :maxdepth: 2
+-   :includehidden:
+ 
+    code-of-conduct
+    conflict-resolution
+diff --git a/docs/devel/index-tcg.rst b/docs/devel/index-tcg.rst
+index 3acbd95d36..0b0ad12c22 100644
+--- a/docs/devel/index-tcg.rst
++++ b/docs/devel/index-tcg.rst
+@@ -7,7 +7,6 @@ are only implementing things for HW accelerated hypervisors.
+ 
+ .. toctree::
+    :maxdepth: 2
+-   :includehidden:
+ 
+    tcg
+    decodetree
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index a68207052d..09cfb322be 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -8,8 +8,6 @@ modifying QEMU's source code.
+ 
+ .. toctree::
+    :maxdepth: 1
+-   :includehidden:
+-
+ 
+    index-process
+    index-build
+diff --git a/docs/devel/qtest.rst b/docs/devel/qtest.rst
+index c3dceb6c8a..add293d397 100644
+--- a/docs/devel/qtest.rst
++++ b/docs/devel/qtest.rst
+@@ -3,7 +3,6 @@ QTest Device Emulation Testing Framework
+ ========================================
+ 
+ .. toctree::
+-   :hidden:
+ 
+    qgraph
  
 -- 
 2.30.2
