@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B8E507753
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:13:29 +0200 (CEST)
-Received: from localhost ([::1]:59488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE685078B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:27:23 +0200 (CEST)
+Received: from localhost ([::1]:36996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngsLw-0000qo-Fl
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:13:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46042)
+	id 1ngsZN-0005Lb-NX
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:27:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1ngsL5-00005C-EO
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:12:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56521)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngsY7-0004Ur-K2
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:26:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1ngsL3-0006Sz-Mg
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:12:35 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngsY4-0008Mw-Ou
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:26:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650391951;
+ s=mimecast20190719; t=1650392759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RUIpZX2KrUr0JjptR0oioKLZ/X5CDDCZO0Of6MT6cPE=;
- b=Gxct2xNnGHWA+jabnUCMRN7ea5ntGy6Tu/Jap6Fx7oklhIprtZ8jrNMfFStEnZSTEFdk0L
- J/AKct06MzdI588qUAr0Dz44ZNEBQA7uBLP8ERhWSq/day2ZegfbvurPE+H17COPk87KBv
- Xfht8gKhRm7ilKP/Ro8lF2J+OycKpuI=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ULXEEnZ/y/XURZuXQd670kxr48Rdgcsyl52MV3yPaC8=;
+ b=IZaDtFelhqO0XnVyhNT9TBwQH7205CNgkDAng+bYfzBF66xdWY17dknLenalTbwYjBVw9H
+ 1pWo7P8HbpHnwsSQV1p/oz8VwBqk/GhKjfqLk/nxQbEz6EFJkh906R4YXgPZw1ZhR+3I2u
+ eoHpipWusOziQ8IU81K8MHLfwcozH84=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-193-kGXrd8fxMve5fSEHSX9c5A-1; Tue, 19 Apr 2022 14:12:30 -0400
-X-MC-Unique: kGXrd8fxMve5fSEHSX9c5A-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-2ec12272fb2so152418237b3.6
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:12:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:references:mime-version:in-reply-to:date
- :message-id:subject:to:cc;
- bh=RUIpZX2KrUr0JjptR0oioKLZ/X5CDDCZO0Of6MT6cPE=;
- b=LBlcAWb7FONYyA3ERczLq7iOnuiH/F3ohe2+0g90PBtNI10qA2fW8Rbmr2nXQxzanD
- H4N0CTv9JbkRJvz+2gcPKL9bh2BC0oXxOjy9OigsLUPB/XjN6hFXOJe/CV2bZT3fuYI1
- XkWre8KZTBPeGKtLBe70l0TlGl2L/6o3J5VWMOov6hgX55sWXBPXq1O5DE4Bo2SDpbiJ
- UJ8LmwqjM8MobgnsyEsP5uuNjmeb6LqFuUkE7NakVEyVq9Izd6W9ASAT4+A3i3bYU9tT
- +f1y4EhZv9FpguuQPOV3z+Bu2otaZDVhg1Gr42Ey+PlkeSv9cgwc97kX3uqXpA3IDVho
- fEAA==
-X-Gm-Message-State: AOAM531D6ugbFDh8xk24VHEUabgpvA2br3rRawk/U/W7jVxKol7C7am/
- bTnapV5ImHc+2LOjj0c3dA+8J+px+OFO4L7tQRaTYHptaRT/6nM7PsUeRI4/5OcULj8p1qG8Uno
- lWEHR00gjwjA5BcIjayDZgRmrez639V0=
-X-Received: by 2002:a0d:ff05:0:b0:2ea:25ed:d714 with SMTP id
- p5-20020a0dff05000000b002ea25edd714mr17084184ywf.454.1650391949567; 
- Tue, 19 Apr 2022 11:12:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDxvB9yVe2iaiQhpZBVnZ8Xb/VndqHuM6uj+0rYMBXDKIhIxG8P+AKqIM/EwkacjjxiWQ0N4BZJZVpuFdcNvQ=
-X-Received: by 2002:a0d:ff05:0:b0:2ea:25ed:d714 with SMTP id
- p5-20020a0dff05000000b002ea25edd714mr17084152ywf.454.1650391949315; Tue, 19
- Apr 2022 11:12:29 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 19 Apr 2022 11:12:28 -0700
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20220401224104.145961-1-victortoso@redhat.com>
+ us-mta-175-ctZkvkWEMI2bidrdGvEt_A-1; Tue, 19 Apr 2022 14:25:58 -0400
+X-MC-Unique: ctZkvkWEMI2bidrdGvEt_A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E79E185A7BA;
+ Tue, 19 Apr 2022 18:25:58 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.17.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7893C40E80F4;
+ Tue, 19 Apr 2022 18:25:57 +0000 (UTC)
+Date: Tue, 19 Apr 2022 13:25:55 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 04/26] coroutine: remove incorrect coroutine_fn annotations
+Message-ID: <20220419182535.4st6oxj6cgsm72h6@redhat.com>
+References: <20220415131900.793161-1-pbonzini@redhat.com>
+ <20220415131900.793161-5-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220401224104.145961-1-victortoso@redhat.com>
-Date: Tue, 19 Apr 2022 11:12:28 -0700
-Message-ID: <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
-To: Victor Toso <victortoso@redhat.com>
+In-Reply-To: <20220415131900.793161-5-pbonzini@redhat.com>
+User-Agent: NeoMutt/20211029-35-db88c3
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="000000000000e14e5105dd05d19d"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -94,146 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e14e5105dd05d19d
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Apr 15, 2022 at 03:18:38PM +0200, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-On Sat, Apr 02, 2022 at 12:40:56AM +0200, Victor Toso wrote:
-> Thanks for taking a look, let me know if you have questions, ideas
-> or suggestions.
+Again, a short summary why it is correct is helpful.
 
-Full disclosure: I have only given the actual implementation a very
-cursory look so far, and I've focused on the generated Go API
-instead.
+> ---
+>  include/qemu/coroutine.h | 2 +-
+>  util/qemu-coroutine.c    | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+> index 284571badb..2d9211faff 100644
+> --- a/include/qemu/coroutine.h
+> +++ b/include/qemu/coroutine.h
+> @@ -92,7 +92,7 @@ void coroutine_fn qemu_coroutine_yield(void);
+>  /**
+>   * Get the AioContext of the given coroutine
+>   */
+> -AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co);
+> +AioContext *qemu_coroutine_get_aio_context(Coroutine *co);
 
-Overall things look pretty good.
+Here, the intent is that this function is safe to call even when not
+in a coroutine, and the annotation is only needed when it is required
+that the caller already be in a coroutine.
 
-One concern that I have is about naming struct members: things like
-SpiceInfo.MouseMode and most others are translated from the QAPI
-schema exactly the way you'd expect them, but for example
-ChardevCommon.Logappend doesn't look quite right. Of course there's
-no way to programmatically figure out what to capitalize, but maybe
-there's room for adding this kind of information in the form of
-additional annotations or something like that? Same for the various
-structs or members that have unexpectedly-capitalized "Tls" or "Vnc"
-in them.
-
-To be clear, I don't think the above is a blocker - just something to
-be aware of, and think about.
-
-My biggest concern is about the interface offered for commands.
-
-Based on the example you have in the README and how commands are
-defined, invoking (a simplified version of) the trace-event-get-state
-command would look like
-
-  cmd := Command{
-      Name: "trace-event-get-state",
-      Arg: TraceEventGetStateCommand{
-          Name: "qemu_memalign",
-      },
-  }
-  qmp_input, _ := json.Marshal(&cmd)
-  // qmp_input now contains
-  //   {"execute":"trace-event-get-state","arguments":{"name":"qemu_memalign"}}
-  // do something with it
-
-  qmp_output :=
-([]byte)(`{"return":{"name":"qemu_memalign","state":"disabled"}}`)
-  ret := cmd.GetReturnType()
-  _ = json.Unmarshal(qmp_output, &ret)
-  // ret is a CommandResult instance whose Value member can be cast
-  // to a TraceEventInfo struct
-
-First of all, from an application's point of view there are way too
-many steps involved: performing this operation should really be as
-simple as
-
-  ret, _ := qmp.TraceEventGetState("qemu_memalign")
-  // ret is a TraceEventInfo instance
-
-That's the end state we should be working towards.
-
-Of course that assumes that the "qmp" object knows where the QMP
-socket is, knows how to talk the QMP protocol, transparently deals
-with serializing and deserializing data... Plus, in some case you
-might want to deal with the wire transfer yourself in an
-application-specific manner. So it makes sense to have the basic
-building blocks available and then build the more ergonomic SDK on
-top of that - with only the first part being in scope for this
-series.
-
-Even with that in mind, the current interface is IMO problematic
-because of its almost complete lack of type safety. Both Command.Arg
-and CommandResult.Value are of type Any and CommandBase.Name, which
-is used to drive the JSON unmarshal logic as well as ending up on the
-wire when executing a command, is just a plain string.
-
-I think the low-level interface should look more like
-
-  cmd := TraceEventGetStateCommand{
-      Name: "qemu_memalign",
-  }
-  qmp_input, _ := json.Marshal(&cmd)
-  // qmp_input looks the same as before
-
-  qmp_output :=
-([]byte)(`{"return":{"name":"qemu_memalign","state":"disabled"}}`)
-  ret := TraceEventInfo{}
-  _ = json.Unmarshal(qmp_output, &ret)
-  // ret is a TraceEventInfo instance
-
-The advantages over the current implementation is that the compiler
-will prevent you from doing something silly like passing the wrong
-set of arguments to a commmand, and that the application has to
-explicitly spell out what kind of object it expects to get as output.
-
-I'm attaching an incomplete implementation that I used for playing
-around. It's obviously too simplistic, but hopefully it will help
-illustrate my point.
-
-Dealing with errors and commands that don't have a return value might
-require us to have generic CommandResult wrapper after all, but we
-should really try as hard as we can to stick to type safe interfaces.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
-Andrea Bolognani / Red Hat / Virtualization
-
---000000000000e14e5105dd05d19d
-Content-Type: text/plain; charset="us-ascii"; name="command.go"
-Content-Disposition: attachment; filename="command.go"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: 8db98513b2e334f1_0.1
-
-cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImVuY29kaW5nL2pzb24iCgkiZm10IgopCgp0eXBlIFRy
-YWNlRXZlbnRHZXRTdGF0ZUNvbW1hbmQgc3RydWN0IHsKCU5hbWUgc3RyaW5nIGBqc29uOiJuYW1l
-ImAKfQoKZnVuYyAoc2VsZiAqVHJhY2VFdmVudEdldFN0YXRlQ29tbWFuZCkgTWFyc2hhbEpTT04o
-KSAoW11ieXRlLCBlcnJvcikgewoJdHlwZSBBcmd1bWVudHMgVHJhY2VFdmVudEdldFN0YXRlQ29t
-bWFuZAoJcmV0dXJuIGpzb24uTWFyc2hhbCgmc3RydWN0IHsKCQlFeGVjdXRlICAgc3RyaW5nICAg
-ICBganNvbjoiZXhlY3V0ZSJgCgkJQXJndW1lbnRzICpBcmd1bWVudHMgYGpzb246ImFyZ3VtZW50
-cyJgCgl9ewoJCUV4ZWN1dGU6ICAgInRyYWNlLWV2ZW50LWdldC1zdGF0ZSIsCgkJQXJndW1lbnRz
-OiAoKkFyZ3VtZW50cykoc2VsZiksCgl9KQp9Cgp0eXBlIFRyYWNlRXZlbnRJbmZvIHN0cnVjdCB7
-CglOYW1lICBzdHJpbmcgYGpzb246Im5hbWUiYAoJU3RhdGUgc3RyaW5nIGBqc29uOiJzdGF0ZSJg
-Cn0KCmZ1bmMgKHNlbGYgKlRyYWNlRXZlbnRJbmZvKSBVbm1hcnNoYWxKU09OKGRhdGEgW11ieXRl
-KSBlcnJvciB7Cgl0eXBlIFJldHVybiBUcmFjZUV2ZW50SW5mbwoJcmV0IDo9IHN0cnVjdCB7CgkJ
-UmV0dXJuIFJldHVybiBganNvbjoicmV0dXJuImAKCX17fQoJZXJyIDo9IGpzb24uVW5tYXJzaGFs
-KGRhdGEsICZyZXQpCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gZXJyCgl9CglzZWxmLk5hbWUg
-PSByZXQuUmV0dXJuLk5hbWUKCXNlbGYuU3RhdGUgPSByZXQuUmV0dXJuLlN0YXRlCglyZXR1cm4g
-bmlsCn0KCmZ1bmMgbWFpbigpIHsKCXZhciBlcnIgZXJyb3IKCXZhciBxbXBfaW5wdXQgW11ieXRl
-Cgl2YXIgcW1wX291dHB1dCBbXWJ5dGUKCgljbWQgOj0gVHJhY2VFdmVudEdldFN0YXRlQ29tbWFu
-ZHsKCQlOYW1lOiAicWVtdV9tZW1hbGlnbiIsCgl9CglpZiBxbXBfaW5wdXQsIGVyciA9IGpzb24u
-TWFyc2hhbCgmY21kKTsgZXJyICE9IG5pbCB7CgkJcGFuaWMoZXJyKQoJfQoJZm10LlByaW50Zigi
-ICAgY21kOiAldlxuIiwgY21kKQoJZm10LlByaW50ZigiLT4gcW1wX2lucHV0OiAldlxuIiwgc3Ry
-aW5nKHFtcF9pbnB1dCkpCgoJcW1wX291dHB1dCA9IChbXWJ5dGUpKGB7InJldHVybiI6eyJuYW1l
-IjoicWVtdV9tZW1hbGlnbiIsInN0YXRlIjoiZGlzYWJsZWQifX1gKQoJcmV0IDo9IFRyYWNlRXZl
-bnRJbmZve30KCWlmIGVyciA9IGpzb24uVW5tYXJzaGFsKHFtcF9vdXRwdXQsICZyZXQpOyBlcnIg
-IT0gbmlsIHsKCQlwYW5pYyhlcnIpCgl9CglmbXQuUHJpbnRmKCI8LSBxbXBfb3V0cHV0OiAldlxu
-Iiwgc3RyaW5nKHFtcF9vdXRwdXQpKQoJZm10LlByaW50ZigiICAgcmV0OiAldlxuIiwgcmV0KQp9
-Cg==
---000000000000e14e5105dd05d19d--
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
