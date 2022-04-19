@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF04D506C31
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 14:21:01 +0200 (CEST)
-Received: from localhost ([::1]:44622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A9A506C30
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 14:20:52 +0200 (CEST)
+Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngmqr-0001mX-1K
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 08:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48040)
+	id 1ngmqf-0001Kw-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 08:20:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ngmh1-0006bf-2W; Tue, 19 Apr 2022 08:10:51 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:34099)
+ id 1ngmh1-0006bg-A1; Tue, 19 Apr 2022 08:10:51 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:45623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ngmgy-0003Wa-Oa; Tue, 19 Apr 2022 08:10:50 -0400
+ id 1ngmgz-0003dS-B3; Tue, 19 Apr 2022 08:10:50 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 345523202092;
- Tue, 19 Apr 2022 08:10:44 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 282753202005;
+ Tue, 19 Apr 2022 08:10:47 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Tue, 19 Apr 2022 08:10:44 -0400
+ by compute3.internal (MEProxy); Tue, 19 Apr 2022 08:10:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1650370243; x=1650456643; bh=Ne
- OqZ/wojaskVbdz/pIUbtI/usiQihDcffYmZ4yeSpc=; b=k5BgQTW8aa9edsWfrB
- w4htfsrCLlG+GamwAxxq/k5eo42O5+f4vIzcI45eT0dhxXQA62u2OXNyrMFq6Nts
- sJ3YY86NePN4aYz1zLE0X3GKrcB+9JijiaOLHl2eIADDAbK4/m8SuXX+nriCFgGq
- tgAOwx+H5d5eEEL5nhjVQ0UCDiuke9ECLX3rzN0bBtDC+Uwm2BJMaONq0rerLJKd
- 78iinicVXjZFITJ5NG7NdhklyFSVI5nibUTSNTJ9gwSbE7BjQtU+1s+Ms5e8GR6j
- F2SapNPkb+IDhlxvRpOOC1ZnMUErjGNXoPRzkNnnGeoTKhqiVIUMkT51y08lqsRz
- 5J5g==
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1650370246; x=
+ 1650456646; bh=q01/cVRPT0x6aob+KmSCWwgCWxOKa//IJaewPcOdEDE=; b=m
+ 2M5/C8NlB4I5Z7UP8Zh372uWmRO7bIgu43SuDXh/fOqNnr3Yowj9dwOgDEPRh3fp
+ ZimYm0LcWEuUq4k+YKXcz+OrDYuub7jmM4TdgjgniuuKXZYFBNx3nwRhUSGI3VV3
+ +OE5ccNjnZuxvps7ekU7Q90037nYw+uBSIoMkHgElLMXnxPuCmBk/tQHYEpIfBzu
+ aWd7Hai1PItsBeaPPh7WC6bV9IOu7qg1EHxA6FjPiVbL/VBh9jI85KX/lo0uLVpr
+ CqE8hcnd1mygDU/gEU3ko/tm4P3URKwnNVjYJjnP+1eLL0EBavA3IWbJNBKLBu8s
+ qS7PTmzdwhxWJd06bliiA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1650370243; x=1650456643; bh=NeOqZ/wojaskVbdz/pIUbtI/usiQihDcffY
- mZ4yeSpc=; b=omqq00Vjxlj3FkD13pM17/3pzwrEiC/OI+Va+o2GcKKAnlmBp6I
- MbxjJHoull4ds1iJoH884tNcKgmvTQQqO9GY9+8qNKhd36xRR7g92i581oZgZlwL
- rXjqJPWtToXRqdBRvWA8Mmr6ld05NAqSXP/yv0iJs0xLKlLhQrPuPWiKP98U4RgP
- VPnTxKONnNsax/P6VBKswODar9NpgncMkPoZft+tdbvYAVvtXHIas8x+ppWK7kZk
- M8Pln0kXoqCMLYELfVLqxeEsSbb0wOrj4lpbIlxzMoTQGBsDYoviBp60vlvDeTUu
- us9kMd66apXRdjjnsLUWzeN5o8aQ0EX5WXA==
-X-ME-Sender: <xms:wqZeYtUe5uGW-3vHL7ROfmaokVY34DspEg7fJWa07Kka3odJ27Nm2w>
- <xme:wqZeYtmaAFnXzQbQ5xLR7jRRrj_nwczWD3eokCIlzHctsnpOEUem6ADQCEYkt-yEb
- Te9QHpZoiaVj8gDNB8>
-X-ME-Received: <xmr:wqZeYpY8zVU7RJXlDyN7S67NDaryE2vsyjEBifOWvjdkwVB6EUpQ5pugL3GSnv2d1X9I9TTYO0zD3Wrek2laDg>
+ 1650370246; x=1650456646; bh=q01/cVRPT0x6aob+KmSCWwgCWxOKa//IJae
+ wPcOdEDE=; b=SalpCrK21jL8haa1k+MN92jOz970Wdsq2Ui3q0P6nD2TcLBPoMs
+ C0pBH+AEoejE5RVBzW95xiBccN9qApTc/jMuGC/SiBoRumMFrSLNPvzjrzte07rc
+ GpGFKAPTvcll73dQkVLfJlsV0YGLbTzjZC57cmqM7FXXrzwL5/iS18pO8LPL2lLg
+ 4kAE7oRaD/ffQ2JkfaJEoc1hLQEkkYqDwF+HRTe1aPxaQhsYhLYHMAZ10JUqfyjH
+ OeR0Ff9WSE1ZVCDfJ+YA0Q4s82geP1NgOXZOwpYVF7T0yyGiI0MDX13dzsLzzsOb
+ GCqc7AjwupogkvDjbvuCohIpO/szL7eJ6PQ==
+X-ME-Sender: <xms:xqZeYjeVe7NEVItMjKLajG1AQGuTQAs7Xq4QzHpxU8s-EmNFzssCSQ>
+ <xme:xqZeYpMOWPzmCJH_1IhFojvOBfhvbDNq4-4WwnxSVidEO8Shq9FTcbUb04_shX2qW
+ X1RGbBAdgz-F-F-C28>
+X-ME-Received: <xmr:xqZeYsieem-hoe3abOGwamAtbjBYiQxO1Szytk75xYv6e3Mu5HwVid7G--mToxzS8RPizclq3I9n0-eTunEPMQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtfedggeekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepveetleefgeekhfelkedvffduleefvdefgeejjeehfeevtdeulefhudetgffgtdfg
- necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:wqZeYgX8_B__EoRbFfuo7ddoXP0KDZDhgv3kU6LWa6Ro2WGiK4lClQ>
- <xmx:wqZeYnmQA9BirW7rf5E2MC4ZbnGNp_8veF7KqtG8l34QitNbJD9b5g>
- <xmx:wqZeYtfVw2MYO4Vic15vmB2DZhxH4h0Hh72X8xA-tSvHRtv27qZWLA>
- <xmx:w6ZeYiu-397ZD2UlDKWPyRdzpUYsLoUNeFR5Mswqzvu34d2kgWobZQ>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:xqZeYk-3ILcMgh4_qaV0Pnt3hgobwhxDfynktyVZmEKpqtYLfSynOA>
+ <xmx:xqZeYvvKthjbssPsdygo9s8Rx31Nn8kCN_GmEAXIovixdToJoQTyLg>
+ <xmx:xqZeYjGLfAqpuGZX5ss1Dq1lEb0HND5dKXUXnARVp1dInDYkZJdqGg>
+ <xmx:xqZeYlW3Ev27g_HivEFJSm20FEQQw6Qt_PAee3fFtjBt8104M-HTbA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 19 Apr 2022 08:10:41 -0400 (EDT)
+ 19 Apr 2022 08:10:45 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] hw/nvme: fix namespace identifiers
-Date: Tue, 19 Apr 2022 14:10:34 +0200
-Message-Id: <20220419121039.1259477-1-its@irrelevant.dk>
+Subject: [PATCH 1/5] hw/nvme: enforce common serial per subsystem
+Date: Tue, 19 Apr 2022 14:10:35 +0200
+Message-Id: <20220419121039.1259477-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.35.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220419121039.1259477-1-its@irrelevant.dk>
+References: <20220419121039.1259477-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
  helo=wout2-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -99,34 +100,51 @@ Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-The namespace identifiers reported by the controller is kind of a mess.=0D
-See [1,2].=0D
-=0D
-This series should fix this for both the `-device nvme,drive=3D...` and=0D
-`-device nvme-ns,...` cases.=0D
-=0D
-  [1]: https://lore.kernel.org/linux-nvme/20220224192845.1097602-1-hch@lst.=
-de/=0D
-  [2]: https://lore.kernel.org/linux-nvme/20220413044905.376785-1-hch@lst.d=
-e/=0D
-=0D
-Klaus Jensen (5):=0D
-  hw/nvme: enforce common serial per subsystem=0D
-  hw/nvme: always set eui64=0D
-  hw/nvme: do not report null uuid=0D
-  hw/nvme: do not auto-generate uuid=0D
-  hw/nvme: bump firmware revision=0D
-=0D
- docs/system/devices/nvme.rst |  6 ++++--=0D
- hw/nvme/ctrl.c               | 21 ++++++++++-----------=0D
- hw/nvme/ns.c                 | 14 +++++++++-----=0D
- hw/nvme/nvme.h               |  4 ++++=0D
- hw/nvme/subsys.c             |  7 +++++++=0D
- 5 files changed, 34 insertions(+), 18 deletions(-)=0D
-=0D
--- =0D
-2.35.1=0D
-=0D
+The Identify Controller Serial Number (SN) is the serial number for the
+NVM subsystem and must be the same across all controller in the NVM
+subsystem.
+
+Enforce this.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/nvme.h   | 1 +
+ hw/nvme/subsys.c | 7 +++++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 739c8b8f7962..7f2e8f1b6491 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -48,6 +48,7 @@ typedef struct NvmeSubsystem {
+     DeviceState parent_obj;
+     NvmeBus     bus;
+     uint8_t     subnqn[256];
++    char        *serial;
+ 
+     NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
+     NvmeNamespace *namespaces[NVME_MAX_NAMESPACES + 1];
+diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+index fb58d639504e..691a90d20947 100644
+--- a/hw/nvme/subsys.c
++++ b/hw/nvme/subsys.c
+@@ -27,6 +27,13 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+         return -1;
+     }
+ 
++    if (!subsys->serial) {
++        subsys->serial = g_strdup(n->params.serial);
++    } else if (strcmp(subsys->serial, n->params.serial)) {
++        error_setg(errp, "invalid controller serial");
++        return -1;
++    }
++
+     subsys->ctrls[cntlid] = n;
+ 
+     for (nsid = 1; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
+-- 
+2.35.1
+
 
