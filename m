@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140D4506456
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:18:46 +0200 (CEST)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11755064A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:38:11 +0200 (CEST)
+Received: from localhost ([::1]:58274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nghCG-0007No-RG
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:18:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
+	id 1nghV4-0006tL-Un
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:38:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ngglv-0001A2-Fd
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:37 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37703)
+ id 1ngglw-0001A3-5r
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:36 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ngglt-0004QM-23
+ id 1ngglt-0004QW-Pv
  for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:31 -0400
-Received: by mail-wr1-x430.google.com with SMTP id t1so20933529wra.4
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:28 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id c10so20947458wrb.1
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LPN+3jG6P55TcAsaux9fgkoAhIOtmmMBmGdDsBMbcZQ=;
- b=Rx5d8awkAWkjJvTbL4HlIySb0+bYp9JDXTXeMYcHWddBzK0yTRBoSszcqvn8zBN9+A
- h8j0URPg0JIGmm/VL2YphDlPREOwu0vYCvXgJYc8hRnvmzuY76oS0D6/pvUABgsfPlWl
- AQRg9aOhwLg2tByXVTF1Wic3b1Rg04z11agP6pie4oA5BBxQrQALSG9eWhTzrxVl32Dc
- O3l7nc/yv4iMs9gN9gXap2PQgPY03p29LWAIUn4PtDxmtlySI+jixS2XJrUiZU0nB0rV
- CXJ4eYtVGEfrY7fyhQ0/cNCwv0j51B08aTgCVjzoLswIMpDZm2PWum07MlSsOk3oV94H
- wqgw==
+ bh=dTOCe+fx+0QlZrMhUIaxDBklKAMEi+ux1ML0cki4e7U=;
+ b=OKmLr+Sgd1rAWNnyV1ZbjZI8mkBSR+Fek1SeMUbxc/63w+rb1cycYKZR/RRNahZ8+c
+ dM5cR6oE563BZR5r7zhOaaf3dS8gJjPqzUYAT89PxDkwpHEbtby7LZr4kEnarEAXCEP4
+ 9x3KumuFX2+tBedfQXEDpsaNmdSMmIued4GQLPf6k7qYMV8lMUsb89sSqd9KAnQwAvqu
+ 7GYlOVrcmlHC6nYzq32ehMe7VdIviD/rQdbft8HdAmXTdhjxz9CD9XQmvM34ieJzhsAS
+ Zb3GRgXULMVUgmnTkTwHigvqc1wIJ/20KG9HTPalRxoro1iFDbkewjxoMC/0svwyGPfa
+ nvzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LPN+3jG6P55TcAsaux9fgkoAhIOtmmMBmGdDsBMbcZQ=;
- b=eTzHkyobrQ0t3qJzjzAmqscGwYz/HFYpqSYk0IvQrV13Rk3gEH/Dd/lc3TTWykHVY9
- BoLadj2M2Wr1Cz+PUEViZynIS/DY2HeZY+XWTQ9kfTkwFH2X/hFBoQQ2hiMOig2KE4CF
- a97xAn5T8aPFIBVGJEgR4CuWC12W9ozSyKU7hH/kCjpOQt+1iiw0e5AiWww5mhWtB8HH
- LyAzIpKZwTB4ms23DSvmIUQvWM+PmrrbFmM4R5bMNIufCYX57Tpt7CSI3dA8YXT2QuPK
- zvDock3HAO6MPcj2KfWl9VRtXdZVocc/8R6Y9S0jdkyVZT6+5CwbT5ygn0lJZ6K40rAI
- N1Qw==
-X-Gm-Message-State: AOAM533MSN0XcD/v+d1OBklYICUPyelVlglihZOXAdlHQI16JyOjpW34
- gVwwLbdc6ldFQyHHE64PfFDMbnDMD0wdlw==
-X-Google-Smtp-Source: ABdhPJxBCkr9OYn6TDoK8MIdR4CCjMM96eCDWFXqImnP7CjKlptN6VkZMVf0wZRFKrzjZIOdXyIKUw==
-X-Received: by 2002:adf:b745:0:b0:205:b8e2:f470 with SMTP id
- n5-20020adfb745000000b00205b8e2f470mr10204486wre.91.1650347487736; 
- Mon, 18 Apr 2022 22:51:27 -0700 (PDT)
+ bh=dTOCe+fx+0QlZrMhUIaxDBklKAMEi+ux1ML0cki4e7U=;
+ b=61OugcX3os+s9+bRtwWF5fASYaiuGLqj/R3ItldGIPgY+P4Y7DyNcfORodzOMvRm6Y
+ N8R3MHQbh5smOhGteZGxTfir4dU8sT4ZMzVY7QzIHIwdwo1zQ1mb0Pvo5TGWIln22NaY
+ W+plqBj4J5H1hEoHVc30lS4JhD1KIEBH/oJEkkwMh//F7M2G6Bt+A3JN10DNZ1UMM3Mq
+ bcQytB6TejjWJzMlyPxRfhZyfqzPYQuuyC5VYwbktJhgLtoC46cWHjv1mKzQNstDY0j6
+ iYyUWm198rjrRNiwNIpzRdx18a9eka6qVT8DqY5rAJ+CTmIE5esGieqYWIa/EQU9C1f+
+ vJtg==
+X-Gm-Message-State: AOAM532Bdd7bB2Gbrq/RK9n21pcKmqe8Re5o+GIj9XxsHVaz43w0KOzd
+ AawRyVU6ZKbVkl8A3CJL4n1jo1NAJhZRwA==
+X-Google-Smtp-Source: ABdhPJz2LfSVh1T0p2iwxyhGTGkCcs3m2l0JubQk73HIYpBUIbH24RqF4AZSiB7O2lBVvuPLS+VNIw==
+X-Received: by 2002:a5d:64ed:0:b0:20a:a5ea:e0cd with SMTP id
+ g13-20020a5d64ed000000b0020aa5eae0cdmr1575694wri.520.1650347488384; 
+ Mon, 18 Apr 2022 22:51:28 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
  bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 22:51:27 -0700 (PDT)
+ Mon, 18 Apr 2022 22:51:28 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/53] include: move qemu_write_full() declaration to osdep.h
-Date: Tue, 19 Apr 2022 07:50:38 +0200
-Message-Id: <20220419055109.142788-23-pbonzini@redhat.com>
+Subject: [PULL 23/53] include: move qemu_pipe() to osdep.h
+Date: Tue, 19 Apr 2022 07:50:39 +0200
+Message-Id: <20220419055109.142788-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
 References: <20220419055109.142788-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -93,40 +93,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Closer to other IO functions.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220323155743.1585078-18-marcandre.lureau@redhat.com>
+Message-Id: <20220323155743.1585078-19-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu-common.h | 3 ---
- include/qemu/osdep.h  | 3 +++
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ include/qemu-common.h | 4 ----
+ include/qemu/osdep.h  | 4 ++++
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/include/qemu-common.h b/include/qemu-common.h
-index db8b03be51..c6f3ed94bc 100644
+index c6f3ed94bc..2e1e76014a 100644
 --- a/include/qemu-common.h
 +++ b/include/qemu-common.h
-@@ -24,9 +24,6 @@
+@@ -24,10 +24,6 @@
  int qemu_main(int argc, char **argv, char **envp);
  #endif
  
--ssize_t qemu_write_full(int fd, const void *buf, size_t count)
--    G_GNUC_WARN_UNUSED_RESULT;
+-#ifndef _WIN32
+-int qemu_pipe(int pipefd[2]);
+-#endif
 -
- #ifndef _WIN32
- int qemu_pipe(int pipefd[2]);
- #endif
+ void cpu_exec_init_all(void);
+ void cpu_exec_step_atomic(CPUState *cpu);
+ 
 diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 489a5d1aad..259436ff53 100644
+index 259436ff53..a733294710 100644
 --- a/include/qemu/osdep.h
 +++ b/include/qemu/osdep.h
-@@ -527,6 +527,9 @@ static inline void qemu_timersub(const struct timeval *val1,
- #define qemu_timersub timersub
- #endif
+@@ -530,6 +530,10 @@ static inline void qemu_timersub(const struct timeval *val1,
+ ssize_t qemu_write_full(int fd, const void *buf, size_t count)
+     G_GNUC_WARN_UNUSED_RESULT;
  
-+ssize_t qemu_write_full(int fd, const void *buf, size_t count)
-+    G_GNUC_WARN_UNUSED_RESULT;
++#ifndef _WIN32
++int qemu_pipe(int pipefd[2]);
++#endif
 +
  void qemu_set_cloexec(int fd);
  
