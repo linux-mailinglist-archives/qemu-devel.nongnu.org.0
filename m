@@ -2,79 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02D0507199
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 17:23:55 +0200 (CEST)
-Received: from localhost ([::1]:60090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF8350720C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 17:43:06 +0200 (CEST)
+Received: from localhost ([::1]:56772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngphq-0004BZ-8X
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 11:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39604)
+	id 1ngq0P-0004tS-Ej
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 11:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=oEXL=U5=zx2c4.com=Jason@kernel.org>)
- id 1ngpfI-0001ZI-9r
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 11:21:16 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:37938)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1ngpyy-00045s-7C; Tue, 19 Apr 2022 11:41:36 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32284
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=oEXL=U5=zx2c4.com=Jason@kernel.org>)
- id 1ngpXH-0003Mz-E3
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 11:13:00 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C970461628
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 15:12:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFBE4C385AC
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 15:12:55 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Q/37OvJm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1650381170;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MQyU07hi01iEyPXxllEOCsC9A0SZXJB5Wi7OpTYio9w=;
- b=Q/37OvJmn6L6JA4hxc+U0Bn3ttmZ0CZK7DJgmf01GPUpJjg128RaHv5HvvhszqeqWVGnDL
- l2SlbN/Xi0ms/oUYvl2yitT4K4ENydlAVTCInOxrGQapJh2v0VztNLHKWKgpPG0QUe+Y1P
- ctRzvD0PsnFwOfRBcf+wRwQBHLblAwA=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 37d62801
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Tue, 19 Apr 2022 15:12:50 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-2ec42eae76bso175735767b3.10
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 08:12:48 -0700 (PDT)
-X-Gm-Message-State: AOAM5307UedZSxkTIZEhAJiqw77TsQIX2ZjaND07NPVLZbasPuSN+srr
- pWBOFf7a9xa932A9VQZrp4PN+BTxpGvwJDvbpI8=
-X-Google-Smtp-Source: ABdhPJwPT8kpwudgm4aOLhhyxVPvw6QiVqCwGpv5AaqyiB3KI2pHaKNZHoMfD/PEIqVraDr3btr5C9vb1YaKvou13Fo=
-X-Received: by 2002:a0d:c005:0:b0:2eb:d29d:8bf5 with SMTP id
- b5-20020a0dc005000000b002ebd29d8bf5mr17186902ywd.404.1650381167579; Tue, 19
- Apr 2022 08:12:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1ngpyw-00082D-7Z; Tue, 19 Apr 2022 11:41:35 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23JDxdRM022409; 
+ Tue, 19 Apr 2022 15:41:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=CDgpDWylpxfB/DnjSv4bCSomF1sVUlxIC/2CRNvHI8Y=;
+ b=onFhzAm5UgY+dKGJO+9S/eLI84pKPAk3pUbUTy2Nz4csWEMQuFwuDXThiWYCWbRYt0Cd
+ iQi3XBEvI2G3aa5B4TMpPmXnap8y0WBorhdbHVgNzL5ckyRAVYKZ7B22MhuMpinlWG21
+ AqWc2ItYFkvNR/uz6YzjbU47rT+NJSP45M+HRFekAKSlr0rJx4bAF8CW53KXzDhnkwjj
+ JJ9sclesbmGmu+2Qqu5b1ALpEiEnGKFkpRrXxrShj1L+z7Nn/JGhXO5C1nxD0NaWMtHG
+ To4cd65rsMcRiQh/Zkt78KtNyD9tTFSCCJ9iuuL4iMaCdaLkOgFMnpsKpFIIywY0vD2O lA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3fg75qkth5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Apr 2022 15:41:30 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23JFcEej021128;
+ Tue, 19 Apr 2022 15:41:30 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3fg75qktg6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Apr 2022 15:41:30 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23JFVoPk030649;
+ Tue, 19 Apr 2022 15:41:28 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04fra.de.ibm.com with ESMTP id 3ffvt9bb7u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 19 Apr 2022 15:41:28 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23JFfPDf28836288
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 19 Apr 2022 15:41:25 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 26A8C4204C;
+ Tue, 19 Apr 2022 15:41:25 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5C6F84203F;
+ Tue, 19 Apr 2022 15:41:24 +0000 (GMT)
+Received: from [9.171.88.57] (unknown [9.171.88.57])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 19 Apr 2022 15:41:24 +0000 (GMT)
+Message-ID: <42de52f6-e6b0-7461-74c5-f371d5af93a1@linux.ibm.com>
+Date: Tue, 19 Apr 2022 17:44:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 2/9] vfio: tolerate migration protocol v1 uapi renames
+Content-Language: en-US
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
+ <20220404181726.60291-3-mjrosato@linux.ibm.com>
+ <ed4889b8-28c4-a3ed-b5ef-add3999023d4@linux.ibm.com>
+ <791ee8c8-a2f4-6644-7155-3bacdb3c4074@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <791ee8c8-a2f4-6644-7155-3bacdb3c4074@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Omn3-pYB5R2Jh2chb-qt9E3DETsbxMiU
+X-Proofpoint-GUID: MMDybLp6y6R3X4mHDrUbMi4Tbw0KYy27
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
- <c5181fb5-38fb-f261-9de5-24655be1c749@amazon.com>
- <CAHmME9rTMDkE7UA3_wg87mrDVYps+YaHw+dZwF0EbM0zC4pQQw@mail.gmail.com>
- <47137806-9162-0f60-e830-1a3731595c8c@amazon.com>
-In-Reply-To: <47137806-9162-0f60-e830-1a3731595c8c@amazon.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Tue, 19 Apr 2022 17:12:36 +0200
-X-Gmail-Original-Message-ID: <CAHmME9pwfKfKp_qqbmAO5tEaQSZ5srCO5COThK3vWZR4avRF1g@mail.gmail.com>
-Message-ID: <CAHmME9pwfKfKp_qqbmAO5tEaQSZ5srCO5COThK3vWZR4avRF1g@mail.gmail.com>
-Subject: Re: propagating vmgenid outward and upward
-To: Alexander Graf <graf@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=oEXL=U5=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-19_05,2022-04-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 phishscore=0
+ mlxlogscore=993 spamscore=0 suspectscore=0 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204190088
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,52 +116,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, adrian@parity.io,
- KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux PM <linux-pm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Pavel Machek <pavel@ucw.cz>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Theodore Ts'o <tytso@mit.edu>, Colm MacCarthaigh <colmmacc@amazon.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey Alex,
 
-On Thu, Mar 10, 2022 at 12:18 PM Alexander Graf <graf@amazon.com> wrote:
-> I agree on the slightly racy compromise and that it's a step into the
-> right direction. Doing this is a no brainer IMHO and I like the proc
-> based poll approach.
 
-Alright. I'm going to email a more serious patch for that in the next
-few hours and you can have a look. Let's do that for 5.19.
+On 4/12/22 18:07, Matthew Rosato wrote:
+> On 4/12/22 11:50 AM, Pierre Morel wrote:
+>>
+>>
+>> On 4/4/22 20:17, Matthew Rosato wrote:
+>>> The v1 uapi is deprecated and will be replaced by v2 at some point;
+>>> this patch just tolerates the renaming of uapi fields to reflect
+>>> v1 / deprecated status.
+>>>
+>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>>> ---
+>>>   hw/vfio/common.c    |  2 +-
+>>>   hw/vfio/migration.c | 19 +++++++++++--------
+>>>   2 files changed, 12 insertions(+), 9 deletions(-)
+>>
+>>
+>> I do not understand why you need this patch in this series.
+>> Shouldn't it be separate?
+> 
+> This patch is included because of the patch 1 kernel header sync, which 
+> pulls in uapi headers from kernel version 5.18-rc1 + my unmerged kernel 
+> uapi changes.
+> 
+> This patch is unnecessary without a header sync (and in fact would break 
+> QEMU compile), and is unrelated to the rest of the series -- but QEMU 
+> will not compile without it once you update linux uapi headers to 
+> 5.18-rc1 (or greater) due to the v1 uapi for vfio migration being 
+> deprecated [1].  This means that ANY series that does a linux header 
+> sync starting from here on will need something like this patch to go 
+> along with the header sync (or a series that replaces v1 usage with v2?).
+> 
+> If this patch looks good it could be included whenever a header sync is 
+> next needed, doesn't necessarily have to be with this series.
+> 
+> [1] https://www.spinics.net/lists/kernel/msg4288200.html
+> 
 
-> I have an additional problem you might have an idea for with the poll
-> based path. In addition to the clone notification, I'd need to know at
-> which point everyone who was listening to a clone notification is
-> finished acting up it. If I spawn a tiny VM to do "work", I want to know
-> when it's safe to hand requests into it. How do I find out when that
-> point in time is?
+arrg, seems I will need it too then.
+Thanks,
 
-Seems tricky to solve. Even a count of current waiters and a
-generation number won't be sufficient, since it wouldn't take into
-account users who haven't _yet_ gotten to waiting. But maybe it's not
-the right problem to solve? Or somehow not necessary? For example, if
-the problem is a bit more constrained a solution becomes easier: you
-have a fixed/known set of readers that you know about, and you
-guarantee that they're all waiting before the fork. Then after the
-fork, they all do something to alert you in their poll()er, and you
-count up how many alerts you get until it matches the number of
-expected waiters. Would that work? It seems like anything more general
-than that is just butting heads with the racy compromise we're already
-making.
+Pierre
 
-Jason
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
