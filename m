@@ -2,123 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2325062A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 05:32:53 +0200 (CEST)
-Received: from localhost ([::1]:43720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C76F50635C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 06:36:48 +0200 (CEST)
+Received: from localhost ([::1]:59634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngebj-0005cZ-Q1
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 23:32:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
+	id 1ngfbZ-0003Ft-Es
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 00:36:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1ngeae-0004xH-Bm
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 23:31:44 -0400
-Received: from mail-mw2nam10on2069.outbound.protection.outlook.com
- ([40.107.94.69]:30240 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1ngeaX-0000n1-W1
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 23:31:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nZqeQgba+i8kBUk+JHPbiaNAPGBuowr1cSd99f4NgwLkVHR1BmRWxMlo25A6eFzdeTbhSjZkN4387FUjdmB6cXZASCQSwm8kXnKrdink4e+RtLqWX1/+gJTtgSKa09PcxDLzAxr8s91Wkfl0GOPH9aex8VbkhOjWZ9OFL8KSoS3OQGjZKZAEAPO1LTZBHjzIW5HlZC8cFi0XdcuVv1/TB4lIoENHcg2SpC3EGXSsLUDF1fHGl/Z2YcKPF193d5zcYfTHYL1bm5RMgXeOrUAFUsrl2dUuoUMyNkHp6ZxiPiuB+2UX3B4ASS8xBj/5qAhgANIyuIxPRClWXU9+hGAbrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wyOd7fHWQNXHnx5BPmTEm7hqE3UeqBwbEsIU/knSStk=;
- b=H0UcmsoNe9E+T5ovwE76MA4wJm4u4MgT9oRq0VdCLs0yKWtnMRqza2OAUpx4Sr+bFXdouqjYDKkYJM5H/Ts+umvPDNG5ryvLLQp6ho1WnrsfFvHQbIsSzNwPZNb+QJzUlG8Rk9ytXygji+OJNB7YYncV9UXTVpTdSveFH3BtbT4f2q0rcF0L5iy/jEiT7fQCXz1sC8Q4Awlu+RS7HAkzRBHJG4dYGa4+BHtU2DiBrn5c7li+E3ywgdVnJ/EZmU8am2XWLgVO+CvpmNtbqOVJ2Vr5ROZBc936O4Dx6qGatr7sxTtcBZiwjBdowxB5jq7UOZGpW5TfdkW8zAhfJKQJBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=gibson.dropbear.id.au
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wyOd7fHWQNXHnx5BPmTEm7hqE3UeqBwbEsIU/knSStk=;
- b=XwBetCG78kKL105vmjQXSRXCZnk5aiXmI0xCi8d7Nhw/pehsgAlXGxSJgibQsz+1Q9rVoI+k2NNsC9c7ApcacZ1KS2dW0fXSN7Uq8sz4BkM+d8wkehM1MAbuxp4PO4Iqe1/u7bBmLen9HBzI/1B8LNWKEEz6sVZ/9XxL0DaWGzOc7dddy0Oo3bOTL22sWlpItAJwxxfD6roIcz+/1+jUVEHIcP1TwQ0SaIxWVSA1l+OpgzBt6PtS9xKha0+BKstRaNDbC78DHAaBgM8Z2U8qVYwdNpOm+8XHUeobMyn8jXiLpQ7wjyQIgqKs508ncvbTarx1cN8wsBMK5HcU0/xmcA==
-Received: from BN9PR03CA0959.namprd03.prod.outlook.com (2603:10b6:408:108::34)
- by CH0PR12MB5092.namprd12.prod.outlook.com (2603:10b6:610:bf::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Tue, 19 Apr
- 2022 03:26:26 +0000
-Received: from BN8NAM11FT019.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:108:cafe::66) by BN9PR03CA0959.outlook.office365.com
- (2603:10b6:408:108::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20 via Frontend
- Transport; Tue, 19 Apr 2022 03:26:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.238) by
- BN8NAM11FT019.mail.protection.outlook.com (10.13.176.158) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5164.19 via Frontend Transport; Tue, 19 Apr 2022 03:26:25 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
- Tue, 19 Apr 2022 03:26:24 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 18 Apr
- 2022 20:26:23 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22 via Frontend
- Transport; Mon, 18 Apr 2022 20:26:22 -0700
-Date: Mon, 18 Apr 2022 20:26:20 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Eric Auger <eric.auger@redhat.com>
-CC: Yi Liu <yi.l.liu@intel.com>, <alex.williamson@redhat.com>,
- <cohuck@redhat.com>, <qemu-devel@nongnu.org>, <david@gibson.dropbear.id.au>,
- <thuth@redhat.com>, <farman@linux.ibm.com>, <mjrosato@linux.ibm.com>,
- <akrowiak@linux.ibm.com>, <pasic@linux.ibm.com>, <jjherne@linux.ibm.com>,
- <jasowang@redhat.com>, <kvm@vger.kernel.org>, <jgg@nvidia.com>,
- <eric.auger.pro@gmail.com>, <kevin.tian@intel.com>, <chao.p.peng@intel.com>,
- <yi.y.sun@intel.com>, <peterx@redhat.com>
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-Message-ID: <Yl4r3Ok61wxCc2zd@Asurada-Nvidia>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <Ylku1VVsbYiAEALZ@Asurada-Nvidia>
- <16ea3601-a3dd-ba9b-a5bc-420f4ac20611@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ngfZy-0002My-9C; Tue, 19 Apr 2022 00:35:06 -0400
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:33444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ngfZw-0001XF-Mr; Tue, 19 Apr 2022 00:35:06 -0400
+Received: by mail-il1-x12a.google.com with SMTP id b5so9814350ile.0;
+ Mon, 18 Apr 2022 21:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3jy5eE8kVpI/lftvBVmgsU8Chaa/OVlJQI4FFIM0A9U=;
+ b=UsFHLiTJCTtiMi2sv+zAiQMNQ/wSQd1gXxSR+tV+FPj2HmNGI+BRJ2WyJwDT/ehUFT
+ jhC1tgOxkoWSGYmcBl8YjKwZBKY/wvBEJ4Cgam4HBvKfofJciJ0/EtwOYnrycpa6tfd+
+ kN3k/Up5y4w7zP9VyVe8PPHUhlQv0u3VC/klVXT7EvC5dWO2f3l5t1ptCXiDd5l1pcF/
+ tfQUXa8cx9Z+6HlQptn1jodsqxbp9Her6xkZWRXIjSSM/XLehQA9omqoxZ/3L/4pcXZX
+ JAprZ5ebZf7F8AYh8x25322Vq6THgn+rbWkgcuBXqym4wNoSDwWVPLp+SpPc/v4wvGCT
+ ReUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3jy5eE8kVpI/lftvBVmgsU8Chaa/OVlJQI4FFIM0A9U=;
+ b=6ikETyr+YVVG9bBfPhRlcxZM0CuZLxVymln0Myry5rBTkXOLcZRUInIIghUALAOC7A
+ NG3itXW4BeU01bPrIRQEB7WhM2ZuNiWEAza5I6jNcXjQuWnA0rTbrmzEaUCAYbhVXN+A
+ cPG7RpsrBCy4nfYVTL81Alqhh44nsXRrIlYgQU+jNAphGQeT++F+h6jRN4edwRQvCf8W
+ 0vSIRLXbASO6AgqnumnxE9N8Jy9zf+qTuoF6lcz/ThO1+X08wNm0/xwA7ugviig+R4vj
+ t/OdTVl7Rvu2RWVYz1C+VgOqh4h82Nmyx1K3S0YllYNosgln39QrZT0mKf7fuAWDB9wf
+ xj6Q==
+X-Gm-Message-State: AOAM530ryh1cMLwjFPXAkLew33wi53PbsYQNw5hvu5V+ijEz1wJYk9RS
+ WJMLJB9zC1jaXy6N1Ppo3ksgJuKJFwZ2HG8h7DA=
+X-Google-Smtp-Source: ABdhPJzVWggctg4uCeUmBDzvUjtxJfRwJPWd9ETWCvPPV3g89egZLXOipjU0xHF0QpnvYMReixH/efhni3LkgnCAk9w=
+X-Received: by 2002:a92:6012:0:b0:2bd:fb5f:d627 with SMTP id
+ u18-20020a926012000000b002bdfb5fd627mr5937520ilb.86.1650342903215; Mon, 18
+ Apr 2022 21:35:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <16ea3601-a3dd-ba9b-a5bc-420f4ac20611@redhat.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 60b59b91-5797-48f5-5938-08da21b46270
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5092:EE_
-X-Microsoft-Antispam-PRVS: <CH0PR12MB509282BF6FF3EB8A73F7BCCCABF29@CH0PR12MB5092.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GaZli78FTI1LBh+JQkQKk07SdttlUlBvl+5YzZQTeUvlUubOpE1FHKo+PwXiqc9ExuEXjgcuZdr4mB2A9veMZXcAIoHxGreylWICJ5Tht0q1jBRZWL/uBi4pcmrgj5sUw+UYwmDT75/ILa1PqWvMd1YSVAjordJ6qOyxanu3GnhW1Bs6k4sSLlhJr4EDwIhlsY7395iDuMs9p3OsHZHCVYBr4T7ds2zAP8LzfHmWE+D02/WKgGlPsinNQfPmrx+AGe1pUiY8bnKDbFEl2hNiJTvR8n7tIWVZeg3v1g26mtCWidNugjzb0kaeqnjqKw0DTA95e7qXe5BpgypkijF+jvLTWQFngjEaqipytSG0MwjW6fwA18R6yAUKuJ65C0t4GQq3hcoGJLlGR1qqMbYZjm+o+HUdztgB5YLQ3JGuXP256sgbvtLDhpKaQer4F9A/7py+VBRtyLqe/ox4mxjRbklySltIBzqeaNOusnxN9Nj1hApmgbcdPH5ed3/VfyMiJX86dc3eLqEh3y//DS9Md3OQfxS3ILK8p70GpSdgJ6fr8nV0lmVFa9angjzItZlE0Hl0AaHE8J418D/JtWuu7j1gl3UgUpLyHJIrfY5LXqFkoqzMmCSUO1COhMAhR5AUSVKeeDfqkOeHPMBjC1wPcss5XBLkVcHJKDoWlVmOw5oJYTBLwmt9uCZjOUWk/o1kpFfasqtA6QciDl79r+vnuQIGu3L510a/0/xFaYeJbtIVn0srkOkmF/UDMU8lW8fMy8LWCM3zmHJ+ZJ5GJ9FZArUZKJKnWyWKkhjTM1oq7eo=
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(2906002)(36860700001)(83380400001)(508600001)(356005)(8676002)(82310400005)(86362001)(966005)(9686003)(26005)(40460700003)(186003)(70586007)(70206006)(4326008)(33716001)(81166007)(47076005)(7416002)(5660300002)(426003)(55016003)(336012)(316002)(6916009)(8936002)(54906003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2022 03:26:25.3831 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60b59b91-5797-48f5-5938-08da21b46270
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT019.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5092
-Received-SPF: softfail client-ip=40.107.94.69;
- envelope-from=nicolinc@nvidia.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <rq81o86n-17ps-92no-p65o-79o88476266@syhkavp.arg>
+In-Reply-To: <rq81o86n-17ps-92no-p65o-79o88476266@syhkavp.arg>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 19 Apr 2022 14:34:37 +1000
+Message-ID: <CAKmqyKMSLvVjHgiw2h3SwLVORVP-ZSBwUDaD+aTaxSr9=JJ_zg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv/pmp: fix NAPOT range computation overflow
+To: Nicolas Pitre <nico@fluxnic.net>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -131,48 +76,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 17, 2022 at 12:30:40PM +0200, Eric Auger wrote:
+On Sat, Apr 9, 2022 at 2:25 AM Nicolas Pitre <nico@fluxnic.net> wrote:
+>
+> There is an overflow with the current code where a pmpaddr value of
+> 0x1fffffff is decoded as sa=0 and ea=0 whereas it should be sa=0 and
+> ea=0xffffffff.
+>
+> Fix that by simplifying the computation. There is in fact no need for
+> ctz64() nor special case for -1 to achieve proper results.
+>
+> Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
 
-> >> - More tests
-> > I did a quick test on my ARM64 platform, using "iommu=smmuv3"
-> > string. The behaviors are different between using default and
-> > using legacy "iommufd=off".
-> >
-> > The legacy pathway exits the VM with:
-> >     vfio 0002:01:00.0:
-> >     failed to setup container for group 1:
-> >     memory listener initialization failed:
-> >     Region smmuv3-iommu-memory-region-16-0:
-> >     device 00.02.0 requires iommu MAP notifier which is not currently supported
-> >
-> > while the iommufd pathway started the VM but reported errors
-> > from host kernel about address translation failures, probably
-> > because of accessing unmapped addresses.
-> >
-> > I found iommufd pathway also calls error_propagate_prepend()
-> > to add to errp for not supporting IOMMU_NOTIFIER_MAP, but it
-> > doesn't get a chance to print errp out. Perhaps there should
-> > be a final error check somewhere to exit?
-> 
-> thank you for giving it a try.
-> 
-> vsmmuv3 + vfio is not supported as we miss the HW nested stage support
-> and SMMU does not support cache mode. If you want to test viommu on ARM
-> you shall test virtio-iommu+vfio. This should work but this is not yet
-> tested.
+Thanks!
 
-I tried "-device virtio-iommu" and "-device virtio-iommu-pci"
-separately with vfio-pci, but neither seems to work. The host
-SMMU driver reports Translation Faults.
+Applied to riscv-to-apply.next
 
-Do you know what commands I should use to run QEMU for that
-combination?
+Alistair
 
-> I pushed a fix for the error notification issue:
-> qemu-for-5.17-rc6-vm-rfcv2-rc0 on my git https://github.com/eauger/qemu.git
-
-Yes. This fixes the problem. Thanks!
+> ---
+>
+> This is in fact the same patch I posted yesterday but turns out its
+> scope is far more important than I initially thought.
+>
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index 81b61bb65c..151da3fa08 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -141,17 +141,9 @@ static void pmp_decode_napot(target_ulong a, target_ulong *sa, target_ulong *ea)
+>         0111...1111   2^(XLEN+2)-byte NAPOT range
+>         1111...1111   Reserved
+>      */
+> -    if (a == -1) {
+> -        *sa = 0u;
+> -        *ea = -1;
+> -        return;
+> -    } else {
+> -        target_ulong t1 = ctz64(~a);
+> -        target_ulong base = (a & ~(((target_ulong)1 << t1) - 1)) << 2;
+> -        target_ulong range = ((target_ulong)1 << (t1 + 3)) - 1;
+> -        *sa = base;
+> -        *ea = base + range;
+> -    }
+> +    a = (a << 2) | 0x3;
+> +    *sa = a & (a + 1);
+> +    *ea = a | (a + 1);
+>  }
+>
+>  void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index)
+>
 
