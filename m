@@ -2,58 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BCE4506205
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 04:19:25 +0200 (CEST)
-Received: from localhost ([::1]:42368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2325062A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 05:32:53 +0200 (CEST)
+Received: from localhost ([::1]:43720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngdSe-0007DL-Ea
-	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 22:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57484)
+	id 1ngebj-0005cZ-Q1
+	for lists+qemu-devel@lfdr.de; Mon, 18 Apr 2022 23:32:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1ngdRK-0006Wz-7w
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 22:18:02 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3935)
+ (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
+ id 1ngeae-0004xH-Bm
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 23:31:44 -0400
+Received: from mail-mw2nam10on2069.outbound.protection.outlook.com
+ ([40.107.94.69]:30240 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1ngdRH-0007KF-Dt
- for qemu-devel@nongnu.org; Mon, 18 Apr 2022 22:18:01 -0400
-Received: from kwepemi100008.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Kj6s13c3NzhXX0;
- Tue, 19 Apr 2022 10:17:41 +0800 (CST)
-Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
- kwepemi100008.china.huawei.com (7.221.188.57) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 19 Apr 2022 10:17:46 +0800
-Received: from localhost (10.174.149.172) by kwepemm600015.china.huawei.com
- (7.193.23.52) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 19 Apr
- 2022 10:17:45 +0800
-To: <marcandre.lureau@redhat.com>, <berrange@redhat.com>,
- <qemu-devel@nongnu.org>
-CC: <weidong.huang@huawei.com>, <wangxinxin.wang@huawei.com>,
- <hogan.wang@huawei.com>, <pbonzini@redhat.com>, <armbru@redhat.com>
-Subject: Re: [PATCH] chardev: avoid use-after-free when client disconnect
-Date: Tue, 19 Apr 2022 10:17:41 +0800
-Message-ID: <20220419021741.741-1-hogan.wang@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <CAJ+F1CKfbPc88csKxA3bgzc4cRQTAnJ=wXd1hF-OCRRjNC5eMg@mail.gmail.com>
-References: <CAJ+F1CKfbPc88csKxA3bgzc4cRQTAnJ=wXd1hF-OCRRjNC5eMg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
+ id 1ngeaX-0000n1-W1
+ for qemu-devel@nongnu.org; Mon, 18 Apr 2022 23:31:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nZqeQgba+i8kBUk+JHPbiaNAPGBuowr1cSd99f4NgwLkVHR1BmRWxMlo25A6eFzdeTbhSjZkN4387FUjdmB6cXZASCQSwm8kXnKrdink4e+RtLqWX1/+gJTtgSKa09PcxDLzAxr8s91Wkfl0GOPH9aex8VbkhOjWZ9OFL8KSoS3OQGjZKZAEAPO1LTZBHjzIW5HlZC8cFi0XdcuVv1/TB4lIoENHcg2SpC3EGXSsLUDF1fHGl/Z2YcKPF193d5zcYfTHYL1bm5RMgXeOrUAFUsrl2dUuoUMyNkHp6ZxiPiuB+2UX3B4ASS8xBj/5qAhgANIyuIxPRClWXU9+hGAbrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wyOd7fHWQNXHnx5BPmTEm7hqE3UeqBwbEsIU/knSStk=;
+ b=H0UcmsoNe9E+T5ovwE76MA4wJm4u4MgT9oRq0VdCLs0yKWtnMRqza2OAUpx4Sr+bFXdouqjYDKkYJM5H/Ts+umvPDNG5ryvLLQp6ho1WnrsfFvHQbIsSzNwPZNb+QJzUlG8Rk9ytXygji+OJNB7YYncV9UXTVpTdSveFH3BtbT4f2q0rcF0L5iy/jEiT7fQCXz1sC8Q4Awlu+RS7HAkzRBHJG4dYGa4+BHtU2DiBrn5c7li+E3ywgdVnJ/EZmU8am2XWLgVO+CvpmNtbqOVJ2Vr5ROZBc936O4Dx6qGatr7sxTtcBZiwjBdowxB5jq7UOZGpW5TfdkW8zAhfJKQJBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=gibson.dropbear.id.au
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wyOd7fHWQNXHnx5BPmTEm7hqE3UeqBwbEsIU/knSStk=;
+ b=XwBetCG78kKL105vmjQXSRXCZnk5aiXmI0xCi8d7Nhw/pehsgAlXGxSJgibQsz+1Q9rVoI+k2NNsC9c7ApcacZ1KS2dW0fXSN7Uq8sz4BkM+d8wkehM1MAbuxp4PO4Iqe1/u7bBmLen9HBzI/1B8LNWKEEz6sVZ/9XxL0DaWGzOc7dddy0Oo3bOTL22sWlpItAJwxxfD6roIcz+/1+jUVEHIcP1TwQ0SaIxWVSA1l+OpgzBt6PtS9xKha0+BKstRaNDbC78DHAaBgM8Z2U8qVYwdNpOm+8XHUeobMyn8jXiLpQ7wjyQIgqKs508ncvbTarx1cN8wsBMK5HcU0/xmcA==
+Received: from BN9PR03CA0959.namprd03.prod.outlook.com (2603:10b6:408:108::34)
+ by CH0PR12MB5092.namprd12.prod.outlook.com (2603:10b6:610:bf::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Tue, 19 Apr
+ 2022 03:26:26 +0000
+Received: from BN8NAM11FT019.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:108:cafe::66) by BN9PR03CA0959.outlook.office365.com
+ (2603:10b6:408:108::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20 via Frontend
+ Transport; Tue, 19 Apr 2022 03:26:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (12.22.5.238) by
+ BN8NAM11FT019.mail.protection.outlook.com (10.13.176.158) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5164.19 via Frontend Transport; Tue, 19 Apr 2022 03:26:25 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
+ Tue, 19 Apr 2022 03:26:24 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 18 Apr
+ 2022 20:26:23 -0700
+Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22 via Frontend
+ Transport; Mon, 18 Apr 2022 20:26:22 -0700
+Date: Mon, 18 Apr 2022 20:26:20 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Eric Auger <eric.auger@redhat.com>
+CC: Yi Liu <yi.l.liu@intel.com>, <alex.williamson@redhat.com>,
+ <cohuck@redhat.com>, <qemu-devel@nongnu.org>, <david@gibson.dropbear.id.au>,
+ <thuth@redhat.com>, <farman@linux.ibm.com>, <mjrosato@linux.ibm.com>,
+ <akrowiak@linux.ibm.com>, <pasic@linux.ibm.com>, <jjherne@linux.ibm.com>,
+ <jasowang@redhat.com>, <kvm@vger.kernel.org>, <jgg@nvidia.com>,
+ <eric.auger.pro@gmail.com>, <kevin.tian@intel.com>, <chao.p.peng@intel.com>,
+ <yi.y.sun@intel.com>, <peterx@redhat.com>
+Subject: Re: [RFC 00/18] vfio: Adopt iommufd
+Message-ID: <Yl4r3Ok61wxCc2zd@Asurada-Nvidia>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
+ <Ylku1VVsbYiAEALZ@Asurada-Nvidia>
+ <16ea3601-a3dd-ba9b-a5bc-420f4ac20611@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.149.172]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemm600015.china.huawei.com (7.193.23.52)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=hogan.wang@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <16ea3601-a3dd-ba9b-a5bc-420f4ac20611@redhat.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 60b59b91-5797-48f5-5938-08da21b46270
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5092:EE_
+X-Microsoft-Antispam-PRVS: <CH0PR12MB509282BF6FF3EB8A73F7BCCCABF29@CH0PR12MB5092.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GaZli78FTI1LBh+JQkQKk07SdttlUlBvl+5YzZQTeUvlUubOpE1FHKo+PwXiqc9ExuEXjgcuZdr4mB2A9veMZXcAIoHxGreylWICJ5Tht0q1jBRZWL/uBi4pcmrgj5sUw+UYwmDT75/ILa1PqWvMd1YSVAjordJ6qOyxanu3GnhW1Bs6k4sSLlhJr4EDwIhlsY7395iDuMs9p3OsHZHCVYBr4T7ds2zAP8LzfHmWE+D02/WKgGlPsinNQfPmrx+AGe1pUiY8bnKDbFEl2hNiJTvR8n7tIWVZeg3v1g26mtCWidNugjzb0kaeqnjqKw0DTA95e7qXe5BpgypkijF+jvLTWQFngjEaqipytSG0MwjW6fwA18R6yAUKuJ65C0t4GQq3hcoGJLlGR1qqMbYZjm+o+HUdztgB5YLQ3JGuXP256sgbvtLDhpKaQer4F9A/7py+VBRtyLqe/ox4mxjRbklySltIBzqeaNOusnxN9Nj1hApmgbcdPH5ed3/VfyMiJX86dc3eLqEh3y//DS9Md3OQfxS3ILK8p70GpSdgJ6fr8nV0lmVFa9angjzItZlE0Hl0AaHE8J418D/JtWuu7j1gl3UgUpLyHJIrfY5LXqFkoqzMmCSUO1COhMAhR5AUSVKeeDfqkOeHPMBjC1wPcss5XBLkVcHJKDoWlVmOw5oJYTBLwmt9uCZjOUWk/o1kpFfasqtA6QciDl79r+vnuQIGu3L510a/0/xFaYeJbtIVn0srkOkmF/UDMU8lW8fMy8LWCM3zmHJ+ZJ5GJ9FZArUZKJKnWyWKkhjTM1oq7eo=
+X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(2906002)(36860700001)(83380400001)(508600001)(356005)(8676002)(82310400005)(86362001)(966005)(9686003)(26005)(40460700003)(186003)(70586007)(70206006)(4326008)(33716001)(81166007)(47076005)(7416002)(5660300002)(426003)(55016003)(336012)(316002)(6916009)(8936002)(54906003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2022 03:26:25.3831 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60b59b91-5797-48f5-5938-08da21b46270
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT019.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5092
+Received-SPF: softfail client-ip=40.107.94.69;
+ envelope-from=nicolinc@nvidia.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,127 +133,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Hogan Wang <hogan.wang@huawei.com>
-From:  Hogan Wang via <qemu-devel@nongnu.org>
 
-> Hi
-> 
-> On Mon, Mar 28, 2022 at 12:22 PM Hogan Wang via <qemu-devel@nongnu.org> wrote:
-> > IOWatchPoll object did not hold the @ioc and @src objects reference,
-> > then io_watch_poll_prepare execute in IO thread, if IOWatchPoll
-> > removed by mian thread, io_watch_poll_prepare may execute at last
-> > chance and access the freed @ioc or @src object.
-> > 
-> > In IO thread monitor scene, the IO thread used to accept client,
-> > receive qmp request and handle hung-up event. Main thread used to
-> > handle qmp request and send response, it will remove IOWatchPoll
-> > and free @ioc when send response fail, then cause use-after-free
-> > like this:
-> > 
-> > (gdb) bt
-> > 0  0x00007f4d121c8edf in g_source_remove_child_source (source=0x7f4c58003560, child_source=0x7f4c58009b10)
-> > 1  0x00007f4d11e0705c in io_watch_poll_prepare (source=0x7f4c58003560, timeout=timeout@entry=0x7f4c7fffed94
-> > 2  0x00007f4d121ca419 in g_main_context_prepare (context=context@entry=0x55a1463f8260, priority=priority@entry=0x7f4c7fffee20)
-> > 3  0x00007f4d121cadeb in g_main_context_iterate (context=0x55a1463f8260, block=block@entry=1, dispatch=dispatch@entry=1, self=self@entry=0x7f4c94002260)
-> > 4  0x00007f4d121cb21d in g_main_loop_run (loop=0x55a146c90920)
-> > 5  0x00007f4d11de3ea1 in iothread_run (opaque=0x55a146411820)
-> > 6  0x00007f4d11d77470 in qemu_thread_start (args=0x55a146b1f3c0)
-> > 7  0x00007f4d11f2ef3b in ?? () from /usr/lib64/libpthread.so.0
-> > 8  0x00007f4d120ba550 in clone () from /usr/lib64/libc.so.6
-> > (gdb) p	iwp
-> > $1 = (IOWatchPoll *) 0x7f4c58003560
-> > (gdb) p	*iwp
-> > $2 = {parent = {callback_data = 0x0,
-> >                 callback_funcs = 0x0,
-> >                 source_funcs = 0x7f4d11f10760 <io_watch_poll_funcs>,
-> >                 ref_count = 1,
-> >                 context = 0x55a1463f8260,
-> >                 priority = 0,
-> >                 flags = 0,
-> >                 source_id = 544,
-> >                 poll_fds = 0x0,
-> >                 prev = 0x55a147a47a30,
-> >                 next = 0x55a14712fb80,
-> >                 name = 0x7f4c580036d0 "chardev-iowatch-charmonitor",
-> >                 priv = 0x7f4c58003060},
-> >        ioc = 0x7f4c580033f0,
-> >        src = 0x7f4c58009b10,
-> >        fd_can_read = 0x7f4d11e0a5d0 <tcp_chr_read_poll>,
-> >        fd_read = 0x7f4d11e0a380 <tcp_chr_read>,
-> >        opaque = 0x55a1463aeea0 }
-> > (gdb) p	iwp->ioc
-> > $3 = (QIOChannel *) 0x7f4c580033f0
-> > (gdb) p	*iwp->ioc
-> > $4 = {parent = {class = 0x55a14707f400,
-> >                 free = 0x55a146313010,
-> >                 properties = 0x55a147b37b60,
-> >                 ref = 0,
-> >                 parent = 0x0},
-> >       features = 3,
-> >       name = 0x7f4c580085f0 "\240F",
-> >       ctx = 0x0,
-> >       read_coroutine = 0x0,
-> >       write_coroutine = 0x0}
-> > 
-> > Solution: IOWatchPoll object hold the @ioc and @src objects reference
-> > and release the reference in GSource finalize callback function.
-> > 
-> > Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
-> > ---
-> >  chardev/char-io.c | 12 ++++++++++--
-> >  1 file changed, 10 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/chardev/char-io.c b/chardev/char-io.c
-> > index 8ced184160..7c20a6027c 100644
-> > --- a/chardev/char-io.c
-> > +++ b/chardev/char-io.c
-> > @@ -55,9 +55,9 @@ static gboolean io_watch_poll_prepare(GSource *source,
-> >              iwp->ioc, G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL);
-> >          g_source_set_callback(iwp->src, iwp->fd_read, iwp->opaque, NULL);
-> >          g_source_add_child_source(source, iwp->src);
-> > -        g_source_unref(iwp->src);
-> >      } else {
-> >          g_source_remove_child_source(source, iwp->src);
-> > +        g_source_unref(iwp->src);
-> >          iwp->src = NULL;
-> 
-> This change looks unnecessary. According to g_source_add_child_source() documentation: 
-> "source will hold a reference on child_source while child_source is attached to it."
+On Sun, Apr 17, 2022 at 12:30:40PM +0200, Eric Auger wrote:
 
-Thansk for your good suggestions, I think it's necessary. Although parent source hold 
-a reference for the child source, but parent source will dereference and release the
-child source object while IOWatchPoll removed by mian thread, and then IOWatchPoll will
-hold the wild pointer. IOThread may access the wild pointer cause sigfault at this time.
-
+> >> - More tests
+> > I did a quick test on my ARM64 platform, using "iommu=smmuv3"
+> > string. The behaviors are different between using default and
+> > using legacy "iommufd=off".
+> >
+> > The legacy pathway exits the VM with:
+> >     vfio 0002:01:00.0:
+> >     failed to setup container for group 1:
+> >     memory listener initialization failed:
+> >     Region smmuv3-iommu-memory-region-16-0:
+> >     device 00.02.0 requires iommu MAP notifier which is not currently supported
+> >
+> > while the iommufd pathway started the VM but reported errors
+> > from host kernel about address translation failures, probably
+> > because of accessing unmapped addresses.
+> >
+> > I found iommufd pathway also calls error_propagate_prepend()
+> > to add to errp for not supporting IOMMU_NOTIFIER_MAP, but it
+> > doesn't get a chance to print errp out. Perhaps there should
+> > be a final error check somewhere to exit?
 > 
-> >      }
-> >      return FALSE;
-> > @@ -69,9 +69,17 @@ static gboolean io_watch_poll_dispatch(GSource *source, GSourceFunc callback,
-> >      return G_SOURCE_CONTINUE;
-> >  }
-> >  
-> > +static void io_watch_poll_finalize(GSource *source)
-> > +{
-> > +    IOWatchPoll *iwp = io_watch_poll_from_source(source);
-> > +    g_clear_pointer(&iwp->src, g_source_unref);
-> > +    g_clear_pointer(&iwp->ioc, object_unref);
-> > +}
-> > +
-> >  static GSourceFuncs io_watch_poll_funcs = {
-> >      .prepare = io_watch_poll_prepare,
-> >      .dispatch = io_watch_poll_dispatch,
-> > +    .finalize = io_watch_poll_finalize,
-> >  };
-> >  
-> >  GSource *io_add_watch_poll(Chardev *chr,
-> > @@ -88,7 +96,7 @@ GSource *io_add_watch_poll(Chardev *chr,
-> >                                         sizeof(IOWatchPoll));
-> >      iwp->fd_can_read = fd_can_read;
-> >      iwp->opaque = user_data;
-> > -    iwp->ioc = ioc;
-> > +    iwp->ioc = object_ref(ioc);
-> >      iwp->fd_read = (GSourceFunc) fd_read;
-> >      iwp->src = NULL;
-> >  
-Accept your good suggestions, and I do fix it.
+> thank you for giving it a try.
+> 
+> vsmmuv3 + vfio is not supported as we miss the HW nested stage support
+> and SMMU does not support cache mode. If you want to test viommu on ARM
+> you shall test virtio-iommu+vfio. This should work but this is not yet
+> tested.
+
+I tried "-device virtio-iommu" and "-device virtio-iommu-pci"
+separately with vfio-pci, but neither seems to work. The host
+SMMU driver reports Translation Faults.
+
+Do you know what commands I should use to run QEMU for that
+combination?
+
+> I pushed a fix for the error notification issue:
+> qemu-for-5.17-rc6-vm-rfcv2-rc0 on my git https://github.com/eauger/qemu.git
+
+Yes. This fixes the problem. Thanks!
 
