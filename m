@@ -2,97 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6721F5068A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 12:20:08 +0200 (CEST)
-Received: from localhost ([::1]:33166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827185068DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 12:37:41 +0200 (CEST)
+Received: from localhost ([::1]:42780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngkxr-0003ki-1w
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 06:20:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49324)
+	id 1nglEq-0002mX-77
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 06:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ngksv-0000DT-Kw
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 06:15:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43022)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ngkss-0001BC-UM
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 06:15:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650363297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PVPmS6dohAyM2PLsEtb+SKOkO5Oasan0Q26Lh9lIpwc=;
- b=OD4bczd9l0Jv7ipudMRT5lNKsneb4aIt4aHhj8uWR6yQWJt/Ppb4VIoZxGdHJ3cthLUiTR
- V9yfccQoX/okuamCB6tX4jdVRSSKe/LdKAmdH+F68eRHTISac3QETrwLUxz8fl2aAirT6S
- XnsGjFvZfAQg0OI8TUFYtc+7ydPuNYw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-fivxhpoxOW2ZNf6-CE2xlg-1; Tue, 19 Apr 2022 06:14:56 -0400
-X-MC-Unique: fivxhpoxOW2ZNf6-CE2xlg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r204-20020a1c44d5000000b0038eaca2b8c9so1091801wma.7
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 03:14:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nglAw-00019y-2O
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 06:33:38 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:44000)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nglAs-0004Ts-Jj
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 06:33:37 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id g18so31934581ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 03:33:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=92PkayH47gYdDgz/dkI3iMDfoMCwptrM3jxWU3zpS/0=;
+ b=qySqjhWetxqj4QtBxqRXWx1pJdPw1gyczWFwJ+BYlKPjkA+xD3BrQRFyMiUl02xliB
+ PvZ+vrVRLaViGEGV6WqkN5lEwh7NQrcDHK1j9g0KVDafGGPua+s2a53xEZNxIzciLVVA
+ xcgTrvUd1FoME3KbhQ6vw/wDQqaf3kLBaq9FWRYO8ocQ1ptmiaoMOt29WfOlwBfiG9mE
+ xrgpO1xeg7mI1Z+UWKec7BO4f0wieOHi1cZ5s8qixcyU2gyeIjKVU1wFbPDrxsfs3/m3
+ 3HyUtrXiwjSUSauQz0SKY2S1+ThQ4M9a5Uq0Chn4putoaDI3TqIxN7mjw6Z/C8TMkBYC
+ Qnow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=PVPmS6dohAyM2PLsEtb+SKOkO5Oasan0Q26Lh9lIpwc=;
- b=fsETVh8t8KMOMY3KjSCSeZaJLuocNdPBuyPC383ZE/IThb0OseUG/IqH8MTVCSGgIo
- t/ms4n2apDCa97wwvni1IOKgVz/XauekGiYz6GnP492DMb2xiY5zGfBXGpFFcVn4UfWU
- V2+L9Pfuhuu4JeWXDZUMN6qsnMOmDmAYKyk0Ry51g/rwuI553+PGxNBnIuqDZwPOpyeS
- yMvlmJ8Vslx1/jzjrfdo0GgeMH8Y0L9OJyvNWiwYgEsaVY6f6O0wap7MH7wjhDmbVAA9
- wf4BpNWS/wC86CALWqHGUMl62wfcCFbqLfv4fP7IAkmh+XL7zMQS09u6zC8nvXwO7Zo4
- Z/MA==
-X-Gm-Message-State: AOAM531KbIeJQapg2FC9O91pzyE0PPG0DnTWhSByXAJqNStoPA3H8Yxm
- RO3MhSyoAXEBh7ji7GEGOta9R4gsihfqrWJVcmFhMA+ImJVObVr5iDR8zDyHbKpRRrrQLRrixFg
- 4xucrcjx8dyrY05o=
-X-Received: by 2002:a05:6000:18d0:b0:209:199b:77bd with SMTP id
- w16-20020a05600018d000b00209199b77bdmr11570759wrq.537.1650363294759; 
- Tue, 19 Apr 2022 03:14:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmd1+TqTMzOe5HaL1dWQWRNaeEet0zROT9I7Id+uGD+XPg7ftYx/HvmO78NZ0iBDRB6PNDlg==
-X-Received: by 2002:a05:6000:18d0:b0:209:199b:77bd with SMTP id
- w16-20020a05600018d000b00209199b77bdmr11570741wrq.537.1650363294468; 
- Tue, 19 Apr 2022 03:14:54 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:5d00:d8c2:fbf6:a608:957a?
- (p200300cbc7045d00d8c2fbf6a608957a.dip0.t-ipconnect.de.
- [2003:cb:c704:5d00:d8c2:fbf6:a608:957a])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=92PkayH47gYdDgz/dkI3iMDfoMCwptrM3jxWU3zpS/0=;
+ b=iidMlnDmTBikq4YVqZNSOePPtukyB87iv+U4ARKLawtZ5Uxfn7Pn9HeqCQrvt5PzxX
+ Vd+8LW9eODD4MCl/FBQF/LsNQviTWTL6ku50gSIduDpRj6NV0OGNFvaV/mwLqTyekasg
+ U8CSFFN3adLW4g3UdnjjwfgyNvobNaAfUSJG8NIcRlYFi1qpNE83S5nxzuzA3thGr6UR
+ MCav3u2ltFVZc/39uPiSNU3wxRn5DeWfHy7XwVe+fDLcwBjabH2yjpbpKro+w2TVX3aI
+ k2xrgIGAMdmX2CeY2z3kWL1UY7+lPnvx//8oU6yo8CwGFb6qJiEvpSBD72U2aNDStGk2
+ 5RGA==
+X-Gm-Message-State: AOAM532tIfN0XDrstupjPJVoK6i62yb9IO/9FrR1HLocxWegebiQYVN4
+ 8ZN9hpIe/2uf9stmVadPg0wlKw==
+X-Google-Smtp-Source: ABdhPJy5Yg9TxSemSe/i9lQwWzyMq7uBxJiYe8RfepNyCxcaLDfpGhKU8c71YyYgmBlIuzA7lMD/hA==
+X-Received: by 2002:a17:907:97cc:b0:6df:83bc:314c with SMTP id
+ js12-20020a17090797cc00b006df83bc314cmr12704784ejc.587.1650364413048; 
+ Tue, 19 Apr 2022 03:33:33 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- o11-20020a05600002cb00b0020a88c4ecb5sm7963174wry.3.2022.04.19.03.14.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Apr 2022 03:14:54 -0700 (PDT)
-Message-ID: <5c10cfb8-6312-316a-3226-11a8a92b91be@redhat.com>
-Date: Tue, 19 Apr 2022 12:14:53 +0200
+ la16-20020a170907781000b006efa121a837sm2458037ejc.98.2022.04.19.03.33.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Apr 2022 03:33:32 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7940B1FFB7;
+ Tue, 19 Apr 2022 11:33:31 +0100 (BST)
+References: <SN4PR0201MB8808BF460C02884C603641A4DEF39@SN4PR0201MB8808.namprd02.prod.outlook.com>
+ <aa16cc6b-0ff9-5870-118b-ceb24b584fe4@linaro.org>
+ <SN4PR0201MB88081EEA0FCEB2A1B3B49B87DEF29@SN4PR0201MB8808.namprd02.prod.outlook.com>
+User-agent: mu4e 1.7.13; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Taylor Simpson <tsimpson@quicinc.com>
+Subject: Re: Question about direct block chaining
+Date: Tue, 19 Apr 2022 11:24:22 +0100
+In-reply-to: <SN4PR0201MB88081EEA0FCEB2A1B3B49B87DEF29@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Message-ID: <87k0blxszo.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-To: chenxiang <chenxiang66@hisilicon.com>, eric.auger@redhat.com,
- pbonzini@redhat.com, peterx@redhat.com, f4bug@amsat.org
-References: <1650098041-127062-1-git-send-email-chenxiang66@hisilicon.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH] softmmu/memory: Skip translation size instead of fixed
- granularity if translate() successfully
-In-Reply-To: <1650098041-127062-1-git-send-email-chenxiang66@hisilicon.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,74 +90,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linuxarm@huawei.com, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathi?= =?utf-8?Q?eu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.04.22 10:34, chenxiang via wrote:
-> From: Xiang Chen <chenxiang66@hisilicon.com>
-> 
-> Currently memory_region_iommu_replay() does full page table walk with
-> fixed granularity (page size) no matter translate() succeeds or not.
-> Actually if translate() successfully, we can skip translation size
-> (iotlb.addr_mask + 1) instead of fixed granularity.
-> 
->  Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
-> ---
->  softmmu/memory.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index bfa5d5178c..ccfa19cf71 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -1924,7 +1924,7 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
->  {
->      MemoryRegion *mr = MEMORY_REGION(iommu_mr);
->      IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
-> -    hwaddr addr, granularity;
-> +    hwaddr addr, granularity, def_granu;
->      IOMMUTLBEntry iotlb;
->  
->      /* If the IOMMU has its own replay callback, override */
-> @@ -1933,12 +1933,15 @@ void memory_region_iommu_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
->          return;
->      }
->  
-> -    granularity = memory_region_iommu_get_min_page_size(iommu_mr);
-> +    def_granu = memory_region_iommu_get_min_page_size(iommu_mr);
 
-"granu" sounds weird. I'd suggest calling this "min_granularity".
+Taylor Simpson <tsimpson@quicinc.com> writes:
 
->  
->      for (addr = 0; addr < memory_region_size(mr); addr += granularity) {
->          iotlb = imrc->translate(iommu_mr, addr, IOMMU_NONE, n->iommu_idx);
->          if (iotlb.perm != IOMMU_NONE) {
->              n->notify(n, &iotlb);
-> +            granularity = iotlb.addr_mask + 1;
-> +        } else {
-> +            granularity = def_granu;
->          }
+>> -----Original Message-----
+>> From: Richard Henderson <richard.henderson@linaro.org>
+>> Sent: Monday, April 18, 2022 10:38 AM
+>> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
+>> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> Subject: Re: Question about direct block chaining
+>>=20
+>> On 4/18/22 07:54, Taylor Simpson wrote:
+>> > I implemented both approaches for inner loops and didn't see speedup
+>> > in my benchmark.  So, I have a couple of questions
+>> > 1) What are the pros and cons of the two approaches
+>> (lookup_and_goto_ptr and goto_tb + exit_tb)?
+>>=20
+>> goto_tb can only be used within a single page (plus other restrictions, =
+see
+>> translator_use_goto_tb).  In addition, as documented, the change in cpu
+>> state must be constant, beginning with a direct jump.
+>>=20
+>> lookup_and_goto_ptr can handle any change in cpu state, including indire=
+ct
+>> jumps.
+>>=20
+>>=20
+>> > 2) How can I verify that direct block chaining is working properly?
+>> >        With -d exec, I see lines like the following with goto_tb + exi=
+t_tb but
+>> NOT lookup_and_goto_ptr
+>> >        Linking TBs 0x7fda44172e00 [0050ac38] index 1 -> 0x7fda44173b40
+>> > [0050ac6c]
+>>=20
+>> Well, that's one way.  I would have also suggested simply looking at -d =
+op
+>> output, for the various branchy cases you're considering, to see that al=
+l of the
+>> exits are as expected.
+>
+> Thanks!!
+>
+> I created a synthetic benchmark with a loop with a very small body and a =
+very high number of iterations.  I can see differences in execution time.
+>
+> Here are my observations:
+> - goto_tb + exit_tb gives the fastest execution time because it will
+> patch the native jump address
 
-I do wonder if there are cases where we would actually have to round up
-the addr instead of simply adding the granularity if we suddenly use
-bigger steps then the min granularity.
+As we would expect.
 
-i.e., there would be a difference between
+> - lookup_and_goto_ptr is an improvement over tcg_gen_exit_tb(NULL, 0)
 
-addr += granularity
+Yes - mainly saving the cost of prologue and coming out of generated
+code to the main loop. However once we get to tb_lookup and fail the
+tb_jump_cache its going to take some time to get a block via QHT.
 
-and
+The tb_jump_cache is pretty simple in its implementation but I don't
+know if we've ever decently characterised the hit rate and if it could
+be improved. I think we already have slightly different hashing
+functions for user-mode vs softmmu.
 
-addr = QEMU_ALIGN_UP(addr + min_granularity, granularity);
+(aside I suspect the trace_vcpu_dstate check can now be removed which
+should save a bit of time on the hash function).
 
-I wonder if there are corner cases where translate() could fail on the
-first part of a granularity increment but succeed on the second part. My
-gut feeling is that it should be fine,
-
--- 
-Thanks,
-
-David / dhildenb
-
+--=20
+Alex Benn=C3=A9e
 
