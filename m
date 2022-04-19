@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A8915079A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 21:01:19 +0200 (CEST)
-Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C2F5079CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 21:08:02 +0200 (CEST)
+Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngt6E-0006AF-Jn
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 15:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53660)
+	id 1ngtCi-0001gZ-VR
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 15:08:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngt3l-0004Q8-JZ
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:58:45 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:36838)
+ id 1ngt9R-000095-9b
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 15:04:39 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngt3k-0004oz-2X
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:58:45 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id z16so9214313pfh.3
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:58:43 -0700 (PDT)
+ id 1ngt9P-0005cH-JD
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 15:04:36 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ i24-20020a17090adc1800b001cd5529465aso2796337pjv.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 12:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3m8PbUH+SWuAoLH+gfsv0NvG6WwpR8KSk/uMGJkeyVc=;
- b=S1t7LTB0F6LhMPtWd+7+kOTzmhxaLxxIWl9QR+qJK1N5E4SbIvyo1SSjEGmlwJPH+w
- weViw5xdu4iJfV0kei7/VCa1aYIZh/xDbFCFTicm/d6KYzTJvqGi+PwcKgwNDpbw8Rpe
- FlWfjUpuwSYuxzUm8BxVprRiBFFUYdIKezxPSx8CwhDKXIzs36oKDqBIcDAPi4qyVlZp
- 4j6mN/P7uVFOiBH95G4AwPsff9dqLV/JeS08+v9+Rt76a5yiB6Ph5NtPpV5wUGdwXv/n
- rqtUhf3z0M15X2dVDgsgbeNR7Bln9qvCJ+1daYbtmIDvC4HLM/u8b4dPg4z4kahLoieY
- gtgw==
+ bh=6MsFqzV/47KUGQn2pX5nypWzhNzyzK05R37wt2Po+9k=;
+ b=iUkoVqLbmzzZ18YG6vRP5jvycjDXDShdctiLdd/OX0rBTmA8fzhvPB8tz84Jp1muab
+ rZIZSyj978rJ34ger4g/RFLBLJ08kXYGXFLGmiVpM7U4+xEEg2//JZa9nA3N3cem9oIw
+ omQHVEqVDDp3okRZWUtn5SYd/IyNIFT3GTGTqEX5OR9N6XGJ5Vky2HsD3PBWnxEAVcDa
+ u7PZoyjQziN+BZEUoW05q0WsmD+6Rd9dCzUxNtrGgXEHjxoTImJZy3NPWfbgsW/mp+w7
+ Bp8dTR6udKl9rcNztw3+9MGQnwBtSoFdvIdAlcq4vN+jJ7igc5Pq9EcjpyU+t36igUzZ
+ NXYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3m8PbUH+SWuAoLH+gfsv0NvG6WwpR8KSk/uMGJkeyVc=;
- b=jNKFZ0rAZRjisrcfzLD7yxTTPreDdWLh8TcFvf7D5n+chGz1etoSoFEVva8BlI6rY2
- mFZP/g04zmr9CCdJh1hN8MzPgJoASMu0gxB55i8yKlO0xGDeBL92DZU0sL+wBTouY1bh
- rMtbnjt6pJ2zaBHmj80qYFzMgB4qJ7GmSOk3lLgj9m1LZASFmFTPpQ6kOW1S9gCc7yQO
- wDSeQyI6LVjWalxpssaLjuaIMt/eFKrnf6cRTbkNInZij4UUKBiCJeWG914oLoGbyzzw
- Hts3J2sbRfeyhFnsfsTUFrAyDTcYeARLuss9/p8sJKA4Az6AWRO39OxYxHXdoeGM/ITa
- UOIQ==
-X-Gm-Message-State: AOAM532cllkgqTBIgJpxigOLziHzW1UflM7TXFi3mEExVI0q0OtxXO7s
- nD4FhYUSDIYm3wserSOSwEzJEg==
-X-Google-Smtp-Source: ABdhPJwl+Ys3hKgFFIj4ht9lrLJMnNsccQY31vNwI19+8+zAjoubg50dfq8mDvPDzA2yvyUXktpOCg==
-X-Received: by 2002:a65:49cf:0:b0:3a2:747e:8f28 with SMTP id
- t15-20020a6549cf000000b003a2747e8f28mr15723570pgs.134.1650394722548; 
- Tue, 19 Apr 2022 11:58:42 -0700 (PDT)
+ bh=6MsFqzV/47KUGQn2pX5nypWzhNzyzK05R37wt2Po+9k=;
+ b=tvU7dHIsk1yLmpK75r2CwrQXJVPKLBgv0TzrsSult2/gKbGbclwaDeyU+ock3xxQcT
+ lwJjtxqWEdYXaYbXmmZr0OBzOkYslM2w4vMNsFPf5vUtluDFJuSelZxqiD9k/BVgAbUu
+ QoIUh1rGUa9iedvDvYyrqf221VxuY8agXU7by7qJQEPOp/qoyjx1yaiNwxg7pOcVoeZ5
+ 6sBDtZnBe1Z8NWsf8inIQJWRX0NSMmK29X7nKOtrfIddUt2ZAyf9U8Sfr7DC2fMAm976
+ XUW1mf97AYqaD0KVHPZdkT7NGFEv87UttyUQ4sxJ4YZBvVTvk9HbZe+0PPcbnp8Canh+
+ saww==
+X-Gm-Message-State: AOAM5331IxMM3RcQJbNuLg82estRqJZbbCFgnaksH1s/LIeushRAdWci
+ Z5w22QPwlXNaVt5BQbuDAY/CPw==
+X-Google-Smtp-Source: ABdhPJyd5Ns4vu5ANySCMfNYnm4pL7SOoNJnLYK66L6ZQcVrgjhGuf8Iv8O32UcarsntHdOfgOIeSA==
+X-Received: by 2002:a17:902:e841:b0:158:f139:29df with SMTP id
+ t1-20020a170902e84100b00158f13929dfmr15329474plg.82.1650395073553; 
+ Tue, 19 Apr 2022 12:04:33 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- m18-20020a639412000000b003820bd9f2f2sm17259300pge.53.2022.04.19.11.58.41
+ z16-20020a637e10000000b00382b21c6b0bsm17489018pgc.51.2022.04.19.12.04.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Apr 2022 11:58:42 -0700 (PDT)
-Message-ID: <812276ae-9fea-a7ce-a2c8-4daaa3d05ec9@linaro.org>
-Date: Tue, 19 Apr 2022 11:58:40 -0700
+ Tue, 19 Apr 2022 12:04:32 -0700 (PDT)
+Message-ID: <a11e40d8-4a10-509b-89c9-c9851e74df7f@linaro.org>
+Date: Tue, 19 Apr 2022 12:04:31 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v1 16/25] tests/tcg: list test targets in Makefile.prereqs
+Subject: Re: [PATCH v1 17/25] tests/tcg: invoke Makefile.target directly from
+ QEMU's makefile
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20220419091020.3008144-1-alex.bennee@linaro.org>
- <20220419091020.3008144-17-alex.bennee@linaro.org>
+ <20220419091020.3008144-18-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220419091020.3008144-17-alex.bennee@linaro.org>
+In-Reply-To: <20220419091020.3008144-18-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,17 +100,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 4/19/22 02:10, Alex Bennée wrote:
 > From: Paolo Bonzini<pbonzini@redhat.com>
 > 
-> Omit the rules altogether for targets that do not have a compiler.
-> Makefile.qemu now is only invoked if the tests are actually built/run.
+> Build the "docker.py cc" invocation directly in tests/tcg/configure.sh, and
+> remove the Makefile.qemu wrapper around Makefile.target.  The config-*.mak
+> files now include the actual variables used when building the tests, rather
+> than the CROSS_* variables that Makefile.qemu used to "translate".
+> 
+> This is a first step towards generalizing the cross-compilation infrastructure
+> so that it can be used for firmware as well.
 > 
 > Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> Message-Id:<20220401141326.1244422-14-pbonzini@redhat.com>
+> Message-Id:<20220401141326.1244422-15-pbonzini@redhat.com>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   tests/Makefile.include  | 14 +++++++-------
->   tests/tcg/Makefile.qemu | 11 -----------
->   tests/tcg/configure.sh  | 17 ++++++++++++-----
->   3 files changed, 19 insertions(+), 23 deletions(-)
+>   tests/Makefile.include    |  40 +++++++-------
+>   tests/tcg/Makefile.qemu   | 110 --------------------------------------
+>   tests/tcg/Makefile.target |   3 +-
+>   tests/tcg/configure.sh    |  28 +++++-----
+>   4 files changed, 35 insertions(+), 146 deletions(-)
+>   delete mode 100644 tests/tcg/Makefile.qemu
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
