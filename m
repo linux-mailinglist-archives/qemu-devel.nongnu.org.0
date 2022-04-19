@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AA95067E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:41:04 +0200 (CEST)
-Received: from localhost ([::1]:42428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B93E50681B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:54:42 +0200 (CEST)
+Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngkM3-0003hs-Ab
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36710)
+	id 1ngkZF-0001Bc-9N
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:54:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsa-0005P2-KY
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:36 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:38673)
+ id 1ngjsp-0005XF-0I
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:52 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsV-0008Le-JM
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:33 -0400
-Received: by mail-ej1-x634.google.com with SMTP id r13so31551274ejd.5
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:10:31 -0700 (PDT)
+ id 1ngjsh-0008Sf-6R
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:49 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id y20so11396832eju.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:10:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3/5zRkzfFmPCo8B81OZbRdG+tbonsj7GW5zIpGTtEk8=;
- b=t2m+7ir80kc1V6lOUlM8h/HYoULpqkO5KRk+1QYy+YKxhZK2uJCco5EJ3dO/QOUK5Z
- GwTNVGBLKOOStZr97tmcTzyr8yVFUKroS8zH7cj4suYIeG2dG9S5x++KRQUFmTmDYDd8
- AnxiIZWguk5m2AazbVp7fXbcpXMrBq1q4OgGnPWLmN2FyMEgN6H6HrJLSkckC/Ywb8pw
- GcAfpDf+HtIKg562ECyczWWZ7X4D+ylbOaw3ehCzcx+vM/evfHDIp7BMN9jOZosmjCjQ
- qI/+f1AMqGVYRnrIr4oBmntJWz0Lf/jzSoP22ogECF2AqQ8qZQMj9QlQ5YdhZZeQ/keQ
- UaKQ==
+ bh=CZeU+uRFfrIaPIx68hVfypfl28wkHg5KYL4ebgDRamw=;
+ b=CpbquiaR/bCA/C/UYMXNPSJV/Osd6xeeaM2rLAf+kyxmkJtaT2f+j7+KgUYEXmFbh3
+ /6jGNKmxBLynslwkhTHXFIOIBkxq+zc6DmnS7SU4lREt6cXfwh86T+9AEeBykGUnsXw8
+ 5kdF7e0gFGGMFA3b+M0WJRoEiXyMQqs/GExLrCuWWjd+3+Cja+KzQPEUsgca8NBfW1Aa
+ Pko03wNN4V90ko4pAmrQi3QO2//9sHPEODlj7hdu85kLQCH/weVlgxTLe3SksEdSvkFQ
+ TqkYpcUU3eUXv8PtHrpPKySEzU607ZDnPvg+pSeXijBYzqDzqehrmQWX6/FLebIUSwVc
+ pr8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3/5zRkzfFmPCo8B81OZbRdG+tbonsj7GW5zIpGTtEk8=;
- b=e9ocbHp+pMOYBXpZuUeUvl2jscA5YsfJcFKbhjlKR66p3A/InFU1YbiV1E36Nkos+c
- SWcIuKIgOyyH6iQq8XXB2PZvPogZqOql8yZ5dqcwyx/XOMojkOuSTZjqlWdhHZfw73No
- h//kyMSScakdEg3pJxFmEmyDh8AsUDA++r059UEPqZS9SLnCOqzCzCnpg/DaPdS7wRzP
- yX12OoFykahQg1R0Pcir5yA9MJTeNjO5ImwLMKIRxXm50ExaJNfdqQnMDlA2zFDH3dCN
- SwoeGa9S7mli4DzIAlwC2lC4BX6NStYjosvE6TEkrxp7qCu3DGY7iA39W1Hz9N5n8vLs
- Dmsw==
-X-Gm-Message-State: AOAM533DlLqwCr0HE46idRSRMU3/LoE7QcouUIEzELVA8ynB7nN9cQpf
- 6iKDyOtPLUP/jhLU7hchgvQHjg==
-X-Google-Smtp-Source: ABdhPJyKXhFLosLX/9APVnhHcYKobf+xlfhY6YGWuLjwRpiXoAfC1SUtMe6WLUaWmfJIeabkWNnUIQ==
-X-Received: by 2002:a17:906:4546:b0:6e8:873a:22a8 with SMTP id
- s6-20020a170906454600b006e8873a22a8mr12693928ejq.711.1650359430240; 
- Tue, 19 Apr 2022 02:10:30 -0700 (PDT)
+ bh=CZeU+uRFfrIaPIx68hVfypfl28wkHg5KYL4ebgDRamw=;
+ b=gJPZWedzr6xdrbUx8hBSCI03r6AN+GoOWeiQ6rWPJJlHvU39z+paGt2+4354V9gRNV
+ vcSd+bk1Q7KdhSJ31wKYe8ktXCeEAtIEltAY/MgXwkkylw9z2iFF8HShmkFlRISZFc5o
+ 3iNSY/JpZRQzEBK/QgWUBsumCHK854czLofp1xRU0dpNfPPX5vZuKUOoOReTBCJmHf/E
+ lOwBVssH1EgfqwcVQMdajuPbUfRFzKIfNI/GDs161Q8SpWzZZYFTja4G+yI+5EOMUWDy
+ 3OWkChcqScaJQKTSR0njd0UoIfmRvgAe9JCwfei0nA4CAcT8JVPoTVZl2djVtH4BX4/o
+ knJw==
+X-Gm-Message-State: AOAM532oWOKJJLPHWytQWpLK2WK7cSLO1V7UCMYfWp0QsWl6GQBe9MEl
+ +/3E3CxJybVibObgjPT3EwbHCvSUhM0zfg==
+X-Google-Smtp-Source: ABdhPJwlq/atPP+ndxZ4NB66spfyT3xEBkeSdknLoRbVZPs9cDg3RBS/F660a58HWAZP/Veq4jbxmQ==
+X-Received: by 2002:a17:906:6841:b0:6cf:9c02:8965 with SMTP id
+ a1-20020a170906684100b006cf9c028965mr12462615ejs.440.1650359441483; 
+ Tue, 19 Apr 2022 02:10:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- m19-20020a170906849300b006e89efedf50sm5481609ejx.171.2022.04.19.02.10.25
+ q9-20020a170906770900b006d20acf7e2bsm5397190ejm.200.2022.04.19.02.10.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 02:10:30 -0700 (PDT)
+ Tue, 19 Apr 2022 02:10:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2E1251FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id 3E5921FFC3;
  Tue, 19 Apr 2022 10:10:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 10/25] tests/docker: simplify docker-TEST@IMAGE targets
-Date: Tue, 19 Apr 2022 10:10:05 +0100
-Message-Id: <20220419091020.3008144-11-alex.bennee@linaro.org>
+Subject: [PATCH v1 11/25] tests/docker: do not duplicate rules for
+ hexagon-cross
+Date: Tue, 19 Apr 2022 10:10:06 +0100
+Message-Id: <20220419091020.3008144-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220419091020.3008144-1-alex.bennee@linaro.org>
 References: <20220419091020.3008144-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,53 +99,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-No need to go through the shell when we already have the test and images at
-the point where the targets are declared.
+The commands for docker-image-debian-hexagon-cross are the same as those
+in debian-toolchain-run, just with a nonstandard path to build-toolchain.sh.
+Reuse the definition by renaming the debian-hexagon-cross.docker.d directory.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220401141326.1244422-8-pbonzini@redhat.com>
+Message-Id: <20220401141326.1244422-9-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ tests/docker/Makefile.include                 | 26 +++----------------
+ .../build-toolchain.sh                        |  0
+ 2 files changed, 4 insertions(+), 22 deletions(-)
+ rename tests/docker/dockerfiles/{debian-hexagon-cross.docker.d => debian-hexagon-cross.d}/build-toolchain.sh (100%)
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 3b5ebd5567..2a187cb5a2 100644
+index 2a187cb5a2..eb100c294f 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -204,7 +204,7 @@ DOCKER_TESTS := $(if $(TESTS), $(filter $(TESTS), $(__TESTS)), $(__TESTS))
- $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
- 	$(foreach t,$(DOCKER_TESTS), \
- 		$(eval .PHONY: docker-$t@$i) \
--		$(eval docker-$t@$i: docker-image-$i docker-run-$t@$i) \
-+		$(eval docker-$t@$i: docker-image-$i; @$(MAKE) docker-run TEST=$t IMAGE=$i) \
- 	) \
- 	$(foreach t,$(DOCKER_TESTS), \
- 		$(eval docker-all-tests: docker-$t@$i) \
-@@ -263,7 +263,7 @@ DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
+@@ -121,28 +121,6 @@ docker-image-debian11: NOUSER=1
+ # alpine has no adduser
+ docker-image-alpine: NOUSER=1
  
- # This rule if for directly running against an arbitrary docker target.
- # It is called by the expanded docker targets (e.g. make
--# docker-test-foo@bar) which will do additional verification.
-+# docker-test-foo@bar) which will also ensure the image is up to date.
- #
- # For example: make docker-run TEST="test-quick" IMAGE="debian:arm64" EXECUTABLE=./aarch64-linux-user/qemu-aarch64
- #
-@@ -298,14 +298,6 @@ docker-run: docker-qemu-src
- 	$(call quiet-command, rm -r $(DOCKER_SRC_COPY), \
- 		"  CLEANUP $(DOCKER_SRC_COPY)")
- 
--# Run targets:
 -#
--# Of the form docker-TEST-FOO@IMAGE-BAR which will then be expanded into a call to "make docker-run"
--docker-run-%: CMD = $(shell echo '$@' | sed -e 's/docker-run-\([^@]*\)@\(.*\)/\1/')
--docker-run-%: IMAGE = $(shell echo '$@' | sed -e 's/docker-run-\([^@]*\)@\(.*\)/\2/')
--docker-run-%:
--	@$(MAKE) docker-run TEST=$(CMD) IMAGE=qemu/$(IMAGE)
+-# The build rule for hexagon-cross is special in so far for most of
+-# the time we don't want to build it. While dockers caching does avoid
+-# this most of the time sometimes we want to force the issue.
+-#
+-docker-image-debian-hexagon-cross: $(DOCKER_FILES_DIR)/debian-hexagon-cross.docker
+-	$(if $(NOCACHE), 								\
+-		$(call quiet-command,							\
+-			$(DOCKER_SCRIPT) build -t qemu/debian-hexagon-cross -f $< 	\
+-			$(if $V,,--quiet) --no-cache 					\
+-			--registry $(DOCKER_REGISTRY) --extra-files			\
+-			$(DOCKER_FILES_DIR)/debian-hexagon-cross.docker.d/build-toolchain.sh, \
+-			"BUILD", "debian-hexagon-cross"),				\
+-		$(call quiet-command,							\
+-			$(DOCKER_SCRIPT) fetch $(if $V,,--quiet)			\
+-				qemu/debian-hexagon-cross $(DOCKER_REGISTRY),		\
+-			"FETCH", "debian-hexagon-cross")				\
+-		$(call quiet-command,							\
+-			$(DOCKER_SCRIPT) update $(if $V,,--quiet) 			\
+-				qemu/debian-hexagon-cross --add-current-user,		\
+-			"PREPARE", "debian-hexagon-cross"))
 -
- docker-image: ${DOCKER_IMAGES:%=docker-image-%}
+ debian-toolchain-run = \
+ 	$(if $(NOCACHE), 						\
+ 		$(call quiet-command,					\
+@@ -162,6 +140,10 @@ debian-toolchain-run = \
+ 			"PREPARE", $1))
+ debian-toolchain = $(call debian-toolchain-run,$(patsubst docker-image-%,%,$1))
  
- docker-clean:
++docker-image-debian-hexagon-cross: $(DOCKER_FILES_DIR)/debian-hexagon-cross.docker \
++	$(DOCKER_FILES_DIR)/debian-hexagon-cross.d/build-toolchain.sh
++	$(call debian-toolchain, $@)
++
+ docker-image-debian-microblaze-cross: $(DOCKER_FILES_DIR)/debian-toolchain.docker \
+     $(DOCKER_FILES_DIR)/debian-microblaze-cross.d/build-toolchain.sh
+ 	$(call debian-toolchain, $@)
+diff --git a/tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh b/tests/docker/dockerfiles/debian-hexagon-cross.d/build-toolchain.sh
+similarity index 100%
+rename from tests/docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
+rename to tests/docker/dockerfiles/debian-hexagon-cross.d/build-toolchain.sh
 -- 
 2.30.2
 
