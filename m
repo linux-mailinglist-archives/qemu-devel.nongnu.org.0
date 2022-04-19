@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853AB50796D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:51:17 +0200 (CEST)
-Received: from localhost ([::1]:34650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EFF507976
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:54:02 +0200 (CEST)
+Received: from localhost ([::1]:41640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngswW-0008Mg-Kz
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:51:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51624)
+	id 1ngszB-0004lu-NY
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngssG-0005IC-Fa
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:46:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35899)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngssn-0005tc-Aw
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:47:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngssD-00036J-U4
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:46:51 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngssl-00038u-Lg
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:47:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650394006;
+ s=mimecast20190719; t=1650394041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VJX5Xp2wKiAbHdVNnGTqisMBzW957ymM65S2K4YZYUA=;
- b=RIrSv3kMbWHKH05myrBcsLpbVSX+qjLM91QMAwWBsm6+52r5pRWbOgFAdwoILE8DMTq+fh
- GmczQ1EA41LHmXo4eV1W725XDP5sQ8i0DXyIBrwxW7O2pIvz3vQBU4ZJApcyb0WMWbLvQb
- VAp8fvvZgJQ2Oi1vutZvsl2HLhAzNMg=
+ bh=QwCeOr77eFAu/fHhVieYcGkHQzH977ZXPFPDkcyFxfc=;
+ b=Lt+F/lGwN6PXXED322eVQ0D1VwPam38SCoS26p+sxw0ScA1855mcOp9dgPRP63MetbezU9
+ 02vI88+GoyevOZd41ZMOpscUF3QlAOQy/3TPChVNEgiKwzoKV5PlN9xCUbQI1Ih+ainUfN
+ ngXrXU6aEDVy+mHSBiM8wlwgtr+muJ0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-syZfH7WaNBi7EmaFqTcTFg-1; Tue, 19 Apr 2022 14:46:42 -0400
-X-MC-Unique: syZfH7WaNBi7EmaFqTcTFg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-536-Bynt-Uj5NVCEQrmQ24Y10A-1; Tue, 19 Apr 2022 14:47:20 -0400
+X-MC-Unique: Bynt-Uj5NVCEQrmQ24Y10A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDA25803B22;
- Tue, 19 Apr 2022 18:46:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D34E0801E95;
+ Tue, 19 Apr 2022 18:47:19 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.17.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 39B657AF9;
- Tue, 19 Apr 2022 18:46:33 +0000 (UTC)
-Date: Tue, 19 Apr 2022 13:46:31 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C04ED2024CBB;
+ Tue, 19 Apr 2022 18:47:15 +0000 (UTC)
+Date: Tue, 19 Apr 2022 13:47:14 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 05/26] blkdebug: add missing coroutine_fn annotations
-Message-ID: <20220419184434.dsmawz7rqmcotr2p@redhat.com>
+Subject: Re: [PATCH 06/26] blkverify: add missing coroutine_fn annotations
+Message-ID: <20220419184704.3mtsnpfww42wqlcq@redhat.com>
 References: <20220415131900.793161-1-pbonzini@redhat.com>
- <20220415131900.793161-6-pbonzini@redhat.com>
+ <20220415131900.793161-7-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220415131900.793161-6-pbonzini@redhat.com>
+In-Reply-To: <20220415131900.793161-7-pbonzini@redhat.com>
 User-Agent: NeoMutt/20211029-35-db88c3
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,16 +84,33 @@ Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 15, 2022 at 03:18:39PM +0200, Paolo Bonzini wrote:
+On Fri, Apr 15, 2022 at 03:18:40PM +0200, Paolo Bonzini wrote:
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  block/blkdebug.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-
-Again, might be worth a comment, but adding an annotation seems easier
-to understand than removing an incorrectly-applied one.
+>  block/blkverify.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> 
+> diff --git a/block/blkverify.c b/block/blkverify.c
+> index e4a37af3b2..020b1ae7b6 100644
+> --- a/block/blkverify.c
+> +++ b/block/blkverify.c
+> @@ -258,7 +258,7 @@ blkverify_co_pwritev(BlockDriverState *bs, int64_t offset, int64_t bytes,
+>      return blkverify_co_prwv(bs, &r, offset, bytes, qiov, qiov, flags, true);
+>  }
+>  
+> -static int blkverify_co_flush(BlockDriverState *bs)
+> +static int coroutine_fn blkverify_co_flush(BlockDriverState *bs)
+>  {
+>      BDRVBlkverifyState *s = bs->opaque;
+>  
+> -- 
+> 2.35.1
+> 
+> 
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
