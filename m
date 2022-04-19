@@ -2,57 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9796950697B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 13:13:25 +0200 (CEST)
-Received: from localhost ([::1]:36922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1781506989
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 13:16:29 +0200 (CEST)
+Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nglnQ-00047j-Ak
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 07:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60350)
+	id 1nglqO-0006v1-Oz
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 07:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nglkw-00029M-1v
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:10:50 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57068)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nglku-0002Mc-8U
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:10:49 -0400
-Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nglk3-0005KE-2k; Tue, 19 Apr 2022 12:09:55 +0100
-Message-ID: <5066d240-81fc-9c53-1e43-4271130acbc4@ilande.co.uk>
-Date: Tue, 19 Apr 2022 12:10:43 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nglo8-0005RF-2r
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:14:10 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:46648)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nglo6-0002kx-JD
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:14:07 -0400
+Received: by mail-ej1-x630.google.com with SMTP id t11so32109003eju.13
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 04:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4J4IcVC0uCh5qVskPbZima7PwhLeGTVGqK4i7OngjWA=;
+ b=Cc6MUBGfIl/eB0p/an6bXi2qQf95z7MPRpzKhBEzZ6aRBJgJQE+W9T0/mA0CpbiWw9
+ WMMDHrZESw82JlpPJJQEWMXaf4oqxZZqZJLXxSIXOooKHf28vhbJRl/W+H+YS8spR/le
+ V8jK+XTIjYsJ+LI83EAHVGBrjWcK4exslmv3JIMiye7M3m7pqc1RH3M1Yv8JCwSxTd11
+ 1RZFBSTwl9uEL4sW3mxQUg+hjbki35HK8DRV01Jeumazey2XJE/3XhXM13Qi3oxpB3G9
+ RYnSJTPqXbq8cV/KafIx0wrJ/3cSiXeChuG/bRYEQGPH7sQ+HWDD5PvfTkpnwpoo8gsC
+ z1EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=4J4IcVC0uCh5qVskPbZima7PwhLeGTVGqK4i7OngjWA=;
+ b=SxM9rBs/kDCmAENcfpihQCqmtrBTnDAE3+604ZUry8OgDbOuYSeY/3Vii4j0414Wp+
+ Wfmavm1R9AtIg3S7fg5SrgtGxJnHaQurK+/ypw/qzPb/LA84fJ9B1RkRc4JcW0kabVHD
+ a/f1tiemc8jviuwgcJLieBSONchFiF+ZEmzqd4t1XIr/43OOAm8FX8hrguSi0+gAWFCJ
+ cXRRv/YfKZtI60By/eW2sHJhqAOhvutY/E6HMdkDQL0f2m25l3NJzmFKTt25k0/6l7ZT
+ 4zZt+6Wr6+8doWxSQnEWA4/lPd5L6k9DvW05FcldnmHLzVsRFEkFl5TplxO1Li+MIDqn
+ vj8w==
+X-Gm-Message-State: AOAM5323dATOyZwDUBnvyGvzzTL1JIwHrweDBLrq8JfvamEarsCUJV04
+ Xuye/L/LiRKF/95dE7+Mu1HW6A==
+X-Google-Smtp-Source: ABdhPJxPf37wC28pkk5oLQVFiL3fS1vf5vazmWd4tjwMoHqgcbGsbCMUelG0Ms+HxOP4oQGSLOHQyw==
+X-Received: by 2002:a17:907:a421:b0:6ea:beb6:fd99 with SMTP id
+ sg33-20020a170907a42100b006eabeb6fd99mr13086399ejc.261.1650366845241; 
+ Tue, 19 Apr 2022 04:14:05 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ e13-20020a1709067e0d00b006e880b53294sm5505610ejr.58.2022.04.19.04.14.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Apr 2022 04:14:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6204B1FFB7;
+ Tue, 19 Apr 2022 12:14:03 +0100 (BST)
+References: <20220417174426.711829-1-richard.henderson@linaro.org>
+ <20220417174426.711829-4-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.13; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 03/60] target/arm: Update SCR_EL3 bits to ARMv8.8
+Date: Tue, 19 Apr 2022 12:13:58 +0100
+In-reply-to: <20220417174426.711829-4-richard.henderson@linaro.org>
+Message-ID: <8735i9xr44.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Content-Language: en-US
-To: yangxiaojuan <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
- <20220415094058.3584233-36-yangxiaojuan@loongson.cn>
- <6d62ce6d-acc2-b07e-71ac-dee03bbfd22f@linaro.org>
- <9f27b53d-d2bf-1fb5-3a46-c910a34d5e3d@ilande.co.uk>
- <c25c3a00-b66b-6b1a-1a5e-b007cb36a7be@loongson.cn>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <c25c3a00-b66b-6b1a-1a5e-b007cb36a7be@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v1 35/43] hw/intc: Add LoongArch extioi interrupt
- controller(EIOINTC)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,110 +89,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gaosong@loongson.cn
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/04/2022 02:50, yangxiaojuan wrote:
 
-> On 2022/4/18 下午4:57, Mark Cave-Ayland wrote:
->> On 18/04/2022 04:48, Richard Henderson wrote:
->>
->>> On 4/15/22 02:40, Xiaojuan Yang wrote:
->>>> + memory_region_init(&s->mmio[cpu], OBJECT(s),
->>>> +                           "loongarch_extioi", EXTIOI_SIZE);
->>>> +
->>>> +        memory_region_init_io(&s->mmio_nodetype[cpu], OBJECT(s),
->>>> +                              &extioi_nodetype_ops, s,
->>>> +                              EXTIOI_LINKNAME(.nodetype),
->>>> +                              IPMAP_OFFSET - APIC_BASE);
->>>> +        memory_region_add_subregion(&s->mmio[cpu], 0, &s->mmio_nodetype[cpu]);
->>>> +
->>>> + memory_region_init_io(&s->mmio_ipmap_enable[cpu], OBJECT(s),
->>>> +                              &extioi_ipmap_enable_ops, s,
->>>> +                              EXTIOI_LINKNAME(.ipmap_enable),
->>>> +                              BOUNCE_OFFSET - IPMAP_OFFSET);
->>>> +        memory_region_add_subregion(&s->mmio[cpu], IPMAP_OFFSET - APIC_BASE,
->>>> + &s->mmio_ipmap_enable[cpu]);
->>>> +
->>>> + memory_region_init_io(&s->mmio_bounce_coreisr[cpu], OBJECT(s),
->>>> +                              &extioi_bounce_coreisr_ops, s,
->>>> + EXTIOI_LINKNAME(.bounce_coreisr),
->>>> +                              COREMAP_OFFSET - BOUNCE_OFFSET);
->>>> +        memory_region_add_subregion(&s->mmio[cpu], BOUNCE_OFFSET - APIC_BASE,
->>>> + &s->mmio_bounce_coreisr[cpu]);
->>>> +
->>>> +        memory_region_init_io(&s->mmio_coremap[cpu], OBJECT(s),
->>>> +                              &extioi_coremap_ops, s,
->>>> +                              EXTIOI_LINKNAME(.coremap),
->>>> +                              EXTIOI_COREMAP_END);
->>>> +        memory_region_add_subregion(&s->mmio[cpu], COREMAP_OFFSET - APIC_BASE,
->>>> + &s->mmio_coremap[cpu]);
->>>
->>> Why are these separate memory regions, instead of one region? They're certainly 
->>> described in a single table in section 11.2 of the 3A5000 manual...
->>
->> The reason it was done like this is because there were different access sizes in 
->> the relevant _ops definitions. Certainly when I looked at the patches previously I 
->> wasn't able to easily see how these could be consolidated without digging deeper 
->> into the documentation.
->>
-> Would it be better to keep consistent with the content of the 3A5000 manual 
-> document？ And only one memory region is used to represent the extioi iocsr region
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-The reason that different memory regions are required is because you've specified 
-different access size requirements for each region:
+> Update SCR_EL3 fields per ARM DDI0487 H.a.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-static const MemoryRegionOps extioi_nodetype_ops = {
-     .read = extioi_nodetype_readw,
-     .write = extioi_nodetype_writew,
-     .impl.min_access_size = 4,
-     .impl.max_access_size = 4,
-     .valid.min_access_size = 4,
-     .valid.max_access_size = 8,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-};
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-static const MemoryRegionOps extioi_ipmap_enable_ops = {
-     .read = extioi_ipmap_enable_read,
-     .write = extioi_ipmap_enable_write,
-     .impl.min_access_size = 1,
-     .impl.max_access_size = 1,
-     .valid.min_access_size = 1,
-     .valid.max_access_size = 8,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-};
-
-static const MemoryRegionOps extioi_bounce_coreisr_ops = {
-     .read = extioi_bounce_coreisr_readw,
-     .write = extioi_bounce_coreisr_writew,
-     .impl.min_access_size = 4,
-     .impl.max_access_size = 4,
-     .valid.min_access_size = 4,
-     .valid.max_access_size = 8,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-};
-
-static const MemoryRegionOps extioi_coremap_ops = {
-     .read = extioi_coremap_read,
-     .write = extioi_coremap_write,
-     .impl.min_access_size = 1,
-     .impl.max_access_size = 1,
-     .valid.min_access_size = 1,
-     .valid.max_access_size = 8,
-     .endianness = DEVICE_LITTLE_ENDIAN,
-};
-
-Certainly this is unusual (and for a given device I'd expect that its registers would 
-all have the same access requirements), but it's not something that can be tested 
-without access to real hardware.
-
-As Richard suggests though, if it is found that all of the device registers have the 
-same access requirements then they could potentially be collapsed into a single 
-memory region.
-
-
-ATB,
-
-Mark.
+--=20
+Alex Benn=C3=A9e
 
