@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECAC506656
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 09:52:46 +0200 (CEST)
-Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A959506674
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 10:02:07 +0200 (CEST)
+Received: from localhost ([::1]:44788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngifF-0003jA-Pq
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 03:52:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45646)
+	id 1ngioI-0001mY-2l
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 04:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <btv1==1086afe1179==rick.wertenbroek@heig-vd.ch>)
- id 1ngiAH-0007IS-1D
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:20:52 -0400
-Received: from gwsmtp1.avdtec.ch ([145.232.233.54]:59394
- helo=mail02.heig-vd.ch)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <btv1==1086afe1179==rick.wertenbroek@heig-vd.ch>)
- id 1ngiAD-0008Ee-Gi
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:20:44 -0400
-X-ASG-Debug-ID: 1650352834-111d9863d1146c4f0001-jgbH7p
-Received: from EIMAIL03.einet.ad.eivd.ch ([193.134.222.4]) by
- mail02.heig-vd.ch with ESMTP id vrqy1TFVr2ts2WVH (version=TLSv1.2
- cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Tue, 19 Apr 2022 09:20:34 +0200 (CEST)
-X-Barracuda-Envelope-From: rick.wertenbroek@heig-vd.ch
-X-Barracuda-Effective-Source-IP: UNKNOWN[193.134.222.4]
-X-Barracuda-Apparent-Source-IP: 193.134.222.4
-Received: from EIMAIL03.einet.ad.eivd.ch (10.192.41.73) by
- EIMAIL03.einet.ad.eivd.ch (10.192.41.73) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 19 Apr 2022 09:20:34 +0200
-Received: from EIMAIL03.einet.ad.eivd.ch ([fe80::a187:168b:1702:872e]) by
- EIMAIL03.einet.ad.eivd.ch ([fe80::a187:168b:1702:872e%4]) with mapi id
- 15.01.2375.024; Tue, 19 Apr 2022 09:20:34 +0200
-From: Wertenbroek Rick <rick.wertenbroek@heig-vd.ch>
-To: "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Subject: [PATCH v2] hw/nvme: allow to pass a memory backend object for the CMB
-Thread-Topic: [PATCH v2] hw/nvme: allow to pass a memory backend object for
- the CMB
-X-ASG-Orig-Subj: [PATCH v2] hw/nvme: allow to pass a memory backend object for
- the CMB
-Thread-Index: AQHYU731x8ePBfOpsk6db0iHxGDkWQ==
-Date: Tue, 19 Apr 2022 07:20:34 +0000
-Message-ID: <80A639CD-2E9C-4574-9557-FE61DDBE0C57@heig-vd.ch>
-Accept-Language: fr-CH, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3608.120.23.2.7)
-x-originating-ip: [10.192.222.11]
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8CAB8AA20F46934FBF53A3D0872C1453@heig-vd.ch>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1ngiGy-0004sh-Q8
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:27:42 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:40172 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1ngiGu-0000kM-Ky
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:27:40 -0400
+Received: from [10.20.42.112] (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxrxFXZF5irbUoAA--.23344S3; 
+ Tue, 19 Apr 2022 15:27:20 +0800 (CST)
+Subject: Re: [PATCH v1 33/43] hw/intc: Add LoongArch ls7a interrupt controller
+ support(PCH-PIC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
+ <20220415094058.3584233-34-yangxiaojuan@loongson.cn>
+ <832efe6e-f647-9691-202c-e8713caf97d5@linaro.org>
+ <cb22faf4-8166-e91a-1cdb-3f0bd5736fe3@loongson.cn>
+ <5c8d218b-ad1a-ae6f-2540-8499c4808d42@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <9be28479-bc66-81a5-5842-4ad705ed0de2@loongson.cn>
+Date: Tue, 19 Apr 2022 15:27:19 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Barracuda-Connect: UNKNOWN[193.134.222.4]
-X-Barracuda-Start-Time: 1650352834
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://quarantine.heig-vd.ch:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at heig-vd.ch
-X-Barracuda-Scan-Msg-Size: 6622
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Spam-Score: 0.00
-X-Barracuda-Spam-Status: No, SCORE=0.00 using global scores of TAG_LEVEL=1000.0
- QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.97453
- Rule breakdown below
- pts rule name              description
- ---- ---------------------- --------------------------------------------------
-Received-SPF: pass client-ip=145.232.233.54;
- envelope-from=btv1==1086afe1179==rick.wertenbroek@heig-vd.ch;
- helo=mail02.heig-vd.ch
+In-Reply-To: <5c8d218b-ad1a-ae6f-2540-8499c4808d42@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------42625B740EAEC52691E2E501"
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9DxrxFXZF5irbUoAA--.23344S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxXrWUCry5Wr4xGFykZr4xWFg_yoWrWw4rpF
+ y8Jr4UCrWUJr18Wr1kXryUZry8JrnrJw1Utrn5XF18ArWUXrnYqF1UXrn2gr1DGr4xJF4j
+ yr45GrWjvr1UXr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvI14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+ xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21lYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0E
+ x4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5V
+ A0II8E6IAqYI8I648v4I1l7480Y4vEI4kI2Ix0rVAqx4xJMxk0xIA0c2IEe2xFo4CEbIxv
+ r21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+ 0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+ AVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+ CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv
+ 67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf
+ 9x0JUp5l8UUUUU=
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,188 +77,1388 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds the optional -cmbdev=3D option that takes a QEMU memory backend
--object to be used to for the CMB (Controller Memory Buffer).
-This option takes precedence over cmb_size_mb=3D if both used.
-(The size will be deduced from the memory backend option).
+This is a multi-part message in MIME format.
+--------------42625B740EAEC52691E2E501
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Rick Wertenbroek <rick.wertenbroek@heig-vd.ch>
----
-hw/nvme/ctrl.c | 65 ++++++++++++++++++++++++++++++++++++++------------
-hw/nvme/nvme.h |  9 +++----
-2 files changed, 55 insertions(+), 19 deletions(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 03760ddeae..9bcc7d6db0 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -29,6 +29,7 @@
- *      -device nvme-subsys,id=3D<subsys_id>,nqn=3D<nqn_id>
- *      -device nvme,serial=3D<serial>,id=3D<bus_name>, \
- *              cmb_size_mb=3D<cmb_size_mb[optional]>, \
-+ *              [cmbdev=3D<mem_backend_id>,] \
- *              [pmrdev=3D<mem_backend_file_id>,] \
- *              max_ioqpairs=3D<N[optional]>, \
- *              aerl=3D<N[optional]>,aer_max_queued=3D<N[optional]>, \
-@@ -44,6 +45,11 @@
- * offset 0 in BAR2 and supports only WDS, RDS and SQS for now. By default,=
- the
- * device will use the "v1.4 CMB scheme" - use the `legacy-cmb` parameter t=
-o
- * always enable the CMBLOC and CMBSZ registers (v1.3 behavior).
-+ * Enabling cmb emulation can also be achieved by pointing to a memory-bac=
-kend
-+ * For example:
-+ * -object memory-backend-ram,id=3D<mem_id>,size=3D<size> \
-+ * -device nvme,...,cmbdev=3D<mem_id>
-+ * cmbdev=3D will take precedence over cmb_size_mb=3D when both provided.
- *
- * Enabling pmr emulation can be achieved by pointing to memory-backend-fil=
-e.
- * For example:
-@@ -341,16 +347,26 @@ static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr=
-)
-        return false;
-    }
+On 2022/4/18 下午10:39, Richard Henderson wrote:
+> On 4/18/22 02:14, yangxiaojuan wrote:
+>> Hi, Richard
+>>
+>> On 2022/4/18 上午11:15, Richard Henderson wrote:
+>>> On 4/15/22 02:40, Xiaojuan Yang wrote:
+>>>> +static void pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,
+>>>> +                               int level, int hi)
+>>>> +{
+>>>> +    uint32_t val, irq;
+>>>> +
+>>>> +    if (level == 1) {
+>>>> +        if (hi) {
+>>>> +            val = mask & s->intirr_hi & (~s->int_mask_hi);
+>>>> +            irq = find_first_bit((unsigned long *)&val, 32);
+>>>
+>>> This does not work -- you're accessing beyond the end of the 
+>>> uint32_t for all LP64 hosts.  I think you just want ctz32()...
+>>>
+>>>
+>>>> +            if (irq != 32) {
+>>>> +                s->intisr_hi |= 1ULL << irq;
+>>>> + qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 1);
+>>>> +            }
+>>>
+>>> ... which should in fact only be tested if val != 0, which is to 
+>>> what this IF equates.
+>>>
+>>> Is there a good reason that this function is treating hi and lo 
+>>> separately, as opposed to simply doing all of the computation on 
+>>> uint64_t?
+>>>
+>>
+>> In the part of linux kernel, pch pic driver use 32 bits for reading 
+>> and writing.
+>> e.g in the drivers/irqchip/irq-loongson-pch-pic.c， pch_pic_mask_irq() 
+>> function use writel() to write pch_pic mask reg.
+>
+> So?  update_irq is not writel.
+>
+> I expect that you should have done something (manual deposit64 or 
+> .impl.min_access_size = 8) with the actual writel, but by the time we 
+> arrive in this subroutine we have a complete uint64_t.
+>
 
--    lo =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cba;
--    hi =3D lo + int128_get64(n->cmb.mem.size);
-+    if (n->cmb.dev) {
-+        lo =3D n->params.legacy_cmb ? host_memory_backend_get_memory(n->cm=
-b.dev)->addr : n->cmb.cba;
-+        hi =3D lo + int128_get64(host_memory_backend_get_memory(n->cmb.dev=
-)->size);
-+    } else {
-+        lo =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cba;
-+        hi =3D lo + int128_get64(n->cmb.mem.size);
-+    }
+In the linux kernel pch_pic driver, pch_pic_unmask_irq() use writel to 
+config PCH_PIC_CLR reg:
 
-    return addr >=3D lo && addr < hi;
+writel(BIT(PIC_REG_BIT(d->hwirq)),
+                     priv->base + PCH_PIC_CLR + PIC_REG_IDX(d->hwirq) * 4);
+
+And writel() need u32 value.
+
+static inline void writel(u32 value, volatile void __iomem *addr)
+{
+     __io_bw();
+     __raw_writel((u32 __force)__cpu_to_le32(value), addr);
+     __io_aw();
 }
 
-static inline void *nvme_addr_to_cmb(NvmeCtrl *n, hwaddr addr)
+The emulate of PCH_PIC_CLR in qemu LoongArchPCHPIC struct member is 
+intirr_lo/hi(we devide 64bits reg to two 32bits reg to match the linux 
+kernel), it will be changed when we config clear reg or handler irq.
+
+static void loongarch_pch_pic_low_writew(void *opaque, hwaddr addr,
+                                      uint64_t data, unsigned size)
 {
--    hwaddr base =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cba;
--    return &n->cmb.buf[addr - base];
-+    if (n->cmb.dev) {
-+        hwaddr base =3D n->params.legacy_cmb ? host_memory_backend_get_mem=
-ory(n->cmb.dev)->addr : n->cmb.cba;
-+        return memory_region_get_ram_ptr(&n->cmb.dev->mr) + (addr - base);
-+    } else {
-+        hwaddr base =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cb=
-a;
-+        return &n->cmb.buf[addr - base];
-+    }
+...
+case PCH_PIC_INT_CLEAR_LO:
+     if (s->intedge_lo & data) {
+         s->intirr_lo &= (~data);
+         pch_pic_update_irq(s, data, 0, 0);
+         s->intisr_lo &= (~data);
+      }
+     break;
+case PCH_PIC_INT_CLEAR_HI:
+     if (s->intedge_hi & data) {
+         s->intirr_hi &= (~data);
+         pch_pic_update_irq(s, data, 0, 1);
+         s->intisr_hi &= (~data);
+      }
+     break;
+...
 }
 
-static bool nvme_addr_is_pmr(NvmeCtrl *n, hwaddr addr)
-@@ -6584,16 +6600,33 @@ static void nvme_init_state(NvmeCtrl *n)
-
-static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+static void pch_pic_irq_handler(void *opaque, int irq, int level)
 {
--    uint64_t cmb_size =3D n->params.cmb_size_mb * MiB;
-+    uint64_t cmb_size;
-    uint64_t cap =3D ldq_le_p(&n->bar.cap);
+...
+hi = (irq >= 32) ? 1 : 0;
+if (hi) {
+     irq = irq - 32;
+}
 
--    n->cmb.buf =3D g_malloc0(cmb_size);
--    memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
--                          "nvme-cmb", cmb_size);
--    pci_register_bar(pci_dev, NVME_CMB_BIR,
--                     PCI_BASE_ADDRESS_SPACE_MEMORY |
--                     PCI_BASE_ADDRESS_MEM_TYPE_64 |
--                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
-+    if (n->cmb.dev) {
-+        if (n->params.cmb_size_mb) {
-+            warn_report("Option cmb_size_mb is ignored when a cmbdev is pr=
-ovided");
-+        }
-+        n->params.cmb_size_mb =3D n->cmb.dev->size / MiB;
-+        cmb_size =3D n->cmb.dev->size;
-+
-+        MemoryRegion *mr =3D host_memory_backend_get_memory(n->cmb.dev);
-+        assert(mr);
-+
-+        pci_register_bar(pci_dev, NVME_CMB_BIR,
-+                         PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                         PCI_BASE_ADDRESS_MEM_TYPE_64 |
-+                         PCI_BASE_ADDRESS_MEM_PREFETCH, mr);
-+    } else {
-+        cmb_size =3D n->params.cmb_size_mb * MiB;
-+        n->cmb.buf =3D g_malloc0(cmb_size);
-+        memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
-+                              "nvme-cmb", cmb_size);
-+        pci_register_bar(pci_dev, NVME_CMB_BIR,
-+                         PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                         PCI_BASE_ADDRESS_MEM_TYPE_64 |
-+                         PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
-+    }
+  mask = 1ULL << irq;
 
-    NVME_CAP_SET_CMBS(cap, 1);
-    stq_le_p(&n->bar.cap, cap);
-@@ -6678,7 +6711,7 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_=
-dev, Error **errp)
-        }
-    }
 
--    if (n->params.cmb_size_mb) {
-+    if (n->params.cmb_size_mb || n->cmb.dev) {
-        nvme_init_cmb(n, pci_dev);
-    }
+  if (hi) {
+     if (s->intedge_hi & mask) {
+         /* Edge triggered */
+         if (level) {
+             if ((s->last_intirr_hi & mask) == 0) {
+                 s->intirr_hi |= mask;
+             }
+             s->last_intirr_hi |= mask;
+         } else {
+             s->last_intirr_hi &= ~mask;
+         }
+...
+pch_pic_update_irq(s, mask, level, hi);
+}
 
-@@ -6793,7 +6826,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pc=
-i_dev)
-    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_CSI_SUPP);
-    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_ADMIN_ONLY);
-    NVME_CAP_SET_MPSMAX(cap, 4);
--    NVME_CAP_SET_CMBS(cap, n->params.cmb_size_mb ? 1 : 0);
-+    NVME_CAP_SET_CMBS(cap, (n->params.cmb_size_mb || n->cmb.dev) ? 1 : 0);
-    NVME_CAP_SET_PMRS(cap, n->pmr.dev ? 1 : 0);
-    stq_le_p(&n->bar.cap, cap);
+And in update_irq(), we should judge intirr，which irq number is pending.
+so we also need whether is intirr_lo or intirr_hi.
 
-@@ -6893,7 +6926,7 @@ static void nvme_exit(PCIDevice *pci_dev)
-    g_free(n->sq);
-    g_free(n->aer_reqs);
+static void pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,
+                                int level, int hi)
+{
+     uint32_t val, irq;
 
--    if (n->params.cmb_size_mb) {
-+    if (!n->cmb.dev && n->params.cmb_size_mb) {
-        g_free(n->cmb.buf);
-    }
+     if (level) {
+         if (hi) {
+             val = mask & s->intirr_hi & (~s->int_mask_hi);
+             if (val) {
+                 irq = ctz32(val);
+                 s->intisr_hi |= 1ULL << irq;
+qemu_set_irq(s->parent_irq[s->htmsi_vector[irq + 32]], 1);
+             }
+......
+}
 
-@@ -6908,6 +6941,8 @@ static Property nvme_props[] =3D {
-    DEFINE_BLOCK_PROPERTIES(NvmeCtrl, namespace.blkconf),
-    DEFINE_PROP_LINK("pmrdev", NvmeCtrl, pmr.dev, TYPE_MEMORY_BACKEND,
-                     HostMemoryBackend *),
-+    DEFINE_PROP_LINK("cmbdev", NvmeCtrl, cmb.dev, TYPE_MEMORY_BACKEND,
-+                     HostMemoryBackend *),
-    DEFINE_PROP_LINK("subsys", NvmeCtrl, subsys, TYPE_NVME_SUBSYS,
-                     NvmeSubsystem *),
-    DEFINE_PROP_STRING("serial", NvmeCtrl, params.serial),
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 739c8b8f79..63747cf967 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -434,10 +434,11 @@ typedef struct NvmeCtrl {
-    uint8_t     smart_critical_warning;
+Thanks.
+Xiaojuan
+>
+> r~
 
-    struct {
--        MemoryRegion mem;
--        uint8_t      *buf;
--        bool         cmse;
--        hwaddr       cba;
-+        MemoryRegion      mem;
-+        HostMemoryBackend *dev;
-+        uint8_t           *buf;
-+        bool              cmse;
-+        hwaddr            cba;
-    } cmb;
+--------------42625B740EAEC52691E2E501
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-    struct {
---=20
-2.24.3 (Apple Git-128)
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/4/18 下午10:39, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:5c8d218b-ad1a-ae6f-2540-8499c4808d42@linaro.org">On
+      4/18/22 02:14, yangxiaojuan wrote:
+      <br>
+      <blockquote type="cite">Hi, Richard
+        <br>
+        <br>
+        On 2022/4/18 上午11:15, Richard Henderson wrote:
+        <br>
+        <blockquote type="cite">On 4/15/22 02:40, Xiaojuan Yang wrote:
+          <br>
+          <blockquote type="cite">+static void
+            pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,
+            <br>
+            +                               int level, int hi)
+            <br>
+            +{
+            <br>
+            +    uint32_t val, irq;
+            <br>
+            +
+            <br>
+            +    if (level == 1) {
+            <br>
+            +        if (hi) {
+            <br>
+            +            val = mask &amp; s-&gt;intirr_hi &amp;
+            (~s-&gt;int_mask_hi);
+            <br>
+            +            irq = find_first_bit((unsigned long *)&amp;val,
+            32);
+            <br>
+          </blockquote>
+          <br>
+          This does not work -- you're accessing beyond the end of the
+          uint32_t for all LP64 hosts.  I think you just want ctz32()...
+          <br>
+          <br>
+          <br>
+          <blockquote type="cite">+            if (irq != 32) {
+            <br>
+            +                s-&gt;intisr_hi |= 1ULL &lt;&lt; irq;
+            <br>
+            + qemu_set_irq(s-&gt;parent_irq[s-&gt;htmsi_vector[irq +
+            32]], 1);
+            <br>
+            +            }
+            <br>
+          </blockquote>
+          <br>
+          ... which should in fact only be tested if val != 0, which is
+          to what this IF equates.
+          <br>
+          <br>
+          Is there a good reason that this function is treating hi and
+          lo separately, as opposed to simply doing all of the
+          computation on uint64_t?
+          <br>
+          <br>
+        </blockquote>
+        <br>
+        In the part of linux kernel, pch pic driver use 32 bits for
+        reading and writing.
+        <br>
+        e.g in the drivers/irqchip/irq-loongson-pch-pic.c，
+        pch_pic_mask_irq() function use writel() to write pch_pic mask
+        reg.
+        <br>
+      </blockquote>
+      <br>
+      So?  update_irq is not writel.
+      <br>
+      <br>
+      I expect that you should have done something (manual deposit64 or
+      .impl.min_access_size = 8) with the actual writel, but by the time
+      we arrive in this subroutine we have a complete uint64_t.
+      <br>
+      <br>
+    </blockquote>
+    <br>
+    <span style="font-family: SimSun;">In the linux kernel pch_pic
+      driver, pch_pic_unmask_irq() use writel to config PCH_PIC_CLR reg:</span><br>
+    <br>
+    <span style="font-family: SimSun;"></span><span style="font-family:
+      SimSun;">writel(BIT(PIC_REG_BIT(d-&gt;hwirq)),</span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+                          priv-&gt;base + PCH_PIC_CLR +
+      PIC_REG_IDX(d-&gt;hwirq) * 4);</span><br style="color: rgb(0, 0,
+      0); font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <br style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">And
+      writel() need u32 value.</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="font-family: SimSun;"></span><br>
+    <span style="font-family: SimSun;"></span><span style="font-family:
+      SimSun;">static inline void writel(u32 value, volatile void
+      __iomem *addr)</span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">{</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+          __io_bw();</span><br style="color: rgb(0, 0, 0); font-family:
+      宋体, arial, Verdana, sans-serif; font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+          __raw_writel((u32 __force)__cpu_to_le32(value), addr);</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+          __io_aw();</span><br style="color: rgb(0, 0, 0); font-family:
+      宋体, arial, Verdana, sans-serif; font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">}</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <br style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">The
+      emulate of PCH_PIC_CLR in qemu LoongArchPCHPIC struct member is
+      intirr_lo/hi(we devide 64bits reg to two 32bits reg to match the
+      linux kernel), it will be changed when we config clear reg or
+      handler irq. </span><br style="color: rgb(0, 0, 0); font-family:
+      宋体, arial, Verdana, sans-serif; font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;"></span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;"></span><span
+      style="color: rgb(0, 0, 0); font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">static
+      void loongarch_pch_pic_low_writew(void *opaque, hwaddr addr,</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+                                           uint64_t data, unsigned size)</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">{</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">...</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+      case PCH_PIC_INT_CLEAR_LO:</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+          if (s-&gt;intedge_lo &amp; data) {</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              s-&gt;intirr_lo &amp;= (~data);</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              pch_pic_update_irq(s, data, 0, 0);</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              s-&gt;intisr_lo &amp;= (~data);</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+           }</span><br style="color: rgb(0, 0, 0); font-family: 宋体,
+      arial, Verdana, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+          break;</span><br style="color: rgb(0, 0, 0); font-family: 宋体,
+      arial, Verdana, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+      case PCH_PIC_INT_CLEAR_HI:</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+          if (s-&gt;intedge_hi &amp; data) {</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              s-&gt;intirr_hi &amp;= (~data);</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              pch_pic_update_irq(s, data, 0, 1);</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              s-&gt;intisr_hi &amp;= (~data);</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+           }</span><br style="color: rgb(0, 0, 0); font-family: 宋体,
+      arial, Verdana, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+          break;</span><br style="color: rgb(0, 0, 0); font-family: 宋体,
+      arial, Verdana, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">...</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">}</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <br style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">static
+      void pch_pic_irq_handler(void *opaque, int irq, int level)</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">{</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">...</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+      hi = (irq &gt;= 32) ? 1 : 0;</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+      if (hi) {</span><br style="color: rgb(0, 0, 0); font-family: 宋体,
+      arial, Verdana, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+          irq = irq - 32;</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+      }</span><br style="color: rgb(0, 0, 0); font-family: 宋体, arial,
+      Verdana, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   </span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;"> 
+       mask = 1ULL &lt;&lt; irq;</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;"></span><br>
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;"></span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;"> 
+       if (hi) {</span><br style="color: rgb(0, 0, 0); font-family: 宋体,
+      arial, Verdana, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+          if (s-&gt;intedge_hi &amp; mask) {</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              /* Edge triggered */</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              if (level) {</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+                  if ((s-&gt;last_intirr_hi &amp; mask) == 0) {</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+                      s-&gt;intirr_hi |= mask;</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+                  }</span><br style="color: rgb(0, 0, 0); font-family:
+      宋体, arial, Verdana, sans-serif; font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+                  s-&gt;last_intirr_hi |= mask;</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              } else {</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+                  s-&gt;last_intirr_hi &amp;= ~mask;</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+              }</span><br style="color: rgb(0, 0, 0); font-family: 宋体,
+      arial, Verdana, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">...</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">   
+      pch_pic_update_irq(s, mask, level, hi);</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">}</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <br style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">And
+      in update_irq(), we should judge intirr，which irq number is
+      pending.</span><br style="color: rgb(0, 0, 0); font-family: 宋体,
+      arial, Verdana, sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; font-family: SimSun;">so
+      we also need whether is intirr_lo or intirr_hi.</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <br style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">static void
+      pch_pic_update_irq(LoongArchPCHPIC *s, uint32_t mask,</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">                               int
+      level, int hi)</span><br style="color: rgb(0, 0, 0); font-family:
+      宋体, arial, Verdana, sans-serif; font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">{</span><br style="color: rgb(0, 0, 0);
+      font-family: 宋体, arial, Verdana, sans-serif; font-size: 14px;
+      font-style: normal; font-variant-ligatures: normal;
+      font-variant-caps: normal; font-weight: 400; letter-spacing:
+      normal; orphans: 2; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">    uint32_t val, irq;</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <br style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">    if (level) {</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">        if (hi) {</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">            val = mask &amp;
+      s-&gt;intirr_hi &amp; (~s-&gt;int_mask_hi);</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">            if (val) {</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">                irq = ctz32(val);</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">                s-&gt;intisr_hi |= 1ULL
+      &lt;&lt; irq;</span><br style="color: rgb(0, 0, 0); font-family:
+      宋体, arial, Verdana, sans-serif; font-size: 14px; font-style:
+      normal; font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">               
+      qemu_set_irq(s-&gt;parent_irq[s-&gt;htmsi_vector[irq + 32]], 1);</span><br
+      style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    <span style="color: rgb(0, 0, 0); font-family: 宋体, arial, Verdana,
+      sans-serif; font-size: 14px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: 400; letter-spacing: normal; orphans: 2; text-align:
+      start; text-indent: 0px; text-transform: none; white-space:
+      normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width:
+      0px; text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial; display: inline
+      !important; float: none;">            }</span><br style="color:
+      rgb(0, 0, 0); font-family: 宋体, arial, Verdana, sans-serif;
+      font-size: 14px; font-style: normal; font-variant-ligatures:
+      normal; font-variant-caps: normal; font-weight: 400;
+      letter-spacing: normal; orphans: 2; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      text-decoration-thickness: initial; text-decoration-style:
+      initial; text-decoration-color: initial;">
+    ......<br>
+    }<br>
+    <br>
+    Thanks.<br>
+    Xiaojuan<br>
+    <blockquote type="cite"
+      cite="mid:5c8d218b-ad1a-ae6f-2540-8499c4808d42@linaro.org">
+      <br>
+      r~
+      <br>
+    </blockquote>
+  </body>
+</html>
+
+--------------42625B740EAEC52691E2E501--
 
 
