@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C555078F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:38:46 +0200 (CEST)
-Received: from localhost ([::1]:46324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5BDF5078F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:40:37 +0200 (CEST)
+Received: from localhost ([::1]:49488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngskP-0005EZ-U7
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:38:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
+	id 1ngsmD-0007Rr-12
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngshi-0002mT-EX
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:35:58 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42653)
+ id 1ngsiF-0003Ys-QB
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:36:31 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:55186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngshg-0001Nv-TL
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:35:58 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id bg9so24891566pgb.9
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:35:56 -0700 (PDT)
+ id 1ngsiE-0001QF-CQ
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:36:31 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id md4so16216909pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ZYDy/BJNtxcsIfaKwKjSrnrKMNVexDY4WEVPpOjjoR0=;
- b=IMEqwl6f+GKSlLpqdCpOrYRwvSDX2H4A2YrEPXIoVDZJ/llp0UVy5Lf16SIkUkDrKz
- 7mcS9IDxzZhfkDnXH9qamdQhBsSgg29mDHL/UESCSy+Zn/sy+QAOSAoe3gQZ8BMLVc9q
- MGpgMeamyxQmKpzB8y0BNP71SP7uxBM4XIYlTAB79WHcoXYymiw1ULzQoVX3OVBURD76
- aOd6FiMfc5W3zEefDa7JD+lYbgXB+8fFaDEMqZBhSlWLZ2EOm6bKcS+C9t8w6TfdOUf2
- 8hpXxXc75lOSu5yNB42PH/gAW3qodvs2iZXbrF5fCFr89T4ag9RquHMT68aiLf4wIkCQ
- 1a7w==
+ bh=r/zdBNB2dxAjCF4Wb4VBgDd44rwGPgy/PXsMu2IE7A4=;
+ b=VRLAjPXY24Cg9Zmpwob51MZWXLGeNXEd+UANomPsv+vSI4D4eNXke/hx8UA8f7fUxl
+ uEPFEcRO28rLsFjamY3IoJMxPbB9E3LMfrFDtvzyIK7UkQtx9VV9TJLq8XYvPLG3kIrM
+ Bb++In0q/6+rJ34FEl8y7c8+JgTJ7kK8UVJoHXmBsQixCMz14J5H2uykKSXCYSAzHJAp
+ HmqESOtzSKD+0koQVUoUPdB0P0vOZkj831CmDoXlTmZoY/B0bl6PgV9krAQ7oDNJORRP
+ UYIUIxoDTn7j5zHJM66z7bA92zPFK2mOgT3z/EPYVIsayfH/EhMAgrPvekLTDGNf/lRI
+ W2mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ZYDy/BJNtxcsIfaKwKjSrnrKMNVexDY4WEVPpOjjoR0=;
- b=XuOyXjl0BUEkjgD8SZf0QihdacaZJflKL8vmbKcZCPig5xz+iKxTRN2oo1oaBD2jZG
- k7ffGG415YryOKOoQPwGIkdEwoxC2Nioc8E/eLA9zylVQP7JTp4MzPZo8BihZWc51Q0X
- yKfr0GTwl0wGUnKxGZozbddpsZS62zvM59htCcG9c6WbipC8NzT4+7NZbwLgCaOiN+l0
- OqS1EwD+5pERr9oq68XfKcpDjqQykqRmApCt0Gcde2MIVVENBSA+mqUe3xZhDVMT267Q
- cFRaS7mkzPdCe2+uPNOBvGj4ytMn9SaWrxhpr2mNTaieYXrBKSucVvNul6qIn0tghQH7
- pj7w==
-X-Gm-Message-State: AOAM533ox5Yf8HaXUAfDtAanQdBKBlSPAewGB8l78iey5tVXAJ6bxOtY
- wKRVxD2QbklmT8sFRraRi4kbuw==
-X-Google-Smtp-Source: ABdhPJy9UbXJD9MbDqPF/AEd88bSn+ldpNfOJcTl4+Adw3GlvD9AJ+91pebkRXdghOdE8QVkITRh6g==
-X-Received: by 2002:a65:6e4d:0:b0:39d:a6ce:14dc with SMTP id
- be13-20020a656e4d000000b0039da6ce14dcmr15961083pgb.476.1650393355445; 
- Tue, 19 Apr 2022 11:35:55 -0700 (PDT)
+ bh=r/zdBNB2dxAjCF4Wb4VBgDd44rwGPgy/PXsMu2IE7A4=;
+ b=IDYzu7RGJD953jp+GGMghnvHmReiRXFuHYHHfAJVlFDFrGEuONqGxymcfUScAbw9iv
+ HT80hAbpgK36+ZW7zkuC7cuUg8tFyukpEaxxXE1Syqqu4Nu3KZRZGrrJiEMpvAwf87g5
+ WQ46BbfFn/pPCkYP32qDAkoejDIQntb/XsRRUTVrRXlUF0UOQRjylB3Vw5TjFIgxvbYn
+ 8qOf37/mKAkhmk2aDdc1JDxsaVKiKrQ+xywyYdd0kTB4Y1T8cEoplVBOa30d0lZ/yBUm
+ XmObHglDcxodYDc8n7bkPEW6Vy3GoWqrHz4L/M1XEL4Aordx9MyB/wrK1KR67ksLCIjk
+ ytLg==
+X-Gm-Message-State: AOAM533eJxJFmbb9T3LSjEBzap4LyK+Nhqc2QIdi9eH0m57QfDk72dPl
+ koNsodbMwsmI4tfhQWJxZEF1ng==
+X-Google-Smtp-Source: ABdhPJzX2JdVB8iN1xI8kSMKlqZXhPhIgl29eVuIMFRKEo+RveOQ84U/9mqiZ2+cncnK3JDzoTlUDg==
+X-Received: by 2002:a17:902:e8c9:b0:159:4525:fe with SMTP id
+ v9-20020a170902e8c900b00159452500femr6749406plg.131.1650393388996; 
+ Tue, 19 Apr 2022 11:36:28 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- k13-20020aa7820d000000b004fa72a52040sm17130593pfi.172.2022.04.19.11.35.54
+ p42-20020a056a0026ea00b0050ab776f6a2sm868887pfw.103.2022.04.19.11.36.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Apr 2022 11:35:54 -0700 (PDT)
-Message-ID: <c0e8ce5b-ad73-e3b2-29f4-a6fd787b680c@linaro.org>
-Date: Tue, 19 Apr 2022 11:35:53 -0700
+ Tue, 19 Apr 2022 11:36:28 -0700 (PDT)
+Message-ID: <57032547-a843-aea8-bea8-eeacf406f955@linaro.org>
+Date: Tue, 19 Apr 2022 11:36:26 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v1 05/25] tests/docker: remove test targets
+Subject: Re: [PATCH v1 06/25] tests/docker: remove dead variable
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20220419091020.3008144-1-alex.bennee@linaro.org>
- <20220419091020.3008144-6-alex.bennee@linaro.org>
+ <20220419091020.3008144-7-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220419091020.3008144-6-alex.bennee@linaro.org>
+In-Reply-To: <20220419091020.3008144-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,13 +101,12 @@ On 4/19/22 02:10, Alex Bennée wrote:
 > From: Paolo Bonzini<pbonzini@redhat.com>
 > 
 > Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> Message-Id:<20220401141326.1244422-3-pbonzini@redhat.com>
+> Reviewed-by: Alex Bennée<alex.bennee@linaro.org>
+> Message-Id:<20220401141326.1244422-4-pbonzini@redhat.com>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   tests/docker/Makefile.include         | 20 +-------------------
->   tests/docker/dockerfiles/empty.docker |  8 --------
->   2 files changed, 1 insertion(+), 27 deletions(-)
->   delete mode 100644 tests/docker/dockerfiles/empty.docker
+>   tests/docker/Makefile.include | 1 -
+>   1 file changed, 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
