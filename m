@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B251506796
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:20:28 +0200 (CEST)
-Received: from localhost ([::1]:37624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B164506785
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:14:45 +0200 (CEST)
+Received: from localhost ([::1]:58354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngk27-0005dP-C9
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36698)
+	id 1ngjwa-0000WD-K5
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsa-0005Oy-JF
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:36 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:36555)
+ id 1ngjsd-0005S0-76
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:39 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:35821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsV-0008Kr-FT
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:33 -0400
-Received: by mail-ej1-x629.google.com with SMTP id k23so31538959ejd.3
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:10:30 -0700 (PDT)
+ id 1ngjsa-0008MK-6R
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:38 -0400
+Received: by mail-ej1-x636.google.com with SMTP id l7so31581551ejn.2
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ajn+CRphVUO0J46IG2p7xbfi5mcbxrS2eQ7d7RjFd6c=;
- b=rT3YpmSNH7k8+worrdmsCcTNKnK3fsY33IWE+zdxeO7906wsz8ReJlxVk9NVt+L6FY
- 7dWoSLO8sSU0SJ1eaAfQmcHecWlz5T9Yqvyebbktx5A1cLGzWwFuQfHfCjXMK3bbDsBE
- lMTMmUMKjNkI0ekKjmL95yQXWC/7uGV+jgd20psKsMyOiYUUvqDMhqBRbSLBhVREOcEc
- +SSKWtixSKyQaaHKBxWJRHhHLc/RTQTCKZVv25nyX+avBvrOsoVsx+tdZLF1tYxXkcCZ
- CNHqXuk4fiHoOdckzRA4PtAtoZfURIrCF5tHVZMX0aOK/j8LjFRluQIrUG7xVF3a9Mnf
- NM8w==
+ bh=e/w4cxTJkCDMZlBFrEpupwHPY+eFheBz2dUBNsjbLHs=;
+ b=QrsqmKuwZqb/yEbfdNBi2pcOJfWwf4svQbi1YuRMXl8o58Mb/B5ygJk8hPzhT+TzKO
+ HmZUM+MZw/QvGSPGjUHB2v9nvdo2bYA6w231Hh/jgGnmW5VRSATWhXHFjT+YwI+X69pb
+ BT0JKE3tlr69W0Yi++/ln9VMS+ABV5Xqw3JvY8oAVpAUSYUoQXzAsWvT7bQnkq8aBRBg
+ ghXsgiGl804jtthQ4fWo9nsmxHSZlc1JyE37htvsb+hOjeCRxb3TTjxQWXSCho6RpqvS
+ xweejflbMCUtkFmDFdmvAlYUFJDCOdmQN9/P6zlNiuAyVkZgsG3cKOFHv2n5U8qGY6WG
+ P6+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ajn+CRphVUO0J46IG2p7xbfi5mcbxrS2eQ7d7RjFd6c=;
- b=BnkkzGSQ5noASs1pV8Tda+4/z7jB+S/IU1cJwypBjSgC5rADKOea1EvuW4jWXPyPsJ
- mMxJ01EcVWbQHj/HwPp2/k/f2NOwNqua0q0jywtfayhZ2YRc7LwLonawASW/8UkOYVns
- fXZj1l7VcSFr1kD6WFOKn6m2OTWDGrzrPhKC2Y9XdAJwpz2HBuVrRb/Dyf8AwR/Q/ROh
- /ui3zkylSHOS8/RzdSQIXdbuQEO4bo7cOD/X5+wpr81koVg4X5a6KUPTXNTcszBXZGBh
- Y1ReOIcH2fkiVziuyeRzyzngLsqgrCK3hynos9/0hRbN6G5NOOLKZPagz4ThnU3wU6+u
- miRw==
-X-Gm-Message-State: AOAM530NMAT/jDlOLKY3G1WaH0/xuOYIvEr3UtO1uu1AThKXJ49E85tE
- ybQggGMYtzoUZ14+nfRCsdrsRQ==
-X-Google-Smtp-Source: ABdhPJzk/t0WUNPGnnlBUngb2ygXL66G/kRbXWYd7e1rxnxGZkDdWnQ4N8Zfre/DBZbZqjYFZMey0A==
-X-Received: by 2002:a17:907:7b83:b0:6e8:c2c8:1f14 with SMTP id
- ne3-20020a1709077b8300b006e8c2c81f14mr12358644ejc.356.1650359429032; 
- Tue, 19 Apr 2022 02:10:29 -0700 (PDT)
+ bh=e/w4cxTJkCDMZlBFrEpupwHPY+eFheBz2dUBNsjbLHs=;
+ b=BaIi8lH5/rMIed97fed86KIPFlvT8J6NlYChOjZjl7xrNFpdI3GJqH7YE9EMatI9j5
+ UkyCZTHRYq6WgZwOKW0086QUav0ydNoxvZEMOLX8zZrHpENHNNZ8hbd5DSzrHqrjjnWl
+ lxjBzC0+XsKq8t1fjL4lkKU/DaT+SXYxINv6VE6i+82VEuSc7DQsDkMbrdQYoBtnAE+Y
+ wZQrBeZ2a1lLqWzPz7YYreZY52Mi9BGkRIEtiLMGjsAdBKUS2Q4tMCIEY9Tfni1cJyqY
+ oyKb1YaDfdpYl+HuJYCoA0EyUBV/S21qItOhFhqcqjV5sMzdRnolHwGfFgupGuV3cMEz
+ 31cA==
+X-Gm-Message-State: AOAM532X6vQCRHCFuta6Wn9ahzzsvP8oWiqQTZKaNf7nPnYxKYy5RZTJ
+ fvk/9CG06wmKMLbw1WiZSFaRlZP962EXCg==
+X-Google-Smtp-Source: ABdhPJztccnGdX0/h8bK+zoMd3Qi7QxjLEmU+fXiGg88xqco8zDpDs6g8atLhbTgMcv+ebGXkuRsbg==
+X-Received: by 2002:a17:906:408c:b0:6e8:d649:5e41 with SMTP id
+ u12-20020a170906408c00b006e8d6495e41mr12808009ejj.519.1650359431300; 
+ Tue, 19 Apr 2022 02:10:31 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- y13-20020a50eb8d000000b0041f112a63c4sm8249385edr.52.2022.04.19.02.10.21
+ bo14-20020a170906d04e00b006ce98d9c3e3sm5444656ejb.194.2022.04.19.02.10.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 02:10:25 -0700 (PDT)
+ Tue, 19 Apr 2022 02:10:26 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B62231FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id C4F9F1FFBD;
  Tue, 19 Apr 2022 10:10:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 04/25] tests/docker: remove dead code for linux-user
- containers
-Date: Tue, 19 Apr 2022 10:09:59 +0100
-Message-Id: <20220419091020.3008144-5-alex.bennee@linaro.org>
+Subject: [PATCH  v1 05/25] tests/docker: remove test targets
+Date: Tue, 19 Apr 2022 10:10:00 +0100
+Message-Id: <20220419091020.3008144-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220419091020.3008144-1-alex.bennee@linaro.org>
 References: <20220419091020.3008144-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,48 +98,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-debian-powerpc-user-cross was the only linux-user powered cross builder
-and it was removed in commit 80394ccf21 ("tests/docker: remove
-debian-powerpc-user-cross", 2019-09-26). Remove all the infrastructure
-around it since it is now unused.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220401141326.1244422-2-pbonzini@redhat.com>
+Message-Id: <20220401141326.1244422-3-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 11 -----------
- 1 file changed, 11 deletions(-)
+ tests/docker/Makefile.include         | 20 +-------------------
+ tests/docker/dockerfiles/empty.docker |  8 --------
+ 2 files changed, 1 insertion(+), 27 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/empty.docker
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index e495b163a0..a6a5a20949 100644
+index a6a5a20949..06c40a9320 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -229,12 +229,6 @@ DOCKER_PARTIAL_IMAGES += debian-tricore-cross
- DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
- DOCKER_PARTIAL_IMAGES += fedora-cris-cross
+@@ -18,7 +18,7 @@ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ # we don't run tests on intermediate images (used as base by another image)
+ DOCKER_PARTIAL_IMAGES := debian10 debian11
+ # we don't directly build virtual images (they are used to build other images)
+-DOCKER_VIRTUAL_IMAGES := debian-bootstrap debian-toolchain empty
++DOCKER_VIRTUAL_IMAGES := debian-bootstrap debian-toolchain
+ __IMAGES := $(sort $(filter-out $(DOCKER_VIRTUAL_IMAGES), $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
+ DOCKER_IMAGES := $(if $(IMAGES), $(filter $(IMAGES), $(__IMAGES)), $(__IMAGES))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+@@ -99,24 +99,6 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
+ 			{ echo "You will need to build $(EXECUTABLE)"; exit 1;},\
+ 			"CHECK", "debian-$* exists"))
  
--# Rules for building linux-user powered images
--#
--# These are slower than using native cross compiler setups but can
--# work around issues with poorly working multi-arch systems and broken
--# packages.
+-# These are test targets
+-USER_TCG_TARGETS=$(patsubst %-linux-user,qemu-%,$(filter %-linux-user,$(TARGET_DIRS)))
+-EXEC_COPY_TESTS=$(patsubst %,docker-exec-copy-test-%, $(USER_TCG_TARGETS))
 -
- # Expand all the pre-requistes for each docker image and test combination
- $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES) $(DOCKER_VIRTUAL_IMAGES),$(DOCKER_IMAGES)), \
- 	$(foreach t,$(DOCKER_TESTS), \
-@@ -266,11 +260,6 @@ docker:
- 	@echo
- 	@echo 'Available container images:'
- 	@echo '    $(DOCKER_IMAGES)'
--ifneq ($(DOCKER_USER_IMAGES),)
--	@echo
--	@echo 'Available linux-user images (docker-binfmt-image-debian-%):'
--	@echo '    $(DOCKER_USER_IMAGES)'
--endif
- 	@echo
- 	@echo 'Available tests:'
- 	@echo '    $(DOCKER_TESTS)'
+-$(EXEC_COPY_TESTS): docker-exec-copy-test-%: $(DOCKER_FILES_DIR)/empty.docker
+-	$(call quiet-command,							\
+-		$(DOCKER_SCRIPT) build -t qemu/exec-copy-test-$* -f $< 		\
+-			$(if $V,,--quiet) --no-cache 				\
+-			--include-executable=$*					\
+-			--skip-binfmt,						\
+-			"TEST","copy $* to container")
+-	$(call quiet-command,							\
+-		$(DOCKER_SCRIPT) run qemu/exec-copy-test-$* 			\
+-			/$* -version > tests/docker-exec-copy-test-$*.out,	\
+-			"TEST","check $* works in container")
+-
+-docker-exec-copy-test: $(EXEC_COPY_TESTS)
+-
+ endif
+ 
+ # Enforce dependencies for composite images
+diff --git a/tests/docker/dockerfiles/empty.docker b/tests/docker/dockerfiles/empty.docker
+deleted file mode 100644
+index 9ba980f1a8..0000000000
+--- a/tests/docker/dockerfiles/empty.docker
++++ /dev/null
+@@ -1,8 +0,0 @@
+-#
+-# Empty Dockerfile
+-#
+-
+-FROM scratch
+-
+-# Add everything from the context into the container
+-ADD . /
 -- 
 2.30.2
 
