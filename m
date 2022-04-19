@@ -2,54 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D3C50694F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 13:02:36 +0200 (CEST)
-Received: from localhost ([::1]:59706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9199750697A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 13:13:04 +0200 (CEST)
+Received: from localhost ([::1]:36338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nglcu-000744-7i
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 07:02:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58336)
+	id 1ngln5-0003k3-7h
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 07:13:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nglZn-0005ew-VJ
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 06:59:19 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57050)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nglZl-00088g-NT
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 06:59:19 -0400
-Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nglYl-0005HL-Bd; Tue, 19 Apr 2022 11:58:19 +0100
-Message-ID: <029ab612-79a5-7e1f-9db2-a3b85959c758@ilande.co.uk>
-Date: Tue, 19 Apr 2022 11:59:03 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nglkr-000253-AT
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:10:45 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nglkp-0002Kl-OU
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 07:10:45 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id y20so11989674eju.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 04:10:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=xB1qVKk1nh3FCktb8soSC5gREMmnmiZCi+9kbOvACEw=;
+ b=oESEuwWZofR6Bd3aRwPZ+Y2M6Jk2BEkv8DJPfL2HRwHl6VdnwU68dZIDhOaFde8zSf
+ W93D4JAWHjV3ReNzUGoZCrniPuEt6xsWNO0510mPV+h4N3yafOWR0OnTKS/WoQd4Ygd/
+ UIOD4q5dMcdPMFFJ4I1t+aCyipiL76iQr86m76RXY4pWvFbrg88iMUpCzO6gmG9UcEMl
+ zSDK38y52jBFhDJ9t8FbQe3qVJSCC31jweNAbY/MHYwf9Om1IJ5w5ZL0rimUiWiGpeOT
+ 1VX4Fdzx0zEnP8gb34gKE3IDMxzedDTqTfj3GVJmKSkx847rDaKnA6LMFj5xFVRmvc5k
+ sa7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=xB1qVKk1nh3FCktb8soSC5gREMmnmiZCi+9kbOvACEw=;
+ b=XUsbJpu3IbuANySlEOCpYV4rkW+WGGd15VOVm0owXVf6Zc/4D60Z9mlBcnvr+msUDa
+ i/uQxrVDFr25MO+J4DJA60AudbgzAfRBdThver4cTS/ikfEq2hkH5hzZoqBUM5CxA7eH
+ T/nSIJgqll94mpjV2yUPYqkmBBgu8UE/BJR+6dfcaCAAN80e41VJFrwiSY5DZ/nxpIAH
+ BCfXtwd51vrpUQJaOnJ2Y76cCphn34P7ivcuYR5O7Xkul8Gg8wR1owRD/sHKenS/CgLt
+ k6IAo9z1mAT7mViKx6wRG3wfmzNNz50RW+qjOtqj1n/YI3NwbY7baetVBAcPrPXxFy64
+ mIcg==
+X-Gm-Message-State: AOAM5330hhKas1xAC0Uc/fKDUHYSNwHtG0VOIUoccJcUs25Zf9Ih6Ig0
+ WZwtbnjYhsRhxUzPu0ITW7xfIw==
+X-Google-Smtp-Source: ABdhPJz/dC9M73/GOwNHQBDSRUiOy5ZcZbqYkviKSZsndwHuqXsZvz+KFFDx+Nu42JzkXXdyXLaV1A==
+X-Received: by 2002:a17:907:6ea4:b0:6e8:8f2e:e29c with SMTP id
+ sh36-20020a1709076ea400b006e88f2ee29cmr12778050ejc.225.1650366642243; 
+ Tue, 19 Apr 2022 04:10:42 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ j2-20020a056402238200b0041f351a8b83sm8260222eda.43.2022.04.19.04.10.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Apr 2022 04:10:41 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 690191FFB7;
+ Tue, 19 Apr 2022 12:10:40 +0100 (BST)
+References: <20220417174426.711829-1-richard.henderson@linaro.org>
+ <20220417174426.711829-3-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.13; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 02/60] target/arm: Update ISAR fields for ARMv8.8
+Date: Tue, 19 Apr 2022 12:10:35 +0100
+In-reply-to: <20220417174426.711829-3-richard.henderson@linaro.org>
+Message-ID: <877d7lxr9r.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-References: <20220408171013.912436-1-bmeng.cn@gmail.com>
- <4649965.RNUEIdHhq1@silver>
- <433fdc93-b483-3dc6-43e7-28b54a95318c@ilande.co.uk>
- <3596871.UiuOCll1Ve@silver>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <3596871.UiuOCll1Ve@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH 0/4] 9pfs: Add 9pfs support for Windows host
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,185 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, "Shi, Guohuai" <Guohuai.Shi@windriver.com>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/04/2022 13:31, Christian Schoenebeck wrote:
 
-> On Montag, 18. April 2022 11:07:33 CEST Mark Cave-Ayland wrote:
->> On 17/04/2022 13:55, Christian Schoenebeck wrote:
->>> On Donnerstag, 14. April 2022 19:25:04 CEST Shi, Guohuai wrote:
->>>>> -----Original Message-----
->>>>> From: Christian Schoenebeck <qemu_oss@crudebyte.com>
->>>>> Sent: 2022年4月14日 19:24
->>>>> To: qemu-devel@nongnu.org; Shi, Guohuai <Guohuai.Shi@windriver.com>
->>>>> Cc: Bin Meng <bmeng.cn@gmail.com>; Greg Kurz <groug@kaod.org>
->>>>> Subject: Re: [RFC PATCH 0/4] 9pfs: Add 9pfs support for Windows host
->>>>>
->>>>> [Please note: This e-mail is from an EXTERNAL e-mail address]
->>>>>
->>>>> On Mittwoch, 13. April 2022 05:30:57 CEST Shi, Guohuai wrote:
->>>>>>> We have 3 fs drivers: local, synth, proxy. I don't mind about proxy,
->>>>>>> it is in  bad shape and we will probably deprecate it in near future
->>>>>>> anyway. But it would be good to have support for the synth driver,
->>>>>>> because we are using it for running test cases and fuzzing tests
->>>>>>> (QA).
->>>
->>> [...]
->>>
->>>> For 9p-synth:
->>>>
->>>> I had enabled 9p-synth.c and built it successfully on Windows platform.
->>>> However, test cases code are not built on Windows host.
->>>> So I think it is useless that enable synth on Windows host (no way to run
->>>> it).
->>>
->>> Please, don't give up too soon. Looking at tests/qtest/meson.build it
->>> starts with:
->>>
->>> # All QTests for now are POSIX-only, but the dependencies are
->>> # really in libqtest, not in the testcases themselves.
->>> if not config_host.has_key('CONFIG_POSIX')
->>>
->>>     subdir_done()
->>>
->>> endif
->>>
->>> And looking at tests/qtest/libqtest.c I "think" this should be working on
->>> Windows as well. It uses socket APIs which are available on Windows. I
->>> don't see a real show stopper here for Windows.
->>>
->>> Could you please try if you can compile the tests on Windows? What we
->>> would
->>> need is test/qtest/qos-test, we don't need all the other tests:
->>>
->>> https://wiki.qemu.org/Documentation/9p#Test_Cases
->>>
->>>>>> It is possible that to "map" extend attribute to NTFS stream data.
->>>>>> However, if Windows host media is not NTFS (e.g. FAT) which does not
->>>>>> support stream data, then the "map" can not work.
->>>>>
->>>>> ... yes exactly, it would make sense to use ADS [4] instead of xattr on
->>>>> Windows. ADS are available with NTFS and ReFS and maybe also with exFAT
->>>>> nowadays (?), not sure about the latter though. But I think it is fair
->>>>> enough to assume Windows users to either use NTFS or ReFS. And if they
->>>>> don't, you can still call error_report_once() to make user aware that
->>>>> seucrity_model=mapped(-xattr) requires a fileystem on Windows that
->>>>> supports ADS.
->>>>> [4] https://en.wikipedia.org/wiki/NTFS#Alternate_data_stream_(ADS)
->>>>
->>>> Windows does not support POSIX permission.
->>>> So I think that only allow user to use security_model=none is reasonable
->>>> on
->>>> Windows host.
->>>
->>> It depends on the use case. I assume your use case are Windows guests, in
->>> that case you don't have the concept of POSIX permissions neither on
->>> guest side, nor on host side (on the long-term I am pretty sure though
->>> that Windows guest users would want to have some kind of Windows ACL
->>> mapping implementation as well).
->>>
->>>> There is a difficulty to support "mapped" or "mapped-file" on Windows
->>>> host:
->>>> There are many functions in 9p-code using APIs like "openat", "mkdirat",
->>>> etc. MSYS does not support that (openat is not valid on Windows host). I
->>>> remember that 9p replaced "open" by "openat" for a long time.
->>>> To fully support "security_model=mapped", 9p for Windows need to replace
->>>> "openat" by "open". This may impact too many functions.
->>>>
->>>> I would have a try to enable "mapped" by using ADS, but it looks like a
->>>> big
->>>> refactor for 9p-local.c
->>>
->>> Regarding openat(): We had a similar challenge for macOS host
->>> implementation; macOS does not have mknodat(), so what we're currently
->>> doing is
->>>
->>>     pthread_fchdir_np(...)
->>>     mknod(...)
->>>     
->>>     https://github.com/qemu/qemu/blob/master/hw/9pfs/9p-util-darwin.c#L84
->>>
->>> So on Windows you could do:
->>>     chdir(...)
->>>     open(...)
->>>
->>> as workaround for providing openat() for msys.
->>>
->>> For security_model=mapped(-xattr) to work on Windows you basically would
->>> need to provide a replacement implementation (based on Windows ADS) in
->>>
->>> 9p-util-windows.c for:
->>>     ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const
->>>     char
->>>     
->>>                                  *name, void *value, size_t size);
->>>     
->>>     ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
->>>     
->>>                                   char *list, size_t size);
->>>     
->>>     ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
->>>     
->>>                                     const char *name);
->>>     
->>>     int fsetxattrat_nofollow(int dirfd, const char *filename, const char
->>>     *name,
->>>     
->>>                              void *value, size_t size, int flags);
->>>
->>> So it does not look too bad I think to get security_model=mapped working,
->>> and it would make Windows 9p host support much more usable (for Linux
->>> guests, macOS guests, but also for Windows guests with mapped Windows ACL
->>> in future).
->> FWIW even just having security_model=none would be very useful here, since
->> then 9pfs could be used to share host files across all of Windows, MacOS
->> and POSIX OSs which is something that can't yet be done with virtiofsd.
->>
->> Whilst using ADS would allow the xattrs to be attached to files, how would
->> this work in the case of ACLs which are stored as a
->> "system.posix_acl_access" attribute? My concern would be that files copied
->> from the guest to the host wouldn't have sensible permissions when read
->> directly on the host. Presumably there would be some existing precedent for
->> how this is handled in WSL2?
-> 
-> The behaviour with security_level=mapped on Windows would be identical to that
-> of other already supported systems, that is there are two *distinct* levels
-> for ownership and permissions in mapped mode:
-> 
-> 1. The actual ownership information and permissions on host's file system.
-> Guest won't ever get more permissions than those on host fs level, so this
-> level defines the maximum permissions if you will. Those information are not
-> directly exposed to, visible to, nor altered by guest though.
-> 
-> 2. The ownership information and permissions mapped by 9p server. That's what
-> guest sees and is able to alter in this mode. The only difference between
-> security_level=mapped(-xattr) and security_level=mapped-file is just the
-> location where those mapped ownership and permissions are stored to by 9p
-> server (currently: either hidden xattr vs. hidden file).
-> 
-> See also section "1. local fs driver" for some more explanation on this:
-> https://wiki.qemu.org/Documentation/9p#9p_Filesystem_Drivers
-> 
-> As for POSIX ACLs specifically: a Linux guest kernel does access those as
-> "system.posix_acl_access" and "system.posix_acl_default" xattrs, but on host
-> fs level they are actually stored and read by 9p server as
-> "user.virtfs.posix_acl_access" and "user.virtfs.posix_acl_default" xattrs
-> instead. So again, ACLs that may exist on host fs level are separated from
-> ACLs on guest level in mapped mode, similar to POSIX ownership, permissions
-> and device type info.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Hi Christian,
+> Update isar fields per ARM DDI0487 H.a.
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Thanks for the detailed explanation, the last paragraph above in particular clearly 
-answers my question as to how 9pfs handles the xattr-based permissions in mapped mode.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-I am certainly interested to help test later versions of the patchset.
-
-
-ATB,
-
-Mark.
+--=20
+Alex Benn=C3=A9e
 
