@@ -2,106 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08525507A7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 21:47:45 +0200 (CEST)
-Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9449507AA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 22:07:40 +0200 (CEST)
+Received: from localhost ([::1]:46946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngtpA-0002je-1w
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 15:47:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34322)
+	id 1ngu8P-0001Ja-L5
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 16:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ngtnX-0000wz-7I; Tue, 19 Apr 2022 15:46:03 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61736)
+ (Exim 4.90_1) (envelope-from <trodgers@redhat.com>)
+ id 1ngslh-0000Ud-Mu
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:40:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ngtnS-0003ZW-H0; Tue, 19 Apr 2022 15:46:02 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23JHA1IB023882; 
- Tue, 19 Apr 2022 19:45:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=3mPYrZiCFsGlzZPvWuAMQcQYvBhkD+0kMPJg2kAgOgo=;
- b=og7BIt1wldmUNDluX2OVE8wttBJ3qu9ZSfCdS59VUqVErxoUppAIgvCCb3prUM3qA4cQ
- 0H9vu8L23zPZpsf7Z8AUEPKKPLFcOAkA4bZCa92MhLwG+0hvi/NH3XSSoQRQ+3mZCwD1
- N7/KqLGoWt1EA9NG/jLSAfs7VEWUvtYUspoIm0EZHhIJx0gSLKT7tltzB8Yo7KMYpGBH
- hEB0Yy1xRRbdL7zS/utssmQVxK0qKROMF5C8JgaDkwgOvLFpB7IvMOaSJwQ8nRW2fk3R
- +jzmMMdL1clIoi6cOc4zKHOkwPM1fbf09Nusd+4cHD+L+ByiBzRApy9MFDZ320CXhnWm fA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fg79f1yfh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Apr 2022 19:45:54 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23JJghNA029043;
- Tue, 19 Apr 2022 19:45:53 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fg79f1yep-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Apr 2022 19:45:53 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23JJOHcR014699;
- Tue, 19 Apr 2022 19:45:51 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04fra.de.ibm.com with ESMTP id 3ffvt9bj5w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Apr 2022 19:45:51 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 23JJX2nV31719786
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Apr 2022 19:33:02 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2535D4203F;
- Tue, 19 Apr 2022 19:45:48 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5E4E442041;
- Tue, 19 Apr 2022 19:45:47 +0000 (GMT)
-Received: from [9.171.88.57] (unknown [9.171.88.57])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 19 Apr 2022 19:45:47 +0000 (GMT)
-Message-ID: <a99e5d50-3bd0-f45f-53e3-84520410b846@linux.ibm.com>
-Date: Tue, 19 Apr 2022 21:49:04 +0200
+ (Exim 4.90_1) (envelope-from <trodgers@redhat.com>)
+ id 1ngsle-0001pr-Jh
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:40:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650393601;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iUSkMqkZenyJxfhmB8SgHEuq5bxVW2++GjQhdaOCHH4=;
+ b=ZQPamxqLSMa4/k4zRckzzGW9LVEmhGOGdfsImJiulYTNl6tx8+i7uro02Lx36a8pHCGrNk
+ GyWmCy6cwRZoaiitp9B7ZnzL+KrMcPCW59UwsM5r8AHEG9LJ0EAYmblp41GzfCxgCGPrL4
+ 4HmtUCv+E+wnHzdItPS62NWPgA9tWUQ=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-505-dJn_Co8oNMSZvr8gIeoTcg-1; Tue, 19 Apr 2022 14:38:49 -0400
+X-MC-Unique: dJn_Co8oNMSZvr8gIeoTcg-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-e5bae51cefso2096168fac.2
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:38:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iUSkMqkZenyJxfhmB8SgHEuq5bxVW2++GjQhdaOCHH4=;
+ b=5ZCTxKSl3qs3/D0WlmiHz9uk2YfLDBUQB913tl33aT7xGHtFWPYg7jXzDjHgtmdbaP
+ YUiuBYlmn4RUzVt+PzGbZAwqONvvOxtlVj+1hzuVQOnA4cMNEFfSMQG1kHY7v96nF7n2
+ OBuetOz+j/ejBjxWB/v4wP39qYhUMD+b0TzAtmfPelv5ZjG8dPTVC5PvOt8Ag26uERHo
+ W0LithHgWFd4c1R8dOM+F3AnqRGC9xA6iSBbQVOKvI9V90Wzj6JxkVfRxC8aQo2sM0Uu
+ hlBCtbDgpOfpQO0Jes50Or3Ct+fLFDtriyPHHtKTCPO0Ru+bpAcnWaF1XzKw+hVxAtlb
+ boNA==
+X-Gm-Message-State: AOAM531LEWZEkVOyaHZbs3fG/fy7r0QzqZaqlE6s1p4UYlYwYuV9G+Rt
+ aOdpIlGEtjKnGmo4FItq7Bt2pYQLemEDwy9WPUYUWFP9pcMFKmEPSER0KnjL5c1aXiqGZ7tWHY1
+ rLh9gYgY0aqqCRq1jocNPJN7nY8Vn4a8=
+X-Received: by 2002:a05:6870:2041:b0:db:1a12:6cb1 with SMTP id
+ l1-20020a056870204100b000db1a126cb1mr8519924oad.153.1650393528658; 
+ Tue, 19 Apr 2022 11:38:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzsrS8udxIc3XnPS6kKFWcgynVQXkYfnxuVDZWn/nouP/cmYDgmQ0rtNlP5e2CKH8bf8p9QjXRKb21+VCxYzKU=
+X-Received: by 2002:a05:6870:2041:b0:db:1a12:6cb1 with SMTP id
+ l1-20020a056870204100b000db1a126cb1mr8519881oad.153.1650393527004; Tue, 19
+ Apr 2022 11:38:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 9/9] s390x/pci: reflect proper maxstbl for groups of
- interpreted devices
-Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
- <20220404181726.60291-10-mjrosato@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <20220404181726.60291-10-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Wp5jgYALSQbgfdG6OMqaq9kGRBtDorm1
-X-Proofpoint-ORIG-GUID: p8azPYExsuIhhV1rG4TyL7t_4rLMIFTq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-19_07,2022-04-15_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- bulkscore=0 phishscore=0 clxscore=1015 malwarescore=0 spamscore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204190110
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <Yg04Y05ccrbFVmG/@stefanha-x1.localdomain>
+ <87leyaznm6.fsf@oldenburg.str.redhat.com>
+ <CAJSP0QXmF=AKtaZO7GjxFtd7o5iQ9JC2xYGYDo-zC0Ea1POS5w@mail.gmail.com>
+ <877d9uzgsd.fsf@oldenburg.str.redhat.com>
+ <Yg4VV+VFe3Bc1BQ6@stefanha-x1.localdomain>
+ <8735k1q452.fsf@oldenburg.str.redhat.com>
+ <Yh4iHeb6FsnxLUNn@stefanha-x1.localdomain>
+ <87lew12tr9.fsf@oldenburg.str.redhat.com>
+In-Reply-To: <87lew12tr9.fsf@oldenburg.str.redhat.com>
+From: Thomas Rodgers <trodgers@redhat.com>
+Date: Tue, 19 Apr 2022 11:38:36 -0700
+Message-ID: <CAMmuTO8p72XqS8BR3tgP35KAMXc1gmEp3X=k7E_wAmJpVyQDGw@mail.gmail.com>
+Subject: Re: Portable inline asm to get address of TLS variable
+To: Florian Weimer <fweimer@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trodgers@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000eac96605dd062fc9"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=trodgers@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 19 Apr 2022 16:04:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,50 +100,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Jason Merrill <jason@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jonathan Wakely <jwakely@redhat.com>, Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000eac96605dd062fc9
+Content-Type: text/plain; charset="UTF-8"
 
+So, this was my primary objection during the standardization of coroutines
+for C++20. Red Hat's vote was consistently against adding the feature
+without library support, but here we are.
 
-On 4/4/22 20:17, Matthew Rosato wrote:
-> The maximum supported store block length might be different depending
-> on whether the instruction is interpretively executed (firmware-reported
-> maximum) or handled via userspace intercept (host kernel API maximum).
-> Choose the best available value during group creation.
-> 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Lewis Baker (formerly at Facebook) has led most of the work since on
+defining what that library support might look like. The library where he
+has done most of his exploration on the matter is -
 
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+https://github.com/lewissbaker/cppcoro
 
-> ---
->   hw/s390x/s390-pci-vfio.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index 985980f021..212dd053f7 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -213,7 +213,11 @@ static void s390_pci_read_group(S390PCIBusDevice *pbdev,
->           resgrp->msia = cap->msi_addr;
->           resgrp->mui = cap->mui;
->           resgrp->i = cap->noi;
-> -        resgrp->maxstbl = cap->maxstbl;
-> +        if (pbdev->interp && hdr->version >= 2) {
-> +            resgrp->maxstbl = cap->imaxstbl;
-> +        } else {
-> +            resgrp->maxstbl = cap->maxstbl;
-> +        }
->           resgrp->version = cap->version;
->           resgrp->dtsm = ZPCI_DTSM;
->       }
-> 
+I spoke a bit this morning with one of the C++ committee members most
+directly involved in where this is going standardization-wise and the
+takeaway about the current expectations is -
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+C++23 is likely to get at least some minimal library support in the form of
+-
+
+http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p2502r1.pdf
+
+Which defines a generator<T> that models std::ranges::input_range.
+
+But, for anything that involves a library for scheduling asynchronous
+execution of coroutines (e.g. tasks<T>'s) on different execution contexts
+(threads) that is likely not going to happen until C++26.
+
+I wish I had a better story to tell.
+
+Tom.
+
+On Tue, Apr 19, 2022 at 4:32 AM Florian Weimer <fweimer@redhat.com> wrote:
+
+> * Stefan Hajnoczi:
+>
+> > On Tue, Mar 01, 2022 at 12:54:49PM +0100, Florian Weimer wrote:
+> >> > I took a quick look at C++20 coroutines since they are available in
+> >> > compilers but the primitives look hard to use even from C++, let alone
+> >> > from C.
+> >>
+> >> Could you go into details what makes them hard to use?  Is it because
+> >> coroutines are infectious across the call stack?
+> >
+> > Here is the simplest tutorial on C++20 coroutines I found:
+> > https://itnext.io/c-20-coroutines-complete-guide-7c3fc08db89d
+> >
+> > The amount of boilerplate for trivial coroutine functions is ridiculous.
+>
+> Would an execution agent library reduce that usage overhead?
+>
+> Cc:ing Thomas, who might know the answer.
+>
+> Thanks,
+> Florian
+>
+>
+
+--000000000000eac96605dd062fc9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">So, this was my primary objection during the standardizati=
+on of coroutines for C++20. Red Hat&#39;s vote was consistently against add=
+ing the feature without library support, but here we are.<div><br></div><di=
+v>Lewis Baker (formerly at Facebook) has led most of the work since on defi=
+ning what that library support might look like. The library where he has do=
+ne most of his exploration on the matter is -</div><div><br></div><div><a h=
+ref=3D"https://github.com/lewissbaker/cppcoro" target=3D"_blank">https://gi=
+thub.com/lewissbaker/cppcoro</a><br></div><div><br></div><div>I spoke a bit=
+ this morning with one of the C++ committee members most directly involved =
+in where this is going standardization-wise and the takeaway about the curr=
+ent expectations=C2=A0is -</div><div><br></div><div>C++23 is likely to get =
+at least some minimal library support in the form of -</div><div><br></div>=
+<div><a href=3D"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p25=
+02r1.pdf">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p2502r1.p=
+df</a><br></div><div><br></div><div>Which defines a generator&lt;T&gt; that=
+ models std::ranges::input_range.</div><div><br></div><div>But, for anythin=
+g that involves a library for scheduling asynchronous execution of coroutin=
+es (e.g. tasks&lt;T&gt;&#39;s) on different execution contexts (threads) th=
+at is likely not going to happen until=C2=A0C++26.</div><div><br></div><div=
+>I wish I had a better story to tell.</div><div><br></div><div>Tom.</div></=
+div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Tue, Apr 19, 2022 at 4:32 AM Florian Weimer &lt;<a href=3D"mailto:fweimer@=
+redhat.com" target=3D"_blank">fweimer@redhat.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">* Stefan Hajnoczi:<br>
+<br>
+&gt; On Tue, Mar 01, 2022 at 12:54:49PM +0100, Florian Weimer wrote:<br>
+&gt;&gt; &gt; I took a quick look at C++20 coroutines since they are availa=
+ble in<br>
+&gt;&gt; &gt; compilers but the primitives look hard to use even from C++, =
+let alone<br>
+&gt;&gt; &gt; from C.<br>
+&gt;&gt; <br>
+&gt;&gt; Could you go into details what makes them hard to use?=C2=A0 Is it=
+ because<br>
+&gt;&gt; coroutines are infectious across the call stack?<br>
+&gt;<br>
+&gt; Here is the simplest tutorial on C++20 coroutines I found:<br>
+&gt; <a href=3D"https://itnext.io/c-20-coroutines-complete-guide-7c3fc08db8=
+9d" rel=3D"noreferrer" target=3D"_blank">https://itnext.io/c-20-coroutines-=
+complete-guide-7c3fc08db89d</a><br>
+&gt;<br>
+&gt; The amount of boilerplate for trivial coroutine functions is ridiculou=
+s.<br>
+<br>
+Would an execution agent library reduce that usage overhead?<br>
+<br>
+Cc:ing Thomas, who might know the answer.<br>
+<br>
+Thanks,<br>
+Florian<br>
+<br>
+</blockquote></div>
+
+--000000000000eac96605dd062fc9--
+
 
