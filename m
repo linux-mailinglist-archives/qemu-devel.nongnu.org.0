@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4202650641F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:02:57 +0200 (CEST)
-Received: from localhost ([::1]:43584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAE8506458
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:22:26 +0200 (CEST)
+Received: from localhost ([::1]:40444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nggws-0001lt-Uj
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:02:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32974)
+	id 1nghFp-0002fj-89
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ngglm-00015u-4j
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:22 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42654)
+ id 1nggln-00017p-Lu
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:25 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ngglk-0004Ng-Lc
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:21 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id bv16so3773308wrb.9
+ id 1ngglk-0004Nu-Oh
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:23 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id b19so20892854wrh.11
  for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EXWN0NPJeSTfBvuDOtzTDGQVHiiTkyUdgw6vbV3xhLg=;
- b=OGC6pqsT6ils2/M+32ODqHBWblLeHBe5J4vfClzTM1nikGc2kLJ3HUErJp3Xr/8IVT
- 2txzRkBIosVf4S7WTUepXlgQ6U06cEEVv5mAVTbC6lJ7XUkaD7uxLfTLGD+bxYgZRN7m
- 4xK/zcvNQMi7IWcUQyWkVUhhRj6pugl4ZSndu31f0+RWf+a9QuAzMRV19eDc8FdcycSq
- vNnVf/AtFaU7VBJpTHeBv2MjHRHRYwZq2M2Z7AD0lmw3KEK6DJG5s7XRqaIzEs2ySUAR
- e4/ZyLupKLro1cTeReZZHWhBMPXxCkzlcoWb74R7bAVuCPFQYHUBgl0Cnh1AxX9E4ltM
- K18A==
+ bh=EDEwZcar5ORv8ksYrfaNq2fJBsxyVQXuyRjJVQkoz+k=;
+ b=guKZU4fq1ncPJZjVVeOeUoMXnLWBHUslw8v1M+cs/MXVwo7O0kUW7TXsMKxlFMWM6Y
+ 6WuQ8Vbdv3iZZSmhRPNiu2WOOp2KdQPc8R1nXS5b00N7aMJPwsgNZGWr7YsxxKPpuf3P
+ R0BxADgG/gBdizhsrPONx+G/yX8SPF7NpcQxTyS8WRMoCw0979h9oq5fja9XrF3p5i/2
+ iEhiRYKFGJohbrc7LIpdf8K0BiwAfDDj7HzLpRo97WQzFydhFT7tMA09qDzaBFXYZfyd
+ sgvmEJJroNA0/SUszobfZjNTpKCVQcqAJIbfNnHh7h/8pXaJY02/PqESHpz7CFJHGsFr
+ 0l1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EXWN0NPJeSTfBvuDOtzTDGQVHiiTkyUdgw6vbV3xhLg=;
- b=dYIpAFEI8v5U9RJsB+4r8EykHvdZelfVArfOxM/0XPMvU9LSYzcpLbAO0PEljY/FV7
- CgejGiYLzQhlLclfGGeReslBGVjblkCzgPTOC3+3VAgs9dRRliwcGDcYXUyWD7IHmbqE
- eThKnLOgJ44cJIvx6UG7wvpVFmbcPkbU+spGRjeEnp8smYDDGxolOV/65uAC6ZaRe0JH
- 7M0Ch0xbKEsxgMmcQ6QFuqS0WrDW4K9/zmbKzrOwo1ftGTIDUHmLaLZj1HGWMa/CR8z2
- G0nl+NlabdT9Yg23UbfFeXabbBubcKu3zaO4zY1H1X9+nXiG/5ZPTg5571XJ5wWH+Pgx
- 39+Q==
-X-Gm-Message-State: AOAM531G4APBr+iEkiNG5+FfdP2lL6IWCqUjLFGfTkSdtWwGUfQEYEdr
- FxrnExUInWB5NUDuThqIyLzJMDSLx0+T3Q==
-X-Google-Smtp-Source: ABdhPJzDYHDUDoGNaJTGg1KF7DxeV3z2boJlLDf6eo8oRCL+kVL5zYcmV0kdkB4wQUDk90HfqVyPzw==
-X-Received: by 2002:adf:e194:0:b0:207:b4c9:31c6 with SMTP id
- az20-20020adfe194000000b00207b4c931c6mr10302227wrb.102.1650347476134; 
+ bh=EDEwZcar5ORv8ksYrfaNq2fJBsxyVQXuyRjJVQkoz+k=;
+ b=V0uK91bqa+nGEtUUMacYCyoNdRuLmEYOEYDoRyRSA6yRv6czbxTXVecNaiF5y1eL8i
+ CuyLrk34sTYUXmwTkGVFODvOm8uit2QSmg8WR7eOjZ+fXcCMl8KM9zgUEpPRjA5FeOLv
+ sFdSlcbHfSMYZtx/I/ZT8ogViuNudpZdXDU4oh7eXAYtzpiJb1sIR1SknnrJkTaBZtPH
+ jAMmgGB+Wf/ycvm4C/ND8Fs9QWKMeNXrXccqqRiO0vmdZoqkBo/e/n403pysYWyDQ4db
+ 1ppjWbsP4IckBqTwZub/ENZex/67yjowQtXdvC0lo4uRzcQzyPRo48L7g2KXKUc0fQ9J
+ pY5w==
+X-Gm-Message-State: AOAM531sCFbA7Oi6H8vcxeJio8qmu4ix/D9JnW6BBQ4+uDytEBSBxpC/
+ yMn/hQSOT9JqekhY0Q2PhKZ5cDFxOhuOSA==
+X-Google-Smtp-Source: ABdhPJzA5HfS0YHOhf3ESBm1Jx1GwQ3vhrKE1mI/RnJIeU1+Clmh+1kJVBwDpkJnI/6GpcxeJyGHGg==
+X-Received: by 2002:a05:6000:2c8:b0:20a:9587:76c1 with SMTP id
+ o8-20020a05600002c800b0020a958776c1mr6204902wry.335.1650347476950; 
  Mon, 18 Apr 2022 22:51:16 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.15
+ bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 22:51:15 -0700 (PDT)
+ Mon, 18 Apr 2022 22:51:16 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/53] meson: use chardev_ss dependencies
-Date: Tue, 19 Apr 2022 07:50:22 +0200
-Message-Id: <20220419055109.142788-7-pbonzini@redhat.com>
+Subject: [PULL 07/53] meson: add util dependency for oslib-posix on freebsd
+Date: Tue, 19 Apr 2022 07:50:23 +0200
+Message-Id: <20220419055109.142788-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
 References: <20220419055109.142788-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -93,34 +93,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-chardev subsystem/library doesn't use gnutls. Use the dedicated
-chardev_ss.dependencies() instead.
-
-Looking at history, it was added in commit 3eacf70bb5a83e ("meson:
-Propagate gnutls dependency") because crypto/tlscreds.h included
-GnuTLS. This was cleaned-up later by commit 678bcc3c2cf222 ("crypto:
-Make QCryptoTLSCreds* structures private").
+kinfo_getproc() requires it.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220323155743.1585078-2-marcandre.lureau@redhat.com>
+Message-Id: <20220323155743.1585078-3-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ util/meson.build | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 861de93c4f..6e4a3d6326 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3091,7 +3091,7 @@ qmp = declare_dependency(link_whole: [libqmp])
- 
- libchardev = static_library('chardev', chardev_ss.sources() + genh,
-                             name_suffix: 'fa',
--                            dependencies: [gnutls],
-+                            dependencies: chardev_ss.dependencies(),
-                             build_by_default: false)
- 
- chardev = declare_dependency(link_whole: libchardev)
+diff --git a/util/meson.build b/util/meson.build
+index f6ee74ad0c..bb0b010662 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -11,7 +11,11 @@ util_ss.add(when: linux_io_uring, if_true: files('fdmon-io_uring.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('compatfd.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('event_notifier-posix.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('mmap-alloc.c'))
+-util_ss.add(when: 'CONFIG_POSIX', if_true: files('oslib-posix.c'))
++freebsd_dep = []
++if targetos == 'freebsd'
++  freebsd_dep = util
++endif
++util_ss.add(when: 'CONFIG_POSIX', if_true: [files('oslib-posix.c'), freebsd_dep])
+ util_ss.add(when: 'CONFIG_POSIX', if_true: [files('qemu-openpty.c'), util])
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('qemu-thread-posix.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('memfd.c'))
 -- 
 2.35.1
 
