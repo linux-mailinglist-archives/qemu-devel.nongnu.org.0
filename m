@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E65506822
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:57:16 +0200 (CEST)
-Received: from localhost ([::1]:38116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F318506806
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:49:52 +0200 (CEST)
+Received: from localhost ([::1]:56896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngkbk-0003bo-1i
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:57:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
+	id 1ngkUZ-0005Pm-Ld
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:49:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ngk7r-0005Sg-9t
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:26:23 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:38678)
+ id 1ngkDh-0003jM-50
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:32:25 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:40768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ngk7p-0002VW-BV
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:26:22 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id d19so1533020ybc.5
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:26:20 -0700 (PDT)
+ id 1ngkDf-0003BX-E2
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:32:24 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id i20so29941164ybj.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:32:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Cou3Mi6/FL2ZBfMF87QpeYwSSi0iKoQeYEI0CYMDKRE=;
- b=nT4siUEJasAHfRAK56hXv7Vij6Dmy9BZNRL1clOBpmokH9WSWjqCkmetUci7AY69K7
- 74p7fapODd5qrhGcgjajhhs2PaTWaOoXwuZAaDETgxMDyBDlD9hSxhFFpQPtJ9jXb6vp
- iWQvqmcoYuI074M/khwsNCmAQ8uG0c4Qt/2nvX3iE2Dn0jYS8Lj/a1JCf6AIqvvVTwD+
- 6/Rm6vTcyuhIBQGnrykAy0PyOE/vGHeE5/HMi6/+tiiOdOprnOh0jun/hhLZkg2oBtrE
- 7j3QIxK2uyuWm/Gs4wdfEC7Z2WvW0YQFYnuiWJOLJS2K/dwOjw+aMw+aqPEVDAd127Z3
- XD8A==
+ :cc; bh=q4W+VS1M06kXGGKVW9WUpYyM2NLE+9SNr54DDXSWN5Q=;
+ b=YyUiSZVWsK9fhiqctGx4Rdpm17Uz1PlrJ1cxO4GP5MU3Fv8+6zs1fghHv9syZ8d5bH
+ as1ARQMkaWd9+RbQJkJi7/gZ0W+4aOGVqC9YmgpDlY6ENRdehKG69QbA08ZknQiAtUP1
+ PSNc3XznztCs2rhFAubrP/2aznnjzQ6GsfzdPJ+8zvh+1cVJBq9fS9mkrrnr5xrViQGp
+ rkiXJF1Wwztu3A1ztkgPyO5bv0oSXnUVch5CedaL18z+VlP2O0026zWTE74gLbWGQ4kQ
+ RGVjp5zGcIugJMHvt1Fu+3fEWo97Xz09gxiHuGBaaNwAEgZ19o0/ME9UGXxhDBlnXCq9
+ zoZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Cou3Mi6/FL2ZBfMF87QpeYwSSi0iKoQeYEI0CYMDKRE=;
- b=4+kBQeh3+HiPjN9DAXtl7oBBKcbagZBbgmLOyjKFz3E0AESANq78vipF66yf2pi+fs
- yG5+63C+EWCFbHKvxUVwa32ZICFB1IWq98B84VNGuRk2DuOBqlC58PSnJAPfdkhMVsEF
- ItstX/kTWmLEanRMk5eV87TqaghcyDpUquzpGj8mFSHtn+zESQRbL5VP1AyEIhN5ivHU
- T/We8kKPCkLxOrbMBy3lIopu05VNAKdXg2VAN8MYKlwdmP+5wlfQZ2xFvzjh6Q8RfP2I
- TDhScN1HjfHVfH8NMuELZQwoW+5jwOBHb/M8SPbyKMO9jEhTHUdlUh+p+yfrPigfsdqP
- iYRw==
-X-Gm-Message-State: AOAM531QfbNkvMvJOfspeptTUMzEm2rUy8QZT5nPiALWy9UY89KHKKdl
- ufN9a+fIQ3RSUTVKahPaNGyTGDsdVpFDiCySROiqIA==
-X-Google-Smtp-Source: ABdhPJxykR0qv9D4dg9YkXaUA6M4OixpLDHDgX+vorM7c64Z9dFj8mOFHL5PbmmFBSUQJ/A1yoYTtOHXNYZZgufUErM=
-X-Received: by 2002:a25:5014:0:b0:641:f856:aa1f with SMTP id
- e20-20020a255014000000b00641f856aa1fmr13119845ybb.140.1650360380403; Tue, 19
- Apr 2022 02:26:20 -0700 (PDT)
+ bh=q4W+VS1M06kXGGKVW9WUpYyM2NLE+9SNr54DDXSWN5Q=;
+ b=QXzwAYuSnVGIgS3FpCkMmOJDOTDZzJo2xUi86da2+BMr02SNNCcsO+jgsp321WT5lZ
+ 8sCrRqjoyN9x26wYWlKAuARufeofnuXXIWQ2XhG1Dw76piULsI2U8l0+anlNXE1eyPkE
+ 7AFGay996CRWqDfaMtmfC9EQbnapsbm5/8huLTxHt8yZ/fVGmXq8SslcwaGdfnv0KlTC
+ +QYw3TnF/TZvu2OLukDCWt+Fh6mPYxrtVQooLL9H74vTCjpmMm0lyowyIerkFwSWCljR
+ lKOfQrimF21W+1460vIXytX/JnrMGPSve+fqM3+fGeGCplffxAB9ZhcWaqfJ2HvF7gMt
+ Brnw==
+X-Gm-Message-State: AOAM532trWKRqyaes1qtI0eFZBJpjy9tmDz9OH38DRZyDlSyS7gERox0
+ FKpcRQDwsyPNqVyiFQQqFqK/pwbmQ7I2iUmsbnmRCw==
+X-Google-Smtp-Source: ABdhPJzMbAQv5d4hMRoT6WbntqGTC8igpq4qf3LsoKaijHvCy1A5yNkCM6skJ72XkCzoQsuHtDzhe5y523N21m9A+WQ=
+X-Received: by 2002:a05:6902:34f:b0:645:463a:b824 with SMTP id
+ e15-20020a056902034f00b00645463ab824mr567182ybs.39.1650360742352; Tue, 19 Apr
+ 2022 02:32:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
- <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
-In-Reply-To: <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
+References: <20220419055109.142788-1-pbonzini@redhat.com>
+In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Apr 2022 10:26:09 +0100
-Message-ID: <CAFEAcA8YzC-gFCv73S-5uxPvcUP=9TFP50xsi44L8Gm-B4ZScg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/5] ppc64: Add semihosting support
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Date: Tue, 19 Apr 2022 10:32:11 +0100
+Message-ID: <CAFEAcA-T252NdN9yJdyy=HLBbRQ+dQZaAOuoMB8uQ4wVP+Gwvw@mail.gmail.com>
+Subject: Re: [PULL for-7.1 00/53] Misc pull request for QEMU 7.1
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,33 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Apr 2022 at 20:15, Leandro Lupori
-<leandro.lupori@eldorado.org.br> wrote:
+On Tue, 19 Apr 2022 at 07:09, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Add semihosting support for PPC64. This implementation is
-> based on the standard for ARM semihosting version 2.0, as
-> implemented by QEMU and documented in
+> The following changes since commit f53faa70bb63cc0c8e2fd0752b7ad2c8a79616ba:
 >
->     https://github.com/ARM-software/abi-aa/releases
+>   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-04-05 16:14:28 +0100)
 >
-> The PPC64 specific differences are the following:
+> are available in the Git repository at:
 >
-> Semihosting Trap Instruction: sc 7
-> Operation Number Register: r3
-> Parameter Register: r4
-> Return Register: r3
-> Data block field size: 64 bits
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to c9e28ae7972a10fdf09b7ebd8046840d1101b8ce:
+>
+>   target/i386: Remove unused XMMReg, YMMReg types and CPUState fields (2022-04-13 19:00:31 +0200)
+>
+> ----------------------------------------------------------------
+> * Add cpu0-id to query-sev-capabilities
+> * whpx support for breakpoints and stepping
+> * initial support for Hyper-V Synthetic Debugging
+> * use monotonic clock for QemuCond and QemuSemaphore
+> * Remove qemu-common.h include from most units and lots of other clenaups
+> * do not include headers for all virtio devices in virtio-ccw.h
 
-Where is the independent specification which defines that
-this is the ABI for PPC semihosting? You should provide the
-URL for that in a comment somewhere.
+7.0 hasn't been tagged yet... I'll keep this in my list to process,
+but I'm not really a fan of people jumping the gun with pullreqs for
+the next release before the current one is out of the door.
 
-thanks
 -- PMM
 
