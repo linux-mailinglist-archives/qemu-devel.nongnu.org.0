@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5865C50708F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 16:34:39 +0200 (CEST)
-Received: from localhost ([::1]:40500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059DA5070DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 16:44:35 +0200 (CEST)
+Received: from localhost ([::1]:49564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngowA-0005uQ-88
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 10:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56036)
+	id 1ngp5m-0004gP-2a
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 10:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1ngouU-00052b-Nn; Tue, 19 Apr 2022 10:32:54 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:37660)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1ngp2S-0002W9-Bn
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 10:41:08 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:33282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1ngouS-0004c5-W3; Tue, 19 Apr 2022 10:32:54 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1ngp2N-00064S-8p
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 10:41:07 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 39B0F60FEB;
- Tue, 19 Apr 2022 14:32:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2664AC385A5;
- Tue, 19 Apr 2022 14:32:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650378768;
- bh=cxHcvffBECWnCcQeo84D9HG5aUR/8excxfYiVSoy0TI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PmuARsi//1DxvXYBnftjpR+Jt58sCS3xHqUyyJ4Wl5jkEFZ0s5NhRpNOXKvyYopNb
- XSJ8fsQNDzvuZhichH9cqc6MgfDwlZMVShjr0A2N46AghkBNkUlLhYUCO9Gbg5hPDH
- KvUJOhQ0zeKkMfB/DP90y4DbCV754OVaOeY/YCqqNqw3Lb6KJgYRakLEQlVfOWW5iz
- TS3id3cCA3LKgEdXRdbJgjBMgO8XQwAREJm8I7VBzdRmoud3RCTmJtwiJCBfCZIncY
- ugUG5D6Ae1wYwndHY3ZB51mSzV8kez6evwDXiTEQLQr2jQPAoy9InKlKXLJtNK5A/v
- Qt6TSxbcKYtzg==
-Date: Tue, 19 Apr 2022 08:32:43 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 0/5] hw/nvme: fix namespace identifiers
-Message-ID: <Yl7IC+Ktbu14PZ6B@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220419121039.1259477-1-its@irrelevant.dk>
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id A92493FAF7
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 14:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1650379258;
+ bh=gyUC+utIMoP3+i1mY+uqgW4CUqC+DxNC7sRWTqSDIbU=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=b2vbCZ1q5S7SqOdv4EECsZHhCowLk9kGEfPizCQL82Z9aW9Soab2pJyNagk8InurC
+ VuLwPVo0hlXcxAj8hax4vWKehfQYscGftG12BQHFZMMyAnwDHquhfpWrdk1uFPcjkj
+ gfARf9mtmgGG9T0bFuFhxxR+mqp00jATvRlKBJvxVbOIK4hPzB9ObqJFNKly67VVWi
+ yluAlPvxlS17apbRdh14smY2eSEhA2jZA7+OwTrYO9bCRDR7q98jdoGd8Ek9caaDcB
+ PQzk+d5iwBPbttryyBrPCo8fYFtASC2mQIf28iTrUQFCmZZRDyUQPCSkFc73DK3lUr
+ FXm0WZIHcJYCQ==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 836972E8235
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 14:40:57 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419121039.1259477-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=kbusch@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 19 Apr 2022 14:35:07 -0000
+From: Kaitlyn Lew <1721788@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange eblake helixo152 jheidbrink lyanux
+ th-huth xanclic
+X-Launchpad-Bug-Reporter: Jan Heidbrink (jheidbrink)
+X-Launchpad-Bug-Modifier: Kaitlyn Lew (helixo152)
+References: <150729895903.22243.5921581973131047310.malonedeb@gac.canonical.com>
+Message-Id: <165037890849.28731.7649612280456305082.malone@angus.canonical.com>
+Subject: [Bug 1721788] Re: Failed to get shared "write" lock with 'qemu-img
+ info'
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5cc3bd61c85a328825183f316ddd801c0f7d7ef2"; Instance="production"
+X-Launchpad-Hash: 94d574498c47fe4c3da5e0d5a0726794c0c38cfe
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,21 +85,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <k.jensen@samsung.com>, Luis Chamberlain <mcgrof@kernel.org>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Christoph Hellwig <hch@lst.de>
+Reply-To: Bug 1721788 <1721788@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 19, 2022 at 02:10:34PM +0200, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> The namespace identifiers reported by the controller is kind of a mess.
-> See [1,2].
-> 
-> This series should fix this for both the `-device nvme,drive=...` and
-> `-device nvme-ns,...` cases.
+I have the same problem
 
-Series looks good.
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1721788
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Title:
+  Failed to get shared "write" lock with 'qemu-img info'
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  When running 'qemu-img info test.qcow2' while test.qcow2 is currently
+  used by a Qemu process, I get the error
+
+  qemu-img: Could not open 'test.qcow2': Failed to get shared "write"
+  lock.
+
+  Why does displaying information about a disk image need a write lock
+  for the file?
+
+  Steps to reproduce:
+
+  qemu-img create -f qcow2 test.qcow2 10M
+  qemu-system-x86_64 -nographic -drive file=3Dtest.qcow2
+  qemu-img info test.qcow2
+
+  The above was tested with Qemu version 2.10.0.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1721788/+subscriptions
+
 
