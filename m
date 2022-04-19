@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACAA5078F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:40:47 +0200 (CEST)
-Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DCB50795C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 20:46:40 +0200 (CEST)
+Received: from localhost ([::1]:55256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngsmL-0007Zm-W7
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:40:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49772)
+	id 1ngss3-00036Y-GX
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 14:46:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngsjA-0005FO-SI
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:37:28 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:36618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngsj9-0001Yl-8C
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:37:28 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id q3so16638491plg.3
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=oyu3Xb4NcNqF1n7HxAz67X+M1Stgorj2k/ZpbP/TRJs=;
- b=X+ODl3JYkLRQYHgby8sSD4x7OdSUEJhWvIMvbAmGWC0J6243RBze5pQ+N3XcZzmPf7
- 6kb141+4rp/SydxJLVDmAlt1sWNL1tZjZWakJF0gcDrvENBa5rth+k/6vTOByeQuy9A6
- eSiEKLQGfieR7gSFHlwBs050ieDQOMUBZzxRM0QZPI6T8howLdRNk00C4qVye59/I0eH
- GbMS+b/9k5ZkzcCkHwdEqtLpUqF2BnqUTSRcxzRpMFQ26zN4L2IiEgPRMbD0LM0/k65X
- Wy6zaJBiHSeruFewwFuruyc7q20NXwsEkTTgGCiHrfG1JSScMsxIOW/TE6SfIRHiVtYK
- WNcQ==
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1ngsnw-0001um-2D
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:42:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1ngsnl-0002Pn-Np
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 14:42:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650393733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k58luO8zcU0LEdsf0eg0sjJ746NRtNU1acENC03rL84=;
+ b=QeL5kuRHX2oKcpmCqj5opMVNMuCnFNbUuEd9pQQLjqSmdsQ6Epxau3sQHh5+20lMyh5esC
+ a2X2m2voA9RQEv1kSM+EQA3AeGC+W8Ospva9tUq9DO9t25E92skzQmyNYunZ7uyhTGLyz9
+ B5bCa8+z71yvXENtjM40FLzhuhER6rA=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-cBsKQQWgML-kEfDCqDb0HQ-1; Tue, 19 Apr 2022 14:42:09 -0400
+X-MC-Unique: cBsKQQWgML-kEfDCqDb0HQ-1
+Received: by mail-yb1-f200.google.com with SMTP id
+ a18-20020a25bad2000000b0063360821ea7so15564724ybk.15
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 11:42:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oyu3Xb4NcNqF1n7HxAz67X+M1Stgorj2k/ZpbP/TRJs=;
- b=U5O0MXDCQLVeXm+pr366DsoeBklFr14ng0pEISPlR8S9MszoV9S/4sroQnzfAz1QcP
- GetA08fisqvP6ZR/OZQRLmLVRWxjpi3cW/4wRsC1zzbmowDjhn2qPdRRx9OKoTInoD38
- asX1ZtYfQ6l8QvUJAjl4KymsQKvdfCj0w+91EQYU9b4ZbJrDdpTlwqf/3toVAcur6xpe
- XArOvPCT8ARsFr2Pb3bWxu5O21bWOo05oFZAYYQF7Tdi6gh4hiFe7wPIjXvl40rKUtZ6
- FTG0fzpKxNKXNGyGF9fj0E/vizkmL941tJAKWorKKNuwwVruNh0K2VpTj3spmyWBq0S3
- IYCQ==
-X-Gm-Message-State: AOAM533CmMA0ni07MQBG9fgLhNKFxK/86+ibiWsA+VyhPgPKacp2Ic3l
- sOyD3l2gKlCGRRx3hj/HtCqO1w==
-X-Google-Smtp-Source: ABdhPJz47hwy5PHLKaBk5e9ewVUXb9A8/1iT1khDRZo33HW4tqzZ6Xz5spEacWUqZBYxKfaJsHfeHQ==
-X-Received: by 2002:a17:902:f211:b0:155:ceb9:3706 with SMTP id
- m17-20020a170902f21100b00155ceb93706mr16630432plc.35.1650393445878; 
- Tue, 19 Apr 2022 11:37:25 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- e5-20020a656785000000b003a566365b8esm11672077pgr.35.2022.04.19.11.37.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Apr 2022 11:37:25 -0700 (PDT)
-Message-ID: <f1a850e8-7a94-4ac6-13a6-6b5c8780b4b2@linaro.org>
-Date: Tue, 19 Apr 2022 11:37:23 -0700
+ h=x-gm-message-state:from:references:mime-version:in-reply-to:date
+ :message-id:subject:to:cc;
+ bh=k58luO8zcU0LEdsf0eg0sjJ746NRtNU1acENC03rL84=;
+ b=5w0pm09pxmi0wq8LucCIXZ2zCVC0Krhf1wFOJHOftQ3iFKzWoALajWt6mO7Mgo8w5p
+ BcRaEOrRW+R73w2dmP+asCK+dkXMqNyw451aMdvOWRfd+zDJLJc21s61gHLnc1nI2k4C
+ gmrwd30K80qwlUQyjhJMST0NeJ3KIlGjCHAMWh6DcHz8LwjwIMRpvJRu6XTJFr0tj9Tf
+ rW9KnVWPb7lRJvgSpdwyyJRjFbtEbDNP9HlIC61dr8iMbMrFm+d2w6gRP85xfPdI62QW
+ 7Sz00bbvnukXp843iDC4cb1C77TjV3pTBBsFuW4RtpTSvCq3/4Wbxs0xv4v/pzuSXBYb
+ pFPw==
+X-Gm-Message-State: AOAM533KChbt5b8LLHGVdH3yXpySPcowcF+wagSRph1d8j46XvSngbtA
+ cps3SbUsKAnfw/jNsfcxvR6CB+ELE+kkhnBOqphTINYOwBVySHOcC5NAt0ymwg0sRn6A2K6bp/v
+ bsPXTNZICw5sP9hvTUJe+ye3G+kf9cME=
+X-Received: by 2002:a25:2405:0:b0:645:3c70:5ba2 with SMTP id
+ k5-20020a252405000000b006453c705ba2mr4449965ybk.547.1650393729270; 
+ Tue, 19 Apr 2022 11:42:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCarE5Gzu2K9CxtTGjqUywqbY//Q/8+VN8fMpkzNoh2c2tWLvO4uCFK1N/ijvRd05R5/ixNb3C4z5jV+RwGaI=
+X-Received: by 2002:a25:2405:0:b0:645:3c70:5ba2 with SMTP id
+ k5-20020a252405000000b006453c705ba2mr4449944ybk.547.1650393729092; Tue, 19
+ Apr 2022 11:42:09 -0700 (PDT)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 19 Apr 2022 11:42:08 -0700
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20220401224104.145961-1-victortoso@redhat.com>
+ <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v1 07/25] tests/docker: remove unnecessary default
- definitions
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220419091020.3008144-1-alex.bennee@linaro.org>
- <20220419091020.3008144-8-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220419091020.3008144-8-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <CABJz62PBHFqUyBNtwd_K6pra9_zOz9Ps56JOsNZL8XHf2u35Uw@mail.gmail.com>
+Date: Tue, 19 Apr 2022 11:42:08 -0700
+Message-ID: <CABJz62Pqxmwedz7B-D6cx0vpdmVPy_TvVjhih9cu+XHvn74U0w@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+To: Victor Toso <victortoso@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,28 +95,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Beraldo Leal <bleal@redhat.com>, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/19/22 02:10, Alex Bennée wrote:
-> From: Paolo Bonzini<pbonzini@redhat.com>
-> 
-> The definition of DOCKER_IMAGES and DOCKER_TESTS copes already with an
-> empty value of $(IMAGES) and $(TESTS), no need to force them to "%" if
-> undefined.
-> 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> Message-Id:<20220401141326.1244422-5-pbonzini@redhat.com>
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   tests/docker/Makefile.include | 5 -----
->   1 file changed, 5 deletions(-)
+On Tue, Apr 19, 2022 at 11:12:28AM -0700, Andrea Bolognani wrote:
+> Dealing with errors and commands that don't have a return value might
+> require us to have generic CommandResult wrapper after all, but we
+> should really try as hard as we can to stick to type safe interfaces.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On second thought, this wouldn't actually need to be generic: we
+could have something like
 
-r~
+  type TraceEventGetStateResult struct {
+      Result TraceEventInfo `json:"return"`
+      Error  *Error         `json:"error"`
+  }
+
+and the caller would check that res.Error is nil before accessing
+res.Result.
+
+Commands for which a return value is not expected would just have the
+Error part in their corresponding Result struct, and those that can
+either return an object or nothing (are there actually any like
+that?) could have a pointer as the Result member.
+
+-- 
+Andrea Bolognani / Red Hat / Virtualization
+
 
