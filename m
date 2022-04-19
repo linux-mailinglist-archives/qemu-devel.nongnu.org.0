@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53DAF506C76
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 14:31:10 +0200 (CEST)
-Received: from localhost ([::1]:56650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDE3506C8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 14:34:45 +0200 (CEST)
+Received: from localhost ([::1]:35548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngn0f-0006z4-Fg
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 08:31:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50806)
+	id 1ngn48-0003SU-FN
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 08:34:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <9db9268aac4eb87e1471ab8240109c7c29be3bef@lizzy.crudebyte.com>)
- id 1ngmqa-00037F-1y; Tue, 19 Apr 2022 08:20:47 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:39279)
+ (envelope-from <c32aafaa3f29424fc13ae86b369c9baf1ceb0ec6@lizzy.crudebyte.com>)
+ id 1ngmqf-0003CI-Rm; Tue, 19 Apr 2022 08:20:49 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:48401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <9db9268aac4eb87e1471ab8240109c7c29be3bef@lizzy.crudebyte.com>)
- id 1ngmqY-0004io-CK; Tue, 19 Apr 2022 08:20:43 -0400
+ (envelope-from <c32aafaa3f29424fc13ae86b369c9baf1ceb0ec6@lizzy.crudebyte.com>)
+ id 1ngmqe-0004jM-6G; Tue, 19 Apr 2022 08:20:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=7I1gomcsbjvHa5W80FT6xNhuhvDH6UO1+WCQVHXH+oY=; b=Nk/dB
- gXKIHjkLVgSCbBoWfisjhGEftbtKnHwnEDRCc/sgqOxGVw0w3qe8lG7mSzIrU9LDlEstVXV0Zb91N
- wuG1OGWT1s263Mij0E5HNyNUC3Rt9RTYuT3RWuss0s1u/dL+h+zLdeCFHN96Z6yQuVX6h1AVzbZFV
- 3Dlpttq3a2lN9HSS39sCR91yQe0bdqDUMSBouniGlXDh2p7cL15YJBrwGA6sjRTzoXeaWeJB8aGtC
- ZDeDhHO05RiPQVmhMYey7sYj3b3pqRH1yk/sTnEx04YNFRRMkOvmIF0sNRNKU9gNhrqWLptQJ/WZe
- mdExnvGLX0uJWw55WH1YawF4Q7zVw==;
-Message-Id: <9db9268aac4eb87e1471ab8240109c7c29be3bef.1650370027.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=Tx6/QrIYQER4SdvAHvid97QHCi42Ac1AewU43DS53hQ=; b=DZnYs
+ m0dZ0B9e0a2dfxFTnTecUuMsWeJvBq+ZjDWuZ6o3cYw7SSC6wWB4VFkv/mlmuoGyQq1NkzkiyTDu+
+ tAJMkwNHoqzwCGFMCnw6HV0/RRkLF5jKx06/Uc4P2jDkT3Wu0mBhLWG1ohcY4IrqhgJtcI03tC5jV
+ 73zsMSt3jlixBcLRhwlQhkmht1DN3ioPghC6UBTQVzjT8gX0WBJcsmj+Rt/dVNIoWWZ8UkAlP9j4C
+ H3QLOJu+6ddEIMDz/xwHU6MND96oFSW/dvNtF729nAg5XL4Dnh+kKN3equG+eyzVLFhO+blEV0nhA
+ 7QR29NbB4kTWJnUZxqx+bgmMFkJYQ==;
+Message-Id: <c32aafaa3f29424fc13ae86b369c9baf1ceb0ec6.1650370027.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1650370026.git.qemu_oss@crudebyte.com>
 References: <cover.1650370026.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 19 Apr 2022 13:41:15 +0200
-Subject: [PATCH 3/5] 9pfs: fix wrong encoding of rdev field in Rgetattr on
- macOS
+Date: Tue, 19 Apr 2022 13:41:59 +0200
+Subject: [PATCH 4/5] 9pfs: fix wrong errno being sent to Linux client on macOS
+ host
 To: qemu-devel@nongnu.org
 Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
  Michael Roitzsch <reactorcontrol@icloud.com>,
  Keno Fischer <keno@juliacomputing.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-stable@nongnu.org
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=9db9268aac4eb87e1471ab8240109c7c29be3bef@lizzy.crudebyte.com;
+ envelope-from=c32aafaa3f29424fc13ae86b369c9baf1ceb0ec6@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -64,81 +64,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'rdev' field in 9p reponse 'Rgetattr' is of type dev_t,
-which is actually a system dependant type and therefore both the
-size and encoding of dev_t differ between macOS and Linux.
+Linux and macOS only share some errno definitions with equal macro
+name and value. In fact most mappings for errno are completely
+different on the two systems.
 
-So far we have sent 'rdev' to guest in host's dev_t format as-is,
-which caused devices to appear with wrong device numbers on
-guests running on macOS hosts, eventually leading to various
-misbehaviours on guest in conjunction with device files.
+This patch converts some important errno values from macOS host to
+corresponding Linux errno values before eventually sending such error
+codes along with Tlerror replies (if 9p2000.L is used that is), which
+fixes a bunch of misbehaviours when running a Linux client on macOS
+host.
 
-This patch fixes this issue by converting the device number from
-host's dev_t format to Linux dev_t format. As 9p request
-'Tgettattr' is exclusive to protocol version 9p2000.L, it should
-be fair to assume that 'rdev' field is assumed to be in Linux dev_t
-format by client as well.
+For instance this patch fixes:
+
+  mount -t 9p -o posixacl ...
+
+on Linux guest if security_mode=mapped was used for 9p server, which
+refused to mount successfully, because macOS returned ENOATTR==93
+when client tried to retrieve POSIX ACL xattrs, because errno 93
+is defined as EPROTONOSUPPORT==93 on Linux, so Linux client believed
+that xattrs were not supported by filesystem on host in general.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 37 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+ hw/9pfs/9p.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 225f31fc31..d953035e1c 100644
+index d953035e1c..becc41cbfd 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -1318,6 +1318,41 @@ static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat *stbuf)
-     return blksize_to_iounit(pdu, stbuf->st_blksize);
- }
+@@ -57,6 +57,31 @@ enum {
  
-+#if !defined(CONFIG_LINUX)
-+
-+/*
-+ * Generates a Linux device number (a.k.a. dev_t) for given device major
-+ * and minor numbers.
-+ */
-+static uint64_t makedev_dotl(uint32_t dev_major, uint32_t dev_minor)
-+{
-+    uint64_t dev;
-+
-+    // from glibc sysmacros.h:
-+    dev  = (((uint64_t) (dev_major & 0x00000fffu)) <<  8);
-+    dev |= (((uint64_t) (dev_major & 0xfffff000u)) << 32);
-+    dev |= (((uint64_t) (dev_minor & 0x000000ffu)) <<  0);
-+    dev |= (((uint64_t) (dev_minor & 0xffffff00u)) << 12);
-+    return dev;
-+}
-+
-+#endif
-+
-+/*
-+ * Converts given device number from host's device number format to Linux
-+ * device number format. As both the size of type dev_t and encoding of
-+ * dev_t is system dependant, we have to convert them for Linux guests if
-+ * host is not running Linux.
-+ */
-+static uint64_t host_dev_to_dotl_dev(dev_t dev)
-+{
-+#ifdef CONFIG_LINUX
-+    return dev;
+ P9ARRAY_DEFINE_TYPE(V9fsPath, v9fs_path_free);
+ 
++/* Translates errno from host -> Linux if needed */
++static int errno_to_dotl(int err) {
++#if defined(CONFIG_LINUX)
++    /* nothing to translate (Linux -> Linux) */
++#elif defined(CONFIG_DARWIN)
++    /* translation mandatory for macOS hosts */
++    if (err == ENAMETOOLONG) {
++        err = 36; /* ==ENAMETOOLONG on Linux */
++    } else if (err == ENOTEMPTY) {
++        err = 39; /* ==ENOTEMPTY on Linux */
++    } else if (err == ELOOP) {
++        err = 40; /* ==ELOOP on Linux */
++    } else if (err == ENOATTR) {
++        err = 61; /* ==ENODATA on Linux */
++    } else if (err == ENOTSUP) {
++        err = 95; /* ==EOPNOTSUPP on Linux */
++    } else if (err == EOPNOTSUPP) {
++        err = 95; /* ==EOPNOTSUPP on Linux */
++    }
 +#else
-+    return makedev_dotl(major(dev), minor(dev));
++#error Missing errno translation to Linux for this host system
 +#endif
++    return err;
 +}
 +
- static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
-                                 V9fsStatDotl *v9lstat)
+ static ssize_t pdu_marshal(V9fsPDU *pdu, size_t offset, const char *fmt, ...)
  {
-@@ -1327,7 +1362,7 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
-     v9lstat->st_nlink = stbuf->st_nlink;
-     v9lstat->st_uid = stbuf->st_uid;
-     v9lstat->st_gid = stbuf->st_gid;
--    v9lstat->st_rdev = stbuf->st_rdev;
-+    v9lstat->st_rdev = host_dev_to_dotl_dev(stbuf->st_rdev);
-     v9lstat->st_size = stbuf->st_size;
-     v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
-     v9lstat->st_blocks = stbuf->st_blocks;
+     ssize_t ret;
+@@ -1054,6 +1079,8 @@ static void coroutine_fn pdu_complete(V9fsPDU *pdu, ssize_t len)
+             }
+             len += ret;
+             id = P9_RERROR;
++        } else {
++            err = errno_to_dotl(err);
+         }
+ 
+         ret = pdu_marshal(pdu, len, "d", err);
 -- 
 2.32.0 (Apple Git-132)
 
