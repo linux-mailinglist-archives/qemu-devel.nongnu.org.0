@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE5D5067DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:40:10 +0200 (CEST)
-Received: from localhost ([::1]:40466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 994015067CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:38:50 +0200 (CEST)
+Received: from localhost ([::1]:38128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngkLB-0002N0-J2
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36948)
+	id 1ngkJt-0000lu-MU
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:38:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsm-0005VU-HM
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:48 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40636)
+ id 1ngk1e-0007UO-BE
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:20:01 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsf-0008SE-VK
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:43 -0400
-Received: by mail-ej1-x629.google.com with SMTP id y20so11396762eju.7
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:10:41 -0700 (PDT)
+ id 1ngk1c-0001Qw-J2
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:19:58 -0400
+Received: by mail-ed1-x531.google.com with SMTP id 21so20486005edv.1
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P0g/7YkRkRJlbpc3p21xXYbGdbz93o1Ac3png7GbfMA=;
- b=gTcCEQUAsTnUo8RajFXoBp/vEHU3hNg5L9gGpmO6SGAjEGlth1ioIvDgBb5ZD4o24O
- 455/d06M9Z2wAZtZEhanoAi+POjY+p4KprN66riW4G4lb9mBs+syFw3KLk3TD7bItzsQ
- DosP0Tkh+9qrttv4C49D0zybCUjfrMT1er8VSeibMD7BZEQnThIb7b/y8PsAaTkPmNPv
- YUJ5n4DwdL3Sad9lmWM15tQLqm725ADX0V8eodkI1AlCw6tCt3177ks1fIUBt0nX7YGP
- Pw/66eNc+6n4qCyh9TFWO6RQEK2YHw6KKzbUFtZhBnuKqfhsUGcOApSOh9j0zFZd3jx9
- ujGw==
+ bh=eMXdqaBvBQuHrKpie85Ska6hXE6seJj5amvl/y2ZlaY=;
+ b=nVXI0+53PfORPEwH5joHyNzEk2cE8lUMShX7ZZk5qERItX4hOBw63o6ZiWuOot10wR
+ 2yWVMfYya5pNKNRPk1QEWd3aPlgkB5ea2EQGGxjbTaWKujF0IvNSbsOFBhO3Yfen3tro
+ 80ucs/dSC8XqI7ZsJIGBVXO5cQzNh+fY+LR+1b/olrdqKaVT7eyqaX/lFIvNLL5g67F6
+ /bLuYmSFW3TTED6hyEby1mhvbtuuBrJI2EnbC2i+Yhhi90YI/G/kkmLHd8UoKNjtfBib
+ IB37cfv2Pstx9ec6eJkwndPl172P72bICzqwLlhm8WILkhVTHKNqCn9U+hduPkXDxa6f
+ PlLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P0g/7YkRkRJlbpc3p21xXYbGdbz93o1Ac3png7GbfMA=;
- b=e+kRd8i+stx1poFoBo8k4lMCUksetahzv0Ov6Z+DTfPki4MrtqPhhhNRFGn8irdQyV
- 900QWgguNGWRBSw/vqRzS08GY496bUv7wV7oqCZ+lYaqL5zOKNRRoaknBd3mZfBEIQ6k
- TF0utXc26CEhBh2rzqgE14xUEnoq6Xhw9Isdp79muhAqESHdUcwMOE4EvFKBEAy5SdP3
- WGHO8wbBGhZLg3ETK6ZfDFy0bUEma8n4mx5PntJ1vJShj1E9fG55kE0xDh8XS+QCdsqU
- RO2pHH/WFhjCQNZBH80FQMyz8+pv17rP34qlDEnQcKjxP5rb8dVjjjWxn2BXGQz4eh+T
- bByQ==
-X-Gm-Message-State: AOAM533yzC5TBb8XXTcDkYKlNaGyruXxs+azcsleCl70H0qJ2EOHUPYR
- u8F7F1XVJpvXU6p1MG1kGx/T1A==
-X-Google-Smtp-Source: ABdhPJzH/b6QnauZWQNycVAzpN5CXoLcx2L8z2rxB6Nbeejli3+Y5L+LcGiWgr/iVJ1700Rv2cRrbA==
-X-Received: by 2002:a17:907:6e03:b0:6e8:c12b:fb3f with SMTP id
- sd3-20020a1709076e0300b006e8c12bfb3fmr12600995ejc.98.1650359440682; 
- Tue, 19 Apr 2022 02:10:40 -0700 (PDT)
+ bh=eMXdqaBvBQuHrKpie85Ska6hXE6seJj5amvl/y2ZlaY=;
+ b=r5Y6r4npuJA+dfI25Dvn1lEzUomQ2GpLmzC3r4iJKJZJ94Nl8SXIpNBXS7n/Xln3Ad
+ 1K+PSBRLGHYqbXRY5NCQTEPeHlk8dvEu0SSsDisPMc55IOmy4yD5o/wzI9pfgxM4tyFO
+ dEBLRFQgxGGwDmP9ouXt9T508uBvHdp56gyXvY2ghdjVJ3wPrBEfCPwWWJR0FXDJfy8G
+ XAX50f4yVL5HyS5/m69anuMRMf+VCpZIvqIpHnz8jLLl37v9m6cEMzqdrKf9QvAJZgqr
+ LlnolaahQjg0Yp2OtIeBZ6qSN8ccyXsvXw3NtI/tM1TCuO0teKbBmX1hkqc2c1S+YrNI
+ FeeQ==
+X-Gm-Message-State: AOAM5332jqMrvDQh2eQIB/Qn9K0aZC7ZJB2KCF517ubR0wxogsLhoD04
+ 748rI7/mRfvG/ZM8iPyCOtxJLA==
+X-Google-Smtp-Source: ABdhPJx2px5J8YbeN6+Ndp8ymBu9+Tovx3u8jBOfjzPJhdd+4w9EMlrwCpIx+WQ/BODbs4dGOxL18g==
+X-Received: by 2002:a05:6402:1148:b0:416:a4fb:3c2e with SMTP id
+ g8-20020a056402114800b00416a4fb3c2emr16380879edw.182.1650359995306; 
+ Tue, 19 Apr 2022 02:19:55 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- j2-20020a056402238200b0041f351a8b83sm8118683eda.43.2022.04.19.02.10.29
+ x12-20020a170906134c00b006ef8be0e8e9sm2953602ejb.168.2022.04.19.02.19.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 02:10:36 -0700 (PDT)
+ Tue, 19 Apr 2022 02:19:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8C57D1FFC6;
+ by zen.linaroharston (Postfix) with ESMTP id B6C551FFC8;
  Tue, 19 Apr 2022 10:10:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 14/25] tests/tcg: remove CONFIG_USER_ONLY from
- config-target.mak
-Date: Tue, 19 Apr 2022 10:10:09 +0100
-Message-Id: <20220419091020.3008144-15-alex.bennee@linaro.org>
+Subject: [PATCH  v1 16/25] tests/tcg: list test targets in Makefile.prereqs
+Date: Tue, 19 Apr 2022 10:10:11 +0100
+Message-Id: <20220419091020.3008144-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220419091020.3008144-1-alex.bennee@linaro.org>
 References: <20220419091020.3008144-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,82 +96,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Just check the target name instead.
+Omit the rules altogether for targets that do not have a compiler.
+Makefile.qemu now is only invoked if the tests are actually built/run.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220401141326.1244422-12-pbonzini@redhat.com>
+Message-Id: <20220401141326.1244422-14-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/Makefile.target |  8 ++++----
- tests/tcg/configure.sh    | 12 +++---------
- 2 files changed, 7 insertions(+), 13 deletions(-)
+ tests/Makefile.include  | 14 +++++++-------
+ tests/tcg/Makefile.qemu | 11 -----------
+ tests/tcg/configure.sh  | 17 ++++++++++++-----
+ 3 files changed, 19 insertions(+), 23 deletions(-)
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index acda5bcec2..c75e8d983f 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -34,7 +34,7 @@ all:
- -include ../config-$(TARGET).mak
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index b5d0d6bc98..091ca8513f 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -36,19 +36,16 @@ export SRC_PATH
  
- # Get semihosting definitions for user-mode emulation
--ifeq ($(CONFIG_USER_ONLY),y)
-+ifeq ($(filter %-softmmu, $(TARGET)),)
- -include $(SRC_PATH)/configs/targets/$(TARGET).mak
- endif
+ SPEED = quick
  
-@@ -44,7 +44,7 @@ COMMA := ,
- quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
+-# Build up our target list from the filtered list of ninja targets
+-TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
+-
+ -include tests/tcg/Makefile.prereqs
+ config-host.mak: $(SRC_PATH)/tests/tcg/configure.sh
+ tests/tcg/Makefile.prereqs: config-host.mak
  
- # $1 = test name, $2 = cmd, $3 = desc
--ifdef CONFIG_USER_ONLY
-+ifeq ($(filter %-softmmu, $(TARGET)),)
- run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out, \
- 	"TEST",$3)
- else
-@@ -91,7 +91,7 @@ QEMU_OPTS=
- #   90s    with --enable-tcg-interpreter
- TIMEOUT=90
+ # Per guest TCG tests
+-BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGETS))
+-CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGETS))
+-RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGETS))
++BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TCG_TESTS_TARGETS))
++CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TCG_TESTS_TARGETS))
++RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TCG_TESTS_TARGETS))
  
--ifdef CONFIG_USER_ONLY
-+ifeq ($(filter %-softmmu, $(TARGET)),)
- # The order we include is important. We include multiarch first and
- # then the target. If there are common tests shared between
- # sub-targets (e.g. ARM & AArch64) then it is up to
-@@ -153,7 +153,7 @@ extract-plugin = $(wordlist 2, 2, $(subst -with-, ,$1))
+-$(foreach TARGET,$(TARGETS), \
++$(foreach TARGET,$(TCG_TESTS_TARGETS), \
+         $(eval $(BUILD_DIR)/tests/tcg/config-$(TARGET).mak: config-host.mak))
  
- RUN_TESTS+=$(EXTRA_RUNS)
+ $(BUILD_TCG_TARGET_RULES): build-tcg-tests-%: $(if $(CONFIG_PLUGIN),test-plugins)
+@@ -84,6 +81,9 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
  
--ifdef CONFIG_USER_ONLY
-+ifeq ($(filter %-softmmu, $(TARGET)),)
- run-%: %
- 	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
+ .PHONY: check-venv check-avocado check-acceptance check-acceptance-deprecated-warning
  
++# Build up our target list from the filtered list of ninja targets
++TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
++
+ TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
+ TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
+ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
+diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
+index 84c8543878..cda5e5a33e 100644
+--- a/tests/tcg/Makefile.qemu
++++ b/tests/tcg/Makefile.qemu
+@@ -95,7 +95,6 @@ all:
+ 
+ .PHONY: guest-tests
+ 
+-ifneq ($(GUEST_BUILD),)
+ guest-tests: $(GUEST_BUILD)
+ 
+ run-guest-tests: guest-tests
+@@ -105,16 +104,6 @@ run-guest-tests: guest-tests
+ 	 		SRC_PATH="$(SRC_PATH)" SPEED=$(SPEED) run), \
+ 	"RUN", "tests for $(TARGET_NAME)")
+ 
+-else
+-guest-tests:
+-	$(call quiet-command, true, "BUILD", \
+-		"$(TARGET) guest-tests SKIPPED")
+-
+-run-guest-tests:
+-	$(call quiet-command, true, "RUN", \
+-		"tests for $(TARGET) SKIPPED")
+-endif
+-
+ # It doesn't matter if these don't exits
+ .PHONY: clean-guest-tests
+ clean-guest-tests:
 diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 57026b5899..0d864c24fc 100755
+index 904c351029..e51cd56b60 100755
 --- a/tests/tcg/configure.sh
 +++ b/tests/tcg/configure.sh
-@@ -225,18 +225,12 @@ for target in $target_list; do
-   echo "TARGET_NAME=$arch" >> $config_target_mak
+@@ -81,7 +81,9 @@ fi
+ : ${cross_ld_tricore="tricore-ld"}
+ 
+ makefile=tests/tcg/Makefile.prereqs
+-: > $makefile
++echo "# Automatically generated by configure - do not modify" > $makefile
++
++tcg_tests_targets=
+ for target in $target_list; do
+   arch=${target%%-*}
+ 
+@@ -228,6 +230,7 @@ for target in $target_list; do
    echo "target=$target" >> $config_target_mak
    case $target in
--    *-linux-user)
--      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
--      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
--      ;;
--    *-bsd-user)
--      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
--      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
--      ;;
      *-softmmu)
--      echo "CONFIG_SOFTMMU=y" >> $config_target_mak
-       echo "QEMU=$PWD/qemu-system-$arch" >> $config_target_mak
++      test -f $source_path/tests/tcg/$arch/Makefile.softmmu-target || continue
+       qemu="qemu-system-$arch"
        ;;
-+    *-linux-user|*-bsd-user)
-+      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
-+      ;;
+     *-linux-user|*-bsd-user)
+@@ -235,11 +238,7 @@ for target in $target_list; do
+       ;;
    esac
  
+-  echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> $makefile
+-
    eval "target_compiler_cflags=\${cross_cc_cflags_$arch}"
+-  echo "QEMU=$PWD/$qemu" >> $config_target_mak
+-  echo "CROSS_CC_GUEST_CFLAGS=$target_compiler_cflags" >> $config_target_mak
+ 
+   got_cross_cc=no
+ 
+@@ -362,8 +361,16 @@ for target in $target_list; do
+                       echo "CROSS_CC_HAS_I386_NOPIE=y" >> $config_target_mak
+                       ;;
+               esac
++              got_cross_cc=yes
+               break
+           fi
+       done
+   fi
++  if test $got_cross_cc = yes; then
++      echo "QEMU=$PWD/$qemu" >> $config_target_mak
++      echo "CROSS_CC_GUEST_CFLAGS=$target_compiler_cflags" >> $config_target_mak
++      echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> $makefile
++      tcg_tests_targets="$tcg_tests_targets $target"
++  fi
+ done
++echo "TCG_TESTS_TARGETS=$tcg_tests_targets" >> $makefile
 -- 
 2.30.2
 
