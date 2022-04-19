@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A31E506CCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 14:51:14 +0200 (CEST)
-Received: from localhost ([::1]:46438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507AE506D10
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 15:04:42 +0200 (CEST)
+Received: from localhost ([::1]:51838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngnK4-0003E9-PB
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 08:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58332)
+	id 1ngnX5-0007eu-SI
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 09:04:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ngnH6-00024R-PY
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 08:48:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25630)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ngnH3-0001BS-Ea
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 08:48:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650372484;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=yRAAVaNGPkKZKdELc5FcguuEaov7XgsPJllEV+p6Riw=;
- b=gJHfxVQLE5uvkbh6XRNv5/qPHjCXFVd9S07s1ikY2Z1ZF8Lm+lmW/xEFHUtRFEze0NHPXz
- HThyzdJgvLAeF9VBhSR8tvACMUosGzgn/bKVEIaBhWI6zbyeVWrs/MzFHL815aQFeRLru5
- mI4prXSwCME9eHrVcN/6i/3I3ybREa8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-41-9FfUcLbFOmyrXVchpoTpNQ-1; Tue, 19 Apr 2022 08:48:03 -0400
-X-MC-Unique: 9FfUcLbFOmyrXVchpoTpNQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- q6-20020a1cf306000000b0038c5726365aso1183639wmq.3
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 05:48:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ngnUC-0005cH-7O
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 09:01:40 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:45786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ngnUA-0003Mb-GA
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 09:01:39 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id s33so3445174ybi.12
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 06:01:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=m9UWdcW2XcdsSia2B6/AHjMYTETRk50HX/lDFGJcy24=;
+ b=glZlwTE5xA2n//h00HSAZZfdq6screIYdgcQX9CttkVdqQiesFEcnmntKxj3WDIm6u
+ EZhVDfkOzeu0M/aWFoK5/2+WQB2uuSWl0YWrNdbu/sY7PR/pGqPtfvkWC4KAgpKMQ3RY
+ qSLsFnnmWndU5mc0DfIaF6DEn0uwqI5nH9qgwCfjHH5bFVTZ5xASVh8We9e3+bo0rJMN
+ 8+Ed5NBEPqMAN9L0E7f9YWH3xWgP+hRodzV1acrnFsTSHDF123TR+dM5pguIJd5+g2ju
+ EPOXa/ysV2Kqa1GJpqJ+O5HWVQWq+jxqaT9dOY130tXBEjG9Awy/KtBpOh2RYV0z8rNw
+ hP1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=yRAAVaNGPkKZKdELc5FcguuEaov7XgsPJllEV+p6Riw=;
- b=QJa86qG9LSOK6lhpcwR8ZWNSmzLxeNeVOj4Dp9UG2MaRvTvihPCjEk5/6ux/7ZRMNS
- RsGWqdkNcyvQ4thlmpyicwqzd3OjnQ5vLRYTGAbJceNfe9mdPeJug74vVSQOyCd1ioMF
- 3iR7JyEmw2VyDYagmdIgiJvDv9Htvmphu8tLglcG7ZBxw+vD6QI18XyGIem6TfeN+e0V
- wZESGBhYThS1dnUiuBk3J++9X6ggcNkhzHiaeB9Em6VOYiP518r6UD6KQp+AbejjMshv
- z1alVytBNcRctdxpCEf9hlPmeMN2krybFIQR88qDovA6qj260wQ6PNlPolrFsCB0HOO0
- afVg==
-X-Gm-Message-State: AOAM532TKFg1b2uLoeJ/0Ju6ww4sbQU17zOQqLzDIQsyzvw5+hQC5D/N
- t0eV8DHCUoWir3MGq3vCVE/i2heVSpM43sx5FJr/E2omAyHV7xDQKtzcXTZkdQvRPNdE7mFcAzc
- 5fmRlDTEMsuP7XZ0=
-X-Received: by 2002:a5d:6449:0:b0:207:a1f4:b52 with SMTP id
- d9-20020a5d6449000000b00207a1f40b52mr11392287wrw.511.1650372482237; 
- Tue, 19 Apr 2022 05:48:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyIYX7gy9cuItSyfuqXC9byZUp6G1GF43Q1fZCKJX/We9caEAL8V9wEMa00Kte0At9dCTJjXA==
-X-Received: by 2002:a5d:6449:0:b0:207:a1f4:b52 with SMTP id
- d9-20020a5d6449000000b00207a1f40b52mr11392270wrw.511.1650372481968; 
- Tue, 19 Apr 2022 05:48:01 -0700 (PDT)
-Received: from localhost (static-114-163-6-89.ipcom.comunitel.net.
- [89.6.163.114]) by smtp.gmail.com with ESMTPSA id
- i6-20020a0560001ac600b0020a93f75030sm5426872wry.48.2022.04.19.05.48.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 05:48:00 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] migration: Read state once
-In-Reply-To: <20220413113329.103696-1-dgilbert@redhat.com> (David Alan
- Gilbert's message of "Wed, 13 Apr 2022 12:33:29 +0100")
-References: <20220413113329.103696-1-dgilbert@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Tue, 19 Apr 2022 14:47:59 +0200
-Message-ID: <87czhdqlxc.fsf@secure.mitica>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m9UWdcW2XcdsSia2B6/AHjMYTETRk50HX/lDFGJcy24=;
+ b=WVJ7K2k+5Ubf0eW6dvp4RO0+E5BSvEZ38rhc/OUNRd/f99z73hXBDNV1QdGcEMfQab
+ ahW8lt1yP80TO70CYtwPbyhBqTiMEnDYXcd3C0jVPosjvtIHL/kznM+CuWGH7DJM9QwQ
+ 4+ZvMGyenXBL1qFC1Dx8tt7gFAdq+JM9tIvweElCvN6/2XMkI/GJ+AJ2HksFM2/cnTF6
+ igJ0GmIvNg4+yBccKElw6Rq3USuZIH4bkv7hqIthyge76fzHeD1GUBDA95KICJ8q/rD9
+ WYjp/tIAyBAxKB3hFCbtqIbXB6SGPo7a0scM4khrQvmXUX74pwzslpLM3nky0XiZpBg6
+ DjQw==
+X-Gm-Message-State: AOAM5310POLDArXY8dHcyqlrQfWUO/96JUCScCy56qO29oVj93WjRd9S
+ 0m0FSI0ceqHHuNwr6dT0IzhNHOe5uggHcyl4cpRaYQ==
+X-Google-Smtp-Source: ABdhPJyzycCY9/xmwzVPtfW2+HbwH16PzsOyBNly/MOg8BsKwgZhiE/nQQn5dsDIRV8N2YOE8+S4By5cAUC/LvicgcU=
+X-Received: by 2002:a25:5014:0:b0:641:f856:aa1f with SMTP id
+ e20-20020a255014000000b00641f856aa1fmr13891869ybb.140.1650373297232; Tue, 19
+ Apr 2022 06:01:37 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <164981069655.421503.5359017463823038503@amd.com>
+ <7f327c01-40e6-720e-860f-bc5d70ce07de@weilnetz.de>
+In-Reply-To: <7f327c01-40e6-720e-860f-bc5d70ce07de@weilnetz.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Apr 2022 14:01:26 +0100
+Message-ID: <CAFEAcA_DU5XGLojqozgPgWiRVqNUKdjDb9A3w4zY-Cq_Q3dZhw@mail.gmail.com>
+Subject: Re: [ANNOUNCE] QEMU 7.0.0-rc4 is now available
+To: Stefan Weil <sw@weilnetz.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,72 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: leobras@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
- peterx@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Mon, 18 Apr 2022 at 19:14, Stefan Weil <sw@weilnetz.de> wrote:
 >
-> The 'status' field for the migration is updated normally using
-> an atomic operation from the migration thread.
-> Most readers of it aren't that careful, and in most cases it doesn't
-> matter.
+> Am 13.04.22 um 02:44 schrieb Michael Roth:
+> > A note from the maintainer:
+> >
+> >    rc4 contains three fixes for late-breaking security bugs. The plan
+> >    is to make the final 7.0 release in a week's time on the 19th April,
+> >    with no further changes, unless we discover some last-minute
+> >    catastrophic problem.
+> >
+> > You can help improve the quality of the QEMU 7.0 release by testing this
+> > release and reporting bugs using our GitLab issue tracker:
 >
-> In query_migrate->fill_source_migration_info the 'state'
-> is read twice; the first time to decide which state fields to fill in,
-> and then secondly to copy the state to the status field; that can end up
-> with a status that's inconsistent; e.g. setting up the fields
-> for 'setup' and then having an 'active' status.  In that case
-> libvirt gets upset by the lack of ram info.
-> The symptom is:
->    libvirt.libvirtError: internal error: migration was active, but no RAM info was set
->
-> Read the state exactly once in fill_source_migration_info.
->
-> This is a possible fix for:
-> https://bugzilla.redhat.com/show_bug.cgi?id=2074205
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> QEMU 7.0 seems to trigger an issue with makensis which is used for
+> building the QEMU installer for Windows: it terminates with different
+> kinds to errors (SIGBUS, SIGSEGV and mmap related errors) depending on
+> the details of the build environment.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Unfortunately our CI doesn't notice this because although it
+builds the installer it doesn't do it for an "all targets at
+once" config, only for a couple of "some targets, not all" builds.
 
+> I currently think that this is related to the total size of the
+> installed components which exceeds 2 GiB. Maybe a 32 bit int value is
+> used somewhere in makensis.
 
-> ---
->  migration/migration.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 695f0f2900..811c584619 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1073,6 +1073,7 @@ static void populate_disk_info(MigrationInfo *info)
->  static void fill_source_migration_info(MigrationInfo *info)
->  {
->      MigrationState *s = migrate_get_current();
-> +    int state = qatomic_read(&s->state);
->      GSList *cur_blocker = migration_blockers;
->  
->      info->blocked_reasons = NULL;
-> @@ -1092,7 +1093,7 @@ static void fill_source_migration_info(MigrationInfo *info)
->      }
->      info->has_blocked_reasons = info->blocked_reasons != NULL;
->  
-> -    switch (s->state) {
-> +    switch (state) {
->      case MIGRATION_STATUS_NONE:
->          /* no migration has happened ever */
->          /* do not overwrite destination migration status */
-> @@ -1137,7 +1138,7 @@ static void fill_source_migration_info(MigrationInfo *info)
->          info->has_status = true;
->          break;
->      }
-> -    info->status = s->state;
-> +    info->status = state;
->  }
->  
->  typedef enum WriteTrackingSupport {
+Searching around it does seem like there's a 2GB limit to
+the installer, that's been known about for some years.
+(There's a fork 'nsisbi' which raises it to 4GB.)
 
+> Stripping the executables might also help to stay below the critical size.
+
+That seems like it would be a good idea anyway -- does it
+have any downsides ?
+
+I think we probably can't really fix this for 7.0, unfortunately:
+we found it too late.
+
+thanks
+-- PMM
 
