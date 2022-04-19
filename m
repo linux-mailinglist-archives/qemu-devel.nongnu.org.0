@@ -2,139 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FC550668A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 10:10:04 +0200 (CEST)
-Received: from localhost ([::1]:55268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475255066A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 10:14:37 +0200 (CEST)
+Received: from localhost ([::1]:58604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngivw-0000m0-KG
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 04:10:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35334)
+	id 1ngj0O-0003FC-DS
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 04:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1nggwH-0003hp-B0
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 02:02:13 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.140.77]:50192)
+ (Exim 4.90_1)
+ (envelope-from <prvs=101f09098=alistair.francis@opensource.wdc.com>)
+ id 1nghkQ-0003qU-5s
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 02:54:03 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:61683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1nggwE-00064x-No
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 02:02:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1650348130; x=1650952930;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=JGzo44+7BoOyR29jmOEJlEcItWw0myQf80vlX2NpHFI=;
- b=VOZecpOEYhltTtgt7n78gTDL7vpCeDew1OGmMcyt0VLqN1/mRpb9lX/I
- 5aICuMTJI/msKeXdVauKs4ggIcTaJjamOuJqcrh2i10jr8pL3JDlhhC2v
- li/rDC8CqXyfUVu+dd8g3tRLtAgbO2llsC5jvckiP3yXpA8wlbXu9cKak I=;
-Received: from mail-mw2nam10lp2100.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.100])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2022 06:02:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=maWuXy3rMv3w/Dgl1jfvGl75ONyEA4JbZBn5CVMUT71Iu8MKjEXqMElhmi7Wn97iHI9r63d9VhFARo1hYYdp/j/LFMixFLnrwkoQ8N1OKYDVVtClJnkqcOOzAvTdAd8pGy9rL52m2kVImtjhYiKpbzr+etsXYQOSSCvVxqDF/ZdpYPa5EQrZrsSpwpIe0ckI+CHAAyoHztsT1g0ULpJEae+/d7fbcBWy+6+hyM7KSR/Fk7FZNfQ+nCOzqpV+p3k/OeGRE9vN+KnE/utac1uICNYRJpsc42+PZNodEF//TO+z7eG9MdkRjVVKKsFU44rCK7hsnNKL/EzSYvNV0P46Lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JGzo44+7BoOyR29jmOEJlEcItWw0myQf80vlX2NpHFI=;
- b=YMrprIYvf6Z0EABA4DGcROhbcHhBLo3AICjGKXAVyndMhTp7oB/JBEb+ZxtRzleGhSyLYtgyVBhItKjX7RaSrtV0M/sdkMgCIBg9113y5ZnKqS5D9vYYnhNywooualyT0gTmHWLlUf+rn1k2+PiUpItTZwOH5xUkPrK5RRh7PU80jG9ZLu4fHzONu7ofMYBkxqAy3tGpfs8+bts0Z9Dp9FIXfUdVMO/gOlDTjpiPKPIXlXZc2JWGKfvGvFCGd+kWvBQrHTil/RFk38HIMzOx+zuNlpzIhPCBioSwO2IaOfX9SZwjKYTWiDoMFX5mgONImt3/Z8ziH8HuNthVHsw7sA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by MN2PR02MB6352.namprd02.prod.outlook.com
- (2603:10b6:208:1b8::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Tue, 19 Apr
- 2022 06:02:05 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::5c0b:b589:ed93:eaef]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::5c0b:b589:ed93:eaef%9]) with mapi id 15.20.5164.025; Tue, 19 Apr 2022
- 06:02:05 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: Question about direct block chaining
-Thread-Topic: Question about direct block chaining
-Thread-Index: AdhTMV3HLYuwsChLQJeeFj0sDaStrwACOdQAAB3If6A=
-Date: Tue, 19 Apr 2022 06:02:05 +0000
-Message-ID: <SN4PR0201MB88081EEA0FCEB2A1B3B49B87DEF29@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <SN4PR0201MB8808BF460C02884C603641A4DEF39@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <aa16cc6b-0ff9-5870-118b-ceb24b584fe4@linaro.org>
-In-Reply-To: <aa16cc6b-0ff9-5870-118b-ceb24b584fe4@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quicinc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 106212f2-d059-457b-b76e-08da21ca2188
-x-ms-traffictypediagnostic: MN2PR02MB6352:EE_
-x-microsoft-antispam-prvs: <MN2PR02MB6352E69FAF2BD8AA1C0E399BDEF29@MN2PR02MB6352.namprd02.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NxD+6BNW78hhbkwoQZWzUelSFB23I/JC3aDN+Q2E8tc/IbcK0HBGWecG4sSYjixxGqN+7TOaLI8N0y2SGjyrQsjnsgB5SnZzAb4nUFHLQgJ2IftnDXygiJLpBk9rGy+wTcTPwyvYZmmMHigiIy9XjRxu7I6K9Y3ZvBCUcIAaM0otSgKnS7y9bAc3sBXEK02rIldUqn34FwUQh/pi8NU5HXc2isvjXZdBOi6YdYtYqGuagzR+vP08NyFkorcjTzMu90xyVrIUszFdXdLuddeZIu0uOyiStex/5TRlkyovTSNBlc6mm0MOLGnmFlQJ1FMNmF/ShknaGwfdINZBKw0UvptvYih8M8M0RPkSNYQTWYjHtdYHsyNFmg93YnnZMNfnZcDwlmZ0GHu0wKN0Bzm/QJ3gVtp8ohAfxjFnOiEqdujzCE3otlQHWl1m/+GbGJmgtYot/5QpHwzf9OihvuUNQ165gdDnNKWVaiSz4KLR0yKIEmOXDUGi4QsaVYzAwWr+jzQtr9kckBy24aPQTi2vqPIplk0Emr3zUKrdYR+Y7zgO4wunjuKpWklIB9Wt0a6u66qFB9MgUigBJw3tUfSeJHuxpd8FV7+bMBJLj1ZrQ1w/zlcyjfqrbc5GhUZTDZqp8+E1IzfMOz/4RMlMII9GKq6nLV2brmtV+140JCyNRwPt/4y9Uw9QBGTYLW4/RKrUWCHpOtiTE+5cctZNY1KdWg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(316002)(26005)(83380400001)(8936002)(6506007)(52536014)(86362001)(7696005)(33656002)(186003)(9686003)(53546011)(38070700005)(38100700002)(110136005)(2906002)(5660300002)(71200400001)(122000001)(508600001)(55016003)(66556008)(66446008)(66946007)(4326008)(64756008)(8676002)(76116006)(66476007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U1I4bGxMbWVwbVcwbFAvWUtIWEdNZ1l5YjQ1c2VhaE95RkdpMDRIWGNUTmlJ?=
- =?utf-8?B?Q0lhZjV0ekdTam84VGQrR0RxRXp4OGZFUUY2MHNKTDdTOWdMd0tKMVNrWWwy?=
- =?utf-8?B?S3BLQkUyRllKcFVjeVVHQW1JMWFjeFdKSFVZcU9rNDJqT1hjT09JRk8xNEZV?=
- =?utf-8?B?bzhJRmZSWXZMTUp0RDZUdFR4ZTVjQno4SXZCTFY1RHJNeTBycit2bDdpT2FK?=
- =?utf-8?B?MkU0b1dNZ1R4dDNuc1FCK2VySHg0aC9uY3M0OTF2aXdnZnIwQ3d4OFJiaE1E?=
- =?utf-8?B?SGpYUTJEbXdUWk0wbjJ4VUJKdUVhb2lxQnRMUzZ0aklQbkFDNWJ0REhxbHhi?=
- =?utf-8?B?aFdSUzZhOW1UMkNjbmdKSWRIMlNiU2FkZURrMkxWbUN4cGlWMDVlUllETDVP?=
- =?utf-8?B?YSt5ZTdaUGRHUzdTZ3lXdXJIcER2czV5NzRTaWM5ZnJZay9VVlhDd01hTW10?=
- =?utf-8?B?YnRLSUVKZkhaR0hWelVYeWVyNUEwVzRKWU9yaFo0bDQ2RytOUk1MMlFuMVBy?=
- =?utf-8?B?bVZsSGU0a1NqWFRLYVdCejZ4QU5NdVVML3pud3VEZG9NU2FvaWlVL0cwLy9B?=
- =?utf-8?B?VjI4RGUrd3FZNSsreHFhQnZRR2tFR1dJWFhhY25VQTZ1YS9DaHNSYkk3QlA3?=
- =?utf-8?B?TTNLekxJaDF6MENIUm1pZnZpcnRPekFPcXpTaGJQejNuVUF0WXdkZnBmOW9O?=
- =?utf-8?B?d3hmWFNQM0JFUU9ta0pmaDZER2xaaVJ2SEJjWGpaOTdmaVRxZ01XaW9vUnRt?=
- =?utf-8?B?bTBsRERJc1BQc0NDRmxjQjkrcCtWMDZXMkNVVi8rd25SWm5uOERJQmZTS3gv?=
- =?utf-8?B?N1hjNUxDaGp4TzBrcnIvMXRXeU5sRjErUnE3SVRMdVdPaE1zWndrTld3Tmh1?=
- =?utf-8?B?b0VpbldBNit4eDlXQjJDQmlpWGN1cFJrSnNTUmUvQUplS05TdnZqRU1hUE1I?=
- =?utf-8?B?ellLUk5iZzR1TFdyeDBzZEh2blU4bWJLeFdoN1FjZnZuTnk0Q3YxM3FFRXlB?=
- =?utf-8?B?Qis5Qk4reXg2MXlIbFByMk9OK3BqeU41WERoUEZpVTRsZzU3MjlBS0cra21y?=
- =?utf-8?B?SUJVNi9YdUZ0cHJxVlpiai9GRTBPMWRhT01jRGR4TkhTVHRMOU5yWlBQa1hs?=
- =?utf-8?B?eU5BWE9uZ2RaRTd2RURYaXJOZlliWS9pRnp0UmZUeVkzbTVLZWJvaEx5cTN1?=
- =?utf-8?B?L0tId043NzNDOU5oS0lvSFZaMXhRK3FoY3Mva0VMQVdLMGVtOXNrNTA2N1Fp?=
- =?utf-8?B?dG5TWDhQMm5MWE9hUExOMFZSQlBpLzZOdTNST01RQ0preHB5QUdxOFN6aTZm?=
- =?utf-8?B?YkIwS2VsalpwMkxtOXl2a1ZaMWtSa1R0YThlZUE2TXR6VzUxb2JDM3g1RSta?=
- =?utf-8?B?TnludWM5R0p6UmUrOE8yV0pVY1VrMThwbTh0K1dOdjlBdEJqQTJGMnpvRWdY?=
- =?utf-8?B?cXR0c2hGa3duc1lXWjE3azd3NFd4aEZBRDhWTklDb21YcWY3QVdoaUVpMWR2?=
- =?utf-8?B?MnRVS3NvUWdlR2htZXBlbnBmaVR4cHJGZEhxYzdDVDJGRDI2dnhxZlBUVGl6?=
- =?utf-8?B?SW1aNTBxOUJHdW9rOXhLeGF1djRSTm9zemZTVFdoNWc0amtZcmNDb1dpZDJm?=
- =?utf-8?B?cGk3d2FKTVo3enBHMFo4dENrTjBDZW1sRFZ0QjhiclN0WEJNVTE3R29qSmc1?=
- =?utf-8?B?dHZjRzhCYVJMekdkdTJPU1lMRGZxSmtkTE13dHFodW5OYnJ0MzhVYjZPYlFY?=
- =?utf-8?B?OVNtdExlcUFlMGJYYXNtQTNheHJmbVMxa1MydG8xU0Y0RDZtREdBMXJwc1hv?=
- =?utf-8?B?MjNiRnJBZk91YnBveUJ3SXdOM2VJZmZ5WSs1ZnlGS0lLMFk5WDRlb0E0R0VM?=
- =?utf-8?B?RGtSeGJFTEp4Ymc0TDlad2JmdTRockN3ZEJJNnRjVW1MaG5qNWdXY01lQ0lt?=
- =?utf-8?B?TG13YUlLKzdJZnB6TCt3amhRci9ROG45aVlsRHVyQXhNSk5NNVF2eTcxOGk0?=
- =?utf-8?B?VmFYTUdRTkFIeGo5NUpBcytLamZNaHJaT3hCWDlMWkZwY3pYNkJQd3orQ2Jo?=
- =?utf-8?B?dFlCVmp0RWJDaEtoUXJUZWZzVmNHR0xmcU1nMDlkenZrbFZrWEI2elJ3WnBG?=
- =?utf-8?B?bVV0dHB2K2E4cWZCeWU1VEFyaEVEU0dlWGhxeHlOdWY0VGE3Q2lidUhhZU1K?=
- =?utf-8?B?Rlg1Wm9nY08zTXZ4TUIrM2ViWmFKZW1PR3ZJTU5XaDRGUGdjdStGdzZMOWZD?=
- =?utf-8?B?ZXlKSjV0MDU3RzgwVWtRZVRzZHY1K2M2VVhOOW4vNTl6K1gvTlpTYloyZjht?=
- =?utf-8?B?UHgwbHpEMUpESytRN0F4YjZTWm85NzRvSDVvMlFXRWIyTjZTck5vQT09?=
+ (Exim 4.90_1)
+ (envelope-from <prvs=101f09098=alistair.francis@opensource.wdc.com>)
+ id 1nghkN-0004K1-Az
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 02:54:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1650351238; x=1681887238;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=QSuHYOyhblpSDxm5ZLChlvRzUEPskl7wWcJ5MQSvdiM=;
+ b=jDm6+FWx9CJN17LVvBAFBWDiCCaFTH3E25Y25ep6GJG7vkhplfAzr8Iy
+ 0CauFB/37Q/s9aH5LyTGtbzvwqlyAALEXCwS4kIshY8DXLZFCbfUJHKE7
+ q8JxuCuk/DvIV8KYRMlRVbi1eyYZVXDi5eH6M7bFtygitrzr7L/XcQbYk
+ ys9kcluYPNO7YiG1hkT61hltQlI/cfugSvqC9IWccSRSHi3jtpe0cPtvc
+ xfQxZk7YUnltpZnB+ZOVry+XnTLDlh9xabiTYQQcWkczTH2mZ8W9Jrnuh
+ +pYDniz/TdY4seM/5ZBlvR6eKZko7fP5H6VfeUUtPg2pv9aWmJZM2b/QT A==;
+X-IronPort-AV: E=Sophos;i="5.90,272,1643644800"; d="scan'208";a="203101115"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 19 Apr 2022 14:53:50 +0800
+IronPort-SDR: u4QkesbZBExkqhJ+ojeE+64aO4Rsa+XqVD7uqGrXy/UhEF9A58Zi163N0xcy2/zrvCOYWfyeFM
+ +5wXWcA/SMndOLTYldrRjcmVTh6jQn/RqtD69GVzhq1u2ymkoooux/qI+SUlOvTypECK00L27m
+ opBdatJk10zMDa8oCseRve6SzIRnxnw4YO+6HwQGPKFOhg/axniS3gn6IAK0PLxEOlwRJQXLPB
+ ZS6uMcIGah0cqz63DDvtHT5FdzDg3jkHkDGD+21JCXPiotFV3hGnSAwhvbk4QlndzLSjifoUh0
+ //zr27voZ+BPripB90icOcVp
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 18 Apr 2022 23:24:58 -0700
+IronPort-SDR: OBprheHyw5xuCFMXYEMnsigTXsNyefg9qdjqJkpmYnsIbQDNDyPQwcMS51btxwyL7LryxoWbba
+ LjOtkWXTYXF2qJVC4zl/If7EF2cSsKu+aXg/KKEfhRNQ+b5COHpbsWbk7O6Y9N3PPSM+6YyxFo
+ ceUiIgDbrm5PjMcAjp4cs0oz8rmzKvo9JWJZTLBWR1PV5f3YhKgE5IhxQRzlgtEy1TfDcnKreM
+ EyBLScXg+sYr2hB9g1m9oT6i781ov9OR6bPYvY1+ceQd/V/+EPF7AOeQcBe7Wdz2EIiaTh7Fvf
+ GWY=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 18 Apr 2022 23:53:52 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KjDzg6GXSz1SVp3
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 23:53:51 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :content-type:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1650351230; x=1652943231; bh=QSuHYOyhblpSDxm5ZLChlvRzUEPskl7w
+ WcJ5MQSvdiM=; b=sjmpdgAP/6LyP6xVygNIU7kQLna63ztFZDtTgkzoQjp625tm
+ jJT09mwNfKxcRKPiMP9G6Z6paBVmJ6L30puuJZnJXvMo96INN7eRO/EyruvCsKjh
+ yc8u9WpNFbleMETE/3mhErJA9+HNRi22z75lPBV7qPZweOtDqjDv9VZSVjdSJsCN
+ 4xEnY0HUdgtN8Gz0hkoHeKZ6VGpj18xEtHzWGx4tzmPLW0vKVl3QYrXxtKPu2sfc
+ cFeZVUU0lPYYpGNxt8/D52KSC/PFSR9B4poxFwVZQWoL3vJqG5chC1Ct/Qv1BsgG
+ av3Gr37uzg4uqdTZvTtZzU5AeImVv8SYzSwFtw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id W8StMEd1zv2R for <qemu-devel@nongnu.org>;
+ Mon, 18 Apr 2022 23:53:50 -0700 (PDT)
+Received: from toolbox.wdc.com (unknown [10.225.165.119])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KjDzb3F8kz1Rvlx;
+ Mon, 18 Apr 2022 23:53:46 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, alistair23@gmail.com,
+ palmer@dabbelt.com, bmeng.cn@gmail.com
+Subject: [PATCH v3 0/6] hw/riscv: Add TPM support to the virt board
+Date: Tue, 19 Apr 2022 16:53:36 +1000
+Message-Id: <20220419065342.878415-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.35.1
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 106212f2-d059-457b-b76e-08da21ca2188
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2022 06:02:05.5596 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JB90l0VKulkxWALTB/LB0G52eDcXNoIBtzbrRJwJlg9NizPgcRNFoBEvqeEHC7Xwc12Jw06M+CP/1PmZ9LpiPA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6352
-Received-SPF: pass client-ip=216.71.140.77; envelope-from=tsimpson@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=101f09098=alistair.francis@opensource.wdc.com;
+ helo=esa3.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -154,39 +113,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBIZW5kZXJz
-b24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+IFNlbnQ6IE1vbmRheSwgQXByaWwg
-MTgsIDIwMjIgMTA6MzggQU0NCj4gVG86IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5j
-LmNvbT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KPiBDYzogUGhpbGlwcGUgTWF0aGlldS1EYXVk
-w6kgPGY0YnVnQGFtc2F0Lm9yZz4NCj4gU3ViamVjdDogUmU6IFF1ZXN0aW9uIGFib3V0IGRpcmVj
-dCBibG9jayBjaGFpbmluZw0KPiANCj4gT24gNC8xOC8yMiAwNzo1NCwgVGF5bG9yIFNpbXBzb24g
-d3JvdGU6DQo+ID4gSSBpbXBsZW1lbnRlZCBib3RoIGFwcHJvYWNoZXMgZm9yIGlubmVyIGxvb3Bz
-IGFuZCBkaWRuJ3Qgc2VlIHNwZWVkdXANCj4gPiBpbiBteSBiZW5jaG1hcmsuICBTbywgSSBoYXZl
-IGEgY291cGxlIG9mIHF1ZXN0aW9ucw0KPiA+IDEpIFdoYXQgYXJlIHRoZSBwcm9zIGFuZCBjb25z
-IG9mIHRoZSB0d28gYXBwcm9hY2hlcw0KPiAobG9va3VwX2FuZF9nb3RvX3B0ciBhbmQgZ290b190
-YiArIGV4aXRfdGIpPw0KPiANCj4gZ290b190YiBjYW4gb25seSBiZSB1c2VkIHdpdGhpbiBhIHNp
-bmdsZSBwYWdlIChwbHVzIG90aGVyIHJlc3RyaWN0aW9ucywgc2VlDQo+IHRyYW5zbGF0b3JfdXNl
-X2dvdG9fdGIpLiAgSW4gYWRkaXRpb24sIGFzIGRvY3VtZW50ZWQsIHRoZSBjaGFuZ2UgaW4gY3B1
-DQo+IHN0YXRlIG11c3QgYmUgY29uc3RhbnQsIGJlZ2lubmluZyB3aXRoIGEgZGlyZWN0IGp1bXAu
-DQo+IA0KPiBsb29rdXBfYW5kX2dvdG9fcHRyIGNhbiBoYW5kbGUgYW55IGNoYW5nZSBpbiBjcHUg
-c3RhdGUsIGluY2x1ZGluZyBpbmRpcmVjdA0KPiBqdW1wcy4NCj4gDQo+IA0KPiA+IDIpIEhvdyBj
-YW4gSSB2ZXJpZnkgdGhhdCBkaXJlY3QgYmxvY2sgY2hhaW5pbmcgaXMgd29ya2luZyBwcm9wZXJs
-eT8NCj4gPiAgICAgICAgV2l0aCAtZCBleGVjLCBJIHNlZSBsaW5lcyBsaWtlIHRoZSBmb2xsb3dp
-bmcgd2l0aCBnb3RvX3RiICsgZXhpdF90YiBidXQNCj4gTk9UIGxvb2t1cF9hbmRfZ290b19wdHIN
-Cj4gPiAgICAgICAgTGlua2luZyBUQnMgMHg3ZmRhNDQxNzJlMDAgWzAwNTBhYzM4XSBpbmRleCAx
-IC0+IDB4N2ZkYTQ0MTczYjQwDQo+ID4gWzAwNTBhYzZjXQ0KPiANCj4gV2VsbCwgdGhhdCdzIG9u
-ZSB3YXkuICBJIHdvdWxkIGhhdmUgYWxzbyBzdWdnZXN0ZWQgc2ltcGx5IGxvb2tpbmcgYXQgLWQg
-b3ANCj4gb3V0cHV0LCBmb3IgdGhlIHZhcmlvdXMgYnJhbmNoeSBjYXNlcyB5b3UncmUgY29uc2lk
-ZXJpbmcsIHRvIHNlZSB0aGF0IGFsbCBvZiB0aGUNCj4gZXhpdHMgYXJlIGFzIGV4cGVjdGVkLg0K
-DQpUaGFua3MhIQ0KDQpJIGNyZWF0ZWQgYSBzeW50aGV0aWMgYmVuY2htYXJrIHdpdGggYSBsb29w
-IHdpdGggYSB2ZXJ5IHNtYWxsIGJvZHkgYW5kIGEgdmVyeSBoaWdoIG51bWJlciBvZiBpdGVyYXRp
-b25zLiAgSSBjYW4gc2VlIGRpZmZlcmVuY2VzIGluIGV4ZWN1dGlvbiB0aW1lLg0KDQpIZXJlIGFy
-ZSBteSBvYnNlcnZhdGlvbnM6DQotIGdvdG9fdGIgKyBleGl0X3RiIGdpdmVzIHRoZSBmYXN0ZXN0
-IGV4ZWN1dGlvbiB0aW1lIGJlY2F1c2UgaXQgd2lsbCBwYXRjaCB0aGUgbmF0aXZlIGp1bXAgYWRk
-cmVzcw0KLSBsb29rdXBfYW5kX2dvdG9fcHRyIGlzIGFuIGltcHJvdmVtZW50IG92ZXIgdGNnX2dl
-bl9leGl0X3RiKE5VTEwsIDApDQoNClRheWxvcg0KDQo=
+From: Alistair Francis <alistair.francis@wdc.com>=0D
+
+This series adds support for connecting TPM devices to the RISC-V virt=0D
+board. This is similar to how it works for the ARM virt board.=0D
+=0D
+This was tested by first creating an emulated TPM device:=0D
+=0D
+    swtpm socket --tpm2 -t -d --tpmstate dir=3D/tmp/tpm \=0D
+        --ctrl type=3Dunixio,path=3Dswtpm-sock=0D
+=0D
+Then launching QEMU with:=0D
+=0D
+    -chardev socket,id=3Dchrtpm,path=3Dswtpm-sock \=0D
+    -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \=0D
+    -device tpm-tis-device,tpmdev=3Dtpm0=0D
+=0D
+The TPM device can be seen in the memory tree and the generated device=0D
+tree.=0D
+=0D
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/942=0D
+=0D
+Alistair Francis (6):=0D
+  hw/riscv: virt: Add a machine done notifier=0D
+  hw/core: Move the ARM sysbus-fdt to core=0D
+  hw/riscv: virt: Create a platform bus=0D
+  hw/riscv: virt: Add support for generating platform FDT entries=0D
+  hw/riscv: virt: Add device plug support=0D
+  hw/riscv: Enable TPM backends=0D
+=0D
+ include/hw/{arm =3D> core}/sysbus-fdt.h |   0=0D
+ include/hw/riscv/virt.h               |   8 +-=0D
+ hw/arm/virt.c                         |   2 +-=0D
+ hw/arm/xlnx-versal-virt.c             |   1 -=0D
+ hw/{arm =3D> core}/sysbus-fdt.c         |   2 +-=0D
+ hw/riscv/virt.c                       | 312 +++++++++++++++++---------=0D
+ hw/arm/meson.build                    |   1 -=0D
+ hw/core/meson.build                   |   1 +=0D
+ hw/riscv/Kconfig                      |   2 +=0D
+ 9 files changed, 221 insertions(+), 108 deletions(-)=0D
+ rename include/hw/{arm =3D> core}/sysbus-fdt.h (100%)=0D
+ rename hw/{arm =3D> core}/sysbus-fdt.c (99%)=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
 
