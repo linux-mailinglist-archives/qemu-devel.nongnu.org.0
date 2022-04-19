@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFE3507A29
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 21:22:00 +0200 (CEST)
-Received: from localhost ([::1]:51868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31690507A2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 21:22:49 +0200 (CEST)
+Received: from localhost ([::1]:52572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngtQF-0006uI-QT
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 15:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56748)
+	id 1ngtR2-0007QJ-B8
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 15:22:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngtNS-0004pa-FT
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 15:19:06 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:34741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ngtNR-0007sA-03
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 15:19:06 -0400
-Received: by mail-pf1-x436.google.com with SMTP id x80so598146pfc.1
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 12:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rJ087C9j+P0UOqgOxqKLdWKwfFKDCumPzXjc/aRekn4=;
- b=b//w36p9lr5P+9p9dsQbgxGqaQMPyLl+h2QDYKmyG2sbQjL6pnIjWbfrAwjtCkiBYd
- nIpxZOkSjeNkQQYBcMGG8pNw1A381c6IAcFZK9aIFGMDF/X3OKf+HElu6Hg83tyvm2NT
- zBd4rGrPWolhZ56DaZdzB3ldLxkxD+tdThwOo4es+xj5bAc/ibEnLs7lcSFzWBFgHbKa
- 61yP2GrfLFVWDY1BCBW6sEWncSib3/BnNpJRF/ijWEWXDWyxSMk+nmBknmYKZMoq4Kll
- xM8dSHcQELTBBFcmup7afHTgLG8nb0obuVcVG4wP0RQS4DHC59+Zdw86JU5dSMTYzTEw
- y7aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=rJ087C9j+P0UOqgOxqKLdWKwfFKDCumPzXjc/aRekn4=;
- b=KnAZH652+NHmceJtqOk/5Y82i6jEReCJsDBppgbjj2o9askf7EEdcwcjj7DJNa9kKM
- z8lBX0//c8KZSmOMUhgwvH4oWZMn9jqajAGSXXtMDhPaQa4nNYhW0wp8tHPm0IkjQMuH
- m0uKz6NYHFmbnktXBQMAetByf6YZ5in/JxNN205kvBN3HHpoPWT2qQPVAoR2kH93IeU4
- bAr8ML1c+xUBOdp1pw5EK5X82eU7vmDRKdURekvn9Pz7FbzOOsgC+8IQdsJPc621fzTE
- nCcczOoVYnVhPv7M5F4QIiDajN7Lo5cFB/xtgURxy6FUdMuuHpQ18dcrXULVwPqHu5f4
- 8yxA==
-X-Gm-Message-State: AOAM532NE9ts8vdgwElzf9Ew7HfLAiZVJQtMz6CVwfS40qbElRur6LNS
- cynu8QsT0sSA/YTnRSBni+AFiA==
-X-Google-Smtp-Source: ABdhPJx0fEmswRVenugLvZwyDWBWQHyGp5zTShOCyAdq17TqQEacW71lvnc8J7s68BfKlvL8NcS9FQ==
-X-Received: by 2002:a63:b0b:0:b0:39d:3808:7cb5 with SMTP id
- 11-20020a630b0b000000b0039d38087cb5mr16033694pgl.567.1650395943372; 
- Tue, 19 Apr 2022 12:19:03 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- 81-20020a621754000000b005082073f62dsm17910179pfx.12.2022.04.19.12.19.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Apr 2022 12:19:02 -0700 (PDT)
-Message-ID: <2ef83fac-aae9-cdfd-27c7-5a323f4ab7a2@linaro.org>
-Date: Tue, 19 Apr 2022 12:19:00 -0700
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngtO6-0005N7-Pl
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 15:19:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41552)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ngtO3-0007uC-U7
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 15:19:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650395983;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xDW/zodXB1w9lyNVcP2lQSKo+sSrcI1+f4qr4yuhlzo=;
+ b=i/3QwFSxIOtWJYycKB5EDTkUYzXfYbD0nmKdj6WZ0LFfXFzq25Bdf+s/mDh/obGz7t7WtT
+ uVaut5Vbjhvd3O/aqb/pT06ZS+dcKgxymJCrs5RHWhMR9z7GQrbqSJxKX2yv/3kb052OuF
+ tfqjZqRyceBKvtdcU6N/HVL0CA++sOE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-226-oVGD9rozPA6bQ9Hzy0YPqQ-1; Tue, 19 Apr 2022 15:19:41 -0400
+X-MC-Unique: oVGD9rozPA6bQ9Hzy0YPqQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DCBDD185A7A4;
+ Tue, 19 Apr 2022 19:19:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.17.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6408C40D282A;
+ Tue, 19 Apr 2022 19:19:40 +0000 (UTC)
+Date: Tue, 19 Apr 2022 14:19:38 -0500
+From: Eric Blake <eblake@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 07/12] iotests: rebase qemu_io() on top of qemu_tool()
+Message-ID: <20220419191938.v3csniozrscgejwq@redhat.com>
+References: <20220418211504.943969-1-jsnow@redhat.com>
+ <20220418211504.943969-8-jsnow@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v1 25/25] tests/guest-debug: better handle gdb crashes
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220419091020.3008144-1-alex.bennee@linaro.org>
- <20220419091020.3008144-26-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220419091020.3008144-26-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220418211504.943969-8-jsnow@redhat.com>
+User-Agent: NeoMutt/20211029-35-db88c3
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,26 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- Gautam Agrawal <gautamnagrawal@gmail.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/19/22 02:10, Alex Bennée wrote:
-> There are a number of GDB's on various distros which fail fairly hard
-> when attempting to talk to a cross-arch guest. The previous attempt to
-> catch this was incorrect as the shell will deliver signals as 128+n.
-> Fix the detection and while we are it improve the logging we dump into
-> the test output.
+On Mon, Apr 18, 2022 at 05:14:59PM -0400, John Snow wrote:
+> Rework qemu_io() to be analogous to qemu_img(); a function that requires
+> a return code of zero by default unless disabled explicitly.
 > 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Reported-by: Gautam Agrawal<gautamnagrawal@gmail.com>
+> Tests that use qemu_io():
+> 030 040 041 044 055 056 093 124 129 132 136 148 149 151 152 163 165 205
+> 209 219 236 245 248 254 255 257 260 264 280 298 300 302 304
+> image-fleecing migrate-bitmaps-postcopy-test migrate-bitmaps-test
+> migrate-during-backup migration-permissions
+> 
+> Test that use qemu_io_log():
+> 242 245 255 274 303 307 nbd-reconnect-on-open
+> 
+> Copy-pastables for testing/verification:
+> 
+> ./check -qcow2 030 040 041 044 055 056 124 129 132 151 152 163 165 209 \
+>                219 236 242 245 248 254 255 257 260 264 274 \
+>                280 298 300 302 303 304 307 image-fleecing \
+>                migrate-bitmaps-postcopy-test migrate-bitmaps-test \
+>                migrate-during-backup nbd-reconnect-on-open
+> ./check -raw 093 136 148 migration-permissions
+> ./check -nbd 205
+> 
+> # ./configure configure --disable-gnutls --enable-gcrypt
+> # this ALSO requires passwordless sudo.
+> ./check -luks 149
+> 
+> # Just the tests that were edited in this commit:
+> ./check -qcow2 030 040 242 245
+> ./check -raw migration-permissions
+> ./check -nbd 205
+> ./check -luks 149
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   tests/guest-debug/run-test.py | 11 ++++++-----
->   1 file changed, 6 insertions(+), 5 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-r~
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
