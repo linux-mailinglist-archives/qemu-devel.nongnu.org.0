@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0FF50646B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:29:12 +0200 (CEST)
-Received: from localhost ([::1]:48978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E54DF5064A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:38:14 +0200 (CEST)
+Received: from localhost ([::1]:58394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nghMN-0000BX-7x
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33166)
+	id 1nghV8-0006xt-1l
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nggls-00019K-VC
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:29 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40663)
+ id 1ngglv-0001A1-4b
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:36 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ngglr-0004Pv-2J
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:28 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id q3so20282540wrj.7
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:26 -0700 (PDT)
+ id 1nggls-0004Q0-KP
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:29 -0400
+Received: by mail-wr1-x433.google.com with SMTP id p18so20086313wru.5
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BCtb5iRKmFrpWSFDMJ54PwgAElhJqFeKD3Ys1qpVYa8=;
- b=jR7SzxD8uThp6R0yl4AZYRCwjBHlR0R+1At5dUalDh2XEAQnZGHN/ULiYv373WzLqf
- o09jCWQnYIE8ojSCzbW29F5gG7SeZsHxbcVrhQoS8FMpRvQiikQALt5kEtkND71QKgbg
- 9b3PY7kPUX7AT+dRG1Jq0c83ZY5/UkBaousI5k2CYct2GKckRVWKCcNVm1jDYMTbyzV8
- t6DIal9v4oGh9CFdRsTtjTTi9mbMFukDQ0uiDjG2ei70fQxClPCr8NpFiyoUb1vbit+p
- DBVEAfuZIiXNXuwtuECAEidwb21EQ6b7aEx9C5BdZCBXMJAvcvHrDYsOm1KikCHoiZyc
- TJAw==
+ bh=GmjyLZQYsGB/Vh7JMnCX3wvH/I72Pbuvc/SQfMglBh4=;
+ b=gMAzO56zSXPGsVtUuIzZhBaqFOv40fCPQWL8xDd7SayVqfhMS+KsKoLIjCFqMs8gMA
+ S1RrshRH0GyOA7jqcPwqjDIYVrcAK5h518Dc8ZxRWiTYUhAX4djrqFyMqAwikbQUsljc
+ nIHGEldSnnNPce2ok4lfpIrFnHmHKn6/XPDI8oe+26X1uBtcD3fT/ta5vm9xF2pghrqP
+ A4aBOoDF5npQLjCZy9KIzle+P6kFeP3P01vU+pijKiBFbhLSQIuvaYcgzOq+CGRduOkt
+ he+Uf6UoxBqN+F0Onffdo+XsgeD2CqquqBQupkwoR2noIYVfj9wGspC3unyH5DTpGj+b
+ RTYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BCtb5iRKmFrpWSFDMJ54PwgAElhJqFeKD3Ys1qpVYa8=;
- b=frbQ/GYlNw9g3p0cIyl63IDRt3XRTFeBvOSKAs7d6i2V+KxsbiQchPe/UzuW/1M6wq
- 2Mi4Jx4DLcpYAbodoVCMWWMlm1md0SFzbJiJOLnC/UBF23iuPlNo1yfSDP2je9/hbpKx
- PadhqofbTIMDFf0BgvxFB7OBMMObv8n2/CeRxVmWu1/GbwI+vZBy8qfUF1F4ickurrQl
- pAa59G1gqJku6b/f9qoes6nf1bdxVTz2SBRZ4KU/hWLEAzcFf+hAZG2X0pB7OXxpPKKv
- LspuP3aWOc8HkzMdBw8V5b6VDDe6JB+rzffENXIzpoH/zTka4qzOv7lY1rPz48B7xwy1
- NHXg==
-X-Gm-Message-State: AOAM531RTvsVMNsAqI+as2iZPg2qG2nN6aRbSU9PYVQjJB3jyFEHYJhi
- uiMzqXtcs9SaDfIW9i16N3TOTsK+GpTjzQ==
-X-Google-Smtp-Source: ABdhPJyIpAYVB3xUNaqbGXlIFYwCSZlD76pMxDQ4MuTmaRDDmUvGLBBymEm6ILGtu6ZPbmJUWYabHA==
-X-Received: by 2002:a5d:47c1:0:b0:20a:9f14:c128 with SMTP id
- o1-20020a5d47c1000000b0020a9f14c128mr3871490wrc.507.1650347485825; 
- Mon, 18 Apr 2022 22:51:25 -0700 (PDT)
+ bh=GmjyLZQYsGB/Vh7JMnCX3wvH/I72Pbuvc/SQfMglBh4=;
+ b=7qNQPZLndJFMVbj1E3+IX28nKcLTVC7WQcsK+q/cXgvMdJuewMby1uHrdd1iBtZ9oH
+ WvKo6POZYmbiIsNHMjzPq9cPI+cNP70YjjuBUcTLNQU7xw9lpiJwJcuHn3xwcGMbx/NL
+ adUp/gUSX7hH/dhQF42YnzRPVetQqwjAhYg6aS7hHNnx1E3cssF5l+C5/M5DnxCcuIfj
+ qiPgrSDnX+3vAhVdaxbJ7g2h5xWSGfgstsZVx+0hTA2A236+eXVk6ipIhrV+mYDg97yc
+ WMADhiTbNFCMzPDOhrngQdnMJ7dpxjb/svivyswqXFkuolWSuoIHoInLs07o0+++pmB0
+ wOew==
+X-Gm-Message-State: AOAM533VYNzbBcnpFy0rpsFbLPRboxRnljFUJJ16FCW/oAeQ7h6BdIiZ
+ v5FJvZZQWG/KWm7NbZ3rQDtPLEGMi7h9zw==
+X-Google-Smtp-Source: ABdhPJzO+WaG/HHIuHkEe4xucmIEvSDseI/+khIDZlKHbpkz4d0JriFw2tEvGdW5bneRttoGRjyFJA==
+X-Received: by 2002:a5d:6d8f:0:b0:20a:a699:874d with SMTP id
+ l15-20020a5d6d8f000000b0020aa699874dmr1225901wrs.386.1650347486409; 
+ Mon, 18 Apr 2022 22:51:26 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
  bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 22:51:25 -0700 (PDT)
+ Mon, 18 Apr 2022 22:51:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/53] util: rename qemu-error.c to match its header name
-Date: Tue, 19 Apr 2022 07:50:35 +0200
-Message-Id: <20220419055109.142788-20-pbonzini@redhat.com>
+Subject: [PULL 20/53] error-report: use error_printf() for program prefix
+Date: Tue, 19 Apr 2022 07:50:36 +0200
+Message-Id: <20220419055109.142788-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
 References: <20220419055109.142788-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -87,42 +87,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The header name is more appropriate.
+For consistency with other calls in the function, let's use
+error_printf(). (it will use stderr since !monitor_cur())
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220323155743.1585078-15-marcandre.lureau@redhat.com>
+Message-Id: <20220323155743.1585078-16-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/{qemu-error.c => error-report.c} | 0
- util/meson.build                      | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename util/{qemu-error.c => error-report.c} (100%)
+ util/error-report.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/qemu-error.c b/util/error-report.c
-similarity index 100%
-rename from util/qemu-error.c
-rename to util/error-report.c
-diff --git a/util/meson.build b/util/meson.build
-index 2d71ab57a4..82eec004e2 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -28,7 +28,7 @@ util_ss.add(files('host-utils.c'))
- util_ss.add(files('bitmap.c', 'bitops.c'))
- util_ss.add(files('fifo8.c'))
- util_ss.add(files('cacheinfo.c', 'cacheflush.c'))
--util_ss.add(files('error.c', 'qemu-error.c'))
-+util_ss.add(files('error.c', 'error-report.c'))
- util_ss.add(files('qemu-print.c'))
- util_ss.add(files('id.c'))
- util_ss.add(files('qemu-config.c', 'notify.c'))
+diff --git a/util/error-report.c b/util/error-report.c
+index 71ce3ee700..d9d3ac30cf 100644
+--- a/util/error-report.c
++++ b/util/error-report.c
+@@ -156,7 +156,7 @@ static void print_loc(void)
+     const char *const *argp;
+ 
+     if (!monitor_cur() && g_get_prgname()) {
+-        fprintf(stderr, "%s:", g_get_prgname());
++        error_printf("%s:", g_get_prgname());
+         sep = " ";
+     }
+     switch (cur_loc->kind) {
 -- 
 2.35.1
 
