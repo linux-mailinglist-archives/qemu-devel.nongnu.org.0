@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B164506785
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:14:45 +0200 (CEST)
-Received: from localhost ([::1]:58354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82055067B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 11:28:37 +0200 (CEST)
+Received: from localhost ([::1]:48976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngjwa-0000WD-K5
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:14:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36808)
+	id 1ngk9z-0005EI-3b
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 05:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsd-0005S0-76
+ id 1ngjsd-0005Rz-7B
  for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:39 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:35821)
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:42884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ngjsa-0008MK-6R
+ id 1ngjsa-0008PB-BD
  for qemu-devel@nongnu.org; Tue, 19 Apr 2022 05:10:38 -0400
-Received: by mail-ej1-x636.google.com with SMTP id l7so31581551ejn.2
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:10:32 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id i27so31525759ejd.9
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 02:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e/w4cxTJkCDMZlBFrEpupwHPY+eFheBz2dUBNsjbLHs=;
- b=QrsqmKuwZqb/yEbfdNBi2pcOJfWwf4svQbi1YuRMXl8o58Mb/B5ygJk8hPzhT+TzKO
- HmZUM+MZw/QvGSPGjUHB2v9nvdo2bYA6w231Hh/jgGnmW5VRSATWhXHFjT+YwI+X69pb
- BT0JKE3tlr69W0Yi++/ln9VMS+ABV5Xqw3JvY8oAVpAUSYUoQXzAsWvT7bQnkq8aBRBg
- ghXsgiGl804jtthQ4fWo9nsmxHSZlc1JyE37htvsb+hOjeCRxb3TTjxQWXSCho6RpqvS
- xweejflbMCUtkFmDFdmvAlYUFJDCOdmQN9/P6zlNiuAyVkZgsG3cKOFHv2n5U8qGY6WG
- P6+w==
+ bh=3uUtM/awZJzxHsahEaoqFNclAEXPyMd8cUhld2J+yOU=;
+ b=m8b/+IxE4WR09H0X/2iY3fvSFgm/vJpYwI2OVDoHnCqYAl/VKpkJixFRXeLj7QUQt/
+ LrhyVkRhBVV3bKZn80PNkOsXLs9has/sWgSaCtmdD+HeUTGMGOt/USacGrm3DuabEtVg
+ LzdsnRdGsL+V91So3D8W53ts9guP3dNkrt5+IRDNTH/ieC6R+khiz4g7j98zzrh+QR6D
+ jlv2uEJKmS2ca7z8TgBBJpRGSXJfrW4gB4wuEOkoiMZqCB1EAM2NYAosoh+9c1A8l8nL
+ H5SUVrZLPZv+CCFXglWkRIJuwDT6NYrkN8+QPeZj4zNGi4nB3b3XSpQe2N0cqKDor23a
+ NkKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e/w4cxTJkCDMZlBFrEpupwHPY+eFheBz2dUBNsjbLHs=;
- b=BaIi8lH5/rMIed97fed86KIPFlvT8J6NlYChOjZjl7xrNFpdI3GJqH7YE9EMatI9j5
- UkyCZTHRYq6WgZwOKW0086QUav0ydNoxvZEMOLX8zZrHpENHNNZ8hbd5DSzrHqrjjnWl
- lxjBzC0+XsKq8t1fjL4lkKU/DaT+SXYxINv6VE6i+82VEuSc7DQsDkMbrdQYoBtnAE+Y
- wZQrBeZ2a1lLqWzPz7YYreZY52Mi9BGkRIEtiLMGjsAdBKUS2Q4tMCIEY9Tfni1cJyqY
- oyKb1YaDfdpYl+HuJYCoA0EyUBV/S21qItOhFhqcqjV5sMzdRnolHwGfFgupGuV3cMEz
- 31cA==
-X-Gm-Message-State: AOAM532X6vQCRHCFuta6Wn9ahzzsvP8oWiqQTZKaNf7nPnYxKYy5RZTJ
- fvk/9CG06wmKMLbw1WiZSFaRlZP962EXCg==
-X-Google-Smtp-Source: ABdhPJztccnGdX0/h8bK+zoMd3Qi7QxjLEmU+fXiGg88xqco8zDpDs6g8atLhbTgMcv+ebGXkuRsbg==
-X-Received: by 2002:a17:906:408c:b0:6e8:d649:5e41 with SMTP id
- u12-20020a170906408c00b006e8d6495e41mr12808009ejj.519.1650359431300; 
- Tue, 19 Apr 2022 02:10:31 -0700 (PDT)
+ bh=3uUtM/awZJzxHsahEaoqFNclAEXPyMd8cUhld2J+yOU=;
+ b=KWSrKVc1OfWYM0pAjQ47lBWfM4bhwDz0ldsZ79ypZnIhCQK4hpOc5THEM1H2CSpyMg
+ oDLFkqbYLgUV0TZj1otg4eYgkZVbFZeiNIhkgUcon+gcp/lVrRTX0kqqLLEmUF3kn9r/
+ nzE5T7jG6T+ZE2ZiAlqhqTi3NULH7NgHACK4JACjzGHC3Y+vVpoWlAO94OE61PpcZNVQ
+ sAqqK7zo52MJlkUDvZ2Qb+jyQ03WspF5Szo1dQ4MEw2GhD9Tx0PLm9z3v/Bhelji0yPf
+ DNC4+XSCTfMANOPReJQ4GSKThXkznPXQw0fIcuuCDHihxz9W3eK9J9GgIOGzTZ1tyoya
+ mo7Q==
+X-Gm-Message-State: AOAM532LxfosKhZVl3KQ5cM5umNYhSFJxRVnOSys/1MXUdjFgrGmbFVP
+ tGVIlfL0wY7iPU4Owf/gaKPNGw==
+X-Google-Smtp-Source: ABdhPJxjlZd80i1sNesWW03CfGe1MGdF/0uS+gYrB6aRNEX2l5pqkuVn+HUfCMXS7wv7wJIK8cZasA==
+X-Received: by 2002:a17:906:1be1:b0:6ce:b0a8:17d with SMTP id
+ t1-20020a1709061be100b006ceb0a8017dmr12609361ejg.413.1650359434561; 
+ Tue, 19 Apr 2022 02:10:34 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- bo14-20020a170906d04e00b006ce98d9c3e3sm5444656ejb.194.2022.04.19.02.10.22
+ fy11-20020a1709069f0b00b006e8b68c92d8sm5380284ejc.162.2022.04.19.02.10.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 19 Apr 2022 02:10:26 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C4F9F1FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id DBAAD1FFBE;
  Tue, 19 Apr 2022 10:10:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 05/25] tests/docker: remove test targets
-Date: Tue, 19 Apr 2022 10:10:00 +0100
-Message-Id: <20220419091020.3008144-6-alex.bennee@linaro.org>
+Subject: [PATCH  v1 06/25] tests/docker: remove dead variable
+Date: Tue, 19 Apr 2022 10:10:01 +0100
+Message-Id: <20220419091020.3008144-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220419091020.3008144-1-alex.bennee@linaro.org>
 References: <20220419091020.3008144-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,66 +99,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220401141326.1244422-3-pbonzini@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220401141326.1244422-4-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include         | 20 +-------------------
- tests/docker/dockerfiles/empty.docker |  8 --------
- 2 files changed, 1 insertion(+), 27 deletions(-)
- delete mode 100644 tests/docker/dockerfiles/empty.docker
+ tests/docker/Makefile.include | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index a6a5a20949..06c40a9320 100644
+index 06c40a9320..c8d0ec3c66 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -18,7 +18,7 @@ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+@@ -13,7 +13,6 @@ HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
+ TESTS ?= %
+ IMAGES ?= %
+ 
+-DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
  # we don't run tests on intermediate images (used as base by another image)
  DOCKER_PARTIAL_IMAGES := debian10 debian11
- # we don't directly build virtual images (they are used to build other images)
--DOCKER_VIRTUAL_IMAGES := debian-bootstrap debian-toolchain empty
-+DOCKER_VIRTUAL_IMAGES := debian-bootstrap debian-toolchain
- __IMAGES := $(sort $(filter-out $(DOCKER_VIRTUAL_IMAGES), $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
- DOCKER_IMAGES := $(if $(IMAGES), $(filter $(IMAGES), $(__IMAGES)), $(__IMAGES))
- DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
-@@ -99,24 +99,6 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
- 			{ echo "You will need to build $(EXECUTABLE)"; exit 1;},\
- 			"CHECK", "debian-$* exists"))
- 
--# These are test targets
--USER_TCG_TARGETS=$(patsubst %-linux-user,qemu-%,$(filter %-linux-user,$(TARGET_DIRS)))
--EXEC_COPY_TESTS=$(patsubst %,docker-exec-copy-test-%, $(USER_TCG_TARGETS))
--
--$(EXEC_COPY_TESTS): docker-exec-copy-test-%: $(DOCKER_FILES_DIR)/empty.docker
--	$(call quiet-command,							\
--		$(DOCKER_SCRIPT) build -t qemu/exec-copy-test-$* -f $< 		\
--			$(if $V,,--quiet) --no-cache 				\
--			--include-executable=$*					\
--			--skip-binfmt,						\
--			"TEST","copy $* to container")
--	$(call quiet-command,							\
--		$(DOCKER_SCRIPT) run qemu/exec-copy-test-$* 			\
--			/$* -version > tests/docker-exec-copy-test-$*.out,	\
--			"TEST","check $* works in container")
--
--docker-exec-copy-test: $(EXEC_COPY_TESTS)
--
- endif
- 
- # Enforce dependencies for composite images
-diff --git a/tests/docker/dockerfiles/empty.docker b/tests/docker/dockerfiles/empty.docker
-deleted file mode 100644
-index 9ba980f1a8..0000000000
---- a/tests/docker/dockerfiles/empty.docker
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#
--# Empty Dockerfile
--#
--
--FROM scratch
--
--# Add everything from the context into the container
--ADD . /
 -- 
 2.30.2
 
