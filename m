@@ -2,105 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B66507A07
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 21:13:18 +0200 (CEST)
-Received: from localhost ([::1]:41744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E2C507A24
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 21:20:38 +0200 (CEST)
+Received: from localhost ([::1]:49018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngtHp-0007t2-Hr
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 15:13:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55622)
+	id 1ngtOv-0004la-G4
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 15:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ngtGd-0006SQ-OG; Tue, 19 Apr 2022 15:12:03 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ngtGb-0006tl-JV; Tue, 19 Apr 2022 15:12:03 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23JI7hw9020752; 
- Tue, 19 Apr 2022 19:11:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=xBsDqhFgz2SxErr+ehiqLXeiKjLkm19lQ7QrM8d/7Jg=;
- b=nhWYUd3Yv4m/gQhEZcIBzFw8WELNeticnD7lSlLtrmOgR8SehO5ExZ6q8nvC9pZdTJyk
- +cvMnMkT1QW6hKkwKHyloO+tm51SvVqpM2bLb2VkkW/9MbsxGdcGVgEfd9efo+poV3Sv
- AfoSuwoPcHIHXq+D/tWlKlfAT4c9pt6Z3BfercxBQDBAf4q5Bvr6diNBSrwrtWZsmain
- Wi4RIkfSOWcjy4rYCP2y/73RzvXqdh82rV9RAAySRMBVUvxaMmStMWCaXq0uFyF3qMy3
- hNV1lx2GuNGL9uojHLHaqWTLzCk18FMNcY9mbTss0ey0GUdIpYyQcK6RJdWRIoLTVqXg ig== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fhyqdd7yh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Apr 2022 19:11:58 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23JIRVkq022915;
- Tue, 19 Apr 2022 19:11:57 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fhyqdd7xu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Apr 2022 19:11:57 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23JJ2xkr016022;
- Tue, 19 Apr 2022 19:11:55 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma02fra.de.ibm.com with ESMTP id 3fgu6u2c6g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Apr 2022 19:11:54 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 23JIx5D736503976
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Apr 2022 18:59:05 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CD44242041;
- Tue, 19 Apr 2022 19:11:51 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 15E234203F;
- Tue, 19 Apr 2022 19:11:51 +0000 (GMT)
-Received: from [9.171.88.57] (unknown [9.171.88.57])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 19 Apr 2022 19:11:50 +0000 (GMT)
-Message-ID: <70a9d770-08dd-cf61-7c54-8bef0c84b208@linux.ibm.com>
-Date: Tue, 19 Apr 2022 21:15:08 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngtLu-0003Zm-Tz
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 15:17:34 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:33369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ngtLt-0007hW-9C
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 15:17:30 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ n11-20020a17090a73cb00b001d1d3a7116bso2265286pjk.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 12:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=VuX3gYmVbGXS9mQuUS/mZkASheSj1DBGLPk1jrmHzQ0=;
+ b=xVQJ8EjpXKBSnc1nsOlAFiYkvd8n0TaYVqtE0mX4IRJIVqFFtq1HcslXcofJAfEHwI
+ upNT70sKuKekohST3h6KfVksZcVqK9gsbKNVPU8Ogb1fmWOAn9iKuyyFrbUKhPRedpZG
+ I4wNxGNK4SehvPn4AXPpeCY9xSvE4Fm2uhlMmtNNpYgH+LlMtei0q+yiJQ9p0nyXIi3j
+ G4tFXasiI9ShBLe1cheGipp6aS7Yr7SPge22b3UQi6jHC22WUbsCxWRHWkxecXvvWfSm
+ fdkqUgvvIj+lNseI6Xzk0LSXZ9XX+kTDScQNtnShmaglUGhb++gGYbcB6XFW4GVDLSA4
+ 4h/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=VuX3gYmVbGXS9mQuUS/mZkASheSj1DBGLPk1jrmHzQ0=;
+ b=XJJ8p026ICBCQca4Ell2lz65Hu6icI2r+QFJk1z9V6a5YxtA4bk4AMJBbPlnHIRHow
+ cl26F6J1hMLPtpgud4juKaRW7kwIVK3Muqeia3Zowo+F7v3EX9zI3UXVAyl/LywKl2A7
+ sJpPXWEwBfyNbTYG/dQTC9MjBvOJx016NljXU8O2AjxwYe7IN+r6PhPa/8e+5C5b/qmI
+ MFoj1Vo0pFFbiwhV44m2qlTu6ehzJvLZlZYZBLfnuBmRFYzZoI8ZvTLHHaU8gsB5vp4P
+ O82x1LG13K2i5luO3Ew+0TPrbXtBIFBkBWzcSRaYIPFMLrWmrMzjc4kW1XroXoxSGQQ+
+ M8dg==
+X-Gm-Message-State: AOAM5313P0+AGe6NPbOywcS8JKwD9FTPSve3uHkFsHKt4rMv090qXxVL
+ GmrOzKxdnsCGOUmvWx4mrHE/1Q==
+X-Google-Smtp-Source: ABdhPJya9U5Qql+rfgAKrv7NkUgfSe8bXvsW+igVY0D4gNbrrLvEGpEGsuHVVYxXs9RUfti/sp32qw==
+X-Received: by 2002:a17:90b:4c06:b0:1d2:5e99:a89d with SMTP id
+ na6-20020a17090b4c0600b001d25e99a89dmr81078pjb.231.1650395845887; 
+ Tue, 19 Apr 2022 12:17:25 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ r31-20020a63205f000000b0039db0514016sm17083791pgm.29.2022.04.19.12.17.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Apr 2022 12:17:25 -0700 (PDT)
+Message-ID: <eaba5f28-cb18-1b1d-30df-2db5ca31f9f6@linaro.org>
+Date: Tue, 19 Apr 2022 12:17:23 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 4/9] s390x/pci: add routine to get host function handle
- from CLP info
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v1 23/25] tests/tcg: add missing reference files for
+ float_convs
 Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
- <20220404181726.60291-5-mjrosato@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <20220404181726.60291-5-mjrosato@linux.ibm.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20220419091020.3008144-1-alex.bennee@linaro.org>
+ <20220419091020.3008144-24-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220419091020.3008144-24-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: OAJwUxsrmLmKX7yLIPmXOGiX7thGgbYg
-X-Proofpoint-ORIG-GUID: AzmQgznA2tQbrEMrwzUYv9vjHMV_UbnB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-19_07,2022-04-15_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- clxscore=1015 priorityscore=1501 suspectscore=0 malwarescore=0
- adultscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 impostorscore=0
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204190109
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,177 +92,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: fam@euphon.net, Eduardo Habkost <eduardo@habkost.net>, berrange@redhat.com,
+ f4bug@amsat.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 4/4/22 20:17, Matthew Rosato wrote:
-> In order to interface with the underlying host zPCI device, we need
-> to know it's function handle.  Add a routine to grab this from the
-> vfio CLP capabilities chain.
+On 4/19/22 02:10, Alex Bennée wrote:
+> We might as well include a reference file for i386/x86_64. I was going
+> to include s390x as well but it's broken hence I raised:
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-
-Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-
-
+>    https://gitlab.com/qemu-project/qemu/-/issues/979.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   hw/s390x/s390-pci-vfio.c         | 83 ++++++++++++++++++++++++++------
->   include/hw/s390x/s390-pci-vfio.h |  6 +++
->   2 files changed, 73 insertions(+), 16 deletions(-)
-> 
-> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-> index 6f80a47e29..4bf0a7e22d 100644
-> --- a/hw/s390x/s390-pci-vfio.c
-> +++ b/hw/s390x/s390-pci-vfio.c
-> @@ -124,6 +124,27 @@ static void s390_pci_read_base(S390PCIBusDevice *pbdev,
->       pbdev->zpci_fn.pft = 0;
->   }
->   
-> +static bool get_host_fh(S390PCIBusDevice *pbdev, struct vfio_device_info *info,
-> +                        uint32_t *fh)
-> +{
-> +    struct vfio_info_cap_header *hdr;
-> +    struct vfio_device_info_cap_zpci_base *cap;
-> +    VFIOPCIDevice *vpci =  container_of(pbdev->pdev, VFIOPCIDevice, pdev);
-> +
-> +    hdr = vfio_get_device_info_cap(info, VFIO_DEVICE_INFO_CAP_ZPCI_BASE);
-> +
-> +    /* Can only get the host fh with version 2 or greater */
-> +    if (hdr == NULL || hdr->version < 2) {
-> +        trace_s390_pci_clp_cap(vpci->vbasedev.name,
-> +                               VFIO_DEVICE_INFO_CAP_ZPCI_BASE);
-> +        return false;
-> +    }
-> +    cap = (void *) hdr;
-> +
-> +    *fh = cap->fh;
-> +    return true;
-> +}
-> +
->   static void s390_pci_read_group(S390PCIBusDevice *pbdev,
->                                   struct vfio_device_info *info)
->   {
-> @@ -217,25 +238,13 @@ static void s390_pci_read_pfip(S390PCIBusDevice *pbdev,
->       memcpy(pbdev->zpci_fn.pfip, cap->pfip, CLP_PFIP_NR_SEGMENTS);
->   }
->   
-> -/*
-> - * This function will issue the VFIO_DEVICE_GET_INFO ioctl and look for
-> - * capabilities that contain information about CLP features provided by the
-> - * underlying host.
-> - * On entry, defaults have already been placed into the guest CLP response
-> - * buffers.  On exit, defaults will have been overwritten for any CLP features
-> - * found in the capability chain; defaults will remain for any CLP features not
-> - * found in the chain.
-> - */
-> -void s390_pci_get_clp_info(S390PCIBusDevice *pbdev)
-> +static struct vfio_device_info *get_device_info(S390PCIBusDevice *pbdev,
-> +                                                uint32_t argsz)
->   {
-> -    g_autofree struct vfio_device_info *info = NULL;
-> +    struct vfio_device_info *info = g_malloc0(argsz);
->       VFIOPCIDevice *vfio_pci;
-> -    uint32_t argsz;
->       int fd;
->   
-> -    argsz = sizeof(*info);
-> -    info = g_malloc0(argsz);
-> -
->       vfio_pci = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
->       fd = vfio_pci->vbasedev.fd;
->   
-> @@ -250,7 +259,8 @@ retry:
->   
->       if (ioctl(fd, VFIO_DEVICE_GET_INFO, info)) {
->           trace_s390_pci_clp_dev_info(vfio_pci->vbasedev.name);
-> -        return;
-> +        free(info);
-> +        return NULL;
->       }
->   
->       if (info->argsz > argsz) {
-> @@ -259,6 +269,47 @@ retry:
->           goto retry;
->       }
->   
-> +    return info;
-> +}
-> +
-> +/*
-> + * Get the host function handle from the vfio CLP capabilities chain.  Returns
-> + * true if a fh value was placed into the provided buffer.  Returns false
-> + * if a fh could not be obtained (ioctl failed or capabilitiy version does
-> + * not include the fh)
-> + */
-> +bool s390_pci_get_host_fh(S390PCIBusDevice *pbdev, uint32_t *fh)
-> +{
-> +    g_autofree struct vfio_device_info *info = NULL;
-> +
-> +    assert(fh);
-> +
-> +    info = get_device_info(pbdev, sizeof(*info));
-> +    if (!info) {
-> +        return false;
-> +    }
-> +
-> +    return get_host_fh(pbdev, info, fh);
-> +}
-> +
-> +/*
-> + * This function will issue the VFIO_DEVICE_GET_INFO ioctl and look for
-> + * capabilities that contain information about CLP features provided by the
-> + * underlying host.
-> + * On entry, defaults have already been placed into the guest CLP response
-> + * buffers.  On exit, defaults will have been overwritten for any CLP features
-> + * found in the capability chain; defaults will remain for any CLP features not
-> + * found in the chain.
-> + */
-> +void s390_pci_get_clp_info(S390PCIBusDevice *pbdev)
-> +{
-> +    g_autofree struct vfio_device_info *info = NULL;
-> +
-> +    info = get_device_info(pbdev, sizeof(*info));
-> +    if (!info) {
-> +        return;
-> +    }
-> +
->       /*
->        * Find the CLP features provided and fill in the guest CLP responses.
->        * Always call s390_pci_read_base first as information from this could
-> diff --git a/include/hw/s390x/s390-pci-vfio.h b/include/hw/s390x/s390-pci-vfio.h
-> index ff708aef50..0c2e4b5175 100644
-> --- a/include/hw/s390x/s390-pci-vfio.h
-> +++ b/include/hw/s390x/s390-pci-vfio.h
-> @@ -20,6 +20,7 @@ bool s390_pci_update_dma_avail(int fd, unsigned int *avail);
->   S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
->                                             S390PCIBusDevice *pbdev);
->   void s390_pci_end_dma_count(S390pciState *s, S390PCIDMACount *cnt);
-> +bool s390_pci_get_host_fh(S390PCIBusDevice *pbdev, uint32_t *fh);
->   void s390_pci_get_clp_info(S390PCIBusDevice *pbdev);
->   #else
->   static inline bool s390_pci_update_dma_avail(int fd, unsigned int *avail)
-> @@ -33,6 +34,11 @@ static inline S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
->   }
->   static inline void s390_pci_end_dma_count(S390pciState *s,
->                                             S390PCIDMACount *cnt) { }
-> +static inline bool s390_pci_get_host_fh(S390PCIBusDevice *pbdev,
-> +                                        unsigned int *fh)
-> +{
-> +    return false;
-> +}
->   static inline void s390_pci_get_clp_info(S390PCIBusDevice *pbdev) { }
->   #endif
->   
-> 
+>   tests/tcg/i386/float_convs.ref   | 748 +++++++++++++++++++++++++++++++
+>   tests/tcg/x86_64/float_convs.ref | 748 +++++++++++++++++++++++++++++++
+>   2 files changed, 1496 insertions(+)
+>   create mode 100644 tests/tcg/i386/float_convs.ref
+>   create mode 100644 tests/tcg/x86_64/float_convs.ref
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Are we forcing SSE math for i386?  Otherwise this isn't quite testing the same thing.  Not 
+that we shouldn't test floatx80, but...
+
+
+r~
 
