@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F45507408
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 18:47:03 +0200 (CEST)
-Received: from localhost ([::1]:37286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3539F5075A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 18:54:02 +0200 (CEST)
+Received: from localhost ([::1]:41290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngr0I-0006Tf-I1
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 12:47:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56640)
+	id 1ngr72-0001mc-In
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 12:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ngqwk-0004BN-6f
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 12:43:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34338)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ngr4f-0008Le-Nz
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 12:51:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ngqwd-0008RF-Vn
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 12:43:17 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ngr4b-0001Xe-NO
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 12:51:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650386594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V3ODNWfMW+rRhSokZu86v1GXhJjBricpy30YxedvS1g=;
- b=OPamOgJ2lSVGI4a6XU12sV/ORzzmvPhwKhsr/RFsGwbaHkKXdFyM2cSDybtST+NcurctEM
- OhzxLvH/4cpdFNIHt5GUXTQ2icEQbBMvHz2+FNucFwu1/Qd5QUFc51t5NPw2QQpL823HHE
- PIXq6cIj7Y81bj9vMWSBBR4XvKF3vxc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1650387088;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=zBCOCZQgiMLLDxlC4rA2vN0Dk4Od1oV+ARld4Fb1mq8=;
+ b=VggrKxK+ndoolC/wtzPtyCwG+jdJoP5v05GsdWDgUoB6femXNRl9EK5BlhAIbh/1jF5QxH
+ 5Ejvi9jB/8YDYHNwtT5fReVjQo4RSd1cBrY7cUQZW22YG87kR1M3ukggCCx7vAXphDu/a8
+ TIYaQ3qTuIWEMg3seYy/ekxAIjQj9Fg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-148-L81DbSrmODSiaBV7FxkkGQ-1; Tue, 19 Apr 2022 12:43:10 -0400
-X-MC-Unique: L81DbSrmODSiaBV7FxkkGQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- d13-20020a05600c3acd00b0038ff865c043so1594189wms.3
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 09:43:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=V3ODNWfMW+rRhSokZu86v1GXhJjBricpy30YxedvS1g=;
- b=drerYbFbf+0pp5oOJjS1srZtPJGGyqSExCTGVsbQyB4QKzQS8QehdrKz/ZldlJwtXy
- wDWSTE6gRmRTnL+AT9/DxxzHh1XUT8nqiTPinw5dtzqq3luSxz6UXIxq/nLXkxQJ9WqW
- n5noX0bw0EIbjF0iD2cfinkJIDsfl/KeaZpVcz9UZZ4u8RhAt5yAH/n8y5gjfhuSDYDC
- dGwc6uY0hXddukKJSjewW0LCTVymn2M3Jifd1oNDOCTANxn76j4cEl/vqo9OGDeBYSUb
- xag3MmJwnBX5DsU8X6M7OToc9erQAQ4rktDKUrG5f3COzewmo/PA8axnH5uIgEEEUolx
- bZlQ==
-X-Gm-Message-State: AOAM533OMEVSCCeyBkVWCWTmDed3untE6KwHz5RfR5RVWUiWoHSuiN3B
- v+9DHIAAh0+iPFd3gNrC0qS3mBgC2LGTJEtV+684jdKcYyoLrce6GgsYgRnDPffpwo9FKrUmTvr
- kftA/dKlliQAoT34=
-X-Received: by 2002:adf:f981:0:b0:205:c3e1:9eba with SMTP id
- f1-20020adff981000000b00205c3e19ebamr12387519wrr.244.1650386589541; 
- Tue, 19 Apr 2022 09:43:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/sBvEGx6+IXc/dmS3LEsLdRrH83M0si6np7xgLC//YEu1El92MuYL5XEmIp9phspX0ZKpFQ==
-X-Received: by 2002:adf:f981:0:b0:205:c3e1:9eba with SMTP id
- f1-20020adff981000000b00205c3e19ebamr12387485wrr.244.1650386589266; 
- Tue, 19 Apr 2022 09:43:09 -0700 (PDT)
-Received: from redhat.com ([2.53.17.80]) by smtp.gmail.com with ESMTPSA id
- v14-20020a7bcb4e000000b0034492fa24c6sm16631515wmj.34.2022.04.19.09.43.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 09:43:07 -0700 (PDT)
-Date: Tue, 19 Apr 2022 12:43:03 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: propagating vmgenid outward and upward
-Message-ID: <20220419124245-mutt-send-email-mst@kernel.org>
-References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
- <c5181fb5-38fb-f261-9de5-24655be1c749@amazon.com>
- <CAHmME9rTMDkE7UA3_wg87mrDVYps+YaHw+dZwF0EbM0zC4pQQw@mail.gmail.com>
- <47137806-9162-0f60-e830-1a3731595c8c@amazon.com>
- <CAHmME9pwfKfKp_qqbmAO5tEaQSZ5srCO5COThK3vWZR4avRF1g@mail.gmail.com>
+ us-mta-267-MVR-lL6XOzmKdQOMhyiL6w-1; Tue, 19 Apr 2022 12:51:27 -0400
+X-MC-Unique: MVR-lL6XOzmKdQOMhyiL6w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71212833964;
+ Tue, 19 Apr 2022 16:51:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.155])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBAAD145B97F;
+ Tue, 19 Apr 2022 16:51:24 +0000 (UTC)
+Date: Tue, 19 Apr 2022 17:51:20 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Atish Patra <atishp@rivosinc.com>
+Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
+Message-ID: <Yl7oiF7kUrIQ0qk5@redhat.com>
+References: <20220412021009.582424-1-atishp@rivosinc.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHmME9pwfKfKp_qqbmAO5tEaQSZ5srCO5COThK3vWZR4avRF1g@mail.gmail.com>
+In-Reply-To: <20220412021009.582424-1-atishp@rivosinc.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,58 +80,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
- Colm MacCarthaigh <colmmacc@amazon.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- adrian@parity.io, KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-riscv@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 19, 2022 at 05:12:36PM +0200, Jason A. Donenfeld wrote:
-> Hey Alex,
+On Mon, Apr 11, 2022 at 07:10:06PM -0700, Atish Patra wrote:
 > 
-> On Thu, Mar 10, 2022 at 12:18 PM Alexander Graf <graf@amazon.com> wrote:
-> > I agree on the slightly racy compromise and that it's a step into the
-> > right direction. Doing this is a no brainer IMHO and I like the proc
-> > based poll approach.
+> The RISC-V virt machine has helped RISC-V software eco system to evolve at a
+> rapid pace even in absense of the real hardware. It is definitely commendable.
+> However, the number of devices & commandline options keeps growing as a result
+> of that as well. That adds flexibility but will also become bit difficult
+> to manage in the future as more extension support will be added. As it is the
+> most commonly used qemu machine, it needs to support all kinds of device and
+> interrupts as well. Moreover, virt machine has limitations on the maximum
+> number of harts it can support because of all the MMIO devices it has to support.
 > 
-> Alright. I'm going to email a more serious patch for that in the next
-> few hours and you can have a look. Let's do that for 5.19.
+> The RISC-V IMSIC specification allows to develop machines completely relying
+> on MSI and don't care about the wired interrupts at all. It just requires
+> all the devices to be present behind a PCI bus or present themselves as platform
+> MSI device. The former is a more common scenario in x86 world where most
+> of the devices are behind PCI bus. As there is very limited MMIO device
+> support, it can also scale to very large number of harts.
 > 
-> > I have an additional problem you might have an idea for with the poll
-> > based path. In addition to the clone notification, I'd need to know at
-> > which point everyone who was listening to a clone notification is
-> > finished acting up it. If I spawn a tiny VM to do "work", I want to know
-> > when it's safe to hand requests into it. How do I find out when that
-> > point in time is?
-> 
-> Seems tricky to solve. Even a count of current waiters and a
-> generation number won't be sufficient, since it wouldn't take into
-> account users who haven't _yet_ gotten to waiting. But maybe it's not
-> the right problem to solve? Or somehow not necessary? For example, if
-> the problem is a bit more constrained a solution becomes easier: you
-> have a fixed/known set of readers that you know about, and you
-> guarantee that they're all waiting before the fork. Then after the
-> fork, they all do something to alert you in their poll()er, and you
-> count up how many alerts you get until it matches the number of
-> expected waiters. Would that work? It seems like anything more general
-> than that is just butting heads with the racy compromise we're already
-> making.
-> 
-> Jason
+> That's why, this patch series introduces a minimalistic yet very extensible
+> forward looking machine called as "RISC-V Mini Computer" or "minic". The
+> idea is to build PC or server like systems with this machine. The machine can
+> work with or without virtio framework. The current implementation only
+> supports RV64. I am not sure if building a RV32 machine would be of interest
+> for such machines. The only mmio device it requires is clint to emulate
+> the mtimecmp.
 
-I have some ideas here ... but can you explain the use-case a bit more?
+I would ask what you see as the long term future usage for 'virt' vs
+'minic' machine types ? Would you expect all existing users of 'virt'
+to ultimately switch to 'minic', or are there distinct non-overlapping
+use cases for 'virt' vs 'minic' such that both end up widely used ?
 
+Is 'minic' intended to be able to mimic real physical hardware at all,
+or is it still intended as a purely virtual machine, like a 'virt-ng' ?
+
+Essentially 'virt' was positioned as the standard machine to use if
+you want to run a virtual machine, without any particular match to
+physical hardware. It feels like 'minic' is creating a second machine
+type to fill the same purpose, so how do users decide which to use ? 
+
+> "Naming is hard". I am not too attached with the name "minic". 
+> I just chose least bad one out of the few on my mind :). I am definitely
+> open to any other name as well. 
+> 
+> The other alternative to provide MSI only option to aia in the 
+> existing virt machine to build MSI only machines. This is certainly doable
+> and here is the patch that supports that kind of setup.
+> 
+> https://github.com/atishp04/qemu/tree/virt_imsic_only
+> 
+> However, it even complicates the virt machine even further with additional
+> command line option, branches in the code. I believe virt machine will become
+> very complex if we continue this path. I am interested to learn what everyone
+> else think.
+> 
+> It is needless to say that the current version of minic machine
+> is inspired from virt machine and tries to reuse as much as code possible.
+> The first patch in this series adds MSI support for serial-pci device so
+> console can work on such a machine. The 2nd patch moves some common functions
+> between minic and the virt machine to a helper file. The PATCH3 actually
+> implements the new minic machine.
+> 
+> I have not added the fw-cfg/flash support. We probably should add those
+> but I just wanted to start small and get the feedback first.
+> This is a work in progress and have few more TODO items before becoming the
+> new world order :)
+> 
+> 1. OpenSBI doesn't have PCI support. Thus, no console support for OpenSBI
+> for now.
+> 2. The ns16550 driver in OpenSBI also need to support MSI/MSI-X.
+> 3. Add MSI-X support for serial-pci device.
+> 
+> This series can boot Linux distros with the minic machine with or without virtio
+> devices with out-of-tree Linux kernel patches[1]. Here is an example commandline 
+> 
+> Without virtio devices (nvme, serial-pci & e1000e):
+> =====================================================
+> /scratch/workspace/qemu/build/qemu-system-riscv64 -cpu rv64 -M minic -m 1G -smp 4 -nographic -nodefaults \
+> -display none -bios /scratch/workspace/opensbi/build/platform/generic/firmware/fw_dynamic.elf \
+> -kernel /scratch/workspace/linux/arch/riscv/boot/Image \
+> -chardev stdio,mux=on,signal=off,id=charconsole0 \
+> -mon chardev=charconsole0,mode=readline \
+> -device pci-serial,msi=true,chardev=charconsole0 \
+> -drive id=disk3,file=/scratch/workspace/rootfs_images//fedora/Fedora-Developer-Rawhide-20211110.n.0-sda.raw,format=raw,if=none,id=drive-system-disk,cache=none,format=raw \
+> -device nvme,serial=deadbeef,drive=disk3 \
+> -netdev user,id=usernet,hostfwd=tcp::10000-:22 -device e1000e,netdev=usernet,bus=pcie.0 \
+> -append 'root=/dev/nvme0n1p2 rw loglevel=8 memblock=debug console=ttyS0 earlycon' -d in_asm -D log.txt -s
+> 
+> With virtio devices (virtio-scsi-pci, serial-pci & virtio-net-pci)
+> ==================================================================
+> /scratch/workspace/qemu/build/qemu-system-riscv64 -cpu rv64 -M minic -m 1G -smp 4 -nographic -nodefaults \
+> -display none -bios /scratch/workspace/opensbi/build/platform/generic/firmware/fw_dynamic.elf \
+> -kernel /scratch/workspace/linux/arch/riscv/boot/Image \
+> -chardev stdio,mux=on,signal=off,id=charconsole0 \
+> -mon chardev=charconsole0,mode=readline \
+> -device pci-serial,msi=true,chardev=charconsole0 \
+> -drive file=/scratch/workspace/rootfs_images//fedora/Fedora-Developer-Rawhide-20211110.n.0-sda.raw,format=raw,if=none,id=drive-system-disk,cache=none \
+> -device virtio-scsi-pci,id=scsi0 -device scsi-hd,bus=scsi0.0,drive=drive-system-disk,id=system-disk,bootindex=1 \
+> -netdev user,id=n1,hostfwd=tcp::10000-:22 -device virtio-net-pci,netdev=n1 \
+> -append 'root=/dev/sda2 rw loglevel=8 memblock=debug console=ttyS0 earlycon'
+> 
+> The objective of this series is to engage the community to solve this problem.
+> Please suggest if you have another alternatve solution.
+> 
+> [1] https://github.com/atishp04/linux/tree/msi_only_console 
+> 
+> Atish Patra (3):
+> serial: Enable MSI capablity and option
+> hw/riscv: virt: Move common functions to a separate helper file
+> hw/riscv: Create a new qemu machine for RISC-V
+> 
+> configs/devices/riscv64-softmmu/default.mak |   1 +
+> hw/char/serial-pci.c                        |  36 +-
+> hw/riscv/Kconfig                            |  11 +
+> hw/riscv/machine_helper.c                   | 417 +++++++++++++++++++
+> hw/riscv/meson.build                        |   2 +
+> hw/riscv/minic.c                            | 438 ++++++++++++++++++++
+> hw/riscv/virt.c                             | 403 ++----------------
+> include/hw/riscv/machine_helper.h           |  87 ++++
+> include/hw/riscv/minic.h                    |  65 +++
+> include/hw/riscv/virt.h                     |  13 -
+> 10 files changed, 1090 insertions(+), 383 deletions(-)
+> create mode 100644 hw/riscv/machine_helper.c
+> create mode 100644 hw/riscv/minic.c
+> create mode 100644 include/hw/riscv/machine_helper.h
+> create mode 100644 include/hw/riscv/minic.h
+> 
+> --
+> 2.25.1
+> 
+> 
+
+With regards,
+Daniel
 -- 
-MST
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
