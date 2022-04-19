@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B0450641D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:02:43 +0200 (CEST)
-Received: from localhost ([::1]:43442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E914E50641C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:02:29 +0200 (CEST)
+Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nggwk-0001ey-GT
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:02:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32884)
+	id 1nggwX-0001RC-1O
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:02:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ngglg-00013A-Fr
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:16 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:45972)
+ id 1nggll-00014D-0k
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:21 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nggle-0004Mn-GZ
+ id 1ngglf-0004Mx-7x
  for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:16 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- 123-20020a1c1981000000b0038b3616a71aso753262wmz.4
+Received: by mail-wr1-x432.google.com with SMTP id e21so20910477wrc.8
  for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n4cZ/5yYlF+5qg8dpUFnjdhAuVIYXjGBqkXlY12xX7o=;
- b=JWbkofRswE+jBVKsdsxgOEDZPQgpvtpeBcQQtTG4/Kan82GGyo5XG7/HDqln/cq3gm
- Q6K6TgE6iuJPoIUuqh7ypBuhwibHYdi+o2gO9APyM/RkUft1x8fE17hKOFnZcGe4izLa
- NmAefA+YmkJExr5IAGQbd2L9spdBPzLRaynZTmNOGRKxmosWdwvrgcfVN7TBkgp0qYEW
- KrOtFaYpSVxp1NlrTVwwK21U8KqXcuF6lqkEPltqliRSDLyoKsB72AccJXw4R/dP8MUB
- KMjgPTf5Y8nLa18IChW8gHuGHXBNMX34yqWvLkpS1dD8kTPZSg/H9Btb6vgKZvdV+ADA
- 5zXw==
+ bh=8n7YayO6LjazF33AzTer7fETugLn5e3eb7rT2O0tPOk=;
+ b=EdJwcLwxoUCobNmf8bWK3jnDdBIe2idRq3Ll1H8HyrUJGkSLlEPxy0EeMRf0ZZ1a+B
+ 3L+bJhMx3aIzaGBM83/hd27AmwcOWmkQqvazYBLo9CvEnp3x8wpszPU7B0sOKV70vsU3
+ oZCMows528jTtmrEc0d+cJDhSZV3Q+2CvhRgQyItpARoCqGMU/w/4JoZ3rIYoGGTRxHi
+ rvUwxBSW573Ny0RvA8UiDWBpJ9Fi2Z8PHS3OmXKsdeMClvDHpHOTcBo4pMJgnRDVmgIW
+ TVU/jJUg6wHN3shWPIUbRuB5w8wiI6+c0fmzxMspFIeOd0uQSaAO0shE1WEPOw1CqQgo
+ tTcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=n4cZ/5yYlF+5qg8dpUFnjdhAuVIYXjGBqkXlY12xX7o=;
- b=Sf5ye0iSpNnKyCfDUsZfPh8Y8PdSCW50l8qzL9Ft7jGXNPcBH3QSp+wQQqL6FCYO8m
- sI4wrdLgOUsRCPUViqGDBPsbc6yrok/x0fvJj1GWKFswpuHb0Ba4UZMxPcCLp7KGPg/H
- it6tcwq8teNp+jvA0TuopwM//bgSb3cydXtb+ionqDJiBU6gT8qc3aeFjSLeiHvb2Wzl
- 6AiSVt2XRav707jBOvmesaoGQsd3LLOWFCOvdvD+VbQwExZnO1EGdBAtAaHxyiHzJC8e
- +iSkeVvdx/By728bfypaBZmgmYyLj94htWAFROFBpGx6iKRAmonbJ2L6aobUaAN3wDut
- e1dQ==
-X-Gm-Message-State: AOAM5332KIU4icnRGyHFfNkGqW6pJRDq1vdZcdnYGprcMcNPYdSMljxM
- +BBOMRfUFWGFDUIg2OrcWA/IQ5wSPghDog==
-X-Google-Smtp-Source: ABdhPJwBPbMpPA3IZ71JGRTMg1Rfnnq35xsXHmUYcPGywWIVH/V44rINGU50Fn1u3RLLPm52QWeRSQ==
-X-Received: by 2002:a7b:cbc9:0:b0:390:4f85:cef1 with SMTP id
- n9-20020a7bcbc9000000b003904f85cef1mr14149196wmi.154.1650347473108; 
+ bh=8n7YayO6LjazF33AzTer7fETugLn5e3eb7rT2O0tPOk=;
+ b=W0pCLPD+q4wiSHXkx2EFhgZLxFhG7BBue/CU7xTD6TJn7bFSVQXw5m9h4/0nPxZFKG
+ hZiPahnKNfS7K4PsVa0RICAMBzAhsQb7JvU7TSe9ZSAnKOD9oGSNhVmDlR5IS76BTvsd
+ U6ltKq0gNAXPxsKxgNTQ9ba9cfUpHTK+KRKvGBOIWxAoK7RB7eS4ofdFX9NcSclkexI/
+ XgmtCNlnYwhJDxGUp1HDmXa2MvRYSCTK2VYWuwcDmilM7VM5QxC2jyrMkyqRpbhlU4Ck
+ tHW+7iO0VD6c+NqYxZWuJwNcgmIEvFLLzDFClISsBYFyrwUXyhLu6Ixh+QjhQ9ywALLt
+ +fuw==
+X-Gm-Message-State: AOAM530+6joaDJoMx8PSofIOuv3mxx9fk9J1Di8OlQQ5Qhgjy+d1KCLp
+ TY9LYNYoRNpbUs9QTUJycR+YsVPmuay6BQ==
+X-Google-Smtp-Source: ABdhPJy3tEsc4eCvWdLMJwCyCqSK7NPfxkzQMvkNUtaqdyLgVonyRNZ1Gq0xBCO/QWK7QSZJqIrJ9w==
+X-Received: by 2002:a05:6000:1002:b0:207:a28a:c86a with SMTP id
+ a2-20020a056000100200b00207a28ac86amr10349321wrx.361.1650347473844; 
  Mon, 18 Apr 2022 22:51:13 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.12
+ bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 22:51:12 -0700 (PDT)
+ Mon, 18 Apr 2022 22:51:13 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/53] qtest: replace gettimeofday with GTimer
-Date: Tue, 19 Apr 2022 07:50:18 +0200
-Message-Id: <20220419055109.142788-3-pbonzini@redhat.com>
+Subject: [PULL 03/53] qga: replace qemu_gettimeofday() with g_get_real_time()
+Date: Tue, 19 Apr 2022 07:50:19 +0200
+Message-Id: <20220419055109.142788-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
 References: <20220419055109.142788-1-pbonzini@redhat.com>
@@ -66,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -89,117 +88,94 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-glib provides a convenience helper to measure elapsed time. It isn't
-subject to wall-clock time changes.
-
-Note that this changes the initial OPENED time, which used to print the
-current time.
+GLib g_get_real_time() is an alternative to gettimeofday() which allows
+to simplify our code.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220307070401.171986-3-marcandre.lureau@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220307070401.171986-4-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/qtest.c | 39 ++++++++++-----------------------------
- 1 file changed, 10 insertions(+), 29 deletions(-)
+ qga/commands-posix.c | 14 --------------
+ qga/commands-win32.c | 19 -------------------
+ qga/commands.c       |  5 +++++
+ 3 files changed, 5 insertions(+), 33 deletions(-)
 
-diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-index cc586233a9..010d11513d 100644
---- a/softmmu/qtest.c
-+++ b/softmmu/qtest.c
-@@ -58,12 +58,12 @@ static FILE *qtest_log_fp;
- static QTest *qtest;
- static GString *inbuf;
- static int irq_levels[MAX_IRQ];
--static qemu_timeval start_time;
-+static GTimer *timer;
- static bool qtest_opened;
- static void (*qtest_server_send)(void*, const char*);
- static void *qtest_server_send_opaque;
- 
--#define FMT_timeval "%ld.%06ld"
-+#define FMT_timeval "%.06f"
- 
- /**
-  * DOC: QTest Protocol
-@@ -264,28 +264,13 @@ static int hex2nib(char ch)
-     }
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 75dbaab68e..1e7b4656ed 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -136,20 +136,6 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
+     /* succeeded */
  }
  
--static void qtest_get_time(qemu_timeval *tv)
+-int64_t qmp_guest_get_time(Error **errp)
 -{
--    qemu_gettimeofday(tv);
--    tv->tv_sec -= start_time.tv_sec;
--    tv->tv_usec -= start_time.tv_usec;
--    if (tv->tv_usec < 0) {
--        tv->tv_usec += 1000000;
--        tv->tv_sec -= 1;
--    }
+-   int ret;
+-   qemu_timeval tq;
+-
+-   ret = qemu_gettimeofday(&tq);
+-   if (ret < 0) {
+-       error_setg_errno(errp, errno, "Failed to get time");
+-       return -1;
+-   }
+-
+-   return tq.tv_sec * 1000000000LL + tq.tv_usec * 1000;
 -}
 -
- static void qtest_send_prefix(CharBackend *chr)
+ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
  {
--    qemu_timeval tv;
--
-     if (!qtest_log_fp || !qtest_opened) {
-         return;
-     }
- 
--    qtest_get_time(&tv);
--    fprintf(qtest_log_fp, "[S +" FMT_timeval "] ",
--            (long) tv.tv_sec, (long) tv.tv_usec);
-+    fprintf(qtest_log_fp, "[S +" FMT_timeval "] ", g_timer_elapsed(timer, NULL));
+     int ret;
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 3c428213db..15b451f0a4 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -1751,25 +1751,6 @@ static int64_t filetime_to_ns(const FILETIME *tf)
+             - W32_FT_OFFSET) * 100;
  }
  
- static void G_GNUC_PRINTF(1, 2) qtest_log_send(const char *fmt, ...)
-@@ -386,12 +371,9 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
-     command = words[0];
+-int64_t qmp_guest_get_time(Error **errp)
+-{
+-    SYSTEMTIME ts = {0};
+-    FILETIME tf;
+-
+-    GetSystemTime(&ts);
+-    if (ts.wYear < 1601 || ts.wYear > 30827) {
+-        error_setg(errp, "Failed to get time");
+-        return -1;
+-    }
+-
+-    if (!SystemTimeToFileTime(&ts, &tf)) {
+-        error_setg(errp, "Failed to convert system time: %d", (int)GetLastError());
+-        return -1;
+-    }
+-
+-    return filetime_to_ns(&tf);
+-}
+-
+ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
+ {
+     Error *local_err = NULL;
+diff --git a/qga/commands.c b/qga/commands.c
+index 72e6022207..4e9ce25b2e 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -585,3 +585,8 @@ GuestFileRead *qmp_guest_file_read(int64_t handle, bool has_count,
  
-     if (qtest_log_fp) {
--        qemu_timeval tv;
-         int i;
- 
--        qtest_get_time(&tv);
--        fprintf(qtest_log_fp, "[R +" FMT_timeval "]",
--                (long) tv.tv_sec, (long) tv.tv_usec);
-+        fprintf(qtest_log_fp, "[R +" FMT_timeval "]", g_timer_elapsed(timer, NULL));
-         for (i = 0; words[i]; i++) {
-             fprintf(qtest_log_fp, " %s", words[i]);
-         }
-@@ -846,21 +828,20 @@ static void qtest_event(void *opaque, QEMUChrEvent event)
-         for (i = 0; i < ARRAY_SIZE(irq_levels); i++) {
-             irq_levels[i] = 0;
-         }
--        qemu_gettimeofday(&start_time);
+     return read_data;
+ }
 +
-+        g_clear_pointer(&timer, g_timer_destroy);
-+        timer = g_timer_new();
-         qtest_opened = true;
-         if (qtest_log_fp) {
--            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n",
--                    (long) start_time.tv_sec, (long) start_time.tv_usec);
-+            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n", g_timer_elapsed(timer, NULL));
-         }
-         break;
-     case CHR_EVENT_CLOSED:
-         qtest_opened = false;
-         if (qtest_log_fp) {
--            qemu_timeval tv;
--            qtest_get_time(&tv);
--            fprintf(qtest_log_fp, "[I +" FMT_timeval "] CLOSED\n",
--                    (long) tv.tv_sec, (long) tv.tv_usec);
-+            fprintf(qtest_log_fp, "[I +" FMT_timeval "] CLOSED\n", g_timer_elapsed(timer, NULL));
-         }
-+        g_clear_pointer(&timer, g_timer_destroy);
-         break;
-     default:
-         break;
++int64_t qmp_guest_get_time(Error **errp)
++{
++    return g_get_real_time() * 1000;
++}
 -- 
 2.35.1
 
