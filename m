@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24EC65063E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 07:29:11 +0200 (CEST)
-Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AC2506411
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 07:56:14 +0200 (CEST)
+Received: from localhost ([::1]:34896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nggQI-0005I6-88
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 01:29:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56590)
+	id 1nggqR-0004AC-Vo
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 01:56:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nggOc-0004TI-PY
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:27:27 -0400
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:38815)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ngglg-000131-Bt
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:16 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:43712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1nggOa-00012O-CN
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:27:26 -0400
-Received: by mail-lj1-x234.google.com with SMTP id y11so1592046ljh.5
- for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:27:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Jqj1li+MsgmP3jKWAJ5hYiJHXYZPIfDTeD+YqdQSoyE=;
- b=dqtBG6AV4L9QvFYwToI7W7en3zpip5XFVlFvlgrBSIDEPOEUpJReAx007RLDPQyjyy
- vVY16u6FViCfHEFix0vPK8LRxcSg2RR+qRXXHhZ1zahHOSn8t+wOkYWtBljCSlgtB5Nv
- dE7FW1v5zmrDtSS4vefmk3Zbt+ZK7a0kfnnamNNSP5SR/6V5bamqLz0hmozahToHZwpX
- sNQDgNWrw/QrzQG6YkvjKbR/QdIlZbXxksXpTyAEarNouh7e0Du27EYl9OuQdT2IyNwr
- +/pBD/RJFp4FjOHWKf/wNcwiV8RbB618br1aqV0yXkg1nZfKP1RXFPysXBHXsi2mK4S7
- GmWQ==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nggle-0004Mf-FJ
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:16 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ n40-20020a05600c3ba800b0038ff1939b16so758228wms.2
+ for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4wl/18eQd19gP5MbPbPK6bIwSnFheqPxeEG+35PYvUE=;
+ b=Hx9AmFCsiU6VJOJcYCENl2iEn1jo3cfpsGdTab7YJEWgGexBvdvNwKZ6Dmxiue8ICm
+ 63WP8qzF/KXOeHo2YRiLUY1OBuBDo89VzKXOqaECWuFcvLaUfTSwCYxwj3Bzzs0FYWee
+ jK3qRiv5prtyzfaWY+N6Ir2avID48IOsptz9HNBLLK3nGPRmIQ+1ek2+9bY1NNJHouxD
+ 74fgBLkrajRMVwdJVfdDqfXkhvxTXKadXQgwA+hqW5OXDj/tXfE1b3gewF4txZxrzl08
+ FlYP9JUIcGyjJRSqe2Dnxz83HaoQ/LkRM/7yvuhWzEO1+fau6dtm6flJdmI3gqmvJ3IY
+ YE8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Jqj1li+MsgmP3jKWAJ5hYiJHXYZPIfDTeD+YqdQSoyE=;
- b=y4VMu62VG1b/yW8E7DRF36sno2KmuadJUtJWoY8sNq7DmZBb/BGl3UTcBKxX3mExMT
- ggYfd0kBvbcyCtYUOaGrbdl9Q38ckHqHOdTNjQNgb98NPXTszn5TcWEM4JGuKmpO1wwN
- lGHChMaFlDYkXtVE1gHNHQrWdUlPQ+9DCm9Ieca9keP4fLqbqQ8zaZ7/Zce2gD2v/ASH
- BJchLOoW5lfF+j4sC8GAJ9pkAZi55ToSDrSREcfnbEcvQlRbPXgMDF/SDbG6JaOSMndJ
- FOWnY9uOitbIUHHra/BSGYbnBC3AzZPioTIabTgKCeYWXWxEFDqU8RMJbgb1XOyK6GYb
- /Xgw==
-X-Gm-Message-State: AOAM533GizyMELFXpLmSsmbM+3rzPX0fY1e9amNzxNNjA8zm89+dXEKL
- F54Kfil/3VBZ9xYBgRF4RR3jucKsnQQ5F3rCV8+EbQ==
-X-Google-Smtp-Source: ABdhPJwhHHb3GCpmY+rioiLoGzPH3su2OYBKr1cS5YBxemEeUXe0jR/cnFSBmGfvKzwn585v6Nhyi1fikGpZfIjd8m4=
-X-Received: by 2002:a05:651c:1784:b0:24b:ce8:528a with SMTP id
- bn4-20020a05651c178400b0024b0ce8528amr9249431ljb.364.1650346041346; Mon, 18
- Apr 2022 22:27:21 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=4wl/18eQd19gP5MbPbPK6bIwSnFheqPxeEG+35PYvUE=;
+ b=NdaRyX9oKasgu/CBOGt0w33F+ecqRfbFiVUDrMg/H7S/Rcl4qoz8JQu3OTsvFVpJO1
+ zbEtKJrCD+t4O4Uvekehizo3s2suiCo6RgFTthrjlO1w3aUQERsRuwd+Ws3PfHgbvtLR
+ N8jbo9XWicpuIHAfIXDEPrJxqFEVOAKbfMfYokBdz9495PPpC1LBcJZqBK+f+bvuOKCA
+ FUJnLwvH4HQUeFdf9h4YGHc8XQoi6ogHx0QCfL9atXgiFxMsNHFz6mIGDcCeXvwCAM01
+ EI0MdsdxsUXwY9JU7ZwX0n3P0UELQf0nBHlp+6KM1oDbBNv8mNfUkLT9RJGjX+dOsN2f
+ CdWw==
+X-Gm-Message-State: AOAM533U4lBW96jpd8jPr2AyUQgOwm9wGL3guy+hL9HUqKcm2K5gEwAP
+ cfBnXkkElZqUSBN2NP4wQGbzr7NsSxJ24A==
+X-Google-Smtp-Source: ABdhPJzqAqA3BGT4jnqOYlziLrfmnku66JGSDh4+G/l/9R/4McAkByj/JirhXWT+H1L+N8DqDKMZKA==
+X-Received: by 2002:a1c:f30b:0:b0:37b:b5de:c804 with SMTP id
+ q11-20020a1cf30b000000b0037bb5dec804mr18151723wmq.166.1650347472274; 
+ Mon, 18 Apr 2022 22:51:12 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
+ by smtp.gmail.com with ESMTPSA id
+ bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Apr 2022 22:51:11 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 01/53] qapi,
+ target/i386/sev: Add cpu0-id to query-sev-capabilities
+Date: Tue, 19 Apr 2022 07:50:17 +0200
+Message-Id: <20220419055109.142788-2-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
+References: <20220419055109.142788-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20220415093727.15323-1-frank.chang@sifive.com>
- <CAKmqyKP=kgiH05o_h1FS=acz_fsU9QkvAQ-yHa05knrnh9H-Jg@mail.gmail.com>
-In-Reply-To: <CAKmqyKP=kgiH05o_h1FS=acz_fsU9QkvAQ-yHa05knrnh9H-Jg@mail.gmail.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Tue, 19 Apr 2022 10:57:09 +0530
-Message-ID: <CAK9=C2UF4mR17a2---02==MaSZJLCS1Fnryd2yg_u45T9rm4mg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Support configuarable marchid, mvendorid,
- mipid CSR values
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::234;
- envelope-from=apatel@ventanamicro.com; helo=mail-lj1-x234.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,133 +89,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jim Shu <jim.shu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Dov Murik <dovmurik@linux.ibm.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 19, 2022 at 10:52 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Fri, Apr 15, 2022 at 7:37 PM <frank.chang@sifive.com> wrote:
-> >
-> > From: Frank Chang <frank.chang@sifive.com>
-> >
-> > Allow user to set core's marchid, mvendorid, mipid CSRs through
-> > -cpu command line option.
-> >
-> > Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> > Reviewed-by: Jim Shu <jim.shu@sifive.com>
-> > ---
-> >  target/riscv/cpu.c |  4 ++++
-> >  target/riscv/cpu.h |  4 ++++
-> >  target/riscv/csr.c | 38 ++++++++++++++++++++++++++++++++++----
-> >  3 files changed, 42 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index ddda4906ff..2eea0f9be7 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -786,6 +786,10 @@ static Property riscv_cpu_properties[] = {
-> >      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-> >      DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-> >
-> > +    DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
-> > +    DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, 0),
-> > +    DEFINE_PROP_UINT64("mipid", RISCVCPU, cfg.mipid, 0),
->
-> Should we have non-zero defaults here?
+From: Dov Murik <dovmurik@linux.ibm.com>
 
-To do that, we need mvendorid for QEMU RISC-V.
+Add a new field 'cpu0-id' to the response of query-sev-capabilities QMP
+command.  The value of the field is the base64-encoded unique ID of CPU0
+(socket 0), which can be used to retrieve the signed CEK of the CPU from
+AMD's Key Distribution Service (KDS).
 
-The marchid and mipid can be based on the QEMU version number.
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
 
-Regards,
-Anup
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220228093014.882288-1-dovmurik@linux.ibm.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ qapi/misc-target.json |  4 ++++
+ target/i386/sev.c     | 42 +++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 45 insertions(+), 1 deletion(-)
 
->
-> Alistair
->
-> > +
-> >      DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-> >      DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-> >      DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index c069fe85fa..3ab92deb4b 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -370,6 +370,10 @@ struct RISCVCPUConfig {
-> >      bool ext_zve32f;
-> >      bool ext_zve64f;
-> >
-> > +    uint32_t mvendorid;
-> > +    uint64_t marchid;
-> > +    uint64_t mipid;
-> > +
-> >      /* Vendor-specific custom extensions */
-> >      bool ext_XVentanaCondOps;
-> >
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 341c2e6f23..9a02038adb 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -603,6 +603,36 @@ static RISCVException write_ignore(CPURISCVState *env, int csrno,
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > +static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
-> > +                                     target_ulong *val)
-> > +{
-> > +    CPUState *cs = env_cpu(env);
-> > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > +
-> > +    *val = cpu->cfg.mvendorid;
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_marchid(CPURISCVState *env, int csrno,
-> > +                                   target_ulong *val)
-> > +{
-> > +    CPUState *cs = env_cpu(env);
-> > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > +
-> > +    *val = cpu->cfg.marchid;
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_mipid(CPURISCVState *env, int csrno,
-> > +                                 target_ulong *val)
-> > +{
-> > +    CPUState *cs = env_cpu(env);
-> > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > +
-> > +    *val = cpu->cfg.mipid;
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> >  static RISCVException read_mhartid(CPURISCVState *env, int csrno,
-> >                                     target_ulong *val)
-> >  {
-> > @@ -3098,10 +3128,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      [CSR_MINSTRETH] = { "minstreth", any32, read_instreth },
-> >
-> >      /* Machine Information Registers */
-> > -    [CSR_MVENDORID] = { "mvendorid", any,   read_zero    },
-> > -    [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
-> > -    [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
-> > -    [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
-> > +    [CSR_MVENDORID] = { "mvendorid", any,   read_mvendorid },
-> > +    [CSR_MARCHID]   = { "marchid",   any,   read_marchid   },
-> > +    [CSR_MIMPID]    = { "mimpid",    any,   read_mipid     },
-> > +    [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid   },
-> >
-> >      /* Machine Trap Setup */
-> >      [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus, NULL,
-> > --
-> > 2.35.1
-> >
-> >
->
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index 036c5e4a91..bc9355b595 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -144,6 +144,8 @@
+ #
+ # @cert-chain:  PDH certificate chain (base64 encoded)
+ #
++# @cpu0-id: Unique ID of CPU0 (base64 encoded) (since 7.0)
++#
+ # @cbitpos: C-bit location in page table entry
+ #
+ # @reduced-phys-bits: Number of physical Address bit reduction when SEV is
+@@ -154,6 +156,7 @@
+ { 'struct': 'SevCapability',
+   'data': { 'pdh': 'str',
+             'cert-chain': 'str',
++            'cpu0-id': 'str',
+             'cbitpos': 'int',
+             'reduced-phys-bits': 'int'},
+   'if': 'TARGET_I386' }
+@@ -172,6 +175,7 @@
+ #
+ # -> { "execute": "query-sev-capabilities" }
+ # <- { "return": { "pdh": "8CCDD8DDD", "cert-chain": "888CCCDDDEE",
++#                  "cpu0-id": "2lvmGwo+...61iEinw==",
+ #                  "cbitpos": 47, "reduced-phys-bits": 5}}
+ #
+ ##
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 025ff7a6f8..32f7dbac4e 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -531,12 +531,46 @@ e_free:
+     return 1;
+ }
+ 
++static int sev_get_cpu0_id(int fd, guchar **id, size_t *id_len, Error **errp)
++{
++    guchar *id_data;
++    struct sev_user_data_get_id2 get_id2 = {};
++    int err, r;
++
++    /* query the ID length */
++    r = sev_platform_ioctl(fd, SEV_GET_ID2, &get_id2, &err);
++    if (r < 0 && err != SEV_RET_INVALID_LEN) {
++        error_setg(errp, "SEV: Failed to get ID ret=%d fw_err=%d (%s)",
++                   r, err, fw_error_to_str(err));
++        return 1;
++    }
++
++    id_data = g_new(guchar, get_id2.length);
++    get_id2.address = (unsigned long)id_data;
++
++    r = sev_platform_ioctl(fd, SEV_GET_ID2, &get_id2, &err);
++    if (r < 0) {
++        error_setg(errp, "SEV: Failed to get ID ret=%d fw_err=%d (%s)",
++                   r, err, fw_error_to_str(err));
++        goto err;
++    }
++
++    *id = id_data;
++    *id_len = get_id2.length;
++    return 0;
++
++err:
++    g_free(id_data);
++    return 1;
++}
++
+ static SevCapability *sev_get_capabilities(Error **errp)
+ {
+     SevCapability *cap = NULL;
+     guchar *pdh_data = NULL;
+     guchar *cert_chain_data = NULL;
+-    size_t pdh_len = 0, cert_chain_len = 0;
++    guchar *cpu0_id_data = NULL;
++    size_t pdh_len = 0, cert_chain_len = 0, cpu0_id_len = 0;
+     uint32_t ebx;
+     int fd;
+ 
+@@ -561,9 +595,14 @@ static SevCapability *sev_get_capabilities(Error **errp)
+         goto out;
+     }
+ 
++    if (sev_get_cpu0_id(fd, &cpu0_id_data, &cpu0_id_len, errp)) {
++        goto out;
++    }
++
+     cap = g_new0(SevCapability, 1);
+     cap->pdh = g_base64_encode(pdh_data, pdh_len);
+     cap->cert_chain = g_base64_encode(cert_chain_data, cert_chain_len);
++    cap->cpu0_id = g_base64_encode(cpu0_id_data, cpu0_id_len);
+ 
+     host_cpuid(0x8000001F, 0, NULL, &ebx, NULL, NULL);
+     cap->cbitpos = ebx & 0x3f;
+@@ -575,6 +614,7 @@ static SevCapability *sev_get_capabilities(Error **errp)
+     cap->reduced_phys_bits = 1;
+ 
+ out:
++    g_free(cpu0_id_data);
+     g_free(pdh_data);
+     g_free(cert_chain_data);
+     close(fd);
+-- 
+2.35.1
+
+
 
