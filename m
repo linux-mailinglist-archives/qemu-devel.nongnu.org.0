@@ -2,105 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D96F506635
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 09:46:46 +0200 (CEST)
-Received: from localhost ([::1]:54994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AECAC506656
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 09:52:46 +0200 (CEST)
+Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngiZR-00062x-7j
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 03:46:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44970)
+	id 1ngifF-0003jA-Pq
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 03:52:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1ngi6c-0005LP-TW
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:17:01 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47806)
+ (Exim 4.90_1)
+ (envelope-from <btv1==1086afe1179==rick.wertenbroek@heig-vd.ch>)
+ id 1ngiAH-0007IS-1D
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:20:52 -0400
+Received: from gwsmtp1.avdtec.ch ([145.232.233.54]:59394
+ helo=mail02.heig-vd.ch)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1ngi6a-0007c8-2E
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:16:58 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23J67kA4005855
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 07:16:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=loWJymt+Ux8DKgcfjZdUdTFVrQdLuKDXBFW/5LIJFkk=;
- b=bKLFv88Xffg+djmxb+/qUXbY/bxtB+UV0nnwj58miDzXOpAwUvcqOA6ZIdLB5gaTbEiu
- aToUSomha86ql00b3mFG3sEc9AgLpckPV/30ijZcEnKkdRILX6S716HRdxAWEOeCMHQ/
- zy6SqxlHFqqoRPPwAOMQ4ZKpYgo2NJN/+8dK/hlyiQ02J74/yjeeHJpB4Lek3tIHnxaS
- 6/Bg3e2cjGEm6bsM0mIxMMv2+qWE749uiBbMI21ia/oglp5VvHShVyYG98IzsiSRyEdV
- WalM+sZn9h+dU1Z3vaoWNSE143xU28ojh/xWmSwiEXvg3gayRg3MTl3NZpFSAI/L6Wkn 8g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7reyxnp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 07:16:50 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23J7A98t015130
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 07:16:49 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7reyxnf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Apr 2022 07:16:49 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23J78vEl030319;
- Tue, 19 Apr 2022 07:16:49 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 3ffne9rbvd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Apr 2022 07:16:49 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 23J7GmIr26280420
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Apr 2022 07:16:48 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 708A928059;
- Tue, 19 Apr 2022 07:16:48 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8C0D428058;
- Tue, 19 Apr 2022 07:16:47 +0000 (GMT)
-Received: from [9.65.204.58] (unknown [9.65.204.58])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 19 Apr 2022 07:16:47 +0000 (GMT)
-Message-ID: <23254113-840a-1690-4f6d-32fa04bccb8b@linux.ibm.com>
-Date: Tue, 19 Apr 2022 10:16:45 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 01/53] qapi, target/i386/sev: Add cpu0-id to
- query-sev-capabilities
+ (Exim 4.90_1)
+ (envelope-from <btv1==1086afe1179==rick.wertenbroek@heig-vd.ch>)
+ id 1ngiAD-0008Ee-Gi
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:20:44 -0400
+X-ASG-Debug-ID: 1650352834-111d9863d1146c4f0001-jgbH7p
+Received: from EIMAIL03.einet.ad.eivd.ch ([193.134.222.4]) by
+ mail02.heig-vd.ch with ESMTP id vrqy1TFVr2ts2WVH (version=TLSv1.2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+ Tue, 19 Apr 2022 09:20:34 +0200 (CEST)
+X-Barracuda-Envelope-From: rick.wertenbroek@heig-vd.ch
+X-Barracuda-Effective-Source-IP: UNKNOWN[193.134.222.4]
+X-Barracuda-Apparent-Source-IP: 193.134.222.4
+Received: from EIMAIL03.einet.ad.eivd.ch (10.192.41.73) by
+ EIMAIL03.einet.ad.eivd.ch (10.192.41.73) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 19 Apr 2022 09:20:34 +0200
+Received: from EIMAIL03.einet.ad.eivd.ch ([fe80::a187:168b:1702:872e]) by
+ EIMAIL03.einet.ad.eivd.ch ([fe80::a187:168b:1702:872e%4]) with mapi id
+ 15.01.2375.024; Tue, 19 Apr 2022 09:20:34 +0200
+From: Wertenbroek Rick <rick.wertenbroek@heig-vd.ch>
+To: "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Subject: [PATCH v2] hw/nvme: allow to pass a memory backend object for the CMB
+Thread-Topic: [PATCH v2] hw/nvme: allow to pass a memory backend object for
+ the CMB
+X-ASG-Orig-Subj: [PATCH v2] hw/nvme: allow to pass a memory backend object for
+ the CMB
+Thread-Index: AQHYU731x8ePBfOpsk6db0iHxGDkWQ==
+Date: Tue, 19 Apr 2022 07:20:34 +0000
+Message-ID: <80A639CD-2E9C-4574-9557-FE61DDBE0C57@heig-vd.ch>
+Accept-Language: fr-CH, en-US
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220419055109.142788-1-pbonzini@redhat.com>
- <20220419055109.142788-2-pbonzini@redhat.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <20220419055109.142788-2-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: z3xiYEFvr1tLW9-2zko6KhQg4l04pI8S
-X-Proofpoint-ORIG-GUID: 2DpNKK8YPL5SeBipH7_4qAreU7f0Lao5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-19_02,2022-04-15_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 malwarescore=0 phishscore=0 clxscore=1015 bulkscore=0
- spamscore=0 adultscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204190038
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3608.120.23.2.7)
+x-originating-ip: [10.192.222.11]
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <8CAB8AA20F46934FBF53A3D0872C1453@heig-vd.ch>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-Barracuda-Connect: UNKNOWN[193.134.222.4]
+X-Barracuda-Start-Time: 1650352834
+X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
+X-Barracuda-URL: https://quarantine.heig-vd.ch:443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at heig-vd.ch
+X-Barracuda-Scan-Msg-Size: 6622
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Spam-Score: 0.00
+X-Barracuda-Spam-Status: No, SCORE=0.00 using global scores of TAG_LEVEL=1000.0
+ QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.97453
+ Rule breakdown below
+ pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+Received-SPF: pass client-ip=145.232.233.54;
+ envelope-from=btv1==1086afe1179==rick.wertenbroek@heig-vd.ch;
+ helo=mail02.heig-vd.ch
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,141 +91,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dov Murik <dovmurik@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks Paolo.
+Adds the optional -cmbdev=3D option that takes a QEMU memory backend
+-object to be used to for the CMB (Controller Memory Buffer).
+This option takes precedence over cmb_size_mb=3D if both used.
+(The size will be deduced from the memory backend option).
 
-On 19/04/2022 8:50, Paolo Bonzini wrote:
-> From: Dov Murik <dovmurik@linux.ibm.com>
-> 
-> Add a new field 'cpu0-id' to the response of query-sev-capabilities QMP
-> command.  The value of the field is the base64-encoded unique ID of CPU0
-> (socket 0), which can be used to retrieve the signed CEK of the CPU from
-> AMD's Key Distribution Service (KDS).
-> 
-> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Message-Id: <20220228093014.882288-1-dovmurik@linux.ibm.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  qapi/misc-target.json |  4 ++++
->  target/i386/sev.c     | 42 +++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 45 insertions(+), 1 deletion(-)
-> 
-> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-> index 036c5e4a91..bc9355b595 100644
-> --- a/qapi/misc-target.json
-> +++ b/qapi/misc-target.json
-> @@ -144,6 +144,8 @@
->  #
->  # @cert-chain:  PDH certificate chain (base64 encoded)
->  #
-> +# @cpu0-id: Unique ID of CPU0 (base64 encoded) (since 7.0)
-> +#
+Signed-off-by: Rick Wertenbroek <rick.wertenbroek@heig-vd.ch>
+---
+hw/nvme/ctrl.c | 65 ++++++++++++++++++++++++++++++++++++++------------
+hw/nvme/nvme.h |  9 +++----
+2 files changed, 55 insertions(+), 19 deletions(-)
 
-Should this be changed to "since 7.1" ?
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 03760ddeae..9bcc7d6db0 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -29,6 +29,7 @@
+ *      -device nvme-subsys,id=3D<subsys_id>,nqn=3D<nqn_id>
+ *      -device nvme,serial=3D<serial>,id=3D<bus_name>, \
+ *              cmb_size_mb=3D<cmb_size_mb[optional]>, \
++ *              [cmbdev=3D<mem_backend_id>,] \
+ *              [pmrdev=3D<mem_backend_file_id>,] \
+ *              max_ioqpairs=3D<N[optional]>, \
+ *              aerl=3D<N[optional]>,aer_max_queued=3D<N[optional]>, \
+@@ -44,6 +45,11 @@
+ * offset 0 in BAR2 and supports only WDS, RDS and SQS for now. By default,=
+ the
+ * device will use the "v1.4 CMB scheme" - use the `legacy-cmb` parameter t=
+o
+ * always enable the CMBLOC and CMBSZ registers (v1.3 behavior).
++ * Enabling cmb emulation can also be achieved by pointing to a memory-bac=
+kend
++ * For example:
++ * -object memory-backend-ram,id=3D<mem_id>,size=3D<size> \
++ * -device nvme,...,cmbdev=3D<mem_id>
++ * cmbdev=3D will take precedence over cmb_size_mb=3D when both provided.
+ *
+ * Enabling pmr emulation can be achieved by pointing to memory-backend-fil=
+e.
+ * For example:
+@@ -341,16 +347,26 @@ static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr=
+)
+        return false;
+    }
 
-Paolo, can you modify the patch in your tree, or should I submit a new
-version?
+-    lo =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cba;
+-    hi =3D lo + int128_get64(n->cmb.mem.size);
++    if (n->cmb.dev) {
++        lo =3D n->params.legacy_cmb ? host_memory_backend_get_memory(n->cm=
+b.dev)->addr : n->cmb.cba;
++        hi =3D lo + int128_get64(host_memory_backend_get_memory(n->cmb.dev=
+)->size);
++    } else {
++        lo =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cba;
++        hi =3D lo + int128_get64(n->cmb.mem.size);
++    }
 
--Dov
+    return addr >=3D lo && addr < hi;
+}
 
->  # @cbitpos: C-bit location in page table entry
->  #
->  # @reduced-phys-bits: Number of physical Address bit reduction when SEV is
-> @@ -154,6 +156,7 @@
->  { 'struct': 'SevCapability',
->    'data': { 'pdh': 'str',
->              'cert-chain': 'str',
-> +            'cpu0-id': 'str',
->              'cbitpos': 'int',
->              'reduced-phys-bits': 'int'},
->    'if': 'TARGET_I386' }
-> @@ -172,6 +175,7 @@
->  #
->  # -> { "execute": "query-sev-capabilities" }
->  # <- { "return": { "pdh": "8CCDD8DDD", "cert-chain": "888CCCDDDEE",
-> +#                  "cpu0-id": "2lvmGwo+...61iEinw==",
->  #                  "cbitpos": 47, "reduced-phys-bits": 5}}
->  #
->  ##
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 025ff7a6f8..32f7dbac4e 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -531,12 +531,46 @@ e_free:
->      return 1;
->  }
->  
-> +static int sev_get_cpu0_id(int fd, guchar **id, size_t *id_len, Error **errp)
-> +{
-> +    guchar *id_data;
-> +    struct sev_user_data_get_id2 get_id2 = {};
-> +    int err, r;
-> +
-> +    /* query the ID length */
-> +    r = sev_platform_ioctl(fd, SEV_GET_ID2, &get_id2, &err);
-> +    if (r < 0 && err != SEV_RET_INVALID_LEN) {
-> +        error_setg(errp, "SEV: Failed to get ID ret=%d fw_err=%d (%s)",
-> +                   r, err, fw_error_to_str(err));
-> +        return 1;
-> +    }
-> +
-> +    id_data = g_new(guchar, get_id2.length);
-> +    get_id2.address = (unsigned long)id_data;
-> +
-> +    r = sev_platform_ioctl(fd, SEV_GET_ID2, &get_id2, &err);
-> +    if (r < 0) {
-> +        error_setg(errp, "SEV: Failed to get ID ret=%d fw_err=%d (%s)",
-> +                   r, err, fw_error_to_str(err));
-> +        goto err;
-> +    }
-> +
-> +    *id = id_data;
-> +    *id_len = get_id2.length;
-> +    return 0;
-> +
-> +err:
-> +    g_free(id_data);
-> +    return 1;
-> +}
-> +
->  static SevCapability *sev_get_capabilities(Error **errp)
->  {
->      SevCapability *cap = NULL;
->      guchar *pdh_data = NULL;
->      guchar *cert_chain_data = NULL;
-> -    size_t pdh_len = 0, cert_chain_len = 0;
-> +    guchar *cpu0_id_data = NULL;
-> +    size_t pdh_len = 0, cert_chain_len = 0, cpu0_id_len = 0;
->      uint32_t ebx;
->      int fd;
->  
-> @@ -561,9 +595,14 @@ static SevCapability *sev_get_capabilities(Error **errp)
->          goto out;
->      }
->  
-> +    if (sev_get_cpu0_id(fd, &cpu0_id_data, &cpu0_id_len, errp)) {
-> +        goto out;
-> +    }
-> +
->      cap = g_new0(SevCapability, 1);
->      cap->pdh = g_base64_encode(pdh_data, pdh_len);
->      cap->cert_chain = g_base64_encode(cert_chain_data, cert_chain_len);
-> +    cap->cpu0_id = g_base64_encode(cpu0_id_data, cpu0_id_len);
->  
->      host_cpuid(0x8000001F, 0, NULL, &ebx, NULL, NULL);
->      cap->cbitpos = ebx & 0x3f;
-> @@ -575,6 +614,7 @@ static SevCapability *sev_get_capabilities(Error **errp)
->      cap->reduced_phys_bits = 1;
->  
->  out:
-> +    g_free(cpu0_id_data);
->      g_free(pdh_data);
->      g_free(cert_chain_data);
->      close(fd);
+static inline void *nvme_addr_to_cmb(NvmeCtrl *n, hwaddr addr)
+{
+-    hwaddr base =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cba;
+-    return &n->cmb.buf[addr - base];
++    if (n->cmb.dev) {
++        hwaddr base =3D n->params.legacy_cmb ? host_memory_backend_get_mem=
+ory(n->cmb.dev)->addr : n->cmb.cba;
++        return memory_region_get_ram_ptr(&n->cmb.dev->mr) + (addr - base);
++    } else {
++        hwaddr base =3D n->params.legacy_cmb ? n->cmb.mem.addr : n->cmb.cb=
+a;
++        return &n->cmb.buf[addr - base];
++    }
+}
+
+static bool nvme_addr_is_pmr(NvmeCtrl *n, hwaddr addr)
+@@ -6584,16 +6600,33 @@ static void nvme_init_state(NvmeCtrl *n)
+
+static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+{
+-    uint64_t cmb_size =3D n->params.cmb_size_mb * MiB;
++    uint64_t cmb_size;
+    uint64_t cap =3D ldq_le_p(&n->bar.cap);
+
+-    n->cmb.buf =3D g_malloc0(cmb_size);
+-    memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
+-                          "nvme-cmb", cmb_size);
+-    pci_register_bar(pci_dev, NVME_CMB_BIR,
+-                     PCI_BASE_ADDRESS_SPACE_MEMORY |
+-                     PCI_BASE_ADDRESS_MEM_TYPE_64 |
+-                     PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
++    if (n->cmb.dev) {
++        if (n->params.cmb_size_mb) {
++            warn_report("Option cmb_size_mb is ignored when a cmbdev is pr=
+ovided");
++        }
++        n->params.cmb_size_mb =3D n->cmb.dev->size / MiB;
++        cmb_size =3D n->cmb.dev->size;
++
++        MemoryRegion *mr =3D host_memory_backend_get_memory(n->cmb.dev);
++        assert(mr);
++
++        pci_register_bar(pci_dev, NVME_CMB_BIR,
++                         PCI_BASE_ADDRESS_SPACE_MEMORY |
++                         PCI_BASE_ADDRESS_MEM_TYPE_64 |
++                         PCI_BASE_ADDRESS_MEM_PREFETCH, mr);
++    } else {
++        cmb_size =3D n->params.cmb_size_mb * MiB;
++        n->cmb.buf =3D g_malloc0(cmb_size);
++        memory_region_init_io(&n->cmb.mem, OBJECT(n), &nvme_cmb_ops, n,
++                              "nvme-cmb", cmb_size);
++        pci_register_bar(pci_dev, NVME_CMB_BIR,
++                         PCI_BASE_ADDRESS_SPACE_MEMORY |
++                         PCI_BASE_ADDRESS_MEM_TYPE_64 |
++                         PCI_BASE_ADDRESS_MEM_PREFETCH, &n->cmb.mem);
++    }
+
+    NVME_CAP_SET_CMBS(cap, 1);
+    stq_le_p(&n->bar.cap, cap);
+@@ -6678,7 +6711,7 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_=
+dev, Error **errp)
+        }
+    }
+
+-    if (n->params.cmb_size_mb) {
++    if (n->params.cmb_size_mb || n->cmb.dev) {
+        nvme_init_cmb(n, pci_dev);
+    }
+
+@@ -6793,7 +6826,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pc=
+i_dev)
+    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_CSI_SUPP);
+    NVME_CAP_SET_CSS(cap, NVME_CAP_CSS_ADMIN_ONLY);
+    NVME_CAP_SET_MPSMAX(cap, 4);
+-    NVME_CAP_SET_CMBS(cap, n->params.cmb_size_mb ? 1 : 0);
++    NVME_CAP_SET_CMBS(cap, (n->params.cmb_size_mb || n->cmb.dev) ? 1 : 0);
+    NVME_CAP_SET_PMRS(cap, n->pmr.dev ? 1 : 0);
+    stq_le_p(&n->bar.cap, cap);
+
+@@ -6893,7 +6926,7 @@ static void nvme_exit(PCIDevice *pci_dev)
+    g_free(n->sq);
+    g_free(n->aer_reqs);
+
+-    if (n->params.cmb_size_mb) {
++    if (!n->cmb.dev && n->params.cmb_size_mb) {
+        g_free(n->cmb.buf);
+    }
+
+@@ -6908,6 +6941,8 @@ static Property nvme_props[] =3D {
+    DEFINE_BLOCK_PROPERTIES(NvmeCtrl, namespace.blkconf),
+    DEFINE_PROP_LINK("pmrdev", NvmeCtrl, pmr.dev, TYPE_MEMORY_BACKEND,
+                     HostMemoryBackend *),
++    DEFINE_PROP_LINK("cmbdev", NvmeCtrl, cmb.dev, TYPE_MEMORY_BACKEND,
++                     HostMemoryBackend *),
+    DEFINE_PROP_LINK("subsys", NvmeCtrl, subsys, TYPE_NVME_SUBSYS,
+                     NvmeSubsystem *),
+    DEFINE_PROP_STRING("serial", NvmeCtrl, params.serial),
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 739c8b8f79..63747cf967 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -434,10 +434,11 @@ typedef struct NvmeCtrl {
+    uint8_t     smart_critical_warning;
+
+    struct {
+-        MemoryRegion mem;
+-        uint8_t      *buf;
+-        bool         cmse;
+-        hwaddr       cba;
++        MemoryRegion      mem;
++        HostMemoryBackend *dev;
++        uint8_t           *buf;
++        bool              cmse;
++        hwaddr            cba;
+    } cmb;
+
+    struct {
+--=20
+2.24.3 (Apple Git-128)
+
 
