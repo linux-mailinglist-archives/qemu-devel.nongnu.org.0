@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DF4506548
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 09:02:52 +0200 (CEST)
-Received: from localhost ([::1]:56264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F51C5064D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 08:47:40 +0200 (CEST)
+Received: from localhost ([::1]:38616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nghsx-0000Gb-4W
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 03:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33382)
+	id 1ngheF-0004g7-9o
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 02:47:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nggm5-0001Bk-J4
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:47 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44971)
+ id 1nggm3-0001BN-Ig
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:46 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nggm1-0004Rx-Qb
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:41 -0400
-Received: by mail-wr1-x431.google.com with SMTP id b19so20893521wrh.11
+ id 1nggm1-0004SF-Eu
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 01:51:38 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ c190-20020a1c35c7000000b0038e37907b5bso809271wma.0
  for <qemu-devel@nongnu.org>; Mon, 18 Apr 2022 22:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Tl9QZYAXBfOO9wSADBXfX+4Z4VSezO7/iMstqBw8M9c=;
- b=BTm0GJ2uXwm6G/pu6EDAWPm4AtcUG9Xv4pgKgzkgZ3joBd90jdtJC8ki+gMWipaIOJ
- EaHzBV5snouiFr6PhohgDHX2Ptgyp3mtv7qzQRx5jRakaMaYCK91FqDM6hvcUbS8aho8
- b2Q6DTXrUACSi38wGLBO8sSq9ZEweLeIHm478qNUG8z4xNFx9/JhNy7cb+oBnrZd9Pzb
- +amWZzCFPsMHMt8Ci80Z+8ktR72Icn9NHVPUkKqHChiI72a4Mg0UL5d8Z4U4Dxs7IJzi
- 0zzerRmeccmDpdYFvgOKY//+K1r6fSVy7lCl3Uh1GTq7svDa/LT24ijfXhTPlm7GHSgr
- lDtQ==
+ bh=TvxQtTWLzyHP2NIr5QzKllEiV4ajbHEFOoL4RvQX0FA=;
+ b=HVRtozMOBZPROVwcJdlzjl62dxzIdHSBTzS0UBHX5N5OsWme+oHkRtUcOgN49o2HVm
+ l/XyPt39uIbkljfhUbP9+8cMWhI40uOI4rUwCbWgbJZ0o8iDYlqwMIHgoG4AlkALvR2g
+ Rn2CodZP8RoemKM87iC0/LxlpqyJ/rhJxQNRmWe+4ny2kIXtiSQ38upa+G2KN41y+EhG
+ 9Lp2S7aieKSd4dMZu7TF9vei5uXorg9Q/Pkt8YNZKF9ZWv1zxxJWXzUOgvgamefCQgzX
+ UKlWgwkOSN7bX91FZ46PNVixr1vReXiGX6CuRQfOmbh0SkivpUJjzcJSM8EaEWYSS2LT
+ dyfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Tl9QZYAXBfOO9wSADBXfX+4Z4VSezO7/iMstqBw8M9c=;
- b=HyXMDMoGBqgxpQMWbccjgOnRpvmeN88SmSW8P8QY7gvCwsbROSMp8S88ktBZv0LyR1
- 9LxSXhloocKfbwkJRAlPX1MtvC1P4e8pjl5q/imrLbSK+T99iANHw+WQ1ftduvJOGiUl
- AmCVjPjkWqeYaP/2p/71rEJciPM+/cATruCmiE7D2WSSZpAjLw/z3YD/yeILOPZEbvVR
- 7uF31lFO8iie5We0LMjo1G6qBeRd2Odbla1DQTDNuyNC6P4txVTeK9sQhR49jW/GSvnd
- BEW26pOYPEHzmlUgUawR5WZgpVmbn0lOAb2QuWNvI24mnvgqyYI0l2FbBBKvvqSVvSUX
- DACA==
-X-Gm-Message-State: AOAM5312YkkSDF23AerDfFWzZY2sZ/j6zJJ5AFA/SzB7dqN8vmImLbqE
- EVjTaNmm16xJVKbqNWQH/bbvBtoSFZstMA==
-X-Google-Smtp-Source: ABdhPJzM80Vh1rEq5OspL8muq8b9CI8Y3Vv3LCHCqqIrQUTIXUD5q2mGknevPhcqPn7MSjjkef0dLQ==
-X-Received: by 2002:adf:e189:0:b0:207:a0e8:be49 with SMTP id
- az9-20020adfe189000000b00207a0e8be49mr10463261wrb.130.1650347494091; 
- Mon, 18 Apr 2022 22:51:34 -0700 (PDT)
+ bh=TvxQtTWLzyHP2NIr5QzKllEiV4ajbHEFOoL4RvQX0FA=;
+ b=gR9RSxVoYSKWCwqHC8hMAWXH52OHjuwA1BYulX67jGU9tl55TpzFVYjzPmGYlQnZZp
+ QQqxH3V1YaR+99jT8/gyOXumHQWuWnFd766LTDg9KkVUH50JnjM+52UkTPsFeiEV7p3q
+ eLB7MosRAGAQBo0r7qQlk/YjmrO6ThR/xQ6wYa5+6J7nitNw2F0YfS5rO/iCwaQdFVY5
+ NQeF9sRV+U107dKL0M382JZTGltJ9tEQC8yAdzRR/XzECK2vqG+4WbLJ97MynyNe8pBi
+ hVQDA2qV3amY4JJCcDiAQ8GzKw5MXCFQabLK+dUClm9pX2/vQ+iLYsIjvsS0xxu81Zd3
+ v6bw==
+X-Gm-Message-State: AOAM531NNaNFc6N49MTehZLU7852VbgPov3eWoEVYj54LqL7pMl0spox
+ rZwdlR/DbZJG3r4HnC3U1ivsrS5mZ6OATw==
+X-Google-Smtp-Source: ABdhPJwXgHfSU7RoesSH8IJtyPzfljfGTDZWylvK4v1kM0O43W5sryIM53hdCaqRdXfpWxTjEKJ1eA==
+X-Received: by 2002:a05:600c:1910:b0:392:9143:27d3 with SMTP id
+ j16-20020a05600c191000b00392914327d3mr10577486wmq.206.1650347495004; 
+ Mon, 18 Apr 2022 22:51:35 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.33
+ bg8-20020a05600c3c8800b0038e4c5967besm15763510wmb.3.2022.04.18.22.51.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 22:51:33 -0700 (PDT)
+ Mon, 18 Apr 2022 22:51:34 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/53] include: move os_*() to os-foo.h
-Date: Tue, 19 Apr 2022 07:50:47 +0200
-Message-Id: <20220419055109.142788-32-pbonzini@redhat.com>
+Subject: [PULL 32/53] include: move page_size_init() to include/hw/core/cpu.h
+Date: Tue, 19 Apr 2022 07:50:48 +0200
+Message-Id: <20220419055109.142788-33-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419055109.142788-1-pbonzini@redhat.com>
 References: <20220419055109.142788-1-pbonzini@redhat.com>
@@ -65,8 +66,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -93,81 +94,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-For consistency with other os_ functions that do not have POSIX
-implementation, declare an inline function for the stub in os-win32.h.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220323155743.1585078-27-marcandre.lureau@redhat.com>
+Message-Id: <20220323155743.1585078-28-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu-common.h     | 4 ----
- include/sysemu/os-posix.h | 2 ++
- include/sysemu/os-win32.h | 4 +++-
- os-win32.c                | 9 ---------
- 4 files changed, 5 insertions(+), 14 deletions(-)
+ include/hw/core/cpu.h | 2 ++
+ include/qemu-common.h | 2 --
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 13adb251b2..466bed6047 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -1035,6 +1035,8 @@ void cpu_exec_unrealizefn(CPUState *cpu);
+  */
+ bool target_words_bigendian(void);
+ 
++void page_size_init(void);
++
+ #ifdef NEED_CPU_H
+ 
+ #ifdef CONFIG_SOFTMMU
 diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 1fbc20e4bc..a271cac66a 100644
+index a271cac66a..65483f70d4 100644
 --- a/include/qemu-common.h
 +++ b/include/qemu-common.h
-@@ -24,10 +24,6 @@
+@@ -24,6 +24,4 @@
  int qemu_main(int argc, char **argv, char **envp);
  #endif
  
--/* OS specific functions */
--void os_setup_early_signal_handling(void);
--int os_parse_cmd_args(int index, const char *optarg);
+-void page_size_init(void);
 -
- void page_size_init(void);
- 
  #endif
-diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
-index 23bd45457d..58de7c994d 100644
---- a/include/sysemu/os-posix.h
-+++ b/include/sysemu/os-posix.h
-@@ -42,7 +42,9 @@
- extern "C" {
- #endif
- 
-+int os_parse_cmd_args(int index, const char *optarg);
- void os_set_line_buffering(void);
-+void os_setup_early_signal_handling(void);
- void os_set_proc_name(const char *s);
- void os_setup_signal_handling(void);
- void os_daemonize(void);
-diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-index 1351d1d29e..3c74a78e33 100644
---- a/include/sysemu/os-win32.h
-+++ b/include/sysemu/os-win32.h
-@@ -62,8 +62,10 @@ struct tm *localtime_r(const time_t *timep, struct tm *result);
- static inline void os_setup_signal_handling(void) {}
- static inline void os_daemonize(void) {}
- static inline void os_setup_post(void) {}
--void os_set_line_buffering(void);
- static inline void os_set_proc_name(const char *dummy) {}
-+static inline int os_parse_cmd_args(int index, const char *optarg) { return -1; }
-+void os_set_line_buffering(void);
-+void os_setup_early_signal_handling(void);
- 
- int getpagesize(void);
- 
-diff --git a/os-win32.c b/os-win32.c
-index e31c921983..6f21b57841 100644
---- a/os-win32.c
-+++ b/os-win32.c
-@@ -61,12 +61,3 @@ void os_set_line_buffering(void)
-     setbuf(stdout, NULL);
-     setbuf(stderr, NULL);
- }
--
--/*
-- * Parse OS specific command line options.
-- * return 0 if option handled, -1 otherwise
-- */
--int os_parse_cmd_args(int index, const char *optarg)
--{
--    return -1;
--}
 -- 
 2.35.1
 
