@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5375066DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 10:24:24 +0200 (CEST)
-Received: from localhost ([::1]:38298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D88A506689
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Apr 2022 10:09:11 +0200 (CEST)
+Received: from localhost ([::1]:54046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngj9r-0000ZM-4o
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 04:24:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47548)
+	id 1ngiv8-0008LO-5C
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 04:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ngiOy-0004bB-B2
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:35:58 -0400
-Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:34657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ngiOu-00029F-Ol
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:35:54 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id A81992335D;
- Tue, 19 Apr 2022 07:35:47 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 19 Apr
- 2022 09:35:46 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S001b6ee23c3-f60d-4105-b65e-be4a597a7897,
- 8178BE1DD4A2FCC93E6442F7737FB2433BB7237A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <e8ebdbcf-8f86-a5e7-6f2c-ae351e0db80c@kaod.org>
-Date: Tue, 19 Apr 2022 09:35:43 +0200
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1ngiWE-00058J-OE
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:43:29 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:45929)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1ngiWC-0002zr-Gs
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 03:43:26 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id s33so2133911ybi.12
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 00:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atishpatra.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sUBtKgaDDO5gsavpfTA6knsKOiOHEoIstaV1p4FqyZ0=;
+ b=UbwFpDJv7hY2eFYXQl7bVcai0nP1bQbVsZKsJKrVH3GKpvMZ2KS0FRyolJ/Pt7h0Rq
+ znQksJdtGzXz32S1hz8goPgZ5ny1AbppwKwJTShp1is5vYkRcvYZ35muDhpYOrGuv5yp
+ nTnoMs7GPS4KBPSL/3IpGNe7M9VWYek3H0MD8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sUBtKgaDDO5gsavpfTA6knsKOiOHEoIstaV1p4FqyZ0=;
+ b=ZdJqujh1f6sI1AUyHkx1cj8N69GXvXjb6eunpyBbKAbHvKhd+yU0K7x3l3WXCsncEZ
+ 32T8O0MhdlyQLxwfcbnl4aSJur2IPsjd43ltoA5z8NH4LZxJET1KAMCDIhhcKvb/e3qs
+ O+yhBign3dYFTq0sIgRC5Rd3Un7viS9gUFkM+e6exkVF4x/9mmuYr3iG0URiIoQESARJ
+ T5wcYNtTHNHcG/21Ow2QRBqfdauXz0Yh2eT34dgHCzjkn4mJiYixHXcE7pr0NDBwYVTf
+ Ymq1NVkd+3xFIm8PkAVVz4sJTM6oHbyVC5IuasXWDCE6RAsP1fHqha7+NXWVgzFcB4YN
+ vWLg==
+X-Gm-Message-State: AOAM533U4QWkH3MT4XBuV0rT+34kUNYKll4ZlMUo+1ka9iiHFFWfY8m2
+ i2Kb87s/4n8RA8QooKcvSaI2msSCn4BbIsPbjGNk
+X-Google-Smtp-Source: ABdhPJxUXod2qiC8y1YJaRwTI/mw/v6uygQ8RcxInJBOdcN6ihj+scy4p7UUANf8hPeYryEXtVgBHUp8ty6OnaiKK3A=
+X-Received: by 2002:a25:db8c:0:b0:642:876d:2e4b with SMTP id
+ g134-20020a25db8c000000b00642876d2e4bmr13938620ybf.405.1650354203085; Tue, 19
+ Apr 2022 00:43:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: XIVE VFIO kernel resample failure in INTx mode under heavy load
-Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, Alex Williamson
- <alex.williamson@redhat.com>, Timothy Pearson
- <tpearson@raptorengineering.com>
-References: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
- <20220314160952.46d5313a.alex.williamson@redhat.com>
- <9638ec8f-2edf-97df-0c14-95ae2344dc70@kaod.org>
- <6f0a92ca-9f53-b8b8-e85d-43f4da36200d@kaod.org>
- <edfa8ca4-8e8a-335a-2e7e-c69661ec73da@ozlabs.ru>
- <d13d5858-e220-0f86-7d96-76e63def1ba3@kaod.org>
- <3559c1f2-4390-3e00-5bb6-a98725070551@ozlabs.ru>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <3559c1f2-4390-3e00-5bb6-a98725070551@ozlabs.ru>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: a2c9bd67-4eb8-43d2-980d-523315baa033
-X-Ovh-Tracer-Id: 7373237018555419500
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtvddguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhgefgtdejfedvueetfeehjeekjeeutddvgfeuudffieegfffhjeduueeitdfhveenucffohhmrghinheprhgvrgguthhhvgguohgtshdrihhonecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
- helo=8.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220401125948.79292-1-richard.henderson@linaro.org>
+ <20220401125948.79292-3-richard.henderson@linaro.org>
+ <CAKmqyKNX_JyT0k92tKgZtiC9ZbLJVtZS2RXSoAQONnDg07dHsg@mail.gmail.com>
+In-Reply-To: <CAKmqyKNX_JyT0k92tKgZtiC9ZbLJVtZS2RXSoAQONnDg07dHsg@mail.gmail.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Tue, 19 Apr 2022 00:43:12 -0700
+Message-ID: <CAOnJCUK98J1DMJXqaSzPdGrP75s5O432cVpvXYmzu_WtM3pKFw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/riscv: Mark amo insns during translation
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,114 +77,293 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
- "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>> Tested on POWER9 with a passed through XHCI host and "-append pci=nomsi" and "-machine pseries,ic-mode=xics,kernel_irqchip=on" (and s/xics/xive/).
->>
->> ok. This is deactivating the default XIVE (P9+) mode at the platform level,
->> hence forcing the XICS (P8) mode in a POWER9 guest running on a POWER9 host.
->> It is also deactivating MSI, forcing INTx usage in the kernel and forcing
->> the use of the KVM irqchip device to make sure we are not emulating in QEMU.
->>
->> We are far from the default scenario but this is it !
-> 
-> 
-> well, "-machine pseries,ic-mode=xive,kernel_irqchip=on" is the default. 
+On Thu, Apr 7, 2022 at 11:17 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Fri, Apr 1, 2022 at 11:04 PM Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > Atomic memory operations perform both reads and writes as part
+> > of their implementation, but always raise write faults.
+> >
+> > Use TARGET_INSN_START_EXTRA_WORDS to mark amo insns in the
+> > opcode stream, and force the access type to write at the
+> > point of raising the exception.
+> >
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
 
-The default is a 'dual' ic-mode, so XICS+XIVE are announced by CAS.
-kernel_irqchip is not strictly enforced, so QEMU could fallback to
-an emulated irqchip if needed.
+This results in the following segfault in 5.17
+Qemu tree: riscv-to-apply.next
 
-> "pci=nomsi" is not but since that actual device is only capable on INTx,
-> the default settings expose the problem.
-> 
-> 
-> 
->>> When it is XIVE-on-XIVE (host and guest are XIVE), 
->>
->> We call this mode : XIVE native, or exploitation, mode. Anyhow, it is always
->> XIVE under the hood on a POWER9/POWER10 box.
->>
->>> INTx is emulated in the QEMU's H_INT_ESB handler 
->>
->> LSI are indeed all handled at the QEMU level with the H_INT_ESB hcall.
->> If I remember well, this is because we wanted a simple way to synthesize
->> the interrupt trigger upon EOI when the level is still asserted. Doing
->> this way is compatible for both kernel_irqchip=off/on modes because the
->> level is maintained in QEMU.
->>
->> This is different for the other two XICS KVM devices which maintain the
->> assertion level in KVM.
->>
->>> and IRQFD_RESAMPLE is just useless in such case (as it is designed to eliminate going to the userspace for the EOI->INTx unmasking) and there is no pathway to call the eventfd's irqfd_resampler_ack() from QEMU. So the VM's XHCI device receives exactly 1 interrupt and that is it. "kernel_irqchip=off" fixes it (obviously).
->>
->> yes.
->>
->>> When it is XICS-on-XIVE (host is XIVE and guest is XICS), 
->>
->> yes (FYI, we have similar glue in skiboot ...)
->>
->>> then the VM receives 100000 interrupts and then it gets frozen (__report_bad_irq() is called). Which happens because (unlike XICS-on-XICS), the host XIVE's xive_(rm|vm)_h_eoi() does not call irqfd_resampler_ack(). This fixes it:
->>>
->>> =============
->>> diff --git a/arch/powerpc/kvm/book3s_xive_template.c b/arch/powerpc/kvm/book3s_xive_template.c
->>> index b0015e05d99a..9f0d8e5c7f4b 100644
->>> --- a/arch/powerpc/kvm/book3s_xive_template.c
->>> +++ b/arch/powerpc/kvm/book3s_xive_template.c
->>> @@ -595,6 +595,8 @@ X_STATIC int GLUE(X_PFX,h_eoi)(struct kvm_vcpu *vcpu, unsigned long xirr)
->>>          xc->hw_cppr = xc->cppr;
->>>          __x_writeb(xc->cppr, __x_tima + TM_QW1_OS + TM_CPPR);
->>>
->>>
->>> +       kvm_notify_acked_irq(vcpu->kvm, 0, irq);
->>> +
->>>          return rc;
->>>   }
->>> =============
->>
->> OK. XICS-on-XIVE is also broken then :/ what about XIVE-on-XIVE ?
-> 
-> 
-> Not sure I am following (or you are) :) INTx is broken on P9 in either mode. MSI works in both.
+[    1.134496] Run /init as init process
+[    1.329796] mount[61]: unhandled signal 11 code 0x2 at
+0x00000000000c29c6 in busybox[10000+159000]
+[    1.331185] CPU: 2 PID: 61 Comm: mount Not tainted 5.17.0 #59
+[    1.331632] Hardware name: riscv-virtio,qemu (DT)
+[    1.332053] epc : 00000000000c29c6 ra : 00000000000a03f2 sp :
+00007fffd6707ae0
+[    1.332350]  gp : 000000000016c408 tp : 00000000001707a0 t0 :
+0000000000001000
+[    1.332575]  t1 : 0000000000000000 t2 : 0000000000080000 s0 :
+0000000000163398
+[    1.332797]  s1 : 0000000000163398 a0 : 0000000000000000 a1 :
+0000000000000000
+[    1.333018]  a2 : 0000000000171590 a3 : 0000000000000000 a4 :
+0000000000000001
+[    1.333371]  a5 : 0000000000000001 a6 : fffffffffbada498 a7 :
+000000000000003f
+[    1.333607]  s2 : 0000000000000004 s3 : 0000000000000001 s4 :
+0000000000000000
+[    1.333829]  s5 : 0000000000000003 s6 : 0000000000000000 s7 :
+000000000016c280
+[    1.334052]  s8 : 0000000000000001 s9 : 0000000000170828 s10:
+0000000000000000
+[    1.334275]  s11: 0000000000000001 t3 : 0000000000000000 t4 :
+00000000001410f0
+[    1.334500]  t5 : 0000000000000005 t6 : ffffffffffffffff
+[    1.334669] status: 0000000200004020 badaddr: 00000000000c29c6
+cause: 000000000000000f
+Segmentation fault
 
-Sorry my question was not clear. the above fixed XICS-on-XIVE but
-not XIVE-on-XIVE and I was asking about that. disabling resample
-seems to be the solution for all.
 
->>
->>>
->>> The host's XICS does call kvm_notify_acked_irq() (I did not test that but the code seems to be doing so).
->>>
->>> After re-reading what I just wrote, I am leaning towards disabling use of KVM_CAP_IRQFD_RESAMPLE as it seems last worked on POWER8 and never since :)
->>
->> and it would fix XIVE-on-XIVE.
->>
->> Are you saying that passthru on POWER8 is broken ? fully or only INTx ?
-> 
-> 
-> No, the opposite - P8 works fine, kvm_notify_acked_irq() is there.
-> 
-> 
->>> Did I miss something in the picture (hey Cedric)?
->>
->> You seem to have all combination in mind: host OS, KVM, QEMU, guest OS
->>
->> For the record, here is a documentation we did:
->>
->>    https://qemu.readthedocs.io/en/latest/specs/ppc-spapr-xive.html
->>
->> It might need some updates.
-> 
-> When I read this, a quite from the Simpsons pops up in my mind: “Dear Mr. President there are too many states nowadays. Please eliminate three. I am NOT a crackpot.” :)
 
-Yes. It blew my mind for sometime ... :)
+> Alistair
+>
+> > ---
+> >  target/riscv/cpu.h                      | 15 ++++++
+> >  target/riscv/cpu.c                      |  3 ++
+> >  target/riscv/cpu_helper.c               | 62 +++++++++++++++++--------
+> >  target/riscv/translate.c                |  9 ++++
+> >  target/riscv/insn_trans/trans_rva.c.inc | 11 ++++-
+> >  5 files changed, 79 insertions(+), 21 deletions(-)
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index c069fe85fa..3de4da3fa1 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -290,6 +290,13 @@ struct CPUArchState {
+> >      /* True if in debugger mode.  */
+> >      bool debugger;
+> >
+> > +    /*
+> > +     * True if unwinding through an amo insn.  Used to transform a
+> > +     * read fault into a store_amo fault; only valid immediately
+> > +     * after cpu_restore_state().
+> > +     */
+> > +    bool unwind_amo;
+> > +
+> >      /*
+> >       * CSRs for PointerMasking extension
+> >       */
+> > @@ -517,6 +524,14 @@ FIELD(TB_FLAGS, XL, 20, 2)
+> >  FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
+> >  FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
+> >
+> > +#ifndef CONFIG_USER_ONLY
+> > +/*
+> > + * RISC-V-specific extra insn start words:
+> > + * 1: True if the instruction is AMO, false otherwise.
+> > + */
+> > +#define TARGET_INSN_START_EXTRA_WORDS 1
+> > +#endif
+> > +
+> >  #ifdef TARGET_RISCV32
+> >  #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+> >  #else
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index ddda4906ff..3818d5ba80 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -396,6 +396,9 @@ void restore_state_to_opc(CPURISCVState *env, TranslationBlock *tb,
+> >      } else {
+> >          env->pc = data[0];
+> >      }
+> > +#ifndef CONFIG_USER_ONLY
+> > +    env->unwind_amo = data[1];
+> > +#endif
+> >  }
+> >
+> >  static void riscv_cpu_reset(DeviceState *dev)
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 126251d5da..b5bbe6fc39 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -1139,26 +1139,11 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+> >      RISCVCPU *cpu = RISCV_CPU(cs);
+> >      CPURISCVState *env = &cpu->env;
+> >
+> > -    if (access_type == MMU_DATA_STORE) {
+> > -        cs->exception_index = RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
+> > -    } else if (access_type == MMU_DATA_LOAD) {
+> > -        cs->exception_index = RISCV_EXCP_LOAD_ACCESS_FAULT;
+> > -    } else {
+> > -        cs->exception_index = RISCV_EXCP_INST_ACCESS_FAULT;
+> > +    cpu_restore_state(cs, retaddr, true);
+> > +    if (env->unwind_amo) {
+> > +        access_type = MMU_DATA_STORE;
+> >      }
+> >
+> > -    env->badaddr = addr;
+> > -    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
+> > -                            riscv_cpu_two_stage_lookup(mmu_idx);
+> > -    cpu_loop_exit_restore(cs, retaddr);
+> > -}
+> > -
+> > -void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+> > -                                   MMUAccessType access_type, int mmu_idx,
+> > -                                   uintptr_t retaddr)
+> > -{
+> > -    RISCVCPU *cpu = RISCV_CPU(cs);
+> > -    CPURISCVState *env = &cpu->env;
+> >      switch (access_type) {
+> >      case MMU_INST_FETCH:
+> >          cs->exception_index = RISCV_EXCP_INST_ADDR_MIS;
+> > @@ -1172,10 +1157,43 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+> >      default:
+> >          g_assert_not_reached();
+> >      }
+> > +
+> >      env->badaddr = addr;
+> >      env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
+> >                              riscv_cpu_two_stage_lookup(mmu_idx);
+> > -    cpu_loop_exit_restore(cs, retaddr);
+> > +    cpu_loop_exit(cs);
+> > +}
+> > +
+> > +void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+> > +                                   MMUAccessType access_type, int mmu_idx,
+> > +                                   uintptr_t retaddr)
+> > +{
+> > +    RISCVCPU *cpu = RISCV_CPU(cs);
+> > +    CPURISCVState *env = &cpu->env;
+> > +
+> > +    cpu_restore_state(cs, retaddr, true);
+> > +    if (env->unwind_amo) {
+> > +        access_type = MMU_DATA_STORE;
+> > +    }
+> > +
+> > +    switch (access_type) {
+> > +    case MMU_INST_FETCH:
+> > +        cs->exception_index = RISCV_EXCP_INST_ADDR_MIS;
+> > +        break;
+> > +    case MMU_DATA_LOAD:
+> > +        cs->exception_index = RISCV_EXCP_LOAD_ADDR_MIS;
+> > +        break;
+> > +    case MMU_DATA_STORE:
+> > +        cs->exception_index = RISCV_EXCP_STORE_AMO_ADDR_MIS;
+> > +        break;
+> > +    default:
+> > +        g_assert_not_reached();
+> > +    }
+> > +
+> > +    env->badaddr = addr;
+> > +    env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
+> > +                            riscv_cpu_two_stage_lookup(mmu_idx);
+> > +    cpu_loop_exit(cs);
+> >  }
+> >
+> >  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> > @@ -1307,11 +1325,15 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> >      } else if (probe) {
+> >          return false;
+> >      } else {
+> > +        cpu_restore_state(cs, retaddr, true);
+> > +        if (env->unwind_amo) {
+> > +            access_type = MMU_DATA_STORE;
+> > +        }
+> >          raise_mmu_exception(env, address, access_type, pmp_violation,
+> >                              first_stage_error,
+> >                              riscv_cpu_virt_enabled(env) ||
+> >                                  riscv_cpu_two_stage_lookup(mmu_idx));
+> > -        cpu_loop_exit_restore(cs, retaddr);
+> > +        cpu_loop_exit(cs);
+> >      }
+> >
+> >      return true;
+> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> > index fac998a6b5..ae4b0d1524 100644
+> > --- a/target/riscv/translate.c
+> > +++ b/target/riscv/translate.c
+> > @@ -107,6 +107,10 @@ typedef struct DisasContext {
+> >      /* PointerMasking extension */
+> >      bool pm_mask_enabled;
+> >      bool pm_base_enabled;
+> > +#ifndef CONFIG_USER_ONLY
+> > +    /* TCG op of the current insn_start.  */
+> > +    TCGOp *insn_start;
+> > +#endif
+> >  } DisasContext;
+> >
+> >  static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+> > @@ -1105,7 +1109,12 @@ static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+> >  {
+> >      DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> >
+> > +#ifdef CONFIG_USER_ONLY
+> >      tcg_gen_insn_start(ctx->base.pc_next);
+> > +#else
+> > +    tcg_gen_insn_start(ctx->base.pc_next, 0);
+> > +    ctx->insn_start = tcg_last_op();
+> > +#endif
+> >  }
+> >
+> >  static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+> > diff --git a/target/riscv/insn_trans/trans_rva.c.inc b/target/riscv/insn_trans/trans_rva.c.inc
+> > index 45db82c9be..66faa8f1da 100644
+> > --- a/target/riscv/insn_trans/trans_rva.c.inc
+> > +++ b/target/riscv/insn_trans/trans_rva.c.inc
+> > @@ -37,6 +37,13 @@ static bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
+> >      return true;
+> >  }
+> >
+> > +static void record_insn_start_amo(DisasContext *ctx)
+> > +{
+> > +#ifndef CONFIG_USER_ONLY
+> > +    tcg_set_insn_start_param(ctx->insn_start, 1, 1);
+> > +#endif
+> > +}
+> > +
+> >  static bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
+> >  {
+> >      TCGv dest, src1, src2;
+> > @@ -73,6 +80,7 @@ static bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
+> >       */
+> >      tcg_gen_movi_tl(load_res, -1);
+> >
+> > +    record_insn_start_amo(ctx);
+> >      return true;
+> >  }
+> >
+> > @@ -85,8 +93,9 @@ static bool gen_amo(DisasContext *ctx, arg_atomic *a,
+> >      TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
+> >
+> >      func(dest, src1, src2, ctx->mem_idx, mop);
+> > -
+> >      gen_set_gpr(ctx, a->rd, dest);
+> > +
+> > +    record_insn_start_amo(ctx);
+> >      return true;
+> >  }
+> >
+> > --
+> > 2.25.1
+> >
+> >
+>
 
-Thanks,
 
-C.
+-- 
+Regards,
+Atish
 
