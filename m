@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DAD55083C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 10:43:18 +0200 (CEST)
-Received: from localhost ([::1]:39542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F58A50838D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 10:37:29 +0200 (CEST)
+Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh5vh-00071c-E8
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 04:43:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35092)
+	id 1nh5q4-0007zU-G0
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 04:37:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
- id 1nh5eK-0004z2-HF; Wed, 20 Apr 2022 04:25:21 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:48516 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nh5g7-0006Me-6Q
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 04:27:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
- id 1nh5eI-0003wk-9A; Wed, 20 Apr 2022 04:25:20 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 957DC45969;
- Wed, 20 Apr 2022 08:25:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-transfer-encoding:content-disposition:content-type
- :content-type:mime-version:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1650443113;
- x=1652257514; bh=hX7e17X0QPT1iJanzJp1JNPqZEw6zAiVo//E8oyg2hQ=; b=
- noLhZ33//3mI5m4ALUAu1wybcN9fNZyAArjaa2yuaUAWZK4Dq/LFgkIo6M0KD4mu
- 1Zn6s14/TxHS4Hs4GIZOhp3ygqwQ+yYtyQxgtxjMlySVhrHbhfI5MxYaylpEbRxj
- 2x1E3O2uEDrv2ut5lKVynaqqwSkDMQ60RmwkkwtjpsQ=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9Avucj6lNQGN; Wed, 20 Apr 2022 11:25:13 +0300 (MSK)
-Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
- [172.17.100.104])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nh5g5-0004Cw-Ed
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 04:27:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650443228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mcRjdclg4Ux66M7jyIDcUcdUURaKky/uElJYJy0kfRc=;
+ b=B0+0FNqHybXRc5IjF6WZfKx0OjwDWqSc8FaPvDMJubzLXdJ8ZHsoCXMxpl1J3sI2hPvTkn
+ 12l4bowqkXZgAHQHiXqVMXnboX6cQ6JPHKYJmMR3OjM7p4PwPAQdhYJiSQlyvtcKDqFCmJ
+ HuDLhqFzdt5arGclUH/bz5e4xbXu9CA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-454-wxipb_EmMpC0tzQIRnrvFQ-1; Wed, 20 Apr 2022 04:27:06 -0400
+X-MC-Unique: wxipb_EmMpC0tzQIRnrvFQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 2D66341459;
- Wed, 20 Apr 2022 11:25:13 +0300 (MSK)
-Received: from localhost.localdomain (10.178.113.54) by
- T-EXCH-04.corp.yadro.com (172.17.100.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Wed, 20 Apr 2022 11:21:20 +0300
-Date: Wed, 20 Apr 2022 11:20:44 +0300
-From: Dmitry Tikhov <d.tihov@yadro.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] hw/nvme: add new command abort case
-Message-ID: <20220420082044.n6orslk2aukj2jai@localhost.localdomain>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 567421161A61;
+ Wed, 20 Apr 2022 08:27:06 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE954200E28A;
+ Wed, 20 Apr 2022 08:26:38 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CF7B6180009C; Wed, 20 Apr 2022 10:26:36 +0200 (CEST)
+Date: Wed, 20 Apr 2022 10:26:36 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH] hw/i386/e820: remove legacy reserved entries for e820
+Message-ID: <20220420082636.jugea2h24qajh3zt@sirius.home.kraxel.org>
+References: <20220420043904.1225153-1-ani@anisinha.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.178.113.54]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-04.corp.yadro.com (172.17.100.104)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=d.tihov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220420043904.1225153-1-ani@anisinha.ca>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,57 +75,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, its@irrelevant.dk, ddtikhov@gmail.com,
- qemu-block@nongnu.org, linux@yadro.com
+Cc: Eduardo Habkost <eduardo@habkost.net>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NVMe command set specification for end-to-end data protection formatted
-namespace states:
+On Wed, Apr 20, 2022 at 10:09:04AM +0530, Ani Sinha wrote:
+> e820 reserved entries were used before the dynamic entries with fw config files
+> were intoduced. Please see the following change:
+> 7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
+> 
+> Identical support was introduced into seabios as well with the following commit:
+> ce39bd4031820 ("Add support for etc/e820 fw_cfg file")
+> 
+> Both the above commits are now quite old. QEMU machines 1.7 and newer no longer
+> use the reserved entries. Seabios uses fw config files and
 
-    o If the Reference Tag Check bit of the PRCHK field is set to ‘1’ and
-      the namespace is formatted for Type 3 protection, then the
-      controller:
-          ▪ should not compare the protection Information Reference Tag
-            field to the computed reference tag; and
-          ▪ may ignore the ILBRT and EILBRT fields. If a command is
-            aborted as a result of the Reference Tag Check bit of the
-            PRCHK field being set to ‘1’, then that command should be
-            aborted with a status code of Invalid Protection Information,
-            but may be aborted with a status code of Invalid Field in
-            Command.
+We still support machine types 1.6 & older (although they are
+deprecated already), so I think this has to wait until the 1.7 + older
+machine types are actually dropped.
 
-Currently qemu compares reftag in the nvme_dif_prchk function whenever
-Reference Tag Check bit is set in the command. For type 3 namespaces
-however, caller of nvme_dif_prchk - nvme_dif_check does not increment
-reftag for each subsequent logical block. That way commands incorporating
-more than one logical block for type 3 formatted namespaces with reftag
-check bit set, always fail with End-to-end Reference Tag Check Error.
-Comply with spec by handling case of set Reference Tag Check
-bit in the type 3 formatted namespace.
+Otherwise:
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-Signed-off-by: Dmitry Tikhov <d.tihov@yadro.com>
----
- hw/nvme/dif.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/hw/nvme/dif.c b/hw/nvme/dif.c
-index 62d885f83e..63c44c86ab 100644
---- a/hw/nvme/dif.c
-+++ b/hw/nvme/dif.c
-@@ -26,6 +26,11 @@ uint16_t nvme_check_prinfo(NvmeNamespace *ns, uint8_t prinfo, uint64_t slba,
-         return NVME_INVALID_PROT_INFO | NVME_DNR;
-     }
- 
-+    if ((NVME_ID_NS_DPS_TYPE(ns->id_ns.dps) == NVME_ID_NS_DPS_TYPE_3) &&
-+        (prinfo & NVME_PRINFO_PRCHK_REF)) {
-+        return NVME_INVALID_PROT_INFO;
-+    }
-+
-     return NVME_SUCCESS;
- }
- 
--- 
-2.35.1
+take care,
+  Gerd
 
 
