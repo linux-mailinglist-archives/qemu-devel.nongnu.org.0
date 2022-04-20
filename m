@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE56C5091A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:52:33 +0200 (CEST)
-Received: from localhost ([::1]:44936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3266D5091FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 23:20:23 +0200 (CEST)
+Received: from localhost ([::1]:52872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhHJQ-0006Cp-H0
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
+	id 1nhHkL-0007QT-QD
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 17:20:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nhHIa-0005Wu-5i
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 16:51:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59876)
+ (Exim 4.90_1) (envelope-from <anders@apitman.com>)
+ id 1nhHio-0006lC-RA
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 17:18:46 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:42161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nhHIX-0002Fe-Br
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 16:51:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650487896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TmOTvVqtNsp+dnsjrlEfSZvK3AyRtLKM0iCDaaPKUCo=;
- b=LGFv9pdSBznuy3hwnSykBH9/IgtiIMsHunSzA9XPmjW7KOFX/Z0IN1FBRhe86IORtG8sc2
- KWN19y0h4VU6+o1s+DJFrsEwPqdRZoferCSbkEZFJj00tMyzOOUnQ6QahM/Du2Kd6oBol1
- orsi74ebutrGj8hQ+YhhEhhBen7O9PM=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-434-s-QKF9qiOI-dpbG8OV3b0A-1; Wed, 20 Apr 2022 16:51:34 -0400
-X-MC-Unique: s-QKF9qiOI-dpbG8OV3b0A-1
-Received: by mail-io1-f69.google.com with SMTP id
- a17-20020a056602209100b006549a9cd480so1960705ioa.15
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 13:51:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=TmOTvVqtNsp+dnsjrlEfSZvK3AyRtLKM0iCDaaPKUCo=;
- b=GbqqGD1p0ySdpX0ET5qQpz/2uzvD3Td8l2U4LbKVmlrIfvhUXLXG29h4rqWOR9KspM
- HtbdYojrgGO+6p3khEDMkyGTbYCaOhGbf0AYyDPBqTxID/q0Dlqz/5ZaP0guH+3hiQib
- UlGDYEnDVkRabfBl938/QGntbrzykSnOT/URaBGLbPWtPiAc11jgk3GBwZ3K4bwIJzDM
- 16ts66zxZaBUbSaUCGhM/D7aUUqpUNzNcGY5VPfzuxa61vehSs/ty3M5Hk+JSOe+ybrO
- eDlquZq1DP3l02BSGDgjU6Pf7q97fxiNj8H7LimTDJD8rWh6e3MKuPxXLQGZvrFHL6AY
- D0ew==
-X-Gm-Message-State: AOAM533WThZoinHXq1HOIOw6+WhVkly3kDP63RPiQd0d3tGCRc0+GX9G
- RnyqGVpny7b1Nq8gf8R9bXQZPtq6V7ZTxVka3fqn3NHyKxfSuH1rlYTrloLysxKrcv7MUHnKLA9
- BPKEX+3m7ZdSot7I=
-X-Received: by 2002:a05:6638:191c:b0:326:3c70:b9c3 with SMTP id
- p28-20020a056638191c00b003263c70b9c3mr10452589jal.154.1650487894144; 
- Wed, 20 Apr 2022 13:51:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUuu+kURwFM4kv5eVDjITH1aJxupt52B6rgl7IQb4RZ4Kq5UGP5/+YTDMDPQaIerG6w7izaA==
-X-Received: by 2002:a05:6638:191c:b0:326:3c70:b9c3 with SMTP id
- p28-20020a056638191c00b003263c70b9c3mr10452584jal.154.1650487893898; 
- Wed, 20 Apr 2022 13:51:33 -0700 (PDT)
-Received: from xz-m1.local
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
- by smtp.gmail.com with ESMTPSA id
- m4-20020a924a04000000b002cd61265f68sm78553ilf.63.2022.04.20.13.51.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 13:51:33 -0700 (PDT)
-Date: Wed, 20 Apr 2022 16:51:32 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v4 19/19] tests: Add postcopy preempt tests
-Message-ID: <YmByVGVsm2nf8D2C@xz-m1.local>
-References: <20220331150857.74406-1-peterx@redhat.com>
- <20220331150857.74406-20-peterx@redhat.com>
- <Yl/x69PnL3RkzTnz@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yl/x69PnL3RkzTnz@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1) (envelope-from <anders@apitman.com>)
+ id 1nhHim-00063Z-NF
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 17:18:46 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 475975C00D8
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 17:18:43 -0400 (EDT)
+Received: from imap46 ([10.202.2.96])
+ by compute4.internal (MEProxy); Wed, 20 Apr 2022 17:18:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apitman.com; h=
+ cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1650489523; x=1650575923; bh=d1ADYTpiyC
+ PICco+ukUmJZGTmZjUQ0M4y5zJvkl3fG8=; b=dAAE96fydF7lbQYZcTvVFj0dv7
+ eKGZT2Ikj4/SMN4nBEZFKyehnfI+8XS680Ty2VG2qflGFHJNCBORa6vvUO1tYhwZ
+ V65As6NBgVtGsYg4SD/p6D1HWOl/3zIsMn63LQJE4FUHxHZErcgyv/M2cJaENSGz
+ whWWbvnL1bsdOGFRhbWetAf+qPEqOhR8Kh9k3a7MsM4+XxP0lCPRGN6ul0gc9DHb
+ l78Ly/iilSPomldYcJIcb0eeS/cbgDszx2kQV4vCwIvBnu6HRsDnt4DeDNKCAJOh
+ MGeOAXHjW0taRbg8z4JdakcvO/E+CB1eMX5uTr39e8K6yBac6E8IA4xIPZmg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650489523; x=
+ 1650575923; bh=d1ADYTpiyCPICco+ukUmJZGTmZjUQ0M4y5zJvkl3fG8=; b=U
+ LCscSN7ZfAM67Buc8/cg1RlR06EIrIlLEiEiLJ30t2OpF0PvLBO2kgOcG7DjAEtW
+ 0JRRg123NRRyjT+9fbvuKzyCuqa9fOfapLxRS32ghfh7kfDSjTTnzbmyoGh89rBm
+ C6FiqEH2Dl+BtjltoMw/gRLyDe3RIN8datI10nUCx5Ol4Gzh2uziNeCehSD9Q4oY
+ MRAmIUORaA3A9KVCEkD1o7u2AXa2VveXnAYs59Nw4ZmGQqakLTTdiIhXUxH7PqZ1
+ EjdtAubMxkVBbXheFHpUGeodqBzKGNOIX3KqxnRqlpXIJVwlBfpu5/0MVSS8S4o9
+ b0UivU5uehcuSH8oXFTjg==
+X-ME-Sender: <xms:s3hgYnb0MOI2mHjtnqvNkS2HzUyn4HP_8onxiAXtyZEFtzy7y2F0pg>
+ <xme:s3hgYmY2OEOgAEnSsjAkh8WYezrceY-Z72ibP4iUQjyy4emdZDJlOlbuwoT-Wn1LT
+ xY7U_H-5OHTgPe_IM0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtddtgddufeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtsegrtd
+ erreerredtnecuhfhrohhmpedftehnuggvrhhsucfrihhtmhgrnhdfuceorghnuggvrhhs
+ segrphhithhmrghnrdgtohhmqeenucggtffrrghtthgvrhhnpeejueejtdetjeejhfeije
+ dvffeuvedtjefhtdfghfeiffdvtdehffffhffhheeffeenucffohhmrghinhepghhnuhdr
+ ohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grnhguvghrshesrghpihhtmhgrnhdrtghomh
+X-ME-Proxy: <xmx:s3hgYp8lN7Eb0uS4p12c0GxSCegxFUszYIz979-45hZeJcJfyuVXbA>
+ <xmx:s3hgYtpKv9WV21cXm6JgPmcyMZ-AGDfpjjkzkDuCW5IyjUakKod3EA>
+ <xmx:s3hgYip_7ihSgYETUduZuLyOSYhYHqKkAlEljTAHmeIdB54w2PKrMw>
+ <xmx:s3hgYv03g7tFT9sYwiBj0xjd3YdmhC78njKWIByHmQ22ejNUdR1-Xw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 186701EE0083; Wed, 20 Apr 2022 17:18:43 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-568-g521196dd5d-fm-20220414.001-g521196dd
+Mime-Version: 1.0
+Message-Id: <ac3d61d4-17d0-49d4-8eb2-27e450d51928@www.fastmail.com>
+In-Reply-To: <a78fd584-2d40-cbd4-95db-8a6729087a93@gmail.com>
+References: <8f5cc095-e5e9-486d-8e52-d22cac6d2379@www.fastmail.com>
+ <a78fd584-2d40-cbd4-95db-8a6729087a93@gmail.com>
+Date: Wed, 20 Apr 2022 15:18:22 -0600
+From: "Anders Pitman" <anders@apitman.com>
+To: qemu-devel@nongnu.org
+Subject: Re: Future of libslirp in QEMU
+Content-Type: multipart/alternative; boundary=b72d3146442f431d8e6ca8bb5161b4d4
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=anders@apitman.com;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,46 +97,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 12:43:39PM +0100, Daniel P. Berrangé wrote:
-> >  static void test_baddest(void)
-> >  {
-> >      MigrateStart args = {
-> > @@ -2176,6 +2219,12 @@ int main(int argc, char **argv)
-> >  
-> >      qtest_add_func("/migration/postcopy/unix", test_postcopy);
-> >      qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
-> > +    qtest_add_func("/migration/postcopy/preempt/unix", test_postcopy_preempt);
-> > +    qtest_add_func("/migration/postcopy/preempt/recovery",
-> > +                   test_postcopy_preempt_recovery);
-> > +    qtest_add_func("/migration/postcopy/preempt/tls", test_postcopy_preempt_tls);
-> > +    qtest_add_func("/migration/postcopy/preempt/tls+recovery",
-> > +                   test_postcopy_preempt_all);
+--b72d3146442f431d8e6ca8bb5161b4d4
+Content-Type: text/plain
+
+Awesome, thanks.
+
+Apparently I'm not properly performing a date-sorted search on the list archives. I started here:
+
+https://lists.gnu.org/archive/html/qemu-devel/
+
+Then entered "slirp" and searched with chronological order, but the latest entry is from 2020. What am I doing wrong?
+
+Thanks,
+//anders
+
+On Wed, Apr 20, 2022, at 2:21 PM, Daniel Henrique Barboza wrote:
 > 
-> On test naming again I think we want these four tests to have names
 > 
->     /migration/postcopy/preempt/plain
->     /migration/postcopy/preempt/tls/psk
->     /migration/postcopy/preempt/recovery/plain
->     /migration/postcopy/preempt/recovery/tls/psk
+> On 4/20/22 16:08, Anders Pitman wrote:
+> > I noticed in the 7.0 changelog that libslirp might be removed as a submodule in the future. Since user networking is very important for my project, I'm wondering if this is simply an implementation detail, or if there are plans to eventually remove slirp support entirely from QEMU (which would be bad for me)?
+> > 
+> > Is there somewhere I can read the discussion about this? I searched the mailing list archives but didn't see anything obvious.
+> 
+> QEMU will still be supporting libslirp. The difference is that now QEMU will be
+> using libslirp from the distro instead of packaging it itself.
+> 
+> The relevant thread is here:
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2022-04/msg00974.html
+> 
+> 
+> Thanks,
+> 
+> 
+> Daniel
+> 
+> 
 
-Well to think it again, logically if we prefer to spell out tls/psk, then
-we may also want to spell out preempt/unix because of the same reason..
+--b72d3146442f431d8e6ca8bb5161b4d4
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
 
-Similarly to all the vanilla postcopy/* tests, where if we keep tls/psk,
-then we should keep postcopy/unix rather than postcopy/plain.
-
-But let's not bother much with it.. I'll apply all the changes above in the
-new version.
-
-Thanks a lot for reviewing the series,
-
--- 
-Peter Xu
-
+<!DOCTYPE html><html><head><title></title><style type=3D"text/css">p.Mso=
+Normal,p.MsoNoSpacing{margin:0}</style></head><body><div>Awesome, thanks=
+.<br></div><div><br></div><div>Apparently I'm not properly performing a =
+date-sorted search on the list archives. I started here:<br></div><div><=
+br></div><div><a href=3D"https://lists.gnu.org/archive/html/qemu-devel/"=
+>https://lists.gnu.org/archive/html/qemu-devel/</a><br></div><div><br></=
+div><div>Then entered "slirp" and searched with chronological order, but=
+ the latest entry is from 2020. What am I doing wrong?<br></div><div><br=
+></div><div>Thanks,<br></div><div>//anders<br></div><div><br></div><div>=
+On Wed, Apr 20, 2022, at 2:21 PM, Daniel Henrique Barboza wrote:<br></di=
+v><blockquote type=3D"cite" id=3D"qt" style=3D""><div><br></div><div><br=
+></div><div>On 4/20/22 16:08, Anders Pitman wrote:<br></div><div>&gt; I =
+noticed in the 7.0 changelog that libslirp might be removed as a submodu=
+le in the future. Since user networking is very important for my project=
+, I'm wondering if this is simply an implementation detail, or if there =
+are plans to eventually remove slirp support entirely from QEMU (which w=
+ould be bad for me)?<br></div><div>&gt;&nbsp;<br></div><div>&gt; Is ther=
+e somewhere I can read the discussion about this? I searched the mailing=
+ list archives but didn't see anything obvious.<br></div><div><br></div>=
+<div>QEMU will still be supporting libslirp. The difference is that now =
+QEMU will be<br></div><div>using libslirp from the distro instead of pac=
+kaging it itself.<br></div><div><br></div><div>The relevant thread is he=
+re:<br></div><div><br></div><div><a href=3D"https://lists.gnu.org/archiv=
+e/html/qemu-devel/2022-04/msg00974.html">https://lists.gnu.org/archive/h=
+tml/qemu-devel/2022-04/msg00974.html</a><br></div><div><br></div><div><b=
+r></div><div>Thanks,<br></div><div><br></div><div><br></div><div>Daniel<=
+br></div><div><br></div><div><br></div></blockquote><div><br></div></bod=
+y></html>
+--b72d3146442f431d8e6ca8bb5161b4d4--
 
