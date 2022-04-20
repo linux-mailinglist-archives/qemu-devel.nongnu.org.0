@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDC1508C6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:49:34 +0200 (CEST)
-Received: from localhost ([::1]:57948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6012F508C7C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:52:30 +0200 (CEST)
+Received: from localhost ([::1]:38296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCaD-0004kg-UP
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:49:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42908)
+	id 1nhCd3-00026L-6h
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLt-0001oJ-Ow
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:45 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:41713)
+ id 1nhCLu-0001py-Ka
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:46 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLs-0000z7-07
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:45 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- o20-20020a05600c511400b0038ebbbb2ad8so1508070wms.0
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:43 -0700 (PDT)
+ id 1nhCLs-0000zK-VA
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:46 -0400
+Received: by mail-wr1-x430.google.com with SMTP id q3so2782016wrj.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uOwOPwaL3uOrEX0319KPKBGNWZApezlxb9nD0A6Am/Q=;
- b=dBydlTle/vx3RATEAl5l5PFIBus44nMVLrHd30Fxt9YUnRv4lebxfr+lRpl8Gt18NF
- tiAYNFGy99WT+cezPhJN3Aaj/PTn1BSnkn8tANjk7Qw+RN4NPffx1PPBPFGcn84cBiBV
- H522A3BsZzOPN/RyRQp/HWTjhlIQDrpybSERsf4y93wBzYKIqURW2UdG3jVO6sv+8wQm
- KbyZRQ7wEW42KRN7sctcHEtTU0osfmynQ6WMq2BzGqOvGaSkp+3mWUGt9CcnqJCgeZic
- F2uRfsEfi+7RnihIfoVla+2CrTbxkIXrFI1/ybn2QtFVVN/fMJKpdcb7mTg4JWDqcYsK
- 0nNg==
+ bh=kdKcMO6vaTvNB393UuNsGUCbzGTBLou5Txn3tS0z+To=;
+ b=Q0/bYZBAItZaCGYVZU+17DxPtixee3cEqsvOVe25QmNMFmwjCgHxKE7OPwPRTy3MUp
+ jf9i/4qCveFydjxVaa0pmQ5wsLtUyM4MAZkgC0O1YpnlpPGlJuL/u1VKDQA5CP5bLctB
+ e8vLcTZ0K41/pxdVBcIgi1OW1Y+jQW7XO1aB7Agg38XG9wOw4q9IWc9BWPznSl4uBHsK
+ nuc09rp2t9E4R5rkDBNddktPN5bWTV1JGSD7HizRjXHmEd2H8L/+Xt/yKSrHEoze1TU4
+ IDB9+eLTCY84n3apAlk4izKhJe+KJ6bNgE+do/6+dtsZihn8OK+KD7aUybU+V5uyxx9C
+ saHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uOwOPwaL3uOrEX0319KPKBGNWZApezlxb9nD0A6Am/Q=;
- b=Y6SJp3JkufYCOLF2hIMsPSLnY+5nrp2b5q8nlYLWgEDj4v1KRBc5aoX5kiTzMsvabr
- MypWsCYT+5pbcrkkk4CJXyRAgETNPWbDsyW23aZeR2hyc7pwszaf1GupsD7ytZ333wni
- jnj0fCktOizo7ddXAs0jaCSmEwZiAxhZ8r8/f7I17if1G8NjfEpuHPd06sumpIgWPjrC
- MV5uADb5P1Ws/x3RUe/fur8YqF59nipTHL8BkbxdNCjnevzYdwYM2ghTLvh7VH8hSdgO
- 0zwV+Mfxqm3IgCNt2aI/1HCsuq3FdGhRLv2x+77kuQLenA+oSMTJDj5W4lS9vYLhTPr0
- b3Ng==
-X-Gm-Message-State: AOAM530XMzP8qExSMRUs4JTm8wqnXDlm+eYqrf7eArjjslTZskire7Xc
- G2reizn+Xc2LCxmedhjWot+6ohIw8uaPyQ==
-X-Google-Smtp-Source: ABdhPJyVLAO41ILcJFBh9wv0FiK0IUJpWTbpV/+zGoMfydPvk49KVkLiWGrkLfnPpm8bFc9oPzep6Q==
-X-Received: by 2002:a05:600c:b54:b0:390:82ee:e15b with SMTP id
- k20-20020a05600c0b5400b0039082eee15bmr4217038wmr.17.1650468882426; 
- Wed, 20 Apr 2022 08:34:42 -0700 (PDT)
+ bh=kdKcMO6vaTvNB393UuNsGUCbzGTBLou5Txn3tS0z+To=;
+ b=AfvtZJrTmxlV1TGXrJ/Gpjb+8/nWG3PPGpRvT12Wd3+YsMcQt/7PhAvoylDdsEYVec
+ z0CBaZhzBdNB46XThx4ajwO/6TyeJ2RlxsroeqxdTGXbC8HHI14NsoLwNrFtWi13BC7N
+ zHtY+ItzIFf5wsxMPwnMVZBVAog5ERHRN2vnsL5oXkq0N0/RsZa/V0c312yd4AUC14pw
+ p5OS/0kFIjWF/Bh+lwwDb1BZTkyuUDwzmRdAmrxeJZHMO2Wit8z92hTKOUiPixDGMXlI
+ zOLJQuJLh7XrjHCrCTlSTgvrwskZtWIvyz5K522H4ufAPljRCscfEi9xc3KDi1PzdtcR
+ nP5A==
+X-Gm-Message-State: AOAM530gL1UHYUzGGx/Sj2aGh9nY+ZX19/VALJUr02vbfoWbutljTx+o
+ URTcW+sUtFn40Z0aiZ/SQDFFKfIEKO0Etg==
+X-Google-Smtp-Source: ABdhPJzfoxkU3V59xhoT2Oymhyl6L3kzcEd1vRhSz79SDtB9eBXgGHJ9/U14+7NXGWLqyMF/JllUxQ==
+X-Received: by 2002:a5d:6da9:0:b0:20a:8d08:9977 with SMTP id
+ u9-20020a5d6da9000000b0020a8d089977mr13948547wrs.24.1650468883622; 
+ Wed, 20 Apr 2022 08:34:43 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.40
+ n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 08:34:42 -0700 (PDT)
+ Wed, 20 Apr 2022 08:34:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/34] meson, configure: move --interp-prefix to meson
-Date: Wed, 20 Apr 2022 17:33:55 +0200
-Message-Id: <20220420153407.73926-23-pbonzini@redhat.com>
+Subject: [PATCH 23/34] meson: always combine directories with prefix
+Date: Wed, 20 Apr 2022 17:33:56 +0200
+Message-Id: <20220420153407.73926-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420153407.73926-1-pbonzini@redhat.com>
 References: <20220420153407.73926-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,114 +90,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the last CONFIG_* entry in config-host.mak that had to be
-special cased.
+Meson allows directories such as "bindir" to be relative to the prefix.  Right
+now configure is forcing an absolute path, but that is not really necessary:
+just make sure all uses of the directory variables are prefixed appropriately.
+Do the same also for the options that are custom for QEMU, i.e. docdir and
+qemu_firmwarepath.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 6 ------
- meson.build                   | 6 ++----
- meson_options.txt             | 2 ++
- scripts/meson-buildoptions.sh | 3 +++
- 4 files changed, 7 insertions(+), 10 deletions(-)
+ meson.build | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/configure b/configure
-index 5bf0a7d69b..200ef3be23 100755
---- a/configure
-+++ b/configure
-@@ -231,7 +231,6 @@ fi
- 
- # default parameters
- cpu=""
--interp_prefix="/usr/gnemul/qemu-%M"
- static="no"
- cross_compile="no"
- cross_prefix=""
-@@ -696,8 +695,6 @@ for opt do
-   ;;
-   --prefix=*) prefix="$optarg"
-   ;;
--  --interp-prefix=*) interp_prefix="$optarg"
--  ;;
-   --cross-prefix=*)
-   ;;
-   --cc=*)
-@@ -1090,8 +1087,6 @@ Options: [defaults in brackets after descriptions]
- Standard options:
-   --help                   print this message
-   --prefix=PREFIX          install in PREFIX [$prefix]
--  --interp-prefix=PREFIX   where to find shared libraries, etc.
--                           use %M for cpu name [$interp_prefix]
-   --target-list=LIST       set target list (default: build all)
- $(echo Available targets: $default_target_list | \
-   fold -s -w 53 | sed -e 's/^/                           /')
-@@ -2289,7 +2284,6 @@ for target in $target_list; do
-     esac
- done
- 
--echo "CONFIG_QEMU_INTERP_PREFIX=$interp_prefix" | sed 's/%M/@0@/' >> $config_host_mak
- if test "$default_targets" = "yes"; then
-   echo "CONFIG_DEFAULT_TARGETS=y" >> $config_host_mak
- fi
 diff --git a/meson.build b/meson.build
-index 424ff454d2..869cc10128 100644
+index 869cc10128..2545ac2848 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2226,10 +2226,8 @@ if targetos == 'windows' and link_language == 'cpp'
+@@ -1618,7 +1618,7 @@ config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
+ config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_confdir)
+ config_host_data.set_quoted('CONFIG_QEMU_DATADIR', get_option('prefix') / qemu_datadir)
+ config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
+-config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('qemu_firmwarepath'))
++config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('prefix') / get_option('qemu_firmwarepath'))
+ config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
+ config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', get_option('prefix') / qemu_icondir)
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
+@@ -3615,20 +3615,20 @@ endif
+ summary_info = {}
+ summary_info += {'Install prefix':    get_option('prefix')}
+ summary_info += {'BIOS directory':    qemu_datadir}
+-summary_info += {'firmware path':     get_option('qemu_firmwarepath')}
+-summary_info += {'binary directory':  get_option('bindir')}
+-summary_info += {'library directory': get_option('libdir')}
++summary_info += {'firmware path':     get_option('prefix') / get_option('qemu_firmwarepath')}
++summary_info += {'binary directory':  get_option('prefix') / get_option('bindir')}
++summary_info += {'library directory': get_option('prefix') / get_option('libdir')}
+ summary_info += {'module directory':  qemu_moddir}
+-summary_info += {'libexec directory': get_option('libexecdir')}
+-summary_info += {'include directory': get_option('includedir')}
+-summary_info += {'config directory':  get_option('sysconfdir')}
++summary_info += {'libexec directory': get_option('prefix') / get_option('libexecdir')}
++summary_info += {'include directory': get_option('prefix') / get_option('includedir')}
++summary_info += {'config directory':  get_option('prefix') / get_option('sysconfdir')}
+ if targetos != 'windows'
+-  summary_info += {'local state directory': get_option('localstatedir')}
+-  summary_info += {'Manual directory':      get_option('mandir')}
++  summary_info += {'local state directory': get_option('prefix') / get_option('localstatedir')}
++  summary_info += {'Manual directory':      get_option('prefix') / get_option('mandir')}
+ else
+   summary_info += {'local state directory': 'queried at runtime'}
  endif
- config_host_data.set('HAVE_VSS_SDK', have_vss_sdk)
- 
--ignored = ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
--    'HAVE_GDB_BIN']
- foreach k, v: config_host
--  if k.startswith('CONFIG_') and not ignored.contains(k)
-+  if k.startswith('CONFIG_')
-     config_host_data.set(k, v == 'y' ? 1 : v)
-   endif
- endforeach
-@@ -2323,7 +2321,7 @@ foreach target : target_dirs
-     config_target += {
-       'CONFIG_USER_ONLY': 'y',
-       'CONFIG_QEMU_INTERP_PREFIX':
--        config_host['CONFIG_QEMU_INTERP_PREFIX'].format(config_target['TARGET_NAME'])
-+        get_option('interp_prefix').replace('%M', config_target['TARGET_NAME'])
-     }
-   endif
- 
-diff --git a/meson_options.txt b/meson_options.txt
-index dc6fb796c6..848426460c 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -27,6 +27,8 @@ option('block_drv_rw_whitelist', type : 'string', value : '',
-        description: 'set block driver read-write whitelist (by default affects only QEMU, not tools like qemu-img)')
- option('block_drv_ro_whitelist', type : 'string', value : '',
-        description: 'set block driver read-only whitelist (by default affects only QEMU, not tools like qemu-img)')
-+option('interp_prefix', type : 'string', value : '/usr/gnemul/qemu-%M',
-+       description: 'where to find shared libraries etc., use %M for cpu name')
- option('fuzzing_engine', type : 'string', value : '',
-        description: 'fuzzing engine library for OSS-Fuzz')
- option('trace_file', type: 'string', value: 'trace',
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index bf9878e24f..a0c86db116 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -41,6 +41,8 @@ meson_options_help() {
-   printf "%s\n" '                           Set available tracing backends [log] (choices:'
-   printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
-   printf "%s\n" '  --iasl=VALUE             Path to ACPI disassembler'
-+  printf "%s\n" '  --interp-prefix=VALUE    where to find shared libraries etc., use %M for'
-+  printf "%s\n" '                           cpu name [/usr/gnemul/qemu-%M]'
-   printf "%s\n" '  --sphinx-build=VALUE     Use specified sphinx-build for building document'
-   printf "%s\n" '  --tls-priority=VALUE     Default TLS protocol/cipher priority string'
-   printf "%s\n" '                           [NORMAL]'
-@@ -252,6 +254,7 @@ _meson_option_parse() {
-     --disable-iconv) printf "%s" -Diconv=disabled ;;
-     --enable-install-blobs) printf "%s" -Dinstall_blobs=true ;;
-     --disable-install-blobs) printf "%s" -Dinstall_blobs=false ;;
-+    --interp-prefix=*) quote_sh "-Dinterp_prefix=$2" ;;
-     --enable-jack) printf "%s" -Djack=enabled ;;
-     --disable-jack) printf "%s" -Djack=disabled ;;
-     --enable-keyring) printf "%s" -Dkeyring=enabled ;;
+-summary_info += {'Doc directory':     get_option('docdir')}
++summary_info += {'Doc directory':     get_option('prefix') / get_option('docdir')}
+ summary_info += {'Build directory':   meson.current_build_dir()}
+ summary_info += {'Source path':       meson.current_source_dir()}
+ summary_info += {'GIT submodules':    config_host['GIT_SUBMODULES']}
 -- 
 2.35.1
 
