@@ -2,99 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6945087A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 14:03:57 +0200 (CEST)
-Received: from localhost ([::1]:45150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72EE15087A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 14:05:59 +0200 (CEST)
+Received: from localhost ([::1]:51028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh93s-0001HO-B8
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 08:03:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45242)
+	id 1nh95q-0005HE-Hi
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 08:05:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nh8v3-00070h-NA; Wed, 20 Apr 2022 07:54:49 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24206)
+ id 1nh8v2-00070f-T4; Wed, 20 Apr 2022 07:54:49 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nh8v1-0003QQ-GE; Wed, 20 Apr 2022 07:54:49 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23K9lFZH000979; 
+ id 1nh8v1-0003QS-8J; Wed, 20 Apr 2022 07:54:48 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23KAVB6D032641; 
  Wed, 20 Apr 2022 11:54:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=EC+QsDnUX+TJh5Z71uM8uQe+Qp9eycD7UuppSE/IduU=;
- b=UCOy3jN6NZVlowtNG/T/dCItDBick7iqH04HT9ZCFYMdn5gSB67RdWjy6kLaLL7ZJlaq
- GFc0FbMcPNdrnKZpqkYQtyihO6rgkOskV1lyGuKtUqYexhqMeVoypnMms3PKCc56BOkj
- gBZ/vNTU9FK9xTJBmJvc5gUDn0pnvDWibvB5cuyQaDWve9DQ0bgWNk0Pmz5Y/4V8aVWg
- 6hHEUSokpsGEkco7TNXaiFDOLw2eeCeu7QThWdCtPeczSNtrTA46MhfCxzv/1elKc039
- 43G47UiAQhK8Jjm/gSHa2W5q6qT0LpaOdzwph9MYE84E3y1Tl10OQ7tIumSflOElccTf PA== 
+ bh=0hGhj58FdiHDAzDtxReTNchnzT2XeL6O87NtDJso2T0=;
+ b=oWBSbDCoQL2pB3bY/e2aq116Ypvkw2q2AjZiFk0kPnoGjYqWx1wMgBsjtjqLzwoJTw+q
+ Zf021j3eSNEjhLBc3WifloyZW/xdG35ffc4UFYfD/t8/DXjGproIilrrBIxAlp/amTYf
+ ShhcCJjwwF5XJSu4GMrBWJ7BKgZHNJOMv+dpKl2QozeMFGHH7sjlqb/kwhSC0NS91QoT
+ nkNm6JCt9/DXu9/Rl1kub2bQRz+ACvfDkR1ywkTxcMP/WxP4L8fYTpPvbAn/HMItj1JW
+ zhdZEe1UZAod3vwR62K8HIaRuIyWIGgKrjXpmrAaRyWLDgL8uEBnZ98hT6sk54XRKnY7 9A== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7vpndk7-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7kb8fhu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 20 Apr 2022 11:54:45 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23KBnlim000669;
- Wed, 20 Apr 2022 11:54:44 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7vpndjf-1
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23KBYfdS031086;
+ Wed, 20 Apr 2022 11:54:45 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7kb8fh8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Apr 2022 11:54:44 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23KBr9OF023291;
- Wed, 20 Apr 2022 11:54:42 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3ffne8p7wm-1
+ Wed, 20 Apr 2022 11:54:45 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23KBrqcX021646;
+ Wed, 20 Apr 2022 11:54:43 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma02fra.de.ibm.com with ESMTP id 3fgu6u3ckj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Apr 2022 11:54:42 +0000
+ Wed, 20 Apr 2022 11:54:43 +0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 23KBsdkH46334210
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23KBseIv43909556
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Apr 2022 11:54:39 GMT
+ Wed, 20 Apr 2022 11:54:40 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1563BAE058;
+ by IMSVA (Postfix) with ESMTP id 08189AE058;
+ Wed, 20 Apr 2022 11:54:40 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2A2DCAE045;
  Wed, 20 Apr 2022 11:54:39 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3742EAE045;
- Wed, 20 Apr 2022 11:54:38 +0000 (GMT)
 Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
  [9.171.58.217])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 20 Apr 2022 11:54:38 +0000 (GMT)
+ Wed, 20 Apr 2022 11:54:39 +0000 (GMT)
 From: Pierre Morel <pmorel@linux.ibm.com>
 To: qemu-s390x@nongnu.org
-Subject: [PATCH v7 10/13] s390x: kvm: topology: interception of PTF instruction
-Date: Wed, 20 Apr 2022 13:57:42 +0200
-Message-Id: <20220420115745.13696-11-pmorel@linux.ibm.com>
+Subject: [PATCH v7 11/13] s390x: topology: resetting the Topology-Change-Report
+Date: Wed, 20 Apr 2022 13:57:43 +0200
+Message-Id: <20220420115745.13696-12-pmorel@linux.ibm.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220420115745.13696-1-pmorel@linux.ibm.com>
 References: <20220420115745.13696-1-pmorel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 9t0xH7C3nLhi10pqjDWxzzdhi1vD9gMh
-X-Proofpoint-GUID: e3y2OtBa4caEOxsBsgKCpRyzoGnXxbhx
+X-Proofpoint-ORIG-GUID: MS7qkaV8ysg84OUQkudWj38rTDvlr4GO
+X-Proofpoint-GUID: eC9DW9-WkCDnx7FJsq06N3cxTKr3eo-m
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-20_03,2022-04-20_01,2022-02-23_01
+ definitions=2022-04-20_02,2022-04-20_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- phishscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=999 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204200071
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ impostorscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ mlxscore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204200071
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -117,138 +117,132 @@ Cc: thuth@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the host supports the CPU topology facility, the PTF
-instruction with function code 2 is interpreted by the SIE,
-provided that the userland hypervizor activates the interpretation
-by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
-
-The PTF instructions with function code 0 and 1 are intercepted
-and must be emulated by the userland hypervizor.
+During a subsystem reset the Topology-Change-Report is cleared.
+Let's ask KVM to clear the MTCR in the case of a subsystem reset.
 
 Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 ---
- hw/s390x/s390-virtio-ccw.c         | 50 ++++++++++++++++++++++++++++++
- include/hw/s390x/s390-virtio-ccw.h |  6 ++++
- target/s390x/kvm/kvm.c             | 14 +++++++++
- 3 files changed, 70 insertions(+)
+ hw/s390x/cpu-topology.c      |  6 ++++++
+ hw/s390x/s390-virtio-ccw.c   |  1 +
+ target/s390x/cpu-sysemu.c    |  7 +++++++
+ target/s390x/cpu.h           |  1 +
+ target/s390x/kvm/kvm.c       | 31 +++++++++++++++++++++++++++++++
+ target/s390x/kvm/kvm_s390x.h |  2 ++
+ 6 files changed, 48 insertions(+)
 
+diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+index 3ae86f80f1..a4e9840cc0 100644
+--- a/hw/s390x/cpu-topology.c
++++ b/hw/s390x/cpu-topology.c
+@@ -561,6 +561,11 @@ static void s390_node_device_realize(DeviceState *dev, Error **errp)
+     qbus_set_hotplug_handler(bus, OBJECT(dev));
+ }
+ 
++static void s390_topology_reset(DeviceState *dev)
++{
++    s390_cpu_topology_mtr_reset();
++}
++
+ static void node_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -570,6 +575,7 @@ static void node_class_init(ObjectClass *oc, void *data)
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+     dc->realize = s390_node_device_realize;
+     dc->desc = "topology node";
++    dc->reset = s390_topology_reset;
+ }
+ 
+ static const TypeInfo node_info = {
 diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 93d1a43583..1ffaddebcc 100644
+index 1ffaddebcc..d46bff1a8a 100644
 --- a/hw/s390x/s390-virtio-ccw.c
 +++ b/hw/s390x/s390-virtio-ccw.c
-@@ -434,6 +434,56 @@ static void s390_pv_prepare_reset(S390CcwMachineState *ms)
-     s390_pv_prep_reset();
- }
- 
-+/*
-+ * s390_handle_ptf:
-+ *
-+ * @register 1: contains the function code
-+ *
-+ * Function codes 0 and 1 handle the CPU polarization.
-+ * We assume an horizontal topology, the only one supported currently
-+ * by Linux, consequently we answer to function code 0, requesting
-+ * horizontal polarization that it is already the current polarization
-+ * and reject vertical polarization request without further explanation.
-+ *
-+ * Function code 2 is handling topology changes and is interpreted
-+ * by the SIE.
-+ */
-+int s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
-+{
-+    CPUS390XState *env = &cpu->env;
-+    uint64_t reg = env->regs[r1];
-+    uint8_t fc = reg & S390_TOPO_FC_MASK;
-+
-+    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
-+        s390_program_interrupt(env, PGM_OPERATION, ra);
-+        return 0;
-+    }
-+
-+    if (env->psw.mask & PSW_MASK_PSTATE) {
-+        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-+        return 0;
-+    }
-+
-+    if (reg & ~S390_TOPO_FC_MASK) {
-+        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        return 0;
-+    }
-+
-+    switch (fc) {
-+    case 0:    /* Horizontal polarization is already set */
-+        env->regs[r1] |= S390_PTF_REASON_DONE;
-+        return 2;
-+    case 1:    /* Vertical polarization is not supported */
-+        env->regs[r1] |= S390_PTF_REASON_NONE;
-+        return 2;
-+    default:
-+        /* Note that fc == 2 is interpreted by the SIE */
-+        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+    }
-+
-+    return 0;
-+}
-+
- static void s390_machine_reset(MachineState *machine)
- {
-     S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
-diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-index 3331990e02..ac4b4a92e7 100644
---- a/include/hw/s390x/s390-virtio-ccw.h
-+++ b/include/hw/s390x/s390-virtio-ccw.h
-@@ -30,6 +30,12 @@ struct S390CcwMachineState {
-     uint8_t loadparm[8];
+@@ -121,6 +121,7 @@ static const char *const reset_dev_types[] = {
+     "s390-flic",
+     "diag288",
+     TYPE_S390_PCI_HOST_BRIDGE,
++    TYPE_S390_TOPOLOGY_NODE,
  };
  
-+#define S390_PTF_REASON_NONE (0x00 << 8)
-+#define S390_PTF_REASON_DONE (0x01 << 8)
-+#define S390_PTF_REASON_BUSY (0x02 << 8)
-+#define S390_TOPO_FC_MASK 0xffUL
-+int s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
-+
- struct S390CcwMachineClass {
-     /*< private >*/
-     MachineClass parent_class;
-diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-index 27b3fbfa09..e3792e52c2 100644
---- a/target/s390x/kvm/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -98,6 +98,7 @@
- 
- #define PRIV_B9_EQBS                    0x9c
- #define PRIV_B9_CLP                     0xa0
-+#define PRIV_B9_PTF                     0xa2
- #define PRIV_B9_PCISTG                  0xd0
- #define PRIV_B9_PCILG                   0xd2
- #define PRIV_B9_RPCIT                   0xd3
-@@ -1453,6 +1454,16 @@ static int kvm_mpcifc_service_call(S390CPU *cpu, struct kvm_run *run)
+ static void subsystem_reset(void)
+diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
+index 948e4bd3e0..11d0d87301 100644
+--- a/target/s390x/cpu-sysemu.c
++++ b/target/s390x/cpu-sysemu.c
+@@ -306,3 +306,10 @@ void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg)
+         kvm_s390_set_diag318(cs, arg.host_ulong);
      }
  }
- 
-+static int kvm_handle_ptf(S390CPU *cpu, struct kvm_run *run)
-+{
-+    uint8_t r1 = (run->s390_sieic.ipb >> 20) & 0x0f;
-+    int ret;
 +
-+    ret = s390_handle_ptf(cpu, r1, RA_IGNORED);
-+    setcc(cpu, ret);
-+    return 0;
++void s390_cpu_topology_mtr_reset(void)
++{
++    if (kvm_enabled()) {
++        kvm_s390_cpu_topology_reset();
++    }
++}
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index a617c943ff..61a71a7807 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -825,6 +825,7 @@ void s390_enable_css_support(S390CPU *cpu);
+ void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg);
+ int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch_id,
+                                 int vq, bool assign);
++void s390_cpu_topology_mtr_reset(void);
+ #ifndef CONFIG_USER_ONLY
+ unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU *cpu);
+ #else
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index e3792e52c2..f3924633c6 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -2585,3 +2585,34 @@ bool kvm_arch_cpu_check_are_resettable(void)
+ {
+     return true;
+ }
++
++static void kvm_s390_set_mtr(uint64_t attr)
++{
++    struct kvm_device_attr attribute = {
++        .group = KVM_S390_VM_CPU_TOPOLOGY,
++        .attr  = attr,
++    };
++
++    int ret = kvm_vm_ioctl(kvm_state, KVM_SET_DEVICE_ATTR, &attribute);
++
++    if (ret) {
++        error_report("Failed to set cpu topology attribute %lu: %s",
++                     attr, strerror(-ret));
++    }
 +}
 +
- static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
- {
-     int r = 0;
-@@ -1470,6 +1481,9 @@ static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
-     case PRIV_B9_RPCIT:
-         r = kvm_rpcit_service_call(cpu, run);
-         break;
-+    case PRIV_B9_PTF:
-+        r = kvm_handle_ptf(cpu, run);
-+        break;
-     case PRIV_B9_EQBS:
-         /* just inject exception */
-         r = -1;
++static void kvm_s390_reset_mtr(void)
++{
++    uint64_t attr = KVM_S390_VM_CPU_TOPO_MTR_CLEAR;
++
++    if (kvm_vm_check_attr(kvm_state, KVM_S390_VM_CPU_TOPOLOGY, attr)) {
++            kvm_s390_set_mtr(attr);
++    }
++}
++
++void kvm_s390_cpu_topology_reset(void)
++{
++    if (s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
++        kvm_s390_reset_mtr();
++    }
++}
+diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
+index 05a5e1e6f4..d717c05827 100644
+--- a/target/s390x/kvm/kvm_s390x.h
++++ b/target/s390x/kvm/kvm_s390x.h
+@@ -46,4 +46,6 @@ void kvm_s390_restart_interrupt(S390CPU *cpu);
+ void kvm_s390_stop_interrupt(S390CPU *cpu);
+ void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
+ 
++void kvm_s390_cpu_topology_reset(void);
++
+ #endif /* KVM_S390X_H */
 -- 
 2.27.0
 
