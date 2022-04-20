@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32A8508729
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:37:21 +0200 (CEST)
-Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66616508738
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:42:32 +0200 (CEST)
+Received: from localhost ([::1]:47786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh8e8-0005yd-LH
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42008)
+	id 1nh8j9-00083w-F6
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:42:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nh8cN-0004zU-8y
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:35:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39460)
+ id 1nh8gC-0007Es-Ju
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:39:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nh8cJ-0000kH-Do
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:35:29 -0400
+ id 1nh8g9-00017s-DW
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:39:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650454525;
+ s=mimecast20190719; t=1650454764;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=oo0MvSOKkM9C1dXPgPEFOwK4gd11Pmo4nHd8TiPri3Y=;
- b=aiXsje0ph/06CHi2aN94Xr4d/NKmaFv7fdcnN4Bb+kkvyIicCezl79wlrQeSfl9MNne5qL
- Ng2aN2uDxO9B+3oRxP/xiRL0CJKt7gkm5zuAQ3yrzmf1WFUQI7uoEftbl1wZGNT0V0iPmC
- g4C/nFUCx5fflq9dhaf5Fwupr7exUd8=
+ bh=R77YHZn4DcIPJimjPUSNMdWxCpKmLhKeClHCWvPHeG8=;
+ b=KRJKGl3SfmZmzQyZRpLVgDCWvmQtD3ptz14C08BLYLQGK3+BvkkyzXPB+9ud/5jKQNLEbk
+ RmTuDL2egHSYScdEY7AeFwXhn4+e5jldDhMk/9jJpRwcrwEReNSVp1VJ9RtIRcWZmnkrt6
+ sXqOpHZN7Oec7l1PVCbKyjy8uyNf/JU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-577-f-MT4rFyPVSUYh0xv9BUyg-1; Wed, 20 Apr 2022 07:35:24 -0400
-X-MC-Unique: f-MT4rFyPVSUYh0xv9BUyg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-12-oX5wALfmMJKji1du0rYKuw-1; Wed, 20 Apr 2022 07:39:23 -0400
+X-MC-Unique: oX5wALfmMJKji1du0rYKuw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4632C185A7BA
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:35:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0AA021815CFA
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:39:23 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5783540D1B9B;
- Wed, 20 Apr 2022 11:35:23 +0000 (UTC)
-Date: Wed, 20 Apr 2022 12:35:21 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D6D479D42;
+ Wed, 20 Apr 2022 11:39:10 +0000 (UTC)
+Date: Wed, 20 Apr 2022 12:39:07 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v4 16/19] migration: Enable TLS for preempt channel
-Message-ID: <Yl/v+eFKjvlSajmA@redhat.com>
+Subject: Re: [PATCH v4 17/19] tests: Add postcopy tls migration test
+Message-ID: <Yl/w2wRDIm5frmaU@redhat.com>
 References: <20220331150857.74406-1-peterx@redhat.com>
- <20220331150857.74406-17-peterx@redhat.com>
+ <20220331150857.74406-18-peterx@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220331150857.74406-17-peterx@redhat.com>
+In-Reply-To: <20220331150857.74406-18-peterx@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,142 +84,123 @@ Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 11:08:54AM -0400, Peter Xu wrote:
-> This patch is based on the async preempt channel creation.  It continues
-> wiring up the new channel with TLS handshake to destionation when enabled.
-> 
-> Note that only the src QEMU needs such operation; the dest QEMU does not
-> need any change for TLS support due to the fact that all channels are
-> established synchronously there, so all the TLS magic is already properly
-> handled by migration_tls_channel_process_incoming().
+On Thu, Mar 31, 2022 at 11:08:55AM -0400, Peter Xu wrote:
+> We just added TLS tests for precopy but not postcopy.  Add the
+> corresponding test for vanilla postcopy.
 > 
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  migration/postcopy-ram.c | 60 +++++++++++++++++++++++++++++++++++-----
->  migration/trace-events   |  1 +
->  2 files changed, 54 insertions(+), 7 deletions(-)
+>  tests/qtest/migration-test.c | 43 +++++++++++++++++++++++++++++++-----
+>  1 file changed, 37 insertions(+), 6 deletions(-)
 > 
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index ab2a50cf45..f5ba176862 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -36,6 +36,7 @@
->  #include "socket.h"
->  #include "qemu-file-channel.h"
->  #include "yank_functions.h"
-> +#include "tls.h"
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index d9f444ea14..80c4244871 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -481,6 +481,10 @@ typedef struct {
+>      bool only_target;
+>      /* Use dirty ring if true; dirty logging otherwise */
+>      bool use_dirty_ring;
+> +    /* Whether use TLS channels for postcopy test? */
+> +    bool postcopy_tls;
+> +    /* Used only if postcopy_tls==true, to cache the data object */
+> +    void *postcopy_tls_data;
+>      const char *opts_source;
+>      const char *opts_target;
+>  } MigrateStart;
+> @@ -980,6 +984,10 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>          return -1;
+>      }
 >  
->  /* Arbitrary limit on size of each discard command,
->   * keeps them around ~200 bytes
-> @@ -1552,15 +1553,15 @@ bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
->      return true;
+> +    if (args->postcopy_tls) {
+> +        args->postcopy_tls_data = test_migrate_tls_psk_start_match(from, to);
+> +    }
+> +
+>      migrate_set_capability(from, "postcopy-ram", true);
+>      migrate_set_capability(to, "postcopy-ram", true);
+>      migrate_set_capability(to, "postcopy-blocktime", true);
+> @@ -1004,7 +1012,8 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+>      return 0;
 >  }
 >  
-> +/*
-> + * Setup the postcopy preempt channel with the IOC.  If ERROR is specified,
-> + * setup the error instead.  This helper will free the ERROR if specified.
-> + */
->  static void
-> -postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
-> +postcopy_preempt_send_channel_done(MigrationState *s,
-> +                                   QIOChannel *ioc, Error *local_err)
+> -static void migrate_postcopy_complete(QTestState *from, QTestState *to)
+> +static void migrate_postcopy_complete(QTestState *from, QTestState *to,
+> +                                      MigrateStart *args)
 >  {
-> -    MigrationState *s = opaque;
-> -    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
-> -    Error *local_err = NULL;
-> -
-> -    if (qio_task_propagate_error(task, &local_err)) {
-> -        /* Something wrong happened.. */
-> +    if (local_err) {
->          migrate_set_error(s, local_err);
->          error_free(local_err);
->      } else {
-> @@ -1574,6 +1575,51 @@ postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
->       * postcopy_qemufile_src to know whether it failed or not.
->       */
->      qemu_sem_post(&s->postcopy_qemufile_src_sem);
-> +}
-> +
-> +static void
-> +postcopy_preempt_tls_handshake(QIOTask *task, gpointer opaque)
-> +{
-> +    MigrationState *s = opaque;
-> +    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
-
-If using g_autoptr(QIOChannel) ioc = ...
-
-> +    Error *err = NULL;
-
-local_err is normal naming 
-
-> +
-> +    qio_task_propagate_error(task, &err);
-> +    postcopy_preempt_send_channel_done(s, ioc, err);
-> +    object_unref(OBJECT(ioc));
-
-...not needed with g_autoptr
-
-> +}
-> +
-> +static void
-> +postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
-> +{
-> +    MigrationState *s = opaque;
-> +    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
-
-If you use g_autoptr(QIOChannel)
-
-> +    QIOChannelTLS *tioc;
-> +    Error *local_err = NULL;
-> +
-> +    if (qio_task_propagate_error(task, &local_err)) {
-> +        assert(local_err);
-
-I don't think we really need to add these asserts everywhere we
-handle a failure path do we ?
-
-> +        goto out;
+>      wait_for_migration_complete(from);
+>  
+> @@ -1015,19 +1024,38 @@ static void migrate_postcopy_complete(QTestState *from, QTestState *to)
+>          read_blocktime(to);
+>      }
+>  
+> +    if (args->postcopy_tls) {
+> +        assert(args->postcopy_tls_data);
+> +        test_migrate_tls_psk_finish(from, to, args->postcopy_tls_data);
+> +        args->postcopy_tls_data = NULL;
 > +    }
 > +
-> +    if (migrate_channel_requires_tls(ioc)) {
-> +        tioc = migration_tls_client_create(s, ioc, s->hostname, &local_err);
-> +        if (!tioc) {
-> +            assert(local_err);
-> +            goto out;
-> +        }
-> +        trace_postcopy_preempt_tls_handshake();
-> +        qio_channel_set_name(QIO_CHANNEL(tioc), "migration-tls-preempt");
-> +        qio_channel_tls_handshake(tioc, postcopy_preempt_tls_handshake,
-> +                                  s, NULL, NULL);
-> +        /* Setup the channel until TLS handshake finished */
-> +        object_unref(OBJECT(ioc));
-
-...not needed with g_autoptr
-
-> +        return;
-> +    }
-> +
-> +out:
-> +    /* This handles both good and error cases */
-> +    postcopy_preempt_send_channel_done(s, ioc, local_err);
->      object_unref(OBJECT(ioc));
-
-...also not needed with g_autoptr
-
+>      test_migrate_end(from, to, true);
 >  }
 >  
-> diff --git a/migration/trace-events b/migration/trace-events
-> index b21d5f371f..00ab2e1b96 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -287,6 +287,7 @@ postcopy_request_shared_page(const char *sharer, const char *rb, uint64_t rb_off
->  postcopy_request_shared_page_present(const char *sharer, const char *rb, uint64_t rb_offset) "%s already %s offset 0x%"PRIx64
->  postcopy_wake_shared(uint64_t client_addr, const char *rb) "at 0x%"PRIx64" in %s"
->  postcopy_page_req_del(void *addr, int count) "resolved page req %p total %d"
-> +postcopy_preempt_tls_handshake(void) ""
->  postcopy_preempt_new_channel(void) ""
->  postcopy_preempt_thread_entry(void) ""
->  postcopy_preempt_thread_exit(void) ""
+> -static void test_postcopy(void)
+> +static void test_postcopy_common(MigrateStart *args)
+>  {
+> -    MigrateStart args = {};
+>      QTestState *from, *to;
+>  
+> -    if (migrate_postcopy_prepare(&from, &to, &args)) {
+> +    if (migrate_postcopy_prepare(&from, &to, args)) {
+>          return;
+>      }
+>      migrate_postcopy_start(from, to);
+> -    migrate_postcopy_complete(from, to);
+> +    migrate_postcopy_complete(from, to, args);
+> +}
+> +
+> +static void test_postcopy(void)
+> +{
+> +    MigrateStart args = { };
+> +
+> +    test_postcopy_common(&args);
+> +}
+> +
+> +static void test_postcopy_tls(void)
+
+test_postcopy_tls_psk() 
+
+> +{
+> +    MigrateStart args = { .postcopy_tls = true };
+> +
+> +    test_postcopy_common(&args);
+>  }
+>  
+>  static void test_postcopy_recovery(void)
+> @@ -1089,7 +1117,7 @@ static void test_postcopy_recovery(void)
+>      /* Restore the postcopy bandwidth to unlimited */
+>      migrate_set_parameter_int(from, "max-postcopy-bandwidth", 0);
+>  
+> -    migrate_postcopy_complete(from, to);
+> +    migrate_postcopy_complete(from, to, &args);
+>  }
+>  
+>  static void test_baddest(void)
+> @@ -2134,6 +2162,9 @@ int main(int argc, char **argv)
+>  
+>      qtest_add_func("/migration/postcopy/unix", test_postcopy);
+
+Rename this to /migration/postcopy/unix/plain
+
+>      qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
+> +#ifdef CONFIG_GNUTLS
+> +    qtest_add_func("/migration/postcopy/tls", test_postcopy_tls);
+
+And this to /migration/postcopy/unix/tls/psk  so we match the precopy test
+naming convention I started
+
+> +#endif /* CONFIG_GNUTLS */
+>      qtest_add_func("/migration/bad_dest", test_baddest);
+>      qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+>      qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
 > -- 
 > 2.32.0
 > 
