@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74C0508D39
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:26:23 +0200 (CEST)
-Received: from localhost ([::1]:38676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C044E508D0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:18:49 +0200 (CEST)
+Received: from localhost ([::1]:46454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhD9q-0002Dt-Og
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43104)
+	id 1nhD2W-0004Yw-RX
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:18:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCM6-0002Av-OI
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:35:00 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42919)
+ id 1nhCMC-0002G1-VC
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:35:05 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:46956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCM5-00011u-5R
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:58 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id bv16so2769089wrb.9
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:56 -0700 (PDT)
+ id 1nhCMB-00013K-6z
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:35:04 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ l62-20020a1c2541000000b0038e4570af2fso1481777wml.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:35:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p9QVfTgIB1vwAMcs7awvqyPjLD3CHyqK31FD2jUQMSE=;
- b=S7lKrZJWJYw1cuBOueiC2sIvvlg0m6wPUlnq5GtOwNzvf/XWOZiadHTqnRQI4Lvbb2
- DhzhUpqe+kMvl8SkZwNrW/jW/NfF2arYXy7zSgLgz1XFwy4k9Z4DATKicTKXHIQtK9QU
- q+UDBFGSSHZ7gHi0NCC16pgCCImcOWaVvlXCAKpYAhYZPLpLtE0NIUr94UWpcc3VVWQB
- Mbh8N1Q3x+2qGN9l+YeD83ICdmf/bTDqBdLHz9/pIbmvZ172rFH3R1h/UoSr37NgL5rd
- WR4j78td1qSigpJ+YKmo4KbinZx29YgUhU2dxNX/DePMM8Ev828QIOKV1pkJ8yWRU1m/
- IxtA==
+ bh=/0zAoQsiX4u9I3ungDt9Q7kGOaiqUTIxH9IA1KKGoWo=;
+ b=pLMQzdvUReYOZkqdYcjo+EhZ3IJ6ybMMxAUraYXTaTVtM+gcorc+zHSa2/kR+RSWpi
+ hnPFg4+ehAihwoUAQWjShVkJOqzJQcOOXoqbgvu22YHRnOQVvr9d7MTOSffkKL1J4Pbp
+ OiiV6Kj6LoCd57+XadFZj5a1YPkWCUn0D/qGN5W3mfESyIh7QL6wti/gbmRpHZ/IRPs+
+ Qg3UgO/W5arSRAXjycMGIFAZzxcuA2rhq1pMZIheuLUrDA1BV7vEZx2u7E9bc9eqP3iB
+ 8dwKmbFNactXS0qErKG0fdtxInghmXpJ1wF5NcQ1Z+zBUY4DLM0fW0D4tPKcIpy0mF0X
+ GtMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=p9QVfTgIB1vwAMcs7awvqyPjLD3CHyqK31FD2jUQMSE=;
- b=vLqKfJmM9rPFbplnlJ2WS0YTD+ndmoBEQgXKjIH7ddusDoBcxtsaVBCjIm0tJEmtoP
- HL5dvfKuWz1QP3fOhC0Ws8YGMfs6u48n9gqnZ5D7FbTJpfxfDPhjlpZQBzmTNxr8I4Ud
- /wzHclW7HiT8j26AueD9e+WA0z/i1v1ZzjlIQOWE6PD/DRYEIILA3FK/nl39IpXkH6co
- zEI3wGY0yi/a41pXVM1PWhGHpf0NE+YMtwPXxdOnPeWfN4kWZC8fViHQUz4RUb2rSiZy
- vUYjCfVEzzc7tk7eYr/XPxERKkyl+Ev+kO9po1dks9oWnnWq8W+0vItpo754ZmTJkE/D
- o4dQ==
-X-Gm-Message-State: AOAM531XCpJQZE4lSGOzTex58d9B68bGja+Ygw23qI30e08F7Q0FE2qy
- Za/xhZIh4YGzHb4UaoDsSDdCYygmbH+ZPw==
-X-Google-Smtp-Source: ABdhPJwIR3jyEs4FOaU9PPZKtqm9MIFOEs8y6xSOmhb1ePrbVUvlvIkUx3bJEjie7eGEjSkP6v967A==
-X-Received: by 2002:adf:f783:0:b0:207:a8ce:c155 with SMTP id
- q3-20020adff783000000b00207a8cec155mr16100705wrp.258.1650468895850; 
- Wed, 20 Apr 2022 08:34:55 -0700 (PDT)
+ bh=/0zAoQsiX4u9I3ungDt9Q7kGOaiqUTIxH9IA1KKGoWo=;
+ b=ePhUhtFpDOKjPXD+ehGSmaOOswwoD8Sbh+4bIFa0VFgD2UaA74t5xHHfEOnZ7yZGeq
+ hUg6kcGKUIgIaUSaalmCr8BCnhF4UcW/zWtN7kfNdp6pbK4BR8UTerAWFsZFcQR9/Bqu
+ My6rUX9AffIf03uWvf8ICf/ixkAFab/ogl8Y5iIdGl9XMlbfxN28WdpSnZ3qr9RDT/4/
+ ESty9YccHTYAucEmxqcSXIFpiIQTcieJkRA70xyvsiCu9qED8cChqBoTuPFm52C4uHtf
+ efu/8PYMZtkAPN7K98mMJuLjwSt+Dxp3MBwIKepbSCxUacOdxK2qMxUA8ZL3hdbMtOVv
+ Xqfg==
+X-Gm-Message-State: AOAM530f3bbh420n5aZIXLI/yE3PD3dOeHffV9zevsUwYvbYUGW0Vux1
+ nDMDC7r/AIIGHSpl11NHPAZtzRpSiytvcQ==
+X-Google-Smtp-Source: ABdhPJwfYQFMZrJxhrfDxAx8GUN1KagNaa13qrtk95doznt4TYrR1DgFb603PUfpKoI3mbsCg8sryw==
+X-Received: by 2002:a05:600c:4f55:b0:38f:f897:28d1 with SMTP id
+ m21-20020a05600c4f5500b0038ff89728d1mr4363672wmq.97.1650468901516; 
+ Wed, 20 Apr 2022 08:35:01 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.54
+ n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 08:34:55 -0700 (PDT)
+ Wed, 20 Apr 2022 08:35:01 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 31/34] build: move vhost-user-fs configuration to Kconfig
-Date: Wed, 20 Apr 2022 17:34:04 +0200
-Message-Id: <20220420153407.73926-32-pbonzini@redhat.com>
+Subject: [PATCH 32/34] meson: create have_vhost_* variables
+Date: Wed, 20 Apr 2022 17:34:05 +0200
+Message-Id: <20220420153407.73926-33-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420153407.73926-1-pbonzini@redhat.com>
 References: <20220420153407.73926-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,89 +91,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vhost-user-fs is a device and it should be possible to enable/disable
-it with --without-default-devices, not --without-default-features.
-Compute its default value in Kconfig to obtain the more intuitive
-behavior.
+When using Meson options rather than config-host.h, the "when" clauses
+have to be changed to if statements (which is not necessarily great,
+though at least it highlights which parts of the build are per-target
+and which are not).
 
-In this case the configure options were undocumented, too.
+Do that before moving vhost logic to meson.build, though for now
+the variables are just based on config-host.mak data.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 12 ------------
- hw/virtio/Kconfig |  5 +++++
- meson.build       |  1 -
- 3 files changed, 5 insertions(+), 13 deletions(-)
+ meson.build       | 31 ++++++++++++++++++++-----------
+ tests/meson.build |  2 +-
+ tools/meson.build |  2 +-
+ 3 files changed, 22 insertions(+), 13 deletions(-)
 
-diff --git a/configure b/configure
-index 65ae2c0c1f..3b38ff3c63 100755
---- a/configure
-+++ b/configure
-@@ -286,7 +286,6 @@ vhost_kernel="$default_feature"
- vhost_net="$default_feature"
- vhost_crypto="$default_feature"
- vhost_user="no"
--vhost_user_fs="$default_feature"
- vhost_vdpa="$default_feature"
- debug_tcg="no"
- sanitizers="no"
-@@ -872,10 +871,6 @@ for opt do
-   ;;
-   --enable-vhost-crypto) vhost_crypto="yes"
-   ;;
--  --disable-vhost-user-fs) vhost_user_fs="no"
--  ;;
--  --enable-vhost-user-fs) vhost_user_fs="yes"
--  ;;
-   --disable-zlib-test)
-   ;;
-   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
-@@ -1536,10 +1531,6 @@ test "$vhost_crypto" = "" && vhost_crypto=$vhost_user
- if test "$vhost_crypto" = "yes" && test "$vhost_user" = "no"; then
-   error_exit "--enable-vhost-crypto requires --enable-vhost-user"
- fi
--test "$vhost_user_fs" = "" && vhost_user_fs=$vhost_user
--if test "$vhost_user_fs" = "yes" && test "$vhost_user" = "no"; then
--  error_exit "--enable-vhost-user-fs requires --enable-vhost-user"
--fi
- 
- # OR the vhost-kernel, vhost-vdpa and vhost-user values for simplicity
- if test "$vhost_net" = ""; then
-@@ -2088,9 +2079,6 @@ fi
- if test "$vhost_vdpa" = "yes" ; then
-   echo "CONFIG_VHOST_VDPA=y" >> $config_host_mak
- fi
--if test "$vhost_user_fs" = "yes" ; then
--  echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
--fi
- 
- # XXX: suppress that
- if [ "$bsd" = "yes" ] ; then
-diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
-index b642ae1081..f8e235f814 100644
---- a/hw/virtio/Kconfig
-+++ b/hw/virtio/Kconfig
-@@ -78,3 +78,8 @@ config VHOST_USER_RNG
-     bool
-     default y
-     depends on VIRTIO && VHOST_USER
-+
-+config VHOST_USER_FS
-+    bool
-+    default y
-+    depends on VIRTIO && VHOST_USER
 diff --git a/meson.build b/meson.build
-index b18731ee84..870dd8dee0 100644
+index 870dd8dee0..5b5eb442c4 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -3679,7 +3679,6 @@ summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
- summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPTO')}
- summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
+@@ -312,6 +312,15 @@ have_tpm = get_option('tpm') \
+   .require(targetos != 'windows', error_message: 'TPM emulation only available on POSIX systems') \
+   .allowed()
+ 
++# vhost
++have_vhost_user = 'CONFIG_VHOST_USER' in config_host
++have_vhost_vdpa = 'CONFIG_VHOST_VDPA' in config_host
++have_vhost_kernel = 'CONFIG_VHOST_KERNEL' in config_host
++have_vhost_net_user = 'CONFIG_VHOST_NET_USER' in config_host
++have_vhost_net_vdpa = 'CONFIG_VHOST_NET_VDPA' in config_host
++have_vhost_net = 'CONFIG_VHOST_NET' in config_host
++have_vhost_user_crypto = 'CONFIG_VHOST_CRYPTO' in config_host
++
+ # Target-specific libraries and flags
+ libm = cc.find_library('m', required: false)
+ threads = dependency('threads')
+@@ -1440,7 +1449,7 @@ has_statx_mnt_id = cc.links(statx_mnt_id_test)
+ have_vhost_user_blk_server = get_option('vhost_user_blk_server') \
+   .require(targetos == 'linux',
+            error_message: 'vhost_user_blk_server requires linux') \
+-  .require('CONFIG_VHOST_USER' in config_host,
++  .require(have_vhost_user,
+            error_message: 'vhost_user_blk_server requires vhost-user support') \
+   .disable_auto_if(not have_system) \
+   .allowed()
+@@ -2283,9 +2292,9 @@ host_kconfig = \
+   (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
+   (opengl.found() ? ['CONFIG_OPENGL=y'] : []) + \
+   (x11.found() ? ['CONFIG_X11=y'] : []) + \
+-  ('CONFIG_VHOST_USER' in config_host ? ['CONFIG_VHOST_USER=y'] : []) + \
+-  ('CONFIG_VHOST_VDPA' in config_host ? ['CONFIG_VHOST_VDPA=y'] : []) + \
+-  ('CONFIG_VHOST_KERNEL' in config_host ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
++  (have_vhost_user ? ['CONFIG_VHOST_USER=y'] : []) + \
++  (have_vhost_vdpa ? ['CONFIG_VHOST_VDPA=y'] : []) + \
++  (have_vhost_kernel ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
+   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
+   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
+   (have_pvrdma ? ['CONFIG_PVRDMA=y'] : []) + \
+@@ -2967,7 +2976,7 @@ if have_system or have_user
+ endif
+ 
+ vhost_user = not_found
+-if targetos == 'linux' and 'CONFIG_VHOST_USER' in config_host
++if targetos == 'linux' and have_vhost_user
+   libvhost_user = subproject('libvhost-user')
+   vhost_user = libvhost_user.get_variable('vhost_user_dep')
+ endif
+@@ -3548,7 +3557,7 @@ if have_tools
+              dependencies: qemuutil,
+              install: true)
+ 
+-  if 'CONFIG_VHOST_USER' in config_host
++  if have_vhost_user
+     subdir('contrib/vhost-user-blk')
+     subdir('contrib/vhost-user-gpu')
+     subdir('contrib/vhost-user-input')
+@@ -3674,12 +3683,12 @@ if 'simple' in get_option('trace_backends')
+ endif
+ summary_info += {'D-Bus display':     dbus_display}
+ summary_info += {'QOM debugging':     get_option('qom_cast_debug')}
+-summary_info += {'vhost-kernel support': config_host.has_key('CONFIG_VHOST_KERNEL')}
+-summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
+-summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPTO')}
+-summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
++summary_info += {'vhost-kernel support': have_vhost_kernel}
++summary_info += {'vhost-net support': have_vhost_net}
++summary_info += {'vhost-user support': have_vhost_user}
++summary_info += {'vhost-user-crypto support': have_vhost_user_crypto}
  summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
--summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
- summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
+-summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
++summary_info += {'vhost-vdpa support': have_vhost_vdpa}
  summary_info += {'build guest agent': have_ga}
  summary(summary_info, bool_yn: true, section: 'Configurable features')
+ 
+diff --git a/tests/meson.build b/tests/meson.build
+index 4f691e8465..8e318ec513 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -68,7 +68,7 @@ test_deps = {
+   'test-qht-par': qht_bench,
+ }
+ 
+-if have_tools and 'CONFIG_VHOST_USER' in config_host and 'CONFIG_LINUX' in config_host
++if have_tools and have_vhost_user and 'CONFIG_LINUX' in config_host
+   executable('vhost-user-bridge',
+              sources: files('vhost-user-bridge.c'),
+              dependencies: [qemuutil, vhost_user])
+diff --git a/tools/meson.build b/tools/meson.build
+index 46977af84f..10eb3a043f 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -3,7 +3,7 @@ have_virtiofsd = get_option('virtiofsd') \
+              error_message: 'virtiofsd requires Linux') \
+     .require(seccomp.found() and libcap_ng.found(),
+              error_message: 'virtiofsd requires libcap-ng-devel and seccomp-devel') \
+-    .require('CONFIG_VHOST_USER' in config_host,
++    .require(have_vhost_user,
+              error_message: 'virtiofsd needs vhost-user-support') \
+     .disable_auto_if(not have_tools and not have_system) \
+     .allowed()
 -- 
 2.35.1
 
