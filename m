@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF40508C5A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:44:55 +0200 (CEST)
-Received: from localhost ([::1]:40626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552A8508C77
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:51:19 +0200 (CEST)
+Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCVi-0001NG-8g
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
+	id 1nhCbu-00081z-E1
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:51:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLV-0001BV-7B
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:21 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45048)
+ id 1nhCLW-0001F6-BR
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:22 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:43529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLS-0000tf-Qn
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:20 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id b19so2754722wrh.11
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:18 -0700 (PDT)
+ id 1nhCLU-0000tz-Ba
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:22 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ n40-20020a05600c3ba800b0038ff1939b16so1489622wms.2
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=naEAB3p73JH+poeN9mZadWNCsi8lUD4sUKcP4Qz3f10=;
- b=k+Ol71GM7DfxpGhN8k92+QtrTOwtv6jcI99mBHT5RGqbud+fbYwtn8nVtYg8YWglSG
- YwN8Kli88pEHonSLUxosqqv+VGeoK8gtsQ/QWd5wJ9SxmVHP7hhNSSRk3gM+XbDwogFl
- +y7VJo1OcP38NCTKZ1zPpibg/Bl94FEc4mSdXZyZu+TliTRcrKEiK7VtU4n2LDyjvGyL
- LN04pm9TYMqrOTjeU9dZdE2IcXLHNEXPB8i1DK+FaHvKmtltqyttrJsECOG3zRnBFPXV
- qnqdq5Bj+froEeQLZtOcUtRsr3dCsV22BLsWZ6xVHD/hGIPtqZBVYAYEtF/sVx47RbWH
- kiAA==
+ bh=w+6vVe44Ze6Zp52ur673XaROVI4p8cy+qC9SEHaHUS4=;
+ b=DDSknHsCs/yJ9ldF4pDd5Z+QSxi/xMNiGUBghoXw/9sTmshDN0yyLhgazc/eNTkUyd
+ Xh0rJNVtF8CY/V3hKqfrKBtlWd0Z3wNt6uZMovdDKyyIOmMmIvcUla+0ws7thu+x3Lxk
+ 1IFTIQcCJfbz5HUtkMNyhVuUfKmVCpGmNpR1eeCJw7tZaNsCxQXGgicyEZSbF8F9hgBI
+ acHzI2OBRijWku9OhtmdbeOG3Ad38tQOTkFhzTEacOiePRdAdOLuOsFX4ZZSM6QAfYL3
+ JTzplwfJV/ciLfUuJARJGjEiPy2g1D8sTJnUvdJTp5sI+CO16jvzt7mAozjFgzOUqfQf
+ eVHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=naEAB3p73JH+poeN9mZadWNCsi8lUD4sUKcP4Qz3f10=;
- b=JMq10W3ehS+2FABsmnUaQUQ8TcLjnzABZklRThc9jhVjCVFNBB8iMzWLevpSEe0ArC
- AzoDnVOsQ28BOGPf8NhyVHMyE2P7gOBJXsFzjL3Ad7eLBQM2gdRB1w0Zz2vsLA5rOvz6
- iyNlQMm4jtEsCht/ebTDIWTdEJFpNSFyUkI77ZDK5LnzPzirWJaPhFuGSTpo1wOmu06H
- S9MhngFfkCytqBeRf+wQjTSZ9YpGCAgA7lEm6uw4vurMInej+msd43fH9LDeTendR4yf
- Fmq7zt3kuoFZiXzDfYSeGdVc5iXMc5uUbGSBRvkvRQt9XBk8V8xtXjFAvNrMkHR9pf6/
- SwDg==
-X-Gm-Message-State: AOAM530/NSBoA6tlgfRXwZiMOOjH5rW5D9K/xNshVMOhts1ZjIwJbdw9
- 1YYCO+smmgZ5rkilw8/vnsVZDRRVEC8dVw==
-X-Google-Smtp-Source: ABdhPJwzFkX46gRRkyLIkWgyRorDXiNFoC8TBRd9tSgcPwFkQALQWVSB3ojwYmKqzJMHJKWGXlGi/Q==
-X-Received: by 2002:a05:6000:18ae:b0:20a:a549:d38a with SMTP id
- b14-20020a05600018ae00b0020aa549d38amr7480322wri.247.1650468857153; 
- Wed, 20 Apr 2022 08:34:17 -0700 (PDT)
+ bh=w+6vVe44Ze6Zp52ur673XaROVI4p8cy+qC9SEHaHUS4=;
+ b=ekkQqNbU+MZbroAosWk1JhZtEDbYhOA9nl1s9a+9eqD9uLX49MvjaKuZw+EWnwm1Tr
+ lNEq3NBLDbupWrkN/J+u7XiEygmlK7k4fNJ9CGwU7OxZhKCv6UJNhrFZrr0LXHjv0m7R
+ KzR4EZuCiiQzOvYSqjxs+at9ii0UTIAkQM/VlkoL8Vtf7MaKjA2jNV/pHWuLljJEpwKj
+ EW3CJMAx0SYBhe/MOfw+5chD/Eaq0u8tXsBNksG+y1i+8U8yZFD6C4I1Z4k69j1U6UJe
+ tOCJr4saTp7o0uavTubHUxObnKQKsXJUia1oOS6gEiYU6yWf6spLuoR1qnH6qSaDCbBt
+ fkNQ==
+X-Gm-Message-State: AOAM531R3ngQEq85Vz7BcvE4+h3sx0asJew47Unf9Ad35BlWR8z72iKc
+ Y6/RtbgCzfP57P7zsOvDEFq8piZ/4LIh5Q==
+X-Google-Smtp-Source: ABdhPJwy+WvOyJzsPIFAMf6CmP+hdKe7U31fBRTrxfSWsOu9Gvr4FLZvxew/EwDANejT/9aPhE+ZOA==
+X-Received: by 2002:a05:600c:4fc9:b0:392:8906:7e5d with SMTP id
+ o9-20020a05600c4fc900b0039289067e5dmr4156968wmq.179.1650468858294; 
+ Wed, 20 Apr 2022 08:34:18 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.16
+ n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 08:34:16 -0700 (PDT)
+ Wed, 20 Apr 2022 08:34:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/34] configure: pc-bios/qemu-icon.bmp does not exist
-Date: Wed, 20 Apr 2022 17:33:37 +0200
-Message-Id: <20220420153407.73926-5-pbonzini@redhat.com>
+Subject: [PATCH 05/34] configure: gcov should not exclude fortify-source
+Date: Wed, 20 Apr 2022 17:33:38 +0200
+Message-Id: <20220420153407.73926-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420153407.73926-1-pbonzini@redhat.com>
 References: <20220420153407.73926-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,26 +91,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The file has been removed in commit a8260d3876 ("ui: install logo icons to
-$prefix/share/icons", 2019-01-21), do not try to symlink it in the build tree.
+There is no reason other than history (dating back to commit 1d728c3946, "tests: add gcov
+support", 2013-01-06) for this, remove this unnecessary conditional.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 1 -
- 1 file changed, 1 deletion(-)
+ configure | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/configure b/configure
-index 2bc5a0b84f..7a89cb4123 100755
+index 7a89cb4123..48ae18f47f 100755
 --- a/configure
 +++ b/configure
-@@ -3020,7 +3020,6 @@ LINKS="Makefile"
- LINKS="$LINKS tests/tcg/Makefile.target"
- LINKS="$LINKS pc-bios/optionrom/Makefile"
- LINKS="$LINKS pc-bios/s390-ccw/Makefile"
--LINKS="$LINKS pc-bios/qemu-icon.bmp"
- LINKS="$LINKS .gdbinit scripts" # scripts needed by relative path in .gdbinit
- LINKS="$LINKS tests/avocado tests/data"
- LINKS="$LINKS tests/qemu-iotests/check"
+@@ -2625,9 +2625,7 @@ fi
+ 
+ write_c_skeleton
+ 
+-if test "$gcov" = "yes" ; then
+-  :
+-elif test "$fortify_source" = "yes" ; then
++if test "$fortify_source" = "yes" ; then
+   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
+   debug=no
+ fi
 -- 
 2.35.1
 
