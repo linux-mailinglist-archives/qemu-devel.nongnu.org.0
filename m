@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041B8508E46
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 19:16:25 +0200 (CEST)
-Received: from localhost ([::1]:49364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9E8508E55
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 19:20:35 +0200 (CEST)
+Received: from localhost ([::1]:53308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhDwF-0007XC-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 13:16:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38168)
+	id 1nhE0H-0001wC-Si
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 13:20:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhDqC-00012Q-JR; Wed, 20 Apr 2022 13:10:08 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:40645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhDqA-0008Jr-EH; Wed, 20 Apr 2022 13:10:08 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id r85so2766752oie.7;
- Wed, 20 Apr 2022 10:10:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=1DgJdgfb4GhIct1Mnaxg5JbLe5SZnqAOzZw3oPI2zlk=;
- b=q43Pt7W/+MGTw2MI3MSuViwttSddp1+H4AWri6/UWwEWhbT97yfeg6Ejj1VstZKYVH
- /ZLs3RsDEnLzqrV55xcV9wfuMrjAMKmmqv1NbebMCfqMvF3pC2reBpH3lDgQ1ixxMCWP
- f1MuEXloBl5/MYXzhOlVAJsThZ/KpWBk4F7/RPM/JrXh0ZCQmzOx95sTT71COIiCIthi
- XF/e0Gyji9pQLXLDCk1iS07hnuZoUr/aJZTtWuKiRj1WZkS1m0O7+xF6UN0qSemuJqFU
- 7frwVI7DvdWapoHU3Wg7Hc2QV0/YJ0r4/lpqvmHI8U+o/AjxzvkPJ61uVnlfR1KGxO0l
- xGOA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nhDyk-0000fE-3x
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 13:18:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33013)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nhDyd-0001Nd-6W
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 13:18:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650475104;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YKzkk+93v+JWLyJPXu67+Rrh4nIMdIi2q6Nnz3nI8Gk=;
+ b=Pl2a3Khu6Xkenmf/2rqVM80lgj0q8zfezdE4F6Qy+HhYBL3rOBrjSFBT6tY0ePZfDB1+/G
+ CgvcXjTPHffKMh0DBEGD0bYYUdfSjuns6xkz8gfkGSvHURBEPArnjqBD23jdLeZJNkmo8K
+ ng0Ff6tfkVhOPi2hazoIhCHP2FUTMTE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-367-fzKKKWjgN_mqbXG3Ufvjjg-1; Wed, 20 Apr 2022 13:18:23 -0400
+X-MC-Unique: fzKKKWjgN_mqbXG3Ufvjjg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r9-20020a1c4409000000b0038ff033b654so1176260wma.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 10:18:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1DgJdgfb4GhIct1Mnaxg5JbLe5SZnqAOzZw3oPI2zlk=;
- b=QtbpMf7DYTv50o9q921itTJw8qfGlC0HKrF0PogjeNguOtpnylqKFV4hlyLKZUmq4j
- p9iAqvm7njOJtJAuaC8CJ263pLZ0btasdDQwhX5JtnGO4Em4b02s6muysOCSJut/xjNa
- GXjjXKFjDM9wFtFsmnWB0uRhKHQmiJGSjRXPTn17/IFK3m0kaoqZ31ykGjyxdf8H36a+
- JJ6xrEARzC8S7uDmq6+w5g32mUw5lf8E9cmkYbjCHYlPnWMIU3kswyggCMkGsn6PHb7g
- CMg9k8OqEv1l1yn/Z8TkyqGZAQ7Ox0A2/Mniu6zZIj1Aw9R5dzthUvXPQk5YDcOFPJV8
- F/hQ==
-X-Gm-Message-State: AOAM533ryEJUIC6rJg3tOoIuKrvf8Ia8pfW4E4AovaPH78EKMXYiZof6
- TQvcEScNs2HpLWnJ/KpkZ9w=
-X-Google-Smtp-Source: ABdhPJx7BlCHRM4tZ1bKECvjP8Ls61gkP6Hep7XTyH4sq+4Ts3Kwpi4PbqNDj6MlADN3rsSL535AiA==
-X-Received: by 2002:a05:6808:23d1:b0:322:97f8:69d7 with SMTP id
- bq17-20020a05680823d100b0032297f869d7mr2271365oib.241.1650474604302; 
- Wed, 20 Apr 2022 10:10:04 -0700 (PDT)
-Received: from [192.168.10.222] ([179.225.252.195])
- by smtp.gmail.com with ESMTPSA id
- g39-20020a9d12aa000000b00605534ffa55sm2334123otg.25.2022.04.20.10.10.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 10:10:03 -0700 (PDT)
-Message-ID: <59a4f9e7-f2b6-8235-e583-e230bec6fc44@gmail.com>
-Date: Wed, 20 Apr 2022 14:09:59 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YKzkk+93v+JWLyJPXu67+Rrh4nIMdIi2q6Nnz3nI8Gk=;
+ b=H3uyaTNETvK4qYC/Ig/T3S64qLWiSPcibPOTot/D2GtJ74Pg7KDBC8WDv2YqtY6B8A
+ GYLwqFm3Jp4FMaM2pC4weX0glheMR8nLwkPhcIsMQeZrVsbBdJkuTvUFeC4zzGu5H+03
+ WxUVXf2iZ0KcKbfVEYewFMtyMBA7V+vDemVVRhCAd/2RvBZprprEsIX/ziAHe3/PiWM/
+ hU0riskCkzhuo3UmqW1KCNF6s7/9n5IAxcKSfBMPNCTHBsFbj+dN5KfqrN2F0n/Rj4xD
+ XTz2gXbDhEpHRqnZu6pCqcwL3B56N/6oHpwYK88+3pf9Sg7k7CAr56qoKzUBO0YhdMrT
+ 2lwg==
+X-Gm-Message-State: AOAM530x2jvz0r/dPfamJ4TIgqzaCbK2nekaNTR0tmVFccw24YGCLrbe
+ I5ZOnu8c5F3moh39HarokI+m1Q/yAekjL6czd2BIVW7t5dBkWgFvIt4sQo0NjFTrOaax+Ir2IEL
+ Z9KhpY+ze7goKpWM=
+X-Received: by 2002:a05:600c:35c9:b0:392:8e2a:d7aa with SMTP id
+ r9-20020a05600c35c900b003928e2ad7aamr4829802wmq.34.1650475102102; 
+ Wed, 20 Apr 2022 10:18:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypxetSfXdq5fOInpeVDoGnzs3wWF7wBnaum1+0vZyPWG5LETqIRqFHo+s88cOjlE3pa+aEIw==
+X-Received: by 2002:a05:600c:35c9:b0:392:8e2a:d7aa with SMTP id
+ r9-20020a05600c35c900b003928e2ad7aamr4829779wmq.34.1650475101819; 
+ Wed, 20 Apr 2022 10:18:21 -0700 (PDT)
+Received: from redhat.com ([2.53.17.80]) by smtp.gmail.com with ESMTPSA id
+ t2-20020a1c4602000000b003917d43d339sm394090wma.4.2022.04.20.10.18.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 10:18:21 -0700 (PDT)
+Date: Wed, 20 Apr 2022 13:18:17 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Frederic Barrat <fbarrat@linux.ibm.com>
 Subject: Re: [PATCH v2 1/2] pcie: Don't try triggering a LSI when not defined
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org, mst@redhat.com,
- marcel.apfelbaum@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Message-ID: <20220420131755-mutt-send-email-mst@kernel.org>
 References: <20220408131303.147840-1-fbarrat@linux.ibm.com>
  <20220408131303.147840-2-fbarrat@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20220408131303.147840-2-fbarrat@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,21 +92,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Michael,
-
-Let me know if you want me to grab this patch from the ppc tree. I'm
-going to send a PR in the next few days.
-
-
-Thanks,
-
-
-Daniel
-
-On 4/8/22 10:13, Frederic Barrat wrote:
+On Fri, Apr 08, 2022 at 03:13:02PM +0200, Frederic Barrat wrote:
 > This patch skips [de]asserting a LSI interrupt if the device doesn't
 > have any LSI defined. Doing so would trigger an assert in
 > pci_irq_handler().
@@ -114,45 +108,55 @@ On 4/8/22 10:13, Frederic Barrat wrote:
 > root bridge doesn't request any LSI.
 > 
 > Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+
+Feel free to merge with the second patch. Thanks!
+
 > ---
->   hw/pci/pcie.c     | 5 +++--
->   hw/pci/pcie_aer.c | 2 +-
->   2 files changed, 4 insertions(+), 3 deletions(-)
+>  hw/pci/pcie.c     | 5 +++--
+>  hw/pci/pcie_aer.c | 2 +-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 > 
 > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
 > index 67a5d67372..68a62da0b5 100644
 > --- a/hw/pci/pcie.c
 > +++ b/hw/pci/pcie.c
 > @@ -353,7 +353,7 @@ static void hotplug_event_notify(PCIDevice *dev)
->           msix_notify(dev, pcie_cap_flags_get_vector(dev));
->       } else if (msi_enabled(dev)) {
->           msi_notify(dev, pcie_cap_flags_get_vector(dev));
+>          msix_notify(dev, pcie_cap_flags_get_vector(dev));
+>      } else if (msi_enabled(dev)) {
+>          msi_notify(dev, pcie_cap_flags_get_vector(dev));
 > -    } else {
 > +    } else if (pci_intx(dev) != -1) {
->           pci_set_irq(dev, dev->exp.hpev_notified);
->       }
->   }
+>          pci_set_irq(dev, dev->exp.hpev_notified);
+>      }
+>  }
 > @@ -361,7 +361,8 @@ static void hotplug_event_notify(PCIDevice *dev)
->   static void hotplug_event_clear(PCIDevice *dev)
->   {
->       hotplug_event_update_event_status(dev);
+>  static void hotplug_event_clear(PCIDevice *dev)
+>  {
+>      hotplug_event_update_event_status(dev);
 > -    if (!msix_enabled(dev) && !msi_enabled(dev) && !dev->exp.hpev_notified) {
 > +    if (!msix_enabled(dev) && !msi_enabled(dev) && pci_intx(dev) != -1 &&
 > +        !dev->exp.hpev_notified) {
->           pci_irq_deassert(dev);
->       }
->   }
+>          pci_irq_deassert(dev);
+>      }
+>  }
 > diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
 > index e1a8a88c8c..92bd0530dd 100644
 > --- a/hw/pci/pcie_aer.c
 > +++ b/hw/pci/pcie_aer.c
 > @@ -290,7 +290,7 @@ static void pcie_aer_root_notify(PCIDevice *dev)
->           msix_notify(dev, pcie_aer_root_get_vector(dev));
->       } else if (msi_enabled(dev)) {
->           msi_notify(dev, pcie_aer_root_get_vector(dev));
+>          msix_notify(dev, pcie_aer_root_get_vector(dev));
+>      } else if (msi_enabled(dev)) {
+>          msi_notify(dev, pcie_aer_root_get_vector(dev));
 > -    } else {
 > +    } else if (pci_intx(dev) != -1) {
->           pci_irq_assert(dev);
->       }
->   }
+>          pci_irq_assert(dev);
+>      }
+>  }
+> -- 
+> 2.35.1
+
 
