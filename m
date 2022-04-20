@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDDC509139
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:12:48 +0200 (CEST)
-Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B3F509107
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:04:38 +0200 (CEST)
+Received: from localhost ([::1]:42248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGgw-00074q-Tc
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:12:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44048)
+	id 1nhGZ1-0000hJ-Sv
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:04:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nhGBz-0004id-GR; Wed, 20 Apr 2022 15:40:47 -0400
+ id 1nhGC8-0004mP-FK; Wed, 20 Apr 2022 15:40:58 -0400
 Received: from [187.72.171.209] (port=35275 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nhGBx-0007El-Nu; Wed, 20 Apr 2022 15:40:47 -0400
+ id 1nhGC3-0007El-0H; Wed, 20 Apr 2022 15:40:54 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 20 Apr 2022 16:40:39 -0300
+ Wed, 20 Apr 2022 16:40:40 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id E9C49800059;
- Wed, 20 Apr 2022 16:40:38 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 664C8800059;
+ Wed, 20 Apr 2022 16:40:40 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 0/9] VDIV/VMOD Implementation
-Date: Wed, 20 Apr 2022 16:40:28 -0300
-Message-Id: <20220420194037.263661-1-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v3 2/9] target/ppc: Implemented vector divide instructions
+Date: Wed, 20 Apr 2022 16:40:30 -0300
+Message-Id: <20220420194037.263661-3-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220420194037.263661-1-lucas.araujo@eldorado.org.br>
+References: <20220420194037.263661-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 Apr 2022 19:40:39.0129 (UTC)
- FILETIME=[836C4490:01D854EE]
+X-OriginalArrivalTime: 20 Apr 2022 19:40:40.0657 (UTC)
+ FILETIME=[84556C10:01D854EE]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -55,58 +57,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
- danielhb413@gmail.com, richard.henderson@linaro.org, clg@kaod.org
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org,
+ Greg Kurz <groug@kaod.org>,
+ "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-This patch series is an implementation of the vector divide, vector
-divide extended and vector modulo instructions from PowerISA 3.1
+Implement the following PowerISA v3.1 instructions:
+vdivsw: Vector Divide Signed Word
+vdivuw: Vector Divide Unsigned Word
+vdivsd: Vector Divide Signed Doubleword
+vdivud: Vector Divide Unsigned Doubleword
 
-The first patch are Matheus' patch, used here since the divs256 and
-divu256 functions use int128_urshift.
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+---
+ target/ppc/insn32.decode            |  7 +++
+ target/ppc/translate/vmx-impl.c.inc | 85 +++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+)
 
-Patches without review: 2, 4, 5 and 8
-
-v3 changes:
-    - Divided DO_VDIV_VMOD macro in 4 different new macros
-    - Turned TRANS_VDIV_VMOD into a function and the instructions are
-      now implemented with the TRANS macro and do_vdiv_vmod function
-    - Moved clz128 to int128.h
-
-v2 changes:
-    - Dropped int128_lshift patch
-    - Added missing int_min/-1 check
-    - Changed invalid division to a division by 1
-    - Created new macro responsible for invalid division check
-      (replacing DIV_VEC, REM_VEC and the check in dives_i32/diveu_i32)
-    - Turned GVecGen3 array into single element
-
-Lucas Mateus Castro (alqotel) (8):
-  target/ppc: Implemented vector divide instructions
-  target/ppc: Implemented vector divide quadword
-  target/ppc: Implemented vector divide extended word
-  host-utils: Implemented unsigned 256-by-128 division
-  host-utils: Implemented signed 256-by-128 division
-  target/ppc: Implemented remaining vector divide extended
-  target/ppc: Implemented vector module word/doubleword
-  target/ppc: Implemented vector module quadword
-
-Matheus Ferst (1):
-  qemu/int128: add int128_urshift
-
- include/qemu/host-utils.h           |   3 +
- include/qemu/int128.h               |  57 +++++++++
- target/ppc/helper.h                 |   8 ++
- target/ppc/insn32.decode            |  23 ++++
- target/ppc/int_helper.c             | 106 ++++++++++++++++
- target/ppc/translate/vmx-impl.c.inc | 155 ++++++++++++++++++++++++
- tests/unit/test-int128.c            |  32 +++++
- util/host-utils.c                   | 180 ++++++++++++++++++++++++++++
- 8 files changed, 564 insertions(+)
-
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index ac2d3da9a7..597768558b 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -703,3 +703,10 @@ XVTLSBB         111100 ... -- 00010 ..... 111011011 . - @XX2_bf_xb
+ &XL_s           s:uint8_t
+ @XL_s           ......-------------- s:1 .......... -   &XL_s
+ RFEBB           010011-------------- .   0010010010 -   @XL_s
++
++## Vector Division Instructions
++
++VDIVSW          000100 ..... ..... ..... 00110001011    @VX
++VDIVUW          000100 ..... ..... ..... 00010001011    @VX
++VDIVSD          000100 ..... ..... ..... 00111001011    @VX
++VDIVUD          000100 ..... ..... ..... 00011001011    @VX
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index 764ac45409..0b18705c8e 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -3236,6 +3236,91 @@ TRANS(VMULHSD, do_vx_mulh, true , do_vx_vmulhd_i64)
+ TRANS(VMULHUW, do_vx_mulh, false, do_vx_vmulhw_i64)
+ TRANS(VMULHUD, do_vx_mulh, false, do_vx_vmulhd_i64)
+ 
++static bool do_vdiv_vmod(DisasContext *ctx, arg_VX *a, const int vece,
++                         void (*func_32)(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b),
++                         void (*func_64)(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b))
++{
++    const GVecGen3 op = {
++        .fni4 = func_32,
++        .fni8 = func_64,
++        .vece = vece
++    };
++
++    REQUIRE_VECTOR(ctx);
++
++    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
++                   avr_full_offset(a->vrb), 16, 16, &op);
++
++    return true;
++}
++
++#define DIVU32(NAME, DIV)                                               \
++static void NAME(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)                    \
++{                                                                       \
++    TCGv_i32 zero = tcg_constant_i32(0);                                \
++    TCGv_i32 one = tcg_constant_i32(1);                                 \
++    tcg_gen_movcond_i32(TCG_COND_EQ, b, b, zero, one, b);               \
++    DIV(t, a, b);                                                       \
++}
++
++#define DIVS32(NAME, DIV)                                               \
++static void NAME(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b)                    \
++{                                                                       \
++    TCGv_i32 t0 = tcg_temp_new_i32();                                   \
++    TCGv_i32 t1 = tcg_temp_new_i32();                                   \
++    tcg_gen_setcondi_i32(TCG_COND_EQ, t0, a, INT32_MIN);                \
++    tcg_gen_setcondi_i32(TCG_COND_EQ, t1, b, -1);                       \
++    tcg_gen_and_i32(t0, t0, t1);                                        \
++    tcg_gen_setcondi_i32(TCG_COND_EQ, t1, b, 0);                        \
++    tcg_gen_or_i32(t0, t0, t1);                                         \
++    tcg_gen_movi_i32(t1, 0);                                            \
++    tcg_gen_movcond_i32(TCG_COND_NE, b, t0, t1, t0, b);                 \
++    DIV(t, a, b);                                                       \
++    tcg_temp_free_i32(t0);                                              \
++    tcg_temp_free_i32(t1);                                              \
++}
++
++#define DIVU64(NAME, DIV)                                               \
++static void NAME(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)                    \
++{                                                                       \
++    TCGv_i64 zero = tcg_constant_i64(0);                                \
++    TCGv_i64 one = tcg_constant_i64(1);                                 \
++    tcg_gen_movcond_i64(TCG_COND_EQ, b, b, zero, one, b);               \
++    DIV(t, a, b);                                                       \
++}
++
++#define DIVS64(NAME, DIV)                                               \
++static void NAME(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)                    \
++{                                                                       \
++    TCGv_i64 t0 = tcg_temp_new_i64();                                   \
++    TCGv_i64 t1 = tcg_temp_new_i64();                                   \
++    tcg_gen_setcondi_i64(TCG_COND_EQ, t0, a, INT64_MIN);                \
++    tcg_gen_setcondi_i64(TCG_COND_EQ, t1, b, -1);                       \
++    tcg_gen_and_i64(t0, t0, t1);                                        \
++    tcg_gen_setcondi_i64(TCG_COND_EQ, t1, b, 0);                        \
++    tcg_gen_or_i64(t0, t0, t1);                                         \
++    tcg_gen_movi_i64(t1, 0);                                            \
++    tcg_gen_movcond_i64(TCG_COND_NE, b, t0, t1, t0, b);                 \
++    DIV(t, a, b);                                                       \
++    tcg_temp_free_i64(t0);                                              \
++    tcg_temp_free_i64(t1);                                              \
++}
++
++DIVS32(do_divsw, tcg_gen_div_i32)
++DIVU32(do_divuw, tcg_gen_divu_i32)
++DIVS64(do_divsd, tcg_gen_div_i64)
++DIVU64(do_divud, tcg_gen_divu_i64)
++
++TRANS_FLAGS2(ISA310, VDIVSW, do_vdiv_vmod, MO_32, do_divsw, NULL)
++TRANS_FLAGS2(ISA310, VDIVUW, do_vdiv_vmod, MO_32, do_divuw, NULL)
++TRANS_FLAGS2(ISA310, VDIVSD, do_vdiv_vmod, MO_64, NULL, do_divsd)
++TRANS_FLAGS2(ISA310, VDIVUD, do_vdiv_vmod, MO_64, NULL, do_divud)
++
++#undef DIVS32
++#undef DIVU32
++#undef DIVS64
++#undef DIVU64
++
+ #undef GEN_VR_LDX
+ #undef GEN_VR_STX
+ #undef GEN_VR_LVE
 -- 
 2.31.1
 
