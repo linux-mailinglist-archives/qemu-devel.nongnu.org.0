@@ -2,59 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0795D5089EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 15:59:30 +0200 (CEST)
-Received: from localhost ([::1]:34610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373045089F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:02:30 +0200 (CEST)
+Received: from localhost ([::1]:40734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhArd-0007ps-7G
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 09:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38868)
+	id 1nhAub-0003d2-2Q
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:02:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhAOF-0000P1-3X
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:29:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31838)
+ id 1nhALt-0005BU-0i
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:26:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhAOD-0004mG-Bs
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:29:02 -0400
+ id 1nhALn-0004JI-TO
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:26:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650461340;
+ s=mimecast20190719; t=1650461190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Zg1HRcCZu0QC+wWpJo7kYkJVX+3xsApouQ5ZfxjoZGM=;
- b=VWTfZZxVocMrzVrw8q2UO2dcvgYKiqyJ/lTl3J/zDghJBQP/5pm68o7tfzpQG/H1/gInEz
- kq2hM0HkqHsJIudsHPX3qOGX/hPYVUKPivhy2yi7yadcovwEMxkR64SNlzWL+d1X1/nbe4
- J8BuBa+Y2PquNrtL2yqjoAsaLDIGi+4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=c9efyoCsLk9UFvdOFiXD4JCpq11VHONmebAX3nuxpko=;
+ b=LLvn39P3AjBTvEqlkLX83ebW6MDcr27BxoUWi0jXgPAjpIISz9uygXAKEbcK2bR8+ZRuWY
+ XXJFqHJFYNJ6YQWaKD/lFPOIVSu79pXTt7SgKIQMOgcu5x8qRMpzXzAqNL1NVQwFB/QJ3i
+ F9lFEDdMgO4YY9IIznkiR+dzJaZLgrw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-497-2a-YIgUtPcOiUpANTGQKDQ-1; Wed, 20 Apr 2022 09:28:59 -0400
-X-MC-Unique: 2a-YIgUtPcOiUpANTGQKDQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-248-dmqtvMDFPNKaHFB0w4qMdA-1; Wed, 20 Apr 2022 09:26:28 -0400
+X-MC-Unique: dmqtvMDFPNKaHFB0w4qMdA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E53DD1C05139;
- Wed, 20 Apr 2022 13:28:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A46D218AE943
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 13:26:28 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A89B8145B98F;
- Wed, 20 Apr 2022 13:28:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E09C112131E;
+ Wed, 20 Apr 2022 13:26:27 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 23/41] include: add qemu/keyval.h
-Date: Wed, 20 Apr 2022 17:26:06 +0400
-Message-Id: <20220420132624.2439741-24-marcandre.lureau@redhat.com>
-In-Reply-To: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
-References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 00/41] Misc cleanups
+Date: Wed, 20 Apr 2022 17:25:43 +0400
+Message-Id: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -62,7 +59,7 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,160 +74,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Do not require the whole option machinery to handle keyval, as it is
-used by QAPI alone, without the option API. And match the associated
-unit name.
+Hi,
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- include/qemu/keyval.h             | 14 ++++++++++++++
- include/qemu/option.h             |  6 ------
- qapi/qobject-input-visitor.c      |  2 +-
- qom/object_interfaces.c           |  1 +
- softmmu/vl.c                      |  1 +
- tests/unit/check-qom-proplist.c   |  1 +
- tests/unit/test-forward-visitor.c |  2 +-
- tests/unit/test-keyval.c          |  2 +-
- util/keyval.c                     |  2 +-
- 9 files changed, 21 insertions(+), 10 deletions(-)
+Another batch of cleanup patches, mostly while working on moving the common code
+in some future subprojects. (a few patches have been posted and reviewed
+earlier)
+
+Marc-André Lureau (41):
+  qga: use fixed-length for usecs formatting
+  glib-compat: isolate g_date_time_format_iso8601 version-bypass
+  scripts/analyze-inclusions: drop qemu-common.h from analysis
+  Simplify softmmu/main.c
+  hw/hyperv: remove needless qemu-common.h include
+  include: rename qemu-common.h qemu/copyright.h
+  build-sys: remove MSI's QEMU_GA_MSI_MINGW_DLL_PATH
+  build-sys: simplify MSI's QEMU_GA_MANUFACTURER
+  build-sys: simplify MSI's QEMU_GA_VERSION
+  build-sys: drop MSI's QEMU_GA_DISTRO
+  qga: replace usleep() with g_usleep()
+  docs: trace-events-all is installed without renaming
+  arm/digic: replace snprintf() with g_strdup_printf()
+  arm/allwinner-a10: replace snprintf() with g_strdup_printf()
+  intc/exynos4210_gic: replace snprintf() with g_strdup_printf()
+  doc/style: CLang -> Clang
+  doc/build-platforms: document supported compilers
+  osdep.h: move qemu_build_not_reached()
+  compiler.h: replace QEMU_NORETURN with G_NORETURN
+  include: move qemu_msync() to osdep
+  include: move qemu_fdatasync() to osdep
+  include: move qemu_*_exec_dir() to cutils
+  include: add qemu/keyval.h
+  include: move qdict_{crumple,flatten} declarations
+  tests: remove block/qdict checks from check-qobject.c
+  compiler.h: add QEMU_SANITIZE_{ADDRESS,THREAD}
+  Use QEMU_SANITIZE_THREAD
+  Use QEMU_SANITIZE_ADDRESS
+  tests: run-time skip test-qga if TSAN is enabled
+  Move error_printf_unless_qmp() with monitor unit
+  qga: move qga_get_host_name()
+  qtest: simplify socket_send()
+  tests: move libqtest.c under libqos/
+  libqtest: split QMP part in libqmp
+  util: simplify write in signal handler
+  util: use qemu_write_full() in qemu_write_pidfile()
+  util: use qemu_create() in qemu_write_pidfile()
+  util: replace qemu_get_local_state_pathname()
+  qga: remove need for QEMU atomic.h
+  migration/ram: fix clang warning
+  tests/fuzz: fix warning
+
+ docs/about/build-platforms.rst               |  10 +
+ docs/devel/qtest.rst                         |   4 +-
+ docs/devel/style.rst                         |   2 +-
+ docs/devel/tracing.rst                       |   2 +-
+ configure                                    |  16 --
+ accel/tcg/internal.h                         |   3 +-
+ include/block/qdict.h                        |   3 +
+ include/exec/exec-all.h                      |  20 +-
+ include/exec/helper-head.h                   |   2 +-
+ include/glib-compat.h                        |  12 +-
+ include/hw/core/cpu.h                        |   2 +-
+ include/hw/core/tcg-cpu-ops.h                |   6 +-
+ include/hw/hw.h                              |   2 +-
+ include/monitor/monitor.h                    |   3 +
+ include/qapi/qmp/qdict.h                     |   3 -
+ include/qemu-main.h                          |  10 +
+ include/qemu/atomic.h                        |   8 +-
+ include/qemu/compiler.h                      |  26 +--
+ include/{qemu-common.h => qemu/copyright.h}  |   5 -
+ include/qemu/cutils.h                        |   9 +-
+ include/qemu/error-report.h                  |   2 -
+ include/qemu/keyval.h                        |  14 ++
+ include/qemu/option.h                        |   6 -
+ include/qemu/osdep.h                         |  51 ++--
+ include/qemu/thread.h                        |   2 +-
+ include/tcg/tcg-ldst.h                       |   4 +-
+ include/tcg/tcg.h                            |   2 +-
+ linux-user/user-internals.h                  |   2 +-
+ qga/commands-common.h                        |  11 +
+ scripts/cocci-macro-file.h                   |   2 +-
+ subprojects/libvhost-user/include/compiler.h |   1 +
+ target/alpha/cpu.h                           |  10 +-
+ target/arm/internals.h                       |  12 +-
+ target/hppa/cpu.h                            |   2 +-
+ target/i386/tcg/helper-tcg.h                 |  24 +-
+ target/microblaze/cpu.h                      |   6 +-
+ target/mips/tcg/tcg-internal.h               |  17 +-
+ target/nios2/cpu.h                           |   6 +-
+ target/openrisc/exception.h                  |   2 +-
+ target/ppc/cpu.h                             |  14 +-
+ target/ppc/internal.h                        |   6 +-
+ target/riscv/cpu.h                           |  10 +-
+ target/s390x/s390x-internal.h                |   6 +-
+ target/s390x/tcg/tcg_s390x.h                 |  12 +-
+ target/sh4/cpu.h                             |   6 +-
+ target/sparc/cpu.h                           |  10 +-
+ target/xtensa/cpu.h                          |   6 +-
+ tests/qtest/libqos/libqmp.h                  |  50 ++++
+ tests/qtest/libqos/libqtest.h                |  29 +--
+ accel/stubs/tcg-stub.c                       |   4 +-
+ bsd-user/main.c                              |   2 +-
+ bsd-user/signal.c                            |   3 +-
+ hw/arm/allwinner-a10.c                       |   4 +-
+ hw/arm/digic.c                               |   5 +-
+ hw/hyperv/syndbg.c                           |   1 -
+ hw/intc/exynos4210_gic.c                     |   9 +-
+ hw/misc/mips_itu.c                           |   3 +-
+ linux-user/main.c                            |   2 +-
+ linux-user/signal.c                          |   3 +-
+ migration/ram.c                              |   2 +-
+ monitor/hmp.c                                |   4 +-
+ monitor/monitor.c                            |  10 +
+ qapi/qobject-input-visitor.c                 |   2 +-
+ qemu-img.c                                   |  14 +-
+ qemu-io.c                                    |   3 +-
+ qemu-nbd.c                                   |   2 +-
+ qga/commands-posix.c                         |  35 +++
+ qga/commands-win32.c                         |  13 ++
+ qga/commands.c                               |  14 +-
+ qga/main.c                                   |  19 +-
+ qom/object_interfaces.c                      |   1 +
+ scsi/qemu-pr-helper.c                        |   8 +-
+ softmmu/main.c                               |  25 +-
+ softmmu/vl.c                                 |   4 +-
+ storage-daemon/qemu-storage-daemon.c         |   3 +-
+ stubs/error-printf.c                         |   1 +
+ target/alpha/helper.c                        |  10 +-
+ target/arm/pauth_helper.c                    |   4 +-
+ target/arm/tlb_helper.c                      |   7 +-
+ target/hexagon/op_helper.c                   |   9 +-
+ target/hppa/cpu.c                            |   8 +-
+ target/hppa/op_helper.c                      |   4 +-
+ target/i386/tcg/bpt_helper.c                 |   2 +-
+ target/i386/tcg/excp_helper.c                |  31 +--
+ target/i386/tcg/misc_helper.c                |   6 +-
+ target/i386/tcg/sysemu/misc_helper.c         |   7 +-
+ target/openrisc/exception.c                  |   2 +-
+ target/openrisc/exception_helper.c           |   3 +-
+ target/riscv/op_helper.c                     |   4 +-
+ target/rx/op_helper.c                        |  22 +-
+ target/s390x/tcg/excp_helper.c               |  22 +-
+ target/sh4/op_helper.c                       |   5 +-
+ target/sparc/mmu_helper.c                    |   8 +-
+ target/tricore/op_helper.c                   |   6 +-
+ tcg/tcg.c                                    |   3 +-
+ tests/fp/fp-bench.c                          |   3 +-
+ tests/fp/fp-test.c                           |   3 +-
+ tests/qtest/fdc-test.c                       |   2 +-
+ tests/qtest/fuzz/fuzz.c                      |   1 +
+ tests/qtest/fuzz/generic_fuzz.c              |   2 -
+ tests/qtest/libqos/libqmp.c                  | 230 +++++++++++++++++++
+ tests/qtest/{ => libqos}/libqtest.c          | 222 +-----------------
+ tests/unit/check-qobject.c                   |   7 -
+ tests/unit/check-qom-proplist.c              |   1 +
+ tests/unit/test-forward-visitor.c            |   2 +-
+ tests/unit/test-keyval.c                     |   2 +-
+ tests/unit/test-qga.c                        |   7 +
+ tools/virtiofsd/fuse_virtio.c                |   4 +-
+ tools/virtiofsd/passthrough_ll.c             |   2 +-
+ ui/vnc.c                                     |   1 +
+ util/compatfd.c                              |  18 +-
+ util/coroutine-ucontext.c                    |   2 +-
+ util/cutils.c                                | 163 ++++++++-----
+ util/error-report.c                          |  17 +-
+ util/keyval.c                                |   2 +-
+ util/osdep.c                                 |  16 ++
+ util/oslib-posix.c                           | 146 ++----------
+ util/oslib-win32.c                           |  64 +-----
+ qga/installer/qemu-ga.wxs                    |  24 +-
+ qga/meson.build                              |   5 +-
+ scripts/analyze-inclusions                   |   4 -
+ scripts/checkpatch.pl                        |   2 +-
+ tests/qtest/libqos/meson.build               |   5 +-
+ tests/unit/meson.build                       |   4 +-
+ ui/cocoa.m                                   |   3 +-
+ 125 files changed, 914 insertions(+), 882 deletions(-)
+ create mode 100644 include/qemu-main.h
+ rename include/{qemu-common.h => qemu/copyright.h} (80%)
  create mode 100644 include/qemu/keyval.h
+ create mode 120000 subprojects/libvhost-user/include/compiler.h
+ create mode 100644 tests/qtest/libqos/libqmp.h
+ create mode 100644 tests/qtest/libqos/libqmp.c
+ rename tests/qtest/{ => libqos}/libqtest.c (87%)
 
-diff --git a/include/qemu/keyval.h b/include/qemu/keyval.h
-new file mode 100644
-index 000000000000..2d263286d7c5
---- /dev/null
-+++ b/include/qemu/keyval.h
-@@ -0,0 +1,14 @@
-+/*
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#ifndef KEYVAL_H_
-+#define KEYVAL_H_
-+
-+QDict *keyval_parse_into(QDict *qdict, const char *params, const char *implied_key,
-+                         bool *p_help, Error **errp);
-+QDict *keyval_parse(const char *params, const char *implied_key,
-+                    bool *help, Error **errp);
-+void keyval_merge(QDict *old, const QDict *new, Error **errp);
-+
-+#endif /* KEYVAL_H_ */
-diff --git a/include/qemu/option.h b/include/qemu/option.h
-index bbd86e1c4eab..b34982878238 100644
---- a/include/qemu/option.h
-+++ b/include/qemu/option.h
-@@ -144,12 +144,6 @@ void qemu_opts_print_help(QemuOptsList *list, bool print_caption);
- void qemu_opts_free(QemuOptsList *list);
- QemuOptsList *qemu_opts_append(QemuOptsList *dst, QemuOptsList *list);
- 
--QDict *keyval_parse_into(QDict *qdict, const char *params, const char *implied_key,
--                         bool *p_help, Error **errp);
--QDict *keyval_parse(const char *params, const char *implied_key,
--                    bool *help, Error **errp);
--void keyval_merge(QDict *old, const QDict *new, Error **errp);
--
- G_DEFINE_AUTOPTR_CLEANUP_FUNC(QemuOpts, qemu_opts_del)
- 
- #endif
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index f0b4c7ca9d39..3e8aca6b1594 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -28,7 +28,7 @@
- #include "qapi/qmp/qnum.h"
- #include "qapi/qmp/qstring.h"
- #include "qemu/cutils.h"
--#include "qemu/option.h"
-+#include "qemu/keyval.h"
- 
- typedef struct StackObject {
-     const char *name;            /* Name of @obj in its parent, if any */
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 3b61c195c53d..f94b6c319312 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -17,6 +17,7 @@
- #include "qemu/qemu-print.h"
- #include "qapi/opts-visitor.h"
- #include "qemu/config-file.h"
-+#include "qemu/keyval.h"
- 
- bool user_creatable_complete(UserCreatable *uc, Error **errp)
- {
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index b0bf16e16aaa..8e3163a09233 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -128,6 +128,7 @@
- #include "qapi/qmp/qerror.h"
- #include "sysemu/iothread.h"
- #include "qemu/guest-random.h"
-+#include "qemu/keyval.h"
- 
- #include "config-host.h"
- 
-diff --git a/tests/unit/check-qom-proplist.c b/tests/unit/check-qom-proplist.c
-index ed341088d35f..79d4a8b89d38 100644
---- a/tests/unit/check-qom-proplist.c
-+++ b/tests/unit/check-qom-proplist.c
-@@ -27,6 +27,7 @@
- #include "qom/object.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-+#include "qemu/keyval.h"
- #include "qemu/config-file.h"
- #include "qom/object_interfaces.h"
- 
-diff --git a/tests/unit/test-forward-visitor.c b/tests/unit/test-forward-visitor.c
-index 01de15522711..eea8ffc0720e 100644
---- a/tests/unit/test-forward-visitor.c
-+++ b/tests/unit/test-forward-visitor.c
-@@ -15,7 +15,7 @@
- #include "qapi/qmp/qobject.h"
- #include "qapi/qmp/qdict.h"
- #include "test-qapi-visit.h"
--#include "qemu/option.h"
-+#include "qemu/keyval.h"
- 
- typedef bool GenericVisitor (Visitor *, const char *, void **, Error **);
- #define CAST_VISIT_TYPE(fn) ((GenericVisitor *)(fn))
-diff --git a/tests/unit/test-keyval.c b/tests/unit/test-keyval.c
-index af0581ae6c5b..4dc52c7a1a8b 100644
---- a/tests/unit/test-keyval.c
-+++ b/tests/unit/test-keyval.c
-@@ -19,7 +19,7 @@
- #include "qapi/qobject-input-visitor.h"
- #include "test-qapi-visit.h"
- #include "qemu/cutils.h"
--#include "qemu/option.h"
-+#include "qemu/keyval.h"
- 
- static void test_keyval_parse(void)
- {
-diff --git a/util/keyval.c b/util/keyval.c
-index 0cf2e84dc8d8..66a5b4740f12 100644
---- a/util/keyval.c
-+++ b/util/keyval.c
-@@ -95,8 +95,8 @@
- #include "qapi/qmp/qlist.h"
- #include "qapi/qmp/qstring.h"
- #include "qemu/cutils.h"
-+#include "qemu/keyval.h"
- #include "qemu/help_option.h"
--#include "qemu/option.h"
- 
- /*
-  * Convert @key to a list index.
 -- 
 2.35.1.693.g805e0a68082a
 
