@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE2950906D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:26:28 +0200 (CEST)
-Received: from localhost ([::1]:55540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BC850909B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:42:26 +0200 (CEST)
+Received: from localhost ([::1]:51632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhFy7-0005dd-Es
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38578)
+	id 1nhGDZ-0006hf-1o
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nhFnU-0007Nc-Mm
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:15:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38449)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nhFoM-00007i-9j; Wed, 20 Apr 2022 15:16:22 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:43829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1nhFnR-0002yc-Jg
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:15:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650482124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7u0cjA0bFcE7pyR52VPyGVTY5GwUjNuBevPQq3hBf/o=;
- b=OPLFqsKS/RXAPzjKK/dBEc0wFxegRndLVtKq6rTWdFzKCP4iPgXSaGIwSJ7rfrUYDA1AEm
- Zu1AYJwnydNaODMYQKkGnQgcv30wDZqXVhvkd7jPO2OXvuh8d4cmAgL27yhdtnW8THnCdo
- 7tGQL1DjUEJFccoKPW2V4h7wXd0Wez4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-C-Wg9fsxOtuHCF5XN5kMjg-1; Wed, 20 Apr 2022 15:15:22 -0400
-X-MC-Unique: C-Wg9fsxOtuHCF5XN5kMjg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b12-20020a05600c4e0c00b003914432b970so1353004wmq.8
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 12:15:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=7u0cjA0bFcE7pyR52VPyGVTY5GwUjNuBevPQq3hBf/o=;
- b=KLqAZD6BueBGjEU29m5KbvuC1bofMnQV1a/pt2WW6cYPIASfyro/AHab6TRl44P/DC
- S1OxZ9qGY2HLDdDUpCYxQau0zuu5DfzJMcytc/NMLJCXfWxWtbofvTDru9jlNH6CcEph
- c4KgUiuFEoEY+ZDtbXiheqaZsHcByHbRNszK9AzveKh1fMb+UyJTHRaxj0qu1T17LvfJ
- lgtPAo4A3Lwcyvz7n0YexFLZZgegLvs3INVgEBMyQ8QIXQyPB56/g0ndpFHVZDP7+X4a
- w2Z8zQ5QZv0UjonJOm/EYmwRvqWGZaKOvlggIg9ufTYEr2HkuNZ01WMpzfx0d5qDqZkl
- wwwQ==
-X-Gm-Message-State: AOAM5324N/CF0tBnMiBPqhLMGsxh/I+M28IPU30MHwFsdBeX6MlA6UNx
- HoXfkfkLUNw2GQbXqenjpWPNAT46xRPdhoYA/XPjDDmh4DeGqQm9hPPdgSrWGQx4cWi6270Lglp
- QNUy/3v/2r+5PXEc=
-X-Received: by 2002:a5d:4384:0:b0:20a:953a:4681 with SMTP id
- i4-20020a5d4384000000b0020a953a4681mr12636131wrq.266.1650482121646; 
- Wed, 20 Apr 2022 12:15:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZNPh4K6vYRgOoYQssTzpKUjgN64MLVZY4mjolUsuSxOcJCQxrTtBQxHaiMDG2IyOqHMZ7Tw==
-X-Received: by 2002:a5d:4384:0:b0:20a:953a:4681 with SMTP id
- i4-20020a5d4384000000b0020a953a4681mr12636122wrq.266.1650482121442; 
- Wed, 20 Apr 2022 12:15:21 -0700 (PDT)
-Received: from ?IPv6:::1? ([2001:b07:6468:f312:e558:1d17:12d7:e67d])
- by smtp.gmail.com with ESMTPSA id
- az20-20020a05600c601400b0038ffb253bb3sm203408wmb.36.2022.04.20.12.15.20
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 20 Apr 2022 12:15:20 -0700 (PDT)
-Date: Wed, 20 Apr 2022 21:15:07 +0200
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: =?ISO-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH 17/34] configure: move Windows flags detection to meson
-In-Reply-To: <CAJ+F1CLxh15FLwVdD_86euFL1mmYU=821reVPthgcBFAwZ-yvQ@mail.gmail.com>
-References: <20220420153407.73926-1-pbonzini@redhat.com>
- <20220420153407.73926-18-pbonzini@redhat.com>
- <CAJ+F1CLxh15FLwVdD_86euFL1mmYU=821reVPthgcBFAwZ-yvQ@mail.gmail.com>
-Message-ID: <1CD19388-7EE0-4D89-84D1-FA7E00D10231@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nhFoK-000335-9e; Wed, 20 Apr 2022 15:16:21 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 2B0CE5C008B;
+ Wed, 20 Apr 2022 15:16:19 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 20 Apr 2022 15:16:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1650482179; x=1650568579; bh=yl
+ hSg/4ifObIYojMv9Q1Zq7r7gZomsI0bKQjbHY+D/k=; b=aLxKGxr04Q7Xow7eYH
+ SorYuFU9yhp99EWVr60crq4aLCKTkqEXlJK3FqOjLePNfbMy/E7XRvcl3eXdPaSq
+ RSYUrmuxeW/1Z/CcUwNjPFahc1bxv6BGpByyPEhZ9ZX7foRNtfNwfePhoIhYDSFd
+ 7UEV+Mzg4SoZeYapx+GFdx/fqcMn9hO36v5c9BP9q5tCWkEue7wq5q+cLlw67FB1
+ CiwNBEnIlKbN1xHmBVnHNAe+EdIV+mIGzCluAedFmfC8N8sKetfTjXVr4NFwB44A
+ rpNqp4Y9y4AN2sPcjcKe07pUe+7OUTuQDJ2hQAni3L/kr8AVC5J/JQmpyafIsXjC
+ naFw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650482179; x=
+ 1650568579; bh=ylhSg/4ifObIYojMv9Q1Zq7r7gZomsI0bKQjbHY+D/k=; b=F
+ ZTUWODle+iIfjYr1H9UCdjR4d5pc/j0u/TYYYuZHC4knHIcVTaBuNWun9Cknh2mm
+ NC7auG4FJMGarSQEN5id/ZQF/pYBBRhZ6BfJjxZyxYr0jT2kW43v+ZS5OcE5Raqn
+ UIBKM1GB3TiQv0CVc7OA0iKiZlYVNY6Nhdxt+AHtz71iWY2hstYP1MArJ5uNyFHL
+ SUHHBEP3Xi2CVXlNR04v7/VV8EHKetBse9D+jpzcldPAOS2TufeBBzQBM23bjOV0
+ 5wUc4v0KyxrWaOMb5BsP2GTD5OwYcVhv2IgBg8+S0YmaTpBHyDBzO7op3REc1oJn
+ 66EPTwgFn8iB/W/Q+AwKA==
+X-ME-Sender: <xms:AlxgYnb5JTI5EX0PlJC-LuH5A5O_tzjJeGH_69bkBZW2yoGUkYEIpw>
+ <xme:AlxgYmZXCQ3ooKpnbbCiSmKa3kv1EV71sYGaSA0-rywQ7vHL48BexkZexQwHGO1R9
+ dmQvGCe5119vYNEq5s>
+X-ME-Received: <xmr:AlxgYp8y6O58eEiXo-OzxPx0paHBF8fZYFwTqfFJu6fKDh03-Nk91oLXnqwB825g5An5Kzr11LjNFunj3WQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtddtgdduuddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+ erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
+ elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:AlxgYtrTzydN8-uRIcq0ebv5yTpscstAUUAC-tX3njuuQQ3XL1wdoA>
+ <xmx:AlxgYirUDkGTBCje1NpCtTyAVNJ5PTe8JFx8yMHcV8mp12EkAehnEg>
+ <xmx:AlxgYjSujIlQTxjqv3qqGqimkTXKVedEpi0CyC5-ufNeouf_X1RJBw>
+ <xmx:A1xgYvAdMHzOH-GKGvh4SIu7LB7yeMsCNV8sAe45AvITf9omvBso9w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 Apr 2022 15:16:17 -0400 (EDT)
+Date: Wed, 20 Apr 2022 21:16:15 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Tikhov <d.tihov@yadro.com>
+Subject: Re: [PATCH 2/2] hw/nvme: fix copy cmd for pi enabled namespaces
+Message-ID: <YmBb//zeHrAT3Oj9@apples>
+References: <20220420090336.10124-1-d.tihov@yadro.com>
+ <20220420090336.10124-3-d.tihov@yadro.com>
+ <Yl/ari5v/o8vuveT@apples>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9bQJIG2xf43Hj+Qq"
+Content-Disposition: inline
+In-Reply-To: <Yl/ari5v/o8vuveT@apples>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,46 +97,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: kbusch@kernel.org, ddtikhov@gmail.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, linux@yadro.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--9bQJIG2xf43Hj+Qq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Il 20 aprile 2022 20:20:20 CEST, "Marc-Andr=C3=A9 Lureau" <marcandre=2Elur=
-eau@gmail=2Ecom> ha scritto:
->> +  # Disable ASLR for debug builds to allow debugging with gdb
->> +  if get_option('optimization') =3D=3D 0
->
->
->=2E=2E/meson=2Ebuild:188:5: ERROR: The `=3D=3D` operator of str does not =
-accept
->objects of type int (0)
->
->Why not check 'debug' ?
+On Apr 20 12:04, Klaus Jensen wrote:
+> On Apr 20 12:03, Dmitry Tikhov wrote:
+> > Current implementation have two problems:
+> > First in the read part of copy command. Because there is no metadata
+> > mangling before nvme_dif_check invocation, reftag error is thrown for
+> > blocks of namespace that have not been previously written to.
+>=20
+> Yes, this is definitely a bug and the fix is good, thanks!
+>=20
+> > Second in the write part. Reftag in the protection information section
+> > of the source metadata should not be copied as is to the destination.
+>=20
+> Hmm, says who?
+>=20
+> > Source range start lba and destination range start lba could differ so
+> > recalculation of reftag is always needed.
+> >=20
+>=20
+> If PRACT is 0, we really should not touch the protection information. My
+> interpretation of the Copy command is that it is simply just screwed if
+> used with PRACT 0 and Type 1. PRACT bit is specifically to allow the
+> controller to generate appropriate PI in this case.
+>=20
+> On the other hand, I can totally see your interpretation as valid as
+> well. Let me ask some spec people about this, and I will get back to
+> you.
 
-In Meson, -Ddebug governs whether debug info is included=2E In configure, =
---enable-debug disables optimization (and is a string apparently rather tha=
-n an int=2E=2E=2E)=2E
+Discussed this with the TP authors and, no, reftag should not be
+re-computed for PRACT 0, regardless of the PI type.
 
-Paolo
+--9bQJIG2xf43Hj+Qq
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
->
->> +    qemu_ldflags +=3D cc=2Eget_supported_link_arguments('-Wl,--dynamic=
-base')
->> +  endif
->> +endif
->> +
->>  if get_option('gprof')
->>    qemu_cflags +=3D ['-p']
->>    qemu_cxxflags +=3D ['-p']
->> --
->> 2=2E35=2E1
->>
->>
->>
->>
->
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJgW/4ACgkQTeGvMW1P
+DelLHgf+NASlDYIcJfYICgJLGjh6rkIY5J2gk6/NnBKkKaEEQJeiYPQgt0v8a6Op
+NcwyfQcjiGaOjDCi6JZAGDJdqfgBoNrAsEP9CJD/K+cTzmdWZZCU7R+z8wI5wz/d
+VmyddiWw+KjZPTJPshpZVxXucBCLnNLihix4/RcI6VNKnrd+oSsiJUsAc9TvjQcV
+CV4E78Tic10Y8yOEs4NIn+n4vb94pmEW6hINg0aJNHTHC0rLGtwfVtguXn9x4u9/
+7W6XDf032zWSNtAqzSMWEyze7q7MOR9lFlTtl1M/4JkgwflCQVhXS79xhm50fAWR
+O0T+jVL/XDTXlgx2nouJpIN91aQJ9Q==
+=Ala0
+-----END PGP SIGNATURE-----
+
+--9bQJIG2xf43Hj+Qq--
 
