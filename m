@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B60508DEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 19:03:17 +0200 (CEST)
-Received: from localhost ([::1]:52816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA81508DC6
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:52:03 +0200 (CEST)
+Received: from localhost ([::1]:52240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhDjX-0007s1-Le
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 13:03:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52720)
+	id 1nhDYg-0003BZ-Ao
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:52:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nhCyL-00062E-FV
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 12:14:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37095)
+ id 1nhCz5-0007A5-DJ
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 12:15:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nhCyJ-00077r-Vc
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 12:14:29 -0400
+ id 1nhCz3-0007PC-Of
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 12:15:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650471267;
+ s=mimecast20190719; t=1650471312;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3oNU1lUbIkzYgpCTbjzK7x7rHECxMcPoebD5sc9eJ30=;
- b=Nb/+ijFTJtlmssuLujXjtGhzL6BU7lWLqKGCZGKzl6ht2Spx0kPp83SDlknnJOY0jvNK/n
- KCj11vYz1GgE6eY4xrX6evTW3AMvYiyCOUI4ySjL0yUNm1mhLcSxhZFCxef4AhtbCdQ83S
- 390VnGhfNpLnea5/Y5I4WRi5m+k2am4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lg8PHP6g0b8P/GJoota6DIZErbcS9XVCXjzZ9Pho9bM=;
+ b=Zcu+qu+RYGLHLNTSpenjNa+E/EF7IV4nO8hk1CuyyQH3VPFMx+O7D9wrdhIElaqukqqx2Z
+ kOBmoGCHiS3Czcv2wGjjGtYUkW7sF24+ZMN9237AGyITggSSqiVZaqY+A0NyDkc2zZvuww
+ knrMhqd3dCas9o86IurTUldssTxGVE4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-185-Vx5sfBHFOfeoa0ILCOdsJw-1; Wed, 20 Apr 2022 12:14:25 -0400
-X-MC-Unique: Vx5sfBHFOfeoa0ILCOdsJw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-414-gX43vQV9N7qLW-TxQE_9yA-1; Wed, 20 Apr 2022 12:15:11 -0400
+X-MC-Unique: gX43vQV9N7qLW-TxQE_9yA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 762CE811E83
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 16:14:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 372EE3C0CD3C
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 16:15:11 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E3B1054FB89;
- Wed, 20 Apr 2022 16:14:24 +0000 (UTC)
-Date: Wed, 20 Apr 2022 17:14:22 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ACEE940D282F;
+ Wed, 20 Apr 2022 16:15:10 +0000 (UTC)
+Date: Wed, 20 Apr 2022 17:15:08 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Andrea Bolognani <abologna@redhat.com>
-Subject: Re: [PATCH 1/2] docs: build-platforms: Fix spelling for Homebrew
-Message-ID: <YmAxXtiNIuiWy66E@redhat.com>
+Subject: Re: [PATCH 2/2] docs: build-platforms: Clarify stance on minor
+ releases and backports
+Message-ID: <YmAxjNgNWT2FNh8r@redhat.com>
 References: <20220420160311.248079-1-abologna@redhat.com>
- <20220420160311.248079-2-abologna@redhat.com>
+ <20220420160311.248079-3-abologna@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220420160311.248079-2-abologna@redhat.com>
+In-Reply-To: <20220420160311.248079-3-abologna@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,11 +86,26 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 06:03:10PM +0200, Andrea Bolognani wrote:
+On Wed, Apr 20, 2022 at 06:03:11PM +0200, Andrea Bolognani wrote:
+> These changes match those made in the following libvirt commits:
+> 
+>   2ac78307af docs: Clarify our stance on backported packages
+>   78cffd450a docs: Spell out our policy concerning minor releases
+> 
+> Since QEMU's platform support policy is based on libvirt's, it
+> makes sense to mirror these recent changes made to the latter.
+> 
+> The policy is not altered significantly - we're simply spelling
+> out some rules that were likely already being implicitly
+> enforced.
+
+Indeed, I think that's basically defacto the case already.
+
+> 
 > Signed-off-by: Andrea Bolognani <abologna@redhat.com>
 > ---
->  docs/about/build-platforms.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  docs/about/build-platforms.rst | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
