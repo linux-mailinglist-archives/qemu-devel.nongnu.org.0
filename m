@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75708508F4F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:22:28 +0200 (CEST)
-Received: from localhost ([::1]:40744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80724508F56
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:25:00 +0200 (CEST)
+Received: from localhost ([::1]:49340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhEyB-0005b8-JE
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:22:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53258)
+	id 1nhF0d-00030Y-KA
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhEiq-0005S2-SK
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:36 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:40956)
+ id 1nhEir-0005WU-Sm
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:37 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhEip-0001Cq-Av
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:36 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- md20-20020a17090b23d400b001cb70ef790dso5617876pjb.5
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:06:34 -0700 (PDT)
+ id 1nhEiq-0001D2-Cf
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:37 -0400
+Received: by mail-pl1-x631.google.com with SMTP id c23so2554846plo.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:06:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YBEnYIn1GV5idkFObB274C97yF/rcyYAk+xYD7a+lYQ=;
- b=q5PprUS2S1xxjv8u1Nt0QMCtBnGwfuq3HSP62uIZnxwFLcZW8kLCgxdWCWqJjiEh0t
- WvA1BwRAnzLeQ/vNg4q8JDF0pAWTgt2G1OCge1DQoPm3sElXQvm3m0+X5AR0DEnysOSe
- 1EVOIrPIG2cQZOOZpGHXYWsZuU4VfEBHpoRZSP+aYl0HSxGZbX14pgma1qtTv3x0UEEv
- Ao19qXofWYvCSPta4+P6Im1Qjhhwnazz7HJFHm/POk9TGGv3EfHs06HlXGHxyRcxtemO
- sRhdfI+7b6LXM7RdVH0k5jhrYewpO7kLOeNNx/aJwceLzUEavthNvuz/6rAYfGmqFhwD
- tWQw==
+ bh=Jh8l0ggXdEtDEXJ/qJx0UWqwH+qQZo23UKh5hwekfRk=;
+ b=RrtAGNk33qUEAXRwaMh7poGWOQpPtpvOqT2WFj+k9atO4TWhtr++Kt1Q4uhjALoIkK
+ vqM8UMA6NLFZ9NoEeggT8KPgAYndEK0sVhSVXa2aPDh0+yElj4RjQfMX70nlhJj8PNpJ
+ dm4U3ZoRJzkDQxS7t46oArMqK2vUaZCGMxCgKxdVkMYWLHoIJIsXR2lMiZmJpeP1ueH9
+ mOym8ZVfHH1EWM+A0w92fjQGxW05lLvgcCvG1JHd21xtTSf+t0U6RCFJdrUWiH/++1U4
+ H+7EapBMSUCJOeJMwQcRxnihSSGiJkUwP1y+LLQ6Pn6c1B/mFdfIWt4LGIfVT5zGp0wg
+ xoUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YBEnYIn1GV5idkFObB274C97yF/rcyYAk+xYD7a+lYQ=;
- b=a0Mf84MpXtMEM7ymz45grw9RvmmgOjXK6zFPdttXr+j/3Sm1acM0B07wqAH7FAQwdP
- x3SQgwxcIS/o2dMjnChWCAgq2kLkgMEwmWts4LTuS6MriG/iBphMY9m3T6r2ushH4qru
- tfZKFGQxbwGnovb+IswHIG2KiKMRj6SK/SjqWHPgaX2F6sXpEIaieMuls+vKwcrGYxHd
- 2icaJukTsRyFzjgBp6tuCsfIYAgEQIp7m2d/9zOSywipq5NcuzBzaLPvR0uQiPMvXNSd
- NNevULJAJdgaLya41XZYxcB5y3hpcypxIDfMi2yHiyDWQWEa4HpAUgJWrGLXwMZ6rY7U
- s71Q==
-X-Gm-Message-State: AOAM530FmW5ncmlGLqGPqFgL/36WHxycq/dtQVedVddm6AehE0oF0rFZ
- kN8UEXTwrh2OKYGWsgYp9AwA+hTqF1zxKg==
-X-Google-Smtp-Source: ABdhPJxsa3UTqENrVl+MFMVPGRGxwTYxWCNSdA8u67JzXzhf9lO1n/1lrj/HsMOIdHMc3FfF4dbZ4w==
-X-Received: by 2002:a17:902:cacb:b0:158:694f:240e with SMTP id
- y11-20020a170902cacb00b00158694f240emr22177797pld.153.1650477993847; 
- Wed, 20 Apr 2022 11:06:33 -0700 (PDT)
+ bh=Jh8l0ggXdEtDEXJ/qJx0UWqwH+qQZo23UKh5hwekfRk=;
+ b=bmDEulBww5RqDhShMZ287xpDxAS7zzjRPdfFZWal2601cvBa4Embzy6RCulj2kpTs5
+ JSYbnl2Rmxun4dC0vORGjGi9SoIULLEH9OFabQ7IW1uTg4ITNGG/w5rweUZzC7HsO3FD
+ IHRQev9qKzobbxmg96o+pUUmEoEfeH9w5RqIivEiR1rquIZXqAajn85u3GwWY9+MpeVs
+ GGjL04clS2YAAL5MVIKaMJXp9ql7IWs0tTgclps16KeM1UavtrE1jTrlK7vHon3f2p4P
+ KTW/J9b/tKA41L+HRsj6OES/z2yb/Q0WZD2HVC8QVML2GGdr1Pb28HQyNqedKHXt3X9y
+ eurw==
+X-Gm-Message-State: AOAM532yqcK22EEakJ3fk+eh9OA5rRZUs3irVBjG/oOp5aNwCMPB4iAO
+ zvzE3itl3lnYrV3nxXKUrTIIMU/+kMZbiA==
+X-Google-Smtp-Source: ABdhPJzxpVTaZy6Vl2bCDCv7sqWGDhpF/X2f8xS916JcXjdPVXJCxmYbz51ORt16iHzHMlBgroCezg==
+X-Received: by 2002:a17:902:7442:b0:158:a253:b4d5 with SMTP id
+ e2-20020a170902744200b00158a253b4d5mr21731277plt.94.1650477995160; 
+ Wed, 20 Apr 2022 11:06:35 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- i2-20020a17090a058200b001d2fc489b8asm56681pji.25.2022.04.20.11.06.32
+ i2-20020a17090a058200b001d2fc489b8asm56681pji.25.2022.04.20.11.06.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 11:06:33 -0700 (PDT)
+ Wed, 20 Apr 2022 11:06:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/39] exec/log: Remove log_disas and log_target_disas
-Date: Wed, 20 Apr 2022 11:05:52 -0700
-Message-Id: <20220420180618.1183855-14-richard.henderson@linaro.org>
+Subject: [PULL 14/39] accel/tcg: Use cpu_dump_state between
+ qemu_log_trylock/unlock
+Date: Wed, 20 Apr 2022 11:05:53 -0700
+Message-Id: <20220420180618.1183855-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220420180618.1183855-1-richard.henderson@linaro.org>
 References: <20220420180618.1183855-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,50 +90,29 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These functions are no longer used.
+Inside log_cpu_state, we perform qemu_log_trylock/unlock, which need
+not be done if we have already performed the lock beforehand.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220417183019.755276-14-richard.henderson@linaro.org>
+Message-Id: <20220417183019.755276-15-richard.henderson@linaro.org>
 ---
- include/exec/log.h | 24 ------------------------
- 1 file changed, 24 deletions(-)
+ accel/tcg/cpu-exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/exec/log.h b/include/exec/log.h
-index 648f4d2263..06ab9841ee 100644
---- a/include/exec/log.h
-+++ b/include/exec/log.h
-@@ -43,30 +43,6 @@ static inline void log_cpu_state_mask(int mask, CPUState *cpu, int flags)
- }
- 
- #ifdef NEED_CPU_H
--/* disas() and target_disas() to qemu_logfile: */
--static inline void log_target_disas(CPUState *cpu, target_ulong start,
--                                    target_ulong len)
--{
--    QemuLogFile *logfile;
--    rcu_read_lock();
--    logfile = qatomic_rcu_read(&qemu_logfile);
--    if (logfile) {
--        target_disas(logfile->fd, cpu, start, len);
--    }
--    rcu_read_unlock();
--}
--
--static inline void log_disas(const void *code, unsigned long size)
--{
--    QemuLogFile *logfile;
--    rcu_read_lock();
--    logfile = qatomic_rcu_read(&qemu_logfile);
--    if (logfile) {
--        disas(logfile->fd, code, size);
--    }
--    rcu_read_unlock();
--}
--
- #if defined(CONFIG_USER_ONLY)
- /* page_dump() output to the log file: */
- static inline void log_page_dump(const char *operation)
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 8b7f9a3065..635aeecc0a 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -224,7 +224,7 @@ static inline void log_cpu_exec(target_ulong pc, CPUState *cpu,
+ #if defined(TARGET_I386)
+                 flags |= CPU_DUMP_CCOP;
+ #endif
+-                log_cpu_state(cpu, flags);
++                cpu_dump_state(cpu, logfile, flags);
+                 qemu_log_unlock(logfile);
+             }
+         }
 -- 
 2.34.1
 
