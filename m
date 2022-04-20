@@ -2,138 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1A5509159
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:22:49 +0200 (CEST)
-Received: from localhost ([::1]:33506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D009B509168
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:30:31 +0200 (CEST)
+Received: from localhost ([::1]:53172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGqe-0001fC-Pv
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:22:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50726)
+	id 1nhGy6-0007ov-Ub
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1nhGgR-0008KW-MM
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 16:12:15 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:41314)
+ id 1nhGgQ-0008EX-4m
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 16:12:14 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:31098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1nhGgO-000478-I2
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 16:12:15 -0400
+ id 1nhGgN-00046p-AQ
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 16:12:13 -0400
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23KI3evo024789; 
- Wed, 20 Apr 2022 20:12:06 GMT
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23KHsQpr024754; 
+ Wed, 20 Apr 2022 20:11:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : content-type : mime-version;
- s=corp-2021-07-09; bh=HwwnXb8dJ72MK6fvvPt53KUI7/Xp1HeXZmkwnufSzE4=;
- b=hVK77Hqp9oaFTbbaoRywHAyOQc8Q18GqKXVFyr42arCg9IPlCDD7gW7Y2b8LKnJWf8id
- xTmZcpxsNAsQ/pMOpoz8AvjEj9ci82NPPAUuDtru8R4gU0KC7oSCJfcUSlIN5Vqltful
- FAj4tiZH4ykA0ShVjmvVX890w3CB81mN+CpfC1lolQIodZS3zs3IL3rkhIfYfSJxdz+R
- KfkjrNH+Wuy8m0znaHJFbyPSWIYaCTn6qDDao9xplRDzAZ1fJZS3g2zQBo2tCHfBdxvf
- Wa8T7hZ83bHBFzc0+6CGM/JXX5iNwuqHyzE9QjEypaTTole1kgnaQKuB/xa0WlSPMhje Ew== 
+ subject : date : message-id : in-reply-to : references : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=NmAcsd1L3QgMreyXiqYBK6d+LnBCtsRfS0+iOayHWLQ=;
+ b=OQy0oJ+Yee2xtGQgbXrijv81KggFX1UpZ/dAFgPTQKxjqCoOn7yVzTdkvbzUM8QJFUuA
+ T67O4kWuLlij0BnrnHttVkVkInZcl+ur31wPMhzTZ10D3lePPxDVafxv5PFjZaPHnJDk
+ raUAsIVAAXIKkuJnoBlq+lSmxnR1d3if1xxdn8wcMSg9pcMXYt4GQ3GFfPDTbqtxEAE3
+ DxGD3aTG9GlS5S+s+nOjJLmKIVmIoGmqPUoEwEx/W4YrSN6sGmuSP5W4DrQjYhD+i6Fh
+ kBxwBbglVkrJQjICuZig1lppbieZkj53tzoIqSa/fF6ii1RB4/K7EMhE9+9KYHNneOtt 5Q== 
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ffnp9hxyv-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ffnp9hxyx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Apr 2022 20:12:04 +0000
+ Wed, 20 Apr 2022 20:11:58 +0000
 Received: from pps.filterd
  (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 23KKAkkB028909; Wed, 20 Apr 2022 20:11:57 GMT
+ with SMTP id 23KKAkkC028909; Wed, 20 Apr 2022 20:11:57 GMT
 Received: from nam04-dm6-obe.outbound.protection.outlook.com
  (mail-dm6nam08lp2043.outbound.protection.outlook.com [104.47.73.43])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3ffm8872xr-1
+ 3ffm8872xr-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 20 Apr 2022 20:11:57 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=THjH0YVQQ3zQ/oniyEnfFd4J8woN80k3nndhfBzEGQgqjkgFvg3yiKfFP8bjna6xKkKb+NF8PIL2Rpt/6PHvr34/77PovvaF8UZ3LJBKCR+1a63kUqcQRyyWqkvgv9dC+ntZD0Pue/48tfDcUUsxPnhe2zxClz0P6CEGXwfSd5kaAR1WtM/a7L+GT+brV+4pLxy6Nu7Sg+kVcv4j9/4c6navc1mF/jQQY/YIrjxUgVXYegplFA1JjF+gR9+3Z+c10lVz20ise+aUobctiam4t5hQ5qz+1kZ+IMaMv/VsmNa7klLI06lYIbANDhlwOiE0cxZV09i5Pp67RTJHCfkmUQ==
+ b=Sf2Zi94ZtnvrrC5KZbsS8cANJr81Y62TWQZ7WL71Glh42EYKILUE35Uxn7SLLjCljN1wegoJcvsik6LKBgo17V5pRHR8qamDGkKAJT6+z5sKAqt8nhgGLj8RcwT34ZQNZEaaa7VJXl/xXgZAzS9XPf797vacWZaca/tR5MxxZFMrjCohitsTQRCho+FZppqb9R2Quq87FkPxpkOHXEDrxuvlPDDEs7m8cJj6RcNfx9Zbs/HqTjNuzyAZcl6plsLLBdHC5pHA64Jip18YsmxUtNCJJ50oqpLrR/d1QQVpwqMIpbm8GOH9gyM59vkIw3BeyaCi+5BrBJItTBtsEpCLxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HwwnXb8dJ72MK6fvvPt53KUI7/Xp1HeXZmkwnufSzE4=;
- b=I+vYl3ml6zUtL7B8q+Q4FqfLyiYucQ6z/VexHngBPq2yIP65vpPgDnxxnilmYbgb9fbg1kS5gYwFRlTqKbiqOFE/SYPyyQxB49m9FvhL7EkuWmdSUSw31aas4D3x+Qnz6SgKAFWsWCJwF8pw23cb0O03beDEJ0l27qEexCNkwM+Aib4cx7jeCClVZBlzlqa/as/VQ3BjQLAle4VAqotzmvphl7/amel0bs6P5YZkqTM0g+RYKOreC9TYskosDddi/7vn9Nl/XaeajiRT6bq0zu9B7YBP3skCEYhjE2JwWnNF/8zMxzbQTf0MALYOnZj/grkJNf7lRhrNMaqHyT1nDg==
+ bh=NmAcsd1L3QgMreyXiqYBK6d+LnBCtsRfS0+iOayHWLQ=;
+ b=K44jr4Pu/iNIUZhmVD3lUkDcFcqDQd4d3qPViWeQ3JGgOlSrIKaDQhn6nC6RGWPHKi1MirBiCl9olMWkPnQ7vT9A2Pvs2ZieV7BgisfQ0R8e9zrgOZ4ofjrUeUfudBDAjCN6qNt7jR0m5PCGq92S72jTFuAlLBSg7Q/Hyf+4VF8RNr9xZA+jp9C3Lp8cewqF/flOq7WyhppBnjyM0MEBNI7X+MOIVZf9DSzUU4Tn0Jlzv+TW3O3I042e9wclqsjZgoezroN3ZrKK6n/pFFPA0qCFYwjUKLzBaYcpJCCi6pHn7rbpRKM6DsWeFne71v36kKg/A+5Qf4Ua1DYy4FtINg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HwwnXb8dJ72MK6fvvPt53KUI7/Xp1HeXZmkwnufSzE4=;
- b=o4HqQNK1V7CgFrfvP0eI9hLmnI24d/yDi+oLXedCf4Tvwgsb0il3OqSx+zwFnJWRXJtw1nyC4VDGA3lzDnJJSz8yA2XgUpgKiXrtO1JEqir6ALOEkg/iXmNsMVz5WtCO6IHaiXwHVl5Y60CRBS0Cbo4TBRblsHGMjtOkVNLM+BA=
+ bh=NmAcsd1L3QgMreyXiqYBK6d+LnBCtsRfS0+iOayHWLQ=;
+ b=U/WCDy8sWS1e0YIDdAlS/kb/pQAk9Z1YGJZBE+fNsuCN8HHdAoPpK2W9n1URXO+LMnScy95ECyLHO7sP023vh2AFwWxOYCaG4oLeKkI4mISNBdBpV0TfmkGanBLMOteQyGy/t7AUcvw/9x6yXtkYX+A92m+JK+RNjHz/RpIPVO4=
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
  by PH0PR10MB5644.namprd10.prod.outlook.com (2603:10b6:510:fb::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 20 Apr
- 2022 20:11:51 +0000
+ 2022 20:11:53 +0000
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::d17f:a2a4:ca0c:cb49]) by BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::d17f:a2a4:ca0c:cb49%4]) with mapi id 15.20.5186.013; Wed, 20 Apr 2022
- 20:11:51 +0000
+ 20:11:53 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/5] i386/pc: Fix creation of >= 1010G guests on AMD
- systems with IOMMU
-Date: Wed, 20 Apr 2022 21:11:33 +0100
-Message-Id: <20220420201138.23854-1-joao.m.martins@oracle.com>
+Subject: [PATCH v4 1/5] hw/i386: add 4g boundary start to X86MachineState
+Date: Wed, 20 Apr 2022 21:11:34 +0100
+Message-Id: <20220420201138.23854-2-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20220420201138.23854-1-joao.m.martins@oracle.com>
+References: <20220420201138.23854-1-joao.m.martins@oracle.com>
 Content-Type: text/plain
 X-ClientProxiedBy: LO4P265CA0016.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:2ad::10) To BLAPR10MB4835.namprd10.prod.outlook.com
  (2603:10b6:208:331::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ce8c4563-d244-430d-07cd-08da230a0183
+X-MS-Office365-Filtering-Correlation-Id: 3fb7f643-2f34-434d-21f0-08da230a02f7
 X-MS-TrafficTypeDiagnostic: PH0PR10MB5644:EE_
-X-Microsoft-Antispam-PRVS: <PH0PR10MB564496EA85A1C8C6CCB2C1E1BBF59@PH0PR10MB5644.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <PH0PR10MB56448B982F39B4FF1B0DDA2CBBF59@PH0PR10MB5644.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9tr2mqr1kjR9+VLXE/ZnVjFkdxBfuT6omsUbFzejIo13Lq8nSVC+I026wNjaddcAFqxS6NIJeDyvJTkPJGjv44ySd4+xo9Z9sr+TnQPEStI95ART+aV5etVKEarVI7UNyihzNrdFPwC0GjpZwHyeBmdWl0UeFPMZ0/MDbpOIrr2ZYjQq/SFXZ972ql0C+uYsDHuvZCiwZouUJg8ERYjYSP9nl+NyUm2cFnFUlkQ7jd3xe60rYRxzQP+OW3OLL8GLOuKE2VEi+pkHCn/MfVXJUleCy7VaaaYIFsXtlJKcArRGA3Tw+BomH6OVp6K72P5mrQqirbscA3vfg1guuWj+a5yuSoE9xKLh0d11UbqhKobov6Lyxl43bE0A8252P/HBRcrcKJPmGvJNaahPIMR71qm+lWSb2UuJLcd/SL0zb7HxGhwSrS5KySYdiJWPpU56JMeJ0fxluUduVVcZP2v5gHmF1RmDCgPKqFsUImf9IxTovoqj6O3/RQEhgnNanz6/QbaPKzAH/UMnDbgc4ObZtqXJG/c6x1QE/o2x/CtAFx+BEJhvaCL0IkCgEVjHNSzjg+5fKG2e8pEqwM6YSanmhOVrC/bJ4fyj5+WCTw/dlWAQVP4R/uJpwdNj3dZzK8UmfpLwzBNZaMRoWrNaog1lD6zQLOQoydjGeIHii0P4b3owX/2yO+HY9WDbZ5tMrze7W5FghPQmiAHXAqmsyJTF3rjjTiUScftuYhNj2BndENr7eLiKEmpApEUBusk+JGRp1ciEa/9EtaOU1w3PnK42Sr+TcM9EQ2xcnPJvOvlhUskA3X5RjUxs+n6Z07x6zqcsFWYONM4g8u4R7WOYHa3bZmMwFfzNrI3mwM1UBAHuYqg=
+X-Microsoft-Antispam-Message-Info: t7Ddjv+tHTwmQsd5iX0eVo2wm8FJ7IF6Wrv/sJpb363Ik+BNA+T7fsSePU/1BWJKPKFtXSk60oZa/lqErEqP3LrMWkCd7K7+YqmxusIADVWeYX6JaVCmVSDbD1JINOysfCKt8Hd2C9y3popKCvJlwgh2IDKWGoFpK1z2O/QPK2yxHOwGpphK1Lthu8Kl/Lsi1epEGuFreoFIrMXOvkv8+tG/m5M94mK398IuVtetFmoG0cnSE3rwYuD8SI79eNeW8GGU9DP7JEjHGs9thlCurSzFd6/IB3XBBHSsXHboP76xflxkmgv5R9nET4kmO38fLWZE++xrt61AKZHiT7jTZLWC0AxurnPcOM3Px52kMWRJMdHY2ygH9FlRthQRlOWU8deScVGThRTn70z1Se0ybtFMFrCAscLtVedbOZ65+0S8EeNA232HSDwlVP//kBkxY6V6ZwNoxb/8pGux41/eQoJ/y8vPoiRmeU5c3bgJOeDEYsPlMeVepheNXMTJa3lFADgLAaTRoiPj7bcxYL97I8+yTmigZxj1PyqS5zi0N/TkmgVnOVmBjH2Sbuzjp9YxJY93pqC4ZW/a3+C/p7fKUNqtNnjEu+yv1hVzplp2HX3gOSP9rTacUrJdSV/z0cZu0RJm3XrrUdbXOo/T5CSTGP7ezkQ30tLgmH62m+Msheo7LhwtoeuBSGJMdIRyLA+TaEkK5V8a1Y8nSW+EPaBR9A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BLAPR10MB4835.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(1076003)(186003)(107886003)(26005)(6512007)(2616005)(6506007)(83380400001)(52116002)(36756003)(6666004)(8936002)(38100700002)(2906002)(6916009)(54906003)(38350700002)(6486002)(966005)(5660300002)(508600001)(7416002)(66476007)(66556008)(66946007)(8676002)(4326008)(316002)(86362001)(103116003)(43620500001);
+ SFS:(13230001)(366004)(1076003)(186003)(107886003)(26005)(6512007)(2616005)(6506007)(83380400001)(52116002)(36756003)(6666004)(8936002)(38100700002)(2906002)(6916009)(54906003)(38350700002)(6486002)(5660300002)(508600001)(7416002)(66476007)(66556008)(66946007)(8676002)(4326008)(316002)(86362001)(103116003);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DpsbjW1iqzThgke3k0pDgpoMSTml+uYJtb0t7+AP0OnKjD/M6PHT4qFW6As+?=
- =?us-ascii?Q?aVQYi/DAKQB0ynN6swS1lV5CL4Hq6zHjk8VMY5IE58nELfB9Gr7FD5qwqxj5?=
- =?us-ascii?Q?b2AMR228TUMMpxAs2Aopbj26EIVmsfTetlQ5gPZZWEDAIZ6GTdyK7yDTg7x1?=
- =?us-ascii?Q?/EQhP3tjnvDdjFcNvVzZNT9tWFokKiUs5HUnCtoq4QGxHiH+CarRlEyPZp17?=
- =?us-ascii?Q?eUmiQnYs+FYoSRE5sGzhuzWe5stTuvlR9auyyIBiIkHLfAHVxRFkdnrAmSsm?=
- =?us-ascii?Q?DV325dJMwV7ax1k4w8e72G6CInThpYTdKzsN+Cff2PnpJ7JKRjRBXxnXA9Eh?=
- =?us-ascii?Q?1Slj6h7lKPOA2wBwxBlNfVSV4M9746mCNvkWy/IdCcmbCLgYIMPYMGmfPCt1?=
- =?us-ascii?Q?j1ClEVA5reYoyos9uQJ4QTw0YiDqCmCScs5fksCJZw1eLkuK7waVnbSmG8S2?=
- =?us-ascii?Q?vD8Z/yCm0zHmXsreU2GBu29fvNwHxItr2IQfstQUui/SokDSaPhnjW6r9nvQ?=
- =?us-ascii?Q?h/PvZu2+uFpLKgxL+aUViW7m10AhJho/vDMSmL5aY4gUmi0rXzha/6B+we2v?=
- =?us-ascii?Q?56dDPgGOLQiyi9PHzx3vzRpuPXnlUhVaZ/XE5TIjJTSXwCFDow6rXvqc2D2l?=
- =?us-ascii?Q?9zJYKY2+hRFZXSggWp+7dvbkJYZf++TsmNpKb7VOx7lu3HAB/eRg5TWF0rYB?=
- =?us-ascii?Q?ZM8EnQoeAewAd9OqVg7Uz2JqC6rrO4WXZgm7kE7cH/No+Seu2crn3WUuWbsh?=
- =?us-ascii?Q?/YpuapQb5KilVyNDD0VuN+wQLmeBhgBfJg1d7mTN8CvpEm6D5sEQx+AzYii2?=
- =?us-ascii?Q?TcidHh7ledQ2qs6xNw7XcQGl4HVbOdjMfsKloaplgFIQ+c8qwMVQNH32doVx?=
- =?us-ascii?Q?KCk0mjBUpgS8x4VjFhaoWiir6iUZthHRu0Xz5l5Xco+qdjARQ8lzJF5lJKdJ?=
- =?us-ascii?Q?L1Ob+/7vM+05gbiq+mw6hHPdIvkArvahqG5gnVrXen8Zo1nmZ+Ni9aGL6oTq?=
- =?us-ascii?Q?UsCqBTstHqJUgziRzgxTnoh/mvBVE/awqPafFkxQvIMS9bKg7yO+gkWqJ2wH?=
- =?us-ascii?Q?c6JHfHZCNlbHX3F2HBv2QSHhCPVbg50SIpQEH+Z43sm6HibbVUqSe6GuH1Qp?=
- =?us-ascii?Q?Hl39wh+CyPkdIHqjQZunKcB2ud2YOGrH6044aeHM17A+JkUydDO55TcR7Kgm?=
- =?us-ascii?Q?m3rt13Z5xQblN++/WbdDulqsZjCZ9Dp4/wR4goLcXj1KHBg307RoXwfUFxO/?=
- =?us-ascii?Q?cGQPZOVuwu0kGyvXufrXF8QbWs0vOYz0elbwh5TF11h4R8qpIVn+s0cw7Vw6?=
- =?us-ascii?Q?vSyeb3GGFI8g82HJ3s+NxS7zMBowr4indNt0mAzAlhHY1sioBLJeNw2dvQta?=
- =?us-ascii?Q?7FfraehNbn1n9IE0R7NHjOSr7j2AcC1LPhSxCDn8QUJRlUttRKxUTPbkyOhQ?=
- =?us-ascii?Q?CP4ifJaY4mqqVgIv8G83ta6cnNu33ScktQPoPu06nhtwXVjEFWFFhQ/hTlE8?=
- =?us-ascii?Q?d8gEdjsm2d5mt3GLd4Rew9gZdhnPcKdziLOnMMoAFmnofptpctijVW1zosRo?=
- =?us-ascii?Q?0ae3PhRU5jo0UAfvJrXArf3MpKCJqzBrwPP4oWGnUpeAFpMvp//aOWn93bxY?=
- =?us-ascii?Q?LxazG0ZpP27mToJW2Fq8dX3jH58Exutr+sEkdti/XkLk3yix3jKiDhhMX4n2?=
- =?us-ascii?Q?/+i7o9Hm33l4QMKh4SopDuWULLvKKtO1B1V74h+26G6IXnqwcfrAvtJbjhP9?=
- =?us-ascii?Q?r44Vk8zGCkve1IOVAV2PFAAepeMAG1o=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pn9n1eZFGvzsZ+ZSdJD4sXNjAGDGP7WKVwUlfqHjDgiPt5UUrgQXjmc3PrHP?=
+ =?us-ascii?Q?vAaNWHbtH6X8V4Jcqnm/W506U4ShL1Tv7EWFD3fWoaLj3mx9LnWZ6SZ5tbKj?=
+ =?us-ascii?Q?6DkaoSYoan7ZSkpnrSS3uEgLPMLIGJKX3Jcm+QWB9zzsb741r6nKi+i002dk?=
+ =?us-ascii?Q?pOwU7tzrGVmzCpSfH6APjs/oxzOefV0pvh4Y/aj4USEqPnL79580nfFL4IFk?=
+ =?us-ascii?Q?beBY1KT7UwQQHELSPn8z3MrZ8BnWEOPXixWMVqRHME7qHFKy/bfWj2vtz2gU?=
+ =?us-ascii?Q?59Ld38QQiE9x57vSdweDb7xzBI8ovoVoeShkN9NxmfMZhajUaz6VSkIsu5s9?=
+ =?us-ascii?Q?h1ckn1QqVbKb/89su05NpAVl5f/Tj/CaHKmao9FvKKJV6m2Hee4r9e+PYV5m?=
+ =?us-ascii?Q?WWn9sOoNsWIcdK9piBO0EfialiwCcGEPLxylt2lShTUujWsWm7otMfFD7Aad?=
+ =?us-ascii?Q?gZfoJ6VhsZC3SYxdIeQB1xVIdRk4wbgsQPAoX32/A89XP1auya/ocPY9Ws/0?=
+ =?us-ascii?Q?kXzJkTLR7G9+i/K5mCvw+Vq4kV4f+HhxZmVTxyqGyHJefy653UN5Ipk/UEqR?=
+ =?us-ascii?Q?SPVNZThLPWW7KfUnLhVG5lAkWjTxY7DQwgb/VypJPCJgzar/p2EoE7lSJMa+?=
+ =?us-ascii?Q?uCO3/5qlm7vdqbfAU38lC2tzn3+YP8cmazqvak/1ziwXXUn0e+zRBpO8MvsG?=
+ =?us-ascii?Q?eJBWilibS9lyvyTAM1VZ8d1+fQwAkM0Yy1fJa1nSi9cspMRJsDfxV1YkxUff?=
+ =?us-ascii?Q?IAQ2lEwkXG2XpQuqSZi8Sp66VeDt/hajWAL/PZbyt3u/bTSad2zcfbJtgQRj?=
+ =?us-ascii?Q?Zof4G4qFFH7jLvg6zrYcbf27yUo9IDToUz/cCggcViAAADSzmjEUoZSFxMaO?=
+ =?us-ascii?Q?C0NvF1GAwNCm/R4x/Xm8HWt10cTipGjHlknZnUveBNKwcYrsJPC9krm0muGB?=
+ =?us-ascii?Q?m1RgnH8sV60lM/JxInze3us78GZmQOd0VwxZNtmQQEsVm0CV6izi0FLaMYTI?=
+ =?us-ascii?Q?56+oKubb9IFqOjKwjuBcnWIpZ/IAKhZ2JOvVpZKL/urr/BdSmW56FyKc/OXF?=
+ =?us-ascii?Q?51XQpugKBFK5pqPZwmOc0F2ZIuLYXFnU8C0lqauiwOb+tJ2eKnHj4vowQxY7?=
+ =?us-ascii?Q?xuBIwlhwU7As5mW5iHePG+0OEWKRfHDp9QCDYkUex2NEW/F+jTYr56gegkZp?=
+ =?us-ascii?Q?Dgw84Ixyu4fbbS6i6Qf7bNl0EcUTtdgItGmUPGQhgPQ5nzx2m5bLWKaSHrSj?=
+ =?us-ascii?Q?7SLIerNhzDEfE6/i+mzPMxy6eV2NuYiZ3IG+0ldbVIVs3u4q2zQczd9ZPH5x?=
+ =?us-ascii?Q?V6xhvJ1tkNfvTCe07DcfQxQKSX0jvrZmB6UGHyEmkxJAG0OKMuyWriI8w6hB?=
+ =?us-ascii?Q?MHiKNz3nj1Nqj3ak8nGnRHYju+W3/oJgVRXJNsB0CoMqayQiSwui0aYM0WEr?=
+ =?us-ascii?Q?p6mj2808u1gO4VLal6XUhfaY60799g4NRGweK4r3mn0jp6XuP4L8xVxCaIDH?=
+ =?us-ascii?Q?PE6znzFSMHtMPm+Ar7hNGe0A9yk7gbAr7wzPQb5LT5Knc/Lids2nZ/WR7IWr?=
+ =?us-ascii?Q?IESARBYJy5qZeSIe4D0IVVK+b+bZYsW/Yoan9afuYNVPEgJH5Q57XWsu8ymb?=
+ =?us-ascii?Q?g7+Qhq8r3Yi6NLwjk6Dp5SrFTQvgrkaIHbej5fPhZfCos5EV8DK2R/H7YoDX?=
+ =?us-ascii?Q?EwUAPaymbHVZ/mlmORRL1l/RQBn76ctTlYUzEvO8DFkU6FnzUy9Ah5ndnxcI?=
+ =?us-ascii?Q?V65niAZaEoSfcZw37ckDV/zhUT/rMvg=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce8c4563-d244-430d-07cd-08da230a0183
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fb7f643-2f34-434d-21f0-08da230a02f7
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2022 20:11:51.0543 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2022 20:11:53.3991 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MT5E+g0Y+MAt2UeUxxbYnJRfdrMOTjL8y1hfiDuDgPJww3eob9txnOWXN65mHp1teoKoD5uMtGnbJ28Y5xul67jtzX7ZQ8YkLfeIdAlDIKA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: dCd663M4EAkCUEbmlplxg05EuscMStwmddlPDwkd4UkDFH6KmjFnLOl6vNRq+6DzcPDO5v7AyVCdIAcedMTjZLvTWWVOksXvph0fq4EbyGA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5644
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
  definitions=2022-04-20_05:2022-04-20,
@@ -143,8 +145,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  malwarescore=0 mlxlogscore=999 adultscore=0 mlxscore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
  definitions=main-2204200119
-X-Proofpoint-ORIG-GUID: XaY9MklMAcHispo9Rstwwwtqf3wWu5pk
-X-Proofpoint-GUID: XaY9MklMAcHispo9Rstwwwtqf3wWu5pk
+X-Proofpoint-ORIG-GUID: mE3PJIN5_nIEYzwy-uoTDW_osH7duCeB
+X-Proofpoint-GUID: mE3PJIN5_nIEYzwy-uoTDW_osH7duCeB
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -179,164 +181,109 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3[4] -> v4:
-(changes in patch 4 and 5 only)
-* Rebased to 7.1.0, hence move compat machine attribute to <= 7.0.0 versions
-* Check guest vCPU vendor rather than host CPU vendor (Michael Tsirkin)
-* Squash previous patch 5 into patch 4 to tie in the phys-bits check
-  into the relocate-4g-start logic: We now error out if the phys-bits
-  aren't enough on configurations that require above-4g ram relocation. (Michael Tsirkin)
-* Make the error message more explicit when phys-bits isn't enough to also
-  mention: "cannot avoid AMD HT range"
-* Add comments inside x86_update_above_4g_mem_start() explaining the
-  logic behind it. (Michael Tsirkin)
-* Tested on old guests old guests with Linux 2.6.32/3.10/4.14.35/4.1 based kernels
-  alongside Win2008/2K12/2K16/2K19 on configs spanning 1T and 2T (Michael Tsirkin)
-  Validated -numa topologies too as well as making sure qtests observe no regressions;
+Rather than hardcoding the 4G boundary everywhere, introduce a
+X86MachineState property @above_4g_mem_start and use it
+accordingly.
 
-Notes:
+This is in preparation for relocating ram-above-4g to be
+dynamically start at 1T on AMD platforms.
 
-* the machine attribute that enables this new logic (see last patch)
-is called ::enforce_valid_iova since the RFC. Let me know if folks think it
-is poorly named, and whether something a bit more obvious is preferred
-(e.g. ::amd_relocate_1t).
-
-* @mst one of the comments you said was to add "host checks" in vdpa/vfio devices.
-In discussion with Alex and you over the last version of the patches it seems
-that we weren't keen on making this device-specific or behind any machine
-property flags (besides machine-compat). Just to reiterate there, making sure we do
-the above-4g relocation requiring properly sized phys-bits and AMD as vCPU
-vendor (as this series) already ensures thtat this is going to be right for
-offending configuration with VDPA/VFIO device that might be
-configured/hotplugged. Unless you were thinking that somehow vfio/vdpa devices
-start poking into machine-specific details when we fail to relocate due to the
-lack of phys-bits? Otherwise Qemu, just doesn't have enough information to tell
-what's a valid IOVA or not, in which case kernel vhost-iotlb/vhost-vdpa is the one
-that needs fixing (as VFIO did in v5.4).
-
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 ---
+ hw/i386/acpi-build.c  | 2 +-
+ hw/i386/pc.c          | 9 +++++----
+ hw/i386/sgx.c         | 2 +-
+ hw/i386/x86.c         | 1 +
+ include/hw/i386/x86.h | 3 +++
+ 5 files changed, 11 insertions(+), 6 deletions(-)
 
-This series lets Qemu spawn i386 guests with >= 1010G with VFIO,
-particularly when running on AMD systems with an IOMMU.
-
-Since Linux v5.4, VFIO validates whether the IOVA in DMA_MAP ioctl is valid and it
-will return -EINVAL on those cases. On x86, Intel hosts aren't particularly
-affected by this extra validation. But AMD systems with IOMMU have a hole in
-the 1TB boundary which is *reserved* for HyperTransport I/O addresses located
-here: FD_0000_0000h - FF_FFFF_FFFFh. See IOMMU manual [1], specifically
-section '2.1.2 IOMMU Logical Topology', Table 3 on what those addresses mean.
-
-VFIO DMA_MAP calls in this IOVA address range fall through this check and hence return
- -EINVAL, consequently failing the creation the guests bigger than 1010G. Example
-of the failure:
-
-qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: VFIO_MAP_DMA: -22
-qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: vfio 0000:41:10.1: 
-	failed to setup container for group 258: memory listener initialization failed:
-		Region pc.ram: vfio_dma_map(0x55ba53e7a9d0, 0x100000000, 0xff30000000, 0x7ed243e00000) = -22 (Invalid argument)
-
-Prior to v5.4, we could map to these IOVAs *but* that's still not the right thing
-to do and could trigger certain IOMMU events (e.g. INVALID_DEVICE_REQUEST), or
-spurious guest VF failures from the resultant IOMMU target abort (see Errata 1155[2])
-as documented on the links down below.
-
-This small series tries to address that by dealing with this AMD-specific 1Tb hole,
-but rather than dealing like the 4G hole, it instead relocates RAM above 4G
-to be above the 1T if the maximum RAM range crosses the HT reserved range.
-It is organized as following:
-
-patch 1: Introduce a @above_4g_mem_start which defaults to 4 GiB as starting
-         address of the 4G boundary
-
-patches 2-3: Move pci-host qdev creation to be before pc_memory_init(),
-	     to get accessing to pci_hole64_size. The actual pci-host
-	     initialization is kept as is, only the qdev_new.
-
-patch 4: Change @above_4g_mem_start to 1TiB /if we are on AMD and the max
-possible address acrosses the HT region. Errors out if the phys-bits is too
-low, which is only the case for >=1010G configurations or something that
-crosses the HT region.
-
-patch 5: Ensure valid IOVAs only on new machine types, but not older
-ones (<= v7.0.0)
-
-The 'consequence' of this approach is that we may need more than the default
-phys-bits e.g. a guest with >1010G, will have most of its RAM after the 1TB
-address, consequently needing 41 phys-bits as opposed to the default of 40
-(TCG_PHYS_BITS). Today there's already a precedent to depend on the user to
-pick the right value of phys-bits (regardless of this series), so we warn in
-case phys-bits aren't enough. Finally, CMOS loosing its meaning of the above 4G
-ram blocks, but it was mentioned over RFC that CMOS is only useful for very
-old seabios. 
-
-Additionally, the reserved region is added to E820 if the relocation is done.
-
-Alternative options considered (in RFC[0]):
-
-a) Dealing with the 1T hole like the 4G hole -- which also represents what
-hardware closely does.
-
-Thanks,
-	Joao
-
-Older Changelog,
-
-RFCv2[3] -> v3[4]:
-
-* Add missing brackets in single line statement, in patch 5 (David)
-* Change ranges printf to use PRIx64, in patch 5 (David)
-* Move the check to after changing above_4g_mem_start, in patch 5 (David)
-* Make the check generic and move it to pc_memory_init rather being specific
-to AMD, as the check is useful to capture invalid phys-bits
-configs (patch 5, Igor).
-* Fix comment as 'Start address of the initial RAM above 4G' in patch 1 (Igor)
-* Consider pci_hole64_size in patch 4 (Igor)
-* To consider pci_hole64_size in max used addr we need to get it from pci-host,
-so introduce two new patches (2 and 3) which move only the qdev_new("i440fx") or
-qdev_new("q35") to be before pc_memory_init().
-* Consider sgx_epc.size in max used address, in patch 4 (Igor)
-* Rename relocate_4g() to x86_update_above_4g_mem_start() (Igor)
-* Keep warn_report() in patch 5, as erroring out will break a few x86_64 qtests
-due to pci_hole64 accounting surprass phys-bits possible maxphysaddr.
-
-RFC[0] -> RFCv2[3]:
-
-* At Igor's suggestion in one of the patches I reworked the series enterily,
-and more or less as he was thinking it is far simpler to relocate the
-ram-above-4g to be at 1TiB where applicable. The changeset is 3x simpler,
-and less intrusive. (patch 1 & 2)
-* Check phys-bits is big enough prior to relocating (new patch 3)
-* Remove the machine property, and it's only internal and set by new machine
-version (Igor, patch 4).
-* Clarify whether it's GPA or HPA as a more clear meaning (Igor, patch 2)
-* Add IOMMU SDM in the commit message (Igor, patch 2)
-
-[0] https://lore.kernel.org/qemu-devel/20210622154905.30858-1-joao.m.martins@oracle.com/
-[1] https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
-[2] https://developer.amd.com/wp-content/resources/56323-PUB_0.78.pdf
-[3] https://lore.kernel.org/qemu-devel/20220207202422.31582-1-joao.m.martins@oracle.com/T/#u
-[4] https://lore.kernel.org/all/20220223184455.9057-1-joao.m.martins@oracle.com/
-
-Joao Martins (5):
-  hw/i386: add 4g boundary start to X86MachineState
-  i386/pc: create pci-host qdev prior to pc_memory_init()
-  i386/pc: pass pci_hole64_size to pc_memory_init()
-  i386/pc: relocate 4g start to 1T where applicable
-  i386/pc: restrict AMD only enforcing of valid IOVAs to new machine
-    type
-
- hw/i386/acpi-build.c         |   2 +-
- hw/i386/pc.c                 | 126 +++++++++++++++++++++++++++++++++--
- hw/i386/pc_piix.c            |  12 +++-
- hw/i386/pc_q35.c             |  14 +++-
- hw/i386/sgx.c                |   2 +-
- hw/i386/x86.c                |   1 +
- hw/pci-host/i440fx.c         |  10 ++-
- include/hw/i386/pc.h         |   4 +-
- include/hw/i386/x86.h        |   3 +
- include/hw/pci-host/i440fx.h |   3 +-
- 10 files changed, 161 insertions(+), 16 deletions(-)
-
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index dcf6ece3d043..d8d4c4a7ffc7 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2071,7 +2071,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+                 build_srat_memory(table_data, mem_base, mem_len, i - 1,
+                                   MEM_AFFINITY_ENABLED);
+             }
+-            mem_base = 1ULL << 32;
++            mem_base = x86ms->above_4g_mem_start;
+             mem_len = next_base - x86ms->below_4g_mem_size;
+             next_base = mem_base + mem_len;
+         }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 23bba9d82c12..177d98164bdf 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -838,9 +838,10 @@ void pc_memory_init(PCMachineState *pcms,
+                                  machine->ram,
+                                  x86ms->below_4g_mem_size,
+                                  x86ms->above_4g_mem_size);
+-        memory_region_add_subregion(system_memory, 0x100000000ULL,
++        memory_region_add_subregion(system_memory, x86ms->above_4g_mem_start,
+                                     ram_above_4g);
+-        e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
++        e820_add_entry(x86ms->above_4g_mem_start, x86ms->above_4g_mem_size,
++                       E820_RAM);
+     }
+ 
+     if (pcms->sgx_epc.size != 0) {
+@@ -881,7 +882,7 @@ void pc_memory_init(PCMachineState *pcms,
+             machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+         } else {
+             machine->device_memory->base =
+-                0x100000000ULL + x86ms->above_4g_mem_size;
++                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+         }
+ 
+         machine->device_memory->base =
+@@ -973,7 +974,7 @@ uint64_t pc_pci_hole64_start(void)
+     } else if (pcms->sgx_epc.size != 0) {
+             hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
+     } else {
+-        hole64_start = 0x100000000ULL + x86ms->above_4g_mem_size;
++        hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+     }
+ 
+     return ROUND_UP(hole64_start, 1 * GiB);
+diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+index a44d66ba2afc..09d9c7c73d9f 100644
+--- a/hw/i386/sgx.c
++++ b/hw/i386/sgx.c
+@@ -295,7 +295,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+         return;
+     }
+ 
+-    sgx_epc->base = 0x100000000ULL + x86ms->above_4g_mem_size;
++    sgx_epc->base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+ 
+     memory_region_init(&sgx_epc->mr, OBJECT(pcms), "sgx-epc", UINT64_MAX);
+     memory_region_add_subregion(get_system_memory(), sgx_epc->base,
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index bb6727279097..2790250a0457 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1305,6 +1305,7 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+     x86ms->bus_lock_ratelimit = 0;
++    x86ms->above_4g_mem_start = 0x100000000ULL;
+ }
+ 
+ static void x86_machine_class_init(ObjectClass *oc, void *data)
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 916cc325eeb1..86de493c39f0 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -56,6 +56,9 @@ struct X86MachineState {
+     /* RAM information (sizes, addresses, configuration): */
+     ram_addr_t below_4g_mem_size, above_4g_mem_size;
+ 
++    /* Start address of the initial RAM above 4G */
++    ram_addr_t above_4g_mem_start;
++
+     /* CPU and apic information: */
+     bool apic_xrupt_override;
+     unsigned pci_irq_mask;
 -- 
 2.17.2
 
