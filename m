@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0715508668
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:53:37 +0200 (CEST)
-Received: from localhost ([::1]:34968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A421508683
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:01:50 +0200 (CEST)
+Received: from localhost ([::1]:49972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh7xo-0005d8-Qw
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59686)
+	id 1nh85l-000676-IV
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:01:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7iq-00052W-EQ
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:38:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41865)
+ (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
+ id 1nh7m9-0001eQ-Qq; Wed, 20 Apr 2022 06:41:33 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:59006 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7in-0007bi-7t
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:38:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650451084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4dbHto5qvr6tHGa8Lh0ZHYsOuknnSoAlltg2V8GWKrc=;
- b=JuqI6UaFofTOL+C0jskX5SxZjTO88ouUIkQciS5a4BDnb4BYBO6jCV65DvryuitMso+cgN
- Qle4BDpWQ4Wu3dZOeB1qikVsg7CFxnBHRUz46DmeVdBn1PQS5r1kfUwAcAGtwbo1jF0ZwS
- IH0AwyLodT4Ez44qtLrCwOmKTpKKlWs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-343-iSzvEp-pMpmEtzZCKG5sjQ-1; Wed, 20 Apr 2022 06:38:03 -0400
-X-MC-Unique: iSzvEp-pMpmEtzZCKG5sjQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- p18-20020adf9592000000b00207bc12decbso271734wrp.21
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 03:38:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4dbHto5qvr6tHGa8Lh0ZHYsOuknnSoAlltg2V8GWKrc=;
- b=nO80QvBhHMgexPpJhOLY76gYNyRD77XjxiLFXvZKGkCOxesym2zl0q3uLcQY0jAAQz
- 1k8JYzoXmLQG22zn/SxRQNBvJwO1hr6yuWwmB3l/q1isHoPfp9bRKPv6Fmy3ZnKmt7Xg
- PzRjeXaHI7/6vavIhrUgzNK1OzGh1ct2aHBdHJu++jJnnLa0RVrR4GncUeiy190PCKNx
- buk9/bFLKHSyB/UpXXAuSR5DUfMbCAPPIwg3HVNV5/nPM7PnBP/glT2Zgs+deuexod8w
- q2Z6/+jf7ahJ1lgQkTL+1BaWEkOkZFUy4UcKRUir+6mFo2jicXoTITCcHUx48b+wjDI/
- AQPQ==
-X-Gm-Message-State: AOAM531r9t/VUX92MiRqoWcpda4oGnjIa7Wh5G9Qa2rvAkR/fkDAPi+5
- Oat8Xc4RSXDx8r2nu47htzTjOIYFjAB9kWPeDHgLjmwBI6ENF9Ho5b9WB9m4sxwSgWI0XStZizp
- kSHB8NcPa88GC/CM=
-X-Received: by 2002:adf:e5d2:0:b0:207:9be3:c080 with SMTP id
- a18-20020adfe5d2000000b002079be3c080mr14881645wrn.519.1650451082327; 
- Wed, 20 Apr 2022 03:38:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSx623XTaA1kDein9C9vbWpAq/9P3kADcE92AhLV/ZtFAusfC+QigeOH1PWS4wCR8U59sQGg==
-X-Received: by 2002:adf:e5d2:0:b0:207:9be3:c080 with SMTP id
- a18-20020adfe5d2000000b002079be3c080mr14881631wrn.519.1650451082111; 
- Wed, 20 Apr 2022 03:38:02 -0700 (PDT)
-Received: from [192.168.8.102]
- (dynamic-046-114-174-058.46.114.pool.telefonica.de. [46.114.174.58])
- by smtp.gmail.com with ESMTPSA id
- i74-20020adf90d0000000b0020373ba7beesm17630755wri.0.2022.04.20.03.38.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 03:38:01 -0700 (PDT)
-Message-ID: <dc6b5d50-13f9-2b93-ccef-e7d10573e156@redhat.com>
-Date: Wed, 20 Apr 2022 12:37:59 +0200
+ (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
+ id 1nh7m7-0008Al-TY; Wed, 20 Apr 2022 06:41:33 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 4B49744E3C;
+ Wed, 20 Apr 2022 10:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1650451288; x=1652265689; bh=VnP6+Hnh7zq37rpemWvv3L
+ twVOh5np0ohzagpVzmO8I=; b=kDKfZjl6lwBRR+eDqVO8/P+U+6RPzc/17KUh90
+ c4c+DvxIjeAyP3rOq5bNK/AYDx/b+XIR1yVzKHwopzMDFbbd7Rttg+qfsglyJmFY
+ 0xTf5nIC0HIgdQ9trFFNi68BYGU54aB3u4NTalJablubzXFpF11ESOd+K+9KAOBL
+ NL0Pc=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id gOakljx1cZH5; Wed, 20 Apr 2022 13:41:28 +0300 (MSK)
+Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
+ [172.17.100.104])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id C42214596F;
+ Wed, 20 Apr 2022 13:41:27 +0300 (MSK)
+Received: from localhost.localdomain (10.178.113.54) by
+ T-EXCH-04.corp.yadro.com (172.17.100.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Wed, 20 Apr 2022 13:41:27 +0300
+Date: Wed, 20 Apr 2022 13:41:26 +0300
+From: Dmitry Tikhov <d.tihov@yadro.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH] hw/nvme: add new command abort case
+Message-ID: <20220420104126.iy5b4exyqh62m632@localhost.localdomain>
+References: <20220420082044.n6orslk2aukj2jai@localhost.localdomain>
+ <Yl/csehng+W0gfQD@apples> <Yl/iRnvEj+tDycUI@apples>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] tests/acceptance: Allow overwrite smp and memory
-Content-Language: en-US
-To: Ahmed Abouzied <admin@aabouzied.com>, qemu-devel@nongnu.org
-References: <20210802222257.50946-1-email@aabouzied.com>
- <CAPm-u-to0fD_wZaScQQUencDqMYQZ0Ys5FtjJJ30b50vCtYSmw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAPm-u-to0fD_wZaScQQUencDqMYQZ0Ys5FtjJJ30b50vCtYSmw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <Yl/iRnvEj+tDycUI@apples>
+X-Originating-IP: [10.178.113.54]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-04.corp.yadro.com (172.17.100.104)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=d.tihov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,66 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Beraldo Leal <bleal@redhat.com>, wainersm@redhat.com, crosa@redhat.com
+Cc: kbusch@kernel.org, ddtikhov@gmail.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, linux@yadro.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/08/2021 19.30, Ahmed Abouzied wrote:
-> ping
+On Wed, Apr 20, 2022 at 12:36:54, Klaus Jensen wrote:
+> On Apr 20 12:13, Klaus Jensen wrote:
+> > On Apr 20 11:20, Dmitry Tikhov wrote:
+> > > NVMe command set specification for end-to-end data protection formatted
+> > > namespace states:
+> > > 
+> > >     o If the Reference Tag Check bit of the PRCHK field is set to ‘1’ and
+> > >       the namespace is formatted for Type 3 protection, then the
+> > >       controller:
+> > >           ▪ should not compare the protection Information Reference Tag
+> > >             field to the computed reference tag; and
+> > >           ▪ may ignore the ILBRT and EILBRT fields. If a command is
+> > >             aborted as a result of the Reference Tag Check bit of the
+> > >             PRCHK field being set to ‘1’, then that command should be
+> > >             aborted with a status code of Invalid Protection Information,
+> > >             but may be aborted with a status code of Invalid Field in
+> > >             Command.
+> > > 
+> > > Currently qemu compares reftag in the nvme_dif_prchk function whenever
+> > > Reference Tag Check bit is set in the command. For type 3 namespaces
+> > > however, caller of nvme_dif_prchk - nvme_dif_check does not increment
+> > > reftag for each subsequent logical block. That way commands incorporating
+> > > more than one logical block for type 3 formatted namespaces with reftag
+> > > check bit set, always fail with End-to-end Reference Tag Check Error.
+> > > Comply with spec by handling case of set Reference Tag Check
+> > > bit in the type 3 formatted namespace.
+> > > 
+> > 
+> > Note the "should" and "may" in your quote. What QEMU does right now is
+> > compliant with v1.4. That is, the reftag must NOT be incremented
+> > - it is the same for the first and all subsequent logical blocks.
+> > 
+> > I'm a bit hesitant to follow v2.0 here, since we do not report v2.0
+> > compliance yet. I'm honestly also a bit perplexed as to how the NVMe TWG
+> > ended up considering this backwards compatible. As far as I can tell
+> > this breaks current hosts that do set the reference tag check bit,
+> > provides a valid ILBRT/EILBRT and expects it to succeed.
 > 
-> Just pinging about this little patch. Patchew link here: 
-> https://patchew.org/QEMU/20210802222257.50946-1-email@aabouzied.com/ 
+> Ok, so reading the spec more closely...
+> 
+> The Invalid Protection Information should not be set just because the
+> reference tag check bit is set. It should be set *if* the controller
+> chooses to check it and it fails. However, in v2.0, the controller is
+> allowed to ignore it and not perform the check.
+> 
+> So, just because the host sets the bit, that does not mean we fail the
+> command. However, a difference is that a v2.0 compliant controller
+> should return Invalid Protection Information or Invalid Field in Command
+> instead of End-to-end Reference Tag Check Error if the check fails.
 
-Sorry, seems like this completely fell through the cracks ... since nobody 
-else picked this up yet, I've now put it into my current pull request, so 
-that the issue should finally get resolved now.
-
-  Thomas
-
-> On Tue, Aug 3, 2021 at 12:24 AM Ahmed Abouzied <email@aabouzied.com 
-> <mailto:email@aabouzied.com>> wrote:
-> 
->     Removes the hard-coded values in setUp(). Class inheriting from
->     avocado_qemu.LinuxTest can overwrite the default smp and memory instead.
-> 
->     Resolves: https://gitlab.com/qemu-project/qemu/-/issues/453
->     <https://gitlab.com/qemu-project/qemu/-/issues/453>
->     Signed-off-by: Ahmed Abouzied <email@aabouzied.com
->     <mailto:email@aabouzied.com>>
->     ---
->       tests/acceptance/avocado_qemu/__init__.py | 6 ++++--
->       1 file changed, 4 insertions(+), 2 deletions(-)
-> 
->     diff --git a/tests/acceptance/avocado_qemu/__init__.py
->     b/tests/acceptance/avocado_qemu/__init__.py
->     index 2c4fef3e14..2639b89c84 100644
->     --- a/tests/acceptance/avocado_qemu/__init__.py
->     +++ b/tests/acceptance/avocado_qemu/__init__.py
->     @@ -441,6 +441,8 @@ class LinuxTest(Test, LinuxSSHMixIn):
->           distro = None
->           username = 'root'
->           password = 'password'
->     +    smp = '2'
->     +    memory = '1024'
-> 
->           def _set_distro(self):
->               distro_name = self.params.get(
->     @@ -471,8 +473,8 @@ def _set_distro(self):
->           def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
->               super(LinuxTest, self).setUp()
->               self._set_distro()
->     -        self.vm.add_args('-smp', '2')
->     -        self.vm.add_args('-m', '1024')
->     +        self.vm.add_args('-smp', self.smp)
->     +        self.vm.add_args('-m', self.memory)
->               # The following network device allows for SSH connections
->               self.vm.add_args('-netdev',
->     'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
->                                '-device', '%s,netdev=vnet' %
->     network_device_type)
->     -- 
->     2.25.1
-> 
-
+Can you please link the spec you are referring to?
 
