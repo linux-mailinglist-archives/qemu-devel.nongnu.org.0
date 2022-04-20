@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E16D508C69
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:48:51 +0200 (CEST)
-Received: from localhost ([::1]:54410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C57C508C78
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:51:20 +0200 (CEST)
+Received: from localhost ([::1]:34706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCZW-0002Pt-Ie
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:48:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42554)
+	id 1nhCbv-00084u-HX
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:51:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nhCLW-0001EP-8U
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22311)
+ id 1nhCLY-0001J0-0S
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nhCLT-0000tp-GQ
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:21 -0400
+ id 1nhCLW-0000uM-05
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650468858;
+ s=mimecast20190719; t=1650468861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bsfSJP8vxqjakqvuTpgGAi5Pf6Ps95Nw5to3pnmqgpQ=;
- b=W/fh4xPuDi7JpFUkGBrwJaavTm7ksn6aQeFRarZ1AwuBgOc64UwKWsjtT5KK+VhPK3hVzc
- RM2sp23iwMTeAr/Ji9TZzNvT8YziN4C7mZmT9vgjnofluNRqS5thCfUv29oMcq5I8nDfW5
- /MFXbztrX5e5RtEVD9b19VviR4QYxX8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oySDhZA9J5UG6sYPr8nXS+VNQ80pqiy+FOzXpqHvHWY=;
+ b=DO3N+gghtE3cXE+i4us0GC5snF/CmjLINaknfk7Ob1yyXMcpYlJOBlG4EMhokh0rv4OH3X
+ AxGkQEPv1xsDHWAP75IwXHo51qlTMPmC7yJc/m21CEmNRAlwX69LwoKiFwBwoY3L9VUTVC
+ MqOcWNw9b8ia5bfS9V8khqXBy1YF3bs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-456-TXdcPTv3OPqdGhmkDvv4JQ-1; Wed, 20 Apr 2022 11:34:15 -0400
-X-MC-Unique: TXdcPTv3OPqdGhmkDvv4JQ-1
+ us-mta-634-BVyFkWHuPvqrgoILmtGiMw-1; Wed, 20 Apr 2022 11:34:16 -0400
+X-MC-Unique: BVyFkWHuPvqrgoILmtGiMw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC65A801E67;
- Wed, 20 Apr 2022 15:34:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6639C1C0513F;
+ Wed, 20 Apr 2022 15:34:16 +0000 (UTC)
 Received: from harajuku.usersys.redhat.com (unknown [10.40.192.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E572340D0161;
- Wed, 20 Apr 2022 15:34:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0184E40D0166;
+ Wed, 20 Apr 2022 15:34:14 +0000 (UTC)
 From: Andrea Bolognani <abologna@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] docs: qapi: Remove outdated reference to simple unions
-Date: Wed, 20 Apr 2022 17:34:06 +0200
-Message-Id: <20220420153408.243584-2-abologna@redhat.com>
+Subject: [PATCH 2/3] qapi: Fix documentation for query-xen-replication-status
+Date: Wed, 20 Apr 2022 17:34:07 +0200
+Message-Id: <20220420153408.243584-3-abologna@redhat.com>
 In-Reply-To: <20220420153408.243584-1-abologna@redhat.com>
 References: <20220420153408.243584-1-abologna@redhat.com>
 MIME-Version: 1.0
@@ -83,30 +83,27 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 4e99f4b12c0e dropped simple unions and updated most
-documentation accordingly, but in one case we still claim that
-there are "two flavors of unions".
+The correct return type is ReplicationStatus, not
+ReplicationResult.
 
 Signed-off-by: Andrea Bolognani <abologna@redhat.com>
 ---
- docs/devel/qapi-code-gen.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qapi/migration.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index 246709ede8..7b968433a6 100644
---- a/docs/devel/qapi-code-gen.rst
-+++ b/docs/devel/qapi-code-gen.rst
-@@ -41,8 +41,8 @@ used internally.
- 
- There are several kinds of types: simple types (a number of built-in
- types, such as ``int`` and ``str``; as well as enumerations), arrays,
--complex types (structs and two flavors of unions), and alternate types
--(a choice between other types).
-+complex types (structs and unions), and alternate types (a choice
-+between other types).
- 
- 
- Schema syntax
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 27d7b28158..409eb086a2 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1619,7 +1619,7 @@
+ #
+ # Query replication status while the vm is running.
+ #
+-# Returns: A @ReplicationResult object showing the status.
++# Returns: A @ReplicationStatus object showing the status.
+ #
+ # Example:
+ #
 -- 
 2.35.1
 
