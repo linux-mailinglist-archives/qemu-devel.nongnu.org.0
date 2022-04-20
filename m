@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E910507CC8
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 00:46:15 +0200 (CEST)
-Received: from localhost ([::1]:51302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAC5507D9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 02:28:37 +0200 (CEST)
+Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ngwbu-0004sC-HB
-	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 18:46:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34192)
+	id 1ngyCy-0001GF-ER
+	for lists+qemu-devel@lfdr.de; Tue, 19 Apr 2022 20:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1ngwZy-0003VQ-Mg
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 18:44:15 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:45614)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1ngyAy-0000Qt-RE
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 20:26:33 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:36699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1ngwZv-0003RA-HF
- for qemu-devel@nongnu.org; Tue, 19 Apr 2022 18:44:14 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id h1so134144pfv.12
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 15:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1ngyAw-00019i-DL
+ for qemu-devel@nongnu.org; Tue, 19 Apr 2022 20:26:32 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id f38so98591ybi.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 17:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atishpatra.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VLhwP2K5wAQdNCL/I+laKlmhhmXTIYpsE+P3ZBVdEQY=;
- b=r6feRZnKvLFz70LElt69P5H+fCR2FPIhGGDf/HEN3FRecAYZ9XCe48UHMGy+CySLim
- Nf5DSsTsuheV1j+T6ia1xrZDpsTF3FTPXu+PVf45W3eRaPm0iYir4XnaqNkn/g+rZCO2
- +mve4Z0JSADruCniouTjwzcvVDbH3e2O3juiT4JkLMIr7ZXwKFqeJlsDlQ8PoQ143YKV
- 4mXbdBPsHAvnmaRpFABAN6Fu2TxYwMuj7lx3m1l+FUNKtOImv1EuD09eyGgiiWGIIwwL
- LNoj8AvJNwOZZPiT6ZBr88Y7Sec+d18PBB4ep9ryJg1nLwP6Jf9EVG8Bvth2Y321pPhZ
- R+rg==
+ :cc:content-transfer-encoding;
+ bh=RWq7v6eQUq3JyBAcQ/g/2j2RyZUpTmb0bb4u67RgFDo=;
+ b=CBJZN2/0s+s3xnPfeuVhwE5yB6WGT+dNmT3Ta9e38PAynCJzcsDNhorkDqTD2W8FYJ
+ a8uGNxhOe+qlneH/1XUgj3JJpskg64bTz6PTxzKPNZRxl1U76lDcab4TMFaKw+W5ymLF
+ S41qrV7WPSzBARxseaq1dVhlEhgpRAPKYTgas=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VLhwP2K5wAQdNCL/I+laKlmhhmXTIYpsE+P3ZBVdEQY=;
- b=cz4GBZfK11KTF9Ffch+fh/44y+N1tM6Hf+lORbsQZIJJpeVSLFs1RU1vbdmmOyPyZf
- EKCIsXyOxChWliy9CDDWY3ux76NAyT23rQDxI0sa7Q3Ez5rX4Y3OyVqCdOWC8r2G6oxE
- Yj2VefHZUGqmlnsWR2M2nlCZUMF2KWntUcOnxAd8AuLcm0g1Q8a2/kcTMZARxG6UIv7G
- dHPiBOv4AWFAcORReDIwj/QpGpeHM9L5Ny7BBfmk2kkRWN2GFQWCwY9qCj2BYOSLueFa
- kBMRHFk2BiSjzXFGOI/5PrI6OpAnkRDVmgIJpyMUjf3nUJvKOAsmrKrz5hWF/IpS/+N3
- scJQ==
-X-Gm-Message-State: AOAM533gu9by+olzgHok6BH73ZRMjapB0tvgDzGVR6zOBKz3aB6GORX4
- xl9jiV4ednxgJ5sDzzjrNRGyJtoihrzPTq991D6gqA==
-X-Google-Smtp-Source: ABdhPJy1nh6THruK7UwMlM2wpxzbJNt+bc4+NMZX+nwIAjwmQ/JmNyUx85odCJYd4rFIN0fRrs6lthI6/1JylF8mddI=
-X-Received: by 2002:a65:56cb:0:b0:378:82ed:d74 with SMTP id
- w11-20020a6556cb000000b0037882ed0d74mr16683302pgs.491.1650408247642; Tue, 19
- Apr 2022 15:44:07 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RWq7v6eQUq3JyBAcQ/g/2j2RyZUpTmb0bb4u67RgFDo=;
+ b=DgdLjqZz+Fw2W8Rx2o+ahYqyt8n7l1+Hsk/DpcY5tGi0y1qkf2Vn2Zym9d/hBhq0vi
+ jwrrJ4bTSAKApXdRXLNUDSv50qMSWiDI4J7Idbdogzh5+HNHSKOPYdIpo5hGoBoIrEQS
+ 0JKJnH3SejUN8H919tfzS8XgOxRF5J5+7Xhv7sTjSwSlXUT3qhclqp5NoRRBbY7+QH+/
+ 6DSS6gHoJ6wsRKj5IqwixZZfSYDM9tYqz5Qnkykxxy1YD5AIK8cefK3eYEMaTl+i2CR+
+ 9mHUXe4qarwcY5G0OLoLoo+efOY/wb2UNRnj/9CuGZuKbK2/rNygj5Z9/uwmcV9Ra0Dw
+ j8jw==
+X-Gm-Message-State: AOAM533b7DIfbbKnXWHnuk65F7wmoFxgIJ1s8tkuI2v1Kq9uP7facQ3R
+ coGwFdX0YV7Uy75tGxPZ04e/BMK0BmVZOnHQm055
+X-Google-Smtp-Source: ABdhPJz3g2C3gop1vyRHIYi/OyqVNQXLN5OKFk18FblTpAJPuT6Z+rSBsgjV4uHtAFbRK4uxOrxp/RWAmxVhUwGl0ko=
+X-Received: by 2002:a25:a029:0:b0:63d:f892:e7af with SMTP id
+ x38-20020a25a029000000b0063df892e7afmr17545440ybh.14.1650414388765; Tue, 19
+ Apr 2022 17:26:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-12-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220310140911.50924-12-chao.p.peng@linux.intel.com>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Tue, 19 Apr 2022 15:43:56 -0700
-Message-ID: <CAGtprH-qTB2sehidF7xkSvR3X4D5cUOLpMBXf4mhTEh0BUR-mQ@mail.gmail.com>
-Subject: Re: [PATCH v5 11/13] KVM: Zap existing KVM mappings when pages
- changed in the private fd
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, 
- Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com
+References: <20220412021009.582424-1-atishp@rivosinc.com>
+ <Yl7oiF7kUrIQ0qk5@redhat.com>
+In-Reply-To: <Yl7oiF7kUrIQ0qk5@redhat.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Tue, 19 Apr 2022 17:26:17 -0700
+Message-ID: <CAOnJCUJWX5wPXVNbgNirNgBhi-w39RgqFZMJgvZKTMGhrdLtFw@mail.gmail.com>
+Subject: Re: [RFC 0/3] Introduce a new Qemu machine for RISC-V
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=vannapurve@google.com; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,117 +78,248 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Atish Patra <atishp@rivosinc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022 at 6:11 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+On Tue, Apr 19, 2022 at 9:51 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> KVM gets notified when memory pages changed in the memory backing store.
-> When userspace allocates the memory with fallocate() or frees memory
-> with fallocate(FALLOC_FL_PUNCH_HOLE), memory backing store calls into
-> KVM fallocate/invalidate callbacks respectively. To ensure KVM never
-> maps both the private and shared variants of a GPA into the guest, in
-> the fallocate callback, we should zap the existing shared mapping and
-> in the invalidate callback we should zap the existing private mapping.
+> On Mon, Apr 11, 2022 at 07:10:06PM -0700, Atish Patra wrote:
+> >
+> > The RISC-V virt machine has helped RISC-V software eco system to evolve=
+ at a
+> > rapid pace even in absense of the real hardware. It is definitely comme=
+ndable.
+> > However, the number of devices & commandline options keeps growing as a=
+ result
+> > of that as well. That adds flexibility but will also become bit difficu=
+lt
+> > to manage in the future as more extension support will be added. As it =
+is the
+> > most commonly used qemu machine, it needs to support all kinds of devic=
+e and
+> > interrupts as well. Moreover, virt machine has limitations on the maxim=
+um
+> > number of harts it can support because of all the MMIO devices it has t=
+o support.
+> >
+> > The RISC-V IMSIC specification allows to develop machines completely re=
+lying
+> > on MSI and don't care about the wired interrupts at all. It just requir=
+es
+> > all the devices to be present behind a PCI bus or present themselves as=
+ platform
+> > MSI device. The former is a more common scenario in x86 world where mos=
+t
+> > of the devices are behind PCI bus. As there is very limited MMIO device
+> > support, it can also scale to very large number of harts.
+> >
+> > That's why, this patch series introduces a minimalistic yet very extens=
+ible
+> > forward looking machine called as "RISC-V Mini Computer" or "minic". Th=
+e
+> > idea is to build PC or server like systems with this machine. The machi=
+ne can
+> > work with or without virtio framework. The current implementation only
+> > supports RV64. I am not sure if building a RV32 machine would be of int=
+erest
+> > for such machines. The only mmio device it requires is clint to emulate
+> > the mtimecmp.
 >
-> In the callbacks, KVM firstly converts the offset range into the
-> gfn_range and then calls existing kvm_unmap_gfn_range() which will zap
-> the shared or private mapping. Both callbacks pass in a memslot
-> reference but we need 'kvm' so add a reference in memslot structure.
+> I would ask what you see as the long term future usage for 'virt' vs
+> 'minic' machine types ? Would you expect all existing users of 'virt'
+> to ultimately switch to 'minic', or are there distinct non-overlapping
+> use cases for 'virt' vs 'minic' such that both end up widely used ?
 >
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  include/linux/kvm_host.h |  3 ++-
->  virt/kvm/kvm_main.c      | 36 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 38 insertions(+), 1 deletion(-)
->
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 9b175aeca63f..186b9b981a65 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -236,7 +236,7 @@ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
->  int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
->  #endif
->
-> -#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
-> +#if defined(KVM_ARCH_WANT_MMU_NOTIFIER) || defined(CONFIG_MEMFILE_NOTIFIER)
->  struct kvm_gfn_range {
->         struct kvm_memory_slot *slot;
->         gfn_t start;
-> @@ -568,6 +568,7 @@ struct kvm_memory_slot {
->         loff_t private_offset;
->         struct memfile_pfn_ops *pfn_ops;
->         struct memfile_notifier notifier;
-> +       struct kvm *kvm;
->  };
->
->  static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 67349421eae3..52319f49d58a 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -841,8 +841,43 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
->  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
->
->  #ifdef CONFIG_MEMFILE_NOTIFIER
-> +static void kvm_memfile_notifier_handler(struct memfile_notifier *notifier,
-> +                                        pgoff_t start, pgoff_t end)
-> +{
-> +       int idx;
-> +       struct kvm_memory_slot *slot = container_of(notifier,
-> +                                                   struct kvm_memory_slot,
-> +                                                   notifier);
-> +       struct kvm_gfn_range gfn_range = {
-> +               .slot           = slot,
-> +               .start          = start - (slot->private_offset >> PAGE_SHIFT),
-> +               .end            = end - (slot->private_offset >> PAGE_SHIFT),
-> +               .may_block      = true,
-> +       };
-> +       struct kvm *kvm = slot->kvm;
-> +
-> +       gfn_range.start = max(gfn_range.start, slot->base_gfn);
 
-gfn_range.start seems to be page offset within the file. Should this rather be:
-gfn_range.start = slot->base_gfn + min(gfn_range.start, slot->npages);
+Nope. I don't expect existing 'virt' users to switch to 'minic' as
+they aim to cater to different users.
 
-> +       gfn_range.end = min(gfn_range.end, slot->base_gfn + slot->npages);
-> +
+Here are the major differences
+1. virt machine supports MMIO devices & wired interrupts. Minic doesn't
+2. virt machine doesn't support the MSI only option yet (can be added
+though[1]). Minic does.
+3. Number of cpu supported by virt machine are limited because of the
+MMIO devices. Minic can scale to very
+large numbers of cpu.
+4. 'Minic' only supports PCI based MSI capable devices. Thus, MSI is a
+mandatory requirement for 'minic' while
+it is optional for 'virt'.
 
-Similar to previous comment, should this rather be:
-gfn_range.end = slot->base_gfn + min(gfn_range.end, slot->npages);
+'Minic' aims towards the users who want to create virtual machines
+that are MSI based and don't care about
+a million options that virt machines provide.  Virt machine is more
+complex so that it can be flexible in terms of
+what it supports. Minic is a minimalistic machine which doesn't need
+to be expanded a lot in the future given that
+most of the devices can be behind PCI.
 
-> +       if (gfn_range.start >= gfn_range.end)
-> +               return;
-> +
-> +       idx = srcu_read_lock(&kvm->srcu);
-> +       KVM_MMU_LOCK(kvm);
-> +       kvm_unmap_gfn_range(kvm, &gfn_range);
-> +       kvm_flush_remote_tlbs(kvm);
-> +       KVM_MMU_UNLOCK(kvm);
-> +       srcu_read_unlock(&kvm->srcu, idx);
-> +}
-> +
-> +static struct memfile_notifier_ops kvm_memfile_notifier_ops = {
-> +       .invalidate = kvm_memfile_notifier_handler,
-> +       .fallocate = kvm_memfile_notifier_handler,
-> +};
-> +
->  static inline int kvm_memfile_register(struct kvm_memory_slot *slot)
->  {
-> +       slot->notifier.ops = &kvm_memfile_notifier_ops;
->         return memfile_register_notifier(file_inode(slot->private_file),
->                                          &slot->notifier,
->                                          &slot->pfn_ops);
-> @@ -1963,6 +1998,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
->         new->private_file = file;
->         new->private_offset = mem->flags & KVM_MEM_PRIVATE ?
->                               region_ext->private_offset : 0;
-> +       new->kvm = kvm;
+[1] https://github.com/atishp04/qemu/tree/virt_imsic_only
+
+> Is 'minic' intended to be able to mimic real physical hardware at all,
+> or is it still intended as a purely virtual machine, like a 'virt-ng' ?
 >
->         r = kvm_set_memslot(kvm, old, new, change);
->         if (!r)
+
+Any future hardware that relies only on PCI-MSI based devices, they
+can be created on top of minic.
+At that point, minic will provide a useful abstract for all those
+machines as well. minic doesn't need a virtio framework.
+Thus, it can closely emulate such hardware as well.
+
+> Essentially 'virt' was positioned as the standard machine to use if
+> you want to run a virtual machine, without any particular match to
+> physical hardware. It feels like 'minic' is creating a second machine
+> type to fill the same purpose, so how do users decide which to use ?
+>
+
+I envision 'minic' to be a standard machine for a specific set of user
+requirements (x86 style PCI based
+machines). Virt machine will continue to be a standard machine for
+more generic use cases with MMIO devices.
+
+> > "Naming is hard". I am not too attached with the name "minic".
+> > I just chose least bad one out of the few on my mind :). I am definitel=
+y
+> > open to any other name as well.
+> >
+> > The other alternative to provide MSI only option to aia in the
+> > existing virt machine to build MSI only machines. This is certainly doa=
+ble
+> > and here is the patch that supports that kind of setup.
+> >
+> > https://github.com/atishp04/qemu/tree/virt_imsic_only
+> >
+> > However, it even complicates the virt machine even further with additio=
+nal
+> > command line option, branches in the code. I believe virt machine will =
+become
+> > very complex if we continue this path. I am interested to learn what ev=
+eryone
+> > else think.
+> >
+> > It is needless to say that the current version of minic machine
+> > is inspired from virt machine and tries to reuse as much as code possib=
+le.
+> > The first patch in this series adds MSI support for serial-pci device s=
+o
+> > console can work on such a machine. The 2nd patch moves some common fun=
+ctions
+> > between minic and the virt machine to a helper file. The PATCH3 actuall=
+y
+> > implements the new minic machine.
+> >
+> > I have not added the fw-cfg/flash support. We probably should add those
+> > but I just wanted to start small and get the feedback first.
+> > This is a work in progress and have few more TODO items before becoming=
+ the
+> > new world order :)
+> >
+> > 1. OpenSBI doesn't have PCI support. Thus, no console support for OpenS=
+BI
+> > for now.
+> > 2. The ns16550 driver in OpenSBI also need to support MSI/MSI-X.
+> > 3. Add MSI-X support for serial-pci device.
+> >
+> > This series can boot Linux distros with the minic machine with or witho=
+ut virtio
+> > devices with out-of-tree Linux kernel patches[1]. Here is an example co=
+mmandline
+> >
+> > Without virtio devices (nvme, serial-pci & e1000e):
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> > /scratch/workspace/qemu/build/qemu-system-riscv64 -cpu rv64 -M minic -m=
+ 1G -smp 4 -nographic -nodefaults \
+> > -display none -bios /scratch/workspace/opensbi/build/platform/generic/f=
+irmware/fw_dynamic.elf \
+> > -kernel /scratch/workspace/linux/arch/riscv/boot/Image \
+> > -chardev stdio,mux=3Don,signal=3Doff,id=3Dcharconsole0 \
+> > -mon chardev=3Dcharconsole0,mode=3Dreadline \
+> > -device pci-serial,msi=3Dtrue,chardev=3Dcharconsole0 \
+> > -drive id=3Ddisk3,file=3D/scratch/workspace/rootfs_images//fedora/Fedor=
+a-Developer-Rawhide-20211110.n.0-sda.raw,format=3Draw,if=3Dnone,id=3Ddrive-=
+system-disk,cache=3Dnone,format=3Draw \
+> > -device nvme,serial=3Ddeadbeef,drive=3Ddisk3 \
+> > -netdev user,id=3Dusernet,hostfwd=3Dtcp::10000-:22 -device e1000e,netde=
+v=3Dusernet,bus=3Dpcie.0 \
+> > -append 'root=3D/dev/nvme0n1p2 rw loglevel=3D8 memblock=3Ddebug console=
+=3DttyS0 earlycon' -d in_asm -D log.txt -s
+> >
+> > With virtio devices (virtio-scsi-pci, serial-pci & virtio-net-pci)
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > /scratch/workspace/qemu/build/qemu-system-riscv64 -cpu rv64 -M minic -m=
+ 1G -smp 4 -nographic -nodefaults \
+> > -display none -bios /scratch/workspace/opensbi/build/platform/generic/f=
+irmware/fw_dynamic.elf \
+> > -kernel /scratch/workspace/linux/arch/riscv/boot/Image \
+> > -chardev stdio,mux=3Don,signal=3Doff,id=3Dcharconsole0 \
+> > -mon chardev=3Dcharconsole0,mode=3Dreadline \
+> > -device pci-serial,msi=3Dtrue,chardev=3Dcharconsole0 \
+> > -drive file=3D/scratch/workspace/rootfs_images//fedora/Fedora-Developer=
+-Rawhide-20211110.n.0-sda.raw,format=3Draw,if=3Dnone,id=3Ddrive-system-disk=
+,cache=3Dnone \
+> > -device virtio-scsi-pci,id=3Dscsi0 -device scsi-hd,bus=3Dscsi0.0,drive=
+=3Ddrive-system-disk,id=3Dsystem-disk,bootindex=3D1 \
+> > -netdev user,id=3Dn1,hostfwd=3Dtcp::10000-:22 -device virtio-net-pci,ne=
+tdev=3Dn1 \
+> > -append 'root=3D/dev/sda2 rw loglevel=3D8 memblock=3Ddebug console=3Dtt=
+yS0 earlycon'
+> >
+> > The objective of this series is to engage the community to solve this p=
+roblem.
+> > Please suggest if you have another alternatve solution.
+> >
+> > [1] https://github.com/atishp04/linux/tree/msi_only_console
+> >
+> > Atish Patra (3):
+> > serial: Enable MSI capablity and option
+> > hw/riscv: virt: Move common functions to a separate helper file
+> > hw/riscv: Create a new qemu machine for RISC-V
+> >
+> > configs/devices/riscv64-softmmu/default.mak |   1 +
+> > hw/char/serial-pci.c                        |  36 +-
+> > hw/riscv/Kconfig                            |  11 +
+> > hw/riscv/machine_helper.c                   | 417 +++++++++++++++++++
+> > hw/riscv/meson.build                        |   2 +
+> > hw/riscv/minic.c                            | 438 ++++++++++++++++++++
+> > hw/riscv/virt.c                             | 403 ++----------------
+> > include/hw/riscv/machine_helper.h           |  87 ++++
+> > include/hw/riscv/minic.h                    |  65 +++
+> > include/hw/riscv/virt.h                     |  13 -
+> > 10 files changed, 1090 insertions(+), 383 deletions(-)
+> > create mode 100644 hw/riscv/machine_helper.c
+> > create mode 100644 hw/riscv/minic.c
+> > create mode 100644 include/hw/riscv/machine_helper.h
+> > create mode 100644 include/hw/riscv/minic.h
+> >
+> > --
+> > 2.25.1
+> >
+> >
+>
+> With regards,
+> Daniel
 > --
-> 2.17.1
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 >
+>
+
+
+--=20
+Regards,
+Atish
 
