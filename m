@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAFF5092CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:28:19 +0200 (CEST)
-Received: from localhost ([::1]:54768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D005092DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:33:13 +0200 (CEST)
+Received: from localhost ([::1]:41096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhIo6-00054t-4h
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44098)
+	id 1nhIsq-0006we-IA
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhIe3-0000Ze-0E; Wed, 20 Apr 2022 18:17:55 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:39671)
+ id 1nhIe5-0000gT-B1; Wed, 20 Apr 2022 18:17:57 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:36656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhIe1-0006At-7J; Wed, 20 Apr 2022 18:17:54 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id z2so3668223oic.6;
- Wed, 20 Apr 2022 15:17:52 -0700 (PDT)
+ id 1nhIe3-0006BL-Fh; Wed, 20 Apr 2022 18:17:57 -0400
+Received: by mail-ot1-x330.google.com with SMTP id
+ c11-20020a9d684b000000b00603307cef05so2062160oto.3; 
+ Wed, 20 Apr 2022 15:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h3QS2VIun3qH1dum8qVIWXxBYz2LeEPOE4Ps5Mxvie0=;
- b=F7cW8y7VvC9IbqHa40VLPI3v5E6cFngfTepkHkudK0o16nZY1iZ87SYWs755RMcUHB
- C/de/4Gs4A7FNOV0qRUsmkNOSWqL2E7DURqgYuESpJXAJtFwUWEQ6TxJAYrJILsKzWiH
- 5eTv2FgTns/C8tpE/uWSNLS3lML6vhhh154Nq9aS2NlylHO2XXqHClVCeGKO4j/4Dsmn
- 8ITTTlfXLDhNJWIIGmXyLKE5IkZ3s6E9jsIJun7pGVmPwB1Nos3akwOWNjV8Bj3zep+t
- qzb8h27hs/eemozjGMjZb+ljalqdufcpZWb3BLF5TqgSr/9xoizv9Aa7PX79uGwkPVmZ
- 8M6Q==
+ bh=gRKmgg7ICAKqGf6fLEof4G7plcsgVcgfOs+t4TT0Sz4=;
+ b=bcc7YojglVDFcMa1hZtGB3n+I14kvgGIZnG566tflYJj+z56G42hiGivCC7qwNVEB4
+ LBIxgoxM1kog4SLdtleR0ZFjJrUhYklIU/ChXLusVTXVdZrxczGjiZM8aSEVbTzOtWGZ
+ FfsfsQHuXE+rV0ZAImZfYniETSlGAb5CoJJHh1DlrQV+NhbcZtQKeM8yTZc3rk9FaBq+
+ CW/1r9xmRHl5SLOHMLIokHN4XUziZ298oAajRBFa3V/hq7htTUr1/T9vAL6nYumvFtJD
+ m2G1605ppH63Iui6kU9RxqlzU3FgATIB7c/Gzn2cQ6NhbHNT9nJzgUWPL9xd8BEx3Kvf
+ xtOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h3QS2VIun3qH1dum8qVIWXxBYz2LeEPOE4Ps5Mxvie0=;
- b=pd3Vk7LKpiUsf2W6ZjJz4JubR4x4O6P0b2C8kbgszD9S6fDlooCl30ELuPbCkLKBCP
- eJZLytiBBZfb/gatIXVHkwi1Ex3ngNkFtFCOs/NDTDyce9AQBblJXKD4buAu9ayN5FoK
- dfeXk3sUElPaebJYRQOz8DjJ7xy1eWfBy9v2uHSHjRsdMDACCjplU+Ky0LLwesZatGWM
- tMnesuy55aqacjPr7/kj/cxx4aye9uEzaEEYnlkb5JZDv+IBsR24FLjz5dKDufHDkiZA
- ZNWrAg2dcpuRj0I+rOWBD7dp6MDJSbN0DRiJ0c87ltVCqHp6TvLa/5NSnUb1YhWUAlu5
- BdMA==
-X-Gm-Message-State: AOAM532ziMSpV5x+KYVsGyiaMXLYFknWtiYr6Ago/XSlP2+7W/jiVGoa
- lUS2G6GVTiGuBPBsbp52w62me6ZadXM=
-X-Google-Smtp-Source: ABdhPJxNERQTLcbRlcP5lkqcWcpLfj2bFORsafLQikkHcDj4o+poL8jKk/Agu0VmJ7+/XMwKepj7/A==
-X-Received: by 2002:a05:6808:3010:b0:2f7:3e71:88b2 with SMTP id
- ay16-20020a056808301000b002f73e7188b2mr2798221oib.102.1650493071680; 
- Wed, 20 Apr 2022 15:17:51 -0700 (PDT)
+ bh=gRKmgg7ICAKqGf6fLEof4G7plcsgVcgfOs+t4TT0Sz4=;
+ b=yDAOQ1Fk/Gl4um1ARP4ZmBy2Kn1nc8V5fUnoqCAS6rWtjWfa8XUQBUPdSpZa3HhOg2
+ ntNljUlhpDJdKyE9emB4EHRPPFB0jpcamVtbrUAKowAaaKG7rrQe+D2h4+yTB7pSboOZ
+ 6TAPcY+DnQHoE6wZNfjzXsk8WNLXPaGGHFf2zr0vTkf76mH42+nFLh+npacliDs/D6jd
+ O5wwLoGZo8c+mJrRtiZCDe6q/Nx162mgJWTv6V9EtjPwtKjzy6n25yqbsc7yCMp9sSpa
+ dX1FhjVEyPdmUzOzuB3yMv4Z7rf11qDjEyt20PZLdEjArz3jKzznD2xU+JT8BCfjOuLn
+ 8vpA==
+X-Gm-Message-State: AOAM532ztGCVRpjv9eIkyIYH7lwh9aF3rFgoyfuJNUJt0DsQ5zqkFOMo
+ yAVb4q4d+sFihmjcZplQCTCjGiiNsHU=
+X-Google-Smtp-Source: ABdhPJx4NH+/gV5wgBBZTst7+n+kQJ56HIleS/s6YRDA29u0uTcu9aKWutqtdnwX029Rdac7w6e2kA==
+X-Received: by 2002:a9d:7f07:0:b0:605:6d56:99bf with SMTP id
+ j7-20020a9d7f07000000b006056d5699bfmr1132820otq.42.1650493074041; 
+ Wed, 20 Apr 2022 15:17:54 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:486c:c4fd:c4aa:a799:60c2])
  by smtp.gmail.com with ESMTPSA id
- 14-20020aca110e000000b00322847e6f53sm3876082oir.46.2022.04.20.15.17.49
+ 14-20020aca110e000000b00322847e6f53sm3876082oir.46.2022.04.20.15.17.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 15:17:51 -0700 (PDT)
+ Wed, 20 Apr 2022 15:17:53 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/23] target/ppc: implement xscv[su]qqp
-Date: Wed, 20 Apr 2022 19:13:22 -0300
-Message-Id: <20220420221329.169755-17-danielhb413@gmail.com>
+Subject: [PULL 17/23] target/ppc: implement xscvqp[su]qz
+Date: Wed, 20 Apr 2022 19:13:23 -0300
+Message-Id: <20220420221329.169755-18-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420221329.169755-1-danielhb413@gmail.com>
 References: <20220420221329.169755-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x330.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,112 +93,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-xscvsqqp: VSX Scalar Convert with round Signed Quadword to
-          Quad-Precision
-xscvuqqp: VSX Scalar Convert with round Unsigned Quadword to
-          Quad-Precision format
+xscvqpsqz: VSX Scalar Convert with round to zero Quad-Precision to
+           Signed Quadword
+xscvqpuqz: VSX Scalar Convert with round to zero Quad-Precision to
+           Unsigned Quadword
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220330175932.6995-8-matheus.ferst@eldorado.org.br>
+Message-Id: <20220330175932.6995-9-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/fpu_helper.c             | 12 ++++++++++++
+ target/ppc/fpu_helper.c             | 21 +++++++++++++++++++++
  target/ppc/helper.h                 |  2 ++
- target/ppc/insn32.decode            |  5 +++++
- target/ppc/translate/vsx-impl.c.inc | 20 ++++++++++++++++++++
- 4 files changed, 39 insertions(+)
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/translate/vsx-impl.c.inc |  2 ++
+ 4 files changed, 27 insertions(+)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 7e8be99cc0..97892afa95 100644
+index 97892afa95..99281cc37a 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -3058,6 +3058,18 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)        \
- VSX_CVT_INT_TO_FP2(xvcvsxdsp, int64, float32)
- VSX_CVT_INT_TO_FP2(xvcvuxdsp, uint64, float32)
+@@ -2925,6 +2925,27 @@ VSX_CVT_FP_TO_INT(xvcvspsxws, 4, float32, int32, VsrW(i), VsrW(i), 0x80000000U)
+ VSX_CVT_FP_TO_INT(xvcvspuxds, 2, float32, uint64, VsrW(2 * i), VsrD(i), 0ULL)
+ VSX_CVT_FP_TO_INT(xvcvspuxws, 4, float32, uint32, VsrW(i), VsrW(i), 0U)
  
-+#define VSX_CVT_INT128_TO_FP(op, tp)                            \
-+void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)\
-+{                                                               \
-+    helper_reset_fpstatus(env);                                 \
-+    xt->f128 = tp##_to_float128(xb->s128, &env->fp_status);     \
-+    helper_compute_fprf_float128(env, xt->f128);                \
-+    do_float_check_status(env, GETPC());                        \
++#define VSX_CVT_FP_TO_INT128(op, tp, rnan)                                     \
++void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)               \
++{                                                                              \
++    ppc_vsr_t t;                                                               \
++    int flags;                                                                 \
++                                                                               \
++    helper_reset_fpstatus(env);                                                \
++    t.s128 = float128_to_##tp##_round_to_zero(xb->f128, &env->fp_status);      \
++    flags = get_float_exception_flags(&env->fp_status);                        \
++    if (unlikely(flags & float_flag_invalid)) {                                \
++        t.VsrD(0) = float_invalid_cvt(env, flags, t.VsrD(0), rnan, 0, GETPC());\
++        t.VsrD(1) = -(t.VsrD(0) & 1);                                          \
++    }                                                                          \
++                                                                               \
++    *xt = t;                                                                   \
++    do_float_check_status(env, GETPC());                                       \
 +}
 +
-+VSX_CVT_INT128_TO_FP(XSCVUQQP, uint128);
-+VSX_CVT_INT128_TO_FP(XSCVSQQP, int128);
++VSX_CVT_FP_TO_INT128(XSCVQPUQZ, uint128, 0)
++VSX_CVT_FP_TO_INT128(XSCVQPSQZ, int128, 0x8000000000000000ULL);
 +
  /*
-  * VSX_CVT_INT_TO_FP_VECTOR - VSX integer to floating point conversion
-  *   op    - instruction mnemonic
+  * Likewise, except that the result is duplicated into both subwords.
+  * Power ISA v3.1 has Programming Notes for these insns:
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 57da11c77e..7df0c01819 100644
+index 7df0c01819..aa6773c4a5 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
 @@ -388,6 +388,8 @@ DEF_HELPER_4(xscvqpsdz, void, env, i32, vsr, vsr)
  DEF_HELPER_4(xscvqpswz, void, env, i32, vsr, vsr)
  DEF_HELPER_4(xscvqpudz, void, env, i32, vsr, vsr)
  DEF_HELPER_4(xscvqpuwz, void, env, i32, vsr, vsr)
-+DEF_HELPER_3(XSCVUQQP, void, env, vsr, vsr)
-+DEF_HELPER_3(XSCVSQQP, void, env, vsr, vsr)
++DEF_HELPER_3(XSCVQPUQZ, void, env, vsr, vsr)
++DEF_HELPER_3(XSCVQPSQZ, void, env, vsr, vsr)
+ DEF_HELPER_3(XSCVUQQP, void, env, vsr, vsr)
+ DEF_HELPER_3(XSCVSQQP, void, env, vsr, vsr)
  DEF_HELPER_3(xscvhpdp, void, env, vsr, vsr)
- DEF_HELPER_4(xscvsdqp, void, env, i32, vsr, vsr)
- DEF_HELPER_3(xscvspdp, void, env, vsr, vsr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index ac2d3da9a7..6fb568c1fe 100644
+index 6fb568c1fe..39372fe673 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -91,6 +91,9 @@
- 
- @X_tp_a_bp_rc   ...... ....0 ra:5 ....0 .......... rc:1         &X_rc rt=%x_frtp rb=%x_frbp
- 
-+&X_tb           rt rb
-+@X_tb           ...... rt:5 ..... rb:5 .......... .             &X_tb
-+
- &X_tb_rc        rt rb rc:bool
- @X_tb_rc        ...... rt:5 ..... rb:5 .......... rc:1          &X_tb_rc
- 
-@@ -692,6 +695,8 @@ XSCMPGTQP       111111 ..... ..... ..... 0011100100 -   @X
+@@ -695,6 +695,8 @@ XSCMPGTQP       111111 ..... ..... ..... 0011100100 -   @X
  ## VSX Binary Floating-Point Convert Instructions
  
  XSCVQPDP        111111 ..... 10100 ..... 1101000100 .   @X_tb_rc
-+XSCVUQQP        111111 ..... 00011 ..... 1101000100 -   @X_tb
-+XSCVSQQP        111111 ..... 01011 ..... 1101000100 -   @X_tb
++XSCVQPUQZ       111111 ..... 00000 ..... 1101000100 -   @X_tb
++XSCVQPSQZ       111111 ..... 01000 ..... 1101000100 -   @X_tb
+ XSCVUQQP        111111 ..... 00011 ..... 1101000100 -   @X_tb
+ XSCVSQQP        111111 ..... 01011 ..... 1101000100 -   @X_tb
  XVCVBF16SPN     111100 ..... 10000 ..... 111011011 ..   @XX2
- XVCVSPBF16      111100 ..... 10001 ..... 111011011 ..   @XX2
- 
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 7181a672d8..bda681e65c 100644
+index bda681e65c..3692740736 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -838,6 +838,26 @@ static bool trans_XSCVQPDP(DisasContext *ctx, arg_X_tb_rc *a)
-     return true;
- }
+@@ -857,6 +857,8 @@ static bool do_helper_env_X_tb(DisasContext *ctx, arg_X_tb *a,
  
-+static bool do_helper_env_X_tb(DisasContext *ctx, arg_X_tb *a,
-+                               void (*gen_helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr))
-+{
-+    TCGv_ptr xt, xb;
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+    REQUIRE_VSX(ctx);
-+
-+    xt = gen_avr_ptr(a->rt);
-+    xb = gen_avr_ptr(a->rb);
-+    gen_helper(cpu_env, xt, xb);
-+    tcg_temp_free_ptr(xt);
-+    tcg_temp_free_ptr(xb);
-+
-+    return true;
-+}
-+
-+TRANS(XSCVUQQP, do_helper_env_X_tb, gen_helper_XSCVUQQP)
-+TRANS(XSCVSQQP, do_helper_env_X_tb, gen_helper_XSCVSQQP)
-+
+ TRANS(XSCVUQQP, do_helper_env_X_tb, gen_helper_XSCVUQQP)
+ TRANS(XSCVSQQP, do_helper_env_X_tb, gen_helper_XSCVSQQP)
++TRANS(XSCVQPUQZ, do_helper_env_X_tb, gen_helper_XSCVQPUQZ)
++TRANS(XSCVQPSQZ, do_helper_env_X_tb, gen_helper_XSCVQPSQZ)
+ 
  #define GEN_VSX_HELPER_2(name, op1, op2, inval, type)                         \
  static void gen_##name(DisasContext *ctx)                                     \
- {                                                                             \
 -- 
 2.35.1
 
