@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410FC508B26
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:50:39 +0200 (CEST)
-Received: from localhost ([::1]:36512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AABF0508B51
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:57:50 +0200 (CEST)
+Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhBfC-0007A2-A8
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54988)
+	id 1nhBm9-0005SV-Pv
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nhBQU-0002Sp-4B
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:35:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21553)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nhBS5-0007Kp-Mm
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:37:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nhBQS-0007YA-L0
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:35:25 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nhBS4-0007rJ-43
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:37:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650465323;
+ s=mimecast20190719; t=1650465423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eYyY9Xf7oPjxrBDpfMyUfsTp1VAkXLVuugmq0PoF8D8=;
- b=B/xPdv1mIsvLho1R8qMHSHhx4CjVKzq5z6HH30SwXjTBD4IIRsCNGqCMKgh891vacpuu3V
- HHnk/VLrCePmO8LlWz3TOWJ4EtiW4kEPoiWhTA1qbLa3Vn0qnv8KULNkS4I16wxPNQ6+Ih
- 9zh1h6LRHxAGeW6Ea3A0K2siYzBnsa8=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WTrSzaK1w9NgWvQQiAJ4bDdl8ecoxWCV2KyQlC8Wt6E=;
+ b=cAmVZD/DSA87DDfp814Bhk78J9X1VJT1erav12Ee89KUpkUVVesnqFDharGAkJfGUEC9nv
+ 8I5qn97iByvB5aZ5LfMyhF1SDR+9yHLU64SsL42tLhywgDbgx10GxUsFkRxSBeSp73uddO
+ V8NMzdyav9HcdrsIN2/mzFbiylg0nxU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-231-9u_C8inmMleFlz216W1EMw-1; Wed, 20 Apr 2022 10:35:22 -0400
-X-MC-Unique: 9u_C8inmMleFlz216W1EMw-1
-Received: by mail-yb1-f199.google.com with SMTP id
- f14-20020a5b0c0e000000b00641d371d9c8so1661660ybq.0
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 07:35:22 -0700 (PDT)
+ us-mta-593-pZmEI96WM3ePV2h87kOkNQ-1; Wed, 20 Apr 2022 10:37:02 -0400
+X-MC-Unique: pZmEI96WM3ePV2h87kOkNQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v191-20020a1cacc8000000b0038ce818d2efso1005469wme.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 07:37:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eYyY9Xf7oPjxrBDpfMyUfsTp1VAkXLVuugmq0PoF8D8=;
- b=THXy0PcDVfFd4eQPG7m1HZZ/xXZzWHXYMZgSh3wdKg5kB2nRCQFTB5b6xJdetMhO36
- zWx4GUEyQvM9tyW8W0R0OgDMY2iBklQNxrcFJUMCFm0mD2MFFi7GnssL4B//I1YACSSn
- 4yqfov3FnaVru5/9AfUafTBwgEmuCjrRRLEMX2/vrOIp5Eq3Tyyw5Om0ZWtZ2psixdmD
- dpkxMi/QjiAosR2Pa6ImJc/LvkL9VUVZ+UVe9WyFkPt0KLwALLnsuOEhp2xIxw0AonPz
- HZ+oe2gDGixTx1JdCAMqSn29ArTIET8yKg3Dj0/o6IPFpQ6qzIQIegL7T4hIbFxfk4mF
- GSyw==
-X-Gm-Message-State: AOAM531AltyrhYyPwOXS1MzhYh2/O2UlhynIbh2NmOBBq5ap3ci4d0YC
- lkmwdmC2JQbriE569kTemFiS8dky5FccRIOg5QDnUVu2Y0JQ2Cl5XJ244IFcOITktcD2qpR3ObP
- RiUNeu12I+zuzm8fG5kUq9QvjsvZTV/g=
-X-Received: by 2002:a0d:d9cf:0:b0:2ef:5421:430f with SMTP id
- b198-20020a0dd9cf000000b002ef5421430fmr20679476ywe.312.1650465322035; 
- Wed, 20 Apr 2022 07:35:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxECqrsauiImK2enPApjQ0dWDeLI3xFJ4X9O20g2LJ8ekVBi140IubT+CBrfGowbeClYtqVo+8Z3gxh+6LhUQk=
-X-Received: by 2002:a0d:d9cf:0:b0:2ef:5421:430f with SMTP id
- b198-20020a0dd9cf000000b002ef5421430fmr20679457ywe.312.1650465321892; Wed, 20
- Apr 2022 07:35:21 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WTrSzaK1w9NgWvQQiAJ4bDdl8ecoxWCV2KyQlC8Wt6E=;
+ b=j1AOnjQr+jbMuTWVTqheyYrzLiB8LmzjrOGEUHDLDiz/J1/CG/oI4mWD3UKLTQFfqV
+ 9pEfGEaeKsk24RbS+WpdMYgVClaCkr+X9vsmYQRY6klkautbWd4nxFbIfVDG8+TlqDuK
+ IGe7netPhX2FGgbLApfQ4ZXy8/nkU+/FKkcbI0EW8K84WilWnEjRKMobjm6Fc9OeRNkm
+ bF0++sQXDRQdi9WzHSFrn/61jQ0IbrAQA3q78eBezrBZ0MvVlX+8vOl4+HZQJ3fpQtjY
+ QB+IxMUeYmjFrCAAzVOsVj4IohKDBkN9LGEOmJlQutrrDLAdOpqvE+hjcOFo2FAS71gS
+ 40rg==
+X-Gm-Message-State: AOAM530bqFuipGZ7K2upIf85TypaKoife+4MpoBx96JvCvUskqSuLa8D
+ 4WRsartN423q7YO6zREdrY371FglFz4UEEFChjhFU/Yo3Z+Ly7YkKjZGZy3upwaqMj4k27HA9AT
+ 1fuuVhVFMdPMVPsU=
+X-Received: by 2002:a05:6000:1287:b0:209:16c7:16af with SMTP id
+ f7-20020a056000128700b0020916c716afmr16040083wrx.702.1650465420460; 
+ Wed, 20 Apr 2022 07:37:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwB3mHj7sN+OyNpfyfYq2+3BTSyvU+TX2mzqG2qQuRtpPukCIaqnAqIS1pXyXf2dW2kDH/5fw==
+X-Received: by 2002:a05:6000:1287:b0:209:16c7:16af with SMTP id
+ f7-20020a056000128700b0020916c716afmr16040068wrx.702.1650465420238; 
+ Wed, 20 Apr 2022 07:37:00 -0700 (PDT)
+Received: from [192.168.8.102]
+ (dynamic-046-114-174-058.46.114.pool.telefonica.de. [46.114.174.58])
+ by smtp.gmail.com with ESMTPSA id
+ bh26-20020a05600c3d1a00b003928db85759sm8920wmb.15.2022.04.20.07.36.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 07:36:59 -0700 (PDT)
+Message-ID: <840f08cb-e28c-6802-96c7-b1f82dd36427@redhat.com>
+Date: Wed, 20 Apr 2022 16:36:58 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 17/41] doc/build-platforms: document supported compilers
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ marcandre.lureau@redhat.com
 References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
- <20220420132624.2439741-29-marcandre.lureau@redhat.com>
- <edddb101-6feb-8b83-f828-75fb356bf2a0@redhat.com>
-In-Reply-To: <edddb101-6feb-8b83-f828-75fb356bf2a0@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 20 Apr 2022 18:35:11 +0400
-Message-ID: <CAMxuvayqH4+MWoZgT7+DRKUqodWnjy25btsUx-QYpmx4kb9mYw@mail.gmail.com>
-Subject: Re: [PATCH 28/41] Use QEMU_SANITIZE_ADDRESS
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ <20220420132624.2439741-18-marcandre.lureau@redhat.com>
+ <YmAUaMp7kTRaRCGY@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <YmAUaMp7kTRaRCGY@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,51 +101,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- "open list:Floppy" <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 6:20 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 20/04/2022 15.26, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   tests/qtest/fdc-test.c    | 2 +-
-> >   util/coroutine-ucontext.c | 2 +-
-> >   2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
-> > index 4aa72f36431f..0b3c2c0d523f 100644
-> > --- a/tests/qtest/fdc-test.c
-> > +++ b/tests/qtest/fdc-test.c
-> > @@ -550,7 +550,7 @@ static void fuzz_registers(void)
-> >
-> >   static bool qtest_check_clang_sanitizer(void)
-> >   {
-> > -#if defined(__SANITIZE_ADDRESS__) || __has_feature(address_sanitizer)
-> > +#ifdef QEMU_SANITIZE_ADDRESS
-> >       return true;
-> >   #else
-> >       g_test_skip("QEMU not configured using --enable-sanitizers");
-> > diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
-> > index 904b375192ca..52725f5344fb 100644
-> > --- a/util/coroutine-ucontext.c
-> > +++ b/util/coroutine-ucontext.c
-> > @@ -30,7 +30,7 @@
-> >   #include <valgrind/valgrind.h>
-> >   #endif
-> >
-> > -#if defined(__SANITIZE_ADDRESS__) || __has_feature(address_sanitizer)
-> > +#ifdef QEMU_SANITIZE_THREAD
->
-> Shouldn't that be QEMU_SANITIZE_ADDRESS instead?
->
+On 20/04/2022 16.10, Daniel P. Berrangé wrote:
+> On Wed, Apr 20, 2022 at 05:26:00PM +0400, marcandre.lureau@redhat.com wrote:
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>
+>> According to our configure checks, this is the list of supported
+>> compilers.
+>>
+>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+>> ---
+>>   docs/about/build-platforms.rst | 10 ++++++++++
+>>   1 file changed, 10 insertions(+)
+>>
+>> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+>> index c29a4b8fe649..1980c5d2476f 100644
+>> --- a/docs/about/build-platforms.rst
+>> +++ b/docs/about/build-platforms.rst
+>> @@ -92,6 +92,16 @@ hosted on Linux (Debian/Fedora).
+>>   The version of the Windows API that's currently targeted is Vista / Server
+>>   2008.
+>>   
+>> +Supported compilers
+>> +-------------------
+>> +
+>> +To compile, QEMU requires either:
+>> +
+>> +- GCC >= 7.4.0
+>> +- Clang >= 6.0
+>> +- XCode Clang >= 10.0
+> 
+> Do we need to spell out the versions explicitly ? These versions are
+> all derived from what's available in the repos of the supported build
+> platforms, similar to any other build deps we have. I don't think we
+> want to start a precedent of duplicating versions in this doc for
+> build deps we have, and there's nothing particularly special about
+> compilers in this respect.
 
-oops, thanks
+I agree with Daniel - when I saw this patch, the first thought that I had 
+was: "This will be getting out of sync quickly" ...
+so I'd also recommend to rather not add this here.
+
+  Thomas
 
 
