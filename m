@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC27508DD1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:54:32 +0200 (CEST)
-Received: from localhost ([::1]:59830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F14508D7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:37:37 +0200 (CEST)
+Received: from localhost ([::1]:42864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhDb5-0008QK-Do
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:54:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47344)
+	id 1nhDKi-0001xv-8F
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nhCfp-0000cW-WD
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:55:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nhCfo-0004Es-0O
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:55:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650470119;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vhzX+wlz9s9SxF5uYzo1c72qRKULz7eNPvhbGr9RtjU=;
- b=Twl6SNQaYTVHFZ5G4in0DIt/vdmTeFoqnmb0m6OcwkFkfqU90NKi7ZbzKX1By9pzkepzHj
- 9cbT/hgtRp/dSHMmCVszRUYwAXfGPWN12vrCqAa2JT30QvcVV18qWogS3UUiBX9+Z8OYVH
- leI+IY/SuY0uL+bOiLHNXk1zLqUessc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-15-8pTx1B9INpWcwEi7tMnlcg-1; Wed, 20 Apr 2022 11:55:17 -0400
-X-MC-Unique: 8pTx1B9INpWcwEi7tMnlcg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 957FF811E80
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 15:55:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D54CC572346;
- Wed, 20 Apr 2022 15:55:15 +0000 (UTC)
-Date: Wed, 20 Apr 2022 16:55:12 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 17/41] doc/build-platforms: document supported compilers
-Message-ID: <YmAs4K5NYcpNwCAc@redhat.com>
-References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
- <20220420132624.2439741-18-marcandre.lureau@redhat.com>
- <YmAUaMp7kTRaRCGY@redhat.com>
- <840f08cb-e28c-6802-96c7-b1f82dd36427@redhat.com>
- <CAMxuvax0uPB+dWGCt2_Ma22S3VZ9=OFy+J_9LFT+4ftgqzB-7A@mail.gmail.com>
- <CAMxuvax4SaY7TBAc_fWfQHv9X49WRKvCLJ+Hd5wenVGA7Nr6Vg@mail.gmail.com>
- <YmAlm0WXIf2n4VRX@redhat.com>
- <CAMxuvaya0jT2PhHEryZkoW1MFKZLS0BaYz=-gqPX-Gx=6Rgp9w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nhChz-0005K4-6L
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:57:35 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:37879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nhChw-0004fI-U9
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:57:34 -0400
+Received: by mail-qk1-x731.google.com with SMTP id b68so1530942qkc.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:57:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=S8OrGe+ZRYDp6N4txSPKgf/BNYi1JuOcCyVSZbMVxxs=;
+ b=YXWDxjCg6H+ZXTrLSm8Z4XVN6tRc+jYdVDxBL1E1HSVxlGDnzLiGjIsNx+GK+j2a22
+ FgS7T79hWZWJ5baO/r+mkff5PlbtJ1YPVf6SmpHfQiLbEvZy1P3o74IXtHPHXNVte6wg
+ aB+g+KUZ8Lr0gX5U5vsIqdtVpSMYuJoqzZ8yudxnOR2PTy8b2ItHo44Kd5NbzRAE6ebd
+ oAMplY+cJ1nM75YoP11wV1KRrQa7JUWIcx8hfS9LgYc9HTw3uiIHUKclTovLfQnodC2p
+ LxHyfsjUbwes9qM+5jUirZJhfolEi5ByqYILUngIVfTbLPn/ErNeATyrMcP2/cnuSndR
+ wYTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=S8OrGe+ZRYDp6N4txSPKgf/BNYi1JuOcCyVSZbMVxxs=;
+ b=Q+lRaK4Uw42SL8nj8cWUjgioqYS9vyx1aTxID7GCXmhggtyZ7cOKjxubLhwqTxPocR
+ c/fNGOt0GpmJ/ARCe3mYVVxs3rSvZ58uMEmKd72d3/wrMYy21MQuxDA8Jec3HCIcKr0t
+ 2ZHUqlLmk4o8wRazNTMueFxOIGip4/zGHdVUiNp1iYgBKPnCXPrFI0Ymx+eMLbs+C/6W
+ cOPECUgdayHoIC58HJBBvg8930PM/J952JqKJQ2OIHj7dufoTcAAckRub8EeBhrqILGa
+ wPpCswbv6qBL+nedHBtVn5PGgDYepcUBE0Uc0e/xWSk+fHbpOb/xXPNO8QkZMLtHl/8/
+ lnGw==
+X-Gm-Message-State: AOAM530HGOQ56XxMdLvM15AmW1xaKsW0SOfs99OzuJrBTmZv7qPX8Xtz
+ yxnybqzb3ICRFSdJO+qzeOQvRqJ9FOjCG0sZeQw=
+X-Google-Smtp-Source: ABdhPJyHee4Twwh2BgSupSvDFXVywRgTGfIHQ6/kKarA6sqs8g636lUEJYVvYK+TubOI6UphqZFWAif/zKRcg6QJP14=
+X-Received: by 2002:a05:620a:2415:b0:69e:784d:3a4c with SMTP id
+ d21-20020a05620a241500b0069e784d3a4cmr12152613qkn.14.1650470251898; Wed, 20
+ Apr 2022 08:57:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMxuvaya0jT2PhHEryZkoW1MFKZLS0BaYz=-gqPX-Gx=6Rgp9w@mail.gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220420153407.73926-1-pbonzini@redhat.com>
+ <20220420153407.73926-2-pbonzini@redhat.com>
+In-Reply-To: <20220420153407.73926-2-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 20 Apr 2022 19:57:20 +0400
+Message-ID: <CAJ+F1C+TfKeCXCKw+iYgdgjACZYsNPm=Z=AaJS7E8OwU-WeT8g@mail.gmail.com>
+Subject: Re: [PATCH 01/34] meson: show final set of compiler flags
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000013b95b05dd180d6d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-qk1-x731.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,101 +78,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 07:32:38PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Wed, Apr 20, 2022 at 7:24 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Wed, Apr 20, 2022 at 06:50:12PM +0400, Marc-André Lureau wrote:
-> > > Hi
-> > >
-> > > On Wed, Apr 20, 2022 at 6:46 PM Marc-André Lureau
-> > > <marcandre.lureau@redhat.com> wrote:
-> > > >
-> > > > Hi
-> > > >
-> > > > On Wed, Apr 20, 2022 at 6:37 PM Thomas Huth <thuth@redhat.com> wrote:
-> > > > >
-> > > > > On 20/04/2022 16.10, Daniel P. Berrangé wrote:
-> > > > > > On Wed, Apr 20, 2022 at 05:26:00PM +0400, marcandre.lureau@redhat.com wrote:
-> > > > > >> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > > > > >>
-> > > > > >> According to our configure checks, this is the list of supported
-> > > > > >> compilers.
-> > > > > >>
-> > > > > >> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > > > > >> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-> > > > > >> ---
-> > > > > >>   docs/about/build-platforms.rst | 10 ++++++++++
-> > > > > >>   1 file changed, 10 insertions(+)
-> > > > > >>
-> > > > > >> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-> > > > > >> index c29a4b8fe649..1980c5d2476f 100644
-> > > > > >> --- a/docs/about/build-platforms.rst
-> > > > > >> +++ b/docs/about/build-platforms.rst
-> > > > > >> @@ -92,6 +92,16 @@ hosted on Linux (Debian/Fedora).
-> > > > > >>   The version of the Windows API that's currently targeted is Vista / Server
-> > > > > >>   2008.
-> > > > > >>
-> > > > > >> +Supported compilers
-> > > > > >> +-------------------
-> > > > > >> +
-> > > > > >> +To compile, QEMU requires either:
-> > > > > >> +
-> > > > > >> +- GCC >= 7.4.0
-> > > > > >> +- Clang >= 6.0
-> > > > > >> +- XCode Clang >= 10.0
-> > > > > >
-> > > > > > Do we need to spell out the versions explicitly ? These versions are
-> > > > > > all derived from what's available in the repos of the supported build
-> > > > > > platforms, similar to any other build deps we have. I don't think we
-> > > > > > want to start a precedent of duplicating versions in this doc for
-> > > > > > build deps we have, and there's nothing particularly special about
-> > > > > > compilers in this respect.
-> > > > >
-> > > > > I agree with Daniel - when I saw this patch, the first thought that I had
-> > > > > was: "This will be getting out of sync quickly" ...
-> > > >
-> > > > I don't have the impression we bump our compiler requirement regularly
-> > > > or lightly.
-> > > >
-> > > > > so I'd also recommend to rather not add this here.
-> > > >
-> > > > Outdated documentation is still better than no documentation. YMMV.
-> > >
-> > > Another question that is difficult to answer without being familiar
-> > > with QEMU details is whether it can compile with MSVC. This
-> > > documentation would, since it is explicit about the requirement.
-> >
-> > Documenting that we mandate GCC or Clang is reasonable. Ideally we could
-> > have a list of all 3rd party deps we have in fact, I'm just not a fan of
-> > copying the version numbers across from configure/meson.
-> >
-> 
-> I agree, duplicating the version information is not optimal... Yet it
-> is better than not having it, or having to read or run configure imho.
-> 
-> Sorry (or not) to insist, but it would help having an explicit list of
-> supported compilers in the human doc (because configure/meson doesn't
-> rule others out, afaik, nor it really can or should)
+--00000000000013b95b05dd180d6d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Perhaps I'm misunderstanding what you mean, but configure certainly
-does rules out other compilers, giving a clear message:
+On Wed, Apr 20, 2022 at 7:38 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-if ! compile_prog "" "" ; then
-    error_exit "You need at least GCC v7.4 or Clang v6.0 (or XCode Clang v10.0)"
-fi
+> The actual set of compiler flags can grow beyond what is found by the
+> configure
+> script, for example if gprof is used.  Show the full set in the summary.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+
+> ---
+>  meson.build | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meson.build b/meson.build
+> index 6ba60950c8..cf3b1b39cf 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -3521,10 +3521,10 @@ link_args =3D get_option(link_language +
+> '_link_args')
+>  if link_args.length() > 0
+>    summary_info +=3D {'LDFLAGS':         ' '.join(link_args)}
+>  endif
+> -summary_info +=3D {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
+> -summary_info +=3D {'QEMU_CXXFLAGS':     config_host['QEMU_CXXFLAGS']}
+> -summary_info +=3D {'QEMU_OBJCFLAGS':    config_host['QEMU_OBJCFLAGS']}
+> -summary_info +=3D {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
+> +summary_info +=3D {'QEMU_CFLAGS':       ' '.join(qemu_cflags)}
+> +summary_info +=3D {'QEMU_CXXFLAGS':     ' '.join(qemu_cxxflags)}
+> +summary_info +=3D {'QEMU_OBJCFLAGS':    ' '.join(qemu_objcflags)}
+> +summary_info +=3D {'QEMU_LDFLAGS':      ' '.join(qemu_ldflags)}
+>  summary_info +=3D {'profiler':          get_option('profiler')}
+>  summary_info +=3D {'link-time optimization (LTO)': get_option('b_lto')}
+>  summary_info +=3D {'PIE':               get_option('b_pie')}
+> --
+> 2.35.1
+>
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000013b95b05dd180d6d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 20, 2022 at 7:38 PM Paolo=
+ Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The =
+actual set of compiler flags can grow beyond what is found by the configure=
+<br>
+script, for example if gprof is used.=C2=A0 Show the full set in the summar=
+y.<br>
+<br>
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
+div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
+eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0meson.build | 8 ++++----<br>
+=C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/meson.build b/meson.build<br>
+index 6ba60950c8..cf3b1b39cf 100644<br>
+--- a/meson.build<br>
++++ b/meson.build<br>
+@@ -3521,10 +3521,10 @@ link_args =3D get_option(link_language + &#39;_link=
+_args&#39;)<br>
+=C2=A0if link_args.length() &gt; 0<br>
+=C2=A0 =C2=A0summary_info +=3D {&#39;LDFLAGS&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&#39; &#39;.join(link_args)}<br>
+=C2=A0endif<br>
+-summary_info +=3D {&#39;QEMU_CFLAGS&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0config=
+_host[&#39;QEMU_CFLAGS&#39;]}<br>
+-summary_info +=3D {&#39;QEMU_CXXFLAGS&#39;:=C2=A0 =C2=A0 =C2=A0config_host=
+[&#39;QEMU_CXXFLAGS&#39;]}<br>
+-summary_info +=3D {&#39;QEMU_OBJCFLAGS&#39;:=C2=A0 =C2=A0 config_host[&#39=
+;QEMU_OBJCFLAGS&#39;]}<br>
+-summary_info +=3D {&#39;QEMU_LDFLAGS&#39;:=C2=A0 =C2=A0 =C2=A0 config_host=
+[&#39;QEMU_LDFLAGS&#39;]}<br>
++summary_info +=3D {&#39;QEMU_CFLAGS&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39; =
+&#39;.join(qemu_cflags)}<br>
++summary_info +=3D {&#39;QEMU_CXXFLAGS&#39;:=C2=A0 =C2=A0 =C2=A0&#39; &#39;=
+.join(qemu_cxxflags)}<br>
++summary_info +=3D {&#39;QEMU_OBJCFLAGS&#39;:=C2=A0 =C2=A0 &#39; &#39;.join=
+(qemu_objcflags)}<br>
++summary_info +=3D {&#39;QEMU_LDFLAGS&#39;:=C2=A0 =C2=A0 =C2=A0 &#39; &#39;=
+.join(qemu_ldflags)}<br>
+=C2=A0summary_info +=3D {&#39;profiler&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 get_option(&#39;profiler&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;link-time optimization (LTO)&#39;: get_option=
+(&#39;b_lto&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;PIE&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0get_option(&#39;b_pie&#39;)}<br>
+-- <br>
+2.35.1<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000013b95b05dd180d6d--
 
