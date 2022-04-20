@@ -2,91 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4471C508532
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 11:49:04 +0200 (CEST)
-Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E421E50853E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 11:53:44 +0200 (CEST)
+Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh6xL-0007Ph-72
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 05:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50616)
+	id 1nh71r-0001jl-OW
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 05:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nh6uo-0006gJ-SU
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 05:46:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46181)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh6yx-0008Rq-7V
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 05:50:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nh6ul-0007uG-LD
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 05:46:25 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh6yt-00009N-SU
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 05:50:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650447982;
+ s=mimecast20190719; t=1650448239;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LExYaWoctvAW9ICIvpZThOajXXjsYmMIxELEEr1LAts=;
- b=SP4Y988jP8YDCezA752fRGT1MUkCdHK+JmDoZyhBBwXXQ0Y3XRAChvzX1jYfYla1GNx61K
- MGyLxJEsi0wkiznBvCh9Y3QY4aAp/yL4LSn07X1a9hgpHPpJ9a/IVpNRC9D9Q10CCpCuM7
- oXUcKkc5mcU7SLto1T3IuKxgcgeEr38=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Xv8402LDxor12nVki9nmsAHMSsUKPlh+18vYXDWtsYU=;
+ b=jH76hF1XtPL8+62Lvx/NCCdZ313ulwxQS9RPOsTJLwDo74BJfZg+zdFOCuVg/904mVvRdZ
+ 1uWXuRGKViKyEYVJ2ZgyERHalduU0v9/zvbrw5yO9SdLzF6UiRXz8nOcbjaKTOnWgoQUOj
+ frj9Y9oi+muZ43fw2Afn/lYKmnDzUj4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-580-8pTMJ4n5P-qP3wm--yv5-A-1; Wed, 20 Apr 2022 05:46:21 -0400
-X-MC-Unique: 8pTMJ4n5P-qP3wm--yv5-A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r9-20020a1c4409000000b0038ff033b654so714273wma.0
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 02:46:21 -0700 (PDT)
+ us-mta-344-hMueCPU6O3CFyeysq3ewZw-1; Wed, 20 Apr 2022 05:50:38 -0400
+X-MC-Unique: hMueCPU6O3CFyeysq3ewZw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ m17-20020adfa3d1000000b0020aaff06d3bso242578wrb.22
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 02:50:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=LExYaWoctvAW9ICIvpZThOajXXjsYmMIxELEEr1LAts=;
- b=3YbjWuSaF2CYczpdFAs9A8xypRnFgcrNbSY+d4LTIqoD0cJ5+X264/WPIIw3N2NZXN
- mpHVE+BStImvyNSfhoRgG6kYLTUSH55F7o9zZEsdS3vsifbq4wRT4Y6sLwVi5xwasMeZ
- qs7nwJtnYL74W09c+7uqNlWWBIgCrWKfAfle54p87EzQPU0JNSGjNnCBvAu4PXrOFEOy
- uRoWQoqTuMInxWYfrg2Hkw15jmCA5znqhNaDJOnfnrQmpLZDptahblHRbtFqfxkhDrFV
- PSBC+LIsjbCOo9ZW6cyTsq58NqWLIkAA4TXCOV4N8ivL9/FnL3U8vaoT/kbyxS00Z6t0
- EJ0Q==
-X-Gm-Message-State: AOAM533QzOw2Xr90oHSd2RZkPLEWvP4gRAuJ07bZ/dEjnb5gG/55lzEc
- aTWoL3Fx0IXdNgYqQvnohR/vjc+cQ06IplV4Zul3xAVjNJUDz3O0vzRrpgvTLJ61hd0goMhi2aV
- k+CG+ursYCjPJTgw=
-X-Received: by 2002:a05:600c:3ca4:b0:38e:54d0:406d with SMTP id
- bg36-20020a05600c3ca400b0038e54d0406dmr2709009wmb.199.1650447980048; 
- Wed, 20 Apr 2022 02:46:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdRAIT+bcHN/skTtnuSfMUnkQjuzGbJLjWrY4GIO8GblCa8zMicGxfdhGEQcw0Embdk7ZCtQ==
-X-Received: by 2002:a05:600c:3ca4:b0:38e:54d0:406d with SMTP id
- bg36-20020a05600c3ca400b0038e54d0406dmr2708970wmb.199.1650447979755; 
- Wed, 20 Apr 2022 02:46:19 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- d2-20020a056000186200b0020a7be3f1d2sm13924963wri.53.2022.04.20.02.46.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 02:46:19 -0700 (PDT)
-Date: Wed, 20 Apr 2022 10:46:16 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kshitij Suri <kshitij.suri@nutanix.com>
-Subject: Re: [PATCH v5 2/2] Added parameter to take screenshot with
- screendump as PNG
-Message-ID: <Yl/WaN3WTlWxRhb5@work-vm>
-References: <20220408071336.99839-1-kshitij.suri@nutanix.com>
- <20220408071336.99839-3-kshitij.suri@nutanix.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Xv8402LDxor12nVki9nmsAHMSsUKPlh+18vYXDWtsYU=;
+ b=t40sZ6hdUzDNUqBnO35aK5IfJcsx5y1VR70bV7mN93Su1K2pW7d1VUdVP2I9dE3ngr
+ wrO8AlesveD/WVgJiNATB2aqLhvkY3spmFT+pfkeKQXcNFbpNCta7NGDOrCHGet2xLHn
+ R1hVALBm2eO03a6AlGMxrSG0ml+W0GI1fs0TSAqGD6QKU/ssxsNZibazSxFoc5KKGGSf
+ BUHq634OX3bSQc6KgQrFVtnhhcHXYwLWNcyRIWl3FXYUdKJfchpkLd+U6y3tzo4PQ2yd
+ WjkpK07v+ZHe3t8yxj5/81yq1mb1B038668at0+friYeXFoAxR0wRBWQ+9eeaq5yfLZc
+ uxFg==
+X-Gm-Message-State: AOAM53387655cetoHwBc9DZCZp+9NoX97db/+6ulOhqula+46ARkGqy6
+ Lkq1XYr1BcRtX1owdCIY7zUPZD0ayPX+Yru1ptORV6mo9CkspFk51znBE+mw3bnEIL+tFHElJyJ
+ 9S0aI9SAtizKw+lo=
+X-Received: by 2002:a05:6000:18f:b0:207:a3ea:4a42 with SMTP id
+ p15-20020a056000018f00b00207a3ea4a42mr15188669wrx.147.1650448237048; 
+ Wed, 20 Apr 2022 02:50:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYCHh1CkAF3x38eioKc/p2LL2EthimOIOJq+xmrw9XVnLRvQFqCRMw8xyKKfuS4UlE30gpKw==
+X-Received: by 2002:a05:6000:18f:b0:207:a3ea:4a42 with SMTP id
+ p15-20020a056000018f00b00207a3ea4a42mr15188643wrx.147.1650448236751; 
+ Wed, 20 Apr 2022 02:50:36 -0700 (PDT)
+Received: from [192.168.8.102]
+ (dynamic-046-114-174-058.46.114.pool.telefonica.de. [46.114.174.58])
+ by smtp.gmail.com with ESMTPSA id
+ m4-20020a7bcb84000000b00389efb7a5b4sm21661700wmi.17.2022.04.20.02.50.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 02:50:36 -0700 (PDT)
+Message-ID: <9cc22799-e9d3-5bbb-180e-39e83e50101a@redhat.com>
+Date: Wed, 20 Apr 2022 11:50:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220408071336.99839-3-kshitij.suri@nutanix.com>
-User-Agent: Mutt/2.2.1 (2022-02-19)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v4 3/3] tests/qtest: Add test for Aspeed HACE accumulative
+ mode
+Content-Language: en-US
+To: Steven Lee <steven_lee@aspeedtech.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+References: <20220331074844.30065-1-steven_lee@aspeedtech.com>
+ <20220331074844.30065-4-steven_lee@aspeedtech.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220331074844.30065-4-steven_lee@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,282 +105,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: soham.ghosh@nutanix.com, peter.maydell@linaro.org, thuth@redhat.com,
- berrange@redhat.com, prerna.saxena@nutanix.com, qemu-devel@nongnu.org,
- armbru@redhat.com, philippe.mathieu.daude@gmail.com, kraxel@redhat.com,
- pbonzini@redhat.com, prachatos.mitra@nutanix.com, eblake@redhat.com
+Cc: troy_lee@aspeedtech.com, jamin_lin@aspeedtech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kshitij Suri (kshitij.suri@nutanix.com) wrote:
-> Currently screendump only supports PPM format, which is un-compressed. Added
-> a "format" parameter to QMP and HMP screendump command to support PNG image
-> capture using libpng.
+On 31/03/2022 09.48, Steven Lee wrote:
+> This add two addition test cases for accumulative mode under sg enabled.
 > 
-> QMP example usage:
-> { "execute": "screendump", "arguments": { "filename": "/tmp/image",
-> "format":"png" } }
+> The input vector was manually craft with "abc" + bit 1 + padding zeros + L.
+> The padding length depends on algorithm, i.e. SHA512 (1024 bit),
+> SHA256 (512 bit).
 > 
-> HMP example usage:
-> screendump /tmp/image -f png
+> The result was calculated by command line sha512sum/sha256sum utilities
+> without padding, i.e. only "abc" ascii text.
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/718
-> 
-> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 > ---
-> diff to v4:
->   - Modified format to be an optional flag based parameter in HMP.
-> 
->  hmp-commands.hx    |  11 ++---
->  monitor/hmp-cmds.c |  12 +++++-
->  qapi/ui.json       |  24 +++++++++--
->  ui/console.c       | 101 +++++++++++++++++++++++++++++++++++++++++++--
->  4 files changed, 136 insertions(+), 12 deletions(-)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 8476277aa9..808020d005 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -244,11 +244,12 @@ ERST
->  
->      {
->          .name       = "screendump",
-> -        .args_type  = "filename:F,device:s?,head:i?",
-> -        .params     = "filename [device [head]]",
-> -        .help       = "save screen from head 'head' of display device 'device' "
-> -                      "into PPM image 'filename'",
-> -        .cmd        = hmp_screendump,
-> +        .args_type  = "filename:F,format:-fs,device:s?,head:i?",
-> +        .params     = "filename [-f format] [device [head]]",
-> +        .help       = "save screen from head 'head' of display device 'device'"
-> +                      "in specified format 'format' as image 'filename'."
-> +                      "Currently only 'png' and 'ppm' formats are supported.",
-> +         .cmd        = hmp_screendump,
->          .coroutine  = true,
->      },
->  
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 634968498b..2442bfa989 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1720,9 +1720,19 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
->      const char *filename = qdict_get_str(qdict, "filename");
->      const char *id = qdict_get_try_str(qdict, "device");
->      int64_t head = qdict_get_try_int(qdict, "head", 0);
-> +    const char *input_format  = qdict_get_try_str(qdict, "format");
->      Error *err = NULL;
-> +    ImageFormat format;
->  
-> -    qmp_screendump(filename, id != NULL, id, id != NULL, head, &err);
-> +    format = qapi_enum_parse(&ImageFormat_lookup, input_format,
-> +                              IMAGE_FORMAT_PPM, &err);
-> +    if (err) {
-> +        goto end;
-> +    }
-> +
-> +    qmp_screendump(filename, id != NULL, id, id != NULL, head,
-> +                   input_format != NULL, format, &err);
-> +end:
->      hmp_handle_error(mon, err);
->  }
+>   tests/qtest/aspeed_hace-test.c | 145 +++++++++++++++++++++++++++++++++
+>   1 file changed, 145 insertions(+)
 
-For HMP:
-
-
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 664da9e462..98f0126999 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -157,12 +157,27 @@
->  ##
->  { 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOptions' }
->  
-> +##
-> +# @ImageFormat:
-> +#
-> +# Supported image format types.
-> +#
-> +# @png: PNG format
-> +#
-> +# @ppm: PPM format
-> +#
-> +# Since: 7.1
-> +#
-> +##
-> +{ 'enum': 'ImageFormat',
-> +  'data': ['ppm', 'png'] }
-> +
->  ##
->  # @screendump:
->  #
-> -# Write a PPM of the VGA screen to a file.
-> +# Capture the contents of a screen and write it to a file.
->  #
-> -# @filename: the path of a new PPM file to store the image
-> +# @filename: the path of a new file to store the image
->  #
->  # @device: ID of the display device that should be dumped. If this parameter
->  #          is missing, the primary display will be used. (Since 2.12)
-> @@ -171,6 +186,8 @@
->  #        parameter is missing, head #0 will be used. Also note that the head
->  #        can only be specified in conjunction with the device ID. (Since 2.12)
->  #
-> +# @format: image format for screendump. (default: ppm) (Since 7.1)
-> +#
->  # Returns: Nothing on success
->  #
->  # Since: 0.14
-> @@ -183,7 +200,8 @@
->  #
->  ##
->  { 'command': 'screendump',
-> -  'data': {'filename': 'str', '*device': 'str', '*head': 'int'},
-> +  'data': {'filename': 'str', '*device': 'str', '*head': 'int',
-> +           '*format': 'ImageFormat'},
->    'coroutine': true }
->  
->  ##
-> diff --git a/ui/console.c b/ui/console.c
-> index da434ce1b2..f42f64d556 100644
-> --- a/ui/console.c
-> +++ b/ui/console.c
-> @@ -37,6 +37,9 @@
->  #include "exec/memory.h"
->  #include "io/channel-file.h"
->  #include "qom/object.h"
-> +#ifdef CONFIG_PNG
-> +#include <png.h>
-> +#endif
->  
->  #define DEFAULT_BACKSCROLL 512
->  #define CONSOLE_CURSOR_PERIOD 500
-> @@ -291,6 +294,89 @@ void graphic_hw_invalidate(QemuConsole *con)
->      }
->  }
->  
-> +#ifdef CONFIG_PNG
-> +/**
-> + * png_save: Take a screenshot as PNG
-> + *
-> + * Saves screendump as a PNG file
-> + *
-> + * Returns true for success or false for error.
-> + *
-> + * @fd: File descriptor for PNG file.
-> + * @image: Image data in pixman format.
-> + * @errp: Pointer to an error.
-> + */
-> +static bool png_save(int fd, pixman_image_t *image, Error **errp)
-> +{
-> +    int width = pixman_image_get_width(image);
-> +    int height = pixman_image_get_height(image);
-> +    g_autofree png_struct *png_ptr = NULL;
-> +    g_autofree png_info *info_ptr = NULL;
-> +    g_autoptr(pixman_image_t) linebuf =
-> +                            qemu_pixman_linebuf_create(PIXMAN_a8r8g8b8, width);
-> +    uint8_t *buf = (uint8_t *)pixman_image_get_data(linebuf);
-> +    FILE *f = fdopen(fd, "wb");
-> +    int y;
-> +    if (!f) {
-> +        error_setg_errno(errp, errno,
-> +                         "Failed to create file from file descriptor");
-> +        return false;
-> +    }
-> +
-> +    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL,
-> +                                      NULL, NULL);
-> +    if (!png_ptr) {
-> +        error_setg(errp, "PNG creation failed. Unable to write struct");
-> +        fclose(f);
-> +        return false;
-> +    }
-> +
-> +    info_ptr = png_create_info_struct(png_ptr);
-> +
-> +    if (!info_ptr) {
-> +        error_setg(errp, "PNG creation failed. Unable to write info");
-> +        fclose(f);
-> +        png_destroy_write_struct(&png_ptr, &info_ptr);
-> +        return false;
-> +    }
-> +
-> +    png_init_io(png_ptr, f);
-> +
-> +    png_set_IHDR(png_ptr, info_ptr, width, height, 8,
-> +                 PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
-> +                 PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-> +
-> +    png_write_info(png_ptr, info_ptr);
-> +
-> +    for (y = 0; y < height; ++y) {
-> +        qemu_pixman_linebuf_fill(linebuf, image, width, 0, y);
-> +        png_write_row(png_ptr, buf);
-> +    }
-> +    qemu_pixman_image_unref(linebuf);
-> +
-> +    png_write_end(png_ptr, NULL);
-> +
-> +    png_destroy_write_struct(&png_ptr, &info_ptr);
-> +
-> +    if (fclose(f) != 0) {
-> +        error_setg_errno(errp, errno,
-> +                         "PNG creation failed. Unable to close file");
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
-> +#else /* no png support */
-> +
-> +static bool png_save(int fd, pixman_image_t *image, Error **errp)
-> +{
-> +    error_setg(errp, "Enable PNG support with libpng for screendump");
-> +    return false;
-> +}
-> +
-> +#endif /* CONFIG_PNG */
-> +
->  static bool ppm_save(int fd, pixman_image_t *image, Error **errp)
->  {
->      int width = pixman_image_get_width(image);
-> @@ -329,7 +415,8 @@ static void graphic_hw_update_bh(void *con)
->  /* Safety: coroutine-only, concurrent-coroutine safe, main thread only */
->  void coroutine_fn
->  qmp_screendump(const char *filename, bool has_device, const char *device,
-> -               bool has_head, int64_t head, Error **errp)
-> +               bool has_head, int64_t head,
-> +               bool has_format, ImageFormat format, Error **errp)
->  {
->      g_autoptr(pixman_image_t) image = NULL;
->      QemuConsole *con;
-> @@ -385,8 +472,16 @@ qmp_screendump(const char *filename, bool has_device, const char *device,
->       * yields and releases the BQL. It could produce corrupted dump, but
->       * it should be otherwise safe.
->       */
-> -    if (!ppm_save(fd, image, errp)) {
-> -        qemu_unlink(filename);
-> +    if (has_format && format == IMAGE_FORMAT_PNG) {
-> +        /* PNG format specified for screendump */
-> +        if (!png_save(fd, image, errp)) {
-> +            qemu_unlink(filename);
-> +        }
-> +    } else {
-> +        /* PPM format specified/default for screendump */
-> +        if (!ppm_save(fd, image, errp)) {
-> +            qemu_unlink(filename);
-> +        }
->      }
->  }
->  
-> -- 
-> 2.22.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
