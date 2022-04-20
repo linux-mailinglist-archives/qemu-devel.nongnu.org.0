@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910835086CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:19:32 +0200 (CEST)
-Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32A8508729
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:37:21 +0200 (CEST)
+Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh8Mt-0002dB-JS
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38760)
+	id 1nh8e8-0005yd-LH
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nh8L6-0000TX-9Z
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:17:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36654)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh8cN-0004zU-8y
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:35:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nh8L4-0006Bl-7S
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:17:39 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh8cJ-0000kH-Do
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:35:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650453457;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WIElod5gheGrWa9eg7HJ0J1AsMWnEhrBpoW7KVTweCk=;
- b=T/rWUbN41Y7DYtAeg5VO51QYs8e/EWxjR83sJvHcqU5Sqs5rz9Y5Q+VrKkYCDPHeUE7XMH
- kRK4rBYJVJ6wp2kGJrC4JNv+oy2wakrJVmUFN/Hta1wiLz2fm4g8CbXQ6OWWfGU+uLeIPD
- Jyge01qzjgg2LKf/MMBrUYMzkD2krYQ=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1650454525;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=oo0MvSOKkM9C1dXPgPEFOwK4gd11Pmo4nHd8TiPri3Y=;
+ b=aiXsje0ph/06CHi2aN94Xr4d/NKmaFv7fdcnN4Bb+kkvyIicCezl79wlrQeSfl9MNne5qL
+ Ng2aN2uDxO9B+3oRxP/xiRL0CJKt7gkm5zuAQ3yrzmf1WFUQI7uoEftbl1wZGNT0V0iPmC
+ g4C/nFUCx5fflq9dhaf5Fwupr7exUd8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-z5CWvKb7O_6o-kSC2uvwig-1; Wed, 20 Apr 2022 07:17:35 -0400
-X-MC-Unique: z5CWvKb7O_6o-kSC2uvwig-1
-Received: by mail-yb1-f200.google.com with SMTP id
- s43-20020a25aa2e000000b006453e8e5bb8so1142695ybi.14
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 04:17:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WIElod5gheGrWa9eg7HJ0J1AsMWnEhrBpoW7KVTweCk=;
- b=v5YWQ3xwx6jryG5jnChiJGsakScUJf0Ffjrio2dH1H616AP2jofD+7QHn7dqYmnSfd
- z54Yd1qbInB6ERBSCW5QjB3c0ifT14ZVavTdhtuZpvUCarl0doDz1BSXxqo7xF97WZZm
- Sr43OvZ7Hp9NU4nGOqhDSvmrmPn3wTWlDmr6QtrO9q74Ao7u9VJ3tSgcjpsSyCQFmNJq
- EdgHz9wvUEsT6zPVKc3P1euT47JKSXQT+942nLYpwsYlqGQtfAtXorKW/SVj7/wrGzGj
- OCQSbBFF3H4f20mw0mkCVI0QWeVwhMD1FBWJvNJQh9ymZ9dvAPjUlTaPy8wNiM04bOKC
- 7PkA==
-X-Gm-Message-State: AOAM5316IG4lRk3Z24t2wv3GH+XNlsHcZhSixTfntBZMAwYqN0WNCQkJ
- 9PmcE4wmCYFdEKba+ese3FAkwFEEZgJ//3eqTW4rxZfLPi02KnCdE52VlqvPpVKJqSvof6hrD9S
- g1MND7v7b5jhmo6xx63Cy2o05+sBK5zg=
-X-Received: by 2002:a05:6902:286:b0:63d:d035:73f4 with SMTP id
- v6-20020a056902028600b0063dd03573f4mr18609052ybh.205.1650453455272; 
- Wed, 20 Apr 2022 04:17:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwySvR8xf6rpZG4PYXtJ7KFs8blc7QVQTZgUzG7HEzeONHMp/z4hyOZw3nzr2hhD2Pa9wTEZFK8BWzH6Vm5rFE=
-X-Received: by 2002:a05:6902:286:b0:63d:d035:73f4 with SMTP id
- v6-20020a056902028600b0063dd03573f4mr18609039ybh.205.1650453455078; Wed, 20
- Apr 2022 04:17:35 -0700 (PDT)
+ us-mta-577-f-MT4rFyPVSUYh0xv9BUyg-1; Wed, 20 Apr 2022 07:35:24 -0400
+X-MC-Unique: f-MT4rFyPVSUYh0xv9BUyg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4632C185A7BA
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:35:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5783540D1B9B;
+ Wed, 20 Apr 2022 11:35:23 +0000 (UTC)
+Date: Wed, 20 Apr 2022 12:35:21 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v4 16/19] migration: Enable TLS for preempt channel
+Message-ID: <Yl/v+eFKjvlSajmA@redhat.com>
+References: <20220331150857.74406-1-peterx@redhat.com>
+ <20220331150857.74406-17-peterx@redhat.com>
 MIME-Version: 1.0
-References: <fb9c4633-27af-a01d-3cca-79ed20519727@zapateado.de>
- <CAJ+F1CLuCGTequPCD8ZK08bu3zdo6rdN1UBNX7AXO-s16fVQog@mail.gmail.com>
-In-Reply-To: <CAJ+F1CLuCGTequPCD8ZK08bu3zdo6rdN1UBNX7AXO-s16fVQog@mail.gmail.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Wed, 20 Apr 2022 14:17:24 +0300
-Message-ID: <CAPMcbCqP8zkpHX9Zg8Y4v1AdOSGb5seiuCYqt5S4HhZpe8SE8Q@mail.gmail.com>
-Subject: Re: [PATCH] qga/vss-win32: enable qga-vss.tlb generation with widl
-To: Helge Konetzka <hk@zapateado.de>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000e89bed05dd1423bc"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220331150857.74406-17-peterx@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,227 +77,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, QEMU <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e89bed05dd1423bc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Mar 31, 2022 at 11:08:54AM -0400, Peter Xu wrote:
+> This patch is based on the async preempt channel creation.  It continues
+> wiring up the new channel with TLS handshake to destionation when enabled.
+> 
+> Note that only the src QEMU needs such operation; the dest QEMU does not
+> need any change for TLS support due to the fact that all channels are
+> established synchronously there, so all the TLS magic is already properly
+> handled by migration_tls_channel_process_incoming().
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/postcopy-ram.c | 60 +++++++++++++++++++++++++++++++++++-----
+>  migration/trace-events   |  1 +
+>  2 files changed, 54 insertions(+), 7 deletions(-)
+> 
+> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+> index ab2a50cf45..f5ba176862 100644
+> --- a/migration/postcopy-ram.c
+> +++ b/migration/postcopy-ram.c
+> @@ -36,6 +36,7 @@
+>  #include "socket.h"
+>  #include "qemu-file-channel.h"
+>  #include "yank_functions.h"
+> +#include "tls.h"
+>  
+>  /* Arbitrary limit on size of each discard command,
+>   * keeps them around ~200 bytes
+> @@ -1552,15 +1553,15 @@ bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
+>      return true;
+>  }
+>  
+> +/*
+> + * Setup the postcopy preempt channel with the IOC.  If ERROR is specified,
+> + * setup the error instead.  This helper will free the ERROR if specified.
+> + */
+>  static void
+> -postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
+> +postcopy_preempt_send_channel_done(MigrationState *s,
+> +                                   QIOChannel *ioc, Error *local_err)
+>  {
+> -    MigrationState *s = opaque;
+> -    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
+> -    Error *local_err = NULL;
+> -
+> -    if (qio_task_propagate_error(task, &local_err)) {
+> -        /* Something wrong happened.. */
+> +    if (local_err) {
+>          migrate_set_error(s, local_err);
+>          error_free(local_err);
+>      } else {
+> @@ -1574,6 +1575,51 @@ postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
+>       * postcopy_qemufile_src to know whether it failed or not.
+>       */
+>      qemu_sem_post(&s->postcopy_qemufile_src_sem);
+> +}
+> +
+> +static void
+> +postcopy_preempt_tls_handshake(QIOTask *task, gpointer opaque)
+> +{
+> +    MigrationState *s = opaque;
+> +    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
 
-Hi Helge,
+If using g_autoptr(QIOChannel) ioc = ...
 
-I checked what happened in MSYS2 and this looks like a bug in the widl tool=
-.
+> +    Error *err = NULL;
 
-I looked into the widl source code and think that it detects the default
-include path incorrectly.
+local_err is normal naming 
 
-During build of widl tool the corresponding variable receive incorrect
-value:
-`BIN_TO_INCLUDEDIR =3D ../x86_64-w64-mingw32/include` but should be
-`BIN_TO_INCLUDEDIR =3D ../include`. Looks like a package mismatch,
-because the `/ming64/x86_64-w64-mingw32` directory exist
-but contains only few libs and no any include files.
+> +
+> +    qio_task_propagate_error(task, &err);
+> +    postcopy_preempt_send_channel_done(s, ioc, err);
+> +    object_unref(OBJECT(ioc));
 
-So I agreed with Marc-Andr=C3=A9. I think this bug should be fixed in MSYS2=
-.
-I think you can report this issue there
-https://github.com/msys2/MINGW-packages/issues
+...not needed with g_autoptr
 
-When I checked the build using cross-compilation from Linux,
-the widl tool uses proper BIN_TO_INCLUDEDIR.
+> +}
+> +
+> +static void
+> +postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
+> +{
+> +    MigrationState *s = opaque;
+> +    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
 
-We should add the rule that qga_vss depends on gen_tlb to get this error
-more visible.
+If you use g_autoptr(QIOChannel)
 
-Marc-Andr=C3=A9, what do you think?
+> +    QIOChannelTLS *tioc;
+> +    Error *local_err = NULL;
+> +
+> +    if (qio_task_propagate_error(task, &local_err)) {
+> +        assert(local_err);
 
-Best Regards,
-Konstantin Kostiuk.
+I don't think we really need to add these asserts everywhere we
+handle a failure path do we ?
 
+> +        goto out;
+> +    }
+> +
+> +    if (migrate_channel_requires_tls(ioc)) {
+> +        tioc = migration_tls_client_create(s, ioc, s->hostname, &local_err);
+> +        if (!tioc) {
+> +            assert(local_err);
+> +            goto out;
+> +        }
+> +        trace_postcopy_preempt_tls_handshake();
+> +        qio_channel_set_name(QIO_CHANNEL(tioc), "migration-tls-preempt");
+> +        qio_channel_tls_handshake(tioc, postcopy_preempt_tls_handshake,
+> +                                  s, NULL, NULL);
+> +        /* Setup the channel until TLS handshake finished */
+> +        object_unref(OBJECT(ioc));
 
-On Mon, Apr 18, 2022 at 11:15 AM Marc-Andr=C3=A9 Lureau <
-marcandre.lureau@gmail.com> wrote:
+...not needed with g_autoptr
 
-> Hi Helge
->
-> On Sun, Apr 17, 2022 at 6:51 PM Helge Konetzka <hk@zapateado.de> wrote:
->
->> Generation with widl needs to be triggered explicitly and requires
->> library and include directories containing referenced *.idl and *.tlb
->> as parameters.
->>
->
-> Ok, that's different issues, it would help to split the patch.
->
->
->>
->> Signed-off-by: Helge Konetzka <hk@zapateado.de>
->> ---
->>
->> For tested Msys2 build all referenced resources reside in /<usr>/include=
-.
->> Msys2 provides its flavours in different /<usr> bases.
->>
->> This patch derives the missing include directory path from widl path.
->> Assuming the given widl path is /<usr>/bin/widl, it determines /<usr>
->> as base and appends /<usr>/include as include and library directories
->> to widl command. This way the directory is correct for any Msys2
->> flavour.
->> It makes sure, only existing directories are appended as parameter.
->>
->
-> I would file a bug to msys2 instead for widl to use the default include
-> directory. Otherwise, every widl user out there needs to be adjusted.
-> (I think it would need a special --with-widl-includedir=3DDIR, given how
-> msys2 remaps directory)
->
->
->> ---
->>   qga/vss-win32/meson.build | 11 +++++++++--
->>   1 file changed, 9 insertions(+), 2 deletions(-)
->>
->> diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
->> index 71c50d0866..51539a582c 100644
->> --- a/qga/vss-win32/meson.build
->> +++ b/qga/vss-win32/meson.build
->> @@ -30,9 +30,16 @@ if midl.found()
->>                             input: 'qga-vss.idl',
->>                             output: 'qga-vss.tlb',
->>                             command: [midl, '@INPUT@', '/tlb', '@OUTPUT@
->> '])
->> -else
->> +elif widl.found()
->> +  widl_cmd =3D [widl, '-t', '@INPUT@', '-o', '@OUTPUT@']
->> +  usr_include =3D fs.parent(fs.parent(widl.full_path()))/'include'
->> +  if fs.is_dir(usr_include)
->> +    widl_cmd +=3D ['-L', usr_include]
->> +    widl_cmd +=3D ['-I', usr_include]
->> +  endif
->>     gen_tlb =3D custom_target('gen-tlb',
->>                             input: 'qga-vss.idl',
->>                             output: 'qga-vss.tlb',
->> -                          command: [widl, '-t', '@INPUT@', '-o',
->> '@OUTPUT@'])
->> +                          build_by_default: true,
->>
->
-> I would make qga_vss depend on gen_tlb instead (so the tlb is always buil=
-t
-> with the dll)
->
-> thanks
->
-> --
-> Marc-Andr=C3=A9 Lureau
->
+> +        return;
+> +    }
+> +
+> +out:
+> +    /* This handles both good and error cases */
+> +    postcopy_preempt_send_channel_done(s, ioc, local_err);
+>      object_unref(OBJECT(ioc));
 
---000000000000e89bed05dd1423bc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+...also not needed with g_autoptr
 
-<div dir=3D"ltr"><div>Hi Helge,</div><div><br></div><div>I checked what hap=
-pened in MSYS2 and this looks like a bug in the widl tool.<br><br>I looked =
-into the widl source code and think that it detects the default include pat=
-h incorrectly. <br><br>During build of widl tool the corresponding variable=
- receive incorrect value: <br></div><div>`BIN_TO_INCLUDEDIR =3D ../x86_64-w=
-64-mingw32/include` but should be <br></div><div>`BIN_TO_INCLUDEDIR =3D ../=
-include`. Looks like a package mismatch, <br></div><div>because the `/ming6=
-4/x86_64-w64-mingw32` directory exist <br></div><div>but contains only few =
-libs and no any include files.<br><br>So I agreed with Marc-Andr=C3=A9. I t=
-hink this bug should be fixed in MSYS2.</div><div>I think you can report th=
-is issue there <a href=3D"https://github.com/msys2/MINGW-packages/issues">h=
-ttps://github.com/msys2/MINGW-packages/issues</a></div><div><br>When I chec=
-ked the build using cross-compilation from Linux, <br></div><div>the widl t=
-ool uses proper BIN_TO_INCLUDEDIR.<br><br>We should add the rule that qga_v=
-ss depends on gen_tlb to get this error more visible.</div><div><br></div><=
-div>Marc-Andr=C3=A9, what do you think?<br></div><div><br></div><div><div><=
-div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_sign=
-ature"><div dir=3D"ltr"><div>Best Regards,</div><div>Konstantin Kostiuk.</d=
-iv></div></div></div><br></div></div></div><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr 18, 2022 at 11:15 AM Marc-=
-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com">marcand=
-re.lureau@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi Helge<br></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Ap=
-r 17, 2022 at 6:51 PM Helge Konetzka &lt;<a href=3D"mailto:hk@zapateado.de"=
- target=3D"_blank">hk@zapateado.de</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">Generation with widl needs to be triggere=
-d explicitly and requires<br>
-library and include directories containing referenced *.idl and *.tlb<br>
-as parameters.<br></blockquote><div><br></div><div>Ok, that&#39;s different=
- issues, it would help to split the patch.</div><div>=C2=A0<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Helge Konetzka &lt;<a href=3D"mailto:hk@zapateado.de" target=
-=3D"_blank">hk@zapateado.de</a>&gt;<br>
----<br>
-<br>
-For tested Msys2 build all referenced resources reside in /&lt;usr&gt;/incl=
-ude.<br>
-Msys2 provides its flavours in different /&lt;usr&gt; bases.<br>
-<br>
-This patch derives the missing include directory path from widl path.<br>
-Assuming the given widl path is /&lt;usr&gt;/bin/widl, it determines /&lt;u=
-sr&gt;<br>
-as base and appends /&lt;usr&gt;/include as include and library directories=
-<br>
-to widl command. This way the directory is correct for any Msys2<br>
-flavour.<br>
-It makes sure, only existing directories are appended as parameter.<br></bl=
-ockquote><div><br></div><div>I would file a bug to msys2 instead for widl t=
-o use the default include directory. Otherwise, every widl user out there n=
-eeds to be adjusted.<br></div><div>(I think it would need a special --with-=
-widl-includedir=3DDIR, given how msys2 remaps directory)</div><div><br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
----<br>
-=C2=A0 qga/vss-win32/meson.build | 11 +++++++++--<br>
-=C2=A0 1 file changed, 9 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build<br>
-index 71c50d0866..51539a582c 100644<br>
---- a/qga/vss-win32/meson.build<br>
-+++ b/qga/vss-win32/meson.build<br>
-@@ -30,9 +30,16 @@ if midl.found()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 input: &#39;qga-vss.idl&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 output: &#39;qga-vss.tlb&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 command: [midl, &#39;@INPUT@&#39;, &#39;/tlb&#39;,=
- &#39;@OUTPUT@&#39;])<br>
--else<br>
-+elif widl.found()<br>
-+=C2=A0 widl_cmd =3D [widl, &#39;-t&#39;, &#39;@INPUT@&#39;, &#39;-o&#39;, =
-&#39;@OUTPUT@&#39;]<br>
-+=C2=A0 usr_include =3D fs.parent(fs.parent(widl.full_path()))/&#39;include=
-&#39;<br>
-+=C2=A0 if fs.is_dir(usr_include)<br>
-+=C2=A0 =C2=A0 widl_cmd +=3D [&#39;-L&#39;, usr_include]<br>
-+=C2=A0 =C2=A0 widl_cmd +=3D [&#39;-I&#39;, usr_include]<br>
-+=C2=A0 endif<br>
-=C2=A0 =C2=A0 gen_tlb =3D custom_target(&#39;gen-tlb&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 input: &#39;qga-vss.idl&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 output: &#39;qga-vss.tlb&#39;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 command: [widl, &#39;-t&#39;, &#39;@INPUT@&#39;, &#39;-o&=
-#39;, <br>
-&#39;@OUTPUT@&#39;])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 build_by_default: true,<br></blockquote><div><br></div><d=
-iv>I would make qga_vss depend on gen_tlb instead (so the tlb is always bui=
-lt with the dll)<br></div></div><div><br></div><div>thanks<br></div><br>-- =
-<br><div dir=3D"ltr">Marc-Andr=C3=A9 Lureau<br></div></div>
-</blockquote></div>
+>  }
+>  
+> diff --git a/migration/trace-events b/migration/trace-events
+> index b21d5f371f..00ab2e1b96 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -287,6 +287,7 @@ postcopy_request_shared_page(const char *sharer, const char *rb, uint64_t rb_off
+>  postcopy_request_shared_page_present(const char *sharer, const char *rb, uint64_t rb_offset) "%s already %s offset 0x%"PRIx64
+>  postcopy_wake_shared(uint64_t client_addr, const char *rb) "at 0x%"PRIx64" in %s"
+>  postcopy_page_req_del(void *addr, int count) "resolved page req %p total %d"
+> +postcopy_preempt_tls_handshake(void) ""
+>  postcopy_preempt_new_channel(void) ""
+>  postcopy_preempt_thread_entry(void) ""
+>  postcopy_preempt_thread_exit(void) ""
+> -- 
+> 2.32.0
+> 
 
---000000000000e89bed05dd1423bc--
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
