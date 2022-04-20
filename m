@@ -2,91 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EF7508AFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:44:24 +0200 (CEST)
-Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62C9508B25
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:50:36 +0200 (CEST)
+Received: from localhost ([::1]:36328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhBZ9-0002yL-EA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50554)
+	id 1nhBf9-00072S-Tj
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:50:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nhB85-0004bQ-Qn
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:16:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nhB83-0004YP-C6
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:16:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650464179;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W2iP+S/YLDwHc0ybRS2GGUzSt8/dp7kSWQpfYjeX93k=;
- b=bKO3GxinW4B6Qquuv8AdTgXGEyE0f7xzeKauVI38p+Fgp7qXiNBot1y1GuDTEFWXWDltnN
- O682gfNwbsm/q8uFchYOTSdI7ngy0wr7uJqNHWPOsaUVyWvApStjKLqnJ9hYeZbOlQta/5
- VtVbjp/pgrFpbWn0X3vZrxdAeoA0pqs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-455-jhY3u7qqOzGXKZJG6cWxBQ-1; Wed, 20 Apr 2022 10:16:18 -0400
-X-MC-Unique: jhY3u7qqOzGXKZJG6cWxBQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- p18-20020adf9592000000b00207bc12decbso440965wrp.21
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 07:16:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nhBB6-00025Q-58
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:19:32 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nhBB1-0004ux-Gt
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:19:31 -0400
+Received: by mail-wr1-x433.google.com with SMTP id e21so2468639wrc.8
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 07:19:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=W2iP+S/YLDwHc0ybRS2GGUzSt8/dp7kSWQpfYjeX93k=;
- b=KAEBAlwYSuBJoHFdmG+oXT9+x7toqDUYe44cWrEbniR6ysRpA1PDAY8JbFFILSHgzc
- zCyKSb8Pf8Se+I1zNdu438bisVQDpmFyQm5DduAIOca6akhrHUP80Epem6c2kOnhUIEL
- 2rpxP50pF54BSdcSnUAMAtOx7Lw6iMqc2Z9L1+YOC3O/+5KehP1W32K3GuhCfNXD6D6Q
- OP4YpcjQ2ECNnWX3fs3/k7P9ZLdMwMLSQxFEyoW3Rivwr+O0aFdEpyzGDjKFuljDWC+1
- Wfp6g3ZpxVFFEm7FNJ2aCEDKDV+MjpoR4vyfVadzG9C5S8s+Ibn4iAXy61+CzaEqzUq0
- JRmg==
-X-Gm-Message-State: AOAM531m7KFnEV9OdBDXG1LVLe7jlQiSpNLKu97oiQC/NYjjs3F94Zbo
- H0Jpj0DiS2AuULSh2U3eg1d5gR5Xiwe28eS1Vo0sYWUugUUF0NtbHs6YbH+ffqPmBmgcbhJeTdg
- vwCbPRGE4QyMCk/M=
-X-Received: by 2002:adf:fdcd:0:b0:207:a471:3ca4 with SMTP id
- i13-20020adffdcd000000b00207a4713ca4mr16063597wrs.415.1650464177055; 
- Wed, 20 Apr 2022 07:16:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7JXefFAXX5UAiUbNjCkuoo4Oa+4dq8OlZKuSImEDa4ZU4bwZ6ezZpiuj5KBZsuQDByJX3zA==
-X-Received: by 2002:adf:fdcd:0:b0:207:a471:3ca4 with SMTP id
- i13-20020adffdcd000000b00207a4713ca4mr16063572wrs.415.1650464176855; 
- Wed, 20 Apr 2022 07:16:16 -0700 (PDT)
-Received: from [192.168.8.102]
- (dynamic-046-114-174-058.46.114.pool.telefonica.de. [46.114.174.58])
- by smtp.gmail.com with ESMTPSA id
- o10-20020a5d47ca000000b0020a992ce354sm690wrc.76.2022.04.20.07.16.15
+ bh=nGWgBSjxBARJUkFPGXHnfVvujs1U73HEeWuCm94KLkY=;
+ b=N7rStmKXcNivU7dm1oZ5/4OJqz3vDmzwYTEnpy1k/94JHHyJ/cXWYoi1X3JYorVOCy
+ xPLXxbI87PtQBBgLZIeanqOkiiKOBI3y51G02ktTrOTvSq0crq5b+yum0oiUo2Ky21/3
+ apUiJbgdP6FFfxUrHuXzOyTMG8MIexhKJLSFY8f2M0aTTjgvDl3TG8nK7o90pxeHnZzg
+ C3dI0w67+Fg1C3WzxgJYqqfhqUZALCgW8WEtqJ4um9JOvzMu+RswTiHfri6t9GGjL/K+
+ jkEJgg0Eezjg4jMnOrqcpyUYSLQkgaSI/U7wGqrzGcwrR0HtLF8MRtv4ecX/inwJ45Y6
+ hoow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=nGWgBSjxBARJUkFPGXHnfVvujs1U73HEeWuCm94KLkY=;
+ b=uEmMoJqeCRXUauFox+Ocym0KUVRyOfG5lAIAo5rHiW0P7aZLtR5Mo0RvD4RO3hbJ5u
+ K7S+iFlk4RPcTkB6U+9xJ8nEcD76pMtmZjsjrOkbxGGL/x3jo+NO81ETz/LGzfSQnDi9
+ n7ZvIjuLE/nUUZpfzcBoY9TQrESs8SI88z+xO6UcaZUzUrnF6kxcnWtIEWYkt9sJnf+I
+ nqZq+w2PYc2o08IPeKKyWUXSw7gZSiGV4SnfEoDpLizImitHoXRn71Nk2ThGdUuyQ7eW
+ dYjTvshybZltVzxhq5oIynvU2pLfbulOWa6Y6+sxkuFV7tyaN0kZ84Hr/vMB9j0tlwvm
+ uNTw==
+X-Gm-Message-State: AOAM533pTmdVdk7/dy1Tsk95+B1O+riwC4PZXIDaajFAayeteSPJPGOk
+ gShSWJjr9PAY8SLcoOll+bw=
+X-Google-Smtp-Source: ABdhPJw89kbXyOsTeGaUY4HQbgqnVH1QZfXiXTFZRzIPvB/GMinXNTK5KCENivvBMXbMxaGuwOkbBA==
+X-Received: by 2002:a05:6000:38b:b0:20a:923a:3aea with SMTP id
+ u11-20020a056000038b00b0020a923a3aeamr12076330wrf.294.1650464366006; 
+ Wed, 20 Apr 2022 07:19:26 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ bg8-20020a05600c3c8800b0038e4c5967besm20608wmb.3.2022.04.20.07.19.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 07:16:16 -0700 (PDT)
-Message-ID: <2093f0c0-3c7b-a7eb-13f4-549174dde359@redhat.com>
-Date: Wed, 20 Apr 2022 16:16:14 +0200
+ Wed, 20 Apr 2022 07:19:25 -0700 (PDT)
+Message-ID: <d2920ee3-56b9-5f9e-1f1b-840941bc1ac3@redhat.com>
+Date: Wed, 20 Apr 2022 16:19:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 33/41] tests: move libqtest.c under libqos/
+Subject: Re: [PATCH 2/4] TCG support for AVX
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
- <20220420132624.2439741-34-marcandre.lureau@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220420132624.2439741-34-marcandre.lureau@redhat.com>
+To: Paul Brook <paul@nowt.org>, Peter Maydell <peter.maydell@linaro.org>
+References: <20220418173904.3746036-1-paul@nowt.org>
+ <20220418173904.3746036-3-paul@nowt.org>
+ <CAFEAcA_HgZmoKO8u_m7XXjKibBuT9HqeOcc+2R9yQkd9-sAdDw@mail.gmail.com>
+ <4530fe387ef5a8d294122a1520ad8e25445bf344.camel@nowt.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <4530fe387ef5a8d294122a1520ad8e25445bf344.camel@nowt.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,29 +94,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/04/2022 15.26, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 4/18/22 21:45, Paul Brook wrote:
+>> Massively too large for a single patch, I'm afraid. This needs
+>> to be split, probably into at least twenty patches, which each
+>> are a reviewable chunk of code that does one coherent thing.
+> Hmm, I'mm see what I can do.
 > 
-> Since commit a2ce7dbd917 ("meson: convert tests/qtest to meson"),
-> libqtest.h is under libqos/ directory. Let's move the .c along with it.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   docs/devel/qtest.rst                | 4 ++--
->   tests/qtest/{ => libqos}/libqtest.c | 4 ++--
->
+> Unfortunately the table driven decoding means that going from two to
+> three operands tends to be a bit all or nothing just to get the thing
+> to compile.
 
-This is definitely wrong. libqtest.c is the outer framework for the qtests, 
-and should certainly not reside within libqos, i.e. the qtests that are not 
-using the libqos framework should not depend on files in libqos.
+Hi Paul, welcome back and thanks for this huge work.  It should be
+possible at least to split the patch as follows (at least that's
+what _I_ would do in order to review it):
 
-Not sure why libqtest.h got moved there, but that certainly was a mistake, 
-too. Please move libqtest.h back to the tests/qtest/ folder instead.
+* mechanical changes to translate.c
 
-  Thomas
+-    [0x10] = { SSE_SPECIAL, SSE_SPECIAL, SSE_SPECIAL, SSE_SPECIAL }, /* movups, movupd, movss, movsd */
++    [0x10] = SSE_SPECIAL, /* movups, movupd, movss, movsd */
++    [0x11] = SSE_SPECIAL, /* movups, movupd, movss, movsd */
++    [0x12] = SSE_SPECIAL, /* movlps, movlpd, movsldup, movddup */
++    [0x13] = SSE_SPECIAL, /* movlps, movlpd */
 
+* mechanical introduction of XMM_OFFSET()
+
+* non-AVX/VEX changes (e.g. SSE_OPF_3DNOW)
+
+* decoding fixes for SSE instructions (CHECK_NO_VEX)
+
+* fix zeroing of high bits
+
+* 3-operand decoding and helpers
+
+* AVX/AVX2 support (existing instructions)
+
+* AVX/AVX2 support (new instructions)
+
+I can do some of the work too since I was planning to do this
+anyway (but have hardly started yet).
+
+Paolo
 
