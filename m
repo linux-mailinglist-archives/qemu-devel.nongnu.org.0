@@ -2,80 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C29D50910F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:05:34 +0200 (CEST)
-Received: from localhost ([::1]:44870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132C6509162
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:24:57 +0200 (CEST)
+Received: from localhost ([::1]:40756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGZx-0002U1-0w
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45396)
+	id 1nhGsi-0006dA-6G
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:24:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhGHx-0006NQ-L0
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:46:57 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35664)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhGHv-0008Ho-KW
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:46:57 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id r83so2611945pgr.2
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 12:46:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=eSENCDvz1u+RxBgOxpkcIxhdGAb++GIkSMLfWSS7OPM=;
- b=nDO2Vhc37QiOp8H3Joz0zQwArwDHFGGOJ5o1tRaoCbj28Y5jUAku67oC00hxgCMJH9
- 3yPX917vdjE93K6UwuSYI7MPRS76AY6+Nf0ESgPOpAb5Exl2ka/he5FPpoJL4hXazpp/
- BOJVZPX8y3+CfVEZ/ANMJTFru6CvNkTWARxEC7PPG91UUJ3YDzn4du+WsIgWJPZGITGW
- PmK9WqdLindtPUQu4191WxbpMWejqU6Ixf6dqdOk/31Bo0+TQ6zkhluGgUvahROgKnB5
- 0jTH3GDJQOvCeWzpK9FjckTjvOdbo7Ep4MzBUrnQSDrIWafawJFq8ewcLUYsCZXYKbWV
- pDnQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nhGN2-0000D6-Sn
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:52:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nhGMz-0000kZ-GL
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:52:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650484327;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2dJshY4yFhjMNXmo8UF6ycJ4SI5fXvICGdTNFZK+DJY=;
+ b=B8w8VdGdPZMxxuxBXTUQZ0+i3R6jeXV5OHTHzApPUIzSBrhcI316kE0TvofdtAm/H2VRAX
+ DySO8Sc2Sm1DeWYcaSVf2Mjc1X/OzklT6DEFgdheBy6dbBEGLWIDWoQr69BzuIv5X+jlhk
+ Jy6z5Oa+jY6R1M48K9nR4ckbUD2c4kk=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-168-RH-fSKMRN5SS5WNv7OXwYA-1; Wed, 20 Apr 2022 15:52:03 -0400
+X-MC-Unique: RH-fSKMRN5SS5WNv7OXwYA-1
+Received: by mail-il1-f198.google.com with SMTP id
+ v11-20020a056e0213cb00b002cbcd972206so1496141ilj.11
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 12:52:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eSENCDvz1u+RxBgOxpkcIxhdGAb++GIkSMLfWSS7OPM=;
- b=fQKq8HAoKEobS3F1+6uYK7xWWAHepVTbB44Ojpyor/0g029LdpGv865GdRoySdR61l
- LBHPdXAI5AohzEPtLoQ07aFQ0fu246rgAMVne8xX3bRgG2od5yFfw3PM2ka6ladKaSVE
- Os+S7QAnaFxyOSXyFCsUZtUql77EYn7nnDO2CGtZ1EVUEAAmm8fdrl+7TESyRyPvtzBs
- C0IEodF7/Q+fni791RM4OJ5a1luLFMgrXvZdLiCdd0Lkak1wWO0HoK/nf/AoHMQOwXua
- qaKiHX+WT18Lbk8U1rkVjiYDugeVZAOjaaBhN25U8gPvLEo990boCNra7pE3gbGopW3t
- Qdgg==
-X-Gm-Message-State: AOAM533mIzksVFM80LvW4Ljba2SxnyfhXME8LfocM1+oaiKvoTtZDtsy
- B6qdrXDGObioWTmy1sfvp/Gt1w==
-X-Google-Smtp-Source: ABdhPJyQ4b8rU6RFj4ULcWhxiEKVkqxq2fWKya3x1020xRtK/7V7WzPpBnPTLc5P8wW09ZAIRhO30Q==
-X-Received: by 2002:a05:6a00:1486:b0:50a:40f7:5a86 with SMTP id
- v6-20020a056a00148600b0050a40f75a86mr25583206pfu.43.1650484013768; 
- Wed, 20 Apr 2022 12:46:53 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=2dJshY4yFhjMNXmo8UF6ycJ4SI5fXvICGdTNFZK+DJY=;
+ b=nQt3OLDJtfp9nkCXzt2/Xj+JTA5GTF0IFUpWBp+DpWiJkDIHIxoJqBNdQ7j+JbwS8Y
+ bGo5kaPJlePIWiQmZai92nBOjK0XcHktwQ6EvuxY81y87qi9I+5lE4zJ3XHaCAbbfv+v
+ pylPtBH79umCdUNyXrtU47tJy7qyVP0e5r/oNqyOvrwYwmZfG/b+IefD8ambHBv3zqXP
+ tKp5wvCzuL+iJbP1KnD9wK3Bq/6fr5C4Uat7OkIi/gEU716KjsEheGiYpR1xr4KXirn1
+ /ClJ+ZKHicSHyHR1N1ydlYyUlAHoQxBif21eI5JfoVizY5xuJ7XFWtRrBtu8tklShOC3
+ kdvg==
+X-Gm-Message-State: AOAM532xjZo9fUsx8hIbiqUJz4jEpr9EgbnSYrq6kpbOwP0CFKVDbRui
+ DqaUJfPyyF5YqijVUsBQQUOC4chobP35LQEsFS0pO0o4lhWqK4mNW4l9gOU5nansUPKb6qbjvii
+ jqUMWmC7cGd0AkgE=
+X-Received: by 2002:a05:6638:2505:b0:328:9c95:d90 with SMTP id
+ v5-20020a056638250500b003289c950d90mr6750930jat.129.1650484322727; 
+ Wed, 20 Apr 2022 12:52:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPcUkwtXASB2uDJ3KpWusXhcntMe1pawJf5qWTLqHdRA8d8BCykpIXYJR40SI85rbRpkUUrA==
+X-Received: by 2002:a05:6638:2505:b0:328:9c95:d90 with SMTP id
+ v5-20020a056638250500b003289c950d90mr6750922jat.129.1650484322478; 
+ Wed, 20 Apr 2022 12:52:02 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- l8-20020a17090a150800b001cbaf536a3esm192933pja.18.2022.04.20.12.46.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 12:46:52 -0700 (PDT)
-Message-ID: <25da722a-10c3-c35c-e487-e4d86f63e146@linaro.org>
-Date: Wed, 20 Apr 2022 12:46:50 -0700
+ b19-20020a5d8553000000b00649f02b1b0csm11934500ios.39.2022.04.20.12.52.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 12:52:02 -0700 (PDT)
+Date: Wed, 20 Apr 2022 15:52:00 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v4 14/19] migration: Add helpers to detect TLS capability
+Message-ID: <YmBkYIN2fnZUu2yw@xz-m1.local>
+References: <20220331150857.74406-1-peterx@redhat.com>
+ <20220331150857.74406-15-peterx@redhat.com>
+ <Yl/qFmt09kIBmBM8@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 00/25] Various testing, doc and gdbstub fixes
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org
-References: <20220420180832.3812543-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220420180832.3812543-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <Yl/qFmt09kIBmBM8@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,121 +98,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/20/22 11:08, Alex Bennée wrote:
-> The following changes since commit 1be5a765c08cee3a9587c8a8d3fc2ea247b13f9c:
+On Wed, Apr 20, 2022 at 12:10:14PM +0100, Daniel P. Berrangé wrote:
+> On Thu, Mar 31, 2022 at 11:08:52AM -0400, Peter Xu wrote:
+> > Add migrate_tls_enabled() to detect whether TLS is configured.
+> > 
+> > Add migrate_channel_requires_tls() to detect whether the specific channel
+> > requires TLS.
+> > 
+> > No functional change intended.
+> > 
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >  migration/channel.c   | 10 ++--------
+> >  migration/migration.c | 17 +++++++++++++++++
+> >  migration/migration.h |  4 ++++
+> >  migration/multifd.c   |  7 +------
+> >  4 files changed, 24 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/migration/channel.c b/migration/channel.c
+> > index c6a8dcf1d7..36e59eaeec 100644
+> > --- a/migration/channel.c
+> > +++ b/migration/channel.c
+> > @@ -38,10 +38,7 @@ void migration_channel_process_incoming(QIOChannel *ioc)
+> >      trace_migration_set_incoming_channel(
+> >          ioc, object_get_typename(OBJECT(ioc)));
+> >  
+> > -    if (s->parameters.tls_creds &&
+> > -        *s->parameters.tls_creds &&
+> > -        !object_dynamic_cast(OBJECT(ioc),
+> > -                             TYPE_QIO_CHANNEL_TLS)) {
+> > +    if (migrate_channel_requires_tls(ioc)) {
+> >          migration_tls_channel_process_incoming(s, ioc, &local_err);
+> >      } else {
+> >          migration_ioc_register_yank(ioc);
+> > @@ -71,10 +68,7 @@ void migration_channel_connect(MigrationState *s,
+> >          ioc, object_get_typename(OBJECT(ioc)), hostname, error);
+> >  
+> >      if (!error) {
+> > -        if (s->parameters.tls_creds &&
+> > -            *s->parameters.tls_creds &&
+> > -            !object_dynamic_cast(OBJECT(ioc),
+> > -                                 TYPE_QIO_CHANNEL_TLS)) {
+> > +        if (migrate_channel_requires_tls(ioc)) {
+> >              migration_tls_channel_connect(s, ioc, hostname, &error);
+> >  
+> >              if (!error) {
+> > diff --git a/migration/migration.c b/migration/migration.c
+> > index ee3df9e229..899084f993 100644
+> > --- a/migration/migration.c
+> > +++ b/migration/migration.c
+> > @@ -49,6 +49,7 @@
+> >  #include "trace.h"
+> >  #include "exec/target_page.h"
+> >  #include "io/channel-buffer.h"
+> > +#include "io/channel-tls.h"
+> >  #include "migration/colo.h"
+> >  #include "hw/boards.h"
+> >  #include "hw/qdev-properties.h"
+> > @@ -4251,6 +4252,22 @@ void migration_global_dump(Monitor *mon)
+> >                     ms->clear_bitmap_shift);
+> >  }
+> >  
+> > +bool migrate_tls_enabled(void)
+> > +{
+> > +    MigrationState *s = migrate_get_current();
+> > +
+> > +    return s->parameters.tls_creds && *s->parameters.tls_creds;
+> > +}
+> > +
+> > +bool migrate_channel_requires_tls(QIOChannel *ioc)
+> > +{
+> > +    if (!migrate_tls_enabled()) {
 > 
->    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-04-19 18:22:16 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/stsquad/qemu.git tags/pull-fixes-for-7.1-200422-1
-> 
-> for you to fetch changes up to caccf599181e2ea5f236345de9d9957a4c23e5ec:
-> 
->    tests/guest-debug: better handle gdb crashes (2022-04-20 16:04:20 +0100)
-> 
-> ----------------------------------------------------------------
-> Testing, docs and gdbstub updates:
-> 
->    - make -M virt test exercise -cpu max
->    - document how binfmt_misc docker works
->    - clean-up the devel TOC generation
->    - clean-up check-tcg cross-compile behaviour
->    - fix byte swap error in xmm gdbstub access
->    - add float_convd test with reference files
->    - more reference files for float_convs
->    - more cleanly handle gdb crashing during check-tcg
+> This is the only place migrate_tls_enabled is called. Does it
+> really need to exist as an exported method, as opposed to
+> inlining it here ?
 
-Applied, thanks.  Please update the wiki changelog for 7.1 as appropriate.
+IMHO the helper could help code readers to easier understand when TLS is
+enabled, and it's not super obvious as TLS doesn't have a capability bit
+bound to it.  No strong opinions, though.
 
+> 
+> > +        return false;
+> > +    }
+> > +
+> > +    return !object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS);
+> > +}
+> > +
+> >  #define DEFINE_PROP_MIG_CAP(name, x)             \
+> >      DEFINE_PROP_BOOL(name, MigrationState, enabled_capabilities[x], false)
+> >  
+> > diff --git a/migration/migration.h b/migration/migration.h
+> > index 6ee520642f..8b9ad7fe31 100644
+> > --- a/migration/migration.h
+> > +++ b/migration/migration.h
+> > @@ -436,6 +436,10 @@ bool migrate_use_events(void);
+> >  bool migrate_postcopy_blocktime(void);
+> >  bool migrate_background_snapshot(void);
+> >  bool migrate_postcopy_preempt(void);
+> > +/* Whether TLS is enabled for migration? */
+> > +bool migrate_tls_enabled(void);
+> > +/* Whether the QIO channel requires further TLS handshake? */
+> > +bool migrate_channel_requires_tls(QIOChannel *ioc);
+> 
+> How about having it in tls.{c,h} as  'migration_tls_channel_enabled()' ?
 
-r~
+I can do the movement, but the new name can be confusing when we read it in
+the codes, it'll look like:
 
-> 
-> ----------------------------------------------------------------
-> Alex Bennée (8):
->        tests/avocado: update aarch64_virt test to exercise -cpu max
->        docs/devel: add some notes on the binfmt-image-debian targets
->        docs/devel: drop :hidden: and :includehidden: tags
->        tests/tcg: remove duplicate sha512-sse case
->        tests/tcg: add float_convd test
->        tests/tcg: add missing reference files for float_convs
->        target/i386: fix byte swap issue with XMM register access
->        tests/guest-debug: better handle gdb crashes
-> 
-> Paolo Bonzini (17):
->        tests/docker: remove dead code for linux-user containers
->        tests/docker: remove test targets
->        tests/docker: remove dead variable
->        tests/docker: remove unnecessary default definitions
->        tests/docker: inline variable definitions or move close to use
->        tests/docker: remove unnecessary filtering of $(DOCKER_IMAGES)
->        tests/docker: simplify docker-TEST@IMAGE targets
->        tests/docker: do not duplicate rules for hexagon-cross
->        tests/tcg: add compiler test variables when using containers
->        tests/tcg: remove CONFIG_LINUX_USER from config-target.mak
->        tests/tcg: remove CONFIG_USER_ONLY from config-target.mak
->        tests/tcg: prepare Makefile.prereqs at configure time
->        tests/tcg: list test targets in Makefile.prereqs
->        tests/tcg: invoke Makefile.target directly from QEMU's makefile
->        tests/tcg: isolate from QEMU's config-host.mak
->        tests/docker: remove SKIP_DOCKER_BUILD
->        tests/tcg: fix non-static build
-> 
->   docs/devel/index-api.rst                           |   1 -
->   docs/devel/index-build.rst                         |   3 +-
->   docs/devel/index-internals.rst                     |   1 -
->   docs/devel/index-process.rst                       |   1 -
->   docs/devel/index-tcg.rst                           |   1 -
->   docs/devel/index.rst                               |   2 -
->   docs/devel/qtest.rst                               |   1 -
->   docs/devel/testing.rst                             |  38 +
->   configure                                          |   3 +-
->   target/i386/gdbstub.c                              |   4 +-
->   tests/tcg/multiarch/float_convd.c                  | 106 +++
->   MAINTAINERS                                        |   1 +
->   tests/Makefile.include                             |  63 +-
->   tests/avocado/boot_linux_console.py                |  25 -
->   tests/avocado/machine_aarch64_virt.py              |  51 ++
->   tests/docker/Makefile.include                      | 115 +--
->   tests/docker/docker.py                             |  57 --
->   .../build-toolchain.sh                             |   0
->   tests/docker/dockerfiles/empty.docker              |   8 -
->   tests/guest-debug/run-test.py                      |  11 +-
->   tests/tcg/Makefile.prereqs                         |  18 -
->   tests/tcg/Makefile.qemu                            | 121 ---
->   tests/tcg/Makefile.target                          |  14 +-
->   tests/tcg/aarch64/Makefile.softmmu-target          |   2 +-
->   tests/tcg/aarch64/Makefile.target                  |  10 +-
->   tests/tcg/aarch64/float_convd.ref                  | 988 +++++++++++++++++++++
->   tests/tcg/arm/float_convd.ref                      | 988 +++++++++++++++++++++
->   tests/tcg/configure.sh                             |  78 +-
->   tests/tcg/i386/Makefile.target                     |   2 +-
->   tests/tcg/i386/float_convd.conf                    | 988 +++++++++++++++++++++
->   tests/tcg/i386/float_convs.ref                     | 748 ++++++++++++++++
->   tests/tcg/multiarch/Makefile.target                |   2 +-
->   tests/tcg/ppc64/Makefile.target                    |   4 +-
->   tests/tcg/ppc64le/Makefile.target                  |   4 +-
->   tests/tcg/x86_64/Makefile.target                   |   9 +-
->   tests/tcg/x86_64/float_convd.ref                   | 988 +++++++++++++++++++++
->   tests/tcg/x86_64/float_convs.ref                   | 748 ++++++++++++++++
->   37 files changed, 5780 insertions(+), 424 deletions(-)
->   create mode 100644 tests/tcg/multiarch/float_convd.c
->   create mode 100644 tests/avocado/machine_aarch64_virt.py
->   rename tests/docker/dockerfiles/{debian-hexagon-cross.docker.d => debian-hexagon-cross.d}/build-toolchain.sh (100%)
->   delete mode 100644 tests/docker/dockerfiles/empty.docker
->   delete mode 100644 tests/tcg/Makefile.prereqs
->   delete mode 100644 tests/tcg/Makefile.qemu
->   create mode 100644 tests/tcg/aarch64/float_convd.ref
->   create mode 100644 tests/tcg/arm/float_convd.ref
->   create mode 100644 tests/tcg/i386/float_convd.conf
->   create mode 100644 tests/tcg/i386/float_convs.ref
->   create mode 100644 tests/tcg/x86_64/float_convd.ref
->   create mode 100644 tests/tcg/x86_64/float_convs.ref
-> 
+  if (migration_tls_channel_enabled(ioc)) {
+    /* create the tls channel */
+    ...
+  }
+
+The thing is migration_tls_channel_enabled() on a TLS channel will return
+false.. which seems to be against the gut feelings.
+
+migrate_channel_requires_tls() feels better but maybe not so much..
+Would migrate_channel_requires_tls_wrapper() be better (but longer..)?
+
+Thanks,
+
+-- 
+Peter Xu
 
 
