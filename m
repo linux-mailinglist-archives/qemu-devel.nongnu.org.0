@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF30508C18
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:27:32 +0200 (CEST)
-Received: from localhost ([::1]:51836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2C7508B99
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:08:57 +0200 (CEST)
+Received: from localhost ([::1]:58182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCEt-00011R-DZ
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59590)
+	id 1nhBwu-0007aw-8l
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nhBji-0002jY-BV
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:55:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23967)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nhBjf-0002Vh-1N
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:55:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650466513;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jiq2hIRMXP5aP4ZptOirOxWXOvr+hQ5HbCKNZNxAQRE=;
- b=a6PW7jyjgf1/PhAlNxtyYzu2cKDIfBmUcQqKzhLkwfyWqj5xlA02QRcIzsq9vAremPjm8G
- LqMtjbl93u3Ls9vchlomvGG8jVPlSCHSDMfEePqoS+Zsk3+hve8Ppk1k1IgbfnsJiF0WTr
- KdnLxt2iYNCoGI0W294M+VtJiTFqBnw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-18-vJfFvjwqNje0AVXaTsV-vA-1; Wed, 20 Apr 2022 10:55:11 -0400
-X-MC-Unique: vJfFvjwqNje0AVXaTsV-vA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CBA5805F46;
- Wed, 20 Apr 2022 14:55:11 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A03C572343;
- Wed, 20 Apr 2022 14:55:09 +0000 (UTC)
-Date: Wed, 20 Apr 2022 15:55:07 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH 04/41] Simplify softmmu/main.c
-Message-ID: <YmAeyx+Vxv6c3I92@redhat.com>
-References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
- <20220420132624.2439741-5-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nhBkX-0004z8-SE
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:56:09 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:39661)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nhBkV-0002hY-VP
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:56:09 -0400
+Received: by mail-ed1-x536.google.com with SMTP id g20so2645164edw.6
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 07:56:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=vFvi/IMI6APyLhuzHP8Oz81yewix/ABe1UroHV+zohw=;
+ b=sWSHi86IM1GMDqDn5vtDkPXpirA6AmcFATBQrGh4/v4rTLSNTST/1AtcohAN2r/Dmz
+ sqnwtGo+1D0t11q68Px++vO8UFcvBfNOX/7V0XHl7r72ugGgeELWC++PrkP0MRTAC2as
+ MbFJclzrm0DEbL3uzOHKdNV5pW9oSVk307mQTGVj5ru4oSamEZ8DtE8siGm1QVyRIq0h
+ ZTGo55pmy0tsqd2LNjXBWW4cDiEj4vYbDOfAijjJ3hFtDwmwvQTjuYJW+y/ZM6QyOrp5
+ Hf0AalAgsO/Z5wHETinYRSSG/j7W8Pld0dUCklyLVpfN86pb2ntSP/acIA3e+NI6/qpO
+ 14GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=vFvi/IMI6APyLhuzHP8Oz81yewix/ABe1UroHV+zohw=;
+ b=QDk0gI1+UtoK+ml4DuOLFNlCTzb1oyAa9CkAhiGagfqyjmFne9eWcgDuJXbTWQUZSk
+ 01X09EgRkuzs3MqunwEdZAlH+fVl4TDfnxiquICfA2mrySFXDJRYdKWQ5ayAw1V+KKkT
+ Z0nM4Y0ad8VdXmy8cYwByIhO07NlzsjQmZt3LkbEPhbwzYVUtUat7NxD/0smJpL/y+ii
+ jeuxIXi4cQbbpoNcF3/+/R+umEIxorv5G5bK6roWCn8t2CF1dtyCrcww1DV7T8tiAV82
+ AewG+2cLX95BBg/sNqYzqjpXBXdzuPvx0UPFaPDCcR+XzV6htmjZhrgm9JkE+PzpxojP
+ MK1A==
+X-Gm-Message-State: AOAM532oVQQpZ8GUpKHt+yCiUF+03tdC/E1+UZr1PfH0BXh6JGecuBNe
+ amrovZjnIRIYd7M1Abzsz/S3JA==
+X-Google-Smtp-Source: ABdhPJwk5zWIAxgNCCTfAEeebUcA+qEa1ppu54FUZBKcwXTPurV+E6+jiKfhNGnylU2xRloASN1wvA==
+X-Received: by 2002:a05:6402:27d4:b0:423:fb6b:644c with SMTP id
+ c20-20020a05640227d400b00423fb6b644cmr10670439ede.409.1650466565219; 
+ Wed, 20 Apr 2022 07:56:05 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ n25-20020a1709062bd900b006e8766b7907sm6815507ejg.223.2022.04.20.07.56.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 07:56:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9FF541FFB7;
+ Wed, 20 Apr 2022 15:56:03 +0100 (BST)
+References: <20220419091020.3008144-1-alex.bennee@linaro.org>
+ <20220419091020.3008144-23-alex.bennee@linaro.org>
+ <278f05c9-db1e-4990-4fa7-66f080e07dda@linaro.org>
+User-agent: mu4e 1.7.13; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v1 22/25] tests/tcg: add float_convd test
+Date: Wed, 20 Apr 2022 15:55:28 +0100
+In-reply-to: <278f05c9-db1e-4990-4fa7-66f080e07dda@linaro.org>
+Message-ID: <878rrzx0qk.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220420132624.2439741-5-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,39 +90,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
+ Eduardo Habkost <eduardo@habkost.net>, "open
+ list:ARM TCG CPUs" <qemu-arm@nongnu.org>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 05:25:47PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Move qemu_main() declaration to a new header.
-> 
-> Simplify main.c since both cocoa & sdl cannot be enabled together.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
->  include/qemu-common.h |  5 -----
->  include/qemu-main.h   | 10 ++++++++++
->  softmmu/main.c        | 25 +++++++++----------------
->  ui/cocoa.m            |  1 +
->  4 files changed, 20 insertions(+), 21 deletions(-)
->  create mode 100644 include/qemu-main.h
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 4/19/22 02:10, Alex Benn=C3=A9e wrote:
+>> This is a simple transliteration of the float_convs test but this time
+>> working with doubles. I'm used it to test the handling of vector
+>> registers in gdbstub but wasn't able to find a non-ugly way to
+>> automate it.
+>> Signed-off-by: Alex Benn=C3=A9e<alex.bennee@linaro.org>
+>> ---
+>>   tests/tcg/multiarch/float_convd.c | 106 ++++
+>>   tests/tcg/aarch64/float_convd.ref | 988 ++++++++++++++++++++++++++++++
+>>   tests/tcg/arm/float_convd.ref     | 988 ++++++++++++++++++++++++++++++
+>>   tests/tcg/i386/float_convd.conf   | 988 ++++++++++++++++++++++++++++++
+>>   tests/tcg/x86_64/float_convd.ref  | 988 ++++++++++++++++++++++++++++++
+>>   5 files changed, 4058 insertions(+)
+>>   create mode 100644 tests/tcg/multiarch/float_convd.c
+>>   create mode 100644 tests/tcg/aarch64/float_convd.ref
+>>   create mode 100644 tests/tcg/arm/float_convd.ref
+>>   create mode 100644 tests/tcg/i386/float_convd.conf
+>>   create mode 100644 tests/tcg/x86_64/float_convd.ref
+>
+> Is it worth adjusting the current file to float_conv.c.inc, with
+> #define FLOAT {float,double} in float_conv{s,d}.c before #include?
+>
+> But I suppose this is ok as-is.
+
+I did consider pushing more into libs/float_helpers.c but the whole test fi=
+le
+is fairly simple as is.
+
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+>
+> r~
 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
