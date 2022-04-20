@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9DF8508635
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:43:41 +0200 (CEST)
-Received: from localhost ([::1]:44852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCCF508653
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:50:21 +0200 (CEST)
+Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh7oC-0002ei-Rf
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59380)
+	id 1nh7ue-0002Kn-R6
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:50:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nh7g3-0001wJ-T3
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:35:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43849)
+ id 1nh7hJ-00032j-Gg
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:36:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nh7g1-0007D7-MQ
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:35:15 -0400
+ id 1nh7hH-0007Py-Pn
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:36:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650450911;
+ s=mimecast20190719; t=1650450991;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QtqfZYQl6iYFBwf3RUncyVnjCPDfhDRxTTqWHppmSXo=;
- b=BzpPxZOVkIyrg/T0uDox4QwXD97R3WWPQ5gHjFusMUQALtsqINs4JnYwEgJ22NyHmzTj2h
- WLihIC0xQ8zFE2vNrTJDiWlqaWVRhbnvJEyNfAfNswSKGY8dWdCBuY5Cd0QdUF4mJIVeqN
- sHfyLFWflKPDtJxrm/InwXP/WEJeH40=
+ bh=Pwm4/vfGIgqeihiM5xKVnsQDm/7lTlBzbgVoL4gql3M=;
+ b=RkMKZ2gMheRIUfKGOE7qLjyCjOCLdpJ8zRZ+AfseoDQCAutODRYjDi+4I9QH3AylsO3csc
+ HR82PORdpCquhOkS2/lZsJFJeu7NbkXvtA0Ly9LBz04hMxrRYMnQav2fT185WqDr2EbAsb
+ pVA7wM5Mz+buYPl1z2UXwXbw6IkI7uQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-401-GFILgkc9PjaAdrX-ZC1VPA-1; Wed, 20 Apr 2022 06:35:10 -0400
-X-MC-Unique: GFILgkc9PjaAdrX-ZC1VPA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-279-CppizX2lNVq4m74PKAyKmA-1; Wed, 20 Apr 2022 06:36:30 -0400
+X-MC-Unique: CppizX2lNVq4m74PKAyKmA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B88C418A6582
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 10:35:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD29685A5A8
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 10:36:29 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E5ED4022F6;
- Wed, 20 Apr 2022 10:35:08 +0000 (UTC)
-Date: Wed, 20 Apr 2022 11:35:05 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C8DC9403D19A;
+ Wed, 20 Apr 2022 10:36:28 +0000 (UTC)
+Date: Wed, 20 Apr 2022 11:36:26 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v4 02/19] migration: Drop multifd tls_hostname cache
-Message-ID: <Yl/h2drlzgnCJJCL@redhat.com>
+Subject: Re: [PATCH v4 03/19] migration: Add pss.postcopy_requested status
+Message-ID: <Yl/iKi6Tvx7eG3YE@redhat.com>
 References: <20220331150857.74406-1-peterx@redhat.com>
- <20220331150857.74406-3-peterx@redhat.com>
+ <20220331150857.74406-4-peterx@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220331150857.74406-3-peterx@redhat.com>
+In-Reply-To: <20220331150857.74406-4-peterx@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -87,21 +87,19 @@ Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 11:08:40AM -0400, Peter Xu wrote:
-> The hostname is cached N times, N equals to the multifd channels.
+On Thu, Mar 31, 2022 at 11:08:41AM -0400, Peter Xu wrote:
+> This boolean flag shows whether the current page during migration is triggered
+> by postcopy or not.  Then in ram_save_host_page() and deeper stack we'll be
+> able to have a reference on the priority of this page.
 > 
-> Drop that cache because after previous patch we've got s->hostname
-> being alive for the whole lifecycle of migration procedure.
-> 
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: Daniel P. Berrange <berrange@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  migration/multifd.c | 10 +++-------
->  migration/multifd.h |  2 --
->  2 files changed, 3 insertions(+), 9 deletions(-)
+>  migration/ram.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
 
 With regards,
 Daniel
