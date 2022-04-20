@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A61508657
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:50:44 +0200 (CEST)
-Received: from localhost ([::1]:58184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2885508669
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:53:46 +0200 (CEST)
+Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh7v1-0002aR-Fi
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:50:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59038)
+	id 1nh7xy-0006BB-1D
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:53:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7eS-0001Ph-VY
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7eT-0001Pk-ME
  for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:33:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21795)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7eQ-0006rk-GU
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:33:36 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7eR-0006s5-Uk
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:33:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650450813;
+ s=mimecast20190719; t=1650450815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PGZiyoaMXsTdYjGrGiMzB2k5dQMS90Hz8LbniPPwScw=;
- b=CGkuK2xUF6iwOwZsQanplWDfUOvhIUZgnJ7K7KrAXmZG5VanB8NTO6TqpkxMn3//zrjHqO
- T1gvDk/lV5hPlQ6uesiJc9PdjVPXNuHzjykjGNk/CG15GGCWhUj7w7lNpliEyoBOYx+hmG
- tsJh9P5LOYlxJ3W6QBUY0ckJhUmRU7c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=U9cjgYdCEzeIrhMniFxHd0y1Nu0HQPmgmWnrgAeNGek=;
+ b=aBP/YrgQmUhyF3c9ofz+ghXCkK6KdapmgBHrILX/gPAybJ6WS2LfzYrrNNCblW78QKJ8ec
+ bbA6uMAvh3GVoe290pwZulOSlqcW0cqpgqlaKlQVtlirtmlbwoR2ru7p0N3QZroTD5RW/v
+ XtjjbZ4rQR7PDzEbVEF21WIf4YBSZ6I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290-WWUymrdsNoOzqYqma9k8TQ-1; Wed, 20 Apr 2022 06:33:28 -0400
-X-MC-Unique: WWUymrdsNoOzqYqma9k8TQ-1
+ us-mta-126-KXmlhPCsMqq9BCIZbUGF4Q-1; Wed, 20 Apr 2022 06:33:32 -0400
+X-MC-Unique: KXmlhPCsMqq9BCIZbUGF4Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F0C8803533;
- Wed, 20 Apr 2022 10:33:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7F0EB29AA3B5;
+ Wed, 20 Apr 2022 10:33:31 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC04DC44AE2;
- Wed, 20 Apr 2022 10:33:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 34F1FC52CA5;
+ Wed, 20 Apr 2022 10:33:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 5/7] docs/ccid: convert to restructuredText
-Date: Wed, 20 Apr 2022 12:33:07 +0200
-Message-Id: <20220420103309.264479-6-thuth@redhat.com>
+Subject: [PULL 6/7] hw: Add compat machines for 7.1
+Date: Wed, 20 Apr 2022 12:33:08 +0200
+Message-Id: <20220420103309.264479-7-thuth@redhat.com>
 In-Reply-To: <20220420103309.264479-1-thuth@redhat.com>
 References: <20220420103309.264479-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -75,404 +75,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Lucas Ramage <lucas.ramage@infinite-omicron.com>
+Cc: Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Yanan Wang <wangyanan55@huawei.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lucas Ramage <lucas.ramage@infinite-omicron.com>
+From: Cornelia Huck <cohuck@redhat.com>
 
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/527
-Signed-off-by: Lucas Ramage <lucas.ramage@infinite-omicron.com>
-Message-Id: <20220405142906.21382-1-oxr463@gmx.us>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-[thuth: Added some cosmetic fixes]
+Add 7.1 machine types for arm/i440fx/m68k/q35/s390x/spapr.
+
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20220316145521.1224083-1-cohuck@redhat.com>
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Acked-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/ccid.txt                    | 182 -------------------------------
- docs/system/device-emulation.rst |   1 +
- docs/system/devices/ccid.rst     | 171 +++++++++++++++++++++++++++++
- 3 files changed, 172 insertions(+), 182 deletions(-)
- delete mode 100644 docs/ccid.txt
- create mode 100644 docs/system/devices/ccid.rst
+ include/hw/boards.h        |  3 +++
+ include/hw/i386/pc.h       |  3 +++
+ hw/arm/virt.c              |  9 ++++++++-
+ hw/core/machine.c          |  3 +++
+ hw/i386/pc.c               |  3 +++
+ hw/i386/pc_piix.c          | 14 +++++++++++++-
+ hw/i386/pc_q35.c           | 13 ++++++++++++-
+ hw/m68k/virt.c             |  9 ++++++++-
+ hw/ppc/spapr.c             | 15 +++++++++++++--
+ hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+ 10 files changed, 79 insertions(+), 7 deletions(-)
 
-diff --git a/docs/ccid.txt b/docs/ccid.txt
-deleted file mode 100644
-index 2b85b1bd42..0000000000
---- a/docs/ccid.txt
-+++ /dev/null
-@@ -1,182 +0,0 @@
--QEMU CCID Device Documentation.
--
--Contents
--1. USB CCID device
--2. Building
--3. Using ccid-card-emulated with hardware
--4. Using ccid-card-emulated with certificates
--5. Using ccid-card-passthru with client side hardware
--6. Using ccid-card-passthru with client side certificates
--7. Passthrough protocol scenario
--8. libcacard
--
--1. USB CCID device
--
--The USB CCID device is a USB device implementing the CCID specification, which
--lets one connect smart card readers that implement the same spec. For more
--information see the specification:
--
-- Universal Serial Bus
-- Device Class: Smart Card
-- CCID
-- Specification for
-- Integrated Circuit(s) Cards Interface Devices
-- Revision 1.1
-- April 22rd, 2005
--
--Smartcards are used for authentication, single sign on, decryption in
--public/private schemes and digital signatures. A smartcard reader on the client
--cannot be used on a guest with simple usb passthrough since it will then not be
--available on the client, possibly locking the computer when it is "removed". On
--the other hand this device can let you use the smartcard on both the client and
--the guest machine. It is also possible to have a completely virtual smart card
--reader and smart card (i.e. not backed by a physical device) using this device.
--
--2. Building
--
--The cryptographic functions and access to the physical card is done via the
--libcacard library, whose development package must be installed prior to
--building QEMU:
--
--In redhat/fedora:
--    yum install libcacard-devel
--In ubuntu:
--    apt-get install libcacard-dev
--
--Configuring and building:
--    ./configure --enable-smartcard && make
--
--
--3. Using ccid-card-emulated with hardware
--
--Assuming you have a working smartcard on the host with the current
--user, using libcacard, QEMU acts as another client using ccid-card-emulated:
--
--    qemu -usb -device usb-ccid -device ccid-card-emulated
--
--
--4. Using ccid-card-emulated with certificates stored in files
--
--You must create the CA and card certificates. This is a one time process.
--We use NSS certificates:
--
--    mkdir fake-smartcard
--    cd fake-smartcard
--    certutil -N -d sql:$PWD
--    certutil -S -d sql:$PWD -s "CN=Fake Smart Card CA" -x -t TC,TC,TC -n fake-smartcard-ca
--    certutil -S -d sql:$PWD -t ,, -s "CN=John Doe" -n id-cert -c fake-smartcard-ca
--    certutil -S -d sql:$PWD -t ,, -s "CN=John Doe (signing)" --nsCertType smime -n signing-cert -c fake-smartcard-ca
--    certutil -S -d sql:$PWD -t ,, -s "CN=John Doe (encryption)" --nsCertType sslClient -n encryption-cert -c fake-smartcard-ca
--
--Note: you must have exactly three certificates.
--
--You can use the emulated card type with the certificates backend:
--
--    qemu -usb -device usb-ccid -device ccid-card-emulated,backend=certificates,db=sql:$PWD,cert1=id-cert,cert2=signing-cert,cert3=encryption-cert
--
--To use the certificates in the guest, export the CA certificate:
--
--    certutil -L -r -d sql:$PWD -o fake-smartcard-ca.cer -n fake-smartcard-ca
--
--and import it in the guest:
--
--    certutil -A -d /etc/pki/nssdb -i fake-smartcard-ca.cer -t TC,TC,TC -n fake-smartcard-ca
--
--In a Linux guest you can then use the CoolKey PKCS #11 module to access
--the card:
--
--    certutil -d /etc/pki/nssdb -L -h all
--
--It will prompt you for the PIN (which is the password you assigned to the
--certificate database early on), and then show you all three certificates
--together with the manually imported CA cert:
--
--    Certificate Nickname                        Trust Attributes
--    fake-smartcard-ca                           CT,C,C
--    John Doe:CAC ID Certificate                 u,u,u
--    John Doe:CAC Email Signature Certificate    u,u,u
--    John Doe:CAC Email Encryption Certificate   u,u,u
--
--If this does not happen, CoolKey is not installed or not registered with
--NSS.  Registration can be done from Firefox or the command line:
--
--    modutil -dbdir /etc/pki/nssdb -add "CAC Module" -libfile /usr/lib64/pkcs11/libcoolkeypk11.so
--    modutil -dbdir /etc/pki/nssdb -list
--
--
--5. Using ccid-card-passthru with client side hardware
--
--on the host specify the ccid-card-passthru device with a suitable chardev:
--
--    qemu -chardev socket,server=on,host=0.0.0.0,port=2001,id=ccid,wait=off \
--         -usb -device usb-ccid -device ccid-card-passthru,chardev=ccid
--
--on the client run vscclient, built when you built QEMU:
--
--    vscclient <qemu-host> 2001
--
--
--6. Using ccid-card-passthru with client side certificates
--
--This case is not particularly useful, but you can use it to debug
--your setup if #4 works but #5 does not.
--
--Follow instructions as per #4, except run QEMU and vscclient as follows:
--Run qemu as per #5, and run vscclient from the "fake-smartcard"
--directory as follows:
--
--    qemu -chardev socket,server=on,host=0.0.0.0,port=2001,id=ccid,wait=off \
--         -usb -device usb-ccid -device ccid-card-passthru,chardev=ccid
--    vscclient -e "db=\"sql:$PWD\" use_hw=no soft=(,Test,CAC,,id-cert,signing-cert,encryption-cert)" <qemu-host> 2001
--
--
--7. Passthrough protocol scenario
--
--This is a typical interchange of messages when using the passthru card device.
--usb-ccid is a usb device. It defaults to an unattached usb device on startup.
--usb-ccid expects a chardev and expects the protocol defined in
--cac_card/vscard_common.h to be passed over that.
--The usb-ccid device can be in one of three modes:
-- * detached
-- * attached with no card
-- * attached with card
--
--A typical interchange is: (the arrow shows who started each exchange, it can be client
--originated or guest originated)
--
--client event      |      vscclient           |    passthru    |     usb-ccid  |  guest event
------------------------------------------------------------------------------------------------
--                  |      VSC_Init            |                |               |
--                  |      VSC_ReaderAdd       |                |     attach    |
--                  |                          |                |               |  sees new usb device.
--card inserted ->  |                          |                |               |
--                  |      VSC_ATR             |   insert       |     insert    |  see new card
--                  |                          |                |               |
--                  |      VSC_APDU            |   VSC_APDU     |               | <- guest sends APDU
--client<->physical |                          |                |               |
--card APDU exchange|                          |                |               |
--client response ->|      VSC_APDU            |   VSC_APDU     |               |  receive APDU response
--                                                    ...
--                                    [APDU<->APDU repeats several times]
--                                                    ...
--card removed  ->  |                          |                |               |
--                  |      VSC_CardRemove      |   remove       |    remove     |   card removed
--                                                    ...
--                                    [(card insert, apdu's, card remove) repeat]
--                                                    ...
--kill/quit         |                          |                |               |
--  vscclient       |                          |                |               |
--                  |      VSC_ReaderRemove    |                |    detach     |
--                  |                          |                |               |   usb device removed.
--
--
--8. libcacard
--
--Both ccid-card-emulated and vscclient use libcacard as the card emulator.
--libcacard implements a completely virtual CAC (DoD standard for smart
--cards) compliant card and uses NSS to retrieve certificates and do
--any encryption.  The backend can then be a real reader and card, or
--certificates stored in files.
--
--For documentation of the library see docs/libcacard.txt.
--
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index 0b3a3d73ad..ae8dd233e8 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -83,6 +83,7 @@ Emulated Devices
-    :maxdepth: 1
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index c92ac8815c..d64b5481e8 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -380,6 +380,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
  
-    devices/can.rst
-+   devices/ccid.rst
-    devices/ivshmem.rst
-    devices/net.rst
-    devices/nvme.rst
-diff --git a/docs/system/devices/ccid.rst b/docs/system/devices/ccid.rst
-new file mode 100644
-index 0000000000..3b8c2ab46a
---- /dev/null
-+++ b/docs/system/devices/ccid.rst
-@@ -0,0 +1,171 @@
-+Chip Card Interface Device (CCID)
-+=================================
++extern GlobalProperty hw_compat_7_0[];
++extern const size_t hw_compat_7_0_len;
 +
-+USB CCID device
-+---------------
-+The USB CCID device is a USB device implementing the CCID specification, which
-+lets one connect smart card readers that implement the same spec. For more
-+information see the specification::
+ extern GlobalProperty hw_compat_6_2[];
+ extern const size_t hw_compat_6_2_len;
+ 
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 1a27de9c8b..637367dc5f 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -202,6 +202,9 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+ /* sgx.c */
+ void pc_machine_init_sgx_epc(PCMachineState *pcms);
+ 
++extern GlobalProperty pc_compat_7_0[];
++extern const size_t pc_compat_7_0_len;
 +
-+  Universal Serial Bus
-+  Device Class: Smart Card
-+  CCID
-+  Specification for
-+  Integrated Circuit(s) Cards Interface Devices
-+  Revision 1.1
-+  April 22rd, 2005
+ extern GlobalProperty pc_compat_6_2[];
+ extern const size_t pc_compat_6_2_len;
+ 
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index d2e5ecd234..9284f7d28e 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -3022,10 +3022,17 @@ static void machvirt_machine_init(void)
+ }
+ type_init(machvirt_machine_init);
+ 
++static void virt_machine_7_1_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE_AS_LATEST(7, 1)
 +
-+Smartcards are used for authentication, single sign on, decryption in
-+public/private schemes and digital signatures. A smartcard reader on the client
-+cannot be used on a guest with simple usb passthrough since it will then not be
-+available on the client, possibly locking the computer when it is "removed". On
-+the other hand this device can let you use the smartcard on both the client and
-+the guest machine. It is also possible to have a completely virtual smart card
-+reader and smart card (i.e. not backed by a physical device) using this device.
+ static void virt_machine_7_0_options(MachineClass *mc)
+ {
++    virt_machine_7_1_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+ }
+-DEFINE_VIRT_MACHINE_AS_LATEST(7, 0)
++DEFINE_VIRT_MACHINE(7, 0)
+ 
+ static void virt_machine_6_2_options(MachineClass *mc)
+ {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 1e23fdc14b..cb9bbc844d 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -37,6 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+ 
++GlobalProperty hw_compat_7_0[] = {};
++const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
 +
-+Building
-+--------
-+The cryptographic functions and access to the physical card is done via the
-+libcacard library, whose development package must be installed prior to
-+building QEMU:
+ GlobalProperty hw_compat_6_2[] = {
+     { "PIIX4_PM", "x-not-migrate-acpi-index", "on"},
+ };
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index fd55fc725c..23bba9d82c 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -95,6 +95,9 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
+ 
++GlobalProperty pc_compat_7_0[] = {};
++const size_t pc_compat_7_0_len = G_N_ELEMENTS(pc_compat_7_0);
 +
-+In redhat/fedora::
+ GlobalProperty pc_compat_6_2[] = {
+     { "virtio-mem", "unplugged-inaccessible", "off" },
+ };
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index b72c03d0a6..4c185c72d0 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -415,7 +415,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+ }
+ 
+-static void pc_i440fx_7_0_machine_options(MachineClass *m)
++static void pc_i440fx_7_1_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_machine_options(m);
+@@ -424,6 +424,18 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+     pcmc->default_cpu_version = 1;
+ }
+ 
++DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
++                      pc_i440fx_7_1_machine_options);
 +
-+  yum install libcacard-devel
++static void pc_i440fx_7_0_machine_options(MachineClass *m)
++{
++    pc_i440fx_7_1_machine_options(m);
++    m->alias = NULL;
++    m->is_default = false;
++    compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
++    compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
++}
 +
-+In ubuntu::
+ DEFINE_I440FX_MACHINE(v7_0, "pc-i440fx-7.0", NULL,
+                       pc_i440fx_7_0_machine_options);
+ 
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 1780f79bc1..302288342a 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -360,7 +360,7 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->max_cpus = 288;
+ }
+ 
+-static void pc_q35_7_0_machine_options(MachineClass *m)
++static void pc_q35_7_1_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_machine_options(m);
+@@ -368,6 +368,17 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
+     pcmc->default_cpu_version = 1;
+ }
+ 
++DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
++                   pc_q35_7_1_machine_options);
 +
-+  apt-get install libcacard-dev
++static void pc_q35_7_0_machine_options(MachineClass *m)
++{
++    pc_q35_7_1_machine_options(m);
++    m->alias = NULL;
++    compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
++    compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
++}
 +
-+Configuring and building::
+ DEFINE_Q35_MACHINE(v7_0, "pc-q35-7.0", NULL,
+                    pc_q35_7_0_machine_options);
+ 
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 7de8b5f833..e215aa3d42 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -315,10 +315,17 @@ type_init(virt_machine_register_types)
+     } \
+     type_init(machvirt_machine_##major##_##minor##_init);
+ 
++static void virt_machine_7_1_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE(7, 1, true)
 +
-+  ./configure --enable-smartcard && make
+ static void virt_machine_7_0_options(MachineClass *mc)
+ {
++    virt_machine_7_1_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+ }
+-DEFINE_VIRT_MACHINE(7, 0, true)
++DEFINE_VIRT_MACHINE(7, 0, false)
+ 
+ static void virt_machine_6_2_options(MachineClass *mc)
+ {
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index cc11fcc8b2..22569305d2 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4702,15 +4702,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+     }                                                                \
+     type_init(spapr_machine_register_##suffix)
+ 
++/*
++ * pseries-7.1
++ */
++static void spapr_machine_7_1_class_options(MachineClass *mc)
++{
++    /* Defaults for the latest behaviour inherited from the base class */
++}
 +
-+Using ccid-card-emulated with hardware
-+--------------------------------------
-+Assuming you have a working smartcard on the host with the current
-+user, using libcacard, QEMU acts as another client using ccid-card-emulated::
++DEFINE_SPAPR_MACHINE(7_1, "7.1", true);
 +
-+  qemu -usb -device usb-ccid -device ccid-card-emulated
+ /*
+  * pseries-7.0
+  */
+ static void spapr_machine_7_0_class_options(MachineClass *mc)
+ {
+-    /* Defaults for the latest behaviour inherited from the base class */
++    spapr_machine_7_1_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+ }
+ 
+-DEFINE_SPAPR_MACHINE(7_0, "7.0", true);
++DEFINE_SPAPR_MACHINE(7_0, "7.0", false);
+ 
+ /*
+  * pseries-6.2
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 2d32647d08..8fa488d13a 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -792,14 +792,26 @@ bool css_migration_enabled(void)
+     }                                                                         \
+     type_init(ccw_machine_register_##suffix)
+ 
++static void ccw_machine_7_1_instance_options(MachineState *machine)
++{
++}
 +
-+Using ccid-card-emulated with certificates stored in files
-+----------------------------------------------------------
-+You must create the CA and card certificates. This is a one time process.
-+We use NSS certificates::
++static void ccw_machine_7_1_class_options(MachineClass *mc)
++{
++}
++DEFINE_CCW_MACHINE(7_1, "7.1", true);
 +
-+  mkdir fake-smartcard
-+  cd fake-smartcard
-+  certutil -N -d sql:$PWD
-+  certutil -S -d sql:$PWD -s "CN=Fake Smart Card CA" -x -t TC,TC,TC -n fake-smartcard-ca
-+  certutil -S -d sql:$PWD -t ,, -s "CN=John Doe" -n id-cert -c fake-smartcard-ca
-+  certutil -S -d sql:$PWD -t ,, -s "CN=John Doe (signing)" --nsCertType smime -n signing-cert -c fake-smartcard-ca
-+  certutil -S -d sql:$PWD -t ,, -s "CN=John Doe (encryption)" --nsCertType sslClient -n encryption-cert -c fake-smartcard-ca
-+
-+Note: you must have exactly three certificates.
-+
-+You can use the emulated card type with the certificates backend::
-+
-+  qemu -usb -device usb-ccid -device ccid-card-emulated,backend=certificates,db=sql:$PWD,cert1=id-cert,cert2=signing-cert,cert3=encryption-cert
-+
-+To use the certificates in the guest, export the CA certificate::
-+
-+  certutil -L -r -d sql:$PWD -o fake-smartcard-ca.cer -n fake-smartcard-ca
-+
-+and import it in the guest::
-+
-+  certutil -A -d /etc/pki/nssdb -i fake-smartcard-ca.cer -t TC,TC,TC -n fake-smartcard-ca
-+
-+In a Linux guest you can then use the CoolKey PKCS #11 module to access
-+the card::
-+
-+  certutil -d /etc/pki/nssdb -L -h all
-+
-+It will prompt you for the PIN (which is the password you assigned to the
-+certificate database early on), and then show you all three certificates
-+together with the manually imported CA cert::
-+
-+  Certificate Nickname                        Trust Attributes
-+  fake-smartcard-ca                           CT,C,C
-+  John Doe:CAC ID Certificate                 u,u,u
-+  John Doe:CAC Email Signature Certificate    u,u,u
-+  John Doe:CAC Email Encryption Certificate   u,u,u
-+
-+If this does not happen, CoolKey is not installed or not registered with
-+NSS. Registration can be done from Firefox or the command line::
-+
-+  modutil -dbdir /etc/pki/nssdb -add "CAC Module" -libfile /usr/lib64/pkcs11/libcoolkeypk11.so
-+  modutil -dbdir /etc/pki/nssdb -list
-+
-+Using ccid-card-passthru with client side hardware
-+--------------------------------------------------
-+On the host specify the ccid-card-passthru device with a suitable chardev::
-+
-+  qemu -chardev socket,server=on,host=0.0.0.0,port=2001,id=ccid,wait=off \
-+       -usb -device usb-ccid -device ccid-card-passthru,chardev=ccid
-+
-+On the client run vscclient, built when you built QEMU::
-+
-+  vscclient <qemu-host> 2001
-+
-+Using ccid-card-passthru with client side certificates
-+------------------------------------------------------
-+This case is not particularly useful, but you can use it to debug
-+your setup.
-+
-+Follow instructions above, except run QEMU and vscclient as follows.
-+
-+Run qemu as per above, and run vscclient from the "fake-smartcard"
-+directory as follows::
-+
-+  qemu -chardev socket,server=on,host=0.0.0.0,port=2001,id=ccid,wait=off \
-+       -usb -device usb-ccid -device ccid-card-passthru,chardev=ccid
-+  vscclient -e "db=\"sql:$PWD\" use_hw=no soft=(,Test,CAC,,id-cert,signing-cert,encryption-cert)" <qemu-host> 2001
-+
-+
-+Passthrough protocol scenario
-+-----------------------------
-+This is a typical interchange of messages when using the passthru card device.
-+usb-ccid is a usb device. It defaults to an unattached usb device on startup.
-+usb-ccid expects a chardev and expects the protocol defined in
-+cac_card/vscard_common.h to be passed over that.
-+The usb-ccid device can be in one of three modes:
-+
-+* detached
-+* attached with no card
-+* attached with card
-+
-+A typical interchange is (the arrow shows who started each exchange, it can be client
-+originated or guest originated)::
-+
-+  client event        |    vscclient           |    passthru    |    usb-ccid  |  guest event
-+  ------------------------------------------------------------------------------------------------
-+                      |    VSC_Init            |                |              |
-+                      |    VSC_ReaderAdd       |                |    attach    |
-+                      |                        |                |              |  sees new usb device.
-+    card inserted ->  |                        |                |              |
-+                      |    VSC_ATR             |   insert       |    insert    |  see new card
-+                      |                        |                |              |
-+                      |    VSC_APDU            |   VSC_APDU     |              | <- guest sends APDU
-+  client <-> physical |                        |                |              |
-+   card APDU exchange |                        |                |              |
-+   client response -> |    VSC_APDU            |   VSC_APDU     |              |  receive APDU response
-+                                                      ...
-+                                      [APDU<->APDU repeats several times]
-+                                                      ...
-+     card removed  -> |                        |                |              |
-+                      |    VSC_CardRemove      |   remove       |   remove     |   card removed
-+                                                      ...
-+                                      [(card insert, apdu's, card remove) repeat]
-+                                                      ...
-+    kill/quit         |                        |                |              |
-+      vscclient       |                        |                |              |
-+                      |    VSC_ReaderRemove    |                |   detach     |
-+                      |                        |                |              |   usb device removed.
-+
-+libcacard
-+---------
-+Both ccid-card-emulated and vscclient use libcacard as the card emulator.
-+libcacard implements a completely virtual CAC (DoD standard for smart
-+cards) compliant card and uses NSS to retrieve certificates and do
-+any encryption. The backend can then be a real reader and card, or
-+certificates stored in files.
+ static void ccw_machine_7_0_instance_options(MachineState *machine)
+ {
++    ccw_machine_7_1_instance_options(machine);
+ }
+ 
+ static void ccw_machine_7_0_class_options(MachineClass *mc)
+ {
++    ccw_machine_7_1_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+ }
+-DEFINE_CCW_MACHINE(7_0, "7.0", true);
++DEFINE_CCW_MACHINE(7_0, "7.0", false);
+ 
+ static void ccw_machine_6_2_instance_options(MachineState *machine)
+ {
 -- 
 2.27.0
 
