@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF215092E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:34:22 +0200 (CEST)
-Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67B650931C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:44:56 +0200 (CEST)
+Received: from localhost ([::1]:37932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhItx-0000in-NL
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44130)
+	id 1nhJ4C-0007d6-0H
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:44:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhIe7-0000nA-Gd; Wed, 20 Apr 2022 18:17:59 -0400
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:42897)
+ id 1nhIe9-0000td-Pf; Wed, 20 Apr 2022 18:18:01 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:33774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhIe5-0006C2-UQ; Wed, 20 Apr 2022 18:17:59 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-e604f712ecso3498123fac.9; 
- Wed, 20 Apr 2022 15:17:57 -0700 (PDT)
+ id 1nhIe8-0006CO-6i; Wed, 20 Apr 2022 18:18:01 -0400
+Received: by mail-oi1-x229.google.com with SMTP id s16so3726514oie.0;
+ Wed, 20 Apr 2022 15:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Nbl4dsoUDfs/HAXd7ljfIQlE+QgstTQR9elRNvEvUbU=;
- b=okXXjV3hNxIuXaY86IhANYuTvxQBG/vGUqCQFQswM1Fl8DPlLaix7knNJ1IJ95fwgX
- uXdXMitVuXA9P2mRK+k6a2QmbyueNlNj5H2DD12klkNPI0rojU2n3sHIb2lHkhKQkyg5
- u4mBkVcuHb31nXq29/ndefZXFJu4oF9FscZyAM8nu/kpUYxFU2NmOK4slHu9RG0Z62Hj
- wR5ZBN5I6rxf4mc13Y+kT7Ou8o9ZAuRDDI/LdKHmacHU+qjwNcKdkL8IlactpbV22/Zr
- qM70dDU+b0Cu89WZwuEAf7ppvSLZp9Yjo5Ql3nRgefVgRZ7EuLsTNoUZ8H9BD/p9tx0Y
- JTLw==
+ bh=M/O3ZRxuyRCIP5ow9riCJoMToOS7OBVPr0AyxJs9OIQ=;
+ b=i0/UpH0VOFDpvkd9FMDy5ec9T2pqgOof0Jaq1GFFdX1J4YKwyt2BHAemebKxIB99MX
+ 8qabGyUIoTYOEDU1baurLPKPXUBObi93nAFDdtw0QQ04p/629xTX7ZguJtzX/TZz4xvp
+ 61LzluWO6VRg+rnLnaPA9OVxuFVsu0/bDxTzz91v2xJ+b89xes8YNDAL1VAY2fFOVxJO
+ uiCkCwcwaY6wqucGpxx4Vh0ktp1H6MoU6mRVA67P8i+outjt4OlvcUmPleQGv8pkXfUD
+ a0wYKOOutC52u6YHE6tVc6OTIw/ybtOS6a5RmFLhSh1Mm17MYkBTxzEjawI6n4RTCPY2
+ DjBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Nbl4dsoUDfs/HAXd7ljfIQlE+QgstTQR9elRNvEvUbU=;
- b=MfqyhVO2l3jttBD6XRMtp7eZPfR/FCR4R5WMCJaK3ihIkE7B3wODCxfQSyUjNxhOFi
- j9QiKEhEsL/+Ml3MJTrCHlzrBHxt3kYtVDC9C/gEuJkGpDKrhBmGwUKPRxV34u2YIgqJ
- UtbEK50afwuuczHb187qt3qC+4lWn/aXxmwA1QdcGDBKVjQ/J+czPhl9fp03s60CoC9L
- ce/CJeiAKlT0JrJv1JV6vo4uvaklKU5mKHrnPB9U5SCZLkfDjPdEYFNs21bYpkfeQJ1r
- FO2cOwOexCUH3YQpmZWKjlwlp0YR/iEviU6uwjkzEsDoYfA8wcEnG2Y/BHAw94HUcYN4
- 8Y7A==
-X-Gm-Message-State: AOAM531tZpk54hbhRKQujEJ3vQNkv9rLc+LkHpUzxpWIY+R7yn5MRuQi
- 1VbSm9ZcXqxFQUeJ2gxvOQD+nCLxS8I=
-X-Google-Smtp-Source: ABdhPJz8KF/DnXnYfpSq+/NFcMX9/L4GS8GQ/4JUINVBzOkdqXR4nlkP2mL0yiRJMCnmtYy0/bYLDQ==
-X-Received: by 2002:a05:6870:a1a0:b0:e2:9331:cc30 with SMTP id
- a32-20020a056870a1a000b000e29331cc30mr2529385oaf.155.1650493076491; 
- Wed, 20 Apr 2022 15:17:56 -0700 (PDT)
+ bh=M/O3ZRxuyRCIP5ow9riCJoMToOS7OBVPr0AyxJs9OIQ=;
+ b=M5H1eBSwP99shKvpLl+qqKKw6Gj008R0mDEFxvV+MbcL4OHhHw5yuRx2lK4gFGSbh0
+ 2wy1ZMBHwrhGa6xfBczevZx9Vi/5iJYyws+eXPuaq+nlES9Z9WnkYnPocK6IGmoF0ilo
+ 5NWdbzn7q+sAaKePd3bbUIBar0xnxnuqFNBan6uHxqzbDpDyEJcfKb7EO8YUYmo4AsjT
+ vart88XRufjHH593SwtmIschddYIg6v10F2ha8G9bJ8QvATf4MNYNyhYZZbbJmCEb9y6
+ d2Yak5g/NmFQS1eOBPjEk0HVOfXE7iT7dKDdgfBDKSDCgcl1KWrSosva9J+XST/nJnjc
+ 9hVw==
+X-Gm-Message-State: AOAM533Eirxnh8N0OSCCBrGmYjXZs1QIsnCPt+mzIXVhnKZuHIco1l8w
+ vbyr/5FkbABOS1/NAH/w4TIW7rDRiGg=
+X-Google-Smtp-Source: ABdhPJwUJVlg5EbSOxsjtxBk5Vvw0OqzcIbxeamY1uT2kt2VMm6dGy4Lcv7rC0GwyRa9u37XH58UmA==
+X-Received: by 2002:a05:6808:f88:b0:322:fcb3:f35a with SMTP id
+ o8-20020a0568080f8800b00322fcb3f35amr1293334oiw.188.1650493078740; 
+ Wed, 20 Apr 2022 15:17:58 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:486c:c4fd:c4aa:a799:60c2])
  by smtp.gmail.com with ESMTPSA id
- 14-20020aca110e000000b00322847e6f53sm3876082oir.46.2022.04.20.15.17.54
+ 14-20020aca110e000000b00322847e6f53sm3876082oir.46.2022.04.20.15.17.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 15:17:56 -0700 (PDT)
+ Wed, 20 Apr 2022 15:17:58 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/23] hw/ppc/ppc405_boards: Initialize g_autofree pointer
-Date: Wed, 20 Apr 2022 19:13:24 -0300
-Message-Id: <20220420221329.169755-19-danielhb413@gmail.com>
+Subject: [PULL 19/23] ppc/vof: Fix uninitialized string tracing
+Date: Wed, 20 Apr 2022 19:13:25 -0300
+Message-Id: <20220420221329.169755-20-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420221329.169755-1-danielhb413@gmail.com>
 References: <20220420221329.169755-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,57 +83,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- danielhb413@gmail.com, qemu-ppc@nongnu.org,
- Bernhard Beschow <shentey@gmail.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, peter.maydell@linaro.org,
+ richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-Resolves the only compiler warning when building a full QEMU under Arch Linux:
+There are error paths which do not initialize propname but the trace_exit
+label prints it anyway. This initializes the problem string.
 
-  Compiling C object libqemu-ppc-softmmu.fa.p/hw_ppc_ppc405_boards.c.o
-  In file included from /usr/include/glib-2.0/glib.h:114,
-                   from qemu/include/glib-compat.h:32,
-                   from qemu/include/qemu/osdep.h:132,
-                   from ../src/hw/ppc/ppc405_boards.c:25:
-  ../src/hw/ppc/ppc405_boards.c: In function ‘ref405ep_init’:
-  /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: warning: ‘filename’ may be used uninitialized in this function [-Wmaybe-uninitialized]
-     28 |   g_free (*pp);
-        |   ^~~~~~~~~~~~
-  ../src/hw/ppc/ppc405_boards.c:265:26: note: ‘filename’ was declared here
-    265 |         g_autofree char *filename;
-        |                          ^~~~~~~~
+Spotted by Coverity CID 1487241.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220405123534.3395-1-shentey@gmail.com>
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20220406045013.3610172-1-aik@ozlabs.ru>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc405_boards.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/ppc/vof.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 32013b8983..a66ad05e3a 100644
---- a/hw/ppc/ppc405_boards.c
-+++ b/hw/ppc/ppc405_boards.c
-@@ -261,13 +261,13 @@ static void ref405ep_init(MachineState *machine)
-     /* allocate and load BIOS */
-     if (machine->firmware) {
-         MemoryRegion *bios = g_new(MemoryRegion, 1);
--        g_autofree char *filename;
-+        g_autofree char *filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
-+                                                   machine->firmware);
-         long bios_size;
- 
-         memory_region_init_rom(bios, NULL, "ef405ep.bios", BIOS_SIZE,
-                                &error_fatal);
- 
--        filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, machine->firmware);
-         if (!filename) {
-             error_report("Could not find firmware '%s'", machine->firmware);
-             exit(1);
+diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+index 8d96593677..18c3f92317 100644
+--- a/hw/ppc/vof.c
++++ b/hw/ppc/vof.c
+@@ -293,7 +293,7 @@ static uint32_t vof_setprop(MachineState *ms, void *fdt, Vof *vof,
+                             uint32_t nodeph, uint32_t pname,
+                             uint32_t valaddr, uint32_t vallen)
+ {
+-    char propname[OF_PROPNAME_LEN_MAX + 1];
++    char propname[OF_PROPNAME_LEN_MAX + 1] = "";
+     uint32_t ret = PROM_ERROR;
+     int offset, rc;
+     char trval[64] = "";
 -- 
 2.35.1
 
