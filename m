@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353AA5090A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:46:16 +0200 (CEST)
-Received: from localhost ([::1]:42876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0268E509102
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:02:02 +0200 (CEST)
+Received: from localhost ([::1]:34222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGHH-0002eo-5C
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:46:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39002)
+	id 1nhGWX-0003lF-3D
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:02:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFp2-0001Yi-9T; Wed, 20 Apr 2022 15:17:04 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:40723)
+ id 1nhFpr-00034O-0Y; Wed, 20 Apr 2022 15:17:55 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:34538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFp0-0003CQ-N3; Wed, 20 Apr 2022 15:17:04 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id r85so3164142oie.7;
- Wed, 20 Apr 2022 12:17:01 -0700 (PDT)
+ id 1nhFpp-0003Lh-Hg; Wed, 20 Apr 2022 15:17:54 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-e2afb80550so3034809fac.1; 
+ Wed, 20 Apr 2022 12:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=y8XCNcasNeRQGKgBJ1+j7mrYWk941y6tRp5zKvAP/9Y=;
- b=YjljepLC69qxG1Qm9qu5IaJ/yhUihILYTLFyGRrOVETESKmL9EL8cHx2b81yDFy9Hd
- Mc4PD5g8Sefrvb8k6YctZvSJ4Ny3XnIjuP9CCLsUMLPRt+/71ZyY33ET39xuV22k67cF
- 9f/cRLxCN986osCp2SY5k5TTFQki6sC9Swtc82nxFIGHWkwhu+cvEIft42Hn1JHkH6k9
- 7mlPVbNrdmw9FxUVNr6rIkfyST5N9a3GULIFJ4PNZlx2GdTnx+dU9cLgRIxJkYeuOLcd
- 8EpaWsXvidQHwi7ZdVNNiWdiLCTKTKahvHdwq0NEJSrNeKAfPHLHzMZpbottFAyyuPDI
- nBSg==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=QghN2hr6dvFRZ7wx5YJ2Y8JedLHfGHLoUK8jkzls5XE=;
+ b=WnEvPaeO3M/+80+zb40dE77zr/tePYFlZcz0SgtsuAyYw40TWynpmvilRFoeXWAIrj
+ NsgcuyhNH/nXnsLRQYKxm7wg30jFqyXsuqC67fPFPh1btetaq+FFopsiGzUVdQVT7z5z
+ FLwbKkEHzT24KGEcLN/mIjTrMEGlmHNh2bxD8qkiBesSSsG3Q/xWJKRXuBcsntphbxAV
+ KpcVGXGkXTwC7SpSQdMRUb5Enn5YEUs6KK6pbcAkANJjlNsto3vzTsbzV4bn/giXIoUL
+ ZAb++xi1TNAm3lN2m9PuY7KCmXTDs8aoT09r2GAfD8RdN2sgSF1Du/o9ltquhnBxlXJj
+ rRdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=y8XCNcasNeRQGKgBJ1+j7mrYWk941y6tRp5zKvAP/9Y=;
- b=SuxQ85g/uAraAMKfWTPZotKzMMp7MPPYWIYgghuvL/dvXdU8PmXgTYKxQQEc9OGUt4
- SZCgMEcK8IZmjOv3NZB7VMoVfS5h226S7bKJx2yKh0ODxuoOCuKcFFeIbqPdxadZl0r1
- 6fkX17y8AhlH0u4cNfZJkyw5ChFKonIdLeUG/r4dW7v85tftP//xm9HWu1CxNMcijOvq
- 4TTBk2yOgHs301Z1XmGAzVMa2FxumS/g79SW0fmouCPn+YF0V37RwEbNhr19CyKaC0ez
- wU0U28Ce0Yjhf81hfkCwk/XFwU0rRSuUp6UimCzu/6BZ3AOtdcNVP8tTAvgM9fc/bqIi
- l5Qw==
-X-Gm-Message-State: AOAM533mHGbWEVYbkE4/89mEl2y9JhB5x0sJRdF4Ux3TV8IB518Tav70
- FktZ/+pNNv95Qj6D5cSp4JY=
-X-Google-Smtp-Source: ABdhPJxcJ+Z8SVjMT16riMXj9e6+HOWwYAXp3oMVXk22w56bz9o+MVhI57z+uNxFSknGBURL/qICGA==
-X-Received: by 2002:a05:6808:300f:b0:2fa:6fd5:9723 with SMTP id
- ay15-20020a056808300f00b002fa6fd59723mr2475683oib.202.1650482221307; 
- Wed, 20 Apr 2022 12:17:01 -0700 (PDT)
+ bh=QghN2hr6dvFRZ7wx5YJ2Y8JedLHfGHLoUK8jkzls5XE=;
+ b=c34hCucIDZ+V0h6ripnEwPs0UMeN28AsSx/BRsP6yqwr4i9bi5mv36X5BkDxe8p3Gg
+ Mqb9JdRxo29Klk3UceJjSLLokkYXyaAxVYn/PnK0peVBfS+2PNdeetxsafeylk1s20Re
+ 00VDASUl5J+nO7PwadhLKb9IHhLFs6+Giu9GeLI/uGjIrmiyEnJLvpLU1UDwkI100/+E
+ VMUAWGQdVVuT0wSO1PAhd4EDDPXhgOweA50dLBJI81gTSIS0n1fcgnC/noERYfeW2kjB
+ DUwm7AtnE9mS6qcKVG+MD2WDOEufARrjPR/OwHA0PRb6Nuca8hE+9DDszTsF4w1YCnj9
+ bRxw==
+X-Gm-Message-State: AOAM531gJI3Pr40fvy63mIKUyVw9pZG4tYn3zYqZk4hg8tJMHINpy1a3
+ sb+r13sxGPStdaIVsqfWqpI=
+X-Google-Smtp-Source: ABdhPJzpqWLMQGvjv9X+s14zsl6Q5DSB0uECbvqdgmgJpVQCAaxnVCEhOPMym582EHHq5qzu0rhyzA==
+X-Received: by 2002:a05:6870:45a5:b0:e1:f27d:d1c8 with SMTP id
+ y37-20020a05687045a500b000e1f27dd1c8mr2269782oao.60.1650482272121; 
+ Wed, 20 Apr 2022 12:17:52 -0700 (PDT)
 Received: from [192.168.10.222] ([179.225.252.195])
  by smtp.gmail.com with ESMTPSA id
- nd8-20020a056871440800b000e2b75759f1sm307191oab.38.2022.04.20.12.16.59
+ c17-20020a9d6851000000b0060551d14386sm2739464oto.13.2022.04.20.12.17.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 12:17:00 -0700 (PDT)
-Message-ID: <eb9c179e-e4bd-e456-6545-68294482b33c@gmail.com>
-Date: Wed, 20 Apr 2022 16:16:58 -0300
+ Wed, 20 Apr 2022 12:17:51 -0700 (PDT)
+Message-ID: <5c190dd3-a55f-c638-8c55-056c467885f8@gmail.com>
+Date: Wed, 20 Apr 2022 16:17:48 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH qemu] ppc/vof: Fix uninitialized string tracing
+Subject: Re: [PATCH v2 0/2] Remove PCIE root bridge LSI on powernv
 Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
-References: <20220406045013.3610172-1-aik@ozlabs.ru>
+To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org, mst@redhat.com,
+ marcel.apfelbaum@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20220408131303.147840-1-fbarrat@linux.ibm.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220406045013.3610172-1-aik@ozlabs.ru>
+In-Reply-To: <20220408131303.147840-1-fbarrat@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,7 +89,6 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -96,28 +97,34 @@ Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 Daniel
 
-On 4/6/22 01:50, Alexey Kardashevskiy wrote:
-> There are error paths which do not initialize propname but the trace_exit
-> label prints it anyway. This initializes the problem string.
+
+
+On 4/8/22 10:13, Frederic Barrat wrote:
+> The powernv8/powernv9/powernv10 machines allocate a LSI for their root
+> port bridge, which is not the case on real hardware. The default root
+> port implementation in qemu requests a LSI. Since the powernv
+> implementation derives from it, that's where the LSI is coming
+> from. This series fixes it, so that the model matches the hardware.
 > 
-> Spotted by Coverity CID 1487241.
+> However, the code in hw/pci to handle AER and hotplug events assume a
+> LSI is defined. It tends to assert/deassert a LSI if MSI or MSIX is
+> not enabled. Since we have hardware where that is not true, this patch
+> also fixes a few code paths to check if a LSI is configured before
+> trying to trigger it.
 > 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
->   hw/ppc/vof.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
-> index 2b63a6287561..5ce3ca32c998 100644
-> --- a/hw/ppc/vof.c
-> +++ b/hw/ppc/vof.c
-> @@ -294,7 +294,7 @@ static uint32_t vof_setprop(MachineState *ms, void *fdt, Vof *vof,
->                               uint32_t nodeph, uint32_t pname,
->                               uint32_t valaddr, uint32_t vallen)
->   {
-> -    char propname[OF_PROPNAME_LEN_MAX + 1];
-> +    char propname[OF_PROPNAME_LEN_MAX + 1] = "";
->       uint32_t ret = PROM_ERROR;
->       int offset, rc;
->       char trval[64] = "";
+> Changes from v1:
+>   - addressed comments from Daniel
+> 
+> 
+> Frederic Barrat (2):
+>    pcie: Don't try triggering a LSI when not defined
+>    ppc/pnv: Remove LSI on the PCIE host bridge
+> 
+>   hw/pci-host/pnv_phb3.c | 1 +
+>   hw/pci-host/pnv_phb4.c | 1 +
+>   hw/pci/pcie.c          | 5 +++--
+>   hw/pci/pcie_aer.c      | 2 +-
+>   4 files changed, 6 insertions(+), 3 deletions(-)
+> 
 
