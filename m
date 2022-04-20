@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1B2508314
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 10:01:50 +0200 (CEST)
-Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E59E508335
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 10:16:21 +0200 (CEST)
+Received: from localhost ([::1]:56940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh5HZ-0005hV-Ux
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 04:01:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57738)
+	id 1nh5Vb-0004oy-Vf
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 04:16:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nh5DR-0003ju-AH
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 03:57:33 -0400
-Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:46978)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nh5Og-0001nW-RL
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 04:09:10 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:46711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nh5DP-0007yB-N9
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 03:57:33 -0400
-Received: by mail-qv1-xf29.google.com with SMTP id i14so766837qvk.13
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 00:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z7iuu7pW2X4AEdyCfJGjp2dzq5kElJItV2JdztRekSM=;
- b=cpp7goO8OOoJk24GEg3YgtATwH144gdIEERSJm7TWzvWaEZKmwUzdpHWxG/OeQGuLI
- /pZmQTly0aPzyzTpe9Slqm1js4mo8pTrMX9g9sCYHT90PKAWevxkDyQo/UQzRFWjGFlY
- jMiGZtH4IbhdiQBtkoVrgWz3qxzUZBMvqdQxGcPUFGUWaMMm5keaRVmbtnOJMBu7zsDN
- hFmCCMgdqFHirUN2lUdfpFwOiUp5SC1R+bN+d+qIRoRSXsXXsDdcSFyodQeb6PPcArmp
- uDFxowEmfvnOiQ1J9wJKdShKL7qwQ2XhCK6oPdH61OPWnNfGNA41wm5fcDMNT06LUvGG
- /TTA==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nh5Oe-0001KC-Cg
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 04:09:09 -0400
+Received: by mail-pl1-x629.google.com with SMTP id be5so1096569plb.13
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 01:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z9iGgyehXFFotQ+yNPADTnzkBzf01bwCukSA+wfvbAA=;
+ b=Orgujn9b7FkS5okNtitVASYzucDosgl3UDXDfcW2VQO4YwrEurtu1LEIBz/u4NEWgi
+ sGMc3ln+vOg8HKwPJZ6Le3yjSMeetwt9rhSKIB6XwCw0Hmww1V3D5gXbARkaMsGk3HYO
+ jeGbatQ0cRZ1GYyuLL06V71eK5Aao8ql4Bdzg65G6GSR2YAVcio4uZprMZys4hnZVklc
+ Pa4/Ms/CQusJXWsDiSEmptSNjJHtpeZ8l9her0ztD8yepGvDofzloPsqc1kznnkzCID+
+ Jvn90of33SXrcwVkxlWRINRDW19xRcYueTTjcbjbArtP4Bga2OkdiuqhvvVS4hC5TZfw
+ hdsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z7iuu7pW2X4AEdyCfJGjp2dzq5kElJItV2JdztRekSM=;
- b=Rk7UCC7GDXfhDIbu+0881GAQ8cSRI01s4+oPrv2IvmVZs2lQH7/RXFaCnvie7LsqK3
- NpbJ+9UuzjatcFyoUwXeTTizAkBQuvxeKx/QZp1l1N10C46aS71gM6fgt9OHU37oSTWS
- C9bAPQjt0C43kDjwIGbuF66OOXHS7mHgNclFl4lEjFNZE2hVE2um2N9SZC3F9GhuPhG7
- kiiZvzfg1H3LGLFe6K6kq+mooon23z0ttvv9SSiB1fzj9QFH/BMBn2cyVYgOuNLVL+cJ
- B/2/b8MHopVTdV96n6xhML1jiy+zuREI0SKB/nsndEqNzzJ+fXSqSQmlMJF6E4HRYD/b
- 3TAg==
-X-Gm-Message-State: AOAM532F4EI15VK16QxMHccFeO1LnUxt3er3CoPaK4AcRa4WHe3MX80d
- IxVdxv/sZnfwgS+qO57trJvEb/fhPTNoi3cZsCI=
-X-Google-Smtp-Source: ABdhPJzUyfxy3IAtHY4SsSQ+VydNTu92zJ7duYbTwIwgKT+9Hp2c7ZvUnJ1s8IU0rdJ9U1irOh9t2uoW2IB7kdIHazg=
-X-Received: by 2002:a05:6214:258e:b0:44b:76d7:b10c with SMTP id
- fq14-20020a056214258e00b0044b76d7b10cmr217031qvb.8.1650441450462; Wed, 20 Apr
- 2022 00:57:30 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z9iGgyehXFFotQ+yNPADTnzkBzf01bwCukSA+wfvbAA=;
+ b=Ml29zoDRhYE0zPOh06nGBWY+nx2LLjeRq13CKLa1YqXamMPInwMXnj9p1YEMnjs8X/
+ +lFfhB4NyQa7D7OAFYlxLVc5QS4VDHvXYYx+uOuFTPtsZpiTUquO/9Hj+AIWveB54rqh
+ OAbjCAJpQi+YknnJ69XgwTzWHycx/DQWz0JGA/W44qJ57ir99nOdvkSSiJaE/Wx6J36v
+ oNAYQHmeMaWZKlojuMlWddHGBjLRb/llTiSHcykKK52Zg786W67HaPu9Q2VSWs0xFhzf
+ 0fs/0suYd17Eb5bB0AZ5DLP23YtYkB0UvU8aAUgWWXGe3KkR5R7aCGjwTZ496l+AwmBj
+ vk0Q==
+X-Gm-Message-State: AOAM532uWUKsqOv2Yf5MNTXLM7vfub0EmWWT+ayDhz+w7NOvULOsvC/z
+ xxXPknbzPlk6uP+27CnC6e6fAsiYXRlY8IEz
+X-Google-Smtp-Source: ABdhPJzKQZsC0qYGmQUyDJQAyHzkY0N/rS0t/KPFZIaphp5PLjQ22Q3wdhmTbRe6tWwS3uyH/9iEQA==
+X-Received: by 2002:a17:902:ba8c:b0:14f:d9b7:ab4 with SMTP id
+ k12-20020a170902ba8c00b0014fd9b70ab4mr19748312pls.23.1650442146620; 
+ Wed, 20 Apr 2022 01:09:06 -0700 (PDT)
+Received: from hsinchu16.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id
+ g15-20020aa7818f000000b00505ce2e4640sm18554898pfi.100.2022.04.20.01.09.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 01:09:04 -0700 (PDT)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/4] Support ACLINT 32/64-bit mtimecmp/mtime read/write
+ accesses
+Date: Wed, 20 Apr 2022 16:08:56 +0800
+Message-Id: <20220420080901.14655-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220323155743.1585078-1-marcandre.lureau@redhat.com>
- <20220323155743.1585078-32-marcandre.lureau@redhat.com>
- <a5f8ae01-d1e2-2a99-e9ca-d0e5414f8674@redhat.com>
-In-Reply-To: <a5f8ae01-d1e2-2a99-e9ca-d0e5414f8674@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 20 Apr 2022 11:57:19 +0400
-Message-ID: <CAJ+F1CL9m6WR_yp8Dw87jGi4CcFCOm7+hx9mAsyHcmR0kKF8eQ@mail.gmail.com>
-Subject: Re: [PATCH 31/32] RFC: Simplify softmmu/main.c
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000060a04805dd1158b9"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-qv1-xf29.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,102 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000060a04805dd1158b9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Frank Chang <frank.chang@sifive.com>
 
-Hi
+This patchset makes ACLINT mtime to be writable as RISC-V privilege
+spec defines that mtime is exposed as a memory-mapped machine-mode
+read-write register. Also, mtimecmp and mtime should be 32/64-bit memory
+accessible registers. ACLINT reset function is also added, which requires
+mtime to be resetable if we need to support core power-gating feature in
+the future.
 
-On Thu, Mar 24, 2022 at 11:52 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+This patchset is the updated verion of:
+https://patchew.org/QEMU/20220126095448.2964-1-frank.chang@sifive.com/
 
-> On 3/23/22 16:57, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau<marcandre.lureau@redhat.com>
-> >
-> > Move qemu_main() declaration to a new header.
-> >
-> > Simplify main.c since both cocoa & sdl cannot be enabled together.
-> >
-> > (there might be some small conflict with the RFC patch "cocoa: run
-> qemu_init
-> > in the main thread", but the two look like they could be used together
-> > to improve the code)
->
-> That patch enables cocoa and SDL to be in the same binary, so I think
-> this one (while a good idea in theory) should be the one that loses.
->
-> Akihiko has ideas on how to use the standard main() for Cocoa, by
-> turning qemu_main_loop() into a function pointer, like
->
-> -void qemu_main_loop()
-> +static void (*qemu_main_loop)(void) =3D qemu_default_main_loop;
-> +void qemu_default_main_loop()
->   {
->       ...
->   }
->
-> and cocoa_display_init() would do "qemu_main_loop =3D qemu_cocoa_main_loo=
-p;".
->
->
-Akihiko, do you have a patch ? Since you have reviewed this patch already,
-are you willing to rebase on top of this one?
+Changelog:
 
-thanks
+v4:
+  * Replace the error log mask for invalid 8-byte timecmp_hi and time_hi
+    writes from LOG_UNIMP to LOG_GUEST_ERROR.
 
---=20
-Marc-Andr=C3=A9 Lureau
+v3:
+  * Forbid 8-byte write access to timecmp_hi and time_hi.
+  * Add ACLINT reset function.
 
---00000000000060a04805dd1158b9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v2:
+  * Support 32/64-bit mtimecmp/mtime memory accesses.
+  * Add .impl.[min|max]_access_size declaration.
 
-<div dir=3D"ltr"><div><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_=
-quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar 24, 2022 at 11:52 =
-AM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">On 3/23/22 16:57, <a href=3D"mailto:marcandre.lureau@redhat.com" target=
-=3D"_blank">marcandre.lureau@redhat.com</a> wrote:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau&lt;<a href=3D"mailto:marcandre.lureau@red=
-hat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; Move qemu_main() declaration to a new header.<br>
-&gt; <br>
-&gt; Simplify main.c since both cocoa &amp; sdl cannot be enabled together.=
-<br>
-&gt; <br>
-&gt; (there might be some small conflict with the RFC patch &quot;cocoa: ru=
-n qemu_init<br>
-&gt; in the main thread&quot;, but the two look like they could be used tog=
-ether<br>
-&gt; to improve the code)<br>
-<br>
-That patch enables cocoa and SDL to be in the same binary, so I think <br>
-this one (while a good idea in theory) should be the one that loses.<br>
-<br>
-Akihiko has ideas on how to use the standard main() for Cocoa, by <br>
-turning qemu_main_loop() into a function pointer, like<br>
-<br>
--void qemu_main_loop()<br>
-+static void (*qemu_main_loop)(void) =3D qemu_default_main_loop;<br>
-+void qemu_default_main_loop()<br>
-=C2=A0 {<br>
-=C2=A0 =C2=A0 =C2=A0 ...<br>
-=C2=A0 }<br>
-<br>
-and cocoa_display_init() would do &quot;qemu_main_loop =3D qemu_cocoa_main_=
-loop;&quot;.<br>
-<br></blockquote><div><br></div><div>Akihiko, do you have a patch ? Since y=
-ou have reviewed this patch already, are you willing to rebase on top of th=
-is one?<br></div></div><br clear=3D"all"></div><div>thanks</div><div><br></=
-div><div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 =
-Lureau<br></div></div></div>
+Frank Chang (3):
+  hw/intc: Add .impl.[min|max]_access_size declaration in RISC-V ACLINT
+  hw/intc: Support 32/64-bit mtimecmp and mtime accesses in RISC-V
+    ACLINT
+  hw/intc: Make RISC-V ACLINT mtime MMIO register writable
 
---00000000000060a04805dd1158b9--
+Jim Shu (1):
+  hw/intc: riscv_aclint: Add reset function of ACLINT devices
+
+ hw/intc/riscv_aclint.c         | 144 ++++++++++++++++++++++++++-------
+ include/hw/intc/riscv_aclint.h |   1 +
+ target/riscv/cpu.h             |   8 +-
+ target/riscv/cpu_helper.c      |   4 +-
+ 4 files changed, 121 insertions(+), 36 deletions(-)
+
+--
+2.35.1
+
 
