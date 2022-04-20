@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD525090AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:50:09 +0200 (CEST)
-Received: from localhost ([::1]:52740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C9F508FE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:01:14 +0200 (CEST)
+Received: from localhost ([::1]:54248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGL2-0001g2-9v
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:50:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
+	id 1nhFZf-0006dC-3N
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:01:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nhFIp-0004aP-JG
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:43:48 -0400
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:40717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nhFIn-0006gk-LI
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:43:47 -0400
-Received: by mail-qk1-x729.google.com with SMTP id e128so1908919qkd.7
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:43:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RIcixjswI7IxWwAo/+oO+mIWFg+t7J3WgT1g3JTgjF8=;
- b=gzG8gX+TAjKeoiZ1OvKhl4LePzNWyCRh9qaxo+KXjDSjhswWppMJh97i2SPaZMQMgJ
- KZTVgiuA2ueYeDjm1r5t3qabzPoVe25eHUyT1XT/b6uQfJ+BgsxQZvc3XqKBXhLKUt6h
- iQ8E8HdItvgbrs0TrTPD2yKPTgo0pzbFFsjP0RmoYkP11iZSNm/Pke+N0GVQygCPhHb4
- ka5VLSva7hg8PHAyjgFKGQP/0T4S862XDZ4bKN9hKhQuL7EgJM7doQKtj8NtT9rB7ZGf
- VcfoSQqpU/MSuqk7jvfR4uWjbGtz0/oNuLIMcnvVKzIbZYokxI8IHEOFrc2aeRZ7GQ5V
- Y4/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RIcixjswI7IxWwAo/+oO+mIWFg+t7J3WgT1g3JTgjF8=;
- b=U7os6p3GM75Mf/T/3/NZ+z+Oz+DZqq2nQ/S1Sco3qQbyL95/v9JXxTL4JUKg8V2L3i
- UAEB+9ZP5a5ZQiAwDEZA+/TEyDp4mgJuRPeq1RPrXoKhYcy/eu6ihsCqwt6nabMXPgev
- ET4BIV+oIqkoKgD6Y95nmpzDfUwQFOun0R0hlKZH8R51l3VJza8MnkO/G8KOuTivq9rd
- KEfFjVMZOOWq0n7JLqWNtyk1uX6QcMPy0U4r9s1mkAu1f7Dycc3kZMalS59mStRKjshQ
- WJO6ynFtV0pPA0RZvvb5AADhEbPF98FzqiBKtXe6MYghF2XOBMDG2fBSSR6S+2xqZt7t
- SjZw==
-X-Gm-Message-State: AOAM532DJMMQx0fI3JNT6iWG7P+CXyDEATtfId9UmwksEm2HSHJVExw5
- xjVDbCKJMwGLFaC5NaWmICF35GWhnMBj1ABK0Rw8uVsAp0WOkA==
-X-Google-Smtp-Source: ABdhPJyvMjEAaLUjSNTXy0CoeVQicjaqXpFz5Gb1k0ZSbDKpPJmszmGWf+1YugRH8FPY6GLid8u9iE93Qux5fwEvLUE=
-X-Received: by 2002:a37:aa48:0:b0:69e:d351:9683 with SMTP id
- t69-20020a37aa48000000b0069ed3519683mr3125110qke.539.1650480224560; Wed, 20
- Apr 2022 11:43:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nhFRx-0002Gg-Ak
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:53:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56346)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nhFRt-00082A-TZ
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:53:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650480788;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QRTex8t1knce98qoGhFNRy+sOVAI3UNFTU+RIP+M9Fg=;
+ b=Zd0WuxWPMT0l36B6QYnqdmaMhPPqN6QfAjJiVoOCcChEBBmv8BUxzJjio8I/vz/ZDI4mvF
+ zTuHhm9qd4wTBrVoAORCp1uf9o/hwmnFOMhkk0WECmNpmsSxqnrsN1YIqUaWfU79HGGlTf
+ EG14tn7jPkj3v9qOlKMlnHWgor9odjM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-549-CcINDAOiPKWoxddYTVO0fw-1; Wed, 20 Apr 2022 14:53:07 -0400
+X-MC-Unique: CcINDAOiPKWoxddYTVO0fw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AD4418E6C41
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 18:53:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B1ED4087D8F;
+ Wed, 20 Apr 2022 18:53:05 +0000 (UTC)
+Date: Wed, 20 Apr 2022 19:53:03 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 17/41] doc/build-platforms: document supported compilers
+Message-ID: <YmBWj3w0ii5K57KF@redhat.com>
+References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
+ <20220420132624.2439741-18-marcandre.lureau@redhat.com>
+ <YmAUaMp7kTRaRCGY@redhat.com>
+ <840f08cb-e28c-6802-96c7-b1f82dd36427@redhat.com>
+ <CAMxuvax0uPB+dWGCt2_Ma22S3VZ9=OFy+J_9LFT+4ftgqzB-7A@mail.gmail.com>
+ <CAMxuvax4SaY7TBAc_fWfQHv9X49WRKvCLJ+Hd5wenVGA7Nr6Vg@mail.gmail.com>
+ <YmAlm0WXIf2n4VRX@redhat.com>
+ <CAMxuvaya0jT2PhHEryZkoW1MFKZLS0BaYz=-gqPX-Gx=6Rgp9w@mail.gmail.com>
+ <YmAs4K5NYcpNwCAc@redhat.com>
+ <CAMxuvayqchs0M5PJxuMtVWjahUSg=OUSA4KFy-y2CT_QWU76CA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220420153407.73926-1-pbonzini@redhat.com>
- <20220420153407.73926-24-pbonzini@redhat.com>
-In-Reply-To: <20220420153407.73926-24-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 20 Apr 2022 22:43:33 +0400
-Message-ID: <CAJ+F1CJ-cOHtxeTyOpu_52a+sm+8wVd3z7+PYXDns72-VTGX1g@mail.gmail.com>
-Subject: Re: [PATCH 23/34] meson: always combine directories with prefix
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007e6ab805dd1a5f4d"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-qk1-x729.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMxuvayqchs0M5PJxuMtVWjahUSg=OUSA4KFy-y2CT_QWU76CA@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,225 +88,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007e6ab805dd1a5f4d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 20, 2022 at 08:47:25PM +0400, Marc-André Lureau wrote:
+> Hi
+> 
+> On Wed, Apr 20, 2022 at 7:55 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Wed, Apr 20, 2022 at 07:32:38PM +0400, Marc-André Lureau wrote:
+> > > Hi
+> > >
+> > > On Wed, Apr 20, 2022 at 7:24 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > > >
+> > > > On Wed, Apr 20, 2022 at 06:50:12PM +0400, Marc-André Lureau wrote:
+> > > > > Hi
+> > > > >
+> > > > > On Wed, Apr 20, 2022 at 6:46 PM Marc-André Lureau
+> > > > > <marcandre.lureau@redhat.com> wrote:
+> > > > > >
+> > > > > > Hi
+> > > > > >
+> > > > > > On Wed, Apr 20, 2022 at 6:37 PM Thomas Huth <thuth@redhat.com> wrote:
+> > > > > > >
+> > > > > > > On 20/04/2022 16.10, Daniel P. Berrangé wrote:
+> > > > > > > > On Wed, Apr 20, 2022 at 05:26:00PM +0400, marcandre.lureau@redhat.com wrote:
+> > > > > > > >> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > > > > > > >>
+> > > > > > > >> According to our configure checks, this is the list of supported
+> > > > > > > >> compilers.
+> > > > > > > >>
+> > > > > > > >> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > > > > > > >> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+> > > > > > > >> ---
+> > > > > > > >>   docs/about/build-platforms.rst | 10 ++++++++++
+> > > > > > > >>   1 file changed, 10 insertions(+)
+> > > > > > > >>
+> > > > > > > >> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+> > > > > > > >> index c29a4b8fe649..1980c5d2476f 100644
+> > > > > > > >> --- a/docs/about/build-platforms.rst
+> > > > > > > >> +++ b/docs/about/build-platforms.rst
+> > > > > > > >> @@ -92,6 +92,16 @@ hosted on Linux (Debian/Fedora).
+> > > > > > > >>   The version of the Windows API that's currently targeted is Vista / Server
+> > > > > > > >>   2008.
+> > > > > > > >>
+> > > > > > > >> +Supported compilers
+> > > > > > > >> +-------------------
+> > > > > > > >> +
+> > > > > > > >> +To compile, QEMU requires either:
+> > > > > > > >> +
+> > > > > > > >> +- GCC >= 7.4.0
+> > > > > > > >> +- Clang >= 6.0
+> > > > > > > >> +- XCode Clang >= 10.0
+> > > > > > > >
+> > > > > > > > Do we need to spell out the versions explicitly ? These versions are
+> > > > > > > > all derived from what's available in the repos of the supported build
+> > > > > > > > platforms, similar to any other build deps we have. I don't think we
+> > > > > > > > want to start a precedent of duplicating versions in this doc for
+> > > > > > > > build deps we have, and there's nothing particularly special about
+> > > > > > > > compilers in this respect.
+> > > > > > >
+> > > > > > > I agree with Daniel - when I saw this patch, the first thought that I had
+> > > > > > > was: "This will be getting out of sync quickly" ...
+> > > > > >
+> > > > > > I don't have the impression we bump our compiler requirement regularly
+> > > > > > or lightly.
+> > > > > >
+> > > > > > > so I'd also recommend to rather not add this here.
+> > > > > >
+> > > > > > Outdated documentation is still better than no documentation. YMMV.
+> > > > >
+> > > > > Another question that is difficult to answer without being familiar
+> > > > > with QEMU details is whether it can compile with MSVC. This
+> > > > > documentation would, since it is explicit about the requirement.
+> > > >
+> > > > Documenting that we mandate GCC or Clang is reasonable. Ideally we could
+> > > > have a list of all 3rd party deps we have in fact, I'm just not a fan of
+> > > > copying the version numbers across from configure/meson.
+> > > >
+> > >
+> > > I agree, duplicating the version information is not optimal... Yet it
+> > > is better than not having it, or having to read or run configure imho.
+> > >
+> > > Sorry (or not) to insist, but it would help having an explicit list of
+> > > supported compilers in the human doc (because configure/meson doesn't
+> > > rule others out, afaik, nor it really can or should)
+> >
+> > Perhaps I'm misunderstanding what you mean, but configure certainly
+> > does rules out other compilers, giving a clear message:
+> >
+> > if ! compile_prog "" "" ; then
+> >     error_exit "You need at least GCC v7.4 or Clang v6.0 (or XCode Clang v10.0)"
+> > fi
+> >
+> 
+> How can this test fail with other compilers?
 
-On Wed, Apr 20, 2022 at 7:51 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+This is just the error reporting, look at the code above it for the
+full compiler check....
 
-> Meson allows directories such as "bindir" to be relative to the prefix.
-> Right
-> now configure is forcing an absolute path, but that is not really
-> necessary:
-> just make sure all uses of the directory variables are prefixed
-> appropriately.
-> Do the same also for the options that are custom for QEMU, i.e. docdir an=
-d
-> qemu_firmwarepath.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-> ---
->  meson.build | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/meson.build b/meson.build
-> index 869cc10128..2545ac2848 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1618,7 +1618,7 @@ config_host_data.set_quoted('CONFIG_PREFIX',
-> get_option('prefix'))
->  config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') =
-/
-> qemu_confdir)
->  config_host_data.set_quoted('CONFIG_QEMU_DATADIR', get_option('prefix') =
-/
-> qemu_datadir)
->  config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR',
-> get_option('prefix') / qemu_desktopdir)
-> -config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH',
-> get_option('qemu_firmwarepath'))
-> +config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH',
-> get_option('prefix') / get_option('qemu_firmwarepath'))
->  config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix'=
-)
-> / get_option('libexecdir'))
->  config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', get_option('prefix') =
-/
-> qemu_icondir)
->  config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix'=
-)
-> / get_option('localedir'))
-> @@ -3615,20 +3615,20 @@ endif
->  summary_info =3D {}
->  summary_info +=3D {'Install prefix':    get_option('prefix')}
->  summary_info +=3D {'BIOS directory':    qemu_datadir}
-> -summary_info +=3D {'firmware path':     get_option('qemu_firmwarepath')}
-> -summary_info +=3D {'binary directory':  get_option('bindir')}
-> -summary_info +=3D {'library directory': get_option('libdir')}
-> +summary_info +=3D {'firmware path':     get_option('prefix') /
-> get_option('qemu_firmwarepath')}
-> +summary_info +=3D {'binary directory':  get_option('prefix') /
-> get_option('bindir')}
-> +summary_info +=3D {'library directory': get_option('prefix') /
-> get_option('libdir')}
->  summary_info +=3D {'module directory':  qemu_moddir}
-> -summary_info +=3D {'libexec directory': get_option('libexecdir')}
-> -summary_info +=3D {'include directory': get_option('includedir')}
-> -summary_info +=3D {'config directory':  get_option('sysconfdir')}
-> +summary_info +=3D {'libexec directory': get_option('prefix') /
-> get_option('libexecdir')}
-> +summary_info +=3D {'include directory': get_option('prefix') /
-> get_option('includedir')}
-> +summary_info +=3D {'config directory':  get_option('prefix') /
-> get_option('sysconfdir')}
->  if targetos !=3D 'windows'
-> -  summary_info +=3D {'local state directory': get_option('localstatedir'=
-)}
-> -  summary_info +=3D {'Manual directory':      get_option('mandir')}
-> +  summary_info +=3D {'local state directory': get_option('prefix') /
-> get_option('localstatedir')}
-> +  summary_info +=3D {'Manual directory':      get_option('prefix') /
-> get_option('mandir')}
->  else
->    summary_info +=3D {'local state directory': 'queried at runtime'}
->  endif
-> -summary_info +=3D {'Doc directory':     get_option('docdir')}
-> +summary_info +=3D {'Doc directory':     get_option('prefix') /
-> get_option('docdir')}
->  summary_info +=3D {'Build directory':   meson.current_build_dir()}
->  summary_info +=3D {'Source path':       meson.current_source_dir()}
->  summary_info +=3D {'GIT submodules':    config_host['GIT_SUBMODULES']}
-> --
-> 2.35.1
->
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000007e6ab805dd1a5f4d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 20, 2022 at 7:51 PM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Meso=
-n allows directories such as &quot;bindir&quot; to be relative to the prefi=
-x.=C2=A0 Right<br>
-now configure is forcing an absolute path, but that is not really necessary=
-:<br>
-just make sure all uses of the directory variables are prefixed appropriate=
-ly.<br>
-Do the same also for the options that are custom for QEMU, i.e. docdir and<=
-br>
-qemu_firmwarepath.<br>
-<br>
-Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
-get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
-div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandr=
-e.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div>=C2=A0</div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0meson.build | 20 ++++++++++----------<br>
-=C2=A01 file changed, 10 insertions(+), 10 deletions(-)<br>
-<br>
-diff --git a/meson.build b/meson.build<br>
-index 869cc10128..2545ac2848 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -1618,7 +1618,7 @@ config_host_data.set_quoted(&#39;CONFIG_PREFIX&#39;, =
-get_option(&#39;prefix&#39;))<br>
-=C2=A0config_host_data.set_quoted(&#39;CONFIG_QEMU_CONFDIR&#39;, get_option=
-(&#39;prefix&#39;) / qemu_confdir)<br>
-=C2=A0config_host_data.set_quoted(&#39;CONFIG_QEMU_DATADIR&#39;, get_option=
-(&#39;prefix&#39;) / qemu_datadir)<br>
-=C2=A0config_host_data.set_quoted(&#39;CONFIG_QEMU_DESKTOPDIR&#39;, get_opt=
-ion(&#39;prefix&#39;) / qemu_desktopdir)<br>
--config_host_data.set_quoted(&#39;CONFIG_QEMU_FIRMWAREPATH&#39;, get_option=
-(&#39;qemu_firmwarepath&#39;))<br>
-+config_host_data.set_quoted(&#39;CONFIG_QEMU_FIRMWAREPATH&#39;, get_option=
-(&#39;prefix&#39;) / get_option(&#39;qemu_firmwarepath&#39;))<br>
-=C2=A0config_host_data.set_quoted(&#39;CONFIG_QEMU_HELPERDIR&#39;, get_opti=
-on(&#39;prefix&#39;) / get_option(&#39;libexecdir&#39;))<br>
-=C2=A0config_host_data.set_quoted(&#39;CONFIG_QEMU_ICONDIR&#39;, get_option=
-(&#39;prefix&#39;) / qemu_icondir)<br>
-=C2=A0config_host_data.set_quoted(&#39;CONFIG_QEMU_LOCALEDIR&#39;, get_opti=
-on(&#39;prefix&#39;) / get_option(&#39;localedir&#39;))<br>
-@@ -3615,20 +3615,20 @@ endif<br>
-=C2=A0summary_info =3D {}<br>
-=C2=A0summary_info +=3D {&#39;Install prefix&#39;:=C2=A0 =C2=A0 get_option(=
-&#39;prefix&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;BIOS directory&#39;:=C2=A0 =C2=A0 qemu_datadi=
-r}<br>
--summary_info +=3D {&#39;firmware path&#39;:=C2=A0 =C2=A0 =C2=A0get_option(=
-&#39;qemu_firmwarepath&#39;)}<br>
--summary_info +=3D {&#39;binary directory&#39;:=C2=A0 get_option(&#39;bindi=
-r&#39;)}<br>
--summary_info +=3D {&#39;library directory&#39;: get_option(&#39;libdir&#39=
-;)}<br>
-+summary_info +=3D {&#39;firmware path&#39;:=C2=A0 =C2=A0 =C2=A0get_option(=
-&#39;prefix&#39;) / get_option(&#39;qemu_firmwarepath&#39;)}<br>
-+summary_info +=3D {&#39;binary directory&#39;:=C2=A0 get_option(&#39;prefi=
-x&#39;) / get_option(&#39;bindir&#39;)}<br>
-+summary_info +=3D {&#39;library directory&#39;: get_option(&#39;prefix&#39=
-;) / get_option(&#39;libdir&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;module directory&#39;:=C2=A0 qemu_moddir}<br>
--summary_info +=3D {&#39;libexec directory&#39;: get_option(&#39;libexecdir=
-&#39;)}<br>
--summary_info +=3D {&#39;include directory&#39;: get_option(&#39;includedir=
-&#39;)}<br>
--summary_info +=3D {&#39;config directory&#39;:=C2=A0 get_option(&#39;sysco=
-nfdir&#39;)}<br>
-+summary_info +=3D {&#39;libexec directory&#39;: get_option(&#39;prefix&#39=
-;) / get_option(&#39;libexecdir&#39;)}<br>
-+summary_info +=3D {&#39;include directory&#39;: get_option(&#39;prefix&#39=
-;) / get_option(&#39;includedir&#39;)}<br>
-+summary_info +=3D {&#39;config directory&#39;:=C2=A0 get_option(&#39;prefi=
-x&#39;) / get_option(&#39;sysconfdir&#39;)}<br>
-=C2=A0if targetos !=3D &#39;windows&#39;<br>
--=C2=A0 summary_info +=3D {&#39;local state directory&#39;: get_option(&#39=
-;localstatedir&#39;)}<br>
--=C2=A0 summary_info +=3D {&#39;Manual directory&#39;:=C2=A0 =C2=A0 =C2=A0 =
-get_option(&#39;mandir&#39;)}<br>
-+=C2=A0 summary_info +=3D {&#39;local state directory&#39;: get_option(&#39=
-;prefix&#39;) / get_option(&#39;localstatedir&#39;)}<br>
-+=C2=A0 summary_info +=3D {&#39;Manual directory&#39;:=C2=A0 =C2=A0 =C2=A0 =
-get_option(&#39;prefix&#39;) / get_option(&#39;mandir&#39;)}<br>
-=C2=A0else<br>
-=C2=A0 =C2=A0summary_info +=3D {&#39;local state directory&#39;: &#39;queri=
-ed at runtime&#39;}<br>
-=C2=A0endif<br>
--summary_info +=3D {&#39;Doc directory&#39;:=C2=A0 =C2=A0 =C2=A0get_option(=
-&#39;docdir&#39;)}<br>
-+summary_info +=3D {&#39;Doc directory&#39;:=C2=A0 =C2=A0 =C2=A0get_option(=
-&#39;prefix&#39;) / get_option(&#39;docdir&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;Build directory&#39;:=C2=A0 =C2=A0meson.curre=
-nt_build_dir()}<br>
-=C2=A0summary_info +=3D {&#39;Source path&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0m=
-eson.current_source_dir()}<br>
-=C2=A0summary_info +=3D {&#39;GIT submodules&#39;:=C2=A0 =C2=A0 config_host=
-[&#39;GIT_SUBMODULES&#39;]}<br>
--- <br>
-2.35.1<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000007e6ab805dd1a5f4d--
 
