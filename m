@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DC1508646
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:47:28 +0200 (CEST)
-Received: from localhost ([::1]:50854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D273C50861D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:39:57 +0200 (CEST)
+Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh7rr-0006Wv-8e
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:47:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59068)
+	id 1nh7ka-0006Hc-UN
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7eW-0001Sx-RX
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:33:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57572)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh7fE-0001kR-ST
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:34:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7eV-0006se-4q
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:33:40 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh7fC-0006uo-DG
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:34:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650450818;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1650450861;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3c0z3U84XOIWhtTX2pEQ6pAkGIeMLDxfYaaSkIEmZh8=;
- b=KcakBGh4sJcHE22KTZWp+J+lLYDa7qfDRVHBJSQXi0njG2xrs5vQyGVW2m2lMlhmYVfp/l
- pp3INdmY2aROVq/3pKxMqFEL1vVlWAC8bqsLPiiKYTwXcwmudPPFlvfzmyZnQp8WFlMalb
- 33rlun5v2iBrVeP4msVphVFpvto8988=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0dtgVqiF3ls6pvCuzoamQXuJUpA0NnEVPwgJ8ix53L8=;
+ b=gMmXTAC+J8BsjUGC5UhCDJGCV6+u+afzGwPd/HYLej43YbRBeXYB3MQSsLbJ9KN7j+xQlT
+ ZaDPFNdPTOmkMW1jssylhXm3/Q9PW9eOnEhpQlJukgSL3A01Yi0+pERkH4gSPENKMlpxi+
+ SXSfsT2BDRaxSkKNXxnlN738FUfXyuE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-135-0fPdRzR0P0aGMDH0sqKRbA-1; Wed, 20 Apr 2022 06:33:35 -0400
-X-MC-Unique: 0fPdRzR0P0aGMDH0sqKRbA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-157-i4oRndOlMxy7X4BadJ5kGQ-1; Wed, 20 Apr 2022 06:34:20 -0400
+X-MC-Unique: i4oRndOlMxy7X4BadJ5kGQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2A6C18A6583;
- Wed, 20 Apr 2022 10:33:34 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.195.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D12FC52CA5;
- Wed, 20 Apr 2022 10:33:31 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 7/7] tests/avocado: Allow overwrite smp and memory size command
- line options
-Date: Wed, 20 Apr 2022 12:33:09 +0200
-Message-Id: <20220420103309.264479-8-thuth@redhat.com>
-In-Reply-To: <20220420103309.264479-1-thuth@redhat.com>
-References: <20220420103309.264479-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A0C11C05129
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 10:34:20 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 40714145B989;
+ Wed, 20 Apr 2022 10:34:19 +0000 (UTC)
+Date: Wed, 20 Apr 2022 11:34:16 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v4 01/19] migration: Postpone releasing
+ MigrationState.hostname
+Message-ID: <Yl/hqEu/t7WSEB0N@redhat.com>
+References: <20220331150857.74406-1-peterx@redhat.com>
+ <20220331150857.74406-2-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <20220331150857.74406-2-peterx@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -76,52 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ahmed Abouzied <email@aabouzied.com>,
- Philippe Mathieu-Daude <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ahmed Abouzied <email@aabouzied.com>
+On Thu, Mar 31, 2022 at 11:08:39AM -0400, Peter Xu wrote:
+> We used to release it right after migrate_fd_connect().  That's not good
+> enough when there're more than one socket pair required, because it'll be
+> needed to establish TLS connection for the rest channels.
+> 
+> One example is multifd, where we copied over the hostname for each channel
+> but that's actually not needed.
+> 
+> Keeping the hostname until the cleanup phase of migration.
+> 
+> Cc: Daniel P. Berrange <berrange@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/channel.c   | 1 -
+>  migration/migration.c | 5 +++++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/migration/channel.c b/migration/channel.c
+> index c4fc000a1a..c6a8dcf1d7 100644
+> --- a/migration/channel.c
+> +++ b/migration/channel.c
+> @@ -96,6 +96,5 @@ void migration_channel_connect(MigrationState *s,
+>          }
+>      }
+>      migrate_fd_connect(s, error);
+> -    g_free(s->hostname);
+>      error_free(error);
+>  }
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 695f0f2900..281d33326b 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1809,6 +1809,11 @@ static void migrate_fd_cleanup(MigrationState *s)
+>      qemu_bh_delete(s->cleanup_bh);
+>      s->cleanup_bh = NULL;
+>  
+> +    if (s->hostname) {
+> +        g_free(s->hostname);
+> +        s->hostname = NULL;
+> +    }
 
-Removes the hard-coded values in setUp(). Class inheriting from
-avocado_qemu.LinuxTest can overwrite the default smp and memory instead.
+FWIW there's a marginally more concise pattern:
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/453
-Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
-Message-Id: <20210802222257.50946-1-email@aabouzied.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Philippe Mathieu-Daude <philmd@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/avocado/avocado_qemu/__init__.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+  g_clear_pointer(&s->hostname, g_free)
 
-diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-index ac85e36a4d..39f15c1d51 100644
---- a/tests/avocado/avocado_qemu/__init__.py
-+++ b/tests/avocado/avocado_qemu/__init__.py
-@@ -516,6 +516,8 @@ class LinuxTest(LinuxSSHMixIn, QemuSystemTest):
-     distro = None
-     username = 'root'
-     password = 'password'
-+    smp = '2'
-+    memory = '1024'
- 
-     def _set_distro(self):
-         distro_name = self.params.get(
-@@ -546,8 +548,8 @@ def _set_distro(self):
-     def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
-         super().setUp()
-         self._set_distro()
--        self.vm.add_args('-smp', '2')
--        self.vm.add_args('-m', '1024')
-+        self.vm.add_args('-smp', self.smp)
-+        self.vm.add_args('-m', self.memory)
-         # The following network device allows for SSH connections
-         self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-                          '-device', '%s,netdev=vnet' % network_device_type)
+
+Either way
+
+   Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+With regards,
+Daniel
 -- 
-2.27.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
