@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A39A508AF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:42:34 +0200 (CEST)
-Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BD4508B7C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:03:10 +0200 (CEST)
+Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhBXN-0004yV-7z
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47484)
+	id 1nhBrJ-0005Sq-Ic
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nhAzF-0005xr-0y
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:07:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33168)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nhAzB-00034W-Hb
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 10:07:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650463632;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D4HBr2ahdS3PTrluDarepWEU1qJtBFHdtjcu7sbwx+I=;
- b=RwCVpFvKIyFXbVPOGVMfqre4qti5PK5iRdZDO37ZEap2Ll6+wpZZraJzcWWQ9BofMnWK6s
- WV0sHm8rWVrogLZ9soowBS1FUhY7L/uT9IJEpLoi84jhCGeQ2wVeke8mF30Znbp3T9zHjo
- d93fwH66OiRHfAYi8dU6qc4oOnqztRg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-106-LfOHzUsLPGevZBdGmq6CnQ-1; Wed, 20 Apr 2022 10:07:04 -0400
-X-MC-Unique: LfOHzUsLPGevZBdGmq6CnQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6BE61014A64;
- Wed, 20 Apr 2022 14:06:49 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 892C354C72B;
- Wed, 20 Apr 2022 14:06:49 +0000 (UTC)
-Date: Wed, 20 Apr 2022 16:06:47 +0200
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: introducing vrc :)
-Message-ID: <YmATdyzyPBS2PDB1@stefanha-x1.localdomain>
-References: <dd5a574f-a475-a704-a827-03a014f5a586@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nhAzP-00064C-8Z; Wed, 20 Apr 2022 10:07:27 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:55820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nhAzL-00035O-OT; Wed, 20 Apr 2022 10:07:26 -0400
+Received: by mail-wm1-x335.google.com with SMTP id x3so1274749wmj.5;
+ Wed, 20 Apr 2022 07:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qx1RS1d/iwIlmKxsGWzbrFCdBXNg3Eu/twn2yeRqm1k=;
+ b=UtcsiCkwCnwfMPbawty5J+18kRqmfMCsgF45DZgpe83koF676J/8zzC9aUA0fozX63
+ q2e9qdlf91pyNIO4nE7lIBudNH4ZBzGHgncIqNCRMEr/rxwUfKLV7jjda3wvtwFE/Hel
+ 16t0GJVxvZRYOZDrBXZ9Hjqj+nQ4dDAKqWgE+SSxtvujOyj80yflA2N+oUdEa+Tx2F8N
+ FFKoJoVkRi980UI+6uxT1h6uDcmDs5pag1mS+KQO8yjq6rvf12cH5HLkpk4iDM10O1jO
+ r4qga5leSQZANjJVI6TQPz8qr+8WdTyep3CWX9k/zuzDeD/jJ0nm0FADQnEJINjnOYMJ
+ qhYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qx1RS1d/iwIlmKxsGWzbrFCdBXNg3Eu/twn2yeRqm1k=;
+ b=dgqOpjYSHJSKFMtHD6+7Wyk9W4kAaWmJSzjLARpED+FSIrblANmyGl+qqMyC+HuKHL
+ 7BTnFTKBiOWooZQniKsVHFa2S/TJPsIHZVgW+GshC13Z1Pr2jtjD0TgbZqWL3FnrLBly
+ +eKHV6BXj7zYbvHdN15tGHcridc799CeILUAWQ+iM5WvKP+EgLQxzaK86jA4cuuFoiFI
+ oJchuk+FV5vrvscrdQJ1Jq0H69kTyDuo+gK+znf+sph3yauTG+5VyF7JxqraLxJHGVrL
+ 6WH9H3x52ZYgt67tEaqw5CdLpnAxwKpSMHelBukRHJZ+Lyhunp73pjgB+xWckONjtuA5
+ bedQ==
+X-Gm-Message-State: AOAM531N92zo0U6zb2hL0MpUnk9vjyu64K46eRLYRCHDvlFaQ4wf/8tR
+ W2j8CINyznwJtiI8k1M1vgQ=
+X-Google-Smtp-Source: ABdhPJyVltw2d/apTj30EHiXNpN6w1uv7s5ypM1EcMgtza4149R8ncj9IosdRkKL0H1XDSkIsp388A==
+X-Received: by 2002:a05:600c:4e92:b0:392:89ef:55c8 with SMTP id
+ f18-20020a05600c4e9200b0039289ef55c8mr3831071wmq.69.1650463639245; 
+ Wed, 20 Apr 2022 07:07:19 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ s13-20020a5d4ecd000000b00207b4c92594sm14703770wrv.59.2022.04.20.07.07.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 07:07:18 -0700 (PDT)
+Message-ID: <e455d56c-8613-8a5f-1ccb-5d65a9a354f0@redhat.com>
+Date: Wed, 20 Apr 2022 16:07:17 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="X9fed8n2pIqUfDeq"
-Content-Disposition: inline
-In-Reply-To: <dd5a574f-a475-a704-a827-03a014f5a586@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 03/26] nbd: remove incorrect coroutine_fn annotations
+Content-Language: en-US
+To: Eric Blake <eblake@redhat.com>
+References: <20220415131900.793161-1-pbonzini@redhat.com>
+ <20220415131900.793161-4-pbonzini@redhat.com>
+ <20220419180815.ovptpidwpyku2qjf@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220419180815.ovptpidwpyku2qjf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,110 +91,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- qemu block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: kwolf@redhat.com, hreitz@redhat.com, stefanha@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 4/19/22 20:08, Eric Blake wrote:
+>>   
+>> -void coroutine_fn nbd_co_establish_connection_cancel(NBDClientConnection *conn);
+>> +void nbd_co_establish_connection_cancel(NBDClientConnection *conn);
+> Should we rename this function to drop_co_  while at it?
 
---X9fed8n2pIqUfDeq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Or perhaps rename it to nbd_cancel_co_establish_connection...
 
-On Tue, Apr 19, 2022 at 04:39:13PM +0200, Paolo Bonzini wrote:
-> Hi all,
->=20
-> a while ago I looked at tools that could be used too build a call graph.
-> The simplest but most effective that I found was a small Perl program
-> (called "egypt", which is rot13 for "rtlcg" aka RTL call graph) that used
-> the GCC dumps to build the graph.
->=20
-> I have now rewritten it in Python and extended it with a lot of new
-> functionality:
->=20
-> - consult compile_commands.json to find/build dumps automatically
->=20
-> - virtual (manually created) nodes and edges
->=20
-> - query call graph in addition to generating DOT file
->=20
-> - interactive mode with readline + completion
->=20
-> The name is unfortunately not rot13 anymore, it stands for visit RTL
-> callgraph.
->=20
-> Here is an example (run vrc from the root build directory of QEMU):
->=20
-> 	# load files
-> 	load libblock.fa.p/*.c.o
->=20
-> 	# introduce virtual edges corresponding to function pointers
-> 	node BlockDriverState.bdrv_co_flush
-> 	edge bdrv_co_flush BlockDriverState.bdrv_co_flush
-> 	edge BlockDriverState.bdrv_co_flush blk_log_writes_co_do_file_flush
-> 	edge BlockDriverState.bdrv_co_flush preallocate_co_flush
-> 	edge BlockDriverState.bdrv_co_flush raw_co_invalidate_cache
-> 	edge BlockDriverState.bdrv_co_flush cbw_co_flush
-> 	edge BlockDriverState.bdrv_co_flush quorum_co_flush
-> 	edge BlockDriverState.bdrv_co_flush throttle_co_flush
-> 	edge BlockDriverState.bdrv_co_flush blkdebug_co_flush
-> 	edge BlockDriverState.bdrv_co_flush blkverify_co_flush
-> 	edge BlockDriverState.bdrv_co_flush bdrv_mirror_top_flush
-> 	# apply filter
-> 	only --callees bdrv_co_flush
-> 	# draw graph
-> 	dotty --files
->=20
-> The filtering functionality is a bit rough in the presence of mutual
-> recursion, but hopefully this can be already useful to find the root calls
-> of bdrv_*, which are the places where the graph lock has to be taken for
-> read.  Continuing the previous example:
->=20
-> 	# apply another filter
-> 	reset
-> 	omit --callees bdrv_co_flush
-> 	keep bdrv_co_flush
-> 	# example of query
-> 	callers bdrv_co_flush
->=20
-> already gives a reasonable answer (not entirely correct, but the actual
-> analysis must be done on all callbacks at once):
->=20
-> 	qed_co_request -> bdrv_co_flush
-> 	qed_need_check_timer_entry -> bdrv_co_flush
-> 	blk_log_writes_co_log -> bdrv_co_flush
-> 	bdrv_co_flush_entry -> bdrv_co_flush
-> 	bdrv_co_flush -> bdrv_co_flush
-> 	blk_co_do_flush -> bdrv_co_flush
-> 	bdrv_driver_pwritev -> bdrv_co_flush
-> 	blk_co_flush -> bdrv_co_flush
-> 	bdrv_flush -> bdrv_co_flush
-> 	bdrv_co_do_pwrite_zeroes -> bdrv_co_flush
-> 	blk_aio_flush_entry -> bdrv_co_flush
-
-Cool, thanks for sharing. I will keep this in mind when I need to
-analyze call graphs.
-
-Stefan
-
---X9fed8n2pIqUfDeq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJgE3cACgkQnKSrs4Gr
-c8hPKQf+IeqhKLbLC+cTFErsHKxCDa8VBT9gMzVQ2gXH2rg0q2pzsYKTSLqHikyp
-9VVtrUoebw1BuByz5e0BUh4Bh8T6VyFHNMbDsN+zJdeVeVFaUN9//SS4I7uqeLWm
-Egs8H1efe771HMP9WcX5k2d0+U0A38HrVK2Ojdp7sXytVTBUw2Q9MXE1yZxM6tCQ
-jux6bR4Pfxk8XUYHULlI/VFO3oGJX75YwxwOOVuih1v/oTX0LXX4/nfXjnWiRVrA
-AoFyGpLr/wquXdXAF2YYh0pjFrUDzmyEDNxXzS2qAkb7+B3MS9Cp71ZRSKIqg1w9
-sj97J4Lhf+SR/EhW6SYcOn1pnlnU1g==
-=PQ8S
------END PGP SIGNATURE-----
-
---X9fed8n2pIqUfDeq--
-
+Paolo
 
