@@ -2,88 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3266D5091FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 23:20:23 +0200 (CEST)
-Received: from localhost ([::1]:52872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CDA509292
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:18:17 +0200 (CEST)
+Received: from localhost ([::1]:34528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhHkL-0007QT-QD
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 17:20:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34908)
+	id 1nhIeO-0007ya-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anders@apitman.com>)
- id 1nhHio-0006lC-RA
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 17:18:46 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:42161)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anders@apitman.com>)
- id 1nhHim-00063Z-NF
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 17:18:46 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 475975C00D8
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 17:18:43 -0400 (EDT)
-Received: from imap46 ([10.202.2.96])
- by compute4.internal (MEProxy); Wed, 20 Apr 2022 17:18:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apitman.com; h=
- cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1650489523; x=1650575923; bh=d1ADYTpiyC
- PICco+ukUmJZGTmZjUQ0M4y5zJvkl3fG8=; b=dAAE96fydF7lbQYZcTvVFj0dv7
- eKGZT2Ikj4/SMN4nBEZFKyehnfI+8XS680Ty2VG2qflGFHJNCBORa6vvUO1tYhwZ
- V65As6NBgVtGsYg4SD/p6D1HWOl/3zIsMn63LQJE4FUHxHZErcgyv/M2cJaENSGz
- whWWbvnL1bsdOGFRhbWetAf+qPEqOhR8Kh9k3a7MsM4+XxP0lCPRGN6ul0gc9DHb
- l78Ly/iilSPomldYcJIcb0eeS/cbgDszx2kQV4vCwIvBnu6HRsDnt4DeDNKCAJOh
- MGeOAXHjW0taRbg8z4JdakcvO/E+CB1eMX5uTr39e8K6yBac6E8IA4xIPZmg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650489523; x=
- 1650575923; bh=d1ADYTpiyCPICco+ukUmJZGTmZjUQ0M4y5zJvkl3fG8=; b=U
- LCscSN7ZfAM67Buc8/cg1RlR06EIrIlLEiEiLJ30t2OpF0PvLBO2kgOcG7DjAEtW
- 0JRRg123NRRyjT+9fbvuKzyCuqa9fOfapLxRS32ghfh7kfDSjTTnzbmyoGh89rBm
- C6FiqEH2Dl+BtjltoMw/gRLyDe3RIN8datI10nUCx5Ol4Gzh2uziNeCehSD9Q4oY
- MRAmIUORaA3A9KVCEkD1o7u2AXa2VveXnAYs59Nw4ZmGQqakLTTdiIhXUxH7PqZ1
- EjdtAubMxkVBbXheFHpUGeodqBzKGNOIX3KqxnRqlpXIJVwlBfpu5/0MVSS8S4o9
- b0UivU5uehcuSH8oXFTjg==
-X-ME-Sender: <xms:s3hgYnb0MOI2mHjtnqvNkS2HzUyn4HP_8onxiAXtyZEFtzy7y2F0pg>
- <xme:s3hgYmY2OEOgAEnSsjAkh8WYezrceY-Z72ibP4iUQjyy4emdZDJlOlbuwoT-Wn1LT
- xY7U_H-5OHTgPe_IM0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtddtgddufeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtsegrtd
- erreerredtnecuhfhrohhmpedftehnuggvrhhsucfrihhtmhgrnhdfuceorghnuggvrhhs
- segrphhithhmrghnrdgtohhmqeenucggtffrrghtthgvrhhnpeejueejtdetjeejhfeije
- dvffeuvedtjefhtdfghfeiffdvtdehffffhffhheeffeenucffohhmrghinhepghhnuhdr
- ohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- grnhguvghrshesrghpihhtmhgrnhdrtghomh
-X-ME-Proxy: <xmx:s3hgYp8lN7Eb0uS4p12c0GxSCegxFUszYIz979-45hZeJcJfyuVXbA>
- <xmx:s3hgYtpKv9WV21cXm6JgPmcyMZ-AGDfpjjkzkDuCW5IyjUakKod3EA>
- <xmx:s3hgYip_7ihSgYETUduZuLyOSYhYHqKkAlEljTAHmeIdB54w2PKrMw>
- <xmx:s3hgYv03g7tFT9sYwiBj0xjd3YdmhC78njKWIByHmQ22ejNUdR1-Xw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 186701EE0083; Wed, 20 Apr 2022 17:18:43 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-568-g521196dd5d-fm-20220414.001-g521196dd
-Mime-Version: 1.0
-Message-Id: <ac3d61d4-17d0-49d4-8eb2-27e450d51928@www.fastmail.com>
-In-Reply-To: <a78fd584-2d40-cbd4-95db-8a6729087a93@gmail.com>
-References: <8f5cc095-e5e9-486d-8e52-d22cac6d2379@www.fastmail.com>
- <a78fd584-2d40-cbd4-95db-8a6729087a93@gmail.com>
-Date: Wed, 20 Apr 2022 15:18:22 -0600
-From: "Anders Pitman" <anders@apitman.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nhIbJ-0005w3-Dg; Wed, 20 Apr 2022 18:15:05 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:45704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nhIbE-0005XL-E1; Wed, 20 Apr 2022 18:15:02 -0400
+Received: by mail-oi1-x229.google.com with SMTP id 12so3634845oix.12;
+ Wed, 20 Apr 2022 15:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ngrp9hRpArNBd76NTUz0b7mnDljhjoGV1y6Xb9kOw0U=;
+ b=TnFV0SJmHuiANxQ0MtGZvu72guBo56GhJsijnmuR9v1Emn5W4vzzhel5CpBSqhIKsR
+ MZmJU3xZzLg1cFrtZIxHygD6AuoP4dUwLUAr+hNNCzqSzekhfG0baW3pGRo0qaDIc2ON
+ OCtTDRW17Zed0DeWRfW0XpEnat8N8DiZUQhkI7jQ7vsqQxaUa+jmev4toPxuDuGLSfKB
+ qCUimetJNn3FeURxriCXFhHGp/4c2IwjfYdS+Jm1x/EPa9qB1CFSosnId0FnbdqlX1Dr
+ PoaZk/Qdgqw5KyoYOF9ITeqQdFFr3o0Eguhmu8BTYv6iLHGQh/Ct0xbeTpPZjyJRMtuP
+ WuLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ngrp9hRpArNBd76NTUz0b7mnDljhjoGV1y6Xb9kOw0U=;
+ b=ebGtfXj90cKm1g6+oea+KNwwaKU2RKibLakEw2Eqtldel2RvfD/vO0JrzeVHByM+MM
+ 3eusiU29bu6vkPyq6rS9zqfnMntYjtgVLvdx5g/RQ874wm4OGyvKYPdOCL0dDQrf3Hpv
+ Jb+v3xq96jlUOuzkvdMOYgeflZaclxH3qKw4CuYLMi+LYoL7tTZFi7O8q6HwKO4A3ER/
+ QIQQIZyN6qjeb+MWcMtfhXPDCi3z9iOJz/itE8n+rq8DjU6UM2iCSZCB1p6lgP52qT45
+ Xr+E47Z7LUxKd1d/MwabnbYeyj+1GUZPQzx5PopXAw/UloLjZphguKQLNsAdv7MCSnFZ
+ 7FEA==
+X-Gm-Message-State: AOAM532PiH3K9whzJgN1EDD4nAEnEXpVtZpAC+MM9uYSjNJx8m1UmHM6
+ YY9luxTzYW6G9npoQq+y/+TcTYXwDic=
+X-Google-Smtp-Source: ABdhPJyG1La4+fc57IMxe80x03gyfdZVSb5QCjTtiZh66ibvfCxuCbKX3KHdLMXevMzYaYGOxcMPWg==
+X-Received: by 2002:a05:6808:14d5:b0:2da:455b:1917 with SMTP id
+ f21-20020a05680814d500b002da455b1917mr2622171oiw.81.1650492898601; 
+ Wed, 20 Apr 2022 15:14:58 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:486c:c4fd:c4aa:a799:60c2])
+ by smtp.gmail.com with ESMTPSA id
+ 14-20020aca110e000000b00322847e6f53sm3876082oir.46.2022.04.20.15.13.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 15:14:20 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: Re: Future of libslirp in QEMU
-Content-Type: multipart/alternative; boundary=b72d3146442f431d8e6ca8bb5161b4d4
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=anders@apitman.com;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Subject: [PULL 00/23] ppc queue
+Date: Wed, 20 Apr 2022 19:13:06 -0300
+Message-Id: <20220420221329.169755-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,77 +82,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ danielhb413@gmail.com, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---b72d3146442f431d8e6ca8bb5161b4d4
-Content-Type: text/plain
+The following changes since commit 2d20a57453f6a206938cbbf77bed0b378c806c1f:
 
-Awesome, thanks.
+  Merge tag 'pull-fixes-for-7.1-200422-1' of https://github.com/stsquad/qemu into staging (2022-04-20 11:13:08 -0700)
 
-Apparently I'm not properly performing a date-sorted search on the list archives. I started here:
+are available in the Git repository at:
 
-https://lists.gnu.org/archive/html/qemu-devel/
+  https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20220420-2
 
-Then entered "slirp" and searched with chronological order, but the latest entry is from 2020. What am I doing wrong?
+for you to fetch changes up to 2d94af4b16c40758eee3a8591307ae173090d4ad:
 
-Thanks,
-//anders
+  hw/ppc: change indentation to spaces from TABs (2022-04-20 18:00:30 -0300)
 
-On Wed, Apr 20, 2022, at 2:21 PM, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 4/20/22 16:08, Anders Pitman wrote:
-> > I noticed in the 7.0 changelog that libslirp might be removed as a submodule in the future. Since user networking is very important for my project, I'm wondering if this is simply an implementation detail, or if there are plans to eventually remove slirp support entirely from QEMU (which would be bad for me)?
-> > 
-> > Is there somewhere I can read the discussion about this? I searched the mailing list archives but didn't see anything obvious.
-> 
-> QEMU will still be supporting libslirp. The difference is that now QEMU will be
-> using libslirp from the distro instead of packaging it itself.
-> 
-> The relevant thread is here:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2022-04/msg00974.html
-> 
-> 
-> Thanks,
-> 
-> 
-> Daniel
-> 
-> 
+----------------------------------------------------------------
+ppc patch queue for 2022-04-20
 
---b72d3146442f431d8e6ca8bb5161b4d4
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
+First batch of ppc patches for QEMU 7.1:
 
-<!DOCTYPE html><html><head><title></title><style type=3D"text/css">p.Mso=
-Normal,p.MsoNoSpacing{margin:0}</style></head><body><div>Awesome, thanks=
-.<br></div><div><br></div><div>Apparently I'm not properly performing a =
-date-sorted search on the list archives. I started here:<br></div><div><=
-br></div><div><a href=3D"https://lists.gnu.org/archive/html/qemu-devel/"=
->https://lists.gnu.org/archive/html/qemu-devel/</a><br></div><div><br></=
-div><div>Then entered "slirp" and searched with chronological order, but=
- the latest entry is from 2020. What am I doing wrong?<br></div><div><br=
-></div><div>Thanks,<br></div><div>//anders<br></div><div><br></div><div>=
-On Wed, Apr 20, 2022, at 2:21 PM, Daniel Henrique Barboza wrote:<br></di=
-v><blockquote type=3D"cite" id=3D"qt" style=3D""><div><br></div><div><br=
-></div><div>On 4/20/22 16:08, Anders Pitman wrote:<br></div><div>&gt; I =
-noticed in the 7.0 changelog that libslirp might be removed as a submodu=
-le in the future. Since user networking is very important for my project=
-, I'm wondering if this is simply an implementation detail, or if there =
-are plans to eventually remove slirp support entirely from QEMU (which w=
-ould be bad for me)?<br></div><div>&gt;&nbsp;<br></div><div>&gt; Is ther=
-e somewhere I can read the discussion about this? I searched the mailing=
- list archives but didn't see anything obvious.<br></div><div><br></div>=
-<div>QEMU will still be supporting libslirp. The difference is that now =
-QEMU will be<br></div><div>using libslirp from the distro instead of pac=
-kaging it itself.<br></div><div><br></div><div>The relevant thread is he=
-re:<br></div><div><br></div><div><a href=3D"https://lists.gnu.org/archiv=
-e/html/qemu-devel/2022-04/msg00974.html">https://lists.gnu.org/archive/h=
-tml/qemu-devel/2022-04/msg00974.html</a><br></div><div><br></div><div><b=
-r></div><div>Thanks,<br></div><div><br></div><div><br></div><div>Daniel<=
-br></div><div><br></div><div><br></div></blockquote><div><br></div></bod=
-y></html>
---b72d3146442f431d8e6ca8bb5161b4d4--
+- skiboot firmware version bump
+- pseries: add 2M DDW pagesize
+- pseries: make virtual hypervisor code TCG only
+- powernv: introduce GPIO lines for PSIHB device
+- powernv: remove PCIE root bridge LSI
+- target/ppc: alternative softfloat 128 bit integer support
+- assorted fixes
+
+----------------------------------------------------------------
+Alexey Kardashevskiy (2):
+      ppc/spapr/ddw: Add 2M pagesize
+      ppc/vof: Fix uninitialized string tracing
+
+Bernhard Beschow (1):
+      hw/ppc/ppc405_boards: Initialize g_autofree pointer
+
+Cédric Le Goater (5):
+      ppc/pnv: Fix PSI IRQ definition
+      ppc/pnv: Remove PnvLpcController::psi link
+      ppc/pnv: Remove PnvOCC::psi link
+      ppc/pnv: Remove PnvPsiClas::irq_set
+      ppc/pnv: Remove useless checks in set_irq handlers
+
+Fabiano Rosas (3):
+      spapr: Move hypercall_register_softmmu
+      spapr: Move nested KVM hypercalls under a TCG only config.
+      target/ppc: Improve KVM hypercall trace
+
+Frederic Barrat (3):
+      pcie: Don't try triggering a LSI when not defined
+      ppc/pnv: Remove LSI on the PCIE host bridge
+      target/ppc: Add two missing register callbacks on POWER10
+
+Guo Zhi (1):
+      hw/ppc: change indentation to spaces from TABs
+
+Joel Stanley (1):
+      ppc/pnv: Update skiboot to v7.0
+
+Matheus Ferst (7):
+      qemu/int128: add int128_urshift
+      softfloat: add uint128_to_float128
+      softfloat: add int128_to_float128
+      softfloat: add float128_to_uint128
+      softfloat: add float128_to_int128
+      target/ppc: implement xscv[su]qqp
+      target/ppc: implement xscvqp[su]qz
+
+ fpu/softfloat.c                     | 183 ++++++++++++++++++++++++++++++++++++
+ hw/pci-host/pnv_phb3.c              |   1 +
+ hw/pci-host/pnv_phb4.c              |   1 +
+ hw/pci/pcie.c                       |   5 +-
+ hw/pci/pcie_aer.c                   |   2 +-
+ hw/ppc/pnv.c                        |  30 +++---
+ hw/ppc/pnv_lpc.c                    |  19 +---
+ hw/ppc/pnv_occ.c                    |  16 +---
+ hw/ppc/pnv_psi.c                    |  36 +++----
+ hw/ppc/ppc405_boards.c              |   4 +-
+ hw/ppc/ppc440_bamboo.c              |   6 +-
+ hw/ppc/spapr_hcall.c                |  74 +++++++++------
+ hw/ppc/spapr_rtas.c                 |  18 ++--
+ hw/ppc/spapr_rtas_ddw.c             |   1 +
+ hw/ppc/vof.c                        |   2 +-
+ include/fpu/softfloat.h             |   7 ++
+ include/hw/ppc/pnv_lpc.h            |   8 +-
+ include/hw/ppc/pnv_occ.h            |   7 +-
+ include/hw/ppc/pnv_psi.h            |   7 +-
+ include/hw/ppc/ppc.h                |  10 +-
+ include/hw/ppc/spapr.h              |   1 +
+ include/qemu/int128.h               |  21 +++++
+ pc-bios/skiboot.lid                 | Bin 2528128 -> 2527240 bytes
+ roms/skiboot                        |   2 +-
+ target/ppc/cpu_init.c               |   2 +
+ target/ppc/fpu_helper.c             |  33 +++++++
+ target/ppc/helper.h                 |   4 +
+ target/ppc/insn32.decode            |   7 ++
+ target/ppc/kvm.c                    |   2 +-
+ target/ppc/trace-events             |   2 +-
+ target/ppc/translate/vsx-impl.c.inc |  22 +++++
+ tests/unit/test-int128.c            |  50 ++++++++++
+ 32 files changed, 446 insertions(+), 137 deletions(-)
 
