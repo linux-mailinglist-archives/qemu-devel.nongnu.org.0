@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09205088FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 15:13:24 +0200 (CEST)
-Received: from localhost ([::1]:36900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4752C5089EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:00:01 +0200 (CEST)
+Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhA96-0005ck-0Q
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 09:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34252)
+	id 1nhAsC-0000nL-Bx
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:00:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1nhA8A-0004te-Gt
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:12:26 -0400
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:39519)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1nhA85-0001Ok-HN
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:12:24 -0400
-Received: by mail-lf1-x132.google.com with SMTP id y32so2909529lfa.6
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 06:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=phystech-edu.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :organization:mime-version:content-transfer-encoding;
- bh=yFY00ENzoqo6I9F+iUZdGxgBHHamSdEVh8hBmodVv7E=;
- b=4JXEvk6/OM21OpRpB8K0d0Ems0GjUru7GblvEJo/IOe714M0HwAjRBsLTvL6R5Zjvz
- e7hrtZ2bGtkgvguO8SqekLphRWoHLFD5g/tUhxEG7VWZppvnJyhzQtKTAEur3x6UBENq
- CgC+/quqDec+2CfIviqbYC6tR3Zcr57OYVLE0f2ttQCPwc8wXqpQQr/Dk1fBBvLcF6wF
- VNrt815zYOrWmrU1WXSi2eQHi/GDk+1NfPNOl42K8KUrTL+RuUBOEgiUlFuHtJ1S7gD0
- iFoah5QPcKLDqZ+fdunpGf6qAQV8stVhGcnDsQysA9c6jZFyQ4Z1AgMwyIPtZGxnbaps
- LFBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=yFY00ENzoqo6I9F+iUZdGxgBHHamSdEVh8hBmodVv7E=;
- b=L3ybRXR5EZcCTr1u/1emYpFALLPlCOKP6VtxRcGNiJBoKsT8Wo8k2Sx0xokVNpcKew
- DvbfssKc+m74SUFWdal135gUb6ibtKDKbS+nbsEdeq1Jxl9j/lNHT2mKjv3ZDoyWqi2m
- 2gr4lHjhl3nr3/S6bLUS5FEVs12hMRMDbMSij5/UrD7PYUBvkYvjw2M1Y77rTzqWRWe4
- yVzI1lVNNVhuPJ4+4U/jHGxc58opokHLD71GuoMppdk8QjAE9qcYeYMAQC+BFA5nVoRf
- x0hIqEymSEbN4Z/Rioa8Pp6TA6YpbzA6YAC5ExeWTnUvJs274bKAtz0hhp0P2hgcSbBu
- oh2Q==
-X-Gm-Message-State: AOAM531swC9QSCYaiFHouYr7e01nxncWpLR+2RdAlMLXWmRM75Ui2np5
- sLp1U4C5jK0Z0RBeL6oLokGkJg==
-X-Google-Smtp-Source: ABdhPJyJNxl0lZq4lWZaV0IZvA+M4qNVED3sUNbLsZBpy0bXME2Duq8v6n7hne/TnxtyVdr8UHd1Xw==
-X-Received: by 2002:a05:6512:1504:b0:44b:36e:b50d with SMTP id
- bq4-20020a056512150400b0044b036eb50dmr14889682lfb.558.1650460338436; 
- Wed, 20 Apr 2022 06:12:18 -0700 (PDT)
-Received: from 192.168.1.3 ([2a00:1370:8174:106e:e1b6:39c8:60ea:c05c])
- by smtp.gmail.com with ESMTPSA id
- e9-20020a195009000000b00471948d48c7sm886539lfb.259.2022.04.20.06.12.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 06:12:17 -0700 (PDT)
-Date: Wed, 20 Apr 2022 16:12:15 +0300
-From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-To: Viktor Prutyanov <viktor.prutyanov@redhat.com>
-Subject: Re: [PATCH v4 0/4] dump: add 32-bit guest Windows support
-Message-ID: <20220420161215.73438466@192.168.1.3>
-In-Reply-To: <20220406171558.199263-1-viktor.prutyanov@redhat.com>
-References: <20220406171558.199263-1-viktor.prutyanov@redhat.com>
-Organization: MIPT
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nhALy-0005Lr-Ax
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:26:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nhALv-0004M8-QO
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:26:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650461199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XmBovi1Ujwp+9sAT0P/mFAUlxIKGku9Jpkb66Oe9kSM=;
+ b=e3nMbq77ZCvFAIi9yzfcT510m0cM0YOssdSUKR1hUyZHU5hnEYBI3fRoag7FoK3H0Hoat0
+ D5kdc0JPSATe0JIT/vcVOZGXAdz/hhPq3j7ls+gCii103xP11tWR/TYup1zbWUPCt4xT6j
+ wGY/VT51IZ8xzZV2KgExzRq+iCvlVw4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-yrgUYtp_Nn2qoe2tSWoovQ-1; Wed, 20 Apr 2022 09:26:37 -0400
+X-MC-Unique: yrgUYtp_Nn2qoe2tSWoovQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 342E63C025B5
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 13:26:37 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E62D40D282F;
+ Wed, 20 Apr 2022 13:26:36 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH 02/41] glib-compat: isolate g_date_time_format_iso8601
+ version-bypass
+Date: Wed, 20 Apr 2022 17:25:45 +0400
+Message-Id: <20220420132624.2439741-3-marcandre.lureau@redhat.com>
+In-Reply-To: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
+References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::132;
- envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lf1-x132.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,50 +78,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, marcandre.lureau@redhat.com, dgilbert@redhat.com,
- yan@daynix.com, f4bug@amsat.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-On Wed,  6 Apr 2022 20:15:54 +0300
-Viktor Prutyanov <viktor.prutyanov@redhat.com> wrote:
+The solution was discussed with Markus Armbruster during the review:
+https://patchew.org/QEMU/20220323155743.1585078-1-marcandre.lureau@redhat.com/20220323155743.1585078-14-marcandre.lureau@redhat.com/
 
-> From: Viktor Prutyanov <viktor@daynix.com>
-> 
-> Since 32-bit versions of Windows still exist, there is a need to take
-> live and crash dumps of such guests along with 64-bit guests. So, add
-> an ability for 'dump-guest-memory -w' to take dumps from 32-bit guest.
-> When running the command QEMU consumes 32-bit Complete Memory Dump
-> header passed by guest driver through vmcoreinfo device as it was
-> previously done for 64-bit headers. 32-bit vmcoreinfo guest driver in
-> upstream virtio-win can fill such a header.
-> 
-> Changes in v4:
->     - dump-guest-memory command help message is updated
-> Changes in v3:
->     - some WIN_DUMP_* macros are replaced by similar functions where
-> it is possible
-> Changes in v2:
->     - no change in logic, just split patches
->     - first introduce WIN_DUMP_* macros for x64 in a separate patch
->     - rename WinContext to WinContext64 in a separate patch
-> 
-> Viktor Prutyanov (4):
->   include/qemu: rename Windows context definitions to expose bitness
->   dump/win_dump: add helper macros for Windows dump header access
->   include/qemu: add 32-bit Windows dump structures
->   dump/win_dump: add 32-bit guest Windows support
-> 
->  contrib/elf2dmp/main.c       |   6 +-
->  dump/win_dump.c              | 299
-> ++++++++++++++++++++++------------- hmp-commands.hx              |
-> 2 +- include/qemu/win_dump_defs.h | 115 +++++++++++++-
->  4 files changed, 306 insertions(+), 116 deletions(-)
-> 
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ include/glib-compat.h | 10 ----------
+ util/error-report.c   |  6 +++++-
+ 2 files changed, 5 insertions(+), 11 deletions(-)
 
+diff --git a/include/glib-compat.h b/include/glib-compat.h
+index dc14d3ec0d1e..3113a7d2af84 100644
+--- a/include/glib-compat.h
++++ b/include/glib-compat.h
+@@ -145,16 +145,6 @@ qemu_g_test_slow(void)
+ #define g_test_thorough() qemu_g_test_slow()
+ #define g_test_quick() (!qemu_g_test_slow())
+ 
+-#if GLIB_CHECK_VERSION(2,62,0)
+-static inline gchar *
+-g_date_time_format_iso8601_compat(GDateTime *datetime)
+-{
+-    return g_date_time_format_iso8601(datetime);
+-}
+-
+-#define g_date_time_format_iso8601 g_date_time_format_iso8601_compat
+-#endif
+-
+ #pragma GCC diagnostic pop
+ 
+ #endif
+diff --git a/util/error-report.c b/util/error-report.c
+index d9d3ac30cfab..4ec7b30bcbcc 100644
+--- a/util/error-report.c
++++ b/util/error-report.c
+@@ -183,9 +183,13 @@ static void print_loc(void)
+ static char *
+ real_time_iso8601(void)
+ {
+-#if GLIB_CHECK_VERSION(2, 62, 0)
++#if GLIB_CHECK_VERSION(2,62,0)
+     g_autoptr(GDateTime) dt = g_date_time_new_from_unix_utc(g_get_real_time());
++    /* ignore deprecation warning, since GLIB_VERSION_MAX_ALLOWED is 2.56 */
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+     return g_date_time_format_iso8601(dt);
++#pragma GCC diagnostic pop
+ #else
+     GTimeVal tv;
+     g_get_current_time(&tv);
 -- 
-Sincerely,
-Viktor Prutyanov
+2.35.1.693.g805e0a68082a
+
 
