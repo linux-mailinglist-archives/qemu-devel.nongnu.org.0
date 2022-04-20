@@ -2,110 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D950B5080D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 08:01:38 +0200 (CEST)
-Received: from localhost ([::1]:42830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3B25080D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 08:06:48 +0200 (CEST)
+Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh3PF-0003ia-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 02:01:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33908)
+	id 1nh3UE-0003Bu-KG
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 02:06:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=1021dae20=alistair.francis@opensource.wdc.com>)
- id 1nh3HF-00087s-3f
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 01:53:21 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:55197)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nh3DB-0006XP-4V; Wed, 20 Apr 2022 01:49:09 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:44841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=1021dae20=alistair.francis@opensource.wdc.com>)
- id 1nh3HD-0004UM-Bs
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 01:53:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1650433999; x=1681969999;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=H2nNCdBlGkbhKY2PzS9ttJJUrgi/BvPdzYzwwCBJy3c=;
- b=SYOwvqg30ba2gz6ogsHnvTsIYlkwW4bT7Rv4eE9iLlnCpZi3gNtreh3G
- p/gZ4O9cLX9l5WSF+dq/GQkPcSveeeB35mORaOl+nVMpFA59hVSWxTKfx
- OCyqGKOcXJNRDtqbxFplB9FSgxt1yqvPOtWTBFM/PMxwcdzef69m7psSP
- 8K0AtZgBarvH0Ro0/W7p6MjbJ5kPO9rbbA61z4w7oehrZgXHTZmp4cBi3
- Q8E2gzMLZlEBMQitHROkGf6taNtPNDwP6UdWip/jruzBdMVkvXaYlXdum
- pG7q5vGS6nrB68l+1Q7sxo2DcsjWYGEqBUst51hzz+wcGpTRMAI7JqwSJ w==;
-X-IronPort-AV: E=Sophos;i="5.90,274,1643644800"; d="scan'208";a="302527765"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Apr 2022 13:53:18 +0800
-IronPort-SDR: QjiDCXgB8sxdx5zPtlOPCaArvGEqp/RjoYzSZH8djRhKJrD+mO2HDfGkbpgVzdufFVjPJBebOR
- PtEG5ngwd362uC4PHMmu9pFOJVWAVuw+A+fKN2e6WU/ccM1RNpugYPaY3SLL0sSDHMJHDPoxVM
- rP8WUBSGc8/9MAsSPasuaZsERWqtViaKqF94Zy8MIS3fc1BwNbZa9wnPadVl50uQYlLDKTtvJB
- /LszuQp2iFJeDoKCuz2V8fR0Sx50uLpItxQvjTQqxqsjz5chLmm9zTWE1dn5dYMuWz2iYPvpwn
- GzEL0Zh98KqxWtsDP5GoIMY/
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Apr 2022 22:23:36 -0700
-IronPort-SDR: k5/fXTs3Z5OtP/8LVc/4WyAkOOtMZNOAkn6BaTWgd6jT9qwZcByMadhT+9nRm+cfdGcpNpQipS
- f4PaEgpbuVEKNJmmCU3xNkVpuzYHjrkU9YTrlavFxtebVsbOULgchfN0TKy+Tk88Bp/fygLnef
- +VLGwRLdgpKGg0Y0+Yw0qxflB/4Fg9QulIxhxFLsVbh1PkEGS0+l2A+zLoH5g3UDsdw6wlFS/q
- q1f7UsPChwIS8Ad0lxenkAtTwddhK2/SyxWvE3Vi+gTjiWvCe0zzvBrODcMeLDxLBr56DEbNBc
- z6A=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Apr 2022 22:53:19 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KjqbK6BjGz1SVp5
- for <qemu-devel@nongnu.org>; Tue, 19 Apr 2022 22:53:17 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1650433996; x=1653025997; bh=H2nNCdBlGkbhKY2PzS
- 9ttJJUrgi/BvPdzYzwwCBJy3c=; b=X+AG6YvsPIzNR5ltI+/gUovOJi/GZypjTN
- TxSa/XjB5takiG0o/DHZ4H5u+nFj/rQYMvhaTbdkm41/6dMtR6fIMP4ZaiTEzsnb
- LQuf9jg7uR7H/MmG7wXN5bCvcSWkVa0F1nZHg/Bt7/L+eSfYsh4+YytJHyAVR5tc
- kj3v97TziTYZOFtRaySyzP/QS0CgZHrRLj343QPvPI7WxUM/WOwI1TyShopty8DJ
- U19sgl2q9QVlRq8LbxxrAKkWrgPmD6tRfj0vJc53Z06OehbYAjt8gUIKQ+Ma+gPZ
- pkOM/T2VBTHtdJoM0YYO9YDPcAXP1ZP5jFjvMEVpdFYOYnaTUDgQ==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id XJrQ0zUr9wfX for <qemu-devel@nongnu.org>;
- Tue, 19 Apr 2022 22:53:16 -0700 (PDT)
-Received: from toolbox.wdc.com (unknown [10.225.165.119])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KjqbD5z5Hz1Rvlx;
- Tue, 19 Apr 2022 22:53:12 -0700 (PDT)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair@alistair23.me>, alistair23@gmail.com,
- Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, bmeng.cn@gmail.com,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: [PATCH v4 4/6] hw/riscv: virt: Add support for generating platform
- FDT entries
-Date: Wed, 20 Apr 2022 15:52:46 +1000
-Message-Id: <20220420055248.960491-5-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220420055248.960491-1-alistair.francis@opensource.wdc.com>
-References: <20220420055248.960491-1-alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nh3D9-0003nE-8d; Wed, 20 Apr 2022 01:49:08 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8139C5C0062;
+ Wed, 20 Apr 2022 01:49:03 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 20 Apr 2022 01:49:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1650433743; x=1650520143; bh=P4
+ A0N40qncbIsnNDAtxrt7TOSXhs4Mdb8FlzHkzNbFc=; b=LLRxaOKFgL0oSaiH78
+ /rCSGlW100ApKhjvqwh+daLzA63APs3ClmKjXGPvrOZXVQnuPFnxOH4+llm2NNlN
+ fsyvQi3NgAkNll6h0tlpZlT34a/suur0ETJThN+irJD6nLewoF8uDhwyE7RSMfSu
+ 5BCSxk1ywFO452qVTVTrbroevaMPbYo7kPlJ4jLO2meMWcUidhz/DIjNdn9IYJPk
+ wZzH0sNs6fnOfIOE48C4aYxW7MGFRrD+U6O7bmIbJyKbV8czWP7TI9WaGpwhkKjL
+ 6xbimrKrk7wM8NhRgFl5r9seIBnk2estcNm1yJi0BK5Njf+jA79n1yVmmMGFQQKf
+ i60w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650433743; x=
+ 1650520143; bh=P4A0N40qncbIsnNDAtxrt7TOSXhs4Mdb8FlzHkzNbFc=; b=q
+ HDlGs7I0uK7YY+XtBrHIiQZbOXh52QvANegZA406ad6EHx0m8ZIYmEWrcjW+YabO
+ b1sFJabPuITQufyDZJjMF/yQRYRobJ6AuqwXGRfrEvaB5yXxzmvWJfX9uhpnmbEM
+ Ty97oMyrPNLAmNepiKPqV06w+Sp4QtpYurlWVkYT9EtGr/zwRAA9avKhe8CxDELv
+ kxtwffmWflJujL+BD7sChaHkl1dtOlZ2YERlpD/tg4nJi9y2mtgiP9iFXSU40Cul
+ mlGSwYPsZJm7wF3cmv5riIYF/0BjWepfFEW21Sz4vxwUqV4VgM6e74bF7tO9N2dJ
+ ljVQVt4tdF2TX8J0wBo/A==
+X-ME-Sender: <xms:zp5fYiDP6ocZsZ54zHguyChWoHi0p3pvnb9sll0FeBF8hI7Ghy9jAQ>
+ <xme:zp5fYsgMh87GZbhi_jMkXAFyWNY8RalgfLTOFh2BDFaeURtEsmm_g3jJo3TkRo-dw
+ jD7rMQJKp7eBm7LAvM>
+X-ME-Received: <xmr:zp5fYll5vHSVcxgr-BU5FvWmjsnZNZ-Ca9-HSHC1i-x56K0AN2y6u1Tqfv2JfcY6SGYOEVs0LaLVpyd5FdU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtgedgleekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:zp5fYgwNNVo8Z3ym3ei3Jd1_CGcAWL8igs8G5VsdrAfAAquysv5_cg>
+ <xmx:zp5fYnQao70Agcn4E6UZhWpMUabgOCbkW9xFwMs0GVpmT8ywCNVNHQ>
+ <xmx:zp5fYrYXDcTnacPNEiPQlqaIkPwfapZ7b-97dV-Xdx7gNhvwC4cNOA>
+ <xmx:z55fYoKw-NLyaL8QqOS9Guqp8lOoDMs8LWfP--yQD4sR6mYi5nCfPg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 Apr 2022 01:49:01 -0400 (EDT)
+Date: Wed, 20 Apr 2022 07:48:59 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 2/5] hw/nvme: always set eui64
+Message-ID: <Yl+ey8yiaSrYY0CB@apples>
+References: <20220419121039.1259477-1-its@irrelevant.dk>
+ <20220419121039.1259477-3-its@irrelevant.dk>
+ <20220420053059.GB1901@lst.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=1021dae20=alistair.francis@opensource.wdc.com;
- helo=esa2.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lod4pgjo6IypGf0m"
+Content-Disposition: inline
+In-Reply-To: <20220420053059.GB1901@lst.de>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,92 +98,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
+ Luis Chamberlain <mcgrof@kernel.org>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
 
-Similar to the ARM virt machine add support for adding device tree
-entries for dynamically created devices.
+--lod4pgjo6IypGf0m
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
----
- hw/riscv/virt.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+On Apr 20 07:30, Christoph Hellwig wrote:
+> On Tue, Apr 19, 2022 at 02:10:36PM +0200, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Unconditionally set an EUI64 for namespaces. The nvme-ns device defaults
+> > to auto-generating a persistent EUI64 if not specified, but for single
+> > namespace setups (-device nvme,drive=3D...), this does not happen.
+> >=20
+> > Since the EUI64 has previously been zeroed it is not considered valid,
+> > so it should be safe to add this now.
+> >=20
+> > The generated EUI64 is of the form 52:54:00:<namespace counter>. Note,
+> > this is NOT the namespace identifier since that is not unique across
+> > subsystems; it is a global namespace counter. This has the effect that
+> > the value of this auto-generated EUI64 is dependent on the order with
+> > which the namespaces are created. If a more flexible setup is required,
+> > the eui64 namespace parameter should be explicitly set. Update the
+> > documentation to make this clear.
+>=20
+> How is this actually globally unique given that it uses a start value
+> that is incremented for each created namespace?
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 169da70350..e4a5c6c28b 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -28,6 +28,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/char/serial.h"
- #include "target/riscv/cpu.h"
-+#include "hw/core/sysbus-fdt.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/virt.h"
- #include "hw/riscv/boot.h"
-@@ -411,6 +412,12 @@ static void create_fdt_socket_aclint(RISCVVirtState =
-*s,
-         qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0)=
-;
-         qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
-         riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
-+
-+        platform_bus_add_all_fdt_nodes(mc->fdt, name,
-+                                       memmap[VIRT_PLATFORM_BUS].base,
-+                                       memmap[VIRT_PLATFORM_BUS].size,
-+                                       VIRT_PLATFORM_BUS_IRQ);
-+
-         g_free(name);
-     }
-=20
-@@ -469,6 +476,12 @@ static void create_fdt_socket_plic(RISCVVirtState *s=
-,
-     riscv_socket_fdt_write_id(mc, mc->fdt, plic_name, socket);
-     qemu_fdt_setprop_cell(mc->fdt, plic_name, "phandle",
-         plic_phandles[socket]);
-+
-+    platform_bus_add_all_fdt_nodes(mc->fdt, plic_name,
-+                                   memmap[VIRT_PLATFORM_BUS].base,
-+                                   memmap[VIRT_PLATFORM_BUS].size,
-+                                   VIRT_PLATFORM_BUS_IRQ);
-+
-     g_free(plic_name);
-=20
-     g_free(plic_cells);
-@@ -546,6 +559,12 @@ static void create_fdt_imsic(RISCVVirtState *s, cons=
-t MemMapEntry *memmap,
-             IMSIC_MMIO_GROUP_MIN_SHIFT);
-     }
-     qemu_fdt_setprop_cell(mc->fdt, imsic_name, "phandle", *msi_m_phandle=
-);
-+
-+    platform_bus_add_all_fdt_nodes(mc->fdt, imsic_name,
-+                                   memmap[VIRT_PLATFORM_BUS].base,
-+                                   memmap[VIRT_PLATFORM_BUS].size,
-+                                   VIRT_PLATFORM_BUS_IRQ);
-+
-     g_free(imsic_name);
-=20
-     /* S-level IMSIC node */
-@@ -683,6 +702,12 @@ static void create_fdt_socket_aplic(RISCVVirtState *=
-s,
-         VIRT_IRQCHIP_NUM_SOURCES);
-     riscv_socket_fdt_write_id(mc, mc->fdt, aplic_name, socket);
-     qemu_fdt_setprop_cell(mc->fdt, aplic_name, "phandle", aplic_s_phandl=
-e);
-+
-+    platform_bus_add_all_fdt_nodes(mc->fdt, aplic_name,
-+                                   memmap[VIRT_PLATFORM_BUS].base,
-+                                   memmap[VIRT_PLATFORM_BUS].size,
-+                                   VIRT_PLATFORM_BUS_IRQ);
-+
-     g_free(aplic_name);
-=20
-     g_free(aplic_cells);
---=20
-2.35.1
+I think it is as good as we can do when we cannot store the EUI64
+persistently anywhere. The EUI64s will be unique to a single QEMU
+instance. If someone wants to simulate a fabrics setup or something like
+that, then, as per the documentation, set the EUI explicitly.
 
+> Also EUI64 values are based on a OUI, while NVME_EUI64_DEFAULT seems
+> to have the OUI values cleared to all zero as far as I can tell.
+>=20
+
+It really should be a u8 array, yes, but won't the integer approach
+work? The "template" is byte swapped to big endian, or am I off here?
+
+> I would strongly advise againt autogenerating eui64 values.  They are
+> small and have little entropy, and require at least three bytes (for
+> new allocations more) to be set to a IEEE assigned OUI.
+
+52:54:00 is a "private" OUI if I am not mistaken (something about some
+bit being 1 or 0, cant remember the specifics) and is what QEMU uses
+when an IEEE OUI is needed (MAC-addresses etc.). This is also what the
+device uses in the IEEE field.
+
+--lod4pgjo6IypGf0m
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJfnskACgkQTeGvMW1P
+Den6VQf9HVtVtkV/LQmToOuuBpU0pgHuk0SDDRrGhUJLKXIs6+KNn9lUgXtdv6oo
+oW28uXU7iZpo/0EQe/rm+ABj5bWBTDLKZwZo03F+hk6x8F9O8KLibpZeowrNKSJd
+GPQyaJ0vO0XHvE3YEnwN4LmnnubQv27uOye/O0XE71F7J/dzXxHor2cvNLmF/snD
+Qil4ypwHqai2iN/9AK1DKSakuSdEFPcnnSUkn3xr63N+EZKqL8kjHhVMpEHs+dHC
+0Sd/b+OA1fnYKKy43PLiPcM/5wtaSFcHsAIAx/fu06PylRTik7NJ4nmZPEF/8WTr
+6K8CM1c+noxZT8vYDXcefH3bP6wSew==
+=8rk2
+-----END PGP SIGNATURE-----
+
+--lod4pgjo6IypGf0m--
 
