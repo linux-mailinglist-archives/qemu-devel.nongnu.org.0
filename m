@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACC3508C54
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:41:08 +0200 (CEST)
-Received: from localhost ([::1]:33080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C14508C17
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:27:25 +0200 (CEST)
+Received: from localhost ([::1]:51324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCS3-0004Xy-PC
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39216)
+	id 1nhCEm-0000fk-Kh
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:27:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nhC9N-00086C-1r; Wed, 20 Apr 2022 11:21:49 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:34386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nhC9K-0007PF-5S; Wed, 20 Apr 2022 11:21:48 -0400
-Received: by mail-qt1-x834.google.com with SMTP id f14so1196427qtq.1;
- Wed, 20 Apr 2022 08:21:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PX+abyLRgex0ZCup+U2IHWin43JleGLa7AfCaKpwdYo=;
- b=XVBQZZHku1X19otb56BveeA5ffLLXAC2/bAZrRCNGTFH35aqvVRvbVuJLiF+PnmXuj
- Fy0+WeJJ7QIYc7r0kD9lGclh6/crPoc5HuSlwU8VoKMVgvKqVYyuWfmbOgo7TTwAb0cJ
- WaGI6+m83huIEUDkj7D7Xj/HeVeFRboJI0hlDs4Fy3wWa6qBTdGkQ42fEu9hbBHgeuqP
- 6d8PntK/2j1FnAMnC/fdw26GqPBmDdd2cb2FER4iIo18c5/AEHx1eb47ysUB0BNvJ45r
- MOnnXcPAk/5OAwB/t53B/0y32a0KS1MwkC4rgMvokW+M2EYubQkX6NuE1fRAUV9fOm7+
- 7O4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PX+abyLRgex0ZCup+U2IHWin43JleGLa7AfCaKpwdYo=;
- b=e9EKaLGrjIZztvLwJcbRN7EUJ9YeiN6CgFVNTpq4TNJZAFHtHVRR8AdgbTx9hn2Q/r
- YJu3Ywvrk9BcR78lBm6YIkylxOxk8mfoCuuL/mkLu6y3rLP4/H0UiZBJUs5f7Wn8iCbM
- CMTCAI+zBbj51KT7kuPdQCRewGC6nI6cn8C72OPkgbtJqUEsGfn0iJeFVPFcgG9SmLZf
- +ExAYE6/n9XkCOCzDaAhLzf46BZp4HkdjDoMWoZltCn5qpQ5x6I6cSWoKxjSLgR+wNFP
- zhFwCOs9okKdMR3D4CBSOsE8YkkFzj+kd+lcsLVYRjnI+opdtve6vT3z68+Q0IiM8DuH
- SAIw==
-X-Gm-Message-State: AOAM531TJBtRySbE65WECQAJUENByI3XVf/aFNMKPdc/rBSV3zw1eJHX
- Yk5tOW28kCCzdeoVWknUkaPUqK2mevuOLrPO0IU=
-X-Google-Smtp-Source: ABdhPJzm3mpnE3L+rihWDUudB+8ZDVDht/1iVbS6IQ8HIFWc4niwJPqnx4hH0DrAxsn/0x61AMe6voIGArNXSAS5Alo=
-X-Received: by 2002:a05:622a:cc:b0:2f1:fc74:c7a6 with SMTP id
- p12-20020a05622a00cc00b002f1fc74c7a6mr10567093qtw.387.1650468104866; Wed, 20
- Apr 2022 08:21:44 -0700 (PDT)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nhCCW-0005DS-IL
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:25:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55261)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nhCCS-0007hP-Oq
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:25:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650468274;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GDdo2oos/IyB7Iy7z2b/hTnpeGi0YDUgxGS7dMU37jY=;
+ b=XF5bEBe81cLi0pi0oao/EFu9yIzHepUt6TnbsY8TII7gNtjzSDT0xBX0PL5KE1XEePgPER
+ wjuMK6PC8FvIHSWDbvpwSYIT1Y9AOi0SFpO8Bl47uNqFhk7yZaDGF4TJ2IQW5wOIypb7q0
+ soXIxyYNprcGey0KXzppgtyii15x00c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-356-BaGiAiY5MnmAFuUVWFM3aQ-1; Wed, 20 Apr 2022 11:24:32 -0400
+X-MC-Unique: BaGiAiY5MnmAFuUVWFM3aQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E31D98DD9FC
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 15:24:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30AB940E80E6;
+ Wed, 20 Apr 2022 15:24:14 +0000 (UTC)
+Date: Wed, 20 Apr 2022 16:24:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 17/41] doc/build-platforms: document supported compilers
+Message-ID: <YmAlm0WXIf2n4VRX@redhat.com>
 References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
- <20220420132624.2439741-7-marcandre.lureau@redhat.com>
- <YmAg+9GExN7wn6Yb@redhat.com>
-In-Reply-To: <YmAg+9GExN7wn6Yb@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 20 Apr 2022 19:21:33 +0400
-Message-ID: <CAJ+F1C+vr+gfm0b+GjrLKKbRhMUDtq2R6o+3fK2JNMy_za5HSw@mail.gmail.com>
-Subject: Re: [PATCH 06/41] include: rename qemu-common.h qemu/copyright.h
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000001a8f5b05dd178d99"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ <20220420132624.2439741-18-marcandre.lureau@redhat.com>
+ <YmAUaMp7kTRaRCGY@redhat.com>
+ <840f08cb-e28c-6802-96c7-b1f82dd36427@redhat.com>
+ <CAMxuvax0uPB+dWGCt2_Ma22S3VZ9=OFy+J_9LFT+4ftgqzB-7A@mail.gmail.com>
+ <CAMxuvax4SaY7TBAc_fWfQHv9X49WRKvCLJ+Hd5wenVGA7Nr6Vg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMxuvax4SaY7TBAc_fWfQHv9X49WRKvCLJ+Hd5wenVGA7Nr6Vg@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,490 +84,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Kyle Evans <kevans@freebsd.org>, QEMU <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>,
- "open list:virtiofs" <virtio-fs@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>, Warner Losh <imp@bsdimp.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001a8f5b05dd178d99
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 20, 2022 at 06:50:12PM +0400, Marc-André Lureau wrote:
+> Hi
+> 
+> On Wed, Apr 20, 2022 at 6:46 PM Marc-André Lureau
+> <marcandre.lureau@redhat.com> wrote:
+> >
+> > Hi
+> >
+> > On Wed, Apr 20, 2022 at 6:37 PM Thomas Huth <thuth@redhat.com> wrote:
+> > >
+> > > On 20/04/2022 16.10, Daniel P. Berrangé wrote:
+> > > > On Wed, Apr 20, 2022 at 05:26:00PM +0400, marcandre.lureau@redhat.com wrote:
+> > > >> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > > >>
+> > > >> According to our configure checks, this is the list of supported
+> > > >> compilers.
+> > > >>
+> > > >> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > > >> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+> > > >> ---
+> > > >>   docs/about/build-platforms.rst | 10 ++++++++++
+> > > >>   1 file changed, 10 insertions(+)
+> > > >>
+> > > >> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+> > > >> index c29a4b8fe649..1980c5d2476f 100644
+> > > >> --- a/docs/about/build-platforms.rst
+> > > >> +++ b/docs/about/build-platforms.rst
+> > > >> @@ -92,6 +92,16 @@ hosted on Linux (Debian/Fedora).
+> > > >>   The version of the Windows API that's currently targeted is Vista / Server
+> > > >>   2008.
+> > > >>
+> > > >> +Supported compilers
+> > > >> +-------------------
+> > > >> +
+> > > >> +To compile, QEMU requires either:
+> > > >> +
+> > > >> +- GCC >= 7.4.0
+> > > >> +- Clang >= 6.0
+> > > >> +- XCode Clang >= 10.0
+> > > >
+> > > > Do we need to spell out the versions explicitly ? These versions are
+> > > > all derived from what's available in the repos of the supported build
+> > > > platforms, similar to any other build deps we have. I don't think we
+> > > > want to start a precedent of duplicating versions in this doc for
+> > > > build deps we have, and there's nothing particularly special about
+> > > > compilers in this respect.
+> > >
+> > > I agree with Daniel - when I saw this patch, the first thought that I had
+> > > was: "This will be getting out of sync quickly" ...
+> >
+> > I don't have the impression we bump our compiler requirement regularly
+> > or lightly.
+> >
+> > > so I'd also recommend to rather not add this here.
+> >
+> > Outdated documentation is still better than no documentation. YMMV.
+> 
+> Another question that is difficult to answer without being familiar
+> with QEMU details is whether it can compile with MSVC. This
+> documentation would, since it is explicit about the requirement.
 
-Hi
+Documenting that we mandate GCC or Clang is reasonable. Ideally we could
+have a list of all 3rd party deps we have in fact, I'm just not a fan of
+copying the version numbers across from configure/meson.
 
-On Wed, Apr 20, 2022 at 7:17 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> On Wed, Apr 20, 2022 at 05:25:49PM +0400, marcandre.lureau@redhat.com
-> wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Could use a commit message explaining why this is a good
-> idea.
->
-> I see it contains QEMU_COPYRIGHT macro, but it also then
-> contains QEMU_HELP_BOTTOM which is about bug reporting
-> not copyright.
->
-> IMHO something like 'qemu-cli.h' could be a better match
->
-
-That was Peter's suggestion:
-https://patchew.org/QEMU/20220323155743.1585078-1-marcandre.lureau@redhat.c=
-om/20220323155743.1585078-33-marcandre.lureau@redhat.com/#CAFEAcA9kYweS2zMH=
-jWDuV_y2AxKbgJ5UYNHLK3sASCLVD=3DyEqg@mail.gmail.com
-
-I don't mind qemu-cli.h or elsewhere
-
-Peter?
-
-
-> >
-> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  include/{qemu-common.h =3D> qemu/copyright.h} | 0
-> >  bsd-user/main.c                             | 2 +-
-> >  linux-user/main.c                           | 2 +-
-> >  qemu-img.c                                  | 2 +-
-> >  qemu-io.c                                   | 2 +-
-> >  qemu-nbd.c                                  | 2 +-
-> >  qga/main.c                                  | 2 +-
-> >  scsi/qemu-pr-helper.c                       | 2 +-
-> >  softmmu/vl.c                                | 2 +-
-> >  storage-daemon/qemu-storage-daemon.c        | 2 +-
-> >  tools/virtiofsd/passthrough_ll.c            | 2 +-
-> >  ui/cocoa.m                                  | 2 +-
-> >  12 files changed, 11 insertions(+), 11 deletions(-)
-> >  rename include/{qemu-common.h =3D> qemu/copyright.h} (100%)
-> >
-> > diff --git a/include/qemu-common.h b/include/qemu/copyright.h
-> > similarity index 100%
-> > rename from include/qemu-common.h
-> > rename to include/qemu/copyright.h
-> > diff --git a/bsd-user/main.c b/bsd-user/main.c
-> > index 88d347d05ebf..aaab3f278534 100644
-> > --- a/bsd-user/main.c
-> > +++ b/bsd-user/main.c
-> > @@ -24,7 +24,7 @@
-> >  #include <sys/sysctl.h>
-> >
-> >  #include "qemu/osdep.h"
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qemu/units.h"
-> >  #include "qemu/accel.h"
-> >  #include "sysemu/tcg.h"
-> > diff --git a/linux-user/main.c b/linux-user/main.c
-> > index fbc9bcfd5f5f..744d216b1e8e 100644
-> > --- a/linux-user/main.c
-> > +++ b/linux-user/main.c
-> > @@ -18,7 +18,7 @@
-> >   */
-> >
-> >  #include "qemu/osdep.h"
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qemu/units.h"
-> >  #include "qemu/accel.h"
-> >  #include "sysemu/tcg.h"
-> > diff --git a/qemu-img.c b/qemu-img.c
-> > index 116e05867558..a2b1d3653a1e 100644
-> > --- a/qemu-img.c
-> > +++ b/qemu-img.c
-> > @@ -25,7 +25,7 @@
-> >  #include "qemu/osdep.h"
-> >  #include <getopt.h>
-> >
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qemu/qemu-progress.h"
-> >  #include "qemu-version.h"
-> >  #include "qapi/error.h"
-> > diff --git a/qemu-io.c b/qemu-io.c
-> > index eb8afc8b413b..952a36643b0c 100644
-> > --- a/qemu-io.c
-> > +++ b/qemu-io.c
-> > @@ -15,7 +15,7 @@
-> >  #include <termios.h>
-> >  #endif
-> >
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qapi/error.h"
-> >  #include "qemu-io.h"
-> >  #include "qemu/error-report.h"
-> > diff --git a/qemu-nbd.c b/qemu-nbd.c
-> > index 713e7557a9eb..f4d121c0c40e 100644
-> > --- a/qemu-nbd.c
-> > +++ b/qemu-nbd.c
-> > @@ -21,7 +21,7 @@
-> >  #include <libgen.h>
-> >  #include <pthread.h>
-> >
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qapi/error.h"
-> >  #include "qemu/cutils.h"
-> >  #include "sysemu/block-backend.h"
-> > diff --git a/qga/main.c b/qga/main.c
-> > index ac63d8e47802..8994f73e4735 100644
-> > --- a/qga/main.c
-> > +++ b/qga/main.c
-> > @@ -18,7 +18,7 @@
-> >  #include <syslog.h>
-> >  #include <sys/wait.h>
-> >  #endif
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qapi/qmp/json-parser.h"
-> >  #include "qapi/qmp/qdict.h"
-> >  #include "qapi/qmp/qjson.h"
-> > diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-> > index f281daeced8d..e7549ffb3bc9 100644
-> > --- a/scsi/qemu-pr-helper.c
-> > +++ b/scsi/qemu-pr-helper.c
-> > @@ -36,7 +36,7 @@
-> >  #include <mpath_persist.h>
-> >  #endif
-> >
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qapi/error.h"
-> >  #include "qemu/cutils.h"
-> >  #include "qemu/main-loop.h"
-> > diff --git a/softmmu/vl.c b/softmmu/vl.c
-> > index 46aba6a039c4..b0bf16e16aaa 100644
-> > --- a/softmmu/vl.c
-> > +++ b/softmmu/vl.c
-> > @@ -23,7 +23,7 @@
-> >   */
-> >
-> >  #include "qemu/osdep.h"
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qemu/datadir.h"
-> >  #include "qemu/units.h"
-> >  #include "exec/cpu-common.h"
-> > diff --git a/storage-daemon/qemu-storage-daemon.c
-> b/storage-daemon/qemu-storage-daemon.c
-> > index eb724072579a..a4415e8c995b 100644
-> > --- a/storage-daemon/qemu-storage-daemon.c
-> > +++ b/storage-daemon/qemu-storage-daemon.c
-> > @@ -42,7 +42,7 @@
-> >  #include "qapi/qmp/qstring.h"
-> >  #include "qapi/qobject-input-visitor.h"
-> >
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qemu-version.h"
-> >  #include "qemu/config-file.h"
-> >  #include "qemu/error-report.h"
-> > diff --git a/tools/virtiofsd/passthrough_ll.c
-> b/tools/virtiofsd/passthrough_ll.c
-> > index 028dacdd8f5a..8af28f5fb823 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -38,7 +38,7 @@
-> >  #include "qemu/osdep.h"
-> >  #include "qemu/timer.h"
-> >  #include "qemu-version.h"
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "fuse_virtio.h"
-> >  #include "fuse_log.h"
-> >  #include "fuse_lowlevel.h"
-> > diff --git a/ui/cocoa.m b/ui/cocoa.m
-> > index 839ae4f58a69..a2a74656fabf 100644
-> > --- a/ui/cocoa.m
-> > +++ b/ui/cocoa.m
-> > @@ -27,7 +27,7 @@
-> >  #import <Cocoa/Cocoa.h>
-> >  #include <crt_externs.h>
-> >
-> > -#include "qemu-common.h"
-> > +#include "qemu/copyright.h"
-> >  #include "qemu-main.h"
-> >  #include "ui/clipboard.h"
-> >  #include "ui/console.h"
-> > --
-> > 2.35.1.693.g805e0a68082a
-> >
-> >
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000001a8f5b05dd178d99
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 20, 2022 at 7:17 PM Dan=
-iel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@re=
-dhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On Wed, Apr 20, 2022 at 05:25:49PM +0400, <a href=3D"mailto:marcand=
-re.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> wro=
-te:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-Could use a commit message explaining why this is a good<br>
-idea.<br>
-<br>
-I see it contains QEMU_COPYRIGHT macro, but it also then<br>
-contains QEMU_HELP_BOTTOM which is about bug reporting<br>
-not copyright.<br>
-<br>
-IMHO something like &#39;qemu-cli.h&#39; could be a better match<br></block=
-quote><div><br></div><div>That was Peter&#39;s suggestion:<br></div><div><a=
- href=3D"https://patchew.org/QEMU/20220323155743.1585078-1-marcandre.lureau=
-@redhat.com/20220323155743.1585078-33-marcandre.lureau@redhat.com/#CAFEAcA9=
-kYweS2zMHjWDuV_y2AxKbgJ5UYNHLK3sASCLVD=3DyEqg@mail.gmail.com">https://patch=
-ew.org/QEMU/20220323155743.1585078-1-marcandre.lureau@redhat.com/2022032315=
-5743.1585078-33-marcandre.lureau@redhat.com/#CAFEAcA9kYweS2zMHjWDuV_y2AxKbg=
-J5UYNHLK3sASCLVD=3DyEqg@mail.gmail.com</a></div><div><br></div><div>I don&#=
-39;t mind qemu-cli.h or elsewhere<br></div><div><br></div><div>Peter?<br></=
-div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; <br>
-&gt; Suggested-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro=
-.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 include/{qemu-common.h =3D&gt; qemu/copyright.h} | 0<br>
-&gt;=C2=A0 bsd-user/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-&gt;=C2=A0 linux-user/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-&gt;=C2=A0 qemu-img.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<b=
-r>
-&gt;=C2=A0 qemu-io.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +=
--<br>
-&gt;=C2=A0 qemu-nbd.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<b=
-r>
-&gt;=C2=A0 qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<b=
-r>
-&gt;=C2=A0 scsi/qemu-pr-helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-&gt;=C2=A0 softmmu/vl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt;=C2=A0 storage-daemon/qemu-storage-daemon.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-| 2 +-<br>
-&gt;=C2=A0 tools/virtiofsd/passthrough_ll.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 2 +-<br>
-&gt;=C2=A0 ui/cocoa.m=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<b=
-r>
-&gt;=C2=A0 12 files changed, 11 insertions(+), 11 deletions(-)<br>
-&gt;=C2=A0 rename include/{qemu-common.h =3D&gt; qemu/copyright.h} (100%)<b=
-r>
-&gt; <br>
-&gt; diff --git a/include/qemu-common.h b/include/qemu/copyright.h<br>
-&gt; similarity index 100%<br>
-&gt; rename from include/qemu-common.h<br>
-&gt; rename to include/qemu/copyright.h<br>
-&gt; diff --git a/bsd-user/main.c b/bsd-user/main.c<br>
-&gt; index 88d347d05ebf..aaab3f278534 100644<br>
-&gt; --- a/bsd-user/main.c<br>
-&gt; +++ b/bsd-user/main.c<br>
-&gt; @@ -24,7 +24,7 @@<br>
-&gt;=C2=A0 #include &lt;sys/sysctl.h&gt;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/units.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/accel.h&quot;<br>
-&gt;=C2=A0 #include &quot;sysemu/tcg.h&quot;<br>
-&gt; diff --git a/linux-user/main.c b/linux-user/main.c<br>
-&gt; index fbc9bcfd5f5f..744d216b1e8e 100644<br>
-&gt; --- a/linux-user/main.c<br>
-&gt; +++ b/linux-user/main.c<br>
-&gt; @@ -18,7 +18,7 @@<br>
-&gt;=C2=A0 =C2=A0*/<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/units.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/accel.h&quot;<br>
-&gt;=C2=A0 #include &quot;sysemu/tcg.h&quot;<br>
-&gt; diff --git a/qemu-img.c b/qemu-img.c<br>
-&gt; index 116e05867558..a2b1d3653a1e 100644<br>
-&gt; --- a/qemu-img.c<br>
-&gt; +++ b/qemu-img.c<br>
-&gt; @@ -25,7 +25,7 @@<br>
-&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
-&gt;=C2=A0 #include &lt;getopt.h&gt;<br>
-&gt;=C2=A0 <br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/qemu-progress.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu-version.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
-&gt; diff --git a/qemu-io.c b/qemu-io.c<br>
-&gt; index eb8afc8b413b..952a36643b0c 100644<br>
-&gt; --- a/qemu-io.c<br>
-&gt; +++ b/qemu-io.c<br>
-&gt; @@ -15,7 +15,7 @@<br>
-&gt;=C2=A0 #include &lt;termios.h&gt;<br>
-&gt;=C2=A0 #endif<br>
-&gt;=C2=A0 <br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu-io.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/error-report.h&quot;<br>
-&gt; diff --git a/qemu-nbd.c b/qemu-nbd.c<br>
-&gt; index 713e7557a9eb..f4d121c0c40e 100644<br>
-&gt; --- a/qemu-nbd.c<br>
-&gt; +++ b/qemu-nbd.c<br>
-&gt; @@ -21,7 +21,7 @@<br>
-&gt;=C2=A0 #include &lt;libgen.h&gt;<br>
-&gt;=C2=A0 #include &lt;pthread.h&gt;<br>
-&gt;=C2=A0 <br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/cutils.h&quot;<br>
-&gt;=C2=A0 #include &quot;sysemu/block-backend.h&quot;<br>
-&gt; diff --git a/qga/main.c b/qga/main.c<br>
-&gt; index ac63d8e47802..8994f73e4735 100644<br>
-&gt; --- a/qga/main.c<br>
-&gt; +++ b/qga/main.c<br>
-&gt; @@ -18,7 +18,7 @@<br>
-&gt;=C2=A0 #include &lt;syslog.h&gt;<br>
-&gt;=C2=A0 #include &lt;sys/wait.h&gt;<br>
-&gt;=C2=A0 #endif<br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qmp/json-parser.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qmp/qdict.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qmp/qjson.h&quot;<br>
-&gt; diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c<br>
-&gt; index f281daeced8d..e7549ffb3bc9 100644<br>
-&gt; --- a/scsi/qemu-pr-helper.c<br>
-&gt; +++ b/scsi/qemu-pr-helper.c<br>
-&gt; @@ -36,7 +36,7 @@<br>
-&gt;=C2=A0 #include &lt;mpath_persist.h&gt;<br>
-&gt;=C2=A0 #endif<br>
-&gt;=C2=A0 <br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/cutils.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/main-loop.h&quot;<br>
-&gt; diff --git a/softmmu/vl.c b/softmmu/vl.c<br>
-&gt; index 46aba6a039c4..b0bf16e16aaa 100644<br>
-&gt; --- a/softmmu/vl.c<br>
-&gt; +++ b/softmmu/vl.c<br>
-&gt; @@ -23,7 +23,7 @@<br>
-&gt;=C2=A0 =C2=A0*/<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/datadir.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/units.h&quot;<br>
-&gt;=C2=A0 #include &quot;exec/cpu-common.h&quot;<br>
-&gt; diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qem=
-u-storage-daemon.c<br>
-&gt; index eb724072579a..a4415e8c995b 100644<br>
-&gt; --- a/storage-daemon/qemu-storage-daemon.c<br>
-&gt; +++ b/storage-daemon/qemu-storage-daemon.c<br>
-&gt; @@ -42,7 +42,7 @@<br>
-&gt;=C2=A0 #include &quot;qapi/qmp/qstring.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qobject-input-visitor.h&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu-version.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/config-file.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/error-report.h&quot;<br>
-&gt; diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passth=
-rough_ll.c<br>
-&gt; index 028dacdd8f5a..8af28f5fb823 100644<br>
-&gt; --- a/tools/virtiofsd/passthrough_ll.c<br>
-&gt; +++ b/tools/virtiofsd/passthrough_ll.c<br>
-&gt; @@ -38,7 +38,7 @@<br>
-&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/timer.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu-version.h&quot;<br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;fuse_virtio.h&quot;<br>
-&gt;=C2=A0 #include &quot;fuse_log.h&quot;<br>
-&gt;=C2=A0 #include &quot;fuse_lowlevel.h&quot;<br>
-&gt; diff --git a/ui/cocoa.m b/ui/cocoa.m<br>
-&gt; index 839ae4f58a69..a2a74656fabf 100644<br>
-&gt; --- a/ui/cocoa.m<br>
-&gt; +++ b/ui/cocoa.m<br>
-&gt; @@ -27,7 +27,7 @@<br>
-&gt;=C2=A0 #import &lt;Cocoa/Cocoa.h&gt;<br>
-&gt;=C2=A0 #include &lt;crt_externs.h&gt;<br>
-&gt;=C2=A0 <br>
-&gt; -#include &quot;qemu-common.h&quot;<br>
-&gt; +#include &quot;qemu/copyright.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu-main.h&quot;<br>
-&gt;=C2=A0 #include &quot;ui/clipboard.h&quot;<br>
-&gt;=C2=A0 #include &quot;ui/console.h&quot;<br>
-&gt; -- <br>
-&gt; 2.35.1.693.g805e0a68082a<br>
-&gt; <br>
-&gt; <br>
-<br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000001a8f5b05dd178d99--
 
