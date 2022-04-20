@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4752C5089EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:00:01 +0200 (CEST)
-Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930C05089D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 15:51:21 +0200 (CEST)
+Received: from localhost ([::1]:43486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhAsC-0000nL-Bx
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:00:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
+	id 1nhAjo-0002PV-0J
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 09:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhALy-0005Lr-Ax
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:26:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55082)
+ id 1nhANJ-0007Tg-Vg
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:28:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhALv-0004M8-QO
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:26:41 -0400
+ id 1nhANI-0004cp-Dy
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:28:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650461199;
+ s=mimecast20190719; t=1650461283;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XmBovi1Ujwp+9sAT0P/mFAUlxIKGku9Jpkb66Oe9kSM=;
- b=e3nMbq77ZCvFAIi9yzfcT510m0cM0YOssdSUKR1hUyZHU5hnEYBI3fRoag7FoK3H0Hoat0
- D5kdc0JPSATe0JIT/vcVOZGXAdz/hhPq3j7ls+gCii103xP11tWR/TYup1zbWUPCt4xT6j
- wGY/VT51IZ8xzZV2KgExzRq+iCvlVw4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6qTWi80YxV8z2J64N08PJ7aN8yyPyaK/hroPDDugMM4=;
+ b=FyGEl2VCZxb0xzKkmYCLykoK20jxhUMGFcPRK1CM1+2p9wdxEjrnuKhU1COW2/a6cXdP5F
+ RA4T46qgFeK2zaMQKNbw8R800mJiWPfk2LRBRqKXEbrtF9l15f4Ybg5MKSia+hr7NATE4V
+ MiMQZPk/dCkWBPenco2ypCAnKy2R6dc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-yrgUYtp_Nn2qoe2tSWoovQ-1; Wed, 20 Apr 2022 09:26:37 -0400
-X-MC-Unique: yrgUYtp_Nn2qoe2tSWoovQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-517-6Ck3ldOEO8yngBflkBc5Tw-1; Wed, 20 Apr 2022 09:28:02 -0400
+X-MC-Unique: 6Ck3ldOEO8yngBflkBc5Tw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 342E63C025B5
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 13:26:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A116801E67
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 13:28:02 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E62D40D282F;
- Wed, 20 Apr 2022 13:26:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C9A057233C;
+ Wed, 20 Apr 2022 13:28:01 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/41] glib-compat: isolate g_date_time_format_iso8601
- version-bypass
-Date: Wed, 20 Apr 2022 17:25:45 +0400
-Message-Id: <20220420132624.2439741-3-marcandre.lureau@redhat.com>
+Subject: [PATCH 17/41] doc/build-platforms: document supported compilers
+Date: Wed, 20 Apr 2022 17:26:00 +0400
+Message-Id: <20220420132624.2439741-18-marcandre.lureau@redhat.com>
 In-Reply-To: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -84,55 +83,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The solution was discussed with Markus Armbruster during the review:
-https://patchew.org/QEMU/20220323155743.1585078-1-marcandre.lureau@redhat.com/20220323155743.1585078-14-marcandre.lureau@redhat.com/
+According to our configure checks, this is the list of supported
+compilers.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- include/glib-compat.h | 10 ----------
- util/error-report.c   |  6 +++++-
- 2 files changed, 5 insertions(+), 11 deletions(-)
+ docs/about/build-platforms.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/include/glib-compat.h b/include/glib-compat.h
-index dc14d3ec0d1e..3113a7d2af84 100644
---- a/include/glib-compat.h
-+++ b/include/glib-compat.h
-@@ -145,16 +145,6 @@ qemu_g_test_slow(void)
- #define g_test_thorough() qemu_g_test_slow()
- #define g_test_quick() (!qemu_g_test_slow())
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index c29a4b8fe649..1980c5d2476f 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -92,6 +92,16 @@ hosted on Linux (Debian/Fedora).
+ The version of the Windows API that's currently targeted is Vista / Server
+ 2008.
  
--#if GLIB_CHECK_VERSION(2,62,0)
--static inline gchar *
--g_date_time_format_iso8601_compat(GDateTime *datetime)
--{
--    return g_date_time_format_iso8601(datetime);
--}
--
--#define g_date_time_format_iso8601 g_date_time_format_iso8601_compat
--#endif
--
- #pragma GCC diagnostic pop
- 
- #endif
-diff --git a/util/error-report.c b/util/error-report.c
-index d9d3ac30cfab..4ec7b30bcbcc 100644
---- a/util/error-report.c
-+++ b/util/error-report.c
-@@ -183,9 +183,13 @@ static void print_loc(void)
- static char *
- real_time_iso8601(void)
- {
--#if GLIB_CHECK_VERSION(2, 62, 0)
-+#if GLIB_CHECK_VERSION(2,62,0)
-     g_autoptr(GDateTime) dt = g_date_time_new_from_unix_utc(g_get_real_time());
-+    /* ignore deprecation warning, since GLIB_VERSION_MAX_ALLOWED is 2.56 */
-+#pragma GCC diagnostic push
-+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-     return g_date_time_format_iso8601(dt);
-+#pragma GCC diagnostic pop
- #else
-     GTimeVal tv;
-     g_get_current_time(&tv);
++Supported compilers
++-------------------
++
++To compile, QEMU requires either:
++
++- GCC >= 7.4.0
++- Clang >= 6.0
++- XCode Clang >= 10.0
++
++
+ .. _HomeBrew: https://brew.sh/
+ .. _MacPorts: https://www.macports.org/
+ .. _Repology: https://repology.org/
 -- 
 2.35.1.693.g805e0a68082a
 
