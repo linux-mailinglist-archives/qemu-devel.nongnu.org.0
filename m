@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA05508ACD
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:29:50 +0200 (CEST)
-Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BB6508AE6
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:40:06 +0200 (CEST)
+Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhBL3-0005c1-TN
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43452)
+	id 1nhBUz-0002dd-5O
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:40:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nhAhk-0000WL-Fs
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:49:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56978)
+ id 1nhAk0-00059p-Jr
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:51:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1nhAhh-000086-BJ
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:49:11 -0400
+ id 1nhAjw-0000dX-Qy
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:51:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650462547;
+ s=mimecast20190719; t=1650462688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2kz3XVWekH4W2kN/oFcPPYqcKJXox7sDVHHVaUhMLpE=;
- b=Fl6QQ5sMoSaHdS4relFXqBI6bxbdk/6Du++2u28xQM9F03PhltniaXD79ii4HkmzrynTJ9
- 2uI8tGJ1tkbMO1UjnC3ZCN/rtHUjTBYDO3TrSo+lZYsiDZaTyrVBvHp6m7urznFOn5Mqof
- On7w5vr31ZJsbv4GyW4WCFjLk/y42tk=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ldzk6Llzie+DkRUs9Dx/N+0VAtFOPvrCn5tgIUldgJE=;
+ b=IgyFXDRBr0noKqhysFCJYzUzrW8xgmr17O1tgMZnLlh+Pn6wxGwCmSYkDElh0m04kgJxqG
+ yUen7nAn2VgpCurGnkziy2bjUWseDcMcUpGCuadInJ+3w8KaXAc0vIY3ibHvf6IW1voyQx
+ O8S0PaOOd8SuassWl9IuUN99+KeXSlY=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-138-DKbFAWVePL-KnLU2tBcpcw-1; Wed, 20 Apr 2022 09:49:05 -0400
-X-MC-Unique: DKbFAWVePL-KnLU2tBcpcw-1
-Received: by mail-yb1-f200.google.com with SMTP id
- n10-20020a25da0a000000b0064149e56ecaso1512143ybf.2
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 06:49:05 -0700 (PDT)
+ us-mta-671-FGBHnmohPda_5Imy_ml_tw-1; Wed, 20 Apr 2022 09:51:23 -0400
+X-MC-Unique: FGBHnmohPda_5Imy_ml_tw-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ i5-20020a258b05000000b006347131d40bso1473271ybl.17
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 06:51:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2kz3XVWekH4W2kN/oFcPPYqcKJXox7sDVHHVaUhMLpE=;
- b=2Ti2EX8qswvh0gWHgLiFEi4wva4RtBiEc+KXMAht7wxXJG8Jh4oRYFDkwa/TgBS2iJ
- x/1WRLESHqdK2QY1kS6rYCjbEvUka6s+qt2y5hPCFBNIe3CNzmbM6Q7NKGLhkcuxsLaP
- vBQrqHC5N7sdymelxwbbNQJt7s5U1peWzFAFOtEf7o+EnHSF7egUIjZvDAxisidXZBRX
- IVD8BpkaBFrSsJu00gPDrcGIUEXHPSf+9Ao+Xv3TY3wewddnJ2+QiSZZXktdMePCV7m/
- yP1iEfkxrYc9Jxc4hdkZU6GTMRsKGJPJpyhb4a76Jka88FIHd7Zs2cKzuQF6d5/HWpjq
- wBwQ==
-X-Gm-Message-State: AOAM530kXUrHyH7wN53reWLi3tofQbq1qTloZilEiQ5QYCigu27iQOzE
- rf5Ea3gVjYSFOImXNp30V5Zc5qe3ZewCPuOemsBbzE9zKy5GhTi0XWYDAvEuIabPU+mnMCbgfBj
- PHjpnKiSYDqEuJN20tRM/A3LlF1MRLlI=
-X-Received: by 2002:a81:5d09:0:b0:2ea:f17a:15c1 with SMTP id
- r9-20020a815d09000000b002eaf17a15c1mr20547845ywb.481.1650462545118; 
- Wed, 20 Apr 2022 06:49:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzyBN3eIXvYkcX5+WkgsNAyu78N7Ry2g5IPCIhVI1W4CfXpmGj7QM4zTr+HMcf0tAZGaCCN8EH9i2pty4iNZB0=
-X-Received: by 2002:a81:5d09:0:b0:2ea:f17a:15c1 with SMTP id
- r9-20020a815d09000000b002eaf17a15c1mr20547830ywb.481.1650462544854; Wed, 20
- Apr 2022 06:49:04 -0700 (PDT)
+ bh=Ldzk6Llzie+DkRUs9Dx/N+0VAtFOPvrCn5tgIUldgJE=;
+ b=AsDyZ+WJGgG+FhpQU347NNeqAk8gWOtZ6AxJKbhm4vAXJXP43HGWpLDQTCAucqX0f1
+ x1wPPMxZqNq+3Nk3DYKXl+CPPGD5EirdaoG3aZqXBS5RWptS4OzFd4HILEJNHyz6SOUy
+ 3bsFxYcm1+wLjmZnIZ4TaMIK9r8JeYfAXsnue1TGykpLvnlaCBzgz6ab6gcz1TyHpmVS
+ 7W0OVkHC0TGKr1pe6xcnQU/eJb6uhiqmEaeLMy88xnOycJtckmONQR5BoHrkvxSLcXOu
+ jKLtkCJL4fiv0/xBpHpYRPc7P423kZTAhgEbEENPHTtu10m5qjtPbNBRenyIMSQJgd5C
+ xRNA==
+X-Gm-Message-State: AOAM532x/7sSF1/urFRIx6hgXYSQBhzCid7u/Fe8/B1SuKlFjyry+U+L
+ cuLAbUb95DeVp8+iJ04Upt0uw5mVgo9ptS1MSCqiQKRrenmgYxnvA/SHDzDb5hZTxT2RkniAcQF
+ v776YYk9jAXSpP1KlJGLkTwwC9qzW6OE=
+X-Received: by 2002:a05:6902:1028:b0:644:cbb0:4adc with SMTP id
+ x8-20020a056902102800b00644cbb04adcmr18069569ybt.599.1650462683318; 
+ Wed, 20 Apr 2022 06:51:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3VL0+7SbVcfTQSxPoR7wQcq2Df03vE+UKgQ696anqGzfUObLJ+ZfmZq8KzGE9+2E7NYCa1UIHB1uoIA1vFr8=
+X-Received: by 2002:a05:6902:1028:b0:644:cbb0:4adc with SMTP id
+ x8-20020a056902102800b00644cbb04adcmr18069551ybt.599.1650462683096; Wed, 20
+ Apr 2022 06:51:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
- <20220420132624.2439741-9-marcandre.lureau@redhat.com>
-In-Reply-To: <20220420132624.2439741-9-marcandre.lureau@redhat.com>
+ <20220420132624.2439741-32-marcandre.lureau@redhat.com>
+In-Reply-To: <20220420132624.2439741-32-marcandre.lureau@redhat.com>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Wed, 20 Apr 2022 16:48:54 +0300
-Message-ID: <CAPMcbCrg9fqKcCPPCdWQc+oSgUKbZP2mZGqnefaY4RoGDFj3rw@mail.gmail.com>
-Subject: Re: [PATCH 08/41] build-sys: simplify MSI's QEMU_GA_MANUFACTURER
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Yan Vugenfirer <yvugenfi@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000b3911a05dd164132"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Date: Wed, 20 Apr 2022 16:51:12 +0300
+Message-ID: <CAPMcbCpBJxfjhM0xJAtv_atS3L7+G_i52CXYwDExQPsgOY9EMA@mail.gmail.com>
+Subject: Re: [PATCH 31/41] qga: move qga_get_host_name()
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f0ff5505dd16497f"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,281 +89,472 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, QEMU <qemu-devel@nongnu.org>
+Cc: Michael Roth <michael.roth@amd.com>, Stefan Weil <sw@weilnetz.de>,
+ QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b3911a05dd164132
+--000000000000f0ff5505dd16497f
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Marc-Andr=C3=A9 and Yan,
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-Currently, we use this for the mingw-qemu-ga-win package in CentOS Stream 9
-and RHEL.
-https://gitlab.com/redhat/centos-stream/rpms/mingw-qemu-ga-win/-/blob/c9s/b=
-uild_configure.sh
-
-Yan, do we need this feature or not?
-
-Best Regards,
-Konstantin Kostiuk.
-
-
-On Wed, Apr 20, 2022 at 4:27 PM <marcandre.lureau@redhat.com> wrote:
+On Wed, Apr 20, 2022 at 4:30 PM <marcandre.lureau@redhat.com> wrote:
 
 > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> If there is any reason to allow customization of this variable, we
-> should provide a proper configure option.
+> The function is specific to qemu-ga, no need to share it in QEMU.
 >
 > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  configure                 |  4 ----
->  qga/installer/qemu-ga.wxs | 10 ++++------
->  qga/meson.build           |  1 -
->  3 files changed, 4 insertions(+), 11 deletions(-)
+>  include/qemu/osdep.h  | 10 ----------
+>  qga/commands-common.h | 11 +++++++++++
+>  qga/commands-posix.c  | 35 +++++++++++++++++++++++++++++++++++
+>  qga/commands-win32.c  | 13 +++++++++++++
+>  qga/commands.c        |  2 +-
+>  util/oslib-posix.c    | 35 -----------------------------------
+>  util/oslib-win32.c    | 13 -------------
+>  7 files changed, 60 insertions(+), 59 deletions(-)
 >
-> diff --git a/configure b/configure
-> index 8cbe55ac82e8..5ac653b21351 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2694,9 +2694,6 @@ fi
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index 9fd52d6a33a7..ccf10f05f806 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -648,16 +648,6 @@ int qemu_fdatasync(int fd);
+>   */
+>  int qemu_msync(void *addr, size_t length, int fd);
 >
->  # Guest agent Windows MSI package
->
-> -if test "$QEMU_GA_MANUFACTURER" =3D ""; then
-> -  QEMU_GA_MANUFACTURER=3DQEMU
-> -fi
->  if test "$QEMU_GA_DISTRO" =3D ""; then
->    QEMU_GA_DISTRO=3DLinux
->  fi
-> @@ -2790,7 +2787,6 @@ if test "$debug_tcg" =3D "yes" ; then
->  fi
->  if test "$mingw32" =3D "yes" ; then
->    echo "CONFIG_WIN32=3Dy" >> $config_host_mak
-> -  echo "QEMU_GA_MANUFACTURER=3D${QEMU_GA_MANUFACTURER}" >> $config_host_=
-mak
->    echo "QEMU_GA_DISTRO=3D${QEMU_GA_DISTRO}" >> $config_host_mak
->    echo "QEMU_GA_VERSION=3D${QEMU_GA_VERSION}" >> $config_host_mak
->  else
-> diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-> index 0950e8c6becc..53d836c06a96 100644
-> --- a/qga/installer/qemu-ga.wxs
-> +++ b/qga/installer/qemu-ga.wxs
-> @@ -8,9 +8,7 @@
->      <?error Environment variable QEMU_GA_DISTRO undefined?>
->    <?endif?>
->
-> -  <?ifndef env.QEMU_GA_MANUFACTURER ?>
-> -    <?error Environment variable QEMU_GA_MANUFACTURER undefined?>
-> -  <?endif?>
-> +  <?define QEMU_GA_MANUFACTURER =3D "QEMU" ?>
->
->    <?ifndef var.Arch?>
->      <?error Define Arch to 32 or 64?>
-> @@ -43,14 +41,14 @@
->      Name=3D"QEMU guest agent"
->      Id=3D"*"
->      UpgradeCode=3D"{EB6B8302-C06E-4BEC-ADAC-932C68A3A98D}"
-> -    Manufacturer=3D"$(env.QEMU_GA_MANUFACTURER)"
-> +    Manufacturer=3D"$(var.QEMU_GA_MANUFACTURER)"
->      Version=3D"$(env.QEMU_GA_VERSION)"
->      Language=3D"1033">
->      <?if $(var.Arch) =3D 32 ?>
->      <Condition Message=3D"Error: 32-bit version of Qemu GA can not be
-> installed on 64-bit Windows.">NOT VersionNT64</Condition>
->      <?endif?>
->      <Package
-> -      Manufacturer=3D"$(env.QEMU_GA_MANUFACTURER)"
-> +      Manufacturer=3D"$(var.QEMU_GA_MANUFACTURER)"
->        InstallerVersion=3D"200"
->        Languages=3D"1033"
->        Compressed=3D"yes"
-> @@ -133,7 +131,7 @@
->            </Component>
->            <Component Id=3D"registry_entries"
-> Guid=3D"{D075D109-51CA-11E3-9F8B-000C29858960}">
->              <RegistryKey Root=3D"HKLM"
+> -/**
+> - * qemu_get_host_name:
+> - * @errp: Error object
+> - *
+> - * Operating system agnostic way of querying host name.
+> - *
+> - * Returns allocated hostname (caller should free), NULL on failure.
+> - */
+> -char *qemu_get_host_name(Error **errp);
 > -
->  Key=3D"Software\$(env.QEMU_GA_MANUFACTURER)\$(env.QEMU_GA_DISTRO)\Tools\=
-QemuGA">
+>  /**
+>   * qemu_get_host_physmem:
+>   *
+> diff --git a/qga/commands-common.h b/qga/commands-common.h
+> index 90785ed4bb7b..d0e4a9696f37 100644
+> --- a/qga/commands-common.h
+> +++ b/qga/commands-common.h
+> @@ -18,4 +18,15 @@ GuestFileHandle *guest_file_handle_find(int64_t id,
+> Error **errp);
+>  GuestFileRead *guest_file_read_unsafe(GuestFileHandle *gfh,
+>                                        int64_t count, Error **errp);
+>
+> +/**
+> + * qga_get_host_name:
+> + * @errp: Error object
+> + *
+> + * Operating system agnostic way of querying host name.
+> + * Compared to g_get_host_name(), it doesn't cache the result.
+> + *
+> + * Returns allocated hostname (caller should free), NULL on failure.
+> + */
+> +char *qga_get_host_name(Error **errp);
 > +
->  Key=3D"Software\$(var.QEMU_GA_MANUFACTURER)\$(env.QEMU_GA_DISTRO)\Tools\=
-QemuGA">
->                <RegistryValue Type=3D"string" Name=3D"ProductID"
-> Value=3D"fb0a0d66-c7fb-4e2e-a16b-c4a3bfe8d13b" />
->                <RegistryValue Type=3D"string" Name=3D"Version"
-> Value=3D"$(env.QEMU_GA_VERSION)" />
->              </RegistryKey>
-> diff --git a/qga/meson.build b/qga/meson.build
-> index da5e5efb19e8..6e57de430d29 100644
-> --- a/qga/meson.build
-> +++ b/qga/meson.build
-> @@ -123,7 +123,6 @@ if targetos =3D=3D 'windows'
->                              command: [
->                                find_program('env'),
->                                'QEMU_GA_VERSION=3D' +
-> config_host['QEMU_GA_VERSION'],
-> -                              'QEMU_GA_MANUFACTURER=3D' +
-> config_host['QEMU_GA_MANUFACTURER'],
->                                'QEMU_GA_DISTRO=3D' +
-> config_host['QEMU_GA_DISTRO'],
->                                'BUILD_DIR=3D' + meson.build_root(),
->                                wixl, '-o', '@OUTPUT0@', '@INPUT0@',
+>  #endif
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index 390c1560e1b5..77f4672ca2c9 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -3278,3 +3278,38 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error
+> **errp)
+>
+>      return NULL;
+>  }
+> +
+> +#ifndef HOST_NAME_MAX
+> +# ifdef _POSIX_HOST_NAME_MAX
+> +#  define HOST_NAME_MAX _POSIX_HOST_NAME_MAX
+> +# else
+> +#  define HOST_NAME_MAX 255
+> +# endif
+> +#endif
+> +
+> +char *qga_get_host_name(Error **errp)
+> +{
+> +    long len =3D -1;
+> +    g_autofree char *hostname =3D NULL;
+> +
+> +#ifdef _SC_HOST_NAME_MAX
+> +    len =3D sysconf(_SC_HOST_NAME_MAX);
+> +#endif /* _SC_HOST_NAME_MAX */
+> +
+> +    if (len < 0) {
+> +        len =3D HOST_NAME_MAX;
+> +    }
+> +
+> +    /* Unfortunately, gethostname() below does not guarantee a
+> +     * NULL terminated string. Therefore, allocate one byte more
+> +     * to be sure. */
+> +    hostname =3D g_new0(char, len + 1);
+> +
+> +    if (gethostname(hostname, len) < 0) {
+> +        error_setg_errno(errp, errno,
+> +                         "cannot get hostname");
+> +        return NULL;
+> +    }
+> +
+> +    return g_steal_pointer(&hostname);
+> +}
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index 406e4072a012..d56b5fd2a71c 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -2519,3 +2519,16 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error
+> **errp)
+>      }
+>      return head;
+>  }
+> +
+> +char *qga_get_host_name(Error **errp)
+> +{
+> +    wchar_t tmp[MAX_COMPUTERNAME_LENGTH + 1];
+> +    DWORD size =3D G_N_ELEMENTS(tmp);
+> +
+> +    if (GetComputerNameW(tmp, &size) =3D=3D 0) {
+> +        error_setg_win32(errp, GetLastError(), "failed close handle");
+> +        return NULL;
+> +    }
+> +
+> +    return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
+> +}
+> diff --git a/qga/commands.c b/qga/commands.c
+> index 4e9ce25b2e73..690da0073d6e 100644
+> --- a/qga/commands.c
+> +++ b/qga/commands.c
+> @@ -511,7 +511,7 @@ int ga_parse_whence(GuestFileWhence *whence, Error
+> **errp)
+>  GuestHostName *qmp_guest_get_host_name(Error **errp)
+>  {
+>      GuestHostName *result =3D NULL;
+> -    g_autofree char *hostname =3D qemu_get_host_name(errp);
+> +    g_autofree char *hostname =3D qga_get_host_name(errp);
+>
+>      /*
+>       * We want to avoid using g_get_host_name() because that
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 4f18cc612850..63d2c6a76a77 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -805,41 +805,6 @@ void sigaction_invoke(struct sigaction *action,
+>      action->sa_sigaction(info->ssi_signo, &si, NULL);
+>  }
+>
+> -#ifndef HOST_NAME_MAX
+> -# ifdef _POSIX_HOST_NAME_MAX
+> -#  define HOST_NAME_MAX _POSIX_HOST_NAME_MAX
+> -# else
+> -#  define HOST_NAME_MAX 255
+> -# endif
+> -#endif
+> -
+> -char *qemu_get_host_name(Error **errp)
+> -{
+> -    long len =3D -1;
+> -    g_autofree char *hostname =3D NULL;
+> -
+> -#ifdef _SC_HOST_NAME_MAX
+> -    len =3D sysconf(_SC_HOST_NAME_MAX);
+> -#endif /* _SC_HOST_NAME_MAX */
+> -
+> -    if (len < 0) {
+> -        len =3D HOST_NAME_MAX;
+> -    }
+> -
+> -    /* Unfortunately, gethostname() below does not guarantee a
+> -     * NULL terminated string. Therefore, allocate one byte more
+> -     * to be sure. */
+> -    hostname =3D g_new0(char, len + 1);
+> -
+> -    if (gethostname(hostname, len) < 0) {
+> -        error_setg_errno(errp, errno,
+> -                         "cannot get hostname");
+> -        return NULL;
+> -    }
+> -
+> -    return g_steal_pointer(&hostname);
+> -}
+> -
+>  size_t qemu_get_host_physmem(void)
+>  {
+>  #ifdef _SC_PHYS_PAGES
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index 0371082d23b3..41df0a289e28 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -537,19 +537,6 @@ bool qemu_write_pidfile(const char *filename, Error
+> **errp)
+>      return true;
+>  }
+>
+> -char *qemu_get_host_name(Error **errp)
+> -{
+> -    wchar_t tmp[MAX_COMPUTERNAME_LENGTH + 1];
+> -    DWORD size =3D G_N_ELEMENTS(tmp);
+> -
+> -    if (GetComputerNameW(tmp, &size) =3D=3D 0) {
+> -        error_setg_win32(errp, GetLastError(), "failed close handle");
+> -        return NULL;
+> -    }
+> -
+> -    return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
+> -}
+> -
+>  size_t qemu_get_host_physmem(void)
+>  {
+>      MEMORYSTATUSEX statex;
 > --
 > 2.35.1.693.g805e0a68082a
 >
 >
 
---000000000000b3911a05dd164132
+--000000000000f0ff5505dd16497f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Marc-Andr=C3=A9 and Yan,</div><div><br></div><div>=
-Currently, we use this for the mingw-qemu-ga-win package in CentOS Stream 9=
- and RHEL.</div><div><a href=3D"https://gitlab.com/redhat/centos-stream/rpm=
-s/mingw-qemu-ga-win/-/blob/c9s/build_configure.sh">https://gitlab.com/redha=
-t/centos-stream/rpms/mingw-qemu-ga-win/-/blob/c9s/build_configure.sh</a></d=
-iv><div><br></div><div>Yan, do we need this feature or not? <br></div><div>=
-<br></div><div><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartma=
-il=3D"gmail_signature"><div dir=3D"ltr"><div>Best Regards,</div><div>Konsta=
-ntin Kostiuk.</div></div></div></div><br></div></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 20, 2022 at 4:27=
- PM &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
+tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 2=
+0, 2022 at 4:30 PM &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marca=
+ndre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:ma=
+rcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a=
+>&gt;<br>
 <br>
-If there is any reason to allow customization of this variable, we<br>
-should provide a proper configure option.<br>
+The function is specific to qemu-ga, no need to share it in QEMU.<br>
 <br>
 Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
 u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 4 ----<br>
-=C2=A0qga/installer/qemu-ga.wxs | 10 ++++------<br>
-=C2=A0qga/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 -<b=
+=C2=A0include/qemu/osdep.h=C2=A0 | 10 ----------<br>
+=C2=A0qga/commands-common.h | 11 +++++++++++<br>
+=C2=A0qga/commands-posix.c=C2=A0 | 35 +++++++++++++++++++++++++++++++++++<b=
 r>
-=C2=A03 files changed, 4 insertions(+), 11 deletions(-)<br>
+=C2=A0qga/commands-win32.c=C2=A0 | 13 +++++++++++++<br>
+=C2=A0qga/commands.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0util/oslib-posix.c=C2=A0 =C2=A0 | 35 --------------------------------=
+---<br>
+=C2=A0util/oslib-win32.c=C2=A0 =C2=A0 | 13 -------------<br>
+=C2=A07 files changed, 60 insertions(+), 59 deletions(-)<br>
 <br>
-diff --git a/configure b/configure<br>
-index 8cbe55ac82e8..5ac653b21351 100755<br>
---- a/configure<br>
-+++ b/configure<br>
-@@ -2694,9 +2694,6 @@ fi<br>
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h<br>
+index 9fd52d6a33a7..ccf10f05f806 100644<br>
+--- a/include/qemu/osdep.h<br>
++++ b/include/qemu/osdep.h<br>
+@@ -648,16 +648,6 @@ int qemu_fdatasync(int fd);<br>
+=C2=A0 */<br>
+=C2=A0int qemu_msync(void *addr, size_t length, int fd);<br>
 <br>
-=C2=A0# Guest agent Windows MSI package<br>
+-/**<br>
+- * qemu_get_host_name:<br>
+- * @errp: Error object<br>
+- *<br>
+- * Operating system agnostic way of querying host name.<br>
+- *<br>
+- * Returns allocated hostname (caller should free), NULL on failure.<br>
+- */<br>
+-char *qemu_get_host_name(Error **errp);<br>
+-<br>
+=C2=A0/**<br>
+=C2=A0 * qemu_get_host_physmem:<br>
+=C2=A0 *<br>
+diff --git a/qga/commands-common.h b/qga/commands-common.h<br>
+index 90785ed4bb7b..d0e4a9696f37 100644<br>
+--- a/qga/commands-common.h<br>
++++ b/qga/commands-common.h<br>
+@@ -18,4 +18,15 @@ GuestFileHandle *guest_file_handle_find(int64_t id, Erro=
+r **errp);<br>
+=C2=A0GuestFileRead *guest_file_read_unsafe(GuestFileHandle *gfh,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int64_t c=
+ount, Error **errp);<br>
 <br>
--if test &quot;$QEMU_GA_MANUFACTURER&quot; =3D &quot;&quot;; then<br>
--=C2=A0 QEMU_GA_MANUFACTURER=3DQEMU<br>
--fi<br>
-=C2=A0if test &quot;$QEMU_GA_DISTRO&quot; =3D &quot;&quot;; then<br>
-=C2=A0 =C2=A0QEMU_GA_DISTRO=3DLinux<br>
-=C2=A0fi<br>
-@@ -2790,7 +2787,6 @@ if test &quot;$debug_tcg&quot; =3D &quot;yes&quot; ; =
-then<br>
-=C2=A0fi<br>
-=C2=A0if test &quot;$mingw32&quot; =3D &quot;yes&quot; ; then<br>
-=C2=A0 =C2=A0echo &quot;CONFIG_WIN32=3Dy&quot; &gt;&gt; $config_host_mak<br=
->
--=C2=A0 echo &quot;QEMU_GA_MANUFACTURER=3D${QEMU_GA_MANUFACTURER}&quot; &gt=
-;&gt; $config_host_mak<br>
-=C2=A0 =C2=A0echo &quot;QEMU_GA_DISTRO=3D${QEMU_GA_DISTRO}&quot; &gt;&gt; $=
-config_host_mak<br>
-=C2=A0 =C2=A0echo &quot;QEMU_GA_VERSION=3D${QEMU_GA_VERSION}&quot; &gt;&gt;=
- $config_host_mak<br>
-=C2=A0else<br>
-diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs<br>
-index 0950e8c6becc..53d836c06a96 100644<br>
---- a/qga/installer/qemu-ga.wxs<br>
-+++ b/qga/installer/qemu-ga.wxs<br>
-@@ -8,9 +8,7 @@<br>
-=C2=A0 =C2=A0 =C2=A0&lt;?error Environment variable QEMU_GA_DISTRO undefine=
-d?&gt;<br>
-=C2=A0 =C2=A0&lt;?endif?&gt;<br>
++/**<br>
++ * qga_get_host_name:<br>
++ * @errp: Error object<br>
++ *<br>
++ * Operating system agnostic way of querying host name.<br>
++ * Compared to g_get_host_name(), it doesn&#39;t cache the result.<br>
++ *<br>
++ * Returns allocated hostname (caller should free), NULL on failure.<br>
++ */<br>
++char *qga_get_host_name(Error **errp);<br>
++<br>
+=C2=A0#endif<br>
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
+index 390c1560e1b5..77f4672ca2c9 100644<br>
+--- a/qga/commands-posix.c<br>
++++ b/qga/commands-posix.c<br>
+@@ -3278,3 +3278,38 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **e=
+rrp)<br>
 <br>
--=C2=A0 &lt;?ifndef env.QEMU_GA_MANUFACTURER ?&gt;<br>
--=C2=A0 =C2=A0 &lt;?error Environment variable QEMU_GA_MANUFACTURER undefin=
-ed?&gt;<br>
--=C2=A0 &lt;?endif?&gt;<br>
-+=C2=A0 &lt;?define QEMU_GA_MANUFACTURER =3D &quot;QEMU&quot; ?&gt;<br>
-<br>
-=C2=A0 =C2=A0&lt;?ifndef var.Arch?&gt;<br>
-=C2=A0 =C2=A0 =C2=A0&lt;?error Define Arch to 32 or 64?&gt;<br>
-@@ -43,14 +41,14 @@<br>
-=C2=A0 =C2=A0 =C2=A0Name=3D&quot;QEMU guest agent&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Id=3D&quot;*&quot;<br>
-=C2=A0 =C2=A0 =C2=A0UpgradeCode=3D&quot;{EB6B8302-C06E-4BEC-ADAC-932C68A3A9=
-8D}&quot;<br>
--=C2=A0 =C2=A0 Manufacturer=3D&quot;$(env.QEMU_GA_MANUFACTURER)&quot;<br>
-+=C2=A0 =C2=A0 Manufacturer=3D&quot;$(var.QEMU_GA_MANUFACTURER)&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Version=3D&quot;$(env.QEMU_GA_VERSION)&quot;<br>
-=C2=A0 =C2=A0 =C2=A0Language=3D&quot;1033&quot;&gt;<br>
-=C2=A0 =C2=A0 =C2=A0&lt;?if $(var.Arch) =3D 32 ?&gt;<br>
-=C2=A0 =C2=A0 =C2=A0&lt;Condition Message=3D&quot;Error: 32-bit version of =
-Qemu GA can not be installed on 64-bit Windows.&quot;&gt;NOT VersionNT64&lt=
-;/Condition&gt;<br>
-=C2=A0 =C2=A0 =C2=A0&lt;?endif?&gt;<br>
-=C2=A0 =C2=A0 =C2=A0&lt;Package<br>
--=C2=A0 =C2=A0 =C2=A0 Manufacturer=3D&quot;$(env.QEMU_GA_MANUFACTURER)&quot=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 Manufacturer=3D&quot;$(var.QEMU_GA_MANUFACTURER)&quot=
-;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0InstallerVersion=3D&quot;200&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0Languages=3D&quot;1033&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0Compressed=3D&quot;yes&quot;<br>
-@@ -133,7 +131,7 @@<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/Component&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;Component Id=3D&quot;registry_=
-entries&quot; Guid=3D&quot;{D075D109-51CA-11E3-9F8B-000C29858960}&quot;&gt;=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;RegistryKey Root=3D&quo=
-t;HKLM&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0Key=3D&quot;Software\$(env.QEMU_GA_MANUFACTURER)\$(env.QEM=
-U_GA_DISTRO)\Tools\QemuGA&quot;&gt;<br>
+=C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0}<br>
++<br>
++#ifndef HOST_NAME_MAX<br>
++# ifdef _POSIX_HOST_NAME_MAX<br>
++#=C2=A0 define HOST_NAME_MAX _POSIX_HOST_NAME_MAX<br>
++# else<br>
++#=C2=A0 define HOST_NAME_MAX 255<br>
++# endif<br>
++#endif<br>
++<br>
++char *qga_get_host_name(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 long len =3D -1;<br>
++=C2=A0 =C2=A0 g_autofree char *hostname =3D NULL;<br>
++<br>
++#ifdef _SC_HOST_NAME_MAX<br>
++=C2=A0 =C2=A0 len =3D sysconf(_SC_HOST_NAME_MAX);<br>
++#endif /* _SC_HOST_NAME_MAX */<br>
++<br>
++=C2=A0 =C2=A0 if (len &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D HOST_NAME_MAX;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /* Unfortunately, gethostname() below does not guarantee a<b=
+r>
++=C2=A0 =C2=A0 =C2=A0* NULL terminated string. Therefore, allocate one byte=
+ more<br>
++=C2=A0 =C2=A0 =C2=A0* to be sure. */<br>
++=C2=A0 =C2=A0 hostname =3D g_new0(char, len + 1);<br>
++<br>
++=C2=A0 =C2=A0 if (gethostname(hostname, len) &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0Key=3D&quot;Software\$(var.QEMU_GA_MANUFACTURER)\$(env.QEM=
-U_GA_DISTRO)\Tools\QemuGA&quot;&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;RegistryValue Ty=
-pe=3D&quot;string&quot; Name=3D&quot;ProductID&quot; Value=3D&quot;fb0a0d66=
--c7fb-4e2e-a16b-c4a3bfe8d13b&quot; /&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;RegistryValue Ty=
-pe=3D&quot;string&quot; Name=3D&quot;Version&quot; Value=3D&quot;$(env.QEMU=
-_GA_VERSION)&quot; /&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;/RegistryKey&gt;<br>
-diff --git a/qga/meson.build b/qga/meson.build<br>
-index da5e5efb19e8..6e57de430d29 100644<br>
---- a/qga/meson.build<br>
-+++ b/qga/meson.build<br>
-@@ -123,7 +123,6 @@ if targetos =3D=3D &#39;windows&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0command: [<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0find_program(&#39;env&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;QEMU_GA_VERSION=3D&#39; + config=
-_host[&#39;QEMU_GA_VERSION&#39;],<br>
+=A0 =C2=A0 =C2=A0&quot;cannot get hostname&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return g_steal_pointer(&amp;hostname);<br>
++}<br>
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+index 406e4072a012..d56b5fd2a71c 100644<br>
+--- a/qga/commands-win32.c<br>
++++ b/qga/commands-win32.c<br>
+@@ -2519,3 +2519,16 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **e=
+rrp)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0return head;<br>
+=C2=A0}<br>
++<br>
++char *qga_get_host_name(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 wchar_t tmp[MAX_COMPUTERNAME_LENGTH + 1];<br>
++=C2=A0 =C2=A0 DWORD size =3D G_N_ELEMENTS(tmp);<br>
++<br>
++=C2=A0 =C2=A0 if (GetComputerNameW(tmp, &amp;size) =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_win32(errp, GetLastError(), &quot;f=
+ailed close handle&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);<br>
++}<br>
+diff --git a/qga/commands.c b/qga/commands.c<br>
+index 4e9ce25b2e73..690da0073d6e 100644<br>
+--- a/qga/commands.c<br>
++++ b/qga/commands.c<br>
+@@ -511,7 +511,7 @@ int ga_parse_whence(GuestFileWhence *whence, Error **er=
+rp)<br>
+=C2=A0GuestHostName *qmp_guest_get_host_name(Error **errp)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0GuestHostName *result =3D NULL;<br>
+-=C2=A0 =C2=A0 g_autofree char *hostname =3D qemu_get_host_name(errp);<br>
++=C2=A0 =C2=A0 g_autofree char *hostname =3D qga_get_host_name(errp);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/*<br>
+=C2=A0 =C2=A0 =C2=A0 * We want to avoid using g_get_host_name() because tha=
+t<br>
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c<br>
+index 4f18cc612850..63d2c6a76a77 100644<br>
+--- a/util/oslib-posix.c<br>
++++ b/util/oslib-posix.c<br>
+@@ -805,41 +805,6 @@ void sigaction_invoke(struct sigaction *action,<br>
+=C2=A0 =C2=A0 =C2=A0action-&gt;sa_sigaction(info-&gt;ssi_signo, &amp;si, NU=
+LL);<br>
+=C2=A0}<br>
+<br>
+-#ifndef HOST_NAME_MAX<br>
+-# ifdef _POSIX_HOST_NAME_MAX<br>
+-#=C2=A0 define HOST_NAME_MAX _POSIX_HOST_NAME_MAX<br>
+-# else<br>
+-#=C2=A0 define HOST_NAME_MAX 255<br>
+-# endif<br>
+-#endif<br>
+-<br>
+-char *qemu_get_host_name(Error **errp)<br>
+-{<br>
+-=C2=A0 =C2=A0 long len =3D -1;<br>
+-=C2=A0 =C2=A0 g_autofree char *hostname =3D NULL;<br>
+-<br>
+-#ifdef _SC_HOST_NAME_MAX<br>
+-=C2=A0 =C2=A0 len =3D sysconf(_SC_HOST_NAME_MAX);<br>
+-#endif /* _SC_HOST_NAME_MAX */<br>
+-<br>
+-=C2=A0 =C2=A0 if (len &lt; 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D HOST_NAME_MAX;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 /* Unfortunately, gethostname() below does not guarantee a<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0* NULL terminated string. Therefore, allocate one byte=
+ more<br>
+-=C2=A0 =C2=A0 =C2=A0* to be sure. */<br>
+-=C2=A0 =C2=A0 hostname =3D g_new0(char, len + 1);<br>
+-<br>
+-=C2=A0 =C2=A0 if (gethostname(hostname, len) &lt; 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno,<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;QEMU_GA_MANUFACTURER=3D&#39; + config_=
-host[&#39;QEMU_GA_MANUFACTURER&#39;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;QEMU_GA_DISTRO=3D&#39; + config_=
-host[&#39;QEMU_GA_DISTRO&#39;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;BUILD_DIR=3D&#39; + meson.build_=
-root(),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0wixl, &#39;-o&#39;, &#39;@OUTPUT0@&#3=
-9;, &#39;@INPUT0@&#39;,<br>
+=A0 =C2=A0 =C2=A0&quot;cannot get hostname&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 return g_steal_pointer(&amp;hostname);<br>
+-}<br>
+-<br>
+=C2=A0size_t qemu_get_host_physmem(void)<br>
+=C2=A0{<br>
+=C2=A0#ifdef _SC_PHYS_PAGES<br>
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c<br>
+index 0371082d23b3..41df0a289e28 100644<br>
+--- a/util/oslib-win32.c<br>
++++ b/util/oslib-win32.c<br>
+@@ -537,19 +537,6 @@ bool qemu_write_pidfile(const char *filename, Error **=
+errp)<br>
+=C2=A0 =C2=A0 =C2=A0return true;<br>
+=C2=A0}<br>
+<br>
+-char *qemu_get_host_name(Error **errp)<br>
+-{<br>
+-=C2=A0 =C2=A0 wchar_t tmp[MAX_COMPUTERNAME_LENGTH + 1];<br>
+-=C2=A0 =C2=A0 DWORD size =3D G_N_ELEMENTS(tmp);<br>
+-<br>
+-=C2=A0 =C2=A0 if (GetComputerNameW(tmp, &amp;size) =3D=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_win32(errp, GetLastError(), &quot;f=
+ailed close handle&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);<br>
+-}<br>
+-<br>
+=C2=A0size_t qemu_get_host_physmem(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0MEMORYSTATUSEX statex;<br>
 -- <br>
 2.35.1.693.g805e0a68082a<br>
 <br>
 </blockquote></div>
 
---000000000000b3911a05dd164132--
+--000000000000f0ff5505dd16497f--
 
 
