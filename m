@@ -2,80 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0268E509102
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:02:02 +0200 (CEST)
-Received: from localhost ([::1]:34222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A28B5090BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:51:23 +0200 (CEST)
+Received: from localhost ([::1]:56404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGWX-0003lF-3D
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:02:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
+	id 1nhGME-00049j-O5
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFpr-00034O-0Y; Wed, 20 Apr 2022 15:17:55 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:34538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFpp-0003Lh-Hg; Wed, 20 Apr 2022 15:17:54 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-e2afb80550so3034809fac.1; 
- Wed, 20 Apr 2022 12:17:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=QghN2hr6dvFRZ7wx5YJ2Y8JedLHfGHLoUK8jkzls5XE=;
- b=WnEvPaeO3M/+80+zb40dE77zr/tePYFlZcz0SgtsuAyYw40TWynpmvilRFoeXWAIrj
- NsgcuyhNH/nXnsLRQYKxm7wg30jFqyXsuqC67fPFPh1btetaq+FFopsiGzUVdQVT7z5z
- FLwbKkEHzT24KGEcLN/mIjTrMEGlmHNh2bxD8qkiBesSSsG3Q/xWJKRXuBcsntphbxAV
- KpcVGXGkXTwC7SpSQdMRUb5Enn5YEUs6KK6pbcAkANJjlNsto3vzTsbzV4bn/giXIoUL
- ZAb++xi1TNAm3lN2m9PuY7KCmXTDs8aoT09r2GAfD8RdN2sgSF1Du/o9ltquhnBxlXJj
- rRdw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nhFpv-0003Bb-R8
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:17:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46830)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nhFpu-0003MG-8S
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:17:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650482277;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FRWvFUKrD/BzzxB6lkTrUviFRhRh9ESYMSP2ItGxCUE=;
+ b=H2MsLv9D0HygvCJ14a3atOXdiNpczShduA38OvPnbSecWrxk6m8qmbV3+iWvuLVg9X34Oz
+ VS4Dp0lr0PV49D76eP8F6aR+Dy98l6a975xzfcIylvJBWQSHTdyc6JlB6mAjnI6xi9kSFB
+ nx6fJephUelJ2L4qK0b2XwV7pas3ZOM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-570-VQVzXdPzN6eJq69u_dskww-1; Wed, 20 Apr 2022 15:17:56 -0400
+X-MC-Unique: VQVzXdPzN6eJq69u_dskww-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ d6-20020a05600c34c600b0039296a2ac7cso1373845wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 12:17:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QghN2hr6dvFRZ7wx5YJ2Y8JedLHfGHLoUK8jkzls5XE=;
- b=c34hCucIDZ+V0h6ripnEwPs0UMeN28AsSx/BRsP6yqwr4i9bi5mv36X5BkDxe8p3Gg
- Mqb9JdRxo29Klk3UceJjSLLokkYXyaAxVYn/PnK0peVBfS+2PNdeetxsafeylk1s20Re
- 00VDASUl5J+nO7PwadhLKb9IHhLFs6+Giu9GeLI/uGjIrmiyEnJLvpLU1UDwkI100/+E
- VMUAWGQdVVuT0wSO1PAhd4EDDPXhgOweA50dLBJI81gTSIS0n1fcgnC/noERYfeW2kjB
- DUwm7AtnE9mS6qcKVG+MD2WDOEufARrjPR/OwHA0PRb6Nuca8hE+9DDszTsF4w1YCnj9
- bRxw==
-X-Gm-Message-State: AOAM531gJI3Pr40fvy63mIKUyVw9pZG4tYn3zYqZk4hg8tJMHINpy1a3
- sb+r13sxGPStdaIVsqfWqpI=
-X-Google-Smtp-Source: ABdhPJzpqWLMQGvjv9X+s14zsl6Q5DSB0uECbvqdgmgJpVQCAaxnVCEhOPMym582EHHq5qzu0rhyzA==
-X-Received: by 2002:a05:6870:45a5:b0:e1:f27d:d1c8 with SMTP id
- y37-20020a05687045a500b000e1f27dd1c8mr2269782oao.60.1650482272121; 
- Wed, 20 Apr 2022 12:17:52 -0700 (PDT)
-Received: from [192.168.10.222] ([179.225.252.195])
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
+ :message-id:mime-version:content-transfer-encoding;
+ bh=FRWvFUKrD/BzzxB6lkTrUviFRhRh9ESYMSP2ItGxCUE=;
+ b=nqdrvfSXuN6zOeJOrIc3nJdwyCjosNJca7TkP+6hsWPq0cQtsay0Nh4OUyBmdh6QcU
+ Em/A/zzjKqJtUYGR6Z8kAa/E0DS/E2qGI7sd5lPO6MYZsfexHIB9qlNI//BOSAWQSV1f
+ wh06RUyEmXOkvZv9+ToXbZ98s9nBUAcc7Pf9KWP2ejDI2P7erVf8150nWrznENTBMdS0
+ MehHTfXLlYnhICE0SHX+z5zzfzxjVhfK6fX/BZg+YH/sHqx00ktr1vLnmHgKErUxrTFB
+ q813Vytvz6UZP5X4IEnFmS5IbuQHcVGTjcpHGwYxBcww2zqgtGno7mAF8pDkY0YLed40
+ Z7LQ==
+X-Gm-Message-State: AOAM531fDMGv8lcp2sSGtKf0i2TNH/FbUL6/1aAL6MCx/iCYYD+T9K5v
+ kir8h3dQ2w7AXyx/0m+XtzKWKGd/jKCNYbGWaZjCvb78KxcngfC0Psom73p4dGvDMC+YmrB72mq
+ X5lMgQiE+DlU8Dns=
+X-Received: by 2002:a5d:5601:0:b0:207:a6a6:468c with SMTP id
+ l1-20020a5d5601000000b00207a6a6468cmr16868943wrv.127.1650482274983; 
+ Wed, 20 Apr 2022 12:17:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxauf+yuSEk03e6lGJSZy26agE7F6RQJGQXMUDpsFxQbxZCt3RACnsaNO3xzkiy2tZcSGJEqg==
+X-Received: by 2002:a5d:5601:0:b0:207:a6a6:468c with SMTP id
+ l1-20020a5d5601000000b00207a6a6468cmr16868932wrv.127.1650482274782; 
+ Wed, 20 Apr 2022 12:17:54 -0700 (PDT)
+Received: from ?IPv6:::1? ([2001:b07:6468:f312:e558:1d17:12d7:e67d])
  by smtp.gmail.com with ESMTPSA id
- c17-20020a9d6851000000b0060551d14386sm2739464oto.13.2022.04.20.12.17.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 12:17:51 -0700 (PDT)
-Message-ID: <5c190dd3-a55f-c638-8c55-056c467885f8@gmail.com>
-Date: Wed, 20 Apr 2022 16:17:48 -0300
+ t4-20020adfe104000000b00205b50f04f0sm505116wrz.86.2022.04.20.12.17.53
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 20 Apr 2022 12:17:54 -0700 (PDT)
+Date: Wed, 20 Apr 2022 21:17:48 +0200
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: =?ISO-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH 07/34] configure, meson: move OpenGL check to meson
+In-Reply-To: <CAJ+F1CK6464s=L2A23=WTp+qZ9+E_F_KKn_eWMbZOu-=dKO=dQ@mail.gmail.com>
+References: <20220420153407.73926-1-pbonzini@redhat.com>
+ <20220420153407.73926-8-pbonzini@redhat.com>
+ <CAJ+F1CK6464s=L2A23=WTp+qZ9+E_F_KKn_eWMbZOu-=dKO=dQ@mail.gmail.com>
+Message-ID: <1277109B-C1B6-42A1-AE28-65DBB5B99580@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 0/2] Remove PCIE root bridge LSI on powernv
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org, mst@redhat.com,
- marcel.apfelbaum@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20220408131303.147840-1-fbarrat@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220408131303.147840-1-fbarrat@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,42 +98,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 
-Daniel
+Il 20 aprile 2022 18:13:30 CEST, "Marc-Andr=C3=A9 Lureau" <marcandre=2Elur=
+eau@gmail=2Ecom> ha scritto:
+>> -if config_host=2Ehas_key('CONFIG_OPENGL')
+>> +softmmu_ss=2Eadd(opengl)
+>>
+>
+>I guess this line is superfluous
 
+It's needed for the include path, iirc=2E
 
+Paolo
 
-On 4/8/22 10:13, Frederic Barrat wrote:
-> The powernv8/powernv9/powernv10 machines allocate a LSI for their root
-> port bridge, which is not the case on real hardware. The default root
-> port implementation in qemu requests a LSI. Since the powernv
-> implementation derives from it, that's where the LSI is coming
-> from. This series fixes it, so that the model matches the hardware.
-> 
-> However, the code in hw/pci to handle AER and hotplug events assume a
-> LSI is defined. It tends to assert/deassert a LSI if MSI or MSIX is
-> not enabled. Since we have hardware where that is not true, this patch
-> also fixes a few code paths to check if a LSI is configured before
-> trying to trigger it.
-> 
-> 
-> Changes from v1:
->   - addressed comments from Daniel
-> 
-> 
-> Frederic Barrat (2):
->    pcie: Don't try triggering a LSI when not defined
->    ppc/pnv: Remove LSI on the PCIE host bridge
-> 
->   hw/pci-host/pnv_phb3.c | 1 +
->   hw/pci-host/pnv_phb4.c | 1 +
->   hw/pci/pcie.c          | 5 +++--
->   hw/pci/pcie_aer.c      | 2 +-
->   4 files changed, 6 insertions(+), 3 deletions(-)
-> 
+>
+>
+>> +if opengl=2Efound()
+>>    opengl_ss =3D ss=2Esource_set()
+>>    opengl_ss=2Eadd(gbm)
+>> -  opengl_ss=2Eadd(when: [opengl, pixman, 'CONFIG_OPENGL'],
+>> +  opengl_ss=2Eadd(when: [opengl, pixman],
+>>                 if_true: files('shader=2Ec', 'console-gl=2Ec',
+>> 'egl-helpers=2Ec', 'egl-context=2Ec'))
+>>    ui_modules +=3D {'opengl' : opengl_ss}
+>>  endif
+>>
+>> -if config_host=2Ehas_key('CONFIG_OPENGL') and gbm=2Efound()
+>> +if opengl=2Efound() and gbm=2Efound()
+>>    egl_headless_ss =3D ss=2Esource_set()
+>> -  egl_headless_ss=2Eadd(when: [opengl, gbm, pixman, 'CONFIG_OPENGL'],
+>> +  egl_headless_ss=2Eadd(when: [opengl, gbm, pixman],
+>>                        if_true: files('egl-headless=2Ec'))
+>>    ui_modules +=3D {'egl-headless' : egl_headless_ss}
+>>  endif
+>> @@ -98,8 +99,8 @@ if gtk=2Efound()
+>>    gtk_ss =3D ss=2Esource_set()
+>>    gtk_ss=2Eadd(gtk, vte, pixman, files('gtk=2Ec', 'gtk-clipboard=2Ec')=
+)
+>>    gtk_ss=2Eadd(when: x11, if_true: files('x_keymap=2Ec'))
+>> -  gtk_ss=2Eadd(when: [opengl, 'CONFIG_OPENGL'], if_true:
+>> files('gtk-gl-area=2Ec'))
+>> -  gtk_ss=2Eadd(when: [x11, opengl, 'CONFIG_OPENGL'], if_true:
+>> files('gtk-egl=2Ec'))
+>> +  gtk_ss=2Eadd(when: opengl, if_true: files('gtk-gl-area=2Ec'))
+>> +  gtk_ss=2Eadd(when: [x11, opengl], if_true: files('gtk-egl=2Ec'))
+>>    ui_modules +=3D {'gtk' : gtk_ss}
+>>  endif
+>>
+>> @@ -112,7 +113,7 @@ if sdl=2Efound()
+>>      'sdl2-input=2Ec',
+>>      'sdl2=2Ec',
+>>    ))
+>> -  sdl_ss=2Eadd(when: [opengl, 'CONFIG_OPENGL'], if_true: files('sdl2-g=
+l=2Ec'))
+>> +  sdl_ss=2Eadd(when: opengl, if_true: files('sdl2-gl=2Ec'))
+>>    sdl_ss=2Eadd(when: x11, if_true: files('x_keymap=2Ec'))
+>>    ui_modules +=3D {'sdl' : sdl_ss}
+>>  endif
+>> --
+>> 2=2E35=2E1
+>>
+>>
+>>
+>>
+>Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre=2Elureau@redhat=2Ecom>
+>
+
 
