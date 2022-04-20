@@ -2,88 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40885086D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:22:37 +0200 (CEST)
-Received: from localhost ([::1]:50838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE315086B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:11:52 +0200 (CEST)
+Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh8Ps-00005s-FF
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:22:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34140)
+	id 1nh8FT-0003LG-In
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nh7z3-0001Gg-8v; Wed, 20 Apr 2022 06:55:22 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:55173)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nh83s-0005mT-NK; Wed, 20 Apr 2022 06:59:52 -0400
+Received: from mga11.intel.com ([192.55.52.93]:54870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nh7z1-0001Vy-5M; Wed, 20 Apr 2022 06:54:52 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id D0FA332020C9;
- Wed, 20 Apr 2022 06:54:47 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 20 Apr 2022 06:54:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1650452087; x=1650538487; bh=NM
- 0+lRdv18G1Mcrvpma/yNvhMP2EU/ZHWM9s8Y3QvCM=; b=Pv4B21bOOFR+tledBH
- O4PjDqhOEcfXgRAy5Vwq6JgTq/NMwyRkPq5WrIZ3NEyw2d7BgIlvgu3SkLFzqdZo
- xSKjo+z8pXeIqfjmgjP7BJJYtfVxmChPjFJgj7xafLQSAfshDGElWNKeKMxpht50
- mZz7RSXmH+sGAs3zpGBvi6Vaq2DJZTx0DZtlsa8LizwIUHdhM9xeKBle5U7jtZUB
- +QF7DK7wSNKwtPYbiKF34wmwHjcUpsGNVh2kQ+/siJAChwbO0uiga1Ie59W70ZSs
- rPP6X4uLSnZTE/kGVQ+Kz6Q7a8wS2ary21njJ7S641sdlg49Zn/WlZfFl1ak2j6o
- iVPg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650452087; x=
- 1650538487; bh=NM0+lRdv18G1Mcrvpma/yNvhMP2EU/ZHWM9s8Y3QvCM=; b=r
- 8X0ePzaXk4NZ7zLKVSVKaN5bpeuD0EiHvV3PRaxOfF/Nkf579tzkQPztdVcDsQ3q
- RpwXkw9KGMtythiFrDibwbI3NT6wJ41SNNOlEzy//PBvMfi3xVKbsYOMVqoWK1mb
- WEty1L+VEhC5nJPLnbk5zMJfYYz0vDQoHZF6WWqmMnohNYJG8p6xd7mGfEptV+WC
- 25G4G8ETb84loTm+6cFv5/Rrgmn4TqmwYVIUYo+myxCC/cY5CyVsvRXD/9ZIALST
- lo68pOe+1mVvKftJNdrQlWqnsUJEi46PddETB/+lJnvRYldyB0YDnvD2zCzJlrRy
- yOUhhLFLXWfZ2B/mpjZ1A==
-X-ME-Sender: <xms:d-ZfYkB6QwUsuoSV3MQ_GUvq6lkOlE9we685j2YJldUWc3kvqeDQjQ>
- <xme:d-ZfYmiphljCAYPJU_BJpaBVrjPPvGweQZbKIEnuGh1TGSY-eWGsJlFptSBI9NwwT
- E4XFlo2NM0ZpNVI0ic>
-X-ME-Received: <xmr:d-ZfYnnpyQDjacgZ6iWIMIcnBT1OZ04jryGZd0DQxH-9DojUXX0703b12xIisxH8ycYFwVokbP18aoBCnZA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtddtgddtkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesghdtre
- ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
- vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjefgjeefffdvuefhieefhffggfeule
- ehudekveejvedtuddugeeigeetffffjeevnecuvehluhhsthgvrhfuihiivgeptdenucfr
- rghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:d-ZfYqyKKiz4txMzdYA88K8avv1HfITtodVyFw69F1yii_hnaxzJ5A>
- <xmx:d-ZfYpRXh0GXXF3x5bmEHY-3w4WJQSAkZZC9J2NC6d16aJPiBuqUpg>
- <xmx:d-ZfYlbepRTKpJ9Q7P9QS-AFc9FdHOvjK1Wl9oOl8sGR2-E3CTbo_g>
- <xmx:d-ZfYiK8B_RYbaWXpJOjAaOHC9H35ZAcQlBOAnr5BpBR6t5407XBhQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 20 Apr 2022 06:54:45 -0400 (EDT)
-Date: Wed, 20 Apr 2022 12:54:44 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Tikhov <d.tihov@yadro.com>
-Subject: Re: [PATCH] hw/nvme: add new command abort case
-Message-ID: <Yl/mdOnDzOE6Fdza@apples>
-References: <20220420082044.n6orslk2aukj2jai@localhost.localdomain>
- <Yl/csehng+W0gfQD@apples> <Yl/iRnvEj+tDycUI@apples>
- <20220420104126.iy5b4exyqh62m632@localhost.localdomain>
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1nh83q-0002Gi-Sh; Wed, 20 Apr 2022 06:59:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650452390; x=1681988390;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=q4+comFCTuAVp24Q5pDdfQAuKOWlK6x5PTpUEBTyOK0=;
+ b=ZzhxlVwDcpiJj9RZ+MW3530ydXhejhlA5C4C99u4IjWTO6jZ2s3XxnoQ
+ 4VMlmL/Zl1CoUCu585NKOuO26vjEAMwvJDSy4J+V5DQ2v8Zz2gnepkMGH
+ 4O9swv4StMsdz9LYSun3LMJkudAsJkQjjwBqa8Wp+cFhrhQEDuhlm0XrU
+ tQijyDEKQ0F0HpGq79jEb5YU2jvUwh18JOpw5korxJALb391fcPWpyhgv
+ AkCwIQ9IRN9CZBdLEDvZ1arqsv9pKvRaMBEhLrotCLywV5ZN5Z+YYu2+4
+ caJpzTHJX1Ft/3Z3B4f/fK8VVMl7oNfaBoGVVOw0MyiZZU9QD7QUbaz6x g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="261602129"
+X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="261602129"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2022 03:59:47 -0700
+X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="555147500"
+Received: from rshamets-mobl.ger.corp.intel.com ([10.213.19.118])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2022 03:59:40 -0700
+Date: Wed, 20 Apr 2022 12:59:27 +0200
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v7 12/12] hw/acpi: Make the PCI hot-plug aware of SR-IOV
+Message-ID: <Yl/niJ2h09naw1ss@rshamets-mobl.ger.corp.intel.com>
+References: <20220318191819.1711831-1-lukasz.maniak@linux.intel.com>
+ <20220318191819.1711831-13-lukasz.maniak@linux.intel.com>
+ <20220331143841.55ae9372@redhat.com>
+ <20220404094138.GA15894@lgieryk-VirtualBox>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9VGCuhRsMLrmCmlo"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220420104126.iy5b4exyqh62m632@localhost.localdomain>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220404094138.GA15894@lgieryk-VirtualBox>
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,117 +73,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, ddtikhov@gmail.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, linux@yadro.com
+Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com,
+ qemu-block@nongnu.org, mst@redhat.com, k.jensen@samsung.com,
+ =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
+ armbru@redhat.com, f4bug@amsat.org, kbusch@kernel.org, its@irrelevant.dk,
+ hreitz@redhat.com, xypron.glpk@gmx.de, ani@anisinha.ca
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Apr 04, 2022 at 11:41:46AM +0200, Łukasz Gieryk wrote:
+> On Thu, Mar 31, 2022 at 02:38:41PM +0200, Igor Mammedov wrote:
+> > it's unclear what's bing hotpluged and unplugged, it would be better if
+> > you included QEMU CLI and relevan qmp/monito commands to reproduce it.
+> 
+> Qemu CLI:
+> ---------
+> -device pcie-root-port,slot=0,id=rp0
+> -device nvme-subsys,id=subsys0
+> -device nvme,id=nvme0,bus=rp0,serial=deadbeef,subsys=subsys0,sriov_max_vfs=1,sriov_vq_flexible=2,sriov_vi_flexible=1
+> 
+> Guest OS:
+> ---------
+> sudo nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
+> sudo nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
+> echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
+> sleep 1
+> echo 1 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+> nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
+> nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
+> nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
+> sleep 2
+> echo 01:00.1 > /sys/bus/pci/drivers/nvme/bind
+> 
+> Qemu monitor:
+> -------------
+> device_del nvme0
+>
 
---9VGCuhRsMLrmCmlo
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Igor,
 
-On Apr 20 13:41, Dmitry Tikhov wrote:
-> On Wed, Apr 20, 2022 at 12:36:54, Klaus Jensen wrote:
-> > On Apr 20 12:13, Klaus Jensen wrote:
-> > > On Apr 20 11:20, Dmitry Tikhov wrote:
-> > > > NVMe command set specification for end-to-end data protection forma=
-tted
-> > > > namespace states:
-> > > >=20
-> > > >     o If the Reference Tag Check bit of the PRCHK field is set to =
-=E2=80=981=E2=80=99 and
-> > > >       the namespace is formatted for Type 3 protection, then the
-> > > >       controller:
-> > > >           =E2=96=AA should not compare the protection Information R=
-eference Tag
-> > > >             field to the computed reference tag; and
-> > > >           =E2=96=AA may ignore the ILBRT and EILBRT fields. If a co=
-mmand is
-> > > >             aborted as a result of the Reference Tag Check bit of t=
-he
-> > > >             PRCHK field being set to =E2=80=981=E2=80=99, then that=
- command should be
-> > > >             aborted with a status code of Invalid Protection Inform=
-ation,
-> > > >             but may be aborted with a status code of Invalid Field =
-in
-> > > >             Command.
-> > > >=20
-> > > > Currently qemu compares reftag in the nvme_dif_prchk function whene=
-ver
-> > > > Reference Tag Check bit is set in the command. For type 3 namespaces
-> > > > however, caller of nvme_dif_prchk - nvme_dif_check does not increme=
-nt
-> > > > reftag for each subsequent logical block. That way commands incorpo=
-rating
-> > > > more than one logical block for type 3 formatted namespaces with re=
-ftag
-> > > > check bit set, always fail with End-to-end Reference Tag Check Erro=
-r.
-> > > > Comply with spec by handling case of set Reference Tag Check
-> > > > bit in the type 3 formatted namespace.
-> > > >=20
-> > >=20
-> > > Note the "should" and "may" in your quote. What QEMU does right now is
-> > > compliant with v1.4. That is, the reftag must NOT be incremented
-> > > - it is the same for the first and all subsequent logical blocks.
-> > >=20
-> > > I'm a bit hesitant to follow v2.0 here, since we do not report v2.0
-> > > compliance yet. I'm honestly also a bit perplexed as to how the NVMe =
-TWG
-> > > ended up considering this backwards compatible. As far as I can tell
-> > > this breaks current hosts that do set the reference tag check bit,
-> > > provides a valid ILBRT/EILBRT and expects it to succeed.
-> >=20
-> > Ok, so reading the spec more closely...
-> >=20
-> > The Invalid Protection Information should not be set just because the
-> > reference tag check bit is set. It should be set *if* the controller
-> > chooses to check it and it fails. However, in v2.0, the controller is
-> > allowed to ignore it and not perform the check.
-> >=20
-> > So, just because the host sets the bit, that does not mean we fail the
-> > command. However, a difference is that a v2.0 compliant controller
-> > should return Invalid Protection Information or Invalid Field in Command
-> > instead of End-to-end Reference Tag Check Error if the check fails.
->=20
-> Can you please link the spec you are referring to?
+Do you need any more details on this?
 
-NVM Command Set Specification v1.0b, Section 5.2.3. It is exactly what
-you quoted above.
-
-I think you are interpreting
-
-  "If a command is aborted as a result of the Reference Tag Check bit of
-  the PRCHK field being set to '1', ..."
-
-as
-
-   "If a command is aborted *because* the Reference Tag Check bit of the
-   PRCHK field being set to '1', ...".
-
-But that is not what it is saying. IMO, the only meaningful
-interpretation is that "If the command is aborted *as a result of* the
-check being done *because* the bit is set, *then* return an error".
-
-Your interpretation would break existing hosts that set the bit.
-
---9VGCuhRsMLrmCmlo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJf5nEACgkQTeGvMW1P
-DekpqQgAu/NXjTEkkkkYPAv2NxMZm+nb7UjegMVyb+wMfDtNTOkgrZq7MJFX4lNv
-+wydKaDBEYVYeJEZKflRob7ci+q2DDhdXXDST0H9JS8KotR9UXSZxeyNBIyThLSM
-uu7hsfsz97Vq0iNpnr2rtJlFgL9DHgclrDNAOi/56xFAiaduh/aVuJnJHpKfMaaF
-cO3al4zSIAuT6zICTTep+vQqrp+uC+s56E1rLs694hafuAL3wDb7aSGGKFmVxMLF
-0oUF/Go6sxR0GIg1Ftw/1eYx9cK0gzsz8/I5XnuFFcSi/RUsVpMH7CWUGbwGB8rN
-TguXLtRWzlkfeL40xHSUv8h/+4MLmA==
-=jgqP
------END PGP SIGNATURE-----
-
---9VGCuhRsMLrmCmlo--
+Best regards,
+Lukasz
 
