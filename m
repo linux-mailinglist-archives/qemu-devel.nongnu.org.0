@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB7F508C1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:29:59 +0200 (CEST)
-Received: from localhost ([::1]:59078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF006508C2D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:32:55 +0200 (CEST)
+Received: from localhost ([::1]:38756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCHG-00064h-Mb
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40936)
+	id 1nhCK6-0004PN-UR
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nhCFU-0003zl-Ua
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:28:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24196)
+ id 1nhCHE-0007mp-13
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:29:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nhCFT-0008OC-AB
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:28:08 -0400
+ id 1nhCHA-00005L-JV
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:29:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650468486;
+ s=mimecast20190719; t=1650468591;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZR4Rk88Dy+LtfchJVXheMSRbkSn7VNu5Tm981TVWC1Y=;
- b=hQfFKPNuuZOF1OYqEpnWLDl+sm99qPC11RbXDoP6Ya13KuPyUgrydJITaMKvCFa8pDGgt1
- 2xwLnI/zFnYNhmc4CrwDY+JWIyAy08CM23yhvowMMGw1Ny3NGLCo/ynkCNGLRUwpnuStCs
- Gk+zb5RRY/awQygGHEa0bXmANhDs+y0=
+ bh=kMT74te33NYASvhAy5hsV6dRFdGMbmRsTDGP18bxM04=;
+ b=NBOCRlvngMdnsOECGh0sL/DZxSthRNnhfkyymh7Rfeh/NSRq2Q+Q46s75TuDztVjkmRULZ
+ q30BoRb5l7qaRK5Dpp4D9ZXleXapmlzdzGzngxHy/S1OdNIApEN708GRLX9+nKC/9jAR/B
+ 3eOEwnXdUzlT86ScXUEuFDJopzKmZew=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-RIBsRYmdNnyDIHMmG7GgUA-1; Wed, 20 Apr 2022 11:28:01 -0400
-X-MC-Unique: RIBsRYmdNnyDIHMmG7GgUA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-261-2PYDmN9gPMy0InbICXV9Sw-1; Wed, 20 Apr 2022 11:29:47 -0400
+X-MC-Unique: 2PYDmN9gPMy0InbICXV9Sw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBD65806625
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 15:27:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEE8286B8A0;
+ Wed, 20 Apr 2022 15:29:45 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C76A54ECF4;
- Wed, 20 Apr 2022 15:27:57 +0000 (UTC)
-Date: Wed, 20 Apr 2022 16:27:55 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D8C240D0161;
+ Wed, 20 Apr 2022 15:29:34 +0000 (UTC)
+Date: Wed, 20 Apr 2022 16:29:32 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH 18/41] osdep.h: move qemu_build_not_reached()
-Message-ID: <YmAme1M9mwzdpKB1@redhat.com>
+Subject: Re: [PATCH 19/41] compiler.h: replace QEMU_NORETURN with G_NORETURN
+Message-ID: <YmAm3FIbW2lakWDs@redhat.com>
 References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
- <20220420132624.2439741-19-marcandre.lureau@redhat.com>
+ <20220420132624.2439741-20-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220420132624.2439741-19-marcandre.lureau@redhat.com>
+In-Reply-To: <20220420132624.2439741-20-marcandre.lureau@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,21 +81,109 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Warner Losh <imp@bsdimp.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
+ Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Stafford Horne <shorne@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Hanna Reitz <hreitz@redhat.com>,
+ "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 05:26:01PM +0400, marcandre.lureau@redhat.com wrote:
+On Wed, Apr 20, 2022 at 05:26:02PM +0400, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Move the macro and declaration so it can use glib in the following
-> patch (it already depends on glib anyway for !optimize)
+> G_NORETURN was introduced in glib 2.68, fallback to G_GNUC_NORETURN in
+> glib-compat.
+> 
+> Note that this attribute must be placed before the function declaration
+> (bringing a bit of consistency in qemu codebase usage).
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  include/qemu/compiler.h | 16 ----------------
->  include/qemu/osdep.h    | 16 ++++++++++++++++
->  2 files changed, 16 insertions(+), 16 deletions(-)
+>  accel/tcg/internal.h                 |  3 +--
+>  include/exec/exec-all.h              | 20 +++++++++---------
+>  include/exec/helper-head.h           |  2 +-
+>  include/glib-compat.h                |  4 ++++
+>  include/hw/core/cpu.h                |  2 +-
+>  include/hw/core/tcg-cpu-ops.h        |  6 +++---
+>  include/hw/hw.h                      |  2 +-
+>  include/qemu/compiler.h              |  2 --
+>  include/qemu/osdep.h                 |  3 ++-
+>  include/qemu/thread.h                |  2 +-
+>  include/tcg/tcg-ldst.h               |  4 ++--
+>  include/tcg/tcg.h                    |  2 +-
+>  linux-user/user-internals.h          |  2 +-
+>  scripts/cocci-macro-file.h           |  2 +-
+>  target/alpha/cpu.h                   | 10 ++++-----
+>  target/arm/internals.h               | 12 +++++------
+>  target/hppa/cpu.h                    |  2 +-
+>  target/i386/tcg/helper-tcg.h         | 24 ++++++++++-----------
+>  target/microblaze/cpu.h              |  6 +++---
+>  target/mips/tcg/tcg-internal.h       | 17 ++++++++-------
+>  target/nios2/cpu.h                   |  6 +++---
+>  target/openrisc/exception.h          |  2 +-
+>  target/ppc/cpu.h                     | 14 ++++++-------
+>  target/ppc/internal.h                |  6 +++---
+>  target/riscv/cpu.h                   | 10 ++++-----
+>  target/s390x/s390x-internal.h        |  6 +++---
+>  target/s390x/tcg/tcg_s390x.h         | 12 +++++------
+>  target/sh4/cpu.h                     |  6 +++---
+>  target/sparc/cpu.h                   | 10 ++++-----
+>  target/xtensa/cpu.h                  |  6 +++---
+>  accel/stubs/tcg-stub.c               |  4 ++--
+>  bsd-user/signal.c                    |  3 ++-
+>  hw/misc/mips_itu.c                   |  3 ++-
+>  linux-user/signal.c                  |  3 ++-
+>  monitor/hmp.c                        |  4 ++--
+>  qemu-img.c                           | 12 +++++++----
+>  target/alpha/helper.c                | 10 ++++-----
+>  target/arm/pauth_helper.c            |  4 ++--
+>  target/arm/tlb_helper.c              |  7 ++++---
+>  target/hexagon/op_helper.c           |  9 ++++----
+>  target/hppa/cpu.c                    |  8 +++----
+>  target/hppa/op_helper.c              |  4 ++--
+>  target/i386/tcg/bpt_helper.c         |  2 +-
+>  target/i386/tcg/excp_helper.c        | 31 ++++++++++++++--------------
+>  target/i386/tcg/misc_helper.c        |  6 +++---
+>  target/i386/tcg/sysemu/misc_helper.c |  7 ++++---
+>  target/openrisc/exception.c          |  2 +-
+>  target/openrisc/exception_helper.c   |  3 ++-
+>  target/riscv/op_helper.c             |  4 ++--
+>  target/rx/op_helper.c                | 22 +++++++++++---------
+>  target/s390x/tcg/excp_helper.c       | 22 +++++++++++---------
+>  target/sh4/op_helper.c               |  5 +++--
+>  target/sparc/mmu_helper.c            |  8 +++----
+>  target/tricore/op_helper.c           |  6 +++---
+>  tcg/tcg.c                            |  3 ++-
+>  tests/fp/fp-bench.c                  |  3 ++-
+>  tests/fp/fp-test.c                   |  3 ++-
+>  scripts/checkpatch.pl                |  2 +-
+>  58 files changed, 214 insertions(+), 191 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
