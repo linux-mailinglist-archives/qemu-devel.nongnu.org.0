@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3B25080D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 08:06:48 +0200 (CEST)
-Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12085080DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 08:08:32 +0200 (CEST)
+Received: from localhost ([::1]:44036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh3UE-0003Bu-KG
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 02:06:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
+	id 1nh3Vv-0004LR-GZ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 02:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nh3DB-0006XP-4V; Wed, 20 Apr 2022 01:49:09 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:44841)
+ id 1nh3FZ-0007KT-PI; Wed, 20 Apr 2022 01:51:37 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:44231)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nh3D9-0003nE-8d; Wed, 20 Apr 2022 01:49:08 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 8139C5C0062;
- Wed, 20 Apr 2022 01:49:03 -0400 (EDT)
+ id 1nh3FY-0004KY-Au; Wed, 20 Apr 2022 01:51:37 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9B0A85C00C8;
+ Wed, 20 Apr 2022 01:51:35 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 20 Apr 2022 01:49:03 -0400
+ by compute3.internal (MEProxy); Wed, 20 Apr 2022 01:51:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1650433743; x=1650520143; bh=P4
- A0N40qncbIsnNDAtxrt7TOSXhs4Mdb8FlzHkzNbFc=; b=LLRxaOKFgL0oSaiH78
- /rCSGlW100ApKhjvqwh+daLzA63APs3ClmKjXGPvrOZXVQnuPFnxOH4+llm2NNlN
- fsyvQi3NgAkNll6h0tlpZlT34a/suur0ETJThN+irJD6nLewoF8uDhwyE7RSMfSu
- 5BCSxk1ywFO452qVTVTrbroevaMPbYo7kPlJ4jLO2meMWcUidhz/DIjNdn9IYJPk
- wZzH0sNs6fnOfIOE48C4aYxW7MGFRrD+U6O7bmIbJyKbV8czWP7TI9WaGpwhkKjL
- 6xbimrKrk7wM8NhRgFl5r9seIBnk2estcNm1yJi0BK5Njf+jA79n1yVmmMGFQQKf
- i60w==
+ :subject:subject:to:to; s=fm3; t=1650433895; x=1650520295; bh=e6
+ sXPn8p2tn1NOLacRXcg+bf0Y1ZYzJsGEwDjkMoY7c=; b=SxVjZRvhPS93YGA9lZ
+ 0eV/2K19bXSO9NysIEyhCr3ZW1xakqJIDy4OFy7hGOJ/TiPq22I0Hag5eg3ed5Ub
+ GUhUPWdp3zuXkWrnS34DzKjcf9WTCujKV2rl27BnU97X+COpzviLwJxNcSoaPqf0
+ FxlmKX3uaGSiXUro+aPL328RrTnuD4MCaAIcj+k/EeE+8yDQVp/i27rEmyy39RZI
+ FxnAL3BoHbSKr+RsrC7iqbUYpzJyQ1XWxKyZ1t8uvo3BAvUCELE48nF+zRPY1WHN
+ Hn7BhtpJ4Ogi0MerBwb+2MoLKo14aYcbfvWuU1i75DvPsX+3zHOLSyjX/99vE46j
+ 5xTw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650433743; x=
- 1650520143; bh=P4A0N40qncbIsnNDAtxrt7TOSXhs4Mdb8FlzHkzNbFc=; b=q
- HDlGs7I0uK7YY+XtBrHIiQZbOXh52QvANegZA406ad6EHx0m8ZIYmEWrcjW+YabO
- b1sFJabPuITQufyDZJjMF/yQRYRobJ6AuqwXGRfrEvaB5yXxzmvWJfX9uhpnmbEM
- Ty97oMyrPNLAmNepiKPqV06w+Sp4QtpYurlWVkYT9EtGr/zwRAA9avKhe8CxDELv
- kxtwffmWflJujL+BD7sChaHkl1dtOlZ2YERlpD/tg4nJi9y2mtgiP9iFXSU40Cul
- mlGSwYPsZJm7wF3cmv5riIYF/0BjWepfFEW21Sz4vxwUqV4VgM6e74bF7tO9N2dJ
- ljVQVt4tdF2TX8J0wBo/A==
-X-ME-Sender: <xms:zp5fYiDP6ocZsZ54zHguyChWoHi0p3pvnb9sll0FeBF8hI7Ghy9jAQ>
- <xme:zp5fYsgMh87GZbhi_jMkXAFyWNY8RalgfLTOFh2BDFaeURtEsmm_g3jJo3TkRo-dw
- jD7rMQJKp7eBm7LAvM>
-X-ME-Received: <xmr:zp5fYll5vHSVcxgr-BU5FvWmjsnZNZ-Ca9-HSHC1i-x56K0AN2y6u1Tqfv2JfcY6SGYOEVs0LaLVpyd5FdU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtgedgleekucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650433895; x=
+ 1650520295; bh=e6sXPn8p2tn1NOLacRXcg+bf0Y1ZYzJsGEwDjkMoY7c=; b=Z
+ ctdFYLQ0c8xjOH2RGFuvh031D7t2yvudOc9XUOKBUpoVuVdKODisvYvpZZ+8JIhj
+ NTeeOKgAsUjMNj+wSS724dtQp7iKobF70+0V247MtoH1bsXz+bLl8OQO0DSpsbHr
+ /UlK662RTXNVsQ4/hIVTPasWkOT7SgbFoQNV/R4Gr5cPFswCMA2lE9e6jZCFCtfu
+ PLPvdsW5b3xprXR5XavHw34yUESlxNgH/TtU7vxLvRrvtibGFM1v8gj8RMZ9bKPZ
+ /oH2T8FMB/4Q8sOvBIaeux49db6Fmj1wKHAxw2XyjOHJ/bL0aGLY0+EJawuiRfh+
+ UIJfJGsPyrXnCQy55qzaA==
+X-ME-Sender: <xms:Z59fYoKYRD7StOsP98B3oiDuBpSaQ7k3uw_Zn0DQUoieChFhQ5lsmg>
+ <xme:Z59fYoLXB8D2Z5FChib63zid8AZOPFpFhFV9CgfoC1Rh_WtNkoDjxQdzWntvF64p1
+ N4bVLKYIiTDpbOlLD8>
+X-ME-Received: <xmr:Z59fYovmLS787SgHihl3CPO1I2N7kXPBzJlj-htsBOwGYhUjblshoItK1_ZaoXoo5GA3GEKMmtz8rU8BNtU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtgedgleelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
@@ -57,25 +57,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtgedgleekucetufdoteggod
  gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
  keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:zp5fYgwNNVo8Z3ym3ei3Jd1_CGcAWL8igs8G5VsdrAfAAquysv5_cg>
- <xmx:zp5fYnQao70Agcn4E6UZhWpMUabgOCbkW9xFwMs0GVpmT8ywCNVNHQ>
- <xmx:zp5fYrYXDcTnacPNEiPQlqaIkPwfapZ7b-97dV-Xdx7gNhvwC4cNOA>
- <xmx:z55fYoKw-NLyaL8QqOS9Guqp8lOoDMs8LWfP--yQD4sR6mYi5nCfPg>
+X-ME-Proxy: <xmx:Z59fYlZ3sz2W-yncR6eG76D0J_-NPLVAKEjCI4a9SMRwZ_7JTGTLmA>
+ <xmx:Z59fYvbXLFbLOt8GuwrudyR1dPkLPRlDz7UfKl-808C17AOwbY_VEA>
+ <xmx:Z59fYhCUzeb6KVnZuXAnAUzRBwby8UQm7eZ9uuhUdEHZNTP31KC47Q>
+ <xmx:Z59fYqwot4T68lkR3Dy87JedviHQtIpiQFSXFztf9uyCKprqQtcJhg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 20 Apr 2022 01:49:01 -0400 (EDT)
-Date: Wed, 20 Apr 2022 07:48:59 +0200
+ 20 Apr 2022 01:51:34 -0400 (EDT)
+Date: Wed, 20 Apr 2022 07:51:32 +0200
 From: Klaus Jensen <its@irrelevant.dk>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 2/5] hw/nvme: always set eui64
-Message-ID: <Yl+ey8yiaSrYY0CB@apples>
+Subject: Re: [PATCH 4/5] hw/nvme: do not auto-generate uuid
+Message-ID: <Yl+fZI5kGW2wQ1DO@apples>
 References: <20220419121039.1259477-1-its@irrelevant.dk>
- <20220419121039.1259477-3-its@irrelevant.dk>
- <20220420053059.GB1901@lst.de>
+ <20220419121039.1259477-5-its@irrelevant.dk>
+ <20220420053336.GA2063@lst.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lod4pgjo6IypGf0m"
+ protocol="application/pgp-signature"; boundary="ithiIFUu6dgqq7Q/"
 Content-Disposition: inline
-In-Reply-To: <20220420053059.GB1901@lst.de>
+In-Reply-To: <20220420053336.GA2063@lst.de>
 Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
  helo=out2-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -105,68 +105,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---lod4pgjo6IypGf0m
+--ithiIFUu6dgqq7Q/
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Apr 20 07:30, Christoph Hellwig wrote:
-> On Tue, Apr 19, 2022 at 02:10:36PM +0200, Klaus Jensen wrote:
+On Apr 20 07:33, Christoph Hellwig wrote:
+> On Tue, Apr 19, 2022 at 02:10:38PM +0200, Klaus Jensen wrote:
 > > From: Klaus Jensen <k.jensen@samsung.com>
 > >=20
-> > Unconditionally set an EUI64 for namespaces. The nvme-ns device defaults
-> > to auto-generating a persistent EUI64 if not specified, but for single
-> > namespace setups (-device nvme,drive=3D...), this does not happen.
+> > Do not default to generate an UUID for namespaces if it is not
+> > explicitly specified.
 > >=20
-> > Since the EUI64 has previously been zeroed it is not considered valid,
-> > so it should be safe to add this now.
-> >=20
-> > The generated EUI64 is of the form 52:54:00:<namespace counter>. Note,
-> > this is NOT the namespace identifier since that is not unique across
-> > subsystems; it is a global namespace counter. This has the effect that
-> > the value of this auto-generated EUI64 is dependent on the order with
-> > which the namespaces are created. If a more flexible setup is required,
-> > the eui64 namespace parameter should be explicitly set. Update the
-> > documentation to make this clear.
+> > This is a technically a breaking change in behavior. However, since the
+> > UUID changes on every VM launch, it is not spec compliant and is of
+> > little use since the UUID cannot be used reliably anyway and the
+> > behavior prior to this patch must be considered buggy.
 >=20
-> How is this actually globally unique given that it uses a start value
-> that is incremented for each created namespace?
+> So unlike the EUI, UUIDs are designed to be autogenerated even if the
+> current algorithm is completely broken.  We'd just need to persist them.
+> Note that NVMe at least in theory requires providing at least on of
+> the unique identifiers, and the UUID is the only one designed to be
+> autogenerated in a distributed fashion.
 
-I think it is as good as we can do when we cannot store the EUI64
-persistently anywhere. The EUI64s will be unique to a single QEMU
-instance. If someone wants to simulate a fabrics setup or something like
-that, then, as per the documentation, set the EUI explicitly.
+I understand, but it boils down to the fact that we do not have a
+general method of storing "metadata" like this persistently.
 
-> Also EUI64 values are based on a OUI, while NVME_EUI64_DEFAULT seems
-> to have the OUI values cleared to all zero as far as I can tell.
->=20
+But maybe it is time that we come up with something to do this.
 
-It really should be a u8 array, yes, but won't the integer approach
-work? The "template" is byte swapped to big endian, or am I off here?
-
-> I would strongly advise againt autogenerating eui64 values.  They are
-> small and have little entropy, and require at least three bytes (for
-> new allocations more) to be set to a IEEE assigned OUI.
-
-52:54:00 is a "private" OUI if I am not mistaken (something about some
-bit being 1 or 0, cant remember the specifics) and is what QEMU uses
-when an IEEE OUI is needed (MAC-addresses etc.). This is also what the
-device uses in the IEEE field.
-
---lod4pgjo6IypGf0m
+--ithiIFUu6dgqq7Q/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJfnskACgkQTeGvMW1P
-Den6VQf9HVtVtkV/LQmToOuuBpU0pgHuk0SDDRrGhUJLKXIs6+KNn9lUgXtdv6oo
-oW28uXU7iZpo/0EQe/rm+ABj5bWBTDLKZwZo03F+hk6x8F9O8KLibpZeowrNKSJd
-GPQyaJ0vO0XHvE3YEnwN4LmnnubQv27uOye/O0XE71F7J/dzXxHor2cvNLmF/snD
-Qil4ypwHqai2iN/9AK1DKSakuSdEFPcnnSUkn3xr63N+EZKqL8kjHhVMpEHs+dHC
-0Sd/b+OA1fnYKKy43PLiPcM/5wtaSFcHsAIAx/fu06PylRTik7NJ4nmZPEF/8WTr
-6K8CM1c+noxZT8vYDXcefH3bP6wSew==
-=8rk2
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJfn2IACgkQTeGvMW1P
+Deni+AgAwNW+z1CNbaj/tw+wPHGCXfYYw8APQblegSVX8wd3TRH4NbhkBK8glIAy
+6UOwVFUWVpLhOQ5fZtN+gD/HN2ZXeLhv8/m4eL75p22AMdhGn/lBtqKmEGupKhpF
+Fj7ZkP0BYAXGzVNMQo0tv+2LFCwMAAsNTxCZIhft5idWXXwt5U5g2nsw9FQ4SpFP
+VcPEu2QJ1nkJmCwfkIajmMhCCRLmCGCp1lwQ1ntcTEYK/5vASyeFbJYgUZRQwGN9
+OW2zn2Txx1H1wfvjR4rTFxF7xditU5qTUFUP1/dnlK9smC10H3/8v8OKrTBLz3de
+Ht53CxK9rYcaxdsCJL5/tnB7P3SCJg==
+=AqOo
 -----END PGP SIGNATURE-----
 
---lod4pgjo6IypGf0m--
+--ithiIFUu6dgqq7Q/--
 
