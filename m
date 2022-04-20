@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3560C508FCF
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:51:58 +0200 (CEST)
-Received: from localhost ([::1]:56422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0026508F92
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:37:28 +0200 (CEST)
+Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhFQj-0004yE-AG
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:51:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
+	id 1nhFCh-0000gI-Ns
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nhEl2-00025i-Hx
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:08:53 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:33370)
+ id 1nhEl0-00025X-M8
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:08:51 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:45695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nhEl0-0001aC-QR
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:08:52 -0400
-Received: by mail-ed1-x533.google.com with SMTP id 11so3415222edw.0
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:08:50 -0700 (PDT)
+ id 1nhEky-0001Zu-Vl
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:08:50 -0400
+Received: by mail-ed1-x534.google.com with SMTP id v15so3324228edb.12
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:08:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4kMxiI/J7ThiKm7jqj2osEwODI2N9C6yrJmYiRL+kdA=;
- b=srVJS0e3zG2UQMPzILJFlD1BjnPHnhIiOP9KOp8QdyOKibI+jB1N6ZbjzYDcAdxY1v
- yhVQAIaxw5avk2TAvPpdMb0MmaBgKOH7bDRpPiY2bhVO3308hqSv7VNiuTodPg7+J9A+
- //6dvLH6vzLtNp1qGltyAC6NBqobXz8dA4OOWCy501uppWJvjl5SyXL+YA1z2PUjKR1i
- rA5RBkvs+pe01CLAIiV8HcA+XrO0I4J2lrJATVyOIrHuFe/AKExSGKnFvyZt8gcw/0VC
- KIGR69MQhxD4TUWBGQo9B2vW1cquB6Xw7sfaBmB+BWY+c+KfMclYQMt7xLIqi7trMTW5
- ZmjQ==
+ bh=mhm8hNOSmeNAC6AOr4tb9voA4zkUjSftfCb/z/0LuF0=;
+ b=Iu2bpYx7luCV1UA87q2dg0ZUeGJQPVyj7xnwKwHe2oioYaFdMnaKP/TP0ZMf8XuqvH
+ 9kqet0jpprKcXdNKZhzs2dp4+cNrDQOI5hfkMuTxAgfBGIrGlvMXSBgvcSBJpGK8CNpS
+ Uxm63MtZWZ6koyv7HSDIr0PsxJ5VhiZJhexZuxWRi/oYUXTdcOpnFORS+5GPsZggC8u6
+ si6HNVMB7YLCVOkI4v8KJk56v9c3g3/OxizmBH28Uv8aAUYrZjFhw5E7zA4i/LtnoTZT
+ D1K6K5jFisi2aLWEwPy+D89JuyBxz/oVSXBs09GUFy0Ow6ygD6USGqEhIoAfljvthoAN
+ vxBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4kMxiI/J7ThiKm7jqj2osEwODI2N9C6yrJmYiRL+kdA=;
- b=3WMu8JWAvD7iKqZMj6dUjqd2ht71mSZF9j1qz+QDnElKvKZo/6fGt/V9iirD4d7vVJ
- X4tOn3jyOD+Hvt3t+/7IQqLcgot5jsXX15kjudvyBhKuzncwrDQ3CuV0aYHGxAJx7YiD
- qKh9yc9f3k0PSj5TSqgz+fGSvEnIC5AqtqB5iTRZoG5GRTq8AlKjkeN71tj0dmVr6arN
- c1ylANUIbTz3+XZCaq+E/YlmZZ4Mds7zeO0sMRvkaIcPBaEGL0zMr5krSNXZIuNvNgQV
- JikAgeFvGwFnY1UxX1wwxpn+4qPOhc4IOjuCI27TxuGwHRGRk3eeWBDy9ev1DSYT86n3
- 6lIA==
-X-Gm-Message-State: AOAM530ZqXXdmingIxMlVYmHfVAE7pm87tydvbDZrYjFROZ1e1bzIpKR
- w983QCKfuReoEBMxs7VFuv+UGA==
-X-Google-Smtp-Source: ABdhPJx0F4B5oFzYbQSF3BcbOZW/TaINvc4Q5z9ZAQ4KS76GsZY/KS2VxhQnIcXyYGsehIZj97jkzQ==
-X-Received: by 2002:aa7:c04e:0:b0:400:4daf:bab1 with SMTP id
- k14-20020aa7c04e000000b004004dafbab1mr24281929edo.101.1650478129414; 
- Wed, 20 Apr 2022 11:08:49 -0700 (PDT)
+ bh=mhm8hNOSmeNAC6AOr4tb9voA4zkUjSftfCb/z/0LuF0=;
+ b=5kIWMQt7zvAB8xsi5EfiW8GINc20J5RHXMDTiU5I2dM6BzWm/U2afrp4rWtQiKIJHt
+ y3towiXZulACjKKe61ZWFKtYASgHtBAWTC39IDAI79syMl2FSUqliUD1GLIbO4cz9uXw
+ nvDp+KH70SMb8u2zIbZaiXIHR/nDFfKQEYJPH2Ee49J5FXyt6ZTls5V2BHyIvfuOKcTA
+ xHz/j5OJnXvQIVJuaLm6vK0MCPUVHOQdVycSoWsFxSRPTZsGi/Vfv2wFJXe94L3leGT/
+ Avoh/eJelzbXaw4veOsLaxrp2ZW6Dx6AP+v962xYGvQAbqRcMnJzLJZnIJpShlNwj5AV
+ epJA==
+X-Gm-Message-State: AOAM532TjF/+ogVsFzsRD/LxgqxJoI9+U3x5CB2kQxavzdDkjtcnlxtZ
+ nHwW/LbIInqKSCqd1uJhyvaL6g==
+X-Google-Smtp-Source: ABdhPJxQg0VManokPiXcMMZF9GDnUhuOBeduB9AQ3xTDblPlU7Oe53p+d7QsbbgtfzjSNByGbVlUEg==
+X-Received: by 2002:aa7:d553:0:b0:416:4dfc:126d with SMTP id
+ u19-20020aa7d553000000b004164dfc126dmr24384418edr.213.1650478127688; 
+ Wed, 20 Apr 2022 11:08:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- y1-20020a1709063a8100b006efaf54d9c1sm3643228ejd.81.2022.04.20.11.08.36
+ q8-20020a056402040800b004227b347ee3sm8456012edv.56.2022.04.20.11.08.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 Apr 2022 11:08:39 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EAE821FFC0;
- Wed, 20 Apr 2022 19:08:32 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0C6431FFC1;
+ Wed, 20 Apr 2022 19:08:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
 	richard.henderson@linaro.org
-Subject: [PULL 08/25] tests/docker: inline variable definitions or move close
- to use
-Date: Wed, 20 Apr 2022 19:08:15 +0100
-Message-Id: <20220420180832.3812543-9-alex.bennee@linaro.org>
+Subject: [PULL 09/25] tests/docker: remove unnecessary filtering of
+ $(DOCKER_IMAGES)
+Date: Wed, 20 Apr 2022 19:08:16 +0100
+Message-Id: <20220420180832.3812543-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220420180832.3812543-1-alex.bennee@linaro.org>
 References: <20220420180832.3812543-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,99 +100,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Variables that are defined with ":=" are handled imperatively, so moving
-them closer to the first use ensures that all the assignments prior to
-the first use are taken into account.
+Now that DOCKER_IMAGES is only defined after DOCKER_VIRTUAL_IMAGES is
+complete, there is no need to re-filter DOCKER_IMAGES against it.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220401141326.1244422-6-pbonzini@redhat.com>
+Message-Id: <20220401141326.1244422-7-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220419091020.3008144-9-alex.bennee@linaro.org>
+Message-Id: <20220419091020.3008144-10-alex.bennee@linaro.org>
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 751151d7e9..9b4d1cf837 100644
+index 9b4d1cf837..3b5ebd5567 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -9,26 +9,12 @@ COMMA := ,
- HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
+@@ -201,7 +201,7 @@ __TESTS := $(notdir $(shell find $(SRC_PATH)/tests/docker/ -name 'test-*' -type
+ DOCKER_TESTS := $(if $(TESTS), $(filter $(TESTS), $(__TESTS)), $(__TESTS))
  
- DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
--# we don't run tests on intermediate images (used as base by another image)
--DOCKER_PARTIAL_IMAGES := debian10 debian11
--# we don't directly build virtual images (they are used to build other images)
--DOCKER_VIRTUAL_IMAGES := debian-bootstrap debian-toolchain
--__IMAGES := $(sort $(filter-out $(DOCKER_VIRTUAL_IMAGES), $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
--DOCKER_IMAGES := $(if $(IMAGES), $(filter $(IMAGES), $(__IMAGES)), $(__IMAGES))
--DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
--# Use a global constant ccache directory to speed up repetitive builds
--DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
- ifeq ($(HOST_ARCH),x86_64)
- DOCKER_DEFAULT_REGISTRY := registry.gitlab.com/qemu-project/qemu
- endif
- DOCKER_REGISTRY := $(if $(REGISTRY),$(REGISTRY),$(DOCKER_DEFAULT_REGISTRY))
- 
--__TESTS := $(notdir $(shell \
--		find $(SRC_PATH)/tests/docker/ -name 'test-*' -type f))
--DOCKER_TESTS := $(if $(TESTS), $(filter $(TESTS), $(__TESTS)), $(__TESTS))
--
- ENGINE := auto
--
- DOCKER_SCRIPT=$(SRC_PATH)/tests/docker/docker.py --engine $(ENGINE)
- 
- CUR_TIME := $(shell date +%Y-%m-%d-%H.%M.%S.$$$$)
-@@ -47,8 +33,6 @@ $(DOCKER_SRC_COPY):
- 
- docker-qemu-src: $(DOCKER_SRC_COPY)
- 
--docker-image: ${DOCKER_TARGETS}
--
- # General rule for building docker images. If we are a sub-make
- # invoked with SKIP_DOCKER_BUILD we still check the image is up to date
- # though
-@@ -96,6 +80,8 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
- endif
- 
- # Enforce dependencies for composite images
-+# we don't run tests on intermediate images (used as base by another image)
-+DOCKER_PARTIAL_IMAGES := debian10 debian11
- ifeq ($(HOST_ARCH),x86_64)
- docker-image-debian-amd64: docker-image-debian10
- DOCKER_PARTIAL_IMAGES += debian-amd64-cross
-@@ -205,6 +191,15 @@ DOCKER_PARTIAL_IMAGES += debian-tricore-cross
- DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
- DOCKER_PARTIAL_IMAGES += fedora-cris-cross
- 
-+# images that are only used to build other images
-+DOCKER_VIRTUAL_IMAGES := debian-bootstrap debian-toolchain
-+
-+__IMAGES := $(sort $(filter-out $(DOCKER_VIRTUAL_IMAGES), $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker)))))
-+DOCKER_IMAGES := $(if $(IMAGES), $(filter $(IMAGES), $(__IMAGES)), $(__IMAGES))
-+
-+__TESTS := $(notdir $(shell find $(SRC_PATH)/tests/docker/ -name 'test-*' -type f))
-+DOCKER_TESTS := $(if $(TESTS), $(filter $(TESTS), $(__TESTS)), $(__TESTS))
-+
  # Expand all the pre-requistes for each docker image and test combination
- $(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES) $(DOCKER_VIRTUAL_IMAGES),$(DOCKER_IMAGES)), \
+-$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES) $(DOCKER_VIRTUAL_IMAGES),$(DOCKER_IMAGES)), \
++$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
  	$(foreach t,$(DOCKER_TESTS), \
-@@ -263,6 +258,9 @@ docker:
- 
- docker-help: docker
- 
-+# Use a global constant ccache directory to speed up repetitive builds
-+DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
-+
- # This rule if for directly running against an arbitrary docker target.
- # It is called by the expanded docker targets (e.g. make
- # docker-test-foo@bar) which will do additional verification.
-@@ -308,5 +306,7 @@ docker-run-%: IMAGE = $(shell echo '$@' | sed -e 's/docker-run-\([^@]*\)@\(.*\)/
- docker-run-%:
- 	@$(MAKE) docker-run TEST=$(CMD) IMAGE=qemu/$(IMAGE)
- 
-+docker-image: ${DOCKER_IMAGES:%=docker-image-%}
-+
- docker-clean:
- 	$(call quiet-command, $(DOCKER_SCRIPT) clean)
+ 		$(eval .PHONY: docker-$t@$i) \
+ 		$(eval docker-$t@$i: docker-image-$i docker-run-$t@$i) \
 -- 
 2.30.2
 
