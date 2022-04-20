@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF61050929B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:22:53 +0200 (CEST)
-Received: from localhost ([::1]:44858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD53D5092EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:37:52 +0200 (CEST)
+Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhIiq-0006jq-Un
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:22:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43930)
+	id 1nhIxM-0005f5-0J
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhIde-000851-LQ; Wed, 20 Apr 2022 18:17:30 -0400
-Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:35912)
+ id 1nhIdh-0008BE-7q; Wed, 20 Apr 2022 18:17:33 -0400
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:43390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhIdd-00065k-2T; Wed, 20 Apr 2022 18:17:30 -0400
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-e5ca5c580fso3522027fac.3; 
- Wed, 20 Apr 2022 15:17:28 -0700 (PDT)
+ id 1nhIdf-000660-Hq; Wed, 20 Apr 2022 18:17:32 -0400
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-e5e8523fcbso3501980fac.10; 
+ Wed, 20 Apr 2022 15:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tcAGPl7Du3u2iEadLbeo110VJySotasxMHkhNA552H8=;
- b=OhQRReFxNtis9G2tsErHj1hbPzN4P0JliLJpBP1s1RSN4bp/rLuVmYGPFZ7/eOdAxi
- JnGT3vlPc8q+cCxsOp09J9NoE6TiG+myhIIF5wOYl9brbirPQD0jI3QT29koCdnmloTV
- IJWs9dsE2n8LN7B/yDa2qtjcvmCROoyGy8ZLJkWidYq0du4O5D1AD33mjbE0v9Oxu6DF
- QwMIwk9i7qAcNNuzXEHr8E7N96jkvqr9Wt/kxg7VO8O0VH8e11kZEDPqCRGP0PNQTm6X
- VgEupiAk6mBpN1zpIRal2H/U3545ncJsWaLWhMViDcOGjne2zqOzruZikX24xAQQFO3n
- gjBw==
+ bh=nUgJyRvX+0qJwNQ6C+GqWDKDodVzJXABOSa7o2A7gII=;
+ b=FsI09hgP/WGn26N9BQz4O3RUEWgZYiqGGMoAC5yl+MVkDrICYT3GWERhPzMqAMAyFB
+ 6JAYlJnIlu745zBDIIbhTxjRLQw0m6c1WQyDazvRH8PxLxrVHe54cr4Fc6YndFvdmikX
+ yT808yTfFc7mTHoYE+GRyyIgwE1mMwWlZsYu0xn5IHhiLXmlZbWpbcLWnfsvuOa6JKdj
+ AUvwxO59ptBP2lYNFKK0Z7FnJlDtc9qr7j18brDUSBZSpxeROM3dw4fT9bFBGRMu63Db
+ TzTJzuDs7qzfqXGcjgvYYKm9Yg4YY+AvmlKJW7dvHyp2UbIusUvpqqaeSpWNEpsqVv4c
+ fi1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tcAGPl7Du3u2iEadLbeo110VJySotasxMHkhNA552H8=;
- b=vpr9Es02eEDvzRBUCIdaJ+rhX6K0HS3enG55ZiOG2jQ3prGerAsR5X4qpkD8CnxF3D
- 7JPHmLTrskmLzwsfo3HzGNWDrMtFWfpOzFHDCLOtXIgrj+Uq/h8STjvLAtbyUhkaEeNJ
- m4G4Oo3mx50UAaYr7S5fZ/P2RYmEfOk+oBEj3PyrS1U2lBhqJmQQfxJl7rBCf2kpcn7a
- fnMIRjO4oOhqTXcdlXBNT5GWJYv2FvzUZeB9zUa0FX0nr5iH3/hQbIhaOP99/SxpFNI0
- Jtr0x3ck5RaTrBQd5XoIsNkrPdDUaRNR6l7egNajlPmJ356YA2mij+rH7XugP1fB7QtQ
- SieQ==
-X-Gm-Message-State: AOAM533zqhTZ/VxXcRgouizt9ua+mUtAACEC2V7f5y2idOsACI/eQ7Pe
- fxa9z9dS9szy9p6RKBSNu/yC/qCYGIs=
-X-Google-Smtp-Source: ABdhPJxmZqEHUZMrFVNe96wZY+F5VP3+7EqirIFtndZWWwUBeoQwA/pw6B97RTwfKFPbhyH28jBBpQ==
-X-Received: by 2002:a05:6870:c88a:b0:e2:125a:809b with SMTP id
- er10-20020a056870c88a00b000e2125a809bmr2608864oab.242.1650493047345; 
- Wed, 20 Apr 2022 15:17:27 -0700 (PDT)
+ bh=nUgJyRvX+0qJwNQ6C+GqWDKDodVzJXABOSa7o2A7gII=;
+ b=VwkdwBWnrhzGi6uXQaqboT96QRhA+S34MRYoUiSWzOZllo2IOU4lPgB+JwOqtqfBG3
+ tUvM4OtPjmggW25I9ub7E+ZEk5k5I+CK6dD6jW3R72kgGbs3AdtUy139maqddACJWVEr
+ 6kxcBCVq5enG1PlljoSMnvfQ+TPmps0s9Y2Q67bkbFOneS6AFKGAbHiSVQLV0skPiRg/
+ w5VkjQp2CGwyNH0jNGXDUD9R+ngsVQbYj8Vn/h6PhxIH0VbxIljrrDYwkeV8ac/NwGwx
+ dJTS3J4d5xcbdHOSzHS8hZAdsuKlItucjOR2IPySFZc+umq4Ib4X5DrpN2HyrSR0CgpI
+ 0o5g==
+X-Gm-Message-State: AOAM533oxGATiQPBdVNRLOD9rSg+e6VpgyPYFdXFLMDyQq/jgday/drd
+ 1qlEBPaOm/WtCTANz+l77/eEG5MANmw=
+X-Google-Smtp-Source: ABdhPJz5nZQ4feGtWnpm1U/ov8ND0/jDJN4W3FmQwQKGCEB65p71plWb4THQK0VktWuJ/1lUS6VaOQ==
+X-Received: by 2002:a05:6870:5802:b0:de:ce5e:33ea with SMTP id
+ r2-20020a056870580200b000dece5e33eamr2545360oap.57.1650493049920; 
+ Wed, 20 Apr 2022 15:17:29 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:486c:c4fd:c4aa:a799:60c2])
  by smtp.gmail.com with ESMTPSA id
- 14-20020aca110e000000b00322847e6f53sm3876082oir.46.2022.04.20.15.17.25
+ 14-20020aca110e000000b00322847e6f53sm3876082oir.46.2022.04.20.15.17.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 15:17:27 -0700 (PDT)
+ Wed, 20 Apr 2022 15:17:29 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/23] ppc/pnv: Remove useless checks in set_irq handlers
-Date: Wed, 20 Apr 2022 19:13:13 -0300
-Message-Id: <20220420221329.169755-8-danielhb413@gmail.com>
+Subject: [PULL 08/23] spapr: Move hypercall_register_softmmu
+Date: Wed, 20 Apr 2022 19:13:14 -0300
+Message-Id: <20220420221329.169755-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420221329.169755-1-danielhb413@gmail.com>
 References: <20220420221329.169755-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::33;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,50 +84,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- danielhb413@gmail.com, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: peter.maydell@linaro.org, Fabiano Rosas <farosas@linux.ibm.com>,
+ danielhb413@gmail.com, richard.henderson@linaro.org,
+ Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Fabiano Rosas <farosas@linux.ibm.com>
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220323072846.1780212-6-clg@kaod.org>
+I'm moving this because next patch will add more code under the ifdef
+and it will be cleaner if we keep them together.
+
+Also switch the ifdef branches to make it more convenient to add code
+under CONFIG_TCG in the next patch.
+
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reviewed-by: Nicholas Piggin <npiggin@gmail.com>
+Message-Id: <20220325221113.255834-2-farosas@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pnv_psi.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ hw/ppc/spapr_hcall.c | 50 ++++++++++++++++++++++----------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
-diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-index 950ecca405..98045ed3d2 100644
---- a/hw/ppc/pnv_psi.c
-+++ b/hw/ppc/pnv_psi.c
-@@ -219,11 +219,6 @@ static void pnv_psi_power8_set_irq(void *opaque, int irq, int state)
-     uint32_t src;
-     bool masked;
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 7c8bb76f99..9b24db5e44 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1473,31 +1473,6 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
+     return H_FUNCTION;
+ }
  
--    if (irq > PSIHB_IRQ_EXTERNAL) {
--        qemu_log_mask(LOG_GUEST_ERROR, "PSI: Unsupported irq %d\n", irq);
--        return;
--    }
+-#ifndef CONFIG_TCG
+-static target_ulong h_softmmu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+-                            target_ulong opcode, target_ulong *args)
+-{
+-    g_assert_not_reached();
+-}
 -
-     xivr_reg = xivr_regs[irq];
-     stat_reg = stat_regs[irq];
- 
-@@ -813,11 +808,6 @@ static void pnv_psi_power9_set_irq(void *opaque, int irq, int state)
-     PnvPsi *psi = opaque;
-     uint64_t irq_method = psi->regs[PSIHB_REG(PSIHB9_INTERRUPT_CONTROL)];
- 
--    if (irq > PSIHB9_NUM_IRQS) {
--        qemu_log_mask(LOG_GUEST_ERROR, "PSI: Unsupported irq %d\n", irq);
--        return;
--    }
+-static void hypercall_register_softmmu(void)
+-{
+-    /* hcall-pft */
+-    spapr_register_hypercall(H_ENTER, h_softmmu);
+-    spapr_register_hypercall(H_REMOVE, h_softmmu);
+-    spapr_register_hypercall(H_PROTECT, h_softmmu);
+-    spapr_register_hypercall(H_READ, h_softmmu);
 -
-     if (irq_method & PSIHB9_IRQ_METHOD) {
-         qemu_log_mask(LOG_GUEST_ERROR, "PSI: LSI IRQ method no supported\n");
-         return;
+-    /* hcall-bulk */
+-    spapr_register_hypercall(H_BULK_REMOVE, h_softmmu);
+-}
+-#else
+-static void hypercall_register_softmmu(void)
+-{
+-    /* DO NOTHING */
+-}
+-#endif
+-
+ /* TCG only */
+ #define PRTS_MASK      0x1f
+ 
+@@ -1825,6 +1800,31 @@ out_restore_l1:
+     spapr_cpu->nested_host_state = NULL;
+ }
+ 
++#ifdef CONFIG_TCG
++static void hypercall_register_softmmu(void)
++{
++    /* DO NOTHING */
++}
++#else
++static target_ulong h_softmmu(PowerPCCPU *cpu, SpaprMachineState *spapr,
++                            target_ulong opcode, target_ulong *args)
++{
++    g_assert_not_reached();
++}
++
++static void hypercall_register_softmmu(void)
++{
++    /* hcall-pft */
++    spapr_register_hypercall(H_ENTER, h_softmmu);
++    spapr_register_hypercall(H_REMOVE, h_softmmu);
++    spapr_register_hypercall(H_PROTECT, h_softmmu);
++    spapr_register_hypercall(H_READ, h_softmmu);
++
++    /* hcall-bulk */
++    spapr_register_hypercall(H_BULK_REMOVE, h_softmmu);
++}
++#endif
++
+ static void hypercall_register_types(void)
+ {
+     hypercall_register_softmmu();
 -- 
 2.35.1
 
