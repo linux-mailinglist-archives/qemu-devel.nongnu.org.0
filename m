@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBAE508D47
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:28:15 +0200 (CEST)
-Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3499508D4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:29:33 +0200 (CEST)
+Received: from localhost ([::1]:49792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhDBe-0008Lq-GH
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:28:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46072)
+	id 1nhDCv-0002tp-1C
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nhCYB-0000M6-Hp
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:47:27 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:36812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nhCY9-0003Bg-Mr
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:47:27 -0400
-Received: by mail-qt1-x833.google.com with SMTP id bb21so1252419qtb.3
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X/42drexxegBU+WLUAslqbNeGfYFCWJdwEALvQeRFL4=;
- b=R1qQucU2pq15pg9KqLSa8vmg2gMgTF3vuC/Ap9bQgTkOadOaRksUsTNoNAXgSe18e6
- ztnHMze74jMdtvmHdtur5XiaDZZQ2nRU+NxhLGsBs55VL6mufm96QHIJ53sLXCoe+zHw
- VZeKNxVNSjJiZdzoBP/6Evw1o1QamZEN1JG0vaV5b8GEsXDkwuCWgamap7u6oW7Szwbl
- 85EJ+nmcCjRIAUCRbWVZ/kr+hB6qp9WSghrVbypVWTnwD6VZsXOeskDsBoPv2sxHzYex
- I9kF6n6I6VyTN8Gjqsn8iWyTUXA98fY01N/nmHHV2cTKj8vaYAVhn9FojE1K1exZCmAG
- FTNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=X/42drexxegBU+WLUAslqbNeGfYFCWJdwEALvQeRFL4=;
- b=11t96IA9ZpFRL3GyHegccZRuIY2f4hUWkDb7k2ktPt7a0IW+53xEQTlflGNHzk61a5
- s8LrCIW9WpzFi8lksaqt5HNusJjrW7strS1r5jKtPCuNwU4pNIf1rE2mMEqggAPLGvW2
- WiFu+VFLowFlFT32zREmqWEqlXdO7pF7Ep6Pg9Csvc+2++1zdO2Qm0OxZB2ls1XWSH+6
- IC6CPJdIXMQ1Y+dI/VYhpeQN0vEkGmUGzymYMPdCj5cBnJBLwnZo9+S36nTK2AzILXnF
- w9BjcdjL3+z6eOA0VnGNyqDaSP4K+kdSZbc+gLKuLVztywlZ6w1eOM7L/H1Xv8R2bedz
- H7fQ==
-X-Gm-Message-State: AOAM531o+slDmB/vTOC1j4bmlIYIzYVEtSUFI9q9bPLSZ1ef4XNdOq67
- vSnbbxr/mZmyu92Zb0pFOT2GsZ0mQ+OFJyooaZ4=
-X-Google-Smtp-Source: ABdhPJxtfh/gFI5jshOKLis6gCmA0zdK38WDY9tzr0z4aGAe6ns5SwBMnV0wYv5muAcc9oWx66PqqupDic8XtxchgaE=
-X-Received: by 2002:ac8:5a41:0:b0:2f1:f30e:c07f with SMTP id
- o1-20020ac85a41000000b002f1f30ec07fmr13987830qta.112.1650469644502; Wed, 20
- Apr 2022 08:47:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nhCZ1-0002fO-Rs
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:48:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nhCYz-0003F7-Ox
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:48:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650469697;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/mkQjkeWSwhwCczAxErCZlcDU+m90iyFNUIes3ZIvJk=;
+ b=GAyxEMcu+1wHG74CukooEJwI47NO/GXkTPRm7AQBstyQrxaDote6FTMvGL96qaZEiay0oW
+ HWrAvT61VVXlLAY1RkyyUa1pVeHzLG+zF6CNASCmQQyePo85mMeuRsRIPDyO+J0YMm2+gr
+ J542NhyMenNlGwmYM/0unQsO1Lj8xSo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-286-vslKyu9hOVy_8pSVe2j_IQ-1; Wed, 20 Apr 2022 11:48:15 -0400
+X-MC-Unique: vslKyu9hOVy_8pSVe2j_IQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D454185A794
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 15:48:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9EF82024CB6;
+ Wed, 20 Apr 2022 15:48:14 +0000 (UTC)
+Date: Wed, 20 Apr 2022 16:48:12 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH 33/41] tests: move libqtest.c under libqos/
+Message-ID: <YmArPPvh7Zo80otO@redhat.com>
+References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
+ <20220420132624.2439741-34-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20220420153407.73926-1-pbonzini@redhat.com>
- <20220420153407.73926-4-pbonzini@redhat.com>
-In-Reply-To: <20220420153407.73926-4-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 20 Apr 2022 19:47:12 +0400
-Message-ID: <CAJ+F1C+g1Taf4BzKWV2thxF4ge+W=Y1TVUsvavZ_w4gJp1YThQ@mail.gmail.com>
-Subject: Re: [PATCH 03/34] qga: wixl: get path to sysroot from pkg-config as
- intended
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000df8c1e05dd17e864"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220420132624.2439741-34-marcandre.lureau@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,166 +80,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000df8c1e05dd17e864
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 20, 2022 at 05:26:16PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Since commit a2ce7dbd917 ("meson: convert tests/qtest to meson"),
+> libqtest.h is under libqos/ directory. Let's move the .c along with it.
 
-On Wed, Apr 20, 2022 at 7:37 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+It is a bit odd for libqtest.h to be under libqos to begin with
+IMHO. The commit doesn't explain why it was moved, so feels like
+possibly a mistake.
 
-> The .wxs file uses $(var.Mingw_bin) while configure/meson have always
-> used Mingw_dlls.  Fix them to match what was probably intended.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  configure       | 4 ++--
->  qga/meson.build | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/configure b/configure
-> index 2fc860ed9a..2bc5a0b84f 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2702,7 +2702,7 @@ if test "$QEMU_GA_VERSION" =3D ""; then
->      QEMU_GA_VERSION=3D$(cat $source_path/VERSION)
->  fi
->
-> -QEMU_GA_MSI_MINGW_DLL_PATH=3D"$($pkg_config --variable=3Dprefix glib-2.0=
-)/bin"
-> +QEMU_GA_MSI_MINGW_BIN_PATH=3D"$($pkg_config --variable=3Dprefix glib-2.0=
-)/bin"
->
->  # Mac OS X ships with a broken assembler
->  roms=3D
-> @@ -2790,7 +2790,7 @@ if test "$debug_tcg" =3D "yes" ; then
->  fi
->  if test "$mingw32" =3D "yes" ; then
->    echo "CONFIG_WIN32=3Dy" >> $config_host_mak
-> -  echo "QEMU_GA_MSI_MINGW_DLL_PATH=3D${QEMU_GA_MSI_MINGW_DLL_PATH}" >>
-> $config_host_mak
-> +  echo "QEMU_GA_MSI_MINGW_BIN_PATH=3D${QEMU_GA_MSI_MINGW_BIN_PATH}" >>
-> $config_host_mak
->    echo "QEMU_GA_MANUFACTURER=3D${QEMU_GA_MANUFACTURER}" >> $config_host_=
-mak
->    echo "QEMU_GA_DISTRO=3D${QEMU_GA_DISTRO}" >> $config_host_mak
->    echo "QEMU_GA_VERSION=3D${QEMU_GA_VERSION}" >> $config_host_mak
-> diff --git a/qga/meson.build b/qga/meson.build
-> index 392d560941..6d9f39bb32 100644
-> --- a/qga/meson.build
-> +++ b/qga/meson.build
-> @@ -129,7 +129,7 @@ if targetos =3D=3D 'windows'
->                                wixl, '-o', '@OUTPUT0@', '@INPUT0@',
->                                qemu_ga_msi_arch[cpu],
->                                qemu_ga_msi_vss,
-> -                              '-D', 'Mingw_dlls=3D' +
-> config_host['QEMU_GA_MSI_MINGW_DLL_PATH'],
-> +                              '-D', 'Mingw_bin=3D' +
-> config_host['QEMU_GA_MSI_MINGW_BIN_PATH'],
->                              ])
->      all_qga +=3D [qga_msi]
->      alias_target('msi', qga_msi)
-> --
-> 2.35.1
->
->
->
->
+>  docs/devel/qtest.rst                | 4 ++--
+>  tests/qtest/{ => libqos}/libqtest.c | 4 ++--
+>  tests/qtest/libqos/meson.build      | 2 +-
+>  tests/unit/meson.build              | 2 +-
+>  4 files changed, 6 insertions(+), 6 deletions(-)
+>  rename tests/qtest/{ => libqos}/libqtest.c (99%)
+> 
+> diff --git a/docs/devel/qtest.rst b/docs/devel/qtest.rst
+> index c3dceb6c8a1d..a9a6b0a7466b 100644
+> --- a/docs/devel/qtest.rst
+> +++ b/docs/devel/qtest.rst
+> @@ -18,8 +18,8 @@ QTest cases can be executed with
+>  
+>     make check-qtest
+>  
+> -The QTest library is implemented by ``tests/qtest/libqtest.c`` and the API is
+> -defined in ``tests/qtest/libqtest.h``.
+> +The QTest library is implemented by ``tests/qtest/libqos/libqtest.c`` and the API is
+> +defined in ``tests/qtest/libqos/libqtest.h``.
+>  
+>  Consider adding a new QTest case when you are introducing a new virtual
+>  hardware, or extending one if you are adding functionalities to an existing
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqos/libqtest.c
+> similarity index 99%
+> rename from tests/qtest/libqtest.c
+> rename to tests/qtest/libqos/libqtest.c
+> index 2b9bdb947d6f..9097329ce435 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqos/libqtest.c
+> @@ -20,7 +20,7 @@
+>  #include <sys/wait.h>
+>  #include <sys/un.h>
+>  
+> -#include "libqos/libqtest.h"
+> +#include "libqtest.h"
+>  #include "qemu/ctype.h"
+>  #include "qemu/cutils.h"
+>  #include "qapi/error.h"
+> @@ -268,7 +268,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+>      /* It's possible that if an earlier test run crashed it might
+>       * have left a stale unix socket lying around. Delete any
+>       * stale old socket to avoid spurious test failures with
+> -     * tests/libqtest.c:70:init_socket: assertion failed (ret != -1): (-1 != -1)
+> +     * libqtest.c:70:init_socket: assertion failed (ret != -1): (-1 != -1)
+>       */
+>      unlink(socket_path);
+>      unlink(qmp_socket_path);
+> diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
+> index e988d1579172..0c172f27533a 100644
+> --- a/tests/qtest/libqos/meson.build
+> +++ b/tests/qtest/libqos/meson.build
+> @@ -1,4 +1,4 @@
+> -libqos_srcs = files('../libqtest.c',
+> +libqos_srcs = files('libqtest.c',
+>          'qgraph.c',
+>          'qos_external.c',
+>          'pci.c',
+> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+> index ab01e00f12cf..188b0ea80c37 100644
+> --- a/tests/unit/meson.build
+> +++ b/tests/unit/meson.build
+> @@ -154,7 +154,7 @@ if have_system
+>  endif
+>  
+>  if have_ga and targetos == 'linux'
+> -  tests += {'test-qga': ['../qtest/libqtest.c']}
+> +  tests += {'test-qga': ['../qtest/libqos/libqtest.c']}
+>    test_deps += {'test-qga': qga}
+>  endif
+>  
+> -- 
+> 2.35.1.693.g805e0a68082a
+> 
+> 
 
---=20
-Marc-Andr=C3=A9 Lureau
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---000000000000df8c1e05dd17e864
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 20, 2022 at 7:37 PM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The =
-.wxs file uses $(var.Mingw_bin) while configure/meson have always<br>
-used Mingw_dlls.=C2=A0 Fix them to match what was probably intended.<br>
-<br>
-Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
-get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
-div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
-eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>
-=C2=A0qga/meson.build | 2 +-<br>
-=C2=A02 files changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/configure b/configure<br>
-index 2fc860ed9a..2bc5a0b84f 100755<br>
---- a/configure<br>
-+++ b/configure<br>
-@@ -2702,7 +2702,7 @@ if test &quot;$QEMU_GA_VERSION&quot; =3D &quot;&quot;=
-; then<br>
-=C2=A0 =C2=A0 =C2=A0QEMU_GA_VERSION=3D$(cat $source_path/VERSION)<br>
-=C2=A0fi<br>
-<br>
--QEMU_GA_MSI_MINGW_DLL_PATH=3D&quot;$($pkg_config --variable=3Dprefix glib-=
-2.0)/bin&quot;<br>
-+QEMU_GA_MSI_MINGW_BIN_PATH=3D&quot;$($pkg_config --variable=3Dprefix glib-=
-2.0)/bin&quot;<br>
-<br>
-=C2=A0# Mac OS X ships with a broken assembler<br>
-=C2=A0roms=3D<br>
-@@ -2790,7 +2790,7 @@ if test &quot;$debug_tcg&quot; =3D &quot;yes&quot; ; =
-then<br>
-=C2=A0fi<br>
-=C2=A0if test &quot;$mingw32&quot; =3D &quot;yes&quot; ; then<br>
-=C2=A0 =C2=A0echo &quot;CONFIG_WIN32=3Dy&quot; &gt;&gt; $config_host_mak<br=
->
--=C2=A0 echo &quot;QEMU_GA_MSI_MINGW_DLL_PATH=3D${QEMU_GA_MSI_MINGW_DLL_PAT=
-H}&quot; &gt;&gt; $config_host_mak<br>
-+=C2=A0 echo &quot;QEMU_GA_MSI_MINGW_BIN_PATH=3D${QEMU_GA_MSI_MINGW_BIN_PAT=
-H}&quot; &gt;&gt; $config_host_mak<br>
-=C2=A0 =C2=A0echo &quot;QEMU_GA_MANUFACTURER=3D${QEMU_GA_MANUFACTURER}&quot=
-; &gt;&gt; $config_host_mak<br>
-=C2=A0 =C2=A0echo &quot;QEMU_GA_DISTRO=3D${QEMU_GA_DISTRO}&quot; &gt;&gt; $=
-config_host_mak<br>
-=C2=A0 =C2=A0echo &quot;QEMU_GA_VERSION=3D${QEMU_GA_VERSION}&quot; &gt;&gt;=
- $config_host_mak<br>
-diff --git a/qga/meson.build b/qga/meson.build<br>
-index 392d560941..6d9f39bb32 100644<br>
---- a/qga/meson.build<br>
-+++ b/qga/meson.build<br>
-@@ -129,7 +129,7 @@ if targetos =3D=3D &#39;windows&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0wixl, &#39;-o&#39;, &#39;@OUTPUT0@&#3=
-9;, &#39;@INPUT0@&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_ga_msi_arch[cpu],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_ga_msi_vss,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;-D&#39;, &#39;Mingw_dlls=3D&#39; + con=
-fig_host[&#39;QEMU_GA_MSI_MINGW_DLL_PATH&#39;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;-D&#39;, &#39;Mingw_bin=3D&#39; + conf=
-ig_host[&#39;QEMU_GA_MSI_MINGW_BIN_PATH&#39;],<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0])<br>
-=C2=A0 =C2=A0 =C2=A0all_qga +=3D [qga_msi]<br>
-=C2=A0 =C2=A0 =C2=A0alias_target(&#39;msi&#39;, qga_msi)<br>
--- <br>
-2.35.1<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000df8c1e05dd17e864--
 
