@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED36508F48
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:18:05 +0200 (CEST)
-Received: from localhost ([::1]:55634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FBB508F51
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:23:19 +0200 (CEST)
+Received: from localhost ([::1]:44556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhEtw-0002pO-91
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53292)
+	id 1nhEz0-0008BO-1p
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:23:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhEit-0005Zn-0c
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:39 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:54908)
+ id 1nhEiu-0005d1-4g
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:40 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:46901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhEir-0001EH-HO
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:38 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id md4so2659298pjb.4
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:06:37 -0700 (PDT)
+ id 1nhEis-0001Ea-KJ
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:39 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ e62-20020a17090a6fc400b001d2cd8e9b0aso2750301pjk.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=esKzBdANexAUJ4Ped1Zb42JAumSJtJDyJYcrCyyvHX4=;
- b=ZKomJVMj8BgYVpRyt1Rt9WsCKZz1IJCXLskaJ9AhN0rJ0uGnFnMPbfeFZ6MndKNjSp
- YdujrSaWVhPwFF8dxSFZ3mnNh4YVFH0BTizXIJVzKBEHC9JTAo0SdUX7/edKslnycaha
- 10fkUmetQzeCq+9gcBipxtKs48+7Mr/gzB3Aa9pJGoIM9Bfis8SDMur7YTAUwPlF+Q5+
- A6joYilTFgH7eURlNGfyjPMX333fZ2HFpduwpRfzc7ZHzTuSIuhmPwzqp6XFhNrV3ZOD
- xrcKae91FF6C2vhHgSU0RX8j1G36ZgNUhY+GLKopUN3JZ38moVk3w1SHe+WM5zrcrs1o
- 5yXw==
+ bh=QruqmmtFKc2ehxSS4AhSTbmV3nwhrgkbO6GJghhE20A=;
+ b=I+neKLtsUJg9Dy3ptCe2XHdvkpuUL0HMvvqPnps3YP+rfG5i1WvQHq2jDyOSRgXXcz
+ C9wHp/UVwmkQ/jAnPCtzScTMUr//3jtOQ/nYIiWNLA6JmrlQ4h+UBIY+Mzz//GBOgwCM
+ /A5h3IYfmenpXKPQoDR4rIXGOn4CfFUCfGLI0FbtOjLiLyad62rw+YEmtY3BrWgcxwid
+ Fqu+heL7cfc83irvbn1qISJixp/+67C7dsW7vWootLI9pZJ8laIjFbnNJrh31/F3IyH4
+ 8WB9V3KoAgvQX3Ycwa9SWQiG516GqMAekzw8YXE8sx2dTM37F7EF64v9wZ+rLjnn7+5K
+ PdJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=esKzBdANexAUJ4Ped1Zb42JAumSJtJDyJYcrCyyvHX4=;
- b=TGjkx4bIkFlHhr8VQwH2XDbwQkJgdauv1MpQHXTP9B1FafgCkRycrAkfLSwIvuQZec
- pUgqs+vTbGfHqF3fF0XYGp+QbbY7th2ca4RQB7hPTaJziDfnleF9w3yYbHGQAox51IFg
- 8dak6dSUSURqk/JCEhDt4+DM6zpoBsh21I4WCfgETZ/mzGZSfKfhJ0ops1TpRHnUHtJp
- A9bPlwzHCiCORoXT4WKHTWLxsDmgIriJpa7KZFTIg1oQS/9d5ACtvWo6o6QJhU5j1Gd6
- xAq7iZNuVg4gqAyBXrHkqQ8YlfFPvWrWevl4nNSd7AgxvbOoVc6PJSBM/C+GR182xe06
- eh9g==
-X-Gm-Message-State: AOAM532DyPuGipPi9sZBdZEligt8HJUGpqKsOnaizUDHyDdUxa/N1L8M
- ijkIjg08iI0VjX3AtlFCY/QsIUQq/0rg+A==
-X-Google-Smtp-Source: ABdhPJyQqF1v6jrSsgJEHYr9ouSfQ4sIw6DXuIj6qCzQ9oXcWom2zV22d6gkk4bexUuf9Qki+tkZ/g==
-X-Received: by 2002:a17:90a:5902:b0:1cb:a0eb:8f8c with SMTP id
- k2-20020a17090a590200b001cba0eb8f8cmr5803770pji.17.1650477996297; 
- Wed, 20 Apr 2022 11:06:36 -0700 (PDT)
+ bh=QruqmmtFKc2ehxSS4AhSTbmV3nwhrgkbO6GJghhE20A=;
+ b=woXzdOBHSt4kD0LXxfjy4aQ9qpWxccg6Q2pYKwIZvvqBd0aiW2J5N9Zq/b7G9SuZsf
+ IkrCuUboYzrlhz0QuZbKawGtJX5ZTkL83u0ZS1tEyeIzHxXzFDIBAm3A2e8GxFwprxPy
+ 0z5vZ9EFoYdtGmI2tzrxJotVzTreFFwKpszh5+atD2wTUCdGdtyPp3M0axI8/VLnotgM
+ rOlbfF/p6/R/Hg0nTCw1VRCoGfMBstmstwgkwXsdy/BlKCYh/LYzShsVLVcHTzSQonqX
+ rJTJ2MdnB4gX6ddO/wKNC4PXAUD+suZ1HkjeMEvyL8cAhXnUAm4ROhTcAsNxjIQhjAPX
+ NWdg==
+X-Gm-Message-State: AOAM533oxL7lqWF+6MU4hc2slTFk2hUtYxoEAKY55oJAsCQAl7S8cYYj
+ VFwFhW1wyYCo6VFgbS/y1Q9G/5Jhluy8KA==
+X-Google-Smtp-Source: ABdhPJzwc4N8xJnqQtMman8tqRxOFJRHLmbNifvYex7vTCkKvE8dWnA6DiX3xIrYV97UBXyBrRcXuw==
+X-Received: by 2002:a17:90b:1b01:b0:1d2:ef4a:98e1 with SMTP id
+ nu1-20020a17090b1b0100b001d2ef4a98e1mr5811694pjb.163.1650477997351; 
+ Wed, 20 Apr 2022 11:06:37 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- i2-20020a17090a058200b001d2fc489b8asm56681pji.25.2022.04.20.11.06.35
+ i2-20020a17090a058200b001d2fc489b8asm56681pji.25.2022.04.20.11.06.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 11:06:35 -0700 (PDT)
+ Wed, 20 Apr 2022 11:06:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/39] target/nios2: Remove log_cpu_state from reset
-Date: Wed, 20 Apr 2022 11:05:54 -0700
-Message-Id: <20220420180618.1183855-16-richard.henderson@linaro.org>
+Subject: [PULL 16/39] util/log: Use qemu_log_trylock/unlock in qemu_log
+Date: Wed, 20 Apr 2022 11:05:55 -0700
+Message-Id: <20220420180618.1183855-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220420180618.1183855-1-richard.henderson@linaro.org>
 References: <20220420180618.1183855-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,37 +86,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is redundant with the logging done in cpu_common_reset.
+Avoid using QemuLogFile and RCU directly.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220417183019.755276-16-richard.henderson@linaro.org>
+Message-Id: <20220417183019.755276-17-richard.henderson@linaro.org>
 ---
- target/nios2/cpu.c | 5 -----
- 1 file changed, 5 deletions(-)
+ util/log.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 6975ae4bdb..b0877cb39e 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -46,11 +46,6 @@ static void nios2_cpu_reset(DeviceState *dev)
-     Nios2CPUClass *ncc = NIOS2_CPU_GET_CLASS(cpu);
-     CPUNios2State *env = &cpu->env;
+diff --git a/util/log.c b/util/log.c
+index 6b7b358573..090bc3bc39 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -62,23 +62,22 @@ void qemu_log_unlock(FILE *fd)
+ /* Return the number of characters emitted.  */
+ int qemu_log(const char *fmt, ...)
+ {
++    FILE *f = qemu_log_trylock();
+     int ret = 0;
+-    QemuLogFile *logfile;
  
--    if (qemu_loglevel_mask(CPU_LOG_RESET)) {
--        qemu_log("CPU Reset (CPU %d)\n", cs->cpu_index);
--        log_cpu_state(cs, 0);
--    }
--
-     ncc->parent_reset(dev);
+-    rcu_read_lock();
+-    logfile = qatomic_rcu_read(&qemu_logfile);
+-    if (logfile) {
++    if (f) {
+         va_list ap;
++
+         va_start(ap, fmt);
+-        ret = vfprintf(logfile->fd, fmt, ap);
++        ret = vfprintf(f, fmt, ap);
+         va_end(ap);
++        qemu_log_unlock(f);
  
-     memset(env->regs, 0, sizeof(uint32_t) * NUM_CORE_REGS);
+         /* Don't pass back error results.  */
+         if (ret < 0) {
+             ret = 0;
+         }
+     }
+-    rcu_read_unlock();
+     return ret;
+ }
+ 
 -- 
 2.34.1
 
