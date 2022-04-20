@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DEEB50903E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:17:58 +0200 (CEST)
-Received: from localhost ([::1]:37292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2326B509097
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:41:52 +0200 (CEST)
+Received: from localhost ([::1]:33524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhFpt-0000vS-5t
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38084)
+	id 1nhGD1-0005Af-3t
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:41:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFl8-0001nV-5o; Wed, 20 Apr 2022 15:13:04 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:34501)
+ id 1nhFmX-0005Ij-DI; Wed, 20 Apr 2022 15:14:29 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:37101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFl3-0002Xr-Rf; Wed, 20 Apr 2022 15:12:59 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-e2afb80550so3019258fac.1; 
- Wed, 20 Apr 2022 12:12:57 -0700 (PDT)
+ id 1nhFmV-0002gC-3J; Wed, 20 Apr 2022 15:14:29 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-e2a00f2cc8so3014423fac.4; 
+ Wed, 20 Apr 2022 12:14:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=YVFSFzcUC5z68KuVIhNjBPz2ycj/E3mWghj+QM1REEo=;
- b=NFgSmG9zVT12kNJF9egNmbPr3OFeATS706Q3Kdd/UyJV6mJcCQDNJG7vG1Wr7hyKdk
- PHXWdJRD55Mo3imPhL33Ea9SNB1DMhYbGAK7V4DS2W0NHVWjL7H2d5w39KlSjnBmNztT
- 57XvsKPaE/xhD0Gk4ZU8B8NXTMx3DCBCK1g3tIlhvJ51L1lBaPx8P1IZJ3rpceW8fk38
- 4F8yPFc98foJS7FNQK/F3xSdhBQad9IWMocbbFhYTPvR/DgNBndzPGKfKTqGpxJr0o9l
- qeXT9jXUyC52TRCBLtBgKxG/yFthSqWs8UD8e9MEwf/6MT/eW6QXWIu9u26O8yXKCnji
- pNUA==
+ bh=3kmM25wyEH/u/wNa64nwovpMotU/SWRFIi8MqjpLLUY=;
+ b=JTuAsT/4iTYWHhLretJuHbZIxIhOkWNFzZ9gy2SrSk/PBaHNPwltUFvUKjIi0QuukP
+ z79GugQZXdwMqjWjn+gCH6BI/kh029IYJ6hTSk9u/IuA4yA2OjVKDN2b76OZ0glgphQq
+ eFXK+SLFNmZM0N4jRFI8BmY0gSlFwRw8ZO0+iJ0kFzyIOmMKqPaLxxPBbf77DxxpafGl
+ odW4aUDNv3ZhncbwsEJuMu3InX4yx2C15K80OYekso/DNyT7ZycBfwclNL0T0koIAI90
+ CYOmzD18jXg6/r8zkUOAGS9Pb750cdvOuFa26bvfnfHJqaHkfxoM7T8k62j+xJzcPHqu
+ K0JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=YVFSFzcUC5z68KuVIhNjBPz2ycj/E3mWghj+QM1REEo=;
- b=bmO6uYlKrsWaDEn/+fY/fJS9jPQBc7ydn+wdfRFg1vai/9pnkQPyusLkT9PFx0415d
- VUWCi/j/oNBYgY3wS0R6E2epipoZdv0NG8S+UVK2fAdBzmI7L4pjg3Z7bkaA5Y7yFEr8
- ONxPZKgxjiiU3EWdNrzNEv1pPR9RjQFHOikoq++qHaWnjQXDvW0wFKXmQ18HrMLvIIKC
- 73NyJpCCBGFUrGQcF29qT3HiiIZ4zWmJUDaji2NuonWZ35o9gzldH83LvnfWNnvuh5kQ
- ECoXLqfukezrUuK73B/+/EEHRbPLiASCgfCz63BbMO+lhUJBAcFnbcayC/E0TqvDbYsT
- pgWQ==
-X-Gm-Message-State: AOAM530qT6PUQ90nEzVE2tob9GrPYOuCZhJvLjT2f6ocNPMEN3G/cdaJ
- 76D+QyrnWKfLUQoERaixGbvgDOQCLRI=
-X-Google-Smtp-Source: ABdhPJwMO85RlHDKwWW2lvTcI324IqcEpYzcDoaJk1YH7YzJdYLV3dFjDOmBmaV8mZouyLqH8ObNpw==
-X-Received: by 2002:a05:6870:e2d5:b0:e5:e41d:917d with SMTP id
- w21-20020a056870e2d500b000e5e41d917dmr2210238oad.234.1650481976225; 
- Wed, 20 Apr 2022 12:12:56 -0700 (PDT)
+ bh=3kmM25wyEH/u/wNa64nwovpMotU/SWRFIi8MqjpLLUY=;
+ b=RnaD8poByT8+Ifkeu4uz24ejTU933MAyAZ7ue2XXfopyY5Dv79FCgS2SmlUuJ80KzJ
+ iHH6298wYSAY5ltIEA5HlVfAHTuGlzs7iz028H0YaCeLUJV4jPn2QqPVthEMyDVNqp2/
+ frpd83ABUZz4cQxYSafp5hwloti1H2ts/Wn/suBt+Iag9ClMe0e528Rdnr4iBQShlXAR
+ cX5j5Dc+jIC8e/on1+xCj2aFwdKd8tk2b3b0T50g/lkzEZdGbOo6rfs6n44jlFgVNbhN
+ yM+yjlE3e/K6gLzW7z5W0jhIesgkRw65u2gBeRyvRAWirkKeBm0OGsWlYxSh4KEdXdWE
+ WjhA==
+X-Gm-Message-State: AOAM530o6E0jglz2QDP2q8YoIKcmxhCMm3ylFWvnSMEpqqcQlktqhcrU
+ Rnowm/2BKd0DTYmQtqGrloI=
+X-Google-Smtp-Source: ABdhPJyRoGpREgXu2magDcTbsX6Ptibz06CI58n4G/NjMfm6OheJnhCDrxw2UJszlxg14ZCEJiBqjg==
+X-Received: by 2002:a05:6871:806:b0:e5:c518:12c8 with SMTP id
+ q6-20020a056871080600b000e5c51812c8mr2409758oap.266.1650482065603; 
+ Wed, 20 Apr 2022 12:14:25 -0700 (PDT)
 Received: from [192.168.10.222] ([179.225.252.195])
  by smtp.gmail.com with ESMTPSA id
- v17-20020a4a6951000000b00329d8b23f0dsm6988509oof.5.2022.04.20.12.12.54
+ y26-20020a544d9a000000b00322656e2988sm4803286oix.39.2022.04.20.12.14.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 12:12:55 -0700 (PDT)
-Message-ID: <2e62d048-1635-ba62-022b-ce3b30ac6290@gmail.com>
-Date: Wed, 20 Apr 2022 16:12:52 -0300
+ Wed, 20 Apr 2022 12:14:25 -0700 (PDT)
+Message-ID: <a352e967-2be9-5dac-3cf1-b2c14e615464@gmail.com>
+Date: Wed, 20 Apr 2022 16:14:21 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] target/ppc: Improve KVM hypercall trace
+Subject: Re: [RFC PATCH 0/8] Alternative softfloat 128-bit integer support
 Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20220325223316.276494-1-farosas@linux.ibm.com>
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220325223316.276494-1-farosas@linux.ibm.com>
+In-Reply-To: <20220330175932.6995-1-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,64 +88,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
+Cc: groug@kaod.org, richard.henderson@linaro.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+All patches but patch 01 queued in gitlab.com/danielhb/qemu/tree/ppc-next.
+
+
+Thanks,
 
 
 Daniel
 
-On 3/25/22 19:33, Fabiano Rosas wrote:
-> Before:
+On 3/30/22 14:59, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > 
->    kvm_handle_papr_hcall handle PAPR hypercall
->    kvm_handle_papr_hcall handle PAPR hypercall
->    kvm_handle_papr_hcall handle PAPR hypercall
->    kvm_handle_papr_hcall handle PAPR hypercall
->    kvm_handle_papr_hcall handle PAPR hypercall
->    kvm_handle_papr_hcall handle PAPR hypercall
+> This RFC is an alternative to [1] using Int128 types to implement the
+> 128-bit integer conversion routines in softfloat required by the
+> xscv[su]qqp and xscvqp[su]qz instructions of PowerISA v3.1.
 > 
-> After:
+> Some improvements to int128.h are made in patches 1 and 2. Patches 3-6
+> implement the conversion routines, and patches 7 and 8 implement the new
+> instructions.
 > 
->    kvm_handle_papr_hcall 0x3a8
->    kvm_handle_papr_hcall 0x3ac
->    kvm_handle_papr_hcall 0x108
->    kvm_handle_papr_hcall 0x104
->    kvm_handle_papr_hcall 0x104
->    kvm_handle_papr_hcall 0x108
+> RFC: Int128 vs. pair of 64-bit values.
+>   - Returning unsigned values through Int128 is not ideal, but creating
+>     an "UInt128" just for this case seems excessive.
+>   - OTOH, there are fewer cases to handle, especially in float->int.
 > 
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> ---
->   target/ppc/kvm.c        | 2 +-
->   target/ppc/trace-events | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+> [1] https://lists.gnu.org/archive/html/qemu-ppc/2022-03/msg00520.html
 > 
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index dc93b99189..a490e886ea 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -1681,7 +1681,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
->           break;
->   #if defined(TARGET_PPC64)
->       case KVM_EXIT_PAPR_HCALL:
-> -        trace_kvm_handle_papr_hcall();
-> +        trace_kvm_handle_papr_hcall(run->papr_hcall.nr);
->           run->papr_hcall.ret = spapr_hypercall(cpu,
->                                                 run->papr_hcall.nr,
->                                                 run->papr_hcall.args);
-> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
-> index 53b107f56e..a79f1b4370 100644
-> --- a/target/ppc/trace-events
-> +++ b/target/ppc/trace-events
-> @@ -23,7 +23,7 @@ kvm_failed_get_vpa(void) "Warning: Unable to get VPA information from KVM"
->   kvm_handle_dcr_write(void) "handle dcr write"
->   kvm_handle_dcr_read(void) "handle dcr read"
->   kvm_handle_halt(void) "handle halt"
-> -kvm_handle_papr_hcall(void) "handle PAPR hypercall"
-> +kvm_handle_papr_hcall(uint64_t hcall) "0x%" PRIx64
->   kvm_handle_epr(void) "handle epr"
->   kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
->   kvm_handle_debug_exception(void) "handle debug exception"
+> Matheus Ferst (8):
+>    qemu/int128: avoid undefined behavior in int128_lshift
+>    qemu/int128: add int128_urshift
+>    softfloat: add uint128_to_float128
+>    softfloat: add int128_to_float128
+>    softfloat: add float128_to_uint128
+>    softfloat: add float128_to_int128
+>    target/ppc: implement xscv[su]qqp
+>    target/ppc: implement xscvqp[su]qz
+> 
+>   fpu/softfloat.c                     | 183 ++++++++++++++++++++++++++++
+>   include/fpu/softfloat.h             |   7 ++
+>   include/qemu/int128.h               |  25 +++-
+>   target/ppc/fpu_helper.c             |  33 +++++
+>   target/ppc/helper.h                 |   4 +
+>   target/ppc/insn32.decode            |   7 ++
+>   target/ppc/translate/vsx-impl.c.inc |  22 ++++
+>   tests/unit/test-int128.c            |  32 +++++
+>   8 files changed, 311 insertions(+), 2 deletions(-)
+> 
 
