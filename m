@@ -2,55 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A39508AC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:27:08 +0200 (CEST)
-Received: from localhost ([::1]:48544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C44508B3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:54:09 +0200 (CEST)
+Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhBIR-0006QR-8i
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:27:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42438)
+	id 1nhBib-0006el-2r
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:54:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nhAd8-0001st-QX; Wed, 20 Apr 2022 09:44:27 -0400
-Received: from [187.72.171.209] (port=19505 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nhAd6-0007md-4Z; Wed, 20 Apr 2022 09:44:25 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 20 Apr 2022 10:43:15 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 3CA89800059;
- Wed, 20 Apr 2022 10:43:15 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------7xAbUzNWJ9aPoSudQg9ho04c"
-Message-ID: <07834a8e-0170-02d3-b62c-28fe2ab93baa@eldorado.org.br>
-Date: Wed, 20 Apr 2022 10:43:14 -0300
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nhAgx-0007Us-AP; Wed, 20 Apr 2022 09:48:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nhAgv-0008TS-8w; Wed, 20 Apr 2022 09:48:23 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23KCrCGL001640; 
+ Wed, 20 Apr 2022 13:48:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ mime-version; s=pp1; bh=GPKGXVgU0ebmE96YypmXVRRcu/9iXVksiUKhPehQu6s=;
+ b=hjniJ83QxXC10FMBdT6jbiNcTiDm1RKI2GbFZgOuw/pJ2ohdfLZwkBoylDTTul2GS3W9
+ awcbyLdKW+vZrZJt2QhdtXMRjtPWZSP6cOULKaXCWlPKFZtqQzMHCLsX9oilS34j+lO2
+ PprUyK2x3f1IWRG2T0I1p9nhOammvtzUIn7k/k+XV3p1n9dORDPoVamGoBeWceEFCGpZ
+ HEatuZS7IkBz/W/SDPIrSCGeVAo/zBQ9i180+xoNCqnXgdQcgYgvQYUH6NvUGmaAp+rn
+ vA6KyJ+ZdIRmaKhtdIMy7UNqJDOSEOg8bZWa9AEu9Dqv9mD+roqTkaOdijI6ynwrRIbH wQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7kbaudv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Apr 2022 13:48:06 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23KCrDFV001816;
+ Wed, 20 Apr 2022 13:48:05 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fg7kbaudg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Apr 2022 13:48:05 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23KDixB0026523;
+ Wed, 20 Apr 2022 13:48:04 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma02dal.us.ibm.com with ESMTP id 3ffneabpwf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Apr 2022 13:48:04 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23KDm3B934931136
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 Apr 2022 13:48:03 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 916ABC6055;
+ Wed, 20 Apr 2022 13:48:03 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F283DC6059;
+ Wed, 20 Apr 2022 13:48:02 +0000 (GMT)
+Received: from localhost (unknown [9.65.232.226])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Wed, 20 Apr 2022 13:48:02 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Bin Meng <bmeng.cn@gmail.com>, =?utf-8?Q?C=C3=A9dric?= Le Goater
+ <clg@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH] target/ppc: Fix BookE debug interrupt generation
+In-Reply-To: <20220420082006.1096031-1-bmeng.cn@gmail.com>
+References: <20220420082006.1096031-1-bmeng.cn@gmail.com>
+Date: Wed, 20 Apr 2022 10:48:00 -0300
+Message-ID: <87mtgf27e7.fsf@linux.ibm.com>
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: UQv9W6SvrYmG1dUy87BMBFJFYdXwcikr
+X-Proofpoint-GUID: b0A4WUiOb9aGvZtHydZ5DwmTyjEEXPYW
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/9] target/ppc: Implemented vector divide instructions
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20220405195558.66144-1-lucas.araujo@eldorado.org.br>
- <20220405195558.66144-3-lucas.araujo@eldorado.org.br>
- <f8f924b4-3cfb-0946-4e54-247453880925@linaro.org>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <f8f924b4-3cfb-0946-4e54-247453880925@linaro.org>
-X-OriginalArrivalTime: 20 Apr 2022 13:43:15.0492 (UTC)
- FILETIME=[9604EE40:01D854BC]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-20_03,2022-04-20_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ mlxscore=0 mlxlogscore=609 bulkscore=0 lowpriorityscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204200081
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,242 +110,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, danielhb413@gmail.com, clg@kaod.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------7xAbUzNWJ9aPoSudQg9ho04c
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Bin Meng <bmeng.cn@gmail.com> writes:
 
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Per PowerISA v2.07 [1], Book III-E, chapter 7.6 "Interrupt definitions"
 
-On 11/04/2022 22:51, Richard Henderson wrote:
->
-> On 4/5/22 12:55, Lucas Mateus Castro(alqotel) wrote:
->
->> +
->> +#define DO_VDIV_VMOD(NAME, SZ, DIV, 
->> SIGNED)                             \
->> +static void NAME(TCGv_i##SZ t, TCGv_i##SZ a, TCGv_i##SZ 
->> b)              \
->> +{ \
->> + /* \
->> +     *  If N/0 the instruction used by the backend might 
->> deliver        \
->> +     *  an invalid division signal to the process, so if b = 0 
->> return   \
->> +     *  N/1 and if signed instruction, the same for a = int_min, b = 
->> -1 \
->> + */ \
->> +    if (SIGNED) 
->> {                                                       \
->> +        TCGv_i##SZ t0 = 
->> tcg_temp_new_i##SZ();                           \
->> +        TCGv_i##SZ t1 = 
->> tcg_temp_new_i##SZ();                           \
->> +        tcg_gen_setcondi_i##SZ(TCG_COND_EQ, t0, a, 
->> INT##SZ##_MIN);      \
->> +        tcg_gen_setcondi_i##SZ(TCG_COND_EQ, t1, b, 
->> -1);                 \
->> +        tcg_gen_and_i##SZ(t0, t0, 
->> t1);                                  \
->> +        tcg_gen_setcondi_i##SZ(TCG_COND_EQ, t1, b, 
->> 0);                  \
->> +        tcg_gen_or_i##SZ(t0, t0, 
->> t1);                                   \
->> +        tcg_gen_movi_i##SZ(t1, 
->> 0);                                      \
->> +        tcg_gen_movcond_i##SZ(TCG_COND_NE, b, t0, t1, t0, 
->> b);           \
->> +        DIV(t, a, 
->> b);                                                   \
->> + tcg_temp_free_i##SZ(t0); \
->> + tcg_temp_free_i##SZ(t1); \
->> +    } else 
->> {                                                            \
->> +        TCGv_i##SZ zero = 
->> tcg_constant_i##SZ(0);                        \
->> +        TCGv_i##SZ one = 
->> tcg_constant_i##SZ(1);                         \
->> +        tcg_gen_movcond_i##SZ(TCG_COND_EQ, b, b, zero, one, 
->> b);         \
->> +        DIV(t, a, 
->> b);                                                   \
->> + } \
->> +}
->
-> This is overkill.  Even if you keep some macros, passing in SIGNED and 
-> using it in the
-> outermost if is a sign you should split the macro in two.
->
-> However, only tcg_gen_div_i64 really requires the full signed 
-> treatment; tcg_gen_div_i32
-> can be better handled by extending to i64, because INT32_MIN / -1ULL 
-> does not trap.
->
-> I think this would be much easier to read as 4 separate functions.
->
->
-Ok, I'll change it to 4 different macros, move clz128 to int128.h and 
-turn TRANS_VDIV_VMOD into do_vdiv_vmod function and call it with TRANS() 
-in v3
-> r~
--- 
-Lucas Mateus M. Araujo e Castro
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------7xAbUzNWJ9aPoSudQg9ho04c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Which BookE board are you concerned about? I don't think we have any
+BookE ISA v2.07 in QEMU currently.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 11/04/2022 22:51, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:f8f924b4-3cfb-0946-4e54-247453880925@linaro.org"><br>
-      On 4/5/22 12:55, Lucas Mateus Castro(alqotel) wrote:
-      <br>
-      <br>
-      <blockquote type="cite">+
-        <br>
-        +#define DO_VDIV_VMOD(NAME, SZ, DIV,
-        SIGNED)                             \
-        <br>
-        +static void NAME(TCGv_i##SZ t, TCGv_i##SZ a, TCGv_i##SZ
-        b)              \
-        <br>
-+{                                                                      
-        \
-        <br>
-        +   
-        /*                                                                 
-        \
-        <br>
-        +     *  If N/0 the instruction used by the backend might
-        deliver        \
-        <br>
-        +     *  an invalid division signal to the process, so if b = 0
-        return   \
-        <br>
-        +     *  N/1 and if signed instruction, the same for a =
-        int_min, b = -1 \
-        <br>
-        +    
-        */                                                                
-        \
-        <br>
-        +    if (SIGNED)
-        {                                                       \
-        <br>
-        +        TCGv_i##SZ t0 =
-        tcg_temp_new_i##SZ();                           \
-        <br>
-        +        TCGv_i##SZ t1 =
-        tcg_temp_new_i##SZ();                           \
-        <br>
-        +        tcg_gen_setcondi_i##SZ(TCG_COND_EQ, t0, a,
-        INT##SZ##_MIN);      \
-        <br>
-        +        tcg_gen_setcondi_i##SZ(TCG_COND_EQ, t1, b,
-        -1);                 \
-        <br>
-        +        tcg_gen_and_i##SZ(t0, t0,
-        t1);                                  \
-        <br>
-        +        tcg_gen_setcondi_i##SZ(TCG_COND_EQ, t1, b,
-        0);                  \
-        <br>
-        +        tcg_gen_or_i##SZ(t0, t0,
-        t1);                                   \
-        <br>
-        +        tcg_gen_movi_i##SZ(t1,
-        0);                                      \
-        <br>
-        +        tcg_gen_movcond_i##SZ(TCG_COND_NE, b, t0, t1, t0,
-        b);           \
-        <br>
-        +        DIV(t, a,
-        b);                                                   \
-        <br>
-        +       
-        tcg_temp_free_i##SZ(t0);                                       
-        \
-        <br>
-        +       
-        tcg_temp_free_i##SZ(t1);                                       
-        \
-        <br>
-        +    } else
-        {                                                            \
-        <br>
-        +        TCGv_i##SZ zero =
-        tcg_constant_i##SZ(0);                        \
-        <br>
-        +        TCGv_i##SZ one =
-        tcg_constant_i##SZ(1);                         \
-        <br>
-        +        tcg_gen_movcond_i##SZ(TCG_COND_EQ, b, b, zero, one,
-        b);         \
-        <br>
-        +        DIV(t, a,
-        b);                                                   \
-        <br>
-        +   
-        }                                                                  
-        \
-        <br>
-        +}
-        <br>
-      </blockquote>
-      <br>
-      This is overkill.  Even if you keep some macros, passing in SIGNED
-      and using it in the
-      <br>
-      outermost if is a sign you should split the macro in two.
-      <br>
-      <br>
-      However, only tcg_gen_div_i64 really requires the full signed
-      treatment; tcg_gen_div_i32
-      <br>
-      can be better handled by extending to i64, because INT32_MIN /
-      -1ULL does not trap.
-      <br>
-      <br>
-      I think this would be much easier to read as 4 separate functions.
-      <br>
-      <br>
-      <br>
-    </blockquote>
-    Ok, I'll change it to 4 different macros, move clz128 to int128.h
-    and turn TRANS_VDIV_VMOD into do_vdiv_vmod function and call it with
-    TRANS() in v3 <br>
-    <blockquote type="cite"
-      cite="mid:f8f924b4-3cfb-0946-4e54-247453880925@linaro.org">r~
-      <br>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
+> "When in Internal Debug Mode with MSR.DE=0, then Instruction Complete
+> and Branch Taken debug events cannot occur, and no DBSR status bits
+> are set and no subsequent imprecise Debug interrupt will occur."
+>
+> Current codes do not check MSR.DE bit before setting HFLAGS_SE and
+> HFLAGS_BE flag, which would cause the immediate debug interrupt to
+> be generated, e.g.: when DBCR0.ICMP bit is set by guest software
+> and MSR.DE is not set.
+>
 
---------------7xAbUzNWJ9aPoSudQg9ho04c--
+The rationale and the change itself look ok.
+
+> [1] https://ibm.ent.box.com/s/jd5w15gz301s5b5dt375mshpq9c3lh4u
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+>
+>  target/ppc/helper_regs.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index 9a691d6833..77bc57415c 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -63,10 +63,10 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+>  
+>      if (ppc_flags & POWERPC_FLAG_DE) {
+>          target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
+> -        if (dbcr0 & DBCR0_ICMP) {
+> +        if ((dbcr0 & DBCR0_ICMP) && msr_de) {
+>              hflags |= 1 << HFLAGS_SE;
+>          }
+> -        if (dbcr0 & DBCR0_BRT) {
+> +        if ((dbcr0 & DBCR0_BRT) && msr_de) {
+>              hflags |= 1 << HFLAGS_BE;
+>          }
+>      } else {
 
