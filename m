@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1B0508A1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:09:01 +0200 (CEST)
-Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723E1508AA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:19:26 +0200 (CEST)
+Received: from localhost ([::1]:54958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhB0u-0007OO-53
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37858)
+	id 1nhBAz-000821-HX
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhAML-0005jK-Ud
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:27:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45825)
+ id 1nhAMP-0005oB-Ac
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:27:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhAMH-0004QM-IG
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:27:02 -0400
+ id 1nhAMN-0004RS-O2
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:27:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650461220;
+ s=mimecast20190719; t=1650461227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g45ih+AvmqvsVhEkqWc2gwIc76ez9AcmBGa+FFkNUcY=;
- b=eTPy6mSZD+scNRU0TSZzTWrpM7C7bM+Vc3n2v2dGHwUZfPb6gQ3WNPPqFY3irolw7DeDyf
- tQ8I3Hr+6I5HxAiMWog9cxJYDNPcxQuKRSZ5jU6e9hzmZgOVA9i3I2pVgXecbrPUwRZ+Ai
- talhyDsmXEUKva8sxPmCfE7OiAVfc/Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wicTNQp/IaVlMv1RQiC/bgR4h3VzdckTwi9VwOIFmv8=;
+ b=F4F7keNogFO1GxybIxUvlzZZ36Sw6MnlHoYM34ZBXZKvv7IEgDSfFyUbI24/IcwVukjxzk
+ 8GiFgg4LnSIDSJHQMyqOYtJdHJ3DU8DJZWSxfc1gJWMemYf4QsgVlB8znWEvwCRK16yqCC
+ MuL3fP/Tn7i/V5oXZCpRsWJKVMz1+mE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-s9FMsAlqOhuSSGbn6E9_VA-1; Wed, 20 Apr 2022 09:26:59 -0400
-X-MC-Unique: s9FMsAlqOhuSSGbn6E9_VA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-447-xGSRZxAwO3SKr47tDP-Ytw-1; Wed, 20 Apr 2022 09:27:04 -0400
+X-MC-Unique: xGSRZxAwO3SKr47tDP-Ytw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A4378002BF;
- Wed, 20 Apr 2022 13:26:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CD5BB3806739;
+ Wed, 20 Apr 2022 13:27:03 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DE46140EBD5;
- Wed, 20 Apr 2022 13:26:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3AAC112131E;
+ Wed, 20 Apr 2022 13:27:02 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/41] build-sys: remove MSI's QEMU_GA_MSI_MINGW_DLL_PATH
-Date: Wed, 20 Apr 2022 17:25:50 +0400
-Message-Id: <20220420132624.2439741-8-marcandre.lureau@redhat.com>
+Subject: [PATCH 08/41] build-sys: simplify MSI's QEMU_GA_MANUFACTURER
+Date: Wed, 20 Apr 2022 17:25:51 +0400
+Message-Id: <20220420132624.2439741-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -78,56 +78,97 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <michael.roth@amd.com>
+ Michael Roth <michael.roth@amd.com>, Konstantin Kostiuk <kkostiuk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Since the introduction of the variable in commit 9dacf32d2cb ("qemu-ga:
-Building Windows MSI installation with configure/Makefile"), nothing
-makes use of the Mingw_dlls variable in the .wxs file.
+If there is any reason to allow customization of this variable, we
+should provide a proper configure option.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- configure       | 3 ---
- qga/meson.build | 1 -
- 2 files changed, 4 deletions(-)
+ configure                 |  4 ----
+ qga/installer/qemu-ga.wxs | 10 ++++------
+ qga/meson.build           |  1 -
+ 3 files changed, 4 insertions(+), 11 deletions(-)
 
 diff --git a/configure b/configure
-index 7c08c18358be..8cbe55ac82e8 100755
+index 8cbe55ac82e8..5ac653b21351 100755
 --- a/configure
 +++ b/configure
-@@ -2704,8 +2704,6 @@ if test "$QEMU_GA_VERSION" = ""; then
-     QEMU_GA_VERSION=$(cat $source_path/VERSION)
- fi
+@@ -2694,9 +2694,6 @@ fi
  
--QEMU_GA_MSI_MINGW_DLL_PATH="$($pkg_config --variable=prefix glib-2.0)/bin"
--
- # Mac OS X ships with a broken assembler
- roms=
- if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
-@@ -2792,7 +2790,6 @@ if test "$debug_tcg" = "yes" ; then
+ # Guest agent Windows MSI package
+ 
+-if test "$QEMU_GA_MANUFACTURER" = ""; then
+-  QEMU_GA_MANUFACTURER=QEMU
+-fi
+ if test "$QEMU_GA_DISTRO" = ""; then
+   QEMU_GA_DISTRO=Linux
+ fi
+@@ -2790,7 +2787,6 @@ if test "$debug_tcg" = "yes" ; then
  fi
  if test "$mingw32" = "yes" ; then
    echo "CONFIG_WIN32=y" >> $config_host_mak
--  echo "QEMU_GA_MSI_MINGW_DLL_PATH=${QEMU_GA_MSI_MINGW_DLL_PATH}" >> $config_host_mak
-   echo "QEMU_GA_MANUFACTURER=${QEMU_GA_MANUFACTURER}" >> $config_host_mak
+-  echo "QEMU_GA_MANUFACTURER=${QEMU_GA_MANUFACTURER}" >> $config_host_mak
    echo "QEMU_GA_DISTRO=${QEMU_GA_DISTRO}" >> $config_host_mak
    echo "QEMU_GA_VERSION=${QEMU_GA_VERSION}" >> $config_host_mak
+ else
+diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+index 0950e8c6becc..53d836c06a96 100644
+--- a/qga/installer/qemu-ga.wxs
++++ b/qga/installer/qemu-ga.wxs
+@@ -8,9 +8,7 @@
+     <?error Environment variable QEMU_GA_DISTRO undefined?>
+   <?endif?>
+ 
+-  <?ifndef env.QEMU_GA_MANUFACTURER ?>
+-    <?error Environment variable QEMU_GA_MANUFACTURER undefined?>
+-  <?endif?>
++  <?define QEMU_GA_MANUFACTURER = "QEMU" ?>
+ 
+   <?ifndef var.Arch?>
+     <?error Define Arch to 32 or 64?>
+@@ -43,14 +41,14 @@
+     Name="QEMU guest agent"
+     Id="*"
+     UpgradeCode="{EB6B8302-C06E-4BEC-ADAC-932C68A3A98D}"
+-    Manufacturer="$(env.QEMU_GA_MANUFACTURER)"
++    Manufacturer="$(var.QEMU_GA_MANUFACTURER)"
+     Version="$(env.QEMU_GA_VERSION)"
+     Language="1033">
+     <?if $(var.Arch) = 32 ?>
+     <Condition Message="Error: 32-bit version of Qemu GA can not be installed on 64-bit Windows.">NOT VersionNT64</Condition>
+     <?endif?>
+     <Package
+-      Manufacturer="$(env.QEMU_GA_MANUFACTURER)"
++      Manufacturer="$(var.QEMU_GA_MANUFACTURER)"
+       InstallerVersion="200"
+       Languages="1033"
+       Compressed="yes"
+@@ -133,7 +131,7 @@
+           </Component>
+           <Component Id="registry_entries" Guid="{D075D109-51CA-11E3-9F8B-000C29858960}">
+             <RegistryKey Root="HKLM"
+-                         Key="Software\$(env.QEMU_GA_MANUFACTURER)\$(env.QEMU_GA_DISTRO)\Tools\QemuGA">
++                         Key="Software\$(var.QEMU_GA_MANUFACTURER)\$(env.QEMU_GA_DISTRO)\Tools\QemuGA">
+               <RegistryValue Type="string" Name="ProductID" Value="fb0a0d66-c7fb-4e2e-a16b-c4a3bfe8d13b" />
+               <RegistryValue Type="string" Name="Version" Value="$(env.QEMU_GA_VERSION)" />
+             </RegistryKey>
 diff --git a/qga/meson.build b/qga/meson.build
-index 392d56094198..da5e5efb19e8 100644
+index da5e5efb19e8..6e57de430d29 100644
 --- a/qga/meson.build
 +++ b/qga/meson.build
-@@ -129,7 +129,6 @@ if targetos == 'windows'
+@@ -123,7 +123,6 @@ if targetos == 'windows'
+                             command: [
+                               find_program('env'),
+                               'QEMU_GA_VERSION=' + config_host['QEMU_GA_VERSION'],
+-                              'QEMU_GA_MANUFACTURER=' + config_host['QEMU_GA_MANUFACTURER'],
+                               'QEMU_GA_DISTRO=' + config_host['QEMU_GA_DISTRO'],
+                               'BUILD_DIR=' + meson.build_root(),
                                wixl, '-o', '@OUTPUT0@', '@INPUT0@',
-                               qemu_ga_msi_arch[cpu],
-                               qemu_ga_msi_vss,
--                              '-D', 'Mingw_dlls=' + config_host['QEMU_GA_MSI_MINGW_DLL_PATH'],
-                             ])
-     all_qga += [qga_msi]
-     alias_target('msi', qga_msi)
 -- 
 2.35.1.693.g805e0a68082a
 
