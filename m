@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE315086B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:11:52 +0200 (CEST)
-Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA90508687
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:04:03 +0200 (CEST)
+Received: from localhost ([::1]:53364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh8FT-0003LG-In
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35052)
+	id 1nh87u-0008Ev-Gq
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:04:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nh83s-0005mT-NK; Wed, 20 Apr 2022 06:59:52 -0400
-Received: from mga11.intel.com ([192.55.52.93]:54870)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh83v-0005qs-Dg
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:59:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1nh83q-0002Gi-Sh; Wed, 20 Apr 2022 06:59:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650452390; x=1681988390;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=q4+comFCTuAVp24Q5pDdfQAuKOWlK6x5PTpUEBTyOK0=;
- b=ZzhxlVwDcpiJj9RZ+MW3530ydXhejhlA5C4C99u4IjWTO6jZ2s3XxnoQ
- 4VMlmL/Zl1CoUCu585NKOuO26vjEAMwvJDSy4J+V5DQ2v8Zz2gnepkMGH
- 4O9swv4StMsdz9LYSun3LMJkudAsJkQjjwBqa8Wp+cFhrhQEDuhlm0XrU
- tQijyDEKQ0F0HpGq79jEb5YU2jvUwh18JOpw5korxJALb391fcPWpyhgv
- AkCwIQ9IRN9CZBdLEDvZ1arqsv9pKvRaMBEhLrotCLywV5ZN5Z+YYu2+4
- caJpzTHJX1Ft/3Z3B4f/fK8VVMl7oNfaBoGVVOw0MyiZZU9QD7QUbaz6x g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="261602129"
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="261602129"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2022 03:59:47 -0700
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="555147500"
-Received: from rshamets-mobl.ger.corp.intel.com ([10.213.19.118])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2022 03:59:40 -0700
-Date: Wed, 20 Apr 2022 12:59:27 +0200
-From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-To: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v7 12/12] hw/acpi: Make the PCI hot-plug aware of SR-IOV
-Message-ID: <Yl/niJ2h09naw1ss@rshamets-mobl.ger.corp.intel.com>
-References: <20220318191819.1711831-1-lukasz.maniak@linux.intel.com>
- <20220318191819.1711831-13-lukasz.maniak@linux.intel.com>
- <20220331143841.55ae9372@redhat.com>
- <20220404094138.GA15894@lgieryk-VirtualBox>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh83t-0002Gx-EC
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:59:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650452392;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3bOwrlf+FngerK2Cs3kwuRJCZZ0Rp2hijrhZvjHVT6M=;
+ b=jStUN6cvuuEn/j4cVMdohD3kr+iV5EDxu9z/zkoE2CEVYA5s+DK1u44LMztvhVkEphDj/V
+ I4sewKgTRA1+IsMV/SbrvWQlNFVZC0nKEa8EYNNEVgs9lw0zy9YwLU440QQ10q/JWpks0d
+ orvJjWAW8mx6gPnC8lVxhDTuNuFsBBg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-117-avXOS848OsOpYp-x0WSCSQ-1; Wed, 20 Apr 2022 06:59:48 -0400
+X-MC-Unique: avXOS848OsOpYp-x0WSCSQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F03A3C025B1
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 10:59:48 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 513A0145B989;
+ Wed, 20 Apr 2022 10:59:47 +0000 (UTC)
+Date: Wed, 20 Apr 2022 11:59:44 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v4 09/19] migration: Postcopy preemption preparation on
+ channel creation
+Message-ID: <Yl/noOm7E3a9PVjc@redhat.com>
+References: <20220331150857.74406-1-peterx@redhat.com>
+ <20220331150857.74406-10-peterx@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220404094138.GA15894@lgieryk-VirtualBox>
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=lukasz.maniak@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+In-Reply-To: <20220331150857.74406-10-peterx@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,47 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com,
- qemu-block@nongnu.org, mst@redhat.com, k.jensen@samsung.com,
- =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- armbru@redhat.com, f4bug@amsat.org, kbusch@kernel.org, its@irrelevant.dk,
- hreitz@redhat.com, xypron.glpk@gmx.de, ani@anisinha.ca
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 04, 2022 at 11:41:46AM +0200, Łukasz Gieryk wrote:
-> On Thu, Mar 31, 2022 at 02:38:41PM +0200, Igor Mammedov wrote:
-> > it's unclear what's bing hotpluged and unplugged, it would be better if
-> > you included QEMU CLI and relevan qmp/monito commands to reproduce it.
+On Thu, Mar 31, 2022 at 11:08:47AM -0400, Peter Xu wrote:
+> Create a new socket for postcopy to be prepared to send postcopy requested
+> pages via this specific channel, so as to not get blocked by precopy pages.
 > 
-> Qemu CLI:
-> ---------
-> -device pcie-root-port,slot=0,id=rp0
-> -device nvme-subsys,id=subsys0
-> -device nvme,id=nvme0,bus=rp0,serial=deadbeef,subsys=subsys0,sriov_max_vfs=1,sriov_vq_flexible=2,sriov_vi_flexible=1
+> A new thread is also created on dest qemu to receive data from this new channel
+> based on the ram_load_postcopy() routine.
 > 
-> Guest OS:
-> ---------
-> sudo nvme virt-mgmt /dev/nvme0 -c 0 -r 1 -a 1 -n 0
-> sudo nvme virt-mgmt /dev/nvme0 -c 0 -r 0 -a 1 -n 0
-> echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
-> sleep 1
-> echo 1 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
-> nvme virt-mgmt /dev/nvme0 -c 1 -r 1 -a 8 -n 1
-> nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 8 -n 2
-> nvme virt-mgmt /dev/nvme0 -c 1 -r 0 -a 9 -n 0
-> sleep 2
-> echo 01:00.1 > /sys/bus/pci/drivers/nvme/bind
+> The ram_load_postcopy(POSTCOPY) branch and the thread has not started to
+> function, and that'll be done in follow up patches.
 > 
-> Qemu monitor:
-> -------------
-> device_del nvme0
->
+> Cleanup the new sockets on both src/dst QEMUs, meanwhile look after the new
+> thread too to make sure it'll be recycled properly.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/migration.c    | 62 +++++++++++++++++++++++----
+>  migration/migration.h    |  8 ++++
+>  migration/postcopy-ram.c | 92 ++++++++++++++++++++++++++++++++++++++--
+>  migration/postcopy-ram.h | 10 +++++
+>  migration/ram.c          | 25 ++++++++---
+>  migration/ram.h          |  4 +-
+>  migration/savevm.c       | 20 ++++-----
+>  migration/socket.c       | 22 +++++++++-
+>  migration/socket.h       |  1 +
+>  migration/trace-events   |  5 ++-
+>  10 files changed, 218 insertions(+), 31 deletions(-)
 
-Hi Igor,
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Do you need any more details on this?
 
-Best regards,
-Lukasz
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
