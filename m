@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BDF50901A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:14:01 +0200 (CEST)
-Received: from localhost ([::1]:54432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8B9508FCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:51:01 +0200 (CEST)
+Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhFm4-0001ba-Qu
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:14:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55860)
+	id 1nhFPo-0002wi-RT
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nhErB-0008SO-5h
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:15:14 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35674)
+ id 1nhEl9-0002El-GU
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:09:00 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nhEr8-0002MW-HQ
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:15:12 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- c190-20020a1c35c7000000b0038e37907b5bso4296476wma.0
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:14:56 -0700 (PDT)
+ id 1nhEl7-0001bD-St
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:08:59 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id g18so5146990ejc.10
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:08:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Uhmh9to/JkQtkjRI7wXOnfGqe1NXCIBkoM9Ep7MMlbI=;
- b=xT3CS10F2FY2cX45ZiEeVDy2JTr5Lh21mCT7U1q1MY8yIGVTI8IimEb0ew7AGHLXBR
- h9SiHdAexYdyPjsr3czjL/k66TQZzkkkWUUM1IQnaqarZzE+2/3dCy1VsZ/Ga/FAulyq
- eL6tZUtjD3jl7em8J2u/QWiE/bvq98zdiQP9O5UZaw8t6qBqUbFYd+yJwi16EyoOFR76
- 1zg383oGrph1PF6rcgt7mI1sCwI/LtT1pyKz+egMbG0XnFSfjtSaD7FGJ+x7PSQ7zz6M
- SAJ+6I7baq5GsmXUHD7YsbPIQ0U3jv0I0Us8q6p+ZA6Ujf9310oLLuyXy5a80KUGpmyg
- 0ciA==
+ bh=uSlazA8G4kVbD1gf7sQNA6CefjTyFXiwEGqaggukQQU=;
+ b=DQYCT3uxR/ZAiuBtJhq6YXesaHu5cJHLF7ihJomb7S6qwXSBOz8I3AluF8EJtRWrjH
+ MCaDzttEGaDD892OP54NURRFJZUyGwAvrt2buMVCKDaxfy8mTzsnw3HgVNdV74/bBTrv
+ U3u8g+eCRFgKN5cUf3WaJ6q1iVoHMJOQe3iBJag9LInjrPduk8pEi3ZlFT7a5/QCc83q
+ tT354THlKikv18M6Dyrflr2ZT4ZfeSASsriIDjK5OedKhfhatVr2woVzvfT8sEVGR9fb
+ wQgZ/eAHXbKVj8bUrjyWFfmtg8D+sdchJ4efDe8XuGYeh1iL2HCoGQA6DAe3dy5T4RNl
+ DMRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Uhmh9to/JkQtkjRI7wXOnfGqe1NXCIBkoM9Ep7MMlbI=;
- b=Bfcd+DEV5OAX3EYXafG3ittyYKJI7SHwXbh1cvgjjyvq4AKgx+URmGr0nbZEGqkvCZ
- wty+qVCFVzlBNgdDX2W9JosQHvqaiArgT0Wil+AO2N7CjfgZOruObUui3wimTtQqj6Ue
- MGasoue/zc3z5LX0Rs1KuG9xwQSe0inXoXXLv90CohQAAWhlFfbyG7Kzl/aTpEaja1Xb
- R+6uiJOcD24dQkYmtKQpwfiDBqAhlpLhkxlnoEpCGUBq4b3d3jYT2xVoAxP0N6dmqRXh
- K+p4Ff3xmHzKSpsZSHLoqo1O8GHFT8G14acpaNmDq0blHzsb+kRSW5jhdyZ/SsmYpf85
- vZpg==
-X-Gm-Message-State: AOAM533Iul8MeMdpAXRpm2HVUD+ABCbZJ6/lLCjPu73G3Ew9HjD8dn0P
- TuUoj/ApcJ6GazNA6iUmC79+OA==
-X-Google-Smtp-Source: ABdhPJzQdvHZV0MKMDNrKP/XR5rm/K1iA3OPloFfKVbKiOUisoL5eJlgT79KuWtTjCILd3vrf+0ofg==
-X-Received: by 2002:a05:600c:4e4a:b0:392:88e1:74a7 with SMTP id
- e10-20020a05600c4e4a00b0039288e174a7mr4934671wmq.174.1650478495270; 
- Wed, 20 Apr 2022 11:14:55 -0700 (PDT)
+ bh=uSlazA8G4kVbD1gf7sQNA6CefjTyFXiwEGqaggukQQU=;
+ b=zdThtNh7IxZgXeZjeWobxjWzJ3G+RhCuG387VOxNax01c9mNwfvZRhuN7Mi78RHcw0
+ YywYqiVv/+3jhnjkoUwatO58kI5m9vVLBYG92ha4WVvkmdMeTES8LTqr/TZ6B065PU7C
+ 5o8WSJRpXzM0c9en1t9qzrnoHtnpsI8RVkOjdpSo5isSTLln8Ml2Ad7ljTiCzkS23MPe
+ rmEYMELu9jT9Bo3x2k4yTdIFJbnxpTyVnGvWlOhusADLMcY+IuWkIbHgZ3yOvXCKc2IM
+ sR+am0qh/T9fmjfphSGQTsQtmKNFqO6S2aGsIOcsotfcHyQan2fX5YVCyn0lu6bdNXyf
+ UKTw==
+X-Gm-Message-State: AOAM531YFp04VqOx09COnKun2oXJBS0s4l+1Bxls81FtGmZYN8vRRnlH
+ bt0YQt9OTXFY/sVd6+kqL51V+Q==
+X-Google-Smtp-Source: ABdhPJy6MW9Gf5UkvFNdgpxUZw2gzQlmPB86yHCDdIdlwjqtkXC9jyvOZUcNzw+QWqPkfTFYCFF3Gw==
+X-Received: by 2002:a17:907:3e94:b0:6ef:f135:4b with SMTP id
+ hs20-20020a1709073e9400b006eff135004bmr6529408ejc.609.1650478136599; 
+ Wed, 20 Apr 2022 11:08:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- c9-20020a5d4149000000b00207adbc4982sm410442wrq.94.2022.04.20.11.14.45
+ c3-20020a17090654c300b006e4e1a3e9d5sm7121368ejp.144.2022.04.20.11.08.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 11:14:50 -0700 (PDT)
+ Wed, 20 Apr 2022 11:08:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BD39A1FFC9;
+ by zen.linaroharston (Postfix) with ESMTP id D70F31FFCA;
  Wed, 20 Apr 2022 19:08:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
 	richard.henderson@linaro.org
-Subject: [PULL 17/25] tests/tcg: invoke Makefile.target directly from QEMU's
- makefile
-Date: Wed, 20 Apr 2022 19:08:24 +0100
-Message-Id: <20220420180832.3812543-18-alex.bennee@linaro.org>
+Subject: [PULL 18/25] tests/tcg: isolate from QEMU's config-host.mak
+Date: Wed, 20 Apr 2022 19:08:25 +0100
+Message-Id: <20220420180832.3812543-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220420180832.3812543-1-alex.bennee@linaro.org>
 References: <20220420180832.3812543-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,272 +97,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Build the "docker.py cc" invocation directly in tests/tcg/configure.sh, and
-remove the Makefile.qemu wrapper around Makefile.target.  The config-*.mak
-files now include the actual variables used when building the tests, rather
-than the CROSS_* variables that Makefile.qemu used to "translate".
-
-This is a first step towards generalizing the cross-compilation infrastructure
-so that it can be used for firmware as well.
+Do not include variables for the QEMU's own compiler, as they
+are not necessarily related to the cross compiler used for tests/tcg.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220401141326.1244422-15-pbonzini@redhat.com>
+Message-Id: <20220401141326.1244422-16-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220419091020.3008144-18-alex.bennee@linaro.org>
+Message-Id: <20220419091020.3008144-19-alex.bennee@linaro.org>
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 091ca8513f..ec84b2ebc0 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -48,25 +48,27 @@ RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TCG_TESTS_TARGETS))
- $(foreach TARGET,$(TCG_TESTS_TARGETS), \
-         $(eval $(BUILD_DIR)/tests/tcg/config-$(TARGET).mak: config-host.mak))
+diff --git a/configure b/configure
+index 7c08c18358..e8786d478e 100755
+--- a/configure
++++ b/configure
+@@ -2937,7 +2937,6 @@ echo "GENISOIMAGE=$genisoimage" >> $config_host_mak
+ echo "MESON=$meson" >> $config_host_mak
+ echo "NINJA=$ninja" >> $config_host_mak
+ echo "CC=$cc" >> $config_host_mak
+-echo "HOST_CC=$host_cc" >> $config_host_mak
+ echo "AR=$ar" >> $config_host_mak
+ echo "AS=$as" >> $config_host_mak
+ echo "CCAS=$ccas" >> $config_host_mak
+@@ -3057,7 +3056,7 @@ done
+ (for i in $cross_cc_vars; do
+   export $i
+ done
+-export target_list source_path use_containers cpu
++export target_list source_path use_containers cpu host_cc
+ $source_path/tests/tcg/configure.sh)
  
--$(BUILD_TCG_TARGET_RULES): build-tcg-tests-%: $(if $(CONFIG_PLUGIN),test-plugins)
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
--		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
--		SRC_PATH=$(SRC_PATH) \
--	       	V="$(V)" TARGET="$*" guest-tests, \
--		"BUILD", "TCG tests for $*")
--
--$(RUN_TCG_TARGET_RULES): run-tcg-tests-%: build-tcg-tests-% all
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
--		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
--		SRC_PATH=$(SRC_PATH) SPEED="$(SPEED)" \
--		V="$(V)" TARGET="$*" run-guest-tests, \
--		"RUN", "TCG tests for $*")
--
--$(CLEAN_TCG_TARGET_RULES): clean-tcg-tests-%:
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) \
--		-f $(SRC_PATH)/tests/tcg/Makefile.qemu \
--		SRC_PATH=$(SRC_PATH) TARGET="$*" clean-guest-tests, \
--		"CLEAN", "TCG tests for $*")
-+.PHONY: $(TCG_TESTS_TARGETS:%=build-tcg-tests-%)
-+$(TCG_TESTS_TARGETS:%=build-tcg-tests-%): build-tcg-tests-%: $(BUILD_DIR)/tests/tcg/config-%.mak
-+	$(call quiet-command, \
-+            $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
-+                        DOCKER_SCRIPT="$(DOCKER_SCRIPT)" \
-+                        TARGET="$*" SRC_PATH="$(SRC_PATH)", \
-+        "BUILD","$* guest-tests")
-+
-+.PHONY: $(TCG_TESTS_TARGETS:%=run-tcg-tests-%)
-+$(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-% $(if $(CONFIG_PLUGIN),test-plugins)
-+	$(call quiet-command, \
-+           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
-+                        TARGET="$*" SRC_PATH="$(SRC_PATH)" SPEED=$(SPEED) run, \
-+        "RUN", "$* guest-tests")
-+
-+.PHONY: $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%)
-+$(TCG_TESTS_TARGETS:%=clean-tcg-tests-%): clean-tcg-tests-%:
-+	$(call quiet-command, \
-+           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
-+                        TARGET="$*" SRC_PATH="$(SRC_PATH)" clean, \
-+        "CLEAN", "$* guest-tests")
- 
- .PHONY: build-tcg
- build-tcg: $(BUILD_TCG_TARGET_RULES)
-diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
-deleted file mode 100644
-index cda5e5a33e..0000000000
---- a/tests/tcg/Makefile.qemu
-+++ /dev/null
-@@ -1,110 +0,0 @@
--# -*- Mode: makefile -*-
--#
--# TCG tests (per-target rules)
--#
--# This Makefile fragment is included from the build-tcg target, once
--# for each target we build. We have two options for compiling, either
--# using a configured guest compiler or calling one of our docker images
--# to do it for us.
--#
--
--# The configure script fills in extra information about
--# useful docker images or alternative compiler flags.
--
--# Usage: $(call quiet-command,command and args,"NAME","args to print")
--# This will run "command and args", and either:
--#  if V=1 just print the whole command and args
--#  otherwise print the 'quiet' output in the format "  NAME     args to print"
--# NAME should be a short name of the command, 7 letters or fewer.
--# If called with only a single argument, will print nothing in quiet mode.
--quiet-command-run = $(if $(V),,$(if $2,printf "  %-7s %s\n" $2 $3 && ))$1
--quiet-@ = $(if $(V),,@)
--quiet-command = $(quiet-@)$(call quiet-command-run,$1,$2,$3)
--
--CROSS_CC_GUEST:=
--CROSS_AS_GUEST:=
--CROSS_LD_GUEST:=
--DOCKER_IMAGE:=
--
---include tests/tcg/config-$(TARGET).mak
--
--GUEST_BUILD=
--TCG_MAKE=../Makefile.target
--
--# We also need the Docker make rules to depend on
--SKIP_DOCKER_BUILD=1
--include $(SRC_PATH)/tests/docker/Makefile.include
--
--# Support installed Cross Compilers
--
--ifdef CROSS_CC_GUEST
--
--.PHONY: cross-build-guest-tests
--cross-build-guest-tests:
--	$(call quiet-command, \
--	   (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
--	    $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC="$(CROSS_CC_GUEST)" \
--			$(if $(CROSS_AS_GUEST),AS="$(CROSS_AS_GUEST)") \
--			$(if $(CROSS_LD_GUEST),LD="$(CROSS_LD_GUEST)") \
--			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=$(CROSS_CC_GUEST_STATIC) \
--			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
--	"BUILD","$(TARGET) guest-tests with $(CROSS_CC_GUEST)")
--
--GUEST_BUILD=cross-build-guest-tests
--
--endif
--
--# Support building with Docker
--
--ifneq ($(DOCKER_IMAGE),)
--
--DOCKER_COMPILE_CMD="$(DOCKER_SCRIPT) cc \
--		--cc $(DOCKER_CROSS_CC_GUEST) \
--		-i qemu/$(DOCKER_IMAGE) \
--		-s $(SRC_PATH) -- "
--
--DOCKER_AS_CMD=$(if $(DOCKER_CROSS_AS_GUEST),"$(DOCKER_SCRIPT) cc \
--		--cc $(DOCKER_CROSS_AS_GUEST) \
--		-i qemu/$(DOCKER_IMAGE) \
--		-s $(SRC_PATH) -- ")
--
--DOCKER_LD_CMD=$(if $(DOCKER_CROSS_LD_GUEST),"$(DOCKER_SCRIPT) cc \
--		--cc $(DOCKER_CROSS_LD_GUEST) \
--		-i qemu/$(DOCKER_IMAGE) \
--		-s $(SRC_PATH) -- ")
--
--
--.PHONY: docker-build-guest-tests
--docker-build-guest-tests: docker-image-$(DOCKER_IMAGE)
--	$(call quiet-command, \
--	  (mkdir -p tests/tcg/$(TARGET) && cd tests/tcg/$(TARGET) && \
--	   $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" CC=$(DOCKER_COMPILE_CMD) \
--			$(if $(DOCKER_AS_CMD),AS=$(DOCKER_AS_CMD)) \
--			$(if $(DOCKER_LD_CMD),LD=$(DOCKER_LD_CMD)) \
--			SRC_PATH="$(SRC_PATH)" BUILD_STATIC=y \
--			EXTRA_CFLAGS="$(CROSS_CC_GUEST_CFLAGS)"), \
--	"BUILD","$(TARGET) guest-tests with docker qemu/$(DOCKER_IMAGE)")
--
--GUEST_BUILD=docker-build-guest-tests
--
--endif
--
--# Final targets
--all:
--	@echo "Do not invoke this Makefile directly"; exit 1
--
--.PHONY: guest-tests
--
--guest-tests: $(GUEST_BUILD)
--
--run-guest-tests: guest-tests
--	$(call quiet-command, \
--	(cd tests/tcg/$(TARGET) && \
--	 $(MAKE) -f $(TCG_MAKE) TARGET="$(TARGET)" \
--	 		SRC_PATH="$(SRC_PATH)" SPEED=$(SPEED) run), \
--	"RUN", "tests for $(TARGET_NAME)")
--
--# It doesn't matter if these don't exits
--.PHONY: clean-guest-tests
--clean-guest-tests:
--	rm -rf tests/tcg/$(TARGET)
+ # temporary config to build submodules
 diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index c75e8d983f..95499d8c9b 100644
+index 95499d8c9b..f427a0304e 100644
 --- a/tests/tcg/Makefile.target
 +++ b/tests/tcg/Makefile.target
-@@ -187,4 +187,5 @@ gdb-%: %
- .PHONY: run
- run: $(RUN_TESTS)
+@@ -30,7 +30,7 @@
+ #
  
--# There is no clean target, the calling make just rm's the tests build dir
-+clean:
-+	rm -f $(TESTS) *.o
+ all:
+--include ../../../config-host.mak
++-include ../config-host.mak
+ -include ../config-$(TARGET).mak
+ 
+ # Get semihosting definitions for user-mode emulation
+@@ -77,7 +77,6 @@ EXTRA_TESTS=
+ 
+ # Start with a blank slate, the build targets get to add stuff first
+ CFLAGS=
+-QEMU_CFLAGS=
+ LDFLAGS=
+ 
+ QEMU_OPTS=
 diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index e51cd56b60..a577dd7ece 100755
+index a577dd7ece..75603fee6d 100755
 --- a/tests/tcg/configure.sh
 +++ b/tests/tcg/configure.sh
-@@ -227,7 +227,6 @@ for target in $target_list; do
+@@ -83,6 +83,11 @@ fi
+ makefile=tests/tcg/Makefile.prereqs
+ echo "# Automatically generated by configure - do not modify" > $makefile
  
-   echo "# Automatically generated by configure - do not modify" > $config_target_mak
-   echo "TARGET_NAME=$arch" >> $config_target_mak
--  echo "target=$target" >> $config_target_mak
-   case $target in
-     *-softmmu)
-       test -f $source_path/tests/tcg/$arch/Makefile.softmmu-target || continue
-@@ -257,13 +256,13 @@ for target in $target_list; do
-                   if do_compiler "$target_compiler" $target_compiler_cflags \
-                                  -o $TMPE $TMPC ; then
-                       got_cross_cc=yes
--                      echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
--                      echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
-+                      echo "BUILD_STATIC=y" >> $config_target_mak
-+                      echo "CC=$target_compiler" >> $config_target_mak
-                   fi
-               else
-                   got_cross_cc=yes
--                  echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
--                  echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
-+                  echo "BUILD_STATIC=y" >> $config_target_mak
-+                  echo "CC=$target_compiler" >> $config_target_mak
-               fi
-           fi
-       fi
-@@ -274,9 +273,8 @@ for target in $target_list; do
-       if has $target_as && has $target_ld; then
-           case $target in
-               tricore-softmmu)
--                  echo "CROSS_CC_GUEST=$target_as" >> $config_target_mak
--                  echo "CROSS_AS_GUEST=$target_as" >> $config_target_mak
--                  echo "CROSS_LD_GUEST=$target_ld" >> $config_target_mak
-+                  echo "AS=$target_as" >> $config_target_mak
-+                  echo "LD=$target_ld" >> $config_target_mak
-                   got_cross_cc=yes
-                   ;;
-           esac
-@@ -334,16 +332,13 @@ for target in $target_list; do
-       for host in $container_hosts; do
-           if test "$host" = "$cpu"; then
-               echo "build-tcg-tests-$target: docker-image-$container_image" >> $makefile
--              echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
--              echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> \
--                   $config_target_mak
-+              echo "BUILD_STATIC=y" >> $config_target_mak
-+              echo "CC=\$(DOCKER_SCRIPT) cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --" >> $config_target_mak
-               if test -n "$container_cross_as"; then
--                  echo "DOCKER_CROSS_AS_GUEST=$container_cross_as" >> \
--                      $config_target_mak
-+                  echo "AS=\$(DOCKER_SCRIPT) cc --cc $container_cross_as -i qemu/$container_image -s $source_path --" >> $config_target_mak
-               fi
-               if test -n "$container_cross_ld"; then
--                  echo "DOCKER_CROSS_LD_GUEST=$container_cross_ld" >> \
--                      $config_target_mak
-+                  echo "LD=\$(DOCKER_SCRIPT) cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --" >> $config_target_mak
-               fi
-               case $target in
-                   aarch64-*)
-@@ -367,8 +362,9 @@ for target in $target_list; do
-       done
-   fi
-   if test $got_cross_cc = yes; then
-+      mkdir -p tests/tcg/$target
-       echo "QEMU=$PWD/$qemu" >> $config_target_mak
--      echo "CROSS_CC_GUEST_CFLAGS=$target_compiler_cflags" >> $config_target_mak
-+      echo "EXTRA_CFLAGS=$target_compiler_cflags" >> $config_target_mak
-       echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> $makefile
-       tcg_tests_targets="$tcg_tests_targets $target"
-   fi
++config_host_mak=tests/tcg/config-host.mak
++echo "# Automatically generated by configure - do not modify" > $config_host_mak
++echo "SRC_PATH=$source_path" >> $config_host_mak
++echo "HOST_CC=$host_cc" >> $config_host_mak
++
+ tcg_tests_targets=
+ for target in $target_list; do
+   arch=${target%%-*}
 -- 
 2.30.2
 
