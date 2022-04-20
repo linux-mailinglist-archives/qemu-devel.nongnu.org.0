@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCCF508653
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:50:21 +0200 (CEST)
-Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07052508682
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:01:19 +0200 (CEST)
+Received: from localhost ([::1]:38426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh7ue-0002Kn-R6
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:50:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
+	id 1nh85F-0007nT-LC
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:01:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nh7hJ-00032j-Gg
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:36:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25806)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nh7ho-0003bJ-Gr; Wed, 20 Apr 2022 06:37:04 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:50095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nh7hH-0007Py-Pn
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:36:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650450991;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pwm4/vfGIgqeihiM5xKVnsQDm/7lTlBzbgVoL4gql3M=;
- b=RkMKZ2gMheRIUfKGOE7qLjyCjOCLdpJ8zRZ+AfseoDQCAutODRYjDi+4I9QH3AylsO3csc
- HR82PORdpCquhOkS2/lZsJFJeu7NbkXvtA0Ly9LBz04hMxrRYMnQav2fT185WqDr2EbAsb
- pVA7wM5Mz+buYPl1z2UXwXbw6IkI7uQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-279-CppizX2lNVq4m74PKAyKmA-1; Wed, 20 Apr 2022 06:36:30 -0400
-X-MC-Unique: CppizX2lNVq4m74PKAyKmA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD29685A5A8
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 10:36:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8DC9403D19A;
- Wed, 20 Apr 2022 10:36:28 +0000 (UTC)
-Date: Wed, 20 Apr 2022 11:36:26 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v4 03/19] migration: Add pss.postcopy_requested status
-Message-ID: <Yl/iKi6Tvx7eG3YE@redhat.com>
-References: <20220331150857.74406-1-peterx@redhat.com>
- <20220331150857.74406-4-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1nh7hl-0007XO-SF; Wed, 20 Apr 2022 06:37:04 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 52733320201D;
+ Wed, 20 Apr 2022 06:36:58 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 20 Apr 2022 06:36:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1650451017; x=1650537417; bh=LN
+ xTOOap4MWcrYnVLDA76PUx7yGZafiU5V2I9kN1BQk=; b=iWbF8aIBLxzjGJJEtY
+ 7HszjwScGo4eWdrSWwegHPnS/ZancCK3GoS7rMoRfhHrzi6A/7tQFsBEYbzUJjnR
+ T1NYYuKHcoyVf0SNmcBE6IOwK7vXGbz+lLqB5BZ9Gs8b12Lk343stZnwTwKgCY1d
+ +410MOkPE47Kdttdy+5JRXHW6/y6x22Cfh9xI35bDOhjhDCqm3gQABbsVctMFDjN
+ YtEZcBlMkwptV1ONUnOUxVNyJevZTM33vqWBgrYzfSXQSoIfrW43f8qWzdzqbF1v
+ X8Zr0Bh5BRXhTJqvmRaqxiujAg6tcDGYcxta8bdbhBROCHSgP5N1Ke/A7taZ+1W0
+ eOMA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650451017; x=
+ 1650537417; bh=LNxTOOap4MWcrYnVLDA76PUx7yGZafiU5V2I9kN1BQk=; b=k
+ VKVg6dUhfwoXcvyOKh8d1pTIPKATCEZAjOL7kJBRE3dD68bypUMlkg3fXxdrMQzD
+ jUOe2Nl/7CmCX0tEloKxfeUoD+1gDuAHBHwumJkXMTsmXOGSgciQLXr2qRDI9Rjk
+ Q7lb2kyyjwP6O/wjXBcGFskUJeaZ+ndnIneTxYWn0nXpE971dw5I/it3AuPI7i8J
+ I03r0Bog+9HTHlCrvIa0fcnQtYG46g+BhruHeoSVtxfaNwCAsRpy19bBWyuzFbK4
+ rtsRHnLQmbmND7T7CG/lByYie9A1YMnupsdtV3OajCqtLQvVjFcZ5CrQy7orqYkl
+ UFUGuuj0DP+qpLGrzgivQ==
+X-ME-Sender: <xms:SeJfYlt0NoBpe0xjN5DOrCP_SuV9gibQqBJ8CeywX9BmP5it_CI5-Q>
+ <xme:SeJfYudok_n7KumSvjvIbIuMD_q48CtrD59kBp9_n4nxz8zhYb2CaneMl-HBvX0Iz
+ gFOTnE870kefvGiR8o>
+X-ME-Received: <xmr:SeJfYoyMV7ISy5NUgXi0NDYm9TN_ksQ-jKPxYaLe7aus6KrkdfKFN-HavVAWbkfajTGrRAxOh0ONbGeYsiA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtddtgddtgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesghdtre
+ ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
+ vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjefgjeefffdvuefhieefhffggfeule
+ ehudekveejvedtuddugeeigeetffffjeevnecuvehluhhsthgvrhfuihiivgeptdenucfr
+ rghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:SeJfYsMLgNUCCg_rjfPm4L4spQwmN1S85nLlLtl9NgFvZvHtTy1MIw>
+ <xmx:SeJfYl_4HSCH6I0bJaYpoH4v3ji-_z970Z9ZK-Id1pHuaDKA--W-iA>
+ <xmx:SeJfYsW2YnSNXZ4OcZzFtYbDm-nLTxBKL3j7IXmsrSGcrHlC1Ighxg>
+ <xmx:SeJfYokhUBtTNKErK3KRyjTJBy4mGlXoIa2GRkhrpVP6BQepQaoiRA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 20 Apr 2022 06:36:56 -0400 (EDT)
+Date: Wed, 20 Apr 2022 12:36:54 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Tikhov <d.tihov@yadro.com>
+Subject: Re: [PATCH] hw/nvme: add new command abort case
+Message-ID: <Yl/iRnvEj+tDycUI@apples>
+References: <20220420082044.n6orslk2aukj2jai@localhost.localdomain>
+ <Yl/csehng+W0gfQD@apples>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="t42nHk+PG8M3TNWd"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220331150857.74406-4-peterx@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <Yl/csehng+W0gfQD@apples>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,32 +96,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: kbusch@kernel.org, ddtikhov@gmail.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, linux@yadro.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 31, 2022 at 11:08:41AM -0400, Peter Xu wrote:
-> This boolean flag shows whether the current page during migration is triggered
-> by postcopy or not.  Then in ram_save_host_page() and deeper stack we'll be
-> able to have a reference on the priority of this page.
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  migration/ram.c | 6 ++++++
->  1 file changed, 6 insertions(+)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+--t42nHk+PG8M3TNWd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Apr 20 12:13, Klaus Jensen wrote:
+> On Apr 20 11:20, Dmitry Tikhov wrote:
+> > NVMe command set specification for end-to-end data protection formatted
+> > namespace states:
+> >=20
+> >     o If the Reference Tag Check bit of the PRCHK field is set to =E2=
+=80=981=E2=80=99 and
+> >       the namespace is formatted for Type 3 protection, then the
+> >       controller:
+> >           =E2=96=AA should not compare the protection Information Refer=
+ence Tag
+> >             field to the computed reference tag; and
+> >           =E2=96=AA may ignore the ILBRT and EILBRT fields. If a comman=
+d is
+> >             aborted as a result of the Reference Tag Check bit of the
+> >             PRCHK field being set to =E2=80=981=E2=80=99, then that com=
+mand should be
+> >             aborted with a status code of Invalid Protection Informatio=
+n,
+> >             but may be aborted with a status code of Invalid Field in
+> >             Command.
+> >=20
+> > Currently qemu compares reftag in the nvme_dif_prchk function whenever
+> > Reference Tag Check bit is set in the command. For type 3 namespaces
+> > however, caller of nvme_dif_prchk - nvme_dif_check does not increment
+> > reftag for each subsequent logical block. That way commands incorporati=
+ng
+> > more than one logical block for type 3 formatted namespaces with reftag
+> > check bit set, always fail with End-to-end Reference Tag Check Error.
+> > Comply with spec by handling case of set Reference Tag Check
+> > bit in the type 3 formatted namespace.
+> >=20
+>=20
+> Note the "should" and "may" in your quote. What QEMU does right now is
+> compliant with v1.4. That is, the reftag must NOT be incremented
+> - it is the same for the first and all subsequent logical blocks.
+>=20
+> I'm a bit hesitant to follow v2.0 here, since we do not report v2.0
+> compliance yet. I'm honestly also a bit perplexed as to how the NVMe TWG
+> ended up considering this backwards compatible. As far as I can tell
+> this breaks current hosts that do set the reference tag check bit,
+> provides a valid ILBRT/EILBRT and expects it to succeed.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Ok, so reading the spec more closely...
 
+The Invalid Protection Information should not be set just because the
+reference tag check bit is set. It should be set *if* the controller
+chooses to check it and it fails. However, in v2.0, the controller is
+allowed to ignore it and not perform the check.
+
+So, just because the host sets the bit, that does not mean we fail the
+command. However, a difference is that a v2.0 compliant controller
+should return Invalid Protection Information or Invalid Field in Command
+instead of End-to-end Reference Tag Check Error if the check fails.
+
+--t42nHk+PG8M3TNWd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJf4kQACgkQTeGvMW1P
+Dek0bAgAkQIpInZ93CLlKCjynEl3x5/Nib1wPsAarJoPbw+HAc4fjZ1/beKt9StN
+KQocZDuvfYQa2t6nFii2cHuoeoLe/J/NVtUJlmQZipPOQgiNYjY8K9lk2UQu/fOO
+43VsUy5a9uW0cW2zzWJ1k7pNeZat8on4PatzX+bH0VtM9SH15TMr9cWMnFxl8+pa
+vTue1zsC2fwuULbcSt27jet72W7EaZH3ChtDk24ZKqmYsfllHkrdSDLtqwT+UihB
+j88eHg57KhPQVfTgSIRK6jZbV/ShAy9TLh+8XDIafVSFRUr0Vci/Z/uyM1Ad0z44
+US5V1bt7pXW37zWwlw73J7ZbfIyxzw==
+=I2qy
+-----END PGP SIGNATURE-----
+
+--t42nHk+PG8M3TNWd--
 
