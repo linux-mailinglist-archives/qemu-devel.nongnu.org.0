@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761D8508617
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:38:20 +0200 (CEST)
-Received: from localhost ([::1]:33710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECE3508633
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:43:22 +0200 (CEST)
+Received: from localhost ([::1]:43830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh7j1-0003K6-CQ
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:38:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58670)
+	id 1nh7nt-0001vN-CD
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nh7cK-0007uJ-5x
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:31:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24067)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7eD-0001Mv-UY
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:33:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nh7cI-0006hQ-4J
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:31:23 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nh7eB-0006pd-7T
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:33:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650450681;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m9/e4yW3P7dkwFHuhc2WRFEr45ZEO0xWoQx4HPDcJUY=;
- b=ZoGAojUXeIYb/OLUV3DI5TUMKtI5It4nHifrdy1e4N7vlYjTr/tZMR4/ggvL+QdPDzjoAb
- kCkp6kPdvbbExFMBPfbhUyQxc3lrP3zHjPwK7vkrkjLvHGjUcdzGHE8utRUSDnAO+ugEhB
- 3xsbIu1rgsr+zWh4akmu2BdyTr6ZFTk=
+ s=mimecast20190719; t=1650450798;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wRdj20Bc13WK3BD5iV+hv9YBdZjZXR5fbCs9fS/eDPg=;
+ b=D4ZS6FMhjwltoefFmrfth0YYDenmNbOt4+BPdYgfLSaAs7+1RGiY3f/Ju9k+Hm7r1gBZ7t
+ RtMVu8fPRdrSeVBuFshzcuCpWpii4rGJQddgW+0MKbOdBknps3QZD3lzjopL2wB1vqfJ57
+ Zz9m2X3wkC5jzlJ6dgMbMyKLWyKidWA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-203-c-25if9mO5ONtjFzw0kdtw-1; Wed, 20 Apr 2022 06:31:16 -0400
-X-MC-Unique: c-25if9mO5ONtjFzw0kdtw-1
+ us-mta-458-ddOuvKRtOf65wjlz_inOBA-1; Wed, 20 Apr 2022 06:33:15 -0400
+X-MC-Unique: ddOuvKRtOf65wjlz_inOBA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1F09805F4E;
- Wed, 20 Apr 2022 10:31:15 +0000 (UTC)
-Received: from [10.72.13.230] (ovpn-13-230.pek2.redhat.com [10.72.13.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D2E9AC27E89;
- Wed, 20 Apr 2022 10:31:05 +0000 (UTC)
-Subject: Re: [PATCH v6 2/4] hw/arm/virt: Consider SMP configuration in CPU
- topology
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20220418020920.144263-1-gshan@redhat.com>
- <20220418020920.144263-3-gshan@redhat.com>
- <20220420103248.6e3575cd@redhat.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <efb5dce0-af81-b8d7-fe7d-6a8268ab96f9@redhat.com>
-Date: Wed, 20 Apr 2022 18:31:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0C3518A6583;
+ Wed, 20 Apr 2022 10:33:14 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.195.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78118C44AE3;
+ Wed, 20 Apr 2022 10:33:13 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/7] Misc patches
+Date: Wed, 20 Apr 2022 12:33:02 +0200
+Message-Id: <20220420103309.264479-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220420103248.6e3575cd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,103 +72,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: eduardo@habkost.net, peter.maydell@linaro.org, drjones@redhat.com,
- shan.gavin@gmail.com, mst@redhat.com, thuth@redhat.com, armbru@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
- wangyanan55@huawei.com, qemu-arm@nongnu.org, Jonathan.Cameron@Huawei.com,
- ani@anisinha.ca, pbonzini@redhat.com, lvivier@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
+The following changes since commit 1be5a765c08cee3a9587c8a8d3fc2ea247b13f9c:
 
-On 4/20/22 4:32 PM, Igor Mammedov wrote:
-> On Mon, 18 Apr 2022 10:09:18 +0800
-> Gavin Shan <gshan@redhat.com> wrote:
-> 
->> Currently, the SMP configuration isn't considered when the CPU
->> topology is populated. In this case, it's impossible to provide
->> the default CPU-to-NUMA mapping or association based on the socket
->> ID of the given CPU.
->>
->> This takes account of SMP configuration when the CPU topology
->> is populated. The die ID for the given CPU isn't assigned since
->> it's not supported on arm/virt machine. Besides, the used SMP
->> configuration in qtest/numa-test/aarch64_numa_cpu() is corrcted
->> to avoid testing failure
->>
->> Signed-off-by: Gavin Shan <gshan@redhat.com>
->> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/arm/virt.c           | 15 ++++++++++++++-
->>   tests/qtest/numa-test.c |  3 ++-
->>   2 files changed, 16 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index d2e5ecd234..5443ecae92 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -2505,6 +2505,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>       int n;
->>       unsigned int max_cpus = ms->smp.max_cpus;
->>       VirtMachineState *vms = VIRT_MACHINE(ms);
->> +    MachineClass *mc = MACHINE_GET_CLASS(vms);
->>   
->>       if (ms->possible_cpus) {
->>           assert(ms->possible_cpus->len == max_cpus);
->> @@ -2518,8 +2519,20 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
->>           ms->possible_cpus->cpus[n].type = ms->cpu_type;
->>           ms->possible_cpus->cpus[n].arch_id =
->>               virt_cpu_mp_affinity(vms, n);
->> +
->> +        assert(!mc->smp_props.dies_supported);
->> +        ms->possible_cpus->cpus[n].props.has_socket_id = true;
->> +        ms->possible_cpus->cpus[n].props.socket_id =
->> +            (n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads));
->> +        ms->possible_cpus->cpus[n].props.has_cluster_id = true;
->> +        ms->possible_cpus->cpus[n].props.cluster_id =
->> +            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters;
->> +        ms->possible_cpus->cpus[n].props.has_core_id = true;
->> +        ms->possible_cpus->cpus[n].props.core_id =
->> +            (n / ms->smp.threads) % ms->smp.cores;
->>           ms->possible_cpus->cpus[n].props.has_thread_id = true;
->> -        ms->possible_cpus->cpus[n].props.thread_id = n;
->> +        ms->possible_cpus->cpus[n].props.thread_id =
->> +            n % ms->smp.threads;
->>       }
->>       return ms->possible_cpus;
->>   }
->> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
->> index 90bf68a5b3..aeda8c774c 100644
->> --- a/tests/qtest/numa-test.c
->> +++ b/tests/qtest/numa-test.c
->> @@ -223,7 +223,8 @@ static void aarch64_numa_cpu(const void *data)
->>       QTestState *qts;
->>       g_autofree char *cli = NULL;
->>   
->> -    cli = make_cli(data, "-machine smp.cpus=2 "
->> +    cli = make_cli(data, "-machine "
->> +        "smp.cpus=2,smp.sockets=1,smp.clusters=1,smp.cores=1,smp.threads=2 "
-> 
-> Is cluster-less config possible?
-> (looks like it used to work before and it doesn't after this series)
-> 
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-04-19 18:22:16 -0700)
 
-Nope, it's impossible. This specific test case uses arm/virt machine
-where cluster is always supported.mc->smp_props.clusters_supported
-has been set to true in hw/arm/virt.c::virt_machine_class_init().
+are available in the Git repository at:
 
-Exactly, the changes to virt_possible_cpu_arch_ids() included in this patch breaks
-the test. It's why the fix to qtest/numa-test has been squashed to this patch, to
-make it 'bit bisect' friendly as Yanan suggested.
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-04-20
 
+for you to fetch changes up to 41663beda53c517fd442648e4b62c9dada8bff9b:
 
->>           "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
->>           "-numa cpu,node-id=1,thread-id=0 "
->>           "-numa cpu,node-id=0,thread-id=1");
+  tests/avocado: Allow overwrite smp and memory size command line options (2022-04-20 09:44:29 +0200)
 
-Thanks,
-Gavin
+----------------------------------------------------------------
+* Drop perl-Test-Harness from the CI containers / VMs
+* Some qtest fixes
+* Convert ccid doc to restructuredText
+* Add compat machines for 7.1
+* Allow overwrite smp and memory size in avocado tests
+
+----------------------------------------------------------------
+Ahmed Abouzied (1):
+      tests/avocado: Allow overwrite smp and memory size command line options
+
+Alex Bennée (1):
+      tests/qtest: properly initialise the vring used idx
+
+Cornelia Huck (1):
+      hw: Add compat machines for 7.1
+
+Lucas Ramage (1):
+      docs/ccid: convert to restructuredText
+
+Thomas Huth (3):
+      tests: Drop perl-Test-Harness from the CI containers / VMs
+      tests/qtest: Enable more tests for the "mipsel" target
+      tests/qtest: Move the fuzz tests to x86 only
+
+ docs/ccid.txt                                      | 182 ---------------------
+ docs/system/device-emulation.rst                   |   1 +
+ docs/system/devices/ccid.rst                       | 171 +++++++++++++++++++
+ include/hw/boards.h                                |   3 +
+ include/hw/i386/pc.h                               |   3 +
+ hw/arm/virt.c                                      |   9 +-
+ hw/core/machine.c                                  |   3 +
+ hw/i386/pc.c                                       |   3 +
+ hw/i386/pc_piix.c                                  |  14 +-
+ hw/i386/pc_q35.c                                   |  13 +-
+ hw/m68k/virt.c                                     |   9 +-
+ hw/ppc/spapr.c                                     |  15 +-
+ hw/s390x/s390-virtio-ccw.c                         |  14 +-
+ tests/qtest/endianness-test.c                      |   1 +
+ tests/qtest/fuzz-lsi53c895a-test.c                 |   8 +-
+ tests/qtest/fuzz-megasas-test.c                    |  12 +-
+ tests/qtest/fuzz-sb16-test.c                       |  12 +-
+ tests/qtest/fuzz-sdcard-test.c                     |  12 +-
+ tests/qtest/fuzz-virtio-scsi-test.c                |   8 +-
+ tests/qtest/libqos/virtio.c                        |   2 +
+ .gitlab-ci.d/cirrus/freebsd-12.vars                |   2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars                |   2 +-
+ .gitlab-ci.d/cirrus/macos-11.vars                  |   4 +-
+ tests/avocado/avocado_qemu/__init__.py             |   6 +-
+ tests/docker/dockerfiles/alpine.docker             |   1 -
+ tests/docker/dockerfiles/centos8.docker            |   1 -
+ tests/docker/dockerfiles/debian-arm64-cross.docker |   1 -
+ tests/docker/dockerfiles/debian-s390x-cross.docker |   1 -
+ .../docker/dockerfiles/debian-tricore-cross.docker |   1 -
+ tests/docker/dockerfiles/fedora-i386-cross.docker  |   1 -
+ tests/docker/dockerfiles/fedora-win32-cross.docker |   1 -
+ tests/docker/dockerfiles/fedora-win64-cross.docker |   1 -
+ tests/docker/dockerfiles/fedora.docker             |   1 -
+ tests/docker/dockerfiles/opensuse-leap.docker      |   1 -
+ tests/docker/dockerfiles/ubuntu1804.docker         |   1 -
+ tests/docker/dockerfiles/ubuntu2004.docker         |   1 -
+ tests/lcitool/projects/qemu.yml                    |   1 -
+ tests/qtest/meson.build                            |  27 +--
+ tests/vm/centos.aarch64                            |   3 +-
+ tests/vm/fedora                                    |   2 +-
+ 40 files changed, 289 insertions(+), 265 deletions(-)
+ delete mode 100644 docs/ccid.txt
+ create mode 100644 docs/system/devices/ccid.rst
 
 
