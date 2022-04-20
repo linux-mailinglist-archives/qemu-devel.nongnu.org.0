@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937FE50849E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 11:12:55 +0200 (CEST)
-Received: from localhost ([::1]:60546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5133508482
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 11:09:30 +0200 (CEST)
+Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh6OM-0006Or-Oe
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 05:12:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43392)
+	id 1nh6L3-0003Vf-SQ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 05:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
- id 1nh6Fq-0000jY-0G; Wed, 20 Apr 2022 05:04:06 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:51270 helo=mta-01.yadro.com)
+ id 1nh6Fo-0000jS-LU; Wed, 20 Apr 2022 05:04:06 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:51242 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
- id 1nh6Fo-0001eO-GQ; Wed, 20 Apr 2022 05:04:05 -0400
+ id 1nh6Fl-0001eB-Pq; Wed, 20 Apr 2022 05:04:03 -0400
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 533B445969;
- Wed, 20 Apr 2022 09:04:02 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 681E3437E1;
+ Wed, 20 Apr 2022 09:03:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1650445437; x=
- 1652259838; bh=ZOleknc79ZwamUw+Ku18mDJNy6M7OzVhvizsN70o7kw=; b=C
- cVtsFwZQ9DzRjbiDNADVkcb+9LNsUP/B51GwvmHJ5bT9Focjent5DQzBsFa5SbOk
- hEPTU5qHHgU+EMCbf/RX78jT8hj+I7JtUnP7XiO1VUfSoEXf9WbaHxlOZVuhHgN4
- zzvgIDkg0gbK2w3Gz/4TpGa+bZTLy+27aWePDsf/OE=
+ :references:in-reply-to:x-mailer:message-id:date:date:subject
+ :subject:from:from:received:received:received; s=mta-01; t=
+ 1650445438; x=1652259839; bh=oEIwg/t6jcEJQ3VmD7U4uXuxt9llDvFarwr
+ +dLCahes=; b=a5KKhQexDbZbI9ARQg/DrY1EYyp04Vvd6CbEbK80iesxXlOdfxu
+ Bl+OBygnYB2iQpJjElt81OJD/Y8LWoA24ueJTz4rlIuSkvtw8oCHkg/lJqNWVdDF
+ grpxJOGalSTJ8/N+RbmWTuVHSRAJ2Cno67CTrncYWFGt7Ck9t/hS7X2c=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GuHFEV-iuNm2; Wed, 20 Apr 2022 12:03:57 +0300 (MSK)
+ with ESMTP id zUIm6GqpXoIV; Wed, 20 Apr 2022 12:03:58 +0300 (MSK)
 Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
  [172.17.100.104])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 2A86F42A76;
+ by mta-01.yadro.com (Postfix) with ESMTPS id F089A45968;
  Wed, 20 Apr 2022 12:03:57 +0300 (MSK)
 Received: from localhost.yadro.com (10.178.113.54) by T-EXCH-04.corp.yadro.com
  (172.17.100.104) with Microsoft SMTP Server (version=TLS1_2,
@@ -44,10 +44,12 @@ Received: from localhost.yadro.com (10.178.113.54) by T-EXCH-04.corp.yadro.com
  Apr 2022 12:03:56 +0300
 From: Dmitry Tikhov <d.tihov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 0/2] Fix nvme copy command with pi metadata
-Date: Wed, 20 Apr 2022 12:03:34 +0300
-Message-ID: <20220420090336.10124-1-d.tihov@yadro.com>
+Subject: [PATCH 1/2] hw/nvme: refactor check of disabled dif
+Date: Wed, 20 Apr 2022 12:03:35 +0300
+Message-ID: <20220420090336.10124-2-d.tihov@yadro.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220420090336.10124-1-d.tihov@yadro.com>
+References: <20220420090336.10124-1-d.tihov@yadro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -79,32 +81,198 @@ Cc: kbusch@kernel.org, its@irrelevant.dk, ddtikhov@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Current implementation of copy command, for namespace with end-to-end
-data protection enabled, always returns data integrity field check
-errors.
-For example, issuing with nvme-cli:
+Move to a separate function code determining whether protection checking
+in end-to-end data protection enabled namespace should be done.
+Currently this code is used only in nvme_dif_prchk_crc16 and
+nvme_dif_prchk_crc64 functions.
 
-    nvme copy --sdlba=25 --blocks=2,1,3 --slbs=1,37,50 --prinfow=5
-    --prinfor=5 --ref-tag=25 --expected-ref-tags=1,37,50 /dev/nvme0n1
-
-Always returns End-to-end Reference Tag Check Error.
-To reproduce you may need to use upstream version of nvme-cli since
-there was a bug which prevented passing prinfow to a command, fixed in
-2cf9825 commit.
-
-This patch set attempts to fix copy command for data protection enabled
-namespaces.
-
-Dmitry Tikhov (2):
-  hw/nvme: refactor check of disabled dif
-  hw/nvme: fix copy cmd for pi enabled namespaces
-
- hw/nvme/ctrl.c       |   5 ++
- hw/nvme/dif.c        | 186 +++++++++++++++++++++++++++++++++----------
- hw/nvme/dif.h        |   3 +
+Signed-off-by: Dmitry Tikhov <d.tihov@yadro.com>
+---
+ hw/nvme/dif.c        | 121 ++++++++++++++++++++++++++++---------------
+ hw/nvme/dif.h        |   1 +
  hw/nvme/trace-events |   4 +-
- 4 files changed, 155 insertions(+), 43 deletions(-)
+ 3 files changed, 83 insertions(+), 43 deletions(-)
 
+diff --git a/hw/nvme/dif.c b/hw/nvme/dif.c
+index 63c44c86ab..0f65687396 100644
+--- a/hw/nvme/dif.c
++++ b/hw/nvme/dif.c
+@@ -60,6 +60,75 @@ static uint64_t crc64_nvme(uint64_t crc, const unsigned char *buffer,
+     return crc ^ (uint64_t)~0;
+ }
+ 
++static bool nvme_dif_is_disabled_crc16(NvmeNamespace *ns, NvmeDifTuple *dif)
++{
++    switch (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
++    case NVME_ID_NS_DPS_TYPE_3:
++        if (be32_to_cpu(dif->g16.reftag) != 0xffffffff) {
++            break;
++        }
++
++        /* fallthrough */
++    case NVME_ID_NS_DPS_TYPE_1:
++    case NVME_ID_NS_DPS_TYPE_2:
++        if (be16_to_cpu(dif->g16.apptag) != 0xffff) {
++            break;
++        }
++
++        trace_pci_nvme_dif_is_disabled_crc16(be16_to_cpu(dif->g16.apptag),
++                                             be32_to_cpu(dif->g16.reftag));
++
++        return true;
++    }
++
++    return false;
++}
++
++static bool nvme_dif_is_disabled_crc64(NvmeNamespace *ns, NvmeDifTuple *dif)
++{
++    uint64_t r = 0;
++
++    r |= (uint64_t)dif->g64.sr[0] << 40;
++    r |= (uint64_t)dif->g64.sr[1] << 32;
++    r |= (uint64_t)dif->g64.sr[2] << 24;
++    r |= (uint64_t)dif->g64.sr[3] << 16;
++    r |= (uint64_t)dif->g64.sr[4] << 8;
++    r |= (uint64_t)dif->g64.sr[5];
++
++    switch (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
++    case NVME_ID_NS_DPS_TYPE_3:
++        if (r != 0xffffffffffff) {
++            break;
++        }
++
++        /* fallthrough */
++    case NVME_ID_NS_DPS_TYPE_1:
++    case NVME_ID_NS_DPS_TYPE_2:
++        if (be16_to_cpu(dif->g64.apptag) != 0xffff) {
++            break;
++        }
++
++        trace_pci_nvme_dif_is_disabled_crc64(be16_to_cpu(dif->g16.apptag),
++                                             r);
++
++        return true;
++    }
++
++    return false;
++}
++
++bool nvme_dif_is_disabled(NvmeNamespace *ns, NvmeDifTuple *dif)
++{
++    switch (ns->pif) {
++    case NVME_PI_GUARD_16:
++        return nvme_dif_is_disabled_crc16(ns, dif);
++    case NVME_PI_GUARD_64:
++        return nvme_dif_is_disabled_crc64(ns, dif);
++    default:
++        abort();
++    }
++}
++
+ static void nvme_dif_pract_generate_dif_crc16(NvmeNamespace *ns, uint8_t *buf,
+                                               size_t len, uint8_t *mbuf,
+                                               size_t mlen, uint16_t apptag,
+@@ -155,22 +224,7 @@ static uint16_t nvme_dif_prchk_crc16(NvmeNamespace *ns, NvmeDifTuple *dif,
+                                      uint8_t prinfo, uint16_t apptag,
+                                      uint16_t appmask, uint64_t reftag)
+ {
+-    switch (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
+-    case NVME_ID_NS_DPS_TYPE_3:
+-        if (be32_to_cpu(dif->g16.reftag) != 0xffffffff) {
+-            break;
+-        }
+-
+-        /* fallthrough */
+-    case NVME_ID_NS_DPS_TYPE_1:
+-    case NVME_ID_NS_DPS_TYPE_2:
+-        if (be16_to_cpu(dif->g16.apptag) != 0xffff) {
+-            break;
+-        }
+-
+-        trace_pci_nvme_dif_prchk_disabled_crc16(be16_to_cpu(dif->g16.apptag),
+-                                                be32_to_cpu(dif->g16.reftag));
+-
++    if (nvme_dif_is_disabled_crc16(ns, dif)) {
+         return NVME_SUCCESS;
+     }
+ 
+@@ -214,31 +268,7 @@ static uint16_t nvme_dif_prchk_crc64(NvmeNamespace *ns, NvmeDifTuple *dif,
+                                      uint8_t prinfo, uint16_t apptag,
+                                      uint16_t appmask, uint64_t reftag)
+ {
+-    uint64_t r = 0;
+-
+-    r |= (uint64_t)dif->g64.sr[0] << 40;
+-    r |= (uint64_t)dif->g64.sr[1] << 32;
+-    r |= (uint64_t)dif->g64.sr[2] << 24;
+-    r |= (uint64_t)dif->g64.sr[3] << 16;
+-    r |= (uint64_t)dif->g64.sr[4] << 8;
+-    r |= (uint64_t)dif->g64.sr[5];
+-
+-    switch (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
+-    case NVME_ID_NS_DPS_TYPE_3:
+-        if (r != 0xffffffffffff) {
+-            break;
+-        }
+-
+-        /* fallthrough */
+-    case NVME_ID_NS_DPS_TYPE_1:
+-    case NVME_ID_NS_DPS_TYPE_2:
+-        if (be16_to_cpu(dif->g64.apptag) != 0xffff) {
+-            break;
+-        }
+-
+-        trace_pci_nvme_dif_prchk_disabled_crc64(be16_to_cpu(dif->g16.apptag),
+-                                                r);
+-
++    if (nvme_dif_is_disabled_crc64(ns, dif)) {
+         return NVME_SUCCESS;
+     }
+ 
+@@ -266,6 +296,15 @@ static uint16_t nvme_dif_prchk_crc64(NvmeNamespace *ns, NvmeDifTuple *dif,
+     }
+ 
+     if (prinfo & NVME_PRINFO_PRCHK_REF) {
++        uint64_t r = 0;
++
++        r |= (uint64_t)dif->g64.sr[0] << 40;
++        r |= (uint64_t)dif->g64.sr[1] << 32;
++        r |= (uint64_t)dif->g64.sr[2] << 24;
++        r |= (uint64_t)dif->g64.sr[3] << 16;
++        r |= (uint64_t)dif->g64.sr[4] << 8;
++        r |= (uint64_t)dif->g64.sr[5];
++
+         trace_pci_nvme_dif_prchk_reftag_crc64(r, reftag);
+ 
+         if (r != reftag) {
+diff --git a/hw/nvme/dif.h b/hw/nvme/dif.h
+index f12e312250..fe1e5828d7 100644
+--- a/hw/nvme/dif.h
++++ b/hw/nvme/dif.h
+@@ -186,6 +186,7 @@ uint16_t nvme_dif_check(NvmeNamespace *ns, uint8_t *buf, size_t len,
+                         uint8_t *mbuf, size_t mlen, uint8_t prinfo,
+                         uint64_t slba, uint16_t apptag,
+                         uint16_t appmask, uint64_t *reftag);
++bool nvme_dif_is_disabled(NvmeNamespace *ns, NvmeDifTuple *dif);
+ uint16_t nvme_dif_rw(NvmeCtrl *n, NvmeRequest *req);
+ 
+ #endif /* HW_NVME_DIF_H */
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index ff1b458969..c4e75b1f5d 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -23,8 +23,8 @@ pci_nvme_dif_rw_check_cb(uint16_t cid, uint8_t prinfo, uint16_t apptag, uint16_t
+ pci_nvme_dif_pract_generate_dif_crc16(size_t len, size_t lba_size, size_t chksum_len, uint16_t apptag, uint32_t reftag) "len %zu lba_size %zu chksum_len %zu apptag 0x%"PRIx16" reftag 0x%"PRIx32""
+ pci_nvme_dif_pract_generate_dif_crc64(size_t len, size_t lba_size, size_t chksum_len, uint16_t apptag, uint64_t reftag) "len %zu lba_size %zu chksum_len %zu apptag 0x%"PRIx16" reftag 0x%"PRIx64""
+ pci_nvme_dif_check(uint8_t prinfo, uint16_t chksum_len) "prinfo 0x%"PRIx8" chksum_len %"PRIu16""
+-pci_nvme_dif_prchk_disabled_crc16(uint16_t apptag, uint32_t reftag) "apptag 0x%"PRIx16" reftag 0x%"PRIx32""
+-pci_nvme_dif_prchk_disabled_crc64(uint16_t apptag, uint64_t reftag) "apptag 0x%"PRIx16" reftag 0x%"PRIx64""
++pci_nvme_dif_is_disabled_crc16(uint16_t apptag, uint32_t reftag) "apptag 0x%"PRIx16" reftag 0x%"PRIx32""
++pci_nvme_dif_is_disabled_crc64(uint16_t apptag, uint64_t reftag) "apptag 0x%"PRIx16" reftag 0x%"PRIx64""
+ pci_nvme_dif_prchk_guard_crc16(uint16_t guard, uint16_t crc) "guard 0x%"PRIx16" crc 0x%"PRIx16""
+ pci_nvme_dif_prchk_guard_crc64(uint64_t guard, uint64_t crc) "guard 0x%"PRIx64" crc 0x%"PRIx64""
+ pci_nvme_dif_prchk_apptag(uint16_t apptag, uint16_t elbat, uint16_t elbatm) "apptag 0x%"PRIx16" elbat 0x%"PRIx16" elbatm 0x%"PRIx16""
 -- 
 2.35.1
 
