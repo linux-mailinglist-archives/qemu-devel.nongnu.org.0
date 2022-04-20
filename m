@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE145092DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:31:47 +0200 (CEST)
-Received: from localhost ([::1]:38208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C3D5092E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:34:56 +0200 (CEST)
+Received: from localhost ([::1]:44814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhIrS-0004pB-TA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43894)
+	id 1nhIuV-00017R-Pi
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhIda-0007v1-Ae; Wed, 20 Apr 2022 18:17:26 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:37577)
+ id 1nhIdc-0007zU-NA; Wed, 20 Apr 2022 18:17:28 -0400
+Received: from mail-oo1-xc30.google.com ([2607:f8b0:4864:20::c30]:40591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhIdY-00065M-Ci; Wed, 20 Apr 2022 18:17:25 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-e2a00f2cc8so3520279fac.4; 
- Wed, 20 Apr 2022 15:17:23 -0700 (PDT)
+ id 1nhIda-00065W-W2; Wed, 20 Apr 2022 18:17:28 -0400
+Received: by mail-oo1-xc30.google.com with SMTP id
+ p128-20020a4a4886000000b003296205eb59so536234ooa.7; 
+ Wed, 20 Apr 2022 15:17:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ooRmZlwGkD4PbmGs0II3MWdtJGTf0c198wmutCi1+tw=;
- b=W2FvwV6hGjUGgax11lh13JFSZtEUksyEe33sjWB3LVMMwrMmNqnjoVtih606pKak8P
- 4Q6SzJ4qcMasLAqHggJ7bZQrWrHhSaO8RmbYROIwoKXTQELca2MSvXNB12sFOFOAK2sg
- /pUj96t6qPRezLo0e312Tep15wzUaGfiKtqWNXAB72EpSiNGSyrAW+eY/YN3RnDIKeV7
- DEbGG84vl3oiFfu0AzWn1Eo75CpSLypXZf/dFZFaVOCGhs7GJYBaPAYRQL/5dksHdLKG
- m76sJyMEm3nQfmcpKftfvkiJxJk+0QemL/lxLbooRHH4Fk9N7bhfFxuA7qb6GhZu4BS2
- 59Aw==
+ bh=r4tdQvhCVDptrhNmZEPQBqbd5ryY+mY31FjiXaoDJQg=;
+ b=Ef7+W11VfLU3S5zHiahR5pk5TMpLi5ig4Q30mAA1HrbARxMCqKjNgksLPhd0BSiTeg
+ RklVr2dg9eCpmiu1KlxfmGEKEv+hbevefozA6eiXOs16SBtbJYKLn1pOvvOy65JO09uh
+ h+0lYyFCnS3ery62BsTM2l6VFBSW1rCBMEBx23gBOh2RkO8UhgiF/PyNcfA1CrcB3V2O
+ CQA539oDS0sPfUO6OFORD1aHKHXXaplsHmVYr+11hCQMbi1TSCdHmud536PWubEjVDlK
+ 93wKkcrWrMq5OKQZDZk8xOXuJKhZWkqybiRof0L+Tho9ewOlRuSJIWdbDvAXP73hUPWK
+ VK8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ooRmZlwGkD4PbmGs0II3MWdtJGTf0c198wmutCi1+tw=;
- b=lGkO/QDiQt12KhYD6qwnQPi054G7TM84UE8arrl00RFaJeqIPEOBP0YgPhGlAw4g3k
- X0ul7gjGIr6An4rz7XQtgXLnAjGOlqxSCCnykVXLCh5m2Yfa1FWVeHeUqxThWAGTgTC/
- ljILauuDjscLBYs7Nkqh3SJgY7fRu3AJOPAY+D/QzLqseoPSKmxNhciFiftGc1kLkcVy
- tjaWvJH+RjK4fPobdtU7fAxntvUF6PZqMm0lyWeAVMbBloHDNSlhW0dGB4yooFatg/BD
- 54n+GhX56kUacxnrLbOojevn5Z0zSpNMwRhgSIOgtv6jkxi57vCukZM7ukaKZ6abPDxv
- XIIA==
-X-Gm-Message-State: AOAM533oCvFByGQxL+p+h7zgOLPu07yWgiqBnRau+uBi6yx1K00Iidxj
- i3pXac7CWoTQemqC8ucCrTI3xP7ULmk=
-X-Google-Smtp-Source: ABdhPJyvflbgkfi9Cn5YfI2+jWzOYKkSZIyUYkn4j4UVdKjOqfX+sjHdwocMFkC0Bwe49FaCARwuRA==
-X-Received: by 2002:a05:6870:4596:b0:da:b3f:2b1d with SMTP id
- y22-20020a056870459600b000da0b3f2b1dmr2670587oao.188.1650493042254; 
- Wed, 20 Apr 2022 15:17:22 -0700 (PDT)
+ bh=r4tdQvhCVDptrhNmZEPQBqbd5ryY+mY31FjiXaoDJQg=;
+ b=wbXlxfS29FGBYY1rGdmSuZ/9QVqKOvSfDTvKPMTVjX/3EYEKlSr41jggmyYXtSZNuq
+ ywBdHNZxNEnbFuH4npUSF6ra0JKqd2OjNJSIlJzONowiDGBgs+21xW2VdGnG8pfiztv0
+ BKMJrcvKJULiwG7YHEGD/CAwuxB1TxhPFnvEytYnI+m+Am4gbDITt0sZIK3Nb4ZE1nBy
+ K8Tpb1pbg1WAezzKUHlhc6kN66ZZZLbHm7R+tE4vM+FbRQesO8ANpveJ11zKL9IkSR8M
+ zqz6fIKrd3ONFOnhQg00rre3lBo+zBJgd2d8GC6EUkZt+8i2jv0bIeDymMOtMOLbiF4c
+ XdnQ==
+X-Gm-Message-State: AOAM533Orf3njnT03KvD4FyYXhCpLD5dgo0POOGh58SXmrAWuobzREWN
+ V05kjnkOHREdRTCxWbyCdM88XoGPr2M=
+X-Google-Smtp-Source: ABdhPJy4PcdNhEHTw3Dz7/XgA23OL4ZREomzEHn9ctCmDL/oJpqyPd5XprQuGHNZkeV55Vyw8a0oWg==
+X-Received: by 2002:a4a:dcd7:0:b0:33a:4531:aa35 with SMTP id
+ h23-20020a4adcd7000000b0033a4531aa35mr5472144oou.49.1650493045082; 
+ Wed, 20 Apr 2022 15:17:25 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:486c:c4fd:c4aa:a799:60c2])
  by smtp.gmail.com with ESMTPSA id
- 14-20020aca110e000000b00322847e6f53sm3876082oir.46.2022.04.20.15.16.37
+ 14-20020aca110e000000b00322847e6f53sm3876082oir.46.2022.04.20.15.17.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 15:16:57 -0700 (PDT)
+ Wed, 20 Apr 2022 15:17:24 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/23] ppc/pnv: Remove PnvOCC::psi link
-Date: Wed, 20 Apr 2022 19:13:11 -0300
-Message-Id: <20220420221329.169755-6-danielhb413@gmail.com>
+Subject: [PULL 06/23] ppc/pnv: Remove PnvPsiClas::irq_set
+Date: Wed, 20 Apr 2022 19:13:12 -0300
+Message-Id: <20220420221329.169755-7-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420221329.169755-1-danielhb413@gmail.com>
 References: <20220420221329.169755-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c30;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc30.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,187 +93,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-Use an anonymous output GPIO line to connect the OCC device with the
-PSIHB device and raise the appropriate PSI IRQ line depending on the
-processor model.
+All devices raising PSI interrupts are now converted to use GPIO lines
+and the pnv_psi_irq_set() routines have become useless. Drop them.
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220323072846.1780212-4-clg@kaod.org>
+Message-Id: <20220323072846.1780212-5-clg@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pnv.c             | 12 ++++++------
- hw/ppc/pnv_occ.c         | 16 ++++------------
- include/hw/ppc/pnv_occ.h |  7 ++-----
- 3 files changed, 12 insertions(+), 23 deletions(-)
+ hw/ppc/pnv_psi.c         | 23 ++++++-----------------
+ include/hw/ppc/pnv_psi.h |  4 ----
+ 2 files changed, 6 insertions(+), 21 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 3469432fbf..7c08a78d6c 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1253,12 +1253,12 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
-     }
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index 8b6298d4bd..950ecca405 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -211,19 +211,9 @@ static const uint64_t stat_bits[PSI_NUM_INTERRUPTS] = {
+     [PSIHB_IRQ_EXTERNAL]  = PSIHB_IRQ_STAT_EXT,
+ };
  
-     /* Create the simplified OCC model */
--    object_property_set_link(OBJECT(&chip8->occ), "psi", OBJECT(&chip8->psi),
--                             &error_abort);
-     if (!qdev_realize(DEVICE(&chip8->occ), NULL, errp)) {
-         return;
-     }
-     pnv_xscom_add_subregion(chip, PNV_XSCOM_OCC_BASE, &chip8->occ.xscom_regs);
-+    qdev_connect_gpio_out(DEVICE(&chip8->occ), 0,
-+                          qdev_get_gpio_in(DEVICE(&chip8->psi), PSIHB_IRQ_OCC));
- 
-     /* OCC SRAM model */
-     memory_region_add_subregion(get_system_memory(), PNV_OCC_SENSOR_BASE(chip),
-@@ -1528,12 +1528,12 @@ static void pnv_chip_power9_realize(DeviceState *dev, Error **errp)
-                                             (uint64_t) PNV9_LPCM_BASE(chip));
- 
-     /* Create the simplified OCC model */
--    object_property_set_link(OBJECT(&chip9->occ), "psi", OBJECT(&chip9->psi),
--                             &error_abort);
-     if (!qdev_realize(DEVICE(&chip9->occ), NULL, errp)) {
-         return;
-     }
-     pnv_xscom_add_subregion(chip, PNV9_XSCOM_OCC_BASE, &chip9->occ.xscom_regs);
-+    qdev_connect_gpio_out(DEVICE(&chip9->occ), 0, qdev_get_gpio_in(
-+                              DEVICE(&chip9->psi), PSIHB9_IRQ_OCC));
- 
-     /* OCC SRAM model */
-     memory_region_add_subregion(get_system_memory(), PNV9_OCC_SENSOR_BASE(chip),
-@@ -1731,13 +1731,13 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
-                                             (uint64_t) PNV10_LPCM_BASE(chip));
- 
-     /* Create the simplified OCC model */
--    object_property_set_link(OBJECT(&chip10->occ), "psi", OBJECT(&chip10->psi),
--                             &error_abort);
-     if (!qdev_realize(DEVICE(&chip10->occ), NULL, errp)) {
-         return;
-     }
-     pnv_xscom_add_subregion(chip, PNV10_XSCOM_OCC_BASE,
-                             &chip10->occ.xscom_regs);
-+    qdev_connect_gpio_out(DEVICE(&chip10->occ), 0, qdev_get_gpio_in(
-+                              DEVICE(&chip10->psi), PSIHB9_IRQ_OCC));
- 
-     /* OCC SRAM model */
-     memory_region_add_subregion(get_system_memory(),
-diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
-index 4ed66f5e1f..9fa6d91d31 100644
---- a/hw/ppc/pnv_occ.c
-+++ b/hw/ppc/pnv_occ.c
-@@ -21,6 +21,7 @@
- #include "qapi/error.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "hw/ppc/pnv.h"
- #include "hw/ppc/pnv_xscom.h"
-@@ -51,13 +52,12 @@
- static void pnv_occ_set_misc(PnvOCC *occ, uint64_t val)
- {
-     bool irq_state;
--    PnvOCCClass *poc = PNV_OCC_GET_CLASS(occ);
- 
-     val &= 0xffff000000000000ull;
- 
-     occ->occmisc = val;
-     irq_state = !!(val >> 63);
--    pnv_psi_irq_set(occ->psi, poc->psi_irq, irq_state);
-+    qemu_set_irq(occ->psi_irq, irq_state);
- }
- 
- static uint64_t pnv_occ_power8_xscom_read(void *opaque, hwaddr addr,
-@@ -168,7 +168,6 @@ static void pnv_occ_power8_class_init(ObjectClass *klass, void *data)
- 
-     poc->xscom_size = PNV_XSCOM_OCC_SIZE;
-     poc->xscom_ops = &pnv_occ_power8_xscom_ops;
--    poc->psi_irq = PSIHB_IRQ_OCC;
- }
- 
- static const TypeInfo pnv_occ_power8_type_info = {
-@@ -241,7 +240,6 @@ static void pnv_occ_power9_class_init(ObjectClass *klass, void *data)
-     dc->desc = "PowerNV OCC Controller (POWER9)";
-     poc->xscom_size = PNV9_XSCOM_OCC_SIZE;
-     poc->xscom_ops = &pnv_occ_power9_xscom_ops;
--    poc->psi_irq = PSIHB9_IRQ_OCC;
- }
- 
- static const TypeInfo pnv_occ_power9_type_info = {
-@@ -269,8 +267,6 @@ static void pnv_occ_realize(DeviceState *dev, Error **errp)
-     PnvOCC *occ = PNV_OCC(dev);
-     PnvOCCClass *poc = PNV_OCC_GET_CLASS(occ);
- 
--    assert(occ->psi);
--
-     occ->occmisc = 0;
- 
-     /* XScom region for OCC registers */
-@@ -281,12 +277,9 @@ static void pnv_occ_realize(DeviceState *dev, Error **errp)
-     memory_region_init_io(&occ->sram_regs, OBJECT(dev), &pnv_occ_sram_ops,
-                           occ, "occ-common-area",
-                           PNV_OCC_SENSOR_DATA_BLOCK_SIZE);
+-void pnv_psi_irq_set(PnvPsi *psi, int irq, bool state)
+-{
+-    PNV_PSI_GET_CLASS(psi)->irq_set(psi, irq, state);
 -}
- 
--static Property pnv_occ_properties[] = {
--    DEFINE_PROP_LINK("psi", PnvOCC, psi, TYPE_PNV_PSI, PnvPsi *),
--    DEFINE_PROP_END_OF_LIST(),
--};
-+    qdev_init_gpio_out(DEVICE(dev), &occ->psi_irq, 1);
-+}
- 
- static void pnv_occ_class_init(ObjectClass *klass, void *data)
- {
-@@ -294,7 +287,6 @@ static void pnv_occ_class_init(ObjectClass *klass, void *data)
- 
-     dc->realize = pnv_occ_realize;
-     dc->desc = "PowerNV OCC Controller";
--    device_class_set_props(dc, pnv_occ_properties);
-     dc->user_creatable = false;
- }
- 
-diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
-index f982ba0024..90a81dae2b 100644
---- a/include/hw/ppc/pnv_occ.h
-+++ b/include/hw/ppc/pnv_occ.h
-@@ -1,7 +1,7 @@
- /*
-  * QEMU PowerPC PowerNV Emulation of a few OCC related registers
-  *
-- * Copyright (c) 2015-2017, IBM Corporation.
-+ * Copyright (c) 2015-2022, IBM Corporation.
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-@@ -20,7 +20,6 @@
- #ifndef PPC_PNV_OCC_H
- #define PPC_PNV_OCC_H
- 
--#include "hw/ppc/pnv_psi.h"
- #include "qom/object.h"
- 
- #define TYPE_PNV_OCC "pnv-occ"
-@@ -44,19 +43,17 @@ struct PnvOCC {
-     /* OCC Misc interrupt */
-     uint64_t occmisc;
- 
--    PnvPsi *psi;
-+    qemu_irq psi_irq;
- 
-     MemoryRegion xscom_regs;
-     MemoryRegion sram_regs;
- };
- 
 -
- struct PnvOCCClass {
-     DeviceClass parent_class;
+-static void __pnv_psi_irq_set(void *opaque, int irq, int state)
+-{
+-    PnvPsi *psi = (PnvPsi *) opaque;
+-    PNV_PSI_GET_CLASS(psi)->irq_set(psi, irq, state);
+-}
+-
+-static void pnv_psi_power8_irq_set(PnvPsi *psi, int irq, bool state)
++static void pnv_psi_power8_set_irq(void *opaque, int irq, int state)
+ {
++    PnvPsi *psi = opaque;
+     uint32_t xivr_reg;
+     uint32_t stat_reg;
+     uint32_t src;
+@@ -518,7 +508,7 @@ static void pnv_psi_power8_realize(DeviceState *dev, Error **errp)
+         ics_set_irq_type(ics, i, true);
+     }
  
-     int xscom_size;
-     const MemoryRegionOps *xscom_ops;
--    int psi_irq;
+-    qdev_init_gpio_in(dev, __pnv_psi_irq_set, ics->nr_irqs);
++    qdev_init_gpio_in(dev, pnv_psi_power8_set_irq, ics->nr_irqs);
+ 
+     psi->qirqs = qemu_allocate_irqs(ics_set_irq, ics, ics->nr_irqs);
+ 
+@@ -581,7 +571,6 @@ static void pnv_psi_power8_class_init(ObjectClass *klass, void *data)
+     ppc->xscom_pcba = PNV_XSCOM_PSIHB_BASE;
+     ppc->xscom_size = PNV_XSCOM_PSIHB_SIZE;
+     ppc->bar_mask   = PSIHB_BAR_MASK;
+-    ppc->irq_set    = pnv_psi_power8_irq_set;
+     ppc->compat     = compat;
+     ppc->compat_size = sizeof(compat);
+ }
+@@ -819,8 +808,9 @@ static const MemoryRegionOps pnv_psi_p9_xscom_ops = {
+     }
  };
  
- #define PNV_OCC_SENSOR_DATA_BLOCK_BASE(i)                               \
+-static void pnv_psi_power9_irq_set(PnvPsi *psi, int irq, bool state)
++static void pnv_psi_power9_set_irq(void *opaque, int irq, int state)
+ {
++    PnvPsi *psi = opaque;
+     uint64_t irq_method = psi->regs[PSIHB_REG(PSIHB9_INTERRUPT_CONTROL)];
+ 
+     if (irq > PSIHB9_NUM_IRQS) {
+@@ -881,7 +871,7 @@ static void pnv_psi_power9_realize(DeviceState *dev, Error **errp)
+ 
+     psi->qirqs = qemu_allocate_irqs(xive_source_set_irq, xsrc, xsrc->nr_irqs);
+ 
+-    qdev_init_gpio_in(dev, __pnv_psi_irq_set, xsrc->nr_irqs);
++    qdev_init_gpio_in(dev, pnv_psi_power9_set_irq, xsrc->nr_irqs);
+ 
+     /* XSCOM region for PSI registers */
+     pnv_xscom_region_init(&psi->xscom_regs, OBJECT(dev), &pnv_psi_p9_xscom_ops,
+@@ -908,7 +898,6 @@ static void pnv_psi_power9_class_init(ObjectClass *klass, void *data)
+     ppc->xscom_pcba = PNV9_XSCOM_PSIHB_BASE;
+     ppc->xscom_size = PNV9_XSCOM_PSIHB_SIZE;
+     ppc->bar_mask   = PSIHB9_BAR_MASK;
+-    ppc->irq_set    = pnv_psi_power9_irq_set;
+     ppc->compat     = compat;
+     ppc->compat_size = sizeof(compat);
+ 
+diff --git a/include/hw/ppc/pnv_psi.h b/include/hw/ppc/pnv_psi.h
+index 6d9f8ce7c0..8253469b8f 100644
+--- a/include/hw/ppc/pnv_psi.h
++++ b/include/hw/ppc/pnv_psi.h
+@@ -79,8 +79,6 @@ struct PnvPsiClass {
+     uint64_t bar_mask;
+     const char *compat;
+     int compat_size;
+-
+-    void (*irq_set)(PnvPsi *psi, int, bool state);
+ };
+ 
+ /* The PSI and FSP interrupts are muxed on the same IRQ number */
+@@ -95,8 +93,6 @@ typedef enum PnvPsiIrq {
+ 
+ #define PSI_NUM_INTERRUPTS 6
+ 
+-void pnv_psi_irq_set(PnvPsi *psi, int irq, bool state);
+-
+ /* P9 PSI Interrupts */
+ #define PSIHB9_IRQ_PSI          0
+ #define PSIHB9_IRQ_OCC          1
 -- 
 2.35.1
 
