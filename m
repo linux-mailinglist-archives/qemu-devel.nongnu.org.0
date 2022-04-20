@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC9D5090AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:48:36 +0200 (CEST)
-Received: from localhost ([::1]:47930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353AA5090A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:46:16 +0200 (CEST)
+Received: from localhost ([::1]:42876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGJX-0006pC-Bz
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:48:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38868)
+	id 1nhGHH-0002eo-5C
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:46:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhFog-00017j-JM
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:16:42 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:51154)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nhFp2-0001Yi-9T; Wed, 20 Apr 2022 15:17:04 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:40723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhFod-0003Ad-Os
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:16:41 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id o5so2869618pjr.0
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 12:16:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=aa7GfLrKnbPUA3z5/lLY+yzkqrRSnD4Vr5dTEmFhIns=;
- b=BH8H0mVqlO9bAbH3qHCIXMgT61xjEVLJ4XxXGeNzragRjVyjNAj4ezStTpoE8U13wE
- 1wdey/pms3CtetrZU4SyI4GOU7sHT+iRloOp1UkSeiP3KG+yoJNeh00I1UMy/6jESeAO
- Vl3KDuqRbjJxbnLoEV8SriQqCcYJax/PQ9g9eBthpwYG/W/ICtuSqCOErf6EwaR1h/p0
- oArBEUkckubWaGh+VKRmhgULEYFeyCFfaEWgr3MlBHzPgSeh9aQIN1jyspR6QdPj3Ajx
- MtGqsteybDZUKZVPVl1606ZBQyj3B6SSA86VlwOdmkft22wA2W5y9ZiapouPEZ2INTqt
- n2TA==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nhFp0-0003CQ-N3; Wed, 20 Apr 2022 15:17:04 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id r85so3164142oie.7;
+ Wed, 20 Apr 2022 12:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=y8XCNcasNeRQGKgBJ1+j7mrYWk941y6tRp5zKvAP/9Y=;
+ b=YjljepLC69qxG1Qm9qu5IaJ/yhUihILYTLFyGRrOVETESKmL9EL8cHx2b81yDFy9Hd
+ Mc4PD5g8Sefrvb8k6YctZvSJ4Ny3XnIjuP9CCLsUMLPRt+/71ZyY33ET39xuV22k67cF
+ 9f/cRLxCN986osCp2SY5k5TTFQki6sC9Swtc82nxFIGHWkwhu+cvEIft42Hn1JHkH6k9
+ 7mlPVbNrdmw9FxUVNr6rIkfyST5N9a3GULIFJ4PNZlx2GdTnx+dU9cLgRIxJkYeuOLcd
+ 8EpaWsXvidQHwi7ZdVNNiWdiLCTKTKahvHdwq0NEJSrNeKAfPHLHzMZpbottFAyyuPDI
+ nBSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aa7GfLrKnbPUA3z5/lLY+yzkqrRSnD4Vr5dTEmFhIns=;
- b=o96ClLMMHXJtmwIyP30gVj+0UQ+C1S8lnrUUwNpx7t64Bq5rhwXe5T5MSwtJAkcr3n
- 1KaTQKskqcqok5mtmtzDSuuCND78R+kkETQ7s6ZiP1z1xghtetjE2kyJ1ffTxjz8KJdR
- RcKqg4Yd0ZZsmOjP3uogCs4Tf1hFu9IVbbJUuntZ8YA6FkM0UWuc8/CcwtARM/8Lpd4Y
- hH5SjYrf2Eit0UiIOIbTC80WMDg59ATmWCOl1jUKiqRFeQGBJV9xDEFD2cTzLcG0d4gZ
- 7+3Uwqs6jhx5XXoJ4scd+OZFQmDEVe3LupNWC/myCOuisp9WKo8C8tg5jhvydH9awcpJ
- KZ3g==
-X-Gm-Message-State: AOAM531x/y6cukDTq2nxotw46lCmqmoNXpB5WCJSUf8mqS+wuZ/6kSH5
- PUyTcZnqoKyGVdfD1z3QmV9QL3AqsrsCkQ==
-X-Google-Smtp-Source: ABdhPJwyJD39uxnLp7hSyo9XpvZHF59cHUufp2S06BhqQXzNKBr+09ZtOLyenr3g1+dh9Qo4f4r/Bg==
-X-Received: by 2002:a17:902:8504:b0:158:914f:ca3 with SMTP id
- bj4-20020a170902850400b00158914f0ca3mr22178908plb.67.1650482198510; 
- Wed, 20 Apr 2022 12:16:38 -0700 (PDT)
-Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=y8XCNcasNeRQGKgBJ1+j7mrYWk941y6tRp5zKvAP/9Y=;
+ b=SuxQ85g/uAraAMKfWTPZotKzMMp7MPPYWIYgghuvL/dvXdU8PmXgTYKxQQEc9OGUt4
+ SZCgMEcK8IZmjOv3NZB7VMoVfS5h226S7bKJx2yKh0ODxuoOCuKcFFeIbqPdxadZl0r1
+ 6fkX17y8AhlH0u4cNfZJkyw5ChFKonIdLeUG/r4dW7v85tftP//xm9HWu1CxNMcijOvq
+ 4TTBk2yOgHs301Z1XmGAzVMa2FxumS/g79SW0fmouCPn+YF0V37RwEbNhr19CyKaC0ez
+ wU0U28Ce0Yjhf81hfkCwk/XFwU0rRSuUp6UimCzu/6BZ3AOtdcNVP8tTAvgM9fc/bqIi
+ l5Qw==
+X-Gm-Message-State: AOAM533mHGbWEVYbkE4/89mEl2y9JhB5x0sJRdF4Ux3TV8IB518Tav70
+ FktZ/+pNNv95Qj6D5cSp4JY=
+X-Google-Smtp-Source: ABdhPJxcJ+Z8SVjMT16riMXj9e6+HOWwYAXp3oMVXk22w56bz9o+MVhI57z+uNxFSknGBURL/qICGA==
+X-Received: by 2002:a05:6808:300f:b0:2fa:6fd5:9723 with SMTP id
+ ay15-20020a056808300f00b002fa6fd59723mr2475683oib.202.1650482221307; 
+ Wed, 20 Apr 2022 12:17:01 -0700 (PDT)
+Received: from [192.168.10.222] ([179.225.252.195])
  by smtp.gmail.com with ESMTPSA id
- n24-20020aa79058000000b0050612d0fe01sm20599200pfo.2.2022.04.20.12.16.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 12:16:38 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] tcg: Add tcg_constant_ptr
-Date: Wed, 20 Apr 2022 12:16:34 -0700
-Message-Id: <20220420191634.1402437-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220420191634.1402437-1-richard.henderson@linaro.org>
-References: <20220420191634.1402437-1-richard.henderson@linaro.org>
+ nd8-20020a056871440800b000e2b75759f1sm307191oab.38.2022.04.20.12.16.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 12:17:00 -0700 (PDT)
+Message-ID: <eb9c179e-e4bd-e456-6545-68294482b33c@gmail.com>
+Date: Wed, 20 Apr 2022 16:16:58 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH qemu] ppc/vof: Fix uninitialized string tracing
+Content-Language: en-US
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
+References: <20220406045013.3610172-1-aik@ozlabs.ru>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220406045013.3610172-1-aik@ozlabs.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,35 +87,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to tcg_const_ptr, defer to tcg_constant_{i32,i64}.
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg.h | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 27de13fae0..61505d20ed 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -1056,9 +1056,11 @@ TCGv_vec tcg_constant_vec_matching(TCGv_vec match, unsigned vece, int64_t val);
- #if UINTPTR_MAX == UINT32_MAX
- # define tcg_const_ptr(x)        ((TCGv_ptr)tcg_const_i32((intptr_t)(x)))
- # define tcg_const_local_ptr(x)  ((TCGv_ptr)tcg_const_local_i32((intptr_t)(x)))
-+# define tcg_constant_ptr(x)     ((TCGv_ptr)tcg_constant_i32((intptr_t)(x)))
- #else
- # define tcg_const_ptr(x)        ((TCGv_ptr)tcg_const_i64((intptr_t)(x)))
- # define tcg_const_local_ptr(x)  ((TCGv_ptr)tcg_const_local_i64((intptr_t)(x)))
-+# define tcg_constant_ptr(x)     ((TCGv_ptr)tcg_constant_i64((intptr_t)(x)))
- #endif
- 
- TCGLabel *gen_new_label(void);
--- 
-2.34.1
+Daniel
 
+On 4/6/22 01:50, Alexey Kardashevskiy wrote:
+> There are error paths which do not initialize propname but the trace_exit
+> label prints it anyway. This initializes the problem string.
+> 
+> Spotted by Coverity CID 1487241.
+> 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
+>   hw/ppc/vof.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+> index 2b63a6287561..5ce3ca32c998 100644
+> --- a/hw/ppc/vof.c
+> +++ b/hw/ppc/vof.c
+> @@ -294,7 +294,7 @@ static uint32_t vof_setprop(MachineState *ms, void *fdt, Vof *vof,
+>                               uint32_t nodeph, uint32_t pname,
+>                               uint32_t valaddr, uint32_t vallen)
+>   {
+> -    char propname[OF_PROPNAME_LEN_MAX + 1];
+> +    char propname[OF_PROPNAME_LEN_MAX + 1] = "";
+>       uint32_t ret = PROM_ERROR;
+>       int offset, rc;
+>       char trval[64] = "";
 
