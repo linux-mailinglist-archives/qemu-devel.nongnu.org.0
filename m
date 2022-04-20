@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923FE508C90
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:55:02 +0200 (CEST)
-Received: from localhost ([::1]:43516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B8A508CAF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:00:16 +0200 (CEST)
+Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCfV-0005l3-KY
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42772)
+	id 1nhCkZ-0000tF-DN
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:00:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLk-0001Uq-DJ
+ id 1nhCLl-0001Us-KM
  for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:37 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36660)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLi-0000wj-PF
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:36 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id u3so2803379wrg.3
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:34 -0700 (PDT)
+ id 1nhCLj-0000y2-Rp
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:37 -0400
+Received: by mail-wr1-x434.google.com with SMTP id u3so2803455wrg.3
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oFhOJ2oEOYPIMxyhC4C3gtr5BJGhpLVFlV1F6OwU/AM=;
- b=MoWElpHqPaG6RnAJLKRtgKpOa5TT7LwIOcdOo84ZdY+iZsIm82sM8Q4xlEqoBj9vW7
- MwJzcOh2+3G3EjlhJTzVncFsstRfMKYaltGJRtw3PhuJWwat1DGbjfHCrSvyH+qCnAzy
- KkaxkooKvpRYG2YYlIemtrGdp8qHyNEUZ5jkwJjYWoVVUfyyg09SR3onXfXKXVHXlq2A
- yDL9bvfeP0lqG6dpY9sRp+lC/yA2RX9Bjlb048RceshpYwW7YBPEYM1SRCGGgCTQT8uz
- o8gHtZb4n6jQY3nJ1NVRfsJgthPU++V82FyNlpxlQAKsCvnxbhwDJvNXPEjN1WcuGqJT
- hBtQ==
+ bh=gY77bwNkMdDmjfm+JoMSrch14sfN3pM52znQg3cyUIw=;
+ b=EjzD0IklTT9RKqjv9KW7zNLpYATpxq2Ij0RG1tfAsSG04BTXJYo2xsZ4t/EES4gpvu
+ 0qC/y/U2rmHAtT4rq2HJY1RL741huYZmrmBj0WjsZIQtR0kL2h/gBQW0ef5oNNrTiejg
+ d3Pa8KpEnms+/XxoFOLEV9CqRW+1WLpM4bGvIMpYbvVb6CyLgLzR7PWDNtxPaPy6F96o
+ xuJB1uUDvjmoxsqks13ed/HVxyqQTDAnH23eZpLM/M5lqr2tiRkEle5Bw233Hfh4QU28
+ OBQjlC8KcxJv38A/3WTpufq61Ot8SWV4OmxB69cCAPxZCifSyP5WZgpzFd9EdIjCPkl9
+ GXsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oFhOJ2oEOYPIMxyhC4C3gtr5BJGhpLVFlV1F6OwU/AM=;
- b=nXqAlRrp82RXkQJT4WsPgkP0rMBA9nSOoYGNkE7NEEjxPZ90QuPk2tjXPwap1EmCxj
- 8BOjfe2bZCWHjK50n3rLYM20kLawtgpBxWqDvj/LbI/v2QOEJVsHs1uTevOOfjzsIAWT
- V6l7TMh0iF4zfeuk3lr9wMkJwNfYQChSoT2BajL7NdtrD6hUfsRMBE2F9Y7q22hIcO24
- WKnkMn9J3MRYqwJwUkrLM/U05yQ41saFsSj3Oh3tuw38vCW7bE63+Z9kllwYaUtL0e7W
- hGKJwA2DXXbE7It6ucXg0c2MMfD8cgNHiw8mVTmmzFLDR67DC4ggGt4wwIUPjn9jqSGk
- CgMA==
-X-Gm-Message-State: AOAM532hsdXdCZRQmuPLVVsKNFsixQ6R/H60UOigoSZFACsti6rENle3
- jm/5f/7X3wXQMYnVHYj9rqx/h75+xMOADw==
-X-Google-Smtp-Source: ABdhPJw22AhFOChJEfECIgjVFpw8Coda4CtSypN0n9nKa6dYgVnJzjIYW3j1uor88IqvdwOrLGXtZQ==
-X-Received: by 2002:adf:f611:0:b0:207:ac80:73f5 with SMTP id
- t17-20020adff611000000b00207ac8073f5mr16084718wrp.623.1650468873497; 
- Wed, 20 Apr 2022 08:34:33 -0700 (PDT)
+ bh=gY77bwNkMdDmjfm+JoMSrch14sfN3pM52znQg3cyUIw=;
+ b=VnSIBeLtjqqwiIdASoo7XO9C+/kekPia+x/tHdeCDlA8ywkeQ/2XdHe+UKDlqpOUEV
+ CgLWnDMBGUmvFM5OZaoQjE6sChX+7+f78rkzIhgsiPwIeNmLT6mVufOW9/i66y+OWVGU
+ u0aIweFW5foB9mzHkIRgeqT4juyqy8KfKLsgtUeEoqWXf6dgyMdyPsiPpgtMySTLbuLx
+ t+AX5h6HWn8ybaC8IsPLF7yLNk5wS7nGv3bSqj1k/4Raw/KtwOFoMrawV8bvJ4tC9PoS
+ KxaoL38fQD+WG3qAOgyyHjywWclRbEu4SWFuA7dbX9RDztRGd4bIjivYMEC9QQ7Omm2L
+ S/nQ==
+X-Gm-Message-State: AOAM533igkxkY8cqm45aQLZDpigG3K4QxUTba8Mr2yyjEOmm48i2SWGP
+ fqNz3QNuO+TaSwpUFlQYulpGrXMempZnJQ==
+X-Google-Smtp-Source: ABdhPJxkZRP7TjdyM+RoZyxstKOXDOd//Is9o2oVYuQVV2ehSeITx3kSXqgaSszjEqKi3FGTdAJdaA==
+X-Received: by 2002:adf:f046:0:b0:207:a457:5e52 with SMTP id
+ t6-20020adff046000000b00207a4575e52mr15931792wro.708.1650468874578; 
+ Wed, 20 Apr 2022 08:34:34 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.32
+ n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 Apr 2022 08:34:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/34] configure, meson: move iasl detection to meson
-Date: Wed, 20 Apr 2022 17:33:49 +0200
-Message-Id: <20220420153407.73926-17-pbonzini@redhat.com>
+Subject: [PATCH 17/34] configure: move Windows flags detection to meson
+Date: Wed, 20 Apr 2022 17:33:50 +0200
+Message-Id: <20220420153407.73926-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420153407.73926-1-pbonzini@redhat.com>
 References: <20220420153407.73926-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,64 +92,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   |  2 +-
- meson.build | 16 +++++++++-------
- 2 files changed, 10 insertions(+), 8 deletions(-)
+ configure   | 20 --------------------
+ meson.build |  8 ++++++++
+ 2 files changed, 8 insertions(+), 20 deletions(-)
 
 diff --git a/configure b/configure
-index 11d3cc19ca..772714d386 100755
+index 772714d386..87ceb33917 100755
 --- a/configure
 +++ b/configure
-@@ -2507,7 +2507,7 @@ if test "$skip_meson" = no; then
-         -Daudio_drv_list=$audio_drv_list \
-         -Ddefault_devices=$default_devices \
-         -Ddocdir="$docdir" \
--        -Diasl="$($iasl -h >/dev/null 2>&1 && printf %s "$iasl")" \
-+        -Diasl="$iasl" \
-         -Dqemu_firmwarepath="$firmwarepath" \
-         -Dqemu_suffix="$qemu_suffix" \
-         -Dsmbd="$smbd" \
+@@ -224,10 +224,6 @@ glob() {
+     eval test -z '"${1#'"$2"'}"'
+ }
+ 
+-ld_has() {
+-    $ld --help 2>/dev/null | grep ".$1" >/dev/null 2>&1
+-}
+-
+ if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
+ then
+   error_exit "main directory cannot contain spaces nor colons"
+@@ -2088,22 +2084,6 @@ if test "$solaris" = "no" && test "$tsan" = "no"; then
+     fi
+ fi
+ 
+-# Use ASLR, no-SEH and DEP if available
+-if test "$mingw32" = "yes" ; then
+-    flags="--no-seh --nxcompat"
+-
+-    # Disable ASLR for debug builds to allow debugging with gdb
+-    if test "$debug" = "no" ; then
+-        flags="--dynamicbase $flags"
+-    fi
+-
+-    for flag in $flags; do
+-        if ld_has $flag ; then
+-            QEMU_LDFLAGS="-Wl,$flag $QEMU_LDFLAGS"
+-        fi
+-    done
+-fi
+-
+ # Guest agent Windows MSI package
+ 
+ if test "$QEMU_GA_MANUFACTURER" = ""; then
 diff --git a/meson.build b/meson.build
-index 7cbb771393..d255facbfd 100644
+index d255facbfd..ffca473fbc 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -167,6 +167,12 @@ if 'dtrace' in get_option('trace_backends')
-   endif
- endif
+@@ -182,6 +182,14 @@ qemu_cxxflags = config_host['QEMU_CXXFLAGS'].split()
+ qemu_objcflags = config_host['QEMU_OBJCFLAGS'].split()
+ qemu_ldflags = config_host['QEMU_LDFLAGS'].split()
  
-+if get_option('iasl') == ''
-+  iasl = find_program('iasl', required: false)
-+else
-+  iasl = find_program(get_option('iasl'), required: true)
++if targetos == 'windows'
++  qemu_ldflags += cc.get_supported_link_arguments('-Wl,--no-seh', '-Wl,--nxcompat')
++  # Disable ASLR for debug builds to allow debugging with gdb
++  if get_option('optimization') == 0
++    qemu_ldflags += cc.get_supported_link_arguments('-Wl,--dynamicbase')
++  endif
 +endif
 +
- ##################
- # Compiler flags #
- ##################
-@@ -1582,8 +1588,8 @@ foreach k : get_option('trace_backends')
-   config_host_data.set('CONFIG_TRACE_' + k.to_upper(), true)
- endforeach
- config_host_data.set_quoted('CONFIG_TRACE_FILE', get_option('trace_file'))
--if get_option('iasl') != ''
--  config_host_data.set_quoted('CONFIG_IASL', get_option('iasl'))
-+if iasl.found()
-+  config_host_data.set_quoted('CONFIG_IASL', iasl.full_path())
- endif
- config_host_data.set_quoted('CONFIG_BINDIR', get_option('prefix') / get_option('bindir'))
- config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
-@@ -3617,11 +3623,7 @@ summary_info += {'sphinx-build':      sphinx_build}
- if config_host.has_key('HAVE_GDB_BIN')
-   summary_info += {'gdb':             config_host['HAVE_GDB_BIN']}
- endif
--if get_option('iasl') != ''
--  summary_info += {'iasl':            get_option('iasl')}
--else
--  summary_info += {'iasl':            false}
--endif
-+summary_info += {'iasl':              iasl}
- summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
- if targetos == 'windows' and have_ga
-   summary_info += {'wixl':            wixl}
+ if get_option('gprof')
+   qemu_cflags += ['-p']
+   qemu_cxxflags += ['-p']
 -- 
 2.35.1
 
