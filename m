@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004FA509143
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:16:03 +0200 (CEST)
-Received: from localhost ([::1]:43846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4FD4509150
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:19:46 +0200 (CEST)
+Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGk6-00056X-1K
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44172)
+	id 1nhGni-0004TG-0k
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:19:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nhGCK-0004uM-Hl; Wed, 20 Apr 2022 15:41:08 -0400
+ id 1nhGCN-0004xb-1T; Wed, 20 Apr 2022 15:41:11 -0400
 Received: from [187.72.171.209] (port=35275 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nhGCJ-0007El-2g; Wed, 20 Apr 2022 15:41:08 -0400
+ id 1nhGCL-0007El-FI; Wed, 20 Apr 2022 15:41:10 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Wed, 20 Apr 2022 16:40:43 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id D70EC800059;
- Wed, 20 Apr 2022 16:40:42 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 7423E800059;
+ Wed, 20 Apr 2022 16:40:43 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 6/9] host-utils: Implemented signed 256-by-128 division
-Date: Wed, 20 Apr 2022 16:40:34 -0300
-Message-Id: <20220420194037.263661-7-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v3 7/9] target/ppc: Implemented remaining vector divide
+ extended
+Date: Wed, 20 Apr 2022 16:40:35 -0300
+Message-Id: <20220420194037.263661-8-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220420194037.263661-1-lucas.araujo@eldorado.org.br>
 References: <20220420194037.263661-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 Apr 2022 19:40:43.0125 (UTC)
- FILETIME=[85CE0250:01D854EE]
+X-OriginalArrivalTime: 20 Apr 2022 19:40:43.0672 (UTC)
+ FILETIME=[86217980:01D854EE]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,93 +58,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
- danielhb413@gmail.com, richard.henderson@linaro.org, clg@kaod.org
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org,
+ Greg Kurz <groug@kaod.org>,
+ "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>, clg@kaod.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Based on already existing QEMU implementation created a signed
-256 bit by 128 bit division needed to implement the vector divide
-extended signed quadword instruction from PowerISA 3.1
+Implement the following PowerISA v3.1 instructions:
+vdivesd: Vector Divide Extended Signed Doubleword
+vdiveud: Vector Divide Extended Unsigned Doubleword
+vdivesq: Vector Divide Extended Signed Quadword
+vdiveuq: Vector Divide Extended Unsigned Quadword
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/host-utils.h |  1 +
- util/host-utils.c         | 51 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+ target/ppc/helper.h                 |  4 ++
+ target/ppc/insn32.decode            |  4 ++
+ target/ppc/int_helper.c             | 64 +++++++++++++++++++++++++++++
+ target/ppc/translate/vmx-impl.c.inc |  4 ++
+ 4 files changed, 76 insertions(+)
 
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index 9767af7573..bc743f5e32 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -851,4 +851,5 @@ static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
- }
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 4cfdf7b3ec..67ecff2c9a 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -173,6 +173,10 @@ DEF_HELPER_FLAGS_3(VMULOUH, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(VMULOUW, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(VDIVSQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(VDIVUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VDIVESD, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VDIVEUD, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VDIVESQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_3(VDIVEUQ, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_3(vslo, void, avr, avr, avr)
+ DEF_HELPER_3(vsro, void, avr, avr, avr)
+ DEF_HELPER_3(vsrv, void, avr, avr, avr)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 8c115c9c60..3eb920ac76 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -715,3 +715,7 @@ VDIVUQ          000100 ..... ..... ..... 00000001011    @VX
  
- Int128 divu256(Int128 *plow, Int128 *phigh, Int128 divisor);
-+Int128 divs256(Int128 *plow, Int128 *phigh, Int128 divisor);
- #endif
-diff --git a/util/host-utils.c b/util/host-utils.c
-index 93dfb1b6ab..fb91bcba82 100644
---- a/util/host-utils.c
-+++ b/util/host-utils.c
-@@ -395,3 +395,54 @@ Int128 divu256(Int128 *plow, Int128 *phigh, Int128 divisor)
-         return rem;
+ VDIVESW         000100 ..... ..... ..... 01110001011    @VX
+ VDIVEUW         000100 ..... ..... ..... 01010001011    @VX
++VDIVESD         000100 ..... ..... ..... 01111001011    @VX
++VDIVEUD         000100 ..... ..... ..... 01011001011    @VX
++VDIVESQ         000100 ..... ..... ..... 01100001011    @VX
++VDIVEUQ         000100 ..... ..... ..... 01000001011    @VX
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 55149c4fc7..27c8ce96ac 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1057,6 +1057,70 @@ void helper_VDIVUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
      }
  }
-+
-+/*
-+ * Signed 256-by-128 division.
-+ * Returns quotient via plow and phigh.
-+ * Also returns the remainder via the function return value.
-+ */
-+Int128 divs256(Int128 *plow, Int128 *phigh, Int128 divisor)
+ 
++void helper_VDIVESD(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
 +{
-+    bool neg_quotient = false, neg_remainder = false;
-+    Int128 unsig_hi = *phigh, unsig_lo = *plow;
-+    Int128 rem;
-+
-+    if (!int128_nonneg(*phigh)) {
-+        neg_quotient = !neg_quotient;
-+        neg_remainder = !neg_remainder;
-+
-+        if (!int128_nz(unsig_lo)) {
-+            unsig_hi = int128_neg(unsig_hi);
++    int i;
++    int64_t high;
++    uint64_t low;
++    for (i = 0; i < 2; i++) {
++        high = a->s64[i];
++        low = 0;
++        if (unlikely((high == INT64_MIN && b->s64[i] == -1) || !b->s64[i])) {
++            t->s64[i] = a->s64[i]; /* Undefined behavior */
 +        } else {
-+            unsig_hi = int128_not(unsig_hi);
-+            unsig_lo = int128_neg(unsig_lo);
++            divs128(&low, &high, b->s64[i]);
++            t->s64[i] = low;
 +        }
-+    }
-+
-+    if (!int128_nonneg(divisor)) {
-+        neg_quotient = !neg_quotient;
-+
-+        divisor = int128_neg(divisor);
-+    }
-+
-+    rem = divu256(&unsig_lo, &unsig_hi, divisor);
-+
-+    if (neg_quotient) {
-+        if (!int128_nz(unsig_lo)) {
-+            *phigh = int128_neg(unsig_hi);
-+            *plow = int128_zero();
-+        } else {
-+            *phigh = int128_not(unsig_hi);
-+            *plow = int128_neg(unsig_lo);
-+        }
-+    } else {
-+        *phigh = unsig_hi;
-+        *plow = unsig_lo;
-+    }
-+
-+    if (neg_remainder) {
-+        return int128_neg(rem);
-+    } else {
-+        return rem;
 +    }
 +}
++
++void helper_VDIVEUD(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
++{
++    int i;
++    uint64_t high, low;
++    for (i = 0; i < 2; i++) {
++        high = a->u64[i];
++        low = 0;
++        if (unlikely(!b->u64[i])) {
++            t->u64[i] = a->u64[i]; /* Undefined behavior */
++        } else {
++            divu128(&low, &high, b->u64[i]);
++            t->u64[i] = low;
++        }
++    }
++}
++
++void helper_VDIVESQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
++{
++    Int128 high, low;
++    Int128 int128_min = int128_make128(0, INT64_MIN);
++    Int128 neg1 = int128_makes64(-1);
++
++    high = a->s128;
++    low = int128_zero();
++    if (unlikely(!int128_nz(b->s128) ||
++                 (int128_eq(b->s128, neg1) && int128_eq(high, int128_min)))) {
++        t->s128 = a->s128; /* Undefined behavior */
++    } else {
++        divs256(&low, &high, b->s128);
++        t->s128 = low;
++    }
++}
++
++void helper_VDIVEUQ(ppc_avr_t *t, ppc_avr_t *a, ppc_avr_t *b)
++{
++    Int128 high, low;
++
++    high = a->s128;
++    low = int128_zero();
++    if (unlikely(!int128_nz(b->s128))) {
++        t->s128 = a->s128; /* Undefined behavior */
++    } else {
++        divu256(&low, &high, b->s128);
++        t->s128 = low;
++    }
++}
++
+ void helper_VPERM(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
+ {
+     ppc_avr_t result;
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index d1c1c6cf03..566a2e6d23 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -3365,6 +3365,10 @@ DIVU32(do_diveuw, do_diveu_i32)
+ 
+ TRANS_FLAGS2(ISA310, VDIVESW, do_vdiv_vmod, MO_32, do_divesw, NULL)
+ TRANS_FLAGS2(ISA310, VDIVEUW, do_vdiv_vmod, MO_32, do_diveuw, NULL)
++TRANS_FLAGS2(ISA310, VDIVESD, do_vx_helper, gen_helper_VDIVESD)
++TRANS_FLAGS2(ISA310, VDIVEUD, do_vx_helper, gen_helper_VDIVEUD)
++TRANS_FLAGS2(ISA310, VDIVESQ, do_vx_helper, gen_helper_VDIVESQ)
++TRANS_FLAGS2(ISA310, VDIVEUQ, do_vx_helper, gen_helper_VDIVEUQ)
+ 
+ #undef DIVS32
+ #undef DIVU32
 -- 
 2.31.1
 
