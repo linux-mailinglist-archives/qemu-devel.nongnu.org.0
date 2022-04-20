@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D575086FC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:28:51 +0200 (CEST)
-Received: from localhost ([::1]:39912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7AC508702
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:30:21 +0200 (CEST)
+Received: from localhost ([::1]:42062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh8Vu-000252-45
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37806)
+	id 1nh8XN-0003YX-02
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:30:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nh8GF-0005rA-AE
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:12:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48622)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh8Gv-0006Hy-RE
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:13:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nh8GC-0005Sj-Dg
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:12:37 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh8Gt-0005UG-BN
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 07:13:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650453155;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MoH1F68Nio/ptpxO0hniiNJtvPdodRrKSzA2Re64LVQ=;
- b=J8bOoG5OZGmyo0I0UYcv3qHBpCWb5lHVyi20AJvmJMyN1JKiT7bj9eMef36h+py/1OZWez
- 1f0Xy5/sdWr6+cEcs4y6l3AwTJVrVmJrxvaJA+lfMTNabaXYPM85XC+gQDh+EiTShA5Ckt
- 0vwXALtuU0SvnibEc5rM22jmgMtj++s=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1650453198;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=VHw9Q+B+xgWMtuFlsr9X1RZTtdKGdr5P9phdke0R5kA=;
+ b=b7g0muhoyLRMjSmoYgTiUDzVV9luu7HVo+bVb8ggN3cn1gfF/6hiDjt4x2Rf2TN+s8bBlf
+ MNxCKOsbkxIdoJ7GIaVnLadOK594D85v0naZMtaTUM8BBHs6U06jkcEUMTutzA/e7Pzbsx
+ OtCVHPTLeY/ezJKTSKlrmUZrdpRHF24=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-110-FSwpAa3PM1iLNZWTJj7hlA-1; Wed, 20 Apr 2022 07:12:30 -0400
-X-MC-Unique: FSwpAa3PM1iLNZWTJj7hlA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-615-G66EmdmqOXSVBrtV-TQR5w-1; Wed, 20 Apr 2022 07:13:17 -0400
+X-MC-Unique: G66EmdmqOXSVBrtV-TQR5w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD3BF29AA3AF;
- Wed, 20 Apr 2022 11:12:29 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A7BE40CFD06;
- Wed, 20 Apr 2022 11:12:29 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DEBB1180009C; Wed, 20 Apr 2022 13:12:27 +0200 (CEST)
-Date: Wed, 20 Apr 2022 13:12:27 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH] hw/i386/e820: remove legacy reserved entries for e820
-Message-ID: <20220420111227.hc44fsmnlcpr5bof@sirius.home.kraxel.org>
-References: <20220420043904.1225153-1-ani@anisinha.ca>
- <20220420082636.jugea2h24qajh3zt@sirius.home.kraxel.org>
- <CAARzgwx-huW2GpHUJMFf7GK=Eub7QBSFHvBoB1z5uc4ZmU2VKA@mail.gmail.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD9F880346E
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:13:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA9C28144;
+ Wed, 20 Apr 2022 11:13:09 +0000 (UTC)
+Date: Wed, 20 Apr 2022 12:13:07 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v4 15/19] migration: Export tls-[creds|hostname|authz]
+ params to cmdline too
+Message-ID: <Yl/qw5ogeSjgrnuX@redhat.com>
+References: <20220331150857.74406-1-peterx@redhat.com>
+ <20220331150857.74406-16-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAARzgwx-huW2GpHUJMFf7GK=Eub7QBSFHvBoB1z5uc4ZmU2VKA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+In-Reply-To: <20220331150857.74406-16-peterx@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,41 +78,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 02:25:54PM +0530, Ani Sinha wrote:
-> On Wed, Apr 20, 2022 at 1:57 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> > On Wed, Apr 20, 2022 at 10:09:04AM +0530, Ani Sinha wrote:
-> > > e820 reserved entries were used before the dynamic entries with fw config files
-> > > were intoduced. Please see the following change:
-> > > 7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
-> > >
-> > > Identical support was introduced into seabios as well with the following commit:
-> > > ce39bd4031820 ("Add support for etc/e820 fw_cfg file")
-> > >
-> > > Both the above commits are now quite old. QEMU machines 1.7 and newer no longer
-> > > use the reserved entries. Seabios uses fw config files and
-> >
-> > We still support machine types 1.6 & older (although they are
-> > deprecated already), so I think this has to wait until the 1.7 + older
-> > machine types are actually dropped.
+On Thu, Mar 31, 2022 at 11:08:53AM -0400, Peter Xu wrote:
+> It's useful for specifying tls credentials all in the cmdline (along with
+> the -object tls-creds-*), especially for debugging purpose.
 > 
-> How much time does it need to pass before something is dropped after
-> depreciation?
+> The trick here is we must remember to not free these fields again in the
+> finalize() function of migration object, otherwise it'll cause double-free.
+> 
+> The thing is when destroying an object, we'll first destroy the properties
+> that bound to the object, then the object itself.  To be explicit, when
+> destroy the object in object_finalize() we have such sequence of
+> operations:
+> 
+>     object_property_del_all(obj);
+>     object_deinit(obj, ti);
+> 
+> So after this change the two fields are properly released already even
+> before reaching the finalize() function but in object_property_del_all(),
+> hence we don't need to free them anymore in finalize() or it's double-free.
 
-Two releases.  Deprecated in January: f59fb1889f48 ("hw/i386/pc_piix:
-Mark the machine types from version 1.4 to 1.7 as deprecated"), so 7.0
-and 7.1, in the 7.2 devel cycle they can be removed.  Plus a bunch of
-followup cleanups like this patch.  I think we can also drop the 128k
-seabios images then.
 
-take care,
-  Gerd
+I believe this is also fixing a small memory leak
+
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/migration.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 899084f993..1dc80be1f4 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -4349,6 +4349,9 @@ static Property migration_properties[] = {
+>                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
+>      DEFINE_PROP_BOOL("x-postcopy-preempt-break-huge", MigrationState,
+>                        postcopy_preempt_break_huge, true),
+> +    DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
+> +    DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
+> +    DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
+>  
+>      /* Migration capabilities */
+>      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
+> @@ -4382,12 +4385,9 @@ static void migration_class_init(ObjectClass *klass, void *data)
+>  static void migration_instance_finalize(Object *obj)
+>  {
+>      MigrationState *ms = MIGRATION_OBJ(obj);
+> -    MigrationParameters *params = &ms->parameters;
+>  
+>      qemu_mutex_destroy(&ms->error_mutex);
+>      qemu_mutex_destroy(&ms->qemu_file_lock);
+> -    g_free(params->tls_hostname);
+> -    g_free(params->tls_creds);
+
+tls_authz wasn't previously freed here, and now it will be
+
+>      qemu_sem_destroy(&ms->wait_unplug_sem);
+>      qemu_sem_destroy(&ms->rate_limit_sem);
+>      qemu_sem_destroy(&ms->pause_sem);
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
