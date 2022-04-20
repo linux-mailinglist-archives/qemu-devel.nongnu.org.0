@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52C6508A69
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:13:13 +0200 (CEST)
-Received: from localhost ([::1]:40730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71E21508AC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 16:28:16 +0200 (CEST)
+Received: from localhost ([::1]:52472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhB4y-0006YY-Tq
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:13:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38188)
+	id 1nhBJX-0000th-Ef
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 10:28:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhAMk-0005zp-2p
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:27:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45967)
+ id 1nhAMz-0006gV-7P
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:27:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhAMi-0004VR-Je
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:27:29 -0400
+ id 1nhAMv-0004ZC-Nq
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:27:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650461247;
+ s=mimecast20190719; t=1650461261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ydZQajIQB9iEvRs9uGDmohN3xUDwdpnwMop0Kyl4LHE=;
- b=Hrkqa4K6vrVhNq7uan9jJEi+1Pa4I1cccuXzBolrEO0fWehCFxfup48vOcP8CqxCnmSU8/
- T/SYKQcy+lf7ELE1XQSbMEIHIqJQkrekU1hdQXMHDxCyXH6+J63ByWfZX37EW+fjFOW5Kt
- 7qkwr5j5Z0LX11XCe0jfgtLnfiF8KP8=
+ bh=qvLWqC+CpJQWIBnqDL4H8IFHRT5sE6h3YPy+bpLPxvo=;
+ b=EeBn5qH/ojko7k/MqI1mPz2+N3Y43JzQEy72YtizvroW37IRoctIr9OiwgLfZTjLVO9oGG
+ kmgv7WOkQDWYsyJFfG1uIaISyRehMdnXCVWtzzgsq6I7cYgA8CB/J710TiaPytq247kXKI
+ etSZk/YpUeEDJNYOyX4clO9VMcDIRGI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-RHtb0puZN3WlEod5Zr-mgQ-1; Wed, 20 Apr 2022 09:27:26 -0400
-X-MC-Unique: RHtb0puZN3WlEod5Zr-mgQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-354-zhx5IB1eNLO45jCqW7MvYQ-1; Wed, 20 Apr 2022 09:27:30 -0400
+X-MC-Unique: zhx5IB1eNLO45jCqW7MvYQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D643833968
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 13:27:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0CC22803D67;
+ Wed, 20 Apr 2022 13:27:30 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3468C46A3BF;
- Wed, 20 Apr 2022 13:27:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21DCF140EBD5;
+ Wed, 20 Apr 2022 13:27:28 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/41] docs: trace-events-all is installed without renaming
-Date: Wed, 20 Apr 2022 17:25:55 +0400
-Message-Id: <20220420132624.2439741-13-marcandre.lureau@redhat.com>
+Subject: [PATCH 13/41] arm/digic: replace snprintf() with g_strdup_printf()
+Date: Wed, 20 Apr 2022 17:25:56 +0400
+Message-Id: <20220420132624.2439741-14-marcandre.lureau@redhat.com>
 In-Reply-To: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -78,29 +78,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+ "open list:Canon DIGIC" <qemu-arm@nongnu.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- docs/devel/tracing.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Also fixes a GCC 12.0.1 false-positive:
+../hw/arm/digic.c: In function ‘digic_init’:
+../hw/arm/digic.c:45:54: error: ‘%d’ directive output may be truncated writing between 1 and 11 bytes into a region of size 5 [-Werror=format-truncation=]
+   45 |         snprintf(name, DIGIC_TIMER_NAME_MLEN, "timer[%d]", i);
+      |                                                      ^~
 
-diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
-index ec9a687cfdc9..d288480db11f 100644
---- a/docs/devel/tracing.rst
-+++ b/docs/devel/tracing.rst
-@@ -48,7 +48,7 @@ file. During build, the "trace-events" file in each listed subdirectory will be
- processed by the "tracetool" script to generate code for the trace events.
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/digic.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/hw/arm/digic.c b/hw/arm/digic.c
+index 614232165cdc..6df554797734 100644
+--- a/hw/arm/digic.c
++++ b/hw/arm/digic.c
+@@ -39,10 +39,7 @@ static void digic_init(Object *obj)
+     object_initialize_child(obj, "cpu", &s->cpu, ARM_CPU_TYPE_NAME("arm946"));
  
- The individual "trace-events" files are merged into a "trace-events-all" file,
--which is also installed into "/usr/share/qemu" with the name "trace-events".
-+which is also installed into "/usr/share/qemu".
- This merged file is to be used by the "simpletrace.py" script to later analyse
- traces in the simpletrace data format.
+     for (i = 0; i < DIGIC4_NB_TIMERS; i++) {
+-#define DIGIC_TIMER_NAME_MLEN    11
+-        char name[DIGIC_TIMER_NAME_MLEN];
+-
+-        snprintf(name, DIGIC_TIMER_NAME_MLEN, "timer[%d]", i);
++        g_autofree char *name = g_strdup_printf("timer[%d]", i);
+         object_initialize_child(obj, name, &s->timer[i], TYPE_DIGIC_TIMER);
+     }
  
 -- 
 2.35.1.693.g805e0a68082a
