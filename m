@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A421508683
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 13:01:50 +0200 (CEST)
-Received: from localhost ([::1]:49972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B2250867A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 12:57:08 +0200 (CEST)
+Received: from localhost ([::1]:42508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nh85l-000676-IV
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 07:01:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60180)
+	id 1nh81D-0001wc-TM
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 06:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
- id 1nh7m9-0001eQ-Qq; Wed, 20 Apr 2022 06:41:33 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:59006 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh7mN-0001tD-1w
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:41:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
- id 1nh7m7-0008Al-TY; Wed, 20 Apr 2022 06:41:33 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 4B49744E3C;
- Wed, 20 Apr 2022 10:41:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-transfer-encoding:content-disposition
- :content-type:content-type:mime-version:references:message-id
- :subject:subject:from:from:date:date:received:received:received;
- s=mta-01; t=1650451288; x=1652265689; bh=VnP6+Hnh7zq37rpemWvv3L
- twVOh5np0ohzagpVzmO8I=; b=kDKfZjl6lwBRR+eDqVO8/P+U+6RPzc/17KUh90
- c4c+DvxIjeAyP3rOq5bNK/AYDx/b+XIR1yVzKHwopzMDFbbd7Rttg+qfsglyJmFY
- 0xTf5nIC0HIgdQ9trFFNi68BYGU54aB3u4NTalJablubzXFpF11ESOd+K+9KAOBL
- NL0Pc=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gOakljx1cZH5; Wed, 20 Apr 2022 13:41:28 +0300 (MSK)
-Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
- [172.17.100.104])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nh7mL-0008Bk-9M
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 06:41:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650451304;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ynI0y+ecaTLvIs01CsQO5IU0amTF6yP7zGpRNyp9YTI=;
+ b=EIaOz+39YLJGevTNZtWgaGH4kWhkIGhgqtoiADOw2GtgWKf8xjm6X8vU8YIWb0HAbuRPvz
+ hHeMTXp1gFIqEZ63F+LiMPM291HHmofZTIlhc0uf41/XUM7LYk21rDeISb/XN4ue5xzABj
+ 8d0T7unR1b41/F+8NJkIx3nIliTSPpU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-177-nGpdyzB4P2eu6RRx9IP0Bw-1; Wed, 20 Apr 2022 06:41:43 -0400
+X-MC-Unique: nGpdyzB4P2eu6RRx9IP0Bw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id C42214596F;
- Wed, 20 Apr 2022 13:41:27 +0300 (MSK)
-Received: from localhost.localdomain (10.178.113.54) by
- T-EXCH-04.corp.yadro.com (172.17.100.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Wed, 20 Apr 2022 13:41:27 +0300
-Date: Wed, 20 Apr 2022 13:41:26 +0300
-From: Dmitry Tikhov <d.tihov@yadro.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH] hw/nvme: add new command abort case
-Message-ID: <20220420104126.iy5b4exyqh62m632@localhost.localdomain>
-References: <20220420082044.n6orslk2aukj2jai@localhost.localdomain>
- <Yl/csehng+W0gfQD@apples> <Yl/iRnvEj+tDycUI@apples>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67C571C05129
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 10:41:43 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A52B12166B2D;
+ Wed, 20 Apr 2022 10:41:32 +0000 (UTC)
+Date: Wed, 20 Apr 2022 11:41:30 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v4 04/19] migration: Move migrate_allow_multifd and
+ helpers into migration.c
+Message-ID: <Yl/jWhsVaPp2OgPa@redhat.com>
+References: <20220331150857.74406-1-peterx@redhat.com>
+ <20220331150857.74406-5-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yl/iRnvEj+tDycUI@apples>
-X-Originating-IP: [10.178.113.54]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-04.corp.yadro.com (172.17.100.104)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=d.tihov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220331150857.74406-5-peterx@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,60 +81,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, ddtikhov@gmail.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, linux@yadro.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 12:36:54, Klaus Jensen wrote:
-> On Apr 20 12:13, Klaus Jensen wrote:
-> > On Apr 20 11:20, Dmitry Tikhov wrote:
-> > > NVMe command set specification for end-to-end data protection formatted
-> > > namespace states:
-> > > 
-> > >     o If the Reference Tag Check bit of the PRCHK field is set to ‘1’ and
-> > >       the namespace is formatted for Type 3 protection, then the
-> > >       controller:
-> > >           ▪ should not compare the protection Information Reference Tag
-> > >             field to the computed reference tag; and
-> > >           ▪ may ignore the ILBRT and EILBRT fields. If a command is
-> > >             aborted as a result of the Reference Tag Check bit of the
-> > >             PRCHK field being set to ‘1’, then that command should be
-> > >             aborted with a status code of Invalid Protection Information,
-> > >             but may be aborted with a status code of Invalid Field in
-> > >             Command.
-> > > 
-> > > Currently qemu compares reftag in the nvme_dif_prchk function whenever
-> > > Reference Tag Check bit is set in the command. For type 3 namespaces
-> > > however, caller of nvme_dif_prchk - nvme_dif_check does not increment
-> > > reftag for each subsequent logical block. That way commands incorporating
-> > > more than one logical block for type 3 formatted namespaces with reftag
-> > > check bit set, always fail with End-to-end Reference Tag Check Error.
-> > > Comply with spec by handling case of set Reference Tag Check
-> > > bit in the type 3 formatted namespace.
-> > > 
-> > 
-> > Note the "should" and "may" in your quote. What QEMU does right now is
-> > compliant with v1.4. That is, the reftag must NOT be incremented
-> > - it is the same for the first and all subsequent logical blocks.
-> > 
-> > I'm a bit hesitant to follow v2.0 here, since we do not report v2.0
-> > compliance yet. I'm honestly also a bit perplexed as to how the NVMe TWG
-> > ended up considering this backwards compatible. As far as I can tell
-> > this breaks current hosts that do set the reference tag check bit,
-> > provides a valid ILBRT/EILBRT and expects it to succeed.
-> 
-> Ok, so reading the spec more closely...
-> 
-> The Invalid Protection Information should not be set just because the
-> reference tag check bit is set. It should be set *if* the controller
-> chooses to check it and it fails. However, in v2.0, the controller is
-> allowed to ignore it and not perform the check.
-> 
-> So, just because the host sets the bit, that does not mean we fail the
-> command. However, a difference is that a v2.0 compliant controller
-> should return Invalid Protection Information or Invalid Field in Command
-> instead of End-to-end Reference Tag Check Error if the check fails.
+On Thu, Mar 31, 2022 at 11:08:42AM -0400, Peter Xu wrote:
+> This variable, along with its helpers, is used to detect whether multiple
+> channel will be supported for migration.  In follow up patches, there'll be
+> other capability that requires multi-channels.  Hence move it outside multifd
+> specific code and make it public.  Meanwhile rename it from "multifd" to
+> "multi_channels" to show its real meaning.
 
-Can you please link the spec you are referring to?
+FWIW, I would generally suggest separating the rename from the code
+movement into distinct patches.
+
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/migration.c | 22 +++++++++++++++++-----
+>  migration/migration.h |  3 +++
+>  migration/multifd.c   | 19 ++++---------------
+>  migration/multifd.h   |  2 --
+>  4 files changed, 24 insertions(+), 22 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 281d33326b..596d3d30b4 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -180,6 +180,18 @@ static int migration_maybe_pause(MigrationState *s,
+>                                   int new_state);
+>  static void migrate_fd_cancel(MigrationState *s);
+>  
+> +static bool migrate_allow_multi_channels = true;
+
+This is a pre-existing thing, but I'm curious why we default this to
+'true', when the first thing qemu_start_incoming_migration() and
+qmp_migrate() do, is to set it to 'false' and then selectively
+put it back to 'true'.
+
+
+>  static gint page_request_addr_cmp(gconstpointer ap, gconstpointer bp)
+>  {
+>      uintptr_t a = (uintptr_t) ap, b = (uintptr_t) bp;
+> @@ -469,12 +481,12 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+>  {
+>      const char *p = NULL;
+>  
+> -    migrate_protocol_allow_multifd(false); /* reset it anyway */
+> +    migrate_protocol_allow_multi_channels(false); /* reset it anyway */
+>      qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+>      if (strstart(uri, "tcp:", &p) ||
+>          strstart(uri, "unix:", NULL) ||
+>          strstart(uri, "vsock:", NULL)) {
+> -        migrate_protocol_allow_multifd(true);
+> +        migrate_protocol_allow_multi_channels(true);
+>          socket_start_incoming_migration(p ? p : uri, errp);
+
+
+
+> @@ -2324,11 +2336,11 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+>          }
+>      }
+>  
+> -    migrate_protocol_allow_multifd(false);
+> +    migrate_protocol_allow_multi_channels(false);
+>      if (strstart(uri, "tcp:", &p) ||
+>          strstart(uri, "unix:", NULL) ||
+>          strstart(uri, "vsock:", NULL)) {
+> -        migrate_protocol_allow_multifd(true);
+> +        migrate_protocol_allow_multi_channels(true);
+>          socket_start_outgoing_migration(s, p ? p : uri, &local_err);
+>  #ifdef CONFIG_RDMA
+>      } else if (strstart(uri, "rdma:", &p)) {
+
+Regardless of comments above
+
+  Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
