@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF96508FE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:01:11 +0200 (CEST)
-Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE399508FD6
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:54:16 +0200 (CEST)
+Received: from localhost ([::1]:36650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhFZe-0006Zt-Sd
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:01:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55626)
+	id 1nhFSy-0002hC-0n
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nhEqp-0008Gs-GW
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:14:53 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45766)
+ id 1nhEl4-000275-2h
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:08:54 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:36820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nhEqm-0002KP-LK
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:14:50 -0400
-Received: by mail-wr1-x430.google.com with SMTP id w4so3352870wrg.12
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:14:46 -0700 (PDT)
+ id 1nhEl2-0001aS-Gn
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:08:53 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id k23so5215012ejd.3
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:08:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N8fl+J6lwVlhRd48g05kC8jCxUyF5vfAFYt23/0f79o=;
- b=WLqiOfiv9oPMAcgEJIP5p/rML20zbwJHNpdPY1+d14G2W03WeQH0lSYrocsQZQs9bY
- ePh+DE0x/Jq2vgMiX8JwO5bPuuiDw/gJWD0PZDvBtbz9XkUXav7CwqQ5outrW6l9Unal
- cOinSq898CLO3gMiFq9/RXlK5O2InbWNbEhq5febz6PZDokjJa1FNKHR4IkZxtyxbK/a
- jZmkWjphiguVPxSR1XsV7ST7N0xf3fUVtaL8XLyEQB/pA80EviGwBTHAJPl/QMwrhNqf
- W3CEiGegc+xpq69cg/4RM2IIUyiqTEzDawhfRPx8etVoj8qTjqpBxxFjNETXoSqubsh1
- uGnA==
+ bh=v2zcpnobRYJz5R1sDIRmg4/sCBbKlCI+NIoM1ZGmmdo=;
+ b=ciUZl5KJqQS90TLvlvkulhcWuPIU/WEEMLTGjiw6xEt3IcLAepZodK6ZCtgR2sDWOe
+ zeu30ASyHGzJOllQ1Vjt3VOVd8tvRk/blG7GlOTOjCZnLkzNbRw/uUXx0kPuRmA3cHqz
+ wRJQlswGfSpGCqhgI73BlyHd565D8ncMLfrt9DRWuqj6HHc0QoBqmz0g58++i6QpY6KS
+ Gmw2VlSo4Z0bxMSq7agaeoSte5seGaPtrE9z4M1p/B/qxyuxHtOkbhUxIM8zpqz+mmjE
+ 0QgvFNbOY9QcEbBurP31QPyTVuDtT3I3nv0B9PFDGXo1wwri1QaEW80IZ+Cggi4yYCX5
+ 13+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N8fl+J6lwVlhRd48g05kC8jCxUyF5vfAFYt23/0f79o=;
- b=ChOjhBiFhxkGGX4XYmk6SLgcWqqdG+rydMXsMgl4MDrP1ILfxBOL6MKcuMNd6Tb87L
- eNjqNe4k1tq+W5BxdC6WFGYNpDfLA2dDHO63xTGSRFHqOC8sTXcgwlgmF1Ptvnr9F1yS
- bL50BzNYvoMuiWO+DsHep/ARV9Ws+1phbN86QIoBd5yESes13ZsDakVtoxxG2ZmKEJFd
- iX4UIhYhr3t5J/162QnsPhi5hJkSoi0yia1NeUIyuJcAEdED3Ja+EgPB6/R1DdarNbZP
- IHh91M+b2J+DbHQbDRHAMfJgcDfP+rN3+Jk/LoIdOgvzUSlf7BV8toeUHXMJE4GRuNf4
- WKuQ==
-X-Gm-Message-State: AOAM533pouHMfNLDBC7wQ+hfPhIJhrbjjzG7JYnMCQazXqEV6X5Zfn1f
- 5r7JM6WkBNgdvmHM0x47ihu7xw==
-X-Google-Smtp-Source: ABdhPJzq69Yhq/MWnJ6IF8y45vl//6Wju1XfzPMBrPfMUderBQ9Rql1nZWvVtcTvkiIiyjRwMCLMJw==
-X-Received: by 2002:a05:6000:1a8b:b0:20a:aaf7:75e8 with SMTP id
- f11-20020a0560001a8b00b0020aaaf775e8mr5475237wry.66.1650478485552; 
- Wed, 20 Apr 2022 11:14:45 -0700 (PDT)
+ bh=v2zcpnobRYJz5R1sDIRmg4/sCBbKlCI+NIoM1ZGmmdo=;
+ b=gjf7XScXlim2HQZat9T9MD+vvK4W89VuoWtCvISV/3osxU15vTcmKIUk3kWHI2fTZE
+ kxOZTDADhik/BGKYUeQNVjqf/eqk0GiaIU8XBZnywAxZF5uF4A5yrid02Okr3Y1hxrZD
+ F/ENZ6dnEy8n1YPJwF74a+6Pg0pi0yMZS8rumV9nD4uZEUnP45/gmSgl4vxfBX8b/cUV
+ f/tvr00LwQ2dq1ocikHPqfLJRPa10xtf8Ymbdmur9sYE13hi+g760UcxrgfVMMLe+iVA
+ W1jxMHu1eTWYnOPuiE88bM/DFgPvuc1n1N68GT2mc+iH2LU33rCioN4fR0juJUh75VS2
+ izzA==
+X-Gm-Message-State: AOAM531wMFV3zE3DP9/6mppYnexjPOawTi7vfFwJmyYEgIUI3hJzJIIE
+ MRq9EeiXBrzoRy9qm7JbWhd7qj6H4jb5gQ==
+X-Google-Smtp-Source: ABdhPJzZU5bk9kcs0Af4Yv+GMkRUGGdpe+AKN3ryXPqrKDAvVPtOwt+EYU1CVxpomLVs1b3Ng1cR5g==
+X-Received: by 2002:a17:907:3e16:b0:6df:b4f0:5cc2 with SMTP id
+ hp22-20020a1709073e1600b006dfb4f05cc2mr19843501ejc.285.1650478131290; 
+ Wed, 20 Apr 2022 11:08:51 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- h8-20020a05600c350800b003928b925796sm64799wmq.47.2022.04.20.11.14.43
+ r15-20020a170906350f00b006e9c9cdb4f9sm6961664eja.202.2022.04.20.11.08.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 11:14:43 -0700 (PDT)
+ Wed, 20 Apr 2022 11:08:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 50EE71FFC4;
+ by zen.linaroharston (Postfix) with ESMTP id 623F61FFC5;
  Wed, 20 Apr 2022 19:08:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
 	richard.henderson@linaro.org
-Subject: [PULL 12/25] tests/tcg: add compiler test variables when using
- containers
-Date: Wed, 20 Apr 2022 19:08:19 +0100
-Message-Id: <20220420180832.3812543-13-alex.bennee@linaro.org>
+Subject: [PULL 13/25] tests/tcg: remove CONFIG_LINUX_USER from
+ config-target.mak
+Date: Wed, 20 Apr 2022 19:08:20 +0100
+Message-Id: <20220420180832.3812543-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220420180832.3812543-1-alex.bennee@linaro.org>
 References: <20220420180832.3812543-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,164 +91,65 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Even for container-based cross compilation use $(CROSS_CC_HAS_*) variables.
-This makes the TCG test makefiles oblivious of whether the compiler is
-invoked through a container or not.
+Just check the target name instead.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220401141326.1244422-10-pbonzini@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220401141326.1244422-11-pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220419091020.3008144-13-alex.bennee@linaro.org>
+Message-Id: <20220419091020.3008144-14-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index a7286ac295..f6fcd4829e 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -64,7 +64,7 @@ run-memory-replay: memory-replay run-memory-record
- 
- EXTRA_RUNS+=run-memory-replay
- 
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_3),)
-+ifneq ($(CROSS_CC_HAS_ARMV8_3),)
- pauth-3: CFLAGS += -march=armv8.3-a
- else
- pauth-3:
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index f7121cb4d8..6ad0ad49f9 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -18,7 +18,7 @@ run-fcvt: fcvt
- 	$(call diff-out,$<,$(AARCH64_SRC)/fcvt.ref)
- 
- # Pauth Tests
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_3),)
-+ifneq ($(CROSS_CC_HAS_ARMV8_3),)
- AARCH64_TESTS += pauth-1 pauth-2 pauth-4 pauth-5
- pauth-%: CFLAGS += -march=armv8.3-a
- run-pauth-%: QEMU_OPTS += -cpu max
-@@ -27,7 +27,7 @@ endif
- 
- # BTI Tests
- # bti-1 tests the elf notes, so we require special compiler support.
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_BTI),)
-+ifneq ($(CROSS_CC_HAS_ARMV8_BTI),)
- AARCH64_TESTS += bti-1
- bti-1: CFLAGS += -mbranch-protection=standard
- bti-1: LDFLAGS += -nostdlib
-@@ -36,12 +36,12 @@ endif
- AARCH64_TESTS += bti-2
- 
- # MTE Tests
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_MTE),)
-+ifneq ($(CROSS_CC_HAS_ARMV8_MTE),)
- AARCH64_TESTS += mte-1 mte-2 mte-3 mte-4 mte-5 mte-6 mte-7
- mte-%: CFLAGS += -march=armv8.5-a+memtag
- endif
- 
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
-+ifneq ($(CROSS_CC_HAS_SVE),)
- # System Registers Tests
- AARCH64_TESTS += sysregs
- sysregs: CFLAGS+=-march=armv8.1-a+sve
-@@ -88,7 +88,7 @@ EXTRA_RUNS += run-gdbstub-sysregs run-gdbstub-sve-ioctls
- endif
- endif
- 
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE2),)
-+ifneq ($(CROSS_CC_HAS_SVE2),)
- AARCH64_TESTS += test-826
- test-826: CFLAGS+=-march=armv8.1-a+sve2
- endif
 diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 84f928f7f8..8927a2b260 100755
+index 8927a2b260..57026b5899 100755
 --- a/tests/tcg/configure.sh
 +++ b/tests/tcg/configure.sh
-@@ -348,6 +348,23 @@ for target in $target_list; do
-                   echo "DOCKER_CROSS_LD_GUEST=$container_cross_ld" >> \
-                       $config_target_mak
-               fi
-+              case $target in
-+                  aarch64-*)
-+                      echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
-+                      echo "CROSS_CC_HAS_SVE2=y" >> $config_target_mak
-+                      echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
-+                      echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
-+                      echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
-+                      ;;
-+                  ppc*)
-+                      echo "CROSS_CC_HAS_POWER8_VECTOR=y" >> $config_target_mak
-+                      echo "CROSS_CC_HAS_POWER10=y" >> $config_target_mak
-+                      ;;
-+                  i386-linux-user)
-+                      echo "CROSS_CC_HAS_I386_NOPIE=y" >> $config_target_mak
-+                      ;;
-+              esac
-+              break
-           fi
-       done
-   fi
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index e1c0310be6..bd73c96d0d 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -30,7 +30,7 @@ hello-i386: LDFLAGS+=-nostdlib
- # test-386 includes a couple of additional objects that need to be
- # linked together, we also need a no-pie capable compiler due to the
- # non-pic calls into 16-bit mode
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_I386_NOPIE),)
-+ifneq ($(CROSS_CC_HAS_I386_NOPIE),)
- test-i386: CFLAGS += -fno-pie
- 
- test-i386: test-i386.c test-i386-code16.S test-i386-vm86.S test-i386.h test-i386-shift.h test-i386-muldiv.h
-diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
-index 8197c288a7..babd209573 100644
---- a/tests/tcg/ppc64/Makefile.target
-+++ b/tests/tcg/ppc64/Makefile.target
-@@ -5,14 +5,14 @@
- VPATH += $(SRC_PATH)/tests/tcg/ppc64
- VPATH += $(SRC_PATH)/tests/tcg/ppc64le
- 
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
-+ifneq ($(CROSS_CC_HAS_POWER8_VECTOR),)
- PPC64_TESTS=bcdsub non_signalling_xscv
+@@ -227,12 +227,10 @@ for target in $target_list; do
+   case $target in
+     *-linux-user)
+       echo "CONFIG_USER_ONLY=y" >> $config_target_mak
+-      echo "CONFIG_LINUX_USER=y" >> $config_target_mak
+       echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
+       ;;
+     *-bsd-user)
+       echo "CONFIG_USER_ONLY=y" >> $config_target_mak
+-      echo "CONFIG_BSD_USER=y" >> $config_target_mak
+       echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
+       ;;
+     *-softmmu)
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index dec401e67f..6bba523729 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -10,7 +10,7 @@ MULTIARCH_SRC=$(SRC_PATH)/tests/tcg/multiarch
+ # Set search path for all sources
+ VPATH 	       += $(MULTIARCH_SRC)
+ MULTIARCH_SRCS =  $(notdir $(wildcard $(MULTIARCH_SRC)/*.c))
+-ifneq ($(CONFIG_LINUX_USER),)
++ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
+ VPATH 	       += $(MULTIARCH_SRC)/linux
+ MULTIARCH_SRCS += $(notdir $(wildcard $(MULTIARCH_SRC)/linux/*.c))
  endif
- $(PPC64_TESTS): CFLAGS += -mpower8-vector
+diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
+index 17cf168f0a..f9fcd31caf 100644
+--- a/tests/tcg/x86_64/Makefile.target
++++ b/tests/tcg/x86_64/Makefile.target
+@@ -8,7 +8,7 @@
  
- PPC64_TESTS += mtfsf
+ include $(SRC_PATH)/tests/tcg/i386/Makefile.target
  
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
-+ifneq ($(CROSS_CC_HAS_POWER10),)
- PPC64_TESTS += byte_reverse sha512-vector
- endif
- byte_reverse: CFLAGS += -mcpu=power10
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 9624bb1e9c..5b0eb5e870 100644
---- a/tests/tcg/ppc64le/Makefile.target
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -4,12 +4,12 @@
- 
- VPATH += $(SRC_PATH)/tests/tcg/ppc64le
- 
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
-+ifneq ($(CROSS_CC_HAS_POWER8_VECTOR),)
- PPC64LE_TESTS=bcdsub non_signalling_xscv
- endif
- $(PPC64LE_TESTS): CFLAGS += -mpower8-vector
- 
--ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
-+ifneq ($(CROSS_CC_HAS_POWER10),)
- PPC64LE_TESTS += byte_reverse sha512-vector
- endif
- byte_reverse: CFLAGS += -mcpu=power10
+-ifneq ($(CONFIG_LINUX_USER),)
++ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
+ X86_64_TESTS += vsyscall
+ TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
+ else
 -- 
 2.30.2
 
