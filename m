@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CD6508C5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:45:38 +0200 (CEST)
-Received: from localhost ([::1]:43056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316A4508C66
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:48:21 +0200 (CEST)
+Received: from localhost ([::1]:51742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCWP-00030S-Bf
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:45:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42632)
+	id 1nhCZ2-0000bl-9j
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLa-0001OD-D0
+ id 1nhCLb-0001ON-Mt
  for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:28 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38415)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:45705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLY-0000ui-GF
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:26 -0400
-Received: by mail-wr1-x436.google.com with SMTP id p18so2792299wru.5
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:23 -0700 (PDT)
+ id 1nhCLY-0000uz-Us
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:27 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ 123-20020a1c1981000000b0038b3616a71aso1477314wmz.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IswL544krc2bs9Blk4cXA0C6mPdV4B6VvXc9SDPTH08=;
- b=Sxr0683d1JhqqlZlhuWYo63cfDQrM952gDdTUsacfE+ThEY/O3fESPzi3CUVfyt3+h
- v616OSkzTG3kf8aw31trWjBX0khagvfWWx/RJ4pGoSv0UcyGWM0XB4RriG0s3m5kNZCS
- kMqBY4e378NC9ROVXNd4vcHJypWWeiyU0XFXoVb/kkKfl+0YYNNRykz2FoLkHpZrAG11
- 9ghUsG1kxEQnrxLzCM4vEIVU06ypdYa3JfT4eRW+zab/DnGfBJYuwKitbx/4AhDriNN1
- G2tUi387Yxrw98n2XibeQTWcxqZ63lRWdV+F3DWfShfENHVPQL93PxwqsbYPqpVPP4Y6
- 8EFw==
+ bh=dJFWLBx1qgTPO4K//YqBRHJ2aHyd4vG27x4r9P8ldo8=;
+ b=APDmze/rvttgA63RpVyvrDsUKh3YVi8FG3dnu9JWdeYtAkWruyo32IPK9lYvnVY4eS
+ 4wVanzGIGYiGgDlTYdslDcWNIsT5Il9Vtnn8Qz0PCo3xjNDiTstMHyx/wOgCqoWvzkzE
+ cYNiGxcU68PZbNARrmbBbtRwTtTuDVY/6cT+JTyfuPao6nMixbBUroGRmWAWkhVnncXT
+ yAub8ASb0kKAdxTVSSvmdvCNPknohdJU6eC4y04JvgA11z5RGXq1OLorXhkc4ttfPhw9
+ 4jD19KgcisWFrz3yJjptpoWIUUpkgdVWOudoWyDS1JIjyQ/XQb7aLyG8kR17UTVJMFRU
+ EExQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IswL544krc2bs9Blk4cXA0C6mPdV4B6VvXc9SDPTH08=;
- b=L0HXkBjy8scnRoNYXxzq/FDaIpYi8ESHNY2apcdYzIwbSeQYaX9YE/0+A62Ue0IJJT
- NxsTc+v7h/5KZ5/u1xIyGZnMp+7d4wAPn4bh6QeZ58pzOI81Sy2brs+ynGfhL3+UZkvZ
- IiPD/136ic9nImIYrRI0hpCBAVi1322incOwe+mUO4ecN72i1zxUinjCvYLlZqETVag6
- Nt5UQQN+4sZnFQJ2yn1F5HJkNPnWgZ5TM3jIJZQZumD+zGPv1PEuKwtOdmNNlSPcl21t
- 05Yjddpl2dYzvqo0UBV4JUeQnCXVmsFmBroYBMuwAKbJfmA6dbBG0x/RQj7zY350GBEo
- 63YQ==
-X-Gm-Message-State: AOAM533wVtN//iQsdt3ErBB0aXSkzXf9TsKHn/eZWlyXw7HKf7E4Dea6
- r3YGJ4vj3xZc9hSeSsNXmdmoJOCkOk2b9A==
-X-Google-Smtp-Source: ABdhPJzdQrPhQ+XE5XzW0ml+li2SJzRx8xgj0rRYtYhv9TsXawQ8xDcbQsbG3W2dumqIldUVdzwdjA==
-X-Received: by 2002:a5d:5248:0:b0:207:a421:1a26 with SMTP id
- k8-20020a5d5248000000b00207a4211a26mr15889852wrc.271.1650468862294; 
- Wed, 20 Apr 2022 08:34:22 -0700 (PDT)
+ bh=dJFWLBx1qgTPO4K//YqBRHJ2aHyd4vG27x4r9P8ldo8=;
+ b=h1JRvJzsKzGYmMmmpJPw2p/BV11HpPW/9+M/TBiHyB5vwMBL8MUW6vp+q/p5X3ef2N
+ GgFHhwlz4lZEWltbUgGNEgBZl7ssX0T6q5CT5l/LGcTgMEe06wfjipWXspHR7THUaNM3
+ Rr34N4a3XLyz4K9YSfcxvyxaecY9Jy2O1HGGjBxiOtESgEahAp/Kp9zTtKsGdCi63I+n
+ 8pLfFrKWGhnYJe57fdmwFymdOukD/7/ammr8pSRzvYsheoBTib0N5zKz/NeYnJGpRLjD
+ TUWfdW864BQhMAP9L5AK5O/j7TcvlnmpHqxjXc9qJ4OGOnTnLQDoUsfbd12ex++kitia
+ JkLg==
+X-Gm-Message-State: AOAM5325BUQFJfQ+tpvW9i8fRf/6UZ1hTMFUILUJir1czniLYHOdro44
+ 0AzdXLOoRxRqbM4T+LpV/Wb6pO4PFds1dw==
+X-Google-Smtp-Source: ABdhPJxtXcvIJVFMyr8jtyuou1+XtoKhJ+IuWdHqBIn1aQY/YO71WoNpFsZ6EkuykTgtoxDfzhVOwg==
+X-Received: by 2002:a05:600c:5006:b0:392:3077:789c with SMTP id
+ n6-20020a05600c500600b003923077789cmr4324145wmr.50.1650468863311; 
+ Wed, 20 Apr 2022 08:34:23 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.21
+ n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 08:34:21 -0700 (PDT)
+ Wed, 20 Apr 2022 08:34:22 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/34] meson, configure: move keyctl test to meson
-Date: Wed, 20 Apr 2022 17:33:42 +0200
-Message-Id: <20220420153407.73926-10-pbonzini@redhat.com>
+Subject: [PATCH 10/34] meson, configure: move usbfs test to meson
+Date: Wed, 20 Apr 2022 17:33:43 +0200
+Message-Id: <20220420153407.73926-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420153407.73926-1-pbonzini@redhat.com>
 References: <20220420153407.73926-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,171 +93,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 44 -----------------------------------
- crypto/meson.build            |  4 +++-
- meson.build                   | 15 +++++++++++-
- meson_options.txt             |  2 ++
- scripts/meson-buildoptions.sh |  3 +++
- 5 files changed, 22 insertions(+), 46 deletions(-)
+ configure   | 28 ----------------------------
+ meson.build | 13 +++++++++++++
+ 2 files changed, 13 insertions(+), 28 deletions(-)
 
 diff --git a/configure b/configure
-index cfd15c3518..1c74d2c5f2 100755
+index 1c74d2c5f2..d4d7c001f6 100755
 --- a/configure
 +++ b/configure
-@@ -322,7 +322,6 @@ trace_file="trace"
- coroutine=""
- tls_priority="NORMAL"
- plugins="$default_feature"
--secret_keyring="$default_feature"
- meson=""
- meson_args=""
- ninja=""
-@@ -1009,10 +1008,6 @@ for opt do
-   ;;
-   --gdb=*) gdb_bin="$optarg"
-   ;;
--  --enable-keyring) secret_keyring="yes"
--  ;;
--  --disable-keyring) secret_keyring="no"
--  ;;
-   --enable-gio) gio=yes
-   ;;
-   --disable-gio) gio=no
-@@ -2440,41 +2435,6 @@ case "$slirp" in
+@@ -2160,31 +2160,6 @@ case "$fdt" in
      ;;
  esac
  
 -##########################################
--# check for usable __NR_keyctl syscall
+-# check for usbfs
+-have_usbfs=no
+-if test "$linux_user" = "yes"; then
+-  cat > $TMPC << EOF
+-#include <linux/usbdevice_fs.h>
 -
--if test "$linux" = "yes" ; then
+-#ifndef USBDEVFS_GET_CAPABILITIES
+-#error "USBDEVFS_GET_CAPABILITIES undefined"
+-#endif
 -
--    have_keyring=no
--    cat > $TMPC << EOF
--#include <errno.h>
--#include <asm/unistd.h>
--#include <linux/keyctl.h>
--#include <unistd.h>
--int main(void) {
--    return syscall(__NR_keyctl, KEYCTL_READ, 0, NULL, NULL, 0);
+-#ifndef USBDEVFS_DISCONNECT_CLAIM
+-#error "USBDEVFS_DISCONNECT_CLAIM undefined"
+-#endif
+-
+-int main(void)
+-{
+-    return 0;
 -}
 -EOF
--    if compile_prog "" "" ; then
--        have_keyring=yes
--    fi
--fi
--if test "$secret_keyring" != "no"
--then
--    if test "$have_keyring" = "yes"
--    then
--	secret_keyring=yes
--    else
--	if test "$secret_keyring" = "yes"
--	then
--	    error_exit "syscall __NR_keyctl requested, \
--but not implemented on your system"
--	else
--	    secret_keyring=no
--	fi
--    fi
+-  if compile_prog "" ""; then
+-    have_usbfs=yes
+-  fi
 -fi
 -
  ##########################################
- # End of CC checks
- # After here, no more $cc or $ld runs
-@@ -2760,10 +2720,6 @@ if test -n "$gdb_bin"; then
-     fi
+ # capstone
+ 
+@@ -2641,9 +2616,6 @@ fi
+ if test "$module_upgrades" = "yes"; then
+   echo "CONFIG_MODULE_UPGRADES=y" >> $config_host_mak
  fi
- 
--if test "$secret_keyring" = "yes" ; then
--  echo "CONFIG_SECRET_KEYRING=y" >> $config_host_mak
+-if test "$have_usbfs" = "yes" ; then
+-  echo "CONFIG_USBFS=y" >> $config_host_mak
 -fi
--
- echo "ROMS=$roms" >> $config_host_mak
- echo "MAKE=$make" >> $config_host_mak
- echo "PYTHON=$python" >> $config_host_mak
-diff --git a/crypto/meson.build b/crypto/meson.build
-index 19c44bea89..f065f2f277 100644
---- a/crypto/meson.build
-+++ b/crypto/meson.build
-@@ -34,7 +34,9 @@ else
-   crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
- endif
- 
--crypto_ss.add(when: 'CONFIG_SECRET_KEYRING', if_true: files('secret_keyring.c'))
-+if have_keyring
-+  crypto_ss.add(files('secret_keyring.c'))
-+endif
- if have_afalg
-   crypto_ss.add(if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
- endif
+ if test "$gio" = "yes" ; then
+     echo "CONFIG_GIO=y" >> $config_host_mak
+     echo "GIO_CFLAGS=$gio_cflags" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index bdee186702..066bb69174 100644
+index 066bb69174..c0b2838d2e 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -1938,6 +1938,19 @@ config_host_data.set('CONFIG_GETAUXVAL', cc.links(gnu_source_prefix + '''
      return getauxval(AT_HWCAP) == 0;
    }'''))
  
-+have_keyring = get_option('keyring') \
-+  .require(targetos == 'linux', error_message: 'keyring is only available on Linux') \
-+  .require(cc.compiles('''
-+    #include <errno.h>
-+    #include <asm/unistd.h>
-+    #include <linux/keyctl.h>
-+    #include <sys/syscall.h>
-+    #include <unistd.h>
-+    int main(void) {
-+        return syscall(__NR_keyctl, KEYCTL_READ, 0, NULL, NULL, 0);
-+    }'''), error_message: 'keyctl syscall not available on this system').allowed()
-+config_host_data.set('CONFIG_SECRET_KEYRING', have_keyring)
++config_host_data.set('CONFIG_USBFS', have_linux_user and cc.compiles('''
++  #include <linux/usbdevice_fs.h>
 +
- have_cpuid_h = cc.links('''
-   #include <cpuid.h>
-   int main(void) {
-@@ -3684,7 +3697,7 @@ if nettle.found()
- endif
- summary_info += {'AF_ALG support':    have_afalg}
- summary_info += {'rng-none':          get_option('rng_none')}
--summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
-+summary_info += {'Linux keyring':     have_keyring}
- summary(summary_info, bool_yn: true, section: 'Crypto')
- 
- # Libraries
-diff --git a/meson_options.txt b/meson_options.txt
-index c00e0866e9..d58c69315c 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -90,6 +90,8 @@ option('avx2', type: 'feature', value: 'auto',
-        description: 'AVX2 optimizations')
- option('avx512f', type: 'feature', value: 'disabled',
-        description: 'AVX512F optimizations')
-+option('keyring', type: 'feature', value: 'auto',
-+       description: 'Linux keyring support')
- 
- option('attr', type : 'feature', value : 'auto',
-        description: 'attr/xattr support')
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index cd922614e8..0daeb11fd3 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -68,6 +68,7 @@ meson_options_help() {
-   printf "%s\n" '  hvf             HVF acceleration support'
-   printf "%s\n" '  iconv           Font glyph conversion support'
-   printf "%s\n" '  jack            JACK sound support'
-+  printf "%s\n" '  keyring         Linux keyring support'
-   printf "%s\n" '  kvm             KVM acceleration support'
-   printf "%s\n" '  l2tpv3          l2tpv3 network backend support'
-   printf "%s\n" '  libdaxctl       libdaxctl support'
-@@ -229,6 +230,8 @@ _meson_option_parse() {
-     --disable-install-blobs) printf "%s" -Dinstall_blobs=false ;;
-     --enable-jack) printf "%s" -Djack=enabled ;;
-     --disable-jack) printf "%s" -Djack=disabled ;;
-+    --enable-keyring) printf "%s" -Dkeyring=enabled ;;
-+    --disable-keyring) printf "%s" -Dkeyring=disabled ;;
-     --enable-kvm) printf "%s" -Dkvm=enabled ;;
-     --disable-kvm) printf "%s" -Dkvm=disabled ;;
-     --enable-l2tpv3) printf "%s" -Dl2tpv3=enabled ;;
++  #ifndef USBDEVFS_GET_CAPABILITIES
++  #error "USBDEVFS_GET_CAPABILITIES undefined"
++  #endif
++
++  #ifndef USBDEVFS_DISCONNECT_CLAIM
++  #error "USBDEVFS_DISCONNECT_CLAIM undefined"
++  #endif
++
++  int main(void) { return 0; }'''))
++
+ have_keyring = get_option('keyring') \
+   .require(targetos == 'linux', error_message: 'keyring is only available on Linux') \
+   .require(cc.compiles('''
 -- 
 2.35.1
 
