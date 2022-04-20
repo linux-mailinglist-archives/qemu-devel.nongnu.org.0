@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44955509018
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:13:50 +0200 (CEST)
-Received: from localhost ([::1]:53496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB79509085
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:33:47 +0200 (CEST)
+Received: from localhost ([::1]:46522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhFlt-0000sV-AA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:13:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37550)
+	id 1nhG5C-0003Z3-C1
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:33:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFi4-0006JK-Ct; Wed, 20 Apr 2022 15:09:52 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:37620)
+ id 1nhFif-0006iL-Rd; Wed, 20 Apr 2022 15:10:33 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:38818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFi2-0001xq-GA; Wed, 20 Apr 2022 15:09:51 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id q129so3157116oif.4;
- Wed, 20 Apr 2022 12:09:49 -0700 (PDT)
+ id 1nhFid-0002HG-Rj; Wed, 20 Apr 2022 15:10:29 -0400
+Received: by mail-oi1-x236.google.com with SMTP id r8so3150905oib.5;
+ Wed, 20 Apr 2022 12:10:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=pKoO2wN75DtupX6mh5AhB1m6iPHSiuSU2OUM7+BKpiM=;
- b=ekTWcOeYj6/o8eamcvB9urreKto8MDGNbqe2khWBflh5cnazdBaZYakYVOaK5fFdDk
- U51dAoAbRL3hPYVYFlVRFT7Fqlx8KloiHCo0y0H86XQnsaLfcQkyH2pn/iohbiHsWsl9
- Y1yNjXYELtm+HYf36X7+6ZGv44jdz/rkT7isYn8jn6G9/AB6YEVwmQCiHhtuVC6Qe7+z
- Vz1PfSjgr1WKeAa0Ke72573/OtLYou7e4gZ3M89McSIHpgLE4qrhbbzhrzanuAy7C4Ss
- wLCxf+qWmNc4poEOU4ZUK4pPjIbtDA1q1EZgqMYrMf1rzM001nzX7ukAjuSRuFJr2jMU
- /3cA==
+ bh=y7mNme8fshH2622cAXefdm98NMHwLVVnxsOkjOSLb/s=;
+ b=pQQeQqd75E08iBEwELdPwY8CQix8Si+SQYWhqDFTZNM0q9jjcvRJERSkW+6g+MNFf7
+ jN5+KdaqPj1728BzBhYtkjlZJSwByXA84bw/Gwy9VlAUzJT/5MOscx3QTQXys0qFEWA5
+ FaztTPnsd6V1tMYrNuX37s4g/tWqtOrzrP8g0uZ46DGVqfxeP3TE6KRia/DA4kyEz6HM
+ cOKO/Rf59g71ThxIDpXfCBjfAjcU0MkfxNXOjl0mR2fGObPEAZd7XFQxXji+DH+CdQel
+ AceLPB6KFgdU728a+rI71m/5ja633eTHWkzd9LpvqMdw/7wPKYXXBCxrFEoaUTkVbw8X
+ svGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=pKoO2wN75DtupX6mh5AhB1m6iPHSiuSU2OUM7+BKpiM=;
- b=o4fGDRIAu2noJpk6mHb53RGDdQtVqZxnuA7rDilGH1MW3mobDbKPSQ9MJQK/QTY5H7
- ZFCny8pFI9XTmF6ECqYYv6M9p1LfSHQBQ4DE3OovHWFQtVr55BYyHswy44mRr7BCq3Y2
- 46WOzCKSEb59OGKjhDxZydYf6z7S0QpPuG9oDeO38itkqpMuwKhXtkRHte5aWACEE4lY
- zCq2AvjgT50rNmjN17CyUsM6t82v+MTby96TEHzy+9AHSMB9kAJ04sGx/YFxTKW/X0m5
- /k7fkxJs4jV53FHfUg9g2z4kTrQqoCrkypRHW5kMc3ql+RzUjZYilPgUm2jrxz92JdW2
- 0oRw==
-X-Gm-Message-State: AOAM532Ueg82doG9totQ1+eGjjlBxEWAecBC9ymmsVybt45bK7wTJAgA
- 6mXRErTf+P0YZ9juGvUMyUs=
-X-Google-Smtp-Source: ABdhPJzUNTogZdcjUcUykEtv+P0hPlJnUZp5siz8dbo114hzqnqbHI7GcMafVDdQ8v8Pj9ZCL8/lTw==
-X-Received: by 2002:a05:6808:10c7:b0:322:b2a0:8b7e with SMTP id
- s7-20020a05680810c700b00322b2a08b7emr2574599ois.224.1650481788900; 
- Wed, 20 Apr 2022 12:09:48 -0700 (PDT)
+ bh=y7mNme8fshH2622cAXefdm98NMHwLVVnxsOkjOSLb/s=;
+ b=vgQa/MpBz/aVagZpRElpoKUP7EBxqoPZbNblzgr/tX2AKFH0TsTvQWYVNyhjOgntRE
+ dkp+QPsHScqwFVRvDGp2FrVdJoluKPT87VQ/c1OKldRU4oIXg2nhx8JBys/UGzIBWtAv
+ xP0g+q3yIUopbqycvoWf52ldjwJjZ8SYLWiHPBznh2IahQELBuePqhwPaTklz0wfoIGQ
+ Jum05J9RR0u1dNfjxXeBsBsxpbj19JcStIRU4NDOXNJTp4maBR5jx54IRp8xpNdNLMb0
+ aC1UIHmOu+VXRjo2Fmb8ZS8EVDXFNOPP2NyyRcI8ces33EYq5qTos5vMoFna2QCJL0gL
+ mfMA==
+X-Gm-Message-State: AOAM532DBoUlK23d8LW3H+RAjABJvzyV0ohCY/UZsRAQmmC9hn1UZAmk
+ c1acWh5LGx9Pp4UucF3I5QJ20Qr8z9o=
+X-Google-Smtp-Source: ABdhPJyWSL4Y2HRcWuixR2qdM7M5Bpp6E6SuWa0Qb0sSsSEtVwkJyF1nsfwIP5A2GYgEKW1DVn+49w==
+X-Received: by 2002:a05:6808:3010:b0:2f7:3e71:88b2 with SMTP id
+ ay16-20020a056808301000b002f73e7188b2mr2493537oib.102.1650481826510; 
+ Wed, 20 Apr 2022 12:10:26 -0700 (PDT)
 Received: from [192.168.10.222] ([179.225.252.195])
  by smtp.gmail.com with ESMTPSA id
- q13-20020a4ab3cd000000b0032830efe365sm6966207ooo.43.2022.04.20.12.09.45
+ v7-20020a4a3147000000b00338c6fbb67asm6279658oog.1.2022.04.20.12.10.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 12:09:47 -0700 (PDT)
-Message-ID: <71f1a4bb-2ae7-b2e3-37be-e09c0e266879@gmail.com>
-Date: Wed, 20 Apr 2022 16:09:44 -0300
+ Wed, 20 Apr 2022 12:10:25 -0700 (PDT)
+Message-ID: <6c88a6e2-9597-e808-4c81-b25e0033e722@gmail.com>
+Date: Wed, 20 Apr 2022 16:10:22 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PULL SUBSYSTEM qemu-pnv] ppc/pnv: Update skiboot firmware image
+Subject: Re: [PATCH qemu] ppc/spapr/ddw: Add 2M pagesize
 Content-Language: en-US
-To: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-References: <CACPK8XfoKNxr6_KkDFFZm0P5w9m_ddD5E4SeuAkypXXr7swR7A@mail.gmail.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org
+References: <20220321071945.918669-1-aik@ozlabs.ru>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <CACPK8XfoKNxr6_KkDFFZm0P5w9m_ddD5E4SeuAkypXXr7swR7A@mail.gmail.com>
+In-Reply-To: <20220321071945.918669-1-aik@ozlabs.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,43 +87,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-
-
-On 3/7/22 01:24, Joel Stanley wrote:
-> The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
-> 
->    Merge remote-tracking branch
-> 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05
-> 18:03:15 +0000)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/shenki/qemu tags/qemu-rom-skiboot-v7.0
-> 
-> for you to fetch changes up to 76b349cf7b40349069892bbc0bdae5e5363b27c9:
-> 
->    ppc/pnv: Update skiboot to v7.0 (2022-03-07 14:50:50 +1030)
-> 
-> ----------------------------------------------------------------
-> Update skiboot to v7.0
-> 
-> ----------------------------------------------------------------
-> Joel Stanley (1):
->        ppc/pnv: Update skiboot to v7.0
-
 
 Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 
 Daniel
 
+
+On 3/21/22 04:19, Alexey Kardashevskiy wrote:
+> Recently the LoPAPR spec got a new 2MB pagesize to support in Dynamic DMA
+> Windows API (DDW), this adds the new flag.
 > 
->   pc-bios/skiboot.lid | Bin 2528128 -> 2527240 bytes
->   roms/skiboot        |   2 +-
->   2 files changed, 1 insertion(+), 1 deletion(-)
+> Linux supports it since
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=38727311871
 > 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
+> PHYP added support for it in development builds as well.
+> ---
+>   include/hw/ppc/spapr.h  | 1 +
+>   hw/ppc/spapr_rtas_ddw.c | 1 +
+>   2 files changed, 2 insertions(+)
+> 
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index f5c33dcc8616..14b01c3f5963 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -745,6 +745,7 @@ void push_sregs_to_kvm_pr(SpaprMachineState *spapr);
+>   #define RTAS_DDW_PGSIZE_128M     0x20
+>   #define RTAS_DDW_PGSIZE_256M     0x40
+>   #define RTAS_DDW_PGSIZE_16G      0x80
+> +#define RTAS_DDW_PGSIZE_2M       0x100
+>   
+>   /* RTAS tokens */
+>   #define RTAS_TOKEN_BASE      0x2000
+> diff --git a/hw/ppc/spapr_rtas_ddw.c b/hw/ppc/spapr_rtas_ddw.c
+> index 3e826e1308c4..13d339c807c1 100644
+> --- a/hw/ppc/spapr_rtas_ddw.c
+> +++ b/hw/ppc/spapr_rtas_ddw.c
+> @@ -72,6 +72,7 @@ static uint32_t spapr_page_mask_to_query_mask(uint64_t page_mask)
+>       const struct { int shift; uint32_t mask; } masks[] = {
+>           { 12, RTAS_DDW_PGSIZE_4K },
+>           { 16, RTAS_DDW_PGSIZE_64K },
+> +        { 21, RTAS_DDW_PGSIZE_2M },
+>           { 24, RTAS_DDW_PGSIZE_16M },
+>           { 25, RTAS_DDW_PGSIZE_32M },
+>           { 26, RTAS_DDW_PGSIZE_64M },
 
