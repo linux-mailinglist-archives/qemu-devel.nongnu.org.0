@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F81E508D86
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:42:01 +0200 (CEST)
-Received: from localhost ([::1]:53508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6523C508D89
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 18:42:48 +0200 (CEST)
+Received: from localhost ([::1]:56526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhDOw-0001Qy-7Q
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49774)
+	id 1nhDPj-0003Yn-Fn
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 12:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nhCnZ-00069r-HZ
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 12:03:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27699)
+ id 1nhCna-0006Ju-NX
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 12:03:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1nhCnW-0005SF-C5
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 12:03:19 -0400
+ id 1nhCnZ-0005SW-2p
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 12:03:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650470596;
+ s=mimecast20190719; t=1650470600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MgntCgM7i9jwJWDJ6xsS5SagH4RnVcHCYPctIxVtsS4=;
- b=duUJGDLV1htkSZ2UL287uqxrtQexpBxuedYlx3b5URssJN6tSaaKlv+ZrQk/Oo3V6ksPmP
- MZDYmnbl6+IUneRcg0qHN/gcaA3rrcymwNvRVLoDipK9m9kTOQLxM/u+s3hpDzQ+tUsKw3
- ZFsUzhH4RWaXNGPL+MRUZnL0aNkaHXU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C8wN5U7rcOEJjp166vEepL4AyCDFxN+ylHVO5T/N5qQ=;
+ b=F6hryljv3ZxmWDHp8ojfB+Cpoivu1yM9NF3nLeCCvOqVt/D/8vpnvVLFoW96zqwtTcH5gv
+ odSWdXIz8r5Po4m+5+Oiw4MdrN02asl/1hCibF8DveFk8JXDWNC/fv0qxkntpmfbwthZBm
+ rFDunjRgMwdb098eEeO2rDkeQO3n6uc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-390-FivqP5gBM-SUz-4llxMkmA-1; Wed, 20 Apr 2022 12:03:15 -0400
-X-MC-Unique: FivqP5gBM-SUz-4llxMkmA-1
+ us-mta-278-PR6dqXaoOJKVM6bDit8-WA-1; Wed, 20 Apr 2022 12:03:18 -0400
+X-MC-Unique: PR6dqXaoOJKVM6bDit8-WA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1AF001014A89
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 16:03:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91DCC1C05139
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 16:03:18 +0000 (UTC)
 Received: from harajuku.usersys.redhat.com (unknown [10.40.192.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 458052024CBB;
- Wed, 20 Apr 2022 16:03:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 640602024CBB;
+ Wed, 20 Apr 2022 16:03:15 +0000 (UTC)
 From: Andrea Bolognani <abologna@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] docs: build-platforms: Fix and clarify
-Date: Wed, 20 Apr 2022 18:03:09 +0200
-Message-Id: <20220420160311.248079-1-abologna@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH 1/2] docs: build-platforms: Fix spelling for Homebrew
+Date: Wed, 20 Apr 2022 18:03:10 +0200
+Message-Id: <20220420160311.248079-2-abologna@redhat.com>
+In-Reply-To: <20220420160311.248079-1-abologna@redhat.com>
+References: <20220420160311.248079-1-abologna@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -77,17 +80,33 @@ Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=0D
-=0D
-Andrea Bolognani (2):=0D
-  docs: build-platforms: Fix spelling for Homebrew=0D
-  docs: build-platforms: Clarify stance on minor releases and backports=0D
-=0D
- docs/about/build-platforms.rst | 9 ++++++---=0D
- 1 file changed, 6 insertions(+), 3 deletions(-)=0D
-=0D
--- =0D
-2.35.1=0D
-=0D
+Signed-off-by: Andrea Bolognani <abologna@redhat.com>
+---
+ docs/about/build-platforms.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index c29a4b8fe6..e9163ba556 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -80,7 +80,7 @@ Ubuntu LTS. Other distros will be assumed to ship similar software versions.
+ For FreeBSD and OpenBSD, decisions will be made based on the contents of the
+ respective ports repository, while NetBSD will use the pkgsrc repository.
+ 
+-For macOS, `HomeBrew`_ will be used, although `MacPorts`_ is expected to carry
++For macOS, `Homebrew`_ will be used, although `MacPorts`_ is expected to carry
+ similar versions.
+ 
+ Windows
+@@ -92,6 +92,6 @@ hosted on Linux (Debian/Fedora).
+ The version of the Windows API that's currently targeted is Vista / Server
+ 2008.
+ 
+-.. _HomeBrew: https://brew.sh/
++.. _Homebrew: https://brew.sh/
+ .. _MacPorts: https://www.macports.org/
+ .. _Repology: https://repology.org/
+-- 
+2.35.1
 
 
