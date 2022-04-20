@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F51509165
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:28:33 +0200 (CEST)
-Received: from localhost ([::1]:47124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0739509164
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 22:28:16 +0200 (CEST)
+Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGwC-0003cD-Cz
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46756)
+	id 1nhGvu-0002kv-Lb
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 16:28:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhGNO-0001p6-RB
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:52:35 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:42606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhGNM-0000se-Ty
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 15:52:34 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id j17so2921711pfi.9
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 12:52:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=db/J39YHhART9c7wUeeW91nBgFmvUkqKYD44zt4mMjM=;
- b=ru76txpo8VlgrYE8/AmZpc3Asx40q2C4IMjozjHatUrIZRGzbmGItmvIF4DPZR5X/9
- j/EsP3mwCEYDKrb7cHQPfSEUdMaIRYorHJ0Itgdoy2lQDJWf8D/pWLReSgoXWj2/I9KY
- MvJzcJE2VcaaogNTU34ZQGcGroE/CRS1QLwdwQ/Nwg3eYqfpmgoYrGMfC3U84jYC9Aa+
- Y7oC0mvpBlobgMH6w/g0h0a8gfU9oHFKzJdkBWrdUoAZX3bWMhnOZCslP2I094YEcRNH
- IhO7nN2aO/8d8FQ14uLqMMCqM2bYKR+SNBgPa0JC56Lj2lsJL+gVEro3ofpnKpS/LROC
- kh/Q==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nhGVx-0003n0-Uu
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 16:01:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20406)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nhGVu-0002JS-D1
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 16:01:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650484880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hcIp/QTMyvqoOMGZfVK9puIhxtI1F5YGCEkGqy/pWdU=;
+ b=XH2eDUmZmLob3/fBQbDX+c/DeXp+S8++dKM7y0bTFH6ZC6Tw4LlGxWiYykIfONBQj9yMz5
+ o4syplX53AH0macU1JUwSld2bRtXiflSXZpHLNa5lqrsfBOG9NgkynzcSWD3+Az5Fmo4eG
+ oQdNwt/G7Y4SwWmHIeHfP2p1RtYJ5ws=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-472-uMM5kVQxN3uTZJyAO3OdHQ-1; Wed, 20 Apr 2022 16:01:19 -0400
+X-MC-Unique: uMM5kVQxN3uTZJyAO3OdHQ-1
+Received: by mail-il1-f197.google.com with SMTP id
+ j5-20020a056e020ee500b002cbc90840ecso1501434ilk.23
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 13:01:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=db/J39YHhART9c7wUeeW91nBgFmvUkqKYD44zt4mMjM=;
- b=VwONicpboDG9of5GvC+WtXW2cUTA7BSi/34GJ7fFaU0S1GTGF8sP/PspI5Z8+dMwc/
- 23dZC6px9ZGyHLMs9kVKgWYVdwzE9i29kPHp09ydRGVKi6KjYOGP9OOeNT0defz7gxcs
- g76sF+/YJuAvFChcX1Hs7xYVzoJmtujZG99XZyoB0TzIb8n+9V3Lmd0kD4t1phqGlePC
- 5IPDNlhvlXAWX5jHbv5Wotkh36Yd2nnpa8zev7/fWr7Ykahx/RjDxomxdnxUR4GyEMpn
- oju1fsy0OfItoPkgC3OwMAnUSMPWqKDcyKwUO14xhZ4nmHJ+PyNP7vsvdeTfKmkzKbZu
- 6fuQ==
-X-Gm-Message-State: AOAM533Y9hkCSRS89fUtto5UXpBM6o4rb+zMy3fH9rTfR/uxgY17Neuu
- oyHRSIBUhSS63yn2J4b5CVX0XQ==
-X-Google-Smtp-Source: ABdhPJymOezGZzq5Qfeu0WufCC7O/PezuWGaf0jjiL05eYtRZVSldI0qLf9/uKsTZT1FGJ3YnAdIlQ==
-X-Received: by 2002:aa7:9afb:0:b0:50a:c915:56b6 with SMTP id
- y27-20020aa79afb000000b0050ac91556b6mr5936144pfp.78.1650484351465; 
- Wed, 20 Apr 2022 12:52:31 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=hcIp/QTMyvqoOMGZfVK9puIhxtI1F5YGCEkGqy/pWdU=;
+ b=Xeit513j7qH2ThhnN5Kwd8FPiFTFYZi2BfQY0IYK6+YIbfUfPa/obKeFJr/JXEQ6IZ
+ N8s1Dw3SyyPCQo6jsGF0UJfcazofGaBWKWObi2BucJslKOxubfJlFS6ijeIhUDGPeTHo
+ XNxLEgDtlbn5cCMfiC7aRkLHOOejbp8LBP2SHyz+oGczyzuelwg9L5RtlSicZtpDU3ME
+ OD8sdxkFO8w8KgAASWPoD8hGG2VmJ0JJUOlcnakYNM5T4PJYiSyUY6hdvw/CiwEryOYl
+ cK0vTHDKfNYlS7w1mV+52/zu8FNQbedIa04iTtgnpiUhVDoMWJ9anvJecdEPOjum+udl
+ xfPQ==
+X-Gm-Message-State: AOAM533onac9rSmkZt9kC7P7hRMLOeXNhxhyc8IjNrZv1r2ys0L48g/0
+ c5QulHGdBTsiAgGS5ekCUWWXZq0MUB/m9rNyZZ6M8p0xfImbOfJUchomrDwn9T8Fa5gm2VtsqBV
+ hvnz2ruAqaorBwo4=
+X-Received: by 2002:a05:6e02:1445:b0:2cc:4b0a:5457 with SMTP id
+ p5-20020a056e02144500b002cc4b0a5457mr4340475ilo.243.1650484878787; 
+ Wed, 20 Apr 2022 13:01:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfg5J5gjBN2a+ThKx2OR4jRSm+YRF67dBoLt20wIwNG99xfU2ALGPaYk9jCJplG3bMZjDy3w==
+X-Received: by 2002:a05:6e02:1445:b0:2cc:4b0a:5457 with SMTP id
+ p5-20020a056e02144500b002cc4b0a5457mr4340464ilo.243.1650484878596; 
+ Wed, 20 Apr 2022 13:01:18 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- l5-20020a63f305000000b0039daaa10a1fsm20480787pgh.65.2022.04.20.12.52.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 12:52:30 -0700 (PDT)
-Message-ID: <962f7ef4-7dcc-fb5d-5e55-90eb3ba65e47@linaro.org>
-Date: Wed, 20 Apr 2022 12:52:28 -0700
+ s12-20020a92cbcc000000b002bd04428740sm11190227ilq.80.2022.04.20.13.01.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 13:01:18 -0700 (PDT)
+Date: Wed, 20 Apr 2022 16:01:14 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v4 15/19] migration: Export tls-[creds|hostname|authz]
+ params to cmdline too
+Message-ID: <YmBmisrlDpQEFnRc@xz-m1.local>
+References: <20220331150857.74406-1-peterx@redhat.com>
+ <20220331150857.74406-16-peterx@redhat.com>
+ <Yl/qw5ogeSjgrnuX@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH v3 2/5] ppc64: Fix semihosting on ppc64le
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Leandro Lupori <leandro.lupori@eldorado.org.br>
-References: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
- <20220418191100.270334-3-leandro.lupori@eldorado.org.br>
- <CAFEAcA854-k-c5ZAbb=m2LE_ogi2Gf-3idOxOc37zN844mKyAA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA854-k-c5ZAbb=m2LE_ogi2Gf-3idOxOc37zN844mKyAA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yl/qw5ogeSjgrnuX@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,26 +99,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com, alex.bennee@linaro.org,
- david@gibson.dropbear.id.au
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/20/22 12:42, Peter Maydell wrote:
-> On Mon, 18 Apr 2022 at 20:19, Leandro Lupori
-> <leandro.lupori@eldorado.org.br> wrote:
->>
->> PPC64 CPUs can change its endian dynamically, so semihosting code
->> must check its MSR at run time to determine if byte swapping is
->> needed.
+On Wed, Apr 20, 2022 at 12:13:07PM +0100, Daniel P. Berrangé wrote:
+> On Thu, Mar 31, 2022 at 11:08:53AM -0400, Peter Xu wrote:
+> > It's useful for specifying tls credentials all in the cmdline (along with
+> > the -object tls-creds-*), especially for debugging purpose.
+> > 
+> > The trick here is we must remember to not free these fields again in the
+> > finalize() function of migration object, otherwise it'll cause double-free.
+> > 
+> > The thing is when destroying an object, we'll first destroy the properties
+> > that bound to the object, then the object itself.  To be explicit, when
+> > destroy the object in object_finalize() we have such sequence of
+> > operations:
+> > 
+> >     object_property_del_all(obj);
+> >     object_deinit(obj, ti);
+> > 
+> > So after this change the two fields are properly released already even
+> > before reaching the finalize() function but in object_property_del_all(),
+> > hence we don't need to free them anymore in finalize() or it's double-free.
 > 
-> Arm CPUs also change endianness dynamically, so why is this
-> change PPC-specific ?
+> 
+> I believe this is also fixing a small memory leak
 
-I'm reasonably certain that we simply don't test armbe or aarch64_be semihosting.  Leandro 
-found this because qemu-system-ppc64 defaults to BE and qemu-system-aarch64 defaults to LE.
+Yes I think so.
 
+I didn't even mention it since it's one global tiny variable and IIUC QEMU
+does have other similar cases of keeping vars around. As long as it'll not
+grow dynamically, then doesn't sound like a huge problem.
 
-r~
+But yeah, doing proper free is still ideal.  So I'll add one more sentence
+to the commit message in next version.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
