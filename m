@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927C9509324
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 00:47:12 +0200 (CEST)
-Received: from localhost ([::1]:41836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F0B5093AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 01:44:29 +0200 (CEST)
+Received: from localhost ([::1]:50302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhJ6N-00024e-Np
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 18:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48118)
+	id 1nhJzn-0000YP-Ng
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 19:44:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nhJ5E-0001GO-Dz; Wed, 20 Apr 2022 18:46:00 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:34801)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhJyB-0008Dc-KE
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 19:42:47 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:45678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nhJ5C-0001nx-OP; Wed, 20 Apr 2022 18:46:00 -0400
-Received: by mail-io1-xd36.google.com with SMTP id i196so3494034ioa.1;
- Wed, 20 Apr 2022 15:45:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sQF5B/sx/UK8NNmSdSdi1tJIT4cDUaQcK7OnkqBFnRE=;
- b=Sgq+DvumlkXYYIgbbOGJMRR8lFWU9VP98Tqfs2g8e/BxU0F5g6YgdBEfquTvZOW7yH
- /z7iAH5WkmltbEWI12Djdc9LqQyFisw4PCgqYaun2I3zulGdleFTscxb26MxBSc8+TDU
- Cd4oO9H5Dn94i/KcNuAb9VsNE1Lb7Eiw9a/7IzR5vCmLZ7/0iccNDpIt8hatu+Vn7gxu
- lmNE/B6/1yJEfzVn6BQQK4oyIbqATSa0Pz273r4O/6nis4gQV/atyb2s66UK83gjo3mw
- g89SBZE5QW3N60gHKbqeOEIdoeFtCwbqTimfNj/3BUQu2/V3i4SPNSrYZ5kXyYn0CPxJ
- pQuA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhJy9-00014e-LB
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 19:42:47 -0400
+Received: by mail-pg1-x531.google.com with SMTP id k29so3128643pgm.12
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 16:42:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:references:in-reply-to:content-transfer-encoding;
+ bh=zxZhuS8W/AwSHTFJoKwfRX8VCNwRneFwdUe7IL0gaMM=;
+ b=gnoTu5yN6wgtePT1HxTYvaqxoaOSpAUvmlZZOiVnsVJaFwdgDHbWyrLS0W1bhMzM0o
+ UBtkjXgkpzOg/hWUlAewA+WiGZpN4kNLeOhFlnrXNYJIsDzhK2e4mlWn1q90Rpar73Mw
+ wonfqzUuobXAHAx41ghtI1PA69UpVmJkyEK0EK54tuEGyS3jBlrDH1wWh4joPa4LSTUs
+ 2+K086i7MFMDb7ud+cMBk5Vz6RjUfxOIXFkVm1qcc0fod+DoQAH10d7+90aZ8yo6/aUK
+ qKiA4XdwZKmhCic/BhBZzHwHAeO8LLKD7huPi6izDtSDw9TpfkrQqKc+fUHbEkHWtnpy
+ 3m9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sQF5B/sx/UK8NNmSdSdi1tJIT4cDUaQcK7OnkqBFnRE=;
- b=kJXXeXcrH8ITK7ePniPAvXFa7cJ8sVs+eXTr0BkTABCNvncP1tYYAsR047vAdVmrcO
- FajMnvI4uXuZ/lZe0I5lh3+FjEEhXoxLjJx84La2R46FdX9yLxajL7OOdQi3Bvy9jXq0
- VyYHEU1q2mUHFS5WyN1A5aEdaivdBzUU1t3EdRJGY6YsVNKse3PPq/pW8dWLyn/phYkL
- l5uOx7Vc23alLw+0WBOLso+V8NPkH9qOreEsOA5uLOhaMeVxX4ByvZg5hs4EvDXLBibX
- t+AxQw0SOskZ/HmmWTFwy+c50kRzoFfT6mXGvtouZTJcanhcgxW8I5Zi8l0ECDclrbT9
- M/cQ==
-X-Gm-Message-State: AOAM532QFJ87pNIC5ESFDZE1szR5Af7wf0KzcEp72+90LsF8hpTzjD4z
- LXjhOLCLr4T08zibb9kcAyLWtujanM+0c3BAB0ha9W0H320E93iC
-X-Google-Smtp-Source: ABdhPJylZEppHjuTPKJNCfjZdZJ4IZ4vrIfAHIAh7Fip7eZo0nL4lCAnkfdMo61TYzjAgW7aAZ7zFuE/5qNMyehJ/lY=
-X-Received: by 2002:a5d:948a:0:b0:64d:23a4:9afa with SMTP id
- v10-20020a5d948a000000b0064d23a49afamr9860294ioj.114.1650494757231; Wed, 20
- Apr 2022 15:45:57 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=zxZhuS8W/AwSHTFJoKwfRX8VCNwRneFwdUe7IL0gaMM=;
+ b=3ORVLHUUC9ceHe5jSg5j/P5Eu59uRll2g5nkvrBQGsq3ogJKCXvxl2ySO6WvU3yYgQ
+ xwg6Fsc8o+GzS3rIcRwKn4SolGnVdxRT3lWM7DFG4N3Am7MtBgavUqwiAD4kpDlZDjl5
+ AaBuyuSDiqdn35P84cbtcNVC2V4sjm4yeUiMMMUOCwBF10DgeuUvIIO+8Q4pk36uHu+d
+ dm7XGVduSdfwivkSS6BfsqgsVk4q1Iic9kaTHmAeedO52c7o6aAHNzJc478cltzI0AXd
+ cVOi9YPQ2zrVd6t/0m0zmOo1BREBmskbGs1AIfzSWsJ+CHfPCSqEoG5e+mzahV6iJpYz
+ 2ssw==
+X-Gm-Message-State: AOAM530CJr6wXLU5RyPnmPrntp+dB0Ur560K7ndZSyCx+vdPcML15v+u
+ aQ9G80vgRLaZoLgvOSOUSLuWbWdxegX/1Q==
+X-Google-Smtp-Source: ABdhPJzWdoh86FQo+CvEO5fuwCEBVM8mIBq7yuLPXUWSc8SeZsGP0BnD+6ZWJSdiD0CkGztyht9+IQ==
+X-Received: by 2002:a05:6a00:1749:b0:50a:8eed:b824 with SMTP id
+ j9-20020a056a00174900b0050a8eedb824mr13971762pfc.50.1650498163975; 
+ Wed, 20 Apr 2022 16:42:43 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:8068:1e8a:3e18:1987:201e:37a7?
+ ([2607:fb90:8068:1e8a:3e18:1987:201e:37a7])
+ by smtp.gmail.com with ESMTPSA id
+ n59-20020a17090a5ac100b001cd498dc153sm1049371pji.3.2022.04.20.16.42.41
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 16:42:42 -0700 (PDT)
+Message-ID: <3f4c15ae-0c96-b151-320e-415ac1f3e014@linaro.org>
+Date: Wed, 20 Apr 2022 16:42:38 -0700
 MIME-Version: 1.0
-References: <20220315065529.62198-1-bmeng.cn@gmail.com>
- <20220315065529.62198-3-bmeng.cn@gmail.com>
- <CAKmqyKMoRqbfSsUNM1O1cQGHaL9rc6fsCqJxEktQNrgrLCimgA@mail.gmail.com>
- <CAEUhbmX0SdEcD8UWJUmmPm2SubT6gd991jNMAZJA8WFbRsdoaQ@mail.gmail.com>
- <CAEUhbmVrUMS638bbA+pnoHgeQdRc9KkBGb21wXD+2A8=RHbqwA@mail.gmail.com>
-In-Reply-To: <CAEUhbmVrUMS638bbA+pnoHgeQdRc9KkBGb21wXD+2A8=RHbqwA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 21 Apr 2022 08:45:31 +1000
-Message-ID: <CAKmqyKMUP8QL=D781FnOjDrLXBxor5Qz5uG35cCw=C7aOLh2Ww@mail.gmail.com>
-Subject: Re: [PATCH v4 2/7] target/riscv: machine: Add debug state description
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 00/39] Logging cleanup and per-thread logfiles
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20220420180618.1183855-1-richard.henderson@linaro.org>
+In-Reply-To: <20220420180618.1183855-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,100 +90,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 7:52 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Alistair,
->
-> On Wed, Apr 20, 2022 at 3:33 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Wed, Apr 20, 2022 at 3:31 PM Alistair Francis <alistair23@gmail.com>=
- wrote:
-> > >
-> > > On Tue, Mar 15, 2022 at 5:17 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > >
-> > > > From: Bin Meng <bin.meng@windriver.com>
-> > > >
-> > > > Add a subsection to machine.c to migrate debug CSR state.
-> > > >
-> > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > ---
-> > > >
-> > > > (no changes since v2)
-> > > >
-> > > > Changes in v2:
-> > > > - new patch: add debug state description
-> > > >
-> > > >  target/riscv/machine.c | 32 ++++++++++++++++++++++++++++++++
-> > > >  1 file changed, 32 insertions(+)
-> > > >
-> > > > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> > > > index 5178b3fec9..4921dad09d 100644
-> > > > --- a/target/riscv/machine.c
-> > > > +++ b/target/riscv/machine.c
-> > > > @@ -216,7 +216,38 @@ static const VMStateDescription vmstate_kvmtim=
-er =3D {
-> > > >          VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
-> > > >          VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
-> > > >          VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
-> > > > +        VMSTATE_END_OF_LIST()
-> > > > +    }
-> > > > +};
-> > > > +
-> > > > +static bool debug_needed(void *opaque)
-> > > > +{
-> > > > +    RISCVCPU *cpu =3D opaque;
-> > > > +    CPURISCVState *env =3D &cpu->env;
-> > > > +
-> > > > +    return riscv_feature(env, RISCV_FEATURE_DEBUG);
-> > >
-> > > This fails to build:
-> > >
-> > > ../target/riscv/machine.c: In function =E2=80=98debug_needed=E2=80=99=
-:
-> > > ../target/riscv/machine.c:228:31: error: =E2=80=98RISCV_FEATURE_DEBUG=
-=E2=80=99
-> > > undeclared (first use in this function); did you mean
-> > > =E2=80=98RISCV_FEATURE_EPMP=E2=80=99?
-> > >  228 |     return riscv_feature(env, RISCV_FEATURE_DEBUG);
-> > >      |                               ^~~~~~~~~~~~~~~~~~~
-> > >      |                               RISCV_FEATURE_EPMP
-> > > ../target/riscv/machine.c:228:31: note: each undeclared identifier is
-> > > reported only once for each function it appears in
-> > > ../target/riscv/machine.c:229:1: warning: control reaches end of
-> > > non-void function [-Wreturn-type]
-> > >  229 | }
-> > >      | ^
-> >
-> > That's weird. Maybe it's out of sync or merge conflict? I will take a l=
-ook.
-> >
->
-> I rebased the v4 series on top of your riscv-to-apply.next branch,
-> indeed there is a merge conflict of target/riscv/machine.c. After I
-> resolved the conflict, the build succeeded.
+On 4/20/22 11:05, Richard Henderson wrote:
+> The following changes since commit 40a4b96eb08b3a3e83895f46b2394748dac7a641:
+> 
+>    Merge tag 'pull-block-2022-04-20' of https://gitlab.com/hreitz/qemu into staging (2022-04-20 09:39:33 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/rth7680/qemu.git tags/pull-log-20220420
+> 
+> for you to fetch changes up to 4e51069d679348d2617512e56e28cdc7bb34c833:
+> 
+>    util/log: Support per-thread log files (2022-04-20 10:51:11 -0700)
+> 
+> ----------------------------------------------------------------
+> Clean up log locking.
+> Use the FILE* from qemu_log_trylock more often.
+> Support per-thread log files with -d tid.
 
-Looking at this patch series RISCV_FEATURE_DEBUG is only defined in
-patch 4, it doesn't currently exist in the tree. I'm not sure how this
-can build.
+Applied, thanks.  Please update the wiki changelog for 7.1 as appropriate.
 
-Are you sure you looked at just this patch and not the entire series?
 
->
-> I suspect you missed something during your handling of the merge conflict=
-?
+r~
 
-That's entirely possible. Can you send a rebased version please
+> 
+> ----------------------------------------------------------------
+> Richard Henderson (39):
+>        util/log: Drop manual log buffering
+>        target/hexagon: Remove qemu_set_log in hexagon_translate_init
+>        util/log: Return bool from qemu_set_log_filename
+>        util/log: Pass Error pointer to qemu_set_log
+>        os-posix: Use qemu_log_enabled
+>        util/log: Move qemu_log_lock, qemu_log_unlock out of line
+>        util/log: Rename qemu_log_lock to qemu_log_trylock
+>        hw/xen: Split out xen_pv_output_msg
+>        *: Use fprintf between qemu_log_trylock/unlock
+>        util/log: Remove qemu_log_vprintf
+>        tcg: Pass the locked filepointer to tcg_dump_ops
+>        exec/translator: Pass the locked filepointer to disas_log hook
+>        exec/log: Remove log_disas and log_target_disas
+>        accel/tcg: Use cpu_dump_state between qemu_log_trylock/unlock
+>        target/nios2: Remove log_cpu_state from reset
+>        util/log: Use qemu_log_trylock/unlock in qemu_log
+>        util/log: Drop return value from qemu_log
+>        util/log: Mark qemu_log_trylock as G_GNUC_WARN_UNUSED_RESULT
+>        util/log: Remove qemu_log_flush
+>        util/log: Drop call to setvbuf
+>        bsd-user: Expand log_page_dump inline
+>        linux-user: Expand log_page_dump inline
+>        tests/unit: Do not reference QemuLogFile directly
+>        include/exec/log: Do not reference QemuLogFile directly
+>        include/qemu/log: Move entire implementation out-of-line
+>        sysemu/os-win32: Test for and use _lock_file/_unlock_file
+>        util/log: Introduce qemu_set_log_filename_flags
+>        bsd-user: Use qemu_set_log_filename_flags
+>        linux-user: Use qemu_set_log_filename_flags
+>        softmmu: Use qemu_set_log_filename_flags
+>        util/log: Remove qemu_log_close
+>        util/log: Rename logfilename to global_filename
+>        util/log: Rename qemu_logfile to global_file
+>        util/log: Rename qemu_logfile_mutex to global_mutex
+>        util/log: Hoist the eval of is_daemonized in qemu_set_log_internal
+>        util/log: Combine two logfile closes
+>        util/log: Rename QemuLogFile to RCUCloseFILE
+>        util/log: Limit RCUCloseFILE to file closing
+>        util/log: Support per-thread log files
+> 
+>   meson.build                          |  12 ++
+>   include/exec/log.h                   |  52 +----
+>   include/exec/translator.h            |   2 +-
+>   include/qemu/log-for-trace.h         |   2 +-
+>   include/qemu/log.h                   |  93 +--------
+>   include/sysemu/os-win32.h            |  16 +-
+>   accel/tcg/cpu-exec.c                 |  18 +-
+>   accel/tcg/translate-all.c            | 118 +++++------
+>   accel/tcg/translator.c               |  12 +-
+>   bsd-user/main.c                      |  54 ++---
+>   cpu.c                                |  16 +-
+>   hw/net/can/can_sja1000.c             |  25 +--
+>   hw/xen/xen_pvdev.c                   |  45 +++--
+>   linux-user/main.c                    |  55 +++--
+>   linux-user/mmap.c                    |   7 +-
+>   monitor/misc.c                       |   9 +-
+>   net/can/can_socketcan.c              |  24 ++-
+>   os-posix.c                           |   2 +-
+>   qemu-img.c                           |   2 +-
+>   qemu-io.c                            |   2 +-
+>   qemu-nbd.c                           |   2 +-
+>   scsi/qemu-pr-helper.c                |   2 +-
+>   softmmu/vl.c                         |  21 +-
+>   storage-daemon/qemu-storage-daemon.c |   2 +-
+>   target/alpha/translate.c             |   7 +-
+>   target/arm/translate-a64.c           |   6 +-
+>   target/arm/translate.c               |   7 +-
+>   target/avr/translate.c               |   7 +-
+>   target/cris/translate.c              |   7 +-
+>   target/hexagon/translate.c           |  13 +-
+>   target/hppa/translate.c              |  15 +-
+>   target/i386/tcg/translate.c          |  22 +-
+>   target/m68k/translate.c              |   7 +-
+>   target/microblaze/translate.c        |   7 +-
+>   target/mips/tcg/translate.c          |   7 +-
+>   target/nios2/cpu.c                   |   5 -
+>   target/nios2/translate.c             |   7 +-
+>   target/openrisc/translate.c          |   7 +-
+>   target/ppc/translate.c               |   7 +-
+>   target/riscv/translate.c             |  10 +-
+>   target/rx/translate.c                |   7 +-
+>   target/s390x/tcg/translate.c         |  11 +-
+>   target/sh4/translate.c               |   7 +-
+>   target/sparc/translate.c             |   7 +-
+>   target/tricore/translate.c           |   7 +-
+>   target/xtensa/translate.c            |   7 +-
+>   tcg/tcg.c                            | 184 ++++++++---------
+>   tests/unit/test-logging.c            |  42 ++--
+>   util/log.c                           | 377 +++++++++++++++++++++++------------
+>   49 files changed, 724 insertions(+), 659 deletions(-)
 
-Alistair
-
->
-> Regards,
-> Bin
 
