@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A39B508C45
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:36:31 +0200 (CEST)
-Received: from localhost ([::1]:45648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66856508C68
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:48:51 +0200 (CEST)
+Received: from localhost ([::1]:54412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCNa-0001et-JS
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42020)
+	id 1nhCZW-0002Pw-Fk
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nhCK5-0006Bw-WE
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:32:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44107)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nhCK4-0000kS-5I
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:32:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650468771;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HiTuY9rjjy1563z3BQFBCeN+BrdbfsBve6ndwOn5/58=;
- b=O+jnpk9KVvMSDMNz60HdvuHCMWqQ6n1/r9r92alPCoWVcu/DkOeK5YbCYm+k25Y+H6LeoV
- bCVJkrEhzyAC+2RNePZi+nBpL4c6yNhTQR9w5G7AaPama5mKIO3MHE1ba69idLxngCnPMf
- xDVlUq88c8EVXEke2ah9LApVAxlsVic=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-0MJ4oq46P3e_vcEL4hganw-1; Wed, 20 Apr 2022 11:32:49 -0400
-X-MC-Unique: 0MJ4oq46P3e_vcEL4hganw-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-2f17e110a9bso18876167b3.0
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:32:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nhCLP-00010q-5D
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:17 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51979)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nhCLN-0000sx-Aj
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:14 -0400
+Received: by mail-wm1-x335.google.com with SMTP id q20so1466245wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4OugLISHCLmbcnTDyDBON/b+AD08b0Hkx2IvJhtc5WY=;
+ b=AgToFUXviJrVQ0fbfne3HuoS5HCRfPE+ihOIc6CGnIA4Pyw01RftKHrSfJLT24lwI+
+ Bn5bKadmc0EvtTB+HyLzMpC1wKOJ9sdHFxe/qOAcc8ObmXDbQOOiMNSjZCNi/fb6aXuK
+ 4Jgeua+MsDE+PcbIba2QvdqXq3yU8ylf+n5WRO1/2289zg266nSWojMZKlY9dTNXLpmZ
+ po0gQUF6fqxFpk+W/lQFNnLD3D/6mdgZCpNtCXKgx856efio//4Xsyaswt4+GQlxLGbW
+ /uo6bZ2FkAGoVc2IVcNmJdVYvpq2UhdwRPjIwFXJ7NUaqvZtyFg2MQ9zFWoVjrcQwKqx
+ 0E3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HiTuY9rjjy1563z3BQFBCeN+BrdbfsBve6ndwOn5/58=;
- b=4eLk05KTQe5SBVFYD3tz3A0ZN9L5yf/jHq4koq0ya5pZIQvLhi1ja1kRgtVbMk1zHo
- uaQoZovH5/2LTQWafuqEeK3X3I+S1QXYhzaDHi5ea8rlm3xGbwqVJIZv+ehmxBXuUN64
- A3qc+65GWTqfPAdb4pfTBaZlyH2Gio42OYqL0F/uPBQbr9d98eCdrzGL4ulj8+zjsDFE
- n1gkunsOpqQGQ6+T4sscuc4PqFr+xkm8rqBsgvAe39Fcguw9T0kN/4pB8fgGaJaMTxwm
- rZFLoKp1Lf/ZkGtchIIIhwfWHKYIM0DhkG6yts6cGqPS5g6PmeGnBOXM5P+6z62ZggNx
- 61Og==
-X-Gm-Message-State: AOAM5328D9Cn75HOOBK8+s0OV7Bbiz3EIHmBg4iIPMu2rFfHBMG+o+u8
- yqlWXiNN9UNBmU8DmdoUm+vLZqZq3Klf32HvzJh2z1o2dAUyGQ5VIJ4PyqIGo5g1gmkF1BprbWX
- hrXK7R+Mieq2gmddRi4ucTvlCuASgY3g=
-X-Received: by 2002:a25:8c01:0:b0:634:712d:3def with SMTP id
- k1-20020a258c01000000b00634712d3defmr20096769ybl.343.1650468769281; 
- Wed, 20 Apr 2022 08:32:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwC2Uj74bzTuv6ZMDv12SOqi+cXRtVBph5fYcw/gmHUPfSCYUWya2ihtKMc8mJ6ddK5swDtOpI3hhXDB48/X90=
-X-Received: by 2002:a25:8c01:0:b0:634:712d:3def with SMTP id
- k1-20020a258c01000000b00634712d3defmr20096747ybl.343.1650468769098; Wed, 20
- Apr 2022 08:32:49 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=4OugLISHCLmbcnTDyDBON/b+AD08b0Hkx2IvJhtc5WY=;
+ b=Rj/rq4brCSuztWC4Ix6ja3HQFmhHHf+k8y3cbHumXTpruk0BfENUiHqKRiGqUSBpY5
+ g2qMYXxe7Pu+UM9rkzJtaXn6EVFbIgg1Lrq1iI7PElp+sH4gUXey1DRvV3hnWByLV4oW
+ nDpR+4dEt6hZowpDk6Bfi+3VD+FLbHqIXuUncHXJmTtRr84xuO2XHF1OzMuWfYJd7zxM
+ QtuysKx1CD6FbTzc8Olr9sPAdXN62MzmsALs0zku2AZGUsmnn7u0aoOMCrn6lx4jcPuq
+ KvdcpfoozD9iH6UcMZIcRYvA4v2yTC3gPJpxhbVRmjfLfxlxVv+qCOzOekvzSpE8baZJ
+ 7s9g==
+X-Gm-Message-State: AOAM532fSLnhUfLJzrfFtieefM5MbFEmg/vmJg6t/RUNKl0ApiHhpxAv
+ kBeF5vkLN/22vMxDFgOLI/oL15VK7Lcv0A==
+X-Google-Smtp-Source: ABdhPJw2cvKo0JkOjuyBpQLBkIEbB6UOO8CaQh6EsBCn+UbBEzV1RmIQnAkC+SqX9PyjS40/wiwaFw==
+X-Received: by 2002:a05:600c:3d87:b0:38f:eb0c:fc54 with SMTP id
+ bi7-20020a05600c3d8700b0038feb0cfc54mr4325747wmb.55.1650468851662; 
+ Wed, 20 Apr 2022 08:34:11 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.10
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 08:34:10 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/34] Misc meson conversions for QEMU 7.1
+Date: Wed, 20 Apr 2022 17:33:33 +0200
+Message-Id: <20220420153407.73926-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
- <20220420132624.2439741-18-marcandre.lureau@redhat.com>
- <YmAUaMp7kTRaRCGY@redhat.com>
- <840f08cb-e28c-6802-96c7-b1f82dd36427@redhat.com>
- <CAMxuvax0uPB+dWGCt2_Ma22S3VZ9=OFy+J_9LFT+4ftgqzB-7A@mail.gmail.com>
- <CAMxuvax4SaY7TBAc_fWfQHv9X49WRKvCLJ+Hd5wenVGA7Nr6Vg@mail.gmail.com>
- <YmAlm0WXIf2n4VRX@redhat.com>
-In-Reply-To: <YmAlm0WXIf2n4VRX@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 20 Apr 2022 19:32:38 +0400
-Message-ID: <CAMxuvaya0jT2PhHEryZkoW1MFKZLS0BaYz=-gqPX-Gx=6Rgp9w@mail.gmail.com>
-Subject: Re: [PATCH 17/41] doc/build-platforms: document supported compilers
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,107 +85,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+The more interesting bits here are:
 
-On Wed, Apr 20, 2022 at 7:24 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Wed, Apr 20, 2022 at 06:50:12PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Wed, Apr 20, 2022 at 6:46 PM Marc-Andr=C3=A9 Lureau
-> > <marcandre.lureau@redhat.com> wrote:
-> > >
-> > > Hi
-> > >
-> > > On Wed, Apr 20, 2022 at 6:37 PM Thomas Huth <thuth@redhat.com> wrote:
-> > > >
-> > > > On 20/04/2022 16.10, Daniel P. Berrang=C3=A9 wrote:
-> > > > > On Wed, Apr 20, 2022 at 05:26:00PM +0400, marcandre.lureau@redhat=
-.com wrote:
-> > > > >> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > > > >>
-> > > > >> According to our configure checks, this is the list of supported
-> > > > >> compilers.
-> > > > >>
-> > > > >> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.c=
-om>
-> > > > >> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-> > > > >> ---
-> > > > >>   docs/about/build-platforms.rst | 10 ++++++++++
-> > > > >>   1 file changed, 10 insertions(+)
-> > > > >>
-> > > > >> diff --git a/docs/about/build-platforms.rst b/docs/about/build-p=
-latforms.rst
-> > > > >> index c29a4b8fe649..1980c5d2476f 100644
-> > > > >> --- a/docs/about/build-platforms.rst
-> > > > >> +++ b/docs/about/build-platforms.rst
-> > > > >> @@ -92,6 +92,16 @@ hosted on Linux (Debian/Fedora).
-> > > > >>   The version of the Windows API that's currently targeted is Vi=
-sta / Server
-> > > > >>   2008.
-> > > > >>
-> > > > >> +Supported compilers
-> > > > >> +-------------------
-> > > > >> +
-> > > > >> +To compile, QEMU requires either:
-> > > > >> +
-> > > > >> +- GCC >=3D 7.4.0
-> > > > >> +- Clang >=3D 6.0
-> > > > >> +- XCode Clang >=3D 10.0
-> > > > >
-> > > > > Do we need to spell out the versions explicitly ? These versions =
-are
-> > > > > all derived from what's available in the repos of the supported b=
-uild
-> > > > > platforms, similar to any other build deps we have. I don't think=
- we
-> > > > > want to start a precedent of duplicating versions in this doc for
-> > > > > build deps we have, and there's nothing particularly special abou=
-t
-> > > > > compilers in this respect.
-> > > >
-> > > > I agree with Daniel - when I saw this patch, the first thought that=
- I had
-> > > > was: "This will be getting out of sync quickly" ...
-> > >
-> > > I don't have the impression we bump our compiler requirement regularl=
-y
-> > > or lightly.
-> > >
-> > > > so I'd also recommend to rather not add this here.
-> > >
-> > > Outdated documentation is still better than no documentation. YMMV.
-> >
-> > Another question that is difficult to answer without being familiar
-> > with QEMU details is whether it can compile with MSVC. This
-> > documentation would, since it is explicit about the requirement.
->
-> Documenting that we mandate GCC or Clang is reasonable. Ideally we could
-> have a list of all 3rd party deps we have in fact, I'm just not a fan of
-> copying the version numbers across from configure/meson.
->
+* move all remaining dependencies except glib to Meson (glib depends on
+  https://github.com/mesonbuild/meson/pull/10206/)
 
-I agree, duplicating the version information is not optimal... Yet it
-is better than not having it, or having to read or run configure imho.
+* many more options are parsed from introspection data, including
+  string options
 
-Sorry (or not) to insist, but it would help having an explicit list of
-supported compilers in the human doc (because configure/meson doesn't
-rule others out, afaik, nor it really can or should)
+* make all -D options optional on the meson command line
 
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+Paolo Bonzini (34):
+  meson: show final set of compiler flags
+  configure: remove dead code
+  qga: wixl: get path to sysroot from pkg-config as intended
+  configure: pc-bios/qemu-icon.bmp does not exist
+  configure: gcov should not exclude fortify-source
+  configure: move --enable/--disable-debug-info to second option parsing pass
+  configure, meson: move OpenGL check to meson
+  meson, configure: move RDMA options to meson
+  meson, configure: move keyctl test to meson
+  meson, configure: move usbfs test to meson
+  meson, configure: move libgio test to meson
+  meson: move CONFIG_XEN_PCI_PASSTHROUGH to config-host.h
+  meson, configure: move --enable-module-upgrades to meson
+  meson, configure: move Xen detection to meson
+  meson-buildoptions: add support for string options
+  configure, meson: move iasl detection to meson
+  configure: move Windows flags detection to meson
+  configure: switch string options to automatic parsing
+  meson, configure: move --tls-priority to meson
+  meson, configure: move bdrv whitelists to meson
+  meson, configure: move --with-pkgversion, CONFIG_STAMP to meson
+  meson, configure: move --interp-prefix to meson
+  meson: always combine directories with prefix
+  configure: switch directory options to automatic parsing
+  meson: pass more options directly as -D
+  configure: omit options with default values from meson command line
+  meson, virtio: place all virtio-pci devices under virtio_pci_ss
+  configure: simplify vhost-net-{user,vdpa} configuration
+  build: move vhost-vsock configuration to Kconfig
+  build: move vhost-scsi configuration to Kconfig
+  build: move vhost-user-fs configuration to Kconfig
+  meson: create have_vhost_* variables
+  meson: use have_vhost_* variables to pick sources
+  configure, meson: move vhost options to Meson
+
+ Kconfig.host                    |    3 -
+ backends/meson.build            |   10 +-
+ configure                       | 1010 ++-----------------------------
+ contrib/rdmacm-mux/meson.build  |    4 +-
+ crypto/meson.build              |    4 +-
+ docs/meson.build                |    2 +-
+ hw/net/meson.build              |    8 +-
+ hw/scsi/Kconfig                 |    5 +
+ hw/virtio/Kconfig               |   18 +-
+ hw/virtio/meson.build           |   34 +-
+ hw/xen/meson.build              |   20 +-
+ include/hw/virtio/virtio-scsi.h |    2 -
+ meson.build                     |  406 ++++++++++---
+ meson_options.txt               |   40 +-
+ migration/meson.build           |    2 +-
+ net/meson.build                 |   12 +-
+ qga/meson.build                 |    2 +-
+ scripts/meson-buildoptions.py   |   86 ++-
+ scripts/meson-buildoptions.sh   |   93 ++-
+ scripts/qemu-stamp.py           |   24 +
+ scripts/xen-detect.c            |  203 +++++++
+ tests/meson.build               |    2 +-
+ tests/qtest/meson.build         |    9 +-
+ tools/meson.build               |    2 +-
+ ui/meson.build                  |   24 +-
+ util/meson.build                |    2 +-
+ 26 files changed, 873 insertions(+), 1154 deletions(-)
+ create mode 100644 scripts/qemu-stamp.py
+ create mode 100644 scripts/xen-detect.c
+
+-- 
+2.35.1
 
 
