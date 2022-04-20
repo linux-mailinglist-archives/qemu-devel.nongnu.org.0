@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552A8508C77
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:51:19 +0200 (CEST)
-Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF458508C57
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 17:42:01 +0200 (CEST)
+Received: from localhost ([::1]:34348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhCbu-00081z-E1
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:51:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42562)
+	id 1nhCSu-0005QJ-Tm
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 11:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLW-0001F6-BR
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:22 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:43529)
+ id 1nhCLX-0001HO-09
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:23 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhCLU-0000tz-Ba
+ id 1nhCLV-0000u3-5H
  for qemu-devel@nongnu.org; Wed, 20 Apr 2022 11:34:22 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- n40-20020a05600c3ba800b0038ff1939b16so1489622wms.2
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:19 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id q3so2780351wrj.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 08:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w+6vVe44Ze6Zp52ur673XaROVI4p8cy+qC9SEHaHUS4=;
- b=DDSknHsCs/yJ9ldF4pDd5Z+QSxi/xMNiGUBghoXw/9sTmshDN0yyLhgazc/eNTkUyd
- Xh0rJNVtF8CY/V3hKqfrKBtlWd0Z3wNt6uZMovdDKyyIOmMmIvcUla+0ws7thu+x3Lxk
- 1IFTIQcCJfbz5HUtkMNyhVuUfKmVCpGmNpR1eeCJw7tZaNsCxQXGgicyEZSbF8F9hgBI
- acHzI2OBRijWku9OhtmdbeOG3Ad38tQOTkFhzTEacOiePRdAdOLuOsFX4ZZSM6QAfYL3
- JTzplwfJV/ciLfUuJARJGjEiPy2g1D8sTJnUvdJTp5sI+CO16jvzt7mAozjFgzOUqfQf
- eVHQ==
+ bh=69Benn7RO1xIp2afo9GkcAzM/ddXV6mj86NlD1orfxI=;
+ b=d/Vsz9CruWn69wOD1ALTpYxBpZD5/8o0tyS/pDaZLFmRla4ebwgz6tcbV1XpkO8UkI
+ yg7SuK0JJLyk/Ow1F0OfkMYGlTDe5Km0KKdu7mbRSfzaLweJRVoR6c97YosGLrW1ZO2F
+ o/fUWKRsYWXmde7ESwWdLEzC56XtfbdzLDt2aS9mlDTLp3DWtVrRiPFEvHqGDSsdW7xc
+ jFxo0uQgaKlFjv2J6rDhBoU8R6dasNGrNGYuHH0oBcgEP+yMV1B3uAM0IAagppGWr7ZU
+ FkbgiQmHN8JSs9ND4gHMUH2mR7hIlBYWSab1ra4MfnJn7Tq4ngmhfyLhm3ks6pEXowbt
+ pj8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=w+6vVe44Ze6Zp52ur673XaROVI4p8cy+qC9SEHaHUS4=;
- b=ekkQqNbU+MZbroAosWk1JhZtEDbYhOA9nl1s9a+9eqD9uLX49MvjaKuZw+EWnwm1Tr
- lNEq3NBLDbupWrkN/J+u7XiEygmlK7k4fNJ9CGwU7OxZhKCv6UJNhrFZrr0LXHjv0m7R
- KzR4EZuCiiQzOvYSqjxs+at9ii0UTIAkQM/VlkoL8Vtf7MaKjA2jNV/pHWuLljJEpwKj
- EW3CJMAx0SYBhe/MOfw+5chD/Eaq0u8tXsBNksG+y1i+8U8yZFD6C4I1Z4k69j1U6UJe
- tOCJr4saTp7o0uavTubHUxObnKQKsXJUia1oOS6gEiYU6yWf6spLuoR1qnH6qSaDCbBt
- fkNQ==
-X-Gm-Message-State: AOAM531R3ngQEq85Vz7BcvE4+h3sx0asJew47Unf9Ad35BlWR8z72iKc
- Y6/RtbgCzfP57P7zsOvDEFq8piZ/4LIh5Q==
-X-Google-Smtp-Source: ABdhPJwy+WvOyJzsPIFAMf6CmP+hdKe7U31fBRTrxfSWsOu9Gvr4FLZvxew/EwDANejT/9aPhE+ZOA==
-X-Received: by 2002:a05:600c:4fc9:b0:392:8906:7e5d with SMTP id
- o9-20020a05600c4fc900b0039289067e5dmr4156968wmq.179.1650468858294; 
+ bh=69Benn7RO1xIp2afo9GkcAzM/ddXV6mj86NlD1orfxI=;
+ b=XwvH3ZHyt3rbSrpqUL9FAbpZXd5HSTRinXJB/NNaT8khQNtJRusgeKJ8tbEtRrIktr
+ cJDz4oTZ1vAd3S+Yo0HanGZvTbQV5CtX574RZkYyekCkA2sxGRE70opYg65bTkYzMpkk
+ 0tSwzjPvsE3VLfiVcSIRGBD8ZGfKetOF2YNvPNL2DZV3xBLMxsBiRU5h6k1i5un0IJQ6
+ iKNq8cMMNn0+EaEf9WHQg9mXdL//fR6MafAsv0asyLhZnMJN3uvyJMKWrUrDlYykuUOk
+ NHBrnH/d90j3fNiYicbYVCpx4QgNJKZWXnILAcY+v974Qz6pcM6bYL5wfsd6hkvgXI1y
+ 2v9A==
+X-Gm-Message-State: AOAM53275a4KEmN410978m2YOFqxkcByZQR6b5MBc1tUVaQnA1jdtty/
+ +SrpdPraCDFRVvg1NuxAJYdNtrwRg24N/w==
+X-Google-Smtp-Source: ABdhPJzlLbKpP1QaLHsmMUELDuR0mQTSlW4MWNrbvOpfOXyiFEzyPxcHt8995R7XyOnJ3lwKYRroQQ==
+X-Received: by 2002:a5d:6d8d:0:b0:20a:a8b0:98e0 with SMTP id
+ l13-20020a5d6d8d000000b0020aa8b098e0mr6389260wrs.88.1650468858910; 
  Wed, 20 Apr 2022 08:34:18 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.17
+ n68-20020a1c2747000000b0038e6b4d5395sm130401wmn.16.2022.04.20.08.34.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 08:34:17 -0700 (PDT)
+ Wed, 20 Apr 2022 08:34:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/34] configure: gcov should not exclude fortify-source
-Date: Wed, 20 Apr 2022 17:33:38 +0200
-Message-Id: <20220420153407.73926-6-pbonzini@redhat.com>
+Subject: [PATCH 06/34] configure: move --enable/--disable-debug-info to second
+ option parsing pass
+Date: Wed, 20 Apr 2022 17:33:39 +0200
+Message-Id: <20220420153407.73926-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420153407.73926-1-pbonzini@redhat.com>
 References: <20220420153407.73926-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,29 +91,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no reason other than history (dating back to commit 1d728c3946, "tests: add gcov
-support", 2013-01-06) for this, remove this unnecessary conditional.
+$debug_info is not needed anywhere except in the final meson invocation,
+no need to special case it.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ configure | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/configure b/configure
-index 7a89cb4123..48ae18f47f 100755
+index 48ae18f47f..07053e7b27 100755
 --- a/configure
 +++ b/configure
-@@ -2625,9 +2625,7 @@ fi
- 
- write_c_skeleton
- 
--if test "$gcov" = "yes" ; then
--  :
--elif test "$fortify_source" = "yes" ; then
-+if test "$fortify_source" = "yes" ; then
-   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
-   debug=no
- fi
+@@ -244,7 +244,6 @@ audio_drv_list="default"
+ block_drv_rw_whitelist=""
+ block_drv_ro_whitelist=""
+ host_cc="cc"
+-debug_info="yes"
+ lto="false"
+ stack_protector=""
+ safe_stack=""
+@@ -304,6 +303,7 @@ vhost_user_fs="$default_feature"
+ vhost_vdpa="$default_feature"
+ rdma="$default_feature"
+ pvrdma="$default_feature"
++debug_info="yes"
+ debug_tcg="no"
+ debug="no"
+ sanitizers="no"
+@@ -379,10 +379,6 @@ for opt do
+   ;;
+   --extra-ldflags=*) EXTRA_LDFLAGS="$EXTRA_LDFLAGS $optarg"
+   ;;
+-  --enable-debug-info) debug_info="yes"
+-  ;;
+-  --disable-debug-info) debug_info="no"
+-  ;;
+   --cross-cc-*[!a-zA-Z0-9_-]*=*) error_exit "Passed bad --cross-cc-FOO option"
+   ;;
+   --cross-cc-cflags-*) cc_arch=${opt#--cross-cc-cflags-}; cc_arch=${cc_arch%%=*}
+@@ -759,12 +755,12 @@ for opt do
+   ;;
+   --extra-ldflags=*)
+   ;;
+-  --enable-debug-info)
+-  ;;
+-  --disable-debug-info)
+-  ;;
+   --cross-cc-*)
+   ;;
++  --enable-debug-info) debug_info="yes"
++  ;;
++  --disable-debug-info) debug_info="no"
++  ;;
+   --enable-modules)
+       modules="yes"
+   ;;
 -- 
 2.35.1
 
