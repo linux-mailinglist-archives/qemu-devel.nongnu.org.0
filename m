@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56A9508F7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:30:22 +0200 (CEST)
-Received: from localhost ([::1]:35846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B53508FA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:42:43 +0200 (CEST)
+Received: from localhost ([::1]:38284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhF5p-0004pq-R9
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:30:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53608)
+	id 1nhFHm-0000mM-4m
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhEj9-0006RG-Ul
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:55 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:41887)
+ id 1nhEjA-0006UJ-Pa
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:56 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:36624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhEj8-0001N8-CW
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:55 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id s14so2505758plk.8
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:06:53 -0700 (PDT)
+ id 1nhEj9-0001NI-66
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:56 -0400
+Received: by mail-pf1-x434.google.com with SMTP id z16so2690854pfh.3
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:06:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ggCkE4H0GpylDO/t2+Oit+yU2z/D8eefxrTSlD31bcs=;
- b=Tg6rA8NJvLT2odlNnWZkXSs2ISzYkKnQ8qRrrgnvHXveiG8IuFT4+Ksmmg8lYmfGZ0
- mG3h4wrK30x7GuGlw5jCChySypeVQZJ8vrfswfh2LWRSTMfD9J9N2JH1fPfxqdYGSt8g
- SdQyQ1VENYjWhYAXY41pafSri8GpQBD/9VmhlXaUprIWuw5l0pGQrzuWHS+bA3Qb1O8r
- ji4h+scdQfXofj4g/39xs42UyKTc7UBE0gdgpzi+Md5gibaxZaRogk33y2lKbOmu7PrV
- MH01zZ/OsulNAnrVgIfgDVDa7nn2tcBWM1kHsIibNm1RepHBIsJzsH8nuG5/3VNUDuGH
- r0Gw==
+ bh=wXQZPorOYiPb8USNYQC2Il4MeLE5umHkixP2P9sGTQU=;
+ b=ZKttw674b1WA6JSU/S96TnKiSGV1KZbXKOdB26pr/v8PMB/cMd3zDhzXjge2QApLKj
+ Ad6NAWLCK8i2mphc68gia8VrrpiWr+We2DLcNYDQNmViDmdM4wLoujd6oLe1kbXjxetL
+ N8JAjXFo6ipHLh+USnyrfsLC+c+oPNnAF+7oH75cgdCS2yiHjY5PcmrCCO0nj/77c9m+
+ chtaTr5et9HPYT3K4E3WoAjHEO4SrwY5QqIVGSudhRjqAjtpx5eoP5LivuNnnNLasMtq
+ I2I+bv0vE0uPKgGndeKU5GZ2EMJQawW0EVQStaxJzObFC7jM4LzF82uKK4LEm3rBIYSv
+ FAog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ggCkE4H0GpylDO/t2+Oit+yU2z/D8eefxrTSlD31bcs=;
- b=biRCwmcsCBRu9YACN+uH0AOgAn0P+v0fPT9vqpgLhbI6IURM/Z7HMNxhLzlZgh9wzg
- HAe5u0E0fMwNNBozIqTxD4FVJ8hXo7e1RP7JDhiaezWBQ7wNrT/qD30qZnkBh71Z0pQR
- 9HaLTxPBqkDc0XNtNKoFZp+gk18V3kYA/clFSFkePdKk9b0Jnr6vHKKrnXmY5aTli662
- OJd4zr2N3TmKmnVSfWjM0RUp5hlt45Whr4mfdGZnUU8NmZ3nESe3KAIcWyxxy86x1yRx
- RNoqhzxySkiLdrNjvqVKU9L2+BIO9rDvfF17ymXUZMDeI3BW44xauqgPeHpxOjUPdz+7
- dLTg==
-X-Gm-Message-State: AOAM53063PAYE1Bazt6xXDE5Vy/sgQ2RLFTey4TLDsVBqFIE3o/nL+Y5
- 6Lt6dT5PBfkvr2WlgCnF0RvRPvUEsFBupg==
-X-Google-Smtp-Source: ABdhPJwCfDih7K9viZj93TMP8NZVs1Io1ph50znxdoUxIdQoRIzX1wiQKoQHJ1x2OrXkwsNrBv4jSw==
-X-Received: by 2002:a17:902:f70b:b0:14d:643d:9c99 with SMTP id
- h11-20020a170902f70b00b0014d643d9c99mr22154719plo.18.1650478013067; 
+ bh=wXQZPorOYiPb8USNYQC2Il4MeLE5umHkixP2P9sGTQU=;
+ b=fr72lBtecZpePwXSmZ1I6Zjv6448T3DKAes7JWpzNePVe6eRhdyfNDVjdC3qJ/cxTm
+ mOVtgpvqcrXmOhRLAm7ALyFBvTVYO3kUMAUAy2da6XTWvIqPslUjotC0JTm9k3dJ/sXS
+ quRyfK6efv0UCKvNgLWUUfgachjAmgwaSECTLqMv7wV7AUzdk/sfPUgbQc0qs769E1o4
+ /s+NOBAYJ3FArvsNehlLh525IRweBrYW99QpJBf6t5jpi+kF6t52JhM8wvKQAOnkHcXx
+ SAWFW9whcinMWOBshLp3IFrLpVHV9gaUWSzrB21OJK2F8EUc04aVUSBj0qD9xAi6bBxD
+ YqHw==
+X-Gm-Message-State: AOAM533o0N6mxGFwlwWDfSp3Zx7s74uPWx1bhahCydLOPm9sTFGQJyPr
+ LYYRCbxTNVpSMStlW+t4oOarG1Nigy5PRw==
+X-Google-Smtp-Source: ABdhPJwqp7ZZX3qVQO04SX1YCC0HlD4a+OyFAK7GUE0YJ25066RSHGhcrGr/uR3iIWL7Ux52KdPmYA==
+X-Received: by 2002:a63:fd43:0:b0:39c:d17a:62af with SMTP id
+ m3-20020a63fd43000000b0039cd17a62afmr20380443pgj.450.1650478013920; 
  Wed, 20 Apr 2022 11:06:53 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- i2-20020a17090a058200b001d2fc489b8asm56681pji.25.2022.04.20.11.06.52
+ i2-20020a17090a058200b001d2fc489b8asm56681pji.25.2022.04.20.11.06.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 11:06:52 -0700 (PDT)
+ Wed, 20 Apr 2022 11:06:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/39] util/log: Rename logfilename to global_filename
-Date: Wed, 20 Apr 2022 11:06:11 -0700
-Message-Id: <20220420180618.1183855-33-richard.henderson@linaro.org>
+Subject: [PULL 33/39] util/log: Rename qemu_logfile to global_file
+Date: Wed, 20 Apr 2022 11:06:12 -0700
+Message-Id: <20220420180618.1183855-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220420180618.1183855-1-richard.henderson@linaro.org>
 References: <20220420180618.1183855-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,56 +95,87 @@ Rename to emphasize this is the file-scope global variable.
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220417183019.755276-33-richard.henderson@linaro.org>
+Message-Id: <20220417183019.755276-34-richard.henderson@linaro.org>
 ---
- util/log.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ util/log.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/util/log.c b/util/log.c
-index 491a8f97f9..b3f79deb6c 100644
+index b3f79deb6c..425f0064b0 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -34,7 +34,7 @@ typedef struct QemuLogFile {
-     FILE *fd;
- } QemuLogFile;
+@@ -36,7 +36,7 @@ typedef struct QemuLogFile {
  
--static char *logfilename;
-+static char *global_filename;
+ static char *global_filename;
  static QemuMutex qemu_logfile_mutex;
- static QemuLogFile *qemu_logfile;
+-static QemuLogFile *qemu_logfile;
++static QemuLogFile *global_file;
  int qemu_loglevel;
-@@ -151,8 +151,8 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
-             }
-         }
+ static int log_append = 0;
+ static GArray *debug_regions;
+@@ -44,7 +44,7 @@ static GArray *debug_regions;
+ /* Returns true if qemu_log() will really write somewhere. */
+ bool qemu_log_enabled(void)
+ {
+-    return qemu_logfile != NULL;
++    return global_file != NULL;
+ }
  
--        g_free(logfilename);
--        logfilename = newname;
-+        g_free(global_filename);
-+        global_filename = newname;
+ /* Returns true if qemu_log() will write somewhere other than stderr. */
+@@ -54,7 +54,7 @@ bool qemu_log_separate(void)
+     bool res = false;
+ 
+     rcu_read_lock();
+-    logfile = qatomic_rcu_read(&qemu_logfile);
++    logfile = qatomic_rcu_read(&global_file);
+     if (logfile && logfile->fd != stderr) {
+         res = true;
+     }
+@@ -69,7 +69,7 @@ FILE *qemu_log_trylock(void)
+     QemuLogFile *logfile;
+ 
+     rcu_read_lock();
+-    logfile = qatomic_rcu_read(&qemu_logfile);
++    logfile = qatomic_rcu_read(&global_file);
+     if (logfile) {
+         qemu_flockfile(logfile->fd);
+         return logfile->fd;
+@@ -124,7 +124,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+     QemuLogFile *logfile;
+ 
+     QEMU_LOCK_GUARD(&qemu_logfile_mutex);
+-    logfile = qemu_logfile;
++    logfile = global_file;
+ 
+     if (changed_name) {
+         char *newname = NULL;
+@@ -156,7 +156,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
          filename = newname;
  
          if (logfile) {
-@@ -161,7 +161,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+-            qatomic_rcu_set(&qemu_logfile, NULL);
++            qatomic_rcu_set(&global_file, NULL);
+             call_rcu(logfile, qemu_logfile_free, rcu);
              logfile = NULL;
          }
-     } else {
--        filename = logfilename;
-+        filename = global_filename;
-     }
- 
- #ifdef CONFIG_TRACE_LOG
-@@ -173,9 +173,8 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
-      * In all cases we only log if qemu_loglevel is set.
-      * Also:
-      *   If not daemonized we will always log either to stderr
--     *     or to a file (if there is a logfilename).
--     *   If we are daemonized,
--     *     we will only log if there is a logfilename.
-+     *     or to a file (if there is a filename).
-+     *   If we are daemonized, we will only log if there is a filename.
-      */
+@@ -179,7 +179,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
      need_to_open_file = log_flags && (!is_daemonized() || filename);
  
+     if (logfile && !need_to_open_file) {
+-        qatomic_rcu_set(&qemu_logfile, NULL);
++        qatomic_rcu_set(&global_file, NULL);
+         call_rcu(logfile, qemu_logfile_free, rcu);
+         return true;
+     }
+@@ -210,7 +210,7 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+ 
+         logfile = g_new0(QemuLogFile, 1);
+         logfile->fd = fd;
+-        qatomic_rcu_set(&qemu_logfile, logfile);
++        qatomic_rcu_set(&global_file, logfile);
+     }
+     return true;
+ }
 -- 
 2.34.1
 
