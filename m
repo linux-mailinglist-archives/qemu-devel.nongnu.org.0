@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930C05089D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 15:51:21 +0200 (CEST)
-Received: from localhost ([::1]:43486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D655089DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 15:56:02 +0200 (CEST)
+Received: from localhost ([::1]:54124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhAjo-0002PV-0J
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 09:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38446)
+	id 1nhAoL-0001gQ-8k
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 09:56:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhANJ-0007Tg-Vg
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:28:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42852)
+ id 1nhAOB-0000KS-36
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:28:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhANI-0004cp-Dy
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:28:05 -0400
+ id 1nhAO9-0004l1-4n
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 09:28:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650461283;
+ s=mimecast20190719; t=1650461336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6qTWi80YxV8z2J64N08PJ7aN8yyPyaK/hroPDDugMM4=;
- b=FyGEl2VCZxb0xzKkmYCLykoK20jxhUMGFcPRK1CM1+2p9wdxEjrnuKhU1COW2/a6cXdP5F
- RA4T46qgFeK2zaMQKNbw8R800mJiWPfk2LRBRqKXEbrtF9l15f4Ybg5MKSia+hr7NATE4V
- MiMQZPk/dCkWBPenco2ypCAnKy2R6dc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YzUz8oqEKiRI0YpLZJ5t2ojZX0YZv+BX9qrIiG+GT2g=;
+ b=dNNZvaqrrkxpZW2oeL0LF033Y7bysO6YimjPnNhkfK197/Yf27GLNa9mIdzYXE1AM18k6U
+ c3B6oXiYcGzB+XS/nuproGOo3ExftzoYLL38TsXFXW4UJSH8CqXAYQsfFJ0UhYTrE5FW3V
+ L/Fwr0sgoTlertRUrULK87suLp41kqw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-6Ck3ldOEO8yngBflkBc5Tw-1; Wed, 20 Apr 2022 09:28:02 -0400
-X-MC-Unique: 6Ck3ldOEO8yngBflkBc5Tw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-48-dAqNgqUpOjGy4uVrBUNx0w-1; Wed, 20 Apr 2022 09:28:55 -0400
+X-MC-Unique: dAqNgqUpOjGy4uVrBUNx0w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A116801E67
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 13:28:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C5C33C025CB;
+ Wed, 20 Apr 2022 13:28:54 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C9A057233C;
- Wed, 20 Apr 2022 13:28:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32F8840D2853;
+ Wed, 20 Apr 2022 13:28:52 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/41] doc/build-platforms: document supported compilers
-Date: Wed, 20 Apr 2022 17:26:00 +0400
-Message-Id: <20220420132624.2439741-18-marcandre.lureau@redhat.com>
+Subject: [PATCH 22/41] include: move qemu_*_exec_dir() to cutils
+Date: Wed, 20 Apr 2022 17:26:05 +0400
+Message-Id: <20220420132624.2439741-23-marcandre.lureau@redhat.com>
 In-Reply-To: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 References: <20220420132624.2439741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -62,7 +62,7 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,42 +77,366 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Darren Kenny <darren.kenny@oracle.com>, Stefan Weil <sw@weilnetz.de>,
+ Bandan Das <bsd@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-According to our configure checks, this is the list of supported
-compilers.
+The function is required by get_relocated_path(), which is used by
+qemu-ga and may be generally useful.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- docs/about/build-platforms.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/qemu/cutils.h                |   7 ++
+ include/qemu/osdep.h                 |   8 --
+ qemu-io.c                            |   1 +
+ storage-daemon/qemu-storage-daemon.c |   1 +
+ tests/qtest/fuzz/fuzz.c              |   1 +
+ util/cutils.c                        | 109 +++++++++++++++++++++++++++
+ util/oslib-posix.c                   |  81 --------------------
+ util/oslib-win32.c                   |  36 ---------
+ 8 files changed, 119 insertions(+), 125 deletions(-)
 
-diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-index c29a4b8fe649..1980c5d2476f 100644
---- a/docs/about/build-platforms.rst
-+++ b/docs/about/build-platforms.rst
-@@ -92,6 +92,16 @@ hosted on Linux (Debian/Fedora).
- The version of the Windows API that's currently targeted is Vista / Server
- 2008.
+diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+index 5c6572d44422..40e10e19a7ed 100644
+--- a/include/qemu/cutils.h
++++ b/include/qemu/cutils.h
+@@ -193,6 +193,13 @@ int uleb128_decode_small(const uint8_t *in, uint32_t *n);
+  */
+ int qemu_pstrcmp0(const char **str1, const char **str2);
  
-+Supported compilers
-+-------------------
++/* Find program directory, and save it for later usage with
++ * qemu_get_exec_dir().
++ * Try OS specific API first, if not working, parse from argv0. */
++void qemu_init_exec_dir(const char *argv0);
 +
-+To compile, QEMU requires either:
++/* Get the saved exec dir.  */
++const char *qemu_get_exec_dir(void);
+ 
+ /**
+  * get_relocated_path:
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index a87f1b7f32e6..9fd52d6a33a7 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -567,14 +567,6 @@ bool fips_get_state(void);
+  */
+ char *qemu_get_local_state_pathname(const char *relative_pathname);
+ 
+-/* Find program directory, and save it for later usage with
+- * qemu_get_exec_dir().
+- * Try OS specific API first, if not working, parse from argv0. */
+-void qemu_init_exec_dir(const char *argv0);
+-
+-/* Get the saved exec dir.  */
+-const char *qemu_get_exec_dir(void);
+-
+ /**
+  * qemu_getauxval:
+  * @type: the auxiliary vector key to lookup
+diff --git a/qemu-io.c b/qemu-io.c
+index 952a36643b0c..458fadd99a92 100644
+--- a/qemu-io.c
++++ b/qemu-io.c
+@@ -16,6 +16,7 @@
+ #endif
+ 
+ #include "qemu/copyright.h"
++#include "qemu/cutils.h"
+ #include "qapi/error.h"
+ #include "qemu-io.h"
+ #include "qemu/error-report.h"
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index a4415e8c995b..63b155013ed7 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -44,6 +44,7 @@
+ 
+ #include "qemu/copyright.h"
+ #include "qemu-version.h"
++#include "qemu/cutils.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+ #include "qemu/help_option.h"
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index 5f77c849837f..d3afd294db24 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -15,6 +15,7 @@
+ 
+ #include <wordexp.h>
+ 
++#include "qemu/cutils.h"
+ #include "qemu/datadir.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/qtest.h"
+diff --git a/util/cutils.c b/util/cutils.c
+index b2777210e7da..443927275fdb 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -931,6 +931,115 @@ static inline const char *next_component(const char *dir, int *p_len)
+     return dir;
+ }
+ 
++static const char *exec_dir;
 +
-+- GCC >= 7.4.0
-+- Clang >= 6.0
-+- XCode Clang >= 10.0
++void qemu_init_exec_dir(const char *argv0)
++{
++#ifdef G_OS_WIN32
++    char *p;
++    char buf[MAX_PATH];
++    DWORD len;
++
++    if (exec_dir) {
++        return;
++    }
++
++    len = GetModuleFileName(NULL, buf, sizeof(buf) - 1);
++    if (len == 0) {
++        return;
++    }
++
++    buf[len] = 0;
++    p = buf + len - 1;
++    while (p != buf && *p != '\\') {
++        p--;
++    }
++    *p = 0;
++    if (access(buf, R_OK) == 0) {
++        exec_dir = g_strdup(buf);
++    } else {
++        exec_dir = CONFIG_BINDIR;
++    }
++#else
++    char *p = NULL;
++    char buf[PATH_MAX];
++
++    if (exec_dir) {
++        return;
++    }
++
++#if defined(__linux__)
++    {
++        int len;
++        len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
++        if (len > 0) {
++            buf[len] = 0;
++            p = buf;
++        }
++    }
++#elif defined(__FreeBSD__) \
++      || (defined(__NetBSD__) && defined(KERN_PROC_PATHNAME))
++    {
++#if defined(__FreeBSD__)
++        static int mib[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1};
++#else
++        static int mib[4] = {CTL_KERN, KERN_PROC_ARGS, -1, KERN_PROC_PATHNAME};
++#endif
++        size_t len = sizeof(buf) - 1;
++
++        *buf = '\0';
++        if (!sysctl(mib, ARRAY_SIZE(mib), buf, &len, NULL, 0) &&
++            *buf) {
++            buf[sizeof(buf) - 1] = '\0';
++            p = buf;
++        }
++    }
++#elif defined(__APPLE__)
++    {
++        char fpath[PATH_MAX];
++        uint32_t len = sizeof(fpath);
++        if (_NSGetExecutablePath(fpath, &len) == 0) {
++            p = realpath(fpath, buf);
++            if (!p) {
++                return;
++            }
++        }
++    }
++#elif defined(__HAIKU__)
++    {
++        image_info ii;
++        int32_t c = 0;
++
++        *buf = '\0';
++        while (get_next_image_info(0, &c, &ii) == B_OK) {
++            if (ii.type == B_APP_IMAGE) {
++                strncpy(buf, ii.name, sizeof(buf));
++                buf[sizeof(buf) - 1] = 0;
++                p = buf;
++                break;
++            }
++        }
++    }
++#endif
++    /* If we don't have any way of figuring out the actual executable
++       location then try argv[0].  */
++    if (!p && argv0) {
++        p = realpath(argv0, buf);
++    }
++    if (p) {
++        exec_dir = g_path_get_dirname(p);
++    } else {
++        exec_dir = CONFIG_BINDIR;
++    }
++#endif
++}
++
++const char *qemu_get_exec_dir(void)
++{
++    return exec_dir;
++}
 +
 +
- .. _HomeBrew: https://brew.sh/
- .. _MacPorts: https://www.macports.org/
- .. _Repology: https://repology.org/
+ char *get_relocated_path(const char *dir)
+ {
+     size_t prefix_len = strlen(CONFIG_PREFIX);
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 161f1123259f..4f18cc612850 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -321,87 +321,6 @@ void qemu_set_tty_echo(int fd, bool echo)
+     tcsetattr(fd, TCSANOW, &tty);
+ }
+ 
+-static const char *exec_dir;
+-
+-void qemu_init_exec_dir(const char *argv0)
+-{
+-    char *p = NULL;
+-    char buf[PATH_MAX];
+-
+-    if (exec_dir) {
+-        return;
+-    }
+-
+-#if defined(__linux__)
+-    {
+-        int len;
+-        len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+-        if (len > 0) {
+-            buf[len] = 0;
+-            p = buf;
+-        }
+-    }
+-#elif defined(__FreeBSD__) \
+-      || (defined(__NetBSD__) && defined(KERN_PROC_PATHNAME))
+-    {
+-#if defined(__FreeBSD__)
+-        static int mib[4] = {CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1};
+-#else
+-        static int mib[4] = {CTL_KERN, KERN_PROC_ARGS, -1, KERN_PROC_PATHNAME};
+-#endif
+-        size_t len = sizeof(buf) - 1;
+-
+-        *buf = '\0';
+-        if (!sysctl(mib, ARRAY_SIZE(mib), buf, &len, NULL, 0) &&
+-            *buf) {
+-            buf[sizeof(buf) - 1] = '\0';
+-            p = buf;
+-        }
+-    }
+-#elif defined(__APPLE__)
+-    {
+-        char fpath[PATH_MAX];
+-        uint32_t len = sizeof(fpath);
+-        if (_NSGetExecutablePath(fpath, &len) == 0) {
+-            p = realpath(fpath, buf);
+-            if (!p) {
+-                return;
+-            }
+-        }
+-    }
+-#elif defined(__HAIKU__)
+-    {
+-        image_info ii;
+-        int32_t c = 0;
+-
+-        *buf = '\0';
+-        while (get_next_image_info(0, &c, &ii) == B_OK) {
+-            if (ii.type == B_APP_IMAGE) {
+-                strncpy(buf, ii.name, sizeof(buf));
+-                buf[sizeof(buf) - 1] = 0;
+-                p = buf;
+-                break;
+-            }
+-        }
+-    }
+-#endif
+-    /* If we don't have any way of figuring out the actual executable
+-       location then try argv[0].  */
+-    if (!p && argv0) {
+-        p = realpath(argv0, buf);
+-    }
+-    if (p) {
+-        exec_dir = g_path_get_dirname(p);
+-    } else {
+-        exec_dir = CONFIG_BINDIR;
+-    }
+-}
+-
+-const char *qemu_get_exec_dir(void)
+-{
+-    return exec_dir;
+-}
+-
+ #ifdef CONFIG_LINUX
+ static void sigbus_handler(int signal, siginfo_t *siginfo, void *ctx)
+ #else /* CONFIG_LINUX */
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 1e05c316b311..0371082d23b3 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -270,42 +270,6 @@ void qemu_set_tty_echo(int fd, bool echo)
+     }
+ }
+ 
+-static const char *exec_dir;
+-
+-void qemu_init_exec_dir(const char *argv0)
+-{
+-
+-    char *p;
+-    char buf[MAX_PATH];
+-    DWORD len;
+-
+-    if (exec_dir) {
+-        return;
+-    }
+-
+-    len = GetModuleFileName(NULL, buf, sizeof(buf) - 1);
+-    if (len == 0) {
+-        return;
+-    }
+-
+-    buf[len] = 0;
+-    p = buf + len - 1;
+-    while (p != buf && *p != '\\') {
+-        p--;
+-    }
+-    *p = 0;
+-    if (access(buf, R_OK) == 0) {
+-        exec_dir = g_strdup(buf);
+-    } else {
+-        exec_dir = CONFIG_BINDIR;
+-    }
+-}
+-
+-const char *qemu_get_exec_dir(void)
+-{
+-    return exec_dir;
+-}
+-
+ int getpagesize(void)
+ {
+     SYSTEM_INFO system_info;
 -- 
 2.35.1.693.g805e0a68082a
 
