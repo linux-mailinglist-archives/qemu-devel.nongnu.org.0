@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88D6508F14
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:09:13 +0200 (CEST)
-Received: from localhost ([::1]:57514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC18508F30
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 20:14:17 +0200 (CEST)
+Received: from localhost ([::1]:46682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhElM-0000Oz-TA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:09:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52930)
+	id 1nhEqG-0004CZ-Ll
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 14:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhEiF-0004uC-KO
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:05:59 -0400
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:45351)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhEih-0005Kd-I4
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:30 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhEiD-00017c-T3
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:05:59 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-2ec04a2ebadso26842607b3.12
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:05:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhEig-0001B6-3r
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 14:06:27 -0400
+Received: by mail-pl1-x630.google.com with SMTP id b7so2525366plh.2
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 11:06:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+TLCQullsilNIX95lMjeBreZewiOqyqvugl21QnrqWg=;
- b=jhvZnHe7KHDO+fFsuOIJ5MwtTgAcGIub5RG3bJCGi4UwlcOHHN2Y/S7fSUo9fXpo7Q
- rh4PtETYvxoQzEWrC24ziPkzhoKBYZZBT5gOTzH4mNJufoV/ZO5dPxTwz9/RPUY1wOlG
- 7NxyfalrBhnwyn2upW7ZBSQ6fsYVlBUKU6/I1cu227Q38qTb2oPonEr+OinkKMhOqQV+
- uC9p/W01fjRdX1O/YOxhop3RBA4seIH6r6LcHheSQ7dacqQkQvTp3RQmXVg4CquoGM+g
- RDVlpPsutYNdtuofllUAbozPirt23H0iD4WU2/Quv5cEiuzfwcC8LGlMAFENjBFwq40c
- rrOA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=9Acrdd8Fm08SC2Pv9DkKl+01rcq3tkQdmCCMEajfWbE=;
+ b=v4Wr19ufbUX3KmnVoQbvzqg5KQkDOfHvzNLNIXrerpRLPtDD9WRWpuZTY3xm9RKMJh
+ iB6Di7Dkr3+ZprDgnnaP7IOCdL8H5iLI0KYuDvqi7ejHuNquYypZJLNWcn7zzQjFRbDp
+ 9EOsIWF0e3YruvngcE5IFbC7u9Zat1E8cou/sAZZTsbwVhGmVGpW8Ag3QhedjDqOL9jX
+ HjowrYmPJ1t7Lap+0DVnlAZvdoqyhIuT+4N8dwMi/IXKcWzkU0ycvp13Rr0AH9KhCxu2
+ r/oUOsxit18INI+EeKtkXuxIhCy5I7jyL4SYqHayYYFVQaBrYyfmz7eR/5DD+LRIYMeR
+ MEhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+TLCQullsilNIX95lMjeBreZewiOqyqvugl21QnrqWg=;
- b=pr3NQCXF29aZUBxRwMV4WixeOWAZ7CKyl+cUDWl7dh3GtepwFMv/uBr7sINaLoeZVr
- JbdpJkpQKDQpb7BzdELm41+2Fa9vTRtkLo8F71C9EmSucAa3hxiq8hl8emEc8OJvwgOV
- UnNWulnoIg/FnS8Otv6xVeC8wqgVR4coRawm7/cYU5JM0SG41ClPmthirpCfXFO+OPaD
- sCPph5S0edtHxjx2yYyWh0bl75nZlKonLIAwFtHHojueebPV5a5i6EUnckAdqZ21jRUD
- 11Uzg4wAHqEGpbVyD8jt6kCrwSA9w+hBOTKkmkgBvvMayzXv6arerBeeZMLrfJioze+T
- 8PgQ==
-X-Gm-Message-State: AOAM533JBz2Vpkadoowy6LpHF9vwsof6wPIXOjaGvUVGpYGIUNIqWKsc
- buwHmWTgO4s/V+97bcMZiweDynDDZDCSOUBwbIKQ7Q==
-X-Google-Smtp-Source: ABdhPJzna05kaZNh/dk9pu6bj6cr/HxAhrWnO81/20ZE9lRp1IBLoHKDYO6Yzm179l3fer07lkn7+m0e4hd2/LRKVas=
-X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
- z23-20020a81ac57000000b002f199ec91a2mr14920581ywj.329.1650477954333; Wed, 20
- Apr 2022 11:05:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9Acrdd8Fm08SC2Pv9DkKl+01rcq3tkQdmCCMEajfWbE=;
+ b=bq8FUYWRZMjgzinLDhFX9mIqFUMUVcfjyCN22Xzi81stc30WfPGDHRRb0kRLOMbzgz
+ UHFHA5tCFHad9yJ6XtuqAQuMeH55t+BIZup7JsaLU9+Rw4VtihhOU+JI76esY3lO111y
+ AAWy1Hbl7w5k5Iu5VisWeMYEz8e7Cstnm8Sg/9hTYbzwaZhW1Fr7vGnwJMOTdKvIjTda
+ bMBOWG0JeMdFvgUPVo7ps4BZSIdQlQ3bJyZv6G4LwuMXu93g0AIAYdO7SxzSQwSoqgf2
+ GUWJWLEF+1iXRflLEeTu6w+cCAl6o7syfJl4fEdE1QLdyw9MSoo0Cb31UJ6dyV8Ho/rI
+ 6nkg==
+X-Gm-Message-State: AOAM530NDr+A8LCsyTZGXN4Z/vYYC6WxLnSRK/CEh3+1KH+kkoPO7IKt
+ 68snt633cYoSidcWvo2cCZ+Bak0mgAr5WA==
+X-Google-Smtp-Source: ABdhPJzt1/H9qW/LHXsix4n+/eOwuWYqtuoVVk5MQ9eeSNX5vrSEj5081LIO4kX1U2suPQ0O6I5VGA==
+X-Received: by 2002:a17:903:2487:b0:159:bce:4e1a with SMTP id
+ p7-20020a170903248700b001590bce4e1amr12182604plw.4.1650477984860; 
+ Wed, 20 Apr 2022 11:06:24 -0700 (PDT)
+Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ i2-20020a17090a058200b001d2fc489b8asm56681pji.25.2022.04.20.11.06.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 11:06:24 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 05/39] os-posix: Use qemu_log_enabled
+Date: Wed, 20 Apr 2022 11:05:44 -0700
+Message-Id: <20220420180618.1183855-6-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220420180618.1183855-1-richard.henderson@linaro.org>
+References: <20220420180618.1183855-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-References: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
- <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
-In-Reply-To: <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 Apr 2022 19:05:43 +0100
-Message-ID: <CAFEAcA-OhS2_cnVU8X9grX_XMeKgdDv__Y-kXsJkyj1_yLzazA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/5] ppc64: Add semihosting support
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,40 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org, pbonzini@redhat.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Apr 2022 at 20:15, Leandro Lupori
-<leandro.lupori@eldorado.org.br> wrote:
->
-> Add semihosting support for PPC64. This implementation is
-> based on the standard for ARM semihosting version 2.0, as
-> implemented by QEMU and documented in
->
->     https://github.com/ARM-software/abi-aa/releases
->
-> The PPC64 specific differences are the following:
->
-> Semihosting Trap Instruction: sc 7
-> Operation Number Register: r3
-> Parameter Register: r4
-> Return Register: r3
-> Data block field size: 64 bits
->
-> +static inline bool
-> +common_semi_sys_exit_extended(CPUState *cs, int nr)
-> +{
-> +    return (nr == TARGET_SYS_EXIT_EXTENDED || sizeof(target_ulong) == 8);
-> +}
+Do not reference qemu_logfile directly;
+use the predicate provided by qemu/log.h.
 
-Does the PPC specification for semihosting really follow the
-legacy Arm requirement that the 32-bit version of the EXIT
-call doesn't let the caller specify the exit status? It's
-not a very sensible choice IMHO if you don't have the legacy
-baggage to deal with.
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220417183019.755276-6-richard.henderson@linaro.org>
+---
+ os-posix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- PMM
+diff --git a/os-posix.c b/os-posix.c
+index ee765f047d..faf6e6978b 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -291,7 +291,7 @@ void os_setup_post(void)
+         dup2(fd, 0);
+         dup2(fd, 1);
+         /* In case -D is given do not redirect stderr to /dev/null */
+-        if (!qemu_logfile) {
++        if (!qemu_log_enabled()) {
+             dup2(fd, 2);
+         }
+ 
+-- 
+2.34.1
+
 
