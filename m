@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D92C50908F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:39:09 +0200 (CEST)
-Received: from localhost ([::1]:54138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEEB50903E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Apr 2022 21:17:58 +0200 (CEST)
+Received: from localhost ([::1]:37292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhGAO-0008OX-9U
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:39:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37958)
+	id 1nhFpt-0000vS-5t
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 15:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFkJ-0008IG-JN; Wed, 20 Apr 2022 15:12:11 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:41737)
+ id 1nhFl8-0001nV-5o; Wed, 20 Apr 2022 15:13:04 -0400
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:34501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nhFkH-0002P5-No; Wed, 20 Apr 2022 15:12:11 -0400
-Received: by mail-ot1-x333.google.com with SMTP id
- v12-20020a9d7d0c000000b006054b51c3d4so1732812otn.8; 
- Wed, 20 Apr 2022 12:12:08 -0700 (PDT)
+ id 1nhFl3-0002Xr-Rf; Wed, 20 Apr 2022 15:12:59 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-e2afb80550so3019258fac.1; 
+ Wed, 20 Apr 2022 12:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=FMO5ICRBjQRtXoIGG7x70zlJWC3qmIoUZFWypSEhtIg=;
- b=TZoor2Q+bm8uqQ26/zSMwoRz3eTxe/MpSNVcjW7AIqiSggrx0gJETKtwDvLX6Oedej
- fAOQA8XqacbnMQUHzu+wHPgdgcmBiY4PjjMds0KUC1WIMb36RY9SHcwxZMbFvoZXcgG1
- As+Ofqlrl/QuCLYVz/WztqoG2uKQ9+MUn+IQ+/X9lGi+tSekABOYgad628gWr8h78/bj
- 1vl+v9r7n9xndOl4RoH+rWNhdiCVw80LmspjAYug/SuCVHI58F0WvRa3p54aJLBwBoS3
- fnnMFBwfk24Wj20lILG4o+G2iO2NKZTPQlS946Ntg0sL+pX6jgOeJTP8InHEdKTx1bnF
- 7Z8A==
+ bh=YVFSFzcUC5z68KuVIhNjBPz2ycj/E3mWghj+QM1REEo=;
+ b=NFgSmG9zVT12kNJF9egNmbPr3OFeATS706Q3Kdd/UyJV6mJcCQDNJG7vG1Wr7hyKdk
+ PHXWdJRD55Mo3imPhL33Ea9SNB1DMhYbGAK7V4DS2W0NHVWjL7H2d5w39KlSjnBmNztT
+ 57XvsKPaE/xhD0Gk4ZU8B8NXTMx3DCBCK1g3tIlhvJ51L1lBaPx8P1IZJ3rpceW8fk38
+ 4F8yPFc98foJS7FNQK/F3xSdhBQad9IWMocbbFhYTPvR/DgNBndzPGKfKTqGpxJr0o9l
+ qeXT9jXUyC52TRCBLtBgKxG/yFthSqWs8UD8e9MEwf/6MT/eW6QXWIu9u26O8yXKCnji
+ pNUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=FMO5ICRBjQRtXoIGG7x70zlJWC3qmIoUZFWypSEhtIg=;
- b=qmXW4bJ7vwmud+zs2ugZw7yL43TSp/igIXAiQfJob+/9AN7Gyk9ZCJ0Cryqr5N2MiS
- 95gtnse5favMHhS+xedWeypcy4t4uj/dQmxwK8k20lMoYUDtU4vI0V6oUAliQp9VtxhR
- fvQA2p5s4RZWfbFBd4InwCHOIRWPVSJ/nSUjqfRC4BFDSOVpUkiEJyUczOuAPhUiOGbM
- gtIHR7BKZVk+Cz7grWUekzNnRpGRhI3ivKZPyKhPjBiORgEaJxUBUlHxn+449VuZgI3D
- lGXvrV5q9xIfJusHZoqFIl4mwvxFklDdTVh6Vev51e73zJa1ApPQAmkPIvaie9XP4MAl
- oQZQ==
-X-Gm-Message-State: AOAM530L6s1Z1ml/LsId2yNvGeBD3NXu94QIpxRsBCpAztGmur1QSED+
- 7DMr/eb9qAQsZIcSw0cG2dU=
-X-Google-Smtp-Source: ABdhPJxiZyWk2PU52lGDLjXHuhpkafNa1sv3L3Zho5CfW7hZ8lKZjZy+QbLi0uhQkwXyn3bqWR7Xuw==
-X-Received: by 2002:a9d:114:0:b0:604:8e3f:f5fe with SMTP id
- 20-20020a9d0114000000b006048e3ff5femr8256597otu.252.1650481928186; 
- Wed, 20 Apr 2022 12:12:08 -0700 (PDT)
+ bh=YVFSFzcUC5z68KuVIhNjBPz2ycj/E3mWghj+QM1REEo=;
+ b=bmO6uYlKrsWaDEn/+fY/fJS9jPQBc7ydn+wdfRFg1vai/9pnkQPyusLkT9PFx0415d
+ VUWCi/j/oNBYgY3wS0R6E2epipoZdv0NG8S+UVK2fAdBzmI7L4pjg3Z7bkaA5Y7yFEr8
+ ONxPZKgxjiiU3EWdNrzNEv1pPR9RjQFHOikoq++qHaWnjQXDvW0wFKXmQ18HrMLvIIKC
+ 73NyJpCCBGFUrGQcF29qT3HiiIZ4zWmJUDaji2NuonWZ35o9gzldH83LvnfWNnvuh5kQ
+ ECoXLqfukezrUuK73B/+/EEHRbPLiASCgfCz63BbMO+lhUJBAcFnbcayC/E0TqvDbYsT
+ pgWQ==
+X-Gm-Message-State: AOAM530qT6PUQ90nEzVE2tob9GrPYOuCZhJvLjT2f6ocNPMEN3G/cdaJ
+ 76D+QyrnWKfLUQoERaixGbvgDOQCLRI=
+X-Google-Smtp-Source: ABdhPJwMO85RlHDKwWW2lvTcI324IqcEpYzcDoaJk1YH7YzJdYLV3dFjDOmBmaV8mZouyLqH8ObNpw==
+X-Received: by 2002:a05:6870:e2d5:b0:e5:e41d:917d with SMTP id
+ w21-20020a056870e2d500b000e5e41d917dmr2210238oad.234.1650481976225; 
+ Wed, 20 Apr 2022 12:12:56 -0700 (PDT)
 Received: from [192.168.10.222] ([179.225.252.195])
  by smtp.gmail.com with ESMTPSA id
- d21-20020a4a3c15000000b0033364bde9besm7039888ooa.32.2022.04.20.12.12.05
+ v17-20020a4a6951000000b00329d8b23f0dsm6988509oof.5.2022.04.20.12.12.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 12:12:07 -0700 (PDT)
-Message-ID: <5c09f3f0-3548-647c-4094-1f39d7272217@gmail.com>
-Date: Wed, 20 Apr 2022 16:12:04 -0300
+ Wed, 20 Apr 2022 12:12:55 -0700 (PDT)
+Message-ID: <2e62d048-1635-ba62-022b-ce3b30ac6290@gmail.com>
+Date: Wed, 20 Apr 2022 16:12:52 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 0/2] spapr: Make the nested code TCG only
+Subject: Re: [PATCH] target/ppc: Improve KVM hypercall trace
 Content-Language: en-US
 To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20220325221113.255834-1-farosas@linux.ibm.com>
+References: <20220325223316.276494-1-farosas@linux.ibm.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220325221113.255834-1-farosas@linux.ibm.com>
+In-Reply-To: <20220325223316.276494-1-farosas@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,8 +88,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, npiggin@gmail.com,
- david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,30 +97,55 @@ Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 Daniel
 
-On 3/25/22 19:11, Fabiano Rosas wrote:
-> The spapr virtual hypervisor implementation of the nested KVM API
-> depends on the first level guest to be emulated by TCG. So move the
-> whole code under CONFIG_TCG.
+On 3/25/22 19:33, Fabiano Rosas wrote:
+> Before:
 > 
-> v2:
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
+>    kvm_handle_papr_hcall handle PAPR hypercall
 > 
-> - Created hypercall_register_nested instead of reusing
->    hypercall_register_softmmu;
+> After:
 > 
-> - Rearranged the ifdef a bit to keep the hypercall_register_*
->    functions closer;
+>    kvm_handle_papr_hcall 0x3a8
+>    kvm_handle_papr_hcall 0x3ac
+>    kvm_handle_papr_hcall 0x108
+>    kvm_handle_papr_hcall 0x104
+>    kvm_handle_papr_hcall 0x104
+>    kvm_handle_papr_hcall 0x108
 > 
-> - Dropped the more paranoid patch that checked for KVM at every
->    call. I couldn't convince myself anymore that it was necessary.
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> ---
+>   target/ppc/kvm.c        | 2 +-
+>   target/ppc/trace-events | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> v1:
-> https://lists.nongnu.org/archive/html/qemu-ppc/2022-03/msg00412.html
-> 
-> Fabiano Rosas (2):
->    spapr: Move hypercall_register_softmmu
->    spapr: Move nested KVM hypercalls under a TCG only config.
-> 
->   hw/ppc/spapr_hcall.c | 74 ++++++++++++++++++++++++++------------------
->   1 file changed, 44 insertions(+), 30 deletions(-)
-> 
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index dc93b99189..a490e886ea 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -1681,7 +1681,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>           break;
+>   #if defined(TARGET_PPC64)
+>       case KVM_EXIT_PAPR_HCALL:
+> -        trace_kvm_handle_papr_hcall();
+> +        trace_kvm_handle_papr_hcall(run->papr_hcall.nr);
+>           run->papr_hcall.ret = spapr_hypercall(cpu,
+>                                                 run->papr_hcall.nr,
+>                                                 run->papr_hcall.args);
+> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
+> index 53b107f56e..a79f1b4370 100644
+> --- a/target/ppc/trace-events
+> +++ b/target/ppc/trace-events
+> @@ -23,7 +23,7 @@ kvm_failed_get_vpa(void) "Warning: Unable to get VPA information from KVM"
+>   kvm_handle_dcr_write(void) "handle dcr write"
+>   kvm_handle_dcr_read(void) "handle dcr read"
+>   kvm_handle_halt(void) "handle halt"
+> -kvm_handle_papr_hcall(void) "handle PAPR hypercall"
+> +kvm_handle_papr_hcall(uint64_t hcall) "0x%" PRIx64
+>   kvm_handle_epr(void) "handle epr"
+>   kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
+>   kvm_handle_debug_exception(void) "handle debug exception"
 
