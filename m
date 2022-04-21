@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A089A50A406
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 17:26:06 +0200 (CEST)
-Received: from localhost ([::1]:60870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A5D50A3ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 17:23:10 +0200 (CEST)
+Received: from localhost ([::1]:52284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhYh3-0002c2-Oh
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 11:26:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41424)
+	id 1nhYeD-00055L-Br
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 11:23:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nhYXV-0003Nf-9j
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nhYXV-0003Nm-C9
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:16:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41106)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nhYXP-0005mT-L4
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:16:12 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nhYXQ-0005mm-76
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:16:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1650554167;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pwuEgcRktwwExu5MJhSZZLINFhmagfgwJaOuprPGgaA=;
- b=RMsWV8wohb+iT/4O33lhWy3wp+dS8/ztdjEssO08l4tzOU5KeWVsnKICrhORmK9wNpzjSq
- cIiG7xahUuADyI0DNFAnJqNimfy7QLO+61Cc/3CYsQOAaNRQorQZdlHkN6sclKpll1lHfr
- 8pT+UPurngwgGJBnk+/UOPLzFUm6VAg=
+ bh=9T6RxU05PzWWHlYrTypQG8S9sQZPor2x5IVdefW8PgA=;
+ b=YzDjmFQqMByWBLOn0qyk0+b0rcxkpFCuL1ZTjs9lKUkklRiBPaYR/8ntLrHUKoTnreSZSg
+ jgA+RPaWb7T60yTIv4BGibXiP+EG4Oksk7y1cmtDUVc4b7su8ZhAzZVAiTfid/8YRShZFS
+ dunK7RK5q+wrIPkPz7ueGaEnOdt3DA4=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-H2BsQJsnMF-VnFdzKobAtg-1; Thu, 21 Apr 2022 11:16:03 -0400
-X-MC-Unique: H2BsQJsnMF-VnFdzKobAtg-1
+ us-mta-549-9ij-Fm30OgudwNSnoOE7hw-1; Thu, 21 Apr 2022 11:16:04 -0400
+X-MC-Unique: 9ij-Fm30OgudwNSnoOE7hw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 48F013811F2E;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CCD033C1E8EA;
  Thu, 21 Apr 2022 15:16:03 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.34.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD5F640D016A;
- Thu, 21 Apr 2022 15:16:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5966C40D016A;
+ Thu, 21 Apr 2022 15:16:03 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/17] iotests/mirror-top-perms: switch to AQMP
-Date: Thu, 21 Apr 2022 11:15:46 -0400
-Message-Id: <20220421151600.984189-4-jsnow@redhat.com>
+Subject: [PULL 04/17] iotests: switch to AQMP
+Date: Thu, 21 Apr 2022 11:15:47 -0400
+Message-Id: <20220421151600.984189-5-jsnow@redhat.com>
 In-Reply-To: <20220421151600.984189-1-jsnow@redhat.com>
 References: <20220421151600.984189-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,59 +82,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't have to maintain compatibility with both QMP libraries anymore,
-so we can just remove the old exception. While we're here, take
-advantage of the extra fields present in the VMLaunchFailure exception
-that machine.py now raises.
-
-(Note: I'm leaving the logging suppression here unchanged. I had
-suggested previously we use filters to scrub the PID out of the logging
-information so it could just be diffed as part of the iotest output, but
-that meant *always* scrubbing PID from logger output, which defeated the
-point of even offering that information in the output to begin with.
-
-Ultimately, I decided it's fine to just suppress the logger temporarily.)
+iotests is already using async QMP, but to finalize the switchover we
+only need to update any remaining import paths to rely solely on the new
+library instead.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
 Acked-by: Hanna Reitz <hreitz@redhat.com>
-Message-id: 20220321203315.909411-4-jsnow@redhat.com
+Message-id: 20220321203315.909411-5-jsnow@redhat.com
+[Fixed minor rebase conflict. --js]
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/tests/mirror-top-perms | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ tests/qemu-iotests/iotests.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
-index 6ac8d5efccb..a9f275cd7f2 100755
---- a/tests/qemu-iotests/tests/mirror-top-perms
-+++ b/tests/qemu-iotests/tests/mirror-top-perms
-@@ -22,7 +22,6 @@
- import os
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index fe10a6cf05a..6f9aa38e0e8 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -37,9 +37,8 @@
  
- from qemu.machine import machine
--from qemu.qmp import QMPConnectError
+ from contextlib import contextmanager
  
- import iotests
- from iotests import change_log_level, qemu_img
-@@ -98,15 +97,13 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
-         self.vm_b.add_blockdev(f'file,node-name=drive0,filename={source}')
-         self.vm_b.add_device('virtio-blk,drive=drive0,share-rw=on')
-         try:
--            # Silence AQMP errors temporarily.
--            # TODO: Remove this and just allow the errors to be logged when
--            # AQMP fully replaces QMP.
-+            # Silence AQMP logging errors temporarily.
-             with change_log_level('qemu.aqmp'):
-                 self.vm_b.launch()
-                 print('ERROR: VM B launched successfully, '
-                       'this should not have happened')
--        except (QMPConnectError, machine.VMLaunchFailure):
--            assert 'Is another process using the image' in self.vm_b.get_log()
-+        except machine.VMLaunchFailure as exc:
-+            assert 'Is another process using the image' in exc.output
+-from qemu.aqmp.legacy import QEMUMonitorProtocol
++from qemu.aqmp.legacy import QMPMessage, QEMUMonitorProtocol
+ from qemu.machine import qtest
+-from qemu.qmp import QMPMessage
+ from qemu.utils import VerboseProcessError
  
-         result = self.vm.qmp('block-job-cancel',
-                              device='mirror')
+ # Use this logger for logging messages directly from the iotests module
 -- 
 2.34.1
 
