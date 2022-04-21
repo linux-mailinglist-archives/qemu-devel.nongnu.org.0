@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA19509980
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:56:02 +0200 (CEST)
-Received: from localhost ([::1]:59056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D38205098EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:23:44 +0200 (CEST)
+Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhRfV-0003Pm-1Y
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:56:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55820)
+	id 1nhRAF-00084g-SY
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhQg3-0003Si-MU; Thu, 21 Apr 2022 02:52:31 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60186)
+ id 1nhQg2-0003R3-Ff; Thu, 21 Apr 2022 02:52:30 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhQg2-0001Yr-57; Thu, 21 Apr 2022 02:52:31 -0400
+ id 1nhQg0-0001Yc-Oc; Thu, 21 Apr 2022 02:52:30 -0400
 Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhQf3-0006rv-V0; Thu, 21 Apr 2022 07:51:34 +0100
+ id 1nhQf8-0006rv-6e; Thu, 21 Apr 2022 07:51:34 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
-Date: Thu, 21 Apr 2022 07:51:53 +0100
-Message-Id: <20220421065155.31276-5-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 21 Apr 2022 07:51:54 +0100
+Message-Id: <20220421065155.31276-6-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220421065155.31276-1-mark.cave-ayland@ilande.co.uk>
 References: <20220421065155.31276-1-mark.cave-ayland@ilande.co.uk>
@@ -33,8 +33,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 4/6] q800: implement compat_props to enable
- quirk_mode_page_apple for scsi-hd devices
+Subject: [PATCH 5/6] q800: add default vendor,
+ product and version information for scsi-hd devices
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -59,38 +59,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default quirk_mode_page_apple should be enabled for all scsi-hd devices
-connected to the q800 machine to enable MacOS to detect and use them.
+The Apple HD SC Setup program uses a SCSI INQUIRY command to check that any SCSI
+hard disks detected match a whitelist of vendors and products before allowing
+the "Initialise" button to prepare an empty disk.
+
+Add known-good default vendor and product information using the existing
+compat_prop mechanism so the user doesn't have to use long command lines to set
+the qdev properties manually.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/m68k/q800.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/m68k/q800.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 099a758c6f..cfab0c54fc 100644
+index cfab0c54fc..a5d20bb64b 100644
 --- a/hw/m68k/q800.c
 +++ b/hw/m68k/q800.c
-@@ -686,6 +686,11 @@ static void q800_init(MachineState *machine)
-     }
- }
+@@ -688,6 +688,9 @@ static void q800_init(MachineState *machine)
  
-+static GlobalProperty hw_compat_q800[] = {
-+    { "scsi-hd", "quirk_mode_page_apple", "on"},
-+};
-+static const size_t hw_compat_q800_len = G_N_ELEMENTS(hw_compat_q800);
-+
- static void q800_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -695,6 +700,7 @@ static void q800_machine_class_init(ObjectClass *oc, void *data)
-     mc->max_cpus = 1;
-     mc->block_default_type = IF_SCSI;
-     mc->default_ram_id = "m68k_mac.ram";
-+    compat_props_add(mc->compat_props, hw_compat_q800, hw_compat_q800_len);
- }
+ static GlobalProperty hw_compat_q800[] = {
+     { "scsi-hd", "quirk_mode_page_apple", "on"},
++    { "scsi-hd", "vendor", " SEAGATE" },
++    { "scsi-hd", "product", "          ST225N" },
++    { "scsi-hd", "ver", "1.0 " },
+ };
+ static const size_t hw_compat_q800_len = G_N_ELEMENTS(hw_compat_q800);
  
- static const TypeInfo q800_machine_typeinfo = {
 -- 
 2.20.1
 
