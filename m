@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE733509435
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 02:38:42 +0200 (CEST)
-Received: from localhost ([::1]:55092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131A750949B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 03:19:28 +0200 (CEST)
+Received: from localhost ([::1]:38226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhKqI-0004HL-0h
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 20:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35688)
+	id 1nhLTi-0001CG-O9
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 21:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhKlc-00057u-QO; Wed, 20 Apr 2022 20:33:52 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:41957)
+ id 1nhLS0-0008HF-Dp; Wed, 20 Apr 2022 21:17:40 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:56154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhKla-0008Nx-PG; Wed, 20 Apr 2022 20:33:51 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id t13so3241143pgn.8;
- Wed, 20 Apr 2022 17:33:49 -0700 (PDT)
+ id 1nhLRy-0005o4-Jj; Wed, 20 Apr 2022 21:17:40 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id u5so445666pjr.5;
+ Wed, 20 Apr 2022 18:17:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=k03hqsrN3r2DAcpcEZo3Qmaha1XCoOaXcqqhAGM9cU0=;
- b=qfbK/YVww+veIVQb6g8pekVxYFSInAitfMQ4btBr/DIapSEsPv4Wl5lSkm8CS40FzB
- sAGveyrnbk2jWSzqnl/T8TZg2TRk7Ss6RvsbDSavJiCGQr0QHw9EIzZwYtVnA3ARJpzQ
- mvK7K4WUAxavYPtAPRS7qUo6ra9SaNr+jpH1TaciWCcD6oqANO5yXWqyz0Ux/WdtgM88
- +jYvDfawcSBagHgMQuQ+nLojom37vFA/0aTLwhbs1+dLymohS4I1iUNLSVYrmQGI5V/S
- JshHhNCPKZ6ezGijiRxZuqY9fwcWBt5w0uJO+DpTEBXHrtF/6bKSQbaC59juZ/u57XRc
- Ui4A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eeU9QD3V/RG1+nwj4yczfgPiRc77rBxUrSfUOrbrOI8=;
+ b=SXyCshFHvkYu7bTvTytYKx5GDEc+IqlgobAqIoQgMkciIOzU8js0zbbiSQt34BSbDc
+ 86aaFPzyTZqFaxVbbrwUyy6YwfyQ9hMXz4YeBIY61FrTYQb0HYIxCqkYLyZxfj/De7MH
+ AuYQmF6p/QbpkjPpOtJQ/O5T6sIyIH7x1gsf9xNJmHb6recwjTd9fgZEtsqpwspykVeE
+ xK1Nb/TK63eMs44RnkARURMDemVZ1sZEo1IkrgfcBGDoUdji3PCwjQ5zQlo8lApFimb7
+ 6ybZaR1U6Vxm+9Nypv405IhfOZGq3R1Gnu3fydifJz6Sdf86umnKo2LjozqV0AxfB6Pp
+ U5fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=k03hqsrN3r2DAcpcEZo3Qmaha1XCoOaXcqqhAGM9cU0=;
- b=rF59MYUG+f9PNgmFH9o9fRZLpfKlIrOH0oHtjpJQik511mC7171InjgNybDIoAjRVs
- M8R4UvJG2TXtfXW3Pkb8WmgAjSD0JtM9ZhZHBbLJciNiqQm3xz19LWYSsD3akuHG3KMP
- XiQSLZHF3dHZIZhTdv7L3SwSsI6WT9x+GDziZ+eJCiNiVgGf8Dd9NKDNvFuKp+7erKFg
- e6yHmtKgSg1T49DcAE8B2Y2EEeZQdRy0jnkHpMKcVo433QbM48OdnP39Ko7+WxyrQVNF
- yDHdzO5dm2z2H/e+qdtuQvEGtlzRhAu8rr2x3QJQPXJjjpjC63Uq54Tr/ZSS7XmDgZ0l
- 1IIQ==
-X-Gm-Message-State: AOAM532X0kgd0la4raGEE4Xu4IP5e3XKhsgn+LIvDyIYHT0qC3JtBXif
- NQ4qOky7G+EtRYRPuEF2wxg=
-X-Google-Smtp-Source: ABdhPJwEa7XXGI53bvyBP1KcxJGov+qyqcF6RQC42+4rrltmlHDs3PzHF6/7PKt1qBS5+JoSslkAPQ==
-X-Received: by 2002:a05:6a00:1505:b0:50a:641f:c688 with SMTP id
- q5-20020a056a00150500b0050a641fc688mr21898157pfu.86.1650501228922; 
- Wed, 20 Apr 2022 17:33:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eeU9QD3V/RG1+nwj4yczfgPiRc77rBxUrSfUOrbrOI8=;
+ b=HSALAUxPOiZOoXJm3TcXYiFyK+HNwnBsKjzi5NANhFB1UwZ8JkIMvFgaqJfmcsqpsc
+ BDkxJ2BCXIt5ekEIFAl/At+urMKuusHQ1O0kHE8wOety5yy6I5Zgsf54exRbnKNtzhH3
+ DdTFIFY3xkereE0KZGiYe10P1+WmUBRewjpEHm6uisBmnhj93MS7LuNDA702tV/kTjAT
+ t6H/BCnRUF0GYNn74ChRqSWzv1YGPVGNwi8/1H/KmNE40gDAhblN6hR2YewLwsppEX4r
+ LQA8ba6WPYO0LshS47DYKSQRKIhWvN2POom2zDZEUMGdQh5MKeHQnaxFLTWxXl6BUdAL
+ TzGA==
+X-Gm-Message-State: AOAM530eLT0i4gweR+wgDfqdNuRnlZePqJ8ptarYU0w9yxdFPCpm21hl
+ sgExrsMaEBrHyCwQxYhHLQM=
+X-Google-Smtp-Source: ABdhPJxb4b8XTKhI++3V8QMtBiqQOWrHjoyCOf1LGs0rDnmVO3qXhTz8LwdDVjiIAP4uzIjTuv634Q==
+X-Received: by 2002:a17:902:e885:b0:158:e564:8992 with SMTP id
+ w5-20020a170902e88500b00158e5648992mr23058748plg.34.1650503856682; 
+ Wed, 20 Apr 2022 18:17:36 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
  [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
- z6-20020a056a00240600b004e17ab23340sm22981969pfh.177.2022.04.20.17.33.46
+ j13-20020a056a00130d00b004f1025a4361sm23122330pfu.202.2022.04.20.18.17.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 17:33:48 -0700 (PDT)
+ Wed, 20 Apr 2022 18:17:36 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH v5 6/6] hw/core: tcg-cpu-ops.h: Update comments of
- debug_check_watchpoint()
-Date: Thu, 21 Apr 2022 08:33:24 +0800
-Message-Id: <20220421003324.1134983-7-bmeng.cn@gmail.com>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH v2] target/ppc: Fix BookE debug interrupt generation
+Date: Thu, 21 Apr 2022 09:17:29 +0800
+Message-Id: <20220421011729.1148727-1-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220421003324.1134983-1-bmeng.cn@gmail.com>
-References: <20220421003324.1134983-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,37 +82,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-This is now used by RISC-V as well. Update the comments.
+Per E500 core reference manual [1], chapter 8.4.4 "Branch Taken Debug
+Event" and chapter 8.4.5 "Instruction Complete Debug Event":
+
+  "A branch taken debug event occurs if both MSR[DE] and DBCR0[BRT]
+  are set ... Branch taken debug events are not recognized if MSR[DE]
+  is cleared when the branch instruction executes."
+
+  "An instruction complete debug event occurs when any instruction
+  completes execution so long as MSR[DE] and DBCR0[ICMP] are both
+  set ... Instruction complete debug events are not recognized if
+  MSR[DE] is cleared at the time of the instruction execution."
+
+Current codes do not check MSR.DE bit before setting HFLAGS_SE and
+HFLAGS_BE flag, which would cause the immediate debug interrupt to
+be generated, e.g.: when DBCR0.ICMP bit is set by guest software
+and MSR.DE is not set.
+
+[1] https://www.nxp.com/docs/en/reference-manual/E500CORERM.pdf
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
-(no changes since v1)
+Changes in v2:
+- update commit message to use E500CORERM instead of PowerISA 2.07
 
- include/hw/core/tcg-cpu-ops.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/ppc/helper_regs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index e13898553a..f98671ff32 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -90,6 +90,7 @@ struct TCGCPUOps {
-     /**
-      * @debug_check_watchpoint: return true if the architectural
-      * watchpoint whose address has matched should really fire, used by ARM
-+     * and RISC-V
-      */
-     bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 9a691d6833..77bc57415c 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -63,10 +63,10 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
  
+     if (ppc_flags & POWERPC_FLAG_DE) {
+         target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
+-        if (dbcr0 & DBCR0_ICMP) {
++        if ((dbcr0 & DBCR0_ICMP) && msr_de) {
+             hflags |= 1 << HFLAGS_SE;
+         }
+-        if (dbcr0 & DBCR0_BRT) {
++        if ((dbcr0 & DBCR0_BRT) && msr_de) {
+             hflags |= 1 << HFLAGS_BE;
+         }
+     } else {
 -- 
 2.25.1
 
