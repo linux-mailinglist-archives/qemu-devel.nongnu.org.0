@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F70509E4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:10:38 +0200 (CEST)
-Received: from localhost ([::1]:42556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1ECB509E10
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:53:59 +0200 (CEST)
+Received: from localhost ([::1]:45474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhUhp-0008D9-Bg
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:10:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51754)
+	id 1nhURi-0003c5-8z
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUMH-0000MK-Ht
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:48:21 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:41856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUME-0005mx-8i
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:48:19 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2ebf4b91212so47554557b3.8
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 03:48:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JLWf7xlwiNqaTYa9Ly9dPPbhY4fAchbkPfDbw7UIEXc=;
- b=XxnilaRqGvMz9L4itPjjMzwfadevYwlz0rjj7nOr6C2rC46LcEIznZexRisiI0Z3fV
- J6pHwYkPq2Wz6JzyJuHzd00A6QYD/mxR6hFW+q3CNtYT1a+x4PqlI53DNsAk3hjCnB7Q
- kufMyqIgp8FoReFMIAQK7dbx0hIiaMwV154aqJe8qGu6F977pvkyGukWk4pnCKU9rwK/
- KczylhrabSxVehqD8B+f2OgDs8sM9jPUrXOaoTRtc02Kz4Vlun6OogHR8DIqjRQ+0KwY
- G3PkSEAKqvPg3AmaSpSw1jK37IfHGl9cl+pImF17Q7OuOCWkDVrqya+0UQtiUFKajgol
- cUpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JLWf7xlwiNqaTYa9Ly9dPPbhY4fAchbkPfDbw7UIEXc=;
- b=OsPZ+JMT6z055m1T+GaR3K6nu+Np7022bY9D2taak9lsFl4ur/HHnLOcprXshx5N3D
- YOBoJjK0G7wUqxzkIF7DsdsJJX4z0cvlkOLr/SetV3V0EKwhHBlmXeygRIdKqWanOvvN
- RSYUhNL6takJkagrnZyU1mvY5EggeWfwiFfyIxe2r9RiSVX3+f5FKCJ1QX9OJ3neBEc2
- NegAQYbS4et/3uRUHfj17bF9iT/Cfqjc42Mm0wqeofJ2lqqoDroEJEfiGkujbp+S7LGW
- ourKMRFwZRtAIonVDpuYbXnPUYb1amx7/UC7u1lTwbka0HqI88JpthdbMInP3usyivMi
- vwAw==
-X-Gm-Message-State: AOAM5303wWCGjY6y0XHirKjSfElDfJoR/lPdCiz4K/k+ubD8ojD6TrcG
- O2bu+AqQI+A8H68I7dJa7Q2qbbtaV2g5yxwwy8Cptg==
-X-Google-Smtp-Source: ABdhPJxnhTTKLKjnfNQ3qT8kaNELol4KAuWWEm2bV5pJb34j6AEbXEOrTw0aXBcPs4ZSndgMfDRpY0VHIM8MqNEiPe4=
-X-Received: by 2002:a81:4e11:0:b0:2f1:47a0:5972 with SMTP id
- c17-20020a814e11000000b002f147a05972mr26417036ywb.469.1650538097198; Thu, 21
- Apr 2022 03:48:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhUMe-0000WT-Rk
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:48:44 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:22955)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhUMc-0005qQ-Sj
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:48:44 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-654-rcIOfIL2N1WAlhK2DelORQ-1; Thu, 21 Apr 2022 06:48:38 -0400
+X-MC-Unique: rcIOfIL2N1WAlhK2DelORQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D9F7899EC1;
+ Thu, 21 Apr 2022 10:48:37 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E16740CFD1E;
+ Thu, 21 Apr 2022 10:48:36 +0000 (UTC)
+Date: Thu, 21 Apr 2022 12:48:35 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 4/5] 9pfs: fix wrong errno being sent to Linux client on
+ macOS host
+Message-ID: <20220421124835.3e664669@bahia>
+In-Reply-To: <c32aafaa3f29424fc13ae86b369c9baf1ceb0ec6.1650370027.git.qemu_oss@crudebyte.com>
+References: <cover.1650370026.git.qemu_oss@crudebyte.com>
+ <c32aafaa3f29424fc13ae86b369c9baf1ceb0ec6.1650370027.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-References: <20220405223640.2595730-1-wuhaotsh@google.com>
- <20220405223640.2595730-3-wuhaotsh@google.com>
-In-Reply-To: <20220405223640.2595730-3-wuhaotsh@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 11:48:06 +0100
-Message-ID: <CAFEAcA_dYEbSziv9AdkkR85YybUWQr2m-Phnzsts5R1+t3Bg9Q@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 02/11] hw/ssi: Make flash size a property in
- NPCM7XX FIU
-To: Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,40 +64,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Uri.Trichter@nuvoton.com, titusr@google.com, venture@google.com,
- hskinnemoen@google.com, qemu-devel@nongnu.org, kfting@nuvoton.com,
- qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com, Vishal.Soni@microsoft.com
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Apr 2022 at 23:38, Hao Wu <wuhaotsh@google.com> wrote:
->
-> This allows different FIUs to have different flash sizes, useful
-> in NPCM8XX which has multiple different sized FIU modules.
->
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Patrick Venture <venture@google.com>
+On Tue, 19 Apr 2022 13:41:59 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+
+> Linux and macOS only share some errno definitions with equal macro
+> name and value. In fact most mappings for errno are completely
+> different on the two systems.
+> 
+> This patch converts some important errno values from macOS host to
+> corresponding Linux errno values before eventually sending such error
+> codes along with Tlerror replies (if 9p2000.L is used that is), which
+> fixes a bunch of misbehaviours when running a Linux client on macOS
+> host.
+> 
+
+This even fixes an actual protocol violation :
+
+lerror -- return error code
+
+size[4] Rlerror tag[2] ecode[4]
+
+lerror replaces the reply message used in a successful call. ecode is a
+numerical Linux errno.
+^^^^^^^^^^^^^^^^^^^^^
+
+Taken from https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
+
+
+> For instance this patch fixes:
+> 
+>   mount -t 9p -o posixacl ...
+> 
+> on Linux guest if security_mode=mapped was used for 9p server, which
+> refused to mount successfully, because macOS returned ENOATTR==93
+> when client tried to retrieve POSIX ACL xattrs, because errno 93
+> is defined as EPROTONOSUPPORT==93 on Linux, so Linux client believed
+> that xattrs were not supported by filesystem on host in general.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > ---
->  hw/arm/npcm7xx.c             | 6 ++++++
->  hw/ssi/npcm7xx_fiu.c         | 6 ++----
->  include/hw/ssi/npcm7xx_fiu.h | 1 +
->  3 files changed, 9 insertions(+), 4 deletions(-)
+>  hw/9pfs/9p.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index d953035e1c..becc41cbfd 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -57,6 +57,31 @@ enum {
+>  
+>  P9ARRAY_DEFINE_TYPE(V9fsPath, v9fs_path_free);
+>  
+> +/* Translates errno from host -> Linux if needed */
+> +static int errno_to_dotl(int err) {
+> +#if defined(CONFIG_LINUX)
+> +    /* nothing to translate (Linux -> Linux) */
+> +#elif defined(CONFIG_DARWIN)
+> +    /* translation mandatory for macOS hosts */
+> +    if (err == ENAMETOOLONG) {
+> +        err = 36; /* ==ENAMETOOLONG on Linux */
+> +    } else if (err == ENOTEMPTY) {
+> +        err = 39; /* ==ENOTEMPTY on Linux */
+> +    } else if (err == ELOOP) {
+> +        err = 40; /* ==ELOOP on Linux */
+> +    } else if (err == ENOATTR) {
+> +        err = 61; /* ==ENODATA on Linux */
+> +    } else if (err == ENOTSUP) {
+> +        err = 95; /* ==EOPNOTSUPP on Linux */
+> +    } else if (err == EOPNOTSUPP) {
+> +        err = 95; /* ==EOPNOTSUPP on Linux */
+> +    }
 
-> @@ -525,7 +522,7 @@ static void npcm7xx_fiu_realize(DeviceState *dev, Error **errp)
->          flash->fiu = s;
->          memory_region_init_io(&flash->direct_access, OBJECT(s),
->                                &npcm7xx_fiu_flash_ops, &s->flash[i], "flash",
-> -                              NPCM7XX_FIU_FLASH_WINDOW_SIZE);
-> +                              s->flash_size);
->          sysbus_init_mmio(sbd, &flash->direct_access);
+I'm assuming you have audited all errnos, right ? Just to be sure
+that this won't bite anymore.
 
-Creating a zero-sized memory region if the user forgets to set
-the flash-size property is going to be a bit confusing, so I think
-it would be better to have at least a basic sanity check of the
-property in realize.
+> +#else
+> +#error Missing errno translation to Linux for this host system
+> +#endif
+> +    return err;
+> +}
+> +
 
-Otherwise looks good.
+As with the other patch, I'd rather move this magic to 9p-util.h .
 
-thanks
--- PMM
+>  static ssize_t pdu_marshal(V9fsPDU *pdu, size_t offset, const char *fmt, ...)
+>  {
+>      ssize_t ret;
+> @@ -1054,6 +1079,8 @@ static void coroutine_fn pdu_complete(V9fsPDU *pdu, ssize_t len)
+>              }
+>              len += ret;
+>              id = P9_RERROR;
+> +        } else {
+> +            err = errno_to_dotl(err);
+>          }
+>  
+>          ret = pdu_marshal(pdu, len, "d", err);
+
 
