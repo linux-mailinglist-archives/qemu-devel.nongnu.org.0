@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F6150A1DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:13:36 +0200 (CEST)
-Received: from localhost ([::1]:45946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1254C50A1E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:14:48 +0200 (CEST)
+Received: from localhost ([::1]:49552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhXYt-00055c-7F
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37040)
+	id 1nhXa2-0007aC-T5
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhXDc-0004dj-4H
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:51:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36277)
+ id 1nhXDg-0004es-33
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:51:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhXDa-0006Cn-KD
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:51:35 -0400
+ id 1nhXDe-0006D7-7t
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:51:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650549094;
+ s=mimecast20190719; t=1650549096;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wYm4U65bb3EFCPGKRJq93PeVgsxf2a9oSs6Q9uQqPPA=;
- b=BllQ743A7g1raoFG1f8Mtt/CPOOLfv3fW8KAtPoeIAab6DtB1wGePeUeopxXKXmM4p93Wy
- c3+QDnVouadXSoUH4/abAqJaII3pZe4w6td8kDqjFhX8WcdNzgxrARFKmppBCekTE+2BBl
- XgVDJDESrt9x7t/C7DPDGhZ7+M22Wvc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sfjP9Xnjt6boYf8jomJEEutGXaa/gWUk0KPTC0nSBac=;
+ b=OEVTD4s7506CosJTObFYOlYBeeSBs9SlNZ+EDxg697vVToOYBP3Bl9lkwz59/U7xQLzAEe
+ GGgNJ3mgAr6tyFLWjIqNgOvKtIwTHkczHtZJxJmjZxt0lA9Qa9D1w8EHW2f7fYZLrAeLgI
+ ObA3rsx/ZQLAxRlmNT9ZCh9m0Mbclfg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-_RavvkfUN_mFHjnghFMN-w-1; Thu, 21 Apr 2022 09:51:30 -0400
-X-MC-Unique: _RavvkfUN_mFHjnghFMN-w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-28-so9airaPOz6BQUEDIghBmw-1; Thu, 21 Apr 2022 09:51:35 -0400
+X-MC-Unique: so9airaPOz6BQUEDIghBmw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92F721014A64;
- Thu, 21 Apr 2022 13:51:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 128EB3C37F32;
+ Thu, 21 Apr 2022 13:51:35 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C065F2024CB6;
- Thu, 21 Apr 2022 13:51:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3FE13C27DB5;
+ Thu, 21 Apr 2022 13:51:33 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/30] tests: remove block/qdict checks from check-qobject.c
-Date: Thu, 21 Apr 2022 17:49:28 +0400
-Message-Id: <20220421134940.2887768-19-marcandre.lureau@redhat.com>
+Subject: [PULL 19/30] compiler.h: add QEMU_SANITIZE_{ADDRESS,THREAD}
+Date: Thu, 21 Apr 2022 17:49:29 +0400
+Message-Id: <20220421134940.2887768-20-marcandre.lureau@redhat.com>
 In-Reply-To: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
 References: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -77,55 +77,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- richard.henderson@linaro.org, Markus Armbruster <armbru@redhat.com>
+ richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The functions are already covered in check-block-qdict.c.
-This will help moving QAPI-related tests in a common subproject.
+Simplify a bit pre-compiler conditions.
+
+For TSAN, QEMU already has CONFIG_TSAN, but it is only set when the
+fiber API is present. (I wonder whether supporting TSAN without the
+fiber API is really relevant)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220420132624.2439741-26-marcandre.lureau@redhat.com>
+Message-Id: <20220420132624.2439741-27-marcandre.lureau@redhat.com>
 ---
- tests/unit/check-qobject.c | 8 --------
- 1 file changed, 8 deletions(-)
+ include/qemu/compiler.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/tests/unit/check-qobject.c b/tests/unit/check-qobject.c
-index c5e850a10cb5..022b7c74fe57 100644
---- a/tests/unit/check-qobject.c
-+++ b/tests/unit/check-qobject.c
-@@ -15,7 +15,6 @@
- #include "qapi/qmp/qnull.h"
- #include "qapi/qmp/qnum.h"
- #include "qapi/qmp/qstring.h"
--#include "block/qdict.h"
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index f12c0fb581ec..f20a76e4a286 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -106,6 +106,14 @@
+ #define __has_attribute(x) 0 /* compatibility with older GCC */
+ #endif
  
- #include <math.h>
- 
-@@ -179,7 +178,6 @@ static void qobject_is_equal_list_test(void)
- static void qobject_is_equal_dict_test(void)
- {
-     g_autoptr(QDict) dict_cloned = NULL;
--    g_autoptr(QDict) dict_crumpled = NULL;
-     g_autoptr(QDict) dict_0 = qdict_new();
-     g_autoptr(QDict) dict_1 = qdict_new();
-     g_autoptr(QDict) dict_different_key = qdict_new();
-@@ -237,12 +235,6 @@ static void qobject_is_equal_dict_test(void)
-                   dict_different_null_key, dict_longer, dict_shorter,
-                   dict_nested);
- 
--    dict_crumpled = qobject_to(QDict, qdict_crumple(dict_1, &error_abort));
--    check_equal(dict_crumpled, dict_nested);
--
--    qdict_flatten(dict_nested);
--    check_equal(dict_0, dict_nested);
--
-     /* Containing an NaN value will make this dict compare unequal to
-      * itself */
-     qdict_put(dict_0, "NaN", qnum_from_double(NAN));
++#if defined(__SANITIZE_ADDRESS__) || __has_feature(address_sanitizer)
++# define QEMU_SANITIZE_ADDRESS 1
++#endif
++
++#if defined(__SANITIZE_THREAD__) || __has_feature(thread_sanitizer)
++# define QEMU_SANITIZE_THREAD 1
++#endif
++
+ /*
+  * GCC doesn't provide __has_attribute() until GCC 5, but we know all the GCC
+  * versions we support have the "flatten" attribute. Clang may not have the
 -- 
 2.36.0
 
