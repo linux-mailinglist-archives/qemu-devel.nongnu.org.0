@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56719509EDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:43:47 +0200 (CEST)
-Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DC7509F0C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:53:16 +0200 (CEST)
+Received: from localhost ([::1]:41470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhVDu-0004Bp-DU
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59674)
+	id 1nhVN5-0001u8-I2
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUqU-0003MM-Ik
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:35 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46608)
+ id 1nhUqW-0003NC-4L
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:37 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUqR-0003Xx-Ps
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:34 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id h25so177568wrc.13
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:19:14 -0700 (PDT)
+ id 1nhUqR-0003Y6-QB
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:35 -0400
+Received: by mail-wr1-x433.google.com with SMTP id w4so6176410wrg.12
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=uM2Z8pOmM345Tmz6p1sACjfjRoZTp+FYU6GMrrVCQUQ=;
- b=HHP4jVN51SEgdlWe4LzqFH5voCB/4YczYRRrdxwYWYgCT6M5jvbyi9c/KfFDNOUnnT
- vzkVdOX65/0Jyv3u2D2uEujgNdJGqgQIWG2YsHc6G6vCiWhk1BbMLKkD6e43Gd7pqAyH
- JKPZKFRFRE6SWP6uqm2vyQm4MJqZpe0toM3B/SnCVutKcbmif3LTooz8TYYyZyL2n9Fn
- 0MxAJxUwarv8Q6PJptvD1VNxiiyBozdsNS8RVKbaNVQSM+eVM5MJJVmmPUqlceBppmOa
- Q5XrV9pAAVdu9+sas4aDVhCu5p569eXoTdfByLh9r17RtqgSb1k1sVY6nStzS2Eq0ty9
- bFnQ==
+ bh=dDB/DivYt5DY6348otTzGl2ix/NfxmzFGVdHPWkVBdI=;
+ b=WBgqe8q/1zdY+mVF4a7rEp1dSPgWyTIWKfJ94Ma58bP95zIvbGxEHclaPsq5S+5ru+
+ zvnrIbANRoWWYTo2YNq/Px4KX04dRU63qs/v64nC2+rP51HNLfmugyDZg+voTkI4/7Mg
+ nhexUze/u6aJr2A38yld+qYoIi3OQ3XuWjBUOLOnoC3BrHobsn9Mofm8yH06A8Q6V3Nl
+ 4EIu6aVK/ixlDrgTDID2ozy3Ed+G3we1YC5Gp9B3Kywd9J+IWM9t3ZypuwsKT7Rc7F6u
+ R83uCfjScjPkmqI8cL7/stkg95ztCAef84spGW19nP9tIVPi0s3SYBSAmU8efnxpQNhl
+ DXtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uM2Z8pOmM345Tmz6p1sACjfjRoZTp+FYU6GMrrVCQUQ=;
- b=h73WlVWiO7RxXRV92qtZpyJOIvacA91uCTCawCZRiGDDSvyLZX94MSFBVuCsAZYlG3
- EKAvPx94YdIr34im87a51pHGI0x0OAXJ6kZkFkEHapDL6zdoIoA1MGDpJj6x+7UFl33d
- uMC9JVj2gIBqu6e5RuMqWOJANOlHja/kUkZlWUBmDEhgaR+2R2PRw9CVCvTN5nDfRj1V
- urVQe9zE+YgCAVreOlJ1DHx1jahZ6JI2fwh8qtv8Si8jq/UO2L5K+0Uc4EnkIm4O+/Me
- 12D6aAtuKCCPxLAoIKfSy6W8/JvbEiCeKmKVRmBCP8VM6zpfMY+Vns+p8hUmrbK/TzZH
- +L9A==
-X-Gm-Message-State: AOAM530jgbVYcW0FUzsA96tXs3UpLgJN7/j0pOUFwqCxU47/JxPy6rzL
- Dg9Nk/Brq+/merQaWCZraqoj3lpE7Pu/zQ==
-X-Google-Smtp-Source: ABdhPJxRUZaKNs5fxpeZHiOQAGofy4of8Si7ZkYcTu8J3w573HO9isdiwMYkSsUYGyZ512lI5ZkKRw==
-X-Received: by 2002:a5d:64a3:0:b0:20a:7931:5b84 with SMTP id
- m3-20020a5d64a3000000b0020a79315b84mr19823553wrp.407.1650539954144; 
- Thu, 21 Apr 2022 04:19:14 -0700 (PDT)
+ bh=dDB/DivYt5DY6348otTzGl2ix/NfxmzFGVdHPWkVBdI=;
+ b=nEMPNqGFcRSZ4z1UNzFYlLBNnEHAHqBRInPKmq2p9q3PKRD6HELl68NdGiNRW1+Ghw
+ WpFWWYYqvPB+Lj8Lw/2ihs92U710mL1SbZTYrXco+6+1lIwbhzgwrsEDRWAi6TAvZI22
+ 3ykml7B6ntLHKqSva5JYP3b0JxfzEW0Yyx8B/cXTdGB6rRX2rbpW4e4TQsQ9jAjKk1LM
+ IkL2jwGJnhvYj/XZUWIaPydQwxuu5ExGFuzt12M9/Rz2YYbrK2+8LUVGd/z0Gb2tg6sZ
+ eP7xz+d3GFXSXSn+zA4Mxo6kqDZdTZSWpisqSnT+YOi5qdIwel19TQ09ekDUA81ZAAHf
+ M8wA==
+X-Gm-Message-State: AOAM530XPyUcvV8Ke/GgIVSwADO9G36tqrcTn45vyfMzlEhhchtraTT4
+ cTD5SFkz6onVfZJOgB5s805d7L0Pc8M+ZA==
+X-Google-Smtp-Source: ABdhPJxBxxjYQPpAG7pfaMgzw157/giI84DMTD6e1YAO62pVD6+Pq0/5jkOBE+HrfaMU70vfq0wKzg==
+X-Received: by 2002:a05:6000:2ac:b0:20a:77c1:c64f with SMTP id
+ l12-20020a05600002ac00b0020a77c1c64fmr18914416wry.588.1650539955088; 
+ Thu, 21 Apr 2022 04:19:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.19.13
+ e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.19.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 04:19:13 -0700 (PDT)
+ Thu, 21 Apr 2022 04:19:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/31] hw/arm/stellaris: replace 'qemu_split_irq' with
- 'TYPE_SPLIT_IRQ'
-Date: Thu, 21 Apr 2022 12:18:42 +0100
-Message-Id: <20220421111846.2011565-28-peter.maydell@linaro.org>
+Subject: [PULL 28/31] hw/core/irq: remove unused 'qemu_irq_split' function
+Date: Thu, 21 Apr 2022 12:18:43 +0100
+Message-Id: <20220421111846.2011565-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421111846.2011565-1-peter.maydell@linaro.org>
 References: <20220421111846.2011565-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,53 +92,56 @@ From: Zongyuan Li <zongyuan.li@smartx.com>
 
 Signed-off-by: Zongyuan Li <zongyuan.li@smartx.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220324181557.203805-3-zongyuan.li@smartx.com
+Message-id: 20220324181557.203805-5-zongyuan.li@smartx.com
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/811
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/stellaris.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ include/hw/irq.h |  5 -----
+ hw/core/irq.c    | 15 ---------------
+ 2 files changed, 20 deletions(-)
 
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index b6c8a5d6098..12c673c9172 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -9,6 +9,7 @@
+diff --git a/include/hw/irq.h b/include/hw/irq.h
+index dc7abf199e3..645b73d2512 100644
+--- a/include/hw/irq.h
++++ b/include/hw/irq.h
+@@ -46,11 +46,6 @@ void qemu_free_irq(qemu_irq irq);
+ /* Returns a new IRQ with opposite polarity.  */
+ qemu_irq qemu_irq_invert(qemu_irq irq);
  
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "hw/core/split-irq.h"
- #include "hw/sysbus.h"
- #include "hw/sd/sd.h"
- #include "hw/ssi/ssi.h"
-@@ -1160,6 +1161,7 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-             DeviceState *ssddev;
-             DriveInfo *dinfo;
-             DeviceState *carddev;
-+            DeviceState *gpio_d_splitter;
-             BlockBackend *blk;
+-/* Returns a new IRQ which feeds into both the passed IRQs.
+- * It's probably better to use the TYPE_SPLIT_IRQ device instead.
+- */
+-qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2);
+-
+ /* For internal use in qtest.  Similar to qemu_irq_split, but operating
+    on an existing vector of qemu_irq.  */
+ void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, int n);
+diff --git a/hw/core/irq.c b/hw/core/irq.c
+index 741219277b1..3623f711fe6 100644
+--- a/hw/core/irq.c
++++ b/hw/core/irq.c
+@@ -106,21 +106,6 @@ qemu_irq qemu_irq_invert(qemu_irq irq)
+     return qemu_allocate_irq(qemu_notirq, irq, 0);
+ }
  
-             /*
-@@ -1237,9 +1239,18 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-                                    &error_fatal);
- 
-             ssddev = ssi_create_peripheral(bus, "ssd0323");
--            gpio_out[GPIO_D][0] = qemu_irq_split(
--                    qdev_get_gpio_in_named(sddev, SSI_GPIO_CS, 0),
-+
-+            gpio_d_splitter = qdev_new(TYPE_SPLIT_IRQ);
-+            qdev_prop_set_uint32(gpio_d_splitter, "num-lines", 2);
-+            qdev_realize_and_unref(gpio_d_splitter, NULL, &error_fatal);
-+            qdev_connect_gpio_out(
-+                    gpio_d_splitter, 0,
-+                    qdev_get_gpio_in_named(sddev, SSI_GPIO_CS, 0));
-+            qdev_connect_gpio_out(
-+                    gpio_d_splitter, 1,
-                     qdev_get_gpio_in_named(ssddev, SSI_GPIO_CS, 0));
-+            gpio_out[GPIO_D][0] = qdev_get_gpio_in(gpio_d_splitter, 0);
-+
-             gpio_out[GPIO_C][7] = qdev_get_gpio_in(ssddev, 0);
- 
-             /* Make sure the select pin is high.  */
+-static void qemu_splitirq(void *opaque, int line, int level)
+-{
+-    struct IRQState **irq = opaque;
+-    irq[0]->handler(irq[0]->opaque, irq[0]->n, level);
+-    irq[1]->handler(irq[1]->opaque, irq[1]->n, level);
+-}
+-
+-qemu_irq qemu_irq_split(qemu_irq irq1, qemu_irq irq2)
+-{
+-    qemu_irq *s = g_new0(qemu_irq, 2);
+-    s[0] = irq1;
+-    s[1] = irq2;
+-    return qemu_allocate_irq(qemu_splitirq, s, 0);
+-}
+-
+ void qemu_irq_intercept_in(qemu_irq *gpio_in, qemu_irq_handler handler, int n)
+ {
+     int i;
 -- 
 2.25.1
 
