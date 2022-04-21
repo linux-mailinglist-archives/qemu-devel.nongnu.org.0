@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54860509E1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:58:34 +0200 (CEST)
-Received: from localhost ([::1]:55362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEED509E1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:57:40 +0200 (CEST)
+Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhUW9-0004MZ-5M
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52636)
+	id 1nhUVH-0007Qg-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUPx-0004Al-MR
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:52:09 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:36858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUPv-0006U6-G5
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:52:09 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id f38so8039691ybi.3
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 03:52:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ng+HmJR4YNJXom9+NbV80owzEQyxRDy275hcV3DpIQI=;
- b=KYBUb56bKWl1AXvjFBnfyT/EPrE9yMHDTd5Q1pexAW9tjWH4qv2xwB9IZx+NugDkab
- zoUekHg1ZwD4qR/uBKL98Naw9Ipi40a8WrPlN+jrx0dOaY8s5nyl7KZLqAM8bjvD6jU4
- o40e5yzoqiYH9hOMWV4O4as1H1QOiySEkdFMDTaeYaM2zhB8vhzK0tYoOuuT3ReJbxaK
- lGNfGkBlmGczjh3e9faw1roxlDnd5ee0MBtCPIRzmWXkmfzgfUzg25PMcPSDdj87n0vx
- 0ZDUNAP5fKmJTt9s4P7ZM2LOvkCJ4ErEPfR4S+hL3xgYFsvS3uzM55rWVRaYVZ+njjF/
- DHnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ng+HmJR4YNJXom9+NbV80owzEQyxRDy275hcV3DpIQI=;
- b=4uyAm1vZJ/1EMatQ0onWFtK12b6JddoIlPkQywLwIwRDc92YSkMTK4S/Fv12lNDy0H
- 1XigsgUuaGj5JVmZQDrmmRSxeVoyWxCfOfiPp8y9bhIXMVDJ4DMm8nQp09qorSzbFib1
- kWMtkbFHbkTsLV0sPonbuwrhzZKur2o9EJcdoBP/l1uW0FzlHjFJo76uCvhUJkwv0LMl
- lSPzymIF/PD/8NQ73MwYUZhRmGelkOxpOlCQJ9AMbyDiSQ46GbKg3pCCzvak++Afdk/Z
- F9NEAFBVDiydBWz9itrvcEcL6OZSHEeijPCvBAuvU7MRkFxsi2WUjJyCQzNuRGUu/Pan
- XhmQ==
-X-Gm-Message-State: AOAM532Hv2/HoEmIpM82D9dPbcLbBmJEvU8BcaoyF3KwE+/oJwsTIZVh
- YRdzTbCq9e11uwjO8O61LpQ8Cdm25ZLwHnxjuKkfgg==
-X-Google-Smtp-Source: ABdhPJySYVADVeu1NRB7xwk+9QLD4VnwQzToeLb5eUycxpsMTWUjT4REy/3vRkfE/Ht7H5w29pGkk6aJd6+5BKxpmww=
-X-Received: by 2002:a05:6902:34f:b0:645:463a:b824 with SMTP id
- e15-20020a056902034f00b00645463ab824mr10736541ybs.39.1650538326516; Thu, 21
- Apr 2022 03:52:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
+ id 1nhUPw-00048A-Du; Thu, 21 Apr 2022 06:52:08 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:44140 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <d.tihov@yadro.com>)
+ id 1nhUPu-0006S2-JI; Thu, 21 Apr 2022 06:52:07 -0400
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 6B09943AC2;
+ Thu, 21 Apr 2022 10:52:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-disposition:content-type:content-type:mime-version
+ :message-id:subject:subject:from:from:date:date:received
+ :received:received; s=mta-01; t=1650538321; x=1652352722; bh=tSd
+ GUMRbMRQrX8T/WiS7EqDhiBuqZH2WUSozgmuRUDE=; b=MyNZ8ppdbJqvQhuGsJ8
+ QasGkmlo1r+1DRpssJMljZbhU4gmLoWZYsqqTjKCLMwH48l3tqSok4xyR7ldvfQR
+ 7a1jfJPgXBDbLoXXMinzo393oBWKgMgZJ7t7bzg9DBCDpqQ59EtTwNNaY3ljqUF7
+ 4MPp6JNVEGUjuaHxlVd3FLtk=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tjrAFQjctvJx; Thu, 21 Apr 2022 13:52:01 +0300 (MSK)
+Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
+ [172.17.100.104])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 0BABD42A76;
+ Thu, 21 Apr 2022 13:52:01 +0300 (MSK)
+Received: from localhost.localdomain (10.178.113.54) by
+ T-EXCH-04.corp.yadro.com (172.17.100.104) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Thu, 21 Apr 2022 13:51:59 +0300
+Date: Thu, 21 Apr 2022 13:51:58 +0300
+From: Dmitry Tikhov <d.tihov@yadro.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v2] hw/nvme: fix copy cmd for pi enabled namespaces
+Message-ID: <20220421105158.ufd3wzivaougxokx@localhost.localdomain>
 MIME-Version: 1.0
-References: <20220405223640.2595730-1-wuhaotsh@google.com>
- <20220405223640.2595730-4-wuhaotsh@google.com>
-In-Reply-To: <20220405223640.2595730-4-wuhaotsh@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 11:51:55 +0100
-Message-ID: <CAFEAcA_0c7Lb1ryT3J+XCvLrSUKXbVkenfRxo2CCV7m1nhJM+Q@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 03/11] hw/misc: Support NPCM8XX GCR module
-To: Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-Originating-IP: [10.178.113.54]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-04.corp.yadro.com (172.17.100.104)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=d.tihov@yadro.com;
+ helo=mta-01.yadro.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,45 +73,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Uri.Trichter@nuvoton.com, titusr@google.com, venture@google.com,
- hskinnemoen@google.com, qemu-devel@nongnu.org, kfting@nuvoton.com,
- qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com, Vishal.Soni@microsoft.com
+Cc: kbusch@kernel.org, its@irrelevant.dk, ddtikhov@gmail.com,
+ qemu-block@nongnu.org, linux@yadro.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Apr 2022 at 23:38, Hao Wu <wuhaotsh@google.com> wrote:
->
-> NPCM8XX has a different set of global control registers than 7XX.
-> This patch supports that.
->
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Reviwed-by: Titus Rwantare <titusr@google.com>
-> ---
+Current implementation have problem in the read part of copy command.
+Because there is no metadata mangling before nvme_dif_check invocation,
+reftag error could be thrown for blocks of namespace that have not been
+previously written to.
 
+Signed-off-by: Dmitry Tikhov <d.tihov@yadro.com>
+---
+v2:
+    * remove refactoring
+    * remove write part fix
+---
+ hw/nvme/ctrl.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> diff --git a/hw/misc/npcm7xx_gcr.c b/hw/misc/npcm7xx_gcr.c
-> deleted file mode 100644
-> index eace9e1967..0000000000
-> --- a/hw/misc/npcm7xx_gcr.c
-> +++ /dev/null
-> @@ -1,269 +0,0 @@
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 74540a03d5..08574c4dcb 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -2787,6 +2787,10 @@ static void nvme_copy_in_completed_cb(void *opaque, int ret)
+         size_t mlen = nvme_m2b(ns, nlb);
+         uint8_t *mbounce = iocb->bounce + nvme_l2b(ns, nlb);
+ 
++        status = nvme_dif_mangle_mdata(ns, mbounce, mlen, slba);
++        if (status) {
++            goto invalid;
++        }
+         status = nvme_dif_check(ns, iocb->bounce, len, mbounce, mlen, prinfor,
+                                 slba, apptag, appmask, &reftag);
+         if (status) {
+-- 
+2.35.1
 
-
-> diff --git a/hw/misc/npcm_gcr.c b/hw/misc/npcm_gcr.c
-> new file mode 100644
-> index 0000000000..2349949599
-> --- /dev/null
-> +++ b/hw/misc/npcm_gcr.c
-> @@ -0,0 +1,413 @@
-
-I'm not reviewing a patch that implements this as "delete 250
-lines of the old file and add 400 lines of new file" when
-they're clearly very similar. Please split this up in a way
-that makes the changes visible and reviewable (probably this
-is one patch doing "rename file" and then one or more patches
-making the code less 7xx specific and then a patch adding
-the 8xx type).
-
-thanks
--- PMM
 
