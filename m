@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD64509E90
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:33:02 +0200 (CEST)
-Received: from localhost ([::1]:54614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837A2509E8A
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:28:17 +0200 (CEST)
+Received: from localhost ([::1]:46176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhV3V-0004Jb-Lf
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
+	id 1nhUyu-0005rK-Ig
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:28:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUpx-00030X-F9
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:01 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43848)
+ id 1nhUpw-0002yw-Oj
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:00 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUpv-0003TJ-96
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:01 -0400
-Received: by mail-wr1-x435.google.com with SMTP id g18so6190407wrb.10
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:18:57 -0700 (PDT)
+ id 1nhUpu-0003TW-Pn
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:00 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c10so6234667wrb.1
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=sDjN+WySih18ryXF6R3n9stfRQojyj640nNIa0UOxtI=;
- b=B97bjf+PebiFn+tJj+ywXJSHjx3y+nZBRVnRO8FJcyyp8PdLWH7EhiN/i+7F1ayvMY
- +rQBrSLnbzT1fJd6cAYSnQMqL6xqcTAHFW6+WacbPkIT5s91Pw/iHWy1hiZM8S3H5ErP
- YUgD1/Ldt9B2Y+gPkmDZS++vVODiFdyopD3VTQnLrJafF4yBRHxGbRf+2VCaMrN1NKT0
- sPbVtJXCuEQbGWB5uif1IT3yGoYXY57PEo6RkSTTvvKnwRRBngI+Zcf1q8kin0HLlX7t
- oELm1ggZY1WmMfcl8zXWmtHVlnPbB7y4Zjmdx71RDkFjIIIPB9nWwemlfz7Am6FLCIfi
- 3qvw==
+ bh=HtN0kqqvwwTdtiQPjMVdnwH1taYT1AjPI2wX6s5u1Aw=;
+ b=Y1iQmWtM7G8bJJgbrlt0ara2NGUC3+0X2km8FlPbtXYGEI1mwHVM/4Rdhi5MZyC2aX
+ 9y/P2gFNxyi165kQ1wLEXJvbVvIll3yOoiOyMuOTWceZj1IkDYsc8FRVuNKUDh1ddmTu
+ ZEZGPv+EyUFFZNYxyqdanmo0FEVfqvq/dv5yI8XkPZ+HnNAxLyi9Vpf/eK9b/E98D3qv
+ N5Z0ib1TZ+be91ypB2JmZ+rslI5UTRyN11OXsTWoRUhZMS2E7+J/U0xk7bfBxe2mKx6Z
+ WqYlT1VLCoy7mPvKydfGxKfLx5iTjcMCyouJodbZE1/KDn8eMNqv5AF4r7HbjupR9mCt
+ Oz9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sDjN+WySih18ryXF6R3n9stfRQojyj640nNIa0UOxtI=;
- b=1ufueq6uYvvwWYRYwoLAEk9n7I1j8+aJQQ4fWcyfzE5fOmHJGMzGk1JEa4dLUSVuYT
- lyGhCm9ErfvqRcqVhZB6BEFHjxqSqNSHpCRopE0SYtJCzDyLdlmxSPQKNHjMhDOBP2B/
- i2dRsAsX09YK+cswGwEbZN9JIz7ulzYnmS8gTAFh33dUljH5+Fp1m72CsFA1xwWDmPF+
- AUktNJqA/RksE83HlYJOgEFM1StzYWky0/syM2MjY4j/clj3rVbdJAzv1zT4+zQN7d7w
- 2LixUrPDGKaMLsR6kqvmS9BEdqQ3MZX7D1i+WZy4HGotLRNBVZlrJMcAqqM5682/1mGq
- EoUw==
-X-Gm-Message-State: AOAM531QlQ2/5/DWiFVyncSNPcBiT91b18OPZ4e/mymycmpPbWW5uXLO
- 61ntyLY3TaXOtnNiK4+isk/leHeWwAJffg==
-X-Google-Smtp-Source: ABdhPJw9ZNdVjXmhOp0PVMQ0s2Zhri0OEizW5eLqnSv+P4xorL0vP3MwdwfL2xjhLNhBmhsT2F/LNg==
-X-Received: by 2002:a05:6000:16ce:b0:20a:88cf:c026 with SMTP id
- h14-20020a05600016ce00b0020a88cfc026mr18637549wrf.496.1650539936644; 
- Thu, 21 Apr 2022 04:18:56 -0700 (PDT)
+ bh=HtN0kqqvwwTdtiQPjMVdnwH1taYT1AjPI2wX6s5u1Aw=;
+ b=pY+T235nK+yMhoXwNfas4k303ebaerh5UaBpZTiD+nYMr+0lcZcCDy/hAktmPoULmA
+ ykyBuiwgo4rR0zfyMPuFxKpSzoFX7yFw3dPVHpjclOANHrbCKdS4SqZF8KJeog97OGpE
+ 9zDF0P2AVXflFNR/wyl/YkFqUTjQ3S0Ij/ABMEoTy6na5hqtW181P5MwPCrm6gxT8vxY
+ t4/v7hTWMUsWiu+7R2wbOMn3OAjhYyw82y3k9eBbqoTybkxCXy3dQ0uxkj0pTDaqhIlv
+ iTYAYipVqDeUv9Nlbut3WWnuloirWWIlPUOvggC/8GbyEdEnk6IbNRdC7C0y7eNnngXj
+ 1A2g==
+X-Gm-Message-State: AOAM531uQ+yqPq5WOQA9bKu3BuyBjUWepZ0OA8rQeogUFyC6HO/UGrDo
+ df3Hdrh9D2c1YaRvxmNR5unlon3iDFiAzQ==
+X-Google-Smtp-Source: ABdhPJzDfCVURl65P8HWAKl3+tyCZmZs3vGtb05vx2c8SvVHP1SWkabwPr+5zQ38kGqyJW0Go2eAsA==
+X-Received: by 2002:a05:6000:71c:b0:207:a807:e297 with SMTP id
+ bs28-20020a056000071c00b00207a807e297mr18676051wrb.596.1650539937459; 
+ Thu, 21 Apr 2022 04:18:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.18.55
+ e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.18.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 04:18:56 -0700 (PDT)
+ Thu, 21 Apr 2022 04:18:57 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/31] hw/intc/exynos4210_gic: Remove unused
- TYPE_EXYNOS4210_IRQ_GATE
-Date: Thu, 21 Apr 2022 12:18:24 +0100
-Message-Id: <20220421111846.2011565-10-peter.maydell@linaro.org>
+Subject: [PULL 10/31] hw/arm/exynos4210: Put a9mpcore device into state struct
+Date: Thu, 21 Apr 2022 12:18:25 +0100
+Message-Id: <20220421111846.2011565-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421111846.2011565-1-peter.maydell@linaro.org>
 References: <20220421111846.2011565-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,131 +88,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we have removed the only use of TYPE_EXYNOS4210_IRQ_GATE we can
-delete the device entirely.
+The exynos4210 SoC mostly creates its child devices as if it were
+board code.  This includes the a9mpcore object.  Switch that to a
+new-style "embedded in the state struct" creation, because in the
+next commit we're going to want to refer to the object again further
+down in the exynos4210_realize() function.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Message-id: 20220404154658.565020-3-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220404154658.565020-4-peter.maydell@linaro.org
 ---
- hw/intc/exynos4210_gic.c | 107 ---------------------------------------
- 1 file changed, 107 deletions(-)
+ include/hw/arm/exynos4210.h |  2 ++
+ hw/arm/exynos4210.c         | 11 ++++++-----
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/hw/intc/exynos4210_gic.c b/hw/intc/exynos4210_gic.c
-index bc73d1f1152..794f6b5ac72 100644
---- a/hw/intc/exynos4210_gic.c
-+++ b/hw/intc/exynos4210_gic.c
-@@ -373,110 +373,3 @@ static void exynos4210_gic_register_types(void)
+diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
+index 3999034053e..215c039b414 100644
+--- a/include/hw/arm/exynos4210.h
++++ b/include/hw/arm/exynos4210.h
+@@ -26,6 +26,7 @@
+ 
+ #include "hw/or-irq.h"
+ #include "hw/sysbus.h"
++#include "hw/cpu/a9mpcore.h"
+ #include "target/arm/cpu-qom.h"
+ #include "qom/object.h"
+ 
+@@ -103,6 +104,7 @@ struct Exynos4210State {
+     I2CBus *i2c_if[EXYNOS4210_I2C_NUMBER];
+     qemu_or_irq pl330_irq_orgate[EXYNOS4210_NUM_DMA];
+     qemu_or_irq cpu_irq_orgate[EXYNOS4210_NCPUS];
++    A9MPPrivState a9mpcore;
+ };
+ 
+ #define TYPE_EXYNOS4210_SOC "exynos4210"
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index dfc0a4eec25..ef4d646eb91 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -244,17 +244,16 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+     }
+ 
+     /* Private memory region and Internal GIC */
+-    dev = qdev_new(TYPE_A9MPCORE_PRIV);
+-    qdev_prop_set_uint32(dev, "num-cpu", EXYNOS4210_NCPUS);
+-    busdev = SYS_BUS_DEVICE(dev);
+-    sysbus_realize_and_unref(busdev, &error_fatal);
++    qdev_prop_set_uint32(DEVICE(&s->a9mpcore), "num-cpu", EXYNOS4210_NCPUS);
++    busdev = SYS_BUS_DEVICE(&s->a9mpcore);
++    sysbus_realize(busdev, &error_fatal);
+     sysbus_mmio_map(busdev, 0, EXYNOS4210_SMP_PRIVATE_BASE_ADDR);
+     for (n = 0; n < EXYNOS4210_NCPUS; n++) {
+         sysbus_connect_irq(busdev, n,
+                            qdev_get_gpio_in(DEVICE(&s->cpu_irq_orgate[n]), 0));
+     }
+     for (n = 0; n < EXYNOS4210_INT_GIC_NIRQ; n++) {
+-        s->irqs.int_gic_irq[n] = qdev_get_gpio_in(dev, n);
++        s->irqs.int_gic_irq[n] = qdev_get_gpio_in(DEVICE(&s->a9mpcore), n);
+     }
+ 
+     /* Cache controller */
+@@ -489,6 +488,8 @@ static void exynos4210_init(Object *obj)
+         g_autofree char *name = g_strdup_printf("cpu-irq-orgate%d", i);
+         object_initialize_child(obj, name, &s->cpu_irq_orgate[i], TYPE_OR_IRQ);
+     }
++
++    object_initialize_child(obj, "a9mpcore", &s->a9mpcore, TYPE_A9MPCORE_PRIV);
  }
  
- type_init(exynos4210_gic_register_types)
--
--/* IRQ OR Gate struct.
-- *
-- * This device models an OR gate. There are n_in input qdev gpio lines and one
-- * output sysbus IRQ line. The output IRQ level is formed as OR between all
-- * gpio inputs.
-- */
--
--#define TYPE_EXYNOS4210_IRQ_GATE "exynos4210.irq_gate"
--OBJECT_DECLARE_SIMPLE_TYPE(Exynos4210IRQGateState, EXYNOS4210_IRQ_GATE)
--
--struct Exynos4210IRQGateState {
--    SysBusDevice parent_obj;
--
--    uint32_t n_in;      /* inputs amount */
--    uint32_t *level;    /* input levels */
--    qemu_irq out;       /* output IRQ */
--};
--
--static Property exynos4210_irq_gate_properties[] = {
--    DEFINE_PROP_UINT32("n_in", Exynos4210IRQGateState, n_in, 1),
--    DEFINE_PROP_END_OF_LIST(),
--};
--
--static const VMStateDescription vmstate_exynos4210_irq_gate = {
--    .name = "exynos4210.irq_gate",
--    .version_id = 2,
--    .minimum_version_id = 2,
--    .fields = (VMStateField[]) {
--        VMSTATE_VBUFFER_UINT32(level, Exynos4210IRQGateState, 1, NULL, n_in),
--        VMSTATE_END_OF_LIST()
--    }
--};
--
--/* Process a change in IRQ input. */
--static void exynos4210_irq_gate_handler(void *opaque, int irq, int level)
--{
--    Exynos4210IRQGateState *s = (Exynos4210IRQGateState *)opaque;
--    uint32_t i;
--
--    assert(irq < s->n_in);
--
--    s->level[irq] = level;
--
--    for (i = 0; i < s->n_in; i++) {
--        if (s->level[i] >= 1) {
--            qemu_irq_raise(s->out);
--            return;
--        }
--    }
--
--    qemu_irq_lower(s->out);
--}
--
--static void exynos4210_irq_gate_reset(DeviceState *d)
--{
--    Exynos4210IRQGateState *s = EXYNOS4210_IRQ_GATE(d);
--
--    memset(s->level, 0, s->n_in * sizeof(*s->level));
--}
--
--/*
-- * IRQ Gate initialization.
-- */
--static void exynos4210_irq_gate_init(Object *obj)
--{
--    Exynos4210IRQGateState *s = EXYNOS4210_IRQ_GATE(obj);
--    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
--
--    sysbus_init_irq(sbd, &s->out);
--}
--
--static void exynos4210_irq_gate_realize(DeviceState *dev, Error **errp)
--{
--    Exynos4210IRQGateState *s = EXYNOS4210_IRQ_GATE(dev);
--
--    /* Allocate general purpose input signals and connect a handler to each of
--     * them */
--    qdev_init_gpio_in(dev, exynos4210_irq_gate_handler, s->n_in);
--
--    s->level = g_malloc0(s->n_in * sizeof(*s->level));
--}
--
--static void exynos4210_irq_gate_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    dc->reset = exynos4210_irq_gate_reset;
--    dc->vmsd = &vmstate_exynos4210_irq_gate;
--    device_class_set_props(dc, exynos4210_irq_gate_properties);
--    dc->realize = exynos4210_irq_gate_realize;
--}
--
--static const TypeInfo exynos4210_irq_gate_info = {
--    .name          = TYPE_EXYNOS4210_IRQ_GATE,
--    .parent        = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(Exynos4210IRQGateState),
--    .instance_init = exynos4210_irq_gate_init,
--    .class_init    = exynos4210_irq_gate_class_init,
--};
--
--static void exynos4210_irq_gate_register_types(void)
--{
--    type_register_static(&exynos4210_irq_gate_info);
--}
--
--type_init(exynos4210_irq_gate_register_types)
+ static void exynos4210_class_init(ObjectClass *klass, void *data)
 -- 
 2.25.1
 
