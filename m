@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D7A509DDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:43:16 +0200 (CEST)
-Received: from localhost ([::1]:34882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBFDA509DFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:49:35 +0200 (CEST)
+Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhUHL-0004Dq-Cm
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44222)
+	id 1nhUNS-0007Uq-OT
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhU27-0001G4-L3
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:27:31 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:41826)
+ id 1nhU4z-0002oj-Qg
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:30:32 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:45685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhU25-0001sW-V9
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:27:31 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id w20so1729964ybi.8
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 03:27:29 -0700 (PDT)
+ id 1nhU4x-0002IK-86
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:30:29 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id g14so4597893ybj.12
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 03:30:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5IeXp5BZ/Lq4abNTc4ertLKWbmpOp/1JUq40+2cF+gE=;
- b=i2p+boBMkO66POGkuC0CeoLBjnidpcdbEG1pfZUlSDRvEQqmtHVRMTPajMFspTfS+c
- S+lKAGWJcwUjBq9HniCRhOwgf/4wRc4bDX/9PkAuC+aMaFwgxgTsI5ObfcQgOzOlnsqz
- /6jmZv5lt3i5AlJk1HiTOgMToF0ZjW66NprradlYulsjwi7QRLakkXLQVG+IH4C+2tAk
- t+jL7E8PRQcf1SmRNcgMVkha7RpqerV2Mm6l+y8lKqpoF0TZsraPcZ3iroLJU4p/+xkb
- vEEsz3oyecX4XY7YlLm+EK1vsZJKppBMyv4kes88lqMUb6HZanNpbiMpB58ifYyS/7fy
- IfLg==
+ :cc; bh=Gz9Lii9GKOKWdgiXgfZKu/yHcP1nd30WO3pM81LGP5A=;
+ b=hXk3jpGkeAZsCZAURYdm7F6Z9Az7N9DQZ8SjBGksA3S/ZCaatTo2Av364QwY8/vIbF
+ zS9vgxZmfZevxTy2t6jH+ghl+ton7nlsJkFtVAEcEFe3gQFTfHAPbJYhA8AnJZ7mgz/F
+ p0j8XstENtIV/b3Y7l5CAlThETX9l7KhdhROHACri5cMxnZPOJFGG/S8q7rsm872hDJz
+ fYsgtqSsCq/JQSRewtvPOZ8Ye5Zv/QqXEjU6NpqqxAeMMs6Vxs4msaYxZvYJFAFmjiVQ
+ cE4wRQ0Pj/7de76QzClbL4v5hfyxsac3em05TxpjQmmMaqyLAxe+bvBi4egDF47pdIZF
+ 1qkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5IeXp5BZ/Lq4abNTc4ertLKWbmpOp/1JUq40+2cF+gE=;
- b=MiNrhL+j0w/VjfPnI9ubha4qXsmSaDn17wqjA4iXFZgcTS0V8Xn0LzAfuAt9x6zhZQ
- axosA+GKGl8bpnsQb/0vf9ZatePAHbjRlJ7UCW/sbK8w3Zrq9DWumw/g2sCgEl2oKE+d
- p0CKi17rRv6hqZltRDDA9dwZ2WGUWL/qoFdiHQIxgDv9N7zu5rqmpytrCR9tiEKU9eY1
- U8nMNfvbP/q+0wdH3Ty7IyCKVvMz1JKn31/WsrdP5acuONe8lHxnuyU710h+bGDxUjIq
- JNCXc0gTUMoaQFyPk/i6C5WMOP9PFNku7rWI47fvkzNQq7Oyyxr873KvwJTdLNbSW0ae
- +wVA==
-X-Gm-Message-State: AOAM533POdnIrZ9iz4gFNJNqgM5zC5NA4dy+ekFDbEAJln2XhlLNK8wy
- 4Y9WIaIVMGNbXygjZNQyVf99nkZ8o7nNa9Thp2GzCw==
-X-Google-Smtp-Source: ABdhPJxY7a1Zt643Zlf3S70JVLS8+GSLk9mx1sx106cIIb7XOx5oKd4Uep7wHYL1/BveGu5edPT9GkswnI8jnWVIF24=
-X-Received: by 2002:a05:6902:34f:b0:645:463a:b824 with SMTP id
- e15-20020a056902034f00b00645463ab824mr10662950ybs.39.1650536848803; Thu, 21
- Apr 2022 03:27:28 -0700 (PDT)
+ bh=Gz9Lii9GKOKWdgiXgfZKu/yHcP1nd30WO3pM81LGP5A=;
+ b=uAimy03ps5k+wMjAvRm834qhIt8kjGc5ejnNjauANmErNdkXJdUAscwC/q4Y5hhyWZ
+ AZJmoNFG2+Me3jSf0ZyHkgKQAK2XQ2wcysadJK8FQisEkjh+adqS1VgoLcFBdPwHB+Oi
+ fBt6tOvBdKLqmDWtonD1ryVD7G9BaptsNpGTZeM3u4s6LNJFGNemNgFGtf9AOwHWGIae
+ lPD7e23hyEQuSKc1O+lhYhgBLZApExdqPiJJBoPn8rr/StTQbyYG0m7MUSYp4p4SvZF/
+ omN/1R87ABndTEBQb0QRIJyLqyLf4/QfL4TU05dY9i/Rw99E6x0Pv6DzQhjFzWv4b0ER
+ 7s/g==
+X-Gm-Message-State: AOAM533Ukwi3qFEk6oTIjI0kLQ2zfxyu3rYDpRSZUAIm6Mib5LjYV4lO
+ 9mNyH820qhjUWoW9msn7xB97cDsNmwkOIf1WikIzDg==
+X-Google-Smtp-Source: ABdhPJyKuI/AgaysQRWxpyXANm5IJ1s4eyjMCHzgdZyhGJ2tuIfaFtBXcN4665k8AX2xwZohgr9DjxvGxkASZjW079w=
+X-Received: by 2002:a25:cf4d:0:b0:645:755c:a5af with SMTP id
+ f74-20020a25cf4d000000b00645755ca5afmr1964651ybg.140.1650537026141; Thu, 21
+ Apr 2022 03:30:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220413231456.35811-1-heinrich.schuchardt@canonical.com>
-In-Reply-To: <20220413231456.35811-1-heinrich.schuchardt@canonical.com>
+References: <20220411165842.3912945-1-wuhaotsh@google.com>
+In-Reply-To: <20220411165842.3912945-1-wuhaotsh@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 11:27:17 +0100
-Message-ID: <CAFEAcA-1Tbx8GkAH8aKGy_n9z=OHpCF_wJYMBsbMwSoyEtsx9Q@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt: impact of gic-version on max CPUs
-To: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Date: Thu, 21 Apr 2022 11:30:15 +0100
+Message-ID: <CAFEAcA9JKUh6BEgfEnrA1Wu_fdMUgTyfHWnDwh=s0Te4N6HBqQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Define NPCM7XX PWRON bit fields
+To: Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,23 +77,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Uri.Trichter@nuvoton.com, titusr@google.com, venture@google.com,
+ hskinnemoen@google.com, qemu-devel@nongnu.org, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com, Vishal.Soni@microsoft.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Apr 2022 at 00:15, Heinrich Schuchardt
-<heinrich.schuchardt@canonical.com> wrote:
+On Mon, 11 Apr 2022 at 17:58, Hao Wu <wuhaotsh@google.com> wrote:
 >
-> Describe that the gic-version influences the maximum number of CPUs.
+> Currently, the PWRON STRAP values in NPCM7XX boards are magic
+> numbers. Similar to the aspeed ones in hw/arm/aspeed.c, we
+> define bit fields constants for them and use these fields instead
+> of the magic numbers in the current implementation. The code
+> should behave exactly the same as the existing one.
 >
-> Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-> ---
->  docs/system/arm/virt.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> -- Changes since v1
+> * Fix errors and apply suggestions Peter made on v1.
 
 
-Applied to target-arm.next, thanks. I tweaked the punctuation a
-bit to use a full stop instead of a hyphen.
+
+Applied to target-arm.next, thanks.
 
 -- PMM
 
