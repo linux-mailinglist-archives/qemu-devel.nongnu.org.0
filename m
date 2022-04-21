@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEADB50A210
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:21:27 +0200 (CEST)
-Received: from localhost ([::1]:38090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A205C50A21A
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:23:15 +0200 (CEST)
+Received: from localhost ([::1]:41958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhXgU-0003KB-IS
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37212)
+	id 1nhXiE-00078E-Of
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:23:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhXEC-0005m4-GU
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:52:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32846)
+ id 1nhXEf-00073I-Ks
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:52:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhXEA-0006Nt-TG
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:52:12 -0400
+ id 1nhXEd-0006SS-Ou
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:52:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650549130;
+ s=mimecast20190719; t=1650549159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PdQyA2C822oZFMPY2UeAT5HEc+HSQi+Jzp6MJ+UeXzs=;
- b=K/JA3VGReg87C9mkPDFJpWYuG5PmSUdVCbVw/eDQ7+b6VK1Y9ZPXrbJvW+CE9oZFttrnku
- KHF5noeNx7RabjgOqzdTgQF395bqimemBxdkiwAW3Iu758YFVAG2H1+sfy2oxoXR7IcEs2
- kdE1Z7SUFHFsF6Wr3dy21P/uvFaxP8I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=frEuKCz7vFQixLAFoJkgnLoLchzJ4B4ZLPUS8uN7rfY=;
+ b=Y0K9vTgG/skRqwtj+FJXbi21s9xf+NfPWU9TxapItvdTa41YR5e5cA2TSHQery7ljJFwPp
+ CWuWnrS0UYV7SE7XdO55HFLjLjyFWQKOIqZwSrzB9C4ogSHodJY2+xB/c3aZo7Z7xE3cXX
+ 9s9JKQJC1FebM9IBb+4gR0KMvxgarQ8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-Nt3cVU5uN0yoDUvuGIfOyA-1; Thu, 21 Apr 2022 09:52:09 -0400
-X-MC-Unique: Nt3cVU5uN0yoDUvuGIfOyA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-639-g1rjxgtoOOW4UuM1Xwwefg-1; Thu, 21 Apr 2022 09:52:36 -0400
+X-MC-Unique: g1rjxgtoOOW4UuM1Xwwefg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEA163804527;
- Thu, 21 Apr 2022 13:52:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 77EFC1014A66;
+ Thu, 21 Apr 2022 13:52:35 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7E4BC28110;
- Thu, 21 Apr 2022 13:52:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 489DE2024CB6;
+ Thu, 21 Apr 2022 13:52:12 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/30] util: use qemu_create() in qemu_write_pidfile()
-Date: Thu, 21 Apr 2022 17:49:36 +0400
-Message-Id: <20220421134940.2887768-27-marcandre.lureau@redhat.com>
+Subject: [PULL 27/30] util: replace qemu_get_local_state_pathname()
+Date: Thu, 21 Apr 2022 17:49:37 +0400
+Message-Id: <20220421134940.2887768-28-marcandre.lureau@redhat.com>
 In-Reply-To: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
 References: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -76,38 +76,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- richard.henderson@linaro.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ "open list:Block SCSI subsystem" <qemu-block@nongnu.org>,
+ Michael Roth <michael.roth@amd.com>, richard.henderson@linaro.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:virtiofs" <virtio-fs@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-qemu_open_old(O_CREATE) should be replaced with qemu_create() which
-handles Error reporting.
+Simplify the function to only return the directory path. Callers are
+adjusted to use the GLib function to build paths, g_build_filename().
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220420132624.2439741-38-marcandre.lureau@redhat.com>
+Message-Id: <20220420132624.2439741-39-marcandre.lureau@redhat.com>
 ---
- util/oslib-posix.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/qemu/osdep.h          | 9 +++------
+ qga/main.c                    | 8 ++++----
+ scsi/qemu-pr-helper.c         | 6 ++++--
+ tools/virtiofsd/fuse_virtio.c | 4 +++-
+ util/oslib-posix.c            | 7 ++-----
+ util/oslib-win32.c            | 5 ++---
+ 6 files changed, 18 insertions(+), 21 deletions(-)
 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 4bf2883a60b3..baaa23c1568d 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -556,16 +556,13 @@ void qemu_set_cloexec(int fd);
+ void fips_set_state(bool requested);
+ bool fips_get_state(void);
+ 
+-/* Return a dynamically allocated pathname denoting a file or directory that is
+- * appropriate for storing local state.
+- *
+- * @relative_pathname need not start with a directory separator; one will be
+- * added automatically.
++/* Return a dynamically allocated directory path that is appropriate for storing
++ * local state.
+  *
+  * The caller is responsible for releasing the value returned with g_free()
+  * after use.
+  */
+-char *qemu_get_local_state_pathname(const char *relative_pathname);
++char *qemu_get_local_state_dir(void);
+ 
+ /* Find program directory, and save it for later usage with
+  * qemu_get_exec_dir().
+diff --git a/qga/main.c b/qga/main.c
+index aa00ad8fabdf..3c20bf1fbfe0 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -129,12 +129,12 @@ static void stop_agent(GAState *s, bool requested);
+ static void
+ init_dfl_pathnames(void)
+ {
++    g_autofree char *state = qemu_get_local_state_dir();
++
+     g_assert(dfl_pathnames.state_dir == NULL);
+     g_assert(dfl_pathnames.pidfile == NULL);
+-    dfl_pathnames.state_dir = qemu_get_local_state_pathname(
+-      QGA_STATE_RELATIVE_DIR);
+-    dfl_pathnames.pidfile   = qemu_get_local_state_pathname(
+-      QGA_STATE_RELATIVE_DIR G_DIR_SEPARATOR_S "qemu-ga.pid");
++    dfl_pathnames.state_dir = g_build_filename(state, QGA_STATE_RELATIVE_DIR, NULL);
++    dfl_pathnames.pidfile = g_build_filename(state, QGA_STATE_RELATIVE_DIR, "qemu-ga.pid", NULL);
+ }
+ 
+ static void quit_handler(int sig)
+diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
+index df493e2a503e..196b78c00df5 100644
+--- a/scsi/qemu-pr-helper.c
++++ b/scsi/qemu-pr-helper.c
+@@ -77,8 +77,10 @@ static int gid = -1;
+ 
+ static void compute_default_paths(void)
+ {
+-    socket_path = qemu_get_local_state_pathname("run/qemu-pr-helper.sock");
+-    pidfile = qemu_get_local_state_pathname("run/qemu-pr-helper.pid");
++    g_autofree char *state = qemu_get_local_state_dir();
++
++    socket_path = g_build_filename(state, "run", "qemu-pr-helper.sock", NULL);
++    pidfile = g_build_filename(state, "run", "qemu-pr-helper.pid", NULL);
+ }
+ 
+ static void usage(const char *name)
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 60b96470c51a..a52eacf82e1e 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -901,10 +901,12 @@ static bool fv_socket_lock(struct fuse_session *se)
+ {
+     g_autofree gchar *sk_name = NULL;
+     g_autofree gchar *pidfile = NULL;
++    g_autofree gchar *state = NULL;
+     g_autofree gchar *dir = NULL;
+     Error *local_err = NULL;
+ 
+-    dir = qemu_get_local_state_pathname("run/virtiofsd");
++    state = qemu_get_local_state_dir();
++    dir = g_build_filename(state, "run", "virtiofsd", NULL);
+ 
+     if (g_mkdir_with_parents(dir, S_IRWXU) < 0) {
+         fuse_log(FUSE_LOG_ERR, "%s: Failed to create directory %s: %s\n",
 diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 9751bc6be9d7..bcb35c3c8246 100644
+index bcb35c3c8246..b8bf7d4070ce 100644
 --- a/util/oslib-posix.c
 +++ b/util/oslib-posix.c
-@@ -138,9 +138,8 @@ bool qemu_write_pidfile(const char *path, Error **errp)
-             .l_len = 0,
-         };
+@@ -297,12 +297,9 @@ int qemu_pipe(int pipefd[2])
+ }
  
--        fd = qemu_open_old(path, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
-+        fd = qemu_create(path, O_WRONLY, S_IRUSR | S_IWUSR, errp);
-         if (fd == -1) {
--            error_setg_errno(errp, errno, "Cannot open pid file");
-             return false;
-         }
+ char *
+-qemu_get_local_state_pathname(const char *relative_pathname)
++qemu_get_local_state_dir(void)
+ {
+-    g_autofree char *dir = g_strdup_printf("%s/%s",
+-                                           CONFIG_QEMU_LOCALSTATEDIR,
+-                                           relative_pathname);
+-    return get_relocated_path(dir);
++    return get_relocated_path(CONFIG_QEMU_LOCALSTATEDIR);
+ }
  
+ void qemu_set_tty_echo(int fd, bool echo)
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index b897d759365f..9c1e8121fd6d 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -235,7 +235,7 @@ int qemu_get_thread_id(void)
+ }
+ 
+ char *
+-qemu_get_local_state_pathname(const char *relative_pathname)
++qemu_get_local_state_dir(void)
+ {
+     HRESULT result;
+     char base_path[MAX_PATH+1] = "";
+@@ -247,8 +247,7 @@ qemu_get_local_state_pathname(const char *relative_pathname)
+         g_critical("CSIDL_COMMON_APPDATA unavailable: %ld", (long)result);
+         abort();
+     }
+-    return g_strdup_printf("%s" G_DIR_SEPARATOR_S "%s", base_path,
+-                           relative_pathname);
++    return g_strdup(base_path);
+ }
+ 
+ void qemu_set_tty_echo(int fd, bool echo)
 -- 
 2.36.0
 
