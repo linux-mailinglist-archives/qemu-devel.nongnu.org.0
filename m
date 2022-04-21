@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC3B50A4E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 17:59:34 +0200 (CEST)
-Received: from localhost ([::1]:43568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1EBA50A462
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 17:37:07 +0200 (CEST)
+Received: from localhost ([::1]:33752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhZDQ-0001A9-Io
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 11:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42866)
+	id 1nhYri-0008Gw-Bv
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 11:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYZN-0007M7-95
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:11 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:34337)
+ id 1nhYZT-0007S5-Qa
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:15 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:37813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYZL-0006Hq-F8
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:08 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id t4so4920371pgc.1
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:18:06 -0700 (PDT)
+ id 1nhYZO-0006Ib-Uo
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:15 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ mm4-20020a17090b358400b001cb93d8b137so8023279pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fNAOMB88DY+Kw1JJ7inCrhRV3itMDCTZQXxLxXQ6rBA=;
- b=N2w9LXf4nU7Dku1VQuHKEnfY1roIbQltFUGQplbLRlrXXM42+LmzbGc+Q3faUM0eJw
- LYHOgSRFMrmRZEgo5fdZMWZwxyPEbqG/0CjzPkepDacDvbvRAahjO0trAEVASfzKNkTF
- ycSj5iZl/HxxxboS50DzHcIgTSbYFNCqdqFZLq1J/wlQoxWQ1k1zUsICQMIW+HlootNx
- xmhosXHQQzmSI4zCiRw/Y/EAvzlLMICBlVDkk9BX5QzYJJE4Ibl7jSZmJiHk5VPLcqYv
- sn3mkyO284y0HHmZV6QGuqYuc7jL0Psli3HOgMMpdVcut8nnYwwYu+U1NlmMQtfbpnHI
- yNDg==
+ bh=HXZTY79ogdU3cuAmQiOEqFI8HiKCYgS/bxD1qQ4VBwM=;
+ b=JjMjdW/UXeVYH7d8YJ3VSVXohTIXUzi6KLoJIQHcpGEwfvZYkAT60P1gyN+kPeBzaI
+ aBTtw4g5OmEx6kQ+U03dEjNdbepTb+94iVVjNiz4FzRE1GiUCWEZJVrQj3fzBhFD3RMo
+ zYbbonELEYS6Wc2L0S92c15cHqZ+LBDV2mek8L6PmEu7JRAW9sG5s/LRLodbpEUgLb0X
+ okyqK7bpj12Rpm64gmz/CtAiv05TbOFKK8dzT81/JQJNYcVIZGZKfH2iUnNuAEtPAURF
+ 4P6uxaF54/BVLCuWqoeOqgRZPOqA4cdC5qmZrigUxQ9scs0wjjaDMzXx+FDPrDiVHKJc
+ so3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fNAOMB88DY+Kw1JJ7inCrhRV3itMDCTZQXxLxXQ6rBA=;
- b=IuaMNGj5V34e/HjMaczQQHfNYw9VcQRZq3amEAp4NjAu0AhyjLaj4oFMp0f8z2CGLH
- h4TMElrTnoYeC66MwQ0a1jUE8qS/PWz9vpgpicH+tHy4h7aoXZcPQR3bozA4GkfTsLDU
- elRoWujsH3wwk31ZYyRIZ6U9U22FSmdplo8NjnIr2o6f3w90OzhdR+ZAvqCeTsHW93yt
- 86bYbYRqJL1S1pq7QxxiY34YAxmASudExbJWBhvqsq7KbkQ++xiM2h/gZYbmaLoDT7lD
- MhepeGpfElMZArLFui8xLJsCcuYWpqY+4L24IsMmb2UhfYwTUEhd6Etvyh6Af+xeeChJ
- JK0w==
-X-Gm-Message-State: AOAM531a4+1IZjvMWraViY64Bz3HUVrIxeSPlfrnl9nqABPi0cu6wP+O
- 3ge10HiLDg5gMrkC48c7jqWHBCMiqUCmVA==
-X-Google-Smtp-Source: ABdhPJyWtzoTLBaYsksCXF/8Kq1FCB4n9GUpNpBVo2fRxXW/cKfW1XnHy2W6P+vq/dRLFFQ6ewUbKw==
-X-Received: by 2002:a05:6a00:c8f:b0:50a:77a3:e7b with SMTP id
- a15-20020a056a000c8f00b0050a77a30e7bmr130242pfv.41.1650554286065; 
- Thu, 21 Apr 2022 08:18:06 -0700 (PDT)
+ bh=HXZTY79ogdU3cuAmQiOEqFI8HiKCYgS/bxD1qQ4VBwM=;
+ b=m9ZCFbRS2mTTDeTAwKMJH1FbgAUjSgD45BqBe5MWRRE38dsO2jYzqjEIsHKymcEV2C
+ XAVWNMVneoxoWNtRUhfrpR85sSLxk8is2IKTnrc04h89x2+OaFv8wqCgkasGKtaJoErG
+ s0dobAJrNS768f7UJr1lmLMEM6l2AGy/MB1SwriKXRPyJMo96dMmQMdmlTr/VFU902du
+ nj4RqZLiI74GzsHdI4yNyeS2BBcgWlCxCX3NtXzQPP+oDd8kkhzC7wA6qe/0aFspcmiy
+ /ClceY1ejhKP+DuagPj1NlifKythaBqfl+D2jBVDGCNifgTr+fkDhyjEYw2fbSZr1u/m
+ TV6g==
+X-Gm-Message-State: AOAM533mshn0uUqQWAtqWp8RcSJ9ynvyQdyjvt3gIkSXki7RzVJgh4Yf
+ 6f2LOLg3VD8lSKSyoBN4l9/w0+t7L9z5rw==
+X-Google-Smtp-Source: ABdhPJyt4D88Sh2e6SFIFJUcoQYcO5sgE7jIjObbPBMqd4AVMS3llwqeYljOibO8bZxH22fBfxr+ug==
+X-Received: by 2002:a17:902:b906:b0:14f:76a0:ad48 with SMTP id
+ bf6-20020a170902b90600b0014f76a0ad48mr26683471plb.79.1650554288825; 
+ Thu, 21 Apr 2022 08:18:08 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:80c8:6cf3:a91a:4957:ba18:ac18])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a056a00241000b004f3a647ae89sm24616248pfh.174.2022.04.21.08.18.04
+ z16-20020a056a00241000b004f3a647ae89sm24616248pfh.174.2022.04.21.08.18.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 08:18:05 -0700 (PDT)
+ Thu, 21 Apr 2022 08:18:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 18/64] target/nios2: Fix BRET instruction
-Date: Thu, 21 Apr 2022 08:16:49 -0700
-Message-Id: <20220421151735.31996-19-richard.henderson@linaro.org>
+Subject: [PATCH v7 20/64] linux-user/nios2: Only initialize SP and PC in
+ target_cpu_copy_regs
+Date: Thu, 21 Apr 2022 08:16:51 -0700
+Message-Id: <20220421151735.31996-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220421151735.31996-1-richard.henderson@linaro.org>
 References: <20220421151735.31996-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,50 +90,66 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We had failed to copy BSTATUS back to STATUS, and diagnose
-supervisor-only.  The spec is light on the specifics of the
-implementation of bret, but it is an easy assumption that
-the restore into STATUS should work the same as eret.
+Drop the set of estatus in init_thread; it was clearly intended
+to be setting the value of CR_STATUS for the application, but we
+never actually performed that copy.  However, the proper value is
+set in nios2_cpu_reset so we don't need to do anything here.
 
-Therefore, reuse the existing helper_eret.
+We only initialize SP and EA in init_thread, there's no value in
+copying other uninitialized data into ENV.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ linux-user/elfload.c        |  1 -
+ linux-user/nios2/cpu_loop.c | 22 ----------------------
+ 2 files changed, 23 deletions(-)
 
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 53699ee088..3694f2503b 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -407,12 +407,22 @@ static void ret(DisasContext *dc, uint32_t code, uint32_t flags)
-     dc->base.is_jmp = DISAS_JUMP;
- }
- 
--/* PC <- ba */
-+/*
-+ * status <- bstatus
-+ * PC <- ba
-+ */
- static void bret(DisasContext *dc, uint32_t code, uint32_t flags)
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 397dec5eb8..61063fd974 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -1096,7 +1096,6 @@ static void init_thread(struct target_pt_regs *regs, struct image_info *infop)
  {
--    tcg_gen_mov_tl(cpu_pc, cpu_R[R_BA]);
-+    if (!gen_check_supervisor(dc)) {
-+        return;
-+    }
- 
--    dc->base.is_jmp = DISAS_JUMP;
-+#ifdef CONFIG_USER_ONLY
-+    g_assert_not_reached();
-+#else
-+    gen_helper_eret(cpu_env, cpu_R[CR_BSTATUS], cpu_R[R_BA]);
-+    dc->base.is_jmp = DISAS_NORETURN;
-+#endif
+     regs->ea = infop->entry;
+     regs->sp = infop->start_stack;
+-    regs->estatus = 0x3;
  }
  
- /* PC <- rA */
+ #define LO_COMMPAGE  TARGET_PAGE_SIZE
+diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
+index a941f9032e..c5e68ac048 100644
+--- a/linux-user/nios2/cpu_loop.c
++++ b/linux-user/nios2/cpu_loop.c
+@@ -133,28 +133,6 @@ void cpu_loop(CPUNios2State *env)
+ 
+ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+ {
+-    env->regs[0] = 0;
+-    env->regs[1] = regs->r1;
+-    env->regs[2] = regs->r2;
+-    env->regs[3] = regs->r3;
+-    env->regs[4] = regs->r4;
+-    env->regs[5] = regs->r5;
+-    env->regs[6] = regs->r6;
+-    env->regs[7] = regs->r7;
+-    env->regs[8] = regs->r8;
+-    env->regs[9] = regs->r9;
+-    env->regs[10] = regs->r10;
+-    env->regs[11] = regs->r11;
+-    env->regs[12] = regs->r12;
+-    env->regs[13] = regs->r13;
+-    env->regs[14] = regs->r14;
+-    env->regs[15] = regs->r15;
+-    /* TODO: unsigned long  orig_r2; */
+-    env->regs[R_RA] = regs->ra;
+-    env->regs[R_FP] = regs->fp;
+     env->regs[R_SP] = regs->sp;
+-    env->regs[R_GP] = regs->gp;
+-    env->regs[CR_ESTATUS] = regs->estatus;
+     env->pc = regs->ea;
+-    /* TODO: unsigned long  orig_r7; */
+ }
 -- 
 2.34.1
 
