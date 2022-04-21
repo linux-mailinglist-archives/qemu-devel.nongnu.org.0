@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6FE50A6C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:14:45 +0200 (CEST)
-Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A35550A61D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:46:48 +0200 (CEST)
+Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhaOD-0003Yh-2o
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57712)
+	id 1nhZx9-0004qz-Ac
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:46:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZVv-0005Kz-Vi
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:18:40 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:41695)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nhZW4-0005N5-JN
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:18:48 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:41764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZVu-0007dH-Ia
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:18:39 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id w20so3448789ybi.8
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nhZW0-0007dq-Sz
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:18:46 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ z5-20020a17090a468500b001d2bc2743c4so5669081pjf.0
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:18:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HVa7eSTgPWPiuq+bOY5fQ3v2nYSJItvw+PivNZ7nOY4=;
- b=KrljFr43Inns9N15rf96Y9QkHZ6XV0+N7BvKshC+8St/pd1L59wh9eI9FEN74X2U+h
- njqlUAknA164bmE//xAWmwF1OrJJdnp5CMhE6qG04AZM+F0qfDarILmFUw+fl4JRmOUN
- bcynyHO5VmthLVSNQdfmofx6wxphyvBCNnOUjSBQuwJOEH0HyNUYAyltTq7ZK1kdaE8j
- 2z6K6vVzGoCzABlBgdiWbtKqHIS6ednOHMTnXxXizX+6cihKS64bLRzlj2T0OstRXDht
- UcSxrbcR05JlkmSxukZU867YobqnGtq7I4SRc5V6gVNMFcGBa+KuIUqdB/uRS2KxoKCy
- gldQ==
+ :cc; bh=cE/nTqTif6P1HPxIRKEcFOT2jYdAf96YvFfWF0zUtEU=;
+ b=R2ZDVS3cJF5Tvn6RyVqVoHZxDBv5AcY5SzoTaGNJV8m9z0EZWQkpKkX+qK6PYEKS6M
+ MPwafA2ybiWuy75qhKfYuyMUuG0Nh98Qq4iWJ5j521+59elZfbO5I+SIWFaP31OG7UEl
+ 4SGyImM5WUv7CZv1r5pXXlL+XwQweFCLy+Va62s4D39XLifU+Qgh737G770SEBqREp7/
+ sKQhG3f/HHXWd8PQ3eQin1H2BPozXPvIFyxhCfjJxnK4rAi1yaWL+bDgrABEy/fvYZXz
+ FwPhqcKFEE4sJZCsYT0KhSjD7cB6RIAdF59SpLFHSI0dW1jHAnB6xDtr8IuvqRPeCfrh
+ BERA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HVa7eSTgPWPiuq+bOY5fQ3v2nYSJItvw+PivNZ7nOY4=;
- b=wpkrZqH1uCXadyolw8Jyq6NCRsXRqMkT+6xpTu+poKVtY5kczvO+QmFcj1Gps1XHXY
- JO7Hjt5YvV2LkyAER6vxAMLR7X3pAkeqjmjml1d2p/x4JABu6Tustp8CaWpN0tlWyOd/
- YIdJVR7aDk9Xa/FXGb6bgTx4ziUlzQV6SH7ArqBU+Ze7hfOwAYhwXcMMPDwmDBtWAhtO
- c7xdwtDPgQygmYPtc9GzX4FanlGVyHQDsH4mr3MKSZqgYWJYHs2BiBvUg6CRxe7NSSfd
- gXsNd1ZojO+oYPsQlwbrYg1OcD62HzY/QkB5H0/ABB0kNK3gaoTFRXU8eS2vNok4RE1k
- XGCQ==
-X-Gm-Message-State: AOAM533nVIS/YCUbjD0t4sh4tTMW7ZvJmsUyuKkZ20d3IuB+RhU3I7k8
- LUl11pxq3aMOUy7MhSeLskdmoqZ+cnqo4yhqS89RCg==
-X-Google-Smtp-Source: ABdhPJyay3AMM67P5iUI/CBX4Wb5bk0WbF7G4F5AdousyT4Haedv3RyVkUHzMYKI1WHSyUdvBWJ+KYcEkmE3bql/SiM=
-X-Received: by 2002:a25:a287:0:b0:645:3c4f:7dec with SMTP id
- c7-20020a25a287000000b006453c4f7decmr415752ybi.479.1650557917223; Thu, 21 Apr
- 2022 09:18:37 -0700 (PDT)
+ bh=cE/nTqTif6P1HPxIRKEcFOT2jYdAf96YvFfWF0zUtEU=;
+ b=yAM7eFOJ9CX4br6RnMeroYX3gD8wJhM8Jplusn4wr/WNcwTq0fx08RGOgpW+3mOwrY
+ z6GWT1XlRenSD+yGhzJO/N8bp4VAKMNff5zG5tnLFosrH54/6Yp/u1PrlQMKMKvpAceW
+ fXaHcEy9nJIUou67Xpcz+gxbFK9XgCyZb8GLgihXtXfw5xcvrbt4Huw3puVIh+jcV0+K
+ UxUVzm7DxrNXHiHL5IpqTT+xEpRmy+M6xSZVu5ZWYLpA+/typOnA/7HrQvtB+8uj7wi3
+ Nhi/5kd2MKVVkTm6zOQFsWEA4mVHzWt7SiV1RQR3e3NtEd37TPvsFRjNxn1nZ1QNEQ0k
+ JIRg==
+X-Gm-Message-State: AOAM530E//R6TGLEwakO2LHHpNs9uLmtb8frI+lSEHS0+6bSVpzOfkKY
+ 9XTSvr6L0hcLtVx6FBMYJiKZ8lWwLQ9+mnpcJcU=
+X-Google-Smtp-Source: ABdhPJy6m6Hd0IhgWisa2mzd3cD1jV8gVE3HDip/KmCscKeAi40gWEqa7WawJjGAIv3n6oUFLJM2/Pg7yVxoCGUQJQk=
+X-Received: by 2002:a17:902:f787:b0:14f:43ba:55fc with SMTP id
+ q7-20020a170902f78700b0014f43ba55fcmr54200pln.3.1650557919910; Thu, 21 Apr
+ 2022 09:18:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220417174426.711829-1-richard.henderson@linaro.org>
- <20220417174426.711829-10-richard.henderson@linaro.org>
-In-Reply-To: <20220417174426.711829-10-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 17:18:26 +0100
-Message-ID: <CAFEAcA9XchDeFPZvXJ0qVNb80PWhgo1PBb7NAePJFoVsaOXiXg@mail.gmail.com>
-Subject: Re: [PATCH v3 09/60] target/arm: Change CPUArchState.thumb to bool
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+References: <20220418233331.7528-1-faithilikerun@gmail.com>
+ <20220421133600.GB1500162@fam-dell>
+In-Reply-To: <20220421133600.GB1500162@fam-dell>
+From: olc <faithilikerun@gmail.com>
+Date: Fri, 22 Apr 2022 00:18:33 +0800
+Message-ID: <CAAAx-8K3hQhSfkq7NObJr80FLxGs5=KVnYPU80h3XBN85FJd8A@mail.gmail.com>
+Subject: Re: [PATCH v3] Use io_uring_register_ring_fd() to skip fd operations
+To: Fam Zheng <fam@euphon.net>
+Content-Type: multipart/alternative; boundary="0000000000007f5cb605dd2c76a2"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,20 +79,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Damien Le Moal <Damien.LeMoal@wdc.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 Apr 2022 at 18:53, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Bool is a more appropriate type for this value.
-> Adjust the assignments to use true/false.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+--0000000000007f5cb605dd2c76a2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Fam,
+I've missed out freeing error object and error_report would be a better
+case indeed.
+Thanks for pointing out the problem.  I'll fix that in no time.
 
-thanks
--- PMM
+Best regards,
+Sam
+
+
+
+Fam Zheng <fam@euphon.net> =E4=BA=8E2022=E5=B9=B44=E6=9C=8821=E6=97=A5=E5=
+=91=A8=E5=9B=9B 21:36=E5=86=99=E9=81=93=EF=BC=9A
+
+> On 2022-04-19 07:33, Sam Li wrote:
+> > Linux recently added a new io_uring(7) optimization API that QEMU
+> > doesn't take advantage of yet. The liburing library that QEMU uses
+> > has added a corresponding new API calling io_uring_register_ring_fd().
+> > When this API is called after creating the ring, the io_uring_submit()
+> > library function passes a flag to the io_uring_enter(2) syscall
+> > allowing it to skip the ring file descriptor fdget()/fdput()
+> > operations. This saves some CPU cycles.
+> >
+> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > ---
+> >  block/io_uring.c | 10 +++++++++-
+> >  1 file changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/block/io_uring.c b/block/io_uring.c
+> > index 782afdb433..51f4834b69 100644
+> > --- a/block/io_uring.c
+> > +++ b/block/io_uring.c
+> > @@ -435,8 +435,16 @@ LuringState *luring_init(Error **errp)
+> >      }
+> >
+> >      ioq_init(&s->io_q);
+> > -    return s;
+> > +    if (io_uring_register_ring_fd(&s->ring) < 0) {
+> > +        /*
+> > +         * Only warn about this error: we will fallback to the
+> non-optimized
+> > +         * io_uring operations.
+> > +         */
+> > +        error_setg_errno(errp, errno,
+> > +                         "failed to register linux io_uring ring file
+> descriptor");
+> > +    }
+> >
+> > +    return s;
+>
+> As a general convention, I don't think the errp is going to get proper
+> handling
+> by the callers, if non-NULL is returned like here. IOW a matching
+> error_free is
+> never called and this is memory leak?
+>
+> I guess error_report is better?
+>
+> Fam
+>
+> >  }
+> >
+> >  void luring_cleanup(LuringState *s)
+> > --
+> > 2.35.1
+> >
+> >
+>
+
+--0000000000007f5cb605dd2c76a2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Fam,<br><div>I&#39;ve missed out freeing error object a=
+nd error_report would be a better case indeed.=C2=A0</div><div>Thanks for p=
+ointing out the problem.=C2=A0 I&#39;ll fix that in no time.</div><div><br>=
+</div><div>Best regards,</div><div>Sam</div><div><br></div><div><br></div><=
+/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">F=
+am Zheng &lt;<a href=3D"mailto:fam@euphon.net">fam@euphon.net</a>&gt; =E4=
+=BA=8E2022=E5=B9=B44=E6=9C=8821=E6=97=A5=E5=91=A8=E5=9B=9B 21:36=E5=86=99=
+=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">On 2022-04-19 07:33, Sam Li wrote:<br>
+&gt; Linux recently added a new io_uring(7) optimization API that QEMU<br>
+&gt; doesn&#39;t take advantage of yet. The liburing library that QEMU uses=
+<br>
+&gt; has added a corresponding new API calling io_uring_register_ring_fd().=
+<br>
+&gt; When this API is called after creating the ring, the io_uring_submit()=
+<br>
+&gt; library function passes a flag to the io_uring_enter(2) syscall<br>
+&gt; allowing it to skip the ring file descriptor fdget()/fdput()<br>
+&gt; operations. This saves some CPU cycles.<br>
+&gt; <br>
+&gt; Signed-off-by: Sam Li &lt;<a href=3D"mailto:faithilikerun@gmail.com" t=
+arget=3D"_blank">faithilikerun@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 block/io_uring.c | 10 +++++++++-<br>
+&gt;=C2=A0 1 file changed, 9 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/block/io_uring.c b/block/io_uring.c<br>
+&gt; index 782afdb433..51f4834b69 100644<br>
+&gt; --- a/block/io_uring.c<br>
+&gt; +++ b/block/io_uring.c<br>
+&gt; @@ -435,8 +435,16 @@ LuringState *luring_init(Error **errp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ioq_init(&amp;s-&gt;io_q);<br>
+&gt; -=C2=A0 =C2=A0 return s;<br>
+&gt; +=C2=A0 =C2=A0 if (io_uring_register_ring_fd(&amp;s-&gt;ring) &lt; 0) =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Only warn about this error: we wi=
+ll fallback to the non-optimized<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* io_uring operations.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0&quot;failed to register linux io_uring ring file desc=
+riptor&quot;);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; +=C2=A0 =C2=A0 return s;<br>
+<br>
+As a general convention, I don&#39;t think the errp is going to get proper =
+handling<br>
+by the callers, if non-NULL is returned like here. IOW a matching error_fre=
+e is<br>
+never called and this is memory leak?<br>
+<br>
+I guess error_report is better?<br>
+<br>
+Fam<br>
+<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 void luring_cleanup(LuringState *s)<br>
+&gt; -- <br>
+&gt; 2.35.1<br>
+&gt; <br>
+&gt; <br>
+</blockquote></div>
+
+--0000000000007f5cb605dd2c76a2--
 
