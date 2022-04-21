@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EDC50A6FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:22:57 +0200 (CEST)
-Received: from localhost ([::1]:48982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E3350A731
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:34:03 +0200 (CEST)
+Received: from localhost ([::1]:50340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhaW9-0005Ek-1l
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:22:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38110)
+	id 1nhags-0004RD-Qx
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmueller@suse.de>)
- id 1nha26-0007Ae-Uw; Thu, 21 Apr 2022 12:51:54 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:52212)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1nha9e-0001yh-GE
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:59:42 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:34306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmueller@suse.de>)
- id 1nha25-00055P-C9; Thu, 21 Apr 2022 12:51:54 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BA663210E8;
- Thu, 21 Apr 2022 16:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1650559910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B7vxCXKePMi7QA9SeEbyHvmHor/nQsmQdX7q1fQJw2E=;
- b=YzsbuLmm/BG8i9qG5MWQ2BCF7IBZVlRXpc2I+OXlcBVCvuz7c+xxFHiXQmZj/060aXyGZL
- f1JYVN1FPRMe1V4qs1lS0PCYnhnnDKQ/cLsEkgEA+uaUpx/BxTSnMHnkWdMdOVwu6YXhgD
- JeFzeuxXYhkrvAAv+YeWonMtRrvFsnA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1650559910;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B7vxCXKePMi7QA9SeEbyHvmHor/nQsmQdX7q1fQJw2E=;
- b=x1610UsPoh5FHMw53ayMzM3nM/BnnzSQIFKxF/5EldWPX2mBqx353RsqpE57kCWseshRLB
- ehjrnUcSX+oG8CBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9A7F113A84;
- Thu, 21 Apr 2022 16:51:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kUplJKaLYWK+AgAAMHmgww
- (envelope-from <dmueller@suse.de>); Thu, 21 Apr 2022 16:51:50 +0000
-From: Dirk =?ISO-8859-1?Q?M=FCller?= <dmueller@suse.de>
-To: Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] Only advertise aio=io_uring if support is actually
- available
-Date: Thu, 21 Apr 2022 18:51:50 +0200
-Message-ID: <11988119.O9o76ZdvQC@magnolia>
-Organization: SUSE Software Solutions Germany GmbH; GF: Ivo Totev;
- HRB 36809 (AG =?UTF-8?B?TsO8cm5iZXJnKQ==?=
-In-Reply-To: <Yl/FYrWfjAOeIl94@redhat.com>
-References: <20220419171931.26192-1-dmueller@suse.de>
- <Yl/FYrWfjAOeIl94@redhat.com>
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1nha9c-00069i-Ir
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:59:42 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id j9so4035765qkg.1
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:59:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ARybaRdfRU2zyGFZvJK026gdqRK0ZnsRjQr9jKOxV6M=;
+ b=dddggEan8eKVHncu5x0CJCZFZXxxq8VZilwZZ2HTGeCY1YTDLYmb0Ik7Fowx6nLda5
+ P1g7cA+Wa5984QwfQDrA1UsdLQhgjrPPEbMd0Sr/WrYbuR8xO1z+vqgC5wSi0UKEcymo
+ V4TqB++HPtQlZyw6LEkN7EZaTVsjCIMtrVtX4J7E5v8kPEe2FF+l0ieR3dAB7/dqjxP2
+ wAnWWapw2zjsgknT5vlYHGOdJae6uuMPmRUEDefRKjppyyEZ9+GWUZDaBuEQ1tPeTiWo
+ rpbh0BkmVkjQU0a3W4SUPKdv9+HuJkxfb787/MueDa9cZMlMEm4Tq5LlPR8zfHq4ztD+
+ sQCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ARybaRdfRU2zyGFZvJK026gdqRK0ZnsRjQr9jKOxV6M=;
+ b=4+ZEkQ9RLyV6eRpc6NGhYC8aHdxYSJs9V6cuV3nXAUkCFCd5AmAx5crJ2zwioNqU73
+ +A0drbKqjQsDsBu9/z7OTP7CGBYU9ve4E2/31lZN2k/yGIezLlYpP29QvQfCdXrjtk2r
+ Mi5bOo3bymbavy4oL6AwUrpI64xhJOcQu9pJx6/cs/VPej59sRMrcF067Xc/F4/MiFzp
+ Pzx+0pL5X8kVO/ziODxRKXy2vjI7FwZoctzYokHFDsj2YeKRJ0TUfI278itzE8oCHzpE
+ xBOPyG6LfREorqYWpdRV+8mCbPUwua6TmzooZ1/4o+zfTxCcHuXPjPc8R6UhwITw7BZf
+ VIlQ==
+X-Gm-Message-State: AOAM530HXSOPLMK4zb5Ft/tJqcu5unOMfDWtnAWc4UBX3wiS7A2eHcZO
+ Sls+s1a3LZix2NwDQgXh5V63uL+XaDCW4dU6xgvcpQ==
+X-Google-Smtp-Source: ABdhPJwzQIR402UAs8CN34jtzV7udIWfpjS4QXgLkJUfALQkGesCjodBTSAXkelUytf4Cme768yA3mPu2rBGRNSIxdA=
+X-Received: by 2002:a05:620a:15cb:b0:69c:7933:ad3e with SMTP id
+ o11-20020a05620a15cb00b0069c7933ad3emr221571qkm.755.1650560379462; Thu, 21
+ Apr 2022 09:59:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=dmueller@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220405223640.2595730-1-wuhaotsh@google.com>
+ <CAFEAcA9PCoVH_1EWTPWP_rqsOEhQZSvDZcEgw01=5W-cuyeJoA@mail.gmail.com>
+ <CAGcCb12ouKaqwT5JAdysiVVmOQfz_MAYH+uukPfrz_3FqC7QdQ@mail.gmail.com>
+ <CAFEAcA9P9aYrOgo08h1qS4mWt3+GmxgDYbxC-BTrG8_e67w18w@mail.gmail.com>
+In-Reply-To: <CAFEAcA9P9aYrOgo08h1qS4mWt3+GmxgDYbxC-BTrG8_e67w18w@mail.gmail.com>
+From: Hao Wu <wuhaotsh@google.com>
+Date: Thu, 21 Apr 2022 09:59:28 -0700
+Message-ID: <CAGcCb13ty6=8ETcvcJqUi5_o1S-3CMP_u2_wZoCvrd34siJmgg@mail.gmail.com>
+Subject: Re: [PATCH for-7.1 00/11] hw/arm: Add NPCM8XX support
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
+ Patrick Venture <venture@google.com>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>, 
+ CS20 KFTing <kfting@nuvoton.com>, Havard Skinnemoen <hskinnemoen@google.com>, 
+ IV00 Uri Trichter <Uri.Trichter@nuvoton.com>, Vishal.Soni@microsoft.com, 
+ Titus Rwantare <titusr@google.com>
+Content-Type: multipart/alternative; boundary="00000000000019795905dd2d090b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
+ envelope-from=wuhaotsh@google.com; helo=mail-qk1-x72c.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,28 +88,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eblake@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 20. April 2022 10:33:38 CEST Daniel P. Berrang=E9 wrote:
+--00000000000019795905dd2d090b
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Daniel,
+Thanks!
 
-> That all said, the patch itself is OK, because for human targetted
-> interactive usage, it is desirable for --help to be representative
-> of what's available.
->=20
-> IOW, I'm just complaining about the commit message justification
-> here & warning against writing tools to use --help :-)
+I can add the new CPU type to virt in a separate patch set. It might take a
+while before I send out
+that patch set.
 
-understood, thank you for the good feedback, I've sent a v2 with a reworded=
-=20
-commit message.=20
+Since this patch set will be dependent on that I won't send out a v2 on
+this patch set until that finishes.
 
-Greetings,
-Dirk
+On Thu, Apr 21, 2022 at 9:42 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
+> On Thu, 21 Apr 2022 at 17:29, Hao Wu <wuhaotsh@google.com> wrote:
+> >
+> > Thanks for all the comments you gave! I'll go over and address them
+> recently.
+> >
+> > For this question, The actual CPU should be cortex A35. However, I don't
+> see
+> > them supported in QEMU. If I inserted CPU with "cortex-a35" QEMU will
+> complain:
+> > qemu-system-aarch64: missing object type 'cortex-a35-arm-cpu'
+> >
+> > What should I do here?
+>
+> You need to implement the new CPU type first... This means adding
+> something to target/arm/cpu64.c which will look similar to the
+> existing CPU handling. You need to watch out for:
+>  * getting all the ID register values right (check the TRM for the CPU)
+>  * implementing whatever the right impdef system registers are
+>  * checking whether QEMU is still missing support for any of the
+>    architectural features that the A35 implements (what QEMU
+>    supports is listed in docs/system/arm/emulation.rst)
+>
+> It's typically not much code but quite a lot of cross-checking
+> against the TRM for the CPU that we're not missing pieces...
+> Since you can add the A35 as a supported CPU type for the 'virt'
+> board you can do A35 support as a separate patchset that doesn't
+> depend on the npmc8xx work.
+>
+>
+> https://patchew.org/QEMU/20220417174426.711829-1-richard.henderson@linaro.org/20220417174426.711829-60-richard.henderson@linaro.org/
+> is an example of how to add a new CPU (in that case the A76), at
+> the end of a large patchset from RTH that's still going through
+> code review.
+>
+> -- PMM
+>
 
+--00000000000019795905dd2d090b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Thanks!<div><br></div><div>I can add the=C2=A0new CPU type=
+ to virt in a separate patch set. It might take a while before I send out</=
+div><div>that patch set.</div><div><br></div><div>Since this patch set will=
+ be dependent on that I won&#39;t send out a v2 on this patch set until tha=
+t finishes.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Thu, Apr 21, 2022 at 9:42 AM Peter Maydell &lt;<a href=
+=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, 21 Apr=
+ 2022 at 17:29, Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=3D=
+"_blank">wuhaotsh@google.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Thanks for all the comments you gave! I&#39;ll go over and address the=
+m recently.<br>
+&gt;<br>
+&gt; For this question, The actual CPU should be cortex A35. However, I don=
+&#39;t see<br>
+&gt; them supported in QEMU. If I inserted CPU with &quot;cortex-a35&quot; =
+QEMU will complain:<br>
+&gt; qemu-system-aarch64: missing object type &#39;cortex-a35-arm-cpu&#39;<=
+br>
+&gt;<br>
+&gt; What should I do here?<br>
+<br>
+You need to implement the new CPU type first... This means adding<br>
+something to target/arm/cpu64.c which will look similar to the<br>
+existing CPU handling. You need to watch out for:<br>
+=C2=A0* getting all the ID register values right (check the TRM for the CPU=
+)<br>
+=C2=A0* implementing whatever the right impdef system registers are<br>
+=C2=A0* checking whether QEMU is still missing support for any of the<br>
+=C2=A0 =C2=A0architectural features that the A35 implements (what QEMU<br>
+=C2=A0 =C2=A0supports is listed in docs/system/arm/emulation.rst)<br>
+<br>
+It&#39;s typically not much code but quite a lot of cross-checking<br>
+against the TRM for the CPU that we&#39;re not missing pieces...<br>
+Since you can add the A35 as a supported CPU type for the &#39;virt&#39;<br=
+>
+board you can do A35 support as a separate patchset that doesn&#39;t<br>
+depend on the npmc8xx work.<br>
+<br>
+<a href=3D"https://patchew.org/QEMU/20220417174426.711829-1-richard.henders=
+on@linaro.org/20220417174426.711829-60-richard.henderson@linaro.org/" rel=
+=3D"noreferrer" target=3D"_blank">https://patchew.org/QEMU/20220417174426.7=
+11829-1-richard.henderson@linaro.org/20220417174426.711829-60-richard.hende=
+rson@linaro.org/</a><br>
+is an example of how to add a new CPU (in that case the A76), at<br>
+the end of a large patchset from RTH that&#39;s still going through<br>
+code review.<br>
+<br>
+-- PMM<br>
+</blockquote></div>
+
+--00000000000019795905dd2d090b--
 
