@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CBA50A6B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:12:25 +0200 (CEST)
-Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BEE150A700
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:23:34 +0200 (CEST)
+Received: from localhost ([::1]:50982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhaLw-0007Iw-U4
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33174)
+	id 1nhaWj-0006cc-FO
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:23:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhZj1-000620-9H
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:32:11 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:23639)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhZnM-0007N0-7W
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:36:40 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:24403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhZiz-0001ZV-EW
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:32:10 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhZnK-0002GS-Hk
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:36:39 -0400
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-1okRVHfgNpKiQOG9rlU_WQ-1; Thu, 21 Apr 2022 12:32:05 -0400
-X-MC-Unique: 1okRVHfgNpKiQOG9rlU_WQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-393-TqPs-AEHNdG1U1oenxa-Eg-1; Thu, 21 Apr 2022 12:36:34 -0400
+X-MC-Unique: TqPs-AEHNdG1U1oenxa-Eg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92C97381A82A;
- Thu, 21 Apr 2022 16:32:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9EB763C0F09E;
+ Thu, 21 Apr 2022 16:36:33 +0000 (UTC)
 Received: from bahia (unknown [10.39.192.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E161550A46;
- Thu, 21 Apr 2022 16:32:03 +0000 (UTC)
-Date: Thu, 21 Apr 2022 18:32:02 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62E9D40B42BB;
+ Thu, 21 Apr 2022 16:36:32 +0000 (UTC)
+Date: Thu, 21 Apr 2022 18:36:31 +0200
 From: Greg Kurz <groug@kaod.org>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 1/5] 9pfs: fix qemu_mknodat(S_IFREG) on macOS
-Message-ID: <20220421183202.15daadc0@bahia>
-In-Reply-To: <a4825b66184778ca0337cd5e24dec3fc9da16de6.1650553693.git.qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2 2/5] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Message-ID: <20220421183631.3260fc3e@bahia>
+In-Reply-To: <f6d632fc82d4750b73c83a2f1d1b9972cf3e26bb.1650553693.git.qemu_oss@crudebyte.com>
 References: <cover.1650553693.git.qemu_oss@crudebyte.com>
- <a4825b66184778ca0337cd5e24dec3fc9da16de6.1650553693.git.qemu_oss@crudebyte.com>
+ <f6d632fc82d4750b73c83a2f1d1b9972cf3e26bb.1650553693.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,44 +70,71 @@ Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Apr 2022 17:07:38 +0200
+On Thu, 21 Apr 2022 17:07:43 +0200
 Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> mknod() on macOS does not support creating regular files, so
-> divert to openat_file() if S_IFREG is passed with mode argument.
-> 
-> Furthermore, 'man 2 mknodat' on Linux says: "Zero file type is
-> equivalent to type S_IFREG".
+> mknod() on macOS does not support creating sockets, so divert to
+> call sequence socket(), bind() and chmod() respectively if S_IFSOCK
+> was passed with mode argument.
 > 
 > Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
 > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > Reviewed-by: Will Cohen <wwcohen@gmail.com>
 > ---
+>  hw/9pfs/9p-util-darwin.c | 27 ++++++++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> index e24d09763a..39308f2a45 100644
+> --- a/hw/9pfs/9p-util-darwin.c
+> +++ b/hw/9pfs/9p-util-darwin.c
+> @@ -74,6 +74,27 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+>   */
+>  #if defined CONFIG_PTHREAD_FCHDIR_NP
+>  
+> +static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
+> +    int fd, err;
+> +    struct sockaddr_un addr = {
+> +        .sun_family = AF_UNIX
+> +    };
+> +
+> +    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
+> +    if (fd == -1) {
+> +        return fd;
+> +    }
+> +    snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s", filename);
+> +    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
+> +    if (err == -1) {
+> +        goto out;
+> +    }
+> +    err = chmod(addr.sun_path, mode);
+> +out:
+> +    close(fd);
+
+You need close_preserve_errno() here.
+
+Rest LGTM, so with that fixed, you can add:
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 
->  hw/9pfs/9p-util-darwin.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-> index bec0253474..e24d09763a 100644
-> --- a/hw/9pfs/9p-util-darwin.c
-> +++ b/hw/9pfs/9p-util-darwin.c
-> @@ -77,6 +77,15 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+> +    return err;
+> +}
+> +
 >  int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
 >  {
 >      int preserved_errno, err;
-> +
-> +    if (S_ISREG(mode) || !(mode & S_IFMT)) {
-> +        int fd = openat_file(dirfd, filename, O_CREAT, mode);
-> +        if (fd == -1) {
-> +            return fd;
-> +        }
-> +        close(fd);
-> +        return 0;
+> @@ -93,7 +114,11 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+>      if (pthread_fchdir_np(dirfd) < 0) {
+>          return -1;
+>      }
+> -    err = mknod(filename, mode, dev);
+> +    if (S_ISSOCK(mode)) {
+> +        err = create_socket_file_at_cwd(filename, mode);
+> +    } else {
+> +        err = mknod(filename, mode, dev);
 > +    }
->      if (!pthread_fchdir_np) {
->          error_report_once("pthread_fchdir_np() not available on this version of macOS");
->          return -ENOTSUP;
+>      preserved_errno = errno;
+>      /* Stop using the thread-local cwd */
+>      pthread_fchdir_np(-1);
 
 
