@@ -2,72 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF5A50A609
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:42:47 +0200 (CEST)
-Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A8B50A636
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:51:54 +0200 (CEST)
+Received: from localhost ([::1]:53722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhZtG-0008Rt-JZ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53448)
+	id 1nha23-0004Xh-W9
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZDW-0004In-0x
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:59:38 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:38415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZDU-0004R3-GG
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:59:37 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-2ec0bb4b715so57054957b3.5
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jOia8zemf6ZmddLEtvFAFJRTZs5cR2bKGSrUiL+pjaQ=;
- b=WrAu8Hq3ckSc0wKV9Wx8znacEmDGWPH53SoedrfYn08OMD1vk/P1Zf6Dvb11FlGbCv
- fiF8u0QEyO/2Wi3nxPxr/GFf45b6/6ZvEIlgHUh2PpgajXVA4bHAfXxV3QI7K6KxdWZM
- uJznJH+Gc1gAOFCCxZDVksMMLp6pMY0igmt7CuSed+O4onGbzFa6nJ4TinsFyaKalo8w
- YuxYSKXf4Pe+zbShesVy9dPd1TTZbXrLe1N8NmqJRm8/SPqjWdPgD7e4SOonVIhamjdx
- Z6tuTK5Wt44kGL2tloqa4qwoFqm/s9L/GSlEha1RdiFIBWbNA3QVNVCblsiFm3yIxiLV
- iSbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jOia8zemf6ZmddLEtvFAFJRTZs5cR2bKGSrUiL+pjaQ=;
- b=ESk1o0cGWxUMRpUkRkI0Bx6kkISqST0PIVR6pySCdQN5VK5kgF7Um75JOQRIdajYOY
- KC7VzGGVUnR2zEZQ8Ve5dP+7PYSJin5gCu4mU2VlijemUZMF02cNBMXjF41jEYARh78z
- 963zbHwDWiVrM7JRtZ89L4u/NTHqwQGvEU2AyCUPZhHJhsLvAht7/hfj3D9lc95K9UjI
- CKzgfJJJvQ0iYvepp7Iece1a3IlW1BjY8wJfj1OliTPz1jFixFA1nzF8h2o2Rp4cw04O
- roTjBG7XPulZi9FsYKGZUr9jC+ZHmbM0lPj4Iw0w48BPb4zGspgS7t42zg4KBG6PF2li
- uWqQ==
-X-Gm-Message-State: AOAM531VAb9KXJui+sMxyp4Id2zfXy5AzPA1P9zZ/PnwdlQ4vXgLL6jO
- QJcZLTbWx175QnH6z0aP/6Tox1eQLyDEo19F6B8aCw==
-X-Google-Smtp-Source: ABdhPJwlRduVuJ1u5V/dWrj+hQvMnkQaKBkNjpm670q2W+5468TnRQCuDzXHLZkLXzMl3fZbXl9W00srtkqCL1kZxJI=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr326019ywb.257.1650556775547; Thu, 21 Apr
- 2022 08:59:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
+ id 1nhZKE-0001TL-19
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:06:34 -0400
+Received: from mail-bn7nam10on2040.outbound.protection.outlook.com
+ ([40.107.92.40]:40032 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
+ id 1nhZKB-0005iP-Iv
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:06:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m+R6R7rNRWGOrUQ0GcZ2h9tdO58X2DPxH6vOkpZuJk4IKa3zwyvzd9vmyzuawXDPM1lYuKgdNWm923jalpf4nts34zRBuJbwIQBLEogrURESjjJ6T9TMePdY6gAXaiHiOqjAq4UVGeQ4VANkDibiyR63Het6sxFeZe0qAvvFBIQ6mvtCcmo3+yuQbF5IrXro4E76For4/b2IR64+sZFnHlpePrlkuAXw1/msPmrgJIEnU2qtAfxARpYTDHye1bP52rYk6b1/NAX/5IQYUm9NnL5mdoteLXpXr3Iak0NMwoZgDMl/YKgrHXr16FDRY8PufE/vG2Ej/PWEHemhKMFPUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ipbCu6ihtwJcC1qGIdy46+1dL4cUUllPMkRBbJdN7jI=;
+ b=AeOwL9Lo/4jOCjO6mmF6vqHotl/1jwgdq5I39p+7bzK10sNgLTu2paQhE93hJsCSrmP3m6rrxlJDST/5712hhZj1VplnZPflDNXQ8GASPiPiU9pzxHE4ZmcHrIWn2e7pj0ZkxWZnnnJTXt26MKfX4c3Z3clVoUmWdkoiLU6GehnpNOP4zcNB3/SAjBkZ/mhBT207OlizoZE3/oM2cySMYZZe+6ayRJWXSiu6KYCzQRe69tgc1/OZrCAyJvo2byceo4XoBEBuLwM9bnzUiX8MXrHYkEdXXRvm0ikrF6elBvhoBjoWPGCFO4fT/mKKu4xzYj60URdJ4ZKPO0BJXsZfpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ipbCu6ihtwJcC1qGIdy46+1dL4cUUllPMkRBbJdN7jI=;
+ b=zDVbHsUK84Bf7KoazBjhNSmwBTM7qRgPjCqQZJ2wLbWa14Vu3DBxB5rWk+JBWT7G39awQx8sGxxE/OcRghXOeg/bABoi8WNxzr06h8xiBNJNreQ65Zy70Ojxk7EMd+uXRoBjGFSFHJKP//g/oO53Nvm+xYlReIwpPRSXY/M9h7Q=
+Received: from BN9P221CA0015.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::20)
+ by DM5PR12MB2375.namprd12.prod.outlook.com (2603:10b6:4:b3::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.25; Thu, 21 Apr
+ 2022 16:01:26 +0000
+Received: from BN8NAM11FT022.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:10a:cafe::d4) by BN9P221CA0015.outlook.office365.com
+ (2603:10b6:408:10a::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15 via Frontend
+ Transport; Thu, 21 Apr 2022 16:01:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT022.mail.protection.outlook.com (10.13.176.112) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5186.14 via Frontend Transport; Thu, 21 Apr 2022 16:01:25 +0000
+Received: from weiserver.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 21 Apr
+ 2022 11:01:24 -0500
+From: Wei Huang <wei.huang2@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <peter.maydell@linaro.org>, <pbonzini@redhat.com>,
+ <richard.henderson@linaro.org>, <eduardo@habkost.net>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <jasowang@redhat.com>, <peterx@redhat.com>,
+ <Suravee.Suthikulpanit@amd.com>
+Subject: [PATCH 1/1] hw/i386/amd_iommu: Fix IOMMU event log encoding errors
+Date: Thu, 21 Apr 2022 11:01:18 -0500
+Message-ID: <20220421160118.2386364-1-wei.huang2@amd.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220331115312.30018-1-damien.hedde@greensocs.com>
- <20220331115312.30018-2-damien.hedde@greensocs.com>
-In-Reply-To: <20220331115312.30018-2-damien.hedde@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 16:59:24 +0100
-Message-ID: <CAFEAcA9HsoVnKb1iRXMtYphxUt3Zg9G8p4=zrjv-Z=ekpseH_g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] qdev: add user_creatable_requires_machine_allowance
- class flag
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7cc604f0-25b4-4e95-2f8c-08da23b0303b
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2375:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR12MB2375EC7A9E7147B60954C44CCFF49@DM5PR12MB2375.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Zh5WcqJuQeP68GVT6PCnzWn21DM3kEgubNPcnH4auAXG/r9cvm4tBslOglf0FNPBfxB/E9n6A8Vykqjhm+SDbv67bY5rFHbdrt0ihJvLeK7gj+EGVof2G3m8/DMdIvTMixr7kZJgs/QA8YDem7C87QNrI2PUY6GhW4yuSPsDa4TtwSC+FsXGGtuUX1tb4thQZFVV/wPmxJudV5TxD6uJcLVi1/tBVe9Z1UTRVypEX6xSEpOoorF81ykCgVhCKvt4J3HAHp6bwd/g2Y0Sl1sEHnMg3kswECpAmAfVavhOi8lHXf3nje56lDfh564HTraUT4o648juGQmHig/uUKkAUYTJyB0yuyQDC04TcFyqfagjXt0vgmrvCwFj3W1PCpJt4ieib4Y+eMihZiw4H3k24vmXrkIVUqi+NelIDXgsL11M0nJGdzsNYpkDAWRcGfwvNQY99fVQQUXc4xnOwx95c72sWrjz7DRSVMQPvSyol/SfcJfidD4LKCpYmTPUC4QzT5Us02b/Yh9VdvKLYXg1zkJFJq6Sm3v+SZeob+gfnpsPd8KSJ4fTfKXMWz9jQRGzuGijcqEehx2BMFUAKSZ0Kk1J9fOBehUQj8RG/3RVk7qrHBElKJXSxzb37whtvfulAZ9fulkfxBOIz1OFDvu5o+t3ShD9l5D12A/i0Mw3OU8SiG6W5yvitvDcJFJMwrimVeIF/PDHQif3SmFAmzTftA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(36860700001)(356005)(82310400005)(40460700003)(336012)(7696005)(4326008)(83380400001)(86362001)(8676002)(26005)(2906002)(508600001)(70206006)(6666004)(70586007)(81166007)(36756003)(2616005)(316002)(6916009)(8936002)(16526019)(186003)(1076003)(54906003)(47076005)(426003)(5660300002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2022 16:01:25.5966 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7cc604f0-25b4-4e95-2f8c-08da23b0303b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT022.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2375
+Received-SPF: softfail client-ip=40.107.92.40; envelope-from=Wei.Huang2@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,63 +119,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 31 Mar 2022 at 13:19, Damien Hedde <damien.hedde@greensocs.com> wrote:
->
-> This flag will be used in device_add to check if
-> the device needs special allowance from the machine
-> model.
->
-> It will replace the current check based only on the
-> device being a TYPE_SYB_BUS_DEVICE.
->
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
->
-> v2:
->  + change the flag name and put it just below user_creatable
-> ---
->  include/hw/qdev-core.h | 9 +++++++++
->  hw/core/qdev.c         | 1 +
->  hw/core/sysbus.c       | 1 +
->  3 files changed, 11 insertions(+)
->
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 92c3d65208..6a040fcd3b 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -122,6 +122,15 @@ struct DeviceClass {
->       * TODO remove once we're there
->       */
->      bool user_creatable;
-> +    /*
-> +     * Some devices can be user created under certain conditions (eg:
-> +     * specific machine support for sysbus devices), but it is
-> +     * preferable to prevent global allowance for the reasons
-> +     * described above.
-> +     * This flag is an additional constraint over user_creatable:
-> +     * user_creatable still needs to be set to true.
-> +     */
-> +    bool user_creatable_requires_machine_allowance;
+Coverity issues several UNINIT warnings against AMD IOMMU device [1]. This
+patch fixes them by initializing the variables. On top of it, this patch
+changes the event log size to 16 bytes per IOMMU specification. Also the
+event encoding function incorrectly defines the format of event log entry,
+which is also fixed.
 
-"allowance" doesn't have the meaning you seem to be trying to give it here.
-(It means "the amount of something you're allowed to have", like
-a baggage allowance, or "an amount of money you're given for something",
-like a travel allowance.)
+[1] CID 1487116/1487200/1487190/1487232/1487115/1487258
 
-Do you mean "user creatable only if the machine permits it" ?
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Wei Huang <wei.huang2@amd.com>
+---
+ hw/i386/amd_iommu.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-More generally, the pluggable-sysbus stuff is an awful hack
-that I wish we didn't have to have. I'm not sure I want to see
-us expanding the use of it to other device types...
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index ea8eaeb330b6..0f7f8929a687 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -208,8 +208,8 @@ static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
+                                uint16_t info)
+ {
+     amdvi_setevent_bits(evt, devid, 0, 16);
+-    amdvi_setevent_bits(evt, info, 55, 8);
+-    amdvi_setevent_bits(evt, addr, 63, 64);
++    amdvi_setevent_bits(evt, info, 48, 16);
++    amdvi_setevent_bits(evt, addr, 64, 64);
+ }
+ /* log an error encountered during a page walk
+  *
+@@ -218,7 +218,7 @@ static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
+ static void amdvi_page_fault(AMDVIState *s, uint16_t devid,
+                              hwaddr addr, uint16_t info)
+ {
+-    uint64_t evt[4];
++    uint64_t evt[2] = { 0 };
+ 
+     info |= AMDVI_EVENT_IOPF_I | AMDVI_EVENT_IOPF;
+     amdvi_encode_event(evt, devid, addr, info);
+@@ -234,7 +234,7 @@ static void amdvi_page_fault(AMDVIState *s, uint16_t devid,
+ static void amdvi_log_devtab_error(AMDVIState *s, uint16_t devid,
+                                    hwaddr devtab, uint16_t info)
+ {
+-    uint64_t evt[4];
++    uint64_t evt[2] = { 0 };
+ 
+     info |= AMDVI_EVENT_DEV_TAB_HW_ERROR;
+ 
+@@ -248,7 +248,8 @@ static void amdvi_log_devtab_error(AMDVIState *s, uint16_t devid,
+  */
+ static void amdvi_log_command_error(AMDVIState *s, hwaddr addr)
+ {
+-    uint64_t evt[4], info = AMDVI_EVENT_COMMAND_HW_ERROR;
++    uint64_t evt[2] = { 0 };
++    uint16_t info = AMDVI_EVENT_COMMAND_HW_ERROR;
+ 
+     amdvi_encode_event(evt, 0, addr, info);
+     amdvi_log_event(s, evt);
+@@ -261,7 +262,7 @@ static void amdvi_log_command_error(AMDVIState *s, hwaddr addr)
+ static void amdvi_log_illegalcom_error(AMDVIState *s, uint16_t info,
+                                        hwaddr addr)
+ {
+-    uint64_t evt[4];
++    uint64_t evt[2] = { 0 };
+ 
+     info |= AMDVI_EVENT_ILLEGAL_COMMAND_ERROR;
+     amdvi_encode_event(evt, 0, addr, info);
+@@ -276,7 +277,7 @@ static void amdvi_log_illegalcom_error(AMDVIState *s, uint16_t info,
+ static void amdvi_log_illegaldevtab_error(AMDVIState *s, uint16_t devid,
+                                           hwaddr addr, uint16_t info)
+ {
+-    uint64_t evt[4];
++    uint64_t evt[2] = { 0 };
+ 
+     info |= AMDVI_EVENT_ILLEGAL_DEVTAB_ENTRY;
+     amdvi_encode_event(evt, devid, addr, info);
+@@ -288,7 +289,7 @@ static void amdvi_log_illegaldevtab_error(AMDVIState *s, uint16_t devid,
+ static void amdvi_log_pagetab_error(AMDVIState *s, uint16_t devid,
+                                     hwaddr addr, uint16_t info)
+ {
+-    uint64_t evt[4];
++    uint64_t evt[2] = { 0 };
+ 
+     info |= AMDVI_EVENT_PAGE_TAB_HW_ERROR;
+     amdvi_encode_event(evt, devid, addr, info);
+-- 
+2.35.1
 
-thanks
--- PMM
 
