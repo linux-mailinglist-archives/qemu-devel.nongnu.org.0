@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D1350A7DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 20:12:01 +0200 (CEST)
-Received: from localhost ([::1]:57460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B4250A7E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 20:16:01 +0200 (CEST)
+Received: from localhost ([::1]:36274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhbHc-0007Yb-PQ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 14:12:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41516)
+	id 1nhbLU-0003w2-Kj
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 14:16:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhaIG-000100-F0
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:08:36 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:45801)
+ id 1nhaKP-0005DG-Bn
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:10:49 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:51013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhaIE-0007cQ-U7
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:08:36 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id h1so5547299pfv.12
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 10:08:34 -0700 (PDT)
+ id 1nhaKN-0007xZ-Qo
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:10:49 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id iq10so1768812pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 10:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=PantD3J97K+S58onTh6J/zYTIHyuR0qRBL/hFQqoMUE=;
- b=BAUzbplTEW8xsnDXv+uDvCB7aqaKKPVUqdCsoaJdalWSuwE6aWwnpE21OY7G0d66WV
- sBK/TfOZHxAbW0nQAH+Vum6OFptpNIsIEOYxUQr8byLjpwm+ubBp5gUc9ZNiNI6L7Fzl
- VybqpZCcV3VK2sc8EOlJozcgqn+IRDGOvJODdtEVBID/ixyoCxfr9h9M91uLMhCjN5VT
- T0XKfswD/0OIcLJbZ3ihAuT1rA5fJWJTbz5SLCtK19sqmv6CRPAsj2OACJvwBCjZDhYf
- umymrF0yXIHiRUZ1MgMTkGxtsP1uSZnS0DYfqfPidJ06W1pWP9Elkcur/yQnQUkLtIuE
- PtMg==
+ bh=eGHd/tuU4mXAhYXQ5+arUSgy2U8c2QyphILcOMPXiIM=;
+ b=AQYNoKrN7r4NZn0c5FEniTTWwjKya0epf3/mMUPVGoVrRdmxDnkjYsO+i9dvd97P6v
+ k/q3wOOBHTAdPc5d004FcvQ1Ju/ByaXgyfHziED1RY+6gokFv159JH2U+GLWLVdXnHCo
+ jTVrgLD4JMb57Lvfm4v0/fTmS3GfmygCDA8eckfH0mTAwpW5Tn3MnUxx1rkvi3f4otUa
+ yO6/SRwnDckL2ckNWtveH22Gqvsg+r/aRoL5u47lAiIEp8+7lAWbrxSa6Hd/6NSgkQUp
+ r1611NwvfzFFlpBGcbbUNRw8kLnIGOHPvF+BzZbBFOtj9XukNr+wII9kHprNPDVA1vBO
+ jR6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PantD3J97K+S58onTh6J/zYTIHyuR0qRBL/hFQqoMUE=;
- b=j16gBhTykaKFgSWkCHT2yj0dXMYiHCUT2BtuPhXPGcgtaht/y1VIoJ4viiipLw05cP
- e9tbUW1XU8dJrzaujNz3S53xKD/FHkfX4ZtNB5rZlGUCUbPVOQWxcu5d1g/wL5/1N3/T
- KzKMuTF+w0rYrn38b7E8O39itrS4EVCDwEQUILwKeQEvs/W9xXyN4n6QPrCe/ji6oYOI
- kuLLBcvSKGoBxLIH9S2HUfDlI3o9bO0+zSJ6FgRDW1ZXyV2pcdxDa3k6M62zS9Zl9z+4
- CjP8E8KO5QBvD/kTnb73fUyfuKpbkUglLk53JQ4Gb4wqJfAh56SbkN9Z7WbAZtLGscY7
- C+HQ==
-X-Gm-Message-State: AOAM530eHFkBYpGUiJToQdnWVFOtjUAfS1HdUFZddRjtb+QbzSHbIpsn
- RkJ+WNT2Y7r3wpDN3D0oqIG47GO9CyYYYw==
-X-Google-Smtp-Source: ABdhPJyL/UtOuOq4Md4F4HfLbD3aDHy3GYj1uuSbwL15Z3t57c/O3ZunDD/6DGtfFS5gbY3Se060cA==
-X-Received: by 2002:a05:6a00:711:b0:4fa:daf1:94c1 with SMTP id
- 17-20020a056a00071100b004fadaf194c1mr702564pfl.52.1650560913441; 
- Thu, 21 Apr 2022 10:08:33 -0700 (PDT)
+ bh=eGHd/tuU4mXAhYXQ5+arUSgy2U8c2QyphILcOMPXiIM=;
+ b=LEDOg3omVFlOsZNF4y+gN/qP82g5Z482N5Ia9I89lrU7a/WRkIu1eUILIFxmKxZT2y
+ Glq0Vsaj/22Xc9J75Sz49dDo86D0uE6bF8j5k29YPDFdqlagDvyRcYTJd/mI13xh37fQ
+ fh6h6Y9w3G1D+rkQvoEVGG8WpLw8YXIxLLcIOXYVp43vtWEpoUOJ+xy4bwN365Qdx7yH
+ IV53g13jfqdqBY6My+GuGszeznLoYd5hBgiRZOhU/rQhohKIo8r6N+t4lC0rKjxB0Lhu
+ YJBNtwvT+vwMz/RuTfjb46d6QEvV4zk7lZ+7fEcTYQxCiC2slVxJcDiGnONZezq3cm/S
+ fYgw==
+X-Gm-Message-State: AOAM532MFb9QuCc93V7wsfXAIYpHjwsVCR1TEkPRMzeFvSoFcz1UAGag
+ L8Mm6bkTgvvOY8msAJ8Mj9Fkeg==
+X-Google-Smtp-Source: ABdhPJxivkRRC+XfZ/oNdGHq0UNiZGgaFKSbbNhJ+2kbC4UKUzYGvRLVYDqisduMdkCZeYuSnRfWSQ==
+X-Received: by 2002:a17:902:f688:b0:15b:45ea:b682 with SMTP id
+ l8-20020a170902f68800b0015b45eab682mr266882plg.134.1650561046321; 
+ Thu, 21 Apr 2022 10:10:46 -0700 (PDT)
 Received: from ?IPV6:2607:fb90:80c1:f8a5:3d1f:84a9:7713:bf09?
  ([2607:fb90:80c1:f8a5:3d1f:84a9:7713:bf09])
  by smtp.gmail.com with ESMTPSA id
- b10-20020a056a00114a00b004f784ba5e6asm26736089pfm.17.2022.04.21.10.08.32
+ z7-20020a056a00240700b004e1cde37bc1sm25423511pfh.84.2022.04.21.10.10.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Apr 2022 10:08:32 -0700 (PDT)
-Message-ID: <d8c774f7-2ba7-506f-727f-fdf2946099e4@linaro.org>
-Date: Thu, 21 Apr 2022 10:08:28 -0700
+ Thu, 21 Apr 2022 10:10:45 -0700 (PDT)
+Message-ID: <c11ce181-04a9-627f-d2f8-77b040e5d1e9@linaro.org>
+Date: Thu, 21 Apr 2022 10:10:40 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] target/rx: set PSW.I when executing wait instruction
+Subject: Re: [PATCH] target/rx: update PC correctly in wait instruction
 Content-Language: en-US
 To: Tomoaki Kawada <i@yvt.jp>, qemu-devel@nongnu.org
-References: <20220417045937.2128699-1-i@yvt.jp>
+References: <20220417060224.2131788-1-i@yvt.jp>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220417045937.2128699-1-i@yvt.jp>
+In-Reply-To: <20220417060224.2131788-1-i@yvt.jp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,14 +93,21 @@ Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/22 21:59, Tomoaki Kawada wrote:
-> This patch fixes the implementation of the wait instruction to
-> implicitly update PSW.I as required by the ISA specification.
+On 4/16/22 23:02, Tomoaki Kawada wrote:
+> `cpu_pc` at this point does not necessary point to the current
+> instruction (i.e., the wait instruction being translated), so it's
+> incorrect to calculate the new value of `cpu_pc` based on this. It must
+> be updated with `ctx->base.pc_next`, which contains the correct address
+> of the next instruction.
+> 
+> This change fixes the wait instruction skipping the subsequent branch
+> when used in an idle loop like this:
+> 
+>      0:  wait
+>          bra.b 0b
+>          brk   // should be unreachable
 > 
 > Signed-off-by: Tomoaki Kawada <i@yvt.jp>
-> ---
->   target/rx/op_helper.c | 1 +
->   1 file changed, 1 insertion(+)
 
 Queued to target-rx-next.
 
