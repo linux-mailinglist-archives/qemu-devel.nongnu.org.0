@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BB4509F89
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 14:23:23 +0200 (CEST)
-Received: from localhost ([::1]:41036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D79509F51
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 14:09:28 +0200 (CEST)
+Received: from localhost ([::1]:44632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhVqD-0003O2-Rj
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 08:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38448)
+	id 1nhVcl-0002lk-Qc
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 08:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nhVOw-0007pA-3C
+ id 1nhVOw-0007pT-60
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:55:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52712)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nhVOu-0001AQ-AH
+ id 1nhVOu-0001AS-5w
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:55:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1650542107;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Qc5lW6VdCG0JiwD1bGmcjg2pMxUnU9yAilSrjaetnl8=;
- b=Zqe06A7mOk71fb5BRcLWR58RHQzFn1RI4hk9XJ59Qlro6Haa67dDHch2gD3BxlVp6gNxj2
- P0NrtuopvvjMbN7go1ZZiClfWs5Qhb7fHp/2FmjdPB6MQjNMAVOa4cd0zfuxDUZlwWfrXD
- A9R6zBvHV6RBSzxDMlDdDLf0WxDFMBU=
+ bh=w15+eO6rZqKas8hLbc+U0/s5kqcL39gm62QU4aWRnv0=;
+ b=I31HeF17NI5zPoIpO5srrzYqiY05XjgQS83ao/8vG0wSN7F3wg1sRudHHfVs7qxl4rTWqL
+ RmEzOYfIMvd82tECQhOV2Kgy+9JgSu6Y76E2CIiOcli+JwlmwdfSrdeI6Ap9g4qO4Qkwib
+ P6+QeFkzpwr98A3+Nba/X8Vm8ex9gII=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-416-QQfSVZyOM6uhoN1dfHVJuA-1; Thu, 21 Apr 2022 07:55:03 -0400
-X-MC-Unique: QQfSVZyOM6uhoN1dfHVJuA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-6-dTr_SfpjMS-A-42Tu7mmow-1; Thu, 21 Apr 2022 07:55:05 -0400
+X-MC-Unique: dTr_SfpjMS-A-42Tu7mmow-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2CEE802809;
- Thu, 21 Apr 2022 11:55:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 958F580A0AD;
+ Thu, 21 Apr 2022 11:55:05 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 187FCC33AE8;
- Thu, 21 Apr 2022 11:55:02 +0000 (UTC)
-Date: Thu, 21 Apr 2022 12:26:24 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39AC557233C;
+ Thu, 21 Apr 2022 11:55:04 +0000 (UTC)
+Date: Thu, 21 Apr 2022 12:35:59 +0200
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 04/26] coroutine: remove incorrect coroutine_fn annotations
-Message-ID: <YmExUOU21d5NMSak@stefanha-x1.localdomain>
+Subject: Re: [PATCH 00/19] block: fix coroutine_fn annotations
+Message-ID: <YmEzj+KQI7pCoHvL@stefanha-x1.localdomain>
 References: <20220415131900.793161-1-pbonzini@redhat.com>
- <20220415131900.793161-5-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sn5FqAvSoslTUJA+"
+ protocol="application/pgp-signature"; boundary="giJnIXr/9NYnDXUa"
 Content-Disposition: inline
-In-Reply-To: <20220415131900.793161-5-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+In-Reply-To: <20220415131900.793161-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -82,38 +81,79 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---sn5FqAvSoslTUJA+
-Content-Type: text/plain; charset=us-ascii
+--giJnIXr/9NYnDXUa
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 15, 2022 at 03:18:38PM +0200, Paolo Bonzini wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/qemu/coroutine.h | 2 +-
->  util/qemu-coroutine.c    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+On Fri, Apr 15, 2022 at 03:18:34PM +0200, Paolo Bonzini wrote:
+> This is the initial result of reviving Marc-Andr=E9's series at
+> https://patchew.org/QEMU/20170704220346.29244-1-marcandre.lureau@redhat.c=
+om/.
+> A lot of the patches are similar to the ones that Marc-Andr=E9 wrote,
+> but due to the changes in the code it was easier to redo them.
+>=20
+> For nbd, the patch is on top of "nbd: mark more coroutine_fns" that
+> I sent a few days ago and that (AIUI) Eric has already queued; only
+> one function was missing, much to my surprise.
+>=20
+> Apart from this, I also identified the following functions that
+> can be called both in coroutine context and outside:
+>=20
+> - qmp_dispatch
+> - schedule_next_request
+> - nvme_get_free_req
+> - bdrv_create
+> - bdrv_remove_persistent_dirty_bitmap
+> - bdrv_can_store_new_dirty_bitmap
+> - bdrv_do_drained_begin
+> - bdrv_do_drained_end
+> - bdrv_drain_all_begin
+> - qcow2_open
+> - qcow2_has_zero_init
+> - bdrv_qed_open
+> - qio_channel_readv_full_all_eof
+> - qio_channel_writev_full_all
+>=20
+> besides, of course, everything that is generated by
+> scripts/block-coroutine-wrapper.py.
 
-This one is easy to audit because the implementation of
-qemu_coroutine_get_aio_context() definitely does not require running in
-coroutine context. :)
+This looks useful, thanks for bringing it back!
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+As Eric mentioned, the commits need justifications. The following cases
+come to mind:
 
---sn5FqAvSoslTUJA+
+1. Add coroutine_fn because the function calls a function that is marked
+   with coroutine_fn. This must be fixed because it can lead to crashes.
+
+2. Remove coroutine_fn because the function does not call any functions
+   marked with coroutine_fn. This is optional because it does not lead
+   to crashes and maybe the author intended to be explicit that this
+   function runs only in coroutine context even though it doesn't yield.
+
+3. Variants of these cases but related to runtime qemu_in_coroutine()
+   checks. Functions should not have coroutine_fn if they legitimately
+   are called in both contexts. Any calls to coroutine_fn child
+   functions must be conditional on qemu_in_coroutine() or something
+   else that indicates whether we are running in coroutine context.
+
+Stefan
+
+--giJnIXr/9NYnDXUa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJhMVAACgkQnKSrs4Gr
-c8jGKAf+InKXzOE/yEQ9oZm9HjHwHbwdIOVXT/cKaKGP/InSdsPGHGuNdQNGykgP
-sZ7BnG4ArzPkGiKDUkGyxJ24NZVPgwNp5oEQ2wArGLKbwSnKFqr2JrMaPPQ7ZoZ5
-qByOQlHYrHyMKbOmeNmOTfaePX8cM3O9MajruZTeIBiYWrDB9BD4TDsNmG1/m+xR
-qffHnb4Gs+ygtT2qaN2Vr/RpvKOhMMm7196mSud/wB0yHnxbXejTVW5fdBsIbAEL
-8iKkBBKp5pMbm6pAcgB4fv68EF487FBd9jW6NbwQc1KboizYTgzs99gIgCJHxMY5
-6/XQGHVjU8uytv8z2T2wj9AFZuVJZg==
-=EC/O
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJhM48ACgkQnKSrs4Gr
+c8gAAggAswSHVVW52ymBUXjxFWXOrtTV0zgVSchnrfe+ZuQjBjfUJgNTWEUj836k
+rVQnaidItBNPa/qTw6Pgk4aRiXnhFYaJ3YTuoigbESKTpIoEItkcujJKodG5AU2x
+puCkghAJWsmSWUYI5rKpVUUseZB0DRCM2+Vz3iuUyOrfsjtn7l25g/XdTd82OCNt
+RaGRQEmKs1exl3TGBfSHE45k2i2gWFt90KO6Vmcu49F6U7AlpRFltrUekMwnuJnC
+5mhk0dLwaCpykP96ULqMr/Mnpe+CA5aQ3cE3m9kyScwCpA20nXAHTdqbU5IA2RwY
+Ssd57QisTkMjJcR3u+SnNbn91Bpy0Q==
+=AwBI
 -----END PGP SIGNATURE-----
 
---sn5FqAvSoslTUJA+--
+--giJnIXr/9NYnDXUa--
 
 
