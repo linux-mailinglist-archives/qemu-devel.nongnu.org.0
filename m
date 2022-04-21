@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9365A50A89B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 20:59:26 +0200 (CEST)
-Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AD950A893
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 20:57:56 +0200 (CEST)
+Received: from localhost ([::1]:48506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhc1V-0000bh-Ls
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 14:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34784)
+	id 1nhc03-0006eg-M3
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 14:57:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nhbjz-0001oO-BA
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 14:41:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36788)
+ id 1nhbk0-0001qF-1h
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 14:41:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nhbjx-000628-Nk
+ id 1nhbjy-00062F-EU
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 14:41:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1650566477;
@@ -25,38 +25,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5d7IQvMN01To+Cis3r5roNwiQ+8elWi3grVMM/yY6IY=;
- b=fS+3bznD5AtNCeSZrxTxcvrXTZ0jt7m3Tfmd/Aii+J8xGs+XmJtYbl1ZLq8v6DWWmzPCI+
- NU5OkXYNzw4lORCuj/cwYcXWqYyHR+ESXzB1gR3Boi5OoA4S8/LDNfBlkS7DgTGxQt5c86
- Ynho+ahXyOpFyGWDWGyKEhj3DEfjjb8=
+ bh=nAZ0hMye+wTjnjKUhNTlNO9H6DiFfeVSktumbW0T7L8=;
+ b=L3hWTln3yeCRPHhHkrOAi6IL/rnFD246JXOwDZmDwfP8b69Q0OZ60GH7NhJZ31M7jxc2zB
+ bQl8MAQFMYvzPWQCs49OWu3S0xU8VGLnCM+ZPhzSW77iyY42yQ0RgvufnHG6HFmCS7fMwR
+ RZfv0EBpCiRa7qwwm2QIiNSREWEbEJk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-cjaAWJExNDCZlaqCllETIQ-1; Thu, 21 Apr 2022 14:41:15 -0400
-X-MC-Unique: cjaAWJExNDCZlaqCllETIQ-1
+ us-mta-538-K4gCwJ2VMoi-wJ2hpb0sBg-1; Thu, 21 Apr 2022 14:41:16 -0400
+X-MC-Unique: K4gCwJ2VMoi-wJ2hpb0sBg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 749E2801E67
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 18:41:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76FED803D42
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 18:41:16 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.39.195.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC15040E80F5;
- Thu, 21 Apr 2022 18:41:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF15840C1438;
+ Thu, 21 Apr 2022 18:41:15 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	peterx@redhat.com,
 	berrange@redhat.com
-Subject: [PULL 16/18] migration: Allow migrate-recover to run multiple times
-Date: Thu, 21 Apr 2022 19:40:50 +0100
-Message-Id: <20220421184052.306581-17-dgilbert@redhat.com>
+Subject: [PULL 17/18] migration: Fix operator type
+Date: Thu, 21 Apr 2022 19:40:51 +0100
+Message-Id: <20220421184052.306581-18-dgilbert@redhat.com>
 In-Reply-To: <20220421184052.306581-1-dgilbert@redhat.com>
 References: <20220421184052.306581-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,85 +81,35 @@ Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Previously migration didn't have an easy way to cleanup the listening
-transport, migrate recovery only allows to execute once.  That's done with a
-trick flag in postcopy_recover_triggered.
+Clang spotted an & that should have been an &&; fix it.
 
-Now the facility is already there.
-
-Drop postcopy_recover_triggered and instead allows a new migrate-recover to
-release the previous listener transport.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220331150857.74406-8-peterx@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reported by: David Binderman / https://gitlab.com/dcb
+Fixes: 65dacaa04fa ("migration: introduce save_normal_page()")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/963
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20220406102515.96320-1-dgilbert@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 13 ++-----------
- migration/migration.h |  1 -
- migration/savevm.c    |  3 ---
- 3 files changed, 2 insertions(+), 15 deletions(-)
+ migration/ram.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index b1659b7092..cc00b344a9 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2162,11 +2162,8 @@ void qmp_migrate_recover(const char *uri, Error **errp)
-         return;
-     }
- 
--    if (qatomic_cmpxchg(&mis->postcopy_recover_triggered,
--                       false, true) == true) {
--        error_setg(errp, "Migrate recovery is triggered already");
--        return;
--    }
-+    /* If there's an existing transport, release it */
-+    migration_incoming_transport_cleanup(mis);
- 
-     /*
-      * Note that this call will never start a real migration; it will
-@@ -2174,12 +2171,6 @@ void qmp_migrate_recover(const char *uri, Error **errp)
-      * to continue using that newly established channel.
-      */
-     qemu_start_incoming_migration(uri, errp);
--
--    /* Safe to dereference with the assert above */
--    if (*errp) {
--        /* Reset the flag so user could still retry */
--        qatomic_set(&mis->postcopy_recover_triggered, false);
--    }
- }
- 
- void qmp_migrate_pause(Error **errp)
-diff --git a/migration/migration.h b/migration/migration.h
-index f17ccc657c..a863032b71 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -139,7 +139,6 @@ struct MigrationIncomingState {
-     struct PostcopyBlocktimeContext *blocktime_ctx;
- 
-     /* notify PAUSED postcopy incoming migrations to try to continue */
--    bool postcopy_recover_triggered;
-     QemuSemaphore postcopy_pause_sem_dst;
-     QemuSemaphore postcopy_pause_sem_fault;
- 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 02ed94c180..d9076897b8 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2589,9 +2589,6 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
- 
-     assert(migrate_postcopy_ram());
- 
--    /* Clear the triggered bit to allow one recovery */
--    mis->postcopy_recover_triggered = false;
--
-     /*
-      * Unregister yank with either from/to src would work, since ioc behind it
-      * is the same
+diff --git a/migration/ram.c b/migration/ram.c
+index 253fe4b756..a2489a2699 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1291,7 +1291,7 @@ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
+                                          offset | RAM_SAVE_FLAG_PAGE));
+     if (async) {
+         qemu_put_buffer_async(rs->f, buf, TARGET_PAGE_SIZE,
+-                              migrate_release_ram() &
++                              migrate_release_ram() &&
+                               migration_in_postcopy());
+     } else {
+         qemu_put_buffer(rs->f, buf, TARGET_PAGE_SIZE);
 -- 
 2.35.1
 
