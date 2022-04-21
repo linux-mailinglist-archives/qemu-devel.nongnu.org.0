@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9777509E55
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:13:49 +0200 (CEST)
-Received: from localhost ([::1]:47972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9ED5509E68
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:17:41 +0200 (CEST)
+Received: from localhost ([::1]:53952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhUku-00041g-UD
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:13:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54594)
+	id 1nhUoe-0008BH-Fl
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:17:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUYR-0001O6-53
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:00:56 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:35572)
+ id 1nhUc6-00044C-Mb
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:04:44 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:38470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUYK-0007sK-P5
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:00:54 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id t67so8085915ybi.2
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:00:48 -0700 (PDT)
+ id 1nhUc4-0000AK-BV
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:04:42 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id w133so5395407ybe.5
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:04:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6hIdhswsfcl65vmDp9ezeh89wHPSBVwDl2kytfmBQPU=;
- b=Pc3xanMjpZzljSTieaCVGCvs7h08nKpUXF/XATLBgXBeuIFKjXA/g6FXZxzFGenPPp
- R2YyaCX2olaRL68RRGltIBgreXkhphnKGnmGRhgorYPIimW27yD7jtmY/JW0n3G2aKxU
- aQyOhl1GAUY3bf6A8Izett9KlfNa22SG3qVYto00S6QpV4YsRh6kRG6xWPjuYIQASWcg
- 0wmadze5j6EjO5I3kehSEYnGVAfaMOH8bHl7ypyNodyunELCVTSnkggsyTOr23VjQ8K1
- nM5cq+ifO1nVD4Baq3IzeXzakfGoeRpFp3D4lYHu4ueoxFwvauvXvZOxGq6E9ev5owWu
- o26Q==
+ :cc; bh=5hgpWLWmdwANyTD1HAR+waBtcTBUdinJUaIUV+UMDkU=;
+ b=hFkN9T/sZhfllUH3P/xdHkqEC1EGUfzqlHajM5BBVTMlsPumLKrlZvgoTwc0gWNoUq
+ 2TyAEMqfmE+bCbf+2dIpA41r63mMNxSCZO3vqpG+QB7Qa82W561ab1bRTO+gtxFXS3nd
+ E5wjECf+nuT3+9DlsqdXi5W9WS7tEkCSTSk+tX0vVCKN8yr0rfcwocn/3UPvpMl1UbXl
+ iJKkoE0osp+6+8y/1ATuXk1/L29elLqXH658sx9bHVbNM2NeXIJCGOBJ1wDqNvPlg27A
+ IVeBZKgRL9RapLCU3BYscJ3h87UtT5Sj9sHiPilN21005fPOYT3fii+ZlYGgHJJiGfUZ
+ pIag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6hIdhswsfcl65vmDp9ezeh89wHPSBVwDl2kytfmBQPU=;
- b=6mJljwh6rar12vKNPG2jL0+qaHhMWdpxzsavFsgESeeHcx/otLoOGe7aolI1tcq68J
- fOt25R6ezQsADs5k06bM0UY2eVMpkQ1CooL6gi5S/SaPBjSxz/rlV4RrYiClO+eAh/VR
- 2sAtpYjIYclG5o2sEUrXo16qMtRBDoxzAKSJiKZvZ5YhFdh1EcNQK9Rj83Yz6vuZ21En
- Akp10TQqcKub6+HQmTE1o60820ZOcr4Kjck8Yz1I+nzmh7yt5JW3MpSNAyX2pBjvLpYb
- cGDZg2wvdg4681WZ+fyYeS22gKDRaP4eJaVYdaErKz/29YC31m+uRphXnjP8EhBjO3q0
- Zdgw==
-X-Gm-Message-State: AOAM530PMUiIRRB3TJm2TkKU/bbn4C789jQjL+1YMFniH0A/GQ96f4xB
- etpod2NsvDdfpJwbyba0UqvbK0a89roP63OM44SJ5Q==
-X-Google-Smtp-Source: ABdhPJy3Ebn6WdHkIoF52cza3iZAwgSqySLFfWwplNcfuiJAIMMNql3WxhtiMDE2JXv+4dGGLqJOKC/L1k9FgW+0B40=
-X-Received: by 2002:a05:6902:390:b0:645:7d46:f1db with SMTP id
- f16-20020a056902039000b006457d46f1dbmr385235ybs.85.1650538847566; Thu, 21 Apr
- 2022 04:00:47 -0700 (PDT)
+ bh=5hgpWLWmdwANyTD1HAR+waBtcTBUdinJUaIUV+UMDkU=;
+ b=WFgn9jlWdon49ldyXSkfXBtPUXncy6ovxXI4SeLRVubKDWTRGOKFFbo/r95LygreDO
+ lnLuASVTD15ijOsqkFnk8c0d1IQYI6/Xahs3M2jkPlPDzDRITHjTZ83A/AADmvvSMPNN
+ Js3xrcEkzfUID2Td2av/MEnnlBv8h5YgZVMzlscYp/R+oy8VOqHMufBElTwsgkXdCKpl
+ dl1h4sgw+1SrnaAGRXdCbiO+uu7xpwjgyZlg0n6EtHMcUP3YaMJ/zGUSPfXj/czOdxZS
+ IoDjlYDpoWyJhLGOv+MsCwwZxFcZcol3bNd3JySaXomZreEBgKz/Dloaap7iYPhANT0Z
+ jh1Q==
+X-Gm-Message-State: AOAM531/48q0d/iIpyYEngEch4WDQIVPvieV/52eN5qKGLt9vHsiQYRl
+ vcBwIe2LHz+hPDsCPMFuQRPNajGDFI7XICbEpKVBTQ==
+X-Google-Smtp-Source: ABdhPJxyKI3T03eR0r2ciAwc/BKFMgrwxYmV7hmmiRAGiP8vA5enWZV6EZ8bR0lfmJ9AmoGNt8pC0bM/2JQSOQP3ORw=
+X-Received: by 2002:a25:ccd7:0:b0:641:7c61:de91 with SMTP id
+ l206-20020a25ccd7000000b006417c61de91mr23793108ybf.288.1650539079400; Thu, 21
+ Apr 2022 04:04:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220405223640.2595730-1-wuhaotsh@google.com>
- <20220405223640.2595730-7-wuhaotsh@google.com>
-In-Reply-To: <20220405223640.2595730-7-wuhaotsh@google.com>
+ <20220405223640.2595730-8-wuhaotsh@google.com>
+In-Reply-To: <20220405223640.2595730-8-wuhaotsh@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 12:00:36 +0100
-Message-ID: <CAFEAcA9TG60w87c0SpLA85g4ogCYTX0gi=ihNQaRQkpaoh1MYw@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 06/11] hw/intc: Add a property to allow GIC to
- reset into non secure mode
+Date: Thu, 21 Apr 2022 12:04:28 +0100
+Message-ID: <CAFEAcA-muDgih2vboh8JRt5U+nYJKtY3H9Um5UBLsB-rdj5AFQ@mail.gmail.com>
+Subject: Re: [PATCH for-7.1 07/11] hw/misc: Support 8-bytes memop in NPCM GCR
+ module
 To: Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,36 +87,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 5 Apr 2022 at 23:38, Hao Wu <wuhaotsh@google.com> wrote:
 >
-> This property allows certain boards like NPCM8xx to boot the kernel
-> directly into non-secure mode. This is necessary since we do not
-> support secure boot features for NPCM8xx now.
+> The NPCM8xx GCR device can be accessed with 64-bit memory operations.
+> This patch supports that.
 >
 > Signed-off-by: Hao Wu <wuhaotsh@google.com>
 > Reviewed-by: Patrick Venture <venture@google.com>
 > ---
->  hw/intc/arm_gic_common.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  hw/misc/npcm_gcr.c   | 98 +++++++++++++++++++++++++++++++++-----------
+>  hw/misc/trace-events |  4 +-
+>  2 files changed, 77 insertions(+), 25 deletions(-)
 >
-> diff --git a/hw/intc/arm_gic_common.c b/hw/intc/arm_gic_common.c
-> index 7b44d5625b..7ddc5cfbd0 100644
-> --- a/hw/intc/arm_gic_common.c
-> +++ b/hw/intc/arm_gic_common.c
-> @@ -358,6 +358,8 @@ static Property arm_gic_common_properties[] = {
->      /* True if the GIC should implement the virtualization extensions */
->      DEFINE_PROP_BOOL("has-virtualization-extensions", GICState, virt_extn, 0),
->      DEFINE_PROP_UINT32("num-priority-bits", GICState, n_prio_bits, 8),
-> +    /* True if we want to directly booting a kernel into NonSecure */
-> +    DEFINE_PROP_BOOL("irq-reset-nonsecure", GICState, irq_reset_nonsecure, 0),
->      DEFINE_PROP_END_OF_LIST(),
->  };
+> diff --git a/hw/misc/npcm_gcr.c b/hw/misc/npcm_gcr.c
+> index 14c298602a..aa81db23d7 100644
+> --- a/hw/misc/npcm_gcr.c
+> +++ b/hw/misc/npcm_gcr.c
+> @@ -201,6 +201,7 @@ static uint64_t npcm_gcr_read(void *opaque, hwaddr offset, unsigned size)
+>      uint32_t reg = offset / sizeof(uint32_t);
+>      NPCMGCRState *s = opaque;
+>      NPCMGCRClass *c = NPCM_GCR_GET_CLASS(s);
+> +    uint64_t value;
+>
+>      if (reg >= c->nr_regs) {
+>          qemu_log_mask(LOG_GUEST_ERROR,
+> @@ -209,9 +210,23 @@ static uint64_t npcm_gcr_read(void *opaque, hwaddr offset, unsigned size)
+>          return 0;
+>      }
+>
+> -    trace_npcm_gcr_read(offset, s->regs[reg]);
+> +    switch (size) {
+> +    case 4:
+> +        value = s->regs[reg];
+> +        break;
+> +
+> +    case 8:
+> +        value = s->regs[reg] + (((uint64_t)s->regs[reg + 1]) << 32);
+> +        break;
+> +
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+>
+> -    return s->regs[reg];
+> +    if (s->regs[reg] != 0) {
 
-This isn't how this is supposed to work. Non-firmware (ie Linux
-kernel boots) that have to emulate firmware init arrange to get
-the irq_reset_nonsecure flag set because the GIC implements the
-TYPE_ARM_LINUX_BOOT_IF and the boot.c code calls the callback
-for every device that implements that interface. For firmware
-boots, the firmware has to set up the GIC the way it wants.
+Why are we now only tracing the read if it's not 0 ?
 
-thanks
+> +        trace_npcm_gcr_read(offset, value);
+> +    }
+> +    return value;
+>  }
+
 -- PMM
 
