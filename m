@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA6C509E84
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:26:17 +0200 (CEST)
-Received: from localhost ([::1]:42848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0198C509E89
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:28:10 +0200 (CEST)
+Received: from localhost ([::1]:45542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhUwy-00038w-MA
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:26:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
+	id 1nhUyn-0005IL-3N
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUpq-0002k5-6I
+ id 1nhUpq-0002ln-TL
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:54 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42864)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUpo-0003QB-0Y
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:53 -0400
-Received: by mail-wr1-x429.google.com with SMTP id bv16so6181619wrb.9
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:18:51 -0700 (PDT)
+ id 1nhUpp-0003QI-48
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:54 -0400
+Received: by mail-wr1-x429.google.com with SMTP id x18so6241562wrc.0
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=f47lw1QPcXaJplbJJd1gYAYuTWuO7WWJTSxjhTHJnU4=;
- b=Ffg3eyFjT+HmD1OynSuN7IaOH5LGe6roPgC/RFrlP5CldS7QsqBrvOh9oV3kI7aOeY
- TjfhdZZgVRoEPk5vvWYBGvlpglQXnahTTiEmo5UdrNNX+SQM1EHa7ETkklb8eVJgbVzi
- vTKJ5FdY74l2dLK7Y7L9AKBRQzd5vD/NWkE0OtM5Nnwo4eRIw3bKC3Qp9JJqKPkSmIoY
- RU63Z22Lr3w1p5YsfoPoEGXS8Ub0uaykfcTp63IE4gxi0i4y8m1syHzzuK3S3dIO4VLj
- 8iCJkCtO1F2hS5wc9nBZjigomYcnQkbzR1WhHqoeEycJfiUKrV2NIWVp+TwB060+5Fwn
- 7Gow==
+ bh=wfsVKDSs56nO298B9eGbm6n11u9EwnB13l23WZAxciw=;
+ b=Tq/20ZDirVD5MPM9Tg3S22Mt9CzMpQEFaxl+LQPDNzTThjK5bt8bVB6k1X6hOzT+nd
+ hAM06HKLbt4AT0bcE6xwVgJSaSICS6GbZTllrtIux11/VYZCgTxFkkPt2dVavJ+XU/AR
+ fUd74zWmQZCbhOBy4KjX03qsaE/QxR94cMU6943fBpiWGGmNXyQjPIiu8lo1RH5QEryb
+ HELbiX4G8JNZ5Ga8tRcVx5x80twdkG5iIoM317K1cypomsXEA09b8Te/scvXb0TIBl1F
+ t0VjqKGTH+cygtVu2oTppWYe1vIg4LoN2aZutFC0Ydyo6ox/dagQTICXk1kOZDELphzK
+ YKmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f47lw1QPcXaJplbJJd1gYAYuTWuO7WWJTSxjhTHJnU4=;
- b=rdroUZ+9vCWYvHrtMLEXjSqn13tv/5XVq+86DD24na9p7NxMhP+wwJnL4HaAXgZned
- OsE786GPhGmqrs0Qp5gUcJBks8xQk/N4jeJ3eRqmUFmJrdWTRHDVHBiUzI9Os0MdhwdY
- 8WQ4YVleIfYkzwSK8jXqSVip9i8oamA0emG/LrzY7X8+2kevlO0qCKDqL0J9URmIXBlh
- ocWJ4lNM5n1gIBGAV+klK7kcmF33QIX0NJYDPLPoD62XWq+odbiQiUZn/ukuCLQEpx8t
- JSjbncds+EhkYUHR1x1qJn1ElMqcLHeVjZ0Pf+TJx9u8tyomrnsrHh3k4cK/l6su7vY5
- 142Q==
-X-Gm-Message-State: AOAM5327/mMZyIXU0eiGvnfoipLTC80v0U4NrpZFIuz1giuBD27/N1tQ
- RHg0bfLbsK7qARW1v3+3LIuLCnf9HYDPIQ==
-X-Google-Smtp-Source: ABdhPJyfXnSbUvWYQDvnpgLsh49pZLkmgGtutdiNQW9xnLraJBnlVRVdjZxN3QJW56Y8dEW9s2x5Sg==
-X-Received: by 2002:a5d:4a81:0:b0:207:9abe:2908 with SMTP id
- o1-20020a5d4a81000000b002079abe2908mr18818289wrq.341.1650539930676; 
- Thu, 21 Apr 2022 04:18:50 -0700 (PDT)
+ bh=wfsVKDSs56nO298B9eGbm6n11u9EwnB13l23WZAxciw=;
+ b=LvRR27z6oYwN8u/TrX4b5X7j373DRv9/TpiGAvv1o79Y88Vwdw8JcxCRX4r7LYLGLS
+ khOK1EDejy+SamQm3vui84z3fkkh7X6/U4T1feWo2KUm+/spCXeapmN7N/sW3YM3KY5q
+ 9RIXhHjnvT2xgE4wS1q3FLW10SZ/f8YNRllxhL71pSvRtsUkGOUZsXjyI9nGklKtnol2
+ l/QAdgYVh+F9Dv1YxmNoZGEgwtA1DWu1RYL+mggNmvPi7TmPZiPGWVpARyM6H24eRi6Q
+ 76pO66quF12S8E4hwzOnTs6cHM8wby+xjUEvVZHBMZ44u+dAFWK5bqLF2pbLL0V6iyPn
+ Rfjw==
+X-Gm-Message-State: AOAM533gaCI2nwkb8ozXA1y50uQ0v9A5xByPjOsGvmSgmjYo3/m8DiNP
+ UDe84CrtLYF1TV1uEBI1zNS9fy7Hbct1jA==
+X-Google-Smtp-Source: ABdhPJwUhtqyYWrx6cXOilYvhbf3YTbHJQyPitps91dEKe5+rbOZxJJH41jqmpccNoHAZKM+/NWoYg==
+X-Received: by 2002:a5d:5604:0:b0:207:a2a3:2f3d with SMTP id
+ l4-20020a5d5604000000b00207a2a32f3dmr18913328wrv.358.1650539931618; 
+ Thu, 21 Apr 2022 04:18:51 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.18.49
+ e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.18.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 04:18:50 -0700 (PDT)
+ Thu, 21 Apr 2022 04:18:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/31] hw/arm/xlnx-zynqmp: Connect 4 TTC timers
-Date: Thu, 21 Apr 2022 12:18:18 +0100
-Message-Id: <20220421111846.2011565-4-peter.maydell@linaro.org>
+Subject: [PULL 04/31] hw/arm: versal: Create an APU CPU Cluster
+Date: Thu, 21 Apr 2022 12:18:19 +0100
+Message-Id: <20220421111846.2011565-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421111846.2011565-1-peter.maydell@linaro.org>
 References: <20220421111846.2011565-1-peter.maydell@linaro.org>
@@ -90,95 +90,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
 
-Connect the 4 TTC timers on the ZynqMP.
+Create an APU CPU Cluster. This is in preparation to add the RPU.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Message-id: 20220331222017.2914409-3-edgar.iglesias@gmail.com
+Reviewed-by: Francisco Iglesias <francisco.iglesias@amd.com>
+Message-id: 20220406174303.2022038-2-edgar.iglesias@xilinx.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/xlnx-zynqmp.h |  4 ++++
- hw/arm/xlnx-zynqmp.c         | 22 ++++++++++++++++++++++
- 2 files changed, 26 insertions(+)
+ include/hw/arm/xlnx-versal.h | 2 ++
+ hw/arm/xlnx-versal.c         | 9 ++++++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-index 9d9a9d0bf9d..85fd9f53daa 100644
---- a/include/hw/arm/xlnx-zynqmp.h
-+++ b/include/hw/arm/xlnx-zynqmp.h
-@@ -41,6 +41,7 @@
+diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+index 0728316ec77..d2d3028e185 100644
+--- a/include/hw/arm/xlnx-versal.h
++++ b/include/hw/arm/xlnx-versal.h
+@@ -14,6 +14,7 @@
+ 
+ #include "hw/sysbus.h"
+ #include "hw/arm/boot.h"
++#include "hw/cpu/cluster.h"
  #include "hw/or-irq.h"
- #include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
- #include "hw/misc/xlnx-zynqmp-crf.h"
-+#include "hw/timer/cadence_ttc.h"
+ #include "hw/sd/sdhci.h"
+ #include "hw/intc/arm_gicv3.h"
+@@ -49,6 +50,7 @@ struct Versal {
+     struct {
+         struct {
+             MemoryRegion mr;
++            CPUClusterState cluster;
+             ARMCPU cpu[XLNX_VERSAL_NR_ACPUS];
+             GICv3State gic;
+         } apu;
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+index 2551dfc22d6..4415ee413fc 100644
+--- a/hw/arm/xlnx-versal.c
++++ b/hw/arm/xlnx-versal.c
+@@ -34,10 +34,15 @@ static void versal_create_apu_cpus(Versal *s)
+ {
+     int i;
  
- #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
- OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
-@@ -84,6 +85,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
- #define XLNX_ZYNQMP_MAX_RAM_SIZE (XLNX_ZYNQMP_MAX_LOW_RAM_SIZE + \
-                                   XLNX_ZYNQMP_MAX_HIGH_RAM_SIZE)
- 
-+#define XLNX_ZYNQMP_NUM_TTC 4
++    object_initialize_child(OBJECT(s), "apu-cluster", &s->fpd.apu.cluster,
++                            TYPE_CPU_CLUSTER);
++    qdev_prop_set_uint32(DEVICE(&s->fpd.apu.cluster), "cluster-id", 0);
 +
- /*
-  * Unimplemented mmio regions needed to boot some images.
-  */
-@@ -128,6 +131,7 @@ struct XlnxZynqMPState {
-     qemu_or_irq qspi_irq_orgate;
-     XlnxZynqMPAPUCtrl apu_ctrl;
-     XlnxZynqMPCRF crf;
-+    CadenceTTCState ttc[XLNX_ZYNQMP_NUM_TTC];
+     for (i = 0; i < ARRAY_SIZE(s->fpd.apu.cpu); i++) {
+         Object *obj;
  
-     char *boot_cpu;
-     ARMCPU *boot_cpu_ptr;
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 5bfe285a191..375309e68eb 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -68,6 +68,9 @@
- #define APU_ADDR            0xfd5c0000
- #define APU_IRQ             153
- 
-+#define TTC0_ADDR           0xFF110000
-+#define TTC0_IRQ            36
+-        object_initialize_child(OBJECT(s), "apu-cpu[*]", &s->fpd.apu.cpu[i],
++        object_initialize_child(OBJECT(&s->fpd.apu.cluster),
++                                "apu-cpu[*]", &s->fpd.apu.cpu[i],
+                                 XLNX_VERSAL_ACPU_TYPE);
+         obj = OBJECT(&s->fpd.apu.cpu[i]);
+         if (i) {
+@@ -52,6 +57,8 @@ static void versal_create_apu_cpus(Versal *s)
+                                  &error_abort);
+         qdev_realize(DEVICE(obj), NULL, &error_fatal);
+     }
 +
- #define IPI_ADDR            0xFF300000
- #define IPI_IRQ             64
- 
-@@ -316,6 +319,24 @@ static void xlnx_zynqmp_create_crf(XlnxZynqMPState *s, qemu_irq *gic)
-     sysbus_connect_irq(sbd, 0, gic[CRF_IRQ]);
++    qdev_realize(DEVICE(&s->fpd.apu.cluster), NULL, &error_fatal);
  }
  
-+static void xlnx_zynqmp_create_ttc(XlnxZynqMPState *s, qemu_irq *gic)
-+{
-+    SysBusDevice *sbd;
-+    int i, irq;
-+
-+    for (i = 0; i < XLNX_ZYNQMP_NUM_TTC; i++) {
-+        object_initialize_child(OBJECT(s), "ttc[*]", &s->ttc[i],
-+                                TYPE_CADENCE_TTC);
-+        sbd = SYS_BUS_DEVICE(&s->ttc[i]);
-+
-+        sysbus_realize(sbd, &error_fatal);
-+        sysbus_mmio_map(sbd, 0, TTC0_ADDR + i * 0x10000);
-+        for (irq = 0; irq < 3; irq++) {
-+            sysbus_connect_irq(sbd, irq, gic[TTC0_IRQ + i * 3 + irq]);
-+        }
-+    }
-+}
-+
- static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
- {
-     static const struct UnimpInfo {
-@@ -721,6 +742,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-     xlnx_zynqmp_create_efuse(s, gic_spi);
-     xlnx_zynqmp_create_apu_ctrl(s, gic_spi);
-     xlnx_zynqmp_create_crf(s, gic_spi);
-+    xlnx_zynqmp_create_ttc(s, gic_spi);
-     xlnx_zynqmp_create_unimp_mmio(s);
- 
-     for (i = 0; i < XLNX_ZYNQMP_NUM_GDMA_CH; i++) {
+ static void versal_create_apu_gic(Versal *s, qemu_irq *pic)
 -- 
 2.25.1
 
