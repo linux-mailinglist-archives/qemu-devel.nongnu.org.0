@@ -2,96 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0A5509804
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 08:52:38 +0200 (CEST)
-Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3ED75097FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 08:49:05 +0200 (CEST)
+Received: from localhost ([::1]:47264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhQg9-0001LF-2q
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 02:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53444)
+	id 1nhQci-0005mz-Ug
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 02:49:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=10363b772=alistair.francis@opensource.wdc.com>)
- id 1nhQR0-0004oF-AG
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:36:58 -0400
+ id 1nhQR2-0004r3-DR
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:37:00 -0400
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=10363b772=alistair.francis@opensource.wdc.com>)
- id 1nhQQy-0007vC-8i
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:36:57 -0400
+ id 1nhQR0-0007vC-Pu
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:37:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1650523016; x=1682059016;
+ t=1650523018; x=1682059018;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ZgC2XGZNz9GOqFHwEiweZQEoaeQwoAuD6cvXgf97ucI=;
- b=Lffn0byPWYKa2vxw/dhf080T54t9ZPkYKO2tmIEK2y4pfQtuKslxdePu
- 5hiMICQub3FuGI7o6DnjyzE0133whr+7N7odGd+HkcYYRAMod0IMg1ZXm
- 7bg08ln60Tz3S+rnWNUl0WKpDubAZOwAriJ/21FeIifDtH2Q+t6K2PO6Q
- tmKhA4jL3Cc9hfBev+ARKNnURlxWOHfTeyD8bggdr4Ar+i5BkoxRN/gDQ
- 537O+NbsmuLyywVDyIhuAUK3gEDb3Z0UL9i+CVRvglNB1aUPRkkGSMomH
- uHAAaw4YM7Sc6/V2mDme017b3H8rcagf/AcuZ6vxO8QvwPvnjaYwRn+SZ A==;
-X-IronPort-AV: E=Sophos;i="5.90,278,1643644800"; d="scan'208";a="302639924"
+ bh=UFx0II7r+/IMMvsE44IscHFSDYBmBDBN4/jnXYV89rU=;
+ b=HeZpHEnZcGp0qRUCtGIQpPei0qbG7FAQ2LpM3eVCsRJVDzvskx9Kl1W/
+ +XDQUiKbBU8Tia42nHHjmPMgCQxfX0oZWeePFQyDMeGDkdATnF4TE9I9w
+ MM1S+VE3CUhzKEA14EaGermPoTXj7bmxaRoVomWJEaasQoiM1lceDQjxr
+ smScXXMqlklzHgivRYDH3zdr/k+4TWt39UH4JrGJHWlRaYjk96MWe7yNU
+ YH+5tKyBufNNSrx/woo0FpDDpdFKIKoeBTB/cnGjQTH/3gDBBebiEmWu8
+ fZnrulEBB/fTJOy8y96YXR3kfQ+9YiYphPaUscRNij7SaC2rphKR7U3ls g==;
+X-IronPort-AV: E=Sophos;i="5.90,278,1643644800"; d="scan'208";a="302639933"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Apr 2022 14:36:55 +0800
-IronPort-SDR: qGTA5uu/FdYHfVAZr5mlSgl7crnQlrbAAOYwO6u9pWrVHB5FkeNiDWVO+6WDGzkolH3kL+xz1j
- ZjBiDFmN/u8RcNGdMwLNDPf5Kv93zxPMqB1UaU8V/389AtXQ9rkwXmAmOhP76TxSj1I0aLUhlU
- ZKOzlZ4srUpumUJmHi38frnPXALgcGkpdvh0FDyrFrqrEDn6JzkqgnLbcCVl1uXBcZ4ZJWNvN7
- Kx/py0Ztc55bfHE/NR1z1r4vwpQb4f6W+s9e3SFarMo0A4/NZojPsSVOhpUQxH5nQX48scNePZ
- a/SckR1v1yJTGi3sjl+1k92D
+ by ob1.hgst.iphmx.com with ESMTP; 21 Apr 2022 14:36:58 +0800
+IronPort-SDR: 3/6jhgZ1iZzQvYE4VbKnkngwC1aDpOxNfrjDUwvXbBq2GGb1LCLjyVm7ACVsSbjNhXFyX2WehD
+ aKU9s1IdRqIW4NfBlYIEtHXgSzE37iHuP6QS1eQVdFWykYnYJvmjuf17PgNlUBXq23CHids4dx
+ gWCeOTmx1IIDSaxMuKMwqEAUcyr8xphX0dpVG7rfSgZ9rL9otoxhowGUkJOLJBriK2oqgOSTNl
+ lz9g7OZ2rqlWb9EjqeD8U5r4WK+tiF0FxkO1TJHMkWDlrf4jNddISZEUdTnyjmk6OMCouYuZI2
+ 1YGIdOqZA4ek8RaReV/Why4k
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Apr 2022 23:07:57 -0700
-IronPort-SDR: RQT9jL0Yj/vj5cJ+RCe61MVJvZ8S3pSVTKB5XgWRA8AJr2rf/6XF8pqZhC4OvpsP+UP1XJz16L
- bD79bCvZHEHI9izNt3PwgKzPJ8y8V70b36mKwt2gJhrP3ue+fMOMxcH4nCwRpRGVU6G8olOBS+
- FZ7BrRl5cN5FGJ4tnKXyhg6XYuGnLYAd5Spo5k3IPaeqVihedFuMlnY9w+kw3QUJiiZzKMMTuj
- pzwBCH/UEI2wMUnLmHF9xXiNklOqzwRtP5r4A0wmqqL0FVRy1ep/3sm9YEGWJKxv6UPEl8+tVx
- wmQ=
+ 20 Apr 2022 23:08:00 -0700
+IronPort-SDR: vj2ntjoAHUu59NLGFold9oAdeNDPdMt24+x4IcjgPtZ9WHrQxzNJkSWr33WcbTW8Xev1KlrS9H
+ xsvuWz7uG2zPYGDuWRUKiqg0JeR3nCEAoLMpv5s6sMjVD89FsuDpab+QZRXldtVdur+hp3OiMT
+ OV53bKAeBMJiqSXHSdyH41s43uepFrH7QAeBATRFkQ+Q7B122QKuVnWgP7IBC0aXtXLqqu4gV1
+ W5V79Dllb7aknbMC3/Pc8aRjjdqyCN0TDHPW2QpKR3FUyY8yd1tsBCoG/sVcIKnD534iEnzAWJ
+ KcM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Apr 2022 23:36:55 -0700
+ 20 Apr 2022 23:36:58 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkSWB5lJ1z1SVnx
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 23:36:54 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkSWF5bs4z1SVnx
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 23:36:57 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1650523014; x=1653115015; bh=ZgC2XGZ
- Nz9GOqFHwEiweZQEoaeQwoAuD6cvXgf97ucI=; b=h+LlDoQcFabKG5J2JJHBI/S
- hZl15DsUZ+Gkh/ZeLxe+aDWS89HJekypZ2RALeoAtkN32ajVF5i9ft73s9KAO1E2
- WmpHZnvQLzJbYqHutQ8D+d00owog2mr7rIeq7rl8QOtx11X53+aU5pT6QAsGPex4
- h0mfllANCuKzOCFzJyZSLArkwQrvAQrP+7yocwKZMYdLx4bVqmOvKJiKLry3LHwt
- 3gyJsL1gvHJVk1V7R22RE6UtFdVay1DZK9pnOTk8lbPiYE1lcy0KraDJDvCWjOy4
- QbPL6c7BZqVzBZO22Hik9ehbeB6hnfWmeL5DR77SqTV24g9BcpYwjw7KZ6X9b1g=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1650523017; x=1653115018; bh=UFx0II7r+/IMMvsE44
+ IscHFSDYBmBDBN4/jnXYV89rU=; b=ZLAwDijsjeV3jKNgsCjrVmssL/cU+UkPld
+ PPIdVhWz5RMhXvpyVtFjbJ3WBM7/1fDrEIeeCend6D3GczdjchOd8fIvjSkjGBAS
+ uWNa9ZdaDBtl2p/yvH5H02/eJrV+je++Pl8A2pf5yvrvpmuk/aMHiULZLOcA5EXa
+ ExlyWKHjNBhYkZvmte3h2FdRMQH/OIY1uqM01JdzwWw21wv2pUcxwotUzTaOIJQX
+ AUVbE+mouCdja6Xo7QX2HfeD7aXmG46F+kYaIWO8OWIvgOr8B/X+FijLadAhaUJP
+ jQX5WQ/IPwUqTqUR7RkOpz3xGSjJp+eHx8AmLPFPmiQcq4XfMoww==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id YvMJqPtyENcK for <qemu-devel@nongnu.org>;
- Wed, 20 Apr 2022 23:36:54 -0700 (PDT)
+ port 10026) with ESMTP id racnkTBpioUt for <qemu-devel@nongnu.org>;
+ Wed, 20 Apr 2022 23:36:57 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.119])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkSW76hFyz1Rvlx;
- Wed, 20 Apr 2022 23:36:51 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkSWB6zF0z1Rvlx;
+ Wed, 20 Apr 2022 23:36:54 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 02/31] riscv: opentitan: Connect opentitan SPI Host
-Date: Thu, 21 Apr 2022 16:36:01 +1000
-Message-Id: <20220421063630.1033608-3-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Atish Patra <atishp@rivosinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 03/31] target/riscv: Define simpler privileged spec version
+ numbering
+Date: Thu, 21 Apr 2022 16:36:02 +1000
+Message-Id: <20220421063630.1033608-4-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220421063630.1033608-1-alistair.francis@opensource.wdc.com>
 References: <20220421063630.1033608-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=10363b772=alistair.francis@opensource.wdc.com;
@@ -118,151 +117,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+From: Atish Patra <atishp@rivosinc.com>
 
-Connect spi host[1/0] to opentitan.
+Currently, the privileged specification version are defined in
+a complex manner for no benefit.
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Simplify it by changing it to a simple enum based on.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-Id: <20220303045426.511588-2-alistair.francis@opensource.wdc.com>
+Signed-off-by: Atish Patra <atishp@rivosinc.com>
+Message-Id: <20220303185440.512391-2-atishp@rivosinc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/opentitan.h | 30 +++++++++++++++++++++---------
- hw/riscv/opentitan.c         | 36 ++++++++++++++++++++++++++++++++----
- 2 files changed, 53 insertions(+), 13 deletions(-)
+ target/riscv/cpu.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index 00da9ded43..68892cd8e5 100644
---- a/include/hw/riscv/opentitan.h
-+++ b/include/hw/riscv/opentitan.h
-@@ -23,11 +23,18 @@
- #include "hw/intc/sifive_plic.h"
- #include "hw/char/ibex_uart.h"
- #include "hw/timer/ibex_timer.h"
-+#include "hw/ssi/ibex_spi_host.h"
- #include "qom/object.h"
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index e1d976bdef..0d63786ece 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -82,8 +82,11 @@ enum {
+     RISCV_FEATURE_AIA
+ };
 =20
- #define TYPE_RISCV_IBEX_SOC "riscv.lowrisc.ibex.soc"
- OBJECT_DECLARE_SIMPLE_TYPE(LowRISCIbexSoCState, RISCV_IBEX_SOC)
-=20
+-#define PRIV_VERSION_1_10_0 0x00011000
+-#define PRIV_VERSION_1_11_0 0x00011100
++/* Privileged specification version */
 +enum {
-+    OPENTITAN_SPI_HOST0,
-+    OPENTITAN_SPI_HOST1,
-+    OPENTITAN_NUM_SPI_HOSTS,
++    PRIV_VERSION_1_10_0 =3D 0,
++    PRIV_VERSION_1_11_0,
 +};
-+
- struct LowRISCIbexSoCState {
-     /*< private >*/
-     SysBusDevice parent_obj;
-@@ -37,6 +44,7 @@ struct LowRISCIbexSoCState {
-     SiFivePLICState plic;
-     IbexUartState uart;
-     IbexTimerState timer;
-+    IbexSPIHostState spi_host[OPENTITAN_NUM_SPI_HOSTS];
 =20
-     MemoryRegion flash_mem;
-     MemoryRegion rom;
-@@ -89,15 +97,19 @@ enum {
- };
+ #define VEXT_VERSION_1_00_0 0x00010000
 =20
- enum {
--    IBEX_TIMER_TIMEREXPIRED0_0 =3D 126,
--    IBEX_UART0_RX_PARITY_ERR_IRQ =3D 8,
--    IBEX_UART0_RX_TIMEOUT_IRQ =3D 7,
--    IBEX_UART0_RX_BREAK_ERR_IRQ =3D 6,
--    IBEX_UART0_RX_FRAME_ERR_IRQ =3D 5,
--    IBEX_UART0_RX_OVERFLOW_IRQ =3D 4,
--    IBEX_UART0_TX_EMPTY_IRQ =3D 3,
--    IBEX_UART0_RX_WATERMARK_IRQ =3D 2,
--    IBEX_UART0_TX_WATERMARK_IRQ =3D 1,
-+    IBEX_UART0_TX_WATERMARK_IRQ   =3D 1,
-+    IBEX_UART0_RX_WATERMARK_IRQ   =3D 2,
-+    IBEX_UART0_TX_EMPTY_IRQ       =3D 3,
-+    IBEX_UART0_RX_OVERFLOW_IRQ    =3D 4,
-+    IBEX_UART0_RX_FRAME_ERR_IRQ   =3D 5,
-+    IBEX_UART0_RX_BREAK_ERR_IRQ   =3D 6,
-+    IBEX_UART0_RX_TIMEOUT_IRQ     =3D 7,
-+    IBEX_UART0_RX_PARITY_ERR_IRQ  =3D 8,
-+    IBEX_TIMER_TIMEREXPIRED0_0    =3D 126,
-+    IBEX_SPI_HOST0_ERR_IRQ        =3D 150,
-+    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 151,
-+    IBEX_SPI_HOST1_ERR_IRQ        =3D 152,
-+    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 153,
- };
-=20
- #endif
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 833624d66c..2d401dcb23 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -120,11 +120,18 @@ static void lowrisc_ibex_soc_init(Object *obj)
-     object_initialize_child(obj, "uart", &s->uart, TYPE_IBEX_UART);
-=20
-     object_initialize_child(obj, "timer", &s->timer, TYPE_IBEX_TIMER);
-+
-+    for (int i =3D 0; i < OPENTITAN_NUM_SPI_HOSTS; i++) {
-+        object_initialize_child(obj, "spi_host[*]", &s->spi_host[i],
-+                                TYPE_IBEX_SPI_HOST);
-+    }
- }
-=20
- static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
- {
-     const MemMapEntry *memmap =3D ibex_memmap;
-+    DeviceState *dev;
-+    SysBusDevice *busdev;
-     MachineState *ms =3D MACHINE(qdev_get_machine());
-     LowRISCIbexSoCState *s =3D RISCV_IBEX_SOC(dev_soc);
-     MemoryRegion *sys_mem =3D get_system_memory();
-@@ -209,14 +216,35 @@ static void lowrisc_ibex_soc_realize(DeviceState *d=
-ev_soc, Error **errp)
-                           qdev_get_gpio_in(DEVICE(qemu_get_cpu(0)),
-                                            IRQ_M_TIMER));
-=20
-+    /* SPI-Hosts */
-+    for (int i =3D 0; i < OPENTITAN_NUM_SPI_HOSTS; ++i) {
-+        dev =3D DEVICE(&(s->spi_host[i]));
-+        if (!sysbus_realize(SYS_BUS_DEVICE(&s->spi_host[i]), errp)) {
-+            return;
-+        }
-+        busdev =3D SYS_BUS_DEVICE(dev);
-+        sysbus_mmio_map(busdev, 0, memmap[IBEX_DEV_SPI_HOST0 + i].base);
-+
-+        switch (i) {
-+        case OPENTITAN_SPI_HOST0:
-+            sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(DEVICE(&s->pl=
-ic),
-+                                IBEX_SPI_HOST0_ERR_IRQ));
-+            sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(DEVICE(&s->pl=
-ic),
-+                                IBEX_SPI_HOST0_SPI_EVENT_IRQ));
-+            break;
-+        case OPENTITAN_SPI_HOST1:
-+            sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(DEVICE(&s->pl=
-ic),
-+                                IBEX_SPI_HOST1_ERR_IRQ));
-+            sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(DEVICE(&s->pl=
-ic),
-+                                IBEX_SPI_HOST1_SPI_EVENT_IRQ));
-+            break;
-+        }
-+    }
-+
-     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
-         memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.spi_device",
-         memmap[IBEX_DEV_SPI_DEVICE].base, memmap[IBEX_DEV_SPI_DEVICE].si=
-ze);
--    create_unimplemented_device("riscv.lowrisc.ibex.spi_host0",
--        memmap[IBEX_DEV_SPI_HOST0].base, memmap[IBEX_DEV_SPI_HOST0].size=
-);
--    create_unimplemented_device("riscv.lowrisc.ibex.spi_host1",
--        memmap[IBEX_DEV_SPI_HOST1].base, memmap[IBEX_DEV_SPI_HOST1].size=
-);
-     create_unimplemented_device("riscv.lowrisc.ibex.i2c",
-         memmap[IBEX_DEV_I2C].base, memmap[IBEX_DEV_I2C].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.pattgen",
 --=20
 2.35.1
 
