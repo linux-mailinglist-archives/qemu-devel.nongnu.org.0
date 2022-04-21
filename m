@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF1D50A997
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 21:56:34 +0200 (CEST)
-Received: from localhost ([::1]:49446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F5A50A99E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 21:59:55 +0200 (CEST)
+Received: from localhost ([::1]:58062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhcun-0006V2-Hx
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 15:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45508)
+	id 1nhcy2-0004xq-Mz
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 15:59:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcX4-0007KQ-T8
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:03 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33530)
+ id 1nhcX8-0007NK-G4
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:07 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcX3-0005fC-H5
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:02 -0400
+ id 1nhcX6-0005ft-NJ
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:06 -0400
 Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcVz-000Caf-KJ; Thu, 21 Apr 2022 20:30:59 +0100
+ id 1nhcW3-000Caf-RY; Thu, 21 Apr 2022 20:31:03 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Thu, 21 Apr 2022 20:30:31 +0100
-Message-Id: <20220421193100.5098-22-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 21 Apr 2022 20:30:32 +0100
+Message-Id: <20220421193100.5098-23-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
 References: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 21/50] dino: move DINO HPA constants from hppa_hardware.h to
- dino.h
+Subject: [PATCH 22/50] dino: move from hw/hppa to hw/pci-host
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,46 +61,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is to allow us to decouple the DINO device from the board logic.
+Move the DINO device implementation from hw/hppa to hw/pci-host so that it is
+located with all the other PCI host bridges.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/hppa/dino.h          | 5 +++++
- hw/hppa/hppa_hardware.h | 5 -----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ MAINTAINERS                             | 2 ++
+ hw/hppa/Kconfig                         | 2 +-
+ hw/hppa/machine.c                       | 2 +-
+ hw/hppa/meson.build                     | 2 +-
+ hw/hppa/trace-events                    | 5 -----
+ hw/pci-host/Kconfig                     | 4 ++++
+ hw/{hppa => pci-host}/dino.c            | 3 +--
+ hw/pci-host/meson.build                 | 3 +++
+ hw/pci-host/trace-events                | 5 +++++
+ {hw/hppa => include/hw/pci-host}/dino.h | 0
+ 10 files changed, 18 insertions(+), 10 deletions(-)
+ rename hw/{hppa => pci-host}/dino.c (99%)
+ rename {hw/hppa => include/hw/pci-host}/dino.h (100%)
 
-diff --git a/hw/hppa/dino.h b/hw/hppa/dino.h
-index ca380515f2..a1b0184940 100644
---- a/hw/hppa/dino.h
-+++ b/hw/hppa/dino.h
-@@ -101,6 +101,11 @@ static const uint32_t reg800_keep_bits[DINO800_REGS] = {
-     MAKE_64BIT_MASK(0, 9),  /* TLTIM */
- };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 294c88ace9..07f85829b0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1114,7 +1114,9 @@ S: Odd Fixes
+ F: configs/devices/hppa-softmmu/default.mak
+ F: hw/hppa/
+ F: hw/net/*i82596*
++F: hw/pci-host/dino.c
+ F: include/hw/net/lasi_82596.h
++F: include/hw/pci-host/dino.h
+ F: pc-bios/hppa-firmware.img
  
-+/* offsets to DINO HPA: */
-+#define DINO_PCI_ADDR           0x064
-+#define DINO_CONFIG_DATA        0x068
-+#define DINO_IO_DATA            0x06c
-+
- struct DinoState {
-     PCIHostState parent_obj;
+ M68K Machines
+diff --git a/hw/hppa/Kconfig b/hw/hppa/Kconfig
+index 02e101f139..666a7319d6 100644
+--- a/hw/hppa/Kconfig
++++ b/hw/hppa/Kconfig
+@@ -3,7 +3,7 @@ config HPPA_GENERIC
+     imply PCI_DEVICES
+     imply E1000_PCI
+     imply VIRTIO_VGA
+-    select PCI
++    select DINO
+     select SERIAL
+     select ISA_BUS
+     select I8259
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 7b8cfce3c9..b66e95982e 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -17,7 +17,7 @@
+ #include "hw/char/serial.h"
+ #include "hw/net/lasi_82596.h"
+ #include "hw/nmi.h"
+-#include "dino.h"
++#include "hw/pci-host/dino.h"
+ #include "hppa_sys.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+diff --git a/hw/hppa/meson.build b/hw/hppa/meson.build
+index af37b4469e..d3f839c6aa 100644
+--- a/hw/hppa/meson.build
++++ b/hw/hppa/meson.build
+@@ -1,4 +1,4 @@
+ hppa_ss = ss.source_set()
+-hppa_ss.add(when: 'CONFIG_HPPA_GENERIC', if_true: files('pci.c', 'machine.c', 'dino.c', 'lasi.c'))
++hppa_ss.add(when: 'CONFIG_HPPA_GENERIC', if_true: files('pci.c', 'machine.c', 'lasi.c'))
  
-diff --git a/hw/hppa/hppa_hardware.h b/hw/hppa/hppa_hardware.h
-index 5edf577563..8b6b9222cb 100644
---- a/hw/hppa/hppa_hardware.h
-+++ b/hw/hppa/hppa_hardware.h
-@@ -30,11 +30,6 @@
- #define PCI_HPA         DINO_HPA        /* PCI bus */
- #define IDE_HPA         0xf9000000      /* Boot disc controller */
+ hw_arch += {'hppa': hppa_ss}
+diff --git a/hw/hppa/trace-events b/hw/hppa/trace-events
+index 3f42be9056..871a473771 100644
+--- a/hw/hppa/trace-events
++++ b/hw/hppa/trace-events
+@@ -3,11 +3,6 @@
+ # pci.c
+ hppa_pci_iack_write(void) ""
  
--/* offsets to DINO HPA: */
--#define DINO_PCI_ADDR           0x064
--#define DINO_CONFIG_DATA        0x068
--#define DINO_IO_DATA            0x06c
+-# dino.c
+-dino_chip_mem_valid(uint64_t addr, uint32_t val) "access to addr 0x%"PRIx64" is %d"
+-dino_chip_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
+-dino_chip_write(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
 -
- #define PORT_PCI_CMD    (PCI_HPA + DINO_PCI_ADDR)
- #define PORT_PCI_DATA   (PCI_HPA + DINO_CONFIG_DATA)
+ # lasi.c
+ lasi_chip_mem_valid(uint64_t addr, uint32_t val) "access to addr 0x%"PRIx64" is %d"
+ lasi_chip_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index 2b5f7d58cc..38fd2ee8f3 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -77,3 +77,7 @@ config MV64361
+     bool
+     select PCI
+     select I8259
++
++config DINO
++    bool
++    select PCI
+diff --git a/hw/hppa/dino.c b/hw/pci-host/dino.c
+similarity index 99%
+rename from hw/hppa/dino.c
+rename to hw/pci-host/dino.c
+index aa7f812e22..f257c24e64 100644
+--- a/hw/hppa/dino.c
++++ b/hw/pci-host/dino.c
+@@ -18,9 +18,8 @@
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bus.h"
+ #include "hw/qdev-properties.h"
+-#include "dino.h"
++#include "hw/pci-host/dino.h"
+ #include "migration/vmstate.h"
+-#include "hppa_sys.h"
+ #include "trace.h"
+ #include "qom/object.h"
  
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+index 4c4f39c15c..c07596d0d1 100644
+--- a/hw/pci-host/meson.build
++++ b/hw/pci-host/meson.build
+@@ -25,6 +25,9 @@ pci_ss.add(when: 'CONFIG_MV64361', if_true: files('mv64361.c'))
+ # ARM devices
+ pci_ss.add(when: 'CONFIG_VERSATILE_PCI', if_true: files('versatile.c'))
+ 
++# HPPA devices
++pci_ss.add(when: 'CONFIG_DINO', if_true: files('dino.c'))
++
+ softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
+ 
+ specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
+diff --git a/hw/pci-host/trace-events b/hw/pci-host/trace-events
+index 6e5d8d3355..437e66ff50 100644
+--- a/hw/pci-host/trace-events
++++ b/hw/pci-host/trace-events
+@@ -34,3 +34,8 @@ unin_read(uint64_t addr, uint64_t value) "addr=0x%" PRIx64 " val=0x%"PRIx64
+ pnv_phb4_xive_notify(uint64_t notif_port, uint64_t data) "notif=@0x%"PRIx64" data=0x%"PRIx64
+ pnv_phb4_xive_notify_ic(uint64_t addr, uint64_t data) "addr=@0x%"PRIx64" data=0x%"PRIx64
+ pnv_phb4_xive_notify_abt(uint64_t notif_port, uint64_t data) "notif=@0x%"PRIx64" data=0x%"PRIx64
++
++# dino.c
++dino_chip_mem_valid(uint64_t addr, uint32_t val) "access to addr 0x%"PRIx64" is %d"
++dino_chip_read(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
++dino_chip_write(uint64_t addr, uint32_t val) "addr 0x%"PRIx64" val 0x%08x"
+diff --git a/hw/hppa/dino.h b/include/hw/pci-host/dino.h
+similarity index 100%
+rename from hw/hppa/dino.h
+rename to include/hw/pci-host/dino.h
 -- 
 2.20.1
 
