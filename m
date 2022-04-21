@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7417509E9C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:35:11 +0200 (CEST)
-Received: from localhost ([::1]:60908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F7F509EBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:37:53 +0200 (CEST)
+Received: from localhost ([::1]:41004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhV5a-0000gL-G1
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:35:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59452)
+	id 1nhV8C-0006j8-VN
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUq5-0003AC-3F
+ id 1nhUq5-0003AG-36
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:10 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41812)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUq2-0003Vn-EF
+ id 1nhUq3-0003Vx-Bv
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:08 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id s25so1326008wrb.8
+Received: by mail-wr1-x42c.google.com with SMTP id p18so6214367wru.5
  for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6iEh6vhBWVu8vdp664MaCGIOBRqTLHZP+x0CHEhw0js=;
- b=Fm30hB+yVssk93ZtLO9H3OCgJ/vc2BiWLPA7lgfLDj/QcTjk3HDqW9hdzflhnzzTza
- sml/i3TJ2Q5w53rmmhx3kPVjOvJTWoN3ZA6eIushhhLOPKNWfVH129QFKN6/6PPD3dgP
- dXleNo6/nQfvgo+UhWTcx2ZLRTZ8C/j4vU+0hm05DmGT3DWTTcxJxINm5e7QnepCPP7h
- /R6USRYGkvxlq340C8dUUoWmam38nex5ro0b9TyIqZFYErCxfmJRGH5NTjhx/dtSUT7E
- /7lAReiPYVt4UPRQk1+49fDo7WtFd1sjDum1jbcJMI/S3mzwdCqqMSlWqiuDNTJQzWWX
- wRPw==
+ bh=1PyZdnk6RoN3xmhb1oq389S8umKBSyZVP3ZN0NOpuv4=;
+ b=ezgU+k2K7uylQi+TnfdXloAlNPAhxPyPYVOnPWz1r98/ZviPpKcyyN1Smw2ArwhNzs
+ dfg8mAphw5kwrUhN7YCKVDwC0cMaNM6SpoP0+YNmcEIhhuK8UarLQCzbTDmop5iq2qX5
+ 4nmXnuE4smBtCUmkxljADcB2Eseyahuaq9ZxUxCpZWEjTfATGfuD5t/vY5pWUQ7hvgz7
+ GCAo/V0fYJafvDU8n1qvaunaOqgc35C41EXhCVhve4EZxUTXNvpc6tR3v3tFI2aY/ZNr
+ 8PjkHlhpks/e+E2ZgMRHofdNMUTJ0+9ZfOb+8GVkJdhIBqo6E4L2msMz+T3IM5ZRC1vJ
+ uZZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6iEh6vhBWVu8vdp664MaCGIOBRqTLHZP+x0CHEhw0js=;
- b=y1sf7AW3dLX9PTXIio4YRtrmOL2wL5HFYwDaGQMXiwPBWa2ZC01q8MojvG2AIKkBnu
- vId5kgk9x8LQZ6Pg3PKXCwnUqwfGoLx9f88PvpQYbVQbz8bu9xgkV0zebDABe5Wn8By3
- E4CG9D6e1nNi9Qj3ElmiJLcJZT1FkQX57cvwa1raD6QJ4qUAXMF8AoND/PW6ybhA3BDO
- iwRzSv7M/KyeF50/0cnoyEoAkrQ8mKoc01Gtrxt3xE+weXHk5UmrQROELBz3MPiu65Fr
- FARVCzBDLAgnTuW/IPP943j/QkC+4V9X5jyzARQAMA3KsaBypRpPi5ySCYZQ8eW9WTnw
- Eefg==
-X-Gm-Message-State: AOAM531X4Rne7JF7RZjUEUBytBv0NKqhUMEnbFeMY07NLAaKIyPdgek5
- EJafr11Z0kIF6a1KbaxTZBDFPFqZMPMCRA==
-X-Google-Smtp-Source: ABdhPJyzC007qti0UJXbR/6IVBZcFMETLIe+R83sOoCE8rILLPVp29fcjK7n6yNMcpkGLu3C2YS4qw==
-X-Received: by 2002:adf:f2cb:0:b0:20a:77c2:3958 with SMTP id
- d11-20020adff2cb000000b0020a77c23958mr18539139wrp.589.1650539945226; 
- Thu, 21 Apr 2022 04:19:05 -0700 (PDT)
+ bh=1PyZdnk6RoN3xmhb1oq389S8umKBSyZVP3ZN0NOpuv4=;
+ b=hxR5gqksoaZrsY8Rshzz1wFftY864Ao04a7Clv8VgzwhwR/BTZT/RbMIjiTbRcj44V
+ 9F7pJuFlDKw0CiU3wOUX+EfTWnJYof2zEbkaIY/SV9PIECg8tqwevOefavftmGp7jJvh
+ vdlLGONNU7Eh4p2KGEeA8xOS3wNFjT9oazF2J1X2/9faAYGv0aQu3p/T9StSyM9Zh5PL
+ vNXhCbNHOWOMlJgizIaycM4fvFC4JUfr+wc5piKQxvVicSTYWPg6rU3RLQDGFRvVSinO
+ zmBB0WV0tWMW6b67X3AnwbX2oL+GKQo0JEIMzX1tEP3eARcOGkcMyVQ/23DjTh/67aRk
+ nK/Q==
+X-Gm-Message-State: AOAM530JTrnLi3drLodmS3aLq7+j0UxVEt3wSDL/BuYQWKU+XkXeLUoz
+ C5LvVqRRzrAjgHao+vjVx7fyr2+3wlwYoA==
+X-Google-Smtp-Source: ABdhPJzTrchYsNBiR1O5YT4odZ9vSj6EM1GunEBIhJKTDL2sxCQYJPLXOj4DVd/4753BJO2+iTquHg==
+X-Received: by 2002:adf:ebd2:0:b0:20a:9c10:ab29 with SMTP id
+ v18-20020adfebd2000000b0020a9c10ab29mr13124200wrn.212.1650539946108; 
+ Thu, 21 Apr 2022 04:19:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.19.04
+ e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.19.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 04:19:04 -0700 (PDT)
+ Thu, 21 Apr 2022 04:19:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/31] hw/arm/exynos4210: Use TYPE_SPLIT_IRQ in
- exynos4210_init_board_irqs()
-Date: Thu, 21 Apr 2022 12:18:34 +0100
-Message-Id: <20220421111846.2011565-20-peter.maydell@linaro.org>
+Subject: [PULL 20/31] hw/arm/exynos4210: Fill in irq_table[] for
+ internal-combiner-only IRQ lines
+Date: Thu, 21 Apr 2022 12:18:35 +0100
+Message-Id: <20220421111846.2011565-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421111846.2011565-1-peter.maydell@linaro.org>
 References: <20220421111846.2011565-1-peter.maydell@linaro.org>
@@ -89,128 +89,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In exynos4210_init_board_irqs(), use the TYPE_SPLIT_IRQ device
-instead of qemu_irq_split().
+In exynos4210_init_board_irqs(), the loop that handles IRQ lines that
+are in a range that applies to the internal combiner only creates a
+splitter for those interrupts which go to both the internal combiner
+and to the external GIC, but it does nothing at all for the
+interrupts which don't go to the external GIC, leaving the
+irq_table[] array element empty for those.  (This will result in
+those interrupts simply being lost, not in a QEMU crash.)
+
+I don't have a reliable datasheet for this SoC, but since we do wire
+up one interrupt line in this category (the HDMI I2C device on
+interrupt 16,1), this seems like it must be a bug in the existing
+QEMU code.  Fill in the irq_table[] entries where we're not splitting
+the IRQ to both the internal combiner and the external GIC with the
+IRQ line of the internal combiner.  (That is, these IRQ lines go to
+just one device, not multiple.)
+
+This bug didn't have any visible guest effects because the only
+implemented device that was affected was the HDMI I2C controller,
+and we never connect any I2C devices to that bus.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220404154658.565020-13-peter.maydell@linaro.org
+Message-id: 20220404154658.565020-14-peter.maydell@linaro.org
 ---
- include/hw/arm/exynos4210.h |  9 ++++++++
- hw/arm/exynos4210.c         | 41 +++++++++++++++++++++++++++++--------
- 2 files changed, 42 insertions(+), 8 deletions(-)
+ hw/arm/exynos4210.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
-index f0769a4045b..f58ee0f2686 100644
---- a/include/hw/arm/exynos4210.h
-+++ b/include/hw/arm/exynos4210.h
-@@ -28,6 +28,7 @@
- #include "hw/sysbus.h"
- #include "hw/cpu/a9mpcore.h"
- #include "hw/intc/exynos4210_gic.h"
-+#include "hw/core/split-irq.h"
- #include "target/arm/cpu-qom.h"
- #include "qom/object.h"
- 
-@@ -71,6 +72,13 @@
- 
- #define EXYNOS4210_NUM_DMA      3
- 
-+/*
-+ * We need one splitter for every external combiner input, plus
-+ * one for every non-zero entry in combiner_grp_to_gic_id[].
-+ * We'll assert in exynos4210_init_board_irqs() if this is wrong.
-+ */
-+#define EXYNOS4210_NUM_SPLITTERS (EXYNOS4210_MAX_EXT_COMBINER_IN_IRQ + 60)
-+
- typedef struct Exynos4210Irq {
-     qemu_irq int_combiner_irq[EXYNOS4210_MAX_INT_COMBINER_IN_IRQ];
-     qemu_irq ext_combiner_irq[EXYNOS4210_MAX_EXT_COMBINER_IN_IRQ];
-@@ -95,6 +103,7 @@ struct Exynos4210State {
-     qemu_or_irq cpu_irq_orgate[EXYNOS4210_NCPUS];
-     A9MPPrivState a9mpcore;
-     Exynos4210GicState ext_gic;
-+    SplitIRQ splitter[EXYNOS4210_NUM_SPLITTERS];
- };
- 
- #define TYPE_EXYNOS4210_SOC "exynos4210"
 diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
-index 86a9a0dae12..919821833b5 100644
+index 919821833b5..a4527f819ef 100644
 --- a/hw/arm/exynos4210.c
 +++ b/hw/arm/exynos4210.c
-@@ -263,6 +263,8 @@ static void exynos4210_init_board_irqs(Exynos4210State *s)
-     uint32_t grp, bit, irq_id, n;
-     Exynos4210Irq *is = &s->irqs;
-     DeviceState *extgicdev = DEVICE(&s->ext_gic);
-+    int splitcount = 0;
-+    DeviceState *splitter;
- 
-     for (n = 0; n < EXYNOS4210_MAX_EXT_COMBINER_IN_IRQ; n++) {
-         irq_id = 0;
-@@ -276,13 +278,19 @@ static void exynos4210_init_board_irqs(Exynos4210State *s)
-             /* MCT_G1 is passed to External and GIC */
-             irq_id = EXT_GIC_ID_MCT_G1;
-         }
-+
-+        assert(splitcount < EXYNOS4210_NUM_SPLITTERS);
-+        splitter = DEVICE(&s->splitter[splitcount]);
-+        qdev_prop_set_uint16(splitter, "num-lines", 2);
-+        qdev_realize(splitter, NULL, &error_abort);
-+        splitcount++;
-+        s->irq_table[n] = qdev_get_gpio_in(splitter, 0);
-+        qdev_connect_gpio_out(splitter, 0, is->int_combiner_irq[n]);
-         if (irq_id) {
--            s->irq_table[n] = qemu_irq_split(is->int_combiner_irq[n],
--                                             qdev_get_gpio_in(extgicdev,
--                                                              irq_id - 32));
-+            qdev_connect_gpio_out(splitter, 1,
-+                                  qdev_get_gpio_in(extgicdev, irq_id - 32));
-         } else {
--            s->irq_table[n] = qemu_irq_split(is->int_combiner_irq[n],
--                    is->ext_combiner_irq[n]);
-+            qdev_connect_gpio_out(splitter, 1, is->ext_combiner_irq[n]);
+@@ -310,6 +310,8 @@ static void exynos4210_init_board_irqs(Exynos4210State *s)
+             qdev_connect_gpio_out(splitter, 0, is->int_combiner_irq[n]);
+             qdev_connect_gpio_out(splitter, 1,
+                                   qdev_get_gpio_in(extgicdev, irq_id - 32));
++        } else {
++            s->irq_table[n] = is->int_combiner_irq[n];
          }
      }
-     for (; n < EXYNOS4210_MAX_INT_COMBINER_IN_IRQ; n++) {
-@@ -293,11 +301,23 @@ static void exynos4210_init_board_irqs(Exynos4210State *s)
-                      EXYNOS4210_MAX_EXT_COMBINER_OUT_IRQ][bit];
- 
-         if (irq_id) {
--            s->irq_table[n] = qemu_irq_split(is->int_combiner_irq[n],
--                                             qdev_get_gpio_in(extgicdev,
--                                                              irq_id - 32));
-+            assert(splitcount < EXYNOS4210_NUM_SPLITTERS);
-+            splitter = DEVICE(&s->splitter[splitcount]);
-+            qdev_prop_set_uint16(splitter, "num-lines", 2);
-+            qdev_realize(splitter, NULL, &error_abort);
-+            splitcount++;
-+            s->irq_table[n] = qdev_get_gpio_in(splitter, 0);
-+            qdev_connect_gpio_out(splitter, 0, is->int_combiner_irq[n]);
-+            qdev_connect_gpio_out(splitter, 1,
-+                                  qdev_get_gpio_in(extgicdev, irq_id - 32));
-         }
-     }
-+    /*
-+     * We check this here to avoid a more obscure assert later when
-+     * qdev_assert_realized_properly() checks that we realized every
-+     * child object we initialized.
-+     */
-+    assert(splitcount == EXYNOS4210_NUM_SPLITTERS);
- }
- 
- /*
-@@ -766,6 +786,11 @@ static void exynos4210_init(Object *obj)
-         object_initialize_child(obj, name, &s->cpu_irq_orgate[i], TYPE_OR_IRQ);
-     }
- 
-+    for (i = 0; i < ARRAY_SIZE(s->splitter); i++) {
-+        g_autofree char *name = g_strdup_printf("irq-splitter%d", i);
-+        object_initialize_child(obj, name, &s->splitter[i], TYPE_SPLIT_IRQ);
-+    }
-+
-     object_initialize_child(obj, "a9mpcore", &s->a9mpcore, TYPE_A9MPCORE_PRIV);
-     object_initialize_child(obj, "ext-gic", &s->ext_gic, TYPE_EXYNOS4210_GIC);
- }
+     /*
 -- 
 2.25.1
 
