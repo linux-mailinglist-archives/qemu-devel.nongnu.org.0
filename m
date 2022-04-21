@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA61509F90
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 14:24:56 +0200 (CEST)
-Received: from localhost ([::1]:44310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F250509FDB
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 14:43:06 +0200 (CEST)
+Received: from localhost ([::1]:38636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhVrj-0005ew-W7
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 08:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43814)
+	id 1nhW9J-0007RN-4w
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 08:43:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nhVnu-0002kW-31; Thu, 21 Apr 2022 08:20:58 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:49191)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhVtZ-0001aw-4A
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 08:26:49 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:45828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nhVnr-0005ZS-DJ; Thu, 21 Apr 2022 08:20:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=g6fePjwJIu7uKmkrQQL+/eH1tsubc6Gw7nyXI8zSugk=; b=bWFF5XoDUD5EturrXXXNXyNlcl
- N5ACHBra24IXxi0CmV0oSwMPCBp8UsTVo2d4CGiNltMAYpYuHqKVaXS7HYLtxS/nrzom41cFSLHLT
- IXoCvEIB95X7+4KUVMk/boezz6nD2cGGSMGRjBRtrGVlzbZ03AuAcQrCttDxyWdJSJo62cPRYyar8
- w5PvwoyGi537FXhAbMSi2XfkvRsc0xyGsPyAIkB7YhSYmk6ZyMygL09QApyVH/fiQmAnQIPXInv4U
- 94tB4/CuPvOsiSLYB15sLNdVxeZqas/vf9+Fdj4UnFBGY1vKtkXH/f3z75D0ZxcmmzBNCn1E8GCN8
- yVqaNyOYU8ehyBcWmL+1/pfbmr8POOSLFS9QEC68rMglFrIpA5FLZ4e3qkdajgI0ezAv+kSZ5rttI
- qvVHIWdlbR8PVE1gFxSRZBinwa4swr3cd/17TS22ApTNInvZWqcC99nCvQTdF1Jg/bvOT+tfffnKI
- F7mKWC4hJEis/4id5018pUyfEpqY5Ujg3OdYGWmBhLRZuysBtOlngoQyLl9G3W2tVatRzPYZkUM1I
- vD3yTJQkQi68z6MgStqPRxqE+CcUf5LKMFIrr6i/RDylRJGhJMf1tcchFpLVAM7NwTPazvgwnpThe
- 9l+EVqze21pK7vVYlov8fIHVYJS5lY3w4s88gPiN4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org, qemu-stable@nongnu.org
-Cc: Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>, 
- Akihiko Odaki <akihiko.odaki@gmail.com>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 4/5] 9pfs: fix wrong errno being sent to Linux client on
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhVtX-0006Yv-5G
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 08:26:48 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629-MaWTReSyO9m-W8eWQ95WRw-1; Thu, 21 Apr 2022 08:26:40 -0400
+X-MC-Unique: MaWTReSyO9m-W8eWQ95WRw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42606185A7B2;
+ Thu, 21 Apr 2022 12:26:40 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 063F3C44AE9;
+ Thu, 21 Apr 2022 12:26:38 +0000 (UTC)
+Date: Thu, 21 Apr 2022 14:26:37 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 5/5] 9pfs: fix removing non-existent POSIX ACL xattr on
  macOS host
-Date: Thu, 21 Apr 2022 14:20:50 +0200
-Message-ID: <2789542.yvXY0umSai@silver>
-In-Reply-To: <20220421134626.52726efa@bahia>
+Message-ID: <20220421142637.3276889a@bahia>
+In-Reply-To: <3589619.MNAgDp08Jg@silver>
 References: <cover.1650370026.git.qemu_oss@crudebyte.com>
- <3250585.T8RbiGE4XJ@silver> <20220421134626.52726efa@bahia>
+ <284de6154d7ad57ac6539a7318aa2364261da105.1650370027.git.qemu_oss@crudebyte.com>
+ <20220421102611.5a2a0564@bahia> <3589619.MNAgDp08Jg@silver>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,169 +65,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 21. April 2022 13:46:26 CEST Greg Kurz wrote:
-> On Thu, 21 Apr 2022 13:13:08 +0200
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Donnerstag, 21. April 2022 12:48:35 CEST Greg Kurz wrote:
-> > > On Tue, 19 Apr 2022 13:41:59 +0200
-> > > 
-> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > Linux and macOS only share some errno definitions with equal macro
-> > > > name and value. In fact most mappings for errno are completely
-> > > > different on the two systems.
-> > > > 
-> > > > This patch converts some important errno values from macOS host to
-> > > > corresponding Linux errno values before eventually sending such error
-> > > > codes along with Tlerror replies (if 9p2000.L is used that is), which
-> > > > fixes a bunch of misbehaviours when running a Linux client on macOS
-> > > > host.
-> > > 
-> > > This even fixes an actual protocol violation :
-> > > 
-> > > lerror -- return error code
-> > > 
-> > > size[4] Rlerror tag[2] ecode[4]
-> > > 
-> > > lerror replaces the reply message used in a successful call. ecode is a
-> > > numerical Linux errno.
-> > > ^^^^^^^^^^^^^^^^^^^^^
-> > > 
-> > > Taken from
-> > > https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
+On Thu, 21 Apr 2022 12:55:24 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+
+> On Donnerstag, 21. April 2022 10:26:11 CEST Greg Kurz wrote:
+> > On Tue, 19 Apr 2022 13:43:30 +0200
 > > 
-> > Again, something to add to the commit log?
-> 
-> IMHO a protocol violation is important enough to be mentioned but
-> I'll leave it to you.
-
-Ok, will do.
-
-> > > > For instance this patch fixes:
-> > > >   mount -t 9p -o posixacl ...
-> > > > 
-> > > > on Linux guest if security_mode=mapped was used for 9p server, which
-> > > > refused to mount successfully, because macOS returned ENOATTR==93
-> > > > when client tried to retrieve POSIX ACL xattrs, because errno 93
-> > > > is defined as EPROTONOSUPPORT==93 on Linux, so Linux client believed
-> > > > that xattrs were not supported by filesystem on host in general.
-> > > > 
-> > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > > ---
-> > > > 
-> > > >  hw/9pfs/9p.c | 27 +++++++++++++++++++++++++++
-> > > >  1 file changed, 27 insertions(+)
-> > > > 
-> > > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > > > index d953035e1c..becc41cbfd 100644
-> > > > --- a/hw/9pfs/9p.c
-> > > > +++ b/hw/9pfs/9p.c
-> > > > @@ -57,6 +57,31 @@ enum {
-> > > > 
-> > > >  P9ARRAY_DEFINE_TYPE(V9fsPath, v9fs_path_free);
-> > > > 
-> > > > +/* Translates errno from host -> Linux if needed */
-> > > > +static int errno_to_dotl(int err) {
-> > > > +#if defined(CONFIG_LINUX)
-> > > > +    /* nothing to translate (Linux -> Linux) */
-> > > > +#elif defined(CONFIG_DARWIN)
-> > > > +    /* translation mandatory for macOS hosts */
-> > > > +    if (err == ENAMETOOLONG) {
-> > > > +        err = 36; /* ==ENAMETOOLONG on Linux */
-> > > > +    } else if (err == ENOTEMPTY) {
-> > > > +        err = 39; /* ==ENOTEMPTY on Linux */
-> > > > +    } else if (err == ELOOP) {
-> > > > +        err = 40; /* ==ELOOP on Linux */
-> > > > +    } else if (err == ENOATTR) {
-> > > > +        err = 61; /* ==ENODATA on Linux */
-> > > > +    } else if (err == ENOTSUP) {
-> > > > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > > > +    } else if (err == EOPNOTSUPP) {
-> > > > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > > > +    }
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > When mapped POSIX ACL is used, we are ignoring errors when trying
+> > > to remove a POSIX ACL xattr that does not exist. On Linux hosts we
+> > > would get ENODATA in such cases, on macOS hosts however we get
+> > > ENOATTR instead, so ignore ENOATTR errors as well.
 > > > 
-> > > I'm assuming you have audited all errnos, right ? Just to be sure
-> > > that this won't bite anymore.
-> > 
-> > Depends on what you mean with "all". Like I wrote in the commit log, for
-> > now I translated in this patch those errnos that I identified as
-> > important, and those are audited by me of course (checked the man pages
-> > for what errors are expected as result from calls on Linux vs. macOS side
-> > and looked up numeric values from header files on both sides, tests).
-> 
-> I was pretty sure you'd have done that at least :-)
-> 
-> > However if you rather mean really all errnos that were ever defined on
-> > Linux and macOS, then the answer is no. That would probably quite some
-> > work, and I'm not sure if you could just try to translate them dry, i.e.
-> > by just looking at the headers or something.
-> 
-> But yes I was rather meaning the full errno set.
-> 
-> > So yes, your concern is justified. The question is, should this all be
-> > translated right now already, or would it be OK to address this minimum
-> > set of errno translation for now (especially for qemu-stable) and then
-> > later address the rest?
-> 
-> My concern is about the maintenance burden of investigating future
-> implementations of this issue, so I'd say it is mostly up to you
-> as the principal maintainer. Maybe leave a FIXME comment in the code
-> that the list of translated errnos isn't exhaustive at least ?
-
-I stick to this minimal approach with FIXME comment then for now. I have 
-tested this patch thoroughly on macOS and did not encounter similar issues. So 
-I think it is good enough as first-aid patch at least.
-
-The aforementioned case-insensitive filesystem issues are a higher priority 
-from my PoV, because they trigger various misbehaviour in my tests.
-
-Best regards,
-Christian Schoenebeck
-
-> > On the long term you would probably import the Linux errno header file
-> > into
-> > the code base, then prefix the individual macros with something like
-> > DOTL_ENODATA, etc. and then use those macros for translating the errnos
-> > instead of using literal numerics, maybe using GCC's designated array
-> > initializers then.
-> 
-> This would make sense indeed since 9p2000.L explicitly mentions the
-> numerical linux errnos.
-> 
-> > > > +#else
-> > > > +#error Missing errno translation to Linux for this host system
-> > > > +#endif
-> > > > +    return err;
-> > > > +}
-> > > > +
+> > > This patch fixes e.g. a command on Linux guest like:
+> > >   cp --preserve=mode old new
 > > > 
-> > > As with the other patch, I'd rather move this magic to 9p-util.h .
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
+> > > 
+> > >  hw/9pfs/9p-posix-acl.c | 8 +++++++-
+> > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/hw/9pfs/9p-posix-acl.c b/hw/9pfs/9p-posix-acl.c
+> > > index eadae270dd..2bf155f941 100644
+> > > --- a/hw/9pfs/9p-posix-acl.c
+> > > +++ b/hw/9pfs/9p-posix-acl.c
+> > > @@ -65,7 +65,13 @@ static int mp_pacl_removexattr(FsContext *ctx,
+> > > 
+> > >      int ret;
+> > >      
+> > >      ret = local_removexattr_nofollow(ctx, path, MAP_ACL_ACCESS);
+> > > 
+> > > -    if (ret == -1 && errno == ENODATA) {
+> > > +    if (ret == -1 &&
+> > > +          (errno == ENODATA
+> > > +#ifdef ENOATTR
+> > > +          || errno == ENOATTR
+> > > +#endif
+> > > +          )
 > > 
-> > Makes sense. There is indeed already too much utility code piled up in
-> > 9p.c.> 
-> > > >  static ssize_t pdu_marshal(V9fsPDU *pdu, size_t offset, const char
-> > > >  *fmt,
-> > > >  ...) {
-> > > >  
-> > > >      ssize_t ret;
-> > > > 
-> > > > @@ -1054,6 +1079,8 @@ static void coroutine_fn pdu_complete(V9fsPDU
-> > > > *pdu,
-> > > > ssize_t len)>
-> > > > 
-> > > >              }
-> > > >              len += ret;
-> > > >              id = P9_RERROR;
-> > > > 
-> > > > +        } else {
-> > > > +            err = errno_to_dotl(err);
-> > > > 
-> > > >          }
-> > > >          
-> > > >          ret = pdu_marshal(pdu, len, "d", err);
+> > We already have this in <qemu/xattr.h> which is included by
+> > 9p-posix-acl.c :
+> > 
+> > /*
+> >  * Modern distributions (e.g. Fedora 15), have no libattr.so, place attr.h
+> >  * in /usr/include/sys, and don't have ENOATTR.
+> >  */
+> > 
+> > 
+> > #ifdef CONFIG_LIBATTR
+> > #  include <attr/xattr.h>
+> > #else
+> > #  if !defined(ENOATTR)
+> > #    define ENOATTR ENODATA
+> > #  endif
+> > #  include <sys/xattr.h>
+> > #endif
+> > 
+> > I guess this patch could just s/ENODATA/ENOATTR/ to avoid the
+> > extra ifdefery.
+> 
+> Not viable, because macOS does have both ENODATA==96 and ENOATTR==93. On Linux 
+> the two macros were historically defined to the same numeric values, that's 
+> why it worked there.
+> 
 
+I was meaning your current fix could simply do:
+
+-    if (ret == -1 && errno == ENODATA) {
++    if (ret == -1 && errno == ENOATTR) {
+
+since ENOATTR works in all cases, but this is rather a hack.
+
+Another solution would be to ensure that local_removexattr_nofollow() only
+reports linux errnos. This could be handled cleanly in the
+fremovexattrat_nofollow() implementation in 9p-util-darwin.c.
+
+Since the 9p code base mostly assumes the host is linux, this should
+probably be generalized to other places where we check errno.
+
+> Maybe I should define a separate macro like:
+> 
+> #if ...
+> # define P9_ENOATTR ENOATTR
+> #else
+> # define P9_ENOATTR ENODATA
+> #end
+> 
+> ?
+> 
+> Actually good that you pointed me at this, because I just realized there is a 
+> 2nd place in 9p-posix-acl.c which would require this as well. For some reason 
+> the 2nd place just did not trigger while I was testing it on macOS.
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
