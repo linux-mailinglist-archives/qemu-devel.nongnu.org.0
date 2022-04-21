@@ -2,141 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B52C50A62A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:49:56 +0200 (CEST)
-Received: from localhost ([::1]:51154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF1650A6E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:18:14 +0200 (CEST)
+Received: from localhost ([::1]:34290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nha0B-0002jl-6K
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:49:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57984)
+	id 1nhaRZ-0001tD-A3
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
- id 1nhZX9-0008Bw-4F
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:19:55 -0400
-Received: from mail-dm3nam07on20623.outbound.protection.outlook.com
- ([2a01:111:f400:7e83::623]:24288
- helo=NAM02-DM3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Wei.Huang2@amd.com>)
- id 1nhZX6-0007k7-Nv
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:19:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mzkAYGOOXFNYw3ynVEELtYrJjMM7hALumANvJWVHL/BZqP0GxYBzvg0ZGLPWVeTQKdDN2cr44yIcq+Dr9g80GxyTkOlNo66HGvZbfYlJqis0b6PTymAnz/MXEKpg7+5VJETB721/Noy+gbvU3bSWPTLt0nfpyZ+vf+ViU+OwZzpRLeMjAcJ/3USC4zpro46qNKpRTLikCOnG4miwv9NFVB2tMxjFIgDqXxh1Rt+ppUlgK2fxdmaA4fgUryZEAgOojvdxeZTfwrjc9kEeSxnoi2mkl7NT6AxvJsbUr0JJzwL5M920dcdmeK35SIhXlT95xP/wgGKd1P8ElHGZUdHPNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2BicovxlPHJQM9UxOAxYq3O9xQVYjEhRJHFizXWDOh0=;
- b=NeuHHAECsE527SPmPKdQG24qWD4rPXC6mIYF4FX4xVT/NgF38da6gJXo31noi6mAR56/X1/N7eGKuZWdBgRthIHDhfnUI6tWs4+/9RdQD91Hv1DnvA3J2hyicNqW4L3V/BGsqkp47tXxhftWIo59GcSWfV/bmwA0MnY9n7TijpZLHcXE1p+9GBw0l8L9XrswWK2hC04QJOUkXp2X4QcXhhbmWGJanyX2g1cwKJMJUUBqjfz9c+crIoJyvoqN9KwFAq5ZaE+Z8bYfNGlgmmp2Yyg3XTF/jFOa/ea3M94/u6f78UQg/R410ZVB+BSMLUKSCxnOBKl+UWAbv/602seIOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2BicovxlPHJQM9UxOAxYq3O9xQVYjEhRJHFizXWDOh0=;
- b=lf+DNm3veLaw4tLppAwh57WK2jRtApPSa2wsSh8ZqewXglsBYx3JwzILtWtFmJS9LuqfcvMxw+mD+DBlQMmFqzj1ymJAyBGH1UKaUph0Wdz8bC+P2Ou9vAEq47ZuAntbnoj/I07YliQoOpdGxuML3QIQ1zbDyjugVCxJr3STCCQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR1201MB0201.namprd12.prod.outlook.com (2603:10b6:4:5b::21)
- by CY4PR12MB1414.namprd12.prod.outlook.com (2603:10b6:903:3a::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Thu, 21 Apr
- 2022 16:19:49 +0000
-Received: from DM5PR1201MB0201.namprd12.prod.outlook.com
- ([fe80::c879:a990:eb53:321f]) by DM5PR1201MB0201.namprd12.prod.outlook.com
- ([fe80::c879:a990:eb53:321f%9]) with mapi id 15.20.5186.014; Thu, 21 Apr 2022
- 16:19:49 +0000
-Message-ID: <6ee010fe-bfdc-4c05-28ab-8b3faa63e05e@amd.com>
-Date: Thu, 21 Apr 2022 11:19:45 -0500
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhZbp-0000xo-1v
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:24:46 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhZbn-0008W0-5U
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:24:44 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id bx5so5402269pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=FgXQg07eSEHfq1rJ4gZrDbrZX/KxzGhnLdcN7bvIji8=;
+ b=L2SrzKsdroWnZOupN+Bfyn8n3n+cSUN+HzyAv308g77d2WMLJGHVN9VbQh744Fplc3
+ Rd1FmSXNBq3JDXMbRMQXIDU//0zWJa/q5CqXSs14FASdNpZE7P6RHOmOqShfOoV/Tued
+ nc3TLJNbZBO6gx9h6ZIXAHHvfsY8YB9I5yfn7qq6R3oGYgq47FnHvXr9F9C5Vz1Y/cRr
+ FMdOKoODQLhiuby3Q5HOpmmhnxCdS3W9JkQsIH9wFTMpJzNld61FkipIT5etgm/jml2X
+ oouzSLcdwyC3rbiUm7wtcfrI/VOwLBdYkIfLCMWHpHMmg3rP611tD7zAt6WBRPVBuKVA
+ wJWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FgXQg07eSEHfq1rJ4gZrDbrZX/KxzGhnLdcN7bvIji8=;
+ b=Ae7HLA5rabgmAEg3FBLEfiDYn2Txfu2gKABOie7z5F9wzkk7E6nd6lV4epvrBtJx42
+ CijiZxlr6b0Dn9FJUHwQFis+zrGtZQL8Ep8OyMEYk6AMOBxsbns9wtTK+wwsqsliomiG
+ R0nvTh8KIx5sbigrtwSiqhAaJPg50HOJ/WePPPvmWR5+fJSk6vY+wyO/Xo7BaDtUVUup
+ D6DUN4du/qsLpp+gdvKy1cK9qffMVb/P9/9kw8q74pFpPOSOv/L4M1VMp+zFovURINM/
+ /QkuC2ScETIRWBEY9XMnPFfe6Jp2HJJUatCozjyOyid+HGtVTyV9P1HxvPw/+Hq5CAJo
+ tIyQ==
+X-Gm-Message-State: AOAM532Jo9iryp2s7CZp96bzChvyXu5w+j4+Dhb4TNjPaA8XwxUoEUwK
+ lbxVPLrEDkkY0hAEnLuEeFjQFg==
+X-Google-Smtp-Source: ABdhPJyjBn4roh5bvVmFHxwL6hiExVaOqRd8wwWwMwZOCPn+tLKeTILjGfWsdX0wyVq3zRn6wWoTHA==
+X-Received: by 2002:a17:902:7618:b0:156:509b:68df with SMTP id
+ k24-20020a170902761800b00156509b68dfmr77416pll.1.1650558281689; 
+ Thu, 21 Apr 2022 09:24:41 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:80c1:f8a5:f943:dd58:6af1:9fda?
+ ([2607:fb90:80c1:f8a5:f943:dd58:6af1:9fda])
+ by smtp.gmail.com with ESMTPSA id
+ u3-20020a17090a6a8300b001d7761ee6fcsm601405pjj.3.2022.04.21.09.24.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Apr 2022 09:24:40 -0700 (PDT)
+Message-ID: <9d93dfcf-a9fb-1a57-f8e9-8fb5e7d9442c@linaro.org>
+Date: Thu, 21 Apr 2022 09:24:35 -0700
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 1/1] hw/i386/amd_iommu: Fix IOMMU event log encoding errors
+ Thunderbird/91.8.0
+Subject: Re: [PULL 00/31] target-arm queue
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, richard.henderson@linaro.org, 
- eduardo@habkost.net, mst@redhat.com, marcel.apfelbaum@gmail.com,
- jasowang@redhat.com, peterx@redhat.com, Suravee.Suthikulpanit@amd.com
-References: <20220421160118.2386364-1-wei.huang2@amd.com>
- <CAFEAcA9MLba1b=ZPeWkRqp4nE3dZUJ7q73MALeSHXdsOUnrjug@mail.gmail.com>
-From: Wei Huang <wei.huang2@amd.com>
-In-Reply-To: <CAFEAcA9MLba1b=ZPeWkRqp4nE3dZUJ7q73MALeSHXdsOUnrjug@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20220421111846.2011565-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220421111846.2011565-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0P220CA0005.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:610:ef::8) To DM5PR1201MB0201.namprd12.prod.outlook.com
- (2603:10b6:4:5b::21)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5e0d70ec-6601-4e35-31fd-08da23b2c1f1
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1414:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR12MB141401C9D5C4B079414EC767CFF49@CY4PR12MB1414.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qVreZLmOlGGxUNHsbuqngg7u54cTiFk1MIAdt9HEOcYLOMdNodPnxYIgzrrhb2rR1CH8Co03W5NFR4YWG86bMTptH/mcYSVa5kaOf6afwuPvKiGNgawayVE98j4jUOXPIgFpR5ePyrtvm+dks2RlOrFqWoTHFm6RWzmPomBY1nKhMJ3xC7Dr3L+LZ8J6royDbNTHvtKk6RUd6h1nWjzD4O3X0uAa6EyCVyj5C6ytWR69iYpsgoOE/GagMtBOwmSNz1+9ab05SHaqWqwHfA7M5TFJM+mQWXhmIAK/NCNmObGKFjI6tSlHF9f+RI19fZHXi4XvImu2M0WRjLKZPAMLw8UOiZkWxfhH2MCyzD5BG4qhmjjCrjF+isBbUuUKt/Yx1JyT4L5WGmpCnEtrDW5k++J3fDi4QQZh8lcn2YnvT4K6LuWmS2wwyvUdgZbyyIRIKB/vmvCmpROP9TrkLBghx5LJTVk7pfWaZZ6xl6UO+/cbHfoityFe1GGonheonro+/5wG82qC3sGfF10Mxoa6WScWAgM0mjmkVlvEUS9H1LIJzDapNvU0Lp686Cidp+rjkdnbYkVLilLfR/l/Z0FTwvELCDDuv+Yj1WgWUDrVL5RRCe0k+bRZQR2euxYY1D94wXOdUUw/PMtRsOUaVqXorWW3ZhhD+PIABl7mm8Q91kn+hUX4qZXx0cBzFLzf1NxTSSqK4NMeATm8YwxQOAV6UpuHvOHjVd55UiEVn+8AauQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR1201MB0201.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(66556008)(38100700002)(4326008)(36756003)(8676002)(66476007)(6666004)(6916009)(2616005)(26005)(66946007)(6486002)(508600001)(6512007)(83380400001)(316002)(31696002)(53546011)(2906002)(6506007)(31686004)(186003)(5660300002)(86362001)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OVF5UHkwVk1lN0JPK21yYUNWT2N1bERRNkJYL3R3M1ExZVVnSmxPMHpVN2NE?=
- =?utf-8?B?TUh3bDFMRERqWnlPV0t2bVV5eWp6aUd6UFgvZCtYTEtFQWdiL1VDSXgrem5E?=
- =?utf-8?B?UzBaRkx5RUZjY3VZYW5sOUNlRUlvaEpHb2taNks4ZGc2RUR4MmkzM3o1S3h6?=
- =?utf-8?B?cm5PYk5OSTYzSEZDNVJnalBaZlZkZzVlUERZWGw5YlovTG5oL0hVa0taU1JN?=
- =?utf-8?B?MFpqOTNnSm53N3VWdGp0S25HemRobHhtbTY1YzFQRkdaWkpwVmJmQUswZ2Q1?=
- =?utf-8?B?TFQrZXU1dzdIR1VVdHgwSWlEcmdVYzRmYkJSWWxLS2gxaVUrWmtrV0NvT0xr?=
- =?utf-8?B?NnkyMFk0T0pEblE4Njl2QW4yc3JsZVozZjRiVy9QMVRrSENVSXl3ZVlxNkJt?=
- =?utf-8?B?N1BUMjlKTnVOU05lSzJzSEdZbzNvbk5BcXNQM1MzL0owRGZia2NqbTdlN09q?=
- =?utf-8?B?cEVyUjVzSU13QjZaTDdjU2hzb1hUakhFTUdKRk5NekR5SGh4WE0yeUc2VitP?=
- =?utf-8?B?aXZZMnJSVng2Z0tsQlpxemRqeVI4M2pxcVBUZC83eGZQSkw5ODBMWlM5R3lX?=
- =?utf-8?B?YzZPQkRDU0RQSmxYYld0dmYzdk1hbnlXRC9HMFpvRG4vRjhMcHhVQ0U0U2Zl?=
- =?utf-8?B?cHBpQVUyMjVwODRIV01WNjlVYkg5Y1FiNzFlU0U3ME8rU056QUg3bTd0MVNh?=
- =?utf-8?B?cE5ZRGEwb2gxMCtnbEFWU0JUSmpocVZPMWZZZDBTZ2RqUGpGTnRqTFA4WldP?=
- =?utf-8?B?SURFN096RDUvcmhub1VZVDhFUHhVVjVGakZsYVZiYmhnY1cxK3lqcnluT0oz?=
- =?utf-8?B?VE9oemxmaDJ2RDJwNWl0SXVNRVZLSzNrc0pWUGk4ajdYU3ZPRUI5akJDc3da?=
- =?utf-8?B?TVhNTVRSWGxyOElwN2p6ODRZR2ZXNytZa3hONEtteTBsdUlZc0JRQjUzRDRW?=
- =?utf-8?B?c3hnbnNYenU3bjdUNU5ldUNtbUVZMnVSUXBzVkk5MUpNaHpMajlwVlpRck01?=
- =?utf-8?B?amVHWmUxNzZLVDhKQUpzQzRZNGhRNDVNQzJmeUIvNUVFSEN6SnRlQUMxSmVH?=
- =?utf-8?B?WWhUaEozRWIxZDM4bkdZb1U3STdwcUxIV25TV04wTUViN3k3MUpkY2ErVEF1?=
- =?utf-8?B?QS90LzBkekh3Sm9Vc09Sbk9pbVJxYlE0bGpHK1ZGL3YxQjRaK3F4U2ZjeTRO?=
- =?utf-8?B?cEhZemhyNnJlRi9EeXJ0VlYzQ1FHcWlJK25ZbnVFYkwycGIwTnhIM0JvR0hz?=
- =?utf-8?B?VXEwZ3lqbG9LM0R0d1ZiZWxjaVFzZUZXZ1UwelFYYVcyOVhhVU1Dam9nSGdX?=
- =?utf-8?B?eXhyOHZIVWM3UCtqWlVXQklVa25GVEZDMjdsTUVuYndmQ3gzMUJTQW1vdWto?=
- =?utf-8?B?Y2s2MWlhUFNvU2hKOE5SUnRYYzhMd0FqSTM0MGQvL2dUamFwTks4b1dkd0lz?=
- =?utf-8?B?YVd0bC9iRnRQNEdCTFpkTjlXQ0I4RFdBVzJwUmo0ZFh1RzV4cXlHN1dMWjBl?=
- =?utf-8?B?dDVHanFJTFhuUE5xcWZITXV4TDRLWG9vZ21mZFVnNHhSQjZsYThLOTZRc285?=
- =?utf-8?B?SSswZ2pVT0RxSFFXdzlEVmFFR1lHcEQ3Q1V2QS82dmwyTVVoTkk4cjVjWXVn?=
- =?utf-8?B?am9sLzFUbWF1NVhNamZhaUpZbUZlSEcwR0ZON21YRklSRWM1UFlTaVZ3bkF6?=
- =?utf-8?B?ZXRkeWd5K1pBWnN4NUpiY3phLzZoTDNiNEFZWmg0V0I2Qk5PRElWeEpwUUlR?=
- =?utf-8?B?Mk14OXJoc3E0MHZUd3hNWC9wQUhHT2ZvbkZXVk1GejlyN3lJaWRzWm83MWhn?=
- =?utf-8?B?Z0svYWZvYzdCSHQ1SEQ0N2loRDdtYXpkdmovMkRVcERLejgxL012OUlPRG8w?=
- =?utf-8?B?V1B0cm43Q3hseUV6bUZtTEs2eXZ5bk1MVVhyOHhpM0tPdWlkMlZYS21FRTZS?=
- =?utf-8?B?QWpBak52eU5JZU1zNnVqSjloTGdLaEFBakFPQjFnb3NuMkJnOWZkZ2ZERU9O?=
- =?utf-8?B?QlVCclJHbHVOTTRRd29ScGxwemE3K3FySDl0ZmE5WVA4UFJFVzZIeUxPOXJE?=
- =?utf-8?B?ZlpyVWY2VmQ0bG5DWkxWTExmTEZUalU2andLMkp5YWttU29YWldsdGdlWmk2?=
- =?utf-8?B?ei9iY3phOXlhN1Rkd0Z4a0ZkN3ZkVTltQjJ6ZTNBYXdESzhETXh5V2hTUzBU?=
- =?utf-8?B?OG9zR29Db0pCWHJPeHdDWjllZTVKNU5vdUV4MlFFMjU3T25KSkt6aml5Zy9n?=
- =?utf-8?B?NDQ4bEV1MXBZa2w5SHVPdFozMklIKzFYWmVmSnpiQ2hiZ1BDTzBJUWdyRVRS?=
- =?utf-8?B?eCtCZWRjOEdudG9wRUcxb3BsQzhxM2JmcmlWazBUSUVUNmNYWW9JZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e0d70ec-6601-4e35-31fd-08da23b2c1f1
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR1201MB0201.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2022 16:19:49.3181 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /2joDW5eB3dssDMwk2zD2+pVY+lJ66fktyHtf2LrulOQhxP7Pe/FDoOtVoxZ8W9j
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1414
-Received-SPF: softfail client-ip=2a01:111:f400:7e83::623;
- envelope-from=Wei.Huang2@amd.com;
- helo=NAM02-DM3-obe.outbound.protection.outlook.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -153,54 +92,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 4/21/22 11:08, Peter Maydell wrote:
-> On Thu, 21 Apr 2022 at 17:01, Wei Huang <wei.huang2@amd.com> wrote:
->>
->> Coverity issues several UNINIT warnings against AMD IOMMU device [1]. This
->> patch fixes them by initializing the variables. On top of it, this patch
->> changes the event log size to 16 bytes per IOMMU specification. Also the
->> event encoding function incorrectly defines the format of event log entry,
->> which is also fixed.
->>
->> [1] CID 1487116/1487200/1487190/1487232/1487115/1487258
->>
->> Reported-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Wei Huang <wei.huang2@amd.com>
->> ---
->>   hw/i386/amd_iommu.c | 17 +++++++++--------
->>   1 file changed, 9 insertions(+), 8 deletions(-)
->>
->> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
->> index ea8eaeb330b6..0f7f8929a687 100644
->> --- a/hw/i386/amd_iommu.c
->> +++ b/hw/i386/amd_iommu.c
->> @@ -208,8 +208,8 @@ static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
->>                                  uint16_t info)
->>   {
->>       amdvi_setevent_bits(evt, devid, 0, 16);
->> -    amdvi_setevent_bits(evt, info, 55, 8);
->> -    amdvi_setevent_bits(evt, addr, 63, 64);
->> +    amdvi_setevent_bits(evt, info, 48, 16);
->> +    amdvi_setevent_bits(evt, addr, 64, 64);
+On 4/21/22 04:18, Peter Maydell wrote:
+> First arm pullreq for 7.1. The bulk of this is the qemu_split_irq
+> removal.
 > 
-> There's a comment just above this function which also needs updating.
-
-Will do.
-
-> 
-> Would it be better to have this function start with
->    evt[0] = 0;
->    evt[1] = 0;
-> 
-> rather than requiring every caller to zero-initialize the buffer?
-
-Assuming that Coverity is smart enough to poke one function further for 
-checking UNINIT, I will fix it in the next spin. I will send another rev 
-later today.
-
+> I have enough stuff in my to-review queue that I expect to do another
+> pullreq early next week, but 31 patches is enough to not hang on to.
 > 
 > thanks
 > -- PMM
+> 
+> The following changes since commit 9c125d17e9402c232c46610802e5931b3639d77b:
+> 
+>    Merge tag 'pull-tcg-20220420' of https://gitlab.com/rth7680/qemu into staging (2022-04-20 16:43:11 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220421
+> 
+> for you to fetch changes up to 5b415dd61bdbf61fb4be0e9f1a7172b8bce682c6:
+> 
+>    hw/arm: Use bit fields for NPCM7XX PWRON STRAPs (2022-04-21 11:37:05 +0100)
+> 
+> ----------------------------------------------------------------
+> target-arm queue:
+>   * hw/arm/virt: Check for attempt to use TrustZone with KVM or HVF
+>   * versal: Add the Cortex-R5s in the Real-Time Processing Unit (RPU) subsystem
+>   * versal: model enough of the Clock/Reset Low-power domain (CRL) to allow control of the Cortex-R5s
+>   * xlnx-zynqmp: Connect 4 TTC timers
+>   * exynos4210: Refactor GIC/combiner code to stop using qemu_split_irq
+>   * realview: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+>   * stellaris: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+>   * hw/core/irq: remove unused 'qemu_irq_split' function
+>   * npcm7xx: use symbolic constants for PWRON STRAP bit fields
+>   * virt: document impact of gic-version on max CPUs
+
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+
+
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Edgar E. Iglesias (6):
+>        timer: cadence_ttc: Break out header file to allow embedding
+>        hw/arm/xlnx-zynqmp: Connect 4 TTC timers
+>        hw/arm: versal: Create an APU CPU Cluster
+>        hw/arm: versal: Add the Cortex-R5Fs
+>        hw/misc: Add a model of the Xilinx Versal CRL
+>        hw/arm: versal: Connect the CRL
+> 
+> Hao Wu (2):
+>        hw/misc: Add PWRON STRAP bit fields in GCR module
+>        hw/arm: Use bit fields for NPCM7XX PWRON STRAPs
+> 
+> Heinrich Schuchardt (1):
+>        hw/arm/virt: impact of gic-version on max CPUs
+> 
+> Peter Maydell (19):
+>        hw/arm/virt: Check for attempt to use TrustZone with KVM or HVF
+>        hw/arm/exynos4210: Use TYPE_OR_IRQ instead of custom OR-gate device
+>        hw/intc/exynos4210_gic: Remove unused TYPE_EXYNOS4210_IRQ_GATE
+>        hw/arm/exynos4210: Put a9mpcore device into state struct
+>        hw/arm/exynos4210: Drop int_gic_irq[] from Exynos4210Irq struct
+>        hw/arm/exynos4210: Coalesce board_irqs and irq_table
+>        hw/arm/exynos4210: Fix code style nit in combiner_grp_to_gic_id[]
+>        hw/arm/exynos4210: Move exynos4210_init_board_irqs() into exynos4210.c
+>        hw/arm/exynos4210: Put external GIC into state struct
+>        hw/arm/exynos4210: Drop ext_gic_irq[] from Exynos4210Irq struct
+>        hw/arm/exynos4210: Move exynos4210_combiner_get_gpioin() into exynos4210.c
+>        hw/arm/exynos4210: Delete unused macro definitions
+>        hw/arm/exynos4210: Use TYPE_SPLIT_IRQ in exynos4210_init_board_irqs()
+>        hw/arm/exynos4210: Fill in irq_table[] for internal-combiner-only IRQ lines
+>        hw/arm/exynos4210: Connect MCT_G0 and MCT_G1 to both combiners
+>        hw/arm/exynos4210: Don't connect multiple lines to external GIC inputs
+>        hw/arm/exynos4210: Fold combiner splits into exynos4210_init_board_irqs()
+>        hw/arm/exynos4210: Put combiners into state struct
+>        hw/arm/exynos4210: Drop Exynos4210Irq struct
+> 
+> Zongyuan Li (3):
+>        hw/arm/realview: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+>        hw/arm/stellaris: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+>        hw/core/irq: remove unused 'qemu_irq_split' function
+> 
+>   docs/system/arm/virt.rst              |   4 +-
+>   include/hw/arm/exynos4210.h           |  50 ++--
+>   include/hw/arm/xlnx-versal.h          |  16 ++
+>   include/hw/arm/xlnx-zynqmp.h          |   4 +
+>   include/hw/intc/exynos4210_combiner.h |  57 +++++
+>   include/hw/intc/exynos4210_gic.h      |  43 ++++
+>   include/hw/irq.h                      |   5 -
+>   include/hw/misc/npcm7xx_gcr.h         |  30 +++
+>   include/hw/misc/xlnx-versal-crl.h     | 235 +++++++++++++++++++
+>   include/hw/timer/cadence_ttc.h        |  54 +++++
+>   hw/arm/exynos4210.c                   | 430 ++++++++++++++++++++++++++++++----
+>   hw/arm/npcm7xx_boards.c               |  24 +-
+>   hw/arm/realview.c                     |  33 ++-
+>   hw/arm/stellaris.c                    |  15 +-
+>   hw/arm/virt.c                         |   7 +
+>   hw/arm/xlnx-versal-virt.c             |   6 +-
+>   hw/arm/xlnx-versal.c                  |  99 +++++++-
+>   hw/arm/xlnx-zynqmp.c                  |  22 ++
+>   hw/core/irq.c                         |  15 --
+>   hw/intc/exynos4210_combiner.c         | 108 +--------
+>   hw/intc/exynos4210_gic.c              | 344 +--------------------------
+>   hw/misc/xlnx-versal-crl.c             | 421 +++++++++++++++++++++++++++++++++
+>   hw/timer/cadence_ttc.c                |  32 +--
+>   MAINTAINERS                           |   2 +-
+>   hw/misc/meson.build                   |   1 +
+>   25 files changed, 1457 insertions(+), 600 deletions(-)
+>   create mode 100644 include/hw/intc/exynos4210_combiner.h
+>   create mode 100644 include/hw/intc/exynos4210_gic.h
+>   create mode 100644 include/hw/misc/xlnx-versal-crl.h
+>   create mode 100644 include/hw/timer/cadence_ttc.h
+>   create mode 100644 hw/misc/xlnx-versal-crl.c
+> 
+
 
