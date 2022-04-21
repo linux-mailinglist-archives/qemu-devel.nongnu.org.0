@@ -2,56 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D0A509974
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:47:59 +0200 (CEST)
-Received: from localhost ([::1]:44014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6403509A03
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:58:59 +0200 (CEST)
+Received: from localhost ([::1]:35056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhRXe-0000tm-Lb
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:47:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33186)
+	id 1nhRiN-0006Ng-1x
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhRHQ-0001jr-1r
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 03:31:09 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:42487)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1nhRLV-0005oh-Os
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 03:35:22 -0400
+Received: from mga02.intel.com ([134.134.136.20]:61327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhRHN-00070u-MA
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 03:31:07 -0400
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-Ez8d8KZ5OyaqbZXonerkAQ-1; Thu, 21 Apr 2022 03:30:59 -0400
-X-MC-Unique: Ez8d8KZ5OyaqbZXonerkAQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D967802803;
- Thu, 21 Apr 2022 07:30:58 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B646111E3E9;
- Thu, 21 Apr 2022 07:30:57 +0000 (UTC)
-Date: Thu, 21 Apr 2022 09:30:56 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 3/5] 9pfs: fix wrong encoding of rdev field in Rgetattr
- on macOS
-Message-ID: <20220421093056.5ab1e7ed@bahia>
-In-Reply-To: <9db9268aac4eb87e1471ab8240109c7c29be3bef.1650370027.git.qemu_oss@crudebyte.com>
-References: <cover.1650370026.git.qemu_oss@crudebyte.com>
- <9db9268aac4eb87e1471ab8240109c7c29be3bef.1650370027.git.qemu_oss@crudebyte.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1nhRLS-0007Vh-Gt
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 03:35:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650526518; x=1682062518;
+ h=from:to:cc:subject:date:message-id;
+ bh=RYpKhYSMq8eLjdVzyNHf0E3ErJBgLIYFUFJXCz7oYy0=;
+ b=nrcAMoeIq3UxkmmpzeNK+24wdAWfvNM5BjnhxHtVtJ77MA7VbWMTYGH4
+ O9aZo3Kr+cfC2HMxGOGcjekDWHLWCXPXCrpoC3tLW5KNDkaZ97vuX+fSg
+ kFgZS0VoqzyZ4ITLs3Q5yCHwmC1HalYv/4H+ERID5PK6UOWe4IaKsIluH
+ M541VXBOpoAwTmbtDRb0OeWDQJhcvEjvSDR18niXn2IjbIaUYjAItNaQJ
+ ihCEXZuRvW7r9zk/9oPOOCmWGs9wdoLNM3OMN1Gam7aVN87bDU7/ydXs3
+ Uat7ISeELK27JnFYrxB6n6oKnMZSYnobS5UlS8Ds/zJkG1c9KJ62TTFfc w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="251582544"
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="251582544"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 00:35:14 -0700
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="530155117"
+Received: from chenyi-pc.sh.intel.com ([10.239.159.73])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 00:35:12 -0700
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: [PATCH v3 0/3] Enable notify VM exit
+Date: Thu, 21 Apr 2022 15:40:25 +0800
+Message-Id: <20220421074028.18196-1-chenyi.qiang@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=chenyi.qiang@intel.com; helo=mga02.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,102 +71,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Apr 2022 13:41:15 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Notify VM exit is introduced to mitigate the potential DOS attach from
+malicious VM. This series is the userspace part to enable this feature
+through a new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT. The detailed
+info can be seen in Patch 3.
 
-> The 'rdev' field in 9p reponse 'Rgetattr' is of type dev_t,
-> which is actually a system dependant type and therefore both the
-> size and encoding of dev_t differ between macOS and Linux.
-> 
-> So far we have sent 'rdev' to guest in host's dev_t format as-is,
-> which caused devices to appear with wrong device numbers on
-> guests running on macOS hosts, eventually leading to various
-> misbehaviours on guest in conjunction with device files.
-> 
-> This patch fixes this issue by converting the device number from
-> host's dev_t format to Linux dev_t format. As 9p request
-> 'Tgettattr' is exclusive to protocol version 9p2000.L, it should
-> be fair to assume that 'rdev' field is assumed to be in Linux dev_t
-> format by client as well.
-> 
+The corresponding KVM patches are avaiable at:
+https://lore.kernel.org/lkml/20220421072958.16375-1-chenyi.qiang@intel.com/
 
-For the sake of accuracy : this is converting the host's dev_t to glibc's
-format (MMMM_Mmmm_mmmM_MMmm, 64 bits) actually, which is compatible with
-linux's format (mmmM_MMmm, 32 bits), as described in <bits/sysmacros.h>.
+---
+Change logs:
+v2 -> v3
+- Extend the argument to include both the notify window and some flags
+  when enabling KVM_CAP_X86_BUS_LOCK_EXIT CAP.
+- Change to use KVM_VCPUEVENTS_VALID_TRIPLE_FAULT in flags field and add
+  pending_triple_fault field in struct kvm_vcpu_events.
+- v2: https://lore.kernel.org/qemu-devel/20220318082934.25030-1-chenyi.qiang@intel.com/
 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->  hw/9pfs/9p.c | 37 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 36 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 225f31fc31..d953035e1c 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -1318,6 +1318,41 @@ static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat *stbuf)
->      return blksize_to_iounit(pdu, stbuf->st_blksize);
->  }
->  
-> +#if !defined(CONFIG_LINUX)
-> +
-> +/*
-> + * Generates a Linux device number (a.k.a. dev_t) for given device major
-> + * and minor numbers.
-> + */
-> +static uint64_t makedev_dotl(uint32_t dev_major, uint32_t dev_minor)
-> +{
-> +    uint64_t dev;
-> +
-> +    // from glibc sysmacros.h:
-> +    dev  = (((uint64_t) (dev_major & 0x00000fffu)) <<  8);
-> +    dev |= (((uint64_t) (dev_major & 0xfffff000u)) << 32);
-> +    dev |= (((uint64_t) (dev_minor & 0x000000ffu)) <<  0);
-> +    dev |= (((uint64_t) (dev_minor & 0xffffff00u)) << 12);
-> +    return dev;
-> +}
-> +
-> +#endif
-> +
-> +/*
-> + * Converts given device number from host's device number format to Linux
-> + * device number format. As both the size of type dev_t and encoding of
-> + * dev_t is system dependant, we have to convert them for Linux guests if
-> + * host is not running Linux.
-> + */
-> +static uint64_t host_dev_to_dotl_dev(dev_t dev)
-> +{
-> +#ifdef CONFIG_LINUX
-> +    return dev;
-> +#else
-> +    return makedev_dotl(major(dev), minor(dev));
-> +#endif
-> +}
-> +
+v1 -> v2
+- Add some commit message to explain why we disable Notify VM exit by default.
+- Rename KVM_VCPUEVENT_SHUTDOWN to KVM_VCPUEVENT_TRIPLE_FAULT.
+- Do the corresponding change to use the KVM_VCPUEVENTS_TRIPLE_FAULT
+  to save/restore the triple fault event to avoid lose some synthesized
+  triple fault from KVM.
+- v1: https://lore.kernel.org/qemu-devel/20220310090205.10645-1-chenyi.qiang@intel.com/
 
-It is a bit unfortunate to inflate 9p.c, which is large enough, with
-glue code. Even if they are only used here, I'd personally put them
-in 9p-util.h. No big deal.
+---
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Chenyi Qiang (3):
+  linux-header: update linux header
+  i386: kvm: Save&restore triple fault event
+  i386: Add notify VM exit support
 
->  static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
->                                  V9fsStatDotl *v9lstat)
->  {
-> @@ -1327,7 +1362,7 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
->      v9lstat->st_nlink = stbuf->st_nlink;
->      v9lstat->st_uid = stbuf->st_uid;
->      v9lstat->st_gid = stbuf->st_gid;
-> -    v9lstat->st_rdev = stbuf->st_rdev;
-> +    v9lstat->st_rdev = host_dev_to_dotl_dev(stbuf->st_rdev);
->      v9lstat->st_size = stbuf->st_size;
->      v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
->      v9lstat->st_blocks = stbuf->st_blocks;
+ hw/i386/x86.c               | 45 ++++++++++++++++++++++++
+ include/hw/i386/x86.h       |  5 +++
+ linux-headers/asm-x86/kvm.h |  4 ++-
+ linux-headers/linux/kvm.h   | 10 ++++++
+ target/i386/cpu.c           |  1 +
+ target/i386/cpu.h           |  1 +
+ target/i386/kvm/kvm.c       | 70 ++++++++++++++++++++++++++-----------
+ 7 files changed, 114 insertions(+), 22 deletions(-)
+
+-- 
+2.17.1
 
 
