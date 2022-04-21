@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A526250A730
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:33:25 +0200 (CEST)
-Received: from localhost ([::1]:49480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB7E50A783
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:56:21 +0200 (CEST)
+Received: from localhost ([::1]:57144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhagG-0003qA-NL
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:33:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
+	id 1nhb2S-0004cS-Ps
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhaeO-0000Eu-E7
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:31:28 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:54173)
+ id 1nhaeP-0000Kw-L9
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:31:29 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:39769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhaeM-0002vu-Jn
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:31:28 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id bx5so5570555pjb.3
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 10:31:26 -0700 (PDT)
+ id 1nhaeO-0002w8-4A
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:31:29 -0400
+Received: by mail-pf1-x435.google.com with SMTP id l127so5627933pfl.6
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 10:31:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OmK70uiREJ2EhU4Lvb4b2S9qA2vGg02nV1Dgbo7HTZ4=;
- b=NW1/SYwpjh52t+Nj2ETfEJo05opBXq1DI+yxhb/jC9OlLBH80QgWOXIRQaYaZO3RQp
- GE2FH0uL1L7ZlMKBNCwzWSreYwS4DC1F3zqZ0MeUjM8w81f4DziWc0RUVMiTaL+UgAE1
- OP0zJM6gEI6jCyeoZ9dUNUMzM/REJ751kmuDk/QqYTQVAn16BpNxVkNErokYxHJem2+Q
- fMqXSCh4vpkhft7bxPZvBYNWhFnxCoblYjV5/wGEjzFfiitujZrrNNGtMGzInIuhuiQu
- wmT+F50k5Qf+hGCtfxzpsarxASKJOALcBbTdK6ma3FQD50Fah7/7Yy/k6xUe2i9XriCq
- n74w==
+ bh=uMjdlRZKRqMc37bzmt8n/trfJ/doq01lE7A/5TWhGjQ=;
+ b=SnsXwAjR8po/j1UyFsXKu3Td/TSMDzsa+zsZgQwW8hHzSvBz8Yk/M3HULwcPM/qP0i
+ L0Be0F+386Zp07GW/tRxkhHe9rR7r22t5qrCRRW2mv4A45lIsz+/N/3e0jT3DA9DFte1
+ 1jCWDDFAdw9CTsV00xC1v4B3t3Pfxz+O14J9lATIgatgcxx3cIed19jj3akTgLo+c6Ch
+ YDfHJ9+gQtVTmA+L5vMkuN3JgilEfQGvQruaGZ/jy8QKlP3AVYbmczzzdnpm6kVF48Ab
+ w928ijZlw4U4HwB4jaWjp4cOIWXwzuEI/NLGPtWM6Pk5SxcbOkB9CNWvpfgNcGxTyA3t
+ cyIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OmK70uiREJ2EhU4Lvb4b2S9qA2vGg02nV1Dgbo7HTZ4=;
- b=7PIwZSlf/1yMy0ktpOBOr4c6qlkAKgfMWwtpHhrXvTIsIw+Nhg9/U66+4hvQdflQCO
- r/d+AVMcYl9PVTD/vMVgB0oayMb5ytNoZY5eC4Hvidik+/uwlhqfVGnhqZwbmJqJXrl7
- s0oFDn4mQ0w0lkug5v+W7DxMJR1BQgHEiq46wehtiW2TMh9LBmwFBvNzFw1eMEvZql9O
- +zEGfHgKdZykMbbUF0C3b7FgzXdvh9mjJcRyvqIia61F+Py9QO4EWnNH8OLABf8bjNYd
- AeQWrxIBbnTC37ubFbrLjieYp03aHY+PsDQV1WTfNMJcgm3eT1u8Mc3pACaPzdEvCJy8
- xGSQ==
-X-Gm-Message-State: AOAM530vfUkeX/LlW59CBiVtiaaatcsPxYJ/YfFxlJ5r9kL6jlrhPC5S
- 4Iqji7wF5832sYc/+czzGQr1MKz3RQWt3i48
-X-Google-Smtp-Source: ABdhPJx8P8qZSAE+RzsbyKRUK/bR3HgsDb4mwRlOy+Qt0ZWdA+3NYGm/7hi3zpyGEseK23APH/xS1A==
-X-Received: by 2002:a17:903:1252:b0:154:ca85:59a0 with SMTP id
- u18-20020a170903125200b00154ca8559a0mr552890plh.169.1650562285278; 
- Thu, 21 Apr 2022 10:31:25 -0700 (PDT)
+ bh=uMjdlRZKRqMc37bzmt8n/trfJ/doq01lE7A/5TWhGjQ=;
+ b=J2gtbstrDE6sr5HHcD18SRlg5Uk92J/q4U5ON5OBRLgOWA/jMxQLI12glw76BWBUqk
+ 4gpv6O/zAxxjrRg3Mr5E8svnfJN90ImlGNdSBuPmHhbQtavOn4R9hYv7mA8P/anNbnX7
+ eHyhjnBpPNioI2kZo/b1yFz4pHoqcWjYfeIBRKwp/X9vRhbAeI843BOnwAMCyAh/9ZOY
+ pKOE6BtqQmo13muS/O22HkQ1SDAVbPR+4P8kfoGbtwMCyArektK25AWJB+pOrnbms+Lu
+ fBX9AA2yUv4CBX2dH5Ktgoqs1g9DiwWzBfANWrUmolZRc4n6sIibP8QHAi0PhiYSFhnG
+ AusQ==
+X-Gm-Message-State: AOAM533YX01/cViTBxu3JLjnZCw4GPCKvO5ebF1e4Mibc2SkmsLmr2Ym
+ fc6IgwCCOKLpfbPQyz0qR6InaHDz1RSPPzKl
+X-Google-Smtp-Source: ABdhPJxkXRGolI93QVXn3i/EzPAtkQLLH9H4pZXC39IQdueyWoATqvG2Tf5doTQyJRP0ttlZcrHEpQ==
+X-Received: by 2002:a62:170b:0:b0:50a:6901:b633 with SMTP id
+ 11-20020a62170b000000b0050a6901b633mr729698pfx.34.1650562286785; 
+ Thu, 21 Apr 2022 10:31:26 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:80c1:f8a5:3d1f:84a9:7713:bf09])
  by smtp.gmail.com with ESMTPSA id
- 204-20020a6302d5000000b00385f29b02b2sm23557644pgc.50.2022.04.21.10.31.23
+ 204-20020a6302d5000000b00385f29b02b2sm23557644pgc.50.2022.04.21.10.31.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 10:31:24 -0700 (PDT)
+ Thu, 21 Apr 2022 10:31:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] target/rx: Move DISAS_UPDATE check for write to PSW
-Date: Thu, 21 Apr 2022 10:31:10 -0700
-Message-Id: <20220421173114.48357-4-richard.henderson@linaro.org>
+Subject: [PULL 4/7] target/rx: Swap stack pointers on clrpsw/setpsw instruction
+Date: Thu, 21 Apr 2022 10:31:11 -0700
+Message-Id: <20220421173114.48357-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220421173114.48357-1-richard.henderson@linaro.org>
 References: <20220421173114.48357-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,66 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Tomoaki Kawada <i@yvt.jp>, Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have one check in move_to_cr instead of one in each
-function that calls move_to_cr.
+We properly perform this swap in helper_set_psw for MVTC,
+but we missed doing so for the CLRPSW/SETPSW of the U bit.
 
+Reported-by: Tomoaki Kawada <i@yvt.jp>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Message-Id: <20220417165130.695085-4-richard.henderson@linaro.org>
+Message-Id: <20220417165130.695085-5-richard.henderson@linaro.org>
 ---
- target/rx/translate.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ target/rx/translate.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/target/rx/translate.c b/target/rx/translate.c
-index df7a8e5153..bd4d110e8b 100644
+index bd4d110e8b..63c062993e 100644
 --- a/target/rx/translate.c
 +++ b/target/rx/translate.c
-@@ -368,6 +368,10 @@ static void move_to_cr(DisasContext *ctx, TCGv val, int cr)
-     switch (cr) {
-     case 0:     /* PSW */
-         gen_helper_set_psw(cpu_env, val);
-+        if (is_privileged(ctx, 0)) {
-+            /* PSW.{I,U} may be updated here. exit TB. */
-+            ctx->base.is_jmp = DISAS_UPDATE;
-+        }
-         break;
-     /* case 1: to PC not supported */
-     case 2:     /* USP */
-@@ -631,10 +635,6 @@ static bool trans_POPC(DisasContext *ctx, arg_POPC *a)
-     val = tcg_temp_new();
-     pop(val);
-     move_to_cr(ctx, val, a->cr);
--    if (a->cr == 0 && is_privileged(ctx, 0)) {
--        /* PSW.I may be updated here. exit TB. */
--        ctx->base.is_jmp = DISAS_UPDATE;
--    }
-     tcg_temp_free(val);
-     return true;
- }
-@@ -2205,9 +2205,6 @@ static bool trans_MVTC_i(DisasContext *ctx, arg_MVTC_i *a)
- 
-     imm = tcg_const_i32(a->imm);
-     move_to_cr(ctx, imm, a->cr);
--    if (a->cr == 0 && is_privileged(ctx, 0)) {
--        ctx->base.is_jmp = DISAS_UPDATE;
--    }
-     tcg_temp_free(imm);
-     return true;
- }
-@@ -2216,9 +2213,6 @@ static bool trans_MVTC_i(DisasContext *ctx, arg_MVTC_i *a)
- static bool trans_MVTC_r(DisasContext *ctx, arg_MVTC_r *a)
- {
-     move_to_cr(ctx, cpu_regs[a->rs], a->cr);
--    if (a->cr == 0 && is_privileged(ctx, 0)) {
--        ctx->base.is_jmp = DISAS_UPDATE;
--    }
-     return true;
- }
- 
+@@ -2165,7 +2165,12 @@ static inline void clrsetpsw(DisasContext *ctx, int cb, int val)
+             ctx->base.is_jmp = DISAS_UPDATE;
+             break;
+         case PSW_U:
+-            tcg_gen_movi_i32(cpu_psw_u, val);
++            if (FIELD_EX32(ctx->tb_flags, PSW, U) != val) {
++                ctx->tb_flags = FIELD_DP32(ctx->tb_flags, PSW, U, val);
++                tcg_gen_movi_i32(cpu_psw_u, val);
++                tcg_gen_mov_i32(val ? cpu_isp : cpu_usp, cpu_sp);
++                tcg_gen_mov_i32(cpu_sp, val ? cpu_usp : cpu_isp);
++            }
+             break;
+         default:
+             qemu_log_mask(LOG_GUEST_ERROR, "Invalid distination %d", cb);
 -- 
 2.34.1
 
