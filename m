@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECAD1509E6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:22:28 +0200 (CEST)
-Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED47509E6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:22:17 +0200 (CEST)
+Received: from localhost ([::1]:34298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhUtI-0006OF-2J
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:22:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59032)
+	id 1nhUt6-0005le-E2
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUpo-0002g2-L1
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:52 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:41510)
+ id 1nhUpq-0002js-3F
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:54 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUpm-0003Q0-LF
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:52 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- o20-20020a05600c511400b0038ebbbb2ad8so3203081wms.0
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:18:49 -0700 (PDT)
+ id 1nhUpn-0003Q8-C1
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:53 -0400
+Received: by mail-wr1-x436.google.com with SMTP id k22so6227929wrd.2
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=MEtor4j+P9zV/cCDr31gN48wrx6xOJygpWmwTKMQDwk=;
- b=V+xylE735e+Mbe6ZBvaUKQJv1i9wA3UBx+FbQfh7PU5RmY0z79rASvlg79cQovQgAM
- /KiR0QCpaSceW/w/qrNqXVhYJUrqRnvFTV3GLt17wbNNsOIxqTGWW1x7puYFG2ENJyGr
- QMCOuS1tLkSFlYg0Ify40oIPh50d1rI0pMR0kgMTV4Wn48ihAhj4nuFNd/27mNflAL2w
- W2yP4CS+XQzO6ZHBnOFRKRZol44q6B4kTrLmuUTAayWflDAepeJMvyROC3QHG+NzF2br
- +Qdn+hXoNoJhWUQGqMXN78mTa2sN8bmBJAwwfF1lqVYOqdLchX2itLE5wknzvrgx/ndh
- VHug==
+ bh=TwQCGhEvSSQC/Z2/EccxdurzG1YqSvcBdgIIL6E/lik=;
+ b=GSzUzfymB4RGM71lbqIspMIWR7nnanN6QGW9GjbJWpE265kzng/iPaZLD7K/laDupw
+ 17zEhQDhlM+DAxsAwmizBpxvyZ+kISH0g3jRLcay0+h61CLuD93wctvj7nhZ9nRQ0mGH
+ 2AiOOOUr2MZ3lO670+ycldbnh9Asc175si3kv3d3Nzc1K2qRhrcMjEENtpJJ8Ji8Nf7f
+ md+YXt6fRq4zKjKJ7Eici53DYBJv8rmiWAY3nUAdzBKduFalFsY6TzGYaQWfeeFJlHlj
+ lWAJ3weEQXWQCWAUXUoOe2pc3tICUBnqbQbP1KYPbKhKMawair5mdaYQzqkx2mZO7Smj
+ pf4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MEtor4j+P9zV/cCDr31gN48wrx6xOJygpWmwTKMQDwk=;
- b=BBW8jkdm40ObAgviGcwxcDH/Hx+eltzCRdVebNGcenhf8gzGt7svQEf7jlqUspegoV
- OUoirrvWpwTVV1kZtYVC+NyB01x2ZaP2UXU7iC6baan31NfQAY0oV/xeQ1jf6QhVJIKV
- RLkK9+N6bRNTK8C2iCrkWhiot8Vvin0qkDiHadyuax7aX0BGxnYbs2XKo6L200H4VEbr
- jkAwP6eAGKrsVLOMZrF+/c9nn7TcVHqd7Rh+a9AWfj8Lbjw/UStrkj79Uls7gTlMv5xE
- iYlIrhzhcm6wiKg7c1JyPvE0u+RAv1C7Yf6CgHDvKCaV2dHSRvyAmiAbGpWlls2D2do9
- odCA==
-X-Gm-Message-State: AOAM531hp07AajJePupq//D47sjkB9t0UILWg02NmbyqW16+J9VUYNAd
- x+FVxER+iaQFbrukV4wIQ07KT//m9yWkQQ==
-X-Google-Smtp-Source: ABdhPJxjYxx3TBxba0QB1XJhkPG0FH2SMKs1gyPWRrfx+LznTt9UQv+dI4yQcVGpvfgiBIxW3y2RNQ==
-X-Received: by 2002:a05:600c:1552:b0:38e:c7a4:f056 with SMTP id
- f18-20020a05600c155200b0038ec7a4f056mr8169781wmg.183.1650539928956; 
- Thu, 21 Apr 2022 04:18:48 -0700 (PDT)
+ bh=TwQCGhEvSSQC/Z2/EccxdurzG1YqSvcBdgIIL6E/lik=;
+ b=hMLplDQYwoBuL4SEu4dKs07RbFXg3IGsYCo1TQ6hDwWdTeweNyK37Opj/lQfGugbUf
+ QdVErsAOUhp4/q/qX6NnlywkJ3/LqhEG9d+b5/0832IZQr+sIRFrQwlkWqxYTPJa0nNw
+ R3MjseSyeFDs9kfzXBJMrdNVZrByhEARu9BvPMhk9WIdI2p39c+m+fqhHz2dD3VVJpIx
+ M0nU2AgJDGy+YAv8nbqEa+37gBStPcKD+7C18RF18Dhj+Giqw8kD/9E+nigck3+7iaAZ
+ 6EhrXiRfFZpwKF3Ph78iE+03hLLaJ+zekwXjJe8KMEuufyPV6pDDRIzeADxgGgkF82Dh
+ Q5Cg==
+X-Gm-Message-State: AOAM530ekGfqQYIMRp/QE4oKlVHfc632zCicEF9DrTebiWdMkcm1VFXb
+ frsbDQ0qs/o+85hekTf/aeOerZdn8TFX+g==
+X-Google-Smtp-Source: ABdhPJx+/DNV5Nn6Yzb7gPVeSPQ7y1JG6BZ7FRaW9OfM4BDfVAp4aw77Pj8hQWD2LlLk8BHyBi047Q==
+X-Received: by 2002:adf:ebd2:0:b0:20a:9c10:ab29 with SMTP id
+ v18-20020adfebd2000000b0020a9c10ab29mr13123277wrn.212.1650539929889; 
+ Thu, 21 Apr 2022 04:18:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.18.48
+ e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.18.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 04:18:48 -0700 (PDT)
+ Thu, 21 Apr 2022 04:18:49 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/31] hw/arm/virt: Check for attempt to use TrustZone with KVM
- or HVF
-Date: Thu, 21 Apr 2022 12:18:16 +0100
-Message-Id: <20220421111846.2011565-2-peter.maydell@linaro.org>
+Subject: [PULL 02/31] timer: cadence_ttc: Break out header file to allow
+ embedding
+Date: Thu, 21 Apr 2022 12:18:17 +0100
+Message-Id: <20220421111846.2011565-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421111846.2011565-1-peter.maydell@linaro.org>
 References: <20220421111846.2011565-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,49 +89,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's not possible to provide the guest with the Security extensions
-(TrustZone) when using KVM or HVF, because the hardware
-virtualization extensions don't permit running EL3 guest code.
-However, we weren't checking for this combination, with the result
-that QEMU would assert if you tried it:
+From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
 
-$ qemu-system-aarch64 -enable-kvm -machine virt,secure=on -cpu host -display none
-Unexpected error in object_property_find_err() at ../../qom/object.c:1304:
-qemu-system-aarch64: Property 'host-arm-cpu.secure-memory' not found
-Aborted
+Break out header file to allow embedding of the the TTC.
 
-Check for this combination of options and report an error, in the
-same way we already do for attempts to give a KVM or HVF guest the
-Virtualization or MTE extensions. Now we will report:
-
-qemu-system-aarch64: mach-virt: KVM does not support providing Security extensions (TrustZone) to the guest CPU
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/961
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Luc Michel <luc@lmichel.fr>
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Message-id: 20220331222017.2914409-2-edgar.iglesias@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220404155301.566542-1-peter.maydell@linaro.org
 ---
- hw/arm/virt.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/hw/timer/cadence_ttc.h | 54 ++++++++++++++++++++++++++++++++++
+ hw/timer/cadence_ttc.c         | 32 ++------------------
+ 2 files changed, 56 insertions(+), 30 deletions(-)
+ create mode 100644 include/hw/timer/cadence_ttc.h
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 9284f7d28e6..bb6a2484d81 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2048,6 +2048,13 @@ static void machvirt_init(MachineState *machine)
-         exit(1);
-     }
- 
-+    if (vms->secure && (kvm_enabled() || hvf_enabled())) {
-+        error_report("mach-virt: %s does not support providing "
-+                     "Security extensions (TrustZone) to the guest CPU",
-+                     kvm_enabled() ? "KVM" : "HVF");
-+        exit(1);
-+    }
+diff --git a/include/hw/timer/cadence_ttc.h b/include/hw/timer/cadence_ttc.h
+new file mode 100644
+index 00000000000..e1251383f2a
+--- /dev/null
++++ b/include/hw/timer/cadence_ttc.h
+@@ -0,0 +1,54 @@
++/*
++ * Xilinx Zynq cadence TTC model
++ *
++ * Copyright (c) 2011 Xilinx Inc.
++ * Copyright (c) 2012 Peter A.G. Crosthwaite (peter.crosthwaite@petalogix.com)
++ * Copyright (c) 2012 PetaLogix Pty Ltd.
++ * Written By Haibing Ma
++ *            M. Habib
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version
++ * 2 of the License, or (at your option) any later version.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef HW_TIMER_CADENCE_TTC_H
++#define HW_TIMER_CADENCE_TTC_H
 +
-     if (vms->virt && (kvm_enabled() || hvf_enabled())) {
-         error_report("mach-virt: %s does not support providing "
-                      "Virtualization extensions to the guest CPU",
++#include "hw/sysbus.h"
++#include "qemu/timer.h"
++
++typedef struct {
++    QEMUTimer *timer;
++    int freq;
++
++    uint32_t reg_clock;
++    uint32_t reg_count;
++    uint32_t reg_value;
++    uint16_t reg_interval;
++    uint16_t reg_match[3];
++    uint32_t reg_intr;
++    uint32_t reg_intr_en;
++    uint32_t reg_event_ctrl;
++    uint32_t reg_event;
++
++    uint64_t cpu_time;
++    unsigned int cpu_time_valid;
++
++    qemu_irq irq;
++} CadenceTimerState;
++
++#define TYPE_CADENCE_TTC "cadence_ttc"
++OBJECT_DECLARE_SIMPLE_TYPE(CadenceTTCState, CADENCE_TTC)
++
++struct CadenceTTCState {
++    SysBusDevice parent_obj;
++
++    MemoryRegion iomem;
++    CadenceTimerState timer[3];
++};
++
++#endif
+diff --git a/hw/timer/cadence_ttc.c b/hw/timer/cadence_ttc.c
+index 64108241ba9..e57a0f5f09f 100644
+--- a/hw/timer/cadence_ttc.c
++++ b/hw/timer/cadence_ttc.c
+@@ -24,6 +24,8 @@
+ #include "qemu/timer.h"
+ #include "qom/object.h"
+ 
++#include "hw/timer/cadence_ttc.h"
++
+ #ifdef CADENCE_TTC_ERR_DEBUG
+ #define DB_PRINT(...) do { \
+     fprintf(stderr,  ": %s: ", __func__); \
+@@ -49,36 +51,6 @@
+ #define CLOCK_CTRL_PS_EN    0x00000001
+ #define CLOCK_CTRL_PS_V     0x0000001e
+ 
+-typedef struct {
+-    QEMUTimer *timer;
+-    int freq;
+-
+-    uint32_t reg_clock;
+-    uint32_t reg_count;
+-    uint32_t reg_value;
+-    uint16_t reg_interval;
+-    uint16_t reg_match[3];
+-    uint32_t reg_intr;
+-    uint32_t reg_intr_en;
+-    uint32_t reg_event_ctrl;
+-    uint32_t reg_event;
+-
+-    uint64_t cpu_time;
+-    unsigned int cpu_time_valid;
+-
+-    qemu_irq irq;
+-} CadenceTimerState;
+-
+-#define TYPE_CADENCE_TTC "cadence_ttc"
+-OBJECT_DECLARE_SIMPLE_TYPE(CadenceTTCState, CADENCE_TTC)
+-
+-struct CadenceTTCState {
+-    SysBusDevice parent_obj;
+-
+-    MemoryRegion iomem;
+-    CadenceTimerState timer[3];
+-};
+-
+ static void cadence_timer_update(CadenceTimerState *s)
+ {
+     qemu_set_irq(s->irq, !!(s->reg_intr & s->reg_intr_en));
 -- 
 2.25.1
 
