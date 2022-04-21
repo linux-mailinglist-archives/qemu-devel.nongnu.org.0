@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFDA509DFE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:49:35 +0200 (CEST)
-Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057E9509E1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:58:38 +0200 (CEST)
+Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhUNS-0007Uq-OT
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44882)
+	id 1nhUWD-0004WN-2N
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhU4z-0002oj-Qg
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:30:32 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:45685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhU4x-0002IK-86
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:30:29 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id g14so4597893ybj.12
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 03:30:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Gz9Lii9GKOKWdgiXgfZKu/yHcP1nd30WO3pM81LGP5A=;
- b=hXk3jpGkeAZsCZAURYdm7F6Z9Az7N9DQZ8SjBGksA3S/ZCaatTo2Av364QwY8/vIbF
- zS9vgxZmfZevxTy2t6jH+ghl+ton7nlsJkFtVAEcEFe3gQFTfHAPbJYhA8AnJZ7mgz/F
- p0j8XstENtIV/b3Y7l5CAlThETX9l7KhdhROHACri5cMxnZPOJFGG/S8q7rsm872hDJz
- fYsgtqSsCq/JQSRewtvPOZ8Ye5Zv/QqXEjU6NpqqxAeMMs6Vxs4msaYxZvYJFAFmjiVQ
- cE4wRQ0Pj/7de76QzClbL4v5hfyxsac3em05TxpjQmmMaqyLAxe+bvBi4egDF47pdIZF
- 1qkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Gz9Lii9GKOKWdgiXgfZKu/yHcP1nd30WO3pM81LGP5A=;
- b=uAimy03ps5k+wMjAvRm834qhIt8kjGc5ejnNjauANmErNdkXJdUAscwC/q4Y5hhyWZ
- AZJmoNFG2+Me3jSf0ZyHkgKQAK2XQ2wcysadJK8FQisEkjh+adqS1VgoLcFBdPwHB+Oi
- fBt6tOvBdKLqmDWtonD1ryVD7G9BaptsNpGTZeM3u4s6LNJFGNemNgFGtf9AOwHWGIae
- lPD7e23hyEQuSKc1O+lhYhgBLZApExdqPiJJBoPn8rr/StTQbyYG0m7MUSYp4p4SvZF/
- omN/1R87ABndTEBQb0QRIJyLqyLf4/QfL4TU05dY9i/Rw99E6x0Pv6DzQhjFzWv4b0ER
- 7s/g==
-X-Gm-Message-State: AOAM533Ukwi3qFEk6oTIjI0kLQ2zfxyu3rYDpRSZUAIm6Mib5LjYV4lO
- 9mNyH820qhjUWoW9msn7xB97cDsNmwkOIf1WikIzDg==
-X-Google-Smtp-Source: ABdhPJyKuI/AgaysQRWxpyXANm5IJ1s4eyjMCHzgdZyhGJ2tuIfaFtBXcN4665k8AX2xwZohgr9DjxvGxkASZjW079w=
-X-Received: by 2002:a25:cf4d:0:b0:645:755c:a5af with SMTP id
- f74-20020a25cf4d000000b00645755ca5afmr1964651ybg.140.1650537026141; Thu, 21
- Apr 2022 03:30:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhU6F-0003YK-8U
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:31:47 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:29417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhU6B-0002Tf-Kp
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:31:46 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-656-cbxL_WKaNnej3T41Qe6kIw-1; Thu, 21 Apr 2022 06:31:32 -0400
+X-MC-Unique: cbxL_WKaNnej3T41Qe6kIw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5820801E67;
+ Thu, 21 Apr 2022 10:31:31 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7A5B40885A1;
+ Thu, 21 Apr 2022 10:31:30 +0000 (UTC)
+Date: Thu, 21 Apr 2022 12:31:29 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 3/5] 9pfs: fix wrong encoding of rdev field in Rgetattr
+ on macOS
+Message-ID: <20220421123129.2f04c9d3@bahia>
+In-Reply-To: <8971800.MWpjzubbLj@silver>
+References: <cover.1650370026.git.qemu_oss@crudebyte.com>
+ <9db9268aac4eb87e1471ab8240109c7c29be3bef.1650370027.git.qemu_oss@crudebyte.com>
+ <20220421093056.5ab1e7ed@bahia> <8971800.MWpjzubbLj@silver>
 MIME-Version: 1.0
-References: <20220411165842.3912945-1-wuhaotsh@google.com>
-In-Reply-To: <20220411165842.3912945-1-wuhaotsh@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 11:30:15 +0100
-Message-ID: <CAFEAcA9JKUh6BEgfEnrA1Wu_fdMUgTyfHWnDwh=s0Te4N6HBqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Define NPCM7XX PWRON bit fields
-To: Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,26 +65,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Uri.Trichter@nuvoton.com, titusr@google.com, venture@google.com,
- hskinnemoen@google.com, qemu-devel@nongnu.org, kfting@nuvoton.com,
- qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com, Vishal.Soni@microsoft.com
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Apr 2022 at 17:58, Hao Wu <wuhaotsh@google.com> wrote:
->
-> Currently, the PWRON STRAP values in NPCM7XX boards are magic
-> numbers. Similar to the aspeed ones in hw/arm/aspeed.c, we
-> define bit fields constants for them and use these fields instead
-> of the magic numbers in the current implementation. The code
-> should behave exactly the same as the existing one.
->
-> -- Changes since v1
-> * Fix errors and apply suggestions Peter made on v1.
+On Thu, 21 Apr 2022 12:25:23 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
+> On Donnerstag, 21. April 2022 09:30:56 CEST Greg Kurz wrote:
+> > On Tue, 19 Apr 2022 13:41:15 +0200
+> > 
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > The 'rdev' field in 9p reponse 'Rgetattr' is of type dev_t,
+> > > which is actually a system dependant type and therefore both the
+> > > size and encoding of dev_t differ between macOS and Linux.
+> > > 
+> > > So far we have sent 'rdev' to guest in host's dev_t format as-is,
+> > > which caused devices to appear with wrong device numbers on
+> > > guests running on macOS hosts, eventually leading to various
+> > > misbehaviours on guest in conjunction with device files.
+> > > 
+> > > This patch fixes this issue by converting the device number from
+> > > host's dev_t format to Linux dev_t format. As 9p request
+> > > 'Tgettattr' is exclusive to protocol version 9p2000.L, it should
+> > > be fair to assume that 'rdev' field is assumed to be in Linux dev_t
+> > > format by client as well.
+> > 
+> > For the sake of accuracy : this is converting the host's dev_t to glibc's
+> > format (MMMM_Mmmm_mmmM_MMmm, 64 bits) actually, which is compatible with
+> > linux's format (mmmM_MMmm, 32 bits), as described in <bits/sysmacros.h>.
+> 
+> You want me to put this to the commit log?
+> 
 
+Maybe closer to the code that does the actual magic...
 
-Applied to target-arm.next, thanks.
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
+> > > 
+> > >  hw/9pfs/9p.c | 37 ++++++++++++++++++++++++++++++++++++-
+> > >  1 file changed, 36 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > > index 225f31fc31..d953035e1c 100644
+> > > --- a/hw/9pfs/9p.c
+> > > +++ b/hw/9pfs/9p.c
+> > > @@ -1318,6 +1318,41 @@ static int32_t stat_to_iounit(const V9fsPDU *pdu,
+> > > const struct stat *stbuf)> 
+> > >      return blksize_to_iounit(pdu, stbuf->st_blksize);
+> > >  
+> > >  }
+> > > 
+> > > +#if !defined(CONFIG_LINUX)
+> > > +
+> > > +/*
+> > > + * Generates a Linux device number (a.k.a. dev_t) for given device major
+> > > + * and minor numbers.
 
--- PMM
+... here ^^.
+
+> > > + */
+> > > +static uint64_t makedev_dotl(uint32_t dev_major, uint32_t dev_minor)
+> > > +{
+> > > +    uint64_t dev;
+> > > +
+> > > +    // from glibc sysmacros.h:
+> > > +    dev  = (((uint64_t) (dev_major & 0x00000fffu)) <<  8);
+> > > +    dev |= (((uint64_t) (dev_major & 0xfffff000u)) << 32);
+> > > +    dev |= (((uint64_t) (dev_minor & 0x000000ffu)) <<  0);
+> > > +    dev |= (((uint64_t) (dev_minor & 0xffffff00u)) << 12);
+> > > +    return dev;
+> > > +}
+> > > +
+> > > +#endif
+> > > +
+> > > +/*
+> > > + * Converts given device number from host's device number format to Linux
+> > > + * device number format. As both the size of type dev_t and encoding of
+> > > + * dev_t is system dependant, we have to convert them for Linux guests if
+> > > + * host is not running Linux.
+> > > + */
+> > > +static uint64_t host_dev_to_dotl_dev(dev_t dev)
+> > > +{
+> > > +#ifdef CONFIG_LINUX
+> > > +    return dev;
+> > > +#else
+> > > +    return makedev_dotl(major(dev), minor(dev));
+> > > +#endif
+> > > +}
+> > > +
+> > 
+> > It is a bit unfortunate to inflate 9p.c, which is large enough, with
+> > glue code. Even if they are only used here, I'd personally put them
+> > in 9p-util.h. No big deal.
+> 
+> Makes sense, I'll move it.
+> 
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> 
+> Thanks!
+> 
+> > >  static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+> > >  
+> > >                                  V9fsStatDotl *v9lstat)
+> > >  
+> > >  {
+> > > 
+> > > @@ -1327,7 +1362,7 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const
+> > > struct stat *stbuf,> 
+> > >      v9lstat->st_nlink = stbuf->st_nlink;
+> > >      v9lstat->st_uid = stbuf->st_uid;
+> > >      v9lstat->st_gid = stbuf->st_gid;
+> > > 
+> > > -    v9lstat->st_rdev = stbuf->st_rdev;
+> > > +    v9lstat->st_rdev = host_dev_to_dotl_dev(stbuf->st_rdev);
+> > > 
+> > >      v9lstat->st_size = stbuf->st_size;
+> > >      v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
+> > >      v9lstat->st_blocks = stbuf->st_blocks;
+> 
+> 
+
 
