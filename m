@@ -2,62 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52C15098EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:26:19 +0200 (CEST)
-Received: from localhost ([::1]:41848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CCB1509929
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:33:17 +0200 (CEST)
+Received: from localhost ([::1]:50106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhRCi-0002Mi-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:26:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55364)
+	id 1nhRJU-00019f-1J
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQcV-0007g6-GP
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:48:54 -0400
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:40073)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nhQfo-0003B6-FL; Thu, 21 Apr 2022 02:52:16 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQcT-000102-90
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:48:50 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.102])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5FAB320F24;
- Thu, 21 Apr 2022 06:48:45 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 21 Apr
- 2022 08:48:44 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0055ca643e7-3042-4ccf-bc34-ecdc35d0198b,
- FFC778467988C6DD564F10F4CBD504D71298CE84) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8aa56da0-a54a-102a-fc85-2fa9f02c18d1@kaod.org>
-Date: Thu, 21 Apr 2022 08:48:44 +0200
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nhQfm-0001TH-Un; Thu, 21 Apr 2022 02:52:16 -0400
+Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c] (helo=kentang.home)
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nhQem-0006rv-Ti; Thu, 21 Apr 2022 07:51:17 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Date: Thu, 21 Apr 2022 07:51:49 +0100
+Message-Id: <20220421065155.31276-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC PATCH 00/17] hw/sd: Rework models for eMMC support
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20220318132824.1134400-1-clg@kaod.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220318132824.1134400-1-clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 8cd7f3f9-a4a5-484a-9924-b97f149145da
-X-Ovh-Tracer-Id: 18324302462541269923
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrtddugdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeduheektdduhffglefggffgfeeffeeghfdujedvkeevueevgeeileetjeeiudegveenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH 0/6] scsi: add support for FORMAT UNIT command and quirks
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,30 +53,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Here are the next set of patches from my ongoing work to allow the q800
+machine to boot MacOS related to SCSI devices.
 
-On 3/18/22 14:28, Cédric Le Goater wrote:
-> Hello Philippe,
-> 
-> I am restarting the discussion we started in :
-> 
->    http://patchwork.ozlabs.org/project/qemu-devel/list/?series=250563
-> 
-> This series adds an extension for a new eMMC device using the
-> framework you put in place. It's not perfect but we are getting close.
-> The SPI variant would need its own class I suppose and there are more
-> cleanups to be done in the set of commands. Please comment !
+The first patch implements a dummy FORMAT UNIT command which is used by
+the Apple HD SC Setup program when preparing an empty disk to install
+MacOS.
+
+Patches 2 adds a new quirks bitmap to SCSIDiskState to allow buggy and/or
+legacy features to enabled on an individual device basis. Once the quirks
+bitmap has been added, patch 3 uses the quirks feature to implement an
+Apple-specific mode page which is required to allow the disk to be recognised
+and used by Apple HD SC Setup.
+
+Patch 4 adds compat_props to the q800 machine which enable the MODE_PAGE_APPLE
+quirk for all scsi-hd devices attached to the machine.
+
+Finally patches 5 and 6 augment the compat_props to set the default vendor,
+product and version information for all scsi-hd and scsi-cd devices attached
+to the q800 machine, taken from real drives. This is because MacOS will only
+allow a known set of SCSI devices to be recognised during the installation
+process.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
-Since patch 01-09 are nearly all reviewed, may be we could start by
-merging those ?
+Mark Cave-Ayland (6):
+  scsi-disk: add FORMAT UNIT command
+  scsi-disk: add new quirks bitmap to SCSIDiskState
+  scsi-disk: add MODE_PAGE_APPLE quirk for Macintosh
+  q800: implement compat_props to enable quirk_mode_page_apple for
+    scsi-hd devices
+  q800: add default vendor, product and version information for scsi-hd
+    devices
+  q800: add default vendor, product and version information for scsi-cd
+    devices
 
-Thanks,
+ hw/m68k/q800.c           | 12 ++++++++++++
+ hw/scsi/scsi-disk.c      | 24 ++++++++++++++++++++++++
+ hw/scsi/trace-events     |  1 +
+ include/hw/scsi/scsi.h   |  3 +++
+ include/scsi/constants.h |  1 +
+ 5 files changed, 41 insertions(+)
 
-C.
+-- 
+2.20.1
+
 
