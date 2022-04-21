@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB872509E67
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:17:28 +0200 (CEST)
-Received: from localhost ([::1]:53450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3614D509E76
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:23:05 +0200 (CEST)
+Received: from localhost ([::1]:36988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhUoR-0007qD-R5
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:17:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57746)
+	id 1nhUts-0007ZU-8e
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nhUkP-0004eh-MS; Thu, 21 Apr 2022 07:13:17 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:41555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nhUkN-0002Ni-Jr; Thu, 21 Apr 2022 07:13:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=5xj4lHTGU31X4aeBdD389fJtgdEIgeJr9GpwMBwuuXk=; b=N1HR8X8rBY2t4NXFXuWsyUk3Vp
- xDqh2EdxrrQfwFRhzL4dGOBfgoGw3yvkKMNHji2fkJcVOEPFm5m/3EbEjwO7p7709g1B10jjPosZL
- vSKaac1EXg/8f15Xjm87i2nlS1vksErdNGV+pwO301DDxRthxGLLG8qLvb3pUMNiDwl0QBA1yMQxt
- e/IdlWfhHXmKjmoOQg1qhNGx6N1RB6J6NdE2ZdK5l8NJaBClta8mMdDYXX/PdcOxfAQtOzaJSnzyl
- E1OFbYlSph+m2ppL3sg8aTbnmj3Ljt+zJALebXUztEh5hNN8Fs94WfIOdvMsi3Vl9Emtumidrycoh
- Pg+cfbagBHKEaLijvDE9eeBUFfwtrCSz7P3eBEkjNbbUrPkO3qRQWTCMCKpMqd9bAlD2rBDSvULX/
- aM5Z7OtwXGg6g+zNFHsCSA2KLwb/FFhd+Rv+cSIdUHm4JipkaEkG1+AC1DrQ6KXTNwkO2EPpdJf3p
- BCm8FzWz+GWivqaUc8GvpH4ckLAos+x5c7Ij5JJmyuhn45H7RgRkoEeuSrkkEQ7Wfr6K5cFeE9+jk
- XQgEo4E/WWMMYUVhoXhrsgHOuwTcJFGkc4NOmxCZSBCby4cfVj4mC9/XdDxrNnEGQGZgoQ1632UFX
- QOf7HorsJwoSJC3Vw8yct6kl+67DBXoqjt8s6oox4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: qemu-devel@nongnu.org, Will Cohen <wwcohen@gmail.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>,
- Keno Fischer <keno@juliacomputing.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-stable@nongnu.org
-Subject: Re: [PATCH 4/5] 9pfs: fix wrong errno being sent to Linux client on
- macOS host
-Date: Thu, 21 Apr 2022 13:13:08 +0200
-Message-ID: <3250585.T8RbiGE4XJ@silver>
-In-Reply-To: <20220421124835.3e664669@bahia>
-References: <cover.1650370026.git.qemu_oss@crudebyte.com>
- <c32aafaa3f29424fc13ae86b369c9baf1ceb0ec6.1650370027.git.qemu_oss@crudebyte.com>
- <20220421124835.3e664669@bahia>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nhUpo-0002gA-LW
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:52 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nhUpm-0003Pu-Ka
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:52 -0400
+Received: by mail-wr1-x432.google.com with SMTP id q3so6207298wrj.7
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:18:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uHYJs05JUgxiv/eX3VbdjcS7Fv0UiN0SN4hx/uh2t7M=;
+ b=Fs2x0KcRF5XN1wBI2Mw7faPpw9VgABz3/9oJIbhHdY8s8BgRAZ/KxuJOtOi2X9HAjt
+ kGT0Ysrg6xs/7BonBFknOC8PFVkVznG9irhCEntbxPwgIeDIhRbuwecMyXFK0Z9FfY2n
+ 7/YPSHfh3HvCMynyjnBw1Twwyzfm72wgkJ+EQxc4j15K7PRGrMrABzeFysf11lF50dg+
+ dgk2Sv+wZCmjrCEeVkXSTvgCgz0Hx0xIWbxEci0WifYhTisli58fO33anO/vWY/vn4VW
+ 6fIgP80yYF99twBgqQVukOZikn7C1QYClSJ0lW4xAybXiHClYbKYxYg79q3oGLkEtMil
+ W8Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uHYJs05JUgxiv/eX3VbdjcS7Fv0UiN0SN4hx/uh2t7M=;
+ b=Jtm3L1XRxF5iPVBZXHq5rDxrwJPxBpqmsUcORkiLKEd8X9jlpe+KGRtxVMPNsGAocd
+ thOyq/XXx7d41YS5wWrXp2YZ3A2jiVxM3WRJedx77RvefI4uZ3zwWTft1QAnlMPlB1Mw
+ QZOBKNNqy6KaLwl6pmrXE+faTo9Y/jbXl8acy9louLjwBhm/7+yq0I/FBNIL1z66XDGR
+ Qyc4GwhimwjPUL4WMgWmpSt1a4WeRzeLxLMKBMlM5U4J4mLOjISzySgSLZ6XbPqm4bZz
+ FXXb+7oqyCkZTxRl8dSgn17+XM4SnQ9Xs4Xcyx9fB6wUHkJuN7EmBRKDIhWkgxqq5u6J
+ ss2Q==
+X-Gm-Message-State: AOAM533qeNGLN+P+a+x516L8JzOX5S7Cp7oawEuh+m2NPpCVjwBPVo3T
+ dvnc9UsKKWNBUJ4tMpGXk7XKJHsvVcRPiw==
+X-Google-Smtp-Source: ABdhPJwmZn1RF3PUhwH7PbZswRs2RxFUUOKe+wL3RUaaGurLZ4dRJKW0ffFuD5wt65h97YM3xotRPg==
+X-Received: by 2002:a05:6000:71c:b0:207:a807:e297 with SMTP id
+ bs28-20020a056000071c00b00207a807e297mr18675503wrb.596.1650539928111; 
+ Thu, 21 Apr 2022 04:18:48 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.18.47
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Apr 2022 04:18:47 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/31] target-arm queue
+Date: Thu, 21 Apr 2022 12:18:15 +0100
+Message-Id: <20220421111846.2011565-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,131 +86,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 21. April 2022 12:48:35 CEST Greg Kurz wrote:
-> On Tue, 19 Apr 2022 13:41:59 +0200
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > Linux and macOS only share some errno definitions with equal macro
-> > name and value. In fact most mappings for errno are completely
-> > different on the two systems.
-> > 
-> > This patch converts some important errno values from macOS host to
-> > corresponding Linux errno values before eventually sending such error
-> > codes along with Tlerror replies (if 9p2000.L is used that is), which
-> > fixes a bunch of misbehaviours when running a Linux client on macOS
-> > host.
-> 
-> This even fixes an actual protocol violation :
-> 
-> lerror -- return error code
-> 
-> size[4] Rlerror tag[2] ecode[4]
-> 
-> lerror replaces the reply message used in a successful call. ecode is a
-> numerical Linux errno.
-> ^^^^^^^^^^^^^^^^^^^^^
-> 
-> Taken from
-> https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
+First arm pullreq for 7.1. The bulk of this is the qemu_split_irq
+removal.
 
-Again, something to add to the commit log?
+I have enough stuff in my to-review queue that I expect to do another
+pullreq early next week, but 31 patches is enough to not hang on to.
 
-> > For instance this patch fixes:
-> >   mount -t 9p -o posixacl ...
-> > 
-> > on Linux guest if security_mode=mapped was used for 9p server, which
-> > refused to mount successfully, because macOS returned ENOATTR==93
-> > when client tried to retrieve POSIX ACL xattrs, because errno 93
-> > is defined as EPROTONOSUPPORT==93 on Linux, so Linux client believed
-> > that xattrs were not supported by filesystem on host in general.
-> > 
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> > 
-> >  hw/9pfs/9p.c | 27 +++++++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> > 
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index d953035e1c..becc41cbfd 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> > @@ -57,6 +57,31 @@ enum {
-> > 
-> >  P9ARRAY_DEFINE_TYPE(V9fsPath, v9fs_path_free);
-> > 
-> > +/* Translates errno from host -> Linux if needed */
-> > +static int errno_to_dotl(int err) {
-> > +#if defined(CONFIG_LINUX)
-> > +    /* nothing to translate (Linux -> Linux) */
-> > +#elif defined(CONFIG_DARWIN)
-> > +    /* translation mandatory for macOS hosts */
-> > +    if (err == ENAMETOOLONG) {
-> > +        err = 36; /* ==ENAMETOOLONG on Linux */
-> > +    } else if (err == ENOTEMPTY) {
-> > +        err = 39; /* ==ENOTEMPTY on Linux */
-> > +    } else if (err == ELOOP) {
-> > +        err = 40; /* ==ELOOP on Linux */
-> > +    } else if (err == ENOATTR) {
-> > +        err = 61; /* ==ENODATA on Linux */
-> > +    } else if (err == ENOTSUP) {
-> > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > +    } else if (err == EOPNOTSUPP) {
-> > +        err = 95; /* ==EOPNOTSUPP on Linux */
-> > +    }
-> 
-> I'm assuming you have audited all errnos, right ? Just to be sure
-> that this won't bite anymore.
+thanks
+-- PMM
 
-Depends on what you mean with "all". Like I wrote in the commit log, for now I 
-translated in this patch those errnos that I identified as important, and 
-those are audited by me of course (checked the man pages for what errors are 
-expected as result from calls on Linux vs. macOS side and looked up numeric 
-values from header files on both sides, tests).
+The following changes since commit 9c125d17e9402c232c46610802e5931b3639d77b:
 
-However if you rather mean really all errnos that were ever defined on Linux 
-and macOS, then the answer is no. That would probably quite some work, and I'm 
-not sure if you could just try to translate them dry, i.e. by just looking at 
-the headers or something.
+  Merge tag 'pull-tcg-20220420' of https://gitlab.com/rth7680/qemu into staging (2022-04-20 16:43:11 -0700)
 
-So yes, your concern is justified. The question is, should this all be 
-translated right now already, or would it be OK to address this minimum set of 
-errno translation for now (especially for qemu-stable) and then later address 
-the rest?
+are available in the Git repository at:
 
-On the long term you would probably import the Linux errno header file into 
-the code base, then prefix the individual macros with something like 
-DOTL_ENODATA, etc. and then use those macros for translating the errnos 
-instead of using literal numerics, maybe using GCC's designated array 
-initializers then.
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220421
 
-> > +#else
-> > +#error Missing errno translation to Linux for this host system
-> > +#endif
-> > +    return err;
-> > +}
-> > +
-> 
-> As with the other patch, I'd rather move this magic to 9p-util.h .
+for you to fetch changes up to 5b415dd61bdbf61fb4be0e9f1a7172b8bce682c6:
 
-Makes sense. There is indeed already too much utility code piled up in 9p.c.
+  hw/arm: Use bit fields for NPCM7XX PWRON STRAPs (2022-04-21 11:37:05 +0100)
 
-> >  static ssize_t pdu_marshal(V9fsPDU *pdu, size_t offset, const char *fmt,
-> >  ...) {
-> >  
-> >      ssize_t ret;
-> > 
-> > @@ -1054,6 +1079,8 @@ static void coroutine_fn pdu_complete(V9fsPDU *pdu,
-> > ssize_t len)> 
-> >              }
-> >              len += ret;
-> >              id = P9_RERROR;
-> > 
-> > +        } else {
-> > +            err = errno_to_dotl(err);
-> > 
-> >          }
-> >          
-> >          ret = pdu_marshal(pdu, len, "d", err);
+----------------------------------------------------------------
+target-arm queue:
+ * hw/arm/virt: Check for attempt to use TrustZone with KVM or HVF
+ * versal: Add the Cortex-R5s in the Real-Time Processing Unit (RPU) subsystem
+ * versal: model enough of the Clock/Reset Low-power domain (CRL) to allow control of the Cortex-R5s
+ * xlnx-zynqmp: Connect 4 TTC timers
+ * exynos4210: Refactor GIC/combiner code to stop using qemu_split_irq
+ * realview: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+ * stellaris: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+ * hw/core/irq: remove unused 'qemu_irq_split' function
+ * npcm7xx: use symbolic constants for PWRON STRAP bit fields
+ * virt: document impact of gic-version on max CPUs
 
+----------------------------------------------------------------
+Edgar E. Iglesias (6):
+      timer: cadence_ttc: Break out header file to allow embedding
+      hw/arm/xlnx-zynqmp: Connect 4 TTC timers
+      hw/arm: versal: Create an APU CPU Cluster
+      hw/arm: versal: Add the Cortex-R5Fs
+      hw/misc: Add a model of the Xilinx Versal CRL
+      hw/arm: versal: Connect the CRL
 
+Hao Wu (2):
+      hw/misc: Add PWRON STRAP bit fields in GCR module
+      hw/arm: Use bit fields for NPCM7XX PWRON STRAPs
+
+Heinrich Schuchardt (1):
+      hw/arm/virt: impact of gic-version on max CPUs
+
+Peter Maydell (19):
+      hw/arm/virt: Check for attempt to use TrustZone with KVM or HVF
+      hw/arm/exynos4210: Use TYPE_OR_IRQ instead of custom OR-gate device
+      hw/intc/exynos4210_gic: Remove unused TYPE_EXYNOS4210_IRQ_GATE
+      hw/arm/exynos4210: Put a9mpcore device into state struct
+      hw/arm/exynos4210: Drop int_gic_irq[] from Exynos4210Irq struct
+      hw/arm/exynos4210: Coalesce board_irqs and irq_table
+      hw/arm/exynos4210: Fix code style nit in combiner_grp_to_gic_id[]
+      hw/arm/exynos4210: Move exynos4210_init_board_irqs() into exynos4210.c
+      hw/arm/exynos4210: Put external GIC into state struct
+      hw/arm/exynos4210: Drop ext_gic_irq[] from Exynos4210Irq struct
+      hw/arm/exynos4210: Move exynos4210_combiner_get_gpioin() into exynos4210.c
+      hw/arm/exynos4210: Delete unused macro definitions
+      hw/arm/exynos4210: Use TYPE_SPLIT_IRQ in exynos4210_init_board_irqs()
+      hw/arm/exynos4210: Fill in irq_table[] for internal-combiner-only IRQ lines
+      hw/arm/exynos4210: Connect MCT_G0 and MCT_G1 to both combiners
+      hw/arm/exynos4210: Don't connect multiple lines to external GIC inputs
+      hw/arm/exynos4210: Fold combiner splits into exynos4210_init_board_irqs()
+      hw/arm/exynos4210: Put combiners into state struct
+      hw/arm/exynos4210: Drop Exynos4210Irq struct
+
+Zongyuan Li (3):
+      hw/arm/realview: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+      hw/arm/stellaris: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
+      hw/core/irq: remove unused 'qemu_irq_split' function
+
+ docs/system/arm/virt.rst              |   4 +-
+ include/hw/arm/exynos4210.h           |  50 ++--
+ include/hw/arm/xlnx-versal.h          |  16 ++
+ include/hw/arm/xlnx-zynqmp.h          |   4 +
+ include/hw/intc/exynos4210_combiner.h |  57 +++++
+ include/hw/intc/exynos4210_gic.h      |  43 ++++
+ include/hw/irq.h                      |   5 -
+ include/hw/misc/npcm7xx_gcr.h         |  30 +++
+ include/hw/misc/xlnx-versal-crl.h     | 235 +++++++++++++++++++
+ include/hw/timer/cadence_ttc.h        |  54 +++++
+ hw/arm/exynos4210.c                   | 430 ++++++++++++++++++++++++++++++----
+ hw/arm/npcm7xx_boards.c               |  24 +-
+ hw/arm/realview.c                     |  33 ++-
+ hw/arm/stellaris.c                    |  15 +-
+ hw/arm/virt.c                         |   7 +
+ hw/arm/xlnx-versal-virt.c             |   6 +-
+ hw/arm/xlnx-versal.c                  |  99 +++++++-
+ hw/arm/xlnx-zynqmp.c                  |  22 ++
+ hw/core/irq.c                         |  15 --
+ hw/intc/exynos4210_combiner.c         | 108 +--------
+ hw/intc/exynos4210_gic.c              | 344 +--------------------------
+ hw/misc/xlnx-versal-crl.c             | 421 +++++++++++++++++++++++++++++++++
+ hw/timer/cadence_ttc.c                |  32 +--
+ MAINTAINERS                           |   2 +-
+ hw/misc/meson.build                   |   1 +
+ 25 files changed, 1457 insertions(+), 600 deletions(-)
+ create mode 100644 include/hw/intc/exynos4210_combiner.h
+ create mode 100644 include/hw/intc/exynos4210_gic.h
+ create mode 100644 include/hw/misc/xlnx-versal-crl.h
+ create mode 100644 include/hw/timer/cadence_ttc.h
+ create mode 100644 hw/misc/xlnx-versal-crl.c
 
