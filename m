@@ -2,80 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07E25094CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 03:47:48 +0200 (CEST)
-Received: from localhost ([::1]:54530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A31CA5094E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 04:00:30 +0200 (CEST)
+Received: from localhost ([::1]:33362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhLv9-00081C-Nr
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 21:47:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44956)
+	id 1nhM7R-0005UK-B9
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 22:00:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nhLsq-00059v-35
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 21:45:24 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:53960)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nhLsl-00015U-9i
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 21:45:21 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id bx5so3584081pjb.3
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 18:45:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=lLFp+jcZPCDBptlsIznxTdve17ZyRswKCYMzv/KYwNs=;
- b=eIXSY94mJhIN8yUHyDxfX0SvMqUPkcn3XbS9T+n0csM9I8+eu0fqOeyOsoI2eGww1l
- nQG8IxES4nUl5ZdNPfzdBByNWDJVCYKpj2QwYcnqcobC5gyanMbn6LiUju38B0oKe5kI
- dWtLkQFLkabj89M6YIBZJSmkmiBiRtkZx4CHSsIhJm/b28vWn/3SrtfI1Gs01VY+vX8L
- GZb2J4XDt1+zZzgefXbZWgkORpMYBn0Dk1dTTe2DRtzpAd3k0RUmc5uzWOfOD1SHe4lK
- DdzT+MP1h8ZBP0UHDjiCYQk0aK6CYVeu5DjUMc7tQ5mU0BZcSZ+6d32BFWh6RIlSWd2w
- 2b5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=lLFp+jcZPCDBptlsIznxTdve17ZyRswKCYMzv/KYwNs=;
- b=ZYVPVEwLPNWXn8Eb2be5iCuWpdzNFMQSuKk8C5UxvTiQ+216OB1T2NsHrv7VZ4bWdD
- 6JdvUCwRa1Q/At95Pd/A21hEMiNQAZxwMwsciDfOeQA+GdA3vYHOLFCu8UbHKojSPqk6
- UDZCZu8sgoEChVaOEMXKUXmmVz8lXHV6GgHsl1vm6N2rApyKtkTA2gWuu3UcNosOMqgN
- xFU86J1yHZmR8z1motlm2JvBxljyNnslEDaKfuMFDP+TqB49Fpp86g54ezum2OIV1IJW
- 03Yn7Mf/crNmoD+1CvZVFjCWBonha2AcpbEWlf3BriZSYe62TCNSOTS7PB1sGCZ4cD9q
- +7nQ==
-X-Gm-Message-State: AOAM533gyfl0dC7ahqsJHy8NaM4jdsKEck067sAuE8OJbxk+1FrgoAC3
- jrq2N9uTc0r/mleKigOxJYB4NA==
-X-Google-Smtp-Source: ABdhPJwmoXVK6D/qbEB2UeQpbMpyZ8W5u7ZKPfEEe9GI+7zMQJuHK1I2o2urYIvboqdPbEE9jhYDig==
-X-Received: by 2002:a17:902:7ec1:b0:156:17a4:a2f8 with SMTP id
- p1-20020a1709027ec100b0015617a4a2f8mr24168256plb.155.1650505517363; 
- Wed, 20 Apr 2022 18:45:17 -0700 (PDT)
-Received: from [10.76.15.169] ([61.120.150.70])
- by smtp.gmail.com with ESMTPSA id
- ay33-20020a056a00302100b00508374700b9sm20195756pfb.166.2022.04.20.18.45.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 18:45:16 -0700 (PDT)
-Message-ID: <ed446ba2-75a0-aa0d-535e-0bb3501f558f@bytedance.com>
-Date: Thu, 21 Apr 2022 09:41:40 +0800
+ (Exim 4.90_1) (envelope-from <kvmluck@163.com>) id 1nhM5O-0004mu-Lc
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 21:58:23 -0400
+Received: from m1337.mail.163.com ([220.181.13.37]:42289)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <kvmluck@163.com>) id 1nhM5G-0002lv-Gg
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 21:58:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=xJudm
+ WotnOF2d1f/sCwZzz77YOf++gvl59A0TAW2juk=; b=U5XF+8TtZgDh/15dx8pdV
+ EvhuGPwesrK9Snr58Fmx3EMmrX1bT1jf6D19hTxOfysRwlozknIcXc3WiGyPjTDH
+ Jn7T+5wcUeoFJ48Fk+Hs2JNPkefhgN6txSLBZNt7Bs+cTb7UHDpPkKWsCKIjRoxN
+ CgCJWugbJ4oQtmBitrn5EQ=
+Received: from kvmluck$163.com ( [114.247.186.102] ) by ajax-webmail-wmsvr37
+ (Coremail) ; Thu, 21 Apr 2022 09:42:11 +0800 (CST)
+X-Originating-IP: [114.247.186.102]
+Date: Thu, 21 Apr 2022 09:42:11 +0800 (CST)
+From: yue <kvmluck@163.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: a qemu process has 54 threads, how to know who they are and what
+ they are doing
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210622(1d4788a8)
+ Copyright (c) 2002-2022 www.mailtech.cn 163com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: PING: [PATCH v4 0/8] Introduce akcipher service for virtio-crypto
-Content-Language: en-US
-To: mst@redhat.com, berrange@redhat.com, arei.gonglei@huawei.com
-References: <20220411104327.197048-1-pizhenwei@bytedance.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <20220411104327.197048-1-pizhenwei@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Message-ID: <c34d759.1161.18049c8b2d4.Coremail.kvmluck@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: JcGowAB3h+9ztmBiGsgdAA--.62432W
+X-CM-SenderInfo: xnypz3lfn6il2tof0z/xtbBaxPpiVet4MR7FwAAsq
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.13.37; envelope-from=kvmluck@163.com;
+ helo=m1337.mail.163.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,146 +63,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: helei.sig11@bytedance.com, jasowang@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- linux-crypto@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Daniel,
-Could you please review this series?
-
-
-On 4/11/22 18:43, zhenwei pi wrote:
-> v3 -> v4:
-> - Coding style fix: Akcipher -> AkCipher, struct XXX -> XXX, Rsa -> RSA,
-> XXX-alg -> XXX-algo.
-> - Change version info in qapi/crypto.json, from 7.0 -> 7.1.
-> - Remove ecdsa from qapi/crypto.json, it would be introduced with the implemetion later.
-> - Use QCryptoHashAlgothrim instead of QCryptoRSAHashAlgorithm(removed) in qapi/crypto.json.
-> - Rename arguments of qcrypto_akcipher_XXX to keep aligned with qcrypto_cipher_XXX(dec/enc/sign/vefiry -> in/out/in2), and add qcrypto_akcipher_max_XXX APIs.
-> - Add new API: qcrypto_akcipher_supports.
-> - Change the return value of qcrypto_akcipher_enc/dec/sign, these functions return the actual length of result.
-> - Separate ASN.1 source code and test case clean.
-> - Disable RSA raw encoding for akcipher-nettle.
-> - Separate RSA key parser into rsakey.{hc}, and implememts it with builtin-asn1-decoder and nettle respectivly.
-> - Implement RSA(pkcs1 and raw encoding) algorithm by gcrypt. This has higher priority than nettle.
-> - For some akcipher operations(eg, decryption of pkcs1pad(rsa)), the length of returned result maybe less than the dst buffer size, return the actual length of result instead of the buffer length to the guest side. (in function virtio_crypto_akcipher_input_data_helper)
-> - Other minor changes.
-> 
-> Thanks to Daniel!
-> 
-> Eric pointed out this missing part of use case, send it here again.
-> 
-> In our plan, the feature is designed for HTTPS offloading case and other applications which use kernel RSA/ecdsa by keyctl syscall. The full picture shows bellow:
-> 
-> 
->                    Nginx/openssl[1] ... Apps
-> Guest   -----------------------------------------
->                     virtio-crypto driver[2]
-> -------------------------------------------------
->                     virtio-crypto backend[3]
-> Host    -----------------------------------------
->                    /          |          \
->                builtin[4]   vhost     keyctl[5] ...
-> 
-> 
-> [1] User applications can offload RSA calculation to kernel by keyctl syscall. There is no keyctl engine in openssl currently, we developed a engine and tried to contribute it to openssl upstream, but openssl 1.x does not accept new feature. Link:
->      https://github.com/openssl/openssl/pull/16689
-> 
-> This branch is available and maintained by Lei <helei.sig11@bytedance.com>
->      https://github.com/TousakaRin/openssl/tree/OpenSSL_1_1_1-kctl_engine
-> 
-> We tested nginx(change config file only) with openssl keyctl engine, it works fine.
-> 
-> [2] virtio-crypto driver is used to communicate with host side, send requests to host side to do asymmetric calculation.
->      https://lkml.org/lkml/2022/3/1/1425
-> 
-> [3] virtio-crypto backend handles requests from guest side, and forwards request to crypto backend driver of QEMU.
-> 
-> [4] Currently RSA is supported only in builtin driver. This driver is supposed to test the full feature without other software(Ex vhost process) and hardware dependence. ecdsa is introduced into qapi type without implementation, this may be implemented in Q3-2022 or later. If ecdsa type definition should be added with the implementation together, I'll remove this in next version.
-> 
-> [5] keyctl backend is in development, we will post this feature in Q2-2022. keyctl backend can use hardware acceleration(Ex, Intel QAT).
-> 
-> Setup the full environment, tested with Intel QAT on host side, the QPS of HTTPS increase to ~200% in a guest.
-> 
-> VS PCI passthrough: the most important benefit of this solution makes the VM migratable.
-> 
-> v2 -> v3:
-> - Introduce akcipher types to qapi
-> - Add test/benchmark suite for akcipher class
-> - Seperate 'virtio_crypto: Support virtio crypto asym operation' into:
->    - crypto: Introduce akcipher crypto class
->    - virtio-crypto: Introduce RSA algorithm
-> 
-> v1 -> v2:
-> - Update virtio_crypto.h from v2 version of related kernel patch.
-> 
-> v1:
-> - Support akcipher for virtio-crypto.
-> - Introduce akcipher class.
-> - Introduce ASN1 decoder into QEMU.
-> - Implement RSA backend by nettle/hogweed.
-> 
-> Lei He (4):
->    crypto-akcipher: Introduce akcipher types to qapi
->    crypto: add ASN.1 decoder
->    crypto: Implement RSA algorithm by hogweed
->    crypto: Implement RSA algorithm by gcrypt
-> 
-> Zhenwei Pi (3):
->    virtio-crypto: header update
->    crypto: Introduce akcipher crypto class
->    crypto: Introduce RSA algorithm
-> 
-> lei he (1):
->    tests/crypto: Add test suite for crypto akcipher
-> 
->   backends/cryptodev-builtin.c                  | 261 ++++++-
->   backends/cryptodev-vhost-user.c               |  34 +-
->   backends/cryptodev.c                          |  32 +-
->   crypto/akcipher-gcrypt.c.inc                  | 531 +++++++++++++
->   crypto/akcipher-nettle.c.inc                  | 448 +++++++++++
->   crypto/akcipher.c                             | 108 +++
->   crypto/akcipherpriv.h                         |  43 ++
->   crypto/asn1_decoder.c                         | 161 ++++
->   crypto/asn1_decoder.h                         |  75 ++
->   crypto/meson.build                            |   6 +
->   crypto/rsakey-builtin.c.inc                   | 150 ++++
->   crypto/rsakey-nettle.c.inc                    | 141 ++++
->   crypto/rsakey.c                               |  43 ++
->   crypto/rsakey.h                               |  96 +++
->   hw/virtio/virtio-crypto.c                     | 323 ++++++--
->   include/crypto/akcipher.h                     | 151 ++++
->   include/hw/virtio/virtio-crypto.h             |   5 +-
->   .../standard-headers/linux/virtio_crypto.h    |  82 +-
->   include/sysemu/cryptodev.h                    |  83 +-
->   meson.build                                   |  11 +
->   qapi/crypto.json                              |  64 ++
->   tests/bench/benchmark-crypto-akcipher.c       | 161 ++++
->   tests/bench/meson.build                       |   4 +
->   tests/bench/test_akcipher_keys.inc            | 537 +++++++++++++
->   tests/unit/meson.build                        |   2 +
->   tests/unit/test-crypto-akcipher.c             | 708 ++++++++++++++++++
->   tests/unit/test-crypto-asn1-decoder.c         | 289 +++++++
->   27 files changed, 4404 insertions(+), 145 deletions(-)
->   create mode 100644 crypto/akcipher-gcrypt.c.inc
->   create mode 100644 crypto/akcipher-nettle.c.inc
->   create mode 100644 crypto/akcipher.c
->   create mode 100644 crypto/akcipherpriv.h
->   create mode 100644 crypto/asn1_decoder.c
->   create mode 100644 crypto/asn1_decoder.h
->   create mode 100644 crypto/rsakey-builtin.c.inc
->   create mode 100644 crypto/rsakey-nettle.c.inc
->   create mode 100644 crypto/rsakey.c
->   create mode 100644 crypto/rsakey.h
->   create mode 100644 include/crypto/akcipher.h
->   create mode 100644 tests/bench/benchmark-crypto-akcipher.c
->   create mode 100644 tests/bench/test_akcipher_keys.inc
->   create mode 100644 tests/unit/test-crypto-akcipher.c
->   create mode 100644 tests/unit/test-crypto-asn1-decoder.c
-> 
-
--- 
-zhenwei pi
+SGksIGkgdGhpbmsgaXQgaXMgY3VyaW9zIGZvciBhIHByb2Nlc3MgdG8gaGF2ZSBzbyBtYW55IHRo
+cmVhZHMuCgpteSBlbnZpcm9ubWVudDogNS40LjE2MC0xLmVsNy54ODZfNjQsIHFlbXUtNi4xLjAK
+CnRoYW5rcwoKCj09PT09PT09PT09PT1jbWQ9PT09PT09PT09PT09PT09PT0Kcm9vdCAgICAgMTE5
+MTggIDAuMCAgMC4wIDExMjcyMCAgMjI4MCBwdHMvMCAgICBTKyAgIDA5OjMwICAgMDowMCBncmVw
+IC0tY29sb3I9YXV0byAzODAzMgpyb290ICAgICAzODAzMiA1OC4wICAxLjAgODcwNTYzMiAyODIz
+MzA0ID8gICAgIFNsICAgQXByMTkgMTQ1MToxMCAvb3B0L2thdGEvYmluL3FlbXUtc3lzdGVtLXg4
+Nl82NCAtbmFtZSBzYW5kYm94LTU5OGM4MzI1NjliNjMzMjFmMzkzYjFmCmVmNmQyM2NiMjA5YTk2
+NjhhMTdmM2I1NmE4ZWI4NzE3MTUwNmJhYWY4IC11dWlkIDlhYjkyNWYxLTg2ZjItNDcwMy04MDFl
+LWJlMjNjZTBmZGNhNiAtbWFjaGluZSBxMzUsYWNjZWw9a3ZtLGtlcm5lbF9pcnFjaGlwPW9uLG52
+ZGltbT1vbiAKLWNwdSBob3N0LHBtdT1vZmYgLXFtcCB1bml4Oi9ydW4vdmMvdm0vNTk4YzgzMjU2
+OWI2MzMyMWYzOTNiMWZlZjZkMjNjYjIwOWE5NjY4YTE3ZjNiNTZhOGViODcxNzE1MDZiYWFmOC9x
+bXAuc29jayxzZXJ2ZXI9b24sd2FpdD1vZmYgLXFtcAogdW5peDovcnVuL3ZjL3ZtLzU5OGM4MzI1
+NjliNjMzMjFmMzkzYjFmZWY2ZDIzY2IyMDlhOTY2OGExN2YzYjU2YThlYjg3MTcxNTA2YmFhZjgv
+cW1wLWd1ZXN0Y3NpLnNvY2ssc2VydmVyPW9uLHdhaXQ9b2ZmIC1xbXAgdW5peDovcnVuL3ZjCi92
+bS81OThjODMyNTY5YjYzMzIxZjM5M2IxZmVmNmQyM2NiMjA5YTk2NjhhMTdmM2I1NmE4ZWI4NzE3
+MTUwNmJhYWY4L3FtcC1ndWVzdGNuaS5zb2NrLHNlcnZlcj1vbix3YWl0PW9mZiAtbSA0MzUyTSxz
+bG90cz0xMCxtYXhtZW09MjU4NTYKMk0gLWRldmljZSBwY2ktYnJpZGdlLGJ1cz1wY2llLjAsaWQ9
+cGNpLWJyaWRnZS0wLGNoYXNzaXNfbnI9MSxzaHBjPW9mZixhZGRyPTIsaW8tcmVzZXJ2ZT00ayxt
+ZW0tcmVzZXJ2ZT0xbSxwcmVmNjQtcmVzZXJ2ZT0xbSAtZGV2aWNlIHZpcgp0aW8tc2VyaWFsLXBj
+aSxkaXNhYmxlLW1vZGVybj1mYWxzZSxpZD1zZXJpYWwwIC1kZXZpY2UgdmlydGNvbnNvbGUsY2hh
+cmRldj1jaGFyY29uc29sZTAsaWQ9Y29uc29sZTAgLWNoYXJkZXYgc29ja2V0LGlkPWNoYXJjb25z
+b2xlMCxwYXRoCj0vcnVuL3ZjL3ZtLzU5OGM4MzI1NjliNjMzMjFmMzkzYjFmZWY2ZDIzY2IyMDlh
+OTY2OGExN2YzYjU2YThlYjg3MTcxNTA2YmFhZjgvY29uc29sZS5zb2NrLHNlcnZlcj1vbix3YWl0
+PW9mZiAtZGV2aWNlIG52ZGltbSxpZD1udjAsbWVtZGUKdj1tZW0wLHVuYXJtZWQ9b24gLW9iamVj
+dCBtZW1vcnktYmFja2VuZC1maWxlLGlkPW1lbTAsbWVtLXBhdGg9L29wdC9rYXRhL3NoYXJlL2th
+dGEtY29udGFpbmVycy9rYXRhLWNvbnRhaW5lcnMtMi40LmltZyxzaXplPTEzNDIxNzcyOCxyZQph
+ZG9ubHk9b24gLW9iamVjdCBybmctcmFuZG9tLGlkPXJuZzAsZmlsZW5hbWU9L2Rldi91cmFuZG9t
+IC1kZXZpY2UgdmlydGlvLXJuZy1wY2kscm5nPXJuZzAgLWRldmljZSBwY2llLXJvb3QtcG9ydCxp
+ZD1ycDAsYnVzPXBjaWUuMCxjaGFzCnNpcz0wLHNsb3Q9MCxtdWx0aWZ1bmN0aW9uPW9mZiAtZGV2
+aWNlIHBjaWUtcm9vdC1wb3J0LGlkPXJwMSxidXM9cGNpZS4wLGNoYXNzaXM9MCxzbG90PTEsbXVs
+dGlmdW5jdGlvbj1vZmYgLWRldmljZSB2aG9zdC12c29jay1wY2ksZGlzYWIKbGUtbW9kZXJuPWZh
+bHNlLHZob3N0ZmQ9MyxpZD12c29jay0yMjEwODEyNTQyLGd1ZXN0LWNpZD0yMjEwODEyNTQyIC1k
+ZXZpY2UgdmlydGlvLTlwLXBjaSxkaXNhYmxlLW1vZGVybj1mYWxzZSxmc2Rldj1leHRyYS05cC1r
+YXRhU2hhcmVkLAptb3VudF90YWc9a2F0YVNoYXJlZCAtZnNkZXYgbG9jYWwsaWQ9ZXh0cmEtOXAt
+a2F0YVNoYXJlZCxwYXRoPS9ydW4va2F0YS1jb250YWluZXJzL3NoYXJlZC9zYW5kYm94ZXMvNTk4
+YzgzMjU2OWI2MzMyMWYzOTNiMWZlZjZkMjNjYjIwOWE5CjY2OGExN2YzYjU2YThlYjg3MTcxNTA2
+YmFhZjgvc2hhcmVkLHNlY3VyaXR5X21vZGVsPW5vbmUsbXVsdGlkZXZzPXJlbWFwIC1uZXRkZXYg
+dGFwLGlkPW5ldHdvcmstMCx2aG9zdD1vbix2aG9zdGZkcz00OjU6NixmZHM9Nzo4OjkgLWRldmkK
+Y2UgZHJpdmVyPXZpcnRpby1uZXQtcGNpLG5ldGRldj1uZXR3b3JrLTAsbWFjPWZhOjE2OjNlOmZk
+OmJhOmFiLGRpc2FibGUtbW9kZXJuPWZhbHNlLG1xPW9uLHZlY3RvcnM9OCAtcnRjIGJhc2U9dXRj
+LGRyaWZ0Zml4PXNsZXcsY2xvY2s9aApvc3QgLWdsb2JhbCBrdm0tcGl0Lmxvc3RfdGlja19wb2xp
+Y3k9ZGlzY2FyZCAtdmdhIG5vbmUgLW5vLXVzZXItY29uZmlnIC1ub2RlZmF1bHRzIC1ub2dyYXBo
+aWMgLS1uby1yZWJvb3QgLWRhZW1vbml6ZSAtb2JqZWN0IG1lbW9yeS1iYWNrCmVuZC1yYW0saWQ9
+ZGltbTEsc2l6ZT00MzUyTSAtbnVtYSBub2RlLG1lbWRldj1kaW1tMSAta2VybmVsIC9vcHQva2F0
+YS9zaGFyZS9rYXRhLWNvbnRhaW5lcnMvdm1saW51eC01LjQuMTYwIC1hcHBlbmQgdHNjPXJlbGlh
+YmxlIG5vX3RpbWUKcl9jaGVjayByY3VwZGF0ZS5yY3VfZXhwZWRpdGVkPTEgaTgwNDIuZGlyZWN0
+PTEgaTgwNDIuZHVtYmtiZD0xIGk4MDQyLm5vcG5wPTEgaTgwNDIubm9hdXg9MSBub3JlcGxhY2Ut
+c21wIHJlYm9vdD1rIGNvbnNvbGU9aHZjMCBjb25zb2xlPQpodmMxIGNyeXB0b21nci5ub3Rlc3Rz
+IG5ldC5pZm5hbWVzPTAgcGNpPWxhc3RidXM9MCByb290PS9kZXYvcG1lbTBwMSByb290ZmxhZ3M9
+ZGF4LGRhdGE9b3JkZXJlZCxlcnJvcnM9cmVtb3VudC1ybyBybyByb290ZnN0eXBlPWV4dDQgZGVi
+CnVnIHN5c3RlbWQuc2hvd19zdGF0dXM9dHJ1ZSBzeXN0ZW1kLmxvZ19sZXZlbD1kZWJ1ZyBwYW5p
+Yz0xIG5yX2NwdXM9NDAgc3lzdGVtZC51bml0PWthdGEtY29udGFpbmVycy50YXJnZXQgc3lzdGVt
+ZC5tYXNrPXN5c3RlbWQtbmV0d29ya2QKLnNlcnZpY2Ugc3lzdGVtZC5tYXNrPXN5c3RlbWQtbmV0
+d29ya2Quc29ja2V0IGFnZW50LmRlYnVnX2NvbnNvbGUgYWdlbnQuZGVidWdfY29uc29sZV92cG9y
+dD0xMDI2IC1waWRmaWxlIC9ydW4vdmMvdm0vNTk4YzgzMjU2OWI2MzMyMWYzOQozYjFmZWY2ZDIz
+Y2IyMDlhOTY2OGExN2YzYjU2YThlYjg3MTcxNTA2YmFhZjgvcGlkIC1EIC9ydW4vdmMvdm0vNTk4
+YzgzMjU2OWI2MzMyMWYzOTNiMWZlZjZkMjNjYjIwOWE5NjY4YTE3ZjNiNTZhOGViODcxNzE1MDZi
+YWFmOC9xZW11LmxvCmcgLXNtcCAzLGNvcmVzPTEsdGhyZWFkcz0xLHNvY2tldHM9NDAsbWF4Y3B1
+cz00MApyb290ICAgICAzODAzOCAgMC4wICAwLjAgICAgICAwICAgICAwID8gICAgICAgIFMgICAg
+QXByMTkgICAwOjEwIFt2aG9zdC0zODAzMl0Kcm9vdCAgICAgMzgwNDAgIDAuMCAgMC4wICAgICAg
+MCAgICAgMCA/ICAgICAgICBTICAgIEFwcjE5ICAgMDoxMCBbdmhvc3QtMzgwMzJdCnJvb3QgICAg
+IDM4MDQxICAwLjAgIDAuMCAgICAgIDAgICAgIDAgPyAgICAgICAgUyAgICBBcHIxOSAgIDA6MTEg
+W3Zob3N0LTM4MDMyXQpyb290ICAgICAzODA0NiAgMC4wICAwLjAgICAgICAwICAgICAwID8gICAg
+ICAgIFMgICAgQXByMTkgICAwOjAwIFtrdm0tcGl0LzM4MDMyXQpyb290ICAgICAzODA0NyAgMC4w
+ICAwLjAgICAgICAwICAgICAwID8gICAgICAgIFMgICAgQXByMTkgICAwOjAyIFt2aG9zdC0zODAz
+Ml0KW3Jvb3RAb3Mgfl0jIHBzIC1MIC1wIDM4MDMyIHwgd2MgLWwKNTQKW3Jvb3RAb3Mgfl0jIHBz
+IC1mVCAtcCAzODAzMiB8IHdjIC1sCjU0Cg==
 
