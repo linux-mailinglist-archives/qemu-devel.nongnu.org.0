@@ -2,59 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF9B5097B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 08:35:07 +0200 (CEST)
-Received: from localhost ([::1]:60468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0CE50979F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 08:31:40 +0200 (CEST)
+Received: from localhost ([::1]:56972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhQPA-0001He-Iu
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 02:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
+	id 1nhQLr-00070D-IG
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 02:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQCR-0001f8-PE
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:21:57 -0400
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:35761)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQDz-0002GQ-VZ
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:23:35 -0400
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:44121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQCO-0005j9-Oz
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:21:55 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.111])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5C22022927;
- Thu, 21 Apr 2022 06:21:48 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQDu-0005oC-CF
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:23:29 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.42])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id BA2452295F;
+ Thu, 21 Apr 2022 06:23:23 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 21 Apr
- 2022 08:21:47 +0200
+ 2022 08:23:23 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0029ebe9ab1-996a-4700-a097-793a5da38074,
+ (GARM-100R00310994873-d46e-4ffd-b134-fc5fe3bf9651,
  FFC778467988C6DD564F10F4CBD504D71298CE84) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ce881a8c-4026-1cbc-a4d7-02bedbd4b030@kaod.org>
-Date: Thu, 21 Apr 2022 08:21:46 +0200
+Message-ID: <9ddd8d9c-c97e-9a77-b2f1-7769c50db8da@kaod.org>
+Date: Thu, 21 Apr 2022 08:23:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC PATCH v3 1/5] ppc64: Add semihosting support
+Subject: Re: [PATCH v2] target/ppc: Fix BookE debug interrupt generation
 Content-Language: en-US
-To: Nicholas Piggin <npiggin@gmail.com>, Leandro Lupori
- <leandro.lupori@eldorado.org.br>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-References: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
- <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
- <1d3aaac9-5aa1-9ff9-6b3c-5109ad7f4361@kaod.org>
- <33285ea7-8dba-3e24-d241-0ff541a83b12@eldorado.org.br>
- <1650503031.93xsvzlip3.astroid@bobo.none>
+To: Bin Meng <bmeng.cn@gmail.com>, Daniel Henrique Barboza
+ <danielhb413@gmail.com>, David Gibson <david@gibson.dropbear.id.au>, Greg
+ Kurz <groug@kaod.org>
+References: <20220421011729.1148727-1-bmeng.cn@gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <1650503031.93xsvzlip3.astroid@bobo.none>
+In-Reply-To: <20220421011729.1148727-1-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: ee51de90-3d21-438a-876b-d19f3b9c50dc
-X-Ovh-Tracer-Id: 17869157422388382642
+X-Ovh-Tracer-GUID: 388098c1-9a13-4902-b876-f3774db3baf0
+X-Ovh-Tracer-Id: 17895897547982343020
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrtddugddutdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejgefggffgheejgfdufeeiueffveehteejgfelueekgfegtefgffejhedtgfejgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrtddugddutdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeetieekudeifeejleejfeevhfejkeetfeelheevueegjeefheeuvefhleefleeiffenucffohhmrghinhepnhigphdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
 Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
  helo=7.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
@@ -63,7 +59,7 @@ X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,76 +72,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- pbonzini@redhat.com, alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/22 04:04, Nicholas Piggin wrote:
-> Excerpts from Leandro Lupori's message of April 21, 2022 4:09 am:
->> On 4/18/22 17:22, Cédric Le Goater wrote:
->>> On 4/18/22 21:10, Leandro Lupori wrote:
->>>> Add semihosting support for PPC64. This implementation is
->>>> based on the standard for ARM semihosting version 2.0, as
->>>> implemented by QEMU and documented in
->>>>
->>>>       https://github.com/ARM-software/abi-aa/releases
->>>>
->>>> The PPC64 specific differences are the following:
->>>>
->>>> Semihosting Trap Instruction: sc 7
->>>> Operation Number Register: r3
->>>> Parameter Register: r4
->>>> Return Register: r3
->>>> Data block field size: 64 bits
->>>
->>> 'sc' is a good way to implement semi hosting but we should make sure
->>> that it is not colliding with future extensions, at least with the
->>> next POWERPC processor. Is that the case ? if not, then the lev could
->>> be reserved.
->>>
->>
->> Power ISA 3.1B says that LEV values greater that 2 are reserved.
->> Level 2 is the ultravisor, so I assumed that level 7 was far enough from
->> current max level. I don't know if POWER11 will introduce new privilege
->> levels. Is this info publicly available somewhere? Or do you have a
->> better level in mind to use instead?
+On 4/21/22 03:17, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> It's not available but there are no plans to use LEV=7.
+> Per E500 core reference manual [1], chapter 8.4.4 "Branch Taken Debug
+> Event" and chapter 8.4.5 "Instruction Complete Debug Event":
 > 
-> It would be fine in practice I think, but it's kind of ugly and not
-> great precedent -- how would we find out all the projects which use
-> reserved instructions or values for something? Nominally the onus is on
-> the software to accept breakage, but in reality important software that
-> breaks causes a headache for the ISA.
+>    "A branch taken debug event occurs if both MSR[DE] and DBCR0[BRT]
+>    are set ... Branch taken debug events are not recognized if MSR[DE]
+>    is cleared when the branch instruction executes."
 > 
-> IBM's systemsim emulator actually has an instruction to call out to the
-> emulator to do various things like IO. It uses the opcode
+>    "An instruction complete debug event occurs when any instruction
+>    completes execution so long as MSR[DE] and DBCR0[ICMP] are both
+>    set ... Instruction complete debug events are not recognized if
+>    MSR[DE] is cleared at the time of the instruction execution."
 > 
->    .long 0x000eaeb0
+> Current codes do not check MSR.DE bit before setting HFLAGS_SE and
+> HFLAGS_BE flag, which would cause the immediate debug interrupt to
+> be generated, e.g.: when DBCR0.ICMP bit is set by guest software
+> and MSR.DE is not set.
 > 
-> That is the primary op 0 reserved space, and there is actually another
-> op 'attn' or 'sp_attn' there which IBM CPUs implement, it is similar in
-> spirit (it calls out to the service processor and/or chip error handling
-> system to deal with a condition out-of-band). You don't want to use attn
-> here because the core under emulation might implement it, I'm just
-> noting the precedent with similar functionality under this primary
-> opcode.
+> [1] https://www.nxp.com/docs/en/reference-manual/E500CORERM.pdf
 > 
-> So I think the systemsim emulator instruction should be a good choice.
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-yeah. It's not a major change.
-
-> But it should really be documented. I will bring this up at the Open
-> Power ISA working group meeting next week and see what the options are
-> with getting it formally allocated for semihosting emulators (or what
-> the alternatives are).
-
-It would be nice to invite Leandro to this meeting since he started
-implementing.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
 
 C.
+
+> ---
+> 
+> Changes in v2:
+> - update commit message to use E500CORERM instead of PowerISA 2.07
+> 
+>   target/ppc/helper_regs.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index 9a691d6833..77bc57415c 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -63,10 +63,10 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+>   
+>       if (ppc_flags & POWERPC_FLAG_DE) {
+>           target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
+> -        if (dbcr0 & DBCR0_ICMP) {
+> +        if ((dbcr0 & DBCR0_ICMP) && msr_de) {
+>               hflags |= 1 << HFLAGS_SE;
+>           }
+> -        if (dbcr0 & DBCR0_BRT) {
+> +        if ((dbcr0 & DBCR0_BRT) && msr_de) {
+>               hflags |= 1 << HFLAGS_BE;
+>           }
+>       } else {
 
 
