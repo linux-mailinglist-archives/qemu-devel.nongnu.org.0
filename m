@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A01509F5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 14:10:47 +0200 (CEST)
-Received: from localhost ([::1]:47254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54C4509F59
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 14:10:45 +0200 (CEST)
+Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhVe2-0004dH-T0
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 08:10:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36698)
+	id 1nhVe0-0004TL-TS
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 08:10:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nhVFx-0001F7-LX
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:46:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43462)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhVGh-0001XV-0f
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:46:39 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:40999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nhVFp-00089R-BJ
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:45:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650541544;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gYWch796phBOT9NSD7NbYAqgC/kRbg3xY3yiZDaFzR0=;
- b=XJl914w7AwWFhlx2KVosvNEDOjpu8IpJk1Ytt71II5ax0WyuqzeQrPNqnX22g4fzsvO9ne
- iuCc39NSDcK/4jjf/49nj04PWFR9B3KmDHYmTBnzQDnXF3IDDmIvIYZc5yDPRpHBZw/hoR
- D1+ovixIX/M/k66xIQ27fXh/l5ilE1k=
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhVGc-0008Hf-BE
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:46:36 -0400
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-68eA_yCcM7mlbb4g7ahfog-1; Thu, 21 Apr 2022 07:45:42 -0400
-X-MC-Unique: 68eA_yCcM7mlbb4g7ahfog-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-668-eJtaR1AqM4yr-NGzsa7yFg-1; Thu, 21 Apr 2022 07:46:29 -0400
+X-MC-Unique: eJtaR1AqM4yr-NGzsa7yFg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D7311C0E0E1;
- Thu, 21 Apr 2022 11:45:42 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA8B4465167;
- Thu, 21 Apr 2022 11:45:41 +0000 (UTC)
-Date: Thu, 21 Apr 2022 13:45:31 +0200
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Natalia Kuzmina <natalia.kuzmina@openvz.org>
-Subject: Re: [PATCH 2/3] iotests: 314 test on duplicated clusters (parallels
- format)
-Message-ID: <YmFD2zrVKRriVAhB@stefanha-x1.localdomain>
-References: <20220418110430.319911-1-natalia.kuzmina@openvz.org>
- <20220418110430.319911-3-natalia.kuzmina@openvz.org>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C82B2805346;
+ Thu, 21 Apr 2022 11:46:29 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0481040D016A;
+ Thu, 21 Apr 2022 11:46:27 +0000 (UTC)
+Date: Thu, 21 Apr 2022 13:46:26 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 4/5] 9pfs: fix wrong errno being sent to Linux client on
+ macOS host
+Message-ID: <20220421134626.52726efa@bahia>
+In-Reply-To: <3250585.T8RbiGE4XJ@silver>
+References: <cover.1650370026.git.qemu_oss@crudebyte.com>
+ <c32aafaa3f29424fc13ae86b369c9baf1ceb0ec6.1650370027.git.qemu_oss@crudebyte.com>
+ <20220421124835.3e664669@bahia> <3250585.T8RbiGE4XJ@silver>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="aQnjS+3Tn8WAreCi"
-Content-Disposition: inline
-In-Reply-To: <20220418110430.319911-3-natalia.kuzmina@openvz.org>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,50 +65,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, v.sementsov-og@mail.ru, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, hreitz@redhat.com, den@openvz.org
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 21 Apr 2022 13:13:08 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
---aQnjS+3Tn8WAreCi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Donnerstag, 21. April 2022 12:48:35 CEST Greg Kurz wrote:
+> > On Tue, 19 Apr 2022 13:41:59 +0200
+> > 
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > Linux and macOS only share some errno definitions with equal macro
+> > > name and value. In fact most mappings for errno are completely
+> > > different on the two systems.
+> > > 
+> > > This patch converts some important errno values from macOS host to
+> > > corresponding Linux errno values before eventually sending such error
+> > > codes along with Tlerror replies (if 9p2000.L is used that is), which
+> > > fixes a bunch of misbehaviours when running a Linux client on macOS
+> > > host.
+> > 
+> > This even fixes an actual protocol violation :
+> > 
+> > lerror -- return error code
+> > 
+> > size[4] Rlerror tag[2] ecode[4]
+> > 
+> > lerror replaces the reply message used in a successful call. ecode is a
+> > numerical Linux errno.
+> > ^^^^^^^^^^^^^^^^^^^^^
+> > 
+> > Taken from
+> > https://github.com/chaos/diod/wiki/protocol#lerror----return-error-code
+> 
+> Again, something to add to the commit log?
+> 
 
-On Mon, Apr 18, 2022 at 02:04:29PM +0300, Natalia Kuzmina wrote:
-> Reading from duplicated offset and from original offset returns
-> the same data. After repairing changing either of these
-> blocks of data does not affect another one.
->=20
-> Signed-off-by: Natalia Kuzmina <natalia.kuzmina@openvz.org>
-> ---
->  tests/qemu-iotests/314                        |  88 ++++++++++++++++++
->  tests/qemu-iotests/314.out                    |  36 +++++++
->  .../parallels-2-duplicated-cluster.bz2        | Bin 0 -> 148 bytes
->  3 files changed, 124 insertions(+)
->  create mode 100755 tests/qemu-iotests/314
->  create mode 100644 tests/qemu-iotests/314.out
->  create mode 100644 tests/qemu-iotests/sample_images/parallels-2-duplicat=
-ed-cluster.bz2
+IMHO a protocol violation is important enough to be mentioned but
+I'll leave it to you.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > For instance this patch fixes:
+> > >   mount -t 9p -o posixacl ...
+> > > 
+> > > on Linux guest if security_mode=mapped was used for 9p server, which
+> > > refused to mount successfully, because macOS returned ENOATTR==93
+> > > when client tried to retrieve POSIX ACL xattrs, because errno 93
+> > > is defined as EPROTONOSUPPORT==93 on Linux, so Linux client believed
+> > > that xattrs were not supported by filesystem on host in general.
+> > > 
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
+> > > 
+> > >  hw/9pfs/9p.c | 27 +++++++++++++++++++++++++++
+> > >  1 file changed, 27 insertions(+)
+> > > 
+> > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > > index d953035e1c..becc41cbfd 100644
+> > > --- a/hw/9pfs/9p.c
+> > > +++ b/hw/9pfs/9p.c
+> > > @@ -57,6 +57,31 @@ enum {
+> > > 
+> > >  P9ARRAY_DEFINE_TYPE(V9fsPath, v9fs_path_free);
+> > > 
+> > > +/* Translates errno from host -> Linux if needed */
+> > > +static int errno_to_dotl(int err) {
+> > > +#if defined(CONFIG_LINUX)
+> > > +    /* nothing to translate (Linux -> Linux) */
+> > > +#elif defined(CONFIG_DARWIN)
+> > > +    /* translation mandatory for macOS hosts */
+> > > +    if (err == ENAMETOOLONG) {
+> > > +        err = 36; /* ==ENAMETOOLONG on Linux */
+> > > +    } else if (err == ENOTEMPTY) {
+> > > +        err = 39; /* ==ENOTEMPTY on Linux */
+> > > +    } else if (err == ELOOP) {
+> > > +        err = 40; /* ==ELOOP on Linux */
+> > > +    } else if (err == ENOATTR) {
+> > > +        err = 61; /* ==ENODATA on Linux */
+> > > +    } else if (err == ENOTSUP) {
+> > > +        err = 95; /* ==EOPNOTSUPP on Linux */
+> > > +    } else if (err == EOPNOTSUPP) {
+> > > +        err = 95; /* ==EOPNOTSUPP on Linux */
+> > > +    }
+> > 
+> > I'm assuming you have audited all errnos, right ? Just to be sure
+> > that this won't bite anymore.
+> 
+> Depends on what you mean with "all". Like I wrote in the commit log, for now I 
+> translated in this patch those errnos that I identified as important, and 
+> those are audited by me of course (checked the man pages for what errors are 
+> expected as result from calls on Linux vs. macOS side and looked up numeric 
+> values from header files on both sides, tests).
+> 
 
---aQnjS+3Tn8WAreCi
-Content-Type: application/pgp-signature; name="signature.asc"
+I was pretty sure you'd have done that at least :-)
 
------BEGIN PGP SIGNATURE-----
+> However if you rather mean really all errnos that were ever defined on Linux 
+> and macOS, then the answer is no. That would probably quite some work, and I'm 
+> not sure if you could just try to translate them dry, i.e. by just looking at 
+> the headers or something.
+> 
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJhQ9sACgkQnKSrs4Gr
-c8jAYAgAnNIhBazj1ZcvO1eqrtpZcOEMU0L1LXrXhkndRc9VxSAP3IGxgwQUala2
-RIYJAhKlbARw6LZ2PwKJg1Ad4cdEOUo5+tml5vlaZ0xc1/wpOBj5R/rGDOuQrCiq
-zSMNWWDv1wxHgWFPNcjFQIUakD7vDCDsqmdmShncs9SzofSAdY9gwa6+oTGvc/fK
-Lx3aYJNxomBZLxLHclynO7aOO3Oa8wm2Pur25VANYRWx59ABbbn6ww1lC02NId4m
-J2kWkgKkExKMhXrDaLj2EX3mnP3WMDSpq3ulglgEbiEJxeHf8NYrFiLREE/uMGiS
-Ka6ooJmvvnc84rKGWvffOZnJq3s/Bw==
-=X38E
------END PGP SIGNATURE-----
+But yes I was rather meaning the full errno set.
 
---aQnjS+3Tn8WAreCi--
+> So yes, your concern is justified. The question is, should this all be 
+> translated right now already, or would it be OK to address this minimum set of 
+> errno translation for now (especially for qemu-stable) and then later address 
+> the rest?
+> 
+
+My concern is about the maintenance burden of investigating future
+implementations of this issue, so I'd say it is mostly up to you
+as the principal maintainer. Maybe leave a FIXME comment in the code
+that the list of translated errnos isn't exhaustive at least ?
+
+> On the long term you would probably import the Linux errno header file into 
+> the code base, then prefix the individual macros with something like 
+> DOTL_ENODATA, etc. and then use those macros for translating the errnos 
+> instead of using literal numerics, maybe using GCC's designated array 
+> initializers then.
+> 
+
+This would make sense indeed since 9p2000.L explicitly mentions the
+numerical linux errnos.
+
+> > > +#else
+> > > +#error Missing errno translation to Linux for this host system
+> > > +#endif
+> > > +    return err;
+> > > +}
+> > > +
+> > 
+> > As with the other patch, I'd rather move this magic to 9p-util.h .
+> 
+> Makes sense. There is indeed already too much utility code piled up in 9p.c.
+> 
+> > >  static ssize_t pdu_marshal(V9fsPDU *pdu, size_t offset, const char *fmt,
+> > >  ...) {
+> > >  
+> > >      ssize_t ret;
+> > > 
+> > > @@ -1054,6 +1079,8 @@ static void coroutine_fn pdu_complete(V9fsPDU *pdu,
+> > > ssize_t len)> 
+> > >              }
+> > >              len += ret;
+> > >              id = P9_RERROR;
+> > > 
+> > > +        } else {
+> > > +            err = errno_to_dotl(err);
+> > > 
+> > >          }
+> > >          
+> > >          ret = pdu_marshal(pdu, len, "d", err);
+> 
+> 
 
 
