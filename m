@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1272A50A9A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 22:01:01 +0200 (CEST)
-Received: from localhost ([::1]:59318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311CB50A982
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 21:49:23 +0200 (CEST)
+Received: from localhost ([::1]:52552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhcz6-0006Gu-5q
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 16:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45906)
+	id 1nhcnq-0005om-7u
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 15:49:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcXj-00007U-5z
+ id 1nhcXj-00007X-RO
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:44 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33686)
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcXh-0005kd-Pu
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:42 -0400
+ id 1nhcXi-0005ki-7j
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:43 -0400
 Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcWh-000Caf-RS; Thu, 21 Apr 2022 20:31:40 +0100
+ id 1nhcWi-000Caf-7K; Thu, 21 Apr 2022 20:31:40 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Thu, 21 Apr 2022 20:30:50 +0100
-Message-Id: <20220421193100.5098-41-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 21 Apr 2022 20:30:51 +0100
+Message-Id: <20220421193100.5098-42-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
 References: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 40/50] lasi: use numerical constant for iar reset value
+Subject: [PATCH 41/50] hppa: move device headers from hppa_sys.h into
+ individual .c files
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,28 +62,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is to allow us to decouple the LASI device from the board logic. If it is
-decided later that this value needs to be configurable then it can easily be
-converted to a qdev property.
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/hppa/lasi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/hppa/hppa_sys.h | 3 ---
+ hw/hppa/lasi.h     | 4 ++++
+ hw/hppa/machine.c  | 2 ++
+ hw/hppa/pci.c      | 3 +++
+ 4 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
-index 11ca33fba3..5ef36f3f58 100644
---- a/hw/hppa/lasi.c
-+++ b/hw/hppa/lasi.c
-@@ -231,7 +231,7 @@ static void lasi_reset(DeviceState *dev)
- {
-     LasiState *s = LASI_CHIP(dev);
+diff --git a/hw/hppa/hppa_sys.h b/hw/hppa/hppa_sys.h
+index f7a127be19..9964d4a7a7 100644
+--- a/hw/hppa/hppa_sys.h
++++ b/hw/hppa/hppa_sys.h
+@@ -3,10 +3,7 @@
+ #ifndef HW_HPPA_SYS_H
+ #define HW_HPPA_SYS_H
  
--    s->iar = CPU_HPA + 3;
-+    s->iar = 0xFFFB0000 + 3; /* CPU_HPA + 3 */
+-#include "hw/pci/pci.h"
+-#include "hw/pci/pci_host.h"
+ #include "hw/boards.h"
+-#include "hw/intc/i8259.h"
  
-     /* Real time clock (RTC), it's only one 32-bit counter @9000 */
-     s->rtc = time(NULL);
+ #include "hppa_hardware.h"
+ 
+diff --git a/hw/hppa/lasi.h b/hw/hppa/lasi.h
+index 11cf7d6b0b..ecc7065ce8 100644
+--- a/hw/hppa/lasi.h
++++ b/hw/hppa/lasi.h
+@@ -12,6 +12,10 @@
+ #ifndef LASI_H
+ #define LASI_H
+ 
++#include "exec/address-spaces.h"
++#include "hw/pci/pci_host.h"
++#include "hw/boards.h"
++
+ #define TYPE_LASI_CHIP "lasi-chip"
+ OBJECT_DECLARE_SIMPLE_TYPE(LasiState, LASI_CHIP)
+ 
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index c8eee6398a..ebf447a9eb 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -16,9 +16,11 @@
+ #include "hw/timer/i8254.h"
+ #include "hw/char/serial.h"
+ #include "hw/char/parallel.h"
++#include "hw/intc/i8259.h"
+ #include "hw/input/lasips2.h"
+ #include "hw/net/lasi_82596.h"
+ #include "hw/nmi.h"
++#include "hw/pci/pci.h"
+ #include "hw/pci-host/dino.h"
+ #include "lasi.h"
+ #include "hppa_sys.h"
+diff --git a/hw/hppa/pci.c b/hw/hppa/pci.c
+index 32609aba63..a92dcb6b9e 100644
+--- a/hw/hppa/pci.c
++++ b/hw/hppa/pci.c
+@@ -6,6 +6,9 @@
+ #include "qemu/osdep.h"
+ #include "hppa_sys.h"
+ #include "qemu/log.h"
++#include "hw/pci/pci.h"
++#include "hw/pci/pci_host.h"
++#include "hw/intc/i8259.h"
+ #include "trace.h"
+ 
+ 
 -- 
 2.20.1
 
