@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749D4509431
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 02:36:22 +0200 (CEST)
-Received: from localhost ([::1]:47976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F685509434
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 02:38:15 +0200 (CEST)
+Received: from localhost ([::1]:54404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhKo1-0007sO-J9
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 20:36:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35630)
+	id 1nhKpq-0003nR-4a
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 20:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhKlV-0004wt-RN; Wed, 20 Apr 2022 20:33:47 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:39546)
+ id 1nhKlZ-0004zh-CC; Wed, 20 Apr 2022 20:33:49 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhKlU-0008Ls-Bd; Wed, 20 Apr 2022 20:33:45 -0400
-Received: by mail-pf1-x436.google.com with SMTP id l127so3485046pfl.6;
- Wed, 20 Apr 2022 17:33:43 -0700 (PDT)
+ id 1nhKlX-0008NH-WF; Wed, 20 Apr 2022 20:33:49 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id 2so3484098pjw.2;
+ Wed, 20 Apr 2022 17:33:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GH2FT9hl0QobN2IwU/hnYZutReJp+9cZOVo+GqkwIiU=;
- b=C9PFtI82dw5q4V2bl8D/5mFH7h0TaR2vKI3CsCCq9vk3KlYDjO64HJYKgWQYTCwP+u
- ndyg8Co57Dhr78EkW6VOEhk8FFMp/NPmfSjOzXgroI7cwg+v8Bfrq93BAYkbYCxp1Q/g
- T8C/gbCAB2/asDKdwoOuwUy1rlKbo9dNYuiLvZIVLXIO57Q9z/CSssJCFT1XkQ0yknq9
- vqXMeTXSlygUfkd0sSR4p1TM8vOGb8SI4jqPLgY3tUVMStn9dx+zT6BDzvqbfb4aP96T
- +PYH4Iy8GeEFYOxxdTDM0Y7jW3zpwHUH1OQ2Bpqz3IuyMqm8Tf+rcilaIf++Ci6hbypd
- BPrg==
+ bh=ArTHn4klHalFoaByuoITqQEzLR2lLcXEBce/s25Aacs=;
+ b=IXUiVY7e84MTTQ8qiyZUYBLvcIAHDLy8lcV0MRYTvGCKlzEtc+im/Elr6nLhGIEFIU
+ ERw7QJMX4c8KHGSof+igDSmz6tSY8XZZLOJvflWOTguAd3NXZzO+bfp83dTJqz7D9nFL
+ 7pjW2haRNcA+LqaHfuPm7tzGETuJI1cDxgBSlvq4u4qvD7Xx0l5fxLuWma4x7yQ97Sbf
+ 0BImOMOMVM+f1ydPcwDhQ3hOaCG8KUMv2dRVa7pQLRDk9GlXEtank7jjOabYcQ8bZlAe
+ g4inFJkM4WH7PsNuR9KM7L1kN0XIyzU3rL23hOdcUAUecBZPkLe2L+rLZDLg6Y7I9UdZ
+ HzXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GH2FT9hl0QobN2IwU/hnYZutReJp+9cZOVo+GqkwIiU=;
- b=3eHx9nQ23h3pa2P/cwpVjsx+diBNzt850se+Y8IcqusQ1KFtxi9xeJtFZ0nlapw+iH
- GuEedPrQVg3aYK/G9YbnzIh5pV5JuuSrQiIe2axN+siyt5BFRu1qGUBjC0UWOb5+pC/s
- ZPHapj40eXb++Pl8uSdox1YzmahSSijm3SOgovjOhCwAZ+zC2Lm0xXtj/h+qJLXHpmea
- f9gRpAYEPy1hTPkdxQJvTRke0SwaIJSu349rOsrBzRB46T9tSYW7uwbA8mNbRtvXM6XE
- 7MXqDLVxBkUvRRWlrQxLt+b9qM/ViTo4fbaood1rggt4RZAngGEVVy+otQl6lK9dy6kr
- fdUw==
-X-Gm-Message-State: AOAM533t1k6UNGcLgRzSsNjHINOtpsuaXHUU6ArXZ8yWYqglKeKjdt7v
- DwPBZvYVqA/KB4PtDUD0BoE=
-X-Google-Smtp-Source: ABdhPJw7wGcIlOgd9mjfeldRwDzH6wLAK3A8+EVnC+Rh09nv5SgSyUE4rXqdLInqT+znjD6eR90NSQ==
-X-Received: by 2002:a63:5518:0:b0:3a8:c75d:8536 with SMTP id
- j24-20020a635518000000b003a8c75d8536mr18696083pgb.366.1650501222690; 
- Wed, 20 Apr 2022 17:33:42 -0700 (PDT)
+ bh=ArTHn4klHalFoaByuoITqQEzLR2lLcXEBce/s25Aacs=;
+ b=4d/Pz81Fs0R2unhX514Ans3+ZvyHKl3Yv1QPiDsBTSFrSE9oA1k1znHknCZy6ppRNH
+ tHa9FAhOLBAQVcu5Fg/pMsg82GQGRe6rtAul3MeccgV4Pk1iS3gvWg9UKIzl4Sa1t07a
+ rlf0cyeG028dgzJ3ra2R99sRew4lODtdStMHZRgCViJBwxEUh9ciFChANifeAwHVJOeR
+ 2tPY0SQLfP0K5O8xcQXS2TBcurU0VwgweNGlxw/ZQvVZcGscKoMP6Bu4jXDEoctRCNgm
+ mWwKQkvpzxTwF2KVPUfO8aYlkrR/mEECboCPulMak9Ar804j3kX67cB6D7w7IMON4bWI
+ 31zQ==
+X-Gm-Message-State: AOAM5313NnHcJq5vnu0gHaPANa81cgB/ot+EGbAXPFf8qdisYr8VVkmW
+ gA9xhgDr4rFIXAFOp2N+nyU=
+X-Google-Smtp-Source: ABdhPJwOEE/oFa2XO8rD4b9ibe/ZJqM9ui7tyhaAlBqD1rFfVIsdb1o53IUXA82fhYNI6NjxLRn6JQ==
+X-Received: by 2002:a17:902:8306:b0:158:ea27:307d with SMTP id
+ bd6-20020a170902830600b00158ea27307dmr21714183plb.164.1650501225553; 
+ Wed, 20 Apr 2022 17:33:45 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
  [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
- z6-20020a056a00240600b004e17ab23340sm22981969pfh.177.2022.04.20.17.33.40
+ z6-20020a056a00240600b004e17ab23340sm22981969pfh.177.2022.04.20.17.33.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 17:33:42 -0700 (PDT)
+ Wed, 20 Apr 2022 17:33:45 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v5 4/6] target/riscv: machine: Add debug state description
-Date: Thu, 21 Apr 2022 08:33:22 +0800
-Message-Id: <20220421003324.1134983-5-bmeng.cn@gmail.com>
+Subject: [PATCH v5 5/6] target/riscv: cpu: Enable native debug feature
+Date: Thu, 21 Apr 2022 08:33:23 +0800
+Message-Id: <20220421003324.1134983-6-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421003324.1134983-1-bmeng.cn@gmail.com>
 References: <20220421003324.1134983-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,71 +89,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Add a subsection to machine.c to migrate debug CSR state.
+Turn on native debug feature by default for all CPUs.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
-(no changes since v2)
+(no changes since v3)
 
-Changes in v2:
-- new patch: add debug state description
+Changes in v3:
+- enable debug feature by default for all CPUs
 
- target/riscv/machine.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ target/riscv/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 243f567949..2a437b29a1 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -216,7 +216,38 @@ static const VMStateDescription vmstate_kvmtimer = {
-         VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
-         VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
-         VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static bool debug_needed(void *opaque)
-+{
-+    RISCVCPU *cpu = opaque;
-+    CPURISCVState *env = &cpu->env;
-+
-+    return riscv_feature(env, RISCV_FEATURE_DEBUG);
-+}
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 85656cdcc3..0c774056c5 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -803,7 +803,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+-    DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, false),
++    DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
  
-+static const VMStateDescription vmstate_debug_type2 = {
-+    .name = "cpu/debug/type2",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINTTL(mcontrol, type2_trigger_t),
-+        VMSTATE_UINTTL(maddress, type2_trigger_t),
-+        VMSTATE_END_OF_LIST()
-+   }
-+};
-+
-+static const VMStateDescription vmstate_debug = {
-+    .name = "cpu/debug",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = debug_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINTTL(env.trigger_cur, RISCVCPU),
-+        VMSTATE_STRUCT_ARRAY(env.type2_trig, RISCVCPU, TRIGGER_TYPE2_NUM,
-+                             0, vmstate_debug_type2, type2_trigger_t),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -315,6 +346,7 @@ const VMStateDescription vmstate_riscv_cpu = {
-         &vmstate_rv128,
-         &vmstate_kvmtimer,
-         &vmstate_envcfg,
-+        &vmstate_debug,
-         NULL
-     }
- };
+     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
 -- 
 2.25.1
 
