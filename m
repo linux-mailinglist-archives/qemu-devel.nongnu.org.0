@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FC950A65A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:57:14 +0200 (CEST)
-Received: from localhost ([::1]:35550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF5650A67E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:01:11 +0200 (CEST)
+Received: from localhost ([::1]:44436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nha7F-0003en-BM
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
+	id 1nhaB4-0002ds-DH
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1nhZnv-0000LE-8H
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:37:17 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:40458)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1nhZnt-0002P2-Q3
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:37:14 -0400
-Received: by mail-pg1-x531.google.com with SMTP id h5so5099644pgc.7
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:37:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wJJ4ZohRCUqzki73KfclYR+6Bu1OubBsv7UphTN5DGk=;
- b=DDaJBbLbai51kg9V59WH1jIdrvH3Hja/ooLvhM/6xnTfrw/jEhGVcUg3TnSi0aO9Jb
- fbUEqmRkB3ztQo2n0xvF9DHIUTST1wkGsErurvf4jcIQyKBJb5z09J8nTM7QkTPkMTlx
- 7jATOxN9gSd3W/KFowtwp/mPvgtG3PKQIsZK3u7MVah6/pibH9thiCNnE5M5ykd+ld8J
- 1di6vGdCl4HgLuyr2X1EXoCXFI3FxW5OzjlbNENv5h72jsa/4GNFJf2XS4OVoMcxehhz
- gF8+seYBZZiImCM10mH+Hlv4VRnMOyb2rl9EsihUxsxcs1MmN2GZ4PJkGORZ82Eu+2O4
- SirQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wJJ4ZohRCUqzki73KfclYR+6Bu1OubBsv7UphTN5DGk=;
- b=0F9QvRL7Z6FxgHWUTiByKEMcVi/PK9exf8HIUuFM5Pf0zj0a76vzaFLnPBgd2sh97A
- CZIW75O4o5HyRrcDT6mP9BcuHj0+vVLVeRla4mc6/2WwwTLRGjHRri+QC8c5wwwYe5aH
- QdSOE5SlHtzFrantCCL66Jro6Up1PIDW9OZD+e6fhIgxGw6xPN3K3wDS6EnFpafR8H+e
- sunxKNfTHUhh26hrfaA8eyZKVXEwngzBneIf5QwO+XVX9gAb2RTat+dqGOhPsO9/S9Eb
- 9BIFA67blbOt87UiATiQmo6pYEIkkJyvCLI2R6vbKBlR411mhd5O+7bvmyHK5z2boC6o
- RouQ==
-X-Gm-Message-State: AOAM532OgqMpLHUy91Vwqy7yEDnkrKDnlqGSMAFSGrQ0cHgqOE6ZlfcM
- EFQ1HsFeue9tfQ1JgEaL1l6CBKUI+KQQyRlqvDmcyQ==
-X-Google-Smtp-Source: ABdhPJyADLwJnzyXF9LJ/32m2ImS92xgTpL36AAwpHHLvzjrA2BMved8xrue0LuTNA78+CYS4JbcRA==
-X-Received: by 2002:a05:6a00:1da2:b0:508:29cc:a894 with SMTP id
- z34-20020a056a001da200b0050829cca894mr465561pfw.43.1650559031882; 
- Thu, 21 Apr 2022 09:37:11 -0700 (PDT)
-Received: from fedora.. ([119.4.252.222]) by smtp.gmail.com with ESMTPSA id
- n4-20020a637204000000b00398522203a2sm24051072pgc.80.2022.04.21.09.37.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 09:37:11 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v4] Use io_uring_register_ring_fd() to skip fd operations
-Date: Fri, 22 Apr 2022 00:36:49 +0800
-Message-Id: <20220421163648.4205-1-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nhZpa-0005EZ-9Z
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:38:58 -0400
+Received: from rev.ng ([5.9.113.41]:45939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nhZpW-0002ZQ-5n
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:38:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
+ Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=3XlU2StcWdmFOylCpyezW33krKVoFvsa2NU8X+rYsvo=; b=MSoBWzjBqkUplepbXtSdXAU7w9
+ gZzgs/2d6+E9XzgFSFCzAe2L+1REl2WWmHj2+7QYV5ABbSo8AZgchxzX1sV5cophp7Kk+XG169s4v
+ 1JhpGv6sMDk8tZ4H+Vgp+tslVEet4j7e65jVVsBHmUJWi9VcrnasozO8+zFpf4PV1/dA=;
+Message-ID: <c4909f05-8f4c-0478-01b7-40ea86bb2cba@rev.ng>
+Date: Thu, 21 Apr 2022 18:38:20 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x531.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v8 10/12] target/hexagon: import parser for idef-parser
+Content-Language: en-US
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "ale@rev.ng" <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
+ Michael Lambert <mlambert@quicinc.com>, "babush@rev.ng" <babush@rev.ng>,
+ "nizzo@rev.ng" <nizzo@rev.ng>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>
+References: <20220209170312.30662-1-anjo@rev.ng>
+ <20220209170312.30662-11-anjo@rev.ng>
+ <SN4PR0201MB8808765107E51ACC51D89DECDEEA9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+ <3553bdb8-021c-3105-f8d3-4d65fd2bc0b8@rev.ng>
+ <SN4PR0201MB880894159A8E5558A97707E3DEED9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+ <fcc026f5-afd4-95d2-bbbf-0c2795a0e769@rev.ng>
+ <SN4PR0201MB880889BD2CE34C2FE9F18803DEF49@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Organization: rev.ng
+In-Reply-To: <SN4PR0201MB880889BD2CE34C2FE9F18803DEF49@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,52 +70,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Damien Le Moal <Damien.LeMoal@wdc.com>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Sam Li <faithilikerun@gmail.com>,
- Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-Linux recently added a new io_uring(7) optimization API that QEMU
-doesn't take advantage of yet. The liburing library that QEMU uses
-has added a corresponding new API calling io_uring_register_ring_fd().
-When this API is called after creating the ring, the io_uring_submit()
-library function passes a flag to the io_uring_enter(2) syscall
-allowing it to skip the ring file descriptor fdget()/fdput()
-operations. This saves some CPU cycles.
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
----
- block/io_uring.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+>
+>> -----Original Message-----
+>> From: Anton Johansson <anjo@rev.ng>
+>> Sent: Thursday, April 21, 2022 6:51 AM
+>> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
+>> Cc: ale@rev.ng; Brian Cain <bcain@quicinc.com>; Michael Lambert
+>> <mlambert@quicinc.com>; babush@rev.ng; nizzo@rev.ng;
+>> richard.henderson@linaro.org
+>> Subject: Re: [PATCH v8 10/12] target/hexagon: import parser for idef-parser
+>>
+>>
+>> Here's an updated version of `gen_set_usr_field_If`
+>>
+>> https://gitlab.com/AntonJohansson/qemu/-/blob/feature/idef-
+>> parser/target/hexagon/genptr.c#L673
+>>
+>> If this looks alright and we have your "reviewed-by" on this patch, I'll go
+>> ahead and submit the new patchset! :)
+>> /*
+>>   * Note: Since this function might branch, `val` is
+>>   * required to be a `tcg_temp_local`.
+>>   */
+>> void gen_set_usr_field_if(int field, TCGv val)
+>> {
+>>      /* Sets the USR field if `val` is non-zero */
+>>      if (false && reg_field_info[field].width == 1) {
+> Remove the "false &&"
+>
+> Otherwise
+> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index 782afdb433..5247fb79e2 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -435,8 +435,16 @@ LuringState *luring_init(Error **errp)
-     }
- 
-     ioq_init(&s->io_q);
--    return s;
-+    if (io_uring_register_ring_fd(&s->ring) < 0) {
-+        /*
-+         * Only warn about this error: we will fallback to the non-optimized
-+         * io_uring operations.
-+         */
-+        error_reportf_err(*errp,
-+                         "failed to register linux io_uring ring file descriptor");
-+    }
- 
-+    return s;
- }
- 
- void luring_cleanup(LuringState *s)
--- 
-Use error_reportf_err to avoid memory leak due to not freeing error
-object.
---
-2.35.1
+Ah ofc! Remnant of testing. Fixed.
 
+I'll rebase and run the usual pre-submit tests once again.
+
+>
+>
+>>          TCGv tmp = tcg_temp_new();
+>>          tcg_gen_extract_tl(tmp, val, 0, reg_field_info[field].width);
+>>          tcg_gen_shli_tl(tmp, tmp, reg_field_info[field].offset);
+>>          tcg_gen_or_tl(hex_new_value[HEX_REG_USR],
+>>                        hex_new_value[HEX_REG_USR],
+>>                        tmp);
+>>          tcg_temp_free(tmp);
+>>      } else {
+>>          TCGLabel *skip_label = gen_new_label();
+>>          tcg_gen_brcondi_tl(TCG_COND_EQ, val, 0, skip_label);
+>>          gen_set_usr_field(field, val);
+>>          gen_set_label(skip_label);
+>>      }
+>> }
 
