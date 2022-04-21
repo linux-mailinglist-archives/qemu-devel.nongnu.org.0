@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0B1509E23
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:59:13 +0200 (CEST)
-Received: from localhost ([::1]:56210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91793509E4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:09:47 +0200 (CEST)
+Received: from localhost ([::1]:40754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhUWm-00058s-12
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:59:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53226)
+	id 1nhUh0-0006hv-3v
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUSY-0007m7-Hq
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:54:53 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:38527)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUSW-0006lF-VH
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:54:50 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2ec0bb4b715so47782777b3.5
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 03:54:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=660QUaqQvd4rcfLPMXi0b7zjAEPQZCxmC7BNlshr0sg=;
- b=tVvz85ds2650+YFjy1BKpupEpl/fHvYLq+/L7XnNIYMQg+iRGCu7/9hGMokIzQFAo5
- L7BmpYerZKg6RHM24uMFK3Cq7AHYA9fU2WvW6UT5dxoNplfR9+mqgOxmH696dtglnfqo
- RBGQNoZn4r5YkBdtnxQYateyOSk8At/330kEyyxBx3oHO/92i5QtH1yJFQP1ZZVsTE+7
- bSGZ3akaAkTQGfDGFbK5Yczq1kgC/ACCkifHmzQeML0OZfztpmyNsJK3lD+VxTghD+9E
- vKzTDi8iOGDMVkDYDhax6Xs7JBZfG5BVVOwRkLnEIeIqtqsE96yjtnYNqeYUovz16z3Y
- MRLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=660QUaqQvd4rcfLPMXi0b7zjAEPQZCxmC7BNlshr0sg=;
- b=MB6RETkdoW1LPGj64wEoCwD0aAGDN0JxkeimqkSfdZ6Kw2gZq9nXXrTVAeR+TGRsdG
- FB0jQi6EisMIpOjxm//A3DfHiJO6N6wgGqZZ+QIR7Or1/0FlC7H4BEUgK2W43dKXuKAo
- IpczlJMrvRba7ZozhM4HbRZBrYdS3+1XYMUV10Yzq8Vw35wqyZpISMgelwjiiXsll9es
- MvDR/5KPjgW/SAowxamKyHGINo05UJ13e8DMNyJHbHCBO4v9ei3deV0fHjmOcWKc2VFX
- /30FBXqcoM+COIMNHbsBbu5+lOZblEx0/C4/9nbQEKWERl2YdPTgmFUJKPhF9jsbFe72
- 6FJg==
-X-Gm-Message-State: AOAM531Pdti2SWJ1WQIEeWaVmNBI9layeXyEAlLxLK7EeEsU8B838tQq
- VEJqjCNHlpUXNfKKuv24nv3P3L7XvmE3ilMaPWWz3Q==
-X-Google-Smtp-Source: ABdhPJz8ufhYIj59I+VeRyJoGucM/ZRFf+Nc8K5WshA+imctQztGorD0RZxiOAt9UqRclXRD+BF8bb+0mydtiVUDyMU=
-X-Received: by 2002:a81:4e11:0:b0:2f1:47a0:5972 with SMTP id
- c17-20020a814e11000000b002f147a05972mr26438071ywb.469.1650538487948; Thu, 21
- Apr 2022 03:54:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nhUTI-0000bo-Gk; Thu, 21 Apr 2022 06:55:37 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:53937)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nhUTA-00076h-AE; Thu, 21 Apr 2022 06:55:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=Cl0i/DzPrVTzownjCJRbYuS8A+n/2JylcjHkoBDcIjU=; b=KgXol0Kc1AWv1/SBbGKAWRXggX
+ 3oxHwcI1RatPWdAPFZ8zaWx2E+ZzeMOxZ+AKexZL8bvijkdakCOzXgC21umRFV+2RKrgyMYK9pV4b
+ 6WeXpTBNhHI8LUVfkQYj6H5+RJ6BqHg59THSvG0cJtykmSAK/zxhhKLB0xBVgY3wJhkIgk3wUMLHh
+ WuoGHO+V4jA9GI/d35pRInfljY9k9i3PE+Fn5hFY0xuuxC2gQhVvEUMlzoz2Pmx8rNBngRAowG58l
+ 4F26wD2BhvCiJOTZfZPIybrWSf7L/GCCMXRx0im77D1C6NXkmr9MYBnEnVtBeb6c8oa+Q4mXH67Dw
+ mwNMGALGRebuI5qwl7bCTUoYITBsznCC3xyjoYMjH62B1zGXMSF9wyIBbfm66mXIqJHlHGudhtUI+
+ Z5e3pqylIRoCg+JYSM1JH7+nNIq8/Y3mhJJTU5iElErkc5YFTsNMUcIjSmzcFUr/3krQllPzF1toZ
+ oHqw1WQwq9EyNukDeBp68X0iMkPSgFgK4fm83HjUBrRADffuA0bIOwt5pCJUnFAuWzplw8LqiiffQ
+ fXysB7MJ8Njmp8HposglYPcOh6r4k/SCCZ3J5RrmeTWuZY44bLxO9mfQEMfi9nGt70Xvy1p0b24tV
+ GPm+7UzubTF0yLBzb68D/3sDlsHVzFUmXXoz9aYAM=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>, 
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 5/5] 9pfs: fix removing non-existent POSIX ACL xattr on
+ macOS host
+Date: Thu, 21 Apr 2022 12:55:24 +0200
+Message-ID: <3589619.MNAgDp08Jg@silver>
+In-Reply-To: <20220421102611.5a2a0564@bahia>
+References: <cover.1650370026.git.qemu_oss@crudebyte.com>
+ <284de6154d7ad57ac6539a7318aa2364261da105.1650370027.git.qemu_oss@crudebyte.com>
+ <20220421102611.5a2a0564@bahia>
 MIME-Version: 1.0
-References: <20220405223640.2595730-1-wuhaotsh@google.com>
- <20220405223640.2595730-5-wuhaotsh@google.com>
-In-Reply-To: <20220405223640.2595730-5-wuhaotsh@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 11:54:37 +0100
-Message-ID: <CAFEAcA_8=sQOwA=MQDp_svwkMVrJS=oqMHQemuPsP+3yO3iG4w@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 04/11] hw/misc: Support NPCM8XX CLK Module
- Registers
-To: Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,30 +67,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Uri.Trichter@nuvoton.com, titusr@google.com, venture@google.com,
- hskinnemoen@google.com, qemu-devel@nongnu.org, kfting@nuvoton.com,
- qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com, Vishal.Soni@microsoft.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Apr 2022 at 23:38, Hao Wu <wuhaotsh@google.com> wrote:
->
-> NPCM8XX adds a few new registers and have a different set of reset
-> values to the CLK modules. This patch supports them.
->
-> This patch doesn't support the new clock values generated by these
-> registers. Currently no modules use these new clock values so they
-> are not necessary at this point.
-> Implementation of these clocks might be required when implementing
-> these modules.
->
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Titus Rwantare<titusr@google.com>
+On Donnerstag, 21. April 2022 10:26:11 CEST Greg Kurz wrote:
+> On Tue, 19 Apr 2022 13:43:30 +0200
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > When mapped POSIX ACL is used, we are ignoring errors when trying
+> > to remove a POSIX ACL xattr that does not exist. On Linux hosts we
+> > would get ENODATA in such cases, on macOS hosts however we get
+> > ENOATTR instead, so ignore ENOATTR errors as well.
+> > 
+> > This patch fixes e.g. a command on Linux guest like:
+> >   cp --preserve=mode old new
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> > 
+> >  hw/9pfs/9p-posix-acl.c | 8 +++++++-
+> >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/9pfs/9p-posix-acl.c b/hw/9pfs/9p-posix-acl.c
+> > index eadae270dd..2bf155f941 100644
+> > --- a/hw/9pfs/9p-posix-acl.c
+> > +++ b/hw/9pfs/9p-posix-acl.c
+> > @@ -65,7 +65,13 @@ static int mp_pacl_removexattr(FsContext *ctx,
+> > 
+> >      int ret;
+> >      
+> >      ret = local_removexattr_nofollow(ctx, path, MAP_ACL_ACCESS);
+> > 
+> > -    if (ret == -1 && errno == ENODATA) {
+> > +    if (ret == -1 &&
+> > +          (errno == ENODATA
+> > +#ifdef ENOATTR
+> > +          || errno == ENOATTR
+> > +#endif
+> > +          )
+> 
+> We already have this in <qemu/xattr.h> which is included by
+> 9p-posix-acl.c :
+> 
+> /*
+>  * Modern distributions (e.g. Fedora 15), have no libattr.so, place attr.h
+>  * in /usr/include/sys, and don't have ENOATTR.
+>  */
+> 
+> 
+> #ifdef CONFIG_LIBATTR
+> #  include <attr/xattr.h>
+> #else
+> #  if !defined(ENOATTR)
+> #    define ENOATTR ENODATA
+> #  endif
+> #  include <sys/xattr.h>
+> #endif
+> 
+> I guess this patch could just s/ENODATA/ENOATTR/ to avoid the
+> extra ifdefery.
 
-Can you split this one up as well, please ? In particular keep
-the purely-mechanical changes (eg renaming structs) separate from
-actually-interesting ones.
+Not viable, because macOS does have both ENODATA==96 and ENOATTR==93. On Linux 
+the two macros were historically defined to the same numeric values, that's 
+why it worked there.
 
-thanks
--- PMM
+Maybe I should define a separate macro like:
+
+#if ...
+# define P9_ENOATTR ENOATTR
+#else
+# define P9_ENOATTR ENODATA
+#end
+
+?
+
+Actually good that you pointed me at this, because I just realized there is a 
+2nd place in 9p-posix-acl.c which would require this as well. For some reason 
+the 2nd place just did not trigger while I was testing it on macOS.
+
+Best regards,
+Christian Schoenebeck
+
+
 
