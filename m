@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311CB50A982
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 21:49:23 +0200 (CEST)
-Received: from localhost ([::1]:52552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035BB50A987
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 21:51:21 +0200 (CEST)
+Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhcnq-0005om-7u
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 15:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45914)
+	id 1nhcpk-0003eI-26
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 15:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcXj-00007X-RO
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:44 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33692)
+ id 1nhcXr-0000IL-Os
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:51 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcXi-0005ki-7j
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:43 -0400
+ id 1nhcXq-0005lW-6k
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:51 -0400
 Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcWi-000Caf-7K; Thu, 21 Apr 2022 20:31:40 +0100
+ id 1nhcWm-000Caf-DE; Thu, 21 Apr 2022 20:31:48 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Thu, 21 Apr 2022 20:30:51 +0100
-Message-Id: <20220421193100.5098-42-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 21 Apr 2022 20:30:53 +0100
+Message-Id: <20220421193100.5098-44-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
 References: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 41/50] hppa: move device headers from hppa_sys.h into
- individual .c files
+Subject: [PATCH 43/50] hppa: move hppa_pci_ignore_ops from pci.c to machine.c
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,74 +61,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The memory region only has one user which is for ensuring accesses to the ISA
+bus memory do not fault.
+
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/hppa/hppa_sys.h | 3 ---
- hw/hppa/lasi.h     | 4 ++++
- hw/hppa/machine.c  | 2 ++
- hw/hppa/pci.c      | 3 +++
- 4 files changed, 9 insertions(+), 3 deletions(-)
+ hw/hppa/hppa_sys.h |  1 -
+ hw/hppa/machine.c  | 23 +++++++++++++++++++++++
+ hw/hppa/pci.c      | 26 --------------------------
+ 3 files changed, 23 insertions(+), 27 deletions(-)
 
 diff --git a/hw/hppa/hppa_sys.h b/hw/hppa/hppa_sys.h
-index f7a127be19..9964d4a7a7 100644
+index 9964d4a7a7..d984b2895d 100644
 --- a/hw/hppa/hppa_sys.h
 +++ b/hw/hppa/hppa_sys.h
-@@ -3,10 +3,7 @@
- #ifndef HW_HPPA_SYS_H
- #define HW_HPPA_SYS_H
+@@ -10,7 +10,6 @@
+ #define enable_lasi_lan()       0
  
--#include "hw/pci/pci.h"
--#include "hw/pci/pci_host.h"
- #include "hw/boards.h"
--#include "hw/intc/i8259.h"
- 
- #include "hppa_hardware.h"
- 
-diff --git a/hw/hppa/lasi.h b/hw/hppa/lasi.h
-index 11cf7d6b0b..ecc7065ce8 100644
---- a/hw/hppa/lasi.h
-+++ b/hw/hppa/lasi.h
-@@ -12,6 +12,10 @@
- #ifndef LASI_H
- #define LASI_H
- 
-+#include "exec/address-spaces.h"
-+#include "hw/pci/pci_host.h"
-+#include "hw/boards.h"
-+
- #define TYPE_LASI_CHIP "lasi-chip"
- OBJECT_DECLARE_SIMPLE_TYPE(LasiState, LASI_CHIP)
+ /* hppa_pci.c.  */
+-extern const MemoryRegionOps hppa_pci_ignore_ops;
+ extern const MemoryRegionOps hppa_pci_conf1_ops;
+ extern const MemoryRegionOps hppa_pci_iack_ops;
  
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index c8eee6398a..ebf447a9eb 100644
+index 98ba7b65dc..7fb41ff0e7 100644
 --- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -16,9 +16,11 @@
- #include "hw/timer/i8254.h"
- #include "hw/char/serial.h"
- #include "hw/char/parallel.h"
-+#include "hw/intc/i8259.h"
- #include "hw/input/lasips2.h"
- #include "hw/net/lasi_82596.h"
- #include "hw/nmi.h"
-+#include "hw/pci/pci.h"
- #include "hw/pci-host/dino.h"
- #include "lasi.h"
- #include "hppa_sys.h"
+@@ -57,6 +57,29 @@ static Notifier hppa_system_powerdown_notifier = {
+     .notify = hppa_powerdown_req
+ };
+ 
++/* Fallback for unassigned PCI I/O operations.  Avoids MCHK.  */
++static uint64_t ignore_read(void *opaque, hwaddr addr, unsigned size)
++{
++    return 0;
++}
++
++static void ignore_write(void *opaque, hwaddr addr, uint64_t v, unsigned size)
++{
++}
++
++static const MemoryRegionOps hppa_pci_ignore_ops = {
++    .read = ignore_read,
++    .write = ignore_write,
++    .endianness = DEVICE_BIG_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++    },
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++    },
++};
+ 
+ static ISABus *hppa_isa_bus(void)
+ {
 diff --git a/hw/hppa/pci.c b/hw/hppa/pci.c
-index 32609aba63..a92dcb6b9e 100644
+index a92dcb6b9e..4d62d54c22 100644
 --- a/hw/hppa/pci.c
 +++ b/hw/hppa/pci.c
-@@ -6,6 +6,9 @@
- #include "qemu/osdep.h"
- #include "hppa_sys.h"
- #include "qemu/log.h"
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pci_host.h"
-+#include "hw/intc/i8259.h"
+@@ -12,32 +12,6 @@
  #include "trace.h"
  
  
+-/* Fallback for unassigned PCI I/O operations.  Avoids MCHK.  */
+-
+-static uint64_t ignore_read(void *opaque, hwaddr addr, unsigned size)
+-{
+-    return 0;
+-}
+-
+-static void ignore_write(void *opaque, hwaddr addr, uint64_t v, unsigned size)
+-{
+-}
+-
+-const MemoryRegionOps hppa_pci_ignore_ops = {
+-    .read = ignore_read,
+-    .write = ignore_write,
+-    .endianness = DEVICE_BIG_ENDIAN,
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 8,
+-    },
+-    .impl = {
+-        .min_access_size = 1,
+-        .max_access_size = 8,
+-    },
+-};
+-
+-
+ /* PCI config space reads/writes, to byte-word addressable memory.  */
+ static uint64_t bw_conf1_read(void *opaque, hwaddr addr,
+                               unsigned size)
 -- 
 2.20.1
 
