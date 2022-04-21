@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BAE509E98
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:34:42 +0200 (CEST)
-Received: from localhost ([::1]:60142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC421509E87
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:27:28 +0200 (CEST)
+Received: from localhost ([::1]:43872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhV58-00009p-1o
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:34:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59208)
+	id 1nhUy7-00042Q-Vx
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:27:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUpv-0002vR-2h
+ id 1nhUpv-0002vU-3I
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:59 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39583)
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUps-0003Sb-6Y
+ id 1nhUpt-0003Ss-4W
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:18:58 -0400
-Received: by mail-wr1-x432.google.com with SMTP id m14so6214439wrb.6
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:18:55 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id c10so6234566wrb.1
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:18:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ReWbTkMl4DXESP2NpUgeKJbFF10+7aoUcCCjIOL5Pg0=;
- b=cnXwucAX4ita/RXYBwOjjTX1ucS1P+1bWQByMWzDSrnjqWGFPedrryYLAbm985FRjL
- MQNoahUKBKUKVDIEfobInWrcfVnAf2L5g7Fxs+48/7Ve6mDZvdYaAZmdUkksYjYONxt8
- MlHvDEliVM0kqU2P+kEqx0RSmHHcZ1y0wTBlNYRl7T3+CAvVJKJwJtiyweDUJyRbZN8I
- rVTpaKUTPymYV9m5YFxw30VXciVj4aDbrWeY4x53Joqb7L7MxtNmZHjeAiu/iCPksI4f
- aXoQ+sflE4f7cS+rN1lFDR3WPq6lztDwGHSFvEFTBX/XgR9LSANj47B305qAefCtJAfx
- UTYg==
+ bh=QXsRoPUHqCo0IDRsRtZasRxyubwKd5nnuvujoVU4STM=;
+ b=t1uGfVXbk4R7suZ/3tVt3awik1AUZu3LlHN4XGUyFmWcNQU6Vkvro3ZJ+PQ15h0Ilx
+ NcCyN2ET3I/7UzweVHFxRSAQbE9X9LBqmCU4nbCsjMW7igWsNK4ssmIVkH3MnMKUlMay
+ YcBf1Bzq8OUyNjN6ei1744WxAygVHhVwQKeJ9aGcygUinjBhrrTgXZWNtwW4qHijuDky
+ ZWx65f0lIDogvjhS2s3EE2XHdzt4G/G/DMYZxQayMjBrXALvBkdhLxZk/CV+EUG6ijsJ
+ aaw25+v4ZBavga8VRSSKGJAeovrd5ezDWl7XiJmu5Hc2Ize9EF5+ibPt4B8A6GFLjx5Z
+ 6eBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ReWbTkMl4DXESP2NpUgeKJbFF10+7aoUcCCjIOL5Pg0=;
- b=lwU71gZmNQhcj9mFDCO6uGIq2Qd/GQ4USxSq0FSo4oyjPJDlueqqZOsJLgBkzBwl8O
- acsr2hq4s5/nVpRr2aLAMKCcEahscSyCjRfnUso29pRU/Jd62D+fATFs/KTC+rdLLlP8
- uUN0paUQ6ZyRU17k29FajELj7MZzSSMLvjRloSYaO3IcxIw+itHkY2z1Z2nDsyenhSvl
- 8Y159IvFwRNGr/5BiIrHSg3Pqv4SyTORRarXRrflP1WstaJyxro39K45/mG92DZqxrUV
- NT5cjHeBJCRT+sO8g5yakUTGML9Q2FFcrTAPP/Lhm0ngc5SEMIadRlBu8JcrtDHjn7fz
- zRHw==
-X-Gm-Message-State: AOAM533YbCrtWMdHhENwiI/I8+pVRM038cNw4QEpOPH1DsFkqOiwa+RD
- 6S/dkEorBHudsFcXAqZvdGcGVyngBcYIZg==
-X-Google-Smtp-Source: ABdhPJzK0UPgKImE4KiKikblbSEvd1qxdJKlNuJlWclh3/2Cxj0Bv+gcbXAbMtosuHMl7prBdjwYJw==
-X-Received: by 2002:a05:6000:18c5:b0:207:ac0d:f32 with SMTP id
- w5-20020a05600018c500b00207ac0d0f32mr18555079wrq.574.1650539934888; 
- Thu, 21 Apr 2022 04:18:54 -0700 (PDT)
+ bh=QXsRoPUHqCo0IDRsRtZasRxyubwKd5nnuvujoVU4STM=;
+ b=ud4+buKoyG8rag1goBLiVVPAKAh/zRH7RKA7cilN8IPXzg1OYfQZBGqzGCeOCQpuGH
+ 3D+PVUasJBD7g712u9lSDFclyora1FqMrjL/ePe1IElPXiKe1T7m3FP4EsBKEgXfXFM4
+ 3zm4a6MOMJN9U30aT2QOK7Ycv5EKUj3Dg5Q0xVWQiVBDEB6I0mhyXHAFh+eaMGVPmgi/
+ 2CCetcT2Xz4V7gcVgqBJ5gv1O8a+cMTKI0ACDz3wInNDuTdo/ZQ0DfRi/9LtxDmtBCNv
+ zkybQ6t9Qe0WO59gciWg3W0Ubhuoi28HDhGYc3/srh0vQLe3aULmH+zzHaz4xfTzncoG
+ PUhA==
+X-Gm-Message-State: AOAM533ov0Egmz9dh69/2cvsUMpxuW9oyO1NWtA9AcRR8Faf+jfiZWmY
+ cgRCxHEgd4pug2FGPTnw1KKWqZ3ELbjE8A==
+X-Google-Smtp-Source: ABdhPJzD7YzhicaGwpxPzJwW6TkwEAi3C4PvblZ/2PEjGbTHQArC/CKMtfynTcSiuKZVtuUN2G8EZA==
+X-Received: by 2002:a5d:5005:0:b0:207:a7d7:ba4f with SMTP id
+ e5-20020a5d5005000000b00207a7d7ba4fmr19148208wrt.163.1650539935722; 
+ Thu, 21 Apr 2022 04:18:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.18.54
+ e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.18.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 04:18:54 -0700 (PDT)
+ Thu, 21 Apr 2022 04:18:55 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/31] hw/arm: versal: Connect the CRL
-Date: Thu, 21 Apr 2022 12:18:22 +0100
-Message-Id: <20220421111846.2011565-8-peter.maydell@linaro.org>
+Subject: [PULL 08/31] hw/arm/exynos4210: Use TYPE_OR_IRQ instead of custom
+ OR-gate device
+Date: Thu, 21 Apr 2022 12:18:23 +0100
+Message-Id: <20220421111846.2011565-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421111846.2011565-1-peter.maydell@linaro.org>
 References: <20220421111846.2011565-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,128 +89,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
+The Exynos4210 SoC device currently uses a custom device
+"exynos4210.irq_gate" to model the OR gate that feeds each CPU's IRQ
+line.  We have a standard TYPE_OR_IRQ device for this now, so use
+that instead.
 
-Connect the CRL (Clock Reset LPD) to the Versal SoC.
+(This is a migration compatibility break, but that is OK for this
+machine type.)
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
-Reviewed-by: Frederic Konrad <fkonrad@amd.com>
-Reviewed-by: Francisco Iglesias <francisco.iglesias@amd.com>
-Message-id: 20220406174303.2022038-5-edgar.iglesias@xilinx.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220404154658.565020-2-peter.maydell@linaro.org
 ---
- include/hw/arm/xlnx-versal.h |  4 +++
- hw/arm/xlnx-versal.c         | 54 ++++++++++++++++++++++++++++++++++--
- 2 files changed, 56 insertions(+), 2 deletions(-)
+ include/hw/arm/exynos4210.h |  1 +
+ hw/arm/exynos4210.c         | 31 ++++++++++++++++---------------
+ 2 files changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-index 155e8c4b8cd..cbe8a19c10f 100644
---- a/include/hw/arm/xlnx-versal.h
-+++ b/include/hw/arm/xlnx-versal.h
-@@ -29,6 +29,7 @@
- #include "hw/nvram/xlnx-versal-efuse.h"
- #include "hw/ssi/xlnx-versal-ospi.h"
- #include "hw/dma/xlnx_csu_dma.h"
-+#include "hw/misc/xlnx-versal-crl.h"
- #include "hw/misc/xlnx-versal-pmc-iou-slcr.h"
+diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
+index 60b9e126f55..3999034053e 100644
+--- a/include/hw/arm/exynos4210.h
++++ b/include/hw/arm/exynos4210.h
+@@ -102,6 +102,7 @@ struct Exynos4210State {
+     MemoryRegion bootreg_mem;
+     I2CBus *i2c_if[EXYNOS4210_I2C_NUMBER];
+     qemu_or_irq pl330_irq_orgate[EXYNOS4210_NUM_DMA];
++    qemu_or_irq cpu_irq_orgate[EXYNOS4210_NCPUS];
+ };
  
- #define TYPE_XLNX_VERSAL "xlnx-versal"
-@@ -87,6 +88,8 @@ struct Versal {
-             qemu_or_irq irq_orgate;
-             XlnxXramCtrl ctrl[XLNX_VERSAL_NR_XRAM];
-         } xram;
+ #define TYPE_EXYNOS4210_SOC "exynos4210"
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 0299e81f853..dfc0a4eec25 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -205,7 +205,6 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+ {
+     Exynos4210State *s = EXYNOS4210_SOC(socdev);
+     MemoryRegion *system_mem = get_system_memory();
+-    qemu_irq gate_irq[EXYNOS4210_NCPUS][EXYNOS4210_IRQ_GATE_NINPUTS];
+     SysBusDevice *busdev;
+     DeviceState *dev, *uart[4], *pl330[3];
+     int i, n;
+@@ -235,18 +234,13 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+ 
+     /* IRQ Gate */
+     for (i = 0; i < EXYNOS4210_NCPUS; i++) {
+-        dev = qdev_new("exynos4210.irq_gate");
+-        qdev_prop_set_uint32(dev, "n_in", EXYNOS4210_IRQ_GATE_NINPUTS);
+-        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-        /* Get IRQ Gate input in gate_irq */
+-        for (n = 0; n < EXYNOS4210_IRQ_GATE_NINPUTS; n++) {
+-            gate_irq[i][n] = qdev_get_gpio_in(dev, n);
+-        }
+-        busdev = SYS_BUS_DEVICE(dev);
+-
+-        /* Connect IRQ Gate output to CPU's IRQ line */
+-        sysbus_connect_irq(busdev, 0,
+-                           qdev_get_gpio_in(DEVICE(s->cpu[i]), ARM_CPU_IRQ));
++        DeviceState *orgate = DEVICE(&s->cpu_irq_orgate[i]);
++        object_property_set_int(OBJECT(orgate), "num-lines",
++                                EXYNOS4210_IRQ_GATE_NINPUTS,
++                                &error_abort);
++        qdev_realize(orgate, NULL, &error_abort);
++        qdev_connect_gpio_out(orgate, 0,
++                              qdev_get_gpio_in(DEVICE(s->cpu[i]), ARM_CPU_IRQ));
+     }
+ 
+     /* Private memory region and Internal GIC */
+@@ -256,7 +250,8 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+     sysbus_realize_and_unref(busdev, &error_fatal);
+     sysbus_mmio_map(busdev, 0, EXYNOS4210_SMP_PRIVATE_BASE_ADDR);
+     for (n = 0; n < EXYNOS4210_NCPUS; n++) {
+-        sysbus_connect_irq(busdev, n, gate_irq[n][0]);
++        sysbus_connect_irq(busdev, n,
++                           qdev_get_gpio_in(DEVICE(&s->cpu_irq_orgate[n]), 0));
+     }
+     for (n = 0; n < EXYNOS4210_INT_GIC_NIRQ; n++) {
+         s->irqs.int_gic_irq[n] = qdev_get_gpio_in(dev, n);
+@@ -275,7 +270,8 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+     /* Map Distributer interface */
+     sysbus_mmio_map(busdev, 1, EXYNOS4210_EXT_GIC_DIST_BASE_ADDR);
+     for (n = 0; n < EXYNOS4210_NCPUS; n++) {
+-        sysbus_connect_irq(busdev, n, gate_irq[n][1]);
++        sysbus_connect_irq(busdev, n,
++                           qdev_get_gpio_in(DEVICE(&s->cpu_irq_orgate[n]), 1));
+     }
+     for (n = 0; n < EXYNOS4210_EXT_GIC_NIRQ; n++) {
+         s->irqs.ext_gic_irq[n] = qdev_get_gpio_in(dev, n);
+@@ -488,6 +484,11 @@ static void exynos4210_init(Object *obj)
+         object_initialize_child(obj, name, orgate, TYPE_OR_IRQ);
+         g_free(name);
+     }
 +
-+        XlnxVersalCRL crl;
-     } lpd;
- 
-     /* The Platform Management Controller subsystem.  */
-@@ -127,6 +130,7 @@ struct Versal {
- #define VERSAL_TIMER_NS_EL1_IRQ     14
- #define VERSAL_TIMER_NS_EL2_IRQ     10
- 
-+#define VERSAL_CRL_IRQ             10
- #define VERSAL_UART0_IRQ_0         18
- #define VERSAL_UART1_IRQ_0         19
- #define VERSAL_USB0_IRQ_0          22
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index ebad8dbb6d8..57276e1506f 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -539,6 +539,57 @@ static void versal_create_ospi(Versal *s, qemu_irq *pic)
-     qdev_connect_gpio_out(orgate, 0, pic[VERSAL_OSPI_IRQ]);
++    for (i = 0; i < ARRAY_SIZE(s->cpu_irq_orgate); i++) {
++        g_autofree char *name = g_strdup_printf("cpu-irq-orgate%d", i);
++        object_initialize_child(obj, name, &s->cpu_irq_orgate[i], TYPE_OR_IRQ);
++    }
  }
  
-+static void versal_create_crl(Versal *s, qemu_irq *pic)
-+{
-+    SysBusDevice *sbd;
-+    int i;
-+
-+    object_initialize_child(OBJECT(s), "crl", &s->lpd.crl,
-+                            TYPE_XLNX_VERSAL_CRL);
-+    sbd = SYS_BUS_DEVICE(&s->lpd.crl);
-+
-+    for (i = 0; i < ARRAY_SIZE(s->lpd.rpu.cpu); i++) {
-+        g_autofree gchar *name = g_strdup_printf("cpu_r5[%d]", i);
-+
-+        object_property_set_link(OBJECT(&s->lpd.crl),
-+                                 name, OBJECT(&s->lpd.rpu.cpu[i]),
-+                                 &error_abort);
-+    }
-+
-+    for (i = 0; i < ARRAY_SIZE(s->lpd.iou.gem); i++) {
-+        g_autofree gchar *name = g_strdup_printf("gem[%d]", i);
-+
-+        object_property_set_link(OBJECT(&s->lpd.crl),
-+                                 name, OBJECT(&s->lpd.iou.gem[i]),
-+                                 &error_abort);
-+    }
-+
-+    for (i = 0; i < ARRAY_SIZE(s->lpd.iou.adma); i++) {
-+        g_autofree gchar *name = g_strdup_printf("adma[%d]", i);
-+
-+        object_property_set_link(OBJECT(&s->lpd.crl),
-+                                 name, OBJECT(&s->lpd.iou.adma[i]),
-+                                 &error_abort);
-+    }
-+
-+    for (i = 0; i < ARRAY_SIZE(s->lpd.iou.uart); i++) {
-+        g_autofree gchar *name = g_strdup_printf("uart[%d]", i);
-+
-+        object_property_set_link(OBJECT(&s->lpd.crl),
-+                                 name, OBJECT(&s->lpd.iou.uart[i]),
-+                                 &error_abort);
-+    }
-+
-+    object_property_set_link(OBJECT(&s->lpd.crl),
-+                             "usb", OBJECT(&s->lpd.iou.usb),
-+                             &error_abort);
-+
-+    sysbus_realize(sbd, &error_fatal);
-+    memory_region_add_subregion(&s->mr_ps, MM_CRL,
-+                                sysbus_mmio_get_region(sbd, 0));
-+    sysbus_connect_irq(sbd, 0, pic[VERSAL_CRL_IRQ]);
-+}
-+
- /* This takes the board allocated linear DDR memory and creates aliases
-  * for each split DDR range/aperture on the Versal address map.
-  */
-@@ -622,8 +673,6 @@ static void versal_unimp(Versal *s)
- 
-     versal_unimp_area(s, "psm", &s->mr_ps,
-                         MM_PSM_START, MM_PSM_END - MM_PSM_START);
--    versal_unimp_area(s, "crl", &s->mr_ps,
--                        MM_CRL, MM_CRL_SIZE);
-     versal_unimp_area(s, "crf", &s->mr_ps,
-                         MM_FPD_CRF, MM_FPD_CRF_SIZE);
-     versal_unimp_area(s, "apu", &s->mr_ps,
-@@ -681,6 +730,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
-     versal_create_efuse(s, pic);
-     versal_create_pmc_iou_slcr(s, pic);
-     versal_create_ospi(s, pic);
-+    versal_create_crl(s, pic);
-     versal_map_ddr(s);
-     versal_unimp(s);
- 
+ static void exynos4210_class_init(ObjectClass *klass, void *data)
 -- 
 2.25.1
 
