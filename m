@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D5D5098A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:10:44 +0200 (CEST)
-Received: from localhost ([::1]:46094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925FA5098B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:15:29 +0200 (CEST)
+Received: from localhost ([::1]:53690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhQxd-0001E5-6Y
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53706)
+	id 1nhR2G-0007Fu-Ie
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:15:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=10363b772=alistair.francis@opensource.wdc.com>)
- id 1nhQRS-0005MN-RV
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:37:31 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13339)
+ id 1nhQRW-0005MX-H9
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:37:32 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=10363b772=alistair.francis@opensource.wdc.com>)
- id 1nhQRO-0007xw-Ei
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:37:25 -0400
+ id 1nhQRS-0007yk-LT
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:37:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1650523042; x=1682059042;
+ t=1650523046; x=1682059046;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=0Dh27pbqlXWY2QigmLdOSQHbeQdA3PeVM+uzdNFi6cc=;
- b=bMbEx8w81h3Mx1i7S8gxq1VLG3Mf2LjLw8l9AJa5NwL7BlApITcA0/rz
- METK+PHShe7nsKt2IHx48ijf0Ooh8ETcw6N8+zL8rPKhBajWH83JJEC0a
- cXVi9DgTOB7mrGyrRerbOcqbB8IHKzy9CHOqiQoY+/TUUljFl8v9lpb/h
- PoEou33EoHtSNCxSZ5zl3X+38rVqav/1tI4hFmNhX3pR2hJOku9OeVgsE
- Z+DPv5pbjDRQ/xmWnRAe3OG4Xp4weUwAPF/4UNzjCLeMOfaL7D5P4jtoE
- TUwLR4qL5SyQSAw5Jv9fzhFtiFHz6pBEyD2/S6UH7SkyaNgzBKX9p/L/o g==;
-X-IronPort-AV: E=Sophos;i="5.90,278,1643644800"; d="scan'208";a="302639975"
+ bh=NW3kHKqkkttjg3GYn6KXhnRKzaKSjFmEneLo4jSSW+g=;
+ b=HyOA+tvomdgJSE6Q9ehFqF+ddhdxyJ+2Nm4FutFSbZDXbe1nU35WH+5m
+ KKXKNDU0zN6PUFx67nM0Qsf2cvrW1qVWhXG1/IwqzGY03s5catIA07B+r
+ FyqAsIHJ0hmWDWS5lf2kqLi4U7TDlOfCWmfyfEUJyKM7qDslo2+wVlCDM
+ dwSv5PWoaMw0zdIBIHe5Yv+T5lwD8Sf6PwZOwJiC3sqesc4Mc/ohCe2ZS
+ xOtuCNCVEvkhtWci+FE1oJNc9bLc2a8bRtUV6TKFmBG7zYOKA7kfFfIoi
+ F3vFKRfxBM1k5xEwoJD1kxYZH7Qs9kVnAB+XPGY9uWNoiTuyAEmQ7/HAQ g==;
+X-IronPort-AV: E=Sophos;i="5.90,278,1643644800"; d="scan'208";a="302639979"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Apr 2022 14:37:21 +0800
-IronPort-SDR: 9uyG97ADkSQQGYToD7i66UfVhM1z4r/iuLvM59RIRZZ8V3GC4/aCRiIH8ZECnKrOnV5rYQWKpI
- EHe7Xnm8s6zXc/4d9OJy9KY7cxYLEmZbiuLClnPDgiAOy1pv3CyI2xq9Qf1bvfevJ3etXgH+5a
- ManhlzDvjRfnf6j0CK3Rv+oqTIXOQyqGBfJ1fUP4kjKmZ6AGpon/FQ2BKZ0hF4P5zy+x3c39gx
- 3wpXFwqN35PF1GBNqRXbYF8+2IWaKmBUqFgvx2xozSKo21ZzScEEhaV8VqH78eCNXCy3lbjd0e
- Co0dO55ZVEJ6qR+tHxZGstsX
+ by ob1.hgst.iphmx.com with ESMTP; 21 Apr 2022 14:37:24 +0800
+IronPort-SDR: zEcJcEaXthpCl7veffl740Ao6/Oc2+evLq8cpiSc6Zhr50oj+12WXl5VJW8CZbE8JAmrhg7LIk
+ AzPF3sXBVgtNL3yuzKxRimMDFdgvxezWXZFYZ6/ZDiRI0kdjt47SKhcN/f3OsJyfAgJJ6PG0Lz
+ 6SqeDX2mqMpujzb31OjXM6G1EWApRsdru2e7T0d77BeFrxwOwff3cddRGIVcF0k82GnlWVAGy1
+ ciyM4zK6EDmf6986KPuvnpfTUFvPUvvfajwtW0sRI0Ma7ZpK7HFcuxMv6ubXB2ZArwzj5K5bWZ
+ NljkwgzBoFy349RWK49uF9gG
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Apr 2022 23:08:24 -0700
-IronPort-SDR: /8VM5HAVk7q5GzZ3GVd1kq41kMRNJrW6KmCrNsSAFSxMhhf6xiIof7DqRNqsr70qMuBDjR3eOS
- EbDWxn4RTLynTTnP0/CLTPVDkwl/aJLHBU5NC4DbZZJBUkGnPawdjqR1nqIsxPzQ544nPSRgU/
- /DXRiiXpgeFKHhQ0OAPIFCagVLK4GY/CPKhd96Sa3ZsIgqmbHG+NncQPR35NSKGnVQyTgDby/Q
- RAdqCnnSSzUnxHTzl6RmvUU8XlUbv1pi6Fm1bOP6Y5YbVM4XrgCOOpjTeLNUsRsWlQUVlpBsPk
- wQo=
+ 20 Apr 2022 23:08:27 -0700
+IronPort-SDR: LmtgSoBoS84+XZgihvNzXNwuATkD2Her0YO2hVShI9/NlALT9H1I9dV0JlgCYZwWgHegzdPj3v
+ k+Oacpk4YvbfGkLRGEQuCHW0fR+rbQRoKhlGicSfhwgbhsUVTsjkrKz2Tfo1NtmH+Va+Fd8jqJ
+ 9w+kINg+6GnTa4K1vo/kragkR26rLn07QmQyn4T7E0kUD+KNdoa1DsIJD+iuT2afWt0BeV9Rn6
+ 3F1suSOdwnyWy/KWktMApn7Lvziy4lWWEhFx31b/NaN+3g8Jqw4lp42WBQuB14GqbDOOyY3xOI
+ 9hc=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Apr 2022 23:37:22 -0700
+ 20 Apr 2022 23:37:25 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkSWj2nBqz1SVp0
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 23:37:21 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkSWm2ZTlz1SVp2
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 23:37:24 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1650523040; x=1653115041; bh=0Dh27pbqlXWY2QigmL
- dOSQHbeQdA3PeVM+uzdNFi6cc=; b=IdShZmcQUQloFUgYKquvaLp7yIBWRXvIkX
- 2itYeAXEk6a8bXhYr93lSQcBcNTtOmEFKhDQNIP3lBQwO35MYJebzMwrtaWeH6EH
- G80axvfZjeSP8GkNMXt9HCZPDb3EE3v+suKHE8zlkhQnBV6EQypZPJnfCrSPi0a7
- O337bTFKyzTA/dXiWSZ3Ky8acKnDP17Q0AUeAW2Br+bk7vhWNoFH4X+p8X9Zj3Aj
- 9ZGKq53xAQeNvpdq1LiBp/pyQgxFFzPvi5oaal5QFLg2901N9s9cxY6/xfOaDZNS
- Y27WNp5/Z9//lwJGS6JGvgEQAf2gSh+0WxuEGrnD8a2tuYCmF6ow==
+ :from; s=dkim; t=1650523043; x=1653115044; bh=NW3kHKqkkttjg3GYn6
+ KXhnRKzaKSjFmEneLo4jSSW+g=; b=gD1gtm22ntyCxDQNF/bo377EKHOOBhDvho
+ MdQllcRnToWAWiljDFLfefOuHFWXYflsJde0nnEdhwsrzZTmJgn7sfpU5U+DH2BS
+ zZxXiyOVpJETMgvY/3UYyGmEUruAN2OMfZHqFK7yn27ODEHcyD01j0s7tpDMzqzF
+ lk8GXEnPoqUrKcGCK50PvMN5JiZXOfhiMFIO00mabKzNoNYiS9ydSezb1no/RKqg
+ QMwPZO0SQ1RjPLdUIz5CCr3f0zPqKeNtvvm/TgnbOKHFJGXdhsVu7OedDmgxihk8
+ 7i+JIz+NpxbZS6DYWQXEbF6l1c+zsa+LMRJ1u156Y7AGJgu1G7pA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id p9_FivETDaXN for <qemu-devel@nongnu.org>;
- Wed, 20 Apr 2022 23:37:20 -0700 (PDT)
+ port 10026) with ESMTP id B9gNJtzr3kMI for <qemu-devel@nongnu.org>;
+ Wed, 20 Apr 2022 23:37:23 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.119])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkSWd6MKJz1Rwrw;
- Wed, 20 Apr 2022 23:37:17 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkSWj0S7gz1Rvlx;
+ Wed, 20 Apr 2022 23:37:20 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
+Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+ Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 11/31] target/riscv: Add initial support for the Sdtrig
- extension
-Date: Thu, 21 Apr 2022 16:36:10 +1000
-Message-Id: <20220421063630.1033608-12-alistair.francis@opensource.wdc.com>
+Subject: [PULL 12/31] target/riscv: optimize condition assign for scale < 0
+Date: Thu, 21 Apr 2022 16:36:11 +1000
+Message-Id: <20220421063630.1033608-13-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220421063630.1033608-1-alistair.francis@opensource.wdc.com>
 References: <20220421063630.1033608-1-alistair.francis@opensource.wdc.com>
@@ -116,552 +117,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-This adds initial support for the Sdtrig extension via the Trigger
-Module, as defined in the RISC-V Debug Specification [1].
+for some cases, scale is always equal or less than 0, since lmul is not l=
+arger than 3
 
-Only "Address / Data Match" trigger (type 2) is implemented as of now,
-which is mainly used for hardware breakpoint and watchpoint. The number
-of type 2 triggers implemented is 2, which is the number that we can
-find in the SiFive U54/U74 cores.
-
-[1] https://github.com/riscv/riscv-debug-spec/raw/master/riscv-debug-stab=
-le.pdf
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220315065529.62198-2-bmeng.cn@gmail.com>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20220325085902.29500-1-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h       |   5 +
- target/riscv/debug.h     | 108 +++++++++++++
- target/riscv/debug.c     | 339 +++++++++++++++++++++++++++++++++++++++
- target/riscv/meson.build |   1 +
- 4 files changed, 453 insertions(+)
- create mode 100644 target/riscv/debug.h
- create mode 100644 target/riscv/debug.c
+ target/riscv/insn_trans/trans_rvv.c.inc | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index d7322df4fd..3f7553c0b5 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -106,6 +106,7 @@ typedef struct CPUArchState CPURISCVState;
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
+trans/trans_rvv.c.inc
+index 8d675db9a2..b336d57270 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -1198,7 +1198,7 @@ GEN_LDST_WHOLE_TRANS(vs8r_v, 8, true)
+ static inline uint32_t MAXSZ(DisasContext *s)
+ {
+     int scale =3D s->lmul - 3;
+-    return scale < 0 ? s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen << =
+scale;
++    return s->cfg_ptr->vlen >> -scale;
+ }
 =20
- #if !defined(CONFIG_USER_ONLY)
- #include "pmp.h"
-+#include "debug.h"
- #endif
+ static bool opivv_check(DisasContext *s, arg_rmrr *a)
+@@ -3597,8 +3597,7 @@ static bool trans_vrgather_vx(DisasContext *s, arg_=
+rmrr *a)
 =20
- #define RV_VLEN_MAX 1024
-@@ -279,6 +280,10 @@ struct CPUArchState {
-     pmp_table_t pmp_state;
-     target_ulong mseccfg;
+     if (a->vm && s->vl_eq_vlmax) {
+         int scale =3D s->lmul - (s->sew + 3);
+-        int vlmax =3D scale < 0 ?
+-                       s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen << =
+scale;
++        int vlmax =3D s->cfg_ptr->vlen >> -scale;
+         TCGv_i64 dest =3D tcg_temp_new_i64();
 =20
-+    /* trigger module */
-+    target_ulong trigger_cur;
-+    type2_trigger_t type2_trig[TRIGGER_TYPE2_NUM];
-+
-     /* machine specific rdtime callback */
-     uint64_t (*rdtime_fn)(uint32_t);
-     uint32_t rdtime_fn_arg;
-diff --git a/target/riscv/debug.h b/target/riscv/debug.h
-new file mode 100644
-index 0000000000..fbc5f946e2
---- /dev/null
-+++ b/target/riscv/debug.h
-@@ -0,0 +1,108 @@
-+/*
-+ * QEMU RISC-V Native Debug Support
-+ *
-+ * Copyright (c) 2022 Wind River Systems, Inc.
-+ *
-+ * Author:
-+ *   Bin Meng <bin.meng@windriver.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify =
-it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOU=
-T
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License alo=
-ng with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef RISCV_DEBUG_H
-+#define RISCV_DEBUG_H
-+
-+/* trigger indexes implemented */
-+enum {
-+    TRIGGER_TYPE2_IDX_0 =3D 0,
-+    TRIGGER_TYPE2_IDX_1,
-+    TRIGGER_TYPE2_NUM,
-+    TRIGGER_NUM =3D TRIGGER_TYPE2_NUM
-+};
-+
-+/* register index of tdata CSRs */
-+enum {
-+    TDATA1 =3D 0,
-+    TDATA2,
-+    TDATA3,
-+    TDATA_NUM
-+};
-+
-+typedef enum {
-+    TRIGGER_TYPE_NO_EXIST =3D 0,      /* trigger does not exist */
-+    TRIGGER_TYPE_AD_MATCH =3D 2,      /* address/data match trigger */
-+    TRIGGER_TYPE_INST_CNT =3D 3,      /* instruction count trigger */
-+    TRIGGER_TYPE_INT =3D 4,           /* interrupt trigger */
-+    TRIGGER_TYPE_EXCP =3D 5,          /* exception trigger */
-+    TRIGGER_TYPE_AD_MATCH6 =3D 6,     /* new address/data match trigger =
-*/
-+    TRIGGER_TYPE_EXT_SRC =3D 7,       /* external source trigger */
-+    TRIGGER_TYPE_UNAVAIL =3D 15       /* trigger exists, but unavailable=
- */
-+} trigger_type_t;
-+
-+typedef struct {
-+    target_ulong mcontrol;
-+    target_ulong maddress;
-+    struct CPUBreakpoint *bp;
-+    struct CPUWatchpoint *wp;
-+} type2_trigger_t;
-+
-+/* tdata field masks */
-+
-+#define RV32_TYPE(t)    ((uint32_t)(t) << 28)
-+#define RV32_TYPE_MASK  (0xf << 28)
-+#define RV32_DMODE      BIT(27)
-+#define RV64_TYPE(t)    ((uint64_t)(t) << 60)
-+#define RV64_TYPE_MASK  (0xfULL << 60)
-+#define RV64_DMODE      BIT_ULL(59)
-+
-+/* mcontrol field masks */
-+
-+#define TYPE2_LOAD      BIT(0)
-+#define TYPE2_STORE     BIT(1)
-+#define TYPE2_EXEC      BIT(2)
-+#define TYPE2_U         BIT(3)
-+#define TYPE2_S         BIT(4)
-+#define TYPE2_M         BIT(6)
-+#define TYPE2_MATCH     (0xf << 7)
-+#define TYPE2_CHAIN     BIT(11)
-+#define TYPE2_ACTION    (0xf << 12)
-+#define TYPE2_SIZELO    (0x3 << 16)
-+#define TYPE2_TIMING    BIT(18)
-+#define TYPE2_SELECT    BIT(19)
-+#define TYPE2_HIT       BIT(20)
-+#define TYPE2_SIZEHI    (0x3 << 21) /* RV64 only */
-+
-+/* access size */
-+enum {
-+    SIZE_ANY =3D 0,
-+    SIZE_1B,
-+    SIZE_2B,
-+    SIZE_4B,
-+    SIZE_6B,
-+    SIZE_8B,
-+    SIZE_10B,
-+    SIZE_12B,
-+    SIZE_14B,
-+    SIZE_16B,
-+    SIZE_NUM =3D 16
-+};
-+
-+bool tdata_available(CPURISCVState *env, int tdata_index);
-+
-+target_ulong tselect_csr_read(CPURISCVState *env);
-+void tselect_csr_write(CPURISCVState *env, target_ulong val);
-+
-+target_ulong tdata_csr_read(CPURISCVState *env, int tdata_index);
-+void tdata_csr_write(CPURISCVState *env, int tdata_index, target_ulong v=
-al);
-+
-+#endif /* RISCV_DEBUG_H */
-diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-new file mode 100644
-index 0000000000..c8cec39217
---- /dev/null
-+++ b/target/riscv/debug.c
-@@ -0,0 +1,339 @@
-+/*
-+ * QEMU RISC-V Native Debug Support
-+ *
-+ * Copyright (c) 2022 Wind River Systems, Inc.
-+ *
-+ * Author:
-+ *   Bin Meng <bin.meng@windriver.com>
-+ *
-+ * This provides the native debug support via the Trigger Module, as def=
-ined
-+ * in the RISC-V Debug Specification:
-+ * https://github.com/riscv/riscv-debug-spec/raw/master/riscv-debug-stab=
-le.pdf
-+ *
-+ * This program is free software; you can redistribute it and/or modify =
-it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOU=
-T
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License alo=
-ng with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qapi/error.h"
-+#include "cpu.h"
-+#include "trace.h"
-+#include "exec/exec-all.h"
-+
-+/*
-+ * The following M-mode trigger CSRs are implemented:
-+ *
-+ * - tselect
-+ * - tdata1
-+ * - tdata2
-+ * - tdata3
-+ *
-+ * We don't support writable 'type' field in the tdata1 register, so the=
-re is
-+ * no need to implement the "tinfo" CSR.
-+ *
-+ * The following triggers are implemented:
-+ *
-+ * Index | Type |          tdata mapping | Description
-+ * ------+------+------------------------+------------
-+ *     0 |    2 |         tdata1, tdata2 | Address / Data Match
-+ *     1 |    2 |         tdata1, tdata2 | Address / Data Match
-+ */
-+
-+/* tdata availability of a trigger */
-+typedef bool tdata_avail[TDATA_NUM];
-+
-+static tdata_avail tdata_mapping[TRIGGER_NUM] =3D {
-+    [TRIGGER_TYPE2_IDX_0 ... TRIGGER_TYPE2_IDX_1] =3D { true, true, fals=
-e },
-+};
-+
-+/* only breakpoint size 1/2/4/8 supported */
-+static int access_size[SIZE_NUM] =3D {
-+    [SIZE_ANY] =3D 0,
-+    [SIZE_1B]  =3D 1,
-+    [SIZE_2B]  =3D 2,
-+    [SIZE_4B]  =3D 4,
-+    [SIZE_6B]  =3D -1,
-+    [SIZE_8B]  =3D 8,
-+    [6 ... 15] =3D -1,
-+};
-+
-+static inline target_ulong trigger_type(CPURISCVState *env,
-+                                        trigger_type_t type)
-+{
-+    target_ulong tdata1;
-+
-+    switch (riscv_cpu_mxl(env)) {
-+    case MXL_RV32:
-+        tdata1 =3D RV32_TYPE(type);
-+        break;
-+    case MXL_RV64:
-+        tdata1 =3D RV64_TYPE(type);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    return tdata1;
-+}
-+
-+bool tdata_available(CPURISCVState *env, int tdata_index)
-+{
-+    if (unlikely(tdata_index >=3D TDATA_NUM)) {
-+        return false;
-+    }
-+
-+    if (unlikely(env->trigger_cur >=3D TRIGGER_NUM)) {
-+        return false;
-+    }
-+
-+    return tdata_mapping[env->trigger_cur][tdata_index];
-+}
-+
-+target_ulong tselect_csr_read(CPURISCVState *env)
-+{
-+    return env->trigger_cur;
-+}
-+
-+void tselect_csr_write(CPURISCVState *env, target_ulong val)
-+{
-+    /* all target_ulong bits of tselect are implemented */
-+    env->trigger_cur =3D val;
-+}
-+
-+static target_ulong tdata1_validate(CPURISCVState *env, target_ulong val=
-,
-+                                    trigger_type_t t)
-+{
-+    uint32_t type, dmode;
-+    target_ulong tdata1;
-+
-+    switch (riscv_cpu_mxl(env)) {
-+    case MXL_RV32:
-+        type =3D extract32(val, 28, 4);
-+        dmode =3D extract32(val, 27, 1);
-+        tdata1 =3D RV32_TYPE(t);
-+        break;
-+    case MXL_RV64:
-+        type =3D extract64(val, 60, 4);
-+        dmode =3D extract64(val, 59, 1);
-+        tdata1 =3D RV64_TYPE(t);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    if (type !=3D t) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "ignoring type write to tdata1 register\n");
-+    }
-+    if (dmode !=3D 0) {
-+        qemu_log_mask(LOG_UNIMP, "debug mode is not supported\n");
-+    }
-+
-+    return tdata1;
-+}
-+
-+static inline void warn_always_zero_bit(target_ulong val, target_ulong m=
-ask,
-+                                        const char *msg)
-+{
-+    if (val & mask) {
-+        qemu_log_mask(LOG_UNIMP, "%s bit is always zero\n", msg);
-+    }
-+}
-+
-+static uint32_t type2_breakpoint_size(CPURISCVState *env, target_ulong c=
-trl)
-+{
-+    uint32_t size, sizelo, sizehi =3D 0;
-+
-+    if (riscv_cpu_mxl(env) =3D=3D MXL_RV64) {
-+        sizehi =3D extract32(ctrl, 21, 2);
-+    }
-+    sizelo =3D extract32(ctrl, 16, 2);
-+    size =3D (sizehi << 2) | sizelo;
-+
-+    return size;
-+}
-+
-+static inline bool type2_breakpoint_enabled(target_ulong ctrl)
-+{
-+    bool mode =3D !!(ctrl & (TYPE2_U | TYPE2_S | TYPE2_M));
-+    bool rwx =3D !!(ctrl & (TYPE2_LOAD | TYPE2_STORE | TYPE2_EXEC));
-+
-+    return mode && rwx;
-+}
-+
-+static target_ulong type2_mcontrol_validate(CPURISCVState *env,
-+                                            target_ulong ctrl)
-+{
-+    target_ulong val;
-+    uint32_t size;
-+
-+    /* validate the generic part first */
-+    val =3D tdata1_validate(env, ctrl, TRIGGER_TYPE_AD_MATCH);
-+
-+    /* validate unimplemented (always zero) bits */
-+    warn_always_zero_bit(ctrl, TYPE2_MATCH, "match");
-+    warn_always_zero_bit(ctrl, TYPE2_CHAIN, "chain");
-+    warn_always_zero_bit(ctrl, TYPE2_ACTION, "action");
-+    warn_always_zero_bit(ctrl, TYPE2_TIMING, "timing");
-+    warn_always_zero_bit(ctrl, TYPE2_SELECT, "select");
-+    warn_always_zero_bit(ctrl, TYPE2_HIT, "hit");
-+
-+    /* validate size encoding */
-+    size =3D type2_breakpoint_size(env, ctrl);
-+    if (access_size[size] =3D=3D -1) {
-+        qemu_log_mask(LOG_UNIMP, "access size %d is not supported, using=
- SIZE_ANY\n",
-+                      size);
-+    } else {
-+        val |=3D (ctrl & TYPE2_SIZELO);
-+        if (riscv_cpu_mxl(env) =3D=3D MXL_RV64) {
-+            val |=3D (ctrl & TYPE2_SIZEHI);
-+        }
-+    }
-+
-+    /* keep the mode and attribute bits */
-+    val |=3D (ctrl & (TYPE2_U | TYPE2_S | TYPE2_M |
-+                    TYPE2_LOAD | TYPE2_STORE | TYPE2_EXEC));
-+
-+    return val;
-+}
-+
-+static void type2_breakpoint_insert(CPURISCVState *env, target_ulong ind=
-ex)
-+{
-+    target_ulong ctrl =3D env->type2_trig[index].mcontrol;
-+    target_ulong addr =3D env->type2_trig[index].maddress;
-+    bool enabled =3D type2_breakpoint_enabled(ctrl);
-+    CPUState *cs =3D env_cpu(env);
-+    int flags =3D BP_CPU | BP_STOP_BEFORE_ACCESS;
-+    uint32_t size;
-+
-+    if (!enabled) {
-+        return;
-+    }
-+
-+    if (ctrl & TYPE2_EXEC) {
-+        cpu_breakpoint_insert(cs, addr, flags, &env->type2_trig[index].b=
-p);
-+    }
-+
-+    if (ctrl & TYPE2_LOAD) {
-+        flags |=3D BP_MEM_READ;
-+    }
-+    if (ctrl & TYPE2_STORE) {
-+        flags |=3D BP_MEM_WRITE;
-+    }
-+
-+    if (flags & BP_MEM_ACCESS) {
-+        size =3D type2_breakpoint_size(env, ctrl);
-+        if (size !=3D 0) {
-+            cpu_watchpoint_insert(cs, addr, size, flags,
-+                                  &env->type2_trig[index].wp);
-+        } else {
-+            cpu_watchpoint_insert(cs, addr, 8, flags,
-+                                  &env->type2_trig[index].wp);
-+        }
-+    }
-+}
-+
-+static void type2_breakpoint_remove(CPURISCVState *env, target_ulong ind=
-ex)
-+{
-+    CPUState *cs =3D env_cpu(env);
-+
-+    if (env->type2_trig[index].bp) {
-+        cpu_breakpoint_remove_by_ref(cs, env->type2_trig[index].bp);
-+        env->type2_trig[index].bp =3D NULL;
-+    }
-+
-+    if (env->type2_trig[index].wp) {
-+        cpu_watchpoint_remove_by_ref(cs, env->type2_trig[index].wp);
-+        env->type2_trig[index].wp =3D NULL;
-+    }
-+}
-+
-+static target_ulong type2_reg_read(CPURISCVState *env,
-+                                   target_ulong trigger_index, int tdata=
-_index)
-+{
-+    uint32_t index =3D trigger_index - TRIGGER_TYPE2_IDX_0;
-+    target_ulong tdata;
-+
-+    switch (tdata_index) {
-+    case TDATA1:
-+        tdata =3D env->type2_trig[index].mcontrol;
-+        break;
-+    case TDATA2:
-+        tdata =3D env->type2_trig[index].maddress;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    return tdata;
-+}
-+
-+static void type2_reg_write(CPURISCVState *env, target_ulong trigger_ind=
-ex,
-+                            int tdata_index, target_ulong val)
-+{
-+    uint32_t index =3D trigger_index - TRIGGER_TYPE2_IDX_0;
-+    target_ulong new_val;
-+
-+    switch (tdata_index) {
-+    case TDATA1:
-+        new_val =3D type2_mcontrol_validate(env, val);
-+        if (new_val !=3D env->type2_trig[index].mcontrol) {
-+            env->type2_trig[index].mcontrol =3D new_val;
-+            type2_breakpoint_remove(env, index);
-+            type2_breakpoint_insert(env, index);
-+        }
-+        break;
-+    case TDATA2:
-+        if (val !=3D env->type2_trig[index].maddress) {
-+            env->type2_trig[index].maddress =3D val;
-+            type2_breakpoint_remove(env, index);
-+            type2_breakpoint_insert(env, index);
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    return;
-+}
-+
-+typedef target_ulong (*tdata_read_func)(CPURISCVState *env,
-+                                        target_ulong trigger_index,
-+                                        int tdata_index);
-+
-+static tdata_read_func trigger_read_funcs[TRIGGER_NUM] =3D {
-+    [TRIGGER_TYPE2_IDX_0 ... TRIGGER_TYPE2_IDX_1] =3D type2_reg_read,
-+};
-+
-+typedef void (*tdata_write_func)(CPURISCVState *env,
-+                                 target_ulong trigger_index,
-+                                 int tdata_index,
-+                                 target_ulong val);
-+
-+static tdata_write_func trigger_write_funcs[TRIGGER_NUM] =3D {
-+    [TRIGGER_TYPE2_IDX_0 ... TRIGGER_TYPE2_IDX_1] =3D type2_reg_write,
-+};
-+
-+target_ulong tdata_csr_read(CPURISCVState *env, int tdata_index)
-+{
-+    tdata_read_func read_func =3D trigger_read_funcs[env->trigger_cur];
-+
-+    return read_func(env, env->trigger_cur, tdata_index);
-+}
-+
-+void tdata_csr_write(CPURISCVState *env, int tdata_index, target_ulong v=
-al)
-+{
-+    tdata_write_func write_func =3D trigger_write_funcs[env->trigger_cur=
-];
-+
-+    return write_func(env, env->trigger_cur, tdata_index, val);
-+}
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-index 91f0ac32ff..2c20f3dd8e 100644
---- a/target/riscv/meson.build
-+++ b/target/riscv/meson.build
-@@ -27,6 +27,7 @@ riscv_softmmu_ss =3D ss.source_set()
- riscv_softmmu_ss.add(files(
-   'arch_dump.c',
-   'pmp.c',
-+  'debug.c',
-   'monitor.c',
-   'machine.c'
- ))
+         if (a->rs1 =3D=3D 0) {
+@@ -3630,8 +3629,7 @@ static bool trans_vrgather_vi(DisasContext *s, arg_=
+rmrr *a)
+=20
+     if (a->vm && s->vl_eq_vlmax) {
+         int scale =3D s->lmul - (s->sew + 3);
+-        int vlmax =3D scale < 0 ?
+-                       s->cfg_ptr->vlen >> -scale : s->cfg_ptr->vlen << =
+scale;
++        int vlmax =3D s->cfg_ptr->vlen >> -scale;
+         if (a->rs1 >=3D vlmax) {
+             tcg_gen_gvec_dup_imm(MO_64, vreg_ofs(s, a->rd),
+                                  MAXSZ(s), MAXSZ(s), 0);
 --=20
 2.35.1
 
