@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6476750A9AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 22:05:10 +0200 (CEST)
-Received: from localhost ([::1]:37230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F7A50A9BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 22:08:56 +0200 (CEST)
+Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhd37-00030r-Gc
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 16:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
+	id 1nhd6l-00088k-Bi
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 16:08:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcXe-0008Ou-HJ
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:38 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33626)
+ id 1nhcXh-00005k-8z
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:41 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcXT-0005jf-LL
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:38 -0400
+ id 1nhcXZ-0005k3-Be
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:40 -0400
 Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcWT-000Caf-Ig; Thu, 21 Apr 2022 20:31:25 +0100
+ id 1nhcWY-000Caf-6g; Thu, 21 Apr 2022 20:31:30 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Thu, 21 Apr 2022 20:30:43 +0100
-Message-Id: <20220421193100.5098-34-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 21 Apr 2022 20:30:45 +0100
+Message-Id: <20220421193100.5098-36-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
 References: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
@@ -36,7 +36,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 33/50] lasi: move LAN initialisation to machine.c
+Subject: [PATCH 35/50] lasi: move second serial port initialisation to
+ machine.c
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -63,51 +64,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/hppa/lasi.c    | 7 -------
- hw/hppa/machine.c | 5 +++++
- 2 files changed, 5 insertions(+), 7 deletions(-)
+ hw/hppa/lasi.c    | 8 --------
+ hw/hppa/machine.c | 7 +++++++
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
-index 65139bb29b..88ff9141e4 100644
+index 6faa98dca5..753a08d454 100644
 --- a/hw/hppa/lasi.c
 +++ b/hw/hppa/lasi.c
 @@ -18,7 +18,6 @@
  #include "sysemu/sysemu.h"
  #include "sysemu/runstate.h"
  #include "hppa_sys.h"
--#include "hw/net/lasi_82596.h"
- #include "hw/char/parallel.h"
- #include "hw/char/serial.h"
+-#include "hw/char/serial.h"
  #include "hw/input/lasips2.h"
-@@ -238,12 +237,6 @@ LasiState *lasi_initfn(MemoryRegion *address_space)
+ #include "migration/vmstate.h"
+ #include "qom/object.h"
+@@ -236,13 +235,6 @@ LasiState *lasi_initfn(MemoryRegion *address_space)
      dev = qdev_new(TYPE_LASI_CHIP);
      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
  
--    /* LAN */
--    if (enable_lasi_lan()) {
--        lasi_82596_init(address_space, LASI_LAN_HPA,
--                        qdev_get_gpio_in(dev, LASI_IRQ_LAN_HPA));
+-    if (serial_hd(1)) {
+-        /* Serial port */
+-        serial_mm_init(address_space, LASI_UART_HPA + 0x800, 0,
+-                qdev_get_gpio_in(dev, LASI_IRQ_UART_HPA), 8000000 / 16,
+-                serial_hd(1), DEVICE_BIG_ENDIAN);
 -    }
 -
-     /* Parallel port */
-     parallel_mm_init(address_space, LASI_LPT_HPA + 0x800, 0,
-                      qdev_get_gpio_in(dev, LASI_IRQ_LAN_HPA),
+     /* PS/2 Keyboard/Mouse */
+     lasips2_init(address_space, LASI_PS2KBD_HPA,
+                  qdev_get_gpio_in(dev, LASI_IRQ_PS2KBD_HPA));
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index be311294a8..c29528d03b 100644
+index c03312c301..1ef9ac5d8f 100644
 --- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -221,6 +221,11 @@ static void machine_hppa_init(MachineState *machine)
+@@ -205,6 +205,13 @@ static void machine_hppa_init(MachineState *machine)
+                        115200, serial_hd(0), DEVICE_BIG_ENDIAN);
      }
  
-     /* Network setup. */
-+    if (enable_lasi_lan()) {
-+        lasi_82596_init(addr_space, LASI_LAN_HPA,
-+                        qdev_get_gpio_in(lasi_dev, LASI_IRQ_LAN_HPA));
++    if (serial_hd(1)) {
++        /* Serial port */
++        serial_mm_init(addr_space, LASI_UART_HPA + 0x800, 0,
++                qdev_get_gpio_in(lasi_dev, LASI_IRQ_UART_HPA), 8000000 / 16,
++                serial_hd(1), DEVICE_BIG_ENDIAN);
 +    }
 +
-     for (i = 0; i < nb_nics; i++) {
-         if (!enable_lasi_lan()) {
-             pci_nic_init_nofail(&nd_table[i], pci_bus, "tulip", NULL);
+     /* Parallel port */
+     parallel_mm_init(addr_space, LASI_LPT_HPA + 0x800, 0,
+                      qdev_get_gpio_in(lasi_dev, LASI_IRQ_LAN_HPA),
 -- 
 2.20.1
 
