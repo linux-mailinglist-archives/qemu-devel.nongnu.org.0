@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A527150AB11
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 23:59:31 +0200 (CEST)
-Received: from localhost ([::1]:37318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D807D50AB15
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 23:59:56 +0200 (CEST)
+Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhepm-0002x1-Q0
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 17:59:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42330)
+	id 1nheqB-0004OI-RQ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 17:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhem9-0007K0-7Z
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 17:55:45 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:34513)
+ id 1nheml-0007uo-4k
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 17:56:23 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:41816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhem7-00014O-PB
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 17:55:44 -0400
-Received: by mail-pl1-x629.google.com with SMTP id n8so6691346plh.1
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 14:55:43 -0700 (PDT)
+ id 1nhemj-0001CS-KB
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 17:56:22 -0400
+Received: by mail-pl1-x631.google.com with SMTP id s14so6662948plk.8
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 14:56:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=eVQ2vrc7Esl/S+1Epg34u6Khwtlh5qzI4e51BsDVeGM=;
- b=k5omLmC89WhHhTiSiKgMAVfb4Iz8aFS1JwLIWxaRQeN+IeBzGvaeVfwSnUfEMjnzIc
- 64mX6fXHSTk/woNMIzlXs+IvU8oKlq6wMIa+VKbgFWsfr3UdDbXYepvOWtGgfHgyzSLA
- QtHzCVN40BskXsvQxFwHt3j6JifuZQnXmcbEUykGKSKDFa8PqU/thJifQJtH0SDp1c3F
- HLXELijEmCv10dxaexliQJTjpd7iF7p/HWf8LsbPdxjcEVq6PdLy+w65qIZzljl9fHcx
- V+maVFxdkYsB9bkBF/2rCn+arU7aXkaClFJ6S+gUGkv2UZ4nI5sstKrdFcUQpdcl2ISR
- EzsA==
+ bh=iWxd4KY2qrI5pIH/9RJUyzkI9eM+mNnjkGI7QtTe6SA=;
+ b=Wosy9Nm2ifbId/tp7P14TXC9zEchmCO74HtCfjPeAkl0DEfeB0s7Cj32QxCDoK/wNI
+ 0/qPPczMgfz1V3uXfb6TXFxmLzXkdRAEt9WSoCq71W48dmL3iQJRRZFv0Pguxrip6A7B
+ 30JV0fY3veMlC/B2c5/X1DaUmpdFTry2N1lj9uR8SqJHji6jMw8IaOTZ0gGxhtlxaU0H
+ IzpV5hBMRPMq1+6+HNKkEEBo9bGxdTdTePh8o/UAnqAE23OKal8zmDsVz5DqTsqLTVAu
+ 6STUzsmdTm5ysw08XEsXrEwGN3xIAelAuEzVz8VnclYTwVQWl6CK6lwsl+2SDrx3bRBf
+ Jo+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=eVQ2vrc7Esl/S+1Epg34u6Khwtlh5qzI4e51BsDVeGM=;
- b=flJDf5gj/XHv7WkAjl9LCruowZ9A3qvWxFsMe+xfU0sZ8IiOyIWgWKQqpDM9Mh2vUL
- FM6l/5PqQNyxKIp8DQRMA3CE61oE1mFyji9I791g7TRLXFMyezWL7j2gODjYVs2e4RRQ
- 9N5bemTpM8f2X3iWFUAvDcOoHBdsllVBs59lAHieB7rFiIKhG2089IwR25ftQByadCVF
- t9R4nyUNMj+O6HPgBO12JHcOzm3N6nJbR2RYsNTaWdLJ9A3jGEtcYGGZS7b1/DyTCQx3
- YWTP053q0pvXivNjTCTTnwkyWCZcy5P5Gpvf2tGnPyAZDI4+lTftcPG9yBBYLPru6E8U
- 0VnA==
-X-Gm-Message-State: AOAM53215tBgNk3c1O8YFxLJT1ZQ0vly4PLeQgAVQugv+I1r8yuLHdsG
- eQySKteWnDR/8k/BcktAsMwM4qsdyB3Igg==
-X-Google-Smtp-Source: ABdhPJyLHg7bIZxjc0wNgM0lSlOcwE9+/fjvQZkoduVAtpANNh8np3wYzPW2yoBHftayUw9ycOEqAA==
-X-Received: by 2002:a17:902:76c4:b0:15a:3724:b27b with SMTP id
- j4-20020a17090276c400b0015a3724b27bmr1252776plt.98.1650578142377; 
- Thu, 21 Apr 2022 14:55:42 -0700 (PDT)
+ bh=iWxd4KY2qrI5pIH/9RJUyzkI9eM+mNnjkGI7QtTe6SA=;
+ b=Et6mpzZeH1OFnuKT85G1TqL6ke38uS5NIoG1HbcAwHruyIRR7auIIRNyKH+LTQvsc2
+ KOAuYkg5NFPibMGdDieKqQstGey8rSURJxessylyaFca7LTSfaH6O/UEb+wCEUKA2LiG
+ Q/9ta0V4I2HxmzflakO7WsjkXkrS8tEHNk5mT8w89PtT8GJ+uKiDnE8gc7/1cY8y1i2U
+ 9H/NT3xXd9PVJUcDHeqdrIZonBNeZTurGpMsFODUph7qclsMPfymGm+l8B9pW9QczUH2
+ 2F2diwohtXj/QN6juhpzu7z7qQnt03SjmI39pKTt1n0vH5Az42p97Z1cHn/Tf9OTS+kt
+ xG7w==
+X-Gm-Message-State: AOAM532TDoMaPY6Mi3uNzitzAXr9xYjbsuHqUdgmF+GOGUUcQdTft0DP
+ a9X6K52+Whq9n0T4UHw139wHggYCv8fbkg==
+X-Google-Smtp-Source: ABdhPJyg6BZwC0Hcs/QuSQTv4fr/gkg+aahSWwmC2Xrt5qCdW7VI/4pjEGaGKxx67iLngfn23kEFFw==
+X-Received: by 2002:a17:902:aa84:b0:156:6b35:9681 with SMTP id
+ d4-20020a170902aa8400b001566b359681mr1547906plr.48.1650578180176; 
+ Thu, 21 Apr 2022 14:56:20 -0700 (PDT)
 Received: from ?IPV6:2607:fb90:8060:946d:d891:f23c:e53:9d47?
  ([2607:fb90:8060:946d:d891:f23c:e53:9d47])
  by smtp.gmail.com with ESMTPSA id
- y8-20020aa78f28000000b00508225493ddsm89242pfr.80.2022.04.21.14.55.41
+ y12-20020a17090a784c00b001c6bdafc995sm2707190pjl.3.2022.04.21.14.56.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Apr 2022 14:55:41 -0700 (PDT)
-Message-ID: <2ec32ab8-455b-6414-34f4-5cd6f09f6aad@linaro.org>
-Date: Thu, 21 Apr 2022 14:55:39 -0700
+ Thu, 21 Apr 2022 14:56:19 -0700 (PDT)
+Message-ID: <b4e3ca2f-09cb-0f43-aca2-407cea9886c8@linaro.org>
+Date: Thu, 21 Apr 2022 14:56:17 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 4/6] target/xtensa: use tcg_constant_* for numbered
- special registers
+Subject: Re: [PATCH 5/6] target/xtensa: use tcg_constant_* for FPU conversion
+ opcodes
 Content-Language: en-US
 To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
 References: <20220421213917.368830-1-jcmvbkbc@gmail.com>
- <20220421213917.368830-5-jcmvbkbc@gmail.com>
+ <20220421213917.368830-6-jcmvbkbc@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220421213917.368830-5-jcmvbkbc@gmail.com>
+In-Reply-To: <20220421213917.368830-6-jcmvbkbc@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,13 +95,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/21/22 14:39, Max Filippov wrote:
-> Numbered special registers are small arrays of consecutive SRs. Use
-> tcg_constant_* for the SR index.
+> FPU conversion opcodes pass scale (range 0..15) and rounding mode to
+> their helpers. Use tcg_constant_* for them.
 > 
 > Signed-off-by: Max Filippov<jcmvbkbc@gmail.com>
 > ---
->   target/xtensa/translate.c | 16 ++++------------
->   1 file changed, 4 insertions(+), 12 deletions(-)
+>   target/xtensa/translate.c | 18 ++++++------------
+>   1 file changed, 6 insertions(+), 12 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
