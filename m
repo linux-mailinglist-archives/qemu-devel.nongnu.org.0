@@ -2,62 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF5650A67E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:01:11 +0200 (CEST)
-Received: from localhost ([::1]:44436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1E150A6A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:09:23 +0200 (CEST)
+Received: from localhost ([::1]:36680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhaB4-0002ds-DH
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:01:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34560)
+	id 1nhaJ0-0000ZG-Cb
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nhZpa-0005EZ-9Z
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:38:58 -0400
-Received: from rev.ng ([5.9.113.41]:45939)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhZq8-0006Ve-2G
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:39:32 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:29107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nhZpW-0002ZQ-5n
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:38:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
- Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=3XlU2StcWdmFOylCpyezW33krKVoFvsa2NU8X+rYsvo=; b=MSoBWzjBqkUplepbXtSdXAU7w9
- gZzgs/2d6+E9XzgFSFCzAe2L+1REl2WWmHj2+7QYV5ABbSo8AZgchxzX1sV5cophp7Kk+XG169s4v
- 1JhpGv6sMDk8tZ4H+Vgp+tslVEet4j7e65jVVsBHmUJWi9VcrnasozO8+zFpf4PV1/dA=;
-Message-ID: <c4909f05-8f4c-0478-01b7-40ea86bb2cba@rev.ng>
-Date: Thu, 21 Apr 2022 18:38:20 +0200
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhZq2-0002eF-Rl
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:39:31 -0400
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-500-qeDa5izgPA-oEH2sK59Bzg-1; Thu, 21 Apr 2022 12:39:13 -0400
+X-MC-Unique: qeDa5izgPA-oEH2sK59Bzg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A80143C0F09E;
+ Thu, 21 Apr 2022 16:39:12 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 803E2409B3F0;
+ Thu, 21 Apr 2022 16:39:11 +0000 (UTC)
+Date: Thu, 21 Apr 2022 18:39:10 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2 3/5] 9pfs: fix wrong encoding of rdev field in
+ Rgetattr on macOS
+Message-ID: <20220421183910.334e012d@bahia>
+In-Reply-To: <22b21b3ddd5c11c43fcfb150a5cec30bd2cca8df.1650553693.git.qemu_oss@crudebyte.com>
+References: <cover.1650553693.git.qemu_oss@crudebyte.com>
+ <22b21b3ddd5c11c43fcfb150a5cec30bd2cca8df.1650553693.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v8 10/12] target/hexagon: import parser for idef-parser
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "ale@rev.ng" <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
- Michael Lambert <mlambert@quicinc.com>, "babush@rev.ng" <babush@rev.ng>,
- "nizzo@rev.ng" <nizzo@rev.ng>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>
-References: <20220209170312.30662-1-anjo@rev.ng>
- <20220209170312.30662-11-anjo@rev.ng>
- <SN4PR0201MB8808765107E51ACC51D89DECDEEA9@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <3553bdb8-021c-3105-f8d3-4d65fd2bc0b8@rev.ng>
- <SN4PR0201MB880894159A8E5558A97707E3DEED9@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <fcc026f5-afd4-95d2-bbbf-0c2795a0e769@rev.ng>
- <SN4PR0201MB880889BD2CE34C2FE9F18803DEF49@SN4PR0201MB8808.namprd02.prod.outlook.com>
-Organization: rev.ng
-In-Reply-To: <SN4PR0201MB880889BD2CE34C2FE9F18803DEF49@SN4PR0201MB8808.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,62 +64,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  anjo@rev.ng
-X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 
+On Thu, 21 Apr 2022 17:07:46 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
->
->> -----Original Message-----
->> From: Anton Johansson <anjo@rev.ng>
->> Sent: Thursday, April 21, 2022 6:51 AM
->> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
->> Cc: ale@rev.ng; Brian Cain <bcain@quicinc.com>; Michael Lambert
->> <mlambert@quicinc.com>; babush@rev.ng; nizzo@rev.ng;
->> richard.henderson@linaro.org
->> Subject: Re: [PATCH v8 10/12] target/hexagon: import parser for idef-parser
->>
->>
->> Here's an updated version of `gen_set_usr_field_If`
->>
->> https://gitlab.com/AntonJohansson/qemu/-/blob/feature/idef-
->> parser/target/hexagon/genptr.c#L673
->>
->> If this looks alright and we have your "reviewed-by" on this patch, I'll go
->> ahead and submit the new patchset! :)
->> /*
->>   * Note: Since this function might branch, `val` is
->>   * required to be a `tcg_temp_local`.
->>   */
->> void gen_set_usr_field_if(int field, TCGv val)
->> {
->>      /* Sets the USR field if `val` is non-zero */
->>      if (false && reg_field_info[field].width == 1) {
-> Remove the "false &&"
->
-> Otherwise
-> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+> The 'rdev' field in 9p reponse 'Rgetattr' is of type dev_t,
+> which is actually a system dependant type and therefore both the
+> size and encoding of dev_t differ between macOS and Linux.
+> 
+> So far we have sent 'rdev' to guest in host's dev_t format as-is,
+> which caused devices to appear with wrong device numbers on
+> guests running on macOS hosts, eventually leading to various
+> misbehaviours on guest in conjunction with device files.
+> 
+> This patch fixes this issue by converting the device number from
+> host's dev_t format to Linux dev_t format. As 9p request
+> 'Tgettattr' is exclusive to protocol version 9p2000.L, it should
+> be fair to assume that 'rdev' field is assumed to be in Linux dev_t
+> format by client as well.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Link: https://lore.kernel.org/qemu-devel/20220421093056.5ab1e7ed@bahia/
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> ---
 
-Ah ofc! Remnant of testing. Fixed.
+Reviewed-again-by: Greg Kurz <groug@kaod.org>
 
-I'll rebase and run the usual pre-submit tests once again.
+>  hw/9pfs/9p-util.h | 39 +++++++++++++++++++++++++++++++++++++++
+>  hw/9pfs/9p.c      |  2 +-
+>  2 files changed, 40 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> index 97e681e167..2cc9a5dbfb 100644
+> --- a/hw/9pfs/9p-util.h
+> +++ b/hw/9pfs/9p-util.h
+> @@ -19,6 +19,45 @@
+>  #define O_PATH_9P_UTIL 0
+>  #endif
+>  
+> +#if !defined(CONFIG_LINUX)
+> +
+> +/*
+> + * Generates a Linux device number (a.k.a. dev_t) for given device major
+> + * and minor numbers.
+> + *
+> + * To be more precise: it generates a device number in glibc's format
+> + * (MMMM_Mmmm_mmmM_MMmm, 64 bits) actually, which is compatible with
+> + * Linux's format (mmmM_MMmm, 32 bits), as described in <bits/sysmacros.h>.
+> + */
+> +static inline uint64_t makedev_dotl(uint32_t dev_major, uint32_t dev_minor)
+> +{
+> +    uint64_t dev;
+> +
+> +    // from glibc sysmacros.h:
+> +    dev  = (((uint64_t) (dev_major & 0x00000fffu)) <<  8);
+> +    dev |= (((uint64_t) (dev_major & 0xfffff000u)) << 32);
+> +    dev |= (((uint64_t) (dev_minor & 0x000000ffu)) <<  0);
+> +    dev |= (((uint64_t) (dev_minor & 0xffffff00u)) << 12);
+> +    return dev;
+> +}
+> +
+> +#endif
+> +
+> +/*
+> + * Converts given device number from host's device number format to Linux
+> + * device number format. As both the size of type dev_t and encoding of
+> + * dev_t is system dependant, we have to convert them for Linux guests if
+> + * host is not running Linux.
+> + */
+> +static inline uint64_t host_dev_to_dotl_dev(dev_t dev)
+> +{
+> +#ifdef CONFIG_LINUX
+> +    return dev;
+> +#else
+> +    return makedev_dotl(major(dev), minor(dev));
+> +#endif
+> +}
+> +
+>  #ifdef CONFIG_DARWIN
+>  #define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
+>  #define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 225f31fc31..4a296a0b94 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -1327,7 +1327,7 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+>      v9lstat->st_nlink = stbuf->st_nlink;
+>      v9lstat->st_uid = stbuf->st_uid;
+>      v9lstat->st_gid = stbuf->st_gid;
+> -    v9lstat->st_rdev = stbuf->st_rdev;
+> +    v9lstat->st_rdev = host_dev_to_dotl_dev(stbuf->st_rdev);
+>      v9lstat->st_size = stbuf->st_size;
+>      v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
+>      v9lstat->st_blocks = stbuf->st_blocks;
 
->
->
->>          TCGv tmp = tcg_temp_new();
->>          tcg_gen_extract_tl(tmp, val, 0, reg_field_info[field].width);
->>          tcg_gen_shli_tl(tmp, tmp, reg_field_info[field].offset);
->>          tcg_gen_or_tl(hex_new_value[HEX_REG_USR],
->>                        hex_new_value[HEX_REG_USR],
->>                        tmp);
->>          tcg_temp_free(tmp);
->>      } else {
->>          TCGLabel *skip_label = gen_new_label();
->>          tcg_gen_brcondi_tl(TCG_COND_EQ, val, 0, skip_label);
->>          gen_set_usr_field(field, val);
->>          gen_set_label(skip_label);
->>      }
->> }
 
