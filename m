@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C316B50A1FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:19:12 +0200 (CEST)
-Received: from localhost ([::1]:33534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AEB50A19B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:09:19 +0200 (CEST)
+Received: from localhost ([::1]:37738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhXeJ-0007vG-0W
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:19:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37180)
+	id 1nhXUl-0007g2-0k
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:09:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhXE4-0005So-TA
+ id 1nhXE4-0005Pq-4L
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:52:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51171)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhXE3-0006NJ-C3
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:52:04 -0400
+ id 1nhXE2-0006N8-Lj
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:52:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1650549122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m3B8+ynsC+uMs0q+WDo/B4eZyQLcdtVZ2JrMoayAc/s=;
- b=MtFtV1LUG9bEIkT7YPHluM58egjFRSUJzlsd8f08evEWJmI6mPWS2x/oj70hF8drT3eM/t
- mzsy8LBTEqUF3tTWh4BpHyfVmxrEPzcafezg4jpucbUUKrTJpUgnXLkNuGzy5gy2LX6FsU
- S+JNr81fA5Yl11FJowZuOoxFAN7xhyA=
+ bh=byhhTH4PBXv8zo/fZq7JFgPYfuONtJHoy4ZTS5ZpPdQ=;
+ b=W3H2tvaH6agqw6uYB5xjIweku4nwj2YMr3bXqi9WFtYwsGkYXifeELNj0ehINBimE4FvNh
+ YVJi4XI2jzwIQlzrtfKW5buj5xamHRY7f67WFbwXIU1fcV/qpTezZpZNX+b8PAEz9Fimwf
+ M67N0di3aL5D1ZrOSEkTuIlipy0e0rE=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-XNaE7ToxPiyOVWr_ZDCzwg-1; Thu, 21 Apr 2022 09:51:56 -0400
-X-MC-Unique: XNaE7ToxPiyOVWr_ZDCzwg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-99-xh73lWkePPeXepvu38DbZQ-1; Thu, 21 Apr 2022 09:52:00 -0400
+X-MC-Unique: xh73lWkePPeXepvu38DbZQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94203280534C;
- Thu, 21 Apr 2022 13:51:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EB3C3C37F26;
+ Thu, 21 Apr 2022 13:52:00 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC1364087D85;
- Thu, 21 Apr 2022 13:51:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DF3FC28110;
+ Thu, 21 Apr 2022 13:51:59 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/30] qtest: simplify socket_send()
-Date: Thu, 21 Apr 2022 17:49:33 +0400
-Message-Id: <20220421134940.2887768-24-marcandre.lureau@redhat.com>
+Subject: [PULL 24/30] util: simplify write in signal handler
+Date: Thu, 21 Apr 2022 17:49:34 +0400
+Message-Id: <20220421134940.2887768-25-marcandre.lureau@redhat.com>
 In-Reply-To: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
 References: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -76,52 +76,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>, richard.henderson@linaro.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Reuse qemu_write_full().
+Use qemu_write_full() instead of open-coding a write loop.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220420132624.2439741-33-marcandre.lureau@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220420132624.2439741-36-marcandre.lureau@redhat.com>
 ---
- tests/qtest/libqtest.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ util/compatfd.c | 18 ++----------------
+ 1 file changed, 2 insertions(+), 16 deletions(-)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 7b5890dcc487..2b9bdb947d6f 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -414,21 +414,9 @@ void qtest_quit(QTestState *s)
- 
- static void socket_send(int fd, const char *buf, size_t size)
- {
--    size_t offset;
+diff --git a/util/compatfd.c b/util/compatfd.c
+index ab810c42a927..55b6e0b7fb27 100644
+--- a/util/compatfd.c
++++ b/util/compatfd.c
+@@ -42,25 +42,11 @@ static void *sigwait_compat(void *opaque)
+             }
+         } else {
+             struct qemu_signalfd_siginfo buffer;
+-            size_t offset = 0;
 -
--    offset = 0;
--    while (offset < size) {
--        ssize_t len;
-+    size_t res = qemu_write_full(fd, buf, size);
+             memset(&buffer, 0, sizeof(buffer));
+             buffer.ssi_signo = sig;
  
--        len = write(fd, buf + offset, size - offset);
--        if (len == -1 && errno == EINTR) {
--            continue;
--        }
+-            while (offset < sizeof(buffer)) {
+-                ssize_t len;
 -
--        g_assert_cmpint(len, >, 0);
+-                len = write(info->fd, (char *)&buffer + offset,
+-                            sizeof(buffer) - offset);
+-                if (len == -1 && errno == EINTR) {
+-                    continue;
+-                }
 -
--        offset += len;
--    }
-+    assert(res == size);
- }
- 
- static void qtest_client_socket_send(QTestState *s, const char *buf)
+-                if (len <= 0) {
+-                    return NULL;
+-                }
+-
+-                offset += len;
++            if (qemu_write_full(info->fd, &buffer, sizeof(buffer)) != sizeof(buffer)) {
++                return NULL;
+             }
+         }
+     }
 -- 
 2.36.0
 
