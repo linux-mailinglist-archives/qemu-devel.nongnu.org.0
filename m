@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0CE50979F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 08:31:40 +0200 (CEST)
-Received: from localhost ([::1]:56972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F4D5097D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 08:42:46 +0200 (CEST)
+Received: from localhost ([::1]:38976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhQLr-00070D-IG
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 02:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51324)
+	id 1nhQWY-0007Bz-7E
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 02:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQDz-0002GQ-VZ
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:23:35 -0400
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:44121)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQQ2-000435-Hg
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:36:05 -0400
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:46423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQDu-0005oC-CF
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:23:29 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.42])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id BA2452295F;
- Thu, 21 Apr 2022 06:23:23 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQPz-0007l7-5x
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:35:57 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.59])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id BD52220B36;
+ Thu, 21 Apr 2022 06:35:51 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 21 Apr
- 2022 08:23:23 +0200
+ 2022 08:35:50 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-100R00310994873-d46e-4ffd-b134-fc5fe3bf9651,
+ (GARM-95G001c8684a1e-f7ed-485a-bf5a-9a3e8eda5317,
  FFC778467988C6DD564F10F4CBD504D71298CE84) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <9ddd8d9c-c97e-9a77-b2f1-7769c50db8da@kaod.org>
-Date: Thu, 21 Apr 2022 08:23:22 +0200
+Message-ID: <3e188eb4-40dd-952c-9764-4cc8cb255f01@kaod.org>
+Date: Thu, 21 Apr 2022 08:35:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v2] target/ppc: Fix BookE debug interrupt generation
+Subject: Re: XIVE VFIO kernel resample failure in INTx mode under heavy load
 Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, Daniel Henrique Barboza
- <danielhb413@gmail.com>, David Gibson <david@gibson.dropbear.id.au>, Greg
- Kurz <groug@kaod.org>
-References: <20220421011729.1148727-1-bmeng.cn@gmail.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, Alex Williamson
+ <alex.williamson@redhat.com>, Timothy Pearson
+ <tpearson@raptorengineering.com>
+References: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
+ <20220314160952.46d5313a.alex.williamson@redhat.com>
+ <9638ec8f-2edf-97df-0c14-95ae2344dc70@kaod.org>
+ <6f0a92ca-9f53-b8b8-e85d-43f4da36200d@kaod.org>
+ <edfa8ca4-8e8a-335a-2e7e-c69661ec73da@ozlabs.ru>
+ <560c8c1a-a87e-71f9-cfea-0a034933070b@ozlabs.ru>
+ <e25296b3-b1ec-a90a-ee72-ed15fe5130f6@kaod.org>
+ <5308af13-a943-efeb-d819-e39cfc2f2907@ozlabs.ru>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220421011729.1148727-1-bmeng.cn@gmail.com>
+In-Reply-To: <5308af13-a943-efeb-d819-e39cfc2f2907@ozlabs.ru>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 388098c1-9a13-4902-b876-f3774db3baf0
-X-Ovh-Tracer-Id: 17895897547982343020
+X-Ovh-Tracer-GUID: c6b0390a-b55a-417b-9d2e-8a24ed20ed7b
+X-Ovh-Tracer-Id: 18106440830489758572
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrtddugddutdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeetieekudeifeejleejfeevhfejkeetfeelheevueegjeefheeuvefhleefleeiffenucffohhmrghinhepnhigphdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrtddugdduudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -72,65 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Fabiano Rosas <farosas@linux.ibm.com>
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
+ "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/22 03:17, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+On 4/21/22 05:07, Alexey Kardashevskiy wrote:
 > 
-> Per E500 core reference manual [1], chapter 8.4.4 "Branch Taken Debug
-> Event" and chapter 8.4.5 "Instruction Complete Debug Event":
 > 
->    "A branch taken debug event occurs if both MSR[DE] and DBCR0[BRT]
->    are set ... Branch taken debug events are not recognized if MSR[DE]
->    is cleared when the branch instruction executes."
+> On 14/04/2022 22:41, Cédric Le Goater wrote:
+>>
+>>>> After re-reading what I just wrote, I am leaning towards disabling use of KVM_CAP_IRQFD_RESAMPLE as it seems last worked on POWER8 and never since :)
+>>>>
+>>>> Did I miss something in the picture (hey Cedric)?
+>>>
+>>> How about disabling it like this?
+>>>
+>>> =====
+>>> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+>>> index 5bfd4aa9e5aa..c999f7b1ab1b 100644
+>>> --- a/hw/ppc/spapr_pci.c
+>>> +++ b/hw/ppc/spapr_pci.c
+>>> @@ -732,7 +732,7 @@ static PCIINTxRoute spapr_route_intx_pin_to_irq(void *opaque, int pin)
+>>>       SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(opaque);
+>>>       PCIINTxRoute route;
+>>>
+>>> -    route.mode = PCI_INTX_ENABLED;
+>>> +    route.mode = PCI_INTX_DISABLED;
+>>>
+>>> =====
+>>
+>> I like it.
 > 
->    "An instruction complete debug event occurs when any instruction
->    completes execution so long as MSR[DE] and DBCR0[ICMP] are both
->    set ... Instruction complete debug events are not recognized if
->    MSR[DE] is cleared at the time of the instruction execution."
 > 
-> Current codes do not check MSR.DE bit before setting HFLAGS_SE and
-> HFLAGS_BE flag, which would cause the immediate debug interrupt to
-> be generated, e.g.: when DBCR0.ICMP bit is set by guest software
-> and MSR.DE is not set.
-> 
-> [1] https://www.nxp.com/docs/en/reference-manual/E500CORERM.pdf
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> The only thing is that this resampling works on POWER8/XICS and 
+> removing it there is not great. So far sPAPR PHB was unaware of 
+> underlying interrupt controller, or was not it?
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+It is. The dynamic change of the underlying irqchip in QEMU and
+in KVM required that for CAS. Of course, plenty is done in the
+back of the devices when this happens, see spapr_irq.
+
+There are some quirks related to LPM with VIO devices in Linux.
+This is the only case I know about.
 
 Thanks,
 
 C.
-
-> ---
-> 
-> Changes in v2:
-> - update commit message to use E500CORERM instead of PowerISA 2.07
-> 
->   target/ppc/helper_regs.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-> index 9a691d6833..77bc57415c 100644
-> --- a/target/ppc/helper_regs.c
-> +++ b/target/ppc/helper_regs.c
-> @@ -63,10 +63,10 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
->   
->       if (ppc_flags & POWERPC_FLAG_DE) {
->           target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
-> -        if (dbcr0 & DBCR0_ICMP) {
-> +        if ((dbcr0 & DBCR0_ICMP) && msr_de) {
->               hflags |= 1 << HFLAGS_SE;
->           }
-> -        if (dbcr0 & DBCR0_BRT) {
-> +        if ((dbcr0 & DBCR0_BRT) && msr_de) {
->               hflags |= 1 << HFLAGS_BE;
->           }
->       } else {
-
 
