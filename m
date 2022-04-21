@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3467750A768
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:52:03 +0200 (CEST)
-Received: from localhost ([::1]:45054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3590E50A7D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 20:08:53 +0200 (CEST)
+Received: from localhost ([::1]:52416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhayI-0004pc-AX
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:52:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50698)
+	id 1nhbEa-00041S-8P
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 14:08:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhavO-0002So-Eu
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:49:05 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:38492)
+ id 1nhaFL-0002oW-Cm
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:05:36 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:50998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhavM-00062D-Ca
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:49:02 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id b15so5675150pfm.5
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 10:48:59 -0700 (PDT)
+ id 1nhaFJ-0007EL-Oi
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 13:05:35 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id iq10so1756383pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 10:05:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=t2nbQbJ5TMvX0lwdH8ZfUVGFUrrkCC+Uk/TyIu5kGWI=;
- b=LJhKiiKjFeCxPuAv+TC61BPAXo/VxThlWJfgl62YpHh2PZpEQWc8+wYeerCp+55et5
- FSHMZ/CYy+X/hH4KoALVaSCE6Vk0IQrGMS4oT1f1PkaT3L7PfbaHoe1CMSFu7THqP6Ik
- EXeK8ZM6Mysc1tTnjNaew99u2dgc+iVgDbuS7RvLyuMiI5wIgh0nLBJo4JEchmO7ah2s
- NJw4KICy2D2iykqv5QMfZx3daDZ+VtMEXC426ofe4CvG1cNeFne7kY51SPiJ6SsroQO7
- bHIOfF8L7mZy4M6WmlRj0+cUpCyZz6gJx1tCuVKlRM6yUMgd4a7qgugFTHoUtcnXvdmm
- juUw==
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=s6jTI07p7llQlwOi8V9iwVByOJjJ8UDe4vTIa8xiLQg=;
+ b=jF4vtI5J5YkiXQWXcqe5PUPPwr//H8ELn2CDoD1MQsFjdK7bUtmRatbNRPNkf0JDhq
+ KYOM7AhBy6H37KsFsq4+ru3uCTvDC/1Xnkn/c4zhHFsiVI0L5mR1zcITLsoRG0HKfXgw
+ ggKT/GEeZudzt9Z62xI46YBvjEcuvp1EESOF4gZLe4D+5U6qMefrw74YIqRPXNUU5oSi
+ GAhU3x38Sz73FebsaipTfdcSyNfQ+I4ER7wE3wmqQ4Dl3M2iew763g+OvUTaIZRm3c5e
+ cTmaKGkKnkjvc66DPwBCOY9cRGatW/UN3Dvkb2wFUNKYXXUvP2zlIyogd2TmA0VkhhdY
+ O/YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=t2nbQbJ5TMvX0lwdH8ZfUVGFUrrkCC+Uk/TyIu5kGWI=;
- b=a+cEI6qrnQZF2lSCGXXqujIX5KRyI1Mw5ybmL8u3hoMrZBROa7zfseptzrNYIRlIGE
- FYIs8crkLQuX3mrNrQTOFWVXgrkz5Gc0UgxzwwZUW9RefbVmaujSdZaEzew3t5iwGcxK
- q1UqFj5GD0NcByCpwJ2tdm4iiOwWAqVddZSYSKkNvkVpJA3nIyyGA91Km+O01YS3fVz7
- DD/5nm8lMJNUTdBhBvmREXnCnrHP8mx36v4BmgNthPCPgnEk5mLTQWmxMuMBoVaj0OPL
- D5WZGK40EumivAjwRuAxSH6vmG1IRlG1rxkC6GlCFpf8nvF2QiAp8uCQHAVQdfkFo+fI
- vjxg==
-X-Gm-Message-State: AOAM532wqmKKX5ZnFrCawiZD21qBgOd7dK+eA9iylp98uaovD5f40Rbh
- 6zk7lpHKr66LYYSbxqBCqb27Wg==
-X-Google-Smtp-Source: ABdhPJwQFl3zGmz0FWs0EBn8j3zscSpyeOpD/8M5vgm5wBTIVzgbQowA3BWQ/usG1ldqC70oZt7/Vg==
-X-Received: by 2002:a05:6a02:206:b0:399:3c9:f465 with SMTP id
- bh6-20020a056a02020600b0039903c9f465mr519428pgb.388.1650563338907; 
- Thu, 21 Apr 2022 10:48:58 -0700 (PDT)
+ bh=s6jTI07p7llQlwOi8V9iwVByOJjJ8UDe4vTIa8xiLQg=;
+ b=G+ySojjEOqPDuegNtbsBWOOwF8mGs9uq45PrCxApWKQDDEMSeHIuO9/C1NzwfkuZhn
+ G3aJAGnWkKV8bl4YxGfoauBq5yH1il9F6nFgUo4z89Y/gcXd58tJlTL+5hGwCNvtZG5n
+ YEeBpI5/riDwN9Z2IQLOt2VCoUM90C++lIZVmH08PkJPykZPk8jVUNAQzE5ejIKi/I/Z
+ 9TZrxLpw7FPf/NjYY2dHNvNpmyv05J2SQiaMSPZnb/urLR3gB9UFWmOZyfXdUQmbf+bW
+ 4UMSfnT2ZuE37oWg5JNXz4EqkNGZEy2HC+2Wlw/z4gPcj5YNF3wz3rkNt17E7f0oJqaG
+ toKA==
+X-Gm-Message-State: AOAM532Mh1aVviYOatDPCcbFspsGBEHtewymT0R0J4OhzkltObCtEYha
+ CUFLP70sxjyG/499Fep2GBx70yPxwTqA+Q==
+X-Google-Smtp-Source: ABdhPJwY/GWWYmVIJRQzZHS5Pen8wfkBbJLUO/gjO77TcdDGWCOuqI/e5ao0M8EM39Z5g3G60SoZvA==
+X-Received: by 2002:a17:90a:5aa3:b0:1d2:e15a:dfa with SMTP id
+ n32-20020a17090a5aa300b001d2e15a0dfamr11540562pji.100.1650560731892; 
+ Thu, 21 Apr 2022 10:05:31 -0700 (PDT)
 Received: from ?IPV6:2607:fb90:80c1:f8a5:3d1f:84a9:7713:bf09?
  ([2607:fb90:80c1:f8a5:3d1f:84a9:7713:bf09])
  by smtp.gmail.com with ESMTPSA id
- g13-20020a62520d000000b0050a923a7754sm10692278pfb.119.2022.04.21.10.48.57
+ t14-20020a65554e000000b0039db5d2c260sm23922079pgr.69.2022.04.21.10.05.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Apr 2022 10:48:58 -0700 (PDT)
-Message-ID: <9dbced58-8ac8-a244-fef3-30102848d878@linaro.org>
-Date: Thu, 21 Apr 2022 10:48:54 -0700
+ Thu, 21 Apr 2022 10:05:31 -0700 (PDT)
+Message-ID: <a4cf2a9c-58be-3964-1425-4ab920c27927@linaro.org>
+Date: Thu, 21 Apr 2022 10:05:27 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PULL 00/30] Misc patches
+Subject: Re: [PATCH 0/4] target/rx: Track PSW.U in tb->flags
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+References: <20220417165130.695085-1-richard.henderson@linaro.org>
+ <87k0blmsfo.wl-ysato@users.sourceforge.jp>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
+In-Reply-To: <87k0blmsfo.wl-ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,182 +90,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: i@yvt.jp, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/22 06:49, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 4/19/22 00:40, Yoshinori Sato wrote:
+> On Mon, 18 Apr 2022 01:51:26 +0900,
+> Richard Henderson wrote:
+>>
+>> This is a follow up to Kawada-san's patch for the problem
+>> of a missed update to the stack pointer in CLRPSW/SETPSW.
+>> This fixes the problem without movcond by tracking the
+>> current state of PSW.U within the TB.
+>>
+>>
+>> r~
+>>
+>>
+>> Richard Henderson (4):
+>>    target/rx: Put tb_flags into DisasContext
+>>    target/rx: Store PSW.U in tb->flags
+>>    target/rx: Move DISAS_UPDATE check for write to PSW
+>>    target/rx: Swap stack pointers on clrpsw/setpsw instruction
+>>
+>>   target/rx/cpu.h       |  1 +
+>>   target/rx/translate.c | 67 +++++++++++++++++++++++--------------------
+>>   2 files changed, 37 insertions(+), 31 deletions(-)
+>>
+>> -- 
+>> 2.25.1
+>>
 > 
-> The following changes since commit 9c125d17e9402c232c46610802e5931b3639d77b:
+> Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 > 
->    Merge tag 'pull-tcg-20220420' of https://gitlab.com/rth7680/qemu into staging (2022-04-20 16:43:11 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git@gitlab.com:marcandre.lureau/qemu.git tags/misc-pull-request
-> 
-> for you to fetch changes up to 55fa0170721e827c1701db3a66a54d44b5660d53:
-> 
->    qga: use fixed-length and GDateTime for log timestamp (2022-04-21 17:37:16 +0400)
-> 
-> ----------------------------------------------------------------
-> Misc cleanups
-> 
-> ----------------------------------------------------------------
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
-
+Queued to target-rx-next.
 
 r~
-
-
-> 
-> Marc-André Lureau (30):
->    glib-compat: isolate g_date_time_format_iso8601 version-bypass
->    scripts/analyze-inclusions: drop qemu-common.h from analysis
->    Simplify softmmu/main.c
->    hw/hyperv: remove needless qemu-common.h include
->    include: rename qemu-common.h qemu/help-texts.h
->    qga: replace usleep() with g_usleep()
->    docs: trace-events-all is installed without renaming
->    arm/digic: replace snprintf() with g_strdup_printf()
->    arm/allwinner-a10: replace snprintf() with g_strdup_printf()
->    intc/exynos4210_gic: replace snprintf() with g_strdup_printf()
->    doc/style: CLang -> Clang
->    osdep.h: move qemu_build_not_reached()
->    compiler.h: replace QEMU_NORETURN with G_NORETURN
->    include: move qemu_msync() to osdep
->    include: move qemu_fdatasync() to osdep
->    include: add qemu/keyval.h
->    include: move qdict_{crumple,flatten} declarations
->    tests: remove block/qdict checks from check-qobject.c
->    compiler.h: add QEMU_SANITIZE_{ADDRESS,THREAD}
->    tests: run-time skip test-qga if TSAN is enabled
->    Move error_printf_unless_qmp() with monitor unit
->    qga: move qga_get_host_name()
->    qtest: simplify socket_send()
->    util: simplify write in signal handler
->    util: use qemu_write_full() in qemu_write_pidfile()
->    util: use qemu_create() in qemu_write_pidfile()
->    util: replace qemu_get_local_state_pathname()
->    qga: remove need for QEMU atomic.h
->    tests/fuzz: fix warning
->    qga: use fixed-length and GDateTime for log timestamp
-> 
->   docs/devel/style.rst                         |  2 +-
->   docs/devel/tracing.rst                       |  2 +-
->   accel/tcg/internal.h                         |  3 +-
->   include/block/qdict.h                        |  3 +
->   include/exec/exec-all.h                      | 20 +++---
->   include/exec/helper-head.h                   |  2 +-
->   include/glib-compat.h                        | 12 +---
->   include/hw/core/cpu.h                        |  2 +-
->   include/hw/core/tcg-cpu-ops.h                |  6 +-
->   include/hw/hw.h                              |  2 +-
->   include/monitor/monitor.h                    |  3 +
->   include/qapi/qmp/qdict.h                     |  3 -
->   include/qemu-main.h                          | 10 +++
->   include/qemu/compiler.h                      | 26 +++-----
->   include/qemu/cutils.h                        |  2 -
->   include/qemu/error-report.h                  |  2 -
->   include/{qemu-common.h => qemu/help-texts.h} |  5 --
->   include/qemu/keyval.h                        | 14 +++++
->   include/qemu/option.h                        |  6 --
->   include/qemu/osdep.h                         | 43 +++++++++----
->   include/qemu/thread.h                        |  2 +-
->   include/tcg/tcg-ldst.h                       |  4 +-
->   include/tcg/tcg.h                            |  2 +-
->   linux-user/user-internals.h                  |  2 +-
->   qga/commands-common.h                        | 11 ++++
->   scripts/cocci-macro-file.h                   |  2 +-
->   target/alpha/cpu.h                           | 10 +--
->   target/arm/internals.h                       | 12 ++--
->   target/hppa/cpu.h                            |  2 +-
->   target/i386/tcg/helper-tcg.h                 | 24 ++++----
->   target/microblaze/cpu.h                      |  6 +-
->   target/mips/tcg/tcg-internal.h               | 17 ++---
->   target/nios2/cpu.h                           |  6 +-
->   target/openrisc/exception.h                  |  2 +-
->   target/ppc/cpu.h                             | 14 ++---
->   target/ppc/internal.h                        |  6 +-
->   target/riscv/cpu.h                           | 10 +--
->   target/s390x/s390x-internal.h                |  6 +-
->   target/s390x/tcg/tcg_s390x.h                 | 12 ++--
->   target/sh4/cpu.h                             |  6 +-
->   target/sparc/cpu.h                           | 10 +--
->   target/xtensa/cpu.h                          |  6 +-
->   accel/stubs/tcg-stub.c                       |  4 +-
->   bsd-user/main.c                              |  2 +-
->   bsd-user/signal.c                            |  3 +-
->   hw/arm/allwinner-a10.c                       |  4 +-
->   hw/arm/digic.c                               |  5 +-
->   hw/hyperv/syndbg.c                           |  1 -
->   hw/intc/exynos4210_gic.c                     |  9 +--
->   hw/misc/mips_itu.c                           |  3 +-
->   linux-user/main.c                            |  2 +-
->   linux-user/signal.c                          |  3 +-
->   monitor/hmp.c                                |  4 +-
->   monitor/monitor.c                            | 10 +++
->   qapi/qobject-input-visitor.c                 |  2 +-
->   qemu-img.c                                   | 14 +++--
->   qemu-io.c                                    |  2 +-
->   qemu-nbd.c                                   |  2 +-
->   qga/commands-posix.c                         | 35 +++++++++++
->   qga/commands-win32.c                         | 13 ++++
->   qga/commands.c                               | 14 ++---
->   qga/main.c                                   | 20 +++---
->   qom/object_interfaces.c                      |  1 +
->   scsi/qemu-pr-helper.c                        |  8 ++-
->   softmmu/main.c                               | 25 +++-----
->   softmmu/vl.c                                 |  4 +-
->   storage-daemon/qemu-storage-daemon.c         |  2 +-
->   stubs/error-printf.c                         |  1 +
->   target/alpha/helper.c                        | 10 +--
->   target/arm/pauth_helper.c                    |  4 +-
->   target/arm/tlb_helper.c                      |  7 ++-
->   target/hexagon/op_helper.c                   |  9 +--
->   target/hppa/cpu.c                            |  8 +--
->   target/hppa/op_helper.c                      |  4 +-
->   target/i386/tcg/bpt_helper.c                 |  2 +-
->   target/i386/tcg/excp_helper.c                | 31 +++++-----
->   target/i386/tcg/misc_helper.c                |  6 +-
->   target/i386/tcg/sysemu/misc_helper.c         |  7 ++-
->   target/openrisc/exception.c                  |  2 +-
->   target/openrisc/exception_helper.c           |  3 +-
->   target/riscv/op_helper.c                     |  4 +-
->   target/rx/op_helper.c                        | 22 ++++---
->   target/s390x/tcg/excp_helper.c               | 22 ++++---
->   target/sh4/op_helper.c                       |  5 +-
->   target/sparc/mmu_helper.c                    |  8 +--
->   target/tricore/op_helper.c                   |  6 +-
->   tcg/tcg.c                                    |  3 +-
->   tests/fp/fp-bench.c                          |  3 +-
->   tests/fp/fp-test.c                           |  3 +-
->   tests/qtest/fuzz/generic_fuzz.c              |  2 -
->   tests/qtest/libqtest.c                       | 16 +----
->   tests/unit/check-qobject.c                   |  7 ---
->   tests/unit/check-qom-proplist.c              |  1 +
->   tests/unit/test-forward-visitor.c            |  2 +-
->   tests/unit/test-keyval.c                     |  2 +-
->   tests/unit/test-qga.c                        |  7 +++
->   tools/virtiofsd/fuse_virtio.c                |  4 +-
->   tools/virtiofsd/passthrough_ll.c             |  2 +-
->   ui/vnc.c                                     |  1 +
->   util/compatfd.c                              | 18 +-----
->   util/cutils.c                                | 54 ----------------
->   util/error-report.c                          | 17 ++---
->   util/keyval.c                                |  2 +-
->   util/osdep.c                                 | 16 +++++
->   util/oslib-posix.c                           | 65 +++++++-------------
->   util/oslib-win32.c                           | 28 ++++-----
->   scripts/analyze-inclusions                   |  4 --
->   scripts/checkpatch.pl                        |  2 +-
->   tests/unit/meson.build                       |  2 +-
->   ui/cocoa.m                                   |  3 +-
->   110 files changed, 475 insertions(+), 482 deletions(-)
->   create mode 100644 include/qemu-main.h
->   rename include/{qemu-common.h => qemu/help-texts.h} (80%)
->   create mode 100644 include/qemu/keyval.h
-> 
-
 
