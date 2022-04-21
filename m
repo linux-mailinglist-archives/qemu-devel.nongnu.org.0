@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CFD509F76
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 14:17:37 +0200 (CEST)
-Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EED2509F98
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 14:26:46 +0200 (CEST)
+Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhVke-0006nQ-5s
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 08:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37714)
+	id 1nhVtV-0000IO-Oh
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 08:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nhVLT-0001Eb-9x; Thu, 21 Apr 2022 07:51:35 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3937)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1nhVLQ-0000Zk-Qi; Thu, 21 Apr 2022 07:51:34 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KkbV03qTMzhXrp;
- Thu, 21 Apr 2022 19:51:20 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 21 Apr 2022 19:51:26 +0800
-Subject: Re: [PATCH v7 1/4] qapi/machine.json: Add cluster-id
-To: Gavin Shan <gshan@redhat.com>, <qemu-arm@nongnu.org>
-CC: <lvivier@redhat.com>, <eduardo@habkost.net>, <thuth@redhat.com>,
- <berrange@redhat.com>, <shan.gavin@gmail.com>, <peter.maydell@linaro.org>,
- <Jonathan.Cameron@Huawei.com>, <zhenyzha@redhat.com>, <mst@redhat.com>,
- <qemu-devel@nongnu.org>, <armbru@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <imammedo@redhat.com>, <ani@anisinha.ca>, <pbonzini@redhat.com>,
- <drjones@redhat.com>, <eblake@redhat.com>, <f4bug@amsat.org>
-References: <20220420104909.233058-1-gshan@redhat.com>
- <20220420104909.233058-2-gshan@redhat.com>
-Message-ID: <b1c7a10a-40ca-c7c7-0512-357271c67598@huawei.com>
-Date: Thu, 21 Apr 2022 19:51:26 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nhVRP-0003S7-5S
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:57:43 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nhVRB-0001PL-Kz
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:57:42 -0400
+Received: by mail-wr1-x435.google.com with SMTP id c10so6376858wrb.1
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ctt+dAmV59F/MyYhvm5FkrbS4fsWBAfgChSFx1I3g3E=;
+ b=gxmBO44SjF5LM8d+NhLUsMphezm2ECXZrw7EOt9rVK7VNRUQFBaSy9k5sdrhybmHvc
+ frAJ7g62wRFxbJ/Thv0BChHFb7bJzLLD7UmZR8EW6In0mrjGYZuR4CZ7cXrZJKS0mBWn
+ //JpEU/QszRTq+qO1usWnmHstD6EOaPyk8wqdeG7C9f9L5ylGyAfHel2Co+YtvaGfuET
+ BEhLEeJi8rGvuiDqwn/HAvIZiU4VyBxluOcpx2YL60UwCtuSl7bnyNVWVzGP2hImEsk0
+ k8U3e2NHFzI+zAAAd9GncFa7NodrJ3RWKxLkL95xgczwHNJNbAMK9zsqpt0lL0+B/tAx
+ uqaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ctt+dAmV59F/MyYhvm5FkrbS4fsWBAfgChSFx1I3g3E=;
+ b=vzBBepEKfi0IsAM3rn2WtzTzZGYyvauxoQvJFysonsnfD/x+iykR6JQ5PRfeGCR9LH
+ TXku7iFexXVpv8ozDxt4LaYJu9QPPHvmPpj+xZcohy9tWhhjXOaCJF7KmctC+np+SKLu
+ //+PVCS2AhkQUSirhawjo8c7g7pJJazO/ngZ9BPjlYzIS91i3Nn1RZgtgdHLhQrz5vI1
+ i7DcwqWI24MH248YwPMIrjVFubTP9CGqkZ+RCsuEQ+JF6cfqHL4g8a+kwMd02CzRUqrS
+ 9/RD0Q7uNOhNfuGnmsGu7jwvBaEXJL7CZnbLHY3n7cWtmkzO7UVij1rqXcERNYTVZIPo
+ UczA==
+X-Gm-Message-State: AOAM532jNRjnu/7TZsJm8uRJfPRLv+4oeHQydIRBcqefmDWl0tfX5fmZ
+ zwoGw7aBkg44DoF/U37/ICw=
+X-Google-Smtp-Source: ABdhPJzokxA09pPi8LGn4nsJEhU6NHo9ry2G0Y/2aCz5HzNszEvhEw/UnsIVMI8UzJx3Cc5sz4hReA==
+X-Received: by 2002:adf:a1c4:0:b0:20a:92c3:abfd with SMTP id
+ v4-20020adfa1c4000000b0020a92c3abfdmr16077701wrv.551.1650542247822; 
+ Thu, 21 Apr 2022 04:57:27 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ az30-20020a05600c601e00b0038ebd950caesm1912123wmb.30.2022.04.21.04.57.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Apr 2022 04:57:27 -0700 (PDT)
+Message-ID: <9237970a-3852-bcc6-0243-04c76fbe57d0@redhat.com>
+Date: Thu, 21 Apr 2022 13:57:25 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220420104909.233058-2-gshan@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: Future of libslirp in QEMU
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Anders Pitman <anders@apitman.com>, qemu-devel@nongnu.org
+References: <8f5cc095-e5e9-486d-8e52-d22cac6d2379@www.fastmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <8f5cc095-e5e9-486d-8e52-d22cac6d2379@www.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,121 +93,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-Hi Gavin,
+On 4/20/22 21:08, Anders Pitman wrote:
+> I noticed in the 7.0 changelog that libslirp might be removed as a 
+> submodule in the future. Since user networking is very important for my 
+> project, I'm wondering if this is simply an implementation detail, or if 
+> there are plans to eventually remove slirp support entirely from QEMU 
+> (which would be bad for me)?
 
-On 2022/4/20 18:49, Gavin Shan wrote:
-> This adds cluster-id in CPU instance properties, which will be used
-> by arm/virt machine. Besides, the cluster-id is also verified or
-> dumped in various spots:
->
->    * hw/core/machine.c::machine_set_cpu_numa_node() to associate
->      CPU with its NUMA node.
->
->    * hw/core/machine.c::machine_numa_finish_cpu_init() to associate
->      CPU with NUMA node when no default association isn't provided.
-nit: It doesn't really matter too much. But maybe clearer to read a 
-sentence like
-"machine_numa_finish_cpu_init() to record CPU slots with no NUMA mapping 
-set."
+No, libslirp is now a standalone project and we'll rely on distros to 
+provide the package for the library (and a -devel package that 
+meson/pkg-config can use to find whether the library exist).
 
-Thanks,
-Yanan
->
->    * hw/core/machine-hmp-cmds.c::hmp_hotpluggable_cpus() to dump
->      cluster-id.
->
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->   hw/core/machine-hmp-cmds.c |  4 ++++
->   hw/core/machine.c          | 16 ++++++++++++++++
->   qapi/machine.json          |  6 ++++--
->   3 files changed, 24 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-> index 4e2f319aeb..5cb5eecbfc 100644
-> --- a/hw/core/machine-hmp-cmds.c
-> +++ b/hw/core/machine-hmp-cmds.c
-> @@ -77,6 +77,10 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
->           if (c->has_die_id) {
->               monitor_printf(mon, "    die-id: \"%" PRIu64 "\"\n", c->die_id);
->           }
-> +        if (c->has_cluster_id) {
-> +            monitor_printf(mon, "    cluster-id: \"%" PRIu64 "\"\n",
-> +                           c->cluster_id);
-> +        }
->           if (c->has_core_id) {
->               monitor_printf(mon, "    core-id: \"%" PRIu64 "\"\n", c->core_id);
->           }
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 1e23fdc14b..ac91dfd834 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -679,6 +679,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
->               return;
->           }
->   
-> +        if (props->has_cluster_id && !slot->props.has_cluster_id) {
-> +            error_setg(errp, "cluster-id is not supported");
-> +            return;
-> +        }
-> +
->           if (props->has_socket_id && !slot->props.has_socket_id) {
->               error_setg(errp, "socket-id is not supported");
->               return;
-> @@ -698,6 +703,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
->                   continue;
->           }
->   
-> +        if (props->has_cluster_id &&
-> +            props->cluster_id != slot->props.cluster_id) {
-> +                continue;
-> +        }
-> +
->           if (props->has_die_id && props->die_id != slot->props.die_id) {
->                   continue;
->           }
-> @@ -992,6 +1002,12 @@ static char *cpu_slot_to_string(const CPUArchId *cpu)
->           }
->           g_string_append_printf(s, "die-id: %"PRId64, cpu->props.die_id);
->       }
-> +    if (cpu->props.has_cluster_id) {
-> +        if (s->len) {
-> +            g_string_append_printf(s, ", ");
-> +        }
-> +        g_string_append_printf(s, "cluster-id: %"PRId64, cpu->props.cluster_id);
-> +    }
->       if (cpu->props.has_core_id) {
->           if (s->len) {
->               g_string_append_printf(s, ", ");
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index d25a481ce4..4c417e32a5 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -868,10 +868,11 @@
->   # @node-id: NUMA node ID the CPU belongs to
->   # @socket-id: socket number within node/board the CPU belongs to
->   # @die-id: die number within socket the CPU belongs to (since 4.1)
-> -# @core-id: core number within die the CPU belongs to
-> +# @cluster-id: cluster number within die the CPU belongs to (since 7.1)
-> +# @core-id: core number within cluster the CPU belongs to
->   # @thread-id: thread number within core the CPU belongs to
->   #
-> -# Note: currently there are 5 properties that could be present
-> +# Note: currently there are 6 properties that could be present
->   #       but management should be prepared to pass through other
->   #       properties with device_add command to allow for future
->   #       interface extension. This also requires the filed names to be kept in
-> @@ -883,6 +884,7 @@
->     'data': { '*node-id': 'int',
->               '*socket-id': 'int',
->               '*die-id': 'int',
-> +            '*cluster-id': 'int',
->               '*core-id': 'int',
->               '*thread-id': 'int'
->     }
+Paolo
+
+> Is there somewhere I can read the discussion about this? I searched the 
+> mailing list archives but didn't see anything obvious.
 
 
