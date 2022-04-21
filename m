@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C54250A835
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 20:38:26 +0200 (CEST)
-Received: from localhost ([::1]:57300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E53550A84F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 20:43:49 +0200 (CEST)
+Received: from localhost ([::1]:37304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhbhA-0006Q8-Lw
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 14:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33162)
+	id 1nhbmO-0004WX-LV
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 14:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhbed-0004tZ-GH
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 14:35:47 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34616)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhbeb-00050Q-WF
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 14:35:47 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id n8so5682726plh.1
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 11:35:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=uKgqYOsaUsn8zCuN7A/2/WT2usxLqas9V280nbv2TMQ=;
- b=bYskpsf3H6YQcDC3ZwDVYu6ZLqn5ngWeAdh1ARCu0PfrQfMgdsR2mCRpvJ2iJjmsZg
- 41EscLi8yvsBwg8l82/4mF2lAdR1uJ4Knwss7QirOS2jl/0NO8qCvOlHAftYQv0coW8m
- SvfHNxILVTjzrrBPfibnwK1ppy3YAGvKrzeL9O0d7Db9GiXr8fAglKHCfjp1rJBJLYIG
- 2kQVCFXqnEReRV8KU6kTUxJyzDIMf8pB5zdlqMSSqsByNQwzbHWRqilGjpmbM56NAYiB
- R7bKj7Hx+fMyv27CKd/8z/aCy5l0fnc2N0/Ej7Kk+9Jv1f2YWy1EjxoaoNyzPpmBkA64
- lc0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=uKgqYOsaUsn8zCuN7A/2/WT2usxLqas9V280nbv2TMQ=;
- b=y8nhwF2vKaGSAPJVXDPhn45lK2LpVk+V9Dl46TIrudMafH//bVDwsB/oa1j8YwhXAo
- JMCYSff7lVBk7XTdi3vOBAadGTOWodH682wOpHiLglhNiJMAefPBDEIQkZDYYbWKjEPx
- HQdw1KhOiRaJUyHfQFKtCYnaTYUxIccRqSHANT8fr5XoaFodJtkWCiJ/oLF15GCAkNnt
- iFL0k+SiPwDDrJOLLr3FVzn212NkhQogNoCJdB2sd2munpEn+EGb7cdtxw+IwZizk2NL
- ouk54UkH+LuWQ6t7sBnk1HZyAXgV/NGcWGwV0bB+HZNQ7ubpns4EnjVFbpnKpcBLYjOX
- gUng==
-X-Gm-Message-State: AOAM530/8DXsN9EKSrwcPAfAqvSV4TqpRIBIj1N6oOOOKnA4m1PwJMKP
- ugwEzgqpTVR6iyGh9nQpBxuq/Q==
-X-Google-Smtp-Source: ABdhPJxjxFTGDlfoRtfKfZ2il7lVV88dvx7Zx8PzKMrw7vmGzlG4MuUnhmyU/b7nM09GtV9FlvDHNQ==
-X-Received: by 2002:a17:90b:3b43:b0:1d2:eb6b:a7ad with SMTP id
- ot3-20020a17090b3b4300b001d2eb6ba7admr1044753pjb.84.1650566144567; 
- Thu, 21 Apr 2022 11:35:44 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:80c1:f8a5:3d1f:84a9:7713:bf09?
- ([2607:fb90:80c1:f8a5:3d1f:84a9:7713:bf09])
- by smtp.gmail.com with ESMTPSA id
- j1-20020a17090a7e8100b001d2edf4b513sm3483347pjl.56.2022.04.21.11.35.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Apr 2022 11:35:44 -0700 (PDT)
-Message-ID: <d72e20f5-7d5e-66d9-2cf3-7516e7244263@linaro.org>
-Date: Thu, 21 Apr 2022 11:35:39 -0700
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nhbjn-0001aW-QF
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 14:41:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nhbji-0005y6-Eq
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 14:41:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650566460;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E8W16U00oTH5pu5L79TWdVGIT2OQxHm6dPel0yLMghM=;
+ b=QDPLvU5MugSa27x814dnTpDVDHqHL6xo5SeRGYalIX2LTViY55wFsZR7zL99KR7pAabrhn
+ Tnk1/OLmuE9CouIlNS1F7hi1Se8vSINq4/2E8vdKFsgHSV5jFRd9A/GKBksIYDNcTkewIF
+ a3Prtr1iQgWjzKRUEDEik/JHXMvXNMM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-7wUuJGglNBKHWW24JQizYg-1; Thu, 21 Apr 2022 14:40:59 -0400
+X-MC-Unique: 7wUuJGglNBKHWW24JQizYg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 637AB833967
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 18:40:59 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.39.195.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CFC540C1438;
+ Thu, 21 Apr 2022 18:40:58 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org,
+	peterx@redhat.com,
+	berrange@redhat.com
+Subject: [PULL 00/18] migration queue
+Date: Thu, 21 Apr 2022 19:40:34 +0100
+Message-Id: <20220421184052.306581-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 0/3] Remove some of the old libopcode based
- disassemblers
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20220412165836.355850-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220412165836.355850-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,41 +74,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/12/22 09:58, Thomas Huth wrote:
-> Many of the disassemblers in the disas folder are based on old
-> versions from the GNU tools (libopcode, GDB, ...) that were still
-> licensed under the GPL v2. The GNU tools switched to GPL v3 at one
-> point in time, so QEMU is stuck with the old versions, i.e. these
-> files did not see much updates for new processors anymore. But
-> for most architectures, we're preferring the Capstone disassembler
-> now anyway, so the old libopcode disassemblers are also hardly
-> used anymore.
-> 
-> I'm not 100% sure (thus this is marked as RFC), but I think we could
-> simply drop the old disassemblers nowadays, and hardly anybody would
-> miss them, since we now always embed capstone as a submodule anyway.
-> Or is there still an advantage in keeping these old files around?
-> 
-> This RFC series tackles with s390, arm (32-bit) and i386 ... I wanted
-> to get some feedback first, but if we agree that these can be removed,
-> the sparc, mips and ppc disassemblers likely can be removed, too.
-> (I think we should keep m68k.c since Capstone does not have support
-> for Coldfire CPUs yet).
-> 
-> Thomas Huth (3):
->    disas: Remove old libopcode s390 disassembler
->    disas: Remove old libopcode arm disassembler
->    disas: Remove old libopcode i386 disassembler
-> 
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The following changes since commit 28298069afff3eb696e4995e63b2579b27adf378:
 
-r~
+  Merge tag 'misc-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-04-21 09:27:54 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220421a
+
+for you to fetch changes up to 552de79bfdd5e9e53847eb3c6d6e4cd898a4370e:
+
+  migration: Read state once (2022-04-21 19:36:46 +0100)
+
+----------------------------------------------------------------
+V2: Migration pull 2022-04-21
+
+  Dan: Test fixes and improvements (TLS mostly)
+  Peter: Postcopy improvements
+  Me: Race fix for info migrate, and compilation fix
+
+V2:
+  Fixed checkpatch nit of unneeded NULL check
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+Daniel P. Berrangé (9):
+      tests: improve error message when saving TLS PSK file fails
+      tests: support QTEST_TRACE env variable
+      tests: print newline after QMP response in qtest logs
+      migration: fix use of TLS PSK credentials with a UNIX socket
+      tests: switch MigrateStart struct to be stack allocated
+      tests: merge code for UNIX and TCP migration pre-copy tests
+      tests: introduce ability to provide hooks for migration precopy test
+      tests: switch migration FD passing test to use common precopy helper
+      tests: expand the migration precopy helper to support failures
+
+Dr. David Alan Gilbert (2):
+      migration: Fix operator type
+      migration: Read state once
+
+Peter Xu (7):
+      migration: Postpone releasing MigrationState.hostname
+      migration: Drop multifd tls_hostname cache
+      migration: Add pss.postcopy_requested status
+      migration: Move migrate_allow_multifd and helpers into migration.c
+      migration: Export ram_load_postcopy()
+      migration: Move channel setup out of postcopy_try_recover()
+      migration: Allow migrate-recover to run multiple times
+
+ migration/channel.c                 |   1 -
+ migration/migration.c               |  66 ++++---
+ migration/migration.h               |   4 +-
+ migration/multifd.c                 |  29 +--
+ migration/multifd.h                 |   4 -
+ migration/ram.c                     |  10 +-
+ migration/ram.h                     |   1 +
+ migration/savevm.c                  |   3 -
+ migration/tls.c                     |   4 -
+ tests/qtest/libqtest.c              |  13 +-
+ tests/qtest/migration-test.c        | 368 ++++++++++++++++++++----------------
+ tests/unit/crypto-tls-psk-helpers.c |   2 +-
+ 12 files changed, 267 insertions(+), 238 deletions(-)
+
 
