@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F065450971D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 08:05:19 +0200 (CEST)
-Received: from localhost ([::1]:33306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D80C50971A
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 08:03:28 +0200 (CEST)
+Received: from localhost ([::1]:60352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhPwM-0004tk-I9
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 02:05:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46966)
+	id 1nhPuZ-0003fr-6J
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 02:03:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nhPnm-00009X-Eo; Thu, 21 Apr 2022 01:56:26 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:42726)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nhPnz-0000Gw-Rw; Thu, 21 Apr 2022 01:56:40 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:39896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nhPnZ-0001p0-LV; Thu, 21 Apr 2022 01:56:26 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id j6so2880404qkp.9;
- Wed, 20 Apr 2022 22:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OZRheVZHgtIGSb4xPtHeGZJl6AoAqJkRUtLqy8B2CcM=;
- b=loT3JCf5uLHOrY9/IPAdzcUeqgYTTlavSKP0Txq5TlMHU2eZPkzhWuybxgJqA6hn+O
- U3IDvLVPqY0w9xzggCoFbkdtjhbO62IcpL6IDv/vDvHOacBUEAP6EH2DNA1BLfcBxf7K
- djX5VOVeITRjpVk/3Y3p2LlhFIv2Rq0QFG/vY=
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nhPny-0001pz-6g; Thu, 21 Apr 2022 01:56:39 -0400
+Received: by mail-pg1-x534.google.com with SMTP id q19so3773201pgm.6;
+ Wed, 20 Apr 2022 22:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qHnzDGKqIh6N1cF4DxeQPk7+iSRYpnz5A7I979NUz/Q=;
+ b=azh2mIswGaLx4j5hZnATirQxHgXHFVm716mCX3eOZcb/ntC4qoW9f0NEumJqAcSYyW
+ c6knSx3c2w2fLb9lfxKCmd107ZareZBqRRNBb4fHYp0M1IFX19a/D2xx8aZOqC+mH9Xy
+ VEdCLoAIo9TMIGJ6aodio4UL4uHfgOFt6kQHMGv5zki+Ag9rB+3yVkO39D5qEda5l3+s
+ azqrCj+a/193Vm3KpAlx7l5CMzxB4j3shXLvSMHS2l+X6bk6/EFf/3z+jRW6XRVewWKf
+ qnAr3ncGcWmwDsU58O8ISuDV0dJB96DAWN4MyNOuqxBTeV24eKRJ0ZObywvq9mSs1GEq
+ 7ZPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OZRheVZHgtIGSb4xPtHeGZJl6AoAqJkRUtLqy8B2CcM=;
- b=V5EUBIWuruogDT7yYWpG+vCmDKkM2oaUodnTo5Y8TKrjXZYGhu4GcOwrIlEFTyyomY
- SmJqkOIpTYRaJFUVAbI1Hoe5EoJmW44IWRY5GRGKagkOqJXYpO2Ef9F/Dxh2ZWKPzEDL
- lnI2T2M7ESFOWedvvYL6AZrKkD0JnumaY5/PisaEW8SGvk0YeOAhNwNViy5F+l0AemeP
- JtzL90EBYpglk/F/ebLxCbzEsBkkCdiHOUr1VToPPOb+EFx1QMM3IEbnJj1Y4WovfK68
- Vvea2KrcLLAaFiI/8qTHU4CRxN26kpDfF265eCTnxAk3NO7Jmmz3ECi1EFZRJGEPZ0pT
- io7w==
-X-Gm-Message-State: AOAM531tx5f7SiziuREOU+1qoYP3GwQ8/GGBbdnwKKNf6Qr4+p3hWpD9
- UFupgN2BZ7UKBkdFYu2r66gZHGFbb4GqzQK7Tzo=
-X-Google-Smtp-Source: ABdhPJzo7p2uwNi3mt85iGlV+qqy1E98FyKwkcMOugdCA/AGsvzF1sZ9OpPJEYbj+cCAyNMpLAQifhUjfSeBTO9VFpw=
-X-Received: by 2002:a37:c445:0:b0:69e:9283:b262 with SMTP id
- h5-20020a37c445000000b0069e9283b262mr11368045qkm.296.1650520570770; Wed, 20
- Apr 2022 22:56:10 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qHnzDGKqIh6N1cF4DxeQPk7+iSRYpnz5A7I979NUz/Q=;
+ b=tZruULg47vq8pKT8u/yPgxbei0XfCuxxjaqctV1o8Pb2ZS1Zpk6PP584ZbR6RLcADM
+ oia/nN7X/jsS1tzYpe3Y5N+9oVxEAaY8pcPomSafumaa0rhLFrIj8+Yaf8csnGvzlpAf
+ uttvsZHlUBNtw8mDrSAFczm8akqdYYmGAA9kraJasWusVgTmGn4jHQaJfEdziwwD/fX9
+ 1/kexLOv+jKc4NnXETFodNeZqmSfTIAFCTu3SnKgee1rnxMRvo4xeuBJcjdSvRXfB1Uk
+ XhCUeQwI7iuuwDnUXOXv1QydTV0LHF3mGT5Nn7gFsgIDVCKFe/2SFRuhes30LzVU9sPw
+ dwaQ==
+X-Gm-Message-State: AOAM532JYQJWwH6aqPhAqlpfdVkOQMcAQYU4y20NXATE1v5kmPtPLhdi
+ kMJZUXI5RCcEg7WAkcAY4zE=
+X-Google-Smtp-Source: ABdhPJwJR/9NNxf/r2b8DR1gkCSH7bt5VrWdwTTavEXgNMPTpNVKmbh/umfA2tELsvy2W/lZnlQV+g==
+X-Received: by 2002:a63:5fcb:0:b0:3aa:5209:471d with SMTP id
+ t194-20020a635fcb000000b003aa5209471dmr8298489pgb.36.1650520595912; 
+ Wed, 20 Apr 2022 22:56:35 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
+ [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
+ x16-20020a17090ab01000b001cd4989ff4bsm1169300pjq.18.2022.04.20.22.56.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 22:56:35 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 1/2] hw/riscv: spike: Add '/chosen/stdout-path' in device tree
+ unconditionally
+Date: Thu, 21 Apr 2022 13:56:28 +0800
+Message-Id: <20220421055629.1177285-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220331074844.30065-1-steven_lee@aspeedtech.com>
- <20220331074844.30065-4-steven_lee@aspeedtech.com>
-In-Reply-To: <20220331074844.30065-4-steven_lee@aspeedtech.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 21 Apr 2022 05:55:58 +0000
-Message-ID: <CACPK8Xe-Xg+i2j_5TRTUi8JsO7Vz=apQa8XThxsbUAKZdZh3Pw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] tests/qtest: Add test for Aspeed HACE accumulative
- mode
-To: Steven Lee <steven_lee@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=joel.stan@gmail.com; helo=mail-qk1-x72e.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,225 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Jamin Lin <jamin_lin@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
- Troy Lee <troy_lee@aspeedtech.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 31 Mar 2022 at 07:49, Steven Lee <steven_lee@aspeedtech.com> wrote:
->
-> This add two addition test cases for accumulative mode under sg enabled.
->
-> The input vector was manually craft with "abc" + bit 1 + padding zeros + L.
-> The padding length depends on algorithm, i.e. SHA512 (1024 bit),
-> SHA256 (512 bit).
->
-> The result was calculated by command line sha512sum/sha256sum utilities
-> without padding, i.e. only "abc" ascii text.
->
-> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+At present the adding '/chosen/stdout-path' property in device tree
+is determined by whether a kernel command line is provided, which is
+wrong. It should be added unconditionally.
 
-Thanks for sending this series. I will try to find time to review the
-model updates soon.
+Fixes: 8d8897accb1c ("hw/riscv: spike: Allow using binary firmware as bios")
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-> ---
->  tests/qtest/aspeed_hace-test.c | 145 +++++++++++++++++++++++++++++++++
->  1 file changed, 145 insertions(+)
->
-> diff --git a/tests/qtest/aspeed_hace-test.c b/tests/qtest/aspeed_hace-test.c
-> index 09ee31545e..6a2f404b93 100644
-> --- a/tests/qtest/aspeed_hace-test.c
-> +++ b/tests/qtest/aspeed_hace-test.c
-> @@ -21,6 +21,7 @@
->  #define  HACE_ALGO_SHA512        (BIT(5) | BIT(6))
->  #define  HACE_ALGO_SHA384        (BIT(5) | BIT(6) | BIT(10))
->  #define  HACE_SG_EN              BIT(18)
-> +#define  HACE_ACCUM_EN           BIT(8)
->
->  #define HACE_STS                 0x1c
->  #define  HACE_RSA_ISR            BIT(13)
-> @@ -96,6 +97,57 @@ static const uint8_t test_result_sg_sha256[] = {
->      0x55, 0x1e, 0x1e, 0xc5, 0x80, 0xdd, 0x6d, 0x5a, 0x6e, 0xcd, 0xe9, 0xf3,
->      0xd3, 0x5e, 0x6e, 0x4a, 0x71, 0x7f, 0xbd, 0xe4};
->
-> +/*
-> + * The accumulative mode requires firmware to provide internal initial state
-> + * and message padding (including length L at the end of padding).
-> + *
-> + * This test vector is a ascii text "abc" with padding message.
-> + *
-> + * Expected results were generated using command line utitiles:
-> + *
-> + *  echo -n -e 'abc' | dd of=/tmp/test
-> + *  for hash in sha512sum sha256sum; do $hash /tmp/test; done
-> + */
-> +static const uint8_t test_vector_accum_512[] = {
-> +    0x61, 0x62, 0x63, 0x80, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18};
-> +
-> +static const uint8_t test_vector_accum_256[] = {
-> +    0x61, 0x62, 0x63, 0x80, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18};
-> +
-> +static const uint8_t test_result_accum_sha512[] = {
-> +    0xdd, 0xaf, 0x35, 0xa1, 0x93, 0x61, 0x7a, 0xba, 0xcc, 0x41, 0x73, 0x49,
-> +    0xae, 0x20, 0x41, 0x31, 0x12, 0xe6, 0xfa, 0x4e, 0x89, 0xa9, 0x7e, 0xa2,
-> +    0x0a, 0x9e, 0xee, 0xe6, 0x4b, 0x55, 0xd3, 0x9a, 0x21, 0x92, 0x99, 0x2a,
-> +    0x27, 0x4f, 0xc1, 0xa8, 0x36, 0xba, 0x3c, 0x23, 0xa3, 0xfe, 0xeb, 0xbd,
-> +    0x45, 0x4d, 0x44, 0x23, 0x64, 0x3c, 0xe8, 0x0e, 0x2a, 0x9a, 0xc9, 0x4f,
-> +    0xa5, 0x4c, 0xa4, 0x9f};
-> +
-> +static const uint8_t test_result_accum_sha256[] = {
-> +    0xba, 0x78, 0x16, 0xbf, 0x8f, 0x01, 0xcf, 0xea, 0x41, 0x41, 0x40, 0xde,
-> +    0x5d, 0xae, 0x22, 0x23, 0xb0, 0x03, 0x61, 0xa3, 0x96, 0x17, 0x7a, 0x9c,
-> +    0xb4, 0x10, 0xff, 0x61, 0xf2, 0x00, 0x15, 0xad};
->
->  static void write_regs(QTestState *s, uint32_t base, uint32_t src,
->                         uint32_t length, uint32_t out, uint32_t method)
-> @@ -308,6 +360,86 @@ static void test_sha512_sg(const char *machine, const uint32_t base,
->      qtest_quit(s);
->  }
->
-> +static void test_sha256_accum(const char *machine, const uint32_t base,
-> +                        const uint32_t src_addr)
-> +{
-> +    QTestState *s = qtest_init(machine);
-> +
-> +    const uint32_t buffer_addr = src_addr + 0x1000000;
-> +    const uint32_t digest_addr = src_addr + 0x4000000;
-> +    uint8_t digest[32] = {0};
-> +    struct AspeedSgList array[] = {
-> +        {  cpu_to_le32(sizeof(test_vector_accum_256) | SG_LIST_LEN_LAST),
-> +           cpu_to_le32(buffer_addr) },
-> +    };
-> +
-> +    /* Check engine is idle, no busy or irq bits set */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-> +
-> +    /* Write test vector into memory */
-> +    qtest_memwrite(s, buffer_addr, test_vector_accum_256, sizeof(test_vector_accum_256));
-> +    qtest_memwrite(s, src_addr, array, sizeof(array));
-> +
-> +    write_regs(s, base, src_addr, sizeof(test_vector_accum_256),
-> +               digest_addr, HACE_ALGO_SHA256 | HACE_SG_EN | HACE_ACCUM_EN);
-> +
-> +    /* Check hash IRQ status is asserted */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-> +
-> +    /* Clear IRQ status and check status is deasserted */
-> +    qtest_writel(s, base + HACE_STS, 0x00000200);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-> +
-> +    /* Read computed digest from memory */
-> +    qtest_memread(s, digest_addr, digest, sizeof(digest));
-> +
-> +    /* Check result of computation */
-> +    g_assert_cmpmem(digest, sizeof(digest),
-> +                    test_result_accum_sha256, sizeof(digest));
-> +
-> +    qtest_quit(s);
-> +}
-> +
-> +static void test_sha512_accum(const char *machine, const uint32_t base,
-> +                        const uint32_t src_addr)
-> +{
-> +    QTestState *s = qtest_init(machine);
-> +
-> +    const uint32_t buffer_addr = src_addr + 0x1000000;
-> +    const uint32_t digest_addr = src_addr + 0x4000000;
-> +    uint8_t digest[64] = {0};
-> +    struct AspeedSgList array[] = {
-> +        {  cpu_to_le32(sizeof(test_vector_accum_512) | SG_LIST_LEN_LAST),
-> +           cpu_to_le32(buffer_addr) },
-> +    };
-> +
-> +    /* Check engine is idle, no busy or irq bits set */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-> +
-> +    /* Write test vector into memory */
-> +    qtest_memwrite(s, buffer_addr, test_vector_accum_512, sizeof(test_vector_accum_512));
-> +    qtest_memwrite(s, src_addr, array, sizeof(array));
-> +
-> +    write_regs(s, base, src_addr, sizeof(test_vector_accum_512),
-> +               digest_addr, HACE_ALGO_SHA512 | HACE_SG_EN | HACE_ACCUM_EN);
-> +
-> +    /* Check hash IRQ status is asserted */
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-> +
-> +    /* Clear IRQ status and check status is deasserted */
-> +    qtest_writel(s, base + HACE_STS, 0x00000200);
-> +    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-> +
-> +    /* Read computed digest from memory */
-> +    qtest_memread(s, digest_addr, digest, sizeof(digest));
-> +
-> +    /* Check result of computation */
-> +    g_assert_cmpmem(digest, sizeof(digest),
-> +                    test_result_accum_sha512, sizeof(digest));
-> +
-> +    qtest_quit(s);
-> +}
-> +
->  struct masks {
->      uint32_t src;
->      uint32_t dest;
-> @@ -396,6 +528,16 @@ static void test_sha512_sg_ast2600(void)
->      test_sha512_sg("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
->  }
->
-> +static void test_sha256_accum_ast2600(void)
-> +{
-> +    test_sha256_accum("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-> +}
-> +
-> +static void test_sha512_accum_ast2600(void)
-> +{
-> +    test_sha512_accum("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-> +}
-> +
->  static void test_addresses_ast2600(void)
->  {
->      test_addresses("-machine ast2600-evb", 0x1e6d0000, &ast2600_masks);
-> @@ -455,6 +597,9 @@ int main(int argc, char **argv)
->      qtest_add_func("ast2600/hace/sha512_sg", test_sha512_sg_ast2600);
->      qtest_add_func("ast2600/hace/sha256_sg", test_sha256_sg_ast2600);
->
-> +    qtest_add_func("ast2600/hace/sha512_accum", test_sha512_accum_ast2600);
-> +    qtest_add_func("ast2600/hace/sha256_accum", test_sha256_accum_ast2600);
-> +
->      qtest_add_func("ast2500/hace/addresses", test_addresses_ast2500);
->      qtest_add_func("ast2500/hace/sha512", test_sha512_ast2500);
->      qtest_add_func("ast2500/hace/sha256", test_sha256_ast2500);
-> --
-> 2.17.1
->
+ hw/riscv/spike.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index d059a67f9b..1562b000bb 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -174,10 +174,11 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+ 
+     riscv_socket_fdt_write_distance_matrix(mc, fdt);
+ 
++    qemu_fdt_add_subnode(fdt, "/chosen");
++    qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", "/htif");
++
+     if (cmdline) {
+-        qemu_fdt_add_subnode(fdt, "/chosen");
+         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+-        qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", "/htif");
+     }
+ }
+ 
+-- 
+2.25.1
+
 
