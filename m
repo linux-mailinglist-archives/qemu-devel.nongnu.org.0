@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFCEC50A4DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 17:58:44 +0200 (CEST)
-Received: from localhost ([::1]:40362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD6350A526
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:22:30 +0200 (CEST)
+Received: from localhost ([::1]:38000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhZCd-0006vw-SR
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 11:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44872)
+	id 1nhZZe-0003Lw-2H
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:22:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYd1-0005R4-30
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:21:58 -0400
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:34706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYcx-00077Q-AK
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:21:52 -0400
-Received: by mail-il1-x133.google.com with SMTP id r11so3269099ila.1
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7BYWPqh7sPffzPeApLBqryy8kqd21hiyG0fC6JPYfUo=;
- b=umyF8GDEB2+BwFRj7VtwDRWyXt4XCh3ieUfk3MNqTUomPfuasi+oSuLOv5LJWDTHjq
- ZJfQxzq52tHYhbDxLFRcFkV6GY4HgeiqBsvUSSj22SQ/6XwdslsAL216LPkJixFrBucp
- dIUDhvFMblGN8PtAzfY3TkJ+xxBqEyKm/XeRI7iq7LX6ttwHgPm1PkhYrY9FyZUDJJjm
- yGzL5Wlj0doCJQ3UHmO9/B6gdhIWiaG/0TgWP9+rbbs4hI1N4GEpN52DZBZTH25vPBnh
- 1P5QI0IJhUJ1/INR9VtPcyrdkD7jdKaRbpntdbZmTXTfdzCV3JtFUAP9j9TB9WbpGmJz
- kBgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7BYWPqh7sPffzPeApLBqryy8kqd21hiyG0fC6JPYfUo=;
- b=1QjfzdkgCMkZWfSbfOusgNyZMRdyZScZg92Yjl6AXKFPgo68PfdJfViRXEscvMYSSK
- /WuuPyFbwDyOan6lbSvEiPRKkpn/1RdMUmyDM5TZA9xL/ow0LCkwP/G9pakZqEm9LjxV
- q6scNVy6wRrrgsCK3B6AnqsF2umu+9/l5XCRQt4gC25pziLp525nMFWYMA2eXfXBuXzn
- ynhUL5N4SZy4XoCRyYYLTZXTAzN+uaoXLiEPd2NKthUdFxkNWk0HhjtD/6J8WQ8gQozw
- 3mvYyox9DvRLhxAlhvvi6R3Y7VXGkmTO05sGqRWzJgdRUWBgrlrQ/cJkL2OLYlsicso0
- sI8g==
-X-Gm-Message-State: AOAM531j934VE/oigogRH+33IW8Rw13kNbHjswSY4dGpFqcvscnwDUKL
- B24K3iGfO6wgb0mb2jhrw8X1mQFDOV8JVQ==
-X-Google-Smtp-Source: ABdhPJy9YvWaQ6nviq2496RXbOwjRw4Ps+MlwbJ7SpiNOiBOhfbmRmqYyirulbfx1CWINir3Q8pIeg==
-X-Received: by 2002:a92:ce05:0:b0:2cd:6e4b:e456 with SMTP id
- b5-20020a92ce05000000b002cd6e4be456mr17329ilo.7.1650554510225; 
- Thu, 21 Apr 2022 08:21:50 -0700 (PDT)
-Received: from stoup.. ([2607:fb90:80c8:6cf3:a91a:4957:ba18:ac18])
- by smtp.gmail.com with ESMTPSA id
- j1-20020a926e01000000b002cc52449a19sm3985402ilc.35.2022.04.21.08.21.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 08:21:49 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1)
+ (envelope-from <a4825b66184778ca0337cd5e24dec3fc9da16de6@lizzy.crudebyte.com>)
+ id 1nhYke-0005QL-HF; Thu, 21 Apr 2022 11:29:48 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:45983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <a4825b66184778ca0337cd5e24dec3fc9da16de6@lizzy.crudebyte.com>)
+ id 1nhYkd-00085I-0W; Thu, 21 Apr 2022 11:29:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=i1s3pDRReJ2UZw4btxRqKNOViqSDmvLIJLquxAR8qzc=; b=b/n9P
+ qsTmcTOpF7edkAJMGxwGfuOtgBgADURvppKATBs54BpchQ/je60ew2Oz/EWtzPWiLsQLPRuuR8smz
+ UKTxC80PCzRDXG7VMw/tlzKwzS209kR9Qt2ZZlHKYhq5JmTVa/SB8+hCsVyZEgEMkrjKfP9i0/81v
+ 8XjSLsZpV1OLzc7xIFcw8A3mD20q5fUSsu3RIRbYjY/nxxe5v4uadcjr0WKl1khJCLn8cCiWnyB0c
+ mDqeXkcssp4r1Ak5f40gvUrYrXepYCysKI1LVx8rEicqnCC4Au5vyJeh66E2K7BLbEsyS+OfAMv1Y
+ k071NBh57dOKYiFlVX3tzfGEOQ8ZQ==;
+Message-Id: <a4825b66184778ca0337cd5e24dec3fc9da16de6.1650553693.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1650553693.git.qemu_oss@crudebyte.com>
+References: <cover.1650553693.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Thu, 21 Apr 2022 17:07:38 +0200
+Subject: [PATCH v2 1/5] 9pfs: fix qemu_mknodat(S_IFREG) on macOS
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 47/64] target/nios2: Enable unaligned traps for system mode
-Date: Thu, 21 Apr 2022 08:17:18 -0700
-Message-Id: <20220421151735.31996-48-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220421151735.31996-1-richard.henderson@linaro.org>
-References: <20220421151735.31996-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=richard.henderson@linaro.org; helo=mail-il1-x133.google.com
+Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Keno Fischer <keno@juliacomputing.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-stable@nongnu.org
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=a4825b66184778ca0337cd5e24dec3fc9da16de6@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,46 +60,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unaligned traps are optional, but required with an mmu.
-Turn them on always, because the fallback behaviour undefined.
+mknod() on macOS does not support creating regular files, so
+divert to openat_file() if S_IFREG is passed with mode argument.
 
-Enable alignment checks in the config file.
-Unwind the guest pc properly from do_unaligned_access.
+Furthermore, 'man 2 mknodat' on Linux says: "Zero file type is
+equivalent to type S_IFREG".
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Will Cohen <wwcohen@gmail.com>
 ---
- configs/targets/nios2-softmmu.mak | 1 +
- target/nios2/helper.c             | 4 ++--
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/9pfs/9p-util-darwin.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/configs/targets/nios2-softmmu.mak b/configs/targets/nios2-softmmu.mak
-index 9a372f0717..1e93b54cd1 100644
---- a/configs/targets/nios2-softmmu.mak
-+++ b/configs/targets/nios2-softmmu.mak
-@@ -1 +1,2 @@
- TARGET_ARCH=nios2
-+TARGET_ALIGNED_ONLY=y
-diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index c5a2dd65b1..2e9fea4a01 100644
---- a/target/nios2/helper.c
-+++ b/target/nios2/helper.c
-@@ -241,8 +241,8 @@ void nios2_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     CPUNios2State *env = &cpu->env;
- 
-     env->ctrl[CR_BADADDR] = addr;
--    env->ctrl[CR_EXCEPTION] = FIELD_DP32(0, CR_EXCEPTION, CAUSE, EXCP_UNALIGN);
--    helper_raise_exception(env, EXCP_UNALIGN);
-+    cs->exception_index = EXCP_UNALIGN;
-+    cpu_loop_exit_restore(cs, retaddr);
- }
- 
- bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+index bec0253474..e24d09763a 100644
+--- a/hw/9pfs/9p-util-darwin.c
++++ b/hw/9pfs/9p-util-darwin.c
+@@ -77,6 +77,15 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+ {
+     int preserved_errno, err;
++
++    if (S_ISREG(mode) || !(mode & S_IFMT)) {
++        int fd = openat_file(dirfd, filename, O_CREAT, mode);
++        if (fd == -1) {
++            return fd;
++        }
++        close(fd);
++        return 0;
++    }
+     if (!pthread_fchdir_np) {
+         error_report_once("pthread_fchdir_np() not available on this version of macOS");
+         return -ENOTSUP;
 -- 
-2.34.1
+2.32.0 (Apple Git-132)
 
 
