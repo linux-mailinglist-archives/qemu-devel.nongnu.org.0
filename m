@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10180509504
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 04:21:21 +0200 (CEST)
-Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8F650953D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 05:08:48 +0200 (CEST)
+Received: from localhost ([::1]:37222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhMRc-00008n-3k
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 22:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49498)
+	id 1nhNBX-0002tF-Hk
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 23:08:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhMPi-0006uV-Hm; Wed, 20 Apr 2022 22:19:22 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:42591)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1nhNA6-0001yG-Lo
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 23:07:20 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:37562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhMPg-0005Xh-Sd; Wed, 20 Apr 2022 22:19:22 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id p65so6205941ybp.9;
- Wed, 20 Apr 2022 19:19:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/jDftP+xe+9OnkdBEuxvo6HXn+Khvm1C3VJUpuN6/TY=;
- b=fbxZE85w/o0YAtKSJU6Kmqj/yWhtyee4WFKUyPDvYMvECE1pLZ1QY6F4OxUCn8jGJj
- yPxo+h/xyP/Cyaz0gUSqjzfW29XRVwPzcq0vbX0EvKlKhpqXDenV8Bp3g0AWBUMksuI4
- I0GsaWcPwsyHVk+pJGJz2GVsw1GPjqNXN3K/tQDVfr+jyboS+ywsS7opppzXqlpcfJvM
- 4jL/6jktYuRzfBa6EsN8m6peWMb09D7fsnUnU14N+okEKfdkCN3DzjTIXuMBPu3HsFk8
- +T7rA0rc5VEA487+RPCcNFJYspSLzf+PZUxwcATjO7OYpjaeSNPaoWiNSPq4T33lCA70
- hUkw==
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1nhNA4-0003ld-0h
+ for qemu-devel@nongnu.org; Wed, 20 Apr 2022 23:07:17 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id x191so3507370pgd.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 20:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=5RecpkL1BjHvUWa3IPhCRvf4w1CrPG52o+xv9CSsSmk=;
+ b=ini9fMZMWmxIEJL1S+jql9IYMQpcfBhz0GTVP0eluOW/knjyq5Jo/Iv2Cx4QQshjDc
+ Q0nTUiUDHLSdUfoNVNGkuybjWTF4aqQrvl+QXmQeOHXZ/+cJ6pqKeYdtUwLlGYVj+23A
+ ZjLxBRV484rG7BoR6ruFo0sP7aQl29e16F8fVgddBdIqXaFg3ntR3ItV+GQVXvWffm0K
+ k5GaNqqcjnWCdoh2TNvPOir85lTpX4J2jhGqnuql+1ta6RElTm17HAScakBy8BigXWdb
+ npXVLRB+k1IVDR50LbDZcGhe8JTy6lrv7nRTqO/A2bylvltHOmYfpliwKDd33KayJUTP
+ k++A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/jDftP+xe+9OnkdBEuxvo6HXn+Khvm1C3VJUpuN6/TY=;
- b=03VFVe33wPFlpmNsYdVIz3BybeJOO0dOgcsrxicQGu2r1DjBGrSHNGEPEUh8Ejasnf
- VcnOYgrgG6sHAoMGz54vASJWqRkUcw+Y7b4w8AKEslmov6JH8tcIulbYMBSsGUC+YdRS
- ZioSsx1xF4ifL29KRPlnJ487zdHebHsqMKCuEXcjnT3emG7vIgo7DTSro0RFLa8hiAPo
- x8+U38Ox8Zc4Vp8RnYs1oEAKyq0xJh8f3T/DwIDdFhq4e1r+KvGD/2o6Fmk3Y9ETuPD/
- oSaLQ68sdei3xXbO1nz7vdE/8mXF5TAfB4Vwkd38AHJIiCEuiwa7YCnhXOpFKH4tuy5r
- 7DYw==
-X-Gm-Message-State: AOAM530i085/3OSvOh/pgAkJinXD4VyL9Y5owpC5zbGs2lQyudxUnKBR
- HyV3YL+Dx1wH6wyaFQah7l9BLqBaqSc2ZOrzeso=
-X-Google-Smtp-Source: ABdhPJxxio5Ls/wq/6tTkL2MBtmtjhzrcoLI9XMnASckMXygr94FTeNs6ZnnS0dpQKuE342o6jVH9ZMCAqq3Rc+FFS8=
-X-Received: by 2002:a05:6902:10c1:b0:63c:d3bf:59d2 with SMTP id
- w1-20020a05690210c100b0063cd3bf59d2mr22451288ybu.99.1650507559277; Wed, 20
- Apr 2022 19:19:19 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5RecpkL1BjHvUWa3IPhCRvf4w1CrPG52o+xv9CSsSmk=;
+ b=uc4uw3Hwc05oxeaWoQtB/4VPKnBgkKvq14n/azLLSwJF2e4rgk8Jwg9dn6nUrw6vhT
+ DcDXUrFHbQ6Hd2PCtYuHgjvfX325nVCY7u3tlQLvx+oDdDg67yOcjgVjisZWRlMvvLyT
+ /Psz3w4yUpJG9QXIBifCNh3jElZFOGCIIPAZ6jAYYC8YDn+OcArGW0HQsOSxMPdq6Ni6
+ 3QMG3rbssmN1MpIWIvr4c9AXNDu2fuEbE3vBl6KMZanIcaeb/p4nmCTprK1KSr+uzNB0
+ GdR+DXo3uUUzQv7WiC0GMxKHjYBESIUj85KNYzgKMjmSWbVTAG5h4GOy8h4jSH35ygKF
+ AP/Q==
+X-Gm-Message-State: AOAM531HNJnpILWpGfwJrPrDqNQMLkmtyD8Ixc8+pKpmUVKmjHsf4Ihv
+ rQGd0dzwxZUoJ9pWy20jTtVipg==
+X-Google-Smtp-Source: ABdhPJwIdIkd9UrvDtI9FvRfvTjyX/o29ZC8VyAcyUutAsFUAg5DlgHJrwmsJbDkkZ5vvkBTEjMZtQ==
+X-Received: by 2002:a63:1b5e:0:b0:3aa:593c:9392 with SMTP id
+ b30-20020a631b5e000000b003aa593c9392mr7233859pgm.470.1650510432118; 
+ Wed, 20 Apr 2022 20:07:12 -0700 (PDT)
+Received: from [192.168.10.95] (203-7-124-83.dyn.iinet.net.au. [203.7.124.83])
+ by smtp.gmail.com with ESMTPSA id
+ a11-20020a17090aa50b00b001cd4989ff6esm360818pjq.53.2022.04.20.20.07.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 20:07:11 -0700 (PDT)
+Message-ID: <5308af13-a943-efeb-d819-e39cfc2f2907@ozlabs.ru>
+Date: Thu, 21 Apr 2022 13:07:05 +1000
 MIME-Version: 1.0
-References: <20220420055248.960491-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220420055248.960491-1-alistair.francis@opensource.wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 21 Apr 2022 10:19:07 +0800
-Message-ID: <CAEUhbmUGQ8Jo5zQkCo-4VMfFw6oO+6AUDROEk1H4WHJ-e9Dz+w@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] hw/riscv: Add TPM support to the virt board
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101
+ Thunderbird/100.0
+Subject: Re: XIVE VFIO kernel resample failure in INTx mode under heavy load
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Timothy Pearson <tpearson@raptorengineering.com>
+References: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
+ <20220314160952.46d5313a.alex.williamson@redhat.com>
+ <9638ec8f-2edf-97df-0c14-95ae2344dc70@kaod.org>
+ <6f0a92ca-9f53-b8b8-e85d-43f4da36200d@kaod.org>
+ <edfa8ca4-8e8a-335a-2e7e-c69661ec73da@ozlabs.ru>
+ <560c8c1a-a87e-71f9-cfea-0a034933070b@ozlabs.ru>
+ <e25296b3-b1ec-a90a-ee72-ed15fe5130f6@kaod.org>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <e25296b3-b1ec-a90a-ee72-ed15fe5130f6@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=aik@ozlabs.ru; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,68 +95,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <alistair@alistair23.me>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
+ "list@suse.de:PowerPC" <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 1:52 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> This series adds support for connecting TPM devices to the RISC-V virt
-> board. This is similar to how it works for the ARM virt board.
->
-> This was tested by first creating an emulated TPM device:
->
->     swtpm socket --tpm2 -t -d --tpmstate dir=/tmp/tpm \
->         --ctrl type=unixio,path=swtpm-sock
->
-> Then launching QEMU with:
->
->     -chardev socket,id=chrtpm,path=swtpm-sock \
->     -tpmdev emulator,id=tpm0,chardev=chrtpm \
->     -device tpm-tis-device,tpmdev=tpm0
->
-> The TPM device can be seen in the memory tree and the generated device
-> tree.
 
-Please include a 'virt' board documentation update patch to mention
-above usage for TPM, or dynamically instantiated devices with TPM as
-an example.
 
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/942
->
-> Alistair Francis (6):
->   hw/riscv: virt: Add a machine done notifier
->   hw/core: Move the ARM sysbus-fdt to core
->   hw/riscv: virt: Create a platform bus
->   hw/riscv: virt: Add support for generating platform FDT entries
->   hw/riscv: virt: Add device plug support
->   hw/riscv: Enable TPM backends
->
->  include/hw/{arm => core}/sysbus-fdt.h |   0
->  include/hw/riscv/virt.h               |   8 +-
->  hw/arm/virt.c                         |   2 +-
->  hw/arm/xlnx-versal-virt.c             |   1 -
->  hw/{arm => core}/sysbus-fdt.c         |   2 +-
->  hw/riscv/virt.c                       | 312 +++++++++++++++++---------
->  hw/arm/meson.build                    |   1 -
->  hw/core/meson.build                   |   1 +
->  hw/riscv/Kconfig                      |   2 +
->  9 files changed, 221 insertions(+), 108 deletions(-)
->  rename include/hw/{arm => core}/sysbus-fdt.h (100%)
->  rename hw/{arm => core}/sysbus-fdt.c (99%)
->
+On 14/04/2022 22:41, Cédric Le Goater wrote:
+> 
+>>> After re-reading what I just wrote, I am leaning towards disabling 
+>>> use of KVM_CAP_IRQFD_RESAMPLE as it seems last worked on POWER8 and 
+>>> never since :)
+>>>
+>>> Did I miss something in the picture (hey Cedric)?
+>>
+>> How about disabling it like this?
+>>
+>> =====
+>> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+>> index 5bfd4aa9e5aa..c999f7b1ab1b 100644
+>> --- a/hw/ppc/spapr_pci.c
+>> +++ b/hw/ppc/spapr_pci.c
+>> @@ -732,7 +732,7 @@ static PCIINTxRoute 
+>> spapr_route_intx_pin_to_irq(void *opaque, int pin)
+>>       SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(opaque);
+>>       PCIINTxRoute route;
+>>
+>> -    route.mode = PCI_INTX_ENABLED;
+>> +    route.mode = PCI_INTX_DISABLED;
+>>
+>> =====
+> 
+> I like it.
 
-Regards,
-Bin
+
+The only thing is that this resampling works on POWER8/XICS and removing 
+it there is not great. So far sPAPR PHB was unaware of underlying 
+interrupt controller, or was not it?
+
+
+> 
+> You now know how to test all the combinations :) Prepare your matrix,
+> variables are :
+> 
+>   * Host OS        POWER8, POWER9+
+>   * KVM device        XICS (P8), XICS-on-XIVE (P9), XIVE-on-XIVE (P9)
+>   * kernel_irqchip    off, on
+>   * ic-mode        xics, xive
+>   * Guest OS        msi or nomsi
+> 
+> Ideally you should check TCG, but that's like kernel_irqchip=off.
+> 
+> Cheers,
+> 
+> C.
+> 
+>>
+>> (btw what the heck is PCI_INTX_INVERTED for?)
+>>
+>>
+>> -- 
+>> Alexey
+> 
+
+
+--
+Alexey
 
