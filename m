@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3979D50A5D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:34:50 +0200 (CEST)
-Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4D750A62B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:50:29 +0200 (CEST)
+Received: from localhost ([::1]:52138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhZlZ-0000uy-AH
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:34:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45044)
+	id 1nha0i-0003RZ-DS
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:50:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYdA-0005jd-AW
+ id 1nhYdD-0005js-Jy
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:22:07 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:43549)
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:46884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYd8-00079n-D1
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:22:04 -0400
-Received: by mail-io1-xd31.google.com with SMTP id 125so5621563iov.10
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:22:01 -0700 (PDT)
+ id 1nhYdA-0007Bt-IS
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:22:06 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id g21so5610551iom.13
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:22:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dF8mvmaGxyi5gJOEnPgYQbxleBV4wZ50WfCVHfSwoxY=;
- b=X0SJK8WtTyiz+VU8SL8iHAzy9oy/MytWgrSDpCiXwYpuums9KZorRlwde/oFL8NFNk
- tKxNDEKfMDWulCzvxNPJKz5i75aaPM+Kt97s66jQ4ZX5dfI78ftXnMoVJMo9/pueqDxI
- N05SCA6bLD75Vaft+sD8MUv+fyxAY3LBG82rTfd68Txq/rBQz24uFzxXYQX/ggLLJRzV
- KiWVDw2gs1srHwE2/X4aBUBVXul9n3qck4U3Q85HnkWXZsFTE0VxyIjEY5lCabJU4e6V
- 8Qvfi0pIKSqZmaNrJupu7aYxnSaVmBtn0EJPWKofqjohxyGmag7miSr7dlfmOuXPizwb
- iMyQ==
+ bh=AgLkoSlPc9kVBGD+8KCREYxFe9w6OPCL62XB2O9QUUc=;
+ b=Iz13hA+1eBGW8tm+rJ+cOQmtU6Ut0uCoBbT6fv4D4ATOdX/zitGZ3VCEC6kdUQmPmn
+ sn/DypBS68dE5sReQg+NEyj9POc7RWAJtArIk3blgb1pRZPqrSPiDgb03xmnBL5R3oDa
+ St967LY9U5ff+rjovlJcvJ5nYvmSi0V/EckWfQDIw6j8EXooGXMIfNykzHfvX3K3T3JP
+ 1b7C2PFvSFRu8Q5vgKwEHBsbhj8l8wN47VT0DJL/vciP8K9zawFgc9wLiQlVki/VQKh3
+ 8p+RUze/fdqG6fq1iAvXkaBDUlrgcekjqVcjSgEnWDF5Z18JQkBS5RlOEKlwrT3XOIC6
+ wtHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dF8mvmaGxyi5gJOEnPgYQbxleBV4wZ50WfCVHfSwoxY=;
- b=bSczxkWU90jT0M5l0ovPVSX2XmmfzI0aWgqPSkD/sbORzobtSyw7XjnTgzCOstWo3s
- vL4vEuaq5mAOvyZ1B5O8k8t/Vd3lXtJWcT4xQiRWZLLbcO52wWXjs07bDTuzAUpFakhr
- kP7mkRd22682CTETXQFVuP6EzsaqNTF2YNVXpCvjFxWGHnSXR0hwEocjXs5MUjqRK98f
- NC1XUOR+E8ZOOa+pUrLTI1Kpf4fZxp+Wqqr6Wun5GFmfqubxz5WwHWmqLm46dLp9NhZH
- kF8Pnt6bc5SUJmvXiGBvyRE8OHMexKjQIEXKK+SMSbuccIFMzw+VgqyiECGDPQfp6bo9
- m3Dg==
-X-Gm-Message-State: AOAM533jRGwTi4Es7MUmE8wbxDpHhVycZP72DmMlbeaM+VlYU1ARjgHy
- CG+0FDSJV1cgDt23a6+zorCsWXg/Ky9PWg==
-X-Google-Smtp-Source: ABdhPJxexrOagH8mM2pxLQ6vNxDtha/6KcqJkglvjDepoDWvUNzBLgA3AzdK80/N6GYAADItne/CmQ==
-X-Received: by 2002:a02:9009:0:b0:328:9e86:574f with SMTP id
- w9-20020a029009000000b003289e86574fmr49026jaf.39.1650554521355; 
- Thu, 21 Apr 2022 08:22:01 -0700 (PDT)
+ bh=AgLkoSlPc9kVBGD+8KCREYxFe9w6OPCL62XB2O9QUUc=;
+ b=k8JGuN5P867R38VKJl3CkGiFTVw3LLUdBF4zq63coFY3Sdf1g32oh9hGyzkRi4mpRq
+ VwImL+ZaUwftceyu1wHUZee6mANgZR082ie3f623LncE01R9VGkF+FI4wQXbPLiG0CVK
+ QO5XVD9cqxJZweZlTZR1WqRKoNprhr7U5ZPDnXXgall3BJ/GnqjiX4gJ/XgsJa0UYoYm
+ oNQYazOhiKBNqe5T/vdneIYIXtYyEv7aLw6wQ6kst2oAwanyEuSl7NakhnCQngDCxq1F
+ OXOo6484Vv7NxwiZcK2wUf+vm37avf1ac5Q8NmnwbFZsD6gR2P0shCJpn8iJoSdalHAX
+ sYcg==
+X-Gm-Message-State: AOAM532io1F/qJLxc3zaHMTCB1kGFqWRtbz51F42uyTCxIOLopJUwEQd
+ LDLQPLX/vDsCRONi5Kkv4EIxzmUhO1qmDQ==
+X-Google-Smtp-Source: ABdhPJwHrsgDmMmI9c5r6/7Ey2pKb3XrieFgQIShwNkxlftu7w92Y+jho9utnj17rC4b71YaKpSSLQ==
+X-Received: by 2002:a05:6602:2c0d:b0:60f:6ac8:ad05 with SMTP id
+ w13-20020a0566022c0d00b0060f6ac8ad05mr71133iov.175.1650554523552; 
+ Thu, 21 Apr 2022 08:22:03 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:80c8:6cf3:a91a:4957:ba18:ac18])
  by smtp.gmail.com with ESMTPSA id
- j1-20020a926e01000000b002cc52449a19sm3985402ilc.35.2022.04.21.08.22.00
+ j1-20020a926e01000000b002cc52449a19sm3985402ilc.35.2022.04.21.08.22.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 08:22:00 -0700 (PDT)
+ Thu, 21 Apr 2022 08:22:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 56/64] target/nios2: Implement EIC interrupt processing
-Date: Thu, 21 Apr 2022 08:17:27 -0700
-Message-Id: <20220421151735.31996-57-richard.henderson@linaro.org>
+Subject: [PATCH v7 57/64] target/nios2: Advance pc when raising exceptions
+Date: Thu, 21 Apr 2022 08:17:28 -0700
+Message-Id: <20220421151735.31996-58-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220421151735.31996-1-richard.henderson@linaro.org>
 References: <20220421151735.31996-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,271 +88,188 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the cpu side of the operation.  Register one irq line,
-called EIC.  Split out the rather different processing to a
-separate function.
+The exception return address for nios2 is the instruction
+after the one that was executing at the time of the exception.
 
-Delay initialization of gpio irqs until realize.  We need to
-provide a window after init in which the board can set eic_present.
+We have so far implemented this by advancing the pc during the
+process of raising the exception.  It is perhaps a little less
+confusing to do this advance in the translator (and helpers)
+when raising the exception in the first place, so that we may
+more closely match kernel sources.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h    |  8 ++++
- target/nios2/cpu.c    | 92 +++++++++++++++++++++++++++++++++----------
- target/nios2/helper.c | 51 +++++++++++++++++++++++-
- 3 files changed, 129 insertions(+), 22 deletions(-)
+ target/nios2/cpu.h          |  2 ++
+ linux-user/nios2/cpu_loop.c |  8 ++------
+ target/nios2/helper.c       | 13 +++++++------
+ target/nios2/op_helper.c    | 18 ++++++++++++++++--
+ target/nios2/translate.c    |  6 +++---
+ 5 files changed, 30 insertions(+), 17 deletions(-)
 
 diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index c2fedead54..e25d3cdb11 100644
+index e25d3cdb11..58d56e55f9 100644
 --- a/target/nios2/cpu.h
 +++ b/target/nios2/cpu.h
-@@ -114,6 +114,7 @@ FIELD(CR_STATUS, CRS, 10, 6)
- FIELD(CR_STATUS, PRS, 16, 6)
- FIELD(CR_STATUS, NMI, 22, 1)
- FIELD(CR_STATUS, RSIE, 23, 1)
-+FIELD(CR_STATUS, SRS, 31, 1)  /* only in sstatus */
+@@ -266,6 +266,8 @@ hwaddr nios2_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ void nios2_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+                                    MMUAccessType access_type, int mmu_idx,
+                                    uintptr_t retaddr) QEMU_NORETURN;
++void nios2_cpu_loop_exit_advance(CPUNios2State *env, uintptr_t retaddr)
++    QEMU_NORETURN;
  
- #define CR_STATUS_PIE    R_CR_STATUS_PIE_MASK
- #define CR_STATUS_U      R_CR_STATUS_U_MASK
-@@ -121,6 +122,7 @@ FIELD(CR_STATUS, RSIE, 23, 1)
- #define CR_STATUS_IH     R_CR_STATUS_IH_MASK
- #define CR_STATUS_NMI    R_CR_STATUS_NMI_MASK
- #define CR_STATUS_RSIE   R_CR_STATUS_RSIE_MASK
-+#define CR_STATUS_SRS    R_CR_STATUS_SRS_MASK
+ void do_nios2_semihosting(CPUNios2State *env);
  
- FIELD(CR_EXCEPTION, CAUSE, 2, 5)
- FIELD(CR_EXCEPTION, ECCFTL, 31, 1)
-@@ -234,6 +236,12 @@ struct ArchCPU {
+diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
+index 30a27f252b..a5e86990e2 100644
+--- a/linux-user/nios2/cpu_loop.c
++++ b/linux-user/nios2/cpu_loop.c
+@@ -39,6 +39,8 @@ void cpu_loop(CPUNios2State *env)
+             break;
  
-     /* Bits within each control register which are reserved or readonly. */
-     ControlRegState cr_state[NUM_CR_REGS];
-+
-+    /* External Interrupt Controller Interface */
-+    uint32_t rha; /* Requested handler address */
-+    uint32_t ril; /* Requested interrupt level */
-+    uint32_t rrs; /* Requested register set */
-+    bool rnmi;    /* Requested nonmaskable interrupt */
- };
+         case EXCP_DIV:
++            /* Match kernel's handle_diverror_c(). */
++            env->pc -= 4;
+             force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->pc);
+             break;
  
+@@ -49,12 +51,6 @@ void cpu_loop(CPUNios2State *env)
+             break;
  
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index d043c02fcd..19b2409974 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -63,7 +63,19 @@ static void nios2_cpu_reset(DeviceState *dev)
- }
- 
- #ifndef CONFIG_USER_ONLY
--static void nios2_cpu_set_irq(void *opaque, int irq, int level)
-+static void eic_set_irq(void *opaque, int irq, int level)
-+{
-+    Nios2CPU *cpu = opaque;
-+    CPUState *cs = CPU(cpu);
-+
-+    if (level) {
-+        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-+    } else {
-+        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-+    }
-+}
-+
-+static void iic_set_irq(void *opaque, int irq, int level)
- {
-     Nios2CPU *cpu = opaque;
-     CPUNios2State *env = &cpu->env;
-@@ -87,15 +99,6 @@ static void nios2_cpu_initfn(Object *obj)
- 
- #if !defined(CONFIG_USER_ONLY)
-     mmu_init(&cpu->env);
+         case EXCP_TRAP:
+-            /*
+-             * TODO: This advance should be done in the translator, as
+-             * hardware produces an advanced pc as part of all exceptions.
+-             */
+-            env->pc += 4;
 -
--    /*
--     * These interrupt lines model the IIC (internal interrupt
--     * controller). QEMU does not currently support the EIC
--     * (external interrupt controller) -- if we did it would be
--     * a separate device in hw/intc with a custom interface to
--     * the CPU, and boards using it would not wire up these IRQ lines.
--     */
--    qdev_init_gpio_in_named(DEVICE(cpu), nios2_cpu_set_irq, "IRQ", 32);
- #endif
- }
- 
-@@ -128,10 +131,18 @@ static void realize_cr_status(CPUState *cs)
-     RO_REG(CR_EXCEPTION);
-     WR_REG(CR_BADADDR);
- 
--    /* TODO: These control registers are not present with the EIC. */
--    RO_FIELD(CR_STATUS, RSIE);
--    WR_REG(CR_IENABLE);
--    RO_REG(CR_IPENDING);
-+    if (cpu->eic_present) {
-+        WR_FIELD(CR_STATUS, RSIE);
-+        RO_FIELD(CR_STATUS, NMI);
-+        WR_FIELD(CR_STATUS, PRS);
-+        RO_FIELD(CR_STATUS, CRS);
-+        WR_FIELD(CR_STATUS, IL);
-+        WR_FIELD(CR_STATUS, IH);
-+    } else {
-+        RO_FIELD(CR_STATUS, RSIE);
-+        WR_REG(CR_IENABLE);
-+        RO_REG(CR_IPENDING);
-+    }
- 
-     if (cpu->mmu_present) {
-         WR_FIELD(CR_STATUS, U);
-@@ -170,6 +181,14 @@ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
-     Nios2CPUClass *ncc = NIOS2_CPU_GET_CLASS(dev);
-     Error *local_err = NULL;
- 
-+#ifndef CONFIG_USER_ONLY
-+    if (cpu->eic_present) {
-+        qdev_init_gpio_in_named(DEVICE(cpu), eic_set_irq, "EIC", 1);
-+    } else {
-+        qdev_init_gpio_in_named(DEVICE(cpu), iic_set_irq, "IRQ", 32);
-+    }
-+#endif
-+
-     cpu_exec_realizefn(cs, &local_err);
-     if (local_err != NULL) {
-         error_propagate(errp, local_err);
-@@ -187,17 +206,48 @@ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
- }
- 
- #ifndef CONFIG_USER_ONLY
-+static bool eic_take_interrupt(Nios2CPU *cpu)
-+{
-+    CPUNios2State *env = &cpu->env;
-+    const uint32_t status = env->ctrl[CR_STATUS];
-+
-+    if (cpu->rnmi) {
-+        return !(status & CR_STATUS_NMI);
-+    }
-+    if (!(status & CR_STATUS_PIE)) {
-+        return false;
-+    }
-+    if (cpu->ril <= FIELD_EX32(status, CR_STATUS, IL)) {
-+        return false;
-+    }
-+    if (cpu->rrs != FIELD_EX32(status, CR_STATUS, CRS)) {
-+        return true;
-+    }
-+    return status & CR_STATUS_RSIE;
-+}
-+
-+static bool iic_take_interrupt(Nios2CPU *cpu)
-+{
-+    CPUNios2State *env = &cpu->env;
-+
-+    if (!(env->ctrl[CR_STATUS] & CR_STATUS_PIE)) {
-+        return false;
-+    }
-+    return env->ctrl[CR_IPENDING] & env->ctrl[CR_IENABLE];
-+}
-+
- static bool nios2_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
-     Nios2CPU *cpu = NIOS2_CPU(cs);
--    CPUNios2State *env = &cpu->env;
- 
--    if ((interrupt_request & CPU_INTERRUPT_HARD) &&
--        (env->ctrl[CR_STATUS] & CR_STATUS_PIE) &&
--        (env->ctrl[CR_IPENDING] & env->ctrl[CR_IENABLE])) {
--        cs->exception_index = EXCP_IRQ;
--        nios2_cpu_do_interrupt(cs);
--        return true;
-+    if (interrupt_request & CPU_INTERRUPT_HARD) {
-+        if (cpu->eic_present
-+            ? eic_take_interrupt(cpu)
-+            : iic_take_interrupt(cpu)) {
-+            cs->exception_index = EXCP_IRQ;
-+            nios2_cpu_do_interrupt(cs);
-+            return true;
-+        }
-     }
-     return false;
- }
+             switch (env->error_code) {
+             case 0:
+                 qemu_log_mask(CPU_LOG_INT, "\nSyscall\n");
 diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index 2e9fea4a01..e256d1528e 100644
+index e256d1528e..bb3b09e5a7 100644
 --- a/target/nios2/helper.c
 +++ b/target/nios2/helper.c
-@@ -37,6 +37,10 @@ static void do_exception(Nios2CPU *cpu, uint32_t exception_addr,
-     uint32_t old_status = env->ctrl[CR_STATUS];
-     uint32_t new_status = old_status;
- 
-+    /* With shadow regs, exceptions are always taken into CRS 0. */
-+    new_status &= ~R_CR_STATUS_CRS_MASK;
-+    env->regs = env->shadow_regs[0];
-+
-     if ((old_status & CR_STATUS_EH) == 0) {
-         int r_ea = R_EA, cr_es = CR_ESTATUS;
- 
-@@ -60,6 +64,14 @@ static void do_exception(Nios2CPU *cpu, uint32_t exception_addr,
-                                        CR_TLBMISC_DBL);
-             env->ctrl[CR_TLBMISC] |= tlbmisc_set;
+@@ -49,7 +49,7 @@ static void do_exception(Nios2CPU *cpu, uint32_t exception_addr,
+             cr_es = CR_BSTATUS;
          }
-+
-+        /*
-+         * With shadow regs, and EH == 0, PRS is set from CRS.
-+         * At least, so says Table 3-9, and some other text,
-+         * though Table 3-38 says otherwise.
-+         */
-+        new_status = FIELD_DP32(new_status, CR_STATUS, PRS,
-+                                FIELD_EX32(old_status, CR_STATUS, CRS));
+         env->ctrl[cr_es] = old_status;
+-        env->regs[r_ea] = env->pc + 4;
++        env->regs[r_ea] = env->pc;
+ 
+         if (cpu->mmu_present) {
+             new_status |= CR_STATUS_EH;
+@@ -113,7 +113,7 @@ static void do_eic_irq(Nios2CPU *cpu)
+             }
+             env->shadow_regs[new_rs][R_SSTATUS] = old_status;
+         }
+-        env->shadow_regs[new_rs][R_EA] = env->pc + 4;
++        env->shadow_regs[new_rs][R_EA] = env->pc;
      }
  
-     new_status &= ~(CR_STATUS_PIE | CR_STATUS_U);
-@@ -77,6 +89,39 @@ static void do_iic_irq(Nios2CPU *cpu)
-     do_exception(cpu, cpu->exception_addr, 0, false);
- }
- 
-+static void do_eic_irq(Nios2CPU *cpu)
-+{
-+    CPUNios2State *env = &cpu->env;
-+    uint32_t old_status = env->ctrl[CR_STATUS];
-+    uint32_t new_status = old_status;
-+    uint32_t old_rs = FIELD_EX32(old_status, CR_STATUS, CRS);
-+    uint32_t new_rs = cpu->rrs;
-+
-+    new_status = FIELD_DP32(new_status, CR_STATUS, CRS, new_rs);
-+    new_status = FIELD_DP32(new_status, CR_STATUS, IL, cpu->ril);
-+    new_status = FIELD_DP32(new_status, CR_STATUS, NMI, cpu->rnmi);
-+    new_status &= ~(CR_STATUS_RSIE | CR_STATUS_U);
-+    new_status |= CR_STATUS_IH;
-+
-+    if (!(new_status & CR_STATUS_EH)) {
-+        new_status = FIELD_DP32(new_status, CR_STATUS, PRS, old_rs);
-+        if (new_rs == 0) {
-+            env->ctrl[CR_ESTATUS] = old_status;
-+        } else {
-+            if (new_rs != old_rs) {
-+                old_status |= CR_STATUS_SRS;
-+            }
-+            env->shadow_regs[new_rs][R_SSTATUS] = old_status;
-+        }
-+        env->shadow_regs[new_rs][R_EA] = env->pc + 4;
-+    }
-+
-+    env->ctrl[CR_STATUS] = new_status;
-+    nios2_update_crs(env);
-+
-+    env->pc = cpu->rha;
-+}
-+
- void nios2_cpu_do_interrupt(CPUState *cs)
- {
-     Nios2CPU *cpu = NIOS2_CPU(cs);
-@@ -142,7 +187,11 @@ void nios2_cpu_do_interrupt(CPUState *cs)
+     env->ctrl[CR_STATUS] = new_status;
+@@ -187,6 +187,8 @@ void nios2_cpu_do_interrupt(CPUState *cs)
  
      switch (cs->exception_index) {
      case EXCP_IRQ:
--        do_iic_irq(cpu);
-+        if (cpu->eic_present) {
-+            do_eic_irq(cpu);
-+        } else {
-+            do_iic_irq(cpu);
-+        }
++        /* Note that PC is advanced for interrupts as well. */
++        env->pc += 4;
+         if (cpu->eic_present) {
+             do_eic_irq(cpu);
+         } else {
+@@ -249,7 +251,6 @@ void nios2_cpu_do_interrupt(CPUState *cs)
          break;
  
-     case EXCP_TLB_D:
+     case EXCP_SEMIHOST:
+-        env->pc += 4;
+         do_nios2_semihosting(env);
+         break;
+ 
+@@ -291,7 +292,7 @@ void nios2_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+ 
+     env->ctrl[CR_BADADDR] = addr;
+     cs->exception_index = EXCP_UNALIGN;
+-    cpu_loop_exit_restore(cs, retaddr);
++    nios2_cpu_loop_exit_advance(env, retaddr);
+ }
+ 
+ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+@@ -330,7 +331,7 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+             cs->exception_index = (access_type == MMU_INST_FETCH
+                                    ? EXCP_SUPERA_X : EXCP_SUPERA_D);
+             env->ctrl[CR_BADADDR] = address;
+-            cpu_loop_exit_restore(cs, retaddr);
++            nios2_cpu_loop_exit_advance(env, retaddr);
+         }
+     }
+ 
+@@ -367,5 +368,5 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ 
+     cs->exception_index = excp;
+     env->ctrl[CR_BADADDR] = address;
+-    cpu_loop_exit_restore(cs, retaddr);
++    nios2_cpu_loop_exit_advance(env, retaddr);
+ }
+diff --git a/target/nios2/op_helper.c b/target/nios2/op_helper.c
+index 94040102f4..2e30d0a908 100644
+--- a/target/nios2/op_helper.c
++++ b/target/nios2/op_helper.c
+@@ -31,6 +31,20 @@ void helper_raise_exception(CPUNios2State *env, uint32_t index)
+     cpu_loop_exit(cs);
+ }
+ 
++void nios2_cpu_loop_exit_advance(CPUNios2State *env, uintptr_t retaddr)
++{
++    CPUState *cs = env_cpu(env);
++
++    /*
++     * Note that PC is advanced for all hardware exceptions.
++     * Do this here, rather than in restore_state_to_opc(),
++     * lest we affect QEMU internal exceptions, like EXCP_DEBUG.
++     */
++    cpu_restore_state(cs, retaddr, true);
++    env->pc += 4;
++    cpu_loop_exit(cs);
++}
++
+ static void maybe_raise_div(CPUNios2State *env, uintptr_t ra)
+ {
+     Nios2CPU *cpu = env_archcpu(env);
+@@ -38,7 +52,7 @@ static void maybe_raise_div(CPUNios2State *env, uintptr_t ra)
+ 
+     if (cpu->diverr_present) {
+         cs->exception_index = EXCP_DIV;
+-        cpu_loop_exit_restore(cs, ra);
++        nios2_cpu_loop_exit_advance(env, ra);
+     }
+ }
+ 
+@@ -69,7 +83,7 @@ void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
+     if (unlikely(new_pc & 3)) {
+         env->ctrl[CR_BADADDR] = new_pc;
+         cs->exception_index = EXCP_UNALIGND;
+-        cpu_loop_exit_restore(cs, GETPC());
++        nios2_cpu_loop_exit_advance(env, GETPC());
+     }
+ 
+     /*
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index 29cb610aca..c06e9e7b14 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -196,10 +196,10 @@ static TCGv dest_gpr(DisasContext *dc, unsigned reg)
+ #endif
+ }
+ 
+-static void t_gen_helper_raise_exception(DisasContext *dc,
+-                                         uint32_t index)
++static void t_gen_helper_raise_exception(DisasContext *dc, uint32_t index)
+ {
+-    tcg_gen_movi_tl(cpu_pc, dc->pc);
++    /* Note that PC is advanced for all hardware exceptions. */
++    tcg_gen_movi_tl(cpu_pc, dc->base.pc_next);
+     gen_helper_raise_exception(cpu_env, tcg_constant_i32(index));
+     dc->base.is_jmp = DISAS_NORETURN;
+ }
 -- 
 2.34.1
 
