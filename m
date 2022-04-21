@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E71B509A42
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 10:15:02 +0200 (CEST)
-Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 688A8509AA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 10:29:09 +0200 (CEST)
+Received: from localhost ([::1]:48438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhRxs-00036T-81
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 04:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
+	id 1nhSBY-0001vv-DZ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 04:29:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQoz-0003Mq-HG
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 03:01:47 -0400
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:39809)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1nhRLY-0005rh-Ok
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 03:35:27 -0400
+Received: from mga02.intel.com ([134.134.136.20]:61331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nhQot-0002sz-Tv
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 03:01:44 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.66])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9326C2251A;
- Thu, 21 Apr 2022 07:01:36 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 21 Apr
- 2022 09:01:35 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003fe26116d-691d-4f3a-888b-d1700d0e4d48,
- FFC778467988C6DD564F10F4CBD504D71298CE84) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <d273123c-e547-2823-51f9-793bf0a4923d@kaod.org>
-Date: Thu, 21 Apr 2022 09:01:34 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 2/3] aspeed/hace: Support AST2600 HACE
-Content-Language: en-US
-To: Steven Lee <steven_lee@aspeedtech.com>
-References: <20220331074844.30065-1-steven_lee@aspeedtech.com>
- <20220331074844.30065-3-steven_lee@aspeedtech.com>
- <eaef19a7-53f3-fbc8-c5a3-f7693b7d67eb@kaod.org>
- <20220421020734.GA2850@aspeedtech.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220421020734.GA2850@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c38d544d-c3fe-4165-b487-608fba96e854
-X-Ovh-Tracer-Id: 94575595014032373
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrtddugdduudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhgrmhhinhgplhhinhesrghsphgvvgguthgvtghhrdgtohhm
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1nhRLV-0007W2-RR
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 03:35:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650526521; x=1682062521;
+ h=from:to:cc:subject:date:message-id:in-reply-to: references;
+ bh=SK6DfUD1Elhz4wP8ubWVI6Kmk8qCznEz0nRUM7R0eFk=;
+ b=jUMeni0iJd4UyVdQASXJci2drIZr8+wVSlcELEZ08BE8yDIJN62JyiYk
+ DOxhYbkuP6+zxUXFtJAAkkweXLeKcLnjepAbznyZBlpeeeZPsdqZCwsqz
+ 5YLc8XG4emVjyKLWLb9WAcU8g2WNKnbvSO8GD4rbveWGmpPuI1HvahYGT
+ 414/4mwoY1l5WAVG1ztKes5H5TccJLDYOejhnZqYxBL19wY66St4Olxpe
+ +//2bo3208ns4n7CcruKA022x9pFFu1vjaYJItnqLHYj+UFv6NBnSO0A8
+ lfNe3gs4sdDFf+zYEIaKgYjmXc/PS4EN3Y5mDAafKcsQlHxGgyencF0Lw A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="251582551"
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="251582551"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 00:35:18 -0700
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="530155145"
+Received: from chenyi-pc.sh.intel.com ([10.239.159.73])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 00:35:14 -0700
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: [PATCH v3 1/3] linux-header: update linux header
+Date: Thu, 21 Apr 2022 15:40:26 +0800
+Message-Id: <20220421074028.18196-2-chenyi.qiang@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220421074028.18196-1-chenyi.qiang@intel.com>
+References: <20220421074028.18196-1-chenyi.qiang@intel.com>
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=chenyi.qiang@intel.com; helo=mga02.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,38 +73,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Jamin Lin <jamin_lin@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
- Troy Lee <troy_lee@aspeedtech.com>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ Chenyi Qiang <chenyi.qiang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Steven,
+This linux-header update is only a reference to include some definitions
+related to notify VM exit.
 
->>> +static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
->>> +                              bool acc_mode)
->>>    {
->>>        struct iovec iov[ASPEED_HACE_MAX_SG];
->>>        g_autofree uint8_t *digest_buf;
->>>        size_t digest_len = 0;
->>> +    int niov = 0;
->>>        int i;
->>> +    static struct iovec iov_cache[ASPEED_HACE_MAX_SG];
->>> +    static int count;
->>> +    static uint32_t total_len;
->>
->> Why static ? Shouldn't these be AspeedHACEState attributes instead ?
->>
-> 
-> will add these static variables in AspeedHACEState.
+Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+---
+ linux-headers/asm-x86/kvm.h |  4 +++-
+ linux-headers/linux/kvm.h   | 10 ++++++++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
-When you do, please update the reset handler and the vmstate.
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index bf6e96011d..41541561ed 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -325,6 +325,7 @@ struct kvm_reinject_control {
+ #define KVM_VCPUEVENT_VALID_SHADOW	0x00000004
+ #define KVM_VCPUEVENT_VALID_SMM		0x00000008
+ #define KVM_VCPUEVENT_VALID_PAYLOAD	0x00000010
++#define KVM_VCPUEVENT_VALID_TRIPLE_FAULT	0x00000020
+ 
+ /* Interrupt shadow states */
+ #define KVM_X86_SHADOW_INT_MOV_SS	0x01
+@@ -359,7 +360,8 @@ struct kvm_vcpu_events {
+ 		__u8 smm_inside_nmi;
+ 		__u8 latched_init;
+ 	} smi;
+-	__u8 reserved[27];
++	__u8 triple_fault_pending;
++	__u8 reserved[26];
+ 	__u8 exception_has_payload;
+ 	__u64 exception_payload;
+ };
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index d232feaae9..67c0f6a938 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -270,6 +270,7 @@ struct kvm_xen_exit {
+ #define KVM_EXIT_X86_BUS_LOCK     33
+ #define KVM_EXIT_XEN              34
+ #define KVM_EXIT_RISCV_SBI        35
++#define KVM_EXIT_NOTIFY           36
+ 
+ /* For KVM_EXIT_INTERNAL_ERROR */
+ /* Emulate instruction failed. */
+@@ -487,6 +488,11 @@ struct kvm_run {
+ 			unsigned long args[6];
+ 			unsigned long ret[2];
+ 		} riscv_sbi;
++		/* KVM_EXIT_NOTIFY */
++		struct {
++#define KVM_NOTIFY_CONTEXT_INVALID	(1 << 0)
++			__u32 flags;
++		} notify;
+ 		/* Fix the size of the union. */
+ 		char padding[256];
+ 	};
+@@ -1134,6 +1140,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_VM_GPA_BITS 207
+ #define KVM_CAP_XSAVE2 208
+ #define KVM_CAP_SYS_ATTRIBUTES 209
++#define KVM_CAP_X86_NOTIFY_VMEXIT  215
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -2051,4 +2058,7 @@ struct kvm_stats_desc {
+ /* Available with KVM_CAP_XSAVE2 */
+ #define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct kvm_xsave)
+ 
++#define KVM_X86_NOTIFY_VMEXIT_ENABLED		(1ULL << 0)
++#define KVM_X86_NOTIFY_VMEXIT_USER		(1ULL << 1)
++
+ #endif /* __LINUX_KVM_H */
+-- 
+2.17.1
 
-Thanks,
-
-C.
 
