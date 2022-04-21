@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56ED450A782
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:56:02 +0200 (CEST)
-Received: from localhost ([::1]:56016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C304150A719
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:28:40 +0200 (CEST)
+Received: from localhost ([::1]:32980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhb29-0003pi-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:56:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35744)
+	id 1nhabf-0007ec-S3
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:28:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZsx-0001Wc-LV
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:42:27 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:34333)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZsv-0003Kd-W9
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:42:27 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id b95so9784048ybi.1
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V9+KP37AU6BS5k2Huv4vBXpz9/t4ZU20cM5NiIP8TA4=;
- b=zHT+P+tUs1lduXnSN5k7BE23qJ1U2hIpAgD/eg6sLYIC4n7hqu6Mipy0uOI8pJDn3w
- YQkZ/kWS6/06VdrNXB1GiG4MLZJxw40wSFqkqDyJfrYtoFPnLo1tZt6jbfd2WpSR4uWh
- qreivUHr2cEwTUdElDq6opTwL9V5GFAyKBkopqnMEX7MWEkcH1sf9dVqg+PZG1VL45t7
- u9tuSPkDF21eD1uypai80it/7ZPb1rir/01lIFXPgcaurxQsFHwv/d0MgRh3NyvKLodD
- 3jp4t9swfcqJ5d/T4kaecDfnH32X3VkVBBVW5EjKqqRc9OHe1v0gp47SIZ/Alrv8IIo5
- VJtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=V9+KP37AU6BS5k2Huv4vBXpz9/t4ZU20cM5NiIP8TA4=;
- b=3mJwtO89Kt9qXr8CaiRfY4OFdu6Io1x9KRwky7ynW0JhJE0aHkhtTf4UTY1AlinABB
- cGiW2fbqU+jtLq7jbM+uZle4AOTEslDDbiPIEqkvoUxcFNxB2AljZ/9RZWQfMVryv0s1
- RjPss7VYkRVL/SKnoz8hLvXfqKKCmETKV1oM1gb4IxJFYPM7RSyQbAsEqvrzzBo/1mU5
- M9J0ClmHfGLEJ3/s1TCNAAJR7AycXEBHJa9FVhzx4B4nPseo3/wdyOWI+IR05P2EwzBr
- mPTiXY8AMXOG+BM951qiWjCRbOIsId9YE/RL26C3ynVpKOLn1aHC41TX9cNVN9ypoU4l
- qczw==
-X-Gm-Message-State: AOAM530XYpEsaTYB4EEOvoS/Xopay2ZpxBMvVgeOIDeCFAxueRF1fbR2
- o4IUX2hztRb9GFczSsMmv15XV512UCOtSIf5z3CNHg==
-X-Google-Smtp-Source: ABdhPJzuMtOjb7af7bdS759IEurml0wk2zdVriRpUO3wl+mwpLl1PHQQaHK0+edjV4ENoUb0Z9L5FCIU4abPmiF0pAo=
-X-Received: by 2002:a05:6902:34f:b0:645:463a:b824 with SMTP id
- e15-20020a056902034f00b00645463ab824mr550477ybs.39.1650559345027; Thu, 21 Apr
- 2022 09:42:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nhZwd-0006J5-3u
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:46:15 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:40012)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nhZwa-0003st-Qv
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:46:14 -0400
+Received: from [192.168.13.13] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 421EE20779;
+ Thu, 21 Apr 2022 16:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1650559567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XH6xcwaUqTqBUNMQje6WrCG2VuhBeavmmkH5XLdivwE=;
+ b=4cXpfQE1PBQymBTwX3rAa99HHDvoigX2zRbSV0LYFTxttUA8v9ctH3NyiTtSUNl6r0FLr6
+ j71XkgvawrIQJtL9N++hfHBZTkba5eM63hACgWedAn0vrFnWMDkgci8VkThcCDo0Dn5ntN
+ TBiybl2i2pmRv95ahu9aX4IpISMBXqk=
+Message-ID: <f7591151-7e67-0c23-0f69-3cbf71e0f2fc@greensocs.com>
+Date: Thu, 21 Apr 2022 18:46:05 +0200
 MIME-Version: 1.0
-References: <20220405223640.2595730-1-wuhaotsh@google.com>
- <CAFEAcA9PCoVH_1EWTPWP_rqsOEhQZSvDZcEgw01=5W-cuyeJoA@mail.gmail.com>
- <CAGcCb12ouKaqwT5JAdysiVVmOQfz_MAYH+uukPfrz_3FqC7QdQ@mail.gmail.com>
-In-Reply-To: <CAGcCb12ouKaqwT5JAdysiVVmOQfz_MAYH+uukPfrz_3FqC7QdQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 17:42:13 +0100
-Message-ID: <CAFEAcA9P9aYrOgo08h1qS4mWt3+GmxgDYbxC-BTrG8_e67w18w@mail.gmail.com>
-Subject: Re: [PATCH for-7.1 00/11] hw/arm: Add NPCM8XX support
-To: Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 1/5] qdev: add
+ user_creatable_requires_machine_allowance class flag
+Content-Language: en-US-large
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220331115312.30018-1-damien.hedde@greensocs.com>
+ <20220331115312.30018-2-damien.hedde@greensocs.com>
+ <CAFEAcA9HsoVnKb1iRXMtYphxUt3Zg9G8p4=zrjv-Z=ekpseH_g@mail.gmail.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <CAFEAcA9HsoVnKb1iRXMtYphxUt3Zg9G8p4=zrjv-Z=ekpseH_g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,44 +69,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: IV00 Uri Trichter <Uri.Trichter@nuvoton.com>,
- Titus Rwantare <titusr@google.com>, Patrick Venture <venture@google.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- Vishal.Soni@microsoft.com
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Apr 2022 at 17:29, Hao Wu <wuhaotsh@google.com> wrote:
->
-> Thanks for all the comments you gave! I'll go over and address them recently.
->
-> For this question, The actual CPU should be cortex A35. However, I don't see
-> them supported in QEMU. If I inserted CPU with "cortex-a35" QEMU will complain:
-> qemu-system-aarch64: missing object type 'cortex-a35-arm-cpu'
->
-> What should I do here?
 
-You need to implement the new CPU type first... This means adding
-something to target/arm/cpu64.c which will look similar to the
-existing CPU handling. You need to watch out for:
- * getting all the ID register values right (check the TRM for the CPU)
- * implementing whatever the right impdef system registers are
- * checking whether QEMU is still missing support for any of the
-   architectural features that the A35 implements (what QEMU
-   supports is listed in docs/system/arm/emulation.rst)
 
-It's typically not much code but quite a lot of cross-checking
-against the TRM for the CPU that we're not missing pieces...
-Since you can add the A35 as a supported CPU type for the 'virt'
-board you can do A35 support as a separate patchset that doesn't
-depend on the npmc8xx work.
+On 4/21/22 17:59, Peter Maydell wrote:
+> On Thu, 31 Mar 2022 at 13:19, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>>
+>> This flag will be used in device_add to check if
+>> the device needs special allowance from the machine
+>> model.
+>>
+>> It will replace the current check based only on the
+>> device being a TYPE_SYB_BUS_DEVICE.
+>>
+>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>> ---
+>>
+>> v2:
+>>   + change the flag name and put it just below user_creatable
+>> ---
+>>   include/hw/qdev-core.h | 9 +++++++++
+>>   hw/core/qdev.c         | 1 +
+>>   hw/core/sysbus.c       | 1 +
+>>   3 files changed, 11 insertions(+)
+>>
+>> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+>> index 92c3d65208..6a040fcd3b 100644
+>> --- a/include/hw/qdev-core.h
+>> +++ b/include/hw/qdev-core.h
+>> @@ -122,6 +122,15 @@ struct DeviceClass {
+>>        * TODO remove once we're there
+>>        */
+>>       bool user_creatable;
+>> +    /*
+>> +     * Some devices can be user created under certain conditions (eg:
+>> +     * specific machine support for sysbus devices), but it is
+>> +     * preferable to prevent global allowance for the reasons
+>> +     * described above.
+>> +     * This flag is an additional constraint over user_creatable:
+>> +     * user_creatable still needs to be set to true.
+>> +     */
+>> +    bool user_creatable_requires_machine_allowance;
+> 
+> "allowance" doesn't have the meaning you seem to be trying to give it here.
+> (It means "the amount of something you're allowed to have", like
+> a baggage allowance, or "an amount of money you're given for something",
+> like a travel allowance.)
 
-https://patchew.org/QEMU/20220417174426.711829-1-richard.henderson@linaro.org/20220417174426.711829-60-richard.henderson@linaro.org/
-is an example of how to add a new CPU (in that case the A76), at
-the end of a large patchset from RTH that's still going through
-code review.
+> 
+> Do you mean "user creatable only if the machine permits it" ?
+Yes.
 
--- PMM
+> 
+> More generally, the pluggable-sysbus stuff is an awful hack
+> that I wish we didn't have to have. I'm not sure I want to see
+> us expanding the use of it to other device types...
+
+I not really trying to trigger code when adding devices. I'm just trying 
+to use the related per-machine allow-list as a way to prevent the user 
+to add such devices (specifically cpu group/cluster) on any random 
+machine which would most probably not "work".
+
+Thanks,
+Damien
 
