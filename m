@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9E050A6B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:11:54 +0200 (CEST)
-Received: from localhost ([::1]:44330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584C250A67D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:00:44 +0200 (CEST)
+Received: from localhost ([::1]:43122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhaLS-0005jY-02
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55426)
+	id 1nhaAd-0001eK-Fj
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZMO-0004QU-Py
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:08:48 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:41556)
+ id 1nhZSj-0007DZ-R7
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:15:22 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:43798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZMN-0005xp-3L
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:08:48 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id w20so3395216ybi.8
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:08:46 -0700 (PDT)
+ id 1nhZSi-000767-3n
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:15:21 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id f17so9601686ybj.10
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HMZ5Me4DLCE/vsvCUUQqGOqyXRn94mqeii3A9nas1B4=;
- b=jSZFN3blJ2850prCXj75C4hVDKWl52Rb0GQ4LWGoBGOrnLy4SQSmD0RJIHMMjojGAh
- eEnXh9ENfGbZRS2HLqzid8CZVNhvMr9N033FkCO+1ELqBlFu1nG+IOtYjt84rnzVefxJ
- ubWRLAXBJMXnomDU3mqQ3Mg30IFppA+TBNUzhRIQPOO1G0EIYdkhucbHT2gegCkU82lA
- hTSh9xB0i+eJ4laZNmm5hrV4X37FGCcIjaX70Bh44yo5XVStWCIfp0y2oZBU0xmDvD+r
- G5dyBJNKkabmRbPxuoJevHrZ1DLfjtt8bal4anh+5YEoZqy5dL2yeIbNNbs3gHrKR+CE
- rD4w==
+ :cc; bh=znBKvg3giJox/+l1U0D+DU7ji91IfgGnbpk8ZV1xZAE=;
+ b=KjD1fKD/FErKl1TySts9oDW3+GSy6KVZVxq9SI2Q5bui9xigZheHqwDHg5BjauOEPz
+ JcJzdmm7JYSk4JdQIL0eHTSSs58UbLvUErdSs9HiZh7nC6rpllAMDETv5XndOokHpbWa
+ k4Lwsv/jRbRyEdrIF/2LNuV21Mh3f39MpDbaRrzzaorFITVuMB4Lfu5ZbL66GgLYJi+u
+ uqvsg3CubIsPDj7CSBqgdV73HOgt4THkwLalNp43zso1MA+6CkeFLDB1of9f1SQYk2br
+ QKee7nj9ESmiBzENyid+R1+un2mtH+UnB5hUSB6/J0rCamr+YnLN3OxwbPFoIesfXr7x
+ Nxlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HMZ5Me4DLCE/vsvCUUQqGOqyXRn94mqeii3A9nas1B4=;
- b=01F4p1Cy25bSwL78L7vRhsReXDHbUM3r6FNLxpPUApIDokBVmiupneS1mk7t4x784/
- GmaxgDvub4bAgtkrE8ZYeu/wQNSZ0j5qqWfuuJZmnqttNm/4tp0ddscuC+DKRcIFZyH1
- M6eUM4rTV2U6P8vZGmbeOIveMMYf4uYLiLZfG4vtufX0S52iQ86OQCs6NsoBAdBMCK20
- bw39qPGDBx9c7TCu07diRNaNCZeBdmZo1Cw52OwrNip2qyPPv4YWe8cLs5GKhgbNXXxD
- Q6SBX6eKpdoXkixK2Zj3VtH852inJ1MnQlWJYqttlkoqTKcId/ArMR9H5F44ntm+RTVG
- hLAQ==
-X-Gm-Message-State: AOAM53130WPpUiOii/RpCaqrnILZdsxcNJuO2UbcUIHZ+vxl9coLsFZH
- /VNEOps3VeyelwH6YiniJw197uVojVJGar42pgJf8g==
-X-Google-Smtp-Source: ABdhPJybx1U3YsDqrNL7giTyaDsv0WYkgk2E5Y7MdP6tG56SpNQ+301crRQppa6YZv8OEc2/EFUIcQpViWx56vOZnI8=
+ bh=znBKvg3giJox/+l1U0D+DU7ji91IfgGnbpk8ZV1xZAE=;
+ b=spvJR/GfY+Og3gOmuUKU00zX+0ERsNy7bFifFFI2MVRy+xMtolI2669UsFHiN2CKFs
+ +qzLCZ/vS/cEnpH65/fs1+/3936oGeZhc3iQ7ua9f9GfxaAD8j2Tpkb843mb25JwtpCB
+ LacyRjnludoOOx3k7M71wgu51N//iXLiVFxckZPZ6sahvlLVc+P8PtTYUDN6B6OC/APw
+ 8ABsFKxH+Cx4PiFU7FUer3KjiVpkFasqgCPfbsXLcZK67Qi5QbNM5TjbgFbVxoaUlCLh
+ L+RRX1zfq2NPWNBexJW79Pzpd1JeDygtIR0wvI3iePEZFCOG2QOGWJQSzzJElcqz8Mfk
+ Kd0w==
+X-Gm-Message-State: AOAM532OFr8ApOU6+hJJFVrDLDxnAHcTLO6F9vd49K7X44wd4mABgJX/
+ IXF5coNHtJVd8T5M9CGn4LmC8KnJ93SdyM6GTHc+ZQ==
+X-Google-Smtp-Source: ABdhPJzGz3EmdQBO6LbXCALydsuMdA6buUSdnfvloeGVxVI0YqCpJQT86JT2++q12mWYWtn4FmEdI7Rk7hruFcHsago=
 X-Received: by 2002:a05:6902:390:b0:645:7d46:f1db with SMTP id
- f16-20020a056902039000b006457d46f1dbmr388421ybs.85.1650557325978; Thu, 21 Apr
- 2022 09:08:45 -0700 (PDT)
+ f16-20020a056902039000b006457d46f1dbmr423765ybs.85.1650557719017; Thu, 21 Apr
+ 2022 09:15:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220421160118.2386364-1-wei.huang2@amd.com>
-In-Reply-To: <20220421160118.2386364-1-wei.huang2@amd.com>
+References: <20220417174426.711829-1-richard.henderson@linaro.org>
+ <20220417174426.711829-8-richard.henderson@linaro.org>
+In-Reply-To: <20220417174426.711829-8-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 17:08:34 +0100
-Message-ID: <CAFEAcA9MLba1b=ZPeWkRqp4nE3dZUJ7q73MALeSHXdsOUnrjug@mail.gmail.com>
-Subject: Re: [PATCH 1/1] hw/i386/amd_iommu: Fix IOMMU event log encoding errors
-To: Wei Huang <wei.huang2@amd.com>
+Date: Thu, 21 Apr 2022 17:15:08 +0100
+Message-ID: <CAFEAcA_vFKkznV-heaWimT-R6QNzH39+=tcS4ZXQ4Y7zMMu0gg@mail.gmail.com>
+Subject: Re: [PATCH v3 07/60] target/arm: Extend store_cpu_offset to take
+ field size
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,48 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, Suravee.Suthikulpanit@amd.com, mst@redhat.com,
- jasowang@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com, pbonzini@redhat.com
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Apr 2022 at 17:01, Wei Huang <wei.huang2@amd.com> wrote:
+On Sun, 17 Apr 2022 at 18:50, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Coverity issues several UNINIT warnings against AMD IOMMU device [1]. This
-> patch fixes them by initializing the variables. On top of it, this patch
-> changes the event log size to 16 bytes per IOMMU specification. Also the
-> event encoding function incorrectly defines the format of event log entry,
-> which is also fixed.
+> Currently we assume all fields are 32-bit.
+> Prepare for fields of a single byte, using sizeof.
 >
-> [1] CID 1487116/1487200/1487190/1487232/1487115/1487258
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Wei Huang <wei.huang2@amd.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/i386/amd_iommu.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
+>  target/arm/translate-a32.h | 13 +++++--------
+>  target/arm/translate.c     | 21 ++++++++++++++++++++-
+>  2 files changed, 25 insertions(+), 9 deletions(-)
 >
-> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-> index ea8eaeb330b6..0f7f8929a687 100644
-> --- a/hw/i386/amd_iommu.c
-> +++ b/hw/i386/amd_iommu.c
-> @@ -208,8 +208,8 @@ static void amdvi_encode_event(uint64_t *evt, uint16_t devid, uint64_t addr,
->                                 uint16_t info)
->  {
->      amdvi_setevent_bits(evt, devid, 0, 16);
-> -    amdvi_setevent_bits(evt, info, 55, 8);
-> -    amdvi_setevent_bits(evt, addr, 63, 64);
-> +    amdvi_setevent_bits(evt, info, 48, 16);
-> +    amdvi_setevent_bits(evt, addr, 64, 64);
+> diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
+> index 5be4b9b834..f593740a88 100644
+> --- a/target/arm/translate-a32.h
+> +++ b/target/arm/translate-a32.h
+> @@ -61,17 +61,14 @@ static inline TCGv_i32 load_cpu_offset(int offset)
+>
+>  #define load_cpu_field(name) load_cpu_offset(offsetof(CPUARMState, name))
+>
+> -static inline void store_cpu_offset(TCGv_i32 var, int offset)
+> -{
+> -    tcg_gen_st_i32(var, cpu_env, offset);
+> -    tcg_temp_free_i32(var);
+> -}
+> +void store_cpu_offset(TCGv_i32 var, int offset, int size);
+>
+> -#define store_cpu_field(var, name) \
+> -    store_cpu_offset(var, offsetof(CPUARMState, name))
+> +#define store_cpu_field(var, name)                              \
+> +    store_cpu_offset(var, offsetof(CPUARMState, name),          \
+> +                     sizeof(((CPUARMState *)NULL)->name))
 
-There's a comment just above this function which also needs updating.
+compiler.h defines sizeof_field, so you can write
+  sizeof_field(CPUARMState, name)
+here.
 
-Would it be better to have this function start with
-  evt[0] = 0;
-  evt[1] = 0;
-
-rather than requiring every caller to zero-initialize the buffer?
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
