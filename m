@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584C250A67D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:00:44 +0200 (CEST)
-Received: from localhost ([::1]:43122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2117C50A68E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:07:06 +0200 (CEST)
+Received: from localhost ([::1]:57060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhaAd-0001eK-Fj
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:00:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56876)
+	id 1nhaGn-0003gL-1f
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZSj-0007DZ-R7
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:15:22 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:43798)
+ id 1nhZTJ-000806-KV
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:15:57 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:42783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZSi-000767-3n
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:15:21 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id f17so9601686ybj.10
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:15:19 -0700 (PDT)
+ id 1nhZTI-0007BO-4w
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:15:57 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-2ef5380669cso57470347b3.9
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:15:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=znBKvg3giJox/+l1U0D+DU7ji91IfgGnbpk8ZV1xZAE=;
- b=KjD1fKD/FErKl1TySts9oDW3+GSy6KVZVxq9SI2Q5bui9xigZheHqwDHg5BjauOEPz
- JcJzdmm7JYSk4JdQIL0eHTSSs58UbLvUErdSs9HiZh7nC6rpllAMDETv5XndOokHpbWa
- k4Lwsv/jRbRyEdrIF/2LNuV21Mh3f39MpDbaRrzzaorFITVuMB4Lfu5ZbL66GgLYJi+u
- uqvsg3CubIsPDj7CSBqgdV73HOgt4THkwLalNp43zso1MA+6CkeFLDB1of9f1SQYk2br
- QKee7nj9ESmiBzENyid+R1+un2mtH+UnB5hUSB6/J0rCamr+YnLN3OxwbPFoIesfXr7x
- Nxlw==
+ :cc; bh=z9u8Xy5HBCQXZ7zOwo4qOL0k6WBJRHNMRD/wfdUkQzw=;
+ b=g5a0K/8aFZ18XZtnLl2bCuDK4XuYlZ7mKkTKDN7WShDMEZ9WrO60pgsHtlUKSpktl0
+ StGEhw915oB8yjIql1q9uyUIA1+p/k/xd7ay1gJ/6tjzQ+nMczpCiwzCwX0qcpAK2kwt
+ GuFy/THde3ZXFfOuV7go8oznk9myJv5wAravd3iuJQD3NtKro9c45RI1xl4Y3wM9wcMI
+ PQVDdy9wgmetUsviP4Yh+sf99fVC1N/uH5BPjDin91+EC/NFnYmDcFSBeHgVHN3xVicu
+ sbxfAIYBx/f73sjdY0w0ZOYXzXxRAfSk0DAaf7r5b3r2m51J9TghsSQnhQJ5GzRC4rZc
+ +RbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=znBKvg3giJox/+l1U0D+DU7ji91IfgGnbpk8ZV1xZAE=;
- b=spvJR/GfY+Og3gOmuUKU00zX+0ERsNy7bFifFFI2MVRy+xMtolI2669UsFHiN2CKFs
- +qzLCZ/vS/cEnpH65/fs1+/3936oGeZhc3iQ7ua9f9GfxaAD8j2Tpkb843mb25JwtpCB
- LacyRjnludoOOx3k7M71wgu51N//iXLiVFxckZPZ6sahvlLVc+P8PtTYUDN6B6OC/APw
- 8ABsFKxH+Cx4PiFU7FUer3KjiVpkFasqgCPfbsXLcZK67Qi5QbNM5TjbgFbVxoaUlCLh
- L+RRX1zfq2NPWNBexJW79Pzpd1JeDygtIR0wvI3iePEZFCOG2QOGWJQSzzJElcqz8Mfk
- Kd0w==
-X-Gm-Message-State: AOAM532OFr8ApOU6+hJJFVrDLDxnAHcTLO6F9vd49K7X44wd4mABgJX/
- IXF5coNHtJVd8T5M9CGn4LmC8KnJ93SdyM6GTHc+ZQ==
-X-Google-Smtp-Source: ABdhPJzGz3EmdQBO6LbXCALydsuMdA6buUSdnfvloeGVxVI0YqCpJQT86JT2++q12mWYWtn4FmEdI7Rk7hruFcHsago=
-X-Received: by 2002:a05:6902:390:b0:645:7d46:f1db with SMTP id
- f16-20020a056902039000b006457d46f1dbmr423765ybs.85.1650557719017; Thu, 21 Apr
- 2022 09:15:19 -0700 (PDT)
+ bh=z9u8Xy5HBCQXZ7zOwo4qOL0k6WBJRHNMRD/wfdUkQzw=;
+ b=F+PCSMZUIMnmAnIppG4fwjcb50egNbWHn9LmQC2/VknYETLWEMFp2eROBV0zgdbX/r
+ mjUhRc53Qt/HtBx0FzStomiqT3NW0t6yZ9/TvTRNYhkOSo1LopwChI9zILojbSPvU2T5
+ LFsNIVJ5GrGoLbsY4JfwmewL2S9VX3G7NjSIHcojUKCyVD3zgCJxBKHKniwEraz4ygcL
+ s+pk3JZgvfdvsyYTWe2F/T1zKoD45k6riUz972NDJcA9Q9vtOyCI/iv1YCcu11PUM7j/
+ i2kw/dMhh5Mk8vk4fKmMfjW2M3Y1aFI3VodXgbtkc4Or+v5GdJopY1PWi+P9gD/dTj/i
+ udVg==
+X-Gm-Message-State: AOAM530al551RwZopaSJAK5h1Iue6Ywr8Nz+zCe1fmCCYYED5P5JhzSX
+ GvLUCBdhCAezt6WmMcPFgOgZW1hLp6l2YpmbeHjleK391Lo=
+X-Google-Smtp-Source: ABdhPJzItVa1VyVXY2YaqJh0eKqdw7G4f+8aNx/ey48BtDwY5IAER3JyTW5mIUjYy82M/rGo85y2QYZS3Ihi9q1m4F8=
+X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
+ z23-20020a81ac57000000b002f199ec91a2mr406557ywj.329.1650557754983; Thu, 21
+ Apr 2022 09:15:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
- <20220417174426.711829-8-richard.henderson@linaro.org>
-In-Reply-To: <20220417174426.711829-8-richard.henderson@linaro.org>
+ <20220417174426.711829-9-richard.henderson@linaro.org>
+In-Reply-To: <20220417174426.711829-9-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 17:15:08 +0100
-Message-ID: <CAFEAcA_vFKkznV-heaWimT-R6QNzH39+=tcS4ZXQ4Y7zMMu0gg@mail.gmail.com>
-Subject: Re: [PATCH v3 07/60] target/arm: Extend store_cpu_offset to take
- field size
+Date: Thu, 21 Apr 2022 17:15:44 +0100
+Message-ID: <CAFEAcA8=3ut2_jV5Q2vp2n+NLYF2-m+mBT6BEEkKdnaVoTS3aQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/60] target/arm: Change DisasContext.thumb to bool
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,44 +83,15 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 Apr 2022 at 18:50, Richard Henderson
+On Sun, 17 Apr 2022 at 18:51, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Currently we assume all fields are 32-bit.
-> Prepare for fields of a single byte, using sizeof.
+> Bool is a more appropriate type for this value.
+> Move the member down in the struct to keep the
+> bool type members together and remove a hole.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/translate-a32.h | 13 +++++--------
->  target/arm/translate.c     | 21 ++++++++++++++++++++-
->  2 files changed, 25 insertions(+), 9 deletions(-)
->
-> diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-> index 5be4b9b834..f593740a88 100644
-> --- a/target/arm/translate-a32.h
-> +++ b/target/arm/translate-a32.h
-> @@ -61,17 +61,14 @@ static inline TCGv_i32 load_cpu_offset(int offset)
->
->  #define load_cpu_field(name) load_cpu_offset(offsetof(CPUARMState, name))
->
-> -static inline void store_cpu_offset(TCGv_i32 var, int offset)
-> -{
-> -    tcg_gen_st_i32(var, cpu_env, offset);
-> -    tcg_temp_free_i32(var);
-> -}
-> +void store_cpu_offset(TCGv_i32 var, int offset, int size);
->
-> -#define store_cpu_field(var, name) \
-> -    store_cpu_offset(var, offsetof(CPUARMState, name))
-> +#define store_cpu_field(var, name)                              \
-> +    store_cpu_offset(var, offsetof(CPUARMState, name),          \
-> +                     sizeof(((CPUARMState *)NULL)->name))
-
-compiler.h defines sizeof_field, so you can write
-  sizeof_field(CPUARMState, name)
-here.
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
