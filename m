@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E005094C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 03:44:24 +0200 (CEST)
-Received: from localhost ([::1]:45098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7455094CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 03:47:47 +0200 (CEST)
+Received: from localhost ([::1]:54506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhLrr-0001W2-FK
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 21:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44584)
+	id 1nhLv8-00080I-Mg
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 21:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nhLqV-0007sr-PE
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 21:42:59 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:13742)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1nhLqU-0000lP-6E
- for qemu-devel@nongnu.org; Wed, 20 Apr 2022 21:42:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650505378; x=1682041378;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=DJ2FQUzlzFooiI8OUXfaZqpJWoNDzWz8uveYy2V95GU=;
- b=nj/HPClRQkAtOn/sVwMM+UKAZZ2ZysTehObyaAws6pJf+ozcxNh68vOT
- tdGWjhgsQ6NEakwilrBDdTtnh/adbbdJWEbIdYjoFnoMclFrz8HU5X8y4
- IOyCRRRlb9HceKj/pvN6W2iF5u6a6RQm/4epnOfUZrMYSpIegZXQHc7N8 c=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 20 Apr 2022 18:42:52 -0700
-X-QCInternal: smtphost
-Received: from hu-tsimpson-lv.qualcomm.com (HELO
- hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
- by ironmsg09-lv.qualcomm.com with ESMTP; 20 Apr 2022 18:42:52 -0700
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id 4B47F5005B5; Wed, 20 Apr 2022 18:42:52 -0700 (PDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Hexagon (tests/tcg/hexagon) Fix alignment in load_unpack.c
-Date: Wed, 20 Apr 2022 18:42:43 -0700
-Message-Id: <20220421014243.7834-5-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220421014243.7834-1-tsimpson@quicinc.com>
-References: <20220421014243.7834-1-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nhLtn-0006TE-Au; Wed, 20 Apr 2022 21:46:23 -0400
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:39651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nhLtl-0001Dd-MO; Wed, 20 Apr 2022 21:46:23 -0400
+Received: by mail-il1-x12d.google.com with SMTP id d4so2166547iln.6;
+ Wed, 20 Apr 2022 18:46:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XXvAEIye0dgruyGoqKPQ9T2F17D+P9AOpRLv+rmvaZg=;
+ b=JJXiP6pQLSAwVoIpgqdZ+Eniy1v2LaBNT1Eqily4RGCbkf3WSr/0DAAXFme5NAWXJQ
+ 9XyYc/hvdZv1t7s6Y+9OKcIEYaUsJ8CYms7w4izLFCtmVS/wUWCYo4z6rZ8X6NWJTauz
+ 5x+3OWhvBGYkL0GooqLn4RPDXo/gR/rg1a4r5L/Mtv4A389Pe87t9LZm9VN+5L3pCQYf
+ XD4ivyXRILXQsoLnpSn38DRBCRYsW5KJJDwMQFHZCmwm5pDbQNlf/BjxgA61JjNaLXhH
+ KW8J/nmN+Px1EMrut4+1WdTVLVMdx0uIQg3sBhBgfyavNsAIrspuOgGiLxf1F2VgTwvv
+ waaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XXvAEIye0dgruyGoqKPQ9T2F17D+P9AOpRLv+rmvaZg=;
+ b=gzmMi33zfd/jAUziMwpi5m2mmH/4Rf5L9hAhYcnmv2z6wD0IDi3yFpJgCk+uadVZSh
+ kiWUfRyRUUbONn9e0aOwh0N+9RsWwmhF+f5ocHmtAarEaM44ylKMMFttRMDhIOzaQrFc
+ YVz3S7h7v+Vy6/RVW7E+j1SvGpNUk21rnWx1163qNC4czDLpNGHtpcs5LdH6zkE/itWL
+ 6pgqtly3Mco20jvli7GNiRyw8W2521BK2sdak55Z4X+FRPjt1wSH33EUmMKdZTnuJ1yW
+ WD0PMjkrPu72b/pplGHNKAvaSCQsRPEDnofbliMFIzHQBCW2JR9vw/dogB8XijjTeYUp
+ ZB3w==
+X-Gm-Message-State: AOAM531qEpjhHDDXvZdE3jTLo94L5mxvfFgA02TUQxkMA5zJVTFfBpTh
+ 1SyCbSvCu90Wbgy5a78ZkJUUwEOYEOkmLvKhXPw=
+X-Google-Smtp-Source: ABdhPJy0covv+Aglx4oFCgcAU5gTs1KA15bTTxh/eBC2K8mIsK2O0qp+CxYJ8yYrGmm5qvauaiO/f2dLHbfzH9DFNvc=
+X-Received: by 2002:a05:6e02:19cc:b0:2ca:b72:1547 with SMTP id
+ r12-20020a056e0219cc00b002ca0b721547mr10395924ill.113.1650505579662; Wed, 20
+ Apr 2022 18:46:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
- helo=alexa-out.qualcomm.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+References: <20220421003324.1134983-1-bmeng.cn@gmail.com>
+In-Reply-To: <20220421003324.1134983-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 21 Apr 2022 11:45:53 +1000
+Message-ID: <CAKmqyKNMjRLkY+_GWfWhdOGqFeNPpfcMmm0vEP4EY6yBW4gV_g@mail.gmail.com>
+Subject: Re: [PATCH v5 0/6] target/riscv: Initial support for the Sdtrig
+ extension via M-mode CSRs
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,40 +77,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, richard.henderson@linaro.org,
- f4bug@amsat.org, tsimpson@quicinc.com, mlambert@quicinc.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlIGluY3JlbWVudCB1c2VkIGluIDpicmV2IHRlc3RzIHdhcyBjYXVzaW5nIHVuYWxpZ25lZCBh
-ZGRyZXNzZXMKQ2hhbmdlIHRoZSBpbmNyZW1lbnQgYW5kIHRoZSByZWxldmFudCBleHBlY3RlZCB2
-YWx1ZXMKClNpZ25lZC1vZmYtYnk6IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNv
-bT4KLS0tCiB0ZXN0cy90Y2cvaGV4YWdvbi9sb2FkX3VucGFjay5jIHwgMTQgKysrKysrKy0tLS0t
-LS0KIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCgpkaWZm
-IC0tZ2l0IGEvdGVzdHMvdGNnL2hleGFnb24vbG9hZF91bnBhY2suYyBiL3Rlc3RzL3RjZy9oZXhh
-Z29uL2xvYWRfdW5wYWNrLmMKaW5kZXggMzU3NWEzN2EyOC4uNGFhMjZmYzM4OCAxMDA2NDQKLS0t
-IGEvdGVzdHMvdGNnL2hleGFnb24vbG9hZF91bnBhY2suYworKysgYi90ZXN0cy90Y2cvaGV4YWdv
-bi9sb2FkX3VucGFjay5jCkBAIC0yNDUsNyArMjQ1LDcgQEAgVEVTVF9wcihsb2FkYnN3NF9wciwg
-bG9uZyBsb25nLCBTLCA0LCAweDAwMDBmZjAwMDAwMGZmMDBMTCwKICAqLwogI2RlZmluZSBCeFdf
-TE9BRF9wYnIoU1osIFJFUywgUFRSKSBcCiAgICAgX19hc21fXyggXAotICAgICAgICAicjQgPSAj
-KDEgPDwgKDE2IC0gMykpXG5cdCIgXAorICAgICAgICAicjQgPSAjKDEgPDwgKDE2IC0gNCkpXG5c
-dCIgXAogICAgICAgICAibTAgPSByNFxuXHQiIFwKICAgICAgICAgIiUwID0gbWVtIiAjU1ogIigl
-MSsrbTA6YnJldilcblx0IiBcCiAgICAgICAgIDogIj1yIihSRVMpLCAiK3IiKFBUUikgXApAQCAt
-MjczLDE1ICsyNzMsMTUgQEAgdm9pZCB0ZXN0XyMjTkFNRSh2b2lkKSBcCiB9CiAKIFRFU1RfcGJy
-KGxvYWRiencyX3BiciwgaW50LCBaLCAweDAwMDAwMDAwLAotICAgIDB4MDAwMjAwODEsIDB4MDAw
-NjAwODUsIDB4MDAwNDAwODMsIDB4MDAwODAwODcpCisgICAgMHgwMDAyMDA4MSwgMHgwMDBhMDA4
-OSwgMHgwMDA2MDA4NSwgMHgwMDBlMDA4ZCkKIFRFU1RfcGJyKGxvYWRic3cyX3BiciwgaW50LCBT
-LCAweDAwMDBmZjAwLAotICAgIDB4MDAwMjAwODEsIDB4MDAwNjAwODUsIDB4MDAwNDAwODMsIDB4
-MDAwODAwODcpCisgICAgMHgwMDAyMDA4MSwgMHgwMDBhZmY4OSwgMHgwMDA2ZmY4NSwgMHgwMDBl
-ZmY4ZCkKIFRFU1RfcGJyKGxvYWRienc0X3BiciwgbG9uZyBsb25nLCBaLCAweDAwMDAwMDAwMDAw
-MDAwMDBMTCwKLSAgICAweDAwMDQwMDgzMDAwMjAwODFMTCwgMHgwMDA4MDA4NzAwMDYwMDg1TEws
-Ci0gICAgMHgwMDA2MDA4NTAwMDQwMDgzTEwsIDB4MDAwYTAwODkwMDA4MDA4N0xMKQorICAgIDB4
-MDAwNDAwODMwMDAyMDA4MUxMLCAweDAwMGMwMDhiMDAwYTAwODlMTCwKKyAgICAweDAwMDgwMDg3
-MDAwNjAwODVMTCwgMHgwMDEwMDA4ZjAwMGUwMDhkTEwpCiBURVNUX3Bicihsb2FkYnN3NF9wYnIs
-IGxvbmcgbG9uZywgUywgMHgwMDAwZmYwMDAwMDBmZjAwTEwsCi0gICAgMHgwMDA0MDA4MzAwMDIw
-MDgxTEwsIDB4MDAwODAwODcwMDA2MDA4NUxMLAotICAgIDB4MDAwNjAwODUwMDA0MDA4M0xMLCAw
-eDAwMGEwMDg5MDAwODAwODdMTCkKKyAgICAweDAwMDQwMDgzMDAwMjAwODFMTCwgMHgwMDBjZmY4
-YjAwMGFmZjg5TEwsCisgICAgMHgwMDA4ZmY4NzAwMDZmZjg1TEwsIDB4MDAxMGZmOGYwMDBlZmY4
-ZExMKQogCiAvKgogICoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioKLS0gCjIuMTcuMQoK
+On Thu, Apr 21, 2022 at 10:35 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+>
+> This adds initial support for the Sdtrig extension via the Trigger Module,
+> as defined in the RISC-V Debug Specification [1].
+>
+> Only "Address / Data Match" trigger (type 2) is implemented as of now,
+> which is mainly used for hardware breakpoint and watchpoint. The number
+> of type 2 triggers implemented is 2, which is the number that we can
+> find in the SiFive U54/U74 cores.
+>
+> [1] https://github.com/riscv/riscv-debug-spec/raw/master/riscv-debug-stable.pdf
+>
+> Changes in v5:
+> - rebase against riscv-to-apply.next
+> - drop patch 1 in v4 which is already in riscv-to-apply.next
+> - adjust patch order to let patch 2 in v4 come later
+>
+> Changes in v4:
+> - move riscv_trigger_init() call to riscv_cpu_reset()
+>
+> Changes in v3:
+> - add riscv_trigger_init(), moved from patch #1 to this patch
+> - enable debug feature by default for all CPUs
+>
+> Changes in v2:
+> - use 0 instead of GETPC()
+> - change the config option to 'disabled' by default
+> - new patch: add debug state description
+>
+> Bin Meng (6):
+>   target/riscv: debug: Implement debug related TCGCPUOps
+>   target/riscv: cpu: Add a config option for native debug
+>   target/riscv: csr: Hook debug CSR read/write
+>   target/riscv: machine: Add debug state description
+>   target/riscv: cpu: Enable native debug feature
+>   hw/core: tcg-cpu-ops.h: Update comments of debug_check_watchpoint()
+
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+>  include/hw/core/tcg-cpu-ops.h |   1 +
+>  target/riscv/cpu.h            |   4 +-
+>  target/riscv/debug.h          |   6 ++
+>  target/riscv/cpu.c            |  12 ++++
+>  target/riscv/csr.c            |  57 +++++++++++++++++++
+>  target/riscv/debug.c          | 102 ++++++++++++++++++++++++++++++++++
+>  target/riscv/machine.c        |  32 +++++++++++
+>  7 files changed, 213 insertions(+), 1 deletion(-)
+>
+> --
+> 2.25.1
+>
+>
 
