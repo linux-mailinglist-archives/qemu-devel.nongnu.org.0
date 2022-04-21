@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FFC50A501
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:06:39 +0200 (CEST)
-Received: from localhost ([::1]:52034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF9450A509
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:11:00 +0200 (CEST)
+Received: from localhost ([::1]:60542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhZKI-0007ld-69
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42884)
+	id 1nhZOV-0005I0-FL
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:10:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYZQ-0007MG-6C
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:12 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54006)
+ id 1nhYZV-0007UO-7V
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:17 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:46940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYZM-0006I8-Nz
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:10 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id bx5so5230025pjb.3
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:18:08 -0700 (PDT)
+ id 1nhYZQ-0006Ik-IT
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:16 -0400
+Received: by mail-pg1-x530.google.com with SMTP id q12so4878555pgj.13
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TWYIA+ZPja/ASXfObfSVoW3kDH0rTYrrqx2UWkBH5EA=;
- b=QutF7KyZLwox158/IHVvTdcjQHvHOv78xJzevawmgCYd/EuKFL8vb27L5pndsO6kAX
- hP3g9XE++b1VQTcYDBzJj0TP+PHlstVqdJipOnV3/PDUWmd6QZf1B1WaDjVmkBJ4nYtT
- 6UWCm+/zECQFZMAaWBuCptpmyT5mq1Ikak/IeKQC6IFP5n/P7CQB1byOsHaAEqLE8nJW
- RM+XhGtxdhe+E4uJaTNH+ONAWtoB4JV+HgcLtLDVkB7yWUOz0dLMmqmWx76n2csN/uJo
- g/5XekUOyZU7vIxofAFXpozycZvP5E8E3FvCSBVekW1n2smTVEoGcQwwrbi8tFUBSeeb
- mDsw==
+ bh=SgYdfKBOpD63fxeycIxvZRPC0aBEIFbrxFD/qGb/1iw=;
+ b=FfCOva5lc9oge9ozkWLb84iGWfz8GYjcId9UX3dAkaKTI2HbivnjgQodWafaRKXTlH
+ d+KJH/LDv4NJhmRLQAbKScpE69IfA16byKIFx8zBzcWiiSjeLVYxBT2bVUMdH5wjHMXE
+ eSazFGMCC583v8cGABT5pnktlf1GR7fzT/lWeQVvOX3PYMfXT19htsoheIBfRB+Q6vZg
+ XOQCxIWVex+U2SrCh+9f4a+KjIGH408zT+baBn1V+e9ykitfY8EfQgmbWUdFxLf4isxV
+ NQZ6+AtKU87wZ1xFKIw0DTcbP3TalAqPL5FJZLfaA5h928tL+o4RIKve1xG7eXB/IzVq
+ kN6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TWYIA+ZPja/ASXfObfSVoW3kDH0rTYrrqx2UWkBH5EA=;
- b=qoDqpyIW9WZ7xZTfiwLbSgVA+NHqdMY6T9FbRrFKeir7bdoGSTPIAPWEpLb/fNcun3
- 2QfQU8EXeoZkip0D73TNBoCHZ9THduKDAkDabHTbToV/gARgKsGMakFLbefJzwKcIU0q
- 4xmyhkqgHyZpH9781lo5cyBXnks+P8aHt1DLjdNMbGzzFvoLMRWVAAIg6Zxw5RsYOHUe
- FoBluVbZcxzfmqf7hN3dygvstRzq9TmsX5WhkrCy9qrm7PipITNuLJR3No5IPkN3wvXD
- GvGkp+Qx2nIkqFUp+L0Ts6dBHNfNkNyVB6zFQP8wea2xyOHbOGu+OdbOl0kghCpYXBYl
- SUsQ==
-X-Gm-Message-State: AOAM533Sti/EO6eIh5tIi1o9PpXmJ2qzOv/OG4RIjJls+u+JrqV7rznO
- wTFxBGgNPtSyNx5nwY6uPp9rK9JTHRZTzw==
-X-Google-Smtp-Source: ABdhPJzA0Od41ykrSkfpSOlnA9c3wM6PcJg+TyR7rj4fEyIykv/Spa2BuALvnD6k7pSxUwTmnrEqEw==
-X-Received: by 2002:a17:902:d2c5:b0:158:f839:4d8a with SMTP id
- n5-20020a170902d2c500b00158f8394d8amr40761plc.108.1650554287444; 
- Thu, 21 Apr 2022 08:18:07 -0700 (PDT)
+ bh=SgYdfKBOpD63fxeycIxvZRPC0aBEIFbrxFD/qGb/1iw=;
+ b=NGufuYAawYX0jbrT7obIU5+HaWa7fMxXExfDSjtbVNDEgqGyiVCyoZ+/UUZk75LeGP
+ pSGIs/KJzS9utOg4F/o3VooHRsrAC9YP+eUhfplLKis+xdmG7dXuw7BiJCpmhdccizAr
+ rdyjP89TFLiHeq+BOvrZywqEGMJsXIsws92alpru/d6XyHQX0BDRPTLaZogL7JkMOosF
+ b7KaQBup7CKINRPuE4NgLm6VRQuEpl8MRcnVcgn8+4XSBpRUymMoUwksgUvfBQ3xG9p5
+ xnfVKenu71xl+OBRP+rB3LhPTQw7HNuv6nz30N8LBMF42nBGOl/iavimd0Wqy2IDSmOz
+ HOWQ==
+X-Gm-Message-State: AOAM533dKLz2trvFeutQfEEXqyd3EepmeU7OfUSByqZ/7MQl7gtNJBYY
+ YHOblIPLq9Eh0Mxn9RoqQZTt2/YgJP6FOA==
+X-Google-Smtp-Source: ABdhPJyZOAPItrMKicRw1oPCAtA9n2QYBDNOCUgs0cPxSV6FHvLVPJvgR3kMVmJVse1c0T9uYW+ldQ==
+X-Received: by 2002:a05:6a00:1a11:b0:50a:6c17:11d2 with SMTP id
+ g17-20020a056a001a1100b0050a6c1711d2mr121834pfv.69.1650554290251; 
+ Thu, 21 Apr 2022 08:18:10 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:80c8:6cf3:a91a:4957:ba18:ac18])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a056a00241000b004f3a647ae89sm24616248pfh.174.2022.04.21.08.18.06
+ z16-20020a056a00241000b004f3a647ae89sm24616248pfh.174.2022.04.21.08.18.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 08:18:07 -0700 (PDT)
+ Thu, 21 Apr 2022 08:18:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 19/64] target/nios2: Do not create TCGv for control
- registers
-Date: Thu, 21 Apr 2022 08:16:50 -0700
-Message-Id: <20220421151735.31996-20-richard.henderson@linaro.org>
+Subject: [PATCH v7 21/64] target/nios2: Remove cpu_interrupts_enabled
+Date: Thu, 21 Apr 2022 08:16:52 -0700
+Message-Id: <20220421151735.31996-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220421151735.31996-1-richard.henderson@linaro.org>
 References: <20220421151735.31996-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,103 +88,31 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need to reference them often, and when we do it
-is just as easy to load/store from cpu_env directly.
+This function is unused.  The real computation of this value
+is located in nios2_cpu_exec_interrupt.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 33 ++++++++++++++++++++++++++-------
- 1 file changed, 26 insertions(+), 7 deletions(-)
+ target/nios2/cpu.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 3694f2503b..6c739bfa5e 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -103,7 +103,7 @@ typedef struct DisasContext {
-     int               mem_idx;
- } DisasContext;
- 
--static TCGv cpu_R[NUM_CORE_REGS];
-+static TCGv cpu_R[NUM_GP_REGS];
- static TCGv cpu_pc;
- 
- typedef struct Nios2Instruction {
-@@ -394,7 +394,11 @@ static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
- #ifdef CONFIG_USER_ONLY
-     g_assert_not_reached();
- #else
--    gen_helper_eret(cpu_env, cpu_R[CR_ESTATUS], cpu_R[R_EA]);
-+    TCGv tmp = tcg_temp_new();
-+    tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPUNios2State, regs[CR_ESTATUS]));
-+    gen_helper_eret(cpu_env, tmp, cpu_R[R_EA]);
-+    tcg_temp_free(tmp);
-+
-     dc->base.is_jmp = DISAS_NORETURN;
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index dbd9d1b587..413e195187 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -222,11 +222,6 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         bool probe, uintptr_t retaddr);
  #endif
- }
-@@ -420,7 +424,11 @@ static void bret(DisasContext *dc, uint32_t code, uint32_t flags)
- #ifdef CONFIG_USER_ONLY
-     g_assert_not_reached();
- #else
--    gen_helper_eret(cpu_env, cpu_R[CR_BSTATUS], cpu_R[R_BA]);
-+    TCGv tmp = tcg_temp_new();
-+    tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPUNios2State, regs[CR_BSTATUS]));
-+    gen_helper_eret(cpu_env, tmp, cpu_R[R_BA]);
-+    tcg_temp_free(tmp);
-+
-     dc->base.is_jmp = DISAS_NORETURN;
- #endif
- }
-@@ -463,6 +471,7 @@ static void callr(DisasContext *dc, uint32_t code, uint32_t flags)
- static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     R_TYPE(instr, code);
-+    TCGv t1, t2;
  
-     if (!gen_check_supervisor(dc)) {
-         return;
-@@ -482,10 +491,19 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
-          * must perform the AND here, and anywhere else we need the
-          * guest value of ipending.
-          */
--        tcg_gen_and_tl(cpu_R[instr.c], cpu_R[CR_IPENDING], cpu_R[CR_IENABLE]);
-+        t1 = tcg_temp_new();
-+        t2 = tcg_temp_new();
-+        tcg_gen_ld_tl(t1, cpu_env,
-+                      offsetof(CPUNios2State, regs[CR_IPENDING]));
-+        tcg_gen_ld_tl(t2, cpu_env,
-+                      offsetof(CPUNios2State, regs[CR_IENABLE]));
-+        tcg_gen_and_tl(cpu_R[instr.c], t1, t2);
-+        tcg_temp_free(t1);
-+        tcg_temp_free(t2);
-         break;
-     default:
--        tcg_gen_mov_tl(cpu_R[instr.c], cpu_R[instr.imm5 + CR_BASE]);
-+        tcg_gen_ld_tl(cpu_R[instr.c], cpu_env,
-+                      offsetof(CPUNios2State, regs[instr.imm5 + CR_BASE]));
-         break;
-     }
- }
-@@ -522,7 +540,8 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
-         dc->base.is_jmp = DISAS_UPDATE;
-         /* fall through */
-     default:
--        tcg_gen_mov_tl(cpu_R[instr.imm5 + CR_BASE], v);
-+        tcg_gen_st_tl(v, cpu_env,
-+                      offsetof(CPUNios2State, regs[instr.imm5 + CR_BASE]));
-         break;
-     }
- #endif
-@@ -910,7 +929,7 @@ void nios2_tcg_init(void)
- {
-     int i;
+-static inline int cpu_interrupts_enabled(CPUNios2State *env)
+-{
+-    return env->regs[CR_STATUS] & CR_STATUS_PIE;
+-}
+-
+ typedef CPUNios2State CPUArchState;
+ typedef Nios2CPU ArchCPU;
  
--    for (i = 0; i < NUM_CORE_REGS; i++) {
-+    for (i = 0; i < NUM_GP_REGS; i++) {
-         cpu_R[i] = tcg_global_mem_new(cpu_env,
-                                       offsetof(CPUNios2State, regs[i]),
-                                       regnames[i]);
 -- 
 2.34.1
 
