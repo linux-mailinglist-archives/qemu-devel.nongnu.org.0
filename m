@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1891F50A2B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:37:44 +0200 (CEST)
-Received: from localhost ([::1]:50816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C571050A2CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:40:00 +0200 (CEST)
+Received: from localhost ([::1]:58860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhXwF-0003Vp-5a
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46434)
+	id 1nhXyR-0000Y9-TC
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhXqQ-0002Zp-DS
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 10:31:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26357)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhXqS-0002jq-JI
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 10:31:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhXqN-0004KT-K7
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 10:31:41 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhXqP-0004Kx-4s
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 10:31:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650551498;
+ s=mimecast20190719; t=1650551500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ji3xe9u4KJDmULF5Mf/ekH2tXe8iVfpRG1vjaxzVTFw=;
- b=ccV1/1U3/0xQ7xafAsn6XADtjvn7W5rXjPPUjXlGUKu0EQR+c+RzsK4Skcy0dPVO5AQWae
- MZTlQSX9k+ClQvDlmj5QwYJPtCEmlMVO5oRkiXVikn4YY2MO3HlpJjYVq5r99kLflgnVcv
- v+hS430IOQprhiLjo27sh7By7jIPlzE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=21/uvnIQ4OdM8mEY2QgS4QmgQgsadSmhW3DxDkPKdEA=;
+ b=F8y3UQVBeH0xjbPqniQw12ue2PLLYpYlLoLsrZco0/8MsSCmHoiVao19Y5zSRrlLOFoV2U
+ c2hNnSEPzGY7i/TMpM5ftdxzHhMgTUqu65u2I2m2EDuY3xVtb2yRiK7HQMneQLvutUVn6M
+ jqFkBW8d9jFykXgx7B2E+PysM3XfqpQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-12-S16MmNLXMiSoLSJNvOO0XQ-1; Thu, 21 Apr 2022 10:31:37 -0400
-X-MC-Unique: S16MmNLXMiSoLSJNvOO0XQ-1
+ us-mta-513-U3SK-wkHNUSr0hTDGKjZEw-1; Thu, 21 Apr 2022 10:31:37 -0400
+X-MC-Unique: U3SK-wkHNUSr0hTDGKjZEw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE90F3811A37;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E083F86B8A6;
  Thu, 21 Apr 2022 14:31:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD6512026D07;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD9B2200AE73;
  Thu, 21 Apr 2022 14:31:36 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A0D5C21E6A1F; Thu, 21 Apr 2022 16:31:35 +0200 (CEST)
+ id A216121E6A20; Thu, 21 Apr 2022 16:31:35 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] QAPI patches patches for 2022-04-21
-Date: Thu, 21 Apr 2022 16:31:28 +0200
-Message-Id: <20220421143135.1491256-1-armbru@redhat.com>
+Subject: [PULL 1/7] qapi-schema: support alternates with array type
+Date: Thu, 21 Apr 2022 16:31:29 +0200
+Message-Id: <20220421143135.1491256-2-armbru@redhat.com>
+In-Reply-To: <20220421143135.1491256-1-armbru@redhat.com>
+References: <20220421143135.1491256-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -72,60 +75,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9c125d17e9402c232c46610802e5931b3639d77b:
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-  Merge tag 'pull-tcg-20220420' of https://gitlab.com/rth7680/qemu into staging (2022-04-20 16:43:11 -0700)
+Detect array types as alternate branches, and turn the JSON list into
+a QAPISchemaArrayType.  Array types in an alternate are represented with
+QTYPE_QLIST in the type field.
 
-are available in the Git repository at:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220321164243.200569-2-pbonzini@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/qapi/expr.py                   |  2 +-
+ scripts/qapi/schema.py                 |  4 ++++
+ tests/qapi-schema/alternate-array.err  |  2 --
+ tests/qapi-schema/alternate-array.json |  2 --
+ tests/qapi-schema/alternate-array.out  | 18 ++++++++++++++++++
+ 5 files changed, 23 insertions(+), 5 deletions(-)
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-04-21
-
-for you to fetch changes up to de7371bc7c39ccacb963acb5129b261087967070:
-
-  qapi: Fix version of cpu0-id field (2022-04-21 10:23:06 +0200)
-
-----------------------------------------------------------------
-QAPI patches patches for 2022-04-21
-
-----------------------------------------------------------------
-Andrea Bolognani (3):
-      docs: qapi: Remove outdated reference to simple unions
-      qapi: Fix documentation for query-xen-replication-status
-      qapi: Fix typo
-
-Dov Murik (1):
-      qapi: Fix version of cpu0-id field
-
-Paolo Bonzini (3):
-      qapi-schema: support alternates with array type
-      qapi-schema: test: add a qapi-schema-test for array alternates
-      qapi-schema: test: add a unit test for parsing array alternates
-
- docs/devel/qapi-code-gen.rst                    |  4 +--
- qapi/migration.json                             |  2 +-
- qapi/misc-target.json                           |  2 +-
- qapi/sockets.json                               |  2 +-
- tests/unit/test-qobject-input-visitor.c         | 40 +++++++++++++++++++++++++
- scripts/qapi/expr.py                            |  2 +-
- scripts/qapi/schema.py                          |  4 +++
- tests/qapi-schema/alternate-array.err           |  2 --
- tests/qapi-schema/alternate-array.json          |  2 --
- tests/qapi-schema/alternate-array.out           | 18 +++++++++++
- tests/qapi-schema/alternate-conflict-lists.err  |  2 ++
- tests/qapi-schema/alternate-conflict-lists.json |  6 ++++
- tests/qapi-schema/alternate-conflict-lists.out  |  0
- tests/qapi-schema/meson.build                   |  1 +
- tests/qapi-schema/qapi-schema-test.json         |  1 +
- tests/qapi-schema/qapi-schema-test.out          |  4 +++
- 16 files changed, 82 insertions(+), 10 deletions(-)
- create mode 100644 tests/qapi-schema/alternate-conflict-lists.err
- create mode 100644 tests/qapi-schema/alternate-conflict-lists.json
- create mode 100644 tests/qapi-schema/alternate-conflict-lists.out
-
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 3cb389e875..48578e1698 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -554,7 +554,7 @@ def check_alternate(expr: _JSONObject, info: QAPISourceInfo) -> None:
+         check_name_lower(key, info, source)
+         check_keys(value, info, source, ['type'], ['if'])
+         check_if(value, info, source)
+-        check_type(value['type'], info, source)
++        check_type(value['type'], info, source, allow_array=True)
+ 
+ 
+ def check_command(expr: _JSONObject, info: QAPISourceInfo) -> None:
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index b7b3fc0ce4..3728340c37 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -243,6 +243,7 @@ def alternate_qtype(self):
+             'number':  'QTYPE_QNUM',
+             'int':     'QTYPE_QNUM',
+             'boolean': 'QTYPE_QBOOL',
++            'array':   'QTYPE_QLIST',
+             'object':  'QTYPE_QDICT'
+         }
+         return json2qtype.get(self.json_type())
+@@ -1069,6 +1070,9 @@ def _def_struct_type(self, expr, info, doc):
+             None))
+ 
+     def _make_variant(self, case, typ, ifcond, info):
++        if isinstance(typ, list):
++            assert len(typ) == 1
++            typ = self._make_array_type(typ[0], info)
+         return QAPISchemaVariant(case, info, typ, ifcond)
+ 
+     def _def_union_type(self, expr, info, doc):
+diff --git a/tests/qapi-schema/alternate-array.err b/tests/qapi-schema/alternate-array.err
+index b1aa1f4e8d..e69de29bb2 100644
+--- a/tests/qapi-schema/alternate-array.err
++++ b/tests/qapi-schema/alternate-array.err
+@@ -1,2 +0,0 @@
+-alternate-array.json: In alternate 'Alt':
+-alternate-array.json:5: 'data' member 'two' cannot be an array
+diff --git a/tests/qapi-schema/alternate-array.json b/tests/qapi-schema/alternate-array.json
+index f241aac122..b878a2db77 100644
+--- a/tests/qapi-schema/alternate-array.json
++++ b/tests/qapi-schema/alternate-array.json
+@@ -1,5 +1,3 @@
+-# we do not allow array branches in alternates
+-# TODO: should we support this?
+ { 'struct': 'One',
+   'data': { 'name': 'str' } }
+ { 'alternate': 'Alt',
+diff --git a/tests/qapi-schema/alternate-array.out b/tests/qapi-schema/alternate-array.out
+index e69de29bb2..a657d85738 100644
+--- a/tests/qapi-schema/alternate-array.out
++++ b/tests/qapi-schema/alternate-array.out
+@@ -0,0 +1,18 @@
++module ./builtin
++object q_empty
++enum QType
++    prefix QTYPE
++    member none
++    member qnull
++    member qnum
++    member qstring
++    member qdict
++    member qlist
++    member qbool
++module alternate-array.json
++object One
++    member name: str optional=False
++alternate Alt
++    tag type
++    case one: One
++    case two: intList
 -- 
 2.35.1
 
