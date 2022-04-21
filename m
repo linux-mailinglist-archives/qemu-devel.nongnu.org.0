@@ -2,64 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA9F50A0F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 15:37:48 +0200 (CEST)
-Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F9B50A0FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 15:40:03 +0200 (CEST)
+Received: from localhost ([::1]:41380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhX0F-0007Hw-Cw
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 09:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33248)
+	id 1nhX2Q-0001cI-G4
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 09:40:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhWyX-0005jL-Ar
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:36:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23771)
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>) id 1nhWzK-0006TF-W2
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:36:52 -0400
+Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhWyV-0003YM-Pm
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:36:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650548158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UWjYQbMgN6o/XuX9ZbixAYZpC2JZx7qbt9X+Pebz59o=;
- b=hxy+bnX2lrOAlL4CIbSo5WvsvNZoJuooaVyBtGxqCz3A7HL7b38A3/m9/0du//w6ZFTNoV
- 6leK78Iigq/6+qtV1PMcs6JcFAaSO3iPAkou5sIg95jPXR3sokKN7Fz1BKibGcWecMPdB+
- 4RJJkGK4OklXzQUmWBqkajDMGprMPWg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-443-OWZ8epk3NnaI_YwlVgl8hg-1; Thu, 21 Apr 2022 09:35:54 -0400
-X-MC-Unique: OWZ8epk3NnaI_YwlVgl8hg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B384A1C04B71;
- Thu, 21 Apr 2022 13:35:53 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C10E940CFD22;
- Thu, 21 Apr 2022 13:35:52 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qga: use fixed-length and GDateTime for log timestamp
-Date: Thu, 21 Apr 2022 17:35:49 +0400
-Message-Id: <20220421133549.2876244-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>) id 1nhWzH-0003es-Q8
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:36:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1650548168; 
+ s=zoho; d=euphon.net; i=fam@euphon.net;
+ h=Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=qpSlRyrQD52yM3UwwXE79qJuMf9p+4O//LfhPpnFTPk=;
+ b=LCQOjI29QIrYSo5l3uTD0YQnh/3NG3vbPUSGi9jtFoiQzQkB1CGjT62Emayh8lUL
+ SnHWfnLRsryCh61OToVUqO/FlRp/B2mLSaJqvDc7D7/AmhTmOKozg6cghO1t/5lvIUM
+ zuMWUGG70W5QF4MSli5KGvDanp0Q+YKC6tJQk4sc=
+Received: from localhost (91.110.139.125 [91.110.139.125]) by mx.zoho.com.cn
+ with SMTPS id 1650548166815944.1736398875925;
+ Thu, 21 Apr 2022 21:36:06 +0800 (CST)
+Date: Thu, 21 Apr 2022 14:36:00 +0100
+From: Fam Zheng <fam@euphon.net>
+To: Sam Li <faithilikerun@gmail.com>
+Subject: Re: [PATCH v3] Use io_uring_register_ring_fd() to skip fd operations
+Message-ID: <20220421133600.GB1500162@fam-dell>
+References: <20220418233331.7528-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220418233331.7528-1-faithilikerun@gmail.com>
+X-ZohoCNMailClient: External
+Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
+ helo=sender2-op-o12.zoho.com.cn
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,46 +59,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- berrange@redhat.com, armbru@redhat.com, Michael Roth <michael.roth@amd.com>
+Cc: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Damien Le Moal <Damien.LeMoal@wdc.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 2022-04-19 07:33, Sam Li wrote:
+> Linux recently added a new io_uring(7) optimization API that QEMU
+> doesn't take advantage of yet. The liburing library that QEMU uses
+> has added a corresponding new API calling io_uring_register_ring_fd().
+> When this API is called after creating the ring, the io_uring_submit()
+> library function passes a flag to the io_uring_enter(2) syscall
+> allowing it to skip the ring file descriptor fdget()/fdput()
+> operations. This saves some CPU cycles.
+> 
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> ---
+>  block/io_uring.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/io_uring.c b/block/io_uring.c
+> index 782afdb433..51f4834b69 100644
+> --- a/block/io_uring.c
+> +++ b/block/io_uring.c
+> @@ -435,8 +435,16 @@ LuringState *luring_init(Error **errp)
+>      }
+>  
+>      ioq_init(&s->io_q);
+> -    return s;
+> +    if (io_uring_register_ring_fd(&s->ring) < 0) {
+> +        /*
+> +         * Only warn about this error: we will fallback to the non-optimized
+> +         * io_uring operations.
+> +         */
+> +        error_setg_errno(errp, errno,
+> +                         "failed to register linux io_uring ring file descriptor");
+> +    }
+>  
+> +    return s;
 
-The old code is kind of wrong. Say it's 1649309843.000001 seconds past
-the epoch. Prints "1649309843.1". 9us later, it prints "1649309843.10".
-Should really use %06lu for the microseconds part.
+As a general convention, I don't think the errp is going to get proper handling
+by the callers, if non-NULL is returned like here. IOW a matching error_free is
+never called and this is memory leak?
 
-Use GDateTime instead, as suggested by Daniel.
+I guess error_report is better?
 
-Suggested-by: Markus Armbruster <armbru@redhat.com>
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- qga/main.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Fam
 
-diff --git a/qga/main.c b/qga/main.c
-index 3c20bf1fbfe0..3b9546c18584 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -328,11 +328,9 @@ static void ga_log(const gchar *domain, GLogLevelFlags level,
- #else
-     if (level & s->log_level) {
- #endif
--        gint64 t = g_get_real_time();
--        fprintf(s->log_file,
--                "%" G_GINT64_FORMAT ".%" G_GINT64_FORMAT
--                ": %s: %s\n", t / G_USEC_PER_SEC, t % G_USEC_PER_SEC,
--                level_str, msg);
-+        g_autoptr(GDateTime) now = g_date_time_new_now_utc();
-+        g_autofree char *nowstr = g_date_time_format(now, "%s.%f");
-+        fprintf(s->log_file, "%s: %s: %s\n", nowstr, level_str, msg);
-         fflush(s->log_file);
-     }
- }
--- 
-2.35.1.693.g805e0a68082a
-
+>  }
+>  
+>  void luring_cleanup(LuringState *s)
+> -- 
+> 2.35.1
+> 
+> 
 
