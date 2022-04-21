@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16784509F24
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 13:57:55 +0200 (CEST)
-Received: from localhost ([::1]:49296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C650A509F39
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 14:02:16 +0200 (CEST)
+Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhVRa-0001CO-6w
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 07:57:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59714)
+	id 1nhVVn-0008SI-Rh
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 08:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUqW-0003NF-4a
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:36 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45940)
+ id 1nhUqX-0003NT-7S
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:37 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhUqR-0003Yf-QD
+ id 1nhUqR-0003ZF-QB
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 07:19:35 -0400
-Received: by mail-wr1-x430.google.com with SMTP id w4so6176572wrg.12
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:19:18 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id b19so6177557wrh.11
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 04:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=1vQQmnvrDnu1486ihClizISxJdbac6HgCRxcsBLC0jQ=;
- b=ses9ETiUbAm0kzmUJWLRZdA9dCCpjd848fLEzR6NyJ6Z0dJFazIaAr3VggB+0JUzC8
- cawe4ULRfCuzZ2pk1Wm/L7sbKJaaUCDJ/SqtgbcI6B6t3bqfcgIeLogWUdYCqZSzLEsh
- Wmln/ckjtbQB7W72EDHipCY4ew/RxcLKtz2BPHfRTHgGAf8LuEFRSKI+dmsp09tKD/vP
- 9x8t/0DB16I/8+vKdJLx6NuvgxZvCynrjxRO8zJpiOiTdHp8IMMbypQeozQ7W7PzXVF1
- s/F+YM0BcnJSCq66DD4YUJ7K2kDyMhLSVBCRBhJDosBop/PlWrI/Qn6QArLj9UuuxLS9
- fvuA==
+ bh=VUeeNu4fbGv2sc/gKkaaAIAzl6d3eREzjCssGM3/Sx0=;
+ b=LLRSaHt2MTUvjCW0k5r/i0vM56a2nM8UmXvsN1nlemxtwLbmsTt5LiiiNpsTJSmMGB
+ g7rhw9goVmWM9PtBHaZY9fpExD0I6SSsybl+RaPpT/DkO8NmU0b9PslPqIzjeORtTCsW
+ qKOWac3VpdhgSeqtcR2FpVsEtY8akNihOl0INLSEOnbPgPCByCuu+YJUuktOXRwb5YpP
+ +2pnj3+yfU5X8RgpB3VPEf6gJaHbiCCiaJ4BE0sPWy3ipVRzP90kvcIEtZKYhtDh4z+b
+ ycrZXgQRyN7EzPhHn76wFa1Y3ATVkIYD1Ds4/M0gTgWQdufGnbTI5tZsv9PB8Td6fKqg
+ HYvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1vQQmnvrDnu1486ihClizISxJdbac6HgCRxcsBLC0jQ=;
- b=KFLL4+2rIj5wCGNlhIXyryj4giH/tzd4L4ndq1k36RN/BbM4ll037figDyLnn6uUw4
- /xwsRVQ07gZxRp9AcfYY2wkdsJ9/UjQ62leILjFM6LUN1F98Uan6fTI5bLDsAhLOMd4y
- AdELdHnjeN2Ix0xTr5BS2ja25TitwqqGU41EcjMgR+z5SQ2b67vbpDZ18h0z8VgsFX33
- fyCSJVQyI6rboeESj7jYrmB1wdPE8zPj7HBSwXiZxO5A4B8Dnz1srUEP3mGIF7OC4pyt
- K0bwKKqU44m0fJ8lTOqPeM+RLIEOlkc5/btpJKaAKDd1lG7W2Ow0rpHKA+mdjldLymUP
- H49g==
-X-Gm-Message-State: AOAM533/aHKBvYA/Jd6qM2uM+zMZaRmEIhabsQ7WN6DMGcldEUCYza3q
- 1Mom9ERsMyjI7/jRdoKNefZenwZONomFtw==
-X-Google-Smtp-Source: ABdhPJzXO1zgZXWfw4zUVISFd4LhZJHLsaoL9P7JE82AuIPSx32M3CBJbf3yuIp4rxbaoGUEkbyP+w==
-X-Received: by 2002:a5d:64c7:0:b0:20a:8785:eb43 with SMTP id
- f7-20020a5d64c7000000b0020a8785eb43mr18353638wri.210.1650539957539; 
- Thu, 21 Apr 2022 04:19:17 -0700 (PDT)
+ bh=VUeeNu4fbGv2sc/gKkaaAIAzl6d3eREzjCssGM3/Sx0=;
+ b=beNwGHQwUrWVzlZtnJhL0y6vJUlz5+eVA93t1xN084lQ6DHZXO+N2LfIl+kiZQ2KBG
+ Gzc5n5ktxhHBvG98TWW0ibSFQOf/X8V8jMWYeXtTowkhAAh02WxwbAmBf5RSc2NF0tI0
+ M3uYqd+gv89FNvwCg1hOZas27j6KvqwM2DjRvX9WOiIEJ746ab/Qmx4Ayb7pdvOuLryl
+ Zg6Y7SMggdD7Kcy3M+NO21WfGEIZ9wClDICAeHPwtAs1XUm7Ejihkx81EZuGp9VcZtKl
+ Hk1WnXvsvExXQH1ou8NdRhy96Dm/LwoLqQJNE1pQo7xZqYUYFKjwo0cEapAcbBDHOwGw
+ sB7g==
+X-Gm-Message-State: AOAM531RGeUkQjJGHG/+V92gj1dPWq5g5CMgWy1mekB7lXUYogYpb1SA
+ Av/3OGaW7sSwtxUQkF47RAEtOJ4q6ODx2w==
+X-Google-Smtp-Source: ABdhPJyXHjGFoNcCTci0yMsONOA5W17mzQj0Luuuqn6pyA/BfYAleMCS5dhIAj7MmdUj/7f0JYpwMw==
+X-Received: by 2002:a5d:4a81:0:b0:207:9abe:2908 with SMTP id
+ o1-20020a5d4a81000000b002079abe2908mr18820062wrq.341.1650539959284; 
+ Thu, 21 Apr 2022 04:19:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.19.16
+ e4-20020a5d6d04000000b0020a8bbbb72bsm2597694wrq.97.2022.04.21.04.19.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 04:19:17 -0700 (PDT)
+ Thu, 21 Apr 2022 04:19:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/31] hw/misc: Add PWRON STRAP bit fields in GCR module
-Date: Thu, 21 Apr 2022 12:18:45 +0100
-Message-Id: <20220421111846.2011565-31-peter.maydell@linaro.org>
+Subject: [PULL 31/31] hw/arm: Use bit fields for NPCM7XX PWRON STRAPs
+Date: Thu, 21 Apr 2022 12:18:46 +0100
+Message-Id: <20220421111846.2011565-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421111846.2011565-1-peter.maydell@linaro.org>
 References: <20220421111846.2011565-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,59 +90,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hao Wu <wuhaotsh@google.com>
 
-Similar to the Aspeed code in include/misc/aspeed_scu.h, we define
-the PWRON STRAP fields in their corresponding module for NPCM7XX.
+This patch uses the defined fields to describe PWRON STRAPs for
+better readability.
 
 Signed-off-by: Hao Wu <wuhaotsh@google.com>
 Reviewed-by: Patrick Venture <venture@google.com>
-Message-id: 20220411165842.3912945-2-wuhaotsh@google.com
+Message-id: 20220411165842.3912945-3-wuhaotsh@google.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/misc/npcm7xx_gcr.h | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ hw/arm/npcm7xx_boards.c | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/misc/npcm7xx_gcr.h b/include/hw/misc/npcm7xx_gcr.h
-index 13109d9d324..9419e0a7d2a 100644
---- a/include/hw/misc/npcm7xx_gcr.h
-+++ b/include/hw/misc/npcm7xx_gcr.h
-@@ -19,6 +19,36 @@
- #include "exec/memory.h"
- #include "hw/sysbus.h"
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index 0678a56156f..6bc6f5d2fe2 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -30,11 +30,25 @@
+ #include "sysemu/sysemu.h"
+ #include "sysemu/block-backend.h"
  
-+/*
-+ * NPCM7XX PWRON STRAP bit fields
-+ * 12: SPI0 powered by VSBV3 at 1.8V
-+ * 11: System flash attached to BMC
-+ * 10: BSP alternative pins.
-+ * 9:8: Flash UART command route enabled.
-+ * 7: Security enabled.
-+ * 6: HI-Z state control.
-+ * 5: ECC disabled.
-+ * 4: Reserved
-+ * 3: JTAG2 enabled.
-+ * 2:0: CPU and DRAM clock frequency.
-+ */
-+#define NPCM7XX_PWRON_STRAP_SPI0F18                 BIT(12)
-+#define NPCM7XX_PWRON_STRAP_SFAB                    BIT(11)
-+#define NPCM7XX_PWRON_STRAP_BSPA                    BIT(10)
-+#define NPCM7XX_PWRON_STRAP_FUP(x)                  ((x) << 8)
-+#define     FUP_NORM_UART2      3
-+#define     FUP_PROG_UART3      2
-+#define     FUP_PROG_UART2      1
-+#define     FUP_NORM_UART3      0
-+#define NPCM7XX_PWRON_STRAP_SECEN                   BIT(7)
-+#define NPCM7XX_PWRON_STRAP_HIZ                     BIT(6)
-+#define NPCM7XX_PWRON_STRAP_ECC                     BIT(5)
-+#define NPCM7XX_PWRON_STRAP_RESERVE1                BIT(4)
-+#define NPCM7XX_PWRON_STRAP_J2EN                    BIT(3)
-+#define NPCM7XX_PWRON_STRAP_CKFRQ(x)                (x)
-+#define     CKFRQ_SKIPINIT      0x000
-+#define     CKFRQ_DEFAULT       0x111
+-#define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
+-#define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
+-#define QUANTA_GBS_POWER_ON_STRAPS 0x000017ff
+-#define KUDO_BMC_POWER_ON_STRAPS 0x00001fff
+-#define MORI_BMC_POWER_ON_STRAPS 0x00001fff
++#define NPCM7XX_POWER_ON_STRAPS_DEFAULT (           \
++        NPCM7XX_PWRON_STRAP_SPI0F18 |               \
++        NPCM7XX_PWRON_STRAP_SFAB |                  \
++        NPCM7XX_PWRON_STRAP_BSPA |                  \
++        NPCM7XX_PWRON_STRAP_FUP(FUP_NORM_UART2) |   \
++        NPCM7XX_PWRON_STRAP_SECEN |                 \
++        NPCM7XX_PWRON_STRAP_HIZ |                   \
++        NPCM7XX_PWRON_STRAP_ECC |                   \
++        NPCM7XX_PWRON_STRAP_RESERVE1 |              \
++        NPCM7XX_PWRON_STRAP_J2EN |                  \
++        NPCM7XX_PWRON_STRAP_CKFRQ(CKFRQ_DEFAULT))
 +
- /*
-  * Number of registers in our device state structure. Don't change this without
-  * incrementing the version_id in the vmstate.
++#define NPCM750_EVB_POWER_ON_STRAPS ( \
++        NPCM7XX_POWER_ON_STRAPS_DEFAULT & ~NPCM7XX_PWRON_STRAP_J2EN)
++#define QUANTA_GSJ_POWER_ON_STRAPS NPCM7XX_POWER_ON_STRAPS_DEFAULT
++#define QUANTA_GBS_POWER_ON_STRAPS ( \
++        NPCM7XX_POWER_ON_STRAPS_DEFAULT & ~NPCM7XX_PWRON_STRAP_SFAB)
++#define KUDO_BMC_POWER_ON_STRAPS NPCM7XX_POWER_ON_STRAPS_DEFAULT
++#define MORI_BMC_POWER_ON_STRAPS NPCM7XX_POWER_ON_STRAPS_DEFAULT
+ 
+ static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
+ 
 -- 
 2.25.1
 
