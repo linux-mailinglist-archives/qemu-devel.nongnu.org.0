@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E5A50A5F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:38:38 +0200 (CEST)
-Received: from localhost ([::1]:54474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF5A50A609
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:42:47 +0200 (CEST)
+Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhZpE-0002Fz-H3
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:38:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53418)
+	id 1nhZtG-0008Rt-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhZDM-0003pN-HQ
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:59:28 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:46669)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nhZDW-0004In-0x
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:59:38 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:38415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhZDK-0004QR-VI
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:59:28 -0400
-Received: by mail-pf1-x431.google.com with SMTP id j6so3070335pfe.13
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:59:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nhZDU-0004R3-GG
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:59:37 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-2ec0bb4b715so57054957b3.5
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5EAA4xnIStuiQPjfPf7pAQ3nfvqw4Z1dm9ea87z3Ux0=;
- b=lWoGsaS27agKDoIxcdPnZXUeD89yn/unjmt7vP+HhFeHoDB6VOe8VNkEA+TnMrN5KD
- PvCSRv77zYPxu2SdtrH+Vuxe2vcPk7RHFmPMJi1eLO1KLPfG5XEzIVU2hRhtyjtiEf8Y
- Va3Y3oy3//K8TKSoQhMIPuFXAZQPAmw7sPPHO4ktfjw9npq9YSbj6RnhKA4i2AaWQvct
- PJmHGqaNRULvYV0NFA/CniZDGkZ2eAkzLZ+Q8n8BGyoaj6Y79cTe29BoQwS+qiVczuOn
- pk2EOh8xOXvyUe8S+eRBr6VPh8Pl2Vo7x2hS3SruXz/on4Ku/Xi0NxgZZqWuP/NTlxhV
- rCJw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jOia8zemf6ZmddLEtvFAFJRTZs5cR2bKGSrUiL+pjaQ=;
+ b=WrAu8Hq3ckSc0wKV9Wx8znacEmDGWPH53SoedrfYn08OMD1vk/P1Zf6Dvb11FlGbCv
+ fiF8u0QEyO/2Wi3nxPxr/GFf45b6/6ZvEIlgHUh2PpgajXVA4bHAfXxV3QI7K6KxdWZM
+ uJznJH+Gc1gAOFCCxZDVksMMLp6pMY0igmt7CuSed+O4onGbzFa6nJ4TinsFyaKalo8w
+ YuxYSKXf4Pe+zbShesVy9dPd1TTZbXrLe1N8NmqJRm8/SPqjWdPgD7e4SOonVIhamjdx
+ Z6tuTK5Wt44kGL2tloqa4qwoFqm/s9L/GSlEha1RdiFIBWbNA3QVNVCblsiFm3yIxiLV
+ iSbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5EAA4xnIStuiQPjfPf7pAQ3nfvqw4Z1dm9ea87z3Ux0=;
- b=u/vjlfc4//YqseipMv5/bd5w99xvd/3RhrKGJ4msd9EygQKjeBKRVKsoGwzmVl0f8y
- ll76fimx12W7z64vhNZoqESjbBXllU9luDzVZxFCvprh+g6cllLW8yzNTXVvElzTn7MV
- Hphala7mBKuRCMki+QziT7YVSFzDZfvDnaSzkdSrBykvhabFISKUNegZyM3gqtpQ/df6
- QFT5Dbsi6EWi2jyheJTI0Hpo0n5NBwEMOTJRvtF+srMMzyb02imtBc70XLJAM5wjYkKa
- Dky+N9FRestw3cKJnPnvh4CmNAW7ZkvrwZQn48FCJkTu992FuFNEmCTHSzLQ0FgV/y9l
- AAZQ==
-X-Gm-Message-State: AOAM531haJoV5g9uYxa1YkdHQfgafQFnfHgopqhR2z+n1Azb+5BBfFqj
- JslgYEyeMMa9P36E/SVeb7HVTw==
-X-Google-Smtp-Source: ABdhPJwzTFIoOCArGCxf2i8WbXSuTdrStaPmzwGgo/2EOkkNPAx6aW75bymVBpdkZajtsYWiYEu13A==
-X-Received: by 2002:a63:fb56:0:b0:3aa:cec:6b6f with SMTP id
- w22-20020a63fb56000000b003aa0cec6b6fmr87231pgj.409.1650556765504; 
- Thu, 21 Apr 2022 08:59:25 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:80c8:6cf3:a91a:4957:ba18:ac18?
- ([2607:fb90:80c8:6cf3:a91a:4957:ba18:ac18])
- by smtp.gmail.com with ESMTPSA id
- d15-20020a630e0f000000b003a408836badsm17943635pgl.45.2022.04.21.08.59.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Apr 2022 08:59:24 -0700 (PDT)
-Message-ID: <e256a05b-c4f5-261f-441e-05d2919b9492@linaro.org>
-Date: Thu, 21 Apr 2022 08:59:21 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jOia8zemf6ZmddLEtvFAFJRTZs5cR2bKGSrUiL+pjaQ=;
+ b=ESk1o0cGWxUMRpUkRkI0Bx6kkISqST0PIVR6pySCdQN5VK5kgF7Um75JOQRIdajYOY
+ KC7VzGGVUnR2zEZQ8Ve5dP+7PYSJin5gCu4mU2VlijemUZMF02cNBMXjF41jEYARh78z
+ 963zbHwDWiVrM7JRtZ89L4u/NTHqwQGvEU2AyCUPZhHJhsLvAht7/hfj3D9lc95K9UjI
+ CKzgfJJJvQ0iYvepp7Iece1a3IlW1BjY8wJfj1OliTPz1jFixFA1nzF8h2o2Rp4cw04O
+ roTjBG7XPulZi9FsYKGZUr9jC+ZHmbM0lPj4Iw0w48BPb4zGspgS7t42zg4KBG6PF2li
+ uWqQ==
+X-Gm-Message-State: AOAM531VAb9KXJui+sMxyp4Id2zfXy5AzPA1P9zZ/PnwdlQ4vXgLL6jO
+ QJcZLTbWx175QnH6z0aP/6Tox1eQLyDEo19F6B8aCw==
+X-Google-Smtp-Source: ABdhPJwlRduVuJ1u5V/dWrj+hQvMnkQaKBkNjpm670q2W+5468TnRQCuDzXHLZkLXzMl3fZbXl9W00srtkqCL1kZxJI=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr326019ywb.257.1650556775547; Thu, 21 Apr
+ 2022 08:59:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v1 25/43] target/loongarch: Add LoongArch CSR instruction
-Content-Language: en-US
-To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220415094058.3584233-1-yangxiaojuan@loongson.cn>
- <20220415094058.3584233-26-yangxiaojuan@loongson.cn>
- <3409287c-ac98-2087-3d00-1bd23c1a00da@linaro.org>
- <8193af0c-4ba3-3154-45a5-de8fefa0ddad@loongson.cn>
- <a9c3e36b-4c94-a9d3-52d7-a88bc4734db9@linaro.org>
- <84439ddd-c701-4750-3113-1a1ab15740b6@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <84439ddd-c701-4750-3113-1a1ab15740b6@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+References: <20220331115312.30018-1-damien.hedde@greensocs.com>
+ <20220331115312.30018-2-damien.hedde@greensocs.com>
+In-Reply-To: <20220331115312.30018-2-damien.hedde@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 21 Apr 2022 16:59:24 +0100
+Message-ID: <CAFEAcA9HsoVnKb1iRXMtYphxUt3Zg9G8p4=zrjv-Z=ekpseH_g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] qdev: add user_creatable_requires_machine_allowance
+ class flag
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,31 +80,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/22 02:15, yangxiaojuan wrote:
-> 
-> On 2022/4/20 上午1:05, Richard Henderson wrote:
->> You'd use a store, just like you were already doing in trans_csrwr.
->>
->> But here's how I'd improve this.  For avoidance of doubt, all of this would go in 
->> trans_priviledged.c.inc -- there's no use of csr_offsets[] outside of that file.
-> 
-> Thanks you very much,  I had tested this with bios,  it worked well, and I have two 
-> questions.
-> 
-> 1. CSRFL_IO,   how to use it.   I don't understand  CPUState options 'can_do_Io',
+On Thu, 31 Mar 2022 at 13:19, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>
+> This flag will be used in device_add to check if
+> the device needs special allowance from the machine
+> model.
+>
+> It will replace the current check based only on the
+> device being a TYPE_SYB_BUS_DEVICE.
+>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+>
+> v2:
+>  + change the flag name and put it just below user_creatable
+> ---
+>  include/hw/qdev-core.h | 9 +++++++++
+>  hw/core/qdev.c         | 1 +
+>  hw/core/sysbus.c       | 1 +
+>  3 files changed, 11 insertions(+)
+>
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index 92c3d65208..6a040fcd3b 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -122,6 +122,15 @@ struct DeviceClass {
+>       * TODO remove once we're there
+>       */
+>      bool user_creatable;
+> +    /*
+> +     * Some devices can be user created under certain conditions (eg:
+> +     * specific machine support for sysbus devices), but it is
+> +     * preferable to prevent global allowance for the reasons
+> +     * described above.
+> +     * This flag is an additional constraint over user_creatable:
+> +     * user_creatable still needs to be set to true.
+> +     */
+> +    bool user_creatable_requires_machine_allowance;
 
-Whenever a cpu touches a device, like a timer or clock, must have io flag set.  Missing 
-this flag should result in assertion failures when running with -icount.
+"allowance" doesn't have the meaning you seem to be trying to give it here.
+(It means "the amount of something you're allowed to have", like
+a baggage allowance, or "an amount of money you're given for something",
+like a travel allowance.)
 
-> 2./* fall through */,   this may have warning,  should we care about this?
+Do you mean "user creatable only if the machine permits it" ?
 
-It should not have a warning, as the comment itself should suppress that.  For more 
-complex cases we also have QEMU_FALLTHROUGH.
+More generally, the pluggable-sysbus stuff is an awful hack
+that I wish we didn't have to have. I'm not sure I want to see
+us expanding the use of it to other device types...
 
-
-r~
+thanks
+-- PMM
 
