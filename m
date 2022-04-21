@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A3D5098EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:20:58 +0200 (CEST)
-Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2FD50996E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:43:20 +0200 (CEST)
+Received: from localhost ([::1]:36060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhR7Z-00060l-1k
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:20:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53920)
+	id 1nhRTD-0004EJ-ED
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:43:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=10363b772=alistair.francis@opensource.wdc.com>)
- id 1nhQRx-0005Zb-F0
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:37:57 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13363)
+ id 1nhQS0-0005dZ-D0
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:38:00 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=10363b772=alistair.francis@opensource.wdc.com>)
- id 1nhQRv-0007yk-2A
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:37:57 -0400
+ id 1nhQRy-0007zd-Mc
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:38:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1650523074; x=1682059074;
+ t=1650523078; x=1682059078;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=YWQm8OJGwY9DyLYO16rmNKLkbJlmv5Jq1hk2A+TppXg=;
- b=Kvd9JmsDdgj47s/uUc8MIGvddUgew16KLm0UnrandUitUO8Wd5RlxgxV
- XjlQzLhHLeVDSyxDgUDB2SWKCvp4MljLFbezuaRPevc2h2ulA0+1PvrL7
- LRQdZtEgDxBscYrSYdOLJ9dNmWRHI9Mnw/6ntVUDNpo4OxzghkAhAiN9a
- dURKdN6XNnGoF5hygJR86TyJqy1ztkZFrF1IMMwjVFp1l1y3h7THdYgQx
- fBxuQ+eSjYBys4HxTurLhJIpoplyJ+vGM64A9GXDwqPNQEt+p9iCiAMCA
- qc9jOXou7gp3KAorYXH+ZXwCkHAVKbgARRXJJhmusLxTC7mUjwY6Yy5iO A==;
-X-IronPort-AV: E=Sophos;i="5.90,278,1643644800"; d="scan'208";a="302639996"
+ bh=Asrx2POXRJ0pZuD/WMHlGXXuWvs40U2nwecwTv2Oge4=;
+ b=N1VViHK3ZNkyNCSWIuThPqL4yl2Nj5brnpJP3JZ4ZB2JRnjUB8jvSAwR
+ tpkA+DqqbELNwgNgBKT7IQ3mG5vvvDX7fJppE5bFBstIsIgh3emPGkybA
+ CFsBw+qV5LA11GV1X7Isn+woxF4sq4814b7wOADARSwKCE3fPVqtkLVDz
+ auxjdhM4XgESp7GUbgIQ8pVs2KKDfy+2OJSZBmmUJye/jxgVES78Qa+6k
+ WwK1d8+qCwZ6l9hur7MCrHvbkx8VyWgBohYVXkJJHHlbaSw8AKTjfwEtY
+ AFMna1v+KajnV0rxSLNl8ek2BTf5waQihFvMx6MKXlL5eKeSPEkJ2fNS2 A==;
+X-IronPort-AV: E=Sophos;i="5.90,278,1643644800"; d="scan'208";a="302640000"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Apr 2022 14:37:39 +0800
-IronPort-SDR: CTuYuSa0/3iO17CroMjhRgknGQNf5jNB0NgiwYKTd+VXlyjhIY3Mnrc5hHzFYbJfOh/9gv402K
- rPMwn7cdp8xs87ODCiOoNYdLFXfJsGDIM1QVsaj/opMGBTK+ayItsvApVf+YjrbfoyX4eHkyPO
- eFJYHgECqcGrQnzcDkwHfZ7t9hCFKoGm3o2MuGEsvRNR2PSDPHqX3jpQ37cBfTcBYWZ4BLnbar
- z6OUlDHWi4Pf80BZnnejGiuzwhB4XORZXDaVKm/Gl7oqY+mKe7yx8zKXNHpUnI4hQE8uYzEju/
- JsigAWLfjEQcH491KxBTQpuR
+ by ob1.hgst.iphmx.com with ESMTP; 21 Apr 2022 14:37:42 +0800
+IronPort-SDR: Bquj1N532X7u/Z5BmO8r21s5aqzHG4I9dufA4zXD3cXEZnRCMDAUlambW9FPXUmqxHYzuO+4yV
+ cvPnA5y7BLHPWybbpsE3ADbaFKXrOBuLAYYzz2vOKZt9/ZTSbxi7zCRMl8md0poYDXrX0nlrLZ
+ XlLrpr6V6637fijBYBgGNy4ae0bUSG1ghWimBBVA+XtZXRcy9OtYKaTrtgmjSuIiOwJ7IasPFk
+ R3XDN57j0aRgRWRID2VCY0QM9nKCvmvagmCgUv2nQF1LKIjXLucH4tIutIEI3E9uD9P2z2PM11
+ 9BQI/Foyn+RNWY6ng/UOn1A5
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Apr 2022 23:08:41 -0700
-IronPort-SDR: bxeNAOGKqPY19fWEBsCuuIVm4MAgfGNqRue+ksDBrhR7e4i45ktwiRvr9TYD8fqlNOETfJyQ0U
- 89gobvfjtX3gMnwwVrhwF5tieRmgvC9IkMULFX/IEOtgP8fTOR10yzv8NvXcd+peImcrWjYkEE
- XpqmReuvCIH9V/7sWKtJE+UvUfZclfsZJ0crJmE7OcLPZdJQFJJ5wSXlWTtV10CR859yK1XSUO
- j9Y4fTC+ZjT1pIP//ZMlsQ5oxkpvLmXmJp3uYxZk/ilIOelrzhoYDpnri7hVQSAMJdiMTQVhgJ
- Wy4=
+ 20 Apr 2022 23:08:45 -0700
+IronPort-SDR: HivXSFM8/4X2JpxacdOqkwbskhsmeOPoqe4xn9e1NS5cqFKtnEzbl4ZcGQAfoAJprnfXDoVCcY
+ firDAq2XHtGC6IewcVeWJ4vGpdVNESB+oTYfblkZREVlWVKNnu2uHSiR6uU9jsTjnJGouCXgn7
+ zOqyda7Ff6x+oz0bMZeXQbScYUjv73z6S8pQ41RqluUFI6yu8M3H7nJAUYcSUqhPIA7EW9/NnE
+ 6qt9XGIPUsJc3e9w3i1H/21G+HDR5Ld8CbLoG4xiFkVX7Fl+ODhOQCqLPTWumjDltoShl83LaZ
+ 4oQ=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Apr 2022 23:37:40 -0700
+ 20 Apr 2022 23:37:43 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkSX30bRzz1Rwrw
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 23:37:39 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkSX62DK2z1SVp0
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 23:37:42 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1650523058; x=1653115059; bh=YWQm8OJGwY9DyLYO16
- rmNKLkbJlmv5Jq1hk2A+TppXg=; b=VA4h/Y1PlMly8bIDXZxIERKppLN6DTMr+s
- W0NteRJuk9meTKZvsQexxnjCVOBGQf6q6C8XZjZoZuC/AUSK4bmp8PTInG2Pxhy3
- F5+Eutr/m1CJHktYQ8dci493x0rI0NRgMMhhnaB0AL0Uahw7EgAp1ZZs4EzKOvdt
- OlHf/YwG43hWEItwzjORdgz5+xOU3cp0fdV9YTVDQ85asVmz1pGUCtq1q1b7WVX9
- jAuOxOH/82rcsxv9YajA0zAP+sMpBlXYRIYKdBsghJsYy/SqXdrkWw2RbBFR3Srb
- fCGj6V76A7nILRK3RRdh41mZEY6Gshax1TGvlvU2PUR9qBDb9uNA==
+ :from; s=dkim; t=1650523061; x=1653115062; bh=Asrx2POXRJ0pZuD/WM
+ HlGXXuWvs40U2nwecwTv2Oge4=; b=dDx73NYWhZR8t0U2XAKFFyL3FWrTe4uUlQ
+ BoEGXav/rWPbuRReQrNvYE0iA9vvhMcSJKCBhiHIyf8M0X4PORyN/wetW9pOmGVV
+ WpnHl6YAu0mm052nuG44DdU8h0KGng2xdNP8lTpkUKot15lAk/8tUQHiUfo1XKyv
+ lC/P12kmpIYwRtlpOhJXyDvjdX1sW+LmHCPtkqG7FdxwW8qIjhjoAvK5qEFG6179
+ 9HPygeN7eieYQ/GlehA/dl1cVhJRW93UOaWJP3hLAQ6DREPOS0i2agE3N3ARPosM
+ SnXMlCQawYSpaS/fcxipFG9jwbP0ILFV57PQTVLA9TmOjcP88Z6g==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id LmKVzNjwPfRj for <qemu-devel@nongnu.org>;
- Wed, 20 Apr 2022 23:37:38 -0700 (PDT)
+ port 10026) with ESMTP id IsZJ3ZYKRorH for <qemu-devel@nongnu.org>;
+ Wed, 20 Apr 2022 23:37:41 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.119])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkSX061yCz1Rvlx;
- Wed, 20 Apr 2022 23:37:36 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkSX32LcRz1Rvlx;
+ Wed, 20 Apr 2022 23:37:39 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 17/31] target/riscv: Use cpu_loop_exit_restore directly from
- mmu faults
-Date: Thu, 21 Apr 2022 16:36:16 +1000
-Message-Id: <20220421063630.1033608-18-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Anup Patel <anup@brainfault.org>
+Subject: [PULL 18/31] hw/riscv: virt: Exit if the user provided -bios in
+ combination with KVM
+Date: Thu, 21 Apr 2022 16:36:17 +1000
+Message-Id: <20220421063630.1033608-19-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220421063630.1033608-1-alistair.francis@opensource.wdc.com>
 References: <20220421063630.1033608-1-alistair.francis@opensource.wdc.com>
@@ -116,54 +117,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 
-The riscv_raise_exception function stores its argument into
-exception_index and then exits to the main loop.  When we
-have already set exception_index, we can just exit directly.
+The -bios option is silently ignored if used in combination with -enable-=
+kvm.
+The reason is that the machine starts in S-Mode, and the bios typically r=
+uns in
+M-Mode.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Better exit in that case to not confuse the user.
+
+Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220401125948.79292-2-richard.henderson@linaro.org>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Anup Patel <anup@brainfault.org>
+Message-Id: <20220401121842.2791796-1-ralf.ramsauer@oth-regensburg.de>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/riscv/virt.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 1c60fb2e80..126251d5da 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -1150,7 +1150,7 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, =
-hwaddr physaddr,
-     env->badaddr =3D addr;
-     env->two_stage_lookup =3D riscv_cpu_virt_enabled(env) ||
-                             riscv_cpu_two_stage_lookup(mmu_idx);
--    riscv_raise_exception(&cpu->env, cs->exception_index, retaddr);
-+    cpu_loop_exit_restore(cs, retaddr);
- }
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index da50cbed43..09609c96e8 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1308,12 +1308,18 @@ static void virt_machine_init(MachineState *machi=
+ne)
 =20
- void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-@@ -1175,7 +1175,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, va=
-ddr addr,
-     env->badaddr =3D addr;
-     env->two_stage_lookup =3D riscv_cpu_virt_enabled(env) ||
-                             riscv_cpu_two_stage_lookup(mmu_idx);
--    riscv_raise_exception(env, cs->exception_index, retaddr);
-+    cpu_loop_exit_restore(cs, retaddr);
- }
-=20
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-@@ -1311,7 +1311,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address=
-, int size,
-                             first_stage_error,
-                             riscv_cpu_virt_enabled(env) ||
-                                 riscv_cpu_two_stage_lookup(mmu_idx));
--        riscv_raise_exception(env, cs->exception_index, retaddr);
-+        cpu_loop_exit_restore(cs, retaddr);
+     /*
+      * Only direct boot kernel is currently supported for KVM VM,
+-     * so the "-bios" parameter is ignored and treated like "-bios none"
+-     * when KVM is enabled.
++     * so the "-bios" parameter is not supported when KVM is enabled.
+      */
+     if (kvm_enabled()) {
+-        g_free(machine->firmware);
+-        machine->firmware =3D g_strdup("none");
++        if (machine->firmware) {
++            if (strcmp(machine->firmware, "none")) {
++                error_report("Machine mode firmware is not supported in =
+"
++                             "combination with KVM.");
++                exit(1);
++            }
++        } else {
++            machine->firmware =3D g_strdup("none");
++        }
      }
 =20
-     return true;
+     if (riscv_is_32bit(&s->soc[0])) {
 --=20
 2.35.1
 
