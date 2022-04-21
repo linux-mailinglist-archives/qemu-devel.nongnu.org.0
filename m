@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96D9509D62
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:19:17 +0200 (CEST)
-Received: from localhost ([::1]:37174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4FC509D83
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 12:24:15 +0200 (CEST)
+Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhTu8-00030s-Uu
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:19:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40970)
+	id 1nhTyw-0005y9-8Y
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 06:24:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhTpV-0000zn-Ef
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:14:29 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:34436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhTpT-0007vQ-OA
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:14:29 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id b95so7894649ybi.1
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 03:14:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mONqQveYVejkeAKioAdXpRUBuNa8L08ZZaRylVK2NMw=;
- b=dH03e1t5X9mkoZFkmFc8DqodyB63EkKAGQirSlHucCkw+lsuoJ+2NGHkQ+0Y897mrf
- FjTCOCUZfV/QZGnARRJ96daa5+hs9DJJP3LTpDdRu1waAzP9EPey53ViAMbrZLMd13iK
- JKkNEJMdZlV3aloYZNDF355VDJiSToKw/obVfwGunbebhkwdKfmI4H+0k9GfNX8me1Oi
- KSnmqGvDz0pfT15GlCJUcX9k3xGxMR1egsF3TI974NSyS/HUW3QQb2tbU/HtBKDu9cvQ
- BJMn4L3t02sypYqtlNhJMUBMdI5PGdZJjkZ+GgyKp3bJ8H0ZqXSXwo3VwG3EaKVGw0la
- Wlbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mONqQveYVejkeAKioAdXpRUBuNa8L08ZZaRylVK2NMw=;
- b=510Qqnq5CSnNcl3qekt3k4FNslJk79iwdo+N5Pw2qVTlqA5emCS4sATSyfTbsXCLKK
- //VxG79r+HpAVWHXq6HwZIoeBmvDX7toj5sLJdRgwWvAVVnYOnxhRgKCtfnaBNmZe8ac
- 1VaY2fxptL/CcIV3cQ+Tw+LL4ECBOY2EV8NRq8zReaDpJ1ct+KKLqdfyrpUIIDi5hS6S
- Sk002fGnLFTUDlKbSGIpHhXls8IHymROWx5dSn4FSkud0HBc0NmUhe/rzdYR46thKEQD
- oCgVLMQLxrW/El7zS34wViXZUXxp7iABr8K58Yz2nhAKI77ZMQ2Xrq1boeaf7XN+K12B
- JnYw==
-X-Gm-Message-State: AOAM530GQP/y6GnGrdfLsRW8qycS4CJdbOzJd9MbVui07cipWz9YhWVG
- 4n+G5JqY7Qc4aFIbooYxPo+NiAorO/lxKnfWglVDs0u9Bx8=
-X-Google-Smtp-Source: ABdhPJxCBRBY+qN+Xx7laPFIZgRV9R1H8+98vX1iZYbnOjPb0pKTuhHTZr4VCEvghMYx73yuXnJJVJjlREqAA+5uBFs=
-X-Received: by 2002:a05:6902:34f:b0:645:463a:b824 with SMTP id
- e15-20020a056902034f00b00645463ab824mr10624891ybs.39.1650536065991; Thu, 21
- Apr 2022 03:14:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nhTwC-0004wo-CN
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:21:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nhTw8-0000oM-D3
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 06:21:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650536479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4fxkMixDYAZkJnphc4zI4Dz/H8+2+LGM9uzwiRcFu4A=;
+ b=UCn27GhWxR677kFNinpL1AxvrnJsezbu046tuoRJd2pIBykCCputajlF22nz+5oddd+xDA
+ AkOd4q988OPDkM3clhqK0QZjl/LqEOCJPfnC9Ml4J0CC45WFcpD33ifa+G7CtgpTZjkn+a
+ 0eZ5shMeJ13nO2Q3cWZbWx3gXXq1xhE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-191-3qAT3FK1Mdqa6s6k--M6kg-1; Thu, 21 Apr 2022 06:21:17 -0400
+X-MC-Unique: 3qAT3FK1Mdqa6s6k--M6kg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41789802803;
+ Thu, 21 Apr 2022 10:21:17 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8373141DED5;
+ Thu, 21 Apr 2022 10:21:16 +0000 (UTC)
+Date: Thu, 21 Apr 2022 12:21:15 +0200
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 01/26] block: remove incorrect coroutine_fn annotations
+Message-ID: <YmEwGzrKYvWqdKlu@stefanha-x1.localdomain>
+References: <20220415131900.793161-1-pbonzini@redhat.com>
+ <20220415131900.793161-2-pbonzini@redhat.com>
+ <20220419175006.q52jsc3yqodmqlj7@redhat.com>
 MIME-Version: 1.0
-References: <20220324181557.203805-1-zongyuan.li@smartx.com>
-In-Reply-To: <20220324181557.203805-1-zongyuan.li@smartx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 11:14:14 +0100
-Message-ID: <CAFEAcA_Zoz67YYzMCqMJ4v2Lkgw_FuvOAEDu0oBiyz7LbGsDtA@mail.gmail.com>
-Subject: Re: [PATCH v5 0/4] Replace 'qemu_irq_split' with 'TYPE_SPLIT_IRQ'
-To: Zongyuan Li <zongyuan.li@smartx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="g3Bp01R3UGATOzbY"
+Content-Disposition: inline
+In-Reply-To: <20220419175006.q52jsc3yqodmqlj7@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,41 +78,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, Paolo Bonzini <pbonzini@redhat.com>, hreitz@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 24 Mar 2022 at 18:22, Zongyuan Li <zongyuan.li@smartx.com> wrote:
->
-> This patch set tries to replace 'qemu_irq_split' function with QOM
-> object 'TYPE_SPLIT_IRQ' and totally remove this call.
->
-> If this patch set is applied, issue:
->
-> https://gitlab.com/qemu-project/qemu/-/issues/811
->
-> can be closed.
->
-> Changes since v3:
->
-> 1. Squash Patch 3 & 4 into one, since they would affect each other.
-> 2. Use `object_initialize_with_child` and `qdev_realize` for device code.
-> 3. Code style fixes.
-> 4. Remove unnecessary `if` statement used with `qdev_realize_and_unref.
-> 5. Narrow scope of some variables.
->
-> Changes since v4
->
-> 1. Code style fixes.
->
-> Zongyuan Li (4):
->   hw/arm/realview: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
->   hw/arm/stellaris: replace 'qemu_split_irq' with 'TYPE_SPLIT_IRQ'
->   hw/intc/exynos4210: replace 'qemu_split_irq' in combiner and gic
->   hw/core/irq: remove unused 'qemu_irq_split' function
 
-I've applied patches 1, 2 and 4 to target-arm.next, thanks
-(after my exynos4210 cleanup series).
+--g3Bp01R3UGATOzbY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- PMM
+On Tue, Apr 19, 2022 at 12:57:54PM -0500, Eric Blake wrote:
+> On Fri, Apr 15, 2022 at 03:18:35PM +0200, Paolo Bonzini wrote:
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>=20
+> Might be nice to document in the commit message why the annotation was
+> incorrect, so someone stumbling across this commit in a bisect but
+> otherwise unfamiliar with the rules of when to annotate doesn't get
+> lost.  If I understand right, the argument is more-or-less:
+>=20
+> This function defers to the generated blk_do_pwritev_part, which is
+> safe to call outside coroutine context.
+>=20
+> But although the commit message is weak, the change itself appears
+> correct from what I have observed with the annotation in other places.
+>=20
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Yes, please! I'm also wondering how to review a patch like this because
+I can only infer the meaning and audit the code myself to check my guess.
+
+Stefan
+
+--g3Bp01R3UGATOzbY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJhMBsACgkQnKSrs4Gr
+c8guagf+LWdpB0CRjx3B/g0pK8VuQRLwrJEVFMiaHVEngjpPZeg0scPNrwaneHeK
+luphU55CRFPiLQH5bJE9g3JyNU0QDIDketZo0tc26u/Vbvr1iPDyUQHsI1sSKNVm
+AfaN3Ug16NljLskeAmWU3yYiH+5DGKFaQkh5FuekAILyq+xQ5IpE/5jzVvVZ4WNK
+KKDdJlPoa2hwWCsYTbgwy6T3/zQj9qX31oYnZRotPVvjqPzEk+40ra+3wFdY30LS
+YsVPj0bjP1AcP2DcC68SBfK7deqNrldZ3ee98yk86xIY2hDsdwfKI7cJSjSskLRj
+T6UVuQmTg9fEUlzYP48OUcSXw8gX/w==
+=M1m8
+-----END PGP SIGNATURE-----
+
+--g3Bp01R3UGATOzbY--
+
 
