@@ -2,55 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BEE150A700
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:23:34 +0200 (CEST)
-Received: from localhost ([::1]:50982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FC950A65A
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:57:14 +0200 (CEST)
+Received: from localhost ([::1]:35550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhaWj-0006cc-FO
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34116)
+	id 1nha7F-0003en-BM
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhZnM-0007N0-7W
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:36:40 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:24403)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nhZnK-0002GS-Hk
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:36:39 -0400
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-TqPs-AEHNdG1U1oenxa-Eg-1; Thu, 21 Apr 2022 12:36:34 -0400
-X-MC-Unique: TqPs-AEHNdG1U1oenxa-Eg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9EB763C0F09E;
- Thu, 21 Apr 2022 16:36:33 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 62E9D40B42BB;
- Thu, 21 Apr 2022 16:36:32 +0000 (UTC)
-Date: Thu, 21 Apr 2022 18:36:31 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 2/5] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
-Message-ID: <20220421183631.3260fc3e@bahia>
-In-Reply-To: <f6d632fc82d4750b73c83a2f1d1b9972cf3e26bb.1650553693.git.qemu_oss@crudebyte.com>
-References: <cover.1650553693.git.qemu_oss@crudebyte.com>
- <f6d632fc82d4750b73c83a2f1d1b9972cf3e26bb.1650553693.git.qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nhZnv-0000LE-8H
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:37:17 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:40458)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1nhZnt-0002P2-Q3
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:37:14 -0400
+Received: by mail-pg1-x531.google.com with SMTP id h5so5099644pgc.7
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:37:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wJJ4ZohRCUqzki73KfclYR+6Bu1OubBsv7UphTN5DGk=;
+ b=DDaJBbLbai51kg9V59WH1jIdrvH3Hja/ooLvhM/6xnTfrw/jEhGVcUg3TnSi0aO9Jb
+ fbUEqmRkB3ztQo2n0xvF9DHIUTST1wkGsErurvf4jcIQyKBJb5z09J8nTM7QkTPkMTlx
+ 7jATOxN9gSd3W/KFowtwp/mPvgtG3PKQIsZK3u7MVah6/pibH9thiCNnE5M5ykd+ld8J
+ 1di6vGdCl4HgLuyr2X1EXoCXFI3FxW5OzjlbNENv5h72jsa/4GNFJf2XS4OVoMcxehhz
+ gF8+seYBZZiImCM10mH+Hlv4VRnMOyb2rl9EsihUxsxcs1MmN2GZ4PJkGORZ82Eu+2O4
+ SirQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wJJ4ZohRCUqzki73KfclYR+6Bu1OubBsv7UphTN5DGk=;
+ b=0F9QvRL7Z6FxgHWUTiByKEMcVi/PK9exf8HIUuFM5Pf0zj0a76vzaFLnPBgd2sh97A
+ CZIW75O4o5HyRrcDT6mP9BcuHj0+vVLVeRla4mc6/2WwwTLRGjHRri+QC8c5wwwYe5aH
+ QdSOE5SlHtzFrantCCL66Jro6Up1PIDW9OZD+e6fhIgxGw6xPN3K3wDS6EnFpafR8H+e
+ sunxKNfTHUhh26hrfaA8eyZKVXEwngzBneIf5QwO+XVX9gAb2RTat+dqGOhPsO9/S9Eb
+ 9BIFA67blbOt87UiATiQmo6pYEIkkJyvCLI2R6vbKBlR411mhd5O+7bvmyHK5z2boC6o
+ RouQ==
+X-Gm-Message-State: AOAM532OgqMpLHUy91Vwqy7yEDnkrKDnlqGSMAFSGrQ0cHgqOE6ZlfcM
+ EFQ1HsFeue9tfQ1JgEaL1l6CBKUI+KQQyRlqvDmcyQ==
+X-Google-Smtp-Source: ABdhPJyADLwJnzyXF9LJ/32m2ImS92xgTpL36AAwpHHLvzjrA2BMved8xrue0LuTNA78+CYS4JbcRA==
+X-Received: by 2002:a05:6a00:1da2:b0:508:29cc:a894 with SMTP id
+ z34-20020a056a001da200b0050829cca894mr465561pfw.43.1650559031882; 
+ Thu, 21 Apr 2022 09:37:11 -0700 (PDT)
+Received: from fedora.. ([119.4.252.222]) by smtp.gmail.com with ESMTPSA id
+ n4-20020a637204000000b00398522203a2sm24051072pgc.80.2022.04.21.09.37.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Apr 2022 09:37:11 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH v4] Use io_uring_register_ring_fd() to skip fd operations
+Date: Fri, 22 Apr 2022 00:36:49 +0800
+Message-Id: <20220421163648.4205-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,78 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, Damien Le Moal <Damien.LeMoal@wdc.com>,
+ Dmitry Fomichev <Dmitry.Fomichev@wdc.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Sam Li <faithilikerun@gmail.com>,
+ Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Apr 2022 17:07:43 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Linux recently added a new io_uring(7) optimization API that QEMU
+doesn't take advantage of yet. The liburing library that QEMU uses
+has added a corresponding new API calling io_uring_register_ring_fd().
+When this API is called after creating the ring, the io_uring_submit()
+library function passes a flag to the io_uring_enter(2) syscall
+allowing it to skip the ring file descriptor fdget()/fdput()
+operations. This saves some CPU cycles.
 
-> mknod() on macOS does not support creating sockets, so divert to
-> call sequence socket(), bind() and chmod() respectively if S_IFSOCK
-> was passed with mode argument.
-> 
-> Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Reviewed-by: Will Cohen <wwcohen@gmail.com>
-> ---
->  hw/9pfs/9p-util-darwin.c | 27 ++++++++++++++++++++++++++-
->  1 file changed, 26 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-> index e24d09763a..39308f2a45 100644
-> --- a/hw/9pfs/9p-util-darwin.c
-> +++ b/hw/9pfs/9p-util-darwin.c
-> @@ -74,6 +74,27 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
->   */
->  #if defined CONFIG_PTHREAD_FCHDIR_NP
->  
-> +static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
-> +    int fd, err;
-> +    struct sockaddr_un addr = {
-> +        .sun_family = AF_UNIX
-> +    };
-> +
-> +    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
-> +    if (fd == -1) {
-> +        return fd;
-> +    }
-> +    snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s", filename);
-> +    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
-> +    if (err == -1) {
-> +        goto out;
-> +    }
-> +    err = chmod(addr.sun_path, mode);
-> +out:
-> +    close(fd);
+Signed-off-by: Sam Li <faithilikerun@gmail.com>
+---
+ block/io_uring.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-You need close_preserve_errno() here.
-
-Rest LGTM, so with that fixed, you can add:
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-> +    return err;
-> +}
-> +
->  int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
->  {
->      int preserved_errno, err;
-> @@ -93,7 +114,11 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
->      if (pthread_fchdir_np(dirfd) < 0) {
->          return -1;
->      }
-> -    err = mknod(filename, mode, dev);
-> +    if (S_ISSOCK(mode)) {
-> +        err = create_socket_file_at_cwd(filename, mode);
-> +    } else {
-> +        err = mknod(filename, mode, dev);
-> +    }
->      preserved_errno = errno;
->      /* Stop using the thread-local cwd */
->      pthread_fchdir_np(-1);
+diff --git a/block/io_uring.c b/block/io_uring.c
+index 782afdb433..5247fb79e2 100644
+--- a/block/io_uring.c
++++ b/block/io_uring.c
+@@ -435,8 +435,16 @@ LuringState *luring_init(Error **errp)
+     }
+ 
+     ioq_init(&s->io_q);
+-    return s;
++    if (io_uring_register_ring_fd(&s->ring) < 0) {
++        /*
++         * Only warn about this error: we will fallback to the non-optimized
++         * io_uring operations.
++         */
++        error_reportf_err(*errp,
++                         "failed to register linux io_uring ring file descriptor");
++    }
+ 
++    return s;
+ }
+ 
+ void luring_cleanup(LuringState *s)
+-- 
+Use error_reportf_err to avoid memory leak due to not freeing error
+object.
+--
+2.35.1
 
 
