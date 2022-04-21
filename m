@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2117C50A68E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:07:06 +0200 (CEST)
-Received: from localhost ([::1]:57060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6FE50A6C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 19:14:45 +0200 (CEST)
+Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhaGn-0003gL-1f
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:07:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57036)
+	id 1nhaOD-0003Yh-2o
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 13:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZTJ-000806-KV
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:15:57 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:42783)
+ id 1nhZVv-0005Kz-Vi
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:18:40 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:41695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhZTI-0007BO-4w
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:15:57 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2ef5380669cso57470347b3.9
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:15:55 -0700 (PDT)
+ id 1nhZVu-0007dH-Ia
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 12:18:39 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id w20so3448789ybi.8
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 09:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z9u8Xy5HBCQXZ7zOwo4qOL0k6WBJRHNMRD/wfdUkQzw=;
- b=g5a0K/8aFZ18XZtnLl2bCuDK4XuYlZ7mKkTKDN7WShDMEZ9WrO60pgsHtlUKSpktl0
- StGEhw915oB8yjIql1q9uyUIA1+p/k/xd7ay1gJ/6tjzQ+nMczpCiwzCwX0qcpAK2kwt
- GuFy/THde3ZXFfOuV7go8oznk9myJv5wAravd3iuJQD3NtKro9c45RI1xl4Y3wM9wcMI
- PQVDdy9wgmetUsviP4Yh+sf99fVC1N/uH5BPjDin91+EC/NFnYmDcFSBeHgVHN3xVicu
- sbxfAIYBx/f73sjdY0w0ZOYXzXxRAfSk0DAaf7r5b3r2m51J9TghsSQnhQJ5GzRC4rZc
- +RbQ==
+ :cc; bh=HVa7eSTgPWPiuq+bOY5fQ3v2nYSJItvw+PivNZ7nOY4=;
+ b=KrljFr43Inns9N15rf96Y9QkHZ6XV0+N7BvKshC+8St/pd1L59wh9eI9FEN74X2U+h
+ njqlUAknA164bmE//xAWmwF1OrJJdnp5CMhE6qG04AZM+F0qfDarILmFUw+fl4JRmOUN
+ bcynyHO5VmthLVSNQdfmofx6wxphyvBCNnOUjSBQuwJOEH0HyNUYAyltTq7ZK1kdaE8j
+ 2z6K6vVzGoCzABlBgdiWbtKqHIS6ednOHMTnXxXizX+6cihKS64bLRzlj2T0OstRXDht
+ UcSxrbcR05JlkmSxukZU867YobqnGtq7I4SRc5V6gVNMFcGBa+KuIUqdB/uRS2KxoKCy
+ gldQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z9u8Xy5HBCQXZ7zOwo4qOL0k6WBJRHNMRD/wfdUkQzw=;
- b=F+PCSMZUIMnmAnIppG4fwjcb50egNbWHn9LmQC2/VknYETLWEMFp2eROBV0zgdbX/r
- mjUhRc53Qt/HtBx0FzStomiqT3NW0t6yZ9/TvTRNYhkOSo1LopwChI9zILojbSPvU2T5
- LFsNIVJ5GrGoLbsY4JfwmewL2S9VX3G7NjSIHcojUKCyVD3zgCJxBKHKniwEraz4ygcL
- s+pk3JZgvfdvsyYTWe2F/T1zKoD45k6riUz972NDJcA9Q9vtOyCI/iv1YCcu11PUM7j/
- i2kw/dMhh5Mk8vk4fKmMfjW2M3Y1aFI3VodXgbtkc4Or+v5GdJopY1PWi+P9gD/dTj/i
- udVg==
-X-Gm-Message-State: AOAM530al551RwZopaSJAK5h1Iue6Ywr8Nz+zCe1fmCCYYED5P5JhzSX
- GvLUCBdhCAezt6WmMcPFgOgZW1hLp6l2YpmbeHjleK391Lo=
-X-Google-Smtp-Source: ABdhPJzItVa1VyVXY2YaqJh0eKqdw7G4f+8aNx/ey48BtDwY5IAER3JyTW5mIUjYy82M/rGo85y2QYZS3Ihi9q1m4F8=
-X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
- z23-20020a81ac57000000b002f199ec91a2mr406557ywj.329.1650557754983; Thu, 21
- Apr 2022 09:15:54 -0700 (PDT)
+ bh=HVa7eSTgPWPiuq+bOY5fQ3v2nYSJItvw+PivNZ7nOY4=;
+ b=wpkrZqH1uCXadyolw8Jyq6NCRsXRqMkT+6xpTu+poKVtY5kczvO+QmFcj1Gps1XHXY
+ JO7Hjt5YvV2LkyAER6vxAMLR7X3pAkeqjmjml1d2p/x4JABu6Tustp8CaWpN0tlWyOd/
+ YIdJVR7aDk9Xa/FXGb6bgTx4ziUlzQV6SH7ArqBU+Ze7hfOwAYhwXcMMPDwmDBtWAhtO
+ c7xdwtDPgQygmYPtc9GzX4FanlGVyHQDsH4mr3MKSZqgYWJYHs2BiBvUg6CRxe7NSSfd
+ gXsNd1ZojO+oYPsQlwbrYg1OcD62HzY/QkB5H0/ABB0kNK3gaoTFRXU8eS2vNok4RE1k
+ XGCQ==
+X-Gm-Message-State: AOAM533nVIS/YCUbjD0t4sh4tTMW7ZvJmsUyuKkZ20d3IuB+RhU3I7k8
+ LUl11pxq3aMOUy7MhSeLskdmoqZ+cnqo4yhqS89RCg==
+X-Google-Smtp-Source: ABdhPJyay3AMM67P5iUI/CBX4Wb5bk0WbF7G4F5AdousyT4Haedv3RyVkUHzMYKI1WHSyUdvBWJ+KYcEkmE3bql/SiM=
+X-Received: by 2002:a25:a287:0:b0:645:3c4f:7dec with SMTP id
+ c7-20020a25a287000000b006453c4f7decmr415752ybi.479.1650557917223; Thu, 21 Apr
+ 2022 09:18:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
- <20220417174426.711829-9-richard.henderson@linaro.org>
-In-Reply-To: <20220417174426.711829-9-richard.henderson@linaro.org>
+ <20220417174426.711829-10-richard.henderson@linaro.org>
+In-Reply-To: <20220417174426.711829-10-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Apr 2022 17:15:44 +0100
-Message-ID: <CAFEAcA8=3ut2_jV5Q2vp2n+NLYF2-m+mBT6BEEkKdnaVoTS3aQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/60] target/arm: Change DisasContext.thumb to bool
+Date: Thu, 21 Apr 2022 17:18:26 +0100
+Message-ID: <CAFEAcA9XchDeFPZvXJ0qVNb80PWhgo1PBb7NAePJFoVsaOXiXg@mail.gmail.com>
+Subject: Re: [PATCH v3 09/60] target/arm: Change CPUArchState.thumb to bool
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,15 +82,14 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 Apr 2022 at 18:51, Richard Henderson
+On Sun, 17 Apr 2022 at 18:53, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > Bool is a more appropriate type for this value.
-> Move the member down in the struct to keep the
-> bool type members together and remove a hole.
+> Adjust the assignments to use true/false.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
