@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D7D50A983
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 21:49:27 +0200 (CEST)
-Received: from localhost ([::1]:53040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C076B50A967
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 21:41:23 +0200 (CEST)
+Received: from localhost ([::1]:56682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhcnu-00068u-83
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 15:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45586)
+	id 1nhcg6-00059M-SY
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 15:41:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcX9-0007Nj-N2
+ id 1nhcX9-0007Ns-OC
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:09 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33556)
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcX7-0005g6-A6
+ id 1nhcX7-0005gF-Ob
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 15:32:07 -0400
 Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nhcW7-000Caf-DL; Thu, 21 Apr 2022 20:31:03 +0100
+ id 1nhcW7-000Caf-Ow; Thu, 21 Apr 2022 20:31:04 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: richard.henderson@linaro.org,
 	deller@gmx.de,
 	qemu-devel@nongnu.org
-Date: Thu, 21 Apr 2022 20:30:34 +0100
-Message-Id: <20220421193100.5098-25-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 21 Apr 2022 20:30:35 +0100
+Message-Id: <20220421193100.5098-26-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
 References: <20220421193100.5098-1-mark.cave-ayland@ilande.co.uk>
@@ -36,8 +36,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 24/50] lasi: move memory region initialisation to new
- lasi_init() function
+Subject: [PATCH 25/50] lasi: move register memory mapping from lasi.c to
+ machine.c
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,85 +62,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a new lasi_init() instance initialisation function and move the LASI
-memory region initialisation into it. Rename the existing lasi_init() function
-to lasi_initfn() for now.
+The device register should be mapped directly by the board code.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/hppa/hppa_sys.h |  2 +-
- hw/hppa/lasi.c     | 13 ++++++++++---
- hw/hppa/machine.c  |  2 +-
- 3 files changed, 12 insertions(+), 5 deletions(-)
+ hw/hppa/lasi.c    | 7 +++----
+ hw/hppa/machine.c | 7 +++++--
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/hw/hppa/hppa_sys.h b/hw/hppa/hppa_sys.h
-index 7c31dd8396..0929dedded 100644
---- a/hw/hppa/hppa_sys.h
-+++ b/hw/hppa/hppa_sys.h
-@@ -10,7 +10,7 @@
- 
- #include "hppa_hardware.h"
- 
--DeviceState *lasi_init(MemoryRegion *);
-+DeviceState *lasi_initfn(MemoryRegion *);
- #define enable_lasi_lan()       0
- 
- /* hppa_pci.c.  */
 diff --git a/hw/hppa/lasi.c b/hw/hppa/lasi.c
-index 3b77fba1c6..c028b7786e 100644
+index c028b7786e..08ebe7c6d9 100644
 --- a/hw/hppa/lasi.c
 +++ b/hw/hppa/lasi.c
-@@ -296,7 +296,7 @@ static int lasi_get_irq(unsigned long hpa)
-     }
- }
- 
--DeviceState *lasi_init(MemoryRegion *address_space)
-+DeviceState *lasi_initfn(MemoryRegion *address_space)
- {
-     DeviceState *dev;
-     LasiState *s;
-@@ -306,8 +306,6 @@ DeviceState *lasi_init(MemoryRegion *address_space)
+@@ -304,10 +304,6 @@ DeviceState *lasi_initfn(MemoryRegion *address_space)
+     dev = qdev_new(TYPE_LASI_CHIP);
+     s = LASI_CHIP(dev);
      s->iar = CPU_HPA + 3;
- 
-     /* Lasi access from main memory.  */
--    memory_region_init_io(&s->this_mem, OBJECT(s), &lasi_chip_ops,
--                          s, "lasi", 0x100000);
-     memory_region_add_subregion(address_space, LASI_HPA, &s->this_mem);
- 
+-
+-    /* Lasi access from main memory.  */
+-    memory_region_add_subregion(address_space, LASI_HPA, &s->this_mem);
+-
      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-@@ -347,6 +345,14 @@ DeviceState *lasi_init(MemoryRegion *address_space)
-     return dev;
+ 
+     /* LAN */
+@@ -348,9 +344,12 @@ DeviceState *lasi_initfn(MemoryRegion *address_space)
+ static void lasi_init(Object *obj)
+ {
+     LasiState *s = LASI_CHIP(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+ 
+     memory_region_init_io(&s->this_mem, OBJECT(s), &lasi_chip_ops,
+                           s, "lasi", 0x100000);
++
++    sysbus_init_mmio(sbd, &s->this_mem);
  }
  
-+static void lasi_init(Object *obj)
-+{
-+    LasiState *s = LASI_CHIP(obj);
-+
-+    memory_region_init_io(&s->this_mem, OBJECT(s), &lasi_chip_ops,
-+                          s, "lasi", 0x100000);
-+}
-+
  static void lasi_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -357,6 +363,7 @@ static void lasi_class_init(ObjectClass *klass, void *data)
- static const TypeInfo lasi_pcihost_info = {
-     .name          = TYPE_LASI_CHIP,
-     .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_init = lasi_init,
-     .instance_size = sizeof(LasiState),
-     .class_init    = lasi_class_init,
- };
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index b66e95982e..debc788c2e 100644
+index debc788c2e..ace44f91d6 100644
 --- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -175,7 +175,7 @@ static void machine_hppa_init(MachineState *machine)
+@@ -139,7 +139,7 @@ static void machine_hppa_init(MachineState *machine)
+     const char *kernel_filename = machine->kernel_filename;
+     const char *kernel_cmdline = machine->kernel_cmdline;
+     const char *initrd_filename = machine->initrd_filename;
+-    DeviceState *dev, *dino_dev;
++    DeviceState *dev, *dino_dev, *lasi_dev;
+     PCIBus *pci_bus;
+     ISABus *isa_bus;
+     char *firmware_filename;
+@@ -175,7 +175,10 @@ static void machine_hppa_init(MachineState *machine)
  
  
      /* Init Lasi chip */
--    lasi_init(addr_space);
-+    lasi_initfn(addr_space);
+-    lasi_initfn(addr_space);
++    lasi_dev = lasi_initfn(addr_space);
++    memory_region_add_subregion(addr_space, LASI_HPA,
++                                sysbus_mmio_get_region(
++                                    SYS_BUS_DEVICE(lasi_dev), 0));
  
      /* Init Dino (PCI host bus chip).  */
      dino_dev = DEVICE(dino_init(addr_space));
