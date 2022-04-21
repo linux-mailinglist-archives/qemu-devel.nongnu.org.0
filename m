@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE4150A515
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:16:19 +0200 (CEST)
-Received: from localhost ([::1]:46586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0B050A57C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 18:30:32 +0200 (CEST)
+Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhZTe-0006X8-7t
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44830)
+	id 1nhZhP-0008WM-Oo
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 12:30:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYcx-0005Qv-4K
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:21:58 -0400
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:36635)
+ id 1nhYcu-0005Ge-8P
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:21:48 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:46880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYcq-00074l-KE
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:21:50 -0400
-Received: by mail-il1-x131.google.com with SMTP id k12so3257733ilv.3
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:21:43 -0700 (PDT)
+ id 1nhYcr-00075C-2U
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:21:47 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id g21so5609535iom.13
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AAOBAdpFirowQkrpBHBZFvb0hegnnbNMVmy07bqALLY=;
- b=Kqwr4mAJ74f1H4L1GpISBM0R6FH/kR0JtD2twdp28reN76GoLV5Ogt0aOM/rUHDtAP
- ivhFaBdZgVxWdwaE+qKiL5PeRoT/IJkhUF1o9PWz4XS2owcVHzh35nXE733V6Lc/3FZ3
- nb4iSJBeeEWUe+i418ExHRY/LyJaKa0iBKEPwM9lTjBumqXdP29iF/+315hCNlJyD/UR
- ZSFz/1M9Sq10wvHSoPTFrpW1DiRJ2wzSTnQx26zhZuMQOXFbUxyIqgZbRCsbCmTvKgfF
- KnAkQedSt19BbLmUjscj9KsnYOiOMeRHEx74yrjwStVvvxX6VeBzVdvXN6YUGKuKQrcj
- MAig==
+ bh=9FhYqgUBmxsHbCT6l/0igDDpPwMQ5ePyATfk3NegcvI=;
+ b=JU8umLF8coRVc6poxFZswPbXj4dHMO87pIBOmoncfjeisvOSu7p/aPgDY5QhXHzYHn
+ jqk3YI+rLB77Y1Co5m4FZIYHWjSxQZo7XyG3r+Xf5VafrabaZBDzlsMe9NUWIs2FYdyI
+ OXaBuW08Ay3/wVmBEKcOU9N489vYP0IqNi6o7qhH6c2wpnFugDWMdNO83tJANvBYA+8h
+ t8/ywI/5z3gsEbIcnXkDsH16uugYUIuzkwVe5R05OT+YKujc66Qiq1kvUi/p21C8ALTE
+ TBpz3GRC/bTzxF3HnRTe3+BSNi0iolHl1re72LvjHh2IPIGuAv747U6aXabny9KV+SAw
+ 099Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AAOBAdpFirowQkrpBHBZFvb0hegnnbNMVmy07bqALLY=;
- b=QXHB+XPUNvpTXA3d9MB7Gf8DBGXPbe4BkycrFfzfNi0lhTV458yRzO7LfUmHBn6n75
- tiad4dOqQw3ZlAKRMiqJsqvxJ9COvuRE5dGwby2oGeAiv2puFFI2/+sTmCC8QGX8+Zp/
- Dzqxu4d1EEtv+rAaUoBFOTybeTDVcNsyUymcD+gBtC7xCpnIndZXVmgMP6R/I3kxvs1J
- w917C2mLPLfDZS27SLnU4kKaa7Rw6hAcuKHH5Pet6CFf/nLEPGbjmMmWBDHCkGqRXLWF
- VI9hp+H78oEGaZyQqhLLQA//z/17XlBEogQrVWImbeJCumhCYM1JIOBqKcNLgy9aPwiY
- /ing==
-X-Gm-Message-State: AOAM533hnSNaqtswIjGCv2VcLmLEqEyM/3cvZAIjf1TJ8mhkHgBreP6A
- zEWvgtuDO6xom8edn41bltGxJ08mrwetdQ==
-X-Google-Smtp-Source: ABdhPJzN2+l7gbuppidfQ0p0iavn4wxUQxEO0GaZhA+1rpxxcimo0gfMDh6hrBz8MXP97gg/bJ4nZQ==
-X-Received: by 2002:a92:ca06:0:b0:2cc:3a47:e5d with SMTP id
- j6-20020a92ca06000000b002cc3a470e5dmr79595ils.115.1650554501504; 
- Thu, 21 Apr 2022 08:21:41 -0700 (PDT)
+ bh=9FhYqgUBmxsHbCT6l/0igDDpPwMQ5ePyATfk3NegcvI=;
+ b=vaWN7OKhBUT1E+xKM0FOkFbGqz4A1uIhYI/cSbK4lzs2NAX6yJdsRj8wUYGFHWvQxW
+ w47lJF8WcwGrzzLw1K/h8BTi9BXw8/Og48vRqet8XWw5ao5OncSfkf7XdaIT6wPMoHcn
+ qNYr0Lte4BENM5QQrSHcfAnCCcXjWyTj1PCXj1bOH1YTHsaPMVfTQOfD9zXInqdJC+za
+ LBcVpKM3DN60yxvBtKdKvkrrF5e1+I5+L0OVYRXwdQM/D65ZFjgCowKYhLewrqyLF11I
+ +dRZSfYYm+3SpQ4wNIK6eXQNy8YC2HBhY22/d6YnmuW/P8xb3JAQZBzRZo5oRcGUdmYG
+ BQqw==
+X-Gm-Message-State: AOAM533l5YPf/I4ORlfRQlkrJm7DG7o9buMwMBYU/YSwc4FzKA+N6S4O
+ PANrV0kd5JPipKFV7fHwAcx2c+iKmcXP7A==
+X-Google-Smtp-Source: ABdhPJw7Bk4Rp7FNugdNAnfwov6/810SEusVmAjAgAkXQyoiwN36nCNZkxhD9guN3Mlgfq2xkXXO5w==
+X-Received: by 2002:a05:6638:b3b:b0:328:738a:3996 with SMTP id
+ c27-20020a0566380b3b00b00328738a3996mr73549jab.86.1650554504085; 
+ Thu, 21 Apr 2022 08:21:44 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:80c8:6cf3:a91a:4957:ba18:ac18])
  by smtp.gmail.com with ESMTPSA id
- j1-20020a926e01000000b002cc52449a19sm3985402ilc.35.2022.04.21.08.21.40
+ j1-20020a926e01000000b002cc52449a19sm3985402ilc.35.2022.04.21.08.21.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 08:21:40 -0700 (PDT)
+ Thu, 21 Apr 2022 08:21:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 40/64] target/nios2: Remove CPU_INTERRUPT_NMI
-Date: Thu, 21 Apr 2022 08:17:11 -0700
-Message-Id: <20220421151735.31996-41-richard.henderson@linaro.org>
+Subject: [PATCH v7 42/64] target/nios2: Use tcg_constant_tl
+Date: Thu, 21 Apr 2022 08:17:13 -0700
+Message-Id: <20220421151735.31996-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220421151735.31996-1-richard.henderson@linaro.org>
 References: <20220421151735.31996-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=richard.henderson@linaro.org; helo=mail-il1-x131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,42 +88,79 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This interrupt bit is never set, so testing it in
-nios2_cpu_has_work is pointless.
+Replace current uses of tcg_const_tl, and remove the frees.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h | 2 --
- target/nios2/cpu.c | 2 +-
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ target/nios2/translate.c | 30 ++++++------------------------
+ 1 file changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 5f6b9242a2..5403eeae54 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -177,8 +177,6 @@ FIELD(CR_TLBMISC, EE, 24, 1)
- #define EXCP_MPUI     16
- #define EXCP_MPUD     17
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index b27269bf08..f33015f942 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -99,7 +99,6 @@
  
--#define CPU_INTERRUPT_NMI       CPU_INTERRUPT_TGT_EXT_3
--
- struct CPUArchState {
-     uint32_t regs[NUM_GP_REGS];
-     uint32_t ctrl[NUM_CR_REGS];
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 7d734280d1..58e6ad0462 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -36,7 +36,7 @@ static void nios2_cpu_set_pc(CPUState *cs, vaddr value)
- 
- static bool nios2_cpu_has_work(CPUState *cs)
- {
--    return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
-+    return cs->interrupt_request & CPU_INTERRUPT_HARD;
+ typedef struct DisasContext {
+     DisasContextBase  base;
+-    TCGv_i32          zero;
+     target_ulong      pc;
+     int               mem_idx;
+     const ControlRegState *cr_state;
+@@ -125,31 +124,20 @@ static uint8_t get_opxcode(uint32_t code)
+     return instr.opx;
  }
  
- static void nios2_cpu_reset(DeviceState *dev)
+-static TCGv load_zero(DisasContext *dc)
++static TCGv load_gpr(DisasContext *dc, unsigned reg)
+ {
+-    if (!dc->zero) {
+-        dc->zero = tcg_const_i32(0);
+-    }
+-    return dc->zero;
+-}
+-
+-static TCGv load_gpr(DisasContext *dc, uint8_t reg)
+-{
+-    if (likely(reg != R_ZERO)) {
+-        return cpu_R[reg];
+-    } else {
+-        return load_zero(dc);
++    assert(reg < NUM_GP_REGS);
++    if (unlikely(reg == R_ZERO)) {
++        return tcg_constant_tl(0);
+     }
++    return cpu_R[reg];
+ }
+ 
+ static void t_gen_helper_raise_exception(DisasContext *dc,
+                                          uint32_t index)
+ {
+-    TCGv_i32 tmp = tcg_const_i32(index);
+-
+     tcg_gen_movi_tl(cpu_pc, dc->pc);
+-    gen_helper_raise_exception(cpu_env, tmp);
+-    tcg_temp_free_i32(tmp);
++    gen_helper_raise_exception(cpu_env, tcg_constant_i32(index));
+     dc->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+@@ -876,14 +864,8 @@ static void nios2_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+         return;
+     }
+ 
+-    dc->zero = NULL;
+-
+     instr = &i_type_instructions[op];
+     instr->handler(dc, code, instr->flags);
+-
+-    if (dc->zero) {
+-        tcg_temp_free(dc->zero);
+-    }
+ }
+ 
+ static void nios2_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.34.1
 
