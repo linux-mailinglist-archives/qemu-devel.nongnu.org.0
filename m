@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D468B50A432
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 17:29:48 +0200 (CEST)
-Received: from localhost ([::1]:44408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E555E50A486
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 17:43:11 +0200 (CEST)
+Received: from localhost ([::1]:50452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhYkd-000305-W5
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 11:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
+	id 1nhYxb-0004YO-1X
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 11:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYZD-0007BJ-MD
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:17:59 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:40514)
+ id 1nhYZF-0007EP-7b
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:01 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:40543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYZC-0006FY-5e
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:17:59 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id h5so4900255pgc.7
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:17:57 -0700 (PDT)
+ id 1nhYZD-0006Fj-Ma
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:00 -0400
+Received: by mail-pf1-x432.google.com with SMTP id i24so5287756pfa.7
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=r/x/miQLf6ebWpV7bnXYZjExmKCWn1NklUL03LEs0Hs=;
- b=a972qkJgvJZwLAoP+bpRHSBrXuUyaZ0SI5E6J8dHpxlNSO4dOVvLPMK2vGGIxCTTa+
- yaP3y4RdR4ZngL8ac5H6mOW5euQ/jNVFXg64t2YJHY39DOmN8jTtjOSHoyddl7K9nd7v
- oK/7XzvgqfGWRVPJ45jolOETY/oxcITwwcFNC7eLejsxyHGE2tMFVKuq8m+23GpKr4wa
- iIZPTgeGMVPvGOhnmijfXmBTITPrlCMm/htTfFUXuNMCkOGm2bCiJLMmKZimPu5FSfj6
- drSxMY0G/pfKyNF8EFRc9dWnBFWODzl1uiYf3f4yjffC/9vKTay8EPUunSKFIFNCzYPg
- hDBw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2ztYJkBMJIODpfPhZffINJhEEGUVQal4Iwfoe3eQ1+c=;
+ b=if2kJ4tL3hbleVJoyMPVj9GfYn9YL8ID9uKIsrMkPd/9bjsnusm/4mqxuFI7HrcSHT
+ qoR5Gnk8M3V4POaB5vISqoo5nJeT5rBEQRxEziWaywWEQbTiyUua8KvuSJSTwYXfvYq4
+ 4nQUrokkM6dMRNi3ce3bKzss2b+5GHnKft1YY8rE4ilOckaijiLb7VqTMhmDC1x7u6cS
+ Fad1xaLmDHn6LLvQvNXbgqITpxDZO0acc/pDzA3p62cgvfDN2saCmDxhRMIJ6Ccp8NfV
+ IQwskfDCcU7g5AV0BH16V1aScqsZbGjySHU29+VG3DTtbCtAY6NZj4vBKyCzT+WD+aAj
+ Vh0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r/x/miQLf6ebWpV7bnXYZjExmKCWn1NklUL03LEs0Hs=;
- b=kI+vEZU0i2jGNzWGErd5CfuEKnlfenRDx0vMnWkkMtVK/GFG+ed/C5EeHXQycb8wOa
- xi8o2PCjfmmCuv19v2KjSxY116cJsXfmrxh3FD4/EJpjAnFIs0yQDw3Ph4Bk+6I59IGg
- GoDFYHndGsoEpo4+mDB149zZa88aucH2oE8JTv86APvg+4LjctSTY4pCq52DsqtqdrNm
- KS0AVSp6PuUOtdhz65ZtHZutyWbqXVtDFegUnIqPia7BCm7c10CR8c6Lh9FbBjZ9s4x6
- 7OkECIlCSCC1rAaKuY9BTtXg/zJ03x0cg6mtV9p7NXwbJiC+/OmjzCg2UioG2HKY2BbE
- GLQQ==
-X-Gm-Message-State: AOAM532sWCsg6WUx8a4ZHtLJEbKhjl4MU8u3+CdpRykjF3GXa7qu7m+n
- 9VduTGMSCwMPoiUgE0dDyaJb+YP5XcmWCw==
-X-Google-Smtp-Source: ABdhPJxkGN0Q8CebfRePJW3UDqnIn+G43pc6EyML0ncJioniRaDw+8cku2q1rBGqza4OUqkIBKfI5w==
-X-Received: by 2002:a05:6a00:3494:b0:50a:6317:80a1 with SMTP id
- cp20-20020a056a00349400b0050a631780a1mr160056pfb.24.1650554276915; 
- Thu, 21 Apr 2022 08:17:56 -0700 (PDT)
+ bh=2ztYJkBMJIODpfPhZffINJhEEGUVQal4Iwfoe3eQ1+c=;
+ b=sbYHvflf4b8ZuxdPIjOJdSBOHe18PkfO35NrvuKgooFW1fT/xJunl0AJVtOYE7qnI/
+ YdCN64kuc6hBtTDzACfF0aCQMAnW2wcmdZJaUk3BQbNGaZ6L1gi8FXAP7v/uhxN2vGvA
+ WFiP2rKfdH2/bR7vw2o42TjETgyl5bFsFdwz7D8sPmuzO2h5cYVgAyXf1MY+yfLryq1x
+ tMaAKGwhpNFDPoOGcUinyQa3IGpCM6FQ4aILs4Bo4cMV/WT0fNSLErw1J4jZ0jl1fR/o
+ yGKmYpfWpla3sI8sQ0mVYZpGL2+5lUopCp+jT+f6RYatJGxf5CikzDr6Lr0ncJ0WYy0x
+ Wwmw==
+X-Gm-Message-State: AOAM532Y3e9vzU78Ep4J8uNbxJOZqwwKxqJY4K/mdKNfeA1Dyw+AICan
+ ME8ELvGC4l80ui8MNcMUNnA94Ofm88pdXg==
+X-Google-Smtp-Source: ABdhPJxgNlz8colWarzCh9gScmhGHdMagdXZ4EEhui6G5/TkkMnH0E+opVPuWAV1u5JYYQHnOUDQ/g==
+X-Received: by 2002:a65:4789:0:b0:3a2:4866:dc48 with SMTP id
+ e9-20020a654789000000b003a24866dc48mr24572506pgs.87.1650554278448; 
+ Thu, 21 Apr 2022 08:17:58 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:80c8:6cf3:a91a:4957:ba18:ac18])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a056a00241000b004f3a647ae89sm24616248pfh.174.2022.04.21.08.17.55
- for <qemu-devel@nongnu.org>
+ z16-20020a056a00241000b004f3a647ae89sm24616248pfh.174.2022.04.21.08.17.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 08:17:56 -0700 (PDT)
+ Thu, 21 Apr 2022 08:17:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 12/64] linux-user/nios2: Use force_sig_fault for EXCP_DEBUG
-Date: Thu, 21 Apr 2022 08:16:43 -0700
-Message-Id: <20220421151735.31996-13-richard.henderson@linaro.org>
+Subject: [PATCH v7 13/64] target/nios2: Check supervisor on eret
+Date: Thu, 21 Apr 2022 08:16:44 -0700
+Message-Id: <20220421151735.31996-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220421151735.31996-1-richard.henderson@linaro.org>
 References: <20220421151735.31996-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,41 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Amir Gonnen <amir.gonnen@neuroblade.ai>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the simpler signal interface, which forces us to supply
-the missing PC value to si_addr.
+From: Amir Gonnen <amir.gonnen@neuroblade.ai>
 
+eret instruction is only allowed in supervisor mode.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Message-Id: <20220303153906.2024748-2-amir.gonnen@neuroblade.ai>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/nios2/cpu_loop.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/nios2/translate.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index f37850fe81..e725036628 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -26,7 +26,6 @@
- void cpu_loop(CPUNios2State *env)
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index 89b97ef520..eb97e13feb 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -384,6 +384,8 @@ static const Nios2Instruction i_type_instructions[] = {
+  */
+ static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
  {
-     CPUState *cs = env_cpu(env);
--    target_siginfo_t info;
-     int trapnr, ret;
++    gen_check_supervisor(dc);
++
+     tcg_gen_mov_tl(cpu_R[CR_STATUS], cpu_R[CR_ESTATUS]);
+     tcg_gen_mov_tl(cpu_R[R_PC], cpu_R[R_EA]);
  
-     for (;;) {
-@@ -121,10 +120,7 @@ void cpu_loop(CPUNios2State *env)
-             break;
- 
-         case EXCP_DEBUG:
--            info.si_signo = TARGET_SIGTRAP;
--            info.si_errno = 0;
--            info.si_code = TARGET_TRAP_BRKPT;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->regs[R_PC]);
-             break;
-         default:
-             EXCP_DUMP(env, "\nqemu: unhandled CPU exception %#x - aborting\n",
 -- 
 2.34.1
 
