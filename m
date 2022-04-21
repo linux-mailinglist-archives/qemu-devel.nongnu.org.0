@@ -2,91 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2FD50996E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:43:20 +0200 (CEST)
-Received: from localhost ([::1]:36060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E198350990D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 09:28:01 +0200 (CEST)
+Received: from localhost ([::1]:44244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhRTD-0004EJ-ED
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:43:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53966)
+	id 1nhREP-0004Jz-0v
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 03:28:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=10363b772=alistair.francis@opensource.wdc.com>)
- id 1nhQS0-0005dZ-D0
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:38:00 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13374)
+ id 1nhQSA-0005hv-8L
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:38:11 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:13339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=10363b772=alistair.francis@opensource.wdc.com>)
- id 1nhQRy-0007zd-Mc
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:38:00 -0400
+ id 1nhQS7-0007xw-IB
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 02:38:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1650523078; x=1682059078;
+ t=1650523087; x=1682059087;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Asrx2POXRJ0pZuD/WMHlGXXuWvs40U2nwecwTv2Oge4=;
- b=N1VViHK3ZNkyNCSWIuThPqL4yl2Nj5brnpJP3JZ4ZB2JRnjUB8jvSAwR
- tpkA+DqqbELNwgNgBKT7IQ3mG5vvvDX7fJppE5bFBstIsIgh3emPGkybA
- CFsBw+qV5LA11GV1X7Isn+woxF4sq4814b7wOADARSwKCE3fPVqtkLVDz
- auxjdhM4XgESp7GUbgIQ8pVs2KKDfy+2OJSZBmmUJye/jxgVES78Qa+6k
- WwK1d8+qCwZ6l9hur7MCrHvbkx8VyWgBohYVXkJJHHlbaSw8AKTjfwEtY
- AFMna1v+KajnV0rxSLNl8ek2BTf5waQihFvMx6MKXlL5eKeSPEkJ2fNS2 A==;
-X-IronPort-AV: E=Sophos;i="5.90,278,1643644800"; d="scan'208";a="302640000"
+ bh=iEoKxEagVtDboj6y1cxqsma5Bz1Cu3f9t3vEDTHmk50=;
+ b=QIGhrUWGWl6ZHOtFDnaPkJlvjv1qlefD9YqK8HgpDRNVnNuGvcrotHz6
+ c7c/zKbFzaKaE5m9bsnKdzDr/COCDsIYMYQ7MBDXJBRYcjsHINBFIN6Y3
+ rb2ilPymVCVJnKZ8TsZHwxzo5wFQXvTJsLcm8jIQ4J1Fea8ML0owHkR4h
+ LIVoJ2oD17LQI5Ii5Bi3mAaJ1PZM5wkN3hDKwEUeCYCqxSlWiAr0/4PpV
+ 4rJf1rhP9S3G9yvGki8LtYNTWNafKm9V3Id7oiHAmw9wTzR+YK53/V+xG
+ KB2KJdpLMGjPh4ih5LS3QjHN4f2UoxT+dxgVtw+/ZTeoa1BgzJecNpLRY g==;
+X-IronPort-AV: E=Sophos;i="5.90,278,1643644800"; d="scan'208";a="302640005"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Apr 2022 14:37:42 +0800
-IronPort-SDR: Bquj1N532X7u/Z5BmO8r21s5aqzHG4I9dufA4zXD3cXEZnRCMDAUlambW9FPXUmqxHYzuO+4yV
- cvPnA5y7BLHPWybbpsE3ADbaFKXrOBuLAYYzz2vOKZt9/ZTSbxi7zCRMl8md0poYDXrX0nlrLZ
- XlLrpr6V6637fijBYBgGNy4ae0bUSG1ghWimBBVA+XtZXRcy9OtYKaTrtgmjSuIiOwJ7IasPFk
- R3XDN57j0aRgRWRID2VCY0QM9nKCvmvagmCgUv2nQF1LKIjXLucH4tIutIEI3E9uD9P2z2PM11
- 9BQI/Foyn+RNWY6ng/UOn1A5
+ by ob1.hgst.iphmx.com with ESMTP; 21 Apr 2022 14:37:44 +0800
+IronPort-SDR: EHqDmCofxWj2l2M601AzJ4Fm4m5TLRH/iD5ou9r1Or3dFQc4qwwNKyWEXEzSIbAt1HKl97/EZK
+ hWU34MK5njmN7Qr0LgMY6UXCdEbgvi9LUURJXSqe87ml1OVAXo/g1oz2Y7pMRJVQl09qPXI/84
+ LqE7uM2Ihmq3c3vm9HnURg1/k/VXZ7DjKEP5tj87QgpxFIJi+wY8OR7sU+5i5CnEMeDrnzv2iY
+ eMkOs1tU71Cv+/fgNkkDKynqvJ4FCnChSMlZTVF469r+kzxk1F4gtv7WCSDt6gT5Y49FNMkzn9
+ dn/NSSkATDGF7qdsi/pQNE9z
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Apr 2022 23:08:45 -0700
-IronPort-SDR: HivXSFM8/4X2JpxacdOqkwbskhsmeOPoqe4xn9e1NS5cqFKtnEzbl4ZcGQAfoAJprnfXDoVCcY
- firDAq2XHtGC6IewcVeWJ4vGpdVNESB+oTYfblkZREVlWVKNnu2uHSiR6uU9jsTjnJGouCXgn7
- zOqyda7Ff6x+oz0bMZeXQbScYUjv73z6S8pQ41RqluUFI6yu8M3H7nJAUYcSUqhPIA7EW9/NnE
- 6qt9XGIPUsJc3e9w3i1H/21G+HDR5Ld8CbLoG4xiFkVX7Fl+ODhOQCqLPTWumjDltoShl83LaZ
- 4oQ=
+ 20 Apr 2022 23:08:47 -0700
+IronPort-SDR: ImaWAqrgzywzVByMT/Gi6fWndiX30HxLSyD7uQHOyuIAiepwo2j84g+LNfHXlTZZD4KI1omwgi
+ YGvCiLyMuDJSan+1A4ZoEXlIiJHM6dBLGNiNHQ4ObqEWeUwUaAffQo8la+Tim5ISOal7/9iUUb
+ XeNRtRnqbnzbRc+J4jRe5UTYxZ8UaWQf6y+0D27BJyTe54Jqbe82F8s5bd2Q+g25KwRKZyeHG3
+ zq0gwimEdkNo2YKy4pn9l0lnzJbL3ttbkn7XzXIQUQnwv7vmQIs6kucL+Mw5roBWwgiFG2eZxv
+ 6Cg=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Apr 2022 23:37:43 -0700
+ 20 Apr 2022 23:37:45 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkSX62DK2z1SVp0
- for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 23:37:42 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkSX84XCTz1Rwrw
+ for <qemu-devel@nongnu.org>; Wed, 20 Apr 2022 23:37:44 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1650523061; x=1653115062; bh=Asrx2POXRJ0pZuD/WM
- HlGXXuWvs40U2nwecwTv2Oge4=; b=dDx73NYWhZR8t0U2XAKFFyL3FWrTe4uUlQ
- BoEGXav/rWPbuRReQrNvYE0iA9vvhMcSJKCBhiHIyf8M0X4PORyN/wetW9pOmGVV
- WpnHl6YAu0mm052nuG44DdU8h0KGng2xdNP8lTpkUKot15lAk/8tUQHiUfo1XKyv
- lC/P12kmpIYwRtlpOhJXyDvjdX1sW+LmHCPtkqG7FdxwW8qIjhjoAvK5qEFG6179
- 9HPygeN7eieYQ/GlehA/dl1cVhJRW93UOaWJP3hLAQ6DREPOS0i2agE3N3ARPosM
- SnXMlCQawYSpaS/fcxipFG9jwbP0ILFV57PQTVLA9TmOjcP88Z6g==
+ :from; s=dkim; t=1650523064; x=1653115065; bh=iEoKxEagVtDboj6y1c
+ xqsma5Bz1Cu3f9t3vEDTHmk50=; b=hLPLOFB3zlX9jDcmT3qWqo7/v7sURkGBnz
+ XuL6Nyl6Iv5o9CEM7N6uajDuQKAgI+lUGouz0meNx6LF2Qfj4ReS+EQxiXZaHqEZ
+ S2zfbjkhVBGTARDMKUi8sZ7tCOli8D6bgpFjq+9PVDRIM1nUurqR/9Up+eQp3/ez
+ zG7K1jYHRPo6DK9xnkFmVdg7UBbf5aE1x6bh/ygi/fsa9LgU5gr0ZJLGK32M+FLZ
+ uKUh4dehBF0Jnyi27nBsHYjOqTApw8SF+jp4QMXnLt/wl8SUMY+3vcQJep4WlYjw
+ DkJM4+mWaKUslCyu4XK0FbFsQUr5m38mHLXZxgW4tfJN0w4rlnxw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id IsZJ3ZYKRorH for <qemu-devel@nongnu.org>;
- Wed, 20 Apr 2022 23:37:41 -0700 (PDT)
+ port 10026) with ESMTP id KEKi0nHkruMr for <qemu-devel@nongnu.org>;
+ Wed, 20 Apr 2022 23:37:44 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.119])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkSX32LcRz1Rvlx;
- Wed, 20 Apr 2022 23:37:39 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkSX63PjPz1Rvlx;
+ Wed, 20 Apr 2022 23:37:42 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- Anup Patel <anup@brainfault.org>
-Subject: [PULL 18/31] hw/riscv: virt: Exit if the user provided -bios in
- combination with KVM
-Date: Thu, 21 Apr 2022 16:36:17 +1000
-Message-Id: <20220421063630.1033608-19-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Nicolas Pitre <nico@fluxnic.net>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 19/31] target/riscv/pmp: fix NAPOT range computation overflow
+Date: Thu, 21 Apr 2022 16:36:18 +1000
+Message-Id: <20220421063630.1033608-20-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220421063630.1033608-1-alistair.francis@opensource.wdc.com>
 References: <20220421063630.1033608-1-alistair.francis@opensource.wdc.com>
@@ -117,55 +115,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+From: Nicolas Pitre <nico@fluxnic.net>
 
-The -bios option is silently ignored if used in combination with -enable-=
-kvm.
-The reason is that the machine starts in S-Mode, and the bios typically r=
-uns in
-M-Mode.
+There is an overflow with the current code where a pmpaddr value of
+0x1fffffff is decoded as sa=3D0 and ea=3D0 whereas it should be sa=3D0 an=
+d
+ea=3D0xffffffff.
 
-Better exit in that case to not confuse the user.
+Fix that by simplifying the computation. There is in fact no need for
+ctz64() nor special case for -1 to achieve proper results.
 
-Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Anup Patel <anup@brainfault.org>
-Message-Id: <20220401121842.2791796-1-ralf.ramsauer@oth-regensburg.de>
+Message-Id: <rq81o86n-17ps-92no-p65o-79o88476266@syhkavp.arg>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/virt.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ target/riscv/pmp.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index da50cbed43..09609c96e8 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1308,12 +1308,18 @@ static void virt_machine_init(MachineState *machi=
-ne)
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 81b61bb65c..151da3fa08 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -141,17 +141,9 @@ static void pmp_decode_napot(target_ulong a, target_=
+ulong *sa, target_ulong *ea)
+        0111...1111   2^(XLEN+2)-byte NAPOT range
+        1111...1111   Reserved
+     */
+-    if (a =3D=3D -1) {
+-        *sa =3D 0u;
+-        *ea =3D -1;
+-        return;
+-    } else {
+-        target_ulong t1 =3D ctz64(~a);
+-        target_ulong base =3D (a & ~(((target_ulong)1 << t1) - 1)) << 2;
+-        target_ulong range =3D ((target_ulong)1 << (t1 + 3)) - 1;
+-        *sa =3D base;
+-        *ea =3D base + range;
+-    }
++    a =3D (a << 2) | 0x3;
++    *sa =3D a & (a + 1);
++    *ea =3D a | (a + 1);
+ }
 =20
-     /*
-      * Only direct boot kernel is currently supported for KVM VM,
--     * so the "-bios" parameter is ignored and treated like "-bios none"
--     * when KVM is enabled.
-+     * so the "-bios" parameter is not supported when KVM is enabled.
-      */
-     if (kvm_enabled()) {
--        g_free(machine->firmware);
--        machine->firmware =3D g_strdup("none");
-+        if (machine->firmware) {
-+            if (strcmp(machine->firmware, "none")) {
-+                error_report("Machine mode firmware is not supported in =
-"
-+                             "combination with KVM.");
-+                exit(1);
-+            }
-+        } else {
-+            machine->firmware =3D g_strdup("none");
-+        }
-     }
-=20
-     if (riscv_is_32bit(&s->soc[0])) {
+ void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index)
 --=20
 2.35.1
 
