@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBEE50A1EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:16:32 +0200 (CEST)
-Received: from localhost ([::1]:53232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC1350A16F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 16:02:23 +0200 (CEST)
+Received: from localhost ([::1]:49076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhXbj-0001ky-SL
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37082)
+	id 1nhXO2-0004KJ-M5
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 10:02:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhXDj-0004hB-JO
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:51:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34542)
+ id 1nhXDo-0004k2-P9
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:51:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhXDh-0006DO-2A
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:51:42 -0400
+ id 1nhXDn-0006Eg-1U
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 09:51:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650549100;
+ s=mimecast20190719; t=1650549105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6LChbIKCQGgWTk8FDlJNk6Ns6fz1CDlRHNwJ1l7roGk=;
- b=fD3vqDkJN7EgBbrzdHk7Ee1FhTrZIllQwA0mZEu7hlpixsHb/XoaqqdgqG6GVHyc+t2s2a
- qeVo6ip8QgZ6cXzbjPwDGo1BC/vhK+rI/zBL5Cr1CVQAYxgI27NuZIpn8fUnxPZGTX1XOd
- /1HOETTJhYyV4Zz3dBxoxe6Ykb8pgFE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Hkc0OarZ+8s3qPtcUvc3tjeGI4qKYwmlNtw4ga7bDrA=;
+ b=E4TOOXBwOXCNaAoePE33V+YwybTz0QAYBeer/GN9Uf7y49rgkFBWTeDOZi5hKTWPsXdpRN
+ aZXOAAU3Kdx/en4XLw/PVM1uFOHQoKZqZFJR+5ghqlUn36eQlNn9qEoJ713WJhloV7PDPJ
+ s84asrWfkR/mwuLjV8s+fFcOZpbF73g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-A6vzXugZM3eJCAgvYQbUGw-1; Thu, 21 Apr 2022 09:51:39 -0400
-X-MC-Unique: A6vzXugZM3eJCAgvYQbUGw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-604-AWpqSG7hOXi-VHJr5LC7Ig-1; Thu, 21 Apr 2022 09:51:43 -0400
+X-MC-Unique: AWpqSG7hOXi-VHJr5LC7Ig-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D96B3185A7A4;
- Thu, 21 Apr 2022 13:51:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C0B11C0E0EA;
+ Thu, 21 Apr 2022 13:51:43 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 114C5404728A;
- Thu, 21 Apr 2022 13:51:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F1EAC27EBF;
+ Thu, 21 Apr 2022 13:51:42 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/30] tests: run-time skip test-qga if TSAN is enabled
-Date: Thu, 21 Apr 2022 17:49:30 +0400
-Message-Id: <20220421134940.2887768-21-marcandre.lureau@redhat.com>
+Subject: [PULL 21/30] Move error_printf_unless_qmp() with monitor unit
+Date: Thu, 21 Apr 2022 17:49:31 +0400
+Message-Id: <20220421134940.2887768-22-marcandre.lureau@redhat.com>
 In-Reply-To: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
 References: <20220421134940.2887768-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -76,55 +76,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- richard.henderson@linaro.org, Michael Roth <michael.roth@amd.com>
+Cc: richard.henderson@linaro.org, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This allows to make sure the test is still built, and gives more
-accurate report details.
+Since it depends on monitor code, and error_vprintf_unless_qmp() is
+already there.
+
+This will help to move error-report in a common subproject.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220420132624.2439741-30-marcandre.lureau@redhat.com>
+Message-Id: <20220420132624.2439741-31-marcandre.lureau@redhat.com>
 ---
- tests/unit/test-qga.c  | 7 +++++++
- tests/unit/meson.build | 2 +-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ include/monitor/monitor.h   |  3 +++
+ include/qemu/error-report.h |  2 --
+ monitor/monitor.c           | 10 ++++++++++
+ stubs/error-printf.c        |  1 +
+ ui/vnc.c                    |  1 +
+ util/error-report.c         | 11 -----------
+ 6 files changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index 5cb140d1b53d..e17a288034bc 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -969,6 +969,13 @@ int main(int argc, char **argv)
-     TestFixture fix;
-     int ret;
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index cc4cc6c6adcf..a4b40e8391db 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -56,4 +56,7 @@ void monitor_register_hmp(const char *name, bool info,
+ void monitor_register_hmp_info_hrt(const char *name,
+                                    HumanReadableText *(*handler)(Error **errp));
  
-+#ifdef QEMU_SANITIZE_THREAD
-+    {
-+        g_test_skip("tsan enabled, https://github.com/google/sanitizers/issues/1116");
-+        return 0;
-+    }
-+#endif
++int error_vprintf_unless_qmp(const char *fmt, va_list ap) G_GNUC_PRINTF(1, 0);
++int error_printf_unless_qmp(const char *fmt, ...) G_GNUC_PRINTF(1, 2);
 +
-     setlocale (LC_ALL, "");
-     g_test_init(&argc, &argv, NULL);
-     fixture_setup(&fix, NULL, NULL);
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 026e39f52025..ab01e00f12cf 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -153,7 +153,7 @@ if have_system
-   endif
- endif
+ #endif /* MONITOR_H */
+diff --git a/include/qemu/error-report.h b/include/qemu/error-report.h
+index b6f45e69d79a..3ae2357fda54 100644
+--- a/include/qemu/error-report.h
++++ b/include/qemu/error-report.h
+@@ -32,8 +32,6 @@ void loc_set_file(const char *fname, int lno);
  
--if have_ga and targetos == 'linux' and 'CONFIG_TSAN' not in config_host
-+if have_ga and targetos == 'linux'
-   tests += {'test-qga': ['../qtest/libqtest.c']}
-   test_deps += {'test-qga': qga}
- endif
+ int error_vprintf(const char *fmt, va_list ap) G_GNUC_PRINTF(1, 0);
+ int error_printf(const char *fmt, ...) G_GNUC_PRINTF(1, 2);
+-int error_vprintf_unless_qmp(const char *fmt, va_list ap) G_GNUC_PRINTF(1, 0);
+-int error_printf_unless_qmp(const char *fmt, ...) G_GNUC_PRINTF(1, 2);
+ 
+ void error_vreport(const char *fmt, va_list ap) G_GNUC_PRINTF(1, 0);
+ void warn_vreport(const char *fmt, va_list ap) G_GNUC_PRINTF(1, 0);
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 21c7a68758f5..86949024f643 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -286,6 +286,16 @@ int error_vprintf_unless_qmp(const char *fmt, va_list ap)
+     return -1;
+ }
+ 
++int error_printf_unless_qmp(const char *fmt, ...)
++{
++    va_list ap;
++    int ret;
++
++    va_start(ap, fmt);
++    ret = error_vprintf_unless_qmp(fmt, ap);
++    va_end(ap);
++    return ret;
++}
+ 
+ static MonitorQAPIEventConf monitor_qapi_event_conf[QAPI_EVENT__MAX] = {
+     /* Limit guest-triggerable events to 1 per second */
+diff --git a/stubs/error-printf.c b/stubs/error-printf.c
+index a2f61521a16f..0e326d801059 100644
+--- a/stubs/error-printf.c
++++ b/stubs/error-printf.c
+@@ -1,5 +1,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
++#include "monitor/monitor.h"
+ 
+ int error_vprintf(const char *fmt, va_list ap)
+ {
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 6261d922953b..badf1d7664fe 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -54,6 +54,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/help_option.h"
+ #include "io/dns-resolver.h"
++#include "monitor/monitor.h"
+ 
+ #define VNC_REFRESH_INTERVAL_BASE GUI_REFRESH_INTERVAL_DEFAULT
+ #define VNC_REFRESH_INTERVAL_INC  50
+diff --git a/util/error-report.c b/util/error-report.c
+index 4ec7b30bcbcc..dbadaf206d27 100644
+--- a/util/error-report.c
++++ b/util/error-report.c
+@@ -40,17 +40,6 @@ int error_printf(const char *fmt, ...)
+     return ret;
+ }
+ 
+-int error_printf_unless_qmp(const char *fmt, ...)
+-{
+-    va_list ap;
+-    int ret;
+-
+-    va_start(ap, fmt);
+-    ret = error_vprintf_unless_qmp(fmt, ap);
+-    va_end(ap);
+-    return ret;
+-}
+-
+ static Location std_loc = {
+     .kind = LOC_NONE
+ };
 -- 
 2.36.0
 
