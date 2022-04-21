@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EBA50A462
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 17:37:07 +0200 (CEST)
-Received: from localhost ([::1]:33752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299E150A47E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 17:40:50 +0200 (CEST)
+Received: from localhost ([::1]:42402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhYri-0008Gw-Bv
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 11:37:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42926)
+	id 1nhYvJ-0006cR-7h
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 11:40:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYZT-0007S5-Qa
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:15 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:37813)
+ id 1nhYZW-0007YD-KE
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:18 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:43758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhYZO-0006Ib-Uo
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:15 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- mm4-20020a17090b358400b001cb93d8b137so8023279pjb.2
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:18:09 -0700 (PDT)
+ id 1nhYZU-0006J9-Fj
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 11:18:18 -0400
+Received: by mail-pl1-x630.google.com with SMTP id d15so5156711pll.10
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 08:18:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HXZTY79ogdU3cuAmQiOEqFI8HiKCYgS/bxD1qQ4VBwM=;
- b=JjMjdW/UXeVYH7d8YJ3VSVXohTIXUzi6KLoJIQHcpGEwfvZYkAT60P1gyN+kPeBzaI
- aBTtw4g5OmEx6kQ+U03dEjNdbepTb+94iVVjNiz4FzRE1GiUCWEZJVrQj3fzBhFD3RMo
- zYbbonELEYS6Wc2L0S92c15cHqZ+LBDV2mek8L6PmEu7JRAW9sG5s/LRLodbpEUgLb0X
- okyqK7bpj12Rpm64gmz/CtAiv05TbOFKK8dzT81/JQJNYcVIZGZKfH2iUnNuAEtPAURF
- 4P6uxaF54/BVLCuWqoeOqgRZPOqA4cdC5qmZrigUxQ9scs0wjjaDMzXx+FDPrDiVHKJc
- so3A==
+ bh=+mtXVKAjUVRS64m73YmB+z7ejlvTN+BDSTEhooEYEys=;
+ b=dB03xJOetW7gTapLPP0j6HdcdtCdxbbAt+h+wm4mqZ4Z4aNjr3CbCJt0zoc0bxzvPe
+ +xr/aMue4nuyUISm/t0yYqdpDFfch5Nv9uv+uVB1yvkVdof1FFFzgXQ15/8Ba2A2xtYk
+ WOR6RWjRspCgv+XOnkzUvis4QSlDXvVVBi2nzYymEW9K4QrkXcQ7WKlRV5FLlhMmt60Q
+ /0TnrPIeHtOQDAPterPQ+lNd6CHvssAloT4B/IEIq1a5MT+FSmbcm4slJ4jRzVYPLP+W
+ SVf1w+MGGhBBKyaJ52y9Vc6SZYCSKT2kVELzpK38rCib+ey6VMQsPwG2HEZBOtWbdZbR
+ 9rog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HXZTY79ogdU3cuAmQiOEqFI8HiKCYgS/bxD1qQ4VBwM=;
- b=m9ZCFbRS2mTTDeTAwKMJH1FbgAUjSgD45BqBe5MWRRE38dsO2jYzqjEIsHKymcEV2C
- XAVWNMVneoxoWNtRUhfrpR85sSLxk8is2IKTnrc04h89x2+OaFv8wqCgkasGKtaJoErG
- s0dobAJrNS768f7UJr1lmLMEM6l2AGy/MB1SwriKXRPyJMo96dMmQMdmlTr/VFU902du
- nj4RqZLiI74GzsHdI4yNyeS2BBcgWlCxCX3NtXzQPP+oDd8kkhzC7wA6qe/0aFspcmiy
- /ClceY1ejhKP+DuagPj1NlifKythaBqfl+D2jBVDGCNifgTr+fkDhyjEYw2fbSZr1u/m
- TV6g==
-X-Gm-Message-State: AOAM533mshn0uUqQWAtqWp8RcSJ9ynvyQdyjvt3gIkSXki7RzVJgh4Yf
- 6f2LOLg3VD8lSKSyoBN4l9/w0+t7L9z5rw==
-X-Google-Smtp-Source: ABdhPJyt4D88Sh2e6SFIFJUcoQYcO5sgE7jIjObbPBMqd4AVMS3llwqeYljOibO8bZxH22fBfxr+ug==
-X-Received: by 2002:a17:902:b906:b0:14f:76a0:ad48 with SMTP id
- bf6-20020a170902b90600b0014f76a0ad48mr26683471plb.79.1650554288825; 
- Thu, 21 Apr 2022 08:18:08 -0700 (PDT)
+ bh=+mtXVKAjUVRS64m73YmB+z7ejlvTN+BDSTEhooEYEys=;
+ b=IlhPap6Y81aMItbEDRdv0TgJt/k2QnYHx0BMk8gfnD+U0a0/7KbnHO65K5ySoPFwys
+ D6CA/c5ld1wg5jjnZFikf/8hQwsohHYVrznmm3fT0tDcbBu2I8ROzHcxHbG6X/Qc5Ifc
+ biMH2ZawIeVIvLa9IzJB7WtP1H2MneO2fEFignp3n+ZcyOxoyV5RMYgmxlz2NAa8Z7YP
+ cQIy5tQIC6jegmfJGlcHlWxyMOlt8Z/0BF3COcQ/z156yyttcn4B4a3fcS4uXohzuPC/
+ 5lrMlWETFb6i/1VuCZcfluLjT2hqoTi72XFN8d4iaGDDBriYFT6prhTQ82Nx/khaafL3
+ Lmtg==
+X-Gm-Message-State: AOAM5319m7ieI0IjsT2fyql8D2KQ/rvn/meRN/pZu9FGriVnDD0lAbDA
+ 3SUhjQrQMvOevk+74fNQ92DMByRnQ9cHVA==
+X-Google-Smtp-Source: ABdhPJxglMs2QfswzmUYWVWWENlP/jptEGY/jcANyrTCsTdjifWx834jqktQIbp+SHSsrdRIUCZNhg==
+X-Received: by 2002:a17:902:ea4f:b0:158:5013:1403 with SMTP id
+ r15-20020a170902ea4f00b0015850131403mr26076510plg.75.1650554295167; 
+ Thu, 21 Apr 2022 08:18:15 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:80c8:6cf3:a91a:4957:ba18:ac18])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a056a00241000b004f3a647ae89sm24616248pfh.174.2022.04.21.08.18.07
+ z16-20020a056a00241000b004f3a647ae89sm24616248pfh.174.2022.04.21.08.18.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 08:18:08 -0700 (PDT)
+ Thu, 21 Apr 2022 08:18:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 20/64] linux-user/nios2: Only initialize SP and PC in
- target_cpu_copy_regs
-Date: Thu, 21 Apr 2022 08:16:51 -0700
-Message-Id: <20220421151735.31996-21-richard.henderson@linaro.org>
+Subject: [PATCH v7 24/64] target/nios2: Use hw/registerfields.h for CR_STATUS
+ fields
+Date: Thu, 21 Apr 2022 08:16:55 -0700
+Message-Id: <20220421151735.31996-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220421151735.31996-1-richard.henderson@linaro.org>
 References: <20220421151735.31996-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,66 +89,61 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop the set of estatus in init_thread; it was clearly intended
-to be setting the value of CR_STATUS for the application, but we
-never actually performed that copy.  However, the proper value is
-set in nios2_cpu_reset so we don't need to do anything here.
-
-We only initialize SP and EA in init_thread, there's no value in
-copying other uninitialized data into ENV.
+Add all fields; retain the helper macros for single bit fields.
+So far there are no uses of the multi-bit status fields.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c        |  1 -
- linux-user/nios2/cpu_loop.c | 22 ----------------------
- 2 files changed, 23 deletions(-)
+ target/nios2/cpu.h | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 397dec5eb8..61063fd974 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1096,7 +1096,6 @@ static void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-     regs->ea = infop->entry;
-     regs->sp = infop->start_stack;
--    regs->estatus = 0x3;
- }
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 872bc2a46f..44fc681c58 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -23,6 +23,7 @@
  
- #define LO_COMMPAGE  TARGET_PAGE_SIZE
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index a941f9032e..c5e68ac048 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -133,28 +133,6 @@ void cpu_loop(CPUNios2State *env)
+ #include "exec/cpu-defs.h"
+ #include "hw/core/cpu.h"
++#include "hw/registerfields.h"
+ #include "qom/object.h"
  
- void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
- {
--    env->regs[0] = 0;
--    env->regs[1] = regs->r1;
--    env->regs[2] = regs->r2;
--    env->regs[3] = regs->r3;
--    env->regs[4] = regs->r4;
--    env->regs[5] = regs->r5;
--    env->regs[6] = regs->r6;
--    env->regs[7] = regs->r7;
--    env->regs[8] = regs->r8;
--    env->regs[9] = regs->r9;
--    env->regs[10] = regs->r10;
--    env->regs[11] = regs->r11;
--    env->regs[12] = regs->r12;
--    env->regs[13] = regs->r13;
--    env->regs[14] = regs->r14;
--    env->regs[15] = regs->r15;
--    /* TODO: unsigned long  orig_r2; */
--    env->regs[R_RA] = regs->ra;
--    env->regs[R_FP] = regs->fp;
-     env->regs[R_SP] = regs->sp;
--    env->regs[R_GP] = regs->gp;
--    env->regs[CR_ESTATUS] = regs->estatus;
-     env->pc = regs->ea;
--    /* TODO: unsigned long  orig_r7; */
- }
+ typedef struct CPUArchState CPUNios2State;
+@@ -79,15 +80,24 @@ struct Nios2CPUClass {
+ 
+ /* Control register aliases */
+ #define CR_STATUS        0
+-#define   CR_STATUS_PIE  (1 << 0)
+-#define   CR_STATUS_U    (1 << 1)
+-#define   CR_STATUS_EH   (1 << 2)
+-#define   CR_STATUS_IH   (1 << 3)
+-#define   CR_STATUS_IL   (63 << 4)
+-#define   CR_STATUS_CRS  (63 << 10)
+-#define   CR_STATUS_PRS  (63 << 16)
+-#define   CR_STATUS_NMI  (1 << 22)
+-#define   CR_STATUS_RSIE (1 << 23)
++
++FIELD(CR_STATUS, PIE, 0, 1)
++FIELD(CR_STATUS, U, 1, 1)
++FIELD(CR_STATUS, EH, 2, 1)
++FIELD(CR_STATUS, IH, 3, 1)
++FIELD(CR_STATUS, IL, 4, 6)
++FIELD(CR_STATUS, CRS, 10, 6)
++FIELD(CR_STATUS, PRS, 16, 6)
++FIELD(CR_STATUS, NMI, 22, 1)
++FIELD(CR_STATUS, RSIE, 23, 1)
++
++#define CR_STATUS_PIE    R_CR_STATUS_PIE_MASK
++#define CR_STATUS_U      R_CR_STATUS_U_MASK
++#define CR_STATUS_EH     R_CR_STATUS_EH_MASK
++#define CR_STATUS_IH     R_CR_STATUS_IH_MASK
++#define CR_STATUS_NMI    R_CR_STATUS_NMI_MASK
++#define CR_STATUS_RSIE   R_CR_STATUS_RSIE_MASK
++
+ #define CR_ESTATUS       1
+ #define CR_BSTATUS       2
+ #define CR_IENABLE       3
 -- 
 2.34.1
 
