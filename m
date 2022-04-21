@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12D25094EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 04:05:41 +0200 (CEST)
-Received: from localhost ([::1]:35818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8AA5094F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Apr 2022 04:09:56 +0200 (CEST)
+Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhMCS-0007XF-Jr
-	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 22:05:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47650)
+	id 1nhMGZ-0002fv-Mn
+	for lists+qemu-devel@lfdr.de; Wed, 20 Apr 2022 22:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nhMBG-0006gK-LI; Wed, 20 Apr 2022 22:04:26 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:46753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nhMBE-0003Y0-Lr; Wed, 20 Apr 2022 22:04:26 -0400
-Received: by mail-pg1-x530.google.com with SMTP id q12so3370091pgj.13;
- Wed, 20 Apr 2022 19:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:subject:to:cc:references:in-reply-to:mime-version
- :message-id:content-transfer-encoding;
- bh=MwXc6Js8jzlhuh5Dy5rHky3QZ+v49yakUSLIPDtheLE=;
- b=lvxAkV8eR5fbRFlLq2tvzHWn6Cz1YTGq9A/tV1/un+Y0DA/HNRnj1xUvxk4xtrbTqX
- /QdhFI03oAHMnMNEyPoO0vkXbb3GjzFa6BxDF/emra+ocORWj2CR8qHYjaiVp/MLkVv/
- kKQ7h0L47D2BI53hLaVbWfrsYV/H4cLIR/Vb8UzEM94wASyhKibsE3IFRBQn0XYTHg1n
- QTLIQDV2FWSMEAO9Jn+1XLWq/QRarsa0sp2eNL4fmyT0ESCxwv0wpAX5Y0FFBRdFGHbl
- lw/FNWVFPsW7dz9BpOJHdsLoRquD69WrkkK3AjclPsGEZ5vPcCrfYbLivBEY2XkwrTEC
- jRUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
- :mime-version:message-id:content-transfer-encoding;
- bh=MwXc6Js8jzlhuh5Dy5rHky3QZ+v49yakUSLIPDtheLE=;
- b=XknUkSXjwdrKFjO8voRYKCbSNy5lJMHzAZ8TXlDBZBHIHGD7JSnGhbBfwomB1RudSw
- 0aOfqcSEGTv39xFHIz1Z+bfH2Divbi3t15Wn/kHPjboSbxL2R3R0ERCLNpIudb8fp9hF
- eOzcdVTWEmP45RVAqJAyQKhjFHkD/I10lZ6S/ksELJ0cBXEp7j24LhrW/vCV5w4dKJoS
- 5eqpaE25NDw5BYr5DJre2R/H+po9GvBpzl2/UbHlLqsW5wBitVN5fvjuPIjn36bHuZ4L
- wu2Uhe6zTr4HGraXhLOWS3CcO2+bflHD0ZuMwowVYclLWI3uNvp+piS/Kb1IatHJhlSm
- RWVg==
-X-Gm-Message-State: AOAM531bV3cbPCrNOchsKQuWoSWjKo6amwoOlfpoXqHQCtg525ZWZf+A
- p1Xo5zX7TINljk3hWVzk7A0=
-X-Google-Smtp-Source: ABdhPJwO+HZKRpqykA460xQ5VOl9u6kLpvfpZcIBD0bqEQbvB2Q53pk5DznFDPfQomHqPpVXv0P1CQ==
-X-Received: by 2002:a05:6a00:10cc:b0:506:e0:d6c3 with SMTP id
- d12-20020a056a0010cc00b0050600e0d6c3mr26366183pfu.33.1650506662087; 
- Wed, 20 Apr 2022 19:04:22 -0700 (PDT)
-Received: from localhost ([203.221.203.144]) by smtp.gmail.com with ESMTPSA id
- q9-20020a638c49000000b00398677b6f25sm21495194pgn.70.2022.04.20.19.04.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 19:04:21 -0700 (PDT)
-Date: Thu, 21 Apr 2022 12:04:14 +1000
-From: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [RFC PATCH v3 1/5] ppc64: Add semihosting support
-To: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>, Leandro Lupori
- <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220418191100.270334-1-leandro.lupori@eldorado.org.br>
- <20220418191100.270334-2-leandro.lupori@eldorado.org.br>
- <1d3aaac9-5aa1-9ff9-6b3c-5109ad7f4361@kaod.org>
- <33285ea7-8dba-3e24-d241-0ff541a83b12@eldorado.org.br>
-In-Reply-To: <33285ea7-8dba-3e24-d241-0ff541a83b12@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
+ id 1nhMFP-0001n2-Cv; Wed, 20 Apr 2022 22:08:43 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:54375)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
+ id 1nhMFL-0004BN-RU; Wed, 20 Apr 2022 22:08:42 -0400
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 23L1tcIs090580;
+ Thu, 21 Apr 2022 09:55:38 +0800 (GMT-8)
+ (envelope-from steven_lee@aspeedtech.com)
+Received: from aspeedtech.com (192.168.70.100) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 21 Apr
+ 2022 10:07:45 +0800
+Date: Thu, 21 Apr 2022 10:07:36 +0800
+From: Steven Lee <steven_lee@aspeedtech.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v4 2/3] aspeed/hace: Support AST2600 HACE
+Message-ID: <20220421020734.GA2850@aspeedtech.com>
+References: <20220331074844.30065-1-steven_lee@aspeedtech.com>
+ <20220331074844.30065-3-steven_lee@aspeedtech.com>
+ <eaef19a7-53f3-fbc8-c5a3-f7693b7d67eb@kaod.org>
 MIME-Version: 1.0
-Message-Id: <1650503031.93xsvzlip3.astroid@bobo.none>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=npiggin@gmail.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <eaef19a7-53f3-fbc8-c5a3-f7693b7d67eb@kaod.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [192.168.70.100]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 23L1tcIs090580
+Received-SPF: pass client-ip=211.20.114.71;
+ envelope-from=steven_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,69 +62,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- pbonzini@redhat.com, alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Jamin Lin <jamin_lin@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Troy Lee <troy_lee@aspeedtech.com>, "open
+ list:All patches CC here" <qemu-devel@nongnu.org>,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Excerpts from Leandro Lupori's message of April 21, 2022 4:09 am:
-> On 4/18/22 17:22, C=C3=A9dric Le Goater wrote:
->> On 4/18/22 21:10, Leandro Lupori wrote:
->>> Add semihosting support for PPC64. This implementation is
->>> based on the standard for ARM semihosting version 2.0, as
->>> implemented by QEMU and documented in
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0 https://github.com/ARM-software/abi-aa/release=
-s
->>>
->>> The PPC64 specific differences are the following:
->>>
->>> Semihosting Trap Instruction: sc 7
->>> Operation Number Register: r3
->>> Parameter Register: r4
->>> Return Register: r3
->>> Data block field size: 64 bits
->>=20
->> 'sc' is a good way to implement semi hosting but we should make sure
->> that it is not colliding with future extensions, at least with the
->> next POWERPC processor. Is that the case ? if not, then the lev could
->> be reserved.
->>=20
->=20
-> Power ISA 3.1B says that LEV values greater that 2 are reserved.
-> Level 2 is the ultravisor, so I assumed that level 7 was far enough from=20
-> current max level. I don't know if POWER11 will introduce new privilege=20
-> levels. Is this info publicly available somewhere? Or do you have a=20
-> better level in mind to use instead?
+The 04/20/2022 20:53, Cédric Le Goater wrote:
+> On 3/31/22 09:48, Steven Lee wrote:
+> > The aspeed ast2600 accumulative mode is described in datasheet
+> > ast2600v10.pdf section 25.6.4:
+> >   1. Allocating and initiating accumulative hash digest write buffer
+> >      with initial state.
+> >      * Since QEMU crypto/hash api doesn't provide the API to set initial
+> >        state of hash library, and the initial state is already setted by
+> 
+> s/setted/set/
+> 
 
-It's not available but there are no plans to use LEV=3D7.
+will fix it.
 
-It would be fine in practice I think, but it's kind of ugly and not=20
-great precedent -- how would we find out all the projects which use=20
-reserved instructions or values for something? Nominally the onus is on=20
-the software to accept breakage, but in reality important software that
-breaks causes a headache for the ISA.
+> >        crypto library (gcrypt/glib/...), so skip this step.
+> >   2. Calculating accumulative hash digest.
+> >      (a) When receiving the last accumulative data, software need to add
+> >          padding message at the end of the accumulative data. Padding
+> >          message described in specific of MD5, SHA-1, SHA224, SHA256,
+> >          SHA512, SHA512/224, SHA512/256.
+> >          * Since the crypto library (gcrypt/glib) already pad the
+> >            padding message internally.
+> >          * This patch is to remove the padding message which fed byguest
+> >            machine driver.
+> > 
+> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> > ---
+> >   hw/misc/aspeed_hace.c | 140 ++++++++++++++++++++++++++++++++++++++++--
+> >   1 file changed, 136 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+> > index 59fe5bfca2..5a7a144602 100644
+> > --- a/hw/misc/aspeed_hace.c
+> > +++ b/hw/misc/aspeed_hace.c
+> > @@ -95,12 +95,115 @@ static int hash_algo_lookup(uint32_t reg)
+> >       return -1;
+> >   }
+> >   
+> > -static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
+> > +/**
+> > + * Check whether the request contains padding message.
+> > + *
+> > + * @param iov           iov of current request
+> > + * @param id            index of iov of current request
+> > + * @param total_req_len length of all acc_mode requests(including padding msg)
+> > + * @param req_len       length of the current request
+> > + * @param total_msg_len length of all acc_mode requests(excluding padding msg)
+> > + * @param pad_offset    start offset of padding message
+> > + */
+> > +static bool has_padding(struct iovec *iov, uint32_t total_req_len,
+> > +                        hwaddr req_len, uint32_t *total_msg_len,
+> > +                        uint32_t *pad_offset)
+> > +{
+> > +    *total_msg_len = (uint32_t)(ldq_be_p(iov->iov_base + req_len - 8) / 8);
+> > +    /*
+> > +     * SG_LIST_LEN_LAST asserted in the request length doesn't mean it is the
+> > +     * last request. The last request should contain padding message.
+> > +     * We check whether message contains padding by
+> > +     *   1. Get total message length. If the current message contains
+> > +     *      padding, the last 8 bytes are total message length.
+> > +     *   2. Check whether the total message length is valid.
+> > +     *      If it is valid, the value should less than or eaual to
+> 
+> s/eaual/equal/
+> 
 
-IBM's systemsim emulator actually has an instruction to call out to the=20
-emulator to do various things like IO. It uses the opcode
+will fix it.
 
-  .long 0x000eaeb0
+> > +     *      total_req_len.
+> > +     *   3. Current request len - padding_size to get padding offset.
+> > +     *      The padding message's first byte should be 0x80
+> > +     */
+> > +    if (*total_msg_len <= total_req_len) {
+> > +        uint32_t padding_size = total_req_len - *total_msg_len;
+> > +        uint8_t *padding = iov->iov_base;
+> > +        *pad_offset = req_len - padding_size;
+> > +        if (padding[*pad_offset] == 0x80) {
+> > +            return true;
+> > +        }
+> > +    }
+> > +
+> > +    return false;
+> > +}
+> > +
+> > +static int reconstruct_iov(struct iovec *cache, struct iovec *iov, int id,
+> > +                           uint32_t *total_req_len,
+> > +                           uint32_t *pad_offset,
+> > +                           int *count)
+> > +{
+> > +    int i, iov_count;
+> > +    if (pad_offset != 0) {
+> > +        (cache + *count)->iov_base = (iov + id)->iov_base;
+> 
+> I would prefer the array notation iov[i], like elsewhere in this file..
+> 
 
-That is the primary op 0 reserved space, and there is actually another=20
-op 'attn' or 'sp_attn' there which IBM CPUs implement, it is similar in=20
-spirit (it calls out to the service processor and/or chip error handling=20
-system to deal with a condition out-of-band). You don't want to use attn=20
-here because the core under emulation might implement it, I'm just=20
-noting the precedent with similar functionality under this primary=20
-opcode.
+will use iov[i] instead of (iov + i).
 
-So I think the systemsim emulator instruction should be a good choice.=20
-But it should really be documented. I will bring this up at the Open=20
-Power ISA working group meeting next week and see what the options are=20
-with getting it formally allocated for semihosting emulators (or what=20
-the alternatives are).
+> > +        (cache + *count)->iov_len = *pad_offset;
+> > +        ++*count;
+> > +    }
+> > +    for (i = 0; i < *count; i++) {
+> > +        (iov + i)->iov_base = (cache + i)->iov_base;
+> > +        (iov + i)->iov_len = (cache + i)->iov_len;
+> 
+> ditto.
+> 
 
-Thanks,
-Nick
+will use iov[i] instead of (iov + i).
 
+> > +    }
+> > +    iov_count = *count;
+> > +    *count = 0;
+> > +    *total_req_len = 0;
+> > +    return iov_count;
+> > +}
+> > +
+> > +/**
+> > + * Generate iov for accumulative mode.
+> > + *
+> > + * @param cache         cached iov
+> > + * @param iov           iov of current request
+> > + * @param id            index of iov of current request
+> > + * @param total_req_len total length of the request(including padding)
+> > + * @param req_len       length of the current request
+> > + * @param count         count of cached iov
+> > + */
+> > +static int gen_acc_mode_iov(struct iovec *cache, struct iovec *iov, int id,
+> > +                            uint32_t *total_req_len, hwaddr *req_len,
+> > +                            int *count)
+> > +{
+> > +    uint32_t pad_offset;
+> > +    uint32_t total_msg_len;
+> > +    *total_req_len += *req_len;
+> > +
+> > +    if (has_padding(&iov[id], *total_req_len, *req_len, &total_msg_len,
+> > +                    &pad_offset)) {
+> > +        if (*count) {
+> > +            return reconstruct_iov(cache, iov, id, total_req_len,
+> > +                    &pad_offset, count);
+> > +        }
+> > +
+> > +        *req_len -= *total_req_len - total_msg_len;
+> > +        *total_req_len = 0;
+> > +        (iov + id)->iov_len = *req_len;
+> > +        return id + 1;
+> > +    } else {
+> > +        (cache + *count)->iov_base = iov->iov_base;
+> > +        (cache + *count)->iov_len = *req_len;
+> > +        ++*count;
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode,
+> > +                              bool acc_mode)
+> >   {
+> >       struct iovec iov[ASPEED_HACE_MAX_SG];
+> >       g_autofree uint8_t *digest_buf;
+> >       size_t digest_len = 0;
+> > +    int niov = 0;
+> >       int i;
+> > +    static struct iovec iov_cache[ASPEED_HACE_MAX_SG];
+> > +    static int count;
+> > +    static uint32_t total_len;
+> 
+> Why static ? Shouldn't these be AspeedHACEState attributes instead ?
+> 
+> 
+
+will add these static variables in AspeedHACEState.
+Thanks for your review.
+
+Steven
+
+> >       if (sg_mode) {
+> >           uint32_t len = 0;
+> > @@ -124,10 +227,17 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
+> >                                           MEMTXATTRS_UNSPECIFIED, NULL);
+> >               addr &= SG_LIST_ADDR_MASK;
+> >   
+> > -            iov[i].iov_len = len & SG_LIST_LEN_MASK;
+> > -            plen = iov[i].iov_len;
+> > +            plen = len & SG_LIST_LEN_MASK;
+> >               iov[i].iov_base = address_space_map(&s->dram_as, addr, &plen, false,
+> >                                                   MEMTXATTRS_UNSPECIFIED);
+> > +
+> > +            if (acc_mode) {
+> > +                niov = gen_acc_mode_iov(
+> > +                        iov_cache, iov, i, &total_len, &plen, &count);
+> > +
+> > +            } else {
+> > +                iov[i].iov_len = plen;
+> > +            }
+> >           }
+> >       } else {
+> >           hwaddr len = s->regs[R_HASH_SRC_LEN];
+> > @@ -137,6 +247,27 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
+> >                                               &len, false,
+> >                                               MEMTXATTRS_UNSPECIFIED);
+> >           i = 1;
+> > +
+> > +        if (count) {
+> > +            /*
+> > +             * In aspeed sdk kernel driver, sg_mode is disabled in hash_final().
+> > +             * Thus if we received a request with sg_mode disabled, it is
+> > +             * required to check whether cache is empty. If no, we should
+> > +             * combine cached iov and the current iov.
+> > +             */
+> > +            uint32_t total_msg_len;
+> > +            uint32_t pad_offset;
+> > +            total_len += len;
+> > +            if (has_padding(iov, total_len, len, &total_msg_len,
+> > +                            &pad_offset)) {
+> > +                niov = reconstruct_iov(iov_cache, iov, 0, &total_len,
+> > +                        &pad_offset, &count);
+> > +            }
+> > +        }
+> > +    }
+> > +
+> > +    if (niov) {
+> > +        i = niov;
+> >       }
+> >   
+> >       if (qcrypto_hash_bytesv(algo, iov, i, &digest_buf, &digest_len, NULL) < 0) {
+> > @@ -238,7 +369,8 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
+> >                           __func__, data & ahc->hash_mask);
+> >                   break;
+> >           }
+> > -        do_hash_operation(s, algo, data & HASH_SG_EN);
+> > +        do_hash_operation(s, algo, data & HASH_SG_EN,
+> > +                ((data & HASH_HMAC_MASK) == HASH_DIGEST_ACCUM));
+> >   
+> >           if (data & HASH_IRQ_EN) {
+> >               qemu_irq_raise(s->irq);
+> 
 
