@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C4250B721
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:19:11 +0200 (CEST)
-Received: from localhost ([::1]:55842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFB250B736
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:26:00 +0200 (CEST)
+Received: from localhost ([::1]:36266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhsFi-00051M-LC
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:19:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56968)
+	id 1nhsMH-0002uT-NL
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nhrhV-0004SW-G8
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:49 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:41611)
+ id 1nhrhW-0004XW-Uz
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:51 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:37436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nhrhT-0003cQ-UK
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:49 -0400
-Received: by mail-pl1-x635.google.com with SMTP id s14so10266022plk.8
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:43:47 -0700 (PDT)
+ id 1nhrhV-0003cl-20
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:50 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id bo5so7775182pfb.4
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:43:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KCZLGHTO3+wecIXI8Og9PtvFRG2EcOF2NtWwLZpjaHg=;
- b=aXU7QSXNLaYR1dcegq3rSRnqdGvGJxZOhH5qK4vx3PCsTAVtB+K1KboyZ5G6XvOtNg
- CQy+hNFHAhL9FZoGwNhzb09jqA0YvG7ykW/sL6F90rZZ5pkVvrUj8R8Iuw7IcDAbSbS/
- htUyZtaYcPxxFx3TU1Wwsu0fIAMUeX+yVOiFneS4X7C3re32Xs0CxK8ukt1Y86mTkkNW
- R83yduMlXjmFetFhZGr68yGgUx7A3vHKYKF1F8WJxW5TBEN2+ckXHh/GVg/QpGI3goCP
- f06lT83vGekgBP4FFuD/FAJHKL5dcCosZMX/cLFhJ1/nogHO29Q8bNPXDXslJHnktNYJ
- UZSA==
+ bh=cyTCNhDhkfX02+YiD10zVwLNMHjK/GcTywN2HnpKIRs=;
+ b=nJ49uB2AY5ToAwE2ahPcAco3aJ/XPGlcffqXSFcNXhDYoLAbEyYQZ1iFTCGZ+XlZqD
+ tW2VYMqm3PFYEUYQCgEWX2q47hmuYcgdr/Wvn/hVnoxTmos3yXfMIL/ixh+W+AzWaeHZ
+ KGqhWxY886J2jV15Zy7Nh9haWEkipJcq9u1uuI6wGvNaBmX6ZtkZgi+pbts+EpJG1Iq9
+ p+8AHMTqhyIVS4Pc2OaLd7JiF0CqOOtqXq68iAvkQyyy5hcoRfKtRYdK8gPlM8dGIa+e
+ 5b6U140uTefiML069RrqdDGWCgcyVz0l+MjU9gzioCNstN4UQ1GSBsts2kqXj8v7iujl
+ LwAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KCZLGHTO3+wecIXI8Og9PtvFRG2EcOF2NtWwLZpjaHg=;
- b=cPmMreq2Yw03tlhxUQ8hUJseTrKx9LzXHPfNmLKEOcVv3Qgr7jztBJvyVUeWb7fixI
- 9ReKo6fQXyOVWND7JKwQU7laZPN8DQwbbD+hgvJgl49GPr3JL7+gEh5l9V3xjCJcjRlg
- UmI6NsUfvtZiCn7pOuKchN4vm8Tkh9enrRvRBKH2gmdDQKRVdRr+Zcj0UHoIA5uSeVPe
- aGGJGGER8Ea3EcvaFGtjUfBYJyNnFBfngDx7xuFQEh41+HgyPff8C9zEYHXgJ4Yvxdrn
- XeooRlVdaRe262ECyHKNq93p5+T3G+a60brsQ6upe2WWjaCNJeJfYzljF0UuRkM4R7xo
- g88A==
-X-Gm-Message-State: AOAM533bo9Dd+7C0gkPCPMQP1JRRdhRuGu7hICU4MwmOCaesT5mU7WEC
- 6wUQoIq0ZcUT3xlD9YAH9N2AvT1xGU8=
-X-Google-Smtp-Source: ABdhPJx8vWVOtI9cJtABtpTKpPU7mvnDFNEFqtQE1ACaoY9drxUsluAGtrbL3EThgAxqT+jnqjXOgQ==
-X-Received: by 2002:a17:90b:1a8b:b0:1d1:a447:7419 with SMTP id
- ng11-20020a17090b1a8b00b001d1a4477419mr4888008pjb.169.1650627826260; 
- Fri, 22 Apr 2022 04:43:46 -0700 (PDT)
+ bh=cyTCNhDhkfX02+YiD10zVwLNMHjK/GcTywN2HnpKIRs=;
+ b=T84dbA6sK4IVLZHHmH3xfSqudDxBpRLHKxkccORbbS7cuCAp711RQP05wIjzFQg7PC
+ Iky48dd3xm4bCPaQZ0l0kuiDPZnFkoL3YaHB9W/1GabIfuwTk2pc66hZMB+WtM89D9GJ
+ QXw47r1Pl6zgxo4fDiC/K1qt7Kp8LuL0MfMU9HZNTxNst/OHDYqirfT9ALF7OKtDxObd
+ sNGdjQKV6hH7y4oxyaUW6eJuWsert0jG/YXOlFXtbuKDKiv1MzEb7NeOV+L6QdovDjEB
+ zPZ2aYlZpkvxOCb05WBtB8Q0Z2lLSmG/7pfM+W8cv6XXlpyU6+RlMUCTDmQ49HjOyJam
+ 3DWA==
+X-Gm-Message-State: AOAM533tTLxHvPhnwtlbdsTs7Nf7m7wAOg4DVjECoxnIfX9a/u6vmdKo
+ H2gyHY9p5LVXFDV3KP4jpVJsser7HJM=
+X-Google-Smtp-Source: ABdhPJzMyBqlbs9hIPyHn9ht7N6alNLKkZ9e4073eOx2iNLAeTjlQxuP0qLpPVL9niTVtPs810FghQ==
+X-Received: by 2002:a05:6a00:b52:b0:508:31e1:7d35 with SMTP id
+ p18-20020a056a000b5200b0050831e17d35mr4653936pfo.33.1650627827416; 
+ Fri, 22 Apr 2022 04:43:47 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:401:1d20:4c40:4238:b597:4c1a])
  by smtp.gmail.com with ESMTPSA id
- d16-20020a056a00245000b004f7728a4346sm2706519pfj.79.2022.04.22.04.43.44
+ d16-20020a056a00245000b004f7728a4346sm2706519pfj.79.2022.04.22.04.43.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 04:43:45 -0700 (PDT)
+ Fri, 22 Apr 2022 04:43:46 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/7] target/xtensa: fix missing tcg_temp_free in
- gen_window_check
-Date: Fri, 22 Apr 2022 04:43:26 -0700
-Message-Id: <20220422114332.374472-2-jcmvbkbc@gmail.com>
+Subject: [PATCH v2 2/7] target/xtensa: use tcg_contatnt_* for numeric literals
+Date: Fri, 22 Apr 2022 04:43:27 -0700
+Message-Id: <20220422114332.374472-3-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220422114332.374472-1-jcmvbkbc@gmail.com>
 References: <20220422114332.374472-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -92,33 +91,164 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pc and w are allocated with tcg_const_i32 but not freed in
-gen_window_check. Use tcg_constant_i32 for them both.
+Replace tcg_const_* for numeric literals with tcg_constant_*.
 
-Fixes: 2db59a76c421 ("target-xtensa: record available window in TB flags")
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
-Changes v1->v2:
-- also use tcg_constant_* for PC
-
- target/xtensa/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/xtensa/translate.c | 28 +++++++++-------------------
+ 1 file changed, 9 insertions(+), 19 deletions(-)
 
 diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index b1491ed625e5..9ecbbf172114 100644
+index 9ecbbf172114..53f75f7586b2 100644
 --- a/target/xtensa/translate.c
 +++ b/target/xtensa/translate.c
-@@ -571,8 +571,8 @@ static bool gen_window_check(DisasContext *dc, uint32_t mask)
-     unsigned r = 31 - clz32(mask);
+@@ -306,16 +306,14 @@ static void gen_right_shift_sar(DisasContext *dc, TCGv_i32 sa)
  
-     if (r / 4 > dc->window) {
--        TCGv_i32 pc = tcg_const_i32(dc->pc);
--        TCGv_i32 w = tcg_const_i32(r / 4);
-+        TCGv_i32 pc = tcg_constant_i32(dc->pc);
-+        TCGv_i32 w = tcg_constant_i32(r / 4);
+ static void gen_left_shift_sar(DisasContext *dc, TCGv_i32 sa)
+ {
+-    TCGv_i32 tmp = tcg_const_i32(32);
+     if (!dc->sar_m32_allocated) {
+         dc->sar_m32 = tcg_temp_local_new_i32();
+         dc->sar_m32_allocated = true;
+     }
+     tcg_gen_andi_i32(dc->sar_m32, sa, 0x1f);
+-    tcg_gen_sub_i32(cpu_SR[SAR], tmp, dc->sar_m32);
++    tcg_gen_sub_i32(cpu_SR[SAR], tcg_constant_i32(32), dc->sar_m32);
+     dc->sar_5bit = false;
+     dc->sar_m32_5bit = true;
+-    tcg_temp_free(tmp);
+ }
  
-         gen_helper_window_check(cpu_env, pc, w);
-         dc->base.is_jmp = DISAS_NORETURN;
+ static void gen_exception(DisasContext *dc, int excp)
+@@ -1956,11 +1954,10 @@ static void translate_mov(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_movcond(DisasContext *dc, const OpcodeArg arg[],
+                               const uint32_t par[])
+ {
+-    TCGv_i32 zero = tcg_const_i32(0);
++    TCGv_i32 zero = tcg_constant_i32(0);
+ 
+     tcg_gen_movcond_i32(par[0], arg[0].out,
+                         arg[2].in, zero, arg[1].in, arg[0].in);
+-    tcg_temp_free(zero);
+ }
+ 
+ static void translate_movi(DisasContext *dc, const OpcodeArg arg[],
+@@ -1972,7 +1969,7 @@ static void translate_movi(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_movp(DisasContext *dc, const OpcodeArg arg[],
+                            const uint32_t par[])
+ {
+-    TCGv_i32 zero = tcg_const_i32(0);
++    TCGv_i32 zero = tcg_constant_i32(0);
+     TCGv_i32 tmp = tcg_temp_new_i32();
+ 
+     tcg_gen_andi_i32(tmp, arg[2].in, 1 << arg[2].imm);
+@@ -1980,7 +1977,6 @@ static void translate_movp(DisasContext *dc, const OpcodeArg arg[],
+                         arg[0].out, tmp, zero,
+                         arg[1].in, arg[0].in);
+     tcg_temp_free(tmp);
+-    tcg_temp_free(zero);
+ }
+ 
+ static void translate_movsp(DisasContext *dc, const OpcodeArg arg[],
+@@ -6443,7 +6439,7 @@ static void translate_compare_d(DisasContext *dc, const OpcodeArg arg[],
+         [COMPARE_OLE] = gen_helper_ole_d,
+         [COMPARE_ULE] = gen_helper_ule_d,
+     };
+-    TCGv_i32 zero = tcg_const_i32(0);
++    TCGv_i32 zero = tcg_constant_i32(0);
+     TCGv_i32 res = tcg_temp_new_i32();
+     TCGv_i32 set_br = tcg_temp_new_i32();
+     TCGv_i32 clr_br = tcg_temp_new_i32();
+@@ -6455,7 +6451,6 @@ static void translate_compare_d(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_movcond_i32(TCG_COND_NE,
+                         arg[0].out, res, zero,
+                         set_br, clr_br);
+-    tcg_temp_free(zero);
+     tcg_temp_free(res);
+     tcg_temp_free(set_br);
+     tcg_temp_free(clr_br);
+@@ -6475,7 +6470,7 @@ static void translate_compare_s(DisasContext *dc, const OpcodeArg arg[],
+         [COMPARE_ULE] = gen_helper_ule_s,
+     };
+     OpcodeArg arg32[3];
+-    TCGv_i32 zero = tcg_const_i32(0);
++    TCGv_i32 zero = tcg_constant_i32(0);
+     TCGv_i32 res = tcg_temp_new_i32();
+     TCGv_i32 set_br = tcg_temp_new_i32();
+     TCGv_i32 clr_br = tcg_temp_new_i32();
+@@ -6489,7 +6484,6 @@ static void translate_compare_s(DisasContext *dc, const OpcodeArg arg[],
+                         arg[0].out, res, zero,
+                         set_br, clr_br);
+     put_f32_i2(arg, arg32, 1, 2);
+-    tcg_temp_free(zero);
+     tcg_temp_free(res);
+     tcg_temp_free(set_br);
+     tcg_temp_free(clr_br);
+@@ -6665,14 +6659,13 @@ static void translate_mov_s(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_movcond_d(DisasContext *dc, const OpcodeArg arg[],
+                                 const uint32_t par[])
+ {
+-    TCGv_i64 zero = tcg_const_i64(0);
++    TCGv_i64 zero = tcg_constant_i64(0);
+     TCGv_i64 arg2 = tcg_temp_new_i64();
+ 
+     tcg_gen_ext_i32_i64(arg2, arg[2].in);
+     tcg_gen_movcond_i64(par[0], arg[0].out,
+                         arg2, zero,
+                         arg[1].in, arg[0].in);
+-    tcg_temp_free_i64(zero);
+     tcg_temp_free_i64(arg2);
+ }
+ 
+@@ -6680,12 +6673,11 @@ static void translate_movcond_s(DisasContext *dc, const OpcodeArg arg[],
+                                 const uint32_t par[])
+ {
+     if (arg[0].num_bits == 32) {
+-        TCGv_i32 zero = tcg_const_i32(0);
++        TCGv_i32 zero = tcg_constant_i32(0);
+ 
+         tcg_gen_movcond_i32(par[0], arg[0].out,
+                             arg[2].in, zero,
+                             arg[1].in, arg[0].in);
+-        tcg_temp_free(zero);
+     } else {
+         translate_movcond_d(dc, arg, par);
+     }
+@@ -6694,7 +6686,7 @@ static void translate_movcond_s(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_movp_d(DisasContext *dc, const OpcodeArg arg[],
+                              const uint32_t par[])
+ {
+-    TCGv_i64 zero = tcg_const_i64(0);
++    TCGv_i64 zero = tcg_constant_i64(0);
+     TCGv_i32 tmp1 = tcg_temp_new_i32();
+     TCGv_i64 tmp2 = tcg_temp_new_i64();
+ 
+@@ -6703,7 +6695,6 @@ static void translate_movp_d(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_movcond_i64(par[0],
+                         arg[0].out, tmp2, zero,
+                         arg[1].in, arg[0].in);
+-    tcg_temp_free_i64(zero);
+     tcg_temp_free_i32(tmp1);
+     tcg_temp_free_i64(tmp2);
+ }
+@@ -6712,7 +6703,7 @@ static void translate_movp_s(DisasContext *dc, const OpcodeArg arg[],
+                              const uint32_t par[])
+ {
+     if (arg[0].num_bits == 32) {
+-        TCGv_i32 zero = tcg_const_i32(0);
++        TCGv_i32 zero = tcg_constant_i32(0);
+         TCGv_i32 tmp = tcg_temp_new_i32();
+ 
+         tcg_gen_andi_i32(tmp, arg[2].in, 1 << arg[2].imm);
+@@ -6720,7 +6711,6 @@ static void translate_movp_s(DisasContext *dc, const OpcodeArg arg[],
+                             arg[0].out, tmp, zero,
+                             arg[1].in, arg[0].in);
+         tcg_temp_free(tmp);
+-        tcg_temp_free(zero);
+     } else {
+         translate_movp_d(dc, arg, par);
+     }
 -- 
 2.30.2
 
