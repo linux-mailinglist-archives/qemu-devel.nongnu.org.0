@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65FB50B5D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:04:49 +0200 (CEST)
-Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB58450B5EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:11:08 +0200 (CEST)
+Received: from localhost ([::1]:45556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhr5k-0001dO-RJ
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:04:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59220)
+	id 1nhrBr-0000z2-Lf
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:11:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAJ-0005aK-Lw
+ id 1nhqAK-0005aM-Fu
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:30 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45966)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:34693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAH-0002wI-Ur
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:27 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id w4so10279697wrg.12
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:25 -0700 (PDT)
+ id 1nhqAI-0002wU-TZ
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:28 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ ay36-20020a05600c1e2400b0038ebc885115so4692467wmb.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7SQzC5lAEqp5CMAsa+8Njn6FSg2/QmhMegZg1nRW8BE=;
- b=r/2Fc9tM+dO9ptE5xAcfNqAZqG/+s2l3NcMwagHwZncxYBdZ+2ZJNVAOoe0/ZGVcbu
- Q2DrefOWE4mrFcDBFEVw0Py9oZhajDjiIIDTkcshOxPvupV/NKAWS7Po8++vbHebMCsR
- Q1FC8Ybxo62JaMXdoyB5auLBzlFlFKze3LfgTbUpKMjX0B1ysTjx5MCJG87jOsmx2djY
- OhbEmD9OouzdNc9u1bV5LybEcfhcw4w9j/3WAp4jSg769cC6Tu/WmVOVWiZQxwfM3eMH
- QHALCprCrDrOecdp2qYmdi55cmctDnhCVlke7AiU/hb1SLswOik5kx6rWIF+30KzdlVG
- QBDQ==
+ bh=1C1mIsbiB+RmAWojouCaP2qiHomdsW424z2/fuwD7jI=;
+ b=WLndpUSY3PrjvdvGp2hz0Uu4lK9/Z28LDPmYshVRNoPFu9vagmNiCcxFjEZn2I1CqX
+ e2qBVps8euCbVt3TF3vMktFW6hyzs2vkdNTxuQ9s4eRc6RBUSWA46ylTB8AuSZcTq0GC
+ 4Hjl+pCdQDpSQ9hFLmjFIQHZ7rA+KzPdBptJU+cW+Uj8YGi0im8tpTBs4w1ad7vr5zj8
+ 3Roh/yLQ34cN78NRliji3XRAIqchgT1LAodo5OOGyU1H4yjfUve/Om+P3jJ6xMysPs8M
+ ikRKV30TQ2dy7ZJc5mXG7e/eb2dM5jlgS+5ufQ9S0/t9vLqeTniD1pkpOnrGmxlUizds
+ zNVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7SQzC5lAEqp5CMAsa+8Njn6FSg2/QmhMegZg1nRW8BE=;
- b=sSBJgZsmI3qQ6i0GgjF8jJk6Wd5eRyNTxz+dpCU9Jb60sXkNcMElTj9wGTxM/fxiIo
- vGaH1AOODnrcoOF7iAlhj+wvHETEIHiwC1+/6IoiCCY/Qi4J8R72ce//U+df3sM1Otea
- d9ygdgCuykCUDes4YwGQZ5bXRZ4opM7LWEhYLPEhjIsfNiLNVln5NE+FYKzdLUclSXwe
- rMVchohRb617UDLh8zdYFNshPNi5wsCDcLl333khU7y5N8U6v4gxoio0ctCIVj4gVadb
- WWMQ/B4i+OOYCRhD/L/aX5QBDLcwt8R7fc4ezMxqRw7Yz//D67CuEkgmFYmDy6AyEgoh
- BReg==
-X-Gm-Message-State: AOAM531aYxWXYq1/Pb9K2fYhrxjUhAHe9xRlyE5tamhvlgBMHy/p0fZ9
- i5+JBLiiNUkaHnv6LsDCqmVyb2iZFrnuig==
-X-Google-Smtp-Source: ABdhPJx4vJu/g6zhzh/WsCQBks94d/hCoSxt/knmM+bNlOmL9ZkM1PxVKaXlDqn/g0Ejvg2bnbKjuw==
-X-Received: by 2002:a05:6000:1a87:b0:20a:7ea5:2aef with SMTP id
- f7-20020a0560001a8700b0020a7ea52aefmr3037461wry.666.1650621924610; 
- Fri, 22 Apr 2022 03:05:24 -0700 (PDT)
+ bh=1C1mIsbiB+RmAWojouCaP2qiHomdsW424z2/fuwD7jI=;
+ b=rY1pEZS6F8chwQVnOOsZhaJOTfoBIp6WeDinU28BbEzS1eorMj7TkxFcqhajbqNnDe
+ YflCpYsVqdlGk4j/BaAUnVLLHdx2HuoJnQMRDnjtcJK3qK28F14GhcVxxYNOhoooeaCo
+ bfeK/H+gZriuhDDImsL+a5PpJVjjLgio6P1TZyasEzLKZBUTp1EBAgqr9lcw6iWA02sm
+ l5ZI2LfbQiQrqyzsdOL/RK/j3Opr+HRZRU5mg4XZB/2I0EcruUCaED6LkRfcejKyA7F6
+ aWyE9GCXvguAVZTOIOHQsiWOn8Ap6P2FomEDEzbJnzkCpQvrDBW6oxX9EYW9YRrdL28/
+ z9aA==
+X-Gm-Message-State: AOAM53246y31Q7iLNtOLQI6KaXRPLwT9+azw0dI4UuOa01B2WQ9xXDPT
+ l28oh9hnFQkky+hn5Re7NZwSS/szKsxKXg==
+X-Google-Smtp-Source: ABdhPJzBhd0Ezv6n5q18XIZoFH9R+StSUvmEWXLWEoEJMDC0IjtBXYVHy1lfDjPszHU2h3zaSgTbqQ==
+X-Received: by 2002:a1c:c912:0:b0:37b:e074:dfcb with SMTP id
+ f18-20020a1cc912000000b0037be074dfcbmr12363110wmb.161.1650621925491; 
+ Fri, 22 Apr 2022 03:05:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.23
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:05:24 -0700 (PDT)
+ Fri, 22 Apr 2022 03:05:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 53/61] target/arm: Simplify GEN_SHIFT in translate.c
-Date: Fri, 22 Apr 2022 11:04:24 +0100
-Message-Id: <20220422100432.2288247-54-peter.maydell@linaro.org>
+Subject: [PULL 54/61] target/arm: Simplify gen_sar
+Date: Fri, 22 Apr 2022 11:04:25 +0100
+Message-Id: <20220422100432.2288247-55-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,55 +91,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Instead of computing
-
-    tmp1 = shift & 0xff;
-    dest = (tmp1 > 0x1f ? 0 : value) << (tmp1 & 0x1f)
-
-use
-
-    tmpd = value << (shift & 0x1f);
-    dest = shift & 0xe0 ? 0 : tmpd;
-
-which has a flatter dependency tree.
+Use tcg_gen_umin_i32 instead of tcg_gen_movcond_i32.
 Use tcg_constant_i32 while we're at it.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ target/arm/translate.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 4d7886fa853..0c9d50d48df 100644
+index 0c9d50d48df..086dc0d3b15 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -552,16 +552,14 @@ static void gen_sbc_CC(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)
- #define GEN_SHIFT(name)                                               \
- static void gen_##name(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)       \
- {                                                                     \
--    TCGv_i32 tmp1, tmp2, tmp3;                                        \
--    tmp1 = tcg_temp_new_i32();                                        \
--    tcg_gen_andi_i32(tmp1, t1, 0xff);                                 \
--    tmp2 = tcg_const_i32(0);                                          \
--    tmp3 = tcg_const_i32(0x1f);                                       \
--    tcg_gen_movcond_i32(TCG_COND_GTU, tmp2, tmp1, tmp3, tmp2, t0);    \
--    tcg_temp_free_i32(tmp3);                                          \
--    tcg_gen_andi_i32(tmp1, tmp1, 0x1f);                               \
--    tcg_gen_##name##_i32(dest, tmp2, tmp1);                           \
--    tcg_temp_free_i32(tmp2);                                          \
-+    TCGv_i32 tmpd = tcg_temp_new_i32();                               \
-+    TCGv_i32 tmp1 = tcg_temp_new_i32();                               \
-+    TCGv_i32 zero = tcg_constant_i32(0);                              \
-+    tcg_gen_andi_i32(tmp1, t1, 0x1f);                                 \
-+    tcg_gen_##name##_i32(tmpd, t0, tmp1);                             \
-+    tcg_gen_andi_i32(tmp1, t1, 0xe0);                                 \
-+    tcg_gen_movcond_i32(TCG_COND_NE, dest, tmp1, zero, zero, tmpd);   \
-+    tcg_temp_free_i32(tmpd);                                          \
-     tcg_temp_free_i32(tmp1);                                          \
+@@ -568,12 +568,10 @@ GEN_SHIFT(shr)
+ 
+ static void gen_sar(TCGv_i32 dest, TCGv_i32 t0, TCGv_i32 t1)
+ {
+-    TCGv_i32 tmp1, tmp2;
+-    tmp1 = tcg_temp_new_i32();
++    TCGv_i32 tmp1 = tcg_temp_new_i32();
++
+     tcg_gen_andi_i32(tmp1, t1, 0xff);
+-    tmp2 = tcg_const_i32(0x1f);
+-    tcg_gen_movcond_i32(TCG_COND_GTU, tmp1, tmp1, tmp2, tmp2, tmp1);
+-    tcg_temp_free_i32(tmp2);
++    tcg_gen_umin_i32(tmp1, tmp1, tcg_constant_i32(31));
+     tcg_gen_sar_i32(dest, t0, tmp1);
+     tcg_temp_free_i32(tmp1);
  }
- GEN_SHIFT(shl)
 -- 
 2.25.1
 
