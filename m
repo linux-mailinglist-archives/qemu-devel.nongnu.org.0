@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B688D50B6E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:10:05 +0200 (CEST)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668BB50B76F
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:34:50 +0200 (CEST)
+Received: from localhost ([::1]:51694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhs6u-0006Ia-OX
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:10:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57054)
+	id 1nhsUr-0005an-Hp
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:34:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nhrha-0004jK-HJ
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:54 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35792)
+ id 1nhrhb-0004l7-Lf
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:56 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:39848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nhrhZ-0003eA-1M
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:54 -0400
-Received: by mail-pl1-x630.google.com with SMTP id b7so10282535plh.2
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:43:52 -0700 (PDT)
+ id 1nhrha-0003ea-3e
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:55 -0400
+Received: by mail-pl1-x630.google.com with SMTP id c12so10278581plr.6
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:43:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=j/yJYNbmHzMaH9snSTtewuCLJRVV1k7sJHGVXunCvCQ=;
- b=djsxBCC9hjfNZ3LOpuTgPJLQNF05EzEru2n7+ovt2pXDvX3GoAFa+QmhP5YW54zQi/
- RxmKQNub3C1CPwAxg9oh0jGvOXIJnLFrA23lwLXivDzi09NSziA/6qwbRWXXWFDzjgWG
- WiwR2++npaxwGquXu3NlML2IoKu4+sQRVlyOFLlyZF3L+2kabqghxnrybqL56ovAHK76
- TvKjg+Uz8DYCzQpL2VmAFDXCnSZIhAFopsBxKvWK7KP9gSoF/a9CxSLmizfR+DHddNuY
- 9QUwTQ/2sW+zyFOfCfv7UksRUTtTzWYZUgzpo5wlOF2ux6JQ9aDF0lkr2tNXANHOo3vC
- 4EfQ==
+ bh=szXuTjbI6ruOG61z6eyHDfHfQXgsXjWjd2ILrlbqQGc=;
+ b=Zj8DMIT6BhfjE7Iu7G49i+jBdpEZbb+UE5vJcjh0uOwvnxkpOlwLHB2Tnu8SW34qbu
+ QBraxhJSsCiP03yB01NmbzRyrgq0nM7E0stB8EvWCz6/NqfK966ypTbBLgFIDIlWOhqm
+ n4QI0pY4HxnPbYsHcZ49XG/sE2Uu7ucz8589PhXBEjJA4aT1cOWtBW/hqsr/QeOsQ0ht
+ SexUo66ujFxVPZR5uqJrHHinyMatkV9/KWBmQbUfy5jNe00Miied8ErJgT3711/nnwgh
+ ZVdJK6HqHqKDC9viqxJETePCzwQawpAW8LSUI5jX9tMrvcC/2slUPd/7Vd61GNfirKMZ
+ yBbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=j/yJYNbmHzMaH9snSTtewuCLJRVV1k7sJHGVXunCvCQ=;
- b=xRy+Cfbw13Xq4pwr155Di24I3InwDDdATv4ZEUJEYGhgC3JLyxgZhQo5mnFBwnKbwP
- fo3y8RuhxdGe+anr9BXaGFA/tj9Veqf0meGK5LDuRaCwoHEPbrOKdfiXyHa4/eNHuf3D
- hFij/LuIipSSVoTfhj/wID/U9AbMR7yHmcjEQubUJACY55rH4OMb8wLClMk5ylPYi3Nz
- WchWChL8YxAFg+v2g7KFnksMbUMbjmPROVpno7JuaJrKof3RleB+KG2aPdIiHwyuYqUg
- g46RqyLN09vOF0/D7KuvxJtf4Uiv76FSh/72ct1e80ixSQOX4uLIg955+kap4y0dl5Rv
- 8hFQ==
-X-Gm-Message-State: AOAM532CCSbZDwad6ohQKTfbEh1v5/UgQ31TSkCc5cqdSB1s8jIgZpIC
- k/Fv0pT1/E0ahUiqT5sFB/nCwQgdFIc=
-X-Google-Smtp-Source: ABdhPJzkRyjJGeTrmbGyyM9TlwJZo+2hq6hOpk395AD9RSJCUOPfp4ifoT0Bp805dPSMwZCDGL9eag==
-X-Received: by 2002:a17:90b:4a09:b0:1d2:de49:9be8 with SMTP id
- kk9-20020a17090b4a0900b001d2de499be8mr15991377pjb.68.1650627831411; 
- Fri, 22 Apr 2022 04:43:51 -0700 (PDT)
+ bh=szXuTjbI6ruOG61z6eyHDfHfQXgsXjWjd2ILrlbqQGc=;
+ b=3aWwu5SliLKlLemXCvh2POJbL6UbVAKuEFlkD9mDxVpznbcM1NqTdyi+8QA+6U2BFh
+ vWvwgIZT2RBlNPCKBMg1tibfLlEMSWGXM58nM4s4gHKgDm83O4tYeN8+QXB7QuyNn86q
+ 5dZ+c8tsfRtdb9QtZbPzbgujSa0UImM1IAeNk55RkoLgsRVrIcj5jv9kZcm/cVLGQ4Zc
+ WzMl34v80DaiR8ZfQ61L2plOqs+MF1trVvoMiYP3aoZAL8HoeXeoWV/ycddnyqFNH4cj
+ FBS+wlDUqwMYffEzN5foEBUZdMUNHErPoJl8/13OnOeaXERbfMYWHL/CtZkc2lwugdpA
+ 2Y5g==
+X-Gm-Message-State: AOAM533FA1g4uOXlmq2RxEt8SBIOk63CsIN1kTXT2WfYYCIqaFZFMOUZ
+ 2HoMOzoQXRednkQ8QhlaF0eVLKW9eXA=
+X-Google-Smtp-Source: ABdhPJxZHF22ar18tIJ1NVIOYqpiDIexkIUTXdC2dvQqWKMMmCqDBdyajeICAy+CtE28Ge2dlMD75A==
+X-Received: by 2002:a17:902:8504:b0:158:914f:ca3 with SMTP id
+ bj4-20020a170902850400b00158914f0ca3mr3898376plb.67.1650627832590; 
+ Fri, 22 Apr 2022 04:43:52 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:401:1d20:4c40:4238:b597:4c1a])
  by smtp.gmail.com with ESMTPSA id
- d16-20020a056a00245000b004f7728a4346sm2706519pfj.79.2022.04.22.04.43.50
+ d16-20020a056a00245000b004f7728a4346sm2706519pfj.79.2022.04.22.04.43.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 04:43:50 -0700 (PDT)
+ Fri, 22 Apr 2022 04:43:52 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/7] target/xtensa: use tcg_constant_* for numbered special
- registers
-Date: Fri, 22 Apr 2022 04:43:30 -0700
-Message-Id: <20220422114332.374472-6-jcmvbkbc@gmail.com>
+Subject: [PATCH v2 6/7] target/xtensa: use tcg_constant_* for FPU conversion
+ opcodes
+Date: Fri, 22 Apr 2022 04:43:31 -0700
+Message-Id: <20220422114332.374472-7-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220422114332.374472-1-jcmvbkbc@gmail.com>
 References: <20220422114332.374472-1-jcmvbkbc@gmail.com>
@@ -92,75 +92,86 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Numbered special registers are small arrays of consecutive SRs. Use
-tcg_constant_* for the SR index.
+FPU conversion opcodes pass scale (range 0..15) and rounding mode to
+their helpers. Use tcg_constant_* for them.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- target/xtensa/translate.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ target/xtensa/translate.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
 diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 245c5968bd5d..c51aea460160 100644
+index c51aea460160..09fb3df40934 100644
 --- a/target/xtensa/translate.c
 +++ b/target/xtensa/translate.c
-@@ -2612,15 +2612,13 @@ static void translate_wsr_ccompare(DisasContext *dc, const OpcodeArg arg[],
+@@ -6512,20 +6512,19 @@ static void translate_const_s(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_float_d(DisasContext *dc, const OpcodeArg arg[],
+                               const uint32_t par[])
  {
- #ifndef CONFIG_USER_ONLY
-     uint32_t id = par[0] - CCOMPARE;
--    TCGv_i32 tmp = tcg_const_i32(id);
+-    TCGv_i32 scale = tcg_const_i32(-arg[2].imm);
++    TCGv_i32 scale = tcg_constant_i32(-arg[2].imm);
  
-     assert(id < dc->config->nccompare);
-     if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
-         gen_io_start();
+     if (par[0]) {
+         gen_helper_uitof_d(arg[0].out, cpu_env, arg[1].in, scale);
+     } else {
+         gen_helper_itof_d(arg[0].out, cpu_env, arg[1].in, scale);
      }
-     tcg_gen_mov_i32(cpu_SR[par[0]], arg[0].in);
--    gen_helper_update_ccompare(cpu_env, tmp);
--    tcg_temp_free(tmp);
-+    gen_helper_update_ccompare(cpu_env, tcg_constant_i32(id));
- #endif
+-    tcg_temp_free(scale);
  }
  
-@@ -2640,11 +2638,9 @@ static void translate_wsr_dbreaka(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_float_s(DisasContext *dc, const OpcodeArg arg[],
+                               const uint32_t par[])
  {
- #ifndef CONFIG_USER_ONLY
-     unsigned id = par[0] - DBREAKA;
--    TCGv_i32 tmp = tcg_const_i32(id);
+-    TCGv_i32 scale = tcg_const_i32(-arg[2].imm);
++    TCGv_i32 scale = tcg_constant_i32(-arg[2].imm);
+     OpcodeArg arg32[1];
  
-     assert(id < dc->config->ndbreak);
--    gen_helper_wsr_dbreaka(cpu_env, tmp, arg[0].in);
--    tcg_temp_free(tmp);
-+    gen_helper_wsr_dbreaka(cpu_env, tcg_constant_i32(id), arg[0].in);
- #endif
+     get_f32_o1(arg, arg32, 0);
+@@ -6535,14 +6534,13 @@ static void translate_float_s(DisasContext *dc, const OpcodeArg arg[],
+         gen_helper_itof_s(arg32[0].out, cpu_env, arg[1].in, scale);
+     }
+     put_f32_o1(arg, arg32, 0);
+-    tcg_temp_free(scale);
  }
  
-@@ -2653,11 +2649,9 @@ static void translate_wsr_dbreakc(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_ftoi_d(DisasContext *dc, const OpcodeArg arg[],
+                              const uint32_t par[])
  {
- #ifndef CONFIG_USER_ONLY
-     unsigned id = par[0] - DBREAKC;
--    TCGv_i32 tmp = tcg_const_i32(id);
+-    TCGv_i32 rounding_mode = tcg_const_i32(par[0]);
+-    TCGv_i32 scale = tcg_const_i32(arg[2].imm);
++    TCGv_i32 rounding_mode = tcg_constant_i32(par[0]);
++    TCGv_i32 scale = tcg_constant_i32(arg[2].imm);
  
-     assert(id < dc->config->ndbreak);
--    gen_helper_wsr_dbreakc(cpu_env, tmp, arg[0].in);
--    tcg_temp_free(tmp);
-+    gen_helper_wsr_dbreakc(cpu_env, tcg_constant_i32(id), arg[0].in);
- #endif
+     if (par[1]) {
+         gen_helper_ftoui_d(arg[0].out, cpu_env, arg[1].in,
+@@ -6551,15 +6549,13 @@ static void translate_ftoi_d(DisasContext *dc, const OpcodeArg arg[],
+         gen_helper_ftoi_d(arg[0].out, cpu_env, arg[1].in,
+                           rounding_mode, scale);
+     }
+-    tcg_temp_free(rounding_mode);
+-    tcg_temp_free(scale);
  }
  
-@@ -2666,11 +2660,9 @@ static void translate_wsr_ibreaka(DisasContext *dc, const OpcodeArg arg[],
+ static void translate_ftoi_s(DisasContext *dc, const OpcodeArg arg[],
+                              const uint32_t par[])
  {
- #ifndef CONFIG_USER_ONLY
-     unsigned id = par[0] - IBREAKA;
--    TCGv_i32 tmp = tcg_const_i32(id);
+-    TCGv_i32 rounding_mode = tcg_const_i32(par[0]);
+-    TCGv_i32 scale = tcg_const_i32(arg[2].imm);
++    TCGv_i32 rounding_mode = tcg_constant_i32(par[0]);
++    TCGv_i32 scale = tcg_constant_i32(arg[2].imm);
+     OpcodeArg arg32[2];
  
-     assert(id < dc->config->nibreak);
--    gen_helper_wsr_ibreaka(cpu_env, tmp, arg[0].in);
--    tcg_temp_free(tmp);
-+    gen_helper_wsr_ibreaka(cpu_env, tcg_constant_i32(id), arg[0].in);
- #endif
+     get_f32_i1(arg, arg32, 1);
+@@ -6571,8 +6567,6 @@ static void translate_ftoi_s(DisasContext *dc, const OpcodeArg arg[],
+                           rounding_mode, scale);
+     }
+     put_f32_i1(arg, arg32, 1);
+-    tcg_temp_free(rounding_mode);
+-    tcg_temp_free(scale);
  }
  
+ static void translate_ldsti(DisasContext *dc, const OpcodeArg arg[],
 -- 
 2.30.2
 
