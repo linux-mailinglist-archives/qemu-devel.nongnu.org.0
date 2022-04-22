@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1A350B5F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:13:22 +0200 (CEST)
-Received: from localhost ([::1]:54186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AF050B60C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:18:55 +0200 (CEST)
+Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhrE1-0007tw-Re
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59260)
+	id 1nhrJN-0008NW-JN
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:18:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAL-0005aO-AJ
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:30 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38725)
+ id 1nhqAN-0005cB-6R
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:32 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAJ-0002wm-NO
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:28 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id q7so2682417wrm.5
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:27 -0700 (PDT)
+ id 1nhqAL-0002x4-1b
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:30 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e2so4044207wrh.7
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Qx1JjAG3lYRZ0uJz1kolQCY/eQ8GjTyEi5vBbytSLK0=;
- b=iP9ToNzIPeJFtMRcC9Y5TYJ0M08wbS+1GNabsx2ZWrteJ0gwbkYp6VkbPjVjCmcA2N
- m8QGTMU2CEh7my8VRMKWPd2/geokc69dnMwXRfqHamWMsBHM8VQz48k8PoTjhUKvLJGf
- OvUmKUuUcN9VJuzdTCgmdDN0a15sRFtt64jYU5qYNIKhg4dfBn0HUf2LRxSsMcfqTcXc
- JCnizLGCKu3+Fpf5Y9i3YCcBRykaX87Ld4xu20zZRZ83m07ZhKBm80f5F6KmPEvqeQe6
- hgZ6z7MdApdBJRBPZHfIcnkh6fIn3z2h3ETgNVLwKPMZDaTD3um/LqUKOSsQd+6SpVJz
- z3fA==
+ bh=h5cbU++jOseQZg+uHAX8kICA8i+7LryH4hXcFQtNTbo=;
+ b=TBRGzsiFrgB293Bb0K7JvRw/MbMBJ1QIpq2AgAdaLa17cJhVTbMH4Z5LelkUMMOxcr
+ CEGXsB7TWyqRbZVgXY1XppE7AqyzMrY1RlpJryzugggy2j5qzYSdPduWI67jBgqzg02j
+ Nr1MqZDLzg2FL9ljJ0/FAmTJmOCMOlOPP72B3B7tcQLtct7ACiq7TeJpkdfS5iruNOIO
+ wYGuUccromIgEXX1EPYq/4Y7yAXh3HBiHPMiO/pv8qRdtSLLn+EI9+3J4AkNPQ49VPQo
+ G8dwbcTdza6anrt4kI5t9N8gLFNWi1SSEhQLNZIy2Wjo9MIkU7k+zhNmonMrAqe7Kf4T
+ 5uOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Qx1JjAG3lYRZ0uJz1kolQCY/eQ8GjTyEi5vBbytSLK0=;
- b=KJ1dnNG2zaw9ResRBTnu72Uf8ToT+nBHO48KSOL/3VkCujicypxMmS/iv93c6Sf9PV
- jPQ/k+s0837kMdMMPWAnDqWpXXjZHNqkcBtI01iYS6CzBkEW1MmGEcO6+X1E797GfmQk
- JsX1amq6B/p0UV8/claofMfxnL59URK0BAbvzsTRIq8RcqpYMS+gOK5M4euuFjanKyrK
- 1ply+mfGWZA8QlsMRtS9wRHGPq1FuzvWJmu++FeDy5vblQRC6gO2q53JV3d4Xjg2h+ff
- mQP/gCJyh6b+pOUMlPqnkID04At0nlcbw2HjmkBEURFlnNYTJ2xSHct85NfoKjCCjW//
- 2qJg==
-X-Gm-Message-State: AOAM532nhgg7WfBXz7zD3ASWgN5aKv3mxIm23OoxIOzIx4ZAkPKhh5fI
- yicfPPyKOnPRzZdewSxnBDrbYodQVphfiA==
-X-Google-Smtp-Source: ABdhPJxSQhQcTsyIBLjETj5a4PawTp/p6sFOqkOneAJd+j/X3kGTnJR8ScRRlCTe376WY7QFY7uwNA==
-X-Received: by 2002:adf:ed8f:0:b0:207:ac33:801f with SMTP id
- c15-20020adfed8f000000b00207ac33801fmr2981950wro.453.1650621926405; 
- Fri, 22 Apr 2022 03:05:26 -0700 (PDT)
+ bh=h5cbU++jOseQZg+uHAX8kICA8i+7LryH4hXcFQtNTbo=;
+ b=cc2vF+SpyqimcAsyoFSrk3fye/Hy8BzWTdWvDW+k6yy0OelBKcXhDJ2M296d7YRb3p
+ BaKhF7HYvjK5BZRoW3d+I9QC9vnEkHjaXcr5iclXYVLKMnX4hqrRNKvGS2dfEgpAwVg5
+ +ddaXQ1j2ghhEXXysjJirZxHsaH5kJa68tsem3ZzrkJlHtv/8AB9JLdoTFGyZt8x39mM
+ 1JwzmLvq7kCwa6m56YceRaZNJYq8j0MwZm+fQyHSXSobJM3+YJVYGsILfDMpUivvwwlm
+ dMlkTXl6BJdZSeJmuqjQbVTxupyDSLMi4o7Qhm13o3yt498pXMdNVcyWXS9r4vK0TEs9
+ BdoA==
+X-Gm-Message-State: AOAM532RjMMQ/Bg3NDdSRXWiD8qn85ea8cxEKUUmtz27Wune0udd6tuF
+ JKBV5QiHPlKO05fIG2DQbilVS59FxMwNOg==
+X-Google-Smtp-Source: ABdhPJzLgQIiTxBl5yMFO7rYnxDzwo+Mido7EE9Ruq+di7eTeoD8ckZWafLv8iwDYpRxH9gl4xkZAQ==
+X-Received: by 2002:adf:d1ce:0:b0:20a:992a:3b54 with SMTP id
+ b14-20020adfd1ce000000b0020a992a3b54mr3007286wrd.270.1650621927254; 
+ Fri, 22 Apr 2022 03:05:27 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.25
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:05:25 -0700 (PDT)
+ Fri, 22 Apr 2022 03:05:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 55/61] target/arm: Simplify aa32 DISAS_WFI
-Date: Fri, 22 Apr 2022 11:04:26 +0100
-Message-Id: <20220422100432.2288247-56-peter.maydell@linaro.org>
+Subject: [PULL 56/61] target/arm: Use tcg_constant in translate-m-nocp.c
+Date: Fri, 22 Apr 2022 11:04:27 +0100
+Message-Id: <20220422100432.2288247-57-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,44 +90,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The length of the previous insn may be computed from
-the difference of start and end addresses.
-Use tcg_constant_i32 while we're at it.
+Use tcg_constant_{i32,i64} as appropriate throughout.
+This fixes a bug in trans_VSCCLRM() where we were leaking a TCGv.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ target/arm/translate-m-nocp.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 086dc0d3b15..d09692c125b 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -9870,18 +9870,14 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-             /* nothing more to generate */
-             break;
-         case DISAS_WFI:
--        {
--            TCGv_i32 tmp = tcg_const_i32((dc->thumb &&
--                                          !(dc->insn & (1U << 31))) ? 2 : 4);
--
--            gen_helper_wfi(cpu_env, tmp);
--            tcg_temp_free_i32(tmp);
--            /* The helper doesn't necessarily throw an exception, but we
-+            gen_helper_wfi(cpu_env,
-+                           tcg_constant_i32(dc->base.pc_next - dc->pc_curr));
-+            /*
-+             * The helper doesn't necessarily throw an exception, but we
-              * must go back to the main loop to check for interrupts anyway.
-              */
-             tcg_gen_exit_tb(NULL, 0);
-             break;
--        }
-         case DISAS_WFE:
-             gen_helper_wfe(cpu_env);
-             break;
+diff --git a/target/arm/translate-m-nocp.c b/target/arm/translate-m-nocp.c
+index d9e144e8eb3..27363a7b4ec 100644
+--- a/target/arm/translate-m-nocp.c
++++ b/target/arm/translate-m-nocp.c
+@@ -173,7 +173,7 @@ static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
+     }
+ 
+     /* Zero the Sregs from btmreg to topreg inclusive. */
+-    zero = tcg_const_i64(0);
++    zero = tcg_constant_i64(0);
+     if (btmreg & 1) {
+         write_neon_element64(zero, btmreg >> 1, 1, MO_32);
+         btmreg++;
+@@ -187,8 +187,7 @@ static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
+     }
+     assert(btmreg == topreg + 1);
+     if (dc_isar_feature(aa32_mve, s)) {
+-        TCGv_i32 z32 = tcg_const_i32(0);
+-        store_cpu_field(z32, v7m.vpr);
++        store_cpu_field(tcg_constant_i32(0), v7m.vpr);
+     }
+ 
+     clear_eci_state(s);
+@@ -512,7 +511,7 @@ static bool gen_M_fp_sysreg_read(DisasContext *s, int regno,
+     }
+     case ARM_VFP_FPCXT_NS:
+     {
+-        TCGv_i32 control, sfpa, fpscr, fpdscr, zero;
++        TCGv_i32 control, sfpa, fpscr, fpdscr;
+         TCGLabel *lab_active = gen_new_label();
+ 
+         lookup_tb = true;
+@@ -552,10 +551,9 @@ static bool gen_M_fp_sysreg_read(DisasContext *s, int regno,
+         storefn(s, opaque, tmp, true);
+         /* If SFPA is zero then set FPSCR from FPDSCR_NS */
+         fpdscr = load_cpu_field(v7m.fpdscr[M_REG_NS]);
+-        zero = tcg_const_i32(0);
+-        tcg_gen_movcond_i32(TCG_COND_EQ, fpscr, sfpa, zero, fpdscr, fpscr);
++        tcg_gen_movcond_i32(TCG_COND_EQ, fpscr, sfpa, tcg_constant_i32(0),
++                            fpdscr, fpscr);
+         gen_helper_vfp_set_fpscr(cpu_env, fpscr);
+-        tcg_temp_free_i32(zero);
+         tcg_temp_free_i32(sfpa);
+         tcg_temp_free_i32(fpdscr);
+         tcg_temp_free_i32(fpscr);
 -- 
 2.25.1
 
