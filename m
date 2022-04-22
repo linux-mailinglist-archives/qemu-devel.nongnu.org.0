@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6168450B632
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:32:38 +0200 (CEST)
-Received: from localhost ([::1]:37750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D1650B5F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:12:30 +0200 (CEST)
+Received: from localhost ([::1]:49660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhrWf-0003va-HB
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:32:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59086)
+	id 1nhrDB-0004lv-PZ
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAE-0005O4-K5
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:22 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44915)
+ id 1nhqAK-0005aL-CD
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:30 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAC-0002u6-VB
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:22 -0400
-Received: by mail-wr1-x430.google.com with SMTP id b19so10281824wrh.11
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:20 -0700 (PDT)
+ id 1nhqAI-0002wQ-PX
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:28 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id c10so10337081wrb.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3Z1wuSZ1tsgvZXbrivj/X+wswM16HNWMbK2oDsPm2EI=;
- b=FT+dci79aZMw7Pb8vhep+Ve4qSWTbxi2lBKxvvGah2cnVkB4YOaeIvuFmJV0Zel8Vd
- VW8x5iaHgq+ZI4g79/gxRuXbBI1/PEzezNADad2J9c2Zdud3aPY055iaIPeQpiEpMTqG
- HBLFJguw94oVAXeKYiUTg0ZmGfwMzbJHxEnOz6/13AfRCAZi6NTa2COxifrn8Fi2YP6t
- FOv6Bb+LEVg5gQVk4xgw6R38bDTIf3JvMpZ08nbjjXTIQCxXTeqvqyAHsdKs/h+9K7d2
- ImRQYWCQWee7kqtLMO/jEhVfVNlbjTIaBw/80/5tFADaJBqo8nGe+GBscgWuHi58hE0q
- bKdQ==
+ bh=/Wc2molG4qiAr3BjeYuq/HUxjFtE+KVmYa08eBlI6Z4=;
+ b=b35r+kZOGY1qAIN7AHze5z2zuAAtqsN4RtOBlCxZKZ+H2uH4eG+vjGPBgKjM+rfNTq
+ 49LiT/KH3aCsVNwAm6kCTDyg/uHx11sA321xrFUI9XzjnWqJJqEKGytdEgQceXnbDpny
+ lbAK+cEmhX49roo/sxcWKyMlDONFSFvBFf2bWgU+pt+PpCpYyB3LfQQh1zCposvPyB7V
+ GcNQIJc67aSz+m0rXGdBvuBe6H2NNkB4+AsovEQjU/fFFro8p2ThFkjVz/aCa6676doV
+ XRJByj1rj5Bn5luFy/uvV+iFMIbRKQwhHdlpVhiAiJGiJJDoxjoIVtutJgZ9Ke8RJPmG
+ UJrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3Z1wuSZ1tsgvZXbrivj/X+wswM16HNWMbK2oDsPm2EI=;
- b=CUtInTpLD9jt//gmVBANIFqX1T435kONgrrooyf2wB+hvXJffCcqoAE/FSb94o/r8x
- aVGpsRZKneWVS22qJZ9Y567QnM0A00QsB4Zb9lCwTxfOz+THeo1Du9wv+3lxMiigVVem
- gQsvtPxyKNqRxNQz6n0Z5Wp3QLgu/EBsE6aBq1PcwLBMEJtZ9mC5JE4+6w/QFq3VJdW5
- A0neheBq8oH3Slj1zMhwuUkyB8hVHQJcVV7x5H+TY8ODQUzOWaRe+uG4KqZV8p6rPXgK
- H1Y6uDheCv/2FzHKOfoLrLUw6FBT//KU4QTS8QWh3Vgiou+L90sf9vLhnzGlbCxjA1Ee
- 3Ajw==
-X-Gm-Message-State: AOAM531DdYMvSaCw7un0Wal2lig3exYI5XDoj8BTdRQ1oMv2TDpa9WxJ
- O7Z+mL8SXjMqE0toto44Bymrss7YflJjrQ==
-X-Google-Smtp-Source: ABdhPJy72y6xnMHnqPaYSWCGF+r1Wr09rDDUt8O4hDJioxePxSnrqrJMg0nBzhQVKh4EPGY67/xmOw==
-X-Received: by 2002:a5d:6e87:0:b0:206:452:5b87 with SMTP id
- k7-20020a5d6e87000000b0020604525b87mr2989003wrz.473.1650621919445; 
- Fri, 22 Apr 2022 03:05:19 -0700 (PDT)
+ bh=/Wc2molG4qiAr3BjeYuq/HUxjFtE+KVmYa08eBlI6Z4=;
+ b=jIdfxx9PH+cC+IB/n65Hj6G/NLvrtGC6ds58DI75IJao7jhn+RaW+ZeKvEY4f4sHQD
+ ojQCwtzYaS8Rrxu0dUjB70V/t3OTwMz9zT3P/M9HQMqWtqF5z/82jZkLmwHqpMwLbj/S
+ DRSsrz9bYrrISlfxDWrCS1f4UlQ9iXfRir5cSlEZU47fDKZ0BzKWSJ6u2e4+HEKjEd5R
+ 1Iso/Dvo3MfF4ukUOGFpI7fiDjQZRCnSj+uDua1wCj3oXmKYtc6/Gmhsx0dbTehaLfpT
+ 9JUSlaZ5vSYtNGnnFgXTzxk5PXXKUWeNIv6J9sRLA7ylJeoZ1l8MCfUxDhZZ2yw26ewv
+ LOhQ==
+X-Gm-Message-State: AOAM531JMo9ItgIMh241ZM6pbwVFqaBivQgOcf41/lWXEqV7lDi3ASrY
+ qXo6jFrlNjq9ins+NOhakLV33WY65UbKKg==
+X-Google-Smtp-Source: ABdhPJwiaKMvMAUa+Rw2dz/Y1DpnTBugJUjEE8jARF8aFpCl9j82AJnCYl11GhM/HI0n/qteSoekxg==
+X-Received: by 2002:a05:6000:1809:b0:20a:cafc:fd39 with SMTP id
+ m9-20020a056000180900b0020acafcfd39mr1443525wrh.255.1650621920369; 
+ Fri, 22 Apr 2022 03:05:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.18
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Apr 2022 03:05:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 47/61] target/arm: Extend store_cpu_offset to take field size
-Date: Fri, 22 Apr 2022 11:04:18 +0100
-Message-Id: <20220422100432.2288247-48-peter.maydell@linaro.org>
+Subject: [PULL 48/61] target/arm: Change DisasContext.thumb to bool
+Date: Fri, 22 Apr 2022 11:04:19 +0100
+Message-Id: <20220422100432.2288247-49-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,84 +90,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Currently we assume all fields are 32-bit.
-Prepare for fields of a single byte, using sizeof_field().
+Bool is a more appropriate type for this value.
+Move the member down in the struct to keep the
+bool type members together and remove a hole.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: use sizeof_field() instead of raw sizeof()]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-a32.h | 13 +++++--------
- target/arm/translate.c     | 21 ++++++++++++++++++++-
- 2 files changed, 25 insertions(+), 9 deletions(-)
+ target/arm/translate.h     | 2 +-
+ target/arm/translate-a64.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-index 5be4b9b8346..09010ad2dad 100644
---- a/target/arm/translate-a32.h
-+++ b/target/arm/translate-a32.h
-@@ -61,17 +61,14 @@ static inline TCGv_i32 load_cpu_offset(int offset)
- 
- #define load_cpu_field(name) load_cpu_offset(offsetof(CPUARMState, name))
- 
--static inline void store_cpu_offset(TCGv_i32 var, int offset)
--{
--    tcg_gen_st_i32(var, cpu_env, offset);
--    tcg_temp_free_i32(var);
--}
-+void store_cpu_offset(TCGv_i32 var, int offset, int size);
- 
--#define store_cpu_field(var, name) \
--    store_cpu_offset(var, offsetof(CPUARMState, name))
-+#define store_cpu_field(var, name)                              \
-+    store_cpu_offset(var, offsetof(CPUARMState, name),          \
-+                     sizeof_field(CPUARMState, name))
- 
- #define store_cpu_field_constant(val, name) \
--    tcg_gen_st_i32(tcg_constant_i32(val), cpu_env, offsetof(CPUARMState, name))
-+    store_cpu_field(tcg_constant_i32(val), name)
- 
- /* Create a new temporary and set it to the value of a CPU register.  */
- static inline TCGv_i32 load_reg(DisasContext *s, int reg)
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 6018fee2ef1..1314406b193 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -180,6 +180,25 @@ typedef enum ISSInfo {
-     ISSIs16Bit = (1 << 8),
- } ISSInfo;
- 
-+/*
-+ * Store var into env + offset to a member with size bytes.
-+ * Free var after use.
-+ */
-+void store_cpu_offset(TCGv_i32 var, int offset, int size)
-+{
-+    switch (size) {
-+    case 1:
-+        tcg_gen_st8_i32(var, cpu_env, offset);
-+        break;
-+    case 4:
-+        tcg_gen_st_i32(var, cpu_env, offset);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+    tcg_temp_free_i32(var);
-+}
-+
- /* Save the syndrome information for a Data Abort */
- static void disas_set_da_iss(DisasContext *s, MemOp memop, ISSInfo issinfo)
- {
-@@ -4852,7 +4871,7 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
-                     tcg_temp_free_i32(tmp);
-                 } else {
-                     TCGv_i32 tmp = load_reg(s, rt);
--                    store_cpu_offset(tmp, ri->fieldoffset);
-+                    store_cpu_offset(tmp, ri->fieldoffset, 4);
-                 }
-             }
-         }
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 8b7dd1a4c05..050d80f6f90 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -30,7 +30,6 @@ typedef struct DisasContext {
+     bool eci_handled;
+     /* TCG op to rewind to if this turns out to be an invalid ECI state */
+     TCGOp *insn_eci_rewind;
+-    int thumb;
+     int sctlr_b;
+     MemOp be_data;
+ #if !defined(CONFIG_USER_ONLY)
+@@ -65,6 +64,7 @@ typedef struct DisasContext {
+     GHashTable *cp_regs;
+     uint64_t features; /* CPU features bits */
+     bool aarch64;
++    bool thumb;
+     /* Because unallocated encodings generate different exception syndrome
+      * information from traps due to FP being disabled, we can't do a single
+      * "is fp access disabled" check at a high level in the decode tree.
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index f6303848918..1ae465687ad 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14670,7 +14670,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+      */
+     dc->secure_routed_to_el3 = arm_feature(env, ARM_FEATURE_EL3) &&
+                                !arm_el_is_aa64(env, 3);
+-    dc->thumb = 0;
++    dc->thumb = false;
+     dc->sctlr_b = 0;
+     dc->be_data = EX_TBFLAG_ANY(tb_flags, BE_DATA) ? MO_BE : MO_LE;
+     dc->condexec_mask = 0;
 -- 
 2.25.1
 
