@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855EE50B667
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:48:37 +0200 (CEST)
-Received: from localhost ([::1]:39180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A194450B6A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:55:43 +0200 (CEST)
+Received: from localhost ([::1]:56306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhrm8-0000xJ-JF
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:48:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40736)
+	id 1nhrt0-0004OY-OK
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:55:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhr3k-0003e3-0r
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:02:44 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:35740)
+ id 1nhr4q-0004A0-81
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:03:52 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:37640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhr3i-00039K-Iy
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:02:43 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id w187so4443919ybe.2
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:02:42 -0700 (PDT)
+ id 1nhr4o-0003Lk-AQ
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:03:51 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2f16645872fso81476687b3.4
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:03:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xIqCO4oMy/8Z7xkB6wn9h4b2YGfdIc6Q+SatULAlINs=;
- b=W3PJQWMzF2uS9mGTX3wNoEU7Xc4IDlF/+IzGA4VwkwM4UT3dGUzgNm0iyfRvcs7hrW
- 3SqFod0cR+BvwJ+dFfv8iLnfWYiZkvTsq3FPr4vFedZt3PGe8MBKbvJhkU3wFfrmmZJH
- YAnc0ywH5Vs/AIlMeaBU7U4BdnaL8w7QczfE9zhip/po+gRkJ1a6jeXCcCVmQ5++5PTZ
- mt8W3nA6sY0TKoCfKtMp9bmnKZYLt/DzT92+juVQleDWQo1N3oypVZkIAMEDYeky5hpv
- q3PJEIyCDXI1khIJNaO9gokZtiTMTjJe+2fFBcaQlehwlgizTLV8Vi+18y3DCN656Phy
- swOg==
+ :cc; bh=E1py9znAUw/wlU2mkFcdCURxHtihSD+N8HFYXYTLJVM=;
+ b=Wrht70U9M/y9odPYOJzDovARAl+X9Njuhj9vOpzkoRs3L60vmM6M+y1Qu3jPg3SBnx
+ 4iabikVieMY9w0qd+E9NAelSJQcs+C+Vb0z/j4U1C4u3yWyRVoZXmAgJrq34iqh8mSDy
+ J+rTcnvq0CcdQBbymLC9KwjCXoyDqIXRFj9/6v0mZat5peTdzO23+CDTGASbIVINhFda
+ W8FrvsayKFKb9Az0N5unzdhskjL7l2iSM7W4O2u/IwlQlZtnSUI0tL5nRnHhNjlAsmHR
+ GV7Ys6VixsvJuDbBK2U4GpWw8muGdJvRRibkgcAl5R5/wcUXq+7+I9Jo6wlmy0FZE9bk
+ TANw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xIqCO4oMy/8Z7xkB6wn9h4b2YGfdIc6Q+SatULAlINs=;
- b=xONTbn0nISjZi6XK0RO7/E428H3pt404gKsCNSQK0/pORlMtUzmuPC7nritYaAL/CK
- x94rxYdX7CFLhqoBbELGOyYXSycPcsJWZd4khrmbOVV+RuIzHD24CsDSMrUwm45O5EQt
- 1fHT+XwIuk6y0IL96IQB8ZmbP1gGdUSZyDpIE7V6sbVPV7ZylJ44l4zsFt1LUlbx6tC5
- Iy0jDacZutUtleDKpt/FmjTP6jFQWy8V397T3ZvdzE00pX1zjqJZqacntSYDxlYvju11
- rGoQsEPOcwnDUVs4R4PInazvBNksojVaiWKRmTqXkBgQNun2DJjMGZnyurlUKBmHODLX
- iRbA==
-X-Gm-Message-State: AOAM533ga4065Xrxp8IHCJ6CV1lZ0KlAkziw2bMQckBfsKIZG++9ezt1
- boD/6pQzOvOzxINX9SlQK+9u/HO1oNVAWix7Q0trQDJqaZQ=
-X-Google-Smtp-Source: ABdhPJxYESyKIjONOK1gFaDiFF3x1KOwpB9BZLynayhEdLv1BHYbxgtLECT9PyBBs0GCnD9i9mpoTvsREuqv2lP9fLY=
-X-Received: by 2002:a25:a287:0:b0:645:3c4f:7dec with SMTP id
- c7-20020a25a287000000b006453c4f7decmr3782824ybi.479.1650625361553; Fri, 22
- Apr 2022 04:02:41 -0700 (PDT)
+ bh=E1py9znAUw/wlU2mkFcdCURxHtihSD+N8HFYXYTLJVM=;
+ b=jFYG3KVXDLXQACLDwRqGVNo1iKfeKetDTsOke8bD9AqtKAejt75WxAiFOH2wrFrp0H
+ 8gNw5yS1idoMc2FQU1lUJTT/BLMEBxIHFQn0nZ1P2ZwquxCTVSVVv0Iq/QGhoe2EfGwY
+ e4L68vZpz0l3x8SSZTOJgqGc8Rn3RrsqiZbzravlv1RuJPip/yuHTHEnuO7eGpwaTyC5
+ VCqCyFKoPDOSos0P9ApZsFDLg0M/lk+KsujoROpf8MWestQolAnJeP0Vtc2y3of7oT5f
+ jb3geDsks9QfIfVtNe49uMb/KaKsrtwqR4+rshK5kptuHFSkRd4WvFTV00L8RphspZh9
+ x1hA==
+X-Gm-Message-State: AOAM5330KEhoa6uKR4nWedzIo7j5V68z/6P2YCNhmVsHcWE/2IkaQUru
+ KXvv537MovjpCLA1/Dw0DHfTUJtFe71P/t0t+nPkoQ==
+X-Google-Smtp-Source: ABdhPJy0IzuM5sm9bretTvluMmxbPfCwVc67n2pvZUHiRmSWKAqdYp3lGps4UP8GkLgsrKcA7/K1S2miZt0e33x69Hs=
+X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
+ z23-20020a81ac57000000b002f199ec91a2mr4062330ywj.329.1650625429224; Fri, 22
+ Apr 2022 04:03:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
- <20220417174426.711829-42-richard.henderson@linaro.org>
-In-Reply-To: <20220417174426.711829-42-richard.henderson@linaro.org>
+ <20220417174426.711829-44-richard.henderson@linaro.org>
+In-Reply-To: <20220417174426.711829-44-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Apr 2022 12:02:30 +0100
-Message-ID: <CAFEAcA96W3yRXc44osYbKDcn2eS+CvMdThv7MZMUC7jSuzny_A@mail.gmail.com>
-Subject: Re: [PATCH v3 41/60] target/arm: Update qemu-system-arm -cpu max to
- cortex-a57
+Date: Fri, 22 Apr 2022 12:03:38 +0100
+Message-ID: <CAFEAcA9p0N7XnxC2rOBbLFwW_7bbuMzpX3VXWHnhPt2ZPYt3rA@mail.gmail.com>
+Subject: Re: [PATCH v3 43/60] target/arm: Split out aa32_max_features
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,15 +83,18 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 Apr 2022 at 19:29, Richard Henderson
+On Sun, 17 Apr 2022 at 19:37, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Instead of starting with cortex-a15 and adding v8 features to
-> a v7 cpu, begin with a v8 cpu stripped of its aarch64 features.
-> This fixes the long-standing to-do where we only enabled v8
-> features for user-only.
+> Share the code to set AArch32 max features so that we no
+> longer have code drift between qemu{-system,}-{arm,aarch64}.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/internals.h |   2 +
+>  target/arm/cpu64.c     |  50 +-----------------
+>  target/arm/cpu_tcg.c   | 114 ++++++++++++++++++++++-------------------
+>  3 files changed, 65 insertions(+), 101 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
