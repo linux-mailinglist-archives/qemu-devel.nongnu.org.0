@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE1850C035
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 21:16:02 +0200 (CEST)
-Received: from localhost ([::1]:42464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDCF150C013
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 21:02:16 +0200 (CEST)
+Received: from localhost ([::1]:37096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhyl7-0003L9-Uy
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 15:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44730)
+	id 1nhyXo-0004Rf-1L
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 15:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nhyR2-0002Cc-2D; Fri, 22 Apr 2022 14:55:16 -0400
+ id 1nhyR5-0002KL-Dc; Fri, 22 Apr 2022 14:55:19 -0400
 Received: from [187.72.171.209] (port=52505 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nhyR0-0000CU-8C; Fri, 22 Apr 2022 14:55:15 -0400
+ id 1nhyR3-0000CU-2B; Fri, 22 Apr 2022 14:55:19 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Fri, 22 Apr 2022 15:54:54 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 12D6D80060F;
+ by p9ibm (Postfix) with ESMTP id 2695280031F;
  Fri, 22 Apr 2022 15:54:54 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 04/20] target/ppc: Substitute msr_le macro with new M_MSR_LE
+Subject: [PATCH 05/20] target/ppc: Substitute msr_ds macro with new M_MSR_DS
  macro
-Date: Fri, 22 Apr 2022 15:54:34 -0300
-Message-Id: <20220422185450.107256-5-victor.colombo@eldorado.org.br>
+Date: Fri, 22 Apr 2022 15:54:35 -0300
+Message-Id: <20220422185450.107256-6-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
 References: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 22 Apr 2022 18:54:54.0311 (UTC)
- FILETIME=[7435C770:01D8567A]
+X-OriginalArrivalTime: 22 Apr 2022 18:54:54.0452 (UTC)
+ FILETIME=[744B4B40:01D8567A]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,121 +67,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
- target/ppc/cpu.h        |  2 +-
- target/ppc/cpu_init.c   |  2 +-
- target/ppc/gdbstub.c    |  2 +-
- target/ppc/mem_helper.c | 16 ++++++++--------
- 4 files changed, 11 insertions(+), 11 deletions(-)
+ target/ppc/cpu.h        | 2 +-
+ target/ppc/mmu_common.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 2ad023e981..d25a778b7c 100644
+index d25a778b7c..e81f1f2d68 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
 @@ -354,6 +354,7 @@ typedef enum {
  #define MSR_LE   0  /* Little-endian mode                           1 hflags */
  
  #define M_MSR_PR (1ull << MSR_PR)
-+#define M_MSR_LE (1ull << MSR_LE)
++#define M_MSR_DS (1ull << MSR_DS)
+ #define M_MSR_LE (1ull << MSR_LE)
  
  /* PMU bits */
- #define MMCR0_FC     PPC_BIT(32)         /* Freeze Counters  */
 @@ -484,7 +485,6 @@ typedef enum {
+ #define msr_ep   ((env->msr >> MSR_EP)   & 1)
  #define msr_ir   ((env->msr >> MSR_IR)   & 1)
  #define msr_dr   ((env->msr >> MSR_DR)   & 1)
- #define msr_ds   ((env->msr >> MSR_DS)   & 1)
--#define msr_le   ((env->msr >> MSR_LE)   & 1)
+-#define msr_ds   ((env->msr >> MSR_DS)   & 1)
  #define msr_ts   ((env->msr >> MSR_TS1)  & 3)
  
  #define DBCR0_ICMP (1 << 27)
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 6e2b23a859..9dddc0e8f6 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -7210,7 +7210,7 @@ static bool ppc_cpu_is_big_endian(CPUState *cs)
- 
-     cpu_synchronize_state(cs);
- 
--    return !msr_le;
-+    return !(env->msr & M_MSR_LE);
- }
- 
- #ifdef CONFIG_TCG
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index 1252429a2a..df1dcd90f0 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -95,7 +95,7 @@ static int ppc_gdb_register_len(int n)
- void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len)
- {
- #ifndef CONFIG_USER_ONLY
--    if (!msr_le) {
-+    if (!(env->msr & M_MSR_LE)) {
-         /* do nothing */
-     } else if (len == 4) {
-         bswap32s((uint32_t *)mem_buf);
-diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
-index bd219e9c9c..8ff99a6568 100644
---- a/target/ppc/mem_helper.c
-+++ b/target/ppc/mem_helper.c
-@@ -33,9 +33,9 @@
- static inline bool needs_byteswap(const CPUPPCState *env)
- {
- #if TARGET_BIG_ENDIAN
--  return msr_le;
-+  return env->msr & M_MSR_LE;
- #else
--  return !msr_le;
-+  return !(env->msr & M_MSR_LE);
- #endif
- }
- 
-@@ -470,8 +470,8 @@ uint32_t helper_stqcx_be_parallel(CPUPPCState *env, target_ulong addr,
- #endif
- 
- /*
-- * We use msr_le to determine index ordering in a vector.  However,
-- * byteswapping is not simply controlled by msr_le.  We also need to
-+ * We use MSR_LE to determine index ordering in a vector.  However,
-+ * byteswapping is not simply controlled by MSR_LE.  We also need to
-  * take into account endianness of the target.  This is done for the
-  * little-endian PPC64 user-mode target.
-  */
-@@ -484,7 +484,7 @@ uint32_t helper_stqcx_be_parallel(CPUPPCState *env, target_ulong addr,
-         int adjust = HI_IDX * (n_elems - 1);                    \
-         int sh = sizeof(r->element[0]) >> 1;                    \
-         int index = (addr & 0xf) >> sh;                         \
--        if (msr_le) {                                           \
-+        if (env->msr & M_MSR_LE) {                              \
-             index = n_elems - index - 1;                        \
-         }                                                       \
-                                                                 \
-@@ -511,7 +511,7 @@ LVE(lvewx, cpu_ldl_data_ra, bswap32, u32)
-         int adjust = HI_IDX * (n_elems - 1);                            \
-         int sh = sizeof(r->element[0]) >> 1;                            \
-         int index = (addr & 0xf) >> sh;                                 \
--        if (msr_le) {                                                   \
-+        if (env->msr & M_MSR_LE) {                                      \
-             index = n_elems - index - 1;                                \
-         }                                                               \
-                                                                         \
-@@ -545,7 +545,7 @@ void helper_##name(CPUPPCState *env, target_ulong addr,                 \
-     t.s128 = int128_zero();                                             \
-     if (nb) {                                                           \
-         nb = (nb >= 16) ? 16 : nb;                                      \
--        if (msr_le && !lj) {                                            \
-+        if ((env->msr & M_MSR_LE) && !lj) {                             \
-             for (i = 16; i > 16 - nb; i--) {                            \
-                 t.VsrB(i - 1) = cpu_ldub_data_ra(env, addr, GETPC());   \
-                 addr = addr_add(env, addr, 1);                          \
-@@ -576,7 +576,7 @@ void helper_##name(CPUPPCState *env, target_ulong addr,           \
-     }                                                             \
-                                                                   \
-     nb = (nb >= 16) ? 16 : nb;                                    \
--    if (msr_le && !lj) {                                          \
-+    if ((env->msr & M_MSR_LE) && !lj) {                           \
-         for (i = 16; i > 16 - nb; i--) {                          \
-             cpu_stb_data_ra(env, addr, xt->VsrB(i - 1), GETPC()); \
-             addr = addr_add(env, addr, 1);                        \
+diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
+index fef2b11733..b7865d24b2 100644
+--- a/target/ppc/mmu_common.c
++++ b/target/ppc/mmu_common.c
+@@ -768,7 +768,7 @@ static bool mmubooke206_get_as(CPUPPCState *env,
+         *pr_out = !!(epidr & EPID_EPR);
+         return true;
+     } else {
+-        *as_out = msr_ds;
++        *as_out = env->msr & M_MSR_DS;
+         *pr_out = env->msr & M_MSR_PR;
+         return false;
+     }
 -- 
 2.25.1
 
