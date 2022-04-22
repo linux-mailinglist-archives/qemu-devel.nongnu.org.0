@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5705C50B60B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:18:39 +0200 (CEST)
-Received: from localhost ([::1]:38088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C6E50B634
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:33:32 +0200 (CEST)
+Received: from localhost ([::1]:39984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhrJ8-0007z6-FA
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32938)
+	id 1nhrXX-0005Rl-6j
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhqKY-0000Jy-7b
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:16:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34585)
+ id 1nhqKx-0000um-2v
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:16:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhqKT-0004ow-NF
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:16:00 -0400
+ id 1nhqKv-0004pw-9a
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:16:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650622554;
+ s=mimecast20190719; t=1650622584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eGECfgCA062ozS385htHljf3FpYVHp12BzT+d6+p2DU=;
- b=QB16d9RxOku4Vvo3LrjABwqxNpVWkvvOcCcJFtavm8L1T5ITeLpeqk7U++E8xa5HUrm2p0
- ig0vlKXtBi9n8rh4+ia4gvya14YDDULgWt+HdyCxTYChITTCpVM8wnhnZsJK6X8Ht6yX3Z
- ITL3cy57FHuDKU/yQHgf07rZKxzLV/E=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9VGjHnY5cju+jYKhkuVAJZGadThEoBTMrkLnDIrBkOw=;
+ b=Xxg98snnO0m5u9Qj+U+FLT4e3LKTZGKH5v7yE9+uZ/xGIXr8qXPLHUcwyYjenG6uxOvprk
+ rPZIOecVGyGkQrL/uB0T9WYjGGqHd9HEt12Xc8nra8Wv+Kv7vNDCSZw2Eb2CpC3Q4h8S5X
+ iObOW7+EEJ+B2JMIyUUHuOllWgS6iOE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-EEiRR7XKPJKHTp2odb98fw-1; Fri, 22 Apr 2022 06:15:51 -0400
-X-MC-Unique: EEiRR7XKPJKHTp2odb98fw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-669-_zvv2H4-MM2dKOnq2O5YnA-1; Fri, 22 Apr 2022 06:16:23 -0400
+X-MC-Unique: _zvv2H4-MM2dKOnq2O5YnA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF8A610726AB;
- Fri, 22 Apr 2022 10:15:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2C5B1E16DEB;
+ Fri, 22 Apr 2022 10:16:09 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA37D46A0C4;
- Fri, 22 Apr 2022 10:15:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90FD92166B5E;
+ Fri, 22 Apr 2022 10:15:50 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 04/13] dump: Remove the section if when calculating the
- memory offset
-Date: Fri, 22 Apr 2022 14:15:16 +0400
-Message-Id: <20220422101525.3260741-5-marcandre.lureau@redhat.com>
+Subject: [PULL v2 05/13] dump: Add more offset variables
+Date: Fri, 22 Apr 2022 14:15:17 +0400
+Message-Id: <20220422101525.3260741-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20220422101525.3260741-1-marcandre.lureau@redhat.com>
 References: <20220422101525.3260741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,51 +84,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-When s->shdr_num is 0 we'll add 0 bytes of section headers which is
-equivalent to not adding section headers but with the multiplication
-we can remove a if/else.
+Offset calculations are easy enough to get wrong. Let's add a few
+variables to make moving around elf headers and data sections easier.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220330123603.107120-5-frankja@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220330123603.107120-6-frankja@linux.ibm.com>
 ---
- dump/dump.c | 24 ++++++++----------------
- 1 file changed, 8 insertions(+), 16 deletions(-)
+ include/sysemu/dump.h |  4 ++++
+ dump/dump.c           | 35 +++++++++++++++--------------------
+ 2 files changed, 19 insertions(+), 20 deletions(-)
 
+diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+index 19458bffbd1d..ffc2ea1072f3 100644
+--- a/include/sysemu/dump.h
++++ b/include/sysemu/dump.h
+@@ -159,6 +159,10 @@ typedef struct DumpState {
+     bool resume;
+     bool detached;
+     ssize_t note_size;
++    hwaddr shdr_offset;
++    hwaddr phdr_offset;
++    hwaddr section_offset;
++    hwaddr note_offset;
+     hwaddr memory_offset;
+     int fd;
+ 
 diff --git a/dump/dump.c b/dump/dump.c
-index 285ed4475b0d..9c80680eb2a4 100644
+index 9c80680eb2a4..7f226257eec3 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -1817,23 +1817,15 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+@@ -141,13 +141,11 @@ static void write_elf64_header(DumpState *s, Error **errp)
+     elf_header.e_machine = cpu_to_dump16(s, s->dump_info.d_machine);
+     elf_header.e_version = cpu_to_dump32(s, EV_CURRENT);
+     elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+-    elf_header.e_phoff = cpu_to_dump64(s, sizeof(Elf64_Ehdr));
++    elf_header.e_phoff = cpu_to_dump64(s, s->phdr_offset);
+     elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf64_Phdr));
+     elf_header.e_phnum = cpu_to_dump16(s, phnum);
+     if (s->shdr_num) {
+-        uint64_t shoff = sizeof(Elf64_Ehdr) + sizeof(Elf64_Phdr) * s->phdr_num;
+-
+-        elf_header.e_shoff = cpu_to_dump64(s, shoff);
++        elf_header.e_shoff = cpu_to_dump64(s, s->shdr_offset);
+         elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf64_Shdr));
+         elf_header.e_shnum = cpu_to_dump16(s, s->shdr_num);
+     }
+@@ -178,13 +176,11 @@ static void write_elf32_header(DumpState *s, Error **errp)
+     elf_header.e_machine = cpu_to_dump16(s, s->dump_info.d_machine);
+     elf_header.e_version = cpu_to_dump32(s, EV_CURRENT);
+     elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+-    elf_header.e_phoff = cpu_to_dump32(s, sizeof(Elf32_Ehdr));
++    elf_header.e_phoff = cpu_to_dump32(s, s->phdr_offset);
+     elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf32_Phdr));
+     elf_header.e_phnum = cpu_to_dump16(s, phnum);
+     if (s->shdr_num) {
+-        uint32_t shoff = sizeof(Elf32_Ehdr) + sizeof(Elf32_Phdr) * s->phdr_num;
+-
+-        elf_header.e_shoff = cpu_to_dump32(s, shoff);
++        elf_header.e_shoff = cpu_to_dump32(s, s->shdr_offset);
+         elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf32_Shdr));
+         elf_header.e_shnum = cpu_to_dump16(s, s->shdr_num);
+     }
+@@ -247,12 +243,11 @@ static void write_elf32_load(DumpState *s, MemoryMapping *memory_mapping,
+ static void write_elf64_note(DumpState *s, Error **errp)
+ {
+     Elf64_Phdr phdr;
+-    hwaddr begin = s->memory_offset - s->note_size;
+     int ret;
+ 
+     memset(&phdr, 0, sizeof(Elf64_Phdr));
+     phdr.p_type = cpu_to_dump32(s, PT_NOTE);
+-    phdr.p_offset = cpu_to_dump64(s, begin);
++    phdr.p_offset = cpu_to_dump64(s, s->note_offset);
+     phdr.p_paddr = 0;
+     phdr.p_filesz = cpu_to_dump64(s, s->note_size);
+     phdr.p_memsz = cpu_to_dump64(s, s->note_size);
+@@ -312,13 +307,12 @@ static void write_elf64_notes(WriteCoreDumpFunction f, DumpState *s,
+ 
+ static void write_elf32_note(DumpState *s, Error **errp)
+ {
+-    hwaddr begin = s->memory_offset - s->note_size;
+     Elf32_Phdr phdr;
+     int ret;
+ 
+     memset(&phdr, 0, sizeof(Elf32_Phdr));
+     phdr.p_type = cpu_to_dump32(s, PT_NOTE);
+-    phdr.p_offset = cpu_to_dump32(s, begin);
++    phdr.p_offset = cpu_to_dump32(s, s->note_offset);
+     phdr.p_paddr = 0;
+     phdr.p_filesz = cpu_to_dump32(s, s->note_size);
+     phdr.p_memsz = cpu_to_dump32(s, s->note_size);
+@@ -1817,15 +1811,16 @@ static void dump_init(DumpState *s, int fd, bool has_format,
      }
  
      if (s->dump_info.d_class == ELFCLASS64) {
--        if (s->shdr_num) {
--            s->memory_offset = sizeof(Elf64_Ehdr) +
--                               sizeof(Elf64_Phdr) * s->phdr_num +
--                               sizeof(Elf64_Shdr) * s->shdr_num + s->note_size;
--        } else {
--            s->memory_offset = sizeof(Elf64_Ehdr) +
--                               sizeof(Elf64_Phdr) * s->phdr_num + s->note_size;
--        }
-+        s->memory_offset = sizeof(Elf64_Ehdr) +
-+                           sizeof(Elf64_Phdr) * s->phdr_num +
-+                           sizeof(Elf64_Shdr) * s->shdr_num +
-+                           s->note_size;
+-        s->memory_offset = sizeof(Elf64_Ehdr) +
+-                           sizeof(Elf64_Phdr) * s->phdr_num +
+-                           sizeof(Elf64_Shdr) * s->shdr_num +
+-                           s->note_size;
++        s->phdr_offset = sizeof(Elf64_Ehdr);
++        s->shdr_offset = s->phdr_offset + sizeof(Elf64_Phdr) * s->phdr_num;
++        s->note_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
++        s->memory_offset = s->note_offset + s->note_size;
      } else {
--        if (s->shdr_num) {
--            s->memory_offset = sizeof(Elf32_Ehdr) +
--                               sizeof(Elf32_Phdr) * s->phdr_num +
--                               sizeof(Elf32_Shdr) * s->shdr_num + s->note_size;
--        } else {
--            s->memory_offset = sizeof(Elf32_Ehdr) +
--                               sizeof(Elf32_Phdr) * s->phdr_num + s->note_size;
--        }
-+        s->memory_offset = sizeof(Elf32_Ehdr) +
-+                           sizeof(Elf32_Phdr) * s->phdr_num +
-+                           sizeof(Elf32_Shdr) * s->shdr_num +
-+                           s->note_size;
+-        s->memory_offset = sizeof(Elf32_Ehdr) +
+-                           sizeof(Elf32_Phdr) * s->phdr_num +
+-                           sizeof(Elf32_Shdr) * s->shdr_num +
+-                           s->note_size;
++
++        s->phdr_offset = sizeof(Elf32_Ehdr);
++        s->shdr_offset = s->phdr_offset + sizeof(Elf32_Phdr) * s->phdr_num;
++        s->note_offset = s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr_num;
++        s->memory_offset = s->note_offset + s->note_size;
      }
  
      return;
