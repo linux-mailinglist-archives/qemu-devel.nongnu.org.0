@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBB850B692
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:52:23 +0200 (CEST)
-Received: from localhost ([::1]:46262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5578A50B654
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:44:15 +0200 (CEST)
+Received: from localhost ([::1]:58826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhrpm-0005vS-Nl
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39206)
+	id 1nhrhu-0003NB-EJ
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:44:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhqw0-0006Pv-DW
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:54:47 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:40723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhqvy-0001ro-9u
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:54:43 -0400
-Received: by mail-pf1-x432.google.com with SMTP id i24so7650639pfa.7
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=LQj7J5zchdxLk7+zVlsA734hVHBcXiowH1AnkuFwJfg=;
- b=gko12gN/Enjcl2icG2EHr4/NIXon2gpMX+cjS0IvPh5dOU6vuOapjRxm33LGScLy6r
- t6fe+krjDiMFHXe8lJGhEBti3G8rMMjHORga7w6SjHR2nuAYNLa7BJkmZjRFxnqPuLK+
- 36JHGaRNCsP0AEB/TlFIqgFX6SA7WboKRfKUeJHRzHxXKtGPG7Pd1q8C2w9k6RMW9nII
- DwnzVll1IhuyDwiFmQT9cZvmXrezRtjO1DIR9TsKVPum8iVWvDoQAyN7CCm3noPYAuKt
- HNEzw69A0HVRpI5ZaQsWHuB56cObMY1PRO6ilvvPUPnMz6oVfDELN7ix3jfi3ZVSw5fj
- OWig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LQj7J5zchdxLk7+zVlsA734hVHBcXiowH1AnkuFwJfg=;
- b=FLKSumKE6g6ZY6WnfrOIA2LQQURqUgKgl3GFwaVFI87djAggxRZG0EhyJovSVtZvD+
- 4UVLEX337PdiDXTrH3HwMRMS95KLVKe+vtVNz1KpWGPNKuo6z8ld8M3E+WtjZ0cn5mXk
- ercN7BS5YLLcuhBYrK0fQG4eXFREPaASb693cNT+Wc+431qfiSa9QkiFhTYY17vDfW9U
- t587lmk0zFtxpQ5DU8heT3XMpDq/spOV0hb6gsGtObr2aKCt8BxofvUMVIUIfFkBRejh
- Gz+m0D3OS06J/1Br75T20K5n5SSXiepK9Pp+eX94+WMQhT7wf4Gt63Dcex2f33SNSwfs
- M4dw==
-X-Gm-Message-State: AOAM533JrMoftFFA0kHNXoWcVIJA8XzhJhlHJrjNVPXQ5OGkzmAT0f4i
- gLC9tYZVbesQCu6+gjF4vswe2w==
-X-Google-Smtp-Source: ABdhPJxIT0DJfMOCNELP2rpOZLpU+uB0lZ4OJ6gwHzenkxVsZzLCjSQuvxVc+hP0roLsmuIx1fV//A==
-X-Received: by 2002:a63:8a41:0:b0:3aa:a7c9:23b8 with SMTP id
- y62-20020a638a41000000b003aaa7c923b8mr3343068pgd.137.1650624880673; 
- Fri, 22 Apr 2022 03:54:40 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:27d0:b0f2:1f9b:37fb:18e0:1dd4?
- ([2607:fb90:27d0:b0f2:1f9b:37fb:18e0:1dd4])
- by smtp.gmail.com with ESMTPSA id
- y2-20020a17090ad0c200b001cd4989fedfsm5749614pjw.43.2022.04.22.03.54.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Apr 2022 03:54:39 -0700 (PDT)
-Message-ID: <e330a9ff-0b1a-9664-d3ef-2df74daba0eb@linaro.org>
-Date: Fri, 22 Apr 2022 03:54:35 -0700
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nhqxr-00029i-Al
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:56:39 -0400
+Received: from mga04.intel.com ([192.55.52.120]:38398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nhqxl-0002FE-PP
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:56:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650624993; x=1682160993;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=rJVd1tK/Yiyruq2AWcvjVHLhacTHQWBMSusJV1SX9dM=;
+ b=P2s8AGydxmZssBgD99kC/APi+4LyvTKrnNSCIgSPtYTL7yxTF6AttsN+
+ C88JRWzYvJmH7cYQs4BtJi5y1GbAt3zG0wjiB6PYprc2VUnJaYNwJgid/
+ DgPF9x4qFHkoH8rJM8xT9lAC1idVaMmte4LVbzm7p88pUGKmCqYOhO1hX
+ B1p6raZu34O7uDLKAu0WcyxoYRYuBkAlNYF0KUa8L/UYKGXCry5mDa3Fb
+ EAP0vHh+5+xe0S83u2AoG+2bxFWoYBIrWWRq+9j4WE6eVcN1cm2mb5hAj
+ DjCpr33euOyNvMOMQ9PK7JQsfzGzNK00p3k702/Kf5yTLG73grjm8d54s g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="263497185"
+X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; d="scan'208";a="263497185"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2022 03:56:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; d="scan'208";a="703511229"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2022 03:56:21 -0700
+Date: Fri, 22 Apr 2022 18:56:12 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220422105612.GB61987@chaop.bj.intel.com>
+References: <YkQzfjgTQaDd2E2T@google.com> <YkSaUQX89ZEojsQb@google.com>
+ <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
+ <YkcTTY4YjQs5BRhE@google.com>
+ <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
+ <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
+ <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
+ <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL v2 00/31] riscv-to-apply queue
-Content-Language: en-US
-To: Alistair Francis <alistair.francis@opensource.wdc.com>,
- qemu-devel@nongnu.org
-References: <20220422003656.1648121-1-alistair.francis@opensource.wdc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220422003656.1648121-1-alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkyEaYiL0BrDYcZv@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,139 +79,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, "Nakajima,
+ Jun" <jun.nakajima@intel.com>, kvm list <kvm@vger.kernel.org>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+ Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, the arch/x86 maintainers <x86@kernel.org>,
+ Hugh Dickins <hughd@google.com>, Steven Price <steven.price@arm.com>,
+ Ingo Molnar <mingo@redhat.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Jim Mattson <jmattson@google.com>, Quentin Perret <qperret@google.com>,
+ Linux API <linux-api@vger.kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/21/22 17:36, Alistair Francis wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
+On Tue, Apr 05, 2022 at 06:03:21PM +0000, Sean Christopherson wrote:
+> On Tue, Apr 05, 2022, Quentin Perret wrote:
+> > On Monday 04 Apr 2022 at 15:04:17 (-0700), Andy Lutomirski wrote:
+> > > >>  - it can be very useful for protected VMs to do shared=>private
+> > > >>    conversions. Think of a VM receiving some data from the host in a
+> > > >>    shared buffer, and then it wants to operate on that buffer without
+> > > >>    risking to leak confidential informations in a transient state. In
+> > > >>    that case the most logical thing to do is to convert the buffer back
+> > > >>    to private, do whatever needs to be done on that buffer (decrypting a
+> > > >>    frame, ...), and then share it back with the host to consume it;
+> > > >
+> > > > If performance is a motivation, why would the guest want to do two
+> > > > conversions instead of just doing internal memcpy() to/from a private
+> > > > page?  I would be quite surprised if multiple exits and TLB shootdowns is
+> > > > actually faster, especially at any kind of scale where zapping stage-2
+> > > > PTEs will cause lock contention and IPIs.
+> > > 
+> > > I don't know the numbers or all the details, but this is arm64, which is a
+> > > rather better architecture than x86 in this regard.  So maybe it's not so
+> > > bad, at least in very simple cases, ignoring all implementation details.
+> > > (But see below.)  Also the systems in question tend to have fewer CPUs than
+> > > some of the massive x86 systems out there.
+> > 
+> > Yep. I can try and do some measurements if that's really necessary, but
+> > I'm really convinced the cost of the TLBI for the shared->private
+> > conversion is going to be significantly smaller than the cost of memcpy
+> > the buffer twice in the guest for us.
 > 
-> The following changes since commit da5006445a92bb7801f54a93452fac63ca2f634c:
+> It's not just the TLB shootdown, the VM-Exits aren't free.   And barring non-trivial
+> improvements to KVM's MMU, e.g. sharding of mmu_lock, modifying the page tables will
+> block all other updates and MMU operations.  Taking mmu_lock for read, should arm64
+> ever convert to a rwlock, is not an option because KVM needs to block other
+> conversions to avoid races.
 > 
->    Merge tag 'python-pull-request' of https://gitlab.com/jsnow/qemu into staging (2022-04-21 15:16:52 -0700)
+> Hmm, though batching multiple pages into a single request would mitigate most of
+> the overhead.
 > 
-> are available in the Git repository at:
+> > There are variations of that idea: e.g. allow userspace to mmap the
+> > entire private fd but w/o taking a reference on pages mapped with
+> > PROT_NONE. And then the VMM can use mprotect() in response to
+> > share/unshare requests. I think Marc liked that idea as it keeps the
+> > userspace API closer to normal KVM -- there actually is a
+> > straightforward gpa->hva relation. Not sure how much that would impact
+> > the implementation at this point.
+> > 
+> > For the shared=>private conversion, this would be something like so:
+> > 
+> >  - the guest issues a hypercall to unshare a page;
+> > 
+> >  - the hypervisor forwards the request to the host;
+> > 
+> >  - the host kernel forwards the request to userspace;
+> > 
+> >  - userspace then munmap()s the shared page;
+> > 
+> >  - KVM then tries to take a reference to the page. If it succeeds, it
+> >    re-enters the guest with a flag of some sort saying that the share
+> >    succeeded, and the hypervisor will adjust pgtables accordingly. If
+> >    KVM failed to take a reference, it flags this and the hypervisor will
+> >    be responsible for communicating that back to the guest. This means
+> >    the guest must handle failures (possibly fatal).
+> > 
+> > (There are probably many ways in which we can optimize this, e.g. by
+> > having the host proactively munmap() pages it no longer needs so that
+> > the unshare hypercall from the guest doesn't need to exit all the way
+> > back to host userspace.)
 > 
->    git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220422-1
+> ...
 > 
-> for you to fetch changes up to faee5441a038898f64b335dbaecab102ba406552:
+> > > Maybe there could be a special mode for the private memory fds in which
+> > > specific pages are marked as "managed by this fd but actually shared".
+> > > pread() and pwrite() would work on those pages, but not mmap().  (Or maybe
+> > > mmap() but the resulting mappings would not permit GUP.)
 > 
->    hw/riscv: boot: Support 64bit fdt address. (2022-04-22 10:35:16 +1000)
+> Unless I misunderstand what you intend by pread()/pwrite(), I think we'd need to
+> allow mmap(), otherwise e.g. uaccess from the kernel wouldn't work.
 > 
-> ----------------------------------------------------------------
-> First RISC-V PR for QEMU 7.1
+> > > And transitioning them would be a special operation on the fd that is
+> > > specific to pKVM and wouldn't work on TDX or SEV.
 > 
->   * Add support for Ibex SPI to OpenTitan
->   * Add support for privileged spec version 1.12.0
->   * Use privileged spec version 1.12.0 for virt machine by default
->   * Allow software access to MIP SEIP
->   * Add initial support for the Sdtrig extension
->   * Optimisations for vector extensions
->   * Improvements to the misa ISA string
->   * Add isa extenstion strings to the device tree
->   * Don't allow `-bios` options with KVM machines
->   * Fix NAPOT range computation overflow
->   * Fix DT property mmu-type when CPU mmu option is disabled
->   * Make RISC-V ACLINT mtime MMIO register writable
->   * Add and enable native debug feature
->   * Support 64bit fdt address.
+> To keep things feature agnostic (IMO, baking TDX vs SEV vs pKVM info into private-fd
+> is a really bad idea), this could be handled by adding a flag and/or callback into
+> the notifier/client stating whether or not it supports mapping a private-fd, and then
+> mapping would be allowed if and only if all consumers support/allow mapping.
+> 
+> > > Hmm.  Sean and Chao, are we making a bit of a mistake by making these fds
+> > > technology-agnostic?  That is, would we want to distinguish between a TDX
+> > > backing fd, a SEV backing fd, a software-based backing fd, etc?  API-wise
+> > > this could work by requiring the fd to be bound to a KVM VM instance and
+> > > possibly even configured a bit before any other operations would be
+> > > allowed.
+> 
+> I really don't want to distinguish between between each exact feature, but I've
+> no objection to adding flags/callbacks to track specific properties of the
+> downstream consumers, e.g. "can this memory be accessed by userspace" is a fine
+> abstraction.  It also scales to multiple consumers (see above).
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Great thanks for the discussions. I summarized the requirements/gaps and the
+potential changes for next step. Please help to review.
 
 
-r~
+Terminologies:
+--------------
+  - memory conversion: the action of converting guest memory between private
+    and shared.
+  - explicit conversion: an enlightened guest uses a hypercall to explicitly
+    request a memory conversion to VMM.
+  - implicit conversion: the conversion when VMM reacts to a page fault due
+    to different guest/host memory attributes (private/shared).
+  - destructive conversion: the memory content is lost/destroyed during
+    conversion.
+  - non-destructive conversion: the memory content is preserved during
+    conversion.
 
 
+Requirements & Gaps
+-------------------------------------
+  - Confidential computing(CC): TDX/SEV/CCA
+    * Need support both explicit/implicit conversions.
+    * Need support only destructive conversion at runtime.
+    * The current patch should just work, but prefer to have pre-boot guest
+      payload/firmware population into private memory for performance.
 
-> 
-> ----------------------------------------------------------------
-> Alistair Francis (2):
->        target/riscv: cpu: Fixup indentation
->        target/riscv: Allow software access to MIP SEIP
-> 
-> Atish Patra (7):
->        target/riscv: Define simpler privileged spec version numbering
->        target/riscv: Add the privileged spec version 1.12.0
->        target/riscv: Introduce privilege version field in the CSR ops.
->        target/riscv: Add support for mconfigptr
->        target/riscv: Add *envcfg* CSRs support
->        target/riscv: Enable privileged spec version 1.12
->        target/riscv: Add isa extenstion strings to the device tree
-> 
-> Bin Meng (7):
->        target/riscv: Add initial support for the Sdtrig extension
->        target/riscv: debug: Implement debug related TCGCPUOps
->        target/riscv: cpu: Add a config option for native debug
->        target/riscv: csr: Hook debug CSR read/write
->        target/riscv: machine: Add debug state description
->        target/riscv: cpu: Enable native debug feature
->        hw/core: tcg-cpu-ops.h: Update comments of debug_check_watchpoint()
-> 
-> Dylan Jhong (1):
->        hw/riscv: boot: Support 64bit fdt address.
-> 
-> Frank Chang (3):
->        hw/intc: Add .impl.[min|max]_access_size declaration in RISC-V ACLINT
->        hw/intc: Support 32/64-bit mtimecmp and mtime accesses in RISC-V ACLINT
->        hw/intc: Make RISC-V ACLINT mtime MMIO register writable
-> 
-> Jim Shu (1):
->        hw/intc: riscv_aclint: Add reset function of ACLINT devices
-> 
-> Nicolas Pitre (1):
->        target/riscv/pmp: fix NAPOT range computation overflow
-> 
-> Niklas Cassel (1):
->        hw/riscv: virt: fix DT property mmu-type when CPU mmu option is disabled
-> 
-> Ralf Ramsauer (1):
->        hw/riscv: virt: Exit if the user provided -bios in combination with KVM
-> 
-> Richard Henderson (1):
->        target/riscv: Use cpu_loop_exit_restore directly from mmu faults
-> 
-> Tsukasa OI (1):
->        target/riscv: misa to ISA string conversion fix
-> 
-> Weiwei Li (3):
->        target/riscv: optimize condition assign for scale < 0
->        target/riscv: optimize helper for vmv<nr>r.v
->        target/riscv: fix start byte for vmv<nf>r.v when vstart != 0
-> 
-> Wilfred Mallawa (2):
->        hw/ssi: Add Ibex SPI device model
->        riscv: opentitan: Connect opentitan SPI Host
-> 
->   include/hw/core/tcg-cpu-ops.h           |   1 +
->   include/hw/intc/riscv_aclint.h          |   1 +
->   include/hw/riscv/boot.h                 |   4 +-
->   include/hw/riscv/opentitan.h            |  30 +-
->   include/hw/ssi/ibex_spi_host.h          |  94 +++++
->   target/riscv/cpu.h                      |  40 ++-
->   target/riscv/cpu_bits.h                 |  40 +++
->   target/riscv/debug.h                    | 114 ++++++
->   target/riscv/helper.h                   |   5 +-
->   hw/intc/riscv_aclint.c                  | 144 ++++++--
->   hw/riscv/boot.c                         |  12 +-
->   hw/riscv/opentitan.c                    |  36 +-
->   hw/riscv/virt.c                         |  24 +-
->   hw/ssi/ibex_spi_host.c                  | 612 ++++++++++++++++++++++++++++++++
->   target/riscv/cpu.c                      | 120 ++++++-
->   target/riscv/cpu_helper.c               |  10 +-
->   target/riscv/csr.c                      | 282 +++++++++++++--
->   target/riscv/debug.c                    | 441 +++++++++++++++++++++++
->   target/riscv/machine.c                  |  55 +++
->   target/riscv/pmp.c                      |  14 +-
->   target/riscv/vector_helper.c            |  31 +-
->   target/riscv/insn_trans/trans_rvv.c.inc |  25 +-
->   hw/ssi/meson.build                      |   1 +
->   hw/ssi/trace-events                     |   7 +
->   target/riscv/meson.build                |   1 +
->   25 files changed, 1971 insertions(+), 173 deletions(-)
->   create mode 100644 include/hw/ssi/ibex_spi_host.h
->   create mode 100644 target/riscv/debug.h
->   create mode 100644 hw/ssi/ibex_spi_host.c
->   create mode 100644 target/riscv/debug.c
-> 
+  - pKVM
+    * Support explicit conversion only. Hard to achieve implicit conversion,
+      does not record the guest access info (private/shared) in page fault,
+      also makes little sense.
+    * Expect to support non-destructive conversion at runtime. Additionally
+      in-place conversion (the underlying physical page is unchanged) is
+      desirable since copy is not disirable. The current destructive conversion
+      does not fit well.
+    * The current callbacks between mm/KVM is useful and reusable for pKVM.
+    * Pre-boot guest payload population is nice to have.
 
+
+Change Proposal
+---------------
+Since there are some divergences for pKVM from CC usages and at this time looks
+whether we will and how we will support pKVM with this private memory patchset
+is still not quite clear, so this proposal does not imply certain detailed pKVM
+implementation. But from the API level, we want this can be possible to be future
+extended for pKVM or other potential usages.
+
+  - No new user APIs introduced for memory backing store, e.g. remove the
+    current MFD_INACCESSIBLE. This info will be communicated from memfile_notifier
+    consumers to backing store via the new 'flag' field in memfile_notifier
+    described below. At creation time, the fd is normal shared fd. At rumtime CC
+    usages will keep using current fallocate/FALLOC_FL_PUNCH_HOLE to do the
+    conversion, but pKVM may also possible use a different way (e.g. rely on
+    mmap/munmap or mprotect as discussed). These are all not new APIs anyway.
+
+  - Add a flag to memfile_notifier so its consumers can state the requirements.
+
+        struct memfile_notifier {
+                struct list_head list;
+                unsigned long flags;     /* consumer states its requirements here */
+                struct memfile_notifier_ops *ops; /* future function may also extend ops when necessary */
+        };
+
+    For current CC usage, we can define and set below flags from KVM.
+
+        /* memfile notifier flags */
+        #define MFN_F_USER_INACCESSIBLE   0x0001  /* memory allocated in the file is inaccessible from userspace (e.g. read/write/mmap) */
+        #define MFN_F_UNMOVABLE           0x0002  /* memory allocated in the file is unmovable */
+        #define MFN_F_UNRECLAIMABLE       0x0003  /* memory allocated in the file is unreclaimable (e.g. via kswapd or any other pathes) */
+
+    When memfile_notifier is being registered, memfile_register_notifier will
+    need check these flags. E.g. for MFN_F_USER_INACCESSIBLE, it fails when
+    previous mmap-ed mapping exists on the fd (I'm still unclear on how to do
+    this). When multiple consumers are supported it also need check all
+    registered consumers to see if any conflict (e.g. all consumers should have
+    MFN_F_USER_INACCESSIBLE set). Only when the register succeeds, the fd is
+    converted into a private fd, before that, the fd is just a normal (shared)
+    one. During this conversion, the previous data is preserved so you can put
+    some initial data in guest pages (whether the architecture allows this is
+    architecture-specific and out of the scope of this patch).
+
+  - Pre-boot guest payload populating is done by normal mmap/munmap on the fd
+    before it's converted into private fd when KVM registers itself to the
+    backing store.
+
+  - Implicit conversion: maybe it's worthy to discuss again: how about totally
+    remove implicit converion support? TDX should be OK, unsure SEV/CCA. pKVM
+    should be happy to see. Removing also makes the work much easier and prevents
+    guest bugs/unitended behaviors early. If it turns out that there is reason to
+    keep it, then for pKVM we can make it an optional feature (e.g. via a new
+    module param). But that can be added when pKVM really gets supported.
+
+  - non-destructive in-place conversion: Out of scope for this series, pKVM can
+    invent other pKVM specific interfaces (either extend memfile_notifier and using
+    mmap/mprotect or use totaly different ways like access through vmfd as Sean
+    suggested).
+
+Thanks,
+Chao
 
