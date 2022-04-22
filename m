@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BC550B73C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:27:14 +0200 (CEST)
-Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9637350B759
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:31:10 +0200 (CEST)
+Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhsNV-0003ui-3j
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57084)
+	id 1nhsRJ-0001ja-Ng
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:31:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nhrhd-0004rx-U2
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:57 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:46947)
+ id 1nhroP-00052l-S6
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:50:57 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:40590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nhrhc-0003et-1D
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:57 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id q1so9098431plx.13
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:43:55 -0700 (PDT)
+ id 1nhroN-0004kX-LH
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:50:57 -0400
+Received: by mail-pf1-x429.google.com with SMTP id i24so7780750pfa.7
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NMOdGKNSjvZVppRIA94oCOB6Vz0RgsTXLNiP0Un9qYE=;
- b=ZtEV4ANKMAbBUF3JhV9521gApjZTSYFg0VyIG9db48IiZL/yrCSveZKmbVxOxp5Z2p
- 9PDVcJsIqBvo10jt+TZj/4eJWypU5Jpdo0fYiFw5L60XCS+F5fyjasI6a63R4EJ9nf17
- Uoj3YOujTNuzl8JkZ3XjPjFEIJblYccbbEkblfLXsttVFZdaZjA2VeN9+1iwlB2jvZNO
- VYRPCneJuCqqgxhSsf27RmKXYqQlnlBycDINZMFCqbnamEx5Oc25ojDA4vDcAMOD1bAu
- jZRqKm6lKsUEjB09PcxAotz2FPD4aMcQCkGk5wmk97tuXkIVy1bJUrIrZw1sx2q5nXFm
- Vnhg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/hhTgFcRG37a2wesxenTjwWF/U3aMo1SJEFjn4coiWw=;
+ b=jbCVh05pFiq77v7AJHENT363lzdKdN6Hj/l/fGOBvmtAWgqbkX0r+vZO77san5sb+R
+ UPeNVSRDyP3BxeBMbaPTCVF9ZGAml7uxTdkw0dqmpuG27TQPe/RcW8lqIvapXzJj6MJw
+ 6gGE2kwscKfbCTZ+gbs+4B3YlyNYVhxNrcLPpflcQiok0Uc7nMPcsJmyyr9Wo/wErEbO
+ m+ZrMrOoR4jpAney8kMZR2nLILCBhg7EugLN5lj9ZtUMs7C5YSviSQ6igf4NBizURFL9
+ 5FXEix1znvFanxtQJ0l01UNRqEQLEiNXLGGzEuAJ48mWdn9xz3ducj51uvJ5aSJOzCQY
+ 0o+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NMOdGKNSjvZVppRIA94oCOB6Vz0RgsTXLNiP0Un9qYE=;
- b=LbI2x1V+R61VtmYd7bFLkRhfbSRXBFEWyEq4kD34tAKuyzpLo4pHUAWEgYA5kJsziZ
- /581nVtE6xbY4myImYrrN7sKuFWOW4phxm/BZLdgL5L4TxpFS/sT9+LOhAzrxyhwAfmq
- ZBd5E6xE8ljqo2ZpshYB0d5j6Buv+wq2H89pO8w0fnTa3/7ylS7xd/eZEYe+3MlGvMlO
- hFBWNVcFSTiMQyt6gp5ApK1Sw+o9n8N9S5XpB4lmEPKK2IlEkF6QtPwkA93mhvnOz65C
- YrQbH+etX3FJhiWX3yqbgP8lEWX+lVNWslj6VrSsMCeer0kve08wFNApO0176iToaz4n
- dXrw==
-X-Gm-Message-State: AOAM533jm6gWrdNRFd327ZHvLeHpeOZff6qCmkiX3ZV/0tIG8WaoR9bw
- 0FlzVYPMDQhKRL5nquttJIGS8vt85aI=
-X-Google-Smtp-Source: ABdhPJzSfAiBWYtcs+OQRqXCraEQwOJ/hHuWrdC2AIiAt4kZh3yFSuYT/1JMQ6YFlNvkbhjsV8KQ6A==
-X-Received: by 2002:a17:902:ba8c:b0:14f:d9b7:ab4 with SMTP id
- k12-20020a170902ba8c00b0014fd9b70ab4mr4140808pls.23.1650627834394; 
- Fri, 22 Apr 2022 04:43:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/hhTgFcRG37a2wesxenTjwWF/U3aMo1SJEFjn4coiWw=;
+ b=3qZr+7PhYDpFMifVPrUeY0a/IMy7JuVNqp30IcSd/r/SdF+EkR9Bv4mc8MxyVOy9Nr
+ x3A+pILDozDrZW8tjqPVIasa3NiMP/VHJRsy0fU8ihKDnHMEeRnb/5HkYWCSvc6cCxAu
+ q7JPZdBxt0HTCnIlKLhfz22PqIRl51qPiuCyynZZG+QoTI5KPP3xb4DdPOt5kmJm9gU5
+ /JxzS0+c/vvKuxHPxaqv63ejnyMrNeLzCKd1R4iJnAX2AHKG5vxiDV0R+wVlPnu6cqrg
+ z8trdDhcEjVhzv2HI08A6kLP5Z3pKewsY3iNwUKxrvy10GEkWRdWGl+PfH/c97NDieJI
+ gMng==
+X-Gm-Message-State: AOAM531nBH9bS5m8L6rtJccg9ajWKmYO61c8/ByF5jzfFOEnOe7VBz4u
+ cCrjo/VyHueMfbJkPBA7rj6rnODo6Rs=
+X-Google-Smtp-Source: ABdhPJwQZzOTR+tXf5kpsGNEd4uJGm6EscRIV/K3Rnzyf2O2D/uSxjgH9ePvrqSwWnQZiKJ6dcgsMQ==
+X-Received: by 2002:a05:6a00:1a06:b0:4fc:d6c5:f3d7 with SMTP id
+ g6-20020a056a001a0600b004fcd6c5f3d7mr4546428pfv.53.1650628251417; 
+ Fri, 22 Apr 2022 04:50:51 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:401:1d20:4c40:4238:b597:4c1a])
  by smtp.gmail.com with ESMTPSA id
- d16-20020a056a00245000b004f7728a4346sm2706519pfj.79.2022.04.22.04.43.52
+ q15-20020a056a00084f00b0050ab60bf37fsm2532276pfk.22.2022.04.22.04.50.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 04:43:53 -0700 (PDT)
+ Fri, 22 Apr 2022 04:50:50 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] target/xtensa: use tcg_constant_* for remaining opcodes
-Date: Fri, 22 Apr 2022 04:43:32 -0700
-Message-Id: <20220422114332.374472-8-jcmvbkbc@gmail.com>
+Subject: [PATCH v3 7/7] target/xtensa: use tcg_constant_* for remaining opcodes
+Date: Fri, 22 Apr 2022 04:50:25 -0700
+Message-Id: <20220422115025.381131-1-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220422114332.374472-1-jcmvbkbc@gmail.com>
-References: <20220422114332.374472-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x429.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -109,16 +107,19 @@ into the translate_waiti as it's the only user.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
+Changes v2->v3:
+- use 'pc' consistently in gen_check_atomctl
+
 Changes v1->v2:
 - convert gen_jumpi, disas_xtensa_insn, test_exceptions_retw and
   gen_check_atomctl
 - use tcg_constant_* for PC
 
- target/xtensa/translate.c | 75 +++++++++++++--------------------------
- 1 file changed, 24 insertions(+), 51 deletions(-)
+ target/xtensa/translate.c | 77 +++++++++++++--------------------------
+ 1 file changed, 25 insertions(+), 52 deletions(-)
 
 diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 09fb3df40934..9b3c5c0ca45e 100644
+index 09fb3df40934..0cc44e9b3aba 100644
 --- a/target/xtensa/translate.c
 +++ b/target/xtensa/translate.c
 @@ -396,19 +396,15 @@ static int adjust_jump_slot(DisasContext *dc, uint32_t dest, int slot)
@@ -252,8 +253,9 @@ index 09fb3df40934..9b3c5c0ca45e 100644
 -    TCGv_i32 tpc = tcg_const_i32(dc->pc);
 +    TCGv_i32 pc = tcg_constant_i32(dc->pc);
  
-     gen_helper_check_atomctl(cpu_env, tpc, addr);
+-    gen_helper_check_atomctl(cpu_env, tpc, addr);
 -    tcg_temp_free(tpc);
++    gen_helper_check_atomctl(cpu_env, pc, addr);
  }
  #endif
  
