@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD4950B860
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:23:05 +0200 (CEST)
-Received: from localhost ([::1]:46268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E6E50B86A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:26:27 +0200 (CEST)
+Received: from localhost ([::1]:53300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhtFY-0005NJ-2Q
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45858)
+	id 1nhtIo-0001zQ-Ow
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:26:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhsnq-0004GB-KO
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 08:54:26 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:43471)
+ id 1nhsoG-0004k1-OT
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 08:54:53 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:42978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhsnp-00013O-6p
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 08:54:26 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-2ec42eae76bso84109887b3.10
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 05:54:24 -0700 (PDT)
+ id 1nhsoE-0001B5-WB
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 08:54:52 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-2ef5380669cso84190847b3.9
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 05:54:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t95hY2Z4ujeMLDxNR/ksEqrA3tJ6Pqt2IhRMkLncAAE=;
- b=BdG9FryNCp0IgXrs6kB5ExCRcqPhhPbLrTIMZIh0oX3z7MCehEy5ks5b0wJ+5kYAbQ
- WWYRstB5lXbK26m2wRaERcxt+fKByWyDvlrfvpydWE9Fs7nqXjEosS0zpKZbSWD4dcNg
- d7Yo7oxpbiBEQS1Rcu0vbj3aDuuBTCyImR+45LEX+5b0g2OhHVcszttvcwinORTckViF
- GmilH2p/te9r8eJRBW/WiXE9+iPA98UL2pdwTaCyg4+VTWHYwjHZ0aRzFayebj4rhe2x
- a60UcE/j/vrDpfTmHIgHEWkPjAe8EIsYt2DjxQgHp0RNqj3HtdODIniuOe6MrovthLMe
- CRKA==
+ :cc; bh=5keMIMhNdhcMOJkdV/IYZocQRz6Cpocz9306AJ9uXL8=;
+ b=rL3ei4n8Oz5LTY+0J44JaizSE0MrAd/cWUH2oUxXuBmbuJL7dzp5sUHcxQ8ArLXS9U
+ 7H9ebumx6VCNQZ6s3mkpr8skC3t56H3C01C52oTtcSy1roQsrQCDW/7V55RIri1K2T1m
+ wPJHNj2k1PPMSrQ9x1sF/G9bnJGgZnmFUHeg9050i/RBJ1du+CfeeV5n2JuTz+SNtOw5
+ mHTvESrRE+2dR6dMTYuS2ynu0jlfTRlIB/oYtogTNF1+EPYXGByPz2VsNO02Xw0EoG6K
+ KxPfViqLg5xP61XdX5qH4REU4KhPpO5AXTQ5KseWABuFehzG6+Bd0bGrdbAgiFO+lz8Z
+ wGLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=t95hY2Z4ujeMLDxNR/ksEqrA3tJ6Pqt2IhRMkLncAAE=;
- b=ZRLL14hQKSM8XaIIlbtm4ZL2qHC5l6gmXEtpQydlIuASD1gi1SKMoIfJTfM2Y1f9O4
- 8/2qni366iyEDdZTBt/2yMv2+l7UH24A97U5fCAcvsUs4Vafz+nN7Y+yCto3gSxph9du
- zeAD3/bDSZcgpIaKO+bZHsyQHBhEgUO5VTwLe1DC1U0MKeXYvvmTb+Va22Nn6yQqm6e6
- VIwgQPmhD1gpfC+stbRD/ui29z5ZL/jmM5DynVhuvfrT9xXyh2bq0XEllZTtI2qkO1BK
- IQ23XZpDywUvn1qwUWSohu1NnIZDy86s5LiNr8MGgcYYZGme4AUq4/8vSTO4f50If/zS
- PR0A==
-X-Gm-Message-State: AOAM532Q5OQY4wTYyxF5UAr+6o1PGo1G5Ze59qbbrAMuVQbUi6+Clwiy
- DEsQVN8Km9pTIWm3fDk+I4LrHOgCjyZrgrDgechhtoM+3QM=
-X-Google-Smtp-Source: ABdhPJwKmT8PhX9RbbanUpWcdTcoSii8+XoK1tx+kE1U1WeNR+ZQ+PwoyjcEa7pxxmFxwFD11vKGIFIT9UF7HKUWU5c=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr4628547ywb.257.1650632064087; Fri, 22 Apr
- 2022 05:54:24 -0700 (PDT)
+ bh=5keMIMhNdhcMOJkdV/IYZocQRz6Cpocz9306AJ9uXL8=;
+ b=eYiJFSN/0ijVQ6Kz3DD8OoKY9nNkZ8WeZEYw2IX0hF2NM2Rmu440syJEvFE2WstA2a
+ qUB7VZyBoZhdgAG8ZF/OoZ4jEGSwB+2N52nj5RUCdFX6hwyOpriJeXx8YMT+Uwvp3GbV
+ en+65vMxyDbJ8VPw64cyeLl4p/M3OFEZFp0MCtWba0eK2sCH2OB9I7P27OyHGY3URT75
+ skXbTJmvQac9bl05DNXHgT3Ou/bOiV0JgstLZVwR+p7V8cE4EqJUW434/bvNvt1ETf8o
+ 7VQNvFZY78QLWP7WgnB0Wf6xCx2AIJy7zNSHpiHmz3TQytrDBAAuQhzqsEEdyxa+G+OH
+ D1gQ==
+X-Gm-Message-State: AOAM530Bnu7Z6U+5iUgXykugUvoDeXLLGxbkcuuvf0sF4/ZPykPXlQ+o
+ hfLDurBcJh2iOurG3I4N3oUGuiouli8Llcce7KbB/9HHNw4=
+X-Google-Smtp-Source: ABdhPJxzuded5xQC2+v8oCyjpy4xFTCMC0bV7q46sJK97rnav4d3VFltf17ELQi5n4WNzQJBrzqnE0E3m6clGNkwP3w=
+X-Received: by 2002:a81:6642:0:b0:2eb:c364:b8e1 with SMTP id
+ a63-20020a816642000000b002ebc364b8e1mr4480147ywc.64.1650632089922; Fri, 22
+ Apr 2022 05:54:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220421151735.31996-1-richard.henderson@linaro.org>
- <20220421151735.31996-12-richard.henderson@linaro.org>
-In-Reply-To: <20220421151735.31996-12-richard.henderson@linaro.org>
+ <20220421151735.31996-13-richard.henderson@linaro.org>
+In-Reply-To: <20220421151735.31996-13-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Apr 2022 13:54:13 +0100
-Message-ID: <CAFEAcA-KGnkkxGvZ3VXTtBby3QQHfZ4ujMDTOYV3oDU6_RYjNA@mail.gmail.com>
-Subject: Re: [PATCH v7 11/64] target/nios2: Build helper.c for system only
+Date: Fri, 22 Apr 2022 13:54:39 +0100
+Message-ID: <CAFEAcA8X7pfHGD4WYaRjN_ux=MT8wY6=5w3hqzUpVug85Ru+wg@mail.gmail.com>
+Subject: Re: [PATCH v7 12/64] linux-user/nios2: Use force_sig_fault for
+ EXCP_DEBUG
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,13 +84,17 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Apr 2022 at 16:43, Richard Henderson
+On Thu, 21 Apr 2022 at 16:30, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Remove the #ifdef !defined(CONFIG_USER_ONLY) that surrounds
-> the whole file, and move helper.c to nios2_softmmu_ss.
+> Use the simpler signal interface, which forces us to supply
+> the missing PC value to si_addr.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/nios2/cpu_loop.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
