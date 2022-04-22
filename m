@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5C050AD5A
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 03:43:43 +0200 (CEST)
-Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FB950AD5F
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 03:49:33 +0200 (CEST)
+Received: from localhost ([::1]:34024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhiKj-0004kI-No
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 21:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40152)
+	id 1nhiQO-0007eU-Of
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 21:49:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhiJM-0003Zw-Df; Thu, 21 Apr 2022 21:42:16 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:45576)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhiOx-0006KR-PM
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 21:48:03 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhiJK-0005nY-TN; Thu, 21 Apr 2022 21:42:16 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2ec04a2ebadso70736987b3.12; 
- Thu, 21 Apr 2022 18:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v98z6uWasbWHogvt2vc9jHeOjRUlSaT87EkCSRoK3i4=;
- b=T89bEjEgmpCkx06e2NfkmAO9GlexPQ5CWoWCtAVLOi7zepnfu4Ay3HuiSTVWac2ZHa
- UCgRKhizTUY6wpWhwoWjKtwc3t4iJfhUJMO1TtQQGZINd6dhwPmDMfPJ/WkR4RFvsnSN
- h+omQEKTUSYyM9NSp2IZ1NlRqujoRw9EiSQkGkwLjzzeDFgYM6dbgOM8KaPrJllDGiWj
- vi+J6wQDrbNb9i3l3jG5WyV2fbnwDP7KQ3eUgu8MVgKjfXJnIwG19IfPEZCaasurneMC
- q1jrtmyfesJKKAdhOqw74BtFM1S7v6Dmxg4A9GSmR7lCwPMM/P7yZWdMpZiJuNdFH4HM
- MW9A==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhiOv-0006Ro-GQ
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 21:48:03 -0400
+Received: by mail-pf1-x433.google.com with SMTP id z16so6602298pfh.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 18:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:references:in-reply-to:content-transfer-encoding;
+ bh=WxlHAGVMo8yoSh1HcNEiLi07VpewW05VBaYvv0/Zv18=;
+ b=uWNTQ32QVoM+qjWj4znKUuFUMXmKIOU47+zkyz+XPNRD/feeriRUH/zuNGG5ff5vDX
+ Ww9vcVctvWsliT0i0PV6FKolO/BAXDhoO8gEuKV10LPSb6TI3ETrzHh4H0+6J68bHBWs
+ 8uhP+Xeg2O7ojoOtBUndPbRbZSOE2EZQenq5vlj8VzeX9zIBv726zRqED0+C95xBjBkp
+ pGCd2Boqo+CuEqU4+hhAiSsAKZL0c1Wjwq4yAdptMi2K3sXsdcmNoYr3/QSB3KxljHAg
+ ZXJhNISJIyd/HpE4ThOXnnBWQQDRzJxtAD2vNpKPChVsRIaG7Otw2b8JT2KrKV18s8Vh
+ GfTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v98z6uWasbWHogvt2vc9jHeOjRUlSaT87EkCSRoK3i4=;
- b=xBDYvNAicUCilemSeruiekZOYSZJCAHG+s8mIzZ6kotfq4emeGOq0fDt7PdPSFkyPd
- b9po6lPqyfL/EnR+/YKWWdZxyKBf4EBm/W3TxgQXHJs395WJ0q8iSsAV+1Oua8FASOSl
- UievHSOrGVBs5bPBmfkNXrjncLYrIdZ3+/YP6O9eoLwAsZrfO3wwyySkotx3XXRatYNI
- 6fm42+jhfKqnUkB+DLf9Iq+DMh1XmDsDZmTZPbgwbbXoadKsNZvDZkE/hd5kICT/CKtR
- VOlvohFEVYnX5domYWGv4MTwnxOBXKqdWaXbd/BwXHzRqdKh2OUSGBJlMVNOOAHyuJQ3
- DL4Q==
-X-Gm-Message-State: AOAM531zC2W/DqtbWerQKC1YdV0PX3pI/3VoHKtgbGgOGDaKrUxvEA2+
- viL1fVmATdf9bMZ8e4lRiNIjgg3YmxlDUM16fic=
-X-Google-Smtp-Source: ABdhPJytDWrCOcwaBXSLFfBxvb7AmBGSwjex3zjhPcJnQdwG7GF9CkHgBbulWc2TFJO7U7m+v55PDL49XaJgze62zFw=
-X-Received: by 2002:a81:1bc3:0:b0:2e3:aa1:f553 with SMTP id
- b186-20020a811bc3000000b002e30aa1f553mr2566878ywb.491.1650591733479; Thu, 21
- Apr 2022 18:42:13 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=WxlHAGVMo8yoSh1HcNEiLi07VpewW05VBaYvv0/Zv18=;
+ b=Eo4OLtYzwVcHf4ekE5evu+6lbieuiFyQupRRldjbe45XWhK9FyU+OSVhlfViAw/lmm
+ B2sautWsbq67HOAC7DUJau3AdwRgu7bvBMVIGdCnkbnQo+D60hViG/Hh7+dfMAhg98YX
+ XupDfDawUKfUTxzXoYqY34GapULEFsjB209HIE+UIoviCnwT3gIhFWznlsZXmZDAKfi8
+ Syd0v01+64jPysRFHoJo+LJUYNe5Nj1NTumojXwz6JnCRCkizeNbgsCKbjCTVMJBzSNl
+ MEbC3q8hXlO3Do0YLdclCS35Dn5SIy5PQQEHgCMFa/q0lZTV3NYNavQPz6t2KRl/zH8a
+ zinA==
+X-Gm-Message-State: AOAM532wOtOyY2pHxKAvujoUscPWqo3FgO0kykaT2qhU7Y542z5hTvGU
+ 6mRhIW193/pvol7xQPrquPGVluZKhwbFDA==
+X-Google-Smtp-Source: ABdhPJxcTeMP1WMkC7nW/0fskXJ2r667XEEOnsxvhH1YsF9Wwo+C8V6ArvI5qXA31yZ9PXbMHZQ+oA==
+X-Received: by 2002:a63:4d4c:0:b0:39d:3808:804f with SMTP id
+ n12-20020a634d4c000000b0039d3808804fmr1954421pgl.312.1650592079913; 
+ Thu, 21 Apr 2022 18:47:59 -0700 (PDT)
+Received: from [192.168.78.227] (50-78-183-178-static.hfc.comcastbusiness.net.
+ [50.78.183.178]) by smtp.gmail.com with ESMTPSA id
+ d139-20020a621d91000000b00505aa0d10desm400411pfd.0.2022.04.21.18.47.58
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Apr 2022 18:47:59 -0700 (PDT)
+Message-ID: <8a2daad5-c23a-1fe4-3028-25aa53e2dbdc@linaro.org>
+Date: Thu, 21 Apr 2022 18:47:56 -0700
 MIME-Version: 1.0
-References: <20220420055248.960491-1-alistair.francis@opensource.wdc.com>
- <20220420055248.960491-4-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220420055248.960491-4-alistair.francis@opensource.wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 22 Apr 2022 09:42:02 +0800
-Message-ID: <CAEUhbmU3mJtWk8uST=YBHvvPkHLRmUedP6TKiaZoTayvQV=yEw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/6] hw/riscv: virt: Create a platform bus
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x1136.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 0/7] target/rx patch queue
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20220421173114.48357-1-richard.henderson@linaro.org>
+In-Reply-To: <20220421173114.48357-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,33 +89,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <alistair@alistair23.me>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 1:53 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> Create a platform bus to allow dynamic devices to be connected. This is
-> based on the ARM implementation.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
-> ---
->  include/hw/riscv/virt.h |  7 ++++-
->  hw/riscv/virt.c         | 68 +++++++++++++++++++++++++++++------------
->  hw/riscv/Kconfig        |  1 +
->  3 files changed, 56 insertions(+), 20 deletions(-)
->
+On 4/21/22 10:31, Richard Henderson wrote:
+> The following changes since commit 401d46789410e88e9e90d76a11f46e8e9f358d55:
+> 
+>    Merge tag 'pull-target-arm-20220421' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-04-21 08:04:43 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/rth7680/qemu.git tags/pull-rx-20220421
+> 
+> for you to fetch changes up to 724eaecec6d22cf3842f896684bdc5b79492f093:
+> 
+>    target/rx: update PC correctly in wait instruction (2022-04-21 10:09:12 -0700)
+> 
+> ----------------------------------------------------------------
+> Fix usp/isp swapping upon clrpsw/setpsw.
+> Fix psw.i/pc upon wait.
+> Align dtb in ram.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+
+
+r~
+
+
+
+> 
+> ----------------------------------------------------------------
+> Richard Henderson (4):
+>        target/rx: Put tb_flags into DisasContext
+>        target/rx: Store PSW.U in tb->flags
+>        target/rx: Move DISAS_UPDATE check for write to PSW
+>        target/rx: Swap stack pointers on clrpsw/setpsw instruction
+> 
+> Tomoaki Kawada (2):
+>        target/rx: set PSW.I when executing wait instruction
+>        target/rx: update PC correctly in wait instruction
+> 
+> Yoshinori Sato (1):
+>        hw/rx: rx-gdbsim DTB load address aligned of 16byte.
+> 
+>   target/rx/cpu.h       |  1 +
+>   hw/rx/rx-gdbsim.c     |  2 +-
+>   target/rx/op_helper.c |  1 +
+>   target/rx/translate.c | 69 +++++++++++++++++++++++++++------------------------
+>   4 files changed, 40 insertions(+), 33 deletions(-)
+
 
