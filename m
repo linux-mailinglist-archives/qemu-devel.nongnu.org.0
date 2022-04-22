@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8ED150B59A
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:53:46 +0200 (CEST)
-Received: from localhost ([::1]:45056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2635650B5C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:57:40 +0200 (CEST)
+Received: from localhost ([::1]:53464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqv3-0001v7-Ki
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:53:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58516)
+	id 1nhqyp-00008e-8T
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9p-0004TQ-2i
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:57 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51054)
+ id 1nhq9q-0004YZ-L2
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:58 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9n-0002cr-96
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:56 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id r19so4805219wmq.0
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:54 -0700 (PDT)
+ id 1nhq9o-0002dR-MU
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:58 -0400
+Received: by mail-wr1-x429.google.com with SMTP id v12so3513643wrv.10
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WIST8kjiIGq+L/1mU+YgaPeTPxejflCj2X2BV/ommNc=;
- b=eUabf6FYm6XHFWyEhI8QYYDKGptEjsdraJtgoiqkwExudh04nhCbR1EONTSxQ48sHM
- bVHE+VcTvAIZTkYwFNjFED5hjND/rLbqMnMLeis12B8FQiAmJ2b7Dnku/0xXcT0hoDmD
- SFeFpYjsmd+8Bjll1mfOqJvcZTCjnPqefR8OZ3Vlvejb9rULwCiFScc+EzAXgn9JjcBF
- crycMaVvZGDepjFUereq2aKVnpzVDSajGXkHhTAnm4vMUx/Xwl8QOb2JejT49PhFAMx/
- EfxKEi+10syD2I3F9yIm3yWCxL5J31ElW24qrnn8TIcIsWKUSRPLWDrtTxKMsmqG8sx2
- /s1w==
+ bh=c0yHcR8YX+80NnBGhmsGm2fxQhfDVLS6/G8Kbm/Fj84=;
+ b=tmTTrwiJbvK+gh7yf6bmS+eWH7jbBLcE5UujWpp5n1q2LtZ4QS0bEuJZeaUutsa4ym
+ 6dWpDnOBSlSz0LFluZNY6qYETWG6nWKmz9S/Fk1+lTGHn3iNcweTSXTvJUBT1ZTX3FWM
+ s7LlzqFAneGxWPIXx2WTQGt6soqEXBnvDZzw7hprQz2PAgyKYdjlYKJ9CYlqBWzIUTi9
+ NzT6GE38eOciasEgNYeKXANLALI5ci9EQwOyCjVEJhECTENwVK9PQ0QA0ahnqRRiht+N
+ eSnzQInJb1WFFMFZMd0VBui/UbZ1xxyPFfVZPBRsiTkcVwV/oGz6x3BRleE3Wv21y83D
+ K4AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WIST8kjiIGq+L/1mU+YgaPeTPxejflCj2X2BV/ommNc=;
- b=TtUXMkkhoZDgsHZxpFP3bCJMNov2JkVMoK/JbSmeVF8QUth50z7dMqdm+4nZCJdNf8
- onOvF2FwvDmfgXAz/Uiyhpa3yTDPmio2dnpVXPw3M0IBImPusmomVFG5IOEaYLvzjFqI
- +vPJLvSxNCH7e+ymxYIflbdtIWDQ79uQ0F515VtpvptJWZ9VwyVFChcmwkGcF5RLkGM7
- Py+fQRiT57a3cv97SpIEovXTbCIFmivxC2T72OaD/qAaSsCmIaxI4TgQyyyTDUe+B40Q
- Pab+Ir4OWVBXzOiQnn/Y8h425UA6DLzIAgyIActDycJ28lmgCz2qTJYGcvhfc/qbYOMt
- mgng==
-X-Gm-Message-State: AOAM531WfMxDsRWXpvO4Q7hwdI3AjJtbO6PUvlI5Tiwphd0D7KeAE0H9
- yppeq1vZbx9FmYQdMXuaxHpn78WbVdvO0A==
-X-Google-Smtp-Source: ABdhPJzY5fN+GqbtLXdfhpoXBjjTq3b4nXtfl5hAnApRwqASWuw06dmsJ/0/w4Z8i8JokGa8jislSQ==
-X-Received: by 2002:a05:600c:1e85:b0:391:ca59:76be with SMTP id
- be5-20020a05600c1e8500b00391ca5976bemr12411734wmb.184.1650621893686; 
- Fri, 22 Apr 2022 03:04:53 -0700 (PDT)
+ bh=c0yHcR8YX+80NnBGhmsGm2fxQhfDVLS6/G8Kbm/Fj84=;
+ b=0QT+1O9IsSaaMTqKc522ZiXTeKLJTGtyIRFT8GKIhDgdcyIuxpbY1o20dXGZ8XVlxy
+ XhrAcq3vrUz9c/jaTzZk5L1SQ49UdRnHEbAwsZsFMxDHVLQOvcrAAdLF9fhUSExpftCn
+ 49NkcsjrM0c8aOn2tb69QeEYxke4MJrEAKyOg9HjId3cncUfHkR6zruxhCO8uvemvtxk
+ 9tESbNZRvETrjpQB9uuGcXj2biwx8+UXzZb6UCuVPgW3eVZtLVsH6/dkMX6vMpOh7wa2
+ XZdxNGC65ajmAHMa9jsrqc2gAEt000a+aLcNbtypq681V07CoybsetRH/CyE65yFMdnP
+ n9CQ==
+X-Gm-Message-State: AOAM533M80D/NMb6GXOFYLsDCPr0lmqg2bK+MyV/BOIxDCLoAmledkTR
+ I+gSF6VKHtEmG42Wy986bCTtF5DDRkiHKQ==
+X-Google-Smtp-Source: ABdhPJyaFqpI9J/zWTtKTwsJ9PBLe9T+/poYfkCLQoAKxjepUcQlytGmHEJ/Z68q0U/ES6iwylCrWw==
+X-Received: by 2002:adf:d1ce:0:b0:20a:992a:3b54 with SMTP id
+ b14-20020adfd1ce000000b0020a992a3b54mr3005173wrd.270.1650621894704; 
+ Fri, 22 Apr 2022 03:04:54 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.52
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:04:53 -0700 (PDT)
+ Fri, 22 Apr 2022 03:04:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/61] hw/intc/arm_gicv3_its: Implement VINVALL
-Date: Fri, 22 Apr 2022 11:03:52 +0100
-Message-Id: <20220422100432.2288247-22-peter.maydell@linaro.org>
+Subject: [PULL 22/61] hw/intc/arm_gicv3: Implement GICv4's new redistributor
+ frame
+Date: Fri, 22 Apr 2022 11:03:53 +0100
+Message-Id: <20220422100432.2288247-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,134 +89,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VINVALL command should cause any cached information in the
-ITS or redistributor for the specified vCPU to be dropped or
-otherwise made consistent with the in-memory LPI configuration
-tables.
+The GICv4 extends the redistributor register map -- where GICv3
+had two 64KB frames per CPU, GICv4 has four frames. Add support
+for the extra frame by using a new gicv3_redist_size() function
+in the places in the GIC implementation which currently use
+a fixed constant size for the redistributor register block.
+(Until we implement the extra registers they will RAZ/WI.)
 
-Here we implement the command and table parsing, leaving the
-redistributor part as a stub for the moment, as usual.
+Any board that wants to use a GICv4 will need to also adjust
+to handle the different sized redistributor register block;
+that will be done separately.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220408141550.1271295-22-peter.maydell@linaro.org
+Message-id: 20220408141550.1271295-23-peter.maydell@linaro.org
 ---
- hw/intc/gicv3_internal.h   | 13 +++++++++++++
- hw/intc/arm_gicv3_its.c    | 26 ++++++++++++++++++++++++++
- hw/intc/arm_gicv3_redist.c |  5 +++++
- hw/intc/trace-events       |  1 +
- 4 files changed, 45 insertions(+)
+ hw/intc/gicv3_internal.h           | 21 +++++++++++++++++++++
+ include/hw/intc/arm_gicv3_common.h |  5 +++++
+ hw/intc/arm_gicv3_common.c         |  2 +-
+ hw/intc/arm_gicv3_redist.c         |  8 ++++----
+ 4 files changed, 31 insertions(+), 5 deletions(-)
 
 diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 050e19d133b..8d58d38836f 100644
+index 8d58d38836f..9720ccf7507 100644
 --- a/hw/intc/gicv3_internal.h
 +++ b/hw/intc/gicv3_internal.h
-@@ -335,6 +335,7 @@ FIELD(GITS_TYPER, CIL, 36, 1)
- #define GITS_CMD_VMAPP            0x29
- #define GITS_CMD_VMAPTI           0x2A
- #define GITS_CMD_VMAPI            0x2B
-+#define GITS_CMD_VINVALL          0x2D
+@@ -489,6 +489,27 @@ FIELD(VTE, RDBASE, 42, RDBASE_PROCNUM_LENGTH)
  
- /* MAPC command fields */
- #define ICID_LENGTH                  16
-@@ -411,6 +412,9 @@ FIELD(VMOVI_1, VPEID, 32, 16)
- FIELD(VMOVI_2, D, 0, 1)
- FIELD(VMOVI_2, DOORBELL, 32, 32)
+ /* Functions internal to the emulated GICv3 */
  
-+/* VINVALL command fields */
-+FIELD(VINVALL_1, VPEID, 32, 16)
-+
- /*
-  * 12 bytes Interrupt translation Table Entry size
-  * as per Table 5.3 in GICv3 spec
-@@ -637,6 +641,15 @@ void gicv3_redist_movall_lpis(GICv3CPUState *src, GICv3CPUState *dest);
- void gicv3_redist_mov_vlpi(GICv3CPUState *src, uint64_t src_vptaddr,
-                            GICv3CPUState *dest, uint64_t dest_vptaddr,
-                            int irq, int doorbell);
 +/**
-+ * gicv3_redist_vinvall:
-+ * @cs: GICv3CPUState
-+ * @vptaddr: address of VLPI pending table
++ * gicv3_redist_size:
++ * @s: GICv3State
 + *
-+ * On redistributor @cs, invalidate all cached information associated
-+ * with the vCPU defined by @vptaddr.
++ * Return the size of the redistributor register frame in bytes
++ * (which depends on what GIC version this is)
 + */
-+void gicv3_redist_vinvall(GICv3CPUState *cs, uint64_t vptaddr);
- 
- void gicv3_redist_send_sgi(GICv3CPUState *cs, int grp, int irq, bool ns);
- void gicv3_init_cpuif(GICv3State *s);
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index c718ef2ff92..0670aca4d46 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -1163,6 +1163,29 @@ static ItsCmdResult process_vmovi(GICv3ITSState *s, const uint64_t *cmdpkt)
-     return update_ite(s, eventid, &dte, &ite) ? CMD_CONTINUE_OK : CMD_STALL;
- }
- 
-+static ItsCmdResult process_vinvall(GICv3ITSState *s, const uint64_t *cmdpkt)
++static inline int gicv3_redist_size(GICv3State *s)
 +{
-+    VTEntry vte;
-+    uint32_t vpeid;
-+    ItsCmdResult cmdres;
-+
-+    if (!its_feature_virtual(s)) {
-+        return CMD_CONTINUE;
++    /*
++     * Redistributor size is controlled by the redistributor GICR_TYPER.VLPIS.
++     * It's the same for every redistributor in the GIC, so arbitrarily
++     * use the register field in the first one.
++     */
++    if (s->cpu[0].gicr_typer & GICR_TYPER_VLPIS) {
++        return GICV4_REDIST_SIZE;
++    } else {
++        return GICV3_REDIST_SIZE;
 +    }
-+
-+    vpeid = FIELD_EX64(cmdpkt[1], VINVALL_1, VPEID);
-+
-+    trace_gicv3_its_cmd_vinvall(vpeid);
-+
-+    cmdres = lookup_vte(s, __func__, vpeid, &vte);
-+    if (cmdres != CMD_CONTINUE_OK) {
-+        return cmdres;
-+    }
-+
-+    gicv3_redist_vinvall(&s->gicv3->cpu[vte.rdbase], vte.vptaddr << 16);
-+    return CMD_CONTINUE_OK;
 +}
 +
- static ItsCmdResult process_inv(GICv3ITSState *s, const uint64_t *cmdpkt)
- {
-     uint32_t devid, eventid;
-@@ -1364,6 +1387,9 @@ static void process_cmdq(GICv3ITSState *s)
-         case GITS_CMD_VMOVI:
-             result = process_vmovi(s, cmdpkt);
-             break;
-+        case GITS_CMD_VINVALL:
-+            result = process_vinvall(s, cmdpkt);
-+            break;
-         default:
-             trace_gicv3_its_cmd_unknown(cmd);
-             break;
+ /**
+  * gicv3_intid_is_special:
+  * @intid: interrupt ID
+diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
+index 08b27789385..40bc404a652 100644
+--- a/include/hw/intc/arm_gicv3_common.h
++++ b/include/hw/intc/arm_gicv3_common.h
+@@ -38,7 +38,12 @@
+ 
+ #define GICV3_LPI_INTID_START 8192
+ 
++/*
++ * The redistributor in GICv3 has two 64KB frames per CPU; in
++ * GICv4 it has four 64KB frames per CPU.
++ */
+ #define GICV3_REDIST_SIZE 0x20000
++#define GICV4_REDIST_SIZE 0x40000
+ 
+ /* Number of SGI target-list bits */
+ #define GICV3_TARGETLIST_BITS 16
+diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
+index dcc5ce28c6a..18999e3c8bb 100644
+--- a/hw/intc/arm_gicv3_common.c
++++ b/hw/intc/arm_gicv3_common.c
+@@ -295,7 +295,7 @@ void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
+ 
+         memory_region_init_io(&region->iomem, OBJECT(s),
+                               ops ? &ops[1] : NULL, region, name,
+-                              s->redist_region_count[i] * GICV3_REDIST_SIZE);
++                              s->redist_region_count[i] * gicv3_redist_size(s));
+         sysbus_init_mmio(sbd, &region->iomem);
+         g_free(name);
+     }
 diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index dc25997d1f9..7c75dd6f072 100644
+index 7c75dd6f072..9f1fe09a78e 100644
 --- a/hw/intc/arm_gicv3_redist.c
 +++ b/hw/intc/arm_gicv3_redist.c
-@@ -818,6 +818,11 @@ void gicv3_redist_mov_vlpi(GICv3CPUState *src, uint64_t src_vptaddr,
+@@ -442,8 +442,8 @@ MemTxResult gicv3_redist_read(void *opaque, hwaddr offset, uint64_t *data,
+      * in the memory map); if so then the GIC has multiple MemoryRegions
+      * for the redistributors.
       */
- }
+-    cpuidx = region->cpuidx + offset / GICV3_REDIST_SIZE;
+-    offset %= GICV3_REDIST_SIZE;
++    cpuidx = region->cpuidx + offset / gicv3_redist_size(s);
++    offset %= gicv3_redist_size(s);
  
-+void gicv3_redist_vinvall(GICv3CPUState *cs, uint64_t vptaddr)
-+{
-+    /* The redistributor handling will be added in a subsequent commit */
-+}
-+
- void gicv3_redist_inv_vlpi(GICv3CPUState *cs, int irq, uint64_t vptaddr)
- {
-     /*
-diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 9894756e55a..004a1006fb8 100644
---- a/hw/intc/trace-events
-+++ b/hw/intc/trace-events
-@@ -194,6 +194,7 @@ gicv3_its_cmd_vmapp(uint32_t vpeid, uint64_t rdbase, int valid, uint64_t vptaddr
- gicv3_its_cmd_vmovp(uint32_t vpeid, uint64_t rdbase) "GICv3 ITS: command VMOVP vPEID 0x%x RDbase 0x%" PRIx64
- gicv3_its_cmd_vsync(void) "GICv3 ITS: command VSYNC"
- gicv3_its_cmd_vmovi(uint32_t devid,  uint32_t eventid, uint32_t vpeid, int dbvalid, uint32_t doorbell) "GICv3 ITS: command VMOVI DeviceID 0x%x EventID 0x%x vPEID 0x%x D %d Dbell_pINTID 0x%x"
-+gicv3_its_cmd_vinvall(uint32_t vpeid) "GICv3 ITS: command VINVALL vPEID 0x%x"
- gicv3_its_cmd_unknown(unsigned cmd) "GICv3 ITS: unknown command 0x%x"
- gicv3_its_cte_read(uint32_t icid, int valid, uint32_t rdbase) "GICv3 ITS: Collection Table read for ICID 0x%x: valid %d RDBase 0x%x"
- gicv3_its_cte_write(uint32_t icid, int valid, uint32_t rdbase) "GICv3 ITS: Collection Table write for ICID 0x%x: valid %d RDBase 0x%x"
+     cs = &s->cpu[cpuidx];
+ 
+@@ -501,8 +501,8 @@ MemTxResult gicv3_redist_write(void *opaque, hwaddr offset, uint64_t data,
+      * in the memory map); if so then the GIC has multiple MemoryRegions
+      * for the redistributors.
+      */
+-    cpuidx = region->cpuidx + offset / GICV3_REDIST_SIZE;
+-    offset %= GICV3_REDIST_SIZE;
++    cpuidx = region->cpuidx + offset / gicv3_redist_size(s);
++    offset %= gicv3_redist_size(s);
+ 
+     cs = &s->cpu[cpuidx];
+ 
 -- 
 2.25.1
 
