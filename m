@@ -2,104 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B4450B3FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 11:26:12 +0200 (CEST)
-Received: from localhost ([::1]:37958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D436150B433
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 11:36:47 +0200 (CEST)
+Received: from localhost ([::1]:49910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhpYJ-00008y-QX
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 05:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50202)
+	id 1nhpiY-0000im-HA
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 05:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nhpWH-0006r9-FH; Fri, 22 Apr 2022 05:24:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51990)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1nhpWF-0004r4-AJ; Fri, 22 Apr 2022 05:24:05 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23M9D4l0016852; 
- Fri, 22 Apr 2022 09:23:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=5YoUscdCvZqMTS+O22FyvVCvWlKSJU/srPDMwqRJN5c=;
- b=iug3hUjKwA7qBXyQjdc0X3LRWzYCBSio54oJJfuPPhWLhC9Z73AXjXFROYk8tY3QH+yd
- TlQGunZ//Gq5Snqh7stw1bCu2RXkLw8tKUvPkHl1LG93CJEWODsp5pAgZ2Il/1fZykHS
- 2X0L8g/Er6s5BZHCODQmzNRxenVradimvmX4mEAOUWDx2kbKX/iTeBw1WMJUVdsNcrVj
- kW2yKCQdfyFk6mBvl61psbA5uIoFqQsRGveAMeSEdgqK4XjYqkoou3U5jjq//kEreK9K
- kdZEgLK8GOkNEClG7GyPtjfAybpkDV5k9Xv5PUTxRmRRPHA8dyjqgYSSvqkWCFOp7ien 8w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fjm2jm4n4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Apr 2022 09:23:59 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23M8H8K0007805;
- Fri, 22 Apr 2022 09:23:58 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3fjm2jm4mn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Apr 2022 09:23:58 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23M9NGu9019134;
- Fri, 22 Apr 2022 09:23:56 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma04ams.nl.ibm.com with ESMTP id 3ffne9944f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Apr 2022 09:23:56 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 23M9NrrP28836344
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 22 Apr 2022 09:23:53 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0176BA405E;
- Fri, 22 Apr 2022 09:23:53 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3A8EEA4055;
- Fri, 22 Apr 2022 09:23:52 +0000 (GMT)
-Received: from [9.171.20.253] (unknown [9.171.20.253])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 22 Apr 2022 09:23:52 +0000 (GMT)
-Message-ID: <f3515bef-9724-5e3d-0e42-3baa289ed441@linux.ibm.com>
-Date: Fri, 22 Apr 2022 11:27:11 +0200
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nhpeM-0006Uf-El
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:32:28 -0400
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:46673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nhpeK-0006Cl-Og
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:32:26 -0400
+Received: by mail-qt1-x835.google.com with SMTP id f22so5081060qtp.13
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 02:32:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HeI9UAd1EpyMS7ZZgNx/KLf6NcMFxAeumqEIqcixBJ8=;
+ b=a+zfih07TiQwM3tcssq7RvtDUq2zwKJW5EJCCVDeTvZiAIQyg1+UJt83kTOhBTUnsW
+ zKt9AxFXES0ewJZXhG8DHSImiM6Gzq4oWDogsI8veen0Tv/VpnTXxEd1zMV3h5wZg0Fb
+ FIWERltqhDPKFAWfAGUPZkM2Nvpdb6Uf4ritdRAYtY94g/86PsCbL67cRhx2uC/aGSdl
+ ZUrmtN5ANj+w34S76wXzOHkNoJ94TPvnSP5DaPjm/Zxf+VOMeKaD8oFOB1hR73l7Bh3T
+ Z2tXEMJn7ilCIfKHjB0Uz9PnDNe2rqt6QrmC5Ts8rp+PG7omf+UPboSIxfAARyiWa9dA
+ 6Lng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HeI9UAd1EpyMS7ZZgNx/KLf6NcMFxAeumqEIqcixBJ8=;
+ b=cBOmRxhZVfr8sHhHSEkeSvc8Bbecn3gkm75iqP1XhzG0vuEluAnhFMfLd9dCShRGVs
+ 7FDP7Ae0SkKEY4+sxxQN/47J0bivV0UIDwh7NE6K1ijJa5xt2uLNVrPrKFvPptLFqZEo
+ 8hz5KOdPJG8eQAOgjR6WG0ZPuhAwd3R9nmSNvcHIojLsOxyb97huvWomAC7d5aVZvzSF
+ H+wjVzAOlK64ibsPSJKr7h2aik5c0J/U+TCxvoV8Qz9gaDXLZCFxisRfTzHeZG71mOVi
+ CunBsOPb+/BepoqRMIz1/y+LADjOZ03DqsB3ZWoY1rGu6Q7lAmHgYn4spLV9ExDFa8JR
+ i1ng==
+X-Gm-Message-State: AOAM530ve5Em4wdGBx2BGeezOpeaKqUYE07WIWxuXPuvcaHRWf0sCp+d
+ ZAy7sb4brGQtd3OPqP4GuQnwOy5VcXZV9Rb79hzZ0VQVmvY=
+X-Google-Smtp-Source: ABdhPJzflfBscpUushU1B7pJS++56G6tLVIekIc3W20hoswmDk9UmUELgG80dLXowDm3zHgUk2ecigjZgQJv6p6ui8k=
+X-Received: by 2002:a05:622a:cc:b0:2f1:fc74:c7a6 with SMTP id
+ p12-20020a05622a00cc00b002f1fc74c7a6mr2407339qtw.387.1650619943632; Fri, 22
+ Apr 2022 02:32:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 5/9] s390x/pci: enable for load/store intepretation
-Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
- <20220404181726.60291-6-mjrosato@linux.ibm.com>
- <cb628847-9b52-b64a-da1e-18f69fe20e4b@linux.ibm.com>
- <1d9a128a-1391-712b-abdc-7d4d9c1e5cc0@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <1d9a128a-1391-712b-abdc-7d4d9c1e5cc0@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Z1MuzbFHrS26hqKl5rR8s3w-doGZW0QD
-X-Proofpoint-ORIG-GUID: 9JqfT1mtV0dSzouRf6hgbfxJFlpOst8G
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-22_02,2022-04-21_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
- suspectscore=0 mlxlogscore=999 spamscore=0 bulkscore=0 phishscore=0
- malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204220040
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220422070144.1043697-1-sw@weilnetz.de>
+ <20220422070144.1043697-3-sw@weilnetz.de>
+In-Reply-To: <20220422070144.1043697-3-sw@weilnetz.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 22 Apr 2022 13:32:12 +0400
+Message-ID: <CAJ+F1CJV4CyY-2G9pC-Ad3tQ=82=NtpQe7qruX3DivmGtr9Bmg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] libvhost-user: Fix format strings
+To: Stefan Weil <sw@weilnetz.de>
+Content-Type: multipart/alternative; boundary="00000000000066412a05dd3ae72f"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-qt1-x835.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,129 +78,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: QEMU <qemu-devel@nongnu.org>, Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000066412a05dd3ae72f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Apr 22, 2022 at 11:07 AM Stefan Weil <sw@weilnetz.de> wrote:
+
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
-On 4/20/22 17:12, Matthew Rosato wrote:
-> On 4/19/22 3:47 PM, Pierre Morel wrote:
->>
->>
->> On 4/4/22 20:17, Matthew Rosato wrote:
->>> If the appropriate CPU facilty is available as well as the necessary
->>> ZPCI_OP ioctl, then the underlying KVM host will enable load/store
->>> intepretation for any guest device without a SHM bit in the guest
->>> function handle.  For a device that will be using interpretation
->>> support, ensure the guest function handle matches the host function
->>> handle; this value is re-checked every time the guest issues a SET 
->>> PCI FN
->>> to enable the guest device as it is the only opportunity to reflect
->>> function handle changes.
->>>
->>> By default, unless interpret=off is specified, interpretation support 
->>> will
->>> always be assumed and exploited if the necessary ioctl and features are
->>> available on the host kernel.  When these are unavailable, we will 
->>> silently
->>> revert to the interception model; this allows existing guest 
->>> configurations
->>> to work unmodified on hosts with and without zPCI interpretation 
->>> support,
->>> allowing QEMU to choose the best support model available.
->>>
->>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->>> ---
->>>   hw/s390x/meson.build            |  1 +
->>>   hw/s390x/s390-pci-bus.c         | 66 ++++++++++++++++++++++++++++++++-
->>>   hw/s390x/s390-pci-inst.c        | 12 ++++++
->>>   hw/s390x/s390-pci-kvm.c         | 21 +++++++++++
->>>   include/hw/s390x/s390-pci-bus.h |  1 +
->>>   include/hw/s390x/s390-pci-kvm.h | 24 ++++++++++++
->>>   target/s390x/kvm/kvm.c          |  7 ++++
->>>   target/s390x/kvm/kvm_s390x.h    |  1 +
->>>   8 files changed, 132 insertions(+), 1 deletion(-)
->>>   create mode 100644 hw/s390x/s390-pci-kvm.c
->>>   create mode 100644 include/hw/s390x/s390-pci-kvm.h
->>>
->>
->> ...snip...
->>
->>>           if (s390_pci_msix_init(pbdev)) {
->>> @@ -1360,6 +1423,7 @@ static Property s390_pci_device_properties[] = {
->>>       DEFINE_PROP_UINT16("uid", S390PCIBusDevice, uid, UID_UNDEFINED),
->>>       DEFINE_PROP_S390_PCI_FID("fid", S390PCIBusDevice, fid),
->>>       DEFINE_PROP_STRING("target", S390PCIBusDevice, target),
->>> +    DEFINE_PROP_BOOL("interpret", S390PCIBusDevice, interp, true),
->>>       DEFINE_PROP_END_OF_LIST(),
->>>   };
->>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
->>> index 6d400d4147..c898c8abe9 100644
->>> --- a/hw/s390x/s390-pci-inst.c
->>> +++ b/hw/s390x/s390-pci-inst.c
->>> @@ -18,6 +18,8 @@
->>>   #include "sysemu/hw_accel.h"
->>>   #include "hw/s390x/s390-pci-inst.h"
->>>   #include "hw/s390x/s390-pci-bus.h"
->>> +#include "hw/s390x/s390-pci-kvm.h"
->>> +#include "hw/s390x/s390-pci-vfio.h"
->>>   #include "hw/s390x/tod.h"
->>>   #ifndef DEBUG_S390PCI_INST
->>> @@ -246,6 +248,16 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, 
->>> uintptr_t ra)
->>>                   goto out;
->>>               }
->>> +            /*
->>> +             * Take this opportunity to make sure we still have an 
->>> accurate
->>> +             * host fh.  It's possible part of the handle changed 
->>> while the
->>> +             * device was disabled to the guest (e.g. vfio hot reset 
->>> for
->>> +             * ISM during plug)
->>> +             */
->>> +            if (pbdev->interp) {
->>> +                /* Take this opportunity to make sure we are sync'd 
->>> with host */
->>> +                s390_pci_get_host_fh(pbdev, &pbdev->fh);
+> ---
+>  subprojects/libvhost-user/libvhost-user.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/subprojects/libvhost-user/libvhost-user.c
+> b/subprojects/libvhost-user/libvhost-user.c
+> index 2d29140a8f..94645f9154 100644
+> --- a/subprojects/libvhost-user/libvhost-user.c
+> +++ b/subprojects/libvhost-user/libvhost-user.c
+> @@ -700,7 +700,7 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+>      if (vmsg->size < VHOST_USER_MEM_REG_SIZE) {
+>          close(vmsg->fds[0]);
+>          vu_panic(dev, "VHOST_USER_ADD_MEM_REG requires a message size of
+> at "
+> -                      "least %d bytes and only %d bytes were received",
+> +                      "least %zu bytes and only %d bytes were received",
+>                        VHOST_USER_MEM_REG_SIZE, vmsg->size);
+>          return false;
+>      }
+> @@ -833,7 +833,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+>      if (vmsg->size < VHOST_USER_MEM_REG_SIZE) {
+>          close(vmsg->fds[0]);
+>          vu_panic(dev, "VHOST_USER_REM_MEM_REG requires a message size of
+> at "
+> -                      "least %d bytes and only %d bytes were received",
+> +                      "least %zu bytes and only %d bytes were received",
+>                        VHOST_USER_MEM_REG_SIZE, vmsg->size);
+>          return false;
+>      }
+> --
+> 2.30.2
+>
+>
+>
 
-Here we should check the return value and, AFAIU, assume that the device 
-disappear if it did return false.
+--=20
+Marc-Andr=C3=A9 Lureau
 
->>> +            }
->>>               pbdev->fh |= FH_MASK_ENABLE;
->>
->> Are we sure here that the PCI device is always enabled?
->> Shouldn't we check?
-> 
-> I guess you mean the host device?  Interesting thought.
-> 
-> So, to be clear, the idea on setting FH_MASK_ENABLE here is that we are 
-> handling a guest CLP SET PCI FN enable so the guest fh should always 
-> have FH_MASK_ENABLE set if we return CLP_RC_OK to the guest.
-> 
-> But for interpretation, if we find the host function is disabled, I 
-> suppose we could return an error on the guest CLP (not sure which error 
-> yet); otherwise, if we return the force-enabled handle and CLP_RC_OK as 
-> we do here then the guest will just get errors attempting to use it.
+--00000000000066412a05dd3ae72f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-hum, in this case can't we have a loop on
-clp enable->error->clp disable->clp enable->error...
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 22, 2022 at 11:07 AM Stef=
+an Weil &lt;<a href=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-off-by: =
+Stefan Weil &lt;<a href=3D"mailto:sw@weilnetz.de" target=3D"_blank">sw@weil=
+netz.de</a>&gt;<br></blockquote><div><br></div><div>Reviewed-by: Marc-Andr=
+=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.=
+lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
+---<br>
+=C2=A0subprojects/libvhost-user/libvhost-user.c | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvho=
+st-user/libvhost-user.c<br>
+index 2d29140a8f..94645f9154 100644<br>
+--- a/subprojects/libvhost-user/libvhost-user.c<br>
++++ b/subprojects/libvhost-user/libvhost-user.c<br>
+@@ -700,7 +700,7 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {<br>
+=C2=A0 =C2=A0 =C2=A0if (vmsg-&gt;size &lt; VHOST_USER_MEM_REG_SIZE) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0close(vmsg-&gt;fds[0]);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vu_panic(dev, &quot;VHOST_USER_ADD_MEM_RE=
+G requires a message size of at &quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;least %d bytes and only %d bytes were received&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;least %zu bytes and only %d bytes were received&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0VHOST_USER_MEM_REG_SIZE, vmsg-&gt;size);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+@@ -833,7 +833,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {<br>
+=C2=A0 =C2=A0 =C2=A0if (vmsg-&gt;size &lt; VHOST_USER_MEM_REG_SIZE) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0close(vmsg-&gt;fds[0]);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vu_panic(dev, &quot;VHOST_USER_REM_MEM_RE=
+G requires a message size of at &quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;least %d bytes and only %d bytes were received&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;least %zu bytes and only %d bytes were received&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0VHOST_USER_MEM_REG_SIZE, vmsg-&gt;size);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-I think we should return an error if what the guest asked for could not 
-be done.
-
-
-> 
-> 
-> 
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+--00000000000066412a05dd3ae72f--
 
