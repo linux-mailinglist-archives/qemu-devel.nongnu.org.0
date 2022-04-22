@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9649C50B46A
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 11:49:15 +0200 (CEST)
-Received: from localhost ([::1]:37102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E70CD50B444
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 11:41:56 +0200 (CEST)
+Received: from localhost ([::1]:58646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhpuc-0006Xm-Mz
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 05:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52560)
+	id 1nhpnT-0007gN-Ko
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 05:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nhph5-0000Kc-7c
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:35:15 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:34487)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nhpjp-0005RD-El
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:38:05 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:40599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nhph3-0006ms-HH
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:35:14 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id j9so5427145qkg.1
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 02:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nhpjn-0007GH-LG
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:38:04 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id i20so13461954ybj.7
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 02:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iphdWv/LvJ4U0xcfLvIF+wYQpVEaP9LS+ZOYcsEW3A0=;
- b=A0sYhGUkov6yL3Tr2aevKR2YYMWoVZ6C3dg5QO+j0ONn3/DJWr4abLA/ItzNnRCZjC
- HkXzSTXbe7Vy0WJGgeyemGRS4+lZ0k1eYhd243MSe08klwPwxkBwG3Fms8yf8R5RFVTt
- l+BfQgf2joyRGNXMoDzp4VDVqaa4eVJZcakRZyD+Y/jrKM/O4dsl0ZfYZ7RCflWVwMSB
- WucHZlav9LipD2/18lsm0/z/CKAwacLXSm4jOWWkJCaNz8GCJkC4XdNojYakxsD/meyT
- cDuwQBt4F3NfdzQvtUlowDNMwPKhpXd7vH8IN/79O7kIr2wOvIAGlF1rnmrSjQy8t/hC
- XR3Q==
+ :cc; bh=nyE3jf8rMzXIMLK2sOOnK9N+5N9mf9GUJ73VUWf7LDE=;
+ b=gioLt8MMnFFepNasfCP//lif8qaKRh45kCjER4D4j6K7tR+43og5oDgwPnJHUQ0naU
+ VCkgSCEF7j407KYCJybe3hh6OFIloAFhWeKpq6TNrJtSV6FJoeqqG+x/ZecCxXMFCbmb
+ 4ql71UWpPpJWWUcW4co7W7U+5NfPNMGy0Ge5Fa6XzcSPQiNzQw5lsdsjnjYFZRSk0Nll
+ 1GL3uSW7ytL9vrrwLJ1LIaHEjsTkhY+2MZDTp9Wc1R9+A75pGj03/v+82Q6rExn9601X
+ Xma23teMMU3h7m7LzQ8m4CTezfqbkEA7zZOsSe7HnOhKvOewTXq3lLPIgphNwc4iBVt9
+ X3SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iphdWv/LvJ4U0xcfLvIF+wYQpVEaP9LS+ZOYcsEW3A0=;
- b=55qURjBB2dw3utIWvlQQ4G94iMZJB1zVxyjxiG1GS+NiE6TDML3ezOasWMgDNVg9c2
- DNpRkGUTyPl+twrCDHSs+eDz/hEWHBEFuTzDD/wi9xxELRkfvhrjy/oRUriCzUoDQKls
- Vv4O1hbTJy6Lr283Lw4HejvOSs2Kizln3bBtttB1Lukl9GdYSwTiTyVVCA49kP16eiJN
- J5ymueKVBjeDYDLD94qIJ/L3Ir6Dvwq3M7n0W3DXReGxhDzuWUpCxcPziH5i96guvduW
- pCCWj5OATo7MkfQltNmwFJKYss7MsOyYq5v3QR5ycPzbL3OEKs01vj4X/bo0uaKMId+9
- lebA==
-X-Gm-Message-State: AOAM531ud0pINo3UoNepLRN08c5ZWLcFdNXdX6TVKzVLK01tbsN4UmcR
- 5nw3R8jlXagMR4hujRlI5eWLIk2avN00c7WIU89Ro+9tBXugMg==
-X-Google-Smtp-Source: ABdhPJznYPDJgH1XWxOJhs/lCx64QkVuf5ng4jqhDGTWh2YOatImUHpyC/tCGFFY4GedDvaCDfDX9cY2jS8D32BZKy0=
-X-Received: by 2002:a05:620a:4093:b0:69c:fda:3cf2 with SMTP id
- f19-20020a05620a409300b0069c0fda3cf2mr1966691qko.245.1650620112606; Fri, 22
- Apr 2022 02:35:12 -0700 (PDT)
+ bh=nyE3jf8rMzXIMLK2sOOnK9N+5N9mf9GUJ73VUWf7LDE=;
+ b=EWI+mtcc0fHUnfroVcS0Yaa7QopjbzGijxZb3AllstSScolIR6DBdZQP1b0c6HBprz
+ qNPwYLw2CB278oqruXZGgq/JN5ZZCoM5zo6myNG3o9USk8qQ/Aui1NvBGpgAUZuFwaRu
+ TY3UlPH0bd2gVsUd0xadG3pF8mJyigvG0tMYGbPCNfUDrLbzP4c66EbrfVVPKKkxLpsG
+ ap/A2oyd+zn5v0w+shXkxZyp3BbuNi46p8ZEiBNk9gZuOaQUXlh146XWNRzmiWH9Ubzk
+ XKpu304fBkgRUr19rLWVTD9HiYZRW0BH2xSUXAb8C4LGAFZSxwvKzGo+kAGGmA5uJ+Wr
+ Dz6Q==
+X-Gm-Message-State: AOAM533/hyYrmO+NRZLgvF+PECnaIDTH3dmhghH/GRKTnyTQZXPC429v
+ lxD0GueZb3GOWL4klDuA72T84OOYXO/s2N1OEKDPLw==
+X-Google-Smtp-Source: ABdhPJzOIH71Ew6Km4Vrtd2vkRs5LwFjFBUVe/biAe8alra1yiTmsqpYK42Rv0p3dA5nhPb9QFYTeEXZRsrxECYQRyA=
+X-Received: by 2002:a25:a287:0:b0:645:3c4f:7dec with SMTP id
+ c7-20020a25a287000000b006453c4f7decmr3522219ybi.479.1650620282591; Fri, 22
+ Apr 2022 02:38:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220422070144.1043697-1-sw@weilnetz.de>
- <20220422070144.1043697-4-sw@weilnetz.de>
-In-Reply-To: <20220422070144.1043697-4-sw@weilnetz.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 22 Apr 2022 13:35:01 +0400
-Message-ID: <CAJ+F1C+4t6L0xLFgouBN3FM4GDsKyoUjU57yK_z82yx0SrEobQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] libvhost-user: Add format attribute to local function
- vu_panic
-To: Stefan Weil <sw@weilnetz.de>
-Content-Type: multipart/alternative; boundary="00000000000078985e05dd3af138"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-qk1-x72d.google.com
+References: <20220417174426.711829-1-richard.henderson@linaro.org>
+ <20220417174426.711829-27-richard.henderson@linaro.org>
+In-Reply-To: <20220417174426.711829-27-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 22 Apr 2022 10:37:51 +0100
+Message-ID: <CAFEAcA98sjUhUccvEAjAWeK+Z7-HER9LDz6LMSFMNuVnBSPW=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 26/60] target/arm: Replace sentinels with ARRAY_SIZE in
+ cpregs.h
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,155 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000078985e05dd3af138
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Fri, Apr 22, 2022 at 11:08 AM Stefan Weil <sw@weilnetz.de> wrote:
-
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+On Sun, 17 Apr 2022 at 19:08, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-
+> Remove a possible source of error by removing REGINFO_SENTINEL
+> and using ARRAY_SIZE (convinently hidden inside a macro) to
+> find the end of the set of regs being registered or modified.
+>
+> The space saved by not having the extra array element reduces
+> the executable's .data.rel.ro section by about 9k.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->
-> It would be good to add format attributes to local functions, too (like
-> it is done here) to avoid future format bugs.
->
-> The changes here could be simplified by including a glib header,
-> but from the comments I assumed that is unwanted here?
->
-
-For historical reasons, libvhost-user.c doesn't depend on glib. Whether
-this is useful to anyone isn't obvious :)
 
 
->  subprojects/libvhost-user/libvhost-user.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/subprojects/libvhost-user/libvhost-user.c
-> b/subprojects/libvhost-user/libvhost-user.c
-> index 94645f9154..29ab85fc9d 100644
-> --- a/subprojects/libvhost-user/libvhost-user.c
-> +++ b/subprojects/libvhost-user/libvhost-user.c
-> @@ -45,6 +45,17 @@
->  #include "libvhost-user.h"
->
->  /* usually provided by GLib */
-> +#if     __GNUC__ > 2 || (__GNUC__ =3D=3D 2 && __GNUC_MINOR__ > 4)
-> +#if !defined(__clang__) && (__GNUC__ =3D=3D 4 && __GNUC_MINOR__ =3D=3D 4=
-)
-> +#define G_GNUC_PRINTF(format_idx, arg_idx) \
-> +  __attribute__((__format__(gnu_printf, format_idx, arg_idx)))
-> +#else
-> +#define G_GNUC_PRINTF(format_idx, arg_idx) \
-> +  __attribute__((__format__(__printf__, format_idx, arg_idx)))
-> +#endif
-> +#else   /* !__GNUC__ */
-> +#define G_GNUC_PRINTF(format_idx, arg_idx)
-> +#endif  /* !__GNUC__ */
->  #ifndef MIN
->  #define MIN(x, y) ({                            \
->              typeof(x) _min1 =3D (x);              \
-> @@ -151,7 +162,7 @@ vu_request_to_string(unsigned int req)
->      }
->  }
->
-> -static void
-> +static void G_GNUC_PRINTF(2, 3)
->  vu_panic(VuDev *dev, const char *msg, ...)
->  {
->      char *buf =3D NULL;
-> --
-> 2.30.2
->
->
->
 
---=20
-Marc-Andr=C3=A9 Lureau
 
---00000000000078985e05dd3af138
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +#define define_arm_cp_regs_with_opaque(CPU, REGS, OPAQUE)               \
+> +    do {                                                                \
+> +        QEMU_BUILD_BUG_ON(ARRAY_SIZE(REGS) == 0);                       \
+> +        if (ARRAY_SIZE(REGS) == 1) {                                    \
+> +            define_one_arm_cp_reg_with_opaque(CPU, REGS, OPAQUE);       \
+> +        } else {                                                        \
+> +            define_arm_cp_regs_with_opaque_len(CPU, REGS, OPAQUE,       \
+> +                                               ARRAY_SIZE(REGS));       \
+> +        }                                                               \
+> +    } while (0)
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 22, 2022 at 11:08 AM St=
-efan Weil &lt;<a href=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-off-by=
-: Stefan Weil &lt;<a href=3D"mailto:sw@weilnetz.de" target=3D"_blank">sw@we=
-ilnetz.de</a>&gt;<br></blockquote><div><br></div><div><div>Reviewed-by: Mar=
-c-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marc=
-andre.lureau@redhat.com</a>&gt;</div><div><br></div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
----<br>
-<br>
-It would be good to add format attributes to local functions, too (like<br>
-it is done here) to avoid future format bugs.<br>
-<br>
-The changes here could be simplified by including a glib header,<br>
-but from the comments I assumed that is unwanted here?<br></blockquote><div=
-><br></div><div>For historical reasons, libvhost-user.c doesn&#39;t depend =
-on glib. Whether this is useful to anyone isn&#39;t obvious :)<br></div><di=
-v><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-=C2=A0subprojects/libvhost-user/libvhost-user.c | 13 ++++++++++++-<br>
-=C2=A01 file changed, 12 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvho=
-st-user/libvhost-user.c<br>
-index 94645f9154..29ab85fc9d 100644<br>
---- a/subprojects/libvhost-user/libvhost-user.c<br>
-+++ b/subprojects/libvhost-user/libvhost-user.c<br>
-@@ -45,6 +45,17 @@<br>
-=C2=A0#include &quot;libvhost-user.h&quot;<br>
-<br>
-=C2=A0/* usually provided by GLib */<br>
-+#if=C2=A0 =C2=A0 =C2=A0__GNUC__ &gt; 2 || (__GNUC__ =3D=3D 2 &amp;&amp; __=
-GNUC_MINOR__ &gt; 4)<br>
-+#if !defined(__clang__) &amp;&amp; (__GNUC__ =3D=3D 4 &amp;&amp; __GNUC_MI=
-NOR__ =3D=3D 4)<br>
-+#define G_GNUC_PRINTF(format_idx, arg_idx) \<br>
-+=C2=A0 __attribute__((__format__(gnu_printf, format_idx, arg_idx)))<br>
-+#else<br>
-+#define G_GNUC_PRINTF(format_idx, arg_idx) \<br>
-+=C2=A0 __attribute__((__format__(__printf__, format_idx, arg_idx)))<br>
-+#endif<br>
-+#else=C2=A0 =C2=A0/* !__GNUC__ */<br>
-+#define G_GNUC_PRINTF(format_idx, arg_idx)<br>
-+#endif=C2=A0 /* !__GNUC__ */<br>
-=C2=A0#ifndef MIN<br>
-=C2=A0#define MIN(x, y) ({=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0typeof(x) _min1 =3D (x);=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-@@ -151,7 +162,7 @@ vu_request_to_string(unsigned int req)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
--static void<br>
-+static void G_GNUC_PRINTF(2, 3)<br>
-=C2=A0vu_panic(VuDev *dev, const char *msg, ...)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0char *buf =3D NULL;<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+Do we actually need to special case "array has one element" here,
+or is this just efficiency?
 
---00000000000078985e05dd3af138--
+Anyway
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
