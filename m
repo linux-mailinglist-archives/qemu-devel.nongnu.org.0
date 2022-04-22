@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C783F50B603
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:17:12 +0200 (CEST)
-Received: from localhost ([::1]:34472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9A750B65A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:45:22 +0200 (CEST)
+Received: from localhost ([::1]:34886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhrHj-0005Vw-R3
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
+	id 1nhriz-0006RN-4R
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:45:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAR-0005dc-Cv
+ id 1nhqAS-0005dj-KS
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:36 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44918)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAP-0002zZ-Tk
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:35 -0400
-Received: by mail-wr1-x430.google.com with SMTP id b19so10282612wrh.11
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:33 -0700 (PDT)
+ id 1nhqAQ-0002zh-SM
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:36 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ u17-20020a05600c211100b0038eaf4cdaaeso7632256wml.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=B02wNUQWPbSndWLw/MyCz76UBwGsg2MrYi8CgBL9/W0=;
- b=VI8kYcVgKhiY8f8DOPY+6th2FfzdCM3llZ9LIzXFeRzPYASoGMUxCqvekXmInkQ3jl
- RuDU/qkC+gADu2xZaO+p22YKzfHdqRJl1HjCBToNW6MUslh06P9Tryhp6oog2azFcI0m
- 9dQUT7/4LYUnjMp3GjnVYVi1VcK49ym4gGkbt1o5kSRS52PrrulwYtoPRgAul3GRgccs
- VG/+BJmynfYNt2SgfiMX7IYX2idC5T7zpDZuB+y1R9m9ReKO3hlMVxjcW1S0LM4QGZ7D
- ldjBjojdEySo3S/IcnTMInlw5UErKNr8QGL5DfABzWcvoua4OAf4svJGaGeJtJJNJOA+
- /FDg==
+ bh=F5JxzY641qwLK/UV9n1xJjYcWBo1utd1eisOSylOdzc=;
+ b=IbkzBmU8ns9+Kr9vM+cGnoJpbNjXCiI5a2t+w1oC+u2vfERwiiTFn5+2S16VH1to+g
+ XY3J9I5N2+uuV4/XvaTQz72qskARdO7yws+DCY8zBgPW5ZdPqleagDxKZz0z1p2cL0cc
+ qkSB2T6epdcZUwjdII4JBjeuph0SxIEP4Hp3155dERIydsaXVX3THoCnmauJrnAwDwuS
+ sGnR1HCg8PuaLrf9uLtmL0bQMg7+/A9RRFBjkRV/3Xr/M3qQqPCI8SNHQQ5zvBb1RXyD
+ zeaqgGFU9eulz5Lj8TSEXgDb5vlqMr+eGxlRgP0oGO2MSwWl2yWlGJFha2xg+QgZ0cHx
+ fzdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B02wNUQWPbSndWLw/MyCz76UBwGsg2MrYi8CgBL9/W0=;
- b=urqyIcErjJnHsoqMglvXZD5rZ5aATQrJLzmr3S9HASA4Huyz2eyRcb7IuW9gHrve/6
- FzEff2nTEAs4a/tLGb0k9shlboQIsWf1VN7uyvANZpC6+2rKuIOBmJPpp+sU6dZD2e34
- IFdm8z1/Bgf7JqxI58sCNv9qcYMcy7uSbrhAsAAKxYOV9rtGlPVW9Tgvnk0V5QFEhwHz
- X7qTH/G1UbeWo42FoAT2U8pxWK2q4Tp2swW+tIqSdOCikY5BbhX2TbzM8/z2XntIzYgX
- HwVdmui6WGCtBRIqafsISfhhVahb/HFi7HAHCUGVN+Vjdz9zpesH+DHRfA9SwweKx0t2
- yAmA==
-X-Gm-Message-State: AOAM530Ht4pDviChKjqVD5HXi7Of2FOykBhsY8qWktW5faA4QPSb9CY0
- eDsBVEF6WlILwxilUTy/7sKuYrbik2/xaQ==
-X-Google-Smtp-Source: ABdhPJy+jacT3FJjxbGF0nXC/RfqDA5bMOOw2na1WQm0IpVEOPrzjc3riIihJcLhb/0gMdGlfOUDZw==
-X-Received: by 2002:a5d:49c1:0:b0:20a:a65b:4648 with SMTP id
- t1-20020a5d49c1000000b0020aa65b4648mr3074559wrs.707.1650621932558; 
- Fri, 22 Apr 2022 03:05:32 -0700 (PDT)
+ bh=F5JxzY641qwLK/UV9n1xJjYcWBo1utd1eisOSylOdzc=;
+ b=ewKAvhNI+3GwDSVQ+EjVo/+6be+4a5LduGJXv2iRHUaLQaKRbB/LmOd3E2zg4pBbfq
+ a7t1bSN2ItTPxV3/kKIkae8tcvb4OU9HI0D9Kk55CW1T7IN/svhuhrfnhTT6c4grjEp0
+ 5W8wA2/RMW3SbJ20PIjbSrTCl2mpUbphQpM6hwZ0fNM5BR6GQ8yzdn2EzF0Ffo6tPi4T
+ eJ4pxgVg9VAWogiK+yTRjYR3mV6Los4HafutB2CiYzl3JJsSugUUZD6rmcxUtYGAzEmd
+ 4GHvoWcqN8GQa14tFNfa4oqkr/B36Rr6TWYVRWK3vEt3nddzJz4z6kNtpwFmF8vYnnJ4
+ q1DQ==
+X-Gm-Message-State: AOAM533iCPqAzxuY+BaRtdUAKenr5f6YSCDicfSA1HbDjBWktDYYEyJA
+ OX/42/NsF/ksqR/mhsjNYMQHagWETXVbDw==
+X-Google-Smtp-Source: ABdhPJy1wE+1PWHycnoxeJn7pqsN5w9y8L3NHphDxjB+utLDtKOVis+OKHY48RPMkWELToIRLFVUFA==
+X-Received: by 2002:a05:600c:240a:b0:38e:af6f:510f with SMTP id
+ 10-20020a05600c240a00b0038eaf6f510fmr12558318wmp.46.1650621933367; 
+ Fri, 22 Apr 2022 03:05:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.31
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Apr 2022 03:05:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 60/61] target/arm: Use tcg_constant_i32 in translate.h
-Date: Fri, 22 Apr 2022 11:04:31 +0100
-Message-Id: <20220422100432.2288247-61-peter.maydell@linaro.org>
+Subject: [PULL 61/61] hw/arm/smmuv3: Pass the actual perm to returned
+ IOMMUTLBEntry in smmuv3_translate()
+Date: Fri, 22 Apr 2022 11:04:32 +0100
+Message-Id: <20220422100432.2288247-62-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,39 +90,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Xiang Chen <chenxiang66@hisilicon.com>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+It always calls the IOMMU MR translate() callback with flag=IOMMU_NONE in
+memory_region_iommu_replay(). Currently, smmuv3_translate() return an
+IOMMUTLBEntry with perm set to IOMMU_NONE even if the translation success,
+whereas it is expected to return the actual permission set in the table
+entry.
+So pass the actual perm to returned IOMMUTLBEntry in the table entry.
+
+Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 1650094695-121918-1-git-send-email-chenxiang66@hisilicon.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.h | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
+ hw/arm/smmuv3.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 050d80f6f90..6f0ebdc88e5 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -332,16 +332,9 @@ static inline void gen_ss_advance(DisasContext *s)
- static inline void gen_exception(int excp, uint32_t syndrome,
-                                  uint32_t target_el)
- {
--    TCGv_i32 tcg_excp = tcg_const_i32(excp);
--    TCGv_i32 tcg_syn = tcg_const_i32(syndrome);
--    TCGv_i32 tcg_el = tcg_const_i32(target_el);
--
--    gen_helper_exception_with_syndrome(cpu_env, tcg_excp,
--                                       tcg_syn, tcg_el);
--
--    tcg_temp_free_i32(tcg_el);
--    tcg_temp_free_i32(tcg_syn);
--    tcg_temp_free_i32(tcg_excp);
-+    gen_helper_exception_with_syndrome(cpu_env, tcg_constant_i32(excp),
-+                                       tcg_constant_i32(syndrome),
-+                                       tcg_constant_i32(target_el));
- }
- 
- /* Generate an architectural singlestep exception */
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 674623aabea..707eb430c23 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -760,7 +760,7 @@ epilogue:
+     qemu_mutex_unlock(&s->mutex);
+     switch (status) {
+     case SMMU_TRANS_SUCCESS:
+-        entry.perm = flag;
++        entry.perm = cached_entry->entry.perm;
+         entry.translated_addr = cached_entry->entry.translated_addr +
+                                     (addr & cached_entry->entry.addr_mask);
+         entry.addr_mask = cached_entry->entry.addr_mask;
 -- 
 2.25.1
 
