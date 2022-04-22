@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCF150C013
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 21:02:16 +0200 (CEST)
-Received: from localhost ([::1]:37096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C1350C032
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 21:14:55 +0200 (CEST)
+Received: from localhost ([::1]:40226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhyXo-0004Rf-1L
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 15:02:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44754)
+	id 1nhyk2-0001rz-5C
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 15:14:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nhyR5-0002KL-Dc; Fri, 22 Apr 2022 14:55:19 -0400
+ id 1nhyR8-0002Sf-9Y; Fri, 22 Apr 2022 14:55:22 -0400
 Received: from [187.72.171.209] (port=52505 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nhyR3-0000CU-2B; Fri, 22 Apr 2022 14:55:19 -0400
+ id 1nhyR6-0000CU-UP; Fri, 22 Apr 2022 14:55:22 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Fri, 22 Apr 2022 15:54:54 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 2695280031F;
+ by p9ibm (Postfix) with ESMTP id 478D5800902;
  Fri, 22 Apr 2022 15:54:54 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 05/20] target/ppc: Substitute msr_ds macro with new M_MSR_DS
+Subject: [PATCH 06/20] target/ppc: Substitute msr_ile macro with new M_MSR_ILE
  macro
-Date: Fri, 22 Apr 2022 15:54:35 -0300
-Message-Id: <20220422185450.107256-6-victor.colombo@eldorado.org.br>
+Date: Fri, 22 Apr 2022 15:54:36 -0300
+Message-Id: <20220422185450.107256-7-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
 References: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 22 Apr 2022 18:54:54.0452 (UTC)
- FILETIME=[744B4B40:01D8567A]
+X-OriginalArrivalTime: 22 Apr 2022 18:54:54.0499 (UTC)
+ FILETIME=[74527730:01D8567A]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,43 +67,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
- target/ppc/cpu.h        | 2 +-
- target/ppc/mmu_common.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/ppc/cpu.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index d25a778b7c..e81f1f2d68 100644
+index e81f1f2d68..95c28c3c1b 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -354,6 +354,7 @@ typedef enum {
+@@ -353,6 +353,7 @@ typedef enum {
+ #define MSR_RI   1  /* Recoverable interrupt                        1        */
  #define MSR_LE   0  /* Little-endian mode                           1 hflags */
  
++#define M_MSR_ILE (1ull << MSR_ILE)
  #define M_MSR_PR (1ull << MSR_PR)
-+#define M_MSR_DS (1ull << MSR_DS)
+ #define M_MSR_DS (1ull << MSR_DS)
  #define M_MSR_LE (1ull << MSR_LE)
- 
- /* PMU bits */
-@@ -484,7 +485,6 @@ typedef enum {
- #define msr_ep   ((env->msr >> MSR_EP)   & 1)
- #define msr_ir   ((env->msr >> MSR_IR)   & 1)
- #define msr_dr   ((env->msr >> MSR_DR)   & 1)
--#define msr_ds   ((env->msr >> MSR_DS)   & 1)
- #define msr_ts   ((env->msr >> MSR_TS1)  & 3)
- 
- #define DBCR0_ICMP (1 << 27)
-diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
-index fef2b11733..b7865d24b2 100644
---- a/target/ppc/mmu_common.c
-+++ b/target/ppc/mmu_common.c
-@@ -768,7 +768,7 @@ static bool mmubooke206_get_as(CPUPPCState *env,
-         *pr_out = !!(epidr & EPID_EPR);
-         return true;
+@@ -476,7 +477,6 @@ typedef enum {
+ #define msr_gs   ((env->msr >> MSR_GS)   & 1)
+ #define msr_pow  ((env->msr >> MSR_POW)  & 1)
+ #define msr_ce   ((env->msr >> MSR_CE)   & 1)
+-#define msr_ile  ((env->msr >> MSR_ILE)  & 1)
+ #define msr_ee   ((env->msr >> MSR_EE)   & 1)
+ #define msr_fp   ((env->msr >> MSR_FP)   & 1)
+ #define msr_me   ((env->msr >> MSR_ME)   & 1)
+@@ -2677,7 +2677,7 @@ static inline bool ppc_interrupts_little_endian(PowerPCCPU *cpu, bool hv)
+     } else if (pcc->lpcr_mask & LPCR_ILE) {
+         ile = !!(env->spr[SPR_LPCR] & LPCR_ILE);
      } else {
--        *as_out = msr_ds;
-+        *as_out = env->msr & M_MSR_DS;
-         *pr_out = env->msr & M_MSR_PR;
-         return false;
+-        ile = !!(msr_ile);
++        ile = !!(env->msr & M_MSR_ILE);
      }
+ 
+     return ile;
 -- 
 2.25.1
 
