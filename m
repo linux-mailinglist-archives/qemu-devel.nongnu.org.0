@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195FB50AD13
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 03:10:58 +0200 (CEST)
-Received: from localhost ([::1]:34744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E805750AD07
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 03:03:07 +0200 (CEST)
+Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhhp3-0006xJ-6y
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 21:10:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33104)
+	id 1nhhhT-0003qx-1a
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 21:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1041ecfe3=alistair.francis@opensource.wdc.com>)
- id 1nhhJt-00085V-4n
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:38:45 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:17623)
+ id 1nhhK5-0000Js-3b
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:38:57 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:17628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1041ecfe3=alistair.francis@opensource.wdc.com>)
- id 1nhhJr-0005Vz-58
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:38:44 -0400
+ id 1nhhK3-0005W4-B5
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:38:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1650587922; x=1682123922;
+ t=1650587935; x=1682123935;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=E7V7bntsiUrBNhbKHQ1ViOvDxpSZHJy1zY6ve2mcyhY=;
- b=LKd7WyBFnujAUwfUBh7jwiNAsp+nlzl200qNoX838VoUKxw+hb1kLl8A
- Rn557Q415VaTQv4KjCa1bkLJ+5AiPUFfNz3Mn9WjJoMQn+LurdDhxhNP5
- ccsKiQAkqfdX6DJ56BuvfIIkrIuRhN4wwlGJKT0qGqxmiHGSv4rmN6sED
- DsKa4UP3cqpDe2f2qA2iV8iZg0LWHXS8c27fLlBaatRgbNWt9Ep2wl1d6
- I0vCbkYjHhiH/P8wv3DhYiZPWZZ7gG7oLksGZkIB3yzJOfkRf7BraOGuL
- k873Cw6E+pi32Hj1KKx2333aFrE9rv6Up6dBaFUpd7klzr2gPtBcISq48 w==;
-X-IronPort-AV: E=Sophos;i="5.90,280,1643644800"; d="scan'208";a="310483446"
+ bh=z0Ulg+24zPCwJIxJpTUer4xH4+Yiy2Eg0AQK/CqThWc=;
+ b=OkaCZnb4PvRKs22psSQ5RY1ulKMC2y+2P1ZTYkur+z0dqPb+sCfluf1D
+ sjl2XAmvTvUUaVekq2GThufodRDqF8oHaJh9AGuEk759pDYDd1AXMpy2y
+ WrUmFScJU0GXvj/kAv0G2C5VX6OWHwr8UaR2Se8C+aUmPPpfN018V57Ce
+ fmsiLjNSM5IfL1soQuSZYB7Nf/hwhveA8ajn9n98iCfNbGs9zV75WU4ri
+ RqEKHRB4DCoM0pVYbQ+NGK8N1svJWQTSTwnzsVOVvpIgpYKG3etmLloGJ
+ JmnERBO4RwwCwwvBpDufM4z6pQeAB23roi5ge5w/1l7i4rW4/WyxNhgV+ A==;
+X-IronPort-AV: E=Sophos;i="5.90,280,1643644800"; d="scan'208";a="310483449"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Apr 2022 08:38:32 +0800
-IronPort-SDR: B1aMcXQMUx1y+Y73Y8KpSagaCmDLj+eVKBaDKnWtEdJEhZPXUty83AO7MqDlhrlmubMmC8ig74
- aEQgsY6+tkeP9s+GZBZ6ZwOT4czpUnEjlVP/E7+dToPY9eBE/J5dQYIRuPl3wG3Rn6TrDc0n9Z
- 150YkSziJ3wxoMPGP1mm0GG9+Ow/6HScXSf6AD82SfBBgK2CE2J2hs2SOeQ+K4LL1I/MfXWolx
- voI405osZWStzW5nLYAujaB+Bc/WRIbgKfW6KVozRXJshIaA/BUB7KVEFJ3tROS47dJHqMAAyz
- Ch/c4CVlgx8kIh8MimW7RrIW
+ by ob1.hgst.iphmx.com with ESMTP; 22 Apr 2022 08:38:35 +0800
+IronPort-SDR: nvO/EHVsZ9T4FASCq9e5xGfhtcYMAidogQlDs8P5IT6wosJBsubJ7a80DUmHC9EWlach+TrrMB
+ CrKSKAe1k3iTiDbOOSgrDAxypzVXDK8rSR1mNwEBwxXNFIP4PwF8rySYj29nBUg4F7ECiEv0NT
+ Jss7jFxoMAe7eBX0+/fjED4YpHu5w7LaarLf/N9qIMTVMqDbMdb+SwTTEQh8GCmMmJwHXPyNWS
+ 6/HqxR7aZ6P8l2bW6s85nNElW/QgbVnqC2dEEDnuTJiUdnvuFpzNo7iGvDsbjtb2rLn1hZ3czq
+ BJdUwNjXrEiauCjO0CFCcqwF
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Apr 2022 17:08:49 -0700
-IronPort-SDR: BpaI+daex9t+DP55JcE8Fb1qnXgxU1l+w/9Em7j7bdOQbMz0EdnXhWdpXG5zJSLiWfZloVEUy5
- aseTZZpzDnvkNDKuLFvBVyX87j8saspd6yaFbikUfHYXGm3q+XXBhjb/wkJc5317XXtjt+GQVX
- Qcb+Tw9+KlCeRkBx33rtiCk/NxeIq8EhPapYb2/0+R/yMdc4dOmxl7/1i7pHK7ghJFTqgIVAWT
- P8e95ROfd6bWkiSl2SpzN0BkzrGptKWSCQOsvx7A/os/RqB1b0+6MjuVdyO3LsILXD7tuUFF2L
- gx0=
+ 21 Apr 2022 17:08:52 -0700
+IronPort-SDR: 7RivIEWYY4hYUoCq8NujIJ5Il68OFgEXEViGU3lEXRD76g4H09oTZcvL6fSg8EjGQphIYH7bH0
+ HDwtX/rnMAG7nyaT2k7yMst8sIhPLxqnc0ElM1m/GMXW7G0y1jgpIN1a6f1Fl0zXyMgN6LY2Lu
+ YBg6qyjGk7TCj8er08ZSLyFDvbF47wMiqY4FxhrFuF+fuye36o32QGlhcZKdfBgK60VxCu1CQM
+ xcp9CFJ/9wjGQnxIdZ1Tr7zJmZRXVc9WP1VCJuce/Qay5OLx1ft9TMHpOSzEaNIGUFA0Fboj8P
+ vMM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Apr 2022 17:38:33 -0700
+ 21 Apr 2022 17:38:35 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkwWD2n3Jz1Rwrw
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 17:38:32 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkwWH1W7cz1SVnx
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 17:38:35 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1650587911; x=1653179912; bh=E7V7bntsiUrBNhbKHQ
- 1ViOvDxpSZHJy1zY6ve2mcyhY=; b=f/KhmDzzoc7CKGDR0pBElPAd6VLVwRkdma
- U7H2NKjrrEulFuJCTPERaDQRRW+K/urL4+UTpc81MIO9/UKL4NmtKcm7dj0mQA/1
- RKAoBUxdwjMUFI91AfThxzU3/67vY1OX1L5zVY75b0X3t+BQ4PZovyhvH6r1YG38
- 38jlUH0uf8DmSB+HyMt4sk0zQQX73bzW/KBIOBFcAUp9sfCtcrSaBESCbStnoDdI
- TgxA8MuwAAtHZjo2gpR2E7nzQ+l90+gioWPD4oyfMg7W44NhCEg2+MPUc2Sb4MGe
- 0/gdw6aoTSc2kA4+clp/iEtUtuVrEHVz+OmDR7HFDISqehlkCKpw==
+ :from; s=dkim; t=1650587914; x=1653179915; bh=z0Ulg+24zPCwJIxJpT
+ Uer4xH4+Yiy2Eg0AQK/CqThWc=; b=G1AT473Ee+XKhFfJV2zivqzwDWsuhEpwoS
+ i90z+Mj+LT77Hjj72Acj4sOzSj+qqJCRFzxlBSoguVc+Vd6fBOCjo26q23Zru1Ts
+ Gk5B/HTy7Zq8T/Llzba6IrbUK90wyZ3qv7oZeijLsQzPl4LElLEcpLtM1hN+FLTi
+ d7UJ/tRUs86+uSlB5rxUm2elguaYdUxFf0Yd34pyQQ4wSaVOrH51lpkwFqSZ1nGF
+ oTqi9o2I1wyfPehGcPqKTEIhTAhZj8kFxzdZF8iRN29xlALwKzk7GAybkaPRdB0S
+ 9IEbs70GaTEQvAVy2urpyeRZLfJYonSBnRgDvy/PmOh7E+58EPzw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id HwMTXzYTkxS1 for <qemu-devel@nongnu.org>;
- Thu, 21 Apr 2022 17:38:31 -0700 (PDT)
+ port 10026) with ESMTP id BLS6g6j5P9Zt for <qemu-devel@nongnu.org>;
+ Thu, 21 Apr 2022 17:38:34 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.120])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkwWB0Dnnz1SVnx;
- Thu, 21 Apr 2022 17:38:29 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkwWD5Wdsz1Rvlx;
+ Thu, 21 Apr 2022 17:38:32 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 25/31] target/riscv: debug: Implement debug related TCGCPUOps
-Date: Fri, 22 Apr 2022 10:36:50 +1000
-Message-Id: <20220422003656.1648121-26-alistair.francis@opensource.wdc.com>
+Subject: [PULL v2 26/31] target/riscv: cpu: Add a config option for native
+ debug
+Date: Fri, 22 Apr 2022 10:36:51 +1000
+Message-Id: <20220422003656.1648121-27-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220422003656.1648121-1-alistair.francis@opensource.wdc.com>
 References: <20220422003656.1648121-1-alistair.francis@opensource.wdc.com>
@@ -117,132 +118,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Implement .debug_excp_handler, .debug_check_{breakpoint, watchpoint}
-TCGCPUOps and hook them into riscv_tcg_ops.
+Add a config option to enable support for native M-mode debug.
+This is disabled by default and can be enabled with 'debug=3Dtrue'.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220421003324.1134983-2-bmeng.cn@gmail.com>
+Message-Id: <20220421003324.1134983-3-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/debug.h |  4 +++
- target/riscv/cpu.c   |  3 ++
- target/riscv/debug.c | 75 ++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 82 insertions(+)
+ target/riscv/cpu.h | 4 +++-
+ target/riscv/cpu.c | 5 +++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/debug.h b/target/riscv/debug.h
-index fbc5f946e2..fb21706e1c 100644
---- a/target/riscv/debug.h
-+++ b/target/riscv/debug.h
-@@ -105,4 +105,8 @@ void tselect_csr_write(CPURISCVState *env, target_ulo=
-ng val);
- target_ulong tdata_csr_read(CPURISCVState *env, int tdata_index);
- void tdata_csr_write(CPURISCVState *env, int tdata_index, target_ulong v=
-al);
-=20
-+void riscv_cpu_debug_excp_handler(CPUState *cs);
-+bool riscv_cpu_debug_check_breakpoint(CPUState *cs);
-+bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
-+
- #endif /* RISCV_DEBUG_H */
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 94f9434411..8919928f4f 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -880,6 +880,9 @@ static const struct TCGCPUOps riscv_tcg_ops =3D {
-     .do_interrupt =3D riscv_cpu_do_interrupt,
-     .do_transaction_failed =3D riscv_cpu_do_transaction_failed,
-     .do_unaligned_access =3D riscv_cpu_do_unaligned_access,
-+    .debug_excp_handler =3D riscv_cpu_debug_excp_handler,
-+    .debug_check_breakpoint =3D riscv_cpu_debug_check_breakpoint,
-+    .debug_check_watchpoint =3D riscv_cpu_debug_check_watchpoint,
- #endif /* !CONFIG_USER_ONLY */
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5d1259d4ae..34c22d5d3b 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -79,7 +79,8 @@ enum {
+     RISCV_FEATURE_PMP,
+     RISCV_FEATURE_EPMP,
+     RISCV_FEATURE_MISA,
+-    RISCV_FEATURE_AIA
++    RISCV_FEATURE_AIA,
++    RISCV_FEATURE_DEBUG
  };
 =20
-diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-index c8cec39217..1a9392645e 100644
---- a/target/riscv/debug.c
-+++ b/target/riscv/debug.c
-@@ -337,3 +337,78 @@ void tdata_csr_write(CPURISCVState *env, int tdata_i=
-ndex, target_ulong val)
+ /* Privileged specification version */
+@@ -405,6 +406,7 @@ struct RISCVCPUConfig {
+     bool pmp;
+     bool epmp;
+     bool aia;
++    bool debug;
+     uint64_t resetvec;
+ };
 =20
-     return write_func(env, env->trigger_cur, tdata_index, val);
- }
-+
-+void riscv_cpu_debug_excp_handler(CPUState *cs)
-+{
-+    RISCVCPU *cpu =3D RISCV_CPU(cs);
-+    CPURISCVState *env =3D &cpu->env;
-+
-+    if (cs->watchpoint_hit) {
-+        if (cs->watchpoint_hit->flags & BP_CPU) {
-+            cs->watchpoint_hit =3D NULL;
-+            riscv_raise_exception(env, RISCV_EXCP_BREAKPOINT, 0);
-+        }
-+    } else {
-+        if (cpu_breakpoint_test(cs, env->pc, BP_CPU)) {
-+            riscv_raise_exception(env, RISCV_EXCP_BREAKPOINT, 0);
-+        }
-+    }
-+}
-+
-+bool riscv_cpu_debug_check_breakpoint(CPUState *cs)
-+{
-+    RISCVCPU *cpu =3D RISCV_CPU(cs);
-+    CPURISCVState *env =3D &cpu->env;
-+    CPUBreakpoint *bp;
-+    target_ulong ctrl;
-+    target_ulong pc;
-+    int i;
-+
-+    QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
-+        for (i =3D 0; i < TRIGGER_TYPE2_NUM; i++) {
-+            ctrl =3D env->type2_trig[i].mcontrol;
-+            pc =3D env->type2_trig[i].maddress;
-+
-+            if ((ctrl & TYPE2_EXEC) && (bp->pc =3D=3D pc)) {
-+                /* check U/S/M bit against current privilege level */
-+                if ((ctrl >> 3) & BIT(env->priv)) {
-+                    return true;
-+                }
-+            }
-+        }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 8919928f4f..477961b619 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -548,6 +548,10 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
+r **errp)
+         riscv_set_feature(env, RISCV_FEATURE_AIA);
+     }
+=20
++    if (cpu->cfg.debug) {
++        riscv_set_feature(env, RISCV_FEATURE_DEBUG);
 +    }
 +
-+    return false;
-+}
-+
-+bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
-+{
-+    RISCVCPU *cpu =3D RISCV_CPU(cs);
-+    CPURISCVState *env =3D &cpu->env;
-+    target_ulong ctrl;
-+    target_ulong addr;
-+    int flags;
-+    int i;
-+
-+    for (i =3D 0; i < TRIGGER_TYPE2_NUM; i++) {
-+        ctrl =3D env->type2_trig[i].mcontrol;
-+        addr =3D env->type2_trig[i].maddress;
-+        flags =3D 0;
-+
-+        if (ctrl & TYPE2_LOAD) {
-+            flags |=3D BP_MEM_READ;
-+        }
-+        if (ctrl & TYPE2_STORE) {
-+            flags |=3D BP_MEM_WRITE;
-+        }
-+
-+        if ((wp->flags & flags) && (wp->vaddr =3D=3D addr)) {
-+            /* check U/S/M bit against current privilege level */
-+            if ((ctrl >> 3) & BIT(env->priv)) {
-+                return true;
-+            }
-+        }
-+    }
-+
-+    return false;
-+}
+     set_resetvec(env, cpu->cfg.resetvec);
+=20
+     /* Validate that MISA_MXL is set properly. */
+@@ -795,6 +799,7 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
++    DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, false),
+=20
+     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
 --=20
 2.35.1
 
