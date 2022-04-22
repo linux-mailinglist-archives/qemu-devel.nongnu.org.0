@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B5150BE84
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:24:45 +0200 (CEST)
-Received: from localhost ([::1]:36650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19E750BEE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:39:28 +0200 (CEST)
+Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhx1Q-0005Md-3g
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49064)
+	id 1nhxFf-0003TZ-P3
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:39:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwXW-0002Mj-NX
+ id 1nhwXY-0002N0-F3
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:53:52 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:40800)
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:40498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwXU-0007Mo-H5
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:53:49 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id k4so550765plk.7
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:53:48 -0700 (PDT)
+ id 1nhwXW-0007N1-GC
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:53:51 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id i24so8523477pfa.7
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:53:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6dVu0MpYoFXbOmuVcXqDRhoCvO23S5v7zkXark59YIw=;
- b=gWqgZTFB3BzbkazegXIai+vgD6ISPR/ffS1H5VAB2a5kq7zxF7i5MjGB8aFvbrehLE
- 0LBAX3v5v/NztAeN7TBFu+Lq0yiOg4VkQ1sEXi/ik8yb43ax0FsBCsCsTkHGDffzdEOD
- GzcH2Z+niLMf2lNK34kJ1rk9vY/C6zwC5197ggui1VMPkhDz5cvdxIZ3/Zu75PXgJPjN
- 5ppn8DRFfFpr4F/lcf9Vq+jHGu9uM4EH/8p2a3h/ud2kVbm01efQEfqBJFcA5c0N+Hpr
- ZRcsaT5ypJhlz/S87K0JvEhtahn39P3jerGNQcNufJXCoJit0cF2ES1ZKSn3p8YJ8kDq
- zriw==
+ bh=xZiQ5sI/cjyhT5QWt0cEWlmc3OyTlqSds1eKWRRIBd0=;
+ b=Y6lOq6ZSMPEkjSV/xMW/R9WFVry/sbF14huSQPMuC144hbzCqEJJBhJZBz7TluAtcD
+ vVGv2Rf9kHQ5qEoPjzItff+0nji+NnLv9IARTwUTfr6tjYUSVJ+DK0Qbj+EHlDHpb3hC
+ NQSWn9KcUfXazI4BZuq7dbo7S87oBbISCq6APg7+wdGBVsIMIV1KzAP94UpkK/P6mmDt
+ GGzkjF6JMOfVr39kTcBFyA+xkfom7O0Wq1wVMs0Nh+GL+8rqnirDz3koFNK3QOAZ0vO8
+ h/KWn8I9SsZmrjPvxXO1hHwrI0L5aWKmdyIj1w4tVauqSX0Zlg9LJFU4lMRlm1FtJndc
+ IaqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6dVu0MpYoFXbOmuVcXqDRhoCvO23S5v7zkXark59YIw=;
- b=sy+d4oCwqeV9/X+KztnIRoI+khLOFRk0uZ1EEPTW7grtui2STVfJlS2DSBT8n5aK9S
- 86oePce5BQ89rNwo1Dr5UH2H4wtGme9s93u/MD3BsyyKz4IF4UHxfZCEtdw93fDJGVT+
- DihJJK3zn1TG13g8TMKM5TZ7t2SJZ6DZP/fgGKfJuSM0l1+w2MZGEQ2xxiJd3Xq9qBJO
- iMot3J5t4arrcuBqubDs1qwshCNbvuUXT0GdXsf4TYOd5o5C3bPS0EPAbAvasbB4IdJr
- Nwc5KYbzM8trfDTwxu5OgonTmIYSchwCLn6fYMB8BxNRc9t+x1q4luwfRNGfttAJtFw1
- pPGw==
-X-Gm-Message-State: AOAM5309e3MLCst0+qWzGLtmTKqfHVLoA8RHY6FRGqOy6DCd683xtbdj
- QGZ5kcmiwdhma9PjKx9kd2gwloytrBW/1AIl
-X-Google-Smtp-Source: ABdhPJwozvSa87XkwfKTI25Bp3NN91m8gmyOcJtPElaFC8lHc+lGBeQbOuPs2srMFpOVl3MWILKcZA==
-X-Received: by 2002:a17:902:ce86:b0:159:90f:c5de with SMTP id
- f6-20020a170902ce8600b00159090fc5demr5424661plg.52.1650646427153; 
- Fri, 22 Apr 2022 09:53:47 -0700 (PDT)
+ bh=xZiQ5sI/cjyhT5QWt0cEWlmc3OyTlqSds1eKWRRIBd0=;
+ b=VjZ5gUr78daDeLTBlTwv2swYx0UIIpomSbWRcjkDh5bwE13QH/xEegeWMxSJZPRe/B
+ qrE/G6zGTkqpZxP9VNuBYO8A0Nt7I+DfO+1hdDAnx23MOR+JocmCsJr8fEhzy6zrk+TB
+ Y8uEwCmkr1HgZ+1bZdDfoo8Y+nU9xcxtTJTDfh8XW3QHw8D5wND/46mLVGFzXcJgDRw5
+ 0MT9JBjsia9+p6S/fasmhT+UVDwcrrfaiIyGkONjQXjl2WPPXbpMWEifPU55JJy2BfIv
+ xEmkH9i0xgC6iq4ViUKIwHxtPJITf/0UZ3EdJdtUyAveoI5Cod0wgcpBUXP+mLsvOW/i
+ 3TMA==
+X-Gm-Message-State: AOAM530/LG/pmGcQ1/sqEqgHK+O6jvZI1D4I/60awYODaWLWJ2WUiM6A
+ +EzO7ONhgubs4is39ClT36CqvNkr9htBNBCf
+X-Google-Smtp-Source: ABdhPJxVeJmnS/6R12tkTaqCkQz3dKzsrZGN/33Sgv7rVGt8aSbKcipEEmRGsn3WqbAEMAN3HsPlHg==
+X-Received: by 2002:a63:5b22:0:b0:39c:c5a2:b683 with SMTP id
+ p34-20020a635b22000000b0039cc5a2b683mr4749046pgb.279.1650646428694; 
+ Fri, 22 Apr 2022 09:53:48 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
  by smtp.gmail.com with ESMTPSA id
- 6-20020a17090a030600b001cd4989ff5fsm6835904pje.38.2022.04.22.09.53.46
+ 6-20020a17090a030600b001cd4989ff5fsm6835904pje.38.2022.04.22.09.53.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 09:53:46 -0700 (PDT)
+ Fri, 22 Apr 2022 09:53:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 38/68] target/nios2: Implement cpuid
-Date: Fri, 22 Apr 2022 09:52:08 -0700
-Message-Id: <20220422165238.1971496-39-richard.henderson@linaro.org>
+Subject: [PATCH v8 39/68] target/nios2: Implement CR_STATUS.RSIE
+Date: Fri, 22 Apr 2022 09:52:09 -0700
+Message-Id: <20220422165238.1971496-40-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
 References: <20220422165238.1971496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,36 +88,39 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Copy the existing cpu_index into the space reserved for CR_CPUID.
+Without EIC, this bit is RES1.  So set the bit at reset,
+and add it to the readonly fields of CR_STATUS.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-39-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-40-richard.henderson@linaro.org>
 ---
- target/nios2/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/nios2/cpu.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index b3c5ae681c..a0c3e97d72 100644
+index a0c3e97d72..7d734280d1 100644
 --- a/target/nios2/cpu.c
 +++ b/target/nios2/cpu.c
-@@ -163,6 +163,7 @@ static void realize_cr_status(CPUState *cs)
- static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-+    Nios2CPU *cpu = NIOS2_CPU(cs);
-     Nios2CPUClass *ncc = NIOS2_CPU_GET_CLASS(dev);
-     Error *local_err = NULL;
+@@ -54,9 +54,9 @@ static void nios2_cpu_reset(DeviceState *dev)
  
-@@ -176,6 +177,9 @@ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
-     qemu_init_vcpu(cs);
-     cpu_reset(cs);
- 
-+    /* We have reserved storage for cpuid; might as well use it. */
-+    cpu->env.ctrl[CR_CPUID] = cs->cpu_index;
-+
-     ncc->parent_realize(dev, errp);
+ #if defined(CONFIG_USER_ONLY)
+     /* Start in user mode with interrupts enabled. */
+-    env->ctrl[CR_STATUS] = CR_STATUS_U | CR_STATUS_PIE;
++    env->ctrl[CR_STATUS] = CR_STATUS_RSIE | CR_STATUS_U | CR_STATUS_PIE;
+ #else
+-    env->ctrl[CR_STATUS] = 0;
++    env->ctrl[CR_STATUS] = CR_STATUS_RSIE;
+ #endif
  }
+ 
+@@ -127,6 +127,7 @@ static void realize_cr_status(CPUState *cs)
+     WR_REG(CR_BADADDR);
+ 
+     /* TODO: These control registers are not present with the EIC. */
++    RO_FIELD(CR_STATUS, RSIE);
+     WR_REG(CR_IENABLE);
+     RO_REG(CR_IPENDING);
  
 -- 
 2.34.1
