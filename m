@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4381950B130
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 09:13:20 +0200 (CEST)
-Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EE750B146
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 09:20:25 +0200 (CEST)
+Received: from localhost ([::1]:50536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhnTj-0005j5-4k
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 03:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55064)
+	id 1nhnaZ-0007fp-Sn
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 03:20:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1nhnRt-0004KW-IB
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 03:11:26 -0400
-Received: from mga11.intel.com ([192.55.52.93]:23358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1nhnRr-0001cT-2I
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 03:11:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650611483; x=1682147483;
- h=message-id:date:mime-version:subject:to:references:from:
- cc:in-reply-to:content-transfer-encoding;
- bh=6msw5eLtFQ7Jpg0HkF064KwVFDX43i5ZOgyJ40exayk=;
- b=jEI77gffrsMND0L58xJT11Tj1GYKkz5cl+I/PEgV4bJSP4rXCWbazjj2
- a+XFBL9MxeIz/aFhAAg/MT3zHr6AS+i9b03Wg1XD1jmEcmvgNcShn2HO+
- OkSGpPOqYt1XEJ+pdPfijfV1dgTUtUuAU5bsDxk3Qk0VJsZjAhE9P3dPM
- r3Il31GD+G8SJuVsJ3bLB4g1ObiXLjUcZPjYCgIGJL5vk1hv6gV65dS+G
- 3t5Yicb4zL8myzx5ln/ND0uWtqYgOP0pLuHuukP0N08f62vgrclrFUQCT
- 5RUNAJY7J03AwWHUVAIFyekoIDPCfqwsIVdSonwufsepbSGiycURhKfgx Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="262197468"
-X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; d="scan'208";a="262197468"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2022 00:11:20 -0700
-X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; d="scan'208";a="577717217"
-Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.249.175.199])
- ([10.249.175.199])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2022 00:11:19 -0700
-Message-ID: <0b85cc5f-9dc8-39a4-b5a5-4dbd8cc84343@intel.com>
-Date: Fri, 22 Apr 2022 15:11:16 +0800
+ (Exim 4.90_1) (envelope-from <renzhengeek@gmail.com>)
+ id 1nhnXj-0006mj-GX
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 03:17:27 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:33523)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <renzhengeek@gmail.com>)
+ id 1nhnXh-0002PG-Px
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 03:17:27 -0400
+Received: by mail-pl1-x630.google.com with SMTP id c23so9013018plo.0
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 00:17:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=3vVNIVAlBH80TocSXjA7ROsLn6o/cil8RIwOaIjfHNs=;
+ b=YfTmyZz3EEYO4KOWIctJgxKFn0hDle4us+0wcpuYWnMGj4FgL2R7Vdu93ThkpA6hzq
+ Ip1ndM1IWsSdDQV3WrXb3O+q9hC6YZjgO1GsVVSUwUPoDtNu5t6uVVVSqthUunwG8lZy
+ OL/BVgyUVIe2fg0xBWd1hwTW9xKV/+9O7AHKa06NQXpvMIzMsBPKZJvqr/IhH8OQqr4T
+ gYq5fNG6lF01OFPKfS4Fj47JsoZqee/VJUcrsBLe6PLoHTve6cgOh0uxRf1ITb3Z8xgu
+ mkQmzSzFJ9MqP9BLstOKEb42HSAfCFbtW2MLCSCUSzsJs7sIok2TCNa0Lx8a0KIgeruM
+ Jb+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=3vVNIVAlBH80TocSXjA7ROsLn6o/cil8RIwOaIjfHNs=;
+ b=6ahPjoL4ocHjGOJ09+ezPzLOnROAcnS0X/16C5zSGZiy8OMqGlewD3ovaMT9G6vvID
+ vDhEo55VmOSg+UG+28SIaGA6+svOc8ZGy0p97Cv3LYqmWeHc8++XUsFDMRJWCn4RF08P
+ EJjSOAQmeuPSgiDO6vu2ww0WfovUo6RIQhx7CD2MkzHC2biImN6ngJv2UUmO8sS/mKeL
+ hNqzb/gAQAxaB5O9hugNdKIV2hPJfZpP4vOuBdjl8bCwnYSyTzSd3jXwfCsLqyHNi5/F
+ qte8wd2Tgvb85zw0lg0/N7UE9KK1YntqAccWi5GMiP7qR5Jwm0JRYwcTPkRZ32WGldM9
+ K38g==
+X-Gm-Message-State: AOAM5309/j6gAQ9krxGFDIgR79einSjShjCUfXTJ9XicpxIR2Y/f+z0R
+ aXg3HiPAohw/Zpjcihgu8bDOQWSLoXa60bPBdGU=
+X-Google-Smtp-Source: ABdhPJxaRid07VWpA8PrxQSaGIbzTqQhDWw9TMSXB7yoWGApNkxTTXUJnz5uoUqOjM4LHMzG5viX6nGXknQQC/e9Qs0=
+X-Received: by 2002:a17:902:7d81:b0:14f:e18b:2b9e with SMTP id
+ a1-20020a1709027d8100b0014fe18b2b9emr2999519plm.160.1650611843704; Fri, 22
+ Apr 2022 00:17:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.8.1
-Subject: Re: [PATCH v5 1/1] virtio: fix the condition for iommu_platform not
- supported
-Content-Language: en-US
-To: Halil Pasic <pasic@linux.ibm.com>
-References: <20220207112857.607829-1-pasic@linux.ibm.com>
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-In-Reply-To: <20220207112857.607829-1-pasic@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=chenyi.qiang@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+From: Eric Ren <renzhengeek@gmail.com>
+Date: Fri, 22 Apr 2022 15:17:11 +0800
+Message-ID: <CAKM4Aewqpfy3AGFi3Y+roA4jDigYOEbW6oBb3XpsVyxFCYne7g@mail.gmail.com>
+Subject: Is it possible to support hotplug device to PXB bridge?
+To: marcel@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=renzhengeek@gmail.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,130 +74,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Marcel and all,
 
+It fails when I want to hotplug device to PXB bus. Then, I find this
+commit that explicitely declares the fact that PXB bus does not support
+hotplug device onto it.
 
-On 2/7/2022 7:28 PM, Halil Pasic wrote:
-> The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> unsupported") claims to fail the device hotplug when iommu_platform
-> is requested, but not supported by the (vhost) device. On the first
-> glance the condition for detecting that situation looks perfect, but
-> because a certain peculiarity of virtio_platform it ain't.
-> 
-> In fact the aforementioned commit introduces a regression. It breaks
-> virtio-fs support for Secure Execution, and most likely also for AMD SEV
-> or any other confidential guest scenario that relies encrypted guest
-> memory.  The same also applies to any other vhost device that does not
-> support _F_ACCESS_PLATFORM.
-> 
-> The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
-> "device can not access all of the guest RAM" and "iova != gpa, thus
-> device needs to translate iova".
-> 
-> Confidential guest technologies currently rely on the device/hypervisor
-> offering _F_ACCESS_PLATFORM, so that, after the feature has been
-> negotiated, the guest  grants access to the portions of memory the
-> device needs to see. So in for confidential guests, generally,
-> _F_ACCESS_PLATFORM is about the restricted access to memory, but not
-> about the addresses used being something else than guest physical
-> addresses.
-> 
-> This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
-> turn on VIRTIO_F_IOMMU_PLATFORM") fences _F_ACCESS_PLATFORM from the
-> vhost device that does not need it, because on the vhost interface it
-> only means "I/O address translation is needed".
-> 
-> This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
-> VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
-> situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
-> by the device, and thus no device capability is needed. In this
-> situation claiming that the device does not support iommu_plattform=on
-> is counter-productive. So let us stop doing that!
-> 
-> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
-> Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-> unsupported")
-> Acked-by: Cornelia Huck <cohuck@redhat.com>
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: qemu-stable@nongnu.org
-> 
-> ---
-> 
-> v4->v5:
-> * added back the return; so if somebody were to add code to the end of
->    the function we are still good
-> v3->v4:
-> * Fixed commit message (thanks Connie)
-> * Removed counter-productive initialization (thanks Connie)
-> * Added tags
-> v2->v3:
-> * Caught a bug: I tired to check if vdev has the feature
->     ACCESS_PLATFORM after we have forced it. Moved the check
->     to a better place
-> v1->v2:
-> * Commit message tweaks. Most notably fixed commit SHA (Michael)
-> 
-> ---
-> ---
->   hw/virtio/virtio-bus.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> index d23db98c56..0f69d1c742 100644
-> --- a/hw/virtio/virtio-bus.c
-> +++ b/hw/virtio/virtio-bus.c
-> @@ -48,6 +48,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->       VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
->       VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
->       bool has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-> +    bool vdev_has_iommu;
->       Error *local_err = NULL;
->   
->       DPRINTF("%s: plug device.\n", qbus->name);
-> @@ -69,11 +70,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->           return;
->       }
->   
-> -    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-> -        error_setg(errp, "iommu_platform=true is not supported by the device");
-> -        return;
-> -    }
-> -
->       if (klass->device_plugged != NULL) {
->           klass->device_plugged(qbus->parent, &local_err);
->       }
-> @@ -82,9 +78,15 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->           return;
->       }
->   
-> +    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
->       if (klass->get_dma_as != NULL && has_iommu) {
->           virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
->           vdev->dma_as = klass->get_dma_as(qbus->parent);
-> +        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
+7b346c742cd9 ("hw/pxb: declare pxb devices as not hot-pluggable")
 
-Hi Pasic,
+Could you please help confirm the possibility to make PXB bus hotpluggable,
+and the main work to achieve it if possible?
 
-When testing the virtio-fs in Intel TDX, I met the error report in this 
-check. Is it appropriate to compare the dma_as against the 
-address_space_memory to detect whether the IOMMU is enabled or not? Per 
-the commit ae4003738f(vhost: correctly detect the enabling IOMMU), we 
-should call virtio_bus_device_iommu_enabled(vdev) instead here, correct?
+Yes, pxb-pcie with Q35 do support hotplug, but we use i440 machine a long way,
+not  willing to change machine type to have it.
 
-> +            error_setg(errp,
-> +                       "iommu_platform=true is not supported by the device");
-> +            return;
-> +        }
->       } else {
->           vdev->dma_as = &address_space_memory;
->       }
-> 
-> base-commit: 0d564a3e32ba8494014c67cdd2ebf0fb71860dff
+Thanks,
+Eric Ren
 
