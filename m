@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C59F50B790
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:44:27 +0200 (CEST)
-Received: from localhost ([::1]:38930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A159850B79B
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:48:14 +0200 (CEST)
+Received: from localhost ([::1]:45476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhseA-0001Tc-95
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:44:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58974)
+	id 1nhshp-0006my-P1
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:48:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nhrrD-0001te-Ox
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:53:55 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:39498)
+ id 1nhrrL-0001wI-1Z
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:53:59 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:39534)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nhrrB-0005He-CA
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:53:50 -0400
+ id 1nhrrH-0005I2-IC
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:53:58 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 6DA9C4076274;
- Fri, 22 Apr 2022 11:53:47 +0000 (UTC)
-Subject: [PATCH 7/9] tests/avocado: update replay_linux test
+ by mail.ispras.ru (Postfix) with ESMTPSA id DD4434076B22;
+ Fri, 22 Apr 2022 11:53:52 +0000 (UTC)
+Subject: [PATCH 8/9] tests/avocado: add replay Linux tests for virtio machine
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
-Date: Fri, 22 Apr 2022 14:53:47 +0300
-Message-ID: <165062842725.526882.9389797416793788047.stgit@pasha-ThinkPad-X280>
+Date: Fri, 22 Apr 2022 14:53:52 +0300
+Message-ID: <165062843267.526882.9799586788310156794.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <165062838915.526882.13230207960407998257.stgit@pasha-ThinkPad-X280>
 References: <165062838915.526882.13230207960407998257.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
@@ -57,58 +57,47 @@ Cc: pavel.dovgalyuk@ispras.ru, philmd@redhat.com, wrampazz@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch updates replay_linux test to make it compatible with
-new LinuxTest class.
+This patch adds two tests for replaying Linux boot process
+on x86_64 virtio platform.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 ---
- tests/avocado/replay_linux.py |   19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ tests/avocado/replay_linux.py |   26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/tests/avocado/replay_linux.py b/tests/avocado/replay_linux.py
-index 15953f9e49..1099b5647f 100644
+index 1099b5647f..3bb1bc8816 100644
 --- a/tests/avocado/replay_linux.py
 +++ b/tests/avocado/replay_linux.py
-@@ -32,9 +32,16 @@ class ReplayLinux(LinuxTest):
-     bus = 'ide'
- 
-     def setUp(self):
--        super(ReplayLinux, self).setUp()
-+        # LinuxTest does many replay-incompatible things, but includes
-+        # useful methods. Do not setup LinuxTest here and just
-+        # call some functions.
-+        super(LinuxTest, self).setUp()
-+        self._set_distro()
-         self.boot_path = self.download_boot()
--        self.cloudinit_path = self.prepare_cloudinit()
-+        self.phone_server = cloudinit.PhoneHomeServer(('0.0.0.0', 0),
-+                                                      self.name)
-+        ssh_pubkey, self.ssh_key = self.set_up_existing_ssh_keys()
-+        self.cloudinit_path = self.prepare_cloudinit(ssh_pubkey)
- 
-     def vm_add_disk(self, vm, path, id, device):
-         bus_string = ''
-@@ -50,7 +57,9 @@ def launch_and_wait(self, record, args, shift):
-         vm = self.get_vm()
-         vm.add_args('-smp', '1')
-         vm.add_args('-m', '1024')
--        vm.add_args('-object', 'filter-replay,id=replay,netdev=hub0port0')
-+        vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22',
-+                    '-device', 'virtio-net,netdev=vnet')
-+        vm.add_args('-object', 'filter-replay,id=replay,netdev=vnet')
-         if args:
-             vm.add_args(*args)
-         self.vm_add_disk(vm, self.boot_path, 0, self.hdd)
-@@ -75,8 +84,8 @@ def launch_and_wait(self, record, args, shift):
-                                     stop_check=(lambda : not vm.is_running()))
-         console_drainer.start()
-         if record:
--            cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port),
--                                          self.name)
-+            while not self.phone_server.instance_phoned_back:
-+                self.phone_server.handle_request()
-             vm.shutdown()
-             logger.info('finished the recording with log size %s bytes'
-                 % os.path.getsize(replay_path))
+@@ -123,3 +123,29 @@ def test_pc_q35(self):
+         :avocado: tags=machine:q35
+         """
+         self.run_rr(shift=3)
++
++@skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
++class ReplayLinuxX8664Virtio(ReplayLinux):
++    """
++    :avocado: tags=arch:x86_64
++    :avocado: tags=virtio
++    :avocado: tags=accel:tcg
++    """
++
++    hdd = 'virtio-blk-pci'
++    cd = 'virtio-blk-pci'
++    bus = None
++
++    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
++
++    def test_pc_i440fx(self):
++        """
++        :avocado: tags=machine:pc
++        """
++        self.run_rr(shift=1)
++
++    def test_pc_q35(self):
++        """
++        :avocado: tags=machine:q35
++        """
++        self.run_rr(shift=3)
 
 
