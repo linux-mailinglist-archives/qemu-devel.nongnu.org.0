@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB7A50AF78
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 07:17:07 +0200 (CEST)
-Received: from localhost ([::1]:35630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2A050AF7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 07:20:23 +0200 (CEST)
+Received: from localhost ([::1]:37868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhlfF-0000Ne-Ok
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 01:17:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
+	id 1nhliQ-0001xk-9t
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 01:20:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhlce-000789-IQ
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 01:14:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52394)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhlgi-0001HG-85
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 01:18:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhlcb-0001lM-LW
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 01:14:23 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhlgg-0002RP-IQ
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 01:18:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650604459;
+ s=mimecast20190719; t=1650604713;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cxbajAeHTwy8RZfSaA6C/qK89raXSlkRmlIqMBWe0G4=;
- b=B5Iu0MpAkKCHgWCA7hI4PL6HSyr5mhl1GoQqzXN1ItfT2tcnTYqIV6oYqaD9YwNayBIENb
- 5DECxO3+jVjIoMujfifjcfB3qpqYz5ZXHb4A1lPawQuk4d+drDtZ6JyuMFqavxfXB7wYEP
- dmcviBtTgZ5q5cE2pMvm5T9PtitpkcE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9fqRj8+CACBzW21I9OLzoGMiprt/oP8Lzx6wVjlfubo=;
+ b=V3boO5ZHAGtOdVhKcdPGEgQdtRfhlL2oUzQfM6jWEWFvi4BG6ZTMvttLIRs2/0oZ9fLYbb
+ OFpjG7bCSuYwL6lfzLmnjD/wlKc1g0naNO5ksqXpyIqnllRPwy74nOom8M8Ydk631xtmQp
+ vISjE4TLCunLbyliyrQ1dg4oSd8RK0c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-283-b0g4q3XfNM2Ad74YtJ-o_A-1; Fri, 22 Apr 2022 01:14:16 -0400
-X-MC-Unique: b0g4q3XfNM2Ad74YtJ-o_A-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-187-UXM8kkMXObeeilhPFU_fCw-1; Fri, 22 Apr 2022 01:18:30 -0400
+X-MC-Unique: UXM8kkMXObeeilhPFU_fCw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E64FD866DF9;
- Fri, 22 Apr 2022 05:14:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70F2129DD99A;
+ Fri, 22 Apr 2022 05:18:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 91E17415F4E;
- Fri, 22 Apr 2022 05:14:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E1C340D016F;
+ Fri, 22 Apr 2022 05:18:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7000421E6A1F; Fri, 22 Apr 2022 07:14:13 +0200 (CEST)
+ id 0C34D21E6A1F; Fri, 22 Apr 2022 07:18:28 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v8 10/17] vfio-user: run vfio-user context
+Subject: Re: [PATCH v8 02/17] qdev: unplug blocker for devices
 References: <cover.1650379269.git.jag.raman@oracle.com>
- <1f71b01f49b461a41130ac9d19355344c3752f7d.1650379269.git.jag.raman@oracle.com>
- <87zgkepjn5.fsf@pond.sub.org>
- <4781D386-AF48-43C9-ADC0-7DAF2DB52F11@oracle.com>
-Date: Fri, 22 Apr 2022 07:14:13 +0200
-In-Reply-To: <4781D386-AF48-43C9-ADC0-7DAF2DB52F11@oracle.com> (Jag Raman's
- message of "Thu, 21 Apr 2022 17:52:14 +0000")
-Message-ID: <87ee1pn1i2.fsf@pond.sub.org>
+ <26c36cc56c0dd0021aebc9c2b7f9e6dfa1abb67e.1650379269.git.jag.raman@oracle.com>
+ <875yn2qydl.fsf@pond.sub.org>
+ <6BAFA4DE-0D88-40EC-92B6-6228460AB927@oracle.com>
+Date: Fri, 22 Apr 2022 07:18:28 +0200
+In-Reply-To: <6BAFA4DE-0D88-40EC-92B6-6228460AB927@oracle.com> (Jag Raman's
+ message of "Thu, 21 Apr 2022 17:49:39 +0000")
+Message-ID: <87a6cdn1az.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -87,68 +87,145 @@ Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
  "berrange@redhat.com" <berrange@redhat.com>,
  "bleal@redhat.com" <bleal@redhat.com>,
  "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>, "quintela@redhat.com" <quintela@redhat.com>,
+ "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
  "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
  Kanth Ghatraju <kanth.ghatraju@oracle.com>,
  "dgilbert@redhat.com" <dgilbert@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "eblake@redhat.com" <eblake@redhat.com>
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Jag Raman <jag.raman@oracle.com> writes:
 
->> On Apr 21, 2022, at 10:59 AM, Markus Armbruster <armbru@redhat.com> wrot=
+>> On Apr 21, 2022, at 10:55 AM, Markus Armbruster <armbru@redhat.com> wrot=
 e:
 >>=20
 >> Jagannathan Raman <jag.raman@oracle.com> writes:
 >>=20
->>> Setup a handler to run vfio-user context. The context is driven by
->>> messages to the file descriptor associated with it - get the fd for
->>> the context and hook up the handler with it
->>>=20
+>>> Add blocker to prevent hot-unplug of devices
+>>=20
+>> Why do you need this?  I'm not doubting you do, I just want to read your
+>> reasons here :)
+>
+> Hi Markus, :)
+>
+> The x-vfio-user-server depends on an attached PCIDevice. As long as x-vfi=
+o-user-server
+> is used, we don=E2=80=99t want the PCIDevice to be unplugged. This blocke=
+r prevents an user
+> from removing PCIDevice while the vfio-user server is in use.
+
+Please work that into your commit message.  Perhaps along the lines of
+
+    One of the next commits will do <stuff>.  <badness> will happen when
+    the PCI device is unplugged.  Create the means to prevent that.
+
 >>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 >>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 >>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
->>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->>> ---
->>> qapi/misc.json            | 23 ++++++++++
->>> hw/remote/vfio-user-obj.c | 95 ++++++++++++++++++++++++++++++++++++++-
->>> 2 files changed, 117 insertions(+), 1 deletion(-)
->>>=20
->>> diff --git a/qapi/misc.json b/qapi/misc.json
->>> index b83cc39029..f3cc4a4854 100644
->>> --- a/qapi/misc.json
->>> +++ b/qapi/misc.json
->>> @@ -553,3 +553,26 @@
->>> ##
->>> { 'event': 'RTC_CHANGE',
->>>   'data': { 'offset': 'int', 'qom-path': 'str' } }
->>> +
->>> +##
->>> +# @VFU_CLIENT_HANGUP:
->>> +#
->>> +# Emitted when the client of a TYPE_VFIO_USER_SERVER closes the
->>> +# communication channel
->>> +#
->>> +# @id: ID of the TYPE_VFIO_USER_SERVER object
->>> +#
->>> +# @device: ID of attached PCI device
->>=20
->> Is this the ID set with -device id=3D... and such?
 >
-> Yes, that is correct. It=E2=80=99s the ID set with the =E2=80=9C-device i=
-d=3D=E2=80=A6=E2=80=9D option/
+> I recall receiving a =E2=80=9CReviewed-by=E2=80=9D from Stefan previously.
+>
+> I=E2=80=99m very sorry I didn=E2=80=99t add that here. I=E2=80=99ll go ov=
+er all the patches once again to confirm that
+> the =E2=80=9CReviewed-by=E2=80=9D status reflects accurately.
+>
+>>> ---
+>>> include/hw/qdev-core.h | 29 +++++++++++++++++++++++++++++
+>>> hw/core/qdev.c         | 24 ++++++++++++++++++++++++
+>>> softmmu/qdev-monitor.c |  4 ++++
+>>> 3 files changed, 57 insertions(+)
+>>>=20
+>>> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+>>> index 92c3d65208..1b9fa25e5c 100644
+>>> --- a/include/hw/qdev-core.h
+>>> +++ b/include/hw/qdev-core.h
+>>> @@ -193,6 +193,7 @@ struct DeviceState {
+>>>     int instance_id_alias;
+>>>     int alias_required_for_version;
+>>>     ResettableState reset;
+>>> +    GSList *unplug_blockers;
+>>> };
+>>>=20
+>>> struct DeviceListener {
+>>> @@ -419,6 +420,34 @@ void qdev_simple_device_unplug_cb(HotplugHandler *=
+hotplug_dev,
+>>> void qdev_machine_creation_done(void);
+>>> bool qdev_machine_modified(void);
+>>>=20
+>>> +/*
+>>> + * qdev_add_unplug_blocker: Adds an unplug blocker to a device
+>>> + *
+>>> + * @dev: Device to be blocked from unplug
+>>> + * @reason: Reason for blocking
+>>> + */
+>>> +void qdev_add_unplug_blocker(DeviceState *dev, Error *reason);
+>>> +
+>>> +/*
+>>> + * qdev_del_unplug_blocker: Removes an unplug blocker from a device
+>>> + *
+>>> + * @dev: Device to be unblocked
+>>> + * @reason: Pointer to the Error used with qdev_add_unplug_blocker.
+>>> + *          Used as a handle to lookup the blocker for deletion.
+>>> + */
+>>> +void qdev_del_unplug_blocker(DeviceState *dev, Error *reason);
+>>> +
+>>> +/*
+>>> + * qdev_unplug_blocked: Confirms if a device is blocked from unplug
+>>> + *
+>>> + * @dev: Device to be tested
+>>> + * @reason: Returns one of the reasons why the device is blocked,
+>>> + *          if any
+>>> + *
+>>> + * Returns: true if device is blocked from unplug, false otherwise
+>>> + */
+>>> +bool qdev_unplug_blocked(DeviceState *dev, Error **errp);
+>>> +
+>>> /**
+>>>  * GpioPolarity: Polarity of a GPIO line
+>>>  *
+>>> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+>>> index 84f3019440..0806d8fcaa 100644
+>>> --- a/hw/core/qdev.c
+>>> +++ b/hw/core/qdev.c
+>>> @@ -468,6 +468,28 @@ char *qdev_get_dev_path(DeviceState *dev)
+>>>     return NULL;
+>>> }
+>>>=20
+>>> +void qdev_add_unplug_blocker(DeviceState *dev, Error *reason)
+>>> +{
+>>> +    dev->unplug_blockers =3D g_slist_prepend(dev->unplug_blockers, rea=
+son);
+>>> +}
+>>> +
+>>> +void qdev_del_unplug_blocker(DeviceState *dev, Error *reason)
+>>> +{
+>>> +    dev->unplug_blockers =3D g_slist_remove(dev->unplug_blockers, reas=
+on);
+>>> +}
+>>> +
+>>> +bool qdev_unplug_blocked(DeviceState *dev, Error **errp)
+>>> +{
+>>> +    ERRP_GUARD();
+>>> +
+>>> +    if (dev->unplug_blockers) {
+>>> +        error_propagate(errp, error_copy(dev->unplug_blockers->data));
+>>> +        return true;
+>>> +    }
+>>> +
+>>> +    return false;
+>>> +}
+>>=20
+>> This cites the most recently added blocker as reason.  Your function
+>> comment covers it: "Returns one of the reasons".  Okay.
+>
+> I could change the comment to say that it returns the recently added reas=
+on.
 
-What happens when the device was added *without* id=3D...?  DeviceState
-member @id is null then.
-
-I figure we need to make @device optional here, present if the device
-has an ID.  I recommend to also add a member @qom-path, like we did for
-MEMORY_DEVICE_SIZE_CHANGE in commit d89dd28f0e2.
+Up to you.
 
 
