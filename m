@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5A150B524
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:35:24 +0200 (CEST)
-Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A344B50B58E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:50:36 +0200 (CEST)
+Received: from localhost ([::1]:39556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqdH-00018V-TO
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:35:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58604)
+	id 1nhqrz-0005RC-N6
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:50:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9t-0004ev-Bw
+ id 1nhq9t-0004fF-EE
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:01 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45960)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9q-0002do-CL
+ id 1nhq9r-0002du-7H
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:01 -0400
-Received: by mail-wr1-x429.google.com with SMTP id w4so10277872wrg.12
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:57 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id b19so10280361wrh.11
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OUTDe5oYT3hUigG/8y80ols+FyBgd0MbuwPZpWR766U=;
- b=fIabD+F7/FgPDyoEr/hzppsEQ/zLetXTAt+nHVzkqexcB7SeBwG93htkn7Dz6LQllq
- aXTUzuxqB+ZuK3rMU9jMR29ir0u7j3vawkLGqjzocwEdMPXsYL7UoFetYMbU4Sa/PL88
- ooxcFWUi8nUK0YYGPQ7adVllJSj5PsCUUQ+8Q4+jC5uRGPD87ISyICuRdkGDs0+bITWu
- lJymSsFviXa7PAxj00OhM4k3tp69oxyfhwVALBipGLzJ74zFqdYBJYfe+HUIXe9RQW5s
- u2L5vx/h0tEjWHv4vLA0KHfXq3f3FfKsIFE55DYAaWEXseWnTBDrQAtWtsCehJEm9zj/
- E1Rw==
+ bh=lfat0Xo/XZAzlvrsuN37d4qZ7GyWb7N5yMXurCOySu8=;
+ b=g7AgjRiYDd9vjDztgvWEr7GWUhHX/7YXpBllx8qiVhvyzUEbnRrvc++5cQ84d+OaJF
+ zj2aAeoLXy2Oprg4dlT4o32e55Ez0zhN3xaFcXH0xrypiN9oWs/Rdjhxc7C+Hnsxoq8p
+ SZlt0M8aZY1rLsoDQiDUafaiM8tMrYsz2a8G127WIbwOKY1pLzdT418GJF8Vb9saYCnT
+ gxcPt5wncPhCgfy6eIiOkgqTHgEfQFCbBSxk8PjrKVRPH+0KxrMp9JXxWFgYmDeAYC/A
+ 2AshtWN0pHjRLElm1AVD8aH9kKTI8ppJQCkBkblzsY5OLGVLgR+VGjZY8E69FlOJPvW7
+ zfng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OUTDe5oYT3hUigG/8y80ols+FyBgd0MbuwPZpWR766U=;
- b=mEoo4zPhbZeu2tA+l+K+7YP2WsH6sTU2DNfzB3beq9EiB8lVOn9WxjuNUD7u7mXDqm
- yMeFDb5ntv6JiVlZEcmrt+IkwiOTmrABGCC+KqOVrrdx6hwMIEZ/9sCZOGiwGOBLEMuw
- nfmvW5AZyn+YPXpW51dw0qeyZXQ3A2tl6xyhVeO1hCFaWR1RciwqMGHt+Enw2iSLL945
- xRA3c5y8CpjcfD3z+f9D+b0lQQv2JhcfJ1ZmsODeuCDsjWoO8o46yWnqrB2wC2wM7sbF
- cRi5IDPthHHowcULPGJ+b25ttpGyFrFRW2zQra/qe+0NlXaU4xWg0ebg8NcIG0OGqeHF
- ZnWg==
-X-Gm-Message-State: AOAM532KPxugt1dNjxryhIJ1NVr8M+VCfy8SnFElBrkmLeS34bgJImjx
- Kdk1tRfVHgz48FoEsZzU8pn9PkNJj230hA==
-X-Google-Smtp-Source: ABdhPJxIzQ2qFEQz4m2wO6VKzGA0qq+PaxSQQ2YAUQEkrE6asIoiSJIRtLLFgmvM0MHNvlbE2pWV2A==
-X-Received: by 2002:adf:eacf:0:b0:20a:c8c4:ac51 with SMTP id
- o15-20020adfeacf000000b0020ac8c4ac51mr2077635wrn.510.1650621896626; 
- Fri, 22 Apr 2022 03:04:56 -0700 (PDT)
+ bh=lfat0Xo/XZAzlvrsuN37d4qZ7GyWb7N5yMXurCOySu8=;
+ b=XF7wO6J4TuF4ApHMgRd8iDoDAQw1t2qyv2CcEH2wHGNBgiQWZDLE0Zwb2EjUHvIzMz
+ Q2W7wAXci5jIW7jRpoe7CoN1mPRRMpNfgfMer50OhCI/tdUtbJkMVskU5Xfe/UyOB+FM
+ 3abFu9yfwTkzwvuGuCBmADi0+2zk+temsvdEHmxSXeZMyay/MtFX3pEka5ud8vO+EOpL
+ INSnwuwQfJziEXXMIXiS8yRJp7+/Gx+ZdSMvoT+7S5MjJuPBkRi9TL90zLZVOq8r8Toq
+ 4E2GC1UVGAip1JwmnYc5eLBxnRIiUcW9DrkQ8xlijROuVksh+qHKCsGqi2sMPAwyuHF9
+ 9Heg==
+X-Gm-Message-State: AOAM532v0KJFw1ue1QpoVDeS+XiroLoqx9ctroiG0UWRhueP4+AvMXqH
+ NQ1k+pSRlykEgkFMcwD1D3/B+JcPjgVkog==
+X-Google-Smtp-Source: ABdhPJz1kKAn8XR7SD+mE3qRAWaLJOYBge4rJbamdggAmENi2vj8r2PIK6O1E52lAvdojANhrT/FUQ==
+X-Received: by 2002:a5d:47aa:0:b0:20a:8b96:5b2c with SMTP id
+ 10-20020a5d47aa000000b0020a8b965b2cmr3070941wrb.621.1650621897645; 
+ Fri, 22 Apr 2022 03:04:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.55
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:04:56 -0700 (PDT)
+ Fri, 22 Apr 2022 03:04:57 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/61] hw/intc/arm_gicv3_cpuif: Split "update vIRQ/vFIQ" from
- gicv3_cpuif_virt_update()
-Date: Fri, 22 Apr 2022 11:03:55 +0100
-Message-Id: <20220422100432.2288247-25-peter.maydell@linaro.org>
+Subject: [PULL 25/61] hw/intc/arm_gicv3_cpuif: Support vLPIs
+Date: Fri, 22 Apr 2022 11:03:56 +0100
+Message-Id: <20220422100432.2288247-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,155 +88,307 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function gicv3_cpuif_virt_update() currently sets all of vIRQ,
-vFIQ and the maintenance interrupt.  This implies that it has to be
-used quite carefully -- as the comment notes, setting the maintenance
-interrupt will typically cause the GIC code to be re-entered
-recursively.  For handling vLPIs, we need the redistributor to be
-able to tell the cpuif to update the vIRQ and vFIQ lines when the
-highest priority pending vLPI changes.  Since that change can't cause
-the maintenance interrupt state to change, we can pull the "update
-vIRQ/vFIQ" parts of gicv3_cpuif_virt_update() out into a separate
-function, which the redistributor can then call without having to
-worry about the reentrancy issue.
+The CPU interface changes to support vLPIs are fairly minor:
+in the parts of the code that currently look at the list registers
+to determine the highest priority pending virtual interrupt, we
+must also look at the highest priority pending vLPI. To do this
+we change hppvi_index() to check the vLPI and return a special-case
+value if that is the right virtual interrupt to take. The callsites
+(which handle HPPIR and IAR registers and the "raise vIRQ and vFIQ
+lines" code) then have to handle this special-case value.
+
+This commit includes two interfaces with the as-yet-unwritten
+redistributor code:
+ * the new GICv3CPUState::hppvlpi will be set by the redistributor
+   (in the same way as the existing hpplpi does for physical LPIs)
+ * when the CPU interface acknowledges a vLPI it needs to set it
+   to non-pending; the new gicv3_redist_vlpi_pending() function
+   (which matches the existing gicv3_redist_lpi_pending() used
+   for physical LPIs) is a stub that will be filled in later
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220408141550.1271295-25-peter.maydell@linaro.org
+Message-id: 20220408141550.1271295-26-peter.maydell@linaro.org
 ---
- hw/intc/gicv3_internal.h  | 11 +++++++
- hw/intc/arm_gicv3_cpuif.c | 64 ++++++++++++++++++++++++---------------
- hw/intc/trace-events      |  3 +-
- 3 files changed, 53 insertions(+), 25 deletions(-)
+ hw/intc/gicv3_internal.h           |  13 ++++
+ include/hw/intc/arm_gicv3_common.h |   3 +
+ hw/intc/arm_gicv3_common.c         |   1 +
+ hw/intc/arm_gicv3_cpuif.c          | 119 +++++++++++++++++++++++++++--
+ hw/intc/arm_gicv3_redist.c         |   8 ++
+ hw/intc/trace-events               |   2 +-
+ 6 files changed, 140 insertions(+), 6 deletions(-)
 
 diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 795bf57d2b3..f25ddeca579 100644
+index f25ddeca579..07644b2be6f 100644
 --- a/hw/intc/gicv3_internal.h
 +++ b/hw/intc/gicv3_internal.h
-@@ -707,6 +707,17 @@ void gicv3_init_cpuif(GICv3State *s);
+@@ -612,6 +612,19 @@ void gicv3_redist_process_lpi(GICv3CPUState *cs, int irq, int level);
   */
- void gicv3_cpuif_update(GICv3CPUState *cs);
- 
-+/*
-+ * gicv3_cpuif_virt_irq_fiq_update:
-+ * @cs: GICv3CPUState for the CPU to update
+ void gicv3_redist_process_vlpi(GICv3CPUState *cs, int irq, uint64_t vptaddr,
+                                int doorbell, int level);
++/**
++ * gicv3_redist_vlpi_pending:
++ * @cs: GICv3CPUState
++ * @irq: (virtual) interrupt number
++ * @level: level to set @irq to
 + *
-+ * Recalculate whether to assert the virtual IRQ or FIQ lines after
-+ * a change to the current highest priority pending virtual interrupt.
-+ * Note that this does not recalculate and change the maintenance
-+ * interrupt status (for that, see gicv3_cpuif_virt_update()).
++ * Set/clear the pending status of a virtual LPI in the vLPI table
++ * that this redistributor is currently using. (The difference between
++ * this and gicv3_redist_process_vlpi() is that this is called from
++ * the cpuif and does not need to do the not-running-on-this-vcpu checks.)
 + */
-+void gicv3_cpuif_virt_irq_fiq_update(GICv3CPUState *cs);
++void gicv3_redist_vlpi_pending(GICv3CPUState *cs, int irq, int level);
 +
- static inline uint32_t gicv3_iidr(void)
- {
-     /* Return the Implementer Identification Register value
+ void gicv3_redist_lpi_pending(GICv3CPUState *cs, int irq, int level);
+ /**
+  * gicv3_redist_update_lpi:
+diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
+index 7ff5a1aa5fc..4e416100559 100644
+--- a/include/hw/intc/arm_gicv3_common.h
++++ b/include/hw/intc/arm_gicv3_common.h
+@@ -219,6 +219,9 @@ struct GICv3CPUState {
+      */
+     PendingIrq hpplpi;
+ 
++    /* Cached information recalculated from vLPI tables in guest memory */
++    PendingIrq hppvlpi;
++
+     /* This is temporary working state, to avoid a malloc in gicv3_update() */
+     bool seenbetter;
+ };
+diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
+index 14d76d74840..3f47b3501fe 100644
+--- a/hw/intc/arm_gicv3_common.c
++++ b/hw/intc/arm_gicv3_common.c
+@@ -487,6 +487,7 @@ static void arm_gicv3_common_reset(DeviceState *dev)
+ 
+         cs->hppi.prio = 0xff;
+         cs->hpplpi.prio = 0xff;
++        cs->hppvlpi.prio = 0xff;
+ 
+         /* State in the CPU interface must *not* be reset here, because it
+          * is part of the CPU's reset domain, not the GIC device's.
 diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 1a3d440a54b..5fb64d4663c 100644
+index 5fb64d4663c..f11863ff613 100644
 --- a/hw/intc/arm_gicv3_cpuif.c
 +++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -370,30 +370,20 @@ static uint32_t maintenance_interrupt_state(GICv3CPUState *cs)
-     return value;
- }
+@@ -21,6 +21,12 @@
+ #include "hw/irq.h"
+ #include "cpu.h"
  
--static void gicv3_cpuif_virt_update(GICv3CPUState *cs)
-+void gicv3_cpuif_virt_irq_fiq_update(GICv3CPUState *cs)
++/*
++ * Special case return value from hppvi_index(); must be larger than
++ * the architecturally maximum possible list register index (which is 15)
++ */
++#define HPPVI_INDEX_VLPI 16
++
+ static GICv3CPUState *icc_cs_from_env(CPUARMState *env)
  {
--    /* Tell the CPU about any pending virtual interrupts or
--     * maintenance interrupts, following a change to the state
--     * of the CPU interface relevant to virtual interrupts.
--     *
--     * CAUTION: this function will call qemu_set_irq() on the
--     * CPU maintenance IRQ line, which is typically wired up
--     * to the GIC as a per-CPU interrupt. This means that it
--     * will recursively call back into the GIC code via
--     * gicv3_redist_set_irq() and thus into the CPU interface code's
--     * gicv3_cpuif_update(). It is therefore important that this
--     * function is only called as the final action of a CPU interface
--     * register write implementation, after all the GIC state
--     * fields have been updated. gicv3_cpuif_update() also must
--     * not cause this function to be called, but that happens
--     * naturally as a result of there being no architectural
--     * linkage between the physical and virtual GIC logic.
-+    /*
-+     * Tell the CPU about any pending virtual interrupts.
-+     * This should only be called for changes that affect the
-+     * vIRQ and vFIQ status and do not change the maintenance
-+     * interrupt status. This means that unlike gicv3_cpuif_virt_update()
-+     * this function won't recursively call back into the GIC code.
-+     * The main use of this is when the redistributor has changed the
-+     * highest priority pending virtual LPI.
-      */
-     int idx;
-     int irqlevel = 0;
-     int fiqlevel = 0;
--    int maintlevel = 0;
--    ARMCPU *cpu = ARM_CPU(cs->cpu);
+     return env->gicv3state;
+@@ -157,10 +163,18 @@ static int ich_highest_active_virt_prio(GICv3CPUState *cs)
  
-     idx = hppvi_index(cs);
-     trace_gicv3_cpuif_virt_update(gicv3_redist_affid(cs), idx);
-@@ -410,16 +400,42 @@ static void gicv3_cpuif_virt_update(GICv3CPUState *cs)
+ static int hppvi_index(GICv3CPUState *cs)
+ {
+-    /* Return the list register index of the highest priority pending
++    /*
++     * Return the list register index of the highest priority pending
+      * virtual interrupt, as per the HighestPriorityVirtualInterrupt
+      * pseudocode. If no pending virtual interrupts, return -1.
++     * If the highest priority pending virtual interrupt is a vLPI,
++     * return HPPVI_INDEX_VLPI.
++     * (The pseudocode handles checking whether the vLPI is higher
++     * priority than the highest priority list register at every
++     * callsite of HighestPriorityVirtualInterrupt; we check it here.)
+      */
++    ARMCPU *cpu = ARM_CPU(cs->cpu);
++    CPUARMState *env = &cpu->env;
+     int idx = -1;
+     int i;
+     /* Note that a list register entry with a priority of 0xff will
+@@ -202,6 +216,23 @@ static int hppvi_index(GICv3CPUState *cs)
          }
      }
  
-+    trace_gicv3_cpuif_virt_set_irqs(gicv3_redist_affid(cs), fiqlevel, irqlevel);
-+    qemu_set_irq(cs->parent_vfiq, fiqlevel);
-+    qemu_set_irq(cs->parent_virq, irqlevel);
-+}
-+
-+static void gicv3_cpuif_virt_update(GICv3CPUState *cs)
-+{
 +    /*
-+     * Tell the CPU about any pending virtual interrupts or
-+     * maintenance interrupts, following a change to the state
-+     * of the CPU interface relevant to virtual interrupts.
-+     *
-+     * CAUTION: this function will call qemu_set_irq() on the
-+     * CPU maintenance IRQ line, which is typically wired up
-+     * to the GIC as a per-CPU interrupt. This means that it
-+     * will recursively call back into the GIC code via
-+     * gicv3_redist_set_irq() and thus into the CPU interface code's
-+     * gicv3_cpuif_update(). It is therefore important that this
-+     * function is only called as the final action of a CPU interface
-+     * register write implementation, after all the GIC state
-+     * fields have been updated. gicv3_cpuif_update() also must
-+     * not cause this function to be called, but that happens
-+     * naturally as a result of there being no architectural
-+     * linkage between the physical and virtual GIC logic.
++     * "no pending vLPI" is indicated with prio = 0xff, which always
++     * fails the priority check here. vLPIs are only considered
++     * when we are in Non-Secure state.
 +     */
-+    ARMCPU *cpu = ARM_CPU(cs->cpu);
-+    int maintlevel = 0;
++    if (cs->hppvlpi.prio < prio && !arm_is_secure(env)) {
++        if (cs->hppvlpi.grp == GICV3_G0) {
++            if (cs->ich_vmcr_el2 & ICH_VMCR_EL2_VENG0) {
++                return HPPVI_INDEX_VLPI;
++            }
++        } else {
++            if (cs->ich_vmcr_el2 & ICH_VMCR_EL2_VENG1) {
++                return HPPVI_INDEX_VLPI;
++            }
++        }
++    }
 +
-+    gicv3_cpuif_virt_irq_fiq_update(cs);
-+
-     if ((cs->ich_hcr_el2 & ICH_HCR_EL2_EN) &&
-         maintenance_interrupt_state(cs) != 0) {
-         maintlevel = 1;
-     }
- 
--    trace_gicv3_cpuif_virt_set_irqs(gicv3_redist_affid(cs), fiqlevel,
--                                    irqlevel, maintlevel);
--
--    qemu_set_irq(cs->parent_vfiq, fiqlevel);
--    qemu_set_irq(cs->parent_virq, irqlevel);
-+    trace_gicv3_cpuif_virt_set_maint_irq(gicv3_redist_affid(cs), maintlevel);
-     qemu_set_irq(cpu->gicv3_maintenance_interrupt, maintlevel);
+     return idx;
  }
  
+@@ -289,6 +320,47 @@ static bool icv_hppi_can_preempt(GICv3CPUState *cs, uint64_t lr)
+     return false;
+ }
+ 
++static bool icv_hppvlpi_can_preempt(GICv3CPUState *cs)
++{
++    /*
++     * Return true if we can signal the highest priority pending vLPI.
++     * We can assume we're Non-secure because hppvi_index() already
++     * tested for that.
++     */
++    uint32_t mask, rprio, vpmr;
++
++    if (!(cs->ich_hcr_el2 & ICH_HCR_EL2_EN)) {
++        /* Virtual interface disabled */
++        return false;
++    }
++
++    vpmr = extract64(cs->ich_vmcr_el2, ICH_VMCR_EL2_VPMR_SHIFT,
++                     ICH_VMCR_EL2_VPMR_LENGTH);
++
++    if (cs->hppvlpi.prio >= vpmr) {
++        /* Priority mask masks this interrupt */
++        return false;
++    }
++
++    rprio = ich_highest_active_virt_prio(cs);
++    if (rprio == 0xff) {
++        /* No running interrupt so we can preempt */
++        return true;
++    }
++
++    mask = icv_gprio_mask(cs, cs->hppvlpi.grp);
++
++    /*
++     * We only preempt a running interrupt if the pending interrupt's
++     * group priority is sufficient (the subpriorities are not considered).
++     */
++    if ((cs->hppvlpi.prio & mask) < (rprio & mask)) {
++        return true;
++    }
++
++    return false;
++}
++
+ static uint32_t eoi_maintenance_interrupt_state(GICv3CPUState *cs,
+                                                 uint32_t *misr)
+ {
+@@ -386,8 +458,18 @@ void gicv3_cpuif_virt_irq_fiq_update(GICv3CPUState *cs)
+     int fiqlevel = 0;
+ 
+     idx = hppvi_index(cs);
+-    trace_gicv3_cpuif_virt_update(gicv3_redist_affid(cs), idx);
+-    if (idx >= 0) {
++    trace_gicv3_cpuif_virt_update(gicv3_redist_affid(cs), idx,
++                                  cs->hppvlpi.irq, cs->hppvlpi.grp,
++                                  cs->hppvlpi.prio);
++    if (idx == HPPVI_INDEX_VLPI) {
++        if (icv_hppvlpi_can_preempt(cs)) {
++            if (cs->hppvlpi.grp == GICV3_G0) {
++                fiqlevel = 1;
++            } else {
++                irqlevel = 1;
++            }
++        }
++    } else if (idx >= 0) {
+         uint64_t lr = cs->ich_lr_el2[idx];
+ 
+         if (icv_hppi_can_preempt(cs, lr)) {
+@@ -619,7 +701,11 @@ static uint64_t icv_hppir_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     int idx = hppvi_index(cs);
+     uint64_t value = INTID_SPURIOUS;
+ 
+-    if (idx >= 0) {
++    if (idx == HPPVI_INDEX_VLPI) {
++        if (cs->hppvlpi.grp == grp) {
++            value = cs->hppvlpi.irq;
++        }
++    } else if (idx >= 0) {
+         uint64_t lr = cs->ich_lr_el2[idx];
+         int thisgrp = (lr & ICH_LR_EL2_GROUP) ? GICV3_G1NS : GICV3_G0;
+ 
+@@ -650,6 +736,18 @@ static void icv_activate_irq(GICv3CPUState *cs, int idx, int grp)
+     cs->ich_apr[grp][regno] |= (1 << regbit);
+ }
+ 
++static void icv_activate_vlpi(GICv3CPUState *cs)
++{
++    uint32_t mask = icv_gprio_mask(cs, cs->hppvlpi.grp);
++    int prio = cs->hppvlpi.prio & mask;
++    int aprbit = prio >> (8 - cs->vprebits);
++    int regno = aprbit / 32;
++    int regbit = aprbit % 32;
++
++    cs->ich_apr[cs->hppvlpi.grp][regno] |= (1 << regbit);
++    gicv3_redist_vlpi_pending(cs, cs->hppvlpi.irq, 0);
++}
++
+ static uint64_t icv_iar_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+     GICv3CPUState *cs = icc_cs_from_env(env);
+@@ -657,7 +755,12 @@ static uint64_t icv_iar_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     int idx = hppvi_index(cs);
+     uint64_t intid = INTID_SPURIOUS;
+ 
+-    if (idx >= 0) {
++    if (idx == HPPVI_INDEX_VLPI) {
++        if (cs->hppvlpi.grp == grp && icv_hppvlpi_can_preempt(cs)) {
++            intid = cs->hppvlpi.irq;
++            icv_activate_vlpi(cs);
++        }
++    } else if (idx >= 0) {
+         uint64_t lr = cs->ich_lr_el2[idx];
+         int thisgrp = (lr & ICH_LR_EL2_GROUP) ? GICV3_G1NS : GICV3_G0;
+ 
+@@ -2632,6 +2735,12 @@ static void gicv3_cpuif_el_change_hook(ARMCPU *cpu, void *opaque)
+     GICv3CPUState *cs = opaque;
+ 
+     gicv3_cpuif_update(cs);
++    /*
++     * Because vLPIs are only pending in NonSecure state,
++     * an EL change can change the VIRQ/VFIQ status (but
++     * cannot affect the maintenance interrupt state)
++     */
++    gicv3_cpuif_virt_irq_fiq_update(cs);
+ }
+ 
+ void gicv3_init_cpuif(GICv3State *s)
+diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
+index c310d7f8ff2..3464972c139 100644
+--- a/hw/intc/arm_gicv3_redist.c
++++ b/hw/intc/arm_gicv3_redist.c
+@@ -855,6 +855,14 @@ void gicv3_redist_movall_lpis(GICv3CPUState *src, GICv3CPUState *dest)
+     gicv3_redist_update_lpi(dest);
+ }
+ 
++void gicv3_redist_vlpi_pending(GICv3CPUState *cs, int irq, int level)
++{
++    /*
++     * The redistributor handling for changing the pending state
++     * of a vLPI will be added in a subsequent commit.
++     */
++}
++
+ void gicv3_redist_process_vlpi(GICv3CPUState *cs, int irq, uint64_t vptaddr,
+                                int doorbell, int level)
+ {
 diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 004a1006fb8..36c3fe4da0b 100644
+index 36c3fe4da0b..5271590304b 100644
 --- a/hw/intc/trace-events
 +++ b/hw/intc/trace-events
-@@ -152,7 +152,8 @@ gicv3_icv_dir_write(uint32_t cpu, uint64_t val) "GICv3 ICV_DIR write cpu 0x%x va
+@@ -151,7 +151,7 @@ gicv3_icv_hppir_read(int grp, uint32_t cpu, uint64_t val) "GICv3 ICV_HPPIR%d rea
+ gicv3_icv_dir_write(uint32_t cpu, uint64_t val) "GICv3 ICV_DIR write cpu 0x%x value 0x%" PRIx64
  gicv3_icv_iar_read(int grp, uint32_t cpu, uint64_t val) "GICv3 ICV_IAR%d read cpu 0x%x value 0x%" PRIx64
  gicv3_icv_eoir_write(int grp, uint32_t cpu, uint64_t val) "GICv3 ICV_EOIR%d write cpu 0x%x value 0x%" PRIx64
- gicv3_cpuif_virt_update(uint32_t cpuid, int idx) "GICv3 CPU i/f 0x%x virt HPPI update LR index %d"
--gicv3_cpuif_virt_set_irqs(uint32_t cpuid, int fiqlevel, int irqlevel, int maintlevel) "GICv3 CPU i/f 0x%x virt HPPI update: setting FIQ %d IRQ %d maintenance-irq %d"
-+gicv3_cpuif_virt_set_irqs(uint32_t cpuid, int fiqlevel, int irqlevel) "GICv3 CPU i/f 0x%x virt HPPI update: setting FIQ %d IRQ %d"
-+gicv3_cpuif_virt_set_maint_irq(uint32_t cpuid, int maintlevel) "GICv3 CPU i/f 0x%x virt HPPI update: setting maintenance-irq %d"
+-gicv3_cpuif_virt_update(uint32_t cpuid, int idx) "GICv3 CPU i/f 0x%x virt HPPI update LR index %d"
++gicv3_cpuif_virt_update(uint32_t cpuid, int idx, int hppvlpi, int grp, int prio) "GICv3 CPU i/f 0x%x virt HPPI update LR index %d HPPVLPI %d grp %d prio %d"
+ gicv3_cpuif_virt_set_irqs(uint32_t cpuid, int fiqlevel, int irqlevel) "GICv3 CPU i/f 0x%x virt HPPI update: setting FIQ %d IRQ %d"
+ gicv3_cpuif_virt_set_maint_irq(uint32_t cpuid, int maintlevel) "GICv3 CPU i/f 0x%x virt HPPI update: setting maintenance-irq %d"
  
- # arm_gicv3_dist.c
- gicv3_dist_read(uint64_t offset, uint64_t data, unsigned size, bool secure) "GICv3 distributor read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u secure %d"
 -- 
 2.25.1
 
