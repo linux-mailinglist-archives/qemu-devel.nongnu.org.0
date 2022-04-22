@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D71E50AE45
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 04:57:15 +0200 (CEST)
-Received: from localhost ([::1]:57860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BC650AE4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 05:01:48 +0200 (CEST)
+Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhjTt-0002C3-SC
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 22:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47706)
+	id 1nhjYJ-0004fK-GH
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 23:01:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhjRS-0006qE-72; Thu, 21 Apr 2022 22:54:42 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:38759)
+ id 1nhjX7-0003it-D6
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 23:00:33 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhjRO-0006r2-3U; Thu, 21 Apr 2022 22:54:41 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id r13so13691464ejd.5;
- Thu, 21 Apr 2022 19:54:31 -0700 (PDT)
+ id 1nhjX5-0007tD-Oz
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 23:00:33 -0400
+Received: by mail-ed1-x536.google.com with SMTP id f17so8824356edt.4
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 20:00:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LFlPpuqm9znghyTB1ipCpCAtLAi+DOiCIhrnGfLOPM4=;
- b=jB0klZZdtMlPdEp9/hpQafjNaqiYN1dv2zRhOvnhfK9NxkE7uGfyNz2QI7+pUoD40b
- kzBKHifZ9gZB7399ZFfDpexhpQblYU4e9fjWlkkYsHG7CxRO0WFa5hKZlG7e8jo83cxW
- R1uqCLgl+yVgPB4D4buYU66J5d6Z14PoUwISMCQffWgX2URKqhbYHaN+f9zykaWRPz6+
- zYP3yZva/4fFIkwO50FZSpVIp3sBTqHJd2OJAJM+5mdFb5wf+iQ5a8GgLNjXpfoQfj2N
- FyoZ3sxohOTuzAkbJL4lJkO3DveIl4e02nbqu+TBzAsNyHe49IVouhwbusk7bPsL1QRa
- 44SA==
+ :cc; bh=77qW8MIpZflC6l5XWOQlQEKVM5Sr3HxN6VAocp6/TKo=;
+ b=Ca+2TyinGNDieeJxTSGW4hYWJaHJE+2JlOpMSrvNneKBd6Am/AvKmjf5rQDm6gKury
+ /gBtUpelpb86vigkkRuxt8ksYMQ415/myWGdj3JIokp6rocySY2cn3ROYTnl2q+xm8BD
+ 5/az2v96XC+RHzhAgbx5XILn2lOwbDlxBHjp0yAggziADrOMQigowepUJMNA2olZSOdU
+ ZRuZ2oLWMxAPTD0mVSFTLIb9NVdnYig/40GlbsfGLxR2wJOyieswPio+rXi8vt85+ltR
+ jN2gwm9viwFuxBGJlqrGXx30OavpRZKV4GjWmVt702c6YYEwDJVzCc1VogNLNGT1Vm3s
+ aUaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LFlPpuqm9znghyTB1ipCpCAtLAi+DOiCIhrnGfLOPM4=;
- b=qHuV6U7UiI+fYnmT/+bLotbKirebVgxfjuyI/N58JKiXtTy1hL9T++/9IkLsFlaDcE
- kyEpy4zErmhSeiQxNDQrtMU8osOmdsyqQ71bs9AI47qNCCzEpRFIqEFvhMUYWdlK4Q6K
- Ok/YSImpuU886bRHuXle3WlomMGnOQDiJOjHVh6Y/tEyQDRJ8zHAJc/IyxiVHlt/K4jS
- IDZZT5fkXIwh2l6qgBpEMPm4H0uw/SqBIXLVtJnlig+JhlMhaoZRL3weJVCRue/De3pT
- OV+KGJOGS76maG76j171zEbGGkmtUVtga248T2OYOGNRp4oDy231gGLBIBoyrEeaqLIq
- 28Qw==
-X-Gm-Message-State: AOAM530WIqMjHlnpLt7Rl382gPYJ/GlneEP3raMkgoK8YDZTHGJnJdUW
- +SWStAUzTFtaQTS5i0v7kwg8yeIlubN+EjqTUpM=
-X-Google-Smtp-Source: ABdhPJxIANeLMcincbFDUHFh+t3BXOUnr3HQstHAwhHJqDKFtD9sh8/maYUXkODmetDBtwY5lpYOVBI13WIRbTMlzS4=
-X-Received: by 2002:a17:907:94cc:b0:6f2:72ff:6e2f with SMTP id
- dn12-20020a17090794cc00b006f272ff6e2fmr530906ejc.27.1650596070160; Thu, 21
- Apr 2022 19:54:30 -0700 (PDT)
+ bh=77qW8MIpZflC6l5XWOQlQEKVM5Sr3HxN6VAocp6/TKo=;
+ b=XoEI726zKRuywd9pirxkj/fPdTwG7DZ32cmxGL/K0ZhY410D3lx1Z8uMxkWa84U566
+ 4+xP1OHEz8LhLO/7taiGTrBKDfj7Gp0JW4Zkb0T4Lp4i6I+3prlhMYrV/YrKXdAX3a6t
+ +Y/SrJ2xMzJvQquf4BAtSvMduLcIUVte8Q4iKKLlrqetgzxJfyavv5+FzvepWmaVsBgN
+ XrIxXW4SdytqaEJ359jJwiHtjXoJ8caO7x471OwWjF4hUvmyORgkpThq8MC+5HgoqXwi
+ /voXQPgM9WyO+plDDbn+xPYBpT2XPHQSVQg+JsGa++DAPnurxfeFE9FZ1MH44brofuIL
+ 4Qcw==
+X-Gm-Message-State: AOAM533Lnlzm8/jpqPzr1BdHq4Mku/a4qV2Fei+rpaSMo4s5Hg67g79k
+ +Rh4mMPvLgPSW+0mqiH4wnAwfqSnWl26tytHnE0=
+X-Google-Smtp-Source: ABdhPJwiVr9NM3SyqAMB2+KSN+uVdiMfSQ6DC0X4j7StlCTBtU+UzWSqbLSCMo4wWX92wZj17t0qfkc+4rCIZRYf0Bw=
+X-Received: by 2002:a05:6402:32a3:b0:425:b87d:34a6 with SMTP id
+ f35-20020a05640232a300b00425b87d34a6mr1638994eda.38.1650596430276; Thu, 21
+ Apr 2022 20:00:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220401122248.2792180-1-ralf.ramsauer@oth-regensburg.de>
- <20220404173417.2946065-1-ralf.ramsauer@oth-regensburg.de>
- <CAEUhbmXZo=RSGSOoJQRTfsRF8z3gEntgKZDNmptLsvja-z6u+w@mail.gmail.com>
-In-Reply-To: <CAEUhbmXZo=RSGSOoJQRTfsRF8z3gEntgKZDNmptLsvja-z6u+w@mail.gmail.com>
+References: <20220324134812.541274-1-bmeng.cn@gmail.com>
+ <CAEUhbmVUqSghy+HE9p2qg1bJXYHBjy83jowesA_Zx383JrO7CQ@mail.gmail.com>
+ <CAEUhbmVrvzvvNeKJvT5saPbXDoEnHdZcZyuNTmt4R=YzOs1R2A@mail.gmail.com>
+In-Reply-To: <CAEUhbmVrvzvvNeKJvT5saPbXDoEnHdZcZyuNTmt4R=YzOs1R2A@mail.gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 22 Apr 2022 10:54:18 +0800
-Message-ID: <CAEUhbmUTSX3EYu7=-S-o-iYxZzVbpkZWeLqnDTB-R9mUn20HDA@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: Fix incorrect PTE merge in walk_pte
-To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+Date: Fri, 22 Apr 2022 11:00:18 +0800
+Message-ID: <CAEUhbmUDqwtXiEioBuSOi6ZyVNKnJgjYZAPTubGx+McbMFwZKA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] hw/core: Sync uboot_image.h from U-Boot v2022.01
+To: Peter Maydell <peter.maydell@linaro.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,69 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- Konrad Schwarz <konrad.schwarz@siemens.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 22, 2022 at 10:53 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Tue, Apr 5, 2022 at 1:34 AM Ralf Ramsauer
-> <ralf.ramsauer@oth-regensburg.de> wrote:
-> >
-> > Two non-subsequent PTEs can be mapped to subsequent paddrs. In this
-> > case, walk_pte will erroneously merge them.
-> >
-> > Enforce the split up, by tracking the virtual base address.
-> >
-> > Let's say we have the mapping:
-> > 0x81200000 -> 0x89623000 (4K)
-> > 0x8120f000 -> 0x89624000 (4K)
-> >
-> > Before, walk_pte would have shown:
-> >
-> > vaddr            paddr            size             attr
-> > ---------------- ---------------- ---------------- -------
-> > 0000000081200000 0000000089623000 0000000000002000 rwxu-ad
-> >
-> > as it only checks for subsequent paddrs. With this patch, it becomes:
-> >
-> > vaddr            paddr            size             attr
-> > ---------------- ---------------- ---------------- -------
-> > 0000000081200000 0000000089623000 0000000000001000 rwxu-ad
-> > 000000008120f000 0000000089624000 0000000000001000 rwxu-ad
-> >
-> > Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-> > ---
-> >  target/riscv/monitor.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
-> > index 7efb4b62c1..9dc4cb1156 100644
-> > --- a/target/riscv/monitor.c
-> > +++ b/target/riscv/monitor.c
-> > @@ -84,6 +84,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
-> >  {
-> >      hwaddr pte_addr;
-> >      hwaddr paddr;
-> > +    target_ulong last_start = -1;
-> >      target_ulong pgsize;
-> >      target_ulong pte;
-> >      int ptshift;
-> > @@ -116,7 +117,8 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
-> >                   * contiguous mapped block details.
-> >                   */
->
-> Please also update the comments above to mention the new case you added here.
->
++Richard
 
-Otherwise,
+On Wed, Apr 20, 2022 at 4:16 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Tue, Apr 12, 2022 at 9:11 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Thu, Mar 24, 2022 at 9:48 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > From: Bin Meng <bin.meng@windriver.com>
+> > >
+> > > Sync uboot_image.h from upstream U-Boot v2022.01 release [1].
+> > >
+> > > [1] https://source.denx.de/u-boot/u-boot/-/blob/v2022.01/include/image.h
+> > >
+> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > ---
+> > >
+> > > (no changes since v1)
+> > >
+> > >  hw/core/uboot_image.h | 213 ++++++++++++++++++++++++++++--------------
+> > >  1 file changed, 142 insertions(+), 71 deletions(-)
+> > >
+> >
+> > Ping?
+>
+> Ping?
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Richard, is that you to pick up this series?
+
+Regards,
+Bin
 
