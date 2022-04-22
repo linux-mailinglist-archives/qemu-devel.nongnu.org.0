@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A29950B7EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:09:11 +0200 (CEST)
-Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DF050B895
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:34:59 +0200 (CEST)
+Received: from localhost ([::1]:38218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nht26-0002mj-4A
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49888)
+	id 1nhtR4-000343-FM
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhstr-0003c5-Sl
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:00:39 -0400
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:33792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhstp-0002zQ-QO
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:00:39 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-2f18982c255so84455067b3.1
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 06:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2MBoNFvDSFCz0OPUlLAfVWFdWzIplmkpD+ro6nn2vwI=;
- b=q4BpADRNTTQwpuq5uobx4a8mga5BMlcZIcNdPBD5qCdsK2FQhNXGCNdcbDoi8a397g
- Rcq4+7LvZIzrWA3UAqLtGLLjkaxUfFCJcMDeuqOvIhysFxNa+T/jkUo91rpycbq37Go/
- tXasdMjrTwNMTzk5WJ8pa05FSxziELK56C1bx6oM6XV2Tpy+abtarxVDSPatZBuQZHa5
- 3xiyjiF02WuEfTGiG6X0Z6VuEfTKMxQXUrBH2VHV+4WvxsTyUCdqQgRj2cNelQNAddO5
- jHKnn6FbCJuri2DOUkql+xfVhP3A7+koaf17/iacegO6HBG01Tgxakg1htH33MTgY2HB
- bXdQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nht2B-0005cg-8G
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:09:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47209)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nht27-0004zQ-Dg
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:09:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650632939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pmUXIiXwVBV6zKfVaNCfB6hgi3fvdo/HAGWwpKkUrqU=;
+ b=UES9OdKIM/CRIvt/JFxMALKnNWdJCuPp7dfaqjwn9pvGixt3Y46vEzg8XhlxVLW3U6eNCo
+ UqscGUqOnlhGFZQSf9AIcKK+B3UbgyCbUA8n30D+QzlO3/hTjnriTMWrLxmUwS7Qa1aeP+
+ 4DdPjYRwfZDyZE85hMZQ9svL7Dha8OQ=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-435-d-6teyxEN426UnM8MmUmEw-1; Fri, 22 Apr 2022 09:08:58 -0400
+X-MC-Unique: d-6teyxEN426UnM8MmUmEw-1
+Received: by mail-il1-f197.google.com with SMTP id
+ l13-20020a056e021c0d00b002cc38cb4554so4393597ilh.10
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 06:08:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2MBoNFvDSFCz0OPUlLAfVWFdWzIplmkpD+ro6nn2vwI=;
- b=GSWP1eW3ojIQChOvoCQw1XAWSyjsGDRQwXu0zWXSK3hClaV7G1bMIUXoYJFLsC98Cy
- vyalb5W6s60HcLzoDg2CuaWp10V1Rxi8jG/RyeOtLkQ+IunIJJ78xyCQ3bim+scDIZGi
- i0NKkmHty9lQLoLOy608m5KgMKNY0S39osTiDDoyBRL4vBqYSgOlJ7jeWWApzvhnulfo
- CDCEX1/aHsAqfHG/GaneqJE2VIu/+caWGkJPx+csBCec+Gqy9I6TsQlEjD0KINsSkx+q
- kHD8SVJnwfW1bhC0WJdSbAGxWOvb2iq/lG+IiFOyFM94MFuoYzfWACpqDiyVruQwJttj
- hj0w==
-X-Gm-Message-State: AOAM5323DzvgG5vZUyx3uZzWR5V8nNRKUKil1kK9wbE9pHZE9PJAdYOW
- gHEAdif5h8UEM3Gy0zkZE5sp/7VHb8WMo5CNSVMd5XED04I=
-X-Google-Smtp-Source: ABdhPJzvvRtFRv9kp1lhVkyGK91Yn/AL+gulMoMF7LI0qoYdMA+fV7HLm9G5/0XlfEYYFG9yom0l63ZdmAk72onTQo8=
-X-Received: by 2002:a81:4e11:0:b0:2f1:47a0:5972 with SMTP id
- c17-20020a814e11000000b002f147a05972mr4799042ywb.469.1650632433542; Fri, 22
- Apr 2022 06:00:33 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pmUXIiXwVBV6zKfVaNCfB6hgi3fvdo/HAGWwpKkUrqU=;
+ b=Cel70foZeR5G5CXv5j6JRpUdqbIzuLThSPtSTyT4CKQYBj/M3vn6GYakGjrBkC9GI3
+ mo04mxLiRKNZPi1arp0gKgczyehX8YUG/T0Iv/aqjOwGe0yFAAhlliVmGHMf/2yNSQG8
+ M8qkzjPXd2i/Sbz0vpY6/rrqq/UKQ9JLYBKc743+HBJcFiyk6dhZIaj/1v3rQ7YOBoBx
+ xNUcF0xKPnI6rEHxNX54KuO4nBg83E4NxoAxzobdFZk4EadVftNlq5LBGrMfjUw1tfnQ
+ 9DPAipPRr7/rWrR1PBT+1YstzWtIDEs/wXKPtnPisQsiQBHLf1npOcefFO00BiP60MOT
+ k/qA==
+X-Gm-Message-State: AOAM532jCYiWbagBhZINy0G0SK//S54xG740sRyCY00wj9hSyZ37sUsG
+ tH2CiCeql3SUlHxeEHDHkxuCVHmJIXzFVq6juGuO/PfCcOLJzqFkLmcGF6FUiWVWpaxhpLn7oGY
+ RyESEOSXC2hgnaWM=
+X-Received: by 2002:a05:6e02:1888:b0:2c8:713f:dcff with SMTP id
+ o8-20020a056e02188800b002c8713fdcffmr860861ilu.289.1650632937202; 
+ Fri, 22 Apr 2022 06:08:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMzpPe6N1OGj45El/9GOHe+AKoQfkpg3zGN9wnMJ7G/vVDCz9oKpb2bYEPU4GWLt7arMescQ==
+X-Received: by 2002:a05:6e02:1888:b0:2c8:713f:dcff with SMTP id
+ o8-20020a056e02188800b002c8713fdcffmr860842ilu.289.1650632936949; 
+ Fri, 22 Apr 2022 06:08:56 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ i3-20020a056602134300b0064620a85b6dsm1594581iov.12.2022.04.22.06.08.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 06:08:56 -0700 (PDT)
+Date: Fri, 22 Apr 2022 09:08:55 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH V2 3/4] intel-iommu: convert VTD_PE_GET_FPD_ERR() to be a
+ function
+Message-ID: <YmKo55ac4CKB23Ir@xz-m1.local>
+References: <20220321055429.10260-1-jasowang@redhat.com>
+ <20220321055429.10260-4-jasowang@redhat.com>
 MIME-Version: 1.0
-References: <20220421151735.31996-1-richard.henderson@linaro.org>
- <20220421151735.31996-58-richard.henderson@linaro.org>
-In-Reply-To: <20220421151735.31996-58-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Apr 2022 14:00:22 +0100
-Message-ID: <CAFEAcA_uNvsTNSRFH8-Z7PGQXCv0+kGsFhZNA8jmt=29S=yA1g@mail.gmail.com>
-Subject: Re: [PATCH v7 57/64] target/nios2: Advance pc when raising exceptions
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220321055429.10260-4-jasowang@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,27 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: yi.l.liu@intel.com, yi.y.sun@linux.intel.com, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Apr 2022 at 17:51, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The exception return address for nios2 is the instruction
-> after the one that was executing at the time of the exception.
->
-> We have so far implemented this by advancing the pc during the
-> process of raising the exception.  It is perhaps a little less
-> confusing to do this advance in the translator (and helpers)
-> when raising the exception in the first place, so that we may
-> more closely match kernel sources.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+On Mon, Mar 21, 2022 at 01:54:28PM +0800, Jason Wang wrote:
+> We used to have a macro for VTD_PE_GET_FPD_ERR() but it has an
+> internal goto which prevents it from being reused. This patch convert
+> that macro to a dedicated function and let the caller to decide what
+> to do (e.g using goto or not). This makes sure it can be re-used for
+> other function that requires fault reporting.
+> 
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-thanks
--- PMM
+-- 
+Peter Xu
+
 
