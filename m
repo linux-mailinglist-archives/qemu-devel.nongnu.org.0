@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B2150BDD5
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:03:17 +0200 (CEST)
-Received: from localhost ([::1]:41504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23AD50BE69
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:13:40 +0200 (CEST)
+Received: from localhost ([::1]:38520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhwge-0007gC-KD
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:03:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48626)
+	id 1nhwqh-0000sX-Rn
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:13:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwWr-0000tY-KT
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:53:09 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:34580)
+ id 1nhwWs-0000uC-MT
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:53:11 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:35497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwWq-0007Fw-0d
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:53:09 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id n8so12125556plh.1
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:53:07 -0700 (PDT)
+ id 1nhwWq-0007G6-Tv
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:53:10 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id b7so12100774plh.2
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4LG2ggGa5J5Lu4I1wse39Ww5a8efRD9iZexWoAzkdh0=;
- b=F3UQuPkY2JbZ1Ca4oT9tQ20ddOA3oFnx0tiB4QEb0rzE7iRC3+3KW5RKGjdiwmCgJO
- JX+JrvNsxkLpYKJHphMS5gxTfVmxu/XeDP/Isl4tUMnt+C0XddQTcfiC5xGOcJIVi2HU
- KCDKUtVGV82s7sWVhQdbYZpIl8JshhsmMTmuAEb1UQzkRM9MYJIxPUcnXZFIWpcLviXX
- 42c3skR8mn0mEA9kUFibWlrFkaPNhcm9w4st2yLAyBII+blpVLzRcaCOr7XbEa6n91m1
- tLvdaV1ffwab7u65jpxWYZ9UEmAaFz7d/34EOfOeEToxPnGlC1xwR45FcI7db850xnEF
- R73w==
+ bh=oxknAb8WZp8/c3OBXmugT+dPS7TU38e5j5a7fcIuSm4=;
+ b=IoymGMkaQHLkEE9DJgGqrb/WVJDXocJ8mKxYjwS/N/Ao2cu+rc8QbywJ+On1zN4UbS
+ roaVfdnVLYN7Aoz4t5rvFSfS47WqgVZ5j7kGPabNiWt9EYNR0oWcp9FjQy48pu6xAXbF
+ k3ynDJLCmhCYp/aZ/mAg3Pwt2v7xsPrnymh/TeVXHgW0dt7FuSGhFVIsdP2Ck5Y/GofY
+ GoikMdeFmI99Q+1jvGlyK886MHAwJDF85VB6FwitXITxt7QJizGSzhwicyG9TUfVo6mw
+ N/ddwhrnxJFQMBgA+fKZCNAl9C0aY8ek5JeV1wnYSc+eZ6oecjpoohkE7eNbPajO/hQc
+ yQaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4LG2ggGa5J5Lu4I1wse39Ww5a8efRD9iZexWoAzkdh0=;
- b=agSmjemrnQQZbX5aZfJlm2AEaCcsCkRI34yDsjoe56hrmKg/4f5ojZfcckXEBsclSl
- xP+rHrZqZ5TIL/9v7Cq2Me6jCH8v1A7f0J6v+HoOtKQpI3V3CxWx+kARxHx4+2CUfSj4
- CRBzGM2pisZmLjA7EKIEjMNETBbimKzh6WemhMXCzxrQgLfN1RAWb6oGg5Eljfe301eq
- VR8cKlbT3DyJwpELWqDyMU0iNYTDuUd39ntrpoEfbKpqxQ6nFTPK4/NZNA9c7JAg9kE0
- JIhcJYJDWptjP3OXrqrExut6rFDPOs6XDzAj9rfFq8LDETh6mo+/A2GmvpJvLx+ZmLjk
- LUWw==
-X-Gm-Message-State: AOAM532PjtrZwrBK2EOVr0t4yBVkPoyBBJMDbH8snsPnpazEnpDyqC/c
- J3hHkjWDd5ZbmnKU1qvYnUgkwOp6wgasuMlu
-X-Google-Smtp-Source: ABdhPJx6EPNDwP3eeE4cNJZvbyrAv7iW60q3PTCoD+r97Q+ASnVj/ER+O9tO+7o3FDncodCMDptErQ==
-X-Received: by 2002:a17:902:ce86:b0:159:90f:c5de with SMTP id
- f6-20020a170902ce8600b00159090fc5demr5421714plg.52.1650646385854; 
- Fri, 22 Apr 2022 09:53:05 -0700 (PDT)
+ bh=oxknAb8WZp8/c3OBXmugT+dPS7TU38e5j5a7fcIuSm4=;
+ b=GQrN0h9wfTbx7e1NO3DS45VEBvNk+B/ozZoH0gWyBcRZuXorOcNrVXe2bjIMG2Ck3E
+ JSX+Cxu0sHQYcUglRffd5xm7nUCdrsMHo1u+Xyf1km9vOyl4juTl9ij1YvV7F+tK3YTj
+ bj6D4kNwEjxHxdb8zNGQ0zuvAHs5kkwngBsB7iJXc1b34y3ZP6Vpmrql99u6ja55f/KB
+ qR42eLisrCj/03ht+rAJhOKvr/ekOW9yME66wANgkgc9NoaRjw5G6G9iZdBVG9n2CT3s
+ Utwbbl7HZFLzLFXZFho75qyBRO+EGeE66P4LOzEdXq1Dy83DemSLotrVGnDXWjhJwbsj
+ suGA==
+X-Gm-Message-State: AOAM531ldf2FVzCS9hfiKQ1D2zoYsi9n/LAA4wpsHIKdEg9AS+nsvJPY
+ yBizWDk8v54VZv1w0nywecbCrhvCHplNFngm
+X-Google-Smtp-Source: ABdhPJzVnHWWKCxYz8GzBr7PECnKswcjN05aYvRw+sjH0LQCVRw61y/EZqsmwszJP7xPBzQcFpobYQ==
+X-Received: by 2002:a17:902:8304:b0:155:d594:5c04 with SMTP id
+ bd4-20020a170902830400b00155d5945c04mr5286451plb.105.1650646387729; 
+ Fri, 22 Apr 2022 09:53:07 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
  by smtp.gmail.com with ESMTPSA id
- 6-20020a17090a030600b001cd4989ff5fsm6835904pje.38.2022.04.22.09.53.04
+ 6-20020a17090a030600b001cd4989ff5fsm6835904pje.38.2022.04.22.09.53.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 09:53:05 -0700 (PDT)
+ Fri, 22 Apr 2022 09:53:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 14/68] target/nios2: Stop generating code if
- gen_check_supervisor fails
-Date: Fri, 22 Apr 2022 09:51:44 -0700
-Message-Id: <20220422165238.1971496-15-richard.henderson@linaro.org>
+Subject: [PATCH v8 15/68] target/nios2: Add NUM_GP_REGS and NUM_CP_REGS
+Date: Fri, 22 Apr 2022 09:51:45 -0700
+Message-Id: <20220422165238.1971496-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
 References: <20220422165238.1971496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,80 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Amir Gonnen <amir.gonnen@neuroblade.ai>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Whether the cpu is in user-mode or not is something that we
-know at translation-time.  We do not need to generate code
-after having raised an exception.
+From: Amir Gonnen <amir.gonnen@neuroblade.ai>
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Split NUM_CORE_REGS into components that can be used elsewhere.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Message-Id: <20220303153906.2024748-3-amir.gonnen@neuroblade.ai>
+[rth: Split out of a larger patch for shadow register sets.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-15-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-16-richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ target/nios2/cpu.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index eb97e13feb..d61e349207 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -169,12 +169,14 @@ static void gen_excp(DisasContext *dc, uint32_t code, uint32_t flags)
-     t_gen_helper_raise_exception(dc, flags);
- }
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 3198c17213..09dc38a4e7 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -56,9 +56,11 @@ struct Nios2CPUClass {
+ #define EXCEPTION_ADDRESS     0x00000004
+ #define FAST_TLB_MISS_ADDRESS 0x00000008
  
--static void gen_check_supervisor(DisasContext *dc)
-+static bool gen_check_supervisor(DisasContext *dc)
- {
-     if (dc->base.tb->flags & CR_STATUS_U) {
-         /* CPU in user mode, privileged instruction called, stop. */
-         t_gen_helper_raise_exception(dc, EXCP_SUPERI);
-+        return false;
-     }
-+    return true;
- }
++#define NUM_GP_REGS 32
++#define NUM_CR_REGS 32
  
- /*
-@@ -384,7 +386,9 @@ static const Nios2Instruction i_type_instructions[] = {
-  */
- static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
- {
--    gen_check_supervisor(dc);
-+    if (!gen_check_supervisor(dc)) {
-+        return;
-+    }
+ /* GP regs + CR regs + PC */
+-#define NUM_CORE_REGS (32 + 32 + 1)
++#define NUM_CORE_REGS (NUM_GP_REGS + NUM_CR_REGS + 1)
  
-     tcg_gen_mov_tl(cpu_R[CR_STATUS], cpu_R[CR_ESTATUS]);
-     tcg_gen_mov_tl(cpu_R[R_PC], cpu_R[R_EA]);
-@@ -447,7 +451,9 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     R_TYPE(instr, code);
+ /* General purpose register aliases */
+ #define R_ZERO   0
+@@ -79,7 +81,7 @@ struct Nios2CPUClass {
+ #define R_RA     31
  
--    gen_check_supervisor(dc);
-+    if (!gen_check_supervisor(dc)) {
-+        return;
-+    }
- 
-     if (unlikely(instr.c == R_ZERO)) {
-         return;
-@@ -474,9 +480,13 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
- /* ctlN <- rA */
- static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
- {
--    gen_check_supervisor(dc);
-+    if (!gen_check_supervisor(dc)) {
-+        return;
-+    }
- 
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_USER_ONLY
-+    g_assert_not_reached();
-+#else
-     R_TYPE(instr, code);
-     TCGv v = load_gpr(dc, instr.a);
- 
+ /* Control register aliases */
+-#define CR_BASE  32
++#define CR_BASE  NUM_GP_REGS
+ #define CR_STATUS    (CR_BASE + 0)
+ #define   CR_STATUS_PIE  (1 << 0)
+ #define   CR_STATUS_U    (1 << 1)
 -- 
 2.34.1
 
