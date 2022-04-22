@@ -2,131 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A51F50BB33
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 17:07:30 +0200 (CEST)
-Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1B650BB37
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 17:07:49 +0200 (CEST)
+Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhusb-00039h-Ab
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 11:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56782)
+	id 1nhusu-0004rJ-J4
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 11:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1nhuoj-0001Ka-Tg
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:03:31 -0400
-Received: from mail-co1nam11on2071.outbound.protection.outlook.com
- ([40.107.220.71]:58337 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nhupG-0001mq-8r
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:04:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1nhuof-0008Se-E0
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:03:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=adZ6PTeNTudB6MKaVL13RdO+AfpzaLe4oImv/rn/AX9abwP6EDSxjSM+4PDk8ZZ6p7f4syk50asHFXAWu+n4dvMCQYygaXshF9trtVfAxm3hqKdwyMGZd9F3Rqlb7IWfgmAZVsMhG/itT6iyH8GnGhrM8NVQfPwFjrGnFOq2zN3VXEPXl0Qq9J59vUU0GrK/KTVK7xUxCYPduxKA9yuJ53kOPfufdX2qBNF0EeNRzWy7pyuERQ9bUiLGhuYUFwPnpixNOdsO3zIqf3Aqrn1gm/2ZArdfUuGibRk0uwVc8yH2WEp8Ns/mWDE0SlWRbAyewEyqul6ghVXpS9gYWQgfqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=odCHW/QP+xcTSSUWx82WdK7nbkbWFKUDGy404sz3WV4=;
- b=nHvtENzuIbtd/kBTTdeCytEq3BW4FaV+6RpQkxMcP6XCmGnfXfENMOlz6bfNMH1Geu7ZahG5Jn3wsit1XjS56Bf0tTvXaZ46L7dI/UVgmV8UXvQJuy2pejDIuZ4DJ+T5n54/atVXylpruCDDa8lmhqry/P4+6yjdedbKssh+NObaxyUfidkApszrYyHxIhsvxsimFO+UW99X8ekb9d2kdFkt9IQCPIY3cZVj7ucNXfVbYuflRId6wf2JDOIv1RWpzi0E9+Xmgd+NYJ9V+RfZs1Du+FKTvuYC6PSkwbKcZJ1e2IGp9/G4QgfTlFmuJwmU0cJHm9OVJVSn7MniqkKBJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=odCHW/QP+xcTSSUWx82WdK7nbkbWFKUDGy404sz3WV4=;
- b=W5TmaBbzmZLRQYU2ZfTkI3udrY8ql0nAwAhwlSKyzzNaOZEwlBE682dE4OQRYMbZVIrUztsb4eeU7wmc1/aCT2T5zHCpcEITaaOsesHu02OrF/mO6GUdg0weRbC0WVkrlvhr3PR8/YrPP2+/f0bzEip7czu8B0I/eOovpIwSAN6NJ4h1Bx0T5Ch691kJFDa7z4YnC5FgH1VbMNkHKEzgvJe4okNTbVS7yCQTYqlQS8qIDudqjbbGvIcAcMDTV+VwIVtdupD1AWqmNhwrYIh3SHc4b6AWrD471VAiz5Q6GxxhNuqU4i1XF07UIllYKQBM/uRI8eguSfraGpYkwI/uLQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by BY5PR12MB4919.namprd12.prod.outlook.com (2603:10b6:a03:1d6::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13; Fri, 22 Apr
- 2022 14:58:17 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5186.015; Fri, 22 Apr 2022
- 14:58:17 +0000
-Date: Fri, 22 Apr 2022 11:58:15 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Yi Liu <yi.l.liu@intel.com>
-Cc: alex.williamson@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au, thuth@redhat.com, farman@linux.ibm.com,
- mjrosato@linux.ibm.com, akrowiak@linux.ibm.com, pasic@linux.ibm.com,
- jjherne@linux.ibm.com, jasowang@redhat.com, kvm@vger.kernel.org,
- nicolinc@nvidia.com, eric.auger@redhat.com,
- eric.auger.pro@gmail.com, kevin.tian@intel.com,
- chao.p.peng@intel.com, yi.y.sun@intel.com, peterx@redhat.com
-Subject: Re: [RFC 15/18] vfio/iommufd: Implement iommufd backend
-Message-ID: <20220422145815.GK2120790@nvidia.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <20220414104710.28534-16-yi.l.liu@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220414104710.28534-16-yi.l.liu@intel.com>
-X-ClientProxiedBy: BLAP220CA0024.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:32c::29) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nhupB-0008VW-Cj
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:04:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650639836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PVLCG+kf2qyF37t0fi9BB5xYYsocEvjVUcHq6sllP9c=;
+ b=LFGR2Sakbdwbld2hUw3abI1Ow3TV+8fGFdtirIXqgYw2DSpUj8Qq/aDasrM8PS3TcGxguv
+ aWMfdVxz41Sn2KSQQe3dzyK+AplzeBDxKhkft/el2e1VFcFO2d3mOn0s9eqPpWiALguKpK
+ T/kRp5KoDOY6RUNUc7bhE40nS3o6zjc=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-487-F0hLM4t2OmqiCwznAzNUGg-1; Fri, 22 Apr 2022 11:03:54 -0400
+X-MC-Unique: F0hLM4t2OmqiCwznAzNUGg-1
+Received: by mail-io1-f72.google.com with SMTP id
+ c25-20020a5d9399000000b00652e2b23358so5561858iol.6
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 08:03:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PVLCG+kf2qyF37t0fi9BB5xYYsocEvjVUcHq6sllP9c=;
+ b=OpqqsJ0ZWY8TwX4bIrhDSFYJlVmqz6L5M2vWdU8t6qZt7dF9s0qExcdPtZG5R2qF13
+ U+SuMHZ0cNXPtxATcbg05nr7DECzY/9Hjc/KIxRxchHjvmG2TOTzu3+fySJ0fwticUGv
+ ttd2A3Q0Uu8enAPeG2jgvOx84OHma/ddo0Y3a+7F8xdtu7vEfFW7Cgd8KMC/MWs7PDH4
+ 40V3sD8Esv7FGegG986Yf8icPj7I8LeSUcKFaYIt+Is6qqpweA6MPOY1kna8HFQaLpZn
+ w9nxAGGA4QZXxRL8jUVdEEknkkKWNM5Pcv3yco1xJj38sQzRYY//kTjj9gisEnX+iPtf
+ 84/A==
+X-Gm-Message-State: AOAM533bQILA8DcNr6lDmDX+tdg2WWw0iR5RC53eiRozSpKIG84n0X1m
+ ZccZqt6UOZBo9O9pPaFdKcLVpuSJw39jMwQ4fbSInOkYc01DouHv3ixm3CRCTjW40ZrgX7NEQGR
+ AabZyEHYIl7T3ENY=
+X-Received: by 2002:a05:6602:2a42:b0:652:8e2d:e4b7 with SMTP id
+ k2-20020a0566022a4200b006528e2de4b7mr1465076iov.142.1650639833756; 
+ Fri, 22 Apr 2022 08:03:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyVwTR+h5YGCUYxX95hStL5v0t4jC8GRP8VTDOA5uwx6qoTgbhk9xcxvvYHbZAP4587GXeBHw==
+X-Received: by 2002:a05:6602:2a42:b0:652:8e2d:e4b7 with SMTP id
+ k2-20020a0566022a4200b006528e2de4b7mr1465042iov.142.1650639833177; 
+ Fri, 22 Apr 2022 08:03:53 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ 131-20020a6b0189000000b0065393383518sm1779653iob.48.2022.04.22.08.03.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 08:03:52 -0700 (PDT)
+Date: Fri, 22 Apr 2022 11:03:51 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [PATCH V2 4/4] intel-iommu: PASID support
+Message-ID: <YmLD12KqzgVDih1O@xz-m1.local>
+References: <20220321055429.10260-1-jasowang@redhat.com>
+ <20220321055429.10260-5-jasowang@redhat.com>
+ <BN9PR11MB52762D1CDE8F5417370762CE8C199@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <CACGkMEtr5byTaRFQT-ut6=ziyOTKBgne_Xa2qu4Nu9Z7sDDmBg@mail.gmail.com>
+ <BN9PR11MB52767EA8BF5EA39488D149408C1D9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <CACGkMEtCAra8SbubYbqMVO8E6MUwNUaJLM5bVJ32rA31uemVAA@mail.gmail.com>
+ <BN9PR11MB52765ACF64CE589365DD7F778C1F9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <CACGkMEsFd=tzta103cOyhyRvhHWKvLrTwttGwAh+GPBrxNYTiw@mail.gmail.com>
+ <BL1PR11MB5271E349257909AB5754E7A78CE39@BL1PR11MB5271.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 40431e0f-1ee1-4aeb-ca2a-08da24708878
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4919:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB49191A0A9F9E51CEA06F4DA0C2F79@BY5PR12MB4919.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N0uM+/9+QUkKCCWbsZRu/HJ0YcBCdLeifVAeqlLJi2w73sknx4ARXGeq7YV7oq4WJsW1gIVbTjXIWdPjFkmkIfQd3CzBDMTKV2WtVJGhOv2yybdlVH7SmoYuWzDYv6UJpj1TMFU2Pm+h+7Xki6CixrnYwZtrh/A9YH4IT5EJHD8H5xGszDx6wgw4GkEP5q3I9ShqYe1mHH/NsMMprTIb94ujOeIO8FE5rdWsgwC5ymKav/aA5PXqj7EPk6pdx6Iy4DQPfCvlW+J7Hh/Dpy92T2gVPJ4lV7Bfy7fTJogp2B5RjQvHmI7fD9bNJPkPqdyimhzrI5bxwsPCNpqvaTox6GtAiiL4qqQemQiwVpVqY3UmsNuurEAubo2R5M0kJsF6XpoxNYUw3Lef1wI6ciQbnGW6ZsS3vOcWKd5O+QsLpD2Z02u+ssm+iXSTV5HPE+NTGT8uClR1z8toa4omcOq2d7zQ2WBdAhXmwHhyNxA6Z5AFItHzkzP+QHcBCxjJ7x8kOL7axvXTExZh6k0xx+TMbE+sCI4/QraqXW0OgB/5IGTvDaQv3EMXZnSZ4gyx/gsz6qkPICv+NZXJus2P/BHuinfuP2958wksITjFtd+BFz6F1aF0dU/XU1eub8hC7KGXuBG+Y6pwOu5SJfuIv57C4w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(8936002)(38100700002)(2906002)(7416002)(6512007)(26005)(1076003)(186003)(6506007)(6486002)(508600001)(66556008)(66476007)(6916009)(2616005)(4326008)(66946007)(8676002)(316002)(83380400001)(86362001)(33656002)(36756003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6ZcdYb4C1fm+B3eeR31FQuYE9opfqi8QVz7eYcnJWjdszIlFGmBfM2EuHh/E?=
- =?us-ascii?Q?IabLcXVoFpODw25iOej6AFA03Z1pkFn0AF9/FzFtC1ls6fsmZMWwWaYaHAud?=
- =?us-ascii?Q?/OyB5VWb3v1qPD/gCFPAU2uoqgyxTUB5jiH2sRdKWwhdcz693AQweksrdSn4?=
- =?us-ascii?Q?E4P+mBwk13p6rt7eZBHHCFicRzuxBru98f1ao3Nf2vSEFdBCnaTc1zuZrOUg?=
- =?us-ascii?Q?Rz2HPKDEEmX/7SZfAVmNcEM7UlAv0cGllADf7U/2/fDCIu9wcRjbEbLSpvjg?=
- =?us-ascii?Q?E5WZi0TqqWs7/4urEWi3MHGryG2BgArqmfuedkjg9JY2ZejJUXXNuO0Vodd2?=
- =?us-ascii?Q?1AWj4wpDenAuoPW4JXbtrrABvjdV6XPHl7iItgBt4fzkqucCK2+NO79Yvy7j?=
- =?us-ascii?Q?19hE6ErbTNZyj3Djfs/L1ODgrmdRby8zngI+k5x+q89/byrOOP+Th4JJn47P?=
- =?us-ascii?Q?5GPPu2hTf43/200uc77fW1AUAeM6IEdHaeWBv+iXN0sYpjV1AtZpv6ZBFhye?=
- =?us-ascii?Q?kPc/0yS7hBNYKbtQVme/fLvIsKCAAh4xRFcNRIiIeapgtOC/12nOtQhubGnJ?=
- =?us-ascii?Q?5zwEpzhhqmLj4biUdKr6uF+3IDTwRH/iHfRjkFg8hylNisQ87B7VzXvNmP86?=
- =?us-ascii?Q?ViALe9KMytoqmfE5ogrHqmpH2UdVhS7ApUZ2dlS8TelWsagY9YxDSOe7hy61?=
- =?us-ascii?Q?5WYxggGhhfc/FohInR+WXR3czmcxXO65q01tugaMaI2ocSjLHEue/OtSIVca?=
- =?us-ascii?Q?Ndn8PDoP75UlXpHLRKjntXLd4nEqzoD7+czqk6rXed2ZSZvpVAPPZCKGDTPJ?=
- =?us-ascii?Q?g7fOIOaVbhH+MZeNqWz0mzB5kv2s043wEIrTq4og93Wvdp+BGhwC8++R3P+R?=
- =?us-ascii?Q?zgt7VT6ON2jeKup5ZWFv3ulKq13XMTh3smhJ22KlOOFKSUTWsJa1z6/aTkel?=
- =?us-ascii?Q?0siFpEgY7BKc8vBumsipiq7mGimkvG0ge+Zs3xk2Ugq3DX2gy0InQds5yr7H?=
- =?us-ascii?Q?KS6B1frwcoLSVUlVAw7DNJdrroddCAOAD/t1tx03TdovasjLl+vNxtvSJHCR?=
- =?us-ascii?Q?4egQFft6wTn/eE+/yj69Z1l+NtTSvbocw7w4D+W2xmWs29gEKYt5BvLnkxju?=
- =?us-ascii?Q?vEeXgEdg97f5i3t5QCQ0TCrDNuWQ+zwdTvCQ3xGjaebTeQOoVEAUh9DywnGu?=
- =?us-ascii?Q?cqG94gKxIrnA6lqgfPT+yRYzzhtcFX1RI1LLVrJuYxAIFJDWPEN/cUjtHitl?=
- =?us-ascii?Q?kP27NLZdKHEf+6TJYlCxFxKJ3DtP73KZAAbN1b360U6pQ4cdanr3wBQE2u2c?=
- =?us-ascii?Q?FNUU0Pky3TvbTcWI8lQMCSlPhha6HomkkhP7w6rlXZ1QQco0kkpTx/CAbTXD?=
- =?us-ascii?Q?g28nl2ojh6Kt/GGPDxVWvxuFP53zicg88ziVGJ68wznEr/+8X50pgozoOjPP?=
- =?us-ascii?Q?wi+eLx7andZ4+W4bkpeRXqDU/vVgjAD55Zl7eVN2A+B2LYNTGL+tDQBgRIBX?=
- =?us-ascii?Q?ejFJqi+/Kc/1FTd/oB3Ol2/8+p14Fd13ZVJ42zcjbo6GbABKlC7A4f9f1nnE?=
- =?us-ascii?Q?DwSBgsZdIfttDqLbuUGLZqcbHYFGJQroDjMo5desV9xW9NYW1+dRGdiKHLc5?=
- =?us-ascii?Q?I1423Gn7otIZYC5KSa1fnxLutYbMh/rtad2x3pb4Bv78qn96aE0w0NCIWuMS?=
- =?us-ascii?Q?xSXnPc+fwAC9t1tyTzCUThr8T5jBbBVWhdwuXsWoxqCX35m5ok8KtXOOLWe8?=
- =?us-ascii?Q?RxpL0A3HVg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40431e0f-1ee1-4aeb-ca2a-08da24708878
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2022 14:58:17.3244 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AYFkFZUIKqg1J4OY1HYedbTgivUnYBOMrKZPesoi7SwXYcW2hpjjWOR1VKEZ8gE9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4919
-Received-SPF: softfail client-ip=40.107.220.71; envelope-from=jgg@nvidia.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <BL1PR11MB5271E349257909AB5754E7A78CE39@BL1PR11MB5271.namprd11.prod.outlook.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -139,137 +100,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "yi.y.sun@linux.intel.com" <yi.y.sun@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 14, 2022 at 03:47:07AM -0700, Yi Liu wrote:
+On Sat, Apr 02, 2022 at 07:27:15AM +0000, Tian, Kevin wrote:
+> > > > > Earlier when Yi proposed Qemu changes for guest SVA [1] he aimed for
+> > a
+> > > > > coarse-grained knob design:
+> > > > > --
+> > > > >   Intel VT-d 3.0 introduces scalable mode, and it has a bunch of
+> > capabilities
+> > > > >   related to scalable mode translation, thus there are multiple
+> > combinations.
+> > > > >   While this vIOMMU implementation wants simplify it for user by
+> > providing
+> > > > >   typical combinations. User could config it by "x-scalable-mode" option.
+> > > > The
+> > > > >   usage is as below:
+> > > > >     "-device intel-iommu,x-scalable-mode=["legacy"|"modern"]"
+> > > > >
+> > > > >     - "legacy": gives support for SL page table
+> > > > >     - "modern": gives support for FL page table, pasid, virtual command
+> > > > >     -  if not configured, means no scalable mode support, if not proper
+> > > > >        configured, will throw error
+> > > > > --
+> > > > >
+> > > > > Which way do you prefer to?
+> > > > >
+> > > > > [1] https://lists.gnu.org/archive/html/qemu-devel/2020-
+> > 02/msg02805.html
+> > > >
+> > > > My understanding is that, if we want to deploy Qemu in a production
+> > > > environment, we can't use the "x-" prefix. We need a full
+> > > > implementation of each cap.
+> > > >
+> > > > E.g
+> > > > -device intel-iommu,first-level=on,scalable-mode=on etc.
+> > > >
+> > >
+> > > You meant each cap will get a separate control option?
+> > >
+> > > But that way requires the management stack or admin to have deep
+> > > knowledge about how combinations of different capabilities work, e.g.
+> > > if just turning on scalable mode w/o first-level cannot support vSVA
+> > > on assigned devices. Is this a common practice when defining Qemu
+> > > parameters?
+> > 
+> > We can have a safe and good default value for each cap. E.g
+> > 
+> > In qemu 8.0 we think scalable is mature, we can make scalable to be
+> > enabled by default
+> > in qemu 8.1 we think first-level is mature, we can make first level to
+> > be enabled by default.
+> > 
+> 
+> OK, that is a workable way.
 
-> +static int vfio_get_devicefd(const char *sysfs_path, Error **errp)
-> +{
-> +    long int vfio_id = -1, ret = -ENOTTY;
-> +    char *path, *tmp = NULL;
-> +    DIR *dir;
-> +    struct dirent *dent;
-> +    struct stat st;
-> +    gchar *contents;
-> +    gsize length;
-> +    int major, minor;
-> +    dev_t vfio_devt;
-> +
-> +    path = g_strdup_printf("%s/vfio-device", sysfs_path);
-> +    if (stat(path, &st) < 0) {
-> +        error_setg_errno(errp, errno, "no such host device");
-> +        goto out;
-> +    }
-> +
-> +    dir = opendir(path);
-> +    if (!dir) {
-> +        error_setg_errno(errp, errno, "couldn't open dirrectory %s", path);
-> +        goto out;
-> +    }
-> +
-> +    while ((dent = readdir(dir))) {
-> +        const char *end_name;
-> +
-> +        if (!strncmp(dent->d_name, "vfio", 4)) {
-> +            ret = qemu_strtol(dent->d_name + 4, &end_name, 10, &vfio_id);
-> +            if (ret) {
-> +                error_setg(errp, "suspicious vfio* file in %s", path);
-> +                goto out;
-> +            }
+Sorry again for a very late comment, I think I agree with both of you. :-)
 
-Userspace shouldn't explode if there are different files here down the
-road. Just search for the first match of vfio\d+ and there is no need
-to parse out the vfio_id from the string. Only fail if no match is
-found.
+For debugging purpose parameters like pasid-mode, I'd suggest we make the
+default value to be always depend on the parmaeters that we'll expose to
+the user at last always with the coarse-grained way.
 
-> +    tmp = g_strdup_printf("/dev/vfio/devices/vfio%ld", vfio_id);
-> +    if (stat(tmp, &st) < 0) {
-> +        error_setg_errno(errp, errno, "no such vfio device");
-> +        goto out;
-> +    }
+Assuming that's scalable-mode to be exported by plan (which sounds
+reasonable), then we by default have pasid mode on if scalable-mode is
+modern, otherwise off.  IMHO we don't even need to bother with turning it
+on/off in machine types since we don't even declare these debugging
+parameters supported, do we? :)
 
-And simply pass the string directly here, no need to parse out
-vfio_id.
+But these debugging parameters could be useful for debugging and triaging
+for sure, keeping them always prefixed with x-.  So it makes sense to have
+them when we're making intermediate steps for the whole building.
 
-I also suggest falling back to using "/dev/char/%u:%u" if the above
-does not exist which prevents "vfio/devices/vfio" from turning into
-ABI.
+Then at some point all things stable we export scalable-mode to replace
+x-scalable-mode, with an initial versioning alongside (and it doesn't need
+to be started with vt-d 3.0, maybe rev3.3 or even later).
 
-It would be a good idea to make a general open_cdev function that does
-all this work once the sysfs is found and cdev read out of it, all the
-other vfio places can use it too.
+How's that sound?
 
-> +static int iommufd_attach_device(VFIODevice *vbasedev, AddressSpace *as,
-> +                                 Error **errp)
-> +{
-> +    VFIOContainer *bcontainer;
-> +    VFIOIOMMUFDContainer *container;
-> +    VFIOAddressSpace *space;
-> +    struct vfio_device_info dev_info = { .argsz = sizeof(dev_info) };
-> +    int ret, devfd, iommufd;
-> +    uint32_t ioas_id;
-> +    Error *err = NULL;
-> +
-> +    devfd = vfio_get_devicefd(vbasedev->sysfsdev, errp);
-> +    if (devfd < 0) {
-> +        return devfd;
-> +    }
-> +    vbasedev->fd = devfd;
-> +
-> +    space = vfio_get_address_space(as);
-> +
-> +    /* try to attach to an existing container in this space */
-> +    QLIST_FOREACH(bcontainer, &space->containers, next) {
-> +        if (!object_dynamic_cast(OBJECT(bcontainer),
-> +                                 TYPE_VFIO_IOMMUFD_CONTAINER)) {
-> +            continue;
-> +        }
-> +        container = container_of(bcontainer, VFIOIOMMUFDContainer, obj);
-> +        if (vfio_device_attach_container(vbasedev, container, &err)) {
-> +            const char *msg = error_get_pretty(err);
-> +
-> +            trace_vfio_iommufd_fail_attach_existing_container(msg);
-> +            error_free(err);
-> +            err = NULL;
-> +        } else {
-> +            ret = vfio_ram_block_discard_disable(true);
-> +            if (ret) {
-> +                vfio_device_detach_container(vbasedev, container, &err);
-> +                error_propagate(errp, err);
-> +                vfio_put_address_space(space);
-> +                close(vbasedev->fd);
-> +                error_prepend(errp,
-> +                              "Cannot set discarding of RAM broken (%d)", ret);
-> +                return ret;
-> +            }
-> +            goto out;
-> +        }
-> +    }
+Thanks,
 
-?? this logic shouldn't be necessary, a single ioas always supports
-all devices, userspace should never need to juggle multiple ioas's
-unless it wants to have different address maps.
+-- 
+Peter Xu
 
-Something I would like to see confirmed here in qemu is that qemu can
-track the hw pagetable id for each device it binds because we will
-need that later to do dirty tracking and other things.
-
-> +    /*
-> +     * TODO: for now iommufd BE is on par with vfio iommu type1, so it's
-> +     * fine to add the whole range as window. For SPAPR, below code
-> +     * should be updated.
-> +     */
-> +    vfio_host_win_add(bcontainer, 0, (hwaddr)-1, 4096);
-
-? Not sure what this is, but I don't expect any changes for SPAPR
-someday IOMMU_IOAS_IOVA_RANGES should be able to accurately report its
-configuration.
-
-I don't see IOMMU_IOAS_IOVA_RANGES called at all, that seems like a
-problem..
-
-(and note that IOVA_RANGES changes with every device attached to the IOAS)
-
-Jason
 
