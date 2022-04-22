@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D1650B5F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:12:30 +0200 (CEST)
-Received: from localhost ([::1]:49660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52BA150B5CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:59:42 +0200 (CEST)
+Received: from localhost ([::1]:60532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhrDB-0004lv-PZ
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:12:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59238)
+	id 1nhr0n-0006fG-DB
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAK-0005aL-CD
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:30 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34772)
+ id 1nhqAG-0005UH-RT
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:25 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAI-0002wQ-PX
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:28 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id c10so10337081wrb.1
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:26 -0700 (PDT)
+ id 1nhqAF-0002uS-38
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:24 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id w4so10279489wrg.12
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/Wc2molG4qiAr3BjeYuq/HUxjFtE+KVmYa08eBlI6Z4=;
- b=b35r+kZOGY1qAIN7AHze5z2zuAAtqsN4RtOBlCxZKZ+H2uH4eG+vjGPBgKjM+rfNTq
- 49LiT/KH3aCsVNwAm6kCTDyg/uHx11sA321xrFUI9XzjnWqJJqEKGytdEgQceXnbDpny
- lbAK+cEmhX49roo/sxcWKyMlDONFSFvBFf2bWgU+pt+PpCpYyB3LfQQh1zCposvPyB7V
- GcNQIJc67aSz+m0rXGdBvuBe6H2NNkB4+AsovEQjU/fFFro8p2ThFkjVz/aCa6676doV
- XRJByj1rj5Bn5luFy/uvV+iFMIbRKQwhHdlpVhiAiJGiJJDoxjoIVtutJgZ9Ke8RJPmG
- UJrg==
+ bh=HIzaTyax7/dChL1AhyXtTDs+LrJvN7HbLgBA7vTKI7g=;
+ b=viCv7oilKeYVF3fhng/AiCWzKd1ICm4GTvOxTq3pEWT7+fBHYUtPcAiwRQzjKOwv1V
+ r/3ihHxwgJ7RPTRh9vpUvie807bFEs8anub7F9HFPry036QQvCIRAyWcPMmKw21uZSka
+ mChaERItIPwMxKpU3n7PLLuOD6eCxw28jeWu/kL3dVVpE4SdcnTB6WI7XbTcrXI9OvFE
+ 9joRl73CbwxBG894jP/wBWC4ghjsmt2+8E8vSxiJq7QdIXndHxd0fQcJ4pI3fBFicgYG
+ A+iXOzttlRdlYo1lUUBtCYKv0Opihak/xdJMsNm9RHAnx/FnJ+XqRD24LyUmek8T3L+m
+ GOZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/Wc2molG4qiAr3BjeYuq/HUxjFtE+KVmYa08eBlI6Z4=;
- b=jIdfxx9PH+cC+IB/n65Hj6G/NLvrtGC6ds58DI75IJao7jhn+RaW+ZeKvEY4f4sHQD
- ojQCwtzYaS8Rrxu0dUjB70V/t3OTwMz9zT3P/M9HQMqWtqF5z/82jZkLmwHqpMwLbj/S
- DRSsrz9bYrrISlfxDWrCS1f4UlQ9iXfRir5cSlEZU47fDKZ0BzKWSJ6u2e4+HEKjEd5R
- 1Iso/Dvo3MfF4ukUOGFpI7fiDjQZRCnSj+uDua1wCj3oXmKYtc6/Gmhsx0dbTehaLfpT
- 9JUSlaZ5vSYtNGnnFgXTzxk5PXXKUWeNIv6J9sRLA7ylJeoZ1l8MCfUxDhZZ2yw26ewv
- LOhQ==
-X-Gm-Message-State: AOAM531JMo9ItgIMh241ZM6pbwVFqaBivQgOcf41/lWXEqV7lDi3ASrY
- qXo6jFrlNjq9ins+NOhakLV33WY65UbKKg==
-X-Google-Smtp-Source: ABdhPJwiaKMvMAUa+Rw2dz/Y1DpnTBugJUjEE8jARF8aFpCl9j82AJnCYl11GhM/HI0n/qteSoekxg==
-X-Received: by 2002:a05:6000:1809:b0:20a:cafc:fd39 with SMTP id
- m9-20020a056000180900b0020acafcfd39mr1443525wrh.255.1650621920369; 
- Fri, 22 Apr 2022 03:05:20 -0700 (PDT)
+ bh=HIzaTyax7/dChL1AhyXtTDs+LrJvN7HbLgBA7vTKI7g=;
+ b=hHFpX54YoYQD8QVup1MJu04kl4zZSLH2IBhvI6CXajU/tCEJklZpzmNZOoMfiXGInx
+ X/qUkSHmwZsXLZXy0tVecKNo6R99AKXVHQQPdZgYdm6aBXPYrqX+O6U7q4yexwTfOwlO
+ yCFiwxI9ExDMqmYFbYMEPNw9jJB/Hp8OjBj4T0fUWm+pDuvVTF5Q5+RDxXSPsxV8Vm60
+ 4RG5DBmc2u4PuCFBLPDugEyUxcjQ8bBT2sLtU4Pj82j1WwgLZPkhKud5UozBEQV1vCup
+ xRARr4KuRz6w0cVb24xCtQ2dAO+2Zo04qf0fisGEoFGl+kKUborX3lDzlA7Nbv9Q7TTg
+ go9g==
+X-Gm-Message-State: AOAM533+hBitcPrVyHVd99Vfh/64N2514prclRybSOPvqgCrHiK6rof+
+ /51fH710ADLPfgKzpIJBPbAiC2j/UwSn2g==
+X-Google-Smtp-Source: ABdhPJzgn9auCYsCxjPfJT8H2ns4IepYOnR7fI6ik3BNMYcYVo79nL2ZKF8h2tEwl0KPJiYpiSu1ww==
+X-Received: by 2002:adf:c547:0:b0:207:9abc:cfa1 with SMTP id
+ s7-20020adfc547000000b002079abccfa1mr3000657wrf.390.1650621921127; 
+ Fri, 22 Apr 2022 03:05:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.19
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:05:19 -0700 (PDT)
+ Fri, 22 Apr 2022 03:05:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 48/61] target/arm: Change DisasContext.thumb to bool
-Date: Fri, 22 Apr 2022 11:04:19 +0100
-Message-Id: <20220422100432.2288247-49-peter.maydell@linaro.org>
+Subject: [PULL 49/61] target/arm: Change CPUArchState.thumb to bool
+Date: Fri, 22 Apr 2022 11:04:20 +0100
+Message-Id: <20220422100432.2288247-50-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,50 +91,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 
 Bool is a more appropriate type for this value.
-Move the member down in the struct to keep the
-bool type members together and remove a hole.
+Adjust the assignments to use true/false.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.h     | 2 +-
- target/arm/translate-a64.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/arm/cpu.h          | 2 +-
+ linux-user/arm/cpu_loop.c | 2 +-
+ target/arm/cpu.c          | 2 +-
+ target/arm/m_helper.c     | 6 +++---
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 8b7dd1a4c05..050d80f6f90 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -30,7 +30,6 @@ typedef struct DisasContext {
-     bool eci_handled;
-     /* TCG op to rewind to if this turns out to be an invalid ECI state */
-     TCGOp *insn_eci_rewind;
--    int thumb;
-     int sctlr_b;
-     MemOp be_data;
- #if !defined(CONFIG_USER_ONLY)
-@@ -65,6 +64,7 @@ typedef struct DisasContext {
-     GHashTable *cp_regs;
-     uint64_t features; /* CPU features bits */
-     bool aarch64;
-+    bool thumb;
-     /* Because unallocated encodings generate different exception syndrome
-      * information from traps due to FP being disabled, we can't do a single
-      * "is fp access disabled" check at a high level in the decode tree.
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index f6303848918..1ae465687ad 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -14670,7 +14670,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 31e46709277..d2a34f6ea8a 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -260,6 +260,7 @@ typedef struct CPUArchState {
       */
-     dc->secure_routed_to_el3 = arm_feature(env, ARM_FEATURE_EL3) &&
-                                !arm_el_is_aa64(env, 3);
--    dc->thumb = 0;
-+    dc->thumb = false;
-     dc->sctlr_b = 0;
-     dc->be_data = EX_TBFLAG_ANY(tb_flags, BE_DATA) ? MO_BE : MO_LE;
-     dc->condexec_mask = 0;
+     uint32_t pstate;
+     bool aarch64; /* True if CPU is in aarch64 state; inverse of PSTATE.nRW */
++    bool thumb;   /* True if CPU is in thumb mode; cpsr[5] */
+ 
+     /* Cached TBFLAGS state.  See below for which bits are included.  */
+     CPUARMTBFlags hflags;
+@@ -286,7 +287,6 @@ typedef struct CPUArchState {
+     uint32_t ZF; /* Z set if zero.  */
+     uint32_t QF; /* 0 or 1 */
+     uint32_t GE; /* cpsr[19:16] */
+-    uint32_t thumb; /* cpsr[5]. 0 = arm mode, 1 = thumb mode. */
+     uint32_t condexec_bits; /* IT bits.  cpsr[15:10,26:25].  */
+     uint32_t btype;  /* BTI branch type.  spsr[11:10].  */
+     uint64_t daif; /* exception masks, in the bits they are in PSTATE */
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index 3268e5f1f1f..d950409d5b0 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -230,7 +230,7 @@ do_kernel_trap(CPUARMState *env)
+     /* Jump back to the caller.  */
+     addr = env->regs[14];
+     if (addr & 1) {
+-        env->thumb = 1;
++        env->thumb = true;
+         addr &= ~1;
+     }
+     env->regs[15] = addr;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 7e9f7d146df..e3f82152035 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -51,7 +51,7 @@ static void arm_cpu_set_pc(CPUState *cs, vaddr value)
+ 
+     if (is_a64(env)) {
+         env->pc = value;
+-        env->thumb = 0;
++        env->thumb = false;
+     } else {
+         env->regs[15] = value & ~1;
+         env->thumb = value & 1;
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index b7a0fe01141..a740c3e160f 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -564,7 +564,7 @@ void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
+         env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
+     }
+     switch_v7m_security_state(env, dest & 1);
+-    env->thumb = 1;
++    env->thumb = true;
+     env->regs[15] = dest & ~1;
+     arm_rebuild_hflags(env);
+ }
+@@ -590,7 +590,7 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
+          * except that the low bit doesn't indicate Thumb/not.
+          */
+         env->regs[14] = nextinst;
+-        env->thumb = 1;
++        env->thumb = true;
+         env->regs[15] = dest & ~1;
+         return;
+     }
+@@ -626,7 +626,7 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
+     }
+     env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
+     switch_v7m_security_state(env, 0);
+-    env->thumb = 1;
++    env->thumb = true;
+     env->regs[15] = dest;
+     arm_rebuild_hflags(env);
+ }
 -- 
 2.25.1
 
