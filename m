@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513DB50B2B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 10:15:54 +0200 (CEST)
-Received: from localhost ([::1]:38732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82BB50B2BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 10:19:29 +0200 (CEST)
+Received: from localhost ([::1]:42100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhoSG-00038M-Ub
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 04:15:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37240)
+	id 1nhoVk-0005WU-2Y
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 04:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhoQ9-0002Qh-Gc
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 04:13:41 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:38640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhoQ7-0002TV-QC
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 04:13:40 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id v10so4332172ybe.5
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 01:13:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5un3GGVpRP6lvN/15IwulcKdkml5kiELgGmYH6Q2mKI=;
- b=TU8Rzi+QTRT97HF4DqsRfFURgCa1LfpUhAwGCu6kkzwyR7kiovVRutlPg3lpt9eWHn
- 8fu+Tbq+VTdI113c+xck8ytqIo94+LwpdEXYKtQY3nFFo7fbSnQySgeC7s3YkXu9fNbt
- VqnJxDja8O/kPnrhMVq+6N7QWSyOftvDKPYK6c+LxU+JDwT3V0+UXm2uboXiVyaLJGzH
- NPozf/6bxIndX4lZXpCK9/NHWyiQ59u1SKj39A9nDE+MNmXgnTbmmORZm+mbSslnnFGn
- lrpOEL6vBSsOMpSQQBoptDVDpNeZFMF1z0EtD6EvWObkvI9zJSX7bbeWMAoX6fguwKtL
- PUYg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nhoTV-0004GM-PC
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 04:17:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nhoTR-0002xe-A9
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 04:17:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650615424;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IPSBV3Q3sLOVwNp88/jjA3zX1YK9CUoBSqr8xgHxyno=;
+ b=ZignYgG4bgHRHtJYzDVqlOrjdZdICyj/vwdmjwpcM0yGWqY5ymAOeQzdjlZAOfyHDtuOsM
+ Zn8548WBSCKWgllEDqtsaYysN9itsKAp7FJ9wXy7TVt33yn5NBny8inTNM5EzyFG8M+ZeO
+ V1fFPuY7j/cJKGzVVXmYXA8Jos/n1MI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-114-qFFDZOpAPjWO56nPNDyqjw-1; Fri, 22 Apr 2022 04:17:00 -0400
+X-MC-Unique: qFFDZOpAPjWO56nPNDyqjw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e13-20020adf9bcd000000b0020aa78ef365so1624537wrc.13
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 01:17:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5un3GGVpRP6lvN/15IwulcKdkml5kiELgGmYH6Q2mKI=;
- b=VRtJvhlgnExj8GdjTOPEciFmErQlNlvq+jXHvRfiRq+p3x4ZAGkW1kz0frqKE1EBUe
- c5bu+gvYc7H6XTz2Odby3EUHqTL2gdiDGQ5WDWjeXbRp4vR0SqANqfxaGyY3BS5uzx3R
- vptlLCS4Aq1V9lgQVLmak1p+X5yCxHN3L5CH0h6rktbF68En6LujYiE3aY0QZZbNxDGo
- L4AFp5gPIoyRKTSdEH98u3E7LX0OBcguw9YJCx418wg8EO0A7gR2kpFFa/FhawT+TUFQ
- VkNSS7i8QsG9Fy6jzW/nYbXfsitD18eIMMBKmciRw3F/WTVZ9R9LYKvyEOkmAtNym9H9
- FdzA==
-X-Gm-Message-State: AOAM530VBQxWQUMBOVt5VC0EFGMwIgbq1OcubdNmAJF3HF7HV7SuDttR
- 8MCxVtKuRncIdtfeGqnviPZPwrQFRFj+mNI6Bl07Rw==
-X-Google-Smtp-Source: ABdhPJxHdEH4QMWfgIN3kc4YK4pl7nNp4ExZsTQNk6bo1LMdb9CkDVxDQjTrdXGrrtcwsEMfo8qctT7f8vh7iydlaEw=
-X-Received: by 2002:a05:6902:390:b0:645:7d46:f1db with SMTP id
- f16-20020a056902039000b006457d46f1dbmr3290999ybs.85.1650615218497; Fri, 22
- Apr 2022 01:13:38 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=IPSBV3Q3sLOVwNp88/jjA3zX1YK9CUoBSqr8xgHxyno=;
+ b=HQ6bCGtZMN4yW74q76xc+X1cILomlrWonCmq9Vmzam9/JoHIlwH+sZxU/JS4c+eImW
+ OMvc+ALezpNOWthfy6swP5lvN+ERQATlvmql5kvc3p3Z4kxyL9uS/pvJTtPrOpRTYLY8
+ PlfYgViNYmwf5UjGDIbc1//vzEuGm69cnkDke80/8V/xHH4x1hrDO8MEP8+Rf0U0aFtr
+ 0PN53Nz60VZyMu0cgGuUk4r/ab1lUDxyXw+4k6PKkrUxznXTD3qr0JKJFbfEE6FnW1IR
+ fHUzOG8V5mysSN/k6uWEa+YpCsT20419LIzgdreejSiD4SEeVBi+exN5+9GhPlur0MDM
+ ZD+g==
+X-Gm-Message-State: AOAM533La6hy2ev5VO7pzAx54nNxHJKtetynvl8q54QDDmLuwTWryxuG
+ e0+4BH2kYSR46i1x9AtDpVwcTZ4PLO3tiXUEN28KKEydeg1lvOfQC82sFey3XRCdNmMyZCQENTP
+ CZPiLmynrcZ0C6iM=
+X-Received: by 2002:a05:600c:3507:b0:392:8dea:ef21 with SMTP id
+ h7-20020a05600c350700b003928deaef21mr3040073wmq.74.1650615419306; 
+ Fri, 22 Apr 2022 01:16:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLKvOD9W64FbKfzAPy6XfPHEgnKANI2GaOgvn+rjDbldcz3cDq3H76KGxcQ1yAVdF/iAsZLg==
+X-Received: by 2002:a05:600c:3507:b0:392:8dea:ef21 with SMTP id
+ h7-20020a05600c350700b003928deaef21mr3040054wmq.74.1650615419063; 
+ Fri, 22 Apr 2022 01:16:59 -0700 (PDT)
+Received: from redhat.com ([2a03:c5c0:107d:f9b5:bcf:cc21:25f8:ae83])
+ by smtp.gmail.com with ESMTPSA id
+ m4-20020a7bcb84000000b00389efb7a5b4sm3958448wmi.17.2022.04.22.01.16.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 01:16:58 -0700 (PDT)
+Date: Fri, 22 Apr 2022 04:16:54 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: Re: [PATCH RESEND v1 0/2] i386: Make PIT and PIC the property of
+ common x86 base machine type
+Message-ID: <20220422041637-mutt-send-email-mst@kernel.org>
+References: <20220310122811.807794-1-xiaoyao.li@intel.com>
+ <20220310080630-mutt-send-email-mst@kernel.org>
+ <37534451-b4b6-4547-a43b-ca0965b384d4@intel.com>
 MIME-Version: 1.0
-References: <20220422055146.3312226-1-wei.huang2@amd.com>
-In-Reply-To: <20220422055146.3312226-1-wei.huang2@amd.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Apr 2022 09:13:27 +0100
-Message-ID: <CAFEAcA91EnBT9t6ZvLj7F_=z9mgsjN_QPvQPoZ98WR3pXQo=nQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] hw/i386/amd_iommu: Fix IOMMU event log encoding
- errors
-To: Wei Huang <wei.huang2@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <37534451-b4b6-4547-a43b-ca0965b384d4@intel.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,26 +94,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, Suravee.Suthikulpanit@amd.com, mst@redhat.com,
- jasowang@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- peterx@redhat.com, pbonzini@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>, Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Apr 2022 at 06:51, Wei Huang <wei.huang2@amd.com> wrote:
->
-> Coverity issues several UNINIT warnings against amd_iommu.c [1]. This
-> patch fixes them by clearing evt before encoding. On top of it, this
-> patch changes the event log size to 16 bytes per IOMMU specification,
-> and fixes the event log entry format in amdvi_encode_event().
->
-> [1] CID 1487116/1487200/1487190/1487232/1487115/1487258
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Wei Huang <wei.huang2@amd.com>
-> ---
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+On Fri, Apr 22, 2022 at 08:50:45AM +0800, Xiaoyao Li wrote:
+> On 3/10/2022 9:07 PM, Michael S. Tsirkin wrote:
+> > On Thu, Mar 10, 2022 at 08:28:09PM +0800, Xiaoyao Li wrote:
+> > > For PIT, it's straightforward to merge microvm::pit and
+> > > pc_machine::pit_enabled into x86ms::pit
+> > > 
+> > > For PIC, move microvm::pic to x86ms:pic, which gives PC machine the
+> > > ability to dis-/en-able PIC and it's the preparation for future TDX
+> > > support.
+> > 
+> > 
+> > Looks ok but we are in freeze. I will tag this but pls do ping me
+> > after the release to make sure it's not lost. Thanks!
+> 
+> Michael,
+> 
+> Hope they won't get lost :)
 
-thanks
--- PMM
+Will be in the next pull.
+Thanks for the reminder!
+
+> > > ---
+> > > Resend:
+> > >   - collect Reviewed-by;
+> > >   - rebase to 2048c4eba2b4 ("Merge remote-tracking branch 'remotes/philmd/tags/pmbus-20220308' into staging")
+> > > 
+> > > Xiaoyao Li (2):
+> > >    hw/i386: Make pit a property of common x86 base machine type
+> > >    hw/i386: Make pic a property of common x86 base machine type
+> > > 
+> > >   hw/i386/microvm.c         | 54 ++-------------------------------------
+> > >   hw/i386/pc.c              | 24 +++--------------
+> > >   hw/i386/pc_piix.c         |  4 ++-
+> > >   hw/i386/pc_q35.c          |  4 ++-
+> > >   hw/i386/x86.c             | 50 ++++++++++++++++++++++++++++++++++++
+> > >   include/hw/i386/microvm.h |  4 ---
+> > >   include/hw/i386/pc.h      |  2 --
+> > >   include/hw/i386/x86.h     |  4 +++
+> > >   8 files changed, 65 insertions(+), 81 deletions(-)
+> > > 
+> > > -- 
+> > > 2.27.0
+> > 
+
 
