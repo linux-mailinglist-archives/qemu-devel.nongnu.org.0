@@ -2,73 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090DA50B97D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 16:06:29 +0200 (CEST)
-Received: from localhost ([::1]:53980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C3650B985
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 16:08:57 +0200 (CEST)
+Received: from localhost ([::1]:56692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhtvY-0005r9-5t
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 10:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40336)
+	id 1nhtxw-0007uR-7c
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 10:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhttO-0003iq-1p
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 10:04:14 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:34361)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhttM-0006zu-I1
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 10:04:13 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id b95so14677689ybi.1
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 07:04:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DvjpuFa6exvvLwJ8+EreIaqheaPFNf/vzBAIb9uV+4M=;
- b=DidfI+UkaxIvPGw1WbJzHpwLzaSzexuj/dsFjQs0wXu91398dHOYm+2MaitQAOo/z8
- RVa2HOF3bZ0XRuRAQ6mZDP1geHGpONQKj1b4wtE0hrYC9R6DBK04gzcjxzS7J7p40Go5
- h4CMfy3VeiDGGzb06DQPg648a/uGarw/KlzxexOdGDP1BRxgpsQJNtMPMHI+8oIE0M8U
- gploX4UI+FOjhKj64suRV6ulFpcWHsIHj2tIiyp2SVbWyWS2hqwUVIez7hpCJD9gEeDY
- 4noSXGKHMAEmn3WZs3p8eRaWZ1YB7KX2xypASP9Zm/P9OGOevye/+DDTSvfW/NaKTmP0
- 1ttw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DvjpuFa6exvvLwJ8+EreIaqheaPFNf/vzBAIb9uV+4M=;
- b=dxE+ylTLWUVnroxnfTpmW2BNxcbXFFAnSHWCQhMa5rDLTTQQ685bWBvwbFSG1dQNLr
- kPOZGcQWso5kc2ydhppgGL/KxLC8YL0oofY1WPyINgYLBU9B2bC3SVk9p68uLrqIYKvS
- bIOp+1yC4ygXVtZrNVvXnyNeunW7iTdyJ4UNJ39iOxnL4hhr+21y9mQu8NF8pG6aSDw7
- 8wOFwcAgIWNw4KwP7XKKkF8a7SCSsQC8/qG6KReshT+Hcr5c8uNSTXJczNuzEUKwO36T
- X5u/QzCMYSpfD1GgfCqKkSIsZsdhM92OVEjZPl4u7qPF1x3EQ2Fg/Fn/SZ7GPzbueaIE
- r/fg==
-X-Gm-Message-State: AOAM532KkuQczZAtYmajGyHnuNN8GUy1Mq2oCcbFcllQjZCEkD7eRu2n
- lhjVvD2K9H38nlrQVRZtFZbLrVXbRTEsW8hQmhuJ8A==
-X-Google-Smtp-Source: ABdhPJx6wQJMpg8WPCVpPrv5H6uOuAXcrjEj3Oo/sFaA0GlsplnN9y9z5N/2eRwJFJj93TkT6kyN+/LkbqJEXLZrZSk=
-X-Received: by 2002:a25:c60a:0:b0:645:d925:64d3 with SMTP id
- k10-20020a25c60a000000b00645d92564d3mr1509169ybf.288.1650636251403; Fri, 22
- Apr 2022 07:04:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nhtvW-0006XZ-OH; Fri, 22 Apr 2022 10:06:26 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:53219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nhtvU-0007W7-KT; Fri, 22 Apr 2022 10:06:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=zGZEZQHUdFuyPk4D/V2UgstQ3TglWPt6JONMwNPIcGE=; b=Iox3trbcIMnLOf08f5Wogo4TYZ
+ cp9w7OPZyJfuvqi71xvTdNW7CSzQXqtPpkcEQ9/ZQqGvRVisIA39kULSEjl9EvovELsMocYfL6E47
+ QCKrJo93xEVRRRjd8KHhyB4HVU1r1IQtab8VYWdSj/w+YL13YEtKKiVCK37uyRXyCIdg66DMO+IyR
+ cn+HJwlCo8shM9jX9q5e83hl+rbG+BhvQ2qN6ToALIIuyAGe6VrYN7TjPE2WMZyNpsV10pVniQRUX
+ uRk6195JsQUjCSKSYzYf7H2d/roLOYZavKd/kSP5weifurJYWFNK+yshsK13T6qw6WWFke9JESb9i
+ 9AoVaE59h2NayN/+gPGr4eFMqRQaPlkG9hQwiasdTZDwaIoGQJu1P4iUE7wgSk+4jf8lCegK6XxMi
+ kG7Yi5vjOkwSAAQ1YlLR78NHZnENSMNiaNTDagVPPxquy7O8Lxqi/Dr+DzuA6N1T9WuD2K8Q/zkYu
+ 9Fsvmcbyg8WFeHMfvy7cQIoXJ/ymB9dqiF3TWY+nNaShbR6LczfUsZ9aAWTDMyg/Efy0gmY9zv7Ni
+ Ro76351k3u8QsrTzkECvApB36/D2FpBPZBnrcK6QXm7c2+aE1BS12EZz2ZzC2r3o5KYETCyt1LlUg
+ Zn5LbDGnE1ovznrxYVbFphSHY9+uxgXDpd2DGnLn8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Michael Roitzsch <reactorcontrol@icloud.com>,
+ Keno Fischer <keno@juliacomputing.com>, Will Cohen <wwcohen@gmail.com>,
+ Greg Kurz <groug@kaod.org>, qemu-stable@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v2 2/5] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Date: Fri, 22 Apr 2022 16:06:12 +0200
+Message-ID: <1750044.XWheshbc2e@silver>
+In-Reply-To: <73163b9a-bd8a-8cf1-42a1-0e4c88edfa0e@gmail.com>
+References: <cover.1650553693.git.qemu_oss@crudebyte.com>
+ <f6d632fc82d4750b73c83a2f1d1b9972cf3e26bb.1650553693.git.qemu_oss@crudebyte.com>
+ <73163b9a-bd8a-8cf1-42a1-0e4c88edfa0e@gmail.com>
 MIME-Version: 1.0
-References: <20220417174426.711829-1-richard.henderson@linaro.org>
- <20220417174426.711829-9-richard.henderson@linaro.org>
- <875yn1uskp.fsf@linaro.org>
-In-Reply-To: <875yn1uskp.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Apr 2022 15:04:00 +0100
-Message-ID: <CAFEAcA-Evh0mTHOzsk=dv9MAKjPcKmSVTFfKzV42zzRyZ4hUfA@mail.gmail.com>
-Subject: Re: [PATCH v3 08/60] target/arm: Change DisasContext.thumb to bool
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,26 +67,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Apr 2022 at 15:01, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Richard Henderson <richard.henderson@linaro.org> writes:
->
-> > Bool is a more appropriate type for this value.
-> > Move the member down in the struct to keep the
-> > bool type members together and remove a hole.
->
-> Does gcc even attempt to pack bools? Aren't they basically int types?
+On Freitag, 22. April 2022 04:43:40 CEST Akihiko Odaki wrote:
+> On 2022/04/22 0:07, Christian Schoenebeck wrote:
+> > mknod() on macOS does not support creating sockets, so divert to
+> > call sequence socket(), bind() and chmod() respectively if S_IFSOCK
+> > was passed with mode argument.
+> > 
+> > Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > Reviewed-by: Will Cohen <wwcohen@gmail.com>
+> > ---
+> > 
+> >   hw/9pfs/9p-util-darwin.c | 27 ++++++++++++++++++++++++++-
+> >   1 file changed, 26 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> > index e24d09763a..39308f2a45 100644
+> > --- a/hw/9pfs/9p-util-darwin.c
+> > +++ b/hw/9pfs/9p-util-darwin.c
+> > @@ -74,6 +74,27 @@ int fsetxattrat_nofollow(int dirfd, const char
+> > *filename, const char *name,> 
+> >    */
+> >   
+> >   #if defined CONFIG_PTHREAD_FCHDIR_NP
+> > 
+> > +static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
+> > +    int fd, err;
+> > +    struct sockaddr_un addr = {
+> > +        .sun_family = AF_UNIX
+> > +    };
+> > +
+> > +    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
+> > +    if (fd == -1) {
+> > +        return fd;
+> > +    }
+> > +    snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s", filename);
+> 
+> It would result in an incorrect path if the path does not fit in
+> addr.sun_path. It should report an explicit error instead.
 
-It's impdef, I think, but it'll typically be a 1 byte integer
-rather than a 4 byte integer, with the usual struct packing
-rules for 1 byte type sizes.
+Looking at its header file, 'sun_path' is indeed defined on macOS with an 
+oddly small size of only 104 bytes. So yes, I should explicitly handle that 
+error case.
 
--- PMM
+I'll post a v3.
+
+> > +    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
+> > +    if (err == -1) {
+> > +        goto out;
+> 
+> You may close(fd) as soon as bind() returns (before checking the
+> returned value) and eliminate goto.
+
+Yeah, I thought about that alternative, but found it a bit ugly, and probably 
+also counter-productive in case this function might get extended with more 
+error pathes in future. Not that I would insist on the current solution 
+though.
+
+> > +    }
+> > +    err = chmod(addr.sun_path, mode);
+> 
+> I'm not sure if it is fine to have a time window between bind() and
+> chmod(). Do you have some rationale?
+
+Good question. QEMU's 9p server is multi-threaded; all 9p requests come in 
+serialized and the 9p server controller portion (9p.c) is only running on QEMU 
+main thread, but the actual filesystem driver calls are then dispatched to 
+QEMU worker threads and therefore running concurrently at this point:
+
+https://wiki.qemu.org/Documentation/9p#Threads_and_Coroutines
+
+Similar situation on Linux 9p client side: it handles access to a mounted 9p 
+filesystem concurrently, requests are then serialized by 9p driver on Linux 
+and sent over wire to 9p server (host).
+
+So yes, there might be implications by that short time windows. But could that 
+be exploited on macOS hosts in practice?
+
+The socket file would have mode srwxr-xr-x for a short moment.
+
+For security_model=mapped* this should not be a problem.
+
+For security_model=none|passhrough, in theory, maybe? But how likely is that? 
+If you are using a Linux client for instance, trying to brute-force opening 
+the socket file, the client would send several 9p commands (Twalk, Tgetattr, 
+Topen, probably more). The time window of the two commands above should be 
+much smaller than that and I would expect one of the 9p commands to error out 
+in between.
+
+What would be a viable approach to avoid this issue on macOS?
+
+> > +out:
+> > +    close(fd);
+> > +    return err;
+> > +}
+> > +
+> > 
+> >   int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
+> >   dev)
+> >   {
+> >   
+> >       int preserved_errno, err;
+> > 
+> > @@ -93,7 +114,11 @@ int qemu_mknodat(int dirfd, const char *filename,
+> > mode_t mode, dev_t dev)> 
+> >       if (pthread_fchdir_np(dirfd) < 0) {
+> >       
+> >           return -1;
+> >       
+> >       }
+> > 
+> > -    err = mknod(filename, mode, dev);
+> > +    if (S_ISSOCK(mode)) {
+> > +        err = create_socket_file_at_cwd(filename, mode);
+> > +    } else {
+> > +        err = mknod(filename, mode, dev);
+> > +    }
+> > 
+> >       preserved_errno = errno;
+> >       /* Stop using the thread-local cwd */
+> >       pthread_fchdir_np(-1);
+
+
 
