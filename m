@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7839450B74E
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:29:27 +0200 (CEST)
-Received: from localhost ([::1]:44796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B688D50B6E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 14:10:05 +0200 (CEST)
+Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhsPe-0000Wg-K1
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:29:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57030)
+	id 1nhs6u-0006Ia-OX
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 08:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nhrhZ-0004fZ-8b
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:53 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41496)
+ id 1nhrha-0004jK-HJ
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:54 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nhrhX-0003dZ-OC
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:52 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id p8so7767180pfh.8
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:43:51 -0700 (PDT)
+ id 1nhrhZ-0003eA-1M
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 07:43:54 -0400
+Received: by mail-pl1-x630.google.com with SMTP id b7so10282535plh.2
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 04:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QVwQva9Md6iPAMBhtpgX4lDVkVKMWkYjnvbA+TeW0JM=;
- b=d+vAEVF/65IXOzhsm3KCfOD01FZxPFutjCrCWtTHQzl4WV/YEoXpJ2zk6QfXdsAsXq
- 9FXVt+3eNo2qewFhnj1HrQEqMCy/fnjjozwlbPldpIhluOTiyr0zTpSUH+r21yJBprzN
- kBjqgG3Mb0UQxxAvM5wjQMIXPnPtVF7ESkf8BZ52tjJm5Ih81Zewug0imMX3EPXR5yy9
- UpcXM3Twib9nb6zunXj37o6HygkfJ9KgGRibzvTXMrB90SaUfqvwk7KW1HNmRjS32bIH
- WP2KZlz5ZOl80Q9rXPictZCdRmUo8Qrsk/2miRD5igL40eg/78LLxWAQ1lSLdmVx20bF
- 2Dxg==
+ bh=j/yJYNbmHzMaH9snSTtewuCLJRVV1k7sJHGVXunCvCQ=;
+ b=djsxBCC9hjfNZ3LOpuTgPJLQNF05EzEru2n7+ovt2pXDvX3GoAFa+QmhP5YW54zQi/
+ RxmKQNub3C1CPwAxg9oh0jGvOXIJnLFrA23lwLXivDzi09NSziA/6qwbRWXXWFDzjgWG
+ WiwR2++npaxwGquXu3NlML2IoKu4+sQRVlyOFLlyZF3L+2kabqghxnrybqL56ovAHK76
+ TvKjg+Uz8DYCzQpL2VmAFDXCnSZIhAFopsBxKvWK7KP9gSoF/a9CxSLmizfR+DHddNuY
+ 9QUwTQ/2sW+zyFOfCfv7UksRUTtTzWYZUgzpo5wlOF2ux6JQ9aDF0lkr2tNXANHOo3vC
+ 4EfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QVwQva9Md6iPAMBhtpgX4lDVkVKMWkYjnvbA+TeW0JM=;
- b=BSlJeW6Co7o9sqW3Tl4WuFWjGsUaOWk+YdPyHD330OYBXJSw768Scu8+IyYIotHNG8
- /tgDmCft4NzyygT+9vMUrDqJkfaRKOHUd4wgWLn6jB57GMxwihOne7PMNrIv2MSdgNTO
- 1P4k0uJrT1XUdrNQpQMJ5JuZehIh+j0pnXmAqNQ0bO4q2eHWyppVZUsOQUBak/PK8FOz
- gDX01nt3X7YaJOFVdKd2MrJXeR0oTuod7q57tJPTMT7IGSjmW3OBpqYAogI0IIRsREyr
- ktSCM/TFOSmnmuBdQHMF1pWl1pl7wNVeHKIYTodV65512t6auYwkoqTZYNuGueHc3eJj
- KItg==
-X-Gm-Message-State: AOAM531ZTK36pnkigjifh/bWeUknOznUMnZt6DA/BhxyWlskFtCvGef6
- tQbYn2juH+w3RxGxdFl2DPSGGuwl/+Y=
-X-Google-Smtp-Source: ABdhPJzNZo1v5ziU9rqozfPQcaWaCQnl/ztFn7A1gxV4HDm2u2Rh3A0my+rSZvPHrPcVK5QtIxeI1g==
-X-Received: by 2002:a63:fe4d:0:b0:39d:20ac:d7f7 with SMTP id
- x13-20020a63fe4d000000b0039d20acd7f7mr3611933pgj.369.1650627830106; 
- Fri, 22 Apr 2022 04:43:50 -0700 (PDT)
+ bh=j/yJYNbmHzMaH9snSTtewuCLJRVV1k7sJHGVXunCvCQ=;
+ b=xRy+Cfbw13Xq4pwr155Di24I3InwDDdATv4ZEUJEYGhgC3JLyxgZhQo5mnFBwnKbwP
+ fo3y8RuhxdGe+anr9BXaGFA/tj9Veqf0meGK5LDuRaCwoHEPbrOKdfiXyHa4/eNHuf3D
+ hFij/LuIipSSVoTfhj/wID/U9AbMR7yHmcjEQubUJACY55rH4OMb8wLClMk5ylPYi3Nz
+ WchWChL8YxAFg+v2g7KFnksMbUMbjmPROVpno7JuaJrKof3RleB+KG2aPdIiHwyuYqUg
+ g46RqyLN09vOF0/D7KuvxJtf4Uiv76FSh/72ct1e80ixSQOX4uLIg955+kap4y0dl5Rv
+ 8hFQ==
+X-Gm-Message-State: AOAM532CCSbZDwad6ohQKTfbEh1v5/UgQ31TSkCc5cqdSB1s8jIgZpIC
+ k/Fv0pT1/E0ahUiqT5sFB/nCwQgdFIc=
+X-Google-Smtp-Source: ABdhPJzkRyjJGeTrmbGyyM9TlwJZo+2hq6hOpk395AD9RSJCUOPfp4ifoT0Bp805dPSMwZCDGL9eag==
+X-Received: by 2002:a17:90b:4a09:b0:1d2:de49:9be8 with SMTP id
+ kk9-20020a17090b4a0900b001d2de499be8mr15991377pjb.68.1650627831411; 
+ Fri, 22 Apr 2022 04:43:51 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:401:1d20:4c40:4238:b597:4c1a])
  by smtp.gmail.com with ESMTPSA id
- d16-20020a056a00245000b004f7728a4346sm2706519pfj.79.2022.04.22.04.43.49
+ d16-20020a056a00245000b004f7728a4346sm2706519pfj.79.2022.04.22.04.43.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 04:43:49 -0700 (PDT)
+ Fri, 22 Apr 2022 04:43:50 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/7] target/xtensa: use tcg_constant_* for TLB opcodes
-Date: Fri, 22 Apr 2022 04:43:29 -0700
-Message-Id: <20220422114332.374472-5-jcmvbkbc@gmail.com>
+Subject: [PATCH v2 5/7] target/xtensa: use tcg_constant_* for numbered special
+ registers
+Date: Fri, 22 Apr 2022 04:43:30 -0700
+Message-Id: <20220422114332.374472-6-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220422114332.374472-1-jcmvbkbc@gmail.com>
 References: <20220422114332.374472-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -91,64 +92,72 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-dtlb is a boolean flag, use tcg_constant_* for it.
+Numbered special registers are small arrays of consecutive SRs. Use
+tcg_constant_* for the SR index.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- target/xtensa/translate.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ target/xtensa/translate.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
 diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index e92cc6fbf8c6..245c5968bd5d 100644
+index 245c5968bd5d..c51aea460160 100644
 --- a/target/xtensa/translate.c
 +++ b/target/xtensa/translate.c
-@@ -1707,10 +1707,9 @@ static void translate_itlb(DisasContext *dc, const OpcodeArg arg[],
-                            const uint32_t par[])
+@@ -2612,15 +2612,13 @@ static void translate_wsr_ccompare(DisasContext *dc, const OpcodeArg arg[],
  {
  #ifndef CONFIG_USER_ONLY
--    TCGv_i32 dtlb = tcg_const_i32(par[0]);
-+    TCGv_i32 dtlb = tcg_constant_i32(par[0]);
+     uint32_t id = par[0] - CCOMPARE;
+-    TCGv_i32 tmp = tcg_const_i32(id);
  
-     gen_helper_itlb(cpu_env, arg[0].in, dtlb);
--    tcg_temp_free(dtlb);
+     assert(id < dc->config->nccompare);
+     if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+         gen_io_start();
+     }
+     tcg_gen_mov_i32(cpu_SR[par[0]], arg[0].in);
+-    gen_helper_update_ccompare(cpu_env, tmp);
+-    tcg_temp_free(tmp);
++    gen_helper_update_ccompare(cpu_env, tcg_constant_i32(id));
  #endif
  }
  
-@@ -2047,11 +2046,10 @@ static void translate_ptlb(DisasContext *dc, const OpcodeArg arg[],
-                            const uint32_t par[])
+@@ -2640,11 +2638,9 @@ static void translate_wsr_dbreaka(DisasContext *dc, const OpcodeArg arg[],
  {
  #ifndef CONFIG_USER_ONLY
--    TCGv_i32 dtlb = tcg_const_i32(par[0]);
-+    TCGv_i32 dtlb = tcg_constant_i32(par[0]);
+     unsigned id = par[0] - DBREAKA;
+-    TCGv_i32 tmp = tcg_const_i32(id);
  
-     tcg_gen_movi_i32(cpu_pc, dc->pc);
-     gen_helper_ptlb(arg[0].out, cpu_env, arg[1].in, dtlb);
--    tcg_temp_free(dtlb);
+     assert(id < dc->config->ndbreak);
+-    gen_helper_wsr_dbreaka(cpu_env, tmp, arg[0].in);
+-    tcg_temp_free(tmp);
++    gen_helper_wsr_dbreaka(cpu_env, tcg_constant_i32(id), arg[0].in);
  #endif
  }
  
-@@ -2250,10 +2248,9 @@ static void translate_rtlb(DisasContext *dc, const OpcodeArg arg[],
-         gen_helper_rtlb0,
-         gen_helper_rtlb1,
-     };
--    TCGv_i32 dtlb = tcg_const_i32(par[0]);
-+    TCGv_i32 dtlb = tcg_constant_i32(par[0]);
+@@ -2653,11 +2649,9 @@ static void translate_wsr_dbreakc(DisasContext *dc, const OpcodeArg arg[],
+ {
+ #ifndef CONFIG_USER_ONLY
+     unsigned id = par[0] - DBREAKC;
+-    TCGv_i32 tmp = tcg_const_i32(id);
  
-     helper[par[1]](arg[0].out, cpu_env, arg[1].in, dtlb);
--    tcg_temp_free(dtlb);
+     assert(id < dc->config->ndbreak);
+-    gen_helper_wsr_dbreakc(cpu_env, tmp, arg[0].in);
+-    tcg_temp_free(tmp);
++    gen_helper_wsr_dbreakc(cpu_env, tcg_constant_i32(id), arg[0].in);
  #endif
  }
  
-@@ -2561,10 +2558,9 @@ static void translate_wtlb(DisasContext *dc, const OpcodeArg arg[],
-                            const uint32_t par[])
+@@ -2666,11 +2660,9 @@ static void translate_wsr_ibreaka(DisasContext *dc, const OpcodeArg arg[],
  {
  #ifndef CONFIG_USER_ONLY
--    TCGv_i32 dtlb = tcg_const_i32(par[0]);
-+    TCGv_i32 dtlb = tcg_constant_i32(par[0]);
+     unsigned id = par[0] - IBREAKA;
+-    TCGv_i32 tmp = tcg_const_i32(id);
  
-     gen_helper_wtlb(cpu_env, arg[0].in, arg[1].in, dtlb);
--    tcg_temp_free(dtlb);
+     assert(id < dc->config->nibreak);
+-    gen_helper_wsr_ibreaka(cpu_env, tmp, arg[0].in);
+-    tcg_temp_free(tmp);
++    gen_helper_wsr_ibreaka(cpu_env, tcg_constant_i32(id), arg[0].in);
  #endif
  }
  
