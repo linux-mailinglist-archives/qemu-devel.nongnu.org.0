@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487E350BDC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 18:59:45 +0200 (CEST)
-Received: from localhost ([::1]:33966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFE250BDAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 18:55:41 +0200 (CEST)
+Received: from localhost ([::1]:51306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhwdE-00026I-Df
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 12:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48404)
+	id 1nhwZG-0002zP-EI
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 12:55:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwWW-0008Sl-Pg
+ id 1nhwWW-0008SW-J7
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:52:48 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:40787)
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:43882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwWV-0007Cw-5w
+ id 1nhwWV-0007D9-6S
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:52:48 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id k4so544507plk.7
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:52:45 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id y14so7761530pfe.10
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=meOXfrn2PD5m0Qh1cBNLkWBSrBP+MRPsiz/DUB3aYZo=;
- b=tbqVPiUImFnthQK0yo86Pwsk9/imCz2d90C1cP3trX1+76OjpzqOerbEx5INy91u3p
- ywqaQzbIG2d+dXdLWY6ZAKitIAvFrB/rUInmYG+Xr7b1PjYJPw+MvTLKMuMXtlN9Rk5m
- 3+Ya7e3bGnTRiO2FlLi7/diAZYklHsUhLigu6XnKEiWIWkni88SJxlqeyykrcvAhkpqu
- /PoBv9RC7D9k69pS9AtcR20/7HRAlumI4OyGAw72Jg19ZoK3vpTgMdfcvLNvHmhkFKvc
- Fp+iz7CUumVIv0w2B7opNMf8h7eZAev8lxZuYJDzAS3eCPKOfSPuQqLuVcjRHl5Xq4JU
- 9q6A==
+ bh=Kt2BBU1GUjUG3/EJVuAysOFujg46su8Ylz5CGCHbv4o=;
+ b=jStOSJ2bRLw+Zj+ZpMRSD7YK67WsZvHedr4I4mVJSyH7shW4Kh9gvW70GM78Wm6Wnb
+ UHq6Q5iEVGO8ceQ9LOnOSqRreVZlTRO/zIW6T7X29dT1hOYpoMQIfEPlMBPDsDKMZvAh
+ 8GViVwK4w6TR6azlz0HPEzXnvFz3VpPecX3BXn9b4LEWP2bO5Cqw8mCk9mdMkag4pSd1
+ XDxPeMCso4hENrObZAJB0VN6yUPlZX8dSp2QndsKJbab0Q8snRYE8TUDttfJxFHweIex
+ Qbl0y03YBX+QfYFtX2AO6Bqq8MTUfHc2R92ICjUPR6WA3JGZ1llveVJyDxUq3ps8UFS4
+ 9w1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=meOXfrn2PD5m0Qh1cBNLkWBSrBP+MRPsiz/DUB3aYZo=;
- b=5iJDQAAxiL1Prtlwsd1HFMQyif85wzjm9H2xHyAsM3dmYAnI3CFJK8aAxhAp/u4VaX
- pC9A7iK0Ni0pmQBLRElOSObAoNqNzOUM8ZictjjwpN+WW2ebxt/5uJlwB0U1OjzhW8oP
- mQqnIc7sI3c50Seu1x4plj8DJYPQHZLT2G1E5GjB8+mw8eVeNrFgkdXwCM8j9feP2Wsn
- K0VXH0PCH5soqyv+mBjGURFNRf4qsIozCBXIafLN41FVeS8ukmHAyTSacmuMAG3w4FKa
- h1z+lYKB0gwVoo6Z/NYP4pAoDDZfWdzjVun+OVjG9LAqvBMKs1zbYcDvYye1eXyEx/Mi
- ytXg==
-X-Gm-Message-State: AOAM533sIGacSIq4YuLFn3kgDmkA5Elonl4KO+svFitvfw5wzNpLbUXD
- +YHBY2bzeBHwjN7G9Ix+cyD0g4Oq8waUtxfX
-X-Google-Smtp-Source: ABdhPJzDHDRwIkaxtfUfCRt3s/GTtmLUT4RszDH04Ud5p8wloTjhczRL4WuBRcE8AQ30fzOvbFJH9A==
-X-Received: by 2002:a17:90b:3b8f:b0:1d2:86e1:6e4d with SMTP id
- pc15-20020a17090b3b8f00b001d286e16e4dmr16965403pjb.186.1650646364241; 
- Fri, 22 Apr 2022 09:52:44 -0700 (PDT)
+ bh=Kt2BBU1GUjUG3/EJVuAysOFujg46su8Ylz5CGCHbv4o=;
+ b=pjYxIclAERyNcLchZjgLp9EgKwUKMHI2ViyuGRxv7cKHkXGSK8iDnpqhJ/7IrPmAnp
+ e+bbuDs55AMWI/MnrMn0pJgcuJm9yMfYciAvbydiftgxaV2Psj019f24HVjJ0OQdae7P
+ 4cP95sBUwAXfd9yNlrIeRLxthsubav5/Pc4wccj8YRKRzgCdH6E/1PL+wr/qYPWsJGse
+ pvuA00mCRI1EfxRHOmqAMYadZspeuW1GzF6NJyQ0S1B+O4Njor+u58iIWVuqLl91c8nH
+ hRXkti/hZrx/CHTmjbFl6owpErUhFFk/TMqyglqMb/xlAEBljwzltiVyvcjSREhAuMsE
+ H9zA==
+X-Gm-Message-State: AOAM530gWQp3faxMyn1Yrb8cVlitK7TqEi+hmiFQ+W2jNoiKuPKRXX5r
+ w/skzcyKnaK89IAWZjeytFUcu9NaQpiD1oo5
+X-Google-Smtp-Source: ABdhPJyY5/4SZUrwqZ3eEGuS/RrXiiojB5R+fJIPFvozmwYmX0Yi90hVaTYUORTiDjek574JMhg5sg==
+X-Received: by 2002:a63:c52:0:b0:3aa:2c45:67ba with SMTP id
+ 18-20020a630c52000000b003aa2c4567bamr4793812pgm.102.1650646365757; 
+ Fri, 22 Apr 2022 09:52:45 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
  by smtp.gmail.com with ESMTPSA id
- 6-20020a17090a030600b001cd4989ff5fsm6835904pje.38.2022.04.22.09.52.42
+ 6-20020a17090a030600b001cd4989ff5fsm6835904pje.38.2022.04.22.09.52.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 09:52:43 -0700 (PDT)
+ Fri, 22 Apr 2022 09:52:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 01/68] linux-user/nios2: Hoist pc advance to the top of
- EXCP_TRAP
-Date: Fri, 22 Apr 2022 09:51:31 -0700
-Message-Id: <20220422165238.1971496-2-richard.henderson@linaro.org>
+Subject: [PATCH v8 02/68] linux-user/nios2: Fix clone child return
+Date: Fri, 22 Apr 2022 09:51:32 -0700
+Message-Id: <20220422165238.1971496-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
 References: <20220422165238.1971496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,63 +88,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that this advance *should* be done by the translator, as
-that's the pc value that's supposed to be generated by hardware.
-However, that's a much larger change across sysemu as well.
-
-In the meantime, produce the correct PC for any signals raised
-by the trap instruction.  Note the special case of TRAP_BRKPT,
-which itself is special cased within the kernel.
+The child side of clone needs to set the secondary
+syscall return value, r7, to indicate syscall success.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-2-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-3-richard.henderson@linaro.org>
 ---
- linux-user/nios2/cpu_loop.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ linux-user/nios2/target_cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index 1e93ef34e6..2e9296750d 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -40,6 +40,12 @@ void cpu_loop(CPUNios2State *env)
-             break;
+diff --git a/linux-user/nios2/target_cpu.h b/linux-user/nios2/target_cpu.h
+index 2d2008f002..830b4c0741 100644
+--- a/linux-user/nios2/target_cpu.h
++++ b/linux-user/nios2/target_cpu.h
+@@ -27,6 +27,7 @@ static inline void cpu_clone_regs_child(CPUNios2State *env, target_ulong newsp,
+         env->regs[R_SP] = newsp;
+     }
+     env->regs[R_RET0] = 0;
++    env->regs[7] = 0;
+ }
  
-         case EXCP_TRAP:
-+            /*
-+             * TODO: This advance should be done in the translator, as
-+             * hardware produces an advanced pc as part of all exceptions.
-+             */
-+            env->regs[R_PC] += 4;
-+
-             switch (env->error_code) {
-             case 0:
-                 qemu_log_mask(CPU_LOG_INT, "\nSyscall\n");
-@@ -56,7 +62,6 @@ void cpu_loop(CPUNios2State *env)
-                 env->regs[2] = abs(ret);
-                 /* Return value is 0..4096 */
-                 env->regs[7] = ret > 0xfffff000u;
--                env->regs[R_PC] += 4;
-                 break;
- 
-             case 1:
-@@ -69,6 +74,8 @@ void cpu_loop(CPUNios2State *env)
-                 break;
-             case 31:
-                 qemu_log_mask(CPU_LOG_INT, "\nTrap 31\n");
-+                /* Match kernel's breakpoint_c(). */
-+                env->regs[R_PC] -= 4;
-                 force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->regs[R_PC]);
-                 break;
-             default:
-@@ -99,7 +106,6 @@ void cpu_loop(CPUNios2State *env)
-                     o = env->regs[5];
-                     n = env->regs[6];
-                     env->regs[2] = qatomic_cmpxchg(h, o, n) - o;
--                    env->regs[R_PC] += 4;
-                 }
-                 break;
-             }
+ static inline void cpu_clone_regs_parent(CPUNios2State *env, unsigned flags)
 -- 
 2.34.1
 
