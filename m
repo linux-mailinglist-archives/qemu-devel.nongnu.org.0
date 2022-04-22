@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC8D50BF1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:59:06 +0200 (CEST)
-Received: from localhost ([::1]:55924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98CAD50BF11
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:53:04 +0200 (CEST)
+Received: from localhost ([::1]:38008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhxYg-0000Rb-2N
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:59:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50366)
+	id 1nhxSp-0004vF-O0
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwbH-0000sY-NV
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:43 -0400
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:41512)
+ id 1nhwbJ-0000ts-MF
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:45 -0400
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:38616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwbG-00085G-0P
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:43 -0400
-Received: by mail-il1-x130.google.com with SMTP id h4so5419119ilq.8
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:40 -0700 (PDT)
+ id 1nhwbH-00085Q-Eu
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:45 -0400
+Received: by mail-il1-x130.google.com with SMTP id i8so5421532ila.5
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I9okil5+kJgTqcKaRaU/YcxpruIY39QBJzH8pAf+TqE=;
- b=yl7adnp9aaYeT5lJ3G/j182sy20JEbOx7Xy5ZbhcIqPW76rhcAz3panQxGCC7fx1yN
- KREs5GtdRTRh0/AUHV18PbrIR+wQiWAld7Oj1bnTE+2IdIOoU09lUNsq0/Iclw1Lk69I
- ZeB17KxLlpinkQRK4Riv/hLNdTQLir84WbZgOVX741ZkYAvpfLZmDiS93qqc9ogdXG4/
- V0pxMp4vMSm1SfnLEDZBEznbq5EyBCrnQpcClHTDNOiqA+IbOqN3V4Js0Rszmq/WZu9e
- s6XhGlLjs6niRDlFm0h1SfBtkazDNz4Hb5CFw5+3DEkrQXazJlT8uyRpCVRPdKsGtkJf
- KxRA==
+ bh=7xB33tWvW42qeEWj8nObMBV2LFMTDSEz/odcRi0ytnc=;
+ b=ev87aBEFhnqiaKjHCU3g4Pi2fRZ1r++M8fcYmW64aDWxlyn/qJlv0g46/m8KEfYZ2C
+ e7+/apG2RGUL1qNOHPjhGuk3A62jYvBbKemjgc6irFM/rIttewrJQ85V0xqOKtAponyT
+ OSmHmJE6V5N2duPPNAFTLnNWsLFOgfiWGUZd0uQi5w0uKbCkuGezDJfQjrgDwkCAFEBb
+ 6wSUxPIIv7gk6An+y9I7pj8GW6bQPCpE4qdMoysqq/gNmDL3j9E4X0B3714yOkRdqEo9
+ TTR5mKSwGLgWAeB9zPcRMQX3G/TuCSJSyz2AIfSN7tdOF0wf44Q1TWFU1ouDLBBiAPSY
+ 2grQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I9okil5+kJgTqcKaRaU/YcxpruIY39QBJzH8pAf+TqE=;
- b=YdYHc6RiWSbXF708Fdgwosw0pQhyqzNtoymUwSsCXCG6n+IH5Hx89KSg9o7vtBYOwd
- +ffVNnZIABAQQbc4gaIrIa/IS21w4snQxm91uOhl0IJb/jRjRXmI7xIN+aVptBT4aNce
- yf+8Eo/XBt87n1IGKIeR/nMoi2/SvpyPm7PIewBFbiUvTrCLoO3NIVNTf2mW9eWhDqph
- sO9xqa85uqWul9hK/2hgcYhmVgfAXh8fh/ZtGTrAVlajZ9kh9lzeqk6b8YR0+eHvVWcX
- WPz9BQJq9zG4lM/t0j0B2MetTSldWnJVoT4Wu61rN+Cat8PQ/64GcgKOtwQe1h83Gkup
- TIKw==
-X-Gm-Message-State: AOAM530pSOREdPdyQv+Y5ov8u8MW9IwSI1UOuLyjIrVZjvrtfzm/kkc7
- BiiT5xNEyWPv3VXakA70QtCyblqdHpBEv9cC
-X-Google-Smtp-Source: ABdhPJzI4HHam3qGMa7psIljQD/HAb75r0uVC5LZp3DN3FLnUHB5hOVSww/n7yMmSEp8V0lcxiB7RA==
-X-Received: by 2002:a92:cb4f:0:b0:2cb:fde0:b5c2 with SMTP id
- f15-20020a92cb4f000000b002cbfde0b5c2mr2251821ilq.274.1650646660152; 
- Fri, 22 Apr 2022 09:57:40 -0700 (PDT)
+ bh=7xB33tWvW42qeEWj8nObMBV2LFMTDSEz/odcRi0ytnc=;
+ b=mni6rPk9duqDfAfPWzI5GuPPi8gpbTjpuh1i+/YwKlPx1o1Gm286dpzUHwHBVR6RmI
+ CwaaFljeGfuLffTH9VVuMt50d+m8ggbPtpYtFm54gQQBXbTcfs60bg9QmoNMvegCGvoO
+ Ii7+RL3dzqUWiezu2lqbkXHQ74uyU00M3qnWd5XfncKUVT7R3Nm+mn6Xb/u8ZdPDuRKM
+ s0fc6CJhCCvHt7oImxhytw74r+STPpaeq088aiKFgxtwXMDWf+r1PUBd0HPiccCTBTdL
+ TOayfLEyFnQeiQNrVKyhnnWWpCPuAcj/tTJzO34DZfk8LpdnjxAy4Fv8u5aqz3kp2Vxd
+ 7Kag==
+X-Gm-Message-State: AOAM533s/JkL56uPs5/Jk9KyYEhT5+nzn9v36tSpbueqK0Ce15yKBAzI
+ 0+vvlfLXjQaI1mtxr7x+HdlG4KYR4K7vmfVF
+X-Google-Smtp-Source: ABdhPJy1PgWHOQi3ftACV+A9ZupUbd43VeoZtIvQeN2AwzRaGgji6uIzMIDN4d9F/w0kUP0Qnn/kyA==
+X-Received: by 2002:a05:6e02:148c:b0:2cc:169d:87d5 with SMTP id
+ n12-20020a056e02148c00b002cc169d87d5mr2438461ilk.214.1650646661643; 
+ Fri, 22 Apr 2022 09:57:41 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
  by smtp.gmail.com with ESMTPSA id
- n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.38
+ n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 09:57:39 -0700 (PDT)
+ Fri, 22 Apr 2022 09:57:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 66/68] hw/nios2: Machine with a Vectored Interrupt
- Controller
-Date: Fri, 22 Apr 2022 09:52:36 -0700
-Message-Id: <20220422165238.1971496-67-richard.henderson@linaro.org>
+Subject: [PATCH v8 67/68] tests/tcg/nios2: Add semihosting multiarch tests
+Date: Fri, 22 Apr 2022 09:52:37 -0700
+Message-Id: <20220422165238.1971496-68-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
 References: <20220422165238.1971496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
  envelope-from=richard.henderson@linaro.org; helo=mail-il1-x130.google.com
@@ -85,151 +85,434 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Amir Gonnen <amir.gonnen@neuroblade.ai>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Add runtime supporting the nios2-semi.c interface.
+Execute the hello and memory multiarch tests.
 
-Demonstrate how to use nios2 VIC on a machine.
-Introduce a new machine property to attach a VIC.
-
-When VIC is present, let the CPU know that it should use the
-External Interrupt Interface instead of the Internal Interrupt Interface.
-The devices on the machine are attached to the VIC and not directly to cpu.
-To allow VIC update EIC fields, we set the "cpu" property of the VIC
-with a reference to the nios2 cpu.
-
-[rth: Put a property on the 10m50-ghrd machine, rather than
-      create a new machine class.]
-
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
-Message-Id: <20220303153906.2024748-6-amir.gonnen@neuroblade.ai>
+Cc: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-63-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-64-richard.henderson@linaro.org>
 ---
- hw/nios2/10m50_devboard.c | 61 +++++++++++++++++++++++++++++++++------
- hw/nios2/Kconfig          |  1 +
- 2 files changed, 53 insertions(+), 9 deletions(-)
+ tests/tcg/nios2/semicall.h              |  28 +++
+ tests/tcg/nios2/10m50-ghrd.ld           |  66 +++++++
+ tests/tcg/nios2/Makefile.softmmu-target |  32 ++++
+ tests/tcg/nios2/boot.S                  | 218 ++++++++++++++++++++++++
+ tests/tcg/nios2/intr.S                  |  31 ++++
+ 5 files changed, 375 insertions(+)
+ create mode 100644 tests/tcg/nios2/semicall.h
+ create mode 100644 tests/tcg/nios2/10m50-ghrd.ld
+ create mode 100644 tests/tcg/nios2/Makefile.softmmu-target
+ create mode 100644 tests/tcg/nios2/boot.S
+ create mode 100644 tests/tcg/nios2/intr.S
 
-diff --git a/hw/nios2/10m50_devboard.c b/hw/nios2/10m50_devboard.c
-index dda4ab2bf5..91383fb097 100644
---- a/hw/nios2/10m50_devboard.c
-+++ b/hw/nios2/10m50_devboard.c
-@@ -27,6 +27,7 @@
- 
- #include "hw/sysbus.h"
- #include "hw/char/serial.h"
-+#include "hw/intc/nios2_vic.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/sysemu.h"
- #include "hw/boards.h"
-@@ -43,6 +44,8 @@ struct Nios2MachineState {
-     MemoryRegion phys_tcm_alias;
-     MemoryRegion phys_ram;
-     MemoryRegion phys_ram_alias;
+diff --git a/tests/tcg/nios2/semicall.h b/tests/tcg/nios2/semicall.h
+new file mode 100644
+index 0000000000..6ad4978099
+--- /dev/null
++++ b/tests/tcg/nios2/semicall.h
+@@ -0,0 +1,28 @@
++/*
++ * Nios2 semihosting interface.
++ *
++ * Copyright Linaro Ltd 2022
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
-+    bool vic;
- };
- 
- #define TYPE_NIOS2_MACHINE  MACHINE_TYPE_NAME("10m50-ghrd")
-@@ -81,10 +84,39 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
-     memory_region_add_subregion(address_space_mem, 0xc0000000 + ram_base,
-                                 &nms->phys_ram_alias);
- 
--    /* Create CPU -- FIXME */
--    cpu = NIOS2_CPU(cpu_create(TYPE_NIOS2_CPU));
--    for (i = 0; i < 32; i++) {
--        irq[i] = qdev_get_gpio_in_named(DEVICE(cpu), "IRQ", i);
-+    /* Create CPU.  We need to set eic_present between init and realize. */
-+    cpu = NIOS2_CPU(object_new(TYPE_NIOS2_CPU));
++#ifndef SEMICALL_H
++#define SEMICALL_H
 +
-+    /* Enable the External Interrupt Controller within the CPU. */
-+    cpu->eic_present = nms->vic;
++#define HOSTED_EXIT          0
++#define HOSTED_INIT_SIM      1
++#define HOSTED_OPEN          2
++#define HOSTED_CLOSE         3
++#define HOSTED_READ          4
++#define HOSTED_WRITE         5
++#define HOSTED_LSEEK         6
++#define HOSTED_RENAME        7
++#define HOSTED_UNLINK        8
++#define HOSTED_STAT          9
++#define HOSTED_FSTAT         10
++#define HOSTED_GETTIMEOFDAY  11
++#define HOSTED_ISATTY        12
++#define HOSTED_SYSTEM        13
 +
-+    /* Configure new exception vectors. */
-+    cpu->reset_addr = 0xd4000000;
-+    cpu->exception_addr = 0xc8000120;
-+    cpu->fast_tlb_miss_addr = 0xc0000100;
++#define semihosting_call     break 1
 +
-+    qdev_realize_and_unref(DEVICE(cpu), NULL, &error_fatal);
++#endif /* SEMICALL_H */
+diff --git a/tests/tcg/nios2/10m50-ghrd.ld b/tests/tcg/nios2/10m50-ghrd.ld
+new file mode 100644
+index 0000000000..7db0d59ad7
+--- /dev/null
++++ b/tests/tcg/nios2/10m50-ghrd.ld
+@@ -0,0 +1,66 @@
++/*
++ * Link script for the Nios2 10m50-ghrd board.
++ *
++ * Copyright Linaro Ltd 2022
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
-+    if (nms->vic) {
-+        DeviceState *dev = qdev_new(TYPE_NIOS2_VIC);
-+        MemoryRegion *dev_mr;
-+        qemu_irq cpu_irq;
-+
-+        object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_fatal);
-+        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+
-+        cpu_irq = qdev_get_gpio_in_named(DEVICE(cpu), "EIC", 0);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irq);
-+        for (int i = 0; i < 32; i++) {
-+            irq[i] = qdev_get_gpio_in(dev, i);
-+        }
-+
-+        dev_mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-+        memory_region_add_subregion(address_space_mem, 0x18002000, dev_mr);
-+    } else {
-+        for (i = 0; i < 32; i++) {
-+            irq[i] = qdev_get_gpio_in_named(DEVICE(cpu), "IRQ", i);
-+        }
-     }
- 
-     /* Register: Altera 16550 UART */
-@@ -105,15 +137,22 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xe0000880);
-     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq[5]);
- 
--    /* Configure new exception vectors and reset CPU for it to take effect. */
--    cpu->reset_addr = 0xd4000000;
--    cpu->exception_addr = 0xc8000120;
--    cpu->fast_tlb_miss_addr = 0xc0000100;
--
-     nios2_load_kernel(cpu, ram_base, ram_size, machine->initrd_filename,
-                       BINARY_DEVICE_TREE_FILE, NULL);
- }
- 
-+static bool get_vic(Object *obj, Error **errp)
++MEMORY
 +{
-+    Nios2MachineState *nms = NIOS2_MACHINE(obj);
-+    return nms->vic;
++  tpf (rx)  : ORIGIN = 0xc0000000, LENGTH = 1K
++  ram (rwx) : ORIGIN = 0xc8000000, LENGTH = 128M
 +}
 +
-+static void set_vic(Object *obj, bool value, Error **errp)
++PHDRS
 +{
-+    Nios2MachineState *nms = NIOS2_MACHINE(obj);
-+    nms->vic = value;
++  RAM PT_LOAD;
 +}
 +
- static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -121,6 +160,10 @@ static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
-     mc->desc = "Altera 10M50 GHRD Nios II design";
-     mc->init = nios2_10m50_ghrd_init;
-     mc->is_default = true;
++ENTRY(_start)
++EXTERN(_start)
++EXTERN(_interrupt)
++EXTERN(_fast_tlb_miss)
 +
-+    object_class_property_add_bool(oc, "vic", get_vic, set_vic);
-+    object_class_property_set_description(oc, "vic",
-+        "Set on/off to enable/disable the Vectored Interrupt Controller");
- }
- 
- static const TypeInfo nios2_10m50_ghrd_type_info = {
-diff --git a/hw/nios2/Kconfig b/hw/nios2/Kconfig
-index b10ea640da..4748ae27b6 100644
---- a/hw/nios2/Kconfig
-+++ b/hw/nios2/Kconfig
-@@ -3,6 +3,7 @@ config NIOS2_10M50
-     select NIOS2
-     select SERIAL
-     select ALTERA_TIMER
-+    select NIOS2_VIC
- 
- config NIOS2_GENERIC_NOMMU
-     bool
++SECTIONS
++{
++    /* Begin at the (hardcoded) _interrupt entry point. */
++    .text 0xc8000120 : {
++        *(.text.intr)
++        *(.text .text.* .gnu.linkonce.t.*)
++    } >ram :RAM
++
++    .rodata : ALIGN(4) {
++        *(.rodata .rodata.* .gnu.linkonce.r.*)
++    } > ram :RAM
++
++    .eh_frame_hdr : ALIGN (4) {
++        KEEP (*(.eh_frame_hdr))
++        *(.eh_frame_entry .eh_frame_entry.*)
++    } >ram :RAM
++    .eh_frame : ALIGN (4) {
++        KEEP (*(.eh_frame)) *(.eh_frame.*)
++    } >ram :RAM
++
++    .data : ALIGN(4) {
++        *(.shdata)
++        *(.data .data.* .gnu.linkonce.d.*)
++        . = ALIGN(4);
++        _gp = ABSOLUTE(. + 0x8000);
++        *(.got.plt) *(.got)
++        *(.lit8)
++        *(.lit4)
++        *(.sdata .sdata.* .gnu.linkonce.s.*)
++    } >ram :RAM
++
++    .bss : ALIGN(4) {
++         __bss_start = ABSOLUTE(.);
++        *(.sbss .sbss.* .gnu.linkonce.sb.*)
++        *(.scommon)
++        *(.bss .bss.* .gnu.linkonce.b.*)
++        *(COMMON)
++        . = ALIGN(4);
++        __bss_end = ABSOLUTE(.);
++    } >ram :RAM
++
++    __stack = ORIGIN(ram) + LENGTH(ram);
++}
+diff --git a/tests/tcg/nios2/Makefile.softmmu-target b/tests/tcg/nios2/Makefile.softmmu-target
+new file mode 100644
+index 0000000000..cea27472a6
+--- /dev/null
++++ b/tests/tcg/nios2/Makefile.softmmu-target
+@@ -0,0 +1,32 @@
++#
++# Nios2 system tests
++#
++# Copyright Linaro Ltd 2022
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++
++NIOS2_SYSTEM_SRC = $(SRC_PATH)/tests/tcg/nios2
++VPATH += $(NIOS2_SYSTEM_SRC)
++
++# These objects provide the basic boot code and helper functions for all tests
++CRT_OBJS = boot.o intr.o $(MINILIB_OBJS)
++LINK_SCRIPT = $(NIOS2_SYSTEM_SRC)/10m50-ghrd.ld
++
++CFLAGS  += -nostdlib -g -O0 $(MINILIB_INC)
++LDFLAGS += -Wl,-T$(LINK_SCRIPT) -static -nostdlib $(CRT_OBJS) -lgcc
++
++%.o: %.S
++	$(call quiet-command, $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -x assembler-with-cpp -c $< -o $@, AS, $@)
++
++%.o: %.c
++	$(call quiet-command, $(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c $< -o $@, CC, $@)
++
++# Build and link the tests
++%: %.o $(LINK_SCRIPT) $(CRT_OBJS)
++	$(call quiet-command, $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS), LD, $@)
++
++# FIXME: nios2 semihosting writes to stdout, not a chardev
++QEMU_OPTS = -M 10m50-ghrd,vic=on -semihosting >$@.out -kernel
++
++memory: CFLAGS+=-DCHECK_UNALIGNED=0
++TESTS += $(MULTIARCH_TESTS)
+diff --git a/tests/tcg/nios2/boot.S b/tests/tcg/nios2/boot.S
+new file mode 100644
+index 0000000000..f6771cbc81
+--- /dev/null
++++ b/tests/tcg/nios2/boot.S
+@@ -0,0 +1,218 @@
++/*
++ * Minimal Nios2 system boot code.
++ *
++ * Copyright Linaro Ltd 2022
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "semicall.h"
++
++        .text
++	.set	noat
++
++_start:
++	/* Linker script defines stack at end of ram. */
++	movia	sp, __stack
++
++	/* Install trampoline to _fast_tlb_miss at hardcoded vector. */
++	movia	r4, 0xc0000100
++	movia	r5, _ftm_tramp
++	movi	r6, .L__ftm_end - _ftm_tramp
++	call	memcpy
++
++	/* Zero the bss to satisfy C. */
++	movia	r4, __bss_start
++	movia	r6, __bss_end
++	sub	r6, r6, r4
++	movi	r5, 0
++	call	memset
++
++	/* Test! */
++	call	main
++
++	/* Exit with main's return value. */
++	movi	r4, HOSTED_EXIT
++	mov	r5, r2
++	semihosting_call
++
++	.globl	_start
++	.type	_start, @function
++	.size	_start, . - _start
++
++_ftm_tramp:
++	movia	et, _fast_tlb_miss
++	jmp	et
++.L__ftm_end:
++
++	.type	_ftm_tramp, @function
++	.size	_ftm_tramp, . - _ftm_tramp
++
++#define dst	r4
++#define src	r5
++#define len	r6
++
++memcpy:
++	/* Store return value right away, per API */
++	mov	r2, dst
++
++	/* Check for both dst and src aligned. */
++	or	at, dst, src
++	andi	at, at, 3
++	bne	at, zero, .L_mc_test1
++
++	/* Copy blocks of 8. */
++
++	movi	at, 8
++	bltu	len, at, .L_mc_test4
++
++.L_mc_loop8:
++	ldw	r8, 0(src)
++	ldw	r9, 4(src)
++	addi	src, src, 8
++	addi	dst, dst, 8
++	subi	len, len, 8
++	stw	r8, -8(dst)
++	stw	r9, -4(dst)
++	bgeu	len, at, .L_mc_loop8
++
++	/* Copy final aligned block of 4. */
++
++.L_mc_test4:
++	movi	at, 4
++	bltu	len, at, .L_mc_test1
++
++	ldw	r8, 0(src)
++	addi	src, src, 4
++	addi	dst, dst, 4
++	subi	len, len, 4
++	stw	r8, -4(dst)
++
++	/* Copy single bytes to finish. */
++
++.L_mc_test1:
++	beq	len, zero, .L_mc_done
++
++.L_mc_loop1:
++	ldb	r8, 0(src)
++	addi	src, src, 1
++	addi	dst, dst, 1
++	subi	len, len, 1
++	stb	r8, -1(dst)
++	bne	len, zero, .L_mc_loop1
++
++.L_mc_done:
++	ret
++
++#undef dst
++#undef src
++#undef len
++
++	.global	memcpy
++	.type	memcpy, @function
++	.size	memcpy, . - memcpy
++
++#define dst	r4
++#define val	r5
++#define len	r6
++
++memset:
++	/* Store return value right away, per API */
++	mov	r2, dst
++
++	/* Check for small blocks; fall back to bytewise. */
++	movi	r3, 8
++	bltu	len, r3, .L_ms_test1
++
++	/* Replicate the byte across the word. */
++	andi	val, val, 0xff
++	slli	at, val, 8
++	or	val, val, at
++	slli	at, val, 16
++	or	val, val, at
++
++	/* Check for destination alignment; realign if needed. */
++	andi	at, dst, 3
++	bne	at, zero, .L_ms_align
++
++	/* Set blocks of 8. */
++
++.L_ms_loop8:
++	stw	val, 0(dst)
++	stw	val, 4(dst)
++	addi	dst, dst, 8
++	subi	len, len, 8
++	bgeu	len, r3, .L_ms_loop8
++
++	/* Set final aligned block of 4. */
++
++.L_ms_test4:
++	movi	at, 4
++	bltu	len, at, .L_ms_test1
++
++	stw	r8, 0(dst)
++	addi	dst, dst, 4
++	subi	len, len, 4
++	stw	r8, -4(dst)
++
++	/* Set single bytes to finish. */
++
++.L_ms_test1:
++	beq	len, zero, .L_ms_done
++
++.L_ms_loop1:
++	stb	r8, 0(dst)
++	addi	dst, dst, 1
++	subi	len, len, 1
++	bne	len, zero, .L_ms_loop1
++
++.L_ms_done:
++	ret
++
++	/* Realign for a large block, len >= 8. */
++.L_ms_align:
++	andi	at, dst, 1
++	beq	at, zero, 2f
++
++	stb	val, 0(dst)
++	addi	dst, dst, 1
++	subi	len, len, 1
++
++2:	andi	at, dst, 2
++	beq	at, zero, 4f
++
++	sth	val, 0(dst)
++	addi	dst, dst, 2
++	subi	len, len, 2
++
++4:	bgeu	len, r3, .L_ms_loop8
++	br	.L_ms_test4
++
++#undef dst
++#undef val
++#undef len
++
++	.global	memset
++	.type	memset, @function
++	.size	memset, . - memset
++
++/*
++ * void __sys_outc(char c);
++ */
++__sys_outc:
++	subi	sp, sp, 16
++	stb	r4, 0(sp)	/* buffer[0] = c */
++	movi	at, 1
++	stw	at, 4(sp)	/* STDOUT_FILENO */
++	stw	sp, 8(sp)	/* buffer */
++	stw	at, 12(sp)	/* len */
++
++	movi	r4, HOSTED_WRITE
++	addi	r5, sp, 4
++	semihosting_call
++
++	addi	sp, sp, 16
++	ret
++
++	.global	__sys_outc
++	.type	__sys_outc, @function
++	.size	__sys_outc, . - __sys_outc
+diff --git a/tests/tcg/nios2/intr.S b/tests/tcg/nios2/intr.S
+new file mode 100644
+index 0000000000..c1730692ba
+--- /dev/null
++++ b/tests/tcg/nios2/intr.S
+@@ -0,0 +1,31 @@
++/*
++ * Minimal Nios2 system boot code -- exit on interrupt.
++ *
++ * Copyright Linaro Ltd 2022
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "semicall.h"
++
++        .section .text.intr, "ax"
++	.global	_interrupt
++	.type	_interrupt, @function
++
++_interrupt:
++	rdctl	r5, exception		/* extract exception.CAUSE */
++	srli	r5, r5, 2
++	movi	r4, HOSTED_EXIT
++	semihosting_call
++
++	.size	_interrupt, . - _interrupt
++
++        .text
++	.global	_fast_tlb_miss
++	.type	_fast_tlb_miss, @function
++
++_fast_tlb_miss:
++	movi	r5, 32
++	movi	r4, HOSTED_EXIT
++	semihosting_call
++
++	.size	_fast_tlb_miss, . - _fast_tlb_miss
 -- 
 2.34.1
 
