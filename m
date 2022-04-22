@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD56950AEB2
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 06:06:05 +0200 (CEST)
-Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD9850AF51
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 07:04:35 +0200 (CEST)
+Received: from localhost ([::1]:56714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhkYW-0005qa-FE
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 00:06:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57364)
+	id 1nhlT7-0003MJ-ML
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 01:04:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nhkXF-0004xM-TB
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 00:04:45 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:35456)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhlRA-0001bZ-GM
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 01:02:32 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:37385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nhkXD-0000I2-QG
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 00:04:45 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id b7so8160071plh.2
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 21:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TgdHAxqucwcWuUdvW2Ct2lWgjV0L5B12+Jl2GPsSxa8=;
- b=bmqmuHnaKdmtyNbcoPfoAtOT+J+VT371GUH5EYj+/h2SBm0In4BZwgagfMurZy5UIc
- 8VKwqPIf+vSixW0YnDEWjaOO1Vt4CEF3c+wi0LSoo89c4rhd0lC221ayNZJ99saW14zo
- JvmNuoQjLg776YtvEYzl477Wz02SZIGICh+cAtRknM8p1eEbafvi2e9z/LABw3lAWF3Q
- 8pm0uOVoFHaCayTzhxIWnyBGydK5WfU3w8pJhc9m+tGHt3iqt0RX7UC6vaSvLrGlwaLu
- OKRFlELJZEzb5mv0WP482Wnx1BO+0xIM4QxFpWvnbilF77IxSe8yChN34tamnGPqWPaC
- 7EyA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhlR8-0008V3-Ih
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 01:02:32 -0400
+Received: by mail-pl1-x636.google.com with SMTP id u15so4985983ple.4
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 22:02:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=q1KuasRaRy//Cz+DcpR1VpAv9HOMFe4CPCDotDl2ZL0=;
+ b=P/QqUabZyT6vTlqdT7hy+OAmpIGBVlQhPPT4o8hauN+RAard3RuhjVaUdijJnsPtB5
+ 8wqCjxCmZ5NNJLhEIh+rVMR4GPpJbpaQCMk3AoLTUVJrgid+K6I0Ullz5uTq9euDkE/G
+ 52CyDZn/duwNCCH+b/2zdTu4jk0twQB0fXXt70ri/7v4NnA1rPfCUNQDgstA/jg+d7U0
+ s6r4OAy5oPqltTbkYd2ot0+bRKUszwCOt9h+OdRjvSRT9qFZ1eMK6XGEGHCnUF4r7Svj
+ lMhArAZGNNxWmfEaN9ZzEsEUYZhjkwTkvY1ZnxMqTnLjX5VUS/nDNeybujwqp8Fvmkav
+ C/Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=TgdHAxqucwcWuUdvW2Ct2lWgjV0L5B12+Jl2GPsSxa8=;
- b=LOoTM94lGT26XQEekl8b6xIsYqTyh/uRltb6Kf26GyW25hQieCKcXV0Yuku44jZg/4
- 8uw2psrrrPwk4FmgkWnNhuEjvCngWnxqer1DiBv0rpcRoK5M4T2zzrJSvjl8/ExYKiYL
- YSzD00jW3NfJOaYcz03MX2JqdWc+kg5e7BlFi+BHfsRnygokB6Mwn7NH+IvIzSZUwGpM
- rxxOjN1iOt9zL44P0N9qno9eBhiPPi5lUX/OaK1gr7Gsj5cXT+9PGgxKrsQ+uEacoMEa
- bU3BXS7Twz32Zai23HFPFuKnYUPZgQJ/Bt55ubmMq0aSW+IsW/M+/ZKla21Cem7VdUa0
- Vk0w==
-X-Gm-Message-State: AOAM532YINjX9FCVAEkb4WDNiIJ5uZBZhxfMejVH1qemawn2CoWknP76
- wWzBHYOaQ7w0cgz2QzlyFDkUAB7wclyMn04+
-X-Google-Smtp-Source: ABdhPJxXqbUIsbhmuVWPaYutBUkLTP8rHCDIwPSwYhPxteSMA59GxOuWwZrzqR5TXP0/hEcL/PxfjQ==
-X-Received: by 2002:a17:90b:3903:b0:1d2:c8ea:4c9c with SMTP id
- ob3-20020a17090b390300b001d2c8ea4c9cmr3143436pjb.210.1650600281948; 
- Thu, 21 Apr 2022 21:04:41 -0700 (PDT)
-Received: from hsinchu16.internal.sifive.com
- (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ bh=q1KuasRaRy//Cz+DcpR1VpAv9HOMFe4CPCDotDl2ZL0=;
+ b=qbl6tAEDLaaHF7JOr3oFg7VptEr4M3568UUtPJgEKWEJGnWZUWgJ6quJDl7Vraavwa
+ 8f3UxgXL+oQkgdFIISRwvwzrHUYZrryN+CJwKp3PD8fR4ygcXCo3Gj64dUW9HHdAR4Gq
+ Am3i42N6dBh0sbdfuHknaUAxg9ykB/vhL6AoxAFr6zJ3WpQVddZj13oRfKPlpebCQlvS
+ p/KY7vTEIDUFDjh0S651lQ2M+3F47/4YDLm+y7b3xdvvSc5S1N/G9YBPNsF28cjQnDRF
+ uoS2WJpzqkr/Ag2uhJxMR8iQz1YREzPvqJwodZTZajyQgzyNpw6X+lCyK9hpHAj/mOmS
+ IBsw==
+X-Gm-Message-State: AOAM531awHNeSB8zX0szm78V9qXGWcomBIuYPkqM7ZLS5p31z4QI0L9r
+ rsuUoI0QZuEa/NnmDkN/KrphbQ==
+X-Google-Smtp-Source: ABdhPJxNYx1VsoMhPYIQAP75CgPeUCw8AYiyUT6ytO7DoUucvQ7JRVdRd6/2RZEKaGt4PZqGBNvhpQ==
+X-Received: by 2002:a17:90a:2b09:b0:1d6:c17a:fe2f with SMTP id
+ x9-20020a17090a2b0900b001d6c17afe2fmr6020636pjc.16.1650603748624; 
+ Thu, 21 Apr 2022 22:02:28 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:27d3:7d7b:c271:af64:c16d:2453?
+ ([2607:fb90:27d3:7d7b:c271:af64:c16d:2453])
  by smtp.gmail.com with ESMTPSA id
- g13-20020a62520d000000b0050a923a7754sm636877pfb.119.2022.04.21.21.04.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 21:04:41 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] target/riscv: Support configuarable marchid, mvendorid,
- mipid CSR values
-Date: Fri, 22 Apr 2022 12:04:34 +0800
-Message-Id: <20220422040436.2233-1-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.35.1
+ h9-20020a17090a710900b001cd4989fecdsm4473960pjk.25.2022.04.21.22.02.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Apr 2022 22:02:27 -0700 (PDT)
+Message-ID: <ce65683e-143c-45fe-8f60-7668aabcf15c@linaro.org>
+Date: Thu, 21 Apr 2022 22:02:23 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 00/18] migration queue
+Content-Language: en-US
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, peterx@redhat.com, berrange@redhat.com
+References: <20220421184052.306581-1-dgilbert@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220421184052.306581-1-dgilbert@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,130 +90,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
- Bin Meng <bin.meng@windriver.com>, Jim Shu <jim.shu@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+On 4/21/22 11:40, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> The following changes since commit 28298069afff3eb696e4995e63b2579b27adf378:
+> 
+>    Merge tag 'misc-pull-request' of gitlab.com:marcandre.lureau/qemu into staging (2022-04-21 09:27:54 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220421a
+> 
+> for you to fetch changes up to 552de79bfdd5e9e53847eb3c6d6e4cd898a4370e:
+> 
+>    migration: Read state once (2022-04-21 19:36:46 +0100)
+> 
+> ----------------------------------------------------------------
+> V2: Migration pull 2022-04-21
+> 
+>    Dan: Test fixes and improvements (TLS mostly)
+>    Peter: Postcopy improvements
+>    Me: Race fix for info migrate, and compilation fix
+> 
+> V2:
+>    Fixed checkpatch nit of unneeded NULL check
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Allow user to set core's marchid, mvendorid, mipid CSRs through
--cpu command line option.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-The default values of marchid and mipid are built with QEMU's version
-numbers.
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Jim Shu <jim.shu@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
----
- target/riscv/cpu.c |  9 +++++++++
- target/riscv/cpu.h |  4 ++++
- target/riscv/csr.c | 38 ++++++++++++++++++++++++++++++++++----
- 3 files changed, 47 insertions(+), 4 deletions(-)
+r~
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0c774056c5..ace68ed855 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -34,6 +34,11 @@
- 
- /* RISC-V CPU definitions */
- 
-+#define RISCV_CPU_MARCHID   ((QEMU_VERSION_MAJOR << 16) | \
-+                             (QEMU_VERSION_MINOR << 8)  | \
-+                             (QEMU_VERSION_MICRO))
-+#define RISCV_CPU_MIPID     RISCV_CPU_MARCHID
-+
- static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
- 
- struct isa_ext_data {
-@@ -810,6 +815,10 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
- 
-+    DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
-+    DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCHID),
-+    DEFINE_PROP_UINT64("mipid", RISCVCPU, cfg.mipid, RISCV_CPU_MIPID),
-+
-     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 34c22d5d3b..46c66fbf8e 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -393,6 +393,10 @@ struct RISCVCPUConfig {
-     bool ext_zve32f;
-     bool ext_zve64f;
- 
-+    uint32_t mvendorid;
-+    uint64_t marchid;
-+    uint64_t mipid;
-+
-     /* Vendor-specific custom extensions */
-     bool ext_XVentanaCondOps;
- 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 6ba85e7b5d..1c2d3f7193 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -612,6 +612,36 @@ static RISCVException write_ignore(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
-+static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
-+                                     target_ulong *val)
-+{
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    *val = cpu->cfg.mvendorid;
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException read_marchid(CPURISCVState *env, int csrno,
-+                                   target_ulong *val)
-+{
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    *val = cpu->cfg.marchid;
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException read_mipid(CPURISCVState *env, int csrno,
-+                                 target_ulong *val)
-+{
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    *val = cpu->cfg.mipid;
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_mhartid(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
-@@ -3260,10 +3290,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MINSTRETH] = { "minstreth", any32, read_instreth },
- 
-     /* Machine Information Registers */
--    [CSR_MVENDORID] = { "mvendorid", any,   read_zero    },
--    [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
--    [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
--    [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
-+    [CSR_MVENDORID] = { "mvendorid", any,   read_mvendorid },
-+    [CSR_MARCHID]   = { "marchid",   any,   read_marchid   },
-+    [CSR_MIMPID]    = { "mimpid",    any,   read_mipid     },
-+    [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid   },
- 
-     [CSR_MCONFIGPTR]  = { "mconfigptr", any,   read_zero,
-                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
--- 
-2.35.1
+
+
+> 
+> ----------------------------------------------------------------
+> Daniel P. Berrangé (9):
+>        tests: improve error message when saving TLS PSK file fails
+>        tests: support QTEST_TRACE env variable
+>        tests: print newline after QMP response in qtest logs
+>        migration: fix use of TLS PSK credentials with a UNIX socket
+>        tests: switch MigrateStart struct to be stack allocated
+>        tests: merge code for UNIX and TCP migration pre-copy tests
+>        tests: introduce ability to provide hooks for migration precopy test
+>        tests: switch migration FD passing test to use common precopy helper
+>        tests: expand the migration precopy helper to support failures
+> 
+> Dr. David Alan Gilbert (2):
+>        migration: Fix operator type
+>        migration: Read state once
+> 
+> Peter Xu (7):
+>        migration: Postpone releasing MigrationState.hostname
+>        migration: Drop multifd tls_hostname cache
+>        migration: Add pss.postcopy_requested status
+>        migration: Move migrate_allow_multifd and helpers into migration.c
+>        migration: Export ram_load_postcopy()
+>        migration: Move channel setup out of postcopy_try_recover()
+>        migration: Allow migrate-recover to run multiple times
+> 
+>   migration/channel.c                 |   1 -
+>   migration/migration.c               |  66 ++++---
+>   migration/migration.h               |   4 +-
+>   migration/multifd.c                 |  29 +--
+>   migration/multifd.h                 |   4 -
+>   migration/ram.c                     |  10 +-
+>   migration/ram.h                     |   1 +
+>   migration/savevm.c                  |   3 -
+>   migration/tls.c                     |   4 -
+>   tests/qtest/libqtest.c              |  13 +-
+>   tests/qtest/migration-test.c        | 368 ++++++++++++++++++++----------------
+>   tests/unit/crypto-tls-psk-helpers.c |   2 +-
+>   12 files changed, 267 insertions(+), 238 deletions(-)
+> 
+> 
 
 
