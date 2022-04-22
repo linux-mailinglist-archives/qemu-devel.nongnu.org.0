@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EDC150C22F
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 00:11:55 +0200 (CEST)
-Received: from localhost ([::1]:39770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF7850C26D
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 01:03:20 +0200 (CEST)
+Received: from localhost ([::1]:45986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ni1VH-0006bZ-Ru
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 18:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42798)
+	id 1ni2J5-0001aX-GY
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 19:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ni1TN-0005gH-A3
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 18:09:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56118)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ni1TJ-0002bp-GC
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 18:09:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650665387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BMFVJm9dtShNkP7cwazUzGzZbdvMU804Fbi6xRxrS+w=;
- b=DWvIflU9LQcDxk37WLkNp2eN1GgNIBv2590j4iEjR8FzZQuIYeue4T+hftyMTBfI1p2kYx
- R4UGgffhbexopk844BYOz1XOswPaukN2TIK6oFGH8v6+VOAumoY262uTykYk1v64o6c+uv
- aWQjtB93hhWJVReOnYmcp+/UjochQ7A=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-Gc46HwvrMC29tc5sWVFiEQ-1; Fri, 22 Apr 2022 18:09:46 -0400
-X-MC-Unique: Gc46HwvrMC29tc5sWVFiEQ-1
-Received: by mail-io1-f71.google.com with SMTP id
- u18-20020a5d8712000000b0064c7a7c497aso6206652iom.18
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 15:09:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ni2Hq-0000mp-30; Fri, 22 Apr 2022 19:02:02 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:46847)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ni2Ho-0001Vw-4F; Fri, 22 Apr 2022 19:02:01 -0400
+Received: by mail-il1-x12c.google.com with SMTP id f5so5912824ilj.13;
+ Fri, 22 Apr 2022 16:01:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MaYFCQnrZT94GwQbZDE4dKdgrAss/Ig6GEihpFEDcX8=;
+ b=j4K8oBaHzA0WqQdvfv7F33/+a3ZO238rz8zdjN4AeiCsbv499D2CrEvNQ5EjcLPb1X
+ fq3OKo9II/6FVQVTX2sY/H5p1LjsfGW3i+zVeo8zRQE82jtDi2PHVOfjlPpNipTdiqde
+ eeSpD0Ca1Amq+TZlpeaZgvipREHZQQyW4wec/kdem7rDE8sFQcyIYk4DK2DbZOcjoVYY
+ HgD2NA3ZqYs2mGs5ZANvCsoi5hL38tIVjPLjM/WFK8kpJFOcTsvPVZ0RSoCT/zNkWf8N
+ qmDfQrqx82kB8PY/wl9WARqYo1rPTrDcp8z+wJLrkhJh/RSydUyiFsci0INV6G74mmAK
+ M2rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=BMFVJm9dtShNkP7cwazUzGzZbdvMU804Fbi6xRxrS+w=;
- b=vYIBvLyA3WUBgqJky4pIEZ+KU6g1SPBOHNe0hOJg15uQS9uHwKppOarS1FSkqwD7f0
- v37l2Qf07QDFGWRLUZtZsGJP6DtDXEH7q97V3vx3RjnYcq8ANZRhhAV/Dw7SVfYv8eVd
- JVg1msnHDyKgwlBtZIN3mRk2y2ALKlkJf4B+upFc1FA1OKoinxN50zljrL8gw20PfHiI
- riHuxS+YL3DedQDidlKGbM7pI9XGRRwE95uRMl0AE5VL/i1aLUV17Z+qiFL84R58QKSX
- ibWu713Z8sKXfwrsWfALOMbGM6Z46w7Omi5Y7GIFDtdu2GGn/IbDzsQ2elVebzmt8ALf
- 4loQ==
-X-Gm-Message-State: AOAM532iDafrCfiXpMP6V/2cFTpaQHskl0FAcwrdcPHXxxmbKdCD/xyc
- pov8JpBxGxzYxDKTgwq7tlMiLkAmTdth+nn3fKTaECOTRISWV05ZIVanPQ9aYebplj3Hag/R3K8
- HhdxWdoubKNYlkxM=
-X-Received: by 2002:a05:6602:2095:b0:654:a64a:2d4e with SMTP id
- a21-20020a056602209500b00654a64a2d4emr2830643ioa.214.1650665385982; 
- Fri, 22 Apr 2022 15:09:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOdEbofQIQYXeHyO6sATYR/uwesFuNph/21hLkAIusCEY3uun5JOIHUuWOXCX8kp4ftxTjBQ==
-X-Received: by 2002:a05:6602:2095:b0:654:a64a:2d4e with SMTP id
- a21-20020a056602209500b00654a64a2d4emr2830627ioa.214.1650665385729; 
- Fri, 22 Apr 2022 15:09:45 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- y21-20020a6bc415000000b00648da092c8esm2319383ioa.14.2022.04.22.15.09.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 15:09:45 -0700 (PDT)
-Date: Fri, 22 Apr 2022 16:09:43 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-Message-ID: <20220422160943.6ff4f330.alex.williamson@redhat.com>
-In-Reply-To: <20220414104710.28534-1-yi.l.liu@intel.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
-Organization: Red Hat
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MaYFCQnrZT94GwQbZDE4dKdgrAss/Ig6GEihpFEDcX8=;
+ b=mEe9XcfUHgOvoRmGAjoY9YlFLEJAdTfL4u08GVnlmTaz8Idyo9tcb2+p3uAI/5k2AJ
+ cQJuuikiVBd08lxUg1SzPTe6geDUqWnk4QqHl9cFeRuvjgRAhKXNiaueqZPxfZMg3kb0
+ fla5JmwDa/7lWv493fWBEzX5jIM7/tHQw2Vc0CxQHDuXQBBw5IrRIBkBxJZEkpKsazcF
+ ZSGMiJAHTdAyGRgUM67e9+mOsZy+Lw8ekRjB/j5HadbKJcIdfrlt4PeiuASsukl/cCzi
+ Fs/n9h6Dp0rxcd/sZ9sZLss5eAf+T/V2xXHDrqS5uD67Cv3kX9DK/jhg0OA/gpmP7ek4
+ 463Q==
+X-Gm-Message-State: AOAM531qqiOPJRcQ87kNfI1iSG1a8FpLUci5jp9lC5uWk01tlBt71a1o
+ osPIZz2tjUp9DZVp+YJtEIL4qDZ4lwHnj3ZvtLs=
+X-Google-Smtp-Source: ABdhPJwg0jbbcUYbl8ECD0kUo4awMlCVhZ1CTLqfm5nRIuWbZIOooQMRTxyIggzmXCJBNrWOD18EfZRKWFxaTpsLC90=
+X-Received: by 2002:a05:6e02:1e0a:b0:2cd:6f4d:ad5b with SMTP id
+ g10-20020a056e021e0a00b002cd6f4dad5bmr2592447ila.113.1650668518461; Fri, 22
+ Apr 2022 16:01:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220419014847.9722-1-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220419014847.9722-1-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Sat, 23 Apr 2022 09:01:32 +1000
+Message-ID: <CAKmqyKO4XgH06dmDzKv8hs29UX1wvhRdaAOsV0h7LkoFqw_qZg@mail.gmail.com>
+Subject: Re: [PATCH v11 00/14] support subsets of scalar crypto extension
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,144 +78,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: akrowiak@linux.ibm.com, jjherne@linux.ibm.com, farman@linux.ibm.com,
- chao.p.peng@intel.com, kvm@vger.kernel.org, mjrosato@linux.ibm.com,
- Laine Stump <laine@redhat.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>, jasowang@redhat.com,
- cohuck@redhat.com, thuth@redhat.com, peterx@redhat.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, eric.auger@redhat.com, yi.y.sun@intel.com,
- nicolinc@nvidia.com, kevin.tian@intel.com, jgg@nvidia.com,
- eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, lustrew@foxmail.com,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Cc +libvirt folks]
+On Tue, Apr 19, 2022 at 11:58 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+> This patchset implements RISC-V scalar crypto extension v1.0.0 version in=
+structions.
+> Partial instructions are reused from B-extension.
+>
+> Specification:
+> https://github.com/riscv/riscv-crypto
+>
+> The port is available here:
+> https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v11
+>
+> To test rvk implementation, specify cpu argument with 'zks=3Dtrue,zkn=3Dt=
+rue' or "zbkb=3Dtrue,zbkc=3Dtrue,zbkx=3Dtrue,zknd=3Dtrue,zkne=3Dtrue,zknh=
+=3Dtrue,zksed=3Dtrue,zksh=3Dtrue,zkr=3Dtrue" to enable K-extension support.=
+ This implementation can pass the ACT tests for K with our extended act sup=
+port for qemu (available at https://github.com/plctlab/plct-qemu/tree/plct-=
+k-upstream-v11-with-act)
+>
+> Review status:
+> patch 5 is reviewed by Philippe Mathieu-Daud=C3=A9
+> patch 1~11 and 13-14 are acked or reviewed by Alistair Francis
+> patch 2~11 are reviewed by Richard Henderson (fix new comments on patch 6=
+ and 7)
+>
+> v11:
+> * patch 6: add REQUIRE_32BIT to trans_* function for aes RV32 instruction
+> * patch 7: add REQUIRE_64BIT to trans_* function for aes RV64 instruction
+>
+> v10:
+> (only patch 12 is modified)
+> * simplify the conditions for the check in seed function
+> * add NULL check for ret_val in rmw_seed function
+> * remain the change of MSECCFG_* to align with the added MSECCFG_*SEED
+>
+> v9:
+> * check whether seed is accessed by a read-write instruction in helper_cs=
+rr.
+> * fix disas for partial scalar crypto instructions
+> * rebase on https://lists.nongnu.org/archive/html/qemu-riscv/2022-03/msg0=
+0156.html
+>
+> v8:
+> * replace large macro for trans function of sha256/512 instructions with =
+parameters to gen_sha* function in patch 8,9,10
+> * fix tcg_const_tl to tcg_constant_tl
+> * fix rmw_seed function
+>
+> v7:
+> * reuse gen_unary/gen_arith to simplify trans_* functions
+> * replace DEF_HELPER_* with DEF_HEPER_FLAG_*
+> * move aes64 related macros from patch 6 to patch 7
+> * create common helper gen_aes32_sm4 for aes32 and sm4 related instructio=
+ns
+> * replace bs with shamt (bs << 3)
+> * optimize trans function for sha256, sha512 and sm4 instructions to be g=
+enerated inline
+>
+> v6:
+> * add reviewed-by tags
+> * rebase on upstream
+>
+> v5:
+> * split the big patches
+>
+> v4:
+> * drop "x-" in exposed properties
+> * delete unrelated changes
+>
+> v3:
+> * add extension check for SEED csr access
+>
+> v2:
+> * optimize implementation for brev8, xperm, zip, unzip
+> * use aes related sbox array from crypto/aes.h
+> * move sm4_sbox to crypto/sm4.c, and share it with target/arm
+>
+> Weiwei Li (14):
+>   target/riscv: rvk: add cfg properties for zbk* and zk*
+>   target/riscv: rvk: add support for zbkb extension
+>   target/riscv: rvk: add support for zbkc extension
+>   target/riscv: rvk: add support for zbkx extension
+>   crypto: move sm4_sbox from target/arm
+>   target/riscv: rvk: add support for zknd/zkne extension in RV32
+>   target/riscv: rvk: add support for zkne/zknd extension in RV64
+>   target/riscv: rvk: add support for sha256 related instructions in zknh
+>     extension
+>   target/riscv: rvk: add support for sha512 related instructions for
+>     RV32 in zknh extension
+>   target/riscv: rvk: add support for sha512 related instructions for
+>     RV64 in zknh extension
+>   target/riscv: rvk: add support for zksed/zksh extension
+>   target/riscv: rvk: add CSR support for Zkr
+>   disas/riscv.c: rvk: add disas support for Zbk* and Zk* instructions
+>   target/riscv: rvk: expose zbk* and zk* properties
 
-On Thu, 14 Apr 2022 03:46:52 -0700
-Yi Liu <yi.l.liu@intel.com> wrote:
+Do you mind rebasing this on the latest master? Then I can merge it
 
-> With the introduction of iommufd[1], the linux kernel provides a generic
-> interface for userspace drivers to propagate their DMA mappings to kernel
-> for assigned devices. This series does the porting of the VFIO devices
-> onto the /dev/iommu uapi and let it coexist with the legacy implementation.
-> Other devices like vpda, vfio mdev and etc. are not considered yet.
-> 
-> For vfio devices, the new interface is tied with device fd and iommufd
-> as the iommufd solution is device-centric. This is different from legacy
-> vfio which is group-centric. To support both interfaces in QEMU, this
-> series introduces the iommu backend concept in the form of different
-> container classes. The existing vfio container is named legacy container
-> (equivalent with legacy iommu backend in this series), while the new
-> iommufd based container is named as iommufd container (may also be mentioned
-> as iommufd backend in this series). The two backend types have their own
-> way to setup secure context and dma management interface. Below diagram
-> shows how it looks like with both BEs.
-> 
->                     VFIO                           AddressSpace/Memory
->     +-------+  +----------+  +-----+  +-----+
->     |  pci  |  | platform |  |  ap |  | ccw |
->     +---+---+  +----+-----+  +--+--+  +--+--+     +----------------------+
->         |           |           |        |        |   AddressSpace       |
->         |           |           |        |        +------------+---------+
->     +---V-----------V-----------V--------V----+               /
->     |           VFIOAddressSpace              | <------------+
->     |                  |                      |  MemoryListener
->     |          VFIOContainer list             |
->     +-------+----------------------------+----+
->             |                            |
->             |                            |
->     +-------V------+            +--------V----------+
->     |   iommufd    |            |    vfio legacy    |
->     |  container   |            |     container     |
->     +-------+------+            +--------+----------+
->             |                            |
->             | /dev/iommu                 | /dev/vfio/vfio
->             | /dev/vfio/devices/vfioX    | /dev/vfio/$group_id
->  Userspace  |                            |
->  ===========+============================+================================
->  Kernel     |  device fd                 |
->             +---------------+            | group/container fd
->             | (BIND_IOMMUFD |            | (SET_CONTAINER/SET_IOMMU)
->             |  ATTACH_IOAS) |            | device fd
->             |               |            |
->             |       +-------V------------V-----------------+
->     iommufd |       |                vfio                  |
-> (map/unmap  |       +---------+--------------------+-------+
->  ioas_copy) |                 |                    | map/unmap
->             |                 |                    |
->      +------V------+    +-----V------+      +------V--------+
->      | iommfd core |    |  device    |      |  vfio iommu   |
->      +-------------+    +------------+      +---------------+
-> 
-> [Secure Context setup]
-> - iommufd BE: uses device fd and iommufd to setup secure context
->               (bind_iommufd, attach_ioas)
-> - vfio legacy BE: uses group fd and container fd to setup secure context
->                   (set_container, set_iommu)
-> [Device access]
-> - iommufd BE: device fd is opened through /dev/vfio/devices/vfioX
-> - vfio legacy BE: device fd is retrieved from group fd ioctl
-> [DMA Mapping flow]
-> - VFIOAddressSpace receives MemoryRegion add/del via MemoryListener
-> - VFIO populates DMA map/unmap via the container BEs
->   *) iommufd BE: uses iommufd
->   *) vfio legacy BE: uses container fd
-> 
-> This series qomifies the VFIOContainer object which acts as a base class
-> for a container. This base class is derived into the legacy VFIO container
-> and the new iommufd based container. The base class implements generic code
-> such as code related to memory_listener and address space management whereas
-> the derived class implements callbacks that depend on the kernel user space
-> being used.
-> 
-> The selection of the backend is made on a device basis using the new
-> iommufd option (on/off/auto). By default the iommufd backend is selected
-> if supported by the host and by QEMU (iommufd KConfig). This option is
-> currently available only for the vfio-pci device. For other types of
-> devices, it does not yet exist and the legacy BE is chosen by default.
+Alistair
 
-I've discussed this a bit with Eric, but let me propose a different
-command line interface.  Libvirt generally likes to pass file
-descriptors to QEMU rather than grant it access to those files
-directly.  This was problematic with vfio-pci because libvirt can't
-easily know when QEMU will want to grab another /dev/vfio/vfio
-container.  Therefore we abandoned this approach and instead libvirt
-grants file permissions.
-
-However, with iommufd there's no reason that QEMU ever needs more than
-a single instance of /dev/iommufd and we're using per device vfio file
-descriptors, so it seems like a good time to revisit this.
-
-The interface I was considering would be to add an iommufd object to
-QEMU, so we might have a:
-
--device iommufd[,fd=#][,id=foo]
-
-For non-libivrt usage this would have the ability to open /dev/iommufd
-itself if an fd is not provided.  This object could be shared with
-other iommufd users in the VM and maybe we'd allow multiple instances
-for more esoteric use cases.  [NB, maybe this should be a -object rather than
--device since the iommufd is not a guest visible device?]
-
-The vfio-pci device might then become:
-
--device vfio-pci[,host=DDDD:BB:DD.f][,sysfsdev=/sys/path/to/device][,fd=#][,iommufd=foo]
-
-So essentially we can specify the device via host, sysfsdev, or passing
-an fd to the vfio device file.  When an iommufd object is specified,
-"foo" in the example above, each of those options would use the
-vfio-device access mechanism, essentially the same as iommufd=on in
-your example.  With the fd passing option, an iommufd object would be
-required and necessarily use device level access.
-
-In your example, the iommufd=auto seems especially troublesome for
-libvirt because QEMU is going to have different locked memory
-requirements based on whether we're using type1 or iommufd, where the
-latter resolves the duplicate accounting issues.  libvirt needs to know
-deterministically which backed is being used, which this proposal seems
-to provide, while at the same time bringing us more in line with fd
-passing.  Thoughts?  Thanks,
-
-Alex
-
+>
+>  crypto/meson.build                      |   1 +
+>  crypto/sm4.c                            |  49 +++
+>  disas/riscv.c                           | 173 ++++++++++-
+>  include/crypto/sm4.h                    |   6 +
+>  target/arm/crypto_helper.c              |  36 +--
+>  target/riscv/bitmanip_helper.c          |  80 +++++
+>  target/riscv/cpu.c                      |  36 +++
+>  target/riscv/cpu.h                      |  13 +
+>  target/riscv/cpu_bits.h                 |   9 +
+>  target/riscv/crypto_helper.c            | 302 ++++++++++++++++++
+>  target/riscv/csr.c                      |  80 +++++
+>  target/riscv/helper.h                   |  22 ++
+>  target/riscv/insn32.decode              |  97 ++++--
+>  target/riscv/insn_trans/trans_rvb.c.inc | 116 ++++++-
+>  target/riscv/insn_trans/trans_rvk.c.inc | 391 ++++++++++++++++++++++++
+>  target/riscv/meson.build                |   3 +-
+>  target/riscv/op_helper.c                |   9 +
+>  target/riscv/pmp.h                      |   8 +-
+>  target/riscv/translate.c                |   8 +
+>  19 files changed, 1368 insertions(+), 71 deletions(-)
+>  create mode 100644 crypto/sm4.c
+>  create mode 100644 include/crypto/sm4.h
+>  create mode 100644 target/riscv/crypto_helper.c
+>  create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
+>
+> --
+> 2.17.1
+>
+>
 
