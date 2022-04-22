@@ -2,70 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC4450B404
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 11:27:06 +0200 (CEST)
-Received: from localhost ([::1]:39066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B4450B3FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 11:26:12 +0200 (CEST)
+Received: from localhost ([::1]:37958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhpZB-0000xZ-5l
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 05:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49174)
+	id 1nhpYJ-00008y-QX
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 05:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhpSE-0003Se-7q
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:19:54 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:38560)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhpSC-00045h-RZ
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:19:53 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id v10so4603977ybe.5
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 02:19:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MX9N0sOq4l0ar/1VeOFy8QzZcmFnRZUa8GW7ggry6WU=;
- b=T45PfpdUqpaIrWghcJV2YorZil6fXUKZ0LTivgIwgG50hSbASUg9vM/JngUhPY7xhO
- sAUG9ZswgFVUYXpAzyjVWp04pvz9QE9SWpNTzwNv7+Cnbi3N5byN1ld9ROeO7pip2oM6
- 8rIjBnWr3mKRpK0YP09m1kIgdm7MGseKd5uY0AlAtQKSlYPzivA7nlsZWOhGvOcpzbe9
- C2Z6ZzXzNnNMBdwK7STjHsLIuiHqwbEt00WzvEGArM0aJweWoBUBLebxTkC+6noP704M
- 0M6zIGyi4f6yPBuMlk+6SBmHxQ4JLyHiPDlK23DZ4re5FcRgn9W9mVoS2FCAaesB71e7
- rpVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MX9N0sOq4l0ar/1VeOFy8QzZcmFnRZUa8GW7ggry6WU=;
- b=dYS34va7Qz3NYoFVGaUdqZc7mPsC7H+Mu8WN8fc9lJ+bA/3i7E54nNesmqXAsIrRz5
- o03aw6P+dp7EPLSMAr8+33KjpO9zqFsR6ecWwHYHHS8kw0+WLtP/jtG25RexJStot96l
- 09OmUo8ncKdXpqZbKPwAxVCjxDdPy/XzAOJCtg68SnmsZV/Oo1vYXk8d13jt7QhDW2VH
- RAHq1+VWrJnuWcA0gWXMAHeG1JglVt0nyi8V6PPMRFTYasm0Re5YsVN93auGeeSr+qVp
- ZgAs5///a0zaN6FyNjZ3xdyL9LjZiKQvXVbTEDrwMOKBi1/nchYkcyvK1Ok1HzNcjHQu
- KhHg==
-X-Gm-Message-State: AOAM530VoOn9TQujvDiyJ4crRuipLLEV+mOdM1pk8WNHKJc9efRiQ3mH
- H/9/i2kfn4WqV5wHcPTBOYba2ig3RBfgi2AOWAnEfQ==
-X-Google-Smtp-Source: ABdhPJwxVql+aF/HmwdioSxj+aXPQ4eVWIg9P6sA0UkBwBSY8VnsFqHcN+eG+q6F0E4TqXzUy4NuSVR8StN72QcnX1c=
-X-Received: by 2002:a5b:6c1:0:b0:633:b5c7:b9b7 with SMTP id
- r1-20020a5b06c1000000b00633b5c7b9b7mr3473789ybq.67.1650619191534; Fri, 22 Apr
- 2022 02:19:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1nhpWH-0006r9-FH; Fri, 22 Apr 2022 05:24:05 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51990)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1nhpWF-0004r4-AJ; Fri, 22 Apr 2022 05:24:05 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23M9D4l0016852; 
+ Fri, 22 Apr 2022 09:23:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=5YoUscdCvZqMTS+O22FyvVCvWlKSJU/srPDMwqRJN5c=;
+ b=iug3hUjKwA7qBXyQjdc0X3LRWzYCBSio54oJJfuPPhWLhC9Z73AXjXFROYk8tY3QH+yd
+ TlQGunZ//Gq5Snqh7stw1bCu2RXkLw8tKUvPkHl1LG93CJEWODsp5pAgZ2Il/1fZykHS
+ 2X0L8g/Er6s5BZHCODQmzNRxenVradimvmX4mEAOUWDx2kbKX/iTeBw1WMJUVdsNcrVj
+ kW2yKCQdfyFk6mBvl61psbA5uIoFqQsRGveAMeSEdgqK4XjYqkoou3U5jjq//kEreK9K
+ kdZEgLK8GOkNEClG7GyPtjfAybpkDV5k9Xv5PUTxRmRRPHA8dyjqgYSSvqkWCFOp7ien 8w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fjm2jm4n4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Apr 2022 09:23:59 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23M8H8K0007805;
+ Fri, 22 Apr 2022 09:23:58 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3fjm2jm4mn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Apr 2022 09:23:58 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23M9NGu9019134;
+ Fri, 22 Apr 2022 09:23:56 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3ffne9944f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Apr 2022 09:23:56 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23M9NrrP28836344
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 22 Apr 2022 09:23:53 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0176BA405E;
+ Fri, 22 Apr 2022 09:23:53 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3A8EEA4055;
+ Fri, 22 Apr 2022 09:23:52 +0000 (GMT)
+Received: from [9.171.20.253] (unknown [9.171.20.253])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 22 Apr 2022 09:23:52 +0000 (GMT)
+Message-ID: <f3515bef-9724-5e3d-0e42-3baa289ed441@linux.ibm.com>
+Date: Fri, 22 Apr 2022 11:27:11 +0200
 MIME-Version: 1.0
-References: <1650094695-121918-1-git-send-email-chenxiang66@hisilicon.com>
-In-Reply-To: <1650094695-121918-1-git-send-email-chenxiang66@hisilicon.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Apr 2022 10:19:40 +0100
-Message-ID: <CAFEAcA8ATBoSSWA-+kbthkwkmOdUui7Suni--M68C=8vPkoEmg@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/arm/smmuv3: Pass the actual perm to returned
- IOMMUTLBEntry in smmuv3_translate()
-To: chenxiang <chenxiang66@hisilicon.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 5/9] s390x/pci: enable for load/store intepretation
+Content-Language: en-US
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+References: <20220404181726.60291-1-mjrosato@linux.ibm.com>
+ <20220404181726.60291-6-mjrosato@linux.ibm.com>
+ <cb628847-9b52-b64a-da1e-18f69fe20e4b@linux.ibm.com>
+ <1d9a128a-1391-712b-abdc-7d4d9c1e5cc0@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <1d9a128a-1391-712b-abdc-7d4d9c1e5cc0@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Z1MuzbFHrS26hqKl5rR8s3w-doGZW0QD
+X-Proofpoint-ORIG-GUID: 9JqfT1mtV0dSzouRf6hgbfxJFlpOst8G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-22_02,2022-04-21_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 bulkscore=0 phishscore=0
+ malwarescore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204220040
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,28 +113,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eric.auger@redhat.com, linuxarm@huawei.com, qemu-devel@nongnu.org
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 16 Apr 2022 at 08:46, chenxiang via <qemu-devel@nongnu.org> wrote:
->
-> From: Xiang Chen <chenxiang66@hisilicon.com>
->
-> It always calls the IOMMU MR translate() callback with flag=IOMMU_NONE in
-> memory_region_iommu_replay(). Currently, smmuv3_translate() return an
-> IOMMUTLBEntry with perm set to IOMMU_NONE even if the translation success,
-> whereas it is expected to return the actual permission set in the table
-> entry.
-> So pass the actual perm to returned IOMMUTLBEntry in the table entry.
->
-> Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> ---
 
 
+On 4/20/22 17:12, Matthew Rosato wrote:
+> On 4/19/22 3:47 PM, Pierre Morel wrote:
+>>
+>>
+>> On 4/4/22 20:17, Matthew Rosato wrote:
+>>> If the appropriate CPU facilty is available as well as the necessary
+>>> ZPCI_OP ioctl, then the underlying KVM host will enable load/store
+>>> intepretation for any guest device without a SHM bit in the guest
+>>> function handle.  For a device that will be using interpretation
+>>> support, ensure the guest function handle matches the host function
+>>> handle; this value is re-checked every time the guest issues a SET 
+>>> PCI FN
+>>> to enable the guest device as it is the only opportunity to reflect
+>>> function handle changes.
+>>>
+>>> By default, unless interpret=off is specified, interpretation support 
+>>> will
+>>> always be assumed and exploited if the necessary ioctl and features are
+>>> available on the host kernel.  When these are unavailable, we will 
+>>> silently
+>>> revert to the interception model; this allows existing guest 
+>>> configurations
+>>> to work unmodified on hosts with and without zPCI interpretation 
+>>> support,
+>>> allowing QEMU to choose the best support model available.
+>>>
+>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>>> ---
+>>>   hw/s390x/meson.build            |  1 +
+>>>   hw/s390x/s390-pci-bus.c         | 66 ++++++++++++++++++++++++++++++++-
+>>>   hw/s390x/s390-pci-inst.c        | 12 ++++++
+>>>   hw/s390x/s390-pci-kvm.c         | 21 +++++++++++
+>>>   include/hw/s390x/s390-pci-bus.h |  1 +
+>>>   include/hw/s390x/s390-pci-kvm.h | 24 ++++++++++++
+>>>   target/s390x/kvm/kvm.c          |  7 ++++
+>>>   target/s390x/kvm/kvm_s390x.h    |  1 +
+>>>   8 files changed, 132 insertions(+), 1 deletion(-)
+>>>   create mode 100644 hw/s390x/s390-pci-kvm.c
+>>>   create mode 100644 include/hw/s390x/s390-pci-kvm.h
+>>>
+>>
+>> ...snip...
+>>
+>>>           if (s390_pci_msix_init(pbdev)) {
+>>> @@ -1360,6 +1423,7 @@ static Property s390_pci_device_properties[] = {
+>>>       DEFINE_PROP_UINT16("uid", S390PCIBusDevice, uid, UID_UNDEFINED),
+>>>       DEFINE_PROP_S390_PCI_FID("fid", S390PCIBusDevice, fid),
+>>>       DEFINE_PROP_STRING("target", S390PCIBusDevice, target),
+>>> +    DEFINE_PROP_BOOL("interpret", S390PCIBusDevice, interp, true),
+>>>       DEFINE_PROP_END_OF_LIST(),
+>>>   };
+>>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+>>> index 6d400d4147..c898c8abe9 100644
+>>> --- a/hw/s390x/s390-pci-inst.c
+>>> +++ b/hw/s390x/s390-pci-inst.c
+>>> @@ -18,6 +18,8 @@
+>>>   #include "sysemu/hw_accel.h"
+>>>   #include "hw/s390x/s390-pci-inst.h"
+>>>   #include "hw/s390x/s390-pci-bus.h"
+>>> +#include "hw/s390x/s390-pci-kvm.h"
+>>> +#include "hw/s390x/s390-pci-vfio.h"
+>>>   #include "hw/s390x/tod.h"
+>>>   #ifndef DEBUG_S390PCI_INST
+>>> @@ -246,6 +248,16 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, 
+>>> uintptr_t ra)
+>>>                   goto out;
+>>>               }
+>>> +            /*
+>>> +             * Take this opportunity to make sure we still have an 
+>>> accurate
+>>> +             * host fh.  It's possible part of the handle changed 
+>>> while the
+>>> +             * device was disabled to the guest (e.g. vfio hot reset 
+>>> for
+>>> +             * ISM during plug)
+>>> +             */
+>>> +            if (pbdev->interp) {
+>>> +                /* Take this opportunity to make sure we are sync'd 
+>>> with host */
+>>> +                s390_pci_get_host_fh(pbdev, &pbdev->fh);
 
-Applied to target-arm.next, thanks.
+Here we should check the return value and, AFAIU, assume that the device 
+disappear if it did return false.
 
--- PMM
+>>> +            }
+>>>               pbdev->fh |= FH_MASK_ENABLE;
+>>
+>> Are we sure here that the PCI device is always enabled?
+>> Shouldn't we check?
+> 
+> I guess you mean the host device?  Interesting thought.
+> 
+> So, to be clear, the idea on setting FH_MASK_ENABLE here is that we are 
+> handling a guest CLP SET PCI FN enable so the guest fh should always 
+> have FH_MASK_ENABLE set if we return CLP_RC_OK to the guest.
+> 
+> But for interpretation, if we find the host function is disabled, I 
+> suppose we could return an error on the guest CLP (not sure which error 
+> yet); otherwise, if we return the force-enabled handle and CLP_RC_OK as 
+> we do here then the guest will just get errors attempting to use it.
+
+hum, in this case can't we have a loop on
+clp enable->error->clp disable->clp enable->error...
+
+I think we should return an error if what the guest asked for could not 
+be done.
+
+
+> 
+> 
+> 
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
