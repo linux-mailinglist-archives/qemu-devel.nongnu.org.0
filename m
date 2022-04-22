@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB0250ADA6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 04:14:16 +0200 (CEST)
-Received: from localhost ([::1]:43220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8788750ADAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 04:21:22 +0200 (CEST)
+Received: from localhost ([::1]:46038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhioI-0000sM-VS
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 22:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43478)
+	id 1nhivB-0003eh-JW
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 22:21:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhinT-0008EA-9y; Thu, 21 Apr 2022 22:13:23 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:33184)
+ id 1nhitf-0002rd-UL; Thu, 21 Apr 2022 22:19:47 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:46712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhinR-0001cm-IH; Thu, 21 Apr 2022 22:13:22 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2eba37104a2so71857747b3.0; 
- Thu, 21 Apr 2022 19:13:20 -0700 (PDT)
+ id 1nhite-0002QS-Fe; Thu, 21 Apr 2022 22:19:47 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id b26so6355835ybj.13;
+ Thu, 21 Apr 2022 19:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1I+LQYReg0CnXp6WlfnRD0aOzelZmrk0tDVMoTysREY=;
- b=EWeTcOVt/9rewS9qxUnjpFehj/M7IGTGnfYwd8IsFTBVlhqzBkFk5+D7CrB0G0vosn
- W8H6BFcKfyP20Fa/D3fnbWCQ1dX/G0+OEWyJD1M2rXRzNieOFE6JN6/nJM26bykzvEfU
- vamPrwQxFtBt5al7rEBfcmYo6WswOmjxBleF7ci9y/YJpM56AOxFvDtyG4YueJBMi1AR
- xh4NBkfZGUAjAOA2HjiC3G2aa0fp3euLtBSRNuMlqthTxEwT3ePP09R60Ej/6NhV4q25
- UM9PS4n84AbxuWdk7lsuUiSQ/Ax0Rpf/yUo3dpfsgZlbRLRRubScSKVRfiE/UYt3dhQ1
- +RRQ==
+ :cc; bh=SiND2r5c6ThS1JyIBWyrP4Lrb7B3zGrsKactfu0OpG8=;
+ b=Wsp+P1LKtXqZB9oBWj6sAkhGb6329XQ12XItUs/eXw9GjmMG8w7n3DKSkLD4Htp2g3
+ Kuu/YJWA76/t9+wX/clufpcBTVWC4ZFLra9RDuv2yyrkoYq3ssEdLP6CSaCE1vTnVmcw
+ IB2WOWIxqaaTRbPBZmU0WJzjvjJGLjPvv96VZvJ/3uRpEKgKqdq692XL+Ja6UnDNVsKD
+ k/A0bVD+qmUiFCGESxmfMPgoiCnRXxU2XGc0g8MGGOlF+5RWuhhpGa6VinNLBnT46QWO
+ 3ftcxQg3HQXlCegjsXd3JVnemrnu5ZTCod+UhjIVRw1gTbFxzFSO2JolBV9DaQ9jAUJL
+ fVRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1I+LQYReg0CnXp6WlfnRD0aOzelZmrk0tDVMoTysREY=;
- b=uYKf0TnkuI/408oMl+4wQDbdh0/tuuNh33f/LiInBUYhTUvhzjWb0IIcxXByNuDM1W
- vTIsj0phOj9nZBeVnuX4F20SbRq+m4A/3t2E9315Un05/0tAnquFGM84GTZ3HpIdyoau
- vva73QuFtybhmnu54jk9MNIS1X+yvSXFmVwI92ecRQ6Ad7MCBroisT+8EmVgTVIifPkf
- v7E81Ti1+RvY9GuF5uCVTgx9fQq1NykJ+oHdpLvz3lzksvoF9N2gCJGWpMrGDh7p/6CR
- dKCdDjQ4FdQvXR+VSGcxAn0YorK/iD0z1AA4cHKG6SnRQTV+8D1sFXIQL2WvGWR/fWh8
- iTlg==
-X-Gm-Message-State: AOAM530Vue3l0RT5hDii26YWhBD5BgFGOA/f2tqERvkB3pNa64JklMyR
- Ece0bl2MMdbhv/M1e6+08H2NJxgE2nz6Nn2b9mY=
-X-Google-Smtp-Source: ABdhPJxa/pSOZjSupR1ytZpRffubj+BKGOXrQezkfKCU30CQYJ5qwzcQOLKT8shxAhVW/+fdB1rTcFSjwyNGYehwpRE=
-X-Received: by 2002:a81:ad7:0:b0:2e6:84de:3223 with SMTP id
- 206-20020a810ad7000000b002e684de3223mr2713534ywk.209.1650593599848; Thu, 21
- Apr 2022 19:13:19 -0700 (PDT)
+ bh=SiND2r5c6ThS1JyIBWyrP4Lrb7B3zGrsKactfu0OpG8=;
+ b=7y1SFh5qbeUnz7qAx3zmdy6HO5hupi9U5+cbtEjnOVeEKTTNs5zBy4LdTtzvXC8zzR
+ o9tHo5H6L9f7oQrEmn62Oi7ed8amCoU5p2oFWeUptq+94N8DQCqx/YbK5Oru7hNizZYj
+ LfF/1186BtidwNWm2Z4O2cEJeoKXPAjlTmnWsdl98aEzwPqF3Gxbp0dqxnp1VFg9FnQZ
+ vUIHcV5bhH7Z+cOg0lUmDQY+e1L91syKUF3qfxEsevwPH6XvtD+d7BZ5k7WHctDBOtB9
+ 2gcsxd49g/7Off4uJdqT2EknbD8VTNEMqtHusrD4swP78alpQk1oIe5H4/mwdFJt5p3T
+ 1pKg==
+X-Gm-Message-State: AOAM532KF2zzmCTWx8qmWYiENlGVBoX3mB0zYjxhJV7VxAfbwScrUqm4
+ K7cGtmbwLNq+cCmD784gvJ8SHo72zMMGZ8zIdgA=
+X-Google-Smtp-Source: ABdhPJyyBX5Z3tEaF4GOWR4cp6Ra0rTHXhO8CTZDgoMb47ey7ThFtccx3w3MeSjiYVkI3yTqHAwK2bM2dTsZfk88glg=
+X-Received: by 2002:a25:d244:0:b0:641:e40:4a37 with SMTP id
+ j65-20020a25d244000000b006410e404a37mr2597045ybg.123.1650593985218; Thu, 21
+ Apr 2022 19:19:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220420055248.960491-1-alistair.francis@opensource.wdc.com>
- <20220420055248.960491-7-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20220420055248.960491-7-alistair.francis@opensource.wdc.com>
+References: <20220416193034.538161-1-qemu@ben.fluff.org>
+ <20220416193034.538161-5-qemu@ben.fluff.org>
+In-Reply-To: <20220416193034.538161-5-qemu@ben.fluff.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 22 Apr 2022 10:13:07 +0800
-Message-ID: <CAEUhbmVRjbJWWRBEav1jEv79+rK-7f_89H=SKrnfw+COvMkZuQ@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] hw/riscv: Enable TPM backends
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Date: Fri, 22 Apr 2022 10:19:34 +0800
+Message-ID: <CAEUhbmUAYtS1bshMrVceWe_B=uWVacty0scHUv9MoAfBQxeMKQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] hw/riscv: use qemu_fdt_setprop_strings() in sifive_u.c
+To: Ben Dooks <qemu@ben.fluff.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x112f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,47 +76,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <alistair@alistair23.me>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair23@gmail.com>
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 20, 2022 at 1:53 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
+On Mon, Apr 18, 2022 at 5:13 AM Ben Dooks <qemu@ben.fluff.org> wrote:
 >
-> From: Alistair Francis <alistair.francis@wdc.com>
+> Use the qemu_fdt_setprop_strings() in sifve_u.c to simplify
+> the code.
 >
-> Imply the TPM sysbus devices. This allows users to add TPM devices to
-> the RISC-V virt board.
->
-> This was tested by first creating an emulated TPM device:
->
->     swtpm socket --tpm2 -t -d --tpmstate dir=/tmp/tpm \
->         --ctrl type=unixio,path=swtpm-sock
->
-> Then launching QEMU with:
->
->     -chardev socket,id=chrtpm,path=swtpm-sock \
->     -tpmdev emulator,id=tpm0,chardev=chrtpm \
->     -device tpm-tis-device,tpmdev=tpm0
->
-> The TPM device can be seen in the memory tree and the generated device
-> tree.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/942
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
+> Signed-off-by; Ben Dooks <qemu@ben.fluff.org>
+
+; should be replaced to :
+
+Not sure how you did that, but you can do with "git commit -s" and git
+will take care of the SoB tag.
+
 > ---
->  hw/riscv/virt.c  | 4 ++++
->  hw/riscv/Kconfig | 1 +
->  2 files changed, 5 insertions(+)
+>  hw/riscv/sifive_u.c | 20 +++++++-------------
+>  1 file changed, 7 insertions(+), 13 deletions(-)
 >
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Regards,
+Bin
 
