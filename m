@@ -2,77 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6DB850B885
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:32:18 +0200 (CEST)
-Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1B750B8B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:38:35 +0200 (CEST)
+Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhtOQ-0000to-AN
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60226)
+	id 1nhtUX-00013U-PG
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhtKG-0006NW-2o
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:27:58 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:46031)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nhtKE-0000pX-K9
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:27:55 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id lc2so16346258ejb.12
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 06:27:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=RUJg+/l8gxWtRsBLdZXA0zihPk0gNzW5+tmFfHG7tz6u9GqnfvwLre+Z0cuM2v87cR
- SpLqRH4WH0Kr8iyGSLT+bLKZc+YQbqFpM/WGce80hZdCWe9pphv14MqZwOfkdeYvS3FP
- WavPBWym9I+KgNk1q6d8fcdTTbRqqdpTmuwMzs+oezzFNSySsCekMMRQ8chJzkTVH0iM
- cdhSJcvO91RqhKgevv/9se1QFLu+Rc3DMe1Gt/rCWNPVsHPOBQuxmxpzGs3CleIcvO1h
- Uf4WF+LzXs7Ki8/KvwQ5yLuRjUoCzFfBtN3tPjQ0vkhSaphLmsSfEj2jeYZ2rxPnv73w
- 4GQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=jlZSbQu+OvNQj1cGUI40nWIkWMQrPjfHhCaDAtq8BsLXha3abE3f7KSWUzWDW4dSaS
- ZEn5FOkRa/cF+gi+3PHwI5Rd8ww0JMjSKkVyjtCYU77PEclvUygQSFTyfh5H+mnTxOrR
- 2GkgwGi+7F0LAbNBCmHVoZDWmL3UL1UJ0dCm/aMTanit9ktD5Lc5cQM6m+i5DOlzlzqZ
- a08Q2+2vBz8CLx4xdFrBDVQK9I/x8g74L4jnhZpCXmgz/COcTwYptkfiVhIudaARntf/
- 07V5TMfy19SMjzX5ZsAb2mjKTPr4cJhZIdg+vCuX9Grgp+kr3EiM8cFLwXsU8/UYeVJB
- DKKA==
-X-Gm-Message-State: AOAM533AdD6Ke65DWlPLuQkY+GmXyDs24tGDLMTn2TJb1W9RioCVpen+
- PHegnsynJlhLBDc87x1GFS2iue/opV75ig==
-X-Google-Smtp-Source: ABdhPJyMZp7tgeF+sM9vFcnZGk3gRztRaa3dUIHjdUOIJOzWbs/ZcS8l5G9jrCj9d5zV+KsU5wcJGQ==
-X-Received: by 2002:a17:906:1ecf:b0:6e7:fdc1:255b with SMTP id
- m15-20020a1709061ecf00b006e7fdc1255bmr4129931ejj.340.1650634072859; 
- Fri, 22 Apr 2022 06:27:52 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.gmail.com with ESMTPSA id
- g1-20020a170906348100b006efc26c7b1dsm725169ejb.195.2022.04.22.06.27.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 06:27:52 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: [PATCH] configure: make fortify_source=yes by default
-Date: Fri, 22 Apr 2022 15:27:38 +0200
-Message-Id: <20220422132738.55542-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220422100825.3692002-1-mjt@msgid.tls.msk.ru>
-References: 
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhtKe-0006ou-70
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:28:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhtKY-0000rz-WD
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:28:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650634094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vCroQEVY0Pw/VX1WufgysZm4LCrJaYGXNL9WklKST/k=;
+ b=EeZ3eE4P8xA0eEqatay4bAAmbxC8hk4PbVd+m+osUx6VTDTKb2P23GP66nYyCUCxrVeGRu
+ OtwM9kRmxfbcuvU0ZoGMlgbiFJoFkOnlEtWfztPoxvOckHSufsW0/0z5Lw1UD6Ri6V9aab
+ G0HJJUZFm5qWIAKcHr1gfAbQprrGWoQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-668-eQ-ztjgRMC2DVJghSfIWYg-1; Fri, 22 Apr 2022 09:28:11 -0400
+X-MC-Unique: eQ-ztjgRMC2DVJghSfIWYg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2025A80A0AD;
+ Fri, 22 Apr 2022 13:28:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D3B2340F4940;
+ Fri, 22 Apr 2022 13:28:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B719321E6A1F; Fri, 22 Apr 2022 15:28:07 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qapi: Fix malformed "Since:" section tags
+Date: Fri, 22 Apr 2022 15:28:07 +0200
+Message-Id: <20220422132807.1704411-1-armbru@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,13 +72,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: eduardo@habkost.net, berrange@redhat.com, michael.roth@amd.com,
+ f4bug@amsat.org, wangyanan55@huawei.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+"Since X.Y" is not recognized as a tagged section, and therefore not
+formatted as such in generated documentation.  Fix by adding the
+required colon.
 
-Paolo
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ qapi/crypto.json     | 3 +--
+ qapi/machine.json    | 2 +-
+ qapi/misc.json       | 2 +-
+ qga/qapi-schema.json | 2 +-
+ 4 files changed, 4 insertions(+), 5 deletions(-)
 
+diff --git a/qapi/crypto.json b/qapi/crypto.json
+index 1ec54c15ca..8e0b4764e5 100644
+--- a/qapi/crypto.json
++++ b/qapi/crypto.json
+@@ -357,8 +357,7 @@
+ #                 password to use to retrieve current master key.
+ #                 Defaults to the same secret that was used to open the image
+ #
+-#
+-# Since 5.1
++# Since: 5.1
+ ##
+ { 'struct': 'QCryptoBlockAmendOptionsLUKS',
+   'data': { 'state': 'QCryptoBlockLUKSKeyslotState',
+diff --git a/qapi/machine.json b/qapi/machine.json
+index d25a481ce4..84b7fd7c28 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -970,7 +970,7 @@
+ # preconfigure stage to configure numa mapping before initializing
+ # machine.
+ #
+-# Since 3.0
++# Since: 3.0
+ ##
+ { 'command': 'set-numa-node', 'boxed': true,
+   'data': 'NumaOptions',
+diff --git a/qapi/misc.json b/qapi/misc.json
+index b83cc39029..f8a9feda30 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -188,7 +188,7 @@
+ # Features:
+ # @unstable: This command is experimental.
+ #
+-# Since 3.0
++# Since: 3.0
+ #
+ # Returns: nothing
+ #
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 94e4aacdcc..1812823d88 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -899,7 +899,7 @@
+ # @alias: optional alias assigned to the disk, on Linux this is a name assigned
+ #         by device mapper
+ #
+-# Since 5.2
++# Since: 5.2
+ ##
+ { 'struct': 'GuestDiskInfo',
+   'data': {'name': 'str', 'partition': 'bool', '*dependencies': ['str'],
+-- 
+2.35.1
 
 
