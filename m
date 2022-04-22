@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56BC650AE4D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 05:01:48 +0200 (CEST)
-Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD56950AEB2
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 06:06:05 +0200 (CEST)
+Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhjYJ-0004fK-GH
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 23:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48402)
+	id 1nhkYW-0005qa-FE
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 00:06:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhjX7-0003it-D6
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 23:00:33 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37731)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nhkXF-0004xM-TB
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 00:04:45 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:35456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nhjX5-0007tD-Oz
- for qemu-devel@nongnu.org; Thu, 21 Apr 2022 23:00:33 -0400
-Received: by mail-ed1-x536.google.com with SMTP id f17so8824356edt.4
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 20:00:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=77qW8MIpZflC6l5XWOQlQEKVM5Sr3HxN6VAocp6/TKo=;
- b=Ca+2TyinGNDieeJxTSGW4hYWJaHJE+2JlOpMSrvNneKBd6Am/AvKmjf5rQDm6gKury
- /gBtUpelpb86vigkkRuxt8ksYMQ415/myWGdj3JIokp6rocySY2cn3ROYTnl2q+xm8BD
- 5/az2v96XC+RHzhAgbx5XILn2lOwbDlxBHjp0yAggziADrOMQigowepUJMNA2olZSOdU
- ZRuZ2oLWMxAPTD0mVSFTLIb9NVdnYig/40GlbsfGLxR2wJOyieswPio+rXi8vt85+ltR
- jN2gwm9viwFuxBGJlqrGXx30OavpRZKV4GjWmVt702c6YYEwDJVzCc1VogNLNGT1Vm3s
- aUaw==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nhkXD-0000I2-QG
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 00:04:45 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id b7so8160071plh.2
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 21:04:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TgdHAxqucwcWuUdvW2Ct2lWgjV0L5B12+Jl2GPsSxa8=;
+ b=bmqmuHnaKdmtyNbcoPfoAtOT+J+VT371GUH5EYj+/h2SBm0In4BZwgagfMurZy5UIc
+ 8VKwqPIf+vSixW0YnDEWjaOO1Vt4CEF3c+wi0LSoo89c4rhd0lC221ayNZJ99saW14zo
+ JvmNuoQjLg776YtvEYzl477Wz02SZIGICh+cAtRknM8p1eEbafvi2e9z/LABw3lAWF3Q
+ 8pm0uOVoFHaCayTzhxIWnyBGydK5WfU3w8pJhc9m+tGHt3iqt0RX7UC6vaSvLrGlwaLu
+ OKRFlELJZEzb5mv0WP482Wnx1BO+0xIM4QxFpWvnbilF77IxSe8yChN34tamnGPqWPaC
+ 7EyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=77qW8MIpZflC6l5XWOQlQEKVM5Sr3HxN6VAocp6/TKo=;
- b=XoEI726zKRuywd9pirxkj/fPdTwG7DZ32cmxGL/K0ZhY410D3lx1Z8uMxkWa84U566
- 4+xP1OHEz8LhLO/7taiGTrBKDfj7Gp0JW4Zkb0T4Lp4i6I+3prlhMYrV/YrKXdAX3a6t
- +Y/SrJ2xMzJvQquf4BAtSvMduLcIUVte8Q4iKKLlrqetgzxJfyavv5+FzvepWmaVsBgN
- XrIxXW4SdytqaEJ359jJwiHtjXoJ8caO7x471OwWjF4hUvmyORgkpThq8MC+5HgoqXwi
- /voXQPgM9WyO+plDDbn+xPYBpT2XPHQSVQg+JsGa++DAPnurxfeFE9FZ1MH44brofuIL
- 4Qcw==
-X-Gm-Message-State: AOAM533Lnlzm8/jpqPzr1BdHq4Mku/a4qV2Fei+rpaSMo4s5Hg67g79k
- +Rh4mMPvLgPSW+0mqiH4wnAwfqSnWl26tytHnE0=
-X-Google-Smtp-Source: ABdhPJwiVr9NM3SyqAMB2+KSN+uVdiMfSQ6DC0X4j7StlCTBtU+UzWSqbLSCMo4wWX92wZj17t0qfkc+4rCIZRYf0Bw=
-X-Received: by 2002:a05:6402:32a3:b0:425:b87d:34a6 with SMTP id
- f35-20020a05640232a300b00425b87d34a6mr1638994eda.38.1650596430276; Thu, 21
- Apr 2022 20:00:30 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TgdHAxqucwcWuUdvW2Ct2lWgjV0L5B12+Jl2GPsSxa8=;
+ b=LOoTM94lGT26XQEekl8b6xIsYqTyh/uRltb6Kf26GyW25hQieCKcXV0Yuku44jZg/4
+ 8uw2psrrrPwk4FmgkWnNhuEjvCngWnxqer1DiBv0rpcRoK5M4T2zzrJSvjl8/ExYKiYL
+ YSzD00jW3NfJOaYcz03MX2JqdWc+kg5e7BlFi+BHfsRnygokB6Mwn7NH+IvIzSZUwGpM
+ rxxOjN1iOt9zL44P0N9qno9eBhiPPi5lUX/OaK1gr7Gsj5cXT+9PGgxKrsQ+uEacoMEa
+ bU3BXS7Twz32Zai23HFPFuKnYUPZgQJ/Bt55ubmMq0aSW+IsW/M+/ZKla21Cem7VdUa0
+ Vk0w==
+X-Gm-Message-State: AOAM532YINjX9FCVAEkb4WDNiIJ5uZBZhxfMejVH1qemawn2CoWknP76
+ wWzBHYOaQ7w0cgz2QzlyFDkUAB7wclyMn04+
+X-Google-Smtp-Source: ABdhPJxXqbUIsbhmuVWPaYutBUkLTP8rHCDIwPSwYhPxteSMA59GxOuWwZrzqR5TXP0/hEcL/PxfjQ==
+X-Received: by 2002:a17:90b:3903:b0:1d2:c8ea:4c9c with SMTP id
+ ob3-20020a17090b390300b001d2c8ea4c9cmr3143436pjb.210.1650600281948; 
+ Thu, 21 Apr 2022 21:04:41 -0700 (PDT)
+Received: from hsinchu16.internal.sifive.com
+ (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+ by smtp.gmail.com with ESMTPSA id
+ g13-20020a62520d000000b0050a923a7754sm636877pfb.119.2022.04.21.21.04.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Apr 2022 21:04:41 -0700 (PDT)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] target/riscv: Support configuarable marchid, mvendorid,
+ mipid CSR values
+Date: Fri, 22 Apr 2022 12:04:34 +0800
+Message-Id: <20220422040436.2233-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220324134812.541274-1-bmeng.cn@gmail.com>
- <CAEUhbmVUqSghy+HE9p2qg1bJXYHBjy83jowesA_Zx383JrO7CQ@mail.gmail.com>
- <CAEUhbmVrvzvvNeKJvT5saPbXDoEnHdZcZyuNTmt4R=YzOs1R2A@mail.gmail.com>
-In-Reply-To: <CAEUhbmVrvzvvNeKJvT5saPbXDoEnHdZcZyuNTmt4R=YzOs1R2A@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 22 Apr 2022 11:00:18 +0800
-Message-ID: <CAEUhbmUDqwtXiEioBuSOi6ZyVNKnJgjYZAPTubGx+McbMFwZKA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] hw/core: Sync uboot_image.h from U-Boot v2022.01
-To: Peter Maydell <peter.maydell@linaro.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,39 +84,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>, Jim Shu <jim.shu@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Richard
+From: Frank Chang <frank.chang@sifive.com>
 
-On Wed, Apr 20, 2022 at 4:16 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Tue, Apr 12, 2022 at 9:11 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Thu, Mar 24, 2022 at 9:48 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >
-> > > From: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > Sync uboot_image.h from upstream U-Boot v2022.01 release [1].
-> > >
-> > > [1] https://source.denx.de/u-boot/u-boot/-/blob/v2022.01/include/image.h
-> > >
-> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > ---
-> > >
-> > > (no changes since v1)
-> > >
-> > >  hw/core/uboot_image.h | 213 ++++++++++++++++++++++++++++--------------
-> > >  1 file changed, 142 insertions(+), 71 deletions(-)
-> > >
-> >
-> > Ping?
->
-> Ping?
+Allow user to set core's marchid, mvendorid, mipid CSRs through
+-cpu command line option.
 
-Richard, is that you to pick up this series?
+The default values of marchid and mipid are built with QEMU's version
+numbers.
 
-Regards,
-Bin
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Jim Shu <jim.shu@sifive.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+---
+ target/riscv/cpu.c |  9 +++++++++
+ target/riscv/cpu.h |  4 ++++
+ target/riscv/csr.c | 38 ++++++++++++++++++++++++++++++++++----
+ 3 files changed, 47 insertions(+), 4 deletions(-)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 0c774056c5..ace68ed855 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -34,6 +34,11 @@
+ 
+ /* RISC-V CPU definitions */
+ 
++#define RISCV_CPU_MARCHID   ((QEMU_VERSION_MAJOR << 16) | \
++                             (QEMU_VERSION_MINOR << 8)  | \
++                             (QEMU_VERSION_MICRO))
++#define RISCV_CPU_MIPID     RISCV_CPU_MARCHID
++
+ static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
+ 
+ struct isa_ext_data {
+@@ -810,6 +815,10 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
+ 
++    DEFINE_PROP_UINT32("mvendorid", RISCVCPU, cfg.mvendorid, 0),
++    DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid, RISCV_CPU_MARCHID),
++    DEFINE_PROP_UINT64("mipid", RISCVCPU, cfg.mipid, RISCV_CPU_MIPID),
++
+     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 34c22d5d3b..46c66fbf8e 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -393,6 +393,10 @@ struct RISCVCPUConfig {
+     bool ext_zve32f;
+     bool ext_zve64f;
+ 
++    uint32_t mvendorid;
++    uint64_t marchid;
++    uint64_t mipid;
++
+     /* Vendor-specific custom extensions */
+     bool ext_XVentanaCondOps;
+ 
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 6ba85e7b5d..1c2d3f7193 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -612,6 +612,36 @@ static RISCVException write_ignore(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
+ 
++static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
++                                     target_ulong *val)
++{
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    *val = cpu->cfg.mvendorid;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_marchid(CPURISCVState *env, int csrno,
++                                   target_ulong *val)
++{
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    *val = cpu->cfg.marchid;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException read_mipid(CPURISCVState *env, int csrno,
++                                 target_ulong *val)
++{
++    CPUState *cs = env_cpu(env);
++    RISCVCPU *cpu = RISCV_CPU(cs);
++
++    *val = cpu->cfg.mipid;
++    return RISCV_EXCP_NONE;
++}
++
+ static RISCVException read_mhartid(CPURISCVState *env, int csrno,
+                                    target_ulong *val)
+ {
+@@ -3260,10 +3290,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_MINSTRETH] = { "minstreth", any32, read_instreth },
+ 
+     /* Machine Information Registers */
+-    [CSR_MVENDORID] = { "mvendorid", any,   read_zero    },
+-    [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
+-    [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
+-    [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
++    [CSR_MVENDORID] = { "mvendorid", any,   read_mvendorid },
++    [CSR_MARCHID]   = { "marchid",   any,   read_marchid   },
++    [CSR_MIMPID]    = { "mimpid",    any,   read_mipid     },
++    [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid   },
+ 
+     [CSR_MCONFIGPTR]  = { "mconfigptr", any,   read_zero,
+                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+-- 
+2.35.1
+
 
