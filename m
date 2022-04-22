@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33EE450B4BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:11:50 +0200 (CEST)
-Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A491A50B4DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:19:44 +0200 (CEST)
+Received: from localhost ([::1]:49958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqGT-0001eW-BJ
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58218)
+	id 1nhqO7-0002ui-Po
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9Z-0004Dv-Sx
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:42 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44900)
+ id 1nhq9b-0004E3-A8
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:47 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9Y-0002Zd-9F
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:41 -0400
-Received: by mail-wr1-x429.google.com with SMTP id b19so10279171wrh.11
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:39 -0700 (PDT)
+ id 1nhq9Y-0002Zi-Vq
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:43 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id u3so10334631wrg.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wUfoPWvKhsZt0M/M5TnHwpw7PYiqD+FRJMBmRgeWQGE=;
- b=XOAbAHsXgnrMJmjyQ8srma9P9TdFT5TpOcCPQi9sgfP+Tl+jfU/YqZ7HwpxeHnjo48
- 0cgMhEWfRiIpvFQ+ZX5SSRl1HCWLaZcrxZlAme1cTQBtHik9J13cn8mwI1QHufQtOBlw
- epYvTdJ8vlk1RvMmmCx+mUl+jp+JW07qsD6sXS1xJlbnSl2z1o5lItGOL+hRvBAdthdv
- H0QUl+yFqEvRaSiUazr9aEicRHqUyKHEKTH/KcDbIvPKqNdHfuo3qM1YmJnuh9fHTVFY
- g84NrczeFMfR4Gkf5hJA5IGWABu3+rEuE2ofT9f7DYkEc7oTKCd4g98+tTwBqarcfOZ1
- kdDQ==
+ bh=LtCQjZwy+MRjUms9uMTdrmBqMtKUGnilvU+NhBGq9yg=;
+ b=smQ2s+/ho0xJoSSucvSUaEqSmHtBWj99DVg1pOvSzMcMZoOCTChZfO/uwQ9QaS/SML
+ pTg5SMrKdreV+hGdZJsvL0p8/HShd4tvqYSNj+Kq//BZcBqV8EViZb3MQrlUEAIRM/O/
+ qdG0BAlaxD3P0XCI7MPwF6xIJH/b52nALXSgibMplC/K4Y03tyuRU6FqHLtSHgru8vuJ
+ WwvF8t8IOW819OYU20/c277Lxv1w1cXUIxAjLi1P4cuTjOfCgm1R804Z+NdSZ1Ap9T3s
+ iWkWsiypJHLrX+z8O2p6fTc1NPToeT2JSxBXE1p77VpcLDwGJ1H06j/Dv7kGV4XOSGW2
+ m3JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wUfoPWvKhsZt0M/M5TnHwpw7PYiqD+FRJMBmRgeWQGE=;
- b=kPVMAWPii/Wn06vqFAT0yNKzzmWJ2xhPLbIlYbPwDWSALjKkRbAjDgbXLjL/ofYjhi
- T6ghVGPV0JQBR1xr9NiKRkWIYJRYIA9phuwoYo/akLWX8zPMSzzhTW313IxGc5oaWK/H
- m3zph6INgTDtcIr1PQtzbhYtQSOCHRjverxJmM/XpsPtYmKIT2b0z37VqQoMibz4U2Nv
- T6I5yL75zD06z8edlYw9XAUFJqwHf2jRwFzdEB0vE/TOg2kP5S56OPXQuE6zDozKtDnm
- 3dm/2L4pVUSwLIYQesj4xNAsprZHZLTvAEgfAKm5d/trvlBGHrjvYTFLde5lz4ZZ0sXf
- H5Yg==
-X-Gm-Message-State: AOAM533VbY4mUmYfBLw2Ztedlz9nRwAOogr+b3pBbA+g4sfE6fEcB8TL
- LwXRj3OWqh1wHtvMKdbOh2X3H7IC1T850w==
-X-Google-Smtp-Source: ABdhPJxkr8hFTVTvc4fIScyWGfMLxoUeDXdWsfYtW+VwwChvo8XhuWVs+8z2XK1odQRvIBUD1oTDlQ==
-X-Received: by 2002:adf:d1ce:0:b0:20a:992a:3b54 with SMTP id
- b14-20020adfd1ce000000b0020a992a3b54mr3004181wrd.270.1650621878736; 
- Fri, 22 Apr 2022 03:04:38 -0700 (PDT)
+ bh=LtCQjZwy+MRjUms9uMTdrmBqMtKUGnilvU+NhBGq9yg=;
+ b=vBw/A2nS5RBUnEtDU0yGiWXxth7bZgZIQKcSFQYMJmGIoaHhPR/UU2Ey3KP1ekCgIE
+ kPerXeUtT9jSGOjFTBiLJfQu6nEF0QxjiBR5QxR23uTL/U+g9WnIr1jBd5uAwXwvsj1/
+ rXCKeOI419Rk1DEkI5FYkd/HjvXfodueNvRPIXeGBU4qNT5yxZO7bSPvM+hTjSZOzbrS
+ NuxBqcA271xrwfay5X47k9R+TH2CIU335uo/t1fK9EQGQAQuRsur2bK1WopokXJIRAPs
+ l4Od56xiJxJpJeLJ7oeqzR5/y1rPW41gp6g8JVEkkgr/rp+wZ+8nDe6U0y6qd6G1SVCc
+ QOag==
+X-Gm-Message-State: AOAM533bwBE3rhH5v8M9+E1eT3tfgbgR3/GUyB1OYJCeJXDskH+ZsSlY
+ K9qUeW+fZ0LchbXzdu7ag3yES+yLc3F5iQ==
+X-Google-Smtp-Source: ABdhPJw0rRqidZPK6xXMdzF4Bl8mNbxRZxW5UFEPU1/ifI+4QQdsyGR46C3Y3CB5ZwAjnPKrt+zCDw==
+X-Received: by 2002:a05:6000:1a8a:b0:20a:af19:ad12 with SMTP id
+ f10-20020a0560001a8a00b0020aaf19ad12mr3082692wry.4.1650621879520; 
+ Fri, 22 Apr 2022 03:04:39 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:04:38 -0700 (PDT)
+ Fri, 22 Apr 2022 03:04:39 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/61] hw/intc/arm_gicv3: Report correct PIDR0 values for ID
- registers
-Date: Fri, 22 Apr 2022 11:03:35 +0100
-Message-Id: <20220422100432.2288247-5-peter.maydell@linaro.org>
+Subject: [PULL 05/61] target/arm/cpu.c: ignore VIRQ and VFIQ if no EL2
+Date: Fri, 22 Apr 2022 11:03:36 +0100
+Message-Id: <20220422100432.2288247-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,99 +88,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use the common function gicv3_idreg() to supply the CoreSight ID
-register values for the GICv3 for the copies of these ID registers in
-the distributor, redistributor and ITS register frames.  This isn't
-quite correct, because while most of the register values are the
-same, the PIDR0 value should vary to indicate which of these three
-frames it is.  (You can see this and also the correct values of these
-PIDR0 registers by looking at the GIC-600 or GIC-700 TRMs, for
-example.)
+In a GICv3, it is impossible for the GIC to deliver a VIRQ or VFIQ to
+the CPU unless the CPU has EL2, because VIRQ and VFIQ are only
+configurable via EL2-only system registers.  Moreover, in our
+implementation we were only calculating and updating the state of the
+VIRQ and VFIQ lines in gicv3_cpuif_virt_irq_fiq_update() when those
+EL2 system registers changed.  We were therefore able to assert in
+arm_cpu_set_irq() that we didn't see a VIRQ or VFIQ line update if
+EL2 wasn't present.
 
-Make gicv3_idreg() take an extra argument for the PIDR0 value.
+This assumption no longer holds with GICv4:
+ * even if the CPU does not have EL2 the guest is able to cause the
+   GIC to deliver a virtual LPI by programming the ITS (which is a
+   silly thing for it to do, but possible)
+ * because we now need to recalculate the state of the VIRQ and VFIQ
+   lines in more cases than just "some EL2 GIC sysreg was written",
+   we will see calls to arm_cpu_set_irq() for "VIRQ is 0, VFIQ is 0"
+   even if the guest is not using the virtual LPI parts of the ITS
+
+Remove the assertions, and instead simply ignore the state of the
+VIRQ and VFIQ lines if the CPU does not have EL2.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220408141550.1271295-5-peter.maydell@linaro.org
+Message-id: 20220408141550.1271295-6-peter.maydell@linaro.org
 ---
- hw/intc/gicv3_internal.h   | 15 +++++++++++++--
- hw/intc/arm_gicv3_dist.c   |  2 +-
- hw/intc/arm_gicv3_its.c    |  2 +-
- hw/intc/arm_gicv3_redist.c |  2 +-
- 4 files changed, 16 insertions(+), 5 deletions(-)
+ target/arm/cpu.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 2bf1baef047..dec413f7cfa 100644
---- a/hw/intc/gicv3_internal.h
-+++ b/hw/intc/gicv3_internal.h
-@@ -555,7 +555,12 @@ static inline uint32_t gicv3_iidr(void)
-     return 0x43b;
- }
- 
--static inline uint32_t gicv3_idreg(int regoffset)
-+/* CoreSight PIDR0 values for ARM GICv3 implementations */
-+#define GICV3_PIDR0_DIST 0x92
-+#define GICV3_PIDR0_REDIST 0x93
-+#define GICV3_PIDR0_ITS 0x94
-+
-+static inline uint32_t gicv3_idreg(int regoffset, uint8_t pidr0)
- {
-     /* Return the value of the CoreSight ID register at the specified
-      * offset from the first ID register (as found in the distributor
-@@ -565,7 +570,13 @@ static inline uint32_t gicv3_idreg(int regoffset)
-     static const uint8_t gicd_ids[] = {
-         0x44, 0x00, 0x00, 0x00, 0x92, 0xB4, 0x3B, 0x00, 0x0D, 0xF0, 0x05, 0xB1
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 3609de08882..fa13fce355a 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -694,6 +694,16 @@ static void arm_cpu_set_irq(void *opaque, int irq, int level)
+         [ARM_CPU_VFIQ] = CPU_INTERRUPT_VFIQ
      };
--    return gicd_ids[regoffset / 4];
-+
-+    regoffset /= 4;
-+
-+    if (regoffset == 4) {
-+        return pidr0;
-+    }
-+    return gicd_ids[regoffset];
- }
  
- /**
-diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
-index 28d913b2114..7f6275363ea 100644
---- a/hw/intc/arm_gicv3_dist.c
-+++ b/hw/intc/arm_gicv3_dist.c
-@@ -557,7 +557,7 @@ static bool gicd_readl(GICv3State *s, hwaddr offset,
-     }
-     case GICD_IDREGS ... GICD_IDREGS + 0x2f:
-         /* ID registers */
--        *data = gicv3_idreg(offset - GICD_IDREGS);
-+        *data = gicv3_idreg(offset - GICD_IDREGS, GICV3_PIDR0_DIST);
-         return true;
-     case GICD_SGIR:
-         /* WO registers, return unknown value */
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 44914f25780..f8467b61ec5 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -1161,7 +1161,7 @@ static bool its_readl(GICv3ITSState *s, hwaddr offset,
++    if (!arm_feature(env, ARM_FEATURE_EL2) &&
++        (irq == ARM_CPU_VIRQ || irq == ARM_CPU_VFIQ)) {
++        /*
++         * The GIC might tell us about VIRQ and VFIQ state, but if we don't
++         * have EL2 support we don't care. (Unless the guest is doing something
++         * silly this will only be calls saying "level is still 0".)
++         */
++        return;
++    }
++
+     if (level) {
+         env->irq_line_state |= mask[irq];
+     } else {
+@@ -702,11 +712,9 @@ static void arm_cpu_set_irq(void *opaque, int irq, int level)
+ 
+     switch (irq) {
+     case ARM_CPU_VIRQ:
+-        assert(arm_feature(env, ARM_FEATURE_EL2));
+         arm_cpu_update_virq(cpu);
          break;
-     case GITS_IDREGS ... GITS_IDREGS + 0x2f:
-         /* ID registers */
--        *data = gicv3_idreg(offset - GITS_IDREGS);
-+        *data = gicv3_idreg(offset - GITS_IDREGS, GICV3_PIDR0_ITS);
+     case ARM_CPU_VFIQ:
+-        assert(arm_feature(env, ARM_FEATURE_EL2));
+         arm_cpu_update_vfiq(cpu);
          break;
-     case GITS_TYPER:
-         *data = extract64(s->typer, 0, 32);
-diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index 412a04f59cf..dc9729e8395 100644
---- a/hw/intc/arm_gicv3_redist.c
-+++ b/hw/intc/arm_gicv3_redist.c
-@@ -234,7 +234,7 @@ static MemTxResult gicr_readl(GICv3CPUState *cs, hwaddr offset,
-         *data = cs->gicr_nsacr;
-         return MEMTX_OK;
-     case GICR_IDREGS ... GICR_IDREGS + 0x2f:
--        *data = gicv3_idreg(offset - GICR_IDREGS);
-+        *data = gicv3_idreg(offset - GICR_IDREGS, GICV3_PIDR0_REDIST);
-         return MEMTX_OK;
-     default:
-         return MEMTX_ERROR;
+     case ARM_CPU_IRQ:
 -- 
 2.25.1
 
