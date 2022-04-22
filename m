@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276A550B58F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:50:41 +0200 (CEST)
-Received: from localhost ([::1]:39622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D59550B5AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:55:06 +0200 (CEST)
+Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqs3-0005Ud-SA
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:50:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58914)
+	id 1nhqwL-0004RL-7v
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqA4-00050X-QL
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:12 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51062)
+ id 1nhqA4-00050s-UM
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:13 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqA2-0002rc-BG
+ id 1nhqA3-0002ru-7Y
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:12 -0400
-Received: by mail-wm1-x335.google.com with SMTP id r19so4805549wmq.0
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:09 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id
+ u17-20020a05600c211100b0038eaf4cdaaeso7631626wml.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Ndm3t5N4OR0qFLpk2c9QhA+QCMSP9KicMr+q+FQ7Er8=;
- b=Z5oWSDwSdklSKXP6VScla6be5zMXhMm42x35OwYLCFM/HGc6K6oddzLkbwLhiwDJN6
- odm0y1e0avNrsTDN3LEYIipBi80j5X6ZU3khjW06s3GUpude2/dvO245EpBJ6Z2IUMGt
- cfLdqxiFys4Uxliq4ZJT2sj2PQe6aY5AYchDpw3kfDXZw1AL9erXPmFtqEO42N9TCccO
- MMA6+Hulsrf1QRefdDKL/RMlGw1NT0NcnkJ/7IrA18okSw4HU01v+EYwiBsaQhElTLiU
- 9RpImDBsOnQg/nWV8//62vPl5z8gaO6hg/4DpSjwlsnZXHycaGndWtoJPhbhGtOotqiT
- xUaA==
+ bh=JusjhwmCYsYrAoBkrOFAzh+RoRO01/bInTb0P5AYwvE=;
+ b=Z0KuIr0eLj+gAGyOmHaDaqJWTv4aAbxESISDcj83njDvBGh6uK1E0vY68ae2lPjFlg
+ VPvp5lJsGQngVguRBLq7PbVh6h2lyP7Fdiy1HXvMnVw5IRo1qFxTqqHJ+N+uWNCQFOYE
+ 4AQ9ggBA6hIyM/JZeKG2Ot1OEwg4qL1t3aJV7d1d0YWJF74AGa68QYOcGHehtdsnWesC
+ cTNtSW4Q01l6Bq7Pj/BFfxhfGR5hXmxPaJb5DAvPsvKXXkGtPS0Hub+PH1gghe+Q85nF
+ AQhd3+GKVV7PwTEZr8WsBidzgKjNmza8K70+0XHBvvlhaWonYMuXu/2iWDo9mlTLBR1v
+ htlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ndm3t5N4OR0qFLpk2c9QhA+QCMSP9KicMr+q+FQ7Er8=;
- b=mJpSPcYIbEQNRSXViEN1p1RLPdDklahnlGpGvPCgXu3EoVX+Yhrgu5cHLKnX8GsKfx
- 9vdZpt7TSK1gC/yPuorfr0t2MlRApa38Cf+13aykvxtIauznVB4taoLk2KwurceO/k+H
- D3O9RIPCQp2XuU316CEHEuO1Hp4vcuqzYrKYdwmFdlnXa8fR1kVaqWpnmMxdVrf0wo1A
- tf1QF0UQSr0ePRjU4bUpXxfZ+Pb1kSarKfIFieGp36HVYdSJ4yS2+KOgOQ4ASA5Ur9Zy
- +X7RY3R7lCS5tl5EpOUdmlYVJTvTJ6bezNPnIj8C70QYzDv8ULRKWlKGS2BwWTqarUZk
- kXZg==
-X-Gm-Message-State: AOAM533HsMfJK1MQzMMzYLnROW7p+wg6f3D2F5vIwvPF68+4uUVX3lg7
- yNYICU8+znbymkANkvzL5yka93SDjHHDzQ==
-X-Google-Smtp-Source: ABdhPJxi765iFfT7423IYxNAe641KY0d+yCK7uZZY2F6pisugpbjJIDYzI4PhAm7XLxLj1oFx+LZsA==
-X-Received: by 2002:a7b:c5cd:0:b0:38c:8b1b:d220 with SMTP id
- n13-20020a7bc5cd000000b0038c8b1bd220mr3398281wmk.118.1650621908963; 
- Fri, 22 Apr 2022 03:05:08 -0700 (PDT)
+ bh=JusjhwmCYsYrAoBkrOFAzh+RoRO01/bInTb0P5AYwvE=;
+ b=JZESNXMiGyvVY5vIP1yVB97S5YwzKVW/A54Vb3sUjfTZ/qVf+9z9kK8icXQIoPDCAS
+ EpHR/wqOkXs8qJiPF76tHpKNQlsp9bdNqzmrvnBcBnAI8sV0SMzbZ//we0UarOy2eosZ
+ /TgvEXlqa+oC0svhyzsmStZs1PWRS/M5SRUzhAh7nUe/hHbaSJGz9d4HrkOppUSUcqtv
+ 7b2nHa8lCSzhYQiSVlHfI5swgHCgvvKexhN26df1WME5F8Fk6f+ee5DMwshNuv+3zDZA
+ UNCegNkxzt/JJkzDSxSV6uoLaVTX3FYpWCJyqKUaBiQF4W9yQ4FShb5Gq/Bqdk5qwqyr
+ 9wLw==
+X-Gm-Message-State: AOAM532+WcBA7Db4yXWITeW4/L/Oajc3q441pgtGw/k3u+MnNl2f/xkG
+ oSSpFIYx5Nf2qUo3sQ2fT7tZgudHuGD/tg==
+X-Google-Smtp-Source: ABdhPJyg7N7qu7GX9SjutN2Hiox7rR4VTZrOGU6Vn7IYvxWeGHzCScnFa5UpPaHLIhq1zL2EMewx+w==
+X-Received: by 2002:a05:600c:3785:b0:38e:bca8:f0c1 with SMTP id
+ o5-20020a05600c378500b0038ebca8f0c1mr12346874wmr.56.1650621909744; 
+ Fri, 22 Apr 2022 03:05:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.07
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:05:08 -0700 (PDT)
+ Fri, 22 Apr 2022 03:05:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/61] hw/intc/arm_gicv3: Update ID and feature registers for
- GICv4
-Date: Fri, 22 Apr 2022 11:04:08 +0100
-Message-Id: <20220422100432.2288247-38-peter.maydell@linaro.org>
+Subject: [PULL 38/61] hw/intc/arm_gicv3: Allow 'revision' property to be set
+ to 4
+Date: Fri, 22 Apr 2022 11:04:09 +0100
+Message-Id: <20220422100432.2288247-39-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
@@ -89,190 +90,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the various GIC ID and feature registers for GICv4:
- * PIDR2 [7:4] is the GIC architecture revision
- * GICD_TYPER.DVIS is 1 to indicate direct vLPI injection support
- * GICR_TYPER.VLPIS is 1 to indicate redistributor support for vLPIs
- * GITS_TYPER.VIRTUAL is 1 to indicate vLPI support
- * GITS_TYPER.VMOVP is 1 to indicate that our VMOVP implementation
-   handles cross-ITS synchronization for the guest
- * ICH_VTR_EL2.nV4 is 0 to indicate direct vLPI injection support
+Now that we have implemented all the GICv4 requirements, relax the
+error-checking on the GIC object's 'revision' property to allow a TCG
+GIC to be a GICv4, whilst still constraining the KVM GIC to GICv3.
+
+Our 'revision' property doesn't consider the possibility of wanting
+to specify the minor version of the GIC -- for instance there is a
+GICv3.1 which adds support for extended SPI and PPI ranges, among
+other things, and also GICv4.1.  But since the QOM property is
+internal to QEMU, not user-facing, we can cross that bridge when we
+come to it. Within the GIC implementation itself code generally
+checks against the appropriate ID register feature bits, and the
+only use of s->revision is for setting those ID register bits.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220408141550.1271295-38-peter.maydell@linaro.org
+Message-id: 20220408141550.1271295-39-peter.maydell@linaro.org
 ---
- hw/intc/gicv3_internal.h   | 15 +++++++++++----
- hw/intc/arm_gicv3_common.c |  7 +++++--
- hw/intc/arm_gicv3_cpuif.c  |  6 +++++-
- hw/intc/arm_gicv3_dist.c   |  7 ++++---
- hw/intc/arm_gicv3_its.c    |  7 ++++++-
- hw/intc/arm_gicv3_redist.c |  2 +-
- 6 files changed, 32 insertions(+), 12 deletions(-)
+ hw/intc/arm_gicv3_common.c | 12 +++++++-----
+ hw/intc/arm_gicv3_kvm.c    |  5 +++++
+ 2 files changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 07644b2be6f..0bf68452395 100644
---- a/hw/intc/gicv3_internal.h
-+++ b/hw/intc/gicv3_internal.h
-@@ -309,6 +309,7 @@ FIELD(GITS_TYPER, SEIS, 18, 1)
- FIELD(GITS_TYPER, PTA, 19, 1)
- FIELD(GITS_TYPER, CIDBITS, 32, 4)
- FIELD(GITS_TYPER, CIL, 36, 1)
-+FIELD(GITS_TYPER, VMOVP, 37, 1)
- 
- #define GITS_IDREGS           0xFFD0
- 
-@@ -747,23 +748,29 @@ static inline uint32_t gicv3_iidr(void)
- #define GICV3_PIDR0_REDIST 0x93
- #define GICV3_PIDR0_ITS 0x94
- 
--static inline uint32_t gicv3_idreg(int regoffset, uint8_t pidr0)
-+static inline uint32_t gicv3_idreg(GICv3State *s, int regoffset, uint8_t pidr0)
- {
-     /* Return the value of the CoreSight ID register at the specified
-      * offset from the first ID register (as found in the distributor
-      * and redistributor register banks).
--     * These values indicate an ARM implementation of a GICv3.
-+     * These values indicate an ARM implementation of a GICv3 or v4.
-      */
-     static const uint8_t gicd_ids[] = {
--        0x44, 0x00, 0x00, 0x00, 0x92, 0xB4, 0x3B, 0x00, 0x0D, 0xF0, 0x05, 0xB1
-+        0x44, 0x00, 0x00, 0x00, 0x92, 0xB4, 0x0B, 0x00, 0x0D, 0xF0, 0x05, 0xB1
-     };
-+    uint32_t id;
- 
-     regoffset /= 4;
- 
-     if (regoffset == 4) {
-         return pidr0;
-     }
--    return gicd_ids[regoffset];
-+    id = gicd_ids[regoffset];
-+    if (regoffset == 6) {
-+        /* PIDR2 bits [7:4] are the GIC architecture revision */
-+        id |= s->revision << 4;
-+    }
-+    return id;
- }
- 
- /**
 diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 3f47b3501fe..181f342f32c 100644
+index 181f342f32c..5634c6fc788 100644
 --- a/hw/intc/arm_gicv3_common.c
 +++ b/hw/intc/arm_gicv3_common.c
-@@ -406,8 +406,8 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
-          *  Last == 1 if this is the last redistributor in a series of
-          *            contiguous redistributor pages
-          *  DirectLPI == 0 (direct injection of LPIs not supported)
--         *  VLPIS == 0 (virtual LPIs not supported)
--         *  PLPIS == 0 (physical LPIs not supported)
-+         *  VLPIS == 1 if vLPIs supported (GICv4 and up)
-+         *  PLPIS == 1 if LPIs supported
-          */
-         cpu_affid = object_property_get_uint(OBJECT(cpu), "mp-affinity", NULL);
+@@ -326,12 +326,14 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
+     GICv3State *s = ARM_GICV3_COMMON(dev);
+     int i, rdist_capacity, cpuidx;
  
-@@ -422,6 +422,9 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
- 
-         if (s->lpi_enable) {
-             s->cpu[i].gicr_typer |= GICR_TYPER_PLPIS;
-+            if (s->revision > 3) {
-+                s->cpu[i].gicr_typer |= GICR_TYPER_VLPIS;
-+            }
-         }
+-    /* revision property is actually reserved and currently used only in order
+-     * to keep the interface compatible with GICv2 code, avoiding extra
+-     * conditions. However, in future it could be used, for example, if we
+-     * implement GICv4.
++    /*
++     * This GIC device supports only revisions 3 and 4. The GICv1/v2
++     * is a separate device.
++     * Note that subclasses of this device may impose further restrictions
++     * on the GIC revision: notably, the in-kernel KVM GIC doesn't
++     * support GICv4.
+      */
+-    if (s->revision != 3) {
++    if (s->revision != 3 && s->revision != 4) {
+         error_setg(errp, "unsupported GIC revision %d", s->revision);
+         return;
+     }
+diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
+index 5ec5ff9ef6e..06f5aceee52 100644
+--- a/hw/intc/arm_gicv3_kvm.c
++++ b/hw/intc/arm_gicv3_kvm.c
+@@ -781,6 +781,11 @@ static void kvm_arm_gicv3_realize(DeviceState *dev, Error **errp)
+         return;
      }
  
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index d627ddac90f..8404f46ee0b 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -2578,11 +2578,15 @@ static uint64_t ich_vtr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-     uint64_t value;
- 
-     value = ((cs->num_list_regs - 1) << ICH_VTR_EL2_LISTREGS_SHIFT)
--        | ICH_VTR_EL2_TDS | ICH_VTR_EL2_NV4 | ICH_VTR_EL2_A3V
-+        | ICH_VTR_EL2_TDS | ICH_VTR_EL2_A3V
-         | (1 << ICH_VTR_EL2_IDBITS_SHIFT)
-         | ((cs->vprebits - 1) << ICH_VTR_EL2_PREBITS_SHIFT)
-         | ((cs->vpribits - 1) << ICH_VTR_EL2_PRIBITS_SHIFT);
- 
-+    if (cs->gic->revision < 4) {
-+        value |= ICH_VTR_EL2_NV4;
++    if (s->revision != 3) {
++        error_setg(errp, "unsupported GIC revision %d for in-kernel GIC",
++                   s->revision);
 +    }
 +
-     trace_gicv3_ich_vtr_read(gicv3_redist_affid(cs), value);
-     return value;
- }
-diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
-index 7f6275363ea..b9ed955e36b 100644
---- a/hw/intc/arm_gicv3_dist.c
-+++ b/hw/intc/arm_gicv3_dist.c
-@@ -383,7 +383,7 @@ static bool gicd_readl(GICv3State *s, hwaddr offset,
-          * No1N == 1 (1-of-N SPI interrupts not supported)
-          * A3V == 1 (non-zero values of Affinity level 3 supported)
-          * IDbits == 0xf (we support 16-bit interrupt identifiers)
--         * DVIS == 0 (Direct virtual LPI injection not supported)
-+         * DVIS == 1 (Direct virtual LPI injection supported) if GICv4
-          * LPIS == 1 (LPIs are supported if affinity routing is enabled)
-          * num_LPIs == 0b00000 (bits [15:11],Number of LPIs as indicated
-          *                      by GICD_TYPER.IDbits)
-@@ -399,8 +399,9 @@ static bool gicd_readl(GICv3State *s, hwaddr offset,
-          * so we only need to check the DS bit.
-          */
-         bool sec_extn = !(s->gicd_ctlr & GICD_CTLR_DS);
-+        bool dvis = s->revision >= 4;
- 
--        *data = (1 << 25) | (1 << 24) | (sec_extn << 10) |
-+        *data = (1 << 25) | (1 << 24) | (dvis << 18) | (sec_extn << 10) |
-             (s->lpi_enable << GICD_TYPER_LPIS_SHIFT) |
-             (0xf << 19) | itlinesnumber;
-         return true;
-@@ -557,7 +558,7 @@ static bool gicd_readl(GICv3State *s, hwaddr offset,
-     }
-     case GICD_IDREGS ... GICD_IDREGS + 0x2f:
-         /* ID registers */
--        *data = gicv3_idreg(offset - GICD_IDREGS, GICV3_PIDR0_DIST);
-+        *data = gicv3_idreg(s, offset - GICD_IDREGS, GICV3_PIDR0_DIST);
-         return true;
-     case GICD_SGIR:
-         /* WO registers, return unknown value */
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 0670aca4d46..2ff21ed6bbe 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -1699,7 +1699,7 @@ static bool its_readl(GICv3ITSState *s, hwaddr offset,
-         break;
-     case GITS_IDREGS ... GITS_IDREGS + 0x2f:
-         /* ID registers */
--        *data = gicv3_idreg(offset - GITS_IDREGS, GICV3_PIDR0_ITS);
-+        *data = gicv3_idreg(s->gicv3, offset - GITS_IDREGS, GICV3_PIDR0_ITS);
-         break;
-     case GITS_TYPER:
-         *data = extract64(s->typer, 0, 32);
-@@ -1946,6 +1946,11 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, DEVBITS, ITS_DEVBITS);
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIL, 1);
-     s->typer = FIELD_DP64(s->typer, GITS_TYPER, CIDBITS, ITS_CIDBITS);
-+    if (s->gicv3->revision >= 4) {
-+        /* Our VMOVP handles cross-ITS synchronization itself */
-+        s->typer = FIELD_DP64(s->typer, GITS_TYPER, VMOVP, 1);
-+        s->typer = FIELD_DP64(s->typer, GITS_TYPER, VIRTUAL, 1);
-+    }
- }
- 
- static void gicv3_its_reset(DeviceState *dev)
-diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index bcb54bef76e..c3d4cdd66b7 100644
---- a/hw/intc/arm_gicv3_redist.c
-+++ b/hw/intc/arm_gicv3_redist.c
-@@ -441,7 +441,7 @@ static MemTxResult gicr_readl(GICv3CPUState *cs, hwaddr offset,
-         *data = cs->gicr_nsacr;
-         return MEMTX_OK;
-     case GICR_IDREGS ... GICR_IDREGS + 0x2f:
--        *data = gicv3_idreg(offset - GICR_IDREGS, GICV3_PIDR0_REDIST);
-+        *data = gicv3_idreg(cs->gic, offset - GICR_IDREGS, GICV3_PIDR0_REDIST);
-         return MEMTX_OK;
-         /*
-          * VLPI frame registers. We don't need a version check for
+     if (s->security_extn) {
+         error_setg(errp, "the in-kernel VGICv3 does not implement the "
+                    "security extensions");
 -- 
 2.25.1
 
