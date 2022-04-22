@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801A150BEAF
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:29:17 +0200 (CEST)
-Received: from localhost ([::1]:48998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A07250BEC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:34:45 +0200 (CEST)
+Received: from localhost ([::1]:33534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhx5o-000648-L3
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49922)
+	id 1nhxB6-0006YG-Fm
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:34:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwad-0008HV-Tx
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:03 -0400
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:41510)
+ id 1nhwaf-0008Lg-2p
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:05 -0400
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:33483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwab-0007yY-R0
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:03 -0400
-Received: by mail-il1-x131.google.com with SMTP id h4so5417914ilq.8
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:01 -0700 (PDT)
+ id 1nhwad-0007zJ-EX
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:04 -0400
+Received: by mail-io1-xd2d.google.com with SMTP id p62so9270168iod.0
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=zCoM+nxCW+KhPaK3jdR/NXDiI5y1zUCOgbetADXQNIY=;
- b=uS1aPitEgiCNiYI8ZMc40KsbtT16ogFkT5/u41LVGeI7s8LsPHmrU12kDvKuhMr3pg
- aR+XYa9jtYkuxhe9RU32t/yilViTkoS5vtxBtzmeB/otr+QztyNCfCfql5LOEj2pLMMi
- 72JiSpyfMPJDbDVTOStMa1W88WAXRxJtNdAiRIWX+8wAjH7NiH0wVkSHkOqSDv4/sEjf
- 0fpRdBNyYy0baPKITvMSytqTHjfn4OZn4y9ta0SlWtDsghx4kNGLgumNTLvqqsWZToi4
- GIQFu+kczuyH5yMDdWv+UCAmTkmYJFNdiU7lp3AqzRTRnW7sv5oBsNOYqX9QUIJqJBRb
- wWNg==
+ bh=GcYpZGanzuGeVbXLR1g1V1bbBLnv47df/wapXgxg8sU=;
+ b=dfKfu7+0Q/00S42AE29/mv/5Oy5oGq/hzraJ/LvBfp6RgaM8cGVGA7Qd+z/bPDzIr+
+ HZoYaVfDVcLuHRJAqHatqxWFCkD+QvkbzN/FI+ePMpb3I41hJMX///hifXBMSselF5AH
+ +qfBQu0GVuRIp6Gz2EfCqrJVXCb84vmJDYFmcBlalehhK2KbWTVRInQzABl3Gpo3ea6M
+ 9P4EScqdOriN4gU0KTpc+JJJrQS7wSwCR9xhaeAiUsTUaduhQhAvR3Sj+/GcIFLH0s62
+ FagHa6PsaqYWMVPJ8GKkPmu37qhKh/ylJMuc2mbTOiJudlj95PQ4XPyu9MbzrT+RlWGk
+ fcww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zCoM+nxCW+KhPaK3jdR/NXDiI5y1zUCOgbetADXQNIY=;
- b=s3huyu3EQ3/RkxufUcx9OY7K8DZ9gLv/C8ra4R7X1TcaqrsRhEQxpPizA+QIc2HSjs
- Bs2rbw1Ao1dhV8l5527r/eTNG54JoFhxbLWAeubkXe2lxb2Ic2KGTBU5w5ZcvOykfCJT
- Lappoej/n+noyxX8VEK+JUKLHgE9yPmW1ZUHYZ1EjbMTxOQIARZ9msb0/y4rTeN3Ro8p
- H20IY3C9Ol1hkX5zLy8kY0FSBKHGQyaUdV4dibipyvu9ifw0SJUCHom6Ey8vK2aDqx/X
- 3rSy/GRQf/Urn3H96f3PLi0kr6Q2QhJEwppeLPeevZaAgv6JhRQgt3bCx3y5yPR38x1N
- qoWw==
-X-Gm-Message-State: AOAM533kUuqG1fg5s+2p0JG3KN+v3wz6JZN7P4Ena4mhpOykszxO01AR
- ap3cgWZkyDb7idhzHBb6wFWZdtOoQYJfrc0h
-X-Google-Smtp-Source: ABdhPJzRGgz12lP7eQ6fmd28r9am+nAdGBZ2EW/XgacQKTWujvzi801UvJoQA2NsMpUbObl2rqOKRQ==
-X-Received: by 2002:a05:6e02:1be1:b0:2cd:5e70:a2ea with SMTP id
- y1-20020a056e021be100b002cd5e70a2eamr2487891ilv.204.1650646620733; 
- Fri, 22 Apr 2022 09:57:00 -0700 (PDT)
+ bh=GcYpZGanzuGeVbXLR1g1V1bbBLnv47df/wapXgxg8sU=;
+ b=AM4Pjh5BppGKk7JN6OHBgsoj7zp2cSeFGWGTpjA2kEY37hsxt+Fq2h1d0ilwW092bK
+ ei6TB8WyU9IJEx0cGAa2+9yC69as1eCysbbbIto8Y2BOGAz0lQSVzfza7q29ROaELoXD
+ 2AyCYcHtQYhoOlrGjnTMTm7ZqTMrtAMHJub8Qww/9L8P8GP+VzsewYRLQN+X4wj5KvVy
+ r0rj1wg7872wm7Eshu2UOx406r1tLL2wZVYKCz8mccRpmpiWJdN+eFTHqVNqUijQsMD1
+ 2K1ByPeoYvgSg/It5sye0SBD67fqjC66mYxrWJCYBM+7naCxxaP1/8go1qglfRHfotK7
+ S97A==
+X-Gm-Message-State: AOAM532uh5mNFOi7Xdopt62Yzff9xz577JNOtECs0UuiDPXdIfJFIiLT
+ nMiGEMKCSMdrjdvfrH8dCkSOm+T9jqyLPaEQ
+X-Google-Smtp-Source: ABdhPJzp9T30A9yfB/5fTJSd4t6qOOGvIIaTbbDmqaWlg2jTAp0fUHUeYehVlwyKr2JD5OdznnZGGQ==
+X-Received: by 2002:a05:6638:389b:b0:32a:a987:46a7 with SMTP id
+ b27-20020a056638389b00b0032aa98746a7mr2611777jav.276.1650646622409; 
+ Fri, 22 Apr 2022 09:57:02 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
  by smtp.gmail.com with ESMTPSA id
- n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.56.59
+ n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 09:57:00 -0700 (PDT)
+ Fri, 22 Apr 2022 09:57:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 44/68] target/nios2: Split out helpers for gen_i_cmpxx
-Date: Fri, 22 Apr 2022 09:52:14 -0700
-Message-Id: <20220422165238.1971496-45-richard.henderson@linaro.org>
+Subject: [PATCH v8 45/68] target/nios2: Split out helpers for gen_i_math_logic
+Date: Fri, 22 Apr 2022 09:52:15 -0700
+Message-Id: <20220422165238.1971496-46-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
 References: <20220422165238.1971496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=richard.henderson@linaro.org; helo=mail-il1-x131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,63 +93,96 @@ Split out helper functions and pass in arguments instead.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 34 +++++++++++++++++++++++++++-------
- 1 file changed, 27 insertions(+), 7 deletions(-)
+ target/nios2/translate.c | 58 +++++++++++++++++++++++++++-------------
+ 1 file changed, 39 insertions(+), 19 deletions(-)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index a3c63dbbbd..86978ba47a 100644
+index 86978ba47a..aa570b6d79 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -71,6 +71,18 @@ typedef struct {
-         .a     = extract32((code), 27, 5), \
-     }
+@@ -83,6 +83,11 @@ static target_ulong imm_signed(const InstrIType *i)
+     return i->imm16.s;
+ }
  
-+typedef target_ulong ImmFromIType(const InstrIType *);
-+
-+static target_ulong imm_unsigned(const InstrIType *i)
++static target_ulong imm_shifted(const InstrIType *i)
 +{
-+    return i->imm16.u;
-+}
-+
-+static target_ulong imm_signed(const InstrIType *i)
-+{
-+    return i->imm16.s;
++    return i->imm16.u << 16;
 +}
 +
  /* R-Type instruction parsing */
  typedef struct {
      uint8_t op;
-@@ -268,15 +280,23 @@ static void gen_bxx(DisasContext *dc, uint32_t code, uint32_t flags)
- }
+@@ -115,6 +120,8 @@ typedef struct {
+         .imm26 = extract32((code), 6, 26), \
+     }
  
- /* Comparison instructions */
--#define gen_i_cmpxx(fname, op3)                                              \
--static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)         \
--{                                                                            \
--    I_TYPE(instr, (code));                                                   \
--    tcg_gen_setcondi_tl(flags, cpu_R[instr.b], cpu_R[instr.a], (op3));       \
-+static void do_i_cmpxx(DisasContext *dc, uint32_t insn,
-+                       TCGCond cond, ImmFromIType *imm)
++typedef void GenFn2i(TCGv, TCGv, target_long);
++
+ typedef struct DisasContext {
+     DisasContextBase  base;
+     target_ulong      pc;
+@@ -299,29 +306,42 @@ gen_i_cmpxx(gen_cmpxxsi, imm_signed)
+ gen_i_cmpxx(gen_cmpxxui, imm_unsigned)
+ 
+ /* Math/logic instructions */
+-#define gen_i_math_logic(fname, insn, resimm, op3)                          \
+-static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)        \
+-{                                                                           \
+-    I_TYPE(instr, (code));                                                  \
+-    if (unlikely(instr.b == R_ZERO)) { /* Store to R_ZERO is ignored */     \
+-        return;                                                             \
+-    } else if (instr.a == R_ZERO) { /* MOVxI optimizations */               \
+-        tcg_gen_movi_tl(cpu_R[instr.b], (resimm) ? (op3) : 0);              \
+-    } else {                                                                \
+-        tcg_gen_##insn##_tl(cpu_R[instr.b], cpu_R[instr.a], (op3));         \
+-    }                                                                       \
++static void do_i_math_logic(DisasContext *dc, uint32_t insn,
++                            GenFn2i *fn, ImmFromIType *imm,
++                            bool x_op_0_eq_x)
 +{
 +    I_TYPE(instr, insn);
++    target_ulong val;
 +
-+    if (likely(instr.b != R_ZERO)) {
-+        tcg_gen_setcondi_tl(cond, cpu_R[instr.b],
-+                            load_gpr(dc, instr.a), imm(&instr));
++    if (unlikely(instr.b == R_ZERO)) {
++        /* Store to R_ZERO is ignored -- this catches the canonical NOP. */
++        return;
++    }
++
++    val = imm(&instr);
++
++    if (instr.a == R_ZERO) {
++        /* This catches the canonical expansions of movi and movhi. */
++        tcg_gen_movi_tl(cpu_R[instr.b], x_op_0_eq_x ? val : 0);
++    } else {
++        fn(cpu_R[instr.b], cpu_R[instr.a], val);
 +    }
  }
  
--gen_i_cmpxx(gen_cmpxxsi, instr.imm16.s)
--gen_i_cmpxx(gen_cmpxxui, instr.imm16.u)
-+#define gen_i_cmpxx(fname, imm)                                             \
+-gen_i_math_logic(addi,  addi, 1, instr.imm16.s)
+-gen_i_math_logic(muli,  muli, 0, instr.imm16.s)
++#define gen_i_math_logic(fname, insn, x_op_0, imm)                          \
 +    static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)    \
-+    { do_i_cmpxx(dc, code, flags, imm); }
-+
-+gen_i_cmpxx(gen_cmpxxsi, imm_signed)
-+gen_i_cmpxx(gen_cmpxxui, imm_unsigned)
++    { do_i_math_logic(dc, code, tcg_gen_##insn##_tl, imm, x_op_0); }
  
- /* Math/logic instructions */
- #define gen_i_math_logic(fname, insn, resimm, op3)                          \
+-gen_i_math_logic(andi,  andi, 0, instr.imm16.u)
+-gen_i_math_logic(ori,   ori,  1, instr.imm16.u)
+-gen_i_math_logic(xori,  xori, 1, instr.imm16.u)
++gen_i_math_logic(addi,  addi, 1, imm_signed)
++gen_i_math_logic(muli,  muli, 0, imm_signed)
+ 
+-gen_i_math_logic(andhi, andi, 0, instr.imm16.u << 16)
+-gen_i_math_logic(orhi , ori,  1, instr.imm16.u << 16)
+-gen_i_math_logic(xorhi, xori, 1, instr.imm16.u << 16)
++gen_i_math_logic(andi,  andi, 0, imm_unsigned)
++gen_i_math_logic(ori,   ori,  1, imm_unsigned)
++gen_i_math_logic(xori,  xori, 1, imm_unsigned)
++
++gen_i_math_logic(andhi, andi, 0, imm_shifted)
++gen_i_math_logic(orhi , ori,  1, imm_shifted)
++gen_i_math_logic(xorhi, xori, 1, imm_shifted)
+ 
+ /* Prototype only, defined below */
+ static void handle_r_type_instr(DisasContext *dc, uint32_t code,
 -- 
 2.34.1
 
