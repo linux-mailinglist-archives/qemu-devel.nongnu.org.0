@@ -2,69 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4013C50C0B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 22:33:00 +0200 (CEST)
-Received: from localhost ([::1]:36942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC2D50C0B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 22:39:06 +0200 (CEST)
+Received: from localhost ([::1]:39946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhzxb-0005nJ-45
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 16:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
+	id 1ni03V-0008Jq-Sm
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 16:39:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nhzvb-0004rj-Bn
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 16:30:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32279)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nhzvZ-0005iC-Rr
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 16:30:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650659452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+KaNEuMq8qFdWqIvHm/Od7HrCZQCpvvk74XPg/gCHgk=;
- b=hegSAx3Y8vTqp/Ev8bv03XHhz6zw/o9dhbS3zNjvVeoda10u5BBOlmcgJTL3CQSRX9PyVJ
- ZTcfGnIg7pie9lQOF3e3tsJk38PvnoIMVmFDxvBiIaxdU6wE0NptyL3YYLtAygqEBfM1rO
- 0x2WlY9voOPlsvca+QxRBOgv/zLWWcg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-583-nKLF8PqbMk-p0o7gKlXdew-1; Fri, 22 Apr 2022 16:30:49 -0400
-X-MC-Unique: nKLF8PqbMk-p0o7gKlXdew-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 116653C0FEA2;
- Fri, 22 Apr 2022 20:30:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.133])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97C609D45;
- Fri, 22 Apr 2022 20:30:48 +0000 (UTC)
-Date: Fri, 22 Apr 2022 15:30:46 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Dirk =?utf-8?Q?M=C3=BCller?= <dmueller@suse.de>
-Subject: Re: [PATCH v2] Only advertise aio=io_uring if support is actually
- available
-Message-ID: <20220422203046.dd6mc36buja3eusm@redhat.com>
-References: <20220421165048.12608-1-dmueller@suse.de>
- <20220421192755.eksb7rfapjsw7qmb@redhat.com>
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1ni025-00077p-0x
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 16:37:37 -0400
+Received: from [187.72.171.209] (port=27073 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>) id 1ni022-0006WY-SF
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 16:37:36 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 22 Apr 2022 17:37:28 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 0B34B80031F;
+ Fri, 22 Apr 2022 17:37:28 -0300 (-03)
+Message-ID: <980b3c7a-7ad5-c9b9-580d-d39699ada7f1@eldorado.org.br>
+Date: Fri, 22 Apr 2022 17:37:27 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/3] hw/audio/ac97: Coding style fixes to avoid
+ checkpatch errors
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1650640480.git.balaton@eik.bme.hu>
+ <b9bd112c673eaecaf9ec42bc8240efbb0bc1ac4b.1650640480.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <b9bd112c673eaecaf9ec42bc8240efbb0bc1ac4b.1650640480.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220421192755.eksb7rfapjsw7qmb@redhat.com>
-User-Agent: NeoMutt/20211029-35-db88c3
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-OriginalArrivalTime: 22 Apr 2022 20:37:28.0270 (UTC)
+ FILETIME=[C84166E0:01D85688]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,54 +62,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: victor.colombo@eldorado.org.br, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 21, 2022 at 02:27:55PM -0500, Eric Blake wrote:
-> On Thu, Apr 21, 2022 at 06:50:48PM +0200, Dirk Müller wrote:
-> > Change --help output for aio option to only list the aio backend options that
-> > are actually available. io_uring is an optional, linux only backend
-> > option so hide it for cases where it isn't there.
+On 22/04/2022 12:14, BALATON Zoltan wrote:
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   hw/audio/ac97.c | 727 ++++++++++++++++++++++++------------------------
+>   1 file changed, 357 insertions(+), 370 deletions(-)
 > 
-> As pointed out by Dan, this commit message is not quite accurate.  It
-> hides only one of the two conditional options, but 'native' is also a
-> Linux-only optional backend (CONFIG_LINUX_AIO).
+> diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
+> index 3cb8131060..0b1d8ce9c6 100644
+> --- a/hw/audio/ac97.c
+> +++ b/hw/audio/ac97.c
+> @@ -87,39 +87,39 @@ enum {
+>   #define GC_CR    2              /* rw */
+>   #define GC_VALID_MASK ((1 << 6) - 1)
+>   
+> -#define GS_MD3   (1<<17)        /* rw */
+> -#define GS_AD3   (1<<16)        /* rw */
+> -#define GS_RCS   (1<<15)        /* rwc */
+> -#define GS_B3S12 (1<<14)        /* ro */
+> -#define GS_B2S12 (1<<13)        /* ro */
+> -#define GS_B1S12 (1<<12)        /* ro */
+> -#define GS_S1R1  (1<<11)        /* rwc */
+> -#define GS_S0R1  (1<<10)        /* rwc */
+> -#define GS_S1CR  (1<<9)         /* ro */
+> -#define GS_S0CR  (1<<8)         /* ro */
+> -#define GS_MINT  (1<<7)         /* ro */
+> -#define GS_POINT (1<<6)         /* ro */
+> -#define GS_PIINT (1<<5)         /* ro */
+> -#define GS_RSRVD ((1<<4)|(1<<3))
+> -#define GS_MOINT (1<<2)         /* ro */
+> -#define GS_MIINT (1<<1)         /* ro */
+> +#define GS_MD3   (1 << 17)        /* rw */
+> +#define GS_AD3   (1 << 16)        /* rw */
+> +#define GS_RCS   (1 << 15)        /* rwc */
+> +#define GS_B3S12 (1 << 14)        /* ro */
+> +#define GS_B2S12 (1 << 13)        /* ro */
+> +#define GS_B1S12 (1 << 12)        /* ro */
+> +#define GS_S1R1  (1 << 11)        /* rwc */
+> +#define GS_S0R1  (1 << 10)        /* rwc */
+> +#define GS_S1CR  (1 << 9)         /* ro */
+> +#define GS_S0CR  (1 << 8)         /* ro */
+> +#define GS_MINT  (1 << 7)         /* ro */
+> +#define GS_POINT (1 << 6)         /* ro */
+> +#define GS_PIINT (1 << 5)         /* ro */
+> +#define GS_RSRVD ((1 << 4) | (1 << 3))
+> +#define GS_MOINT (1 << 2)         /* ro */
+> +#define GS_MIINT (1 << 1)         /* ro */
+>   #define GS_GSCI  1              /* rwc */
 
-Stepping back a bit - we already said that making --help
-machine-parseable is a non-goal, and so the intent of this patch is
-for human readers.  But adding an #ifdef ladder to show all 4 possible
-combinations gets hairy; adding another option turns it into 8
-combinations.  Is there a better way?
+What do you think about aligning the `/*` in the lines above?
+It was aligned before.
 
-What if we just document ALL strings possible in at least one build
-(no #ifdef ladder in the help text), but add --aio=help as a way to do
-a runtime list of which aio modes are understood by THIS build?  It
-would match how we have --device=help for qemu proper, and may even be
-able to reuse some of that framework code (for parsing out when help
-is requested).
+...
 
-Yes, that would be a bigger patch, but it may also be easier to
-maintain down the road.  And even though there is an #ifdef ladder at
-runtime, it only has O(n) growth rather than O(n^2) for each possible
-combination of which options are enabled, and would appear only once
-in the runtime rather than duplicated across each place which
-documents similar help text across multiple utilities.
+> -    mixer_store (s, AC97_Reset                   , 0x0000); /* 6940 */
+> -    mixer_store (s, AC97_Headphone_Volume_Mute   , 0x0000);
+> -    mixer_store (s, AC97_Master_Volume_Mono_Mute , 0x0000);
+> -    mixer_store (s, AC97_Master_Tone_RL,           0x0000);
+> -    mixer_store (s, AC97_PC_BEEP_Volume_Mute     , 0x0000);
+> -    mixer_store (s, AC97_Phone_Volume_Mute       , 0x0000);
+> -    mixer_store (s, AC97_Mic_Volume_Mute         , 0x0000);
+> -    mixer_store (s, AC97_Line_In_Volume_Mute     , 0x0000);
+> -    mixer_store (s, AC97_CD_Volume_Mute          , 0x0000);
+> -    mixer_store (s, AC97_Video_Volume_Mute       , 0x0000);
+> -    mixer_store (s, AC97_Aux_Volume_Mute         , 0x0000);
+> -    mixer_store (s, AC97_Record_Gain_Mic_Mute    , 0x0000);
+> -    mixer_store (s, AC97_General_Purpose         , 0x0000);
+> -    mixer_store (s, AC97_3D_Control              , 0x0000);
+> -    mixer_store (s, AC97_Powerdown_Ctrl_Stat     , 0x000f);
+> +    dolog("mixer_reset\n");
+> +    memset(s->mixer_data, 0, sizeof(s->mixer_data));
+> +    memset(active, 0, sizeof(active));
+> +    mixer_store(s, AC97_Reset                   , 0x0000); /* 6940 */
+> +    mixer_store(s, AC97_Headphone_Volume_Mute   , 0x0000);
+> +    mixer_store(s, AC97_Master_Volume_Mono_Mute , 0x0000);
+> +    mixer_store(s, AC97_Master_Tone_RL,           0x0000);
 
-> 
-> > 
-> > Reviewed-by: Eric Blake <eblake@redhat.com>
-> > Signed-off-by: Dirk Müller <dmueller@suse.de>
-> > ---
-> >  block/file-posix.c | 4 ++++
-> >  qemu-nbd.c         | 4 ++++
-> >  qemu-options.hx    | 6 +++++-
-> >  3 files changed, 13 insertions(+), 1 deletion(-)
-> > 
+It was already like this before, but I think this might be a good
+oportunity to fix this spaces before comma inconsistency here.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Personally I think the best approach would be to make all of them
+like `AC97_Master_Tone_RL,` instead of something like
+`AC97_Master_Tone_RL   <multiple spaces>  ,`
 
+> +    mixer_store(s, AC97_PC_BEEP_Volume_Mute     , 0x0000);
+> +    mixer_store(s, AC97_Phone_Volume_Mute       , 0x0000);
+> +    mixer_store(s, AC97_Mic_Volume_Mute         , 0x0000);
+> +    mixer_store(s, AC97_Line_In_Volume_Mute     , 0x0000);
+> +    mixer_store(s, AC97_CD_Volume_Mute          , 0x0000);
+> +    mixer_store(s, AC97_Video_Volume_Mute       , 0x0000);
+> +    mixer_store(s, AC97_Aux_Volume_Mute         , 0x0000);
+> +    mixer_store(s, AC97_Record_Gain_Mic_Mute    , 0x0000);
+> +    mixer_store(s, AC97_General_Purpose         , 0x0000);
+> +    mixer_store(s, AC97_3D_Control              , 0x0000);
+> +    mixer_store(s, AC97_Powerdown_Ctrl_Stat     , 0x000f);
+>   
+>       /*
+>        * Sigmatel 9700 (STAC9700)
+>        */
+> -    mixer_store (s, AC97_Vendor_ID1              , 0x8384);
+> -    mixer_store (s, AC97_Vendor_ID2              , 0x7600); /* 7608 */
+> -
+> -    mixer_store (s, AC97_Extended_Audio_ID       , 0x0809);
+> -    mixer_store (s, AC97_Extended_Audio_Ctrl_Stat, 0x0009);
+> -    mixer_store (s, AC97_PCM_Front_DAC_Rate      , 0xbb80);
+> -    mixer_store (s, AC97_PCM_Surround_DAC_Rate   , 0xbb80);
+> -    mixer_store (s, AC97_PCM_LFE_DAC_Rate        , 0xbb80);
+> -    mixer_store (s, AC97_PCM_LR_ADC_Rate         , 0xbb80);
+> -    mixer_store (s, AC97_MIC_ADC_Rate            , 0xbb80);
+> -
+> -    record_select (s, 0);
+> -    set_volume (s, AC97_Master_Volume_Mute, 0x8000);
+> -    set_volume (s, AC97_PCM_Out_Volume_Mute, 0x8808);
+> -    set_volume (s, AC97_Record_Gain_Mute, 0x8808);
+> -
+> -    reset_voices (s, active);
+> +    mixer_store(s, AC97_Vendor_ID1              , 0x8384);
+> +    mixer_store(s, AC97_Vendor_ID2              , 0x7600); /* 7608 */
+> +
+> +    mixer_store(s, AC97_Extended_Audio_ID       , 0x0809);
+> +    mixer_store(s, AC97_Extended_Audio_Ctrl_Stat, 0x0009);
+> +    mixer_store(s, AC97_PCM_Front_DAC_Rate      , 0xbb80);
+> +    mixer_store(s, AC97_PCM_Surround_DAC_Rate   , 0xbb80);
+> +    mixer_store(s, AC97_PCM_LFE_DAC_Rate        , 0xbb80);
+> +    mixer_store(s, AC97_PCM_LR_ADC_Rate         , 0xbb80);
+> +    mixer_store(s, AC97_MIC_ADC_Rate            , 0xbb80);
+
+So I would change all these lines above to remove all this spacing
+before the comma. But that's just my opinion.
+
+...
+
+> @@ -1216,15 +1203,15 @@ static const VMStateDescription vmstate_ac97 = {
+>       .minimum_version_id = 2,
+>       .post_load = ac97_post_load,
+>       .fields = (VMStateField[]) {
+> -        VMSTATE_PCI_DEVICE (dev, AC97LinkState),
+> -        VMSTATE_UINT32 (glob_cnt, AC97LinkState),
+> -        VMSTATE_UINT32 (glob_sta, AC97LinkState),
+> -        VMSTATE_UINT32 (cas, AC97LinkState),
+> -        VMSTATE_STRUCT_ARRAY (bm_regs, AC97LinkState, 3, 1,
+> +        VMSTATE_PCI_DEVICE(dev, AC97LinkState),
+> +        VMSTATE_UINT32(glob_cnt, AC97LinkState),
+> +        VMSTATE_UINT32(glob_sta, AC97LinkState),
+> +        VMSTATE_UINT32(cas, AC97LinkState),
+> +        VMSTATE_STRUCT_ARRAY(bm_regs, AC97LinkState, 3, 1,
+>                                 vmstate_ac97_bm_regs, AC97BusMasterRegs),
+
+With the change above, this line is not correctly aligned with the
+previous one anymore.
+
+...
+
+> @@ -1373,13 +1360,13 @@ static void ac97_realize(PCIDevice *dev, Error **errp)
+>       c[PCI_INTERRUPT_LINE] = 0x00;      /* intr_ln interrupt line rw */
+>       c[PCI_INTERRUPT_PIN] = 0x01;      /* intr_pn interrupt pin ro */
+>   
+> -    memory_region_init_io (&s->io_nam, OBJECT(s), &ac97_io_nam_ops, s,
+> +    memory_region_init_io(&s->io_nam, OBJECT(s), &ac97_io_nam_ops, s,
+>                              "ac97-nam", 1024);
+Same thing here...
+> -    memory_region_init_io (&s->io_nabm, OBJECT(s), &ac97_io_nabm_ops, s,
+> +    memory_region_init_io(&s->io_nabm, OBJECT(s), &ac97_io_nabm_ops, s,
+>                              "ac97-nabm", 256);
+...And here
+> -    pci_register_bar (&s->dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->io_nam);
+> -    pci_register_bar (&s->dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &s->io_nabm);
+> -    AUD_register_card ("ac97", &s->card);
+> +    pci_register_bar(&s->dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->io_nam);
+> +    pci_register_bar(&s->dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &s->io_nabm);
+> +    AUD_register_card("ac97", &s->card);
+>       ac97_on_reset(DEVICE(s));
+>   }
+>
+...
+
+Besides that, I confirmed that the checkpatch was giving errors before 
+and is not complaining anymore with this patch applied.
+
+-- Víctor
 
