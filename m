@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2A850BF18
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:57:29 +0200 (CEST)
-Received: from localhost ([::1]:48008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F57F50BF1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:59:31 +0200 (CEST)
+Received: from localhost ([::1]:56844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhxX6-0003I1-PW
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:57:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50062)
+	id 1nhxZ4-00014K-DQ
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwap-0000Ba-8n
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:15 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:43551)
+ id 1nhwat-0000Da-Ce
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:20 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:39510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwan-00080k-Qx
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:15 -0400
-Received: by mail-io1-xd32.google.com with SMTP id 125so9208607iov.10
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:13 -0700 (PDT)
+ id 1nhwar-000815-53
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:18 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id r12so9219676iod.6
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SrtdhebFHwQH2QuEUcsrlEhP5p9ppqhl2VFXayXosos=;
- b=y9eTBHoSCvquzFsYyBFaTw+jHR3RuZ0KwdgRBHWmRgoYX4osFZe5aiXGU0JJVoLtq6
- lAWqbRBZmd9dDz3+ej6Uq4K50Rpsx1HrW/esjj96RlX6wd4l9m6wVbuTMovlKbNqLtc/
- 1icjiQE1+GRZL9xM0iebQFAhtcGQU49FGjer3QVz49CcSDJilOGrWWpH3KzlWBC/0+Ww
- JZo4EFolCFJmEkQtHa+PzyGFvFt0ugdknZjFiI7vmMvHJaEOOGlXtOk2RjVkSn815qv3
- HW32bj6Zya88KPJGhoOBis9ZrrVGttkeDFYkfxy0nrmY6BETxgj27htyaNuxr+a0l/PS
- 2yGw==
+ bh=FydhLHa4yRdKoi+QMZFm3ACoytrW9DGPCspIkMaQe9I=;
+ b=jS3qgQlegnnXkPzQVOIyGQzh5F/zTwwVewaynpkuNQF8KvE6DAjZunROAlCJ9YT1Hi
+ ttDOOY8SVp0Qu4cp+4QZc4UUaticCspaNDeK7CakhUh3FAyG3oGEq5iZGpsacrbVJhKm
+ R7rTrUonAaTHWWX5W3i+aHfjuHXzxr3TsvVK88KP7dfHp8aiY56YkpwilAeRusI/8OMK
+ mCUn+sWuhAlmhIsFUjiQtOsOc2zF6JtMxrJW+CbjxZN870KTo5kRdVg6ehlcs+s+F0/4
+ IFDhzIGU+9sJvCPRfJWrPIApCPpH9PBhvbPYMJEdv+NhNt5KxCw0Hv0VlTY44fkZWj0V
+ /8aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SrtdhebFHwQH2QuEUcsrlEhP5p9ppqhl2VFXayXosos=;
- b=QskHlZ9a204raJj5iTjwkpdU6hmyfovONvVvY0lc2eUG4YIm9WPb2t//Lzv5kuhRDr
- SrX2phrS/tzoRj6sKzhPLPoO6yp5AuXfibwPOGink/ZoSxkYPLHtXpHHQr7WmFepeUTA
- AE4Vq5oH/y9RCw3WGhArdy1gvJcGLYcUZm6aqhFSXUX2fJk/gWVyNbegcINcP92epOSF
- HRckSr9Oh5PHMwr+J/XW4UkK3aPr9DxOpDSGDLzoYtoPz1WF0PDOz4ZV3rDupzkmiRGY
- 4h5qoAJYO+YbzUubqO3u2RHuShHWgdsydsVCwf0tasahWutYiYUdDi1E9OY/HUngm6/C
- GcJw==
-X-Gm-Message-State: AOAM531KyRGDoyIhJowcES2cYaQ4OwfjSSM21eUmuK/F+gdrVr9dIeis
- 5ZoWSLPZyVxHwdLnHDzhCHOisyXhyTKcHm0L
-X-Google-Smtp-Source: ABdhPJyBAJPE9tXbSE6KpJyEwjQrMlkNnwg9uW6HavEKGR0+bZY1tGAI1zSrLXSk5Z9gM3bIwhRIBw==
-X-Received: by 2002:a02:9999:0:b0:314:4a83:ac2e with SMTP id
- a25-20020a029999000000b003144a83ac2emr2423197jal.37.1650646632954; 
- Fri, 22 Apr 2022 09:57:12 -0700 (PDT)
+ bh=FydhLHa4yRdKoi+QMZFm3ACoytrW9DGPCspIkMaQe9I=;
+ b=4LBIfE2Ji4z8Q6a5FT1wSSNR+z7hVessgDtqNH3QiPdjjf121ulwiaKcBiNoxu25ei
+ G0A0QmD0mUbwKN1GOFx1u2RuWvFMGML8+Wd/fD3GwKBo+G72IepdivEkQG04MMeRTnMF
+ kEI8CPhioUEucXAV0aRdr4TUSRVA30szexuhyomyLV+Gsm17xL1M/9D+NKgP9EWHL8kD
+ pG5U1fM/TbHduyK7z2u4osEoucXemgU7bRxKPru1HFpJogGL5lCqy0czhq+6T4uNvue/
+ cfFV/pb9iUM+4jXExxGpCDjybuhtorUUd4jTTAloZ7KWVE72fysX68XFd8lne6B7ru+Z
+ UKjw==
+X-Gm-Message-State: AOAM5329SKic5A83BBEricvlAY4AfFk+PBWUdAfjrlEiJRjoME3N/Tn3
+ M96xSHD+i6YI3VqAUUbYYFBw+k+IpOMhaD/j
+X-Google-Smtp-Source: ABdhPJxONK0+QjvMxMiW2nqVG4qX2SN4mEGqhqLX2lWo+ejl1gU0PjK2/05KTG0vV83HBlgNKiiINA==
+X-Received: by 2002:a02:a30f:0:b0:327:277b:c380 with SMTP id
+ q15-20020a02a30f000000b00327277bc380mr2497768jai.241.1650646634669; 
+ Fri, 22 Apr 2022 09:57:14 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
  by smtp.gmail.com with ESMTPSA id
- n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.11
+ n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 09:57:12 -0700 (PDT)
+ Fri, 22 Apr 2022 09:57:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 51/68] target/nios2: Enable unaligned traps for system mode
-Date: Fri, 22 Apr 2022 09:52:21 -0700
-Message-Id: <20220422165238.1971496-52-richard.henderson@linaro.org>
+Subject: [PATCH v8 52/68] target/nios2: Create gen_jumpr
+Date: Fri, 22 Apr 2022 09:52:22 -0700
+Message-Id: <20220422165238.1971496-53-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
 References: <20220422165238.1971496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,42 +88,88 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unaligned traps are optional, but required with an mmu.
-Turn them on always, because the fallback behaviour undefined.
-
-Enable alignment checks in the config file.
-Unwind the guest pc properly from do_unaligned_access.
+Split out a function to perform an indirect branch.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-48-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-49-richard.henderson@linaro.org>
 ---
- target/nios2/helper.c             | 4 ++--
- configs/targets/nios2-softmmu.mak | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ target/nios2/translate.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index c5a2dd65b1..2e9fea4a01 100644
---- a/target/nios2/helper.c
-+++ b/target/nios2/helper.c
-@@ -241,8 +241,8 @@ void nios2_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     CPUNios2State *env = &cpu->env;
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index e2742a8556..8616813365 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -36,7 +36,6 @@
+ #include "semihosting/semihost.h"
  
-     env->ctrl[CR_BADADDR] = addr;
--    env->ctrl[CR_EXCEPTION] = FIELD_DP32(0, CR_EXCEPTION, CAUSE, EXCP_UNALIGN);
--    helper_raise_exception(env, EXCP_UNALIGN);
-+    cs->exception_index = EXCP_UNALIGN;
-+    cpu_loop_exit_restore(cs, retaddr);
+ /* is_jmp field values */
+-#define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+ #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
+ 
+ #define INSTRUCTION_FLG(func, flags) { (func), (flags) }
+@@ -195,6 +194,16 @@ static void gen_goto_tb(DisasContext *dc, int n, uint32_t dest)
+     }
  }
  
- bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-diff --git a/configs/targets/nios2-softmmu.mak b/configs/targets/nios2-softmmu.mak
-index 9a372f0717..1e93b54cd1 100644
---- a/configs/targets/nios2-softmmu.mak
-+++ b/configs/targets/nios2-softmmu.mak
-@@ -1 +1,2 @@
- TARGET_ARCH=nios2
-+TARGET_ALIGNED_ONLY=y
++static void gen_jumpr(DisasContext *dc, int regno, bool is_call)
++{
++    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, regno));
++    if (is_call) {
++        tcg_gen_movi_tl(dest_gpr(dc, R_RA), dc->base.pc_next);
++    }
++    tcg_gen_exit_tb(NULL, 0);
++    dc->base.is_jmp = DISAS_NORETURN;
++}
++
+ static void gen_excp(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+     t_gen_helper_raise_exception(dc, flags);
+@@ -437,8 +446,7 @@ static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
+ /* PC <- ra */
+ static void ret(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+-    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, R_RA));
+-    dc->base.is_jmp = DISAS_JUMP;
++    gen_jumpr(dc, R_RA, false);
+ }
+ 
+ /*
+@@ -468,8 +476,7 @@ static void jmp(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+     R_TYPE(instr, code);
+ 
+-    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, instr.a));
+-    dc->base.is_jmp = DISAS_JUMP;
++    gen_jumpr(dc, instr.a, false);
+ }
+ 
+ /* rC <- PC + 4 */
+@@ -488,10 +495,7 @@ static void callr(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+     R_TYPE(instr, code);
+ 
+-    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, instr.a));
+-    tcg_gen_movi_tl(dest_gpr(dc, R_RA), dc->base.pc_next);
+-
+-    dc->base.is_jmp = DISAS_JUMP;
++    gen_jumpr(dc, instr.a, true);
+ }
+ 
+ /* rC <- ctlN */
+@@ -909,11 +913,6 @@ static void nios2_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+         tcg_gen_exit_tb(NULL, 0);
+         break;
+ 
+-    case DISAS_JUMP:
+-        /* The jump will already have updated the PC register */
+-        tcg_gen_exit_tb(NULL, 0);
+-        break;
+-
+     case DISAS_NORETURN:
+         /* nothing more to generate */
+         break;
 -- 
 2.34.1
 
