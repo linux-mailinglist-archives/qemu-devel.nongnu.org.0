@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B8D50B4B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:09:44 +0200 (CEST)
-Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF8050B4B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:11:40 +0200 (CEST)
+Received: from localhost ([::1]:35754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqER-0007gq-Bg
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58186)
+	id 1nhqGJ-0001Bc-KB
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:11:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9Y-0004Dj-Lu
+ id 1nhq9Y-0004De-LW
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:42 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41701)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9V-0002ZM-Ch
+ id 1nhq9V-0002ZP-T6
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:39 -0400
-Received: by mail-wr1-x429.google.com with SMTP id e28so108923wra.8
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:36 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id e2so4041138wrh.7
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=i7nbpPUYaQ94bmOhkxKKDTmhkqN+EOkV6e+hJmVPT0Q=;
- b=aohLeUfNGD5K2rOQVgV+Pb5HZEYiWj9Rh0ROamg2IwRwTgbiyfDAFOnoyoyEYGaOys
- 2N3FMvGLCXvg62p/2GfEb0/HfscNNy7zM/TEw1HNFIXsJmsq5yit9o3t29ci3w8sAYww
- K4omlnRWKV338hEKsOgdGM+oR5h+O3TCfxYnmqvL54dTIq7B32UBxKI1KNNsW+EpMifB
- ovCowk+KKTfU9t5JOUe0iho4HU3E2nIOMUfyXq+8k8Z4AOPuCM5cHAks2Gt2Ugj1SpW3
- EkzK2wJScEt71pcNnNCS2rJZW63mXOyrI0VDHJ4Z73JmhrfRt1CE+XC1CNBSOHslQS6l
- 6y3g==
+ bh=lVHlaskVehb1HPwJaP5NZWEzj3D8wAIUBCqaFD2xjB0=;
+ b=WOE0K6wa8inglJFkch3bXsI7gZYHZ5ieCvIXBhWxauBhny7WR+0jIrxYuvfGc+Qeei
+ DF4CY18apaBeTpxkCRLSSnoZvO0tY/bxFzwIWqO84xeE4KoWE7MKky+vgMO0WYaEy8h+
+ xOpKyqH/5bV69S+XgRCi8gwzSSC11kbkdZHgD4TeIFkmEAhAKKrQPtU4T4MryU/qj3TW
+ fKGOtrlfdsl76fh4d6p7mWK1VOmiqAtLqJ9xhIFdRfmsm2hkW7lp4LYrwsExkNAHrL1x
+ Pxp8JTYlzjsxEYEcynn5WdhJEgHCQcs+NM/aCFIVAbg3HJx59yTUud86TiYAjqB9SI92
+ o8XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=i7nbpPUYaQ94bmOhkxKKDTmhkqN+EOkV6e+hJmVPT0Q=;
- b=qQTWrptveoT4bDr3bMR9N053ON4R6Xzlrx1FcZqhXnX8+ReATuuwRu9dSlVaSKm8wu
- VVubp3+nvSITi+whLXQaGgVqNsHE96QofG62Pi/PiEakDcm/lslMWoAZ3zO5gELe54Ri
- ub95Rk4dm+T43kDRhxarAmI0QgGwaIIab/JBiqyEKqJpegz/xAO3wHXpxvYvp7Pnmu/o
- Tk4SA4ln5qAo3V/yWAH5+eY1Xe9x2BDSSxwNS3TyZJ5qfwWIM7ZojV+hvprjY399MHAR
- WtJNYIlbqmFpCrmOKdjCMjPViSeuVd740u9Xyye0csPepxdEeVo/CmmAsM8w5RJ3xdCy
- 9L9A==
-X-Gm-Message-State: AOAM532M+pfuXU24vz7AGTDMD4ncIbm8d0fdv0Ii/7svOT/BlIw/SdLl
- dcmisFdewQs5x07xpjxp8aR+uPalqrL/2Q==
-X-Google-Smtp-Source: ABdhPJzR7/XjTheiytYpTIgvFKPaSvIxOa1KBd3kVq6OU9fb4lAFf23bdQpKf22PI1FOLH16L86jIQ==
-X-Received: by 2002:a05:6000:1acf:b0:20a:a0b1:a479 with SMTP id
- i15-20020a0560001acf00b0020aa0b1a479mr3020918wry.228.1650621875588; 
- Fri, 22 Apr 2022 03:04:35 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lVHlaskVehb1HPwJaP5NZWEzj3D8wAIUBCqaFD2xjB0=;
+ b=p+vwKcJRuMY4cTaqdwzBvHOrk85BgP21wYqBmsdcJMQXbKzj5v3PWV4O2q2VFkU13X
+ 5+jcaND1UIk6/X78XHVVZD3FOUTvB/YjTo++oVIhqu+cCd2QwDsEdltKIHhbog+gjWPz
+ cDsWM9PMznsuFpbxLDpU+J2/sf6unQLaHKfvqBmXsJtmJpiQwtE62jdabY4nCF5Vn/Qy
+ X2yqqJlgT7ZyUsscTvm95+8MwRXtt4l9sLLBRcMt03s9w6ywXHnBBEsrZ8wA7pt/LUFh
+ 9C0nTD/QBp/fWoGGiDdDnYmOuH3SMD8GjXaGHc36/TTKjVSVE5tt72lmW23nMYmKW0DJ
+ GnwQ==
+X-Gm-Message-State: AOAM532TW7dW9vc20Lv3WHKwSuI59n+TmVpy/8wRlU+cTIuQ2oELWsUp
+ HrjESWLM1z0RdVC8ys0yS4hf38EdV6Pn2w==
+X-Google-Smtp-Source: ABdhPJzlOc5iJxVA2Up8XmgprdZ+fM1MUm7cMsnzHBncwdrVkfkhlo46x6JiebAfYlZt5c6Vq30xBg==
+X-Received: by 2002:a5d:4b45:0:b0:207:ab91:edd8 with SMTP id
+ w5-20020a5d4b45000000b00207ab91edd8mr3098656wrs.168.1650621876389; 
+ Fri, 22 Apr 2022 03:04:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.34
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:04:34 -0700 (PDT)
+ Fri, 22 Apr 2022 03:04:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/61] target-arm queue
-Date: Fri, 22 Apr 2022 11:03:31 +0100
-Message-Id: <20220422100432.2288247-1-peter.maydell@linaro.org>
+Subject: [PULL 01/61] hw/intc/arm_gicv3_its: Add missing blank line
+Date: Fri, 22 Apr 2022 11:03:32 +0100
+Message-Id: <20220422100432.2288247-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
+References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,128 +88,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This pullreq is (1) my GICv4 patches (2) most of the first third of RTH's
-cleanup patchset (3) one patch fixing an smmuv3 bug...
+In commit b6f96009acc we split do_process_its_cmd() from
+process_its_cmd(), but forgot the usual blank line between function
+definitions.  Add it.
 
-thanks
--- PMM
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220408141550.1271295-2-peter.maydell@linaro.org
+---
+ hw/intc/arm_gicv3_its.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-The following changes since commit a74782936dc6e979ce371dabda4b1c05624ea87f:
+diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+index 87466732139..44914f25780 100644
+--- a/hw/intc/arm_gicv3_its.c
++++ b/hw/intc/arm_gicv3_its.c
+@@ -380,6 +380,7 @@ static ItsCmdResult do_process_its_cmd(GICv3ITSState *s, uint32_t devid,
+     }
+     return CMD_CONTINUE;
+ }
++
+ static ItsCmdResult process_its_cmd(GICv3ITSState *s, const uint64_t *cmdpkt,
+                                     ItsCmdType cmd)
+ {
+-- 
+2.25.1
 
-  Merge tag 'pull-migration-20220421a' of https://gitlab.com/dagrh/qemu into staging (2022-04-21 18:48:18 -0700)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220422
-
-for you to fetch changes up to 9792130613191c1e0c34109918c5e07b9f1429a5:
-
-  hw/arm/smmuv3: Pass the actual perm to returned IOMMUTLBEntry in smmuv3_translate() (2022-04-22 10:19:15 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * Implement GICv4 emulation
- * Some cleanup patches in target/arm
- * hw/arm/smmuv3: Pass the actual perm to returned IOMMUTLBEntry in smmuv3_translate()
-
-----------------------------------------------------------------
-Peter Maydell (41):
-      hw/intc/arm_gicv3_its: Add missing blank line
-      hw/intc/arm_gicv3: Sanity-check num-cpu property
-      hw/intc/arm_gicv3: Insist that redist region capacity matches CPU count
-      hw/intc/arm_gicv3: Report correct PIDR0 values for ID registers
-      target/arm/cpu.c: ignore VIRQ and VFIQ if no EL2
-      hw/intc/arm_gicv3_its: Factor out "is intid a valid LPI ID?"
-      hw/intc/arm_gicv3_its: Implement GITS_BASER2 for GICv4
-      hw/intc/arm_gicv3_its: Implement VMAPI and VMAPTI
-      hw/intc/arm_gicv3_its: Implement VMAPP
-      hw/intc/arm_gicv3_its: Distinguish success and error cases of CMD_CONTINUE
-      hw/intc/arm_gicv3_its: Factor out "find ITE given devid, eventid"
-      hw/intc/arm_gicv3_its: Factor out CTE lookup sequence
-      hw/intc/arm_gicv3_its: Split out process_its_cmd() physical interrupt code
-      hw/intc/arm_gicv3_its: Handle virtual interrupts in process_its_cmd()
-      hw/intc/arm_gicv3: Keep pointers to every connected ITS
-      hw/intc/arm_gicv3_its: Implement VMOVP
-      hw/intc/arm_gicv3_its: Implement VSYNC
-      hw/intc/arm_gicv3_its: Implement INV command properly
-      hw/intc/arm_gicv3_its: Implement INV for virtual interrupts
-      hw/intc/arm_gicv3_its: Implement VMOVI
-      hw/intc/arm_gicv3_its: Implement VINVALL
-      hw/intc/arm_gicv3: Implement GICv4's new redistributor frame
-      hw/intc/arm_gicv3: Implement new GICv4 redistributor registers
-      hw/intc/arm_gicv3_cpuif: Split "update vIRQ/vFIQ" from gicv3_cpuif_virt_update()
-      hw/intc/arm_gicv3_cpuif: Support vLPIs
-      hw/intc/arm_gicv3_cpuif: Don't recalculate maintenance irq unnecessarily
-      hw/intc/arm_gicv3_redist: Factor out "update hpplpi for one LPI" logic
-      hw/intc/arm_gicv3_redist: Factor out "update hpplpi for all LPIs" logic
-      hw/intc/arm_gicv3_redist: Recalculate hppvlpi on VPENDBASER writes
-      hw/intc/arm_gicv3_redist: Factor out "update bit in pending table" code
-      hw/intc/arm_gicv3_redist: Implement gicv3_redist_process_vlpi()
-      hw/intc/arm_gicv3_redist: Implement gicv3_redist_vlpi_pending()
-      hw/intc/arm_gicv3_redist: Use set_pending_table_bit() in mov handling
-      hw/intc/arm_gicv3_redist: Implement gicv3_redist_mov_vlpi()
-      hw/intc/arm_gicv3_redist: Implement gicv3_redist_vinvall()
-      hw/intc/arm_gicv3_redist: Implement gicv3_redist_inv_vlpi()
-      hw/intc/arm_gicv3: Update ID and feature registers for GICv4
-      hw/intc/arm_gicv3: Allow 'revision' property to be set to 4
-      hw/arm/virt: Use VIRT_GIC_VERSION_* enum values in create_gic()
-      hw/arm/virt: Abstract out calculation of redistributor region capacity
-      hw/arm/virt: Support TCG GICv4
-
-Richard Henderson (19):
-      target/arm: Update ISAR fields for ARMv8.8
-      target/arm: Update SCR_EL3 bits to ARMv8.8
-      target/arm: Update SCTLR bits to ARMv9.2
-      target/arm: Change DisasContext.aarch64 to bool
-      target/arm: Change CPUArchState.aarch64 to bool
-      target/arm: Extend store_cpu_offset to take field size
-      target/arm: Change DisasContext.thumb to bool
-      target/arm: Change CPUArchState.thumb to bool
-      target/arm: Remove fpexc32_access
-      target/arm: Split out set_btype_raw
-      target/arm: Split out gen_rebuild_hflags
-      target/arm: Simplify GEN_SHIFT in translate.c
-      target/arm: Simplify gen_sar
-      target/arm: Simplify aa32 DISAS_WFI
-      target/arm: Use tcg_constant in translate-m-nocp.c
-      target/arm: Use tcg_constant in translate-neon.c
-      target/arm: Use smin/smax for do_sat_addsub_32
-      target/arm: Use tcg_constant in translate-vfp.c
-      target/arm: Use tcg_constant_i32 in translate.h
-
-Xiang Chen (1):
-      hw/arm/smmuv3: Pass the actual perm to returned IOMMUTLBEntry in smmuv3_translate()
-
- docs/system/arm/virt.rst               |   5 +-
- hw/intc/gicv3_internal.h               | 231 ++++++++-
- include/hw/arm/virt.h                  |  19 +-
- include/hw/intc/arm_gicv3_common.h     |  13 +
- include/hw/intc/arm_gicv3_its_common.h |   1 +
- target/arm/cpu.h                       |  59 ++-
- target/arm/translate-a32.h             |  13 +-
- target/arm/translate.h                 |  17 +-
- hw/arm/smmuv3.c                        |   2 +-
- hw/arm/virt.c                          | 102 +++-
- hw/intc/arm_gicv3_common.c             |  54 +-
- hw/intc/arm_gicv3_cpuif.c              | 195 ++++++--
- hw/intc/arm_gicv3_dist.c               |   7 +-
- hw/intc/arm_gicv3_its.c                | 876 +++++++++++++++++++++++++++------
- hw/intc/arm_gicv3_its_kvm.c            |   2 +
- hw/intc/arm_gicv3_kvm.c                |   5 +
- hw/intc/arm_gicv3_redist.c             | 480 +++++++++++++++---
- linux-user/arm/cpu_loop.c              |   2 +-
- target/arm/cpu.c                       |  16 +-
- target/arm/helper-a64.c                |   4 +-
- target/arm/helper.c                    |  19 +-
- target/arm/hvf/hvf.c                   |   2 +-
- target/arm/m_helper.c                  |   6 +-
- target/arm/op_helper.c                 |  13 -
- target/arm/translate-a64.c             |  50 +-
- target/arm/translate-m-nocp.c          |  12 +-
- target/arm/translate-neon.c            |  21 +-
- target/arm/translate-sve.c             |   9 +-
- target/arm/translate-vfp.c             |  76 +--
- target/arm/translate.c                 | 101 ++--
- hw/intc/trace-events                   |  18 +-
- 31 files changed, 1890 insertions(+), 540 deletions(-)
 
