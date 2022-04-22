@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E60250B5C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:58:41 +0200 (CEST)
-Received: from localhost ([::1]:56636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3A250B55D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:40:01 +0200 (CEST)
+Received: from localhost ([::1]:51442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqzo-0003Ma-IP
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:58:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58934)
+	id 1nhqhk-0008Eu-59
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:40:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqA5-000524-Mo
+ id 1nhqA6-00052z-Em
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:14 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46593)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:43570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqA3-0002s7-UC
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:13 -0400
-Received: by mail-wr1-x436.google.com with SMTP id h25so4284450wrc.13
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:11 -0700 (PDT)
+ id 1nhqA4-0002sM-RJ
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:14 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ n40-20020a05600c3ba800b0038ff1939b16so5090810wms.2
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ppb9q2JdzKJCAX+yRCeZ8lM7X4SqlcHbmDsxajJSFyc=;
- b=s7PdLcKjTNz1AkMbEHtcT0M4CDCfvXob/oxUbEsA9v/Wx6bT8s7+w7DIqx9BjCIRVD
- FMIC0GNI2IJyBnd6VWBloWMEnZ85NR29HvuOjfWYpBPIVBS48eCgdxx9gIPq7r/aA6LN
- SaEqMWRc8VjDgqBp+qT2lv5PRilXvjknI0tNXH1/ZMiNhBkaRNZmjgpiFU+n//IZap3M
- XWRAP2SxwsoeUCIbuyFx8utr7kY+CAKcba26dFA4L8srzvtkgmtGI4aAAgvRd+MoXI8B
- +nIxcCBGWtZPf7r0LW4XcQj/hXQjfeId7Gzv41c/qusMr3SFt1mWHj95hngfMXUJe1e/
- mqjg==
+ bh=dD0gXSrq4cJBnHFPk7NEn42McsBj8OdsQUpLVwThouk=;
+ b=QbSVKU/4WObnW0UWA/uBBMRWjKeeJxeENJOy9OkRDkxrg8I2zZWSeks14ajMpoNWKP
+ HbHEtgGjfkKNsl5PQQKeqXCzPGGtuLxXNYiBEh70b/GQwfXRFTDRylQSa8O3/wfF5VmZ
+ uUK7qdYOaFoXoxCBXtyaOVKDQQE0UryRonII/eZrn6UoH3b/h0apz2eleimS0CmFhpJX
+ Vq96P+Eg0MXLEZ5FqPEHCXvHCn1wLjVM4+6nxNjtrcKCqrD3YftJsnTXy+YkZk9y7KH7
+ 7LR1xRCgXCvf85/C3j3I2hodjPhlXCXoYibbA6e4+5aQSt5ocNY/9aDgotgVuMcT0Qh0
+ lSCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ppb9q2JdzKJCAX+yRCeZ8lM7X4SqlcHbmDsxajJSFyc=;
- b=H8sI4fUxpi1IJrJR39prP03YvXk8YVTu93sbua5DcOnn9mf2HPGr1RV/jxvv1UgStG
- 2WYxbdEmC0Gzzjgyk+UUGMXeVD9vv2z+B5QTCuQKrMMGeaWNI57KwZLUgr0q7CVS/fes
- KomyJKC7zte97Z8vR5N679Nm7LDgGHTXnBBlo7mlvQh7u70KzZY+VG05XQwrSkVZmW7i
- mhgqOKv7CPSuAie/2H3RFRWpdY2Cg0Wp+mK99AOC9aqT9wa26bsHEFVxs4ypC4Aets+x
- a9ga0ehkjhVj/wVo4noW9LIcGuQ620wBNOIJSDMPlI+OZxOvf2Y83bzrGeIzvXPC0BcP
- n6OQ==
-X-Gm-Message-State: AOAM533SOBdABaK1bMhT33M5fdDaBOJRCIK0n1C6OYWj5NVDyubcA0b+
- hUY3W1DkHI0s+d3m1vhpeI3kHC7aK8obUA==
-X-Google-Smtp-Source: ABdhPJwMlrxICw81DoPq42UPOLv07AXtOu2Kvnj3OQFT6+5HYf2yV4RIVb5DjkVOMRle6/CL9gPybg==
-X-Received: by 2002:a5d:4b45:0:b0:207:ab91:edd8 with SMTP id
- w5-20020a5d4b45000000b00207ab91edd8mr3100939wrs.168.1650621910662; 
- Fri, 22 Apr 2022 03:05:10 -0700 (PDT)
+ bh=dD0gXSrq4cJBnHFPk7NEn42McsBj8OdsQUpLVwThouk=;
+ b=bs8MKNO5n0b2ls0Lth05V2C1itLgFgabxRTIKDsjKnfxhfYRYZKiiy+rYFonMyBL16
+ JSa/zP2QVLVxkrZgF32qmyTl9noAdfd0tlCEIb5ETvUq0HNcfNr9ti6CVLSdiS+KlRLP
+ W/NtryN1DvEve0NTPKMpQPoaVtYDCVJUwqDg3e6yXNt7iZhkFz/cyqjOHL6pW8jzWNbs
+ 6DxmSVUOsXOw2a1vCmCZ6Jf2KeAS3WQ+uuaVSpjm1kyMqMAJgC6DVrOfloQtU1n2EyYT
+ 7bPXd4t1ZOoHXkwN5K20B0bq2TOCC5TahLiITGlSEhPZ3N7I03rFrpcpTBnqSHzHworC
+ oWUw==
+X-Gm-Message-State: AOAM532c23h0OYt/Mm9Z83v0K4vDzwAV3zjErjapspBfqWZmAhhrnQBG
+ XFZrVSRaPGhtYWa/w5kDGldHoMhbGEIF1g==
+X-Google-Smtp-Source: ABdhPJyunnCxfHrLSMsFzMCGQksjyHmd/sX2Oh4dxElntGdSurRrjPA2HzBOsBFQs85HEMzLWQeK+g==
+X-Received: by 2002:a05:600c:4e12:b0:391:18da:1883 with SMTP id
+ b18-20020a05600c4e1200b0039118da1883mr3443054wmq.101.1650621911529; 
+ Fri, 22 Apr 2022 03:05:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.09
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:05:10 -0700 (PDT)
+ Fri, 22 Apr 2022 03:05:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/61] hw/arm/virt: Use VIRT_GIC_VERSION_* enum values in
- create_gic()
-Date: Fri, 22 Apr 2022 11:04:10 +0100
-Message-Id: <20220422100432.2288247-40-peter.maydell@linaro.org>
+Subject: [PULL 40/61] hw/arm/virt: Abstract out calculation of redistributor
+ region capacity
+Date: Fri, 22 Apr 2022 11:04:11 +0100
+Message-Id: <20220422100432.2288247-41-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,99 +90,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Everywhere we need to check which GIC version we're using, we look at
-vms->gic_version and use the VIRT_GIC_VERSION_* enum values, except
-in create_gic(), which copies vms->gic_version into a local 'int'
-variable and makes direct comparisons against values 2 and 3.
-
-For consistency, change this function to check the GIC version
-the same way we do elsewhere. This includes not implicitly relying
-on the enumeration type values happening to match the integer
-'revision' values the GIC device object wants.
+In several places in virt.c we calculate the number of redistributors that
+fit in a region of our memory map, which is the size of the region
+divided by the size of a single redistributor frame. For GICv4, the
+redistributor frame is a different size from that for GICv3. Abstract
+out the calculation of redistributor region capacity so that we have
+one place we need to change to handle GICv4 rather than several.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220408141550.1271295-40-peter.maydell@linaro.org
+Message-id: 20220408141550.1271295-41-peter.maydell@linaro.org
 ---
- hw/arm/virt.c | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+ include/hw/arm/virt.h |  9 +++++++--
+ hw/arm/virt.c         | 11 ++++-------
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 7e76ee26198..360463e6bfb 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -185,11 +185,16 @@ OBJECT_DECLARE_TYPE(VirtMachineState, VirtMachineClass, VIRT_MACHINE)
+ void virt_acpi_setup(VirtMachineState *vms);
+ bool virt_is_acpi_enabled(VirtMachineState *vms);
+ 
++/* Return number of redistributors that fit in the specified region */
++static uint32_t virt_redist_capacity(VirtMachineState *vms, int region)
++{
++    return vms->memmap[region].size / GICV3_REDIST_SIZE;
++}
++
+ /* Return the number of used redistributor regions  */
+ static inline int virt_gicv3_redist_region_count(VirtMachineState *vms)
+ {
+-    uint32_t redist0_capacity =
+-                vms->memmap[VIRT_GIC_REDIST].size / GICV3_REDIST_SIZE;
++    uint32_t redist0_capacity = virt_redist_capacity(vms, VIRT_GIC_REDIST);
+ 
+     assert(vms->gic_version == VIRT_GIC_VERSION_3);
+ 
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index bb6a2484d81..d5f8b0c74ad 100644
+index d5f8b0c74ad..1227c64e5b1 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -690,14 +690,29 @@ static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
-     /* We create a standalone GIC */
-     SysBusDevice *gicbusdev;
-     const char *gictype;
--    int type = vms->gic_version, i;
-+    int i;
-     unsigned int smp_cpus = ms->smp.cpus;
-     uint32_t nb_redist_regions = 0;
-+    int revision;
- 
--    gictype = (type == 3) ? gicv3_class_name() : gic_class_name();
-+    if (vms->gic_version == VIRT_GIC_VERSION_2) {
-+        gictype = gic_class_name();
-+    } else {
-+        gictype = gicv3_class_name();
-+    }
- 
-+    switch (vms->gic_version) {
-+    case VIRT_GIC_VERSION_2:
-+        revision = 2;
-+        break;
-+    case VIRT_GIC_VERSION_3:
-+        revision = 3;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-     vms->gic = qdev_new(gictype);
--    qdev_prop_set_uint32(vms->gic, "revision", type);
-+    qdev_prop_set_uint32(vms->gic, "revision", revision);
-     qdev_prop_set_uint32(vms->gic, "num-cpu", smp_cpus);
-     /* Note that the num-irq property counts both internal and external
-      * interrupts; there are always 32 of the former (mandated by GIC spec).
-@@ -707,7 +722,7 @@ static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
-         qdev_prop_set_bit(vms->gic, "has-security-extensions", vms->secure);
+@@ -723,8 +723,7 @@ static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
      }
  
--    if (type == 3) {
-+    if (vms->gic_version == VIRT_GIC_VERSION_3) {
-         uint32_t redist0_capacity =
-                     vms->memmap[VIRT_GIC_REDIST].size / GICV3_REDIST_SIZE;
+     if (vms->gic_version == VIRT_GIC_VERSION_3) {
+-        uint32_t redist0_capacity =
+-                    vms->memmap[VIRT_GIC_REDIST].size / GICV3_REDIST_SIZE;
++        uint32_t redist0_capacity = virt_redist_capacity(vms, VIRT_GIC_REDIST);
          uint32_t redist0_count = MIN(smp_cpus, redist0_capacity);
-@@ -742,7 +757,7 @@ static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
-     gicbusdev = SYS_BUS_DEVICE(vms->gic);
-     sysbus_realize_and_unref(gicbusdev, &error_fatal);
-     sysbus_mmio_map(gicbusdev, 0, vms->memmap[VIRT_GIC_DIST].base);
--    if (type == 3) {
-+    if (vms->gic_version == VIRT_GIC_VERSION_3) {
-         sysbus_mmio_map(gicbusdev, 1, vms->memmap[VIRT_GIC_REDIST].base);
+ 
+         nb_redist_regions = virt_gicv3_redist_region_count(vms);
+@@ -743,7 +742,7 @@ static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
+ 
          if (nb_redist_regions == 2) {
-             sysbus_mmio_map(gicbusdev, 2,
-@@ -780,7 +795,7 @@ static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
-                                                    ppibase + timer_irq[irq]));
-         }
+             uint32_t redist1_capacity =
+-                    vms->memmap[VIRT_HIGH_GIC_REDIST2].size / GICV3_REDIST_SIZE;
++                virt_redist_capacity(vms, VIRT_HIGH_GIC_REDIST2);
  
--        if (type == 3) {
-+        if (vms->gic_version == VIRT_GIC_VERSION_3) {
-             qemu_irq irq = qdev_get_gpio_in(vms->gic,
-                                             ppibase + ARCH_GIC_MAINT_IRQ);
-             qdev_connect_gpio_out_named(cpudev, "gicv3-maintenance-interrupt",
-@@ -806,9 +821,9 @@ static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
- 
-     fdt_add_gic_node(vms);
- 
--    if (type == 3 && vms->its) {
-+    if (vms->gic_version == VIRT_GIC_VERSION_3 && vms->its) {
-         create_its(vms);
--    } else if (type == 2) {
-+    } else if (vms->gic_version == VIRT_GIC_VERSION_2) {
-         create_v2m(vms);
+             qdev_prop_set_uint32(vms->gic, "redist-region-count[1]",
+                 MIN(smp_cpus - redist0_count, redist1_capacity));
+@@ -2048,10 +2047,8 @@ static void machvirt_init(MachineState *machine)
+      * many redistributors we can fit into the memory map.
+      */
+     if (vms->gic_version == VIRT_GIC_VERSION_3) {
+-        virt_max_cpus =
+-            vms->memmap[VIRT_GIC_REDIST].size / GICV3_REDIST_SIZE;
+-        virt_max_cpus +=
+-            vms->memmap[VIRT_HIGH_GIC_REDIST2].size / GICV3_REDIST_SIZE;
++        virt_max_cpus = virt_redist_capacity(vms, VIRT_GIC_REDIST) +
++            virt_redist_capacity(vms, VIRT_HIGH_GIC_REDIST2);
+     } else {
+         virt_max_cpus = GIC_NCPU;
      }
- }
 -- 
 2.25.1
 
