@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671D450BBB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 17:28:57 +0200 (CEST)
-Received: from localhost ([::1]:43946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727CB50BBBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 17:31:23 +0200 (CEST)
+Received: from localhost ([::1]:48354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhvDM-0001wO-Ig
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 11:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33242)
+	id 1nhvFh-00053B-Ll
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 11:31:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhv9j-0005h7-UR
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:25:11 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:42842)
+ id 1nhvAO-0006xc-9z
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:25:52 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:42839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhv9i-0003Mj-CY
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:25:11 -0400
-Received: by mail-io1-xd33.google.com with SMTP id c125so8921918iof.9
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 08:25:09 -0700 (PDT)
+ id 1nhvAM-0003Tw-Q9
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:25:52 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id c125so8924121iof.9
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 08:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=8wFLR4pSVH7ljRtKLvcY0/jyBPgb7HdDlrir5th7a3Q=;
- b=LyLHFjkDGiIXZ8BV0W5pHg6tJaMKnlsB8Af+sB3M8FT8ZCDTVffciFfOafqdoImFon
- sXgGtpIfwhN5egS0svzAaAvwOdavlRImsdhqhpbYSSN8mwn80zoBUArlKUVi9QoHyxut
- G3LlL8Vl7lOUg3xfIu2qIXEijM+QyBcB2DztKQSmabUDtf8qyX7g5Pm/nVbt07ci3R4Y
- QVH2GJKhRzIuHlj0X7w8qjT15K6fimdrbZbz/749ZDuJwp60zDhxgGaqiyR454NA13Q5
- 3fTCYHH2QPvLHXiMu44lrn3sz+l4YtCfpskzQhVZfvgumzoRQWJ2EUfEngAFqtfQg6dz
- Quwg==
+ bh=8z+apJfDrkcdYFfu8tFn/BNBRkevyxR7qRX78Is+rdc=;
+ b=CmGjxLuu5B1MWkAmbLN3vlHb+g03TKm4PS+qsIKB9kKGdCjMaF0qWeJ29Mu1qefvD8
+ NfluVvmw68rn/XdRmDtTaIG7SevAFheyNd1iDOP2NZ8xbwEK9TbNOZEsTWIiIUNGTV1D
+ ursAkcdL5Nuo+kWPHTQ+4jIiVQNPltHFlN+wnepk16f7q9U6qanW3/U/QGKSCrze5w5l
+ 4fsGAwBENZdPFNrx2HDF5ZBcKl5LDagGgOuar+uFA0Y7tLBb8kiP6qm8I0vpvK1d7rtq
+ hBx3OCrq8mfikO1tlC/grUnnxZ3IXpL/AAmsc77AEcws00BoPNRMphpdErheXAEfnYtE
+ VWfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8wFLR4pSVH7ljRtKLvcY0/jyBPgb7HdDlrir5th7a3Q=;
- b=g9m2i8qoNaF/VHGPhcJjIyTHOFP6XkOb9pIwqROrS58+Peb9fATEFUr4Z6L9vcKHo+
- ccjGPWWROdXJHemOUnv0Zn9fGSa+wawSlj3YdY8/pWXPIKjx9eqy4FbjIDSb9c6U+FTL
- mDCBt8W4mA1eZOe+RHsB7hDjJBhi9b63Zk8mZy8ByO+D710SLFfzfKw4tY8WIBE3S3r0
- 1J8OhPFZrIGNHQ/ugW6m+4tKnxaiUH1aNc4lG+g1hw8AIFEgVWyalTIcjriamVHsbRgb
- roq0qJRlNHDzZlDqCG8ljFRg0BZerTifRoxw6eQ38GUEbM3/THYsfJO0MunoChNBWQu0
- sdqQ==
-X-Gm-Message-State: AOAM531p8ZSILeH7XEQ2nI40uH3HBuhf32OfkaKcTBZVI7QBwWhc2kP0
- NbSX4mI6Fbf36LHY9BP9gRy4LA==
-X-Google-Smtp-Source: ABdhPJzVk0umlHzVHRVewr1J235Q1TOedxPD9LqEM9FUcWKg4ow4oP7F0Vn1Lxg5LVA/dXFYKENgXw==
-X-Received: by 2002:a6b:f60d:0:b0:645:b224:8d45 with SMTP id
- n13-20020a6bf60d000000b00645b2248d45mr2260931ioh.131.1650641109156; 
- Fri, 22 Apr 2022 08:25:09 -0700 (PDT)
+ bh=8z+apJfDrkcdYFfu8tFn/BNBRkevyxR7qRX78Is+rdc=;
+ b=YgckFuqDD+kg8Uvno3OfkYE6JEVRhQ2eHwzP8ebO0sgrjE7wRz/8bfyjssbwiV/LtF
+ wjMhkSrffYV0YG7XxSdzOoBTy6XzMXxuzU3J44h/H2cZl3YJknw8Nw394sJhJ84zovUH
+ 0a5XyETLVqmxpiYvoNmS4BiGwnRg8E31CPSTh1bbV/llRKso+TuTkkr9UzqVmdktdD/e
+ NSohDH1r0phnLDcwm3dVzGGj8YzHTswY7Ayu3cOFyF1bTznI/h4StVcqtZZ+CtYz55eK
+ hMQUM3jttw5TV+tHRVtM5lxgqBjhohTlF8laCVxDEdCbvBPYIJz7dlkbebvPXDUSgBJp
+ 5MDg==
+X-Gm-Message-State: AOAM532eABuh7KsYGQr1vQSRGoB3EeGugW/dm7YpXk+sG8hXNCEyWRCc
+ D8uEriqRkfal9zqZcmb3duGNMuX+cEVXgQ==
+X-Google-Smtp-Source: ABdhPJxUUZlXu6WxIgL/yLC6vNBtawloMX/EN7BgHcGnK3AqJHNClrPSUoVkoFuxZfpSkbSF7GNPAA==
+X-Received: by 2002:a02:a399:0:b0:326:7b56:1a9f with SMTP id
+ y25-20020a02a399000000b003267b561a9fmr2245334jak.185.1650641149637; 
+ Fri, 22 Apr 2022 08:25:49 -0700 (PDT)
 Received: from ?IPV6:2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1?
  ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a6bcf0f000000b00649c4056879sm1623049ioa.50.2022.04.22.08.25.07
+ a3-20020a92ce43000000b002cd74588224sm1180131ilr.4.2022.04.22.08.25.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Apr 2022 08:25:08 -0700 (PDT)
-Message-ID: <2f8be0c6-4c62-04b3-6ab2-8e48b633d7f9@linaro.org>
-Date: Fri, 22 Apr 2022 08:25:05 -0700
+ Fri, 22 Apr 2022 08:25:49 -0700 (PDT)
+Message-ID: <6a136868-b566-81f6-1c30-8034826efd25@linaro.org>
+Date: Fri, 22 Apr 2022 08:25:45 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 1/7] target/xtensa: fix missing tcg_temp_free in
- gen_window_check
+Subject: Re: [PATCH v2 3/7] target/xtensa: use tcg_constant_* for exceptions
 Content-Language: en-US
 To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
 References: <20220422114332.374472-1-jcmvbkbc@gmail.com>
- <20220422114332.374472-2-jcmvbkbc@gmail.com>
+ <20220422114332.374472-4-jcmvbkbc@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220422114332.374472-2-jcmvbkbc@gmail.com>
+In-Reply-To: <20220422114332.374472-4-jcmvbkbc@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,17 +94,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/22/22 04:43, Max Filippov wrote:
-> pc and w are allocated with tcg_const_i32 but not freed in
-> gen_window_check. Use tcg_constant_i32 for them both.
+> Use tcg_contant_* for exception number, exception cause, debug cause
+> code and exception PC.
 > 
-> Fixes: 2db59a76c421 ("target-xtensa: record available window in TB flags")
 > Signed-off-by: Max Filippov<jcmvbkbc@gmail.com>
 > ---
 > Changes v1->v2:
 > - also use tcg_constant_* for PC
 > 
->   target/xtensa/translate.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   target/xtensa/translate.c | 18 +++++-------------
+>   1 file changed, 5 insertions(+), 13 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
