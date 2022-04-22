@@ -2,46 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E74350B8D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:42:00 +0200 (CEST)
-Received: from localhost ([::1]:56426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522AF50B837
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:19:10 +0200 (CEST)
+Received: from localhost ([::1]:40500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhtXr-0008NO-Dn
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:41:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59436)
+	id 1nhtBl-0001K7-6V
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nhtGo-0001R5-6M
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:24:22 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nhtGl-0008V3-3x
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:24:21 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 27A8074763C;
- Fri, 22 Apr 2022 15:24:16 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 628DF746F30; Fri, 22 Apr 2022 15:24:15 +0200 (CEST)
-Message-Id: <b2729322770e17a12709f2abc5b4789fd51bc034.1650633281.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1650633281.git.balaton@eik.bme.hu>
-References: <cover.1650633281.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 3/3] hw/audio/ac97: Remove unneeded local variables
-Date: Fri, 22 Apr 2022 15:14:41 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nht96-0006y0-1D
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:16:24 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:36680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nht94-0006Z9-5z
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:16:23 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2f7b815ac06so8832197b3.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 06:16:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=W+OVUPbpFM7UeD/oweIdw4Dmhqf/GuZllXoZUU6GJVs=;
+ b=bZkdt/dc3VAiW5oue5KR+eJrUlt07usCnAZSTthNfWFb5balJUbU9B1MEDSE9VbMto
+ p90zYFZz+0+Q7muEv5bS06wQTTFP5FbOpTN2/KOTIio0MB9Mco5aXLG8ZCEp8g84G4CZ
+ iTexuYC+FmfAMxxcmrM+RobQuR91wHETOGgcppJb/QK50vifw4ClwNVoNWAMv+5biiNA
+ OYlwsi17VRx8JflOY7+ZFiExk3sjfs4lJr+3OFBXn/n841ZgzTWPsiBk2cgkIi5k06nl
+ 9UhqFwzQOrOqifeHnUdo8ADyGK4jH28R7yY2f7SoX5UAbKV/i8wJniqHEad4gWGPLzzG
+ fosw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=W+OVUPbpFM7UeD/oweIdw4Dmhqf/GuZllXoZUU6GJVs=;
+ b=jIG8at95smCGduh/c/jlVTpzx/UwE6ec1dprWW/v9nrhY/bNXUKBpSU6pGuq994UNe
+ VJMgFWXw/LlHcVZkPYnR7p6Lx7Dl5j9HSYgmmAv/zJZBZ+2ajF8cwZIFeOQdnlFy0xVo
+ GqmReZzfDLDm0laGol4KC6GTCaNVmabIc4zlerZhyDZCriwLGXGCCu9exB1zgiTwIHkU
+ HsWc4S+IIsxjyujWd9MhHSJJG2y/FA4Ufw3f3SuZ4XA5pvnXLdkWIBIA9bq9tDsDwwZo
+ 7qGC1OzOMdXkMEnyzWoOvZcP4fC9BUUR5OzSOf0OEn3SiF3tCX1CdMDdpltoLHH822DS
+ Tv1g==
+X-Gm-Message-State: AOAM533vXxqP9p7RCsQouewPEmeofH8cYSB67MmICVSWLbBz5Fwc5vZZ
+ hddxnmJG6uVFiLYpty/+MqEGShlPphYjhqD0zb1SLA==
+X-Google-Smtp-Source: ABdhPJwDpi1m9+PsYXUxrTcojbJTsiZBuXa1OQcpjehpSKAx55DDCqt1ilVtCh05ljZe9RNEqEQQF/MjjtRoImdHYYs=
+X-Received: by 2002:a81:13d6:0:b0:2ec:2b3f:28c6 with SMTP id
+ 205-20020a8113d6000000b002ec2b3f28c6mr4785235ywt.10.1650633381027; Fri, 22
+ Apr 2022 06:16:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220421151735.31996-1-richard.henderson@linaro.org>
+ <20220421151735.31996-45-richard.henderson@linaro.org>
+In-Reply-To: <20220421151735.31996-45-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 22 Apr 2022 14:16:09 +0100
+Message-ID: <CAFEAcA84wMQq6Tsk8dSL72fN_Txms0oHQGyXY=xj8_DEmDzS7A@mail.gmail.com>
+Subject: Re: [PATCH v7 44/64] target/nios2: Split out helpers for gen_*
+ translate macros
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,315 +80,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several functions have a local variable that is just a copy of one of
-the function parameters. This is unneeded complication so just get rid
-of these.
+On Thu, 21 Apr 2022 at 16:55, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Do as little work as possible within the macros.
+> Split out helper functions and pass in arguments instead.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/nios2/translate.c | 215 +++++++++++++++++++++++++--------------
+>  1 file changed, 141 insertions(+), 74 deletions(-)
+>
+> diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+> index a3c63dbbbd..74672101ca 100644
+> --- a/target/nios2/translate.c
+> +++ b/target/nios2/translate.c
+> @@ -71,6 +71,21 @@ typedef struct {
+>          .a     = extract32((code), 27, 5), \
+>      }
+>
+> +static target_ulong imm_unsigned(const InstrIType *i)
+> +{
+> +    return i->imm16.u;
+> +}
+> +
+> +static target_ulong imm_signed(const InstrIType *i)
+> +{
+> +    return i->imm16.s;
+> +}
+> +
+> +static target_ulong imm_shifted(const InstrIType *i)
+> +{
+> +    return i->imm16.u << 16;
+> +}
+> +
+>  /* R-Type instruction parsing */
+>  typedef struct {
+>      uint8_t op;
+> @@ -268,40 +283,62 @@ static void gen_bxx(DisasContext *dc, uint32_t code, uint32_t flags)
+>  }
+>
+>  /* Comparison instructions */
+> -#define gen_i_cmpxx(fname, op3)                                              \
+> -static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)         \
+> -{                                                                            \
+> -    I_TYPE(instr, (code));                                                   \
+> -    tcg_gen_setcondi_tl(flags, cpu_R[instr.b], cpu_R[instr.a], (op3));       \
+> +static void do_i_cmpxx(DisasContext *dc, uint32_t insn, TCGCond cond,
+> +                       target_ulong (*imm)(const InstrIType *))
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/audio/ac97.c | 102 +++++++++++++++++++++++-------------------------
- 1 file changed, 49 insertions(+), 53 deletions(-)
+Can we have some typedefs if we're passing function pointers around,
+please? I think they're easier to read than having raw
+function-pointer type signatures in function prototypes.
 
-diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-index 2799d64acd..b5af86d228 100644
---- a/hw/audio/ac97.c
-+++ b/hw/audio/ac97.c
-@@ -557,9 +557,8 @@ static uint32_t nam_readb(void *opaque, uint32_t addr)
- static uint32_t nam_readw(void *opaque, uint32_t addr)
- {
-     AC97LinkState *s = opaque;
--    uint32_t index = addr;
-     s->cas = 0;
--    return mixer_load(s, index);
-+    return mixer_load(s, addr);
- }
- 
- static uint32_t nam_readl(void *opaque, uint32_t addr)
-@@ -584,21 +583,21 @@ static void nam_writeb(void *opaque, uint32_t addr, uint32_t val)
- static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
- {
-     AC97LinkState *s = opaque;
--    uint32_t index = addr;
-+
-     s->cas = 0;
--    switch (index) {
-+    switch (addr) {
-     case AC97_Reset:
-         mixer_reset(s);
-         break;
-     case AC97_Powerdown_Ctrl_Stat:
-         val &= ~0x800f;
--        val |= mixer_load(s, index) & 0xf;
--        mixer_store(s, index, val);
-+        val |= mixer_load(s, addr) & 0xf;
-+        mixer_store(s, addr, val);
-         break;
-     case AC97_PCM_Out_Volume_Mute:
-     case AC97_Master_Volume_Mute:
-     case AC97_Record_Gain_Mute:
--        set_volume(s, index, val);
-+        set_volume(s, addr, val);
-         break;
-     case AC97_Record_Select:
-         record_select(s, val);
-@@ -626,7 +625,7 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
-         break;
-     case AC97_PCM_Front_DAC_Rate:
-         if (mixer_load(s, AC97_Extended_Audio_Ctrl_Stat) & EACS_VRA) {
--            mixer_store(s, index, val);
-+            mixer_store(s, addr, val);
-             dolog("Set front DAC rate to %d\n", val);
-             open_voice(s, PO_INDEX, val);
-         } else {
-@@ -636,7 +635,7 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
-         break;
-     case AC97_MIC_ADC_Rate:
-         if (mixer_load(s, AC97_Extended_Audio_Ctrl_Stat) & EACS_VRM) {
--            mixer_store(s, index, val);
-+            mixer_store(s, addr, val);
-             dolog("Set MIC ADC rate to %d\n", val);
-             open_voice(s, MC_INDEX, val);
-         } else {
-@@ -646,7 +645,7 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
-         break;
-     case AC97_PCM_LR_ADC_Rate:
-         if (mixer_load(s, AC97_Extended_Audio_Ctrl_Stat) & EACS_VRA) {
--            mixer_store(s, index, val);
-+            mixer_store(s, addr, val);
-             dolog("Set front LR ADC rate to %d\n", val);
-             open_voice(s, PI_INDEX, val);
-         } else {
-@@ -673,7 +672,7 @@ static void nam_writew(void *opaque, uint32_t addr, uint32_t val)
-         break;
-     default:
-         dolog("U nam writew 0x%x <- 0x%x\n", addr, val);
--        mixer_store(s, index, val);
-+        mixer_store(s, addr, val);
-         break;
-     }
- }
-@@ -693,10 +692,9 @@ static uint32_t nabm_readb(void *opaque, uint32_t addr)
- {
-     AC97LinkState *s = opaque;
-     AC97BusMasterRegs *r = NULL;
--    uint32_t index = addr;
-     uint32_t val = ~0U;
- 
--    switch (index) {
-+    switch (addr) {
-     case CAS:
-         dolog("CAS %d\n", s->cas);
-         val = s->cas;
-@@ -705,37 +703,37 @@ static uint32_t nabm_readb(void *opaque, uint32_t addr)
-     case PI_CIV:
-     case PO_CIV:
-     case MC_CIV:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->civ;
--        dolog("CIV[%d] -> 0x%x\n", GET_BM(index), val);
-+        dolog("CIV[%d] -> 0x%x\n", GET_BM(addr), val);
-         break;
-     case PI_LVI:
-     case PO_LVI:
-     case MC_LVI:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->lvi;
--        dolog("LVI[%d] -> 0x%x\n", GET_BM(index), val);
-+        dolog("LVI[%d] -> 0x%x\n", GET_BM(addr), val);
-         break;
-     case PI_PIV:
-     case PO_PIV:
-     case MC_PIV:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->piv;
--        dolog("PIV[%d] -> 0x%x\n", GET_BM(index), val);
-+        dolog("PIV[%d] -> 0x%x\n", GET_BM(addr), val);
-         break;
-     case PI_CR:
-     case PO_CR:
-     case MC_CR:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->cr;
--        dolog("CR[%d] -> 0x%x\n", GET_BM(index), val);
-+        dolog("CR[%d] -> 0x%x\n", GET_BM(addr), val);
-         break;
-     case PI_SR:
-     case PO_SR:
-     case MC_SR:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->sr & 0xff;
--        dolog("SRb[%d] -> 0x%x\n", GET_BM(index), val);
-+        dolog("SRb[%d] -> 0x%x\n", GET_BM(addr), val);
-         break;
-     default:
-         dolog("U nabm readb 0x%x -> 0x%x\n", addr, val);
-@@ -748,23 +746,22 @@ static uint32_t nabm_readw(void *opaque, uint32_t addr)
- {
-     AC97LinkState *s = opaque;
-     AC97BusMasterRegs *r = NULL;
--    uint32_t index = addr;
-     uint32_t val = ~0U;
- 
--    switch (index) {
-+    switch (addr) {
-     case PI_SR:
-     case PO_SR:
-     case MC_SR:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->sr;
--        dolog("SR[%d] -> 0x%x\n", GET_BM(index), val);
-+        dolog("SR[%d] -> 0x%x\n", GET_BM(addr), val);
-         break;
-     case PI_PICB:
-     case PO_PICB:
-     case MC_PICB:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->picb;
--        dolog("PICB[%d] -> 0x%x\n", GET_BM(index), val);
-+        dolog("PICB[%d] -> 0x%x\n", GET_BM(addr), val);
-         break;
-     default:
-         dolog("U nabm readw 0x%x -> 0x%x\n", addr, val);
-@@ -777,31 +774,30 @@ static uint32_t nabm_readl(void *opaque, uint32_t addr)
- {
-     AC97LinkState *s = opaque;
-     AC97BusMasterRegs *r = NULL;
--    uint32_t index = addr;
-     uint32_t val = ~0U;
- 
--    switch (index) {
-+    switch (addr) {
-     case PI_BDBAR:
-     case PO_BDBAR:
-     case MC_BDBAR:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->bdbar;
--        dolog("BMADDR[%d] -> 0x%x\n", GET_BM(index), val);
-+        dolog("BMADDR[%d] -> 0x%x\n", GET_BM(addr), val);
-         break;
-     case PI_CIV:
-     case PO_CIV:
-     case MC_CIV:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->civ | (r->lvi << 8) | (r->sr << 16);
--        dolog("CIV LVI SR[%d] -> 0x%x, 0x%x, 0x%x\n", GET_BM(index),
-+        dolog("CIV LVI SR[%d] -> 0x%x, 0x%x, 0x%x\n", GET_BM(addr),
-                r->civ, r->lvi, r->sr);
-         break;
-     case PI_PICB:
-     case PO_PICB:
-     case MC_PICB:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         val = r->picb | (r->piv << 16) | (r->cr << 24);
--        dolog("PICB PIV CR[%d] -> 0x%x 0x%x 0x%x 0x%x\n", GET_BM(index),
-+        dolog("PICB PIV CR[%d] -> 0x%x 0x%x 0x%x 0x%x\n", GET_BM(addr),
-                val, r->picb, r->piv, r->cr);
-         break;
-     case GLOB_CNT:
-@@ -827,12 +823,12 @@ static void nabm_writeb(void *opaque, uint32_t addr, uint32_t val)
- {
-     AC97LinkState *s = opaque;
-     AC97BusMasterRegs *r = NULL;
--    uint32_t index = addr;
--    switch (index) {
-+
-+    switch (addr) {
-     case PI_LVI:
-     case PO_LVI:
-     case MC_LVI:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         if ((r->cr & CR_RPBM) && (r->sr & SR_DCH)) {
-             r->sr &= ~(SR_DCH | SR_CELV);
-             r->civ = r->piv;
-@@ -840,12 +836,12 @@ static void nabm_writeb(void *opaque, uint32_t addr, uint32_t val)
-             fetch_bd(s, r);
-         }
-         r->lvi = val % 32;
--        dolog("LVI[%d] <- 0x%x\n", GET_BM(index), val);
-+        dolog("LVI[%d] <- 0x%x\n", GET_BM(addr), val);
-         break;
-     case PI_CR:
-     case PO_CR:
-     case MC_CR:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         if (val & CR_RR) {
-             reset_bm_regs(s, r);
-         } else {
-@@ -861,15 +857,15 @@ static void nabm_writeb(void *opaque, uint32_t addr, uint32_t val)
-                 voice_set_active(s, r - s->bm_regs, 1);
-             }
-         }
--        dolog("CR[%d] <- 0x%x (cr 0x%x)\n", GET_BM(index), val, r->cr);
-+        dolog("CR[%d] <- 0x%x (cr 0x%x)\n", GET_BM(addr), val, r->cr);
-         break;
-     case PI_SR:
-     case PO_SR:
-     case MC_SR:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         r->sr |= val & ~(SR_RO_MASK | SR_WCLEAR_MASK);
-         update_sr(s, r, r->sr & ~(val & SR_WCLEAR_MASK));
--        dolog("SR[%d] <- 0x%x (sr 0x%x)\n", GET_BM(index), val, r->sr);
-+        dolog("SR[%d] <- 0x%x (sr 0x%x)\n", GET_BM(addr), val, r->sr);
-         break;
-     default:
-         dolog("U nabm writeb 0x%x <- 0x%x\n", addr, val);
-@@ -881,15 +877,15 @@ static void nabm_writew(void *opaque, uint32_t addr, uint32_t val)
- {
-     AC97LinkState *s = opaque;
-     AC97BusMasterRegs *r = NULL;
--    uint32_t index = addr;
--    switch (index) {
-+
-+    switch (addr) {
-     case PI_SR:
-     case PO_SR:
-     case MC_SR:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         r->sr |= val & ~(SR_RO_MASK | SR_WCLEAR_MASK);
-         update_sr(s, r, r->sr & ~(val & SR_WCLEAR_MASK));
--        dolog("SR[%d] <- 0x%x (sr 0x%x)\n", GET_BM(index), val, r->sr);
-+        dolog("SR[%d] <- 0x%x (sr 0x%x)\n", GET_BM(addr), val, r->sr);
-         break;
-     default:
-         dolog("U nabm writew 0x%x <- 0x%x\n", addr, val);
-@@ -901,14 +897,14 @@ static void nabm_writel(void *opaque, uint32_t addr, uint32_t val)
- {
-     AC97LinkState *s = opaque;
-     AC97BusMasterRegs *r = NULL;
--    uint32_t index = addr;
--    switch (index) {
-+
-+    switch (addr) {
-     case PI_BDBAR:
-     case PO_BDBAR:
-     case MC_BDBAR:
--        r = &s->bm_regs[GET_BM(index)];
-+        r = &s->bm_regs[GET_BM(addr)];
-         r->bdbar = val & ~3;
--        dolog("BDBAR[%d] <- 0x%x (bdbar 0x%x)\n", GET_BM(index), val, r->bdbar);
-+        dolog("BDBAR[%d] <- 0x%x (bdbar 0x%x)\n", GET_BM(addr), val, r->bdbar);
-         break;
-     case GLOB_CNT:
-         if (!(val & (GC_WR | GC_CR))) {
--- 
-2.30.2
+> +{
+> +    I_TYPE(instr, insn);
+> +
+> +    if (likely(instr.b != R_ZERO)) {
+> +        tcg_gen_setcondi_tl(cond, cpu_R[instr.b],
+> +                            load_gpr(dc, instr.a), imm(&instr));
+> +    }
 
+The old code didn't do this check against R_ZERO.
+
+>  }
+
+>  /* Math/logic instructions */
+> -#define gen_r_math_logic(fname, insn, op3)                                 \
+> -static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)       \
+> -{                                                                          \
+> -    R_TYPE(instr, (code));                                                 \
+> -    if (likely(instr.c != R_ZERO)) {                                       \
+> -        tcg_gen_##insn(cpu_R[instr.c], load_gpr((dc), instr.a), (op3));    \
+> -    }                                                                      \
+> +static void do_ri_math_logic(DisasContext *dc, uint32_t insn,
+> +                             void (*fn)(TCGv, TCGv, int32_t))
+> +{
+> +    R_TYPE(instr, insn);
+> +
+> +    if (likely(instr.c != R_ZERO)) {
+> +        fn(cpu_R[instr.c], load_gpr(dc, instr.a), instr.imm5);
+> +    }
+>  }
+>
+> -gen_r_math_logic(add,  add_tl,   load_gpr(dc, instr.b))
+> -gen_r_math_logic(sub,  sub_tl,   load_gpr(dc, instr.b))
+> -gen_r_math_logic(mul,  mul_tl,   load_gpr(dc, instr.b))
+> +static void do_rr_math_logic(DisasContext *dc, uint32_t insn,
+> +                             void (*fn)(TCGv, TCGv, TCGv))
+> +{
+> +    R_TYPE(instr, insn);
+>
+> -gen_r_math_logic(and,  and_tl,   load_gpr(dc, instr.b))
+> -gen_r_math_logic(or,   or_tl,    load_gpr(dc, instr.b))
+> -gen_r_math_logic(xor,  xor_tl,   load_gpr(dc, instr.b))
+> -gen_r_math_logic(nor,  nor_tl,   load_gpr(dc, instr.b))
+> -
+> -gen_r_math_logic(srai, sari_tl,  instr.imm5)
+> -gen_r_math_logic(srli, shri_tl,  instr.imm5)
+> -gen_r_math_logic(slli, shli_tl,  instr.imm5)
+> -gen_r_math_logic(roli, rotli_tl, instr.imm5)
+> -
+> -#define gen_r_mul(fname, insn)                                         \
+> -static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)   \
+> -{                                                                      \
+> -    R_TYPE(instr, (code));                                             \
+> -    if (likely(instr.c != R_ZERO)) {                                   \
+> -        TCGv t0 = tcg_temp_new();                                      \
+> -        tcg_gen_##insn(t0, cpu_R[instr.c],                             \
+> -                       load_gpr(dc, instr.a), load_gpr(dc, instr.b));  \
+> -        tcg_temp_free(t0);                                             \
+> -    }                                                                  \
+> +    if (likely(instr.c != R_ZERO)) {
+> +        fn(cpu_R[instr.c], load_gpr(dc, instr.a), load_gpr(dc, instr.b));
+> +    }
+>  }
+>
+> -gen_r_mul(mulxss, muls2_tl)
+> -gen_r_mul(mulxuu, mulu2_tl)
+> -gen_r_mul(mulxsu, mulsu2_tl)
+> +#define gen_ri_math_logic(fname, insn)                                      \
+> +    static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)    \
+> +    { do_ri_math_logic(dc, code, tcg_gen_##insn##_tl); }
+>
+> -#define gen_r_shift_s(fname, insn)                                         \
+> -static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)       \
+> -{                                                                          \
+> -    R_TYPE(instr, (code));                                                 \
+> -    if (likely(instr.c != R_ZERO)) {                                       \
+> -        TCGv t0 = tcg_temp_new();                                          \
+> -        tcg_gen_andi_tl(t0, load_gpr((dc), instr.b), 31);                  \
+> -        tcg_gen_##insn(cpu_R[instr.c], load_gpr((dc), instr.a), t0);       \
+> -        tcg_temp_free(t0);                                                 \
+> -    }                                                                      \
+> +#define gen_rr_math_logic(fname, insn)                                      \
+> +    static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)    \
+> +    { do_rr_math_logic(dc, code, tcg_gen_##insn##_tl); }
+
+
+git diff has made a bit of a pig's ear of this, interleaving the
+changes related to math_logic and the ones related to shift and mul.
+If you do these changes one insn group at a time rather than
+all in one patch I think the resulting diff should be easier to read.
+
+-- PMM
 
