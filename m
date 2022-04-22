@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE4150BD5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 18:44:19 +0200 (CEST)
-Received: from localhost ([::1]:44348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5FA50BDA9
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 18:55:27 +0200 (CEST)
+Received: from localhost ([::1]:50986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhwOI-0005OG-Ce
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 12:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47048)
+	id 1nhwZ3-0002mB-Rp
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 12:55:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nhwLP-0002Fy-3n
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:41:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31103)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nhwLM-0005r7-R9
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:41:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650645676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kQYybIdMVDYDrDsyKYnK0UdOv2+G8K/HDbpTAey+cYo=;
- b=YH/Ycryb8+lhVplcXMyvMdTabk/jqKRdymjXqHqDBpZfAaYwLf0tNH+jxxjfMRMttLmlTA
- CCH+qXoWt1kGrxFekAVx0d3lpR8AViMm3H7xWS2NC+1vnLEVWqgLAgldHb9GmA7F9HQItA
- KUiSBrVQqqlc5I00FCQr6uio7Bx3/AI=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-170-oty4fHQ1OvehcOo36gO8-A-1; Fri, 22 Apr 2022 12:41:14 -0400
-X-MC-Unique: oty4fHQ1OvehcOo36gO8-A-1
-Received: by mail-vs1-f70.google.com with SMTP id
- i13-20020a67e2cd000000b0032a26c36119so596566vsm.6
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:41:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhwWU-0008RB-BE
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:52:46 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhwWS-0007Cl-AT
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:52:45 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id x191so7778667pgd.4
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:52:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tP8TUAYTnvt4U/lJPyLM3jYK488cIuSWL5LYLSNVnNY=;
+ b=AlGzZmba+xX84Tp1VUo8lhcuXqsR0Z4HTp+FdrzOd2awYYcBOh6o/je24JoFqrLSHy
+ SUSmJiTGsQEcCKNLRPeJhJZAnvYxO+WMD/0w1F5Hw6PcBYN+ypIVV9p1u/ieQAqmQFcE
+ pAhmBZSsxgJBClMuWVK5pEiNe6q26qLjX51qHPuzvp6qN48tkfbDnA+TBg0XSj5iFmkQ
+ LkK922DFRltn8Rm+pv5xHvSnaLmFYxUMX8akiV+4Dyb9yGuaW2X5awpws8VZPe2YQ8kT
+ XlvLiXu8QU17483dlGlpir1+eywyH54nCjExg+a2iEhvm9vc6ijHlysC+piOZsQ5hfeE
+ Q8qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kQYybIdMVDYDrDsyKYnK0UdOv2+G8K/HDbpTAey+cYo=;
- b=z1XfrZXKKerx5RmC1TXaTOdMr+uvMTh8DPHkjbyI3enO7Dt9u4LgSnyaP3yIo+j0sq
- eW9WaY+uRW6BcyLyCtmdsm0iLUpE0RUFDaaA7beibC5w6STNIywIuKSxJpCHlXODnaqB
- wbCMhhEKpKAy0Pqthof1ExI75V0o5v/kMPCmqmnlqZBsMTGLDXlXY+yOdBi5L2W9SnbC
- fKV4AG9gHtzVCSCRgfjOWBbtHZ4jYX/SaTV22db81rGGQcguSU82IbWQDjAIxc8KrFio
- GFvijaXR4L3e8oqegGLsgst0fUl51YrImaRhofZdIUcSrBzIkhmaeQGJogN0yQeM0Hzi
- VqKg==
-X-Gm-Message-State: AOAM531HHPNsYFdy7uyu41saaKOwLMtzvRgMAj+zBCaf2LJm+0MS30AY
- 4FYm3q4lulgo8Z4eWv2uiHDvFxq63tocYL56BtonSZn0bp2IPKJcC2KXpzf2Ptd4akFDEshxXX+
- bsKiqxkATXemRYL8+kYscL6Ro0tWbXoQ=
-X-Received: by 2002:ab0:7794:0:b0:35c:a50c:df8d with SMTP id
- x20-20020ab07794000000b0035ca50cdf8dmr2012840uar.42.1650645674045; 
- Fri, 22 Apr 2022 09:41:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxY636Npt1Lry9CEnSQjWPh+/24aJyApr/wHiCyq8GnnvsXz/9nDiH7OCOvFeJfY9jCN9jAX0CO9mSABYuU4b0=
-X-Received: by 2002:ab0:7794:0:b0:35c:a50c:df8d with SMTP id
- x20-20020ab07794000000b0035ca50cdf8dmr2012823uar.42.1650645673809; Fri, 22
- Apr 2022 09:41:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tP8TUAYTnvt4U/lJPyLM3jYK488cIuSWL5LYLSNVnNY=;
+ b=hNTnOej5f9VU+pkC8+sYRcBmsI3YrPgS3obDX2fGgRamBAsqUfT4aIJxFN1TAg0+SQ
+ llfknJS27Evrq1tPGVoq77Kdksqk0rnHMsPPxb5fllSZTNa2juBkfbAnWrhayRedaR4G
+ Y5KnQAk6bR/+SrwG3NhDg9UeShHES+Tf1NN0dEcTk9IIY/UCx2QmUFj3wt9XVmiY0zPB
+ E8DrB5U/oK6rPXzf4vOkPzauBMHArvLD4+pz6b9D324ue+f9anNXoqPP7GqQhKAmfOZc
+ zX/AGAeYiBxitUsRDKQUcWq6QML3Off965cmDVlPHnCUv6Up+v9h/JisjRl6GTK7Q3L+
+ RJlA==
+X-Gm-Message-State: AOAM533n03zXIbPMafVWqmpCoSZVqWZalLBcs1UD/LF49+DhwxzRuMv5
+ kYNkNi6dKQxeJ2qnK0z7YD0nc60euw0Z/A==
+X-Google-Smtp-Source: ABdhPJxm/01JYyDpfk9R6QOHzc297aKkrsoyRC06GHFO7MFTC7cKCWlCx5blqHvf0z3PXdXqxzfc4A==
+X-Received: by 2002:a63:5b61:0:b0:39d:2aef:c024 with SMTP id
+ l33-20020a635b61000000b0039d2aefc024mr4652322pgm.589.1650646362178; 
+ Fri, 22 Apr 2022 09:52:42 -0700 (PDT)
+Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
+ by smtp.gmail.com with ESMTPSA id
+ 6-20020a17090a030600b001cd4989ff5fsm6835904pje.38.2022.04.22.09.52.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 09:52:41 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 00/68] nios2 fixes, cleanups, shadow reg sets
+Date: Fri, 22 Apr 2022 09:51:30 -0700
+Message-Id: <20220422165238.1971496-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <CAFn=p-a1DTR3ve_aQBARLG6NDdGscWQOn1wCjrPiRWL0sDvk9A@mail.gmail.com>
- <CABJz62MoAvnTaAYcNzKn7_=ENS+YovowS4OozZ7iYHQV2kL6Cg@mail.gmail.com>
- <CAFn=p-a4P4c9AcoT4mTmikQYyf=09brMP3D464XgHQUzO+th+A@mail.gmail.com>
- <CABJz62Njvm8ibGif87xykZD2cj6SDkAN=6rPVzY9Fen4OpGvgg@mail.gmail.com>
- <CAFn=p-YSPkbco82HYHfUf0mfjPaQABXDRKo0r5HOxOwgth-G8g@mail.gmail.com>
-In-Reply-To: <CAFn=p-YSPkbco82HYHfUf0mfjPaQABXDRKo0r5HOxOwgth-G8g@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 22 Apr 2022 12:41:03 -0400
-Message-ID: <CAFn=p-bdxTJZhJ_A+ofm-z7C=1=rUpAqpu9cACfOguE3T4DSfw@mail.gmail.com>
-Subject: Re: Create qemu-project/py-qemu.qmp repo
-To: Andrea Bolognani <abologna@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000009ab3705dd40e5c5"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,216 +83,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Daniel Berrange <berrange@redhat.com>,
- Victor Toso de Carvalho <victortoso@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Amir Gonnen <amir.gonnen@neuroblade.ai>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000009ab3705dd40e5c5
-Content-Type: text/plain; charset="UTF-8"
+Changes for v8:
+  * Split one translator patch into 5.
+  * Add missing copyright/spdx lines to new tests.
 
-On Fri, Apr 22, 2022, 10:28 AM John Snow <jsnow@redhat.com> wrote:
+Patches needing review:
+  44-target-nios2-Split-out-helpers-for-gen_i_cmpxx.patch
+  45-target-nios2-Split-out-helpers-for-gen_i_math_log.patch
+  46-target-nios2-Split-out-helpers-for-gen_r_math_log.patch
+  47-target-nios2-Split-out-helpers-for-gen_rr_mul_hig.patch
+  48-target-nios2-Split-out-helpers-for-gen_rr_shift.patch
+  67-tests-tcg-nios2-Add-semihosting-multiarch-tests.patch
 
->
->
-> On Fri, Apr 22, 2022, 4:37 AM Andrea Bolognani <abologna@redhat.com>
-> wrote:
->
->> On Thu, Apr 21, 2022 at 05:00:16PM -0400, John Snow wrote:
->> > On Thu, Apr 21, 2022, 2:00 PM Andrea Bolognani <abologna@redhat.com>
->> wrote:
->> > > I think I would go with "python-qemu-qmp". Having a dot in the name
->> > > of a git repo is not very common AFAICT, and I wouldn't rule out the
->> > > possibility of some GitLab feature or other tooling breaking or
->> > > misbehaving because of it.
->> >
->> > The idea is to have the repo name resemble the Python package name,
->> which
->> > is "qemu.qmp". For Python, it's customary to have the package name match
->> > the import name. The import name is "qemu.qmp".
->> >
->> > I tested this name on GitLab and it appears to work just fine.
->>
->> I'm concerned about issues that you'd only trigger when using
->> certain, perhaps less common, features.
->>
->> Here's an example of such an issue from just a year ago:
->>
->>   https://gitlab.com/gitlab-org/gitlab/-/issues/224669
->
->
-> For mailing list context, this bug appears to concern label names with a
-> dot; due to bad URL generation that can be fixed manually using %2e.
->
->
->> There's an epic tracking more issues of the same kind, though
->> admittedly most were addressed four years ago:
->>
->>   https://gitlab.com/groups/gitlab-org/-/epics/3740
->>
->> Up to you whether you feel confident enough that you're not going to
->> run into issues later.
->>
->
-> There's always the chance for bugs, right? I'm not too concerned - I
-> didn't run into anything by now, and I've been working on this stuff for a
-> while.
->
-> Can't promise it won't ever happen, but I value consistency with the
-> package name more than I value avoiding possible bugs.
->
-> Valid to wonder, but I think the tradeoff is appropriate here.
->
->
->> > > If you're really keen on saving those few extra keystrokes, maybe
->> > > "pyqemu" is a better prefix than "py-qemu"? I don't know, it just
->> > > looks more natural to me.
->> >
->> > I'd add "py:" as a prefix, but the colon doesn't work as a filename in
->> many
->> > places, so I suggested "py-".
->> >
->> > Thus, all together, "py-qemu.qmp".
->> >
->> > (I could spell out "python", I just prefer the shorter prefix because
->> it's
->> > explanatory enough as-is and I like keeping git checkout names short. My
->> > favorite color of bike shed is blue.)
->>
->> You can absolutely have short names locally even when things are
->> spelled out in GitLab.
->>
->
-> Sure, but it's more steps and I personally never change the name when
-> copy-pasting the "git clone" snippet. I assume most don't either.
->
->
->> Anyway, in this case my taste in names is clearly simply different
->> from yours and you should absolutely feel free to ignore my opinion
->> on the matter :)
->>
->
-> Thanks for weighing in. I'm not ignoring your feedback, but I think I'm
-> still happiest with "py-qemu.qmp" for now.
->
 
-Hah. Except Paolo decided on "python-qemu-qmp" and he has the keys and I
-don't, so I guess that settles that :p
+r~
 
---00000000000009ab3705dd40e5c5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, Apr 22, 2022, 10:28 AM John Snow &lt;<a href=
-=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex"><div dir=3D"auto"><div><br><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 22, 2022, 4:37 A=
-M Andrea Bolognani &lt;<a href=3D"mailto:abologna@redhat.com" target=3D"_bl=
-ank" rel=3D"noreferrer">abologna@redhat.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">On Thu, Apr 21, 2022 at 05:00:16PM -0400, John Snow=
- wrote:<br>
-&gt; On Thu, Apr 21, 2022, 2:00 PM Andrea Bolognani &lt;<a href=3D"mailto:a=
-bologna@redhat.com" rel=3D"noreferrer noreferrer" target=3D"_blank">abologn=
-a@redhat.com</a>&gt; wrote:<br>
-&gt; &gt; I think I would go with &quot;python-qemu-qmp&quot;. Having a dot=
- in the name<br>
-&gt; &gt; of a git repo is not very common AFAICT, and I wouldn&#39;t rule =
-out the<br>
-&gt; &gt; possibility of some GitLab feature or other tooling breaking or<b=
-r>
-&gt; &gt; misbehaving because of it.<br>
-&gt;<br>
-&gt; The idea is to have the repo name resemble the Python package name, wh=
-ich<br>
-&gt; is &quot;qemu.qmp&quot;. For Python, it&#39;s customary to have the pa=
-ckage name match<br>
-&gt; the import name. The import name is &quot;qemu.qmp&quot;.<br>
-&gt;<br>
-&gt; I tested this name on GitLab and it appears to work just fine.<br>
-<br>
-I&#39;m concerned about issues that you&#39;d only trigger when using<br>
-certain, perhaps less common, features.<br>
-<br>
-Here&#39;s an example of such an issue from just a year ago:<br>
-<br>
-=C2=A0 <a href=3D"https://gitlab.com/gitlab-org/gitlab/-/issues/224669" rel=
-=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://gitlab.com/=
-gitlab-org/gitlab/-/issues/224669</a></blockquote></div></div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">For mailing list context, this bug appears=
- to concern label names with a dot; due to bad URL generation that can be f=
-ixed manually using %2e.</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
-><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-There&#39;s an epic tracking more issues of the same kind, though<br>
-admittedly most were addressed four years ago:<br>
-<br>
-=C2=A0 <a href=3D"https://gitlab.com/groups/gitlab-org/-/epics/3740" rel=3D=
-"noreferrer noreferrer noreferrer" target=3D"_blank">https://gitlab.com/gro=
-ups/gitlab-org/-/epics/3740</a><br>
-<br>
-Up to you whether you feel confident enough that you&#39;re not going to<br=
->
-run into issues later.<br></blockquote></div></div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">There&#39;s always the chance for bugs, right? I&#39;=
-m not too concerned - I didn&#39;t run into anything by now, and I&#39;ve b=
-een working on this stuff for a while.</div><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">Can&#39;t promise it won&#39;t ever happen, but I value cons=
-istency with the package name more than I value avoiding possible bugs.</di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">Valid to wonder, but I thin=
-k the tradeoff is appropriate here.</div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-&gt; &gt; If you&#39;re really keen on saving those few extra keystrokes, m=
-aybe<br>
-&gt; &gt; &quot;pyqemu&quot; is a better prefix than &quot;py-qemu&quot;? I=
- don&#39;t know, it just<br>
-&gt; &gt; looks more natural to me.<br>
-&gt;<br>
-&gt; I&#39;d add &quot;py:&quot; as a prefix, but the colon doesn&#39;t wor=
-k as a filename in many<br>
-&gt; places, so I suggested &quot;py-&quot;.<br>
-&gt;<br>
-&gt; Thus, all together, &quot;py-qemu.qmp&quot;.<br>
-&gt;<br>
-&gt; (I could spell out &quot;python&quot;, I just prefer the shorter prefi=
-x because it&#39;s<br>
-&gt; explanatory enough as-is and I like keeping git checkout names short. =
-My<br>
-&gt; favorite color of bike shed is blue.)<br>
-<br>
-You can absolutely have short names locally even when things are<br>
-spelled out in GitLab.<br></blockquote></div></div><div dir=3D"auto"><br></=
-div><div dir=3D"auto">Sure, but it&#39;s more steps and I personally never =
-change the name when copy-pasting the &quot;git clone&quot; snippet. I assu=
-me most don&#39;t either.</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Anyway, in this case my taste in names is clearly simply different<br>
-from yours and you should absolutely feel free to ignore my opinion<br>
-on the matter :)<br></blockquote></div></div><div dir=3D"auto"><br></div><d=
-iv dir=3D"auto">Thanks for weighing in. I&#39;m not ignoring your feedback,=
- but I think I&#39;m still happiest with &quot;py-qemu.qmp&quot; for now.</=
-div></div></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">Hah. Except Paolo decided on &quot;python-qemu-qmp&quot; and he has t=
-he keys and I don&#39;t, so I guess that settles that :p</div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"=
-gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><div dir=3D"a=
-uto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"></blockquote=
-></div></div></div>
-</blockquote></div></div></div>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Amir Gonnen <amir.gonnen@neuroblade.ai>
 
---00000000000009ab3705dd40e5c5--
+
+Amir Gonnen (5):
+  target/nios2: Check supervisor on eret
+  target/nios2: Add NUM_GP_REGS and NUM_CP_REGS
+  target/nios2: Split out helper for eret instruction
+  hw/intc: Vectored Interrupt Controller (VIC)
+  hw/nios2: Machine with a Vectored Interrupt Controller
+
+Richard Henderson (63):
+  linux-user/nios2: Hoist pc advance to the top of EXCP_TRAP
+  linux-user/nios2: Fix clone child return
+  linux-user/nios2: Drop syscall 0 "workaround"
+  linux-user/nios2: Adjust error return
+  linux-user/nios2: Handle special qemu syscall return values
+  linux-user/nios2: Remove do_sigreturn
+  linux-user/nios2: Use QEMU_ESIGRETURN from do_rt_sigreturn
+  tests/tcg/nios2: Re-enable linux-user tests
+  target/nios2: Remove user-only nios2_cpu_do_interrupt
+  target/nios2: Remove nios2_cpu_record_sigsegv
+  target/nios2: Build helper.c for system only
+  linux-user/nios2: Use force_sig_fault for EXCP_DEBUG
+  target/nios2: Stop generating code if gen_check_supervisor fails
+  target/nios2: Split PC out of env->regs[]
+  target/nios2: Fix BRET instruction
+  target/nios2: Do not create TCGv for control registers
+  linux-user/nios2: Only initialize SP and PC in target_cpu_copy_regs
+  target/nios2: Remove cpu_interrupts_enabled
+  target/nios2: Split control registers away from general registers
+  target/nios2: Clean up nios2_cpu_dump_state
+  target/nios2: Use hw/registerfields.h for CR_STATUS fields
+  target/nios2: Use hw/registerfields.h for CR_EXCEPTION fields
+  target/nios2: Use hw/registerfields.h for CR_TLBADDR fields
+  target/nios2: Use hw/registerfields.h for CR_TLBACC fields
+  target/nios2: Rename CR_TLBMISC_WR to CR_TLBMISC_WE
+  target/nios2: Use hw/registerfields.h for CR_TLBMISC fields
+  target/nios2: Move R_FOO and CR_BAR into enumerations
+  target/nios2: Create EXCP_SEMIHOST for semi-hosting
+  target/nios2: Clean up nios2_cpu_do_interrupt
+  target/nios2: Hoist CPU_LOG_INT logging
+  target/nios2: Handle EXCP_UNALIGN and EXCP_UNALIGND
+  target/nios2: Cleanup set of CR_EXCEPTION for do_interrupt
+  target/nios2: Clean up handling of tlbmisc in do_exception
+  target/nios2: Prevent writes to read-only or reserved control fields
+  target/nios2: Implement cpuid
+  target/nios2: Implement CR_STATUS.RSIE
+  target/nios2: Remove CPU_INTERRUPT_NMI
+  target/nios2: Support division error exception
+  target/nios2: Use tcg_constant_tl
+  target/nios2: Split out named structs for [IRJ]_TYPE
+  target/nios2: Split out helpers for gen_i_cmpxx
+  target/nios2: Split out helpers for gen_i_math_logic
+  target/nios2: Split out helpers for gen_r_math_logic
+  target/nios2: Split out helpers for gen_rr_mul_high
+  target/nios2: Split out helpers for gen_rr_shift
+  target/nios2: Introduce dest_gpr
+  target/nios2: Drop CR_STATUS_EH from tb->flags
+  target/nios2: Enable unaligned traps for system mode
+  target/nios2: Create gen_jumpr
+  target/nios2: Hoist set of is_jmp into gen_goto_tb
+  target/nios2: Use gen_goto_tb for DISAS_TOO_MANY
+  target/nios2: Use tcg_gen_lookup_and_goto_ptr
+  target/nios2: Implement Misaligned destination exception
+  target/nios2: Introduce shadow register sets
+  target/nios2: Implement rdprs, wrprs
+  target/nios2: Update helper_eret for shadow registers
+  target/nios2: Implement EIC interrupt processing
+  target/nios2: Advance pc when raising exceptions
+  linux-user/nios2: Handle various SIGILL exceptions
+  hw/nios2: Introduce Nios2MachineState
+  hw/nios2: Move memory regions into Nios2Machine
+  tests/tcg/nios2: Add semihosting multiarch tests
+  tests/tcg/nios2: Add test-shadow-1
+
+ include/hw/intc/nios2_vic.h             |  64 ++
+ linux-user/nios2/target_cpu.h           |   1 +
+ target/nios2/cpu.h                      | 250 +++++---
+ target/nios2/helper.h                   |   5 +
+ tests/tcg/nios2/semicall.h              |  28 +
+ hw/intc/nios2_vic.c                     | 313 ++++++++++
+ hw/nios2/10m50_devboard.c               | 115 +++-
+ linux-user/elfload.c                    |   3 +-
+ linux-user/nios2/cpu_loop.c             |  96 ++-
+ linux-user/nios2/signal.c               |  25 +-
+ target/nios2/cpu.c                      | 213 +++++--
+ target/nios2/helper.c                   | 383 ++++++------
+ target/nios2/mmu.c                      |  78 +--
+ target/nios2/op_helper.c                |  88 +++
+ target/nios2/translate.c                | 749 +++++++++++++++---------
+ configs/targets/nios2-softmmu.mak       |   1 +
+ hw/intc/Kconfig                         |   3 +
+ hw/intc/meson.build                     |   1 +
+ hw/nios2/Kconfig                        |   1 +
+ target/nios2/meson.build                |   7 +-
+ tests/tcg/nios2/10m50-ghrd.ld           |  66 +++
+ tests/tcg/nios2/Makefile.softmmu-target |  33 ++
+ tests/tcg/nios2/Makefile.target         |  11 -
+ tests/tcg/nios2/boot.S                  | 218 +++++++
+ tests/tcg/nios2/intr.S                  |  31 +
+ tests/tcg/nios2/test-shadow-1.S         |  40 ++
+ 26 files changed, 2113 insertions(+), 710 deletions(-)
+ create mode 100644 include/hw/intc/nios2_vic.h
+ create mode 100644 tests/tcg/nios2/semicall.h
+ create mode 100644 hw/intc/nios2_vic.c
+ create mode 100644 tests/tcg/nios2/10m50-ghrd.ld
+ create mode 100644 tests/tcg/nios2/Makefile.softmmu-target
+ delete mode 100644 tests/tcg/nios2/Makefile.target
+ create mode 100644 tests/tcg/nios2/boot.S
+ create mode 100644 tests/tcg/nios2/intr.S
+ create mode 100644 tests/tcg/nios2/test-shadow-1.S
+
+-- 
+2.34.1
 
 
