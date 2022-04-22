@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9B350C010
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 21:00:52 +0200 (CEST)
-Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4218250C029
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 21:08:04 +0200 (CEST)
+Received: from localhost ([::1]:52504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhyWR-00020G-74
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 15:00:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43490)
+	id 1nhydP-0007q0-AF
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 15:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nhyLl-0000Tz-Bq
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 14:49:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33214)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nhyLj-0007tc-OU
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 14:49:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650653387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EdB9jcPw4+NI6vzZJGsKEeZnSzyww1lHLdpZN+d/qKc=;
- b=AKBNv6ausSdfjTbPBnSBfzKLK7EnZttL3ujKoXHiW2jL62tsKx13wsXsAKqnqDEcZqjWqO
- emQaNuva2+pDkG0HTbZwK/Yh1ZYtTCrehJpPJwEmHx2dqmXGpi7yLwHO0loErg4qojAaEy
- nvZJshQv8NuatrurAtvUj3GBUKk4U/g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-458-ulp043kqPjiOgm01oz91Rw-1; Fri, 22 Apr 2022 14:49:45 -0400
-X-MC-Unique: ulp043kqPjiOgm01oz91Rw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A228D1066682
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 18:49:45 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.10.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 629C71468940;
- Fri, 22 Apr 2022 18:49:45 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [qemu.qmp PATCH 12/12] update VERSION to 0.0.0a1
-Date: Fri, 22 Apr 2022 14:49:40 -0400
-Message-Id: <20220422184940.1763958-13-jsnow@redhat.com>
-In-Reply-To: <20220422184940.1763958-1-jsnow@redhat.com>
-References: <20220422184940.1763958-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nhyQq-0001hy-D7; Fri, 22 Apr 2022 14:55:04 -0400
+Received: from [187.72.171.209] (port=52505 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1nhyQo-0000CU-FF; Fri, 22 Apr 2022 14:55:03 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 22 Apr 2022 15:54:53 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 8309C80031F;
+ Fri, 22 Apr 2022 15:54:53 -0300 (-03)
+From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH 00/20] target/ppc: Remove hidden usages of *env
+Date: Fri, 22 Apr 2022 15:54:30 -0300
+Message-Id: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 22 Apr 2022 18:54:53.0811 (UTC)
+ FILETIME=[73E97C30:01D8567A]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,38 +56,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ victor.colombo@eldorado.org.br, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu.qmp will be independently versioned, without regard to QEMU
-version. While the repo is being established here, set the version to
-something impossibly low.
+By running the grep command `git grep -nr 'define \(fpscr\|msr\)_[a-z0-9]\+\>'`
+we can find multiple macros that use `env->fpscr` and `env->msr` but doesn't 
+take *env as a parameter.
 
-Later, I intend to introduce automatic versioning based on git
-tags. While the repo is being established it's going to be
-easier to have a static version while we get bootstrapped.
+Richard Henderson said [1] that these macros hiding the usage of *env "are evil".
+This patch series remove them and substitute with an explicit usage of *env by
+adding macros in the same style of FP_* ones (e.g. FP_FI defined in cpu.h).
 
-(Note: PyPI already has a 0.0.0a0 version which I uploaded without prior
-review to aid in developing and testing this series. This version, and
-all 0.0.0 pre-release versions, will be buried after the first "real"
-release, expected to be 0.0.1.)
+Patch 20 (target/ppc: Add unused M_MSR_* macros) implements unused macros, the
+same that were removed in patch 02 (target/ppc: Remove unused msr_* macros). I
+did that to keep the changes consistent with what was already present before.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- VERSION | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1]: https://lists.gnu.org/archive/html/qemu-ppc/2021-11/msg00280.html
 
-diff --git a/VERSION b/VERSION
-index c19f3b8..7741e1a 100644
---- a/VERSION
-+++ b/VERSION
-@@ -1 +1 @@
--0.6.1.0a1
-+0.0.0a1
+Víctor Colombo (20):
+  target/ppc: Remove fpscr_* macros from cpu.h
+  target/ppc: Remove unused msr_* macros
+  target/ppc: Substitute msr_pr macro with new M_MSR_PR macro
+  target/ppc: Substitute msr_le macro with new M_MSR_LE macro
+  target/ppc: Substitute msr_ds macro with new M_MSR_DS macro
+  target/ppc: Substitute msr_ile macro with new M_MSR_ILE macro
+  target/ppc: Substitute msr_ee macro with new M_MSR_EE macro
+  target/ppc: Substitute msr_ce macro with new M_MSR_CE macro
+  target/ppc: Substitute msr_pow macro with new M_MSR_POW macro
+  target/ppc: Substitute msr_me macro with new M_MSR_ME macro
+  target/ppc: Substitute msr_gs macro with new M_MSR_GS macro
+  target/ppc: Substitute msr_fp macro with new M_MSR_FP macro
+  target/ppc: Substitute msr_cm macro with new M_MSR_CM macro
+  target/ppc: Substitute msr_ir macro with new M_MSR_IR macro
+  target/ppc: Substitute msr_dr macro with new M_MSR_DR macro
+  target/ppc: Substitute msr_ep macro with new M_MSR_EP macro
+  target/ppc: Substitute msr_fe macro with new M_MSR_FE macro
+  target/ppc: Substitute msr_ts macro with new M_MSR_TS macro
+  target/ppc: Substitute msr_hv macro with new M_MSR_HV macro
+  target/ppc: Add unused M_MSR_* macros
+
+ hw/ppc/pegasos2.c        |   2 +-
+ hw/ppc/spapr.c           |   2 +-
+ target/ppc/cpu.c         |   2 +-
+ target/ppc/cpu.h         | 125 ++++++++++++++++-----------------------
+ target/ppc/cpu_init.c    |  21 ++++---
+ target/ppc/excp_helper.c |  53 +++++++++--------
+ target/ppc/fpu_helper.c  |  28 ++++-----
+ target/ppc/gdbstub.c     |   2 +-
+ target/ppc/helper_regs.c |  12 ++--
+ target/ppc/kvm.c         |   7 ++-
+ target/ppc/machine.c     |   2 +-
+ target/ppc/mem_helper.c  |  23 +++----
+ target/ppc/misc_helper.c |   2 +-
+ target/ppc/mmu-radix64.c |  10 ++--
+ target/ppc/mmu_common.c  |  38 ++++++------
+ target/ppc/mmu_helper.c  |   6 +-
+ 16 files changed, 161 insertions(+), 174 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
 
