@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC6350ADF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 04:45:03 +0200 (CEST)
-Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D3C50AE42
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 04:56:08 +0200 (CEST)
+Received: from localhost ([::1]:54404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhjI6-0005CV-A5
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 22:45:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46836)
+	id 1nhjSo-000891-U2
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 22:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nhjH9-0004MC-Ud; Thu, 21 Apr 2022 22:44:04 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:44983)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nhjQs-0006X9-PO; Thu, 21 Apr 2022 22:54:06 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nhjH4-0005V6-7W; Thu, 21 Apr 2022 22:44:00 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id i63so6216268pge.11;
- Thu, 21 Apr 2022 19:43:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nhjQr-0006q5-9i; Thu, 21 Apr 2022 22:54:06 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id e30so5288281eda.0;
+ Thu, 21 Apr 2022 19:54:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vL/kdqOMfiEr6tlFxw5oyhSj4Vl7fRfT/SVoO+XfdCY=;
- b=eQhDu398WI4CZimhvs1mqlmjIqTGPhEj6NhFTFi61x6o+0TvhGoldgjrDw4AGOKc6I
- Vf64MiAR2UmOrwEd2+l5MslabtYF+vG1isULdtoBtQnrtWOjl9Tf887U5uwjghM0PLM/
- JCtOBnNJPPr63vxxJMPHqoLr07NYm9If4u933gBmUqYzB2NLJEe2GWfsl4YvuPPOagay
- L2+gP/u6W5IV/KiclNOJhdy0OkpFlvy1cxU1LiHDjBxJ98lYgfolYsbVK5liEs3ZC+q8
- Q/Yp9V1HyvpD355VDqBNMPRApbIxQ8jMqnmM+yBwaRy3HRfAd8OP1Ywq880y3CZPb/tx
- jMIA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=58bVPIchb9GnwlvpO7uiVi8laO6UOzi/xkzrYmMDSWI=;
+ b=HrFIxYeL4oaSaAH5z7SYrZB9DrN+APXifDPqoPSA466+x4q9SLtS9NhZW0nzCbG4Sp
+ FFM1bo3/Efui8CpBiNHXmMCwwXZpAMGN7WSh6DcmgQ06mjc9ustJChueeiQnBx3XKoWX
+ K+MKw+66gzCpjxfVLvtyOLwqF+59bjw0+OIc7MKlf05vYuFbj+osip6tDKw7a+zKxaqW
+ njbhhyG9Y3h4TSvqo4fVSGyNwQ6q8tnjQ44YlM5DRkk/ZwBmaFiyKhh3J//FI+VYG1wp
+ Ich3/FV5rFG/uHdwwB8habEMaQpoon28uY97DTnzwBeMMCjWN+Ibua8HWYLp0zeqqQKZ
+ 6Qtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vL/kdqOMfiEr6tlFxw5oyhSj4Vl7fRfT/SVoO+XfdCY=;
- b=Z+veanQ+ZIEIwa3hakVCh5weCEjpXPzkIjg9DkRrkU+Cka6+hTGxbq0nG6YkfXS+Z+
- ydakkalsONNoHTF60t5pL+8MQzC3imPwDOEHyqTxAu6/0EeZSWFLyT+cz47ray8v0DF8
- Nw5eo5ftmH4eV7gQXsOGUn/hS4PA3UKaafVFHbZ3u9qe8goTt8YOocQW/tu8iyUYO7dq
- XMmR+RjvzwwC8xEAX/Y2soQ7lC7sg7b14D62UMKeFNHEk51MYTSGvyXTnQpBCd1igGRB
- 7I6J0HS0FaV6nORkpn/hYhhh7cb1hMEYxxqNkh9EaH1498au8ULC64d6RSMnCdM+bDIj
- T+iA==
-X-Gm-Message-State: AOAM530btbZYJ1CqF7noOw38yKZKaNSEY8CeTlULpO/lsO8q83KTlHip
- gR1Ckmz1Qc8h6HFMRDbRcEk=
-X-Google-Smtp-Source: ABdhPJyJeaWRFPCOA2oHLjE7Tmf6m5Gxcf2Mew/PzqOyxoaAxKqaPKNgE4rnRRrin2auPxJ0k37YNg==
-X-Received: by 2002:a63:fc17:0:b0:3aa:1113:3c99 with SMTP id
- j23-20020a63fc17000000b003aa11133c99mr2115500pgi.204.1650595424911; 
- Thu, 21 Apr 2022 19:43:44 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- r19-20020a17090b051300b001cd4989fedesm4107085pjz.42.2022.04.21.19.43.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Apr 2022 19:43:44 -0700 (PDT)
-Message-ID: <73163b9a-bd8a-8cf1-42a1-0e4c88edfa0e@gmail.com>
-Date: Fri, 22 Apr 2022 11:43:40 +0900
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=58bVPIchb9GnwlvpO7uiVi8laO6UOzi/xkzrYmMDSWI=;
+ b=HywEYZrdpyXovLRVhbigNzETlKjYL1UNtkicMlzxtQFVBo5GqM3SUM4LTNpR5I73Cc
+ TdFKx9eM4qY54OA1RKfdQs0GR9hQ05aUWM4hG+khztE4Bz6dClYroZtaXX5TrLYDJgd3
+ qD4d9T5i16Na4xZlWof1DDy9nxQlnhDhQd+KRhOnI/PgQwdLAMkiDMKptLYpQ+feDe15
+ qVVuLNBmh+cMIV0j1xBdg58h8tTbE0CrcARxQ6vq3o4gCVVyVwSwPPCspEEH5Li8FcCh
+ e3uDsW2W4e3gEE8mlkIOf77VeYkd9X7yaGRVGkZoLXX3DQr+EDF7qP/S1uiuGYhMZUgD
+ Ee8A==
+X-Gm-Message-State: AOAM533Z15tcPO1ei74jKogV9H/Fbhwfecv7ficB/MvcFu+EDSpBp04p
+ jt7DFHYyGuQzRN7YaG2kJUxHATYLfODIuPAZhnM=
+X-Google-Smtp-Source: ABdhPJxONbzPN0BrKfNpS3lmFxV0DnT7FMluLZZLnZ3SDd76lB5E66Mt7Z9BhdHYW03L1tfK5NjF7MhZKtNf5u7fCAM=
+X-Received: by 2002:a05:6402:442:b0:416:14b7:4d55 with SMTP id
+ p2-20020a056402044200b0041614b74d55mr2583047edw.183.1650596042622; Thu, 21
+ Apr 2022 19:54:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 2/5] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
-Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-References: <cover.1650553693.git.qemu_oss@crudebyte.com>
- <f6d632fc82d4750b73c83a2f1d1b9972cf3e26bb.1650553693.git.qemu_oss@crudebyte.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <f6d632fc82d4750b73c83a2f1d1b9972cf3e26bb.1650553693.git.qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52e.google.com
+References: <20220401122248.2792180-1-ralf.ramsauer@oth-regensburg.de>
+ <20220404173417.2946065-1-ralf.ramsauer@oth-regensburg.de>
+In-Reply-To: <20220404173417.2946065-1-ralf.ramsauer@oth-regensburg.de>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 22 Apr 2022 10:53:50 +0800
+Message-ID: <CAEUhbmXZo=RSGSOoJQRTfsRF8z3gEntgKZDNmptLsvja-z6u+w@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: Fix incorrect PTE merge in walk_pte
+To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,83 +76,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roitzsch <reactorcontrol@icloud.com>,
- Keno Fischer <keno@juliacomputing.com>, Will Cohen <wwcohen@gmail.com>,
- Greg Kurz <groug@kaod.org>, qemu-stable@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Stefan Huber <stefan.huber@oth-regensburg.de>,
+ Konrad Schwarz <konrad.schwarz@siemens.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/04/22 0:07, Christian Schoenebeck wrote:
-> mknod() on macOS does not support creating sockets, so divert to
-> call sequence socket(), bind() and chmod() respectively if S_IFSOCK
-> was passed with mode argument.
-> 
-> Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Reviewed-by: Will Cohen <wwcohen@gmail.com>
+On Tue, Apr 5, 2022 at 1:34 AM Ralf Ramsauer
+<ralf.ramsauer@oth-regensburg.de> wrote:
+>
+> Two non-subsequent PTEs can be mapped to subsequent paddrs. In this
+> case, walk_pte will erroneously merge them.
+>
+> Enforce the split up, by tracking the virtual base address.
+>
+> Let's say we have the mapping:
+> 0x81200000 -> 0x89623000 (4K)
+> 0x8120f000 -> 0x89624000 (4K)
+>
+> Before, walk_pte would have shown:
+>
+> vaddr            paddr            size             attr
+> ---------------- ---------------- ---------------- -------
+> 0000000081200000 0000000089623000 0000000000002000 rwxu-ad
+>
+> as it only checks for subsequent paddrs. With this patch, it becomes:
+>
+> vaddr            paddr            size             attr
+> ---------------- ---------------- ---------------- -------
+> 0000000081200000 0000000089623000 0000000000001000 rwxu-ad
+> 000000008120f000 0000000089624000 0000000000001000 rwxu-ad
+>
+> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 > ---
->   hw/9pfs/9p-util-darwin.c | 27 ++++++++++++++++++++++++++-
->   1 file changed, 26 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-> index e24d09763a..39308f2a45 100644
-> --- a/hw/9pfs/9p-util-darwin.c
-> +++ b/hw/9pfs/9p-util-darwin.c
-> @@ -74,6 +74,27 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
->    */
->   #if defined CONFIG_PTHREAD_FCHDIR_NP
->   
-> +static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
-> +    int fd, err;
-> +    struct sockaddr_un addr = {
-> +        .sun_family = AF_UNIX
-> +    };
-> +
-> +    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
-> +    if (fd == -1) {
-> +        return fd;
-> +    }
-> +    snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s", filename);
+>  target/riscv/monitor.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
+> index 7efb4b62c1..9dc4cb1156 100644
+> --- a/target/riscv/monitor.c
+> +++ b/target/riscv/monitor.c
+> @@ -84,6 +84,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+>  {
+>      hwaddr pte_addr;
+>      hwaddr paddr;
+> +    target_ulong last_start = -1;
+>      target_ulong pgsize;
+>      target_ulong pte;
+>      int ptshift;
+> @@ -116,7 +117,8 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+>                   * contiguous mapped block details.
+>                   */
 
-It would result in an incorrect path if the path does not fit in 
-addr.sun_path. It should report an explicit error instead.
+Please also update the comments above to mention the new case you added here.
 
-> +    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
-> +    if (err == -1) {
-> +        goto out;
-
-You may close(fd) as soon as bind() returns (before checking the 
-returned value) and eliminate goto.
-
-> +    }
-> +    err = chmod(addr.sun_path, mode);
-
-I'm not sure if it is fine to have a time window between bind() and 
-chmod(). Do you have some rationale?
+>                  if ((*last_attr != attr) ||
+> -                    (*last_paddr + *last_size != paddr)) {
+> +                    (*last_paddr + *last_size != paddr) ||
+> +                    (last_start + *last_size != start)) {
+>                      print_pte(mon, va_bits, *vbase, *pbase,
+>                                *last_paddr + *last_size - *pbase, *last_attr);
+>
+> @@ -125,6 +127,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+>                      *last_attr = attr;
+>                  }
+>
+> +                last_start = start;
+>                  *last_paddr = paddr;
+>                  *last_size = pgsize;
+>              } else {
+> --
 
 Regards,
-Akihiko Odaki
-
-> +out:
-> +    close(fd);
-> +    return err;
-> +}
-> +
->   int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
->   {
->       int preserved_errno, err;
-> @@ -93,7 +114,11 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
->       if (pthread_fchdir_np(dirfd) < 0) {
->           return -1;
->       }
-> -    err = mknod(filename, mode, dev);
-> +    if (S_ISSOCK(mode)) {
-> +        err = create_socket_file_at_cwd(filename, mode);
-> +    } else {
-> +        err = mknod(filename, mode, dev);
-> +    }
->       preserved_errno = errno;
->       /* Stop using the thread-local cwd */
->       pthread_fchdir_np(-1);
-
+Bin
 
