@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F9F50BF49
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 20:02:25 +0200 (CEST)
-Received: from localhost ([::1]:36686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F59850BF50
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 20:05:31 +0200 (CEST)
+Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhxbs-0006Xa-4k
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 14:02:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50222)
+	id 1nhxes-0002bT-A3
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 14:05:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwb3-0000TM-C4
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:29 -0400
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:33506)
+ id 1nhwbC-0000kD-GQ
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:38 -0400
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:46871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwb1-00083N-13
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:28 -0400
-Received: by mail-il1-x12a.google.com with SMTP id b5so5441460ile.0
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:26 -0700 (PDT)
+ id 1nhwb9-00084W-Ol
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:37 -0400
+Received: by mail-io1-xd31.google.com with SMTP id g21so9196952iom.13
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LKJfP1L1JthCk9j8S3dyGmOEwjYZHFg6bDruhwKHIGY=;
- b=r4qh/tR1jpoQiyZxgAf0nt1VDppg+GSRUzs7eTe0jp96njFpKQa/WYegAwi3iadzsA
- XGJnqTJsTUxK1N0rvv6J5+IZx6SKYCh6obVye+Z65VtkeYAcMPk8tAVHkUBvlRqCHQeP
- uMbnoYdhPrMT4KLqgwUwj9OxqlJkFGNQosMg/3EP5CW8/jtWnXvfEnr0Fi64WVQaioy9
- y0ixrQ5ligJ90rMSWGRNxH4R6z2ChuCiD3kP6eHfsvjM/xMDlcRtwXkXX5MusDaNzXbe
- rsM5RHksBxpwwpWH7gTpWFeJzEJR3V0wEqE10fEMzWHVom5IptD6BRnEviYjquEeVCyv
- uKRA==
+ bh=P3V+FtoVYZUI41p0htZymMgazIyPkYC70RlRxt6vbn8=;
+ b=SEp70tXRKU5svgc3Wv5KHiXZHq8AMOyMyHpVNB22L/v0XAM2Mzr63e6hHKwCc4GSbY
+ nhgFKvjHcp0L/5CDB78d3nsZb7IQENBT9fpFAqOhxc8f68SpFhRkHShiA/mZAA6HYWMd
+ 65M33H1199o+0Q3UbZEQN7biHEBMURrtccLF7JFofA7Z8gRMDgx+nIPB7SwInPXzetMO
+ jmZbgQVDEC9DWOefuEJuBGZTGoghtWtoGqLItXwTpsR3vFiTrNO5e308UlwdaCLq7vZ/
+ Esh/2vpbkE5lYLgpSvBZm8ObZZn3gn1gXQSb2En0MET0waVZeeJIhId4bGkr9gTBk4tQ
+ ybmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LKJfP1L1JthCk9j8S3dyGmOEwjYZHFg6bDruhwKHIGY=;
- b=pRaHQHF2qTB7urwNtWfLMDg9B7LydhpHhEpMGKAXvd60SCg16d63Li/YmCjmVepGOQ
- yjEimSRkPBx03hGV1FCnBvYeNAUYYOf1JOu650AdGVsaVhAmjHH0q1n5/HYNYm+XgM+t
- IoE8okKDTG/6kN4LDoySTVL7LoC8Gt5/Ec/SdXS0gnUBPPgUBUZ5sCy5e8/tqbj9vezN
- PC5LDRL7pWb5MchnK5Viwpe3PTgYctbXEx9a6CZCjr2PKB322fRMoBYLXEUbjA1ITlok
- ZqGzdGXLKU9p4qo+TjFh0Mo/3Ru7ZgnaiflocmLtaesN00rg9K4p5VS2jwlkBIkbRmc4
- oe1Q==
-X-Gm-Message-State: AOAM5308z3adRc+KjEBvQBicwrvK7uSO5nHv8iGzbSjiJdCPiztJpyRM
- fk1LKFNKw80Or7HZCpVqtPZpIWWhuBxH0eXb
-X-Google-Smtp-Source: ABdhPJwSJiJXHoe0enH7brLt+w9PPiKQU82rMXTmAoUrKy672L1NO3hO+8GZyF1P85zuwkDP4TY1xw==
-X-Received: by 2002:a05:6e02:1587:b0:2c2:5c48:a695 with SMTP id
- m7-20020a056e02158700b002c25c48a695mr2345492ilu.169.1650646645866; 
- Fri, 22 Apr 2022 09:57:25 -0700 (PDT)
+ bh=P3V+FtoVYZUI41p0htZymMgazIyPkYC70RlRxt6vbn8=;
+ b=h+x0Q2HLZ75oNSMAKCZk/fm4FIQE212AvQ9+l4XkYq3kxU5n3Cc/rLE9s/nEAj5NoQ
+ HR/EN6EH8nF9JRmOVxiqDO/B228buGf8Uf23iJglYkUHetvDq844+LtfXUBRaiESQdwv
+ uLIzyaal+MJkPmeH+5Xo+Y6pzCJyeNUkB1g7W05WgTxqZjKVUK4XqNFjG9AcOYLUUh5L
+ rKbp32gCIGkm+up9UjO1G2PSwdW+xGRbUsm4QjcxpzYBDyV4e0y+xTPgXftdndHRlVUm
+ fiHo6L8BLQDHRF0i1SURR2QHE7vEapNC6CzsEuXgTfAiUJ+qnhnq44dXH7kOl7+wo4vd
+ oJAw==
+X-Gm-Message-State: AOAM530laESVwrMydffK2Fb0IwC8/45750W6O+zu9WS3nP6p9575pHER
+ TkAK9jdXHRzS4wBRExlRkgE4K0r2e2hey/Ss
+X-Google-Smtp-Source: ABdhPJwXhhP2QYJek3s01FLysN4rqeIuRHQPZFHyeJ1SMuSgoHqZokorYdPLRHtRjeCH1HeuLgjMKA==
+X-Received: by 2002:a6b:fb15:0:b0:64c:9b3a:2182 with SMTP id
+ h21-20020a6bfb15000000b0064c9b3a2182mr2538898iog.211.1650646654634; 
+ Fri, 22 Apr 2022 09:57:34 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
  by smtp.gmail.com with ESMTPSA id
- n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.24
+ n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 09:57:25 -0700 (PDT)
+ Fri, 22 Apr 2022 09:57:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 58/68] target/nios2: Implement rdprs, wrprs
-Date: Fri, 22 Apr 2022 09:52:28 -0700
-Message-Id: <20220422165238.1971496-59-richard.henderson@linaro.org>
+Subject: [PATCH v8 63/68] hw/intc: Vectored Interrupt Controller (VIC)
+Date: Fri, 22 Apr 2022 09:52:33 -0700
+Message-Id: <20220422165238.1971496-64-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
 References: <20220422165238.1971496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
- envelope-from=richard.henderson@linaro.org; helo=mail-il1-x12a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,178 +85,443 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Amir Gonnen <amir.gonnen@neuroblade.ai>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement these out of line, so that tcg global temps
-(aka the architectural registers) are synced back to
-tcg storage as required.  This makes sure that we get
-the proper results when status.PRS == status.CRS.
+From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+
+Implement nios2 Vectored Interrupt Controller (VIC).
+VIC is connected to EIC. It needs to update rha, ril, rrs and rnmi
+fields on Nios2CPU before raising an IRQ.
+For that purpose, VIC has a "cpu" property which should refer to the
+nios2 cpu and set by the board that connects VIC.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Message-Id: <20220303153906.2024748-5-amir.gonnen@neuroblade.ai>
+[rth: Split out nios2_vic.h]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-55-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-60-richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h       |  1 +
- target/nios2/helper.h    |  2 ++
- target/nios2/op_helper.c | 16 +++++++++++
- target/nios2/translate.c | 57 ++++++++++++++++++++++++++++++++++++++--
- 4 files changed, 74 insertions(+), 2 deletions(-)
+ include/hw/intc/nios2_vic.h |  64 ++++++++
+ hw/intc/nios2_vic.c         | 313 ++++++++++++++++++++++++++++++++++++
+ hw/intc/Kconfig             |   3 +
+ hw/intc/meson.build         |   1 +
+ 4 files changed, 381 insertions(+)
+ create mode 100644 include/hw/intc/nios2_vic.h
+ create mode 100644 hw/intc/nios2_vic.c
 
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index f6efaa79b3..cca821cf80 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -220,6 +220,7 @@ struct ArchCPU {
- 
-     bool diverr_present;
-     bool mmu_present;
-+    bool eic_present;
- 
-     uint32_t pid_num_bits;
-     uint32_t tlb_num_ways;
-diff --git a/target/nios2/helper.h b/target/nios2/helper.h
-index 6f5ec60b0d..1648d76ade 100644
---- a/target/nios2/helper.h
-+++ b/target/nios2/helper.h
-@@ -24,6 +24,8 @@ DEF_HELPER_FLAGS_3(divu, TCG_CALL_NO_WG, i32, env, i32, i32)
- 
- #if !defined(CONFIG_USER_ONLY)
- DEF_HELPER_3(eret, noreturn, env, i32, i32)
-+DEF_HELPER_FLAGS_2(rdprs, TCG_CALL_NO_WG, i32, env, i32)
-+DEF_HELPER_3(wrprs, void, env, i32, i32)
- DEF_HELPER_2(mmu_write_tlbacc, void, env, i32)
- DEF_HELPER_2(mmu_write_tlbmisc, void, env, i32)
- DEF_HELPER_2(mmu_write_pteaddr, void, env, i32)
-diff --git a/target/nios2/op_helper.c b/target/nios2/op_helper.c
-index 38a71a1f2d..a3164f5356 100644
---- a/target/nios2/op_helper.c
-+++ b/target/nios2/op_helper.c
-@@ -83,4 +83,20 @@ void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
-     env->pc = new_pc;
-     cpu_loop_exit(cs);
- }
-+
+diff --git a/include/hw/intc/nios2_vic.h b/include/hw/intc/nios2_vic.h
+new file mode 100644
+index 0000000000..af1517a967
+--- /dev/null
++++ b/include/hw/intc/nios2_vic.h
+@@ -0,0 +1,64 @@
 +/*
-+ * RDPRS and WRPRS are implemented out of line so that if PRS == CRS,
-+ * all of the tcg global temporaries are synced back to ENV.
++ * Vectored Interrupt Controller for nios2 processor
++ *
++ * Copyright (c) 2022 Neuroblade
++ *
++ * Interface:
++ * QOM property "cpu": link to the Nios2 CPU (must be set)
++ * Unnamed GPIO inputs 0..NIOS2_VIC_MAX_IRQ-1: input IRQ lines
++ * IRQ should be connected to nios2 IRQ0.
++ *
++ * Reference: "Embedded Peripherals IP User Guide
++ *             for Intel® Quartus® Prime Design Suite: 21.4"
++ * Chapter 38 "Vectored Interrupt Controller Core"
++ * See: https://www.intel.com/content/www/us/en/docs/programmable/683130/21-4/vectored-interrupt-controller-core.html
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
 + */
-+uint32_t helper_rdprs(CPUNios2State *env, uint32_t regno)
++
++#ifndef HW_INTC_NIOS2_VIC
++#define HW_INTC_NIOS2_VIC
++
++#define TYPE_NIOS2_VIC "nios2-vic"
++OBJECT_DECLARE_SIMPLE_TYPE(Nios2VIC, NIOS2_VIC)
++
++#define NIOS2_VIC_MAX_IRQ 32
++
++struct Nios2VIC {
++    /*< private >*/
++    SysBusDevice parent_obj;
++
++    /*< public >*/
++    qemu_irq output_int;
++
++    /* properties */
++    CPUState *cpu;
++    MemoryRegion csr;
++
++    uint32_t int_config[NIOS2_VIC_MAX_IRQ];
++    uint32_t vic_config;
++    uint32_t int_raw_status;
++    uint32_t int_enable;
++    uint32_t sw_int;
++    uint32_t vic_status;
++    uint32_t vec_tbl_base;
++    uint32_t vec_tbl_addr;
++};
++
++#endif /* HW_INTC_NIOS2_VIC */
+diff --git a/hw/intc/nios2_vic.c b/hw/intc/nios2_vic.c
+new file mode 100644
+index 0000000000..cf63212a88
+--- /dev/null
++++ b/hw/intc/nios2_vic.c
+@@ -0,0 +1,313 @@
++/*
++ * Vectored Interrupt Controller for nios2 processor
++ *
++ * Copyright (c) 2022 Neuroblade
++ *
++ * Interface:
++ * QOM property "cpu": link to the Nios2 CPU (must be set)
++ * Unnamed GPIO inputs 0..NIOS2_VIC_MAX_IRQ-1: input IRQ lines
++ * IRQ should be connected to nios2 IRQ0.
++ *
++ * Reference: "Embedded Peripherals IP User Guide
++ *             for Intel® Quartus® Prime Design Suite: 21.4"
++ * Chapter 38 "Vectored Interrupt Controller Core"
++ * See: https://www.intel.com/content/www/us/en/docs/programmable/683130/21-4/vectored-interrupt-controller-core.html
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++#include "hw/sysbus.h"
++#include "migration/vmstate.h"
++#include "qapi/error.h"
++#include "qemu/bitops.h"
++#include "qemu/log.h"
++#include "qom/object.h"
++#include "hw/intc/nios2_vic.h"
++#include "cpu.h"
++
++
++enum {
++    INT_CONFIG0 = 0,
++    INT_CONFIG31 = 31,
++    INT_ENABLE = 32,
++    INT_ENABLE_SET = 33,
++    INT_ENABLE_CLR = 34,
++    INT_PENDING = 35,
++    INT_RAW_STATUS = 36,
++    SW_INTERRUPT = 37,
++    SW_INTERRUPT_SET = 38,
++    SW_INTERRUPT_CLR = 39,
++    VIC_CONFIG = 40,
++    VIC_STATUS = 41,
++    VEC_TBL_BASE = 42,
++    VEC_TBL_ADDR = 43,
++    CSR_COUNT /* Last! */
++};
++
++/* Requested interrupt level (INT_CONFIG[0:5]) */
++static inline uint32_t vic_int_config_ril(const Nios2VIC *vic, int irq_num)
 +{
-+    unsigned prs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, PRS);
-+    return env->shadow_regs[prs][regno];
++    return extract32(vic->int_config[irq_num], 0, 6);
 +}
 +
-+void helper_wrprs(CPUNios2State *env, uint32_t regno, uint32_t val)
++/* Requested NMI (INT_CONFIG[6]) */
++static inline uint32_t vic_int_config_rnmi(const Nios2VIC *vic, int irq_num)
 +{
-+    unsigned prs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, PRS);
-+    env->shadow_regs[prs][regno] = val;
-+}
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 363f2ea3ca..e566175db5 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -130,6 +130,7 @@ typedef struct DisasContext {
-     uint32_t          tb_flags;
-     TCGv              sink;
-     const ControlRegState *cr_state;
-+    bool              eic_present;
- } DisasContext;
- 
- static TCGv cpu_R[NUM_GP_REGS];
-@@ -387,6 +388,27 @@ gen_i_math_logic(andhi, andi, 0, imm_shifted)
- gen_i_math_logic(orhi , ori,  1, imm_shifted)
- gen_i_math_logic(xorhi, xori, 1, imm_shifted)
- 
-+/* rB <- prs.rA + sigma(IMM16) */
-+static void rdprs(DisasContext *dc, uint32_t code, uint32_t flags)
-+{
-+    if (!dc->eic_present) {
-+        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
-+        return;
-+    }
-+    if (!gen_check_supervisor(dc)) {
-+        return;
-+    }
-+
-+#ifdef CONFIG_USER_ONLY
-+    g_assert_not_reached();
-+#else
-+    I_TYPE(instr, code);
-+    TCGv dest = dest_gpr(dc, instr.b);
-+    gen_helper_rdprs(dest, cpu_env, tcg_constant_i32(instr.a));
-+    tcg_gen_addi_tl(dest, dest, instr.imm16.s);
-+#endif
++    return extract32(vic->int_config[irq_num], 6, 1);
 +}
 +
- /* Prototype only, defined below */
- static void handle_r_type_instr(DisasContext *dc, uint32_t code,
-                                 uint32_t flags);
-@@ -448,7 +470,7 @@ static const Nios2Instruction i_type_instructions[] = {
-     INSTRUCTION_FLG(gen_stx, MO_SL),                  /* stwio */
-     INSTRUCTION_FLG(gen_bxx, TCG_COND_LTU),           /* bltu */
-     INSTRUCTION_FLG(gen_ldx, MO_UL),                  /* ldwio */
--    INSTRUCTION_UNIMPLEMENTED(),                      /* rdprs */
-+    INSTRUCTION(rdprs),                               /* rdprs */
-     INSTRUCTION_ILLEGAL(),
-     INSTRUCTION_FLG(handle_r_type_instr, 0),          /* R-Type */
-     INSTRUCTION_NOP(),                                /* flushd */
-@@ -648,6 +670,36 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
- #endif
- }
- 
-+/* prs.rC <- rA */
-+static void wrprs(DisasContext *dc, uint32_t code, uint32_t flags)
++/* Requested register set (INT_CONFIG[7:12]) */
++static inline uint32_t vic_int_config_rrs(const Nios2VIC *vic, int irq_num)
 +{
-+    if (!dc->eic_present) {
-+        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
-+        return;
-+    }
-+    if (!gen_check_supervisor(dc)) {
++    return extract32(vic->int_config[irq_num], 7, 6);
++}
++
++static inline uint32_t vic_config_vec_size(const Nios2VIC *vic)
++{
++    return 1 << (2 + extract32(vic->vic_config, 0, 3));
++}
++
++static inline uint32_t vic_int_pending(const Nios2VIC *vic)
++{
++    return (vic->int_raw_status | vic->sw_int) & vic->int_enable;
++}
++
++static void vic_update_irq(Nios2VIC *vic)
++{
++    Nios2CPU *cpu = NIOS2_CPU(vic->cpu);
++    uint32_t pending = vic_int_pending(vic);
++    int irq = -1;
++    int max_ril = 0;
++    /* Note that if RIL is 0 for an interrupt it is effectively disabled */
++
++    vic->vec_tbl_addr = 0;
++    vic->vic_status = 0;
++
++    if (pending == 0) {
++        qemu_irq_lower(vic->output_int);
 +        return;
 +    }
 +
-+#ifdef CONFIG_USER_ONLY
-+    g_assert_not_reached();
-+#else
-+    R_TYPE(instr, code);
-+    gen_helper_wrprs(cpu_env, tcg_constant_i32(instr.c),
-+                     load_gpr(dc, instr.a));
++    for (int i = 0; i < NIOS2_VIC_MAX_IRQ; i++) {
++        if (pending & BIT(i)) {
++            int ril = vic_int_config_ril(vic, i);
++            if (ril > max_ril) {
++                irq = i;
++                max_ril = ril;
++            }
++        }
++    }
++
++    if (irq < 0) {
++        qemu_irq_lower(vic->output_int);
++        return;
++    }
++
++    vic->vec_tbl_addr = irq * vic_config_vec_size(vic) + vic->vec_tbl_base;
++    vic->vic_status = irq | BIT(31);
++
 +    /*
-+     * The expected write to PRS[r0] is 0, from CRS[r0].
-+     * If not, and CRS == PRS (which we cannot tell from here),
-+     * we may now have a non-zero value in our current r0.
-+     * By ending the TB, we re-evaluate tb_flags and find out.
++     * In hardware, the interface between the VIC and the CPU is via the
++     * External Interrupt Controller interface, where the interrupt controller
++     * presents the CPU with a packet of data containing:
++     *  - Requested Handler Address (RHA): 32 bits
++     *  - Requested Register Set (RRS) : 6 bits
++     *  - Requested Interrupt Level (RIL) : 6 bits
++     *  - Requested NMI flag (RNMI) : 1 bit
++     * In our emulation, we implement this by writing the data directly to
++     * fields in the CPU object and then raising the IRQ line to tell
++     * the CPU that we've done so.
 +     */
-+    if (instr.c == 0
-+        && (instr.a != 0 || !FIELD_EX32(dc->tb_flags, TBFLAGS, R0_0))) {
-+        dc->base.is_jmp = DISAS_UPDATE;
-+    }
-+#endif
++
++    cpu->rha = vic->vec_tbl_addr;
++    cpu->ril = max_ril;
++    cpu->rrs = vic_int_config_rrs(vic, irq);
++    cpu->rnmi = vic_int_config_rnmi(vic, irq);
++
++    qemu_irq_raise(vic->output_int);
 +}
 +
- /* Comparison instructions */
- static void gen_cmpxx(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-@@ -793,7 +845,7 @@ static const Nios2Instruction r_type_instructions[] = {
-     INSTRUCTION_ILLEGAL(),
-     INSTRUCTION(slli),                                /* slli */
-     INSTRUCTION(sll),                                 /* sll */
--    INSTRUCTION_UNIMPLEMENTED(),                      /* wrprs */
-+    INSTRUCTION(wrprs),                               /* wrprs */
-     INSTRUCTION_ILLEGAL(),
-     INSTRUCTION(or),                                  /* or */
-     INSTRUCTION(mulxsu),                              /* mulxsu */
-@@ -895,6 +947,7 @@ static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     dc->mem_idx = cpu_mmu_index(env, false);
-     dc->cr_state = cpu->cr_state;
-     dc->tb_flags = dc->base.tb->flags;
-+    dc->eic_present = cpu->eic_present;
++static void vic_set_irq(void *opaque, int irq_num, int level)
++{
++    Nios2VIC *vic = opaque;
++
++    vic->int_raw_status = deposit32(vic->int_raw_status, irq_num, 1, !!level);
++    vic_update_irq(vic);
++}
++
++static void nios2_vic_reset(DeviceState *dev)
++{
++    Nios2VIC *vic = NIOS2_VIC(dev);
++
++    memset(&vic->int_config, 0, sizeof(vic->int_config));
++    vic->vic_config = 0;
++    vic->int_raw_status = 0;
++    vic->int_enable = 0;
++    vic->sw_int = 0;
++    vic->vic_status = 0;
++    vic->vec_tbl_base = 0;
++    vic->vec_tbl_addr = 0;
++}
++
++static uint64_t nios2_vic_csr_read(void *opaque, hwaddr offset, unsigned size)
++{
++    Nios2VIC *vic = opaque;
++    int index = offset / 4;
++
++    switch (index) {
++    case INT_CONFIG0 ... INT_CONFIG31:
++        return vic->int_config[index - INT_CONFIG0];
++    case INT_ENABLE:
++        return vic->int_enable;
++    case INT_PENDING:
++        return vic_int_pending(vic);
++    case INT_RAW_STATUS:
++        return vic->int_raw_status;
++    case SW_INTERRUPT:
++        return vic->sw_int;
++    case VIC_CONFIG:
++        return vic->vic_config;
++    case VIC_STATUS:
++        return vic->vic_status;
++    case VEC_TBL_BASE:
++        return vic->vec_tbl_base;
++    case VEC_TBL_ADDR:
++        return vic->vec_tbl_addr;
++    default:
++        return 0;
++    }
++}
++
++static void nios2_vic_csr_write(void *opaque, hwaddr offset, uint64_t value,
++                                unsigned size)
++{
++    Nios2VIC *vic = opaque;
++    int index = offset / 4;
++
++    switch (index) {
++    case INT_CONFIG0 ... INT_CONFIG31:
++        vic->int_config[index - INT_CONFIG0] = value;
++        break;
++    case INT_ENABLE:
++        vic->int_enable = value;
++        break;
++    case INT_ENABLE_SET:
++        vic->int_enable |= value;
++        break;
++    case INT_ENABLE_CLR:
++        vic->int_enable &= ~value;
++        break;
++    case SW_INTERRUPT:
++        vic->sw_int = value;
++        break;
++    case SW_INTERRUPT_SET:
++        vic->sw_int |= value;
++        break;
++    case SW_INTERRUPT_CLR:
++        vic->sw_int &= ~value;
++        break;
++    case VIC_CONFIG:
++        vic->vic_config = value;
++        break;
++    case VEC_TBL_BASE:
++        vic->vec_tbl_base = value;
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "nios2-vic: write to invalid CSR address %#"
++                      HWADDR_PRIx "\n", offset);
++    }
++
++    vic_update_irq(vic);
++}
++
++static const MemoryRegionOps nios2_vic_csr_ops = {
++    .read = nios2_vic_csr_read,
++    .write = nios2_vic_csr_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = { .min_access_size = 4, .max_access_size = 4 }
++};
++
++static void nios2_vic_realize(DeviceState *dev, Error **errp)
++{
++    Nios2VIC *vic = NIOS2_VIC(dev);
++
++    if (!vic->cpu) {
++        /* This is a programming error in the code using this device */
++        error_setg(errp, "nios2-vic 'cpu' link property was not set");
++        return;
++    }
++
++    sysbus_init_irq(SYS_BUS_DEVICE(dev), &vic->output_int);
++    qdev_init_gpio_in(dev, vic_set_irq, NIOS2_VIC_MAX_IRQ);
++
++    memory_region_init_io(&vic->csr, OBJECT(dev), &nios2_vic_csr_ops, vic,
++                          "nios2.vic.csr", CSR_COUNT * sizeof(uint32_t));
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &vic->csr);
++}
++
++static Property nios2_vic_properties[] = {
++    DEFINE_PROP_LINK("cpu", Nios2VIC, cpu, TYPE_CPU, CPUState *),
++    DEFINE_PROP_END_OF_LIST()
++};
++
++static const VMStateDescription nios2_vic_vmstate = {
++    .name = "nios2-vic",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]){
++        VMSTATE_UINT32_ARRAY(int_config, Nios2VIC, 32),
++        VMSTATE_UINT32(vic_config, Nios2VIC),
++        VMSTATE_UINT32(int_raw_status, Nios2VIC),
++        VMSTATE_UINT32(int_enable, Nios2VIC),
++        VMSTATE_UINT32(sw_int, Nios2VIC),
++        VMSTATE_UINT32(vic_status, Nios2VIC),
++        VMSTATE_UINT32(vec_tbl_base, Nios2VIC),
++        VMSTATE_UINT32(vec_tbl_addr, Nios2VIC),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static void nios2_vic_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset = nios2_vic_reset;
++    dc->realize = nios2_vic_realize;
++    dc->vmsd = &nios2_vic_vmstate;
++    device_class_set_props(dc, nios2_vic_properties);
++}
++
++static const TypeInfo nios2_vic_info = {
++    .name = TYPE_NIOS2_VIC,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(Nios2VIC),
++    .class_init = nios2_vic_class_init,
++};
++
++static void nios2_vic_register_types(void)
++{
++    type_register_static(&nios2_vic_info);
++}
++
++type_init(nios2_vic_register_types);
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index a7cf301eab..eded1b557e 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -84,3 +84,6 @@ config GOLDFISH_PIC
  
-     /* Bound the number of insns to execute to those left on the page.  */
-     page_insns = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
+ config M68K_IRQC
+     bool
++
++config NIOS2_VIC
++    bool
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index d6d012fb26..8b35139f82 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -62,3 +62,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+ 		if_true: files('spapr_xive_kvm.c'))
+ specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+ specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
++specific_ss.add(when: 'CONFIG_NIOS2_VIC', if_true: files('nios2_vic.c'))
 -- 
 2.34.1
 
