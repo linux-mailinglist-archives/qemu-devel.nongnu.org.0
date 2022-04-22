@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F1950C094
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 21:59:30 +0200 (CEST)
-Received: from localhost ([::1]:52122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CF250C09B
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 22:06:36 +0200 (CEST)
+Received: from localhost ([::1]:54918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhzRA-0007ya-TK
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 15:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55854)
+	id 1nhzY3-0002jy-HR
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 16:06:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <asmadeus@codewreck.org>)
- id 1nhzPu-0007CD-Bn
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 15:58:10 -0400
-Received: from nautica.notk.org ([91.121.71.147]:53522)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nhzWW-0001ig-3h
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 16:05:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <asmadeus@codewreck.org>)
- id 1nhzPs-00013W-2K
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 15:58:09 -0400
-Received: by nautica.notk.org (Postfix, from userid 108)
- id E2E86C020; Fri, 22 Apr 2022 21:58:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
- t=1650657483; bh=PKAMLv9q1RRV13PDmQSDI3TEsC6eLazeIeSFa1X2lXo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TuzSSBtXgCEr2am+ZhAMVAxyyuWQhmwQK5tlbiNdmuLv/pEKRXjl8i+18CORA5/f/
- sqSj2syst63jwB2MiIwumseAf+ZP/AQZxzRUlOnmr1av2sMvA1jfStilkRJic/Nc1v
- oHxblbHHEeTjrJy2e9M+s2WwarXU4hUjT/eFOk5t3KPC6GTILAx8FR+fAk9jKk659i
- 0h6GzczVuxYnvAdB57tBNOhiJqcipMGznmCtx/Z6s0Ecfej7y9jzPZWSPhKK5v7opm
- PeHIQNpk5BufWHmUCnIs3CEgjEWfhFWzR5+mctH0H++erEATnzkCDe8k2jwaO+zchV
- HH5ipJ9Q2eMtA==
-Received: from odin.codewreck.org (localhost [127.0.0.1])
- by nautica.notk.org (Postfix) with ESMTPS id 7145EC009;
- Fri, 22 Apr 2022 21:57:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
- t=1650657482; bh=PKAMLv9q1RRV13PDmQSDI3TEsC6eLazeIeSFa1X2lXo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EmIljHzZB/Fy6wLeXbjGGhQUEOxVKB35xGzgxlhIvqov4COAORqh9XKZKPJ53iI0f
- Ob8eH9MitR9Od1DSg0L220wxB92rXrMY2qKIJjP67iiQx6AH3bF0k5UHG5aETK/+Vr
- ALR7rd+Ryv7g19MHdlkUNpT7F4OcR9X50dvjcijYKVP+QW9lM4yzQDBRjKa0b8VWub
- 3e17yI7JXlkaHKBi6mHrcNQb5F1tAMVC/uAxYh9UqGSqWmZwb6KBr4BNyxlKJvj1su
- qsVEt7hagteN/I7ogsa5sKNZhQNefwOweX5+VTaD22xGCVI9nYTWco6xMWEGouXr+H
- A7H0/pqqN6WCg==
-Received: from localhost (odin.codewreck.org [local])
- by odin.codewreck.org (OpenSMTPD) with ESMTPA id d51252ee;
- Fri, 22 Apr 2022 19:57:55 +0000 (UTC)
-Date: Sat, 23 Apr 2022 04:57:40 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [RFC PATCH] 9p: case-insensitive host filesystems
-Message-ID: <YmMItCb97KqegQw5@codewreck.org>
-References: <1757498.AyhHxzoH2B@silver>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nhzWU-0001os-3e
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 16:04:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650657896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yTyCSlYfKLK9+arwhpy9R/20/pk0kVMKpkK6ZrdIjWg=;
+ b=esWaxpsRP7nu2SgveiXMJk/R63MAsCAsBLbbNZkYUCsqSnUoh55++PqdUvzQJxGC3eep0F
+ zz8Qv1iDgPGx5aPek+SU1oZWBn0XuEIY7YupRlI5kCt/CUkUktpjYTB1a/xAmEWYN4bCFN
+ las9J+uxSDYHgkiSs4BLLg54Afkq9/o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-216-UODfAjOPMN6txBH3RL-b8A-1; Fri, 22 Apr 2022 16:04:53 -0400
+X-MC-Unique: UODfAjOPMN6txBH3RL-b8A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 576EE85A5BE;
+ Fri, 22 Apr 2022 20:04:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 24ECF76C4;
+ Fri, 22 Apr 2022 20:04:49 +0000 (UTC)
+Date: Fri, 22 Apr 2022 15:04:48 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>
+Subject: Re: [PATCH v2 2/3] qapi: nbd-export: allow select bitmaps by
+ node/name pair
+Message-ID: <20220422200448.5thc3clwya5tx2c6@redhat.com>
+References: <20220314213226.362217-1-v.sementsov-og@mail.ru>
+ <20220314213226.362217-3-v.sementsov-og@mail.ru>
+ <20220316212855.ra54pckg3u6xgwzw@redhat.com>
+ <f28af710-a1fd-7475-d74d-8fa46c3dd46f@mail.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1757498.AyhHxzoH2B@silver>
-Received-SPF: pass client-ip=91.121.71.147;
- envelope-from=asmadeus@codewreck.org; helo=nautica.notk.org
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <f28af710-a1fd-7475-d74d-8fa46c3dd46f@mail.ru>
+User-Agent: NeoMutt/20211029-35-db88c3
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,33 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Latchesar Ionkov <lucho@ionkov.net>, Eric Van Hensbergen <ericvh@gmail.com>,
- linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
- netdev@vger.kernel.org, v9fs-developer@lists.sourceforge.net
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, hreitz@redhat.com, v.sementsov-og@ya.ru,
+ yuriy.vasiliev@virtuozzo.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Christian Schoenebeck wrote on Fri, Apr 22, 2022 at 08:02:46PM +0200:
-> So maybe it's better to handle case-insensitivity entirely on client side? 
-> I've read that some generic "case fold" code has landed in the Linux kernel 
-> recently that might do the trick?
+On Fri, Apr 08, 2022 at 11:27:42PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 17.03.2022 00:28, Eric Blake wrote:
+> > > +++ b/qapi/block-export.json
+> > > @@ -6,6 +6,7 @@
+> > >   ##
+> > >   { 'include': 'sockets.json' }
+> > > +{ 'include': 'block-core.json' }
+> > Hmm.  Does this extra inclusion negatively impact qemu-storage-daemon,
+> > since that is why we created block-export.json in the first place (to
+> > minimize the stuff that qsd pulled in without needing all of
+> > block-core.json)?  In other words, would it be better to move
+> > BlockDirtyBitmapOrStr to this file?
+> 
+> Actually, looking at storage-daemon/qapi/qapi-schema.json I see block-cores.json.
+> 
+> That's block.json which is not mentioned in storage-daemon/qapi/qapi-schema.json.
+> 
+> So, I think it's OK to keep simple include for now.
 
-I haven't tried, but settings S_CASEFOLD on every inodes i_flags might do
-what you want client-side.
-That's easy enough to test and could be a mount option
+We're early enough in the 7.1 cycle that if someone proposes a reason
+why this would need to change, then we can adjust it.
 
-Even with that it's possible to do a direct open without readdir first
-if one knows the path and I that would only be case-insensitive if the
-backing server is case insensitive though, so just setting the option
-and expecting it to work all the time might be a little bit
-optimistic... I believe guess that should be an optimization at best.
+So for now, I'm adding
 
-Ideally the server should tell the client they are casefolded somehow,
-but 9p doesn't have any capability/mount time negotiation besides msize
-so that's difficult with the current protocol.
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+and queuing this series through my NBD tree.
 
 -- 
-Dominique | Asmadeus
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
