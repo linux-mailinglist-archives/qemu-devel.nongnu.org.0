@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9554F50B64C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:42:57 +0200 (CEST)
-Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C687F50B62F
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:31:44 +0200 (CEST)
+Received: from localhost ([::1]:35940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhrge-00007F-Mf
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:42:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36910)
+	id 1nhrVn-0002AR-JO
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:31:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqhc-0002IE-LZ
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:39:52 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:34516)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhqha-00029n-DN
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:39:50 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:36564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqha-00084D-VL
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:39:52 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id b95so13751383ybi.1
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:39:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhqhX-00083p-L2
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:39:50 -0400
+Received: by mail-pl1-x630.google.com with SMTP id q3so9977446plg.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VhExIIqkJcCYMMl2HOEXhODyOT4ugxLj90w+PMdB02I=;
- b=ZqleoEO3Y0OHUu0qFEBx7h2sIgJsvPbmqpCsXa/OVMEysRXig8gc/KDJz2zZabomPp
- N2DiepJteTTRUtUpSUoKumEdNZENjQJvTeKV6aFXE/HHK4l2zQ6EfwO2sCHH6MPVB1sg
- pltqmF/Swcn2k8yIS7tYtQOKxVfkILJpPNUgePyMrG59UjLXMN1Kfn+sl/Gv6NeefJpE
- E5LzHpi2nKOdvzci64ZUM3ke1ZuXanHgrj7ssVHRgWDdqyD/oi6ZnGEOfbKWw2xOAEcM
- Uv4VIWJYFdZkiQm5WdL04CJGph+7FpIEIdPR4J+zzt7JuvdJE7Xa59nvdJHTzLMWRJc+
- JwLQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=HAJAbjW2Z3CZXnufMneEqx2AJPNyhlySM0wddfEJ3BU=;
+ b=eJX+2IsPrZRq2VEekGdVX7aASOF2Onbje2Scrb+m7UEWm4hpMAJo/3DqtflXuRn6dV
+ w7p0kc2zWNZ5Z2kfnTGIbeXyduzHF+d7mx9vew8dlFfVKcc/nK3Dp+14uGS+Au5Oc+RV
+ brtFW3xPvW2AWV29cY0HrzWDSEDCdB2mP9iKygE4wlQA0QXBtqotC8HRrWTNt75ZftX2
+ m3UzodAtUNennka492hbOcKn6GKQeg2UkTWh/nc4byq0uXwWxyTJg+0XocUPlWNDdRwp
+ 4cCvtBDTz5FGuZhyGzz6UZa5L4urG2SVIJHf5TLzxNJe1oWjcgSljtoPR3eEWydiqn3x
+ a9HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VhExIIqkJcCYMMl2HOEXhODyOT4ugxLj90w+PMdB02I=;
- b=a/FV6rtN1uYl9LMICO+GEubYeuQUybhfMrL6PTMqB3VvFiLB+7lLhvAgUdOXptLrQY
- 3I3cDN43ga3hHBNUevtU9cHwCi+Zuy2stOzSicTdtiufsU+ryy8H/svyRikoWFC9ZnmS
- 3X/tE8HQaU8suSL6Mtqrl6HTW75rbPc7TY6anIfrhry/vje9tQ4v1By0qZ9zaHtWkZ9i
- Z1KCUvCYt6BqMnQ62JhVa0vFP6BXx0mWt0b5htVGldXjZALfiJwkLOEFpnqodYlDtBTD
- 1dGO7sUG/XxzbCV8BYbGXW6lb9vsrgXA2Elw2CSJaVKjBo3rm8BJddIr44hJTSlmMj+7
- +hhw==
-X-Gm-Message-State: AOAM531tqf6xkT+lQXJE+M8xISKOUbw3gK1Ocgi7RN8x0yPZhIt2d/58
- +1nZIIXBsB+R9CM0KUOgncimzqaardZ0gcO52OatOg==
-X-Google-Smtp-Source: ABdhPJz/W17mg4dmfekOgiZdmUAhacDEm7pKfUpoS9RFyFSEVL8CzbRUNW5vdns4RhUEAGEE7k7vFGwAAYBTEkNRfo4=
-X-Received: by 2002:a05:6902:390:b0:645:7d46:f1db with SMTP id
- f16-20020a056902039000b006457d46f1dbmr3710764ybs.85.1650623989833; Fri, 22
- Apr 2022 03:39:49 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HAJAbjW2Z3CZXnufMneEqx2AJPNyhlySM0wddfEJ3BU=;
+ b=wan1OSvl68jfa63kG1QeMdZHThSVSl4umtH/p90zAi6Ma8f5bcKnxpizYtRDk4hQ0O
+ LRGc2rwEyOLYCqRrVPOVrL+eklVAEWIqtVAMF+aRKZVHpE3hEagN6qsOkaZvtWsJluHF
+ nJzBNG5Fkrx0pUV6k7MgJaaAVqHnlAD8zCCOXghMKGFRDOdyY9r0fMWySXQPrqh1sRAx
+ NmctXjdie2Hiwmo2v/v8AtiNndAEm+K8WjvrehBP4sWeCOtaWX5wQs/uL8mP30m30kmf
+ dlE8wZs1TcKyOZtu8rbihsjH7TnY2mXAF2ArosOSpX+GubpAnFhDrV8idMCZ/mcqtVJ7
+ 1Dzg==
+X-Gm-Message-State: AOAM5326HzpYlKEHqnXTET1DYbW5WVRQ7cd1mPiA28DSjy87qNLI9ZpF
+ mt5ZF21dsnb98rQdR3UEPgbI8jL13gPc5g==
+X-Google-Smtp-Source: ABdhPJyJirHLDM55oEMAgOdskhxEqhmbseK+6IJpB9Z/qCEKtcH0g9EB6NbGu180gDiJmmrMw9GK5g==
+X-Received: by 2002:a17:90a:aa98:b0:1b8:5adb:e35f with SMTP id
+ l24-20020a17090aaa9800b001b85adbe35fmr4665113pjq.192.1650623985128; 
+ Fri, 22 Apr 2022 03:39:45 -0700 (PDT)
+Received: from ?IPV6:2607:fb90:27d0:b0f2:1f9b:37fb:18e0:1dd4?
+ ([2607:fb90:27d0:b0f2:1f9b:37fb:18e0:1dd4])
+ by smtp.gmail.com with ESMTPSA id
+ s50-20020a056a001c7200b0050acf7cadc5sm2178631pfw.112.2022.04.22.03.39.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Apr 2022 03:39:44 -0700 (PDT)
+Message-ID: <20b109b9-81fe-e8df-bada-c3a0ce920c45@linaro.org>
+Date: Fri, 22 Apr 2022 03:39:41 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 26/60] target/arm: Replace sentinels with ARRAY_SIZE in
+ cpregs.h
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20220417174426.711829-1-richard.henderson@linaro.org>
- <20220417174426.711829-33-richard.henderson@linaro.org>
-In-Reply-To: <20220417174426.711829-33-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Apr 2022 11:39:38 +0100
-Message-ID: <CAFEAcA8ZFuyKO0jsMHX=Pg6grvmzWCgCpnt7EBWtRjTKne=tnw@mail.gmail.com>
-Subject: Re: [PATCH v3 32/60] target/arm: Update sysreg fields when
- redirecting for E2H
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+ <20220417174426.711829-27-richard.henderson@linaro.org>
+ <CAFEAcA98sjUhUccvEAjAWeK+Z7-HER9LDz6LMSFMNuVnBSPW=Q@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA98sjUhUccvEAjAWeK+Z7-HER9LDz6LMSFMNuVnBSPW=Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -83,93 +96,42 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 Apr 2022 at 19:07, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The new_key is always non-zero during redirection,
-> so remove the if.  Update opc0 et al from the new key.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.c | 35 +++++++++++++++++++++++------------
->  1 file changed, 23 insertions(+), 12 deletions(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 7c569a569a..aee195400b 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -5915,7 +5915,9 @@ static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
->
->      for (i = 0; i < ARRAY_SIZE(aliases); i++) {
->          const struct E2HAlias *a = &aliases[i];
-> -        ARMCPRegInfo *src_reg, *dst_reg;
-> +        ARMCPRegInfo *src_reg, *dst_reg, *new_reg;
-> +        uint32_t *new_key;
-> +        bool ok;
->
->          if (a->feature && !a->feature(&cpu->isar)) {
->              continue;
-> @@ -5934,19 +5936,28 @@ static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
->          g_assert(src_reg->opaque == NULL);
->
->          /* Create alias before redirection so we dup the right data. */
-> -        if (a->new_key) {
-> -            ARMCPRegInfo *new_reg = g_memdup(src_reg, sizeof(ARMCPRegInfo));
-> -            uint32_t *new_key = g_memdup(&a->new_key, sizeof(uint32_t));
-> -            bool ok;
-> +        new_reg = g_memdup(src_reg, sizeof(ARMCPRegInfo));
-> +        new_key = g_memdup(&a->new_key, sizeof(uint32_t));
->
-> -            new_reg->name = a->new_name;
-> -            new_reg->type |= ARM_CP_ALIAS;
-> -            /* Remove PL1/PL0 access, leaving PL2/PL3 R/W in place.  */
-> -            new_reg->access &= PL2_RW | PL3_RW;
-> +        new_reg->name = a->new_name;
-> +        new_reg->type |= ARM_CP_ALIAS;
-> +        /* Remove PL1/PL0 access, leaving PL2/PL3 R/W in place.  */
-> +        new_reg->access &= PL2_RW;
->
-> -            ok = g_hash_table_insert(cpu->cp_regs, new_key, new_reg);
-> -            g_assert(ok);
-> -        }
-> +#define E(X, N) \
-> +    ((X & CP_REG_ARM64_SYSREG_##N##_MASK) >> CP_REG_ARM64_SYSREG_##N##_SHIFT)
-> +
-> +        /* Update the sysreg fields */
-> +        new_reg->opc0 = E(a->new_key, OP0);
-> +        new_reg->opc1 = E(a->new_key, OP1);
-> +        new_reg->crn = E(a->new_key, CRN);
-> +        new_reg->crm = E(a->new_key, CRM);
-> +        new_reg->opc2 = E(a->new_key, OP2);
-> +
-> +#undef E
-> +
-> +        ok = g_hash_table_insert(cpu->cp_regs, new_key, new_reg);
-> +        g_assert(ok);
+On 4/22/22 02:37, Peter Maydell wrote:
+> On Sun, 17 Apr 2022 at 19:08, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Remove a possible source of error by removing REGINFO_SENTINEL
+>> and using ARRAY_SIZE (convinently hidden inside a macro) to
+>> find the end of the set of regs being registered or modified.
+>>
+>> The space saved by not having the extra array element reduces
+>> the executable's .data.rel.ro section by about 9k.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+> 
+> 
+> 
+> 
+>> +#define define_arm_cp_regs_with_opaque(CPU, REGS, OPAQUE)               \
+>> +    do {                                                                \
+>> +        QEMU_BUILD_BUG_ON(ARRAY_SIZE(REGS) == 0);                       \
+>> +        if (ARRAY_SIZE(REGS) == 1) {                                    \
+>> +            define_one_arm_cp_reg_with_opaque(CPU, REGS, OPAQUE);       \
+>> +        } else {                                                        \
+>> +            define_arm_cp_regs_with_opaque_len(CPU, REGS, OPAQUE,       \
+>> +                                               ARRAY_SIZE(REGS));       \
+>> +        }                                                               \
+>> +    } while (0)
+> 
+> Do we actually need to special case "array has one element" here,
+> or is this just efficiency?
+> 
+> Anyway
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-So is setting the new_reg opc etc fields here fixing a bug
-(or otherwise changing behaviour)?
+Just efficiency.  There seem to be a lot of these.
 
-The effect is that read/write callbacks now get an ARMCPRegInfo*
-that has the opc &c for the alias, rather than for the thing being
-aliased. That's good if the read/write callbacks have a need to
-distinguish the alias access from a normal one (do they anywhere?).
-On the other hand it's bad if we have existing code that thinks it
-can distinguish FOO_EL1 from FOO_EL2 by looking at the opc &c
-values and now might get confused.
 
-Overall, unless we have a definite reason why we want the
-callback functions to be able to tell the alias from the normal
-access, I'm inclined to say we should just comment that we
-deliberately leave the sysreg fields alone. (Put another way,
-I don't really want to have to work through all the aliased
-registers here checking whether they have read/write functions
-that look at the opc fields and whether any of them would
-end up doing the wrong thing when handed the alias reginfo.)
-
-The "remove the if()" part is fine if you wanted to do that
-as its own patch.
-
-thanks
--- PMM
+r~
 
