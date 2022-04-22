@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB7450B4D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:16:36 +0200 (CEST)
-Received: from localhost ([::1]:44462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33EE450B4BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:11:50 +0200 (CEST)
+Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqL5-0007N5-DV
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:16:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58220)
+	id 1nhqGT-0001eW-BJ
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:11:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9Z-0004Dw-TZ
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:44 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39604)
+ id 1nhq9Z-0004Dv-Sx
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:42 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9Y-0002ZW-9H
+ id 1nhq9Y-0002Zd-9F
  for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:41 -0400
-Received: by mail-wr1-x430.google.com with SMTP id m14so10319455wrb.6
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:38 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id b19so10279171wrh.11
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=C8wjiFGqRwiBdgaooMAg0hTWNbKduRpOV7Hjw4Kt2zU=;
- b=SEM4rSF875JoPfwvIsDtkoCpZ3KwO+zL+5DboekT+Bf2CWbO2j+44p5Snx7fRq4Av2
- alhkiWMgYzPhYYYZUDLBwMIKGbm0r6hCYEOba4dJFL8PdS5cSVCBewud6wY26qMnptc2
- rWK85TS9JP8sw1LuMWL8B0qAUzEdMh5ViLvhqPt2yMGBSRXbrEbQh6ZRcPE62XsisfI3
- QJAJm2g45GRuzbcayZYC2JcUt+n1xR2mOy7BdxHRacqC+aFW3e5l1v+qq4XONHHB/Bgi
- ytVzzc7Gb2609DTFTbO5+/mCQn7/wIcsom3pC6JdIkD7ZnJ7zOaR/kWd0wUZ8wZQIfuJ
- Ht5Q==
+ bh=wUfoPWvKhsZt0M/M5TnHwpw7PYiqD+FRJMBmRgeWQGE=;
+ b=XOAbAHsXgnrMJmjyQ8srma9P9TdFT5TpOcCPQi9sgfP+Tl+jfU/YqZ7HwpxeHnjo48
+ 0cgMhEWfRiIpvFQ+ZX5SSRl1HCWLaZcrxZlAme1cTQBtHik9J13cn8mwI1QHufQtOBlw
+ epYvTdJ8vlk1RvMmmCx+mUl+jp+JW07qsD6sXS1xJlbnSl2z1o5lItGOL+hRvBAdthdv
+ H0QUl+yFqEvRaSiUazr9aEicRHqUyKHEKTH/KcDbIvPKqNdHfuo3qM1YmJnuh9fHTVFY
+ g84NrczeFMfR4Gkf5hJA5IGWABu3+rEuE2ofT9f7DYkEc7oTKCd4g98+tTwBqarcfOZ1
+ kdDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=C8wjiFGqRwiBdgaooMAg0hTWNbKduRpOV7Hjw4Kt2zU=;
- b=zZh6BBTbr+c/Flxe2dNi3yOZaqONwMFOANYW7kRil5znhn/KjL4U9V5QZqmQi/rYwZ
- gvwCdMLwi8rgffIkinlDJy7pFplFh5dW1DXwcQJCZtbe67nsz4ttrTsFdgMblNqQ+yKV
- dVwn7oColQu5EJpb8iQRQBRsEzx7o1AQsUmIdyRhFHVVCdqL4SODsgMwn4WIuFOrH37K
- l3PdGkAdhq7F9LSR598ZqFlwu19FE8FECT4ACeRNrc2W9jkqq8wj2rzUnwEaUDfNk9g4
- LSor028VvmyoE2B0pF+51KCWk4l3m5u/4yRBJkdpDXMwJqwLYDrjLr6AzOe+B1/FkhMe
- aR6g==
-X-Gm-Message-State: AOAM531ywoRJ8gV5/RKxA1ddrvHFOPJGyE6SSYpd0AEhtHcDu5VEK5WS
- FhC0ljHvf/w8wWKkRksOmY28wwZB05kgog==
-X-Google-Smtp-Source: ABdhPJys05Nx44k2/YA4bFn0lVmiyhiBkiiiUeVjbgCiblEFJcCoMJJeP5wroYvx6LTGnNfpwItZ2A==
-X-Received: by 2002:a05:6000:1a87:b0:20a:7ea5:2aef with SMTP id
- f7-20020a0560001a8700b0020a7ea52aefmr3034302wry.666.1650621877913; 
- Fri, 22 Apr 2022 03:04:37 -0700 (PDT)
+ bh=wUfoPWvKhsZt0M/M5TnHwpw7PYiqD+FRJMBmRgeWQGE=;
+ b=kPVMAWPii/Wn06vqFAT0yNKzzmWJ2xhPLbIlYbPwDWSALjKkRbAjDgbXLjL/ofYjhi
+ T6ghVGPV0JQBR1xr9NiKRkWIYJRYIA9phuwoYo/akLWX8zPMSzzhTW313IxGc5oaWK/H
+ m3zph6INgTDtcIr1PQtzbhYtQSOCHRjverxJmM/XpsPtYmKIT2b0z37VqQoMibz4U2Nv
+ T6I5yL75zD06z8edlYw9XAUFJqwHf2jRwFzdEB0vE/TOg2kP5S56OPXQuE6zDozKtDnm
+ 3dm/2L4pVUSwLIYQesj4xNAsprZHZLTvAEgfAKm5d/trvlBGHrjvYTFLde5lz4ZZ0sXf
+ H5Yg==
+X-Gm-Message-State: AOAM533VbY4mUmYfBLw2Ztedlz9nRwAOogr+b3pBbA+g4sfE6fEcB8TL
+ LwXRj3OWqh1wHtvMKdbOh2X3H7IC1T850w==
+X-Google-Smtp-Source: ABdhPJxkr8hFTVTvc4fIScyWGfMLxoUeDXdWsfYtW+VwwChvo8XhuWVs+8z2XK1odQRvIBUD1oTDlQ==
+X-Received: by 2002:adf:d1ce:0:b0:20a:992a:3b54 with SMTP id
+ b14-20020adfd1ce000000b0020a992a3b54mr3004181wrd.270.1650621878736; 
+ Fri, 22 Apr 2022 03:04:38 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.37
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:04:37 -0700 (PDT)
+ Fri, 22 Apr 2022 03:04:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/61] hw/intc/arm_gicv3: Insist that redist region capacity
- matches CPU count
-Date: Fri, 22 Apr 2022 11:03:34 +0100
-Message-Id: <20220422100432.2288247-4-peter.maydell@linaro.org>
+Subject: [PULL 04/61] hw/intc/arm_gicv3: Report correct PIDR0 values for ID
+ registers
+Date: Fri, 22 Apr 2022 11:03:35 +0100
+Message-Id: <20220422100432.2288247-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,50 +89,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Boards using the GICv3 need to configure it with both the total
-number of CPUs and also the sizes of all the memory regions which
-contain redistributors (one redistributor per CPU).  At the moment
-the GICv3 checks that the number of CPUs specified is not too many to
-fit in the defined redistributor regions, but in fact the code
-assumes that the two match exactly.  For instance when we set the
-GICR_TYPER.Last bit on the final redistributor in each region, we
-assume that we don't need to consider the possibility of a region
-being only half full of redistributors or even completely empty.  We
-also assume in gicv3_redist_read() and gicv3_redist_write() that we
-can calculate the CPU index from the offset within the MemoryRegion
-and that this will always be in range.
+We use the common function gicv3_idreg() to supply the CoreSight ID
+register values for the GICv3 for the copies of these ID registers in
+the distributor, redistributor and ITS register frames.  This isn't
+quite correct, because while most of the register values are the
+same, the PIDR0 value should vary to indicate which of these three
+frames it is.  (You can see this and also the correct values of these
+PIDR0 registers by looking at the GIC-600 or GIC-700 TRMs, for
+example.)
 
-Fortunately all the board code sets the redistributor region sizes to
-exactly match the CPU count, so this isn't a visible bug.  We could
-in theory make the GIC code handle non-full redistributor regions, or
-have it automatically reduce the provided region sizes to match the
-CPU count, but the simplest thing is just to strengthen the error
-check and insist that the CPU count and redistributor region size
-settings match exactly, since all the board code does that anyway.
+Make gicv3_idreg() take an extra argument for the PIDR0 value.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220408141550.1271295-4-peter.maydell@linaro.org
+Message-id: 20220408141550.1271295-5-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_common.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/intc/gicv3_internal.h   | 15 +++++++++++++--
+ hw/intc/arm_gicv3_dist.c   |  2 +-
+ hw/intc/arm_gicv3_its.c    |  2 +-
+ hw/intc/arm_gicv3_redist.c |  2 +-
+ 4 files changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 90204be25b6..c797c82786b 100644
---- a/hw/intc/arm_gicv3_common.c
-+++ b/hw/intc/arm_gicv3_common.c
-@@ -354,9 +354,9 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
-     for (i = 0; i < s->nb_redist_regions; i++) {
-         rdist_capacity += s->redist_region_count[i];
+diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+index 2bf1baef047..dec413f7cfa 100644
+--- a/hw/intc/gicv3_internal.h
++++ b/hw/intc/gicv3_internal.h
+@@ -555,7 +555,12 @@ static inline uint32_t gicv3_iidr(void)
+     return 0x43b;
+ }
+ 
+-static inline uint32_t gicv3_idreg(int regoffset)
++/* CoreSight PIDR0 values for ARM GICv3 implementations */
++#define GICV3_PIDR0_DIST 0x92
++#define GICV3_PIDR0_REDIST 0x93
++#define GICV3_PIDR0_ITS 0x94
++
++static inline uint32_t gicv3_idreg(int regoffset, uint8_t pidr0)
+ {
+     /* Return the value of the CoreSight ID register at the specified
+      * offset from the first ID register (as found in the distributor
+@@ -565,7 +570,13 @@ static inline uint32_t gicv3_idreg(int regoffset)
+     static const uint8_t gicd_ids[] = {
+         0x44, 0x00, 0x00, 0x00, 0x92, 0xB4, 0x3B, 0x00, 0x0D, 0xF0, 0x05, 0xB1
+     };
+-    return gicd_ids[regoffset / 4];
++
++    regoffset /= 4;
++
++    if (regoffset == 4) {
++        return pidr0;
++    }
++    return gicd_ids[regoffset];
+ }
+ 
+ /**
+diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
+index 28d913b2114..7f6275363ea 100644
+--- a/hw/intc/arm_gicv3_dist.c
++++ b/hw/intc/arm_gicv3_dist.c
+@@ -557,7 +557,7 @@ static bool gicd_readl(GICv3State *s, hwaddr offset,
      }
--    if (rdist_capacity < s->num_cpu) {
-+    if (rdist_capacity != s->num_cpu) {
-         error_setg(errp, "Capacity of the redist regions(%d) "
--                   "is less than number of vcpus(%d)",
-+                   "does not match the number of vcpus(%d)",
-                    rdist_capacity, s->num_cpu);
-         return;
-     }
+     case GICD_IDREGS ... GICD_IDREGS + 0x2f:
+         /* ID registers */
+-        *data = gicv3_idreg(offset - GICD_IDREGS);
++        *data = gicv3_idreg(offset - GICD_IDREGS, GICV3_PIDR0_DIST);
+         return true;
+     case GICD_SGIR:
+         /* WO registers, return unknown value */
+diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+index 44914f25780..f8467b61ec5 100644
+--- a/hw/intc/arm_gicv3_its.c
++++ b/hw/intc/arm_gicv3_its.c
+@@ -1161,7 +1161,7 @@ static bool its_readl(GICv3ITSState *s, hwaddr offset,
+         break;
+     case GITS_IDREGS ... GITS_IDREGS + 0x2f:
+         /* ID registers */
+-        *data = gicv3_idreg(offset - GITS_IDREGS);
++        *data = gicv3_idreg(offset - GITS_IDREGS, GICV3_PIDR0_ITS);
+         break;
+     case GITS_TYPER:
+         *data = extract64(s->typer, 0, 32);
+diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
+index 412a04f59cf..dc9729e8395 100644
+--- a/hw/intc/arm_gicv3_redist.c
++++ b/hw/intc/arm_gicv3_redist.c
+@@ -234,7 +234,7 @@ static MemTxResult gicr_readl(GICv3CPUState *cs, hwaddr offset,
+         *data = cs->gicr_nsacr;
+         return MEMTX_OK;
+     case GICR_IDREGS ... GICR_IDREGS + 0x2f:
+-        *data = gicv3_idreg(offset - GICR_IDREGS);
++        *data = gicv3_idreg(offset - GICR_IDREGS, GICV3_PIDR0_REDIST);
+         return MEMTX_OK;
+     default:
+         return MEMTX_ERROR;
 -- 
 2.25.1
 
