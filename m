@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C237750B62D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:30:40 +0200 (CEST)
-Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4147C50B619
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:22:51 +0200 (CEST)
+Received: from localhost ([::1]:45894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhrUl-0008PL-SK
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
+	id 1nhrNC-0004xC-CW
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:22:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhqLC-0001Qg-Bs
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:16:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50693)
+ id 1nhqLJ-0001Zq-1q
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:16:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhqLA-0004sU-Q7
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:16:42 -0400
+ id 1nhqLF-0004sr-5V
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:16:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650622600;
+ s=mimecast20190719; t=1650622604;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V+C4GEug/y+QDL51lRuwik+lTntgUagWVw/Wl00bh5A=;
- b=buYDpzwSlQ0mBb8kvQSWseS9HpBikRwEeUycrEuLDHaai7d2AzpybsutgkJYCC8/0TVmbR
- VNgLjldgtKP6AxFq7lnc9MRqunvNeDUXqUMtqDfBb4RXNgfrtL8EznZNXocsPdd5IakmXU
- PCfDZmGo5abo1GNoE1dZv1YrcSPiZQs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fZMzKbc8kxCWrT767HDRzuLwwVI7VB8l10jMiOd54ik=;
+ b=GdBVIwdMvpR2amikpwH4bJKuK0gyUgUo4LvECYWXcR2wga61DAJlXcLa54q4IQVcN55/2P
+ 5py8t0mzIHmwuwZJ9Na4TZ8Fh3lfnXeSU+VhJ5v+68apoopxlZWgQYh7dWire1T1+suQC7
+ D51Vprh2Vq93WyeakIDKMgdMIYubgaU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-NJHjkEQIOl-uRJSNDggahQ-1; Fri, 22 Apr 2022 06:16:39 -0400
-X-MC-Unique: NJHjkEQIOl-uRJSNDggahQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-102-07-9PO7-NGytYoxukwlLBQ-1; Fri, 22 Apr 2022 06:16:42 -0400
+X-MC-Unique: 07-9PO7-NGytYoxukwlLBQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0DE403C21184;
- Fri, 22 Apr 2022 10:16:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2109C18E532D;
+ Fri, 22 Apr 2022 10:16:27 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 24E1240EC000;
- Fri, 22 Apr 2022 10:16:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D0E646A0DF;
+ Fri, 22 Apr 2022 10:16:26 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 08/13] dump: Cleanup dump_begin write functions
-Date: Fri, 22 Apr 2022 14:15:20 +0400
-Message-Id: <20220422101525.3260741-9-marcandre.lureau@redhat.com>
+Subject: [PULL v2 09/13] dump: Consolidate elf note function
+Date: Fri, 22 Apr 2022 14:15:21 +0400
+Message-Id: <20220422101525.3260741-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20220422101525.3260741-1-marcandre.lureau@redhat.com>
 References: <20220422101525.3260741-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -84,79 +84,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-There's no need to have a gigantic if in there let's move the elf
-32/64 bit logic into the section, segment or note code.
+Just like with the other write functions let's move the 32/64 bit elf
+handling to a function to improve readability.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220330123603.107120-9-frankja@linux.ibm.com>
+Message-Id: <20220330123603.107120-10-frankja@linux.ibm.com>
 ---
- dump/dump.c | 42 +++++++++++-------------------------------
- 1 file changed, 11 insertions(+), 31 deletions(-)
+ dump/dump.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
 diff --git a/dump/dump.c b/dump/dump.c
-index 0d95fc5b7a3c..929ef953515c 100644
+index 929ef953515c..4d9658ffa24f 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -564,46 +564,26 @@ static void dump_begin(DumpState *s, Error **errp)
-         return;
-     }
- 
--    if (dump_is_64bit(s)) {
--        /* write all PT_LOAD to vmcore */
--        write_elf_loads(s, errp);
-+    /* write all PT_LOAD to vmcore */
-+    write_elf_loads(s, errp);
-+    if (*errp) {
-+        return;
-+    }
-+
-+    /* write section to vmcore */
-+    if (s->shdr_num) {
-+        write_elf_section(s, 1, errp);
-         if (*errp) {
-             return;
-         }
-+    }
- 
--        /* write section to vmcore */
--        if (s->shdr_num) {
--            write_elf_section(s, 1, errp);
--            if (*errp) {
--                return;
--            }
--        }
--
-+    if (dump_is_64bit(s)) {
-         /* write notes to vmcore */
-         write_elf64_notes(fd_write_vmcore, s, errp);
--        if (*errp) {
--            return;
--        }
-     } else {
--        /* write all PT_LOAD to vmcore */
--        write_elf_loads(s, errp);
--        if (*errp) {
--            return;
--        }
--
--        /* write section to vmcore */
--        if (s->shdr_num) {
--            write_elf_section(s, 0, errp);
--            if (*errp) {
--                return;
--            }
--        }
--
-         /* write notes to vmcore */
-         write_elf32_notes(fd_write_vmcore, s, errp);
--        if (*errp) {
--            return;
--        }
+@@ -519,6 +519,15 @@ static void write_elf_loads(DumpState *s, Error **errp)
      }
  }
  
++static void write_elf_notes(DumpState *s, Error **errp)
++{
++    if (dump_is_64bit(s)) {
++        write_elf64_notes(fd_write_vmcore, s, errp);
++    } else {
++        write_elf32_notes(fd_write_vmcore, s, errp);
++    }
++}
++
+ /* write elf header, PT_NOTE and elf note to vmcore. */
+ static void dump_begin(DumpState *s, Error **errp)
+ {
+@@ -578,13 +587,8 @@ static void dump_begin(DumpState *s, Error **errp)
+         }
+     }
+ 
+-    if (dump_is_64bit(s)) {
+-        /* write notes to vmcore */
+-        write_elf64_notes(fd_write_vmcore, s, errp);
+-    } else {
+-        /* write notes to vmcore */
+-        write_elf32_notes(fd_write_vmcore, s, errp);
+-    }
++    /* write notes to vmcore */
++    write_elf_notes(s, errp);
+ }
+ 
+ static int get_next_block(DumpState *s, GuestPhysBlock *block)
 -- 
 2.36.0
 
