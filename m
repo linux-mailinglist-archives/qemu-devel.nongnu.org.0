@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C15050AD01
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 02:57:49 +0200 (CEST)
-Received: from localhost ([::1]:37932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A6E50AD03
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 03:02:02 +0200 (CEST)
+Received: from localhost ([::1]:45416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhhcK-0005aS-Ko
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 20:57:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34320)
+	id 1nhhgP-0002f7-E9
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 21:02:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nhhTn-0001O4-H5; Thu, 21 Apr 2022 20:49:01 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:45999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nhhTl-0006qA-Q8; Thu, 21 Apr 2022 20:48:59 -0400
-Received: by mail-il1-x132.google.com with SMTP id t4so4116961ilo.12;
- Thu, 21 Apr 2022 17:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x+fsgNTB6olaKvV+oDMdXm5Srrlc9yW4VyHmWRUP7gA=;
- b=nhOvWnCyyuA6DJiGr6u+7GRhtpZ4Xfxl7vLoVu6tzVy/uYghMV0UIXYDAhcarVF93e
- 6W/DGK5unnJWHEyU7g74w79M6CYxpukD50PBS5i/bIobzMp6CqTqVnpz9wSv0mNjsAkF
- Zgr0D/en/A12hQUx+B4D76tggVmv8lmUgBGtrVlN5q0dVmSMcRSiK51RFDUP401YQH/U
- RcypH6VfVngY+ZPhEN+fQlmnMimXOcV4JNx5CBHKHLZOHLckPlggYXP1TNDX4hO1C1+N
- jJ/kmdYSI2CHoP/5dSI0LMP1fcuUPbbuGAiwZWCijapHXnc1ZNfrRV2Tex3DY4jB5cbZ
- d1Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x+fsgNTB6olaKvV+oDMdXm5Srrlc9yW4VyHmWRUP7gA=;
- b=5f+Fjbcj2COxnpatypW+JeGgmmSrO+qe75BDnQaauBzI16XpaOgDid+GP6vvDBwRQ5
- jBfqnXqL566PVvuIoNBSCtmb4GVdK0yuO383VQjfbhuMblS+4ZlyjWgt1R5QJKFbcuXl
- ig+gHodob8wHkJUtxhQXNo4n55vT3s9iqeQwLl6w84XeFJXWhsFshVRBeAqGtMg7IKlS
- 7EtvS4YP9RJxoFlUyMgHYeGmtizfO4UxgCPSzjFPMhBgcJO7g80vO08qXdQuTB9SH2zi
- eiyVGF3Nv8PszSqvIaL0Kj3lZ9Gp3Ng5JrEO3E6p4X2UaY8XkiQepRF1OzC8F0RBEZe8
- lVRA==
-X-Gm-Message-State: AOAM5331Ueds9Wxi5djigPRKnqMtWqxDw2Lqlw0SoEAspGcMuBHDVAtq
- RK+BT7SPQ27Lbz6oq2aVyYdmg2WiJA4nqIJRca0=
-X-Google-Smtp-Source: ABdhPJwqhuL9KhrT7XyOTGjO5y9lSuS66FsnH+M/DoEUbgnvrU3oABxF8V8axR+1lhIR9LaxI4rpWs9XgrLMK7vLO+s=
-X-Received: by 2002:a92:db0e:0:b0:2cc:2590:767b with SMTP id
- b14-20020a92db0e000000b002cc2590767bmr975039iln.260.1650588536310; Thu, 21
- Apr 2022 17:48:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nhhVi-0004fO-9k
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:50:58 -0400
+Received: from mga04.intel.com ([192.55.52.120]:54211)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nhhVe-0007Ey-Hd
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:50:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650588654; x=1682124654;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=2AzYSvm6f/r5I1M27+zDDYbAvGE5Tb/Dgpxxuk8GRXs=;
+ b=NLyRHTo4X4Nku2k2KLLEnX3O+C+3eHNyD3WyCKzEVCFp6+cfqqJeHsHA
+ MRclGqcSn73H9Gnx5yp3kvL4Uis3aveBKyzvVo0yroEC41zOr2KgeIY8X
+ 6/Koi45VSHYDNeHIr0AgMpbZAZISOTyx3Jq2oIoaNFqkahsXXmjH+c6pN
+ 92cruZL4MNxgBYSMlDemWoXEYh7qXyCenSlbszNAICrLhXpBKdBAjdWJF
+ f/YwvgFQ4B00CG8yWMZQOMOfUEny0BZgwIbDzreydhkvQNBbVD3dHZicQ
+ 4qkxLoHN7L+LXkCf5miLihqQT9lTkbtlBBScYdRNXzifcJUwFdUfXWqbw w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="263375556"
+X-IronPort-AV: E=Sophos;i="5.90,280,1643702400"; d="scan'208";a="263375556"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 17:50:50 -0700
+X-IronPort-AV: E=Sophos;i="5.90,280,1643702400"; d="scan'208";a="577564376"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.55])
+ ([10.255.28.55])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 17:50:47 -0700
+Message-ID: <37534451-b4b6-4547-a43b-ca0965b384d4@intel.com>
+Date: Fri, 22 Apr 2022 08:50:45 +0800
 MIME-Version: 1.0
-References: <20220420095718.26392-1-frank.chang@sifive.com>
- <CAEUhbmXfoWOpjt6YyVztxv49P9-xQjmHgD6OZ8TgJ-yUTbZd8Q@mail.gmail.com>
-In-Reply-To: <CAEUhbmXfoWOpjt6YyVztxv49P9-xQjmHgD6OZ8TgJ-yUTbZd8Q@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 22 Apr 2022 10:48:30 +1000
-Message-ID: <CAKmqyKPVs4zG9vn_6haH2DcM2XW1M9tSP4c81inEd_pZtF0c2Q@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv: Support configuarable marchid,
- mvendorid, mipid CSR values
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.8.0
+Subject: Re: [PATCH RESEND v1 0/2] i386: Make PIT and PIC the property of
+ common x86 base machine type
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220310122811.807794-1-xiaoyao.li@intel.com>
+ <20220310080630-mutt-send-email-mst@kernel.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220310080630-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,44 +78,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jim Shu <jim.shu@sifive.com>, Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 21, 2022 at 12:17 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Wed, Apr 20, 2022 at 5:57 PM <frank.chang@sifive.com> wrote:
-> >
-> > From: Frank Chang <frank.chang@sifive.com>
-> >
-> > Allow user to set core's marchid, mvendorid, mipid CSRs through
-> > -cpu command line option.
-> >
-> > The default values of marchid and mipid are built with QEMU's version
-> > numbers.
-> >
-> > Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> > Reviewed-by: Jim Shu <jim.shu@sifive.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  target/riscv/cpu.c |  9 +++++++++
-> >  target/riscv/cpu.h |  4 ++++
-> >  target/riscv/csr.c | 38 ++++++++++++++++++++++++++++++++++----
-> >  3 files changed, 47 insertions(+), 4 deletions(-)
-> >
->
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+On 3/10/2022 9:07 PM, Michael S. Tsirkin wrote:
+> On Thu, Mar 10, 2022 at 08:28:09PM +0800, Xiaoyao Li wrote:
+>> For PIT, it's straightforward to merge microvm::pit and
+>> pc_machine::pit_enabled into x86ms::pit
+>>
+>> For PIC, move microvm::pic to x86ms:pic, which gives PC machine the
+>> ability to dis-/en-able PIC and it's the preparation for future TDX
+>> support.
+> 
+> 
+> Looks ok but we are in freeze. I will tag this but pls do ping me
+> after the release to make sure it's not lost. Thanks!
 
-Do you mind rebasing this on
-https://github.com/alistair23/qemu/tree/riscv-to-apply.next ?
+Michael,
 
-I have sent a PR and hopefully it should be merged into master soon
+Hope they won't get lost :)
 
-Alistair
+>> ---
+>> Resend:
+>>   - collect Reviewed-by;
+>>   - rebase to 2048c4eba2b4 ("Merge remote-tracking branch 'remotes/philmd/tags/pmbus-20220308' into staging")
+>>
+>> Xiaoyao Li (2):
+>>    hw/i386: Make pit a property of common x86 base machine type
+>>    hw/i386: Make pic a property of common x86 base machine type
+>>
+>>   hw/i386/microvm.c         | 54 ++-------------------------------------
+>>   hw/i386/pc.c              | 24 +++--------------
+>>   hw/i386/pc_piix.c         |  4 ++-
+>>   hw/i386/pc_q35.c          |  4 ++-
+>>   hw/i386/x86.c             | 50 ++++++++++++++++++++++++++++++++++++
+>>   include/hw/i386/microvm.h |  4 ---
+>>   include/hw/i386/pc.h      |  2 --
+>>   include/hw/i386/x86.h     |  4 +++
+>>   8 files changed, 65 insertions(+), 81 deletions(-)
+>>
+>> -- 
+>> 2.27.0
+> 
 
->
 
