@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFDB50BF05
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:50:10 +0200 (CEST)
-Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B8D50BF17
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:57:16 +0200 (CEST)
+Received: from localhost ([::1]:47402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhxQ1-0007Ws-Jx
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:50:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50296)
+	id 1nhxWt-0002sZ-J5
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:57:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwb9-0000ic-GG
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:36 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:35728)
+ id 1nhwbE-0000n2-Aq
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:40 -0400
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:33514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwb7-000849-WB
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:35 -0400
-Received: by mail-io1-xd30.google.com with SMTP id q22so9243094iod.2
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:33 -0700 (PDT)
+ id 1nhwbB-00084p-7z
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:39 -0400
+Received: by mail-il1-x132.google.com with SMTP id b5so5441773ile.0
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KOjXySDL0Ufzbbr9M/xH36yPYqmTAVv3+nLLoSnWdKg=;
- b=AiRXOo49rq/mLSIg7yP2HwzJvvpyPFeh68yST9wKKBcQqIuNTkr1cA1FEQZ6tVSp8w
- Gh+PcXfGFCaAwrjSj+VcC1tgPZwlmjf8XRs01YNsEFrSx1XfvqOgFsmU/FMFpyL+g5mN
- Q8C+9v3Z/XUgN9G9HutfHlVV1mZrQLOrtWhjX7wO5NNru9vHNp4B/iBx+U/lrZApPc+G
- uhwi8POEBrsebbsqTidX6vRf3pKMNVRBumvHIfFxP6vR9rZgfnMGO5+KW3XhuWp8QoxY
- ew8zeQdqCoYLOsKMStlcwSwLqCjScTXnusz0wS7tGeedx7jzcAxKQohHFMV8RHb37aUG
- BhDg==
+ bh=XkXB1ypOZ++skoQkKVtL7/x09Njvxh9gdGNburiKDjs=;
+ b=YHJKPpMX1fX2pTj9Wwgb6YesQ6sB6yMeUD2LGidkM4q8dxnSAeeWb3UDZ7YpG9+iwb
+ tbX5+LtdhqlBVaWafzg60lSo371lBPllNnFYHyNBwNQbH9VexWDXWapPPe+jZLibLuHN
+ WktZF0lbdQ1H7mfWR/LQN3GXN9OcVTCpQSNNQTPggGbxS2mL3Qpw/yEqTYrKltComdP8
+ yEBDjE37mIltwkUscnVE3F2SFlzIy5+79uF7vOUVLcrsgfDMxdv4py6wRwUhdJ3nO96k
+ aDRzuhzdjUQ66zJpdvfSEGepCRmdb2Nzym0cRMPZuV5K9yYptYqjl+aHtK1R1BxwpDJY
+ IOmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KOjXySDL0Ufzbbr9M/xH36yPYqmTAVv3+nLLoSnWdKg=;
- b=JFusugpad7hDfVLMSqOlwTekLcU3izV2j1RT79iweyPK0O8kfqmXfn/PzszZFLN0Eq
- ZK6XfSLpdhAiIfg8T5j2lWmmZqu3N9p3fglxltuJraQAjAkcj8pSt7SI6NNcf0PrVpd+
- F4z7NzmvEgRtDCCQAZES3Iuqid5109NhAA53JcEuRq8OZ4CTFIEwrej8NXWJhm2MGFOA
- 3FCLtiUXco29PcmLKwzvX4RKs3cPbzwgtVgmfL07+9NalVZyebvIfCO9jRdPaBZUYuHi
- GYhTthabhGIe+/S3TphBnZwMRbjBvkIzwexZ+Gn5+g7uTyEoFE9m0fyqUdwYy87hKq7b
- bp8A==
-X-Gm-Message-State: AOAM5315oF9hNBpP+/vqcGiBeaXUufwRv/EvyM5AMJfzSg7DhCjsQdFo
- u92eCecy3pbw3J/gAeyL9Yg1u+0Ga6w9s+NH
-X-Google-Smtp-Source: ABdhPJzyLUD05/3OSaDSgi8zLuVpnsdY+sw9v3/yGEayfbQj4lk7gqNK8bztZr7qzEmHutegE66DfA==
-X-Received: by 2002:a05:6638:204a:b0:323:e148:74f2 with SMTP id
- t10-20020a056638204a00b00323e14874f2mr2505862jaj.90.1650646653014; 
- Fri, 22 Apr 2022 09:57:33 -0700 (PDT)
+ bh=XkXB1ypOZ++skoQkKVtL7/x09Njvxh9gdGNburiKDjs=;
+ b=4TKzDj7o/HH1aWDHnXw6Q6/DeofeUeGN/sV9maWCehIjl555vui7yU8ymHyLejQswO
+ 6Ib9JZXC8wiGIoKIngXoOhlXwTbq/RFoNVA6qZOYizRGKP6rn9x5UDtBUFYd5jCpUdb1
+ 9+XX9Wb3TGKgboAiGGZ1KVPM+Cy6kaXH2ZaUXXjx2n2GNRqnzgnvVkwXE/7d5+vDT1+O
+ iy4gMUm2jWUXDL2IHnIBZBvmRGOr7eRc4bLGpGqUKyLlrli2qPkgBcpxfZq+BoxpxFLa
+ UuPR85zC+tUxxJbmINw1GIEzGQgEYymrQixAperAGXuS46F6v07OxoIzx3ro+ot1nM1n
+ MZiA==
+X-Gm-Message-State: AOAM533CuvVIiQdEcSmy6fru+hisb7POIsPe2xAWEtXppSaZTBvF0EJZ
+ 791JoIV+JpdJkICnHMpKKdYzBlQ9NrDFI2QZ
+X-Google-Smtp-Source: ABdhPJzEHSUoQDxcx+oVnt2XUD6CiFtohENJLw39sjhPDnG3HTOrAjtGrT7rqRyLQd9twsn3Deodkg==
+X-Received: by 2002:a05:6e02:1809:b0:2cc:507a:acfa with SMTP id
+ a9-20020a056e02180900b002cc507aacfamr2475928ilv.114.1650646656242; 
+ Fri, 22 Apr 2022 09:57:36 -0700 (PDT)
 Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
  by smtp.gmail.com with ESMTPSA id
- n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.31
+ n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 09:57:32 -0700 (PDT)
+ Fri, 22 Apr 2022 09:57:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 62/68] linux-user/nios2: Handle various SIGILL exceptions
-Date: Fri, 22 Apr 2022 09:52:32 -0700
-Message-Id: <20220422165238.1971496-63-richard.henderson@linaro.org>
+Subject: [PATCH v8 64/68] hw/nios2: Introduce Nios2MachineState
+Date: Fri, 22 Apr 2022 09:52:34 -0700
+Message-Id: <20220422165238.1971496-65-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
 References: <20220422165238.1971496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=richard.henderson@linaro.org; helo=mail-il1-x132.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,43 +84,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We missed out on a couple of exception types that may
-legitimately be raised by a userland program.
+We want to move data from the heap into Nios2MachineState,
+which is not possible with DEFINE_MACHINE.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-59-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-61-richard.henderson@linaro.org>
 ---
- linux-user/nios2/cpu_loop.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/nios2/10m50_devboard.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index a5e86990e2..da77ede76b 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -50,6 +50,18 @@ void cpu_loop(CPUNios2State *env)
-                             env->ctrl[CR_BADADDR]);
-             break;
+diff --git a/hw/nios2/10m50_devboard.c b/hw/nios2/10m50_devboard.c
+index 3d1205b8bd..bdc3ffd50d 100644
+--- a/hw/nios2/10m50_devboard.c
++++ b/hw/nios2/10m50_devboard.c
+@@ -36,6 +36,13 @@
  
-+        case EXCP_ILLEGAL:
-+        case EXCP_UNIMPL:
-+            /* Match kernel's handle_illegal_c(). */
-+            env->pc -= 4;
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->pc);
-+            break;
-+        case EXCP_SUPERI:
-+            /* Match kernel's handle_supervisor_instr(). */
-+            env->pc -= 4;
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->pc);
-+            break;
+ #include "boot.h"
+ 
++struct Nios2MachineState {
++    MachineState parent_obj;
++};
 +
-         case EXCP_TRAP:
-             switch (env->error_code) {
-             case 0:
++#define TYPE_NIOS2_MACHINE  MACHINE_TYPE_NAME("10m50-ghrd")
++OBJECT_DECLARE_TYPE(Nios2MachineState, MachineClass, NIOS2_MACHINE)
++
+ #define BINARY_DEVICE_TREE_FILE    "10m50-devboard.dtb"
+ 
+ static void nios2_10m50_ghrd_init(MachineState *machine)
+@@ -105,11 +112,24 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
+                       BINARY_DEVICE_TREE_FILE, NULL);
+ }
+ 
+-static void nios2_10m50_ghrd_machine_init(struct MachineClass *mc)
++static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
+ {
++    MachineClass *mc = MACHINE_CLASS(oc);
++
+     mc->desc = "Altera 10M50 GHRD Nios II design";
+     mc->init = nios2_10m50_ghrd_init;
+     mc->is_default = true;
+ }
+ 
+-DEFINE_MACHINE("10m50-ghrd", nios2_10m50_ghrd_machine_init);
++static const TypeInfo nios2_10m50_ghrd_type_info = {
++    .name          = TYPE_NIOS2_MACHINE,
++    .parent        = TYPE_MACHINE,
++    .instance_size = sizeof(Nios2MachineState),
++    .class_init    = nios2_10m50_ghrd_class_init,
++};
++
++static void nios2_10m50_ghrd_type_init(void)
++{
++    type_register_static(&nios2_10m50_ghrd_type_info);
++}
++type_init(nios2_10m50_ghrd_type_init);
 -- 
 2.34.1
 
