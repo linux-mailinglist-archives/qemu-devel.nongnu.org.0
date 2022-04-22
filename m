@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D5E50B5BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:56:24 +0200 (CEST)
-Received: from localhost ([::1]:51904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E9950B61D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:24:55 +0200 (CEST)
+Received: from localhost ([::1]:50088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqxb-0007Ct-V1
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
+	id 1nhrPC-0007nU-8s
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:24:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqAC-0005Gh-NT
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:20 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42901)
+ id 1nhqAD-0005It-AZ
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:21 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:44587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhqA9-0002tH-TG
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:20 -0400
-Received: by mail-wr1-x433.google.com with SMTP id bv16so10285276wrb.9
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:16 -0700 (PDT)
+ id 1nhqAB-0002tb-LA
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:21 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ r4-20020a05600c35c400b0039295dc1fc3so5088113wmq.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:05:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=S4r+9Jtute0CnHhryAfrHHj2Bmc0mJidkIeWbRs5UF8=;
- b=BnfiCVdqaEy7bhtikvhHLs9ze4nuHawhV9Cl/OB3Upw2EP4mVi7IlxC4iQNqqZsJDp
- jK2ttVqhlTAs+jNnVGyzpYAR+tWA9dzHQVvqz+OeTKVybl9yZa5JzOoXJZ2Hgkuw6ro1
- J8BDmy/w3A5YGff8p1m680ZInSSk67nGw22SGZNm+JxIMPsIIwrMc2q8m0c9LFUl5Vuu
- M0Qtw7KhmbRmNN8DltrfWeH3Pp61YGllCjmqu8Qqcv4ypsY+Ql/Npo5KC1xrLBTUFAkX
- da1zZRukhHrrydQsDHyBgTqBSRuwNZWo3krM/nVimkeZLN/t7IyDwvnGlQAQohuQumZm
- 7Kaw==
+ bh=eHw+HjmQRq2oIAbizpb+nwuiBNkSn27k7ONTIxuJM9E=;
+ b=icGpDVA7TDqsxOI5X+kKz7V2Fnzqt4YUlpYJ08PebBwJ7Fem/u/gDP4KQNDhHTi9BD
+ +DmPO25KMktbctQR+cfCZQ+jBCHtrm8IMKO1DAUYCEZq9zO0RZaPfXiUJuGiKQvbIV/S
+ qd8TtAgIaUcYwsE2dpQlGP82hm/Ub++u3mgaw9MQJQlHTfE692UZ+4D91nhrCAezUkFk
+ BCaXch2ZkcDF5ILDvyACQN6toxRzHqPxFPLlt0QxwHmXVQn6W8iTPmLM0fWMCqfLG0FU
+ FtpC+kq4dsvEcEpmz4S7QcnQZ1ze4ndacw09MmCf5e4B+kO3vASM8CnwTrSV/MxVZLcr
+ HcNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S4r+9Jtute0CnHhryAfrHHj2Bmc0mJidkIeWbRs5UF8=;
- b=7Rb1k+hFnqgmBtqDnctvD8h2BUOAfNDJI9AY2O1+ggw+1t1a4siI0B+I8hsmkQ8gJa
- VxdhWG8UvaCTX7zT78CTV1ju+R2XV6JFQq362xrhYkw3LX7MCTNY1iKRZsynE4M0BYVz
- 0fmgLsTXxitXF5q/ghKEZ4KvNP7r0Bdx3eFe3xnnKtSESPjqkxYR2OhnimH5cFlA7Amy
- kDZEjklzyLhfJ0DSDnb0QiNnWUgIkqvR1zOZ6rqCGI84kZH1bUhmHddfPcZ07UIx65qG
- H2EQXXO2kM722eWIMSuieGE1znm2DHc47xrgdRHfFi9s8qkTFnvxUQMmPXV+nsDgXaKq
- 7tIg==
-X-Gm-Message-State: AOAM533oxwIGjDNvvrkrKXDwNm5+Q7TQ6A5z61miWUMVPBEVdWpqkgkh
- TxbZaOweVbz72l4hPnpPV3EJ/I8PmAtziQ==
-X-Google-Smtp-Source: ABdhPJyeDsDHTD1X4PTUxTTtZWK8M8eKNYj4Sg4mG/c4l2oyNJ1h3ntaYooMLJULNEZcp2g8l9KHLA==
-X-Received: by 2002:adf:eacf:0:b0:20a:c8c4:ac51 with SMTP id
- o15-20020adfeacf000000b0020ac8c4ac51mr2078936wrn.510.1650621915500; 
- Fri, 22 Apr 2022 03:05:15 -0700 (PDT)
+ bh=eHw+HjmQRq2oIAbizpb+nwuiBNkSn27k7ONTIxuJM9E=;
+ b=mD6O4V0gMrZif+14J1DdBZK6o7ebRdgCNM0OHyh7u6x0SHykK5lO/uVq0hPar6G1VR
+ L4ERSNpLHU4FrgQ/YTcSQmTuMR/oIhU/7+7jaUOB4utDjqGXQcz9G/Wowe7QeTOXeJ2m
+ 9Eo58P2EFlqdEj5MMhgs3Cs0jan5/7CF/TnTufwSm2Scw/XvUA8tvKAyu3Wa1/EKHQ3i
+ Lu44I+fM+5PI+gGC+9zJqPCShfH1ZZHLat9yHvtiq4cHOgZVaeXw/3Uw4G9f7MWRimL9
+ qvopo0sAzzo73IdEPj+DCyD/UwdkyiTbzJtXkEunyEoiqss9PIT36FjMtqRkGt5r2PhH
+ BUsQ==
+X-Gm-Message-State: AOAM533gWYlyhxkjSJ2oFXN+PqwberRpd+3ud71KOQSGHWqvN/M8QanF
+ W2JKE8LO+wa61AznD6+ScicLNG7ey91eiQ==
+X-Google-Smtp-Source: ABdhPJxvyfYg0ZFLYWqm15tY3x4PPkddhtD65QYpCYULvw7QTwKzlHzh+6kd7n3vdcIb4a7hdL1AOg==
+X-Received: by 2002:a05:600c:4313:b0:38e:b150:2f8e with SMTP id
+ p19-20020a05600c431300b0038eb1502f8emr12585999wme.198.1650621917031; 
+ Fri, 22 Apr 2022 03:05:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.14
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.05.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:05:14 -0700 (PDT)
+ Fri, 22 Apr 2022 03:05:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/61] target/arm: Update SCTLR bits to ARMv9.2
-Date: Fri, 22 Apr 2022 11:04:15 +0100
-Message-Id: <20220422100432.2288247-45-peter.maydell@linaro.org>
+Subject: [PULL 45/61] target/arm: Change DisasContext.aarch64 to bool
+Date: Fri, 22 Apr 2022 11:04:16 +0100
+Message-Id: <20220422100432.2288247-46-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,40 +92,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Update SCTLR_ELx fields per ARM DDI0487 H.a.
+Bool is a more appropriate type for this value.
+Move the member down in the struct to keep the
+bool type members together and remove a hole.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ target/arm/translate.h     | 2 +-
+ target/arm/translate-a64.c | 2 +-
+ target/arm/translate.c     | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index cc8f7f74eab..bee1cf4653a 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1233,6 +1233,20 @@ void pmu_init(ARMCPU *cpu);
- #define SCTLR_ATA0    (1ULL << 42) /* v8.5-MemTag */
- #define SCTLR_ATA     (1ULL << 43) /* v8.5-MemTag */
- #define SCTLR_DSSBS_64 (1ULL << 44) /* v8.5, AArch64 only */
-+#define SCTLR_TWEDEn  (1ULL << 45)  /* FEAT_TWED */
-+#define SCTLR_TWEDEL  MAKE_64_MASK(46, 4)  /* FEAT_TWED */
-+#define SCTLR_TMT0    (1ULL << 50) /* FEAT_TME */
-+#define SCTLR_TMT     (1ULL << 51) /* FEAT_TME */
-+#define SCTLR_TME0    (1ULL << 52) /* FEAT_TME */
-+#define SCTLR_TME     (1ULL << 53) /* FEAT_TME */
-+#define SCTLR_EnASR   (1ULL << 54) /* FEAT_LS64_V */
-+#define SCTLR_EnAS0   (1ULL << 55) /* FEAT_LS64_ACCDATA */
-+#define SCTLR_EnALS   (1ULL << 56) /* FEAT_LS64 */
-+#define SCTLR_EPAN    (1ULL << 57) /* FEAT_PAN3 */
-+#define SCTLR_EnTP2   (1ULL << 60) /* FEAT_SME */
-+#define SCTLR_NMI     (1ULL << 61) /* FEAT_NMI */
-+#define SCTLR_SPINTMASK (1ULL << 62) /* FEAT_NMI */
-+#define SCTLR_TIDCP   (1ULL << 63) /* FEAT_TIDCP1 */
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 3a0db801d3b..8b7dd1a4c05 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -59,12 +59,12 @@ typedef struct DisasContext {
+      * so that top level loop can generate correct syndrome information.
+      */
+     uint32_t svc_imm;
+-    int aarch64;
+     int current_el;
+     /* Debug target exception level for single-step exceptions */
+     int debug_target_el;
+     GHashTable *cp_regs;
+     uint64_t features; /* CPU features bits */
++    bool aarch64;
+     /* Because unallocated encodings generate different exception syndrome
+      * information from traps due to FP being disabled, we can't do a single
+      * "is fp access disabled" check at a high level in the decode tree.
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 19c09c3b535..f6303848918 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14664,7 +14664,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->isar = &arm_cpu->isar;
+     dc->condjmp = 0;
  
- #define CPTR_TCPAC    (1U << 31)
- #define CPTR_TTA      (1U << 20)
+-    dc->aarch64 = 1;
++    dc->aarch64 = true;
+     /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
+      * there is no secure EL1, so we route exceptions to EL3.
+      */
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 38e7a38f280..6018fee2ef1 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -9334,7 +9334,7 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     dc->isar = &cpu->isar;
+     dc->condjmp = 0;
+ 
+-    dc->aarch64 = 0;
++    dc->aarch64 = false;
+     /* If we are coming from secure EL0 in a system with a 32-bit EL3, then
+      * there is no secure EL1, so we route exceptions to EL3.
+      */
 -- 
 2.25.1
 
