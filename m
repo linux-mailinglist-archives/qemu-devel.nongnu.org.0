@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059EE50B11B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 09:09:16 +0200 (CEST)
-Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D23150B11C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 09:09:23 +0200 (CEST)
+Received: from localhost ([::1]:42642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhnPn-0001p8-4H
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 03:09:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52986)
+	id 1nhnPu-0001tv-9c
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 03:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1nhnJ9-0003kS-HI
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 03:02:26 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:50542
+ id 1nhnJJ-0003oZ-7I
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 03:02:34 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]:50550
  helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1nhnJ6-00005p-T4
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 03:02:22 -0400
+ id 1nhnJH-00006h-NV
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 03:02:32 -0400
 Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id BEA4DDA192E;
- Fri, 22 Apr 2022 09:02:19 +0200 (CEST)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id 9B9CDDA1932;
+ Fri, 22 Apr 2022 09:02:30 +0200 (CEST)
 Received: by qemu.weilnetz.de (Postfix, from userid 1000)
- id BC0A0462074; Fri, 22 Apr 2022 09:02:19 +0200 (CEST)
+ id 9915F462074; Fri, 22 Apr 2022 09:02:30 +0200 (CEST)
 From: Stefan Weil <sw@weilnetz.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] libvhost-user: Fix format strings
-Date: Fri, 22 Apr 2022 09:01:43 +0200
-Message-Id: <20220422070144.1043697-3-sw@weilnetz.de>
+Subject: [PATCH 3/3] libvhost-user: Add format attribute to local function
+ vu_panic
+Date: Fri, 22 Apr 2022 09:01:44 +0200
+Message-Id: <20220422070144.1043697-4-sw@weilnetz.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220422070144.1043697-1-sw@weilnetz.de>
 References: <20220422070144.1043697-1-sw@weilnetz.de>
@@ -61,31 +62,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Stefan Weil <sw@weilnetz.de>
 ---
- subprojects/libvhost-user/libvhost-user.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+
+It would be good to add format attributes to local functions, too (like
+it is done here) to avoid future format bugs.
+
+The changes here could be simplified by including a glib header,
+but from the comments I assumed that is unwanted here?
+
+ subprojects/libvhost-user/libvhost-user.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index 2d29140a8f..94645f9154 100644
+index 94645f9154..29ab85fc9d 100644
 --- a/subprojects/libvhost-user/libvhost-user.c
 +++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -700,7 +700,7 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     if (vmsg->size < VHOST_USER_MEM_REG_SIZE) {
-         close(vmsg->fds[0]);
-         vu_panic(dev, "VHOST_USER_ADD_MEM_REG requires a message size of at "
--                      "least %d bytes and only %d bytes were received",
-+                      "least %zu bytes and only %d bytes were received",
-                       VHOST_USER_MEM_REG_SIZE, vmsg->size);
-         return false;
+@@ -45,6 +45,17 @@
+ #include "libvhost-user.h"
+ 
+ /* usually provided by GLib */
++#if     __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
++#if !defined(__clang__) && (__GNUC__ == 4 && __GNUC_MINOR__ == 4)
++#define G_GNUC_PRINTF(format_idx, arg_idx) \
++  __attribute__((__format__(gnu_printf, format_idx, arg_idx)))
++#else
++#define G_GNUC_PRINTF(format_idx, arg_idx) \
++  __attribute__((__format__(__printf__, format_idx, arg_idx)))
++#endif
++#else   /* !__GNUC__ */
++#define G_GNUC_PRINTF(format_idx, arg_idx)
++#endif  /* !__GNUC__ */
+ #ifndef MIN
+ #define MIN(x, y) ({                            \
+             typeof(x) _min1 = (x);              \
+@@ -151,7 +162,7 @@ vu_request_to_string(unsigned int req)
      }
-@@ -833,7 +833,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     if (vmsg->size < VHOST_USER_MEM_REG_SIZE) {
-         close(vmsg->fds[0]);
-         vu_panic(dev, "VHOST_USER_REM_MEM_REG requires a message size of at "
--                      "least %d bytes and only %d bytes were received",
-+                      "least %zu bytes and only %d bytes were received",
-                       VHOST_USER_MEM_REG_SIZE, vmsg->size);
-         return false;
-     }
+ }
+ 
+-static void
++static void G_GNUC_PRINTF(2, 3)
+ vu_panic(VuDev *dev, const char *msg, ...)
+ {
+     char *buf = NULL;
 -- 
 2.30.2
 
