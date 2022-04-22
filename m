@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA6650B4B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:09:43 +0200 (CEST)
-Received: from localhost ([::1]:32978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB7450B4D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:16:36 +0200 (CEST)
+Received: from localhost ([::1]:44462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqEQ-0007e3-Br
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
+	id 1nhqL5-0007N5-DV
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9b-0004E2-5Y
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:47 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45965)
+ id 1nhq9Z-0004Dw-TZ
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:44 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9Y-0002ZU-9M
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:42 -0400
-Received: by mail-wr1-x432.google.com with SMTP id w4so10276646wrg.12
+ id 1nhq9Y-0002ZW-9H
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:41 -0400
+Received: by mail-wr1-x430.google.com with SMTP id m14so10319455wrb.6
  for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=nusE4iJqKxuXxzxUwLDY6MVU16Qz+ioLkpoA1JeR0xQ=;
- b=DVA1dWbTaTzwPJZN/KDd/Dd/1bpsQqjIKd/SdeMpwMb2bKLRkZPK9tVoB9n66h8Aqd
- /zyUFLbXWzad3idW90bRqJCHPvnqeBgE/YaQfvvR7et/1TGO4ZJrKY09FdDOhhm/vzYQ
- VOjkJ9+w0r7LnV2EDHJTE67zkkR99bdVE5KEbzx0c89bZ+9xpWzyO1Eif+h96aF1+BK9
- /WHAjNvFqggKNWPUBhazv6ugIrfQgyhmgzMjXCIpZlwUu9YVUajXN4B/3ZipqV6iTCFi
- fyPPkZM5P0eAAqUTTmfKGnE6I3LSImX3OOdN70ARgbAicZa4vmy7C4G9Lc86wxNHm6Si
- q6vg==
+ bh=C8wjiFGqRwiBdgaooMAg0hTWNbKduRpOV7Hjw4Kt2zU=;
+ b=SEM4rSF875JoPfwvIsDtkoCpZ3KwO+zL+5DboekT+Bf2CWbO2j+44p5Snx7fRq4Av2
+ alhkiWMgYzPhYYYZUDLBwMIKGbm0r6hCYEOba4dJFL8PdS5cSVCBewud6wY26qMnptc2
+ rWK85TS9JP8sw1LuMWL8B0qAUzEdMh5ViLvhqPt2yMGBSRXbrEbQh6ZRcPE62XsisfI3
+ QJAJm2g45GRuzbcayZYC2JcUt+n1xR2mOy7BdxHRacqC+aFW3e5l1v+qq4XONHHB/Bgi
+ ytVzzc7Gb2609DTFTbO5+/mCQn7/wIcsom3pC6JdIkD7ZnJ7zOaR/kWd0wUZ8wZQIfuJ
+ Ht5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nusE4iJqKxuXxzxUwLDY6MVU16Qz+ioLkpoA1JeR0xQ=;
- b=QiC7EwAWEbC2mr4JWmcSlaSvmGQkhqSE/HdKVZQuxPpSICQ3jKHPRHfaA27dt/a9Aq
- KkFoXXES92tFJioTSPWzpEUhyA9pG66eK0u9jrxUyjogrxoj2xX9YJH3GOKG+rF3foCj
- kJCv8Px9UAvwCeg15+DiRAI7p15Go48+FnNDd2GzZ5N2tVNwA62ivktKFiPVtM1zNGM8
- UQsnyhqu6LI/Ahf2/q2k7ZP9TGfjX+i60sayWeyKejOvp8Ief2O/UUHGLSHPDyeAXbBe
- osXl6nCPE8VWH5V96vrckQtn92vHad4x3pt5TeruyBXI8KS2WwBsQJHaudK3AwpbLCnZ
- NhYg==
-X-Gm-Message-State: AOAM531mWK8WilTLXF8MmHSh7zrzM4VK/Jh53iJ4jyfVsssp9ybswZPQ
- AHs3WoCo2Fc9oNWxs+UaNRKj+uezd7kUUw==
-X-Google-Smtp-Source: ABdhPJwepCN8SXB8wYegZnzK/W7QFxfXI2i3vmEw8TUANIZwNSVrkxkeONo+y7oJ9i0xjEsEGgdcGA==
-X-Received: by 2002:adf:ebc7:0:b0:1ee:945a:ffb4 with SMTP id
- v7-20020adfebc7000000b001ee945affb4mr3050675wrn.641.1650621877103; 
+ bh=C8wjiFGqRwiBdgaooMAg0hTWNbKduRpOV7Hjw4Kt2zU=;
+ b=zZh6BBTbr+c/Flxe2dNi3yOZaqONwMFOANYW7kRil5znhn/KjL4U9V5QZqmQi/rYwZ
+ gvwCdMLwi8rgffIkinlDJy7pFplFh5dW1DXwcQJCZtbe67nsz4ttrTsFdgMblNqQ+yKV
+ dVwn7oColQu5EJpb8iQRQBRsEzx7o1AQsUmIdyRhFHVVCdqL4SODsgMwn4WIuFOrH37K
+ l3PdGkAdhq7F9LSR598ZqFlwu19FE8FECT4ACeRNrc2W9jkqq8wj2rzUnwEaUDfNk9g4
+ LSor028VvmyoE2B0pF+51KCWk4l3m5u/4yRBJkdpDXMwJqwLYDrjLr6AzOe+B1/FkhMe
+ aR6g==
+X-Gm-Message-State: AOAM531ywoRJ8gV5/RKxA1ddrvHFOPJGyE6SSYpd0AEhtHcDu5VEK5WS
+ FhC0ljHvf/w8wWKkRksOmY28wwZB05kgog==
+X-Google-Smtp-Source: ABdhPJys05Nx44k2/YA4bFn0lVmiyhiBkiiiUeVjbgCiblEFJcCoMJJeP5wroYvx6LTGnNfpwItZ2A==
+X-Received: by 2002:a05:6000:1a87:b0:20a:7ea5:2aef with SMTP id
+ f7-20020a0560001a8700b0020a7ea52aefmr3034302wry.666.1650621877913; 
  Fri, 22 Apr 2022 03:04:37 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.36
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:04:36 -0700 (PDT)
+ Fri, 22 Apr 2022 03:04:37 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/61] hw/intc/arm_gicv3: Sanity-check num-cpu property
-Date: Fri, 22 Apr 2022 11:03:33 +0100
-Message-Id: <20220422100432.2288247-3-peter.maydell@linaro.org>
+Subject: [PULL 03/61] hw/intc/arm_gicv3: Insist that redist region capacity
+ matches CPU count
+Date: Fri, 22 Apr 2022 11:03:34 +0100
+Message-Id: <20220422100432.2288247-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,32 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the GICv3 code we implicitly rely on there being at least one CPU
-and thus at least one redistributor and CPU interface.  Sanity-check
-that the property the board code sets is not zero.
+Boards using the GICv3 need to configure it with both the total
+number of CPUs and also the sizes of all the memory regions which
+contain redistributors (one redistributor per CPU).  At the moment
+the GICv3 checks that the number of CPUs specified is not too many to
+fit in the defined redistributor regions, but in fact the code
+assumes that the two match exactly.  For instance when we set the
+GICR_TYPER.Last bit on the final redistributor in each region, we
+assume that we don't need to consider the possibility of a region
+being only half full of redistributors or even completely empty.  We
+also assume in gicv3_redist_read() and gicv3_redist_write() that we
+can calculate the CPU index from the offset within the MemoryRegion
+and that this will always be in range.
+
+Fortunately all the board code sets the redistributor region sizes to
+exactly match the CPU count, so this isn't a visible bug.  We could
+in theory make the GIC code handle non-full redistributor regions, or
+have it automatically reduce the provided region sizes to match the
+CPU count, but the simplest thing is just to strengthen the error
+check and insist that the CPU count and redistributor region size
+settings match exactly, since all the board code does that anyway.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220408141550.1271295-3-peter.maydell@linaro.org
+Message-id: 20220408141550.1271295-4-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_common.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/intc/arm_gicv3_common.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 4ca5ae9bc56..90204be25b6 100644
+index 90204be25b6..c797c82786b 100644
 --- a/hw/intc/arm_gicv3_common.c
 +++ b/hw/intc/arm_gicv3_common.c
-@@ -328,6 +328,10 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
-                    s->num_irq, GIC_INTERNAL);
+@@ -354,9 +354,9 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < s->nb_redist_regions; i++) {
+         rdist_capacity += s->redist_region_count[i];
+     }
+-    if (rdist_capacity < s->num_cpu) {
++    if (rdist_capacity != s->num_cpu) {
+         error_setg(errp, "Capacity of the redist regions(%d) "
+-                   "is less than number of vcpus(%d)",
++                   "does not match the number of vcpus(%d)",
+                    rdist_capacity, s->num_cpu);
          return;
      }
-+    if (s->num_cpu == 0) {
-+        error_setg(errp, "num-cpu must be at least 1");
-+        return;
-+    }
- 
-     /* ITLinesNumber is represented as (N / 32) - 1, so this is an
-      * implementation imposed restriction, not an architectural one,
 -- 
 2.25.1
 
