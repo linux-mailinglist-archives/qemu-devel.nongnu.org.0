@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114B850B953
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:58:18 +0200 (CEST)
-Received: from localhost ([::1]:43500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E121650B965
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 16:02:40 +0200 (CEST)
+Received: from localhost ([::1]:47566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhtnc-0005wr-Tz
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:58:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38742)
+	id 1nhtrs-0000mb-1G
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 10:02:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhtm5-00051y-1b
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:56:41 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:44855)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nhtoG-0007RV-NA
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:58:57 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhtm3-000641-Eg
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:56:40 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-2eafabbc80aso85949847b3.11
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 06:56:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nhtoE-0006Ez-FH
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:58:55 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id x18so11233350wrc.0
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 06:58:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zsBKZcluOR/vrhg+g+i/GRR7HofGxorLIVtF+XZIvSo=;
- b=oxxHc0HWEJTFuq223cKs8CjHW2v3ydA542rFuIu5Wrc4FjjALZNOg4uAgVnwpTFpKD
- +6tkGxpIvhb2fTf+kZrME1diZykfH+Txvw4ax06mIGefwpQr7N4VqZB3gPfeSSp5iDsM
- 8+MTIaoD/b3A11l0PoUEm/YukH/Hk2AXpm06qEgI6siB1n28bFGD4omb9+9w0Q7KHqBn
- 9un7SuSXCelCNLOcWQ2R/3F8irNrp5B/C9BXbg6Qphwy9lFExSzivhclGET6psqzF1It
- Ns8jHUbJDuhuCQ8LlqDkBeEOZVC2H0Ns3cTLf5nfsALx5/0Au/VeEelIpc30/4neSu4P
- zMHA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=5FB1ThhI6Y5OjYAlQpKk8M6+YZ6GDZETZ9Ra9wg6zd8=;
+ b=I9eeNj8kXDeFSIKAykybXKA2zANBnQlCBZm1ZeQhZQn5nCCIdncXur6WdEzFsbWIpI
+ VCysqjmXSgadsbdNwCelk22+gmJqKqa3SBDuIP92SVXLty/VyqFyNhEILkdf4REFuG6D
+ rx3rJj2PVEIY8IzANUMAxMQ3CjyobCW97Iy7svv/jhViu2lrmI++qMu0Et+0WMLre3PT
+ mH4kG6j/lmxTtUdBAC/IuRi3W29+fNdY2XWcZRQk7WQ5Wx7YPmb5zOK072QnEDORWxDO
+ dDixAzkoh4RuyXnmurNdmay7n7MecBHOLXakcNIPAl6mg6X4BApIytWhDRn9OlJHwzjh
+ 6l4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zsBKZcluOR/vrhg+g+i/GRR7HofGxorLIVtF+XZIvSo=;
- b=nYmBI0VCWcua1aKoHAkSHA/xD5HUzFvoNJzJ8Gx7uUG0Vk3uRJA2X3NJUPibaQ6ygw
- qBwQVRW/Gq9zt5gekW2Cxpyo0kUgBGrWsmapZ46eZ57cIFFLd2pp0nspcy7ODUuwPMvI
- wh2lgaG2NEuKSQikfgeci0hLAVRXOpIjgB9Gqp0YRE6EgJoH3HbcH8bqb9ASXrMYLWkl
- krOgviLPW+19zU6/1l6D8mDhnYiV9wyGUh7smpOO7tXZpgnxH3hgrQfxegAl+Tp4cmEB
- y+Y8/lJPisCJrFKN005lIeDw+F0x5deVWn8jPEvZd9NULvKWqsWBA4HlgOtzYB6HuoRH
- x4TA==
-X-Gm-Message-State: AOAM531T0dij/v1q/+KRec4XtMuNQatnEP4yjfD5BsxmCMZ+NoutOdDw
- nTiSjtd9gTXkIE9eyEnBW92Sl2JfG3xn7OgPHAjwiA==
-X-Google-Smtp-Source: ABdhPJw39edtpTr8/guf2d/vGBOYKw0ANVx77f9/bGgH9OK5tkC5bqmtOQIUYBpRtdiQq+MZ11NiU4fbIvPB1eKaGZc=
-X-Received: by 2002:a0d:fc83:0:b0:2e5:b0f4:c125 with SMTP id
- m125-20020a0dfc83000000b002e5b0f4c125mr4860448ywf.347.1650635787774; Fri, 22
- Apr 2022 06:56:27 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=5FB1ThhI6Y5OjYAlQpKk8M6+YZ6GDZETZ9Ra9wg6zd8=;
+ b=Zz0yk0Vpkm0Wj3VeRM+Al5Gv0c9rucZOBNQs0AZ1VZjENhQnP0+NGopU5QL/wXI9SR
+ Ho6JG0j1895oeI5ien8d74Rm+pIIyohAP5SYDgTNK5g+1wCCZZKvWvrb8csk9wox3JH2
+ DCNW7sNl2zmljqgmp/Nl7m+Pf69af/YlPw0L5zRPjwo+xXRLBOYCWTcMCzLVVimWWiWq
+ HHl1lKKFpYmCmOw5GBtGpQIly55tyur2ptztexGiIE40rV+J9hJ6BhzSy3MuN07Uanqv
+ mLN8bUnhsPtzHGKzJfa5mL8/wxitObTxwxLvTpDGjFgSQ2QXV/TIyvHAbCjZLeSPGZtk
+ O0kg==
+X-Gm-Message-State: AOAM531a18g3KP0KIDSft8ikRh+xJstdL3dSlc6v4tgdnN7KQUzEqOlH
+ 94T6LK37FcTEtdgNI9seueKEtg==
+X-Google-Smtp-Source: ABdhPJx/qhdkiUi+I5F/SwOVxCQ4PjnCAZ9Lu6wGvtWpVwheAi1+unmQVaOoUaymmeOykkHIHY57Ug==
+X-Received: by 2002:adf:e112:0:b0:206:d12:9c3a with SMTP id
+ t18-20020adfe112000000b002060d129c3amr3825686wrz.391.1650635932490; 
+ Fri, 22 Apr 2022 06:58:52 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ m6-20020a05600c4f4600b003918d69b334sm5005544wmq.42.2022.04.22.06.58.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 06:58:51 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5E99E1FFB7;
+ Fri, 22 Apr 2022 14:58:50 +0100 (BST)
+References: <20220417174426.711829-1-richard.henderson@linaro.org>
+ <20220417174426.711829-8-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.13; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 07/60] target/arm: Extend store_cpu_offset to take
+ field size
+Date: Fri, 22 Apr 2022 14:58:39 +0100
+In-reply-to: <20220417174426.711829-8-richard.henderson@linaro.org>
+Message-ID: <87a6cdusmd.fsf@linaro.org>
 MIME-Version: 1.0
-References: <cover.1650633281.git.balaton@eik.bme.hu>
- <b2729322770e17a12709f2abc5b4789fd51bc034.1650633281.git.balaton@eik.bme.hu>
-In-Reply-To: <b2729322770e17a12709f2abc5b4789fd51bc034.1650633281.git.balaton@eik.bme.hu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Apr 2022 14:56:16 +0100
-Message-ID: <CAFEAcA8nbyPHSfWx34se2k5nf6jhqzvj6dzBVfs=Wqs7m4va5w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] hw/audio/ac97: Remove unneeded local variables
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,23 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Apr 2022 at 14:42, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
-> Several functions have a local variable that is just a copy of one of
-> the function parameters. This is unneeded complication so just get rid
-> of these.
->
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  hw/audio/ac97.c | 102 +++++++++++++++++++++++-------------------------
->  1 file changed, 49 insertions(+), 53 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-thanks
--- PMM
+> Currently we assume all fields are 32-bit.
+> Prepare for fields of a single byte, using sizeof.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
