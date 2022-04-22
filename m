@@ -2,68 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48C750ACD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 02:35:44 +0200 (CEST)
-Received: from localhost ([::1]:43842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1595250ACDD
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 02:39:54 +0200 (CEST)
+Received: from localhost ([::1]:49358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhhGx-0004Y6-9J
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 20:35:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60488)
+	id 1nhhKy-00005Z-UM
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 20:39:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nhhFr-0003lF-Fn; Thu, 21 Apr 2022 20:34:35 -0400
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:45739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nhhFp-0004ii-Fd; Thu, 21 Apr 2022 20:34:35 -0400
-Received: by mail-io1-xd2e.google.com with SMTP id z19so2506376iof.12;
- Thu, 21 Apr 2022 17:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=amuhzqMnQs86kjPrC1ovZlx0KU56oQYX2hp9oDU/moA=;
- b=NY5+LWtszqQ89esRxQf9Jw47lkxgNCJijPwyDy/aON5gJA530RTHyhvBQt1TJimRTg
- ZOQYRgBBJF13V/LYZbHgEAO6e8yrGX6vm7+NnGiJJvM9Z6GLASy8KUCnBu7J/Vj2yZqo
- Hm68+t3y5lO2sUCK6pLx0/Rg4lh1DR4xlY7f6EdjdU2yg1xfy19H3OPqN9gQceRpHALL
- XHFB3TLwZr5XbRPbuMznCBlZByKdYCTR2VgQdPuMT37FZ1z+RVjTa+o8l88IaVH1SEZN
- b5COn6VooZSuB+56EHqB9R1sgMSk+bGKNgsVRDyMV+ns9TY/AzZzFWowwaL4wvkJv7L3
- 15cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=amuhzqMnQs86kjPrC1ovZlx0KU56oQYX2hp9oDU/moA=;
- b=mjSIflnAZ82tq8XCrcoS8n83f4aZ3OySnmkjEKjUtn6GMDDVIUAnwgqgr8K8FJ9qf+
- +Xc8zLFLhw9JOg82Lh8HHhEifglCn6vH5DPD7pRHUB4OpTUNL4Y17ELTm9mkxL2oA1tQ
- 7Eb5dYOJ69LDPppzCXNgMrqbSDaH9vVXsNaQk1dgVKMl8VR7psTZ2YdDaHPBtxzvBiOr
- JwLDFKfo03V7OUs3XpPJc8PoUVfpTEmidl36Cm8nQW85X+3gRdn1HpJ6NA2ag9AAHFt2
- 9uP2zt4CfQR6pqvvlLN9wEYPMdqA1ZZOcRCc507YDEEuEKlbqR40J4oMw+jFQZvUQbJ4
- qZPg==
-X-Gm-Message-State: AOAM5329KiYpYQX0yjz3MLNlptvnquwlEsKdyxvBUqYAJ6pLxLV6E7EM
- hH8H54i2GTlisLuRevnXH4TXvMe354kChWDfEss=
-X-Google-Smtp-Source: ABdhPJz+s9jy35bS81EgLv8ELqj+/xXiKCR0rzG5lU2wprd699h8B/4V9fA+2CcZVmd7X8W8FmpzMkwIWTPOwwblrz0=
-X-Received: by 2002:a05:6638:480a:b0:326:8244:3a1f with SMTP id
- cp10-20020a056638480a00b0032682443a1fmr1073166jab.21.1650587669730; Thu, 21
- Apr 2022 17:34:29 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=1041ecfe3=alistair.francis@opensource.wdc.com>)
+ id 1nhhIP-00060J-0W
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:37:13 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:55685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=1041ecfe3=alistair.francis@opensource.wdc.com>)
+ id 1nhhIL-0005F4-QH
+ for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:37:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1650587830; x=1682123830;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=v9XEUy2UqydQvkB08qTzjRZX4Md4dLheFlYZnAIIrIk=;
+ b=pvcTG+NVG1X8NZuMPzqF5ewehtbTk0yJKG4/RavO9OOzHWNu9Rhe8a9x
+ gmAXsjcrPyRvzHtIjJSP31QlyQG1Krpr0hKse5KSevBTrYpPU/mDrr6z4
+ yYY0FOvk5JkU2zSum0nN5xHk8GiHY5xHgztkC7PSW3/5V0T8Ou0ajfHFD
+ M/VwnpivscOrjpxc08ruM6dgWXko9gdcCfXpXUrAzAx7bhQr7wV4TMUQ2
+ ccTpMZ4XwcSh7HboNt4TIm46/3apzsC4wGGo3a9k3jmVP9kVeGJFc6lTb
+ 6cU/4acRopV15PaYp9ATUOOT/n8yLv9uSyn/s9HPQmHJiVUbiwlHcvJTO A==;
+X-IronPort-AV: E=Sophos;i="5.90,280,1643644800"; d="scan'208";a="199409752"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 22 Apr 2022 08:37:07 +0800
+IronPort-SDR: Ujf5UgME12Obgd2VmoqoOqtSz3k+aj94AbdW03EnOss4X5ViPD+VK3FdFJWIQKnKjZlPtCGgpb
+ IZy+gmwzmKiCkKOhAu46WwHOo1ZJ+z9jzoRrn2dNOH/P/pB0n1WO3UXUWmkuL6iyyZpNhPIUY9
+ FTkBFGATmH2UdTT/zdf2kivn88vuWoP9IMBiIiZU50Ob88hS1Mho5llKAX5EG+dWES+LGxmlRs
+ NNGrgIxa7PUBemwYAcLY48Qza3sgF/hz0nzZIOzKDJPfhi5mKLR9M+DKMd035MiFzwKBcfi6ON
+ q7Qee1PbDPSttgKlZgsV0za6
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 21 Apr 2022 17:07:23 -0700
+IronPort-SDR: C5Q+kaKj3zpHQC1vAc5m7I2CMo1jyM6EK/zAK1n0ilzRjEEpcn5UyQBuwxrWK0T4/mk0f+0Nq4
+ z/pwhEzWcEJoPONVrGp3tE82RHwoLC0+JkHRSBffuzjQg/nukB15zqK2W4geK+mMwkbhXKNG2a
+ qjNZa1t/yj8KIEjGIJGhTJAO4Pwui26XGV7hrSQ5GNsBTsI2rsolt8unA/+nV//oFPGwqMx6ru
+ bjwaEpgyHaprd5ulKtQUN4WcKqV+84RAY0eXn3l/Nt2oNgy9EX36sHnoD59eZtquHiA0F3FWZJ
+ I14=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 21 Apr 2022 17:37:07 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkwTZ35kjz1SVnx
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 17:37:06 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1650587825; x=1653179826; bh=v9XEUy2UqydQvkB08qTzjRZX4Md4dLhe
+ FlYZnAIIrIk=; b=AQYo37iTC+W4JnZqNezrzv+YjJTBpCGzbCQc8OC8aBrtzZWT
+ sl1AYRFP9nqX7fvIYMCNYHuzS0S5L3l81tgm+WoluCFzklKZGffeiu27KrlgKCrq
+ koC/+NH9j1oYCKZm0zTe/8+XCBsuEYlA2ncHrH5Q4p+R+Y0m+QlIQuEnjowjw1GK
+ Q09pZWTVd/YlIgUWvvf8hsXosHOSgf4Jd1jOxDui4gcuVa+bEZk8b8TAY9Wb+bxw
+ bxJ+zbjqL5cXR6YJrhaqoNIboOe4D+PYw3AOIzVUGR8UQzOVHjpdfTasUW7h0Zly
+ O3+3LnIuOPdtPLWJLybbfsGkVdhUrNLTMitiug==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id FZuF8Tl7sWnK for <qemu-devel@nongnu.org>;
+ Thu, 21 Apr 2022 17:37:05 -0700 (PDT)
+Received: from toolbox.wdc.com (unknown [10.225.165.120])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkwTX08GLz1Rvlx;
+ Thu, 21 Apr 2022 17:37:03 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL v2 00/31] riscv-to-apply queue
+Date: Fri, 22 Apr 2022 10:36:25 +1000
+Message-Id: <20220422003656.1648121-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220419014847.9722-1-liweiwei@iscas.ac.cn>
- <20220419014847.9722-13-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220419014847.9722-13-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 22 Apr 2022 10:34:03 +1000
-Message-ID: <CAKmqyKO_O0Rt6=B__rCH5NAmyHkaiO7wyX28aq53SDwenspUFw@mail.gmail.com>
-Subject: Re: [PATCH v11 12/14] target/riscv: rvk: add CSR support for Zkr
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=1041ecfe3=alistair.francis@opensource.wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,217 +111,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, lustrew@foxmail.com,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
- Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 19, 2022 at 12:06 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
->  - add SEED CSR which must be accessed with a read-write instruction:
->    A read-only instruction such as CSRRS/CSRRC with rs1=x0 or CSRRSI/CSRRCI
-> with uimm=0 will raise an illegal instruction exception.
->  - add USEED, SSEED fields for MSECCFG CSR
->
-> Co-authored-by: Ruibo Lu <luruibo2000@163.com>
-> Co-authored-by: Zewen Ye <lustrew@foxmail.com>
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+The following changes since commit da5006445a92bb7801f54a93452fac63ca2f63=
+4c:
 
-Alistair
+  Merge tag 'python-pull-request' of https://gitlab.com/jsnow/qemu into s=
+taging (2022-04-21 15:16:52 -0700)
 
-> ---
->  target/riscv/cpu_bits.h  |  9 +++++
->  target/riscv/csr.c       | 80 ++++++++++++++++++++++++++++++++++++++++
->  target/riscv/op_helper.c |  9 +++++
->  target/riscv/pmp.h       |  8 ++--
->  4 files changed, 103 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index bb47cf7e77..d401100f47 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -458,6 +458,9 @@
->  #define CSR_VSPMMASK        0x2c1
->  #define CSR_VSPMBASE        0x2c2
->
-> +/* Crypto Extension */
-> +#define CSR_SEED            0x015
-> +
->  /* mstatus CSR bits */
->  #define MSTATUS_UIE         0x00000001
->  #define MSTATUS_SIE         0x00000002
-> @@ -800,4 +803,10 @@ typedef enum RISCVException {
->  #define HVICTL_VALID_MASK                  \
->      (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
->
-> +/* seed CSR bits */
-> +#define SEED_OPST                        (0b11 << 30)
-> +#define SEED_OPST_BIST                   (0b00 << 30)
-> +#define SEED_OPST_WAIT                   (0b01 << 30)
-> +#define SEED_OPST_ES16                   (0b10 << 30)
-> +#define SEED_OPST_DEAD                   (0b11 << 30)
->  #endif
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e10f691a99..865ffb36ce 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -24,6 +24,8 @@
->  #include "qemu/main-loop.h"
->  #include "exec/exec-all.h"
->  #include "sysemu/cpu-timers.h"
-> +#include "qemu/guest-random.h"
-> +#include "qapi/error.h"
->
->  /* CSR function table public API */
->  void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops)
-> @@ -301,6 +303,46 @@ static RISCVException debug(CPURISCVState *env, int csrno)
->  }
->  #endif
->
-> +static RISCVException seed(CPURISCVState *env, int csrno)
-> +{
-> +    RISCVCPU *cpu = env_archcpu(env);
-> +
-> +    if (!cpu->cfg.ext_zkr) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +#if !defined(CONFIG_USER_ONLY)
-> +    /*
-> +     * With a CSR read-write instruction:
-> +     * 1) The seed CSR is always available in machine mode as normal.
-> +     * 2) Attempted access to seed from virtual modes VS and VU always raises
-> +     * an exception(virtual instruction exception only if mseccfg.sseed=1).
-> +     * 3) Without the corresponding access control bit set to 1, any attempted
-> +     * access to seed from U, S or HS modes will raise an illegal instruction
-> +     * exception.
-> +     */
-> +    if (env->priv == PRV_M) {
-> +        return RISCV_EXCP_NONE;
-> +    } else if (riscv_cpu_virt_enabled(env)) {
-> +        if (env->mseccfg & MSECCFG_SSEED) {
-> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> +        } else {
-> +            return RISCV_EXCP_ILLEGAL_INST;
-> +        }
-> +    } else {
-> +        if (env->priv == PRV_S && (env->mseccfg & MSECCFG_SSEED)) {
-> +            return RISCV_EXCP_NONE;
-> +        } else if (env->priv == PRV_U && (env->mseccfg & MSECCFG_USEED)) {
-> +            return RISCV_EXCP_NONE;
-> +        } else {
-> +            return RISCV_EXCP_ILLEGAL_INST;
-> +        }
-> +    }
-> +#else
-> +    return RISCV_EXCP_NONE;
-> +#endif
-> +}
-> +
->  /* User Floating-Point CSRs */
->  static RISCVException read_fflags(CPURISCVState *env, int csrno,
->                                    target_ulong *val)
-> @@ -3014,6 +3056,41 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
->
->  #endif
->
-> +/* Crypto Extension */
-> +static RISCVException rmw_seed(CPURISCVState *env, int csrno,
-> +                               target_ulong *ret_value,
-> +                               target_ulong new_value,
-> +                               target_ulong write_mask)
-> +{
-> +    uint16_t random_v;
-> +    Error *random_e = NULL;
-> +    int random_r;
-> +    target_ulong rval;
-> +
-> +    random_r = qemu_guest_getrandom(&random_v, 2, &random_e);
-> +    if (unlikely(random_r < 0)) {
-> +        /*
-> +         * Failed, for unknown reasons in the crypto subsystem.
-> +         * The best we can do is log the reason and return a
-> +         * failure indication to the guest.  There is no reason
-> +         * we know to expect the failure to be transitory, so
-> +         * indicate DEAD to avoid having the guest spin on WAIT.
-> +         */
-> +        qemu_log_mask(LOG_UNIMP, "%s: Crypto failure: %s",
-> +                      __func__, error_get_pretty(random_e));
-> +        error_free(random_e);
-> +        rval = SEED_OPST_DEAD;
-> +    } else {
-> +        rval = random_v | SEED_OPST_ES16;
-> +    }
-> +
-> +    if (ret_value) {
-> +        *ret_value = rval;
-> +    }
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
->  /*
->   * riscv_csrrw - read and/or update control and status register
->   *
-> @@ -3258,6 +3335,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_TIME]  = { "time",  ctr,   read_time  },
->      [CSR_TIMEH] = { "timeh", ctr32, read_timeh },
->
-> +    /* Crypto Extension */
-> +    [CSR_SEED] = { "seed", seed, NULL, NULL, rmw_seed },
-> +
->  #if !defined(CONFIG_USER_ONLY)
->      /* Machine Timers and Counters */
->      [CSR_MCYCLE]    = { "mcycle",    any,   read_instret  },
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index e0d708091e..3d8443416d 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -39,6 +39,15 @@ void helper_raise_exception(CPURISCVState *env, uint32_t exception)
->
->  target_ulong helper_csrr(CPURISCVState *env, int csr)
->  {
-> +    /*
-> +     * The seed CSR must be accessed with a read-write instruction. A
-> +     * read-only instruction such as CSRRS/CSRRC with rs1=x0 or CSRRSI/
-> +     * CSRRCI with uimm=0 will raise an illegal instruction exception.
-> +     */
-> +    if (csr == CSR_SEED) {
-> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-> +    }
-> +
->      target_ulong val = 0;
->      RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0, false);
->
-> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-> index fcb6b7c467..a8dd797476 100644
-> --- a/target/riscv/pmp.h
-> +++ b/target/riscv/pmp.h
-> @@ -39,9 +39,11 @@ typedef enum {
->  } pmp_am_t;
->
->  typedef enum {
-> -    MSECCFG_MML  = 1 << 0,
-> -    MSECCFG_MMWP = 1 << 1,
-> -    MSECCFG_RLB  = 1 << 2
-> +    MSECCFG_MML   = 1 << 0,
-> +    MSECCFG_MMWP  = 1 << 1,
-> +    MSECCFG_RLB   = 1 << 2,
-> +    MSECCFG_USEED = 1 << 8,
-> +    MSECCFG_SSEED = 1 << 9
->  } mseccfg_field_t;
->
->  typedef struct {
-> --
-> 2.17.1
->
->
+are available in the Git repository at:
+
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220422-1
+
+for you to fetch changes up to faee5441a038898f64b335dbaecab102ba406552:
+
+  hw/riscv: boot: Support 64bit fdt address. (2022-04-22 10:35:16 +1000)
+
+----------------------------------------------------------------
+First RISC-V PR for QEMU 7.1
+
+ * Add support for Ibex SPI to OpenTitan
+ * Add support for privileged spec version 1.12.0
+ * Use privileged spec version 1.12.0 for virt machine by default
+ * Allow software access to MIP SEIP
+ * Add initial support for the Sdtrig extension
+ * Optimisations for vector extensions
+ * Improvements to the misa ISA string
+ * Add isa extenstion strings to the device tree
+ * Don't allow `-bios` options with KVM machines
+ * Fix NAPOT range computation overflow
+ * Fix DT property mmu-type when CPU mmu option is disabled
+ * Make RISC-V ACLINT mtime MMIO register writable
+ * Add and enable native debug feature
+ * Support 64bit fdt address.
+
+----------------------------------------------------------------
+Alistair Francis (2):
+      target/riscv: cpu: Fixup indentation
+      target/riscv: Allow software access to MIP SEIP
+
+Atish Patra (7):
+      target/riscv: Define simpler privileged spec version numbering
+      target/riscv: Add the privileged spec version 1.12.0
+      target/riscv: Introduce privilege version field in the CSR ops.
+      target/riscv: Add support for mconfigptr
+      target/riscv: Add *envcfg* CSRs support
+      target/riscv: Enable privileged spec version 1.12
+      target/riscv: Add isa extenstion strings to the device tree
+
+Bin Meng (7):
+      target/riscv: Add initial support for the Sdtrig extension
+      target/riscv: debug: Implement debug related TCGCPUOps
+      target/riscv: cpu: Add a config option for native debug
+      target/riscv: csr: Hook debug CSR read/write
+      target/riscv: machine: Add debug state description
+      target/riscv: cpu: Enable native debug feature
+      hw/core: tcg-cpu-ops.h: Update comments of debug_check_watchpoint()
+
+Dylan Jhong (1):
+      hw/riscv: boot: Support 64bit fdt address.
+
+Frank Chang (3):
+      hw/intc: Add .impl.[min|max]_access_size declaration in RISC-V ACLI=
+NT
+      hw/intc: Support 32/64-bit mtimecmp and mtime accesses in RISC-V AC=
+LINT
+      hw/intc: Make RISC-V ACLINT mtime MMIO register writable
+
+Jim Shu (1):
+      hw/intc: riscv_aclint: Add reset function of ACLINT devices
+
+Nicolas Pitre (1):
+      target/riscv/pmp: fix NAPOT range computation overflow
+
+Niklas Cassel (1):
+      hw/riscv: virt: fix DT property mmu-type when CPU mmu option is dis=
+abled
+
+Ralf Ramsauer (1):
+      hw/riscv: virt: Exit if the user provided -bios in combination with=
+ KVM
+
+Richard Henderson (1):
+      target/riscv: Use cpu_loop_exit_restore directly from mmu faults
+
+Tsukasa OI (1):
+      target/riscv: misa to ISA string conversion fix
+
+Weiwei Li (3):
+      target/riscv: optimize condition assign for scale < 0
+      target/riscv: optimize helper for vmv<nr>r.v
+      target/riscv: fix start byte for vmv<nf>r.v when vstart !=3D 0
+
+Wilfred Mallawa (2):
+      hw/ssi: Add Ibex SPI device model
+      riscv: opentitan: Connect opentitan SPI Host
+
+ include/hw/core/tcg-cpu-ops.h           |   1 +
+ include/hw/intc/riscv_aclint.h          |   1 +
+ include/hw/riscv/boot.h                 |   4 +-
+ include/hw/riscv/opentitan.h            |  30 +-
+ include/hw/ssi/ibex_spi_host.h          |  94 +++++
+ target/riscv/cpu.h                      |  40 ++-
+ target/riscv/cpu_bits.h                 |  40 +++
+ target/riscv/debug.h                    | 114 ++++++
+ target/riscv/helper.h                   |   5 +-
+ hw/intc/riscv_aclint.c                  | 144 ++++++--
+ hw/riscv/boot.c                         |  12 +-
+ hw/riscv/opentitan.c                    |  36 +-
+ hw/riscv/virt.c                         |  24 +-
+ hw/ssi/ibex_spi_host.c                  | 612 ++++++++++++++++++++++++++=
+++++++
+ target/riscv/cpu.c                      | 120 ++++++-
+ target/riscv/cpu_helper.c               |  10 +-
+ target/riscv/csr.c                      | 282 +++++++++++++--
+ target/riscv/debug.c                    | 441 +++++++++++++++++++++++
+ target/riscv/machine.c                  |  55 +++
+ target/riscv/pmp.c                      |  14 +-
+ target/riscv/vector_helper.c            |  31 +-
+ target/riscv/insn_trans/trans_rvv.c.inc |  25 +-
+ hw/ssi/meson.build                      |   1 +
+ hw/ssi/trace-events                     |   7 +
+ target/riscv/meson.build                |   1 +
+ 25 files changed, 1971 insertions(+), 173 deletions(-)
+ create mode 100644 include/hw/ssi/ibex_spi_host.h
+ create mode 100644 target/riscv/debug.h
+ create mode 100644 hw/ssi/ibex_spi_host.c
+ create mode 100644 target/riscv/debug.c
 
