@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A6B50B5D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 13:01:08 +0200 (CEST)
-Received: from localhost ([::1]:33944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5A150B524
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:35:24 +0200 (CEST)
+Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhr2B-0007xH-Rp
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 07:01:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58562)
+	id 1nhqdH-00018V-TO
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:35:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9r-0004Zm-7M
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:59 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:33760)
+ id 1nhq9t-0004ev-Bw
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:01 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9p-0002dW-Ai
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:58 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- l3-20020a05600c1d0300b0038ff89c938bso4849676wms.0
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:56 -0700 (PDT)
+ id 1nhq9q-0002do-CL
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:05:01 -0400
+Received: by mail-wr1-x429.google.com with SMTP id w4so10277872wrg.12
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SsmXZg+uwjL7FCu6QoUQXU4qkVe/XwjPaQqP4D8bLQU=;
- b=yBqv585d25wr3ORR9wOllFEzGHe4WXeipZTf8Ua5KXmMTdF9hIAcOY7bB6bZYIewpA
- zoVcBh919xIv7cWh/e8KebzL53tatn6zZsMqzVQDTRDqjljkPei8C9PDI7jUsYn4UHGA
- qRYhHTYnghCXgqBd2UwVDKqwD3ATC8dek2xomwobVQwELxEgetY7CEqO1H7+PNbIR0fz
- SN30wuJjlM7gHkJvEURJCxaPnzUMSEfm6BtAOEb4ugpD0z9DrW97Nqj2GvejjjwLC06Y
- mfo7ApRJQ7G492Eqj/3KwhKsU9gfr4SAZNgghVlDZMV8eqsIQveGPmQv7xZ4tBrhpU9K
- DRSg==
+ bh=OUTDe5oYT3hUigG/8y80ols+FyBgd0MbuwPZpWR766U=;
+ b=fIabD+F7/FgPDyoEr/hzppsEQ/zLetXTAt+nHVzkqexcB7SeBwG93htkn7Dz6LQllq
+ aXTUzuxqB+ZuK3rMU9jMR29ir0u7j3vawkLGqjzocwEdMPXsYL7UoFetYMbU4Sa/PL88
+ ooxcFWUi8nUK0YYGPQ7adVllJSj5PsCUUQ+8Q4+jC5uRGPD87ISyICuRdkGDs0+bITWu
+ lJymSsFviXa7PAxj00OhM4k3tp69oxyfhwVALBipGLzJ74zFqdYBJYfe+HUIXe9RQW5s
+ u2L5vx/h0tEjWHv4vLA0KHfXq3f3FfKsIFE55DYAaWEXseWnTBDrQAtWtsCehJEm9zj/
+ E1Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SsmXZg+uwjL7FCu6QoUQXU4qkVe/XwjPaQqP4D8bLQU=;
- b=MyAY6HO4QjNQOkC4GWneUjQPYrySFTONZZ+POHCuBWIFwGiRj4XVMFjMFv1hDzQr+4
- t8pvIEIMlWetj4tyKq9B2iXnl3MoceTnUJQ5sv0tibXJbxVT0GAu3W2J5RlyxB0Kp7p6
- b6y5357L1jio9SNKbCona2HvBV4gAcYfZxEMquOj1YdEel2iitAhbq6brj1Kch2ZF6La
- 0guRSJvN6728d3ul6RsKvPcqmgEalnira59jDR3j7lUvnXZg14H9BSFkFtS09QKNCB/s
- 9bi5WhXBujtXsuaFV3Cymk7jU4PO23rXivDD+k0ku6IQcE0Miynale+unoiXHghdUSon
- sknw==
-X-Gm-Message-State: AOAM530neBDcjqFSeElaZVXTCR+EcpB0zQoe81bjrbXmQR+HIhqph3v7
- hcz8oDGaQNScj0EeaaOE/OniVVIsozXbaA==
-X-Google-Smtp-Source: ABdhPJwHVafKn5Dm/FNZRFoemfYZ5+KnzzPs2n8vmcraSV/tlq1r8I31/GdK145bKDjp6ObOXocwnw==
-X-Received: by 2002:a1c:2904:0:b0:37b:ea53:4cbf with SMTP id
- p4-20020a1c2904000000b0037bea534cbfmr3428072wmp.46.1650621895704; 
- Fri, 22 Apr 2022 03:04:55 -0700 (PDT)
+ bh=OUTDe5oYT3hUigG/8y80ols+FyBgd0MbuwPZpWR766U=;
+ b=mEoo4zPhbZeu2tA+l+K+7YP2WsH6sTU2DNfzB3beq9EiB8lVOn9WxjuNUD7u7mXDqm
+ yMeFDb5ntv6JiVlZEcmrt+IkwiOTmrABGCC+KqOVrrdx6hwMIEZ/9sCZOGiwGOBLEMuw
+ nfmvW5AZyn+YPXpW51dw0qeyZXQ3A2tl6xyhVeO1hCFaWR1RciwqMGHt+Enw2iSLL945
+ xRA3c5y8CpjcfD3z+f9D+b0lQQv2JhcfJ1ZmsODeuCDsjWoO8o46yWnqrB2wC2wM7sbF
+ cRi5IDPthHHowcULPGJ+b25ttpGyFrFRW2zQra/qe+0NlXaU4xWg0ebg8NcIG0OGqeHF
+ ZnWg==
+X-Gm-Message-State: AOAM532KPxugt1dNjxryhIJ1NVr8M+VCfy8SnFElBrkmLeS34bgJImjx
+ Kdk1tRfVHgz48FoEsZzU8pn9PkNJj230hA==
+X-Google-Smtp-Source: ABdhPJxIzQ2qFEQz4m2wO6VKzGA0qq+PaxSQQ2YAUQEkrE6asIoiSJIRtLLFgmvM0MHNvlbE2pWV2A==
+X-Received: by 2002:adf:eacf:0:b0:20a:c8c4:ac51 with SMTP id
+ o15-20020adfeacf000000b0020ac8c4ac51mr2077635wrn.510.1650621896626; 
+ Fri, 22 Apr 2022 03:04:56 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.54
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 03:04:55 -0700 (PDT)
+ Fri, 22 Apr 2022 03:04:56 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/61] hw/intc/arm_gicv3: Implement new GICv4 redistributor
- registers
-Date: Fri, 22 Apr 2022 11:03:54 +0100
-Message-Id: <20220422100432.2288247-24-peter.maydell@linaro.org>
+Subject: [PULL 24/61] hw/intc/arm_gicv3_cpuif: Split "update vIRQ/vFIQ" from
+ gicv3_cpuif_virt_update()
+Date: Fri, 22 Apr 2022 11:03:55 +0100
+Message-Id: <20220422100432.2288247-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,220 +89,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the new GICv4 redistributor registers: GICR_VPROPBASER
-and GICR_VPENDBASER; for the moment we implement these as simple
-reads-as-written stubs, together with the necessary migration
-and reset handling.
-
-We don't put ID-register checks on the handling of these registers,
-because they are all in the only-in-v4 extra register frames, so
-they're not accessible in a GICv3.
+The function gicv3_cpuif_virt_update() currently sets all of vIRQ,
+vFIQ and the maintenance interrupt.  This implies that it has to be
+used quite carefully -- as the comment notes, setting the maintenance
+interrupt will typically cause the GIC code to be re-entered
+recursively.  For handling vLPIs, we need the redistributor to be
+able to tell the cpuif to update the vIRQ and vFIQ lines when the
+highest priority pending vLPI changes.  Since that change can't cause
+the maintenance interrupt state to change, we can pull the "update
+vIRQ/vFIQ" parts of gicv3_cpuif_virt_update() out into a separate
+function, which the redistributor can then call without having to
+worry about the reentrancy issue.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220408141550.1271295-24-peter.maydell@linaro.org
+Message-id: 20220408141550.1271295-25-peter.maydell@linaro.org
 ---
- hw/intc/gicv3_internal.h           | 21 +++++++++++
- include/hw/intc/arm_gicv3_common.h |  3 ++
- hw/intc/arm_gicv3_common.c         | 22 ++++++++++++
- hw/intc/arm_gicv3_redist.c         | 56 ++++++++++++++++++++++++++++++
- 4 files changed, 102 insertions(+)
+ hw/intc/gicv3_internal.h  | 11 +++++++
+ hw/intc/arm_gicv3_cpuif.c | 64 ++++++++++++++++++++++++---------------
+ hw/intc/trace-events      |  3 +-
+ 3 files changed, 53 insertions(+), 25 deletions(-)
 
 diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 9720ccf7507..795bf57d2b3 100644
+index 795bf57d2b3..f25ddeca579 100644
 --- a/hw/intc/gicv3_internal.h
 +++ b/hw/intc/gicv3_internal.h
-@@ -77,6 +77,7 @@
-  * Redistributor frame offsets from RD_base
+@@ -707,6 +707,17 @@ void gicv3_init_cpuif(GICv3State *s);
   */
- #define GICR_SGI_OFFSET 0x10000
-+#define GICR_VLPI_OFFSET 0x20000
+ void gicv3_cpuif_update(GICv3CPUState *cs);
  
- /*
-  * Redistributor registers, offsets from RD_base
-@@ -109,6 +110,10 @@
- #define GICR_IGRPMODR0        (GICR_SGI_OFFSET + 0x0D00)
- #define GICR_NSACR            (GICR_SGI_OFFSET + 0x0E00)
- 
-+/* VLPI redistributor registers, offsets from VLPI_base */
-+#define GICR_VPROPBASER       (GICR_VLPI_OFFSET + 0x70)
-+#define GICR_VPENDBASER       (GICR_VLPI_OFFSET + 0x78)
++/*
++ * gicv3_cpuif_virt_irq_fiq_update:
++ * @cs: GICv3CPUState for the CPU to update
++ *
++ * Recalculate whether to assert the virtual IRQ or FIQ lines after
++ * a change to the current highest priority pending virtual interrupt.
++ * Note that this does not recalculate and change the maintenance
++ * interrupt status (for that, see gicv3_cpuif_virt_update()).
++ */
++void gicv3_cpuif_virt_irq_fiq_update(GICv3CPUState *cs);
 +
- #define GICR_CTLR_ENABLE_LPIS        (1U << 0)
- #define GICR_CTLR_CES                (1U << 1)
- #define GICR_CTLR_RWP                (1U << 3)
-@@ -143,6 +148,22 @@ FIELD(GICR_PENDBASER, PTZ, 62, 1)
+ static inline uint32_t gicv3_iidr(void)
+ {
+     /* Return the Implementer Identification Register value
+diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+index 1a3d440a54b..5fb64d4663c 100644
+--- a/hw/intc/arm_gicv3_cpuif.c
++++ b/hw/intc/arm_gicv3_cpuif.c
+@@ -370,30 +370,20 @@ static uint32_t maintenance_interrupt_state(GICv3CPUState *cs)
+     return value;
+ }
  
- #define GICR_PROPBASER_IDBITS_THRESHOLD          0xd
+-static void gicv3_cpuif_virt_update(GICv3CPUState *cs)
++void gicv3_cpuif_virt_irq_fiq_update(GICv3CPUState *cs)
+ {
+-    /* Tell the CPU about any pending virtual interrupts or
+-     * maintenance interrupts, following a change to the state
+-     * of the CPU interface relevant to virtual interrupts.
+-     *
+-     * CAUTION: this function will call qemu_set_irq() on the
+-     * CPU maintenance IRQ line, which is typically wired up
+-     * to the GIC as a per-CPU interrupt. This means that it
+-     * will recursively call back into the GIC code via
+-     * gicv3_redist_set_irq() and thus into the CPU interface code's
+-     * gicv3_cpuif_update(). It is therefore important that this
+-     * function is only called as the final action of a CPU interface
+-     * register write implementation, after all the GIC state
+-     * fields have been updated. gicv3_cpuif_update() also must
+-     * not cause this function to be called, but that happens
+-     * naturally as a result of there being no architectural
+-     * linkage between the physical and virtual GIC logic.
++    /*
++     * Tell the CPU about any pending virtual interrupts.
++     * This should only be called for changes that affect the
++     * vIRQ and vFIQ status and do not change the maintenance
++     * interrupt status. This means that unlike gicv3_cpuif_virt_update()
++     * this function won't recursively call back into the GIC code.
++     * The main use of this is when the redistributor has changed the
++     * highest priority pending virtual LPI.
+      */
+     int idx;
+     int irqlevel = 0;
+     int fiqlevel = 0;
+-    int maintlevel = 0;
+-    ARMCPU *cpu = ARM_CPU(cs->cpu);
  
-+/* These are the GICv4 VPROPBASER and VPENDBASER layouts; v4.1 is different */
-+FIELD(GICR_VPROPBASER, IDBITS, 0, 5)
-+FIELD(GICR_VPROPBASER, INNERCACHE, 7, 3)
-+FIELD(GICR_VPROPBASER, SHAREABILITY, 10, 2)
-+FIELD(GICR_VPROPBASER, PHYADDR, 12, 40)
-+FIELD(GICR_VPROPBASER, OUTERCACHE, 56, 3)
-+
-+FIELD(GICR_VPENDBASER, INNERCACHE, 7, 3)
-+FIELD(GICR_VPENDBASER, SHAREABILITY, 10, 2)
-+FIELD(GICR_VPENDBASER, PHYADDR, 16, 36)
-+FIELD(GICR_VPENDBASER, OUTERCACHE, 56, 3)
-+FIELD(GICR_VPENDBASER, DIRTY, 60, 1)
-+FIELD(GICR_VPENDBASER, PENDINGLAST, 61, 1)
-+FIELD(GICR_VPENDBASER, IDAI, 62, 1)
-+FIELD(GICR_VPENDBASER, VALID, 63, 1)
-+
- #define ICC_CTLR_EL1_CBPR           (1U << 0)
- #define ICC_CTLR_EL1_EOIMODE        (1U << 1)
- #define ICC_CTLR_EL1_PMHE           (1U << 6)
-diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
-index 40bc404a652..7ff5a1aa5fc 100644
---- a/include/hw/intc/arm_gicv3_common.h
-+++ b/include/hw/intc/arm_gicv3_common.h
-@@ -179,6 +179,9 @@ struct GICv3CPUState {
-     uint32_t gicr_igrpmodr0;
-     uint32_t gicr_nsacr;
-     uint8_t gicr_ipriorityr[GIC_INTERNAL];
-+    /* VLPI_base page registers */
-+    uint64_t gicr_vpropbaser;
-+    uint64_t gicr_vpendbaser;
- 
-     /* CPU interface */
-     uint64_t icc_sre_el1;
-diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 18999e3c8bb..14d76d74840 100644
---- a/hw/intc/arm_gicv3_common.c
-+++ b/hw/intc/arm_gicv3_common.c
-@@ -144,6 +144,25 @@ const VMStateDescription vmstate_gicv3_cpu_sre_el1 = {
+     idx = hppvi_index(cs);
+     trace_gicv3_cpuif_virt_update(gicv3_redist_affid(cs), idx);
+@@ -410,16 +400,42 @@ static void gicv3_cpuif_virt_update(GICv3CPUState *cs)
+         }
      }
- };
  
-+static bool gicv4_needed(void *opaque)
-+{
-+    GICv3CPUState *cs = opaque;
-+
-+    return cs->gic->revision > 3;
++    trace_gicv3_cpuif_virt_set_irqs(gicv3_redist_affid(cs), fiqlevel, irqlevel);
++    qemu_set_irq(cs->parent_vfiq, fiqlevel);
++    qemu_set_irq(cs->parent_virq, irqlevel);
 +}
 +
-+const VMStateDescription vmstate_gicv3_gicv4 = {
-+    .name = "arm_gicv3_cpu/gicv4",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = gicv4_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(gicr_vpropbaser, GICv3CPUState),
-+        VMSTATE_UINT64(gicr_vpendbaser, GICv3CPUState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
++static void gicv3_cpuif_virt_update(GICv3CPUState *cs)
++{
++    /*
++     * Tell the CPU about any pending virtual interrupts or
++     * maintenance interrupts, following a change to the state
++     * of the CPU interface relevant to virtual interrupts.
++     *
++     * CAUTION: this function will call qemu_set_irq() on the
++     * CPU maintenance IRQ line, which is typically wired up
++     * to the GIC as a per-CPU interrupt. This means that it
++     * will recursively call back into the GIC code via
++     * gicv3_redist_set_irq() and thus into the CPU interface code's
++     * gicv3_cpuif_update(). It is therefore important that this
++     * function is only called as the final action of a CPU interface
++     * register write implementation, after all the GIC state
++     * fields have been updated. gicv3_cpuif_update() also must
++     * not cause this function to be called, but that happens
++     * naturally as a result of there being no architectural
++     * linkage between the physical and virtual GIC logic.
++     */
++    ARMCPU *cpu = ARM_CPU(cs->cpu);
++    int maintlevel = 0;
 +
- static const VMStateDescription vmstate_gicv3_cpu = {
-     .name = "arm_gicv3_cpu",
-     .version_id = 1,
-@@ -175,6 +194,7 @@ static const VMStateDescription vmstate_gicv3_cpu = {
-     .subsections = (const VMStateDescription * []) {
-         &vmstate_gicv3_cpu_virt,
-         &vmstate_gicv3_cpu_sre_el1,
-+        &vmstate_gicv3_gicv4,
-         NULL
++    gicv3_cpuif_virt_irq_fiq_update(cs);
++
+     if ((cs->ich_hcr_el2 & ICH_HCR_EL2_EN) &&
+         maintenance_interrupt_state(cs) != 0) {
+         maintlevel = 1;
      }
- };
-@@ -444,6 +464,8 @@ static void arm_gicv3_common_reset(DeviceState *dev)
-         cs->gicr_waker = GICR_WAKER_ProcessorSleep | GICR_WAKER_ChildrenAsleep;
-         cs->gicr_propbaser = 0;
-         cs->gicr_pendbaser = 0;
-+        cs->gicr_vpropbaser = 0;
-+        cs->gicr_vpendbaser = 0;
-         /* If we're resetting a TZ-aware GIC as if secure firmware
-          * had set it up ready to start a kernel in non-secure, we
-          * need to set interrupts to group 1 so the kernel can use them.
-diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index 9f1fe09a78e..c310d7f8ff2 100644
---- a/hw/intc/arm_gicv3_redist.c
-+++ b/hw/intc/arm_gicv3_redist.c
-@@ -236,6 +236,23 @@ static MemTxResult gicr_readl(GICv3CPUState *cs, hwaddr offset,
-     case GICR_IDREGS ... GICR_IDREGS + 0x2f:
-         *data = gicv3_idreg(offset - GICR_IDREGS, GICV3_PIDR0_REDIST);
-         return MEMTX_OK;
-+        /*
-+         * VLPI frame registers. We don't need a version check for
-+         * VPROPBASER and VPENDBASER because gicv3_redist_size() will
-+         * prevent pre-v4 GIC from passing us offsets this high.
-+         */
-+    case GICR_VPROPBASER:
-+        *data = extract64(cs->gicr_vpropbaser, 0, 32);
-+        return MEMTX_OK;
-+    case GICR_VPROPBASER + 4:
-+        *data = extract64(cs->gicr_vpropbaser, 32, 32);
-+        return MEMTX_OK;
-+    case GICR_VPENDBASER:
-+        *data = extract64(cs->gicr_vpendbaser, 0, 32);
-+        return MEMTX_OK;
-+    case GICR_VPENDBASER + 4:
-+        *data = extract64(cs->gicr_vpendbaser, 32, 32);
-+        return MEMTX_OK;
-     default:
-         return MEMTX_ERROR;
-     }
-@@ -379,6 +396,23 @@ static MemTxResult gicr_writel(GICv3CPUState *cs, hwaddr offset,
-                       "%s: invalid guest write to RO register at offset "
-                       TARGET_FMT_plx "\n", __func__, offset);
-         return MEMTX_OK;
-+        /*
-+         * VLPI frame registers. We don't need a version check for
-+         * VPROPBASER and VPENDBASER because gicv3_redist_size() will
-+         * prevent pre-v4 GIC from passing us offsets this high.
-+         */
-+    case GICR_VPROPBASER:
-+        cs->gicr_vpropbaser = deposit64(cs->gicr_vpropbaser, 0, 32, value);
-+        return MEMTX_OK;
-+    case GICR_VPROPBASER + 4:
-+        cs->gicr_vpropbaser = deposit64(cs->gicr_vpropbaser, 32, 32, value);
-+        return MEMTX_OK;
-+    case GICR_VPENDBASER:
-+        cs->gicr_vpendbaser = deposit64(cs->gicr_vpendbaser, 0, 32, value);
-+        return MEMTX_OK;
-+    case GICR_VPENDBASER + 4:
-+        cs->gicr_vpendbaser = deposit64(cs->gicr_vpendbaser, 32, 32, value);
-+        return MEMTX_OK;
-     default:
-         return MEMTX_ERROR;
-     }
-@@ -397,6 +431,17 @@ static MemTxResult gicr_readll(GICv3CPUState *cs, hwaddr offset,
-     case GICR_PENDBASER:
-         *data = cs->gicr_pendbaser;
-         return MEMTX_OK;
-+        /*
-+         * VLPI frame registers. We don't need a version check for
-+         * VPROPBASER and VPENDBASER because gicv3_redist_size() will
-+         * prevent pre-v4 GIC from passing us offsets this high.
-+         */
-+    case GICR_VPROPBASER:
-+        *data = cs->gicr_vpropbaser;
-+        return MEMTX_OK;
-+    case GICR_VPENDBASER:
-+        *data = cs->gicr_vpendbaser;
-+        return MEMTX_OK;
-     default:
-         return MEMTX_ERROR;
-     }
-@@ -418,6 +463,17 @@ static MemTxResult gicr_writell(GICv3CPUState *cs, hwaddr offset,
-                       "%s: invalid guest write to RO register at offset "
-                       TARGET_FMT_plx "\n", __func__, offset);
-         return MEMTX_OK;
-+        /*
-+         * VLPI frame registers. We don't need a version check for
-+         * VPROPBASER and VPENDBASER because gicv3_redist_size() will
-+         * prevent pre-v4 GIC from passing us offsets this high.
-+         */
-+    case GICR_VPROPBASER:
-+        cs->gicr_vpropbaser = value;
-+        return MEMTX_OK;
-+    case GICR_VPENDBASER:
-+        cs->gicr_vpendbaser = value;
-+        return MEMTX_OK;
-     default:
-         return MEMTX_ERROR;
-     }
+ 
+-    trace_gicv3_cpuif_virt_set_irqs(gicv3_redist_affid(cs), fiqlevel,
+-                                    irqlevel, maintlevel);
+-
+-    qemu_set_irq(cs->parent_vfiq, fiqlevel);
+-    qemu_set_irq(cs->parent_virq, irqlevel);
++    trace_gicv3_cpuif_virt_set_maint_irq(gicv3_redist_affid(cs), maintlevel);
+     qemu_set_irq(cpu->gicv3_maintenance_interrupt, maintlevel);
+ }
+ 
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 004a1006fb8..36c3fe4da0b 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -152,7 +152,8 @@ gicv3_icv_dir_write(uint32_t cpu, uint64_t val) "GICv3 ICV_DIR write cpu 0x%x va
+ gicv3_icv_iar_read(int grp, uint32_t cpu, uint64_t val) "GICv3 ICV_IAR%d read cpu 0x%x value 0x%" PRIx64
+ gicv3_icv_eoir_write(int grp, uint32_t cpu, uint64_t val) "GICv3 ICV_EOIR%d write cpu 0x%x value 0x%" PRIx64
+ gicv3_cpuif_virt_update(uint32_t cpuid, int idx) "GICv3 CPU i/f 0x%x virt HPPI update LR index %d"
+-gicv3_cpuif_virt_set_irqs(uint32_t cpuid, int fiqlevel, int irqlevel, int maintlevel) "GICv3 CPU i/f 0x%x virt HPPI update: setting FIQ %d IRQ %d maintenance-irq %d"
++gicv3_cpuif_virt_set_irqs(uint32_t cpuid, int fiqlevel, int irqlevel) "GICv3 CPU i/f 0x%x virt HPPI update: setting FIQ %d IRQ %d"
++gicv3_cpuif_virt_set_maint_irq(uint32_t cpuid, int maintlevel) "GICv3 CPU i/f 0x%x virt HPPI update: setting maintenance-irq %d"
+ 
+ # arm_gicv3_dist.c
+ gicv3_dist_read(uint64_t offset, uint64_t data, unsigned size, bool secure) "GICv3 distributor read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u secure %d"
 -- 
 2.25.1
 
