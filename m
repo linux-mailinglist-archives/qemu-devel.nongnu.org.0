@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5370A50B457
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 11:46:24 +0200 (CEST)
-Received: from localhost ([::1]:34516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9649C50B46A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 11:49:15 +0200 (CEST)
+Received: from localhost ([::1]:37102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhprr-0003Sg-9C
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 05:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52226)
+	id 1nhpuc-0006Xm-Mz
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 05:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <renzhengeek@gmail.com>)
- id 1nhpfJ-00079v-06
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:33:26 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:44650)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nhph5-0000Kc-7c
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:35:15 -0400
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:34487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <renzhengeek@gmail.com>)
- id 1nhpfH-0006NO-8N
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:33:24 -0400
-Received: by mail-pl1-x632.google.com with SMTP id j8so9619190pll.11
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 02:33:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nhph3-0006ms-HH
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 05:35:14 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id j9so5427145qkg.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 02:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EmlhKaC9QFi52IM/zqrre1bM76njwpig2OwWXL7Oiyg=;
- b=D1DZLv2/dhoUsvHfs/pHRD9F3/3BImsT4xMZOgSmvGN0ou86AxbiwPvE38yuRB2TDk
- Tn0Vp5ZLc4lGianE9l+SBjs5h19vKgvaaDJ+b2CzcJcpbW1NlwyXvodjqY9WHoVcUXRB
- ft0M2QzHL4PRQhNImX7GMR6lpopl9cnx9YrM/Bz7D6nDxXtqZeuB1P/FXRm6afbrAc1q
- 6QZo7I/TN2O9VTMJbsmqmFv2cxrTRsjpIfnwvjYAQP1fU+sPqbIbF5jTCxjQpvDCTEFI
- mRK72esEd0+Jy4FYWUo86Vc8wMr3Jk0HtCOqWy5Zc04iGEeO5yjAOSAoHOcRRVojsu1q
- 75lg==
+ :cc; bh=iphdWv/LvJ4U0xcfLvIF+wYQpVEaP9LS+ZOYcsEW3A0=;
+ b=A0sYhGUkov6yL3Tr2aevKR2YYMWoVZ6C3dg5QO+j0ONn3/DJWr4abLA/ItzNnRCZjC
+ HkXzSTXbe7Vy0WJGgeyemGRS4+lZ0k1eYhd243MSe08klwPwxkBwG3Fms8yf8R5RFVTt
+ l+BfQgf2joyRGNXMoDzp4VDVqaa4eVJZcakRZyD+Y/jrKM/O4dsl0ZfYZ7RCflWVwMSB
+ WucHZlav9LipD2/18lsm0/z/CKAwacLXSm4jOWWkJCaNz8GCJkC4XdNojYakxsD/meyT
+ cDuwQBt4F3NfdzQvtUlowDNMwPKhpXd7vH8IN/79O7kIr2wOvIAGlF1rnmrSjQy8t/hC
+ XR3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EmlhKaC9QFi52IM/zqrre1bM76njwpig2OwWXL7Oiyg=;
- b=uwzPRsUe5RWa9+CFC6LQG9T/HRgZwum5CEPdpjx8LCkw6kkxD9Iojp4AiuY+KlCt6a
- pIRKdbw5Kx8sHty8Iwn5hC1RmhT2ENs+lZuM3MMjCymAz21/ED7KucvUYM232RxjhGE1
- 0Fegxm2Vf/GkWaEisnqtWF4mLj7h8CtqFOsDi2F3H2rSUrf8CbQDfiJrEnISswVF3rh2
- ZAaN3Z10OSsTruWbGLDIgtVBvZkW7UC0kzLFQxnGT6UeOFwTuA/5GInwVp474kIfVhDF
- fdZkLOGlzCmqFew5VYgAv8IIDwqvlGyi9XsWFEG/GFAJdA4IdR58cCOxY1JEK+g5J58Q
- Xtzg==
-X-Gm-Message-State: AOAM533r4gRJJFLjcrVn04MtzPZhD5Z0b06PVsUg2Kn/mkqHQdodAOpg
- kebutJWfD0zldiTDpfcirvbhHeaWxAlIGTHuCik=
-X-Google-Smtp-Source: ABdhPJx1g/OrjKmDmKmsGeLMzoKMdCdD6F8vRZ4jNPeX2Q/qBSXDnlnKvdI5JUdH+aVHg+omaprqKtZtno+iz4AZuJE=
-X-Received: by 2002:a17:902:7d81:b0:14f:e18b:2b9e with SMTP id
- a1-20020a1709027d8100b0014fe18b2b9emr3435121plm.160.1650620001025; Fri, 22
- Apr 2022 02:33:21 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=iphdWv/LvJ4U0xcfLvIF+wYQpVEaP9LS+ZOYcsEW3A0=;
+ b=55qURjBB2dw3utIWvlQQ4G94iMZJB1zVxyjxiG1GS+NiE6TDML3ezOasWMgDNVg9c2
+ DNpRkGUTyPl+twrCDHSs+eDz/hEWHBEFuTzDD/wi9xxELRkfvhrjy/oRUriCzUoDQKls
+ Vv4O1hbTJy6Lr283Lw4HejvOSs2Kizln3bBtttB1Lukl9GdYSwTiTyVVCA49kP16eiJN
+ J5ymueKVBjeDYDLD94qIJ/L3Ir6Dvwq3M7n0W3DXReGxhDzuWUpCxcPziH5i96guvduW
+ pCCWj5OATo7MkfQltNmwFJKYss7MsOyYq5v3QR5ycPzbL3OEKs01vj4X/bo0uaKMId+9
+ lebA==
+X-Gm-Message-State: AOAM531ud0pINo3UoNepLRN08c5ZWLcFdNXdX6TVKzVLK01tbsN4UmcR
+ 5nw3R8jlXagMR4hujRlI5eWLIk2avN00c7WIU89Ro+9tBXugMg==
+X-Google-Smtp-Source: ABdhPJznYPDJgH1XWxOJhs/lCx64QkVuf5ng4jqhDGTWh2YOatImUHpyC/tCGFFY4GedDvaCDfDX9cY2jS8D32BZKy0=
+X-Received: by 2002:a05:620a:4093:b0:69c:fda:3cf2 with SMTP id
+ f19-20020a05620a409300b0069c0fda3cf2mr1966691qko.245.1650620112606; Fri, 22
+ Apr 2022 02:35:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKM4Aewqpfy3AGFi3Y+roA4jDigYOEbW6oBb3XpsVyxFCYne7g@mail.gmail.com>
- <YmJnYCMxG1S9pt4U@redhat.com> <20220422105745.7a20256e@redhat.com>
-In-Reply-To: <20220422105745.7a20256e@redhat.com>
-From: Eric Ren <renzhengeek@gmail.com>
-Date: Fri, 22 Apr 2022 17:33:08 +0800
-Message-ID: <CAKM4AeydH7gAmZtR432uYw2jNqdokyJY4qpVvc+KN12bxtBggg@mail.gmail.com>
-Subject: Re: Is it possible to support hotplug device to PXB bridge?
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=renzhengeek@gmail.com; helo=mail-pl1-x632.google.com
+References: <20220422070144.1043697-1-sw@weilnetz.de>
+ <20220422070144.1043697-4-sw@weilnetz.de>
+In-Reply-To: <20220422070144.1043697-4-sw@weilnetz.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 22 Apr 2022 13:35:01 +0400
+Message-ID: <CAJ+F1C+4t6L0xLFgouBN3FM4GDsKyoUjU57yK_z82yx0SrEobQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] libvhost-user: Add format attribute to local function
+ vu_panic
+To: Stefan Weil <sw@weilnetz.de>
+Content-Type: multipart/alternative; boundary="00000000000078985e05dd3af138"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-qk1-x72d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,81 +79,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcel@redhat.com,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: QEMU <qemu-devel@nongnu.org>, Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor, Daniel:
+--00000000000078985e05dd3af138
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the hints!
+Hi
 
-In the PXB doc (https://github.com/qemu/qemu/blob/master/docs/pci_expander_=
-bridge.txt),
-PXB device internally adds a pci bridge, according to the impl brief:
+On Fri, Apr 22, 2022 at 11:08 AM Stefan Weil <sw@weilnetz.de> wrote:
 
-```
-The PXB is composed by:
-...
-- PCIBridgeDev(TYPE_PCI_BRIDGE_DEV)
-Created automatically as part of init sequence.
-When adding a device to PXB it is attached to the bridge for two reasons:
-- Using the bridge will **enable hotplug support**
-- All the devices behind the bridge will use bridge's IO/MEM windows compac=
-ting
-the PCI address space.
-```
-
-A PXB device already takes 2 bus nr: 1 for the added root bus via host
-bridge, 1 for the pci bridge.
-If statically adding 1 more pci bridge, it takes 1 more pci bus...
-
-Anyway, will try to figure out the reason why the doc says "Using the
-bridge will enable hotplug support",
-but in fact not :-)
-
-The start point seemingly is, to generate correct ACPI SSDT table
-having hotplug devices/methods for slots behind the PXB
-internal pci bridge.
-
-Regards,
-Eric Ren
-
-On Fri, 22 Apr 2022 at 16:57, Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Fri, 22 Apr 2022 09:29:20 +0100
-> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
->
-> > On Fri, Apr 22, 2022 at 03:17:11PM +0800, Eric Ren wrote:
-> > > Hi Marcel and all,
-> > >
-> > > It fails when I want to hotplug device to PXB bus. Then, I find this
-> > > commit that explicitely declares the fact that PXB bus does not suppo=
-rt
-> > > hotplug device onto it.
-> > >
-> > > 7b346c742cd9 ("hw/pxb: declare pxb devices as not hot-pluggable")
-> > >
-> > > Could you please help confirm the possibility to make PXB bus hotplug=
-gable,
-> > > and the main work to achieve it if possible?
-> >
-> > Instead of trying to hotplug into the PXB, attach a 'pci-bridge' to the
-> > PXB and then you can hotplug into the latter instead.
->
-> there is no ACPI based hotplug for devices on pxb if I'm not mistaken, so
-> you'll likely need to enable shpc on pci-bridge.
->
-> > > Yes, pxb-pcie with Q35 do support hotplug, but we use i440 machine a =
-long way,
-> > > not  willing to change machine type to have it.
-> >
-> > With regards,
-> > Daniel
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
 >
 
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
+
+> ---
+>
+> It would be good to add format attributes to local functions, too (like
+> it is done here) to avoid future format bugs.
+>
+> The changes here could be simplified by including a glib header,
+> but from the comments I assumed that is unwanted here?
+>
+
+For historical reasons, libvhost-user.c doesn't depend on glib. Whether
+this is useful to anyone isn't obvious :)
+
+
+>  subprojects/libvhost-user/libvhost-user.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/subprojects/libvhost-user/libvhost-user.c
+> b/subprojects/libvhost-user/libvhost-user.c
+> index 94645f9154..29ab85fc9d 100644
+> --- a/subprojects/libvhost-user/libvhost-user.c
+> +++ b/subprojects/libvhost-user/libvhost-user.c
+> @@ -45,6 +45,17 @@
+>  #include "libvhost-user.h"
+>
+>  /* usually provided by GLib */
+> +#if     __GNUC__ > 2 || (__GNUC__ =3D=3D 2 && __GNUC_MINOR__ > 4)
+> +#if !defined(__clang__) && (__GNUC__ =3D=3D 4 && __GNUC_MINOR__ =3D=3D 4=
+)
+> +#define G_GNUC_PRINTF(format_idx, arg_idx) \
+> +  __attribute__((__format__(gnu_printf, format_idx, arg_idx)))
+> +#else
+> +#define G_GNUC_PRINTF(format_idx, arg_idx) \
+> +  __attribute__((__format__(__printf__, format_idx, arg_idx)))
+> +#endif
+> +#else   /* !__GNUC__ */
+> +#define G_GNUC_PRINTF(format_idx, arg_idx)
+> +#endif  /* !__GNUC__ */
+>  #ifndef MIN
+>  #define MIN(x, y) ({                            \
+>              typeof(x) _min1 =3D (x);              \
+> @@ -151,7 +162,7 @@ vu_request_to_string(unsigned int req)
+>      }
+>  }
+>
+> -static void
+> +static void G_GNUC_PRINTF(2, 3)
+>  vu_panic(VuDev *dev, const char *msg, ...)
+>  {
+>      char *buf =3D NULL;
+> --
+> 2.30.2
+>
+>
+>
 
 --=20
-- Eric Ren
+Marc-Andr=C3=A9 Lureau
+
+--00000000000078985e05dd3af138
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Apr 22, 2022 at 11:08 AM St=
+efan Weil &lt;<a href=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-off-by=
+: Stefan Weil &lt;<a href=3D"mailto:sw@weilnetz.de" target=3D"_blank">sw@we=
+ilnetz.de</a>&gt;<br></blockquote><div><br></div><div><div>Reviewed-by: Mar=
+c-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marc=
+andre.lureau@redhat.com</a>&gt;</div><div><br></div>=C2=A0</div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">
+---<br>
+<br>
+It would be good to add format attributes to local functions, too (like<br>
+it is done here) to avoid future format bugs.<br>
+<br>
+The changes here could be simplified by including a glib header,<br>
+but from the comments I assumed that is unwanted here?<br></blockquote><div=
+><br></div><div>For historical reasons, libvhost-user.c doesn&#39;t depend =
+on glib. Whether this is useful to anyone isn&#39;t obvious :)<br></div><di=
+v><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+=C2=A0subprojects/libvhost-user/libvhost-user.c | 13 ++++++++++++-<br>
+=C2=A01 file changed, 12 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvho=
+st-user/libvhost-user.c<br>
+index 94645f9154..29ab85fc9d 100644<br>
+--- a/subprojects/libvhost-user/libvhost-user.c<br>
++++ b/subprojects/libvhost-user/libvhost-user.c<br>
+@@ -45,6 +45,17 @@<br>
+=C2=A0#include &quot;libvhost-user.h&quot;<br>
+<br>
+=C2=A0/* usually provided by GLib */<br>
++#if=C2=A0 =C2=A0 =C2=A0__GNUC__ &gt; 2 || (__GNUC__ =3D=3D 2 &amp;&amp; __=
+GNUC_MINOR__ &gt; 4)<br>
++#if !defined(__clang__) &amp;&amp; (__GNUC__ =3D=3D 4 &amp;&amp; __GNUC_MI=
+NOR__ =3D=3D 4)<br>
++#define G_GNUC_PRINTF(format_idx, arg_idx) \<br>
++=C2=A0 __attribute__((__format__(gnu_printf, format_idx, arg_idx)))<br>
++#else<br>
++#define G_GNUC_PRINTF(format_idx, arg_idx) \<br>
++=C2=A0 __attribute__((__format__(__printf__, format_idx, arg_idx)))<br>
++#endif<br>
++#else=C2=A0 =C2=A0/* !__GNUC__ */<br>
++#define G_GNUC_PRINTF(format_idx, arg_idx)<br>
++#endif=C2=A0 /* !__GNUC__ */<br>
+=C2=A0#ifndef MIN<br>
+=C2=A0#define MIN(x, y) ({=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0typeof(x) _min1 =3D (x);=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+@@ -151,7 +162,7 @@ vu_request_to_string(unsigned int req)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+-static void<br>
++static void G_GNUC_PRINTF(2, 3)<br>
+=C2=A0vu_panic(VuDev *dev, const char *msg, ...)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0char *buf =3D NULL;<br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000078985e05dd3af138--
 
