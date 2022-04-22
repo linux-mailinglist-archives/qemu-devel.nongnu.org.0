@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E2E50B536
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:37:53 +0200 (CEST)
-Received: from localhost ([::1]:47566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FE850B574
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 12:43:15 +0200 (CEST)
+Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhqfg-0005Y1-5E
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58402)
+	id 1nhqks-0004R3-Fg
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 06:43:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9k-0004I3-1w
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:52 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44905)
+ id 1nhq9l-0004LI-Py
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:54 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nhq9h-0002bM-VU
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:51 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id b19so10279727wrh.11
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:48 -0700 (PDT)
+ id 1nhq9i-0002bb-QF
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 06:04:53 -0400
+Received: by mail-wr1-x433.google.com with SMTP id v12so3513280wrv.10
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 03:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DJiY/tgKJhJy8+LIvxeHxLLKq7rqsAI2KRSR0lukesA=;
- b=pyQy12zNdPlJp75X97973Usa8Q11fAliqGLkKs9Srdx+dpkBHvp8m97SmQz4wY+dEE
- RTGfPrA7nvfoPIR2P2/u+TG9ISxrpKWs5V9N/7Z41T2KbUJD6CF0LADjsBNf9/BTXKQ/
- jjYbvGFzfesMnaSSfQEUOl52J9uTOJ4fbGMYYce6jRGDCejd8Qlev9IOB2KRTpxqCgeL
- cIFXW4JMxv6dBDj1ISGm+Tr63zcawaPmv6CplUoBwBFXbQFN5/jj0gjvq8L+1o3QKW6n
- nswdIlpH0HA8NCJedJyqRQNS2RWxfBqv5CP9HctYWJMl1NfI0PwOV5c1MyPm6BbQH6pg
- k1rQ==
+ bh=I7pSO+EBd/yh29lG2tTeORRFQM+zqHoD6Z5G9/i+n7o=;
+ b=otr7nirSXi4cADsvwacUJzdRJv2U2+LYilUEsCBYBMWPWj7ycSIhzwIgfigBt87pB+
+ +WobJwbU8xBut16okixZFS1VniaKcZb9muBOnvZeFBzJ1gsmWOEq47sbULMTQMKR87aS
+ VYDfWrYe42n5kz3Y77UzRsUqMv9KkawrWK3wJ/GYTWpG3bpUb7eLvLDgooZ0DwFlrqQq
+ YPF8IiAjifyvD6t82fHGxHTVR/Z+tsB9TcQhT2iqnJCRK1T3l3eC2/C2ec7nHUnzMIqI
+ wW3aGy9v6sciS/Ev78FgpzBLlchm75J+fIzUrP35ZYLO7raGzuy3lMt9Ms8k1ZiYXLt3
+ TRPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DJiY/tgKJhJy8+LIvxeHxLLKq7rqsAI2KRSR0lukesA=;
- b=IcM4w2Ay53rbSU/vcgUHNkksf2AJFv3x6s0WjCkF8C4lQLMfvM2Y9eBySrSPYXR1I1
- TZ5TI2c1Gnhvo5kySt2OREYJWFCFiDkpzajHnohQP6jsFIHMLrhFV+HGLjsbf3g4X265
- eNwit0RZLMFBkklevpPjx1tJifaMUHsJSOEUy9DuotxbNR8iKD7uUHQHMlvr/tmSvueg
- 9hCjp6HkCKezBTOF3qtc4hBiJru5emObu4la4uxPDx+7EyxUWrm+pUrncYXjSPC0zn2M
- SIJ4/KUYSEv9bvWky8t6OtOrrgUJRlCSfcSH3itNycc7dA/MD99MrwPB1nPncRC1T9B2
- zhSQ==
-X-Gm-Message-State: AOAM532TLv/O4jt/TkRxWFOr5I7G1GXABSpH+P+FgenozGMjdV9r04of
- gxdvTQaHM/zpmrO3KQlA5u+Uq93FgwgUhA==
-X-Google-Smtp-Source: ABdhPJzKAPtj1XnPsZXkZmMmukhnjsTXRrmE6bD+5IzI9kV30rpCx7Kx1p7mVcY182on9JJlCEhvsA==
-X-Received: by 2002:adf:e346:0:b0:205:97d0:50db with SMTP id
- n6-20020adfe346000000b0020597d050dbmr3071854wrj.257.1650621887429; 
- Fri, 22 Apr 2022 03:04:47 -0700 (PDT)
+ bh=I7pSO+EBd/yh29lG2tTeORRFQM+zqHoD6Z5G9/i+n7o=;
+ b=INES+vwGnppKeYzba6kp7Zeyo0A3vtzpyfiMQl6VXF4KxIUKqQ3yB4meYjyq6s3aG/
+ KbIqbR5h3q8LIDzKWtiGHPPuz/juC2M66acoMDG18J+STHiwQzpJbt7I2FxeZbZ/Ojk9
+ zTr1dL4gZZL/DbsZTzplQthkIX8qGLRxpOHvl8EMP4sIIaQ09TacpwbDZ+V7TNasL5du
+ BOt7QRDoaH9q7meFgTwYzF4xOIcJgDzu3Ks94XkEGSjBAvHLXrz9QMqtgbHK1KKOsJSa
+ aRF9aVCnJJiP7dT5Z2xSRHXOe2xJORWoQzrkJ8iWmofkndLLxqUl5VpS3OMqC7KI4FXK
+ gFOw==
+X-Gm-Message-State: AOAM531gP8HtEF0FA6kEyxEFI6fVvbDsesc8Jyu+o8IpNqT6r8MDKGBT
+ DcMKXfdmN59bAudrCnzzJsx6acBuIdZAGA==
+X-Google-Smtp-Source: ABdhPJxEngKqHYQnTAPmwW4xPP2CMn7AhbPvvMuHAdQKsXVt4g7Z4gHUgUIcF6HwfAMop2pIR03ATQ==
+X-Received: by 2002:adf:eacf:0:b0:20a:c8c4:ac51 with SMTP id
+ o15-20020adfeacf000000b0020ac8c4ac51mr2077086wrn.510.1650621888302; 
+ Fri, 22 Apr 2022 03:04:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.46
+ e16-20020a05600c2dd000b0038ed449cbdbsm4312148wmh.3.2022.04.22.03.04.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Apr 2022 03:04:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/61] hw/intc/arm_gicv3_its: Handle virtual interrupts in
- process_its_cmd()
-Date: Fri, 22 Apr 2022 11:03:45 +0100
-Message-Id: <20220422100432.2288247-15-peter.maydell@linaro.org>
+Subject: [PULL 15/61] hw/intc/arm_gicv3: Keep pointers to every connected ITS
+Date: Fri, 22 Apr 2022 11:03:46 +0100
+Message-Id: <20220422100432.2288247-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220422100432.2288247-1-peter.maydell@linaro.org>
 References: <20220422100432.2288247-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,219 +88,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For GICv4, interrupt table entries read by process_its_cmd() may
-indicate virtual LPIs which are to be directly injected into a VM.
-Implement the ITS side of the code for handling this.  This is
-similar to the existing handling of physical LPIs, but instead of
-looking up a collection ID in a collection table, we look up a vPEID
-in a vPE table.  As with the physical LPIs, we leave the rest of the
-work to code in the redistributor device.
+The GICv4 ITS VMOVP command's semantics require it to perform the
+operation on every ITS connected to the same GIC that the ITS that
+received the command is attached to.  This means that the GIC object
+needs to keep a pointer to every ITS that is connected to it
+(previously it was sufficient for the ITS to have a pointer to its
+GIC).
 
-The redistributor half will be implemented in a later commit;
-for now we just provide a stub function which does nothing.
+Add a glib ptrarray to the GICv3 object which holds pointers to every
+connected ITS, and make the ITS add itself to the array for the GIC
+it is connected to when it is realized.
+
+Note that currently all QEMU machine types with an ITS have exactly
+one ITS in the system, so typically the length of this ptrarray will
+be 1.  Multiple ITSes are typically used to improve performance on
+real hardware, so we wouldn't need to have more than one unless we
+were modelling a real machine type that had multile ITSes.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220408141550.1271295-15-peter.maydell@linaro.org
+Message-id: 20220408141550.1271295-16-peter.maydell@linaro.org
 ---
- hw/intc/gicv3_internal.h   | 17 +++++++
- hw/intc/arm_gicv3_its.c    | 99 +++++++++++++++++++++++++++++++++++++-
- hw/intc/arm_gicv3_redist.c |  9 ++++
- hw/intc/trace-events       |  2 +
- 4 files changed, 125 insertions(+), 2 deletions(-)
+ hw/intc/gicv3_internal.h           | 9 +++++++++
+ include/hw/intc/arm_gicv3_common.h | 2 ++
+ hw/intc/arm_gicv3_common.c         | 2 ++
+ hw/intc/arm_gicv3_its.c            | 2 ++
+ hw/intc/arm_gicv3_its_kvm.c        | 2 ++
+ 5 files changed, 17 insertions(+)
 
 diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index bbb8a20ce61..6e22c8072e9 100644
+index 6e22c8072e9..69a59daf867 100644
 --- a/hw/intc/gicv3_internal.h
 +++ b/hw/intc/gicv3_internal.h
-@@ -527,6 +527,23 @@ MemTxResult gicv3_redist_write(void *opaque, hwaddr offset, uint64_t data,
- void gicv3_dist_set_irq(GICv3State *s, int irq, int level);
- void gicv3_redist_set_irq(GICv3CPUState *cs, int irq, int level);
- void gicv3_redist_process_lpi(GICv3CPUState *cs, int irq, int level);
-+/**
-+ * gicv3_redist_process_vlpi:
-+ * @cs: GICv3CPUState
-+ * @irq: (virtual) interrupt number
-+ * @vptaddr: (guest) address of VLPI table
-+ * @doorbell: doorbell (physical) interrupt number (1023 for "no doorbell")
-+ * @level: level to set @irq to
-+ *
-+ * Process a virtual LPI being directly injected by the ITS. This function
-+ * will update the VLPI table specified by @vptaddr and @vptsize. If the
-+ * vCPU corresponding to that VLPI table is currently running on
-+ * the CPU associated with this redistributor, directly inject the VLPI
-+ * @irq. If the vCPU is not running on this CPU, raise the doorbell
-+ * interrupt instead.
+@@ -709,4 +709,13 @@ static inline void gicv3_cache_all_target_cpustates(GICv3State *s)
+ 
+ void gicv3_set_gicv3state(CPUState *cpu, GICv3CPUState *s);
+ 
++/*
++ * The ITS should call this when it is realized to add itself
++ * to its GIC's list of connected ITSes.
 + */
-+void gicv3_redist_process_vlpi(GICv3CPUState *cs, int irq, uint64_t vptaddr,
-+                               int doorbell, int level);
- void gicv3_redist_lpi_pending(GICv3CPUState *cs, int irq, int level);
- /**
-  * gicv3_redist_update_lpi:
++static inline void gicv3_add_its(GICv3State *s, DeviceState *its)
++{
++    g_ptr_array_add(s->itslist, its);
++}
++
+ #endif /* QEMU_ARM_GICV3_INTERNAL_H */
+diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
+index fc38e4b7dca..08b27789385 100644
+--- a/include/hw/intc/arm_gicv3_common.h
++++ b/include/hw/intc/arm_gicv3_common.h
+@@ -272,6 +272,8 @@ struct GICv3State {
+     uint32_t gicd_nsacr[DIV_ROUND_UP(GICV3_MAXIRQ, 16)];
+ 
+     GICv3CPUState *cpu;
++    /* List of all ITSes connected to this GIC */
++    GPtrArray *itslist;
+ };
+ 
+ #define GICV3_BITMAP_ACCESSORS(BMP)                                     \
+diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
+index c797c82786b..dcc5ce28c6a 100644
+--- a/hw/intc/arm_gicv3_common.c
++++ b/hw/intc/arm_gicv3_common.c
+@@ -414,6 +414,8 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
+         cpuidx += s->redist_region_count[i];
+         s->cpu[cpuidx - 1].gicr_typer |= GICR_TYPER_LAST;
+     }
++
++    s->itslist = g_ptr_array_new();
+ }
+ 
+ static void arm_gicv3_finalize(Object *obj)
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index e7e1769fa41..d2c0ca5f726 100644
+index d2c0ca5f726..46d9e0169f9 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -314,6 +314,42 @@ out:
-     return res;
- }
- 
-+/*
-+ * Read the vPE Table entry at index @vpeid. On success (including
-+ * successfully determining that there is no valid entry for this index),
-+ * we return MEMTX_OK and populate the VTEntry struct accordingly.
-+ * If there is an error reading memory then we return the error code.
-+ */
-+static MemTxResult get_vte(GICv3ITSState *s, uint32_t vpeid, VTEntry *vte)
-+{
-+    MemTxResult res = MEMTX_OK;
-+    AddressSpace *as = &s->gicv3->dma_as;
-+    uint64_t entry_addr = table_entry_addr(s, &s->vpet, vpeid, &res);
-+    uint64_t vteval;
-+
-+    if (entry_addr == -1) {
-+        /* No L2 table entry, i.e. no valid VTE, or a memory error */
-+        vte->valid = false;
-+        goto out;
-+    }
-+    vteval = address_space_ldq_le(as, entry_addr, MEMTXATTRS_UNSPECIFIED, &res);
-+    if (res != MEMTX_OK) {
-+        goto out;
-+    }
-+    vte->valid = FIELD_EX64(vteval, VTE, VALID);
-+    vte->vptsize = FIELD_EX64(vteval, VTE, VPTSIZE);
-+    vte->vptaddr = FIELD_EX64(vteval, VTE, VPTADDR);
-+    vte->rdbase = FIELD_EX64(vteval, VTE, RDBASE);
-+out:
-+    if (res != MEMTX_OK) {
-+        trace_gicv3_its_vte_read_fault(vpeid);
-+    } else {
-+        trace_gicv3_its_vte_read(vpeid, vte->valid, vte->vptsize,
-+                                 vte->vptaddr, vte->rdbase);
-+    }
-+    return res;
-+}
-+
- /*
-  * Given a (DeviceID, EventID), look up the corresponding ITE, including
-  * checking for the various invalid-value cases. If we find a valid ITE,
-@@ -397,6 +433,38 @@ static ItsCmdResult lookup_cte(GICv3ITSState *s, const char *who,
-     return CMD_CONTINUE_OK;
- }
- 
-+/*
-+ * Given a VPEID, look up the corresponding VTE, including checking
-+ * for various invalid-value cases. if we find a valid VTE, fill in @vte
-+ * and return CMD_CONTINUE_OK; otherwise return CMD_STALL or CMD_CONTINUE
-+ * (and the contents of @vte should not be relied on).
-+ *
-+ * The string @who is purely for the LOG_GUEST_ERROR messages,
-+ * and should indicate the name of the calling function or similar.
-+ */
-+static ItsCmdResult lookup_vte(GICv3ITSState *s, const char *who,
-+                               uint32_t vpeid, VTEntry *vte)
-+{
-+    if (vpeid >= s->vpet.num_entries) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid VPEID 0x%x\n", who, vpeid);
-+        return CMD_CONTINUE;
-+    }
-+
-+    if (get_vte(s, vpeid, vte) != MEMTX_OK) {
-+        return CMD_STALL;
-+    }
-+    if (!vte->valid) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: invalid VTE for VPEID 0x%x\n", who, vpeid);
-+        return CMD_CONTINUE;
-+    }
-+
-+    if (vte->rdbase >= s->gicv3->num_cpu) {
-+        return CMD_CONTINUE;
-+    }
-+    return CMD_CONTINUE_OK;
-+}
-+
- static ItsCmdResult process_its_cmd_phys(GICv3ITSState *s, const ITEntry *ite,
-                                          int irqlevel)
- {
-@@ -411,6 +479,33 @@ static ItsCmdResult process_its_cmd_phys(GICv3ITSState *s, const ITEntry *ite,
-     return CMD_CONTINUE_OK;
- }
- 
-+static ItsCmdResult process_its_cmd_virt(GICv3ITSState *s, const ITEntry *ite,
-+                                         int irqlevel)
-+{
-+    VTEntry vte;
-+    ItsCmdResult cmdres;
-+
-+    cmdres = lookup_vte(s, __func__, ite->vpeid, &vte);
-+    if (cmdres != CMD_CONTINUE_OK) {
-+        return cmdres;
-+    }
-+
-+    if (!intid_in_lpi_range(ite->intid) ||
-+        ite->intid >= (1ULL << (vte.vptsize + 1))) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: intid 0x%x out of range\n",
-+                      __func__, ite->intid);
-+        return CMD_CONTINUE;
-+    }
-+
-+    /*
-+     * For QEMU the actual pending of the vLPI is handled in the
-+     * redistributor code
-+     */
-+    gicv3_redist_process_vlpi(&s->gicv3->cpu[vte.rdbase], ite->intid,
-+                              vte.vptaddr << 16, ite->doorbell, irqlevel);
-+    return CMD_CONTINUE_OK;
-+}
-+
- /*
-  * This function handles the processing of following commands based on
-  * the ItsCmdType parameter passed:-
-@@ -446,8 +541,8 @@ static ItsCmdResult do_process_its_cmd(GICv3ITSState *s, uint32_t devid,
-                           __func__, ite.inttype);
-             return CMD_CONTINUE;
+@@ -1680,6 +1680,8 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
          }
--        /* The GICv4 virtual interrupt handling will go here */
--        g_assert_not_reached();
-+        cmdres = process_its_cmd_virt(s, &ite, irqlevel);
-+        break;
-     default:
-         g_assert_not_reached();
      }
-diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index dc9729e8395..b08b599c887 100644
---- a/hw/intc/arm_gicv3_redist.c
-+++ b/hw/intc/arm_gicv3_redist.c
-@@ -788,6 +788,15 @@ void gicv3_redist_movall_lpis(GICv3CPUState *src, GICv3CPUState *dest)
-     gicv3_redist_update_lpi(dest);
- }
  
-+void gicv3_redist_process_vlpi(GICv3CPUState *cs, int irq, uint64_t vptaddr,
-+                               int doorbell, int level)
-+{
-+    /*
-+     * The redistributor handling for being handed a VLPI by the ITS
-+     * will be added in a subsequent commit.
-+     */
-+}
++    gicv3_add_its(s->gicv3, dev);
 +
- void gicv3_redist_set_irq(GICv3CPUState *cs, int irq, int level)
- {
-     /* Update redistributor state for a change in an external PPI input line */
-diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 2fcc9e40e55..d529914eca2 100644
---- a/hw/intc/trace-events
-+++ b/hw/intc/trace-events
-@@ -200,6 +200,8 @@ gicv3_its_ite_write(uint64_t ittaddr, uint32_t eventid, int valid, int inttype,
- gicv3_its_dte_read(uint32_t devid, int valid, uint32_t size, uint64_t ittaddr) "GICv3 ITS: Device Table read for DeviceID 0x%x: valid %d size 0x%x ITTaddr 0x%" PRIx64
- gicv3_its_dte_write(uint32_t devid, int valid, uint32_t size, uint64_t ittaddr) "GICv3 ITS: Device Table write for DeviceID 0x%x: valid %d size 0x%x ITTaddr 0x%" PRIx64
- gicv3_its_dte_read_fault(uint32_t devid) "GICv3 ITS: Device Table read for DeviceID 0x%x: faulted"
-+gicv3_its_vte_read(uint32_t vpeid, int valid, uint32_t vptsize, uint64_t vptaddr, uint32_t rdbase) "GICv3 ITS: vPE Table read for vPEID 0x%x: valid %d VPTsize 0x%x VPTaddr 0x%" PRIx64 " RDbase 0x%x"
-+gicv3_its_vte_read_fault(uint32_t vpeid) "GICv3 ITS: vPE Table read for vPEID 0x%x: faulted"
- gicv3_its_vte_write(uint32_t vpeid, int valid, uint32_t vptsize, uint64_t vptaddr, uint32_t rdbase) "GICv3 ITS: vPE Table write for vPEID 0x%x: valid %d VPTsize 0x%x VPTaddr 0x%" PRIx64 " RDbase 0x%x"
+     gicv3_its_init_mmio(s, &gicv3_its_control_ops, &gicv3_its_translation_ops);
  
- # armv7m_nvic.c
+     /* set the ITS default features supported */
+diff --git a/hw/intc/arm_gicv3_its_kvm.c b/hw/intc/arm_gicv3_its_kvm.c
+index 0b4cbed28b3..529c7bd4946 100644
+--- a/hw/intc/arm_gicv3_its_kvm.c
++++ b/hw/intc/arm_gicv3_its_kvm.c
+@@ -106,6 +106,8 @@ static void kvm_arm_its_realize(DeviceState *dev, Error **errp)
+     kvm_arm_register_device(&s->iomem_its_cntrl, -1, KVM_DEV_ARM_VGIC_GRP_ADDR,
+                             KVM_VGIC_ITS_ADDR_TYPE, s->dev_fd, 0);
+ 
++    gicv3_add_its(s->gicv3, dev);
++
+     gicv3_its_init_mmio(s, NULL, NULL);
+ 
+     if (!kvm_device_check_attr(s->dev_fd, KVM_DEV_ARM_VGIC_GRP_ITS_REGS,
 -- 
 2.25.1
 
