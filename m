@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F59850BF50
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 20:05:31 +0200 (CEST)
-Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2008C50BF4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 20:03:50 +0200 (CEST)
+Received: from localhost ([::1]:39106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhxes-0002bT-A3
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 14:05:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50318)
+	id 1nhxdF-0008Id-7t
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 14:03:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwbC-0000kD-GQ
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:38 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:46871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhwb9-00084W-Ol
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:37 -0400
-Received: by mail-io1-xd31.google.com with SMTP id g21so9196952iom.13
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=P3V+FtoVYZUI41p0htZymMgazIyPkYC70RlRxt6vbn8=;
- b=SEp70tXRKU5svgc3Wv5KHiXZHq8AMOyMyHpVNB22L/v0XAM2Mzr63e6hHKwCc4GSbY
- nhgFKvjHcp0L/5CDB78d3nsZb7IQENBT9fpFAqOhxc8f68SpFhRkHShiA/mZAA6HYWMd
- 65M33H1199o+0Q3UbZEQN7biHEBMURrtccLF7JFofA7Z8gRMDgx+nIPB7SwInPXzetMO
- jmZbgQVDEC9DWOefuEJuBGZTGoghtWtoGqLItXwTpsR3vFiTrNO5e308UlwdaCLq7vZ/
- Esh/2vpbkE5lYLgpSvBZm8ObZZn3gn1gXQSb2En0MET0waVZeeJIhId4bGkr9gTBk4tQ
- ybmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=P3V+FtoVYZUI41p0htZymMgazIyPkYC70RlRxt6vbn8=;
- b=h+x0Q2HLZ75oNSMAKCZk/fm4FIQE212AvQ9+l4XkYq3kxU5n3Cc/rLE9s/nEAj5NoQ
- HR/EN6EH8nF9JRmOVxiqDO/B228buGf8Uf23iJglYkUHetvDq844+LtfXUBRaiESQdwv
- uLIzyaal+MJkPmeH+5Xo+Y6pzCJyeNUkB1g7W05WgTxqZjKVUK4XqNFjG9AcOYLUUh5L
- rKbp32gCIGkm+up9UjO1G2PSwdW+xGRbUsm4QjcxpzYBDyV4e0y+xTPgXftdndHRlVUm
- fiHo6L8BLQDHRF0i1SURR2QHE7vEapNC6CzsEuXgTfAiUJ+qnhnq44dXH7kOl7+wo4vd
- oJAw==
-X-Gm-Message-State: AOAM530laESVwrMydffK2Fb0IwC8/45750W6O+zu9WS3nP6p9575pHER
- TkAK9jdXHRzS4wBRExlRkgE4K0r2e2hey/Ss
-X-Google-Smtp-Source: ABdhPJwXhhP2QYJek3s01FLysN4rqeIuRHQPZFHyeJ1SMuSgoHqZokorYdPLRHtRjeCH1HeuLgjMKA==
-X-Received: by 2002:a6b:fb15:0:b0:64c:9b3a:2182 with SMTP id
- h21-20020a6bfb15000000b0064c9b3a2182mr2538898iog.211.1650646654634; 
- Fri, 22 Apr 2022 09:57:34 -0700 (PDT)
-Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
- by smtp.gmail.com with ESMTPSA id
- n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 09:57:34 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 63/68] hw/intc: Vectored Interrupt Controller (VIC)
-Date: Fri, 22 Apr 2022 09:52:33 -0700
-Message-Id: <20220422165238.1971496-64-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
-References: <20220422165238.1971496-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1nhwq0-0002tu-HM
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 13:12:56 -0400
+Received: from relay.yourmailgateway.de ([188.68.63.165]:35549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1nhwpr-0001gs-Li
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 13:12:53 -0400
+Received: from mors-relay-8202.netcup.net (localhost [127.0.0.1])
+ by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4KlLZG6bXFz3nWV;
+ Fri, 22 Apr 2022 19:12:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zapateado.de; s=key2;
+ t=1650647558; bh=mt0AbkpKCYeStUEmJqRhEcP0cNJpJ1Y9/eznqXsSUCE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=NnObEP6yws/3BSCNTpVW1lWZYTNHraUSHrngM4343rqt3EigGdpwWQcs0ouv/Pb6q
+ 0Ft8fa1WC8fjoXy03TyAmpxuMea68QUMMT6tkOtZYJHhClJr4ZIh7g7U6TmemHX1ex
+ hTJU6eWtCzgAvYix4vemSywJ8+3WFi5OousIKX3mGCG8BHVy7GgPUFYKS9vdgW0LO3
+ hqa7Ra5I+OgAFL2Y+c9/NWcgKJhJ9plTheYBh5Fjq7ouKJlMBQaXAQ49VYv0ZjrkK9
+ 1IsT6w5eKa/fUTo0AtDMwOvwM7U3Ez6eEYkgSNziXhCNYdpfa4LybYmEZWIxXI+HgM
+ s7JqDoVYgenRA==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.53])
+ by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4KlLZG6B6Gz3nWR;
+ Fri, 22 Apr 2022 19:12:38 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at policy02-mors.netcup.net
+X-Spam-Score: -2.9
+Received: from mx2f6e.netcup.net (unknown [10.243.12.53])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by policy02-mors.netcup.net (Postfix) with ESMTPS id 4KlLZF04j2z8sk5;
+ Fri, 22 Apr 2022 19:12:36 +0200 (CEST)
+Received: from [192.168.54.9] (ip-095-223-070-176.um35.pools.vodafone-ip.de
+ [95.223.70.176])
+ by mx2f6e.netcup.net (Postfix) with ESMTPSA id 22C7968209;
+ Fri, 22 Apr 2022 19:12:36 +0200 (CEST)
+Authentication-Results: mx2f6e;
+ spf=pass (sender IP is 95.223.70.176) smtp.mailfrom=hk@zapateado.de
+ smtp.helo=[192.168.54.9]
+Received-SPF: pass (mx2f6e: connection is authenticated)
+Message-ID: <ab7e361e-ae71-ebfb-8604-9ddbd67075df@zapateado.de>
+Date: Fri, 22 Apr 2022 19:12:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] qga/vss-win32: enable qga-vss.tlb generation with widl
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>
+References: <fb9c4633-27af-a01d-3cca-79ed20519727@zapateado.de>
+ <CAJ+F1CLuCGTequPCD8ZK08bu3zdo6rdN1UBNX7AXO-s16fVQog@mail.gmail.com>
+ <CAPMcbCqP8zkpHX9Zg8Y4v1AdOSGb5seiuCYqt5S4HhZpe8SE8Q@mail.gmail.com>
+ <CAJ+F1C+uQUjSvndrwNbHv354Qt4BCUB4hDZyNerNfD7pc_fdiw@mail.gmail.com>
+From: Helge Konetzka <hk@zapateado.de>
+In-Reply-To: <CAJ+F1C+uQUjSvndrwNbHv354Qt4BCUB4hDZyNerNfD7pc_fdiw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd31.google.com
+X-PPP-Message-ID: <165064755657.19004.18035320093037904450@mx2f6e.netcup.net>
+X-PPP-Vhost: konetzka.de
+X-NC-CID: zOr0jByuaPEX+ptsZP7iVXiXgs/OZxoVzukiV5HOBb2J
+Received-SPF: pass client-ip=188.68.63.165; envelope-from=hk@zapateado.de;
+ helo=relay.yourmailgateway.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,444 +88,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Amir Gonnen <amir.gonnen@neuroblade.ai>
+Cc: Michael Roth <michael.roth@amd.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Hello,
 
-Implement nios2 Vectored Interrupt Controller (VIC).
-VIC is connected to EIC. It needs to update rha, ril, rrs and rnmi
-fields on Nios2CPU before raising an IRQ.
-For that purpose, VIC has a "cpu" property which should refer to the
-nios2 cpu and set by the board that connects VIC.
+a few moments ago I sent a PR to Msys2 to make widl work as expected.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
-Message-Id: <20220303153906.2024748-5-amir.gonnen@neuroblade.ai>
-[rth: Split out nios2_vic.h]
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-60-richard.henderson@linaro.org>
----
- include/hw/intc/nios2_vic.h |  64 ++++++++
- hw/intc/nios2_vic.c         | 313 ++++++++++++++++++++++++++++++++++++
- hw/intc/Kconfig             |   3 +
- hw/intc/meson.build         |   1 +
- 4 files changed, 381 insertions(+)
- create mode 100644 include/hw/intc/nios2_vic.h
- create mode 100644 hw/intc/nios2_vic.c
+I've prepared a rather simple patch to activate the generation of 
+qga-vss.tlb by widl in targets all and qemu-ga, which I will post later on.
 
-diff --git a/include/hw/intc/nios2_vic.h b/include/hw/intc/nios2_vic.h
-new file mode 100644
-index 0000000000..af1517a967
---- /dev/null
-+++ b/include/hw/intc/nios2_vic.h
-@@ -0,0 +1,64 @@
-+/*
-+ * Vectored Interrupt Controller for nios2 processor
-+ *
-+ * Copyright (c) 2022 Neuroblade
-+ *
-+ * Interface:
-+ * QOM property "cpu": link to the Nios2 CPU (must be set)
-+ * Unnamed GPIO inputs 0..NIOS2_VIC_MAX_IRQ-1: input IRQ lines
-+ * IRQ should be connected to nios2 IRQ0.
-+ *
-+ * Reference: "Embedded Peripherals IP User Guide
-+ *             for Intel® Quartus® Prime Design Suite: 21.4"
-+ * Chapter 38 "Vectored Interrupt Controller Core"
-+ * See: https://www.intel.com/content/www/us/en/docs/programmable/683130/21-4/vectored-interrupt-controller-core.html
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef HW_INTC_NIOS2_VIC
-+#define HW_INTC_NIOS2_VIC
-+
-+#define TYPE_NIOS2_VIC "nios2-vic"
-+OBJECT_DECLARE_SIMPLE_TYPE(Nios2VIC, NIOS2_VIC)
-+
-+#define NIOS2_VIC_MAX_IRQ 32
-+
-+struct Nios2VIC {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+
-+    /*< public >*/
-+    qemu_irq output_int;
-+
-+    /* properties */
-+    CPUState *cpu;
-+    MemoryRegion csr;
-+
-+    uint32_t int_config[NIOS2_VIC_MAX_IRQ];
-+    uint32_t vic_config;
-+    uint32_t int_raw_status;
-+    uint32_t int_enable;
-+    uint32_t sw_int;
-+    uint32_t vic_status;
-+    uint32_t vec_tbl_base;
-+    uint32_t vec_tbl_addr;
-+};
-+
-+#endif /* HW_INTC_NIOS2_VIC */
-diff --git a/hw/intc/nios2_vic.c b/hw/intc/nios2_vic.c
-new file mode 100644
-index 0000000000..cf63212a88
---- /dev/null
-+++ b/hw/intc/nios2_vic.c
-@@ -0,0 +1,313 @@
-+/*
-+ * Vectored Interrupt Controller for nios2 processor
-+ *
-+ * Copyright (c) 2022 Neuroblade
-+ *
-+ * Interface:
-+ * QOM property "cpu": link to the Nios2 CPU (must be set)
-+ * Unnamed GPIO inputs 0..NIOS2_VIC_MAX_IRQ-1: input IRQ lines
-+ * IRQ should be connected to nios2 IRQ0.
-+ *
-+ * Reference: "Embedded Peripherals IP User Guide
-+ *             for Intel® Quartus® Prime Design Suite: 21.4"
-+ * Chapter 38 "Vectored Interrupt Controller Core"
-+ * See: https://www.intel.com/content/www/us/en/docs/programmable/683130/21-4/vectored-interrupt-controller-core.html
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "hw/irq.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/sysbus.h"
-+#include "migration/vmstate.h"
-+#include "qapi/error.h"
-+#include "qemu/bitops.h"
-+#include "qemu/log.h"
-+#include "qom/object.h"
-+#include "hw/intc/nios2_vic.h"
-+#include "cpu.h"
-+
-+
-+enum {
-+    INT_CONFIG0 = 0,
-+    INT_CONFIG31 = 31,
-+    INT_ENABLE = 32,
-+    INT_ENABLE_SET = 33,
-+    INT_ENABLE_CLR = 34,
-+    INT_PENDING = 35,
-+    INT_RAW_STATUS = 36,
-+    SW_INTERRUPT = 37,
-+    SW_INTERRUPT_SET = 38,
-+    SW_INTERRUPT_CLR = 39,
-+    VIC_CONFIG = 40,
-+    VIC_STATUS = 41,
-+    VEC_TBL_BASE = 42,
-+    VEC_TBL_ADDR = 43,
-+    CSR_COUNT /* Last! */
-+};
-+
-+/* Requested interrupt level (INT_CONFIG[0:5]) */
-+static inline uint32_t vic_int_config_ril(const Nios2VIC *vic, int irq_num)
-+{
-+    return extract32(vic->int_config[irq_num], 0, 6);
-+}
-+
-+/* Requested NMI (INT_CONFIG[6]) */
-+static inline uint32_t vic_int_config_rnmi(const Nios2VIC *vic, int irq_num)
-+{
-+    return extract32(vic->int_config[irq_num], 6, 1);
-+}
-+
-+/* Requested register set (INT_CONFIG[7:12]) */
-+static inline uint32_t vic_int_config_rrs(const Nios2VIC *vic, int irq_num)
-+{
-+    return extract32(vic->int_config[irq_num], 7, 6);
-+}
-+
-+static inline uint32_t vic_config_vec_size(const Nios2VIC *vic)
-+{
-+    return 1 << (2 + extract32(vic->vic_config, 0, 3));
-+}
-+
-+static inline uint32_t vic_int_pending(const Nios2VIC *vic)
-+{
-+    return (vic->int_raw_status | vic->sw_int) & vic->int_enable;
-+}
-+
-+static void vic_update_irq(Nios2VIC *vic)
-+{
-+    Nios2CPU *cpu = NIOS2_CPU(vic->cpu);
-+    uint32_t pending = vic_int_pending(vic);
-+    int irq = -1;
-+    int max_ril = 0;
-+    /* Note that if RIL is 0 for an interrupt it is effectively disabled */
-+
-+    vic->vec_tbl_addr = 0;
-+    vic->vic_status = 0;
-+
-+    if (pending == 0) {
-+        qemu_irq_lower(vic->output_int);
-+        return;
-+    }
-+
-+    for (int i = 0; i < NIOS2_VIC_MAX_IRQ; i++) {
-+        if (pending & BIT(i)) {
-+            int ril = vic_int_config_ril(vic, i);
-+            if (ril > max_ril) {
-+                irq = i;
-+                max_ril = ril;
-+            }
-+        }
-+    }
-+
-+    if (irq < 0) {
-+        qemu_irq_lower(vic->output_int);
-+        return;
-+    }
-+
-+    vic->vec_tbl_addr = irq * vic_config_vec_size(vic) + vic->vec_tbl_base;
-+    vic->vic_status = irq | BIT(31);
-+
-+    /*
-+     * In hardware, the interface between the VIC and the CPU is via the
-+     * External Interrupt Controller interface, where the interrupt controller
-+     * presents the CPU with a packet of data containing:
-+     *  - Requested Handler Address (RHA): 32 bits
-+     *  - Requested Register Set (RRS) : 6 bits
-+     *  - Requested Interrupt Level (RIL) : 6 bits
-+     *  - Requested NMI flag (RNMI) : 1 bit
-+     * In our emulation, we implement this by writing the data directly to
-+     * fields in the CPU object and then raising the IRQ line to tell
-+     * the CPU that we've done so.
-+     */
-+
-+    cpu->rha = vic->vec_tbl_addr;
-+    cpu->ril = max_ril;
-+    cpu->rrs = vic_int_config_rrs(vic, irq);
-+    cpu->rnmi = vic_int_config_rnmi(vic, irq);
-+
-+    qemu_irq_raise(vic->output_int);
-+}
-+
-+static void vic_set_irq(void *opaque, int irq_num, int level)
-+{
-+    Nios2VIC *vic = opaque;
-+
-+    vic->int_raw_status = deposit32(vic->int_raw_status, irq_num, 1, !!level);
-+    vic_update_irq(vic);
-+}
-+
-+static void nios2_vic_reset(DeviceState *dev)
-+{
-+    Nios2VIC *vic = NIOS2_VIC(dev);
-+
-+    memset(&vic->int_config, 0, sizeof(vic->int_config));
-+    vic->vic_config = 0;
-+    vic->int_raw_status = 0;
-+    vic->int_enable = 0;
-+    vic->sw_int = 0;
-+    vic->vic_status = 0;
-+    vic->vec_tbl_base = 0;
-+    vic->vec_tbl_addr = 0;
-+}
-+
-+static uint64_t nios2_vic_csr_read(void *opaque, hwaddr offset, unsigned size)
-+{
-+    Nios2VIC *vic = opaque;
-+    int index = offset / 4;
-+
-+    switch (index) {
-+    case INT_CONFIG0 ... INT_CONFIG31:
-+        return vic->int_config[index - INT_CONFIG0];
-+    case INT_ENABLE:
-+        return vic->int_enable;
-+    case INT_PENDING:
-+        return vic_int_pending(vic);
-+    case INT_RAW_STATUS:
-+        return vic->int_raw_status;
-+    case SW_INTERRUPT:
-+        return vic->sw_int;
-+    case VIC_CONFIG:
-+        return vic->vic_config;
-+    case VIC_STATUS:
-+        return vic->vic_status;
-+    case VEC_TBL_BASE:
-+        return vic->vec_tbl_base;
-+    case VEC_TBL_ADDR:
-+        return vic->vec_tbl_addr;
-+    default:
-+        return 0;
-+    }
-+}
-+
-+static void nios2_vic_csr_write(void *opaque, hwaddr offset, uint64_t value,
-+                                unsigned size)
-+{
-+    Nios2VIC *vic = opaque;
-+    int index = offset / 4;
-+
-+    switch (index) {
-+    case INT_CONFIG0 ... INT_CONFIG31:
-+        vic->int_config[index - INT_CONFIG0] = value;
-+        break;
-+    case INT_ENABLE:
-+        vic->int_enable = value;
-+        break;
-+    case INT_ENABLE_SET:
-+        vic->int_enable |= value;
-+        break;
-+    case INT_ENABLE_CLR:
-+        vic->int_enable &= ~value;
-+        break;
-+    case SW_INTERRUPT:
-+        vic->sw_int = value;
-+        break;
-+    case SW_INTERRUPT_SET:
-+        vic->sw_int |= value;
-+        break;
-+    case SW_INTERRUPT_CLR:
-+        vic->sw_int &= ~value;
-+        break;
-+    case VIC_CONFIG:
-+        vic->vic_config = value;
-+        break;
-+    case VEC_TBL_BASE:
-+        vic->vec_tbl_base = value;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "nios2-vic: write to invalid CSR address %#"
-+                      HWADDR_PRIx "\n", offset);
-+    }
-+
-+    vic_update_irq(vic);
-+}
-+
-+static const MemoryRegionOps nios2_vic_csr_ops = {
-+    .read = nios2_vic_csr_read,
-+    .write = nios2_vic_csr_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = { .min_access_size = 4, .max_access_size = 4 }
-+};
-+
-+static void nios2_vic_realize(DeviceState *dev, Error **errp)
-+{
-+    Nios2VIC *vic = NIOS2_VIC(dev);
-+
-+    if (!vic->cpu) {
-+        /* This is a programming error in the code using this device */
-+        error_setg(errp, "nios2-vic 'cpu' link property was not set");
-+        return;
-+    }
-+
-+    sysbus_init_irq(SYS_BUS_DEVICE(dev), &vic->output_int);
-+    qdev_init_gpio_in(dev, vic_set_irq, NIOS2_VIC_MAX_IRQ);
-+
-+    memory_region_init_io(&vic->csr, OBJECT(dev), &nios2_vic_csr_ops, vic,
-+                          "nios2.vic.csr", CSR_COUNT * sizeof(uint32_t));
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &vic->csr);
-+}
-+
-+static Property nios2_vic_properties[] = {
-+    DEFINE_PROP_LINK("cpu", Nios2VIC, cpu, TYPE_CPU, CPUState *),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
-+static const VMStateDescription nios2_vic_vmstate = {
-+    .name = "nios2-vic",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]){
-+        VMSTATE_UINT32_ARRAY(int_config, Nios2VIC, 32),
-+        VMSTATE_UINT32(vic_config, Nios2VIC),
-+        VMSTATE_UINT32(int_raw_status, Nios2VIC),
-+        VMSTATE_UINT32(int_enable, Nios2VIC),
-+        VMSTATE_UINT32(sw_int, Nios2VIC),
-+        VMSTATE_UINT32(vic_status, Nios2VIC),
-+        VMSTATE_UINT32(vec_tbl_base, Nios2VIC),
-+        VMSTATE_UINT32(vec_tbl_addr, Nios2VIC),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
-+static void nios2_vic_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->reset = nios2_vic_reset;
-+    dc->realize = nios2_vic_realize;
-+    dc->vmsd = &nios2_vic_vmstate;
-+    device_class_set_props(dc, nios2_vic_properties);
-+}
-+
-+static const TypeInfo nios2_vic_info = {
-+    .name = TYPE_NIOS2_VIC,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(Nios2VIC),
-+    .class_init = nios2_vic_class_init,
-+};
-+
-+static void nios2_vic_register_types(void)
-+{
-+    type_register_static(&nios2_vic_info);
-+}
-+
-+type_init(nios2_vic_register_types);
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index a7cf301eab..eded1b557e 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -84,3 +84,6 @@ config GOLDFISH_PIC
- 
- config M68K_IRQC
-     bool
-+
-+config NIOS2_VIC
-+    bool
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index d6d012fb26..8b35139f82 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -62,3 +62,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
- 		if_true: files('spapr_xive_kvm.c'))
- specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
- specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
-+specific_ss.add(when: 'CONFIG_NIOS2_VIC', if_true: files('nios2_vic.c'))
--- 
-2.34.1
+Thank you for your patience and your help!
 
+Regards, Helge.
+
+
+Am 20.04.22 um 14:27 schrieb Marc-André Lureau:
+> Hi
+> 
+> On Wed, Apr 20, 2022 at 3:17 PM Konstantin Kostiuk <kkostiuk@redhat.com 
+> <mailto:kkostiuk@redhat.com>> wrote:
+> 
+>     Hi Helge,
+> 
+>     I checked what happened in MSYS2 and this looks like a bug in the
+>     widl tool.
+> 
+>     I looked into the widl source code and think that it detects the
+>     default include path incorrectly.
+> 
+>     During build of widl tool the corresponding variable receive
+>     incorrect value:
+>     `BIN_TO_INCLUDEDIR = ../x86_64-w64-mingw32/include` but should be
+>     `BIN_TO_INCLUDEDIR = ../include`. Looks like a package mismatch,
+>     because the `/ming64/x86_64-w64-mingw32` directory exist
+>     but contains only few libs and no any include files.
+> 
+>     So I agreed with Marc-André. I think this bug should be fixed in MSYS2.
+>     I think you can report this issue there
+>     https://github.com/msys2/MINGW-packages/issues
+>     <https://github.com/msys2/MINGW-packages/issues>
+> 
+> 
+> Thanks for the investigation and your comment on the msys2 issue: 
+> https://github.com/msys2/MINGW-packages/issues/11520 
+> <https://github.com/msys2/MINGW-packages/issues/11520>
+> 
+>     When I checked the build using cross-compilation from Linux,
+>     the widl tool uses proper BIN_TO_INCLUDEDIR.
+> 
+>     We should add the rule that qga_vss depends on gen_tlb to get this
+>     error more visible.
+> 
+>     Marc-André, what do you think?
+> 
+> 
+> yes, that's what I suggested earlier
+> 
+> thanks
+> 
+>     Best Regards,
+>     Konstantin Kostiuk.
+> 
+> 
+>     On Mon, Apr 18, 2022 at 11:15 AM Marc-André Lureau
+>     <marcandre.lureau@gmail.com <mailto:marcandre.lureau@gmail.com>> wrote:
+> 
+>         Hi Helge
+> 
+>         On Sun, Apr 17, 2022 at 6:51 PM Helge Konetzka <hk@zapateado.de
+>         <mailto:hk@zapateado.de>> wrote:
+> 
+>             Generation with widl needs to be triggered explicitly and
+>             requires
+>             library and include directories containing referenced *.idl
+>             and *.tlb
+>             as parameters.
+> 
+> 
+>         Ok, that's different issues, it would help to split the patch.
+> 
+> 
+>             Signed-off-by: Helge Konetzka <hk@zapateado.de
+>             <mailto:hk@zapateado.de>>
+>             ---
+> 
+>             For tested Msys2 build all referenced resources reside in
+>             /<usr>/include.
+>             Msys2 provides its flavours in different /<usr> bases.
+> 
+>             This patch derives the missing include directory path from
+>             widl path.
+>             Assuming the given widl path is /<usr>/bin/widl, it
+>             determines /<usr>
+>             as base and appends /<usr>/include as include and library
+>             directories
+>             to widl command. This way the directory is correct for any Msys2
+>             flavour.
+>             It makes sure, only existing directories are appended as
+>             parameter.
+> 
+> 
+>         I would file a bug to msys2 instead for widl to use the default
+>         include directory. Otherwise, every widl user out there needs to
+>         be adjusted.
+>         (I think it would need a special --with-widl-includedir=DIR,
+>         given how msys2 remaps directory)
+> 
+> 
+>             ---
+>                qga/vss-win32/meson.build | 11 +++++++++--
+>                1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+>             diff --git a/qga/vss-win32/meson.build
+>             b/qga/vss-win32/meson.build
+>             index 71c50d0866..51539a582c 100644
+>             --- a/qga/vss-win32/meson.build
+>             +++ b/qga/vss-win32/meson.build
+>             @@ -30,9 +30,16 @@ if midl.found()
+>                                          input: 'qga-vss.idl',
+>                                          output: 'qga-vss.tlb',
+>                                          command: [midl, '@INPUT@',
+>             '/tlb', '@OUTPUT@'])
+>             -else
+>             +elif widl.found()
+>             +  widl_cmd = [widl, '-t', '@INPUT@', '-o', '@OUTPUT@']
+>             +  usr_include =
+>             fs.parent(fs.parent(widl.full_path()))/'include'
+>             +  if fs.is_dir(usr_include)
+>             +    widl_cmd += ['-L', usr_include]
+>             +    widl_cmd += ['-I', usr_include]
+>             +  endif
+>                  gen_tlb = custom_target('gen-tlb',
+>                                          input: 'qga-vss.idl',
+>                                          output: 'qga-vss.tlb',
+>             -                          command: [widl, '-t', '@INPUT@',
+>             '-o',
+>             '@OUTPUT@'])
+>             +                          build_by_default: true,
+> 
+> 
+>         I would make qga_vss depend on gen_tlb instead (so the tlb is
+>         always built with the dll)
+> 
+>         thanks
+> 
+>         -- 
+>         Marc-André Lureau
+> 
+> 
+> 
+> -- 
+> Marc-André Lureau
 
