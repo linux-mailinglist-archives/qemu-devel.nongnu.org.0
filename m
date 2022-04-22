@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C7250B39C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 11:08:20 +0200 (CEST)
-Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EE450B353
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 10:56:08 +0200 (CEST)
+Received: from localhost ([::1]:52362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhpH1-0005nE-N2
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 05:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42058)
+	id 1nhp5D-0002sw-JR
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 04:56:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhoo5-0007Pq-I2
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 04:38:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39710)
+ id 1nhoop-0008DG-Jx
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 04:39:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nhoo4-0006NU-0X
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 04:38:25 -0400
+ id 1nhooo-0006SK-0F
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 04:39:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650616703;
+ s=mimecast20190719; t=1650616749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4BZGulrL0ywqD6A7XDK2DpkSa6omxztAc/aQytVDpZw=;
- b=bxkIXYxUZ2BWORLXaSAlESbEVr7Js86eyOZkJWgJerAk5/7awkMnksgUqGWCUqkVDGLbhd
- eOmNqj3Ve4d/hnq+5qngNAtwts44PuQToC4P2yjOdELuqr+1y9w8R9pIMVq4gbXfcOFjRj
- e01lqADVxzFSYcvj1XvVntX9UJH7Z6w=
+ bh=yYftN/q0CDKhgzdHnPKG6hscNUzWvFz6yhW8UOdqwo0=;
+ b=ceGAaO8IGURfz++cndR1ifdAkPOPS4BTgh3cq6s2Egv9QHJrpgF7Tb+402gdUGvbPtUNJO
+ wlw/rlcjUqNAnh+ltPTsf4gzVI8AbyS3MBTMEfI10Oj5WNw5mZ0uARa6Y8CXtDUI8z/Z2A
+ oaE4j4j0oBSD8QmdokMfibZ0aIeHN1A=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-U3Szs7AaMdWaTeLaj6rbBw-1; Fri, 22 Apr 2022 04:38:21 -0400
-X-MC-Unique: U3Szs7AaMdWaTeLaj6rbBw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-96-oq2QrCu8O5WTUmEDH4gFGg-1; Fri, 22 Apr 2022 04:38:25 -0400
+X-MC-Unique: oq2QrCu8O5WTUmEDH4gFGg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB0611C07392;
- Fri, 22 Apr 2022 08:38:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 729F51C07383;
+ Fri, 22 Apr 2022 08:38:25 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF65C200C0E2;
- Fri, 22 Apr 2022 08:38:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99B4E434822;
+ Fri, 22 Apr 2022 08:38:24 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/10] block: move fcntl_setfl()
-Date: Fri, 22 Apr 2022 12:36:38 +0400
-Message-Id: <20220422083639.3156978-10-marcandre.lureau@redhat.com>
+Subject: [PATCH 10/10] util/win32: simplify qemu_get_local_state_dir()
+Date: Fri, 22 Apr 2022 12:36:39 +0400
+Message-Id: <20220422083639.3156978-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20220422083639.3156978-1-marcandre.lureau@redhat.com>
 References: <20220422083639.3156978-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -63,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,89 +76,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "open list:raw" <qemu-block@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-It is only used by block/file-posix.c, move it there.
+SHGetFolderPath() is a deprecated API:
+https://docs.microsoft.com/en-us/windows/win32/api/shlobj_core/nf-shlobj_core-shgetfolderpatha
+
+It is a wrapper for SHGetKnownFolderPath() and CSIDL_COMMON_PATH is
+mapped to FOLDERID_ProgramData:
+https://docs.microsoft.com/en-us/windows/win32/shell/csidl
+
+g_get_system_data_dirs() is a suitable replacement, as it will have
+FOLDERID_ProgramData in the returned list. However, it follows the XDG
+Base Directory Specification, if `XDG_DATA_DIRS` is defined, it will be
+returned instead.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/sysemu/os-posix.h |  2 --
- block/file-posix.c        | 15 +++++++++++++++
- util/oslib-posix.c        | 15 ---------------
- 3 files changed, 15 insertions(+), 17 deletions(-)
+ util/oslib-win32.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
-index adbe19d3e468..58de7c994d85 100644
---- a/include/sysemu/os-posix.h
-+++ b/include/sysemu/os-posix.h
-@@ -96,8 +96,6 @@ static inline void qemu_funlockfile(FILE *f)
-     funlockfile(f);
- }
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 9483c4c1d5de..8f8523693c02 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -40,9 +40,6 @@
+ #include "qemu/error-report.h"
+ #include <malloc.h>
  
--int fcntl_setfl(int fd, int flag);
+-/* this must come after including "trace.h" */
+-#include <shlobj.h>
 -
- #ifdef __cplusplus
- }
- #endif
-diff --git a/block/file-posix.c b/block/file-posix.c
-index bfd9b2111143..1164ca9e1c6d 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1022,6 +1022,21 @@ static int raw_handle_perm_lock(BlockDriverState *bs,
-     return ret;
- }
- 
-+/* Sets a specific flag */
-+static int fcntl_setfl(int fd, int flag)
-+{
-+    int flags;
-+
-+    flags = fcntl(fd, F_GETFL);
-+    if (flags == -1)
-+        return -errno;
-+
-+    if (fcntl(fd, F_SETFL, flags | flag) == -1)
-+        return -errno;
-+
-+    return 0;
-+}
-+
- static int raw_reconfigure_getfd(BlockDriverState *bs, int flags,
-                                  int *open_flags, uint64_t perm, bool force_dup,
-                                  Error **errp)
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 543c9944b083..1c231087408f 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -794,21 +794,6 @@ size_t qemu_get_host_physmem(void)
-     return 0;
- }
- 
--/* Sets a specific flag */
--int fcntl_setfl(int fd, int flag)
--{
--    int flags;
--
--    flags = fcntl(fd, F_GETFL);
--    if (flags == -1) {
--        return -errno;
--    }
--    if (fcntl(fd, F_SETFL, flags | flag) == -1) {
--        return -errno;
--    }
--    return 0;
--}
--
- int qemu_msync(void *addr, size_t length, int fd)
+ static int get_allocation_granularity(void)
  {
-     size_t align_mask = ~(qemu_real_host_page_size() - 1);
+     SYSTEM_INFO system_info;
+@@ -237,17 +234,11 @@ int qemu_get_thread_id(void)
+ char *
+ qemu_get_local_state_dir(void)
+ {
+-    HRESULT result;
+-    char base_path[MAX_PATH+1] = "";
++    const char * const *data_dirs = g_get_system_data_dirs();
+ 
+-    result = SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL,
+-                             /* SHGFP_TYPE_CURRENT */ 0, base_path);
+-    if (result != S_OK) {
+-        /* misconfigured environment */
+-        g_critical("CSIDL_COMMON_APPDATA unavailable: %ld", (long)result);
+-        abort();
+-    }
+-    return g_strdup(base_path);
++    g_assert(data_dirs && data_dirs[0]);
++
++    return g_strdup(data_dirs[0]);
+ }
+ 
+ void qemu_set_tty_echo(int fd, bool echo)
 -- 
 2.36.0
 
