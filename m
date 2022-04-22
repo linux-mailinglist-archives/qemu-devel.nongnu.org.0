@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485E050BBBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 17:31:44 +0200 (CEST)
-Received: from localhost ([::1]:48738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B4450BBBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 17:34:18 +0200 (CEST)
+Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhvG3-0005Ld-AG
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 11:31:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33612)
+	id 1nhvIX-0000F2-K1
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 11:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhvBa-0000aM-DS
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:27:06 -0400
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:37818)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nhvHL-0007Xp-Oa
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:33:03 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nhvBY-0003gl-PM
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:27:06 -0400
-Received: by mail-io1-xd2c.google.com with SMTP id p21so8940005ioj.4
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 08:27:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nhvHJ-0004Ri-Vq
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:33:03 -0400
+Received: by mail-wr1-x434.google.com with SMTP id m14so11593906wrb.6
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 08:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=gTAwlSAdkUOrO8/C89Uve61pt9EmMHVuxdoWEivDyPs=;
- b=vPh10TKbqkjguW/+nIQXSw/69ahYV5o22T2i0odhHU/Yh5nYnfaPXo2uSrrTmcET4F
- kuAm1CxjiZlaNIHwkIJRwsFB5a6YiPoUA6+YSQFj2Ioxmin/009xdTFg5A8esrg5M7nK
- /3di7bnm1JuPOq8Lnsm1gbnQnKJr8PaHyxjkrBHQR+AMuDMFTyaV2TzRXOiSQKpx5KtY
- hafC7F+RXgvXBEfjqGUptjbwlzIHunIsNoxE5E6e2RdWIDXa1mak0a31Pj6Uwn3xYP+U
- nXhbUEdYK1Flquqb6H5YMESzSM8inxxoE/jDmkCeaRGIuiJY446naI9XrQ3zmB6NwbMl
- fSmQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jRwdlGlz0rmV9XAT+yEtDXq/3ORzoVIrDdydHfyCOd0=;
+ b=RiH0XBi/y51FQ6+Fz027hrkD5oTDX2TnVBq8ST+p0667S/rwYhJVsnmbg8AYYobQt1
+ dTUDRWYEW0MBxFs4xMqodE8vg9S+W9rk4lM4cwJq2EARglbiD+06LqMvj20X4+rvylXS
+ ldC4JVt5+vfNCOIu9ODzIJpR+YYh/rQb41GwBW+alS6XRxOwjZp24S0HhCvoM5pnrre2
+ 3BfHB3X/nxKwuqJFequzeIq4NcliMz5vaYUZLHhCpwFgvb9+KGtWb1vdS/UvmIe+R8tP
+ rbmbJjP3RpkWdoy6/mVHMUhXG1Z6a9g9kQ+u2U+gYKyfp6loxv8pDiVH+sqB5ZWuut5S
+ FKyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=gTAwlSAdkUOrO8/C89Uve61pt9EmMHVuxdoWEivDyPs=;
- b=zTR6ItXevDLJmfYgSoSq4JnKzmxU6Pqt/xnlgkxY+klyX+mB2gu2sFgFxF+SYP9LQC
- MaFUGAPAATwxb0MhVV3m1x0x6Ckqe7eigL12sap3OqqjIQ+bgMnJx978ahN3sfjjjbxT
- r7wpnncf040qqA98QJFWEM/fXP5X9IHpSSS44LpxuyPPWgKshVnWLrZ0V0Q5D3HEhMP0
- vSvoeqn6pBVax40CGFoFQSZWkgEd56ttrM6xPcrYM5YVMqkYC2vl/RwIzpxv6Zklpjhj
- 5V4Yf4IXnILsTfnRlrcw4wArOC38XSJ5gnTo87aqurr/xolYp8+pC6gDnxLn2/+5GGMj
- Ulbg==
-X-Gm-Message-State: AOAM531LJS/jwXCLEKRw8ekOmJiOJvS/vKfuChiEwM/sOq4UQ/jU0PCB
- yph0wDGVoyR6P9jx3jneKShJyWXdsb1IFg==
-X-Google-Smtp-Source: ABdhPJwy1i/lGLEkMSeiRrjoxYHJ6OwsSnnKusvCluXxYa85C4IZPU+IgzoCURvB3TC3mk2YZmpYfg==
-X-Received: by 2002:a05:6638:191c:b0:326:3c70:b9c3 with SMTP id
- p28-20020a056638191c00b003263c70b9c3mr2304629jal.154.1650641223428; 
- Fri, 22 Apr 2022 08:27:03 -0700 (PDT)
-Received: from ?IPV6:2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1?
- ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=jRwdlGlz0rmV9XAT+yEtDXq/3ORzoVIrDdydHfyCOd0=;
+ b=AamuXEBq8yTOMqotwYFBexrRx+8VR/moKl2S19fpemHwrJzExTbpimn8hcF7gAUKzf
+ X7LNaQe+WC9DZSBKlJq7BaTccsMY6VkkfKnxkyQpYBZnYbHfDe4dqDwwdOYaN9SXX9cZ
+ WOdNlZpWPJ+hPJcqNgaufRm2ONyHmHO/m2X8x6DQvk9BEJWYv+HGue/y9l7685ptEgcQ
+ Iq8/O2mQxr6/YAclrSG1wSKP+2R0HU9fuWDK+gkoW7C8kOlLffpvt1wrhUzmhiHXeAsV
+ hXfOfLVgZyGXB55l4FhcdAmID9b+rKF9oAk5AJEIZMcciAobfdq4kV/oY/qqQPxcuyGK
+ jm1A==
+X-Gm-Message-State: AOAM531QY0PIIJ2Q1roSfglIqdJQS13eGBOz2UxhxqmTwgfajIbE6yD8
+ pAh5UzomIgS3hqXp9gqtIDMXnQ==
+X-Google-Smtp-Source: ABdhPJwGhrf9uGAzIi2/JDLRlO0IJ4gNv8gg/gb79v/YNHU2ZKZwUr/MKqe4a7VoA9r2CMAXrEZg7Q==
+X-Received: by 2002:a5d:5144:0:b0:207:9a13:ca73 with SMTP id
+ u4-20020a5d5144000000b002079a13ca73mr4299119wrt.268.1650641579896; 
+ Fri, 22 Apr 2022 08:32:59 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- a3-20020a5ec303000000b006496b4dd21csm1692082iok.5.2022.04.22.08.27.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Apr 2022 08:27:02 -0700 (PDT)
-Message-ID: <41ad2198-5a20-8323-ca52-c1cb6be11821@linaro.org>
-Date: Fri, 22 Apr 2022 08:26:59 -0700
+ r14-20020a5d6c6e000000b0020a9f757708sm2436715wrz.33.2022.04.22.08.32.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 08:32:58 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 35F891FFB7;
+ Fri, 22 Apr 2022 16:32:58 +0100 (BST)
+References: <20220417174426.711829-1-richard.henderson@linaro.org>
+ <20220417174426.711829-26-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.13; emacs 28.1.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 25/60] target/arm: Reorg CPAccessResult and
+ access_check_cp_reg
+Date: Fri, 22 Apr 2022 16:31:53 +0100
+In-reply-to: <20220417174426.711829-26-richard.henderson@linaro.org>
+Message-ID: <87o80tt9p1.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 7/7] target/xtensa: use tcg_constant_* for remaining
- opcodes
-Content-Language: en-US
-To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
-References: <20220422115025.381131-1-jcmvbkbc@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220422115025.381131-1-jcmvbkbc@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2c.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,40 +90,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/22 04:50, Max Filippov wrote:
-> - gen_jumpi passes target PC to the helper;
-> - gen_callw_slot uses callinc (1..3);
-> - gen_brcondi passes immediate field (less than 32 different possible
->    values) to the helper;
-> - disas_xtensa_insn passes PC to the helpers;
-> - translate_entry passes PC, stack register number (0..15) and stack
->    frame size to the helper;
-> - gen_check_exclusive passes PC and boolean flag to the helper;
-> - test_exceptions_retw passes PC to the helper;
-> - gen_check_atomctl passes PC to the helper;
-> - translate_ssai passes immediate shift amount (0..31) to the helper;
-> - gen_waiti passes next PC and an immediate (0..15) to the helper;
-> 
-> use tcg_constant_* for the constants listed above. Fold gen_waiti body
-> into the translate_waiti as it's the only user.
-> 
-> Signed-off-by: Max Filippov<jcmvbkbc@gmail.com>
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Rearrange the values of the enumerators of CPAccessResult
+> so that we may directly extract the target el. For the two
+> special cases in access_check_cp_reg, use CPAccessResult.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> Changes v2->v3:
-> - use 'pc' consistently in gen_check_atomctl
-> 
-> Changes v1->v2:
-> - convert gen_jumpi, disas_xtensa_insn, test_exceptions_retw and
->    gen_check_atomctl
-> - use tcg_constant_* for PC
-> 
->   target/xtensa/translate.c | 77 +++++++++++++--------------------------
->   1 file changed, 25 insertions(+), 52 deletions(-)
+>  target/arm/cpregs.h    | 26 ++++++++++++--------
+>  target/arm/op_helper.c | 56 +++++++++++++++++++++---------------------
+>  2 files changed, 44 insertions(+), 38 deletions(-)
+>
+> diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
+> index 005aa2d3a5..700fcc1478 100644
+> --- a/target/arm/cpregs.h
+> +++ b/target/arm/cpregs.h
+> @@ -167,26 +167,32 @@ static inline bool cptype_valid(int cptype)
+>  typedef enum CPAccessResult {
+>      /* Access is permitted */
+>      CP_ACCESS_OK =3D 0,
+> +
+> +    /*
+> +     * Combined with one of the following, the low 2 bits indicate the
+> +     * target exception level.  If 0, the exception is taken to the usual
+> +     * target EL (EL1 or PL1 if in EL0, otherwise to the current EL).
+> +     */
+> +    CP_ACCESS_EL_MASK =3D 3,
+> +
+>      /*
+>       * Access fails due to a configurable trap or enable which would
+>       * result in a categorized exception syndrome giving information abo=
+ut
+>       * the failing instruction (ie syndrome category 0x3, 0x4, 0x5, 0x6,
+> -     * 0xc or 0x18). The exception is taken to the usual target EL (EL1 =
+or
+> -     * PL1 if in EL0, otherwise to the current EL).
+> +     * 0xc or 0x18).
+>       */
+> -    CP_ACCESS_TRAP =3D 1,
+> +    CP_ACCESS_TRAP =3D (1 << 2),
+> +    CP_ACCESS_TRAP_EL2 =3D CP_ACCESS_TRAP | 2,
+> +    CP_ACCESS_TRAP_EL3 =3D CP_ACCESS_TRAP | 3,
+> +
+>      /*
+>       * Access fails and results in an exception syndrome 0x0 ("uncategor=
+ized").
+>       * Note that this is not a catch-all case -- the set of cases which =
+may
+>       * result in this failure is specifically defined by the architectur=
+e.
+>       */
+> -    CP_ACCESS_TRAP_UNCATEGORIZED =3D 2,
+> -    /* As CP_ACCESS_TRAP, but for traps directly to EL2 or EL3 */
+> -    CP_ACCESS_TRAP_EL2 =3D 3,
+> -    CP_ACCESS_TRAP_EL3 =3D 4,
+> -    /* As CP_ACCESS_UNCATEGORIZED, but for traps directly to EL2 or EL3 =
+*/
+> -    CP_ACCESS_TRAP_UNCATEGORIZED_EL2 =3D 5,
+> -    CP_ACCESS_TRAP_UNCATEGORIZED_EL3 =3D 6,
+> +    CP_ACCESS_TRAP_UNCATEGORIZED =3D (2 << 2),
+> +    CP_ACCESS_TRAP_UNCATEGORIZED_EL2 =3D CP_ACCESS_TRAP_UNCATEGORIZED | =
+2,
+> +    CP_ACCESS_TRAP_UNCATEGORIZED_EL3 =3D CP_ACCESS_TRAP_UNCATEGORIZED | =
+3,
+>  } CPAccessResult;
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This does feel like we are moving from an enum to a bunch of #defines
+for bitfields. I guess we keep type checking though....
 
-r~
+Anyway:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+
+--=20
+Alex Benn=C3=A9e
 
