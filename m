@@ -2,47 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F0850BF1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 19:58:18 +0200 (CEST)
-Received: from localhost ([::1]:52212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F9F50BF49
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 20:02:25 +0200 (CEST)
+Received: from localhost ([::1]:36686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhxXt-0006Kp-LK
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 13:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58238)
+	id 1nhxbs-0006Xa-4k
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 14:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nhxI6-0008Mf-5V
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 13:42:00 -0400
-Received: from rev.ng ([5.9.113.41]:58729)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1nhxI1-0006AZ-JB
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 13:41:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=HSrYVeOjCSDK+cuzd5PiS2uajC27o6yW1grrSpY8Axc=; b=G14QZOrH4Tb6+S3lsyoBCNVtUc
- oAkm0DKtl+N02povbPWAblEiIIOzByVpd3feYQo2sCnt6xFS4+G2RKbyoM/xmtfED3ukZa7IpFQ4u
- Rst1C5k8PcYCMREWQpBEak8FJVknrQtZ7pQ1jrJ+z21kwj2QmMokDpO9RTMNQJFlHpPQ=;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhwb3-0000TM-C4
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:29 -0400
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:33506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nhwb1-00083N-13
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:57:28 -0400
+Received: by mail-il1-x12a.google.com with SMTP id b5so5441460ile.0
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=LKJfP1L1JthCk9j8S3dyGmOEwjYZHFg6bDruhwKHIGY=;
+ b=r4qh/tR1jpoQiyZxgAf0nt1VDppg+GSRUzs7eTe0jp96njFpKQa/WYegAwi3iadzsA
+ XGJnqTJsTUxK1N0rvv6J5+IZx6SKYCh6obVye+Z65VtkeYAcMPk8tAVHkUBvlRqCHQeP
+ uMbnoYdhPrMT4KLqgwUwj9OxqlJkFGNQosMg/3EP5CW8/jtWnXvfEnr0Fi64WVQaioy9
+ y0ixrQ5ligJ90rMSWGRNxH4R6z2ChuCiD3kP6eHfsvjM/xMDlcRtwXkXX5MusDaNzXbe
+ rsM5RHksBxpwwpWH7gTpWFeJzEJR3V0wEqE10fEMzWHVom5IptD6BRnEviYjquEeVCyv
+ uKRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=LKJfP1L1JthCk9j8S3dyGmOEwjYZHFg6bDruhwKHIGY=;
+ b=pRaHQHF2qTB7urwNtWfLMDg9B7LydhpHhEpMGKAXvd60SCg16d63Li/YmCjmVepGOQ
+ yjEimSRkPBx03hGV1FCnBvYeNAUYYOf1JOu650AdGVsaVhAmjHH0q1n5/HYNYm+XgM+t
+ IoE8okKDTG/6kN4LDoySTVL7LoC8Gt5/Ec/SdXS0gnUBPPgUBUZ5sCy5e8/tqbj9vezN
+ PC5LDRL7pWb5MchnK5Viwpe3PTgYctbXEx9a6CZCjr2PKB322fRMoBYLXEUbjA1ITlok
+ ZqGzdGXLKU9p4qo+TjFh0Mo/3Ru7ZgnaiflocmLtaesN00rg9K4p5VS2jwlkBIkbRmc4
+ oe1Q==
+X-Gm-Message-State: AOAM5308z3adRc+KjEBvQBicwrvK7uSO5nHv8iGzbSjiJdCPiztJpyRM
+ fk1LKFNKw80Or7HZCpVqtPZpIWWhuBxH0eXb
+X-Google-Smtp-Source: ABdhPJwSJiJXHoe0enH7brLt+w9PPiKQU82rMXTmAoUrKy672L1NO3hO+8GZyF1P85zuwkDP4TY1xw==
+X-Received: by 2002:a05:6e02:1587:b0:2c2:5c48:a695 with SMTP id
+ m7-20020a056e02158700b002c25c48a695mr2345492ilu.169.1650646645866; 
+ Fri, 22 Apr 2022 09:57:25 -0700 (PDT)
+Received: from stoup.. ([2607:fb90:27d0:b0f2:934d:3e2:9f8c:dd1])
+ by smtp.gmail.com with ESMTPSA id
+ n23-20020a6b8b17000000b00649a2634725sm816380iod.17.2022.04.22.09.57.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 09:57:25 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com,
- babush@rev.ng, nizzo@rev.ng, richard.henderson@linaro.org
-Subject: [PATCH v9 11/12] target/hexagon: call idef-parser functions
-Date: Fri, 22 Apr 2022 19:40:58 +0200
-Message-Id: <20220422174059.4304-12-anjo@rev.ng>
-In-Reply-To: <20220422174059.4304-1-anjo@rev.ng>
-References: <20220422174059.4304-1-anjo@rev.ng>
+Subject: [PATCH v8 58/68] target/nios2: Implement rdprs, wrprs
+Date: Fri, 22 Apr 2022 09:52:28 -0700
+Message-Id: <20220422165238.1971496-59-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220422165238.1971496-1-richard.henderson@linaro.org>
+References: <20220422165238.1971496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-il1-x12a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,346 +84,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
+Implement these out of line, so that tcg global temps
+(aka the architectural registers) are synced back to
+tcg storage as required.  This makes sure that we get
+the proper results when status.PRS == status.CRS.
 
-Extend gen_tcg_funcs.py in order to emit calls to the functions emitted
-by the idef-parser, if available. An option is also added to fully
-disable the output of the idef-parser, which is useful for debugging
-purposes.
-
-Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-Signed-off-by: Anton Johansson <anjo@rev.ng>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-55-richard.henderson@linaro.org>
 ---
- meson_options.txt                   |  3 +
- target/hexagon/gen_helper_funcs.py  | 17 +++++-
- target/hexagon/gen_helper_protos.py | 17 +++++-
- target/hexagon/gen_tcg_funcs.py     | 41 ++++++++++++-
- target/hexagon/hex_common.py        | 10 ++++
- target/hexagon/meson.build          | 92 +++++++++++++++++++----------
- 6 files changed, 146 insertions(+), 34 deletions(-)
+ target/nios2/cpu.h       |  1 +
+ target/nios2/helper.h    |  2 ++
+ target/nios2/op_helper.c | 16 +++++++++++
+ target/nios2/translate.c | 57 ++++++++++++++++++++++++++++++++++++++--
+ 4 files changed, 74 insertions(+), 2 deletions(-)
 
-diff --git a/meson_options.txt b/meson_options.txt
-index 52b11cead4..ae8f53b1fd 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -270,3 +270,6 @@ option('profiler', type: 'boolean', value: false,
-        description: 'profiler support')
- option('slirp_smbd', type : 'feature', value : 'auto',
-        description: 'use smbd (at path --smbd=*) in slirp networking')
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index f6efaa79b3..cca821cf80 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -220,6 +220,7 @@ struct ArchCPU {
+ 
+     bool diverr_present;
+     bool mmu_present;
++    bool eic_present;
+ 
+     uint32_t pid_num_bits;
+     uint32_t tlb_num_ways;
+diff --git a/target/nios2/helper.h b/target/nios2/helper.h
+index 6f5ec60b0d..1648d76ade 100644
+--- a/target/nios2/helper.h
++++ b/target/nios2/helper.h
+@@ -24,6 +24,8 @@ DEF_HELPER_FLAGS_3(divu, TCG_CALL_NO_WG, i32, env, i32, i32)
+ 
+ #if !defined(CONFIG_USER_ONLY)
+ DEF_HELPER_3(eret, noreturn, env, i32, i32)
++DEF_HELPER_FLAGS_2(rdprs, TCG_CALL_NO_WG, i32, env, i32)
++DEF_HELPER_3(wrprs, void, env, i32, i32)
+ DEF_HELPER_2(mmu_write_tlbacc, void, env, i32)
+ DEF_HELPER_2(mmu_write_tlbmisc, void, env, i32)
+ DEF_HELPER_2(mmu_write_pteaddr, void, env, i32)
+diff --git a/target/nios2/op_helper.c b/target/nios2/op_helper.c
+index 38a71a1f2d..a3164f5356 100644
+--- a/target/nios2/op_helper.c
++++ b/target/nios2/op_helper.c
+@@ -83,4 +83,20 @@ void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
+     env->pc = new_pc;
+     cpu_loop_exit(cs);
+ }
 +
-+option('hexagon_idef_parser_enabled', type : 'boolean', value : true,
-+       description: 'Whether idef-parser should be used to automatically generate TCG code for the Hexagon frontend')
-diff --git a/target/hexagon/gen_helper_funcs.py b/target/hexagon/gen_helper_funcs.py
-index a446c45384..71d611283a 100755
---- a/target/hexagon/gen_helper_funcs.py
-+++ b/target/hexagon/gen_helper_funcs.py
-@@ -287,11 +287,24 @@ def main():
-     hex_common.read_attribs_file(sys.argv[2])
-     hex_common.read_overrides_file(sys.argv[3])
-     hex_common.read_overrides_file(sys.argv[4])
-+    ## Whether or not idef-parser is enabled is
-+    ## determined by the number of arguments to
-+    ## this script:
-+    ##
-+    ##   5 args. -> not enabled,
-+    ##   6 args. -> idef-parser enabled.
-+    ##
-+    ## The 6:th arg. then holds a list of the successfully
-+    ## parsed instructions.
-+    is_idef_parser_enabled = len(sys.argv) > 6
-+    if is_idef_parser_enabled:
-+        hex_common.read_idef_parser_enabled_file(sys.argv[5])
-     hex_common.calculate_attribs()
-     tagregs = hex_common.get_tagregs()
-     tagimms = hex_common.get_tagimms()
- 
--    with open(sys.argv[5], 'w') as f:
-+    output_file = sys.argv[-1]
-+    with open(output_file, 'w') as f:
-         for tag in hex_common.tags:
-             ## Skip the priv instructions
-             if ( "A_PRIV" in hex_common.attribdict[tag] ) :
-@@ -308,6 +321,8 @@ def main():
-                 continue
-             if ( hex_common.skip_qemu_helper(tag) ):
-                 continue
-+            if ( hex_common.is_idef_parser_enabled(tag) ):
-+                continue
- 
-             gen_helper_function(f, tag, tagregs, tagimms)
- 
-diff --git a/target/hexagon/gen_helper_protos.py b/target/hexagon/gen_helper_protos.py
-index 3b4e993fd1..74eff457a6 100755
---- a/target/hexagon/gen_helper_protos.py
-+++ b/target/hexagon/gen_helper_protos.py
-@@ -136,11 +136,24 @@ def main():
-     hex_common.read_attribs_file(sys.argv[2])
-     hex_common.read_overrides_file(sys.argv[3])
-     hex_common.read_overrides_file(sys.argv[4])
-+    ## Whether or not idef-parser is enabled is
-+    ## determined by the number of arguments to
-+    ## this script:
-+    ##
-+    ##   5 args. -> not enabled,
-+    ##   6 args. -> idef-parser enabled.
-+    ##
-+    ## The 6:th arg. then holds a list of the successfully
-+    ## parsed instructions.
-+    is_idef_parser_enabled = len(sys.argv) > 6
-+    if is_idef_parser_enabled:
-+        hex_common.read_idef_parser_enabled_file(sys.argv[5])
-     hex_common.calculate_attribs()
-     tagregs = hex_common.get_tagregs()
-     tagimms = hex_common.get_tagimms()
- 
--    with open(sys.argv[5], 'w') as f:
-+    output_file = sys.argv[-1]
-+    with open(output_file, 'w') as f:
-         for tag in hex_common.tags:
-             ## Skip the priv instructions
-             if ( "A_PRIV" in hex_common.attribdict[tag] ) :
-@@ -158,6 +171,8 @@ def main():
- 
-             if ( hex_common.skip_qemu_helper(tag) ):
-                 continue
-+            if ( hex_common.is_idef_parser_enabled(tag) ):
-+                continue
- 
-             gen_helper_prototype(f, tag, tagregs, tagimms)
- 
-diff --git a/target/hexagon/gen_tcg_funcs.py b/target/hexagon/gen_tcg_funcs.py
-index 1fd9de95d5..4d12e192a7 100755
---- a/target/hexagon/gen_tcg_funcs.py
-+++ b/target/hexagon/gen_tcg_funcs.py
-@@ -610,7 +610,29 @@ def gen_tcg_func(f, tag, regs, imms):
-         if (hex_common.is_read(regid)):
-             genptr_src_read_opn(f,regtype,regid,tag)
- 
--    if ( hex_common.skip_qemu_helper(tag) ):
-+    if hex_common.is_idef_parser_enabled(tag):
-+        declared = []
-+        ## Handle registers
-+        for regtype,regid,toss,numregs in regs:
-+            if (hex_common.is_pair(regid)
-+                or (hex_common.is_single(regid)
-+                    and hex_common.is_old_val(regtype, regid, tag))):
-+                declared.append("%s%sV" % (regtype, regid))
-+                if regtype == "M":
-+                    declared.append("%s%sN" % (regtype, regid))
-+            elif hex_common.is_new_val(regtype, regid, tag):
-+                declared.append("%s%sN" % (regtype,regid))
-+            else:
-+                print("Bad register parse: ",regtype,regid,toss,numregs)
++/*
++ * RDPRS and WRPRS are implemented out of line so that if PRS == CRS,
++ * all of the tcg global temporaries are synced back to ENV.
++ */
++uint32_t helper_rdprs(CPUNios2State *env, uint32_t regno)
++{
++    unsigned prs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, PRS);
++    return env->shadow_regs[prs][regno];
++}
 +
-+        ## Handle immediates
-+        for immlett,bits,immshift in imms:
-+            declared.append(hex_common.imm_name(immlett))
-+
-+        arguments = ", ".join(["ctx", "insn", "pkt"] + declared)
-+        f.write("    emit_%s(%s);\n" % (tag, arguments))
-+
-+    elif ( hex_common.skip_qemu_helper(tag) ):
-         f.write("    fGEN_TCG_%s(%s);\n" % (tag, hex_common.semdict[tag]))
-     else:
-         ## Generate the call to the helper
-@@ -677,12 +699,27 @@ def main():
-     hex_common.read_overrides_file(sys.argv[3])
-     hex_common.read_overrides_file(sys.argv[4])
-     hex_common.calculate_attribs()
-+    ## Whether or not idef-parser is enabled is
-+    ## determined by the number of arguments to
-+    ## this script:
-+    ##
-+    ##   5 args. -> not enabled,
-+    ##   6 args. -> idef-parser enabled.
-+    ##
-+    ## The 6:th arg. then holds a list of the successfully
-+    ## parsed instructions.
-+    is_idef_parser_enabled = len(sys.argv) > 6
-+    if is_idef_parser_enabled:
-+        hex_common.read_idef_parser_enabled_file(sys.argv[5])
-     tagregs = hex_common.get_tagregs()
-     tagimms = hex_common.get_tagimms()
++void helper_wrprs(CPUNios2State *env, uint32_t regno, uint32_t val)
++{
++    unsigned prs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, PRS);
++    env->shadow_regs[prs][regno] = val;
++}
+ #endif /* !CONFIG_USER_ONLY */
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index 363f2ea3ca..e566175db5 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -130,6 +130,7 @@ typedef struct DisasContext {
+     uint32_t          tb_flags;
+     TCGv              sink;
+     const ControlRegState *cr_state;
++    bool              eic_present;
+ } DisasContext;
  
--    with open(sys.argv[5], 'w') as f:
-+    output_file = sys.argv[-1]
-+    with open(output_file, 'w') as f:
-         f.write("#ifndef HEXAGON_TCG_FUNCS_H\n")
-         f.write("#define HEXAGON_TCG_FUNCS_H\n\n")
-+        if is_idef_parser_enabled:
-+            f.write("#include \"idef-generated-emitter.h.inc\"\n\n")
+ static TCGv cpu_R[NUM_GP_REGS];
+@@ -387,6 +388,27 @@ gen_i_math_logic(andhi, andi, 0, imm_shifted)
+ gen_i_math_logic(orhi , ori,  1, imm_shifted)
+ gen_i_math_logic(xorhi, xori, 1, imm_shifted)
  
-         for tag in hex_common.tags:
-             ## Skip the priv instructions
-diff --git a/target/hexagon/hex_common.py b/target/hexagon/hex_common.py
-index c81aca8d2a..901041d557 100755
---- a/target/hexagon/hex_common.py
-+++ b/target/hexagon/hex_common.py
-@@ -28,6 +28,7 @@
- attribinfo = {}       # Register information and misc
- tags = []             # list of all tags
- overrides = {}        # tags with helper overrides
-+idef_parser_enabled = {} # tags enabled for idef-parser
++/* rB <- prs.rA + sigma(IMM16) */
++static void rdprs(DisasContext *dc, uint32_t code, uint32_t flags)
++{
++    if (!dc->eic_present) {
++        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
++        return;
++    }
++    if (!gen_check_supervisor(dc)) {
++        return;
++    }
++
++#ifdef CONFIG_USER_ONLY
++    g_assert_not_reached();
++#else
++    I_TYPE(instr, code);
++    TCGv dest = dest_gpr(dc, instr.b);
++    gen_helper_rdprs(dest, cpu_env, tcg_constant_i32(instr.a));
++    tcg_gen_addi_tl(dest, dest, instr.imm16.s);
++#endif
++}
++
+ /* Prototype only, defined below */
+ static void handle_r_type_instr(DisasContext *dc, uint32_t code,
+                                 uint32_t flags);
+@@ -448,7 +470,7 @@ static const Nios2Instruction i_type_instructions[] = {
+     INSTRUCTION_FLG(gen_stx, MO_SL),                  /* stwio */
+     INSTRUCTION_FLG(gen_bxx, TCG_COND_LTU),           /* bltu */
+     INSTRUCTION_FLG(gen_ldx, MO_UL),                  /* ldwio */
+-    INSTRUCTION_UNIMPLEMENTED(),                      /* rdprs */
++    INSTRUCTION(rdprs),                               /* rdprs */
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION_FLG(handle_r_type_instr, 0),          /* R-Type */
+     INSTRUCTION_NOP(),                                /* flushd */
+@@ -648,6 +670,36 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
+ #endif
+ }
  
- # We should do this as a hash for performance,
- # but to keep order let's keep it as a list.
-@@ -216,6 +217,9 @@ def is_tmp_result(tag):
- def is_new_result(tag):
-     return ('A_CVI_NEW' in attribdict[tag])
++/* prs.rC <- rA */
++static void wrprs(DisasContext *dc, uint32_t code, uint32_t flags)
++{
++    if (!dc->eic_present) {
++        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
++        return;
++    }
++    if (!gen_check_supervisor(dc)) {
++        return;
++    }
++
++#ifdef CONFIG_USER_ONLY
++    g_assert_not_reached();
++#else
++    R_TYPE(instr, code);
++    gen_helper_wrprs(cpu_env, tcg_constant_i32(instr.c),
++                     load_gpr(dc, instr.a));
++    /*
++     * The expected write to PRS[r0] is 0, from CRS[r0].
++     * If not, and CRS == PRS (which we cannot tell from here),
++     * we may now have a non-zero value in our current r0.
++     * By ending the TB, we re-evaluate tb_flags and find out.
++     */
++    if (instr.c == 0
++        && (instr.a != 0 || !FIELD_EX32(dc->tb_flags, TBFLAGS, R0_0))) {
++        dc->base.is_jmp = DISAS_UPDATE;
++    }
++#endif
++}
++
+ /* Comparison instructions */
+ static void gen_cmpxx(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+@@ -793,7 +845,7 @@ static const Nios2Instruction r_type_instructions[] = {
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION(slli),                                /* slli */
+     INSTRUCTION(sll),                                 /* sll */
+-    INSTRUCTION_UNIMPLEMENTED(),                      /* wrprs */
++    INSTRUCTION(wrprs),                               /* wrprs */
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION(or),                                  /* or */
+     INSTRUCTION(mulxsu),                              /* mulxsu */
+@@ -895,6 +947,7 @@ static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     dc->mem_idx = cpu_mmu_index(env, false);
+     dc->cr_state = cpu->cr_state;
+     dc->tb_flags = dc->base.tb->flags;
++    dc->eic_present = cpu->eic_present;
  
-+def is_idef_parser_enabled(tag):
-+    return tag in idef_parser_enabled
-+
- def imm_name(immlett):
-     return "%siV" % immlett
- 
-@@ -247,3 +251,9 @@ def read_overrides_file(name):
-             continue
-         tag = overridere.findall(line)[0]
-         overrides[tag] = True
-+
-+def read_idef_parser_enabled_file(name):
-+    global idef_parser_enabled
-+    with open(name, "r") as idef_parser_enabled_file:
-+        lines = idef_parser_enabled_file.read().strip().split("\n")
-+        idef_parser_enabled = set(lines)
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index bfc74ba441..6adf7e2464 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -43,10 +43,7 @@ hexagon_ss.add(semantics_generated)
- # Step 2
- # We use Python scripts to generate the following files
- #     shortcode_generated.h.inc
--#     helper_protos_generated.h.inc
--#     tcg_funcs_generated.c.inc
- #     tcg_func_table_generated.c.inc
--#     helper_funcs_generated.c.inc
- #     printinsn_generated.h.inc
- #     op_regs_generated.h.inc
- #     op_attribs_generated.h.inc
-@@ -61,24 +58,6 @@ shortcode_generated = custom_target(
- )
- hexagon_ss.add(shortcode_generated)
- 
--helper_protos_generated = custom_target(
--    'helper_protos_generated.h.inc',
--    output: 'helper_protos_generated.h.inc',
--    depends: [semantics_generated],
--    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
--    command: [python, files('gen_helper_protos.py'), semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, '@OUTPUT@'],
--)
--hexagon_ss.add(helper_protos_generated)
--
--tcg_funcs_generated = custom_target(
--    'tcg_funcs_generated.c.inc',
--    output: 'tcg_funcs_generated.c.inc',
--    depends: [semantics_generated],
--    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
--    command: [python, files('gen_tcg_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, '@OUTPUT@'],
--)
--hexagon_ss.add(tcg_funcs_generated)
--
- tcg_func_table_generated = custom_target(
-     'tcg_func_table_generated.c.inc',
-     output: 'tcg_func_table_generated.c.inc',
-@@ -88,15 +67,6 @@ tcg_func_table_generated = custom_target(
- )
- hexagon_ss.add(tcg_func_table_generated)
- 
--helper_funcs_generated = custom_target(
--    'helper_funcs_generated.c.inc',
--    output: 'helper_funcs_generated.c.inc',
--    depends: [semantics_generated],
--    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
--    command: [python, files('gen_helper_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, '@OUTPUT@'],
--)
--hexagon_ss.add(helper_funcs_generated)
--
- printinsn_generated = custom_target(
-     'printinsn_generated.h.inc',
-     output: 'printinsn_generated.h.inc',
-@@ -180,6 +150,8 @@ hexagon_ss.add(files(
-     'mmvec/system_ext_mmvec.c',
- ))
- 
-+idef_parser_enabled = get_option('hexagon_idef_parser_enabled')
-+
- idef_parser_input_generated = custom_target(
-     'idef_parser_input.h.inc',
-     output: 'idef_parser_input.h.inc',
-@@ -225,4 +197,64 @@ idef_generated_tcg = custom_target(
-     command: [idef_parser, '@INPUT@', '@OUTPUT0@', '@OUTPUT1@', '@OUTPUT2@'],
- )
- 
-+indent = find_program('indent', required: false)
-+if indent.found()
-+  idef_generated_tcg_c = custom_target('asd',
-+                                       input: idef_generated_tcg[0],
-+                                       output: 'idef-generated-emitter.indented.c',
-+                                       command: [indent, '-linux', '@INPUT@', '-o', '@OUTPUT@'])
-+else
-+  idef_generated_tcg_c = custom_target('asd',
-+                                       input: idef_generated_tcg[0],
-+                                       output: 'idef-generated-emitter.indented.c',
-+                                       command: ['cp', '@INPUT@', '@OUTPUT@'])
-+endif
-+
-+idef_generated_list = idef_generated_tcg[2].full_path()
-+
-+hexagon_ss.add(idef_generated_tcg_c)
-+
-+#
-+# Step 5
-+# We use Python scripts to generate the following files
-+#     helper_protos_generated.h.inc
-+#     helper_funcs_generated.c.inc
-+#     tcg_funcs_generated.c.inc
-+#
-+if idef_parser_enabled
-+  helper_dep = [semantics_generated, idef_generated_tcg_c, idef_generated_tcg]
-+  helper_in = [semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h,
-+               idef_generated_list]
-+else
-+  helper_dep = [semantics_generated]
-+  helper_in = [semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h]
-+endif
-+
-+helper_protos_generated = custom_target(
-+    'helper_protos_generated.h.inc',
-+    output: 'helper_protos_generated.h.inc',
-+    depends: helper_dep,
-+    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
-+    command: [python, files('gen_helper_protos.py'), helper_in, '@OUTPUT@'],
-+)
-+hexagon_ss.add(helper_protos_generated)
-+
-+helper_funcs_generated = custom_target(
-+    'helper_funcs_generated.c.inc',
-+    output: 'helper_funcs_generated.c.inc',
-+    depends: helper_dep,
-+    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
-+    command: [python, files('gen_helper_funcs.py'), helper_in, '@OUTPUT@'],
-+)
-+hexagon_ss.add(helper_funcs_generated)
-+
-+tcg_funcs_generated = custom_target(
-+    'tcg_funcs_generated.c.inc',
-+    output: 'tcg_funcs_generated.c.inc',
-+    depends: helper_dep,
-+    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
-+    command: [python, files('gen_tcg_funcs.py'), helper_in, '@OUTPUT@'],
-+)
-+hexagon_ss.add(tcg_funcs_generated)
-+
- target_arch += {'hexagon': hexagon_ss}
+     /* Bound the number of insns to execute to those left on the page.  */
+     page_insns = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
 -- 
-2.35.1
+2.34.1
 
 
