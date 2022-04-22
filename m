@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9D550BC44
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 17:57:29 +0200 (CEST)
-Received: from localhost ([::1]:45032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8898E50BD4A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 18:41:33 +0200 (CEST)
+Received: from localhost ([::1]:37628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhvey-0008WC-2e
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 11:57:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39102)
+	id 1nhwLa-0000pR-ET
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 12:41:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nhvdl-0007ew-Tw
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:56:14 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:39880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nhvdk-0007tJ-Au
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 11:56:13 -0400
-Received: by mail-ed1-x534.google.com with SMTP id g20so10957137edw.6
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 08:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=cR54X0LKwjqd0FNluiHNkLi3yQ1OrzeKFpOBTi1ADC4=;
- b=awbFJjM3N/+F/ulDOJh6kA6Ty4rEwIpfnU2JqYQdkB66+ercF2iWf8rYYO1pDtP4a2
- TDM15YJq+DSI50SnV2iasT6Ut8HqXq8YLZjRRumjdAkt8KUNjfbxqGKRliz38x1c7k8n
- MIh/UHCWu8N2YwcUN8OBycakyK/rbYRROV5dRhWs64xi6exyLHLA+TBkMmQmmymldV7V
- VdLr7gcN/hd431pmSBj2x2+4bt4/UDudRGYQL9MiwDAAIKt7hSdQaUqViMRUsci2Oirv
- GkbN2qVmXqqpJI2vHqtD8BduMXPb5SdEzLbipxPZ7cyXJ88FqL4JyuUlBFs9arRJwKeN
- HNcw==
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nhwJN-0007D8-Bp
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:39:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49373)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nhwJL-0005Pc-07
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 12:39:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650645550;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=v0KJsZwebVujvgz1moNJGsu8yuRkj+YRtGSxR0zXvD8=;
+ b=LZDoJSksJzzxnVnfMQIVLwVtYV1OBtAm/cgHUwfsvEq4e6U0Xi8fS/NcNRU1kwtCN5ntf+
+ DtymHNPdgEVFWYYkXZbUNZbcaM/QE0RZ+qHxug5goVzGEvyRgCMI1PSVd03+AZmjQfVS0F
+ XOy6HJxyVe1TNuDAiyZDX6BjkiaJIhM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-339-HPH_wW8ZMLeqRmrlKT0YMw-1; Fri, 22 Apr 2022 12:39:09 -0400
+X-MC-Unique: HPH_wW8ZMLeqRmrlKT0YMw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i131-20020a1c3b89000000b00392b57fbdaaso2729370wma.0
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 09:39:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=cR54X0LKwjqd0FNluiHNkLi3yQ1OrzeKFpOBTi1ADC4=;
- b=p/7zpXr11IBX3bE1AQePyWaWU9j/cYYQO1eqp/e5kRsF0xR8CqSlU9Q6hWF7d0ud8T
- jANwhCRqZMlosYpq0l21ljZiYXzapFYIl+RZ/AuLYuMLi6/zntgzO2teobPRYO3ICTFp
- FFdw4txlHCRl8+mE0ueXk3xntD8jbGIuSXkBaTOBkU7wRpaTIZY0GTOFZBbY/dl4wfoR
- e6mG3it+pE+9dp602FFs89DbZxYEgjHMI+g98aH9O5x3z1O4b/SpZSN0YrFA9ACDnGQk
- FYuACykE4xTthCaE/MYc3gqzUzr/lXvP+rwIzMWccJIK9+KMragI1+yAcvwznGtIOEmi
- TPqA==
-X-Gm-Message-State: AOAM530kw05oFfua5VDp9liK1O4xz5TLSjhP7vyEO/bdUy1EbQ/bKdw9
- 5YRinxbbayKJxc5/s05Fzro3/A==
-X-Google-Smtp-Source: ABdhPJyYTskCdNyIYlQ+bavb2yJ/oVKWPfHGKmGZx8iGuG0YV8i1MwrvWTNmgWg1YWZCGs9FMpnMWg==
-X-Received: by 2002:a05:6402:3713:b0:41d:96f6:8a09 with SMTP id
- ek19-20020a056402371300b0041d96f68a09mr5642731edb.136.1650642970783; 
- Fri, 22 Apr 2022 08:56:10 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=v0KJsZwebVujvgz1moNJGsu8yuRkj+YRtGSxR0zXvD8=;
+ b=rJ2pe2TbfWYdPe3botIvyssswmlQVyI0q7zQPEUGNiSPamnFVFxT1nspbKCyZUgLPA
+ fbJ6u2cJMAKuhGc1tQp/B9TfTR27tbnJvd372CrXpwMo10aToK6xtfvwqstNQJrU9uFB
+ YXZfFW5nLALRgrPfPPnzyNJnREO0XR3GL+lvA/I+70+iZudoe7HClfhattUqTn8OyuPB
+ 4zgLdkniJ078WommoU1TVuk5LJf/gzLmGAsG340bozc2xrB1rROcv/qwfJ/MiX9PJFl5
+ zfAvk7YA4HgXIO54MGqPOs7kdjM0yvPTRHW1qpYwTNNizpB+aH5Qa3M9KQk+22EJkuxO
+ jfTw==
+X-Gm-Message-State: AOAM531RGUDMHQMQJeLlN2OiFxcq3ENpRI5mKKFoCZGJYQFd/kyRQnWH
+ 9o/EOZpu858Vx9R0/z2x9gB9JIOAQTCbskWVyLBOmTOP9bLQOmEcePH0XliMhrjbyy16WozZryj
+ CwAD8zzLb6au9xkU=
+X-Received: by 2002:adf:c547:0:b0:207:9abc:cfa1 with SMTP id
+ s7-20020adfc547000000b002079abccfa1mr4381469wrf.390.1650645548020; 
+ Fri, 22 Apr 2022 09:39:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdOLeLhJ4IGQmWnA3DzeznmDhQ8eo9llbZ12GdhasRQISZCNWM77FND7A2PLYgNOywm0YB0w==
+X-Received: by 2002:adf:c547:0:b0:207:9abc:cfa1 with SMTP id
+ s7-20020adfc547000000b002079abccfa1mr4381433wrf.390.1650645547653; 
+ Fri, 22 Apr 2022 09:39:07 -0700 (PDT)
+Received: from vian.redhat.com ([2a0c:5a80:1306:2f00:cfcf:62cf:6f38:dd92])
  by smtp.gmail.com with ESMTPSA id
- e19-20020a056402105300b004162d0b4cbbsm1011638edu.93.2022.04.22.08.56.09
+ f189-20020a1c38c6000000b0038ff83b9792sm4853481wma.43.2022.04.22.09.39.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 08:56:09 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 36E5B1FFB7;
- Fri, 22 Apr 2022 16:56:09 +0100 (BST)
-References: <20220401170813.318609-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.13; emacs 28.1.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] accel/tcg: Assert mmu_idx in range before use in cputlb
-Date: Fri, 22 Apr 2022 16:55:53 +0100
-In-reply-to: <20220401170813.318609-1-richard.henderson@linaro.org>
-Message-ID: <877d7ht8me.fsf@linaro.org>
+ Fri, 22 Apr 2022 09:39:07 -0700 (PDT)
+From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+To: kwolf@redhat.com,
+	stefanha@redhat.com,
+	berrange@redhat.com
+Subject: [PATCH v5 0/3] util/thread-pool: Expose minimun and maximum size
+Date: Fri, 22 Apr 2022 18:38:54 +0200
+Message-Id: <20220422163857.703111-1-nsaenzju@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsaenzju@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,26 +93,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: fam@euphon.net, eduardo@habkost.net, qemu-block@nongnu.org,
+ michael.roth@amd.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, hreitz@redhat.com, pbonzini@redhat.com,
+ Nicolas Saenz Julienne <nsaenzju@redhat.com>, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+As discussed on the previous RFC[1] the thread-pool's dynamic thread
+management doesn't play well with real-time and latency sensitive
+systems. This series introduces a set of controls that'll permit
+achieving more deterministic behaviours, for example by fixing the
+pool's size.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+We first introduce a new common interface to event loop configuration by
+moving iothread's already available properties into an abstract class
+called 'EventLooopBackend' and have both 'IOThread' and the newly
+created 'MainLoop' inherit the properties from that class.
 
-> Coverity reports out-of-bound accesses within cputlb.c.
-> This should be a false positive due to how the index is
-> decoded from MemOpIdx.  To be fair, nothing is checking
-> the correct bounds during encoding either.
->
-> Assert index in range before use, both to catch user errors
-> and to pacify static analysis.
->
-> Fixes: Coverity CID 1487120, 1487127, 1487170, 1487196, 1487215, 1487238
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+With this new configuration interface in place it's relatively simple to
+introduce new options to fix the even loop's thread pool sizes. The
+resulting QAPI looks like this:
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+    -object main-loop,id=main-loop,thread-pool-min=1,thread-pool-max=1
 
---=20
-Alex Benn=C3=A9e
+Note that all patches are bisect friendly and pass all the tests.
+
+[1] https://patchwork.ozlabs.org/project/qemu-devel/patch/20220202175234.656711-1-nsaenzju@redhat.com/
+
+@Stefan I kept your Signed-off-by, since the changes trivial/not
+thread-pool related
+---
+
+Changes since v4:
+ - Address Markus' comments WRT qom.json
+
+Changes since v3:
+ - Avoid duplication in qom.json by creating EventLoopBaseProperties.
+ - Fix failures on first compilation due to race between
+   event-loop-base.o and qapi header generation.
+
+Changes since v2:
+ - Get rid of wrong locking/waiting
+ - Fix qapi versioning
+ - Better commit messages
+
+Changes since v1:
+ - Address all Stefan's comments
+ - Introduce new fix
+
+Nicolas Saenz Julienne (3):
+  Introduce event-loop-base abstract class
+  util/main-loop: Introduce the main loop into QOM
+  util/event-loop-base: Introduce options to set the thread pool size
+
+ event-loop-base.c                | 140 +++++++++++++++++++++++++++++++
+ include/block/aio.h              |  10 +++
+ include/block/thread-pool.h      |   3 +
+ include/qemu/main-loop.h         |  10 +++
+ include/sysemu/event-loop-base.h |  41 +++++++++
+ include/sysemu/iothread.h        |   6 +-
+ iothread.c                       |  68 +++++----------
+ meson.build                      |  26 +++---
+ qapi/qom.json                    |  42 ++++++++--
+ util/aio-posix.c                 |   1 +
+ util/async.c                     |  20 +++++
+ util/main-loop.c                 |  65 ++++++++++++++
+ util/thread-pool.c               |  55 +++++++++++-
+ 13 files changed, 418 insertions(+), 69 deletions(-)
+ create mode 100644 event-loop-base.c
+ create mode 100644 include/sysemu/event-loop-base.h
+
+-- 
+2.35.1
+
 
