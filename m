@@ -2,91 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2348C50AD0F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 03:08:55 +0200 (CEST)
-Received: from localhost ([::1]:58512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195FB50AD13
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 03:10:58 +0200 (CEST)
+Received: from localhost ([::1]:34744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhhn4-0003xQ-8O
-	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 21:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33102)
+	id 1nhhp3-0006xJ-6y
+	for lists+qemu-devel@lfdr.de; Thu, 21 Apr 2022 21:10:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1041ecfe3=alistair.francis@opensource.wdc.com>)
- id 1nhhJt-000855-1k
+ id 1nhhJt-00085V-4n
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:38:45 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:17628)
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:17623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1041ecfe3=alistair.francis@opensource.wdc.com>)
- id 1nhhJr-0005W4-4N
+ id 1nhhJr-0005Vz-58
  for qemu-devel@nongnu.org; Thu, 21 Apr 2022 20:38:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1650587922; x=1682123922;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HZtMfNayAzWb857EUph0gC4EyuX8kVZF+e012B4DRfM=;
- b=DzDem2yainNA77M8NoonnX0TSxrjw/Jsj4q+WR0MqkXC0D+WBYD9GrRq
- mUs0PHltOBLuOniakkAr2Q1RBHU3jWg0cwWKpGkIFGjIelQ0UzmExhEKK
- 5n5BhILgmvjzW7mUXJbIzmNA6qJF0LeY2xm2WThDVUOtvcv9qdq1YCXvT
- hZ7ognq201P/FnkepF94pcG2lROR73Pr9ZjHaKNJbdMTMQAIFCrhFDA0q
- RGSE1+LzqQNlnUdmn5gWSFoTP2UlEPUdHoO7TpWWF49J/snEG4ua4h+zJ
- R7z0pmzAbPmOubXZz0OyVe+4eW+qdOtRYzm+O3qeDwUCorWQBqEGnT5yO Q==;
-X-IronPort-AV: E=Sophos;i="5.90,280,1643644800"; d="scan'208";a="310483442"
+ bh=E7V7bntsiUrBNhbKHQ1ViOvDxpSZHJy1zY6ve2mcyhY=;
+ b=LKd7WyBFnujAUwfUBh7jwiNAsp+nlzl200qNoX838VoUKxw+hb1kLl8A
+ Rn557Q415VaTQv4KjCa1bkLJ+5AiPUFfNz3Mn9WjJoMQn+LurdDhxhNP5
+ ccsKiQAkqfdX6DJ56BuvfIIkrIuRhN4wwlGJKT0qGqxmiHGSv4rmN6sED
+ DsKa4UP3cqpDe2f2qA2iV8iZg0LWHXS8c27fLlBaatRgbNWt9Ep2wl1d6
+ I0vCbkYjHhiH/P8wv3DhYiZPWZZ7gG7oLksGZkIB3yzJOfkRf7BraOGuL
+ k873Cw6E+pi32Hj1KKx2333aFrE9rv6Up6dBaFUpd7klzr2gPtBcISq48 w==;
+X-IronPort-AV: E=Sophos;i="5.90,280,1643644800"; d="scan'208";a="310483446"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 22 Apr 2022 08:38:30 +0800
-IronPort-SDR: MNGm2m85Djrefwke3sx/WClZXPhk+wDZPCpEDpEmiM21QKoWASWxny0g2/dxi3CuKjqqn5gjSt
- gIsfRwBvH6x8Gx2dSFPVwxCbQdxSK3cUFwCXlv3agCDyZDpThkuHAlT2zOZ3ckH3PGI/qjbrNB
- 9mqoiTq0ai6ws7N31RaO4+fmsoxaBYaNXXSuIHJD7UCXJdtEWJntVSglxRbQCYY28l0frrWsr7
- 4b8Qg9RBiTD+xXeEJboNv8Js2mNmh7bh4anprUXxMxvsDL0rVvcxX0Pdupszi85Ohh6vFC16HI
- g9LWoV73qOELuRSjXiHagWEc
+ by ob1.hgst.iphmx.com with ESMTP; 22 Apr 2022 08:38:32 +0800
+IronPort-SDR: B1aMcXQMUx1y+Y73Y8KpSagaCmDLj+eVKBaDKnWtEdJEhZPXUty83AO7MqDlhrlmubMmC8ig74
+ aEQgsY6+tkeP9s+GZBZ6ZwOT4czpUnEjlVP/E7+dToPY9eBE/J5dQYIRuPl3wG3Rn6TrDc0n9Z
+ 150YkSziJ3wxoMPGP1mm0GG9+Ow/6HScXSf6AD82SfBBgK2CE2J2hs2SOeQ+K4LL1I/MfXWolx
+ voI405osZWStzW5nLYAujaB+Bc/WRIbgKfW6KVozRXJshIaA/BUB7KVEFJ3tROS47dJHqMAAyz
+ Ch/c4CVlgx8kIh8MimW7RrIW
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Apr 2022 17:08:47 -0700
-IronPort-SDR: S/vLiaLoeavenu0P2HIcQJn1u+dWOibfiD198PVtoIouKsBxXP0FuTGhQldZXj0WyrFjDrxZkb
- n7g5meJdn9gvfUxmDEZHdOl6TU0WR1+Q/sXdjzTiKqniAyyd8VizVnp/5VOKvO1DAAHeNV6XRD
- PLwlIj4rGIn654g6xexTzDC+7C/tBq5etuiFB2WogEOmGwnGbBkE6EuFHQv887NFzq8orH0X/q
- nKMTJpnAW/Ph/jOk2R4AfrPoIvWdW170PzyDtDOyEc+X+/e3HyVBNNRnOfaG8MY8H5Eh9HJjRX
- eB0=
+ 21 Apr 2022 17:08:49 -0700
+IronPort-SDR: BpaI+daex9t+DP55JcE8Fb1qnXgxU1l+w/9Em7j7bdOQbMz0EdnXhWdpXG5zJSLiWfZloVEUy5
+ aseTZZpzDnvkNDKuLFvBVyX87j8saspd6yaFbikUfHYXGm3q+XXBhjb/wkJc5317XXtjt+GQVX
+ Qcb+Tw9+KlCeRkBx33rtiCk/NxeIq8EhPapYb2/0+R/yMdc4dOmxl7/1i7pHK7ghJFTqgIVAWT
+ P8e95ROfd6bWkiSl2SpzN0BkzrGptKWSCQOsvx7A/os/RqB1b0+6MjuVdyO3LsILXD7tuUFF2L
+ gx0=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 21 Apr 2022 17:38:30 -0700
+ 21 Apr 2022 17:38:33 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkwWB05STz1SHwl
- for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 17:38:30 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KkwWD2n3Jz1Rwrw
+ for <qemu-devel@nongnu.org>; Thu, 21 Apr 2022 17:38:32 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1650587909; x=1653179910; bh=HZtMfNayAzWb857EUp
- h0gC4EyuX8kVZF+e012B4DRfM=; b=S4Ze9QehQgaTbfFv9Zp/gBUdB1N0QjQXfG
- y1FcnWWvmt4YMVLn6pBjq9gt3tOT9CIAVip7QUPLzaUHc0u85DEXrZ926zjY+bGr
- N1YV6d05jUtJVXh3pQigAx90JQAk7ZiadUlph14KnFuXHDISienaX593DsvDxfrE
- 8Ep8uHePoPPr7P7H/2+FtmjJX3hMs3f/McUxTA/D6Xv/PyW/qYaEYLiHK4Gwqpb8
- 2VqLiTKqqu+dQUWk4kG5TPctHwBUDyS4/1rM1XZyf4uQBcp6gOk8HPs8ZLcyGwTB
- noW9AZBMDpgh7rh5n8Ck6CN277YIT6VGdHsiRkCLNZhkXPkgo5Ow==
+ :from; s=dkim; t=1650587911; x=1653179912; bh=E7V7bntsiUrBNhbKHQ
+ 1ViOvDxpSZHJy1zY6ve2mcyhY=; b=f/KhmDzzoc7CKGDR0pBElPAd6VLVwRkdma
+ U7H2NKjrrEulFuJCTPERaDQRRW+K/urL4+UTpc81MIO9/UKL4NmtKcm7dj0mQA/1
+ RKAoBUxdwjMUFI91AfThxzU3/67vY1OX1L5zVY75b0X3t+BQ4PZovyhvH6r1YG38
+ 38jlUH0uf8DmSB+HyMt4sk0zQQX73bzW/KBIOBFcAUp9sfCtcrSaBESCbStnoDdI
+ TgxA8MuwAAtHZjo2gpR2E7nzQ+l90+gioWPD4oyfMg7W44NhCEg2+MPUc2Sb4MGe
+ 0/gdw6aoTSc2kA4+clp/iEtUtuVrEHVz+OmDR7HFDISqehlkCKpw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id KqA8D1yMQERz for <qemu-devel@nongnu.org>;
- Thu, 21 Apr 2022 17:38:29 -0700 (PDT)
+ port 10026) with ESMTP id HwMTXzYTkxS1 for <qemu-devel@nongnu.org>;
+ Thu, 21 Apr 2022 17:38:31 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.120])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkwW70Yf5z1Rvlx;
- Thu, 21 Apr 2022 17:38:26 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KkwWB0Dnnz1SVnx;
+ Thu, 21 Apr 2022 17:38:29 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Jim Shu <jim.shu@sifive.com>,
- Frank Chang <frank.chang@sifive.com>,
+Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 24/31] hw/intc: riscv_aclint: Add reset function of ACLINT
- devices
-Date: Fri, 22 Apr 2022 10:36:49 +1000
-Message-Id: <20220422003656.1648121-25-alistair.francis@opensource.wdc.com>
+Subject: [PULL v2 25/31] target/riscv: debug: Implement debug related TCGCPUOps
+Date: Fri, 22 Apr 2022 10:36:50 +1000
+Message-Id: <20220422003656.1648121-26-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220422003656.1648121-1-alistair.francis@opensource.wdc.com>
 References: <20220422003656.1648121-1-alistair.francis@opensource.wdc.com>
@@ -117,96 +115,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jim Shu <jim.shu@sifive.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-This commit implements reset function of all ACLINT devices.
-ACLINT device reset will clear MTIME and MSIP register to 0.
+Implement .debug_excp_handler, .debug_check_{breakpoint, watchpoint}
+TCGCPUOps and hook them into riscv_tcg_ops.
 
-Depend on RISC-V ACLINT spec v1.0-rc4:
-https://github.com/riscv/riscv-aclint/blob/v1.0-rc4/riscv-aclint.adoc
-
-Signed-off-by: Jim Shu <jim.shu@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220420080901.14655-5-frank.chang@sifive.com>
+Message-Id: <20220421003324.1134983-2-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/intc/riscv_aclint.c | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ target/riscv/debug.h |  4 +++
+ target/riscv/cpu.c   |  3 ++
+ target/riscv/debug.c | 75 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 82 insertions(+)
 
-diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
-index 3b3ab548f6..0412edc982 100644
---- a/hw/intc/riscv_aclint.c
-+++ b/hw/intc/riscv_aclint.c
-@@ -293,11 +293,29 @@ static void riscv_aclint_mtimer_realize(DeviceState=
- *dev, Error **errp)
-     }
- }
+diff --git a/target/riscv/debug.h b/target/riscv/debug.h
+index fbc5f946e2..fb21706e1c 100644
+--- a/target/riscv/debug.h
++++ b/target/riscv/debug.h
+@@ -105,4 +105,8 @@ void tselect_csr_write(CPURISCVState *env, target_ulo=
+ng val);
+ target_ulong tdata_csr_read(CPURISCVState *env, int tdata_index);
+ void tdata_csr_write(CPURISCVState *env, int tdata_index, target_ulong v=
+al);
 =20
-+static void riscv_aclint_mtimer_reset_enter(Object *obj, ResetType type)
++void riscv_cpu_debug_excp_handler(CPUState *cs);
++bool riscv_cpu_debug_check_breakpoint(CPUState *cs);
++bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
++
+ #endif /* RISCV_DEBUG_H */
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 94f9434411..8919928f4f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -880,6 +880,9 @@ static const struct TCGCPUOps riscv_tcg_ops =3D {
+     .do_interrupt =3D riscv_cpu_do_interrupt,
+     .do_transaction_failed =3D riscv_cpu_do_transaction_failed,
+     .do_unaligned_access =3D riscv_cpu_do_unaligned_access,
++    .debug_excp_handler =3D riscv_cpu_debug_excp_handler,
++    .debug_check_breakpoint =3D riscv_cpu_debug_check_breakpoint,
++    .debug_check_watchpoint =3D riscv_cpu_debug_check_watchpoint,
+ #endif /* !CONFIG_USER_ONLY */
+ };
+=20
+diff --git a/target/riscv/debug.c b/target/riscv/debug.c
+index c8cec39217..1a9392645e 100644
+--- a/target/riscv/debug.c
++++ b/target/riscv/debug.c
+@@ -337,3 +337,78 @@ void tdata_csr_write(CPURISCVState *env, int tdata_i=
+ndex, target_ulong val)
+=20
+     return write_func(env, env->trigger_cur, tdata_index, val);
+ }
++
++void riscv_cpu_debug_excp_handler(CPUState *cs)
 +{
-+    /*
-+     * According to RISC-V ACLINT spec:
-+     *   - On MTIMER device reset, the MTIME register is cleared to zero=
-.
-+     *   - On MTIMER device reset, the MTIMECMP registers are in unknown=
- state.
-+     */
-+    RISCVAclintMTimerState *mtimer =3D RISCV_ACLINT_MTIMER(obj);
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++    CPURISCVState *env =3D &cpu->env;
 +
-+    /*
-+     * Clear mtime register by writing to 0 it.
-+     * Pending mtime interrupts will also be cleared at the same time.
-+     */
-+    riscv_aclint_mtimer_write(mtimer, mtimer->time_base, 0, 8);
-+}
-+
- static void riscv_aclint_mtimer_class_init(ObjectClass *klass, void *dat=
-a)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-     dc->realize =3D riscv_aclint_mtimer_realize;
-     device_class_set_props(dc, riscv_aclint_mtimer_properties);
-+    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
-+    rc->phases.enter =3D riscv_aclint_mtimer_reset_enter;
- }
-=20
- static const TypeInfo riscv_aclint_mtimer_info =3D {
-@@ -452,11 +470,32 @@ static void riscv_aclint_swi_realize(DeviceState *d=
-ev, Error **errp)
-     }
- }
-=20
-+static void riscv_aclint_swi_reset_enter(Object *obj, ResetType type)
-+{
-+    /*
-+     * According to RISC-V ACLINT spec:
-+     *   - On MSWI device reset, each MSIP register is cleared to zero.
-+     *
-+     * p.s. SSWI device reset does nothing since SETSIP register always =
-reads 0.
-+     */
-+    RISCVAclintSwiState *swi =3D RISCV_ACLINT_SWI(obj);
-+    int i;
-+
-+    if (!swi->sswi) {
-+        for (i =3D 0; i < swi->num_harts; i++) {
-+            /* Clear MSIP registers by lowering software interrupts. */
-+            qemu_irq_lower(swi->soft_irqs[i]);
++    if (cs->watchpoint_hit) {
++        if (cs->watchpoint_hit->flags & BP_CPU) {
++            cs->watchpoint_hit =3D NULL;
++            riscv_raise_exception(env, RISCV_EXCP_BREAKPOINT, 0);
++        }
++    } else {
++        if (cpu_breakpoint_test(cs, env->pc, BP_CPU)) {
++            riscv_raise_exception(env, RISCV_EXCP_BREAKPOINT, 0);
 +        }
 +    }
 +}
 +
- static void riscv_aclint_swi_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-     dc->realize =3D riscv_aclint_swi_realize;
-     device_class_set_props(dc, riscv_aclint_swi_properties);
-+    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
-+    rc->phases.enter =3D riscv_aclint_swi_reset_enter;
- }
-=20
- static const TypeInfo riscv_aclint_swi_info =3D {
++bool riscv_cpu_debug_check_breakpoint(CPUState *cs)
++{
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++    CPURISCVState *env =3D &cpu->env;
++    CPUBreakpoint *bp;
++    target_ulong ctrl;
++    target_ulong pc;
++    int i;
++
++    QTAILQ_FOREACH(bp, &cs->breakpoints, entry) {
++        for (i =3D 0; i < TRIGGER_TYPE2_NUM; i++) {
++            ctrl =3D env->type2_trig[i].mcontrol;
++            pc =3D env->type2_trig[i].maddress;
++
++            if ((ctrl & TYPE2_EXEC) && (bp->pc =3D=3D pc)) {
++                /* check U/S/M bit against current privilege level */
++                if ((ctrl >> 3) & BIT(env->priv)) {
++                    return true;
++                }
++            }
++        }
++    }
++
++    return false;
++}
++
++bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
++{
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++    CPURISCVState *env =3D &cpu->env;
++    target_ulong ctrl;
++    target_ulong addr;
++    int flags;
++    int i;
++
++    for (i =3D 0; i < TRIGGER_TYPE2_NUM; i++) {
++        ctrl =3D env->type2_trig[i].mcontrol;
++        addr =3D env->type2_trig[i].maddress;
++        flags =3D 0;
++
++        if (ctrl & TYPE2_LOAD) {
++            flags |=3D BP_MEM_READ;
++        }
++        if (ctrl & TYPE2_STORE) {
++            flags |=3D BP_MEM_WRITE;
++        }
++
++        if ((wp->flags & flags) && (wp->vaddr =3D=3D addr)) {
++            /* check U/S/M bit against current privilege level */
++            if ((ctrl >> 3) & BIT(env->priv)) {
++                return true;
++            }
++        }
++    }
++
++    return false;
++}
 --=20
 2.35.1
 
