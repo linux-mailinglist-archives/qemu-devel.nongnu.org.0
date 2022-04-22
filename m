@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1B750B8B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:38:35 +0200 (CEST)
-Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C4550B8C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Apr 2022 15:40:04 +0200 (CEST)
+Received: from localhost ([::1]:51606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nhtUX-00013U-PG
-	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60330)
+	id 1nhtVz-000545-Ci
+	for lists+qemu-devel@lfdr.de; Fri, 22 Apr 2022 09:40:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhtKe-0006ou-70
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:28:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32519)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nhtKY-0000rz-WD
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:28:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650634094;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vCroQEVY0Pw/VX1WufgysZm4LCrJaYGXNL9WklKST/k=;
- b=EeZ3eE4P8xA0eEqatay4bAAmbxC8hk4PbVd+m+osUx6VTDTKb2P23GP66nYyCUCxrVeGRu
- OtwM9kRmxfbcuvU0ZoGMlgbiFJoFkOnlEtWfztPoxvOckHSufsW0/0z5Lw1UD6Ri6V9aab
- G0HJJUZFm5qWIAKcHr1gfAbQprrGWoQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-eQ-ztjgRMC2DVJghSfIWYg-1; Fri, 22 Apr 2022 09:28:11 -0400
-X-MC-Unique: eQ-ztjgRMC2DVJghSfIWYg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2025A80A0AD;
- Fri, 22 Apr 2022 13:28:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D3B2340F4940;
- Fri, 22 Apr 2022 13:28:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B719321E6A1F; Fri, 22 Apr 2022 15:28:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qapi: Fix malformed "Since:" section tags
-Date: Fri, 22 Apr 2022 15:28:07 +0200
-Message-Id: <20220422132807.1704411-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nhtOr-0004IR-3J
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:32:41 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:37511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nhtOp-0001m2-8D
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 09:32:40 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2f16645872fso85418957b3.4
+ for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 06:32:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=S2eutZnd2xR8CnZftUo/Y9n8c22cZCpcOVDElcU4nmY=;
+ b=f+Md7eFuHzl1sS0sW6d17HLq5KNOJMZzuff2fXQ/Irkjatbpf+Naav+fWgMQTJgC9R
+ CRohSf9lWD5gYFJzxLKRN7OLm8QDxETCvAEebOY6C/kSMFIaHK4bNXd/qXCxH9RAV5Fg
+ wWP/ygmmr1SbDZjLTk5JjZ6RTT6Pr4a6xU1cASZHoZmeP/n0BP4o2r7kG2kf9dVGHrVN
+ BafWqeFqU9myl3IDgzLeLM9ebpcJksj6XmV3Lk5yLGwT46gPjunEK4LU3PQS+eJBSyPw
+ j19QkdqXntE3NiWqtQuI/VytZSQn2+CrBgXvmmoXUr14/sHVu64m3k/mbp84C/eQPGa1
+ 6ehQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=S2eutZnd2xR8CnZftUo/Y9n8c22cZCpcOVDElcU4nmY=;
+ b=PHfZ/9DbNqVcyI0B+1n2hHnwZGUP2WGCaI/bJcZEjYuM12D/81QM77wQ0Sd7ILaYkQ
+ OtO0zpAgJE2kKfjNsiMP2KbiOcV9uYOjyvKCTpKvuuQ7RDoSinbnWGDG/1k4Vtta/+OU
+ vHOFyVktkjBbMQrg+iSbhc0djS7+qn82lKVgVbTA14YFzMfAasC4CYSa7TJyeUFjSWJf
+ 14ATOrG3oCI9h6kOj0aIWuJVXiHhgGDW8AmSDymYF+rwVePOzwSq6/XAQ3GAnByw2ss0
+ JB96y8lAV/+eZJLqkjHHfo2OXiauKSjlkg/pmXIPh9myLPL9Iqnv1LPARwoMieS0StDE
+ STAQ==
+X-Gm-Message-State: AOAM533RRGHIRtW5E2Uu1IydoVXLVcsXy2EAPY80Di087v+vIWr3p5uh
+ pLtIf5j51cVMg2KHQigbffzXc4isq5je+YJfUmt05g==
+X-Google-Smtp-Source: ABdhPJwzKOMwXYrollFIkWm4UmZX+i6SKKv36PDTBvFIv6gdPjYhS3fL99Iz0GEwbKVAih91/dRxCcWNzz/OY5c2X60=
+X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
+ z23-20020a81ac57000000b002f199ec91a2mr4717724ywj.329.1650634358111; Fri, 22
+ Apr 2022 06:32:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220401170813.318609-1-richard.henderson@linaro.org>
+In-Reply-To: <20220401170813.318609-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 22 Apr 2022 14:32:27 +0100
+Message-ID: <CAFEAcA9c-8AETL2H2dra5r6Pey-TS37to4ES-riJOVxiGWTHbw@mail.gmail.com>
+Subject: Re: [PATCH] accel/tcg: Assert mmu_idx in range before use in cputlb
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,77 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, berrange@redhat.com, michael.roth@amd.com,
- f4bug@amsat.org, wangyanan55@huawei.com, eblake@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Since X.Y" is not recognized as a tagged section, and therefore not
-formatted as such in generated documentation.  Fix by adding the
-required colon.
+On Fri, 1 Apr 2022 at 18:08, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Coverity reports out-of-bound accesses within cputlb.c.
+> This should be a false positive due to how the index is
+> decoded from MemOpIdx.  To be fair, nothing is checking
+> the correct bounds during encoding either.
+>
+> Assert index in range before use, both to catch user errors
+> and to pacify static analysis.
+>
+> Fixes: Coverity CID 1487120, 1487127, 1487170, 1487196, 1487215, 1487238
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  accel/tcg/cputlb.c | 40 +++++++++++++++++++++++++++-------------
+>  1 file changed, 27 insertions(+), 13 deletions(-)
+>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/crypto.json     | 3 +--
- qapi/machine.json    | 2 +-
- qapi/misc.json       | 2 +-
- qga/qapi-schema.json | 2 +-
- 4 files changed, 4 insertions(+), 5 deletions(-)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/qapi/crypto.json b/qapi/crypto.json
-index 1ec54c15ca..8e0b4764e5 100644
---- a/qapi/crypto.json
-+++ b/qapi/crypto.json
-@@ -357,8 +357,7 @@
- #                 password to use to retrieve current master key.
- #                 Defaults to the same secret that was used to open the image
- #
--#
--# Since 5.1
-+# Since: 5.1
- ##
- { 'struct': 'QCryptoBlockAmendOptionsLUKS',
-   'data': { 'state': 'QCryptoBlockLUKSKeyslotState',
-diff --git a/qapi/machine.json b/qapi/machine.json
-index d25a481ce4..84b7fd7c28 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -970,7 +970,7 @@
- # preconfigure stage to configure numa mapping before initializing
- # machine.
- #
--# Since 3.0
-+# Since: 3.0
- ##
- { 'command': 'set-numa-node', 'boxed': true,
-   'data': 'NumaOptions',
-diff --git a/qapi/misc.json b/qapi/misc.json
-index b83cc39029..f8a9feda30 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -188,7 +188,7 @@
- # Features:
- # @unstable: This command is experimental.
- #
--# Since 3.0
-+# Since: 3.0
- #
- # Returns: nothing
- #
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index 94e4aacdcc..1812823d88 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -899,7 +899,7 @@
- # @alias: optional alias assigned to the disk, on Linux this is a name assigned
- #         by device mapper
- #
--# Since 5.2
-+# Since: 5.2
- ##
- { 'struct': 'GuestDiskInfo',
-   'data': {'name': 'str', 'partition': 'bool', '*dependencies': ['str'],
--- 
-2.35.1
-
+thanks
+-- PMM
 
