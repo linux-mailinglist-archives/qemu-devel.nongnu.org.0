@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A760F50C83B
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 10:36:58 +0200 (CEST)
-Received: from localhost ([::1]:37232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A3650C83D
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 10:38:32 +0200 (CEST)
+Received: from localhost ([::1]:39402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niBGD-0007Bx-K1
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 04:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
+	id 1niBHj-0000KN-Qj
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 04:38:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niBEL-0006EC-7n
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 04:35:02 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:41512)
+ id 1niBGQ-000829-Oi
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 04:37:10 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:35522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niBEI-0000vg-R5
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 04:35:00 -0400
-Received: by mail-ej1-x634.google.com with SMTP id y10so20442814ejw.8
- for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 01:34:58 -0700 (PDT)
+ id 1niBGP-0001Xp-6H
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 04:37:10 -0400
+Received: by mail-ej1-x629.google.com with SMTP id l7so20526935ejn.2
+ for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 01:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=5RNmr/UU/MVM12/khC6XMLB+tqePBcQ4l+ycU1BfRkI=;
- b=Ct9nAocFz1xkBJWwLb8pxh7T34RMBE/L4pLrSmmfhPXoD4RfVF6XseyHpxEs5fTJy1
- JTSq9AkoNynyAg+LPurCZQlZkqGXJt3NSyrQZVXQDFcMlIU/uw3kjbTza5kwi9DyxtY2
- ArjmD0YOA4WEZiHTMoG4ogMWVKVs+ZsEcnZaQPuUHfXTMw3EUwROHNouS/J1AyWFTfKz
- A5IQT8i5nIkAFaf9GQcmgRhpLCQEPlh6mcJazlka5zwR4IL15o8mx29SHgFgTCSW04Tt
- 00v97TyAPkiil6eL6amFw38mMj+8VHBVVNseNd9hGadKFr0iwSfXBWVJo7MvjnPnCFJ9
- Tbzw==
+ bh=uc0koXLb7o1MifjyRBCEGUuNN4OjxS6lSEXPJR9wRuI=;
+ b=H8ILPoNds9c5Zd3DCFFKvPSXPfAlmaQ1lW53mLYO3YTurr6qMVS6HOAGFTwZ6nyV4T
+ 0k8B2YVIBbGk0ECY3hw0NCG/gpQwlN76AilTBqt7EotiYcnEaJJuKHtAtYa5EsgPFJ6w
+ QO6qnRunsj87A0em4opz+4zsT34BM84/AQ+JWDK2pMHJypbTGi/6HsS3TI4X029MD2mG
+ jBLpu8VSu7djpO3y24fhYa/xip+sH6wA3hqXV8elvoI8FHZpGAC3QpyS57XQAvjEc4W3
+ w8TfGNzfXjCUpq0/9JFoKCygZUvvjyBDTIn95mpTV/ye39eubzwFgpSYj69Ku7YOE43m
+ P0Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=5RNmr/UU/MVM12/khC6XMLB+tqePBcQ4l+ycU1BfRkI=;
- b=B58EsWMKXoS0Q/YqS1kc47abFfodqZZ2PSuDMGEy5xl/hcL4ULvnWPuYbjerj8c+Wg
- +y2+zmFVI7ksRUtw8ItnJOMktp3nW6aZ0HiuvHnWvzdTwVO3dtE0Iz0gz3C5MNEOtz7U
- jjYFhzv3qAdGsaRiLuuJ+7SU7DqsDU02IiPIT+TkECo6NtDk7f/9TR5ORAYtvEsia6I5
- X2TEC/K6dtFsizWP00rGhQ6wGGgJ0amUDdHs4bpn4VKLRX4CsciUu3y9ZJn8TqSB7aik
- t+ciHNP9pvnXCVw56e7f33XSm530bn2ZaftizpD4i52GMYz8f2aaODqJ3A/ikcRK7mn7
- YTHQ==
-X-Gm-Message-State: AOAM533KyNbftYWeV3FbgSwWVY7mTVTtSDsG4ZdYc+9u/ImotEkXcrd8
- YfBokHLbYNZcVWPc/JUrqjwzCohxB0pdxg==
-X-Google-Smtp-Source: ABdhPJwXAHCSkTpBaCVxpaldtQrX66YSfS987120mepB90OIG+MJTp8R5/vU67DGsklViGzofOCs2w==
-X-Received: by 2002:a17:907:3f86:b0:6db:b745:f761 with SMTP id
- hr6-20020a1709073f8600b006dbb745f761mr7372309ejc.610.1650702896636; 
- Sat, 23 Apr 2022 01:34:56 -0700 (PDT)
+ bh=uc0koXLb7o1MifjyRBCEGUuNN4OjxS6lSEXPJR9wRuI=;
+ b=vc50D2dY2rCTuRaUWcpbsQNXEdDlSDvblv4WZoQjAV/6I2yhxhos/dt3s5P8iyVIvZ
+ PsbJFLaLJyI8NzvxOl3+9T3wzK8GpEVT3WjiRMWo0YwhP5dbDnJrTTBMVrz/4hidCz0A
+ jT+ub7renLOCCgIWOOqX5VML3IgTIXlbCjNw0uDYuf9SQ3D5R0JE+k8PkMJIiAcKKcci
+ lqZCWerO0vfipVVCdLeNkmbrFJJ5sUVICrxogWYvPSO8ge1bvCViqivVpNpps5cG6eqO
+ nFXuAt6gWaYieaDcmYzMr4yaDdeEgLkhirHFT1nQdGCR3e97PcqvAe6Inq8MiGTUi8Vs
+ NJWA==
+X-Gm-Message-State: AOAM5314ELKry37SJVXNTyFKELka22lexgbscFL0RtQl6x89o50i/acT
+ wvlzc/rOZ9EFQuqoo5ArhxQ=
+X-Google-Smtp-Source: ABdhPJyiEFcJhYtMalm6SZp/qWHCw8vlRZY2o9JAFhPa3sL+YE29l3NhjH34o4bEa7QFIDeQE+pwEA==
+X-Received: by 2002:a17:907:2d11:b0:6f0:f39:f647 with SMTP id
+ gs17-20020a1709072d1100b006f00f39f647mr7418332ejc.694.1650703027874; 
+ Sat, 23 Apr 2022 01:37:07 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- z16-20020a05640235d000b004258d76a908sm1940498edc.54.2022.04.23.01.34.55
+ x98-20020a50baeb000000b00425d61cbb0esm165475ede.22.2022.04.23.01.37.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Apr 2022 01:34:55 -0700 (PDT)
-Message-ID: <8c4199f9-96ed-f1e7-4f89-cf599c95f552@redhat.com>
-Date: Sat, 23 Apr 2022 10:34:54 +0200
+ Sat, 23 Apr 2022 01:37:07 -0700 (PDT)
+Message-ID: <8f54234c-8f9d-89c7-3bde-a02adf93c1b8@redhat.com>
+Date: Sat, 23 Apr 2022 10:37:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 for-7.1 4/9] nbd: keep send_mutex/free_sema handling
- outside nbd_co_do_establish_connection
+Subject: Re: [PATCH v2 for-7.1 5/9] nbd: use a QemuMutex to synchronize
+ yanking, reconnection and coroutines
 Content-Language: en-US
 To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
  qemu-devel@nongnu.org
 References: <20220414175756.671165-1-pbonzini@redhat.com>
- <20220414175756.671165-5-pbonzini@redhat.com>
- <db1afb67-5d7a-5c98-1564-6a3a637d138f@mail.ru>
+ <20220414175756.671165-6-pbonzini@redhat.com>
+ <995e87bd-f0f9-3ff9-32b0-19c02c29cf89@mail.ru>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <db1afb67-5d7a-5c98-1564-6a3a637d138f@mail.ru>
+In-Reply-To: <995e87bd-f0f9-3ff9-32b0-19c02c29cf89@mail.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,76 +99,56 @@ Cc: eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/16/22 13:54, Vladimir Sementsov-Ogievskiy wrote:
->> @@ -187,9 +187,6 @@ static void reconnect_delay_timer_cb(void *opaque)
->>       if (qatomic_load_acquire(&s->state) == 
->> NBD_CLIENT_CONNECTING_WAIT) {
->>           s->state = NBD_CLIENT_CONNECTING_NOWAIT;
->>           nbd_co_establish_connection_cancel(s->conn);
->> -        while (qemu_co_enter_next(&s->free_sema, NULL)) {
->> -            /* Resume all queued requests */
->> -        }
->>       }
->>       reconnect_delay_timer_del(s);
+On 4/16/22 14:18, Vladimir Sementsov-Ogievskiy wrote:
+> 14.04.2022 20:57, Paolo Bonzini wrote:
+>> The condition for waiting on the s->free_sema queue depends on
+>> both s->in_flight and s->state.  The latter is currently using
+>> atomics, but this is quite dubious and probably wrong.
+>>
+>> Because s->state is written in the main thread too, for example by
+>> the yank callback, it cannot be protected by a CoMutex.  Introduce a
+>> separate lock that can be used by nbd_co_send_request(); later on this
+>> lock will also be used for s->state.  There will not be any contention
+>> on the lock unless there is a yank or reconnect, so this is not
+>> performance sensitive.
+>>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>   block/nbd.c | 46 +++++++++++++++++++++++++++-------------------
+>>   1 file changed, 27 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/block/nbd.c b/block/nbd.c
+>> index 62dd338ef3..a2414566d1 100644
+>> --- a/block/nbd.c
+>> +++ b/block/nbd.c
+>> @@ -71,17 +71,22 @@ typedef struct BDRVNBDState {
+>>       QIOChannel *ioc; /* The current I/O channel */
+>>       NBDExportInfo info;
+>> -    CoMutex send_mutex;
+>> +    /*
+>> +     * Protects free_sema, in_flight, requests[].coroutine,
+>> +     * reconnect_delay_timer.
+>> +     */
 > 
-> Seems, removing the timer is not needed here too. We do 
-> nbd_co_establish_connection_cancel(), and timer will be removed in 
-> nbd_reconnect_attempt anyway.
+> requests[].coroutine is read without mutex in nbd_receive_replies
 > 
-> More over, we don't need to keep timer in the state at all: it should 
-> become local thing for nbd_reconnect_attempt. A kind of call 
-> nbd_co_do_establish_connection() with timeout. That could be refactored 
-> later, using same way as in 4-5 patches of my "[PATCH v4 0/7] 
-> copy-before-write: on-cbw-error and cbw-timeout" series.
+> reconnect_delay_timer_del() is called without mutex in 
+> nbd_cancel_in_flight() and in reconnect_delay_timer_cb()..
+> 
+> Is it OK? Worth improving the comment?
 
-Yes, good point.
+Yeah, let me check the reconnect_delay_timer idea you had in the 
+previous patch, too.
 
->> nbd_reconnect_attempt(BDRVNBDState *s)
->>           s->ioc = NULL;
->>       }
->> -    nbd_co_do_establish_connection(s->bs, NULL);
->> +    qemu_co_mutex_unlock(&s->send_mutex);
->> +    nbd_co_do_establish_connection(s->bs, blocking, NULL);
->> +    qemu_co_mutex_lock(&s->send_mutex);
-> 
-> 
-> Hmm. So, that breaks a critical section.
-> 
-> We can do it because in_flight=1 and we are not connected => all other 
-> requests will wait in the queue.
-> 
-> Still. during nbd_co_do_establish_connection() state may become 
-> CONNECTED. That theoretically means that parallel requests may start.
-> 
-> Is it bad? Seems not.. Bad thing that comes into my mind is that 
-> parallel request fails, and go to reconnect, and start own timer, but we 
-> remove it now after locking the mutex back. But that's not possible as 
-> parallel request should wait for in-flight=0 to start own 
-> reconnect-attempt. And that is not possible, as we keep our in-flight 
-> point.
+> Prior to this patch, if request sending fails, we'll not send further 
+> requests. After the patch, we can send more requests after failure on 
+> unlocking send_mutex.
+>
+> What's wrong if we keep send_mutex critical section as is and just lock 
+> requests_lock additionally inside send_mutex-critical-section?
 
-Yes that was even intended. :>  Synchronizing on in_flight == 0 before 
-reconnecting is the important bit that simplifies a lot of things.
-
->> @@ -2049,7 +2046,6 @@ static void 
->> nbd_cancel_in_flight(BlockDriverState *bs)
->>       if (s->state == NBD_CLIENT_CONNECTING_WAIT) {
->>           s->state = NBD_CLIENT_CONNECTING_NOWAIT;
->> -        qemu_co_queue_restart_all(&s->free_sema);
-> 
-> As I understand, we always have one request running (or no requests at 
-> all, but that's OK too) and it will wake all others (altogether, or they 
-> will wake each other in a chain). So, we don't need to wake them here.
-
-Exactly, the "let each coroutine wake up the next one" pattern can be 
-generalized to the error cases because the wakeups cascade until 
-in_flight becomes 0.
+I wanted to keep send_mutex just for the socket, basically.  The cse you 
+point out exists but it is harmless.
 
 Paolo
-
->>       }
->>       nbd_co_establish_connection_cancel(s->conn);
-> 
-> 
-
 
