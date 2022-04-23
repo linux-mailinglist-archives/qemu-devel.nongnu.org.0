@@ -2,92 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD70250C822
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 09:58:59 +0200 (CEST)
-Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD9B50C823
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 09:59:00 +0200 (CEST)
+Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niAfS-00014x-G9
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 03:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43030)
+	id 1niAfT-0001BM-L2
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 03:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <simon@simonsafar.com>)
- id 1ni6Fl-0003UJ-Uy
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 23:16:09 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48765)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <simon@simonsafar.com>)
- id 1ni6Fi-00025j-Iv
- for qemu-devel@nongnu.org; Fri, 22 Apr 2022 23:16:09 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id A8EEB5C0210;
- Fri, 22 Apr 2022 23:16:04 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
- by compute4.internal (MEProxy); Fri, 22 Apr 2022 23:16:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=simonsafar.com;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1650683764; x=1650770164; bh=y3
- UM23r97VQMOD5bfsRt5BUFmRvZ9GNwvWCjrwOESf8=; b=T0p9beGYWND2eNzJox
- hMS7Zj/4C7QAMUSTE1qSrOBf0dGsYX4T8qwME0/1f2bjYvZQMbkJLPP44ohYsqaG
- empdHuY74YEwCrtchicldzQ8DyTCyAy5M0aoXdIQKle+1Z2X2Rlw9SVT9DLJ4NVT
- yIPIIhlGZT3+snQeR7/bo38mt1vFL2+THah6rV7C14WCTRdpNe5sP1oqjpnvJpk2
- xRH6OUKMq1qC03rGM0pjJcaVgZ2NcN+O8UHaGeqjvuSRJn4Dwk3YFOMRuDjVnjgJ
- 6Mmcj3DxF/Ad5WIEzEnpzlpihGqItjc0muQRcWZTGllIIvtrNoYO1vlYSkJFqObP
- TvyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650683764; x=
- 1650770164; bh=y3UM23r97VQMOD5bfsRt5BUFmRvZ9GNwvWCjrwOESf8=; b=i
- SuyB8xX0T3wAIX0nmwVFxD7EyGt0dZO6zVTF8NdRZw7ElKOmMPeMAe5r5bfQ9VZa
- biTUT/CMFJ9hiiBzCV3ReT/Mgdq+2kPXtrlO6gaPmR4/2h2Yp6yJFuJqACgr0aoy
- wUbKFoSX2kyTumZqeNzLDeQlkTXRZkxWdkNhxEi1BoSw77miXHIbB/bXNdPId+Yt
- mBXynj+sHfJyPXt2k0QZ52reDn4Ayz6YfHHTPc8UeWxZhknY/X+rnsyj8y4gNVVt
- lzs1Q0if6necH2AZvpIUlpGX6lwqJ725Hf9SL0qP0+af7dIRo49fOWwMR1agAhdv
- uE0BBIOJd3OViO3sJsbtg==
-X-ME-Sender: <xms:dG9jYqo-SWRhCnXayiVKV_5l7qzx9kmTJMjLwuiFWf60TKIrV1SQFg>
- <xme:dG9jYoqGKvrq32ZVoQaGDYAV39TRRXBGXEgbStxEdcT3wco4F_brkh0Uf1V13OTGd
- BGanqRwTBkk61uBLC0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdehgdeikecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvfevufgtsehttd
- ertderredtnecuhfhrohhmpedfufhimhhonhcuufgrfhgrrhdfuceoshhimhhonhesshhi
- mhhonhhsrghfrghrrdgtohhmqeenucggtffrrghtthgvrhhnpeeiiedtleduhfelffejud
- dvvefhueevledvhfehueegieejkeegieetfedvgeeljeenucevlhhushhtvghrufhiiigv
- pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsihhmohhnsehsihhmohhnshgrfhgrrh
- drtghomh
-X-ME-Proxy: <xmx:dG9jYvOck2MMJLQ0nrEpfAOqbscR4SzxRO2ZzExcN32Q4EZIaKTubQ>
- <xmx:dG9jYp6Rw7OVHX4fNzJehSEFxjitUAorlcDoG8B2FKtsydWAKjTC2Q>
- <xmx:dG9jYp64BL35FrWmd77Tb7z8bt0AlILBe1xJiN4skTy9jYwJ3vQp-A>
- <xmx:dG9jYqVAwUBW67GPLjJ9y24eTk6SdkACFV6w2a_z-lQpjn8qeTOuHQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 5ADD31920089; Fri, 22 Apr 2022 23:16:04 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-569-g7622ad95cc-fm-20220421.002-g7622ad95
-Mime-Version: 1.0
-Message-Id: <331420f7-9bc8-44b6-b9db-e1d82cfdd399@www.fastmail.com>
-In-Reply-To: <CAMo8BfKPgZ29ReVE9CYmzfZ0sfem-fXqLf-2TW8qYQpO6fPA3g@mail.gmail.com>
-References: <20220421155726.31986-1-simon@simonsafar.com>
- <CAMo8BfKPgZ29ReVE9CYmzfZ0sfem-fXqLf-2TW8qYQpO6fPA3g@mail.gmail.com>
-Date: Fri, 22 Apr 2022 20:15:33 -0700
-To: "Max Filippov" <jcmvbkbc@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] target/xtensa: import core lx106
-Content-Type: text/plain
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=simon@simonsafar.com;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <xcd19@mails.tsinghua.edu.cn>)
+ id 1ni6P8-0006D9-3D
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 23:25:50 -0400
+Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net ([165.227.154.27]:52779)
+ by eggs.gnu.org with smtp (Exim 4.90_1)
+ (envelope-from <xcd19@mails.tsinghua.edu.cn>) id 1ni6P1-0003GU-JU
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 23:25:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mails.tsinghua.edu.cn; s=dkim; h=Received:Date:From:To:Subject:
+ Content-Type:MIME-Version:Message-ID; bh=dHqeeV3N1CMMcGMC/JaqXpy
+ +OtHYZ91tdx925wcf5ds=; b=pJch73KWVfCiTTqlMmmVwJwYllMtxtepRh+ilbN
+ Ktz4ibCTTqnrw+gf0jgLB7c6Zk+MuWb6AtqEdwZqQpEqLFYrfMzCj5LpilX9Se2v
+ ebo8M94+aYZMrIKXbSHEs4+GjzBGZYyhYTwKPNCFzmIpzjh+iJbwMeVFNTN4QciO
+ yqXc=
+Received: by ajax-webmail-web4 (Coremail) ; Sat, 23 Apr 2022 11:25:26 +0800
+ (GMT+08:00)
+X-Originating-IP: [13.75.0.255]
+Date: Sat, 23 Apr 2022 11:25:26 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?6aG55pmo5Lic?= <xcd19@mails.tsinghua.edu.cn>
+To: qemu-devel@nongnu.org
+Subject: qemu questions about x86
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2022 www.mailtech.cn
+ mispb-4df55a87-4b50-4a66-85a0-70f79cb6c8b5-tsinghua.edu.cn
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_134070_720350960.1650684326618"
+MIME-Version: 1.0
+Message-ID: <54ec2a88.968d.1805473f2da.Coremail.xcd19@mails.tsinghua.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: ywQGZQBXscyncWNirQe_BA--.40547W
+X-CM-SenderInfo: 50fgimo6pdxz3vow2x5qjk3toohg3hdfq/1tbiAgQFAV7nFTo7PwA
+	AsQ
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=165.227.154.27;
+ envelope-from=xcd19@mails.tsinghua.edu.cn;
+ helo=zg8tmty1ljiyny4xntqumjca.icoremail.net
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 23 Apr 2022 03:55:34 -0400
+X-Mailman-Approved-At: Sat, 23 Apr 2022 03:55:38 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,27 +73,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Simon Safar" <simon@simonsafar.com>
-From:  "Simon Safar" via <qemu-devel@nongnu.org>
 
-Hi Max,
+------=_Part_134070_720350960.1650684326618
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Thu, Apr 21, 2022, at 1:56 PM, Max Filippov wrote:
-> 
-> An update to target/xtensa/cores.list is needed for this core to be built
-> in qemu-6.2+. Please keep that file alphabetically sorted.
+RGVhciBxZW11IGRldmVsb3BlcnM6CmhlbGxvfiBJJ20gWGlhbmcgQ2hlbiBkb25nLCBhIHN0dWRl
+bnQgZnJvbSBUc2luZ2h1YSBVbml2ZXJzaXR5LiByZWNlbnRseSBJIGFtIHRyeWluZyB0byAgYWNj
+b21wbGlzaCBuZXcgWDg2IGZlYXR1cmUgbmFtZWQgdXNlci1pbnRlcnJ1cHRzIHdoaWNoIGNhbiB2
+aWV3IGhlcmUuCkkgd29ya2VkIGZvciBhIGNvdXBsZSBvZiB0aW1lLCByZWFjaGluZyBzdGF0dXMg
+dGhhdCBuZXcgbXNycyBhZGRlZCBhbmQgYWNjZXNzIG9mIG1zcnMgaXMgd29yayB3ZWxsLCBhbHNv
+IGFkZCBuZXcgQ1BVSUQgaW5mb3MgdG8gcWVtdTY0LCBhbHNvIEkgY291bGQgY2F0Y2ggbmV3IGlu
+c3RydWN0aW9ucyBieSBtb2RpZnkgYHRyYW5zbGF0ZS5jYCBmaWxlLiBteSBjb2RlIGNvdWxkIGZp
+bmQgaGVyZSwgdGhlIGNvcnJlc3BvbmQgbGludXgga2VybmVsIHZlcnNpb24gY291bGQgZmluZCBo
+ZXJlLgpidXQgbm93IEkgaGF2ZSBzb21lIHByb2JsZW1zIHdoZW4gdHJ5aW5nIHRvIGFjY29tcGxp
+c2ggaW5zdHJ1Y3Rpb25zIG5hbWVkIFNFTkRVSVBJIGFuZCBVSVJFVC4KZm9yIFNFTkRVSVBJLCB0
+aGUgbWFpbiBmdW5jdGlvbiBvZiBpdCBpcyBzZW5kaW5nIHRoZSB1c2VyLWludGVycnVwdHMuIHRo
+ZSBkZXRhaWwgd2F5IGlzLCBtYWNoaW5lIGFjY2VzcyBtZW1vcnkoYWRkcmVzcyBzYXZlZCBpbiBu
+ZXcgbXNyKSwgdGhlbiByZWFkIGFub3RoZXIgYWRkcmVzcyBmcm9tIG1lbW9yeSwgdGhlbiB3cml0
+ZSBzb21lIGNvbnRlbnQgdG8gdGhpcyBtZW1vcnkuIEkgcmVhZCB0aGUgcWVtdSBzb3VyY2UgY29k
+ZSwgZmluZCBhIGxvdCBvZiBmdW5jdGlvbnMgbGlrZSB0Y2dfZ2VuX3FlbXVfbGQsICBidXQgd2hl
+biBpIGNsaWNrIGludG8gaXQgZnJvbSBJREUodnNjb2RlKSwgaSBjb3VsZCBub3QgZmluZCB3aGVy
+ZSB0aGUgZnVuY3Rpb24gYm9keShtYXliZSBkdWUgdG8gdGhlIG1hY3JvKS4gU28gSSBkb24ndCB1
+bmRlcnN0YW5kIGhvdyB0aGUgZnVuY3Rpb24gd29ya3MgYW5kIGhvdyBjYW4gSSB3aXJ0ZSBhIG5l
+dyBmdW5jdGlvbiB0byBhY2Nlc3MgZ3Vlc3QgbWFjaGluZSBtZW1vcnkgYW5kIHdyaXRlIGJhY2sg
+aW4gcWVtdS4KYW5vdGhlciBwcm9ibGVtIGlzIHRoYXQgSSBhbSBub3QgcXVpdGUgZ2V0IHRoZSBp
+ZGVhIG9mIGFjY29tcGxpc2htZW50IG9mIEludGVycnVwdCwgaSBjb3VsZCBmaW5kIGZ1bmN0aW9u
+cyBsaWtlIHJhaXNlX2ludGVycnVwdCBhbmQgcmFpc2VfZXhjZXB0aW9uLCBidXQgSSBkb24ndCB1
+bmRlcnN0YW5kIGhvdyBpdCBpbnRlcmFjdCB3aXRoIGFwaWMoaG93IHRoZSBjb250cm9sIGZsb3cg
+c3dpdGNoZWQgdG8gb3RoZXIgZnVuY3Rpb25zLCBpIGZpbmQgY3B1X2xvb3BfZXhpdF9yZXN0b3Jl
+LCBidXQgY2FuIG5vdCBmaW5kIHRoZSBmdW5jdGlvbiBib2R5KSwgZWl0aGVyIGhvdyB0aGUgaW50
+ZXJydXB0IGhhbmRsZWQuCnRoZSBwcm9ibGVtIGlzIGRpZmZpY3VsdCBpbiBzb21lIHdheXMsIEkg
+ZGlzY3Vzc2VkIHdpdGggbXkgY2xhc3NtYXRlcyBhbmQgZnJpZW5kcywgYnV0IHRoZXJlIGlzIG5v
+IGFuc3dlci4Kc28gSSdtIGhvcGluZyB0byBnZXQgaW1wb3J0YW50IGluZm9ybWF0aW9uIGZyb20g
+eW91LiBJcyBteSB3YXkgb2YgcmVhZGluZyBjb2RlIHJpZ2h0PyBJcyB0aGVyZSBhbnkgdG9vbHMg
+Zm9yIGRldmVsb3BtZW50KGZpbmRpbmcgdGhlIGZ1bmN0aW9uIGJvZHkp77yfSG93IGNhbiBJIGFj
+Y29tcGxpc2ggdGhpcyBxdWlja2x577yfCnRoYW5rIHlvdSB2ZXJ5IHZlcnkgbXVjaO+8gQpiZXN0
+IHdpc2hlc++8gQpYaWFuZyBDaGVuIERvbmc=
+------=_Part_134070_720350960.1650684326618
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-sounds great, thank you for the review!!! Will send out v2 soon.
+RGVhciBxZW11IGRldmVsb3BlcnM6PGRpdj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4J
+PC9zcGFuPmhlbGxvfiBJJ20gWGlhbmcgQ2hlbiBkb25nLCBhIHN0dWRlbnQgZnJvbSBUc2luZ2h1
+YSBVbml2ZXJzaXR5LiByZWNlbnRseSBJIGFtIHRyeWluZyB0byZuYnNwOyBhY2NvbXBsaXNoIG5l
+dyBYODYgZmVhdHVyZSBuYW1lZCB1c2VyLWludGVycnVwdHMgd2hpY2ggY2FuIHZpZXcgPGEgaHJl
+Zj0iaHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQvZGFtL2RldmVsb3AvZXh0ZXJuYWwvdXMv
+ZW4vZG9jdW1lbnRzL2FyY2hpdGVjdHVyZS1pbnN0cnVjdGlvbi1zZXQtZXh0ZW5zaW9ucy1wcm9n
+cmFtbWluZy1yZWZlcmVuY2UucGRmIiB0YXJnZXQ9Il9ibGFuayI+aGVyZTwvYT4uPC9kaXY+PGRp
+dj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPkkgd29ya2VkIGZvciBhIGNv
+dXBsZSBvZiB0aW1lLCByZWFjaGluZyBzdGF0dXMgdGhhdCBuZXcgbXNycyBhZGRlZCBhbmQgYWNj
+ZXNzIG9mIG1zcnMgaXMgd29yayB3ZWxsLCBhbHNvIGFkZCBuZXcgQ1BVSUQgaW5mb3MgdG8gcWVt
+dTY0LCBhbHNvIEkgY291bGQgY2F0Y2ggbmV3IGluc3RydWN0aW9ucyBieSBtb2RpZnkgYHRyYW5z
+bGF0ZS5jYCBmaWxlLiBteSBjb2RlIGNvdWxkIGZpbmQgPGEgaHJlZj0iaHR0cHM6Ly9naXRodWIu
+Y29tL1hpYW5nLWNkL3FlbXUiIHRhcmdldD0iX2JsYW5rIj5oZXJlPC9hPiwgdGhlJm5ic3A7Y29y
+cmVzcG9uZCBsaW51eCBrZXJuZWwgdmVyc2lvbiBjb3VsZCBmaW5kIDxhIGhyZWY9Imh0dHBzOi8v
+Z2l0aHViLmNvbS9pbnRlbC91aW50ci1saW51eC1rZXJuZWwiIHRhcmdldD0iX2JsYW5rIj5oZXJl
+PC9hPi48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+YnV0
+IG5vdyBJIGhhdmUgc29tZSBwcm9ibGVtcyB3aGVuIHRyeWluZyB0byBhY2NvbXBsaXNoIGluc3Ry
+dWN0aW9ucyBuYW1lZCBTRU5EVUlQSSBhbmQgVUlSRVQuPC9kaXY+PGRpdj48c3BhbiBzdHlsZT0i
+d2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFuPmZvciBTRU5EVUlQSSwgdGhlIG1haW4gZnVuY3Rpb24g
+b2YgaXQgaXMgc2VuZGluZyB0aGUgdXNlci1pbnRlcnJ1cHRzLiB0aGUgZGV0YWlsIHdheSBpcywg
+bWFjaGluZSZuYnNwO2FjY2VzcyBtZW1vcnkoYWRkcmVzcyBzYXZlZCBpbiBuZXcgbXNyKSwgdGhl
+biByZWFkIGFub3RoZXIgYWRkcmVzcyBmcm9tIG1lbW9yeSwgdGhlbiB3cml0ZSBzb21lIGNvbnRl
+bnQgdG8gdGhpcyBtZW1vcnkuIEkgcmVhZCB0aGUgcWVtdSBzb3VyY2UgY29kZSwgZmluZCBhIGxv
+dCBvZiBmdW5jdGlvbnMgbGlrZSB0Y2dfZ2VuX3FlbXVfbGQsJm5ic3A7IGJ1dCB3aGVuIGkgY2xp
+Y2sgaW50byBpdCBmcm9tIElERSh2c2NvZGUpLCBpIGNvdWxkIG5vdCBmaW5kIHdoZXJlIHRoZSBm
+dW5jdGlvbiBib2R5KG1heWJlIGR1ZSB0byB0aGUgbWFjcm8pLiBTbyBJIGRvbid0IHVuZGVyc3Rh
+bmQgaG93IHRoZSBmdW5jdGlvbiB3b3JrcyBhbmQgaG93IGNhbiBJIHdpcnRlIGEgbmV3IGZ1bmN0
+aW9uIHRvIGFjY2VzcyBndWVzdCBtYWNoaW5lIG1lbW9yeSBhbmQgd3JpdGUgYmFjayBpbiBxZW11
+LjwvZGl2PjxkaXY+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5hbm90aGVy
+IHByb2JsZW0gaXMgdGhhdCBJIGFtIG5vdCBxdWl0ZSBnZXQgdGhlIGlkZWEgb2YgYWNjb21wbGlz
+aG1lbnQgb2YgSW50ZXJydXB0LCBpIGNvdWxkIGZpbmQgZnVuY3Rpb25zIGxpa2UgcmFpc2VfaW50
+ZXJydXB0IGFuZCByYWlzZV9leGNlcHRpb24sIGJ1dCBJIGRvbid0IHVuZGVyc3RhbmQgaG93IGl0
+IGludGVyYWN0IHdpdGggYXBpYyhob3cgdGhlIGNvbnRyb2wgZmxvdyBzd2l0Y2hlZCB0byBvdGhl
+ciBmdW5jdGlvbnMsIGkgZmluZCBjcHVfbG9vcF9leGl0X3Jlc3RvcmUsIGJ1dCBjYW4gbm90IGZp
+bmQgdGhlIGZ1bmN0aW9uIGJvZHkpLCBlaXRoZXIgaG93IHRoZSBpbnRlcnJ1cHQgaGFuZGxlZC48
+L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+dGhlIHByb2Js
+ZW0gaXMgZGlmZmljdWx0IGluIHNvbWUgd2F5cywgSSBkaXNjdXNzZWQgd2l0aCBteSBjbGFzc21h
+dGVzIGFuZCBmcmllbmRzLCBidXQgdGhlcmUgaXMgbm8gYW5zd2VyLjwvZGl2PjxkaXY+PHNwYW4g
+c3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CTwvc3Bhbj5zbyBJJ20gaG9waW5nIHRvIGdldCBpbXBv
+cnRhbnQgaW5mb3JtYXRpb24gZnJvbSB5b3UuIElzIG15IHdheSBvZiByZWFkaW5nIGNvZGUgcmln
+aHQ/IElzIHRoZXJlIGFueSB0b29scyBmb3IgZGV2ZWxvcG1lbnQoZmluZGluZyB0aGUgZnVuY3Rp
+b24gYm9keSnvvJ9Ib3cgY2FuIEkgYWNjb21wbGlzaCB0aGlzIHF1aWNrbHnvvJ88L2Rpdj48ZGl2
+PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTpwcmUiPgk8L3NwYW4+dGhhbmsgeW91IHZlcnkgdmVy
+eSBtdWNo77yBPC9kaXY+PGRpdj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6cHJlIj4JPC9zcGFu
+PmJlc3Qgd2lzaGVz77yBPHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CQkJPC9zcGFuPjwv
+ZGl2PjxkaXY+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CQkJCQkJCQkJCQkJCQkJCQkJ
+CQkJCQkJCQkJPC9zcGFuPlhpYW5nIENoZW4gRG9uZzwvZGl2PjxkaXY+PHNwYW4gc3R5bGU9Indo
+aXRlLXNwYWNlOnByZSI+CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCTwvc3Bhbj48L2Rpdj4=
 
-> I'm curious how is it supposed to be used?
-
-It's for a (future...) Lisp compiler! Somewhat in the style of MicroPython; the idea is to make code editable on the fly, without reflashing (... or restarting, even). Given how it's one person's side project (mine), it's a lot closer to a (not-even-self-hosting) lispy-syntax lx106 assembler (... written in Common Lisp) at this point though.
-
-Specifically, qemu is being used for testing code generation; within test cases, we generate an object file, link it up into an ELF image, launch it under qemu & check the output. Current top achievement: a loop that iterates 10 times and quits successfully, by using the emulated syscall interface. Even so, having actual test cases for this (& occasionally attaching gdb to them) is really useful.
-
-(Admittedly, I can't really think of a lot of other use cases; probably everyone else is just using the official C toolchain?)
-
-Simon
-
+------=_Part_134070_720350960.1650684326618--
 
 
