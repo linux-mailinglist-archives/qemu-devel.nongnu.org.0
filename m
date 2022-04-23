@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F0150CDC9
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 23:43:00 +0200 (CEST)
-Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC0A50CDDD
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 00:00:35 +0200 (CEST)
+Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niNWt-0000CW-7l
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 17:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
+	id 1niNns-0004Iv-7F
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 18:00:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1niNVX-0007wM-RU
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 17:41:35 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42808)
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1niNmv-0003Uo-Ub; Sat, 23 Apr 2022 17:59:34 -0400
+Received: from mta02.hs-regensburg.de ([194.95.104.12]:57166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1niNVV-00037O-ON
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 17:41:35 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id i27so22647181ejd.9
- for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 14:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qyne2PaBf87VtGiP2MAdI/auR3YiyGBO1Kkr9SGD7Z8=;
- b=C8CGa4g2qOwh2g4cEz0eu+Cp5dk9opl0cvLrL9UJjd3O0LnjquMfeLyd/rJQWk/pA/
- bWvo8wQFCai/kYTa8EIyowMJL+RViRmXrypc8uaVGZ4/u/5RknAZkfdtCaIvBYs3LDoH
- 4wock/96gM7NYZlBVFcZ565wPAsah1ndfM9RoKP7aKiakR6TDJAnHzoGkETTNw0akLfu
- 5O7W51q5R6oK6yo7kF9B3y9RGE3NgKm7adSxKLdrJRDbH3OFexZ3Ak5ZAqUp5n4gWuMk
- 1TZDXePNttFrkI0YIEnP6obSFZt6obEyeU4XySU3QEgyYJBgWqbfDEaLklI1J0rwALar
- 4nuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qyne2PaBf87VtGiP2MAdI/auR3YiyGBO1Kkr9SGD7Z8=;
- b=KvQx4URnTdCZzMaeJJeqP+D1QNl1HRhqxm2osahBBgYx2HH5IdTYKwd3B3Ayc26d7a
- w0U/e+VHPagDAzCkIPqFwd+K3k/qFsbifPLK8SK+l1owEUrdn4b2UMPwLe8T6m27wMwE
- YkdujDau4U/n0xBmPTcRgsO+HX+xZbN/drG5gES7Ar0vIDfm+QO0RieNiONGzb0WZ0lb
- vMxrkL+FCEqpV5019P3FGQfSZT5Ke04sumxADPXCH1WQq1XBEKRvWHW0+mRwM9UsxmBw
- FhOGOrv2GK5DvtQW9LPi/0OMVSHXGgqyJ2WeETYlKgRYK5aZ8B04kVBZoe2UTbooE7nT
- bEgA==
-X-Gm-Message-State: AOAM533fIYDOCIR9t4K2CNE+KTDG9jW8dTBg0nB0nTDB5vC1rBngPAug
- 2z7PtBZ1cHD1meNkj7g3ZYrPprSLgmuVipaeg7Q=
-X-Google-Smtp-Source: ABdhPJyHJeMAVW4UfWDsJRzj7IJoCful03Ufjpp/UMzjqCg+RAAzpu5FcatF218sKUVZ6JUDmIhBgSdP3kkVVVqvTB4=
-X-Received: by 2002:a17:906:5e17:b0:6e8:b6b8:2b09 with SMTP id
- n23-20020a1709065e1700b006e8b6b82b09mr9555085eju.477.1650750092146; Sat, 23
- Apr 2022 14:41:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1niNmt-0005Bi-7B; Sat, 23 Apr 2022 17:59:33 -0400
+Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
+ [IPv6:2001:638:a01:8013::93])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "E16S03", Issuer "E16S03" (not verified))
+ by mta02.hs-regensburg.de (Postfix) with ESMTPS id 4Km4tY6CVMzxyt;
+ Sat, 23 Apr 2022 23:59:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
+ s=mta02-20211122; t=1650751157;
+ bh=fwL+0LSi3R14yw+D5NEr6SNX6TFNKy8AHZpYgNWJCu0=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+ b=dACR+22jM6IV74GReKBxqi9YtcqLlSSFCfYmXih+l/oQeSM3GzA375/gjYTvxzNrm
+ VH/oorbBru28d1hXjplTRu1NWLJHUoiLWh5eJ03euRfGAAmLH9d1pkMym19UjBI66q
+ 3hWkZMnDhnvbjbYJjJmtvc38y/ORyBLdOvL+gnvNl5TVUEHzHDlRT0wDtoU05n8VbS
+ VE33htekVO3SimMd+awPvVsevwk/6DzSCW39RwAPdMJSRATAuvpsYQFs0bhMd2fKdn
+ +sZwW1s0oxqA6ZAg6T7vJx9r4f7CMV2JNeAhZovPxd56bXLH/kodlCSmVVT5WMeXM2
+ l5x8ZcLP+dQMw==
+Received: from atlantis.binary.kitchen (194.95.106.138) by
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 23 Apr 2022 23:59:17 +0200
+From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair23@gmail.com>,
+ <qemu-riscv@nongnu.org>, <qemu-devel@nongnu.org>, Stefan Huber
+ <stefan.huber@oth-regensburg.de>
+Subject: [PATCH v3] target/riscv: Fix incorrect PTE merge in walk_pte
+Date: Sat, 23 Apr 2022 23:59:07 +0200
+Message-ID: <20220423215907.673663-1-ralf.ramsauer@oth-regensburg.de>
+X-Mailer: git-send-email 2.36.0
+In-Reply-To: <CAKmqyKNtcV3MN0qzVEOgty=o137-QfYm4_c_hHmb1O9YfhSiQQ@mail.gmail.com>
+References: <CAKmqyKNtcV3MN0qzVEOgty=o137-QfYm4_c_hHmb1O9YfhSiQQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220423040835.29254-1-simon@simonsafar.com>
-In-Reply-To: <20220423040835.29254-1-simon@simonsafar.com>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Sat, 23 Apr 2022 14:41:20 -0700
-Message-ID: <CAMo8BfL__NZDQGkTRUXSbaNRoQJ7QhGmvVFy5NDGhDH5eJbguw@mail.gmail.com>
-Subject: Re: [PATCH v2] target/xtensa: import core lx106
-To: Simon Safar <simon@simonsafar.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [194.95.106.138]
+X-ClientProxiedBy: E16S01.hs-regensburg.de (2001:638:a01:8013::91) To
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93)
+Received-SPF: pass client-ip=194.95.104.12;
+ envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta02.hs-regensburg.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,108 +75,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Konrad Schwarz <konrad.schwarz@siemens.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Simon,
+Two non-subsequent PTEs can be mapped to subsequent paddrs. In this
+case, walk_pte will erroneously merge them.
 
-On Fri, Apr 22, 2022 at 9:09 PM Simon Safar <simon@simonsafar.com> wrote:
->
-> This is the core used in e.g. ESP8266 chips. Importing them
-> using import_core.sh, with the required files sourced from
->
-> https://github.com/espressif/xtensa-overlays
->
-> core-lx106.c was generated by the script; the only change is removing
-> the reference to core-matmap.h which doesn't seem to be available.
->
-> Signed-off-by: Simon Safar <simon@simonsafar.com>
-> Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
-> ---
->  target/xtensa/core-lx106.c                    |   52 +
->  target/xtensa/core-lx106/core-isa.h           |  470 +
->  target/xtensa/core-lx106/gdb-config.c.inc     |   83 +
->  target/xtensa/core-lx106/xtensa-modules.c.inc | 7668 +++++++++++++++++
->  target/xtensa/cores.list                      |    1 +
->  5 files changed, 8274 insertions(+)
->  create mode 100644 target/xtensa/core-lx106.c
->  create mode 100644 target/xtensa/core-lx106/core-isa.h
->  create mode 100644 target/xtensa/core-lx106/gdb-config.c.inc
->  create mode 100644 target/xtensa/core-lx106/xtensa-modules.c.inc
+Enforce the split up, by tracking the virtual base address.
 
-[...]
+Let's say we have the mapping:
+0x81200000 -> 0x89623000 (4K)
+0x8120f000 -> 0x89624000 (4K)
 
-> diff --git a/target/xtensa/core-lx106/gdb-config.c.inc b/target/xtensa/core-lx106/gdb-config.c.inc
-> new file mode 100644
-> index 0000000000..9a2233b811
-> --- /dev/null
-> +++ b/target/xtensa/core-lx106/gdb-config.c.inc
+Before, walk_pte would have shown:
 
-[...]
+vaddr            paddr            size             attr
+---------------- ---------------- ---------------- -------
+0000000081200000 0000000089623000 0000000000002000 rwxu-ad
 
-I've noticed that this file is not from the original overlay (which I happen
-to have here:
-https://github.com/jcmvbkbc/xtensa-toolchain-build/blob/master/overlays/original/lx106.tar.gz),
-but has been changed (by adding '& ~1' to the 7th column), probably
-to make some older gdb version work.
-This change is not needed for the modern gdb versions.
-I've reverted this change and checked that the mainline gdb-11.1
-built with the original overlay for the xtensa-elf target correctly
-interacts with the QEMU. Can you please confirm that?
+as it only checks for subsequent paddrs. With this patch, it becomes:
 
-> +  XTREG(  0,  0,32, 4, 4,0x0000,0x0006 & ~1,-2, 8,0x0100,a0,          0,0,0,0,0,0)
-> +  XTREG(  1,  4,32, 4, 4,0x0001,0x0006 & ~1,-2, 8,0x0100,a1,          0,0,0,0,0,0)
-> +  XTREG(  2,  8,32, 4, 4,0x0002,0x0006 & ~1,-2, 8,0x0100,a2,          0,0,0,0,0,0)
-> +  XTREG(  3, 12,32, 4, 4,0x0003,0x0006 & ~1,-2, 8,0x0100,a3,          0,0,0,0,0,0)
-> +  XTREG(  4, 16,32, 4, 4,0x0004,0x0006 & ~1,-2, 8,0x0100,a4,          0,0,0,0,0,0)
-> +  XTREG(  5, 20,32, 4, 4,0x0005,0x0006 & ~1,-2, 8,0x0100,a5,          0,0,0,0,0,0)
-> +  XTREG(  6, 24,32, 4, 4,0x0006,0x0006 & ~1,-2, 8,0x0100,a6,          0,0,0,0,0,0)
-> +  XTREG(  7, 28,32, 4, 4,0x0007,0x0006 & ~1,-2, 8,0x0100,a7,          0,0,0,0,0,0)
-> +  XTREG(  8, 32,32, 4, 4,0x0008,0x0006 & ~1,-2, 8,0x0100,a8,          0,0,0,0,0,0)
-> +  XTREG(  9, 36,32, 4, 4,0x0009,0x0006 & ~1,-2, 8,0x0100,a9,          0,0,0,0,0,0)
-> +  XTREG( 10, 40,32, 4, 4,0x000a,0x0006 & ~1,-2, 8,0x0100,a10,         0,0,0,0,0,0)
-> +  XTREG( 11, 44,32, 4, 4,0x000b,0x0006 & ~1,-2, 8,0x0100,a11,         0,0,0,0,0,0)
-> +  XTREG( 12, 48,32, 4, 4,0x000c,0x0006 & ~1,-2, 8,0x0100,a12,         0,0,0,0,0,0)
-> +  XTREG( 13, 52,32, 4, 4,0x000d,0x0006 & ~1,-2, 8,0x0100,a13,         0,0,0,0,0,0)
-> +  XTREG( 14, 56,32, 4, 4,0x000e,0x0006 & ~1,-2, 8,0x0100,a14,         0,0,0,0,0,0)
-> +  XTREG( 15, 60,32, 4, 4,0x000f,0x0006 & ~1,-2, 8,0x0100,a15,         0,0,0,0,0,0)
-> +  XTREG( 16, 64,32, 4, 4,0x0020,0x0006 & ~1,-2, 9,0x0100,pc,          0,0,0,0,0,0)
-> +  XTREG( 17, 68, 6, 4, 4,0x0203,0x0006 & ~1,-2, 2,0x1100,sar,         0,0,0,0,0,0)
-> +  XTREG( 18, 72,32, 4, 4,0x0205,0x0006 & ~1,-2, 2,0x1100,litbase,     0,0,0,0,0,0)
-> +  XTREG( 19, 76,32, 4, 4,0x02b0,0x0002 & ~1,-2, 2,0x1000,sr176,       0,0,0,0,0,0)
-> +  XTREG( 20, 80,32, 4, 4,0x02d0,0x0002 & ~1,-2, 2,0x1000,sr208,       0,0,0,0,0,0)
-> +  XTREG( 21, 84, 6, 4, 4,0x02e6,0x0006 & ~1,-2, 2,0x1100,ps,          0,0,0,0,0,0)
-> +  XTREG( 22, 88,32, 4, 4,0x0259,0x000d & ~1,-2, 2,0x1000,mmid,        0,0,0,0,0,0)
-> +  XTREG( 23, 92, 1, 4, 4,0x0260,0x0007 & ~1,-2, 2,0x1000,ibreakenable,0,0,0,0,0,0)
-> +  XTREG( 24, 96,32, 4, 4,0x0268,0x0007 & ~1,-2, 2,0x1000,ddr,         0,0,0,0,0,0)
-> +  XTREG( 25,100,32, 4, 4,0x0280,0x0007 & ~1,-2, 2,0x1000,ibreaka0,    0,0,0,0,0,0)
-> +  XTREG( 26,104,32, 4, 4,0x0290,0x0007 & ~1,-2, 2,0x1000,dbreaka0,    0,0,0,0,0,0)
-> +  XTREG( 27,108,32, 4, 4,0x02a0,0x0007 & ~1,-2, 2,0x1000,dbreakc0,    0,0,0,0,0,0)
-> +  XTREG( 28,112,32, 4, 4,0x02b1,0x0007 & ~1,-2, 2,0x1000,epc1,        0,0,0,0,0,0)
-> +  XTREG( 29,116,32, 4, 4,0x02b2,0x0007 & ~1,-2, 2,0x1000,epc2,        0,0,0,0,0,0)
-> +  XTREG( 30,120,32, 4, 4,0x02b3,0x0007 & ~1,-2, 2,0x1000,epc3,        0,0,0,0,0,0)
-> +  XTREG( 31,124,32, 4, 4,0x02c0,0x0007 & ~1,-2, 2,0x1000,depc,        0,0,0,0,0,0)
-> +  XTREG( 32,128, 6, 4, 4,0x02c2,0x0007 & ~1,-2, 2,0x1000,eps2,        0,0,0,0,0,0)
-> +  XTREG( 33,132, 6, 4, 4,0x02c3,0x0007 & ~1,-2, 2,0x1000,eps3,        0,0,0,0,0,0)
-> +  XTREG( 34,136,32, 4, 4,0x02d1,0x0007 & ~1,-2, 2,0x1000,excsave1,    0,0,0,0,0,0)
-> +  XTREG( 35,140,32, 4, 4,0x02d2,0x0007 & ~1,-2, 2,0x1000,excsave2,    0,0,0,0,0,0)
-> +  XTREG( 36,144,32, 4, 4,0x02d3,0x0007 & ~1,-2, 2,0x1000,excsave3,    0,0,0,0,0,0)
-> +  XTREG( 37,148,15, 4, 4,0x02e2,0x000b & ~1,-2, 2,0x1000,interrupt,   0,0,0,0,0,0)
-> +  XTREG( 38,152,15, 4, 4,0x02e2,0x000d & ~1,-2, 2,0x1000,intset,      0,0,0,0,0,0)
-> +  XTREG( 39,156,15, 4, 4,0x02e3,0x000d & ~1,-2, 2,0x1000,intclear,    0,0,0,0,0,0)
-> +  XTREG( 40,160,15, 4, 4,0x02e4,0x0007 & ~1,-2, 2,0x1000,intenable,   0,0,0,0,0,0)
-> +  XTREG( 41,164,32, 4, 4,0x02e7,0x0007 & ~1,-2, 2,0x1000,vecbase,     0,0,0,0,0,0)
-> +  XTREG( 42,168, 6, 4, 4,0x02e8,0x0007 & ~1,-2, 2,0x1000,exccause,    0,0,0,0,0,0)
-> +  XTREG( 43,172,12, 4, 4,0x02e9,0x0003 & ~1,-2, 2,0x1000,debugcause,  0,0,0,0,0,0)
-> +  XTREG( 44,176,32, 4, 4,0x02ea,0x000f & ~1,-2, 2,0x1000,ccount,      0,0,0,0,0,0)
-> +  XTREG( 45,180,32, 4, 4,0x02eb,0x0003 & ~1,-2, 2,0x1000,prid,        0,0,0,0,0,0)
-> +  XTREG( 46,184,32, 4, 4,0x02ec,0x000f & ~1,-2, 2,0x1000,icount,      0,0,0,0,0,0)
-> +  XTREG( 47,188, 4, 4, 4,0x02ed,0x0007 & ~1,-2, 2,0x1000,icountlevel, 0,0,0,0,0,0)
-> +  XTREG( 48,192,32, 4, 4,0x02ee,0x0007 & ~1,-2, 2,0x1000,excvaddr,    0,0,0,0,0,0)
-> +  XTREG( 49,196,32, 4, 4,0x02f0,0x000f & ~1,-2, 2,0x1000,ccompare0,   0,0,0,0,0,0)
+vaddr            paddr            size             attr
+---------------- ---------------- ---------------- -------
+0000000081200000 0000000089623000 0000000000001000 rwxu-ad
+000000008120f000 0000000089624000 0000000000001000 rwxu-ad
 
+Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+---
+[since v2: Adjust comment, rebased to latest master]
+
+ target/riscv/monitor.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
+index 7efb4b62c1..17e63fab00 100644
+--- a/target/riscv/monitor.c
++++ b/target/riscv/monitor.c
+@@ -84,6 +84,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+ {
+     hwaddr pte_addr;
+     hwaddr paddr;
++    target_ulong last_start = -1;
+     target_ulong pgsize;
+     target_ulong pte;
+     int ptshift;
+@@ -111,12 +112,13 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+                  * A leaf PTE has been found
+                  *
+                  * If current PTE's permission bits differ from the last one,
+-                 * or current PTE's ppn does not make a contiguous physical
+-                 * address block together with the last one, print out the last
+-                 * contiguous mapped block details.
++                 * or the current PTE breaks up a contiguous virtual or
++                 * physical mapping, address block together with the last one,
++                 * print out the last contiguous mapped block details.
+                  */
+                 if ((*last_attr != attr) ||
+-                    (*last_paddr + *last_size != paddr)) {
++                    (*last_paddr + *last_size != paddr) ||
++                    (last_start + *last_size != start)) {
+                     print_pte(mon, va_bits, *vbase, *pbase,
+                               *last_paddr + *last_size - *pbase, *last_attr);
+ 
+@@ -125,6 +127,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+                     *last_attr = attr;
+                 }
+ 
++                last_start = start;
+                 *last_paddr = paddr;
+                 *last_size = pgsize;
+             } else {
 -- 
-Thanks.
--- Max
+2.36.0
+
 
