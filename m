@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97F150CA4F
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 15:02:54 +0200 (CEST)
-Received: from localhost ([::1]:56506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702B550CA54
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 15:05:02 +0200 (CEST)
+Received: from localhost ([::1]:35912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niFPY-0007eg-Nd
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 09:02:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42634)
+	id 1niFRd-0004OK-IN
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 09:05:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niFFH-0006tQ-RQ
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:15 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:46869)
+ id 1niFFJ-0006zs-KM
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:17 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:41838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niFFF-00055H-ME
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:15 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id g23so6439723edy.13
- for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 05:52:13 -0700 (PDT)
+ id 1niFFH-00055y-7v
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:17 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id d6so8355690ede.8
+ for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 05:52:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I2/CTTzcxs1CO01n5cgISgwnb1bpltfT4MfHF7j4TFM=;
- b=mtKFmF82idOHXYZi6iqjrZYNPA+JT98fVGmPQENpdlySn67c/6WervnTzHDbw5zpW0
- zVxJASJd0OCPwX5XBTuJ8lVeUjev17kIZm4X3oWAvS/9gn2xzGeDKn/sUx2k7A51Reuw
- 95+vPtNJ6kLP9+N3kLAPaVRVbvpUfEBgWGZHunYZURW6H0rr97HCOcg3jCkK+2TLxo+1
- RqmwfrO3hUwe7JhugRfrPCcALlRoeFk0bIKB3wJr6mUJacjyAuEAELatkbsDq0Z2RuDW
- wR/6jUkUlSzSI6iwhRZqcVQu9+J99rFQ8TQFpozr3cUBZEf2OIF1xD2MK75r0IuOGUJ1
- useQ==
+ bh=+k9jZOFwU7I4PkMF/kaxCvOtEknZXqE5wy9ewcLGyVc=;
+ b=XAo14YHb0HrtzK1Hu8eYPdWORTXvlBU1dYmBpAEU5uYkIb/m2PNwBBYrutGfAsbXkK
+ 1gbtarbqehtOQuky6Gio4dF/Z/R7JwlNjpmcC/zBKQxXD4jy5xMl7mycJlWOgPkXpYxb
+ YrWjqM4j5E/0YmaLBPUKtWoRMCMFWeFgKaF6pTL6ldSKXzHgoBUVRNcs20pZP/XzWNZH
+ hWze+9fd5RVDfDREjIhscC+YVgFcGYM1e5l6rFwvm6uyeCNeDhs5iYw9GWW/7kNHKhFZ
+ pvZY8XcA8yzAzv1KoUARZzzeGODDE1nHVPXf5Cn+yJQG8u6FHvGXb/K0k2z8ZnRkibxS
+ Vfug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=I2/CTTzcxs1CO01n5cgISgwnb1bpltfT4MfHF7j4TFM=;
- b=VsUMKp2J78c3sWcbgTYMp/H3xLDd93wu7oZ8oDvrNWzCeMTOiQhEfuc2nKg0tnt1Cz
- ZhodQh4hoYuFo72gDCRnWG6nsjl0JRmKZ2g1xxcGm+I7qGLUTw+RDDMO4wJMF3k9TaXu
- ZJdglzSmd3i7i/rXFFsM0z8INwEzUD2fVpk1FCBtP96NUrffEqtut+G9EANPlZ4NSsgf
- 0OvqhkNflHs7GU5NBsNQaBw5oMdJhfcIqddc5f6DGpOLPVlQPd3JmaQOMkNrE+LV89Ue
- yUB0mM+NLH2bF36eh48SVEjRGueoxmp7zltkPFhxG0cKj+SaO9nKT2ZYOdkrjrQgk4/k
- FHjQ==
-X-Gm-Message-State: AOAM532foFB/sKSN8/Sxca0DeS6EEAZ4CcnmobQmvCA/ByBtPzJvulHN
- FdhdEnHdJEVQ63xr6vdr1DfEae1nhHNVoA==
-X-Google-Smtp-Source: ABdhPJyvIvRpUuMvAA/YcrQKbYoDKdPS2i8SO8rApGE0nAjczij5+HlSdNk6isfCPsOuByfMJuI8fg==
-X-Received: by 2002:a05:6402:1148:b0:413:11e0:1f58 with SMTP id
- g8-20020a056402114800b0041311e01f58mr9816638edw.113.1650718332170; 
- Sat, 23 Apr 2022 05:52:12 -0700 (PDT)
+ bh=+k9jZOFwU7I4PkMF/kaxCvOtEknZXqE5wy9ewcLGyVc=;
+ b=rPRiPkt0k1We0FiSyn0goz8Fsoag9CJNtT2aHwYGnpv0CSiInFMzRs9/nIz3ZW7HO1
+ G7KwoI/pZfZ/FwycA+ZBcPp4MTIsXgSpG/GQwhLH7F/rW65omX+U4XB0WFWpSTX+eqVI
+ qBUHwlVEpFNFHyDifyv3ItSNBtOE0jRKMyYi2NEoLRNUjIhiohTcKCNiHqIzrposwBAO
+ fKepGRBPyjsMG8Bf/7y2DIzh6hUiMJ7EJm8BkS4Wg+ixjoYM9qbyzRnNg1ebSaQUP3ik
+ o/gmvJt3eiTaFt7cLWOwTwlNrGGLlv8culbS8FaIZOvsjUUbToslmZjI0dSp7Rkq5xsh
+ vQXw==
+X-Gm-Message-State: AOAM532N6Z2CKV4TrKS8HX0HtTnY91/Xw186MsUnXHG9PziPv7xiXe/3
+ /FzNiIwkITcYndqBtUElSg6Tv6w+WGGrCA==
+X-Google-Smtp-Source: ABdhPJxQ6DF+rYy3EsL0OxlsnV8aK0iKQI4kiLoIjGg8YvSWpJU7A9pXvFbhvCU5wm5LLXEIkLD7/w==
+X-Received: by 2002:a05:6402:14c2:b0:41d:816a:4eb0 with SMTP id
+ f2-20020a05640214c200b0041d816a4eb0mr9875134edx.301.1650718333873; 
+ Sat, 23 Apr 2022 05:52:13 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- bo14-20020a170906d04e00b006ce98d9c3e3sm1655573ejb.194.2022.04.23.05.52.11
+ bo14-20020a170906d04e00b006ce98d9c3e3sm1655573ejb.194.2022.04.23.05.52.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Apr 2022 05:52:11 -0700 (PDT)
+ Sat, 23 Apr 2022 05:52:13 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/34] configure, meson: move OpenGL check to meson
-Date: Sat, 23 Apr 2022 14:51:24 +0200
-Message-Id: <20220423125151.27821-8-pbonzini@redhat.com>
+Subject: [PATCH v2 08/34] meson, configure: move RDMA options to meson
+Date: Sat, 23 Apr 2022 14:51:25 +0200
+Message-Id: <20220423125151.27821-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220423125151.27821-1-pbonzini@redhat.com>
 References: <20220423125151.27821-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -94,236 +94,347 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 40 -----------------------------------
- meson.build                   | 16 +++++++++-----
- meson_options.txt             |  2 ++
- scripts/meson-buildoptions.sh |  3 +++
- ui/meson.build                | 17 ++++++++-------
- 5 files changed, 25 insertions(+), 53 deletions(-)
+ configure                      | 115 ---------------------------------
+ contrib/rdmacm-mux/meson.build |   4 +-
+ meson.build                    |  56 ++++++++++++++--
+ meson_options.txt              |   4 ++
+ migration/meson.build          |   2 +-
+ scripts/meson-buildoptions.sh  |   6 ++
+ 6 files changed, 62 insertions(+), 125 deletions(-)
 
 diff --git a/configure b/configure
-index d704029284..1aefbc2f68 100755
+index 1aefbc2f68..4deca94235 100755
 --- a/configure
 +++ b/configure
-@@ -321,7 +321,6 @@ bsd_user=""
- pkgversion=""
- pie=""
- trace_file="trace"
--opengl="$default_feature"
- coroutine=""
- tls_priority="NORMAL"
- plugins="$default_feature"
-@@ -960,10 +959,6 @@ for opt do
+@@ -301,8 +301,6 @@ vhost_vsock="$default_feature"
+ vhost_user="no"
+ vhost_user_fs="$default_feature"
+ vhost_vdpa="$default_feature"
+-rdma="$default_feature"
+-pvrdma="$default_feature"
+ debug_info="yes"
+ debug_tcg="no"
+ debug="no"
+@@ -972,14 +970,6 @@ for opt do
    ;;
-   --enable-vhost-user-fs) vhost_user_fs="yes"
+   --tls-priority=*) tls_priority="$optarg"
    ;;
--  --disable-opengl) opengl="no"
+-  --enable-rdma) rdma="yes"
 -  ;;
--  --enable-opengl) opengl="yes"
+-  --disable-rdma) rdma="no"
 -  ;;
-   --disable-zlib-test)
+-  --enable-pvrdma) pvrdma="yes"
+-  ;;
+-  --disable-pvrdma) pvrdma="no"
+-  ;;
+   --disable-vhost-user) vhost_user="no"
    ;;
-   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
-@@ -1258,7 +1253,6 @@ cat << EOF
-   vhost-kernel    vhost kernel backend support
-   vhost-user      vhost-user backend support
-   vhost-vdpa      vhost-vdpa kernel backend support
--  opengl          opengl support
-   gio             libgio support
- 
- NOTE: The object files are built at the place where configure is launched
-@@ -2278,34 +2272,6 @@ case "$fdt" in
- esac
- 
- ##########################################
--# opengl probe (for sdl2, gtk)
--
--if test "$opengl" != "no" ; then
--  epoxy=no
--  if $pkg_config epoxy; then
--    cat > $TMPC << EOF
--#include <epoxy/egl.h>
--int main(void) { return 0; }
--EOF
--    if compile_prog "" "" ; then
--      epoxy=yes
--    fi
--  fi
--
--  if test "$epoxy" = "yes" ; then
--    opengl_cflags="$($pkg_config --cflags epoxy)"
--    opengl_libs="$($pkg_config --libs epoxy)"
--    opengl=yes
--  else
--    if test "$opengl" = "yes" ; then
--      feature_not_found "opengl" "Please install epoxy with EGL"
--    fi
--    opengl_cflags=""
--    opengl_libs=""
--    opengl=no
--  fi
--fi
--
- # check for usbfs
- have_usbfs=no
- if test "$linux_user" = "yes"; then
-@@ -2874,12 +2840,6 @@ if test "$vhost_user_fs" = "yes" ; then
-   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
+   --enable-vhost-user) vhost_user="yes"
+@@ -1244,8 +1234,6 @@ cat << EOF
+   lto             Enable Link-Time Optimization.
+   safe-stack      SafeStack Stack Smash Protection. Depends on
+                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
+-  rdma            Enable RDMA-based migration
+-  pvrdma          Enable PVRDMA support
+   vhost-net       vhost-net kernel acceleration support
+   vhost-vsock     virtio sockets device support
+   vhost-scsi      vhost-scsi kernel target support
+@@ -2037,100 +2025,6 @@ EOF
+   fi
  fi
  
--if test "$opengl" = "yes" ; then
--  echo "CONFIG_OPENGL=y" >> $config_host_mak
--  echo "OPENGL_CFLAGS=$opengl_cflags" >> $config_host_mak
--  echo "OPENGL_LIBS=$opengl_libs" >> $config_host_mak
+-##########################################
+-# RDMA needs OpenFabrics libraries
+-if test "$rdma" != "no" ; then
+-  cat > $TMPC <<EOF
+-#include <rdma/rdma_cma.h>
+-int main(void) { return 0; }
+-EOF
+-  rdma_libs="-lrdmacm -libverbs -libumad"
+-  if compile_prog "" "$rdma_libs" ; then
+-    rdma="yes"
+-  else
+-    if test "$rdma" = "yes" ; then
+-        error_exit \
+-            " OpenFabrics librdmacm/libibverbs/libibumad not present." \
+-            " Your options:" \
+-            "  (1) Fast: Install infiniband packages (devel) from your distro." \
+-            "  (2) Cleanest: Install libraries from www.openfabrics.org" \
+-            "  (3) Also: Install softiwarp if you don't have RDMA hardware"
+-    fi
+-    rdma="no"
+-  fi
 -fi
 -
- # XXX: suppress that
- if [ "$bsd" = "yes" ] ; then
-   echo "CONFIG_BSD=y" >> $config_host_mak
+-##########################################
+-# PVRDMA detection
+-
+-cat > $TMPC <<EOF &&
+-#include <sys/mman.h>
+-
+-int
+-main(void)
+-{
+-    char buf = 0;
+-    void *addr = &buf;
+-    addr = mremap(addr, 0, 1, MREMAP_MAYMOVE | MREMAP_FIXED);
+-
+-    return 0;
+-}
+-EOF
+-
+-if test "$rdma" = "yes" ; then
+-    case "$pvrdma" in
+-    "")
+-        if compile_prog "" ""; then
+-            pvrdma="yes"
+-        else
+-            pvrdma="no"
+-        fi
+-        ;;
+-    "yes")
+-        if ! compile_prog "" ""; then
+-            error_exit "PVRDMA is not supported since mremap is not implemented"
+-        fi
+-        pvrdma="yes"
+-        ;;
+-    "no")
+-        pvrdma="no"
+-        ;;
+-    esac
+-else
+-    if test "$pvrdma" = "yes" ; then
+-        error_exit "PVRDMA requires rdma suppport"
+-    fi
+-    pvrdma="no"
+-fi
+-
+-# Let's see if enhanced reg_mr is supported
+-if test "$pvrdma" = "yes" ; then
+-
+-cat > $TMPC <<EOF &&
+-#include <infiniband/verbs.h>
+-
+-int
+-main(void)
+-{
+-    struct ibv_mr *mr;
+-    struct ibv_pd *pd = NULL;
+-    size_t length = 10;
+-    uint64_t iova = 0;
+-    int access = 0;
+-    void *addr = NULL;
+-
+-    mr = ibv_reg_mr_iova(pd, addr, length, iova, access);
+-
+-    ibv_dereg_mr(mr);
+-
+-    return 0;
+-}
+-EOF
+-    if ! compile_prog "" "-libverbs"; then
+-        QEMU_CFLAGS="$QEMU_CFLAGS -DLEGACY_RDMA_REG_MR"
+-    fi
+-fi
+-
+ ##########################################
+ # glib support probe
+ 
+@@ -2855,15 +2749,6 @@ if test "$have_tsan" = "yes" && test "$have_tsan_iface_fiber" = "yes" ; then
+     echo "CONFIG_TSAN=y" >> $config_host_mak
+ fi
+ 
+-if test "$rdma" = "yes" ; then
+-  echo "CONFIG_RDMA=y" >> $config_host_mak
+-  echo "RDMA_LIBS=$rdma_libs" >> $config_host_mak
+-fi
+-
+-if test "$pvrdma" = "yes" ; then
+-  echo "CONFIG_PVRDMA=y" >> $config_host_mak
+-fi
+-
+ if test "$plugins" = "yes" ; then
+     echo "CONFIG_PLUGIN=y" >> $config_host_mak
+ fi
+diff --git a/contrib/rdmacm-mux/meson.build b/contrib/rdmacm-mux/meson.build
+index 7674f54cc5..36c9c89630 100644
+--- a/contrib/rdmacm-mux/meson.build
++++ b/contrib/rdmacm-mux/meson.build
+@@ -1,7 +1,5 @@
+-if 'CONFIG_PVRDMA' in config_host
+-  # if not found, CONFIG_PVRDMA should not be set
++if have_pvrdma
+   # FIXME: broken on big endian architectures
+-  libumad = cc.find_library('ibumad', required: true)
+   executable('rdmacm-mux', files('main.c'), genh,
+              dependencies: [glib, libumad],
+              build_by_default: false,
 diff --git a/meson.build b/meson.build
-index a9949ee9e2..d21902e5d0 100644
+index d21902e5d0..55ad65ce95 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1000,9 +1000,14 @@ if not get_option('coreaudio').auto() or (targetos == 'darwin' and have_system)
+@@ -1217,9 +1217,22 @@ if numa.found() and not cc.links('''
  endif
  
- opengl = not_found
--if 'CONFIG_OPENGL' in config_host
--  opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
--                              link_args: config_host['OPENGL_LIBS'].split())
-+if not get_option('opengl').auto() or have_system or have_vhost_user_gpu
-+  epoxy = dependency('epoxy', method: 'pkg-config',
-+                      required: get_option('opengl'), kwargs: static_kwargs)
-+  if cc.has_header('epoxy/egl.h', dependencies: epoxy)
-+    opengl = epoxy
-+  elif get_option('opengl').enabled()
-+    error('epoxy/egl.h not found')
-+  endif
+ rdma = not_found
+-if 'CONFIG_RDMA' in config_host
+-  rdma = declare_dependency(link_args: config_host['RDMA_LIBS'].split())
++if not get_option('rdma').auto() or have_system
++  libumad = cc.find_library('ibumad', required: get_option('rdma'))
++  rdma_libs = [cc.find_library('rdmacm', has_headers: ['rdma/rdma_cma.h'],
++                               required: get_option('rdma'),
++                               kwargs: static_kwargs),
++               cc.find_library('ibverbs', required: get_option('rdma'),
++                               kwargs: static_kwargs),
++               libumad]
++  rdma = declare_dependency(dependencies: rdma_libs)
++  foreach lib: rdma_libs
++    if not lib.found()
++      rdma = not_found
++    endif
++  endforeach
  endif
- gbm = not_found
- if (have_system or have_tools) and (virgl.found() or opengl.found())
-@@ -1544,6 +1549,7 @@ config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
- config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
- config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
- config_host_data.set('CONFIG_NUMA', numa.found())
-+config_host_data.set('CONFIG_OPENGL', opengl.found())
++
+ xen = not_found
+ if 'CONFIG_XEN_BACKEND' in config_host
+   xen = declare_dependency(compile_args: config_host['XEN_CFLAGS'].split(),
+@@ -1552,6 +1565,7 @@ config_host_data.set('CONFIG_NUMA', numa.found())
+ config_host_data.set('CONFIG_OPENGL', opengl.found())
  config_host_data.set('CONFIG_PROFILER', get_option('profiler'))
  config_host_data.set('CONFIG_RBD', rbd.found())
++config_host_data.set('CONFIG_RDMA', rdma.found())
  config_host_data.set('CONFIG_SDL', sdl.found())
-@@ -2091,7 +2097,7 @@ host_kconfig = \
-   (have_tpm ? ['CONFIG_TPM=y'] : []) + \
-   (spice.found() ? ['CONFIG_SPICE=y'] : []) + \
-   (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
--  ('CONFIG_OPENGL' in config_host ? ['CONFIG_OPENGL=y'] : []) + \
-+  (opengl.found() ? ['CONFIG_OPENGL=y'] : []) + \
-   (x11.found() ? ['CONFIG_X11=y'] : []) + \
-   ('CONFIG_VHOST_USER' in config_host ? ['CONFIG_VHOST_USER=y'] : []) + \
-   ('CONFIG_VHOST_VDPA' in config_host ? ['CONFIG_VHOST_VDPA=y'] : []) + \
-@@ -3706,7 +3712,7 @@ summary_info += {'smartcard support': cacard}
- summary_info += {'U2F support':       u2f}
- summary_info += {'libusb':            libusb}
- summary_info += {'usb net redir':     usbredir}
--summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
-+summary_info += {'OpenGL support (epoxy)': opengl}
- summary_info += {'GBM':               gbm}
- summary_info += {'libiscsi support':  libiscsi}
- summary_info += {'libnfs support':    libnfs}
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+ config_host_data.set('CONFIG_SECCOMP', seccomp.found())
+@@ -1650,7 +1664,7 @@ config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '
+ if rdma.found()
+   config_host_data.set('HAVE_IBV_ADVISE_MR',
+                        cc.has_function('ibv_advise_mr',
+-                                       args: config_host['RDMA_LIBS'].split(),
++                                       dependencies: rdma,
+                                        prefix: '#include <infiniband/verbs.h>'))
+ endif
+ 
+@@ -1970,6 +1984,36 @@ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
+     int main(int argc, char *argv[]) { return bar(argv[0]); }
+   '''), error_message: 'AVX512F not available').allowed())
+ 
++have_pvrdma = get_option('pvrdma') \
++  .require(rdma.found(), error_message: 'PVRDMA requires OpenFabrics libraries') \
++  .require(cc.compiles('''
++    int main(void)
++    {
++      char buf = 0;
++      void *addr = &buf;
++      addr = mremap(addr, 0, 1, MREMAP_MAYMOVE | MREMAP_FIXED);
++
++      return 0;
++    }'''), error_message: 'PVRDMA requires mremap').allowed()
++
++if have_pvrdma
++  config_host_data.set('LEGACY_RDMA_REG_MR', not cc.compiles('''
++    #include <infiniband/verbs.h>
++    int main(void)
++    {
++      struct ibv_mr *mr;
++      struct ibv_pd *pd = NULL;
++      size_t length = 10;
++      uint64_t iova = 0;
++      int access = 0;
++      void *addr = NULL;
++
++      mr = ibv_reg_mr_iova(pd, addr, length, iova, access);
++      ibv_dereg_mr(mr);
++      return 0;
++    }'''))
++endif
++
+ if get_option('membarrier').disabled()
+   have_membarrier = false
+ elif targetos == 'windows'
+@@ -2104,7 +2148,7 @@ host_kconfig = \
+   ('CONFIG_VHOST_KERNEL' in config_host ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
+   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
+   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
+-  ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : []) + \
++  (have_pvrdma ? ['CONFIG_PVRDMA=y'] : []) + \
+   (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
+ 
+ ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
+@@ -3698,8 +3742,8 @@ summary_info += {'l2tpv3 support':    have_l2tpv3}
+ summary_info += {'Linux AIO support': libaio}
+ summary_info += {'Linux io_uring support': linux_io_uring}
+ summary_info += {'ATTR/XATTR support': libattr}
+-summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
+-summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
++summary_info += {'RDMA support':      rdma}
++summary_info += {'PVRDMA support':    have_pvrdma}
+ summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
+ summary_info += {'libcap-ng support': libcap_ng}
+ summary_info += {'bpf support':       libbpf}
 diff --git a/meson_options.txt b/meson_options.txt
-index 52b11cead4..bd8efe4fbf 100644
+index bd8efe4fbf..c00e0866e9 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -149,6 +149,8 @@ option('lzo', type : 'feature', value : 'auto',
-        description: 'lzo compression support')
- option('rbd', type : 'feature', value : 'auto',
+@@ -151,6 +151,10 @@ option('rbd', type : 'feature', value : 'auto',
         description: 'Ceph block device driver')
-+option('opengl', type : 'feature', value : 'auto',
-+       description: 'OpenGL support')
+ option('opengl', type : 'feature', value : 'auto',
+        description: 'OpenGL support')
++option('rdma', type : 'feature', value : 'auto',
++       description: 'Enable RDMA-based migration')
++option('pvrdma', type : 'feature', value : 'auto',
++       description: 'Enable PVRDMA support')
  option('gtk', type : 'feature', value : 'auto',
         description: 'GTK+ user interface')
  option('sdl', type : 'feature', value : 'auto',
+diff --git a/migration/meson.build b/migration/meson.build
+index 8b5ca5c047..6880b61b10 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -27,7 +27,7 @@ softmmu_ss.add(files(
+   'tls.c',
+ ), gnutls)
+ 
+-softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
++softmmu_ss.add(when: rdma, if_true: files('rdma.c'))
+ if get_option('live_block_migration').allowed()
+   softmmu_ss.add(files('block.c'))
+ endif
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 1e26f4571e..f91bd9231b 100644
+index f91bd9231b..cd922614e8 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -91,6 +91,7 @@ meson_options_help() {
-   printf "%s\n" '  nettle          nettle cryptography support'
-   printf "%s\n" '  numa            libnuma support'
-   printf "%s\n" '  nvmm            NVMM acceleration support'
-+  printf "%s\n" '  opengl          OpenGL support'
+@@ -95,10 +95,12 @@ meson_options_help() {
    printf "%s\n" '  oss             OSS sound support'
    printf "%s\n" '  pa              PulseAudio sound support'
    printf "%s\n" '  parallels       parallels image format support'
-@@ -271,6 +272,8 @@ _meson_option_parse() {
-     --disable-numa) printf "%s" -Dnuma=disabled ;;
-     --enable-nvmm) printf "%s" -Dnvmm=enabled ;;
-     --disable-nvmm) printf "%s" -Dnvmm=disabled ;;
-+    --enable-opengl) printf "%s" -Dopengl=enabled ;;
-+    --disable-opengl) printf "%s" -Dopengl=disabled ;;
-     --enable-oss) printf "%s" -Doss=enabled ;;
-     --disable-oss) printf "%s" -Doss=disabled ;;
-     --enable-pa) printf "%s" -Dpa=enabled ;;
-diff --git a/ui/meson.build b/ui/meson.build
-index 64286ba150..b21d3d1534 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -1,5 +1,6 @@
- softmmu_ss.add(pixman)
- specific_ss.add(when: ['CONFIG_SOFTMMU'], if_true: pixman)   # for the include path
-+specific_ss.add(when: ['CONFIG_SOFTMMU'], if_true: opengl)   # for the include path
- 
- softmmu_ss.add(files(
-   'clipboard.c',
-@@ -43,7 +44,6 @@ vnc_ss.add(zlib, png, jpeg, gnutls)
- vnc_ss.add(when: sasl, if_true: files('vnc-auth-sasl.c'))
- softmmu_ss.add_all(when: vnc, if_true: vnc_ss)
- softmmu_ss.add(when: vnc, if_false: files('vnc-stubs.c'))
--specific_ss.add(when: ['CONFIG_SOFTMMU'], if_true: opengl)
- 
- ui_modules = {}
- 
-@@ -53,17 +53,18 @@ if curses.found()
-   ui_modules += {'curses' : curses_ss}
- endif
- 
--if config_host.has_key('CONFIG_OPENGL')
-+softmmu_ss.add(opengl)
-+if opengl.found()
-   opengl_ss = ss.source_set()
-   opengl_ss.add(gbm)
--  opengl_ss.add(when: [opengl, pixman, 'CONFIG_OPENGL'],
-+  opengl_ss.add(when: [opengl, pixman],
-                if_true: files('shader.c', 'console-gl.c', 'egl-helpers.c', 'egl-context.c'))
-   ui_modules += {'opengl' : opengl_ss}
- endif
- 
--if config_host.has_key('CONFIG_OPENGL') and gbm.found()
-+if opengl.found() and gbm.found()
-   egl_headless_ss = ss.source_set()
--  egl_headless_ss.add(when: [opengl, gbm, pixman, 'CONFIG_OPENGL'],
-+  egl_headless_ss.add(when: [opengl, gbm, pixman],
-                       if_true: files('egl-headless.c'))
-   ui_modules += {'egl-headless' : egl_headless_ss}
- endif
-@@ -98,8 +99,8 @@ if gtk.found()
-   gtk_ss = ss.source_set()
-   gtk_ss.add(gtk, vte, pixman, files('gtk.c', 'gtk-clipboard.c'))
-   gtk_ss.add(when: x11, if_true: files('x_keymap.c'))
--  gtk_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('gtk-gl-area.c'))
--  gtk_ss.add(when: [x11, opengl, 'CONFIG_OPENGL'], if_true: files('gtk-egl.c'))
-+  gtk_ss.add(when: opengl, if_true: files('gtk-gl-area.c'))
-+  gtk_ss.add(when: [x11, opengl], if_true: files('gtk-egl.c'))
-   ui_modules += {'gtk' : gtk_ss}
- endif
- 
-@@ -112,7 +113,7 @@ if sdl.found()
-     'sdl2-input.c',
-     'sdl2.c',
-   ))
--  sdl_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('sdl2-gl.c'))
-+  sdl_ss.add(when: opengl, if_true: files('sdl2-gl.c'))
-   sdl_ss.add(when: x11, if_true: files('x_keymap.c'))
-   ui_modules += {'sdl' : sdl_ss}
- endif
++  printf "%s\n" '  pvrdma          Enable PVRDMA support'
+   printf "%s\n" '  qcow1           qcow1 image format support'
+   printf "%s\n" '  qed             qed image format support'
+   printf "%s\n" '  qga-vss         build QGA VSS support (broken with MinGW)'
+   printf "%s\n" '  rbd             Ceph block device driver'
++  printf "%s\n" '  rdma            Enable RDMA-based migration'
+   printf "%s\n" '  replication     replication support'
+   printf "%s\n" '  sdl             SDL user interface'
+   printf "%s\n" '  sdl-image       SDL Image support for icons'
+@@ -282,6 +284,8 @@ _meson_option_parse() {
+     --disable-parallels) printf "%s" -Dparallels=disabled ;;
+     --enable-profiler) printf "%s" -Dprofiler=true ;;
+     --disable-profiler) printf "%s" -Dprofiler=false ;;
++    --enable-pvrdma) printf "%s" -Dpvrdma=enabled ;;
++    --disable-pvrdma) printf "%s" -Dpvrdma=disabled ;;
+     --enable-qcow1) printf "%s" -Dqcow1=enabled ;;
+     --disable-qcow1) printf "%s" -Dqcow1=disabled ;;
+     --enable-qed) printf "%s" -Dqed=enabled ;;
+@@ -292,6 +296,8 @@ _meson_option_parse() {
+     --disable-qom-cast-debug) printf "%s" -Dqom_cast_debug=false ;;
+     --enable-rbd) printf "%s" -Drbd=enabled ;;
+     --disable-rbd) printf "%s" -Drbd=disabled ;;
++    --enable-rdma) printf "%s" -Drdma=enabled ;;
++    --disable-rdma) printf "%s" -Drdma=disabled ;;
+     --enable-replication) printf "%s" -Dreplication=enabled ;;
+     --disable-replication) printf "%s" -Dreplication=disabled ;;
+     --enable-rng-none) printf "%s" -Drng_none=true ;;
 -- 
 2.35.1
 
