@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187EC50C7C1
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 08:21:50 +0200 (CEST)
-Received: from localhost ([::1]:34738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D48350C83A
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 10:33:50 +0200 (CEST)
+Received: from localhost ([::1]:34860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ni99Q-0008Bk-AO
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 02:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56950)
+	id 1niBDA-0005EC-VJ
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 04:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ni94U-0006Z8-V3; Sat, 23 Apr 2022 02:16:57 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:37838)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1niBAN-0004Wa-P7
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 04:30:55 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:33670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ni94S-0000Fs-2m; Sat, 23 Apr 2022 02:16:41 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id p21so10673687ioj.4;
- Fri, 22 Apr 2022 23:16:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1niBAM-0000Y4-0f
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 04:30:55 -0400
+Received: by mail-ej1-x634.google.com with SMTP id s18so20565825ejr.0
+ for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 01:30:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nJsNUkPLub8bqWUYweitxrAbCeJkJlVSssqCJw+1Cb0=;
- b=LhmSpEupvUAd2rRz03b9asWdZ3MtES8qD3og9976YTcPCg+xoPaQW4oVFjnluKxj6F
- o88UG4jodYNqABBTigGHS93tLHEeEC+gtEBeJvhbqGKYU7gPG1AuXbzoMnP/ct8Mu1Lq
- I/8Ttj1457MwtRvQQomkqWu1PuT7kKmygNrCxZT+WroM5nI3OZtfNtTjyHVmIbZ9MCAm
- zslwHxRM5knF5HVAjZt+dXwvO1bV2gUtREetFN4nT7tVVLusxju5N7BEbAU0CZgmYuif
- F5at3a/XG4qpUz3hHEcUF2uHHE5234zGfYR3RRlB+w7w39rOvsS8QqpoIjV2cDc0lh9q
- 70VQ==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IpkeRxlgj/L6MkLjaldfl3rnGVi22K9iIwPeRXXvvt4=;
+ b=WTIOc0zTyIVKEy/OalCNiv2212bXNU4NMyeJgNCHjHI5h32f8ndE0qC8foqyHft78m
+ TqIEQzz80ao3YMVIHEFaOe5JoZStH+ZQ5LmQWzpwTDiV/FPgZrSWp8fkg8kFMI+ma6EN
+ peC/0Nm/A+5+++EZI2KF0S2wsyGkKlpOm1gTNpC+bMV4d8U7jc7n4iJVbM+Cyb7qp//h
+ kpkNkV+JWYv1YxDL32P+rS4v+m0QDwsgRg171TT/Vjada1WQkO/0DXJi4W5U/rp0FjYX
+ LBDIYkEs4re8PMRZlwA1sQ7jxqF2Q/EiIfr85gOzBBgl3ZWgTnniKR1qjco93CdrVAdU
+ DT0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nJsNUkPLub8bqWUYweitxrAbCeJkJlVSssqCJw+1Cb0=;
- b=CacERck/tb/PfbJyc+0t7E0Cv9wX32HRqKus7kHFrjrHOboJEwq2q6yAbfWLZZcTjf
- eP8Yha/JDM8GDb8SPpNs9ets9WGbRNYJ6f91IQsGFBz/nH35adOtAu0++f+sbf3+O1HJ
- gCdtqn9UBtYWYEv9eWfoD7UqW5rOCUbHm+ZIjKFCM3jMrenIqfGeLgG6hZbmMmsAoHZB
- ghq5w8drSJ37y2ceYpqA+bDACHVsEBNzCU8E1pyZEnGXVj4/wcA3adsX4mXkL03IdDlN
- 3ESeqnzehDaaySCYqz+89mMCW0tFT2r7JOA6a3byM1iOmBN8/Df9LMlEubc/gU3Cqc8a
- cGJw==
-X-Gm-Message-State: AOAM5319ekvU6H+Fhhm9XNGWHCLM1m7yTJP4sXURQp+Hf8rNcySF9ozj
- odFsyzn3QZsMIebM+smtyugr6PG/rUZIHd7KiqA=
-X-Google-Smtp-Source: ABdhPJxVpDJv02Kr/MCG/Q3RtrqRu6WA2ydkPWmjYcLXB9FfMD0RBLYliuAJGMGRxSdWPZV6dOez7bpMfYDCw7+d6YE=
-X-Received: by 2002:a5d:948a:0:b0:64d:23a4:9afa with SMTP id
- v10-20020a5d948a000000b0064d23a49afamr3439815ioj.114.1650694597332; Fri, 22
- Apr 2022 23:16:37 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IpkeRxlgj/L6MkLjaldfl3rnGVi22K9iIwPeRXXvvt4=;
+ b=NnflKix1oBK9bU0regabA9oD8d2HAcmD913VNaPKKS0f6J+H3cyMsOychKGWskL+2R
+ 36oq3Vt3xAS4baDq9Vz2tPdGzxEOGHOkJZAE7gVsKYZEGfKuT7PY61X2JmpzjBBFne7C
+ G7nkEhMBq1S5E2gPYHGCNLVpCXCYZwldioMML0CHbWqi8F746LcuMU3xHZcCGwsS5Wwl
+ 4F/K8zaplUNoylWcEVSCFw2WuAnUfqUhfUWKaBJXJhGDRm1I1o5Ek4slThU9VLcmdP7B
+ Ro7j8NO9HgaG8yoFgbsECX2ZDtnjC0U1iwlN1YncuYzg2034HfebvzuewkvSXO0g3hNj
+ ltvA==
+X-Gm-Message-State: AOAM530UwfUuMCmN8tuJl6TnBDsxbrCu8R+KwCDaypWFioTj8w5p1kld
+ bBtDBUXLpCzkeh2bOw1ZudE=
+X-Google-Smtp-Source: ABdhPJze5MRlQHJnG92c4mZmjPMOhQ6Y2ahernTV9GInbOQxQxzdd3aH7vVE3BQLgH/HhBtQNUOcBw==
+X-Received: by 2002:a17:906:2991:b0:6cd:ac19:ce34 with SMTP id
+ x17-20020a170906299100b006cdac19ce34mr7809399eje.746.1650702652051; 
+ Sat, 23 Apr 2022 01:30:52 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ gq5-20020a170906e24500b006e87644f2f7sm1473622ejb.38.2022.04.23.01.30.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 23 Apr 2022 01:30:51 -0700 (PDT)
+Message-ID: <92ba49ad-9e82-e008-da31-f19a80ebfae1@redhat.com>
+Date: Sat, 23 Apr 2022 10:30:49 +0200
 MIME-Version: 1.0
-References: <20220423023510.30794-1-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220423023510.30794-1-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Sat, 23 Apr 2022 16:16:11 +1000
-Message-ID: <CAKmqyKOL89zKRsPHLJDg6RyY4kOs161UUY_mR8=QfrWr7mpvZw@mail.gmail.com>
-Subject: Re: [PATCH v12 00/14] support subsets of scalar crypto extension
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 for-7.1 3/9] nbd: remove peppering of
+ nbd_client_connected
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ qemu-devel@nongnu.org
+References: <20220414175756.671165-1-pbonzini@redhat.com>
+ <20220414175756.671165-4-pbonzini@redhat.com>
+ <43c9ee35-5d82-a848-5be7-6e76090f34e9@mail.ru>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <43c9ee35-5d82-a848-5be7-6e76090f34e9@mail.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,149 +95,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, lustrew@foxmail.com,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 23, 2022 at 12:38 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> This patchset implements RISC-V scalar crypto extension v1.0.0 version in=
-structions.
-> Partial instructions are reused from B-extension.
->
-> Specification:
-> https://github.com/riscv/riscv-crypto
->
-> The port is available here:
-> https://github.com/plctlab/plct-qemu/tree/plct-k-upstream-v12
->
-> To test rvk implementation, specify cpu argument with 'zks=3Dtrue,zkn=3Dt=
-rue' or "zbkb=3Dtrue,zbkc=3Dtrue,zbkx=3Dtrue,zknd=3Dtrue,zkne=3Dtrue,zknh=
-=3Dtrue,zksed=3Dtrue,zksh=3Dtrue,zkr=3Dtrue" to enable K-extension support.=
- This implementation can pass the ACT tests for K with our extended act sup=
-port for qemu (available at https://github.com/plctlab/plct-qemu/tree/plct-=
-k-upstream-v12-with-act)
->
-> Review status:
-> patch 5 is reviewed by Philippe Mathieu-Daud=C3=A9
-> patch 1~14 are acked or reviewed by Alistair Francis
-> patch 2~11 are reviewed by Richard Henderson (fix new comments on patch 6=
- and 7)
->
-> v12:
-> * rebase on master and riscv-to-apply.next
->
-> v11:
-> * patch 6: add REQUIRE_32BIT to trans_* function for aes RV32 instruction
-> * patch 7: add REQUIRE_64BIT to trans_* function for aes RV64 instruction
->
-> v10:
-> (only patch 12 is modified)
-> * simplify the conditions for the check in seed function
-> * add NULL check for ret_val in rmw_seed function
-> * remain the change of MSECCFG_* to align with the added MSECCFG_*SEED
->
-> v9:
-> * check whether seed is accessed by a read-write instruction in helper_cs=
-rr.
-> * fix disas for partial scalar crypto instructions
-> * rebase on https://lists.nongnu.org/archive/html/qemu-riscv/2022-03/msg0=
-0156.html
->
-> v8:
-> * replace large macro for trans function of sha256/512 instructions with =
-parameters to gen_sha* function in patch 8,9,10
-> * fix tcg_const_tl to tcg_constant_tl
-> * fix rmw_seed function
->
-> v7:
-> * reuse gen_unary/gen_arith to simplify trans_* functions
-> * replace DEF_HELPER_* with DEF_HEPER_FLAG_*
-> * move aes64 related macros from patch 6 to patch 7
-> * create common helper gen_aes32_sm4 for aes32 and sm4 related instructio=
-ns
-> * replace bs with shamt (bs << 3)
-> * optimize trans function for sha256, sha512 and sm4 instructions to be g=
-enerated inline
->
-> v6:
-> * add reviewed-by tags
-> * rebase on upstream
->
-> v5:
-> * split the big patches
->
-> v4:
-> * drop "x-" in exposed properties
-> * delete unrelated changes
->
-> v3:
-> * add extension check for SEED csr access
->
-> v2:
-> * optimize implementation for brev8, xperm, zip, unzip
-> * use aes related sbox array from crypto/aes.h
-> * move sm4_sbox to crypto/sm4.c, and share it with target/arm
->
-> Weiwei Li (14):
->   target/riscv: rvk: add cfg properties for zbk* and zk*
->   target/riscv: rvk: add support for zbkb extension
->   target/riscv: rvk: add support for zbkc extension
->   target/riscv: rvk: add support for zbkx extension
->   crypto: move sm4_sbox from target/arm
->   target/riscv: rvk: add support for zknd/zkne extension in RV32
->   target/riscv: rvk: add support for zkne/zknd extension in RV64
->   target/riscv: rvk: add support for sha256 related instructions in zknh
->     extension
->   target/riscv: rvk: add support for sha512 related instructions for
->     RV32 in zknh extension
->   target/riscv: rvk: add support for sha512 related instructions for
->     RV64 in zknh extension
->   target/riscv: rvk: add support for zksed/zksh extension
->   target/riscv: rvk: add CSR support for Zkr
->   disas/riscv.c: rvk: add disas support for Zbk* and Zk* instructions
->   target/riscv: rvk: expose zbk* and zk* properties
+Hi,
 
-Thanks!
+thanks for the careful review and sorry I'm only replying now.
 
-Applied to riscv-to-apply.next
+On 4/15/22 19:01, Vladimir Sementsov-Ogievskiy wrote:
+>> @@ -982,11 +978,6 @@ static bool 
+>> nbd_reply_chunk_iter_receive(BDRVNBDState *s,
+>>       NBDReply local_reply;
+>>       NBDStructuredReplyChunk *chunk;
+>>       Error *local_err = NULL;
+>> -    if (!nbd_client_connected(s)) {
+>> -        error_setg(&local_err, "Connection closed");
+>> -        nbd_iter_channel_error(iter, -EIO, &local_err);
+>> -        goto break_loop;
+>> -    }
+> 
+> Probably we should still check iter->ret here. It's strange to start new 
+> iteration, when user set iter->ret in previous iteration of 
+> NBD_FOREACH_REPLY_CHUNK()
+> 
+> Or, maybe we should set iter->done in nbd_iter_channel_error ?
 
-Alistair
+Yes, this second one is a possibility.  I chose to check iter->ret below 
+because it was a bit more self-contained ("before reading again check 
+that the error code is not overwritten"), but it is also less obvious.
 
->
->  crypto/meson.build                      |   1 +
->  crypto/sm4.c                            |  49 +++
->  disas/riscv.c                           | 173 ++++++++++-
->  include/crypto/sm4.h                    |   6 +
->  target/arm/crypto_helper.c              |  36 +--
->  target/riscv/bitmanip_helper.c          |  80 +++++
->  target/riscv/cpu.c                      |  36 +++
->  target/riscv/cpu.h                      |  13 +
->  target/riscv/cpu_bits.h                 |   9 +
->  target/riscv/crypto_helper.c            | 302 ++++++++++++++++++
->  target/riscv/csr.c                      |  80 +++++
->  target/riscv/helper.h                   |  22 ++
->  target/riscv/insn32.decode              |  97 ++++--
->  target/riscv/insn_trans/trans_rvb.c.inc | 116 ++++++-
->  target/riscv/insn_trans/trans_rvk.c.inc | 391 ++++++++++++++++++++++++
->  target/riscv/meson.build                |   3 +-
->  target/riscv/op_helper.c                |   9 +
->  target/riscv/pmp.h                      |   8 +-
->  target/riscv/translate.c                |   8 +
->  19 files changed, 1368 insertions(+), 71 deletions(-)
->  create mode 100644 crypto/sm4.c
->  create mode 100644 include/crypto/sm4.h
->  create mode 100644 target/riscv/crypto_helper.c
->  create mode 100644 target/riscv/insn_trans/trans_rvk.c.inc
->
-> --
-> 2.17.1
->
->
+Paolo
+
+>>       if (iter->done) {
+>>           /* Previous iteration was last. */
+>> @@ -1007,7 +998,7 @@ static bool 
+>> nbd_reply_chunk_iter_receive(BDRVNBDState *s,
+>>       }
+>>       /* Do not execute the body of NBD_FOREACH_REPLY_CHUNK for simple 
+>> reply. */
+>> -    if (nbd_reply_is_simple(reply) || !nbd_client_connected(s)) {
+>> +    if (nbd_reply_is_simple(reply) || iter->ret < 0) {
+> 
+> And then here, may be we can just goto break_loop from previous "if (ret 
+> < 0)". Then we'll not have to check iter->ret.
+> 
+>>           goto break_loop;
+>>       }
+> 
+> anyway:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+> 
+> (a bit weak, as it really hard to imagine all these paths and possible 
+> consequences :/
+> 
+
 
