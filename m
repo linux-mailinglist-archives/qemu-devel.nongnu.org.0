@@ -2,91 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF9F50C7B1
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 07:47:29 +0200 (CEST)
-Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD70250C822
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 09:58:59 +0200 (CEST)
+Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ni8cB-000187-Pa
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 01:47:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54234)
+	id 1niAfS-00014x-G9
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 03:58:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1ni8Yv-00005N-SW
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 01:44:05 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:43823)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1ni8Yt-0004eQ-QZ
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 01:44:05 -0400
-Received: by mail-pl1-x634.google.com with SMTP id d15so15296296pll.10
- for <qemu-devel@nongnu.org>; Fri, 22 Apr 2022 22:44:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZFsn76Wy7S6v0Yqx+I64DSGzjdIzFdQ9mwgQEn4qZdI=;
- b=OHli3WxxjTNOtwXzzUteux30e7lUnsvZe0VRujYtUDHGwF7DeCIr0LXKfAdXygEqPL
- jUVEy5CqxatjGEfrEhkcGYVCbn04il2mvqrFC+qSMBWU6UqUzGkuBSSfOOqC2udQsReS
- 29aFR4RuBGZpab2g/+roF2YHgsvahIzxZKAtzL7eWdu05biLD5jt8zW8OVMAMJI54HEy
- kuj8auXO0vv/CU2VKzIKuhg+HijorcVemLraYYwjfnrpXXOB//KjbZRLFjSKzZfgZhwi
- v5KznMcSPYlVbKh3tW9hURb3yOlhL1Yz1runuW6hFsP7ndeT6RkJlWvDsHc2NVpByLwS
- TErw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZFsn76Wy7S6v0Yqx+I64DSGzjdIzFdQ9mwgQEn4qZdI=;
- b=V0YSZXgJqA41d0r1qms8cXtjFsGDB3PhQ65SPKTIeQTRs22dkhQe5OpbM5Ow9opocx
- sQKrtenUwxMGRossx1OeZy4bzEU/MXWNINNZ4+/OqiwrSRHAaTM0BF0optGDJ86NADWE
- gwMjT2omkrpNtNsBNAIMYmf5R9/j+xu5til4TzBYM1K/fBA632DZ5FUN3n/0HT7gW5q5
- O9UdcSstSaRMOpU2TCkmtDFTkis4SYz1t52smYvBJjIPnbg3upKiVfjaIlktwudTDzZ6
- I6rhHs1ykOFLaHZgop/RTQAHIDHeTxznztleB06ZfZLz53Uuj938ibMMPc6iAp80afm3
- e/jQ==
-X-Gm-Message-State: AOAM531jKpMiTJPzAZJMtKxAVJNWIVmK70a9lRa02GeQr2PvmScyY+7n
- omuG1svti5YDc2+wjyboZppAmKNOIDigcjF105Q4oQ==
-X-Google-Smtp-Source: ABdhPJzqdIY3siotXW6eE2KEll2J6YC3j9KiWON6VCesRQeVObAGPD6alQrr4OD/+znajuSVjVEYLGvlfokOtuBttAM=
-X-Received: by 2002:a17:90b:4f89:b0:1d4:961f:ad9d with SMTP id
- qe9-20020a17090b4f8900b001d4961fad9dmr18172000pjb.114.1650692640956; Fri, 22
- Apr 2022 22:44:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-2-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220310140911.50924-2-chao.p.peng@linux.intel.com>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Fri, 22 Apr 2022 22:43:50 -0700
-Message-ID: <CAGtprH9sncAeS7-=ewr07B=Q+htVDdwRJhbqF+GhehHMYmvw5w@mail.gmail.com>
-Subject: Re: [PATCH v5 01/13] mm/memfd: Introduce MFD_INACCESSIBLE flag
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, 
- Jun Nakajima <jun.nakajima@intel.com>, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=vannapurve@google.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <simon@simonsafar.com>)
+ id 1ni6Fl-0003UJ-Uy
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 23:16:09 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48765)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <simon@simonsafar.com>)
+ id 1ni6Fi-00025j-Iv
+ for qemu-devel@nongnu.org; Fri, 22 Apr 2022 23:16:09 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id A8EEB5C0210;
+ Fri, 22 Apr 2022 23:16:04 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+ by compute4.internal (MEProxy); Fri, 22 Apr 2022 23:16:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=simonsafar.com;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1650683764; x=1650770164; bh=y3
+ UM23r97VQMOD5bfsRt5BUFmRvZ9GNwvWCjrwOESf8=; b=T0p9beGYWND2eNzJox
+ hMS7Zj/4C7QAMUSTE1qSrOBf0dGsYX4T8qwME0/1f2bjYvZQMbkJLPP44ohYsqaG
+ empdHuY74YEwCrtchicldzQ8DyTCyAy5M0aoXdIQKle+1Z2X2Rlw9SVT9DLJ4NVT
+ yIPIIhlGZT3+snQeR7/bo38mt1vFL2+THah6rV7C14WCTRdpNe5sP1oqjpnvJpk2
+ xRH6OUKMq1qC03rGM0pjJcaVgZ2NcN+O8UHaGeqjvuSRJn4Dwk3YFOMRuDjVnjgJ
+ 6Mmcj3DxF/Ad5WIEzEnpzlpihGqItjc0muQRcWZTGllIIvtrNoYO1vlYSkJFqObP
+ TvyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650683764; x=
+ 1650770164; bh=y3UM23r97VQMOD5bfsRt5BUFmRvZ9GNwvWCjrwOESf8=; b=i
+ SuyB8xX0T3wAIX0nmwVFxD7EyGt0dZO6zVTF8NdRZw7ElKOmMPeMAe5r5bfQ9VZa
+ biTUT/CMFJ9hiiBzCV3ReT/Mgdq+2kPXtrlO6gaPmR4/2h2Yp6yJFuJqACgr0aoy
+ wUbKFoSX2kyTumZqeNzLDeQlkTXRZkxWdkNhxEi1BoSw77miXHIbB/bXNdPId+Yt
+ mBXynj+sHfJyPXt2k0QZ52reDn4Ayz6YfHHTPc8UeWxZhknY/X+rnsyj8y4gNVVt
+ lzs1Q0if6necH2AZvpIUlpGX6lwqJ725Hf9SL0qP0+af7dIRo49fOWwMR1agAhdv
+ uE0BBIOJd3OViO3sJsbtg==
+X-ME-Sender: <xms:dG9jYqo-SWRhCnXayiVKV_5l7qzx9kmTJMjLwuiFWf60TKIrV1SQFg>
+ <xme:dG9jYoqGKvrq32ZVoQaGDYAV39TRRXBGXEgbStxEdcT3wco4F_brkh0Uf1V13OTGd
+ BGanqRwTBkk61uBLC0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdehgdeikecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvfevufgtsehttd
+ ertderredtnecuhfhrohhmpedfufhimhhonhcuufgrfhgrrhdfuceoshhimhhonhesshhi
+ mhhonhhsrghfrghrrdgtohhmqeenucggtffrrghtthgvrhhnpeeiiedtleduhfelffejud
+ dvvefhueevledvhfehueegieejkeegieetfedvgeeljeenucevlhhushhtvghrufhiiigv
+ pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsihhmohhnsehsihhmohhnshgrfhgrrh
+ drtghomh
+X-ME-Proxy: <xmx:dG9jYvOck2MMJLQ0nrEpfAOqbscR4SzxRO2ZzExcN32Q4EZIaKTubQ>
+ <xmx:dG9jYp6Rw7OVHX4fNzJehSEFxjitUAorlcDoG8B2FKtsydWAKjTC2Q>
+ <xmx:dG9jYp64BL35FrWmd77Tb7z8bt0AlILBe1xJiN4skTy9jYwJ3vQp-A>
+ <xmx:dG9jYqVAwUBW67GPLjJ9y24eTk6SdkACFV6w2a_z-lQpjn8qeTOuHQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 5ADD31920089; Fri, 22 Apr 2022 23:16:04 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-569-g7622ad95cc-fm-20220421.002-g7622ad95
+Mime-Version: 1.0
+Message-Id: <331420f7-9bc8-44b6-b9db-e1d82cfdd399@www.fastmail.com>
+In-Reply-To: <CAMo8BfKPgZ29ReVE9CYmzfZ0sfem-fXqLf-2TW8qYQpO6fPA3g@mail.gmail.com>
+References: <20220421155726.31986-1-simon@simonsafar.com>
+ <CAMo8BfKPgZ29ReVE9CYmzfZ0sfem-fXqLf-2TW8qYQpO6fPA3g@mail.gmail.com>
+Date: Fri, 22 Apr 2022 20:15:33 -0700
+To: "Max Filippov" <jcmvbkbc@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] target/xtensa: import core lx106
+Content-Type: text/plain
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=simon@simonsafar.com;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 23 Apr 2022 03:55:34 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,269 +101,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Simon Safar" <simon@simonsafar.com>
+From:  "Simon Safar" via <qemu-devel@nongnu.org>
 
-On Thu, Mar 10, 2022 at 6:09 AM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
->
-> Introduce a new memfd_create() flag indicating the content of the
-> created memfd is inaccessible from userspace through ordinary MMU
-> access (e.g., read/write/mmap). However, the file content can be
-> accessed via a different mechanism (e.g. KVM MMU) indirectly.
->
-> It provides semantics required for KVM guest private memory support
-> that a file descriptor with this flag set is going to be used as the
-> source of guest memory in confidential computing environments such
-> as Intel TDX/AMD SEV but may not be accessible from host userspace.
->
-> Since page migration/swapping is not yet supported for such usages
-> so these pages are currently marked as UNMOVABLE and UNEVICTABLE
-> which makes them behave like long-term pinned pages.
->
-> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-> also impossible for a memfd created with this flag.
->
-> At this time only shmem implements this flag.
->
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  include/linux/shmem_fs.h   |  7 +++++
->  include/uapi/linux/memfd.h |  1 +
->  mm/memfd.c                 | 26 +++++++++++++++--
->  mm/shmem.c                 | 57 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 88 insertions(+), 3 deletions(-)
->
-> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> index e65b80ed09e7..2dde843f28ef 100644
-> --- a/include/linux/shmem_fs.h
-> +++ b/include/linux/shmem_fs.h
-> @@ -12,6 +12,9 @@
->
->  /* inode in-kernel data */
->
-> +/* shmem extended flags */
-> +#define SHM_F_INACCESSIBLE     0x0001  /* prevent ordinary MMU access (e.g. read/write/mmap) to file content */
-> +
->  struct shmem_inode_info {
->         spinlock_t              lock;
->         unsigned int            seals;          /* shmem seals */
-> @@ -24,6 +27,7 @@ struct shmem_inode_info {
->         struct shared_policy    policy;         /* NUMA memory alloc policy */
->         struct simple_xattrs    xattrs;         /* list of xattrs */
->         atomic_t                stop_eviction;  /* hold when working on inode */
-> +       unsigned int            xflags;         /* shmem extended flags */
->         struct inode            vfs_inode;
->  };
->
-> @@ -61,6 +65,9 @@ extern struct file *shmem_file_setup(const char *name,
->                                         loff_t size, unsigned long flags);
->  extern struct file *shmem_kernel_file_setup(const char *name, loff_t size,
->                                             unsigned long flags);
-> +extern struct file *shmem_file_setup_xflags(const char *name, loff_t size,
-> +                                           unsigned long flags,
-> +                                           unsigned int xflags);
->  extern struct file *shmem_file_setup_with_mnt(struct vfsmount *mnt,
->                 const char *name, loff_t size, unsigned long flags);
->  extern int shmem_zero_setup(struct vm_area_struct *);
-> diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
-> index 7a8a26751c23..48750474b904 100644
-> --- a/include/uapi/linux/memfd.h
-> +++ b/include/uapi/linux/memfd.h
-> @@ -8,6 +8,7 @@
->  #define MFD_CLOEXEC            0x0001U
->  #define MFD_ALLOW_SEALING      0x0002U
->  #define MFD_HUGETLB            0x0004U
-> +#define MFD_INACCESSIBLE       0x0008U
->
->  /*
->   * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
-> diff --git a/mm/memfd.c b/mm/memfd.c
-> index 9f80f162791a..74d45a26cf5d 100644
-> --- a/mm/memfd.c
-> +++ b/mm/memfd.c
-> @@ -245,16 +245,20 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
->  #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
->  #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
->
-> -#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-> +#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
-> +                      MFD_INACCESSIBLE)
->
->  SYSCALL_DEFINE2(memfd_create,
->                 const char __user *, uname,
->                 unsigned int, flags)
->  {
-> +       struct address_space *mapping;
->         unsigned int *file_seals;
-> +       unsigned int xflags;
->         struct file *file;
->         int fd, error;
->         char *name;
-> +       gfp_t gfp;
->         long len;
->
->         if (!(flags & MFD_HUGETLB)) {
-> @@ -267,6 +271,10 @@ SYSCALL_DEFINE2(memfd_create,
->                         return -EINVAL;
->         }
->
-> +       /* Disallow sealing when MFD_INACCESSIBLE is set. */
-> +       if (flags & MFD_INACCESSIBLE && flags & MFD_ALLOW_SEALING)
-> +               return -EINVAL;
-> +
->         /* length includes terminating zero */
->         len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
->         if (len <= 0)
-> @@ -301,8 +309,11 @@ SYSCALL_DEFINE2(memfd_create,
->                                         HUGETLB_ANONHUGE_INODE,
->                                         (flags >> MFD_HUGE_SHIFT) &
->                                         MFD_HUGE_MASK);
+Hi Max,
 
-Should hugetlbfs also be modified to be a backing store for private
-memory like shmem when hugepages are to be used?
-As of now, this series doesn't seem to support using private memfds
-with backing hugepages.
+On Thu, Apr 21, 2022, at 1:56 PM, Max Filippov wrote:
+> 
+> An update to target/xtensa/cores.list is needed for this core to be built
+> in qemu-6.2+. Please keep that file alphabetically sorted.
+
+sounds great, thank you for the review!!! Will send out v2 soon.
+
+> I'm curious how is it supposed to be used?
+
+It's for a (future...) Lisp compiler! Somewhat in the style of MicroPython; the idea is to make code editable on the fly, without reflashing (... or restarting, even). Given how it's one person's side project (mine), it's a lot closer to a (not-even-self-hosting) lispy-syntax lx106 assembler (... written in Common Lisp) at this point though.
+
+Specifically, qemu is being used for testing code generation; within test cases, we generate an object file, link it up into an ELF image, launch it under qemu & check the output. Current top achievement: a loop that iterates 10 times and quits successfully, by using the emulated syscall interface. Even so, having actual test cases for this (& occasionally attaching gdb to them) is really useful.
+
+(Admittedly, I can't really think of a lot of other use cases; probably everyone else is just using the official C toolchain?)
+
+Simon
 
 
-
-> -       } else
-> -               file = shmem_file_setup(name, 0, VM_NORESERVE);
-> +       } else {
-> +               xflags = flags & MFD_INACCESSIBLE ? SHM_F_INACCESSIBLE : 0;
-> +               file = shmem_file_setup_xflags(name, 0, VM_NORESERVE, xflags);
-> +       }
-> +
->         if (IS_ERR(file)) {
->                 error = PTR_ERR(file);
->                 goto err_fd;
-> @@ -313,6 +324,15 @@ SYSCALL_DEFINE2(memfd_create,
->         if (flags & MFD_ALLOW_SEALING) {
->                 file_seals = memfd_file_seals_ptr(file);
->                 *file_seals &= ~F_SEAL_SEAL;
-> +       } else if (flags & MFD_INACCESSIBLE) {
-> +               mapping = file_inode(file)->i_mapping;
-> +               gfp = mapping_gfp_mask(mapping);
-> +               gfp &= ~__GFP_MOVABLE;
-> +               mapping_set_gfp_mask(mapping, gfp);
-> +               mapping_set_unevictable(mapping);
-> +
-> +               file_seals = memfd_file_seals_ptr(file);
-> +               *file_seals = F_SEAL_SEAL;
->         }
->
->         fd_install(fd, file);
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index a09b29ec2b45..9b31a7056009 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -1084,6 +1084,13 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
->                     (newsize > oldsize && (info->seals & F_SEAL_GROW)))
->                         return -EPERM;
->
-> +               if (info->xflags & SHM_F_INACCESSIBLE) {
-> +                       if(oldsize)
-> +                               return -EPERM;
-> +                       if (!PAGE_ALIGNED(newsize))
-> +                               return -EINVAL;
-> +               }
-> +
->                 if (newsize != oldsize) {
->                         error = shmem_reacct_size(SHMEM_I(inode)->flags,
->                                         oldsize, newsize);
-> @@ -1331,6 +1338,8 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
->                 goto redirty;
->         if (!total_swap_pages)
->                 goto redirty;
-> +       if (info->xflags & SHM_F_INACCESSIBLE)
-> +               goto redirty;
->
->         /*
->          * Our capabilities prevent regular writeback or sync from ever calling
-> @@ -2228,6 +2237,9 @@ static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
->         if (ret)
->                 return ret;
->
-> +       if (info->xflags & SHM_F_INACCESSIBLE)
-> +               return -EPERM;
-> +
->         /* arm64 - allow memory tagging on RAM-based files */
->         vma->vm_flags |= VM_MTE_ALLOWED;
->
-> @@ -2433,6 +2445,8 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
->                 if ((info->seals & F_SEAL_GROW) && pos + len > inode->i_size)
->                         return -EPERM;
->         }
-> +       if (unlikely(info->xflags & SHM_F_INACCESSIBLE))
-> +               return -EPERM;
->
->         ret = shmem_getpage(inode, index, pagep, SGP_WRITE);
->
-> @@ -2517,6 +2531,21 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
->                 end_index = i_size >> PAGE_SHIFT;
->                 if (index > end_index)
->                         break;
-> +
-> +               /*
-> +                * inode_lock protects setting up seals as well as write to
-> +                * i_size. Setting SHM_F_INACCESSIBLE only allowed with
-> +                * i_size == 0.
-> +                *
-> +                * Check SHM_F_INACCESSIBLE after i_size. It effectively
-> +                * serialize read vs. setting SHM_F_INACCESSIBLE without
-> +                * taking inode_lock in read path.
-> +                */
-> +               if (SHMEM_I(inode)->xflags & SHM_F_INACCESSIBLE) {
-> +                       error = -EPERM;
-> +                       break;
-> +               }
-> +
->                 if (index == end_index) {
->                         nr = i_size & ~PAGE_MASK;
->                         if (nr <= offset)
-> @@ -2648,6 +2677,12 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
->                         goto out;
->                 }
->
-> +               if ((info->xflags & SHM_F_INACCESSIBLE) &&
-> +                   (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))) {
-> +                       error = -EINVAL;
-> +                       goto out;
-> +               }
-> +
->                 shmem_falloc.waitq = &shmem_falloc_waitq;
->                 shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
->                 shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
-> @@ -4082,6 +4117,28 @@ struct file *shmem_kernel_file_setup(const char *name, loff_t size, unsigned lon
->         return __shmem_file_setup(shm_mnt, name, size, flags, S_PRIVATE);
->  }
->
-> +/**
-> + * shmem_file_setup_xflags - get an unlinked file living in tmpfs with
-> + *      additional xflags.
-> + * @name: name for dentry (to be seen in /proc/<pid>/maps
-> + * @size: size to be set for the file
-> + * @flags: VM_NORESERVE suppresses pre-accounting of the entire object size
-> + * @xflags: SHM_F_INACCESSIBLE prevents ordinary MMU access to the file content
-> + */
-> +
-> +struct file *shmem_file_setup_xflags(const char *name, loff_t size,
-> +                                    unsigned long flags, unsigned int xflags)
-> +{
-> +       struct shmem_inode_info *info;
-> +       struct file *res = __shmem_file_setup(shm_mnt, name, size, flags, 0);
-> +
-> +       if(!IS_ERR(res)) {
-> +               info = SHMEM_I(file_inode(res));
-> +               info->xflags = xflags & SHM_F_INACCESSIBLE;
-> +       }
-> +       return res;
-> +}
-> +
->  /**
->   * shmem_file_setup - get an unlinked file living in tmpfs
->   * @name: name for dentry (to be seen in /proc/<pid>/maps
-> --
-> 2.17.1
->
 
