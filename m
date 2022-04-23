@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC0A50CDDD
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 00:00:35 +0200 (CEST)
-Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10AFF50CDE0
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 00:07:24 +0200 (CEST)
+Received: from localhost ([::1]:60160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niNns-0004Iv-7F
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 18:00:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33210)
+	id 1niNuU-0007YG-M8
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 18:07:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1niNmv-0003Uo-Ub; Sat, 23 Apr 2022 17:59:34 -0400
-Received: from mta02.hs-regensburg.de ([194.95.104.12]:57166)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1niNmt-0005Bi-7B; Sat, 23 Apr 2022 17:59:33 -0400
-Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
- [IPv6:2001:638:a01:8013::93])
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1niNtY-0006sf-Dk
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 18:06:24 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:43355
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1niNtW-0006Tj-BK
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 18:06:24 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4Km52S12Cwz8PbN;
+ Sat, 23 Apr 2022 18:06:08 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; s=default; bh=WVZRRcva8
+ /a0SqoXDWHol1mr5k4=; b=GWAjeDllA7qz+yxiXfCYPF540lPFBoxawG+3LUlBy
+ qEdgz285k3ec8NFVjcvoGmJK8kCftH6+k6LE+KTR3i82Bwoc0qAMfi0VJl1rOWyE
+ IiU4fz5R9z7TYZX2AuU++lloRGssfiz7qfr72xWeX1+mr8icuuUkkt8wSWWBmYVB
+ ko=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; q=dns; s=default; b=nLs
+ zKsPTUj5VzPi9FP4QLaQuhcFUM9SAM7GjUXwZwMDkOz7mu+/gv2f+22JNmQOP4O4
+ jQ0nU2aHbadhRibFsbDByR3qNOkiHATEGhkqMS7KXioyVVJvmWsKtqH1iOggVpKM
+ 6fOyE12zvV2gbpWM7mDSsCyZ6PiERgAIXn4WMIgg=
+Received: from [IPV6:2001:470:b050:6:d8d5:79eb:908e:f0cc] (unknown
+ [IPv6:2001:470:b050:6:d8d5:79eb:908e:f0cc])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "E16S03", Issuer "E16S03" (not verified))
- by mta02.hs-regensburg.de (Postfix) with ESMTPS id 4Km4tY6CVMzxyt;
- Sat, 23 Apr 2022 23:59:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
- s=mta02-20211122; t=1650751157;
- bh=fwL+0LSi3R14yw+D5NEr6SNX6TFNKy8AHZpYgNWJCu0=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=dACR+22jM6IV74GReKBxqi9YtcqLlSSFCfYmXih+l/oQeSM3GzA375/gjYTvxzNrm
- VH/oorbBru28d1hXjplTRu1NWLJHUoiLWh5eJ03euRfGAAmLH9d1pkMym19UjBI66q
- 3hWkZMnDhnvbjbYJjJmtvc38y/ORyBLdOvL+gnvNl5TVUEHzHDlRT0wDtoU05n8VbS
- VE33htekVO3SimMd+awPvVsevwk/6DzSCW39RwAPdMJSRATAuvpsYQFs0bhMd2fKdn
- +sZwW1s0oxqA6ZAg6T7vJx9r4f7CMV2JNeAhZovPxd56bXLH/kodlCSmVVT5WMeXM2
- l5x8ZcLP+dQMw==
-Received: from atlantis.binary.kitchen (194.95.106.138) by
- E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 23 Apr 2022 23:59:17 +0200
-From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair23@gmail.com>,
- <qemu-riscv@nongnu.org>, <qemu-devel@nongnu.org>, Stefan Huber
- <stefan.huber@oth-regensburg.de>
-Subject: [PATCH v3] target/riscv: Fix incorrect PTE merge in walk_pte
-Date: Sat, 23 Apr 2022 23:59:07 +0200
-Message-ID: <20220423215907.673663-1-ralf.ramsauer@oth-regensburg.de>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <CAKmqyKNtcV3MN0qzVEOgty=o137-QfYm4_c_hHmb1O9YfhSiQQ@mail.gmail.com>
-References: <CAKmqyKNtcV3MN0qzVEOgty=o137-QfYm4_c_hHmb1O9YfhSiQQ@mail.gmail.com>
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4Km52R52HRz8PbK;
+ Sat, 23 Apr 2022 18:06:07 -0400 (EDT)
+Message-ID: <56a5fb83-1bdc-6144-329f-747c248fd285@comstyle.com>
+Date: Sat, 23 Apr 2022 18:06:07 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [194.95.106.138]
-X-ClientProxiedBy: E16S01.hs-regensburg.de (2001:638:a01:8013::91) To
- E16S03.hs-regensburg.de (2001:638:a01:8013::93)
-Received-SPF: pass client-ip=194.95.104.12;
- envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta02.hs-regensburg.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101
+ Thunderbird/100.0
+Subject: Re: [RFC PATCH for-7.1] Remove the slirp submodule (and only compile
+ with an external libslirp)
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>
+References: <20220408164749.534758-1-thuth@redhat.com>
+ <72fe734a-8bf6-adc6-474a-47f2006c2f6d@comstyle.com>
+ <CAFEAcA-NdeN8S0JXqfrpTiDoUmfZHBXUtdAuRAdDRooTpnYipA@mail.gmail.com>
+ <b701aa9f-4dff-4a67-92a5-529fd07a7f1d@comstyle.com>
+ <07a2ce65-41b9-7313-d7cc-51c2edb8cfd3@redhat.com>
+ <Yl7iOlknz21QVPXx@redhat.com>
+ <952c223e-a4de-3200-959f-420a46e8a6db@redhat.com>
+From: Brad Smith <brad@comstyle.com>
+In-Reply-To: <952c223e-a4de-3200-959f-420a46e8a6db@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,80 +85,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Konrad Schwarz <konrad.schwarz@siemens.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two non-subsequent PTEs can be mapped to subsequent paddrs. In this
-case, walk_pte will erroneously merge them.
+On 4/20/2022 6:13 AM, Thomas Huth wrote:
+> On 19/04/2022 18.24, Daniel P. Berrang=C3=A9 wrote:
+>> On Mon, Apr 11, 2022 at 08:55:19AM +0200, Thomas Huth wrote:
+>>> On 11/04/2022 01.50, Brad Smith wrote:
+>>>> On 4/10/2022 5:06 AM, Peter Maydell wrote:
+>>>>> On Sun, 10 Apr 2022 at 05:51, Brad Smith <brad@comstyle.com> wrote:
+>>>>>> On 4/8/2022 12:47 PM, Thomas Huth wrote:
+>>>>>>> QEMU 7.1 won't support Ubuntu 18.04 anymore, so the last big=20
+>>>>>>> important
+>>>>>>> distro that did not have a pre-packaged libslirp has been=20
+>>>>>>> dismissed.
+>>>>>>> All other major distros seem to have a libslirp package in their
+>>>>>>> distribution already - according to repology.org:
+>>>>>>>
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 Fedora 34: 4.4.0
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 CentOS 8 (RHEL-8): 4.4.0
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Debian Buster: 4=
+.3.1 (in buster-backports)
+>>>>>>> =C2=A0=C2=A0=C2=A0 OpenSUSE Leap 15.3: 4.3.1
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ubuntu LTS 20.04: 4.1.0
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FreeBSD Ports: 4=
+.6.1
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NetBSD pkgsrc: 4=
+.3.1
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 Homebrew: 4.6.1
+>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MSYS=
+2 mingw: 4.6.1
+>>>>>>>
+>>>>>>> The only one that still seems to be missing a libslirp package is
+>>>>>>> OpenBSD - but I assume that they can add it to their ports system
+>>>>>>> quickly if required.
+>>>>>> I wish I had seen this earlier as our 7.1 release was just tagged.
+>>>>>>
+>>>>>> I have whipped up a port of 4.6.1 for OpenBSD as it was pretty=20
+>>>>>> simple. I
+>>>>>> will
+>>>>>> see about submitting it in a number of days when the tree opens.
+>>>>> How awkward would it be for an end-user who's on OpenBSD 7.1 to
+>>>>> build a QEMU that doesn't have libslirp? (That is, is it easy
+>>>>> and common for an end user to pull in a port of libslirp that only
+>>>>> came along in a later OpenBSD, or would they instead have to
+>>>>> manually compile libslirp themselves from the upstream sources?)
+>>>>>
+>>>>> (I'm asking here because if it's painful, then we should perhaps
+>>>>> defer dropping our submodule copy of libslirp a little longer.)
+>>>>>
+>>>>> thanks
+>>>>> -- PMM
+>>>>
+>>>> They would have to pull down a -current ports tree and build it. No=20
+>>>> package
+>>>> would exist for the release. It is possible, but not "supported". I=20
+>>>> have
+>>>> not looked
+>>>> at the CI bits to see how difficult that would be.
+>>>>
+>>>> Our release cycles are 6 months and the next release will be in the=20
+>>>> middle
+>>>> of October.
+>>>
+>>> OK, thanks for the update, Brad ... so I guess we should defer this=20
+>>> patch to
+>>> QEMU 7.2 (to be released in december) instead?
+>>> (which would be fine for me - I just wanted to get the discussion=20
+>>> started,
+>>> that's also why I've marked this patch as RFC)
+>>
+>> Perhaps make 7.1 simply issue a warning message in configure if
+>> the bundled slirp is used, to give people a heads up that they'll
+>> want to install libslirp-devel soon.
+>
+> Not sure if people will notice a warning in the output of "configure"=20
+> ... but I've put some sentences in the ChangeLog here:
+>
+> https://wiki.qemu.org/ChangeLog/7.0#New_deprecated_options_and_features
+>
+> (which we could repeat for the 7.1 release again)
+>
+> I hope that helps to make people aware...
+>
+> =C2=A0Thomas
 
-Enforce the split up, by tracking the virtual base address.
+Just to note.. my libslirp port went in.
 
-Let's say we have the mapping:
-0x81200000 -> 0x89623000 (4K)
-0x8120f000 -> 0x89624000 (4K)
+https://marc.info/?l=3Dopenbsd-ports-cvs&m=3D165070969206193&w=3D2
 
-Before, walk_pte would have shown:
+and have switched our QEMU port to build with the libslirp port..
 
-vaddr            paddr            size             attr
----------------- ---------------- ---------------- -------
-0000000081200000 0000000089623000 0000000000002000 rwxu-ad
-
-as it only checks for subsequent paddrs. With this patch, it becomes:
-
-vaddr            paddr            size             attr
----------------- ---------------- ---------------- -------
-0000000081200000 0000000089623000 0000000000001000 rwxu-ad
-000000008120f000 0000000089624000 0000000000001000 rwxu-ad
-
-Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
----
-[since v2: Adjust comment, rebased to latest master]
-
- target/riscv/monitor.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
-index 7efb4b62c1..17e63fab00 100644
---- a/target/riscv/monitor.c
-+++ b/target/riscv/monitor.c
-@@ -84,6 +84,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
- {
-     hwaddr pte_addr;
-     hwaddr paddr;
-+    target_ulong last_start = -1;
-     target_ulong pgsize;
-     target_ulong pte;
-     int ptshift;
-@@ -111,12 +112,13 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
-                  * A leaf PTE has been found
-                  *
-                  * If current PTE's permission bits differ from the last one,
--                 * or current PTE's ppn does not make a contiguous physical
--                 * address block together with the last one, print out the last
--                 * contiguous mapped block details.
-+                 * or the current PTE breaks up a contiguous virtual or
-+                 * physical mapping, address block together with the last one,
-+                 * print out the last contiguous mapped block details.
-                  */
-                 if ((*last_attr != attr) ||
--                    (*last_paddr + *last_size != paddr)) {
-+                    (*last_paddr + *last_size != paddr) ||
-+                    (last_start + *last_size != start)) {
-                     print_pte(mon, va_bits, *vbase, *pbase,
-                               *last_paddr + *last_size - *pbase, *last_attr);
- 
-@@ -125,6 +127,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
-                     *last_attr = attr;
-                 }
- 
-+                last_start = start;
-                 *last_paddr = paddr;
-                 *last_size = pgsize;
-             } else {
--- 
-2.36.0
+https://marc.info/?l=3Dopenbsd-ports-cvs&m=3D165070979906266&w=3D2
 
 
