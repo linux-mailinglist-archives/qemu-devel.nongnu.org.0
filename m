@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9E150CAA6
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 15:32:57 +0200 (CEST)
-Received: from localhost ([::1]:38472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B356550CAA8
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 15:34:59 +0200 (CEST)
+Received: from localhost ([::1]:40624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niFse-0004Pw-5p
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 09:32:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43076)
+	id 1niFuc-00060Y-Mo
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 09:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niFG5-0007W4-DN
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:53:05 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:43738)
+ id 1niFG6-0007YO-Np
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:53:07 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niFG3-0005EO-K3
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:53:05 -0400
-Received: by mail-ej1-x636.google.com with SMTP id m20so435489ejj.10
- for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 05:53:01 -0700 (PDT)
+ id 1niFG3-0005ET-KS
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:53:06 -0400
+Received: by mail-ej1-x635.google.com with SMTP id y20so21164108eju.7
+ for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 05:53:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SxedSaWSA6csuOSpzb25M9pAAOl/LuDesVmXdvLbQqw=;
- b=px0cETaiV1aM4o18OAjTbDhnx6JyctbkrpK3zXsIVvwmeSs4RE8SfoFv7ACwFzzkoc
- ifkVQkLpHNURLeSKWE7b5xcIOZnvkNi4DRDs3pqd3s1eynTonyixn2kDf9CXundT2gVu
- Vt/5AXTmiTMBBfo34ThFFlJrPFc/EsQhDRKfW3gWTo3+alsrZxcCvFj6Q/ckI+8AbnYQ
- gOdYbeBJNuppIBuojDMjXbgPNEbJZcCvpV3m7hlSnMqGuHor2dwnF71WolIWfjxhFQWJ
- M/Hy/5P8welCD5dVEk1UQwmce4oDpM8JoPQ9DkIemeLVJjvIqk+m07Sdytn+R1gyUvkV
- KauQ==
+ bh=NMMht5ergvHlMH690NYrKkg4t00Bp8kaavqfbrCsGQE=;
+ b=qYtcioSNIzsbSMumUNbUQEbaDRjXpJEk2Ac1PVGRk8daWmGSjkT4WFo3Yw0ZlqHmSE
+ 4doPQ4OTE1Gvx2X7heS/1vYDUZ7LuzgNPoXmsx0UYSspkCFBHCoMeJcx2M1qHzYWqNus
+ M3QTxQcHMQVtEOZ3YVIx1ydYFT2xT8vq7Lg8zCftBicrn2WjhjUTDkJ9h8v3DlG275qI
+ yA8fg/oliRJr6l73Djj5WDnIHCaePk8FVu+C/4vpsl4e3apDROjxXONu+9Dvo0EQRCxb
+ YGwcjrM1S6mGl+XjJCJQE4IMGCIRCLew0eDdSMKkcFoV13H251WVp+EChMyq8czCuj62
+ wxdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SxedSaWSA6csuOSpzb25M9pAAOl/LuDesVmXdvLbQqw=;
- b=HXfYQmyLLRbJ1a8EONA2mQc9WNfau3Y9KQGmC4LnKOzwZQGUvAV3SMRWidRLOW9MMH
- FIcsOjYb/2wGkyd7q065rYcnyt/STdySsvcsXYlgYZrhnJldsQ+4/GfX8AdsMMvQ2LgG
- 4CEX8rZIootrW6mLD3hFfRiX4xZQ74ylKHUkMtCVgVZJo3RiWoBOVgwzx3NSUBY0eh5L
- kLcK/qoIXBBIHCATc/0oV3bsex0yTFyhYCVWENqGbl2r0GhJttLv0v7ccPLZo1RJ0njZ
- Lz/oOVx5lKYyz41HDOY9KlHMydDMuOq1DYwQgiZh7mAI/s1xWcXYdNx1K4l4dKEiZa5R
- sORA==
-X-Gm-Message-State: AOAM530y7Jxak+aFqQEOyj3p6r7vr28l20lrMwhbziuKWkLwkM73EtcW
- QBgtVyOqB6Uq2ysN7ENFOPqORIoHL0zwZg==
-X-Google-Smtp-Source: ABdhPJwi7LfFuEI0pBKh0bDShYi5/mmShuvhAYJGEZiBG2PEWY92/x7H+qTYHWJkHTcJwWSAs2L9Ww==
-X-Received: by 2002:a17:907:3f82:b0:6df:919c:97a with SMTP id
- hr2-20020a1709073f8200b006df919c097amr8213160ejc.19.1650718380492; 
- Sat, 23 Apr 2022 05:53:00 -0700 (PDT)
+ bh=NMMht5ergvHlMH690NYrKkg4t00Bp8kaavqfbrCsGQE=;
+ b=HjNRnXqOj3nDt3CFoKa53WUvGwyFc4nNmhdod6m3FhKFWP9STUZBoGDT6aGn/6m8iW
+ /6PDhf16uJbUgO3GwnacDmIZSVznZuWX6asgZ3yv9dbeUud6sie2V3ZFktlHUldyGfX/
+ AU/u5EmPdRGf97UeAx8wLpxHEQdOPUWg9WZj59gzoBC/yOruKQGIiu6bICunfXYvVWsh
+ 7snex6IMx2r1HnRN8R1reM4MLD/GANb7BXYKsPnpprwGiWmoq37Vq0maz6WZImAL1Ibb
+ 262KHjN+Nk9CaEhuBKL2yccrKimGHWrLFoGWVlxaXHcDEd476g7SdI4wwD18D3YNEi84
+ de2w==
+X-Gm-Message-State: AOAM532mACsC0QwVMzSnUQtt+ROfdOyvVCcxg3PBoAIE7eNdGifTDODr
+ UJCWrfMz8j+rUAklXyeWdlaj6Wa8WVRc1A==
+X-Google-Smtp-Source: ABdhPJzFGbssJAwgx8eBrkP3ri8FFNau2fmuJT/0b2mSTKbLPspwZ1og3b+SKtlHo7SL8nSpMii6cA==
+X-Received: by 2002:a17:907:7d8b:b0:6ef:f0c9:9498 with SMTP id
+ oz11-20020a1709077d8b00b006eff0c99498mr8177762ejc.706.1650718382042; 
+ Sat, 23 Apr 2022 05:53:02 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- bo14-20020a170906d04e00b006ce98d9c3e3sm1655573ejb.194.2022.04.23.05.52.59
+ bo14-20020a170906d04e00b006ce98d9c3e3sm1655573ejb.194.2022.04.23.05.53.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Apr 2022 05:52:59 -0700 (PDT)
+ Sat, 23 Apr 2022 05:53:01 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 32/34] meson: create have_vhost_* variables
-Date: Sat, 23 Apr 2022 14:51:49 +0200
-Message-Id: <20220423125151.27821-33-pbonzini@redhat.com>
+Subject: [PATCH v2 33/34] meson: use have_vhost_* variables to pick sources
+Date: Sat, 23 Apr 2022 14:51:50 +0200
+Message-Id: <20220423125151.27821-34-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220423125151.27821-1-pbonzini@redhat.com>
 References: <20220423125151.27821-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -91,126 +91,188 @@ Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using Meson options rather than config-host.h, the "when" clauses
-have to be changed to if statements (which is not necessarily great,
-though at least it highlights which parts of the build are per-target
-and which are not).
-
-Do that before moving vhost logic to meson.build, though for now
-the variables are just based on config-host.mak data.
-
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build       | 31 ++++++++++++++++++++-----------
- tests/meson.build |  2 +-
- tools/meson.build |  2 +-
- 3 files changed, 22 insertions(+), 13 deletions(-)
+ Kconfig.host            |  3 ---
+ backends/meson.build    |  8 ++++++--
+ hw/net/meson.build      |  8 ++++++--
+ hw/virtio/Kconfig       |  3 ---
+ hw/virtio/meson.build   | 25 ++++++++++++++++---------
+ meson.build             |  1 +
+ net/meson.build         | 12 +++++++-----
+ tests/qtest/meson.build |  4 +++-
+ 8 files changed, 39 insertions(+), 25 deletions(-)
 
+diff --git a/Kconfig.host b/Kconfig.host
+index 60b9c07b5e..1165c4eacd 100644
+--- a/Kconfig.host
++++ b/Kconfig.host
+@@ -22,15 +22,12 @@ config TPM
+ 
+ config VHOST_USER
+     bool
+-    select VHOST
+ 
+ config VHOST_VDPA
+     bool
+-    select VHOST
+ 
+ config VHOST_KERNEL
+     bool
+-    select VHOST
+ 
+ config VIRTFS
+     bool
+diff --git a/backends/meson.build b/backends/meson.build
+index 535c3ca7dd..b1884a88ec 100644
+--- a/backends/meson.build
++++ b/backends/meson.build
+@@ -12,9 +12,13 @@ softmmu_ss.add([files(
+ softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
+ softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('hostmem-file.c'))
+ softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('hostmem-memfd.c'))
+-softmmu_ss.add(when: ['CONFIG_VHOST_USER', 'CONFIG_VIRTIO'], if_true: files('vhost-user.c'))
++if have_vhost_user
++  softmmu_ss.add(when: 'CONFIG_VIRTIO', if_true: files('vhost-user.c'))
++endif
+ softmmu_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('cryptodev-vhost.c'))
+-softmmu_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VHOST_CRYPTO'], if_true: files('cryptodev-vhost-user.c'))
++if have_vhost_user_crypto
++  softmmu_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('cryptodev-vhost-user.c'))
++endif
+ softmmu_ss.add(when: gio, if_true: files('dbus-vmstate.c'))
+ softmmu_ss.add(when: 'CONFIG_SGX', if_true: files('hostmem-epc.c'))
+ 
+diff --git a/hw/net/meson.build b/hw/net/meson.build
+index 685b75badb..ebac261542 100644
+--- a/hw/net/meson.build
++++ b/hw/net/meson.build
+@@ -46,8 +46,12 @@ specific_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'
+ softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('net_rx_pkt.c'))
+ specific_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net.c'))
+ 
+-softmmu_ss.add(when: ['CONFIG_VIRTIO_NET', 'CONFIG_VHOST_NET'], if_true: files('vhost_net.c'), if_false: files('vhost_net-stub.c'))
+-softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost_net-stub.c'))
++if have_vhost_net
++  softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('vhost_net.c'), if_false: files('vhost_net-stub.c'))
++  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost_net-stub.c'))
++else
++  softmmu_ss.add(files('vhost_net-stub.c'))
++endif
+ 
+ softmmu_ss.add(when: 'CONFIG_ETSEC', if_true: files(
+   'fsl_etsec/etsec.c',
+diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
+index f8e235f814..e9ecae1f50 100644
+--- a/hw/virtio/Kconfig
++++ b/hw/virtio/Kconfig
+@@ -1,6 +1,3 @@
+-config VHOST
+-    bool
+-
+ config VIRTIO
+     bool
+ 
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index f371404b04..7e8877fd64 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -2,18 +2,22 @@ softmmu_virtio_ss = ss.source_set()
+ softmmu_virtio_ss.add(files('virtio-bus.c'))
+ softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_PCI', if_true: files('virtio-pci.c'))
+ softmmu_virtio_ss.add(when: 'CONFIG_VIRTIO_MMIO', if_true: files('virtio-mmio.c'))
+-softmmu_virtio_ss.add(when: 'CONFIG_VHOST', if_false: files('vhost-stub.c'))
+-
+-softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
+-softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
+-
+-softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
+ 
+ virtio_ss = ss.source_set()
+ virtio_ss.add(files('virtio.c'))
+-virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
+-virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
+-virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-shadow-virtqueue.c', 'vhost-vdpa.c'))
++
++if have_vhost
++  virtio_ss.add(files('vhost.c', 'vhost-backend.c', 'vhost-iova-tree.c'))
++  if have_vhost_user
++    virtio_ss.add(files('vhost-user.c'))
++  endif
++  if have_vhost_vdpa
++    virtio_ss.add(files('vhost-vdpa.c', 'vhost-shadow-virtqueue.c'))
++  endif
++else
++  softmmu_virtio_ss.add(files('vhost-stub.c'))
++endif
++
+ virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs.c'))
+@@ -54,3 +58,6 @@ virtio_pci_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem-pci.c'))
+ virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
+ 
+ specific_ss.add_all(when: 'CONFIG_VIRTIO', if_true: virtio_ss)
++softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
++softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
 diff --git a/meson.build b/meson.build
-index 85059154e4..259c8d9174 100644
+index 259c8d9174..da8ba8f159 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -312,6 +312,15 @@ have_tpm = get_option('tpm') \
-   .require(targetos != 'windows', error_message: 'TPM emulation only available on POSIX systems') \
-   .allowed()
+@@ -319,6 +319,7 @@ have_vhost_kernel = 'CONFIG_VHOST_KERNEL' in config_host
+ have_vhost_net_user = 'CONFIG_VHOST_NET_USER' in config_host
+ have_vhost_net_vdpa = 'CONFIG_VHOST_NET_VDPA' in config_host
+ have_vhost_net = 'CONFIG_VHOST_NET' in config_host
++have_vhost = have_vhost_user or have_vhost_vdpa or have_vhost_kernel
+ have_vhost_user_crypto = 'CONFIG_VHOST_CRYPTO' in config_host
  
-+# vhost
-+have_vhost_user = 'CONFIG_VHOST_USER' in config_host
-+have_vhost_vdpa = 'CONFIG_VHOST_VDPA' in config_host
-+have_vhost_kernel = 'CONFIG_VHOST_KERNEL' in config_host
-+have_vhost_net_user = 'CONFIG_VHOST_NET_USER' in config_host
-+have_vhost_net_vdpa = 'CONFIG_VHOST_NET_VDPA' in config_host
-+have_vhost_net = 'CONFIG_VHOST_NET' in config_host
-+have_vhost_user_crypto = 'CONFIG_VHOST_CRYPTO' in config_host
-+
  # Target-specific libraries and flags
- libm = cc.find_library('m', required: false)
- threads = dependency('threads')
-@@ -1440,7 +1449,7 @@ has_statx_mnt_id = cc.links(statx_mnt_id_test)
- have_vhost_user_blk_server = get_option('vhost_user_blk_server') \
-   .require(targetos == 'linux',
-            error_message: 'vhost_user_blk_server requires linux') \
--  .require('CONFIG_VHOST_USER' in config_host,
-+  .require(have_vhost_user,
-            error_message: 'vhost_user_blk_server requires vhost-user support') \
-   .disable_auto_if(not have_system) \
-   .allowed()
-@@ -2294,9 +2303,9 @@ host_kconfig = \
-   (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
-   (opengl.found() ? ['CONFIG_OPENGL=y'] : []) + \
-   (x11.found() ? ['CONFIG_X11=y'] : []) + \
--  ('CONFIG_VHOST_USER' in config_host ? ['CONFIG_VHOST_USER=y'] : []) + \
--  ('CONFIG_VHOST_VDPA' in config_host ? ['CONFIG_VHOST_VDPA=y'] : []) + \
--  ('CONFIG_VHOST_KERNEL' in config_host ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
-+  (have_vhost_user ? ['CONFIG_VHOST_USER=y'] : []) + \
-+  (have_vhost_vdpa ? ['CONFIG_VHOST_VDPA=y'] : []) + \
-+  (have_vhost_kernel ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
-   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
-   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
-   (have_pvrdma ? ['CONFIG_PVRDMA=y'] : []) + \
-@@ -2978,7 +2987,7 @@ if have_system or have_user
+diff --git a/net/meson.build b/net/meson.build
+index 847bc2ac85..c965e83b26 100644
+--- a/net/meson.build
++++ b/net/meson.build
+@@ -26,10 +26,10 @@ softmmu_ss.add(when: vde, if_true: files('vde.c'))
+ if have_netmap
+   softmmu_ss.add(files('netmap.c'))
  endif
+-vhost_user_ss = ss.source_set()
+-vhost_user_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('vhost-user.c'), if_false: files('vhost-user-stub.c'))
+-softmmu_ss.add_all(when: 'CONFIG_VHOST_NET_USER', if_true: vhost_user_ss)
+-softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-user-stub.c'))
++if have_vhost_net_user
++  softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('vhost-user.c'), if_false: files('vhost-user-stub.c'))
++  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-user-stub.c'))
++endif
  
- vhost_user = not_found
--if targetos == 'linux' and 'CONFIG_VHOST_USER' in config_host
-+if targetos == 'linux' and have_vhost_user
-   libvhost_user = subproject('libvhost-user')
-   vhost_user = libvhost_user.get_variable('vhost_user_dep')
+ softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('tap-linux.c'))
+ softmmu_ss.add(when: 'CONFIG_BSD', if_true: files('tap-bsd.c'))
+@@ -40,6 +40,8 @@ if not config_host.has_key('CONFIG_LINUX') and not config_host.has_key('CONFIG_B
  endif
-@@ -3559,7 +3568,7 @@ if have_tools
-              dependencies: qemuutil,
-              install: true)
+ softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files(tap_posix))
+ softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('tap-win32.c'))
+-softmmu_ss.add(when: 'CONFIG_VHOST_NET_VDPA', if_true: files('vhost-vdpa.c'))
++if have_vhost_net_vdpa
++  softmmu_ss.add(files('vhost-vdpa.c'))
++endif
  
--  if 'CONFIG_VHOST_USER' in config_host
-+  if have_vhost_user
-     subdir('contrib/vhost-user-blk')
-     subdir('contrib/vhost-user-gpu')
-     subdir('contrib/vhost-user-input')
-@@ -3685,12 +3694,12 @@ if 'simple' in get_option('trace_backends')
+ subdir('can')
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 6b9807c183..ca12b313e1 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -263,7 +263,9 @@ qos_test_ss.add(
+ if have_virtfs
+   qos_test_ss.add(files('virtio-9p-test.c'))
  endif
- summary_info += {'D-Bus display':     dbus_display}
- summary_info += {'QOM debugging':     get_option('qom_cast_debug')}
--summary_info += {'vhost-kernel support': config_host.has_key('CONFIG_VHOST_KERNEL')}
--summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
--summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPTO')}
--summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
-+summary_info += {'vhost-kernel support': have_vhost_kernel}
-+summary_info += {'vhost-net support': have_vhost_net}
-+summary_info += {'vhost-user support': have_vhost_user}
-+summary_info += {'vhost-user-crypto support': have_vhost_user_crypto}
- summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
--summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
-+summary_info += {'vhost-vdpa support': have_vhost_vdpa}
- summary_info += {'build guest agent': have_ga}
- summary(summary_info, bool_yn: true, section: 'Configurable features')
- 
-diff --git a/tests/meson.build b/tests/meson.build
-index 4f691e8465..8e318ec513 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -68,7 +68,7 @@ test_deps = {
-   'test-qht-par': qht_bench,
- }
- 
--if have_tools and 'CONFIG_VHOST_USER' in config_host and 'CONFIG_LINUX' in config_host
-+if have_tools and have_vhost_user and 'CONFIG_LINUX' in config_host
-   executable('vhost-user-bridge',
-              sources: files('vhost-user-bridge.c'),
-              dependencies: [qemuutil, vhost_user])
-diff --git a/tools/meson.build b/tools/meson.build
-index 46977af84f..10eb3a043f 100644
---- a/tools/meson.build
-+++ b/tools/meson.build
-@@ -3,7 +3,7 @@ have_virtiofsd = get_option('virtiofsd') \
-              error_message: 'virtiofsd requires Linux') \
-     .require(seccomp.found() and libcap_ng.found(),
-              error_message: 'virtiofsd requires libcap-ng-devel and seccomp-devel') \
--    .require('CONFIG_VHOST_USER' in config_host,
-+    .require(have_vhost_user,
-              error_message: 'virtiofsd needs vhost-user-support') \
-     .disable_auto_if(not have_tools and not have_system) \
-     .allowed()
+-qos_test_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user-test.c'))
++if have_vhost_user
++  qos_test_ss.add(files('vhost-user-test.c'))
++endif
+ if have_tools and have_vhost_user_blk_server
+   qos_test_ss.add(files('vhost-user-blk-test.c'))
+ endif
 -- 
 2.35.1
 
