@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1B450CD9F
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 23:28:27 +0200 (CEST)
-Received: from localhost ([::1]:47440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F0150CDC9
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 23:43:00 +0200 (CEST)
+Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niNIo-00050q-E0
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 17:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57068)
+	id 1niNWt-0000CW-7l
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 17:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1niNHV-0004HX-1K
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 17:27:05 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:45863)
+ id 1niNVX-0007wM-RU
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 17:41:35 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1niNHT-000122-Cw
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 17:27:04 -0400
-Received: by mail-ed1-x530.google.com with SMTP id be20so5984691edb.12
- for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 14:27:02 -0700 (PDT)
+ id 1niNVV-00037O-ON
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 17:41:35 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id i27so22647181ejd.9
+ for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 14:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6F1sK7QWFL5qYR+9UDVSqlk1uunx1eaTllJ6kMd3vyE=;
- b=WDr1dO2xAy+eaiB/rkTxZnGABptEmaN7ajhfIPzrTbpzakVNh6n7HjR3siahHR/3gB
- rByNuetNU49JcOsLhB9MnppSBT0vRahASXUQ25EGKFaFzqjStCSvXGYJusttX4qJ+68l
- 1wt+rHnDpmbm7vT2R8tNmkf+VEifClIUiqJ3zsGeWbFEwxBZ4Cm9yKeBuQ2cc3Wv5a7H
- M2MoNRK13vIt7adaCnK93ETfGSr4xLv+q5xC5FV27VaDTmPBRCqma7c1ED60TP7ENlWM
- /u8c6FG90onxdZean488LMXJUYJWKG9xzsSxPlKMuIWhRw84Gs/sxx5a6Wv7IN3F5VWp
- akrQ==
+ :cc; bh=qyne2PaBf87VtGiP2MAdI/auR3YiyGBO1Kkr9SGD7Z8=;
+ b=C8CGa4g2qOwh2g4cEz0eu+Cp5dk9opl0cvLrL9UJjd3O0LnjquMfeLyd/rJQWk/pA/
+ bWvo8wQFCai/kYTa8EIyowMJL+RViRmXrypc8uaVGZ4/u/5RknAZkfdtCaIvBYs3LDoH
+ 4wock/96gM7NYZlBVFcZ565wPAsah1ndfM9RoKP7aKiakR6TDJAnHzoGkETTNw0akLfu
+ 5O7W51q5R6oK6yo7kF9B3y9RGE3NgKm7adSxKLdrJRDbH3OFexZ3Ak5ZAqUp5n4gWuMk
+ 1TZDXePNttFrkI0YIEnP6obSFZt6obEyeU4XySU3QEgyYJBgWqbfDEaLklI1J0rwALar
+ 4nuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6F1sK7QWFL5qYR+9UDVSqlk1uunx1eaTllJ6kMd3vyE=;
- b=BD7wM+CDHkHYqVfUrxuVrnBFkDBAI1vxaRwrP6T30ZLBiweGLs0Qp55aaJGhachNf1
- xUFFMJCORwkmHZfv2hhB7neQT/YcV2F/9atYMaCEUvLM6rWs82qLCq/TfhgVO3fGZE5o
- PjldvpJEondFbwimaINoNxNs0Y6q6T2XmB4C0MN62J4trRTV91tBh5s04O8FJIuijrUL
- 25F+YeQjb/9xAZTr+q+GJbjJH4KIK1OqK1S13wsNCjtQU6arb1qhHAJqoQ+738SjFBVL
- HU9iM7/4hl0AygGY67+34YAIYXC4raQ5sQ96YEEXl2D/3A99bpE2fkSwIsd0TGHQ/g2r
- /mfg==
-X-Gm-Message-State: AOAM531qGq+mraiwtxlbjBv+lIxasTamRNZFOyQYQtY8e56fih7L8z7R
- y0oqWy2aE/1GZ7eyX6wz0BFJ8Mx1av+/otx7S5s=
-X-Google-Smtp-Source: ABdhPJxS3omDHbTllI4zp5lwYiy7Im95lNiTTW3S9pPcrX2DWg+iXRsH25eqYVTzL3EpCjeS5+FMscRXTwrUi8wCxRE=
-X-Received: by 2002:a05:6402:26c7:b0:423:e5d6:b6c6 with SMTP id
- x7-20020a05640226c700b00423e5d6b6c6mr11577272edd.61.1650749221340; Sat, 23
- Apr 2022 14:27:01 -0700 (PDT)
+ bh=qyne2PaBf87VtGiP2MAdI/auR3YiyGBO1Kkr9SGD7Z8=;
+ b=KvQx4URnTdCZzMaeJJeqP+D1QNl1HRhqxm2osahBBgYx2HH5IdTYKwd3B3Ayc26d7a
+ w0U/e+VHPagDAzCkIPqFwd+K3k/qFsbifPLK8SK+l1owEUrdn4b2UMPwLe8T6m27wMwE
+ YkdujDau4U/n0xBmPTcRgsO+HX+xZbN/drG5gES7Ar0vIDfm+QO0RieNiONGzb0WZ0lb
+ vMxrkL+FCEqpV5019P3FGQfSZT5Ke04sumxADPXCH1WQq1XBEKRvWHW0+mRwM9UsxmBw
+ FhOGOrv2GK5DvtQW9LPi/0OMVSHXGgqyJ2WeETYlKgRYK5aZ8B04kVBZoe2UTbooE7nT
+ bEgA==
+X-Gm-Message-State: AOAM533fIYDOCIR9t4K2CNE+KTDG9jW8dTBg0nB0nTDB5vC1rBngPAug
+ 2z7PtBZ1cHD1meNkj7g3ZYrPprSLgmuVipaeg7Q=
+X-Google-Smtp-Source: ABdhPJyHJeMAVW4UfWDsJRzj7IJoCful03Ufjpp/UMzjqCg+RAAzpu5FcatF218sKUVZ6JUDmIhBgSdP3kkVVVqvTB4=
+X-Received: by 2002:a17:906:5e17:b0:6e8:b6b8:2b09 with SMTP id
+ n23-20020a1709065e1700b006e8b6b82b09mr9555085eju.477.1650750092146; Sat, 23
+ Apr 2022 14:41:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220421155726.31986-1-simon@simonsafar.com>
- <CAMo8BfKPgZ29ReVE9CYmzfZ0sfem-fXqLf-2TW8qYQpO6fPA3g@mail.gmail.com>
- <331420f7-9bc8-44b6-b9db-e1d82cfdd399@www.fastmail.com>
-In-Reply-To: <331420f7-9bc8-44b6-b9db-e1d82cfdd399@www.fastmail.com>
+References: <20220423040835.29254-1-simon@simonsafar.com>
+In-Reply-To: <20220423040835.29254-1-simon@simonsafar.com>
 From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Sat, 23 Apr 2022 14:26:50 -0700
-Message-ID: <CAMo8Bf+6gg4w1D_V8GBmePhC0Opf08Ctp3G90QpO69Yfk87B8w@mail.gmail.com>
-Subject: Re: [PATCH] target/xtensa: import core lx106
+Date: Sat, 23 Apr 2022 14:41:20 -0700
+Message-ID: <CAMo8BfL__NZDQGkTRUXSbaNRoQJ7QhGmvVFy5NDGhDH5eJbguw@mail.gmail.com>
+Subject: Re: [PATCH v2] target/xtensa: import core lx106
 To: Simon Safar <simon@simonsafar.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -84,11 +82,102 @@ Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 22, 2022 at 8:16 PM Simon Safar <simon@simonsafar.com> wrote:
-> It's for a (future...) Lisp compiler! Somewhat in the style of MicroPython; the idea
-> is to make code editable on the fly, without reflashing (... or restarting, even).
+Hi Simon,
 
-Interesting. Do you use libisa or do you do instruction encoding on your own?
+On Fri, Apr 22, 2022 at 9:09 PM Simon Safar <simon@simonsafar.com> wrote:
+>
+> This is the core used in e.g. ESP8266 chips. Importing them
+> using import_core.sh, with the required files sourced from
+>
+> https://github.com/espressif/xtensa-overlays
+>
+> core-lx106.c was generated by the script; the only change is removing
+> the reference to core-matmap.h which doesn't seem to be available.
+>
+> Signed-off-by: Simon Safar <simon@simonsafar.com>
+> Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
+> ---
+>  target/xtensa/core-lx106.c                    |   52 +
+>  target/xtensa/core-lx106/core-isa.h           |  470 +
+>  target/xtensa/core-lx106/gdb-config.c.inc     |   83 +
+>  target/xtensa/core-lx106/xtensa-modules.c.inc | 7668 +++++++++++++++++
+>  target/xtensa/cores.list                      |    1 +
+>  5 files changed, 8274 insertions(+)
+>  create mode 100644 target/xtensa/core-lx106.c
+>  create mode 100644 target/xtensa/core-lx106/core-isa.h
+>  create mode 100644 target/xtensa/core-lx106/gdb-config.c.inc
+>  create mode 100644 target/xtensa/core-lx106/xtensa-modules.c.inc
+
+[...]
+
+> diff --git a/target/xtensa/core-lx106/gdb-config.c.inc b/target/xtensa/core-lx106/gdb-config.c.inc
+> new file mode 100644
+> index 0000000000..9a2233b811
+> --- /dev/null
+> +++ b/target/xtensa/core-lx106/gdb-config.c.inc
+
+[...]
+
+I've noticed that this file is not from the original overlay (which I happen
+to have here:
+https://github.com/jcmvbkbc/xtensa-toolchain-build/blob/master/overlays/original/lx106.tar.gz),
+but has been changed (by adding '& ~1' to the 7th column), probably
+to make some older gdb version work.
+This change is not needed for the modern gdb versions.
+I've reverted this change and checked that the mainline gdb-11.1
+built with the original overlay for the xtensa-elf target correctly
+interacts with the QEMU. Can you please confirm that?
+
+> +  XTREG(  0,  0,32, 4, 4,0x0000,0x0006 & ~1,-2, 8,0x0100,a0,          0,0,0,0,0,0)
+> +  XTREG(  1,  4,32, 4, 4,0x0001,0x0006 & ~1,-2, 8,0x0100,a1,          0,0,0,0,0,0)
+> +  XTREG(  2,  8,32, 4, 4,0x0002,0x0006 & ~1,-2, 8,0x0100,a2,          0,0,0,0,0,0)
+> +  XTREG(  3, 12,32, 4, 4,0x0003,0x0006 & ~1,-2, 8,0x0100,a3,          0,0,0,0,0,0)
+> +  XTREG(  4, 16,32, 4, 4,0x0004,0x0006 & ~1,-2, 8,0x0100,a4,          0,0,0,0,0,0)
+> +  XTREG(  5, 20,32, 4, 4,0x0005,0x0006 & ~1,-2, 8,0x0100,a5,          0,0,0,0,0,0)
+> +  XTREG(  6, 24,32, 4, 4,0x0006,0x0006 & ~1,-2, 8,0x0100,a6,          0,0,0,0,0,0)
+> +  XTREG(  7, 28,32, 4, 4,0x0007,0x0006 & ~1,-2, 8,0x0100,a7,          0,0,0,0,0,0)
+> +  XTREG(  8, 32,32, 4, 4,0x0008,0x0006 & ~1,-2, 8,0x0100,a8,          0,0,0,0,0,0)
+> +  XTREG(  9, 36,32, 4, 4,0x0009,0x0006 & ~1,-2, 8,0x0100,a9,          0,0,0,0,0,0)
+> +  XTREG( 10, 40,32, 4, 4,0x000a,0x0006 & ~1,-2, 8,0x0100,a10,         0,0,0,0,0,0)
+> +  XTREG( 11, 44,32, 4, 4,0x000b,0x0006 & ~1,-2, 8,0x0100,a11,         0,0,0,0,0,0)
+> +  XTREG( 12, 48,32, 4, 4,0x000c,0x0006 & ~1,-2, 8,0x0100,a12,         0,0,0,0,0,0)
+> +  XTREG( 13, 52,32, 4, 4,0x000d,0x0006 & ~1,-2, 8,0x0100,a13,         0,0,0,0,0,0)
+> +  XTREG( 14, 56,32, 4, 4,0x000e,0x0006 & ~1,-2, 8,0x0100,a14,         0,0,0,0,0,0)
+> +  XTREG( 15, 60,32, 4, 4,0x000f,0x0006 & ~1,-2, 8,0x0100,a15,         0,0,0,0,0,0)
+> +  XTREG( 16, 64,32, 4, 4,0x0020,0x0006 & ~1,-2, 9,0x0100,pc,          0,0,0,0,0,0)
+> +  XTREG( 17, 68, 6, 4, 4,0x0203,0x0006 & ~1,-2, 2,0x1100,sar,         0,0,0,0,0,0)
+> +  XTREG( 18, 72,32, 4, 4,0x0205,0x0006 & ~1,-2, 2,0x1100,litbase,     0,0,0,0,0,0)
+> +  XTREG( 19, 76,32, 4, 4,0x02b0,0x0002 & ~1,-2, 2,0x1000,sr176,       0,0,0,0,0,0)
+> +  XTREG( 20, 80,32, 4, 4,0x02d0,0x0002 & ~1,-2, 2,0x1000,sr208,       0,0,0,0,0,0)
+> +  XTREG( 21, 84, 6, 4, 4,0x02e6,0x0006 & ~1,-2, 2,0x1100,ps,          0,0,0,0,0,0)
+> +  XTREG( 22, 88,32, 4, 4,0x0259,0x000d & ~1,-2, 2,0x1000,mmid,        0,0,0,0,0,0)
+> +  XTREG( 23, 92, 1, 4, 4,0x0260,0x0007 & ~1,-2, 2,0x1000,ibreakenable,0,0,0,0,0,0)
+> +  XTREG( 24, 96,32, 4, 4,0x0268,0x0007 & ~1,-2, 2,0x1000,ddr,         0,0,0,0,0,0)
+> +  XTREG( 25,100,32, 4, 4,0x0280,0x0007 & ~1,-2, 2,0x1000,ibreaka0,    0,0,0,0,0,0)
+> +  XTREG( 26,104,32, 4, 4,0x0290,0x0007 & ~1,-2, 2,0x1000,dbreaka0,    0,0,0,0,0,0)
+> +  XTREG( 27,108,32, 4, 4,0x02a0,0x0007 & ~1,-2, 2,0x1000,dbreakc0,    0,0,0,0,0,0)
+> +  XTREG( 28,112,32, 4, 4,0x02b1,0x0007 & ~1,-2, 2,0x1000,epc1,        0,0,0,0,0,0)
+> +  XTREG( 29,116,32, 4, 4,0x02b2,0x0007 & ~1,-2, 2,0x1000,epc2,        0,0,0,0,0,0)
+> +  XTREG( 30,120,32, 4, 4,0x02b3,0x0007 & ~1,-2, 2,0x1000,epc3,        0,0,0,0,0,0)
+> +  XTREG( 31,124,32, 4, 4,0x02c0,0x0007 & ~1,-2, 2,0x1000,depc,        0,0,0,0,0,0)
+> +  XTREG( 32,128, 6, 4, 4,0x02c2,0x0007 & ~1,-2, 2,0x1000,eps2,        0,0,0,0,0,0)
+> +  XTREG( 33,132, 6, 4, 4,0x02c3,0x0007 & ~1,-2, 2,0x1000,eps3,        0,0,0,0,0,0)
+> +  XTREG( 34,136,32, 4, 4,0x02d1,0x0007 & ~1,-2, 2,0x1000,excsave1,    0,0,0,0,0,0)
+> +  XTREG( 35,140,32, 4, 4,0x02d2,0x0007 & ~1,-2, 2,0x1000,excsave2,    0,0,0,0,0,0)
+> +  XTREG( 36,144,32, 4, 4,0x02d3,0x0007 & ~1,-2, 2,0x1000,excsave3,    0,0,0,0,0,0)
+> +  XTREG( 37,148,15, 4, 4,0x02e2,0x000b & ~1,-2, 2,0x1000,interrupt,   0,0,0,0,0,0)
+> +  XTREG( 38,152,15, 4, 4,0x02e2,0x000d & ~1,-2, 2,0x1000,intset,      0,0,0,0,0,0)
+> +  XTREG( 39,156,15, 4, 4,0x02e3,0x000d & ~1,-2, 2,0x1000,intclear,    0,0,0,0,0,0)
+> +  XTREG( 40,160,15, 4, 4,0x02e4,0x0007 & ~1,-2, 2,0x1000,intenable,   0,0,0,0,0,0)
+> +  XTREG( 41,164,32, 4, 4,0x02e7,0x0007 & ~1,-2, 2,0x1000,vecbase,     0,0,0,0,0,0)
+> +  XTREG( 42,168, 6, 4, 4,0x02e8,0x0007 & ~1,-2, 2,0x1000,exccause,    0,0,0,0,0,0)
+> +  XTREG( 43,172,12, 4, 4,0x02e9,0x0003 & ~1,-2, 2,0x1000,debugcause,  0,0,0,0,0,0)
+> +  XTREG( 44,176,32, 4, 4,0x02ea,0x000f & ~1,-2, 2,0x1000,ccount,      0,0,0,0,0,0)
+> +  XTREG( 45,180,32, 4, 4,0x02eb,0x0003 & ~1,-2, 2,0x1000,prid,        0,0,0,0,0,0)
+> +  XTREG( 46,184,32, 4, 4,0x02ec,0x000f & ~1,-2, 2,0x1000,icount,      0,0,0,0,0,0)
+> +  XTREG( 47,188, 4, 4, 4,0x02ed,0x0007 & ~1,-2, 2,0x1000,icountlevel, 0,0,0,0,0,0)
+> +  XTREG( 48,192,32, 4, 4,0x02ee,0x0007 & ~1,-2, 2,0x1000,excvaddr,    0,0,0,0,0,0)
+> +  XTREG( 49,196,32, 4, 4,0x02f0,0x000f & ~1,-2, 2,0x1000,ccompare0,   0,0,0,0,0,0)
 
 -- 
 Thanks.
