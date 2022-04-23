@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC81B50CA6B
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 15:12:31 +0200 (CEST)
-Received: from localhost ([::1]:56376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6A350CA86
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 15:18:48 +0200 (CEST)
+Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niFYs-0001Zn-SY
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 09:12:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42844)
+	id 1niFex-0005DT-R6
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 09:18:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niFFg-0007LY-K0
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:42 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:33594)
+ id 1niFFj-0007Ml-Ab
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:43 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:41497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niFFe-0005BV-NW
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:40 -0400
-Received: by mail-ed1-x534.google.com with SMTP id e30so9919653eda.0
- for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 05:52:38 -0700 (PDT)
+ id 1niFFg-0005Bm-BG
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:41 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id y10so21132933ejw.8
+ for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 05:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KE5W/d6LlVFZ2XZ1tI5f3QXLsONnqElJa/y8Ub4p8Ko=;
- b=I+/5VOfPqWrzEqX+7SwismSe+uqC6xgv51QJd5u0nYas3VlGgh2HhKXB/fq+fijMK5
- F6VPKH/5ZqjX7PMGEoE2alCEPCWfgnXcZvidpxmvXod4Ee+Gf4GmkhKxmsi/Wdg+HMQO
- 0JllNQSq8TAsDpGxecXfOw7TAOnGDZ8MP9j/c6ujqQaSJe1tTys2wXyghiHXSPdBbgwr
- uuyW+legZLB/sJKviO7lOHtln9zfTEP1c1pQPAhsXOMZXXPTadZJd+lrQTKCn/CV8hly
- kSRwAgVLDTUwc4ZANfexVcbMQMw80YgC41SfzIp6Th/teJ55JK67MCTl4aoP68kLz5GT
- Q6EA==
+ bh=VBs4vjitGdQirWraLuswcU5ORW9WNwSgTDn5ND5M/lY=;
+ b=V7d7xzGYzUFhPHyIobuNBYNKx8WbrHI30jnYlI8a5HG26YhpHcWIed7XPbWmt//g6j
+ Picd48svXepdKHkPfry6gAvkU1aO0kXS55S/lzIfHEA+dTktc7swYquKAEiNv1HEZ23C
+ NMfFCBLYo904hpD9EDzhqImFkD0rmkVtyK8Bx2nEjpyoQctHs0BrXfTJn+zGaVBIa47F
+ lt+6bQeCuPeIHmAmKh+WV0vn5V6hJ74/2vtEeS9R6TYaL3+HzWu3A7VbfOhjeY4xehsT
+ UWaFHnm2aTwi7J3xPGVWezagPoVA88vhhVj3DPgrBRSF3WgEBr0jK+bAAU/B6Eym4cLA
+ +2xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KE5W/d6LlVFZ2XZ1tI5f3QXLsONnqElJa/y8Ub4p8Ko=;
- b=jJ3sO2JV5QFVZ+HQGL+nz36BzeRXmc+TacBJpLIWwP8eJhnzAYPyjJyda9eXvLj3Ld
- 90zx72/o0PLSTcFVUuYApmv0b2CQ3Qd+sHiZ5Wdfk9QM/0r6m8NiP8UGDtPv4Ojt5Qig
- FoR9u//Rg/nXHzZZzbeNT+OnejA1cEZQQMlgufR4vDS1JXCME4Erk2HsTKhj6gRO9CHy
- uejSUWZ3pUC5HmIp2h1+hPAg7SbZ5uNzBguU0v5X6QTSYCvrZSLHhuMsNYO8U/DbaOdV
- zltFzzcgVf5QPHsQ9rR15IaE2mCdOMrR767OLvZ4voPx+u2sgpzsF/x39BePpYSUN0xF
- jrGg==
-X-Gm-Message-State: AOAM530stK4fEyBwsRakudvx3CBezdv7xa5tY8m4qtWN5U2LwXPrXUIe
- ByPb2x8GeOVHEj/AZ55v7lEsD0vnp7xMmQ==
-X-Google-Smtp-Source: ABdhPJxukG0Ep0dwPmiU79sR8zMPS7MRZEmDwId8R6KAKMuxz8QsbMEQrKLBR88OGGAoxwoaIsmJ0g==
-X-Received: by 2002:a05:6402:524a:b0:422:2959:1266 with SMTP id
- t10-20020a056402524a00b0042229591266mr9836618edd.308.1650718357375; 
- Sat, 23 Apr 2022 05:52:37 -0700 (PDT)
+ bh=VBs4vjitGdQirWraLuswcU5ORW9WNwSgTDn5ND5M/lY=;
+ b=Qw0M7IzKm8VT4FR3k0sJdpuku4AptqQbSkAOMLNCxnntExEgOSfVTiKxTkqpu7LojN
+ 8+i2bMt18oD9JObjtlp4zDJ3IDFZHqz3HVAZ7qPWgsbdn16eF8OK5eWGGtWzCGdboxL9
+ ODBPR9WB1+x281k3SD0PvMdA31PmZ/MJnSVcNJ8YPTox7P14G5x0nxU2hCUTac1i9gdi
+ w+E3sbK3hfGLRLGgM44G4omoNRkXj9hGg7RrEhXx9Mol+9JUAF0b5FLkJapG4zP6CLHs
+ l0Z8DV7O5A/rwQJyU18Ncor08z+7hDBx6mXyJFRxn6yA8lPXxTv1P+/iz1MTKw3qPJzu
+ /CZA==
+X-Gm-Message-State: AOAM533y56P+zq/BF2KGAPSQpavvBrGQYJEP7yNCbJ5muivDBHyFNNXc
+ AEKvG85KtTcSMx3zLqBl84DbeT47M7KH+g==
+X-Google-Smtp-Source: ABdhPJznY11BRCD+kab/k8RQWrdzgEup4lJLTfkk6nHkCcchiHn4Asy+uq9BLuxJri+1c/tS4SmarA==
+X-Received: by 2002:a17:907:6e0d:b0:6e0:59ae:21f1 with SMTP id
+ sd13-20020a1709076e0d00b006e059ae21f1mr8442926ejc.362.1650718358921; 
+ Sat, 23 Apr 2022 05:52:38 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- bo14-20020a170906d04e00b006ce98d9c3e3sm1655573ejb.194.2022.04.23.05.52.35
+ bo14-20020a170906d04e00b006ce98d9c3e3sm1655573ejb.194.2022.04.23.05.52.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Apr 2022 05:52:36 -0700 (PDT)
+ Sat, 23 Apr 2022 05:52:38 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/34] meson, configure: move --tls-priority to meson
-Date: Sat, 23 Apr 2022 14:51:36 +0200
-Message-Id: <20220423125151.27821-20-pbonzini@redhat.com>
+Subject: [PATCH v2 20/34] meson, configure: move bdrv whitelists to meson
+Date: Sat, 23 Apr 2022 14:51:37 +0200
+Message-Id: <20220423125151.27821-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220423125151.27821-1-pbonzini@redhat.com>
 References: <20220423125151.27821-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -96,104 +96,154 @@ Use the new support for string option parsing.
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                     | 5 -----
- meson.build                   | 3 ++-
- meson_options.txt             | 2 ++
- scripts/meson-buildoptions.sh | 3 +++
- 4 files changed, 7 insertions(+), 6 deletions(-)
+v1->v2: fix RO/RW typo
+
+ configure                     | 14 --------------
+ meson.build                   | 27 ++++++++++++++++-----------
+ meson_options.txt             |  4 ++++
+ scripts/meson-buildoptions.sh |  8 ++++++++
+ 4 files changed, 28 insertions(+), 25 deletions(-)
 
 diff --git a/configure b/configure
-index 8de8fea4af..c23f12159e 100755
+index c23f12159e..56dcc7ba8e 100755
 --- a/configure
 +++ b/configure
-@@ -311,7 +311,6 @@ bsd_user=""
- pkgversion=""
- pie=""
- coroutine=""
--tls_priority="NORMAL"
- plugins="$default_feature"
- meson=""
- meson_args=""
-@@ -938,8 +937,6 @@ for opt do
-   --enable-uuid|--disable-uuid)
-       echo "$0: $opt is obsolete, UUID support is always built" >&2
+@@ -235,8 +235,6 @@ interp_prefix="/usr/gnemul/qemu-%M"
+ static="no"
+ cross_compile="no"
+ cross_prefix=""
+-block_drv_rw_whitelist=""
+-block_drv_ro_whitelist=""
+ host_cc="cc"
+ lto="false"
+ stack_protector=""
+@@ -815,10 +813,6 @@ for opt do
+     # configure to be used by RPM and similar macros that set
+     # lots of directory switches by default.
    ;;
--  --tls-priority=*) tls_priority="$optarg"
+-  --block-drv-rw-whitelist=*|--block-drv-whitelist=*) block_drv_rw_whitelist=$(echo "$optarg" | sed -e 's/,/ /g')
 -  ;;
-   --disable-vhost-user) vhost_user="no"
+-  --block-drv-ro-whitelist=*) block_drv_ro_whitelist=$(echo "$optarg" | sed -e 's/,/ /g')
+-  ;;
+   --enable-debug-tcg) debug_tcg="yes"
    ;;
-   --enable-vhost-user) vhost_user="yes"
-@@ -1169,7 +1166,6 @@ Advanced options (experts only):
-   --with-coroutine=BACKEND coroutine backend. Supported options:
-                            ucontext, sigaltstack, windows
-   --enable-gcov            enable test coverage analysis with gcov
--  --tls-priority           default TLS protocol/cipher priority string
-   --enable-plugins
-                            enable plugins via shared library loading
-   --disable-containers     don't use containers for cross-building
-@@ -2200,7 +2196,6 @@ if test "$modules" = "yes"; then
-   echo "CONFIG_STAMP=_$( (echo $qemu_version; echo $pkgversion; cat $0) | $shacmd - | cut -f1 -d\ )" >> $config_host_mak
-   echo "CONFIG_MODULES=y" >> $config_host_mak
+   --disable-debug-tcg) debug_tcg="no"
+@@ -1154,12 +1148,6 @@ Advanced options (experts only):
+   --disable-stack-protector disable compiler-provided stack protection
+   --audio-drv-list=LIST    set audio drivers to try if -audiodev is not used
+   --block-drv-whitelist=L  Same as --block-drv-rw-whitelist=L
+-  --block-drv-rw-whitelist=L
+-                           set block driver read-write whitelist
+-                           (by default affects only QEMU, not tools like qemu-img)
+-  --block-drv-ro-whitelist=L
+-                           set block driver read-only whitelist
+-                           (by default affects only QEMU, not tools like qemu-img)
+   --with-trace-file=NAME   Full PATH,NAME of file to store traces
+                            Default:trace-<pid>
+   --cpu=CPU                Build for host CPU [$cpu]
+@@ -2184,8 +2172,6 @@ fi
+ if test "$static" = "yes" ; then
+   echo "CONFIG_STATIC=y" >> $config_host_mak
  fi
--echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
- 
- if test "$vhost_scsi" = "yes" ; then
-   echo "CONFIG_VHOST_SCSI=y" >> $config_host_mak
+-echo "CONFIG_BDRV_RW_WHITELIST=$block_drv_rw_whitelist" >> $config_host_mak
+-echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
+ qemu_version=$(head $source_path/VERSION)
+ echo "PKGVERSION=$pkgversion" >>$config_host_mak
+ echo "SRC_PATH=$source_path" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index d569c6e944..f0b861aacd 100644
+index f0b861aacd..da8d3076d7 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1596,6 +1596,7 @@ foreach k : get_option('trace_backends')
+@@ -1592,6 +1592,19 @@ have_virtfs = get_option('virtfs') \
+ 
+ have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
+ 
++if get_option('block_drv_ro_whitelist') == ''
++  config_host_data.set('CONFIG_BDRV_RO_WHITELIST', '')
++else
++  config_host_data.set('CONFIG_BDRV_RO_WHITELIST',
++        '"' + get_option('block_drv_ro_whitelist').replace(',', '", "') + '"')
++endif
++if get_option('block_drv_rw_whitelist') == ''
++  config_host_data.set('CONFIG_BDRV_RW_WHITELIST', '')
++else
++  config_host_data.set('CONFIG_BDRV_RW_WHITELIST',
++        '"' + get_option('block_drv_rw_whitelist').replace(',', '", "') + '"')
++endif
++
+ foreach k : get_option('trace_backends')
    config_host_data.set('CONFIG_TRACE_' + k.to_upper(), true)
  endforeach
- config_host_data.set_quoted('CONFIG_TRACE_FILE', get_option('trace_file'))
-+config_host_data.set_quoted('CONFIG_TLS_PRIORITY', get_option('tls_priority'))
- if iasl.found()
-   config_host_data.set_quoted('CONFIG_IASL', iasl.full_path())
- endif
-@@ -3817,7 +3818,7 @@ summary(summary_info, bool_yn: true, section: 'Block layer support')
+@@ -2206,16 +2219,8 @@ config_host_data.set('HAVE_VSS_SDK', have_vss_sdk)
  
- # Crypto
- summary_info = {}
--summary_info += {'TLS priority':      config_host['CONFIG_TLS_PRIORITY']}
-+summary_info += {'TLS priority':      get_option('tls_priority')}
- summary_info += {'GNUTLS support':    gnutls}
- if gnutls.found()
-   summary_info += {'  GNUTLS crypto':   gnutls_crypto.found()}
+ ignored = ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
+     'HAVE_GDB_BIN']
+-arrays = ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+ foreach k, v: config_host
+-  if ignored.contains(k)
+-    # do nothing
+-  elif arrays.contains(k)
+-    if v != ''
+-      v = '"' + '", "'.join(v.split()) + '", '
+-    endif
+-    config_host_data.set(k, v)
+-  elif k.startswith('CONFIG_')
++  if k.startswith('CONFIG_') and not ignored.contains(k)
+     config_host_data.set(k, v == 'y' ? 1 : v)
+   endif
+ endforeach
+@@ -3797,8 +3802,8 @@ summary_info = {}
+ summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
+ summary_info += {'coroutine pool':    have_coroutine_pool}
+ if have_block
+-  summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
+-  summary_info += {'Block whitelist (ro)': config_host['CONFIG_BDRV_RO_WHITELIST']}
++  summary_info += {'Block whitelist (rw)': get_option('block_drv_rw_whitelist')}
++  summary_info += {'Block whitelist (ro)': get_option('block_drv_ro_whitelist')}
+   summary_info += {'Use block whitelist in tools': get_option('block_drv_whitelist_in_tools')}
+   summary_info += {'VirtFS support':    have_virtfs}
+   summary_info += {'build virtiofs daemon': have_virtiofsd}
 diff --git a/meson_options.txt b/meson_options.txt
-index 415fcc448e..891c0ec130 100644
+index 891c0ec130..ec974003b3 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -14,6 +14,8 @@ option('sphinx_build', type : 'string', value : '',
-        description: 'Use specified sphinx-build for building document')
- option('iasl', type : 'string', value : '',
-        description: 'Path to ACPI disassembler')
-+option('tls_priority', type : 'string', value : 'NORMAL',
-+       description: 'Default TLS protocol/cipher priority string')
- option('default_devices', type : 'boolean', value : true,
-        description: 'Include a default selection of devices in emulators')
+@@ -21,6 +21,10 @@ option('default_devices', type : 'boolean', value : true,
  option('audio_drv_list', type: 'array', value: ['default'],
+        choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss', 'pa', 'sdl'],
+        description: 'Set audio driver list')
++option('block_drv_rw_whitelist', type : 'string', value : '',
++       description: 'set block driver read-write whitelist (by default affects only QEMU, not tools like qemu-img)')
++option('block_drv_ro_whitelist', type : 'string', value : '',
++       description: 'set block driver read-only whitelist (by default affects only QEMU, not tools like qemu-img)')
+ option('fuzzing_engine', type : 'string', value : '',
+        description: 'fuzzing engine library for OSS-Fuzz')
+ option('trace_file', type: 'string', value: 'trace',
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 63f2f1abcf..0e0548aa87 100644
+index 0e0548aa87..4c49d4af08 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -36,6 +36,8 @@ meson_options_help() {
-   printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
-   printf "%s\n" '  --iasl=VALUE             Path to ACPI disassembler'
-   printf "%s\n" '  --sphinx-build=VALUE     Use specified sphinx-build for building document'
-+  printf "%s\n" '  --tls-priority=VALUE     Default TLS protocol/cipher priority string'
-+  printf "%s\n" '                           [NORMAL]'
-   printf "%s\n" '  --with-trace-file=VALUE  Trace file prefix for simple backend [trace]'
-   printf "%s\n" ''
-   printf "%s\n" 'Optional features, enabled with --enable-FEATURE and'
-@@ -349,6 +351,7 @@ _meson_option_parse() {
-     --disable-tcg) printf "%s" -Dtcg=disabled ;;
-     --enable-tcg-interpreter) printf "%s" -Dtcg_interpreter=true ;;
-     --disable-tcg-interpreter) printf "%s" -Dtcg_interpreter=false ;;
-+    --tls-priority=*) quote_sh "-Dtls_priority=$2" ;;
-     --enable-tools) printf "%s" -Dtools=enabled ;;
-     --disable-tools) printf "%s" -Dtools=disabled ;;
-     --enable-tpm) printf "%s" -Dtpm=enabled ;;
+@@ -2,6 +2,12 @@
+ meson_options_help() {
+   printf "%s\n" '  --audio-drv-list=CHOICES Set audio driver list [default] (choices:'
+   printf "%s\n" '                           alsa/coreaudio/default/dsound/jack/oss/pa/sdl)'
++  printf "%s\n" '  --block-drv-ro-whitelist=VALUE'
++  printf "%s\n" '                           set block driver read-only whitelist (by default'
++  printf "%s\n" '                           affects only QEMU, not tools like qemu-img)'
++  printf "%s\n" '  --block-drv-rw-whitelist=VALUE'
++  printf "%s\n" '                           set block driver read-write whitelist (by default'
++  printf "%s\n" '                           affects only QEMU, not tools like qemu-img)'
+   printf "%s\n" '  --disable-coroutine-pool coroutine freelist (better performance)'
+   printf "%s\n" '  --disable-install-blobs  install provided firmware blobs'
+   printf "%s\n" '  --enable-block-drv-whitelist-in-tools'
+@@ -161,6 +167,8 @@ _meson_option_parse() {
+     --disable-avx2) printf "%s" -Davx2=disabled ;;
+     --enable-avx512f) printf "%s" -Davx512f=enabled ;;
+     --disable-avx512f) printf "%s" -Davx512f=disabled ;;
++    --block-drv-ro-whitelist=*) quote_sh "-Dblock_drv_ro_whitelist=$2" ;;
++    --block-drv-rw-whitelist=*) quote_sh "-Dblock_drv_rw_whitelist=$2" ;;
+     --enable-block-drv-whitelist-in-tools) printf "%s" -Dblock_drv_whitelist_in_tools=true ;;
+     --disable-block-drv-whitelist-in-tools) printf "%s" -Dblock_drv_whitelist_in_tools=false ;;
+     --enable-bochs) printf "%s" -Dbochs=enabled ;;
 -- 
 2.35.1
 
