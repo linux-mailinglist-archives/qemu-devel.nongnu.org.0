@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789BA50C904
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 12:07:56 +0200 (CEST)
-Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEDC50CA3F
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 14:56:22 +0200 (CEST)
+Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niCgF-0002zV-4l
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 06:07:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51992)
+	id 1niFJF-000135-E7
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 08:56:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1niCdk-00021s-9P; Sat, 23 Apr 2022 06:05:20 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:50803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1niCdh-0004ug-R8; Sat, 23 Apr 2022 06:05:19 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D308D746399;
- Sat, 23 Apr 2022 12:05:12 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 83DD8746397; Sat, 23 Apr 2022 12:05:12 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 814B974632B;
- Sat, 23 Apr 2022 12:05:12 +0200 (CEST)
-Date: Sat, 23 Apr 2022 12:05:12 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?V=EDctor_Colombo?= <victor.colombo@eldorado.org.br>
-Subject: Re: [PATCH 04/20] target/ppc: Substitute msr_le macro with new
- M_MSR_LE macro
-In-Reply-To: <20220422185450.107256-5-victor.colombo@eldorado.org.br>
-Message-ID: <7032c7ad-6fed-196a-75c4-502d76c7b533@eik.bme.hu>
-References: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
- <20220422185450.107256-5-victor.colombo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1niFF2-0006R9-Tw
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:01 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1niFF0-00052y-PD
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:00 -0400
+Received: by mail-ej1-x634.google.com with SMTP id ks6so21214689ejb.1
+ for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 05:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ljJt+2C3FEpBT3KMIVdAhzcxlkF2oyJj5/s+VkS5iy8=;
+ b=iwEIB5Pz9q0K3zAqxjZLVX1raOhptbFg6ghLv9lTHpC3bbjYqMuFKJRzJA3OdXTaVS
+ guPdwFIMBbFchTxU/rcknnuNEfnfap4lJp3qBKI8Le/D9a2RheX/A5R27Yy+7vcoGZva
+ xnZ9UplWZa9sPanydgSse6HVwyQMl+HU8TCFYIy/2NMLEbWNmQDSItv0S/7KngwgXNhr
+ yhWXbm4iJch6K+Fj9p50mzoORtl1DxEHfwOqGsNBI36IAg0X4fP7mApwskyOKDE/TBMX
+ hK0f7Yu3HCVhqgxwLhKKVfYT36NTsq5im9n8w/Y3TrQDVfXvA9huXsNXb8y71zPE21+q
+ 9izw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ljJt+2C3FEpBT3KMIVdAhzcxlkF2oyJj5/s+VkS5iy8=;
+ b=55ZFpb6DCkNrntSg6Dofqbf4/7no7agWuOjqJtiWMzF4WUl0suA8pMDC1L+rP7lSKM
+ KmuA1MZ7Yj0qui2YEulbMYcw83mfo09gwMsvUalhtuTyzz/mjljKQn9cC3BmINpnq/IU
+ 0xFx+QSlb+TjOGzMkI2lbvBgR750PhKlh3oA/pNd1T1Y/iq51faswhHMo48Rp9iU2z53
+ sQixubReQ8vCkxP3ASS1TNxkJO5b7UpSvm23lMZ4QmTTW3Qg5P07XYpctQQdsBpSxrk6
+ LM/+y3VpSVXJCA0Y/TWKp2N4AfxcZROxkhmxn/pxk45J1jSB6LyLBgeU70x/Sl3TbZiS
+ t4XQ==
+X-Gm-Message-State: AOAM532UGoNstexINDqrxXjn+ZnieOq7tkIxbFYiSffzFARxwqn8f9Uj
+ q7NSVNi+8f7jhrIqLzcc55pusTcITBcCEw==
+X-Google-Smtp-Source: ABdhPJzavET9becB4zP3TwpZ2MSA/WQhvXo+glEdWsqXWO5DH8sqKrbgGMLuwQSTf4QQcPT5A3LdHQ==
+X-Received: by 2002:a17:906:a219:b0:6e4:86a3:44ea with SMTP id
+ r25-20020a170906a21900b006e486a344eamr8490201ejy.385.1650718316989; 
+ Sat, 23 Apr 2022 05:51:56 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.gmail.com with ESMTPSA id
+ bo14-20020a170906d04e00b006ce98d9c3e3sm1655573ejb.194.2022.04.23.05.51.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 Apr 2022 05:51:56 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/34] Misc meson conversions for QEMU 7.1
+Date: Sat, 23 Apr 2022 14:51:17 +0200
+Message-Id: <20220423125151.27821-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2029831383-1650708312=:96653"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,151 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The more interesting bits here are:
 
---3866299591-2029831383-1650708312=:96653
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+* move all remaining dependencies except glib to Meson (glib depends on
+  https://github.com/mesonbuild/meson/pull/10206/)
 
-On Fri, 22 Apr 2022, Víctor Colombo wrote:
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-> ---
-> target/ppc/cpu.h        |  2 +-
-> target/ppc/cpu_init.c   |  2 +-
-> target/ppc/gdbstub.c    |  2 +-
-> target/ppc/mem_helper.c | 16 ++++++++--------
-> 4 files changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 2ad023e981..d25a778b7c 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -354,6 +354,7 @@ typedef enum {
-> #define MSR_LE   0  /* Little-endian mode                           1 hflags */
->
-> #define M_MSR_PR (1ull << MSR_PR)
-> +#define M_MSR_LE (1ull << MSR_LE)
+* many more options are parsed from introspection data, including
+  string options
 
-We have BIT(nr) and BIT_ULL(nr) macros for this. Would it be simpler to 
-use that instead of adding another set of defines? (Both ways are somewhat 
-comfusing and needs care when to use which so I'm not sure the additional 
-define makes it simpler or not.) We even have PPC_BIT(bit) macro which 
-follows the numbering used in the docs (which is big endian/backwards) but 
-these bits are not numbered that way here. Is it worth fixing it to match 
-docs? That might cause trouble elsewhere where current defines are used 
-though or in case of FPSCR the numbering is not even the same in docs for 
-32 bit and 64 bit so at least in that case keeping the current numbering 
-may be simpler.
+* make all -D options optional on the meson command line
 
-Regards,
-BALATON Zoltan
+v1->v2:
+- remove CONFIG_XEN_PCI_PASSTHROUGH symbol [patch 12]
+- fix get_option('optimization') comparison to use a string [patch 17]
+- fix RO/RW typo [patch 20]
 
-> /* PMU bits */
-> #define MMCR0_FC     PPC_BIT(32)         /* Freeze Counters  */
-> @@ -484,7 +485,6 @@ typedef enum {
-> #define msr_ir   ((env->msr >> MSR_IR)   & 1)
-> #define msr_dr   ((env->msr >> MSR_DR)   & 1)
-> #define msr_ds   ((env->msr >> MSR_DS)   & 1)
-> -#define msr_le   ((env->msr >> MSR_LE)   & 1)
-> #define msr_ts   ((env->msr >> MSR_TS1)  & 3)
->
-> #define DBCR0_ICMP (1 << 27)
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 6e2b23a859..9dddc0e8f6 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -7210,7 +7210,7 @@ static bool ppc_cpu_is_big_endian(CPUState *cs)
->
->     cpu_synchronize_state(cs);
->
-> -    return !msr_le;
-> +    return !(env->msr & M_MSR_LE);
-> }
->
-> #ifdef CONFIG_TCG
-> diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-> index 1252429a2a..df1dcd90f0 100644
-> --- a/target/ppc/gdbstub.c
-> +++ b/target/ppc/gdbstub.c
-> @@ -95,7 +95,7 @@ static int ppc_gdb_register_len(int n)
-> void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len)
-> {
-> #ifndef CONFIG_USER_ONLY
-> -    if (!msr_le) {
-> +    if (!(env->msr & M_MSR_LE)) {
->         /* do nothing */
->     } else if (len == 4) {
->         bswap32s((uint32_t *)mem_buf);
-> diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
-> index bd219e9c9c..8ff99a6568 100644
-> --- a/target/ppc/mem_helper.c
-> +++ b/target/ppc/mem_helper.c
-> @@ -33,9 +33,9 @@
-> static inline bool needs_byteswap(const CPUPPCState *env)
-> {
-> #if TARGET_BIG_ENDIAN
-> -  return msr_le;
-> +  return env->msr & M_MSR_LE;
-> #else
-> -  return !msr_le;
-> +  return !(env->msr & M_MSR_LE);
-> #endif
-> }
->
-> @@ -470,8 +470,8 @@ uint32_t helper_stqcx_be_parallel(CPUPPCState *env, target_ulong addr,
-> #endif
->
-> /*
-> - * We use msr_le to determine index ordering in a vector.  However,
-> - * byteswapping is not simply controlled by msr_le.  We also need to
-> + * We use MSR_LE to determine index ordering in a vector.  However,
-> + * byteswapping is not simply controlled by MSR_LE.  We also need to
->  * take into account endianness of the target.  This is done for the
->  * little-endian PPC64 user-mode target.
->  */
-> @@ -484,7 +484,7 @@ uint32_t helper_stqcx_be_parallel(CPUPPCState *env, target_ulong addr,
->         int adjust = HI_IDX * (n_elems - 1);                    \
->         int sh = sizeof(r->element[0]) >> 1;                    \
->         int index = (addr & 0xf) >> sh;                         \
-> -        if (msr_le) {                                           \
-> +        if (env->msr & M_MSR_LE) {                              \
->             index = n_elems - index - 1;                        \
->         }                                                       \
->                                                                 \
-> @@ -511,7 +511,7 @@ LVE(lvewx, cpu_ldl_data_ra, bswap32, u32)
->         int adjust = HI_IDX * (n_elems - 1);                            \
->         int sh = sizeof(r->element[0]) >> 1;                            \
->         int index = (addr & 0xf) >> sh;                                 \
-> -        if (msr_le) {                                                   \
-> +        if (env->msr & M_MSR_LE) {                                      \
->             index = n_elems - index - 1;                                \
->         }                                                               \
->                                                                         \
-> @@ -545,7 +545,7 @@ void helper_##name(CPUPPCState *env, target_ulong addr,                 \
->     t.s128 = int128_zero();                                             \
->     if (nb) {                                                           \
->         nb = (nb >= 16) ? 16 : nb;                                      \
-> -        if (msr_le && !lj) {                                            \
-> +        if ((env->msr & M_MSR_LE) && !lj) {                             \
->             for (i = 16; i > 16 - nb; i--) {                            \
->                 t.VsrB(i - 1) = cpu_ldub_data_ra(env, addr, GETPC());   \
->                 addr = addr_add(env, addr, 1);                          \
-> @@ -576,7 +576,7 @@ void helper_##name(CPUPPCState *env, target_ulong addr,           \
->     }                                                             \
->                                                                   \
->     nb = (nb >= 16) ? 16 : nb;                                    \
-> -    if (msr_le && !lj) {                                          \
-> +    if ((env->msr & M_MSR_LE) && !lj) {                           \
->         for (i = 16; i > 16 - nb; i--) {                          \
->             cpu_stb_data_ra(env, addr, xt->VsrB(i - 1), GETPC()); \
->             addr = addr_add(env, addr, 1);                        \
->
---3866299591-2029831383-1650708312=:96653--
+Other patches are exactly the same.
+
+Based-on: <20220422100825.3692002-1-mjt@msgid.tls.msk.ru>
+
+Paolo Bonzini (34):
+  meson: show final set of compiler flags
+  configure: remove dead code
+  qga: wixl: get path to sysroot from pkg-config as intended
+  configure: pc-bios/qemu-icon.bmp does not exist
+  configure: gcov should not exclude fortify-source
+  configure: move --enable/--disable-debug-info to second option parsing
+    pass
+  configure, meson: move OpenGL check to meson
+  meson, configure: move RDMA options to meson
+  meson, configure: move keyctl test to meson
+  meson, configure: move usbfs test to meson
+  meson, configure: move libgio test to meson
+  meson: remove CONFIG_XEN_PCI_PASSTHROUGH from config-target.h
+  meson, configure: move --enable-module-upgrades to meson
+  meson, configure: move Xen detection to meson
+  meson-buildoptions: add support for string options
+  configure, meson: move iasl detection to meson
+  configure: move Windows flags detection to meson
+  configure: switch string options to automatic parsing
+  meson, configure: move --tls-priority to meson
+  meson, configure: move bdrv whitelists to meson
+  meson, configure: move --with-pkgversion, CONFIG_STAMP to meson
+  meson, configure: move --interp-prefix to meson
+  meson: always combine directories with prefix
+  configure: switch directory options to automatic parsing
+  meson: pass more options directly as -D
+  configure: omit options with default values from meson command line
+  meson, virtio: place all virtio-pci devices under virtio_pci_ss
+  configure: simplify vhost-net-{user, vdpa} configuration
+  build: move vhost-vsock configuration to Kconfig
+  build: move vhost-scsi configuration to Kconfig
+  build: move vhost-user-fs configuration to Kconfig
+  meson: create have_vhost_* variables
+  meson: use have_vhost_* variables to pick sources
+  configure, meson: move vhost options to Meson
+
+ Kconfig.host                    |    3 -
+ backends/meson.build            |   10 +-
+ configure                       | 1010 ++-----------------------------
+ contrib/rdmacm-mux/meson.build  |    4 +-
+ crypto/meson.build              |    4 +-
+ docs/meson.build                |    2 +-
+ hw/net/meson.build              |    8 +-
+ hw/scsi/Kconfig                 |    5 +
+ hw/virtio/Kconfig               |   18 +-
+ hw/virtio/meson.build           |   34 +-
+ hw/xen/meson.build              |   20 +-
+ include/hw/virtio/virtio-scsi.h |    2 -
+ meson.build                     |  405 ++++++++++---
+ meson_options.txt               |   40 +-
+ migration/meson.build           |    2 +-
+ net/meson.build                 |   12 +-
+ qga/meson.build                 |    2 +-
+ scripts/meson-buildoptions.py   |   86 ++-
+ scripts/meson-buildoptions.sh   |   93 ++-
+ scripts/qemu-stamp.py           |   24 +
+ scripts/xen-detect.c            |  203 +++++++
+ tests/meson.build               |    2 +-
+ tests/qtest/meson.build         |    9 +-
+ tools/meson.build               |    2 +-
+ ui/meson.build                  |   24 +-
+ util/meson.build                |    2 +-
+ 26 files changed, 872 insertions(+), 1154 deletions(-)
+ create mode 100644 scripts/qemu-stamp.py
+ create mode 100644 scripts/xen-detect.c
+
+-- 
+2.35.1
+
 
