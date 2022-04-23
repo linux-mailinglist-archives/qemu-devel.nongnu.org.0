@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702B550CA54
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 15:05:02 +0200 (CEST)
-Received: from localhost ([::1]:35912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8440E50CA59
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Apr 2022 15:06:09 +0200 (CEST)
+Received: from localhost ([::1]:39680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niFRd-0004OK-IN
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 09:05:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42654)
+	id 1niFSh-0006x6-OT
+	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 09:06:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niFFJ-0006zs-KM
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:17 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:41838)
+ id 1niFFL-00075i-CY
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:19 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1niFFH-00055y-7v
- for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:17 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id d6so8355690ede.8
- for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 05:52:14 -0700 (PDT)
+ id 1niFFJ-00057r-Kv
+ for qemu-devel@nongnu.org; Sat, 23 Apr 2022 08:52:19 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id be20so5112732edb.12
+ for <qemu-devel@nongnu.org>; Sat, 23 Apr 2022 05:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+k9jZOFwU7I4PkMF/kaxCvOtEknZXqE5wy9ewcLGyVc=;
- b=XAo14YHb0HrtzK1Hu8eYPdWORTXvlBU1dYmBpAEU5uYkIb/m2PNwBBYrutGfAsbXkK
- 1gbtarbqehtOQuky6Gio4dF/Z/R7JwlNjpmcC/zBKQxXD4jy5xMl7mycJlWOgPkXpYxb
- YrWjqM4j5E/0YmaLBPUKtWoRMCMFWeFgKaF6pTL6ldSKXzHgoBUVRNcs20pZP/XzWNZH
- hWze+9fd5RVDfDREjIhscC+YVgFcGYM1e5l6rFwvm6uyeCNeDhs5iYw9GWW/7kNHKhFZ
- pvZY8XcA8yzAzv1KoUARZzzeGODDE1nHVPXf5Cn+yJQG8u6FHvGXb/K0k2z8ZnRkibxS
- Vfug==
+ bh=dNmPnWSLR4JpGKD8F5bvT0F6bgApgbbgz90D+2MI2jc=;
+ b=D00WE/1UcauiiwD0mrRr2Dd9Sl0000dopoyp/cpiQgVRRHBPHuWP8FvXW1GvvTD5DK
+ z6oupthqVf+uNXrBAmEO5fZqA98OD5OiP71auZ+qiwtFwo7x91tKnv/sF7sEWMIdzvs8
+ CSW0U0+HfF1ftQw6hv86RZHJA6j5mJpaeeCuMEnA4/Wxq4jqhy2kJEpaMaGyxgqn6rPH
+ FHcl6YoqN+uvhimksH9ESj+vGMsD7Yc+QsMJC0GsAD2d7YC++nk50xaFnCNnZJkaNPFJ
+ 03Ld/zF70Dloc8U8NGcHhet0fD61EPXOA2j6ZCRgMkdcWgMW6xQ8hsVU5tAobpUE4y2j
+ ZiZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+k9jZOFwU7I4PkMF/kaxCvOtEknZXqE5wy9ewcLGyVc=;
- b=rPRiPkt0k1We0FiSyn0goz8Fsoag9CJNtT2aHwYGnpv0CSiInFMzRs9/nIz3ZW7HO1
- G7KwoI/pZfZ/FwycA+ZBcPp4MTIsXgSpG/GQwhLH7F/rW65omX+U4XB0WFWpSTX+eqVI
- qBUHwlVEpFNFHyDifyv3ItSNBtOE0jRKMyYi2NEoLRNUjIhiohTcKCNiHqIzrposwBAO
- fKepGRBPyjsMG8Bf/7y2DIzh6hUiMJ7EJm8BkS4Wg+ixjoYM9qbyzRnNg1ebSaQUP3ik
- o/gmvJt3eiTaFt7cLWOwTwlNrGGLlv8culbS8FaIZOvsjUUbToslmZjI0dSp7Rkq5xsh
- vQXw==
-X-Gm-Message-State: AOAM532N6Z2CKV4TrKS8HX0HtTnY91/Xw186MsUnXHG9PziPv7xiXe/3
- /FzNiIwkITcYndqBtUElSg6Tv6w+WGGrCA==
-X-Google-Smtp-Source: ABdhPJxQ6DF+rYy3EsL0OxlsnV8aK0iKQI4kiLoIjGg8YvSWpJU7A9pXvFbhvCU5wm5LLXEIkLD7/w==
-X-Received: by 2002:a05:6402:14c2:b0:41d:816a:4eb0 with SMTP id
- f2-20020a05640214c200b0041d816a4eb0mr9875134edx.301.1650718333873; 
- Sat, 23 Apr 2022 05:52:13 -0700 (PDT)
+ bh=dNmPnWSLR4JpGKD8F5bvT0F6bgApgbbgz90D+2MI2jc=;
+ b=FxDcgFfwJULsZnOaJLR4pHThSkAD8teCc95Y3dA+9mpDBshDto0VDQ4zlIvaCGYMK7
+ f678Xy7BYRNCh+xlW52Ya3rAj87wwA3yFdcgOWkgmOUKyMMD/EBNNYtugTWOmMdKHjBh
+ Hmmy53qfCYOQgGm6IgG8spCSk+njVhE0E1VjNTxefz9b5p+YF3y+RKgNrlgdMmLBC84d
+ 8PEUC1AkPrf6w0vga+CCXCYwrGoyzR9+oJ5U9h1HTeC6oqFP6zoWTi/aw+jZEFra2U5K
+ xdIfVi+ezhiYoTgSGZ9BCTpJJz2zTxHyzyB0DcU+cgIwHTjXC+6S0SiFTtg7KiAY4uow
+ hJGg==
+X-Gm-Message-State: AOAM531xzZRlNhRYhvTObPQK/kRdP82+UMBKFA4wjllJB9C2q7Fd87Z4
+ Q8vN0GFleYdANOLsr8snwQ1IPiTBKYg7fg==
+X-Google-Smtp-Source: ABdhPJwBzMNo/s+5x5pI8Kyu799k2m5RsBLM95ahhPNpZlaOBuMec2m11NS1wVUeNYzcQnmZ5Fve4w==
+X-Received: by 2002:a05:6402:190a:b0:424:890:e4e1 with SMTP id
+ e10-20020a056402190a00b004240890e4e1mr10059987edz.169.1650718336299; 
+ Sat, 23 Apr 2022 05:52:16 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- bo14-20020a170906d04e00b006ce98d9c3e3sm1655573ejb.194.2022.04.23.05.52.12
+ bo14-20020a170906d04e00b006ce98d9c3e3sm1655573ejb.194.2022.04.23.05.52.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Apr 2022 05:52:13 -0700 (PDT)
+ Sat, 23 Apr 2022 05:52:15 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/34] meson, configure: move RDMA options to meson
-Date: Sat, 23 Apr 2022 14:51:25 +0200
-Message-Id: <20220423125151.27821-9-pbonzini@redhat.com>
+Subject: [PATCH v2 09/34] meson, configure: move keyctl test to meson
+Date: Sat, 23 Apr 2022 14:51:26 +0200
+Message-Id: <20220423125151.27821-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220423125151.27821-1-pbonzini@redhat.com>
 References: <20220423125151.27821-1-pbonzini@redhat.com>
@@ -65,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -94,347 +94,171 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                      | 115 ---------------------------------
- contrib/rdmacm-mux/meson.build |   4 +-
- meson.build                    |  56 ++++++++++++++--
- meson_options.txt              |   4 ++
- migration/meson.build          |   2 +-
- scripts/meson-buildoptions.sh  |   6 ++
- 6 files changed, 62 insertions(+), 125 deletions(-)
+ configure                     | 44 -----------------------------------
+ crypto/meson.build            |  4 +++-
+ meson.build                   | 15 +++++++++++-
+ meson_options.txt             |  2 ++
+ scripts/meson-buildoptions.sh |  3 +++
+ 5 files changed, 22 insertions(+), 46 deletions(-)
 
 diff --git a/configure b/configure
-index 1aefbc2f68..4deca94235 100755
+index 4deca94235..313579019d 100755
 --- a/configure
 +++ b/configure
-@@ -301,8 +301,6 @@ vhost_vsock="$default_feature"
- vhost_user="no"
- vhost_user_fs="$default_feature"
- vhost_vdpa="$default_feature"
--rdma="$default_feature"
--pvrdma="$default_feature"
- debug_info="yes"
- debug_tcg="no"
- debug="no"
-@@ -972,14 +970,6 @@ for opt do
+@@ -322,7 +322,6 @@ trace_file="trace"
+ coroutine=""
+ tls_priority="NORMAL"
+ plugins="$default_feature"
+-secret_keyring="$default_feature"
+ meson=""
+ meson_args=""
+ ninja=""
+@@ -1009,10 +1008,6 @@ for opt do
    ;;
-   --tls-priority=*) tls_priority="$optarg"
+   --gdb=*) gdb_bin="$optarg"
    ;;
--  --enable-rdma) rdma="yes"
+-  --enable-keyring) secret_keyring="yes"
 -  ;;
--  --disable-rdma) rdma="no"
+-  --disable-keyring) secret_keyring="no"
 -  ;;
--  --enable-pvrdma) pvrdma="yes"
--  ;;
--  --disable-pvrdma) pvrdma="no"
--  ;;
-   --disable-vhost-user) vhost_user="no"
+   --enable-gio) gio=yes
    ;;
-   --enable-vhost-user) vhost_user="yes"
-@@ -1244,8 +1234,6 @@ cat << EOF
-   lto             Enable Link-Time Optimization.
-   safe-stack      SafeStack Stack Smash Protection. Depends on
-                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
--  rdma            Enable RDMA-based migration
--  pvrdma          Enable PVRDMA support
-   vhost-net       vhost-net kernel acceleration support
-   vhost-vsock     virtio sockets device support
-   vhost-scsi      vhost-scsi kernel target support
-@@ -2037,100 +2025,6 @@ EOF
-   fi
- fi
+   --disable-gio) gio=no
+@@ -2440,41 +2435,6 @@ case "$slirp" in
+     ;;
+ esac
  
 -##########################################
--# RDMA needs OpenFabrics libraries
--if test "$rdma" != "no" ; then
--  cat > $TMPC <<EOF
--#include <rdma/rdma_cma.h>
--int main(void) { return 0; }
--EOF
--  rdma_libs="-lrdmacm -libverbs -libumad"
--  if compile_prog "" "$rdma_libs" ; then
--    rdma="yes"
--  else
--    if test "$rdma" = "yes" ; then
--        error_exit \
--            " OpenFabrics librdmacm/libibverbs/libibumad not present." \
--            " Your options:" \
--            "  (1) Fast: Install infiniband packages (devel) from your distro." \
--            "  (2) Cleanest: Install libraries from www.openfabrics.org" \
--            "  (3) Also: Install softiwarp if you don't have RDMA hardware"
--    fi
--    rdma="no"
--  fi
--fi
+-# check for usable __NR_keyctl syscall
 -
--##########################################
--# PVRDMA detection
+-if test "$linux" = "yes" ; then
 -
--cat > $TMPC <<EOF &&
--#include <sys/mman.h>
--
--int
--main(void)
--{
--    char buf = 0;
--    void *addr = &buf;
--    addr = mremap(addr, 0, 1, MREMAP_MAYMOVE | MREMAP_FIXED);
--
--    return 0;
+-    have_keyring=no
+-    cat > $TMPC << EOF
+-#include <errno.h>
+-#include <asm/unistd.h>
+-#include <linux/keyctl.h>
+-#include <unistd.h>
+-int main(void) {
+-    return syscall(__NR_keyctl, KEYCTL_READ, 0, NULL, NULL, 0);
 -}
 -EOF
--
--if test "$rdma" = "yes" ; then
--    case "$pvrdma" in
--    "")
--        if compile_prog "" ""; then
--            pvrdma="yes"
--        else
--            pvrdma="no"
--        fi
--        ;;
--    "yes")
--        if ! compile_prog "" ""; then
--            error_exit "PVRDMA is not supported since mremap is not implemented"
--        fi
--        pvrdma="yes"
--        ;;
--    "no")
--        pvrdma="no"
--        ;;
--    esac
--else
--    if test "$pvrdma" = "yes" ; then
--        error_exit "PVRDMA requires rdma suppport"
+-    if compile_prog "" "" ; then
+-        have_keyring=yes
 -    fi
--    pvrdma="no"
 -fi
--
--# Let's see if enhanced reg_mr is supported
--if test "$pvrdma" = "yes" ; then
--
--cat > $TMPC <<EOF &&
--#include <infiniband/verbs.h>
--
--int
--main(void)
--{
--    struct ibv_mr *mr;
--    struct ibv_pd *pd = NULL;
--    size_t length = 10;
--    uint64_t iova = 0;
--    int access = 0;
--    void *addr = NULL;
--
--    mr = ibv_reg_mr_iova(pd, addr, length, iova, access);
--
--    ibv_dereg_mr(mr);
--
--    return 0;
--}
--EOF
--    if ! compile_prog "" "-libverbs"; then
--        QEMU_CFLAGS="$QEMU_CFLAGS -DLEGACY_RDMA_REG_MR"
+-if test "$secret_keyring" != "no"
+-then
+-    if test "$have_keyring" = "yes"
+-    then
+-	secret_keyring=yes
+-    else
+-	if test "$secret_keyring" = "yes"
+-	then
+-	    error_exit "syscall __NR_keyctl requested, \
+-but not implemented on your system"
+-	else
+-	    secret_keyring=no
+-	fi
 -    fi
 -fi
 -
  ##########################################
- # glib support probe
- 
-@@ -2855,15 +2749,6 @@ if test "$have_tsan" = "yes" && test "$have_tsan_iface_fiber" = "yes" ; then
-     echo "CONFIG_TSAN=y" >> $config_host_mak
+ # End of CC checks
+ # After here, no more $cc or $ld runs
+@@ -2760,10 +2720,6 @@ if test -n "$gdb_bin"; then
+     fi
  fi
  
--if test "$rdma" = "yes" ; then
--  echo "CONFIG_RDMA=y" >> $config_host_mak
--  echo "RDMA_LIBS=$rdma_libs" >> $config_host_mak
+-if test "$secret_keyring" = "yes" ; then
+-  echo "CONFIG_SECRET_KEYRING=y" >> $config_host_mak
 -fi
 -
--if test "$pvrdma" = "yes" ; then
--  echo "CONFIG_PVRDMA=y" >> $config_host_mak
--fi
--
- if test "$plugins" = "yes" ; then
-     echo "CONFIG_PLUGIN=y" >> $config_host_mak
- fi
-diff --git a/contrib/rdmacm-mux/meson.build b/contrib/rdmacm-mux/meson.build
-index 7674f54cc5..36c9c89630 100644
---- a/contrib/rdmacm-mux/meson.build
-+++ b/contrib/rdmacm-mux/meson.build
-@@ -1,7 +1,5 @@
--if 'CONFIG_PVRDMA' in config_host
--  # if not found, CONFIG_PVRDMA should not be set
-+if have_pvrdma
-   # FIXME: broken on big endian architectures
--  libumad = cc.find_library('ibumad', required: true)
-   executable('rdmacm-mux', files('main.c'), genh,
-              dependencies: [glib, libumad],
-              build_by_default: false,
+ echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
+ echo "PYTHON=$python" >> $config_host_mak
+diff --git a/crypto/meson.build b/crypto/meson.build
+index 19c44bea89..f065f2f277 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -34,7 +34,9 @@ else
+   crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
+ endif
+ 
+-crypto_ss.add(when: 'CONFIG_SECRET_KEYRING', if_true: files('secret_keyring.c'))
++if have_keyring
++  crypto_ss.add(files('secret_keyring.c'))
++endif
+ if have_afalg
+   crypto_ss.add(if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
+ endif
 diff --git a/meson.build b/meson.build
-index d21902e5d0..55ad65ce95 100644
+index 55ad65ce95..b39b157222 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1217,9 +1217,22 @@ if numa.found() and not cc.links('''
- endif
+@@ -1938,6 +1938,19 @@ config_host_data.set('CONFIG_GETAUXVAL', cc.links(gnu_source_prefix + '''
+     return getauxval(AT_HWCAP) == 0;
+   }'''))
  
- rdma = not_found
--if 'CONFIG_RDMA' in config_host
--  rdma = declare_dependency(link_args: config_host['RDMA_LIBS'].split())
-+if not get_option('rdma').auto() or have_system
-+  libumad = cc.find_library('ibumad', required: get_option('rdma'))
-+  rdma_libs = [cc.find_library('rdmacm', has_headers: ['rdma/rdma_cma.h'],
-+                               required: get_option('rdma'),
-+                               kwargs: static_kwargs),
-+               cc.find_library('ibverbs', required: get_option('rdma'),
-+                               kwargs: static_kwargs),
-+               libumad]
-+  rdma = declare_dependency(dependencies: rdma_libs)
-+  foreach lib: rdma_libs
-+    if not lib.found()
-+      rdma = not_found
-+    endif
-+  endforeach
- endif
-+
- xen = not_found
- if 'CONFIG_XEN_BACKEND' in config_host
-   xen = declare_dependency(compile_args: config_host['XEN_CFLAGS'].split(),
-@@ -1552,6 +1565,7 @@ config_host_data.set('CONFIG_NUMA', numa.found())
- config_host_data.set('CONFIG_OPENGL', opengl.found())
- config_host_data.set('CONFIG_PROFILER', get_option('profiler'))
- config_host_data.set('CONFIG_RBD', rbd.found())
-+config_host_data.set('CONFIG_RDMA', rdma.found())
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
- config_host_data.set('CONFIG_SECCOMP', seccomp.found())
-@@ -1650,7 +1664,7 @@ config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '
- if rdma.found()
-   config_host_data.set('HAVE_IBV_ADVISE_MR',
-                        cc.has_function('ibv_advise_mr',
--                                       args: config_host['RDMA_LIBS'].split(),
-+                                       dependencies: rdma,
-                                        prefix: '#include <infiniband/verbs.h>'))
- endif
- 
-@@ -1970,6 +1984,36 @@ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
-     int main(int argc, char *argv[]) { return bar(argv[0]); }
-   '''), error_message: 'AVX512F not available').allowed())
- 
-+have_pvrdma = get_option('pvrdma') \
-+  .require(rdma.found(), error_message: 'PVRDMA requires OpenFabrics libraries') \
++have_keyring = get_option('keyring') \
++  .require(targetos == 'linux', error_message: 'keyring is only available on Linux') \
 +  .require(cc.compiles('''
-+    int main(void)
-+    {
-+      char buf = 0;
-+      void *addr = &buf;
-+      addr = mremap(addr, 0, 1, MREMAP_MAYMOVE | MREMAP_FIXED);
++    #include <errno.h>
++    #include <asm/unistd.h>
++    #include <linux/keyctl.h>
++    #include <sys/syscall.h>
++    #include <unistd.h>
++    int main(void) {
++        return syscall(__NR_keyctl, KEYCTL_READ, 0, NULL, NULL, 0);
++    }'''), error_message: 'keyctl syscall not available on this system').allowed()
++config_host_data.set('CONFIG_SECRET_KEYRING', have_keyring)
 +
-+      return 0;
-+    }'''), error_message: 'PVRDMA requires mremap').allowed()
-+
-+if have_pvrdma
-+  config_host_data.set('LEGACY_RDMA_REG_MR', not cc.compiles('''
-+    #include <infiniband/verbs.h>
-+    int main(void)
-+    {
-+      struct ibv_mr *mr;
-+      struct ibv_pd *pd = NULL;
-+      size_t length = 10;
-+      uint64_t iova = 0;
-+      int access = 0;
-+      void *addr = NULL;
-+
-+      mr = ibv_reg_mr_iova(pd, addr, length, iova, access);
-+      ibv_dereg_mr(mr);
-+      return 0;
-+    }'''))
-+endif
-+
- if get_option('membarrier').disabled()
-   have_membarrier = false
- elif targetos == 'windows'
-@@ -2104,7 +2148,7 @@ host_kconfig = \
-   ('CONFIG_VHOST_KERNEL' in config_host ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
-   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
-   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
--  ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : []) + \
-+  (have_pvrdma ? ['CONFIG_PVRDMA=y'] : []) + \
-   (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
+ have_cpuid_h = cc.links('''
+   #include <cpuid.h>
+   int main(void) {
+@@ -3696,7 +3709,7 @@ if nettle.found()
+ endif
+ summary_info += {'AF_ALG support':    have_afalg}
+ summary_info += {'rng-none':          get_option('rng_none')}
+-summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
++summary_info += {'Linux keyring':     have_keyring}
+ summary(summary_info, bool_yn: true, section: 'Crypto')
  
- ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
-@@ -3698,8 +3742,8 @@ summary_info += {'l2tpv3 support':    have_l2tpv3}
- summary_info += {'Linux AIO support': libaio}
- summary_info += {'Linux io_uring support': linux_io_uring}
- summary_info += {'ATTR/XATTR support': libattr}
--summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
--summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
-+summary_info += {'RDMA support':      rdma}
-+summary_info += {'PVRDMA support':    have_pvrdma}
- summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
- summary_info += {'libcap-ng support': libcap_ng}
- summary_info += {'bpf support':       libbpf}
+ # Libraries
 diff --git a/meson_options.txt b/meson_options.txt
-index bd8efe4fbf..c00e0866e9 100644
+index c00e0866e9..d58c69315c 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -151,6 +151,10 @@ option('rbd', type : 'feature', value : 'auto',
-        description: 'Ceph block device driver')
- option('opengl', type : 'feature', value : 'auto',
-        description: 'OpenGL support')
-+option('rdma', type : 'feature', value : 'auto',
-+       description: 'Enable RDMA-based migration')
-+option('pvrdma', type : 'feature', value : 'auto',
-+       description: 'Enable PVRDMA support')
- option('gtk', type : 'feature', value : 'auto',
-        description: 'GTK+ user interface')
- option('sdl', type : 'feature', value : 'auto',
-diff --git a/migration/meson.build b/migration/meson.build
-index 8b5ca5c047..6880b61b10 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -27,7 +27,7 @@ softmmu_ss.add(files(
-   'tls.c',
- ), gnutls)
+@@ -90,6 +90,8 @@ option('avx2', type: 'feature', value: 'auto',
+        description: 'AVX2 optimizations')
+ option('avx512f', type: 'feature', value: 'disabled',
+        description: 'AVX512F optimizations')
++option('keyring', type: 'feature', value: 'auto',
++       description: 'Linux keyring support')
  
--softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
-+softmmu_ss.add(when: rdma, if_true: files('rdma.c'))
- if get_option('live_block_migration').allowed()
-   softmmu_ss.add(files('block.c'))
- endif
+ option('attr', type : 'feature', value : 'auto',
+        description: 'attr/xattr support')
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index f91bd9231b..cd922614e8 100644
+index cd922614e8..0daeb11fd3 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -95,10 +95,12 @@ meson_options_help() {
-   printf "%s\n" '  oss             OSS sound support'
-   printf "%s\n" '  pa              PulseAudio sound support'
-   printf "%s\n" '  parallels       parallels image format support'
-+  printf "%s\n" '  pvrdma          Enable PVRDMA support'
-   printf "%s\n" '  qcow1           qcow1 image format support'
-   printf "%s\n" '  qed             qed image format support'
-   printf "%s\n" '  qga-vss         build QGA VSS support (broken with MinGW)'
-   printf "%s\n" '  rbd             Ceph block device driver'
-+  printf "%s\n" '  rdma            Enable RDMA-based migration'
-   printf "%s\n" '  replication     replication support'
-   printf "%s\n" '  sdl             SDL user interface'
-   printf "%s\n" '  sdl-image       SDL Image support for icons'
-@@ -282,6 +284,8 @@ _meson_option_parse() {
-     --disable-parallels) printf "%s" -Dparallels=disabled ;;
-     --enable-profiler) printf "%s" -Dprofiler=true ;;
-     --disable-profiler) printf "%s" -Dprofiler=false ;;
-+    --enable-pvrdma) printf "%s" -Dpvrdma=enabled ;;
-+    --disable-pvrdma) printf "%s" -Dpvrdma=disabled ;;
-     --enable-qcow1) printf "%s" -Dqcow1=enabled ;;
-     --disable-qcow1) printf "%s" -Dqcow1=disabled ;;
-     --enable-qed) printf "%s" -Dqed=enabled ;;
-@@ -292,6 +296,8 @@ _meson_option_parse() {
-     --disable-qom-cast-debug) printf "%s" -Dqom_cast_debug=false ;;
-     --enable-rbd) printf "%s" -Drbd=enabled ;;
-     --disable-rbd) printf "%s" -Drbd=disabled ;;
-+    --enable-rdma) printf "%s" -Drdma=enabled ;;
-+    --disable-rdma) printf "%s" -Drdma=disabled ;;
-     --enable-replication) printf "%s" -Dreplication=enabled ;;
-     --disable-replication) printf "%s" -Dreplication=disabled ;;
-     --enable-rng-none) printf "%s" -Drng_none=true ;;
+@@ -68,6 +68,7 @@ meson_options_help() {
+   printf "%s\n" '  hvf             HVF acceleration support'
+   printf "%s\n" '  iconv           Font glyph conversion support'
+   printf "%s\n" '  jack            JACK sound support'
++  printf "%s\n" '  keyring         Linux keyring support'
+   printf "%s\n" '  kvm             KVM acceleration support'
+   printf "%s\n" '  l2tpv3          l2tpv3 network backend support'
+   printf "%s\n" '  libdaxctl       libdaxctl support'
+@@ -229,6 +230,8 @@ _meson_option_parse() {
+     --disable-install-blobs) printf "%s" -Dinstall_blobs=false ;;
+     --enable-jack) printf "%s" -Djack=enabled ;;
+     --disable-jack) printf "%s" -Djack=disabled ;;
++    --enable-keyring) printf "%s" -Dkeyring=enabled ;;
++    --disable-keyring) printf "%s" -Dkeyring=disabled ;;
+     --enable-kvm) printf "%s" -Dkvm=enabled ;;
+     --disable-kvm) printf "%s" -Dkvm=disabled ;;
+     --enable-l2tpv3) printf "%s" -Dl2tpv3=enabled ;;
 -- 
 2.35.1
 
