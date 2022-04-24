@@ -2,43 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C6250CFDB
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 07:24:59 +0200 (CEST)
-Received: from localhost ([::1]:39664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 591EA50CFDA
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 07:24:58 +0200 (CEST)
+Received: from localhost ([::1]:39630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niUjx-0002my-S4
+	id 1niUjx-0002lX-1C
 	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 01:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55648)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1niUhv-0001CE-Vk; Sun, 24 Apr 2022 01:22:54 -0400
-Received: from mail-sender.a4lg.com ([153.120.152.154]:53432
- helo=mail-sender-0.a4lg.com)
+ id 1niUhv-0001CD-PH; Sun, 24 Apr 2022 01:22:53 -0400
+Received: from mail-sender-0.a4lg.com
+ ([2401:2500:203:30b:4000:6bfe:4757:0]:46828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
- id 1niUht-0003o4-2e; Sun, 24 Apr 2022 01:22:51 -0400
+ id 1niUhs-0003oG-FP; Sun, 24 Apr 2022 01:22:51 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 4123A300089;
- Sun, 24 Apr 2022 05:22:37 +0000 (UTC)
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id CC4B730008A;
+ Sun, 24 Apr 2022 05:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
- s=2017s01; t=1650777757;
- bh=MlbxknYBnzNdP9QJ9P3dusDJgWvczPYNedvS4K4yjck=;
- h=From:To:Cc:Subject:Date:Message-Id:Mime-Version:
- Content-Transfer-Encoding;
- b=tQd6Rs8WL4cHWLp8sbSnNNJLXXNMx1apfZEv3uFQN5DdRCoQ5zsq31EnTGMtLIHBa
- HYGsS2wxfuX+4+lj5jwrwjkiMjrTpfKB0LCu2hfLGDRYGyDT9c7hEbyP/7+FZLDjgO
- Er7MLVebz6SZNUTlwPySrdnFXdCKmQRaKHoHajwE=
+ s=2017s01; t=1650777762;
+ bh=L81EOlrmkMFiFDA8/pCxQzX0aZC1+igvOm6O8239aX8=;
+ h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+ Mime-Version:Content-Transfer-Encoding;
+ b=oUNUAjUNIjG+4XHuRPgOl0+NI56rh2zNJz85HORqZtVO9OOnldBe9NF7cmeQSzDq7
+ JH/xA7Shqy31F6qFGRrDykc4IIYF7ypxjvHkMzV4pIruREPDWLpHnYDB3At1kDQAy6
+ wvRhAsSOy9cdXMh/rIthTFShMK1vyb6Ldj0gTsjo=
 From: Tsukasa OI <research_trasio@irq.a4lg.com>
 To: Tsukasa OI <research_trasio@irq.a4lg.com>,
  Alistair Francis <alistair23@gmail.com>,
  Frank Chang <frank.chang@sifive.com>
-Subject: [PATCH 0/2] target/riscv: ISA string conversion fix and enhancement
-Date: Sun, 24 Apr 2022 14:22:34 +0900
-Message-Id: <cover.1650777360.git.research_trasio@irq.a4lg.com>
+Subject: [PATCH 1/2] target/riscv: Tentatively remove Zhinx* from ISA
+ extension string
+Date: Sun, 24 Apr 2022 14:22:35 +0900
+Message-Id: <cfda1d8da254f2e723e487f0c738c59d5891e492.1650777360.git.research_trasio@irq.a4lg.com>
+In-Reply-To: <cover.1650777360.git.research_trasio@irq.a4lg.com>
+References: <cover.1650777360.git.research_trasio@irq.a4lg.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=153.120.152.154;
+Received-SPF: pass client-ip=2401:2500:203:30b:4000:6bfe:4757:0;
  envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -62,100 +65,30 @@ Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+This commit disables ISA string conversion for Zhinx and Zhinxmin
+extensions for now.  Because extension category ordering of "H" is not
+ratified, their ordering is likely invalid.
 
-There is two issues related to RISC-V ISA extension string
-I want to be fixed before QEMU 7.1 release.
+Once "H"-extension ordering is determined, we can add Zhinx* again.
 
+Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+---
+ target/riscv/cpu.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-
-Issue 1 (workaround in PATCH 1):
-
-Related: <https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03726.html>
-
-Generating long ISA extension string is definately a good thing to merge.
-However, it includes two extensions with possibly invalid order:
-
--   Zhinx (IEEE754 binary16 arithmetic in GPR)
--   Zhinxmin (subset of Zhinx, conversion only)
-
-This is because:
-
-1.  Z* extensions are ordered with the second character by closely
-    related extension category list
-    (RISC-V ISA Manual draft: IMAFDQLCBKJTPV)
-2.  ... but it doesn't have the character "H" yet
-
-I raised this issue on RISC-V ISA Manual GitHub and being discussed:
-<https://github.com/riscv/riscv-isa-manual/issues/837>
-
-Considering software compatibility, "H" is likely placed after "V" (and
-"N").  I kept single-letter "H" based on this assumption.
-
-However, Zhinx and Zhinxmin extensions are not that important because
-it's incompatible with F and D.  That's why I proposing to remove those
-from ISA extension string generation for now.  If "H"-extension ordering
-is determined, we can safely add Zhinx* extensions again.
-
-Note that this patch does not remove extensions.  It just disables
-putting Zhinx* extensions in a DeviceTree entry ("riscv,isa").
-
-Of course, we can alternatively move Zhinx and Zhinxmin
-before "Svinval" but after "Zve64f", assuming "H" comes after "V".
-Let me know which might be better.
-
-
-
-Issue 2 (fixed in PATCH 2):
-
-Some operating systems does not correctly parse ISA extension string with
-version numbers and multi-letter extensions.
-
-On Linux, 5.18 is the first version to implement safe parser.
-However, old Linux kernels are still confused by ISA extension strings
-(generated by QEMU >= 7.1) containing multi-letter extensions.
-Much worse, those multi-letter extensions are enabled by default:
-
-1.  Zba
-2.  Zbb
-3.  Zbc
-4.  Zbs
-
-For instance, existence of "Zbc" can cause problems if we disable
-compressed instructions ("C" extension).
-
-As I searched through, I found this kind of issue on following OSes:
-
--   Linux (kernel version 5.17 or earlier)
--   FreeBSD (at least 14.0-CURRENT)
--   OpenBSD (at least current development version)
-
-I propose a new CPU option "short-isa-string" (default: false), which
-disables generating ISA extension string with multi-letter extensions.
-
-Example:
-    qemu-system-riscv64 ... \
-        -cpu rv64,h=on,svnapot=on,svinval=on,short-isa-string=on \
-        ...
-    Without "short-isa-string=on", QEMU generates DeviceTree with
-    following ISA extension string:
-        rv64imafdch_zba_zbb_zbc_zbs_svinval_svnapot
-    With it, QEMU generates following ISA extension string:
-        rv64imafdch
-
-
-
-
-Tsukasa OI (2):
-  target/riscv: Tentatively remove Zhinx* from ISA extension string
-  target/riscv: Add short-isa-string option
-
- target/riscv/cpu.c | 7 ++++---
- target/riscv/cpu.h | 2 ++
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
-
-base-commit: 754f756cc4c6d9d14b7230c62b5bb20f9d655888
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 0c774056c5..c765f7ff00 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -954,8 +954,6 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+         ISA_EDATA_ENTRY(zfh, ext_zfh),
+         ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+         ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+-        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
+-        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
+         ISA_EDATA_ENTRY(zdinx, ext_zdinx),
+         ISA_EDATA_ENTRY(zba, ext_zba),
+         ISA_EDATA_ENTRY(zbb, ext_zbb),
 -- 
 2.32.0
 
