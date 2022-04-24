@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFAA550D182
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 13:43:22 +0200 (CEST)
-Received: from localhost ([::1]:37728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED7650D1AE
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 14:28:18 +0200 (CEST)
+Received: from localhost ([::1]:53400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niae9-0006VT-LL
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 07:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41842)
+	id 1nibLd-0003RP-Bm
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 08:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1niabp-0005KZ-BL
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 07:40:57 -0400
-Received: from mout.web.de ([217.72.192.78]:39641)
+ (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nibKc-0002bx-JI
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 08:27:14 -0400
+Received: from mout.web.de ([212.227.17.12]:58677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1niabn-0005Va-Je
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 07:40:57 -0400
+ (Exim 4.90_1) (envelope-from <cvz185@web.de>) id 1nibKa-0003uW-Nz
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 08:27:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1650800453;
- bh=qWXqMhwzG5qjDU86ppl8JMDLCYPKR3j8NQtFB2pcImI=;
- h=X-UI-Sender-Class:From:Subject:Date:To;
- b=dvm2nT8l46MJVaL6FfuuF9qBEoxnAJ2EO3+XZR43umfiqgxB5sKc1TFcP+6fkJyL/
- lfLw+ecUojAJ60APwHgD3c7GbBjb4hVFyILJSGRLxTBAJx3GL1nbLajmy0IOsnF8CB
- 9N1A6dVmWDlzjm6VoakD8IfjvZhqdWDz62YQQfdA=
+ s=dbaedf251592; t=1650803231;
+ bh=PPKhB8+x8wlhLaj/ldRvywGKJAFC0l01QrQhZQDPsUQ=;
+ h=X-UI-Sender-Class:From:Subject:Date:References:To:In-Reply-To;
+ b=hc8fd51ExaSDU/AvnrgqV+0vueWTtG+ASW1qtGU0fj/wA/8UU2mmLImX5eZP+GiOK
+ UhQwPYDtmVE0ZdGvto8wC//uglX/PWyla8eSOR3p3IIlzBBVuPa12x17EObdD+LHnm
+ ne+sEybw7LUhrGmtIqLMQjJkzY7OS1HX4YdP8/Lg=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [172.29.0.96] ([217.239.164.58]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MJFhJ-1nTXV00h2Z-00KhHy for
- <qemu-devel@nongnu.org>; Sun, 24 Apr 2022 13:40:53 +0200
+Received: from [172.29.0.96] ([217.239.164.58]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N5CQh-1nq8R13d1Z-0111XN for
+ <qemu-devel@nongnu.org>; Sun, 24 Apr 2022 14:27:10 +0200
 From: Chris Howard <cvz185@web.de>
 Content-Type: text/plain;
 	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Possible bug when setting aarch64 watchpoints
-Message-Id: <DF7731C2-424F-4438-BD46-A09CAAE21835@web.de>
-Date: Sun, 24 Apr 2022 13:40:52 +0200
+Subject: Re: Possible bug when setting aarch64 watchpoints
+Date: Sun, 24 Apr 2022 14:27:10 +0200
+References: <DF7731C2-424F-4438-BD46-A09CAAE21835@web.de>
 To: qemu-devel@nongnu.org
+In-Reply-To: <DF7731C2-424F-4438-BD46-A09CAAE21835@web.de>
+Message-Id: <8A733777-02DE-45C2-930D-A83948C804BA@web.de>
 X-Mailer: Apple Mail (2.3445.104.21)
-X-Provags-ID: V03:K1:mAEYyUwbLM0qedZrl0epP+UvoFrx1Fux61/Iq2cIQW/3GvxoAen
- yxgzvqfkZGd6c02uo5f28r5/bDyl2gAyP4Di1bZnOCGCrPtigEquLZJBm8YavAfVPZPSDnt
- 8POQgIGGv7Kz6uLyWk/71wzSJ6kd+l509hOgyjtHKffVTe61p1DpBi4wEOAL6v3mcEpeBL1
- PqAUDlFY3TohW5hxWjbKA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZdPMrCAjnI0=:LZW5bPGLD5CTbvr/jR+fGW
- PGRn7tWMzRZlD6x1gkPYnPrlfhA3htjmnojohQ9a7QeQj6JJiWMOs68we4tSRYxt91vkntEIu
- idjecwK24sQ8a02zBIUOOxjGL43N97noV2BIe6XWVFN8vY6pS2mBbJdopCDSaadnTsOF5qBbk
- 6OJBTJd3eTF1FTdchhZLb7QFxbQnSt88m0wmQgMr2NJUL60n5utALSkIfI2rwHM+ZtIlZ94BN
- imuHaO73g6HF3H1hVG1pa9VV2QqyOFjAdlQGqF6sgkaZZ1la/druO9a+xJLvkFBCRw31V6iWt
- XzoRik6x10BoHsgdLRsQLBiPFJ65XB6S2ONvfSwRDO0edr7JZ/kE00ZSbYW4MkQsU49RT6lEt
- Kh3KsQ5+Htq/xsrVOh5DeofwCwV79U88FN1DxCrxBFVH+kxCuOL4sozkGqEyQ9RNIRdmesUKM
- 5bnKul6UkXe+XaZ6cUnXpVjJ+E2VeBX0HEpqj3GNjR8xG1Lwc549irVAUIAMb1in0IfbK1Pyg
- jr5TtxnElE3xK9GEBJWrOcWHQKOC06GQ6j7w38QP71S+AnDPawBfOBhDggoGm72VTC9vmUmj8
- Le0+6hwEaWcA9ZsXjulj8sbmR8yyeBbAi7DEtyojflDlK5RBTHYqoN/D2MjjzIzsEn9KOwDs3
- ff6RyalhgyAoF+7+OFuVUAX0dula6lFXXrekaVuz8Vrl7Hu/MmMBTs2bm68oyfEZDecCDDZZX
- WdW9BEvRmOmBT9dZvISk6ynKx5bbR/TQyRHIAe+hBnzp3QKZE4MrP9FQ8OK/spI7TnGSsKggn
- JlzsjmScuxZ9s2zGxVGka7x5BKNhzC0XXE5AR7g84Ps4htT1FDvEjKhRiBzOPyChh7W+0uB9Z
- lBDQ0iVjgQn473yLdAjfbn9Zgh3bTfyvVVTD4H9ggIzSar+SXcCMkM5YkQ7Fzq5H1j1Nl1nHv
- kYSWH47T6B/TCUnlOadK1k46zvPUXHuXUoCKBOysSLsIGIivU7A3RhGn8TYmYHOad53e3xG+W
- jUSzvfkuCLJ8iQJsBtvGc0MdizjjPFSIjdBvA0DxyhCdP3eqrxQD0qy+5kGJh/bUMw==
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=cvz185@web.de;
+X-Provags-ID: V03:K1:ctp4/D5nfjZJlIq+TWBMt61zdoLgSv8m5+17RMC23MHgjDr4hCa
+ L8Oxfa+8MTFunRjoWln9CfpYzU+3P99b2fuc1giX62vbgOZ+xbakT/cGjziMx3d0i4lEdxh
+ 3+AclXYwEFKEKl0Cd+GcUzYM1zy7NW29k6aMUwCU63fz0LocnmEPsr0P0qdyCS6uEQccI05
+ HMZD2b5sIkRUoKPn5P2yg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RveAwV5bDDY=:wfR79vr1i8KJIw+WDHuAJs
+ 6cnj3kh39Jt4Rg8VhwUsk6F2pYTV9AkHFay9jAt0vA7YGs9OeRqKfakNvHME5yxBHxWiU/1N2
+ PiBz27tXGslI5oBRenjyc77sxBYWrri0gMTBI5fAc8b/nQ3629quDeqi8I6UlMHn5l0tSsnNr
+ GUN1X04OR19qI3zqSYj6xUNw/GszcXp3y7slsTRgtoh/nguXNvGjmtvEy8rK90MOpUSwUc3os
+ pRB4RSGilPIwrIoE527Q9RglsS9F672mhFUidCWM+loMM5kVGcfSsgJUUumUVDWuwEZwpCj25
+ JMFA9xOdidSN+DRLCojeFIdRcxmm8bW9C6k3ZoF3PBUENsctnVNgr7pxuwU3BgovG37qgCioC
+ STlqbgPRqkaZUTHbe89S2nZibluZa5bmXzZJkNfsTjll4rHsEHVIKwi+EpUdvM2I8fU+JB455
+ XNu2JUv9IfDot7smyaRo2UrzVvXrv8zJ01XQzW50I7daGxkFMl8zjjAzv+c5EPjxgm7Af/Qzp
+ 8VwZzuh/BTIoW7Q/e483s5Gprog6kfHbMN4EZcUHuqZvqWTNZ6PvDT3xbYlkkdGZfztTGonpO
+ Bi943pKkcY9Q6s5OaXWa59OU9gQFCIzN4EZ+NGRwdmkQWnyEOiWOPXdXUL9AcWdY+PxGvLrCr
+ tfEGkIgAeZe0t5n1bPjG84GQbkgSrfmEq34xRrVoOpAllC/5vNE9DfACFFehE9IQNJ/T3NaMc
+ EiBJufQLOf9EAvbFe6JEuDMRDZNgziwlQaUYb3BuQce7DbmfiFPBP7S2KokwVdWU94zBPCEDX
+ GD4LMyulO4UDtgHGYgj8UGZgJNZSisnKT/2fMs9eDWTI0q6HtX9bVRSKx2zuaO55Cz/O4P+kP
+ wadk7w2zHc5RWcufrxdVccXlgLeMJ5q6dqbxpNWSEJciBNPjRnNje7RU289hozD/HDiggf7YE
+ CmqF2O1Ege0/NPTlEPkuxr0yJi0Rt4o+5hNY2ceKkntvmQ6Dlg512j4rP4z6yp5CpYDQIiyUC
+ xQ/FH84j810SinxOu1V/59S/jAXUt3yu8msasJUKmBj2wWnQRPN3qn7al4Jk139/97pvrbk0m
+ f/lkIqGtJVPZtI=
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=cvz185@web.de;
  helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,42 +86,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, I=E2=80=99m new to qemu (and even bug-reporting) so apologies in =
-advance=E2=80=A6
-
-The MASK field in DBGWCRx_EL1 is **5** bits wide [28:24].
-
-In target/arm/kvm64.c I found the line:
-
- wp.wcr =3D deposit32(wp.wcr, 24, 4, bits);		// ie **4** bits =
-instead of **5**
+Sorry, I need to correct my previous post:
 
 
-If it=E2=80=99s not copying (or calculating?) the number of bits =
-correctly this would explain the behaviour I=E2=80=99m seeing:
 
 If I set
 
-DBGWVR0_EL1 =3D 0x00800000
+DBGWVR0_EL1 =3D 1<<23			// ie. 0x00800000
 
 and
 
-DBGWCR0_EL1 =3D 0x1F<<24 | 0xFF<<5 | 0b11<<3 | 0b11<<1 | 0b1<<0
+DBGWCR0_EL1 =3D 0x17<<24 | 0xFF<<5 | 0b11<<3 | 0b11<<1 | 0b1<<0		=
+// ie. MASK =3D 23 =3D 0b10111
 
-and then access  memory [0x00807FFF]  I get a watchpoint exception. (ie. =
+and then access  memory [0x0080007F]  I get a watchpoint exception. (ie. =
 watchpoints ARE working/enabled)
 
-But if I access [0x008080000] I *don=E2=80=99t* get an exception.
+But if I access [0x00800080] I *don=E2=80=99t* get an exception.
 
-**If the MASK field gets set to 0b1111 instead of 0b11111 then only the =
-bottom 15 bits of the address get masked (instead of 31) and the masked =
+**If the MASK field gets set to 0b0111 instead of 0b10111 then only the =
+bottom 7 bits of the address get masked (instead of 23) and the masked =
 address isn=E2=80=99t 0x00800000, and the exception won=E2=80=99t be =
 triggered.**
 
+(if I *attempt* to set the MASK to 0b11111, but it actually gets set to =
+0b01111, then I get the behaviour quoted below).
 
-Unfortunately, changing the 4 to a 5 and recompiling had no effect :-(
 
-I may well have misunderstood something. :-/
+> On 24. Apr 2022, at 13:40, Chris Howard <cvz185@web.de> wrote:
+>=20
+> Hi, I=E2=80=99m new to qemu (and even bug-reporting) so apologies in =
+advance=E2=80=A6
+>=20
+> The MASK field in DBGWCRx_EL1 is **5** bits wide [28:24].
+>=20
+> In target/arm/kvm64.c I found the line:
+>=20
+> wp.wcr =3D deposit32(wp.wcr, 24, 4, bits);		// ie **4** bits =
+instead of **5**
+>=20
+>=20
+> If it=E2=80=99s not copying (or calculating?) the number of bits =
+correctly this would explain the behaviour I=E2=80=99m seeing:
+>=20
+> If I set
+>=20
+> DBGWVR0_EL1 =3D 0x00800000
+>=20
+> and
+>=20
+> DBGWCR0_EL1 =3D 0x1F<<24 | 0xFF<<5 | 0b11<<3 | 0b11<<1 | 0b1<<0
+>=20
+> and then access  memory [0x00807FFF]  I get a watchpoint exception. =
+(ie. watchpoints ARE working/enabled)
+>=20
+> But if I access [0x008080000] I *don=E2=80=99t* get an exception.
+>=20
+> **If the MASK field gets set to 0b1111 instead of 0b11111 then only =
+the bottom 15 bits of the address get masked (instead of 31) and the =
+masked address isn=E2=80=99t 0x00800000, and the exception won=E2=80=99t =
+be triggered.**
+>=20
+>=20
+> Unfortunately, changing the 4 to a 5 and recompiling had no effect :-(
+>=20
+> I may well have misunderstood something. :-/
+>=20
+> =E2=80=94Chris
 
-=E2=80=94Chris=
 
