@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD8950D5D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 00:40:29 +0200 (CEST)
-Received: from localhost ([::1]:50058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECA250D5D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 00:37:04 +0200 (CEST)
+Received: from localhost ([::1]:43264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niku4-0000ph-Dd
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:40:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50886)
+	id 1nikql-0004bG-UJ
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikTz-0002aA-Dj
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:13:31 -0400
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikV2-0004Kg-UR
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:14:36 -0400
 Received: from nowt.default.pbrook.uk0.bigv.io
- ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58860)
+ ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikTx-0002w7-Ln
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:13:31 -0400
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikUg-0002xm-Pu
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:14:28 -0400
 Received: from cpc91554-seac25-2-0-cust857.7-2.cable.virginm.net
  ([82.27.199.90] helo=wren.home)
  by nowt.default.pbrook.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
  (envelope-from <paul@nowt.org>)
- id 1nikJB-0001ea-6F; Sun, 24 Apr 2022 23:02:21 +0100
+ id 1nikJB-0001ea-Cp; Sun, 24 Apr 2022 23:02:21 +0100
 From: Paul Brook <paul@nowt.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v2 31/42] i386: Implement AVX variable shifts
-Date: Sun, 24 Apr 2022 23:01:53 +0100
-Message-Id: <20220424220204.2493824-32-paul@nowt.org>
+Subject: [PATCH v2 32/42] i386: Implement VTEST
+Date: Sun, 24 Apr 2022 23:01:54 +0100
+Message-Id: <20220424220204.2493824-33-paul@nowt.org>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220418173904.3746036-1-paul@nowt.org>
 References: <20220418173904.3746036-1-paul@nowt.org>
@@ -60,103 +60,80 @@ Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These use the W bit to encode the operand width, but otherwise fairly
-straightforward.
+Noting special here
 
 Signed-off-by: Paul Brook <paul@nowt.org>
 ---
- target/i386/ops_sse.h        | 17 +++++++++++++++++
- target/i386/ops_sse_header.h |  6 ++++++
- target/i386/tcg/translate.c  | 17 +++++++++++++++++
- 3 files changed, 40 insertions(+)
+ target/i386/ops_sse.h        | 28 ++++++++++++++++++++++++++++
+ target/i386/ops_sse_header.h |  2 ++
+ target/i386/tcg/translate.c  |  2 ++
+ 3 files changed, 32 insertions(+)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 9b92b9790a..8f2bd48394 100644
+index 8f2bd48394..edf14a25d7 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -3195,6 +3195,23 @@ void glue(helper_vpermilps_imm, SUFFIX)(CPUX86State *env,
- #endif
- }
+@@ -3212,6 +3212,34 @@ SSE_HELPER_Q(helper_vpsrlvq, FPSRLVQ)
+ SSE_HELPER_Q(helper_vpsravq, FPSRAVQ)
+ SSE_HELPER_Q(helper_vpsllvq, FPSLLVQ)
  
-+#if SHIFT == 1
-+#define FPSRLVD(x, c) (c < 32 ? ((x) >> c) : 0)
-+#define FPSRLVQ(x, c) (c < 64 ? ((x) >> c) : 0)
-+#define FPSRAVD(x, c) ((int32_t)(x) >> (c < 64 ? c : 31))
-+#define FPSRAVQ(x, c) ((int64_t)(x) >> (c < 64 ? c : 63))
-+#define FPSLLVD(x, c) (c < 32 ? ((x) << c) : 0)
-+#define FPSLLVQ(x, c) (c < 64 ? ((x) << c) : 0)
++void glue(helper_vtestps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
++{
++    uint32_t zf = (s->L(0) &  d->L(0)) | (s->L(1) &  d->L(1));
++    uint32_t cf = (s->L(0) & ~d->L(0)) | (s->L(1) & ~d->L(1));
++
++    zf |= (s->L(2) &  d->L(2)) | (s->L(3) &  d->L(3));
++    cf |= (s->L(2) & ~d->L(2)) | (s->L(3) & ~d->L(3));
++#if SHIFT == 2
++    zf |= (s->L(4) &  d->L(4)) | (s->L(5) &  d->L(5));
++    cf |= (s->L(4) & ~d->L(4)) | (s->L(5) & ~d->L(5));
++    zf |= (s->L(6) &  d->L(6)) | (s->L(7) &  d->L(7));
++    cf |= (s->L(6) & ~d->L(6)) | (s->L(7) & ~d->L(7));
 +#endif
++    CC_SRC = ((zf >> 31) ? 0 : CC_Z) | ((cf >> 31) ? 0 : CC_C);
++}
 +
-+SSE_HELPER_L(helper_vpsrlvd, FPSRLVD)
-+SSE_HELPER_L(helper_vpsravd, FPSRAVD)
-+SSE_HELPER_L(helper_vpsllvd, FPSLLVD)
++void glue(helper_vtestpd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
++{
++    uint64_t zf = (s->Q(0) &  d->Q(0)) | (s->Q(1) &  d->Q(1));
++    uint64_t cf = (s->Q(0) & ~d->Q(0)) | (s->Q(1) & ~d->Q(1));
 +
-+SSE_HELPER_Q(helper_vpsrlvq, FPSRLVQ)
-+SSE_HELPER_Q(helper_vpsravq, FPSRAVQ)
-+SSE_HELPER_Q(helper_vpsllvq, FPSLLVQ)
++#if SHIFT == 2
++    zf |= (s->Q(2) &  d->Q(2)) | (s->Q(3) &  d->Q(3));
++    cf |= (s->Q(2) & ~d->Q(2)) | (s->Q(3) & ~d->Q(3));
++#endif
++    CC_SRC = ((zf >> 63) ? 0 : CC_Z) | ((cf >> 63) ? 0 : CC_C);
++}
 +
  #if SHIFT == 2
  void glue(helper_vbroadcastdq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
  {
 diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index c52169a030..20db6c4240 100644
+index 20db6c4240..8b93b8e6d6 100644
 --- a/target/i386/ops_sse_header.h
 +++ b/target/i386/ops_sse_header.h
-@@ -421,6 +421,12 @@ DEF_HELPER_4(glue(vpermilpd, SUFFIX), void, env, Reg, Reg, Reg)
- DEF_HELPER_4(glue(vpermilps, SUFFIX), void, env, Reg, Reg, Reg)
- DEF_HELPER_4(glue(vpermilpd_imm, SUFFIX), void, env, Reg, Reg, i32)
- DEF_HELPER_4(glue(vpermilps_imm, SUFFIX), void, env, Reg, Reg, i32)
-+DEF_HELPER_4(glue(vpsrlvd, SUFFIX), void, env, Reg, Reg, Reg)
-+DEF_HELPER_4(glue(vpsravd, SUFFIX), void, env, Reg, Reg, Reg)
-+DEF_HELPER_4(glue(vpsllvd, SUFFIX), void, env, Reg, Reg, Reg)
-+DEF_HELPER_4(glue(vpsrlvq, SUFFIX), void, env, Reg, Reg, Reg)
-+DEF_HELPER_4(glue(vpsravq, SUFFIX), void, env, Reg, Reg, Reg)
-+DEF_HELPER_4(glue(vpsllvq, SUFFIX), void, env, Reg, Reg, Reg)
+@@ -427,6 +427,8 @@ DEF_HELPER_4(glue(vpsllvd, SUFFIX), void, env, Reg, Reg, Reg)
+ DEF_HELPER_4(glue(vpsrlvq, SUFFIX), void, env, Reg, Reg, Reg)
+ DEF_HELPER_4(glue(vpsravq, SUFFIX), void, env, Reg, Reg, Reg)
+ DEF_HELPER_4(glue(vpsllvq, SUFFIX), void, env, Reg, Reg, Reg)
++DEF_HELPER_3(glue(vtestps, SUFFIX), void, env, Reg, Reg)
++DEF_HELPER_3(glue(vtestpd, SUFFIX), void, env, Reg, Reg)
  #if SHIFT == 2
  DEF_HELPER_3(glue(vbroadcastdq, SUFFIX), void, env, Reg, Reg)
  DEF_HELPER_1(vzeroall, void, env)
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 358c3ecb0b..4990470083 100644
+index 4990470083..2fbb7bfcad 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -3293,6 +3293,9 @@ static const struct SSEOpHelper_table6 sse_op_table6[256] = {
-     [0x40] = BINARY_OP(pmulld, SSE41, SSE_OPF_MMX),
- #define gen_helper_phminposuw_ymm NULL
-     [0x41] = UNARY_OP(phminposuw, SSE41, 0),
-+    [0x45] = BINARY_OP(vpsrlvd, AVX, SSE_OPF_AVX2),
-+    [0x46] = BINARY_OP(vpsravd, AVX, SSE_OPF_AVX2),
-+    [0x47] = BINARY_OP(vpsllvd, AVX, SSE_OPF_AVX2),
-     /* vpbroadcastd */
-     [0x58] = UNARY_OP(vbroadcastl, AVX, SSE_OPF_SCALAR | SSE_OPF_MMX),
-     /* vpbroadcastq */
-@@ -3357,6 +3360,15 @@ static const struct SSEOpHelper_table7 sse_op_table7[256] = {
- #undef BLENDV_OP
- #undef SPECIAL_OP
- 
-+#define SSE_OP(name) \
-+    {gen_helper_ ## name ##_xmm, gen_helper_ ## name ##_ymm}
-+static const SSEFunc_0_eppp sse_op_table8[3][2] = {
-+    SSE_OP(vpsrlvq),
-+    SSE_OP(vpsravq),
-+    SSE_OP(vpsllvq),
-+};
-+#undef SSE_OP
-+
- /* VEX prefix not allowed */
- #define CHECK_NO_VEX(s) do { \
-     if (s->prefix & PREFIX_VEX) \
-@@ -4439,6 +4451,11 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                         tcg_temp_free_ptr(mask);
-                     } else {
-                         SSEFunc_0_eppp fn = op6.fn[b1].op2;
-+                        if (REX_W(s)) {
-+                            if (b >= 0x45 && b <= 0x47) {
-+                                fn = sse_op_table8[b - 0x45][b1 - 1];
-+                            }
-+                        }
-                         fn(cpu_env, s->ptr0, s->ptr2, s->ptr1);
-                     }
-                 }
+@@ -3253,6 +3253,8 @@ static const struct SSEOpHelper_table6 sse_op_table6[256] = {
+     [0x0b] = BINARY_OP_MMX(pmulhrsw, SSSE3),
+     [0x0c] = BINARY_OP(vpermilps, AVX, 0),
+     [0x0d] = BINARY_OP(vpermilpd, AVX, 0),
++    [0x0e] = CMP_OP(vtestps, AVX),
++    [0x0f] = CMP_OP(vtestpd, AVX),
+     [0x10] = BLENDV_OP(pblendvb, SSE41, SSE_OPF_MMX),
+     [0x14] = BLENDV_OP(blendvps, SSE41, 0),
+     [0x15] = BLENDV_OP(blendvpd, SSE41, 0),
 -- 
 2.36.0
 
