@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF21A50D59F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 00:15:44 +0200 (CEST)
-Received: from localhost ([::1]:38104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4958D50D5A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 00:18:35 +0200 (CEST)
+Received: from localhost ([::1]:46872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nikW7-0004IZ-O4
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:15:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50546)
+	id 1nikYs-0001pG-Dk
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:18:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikSO-0001RR-HC
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:11:52 -0400
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikT5-0001ji-K3
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:12:37 -0400
 Received: from nowt.default.pbrook.uk0.bigv.io
- ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58776)
+ ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikSM-0002o7-VD
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:11:52 -0400
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikT2-0002rr-Nn
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:12:35 -0400
 Received: from cpc91554-seac25-2-0-cust857.7-2.cable.virginm.net
  ([82.27.199.90] helo=wren.home)
  by nowt.default.pbrook.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
  (envelope-from <paul@nowt.org>)
- id 1nikJC-0001ea-Dq; Sun, 24 Apr 2022 23:02:22 +0100
+ id 1nikJC-0001ea-K6; Sun, 24 Apr 2022 23:02:22 +0100
 From: Paul Brook <paul@nowt.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v2 37/42] i386: Implement VBLENDV
-Date: Sun, 24 Apr 2022 23:01:59 +0100
-Message-Id: <20220424220204.2493824-38-paul@nowt.org>
+Subject: [PATCH v2 38/42] i386: Implement VPBLENDD
+Date: Sun, 24 Apr 2022 23:02:00 +0100
+Message-Id: <20220424220204.2493824-39-paul@nowt.org>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220418173904.3746036-1-paul@nowt.org>
 References: <20220418173904.3746036-1-paul@nowt.org>
@@ -60,58 +60,25 @@ Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AVX variants of the BLENDV instructions use a different opcode prefix
-to support the additional operands. We already modified the helper functions
-in anticipation of this.
+This is semantically eqivalent to VBLENDPS.
 
 Signed-off-by: Paul Brook <paul@nowt.org>
 ---
- target/i386/tcg/translate.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ target/i386/tcg/translate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 4072fa28d3..95ecdea8fe 100644
+index 95ecdea8fe..73f3842c36 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -3384,6 +3384,9 @@ static const struct SSEOpHelper_table7 sse_op_table7[256] = {
-     [0x42] = BINARY_OP(mpsadbw, SSE41, SSE_OPF_MMX),
-     [0x44] = BINARY_OP(pclmulqdq, PCLMULQDQ, 0),
-     [0x46] = BINARY_OP(vpermdq, AVX, SSE_OPF_AVX2), /* vperm2i128 */
-+    [0x4a] = BLENDV_OP(blendvps, AVX, 0),
-+    [0x4b] = BLENDV_OP(blendvpd, AVX, 0),
-+    [0x4c] = BLENDV_OP(pblendvb, AVX, SSE_OPF_MMX),
- #define gen_helper_pcmpestrm_ymm NULL
-     [0x60] = CMP_OP(pcmpestrm, SSE42),
- #define gen_helper_pcmpestri_ymm NULL
-@@ -5268,6 +5271,10 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-             }
- 
-             /* SSE */
-+            if (op7.flags & SSE_OPF_BLENDV && !(s->prefix & PREFIX_VEX)) {
-+                /* Only VEX encodings are valid for these blendv opcodes */
-+                goto illegal_op;
-+            }
-             op1_offset = ZMM_OFFSET(reg);
-             if (mod == 3) {
-                 op2_offset = ZMM_OFFSET(rm | REX_B(s));
-@@ -5316,8 +5323,15 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                 op7.fn[b1].op1(cpu_env, s->ptr0, s->ptr1, tcg_const_i32(val));
-             } else {
-                 tcg_gen_addi_ptr(s->ptr2, cpu_env, v_offset);
--                op7.fn[b1].op2(cpu_env, s->ptr0, s->ptr2, s->ptr1,
--                               tcg_const_i32(val));
-+                if (op7.flags & SSE_OPF_BLENDV) {
-+                    TCGv_ptr mask = tcg_temp_new_ptr();
-+                    tcg_gen_addi_ptr(mask, cpu_env, ZMM_OFFSET(val >> 4));
-+                    op7.fn[b1].op3(cpu_env, s->ptr0, s->ptr2, s->ptr1, mask);
-+                    tcg_temp_free_ptr(mask);
-+                } else {
-+                    op7.fn[b1].op2(cpu_env, s->ptr0, s->ptr2, s->ptr1,
-+                                   tcg_const_i32(val));
-+                }
-             }
-             if ((op7.flags & SSE_OPF_CMP) == 0 && s->vex_l == 0) {
-                 gen_clear_ymmh(s, reg);
+@@ -3353,6 +3353,7 @@ static const struct SSEOpHelper_table7 sse_op_table7[256] = {
+ #define gen_helper_vpermq_xmm NULL
+     [0x00] = UNARY_OP(vpermq, AVX, SSE_OPF_AVX2),
+     [0x01] = UNARY_OP(vpermq, AVX, SSE_OPF_AVX2), /* vpermpd */
++    [0x02] = BINARY_OP(blendps, AVX, SSE_OPF_AVX2), /* vpblendd */
+     [0x04] = UNARY_OP(vpermilps_imm, AVX, 0),
+     [0x05] = UNARY_OP(vpermilpd_imm, AVX, 0),
+ #define gen_helper_vpermdq_xmm NULL
 -- 
 2.36.0
 
