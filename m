@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0C550D5A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 00:15:54 +0200 (CEST)
-Received: from localhost ([::1]:39106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD96750D5BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 00:28:27 +0200 (CEST)
+Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nikWH-0004xe-Sn
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:15:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50458)
+	id 1nikiR-0001xX-0u
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikS1-00014a-U5
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:11:30 -0400
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikTO-0001vP-ES
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:12:55 -0400
 Received: from nowt.default.pbrook.uk0.bigv.io
- ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58759)
+ ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikRz-0002mj-SF
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:11:29 -0400
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikTM-0002tG-Fz
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:12:54 -0400
 Received: from cpc91554-seac25-2-0-cust857.7-2.cable.virginm.net
  ([82.27.199.90] helo=wren.home)
  by nowt.default.pbrook.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
  (envelope-from <paul@nowt.org>)
- id 1nikJB-0001ea-Jq; Sun, 24 Apr 2022 23:02:21 +0100
+ id 1nikJB-0001ea-Qa; Sun, 24 Apr 2022 23:02:21 +0100
 From: Paul Brook <paul@nowt.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v2 33/42] i386: Implement VMASKMOV
-Date: Sun, 24 Apr 2022 23:01:55 +0100
-Message-Id: <20220424220204.2493824-34-paul@nowt.org>
+Subject: [PATCH v2 34/42] i386: Implement VGATHER
+Date: Sun, 24 Apr 2022 23:01:56 +0100
+Message-Id: <20220424220204.2493824-35-paul@nowt.org>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220418173904.3746036-1-paul@nowt.org>
 References: <20220418173904.3746036-1-paul@nowt.org>
@@ -60,166 +60,223 @@ Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Decoding these is a bit messy, but at least the integer and float variants
-have the same semantics once decoded.
+These are scatter load instructions that need introduce a new "Vector SIB"
+encoding.  Also a bit of hair to handle different index sizes and scaling
+factors, but overall the combinatorial explosion doesn't end up too bad.
 
-We don't try and be clever with the load forms, instead load the whole
-vector then mask out the elements we want.
+The other thing of note is probably that these also modify the mask operand.
+Thankfully the operands may not overlap, and we do not have to make the whole
+thing appear atomic.
 
 Signed-off-by: Paul Brook <paul@nowt.org>
 ---
- target/i386/ops_sse.h        | 48 ++++++++++++++++++++++++++++++++++++
- target/i386/ops_sse_header.h |  4 +++
- target/i386/tcg/translate.c  | 34 +++++++++++++++++++++++++
- 3 files changed, 86 insertions(+)
+ target/i386/ops_sse.h        | 65 +++++++++++++++++++++++++++++++
+ target/i386/ops_sse_header.h | 16 ++++++++
+ target/i386/tcg/translate.c  | 74 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 155 insertions(+)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index edf14a25d7..ffcba3d02c 100644
+index ffcba3d02c..14a2d1bf78 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -3240,6 +3240,54 @@ void glue(helper_vtestpd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-     CC_SRC = ((zf >> 63) ? 0 : CC_Z) | ((cf >> 63) ? 0 : CC_C);
+@@ -3288,6 +3288,71 @@ void glue(helper_vpmaskmovq, SUFFIX)(CPUX86State *env, Reg *d, Reg *v, Reg *s)
+ #endif
  }
  
-+void glue(helper_vpmaskmovd_st, SUFFIX)(CPUX86State *env,
-+                                        Reg *s, Reg *v, target_ulong a0)
-+{
-+    int i;
-+
-+    for (i = 0; i < (2 << SHIFT); i++) {
-+        if (v->L(i) >> 31) {
-+            cpu_stl_data_ra(env, a0 + i * 4, s->L(i), GETPC());
-+        }
-+    }
++#define VGATHER_HELPER(scale)                                       \
++void glue(helper_vpgatherdd ## scale, SUFFIX)(CPUX86State *env,     \
++        Reg *d, Reg *v, Reg *s, target_ulong a0)                    \
++{                                                                   \
++    int i;                                                          \
++    for (i = 0; i < (2 << SHIFT); i++) {                            \
++        if (v->L(i) >> 31) {                                        \
++            target_ulong addr = a0                                  \
++                + ((target_ulong)(int32_t)s->L(i) << scale);        \
++            d->L(i) = cpu_ldl_data_ra(env, addr, GETPC());          \
++        }                                                           \
++        v->L(i) = 0;                                                \
++    }                                                               \
++}                                                                   \
++void glue(helper_vpgatherdq ## scale, SUFFIX)(CPUX86State *env,     \
++        Reg *d, Reg *v, Reg *s, target_ulong a0)                    \
++{                                                                   \
++    int i;                                                          \
++    for (i = 0; i < (1 << SHIFT); i++) {                            \
++        if (v->Q(i) >> 63) {                                        \
++            target_ulong addr = a0                                  \
++                + ((target_ulong)(int32_t)s->L(i) << scale);        \
++            d->Q(i) = cpu_ldq_data_ra(env, addr, GETPC());          \
++        }                                                           \
++        v->Q(i) = 0;                                                \
++    }                                                               \
++}                                                                   \
++void glue(helper_vpgatherqd ## scale, SUFFIX)(CPUX86State *env,     \
++        Reg *d, Reg *v, Reg *s, target_ulong a0)                    \
++{                                                                   \
++    int i;                                                          \
++    for (i = 0; i < (1 << SHIFT); i++) {                            \
++        if (v->L(i) >> 31) {                                        \
++            target_ulong addr = a0                                  \
++                + ((target_ulong)(int64_t)s->Q(i) << scale);        \
++            d->L(i) = cpu_ldl_data_ra(env, addr, GETPC());          \
++        }                                                           \
++        v->L(i) = 0;                                                \
++    }                                                               \
++    d->Q(SHIFT) = 0;                                                    \
++    v->Q(SHIFT) = 0;                                                    \
++    YMM_ONLY(                                                       \
++    d->Q(3) = 0;                                                    \
++    v->Q(3) = 0;                                                    \
++    )                                                               \
++}                                                                   \
++void glue(helper_vpgatherqq ## scale, SUFFIX)(CPUX86State *env,     \
++        Reg *d, Reg *v, Reg *s, target_ulong a0)                    \
++{                                                                   \
++    int i;                                                          \
++    for (i = 0; i < (1 << SHIFT); i++) {                            \
++        if (v->Q(i) >> 63) {                                        \
++            target_ulong addr = a0                                  \
++                + ((target_ulong)(int64_t)s->Q(i) << scale);        \
++            d->Q(i) = cpu_ldq_data_ra(env, addr, GETPC());          \
++        }                                                           \
++        v->Q(i) = 0;                                                \
++    }                                                               \
 +}
 +
-+void glue(helper_vpmaskmovq_st, SUFFIX)(CPUX86State *env,
-+                                        Reg *s, Reg *v, target_ulong a0)
-+{
-+    int i;
-+
-+    for (i = 0; i < (1 << SHIFT); i++) {
-+        if (v->Q(i) >> 63) {
-+            cpu_stq_data_ra(env, a0 + i * 8, s->Q(i), GETPC());
-+        }
-+    }
-+}
-+
-+void glue(helper_vpmaskmovd, SUFFIX)(CPUX86State *env, Reg *d, Reg *v, Reg *s)
-+{
-+    d->L(0) = (v->L(0) >> 31) ? s->L(0) : 0;
-+    d->L(1) = (v->L(1) >> 31) ? s->L(1) : 0;
-+    d->L(2) = (v->L(2) >> 31) ? s->L(2) : 0;
-+    d->L(3) = (v->L(3) >> 31) ? s->L(3) : 0;
-+#if SHIFT == 2
-+    d->L(4) = (v->L(4) >> 31) ? s->L(4) : 0;
-+    d->L(5) = (v->L(5) >> 31) ? s->L(5) : 0;
-+    d->L(6) = (v->L(6) >> 31) ? s->L(6) : 0;
-+    d->L(7) = (v->L(7) >> 31) ? s->L(7) : 0;
-+#endif
-+}
-+
-+void glue(helper_vpmaskmovq, SUFFIX)(CPUX86State *env, Reg *d, Reg *v, Reg *s)
-+{
-+    d->Q(0) = (v->Q(0) >> 63) ? s->Q(0) : 0;
-+    d->Q(1) = (v->Q(1) >> 63) ? s->Q(1) : 0;
-+#if SHIFT == 2
-+    d->Q(2) = (v->Q(2) >> 63) ? s->Q(2) : 0;
-+    d->Q(3) = (v->Q(3) >> 63) ? s->Q(3) : 0;
-+#endif
-+}
++VGATHER_HELPER(0)
++VGATHER_HELPER(1)
++VGATHER_HELPER(2)
++VGATHER_HELPER(3)
 +
  #if SHIFT == 2
  void glue(helper_vbroadcastdq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
  {
 diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index 8b93b8e6d6..a7a6bf6b10 100644
+index a7a6bf6b10..e5d8ea9bb7 100644
 --- a/target/i386/ops_sse_header.h
 +++ b/target/i386/ops_sse_header.h
-@@ -429,6 +429,10 @@ DEF_HELPER_4(glue(vpsravq, SUFFIX), void, env, Reg, Reg, Reg)
- DEF_HELPER_4(glue(vpsllvq, SUFFIX), void, env, Reg, Reg, Reg)
- DEF_HELPER_3(glue(vtestps, SUFFIX), void, env, Reg, Reg)
- DEF_HELPER_3(glue(vtestpd, SUFFIX), void, env, Reg, Reg)
-+DEF_HELPER_4(glue(vpmaskmovd_st, SUFFIX), void, env, Reg, Reg, tl)
-+DEF_HELPER_4(glue(vpmaskmovq_st, SUFFIX), void, env, Reg, Reg, tl)
-+DEF_HELPER_4(glue(vpmaskmovd, SUFFIX), void, env, Reg, Reg, Reg)
-+DEF_HELPER_4(glue(vpmaskmovq, SUFFIX), void, env, Reg, Reg, Reg)
+@@ -433,6 +433,22 @@ DEF_HELPER_4(glue(vpmaskmovd_st, SUFFIX), void, env, Reg, Reg, tl)
+ DEF_HELPER_4(glue(vpmaskmovq_st, SUFFIX), void, env, Reg, Reg, tl)
+ DEF_HELPER_4(glue(vpmaskmovd, SUFFIX), void, env, Reg, Reg, Reg)
+ DEF_HELPER_4(glue(vpmaskmovq, SUFFIX), void, env, Reg, Reg, Reg)
++DEF_HELPER_5(glue(vpgatherdd0, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherdq0, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherqd0, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherqq0, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherdd1, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherdq1, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherqd1, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherqq1, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherdd2, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherdq2, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherqd2, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherqq2, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherdd3, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherdq3, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherqd3, SUFFIX), void, env, Reg, Reg, Reg, tl)
++DEF_HELPER_5(glue(vpgatherqq3, SUFFIX), void, env, Reg, Reg, Reg, tl)
  #if SHIFT == 2
  DEF_HELPER_3(glue(vbroadcastdq, SUFFIX), void, env, Reg, Reg)
  DEF_HELPER_1(vzeroall, void, env)
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 2fbb7bfcad..e00195d301 100644
+index e00195d301..fe1ab58d07 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -3277,6 +3277,10 @@ static const struct SSEOpHelper_table6 sse_op_table6[256] = {
-     [0x29] = BINARY_OP(pcmpeqq, SSE41, SSE_OPF_MMX),
-     [0x2a] = SPECIAL_OP(SSE41), /* movntqda */
-     [0x2b] = BINARY_OP(packusdw, SSE41, SSE_OPF_MMX),
-+    [0x2c] = BINARY_OP(vpmaskmovd, AVX, 0), /* vmaskmovps */
-+    [0x2d] = BINARY_OP(vpmaskmovq, AVX, 0), /* vmaskmovpd */
-+    [0x2e] = SPECIAL_OP(AVX), /* vmaskmovps */
-+    [0x2f] = SPECIAL_OP(AVX), /* vmaskmovpd */
-     [0x30] = UNARY_OP(pmovzxbw, SSE41, SSE_OPF_MMX),
-     [0x31] = UNARY_OP(pmovzxbd, SSE41, SSE_OPF_MMX),
-     [0x32] = UNARY_OP(pmovzxbq, SSE41, SSE_OPF_MMX),
-@@ -3308,6 +3312,9 @@ static const struct SSEOpHelper_table6 sse_op_table6[256] = {
-     [0x78] = UNARY_OP(vbroadcastb, AVX, SSE_OPF_SCALAR | SSE_OPF_MMX),
-     /* vpbroadcastw */
-     [0x79] = UNARY_OP(vbroadcastw, AVX, SSE_OPF_SCALAR | SSE_OPF_MMX),
-+    /* vpmaskmovd, vpmaskmovq */
-+    [0x8c] = BINARY_OP(vpmaskmovd, AVX, SSE_OPF_AVX2),
-+    [0x8e] = SPECIAL_OP(AVX), /* vpmaskmovd, vpmaskmovq */
+@@ -3315,6 +3315,10 @@ static const struct SSEOpHelper_table6 sse_op_table6[256] = {
+     /* vpmaskmovd, vpmaskmovq */
+     [0x8c] = BINARY_OP(vpmaskmovd, AVX, SSE_OPF_AVX2),
+     [0x8e] = SPECIAL_OP(AVX), /* vpmaskmovd, vpmaskmovq */
++    [0x90] = SPECIAL_OP(AVX), /* vpgatherdd, vpgatherdq */
++    [0x91] = SPECIAL_OP(AVX), /* vpgatherqd, vpgatherqq */
++    [0x92] = SPECIAL_OP(AVX), /* vgatherdpd, vgatherdps */
++    [0x93] = SPECIAL_OP(AVX), /* vgatherqpd, vgatherqps */
  #define gen_helper_aesimc_ymm NULL
      [0xdb] = UNARY_OP(aesimc, AES, 0),
      [0xdc] = BINARY_OP(aesenc, AES, 0),
-@@ -3369,6 +3376,11 @@ static const SSEFunc_0_eppp sse_op_table8[3][2] = {
-     SSE_OP(vpsravq),
-     SSE_OP(vpsllvq),
+@@ -3381,6 +3385,25 @@ static const SSEFunc_0_eppt sse_op_table9[2][2] = {
+     SSE_OP(vpmaskmovd_st),
+     SSE_OP(vpmaskmovq_st),
  };
 +
-+static const SSEFunc_0_eppt sse_op_table9[2][2] = {
-+    SSE_OP(vpmaskmovd_st),
-+    SSE_OP(vpmaskmovq_st),
++static const SSEFunc_0_epppt sse_op_table10[16][2] = {
++    SSE_OP(vpgatherdd0),
++    SSE_OP(vpgatherdq0),
++    SSE_OP(vpgatherqd0),
++    SSE_OP(vpgatherqq0),
++    SSE_OP(vpgatherdd1),
++    SSE_OP(vpgatherdq1),
++    SSE_OP(vpgatherqd1),
++    SSE_OP(vpgatherqq1),
++    SSE_OP(vpgatherdd2),
++    SSE_OP(vpgatherdq2),
++    SSE_OP(vpgatherqd2),
++    SSE_OP(vpgatherqq2),
++    SSE_OP(vpgatherdd3),
++    SSE_OP(vpgatherdq3),
++    SSE_OP(vpgatherqd3),
++    SSE_OP(vpgatherqq3),
 +};
  #undef SSE_OP
  
  /* VEX prefix not allowed */
-@@ -4394,6 +4406,22 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                             gen_clear_ymmh(s, reg);
-                         }
-                         return;
-+                    case 0x2e: /* maskmovpd */
-+                        b1 = 0;
-+                        goto vpmaskmov;
-+                    case 0x2f: /* maskmovpd */
-+                        b1 = 1;
-+                        goto vpmaskmov;
-+                    case 0x8e: /* vpmaskmovd, vpmaskmovq */
-+                        CHECK_AVX2(s);
-+                        b1 = REX_W(s);
-+                    vpmaskmov:
-+                        tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
-+                        v_offset = ZMM_OFFSET(reg_v);
-+                        tcg_gen_addi_ptr(s->ptr2, cpu_env, v_offset);
-+                        sse_op_table9[b1][s->vex_l](cpu_env,
-+                                s->ptr0, s->ptr2, s->A0);
-+                        return;
-                     default:
-                         size = 128;
-                     }
-@@ -4456,6 +4484,12 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                         if (REX_W(s)) {
-                             if (b >= 0x45 && b <= 0x47) {
-                                 fn = sse_op_table8[b - 0x45][b1 - 1];
-+                            } else if (b == 0x8c) {
-+                                if (s->vex_l) {
-+                                    fn = gen_helper_vpmaskmovq_ymm;
-+                                } else {
-+                                    fn = gen_helper_vpmaskmovq_xmm;
-+                                }
-                             }
-                         }
-                         fn(cpu_env, s->ptr0, s->ptr2, s->ptr1);
+@@ -4350,6 +4373,57 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                 }
+                 op1_offset = ZMM_OFFSET(reg);
+ 
++                if ((b & 0xfc) == 0x90) { /* vgather */
++                    int scale, index, base;
++                    target_long disp = 0;
++                    CHECK_AVX2(s);
++                    if (mod == 3 || rm != 4) {
++                        goto illegal_op;
++                    }
++
++                    /* Vector SIB */
++                    val = x86_ldub_code(env, s);
++                    scale = (val >> 6) & 3;
++                    index = ((val >> 3) & 7) | REX_X(s);
++                    base = (val & 7) | REX_B(s);
++                    switch (mod) {
++                    case 0:
++                        if (base == 5) {
++                            base = -1;
++                            disp = (int32_t)x86_ldl_code(env, s);
++                        }
++                        break;
++                    case 1:
++                        disp = (int8_t)x86_ldub_code(env, s);
++                        break;
++                    default:
++                    case 2:
++                        disp = (int32_t)x86_ldl_code(env, s);
++                        break;
++                    }
++
++                    /* destination, index and mask registers must not overlap */
++                    if (reg == index || reg == reg_v) {
++                        goto illegal_op;
++                    }
++
++                    tcg_gen_addi_tl(s->A0, cpu_regs[base], disp);
++                    gen_add_A0_ds_seg(s);
++                    op2_offset = ZMM_OFFSET(index);
++                    v_offset = ZMM_OFFSET(reg_v);
++                    tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
++                    tcg_gen_addi_ptr(s->ptr1, cpu_env, op2_offset);
++                    tcg_gen_addi_ptr(s->ptr2, cpu_env, v_offset);
++                    b1 = REX_W(s) | ((b & 1) << 1) | (scale << 2);
++                    sse_op_table10[b1][s->vex_l](cpu_env,
++                            s->ptr0, s->ptr2, s->ptr1, s->A0);
++                    if (!s->vex_l) {
++                        gen_clear_ymmh(s, reg);
++                        gen_clear_ymmh(s, reg_v);
++                    }
++                    return;
++                }
++
+                 if (op6.flags & SSE_OPF_MMX) {
+                     CHECK_AVX2_256(s);
+                 }
 -- 
 2.36.0
 
