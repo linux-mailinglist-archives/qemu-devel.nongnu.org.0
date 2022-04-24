@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4958D50D5A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 00:18:35 +0200 (CEST)
-Received: from localhost ([::1]:46872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5937D50D5C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 00:30:51 +0200 (CEST)
+Received: from localhost ([::1]:51314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nikYs-0001pG-Dk
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:18:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
+	id 1nikkk-0007UV-At
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:30:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikT5-0001ji-K3
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:12:37 -0400
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikSR-0001Sk-Vv
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:11:57 -0400
 Received: from nowt.default.pbrook.uk0.bigv.io
- ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58817)
+ ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikT2-0002rr-Nn
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:12:35 -0400
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikSQ-0002oH-HN
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:11:55 -0400
 Received: from cpc91554-seac25-2-0-cust857.7-2.cable.virginm.net
  ([82.27.199.90] helo=wren.home)
  by nowt.default.pbrook.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
  (envelope-from <paul@nowt.org>)
- id 1nikJC-0001ea-K6; Sun, 24 Apr 2022 23:02:22 +0100
+ id 1nikJC-0001ea-QE; Sun, 24 Apr 2022 23:02:22 +0100
 From: Paul Brook <paul@nowt.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v2 38/42] i386: Implement VPBLENDD
-Date: Sun, 24 Apr 2022 23:02:00 +0100
-Message-Id: <20220424220204.2493824-39-paul@nowt.org>
+Subject: [PATCH v2 39/42] i386: Enable AVX cpuid bits when using TCG
+Date: Sun, 24 Apr 2022 23:02:01 +0100
+Message-Id: <20220424220204.2493824-40-paul@nowt.org>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220418173904.3746036-1-paul@nowt.org>
 References: <20220418173904.3746036-1-paul@nowt.org>
@@ -42,7 +42,8 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,25 +61,44 @@ Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is semantically eqivalent to VBLENDPS.
+Include AVX and AVX2 in the guest cpuid features supported by TCG
 
 Signed-off-by: Paul Brook <paul@nowt.org>
 ---
- target/i386/tcg/translate.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/cpu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 95ecdea8fe..73f3842c36 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -3353,6 +3353,7 @@ static const struct SSEOpHelper_table7 sse_op_table7[256] = {
- #define gen_helper_vpermq_xmm NULL
-     [0x00] = UNARY_OP(vpermq, AVX, SSE_OPF_AVX2),
-     [0x01] = UNARY_OP(vpermq, AVX, SSE_OPF_AVX2), /* vpermpd */
-+    [0x02] = BINARY_OP(blendps, AVX, SSE_OPF_AVX2), /* vpblendd */
-     [0x04] = UNARY_OP(vpermilps_imm, AVX, 0),
-     [0x05] = UNARY_OP(vpermilpd_imm, AVX, 0),
- #define gen_helper_vpermdq_xmm NULL
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 99343be926..bd35233d5b 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -625,12 +625,12 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+           CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_POPCNT | \
+           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
+           CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
+-          CPUID_EXT_RDRAND)
++          CPUID_EXT_RDRAND | CPUID_EXT_AVX)
+           /* missing:
+           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
+           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
+           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
+-          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER, CPUID_EXT_AVX,
++          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER,
+           CPUID_EXT_F16C */
+ 
+ #ifdef TARGET_X86_64
+@@ -653,9 +653,9 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+           CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ADX | \
+           CPUID_7_0_EBX_PCOMMIT | CPUID_7_0_EBX_CLFLUSHOPT |            \
+           CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_MPX | CPUID_7_0_EBX_FSGSBASE | \
+-          CPUID_7_0_EBX_ERMS)
++          CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_AVX2)
+           /* missing:
+-          CPUID_7_0_EBX_HLE, CPUID_7_0_EBX_AVX2,
++          CPUID_7_0_EBX_HLE
+           CPUID_7_0_EBX_INVPCID, CPUID_7_0_EBX_RTM,
+           CPUID_7_0_EBX_RDSEED */
+ #define TCG_7_0_ECX_FEATURES (CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU | \
 -- 
 2.36.0
 
