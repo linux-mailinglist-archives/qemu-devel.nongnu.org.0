@@ -2,36 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A30E50D3A6
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 18:52:45 +0200 (CEST)
-Received: from localhost ([::1]:40098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9892850D3A8
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 18:52:47 +0200 (CEST)
+Received: from localhost ([::1]:40328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nifTV-0004jA-Hb
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 12:52:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35342)
+	id 1nifTa-0004sW-Ky
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 12:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nifQp-0001yC-5s; Sun, 24 Apr 2022 12:49:55 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36086)
+ id 1nifQr-0001yn-J1; Sun, 24 Apr 2022 12:50:00 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nifQn-0000r5-FU; Sun, 24 Apr 2022 12:49:54 -0400
+ id 1nifQq-0000rD-4U; Sun, 24 Apr 2022 12:49:57 -0400
 Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nifPm-000BIt-N7; Sun, 24 Apr 2022 17:48:54 +0100
+ id 1nifPq-000BIt-Vw; Sun, 24 Apr 2022 17:48:59 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
-Date: Sun, 24 Apr 2022 17:49:24 +0100
-Message-Id: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 24 Apr 2022 17:49:25 +0100
+Message-Id: <20220424164935.7339-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
+References: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 00/11] scsi: add quirks and features to support m68k Macs
+Subject: [PATCH v2 01/11] scsi-disk: add FORMAT UNIT command
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -56,86 +58,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here are the next set of patches from my ongoing work to allow the q800
-machine to boot MacOS related to SCSI devices.
-
-The first patch implements a dummy FORMAT UNIT command which is used by
-the Apple HD SC Setup program when preparing an empty disk to install
-MacOS.
-
-Patch 2 adds a new quirks bitmap to SCSIDiskState to allow buggy and/or
-legacy features to enabled on an individual device basis. Once the quirks
-bitmap has been added, patch 3 uses the quirks feature to implement an
-Apple-specific mode page which is required to allow the disk to be recognised
-and used by Apple HD SC Setup.
-
-Patch 4 adds compat_props to the q800 machine which enable the new
-MODE_PAGE_APPLE_VENDOR quirk for all scsi-hd devices attached to the machine.
-
-Patch 5 adds a new quirk to force SCSI CDROMs to always return the block
-descriptor for a MODE SENSE command which is expected by A/UX, whilst patch 6
-enables the quirk for all scsi-cd devices on the q800 machine.
-
-Patch 7 adds support for truncated MODE SELECT requests which are sent by
-A/UX (and also MacOS in some circumstances) when enumerating a SCSI CDROM device
-which are shown to be accepted on real hardware as documented in [1].
-
-Patch 8 allows the MODE_PAGE_R_W_ERROR AWRE bit to be changeable since the A/UX
-MODE SELECT request sets this bit to 0 rather than the QEMU default which is 1.
-
-Patch 9 adds support for setting the CDROM block size via a MODE SELECT request
-which is supported by older CDROMs to allow the block size to be changed from
-the default of 2048 bytes to 512 bytes for compatibility purposes. This is used
-by A/UX which otherwise fails with SCSI errors if the block size is not set to
-512 bytes when accessing CDROMs.
-
-Finally patches 10 and 11 augment the compat_props to set the default vendor,
-product and version information for all scsi-hd and scsi-cd devices attached
-to the q800 machine, taken from real drives. This is because MacOS will only
-allow a known set of SCSI devices to be recognised during the installation
-process.
+When initialising a drive ready to install MacOS, Apple HD SC Setup first attempts
+to format the drive. Add a simple FORMAT UNIT command which simply returns success
+to allow the format to succeed.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/scsi/scsi-disk.c  | 4 ++++
+ hw/scsi/trace-events | 1 +
+ 2 files changed, 5 insertions(+)
 
-[1] https://68kmla.org/bb/index.php?threads/scsi2sd-project-anyone-interested.29040/page-7#post-316444
-
-
-v2:
-- Change patchset title from "scsi: add support for FORMAT UNIT command and quirks"
-  to "scsi: add quirks and features to support m68k Macs"
-- Fix missing shift in patch 2 as pointed out by Fam
-- Rename MODE_PAGE_APPLE to MODE_PAGE_APPLE_VENDOR
-- Add SCSI_DISK_QUIRK_MODE_SENSE_ROM_FORCE_DBD quirk
-- Add support for truncated MODE SELECT requests
-- Allow MODE_PAGE_R_W_ERROR AWRE bit to be changeable for CDROM devices
-- Allow the MODE SELECT block descriptor to set the CDROM block size
-
-
-Mark Cave-Ayland (11):
-  scsi-disk: add FORMAT UNIT command
-  scsi-disk: add new quirks bitmap to SCSIDiskState
-  scsi-disk: add MODE_PAGE_APPLE_VENDOR quirk for Macintosh
-  q800: implement compat_props to enable quirk_mode_page_apple_vendor
-    for scsi-hd devices
-  scsi-disk: add SCSI_DISK_QUIRK_MODE_SENSE_ROM_FORCE_DBD quirk for
-    Macintosh
-  q800: implement compat_props to enable quirk_mode_sense_rom_force_dbd
-    for scsi-cd devices
-  scsi-disk: allow truncated MODE SELECT requests
-  scsi-disk: allow the MODE_PAGE_R_W_ERROR AWRE bit to be changeable for
-    CDROM drives
-  scsi-disk: allow MODE SELECT block descriptor to set the ROM device
-    block size
-  q800: add default vendor and product information for scsi-hd devices
-  q800: add default vendor and product information for scsi-cd devices
-
- hw/m68k/q800.c           | 13 ++++++++++
- hw/scsi/scsi-disk.c      | 53 +++++++++++++++++++++++++++++++++++-----
- hw/scsi/trace-events     |  3 +++
- include/hw/scsi/scsi.h   |  4 +++
- include/scsi/constants.h |  1 +
- 5 files changed, 68 insertions(+), 6 deletions(-)
-
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 072686ed58..090679f3b5 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2127,6 +2127,9 @@ static int32_t scsi_disk_emulate_command(SCSIRequest *req, uint8_t *buf)
+         trace_scsi_disk_emulate_command_WRITE_SAME(
+                 req->cmd.buf[0] == WRITE_SAME_10 ? 10 : 16, r->req.cmd.xfer);
+         break;
++    case FORMAT_UNIT:
++        trace_scsi_disk_emulate_command_FORMAT_UNIT(r->req.cmd.xfer);
++        break;
+     default:
+         trace_scsi_disk_emulate_command_UNKNOWN(buf[0],
+                                                 scsi_command_name(buf[0]));
+@@ -2533,6 +2536,7 @@ static const SCSIReqOps *const scsi_disk_reqops_dispatch[256] = {
+     [VERIFY_10]                       = &scsi_disk_emulate_reqops,
+     [VERIFY_12]                       = &scsi_disk_emulate_reqops,
+     [VERIFY_16]                       = &scsi_disk_emulate_reqops,
++    [FORMAT_UNIT]                     = &scsi_disk_emulate_reqops,
+ 
+     [READ_6]                          = &scsi_disk_dma_reqops,
+     [READ_10]                         = &scsi_disk_dma_reqops,
+diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
+index 20fb0dc162..e91b55a961 100644
+--- a/hw/scsi/trace-events
++++ b/hw/scsi/trace-events
+@@ -334,6 +334,7 @@ scsi_disk_emulate_command_UNMAP(size_t xfer) "Unmap (len %zd)"
+ scsi_disk_emulate_command_VERIFY(int bytchk) "Verify (bytchk %d)"
+ scsi_disk_emulate_command_WRITE_SAME(int cmd, size_t xfer) "WRITE SAME %d (len %zd)"
+ scsi_disk_emulate_command_UNKNOWN(int cmd, const char *name) "Unknown SCSI command (0x%2.2x=%s)"
++scsi_disk_emulate_command_FORMAT_UNIT(size_t xfer) "Format Unit (len %zd)"
+ scsi_disk_dma_command_READ(uint64_t lba, uint32_t len) "Read (sector %" PRId64 ", count %u)"
+ scsi_disk_dma_command_WRITE(const char *cmd, uint64_t lba, int len) "Write %s(sector %" PRId64 ", count %u)"
+ scsi_disk_new_request(uint32_t lun, uint32_t tag, const char *line) "Command: lun=%d tag=0x%x data=%s"
 -- 
 2.20.1
 
