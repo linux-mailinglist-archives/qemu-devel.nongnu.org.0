@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE2750D3A9
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 18:53:13 +0200 (CEST)
-Received: from localhost ([::1]:42084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE9D50D3CA
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 19:00:40 +0200 (CEST)
+Received: from localhost ([::1]:34644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nifU0-00063B-3T
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 12:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35498)
+	id 1nifbD-0003eE-9m
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 13:00:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nifR8-0002CR-KT; Sun, 24 Apr 2022 12:50:15 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36154)
+ id 1nifRD-0002Jr-PD; Sun, 24 Apr 2022 12:50:24 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nifR7-000140-0g; Sun, 24 Apr 2022 12:50:14 -0400
+ id 1nifRC-00016K-0M; Sun, 24 Apr 2022 12:50:19 -0400
 Received: from [2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nifQ9-000BIt-31; Sun, 24 Apr 2022 17:49:17 +0100
+ id 1nifQD-000BIt-EN; Sun, 24 Apr 2022 17:49:21 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: pbonzini@redhat.com, laurent@vivier.eu, fam@euphon.net,
  qemu-devel@nongnu.org, qemu-block@nongnu.org
-Date: Sun, 24 Apr 2022 17:49:31 +0100
-Message-Id: <20220424164935.7339-8-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 24 Apr 2022 17:49:32 +0100
+Message-Id: <20220424164935.7339-9-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
 References: <20220424164935.7339-1-mark.cave-ayland@ilande.co.uk>
@@ -33,7 +33,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba2:c800:3cf5:fb4b:b388:106c
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 07/11] scsi-disk: allow truncated MODE SELECT requests
+Subject: [PATCH v2 08/11] scsi-disk: allow the MODE_PAGE_R_W_ERROR AWRE bit to
+ be changeable for CDROM drives
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -58,51 +59,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When A/UX configures the CDROM device it sends a truncated MODE SELECT request
-for page 1 (MODE_PAGE_R_W_ERROR) which is only 6 bytes in length rather than
-10. This seems to be due to bug in Apple's code which calculates the CDB message
-length incorrectly.
-
-According to [1] this truncated request is accepted on real hardware whereas in
-QEMU it generates an INVALID_PARAM_LEN sense code which causes A/UX to get stuck
-in a loop retrying the command in an attempt to succeed.
-
-Alter the mode page request length check so that truncated requests are allowed
-as per real hardware, adding a trace event to enable the condition to be detected.
-
-[1] https://68kmla.org/bb/index.php?threads/scsi2sd-project-anyone-interested.29040/page-7#post-316444
+A/UX sends a MODE_PAGE_R_W_ERROR command with the AWRE bit set to 0 when enumerating
+CDROM drives. Since the bit is currently hardcoded to 1 then indicate that the AWRE
+bit can be changed (even though we don't care about the value) so that
+the MODE_PAGE_R_W_ERROR page can be set successfully.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/scsi-disk.c  | 2 +-
- hw/scsi/trace-events | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ hw/scsi/scsi-disk.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 71fdf132c1..c657e4f5da 100644
+index c657e4f5da..6991493cf4 100644
 --- a/hw/scsi/scsi-disk.c
 +++ b/hw/scsi/scsi-disk.c
-@@ -1525,7 +1525,7 @@ static int mode_select_pages(SCSIDiskReq *r, uint8_t *p, int len, bool change)
-             goto invalid_param;
+@@ -1187,6 +1187,10 @@ static int mode_sense_page(SCSIDiskState *s, int page, uint8_t **p_outbuf,
+     case MODE_PAGE_R_W_ERROR:
+         length = 10;
+         if (page_control == 1) { /* Changeable Values */
++            if (s->qdev.type == TYPE_ROM) {
++                /* Automatic Write Reallocation Enabled */
++                p[0] = 0x80;
++            }
+             break;
          }
-         if (page_len > len) {
--            goto invalid_param_len;
-+            trace_scsi_disk_mode_select_page_truncated(page, page_len, len);
-         }
- 
-         if (!change) {
-diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
-index e91b55a961..25eae9f307 100644
---- a/hw/scsi/trace-events
-+++ b/hw/scsi/trace-events
-@@ -339,6 +339,7 @@ scsi_disk_dma_command_READ(uint64_t lba, uint32_t len) "Read (sector %" PRId64 "
- scsi_disk_dma_command_WRITE(const char *cmd, uint64_t lba, int len) "Write %s(sector %" PRId64 ", count %u)"
- scsi_disk_new_request(uint32_t lun, uint32_t tag, const char *line) "Command: lun=%d tag=0x%x data=%s"
- scsi_disk_aio_sgio_command(uint32_t tag, uint8_t cmd, uint64_t lba, int len, uint32_t timeout) "disk aio sgio: tag=0x%x cmd=0x%x (sector %" PRId64 ", count %d) timeout=%u"
-+scsi_disk_mode_select_page_truncated(int page, int len, int page_len) "page %d expected length %d but received length %d"
- 
- # scsi-generic.c
- scsi_generic_command_complete_noio(void *req, uint32_t tag, int statuc) "Command complete %p tag=0x%x status=%d"
+         p[0] = 0x80; /* Automatic Write Reallocation Enabled */
 -- 
 2.20.1
 
