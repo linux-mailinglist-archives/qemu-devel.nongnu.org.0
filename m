@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD86E50D581
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC4050D582
 	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 00:05:11 +0200 (CEST)
-Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:47198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nikLu-0007kM-Vg
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49284)
+	id 1nikLu-0007oA-SH
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 18:05:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikJC-00056L-Ft
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikJC-00056M-Hk
  for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:02:22 -0400
 Received: from nowt.default.pbrook.uk0.bigv.io
- ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58676)
+ ([2001:41c8:51:832:fcff:ff:fe00:46dd]:58675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikJA-0001L2-Ky
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1nikJA-0001L1-JN
  for qemu-devel@nongnu.org; Sun, 24 Apr 2022 18:02:22 -0400
 Received: from cpc91554-seac25-2-0-cust857.7-2.cable.virginm.net
  ([82.27.199.90] helo=wren.home)
  by nowt.default.pbrook.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
  (envelope-from <paul@nowt.org>)
- id 1nikJ4-0001ea-Qu; Sun, 24 Apr 2022 23:02:14 +0100
+ id 1nikJ5-0001ea-0t; Sun, 24 Apr 2022 23:02:15 +0100
 From: Paul Brook <paul@nowt.org>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v2 01/42] i386: pcmpestr 64-bit sign extension bug
-Date: Sun, 24 Apr 2022 23:01:23 +0100
-Message-Id: <20220424220204.2493824-2-paul@nowt.org>
+Subject: [PATCH v2 02/42] i386: DPPS rounding fix
+Date: Sun, 24 Apr 2022 23:01:24 +0100
+Message-Id: <20220424220204.2493824-3-paul@nowt.org>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220418173904.3746036-1-paul@nowt.org>
 References: <20220418173904.3746036-1-paul@nowt.org>
@@ -60,60 +60,97 @@ Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The abs1 function in ops_sse.h only works sorrectly when the result fits
-in a signed int. This is fine most of the time because we're only dealing
-with byte sized values.
+The DPPS (Dot Product) instruction is defined to first sum pairs of
+intermediate results, then sum those values to get the final result.
+i.e. (A+B)+(C+D)
 
-However pcmp_elen helper function uses abs1 to calculate the absolute value
-of a cpu register. This incorrectly truncates to 32 bits, and will give
-the wrong anser for the most negative value.
+We incrementally sum the results, i.e. ((A+B)+C)+D, which can result
+in incorrect rouding.
 
-Fix by open coding the saturation check before taking the absolute value.
+For consistency, also remove the redundant (but harmless) add operation
+from DPPD
 
 Signed-off-by: Paul Brook <paul@nowt.org>
 ---
- target/i386/ops_sse.h | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ target/i386/ops_sse.h | 47 +++++++++++++++++++++++--------------------
+ 1 file changed, 25 insertions(+), 22 deletions(-)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index e4d74b814a..535440f882 100644
+index 535440f882..a5a48a20f6 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -2011,25 +2011,23 @@ SSE_HELPER_Q(helper_pcmpgtq, FCMPGTQ)
+@@ -1934,32 +1934,36 @@ SSE_HELPER_I(helper_pblendw, W, 8, FBLENDP)
  
- static inline int pcmp_elen(CPUX86State *env, int reg, uint32_t ctrl)
+ void glue(helper_dpps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
  {
--    int val;
-+    target_long val, limit;
+-    float32 iresult = float32_zero;
++    float32 prod, iresult, iresult2;
  
-     /* Presence of REX.W is indicated by a bit higher than 7 set */
-     if (ctrl >> 8) {
--        val = abs1((int64_t)env->regs[reg]);
-+        val = (target_long)env->regs[reg];
-     } else {
--        val = abs1((int32_t)env->regs[reg]);
-+        val = (int32_t)env->regs[reg];
++    /*
++     * We must evaluate (A+B)+(C+D), not ((A+B)+C)+D
++     * to correctly round the intermediate results
++     */
+     if (mask & (1 << 4)) {
+-        iresult = float32_add(iresult,
+-                              float32_mul(d->ZMM_S(0), s->ZMM_S(0),
+-                                          &env->sse_status),
+-                              &env->sse_status);
++        iresult = float32_mul(d->ZMM_S(0), s->ZMM_S(0), &env->sse_status);
++    } else {
++        iresult = float32_zero;
      }
--
-     if (ctrl & 1) {
--        if (val > 8) {
--            return 8;
--        }
-+        limit = 8;
-     } else {
--        if (val > 16) {
--            return 16;
--        }
-+        limit = 16;
+     if (mask & (1 << 5)) {
+-        iresult = float32_add(iresult,
+-                              float32_mul(d->ZMM_S(1), s->ZMM_S(1),
+-                                          &env->sse_status),
+-                              &env->sse_status);
++        prod = float32_mul(d->ZMM_S(1), s->ZMM_S(1), &env->sse_status);
++    } else {
++        prod = float32_zero;
      }
--    return val;
-+    if ((val > limit) || (val < -limit)) {
-+        return limit;
-+    }
-+    return abs1(val);
- }
++    iresult = float32_add(iresult, prod, &env->sse_status);
+     if (mask & (1 << 6)) {
+-        iresult = float32_add(iresult,
+-                              float32_mul(d->ZMM_S(2), s->ZMM_S(2),
+-                                          &env->sse_status),
+-                              &env->sse_status);
++        iresult2 = float32_mul(d->ZMM_S(2), s->ZMM_S(2), &env->sse_status);
++    } else {
++        iresult2 = float32_zero;
+     }
+     if (mask & (1 << 7)) {
+-        iresult = float32_add(iresult,
+-                              float32_mul(d->ZMM_S(3), s->ZMM_S(3),
+-                                          &env->sse_status),
+-                              &env->sse_status);
++        prod = float32_mul(d->ZMM_S(3), s->ZMM_S(3), &env->sse_status);
++    } else {
++        prod = float32_zero;
+     }
++    iresult2 = float32_add(iresult2, prod, &env->sse_status);
++    iresult = float32_add(iresult, iresult2, &env->sse_status);
++
+     d->ZMM_S(0) = (mask & (1 << 0)) ? iresult : float32_zero;
+     d->ZMM_S(1) = (mask & (1 << 1)) ? iresult : float32_zero;
+     d->ZMM_S(2) = (mask & (1 << 2)) ? iresult : float32_zero;
+@@ -1968,13 +1972,12 @@ void glue(helper_dpps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
  
- static inline int pcmp_ilen(Reg *r, uint8_t ctrl)
+ void glue(helper_dppd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
+ {
+-    float64 iresult = float64_zero;
++    float64 iresult;
+ 
+     if (mask & (1 << 4)) {
+-        iresult = float64_add(iresult,
+-                              float64_mul(d->ZMM_D(0), s->ZMM_D(0),
+-                                          &env->sse_status),
+-                              &env->sse_status);
++        iresult = float64_mul(d->ZMM_D(0), s->ZMM_D(0), &env->sse_status);
++    } else {
++        iresult = float64_zero;
+     }
+     if (mask & (1 << 5)) {
+         iresult = float64_add(iresult,
 -- 
 2.36.0
 
