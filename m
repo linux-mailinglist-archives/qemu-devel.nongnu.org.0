@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822A150CE32
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 03:22:06 +0200 (CEST)
-Received: from localhost ([::1]:57812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C6250CFDB
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 07:24:59 +0200 (CEST)
+Received: from localhost ([::1]:39664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niQwv-0004dL-4A
-	for lists+qemu-devel@lfdr.de; Sat, 23 Apr 2022 21:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58324)
+	id 1niUjx-0002my-S4
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 01:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1niQvP-0003kG-7r; Sat, 23 Apr 2022 21:20:31 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:34734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1niQvN-0006Vl-L9; Sat, 23 Apr 2022 21:20:30 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2f7c424c66cso26822647b3.1; 
- Sat, 23 Apr 2022 18:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iDlUdZ9UFIKsEh5V4UvPkZeHdMhYrvkRaBOzqRsZYok=;
- b=RpWMb1vXRNbSqHs16jzqEBtK1J54ZBRS70IYQm1DvC2Y7Kw2z4TGKR1KLywqLj6ImX
- duGY9fTe+3RY8zFFuEWHOD0htREjIXd1t3OYFwwCXX7BWtW1WjUdxD9cgTg29iDXlSBd
- pwyFSgM+U+RS9YDCGTcLU1MbFqWPO8+POB0NaL2S89j2mqNlgHYiP6otH1zUZYZmqhfQ
- Et/i1rfxvv9yypcna8T4IMANl298Q/J+sO/Am5RyRHNYF2TlTgNHDyN4urwFqwnbTKCh
- ZOkO5QDxJFWh0sv7Uflzm+AEhk+/wXEuhbL1usNWiRPBIeJT/N15E8/PNAxXUgAFzgYB
- E8QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iDlUdZ9UFIKsEh5V4UvPkZeHdMhYrvkRaBOzqRsZYok=;
- b=FVBZFnsCRJsRqh00EoLQqg8YdgvsvDgMioQ8F8k0Gy/sb3WwYfdWHC9Wbnpk+vD/lk
- bAOgvZblvYnDiANfVacKv9rbA3dUYNavr31x3jDigZXZQGXaWIFSgu42Lxq3gPo3N/c3
- i2M/yR6RjQzr9XIirzIUid2CIIEcv+h22oracVe/wtG3JVonlgvz97KLKhic/mBFwLjd
- LOjFJYgMNLr0ON5ucMv2EZh9kSTWyslhpD0gNvvtsDjcZM0X/Z+AnhoEVtDpfgmamCJd
- dTASB2Ik+48VQ2khyLsJUOzQn5ZMJDctnfTlkK8SSYunfLWN4uKoHHNRUhF2WnJB1o/J
- 0Qnw==
-X-Gm-Message-State: AOAM533kKlzfRlVaRzdZLRuz6VKmF9T5T6FbI241B20BGh6FsZoU5uVu
- CLSxdUFXhmD+4v9zS3H/T2PFwqbOVZb2JCaZsXU=
-X-Google-Smtp-Source: ABdhPJytmGkoHlqpjur4jO+fvxIN8fxID2EIjsswF4VlmMkZJ5/lcRGOe5ibrq5U3DGgSyFT+yBILFsc/tk10K0Diok=
-X-Received: by 2002:a0d:f103:0:b0:2eb:488:f0e1 with SMTP id
- a3-20020a0df103000000b002eb0488f0e1mr11136010ywf.487.1650763228072; Sat, 23
- Apr 2022 18:20:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAKmqyKNtcV3MN0qzVEOgty=o137-QfYm4_c_hHmb1O9YfhSiQQ@mail.gmail.com>
- <20220423215907.673663-1-ralf.ramsauer@oth-regensburg.de>
-In-Reply-To: <20220423215907.673663-1-ralf.ramsauer@oth-regensburg.de>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 24 Apr 2022 09:20:16 +0800
-Message-ID: <CAEUhbmUMTBuMgToupEssSsqaQtbjzNKP5Vhfi2J-wmCgzVxyUQ@mail.gmail.com>
-Subject: Re: [PATCH v3] target/riscv: Fix incorrect PTE merge in walk_pte
-To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1niUhv-0001CE-Vk; Sun, 24 Apr 2022 01:22:54 -0400
+Received: from mail-sender.a4lg.com ([153.120.152.154]:53432
+ helo=mail-sender-0.a4lg.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <research_trasio@irq.a4lg.com>)
+ id 1niUht-0003o4-2e; Sun, 24 Apr 2022 01:22:51 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by mail-sender-0.a4lg.com (Postfix) with ESMTPSA id 4123A300089;
+ Sun, 24 Apr 2022 05:22:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irq.a4lg.com;
+ s=2017s01; t=1650777757;
+ bh=MlbxknYBnzNdP9QJ9P3dusDJgWvczPYNedvS4K4yjck=;
+ h=From:To:Cc:Subject:Date:Message-Id:Mime-Version:
+ Content-Transfer-Encoding;
+ b=tQd6Rs8WL4cHWLp8sbSnNNJLXXNMx1apfZEv3uFQN5DdRCoQ5zsq31EnTGMtLIHBa
+ HYGsS2wxfuX+4+lj5jwrwjkiMjrTpfKB0LCu2hfLGDRYGyDT9c7hEbyP/7+FZLDjgO
+ Er7MLVebz6SZNUTlwPySrdnFXdCKmQRaKHoHajwE=
+From: Tsukasa OI <research_trasio@irq.a4lg.com>
+To: Tsukasa OI <research_trasio@irq.a4lg.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ Frank Chang <frank.chang@sifive.com>
+Subject: [PATCH 0/2] target/riscv: ISA string conversion fix and enhancement
+Date: Sun, 24 Apr 2022 14:22:34 +0900
+Message-Id: <cover.1650777360.git.research_trasio@irq.a4lg.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=153.120.152.154;
+ envelope-from=research_trasio@irq.a4lg.com; helo=mail-sender-0.a4lg.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,47 +58,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Konrad Schwarz <konrad.schwarz@siemens.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- Alistair Francis <alistair23@gmail.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 24, 2022 at 5:59 AM Ralf Ramsauer
-<ralf.ramsauer@oth-regensburg.de> wrote:
->
-> Two non-subsequent PTEs can be mapped to subsequent paddrs. In this
-> case, walk_pte will erroneously merge them.
->
-> Enforce the split up, by tracking the virtual base address.
->
-> Let's say we have the mapping:
-> 0x81200000 -> 0x89623000 (4K)
-> 0x8120f000 -> 0x89624000 (4K)
->
-> Before, walk_pte would have shown:
->
-> vaddr            paddr            size             attr
-> ---------------- ---------------- ---------------- -------
-> 0000000081200000 0000000089623000 0000000000002000 rwxu-ad
->
-> as it only checks for subsequent paddrs. With this patch, it becomes:
->
-> vaddr            paddr            size             attr
-> ---------------- ---------------- ---------------- -------
-> 0000000081200000 0000000089623000 0000000000001000 rwxu-ad
-> 000000008120f000 0000000089624000 0000000000001000 rwxu-ad
->
-> Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-> ---
-> [since v2: Adjust comment, rebased to latest master]
->
->  target/riscv/monitor.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->
+Hello,
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+There is two issues related to RISC-V ISA extension string
+I want to be fixed before QEMU 7.1 release.
+
+
+
+Issue 1 (workaround in PATCH 1):
+
+Related: <https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03726.html>
+
+Generating long ISA extension string is definately a good thing to merge.
+However, it includes two extensions with possibly invalid order:
+
+-   Zhinx (IEEE754 binary16 arithmetic in GPR)
+-   Zhinxmin (subset of Zhinx, conversion only)
+
+This is because:
+
+1.  Z* extensions are ordered with the second character by closely
+    related extension category list
+    (RISC-V ISA Manual draft: IMAFDQLCBKJTPV)
+2.  ... but it doesn't have the character "H" yet
+
+I raised this issue on RISC-V ISA Manual GitHub and being discussed:
+<https://github.com/riscv/riscv-isa-manual/issues/837>
+
+Considering software compatibility, "H" is likely placed after "V" (and
+"N").  I kept single-letter "H" based on this assumption.
+
+However, Zhinx and Zhinxmin extensions are not that important because
+it's incompatible with F and D.  That's why I proposing to remove those
+from ISA extension string generation for now.  If "H"-extension ordering
+is determined, we can safely add Zhinx* extensions again.
+
+Note that this patch does not remove extensions.  It just disables
+putting Zhinx* extensions in a DeviceTree entry ("riscv,isa").
+
+Of course, we can alternatively move Zhinx and Zhinxmin
+before "Svinval" but after "Zve64f", assuming "H" comes after "V".
+Let me know which might be better.
+
+
+
+Issue 2 (fixed in PATCH 2):
+
+Some operating systems does not correctly parse ISA extension string with
+version numbers and multi-letter extensions.
+
+On Linux, 5.18 is the first version to implement safe parser.
+However, old Linux kernels are still confused by ISA extension strings
+(generated by QEMU >= 7.1) containing multi-letter extensions.
+Much worse, those multi-letter extensions are enabled by default:
+
+1.  Zba
+2.  Zbb
+3.  Zbc
+4.  Zbs
+
+For instance, existence of "Zbc" can cause problems if we disable
+compressed instructions ("C" extension).
+
+As I searched through, I found this kind of issue on following OSes:
+
+-   Linux (kernel version 5.17 or earlier)
+-   FreeBSD (at least 14.0-CURRENT)
+-   OpenBSD (at least current development version)
+
+I propose a new CPU option "short-isa-string" (default: false), which
+disables generating ISA extension string with multi-letter extensions.
+
+Example:
+    qemu-system-riscv64 ... \
+        -cpu rv64,h=on,svnapot=on,svinval=on,short-isa-string=on \
+        ...
+    Without "short-isa-string=on", QEMU generates DeviceTree with
+    following ISA extension string:
+        rv64imafdch_zba_zbb_zbc_zbs_svinval_svnapot
+    With it, QEMU generates following ISA extension string:
+        rv64imafdch
+
+
+
+
+Tsukasa OI (2):
+  target/riscv: Tentatively remove Zhinx* from ISA extension string
+  target/riscv: Add short-isa-string option
+
+ target/riscv/cpu.c | 7 ++++---
+ target/riscv/cpu.h | 2 ++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+
+base-commit: 754f756cc4c6d9d14b7230c62b5bb20f9d655888
+-- 
+2.32.0
+
 
