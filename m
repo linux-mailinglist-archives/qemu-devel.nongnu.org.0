@@ -2,58 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B1F50D43D
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 20:47:12 +0200 (CEST)
-Received: from localhost ([::1]:36382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D02750D4C1
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Apr 2022 21:14:30 +0200 (CEST)
+Received: from localhost ([::1]:44966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nihGJ-0004nT-Bu
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 14:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54592)
+	id 1nihgi-0003XW-I5
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 15:14:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nihEp-0003vN-Ov; Sun, 24 Apr 2022 14:45:39 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:34245)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nihEn-00009Z-AW; Sun, 24 Apr 2022 14:45:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=qzoHdp4ddAZMLwqmzz3h6xs3+MyWUKYIN1TcbukEnYQ=; b=P23yd3UXhfnfuOaDf4rlUyVc8q
- GW0estV1V525nNPpou2VbhuAuoc0bi9QnsvVFY0ju3+Ozs4V2EMhmZQYtAKwOdsHJ9LTOu0FglrU+
- BG9f5c7uivOkD25BLBBcAaeKXXpwqW3CuS4l1+Sm7F2zQP9qWF/axmxmOINzgcH2AHJ5v477xIN6F
- AGz7VwjvHBmzg6GCRVkhheL93mr0BJ7OiFq9tysneQCsET50waIbPQFjVJ+vxu+Bdspr3QYeruU2Y
- cc8n8gRWLyg3sSU5n3KWASYG14nqd/8OOA5UBrp6LjlAyxaFD+Ydzm804ph7wfbMBXTpnxFNVC7Pq
- QUNNZhtiYVca/w8It5ScBgHqwIu67BaM26jBTdXwJvOEx2BKY/UoQiCTOL6IVTAb99t+BlgxNhtC3
- VnPOfW+qckGZNMi1iSOmyOOneqgSueCX0ilmjzBxtw0QX/R0USaTLRR16nusquxVE+oZdj+cZJsuB
- ajFhYFVTqoT0XBJwfGWQ64xYtUyhk4CN3FkqkWqtvQDoVMB4cSHKvASBEkOiLhfIkJWiOYbPP+Lg4
- 4+6nziOXrANJwkDjE7VdaT1I5QKdi0Rq9UkZP+fz368cq7ThJKX1uddmE4hyb+JWDtoVr6jNhZVm3
- zFSeWGnQQnIcSSOCYhqVf1UAfh4A59Oin5cjrcqVI=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>, 
- Greg Kurz <groug@kaod.org>, qemu-stable@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v2 2/5] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
-Date: Sun, 24 Apr 2022 20:45:21 +0200
-Message-ID: <3849551.ofAv5PygDX@silver>
-In-Reply-To: <eafd4bbf-dbff-323a-179f-8f29905701e1@gmail.com>
-References: <cover.1650553693.git.qemu_oss@crudebyte.com>
- <1750044.XWheshbc2e@silver>
- <eafd4bbf-dbff-323a-179f-8f29905701e1@gmail.com>
+ (Exim 4.90_1) (envelope-from <clabbe@baylibre.com>)
+ id 1nihcv-0001Kv-Cd
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 15:10:33 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:56219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <clabbe@baylibre.com>)
+ id 1nihct-0003wN-9Z
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 15:10:33 -0400
+Received: by mail-wm1-x335.google.com with SMTP id x3so8074536wmj.5
+ for <qemu-devel@nongnu.org>; Sun, 24 Apr 2022 12:10:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=q8t0eo80CMqPJNf1ptRZUMi9LLCdq5o8lbaZqVVKPgc=;
+ b=3luIlSLhEvuYY0CRd+PglJfM02FLRUU4JCuCp0wrXV/BQx9XyEjHnCJ8SaQe/+Ut0A
+ RHDzFxW8s3XMoxiofOD/UuSOz5sR/U/Cc66epWcFt/mbtXP9S1Q1k4Fb87m/DqcDRx2t
+ e/ZLNq1/2H3IzqUSFVxPwunFvl15hNPP7jXguNq2hRLY0x+FbCO+rY5r8yi7jvTPVPOY
+ aZyRkJQZw8R27rUZRzi+5UoRgGpoUBov4JpfHVz3YqzuWFIW2XHyntN85CnLcJhMVxje
+ OmMMs7Ov9rLlTPIKR1osLBmaB1CdcVa828z71fPsiim9DlktPIZUjHbAHw3diAlIcqb4
+ Z+Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=q8t0eo80CMqPJNf1ptRZUMi9LLCdq5o8lbaZqVVKPgc=;
+ b=cQXYSpSvUahh3tWUCVzdAQVvySQTXcSO1EnaJ7M2IgbPp+u4GgiW4hgSb3GHVvBIkb
+ dV6MjGbaEnBOpknhYtBLQuB5BUV/OG+K0qGtc/bp9ZQ3oO22dQY+iKlqDhA6YFsm41qM
+ UjDB+J/ku5562WJKB2/N15d3xPoVXfY7bX79WqvBu+LnlZdfbMwxXhsaueVe8ONa8Co7
+ 39SDIpdULvQ+KvK+h5r9VvC5qPdgQg5RcqB1Q8du8Oe4/nLQoSR5wS9+MyoYf6EcyhfU
+ 3Y8CDOouYz+FOm7O9ZMTkg+PPmx+iAn61W+4U2JoR/wFbQTfLxhIzyv8J3xq4oDJqN74
+ J+PA==
+X-Gm-Message-State: AOAM531m0fZsNbFm8q2fnwHZgj75JCZoWs7jPAukCZHf7NJf06+t7yPA
+ fOYfngS3wue3q7n/SxNf/4d1Jw==
+X-Google-Smtp-Source: ABdhPJxbjdQe6X0U7M9HtH3eg8yvKKbNYFBSNdTlu7e7h3K3MTGQQGAMaTX6uRCQ6tmKh7nHSvm6Bw==
+X-Received: by 2002:a1c:2542:0:b0:38e:b64c:6afb with SMTP id
+ l63-20020a1c2542000000b0038eb64c6afbmr13329338wml.65.1650827427740; 
+ Sun, 24 Apr 2022 12:10:27 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+ by smtp.googlemail.com with ESMTPSA id
+ f11-20020a7bcc0b000000b0037e0c362b6dsm6966293wmh.31.2022.04.24.12.10.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 24 Apr 2022 12:10:27 -0700 (PDT)
+Date: Sun, 24 Apr 2022 21:10:23 +0200
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] hw/crypto: add Allwinner sun4i-ss crypto device
+Message-ID: <YmWgn2OGoZ9Uyirh@Red>
+References: <20220410191238.760733-1-clabbe@baylibre.com>
+ <CAFEAcA9L89oN5nfM4RRxyYPBMtwbH1VfO1FbnXFUyC+rmzk51A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEAcA9L89oN5nfM4RRxyYPBMtwbH1VfO1FbnXFUyC+rmzk51A@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=clabbe@baylibre.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,213 +87,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: b.galvani@gmail.com, qemu-arm@nongnu.org,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Samstag, 23. April 2022 06:33:50 CEST Akihiko Odaki wrote:
-> On 2022/04/22 23:06, Christian Schoenebeck wrote:
-> > On Freitag, 22. April 2022 04:43:40 CEST Akihiko Odaki wrote:
-> >> On 2022/04/22 0:07, Christian Schoenebeck wrote:
-> >>> mknod() on macOS does not support creating sockets, so divert to
-> >>> call sequence socket(), bind() and chmod() respectively if S_IFSOCK
-> >>> was passed with mode argument.
-> >>> 
-> >>> Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
-> >>> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> >>> Reviewed-by: Will Cohen <wwcohen@gmail.com>
-> >>> ---
-> >>> 
-> >>>    hw/9pfs/9p-util-darwin.c | 27 ++++++++++++++++++++++++++-
-> >>>    1 file changed, 26 insertions(+), 1 deletion(-)
-> >>> 
-> >>> diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-> >>> index e24d09763a..39308f2a45 100644
-> >>> --- a/hw/9pfs/9p-util-darwin.c
-> >>> +++ b/hw/9pfs/9p-util-darwin.c
-> >>> @@ -74,6 +74,27 @@ int fsetxattrat_nofollow(int dirfd, const char
-> >>> *filename, const char *name,>
-> >>> 
-> >>>     */
-> >>>    
-> >>>    #if defined CONFIG_PTHREAD_FCHDIR_NP
-> >>> 
-> >>> +static int create_socket_file_at_cwd(const char *filename, mode_t mode)
-> >>> {
-> >>> +    int fd, err;
-> >>> +    struct sockaddr_un addr = {
-> >>> +        .sun_family = AF_UNIX
-> >>> +    };
-> >>> +
-> >>> +    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
-> >>> +    if (fd == -1) {
-> >>> +        return fd;
-> >>> +    }
-> >>> +    snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s", filename);
-> >> 
-> >> It would result in an incorrect path if the path does not fit in
-> >> addr.sun_path. It should report an explicit error instead.
-> > 
-> > Looking at its header file, 'sun_path' is indeed defined on macOS with an
-> > oddly small size of only 104 bytes. So yes, I should explicitly handle
-> > that
-> > error case.
-> > 
-> > I'll post a v3.
-> > 
-> >>> +    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
-> >>> +    if (err == -1) {
-> >>> +        goto out;
-> >> 
-> >> You may close(fd) as soon as bind() returns (before checking the
-> >> returned value) and eliminate goto.
-> > 
-> > Yeah, I thought about that alternative, but found it a bit ugly, and
-> > probably also counter-productive in case this function might get extended
-> > with more error pathes in future. Not that I would insist on the current
-> > solution though.
+Le Thu, Apr 21, 2022 at 01:38:00PM +0100, Peter Maydell a écrit :
+> On Sun, 10 Apr 2022 at 20:12, Corentin Labbe <clabbe@baylibre.com> wrote:
+> >
+> > From: Corentin LABBE <clabbe@baylibre.com>
+> >
+> > The Allwinner A10 has a cryptographic offloader device which
+> > could be easily emulated.
+> > The emulated device is tested with Linux only as any of BSD does not
+> > support it.
+> >
+> > Signed-off-by: Corentin LABBE <clabbe@baylibre.com>
 > 
-> I'm happy with the explanation. Thanks.
+> Hi; thanks for this patch, and sorry it's taken me a while to get
+> to reviewing it.
 > 
-> >>> +    }
-> >>> +    err = chmod(addr.sun_path, mode);
-> >> 
-> >> I'm not sure if it is fine to have a time window between bind() and
-> >> chmod(). Do you have some rationale?
-> > 
-> > Good question. QEMU's 9p server is multi-threaded; all 9p requests come in
-> > serialized and the 9p server controller portion (9p.c) is only running on
-> > QEMU main thread, but the actual filesystem driver calls are then
-> > dispatched to QEMU worker threads and therefore running concurrently at
-> > this point:
-> > 
-> > https://wiki.qemu.org/Documentation/9p#Threads_and_Coroutines
-> > 
-> > Similar situation on Linux 9p client side: it handles access to a mounted
-> > 9p filesystem concurrently, requests are then serialized by 9p driver on
-> > Linux and sent over wire to 9p server (host).
-> > 
-> > So yes, there might be implications by that short time windows. But could
-> > that be exploited on macOS hosts in practice?
-> > 
-> > The socket file would have mode srwxr-xr-x for a short moment.
-> > 
-> > For security_model=mapped* this should not be a problem.
-> > 
-> > For security_model=none|passhrough, in theory, maybe? But how likely is
-> > that? If you are using a Linux client for instance, trying to brute-force
-> > opening the socket file, the client would send several 9p commands
-> > (Twalk, Tgetattr, Topen, probably more). The time window of the two
-> > commands above should be much smaller than that and I would expect one of
-> > the 9p commands to error out in between.
-> > 
-> > What would be a viable approach to avoid this issue on macOS?
+> (Daniel, I cc'd you since this device model is making use of crypto
+> related APIs.)
 > 
-> It is unlikely that a naive brute-force approach will succeed to
-> exploit. The more concerning scenario is that the attacker uses the
-> knowledge of the underlying implementation of macOS to cause resource
-> contention to widen the window. Whether an exploitation is viable
-> depends on how much time you spend digging XNU.
+> Firstly, a note on patch structure. This is quite a large patch,
+> and I think it would be useful to split it at least into two parts:
+>  (1) add the new device model
+>  (2) change the allwinner SoC to create that new device
+
+Hello
+
+I will do it for next iteration
+
 > 
-> However, I'm also not sure if it really *has* a race condition. Looking
-> at v9fs_co_mknod(), it sequentially calls s->ops->mknod() and
-> s->ops->lstat(). It also results in an entity called "path name based
-> fid" in the code, which inherently cannot identify a file when it is
-> renamed or recreated.
+> > diff --git a/docs/system/arm/cubieboard.rst b/docs/system/arm/cubieboard.rst
+> > index 344ff8cef9..7836643ba4 100644
+> > --- a/docs/system/arm/cubieboard.rst
+> > +++ b/docs/system/arm/cubieboard.rst
+> > @@ -14,3 +14,4 @@ Emulated devices:
+> >  - SDHCI
+> >  - USB controller
+> >  - SATA controller
+> > +- crypto
+> > diff --git a/docs/system/devices/allwinner-sun4i-ss.rst b/docs/system/devices/allwinner-sun4i-ss.rst
+> > new file mode 100644
+> > index 0000000000..6e7d2142b5
+> > --- /dev/null
+> > +++ b/docs/system/devices/allwinner-sun4i-ss.rst
+> > @@ -0,0 +1,31 @@
+> > +Allwinner sun4i-ss
+> > +==================
 > 
-> If there is some rationale it is safe, it may also be applied to the
-> sequence of bind() and chmod(). Can anyone explain the sequence of
-> s->ops->mknod() and s->ops->lstat() or path name based fid in general?
-
-You are talking about 9p server's controller level: I don't see something that 
-would prevent a concurrent open() during this bind() ... chmod() time window 
-unfortunately.
-
-Argument 'fidp' passed to function v9fs_co_mknod() reflects the directory in 
-which the new device file shall be created. So 'fidp' is not the device file 
-here, nor is 'fidp' modified during this function.
-
-Function v9fs_co_mknod() is entered by 9p server on QEMU main thread. At the 
-beginning of the function it first acquires a read lock on a (per 9p export) 
-global coroutine mutex:
-
-    v9fs_path_read_lock(s);
-
-and holds this lock until returning from function v9fs_co_mknod(). But that's 
-just a read lock. Function v9fs_co_open() also just gains a read lock. So they 
-can happen concurrently.
-
-Then v9fs_co_run_in_worker({...}) is called to dispatch and execute all the 
-code block (think of it as an Obj-C "block") inside this (macro actually) on a 
-QEMU worker thread. So an arbitrary background thread would then call the fs 
-driver functions:
-
-    s->ops->mknod()
-    v9fs_name_to_path()
-    s->ops->lstat()
-
-and then at the end of the code block the background thread would dispatch 
-back to QEMU main thread. So when we are reaching:
-
-    v9fs_path_unlock(s);
-
-we are already back on QEMU main thread, hence unlocking on main thread now 
-and finally leaving function v9fs_co_mknod().
-
-The important thing to understand is, while that
-
-    v9fs_co_run_in_worker({...})
-
-code block is executed on a QEMU worker thread, the QEMU main thread (9p 
-server controller portion, i.e. 9p.c) is *not* sleeping, QEMU main thread 
-rather continues to process other (if any) client requests in the meantime. In 
-other words v9fs_co_run_in_worker() neither behaves exactly like Apple's GCD 
-dispatch_async(), nor like dispatch_sync(), as GCD is not coroutine based.
-
-So 9p server might pull a pending 'Topen' client request from the input FIFO 
-in the meantime and likewise dispatch that to a worker thread, etc. Hence a 
-concurrent open() might in theory be possible, but I find it quite unlikely to 
-succeed in practice as the open() call on guest is translated by Linux client 
-into a bunch of synchronous 9p requests on the path passed with the open() 
-call on guest, and a round trip for each 9p message is like what, ~0.3ms or 
-something in this order. That's quite huge compared to the time window I would 
-expect between bind() ... open().
-
-Does this answer your questions?
-
-> Regards,
-> Akihiko Odaki
+> If you create a new rst file in docs, you need to put it into the
+> manual by adding it to some table of contents. Otherwise sphinx
+> will complain when you build the documentation, and users won't be
+> able to find it. (If you pass 'configure' the --enable-docs option
+> that will check that you have everything installed to be able to
+> build the docs.)
 > 
-> >>> +out:
-> >>> +    close(fd);
-> >>> +    return err;
-> >>> +}
-> >>> +
-> >>> 
-> >>>    int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t
-> >>>    dev)
-> >>>    {
-> >>>    
-> >>>        int preserved_errno, err;
-> >>> 
-> >>> @@ -93,7 +114,11 @@ int qemu_mknodat(int dirfd, const char *filename,
-> >>> mode_t mode, dev_t dev)>
-> >>> 
-> >>>        if (pthread_fchdir_np(dirfd) < 0) {
-> >>>        
-> >>>            return -1;
-> >>>        
-> >>>        }
-> >>> 
-> >>> -    err = mknod(filename, mode, dev);
-> >>> +    if (S_ISSOCK(mode)) {
-> >>> +        err = create_socket_file_at_cwd(filename, mode);
-> >>> +    } else {
-> >>> +        err = mknod(filename, mode, dev);
-> >>> +    }
-> >>> 
-> >>>        preserved_errno = errno;
-> >>>        /* Stop using the thread-local cwd */
-> >>>        pthread_fchdir_np(-1);
+> There are two options here: you can have this document, and
+> add it to the toctree in docs/system/device-emulation.rst, and
+> make the "crypto" bullet point in cubieboard.rst be a hyperlink to
+> the device-emulation.rst file. Or you can compress the information
+> down and put it into orangepi.rst.
+> 
+> > +The ``sun4i-ss`` emulates the Allwinner cryptographic offloader
+> > +present on early Allwinner SoCs (A10, A10s, A13, A20, A33)
+> > +In qemu only A10 via the cubieboard machine is supported.
+> > +
+> > +The emulated hardware is capable of handling the following algorithms:
+> > +- SHA1 and MD5 hash algorithms
+> > +- AES/DES/DES3 in CBC/ECB
+> > +- PRNG
+> > +
+> > +The emulated hardware does not handle yet:
+> > +- CTS for AES
+> > +- CTR for AES/DES/DES3
+> > +- IRQ and DMA mode
+> > +Anyway the Linux driver also does not handle them yet.
+> > +
+> > +The emulation needs a real crypto backend, for the moment only gnutls/nettle is supported.
+> > +So the device emulation needs qemu to be compiled with optionnal gnutls.
+> 
+> > diff --git a/hw/Kconfig b/hw/Kconfig
+> > index ad20cce0a9..43bd7fc14d 100644
+> > --- a/hw/Kconfig
+> > +++ b/hw/Kconfig
+> > @@ -6,6 +6,7 @@ source audio/Kconfig
+> >  source block/Kconfig
+> >  source char/Kconfig
+> >  source core/Kconfig
+> > +source crypto/Kconfig
+> >  source display/Kconfig
+> >  source dma/Kconfig
+> >  source gpio/Kconfig
+> 
+> I don't think we really need a new subdirectory of hw/
+> for a single device. If you can find two other devices that
+> already exist in QEMU that would also belong in hw/crypto/
+> then we can create it. Otherwise just put this device in
+> hw/misc.
 
+I plan to add at least one other hw/crypto device (allwinner H3 sun8i-ce).
+I have another one already ready (rockchip rk3288) but I delay it since there are no related SoC in qemu yet.
 
+> 
+> > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> > index 97f3b38019..fd8232b1d4 100644
+> > --- a/hw/arm/Kconfig
+> > +++ b/hw/arm/Kconfig
+> > @@ -317,6 +317,7 @@ config ALLWINNER_A10
+> >      select AHCI
+> >      select ALLWINNER_A10_PIT
+> >      select ALLWINNER_A10_PIC
+> > +    select ALLWINNER_CRYPTO_SUN4I_SS
+> >      select ALLWINNER_EMAC
+> >      select SERIAL
+> >      select UNIMP
+> > diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+> > index 05e84728cb..e9104ee028 100644
+> > --- a/hw/arm/allwinner-a10.c
+> > +++ b/hw/arm/allwinner-a10.c
+> > @@ -23,6 +23,7 @@
+> >  #include "hw/misc/unimp.h"
+> >  #include "sysemu/sysemu.h"
+> >  #include "hw/boards.h"
+> > +#include "hw/crypto/allwinner-sun4i-ss.h"
+> >  #include "hw/usb/hcd-ohci.h"
+> >
+> >  #define AW_A10_MMC0_BASE        0x01c0f000
+> > @@ -32,6 +33,7 @@
+> >  #define AW_A10_EMAC_BASE        0x01c0b000
+> >  #define AW_A10_EHCI_BASE        0x01c14000
+> >  #define AW_A10_OHCI_BASE        0x01c14400
+> > +#define AW_A10_CRYPTO_BASE      0x01c15000
+> >  #define AW_A10_SATA_BASE        0x01c18000
+> >  #define AW_A10_RTC_BASE         0x01c20d00
+> >
+> > @@ -48,6 +50,10 @@ static void aw_a10_init(Object *obj)
+> >
+> >      object_initialize_child(obj, "emac", &s->emac, TYPE_AW_EMAC);
+> >
+> > +#if defined CONFIG_NETTLE
+> > +    object_initialize_child(obj, "crypto", &s->crypto, TYPE_AW_SUN4I_SS);
+> > +#endif
+> 
+> Don't put this kind of ifdef into device/SoC code, please.
+> The device emulation needs to work regardless of what
+> the specific crypto backends that got compiled into QEMU are.
+> 
+> > +#include <nettle/aes.h>
+> > +#include <nettle/cbc.h>
+> > +#include <nettle/des.h>
+> > +#include <nettle/md5.h>
+> > +#include <nettle/sha1.h>
+> 
+> Similarly, don't directly include nettle headers. The device needs
+> to use the backend-agnostic headers from include/crypto. To the
+> extent that they aren't sufficient to implement this device we
+> can look at enhancing them.
+
+Problem is that current qemu crypto backends do not have necessary functions needed by this driver, I need to do basic MD5 transform with custom IV.
+I will check if it can be added in qemu crypto API.
+
+> 
+> > +static const VMStateDescription vmstate_allwinner_sun4i_ss = {
+> > +    .name = "allwinner-sun4i-ss",
+> > +    .version_id = 1,
+> > +    .minimum_version_id = 1,
+> > +    .fields = (VMStateField[]) {
+> > +        VMSTATE_UINT32(ctl, AwSun4iSSState),
+> > +        VMSTATE_UINT32(fcsr, AwSun4iSSState),
+> > +        VMSTATE_UINT32_ARRAY(iv, AwSun4iSSState, 5),
+> > +        VMSTATE_UINT32_ARRAY(key, AwSun4iSSState, 8),
+> > +        VMSTATE_UINT32_ARRAY(md, AwSun4iSSState, 5),
+> 
+> Shouldn't this also include rx, rxc, tx, txc ? Or do they
+> never contain live data at the point where we're migrating?
+
+I will fix this.
+
+> 
+> > +        VMSTATE_END_OF_LIST()
+> > +    }
+> > +};
+> 
+> 
+> > +/**
+> > + * Object model
+> > + * @{
+> > + */
+> 
+> We don't use these @{ ... @} markers in our doc comments,
+> so you can delete all of those.
+> 
+> I haven't looked at the rest of the code in detail, but I
+> skimmed over it and didn't see anything that looked wrong.
+> 
+> thanks
+
+Thanks for your review.
+
+Regards
 
