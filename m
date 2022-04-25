@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44CAE50DDD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 12:22:21 +0200 (CEST)
-Received: from localhost ([::1]:54060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA5C50DDAA
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 12:13:03 +0200 (CEST)
+Received: from localhost ([::1]:42360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nivrI-0004xi-5C
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 06:22:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50094)
+	id 1niviI-00055N-Rd
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 06:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1niuqU-0006ck-Im
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:17:30 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:41726 helo=loongson.cn)
+ id 1niuki-0008QR-1c
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:33 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:39808 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1niuqP-0002AU-87
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:17:26 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1niukc-0001NS-OO
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:27 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn8+DZWZi+7gwAA--.18850S40; 
- Mon, 25 Apr 2022 17:11:00 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn8+DZWZi+7gwAA--.18850S42; 
+ Mon, 25 Apr 2022 17:11:01 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 38/43] hw/loongarch: Add LoongArch ls7a rtc device support
-Date: Mon, 25 Apr 2022 17:10:22 +0800
-Message-Id: <20220425091027.2877892-39-yangxiaojuan@loongson.cn>
+Subject: [PATCH v2 40/43] hw/loongarch: Add LoongArch ls7a acpi device support
+Date: Mon, 25 Apr 2022 17:10:24 +0800
+Message-Id: <20220425091027.2877892-41-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
 References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxn8+DZWZi+7gwAA--.18850S40
-X-Coremail-Antispam: 1UD129KBjvJXoW3Cry5Kw47Gw4fuw43XF1kZrb_yoWkKw15pr
- Z8Ar97KF4rWF4xGrWft3Z7Xr1xJ3Z3Gw1avrs8CwsYkFW8J348AFyvv3y3XrWUtFs5X3ya
- v3s3W3ZI9a17X3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9Dxn8+DZWZi+7gwAA--.18850S42
+X-Coremail-Antispam: 1UD129KBjvAXoW3ur1UCFy3Cry3GF4rCF4kJFb_yoW8AF15Wo
+ W2gFZ8Gw4xJw1IkrWFkw1UuFWxXrWkKa15AFWfGF4qk3WIvr4UJF9xKwn5Xw1ftF4FkFyr
+ Za4SqryfA34xJFykn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -61,420 +61,585 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add ls7a rtc device support.
-
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- MAINTAINERS                |   1 +
- hw/loongarch/Kconfig       |   1 +
- hw/loongarch/loongson3.c   |   4 +
- hw/rtc/Kconfig             |   3 +
- hw/rtc/ls7a_rtc.c          | 322 +++++++++++++++++++++++++++++++++++++
- hw/rtc/meson.build         |   1 +
- include/hw/pci-host/ls7a.h |   4 +
- 7 files changed, 336 insertions(+)
- create mode 100644 hw/rtc/ls7a_rtc.c
+ MAINTAINERS                |   2 +
+ hw/acpi/Kconfig            |   4 +
+ hw/acpi/ls7a.c             | 374 +++++++++++++++++++++++++++++++++++++
+ hw/acpi/meson.build        |   1 +
+ hw/loongarch/Kconfig       |   2 +
+ hw/loongarch/loongson3.c   |  19 +-
+ include/hw/acpi/ls7a.h     |  53 ++++++
+ include/hw/pci-host/ls7a.h |   6 +
+ 8 files changed, 458 insertions(+), 3 deletions(-)
+ create mode 100644 hw/acpi/ls7a.c
+ create mode 100644 include/hw/acpi/ls7a.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 1b724a7d35..7969004b91 100644
+index 7969004b91..18d06bb859 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1137,6 +1137,7 @@ F: include/hw/loongarch/virt.h
- F: include/hw/intc/loongarch_*.h
+@@ -1138,6 +1138,8 @@ F: include/hw/intc/loongarch_*.h
  F: hw/intc/loongarch_*.c
  F: include/hw/pci-host/ls7a.h
-+F: hw/rtc/ls7a_rtc.c
+ F: hw/rtc/ls7a_rtc.c
++F: include/hw/acpi/ls7a.h
++F: hw/acpi/ls7a.c
  
  M68K Machines
  -------------
-diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index 8552ff4bee..35b6680772 100644
---- a/hw/loongarch/Kconfig
-+++ b/hw/loongarch/Kconfig
-@@ -13,3 +13,4 @@ config LOONGARCH_VIRT
-     select LOONGARCH_PCH_PIC
-     select LOONGARCH_PCH_MSI
-     select LOONGARCH_EXTIOI
-+    select LS7A_RTC
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 92c353263e..2b87b193c7 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -97,6 +97,10 @@ static void loongarch_devices_init(DeviceState *pch_pic)
-      * Create some unimplemented devices to emulate this.
-      */
-     create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
-+
-+    sysbus_create_simple("ls7a_rtc", LS7A_RTC_REG_BASE,
-+                         qdev_get_gpio_in(pch_pic,
-+                         LS7A_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
- }
+diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+index 19caebde6c..ff9ceb2259 100644
+--- a/hw/acpi/Kconfig
++++ b/hw/acpi/Kconfig
+@@ -12,6 +12,10 @@ config ACPI_X86
+     select ACPI_PCIHP
+     select ACPI_ERST
  
- static void loongarch_irq_init(LoongArchMachineState *lams)
-diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
-index 730c272bc5..d0d8dda084 100644
---- a/hw/rtc/Kconfig
-+++ b/hw/rtc/Kconfig
-@@ -27,3 +27,6 @@ config SUN4V_RTC
- 
- config GOLDFISH_RTC
-     bool
-+
-+config LS7A_RTC
++config ACPI_LOONGARCH
 +    bool
-diff --git a/hw/rtc/ls7a_rtc.c b/hw/rtc/ls7a_rtc.c
++    select ACPI
++
+ config ACPI_X86_ICH
+     bool
+     select ACPI_X86
+diff --git a/hw/acpi/ls7a.c b/hw/acpi/ls7a.c
 new file mode 100644
-index 0000000000..dd40478409
+index 0000000000..cc658422dd
 --- /dev/null
-+++ b/hw/rtc/ls7a_rtc.c
-@@ -0,0 +1,322 @@
++++ b/hw/acpi/ls7a.c
+@@ -0,0 +1,374 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * Loongarch LS7A Real Time Clock emulation
++ * LoongArch ACPI implementation
 + *
 + * Copyright (C) 2021 Loongson Technology Corporation Limited
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/sysbus.h"
-+#include "hw/irq.h"
-+#include "include/hw/register.h"
-+#include "qemu/timer.h"
 +#include "sysemu/sysemu.h"
-+#include "qemu/cutils.h"
-+#include "qemu/log.h"
++#include "hw/hw.h"
++#include "hw/irq.h"
++#include "sysemu/reset.h"
++#include "sysemu/runstate.h"
++#include "hw/acpi/acpi.h"
++#include "hw/acpi/ls7a.h"
++#include "hw/nvram/fw_cfg.h"
++#include "qemu/config-file.h"
++#include "qapi/opts-visitor.h"
++#include "qapi/qapi-events-run-state.h"
++#include "qapi/error.h"
++#include "hw/pci-host/ls7a.h"
++#include "hw/mem/pc-dimm.h"
++#include "hw/mem/nvdimm.h"
 +#include "migration/vmstate.h"
-+#include "hw/misc/unimp.h"
-+#include "sysemu/rtc.h"
 +
-+#define SYS_TOYTRIM        0x20
-+#define SYS_TOYWRITE0      0x24
-+#define SYS_TOYWRITE1      0x28
-+#define SYS_TOYREAD0       0x2C
-+#define SYS_TOYREAD1       0x30
-+#define SYS_TOYMATCH0      0x34
-+#define SYS_TOYMATCH1      0x38
-+#define SYS_TOYMATCH2      0x3C
-+#define SYS_RTCCTRL        0x40
-+#define SYS_RTCTRIM        0x60
-+#define SYS_RTCWRTIE0      0x64
-+#define SYS_RTCREAD0       0x68
-+#define SYS_RTCMATCH0      0x6C
-+#define SYS_RTCMATCH1      0x70
-+#define SYS_RTCMATCH2      0x74
-+
-+/*
-+ * Shift bits and filed mask
-+ */
-+#define TOY_MON_MASK   0x3f
-+#define TOY_DAY_MASK   0x1f
-+#define TOY_HOUR_MASK  0x1f
-+#define TOY_MIN_MASK   0x3f
-+#define TOY_SEC_MASK   0x3f
-+#define TOY_MSEC_MASK  0xf
-+
-+#define TOY_MON_SHIFT  26
-+#define TOY_DAY_SHIFT  21
-+#define TOY_HOUR_SHIFT 16
-+#define TOY_MIN_SHIFT  10
-+#define TOY_SEC_SHIFT  4
-+#define TOY_MSEC_SHIFT 0
-+
-+#define TOY_MATCH_YEAR_MASK  0x3f
-+#define TOY_MATCH_MON_MASK   0xf
-+#define TOY_MATCH_DAY_MASK   0x1f
-+#define TOY_MATCH_HOUR_MASK  0x1f
-+#define TOY_MATCH_MIN_MASK   0x3f
-+#define TOY_MATCH_SEC_MASK   0x3f
-+
-+#define TOY_MATCH_YEAR_SHIFT 26
-+#define TOY_MATCH_MON_SHIFT  22
-+#define TOY_MATCH_DAY_SHIFT  17
-+#define TOY_MATCH_HOUR_SHIFT 12
-+#define TOY_MATCH_MIN_SHIFT  6
-+#define TOY_MATCH_SEC_SHIFT  0
-+
-+#define TOY_ENABLE_BIT (1U << 11)
-+
-+#define TYPE_LS7A_RTC "ls7a_rtc"
-+OBJECT_DECLARE_SIMPLE_TYPE(LS7ARtcState, LS7A_RTC)
-+
-+struct LS7ARtcState {
-+    SysBusDevice parent_obj;
-+
-+    MemoryRegion iomem;
-+    QEMUTimer *timer;
-+    /*
-+     * Needed to preserve the tick_count across migration, even if the
-+     * absolute value of the rtc_clock is different on the source and
-+     * destination.
-+     */
-+    int64_t offset;
-+    int64_t data;
-+    int64_t save_alarm_offset;
-+    int tidx;
-+    uint32_t toymatch[3];
-+    uint32_t toytrim;
-+    uint32_t cntrctl;
-+    uint32_t rtctrim;
-+    uint32_t rtccount;
-+    uint32_t rtcmatch[3];
-+    qemu_irq toy_irq;
-+};
-+
-+enum {
-+    TOYEN = 1UL << 11,
-+    RTCEN = 1UL << 13,
-+};
-+
-+static uint64_t ls7a_rtc_read(void *opaque, hwaddr addr, unsigned size)
++static void ls7a_pm_update_sci_fn(ACPIREGS *regs)
 +{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+    struct tm tm;
-+    unsigned int val;
-+
-+    val = 0;
-+
-+    switch (addr) {
-+    case SYS_TOYREAD0:
-+        qemu_get_timedate(&tm, s->offset);
-+        val = (((tm.tm_mon + 1) & TOY_MON_MASK) << TOY_MON_SHIFT)
-+        | (((tm.tm_mday) & TOY_DAY_MASK) << TOY_DAY_SHIFT)
-+        | (((tm.tm_hour) & TOY_HOUR_MASK) << TOY_HOUR_SHIFT)
-+        | (((tm.tm_min) & TOY_MIN_MASK) << TOY_MIN_SHIFT)
-+        | (((tm.tm_sec) & TOY_SEC_MASK) << TOY_SEC_SHIFT) | 0x0;
-+        break;
-+    case SYS_TOYREAD1:
-+        qemu_get_timedate(&tm, s->offset);
-+        val = tm.tm_year;
-+        break;
-+    case SYS_TOYMATCH0:
-+        val = s->toymatch[0];
-+        break;
-+    case SYS_TOYMATCH1:
-+        val = s->toymatch[1];
-+        break;
-+    case SYS_TOYMATCH2:
-+        val = s->toymatch[2];
-+        break;
-+    case SYS_RTCCTRL:
-+        val = s->cntrctl;
-+        break;
-+    case SYS_RTCREAD0:
-+        val = s->rtccount;
-+        break;
-+    case SYS_RTCMATCH0:
-+        val = s->rtcmatch[0];
-+        break;
-+    case SYS_RTCMATCH1:
-+        val = s->rtcmatch[1];
-+        break;
-+    case SYS_RTCMATCH2:
-+        val = s->rtcmatch[2];
-+        break;
-+    default:
-+        val = 0;
-+        break;
-+    }
-+    return val;
++    LS7APMState *pm = container_of(regs, LS7APMState, acpi_regs);
++    acpi_update_sci(&pm->acpi_regs, pm->irq);
 +}
 +
-+static void ls7a_rtc_write(void *opaque, hwaddr addr,
-+                           uint64_t val, unsigned size)
++static uint64_t ls7a_gpe_readb(void *opaque, hwaddr addr, unsigned width)
 +{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+    struct tm tm;
-+    int64_t alarm_offset, year_diff, expire_time;
-+
-+    switch (addr) {
-+    case SYS_TOYWRITE0:
-+        qemu_get_timedate(&tm, s->offset);
-+        tm.tm_sec = (val >> TOY_SEC_SHIFT) & TOY_SEC_MASK;
-+        tm.tm_min = (val >> TOY_MIN_SHIFT) & TOY_MIN_MASK;
-+        tm.tm_hour = (val >> TOY_HOUR_SHIFT) & TOY_HOUR_MASK;
-+        tm.tm_mday = ((val >> TOY_DAY_SHIFT) & TOY_DAY_MASK);
-+        tm.tm_mon = ((val >> TOY_MON_SHIFT) & TOY_MON_MASK) - 1;
-+        s->offset = qemu_timedate_diff(&tm);
-+    break;
-+    case SYS_TOYWRITE1:
-+        qemu_get_timedate(&tm, s->offset);
-+        tm.tm_year = val;
-+        s->offset = qemu_timedate_diff(&tm);
-+        break;
-+    case SYS_TOYMATCH0:
-+        s->toymatch[0] = val;
-+        qemu_get_timedate(&tm, s->offset);
-+        tm.tm_sec = (val >> TOY_MATCH_SEC_SHIFT) & TOY_MATCH_SEC_MASK;
-+        tm.tm_min = (val >> TOY_MATCH_MIN_SHIFT) & TOY_MATCH_MIN_MASK;
-+        tm.tm_hour = ((val >> TOY_MATCH_HOUR_SHIFT) & TOY_MATCH_HOUR_MASK);
-+        tm.tm_mday = ((val >> TOY_MATCH_DAY_SHIFT) & TOY_MATCH_DAY_MASK);
-+        tm.tm_mon = ((val >> TOY_MATCH_MON_SHIFT) & TOY_MATCH_MON_MASK) - 1;
-+        year_diff = ((val >> TOY_MATCH_YEAR_SHIFT) & TOY_MATCH_YEAR_MASK);
-+        year_diff = year_diff - (tm.tm_year & TOY_MATCH_YEAR_MASK);
-+        tm.tm_year = tm.tm_year + year_diff;
-+        alarm_offset = qemu_timedate_diff(&tm) - s->offset;
-+        if ((alarm_offset < 0) && (alarm_offset > -5)) {
-+            alarm_offset = 0;
-+        }
-+        expire_time = qemu_clock_get_ms(rtc_clock);
-+        expire_time += ((alarm_offset * 1000) + 100);
-+        timer_mod(s->timer, expire_time);
-+        break;
-+    case SYS_TOYMATCH1:
-+        s->toymatch[1] = val;
-+        break;
-+    case SYS_TOYMATCH2:
-+        s->toymatch[2] = val;
-+        break;
-+    case SYS_RTCCTRL:
-+        s->cntrctl = val;
-+        break;
-+    case SYS_RTCWRTIE0:
-+        s->rtccount = val;
-+        break;
-+    case SYS_RTCMATCH0:
-+        s->rtcmatch[0] = val;
-+        break;
-+    case SYS_RTCMATCH1:
-+        val = s->rtcmatch[1];
-+        break;
-+    case SYS_RTCMATCH2:
-+        val = s->rtcmatch[2];
-+        break;
-+    default:
-+        break;
-+    }
++    LS7APMState *pm = opaque;
++    return acpi_gpe_ioport_readb(&pm->acpi_regs, addr);
 +}
 +
-+static const MemoryRegionOps ls7a_rtc_ops = {
-+    .read = ls7a_rtc_read,
-+    .write = ls7a_rtc_write,
++static void ls7a_gpe_writeb(void *opaque, hwaddr addr, uint64_t val,
++                            unsigned width)
++{
++    LS7APMState *pm = opaque;
++    acpi_gpe_ioport_writeb(&pm->acpi_regs, addr, val);
++    acpi_update_sci(&pm->acpi_regs, pm->irq);
++}
++
++static const MemoryRegionOps ls7a_gpe_ops = {
++    .read = ls7a_gpe_readb,
++    .write = ls7a_gpe_writeb,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 8,
++    .impl.min_access_size = 1,
++    .impl.max_access_size = 1,
 +    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
++};
++
++#define VMSTATE_GPE_ARRAY(_field, _state)                            \
++ {                                                                   \
++     .name       = (stringify(_field)),                              \
++     .version_id = 0,                                                \
++     .num        = ACPI_GPE0_LEN,                                    \
++     .info       = &vmstate_info_uint8,                              \
++     .size       = sizeof(uint8_t),                                  \
++     .flags      = VMS_ARRAY | VMS_POINTER,                          \
++     .offset     = vmstate_offset_pointer(_state, _field, uint8_t),  \
++ }
++
++static uint64_t ls7a_reset_readw(void *opaque, hwaddr addr, unsigned width)
++{
++    return 0;
++}
++
++static void ls7a_reset_writew(void *opaque, hwaddr addr, uint64_t val,
++                              unsigned width)
++{
++    if (val & 1) {
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        return;
++    }
++}
++
++static const MemoryRegionOps ls7a_reset_ops = {
++    .read = ls7a_reset_readw,
++    .write = ls7a_reset_writew,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++const VMStateDescription vmstate_ls7a_pm = {
++    .name = "ls7a_pm",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT16(acpi_regs.pm1.evt.sts, LS7APMState),
++        VMSTATE_UINT16(acpi_regs.pm1.evt.en, LS7APMState),
++        VMSTATE_UINT16(acpi_regs.pm1.cnt.cnt, LS7APMState),
++        VMSTATE_TIMER_PTR(acpi_regs.tmr.timer, LS7APMState),
++        VMSTATE_INT64(acpi_regs.tmr.overflow_time, LS7APMState),
++        VMSTATE_GPE_ARRAY(acpi_regs.gpe.sts, LS7APMState),
++        VMSTATE_GPE_ARRAY(acpi_regs.gpe.en, LS7APMState),
++        VMSTATE_END_OF_LIST()
 +    },
 +};
 +
-+static void toy_timer(void *opaque)
++static inline int64_t acpi_pm_tmr_get_clock(void)
 +{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+
-+    if (s->cntrctl & TOY_ENABLE_BIT) {
-+        qemu_irq_pulse(s->toy_irq);
-+    }
++    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL), PM_TIMER_FREQUENCY,
++                    NANOSECONDS_PER_SECOND);
 +}
 +
-+static void ls7a_rtc_realize(DeviceState *dev, Error **errp)
++static uint32_t acpi_pm_tmr_get(ACPIREGS *ar)
 +{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+    LS7ARtcState *d = LS7A_RTC(sbd);
-+    memory_region_init_io(&d->iomem, NULL, &ls7a_rtc_ops,
-+                         (void *)d, "ls7a_rtc", 0x100);
-+
-+    sysbus_init_irq(sbd, &d->toy_irq);
-+
-+    sysbus_init_mmio(sbd, &d->iomem);
-+    d->timer = timer_new_ms(rtc_clock, toy_timer, d);
-+    timer_mod(d->timer, qemu_clock_get_ms(rtc_clock) + 100);
-+    d->offset = 0;
-+
-+    create_unimplemented_device("mmio fallback 1", 0x10013ffc, 0x4);
++    uint32_t d = acpi_pm_tmr_get_clock();
++    return d & 0xffffff;
 +}
 +
-+static int ls7a_rtc_pre_save(void *opaque)
++static void acpi_pm_tmr_timer(void *opaque)
 +{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+    struct tm tm;
-+    int64_t year_diff, value;
-+
-+    value = s->toymatch[0];
-+    qemu_get_timedate(&tm, s->offset);
-+    tm.tm_sec = (value >> TOY_MATCH_SEC_SHIFT) & TOY_MATCH_SEC_MASK;
-+    tm.tm_min = (value >> TOY_MATCH_MIN_SHIFT) & TOY_MATCH_MIN_MASK;
-+    tm.tm_hour = ((value >> TOY_MATCH_HOUR_SHIFT) & TOY_MATCH_HOUR_MASK);
-+    tm.tm_mday = ((value >> TOY_MATCH_DAY_SHIFT) & TOY_MATCH_DAY_MASK);
-+    tm.tm_mon = ((value >> TOY_MATCH_MON_SHIFT) & TOY_MATCH_MON_MASK) - 1;
-+    year_diff = ((value >> TOY_MATCH_YEAR_SHIFT) & TOY_MATCH_YEAR_MASK);
-+    year_diff = year_diff - (tm.tm_year & TOY_MATCH_YEAR_MASK);
-+    tm.tm_year = tm.tm_year + year_diff;
-+    s->save_alarm_offset = qemu_timedate_diff(&tm) - s->offset;
-+
-+    return 0;
++    ACPIREGS *ar = opaque;
++    qemu_system_wakeup_request(QEMU_WAKEUP_REASON_PMTIMER, NULL);
++    ar->tmr.update_sci(ar);
 +}
 +
-+static int ls7a_rtc_post_load(void *opaque, int version_id)
++static uint64_t acpi_pm_tmr_read(void *opaque, hwaddr addr, unsigned width)
 +{
-+    LS7ARtcState *s = LS7A_RTC(opaque);
-+    int64_t expire_time;
-+
-+    expire_time = qemu_clock_get_ms(rtc_clock) + (s->save_alarm_offset * 1000);
-+    timer_mod(s->timer, expire_time);
-+
-+    return 0;
++    return acpi_pm_tmr_get(opaque);
 +}
 +
-+static const VMStateDescription vmstate_ls7a_rtc = {
-+    .name = "ls7a_rtc",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .pre_save = ls7a_rtc_pre_save,
-+    .post_load = ls7a_rtc_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_INT64(offset, LS7ARtcState),
-+        VMSTATE_INT64(save_alarm_offset, LS7ARtcState),
-+        VMSTATE_UINT32(toymatch[0], LS7ARtcState),
-+        VMSTATE_UINT32(cntrctl, LS7ARtcState),
-+        VMSTATE_END_OF_LIST()
-+    }
++static void acpi_pm_tmr_write(void *opaque, hwaddr addr, uint64_t val,
++                              unsigned width)
++{
++}
++
++static const MemoryRegionOps acpi_pm_tmr_ops = {
++    .read = acpi_pm_tmr_read,
++    .write = acpi_pm_tmr_write,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_LITTLE_ENDIAN,
 +};
 +
-+static void ls7a_rtc_class_init(ObjectClass *klass, void *data)
++static void ls7a_pm_tmr_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
++                             MemoryRegion *parent, uint64_t offset)
++{
++    ar->tmr.update_sci = update_sci;
++    ar->tmr.timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, acpi_pm_tmr_timer, ar);
++    memory_region_init_io(&ar->tmr.io, memory_region_owner(parent),
++                          &acpi_pm_tmr_ops, ar, "acpi-tmr", 4);
++    memory_region_add_subregion(parent, offset, &ar->tmr.io);
++}
++
++static void acpi_pm1_evt_write_sts(ACPIREGS *ar, uint16_t val)
++{
++    uint16_t pm1_sts = acpi_pm1_evt_get_sts(ar);
++    if (pm1_sts & val & ACPI_BITMASK_TIMER_STATUS) {
++        /* if TMRSTS is reset, then compute the new overflow time */
++        acpi_pm_tmr_calc_overflow_time(ar);
++    }
++    ar->pm1.evt.sts &= ~val;
++}
++
++static uint64_t acpi_pm_evt_read(void *opaque, hwaddr addr, unsigned width)
++{
++    ACPIREGS *ar = opaque;
++    switch (addr) {
++    case 0:
++        return acpi_pm1_evt_get_sts(ar);
++    case 4:
++        return ar->pm1.evt.en;
++    default:
++        return 0;
++    }
++}
++
++static void acpi_pm1_evt_write_en(ACPIREGS *ar, uint16_t val)
++{
++    ar->pm1.evt.en = val;
++    qemu_system_wakeup_enable(QEMU_WAKEUP_REASON_RTC,
++                              val & ACPI_BITMASK_RT_CLOCK_ENABLE);
++    qemu_system_wakeup_enable(QEMU_WAKEUP_REASON_PMTIMER,
++                              val & ACPI_BITMASK_TIMER_ENABLE);
++}
++
++static void acpi_pm_evt_write(void *opaque, hwaddr addr, uint64_t val,
++                              unsigned width)
++{
++    ACPIREGS *ar = opaque;
++    switch (addr) {
++    case 0:
++        acpi_pm1_evt_write_sts(ar, val);
++        ar->pm1.evt.update_sci(ar);
++        break;
++    case 4:
++        acpi_pm1_evt_write_en(ar, val);
++        ar->pm1.evt.update_sci(ar);
++        break;
++    }
++}
++
++static const MemoryRegionOps acpi_pm_evt_ops = {
++    .read = acpi_pm_evt_read,
++    .write = acpi_pm_evt_write,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void ls7a_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
++                              MemoryRegion *parent, uint64_t offset)
++{
++    ar->pm1.evt.update_sci = update_sci;
++    memory_region_init_io(&ar->pm1.evt.io, memory_region_owner(parent),
++                          &acpi_pm_evt_ops, ar, "acpi-evt", 8);
++    memory_region_add_subregion(parent, offset, &ar->pm1.evt.io);
++}
++
++static uint64_t acpi_pm_cnt_read(void *opaque, hwaddr addr, unsigned width)
++{
++    ACPIREGS *ar = opaque;
++    return ar->pm1.cnt.cnt;
++}
++
++/* ACPI PM1aCNT */
++static void acpi_pm1_cnt_write(ACPIREGS *ar, uint16_t val)
++{
++    ar->pm1.cnt.cnt = val & ~(ACPI_BITMASK_SLEEP_ENABLE);
++
++    if (val & ACPI_BITMASK_SLEEP_ENABLE) {
++        /* Change suspend type */
++        uint16_t sus_typ = (val >> 10) & 7;
++        switch (sus_typ) {
++        /* Not support s3 s4 yet */
++        case 7: /* Soft power off */
++            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++            break;
++        default:
++            break;
++        }
++    }
++}
++
++static void acpi_pm_cnt_write(void *opaque, hwaddr addr, uint64_t val,
++                              unsigned width)
++{
++    acpi_pm1_cnt_write(opaque, val);
++}
++
++static const MemoryRegionOps acpi_pm_cnt_ops = {
++    .read = acpi_pm_cnt_read,
++    .write = acpi_pm_cnt_write,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void acpi_notify_wakeup(Notifier *notifier, void *data)
++{
++    ACPIREGS *ar = container_of(notifier, ACPIREGS, wakeup);
++    WakeupReason *reason = data;
++
++    switch (*reason) {
++    case QEMU_WAKEUP_REASON_RTC:
++        ar->pm1.evt.sts |=
++            (ACPI_BITMASK_WAKE_STATUS | ACPI_BITMASK_RT_CLOCK_STATUS);
++        break;
++    case QEMU_WAKEUP_REASON_PMTIMER:
++        ar->pm1.evt.sts |=
++            (ACPI_BITMASK_WAKE_STATUS | ACPI_BITMASK_TIMER_STATUS);
++        break;
++    case QEMU_WAKEUP_REASON_OTHER:
++        /*
++         * ACPI_BITMASK_WAKE_STATUS should be set on resume.
++         * Pretend that resume was caused by power button
++         */
++        ar->pm1.evt.sts |=
++            (ACPI_BITMASK_WAKE_STATUS | ACPI_BITMASK_POWER_BUTTON_STATUS);
++        break;
++    default:
++        break;
++    }
++}
++
++static void ls7a_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
++                              uint64_t offset)
++{
++    ar->wakeup.notify = acpi_notify_wakeup;
++    qemu_register_wakeup_notifier(&ar->wakeup);
++    memory_region_init_io(&ar->pm1.cnt.io, memory_region_owner(parent),
++                          &acpi_pm_cnt_ops, ar, "acpi-cnt", 4);
++    memory_region_add_subregion(parent, offset, &ar->pm1.cnt.io);
++}
++
++static void ls7a_pm_reset(DeviceState *d)
++{
++    LS7APMState *pm = LS7A_PM(d);
++
++    acpi_pm1_evt_reset(&pm->acpi_regs);
++    acpi_pm1_cnt_reset(&pm->acpi_regs);
++    acpi_pm_tmr_reset(&pm->acpi_regs);
++    acpi_gpe_reset(&pm->acpi_regs);
++
++    acpi_update_sci(&pm->acpi_regs, pm->irq);
++}
++
++static void pm_powerdown_req(Notifier *n, void *opaque)
++{
++    LS7APMState *pm = container_of(n, LS7APMState, powerdown_notifier);
++
++    acpi_pm1_evt_power_down(&pm->acpi_regs);
++}
++
++void ls7a_pm_init(DeviceState *ls7a_pm, qemu_irq pm_irq)
++{
++    LS7APMState *pm = LS7A_PM(ls7a_pm);
++    pm->irq = pm_irq;
++}
++
++static void ls7a_pm_realize(DeviceState *dev, Error **errp)
++{
++    LS7APMState *pm = LS7A_PM(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++
++    /*
++     * ls7a board acpi hardware info, including
++     * acpi system io base address
++     * acpi gpe length
++     * acpi sci irq number
++     */
++
++    memory_region_init(&pm->iomem, OBJECT(pm), "ls7a_pm", ACPI_IO_SIZE);
++    sysbus_init_mmio(sbd, &pm->iomem);
++
++    ls7a_pm_tmr_init(&pm->acpi_regs, ls7a_pm_update_sci_fn,
++                     &pm->iomem, LS7A_PM_TMR_BLK);
++    ls7a_pm1_evt_init(&pm->acpi_regs, ls7a_pm_update_sci_fn,
++                      &pm->iomem, LS7A_PM_EVT_BLK);
++    ls7a_pm1_cnt_init(&pm->acpi_regs, &pm->iomem, LS7A_PM_CNT_BLK);
++
++    acpi_gpe_init(&pm->acpi_regs, ACPI_GPE0_LEN);
++    memory_region_init_io(&pm->iomem_gpe, OBJECT(pm), &ls7a_gpe_ops, pm,
++                          "acpi-gpe0", ACPI_GPE0_LEN);
++    sysbus_init_mmio(sbd, &pm->iomem_gpe);
++
++    memory_region_init_io(&pm->iomem_reset, OBJECT(pm),
++                          &ls7a_reset_ops, pm, "acpi-reset", 4);
++    sysbus_init_mmio(sbd, &pm->iomem_reset);
++
++    pm->powerdown_notifier.notify = pm_powerdown_req;
++    qemu_register_powerdown_notifier(&pm->powerdown_notifier);
++}
++
++static void ls7a_pm_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
-+    dc->vmsd = &vmstate_ls7a_rtc;
-+    dc->realize = ls7a_rtc_realize;
-+    dc->desc = "ls7a rtc";
++
++    dc->realize = ls7a_pm_realize;
++    dc->reset = ls7a_pm_reset;
++    dc->desc = "PM";
++    dc->vmsd = &vmstate_ls7a_pm;
 +}
 +
-+static const TypeInfo ls7a_rtc_info = {
-+    .name          = TYPE_LS7A_RTC,
++static const TypeInfo ls7a_pm_info = {
++    .name          = TYPE_LS7A_PM,
 +    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(LS7ARtcState),
-+    .class_init    = ls7a_rtc_class_init,
++    .instance_size = sizeof(LS7APMState),
++    .class_init    = ls7a_pm_class_init,
 +};
 +
-+static void ls7a_rtc_register_types(void)
++static void ls7a_pm_register_types(void)
 +{
-+    type_register_static(&ls7a_rtc_info);
++    type_register_static(&ls7a_pm_info);
 +}
 +
-+type_init(ls7a_rtc_register_types)
-diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
-index 7cecdee5dd..dc33973384 100644
---- a/hw/rtc/meson.build
-+++ b/hw/rtc/meson.build
-@@ -11,6 +11,7 @@ softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_SUN4V_RTC', if_true: files('sun4v-rtc.c'))
- softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_GOLDFISH_RTC', if_true: files('goldfish_rtc.c'))
-+softmmu_ss.add(when: 'CONFIG_LS7A_RTC', if_true: files('ls7a_rtc.c'))
- softmmu_ss.add(when: 'CONFIG_ALLWINNER_H3', if_true: files('allwinner-rtc.c'))
++type_init(ls7a_pm_register_types)
+diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+index 8bea2e6933..e6b1ba6f3c 100644
+--- a/hw/acpi/meson.build
++++ b/hw/acpi/meson.build
+@@ -25,6 +25,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_ERST', if_true: files('erst.c'))
+ acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
+ acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_LOONGARCH', if_true: files('ls7a.c'))
+ if have_tpm
+   acpi_ss.add(files('tpm.c'))
+ endif
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index 35b6680772..7c863b7150 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -14,3 +14,5 @@ config LOONGARCH_VIRT
+     select LOONGARCH_PCH_MSI
+     select LOONGARCH_EXTIOI
+     select LS7A_RTC
++    select ACPI_LOONGARCH
++    select ACPI_PCI
+diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+index 67c130de63..527853b01c 100644
+--- a/hw/loongarch/loongson3.c
++++ b/hw/loongarch/loongson3.c
+@@ -28,7 +28,8 @@
+ #include "hw/pci-host/ls7a.h"
+ #include "hw/pci-host/gpex.h"
+ #include "hw/misc/unimp.h"
+-
++#include "hw/acpi/aml-build.h"
++#include "qapi/qapi-visit-common.h"
+ #include "target/loongarch/cpu.h"
  
- specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
+ static struct _loaderparams {
+@@ -63,11 +64,11 @@ static int64_t load_kernel_info(void)
+ 
+ static void loongarch_devices_init(DeviceState *pch_pic)
+ {
+-    DeviceState *gpex_dev;
++    DeviceState *gpex_dev, *ls7a_pm;
+     SysBusDevice *d;
+     PCIBus *pci_bus;
+     MemoryRegion *ecam_alias, *ecam_reg, *pio_alias, *pio_reg;
+-    MemoryRegion *mmio_alias, *mmio_reg;
++    MemoryRegion *mmio_alias, *mmio_reg, *pm_reg;
+     int i;
+ 
+     gpex_dev = qdev_new(TYPE_GPEX_HOST);
+@@ -133,6 +134,18 @@ static void loongarch_devices_init(DeviceState *pch_pic)
+     sysbus_create_simple("ls7a_rtc", LS7A_RTC_REG_BASE,
+                          qdev_get_gpio_in(pch_pic,
+                          LS7A_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
++    /* Init pm */
++    ls7a_pm = qdev_new(TYPE_LS7A_PM);
++    d = SYS_BUS_DEVICE(ls7a_pm);
++    sysbus_realize_and_unref(d, &error_fatal);
++    ls7a_pm_init(ls7a_pm, qdev_get_gpio_in(pch_pic,
++                                           ACPI_SCI_IRQ - PCH_PIC_IRQ_OFFSET));
++    pm_reg = sysbus_mmio_get_region(d, 0);
++    memory_region_add_subregion(get_system_memory(), ACPI_IO_BASE, pm_reg);
++    memory_region_add_subregion(pm_reg, LS7A_GPE0_STS_REG,
++                                sysbus_mmio_get_region(d, 1));
++    memory_region_add_subregion(pm_reg, LS7A_GPE0_RESET_REG,
++                                sysbus_mmio_get_region(d, 2));
+ }
+ 
+ static void loongarch_irq_init(LoongArchMachineState *lams)
+diff --git a/include/hw/acpi/ls7a.h b/include/hw/acpi/ls7a.h
+new file mode 100644
+index 0000000000..28fe23c8a3
+--- /dev/null
++++ b/include/hw/acpi/ls7a.h
+@@ -0,0 +1,53 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * QEMU GMCH/LS7A PCI PM Emulation
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef HW_ACPI_LS7A_H
++#define HW_ACPI_LS7A_H
++
++#include "hw/acpi/acpi.h"
++#include "hw/sysbus.h"
++
++#define LS7A_ACPI_IO_BASE         0x800
++#define LS7A_ACPI_IO_SIZE         0x100
++#define LS7A_PM_EVT_BLK           (0x0C) /* 4 bytes */
++#define LS7A_PM_CNT_BLK           (0x14) /* 2 bytes */
++#define LS7A_GPE0_STS_REG         (0x28) /* 4 bytes */
++#define LS7A_GPE0_ENA_REG         (0x2C) /* 4 bytes */
++#define LS7A_GPE0_RESET_REG       (0x30) /* 4 bytes */
++#define LS7A_PM_TMR_BLK           (0x18) /* 4 bytes */
++#define LS7A_GPE0_LEN             (8)
++#define ACPI_IO_BASE              (LS7A_ACPI_REG_BASE)
++#define ACPI_GPE0_LEN             (LS7A_GPE0_LEN)
++#define ACPI_IO_SIZE              (LS7A_ACPI_IO_SIZE)
++#define ACPI_SCI_IRQ              (LS7A_SCI_IRQ)
++
++typedef struct LS7APMState {
++    SysBusDevice parent_obj;
++    /*
++     * In ls7a spec says that pm1_cnt register is 32bit width and
++     * that the upper 16bits are reserved and unused.
++     * PM1a_CNT_BLK = 2 in FADT so it is defined as uint16_t.
++     */
++    ACPIREGS acpi_regs;
++
++    MemoryRegion iomem;
++    MemoryRegion iomem_gpe;
++    MemoryRegion iomem_reset;
++
++    qemu_irq irq;      /* SCI */
++
++    uint32_t pm_io_base;
++    Notifier powerdown_notifier;
++} LS7APMState;
++
++#define TYPE_LS7A_PM "ls7a_pm"
++DECLARE_INSTANCE_CHECKER(struct LS7APMState, LS7A_PM, TYPE_LS7A_PM)
++
++void ls7a_pm_init(DeviceState *ls7a_pm, qemu_irq irq);
++
++extern const VMStateDescription vmstate_ls7a_pm;
++#endif /* HW_ACPI_LS7A_H */
 diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
-index f57417b096..1110d25306 100644
+index 1110d25306..baf8dde84e 100644
 --- a/include/hw/pci-host/ls7a.h
 +++ b/include/hw/pci-host/ls7a.h
-@@ -35,4 +35,8 @@
- #define LS7A_PCI_IRQS           48
- #define LS7A_UART_IRQ           (PCH_PIC_IRQ_OFFSET + 2)
- #define LS7A_UART_BASE          0x1fe001e0
-+#define LS7A_RTC_IRQ            (PCH_PIC_IRQ_OFFSET + 3)
-+#define LS7A_MISC_REG_BASE      (LS7A_PCH_REG_BASE + 0x00080000)
-+#define LS7A_RTC_REG_BASE       (LS7A_MISC_REG_BASE + 0x00050100)
-+#define LS7A_RTC_LEN            0x100
+@@ -11,6 +11,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pcie_host.h"
+ #include "hw/pci-host/pam.h"
++#include "hw/acpi/ls7a.h"
+ #include "qemu/units.h"
+ #include "qemu/range.h"
+ #include "qom/object.h"
+@@ -21,6 +22,9 @@
+ #define LS7A_PCI_IO_BASE        0x18004000UL
+ #define LS7A_PCI_IO_SIZE        0xC000
+ 
++#define LS7A_PCI_MEM_BASE        0x40000000UL
++#define LS7A_PCI_MEM_SIZE        0x40000000UL
++
+ #define LS7A_PCH_REG_BASE       0x10000000UL
+ #define LS7A_IOAPIC_REG_BASE    (LS7A_PCH_REG_BASE)
+ #define LS7A_PCH_MSI_ADDR_LOW   0x2FF00000UL
+@@ -39,4 +43,6 @@
+ #define LS7A_MISC_REG_BASE      (LS7A_PCH_REG_BASE + 0x00080000)
+ #define LS7A_RTC_REG_BASE       (LS7A_MISC_REG_BASE + 0x00050100)
+ #define LS7A_RTC_LEN            0x100
++#define LS7A_ACPI_REG_BASE      (LS7A_MISC_REG_BASE + 0x00050000)
++#define LS7A_SCI_IRQ            (PCH_PIC_IRQ_OFFSET + 4)
  #endif
 -- 
 2.31.1
