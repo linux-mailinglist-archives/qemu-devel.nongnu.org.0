@@ -2,95 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A2D50DC09
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:09:52 +0200 (CEST)
-Received: from localhost ([::1]:44776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1427E50DC26
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:14:31 +0200 (CEST)
+Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niuj9-0004ul-0i
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:09:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46962)
+	id 1niune-0002Yl-1q
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1niug8-0002a2-0L
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:06:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1niug5-0000Ix-4T
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:06:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650877600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jQc8p97oS+bHimoYEpbQ3L3KQ6NmZdE1p3HZh23obKY=;
- b=fYiQDzgO0nvOjFKrmUaGnx1tmme4vWoxFcvFWjzZZo8rfYT2hzZgHEz5N9sPjHp/ewaAoL
- c10mvc+/U5WY23eoeg1ctgYKD+WZZAhfgbkonQO27QzwND1aCJGChYJO40bko+GBI2SerD
- xCfbHqVxX3HSB/jWr3VpfXMBTywAiJ4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-3viThj4dOKmRCKQ2h9JQNg-1; Mon, 25 Apr 2022 05:06:38 -0400
-X-MC-Unique: 3viThj4dOKmRCKQ2h9JQNg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- w4-20020adfbac4000000b0020acba4b779so1687125wrg.22
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 02:06:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jQc8p97oS+bHimoYEpbQ3L3KQ6NmZdE1p3HZh23obKY=;
- b=rCfpmAjcauqUaiaj0xXO9BdMhwZ94zmIKywGscEyvHtfZcqMBfixpdjuviolxJdoxD
- vnNOsMaM/eFib8+rNqzHxFKYBZbQcOdDs0s4VHMS0tRWTSt3B5WnuuH2W4lBmNpRar0T
- dwdqa5dDv3kYus7EFOfbes05txcvKTktgobTw+qG67zEHaZNiIgT/EErZ0JoHSOeKIi/
- u0Lkiw/NyMnojI8lNP0YCS2yI9kLlqri1TRYVVrH5qtWdGBbgfVgTqagnwyRoxbLEHuE
- RXMQmp8nFS1bYNxW9hWP69SMx2fht7hwSNm3hwA8mKdgnl6GmsJ6VuiDPFQYM1XlKy5k
- bVcg==
-X-Gm-Message-State: AOAM5315ZLLZX7+dfegTDfm5jB5zDgkxovYlC+Ku9tjGB7re+MP36HHf
- BRQJZlly6hJ+FALYmz4se7915yLV0uTSSFC0gHakqtLVl5sHIRLYnnwdEqzVTOZ6D6XWUMBYwy3
- F7Cm51SdBmVIJ5VY=
-X-Received: by 2002:a1c:2706:0:b0:391:822c:83da with SMTP id
- n6-20020a1c2706000000b00391822c83damr15350450wmn.100.1650877597197; 
- Mon, 25 Apr 2022 02:06:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxtkx495weS/A1UJB9JPPASVoWcQPB/WesAZXWJUQ/1cTwiUZS/MzBexPxVuYUSKJZOzINqKQ==
-X-Received: by 2002:a1c:2706:0:b0:391:822c:83da with SMTP id
- n6-20020a1c2706000000b00391822c83damr15350432wmn.100.1650877596986; 
- Mon, 25 Apr 2022 02:06:36 -0700 (PDT)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- i27-20020a1c541b000000b003928e866d32sm11414352wmb.37.2022.04.25.02.06.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 02:06:36 -0700 (PDT)
-Message-ID: <8082585e-600b-a137-241f-7b8320acf88b@redhat.com>
-Date: Mon, 25 Apr 2022 11:06:34 +0200
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1niuix-0006Nt-6g
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:09:39 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:38656 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1niuiq-0000nm-LQ
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:09:37 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3xBDZWZi47gwAA--.34426S2; 
+ Mon, 25 Apr 2022 17:09:23 +0800 (CST)
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/43] Add LoongArch softmmu support
+Date: Mon, 25 Apr 2022 17:08:39 +0800
+Message-Id: <20220425090922.2877772-1-yangxiaojuan@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v5 00/11] s390x/tcg: Implement Vector-Enhancements
- Facility 2
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220323135722.1623-1-dmiller423@gmail.com>
- <25e876da-c2ac-ad55-0830-6fe149e0691f@linux.ibm.com>
- <6c44677b-50ee-5d4e-2aa6-d28f98142f49@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <6c44677b-50ee-5d4e-2aa6-d28f98142f49@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dx3xBDZWZi47gwAA--.34426S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3uF13XrWfWF4UWr48Xw1UZFb_yoWDAFWUpr
+ W7ur15KF4UGrZ7Jrsaqay5Xr95Xa1xGr4293WSqryrCrWIvry5ZF1kK3sFgFy3J3W8Wry0
+ qF1Fkw1UWa1UXa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,73 +55,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pasic@linux.ibm.com, farman@linux.ibm.com, cohuck@redhat.com,
- richard.henderson@linaro.org
+Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
+ gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/04/2022 09.51, David Hildenbrand wrote:
-> On 25.04.22 09:43, Christian Borntraeger wrote:
->> Am 23.03.22 um 14:57 schrieb David Miller:
->>> Implement Vector-Enhancements Facility 2 for s390x
->>>
->>> resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
->>>
->>> implements:
->>>       VECTOR LOAD ELEMENTS REVERSED               (VLER)
->>>       VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
->>>       VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
->>>       VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
->>>       VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
->>>       VECTOR STORE ELEMENTS REVERSED              (VSTER)
->>>       VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
->>>       VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
->>>       VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
->>>       VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
->>>       VECTOR STRING SEARCH                        (VSTRS)
->>>
->>>       modifies:
->>>       VECTOR FP CONVERT FROM FIXED                (VCFPS)
->>>       VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
->>>       VECTOR FP CONVERT TO FIXED                  (VCSFP)
->>>       VECTOR FP CONVERT TO LOGICAL                (VCLFP)
->>>       VECTOR SHIFT LEFT                           (VSL)
->>>       VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
->>>       VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
->>>
->>>
->>> David Miller (9):
->>>     tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
->>>     target/s390x: vxeh2: vector convert short/32b
->>>     target/s390x: vxeh2: vector string search
->>>     target/s390x: vxeh2: Update for changes to vector shifts
->>>     target/s390x: vxeh2: vector shift double by bit
->>>     target/s390x: vxeh2: vector {load, store} elements reversed
->>>     target/s390x: vxeh2: vector {load, store} byte reversed elements
->>>     target/s390x: vxeh2: vector {load, store} byte reversed element
->>>     target/s390x: add S390_FEAT_VECTOR_ENH2 to qemu CPU model
->>>     tests/tcg/s390x: Tests for Vector Enhancements Facility 2
->>>     target/s390x: Fix writeback to v1 in helper_vstl
->>>
->>> Richard Henderson (2):
->>>     tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
->>>     target/s390x: Fix writeback to v1 in helper_vstl
->>
->>
->> I guess we can now re-do this series against 7.1-devel (qemu/master) which does
->> have the machine compat changes. Apart from that this should be ready now?
->>
-> 
-> Yes, I think so. I can respin with the proper compat changes if requested.
+Hi All,
 
-FWIW, I played with the series a little bit, and did not spot any obvious 
-problems anymore, so feel free to add:
+As this series only supports running binary files in ELF format, and does not depend on
+BIOS and kernel file. so this series are changed from RFC to patch v1. 
 
-Tested-by: Thomas Huth <thuth@redhat.com>
 
-If you send a v6 with the compat stuff fixed, I can queue it for my next 
-s390x pull request.
+The manual:
+  - https://github.com/loongson/LoongArch-Documentation/releases/tag/2022.03.17
 
-  Thomas
+Old series:
+  - https://patchew.org/QEMU/20220328125749.2918087-1-yangxiaojuan@loongson.cn/
+  - https://patchew.org/QEMU/20220106094200.1801206-1-gaosong@loongson.cn/
+
+Thanks.
+Xiaojuan
+
+-----
+
+v2:
+  - Improvents to CSR/IOCSR instructions translation.
+  - Fixed extioi device emulation. It is represented by only one memory region.
+  - Fixed IPI device emulation. The registers are represented with uint64_t.
+  - Use do_cpu_reset() and cpu_set_pc() to specify the load address. 
+
+
+v1: https://patchew.org/QEMU/20220415094058.3584233-1-yangxiaojuan@loongson.cn/
+
+
+Song Gao (18):
+  target/loongarch: Add README
+  target/loongarch: Add core definition
+  target/loongarch: Add main translation routines
+  target/loongarch: Add fixed point arithmetic instruction translation
+  target/loongarch: Add fixed point shift instruction translation
+  target/loongarch: Add fixed point bit instruction translation
+  target/loongarch: Add fixed point load/store instruction translation
+  target/loongarch: Add fixed point atomic instruction translation
+  target/loongarch: Add fixed point extra instruction translation
+  target/loongarch: Add floating point arithmetic instruction
+    translation
+  target/loongarch: Add floating point comparison instruction
+    translation
+  target/loongarch: Add floating point conversion instruction
+    translation
+  target/loongarch: Add floating point move instruction translation
+  target/loongarch: Add floating point load/store instruction
+    translation
+  target/loongarch: Add branch instruction translation
+  target/loongarch: Add disassembler
+  target/loongarch: Add target build suport
+  target/loongarch: 'make check-tcg' support
+
+Xiaojuan Yang (25):
+  target/loongarch: Add system emulation introduction
+  target/loongarch: Add CSRs definition
+  target/loongarch: Add basic vmstate description of CPU.
+  target/loongarch: Implement qmp_query_cpu_definitions()
+  target/loongarch: Add MMU support for LoongArch CPU.
+  target/loongarch: Add LoongArch interrupt and exception handle
+  target/loongarch: Add constant timer support
+  target/loongarch: Add LoongArch CSR instruction
+  target/loongarch: Add LoongArch IOCSR instruction
+  target/loongarch: Add TLB instruction support
+  target/loongarch: Add other core instructions support
+  target/loongarch: Add timer related instructions support.
+  hw/loongarch: Add support loongson3 virt machine type.
+  hw/loongarch: Add LoongArch ipi interrupt support(IPI)
+  hw/intc: Add LoongArch ls7a interrupt controller support(PCH-PIC)
+  hw/intc: Add LoongArch ls7a msi interrupt controller support(PCH-MSI)
+  hw/intc: Add LoongArch extioi interrupt controller(EIOINTC)
+  hw/loongarch: Add irq hierarchy for the system
+  Enable common virtio pci support for LoongArch
+  hw/loongarch: Add some devices support for 3A5000.
+  hw/loongarch: Add LoongArch ls7a rtc device support
+  hw/loongarch: Add LoongArch load elf function.
+  hw/loongarch: Add LoongArch ls7a acpi device support
+  target/loongarch: Add gdb support.
+  tests/tcg/loongarch64: Add hello/memory test in loongarch64 system
+
+ MAINTAINERS                                   |  26 +
+ .../devices/loongarch64-softmmu/default.mak   |   3 +
+ configs/targets/loongarch64-softmmu.mak       |   4 +
+ docs/system/loongarch/loongson3.rst           |  41 +
+ gdb-xml/loongarch-base64.xml                  |  44 +
+ gdb-xml/loongarch-fpu64.xml                   |  57 ++
+ hw/Kconfig                                    |   1 +
+ hw/acpi/Kconfig                               |   4 +
+ hw/acpi/ls7a.c                                | 374 ++++++++
+ hw/acpi/meson.build                           |   1 +
+ hw/intc/Kconfig                               |  15 +
+ hw/intc/loongarch_extioi.c                    | 483 ++++++++++
+ hw/intc/loongarch_ipi.c                       | 166 ++++
+ hw/intc/loongarch_pch_msi.c                   |  75 ++
+ hw/intc/loongarch_pch_pic.c                   | 434 +++++++++
+ hw/intc/meson.build                           |   4 +
+ hw/intc/trace-events                          |  25 +
+ hw/loongarch/Kconfig                          |  18 +
+ hw/loongarch/loongson3.c                      | 349 +++++++
+ hw/loongarch/meson.build                      |   4 +
+ hw/meson.build                                |   1 +
+ hw/rtc/Kconfig                                |   3 +
+ hw/rtc/ls7a_rtc.c                             | 322 +++++++
+ hw/rtc/meson.build                            |   1 +
+ include/disas/dis-asm.h                       |   2 +
+ include/exec/poison.h                         |   2 +
+ include/hw/acpi/ls7a.h                        |  53 ++
+ include/hw/intc/loongarch_extioi.h            |  60 ++
+ include/hw/intc/loongarch_ipi.h               |  50 +
+ include/hw/intc/loongarch_pch_msi.h           |  20 +
+ include/hw/intc/loongarch_pch_pic.h           |  69 ++
+ include/hw/loongarch/virt.h                   |  42 +
+ include/hw/pci-host/ls7a.h                    |  48 +
+ include/sysemu/arch_init.h                    |   1 +
+ meson.build                                   |   1 +
+ qapi/machine-target.json                      |   6 +-
+ qapi/machine.json                             |   2 +-
+ softmmu/qdev-monitor.c                        |   3 +-
+ target/Kconfig                                |   1 +
+ target/loongarch/Kconfig                      |   2 +
+ target/loongarch/README                       |  64 ++
+ target/loongarch/constant_timer.c             |  64 ++
+ target/loongarch/cpu-csr.h                    | 208 +++++
+ target/loongarch/cpu-param.h                  |  18 +
+ target/loongarch/cpu.c                        | 710 +++++++++++++++
+ target/loongarch/cpu.h                        | 392 ++++++++
+ target/loongarch/csr_helper.c                 |  87 ++
+ target/loongarch/disas.c                      | 751 +++++++++++++++
+ target/loongarch/fpu_helper.c                 | 862 ++++++++++++++++++
+ target/loongarch/gdbstub.c                    |  81 ++
+ target/loongarch/helper.h                     | 130 +++
+ target/loongarch/insn_trans/trans_arith.c.inc | 304 ++++++
+ .../loongarch/insn_trans/trans_atomic.c.inc   | 113 +++
+ target/loongarch/insn_trans/trans_bit.c.inc   | 212 +++++
+ .../loongarch/insn_trans/trans_branch.c.inc   |  83 ++
+ target/loongarch/insn_trans/trans_extra.c.inc | 101 ++
+ .../loongarch/insn_trans/trans_farith.c.inc   | 105 +++
+ target/loongarch/insn_trans/trans_fcmp.c.inc  |  56 ++
+ target/loongarch/insn_trans/trans_fcnv.c.inc  |  33 +
+ .../loongarch/insn_trans/trans_fmemory.c.inc  | 153 ++++
+ target/loongarch/insn_trans/trans_fmov.c.inc  | 157 ++++
+ .../loongarch/insn_trans/trans_memory.c.inc   | 229 +++++
+ .../insn_trans/trans_privileged.c.inc         | 460 ++++++++++
+ target/loongarch/insn_trans/trans_shift.c.inc | 106 +++
+ target/loongarch/insns.decode                 | 486 ++++++++++
+ target/loongarch/internals.h                  |  56 ++
+ target/loongarch/iocsr_helper.c               | 174 ++++
+ target/loongarch/machine.c                    | 103 +++
+ target/loongarch/meson.build                  |  30 +
+ target/loongarch/op_helper.c                  | 132 +++
+ target/loongarch/tlb_helper.c                 | 763 ++++++++++++++++
+ target/loongarch/translate.c                  | 280 ++++++
+ target/loongarch/translate.h                  |  45 +
+ target/meson.build                            |   1 +
+ tests/tcg/configure.sh                        |   1 +
+ tests/tcg/loongarch64/Makefile.softmmu-target |  33 +
+ tests/tcg/loongarch64/system/boot.S           |  56 ++
+ tests/tcg/loongarch64/system/kernel.ld        |  30 +
+ tests/tcg/loongarch64/system/regdef.h         |  86 ++
+ 79 files changed, 10568 insertions(+), 4 deletions(-)
+ create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+ create mode 100644 configs/targets/loongarch64-softmmu.mak
+ create mode 100644 docs/system/loongarch/loongson3.rst
+ create mode 100644 gdb-xml/loongarch-base64.xml
+ create mode 100644 gdb-xml/loongarch-fpu64.xml
+ create mode 100644 hw/acpi/ls7a.c
+ create mode 100644 hw/intc/loongarch_extioi.c
+ create mode 100644 hw/intc/loongarch_ipi.c
+ create mode 100644 hw/intc/loongarch_pch_msi.c
+ create mode 100644 hw/intc/loongarch_pch_pic.c
+ create mode 100644 hw/loongarch/Kconfig
+ create mode 100644 hw/loongarch/loongson3.c
+ create mode 100644 hw/loongarch/meson.build
+ create mode 100644 hw/rtc/ls7a_rtc.c
+ create mode 100644 include/hw/acpi/ls7a.h
+ create mode 100644 include/hw/intc/loongarch_extioi.h
+ create mode 100644 include/hw/intc/loongarch_ipi.h
+ create mode 100644 include/hw/intc/loongarch_pch_msi.h
+ create mode 100644 include/hw/intc/loongarch_pch_pic.h
+ create mode 100644 include/hw/loongarch/virt.h
+ create mode 100644 include/hw/pci-host/ls7a.h
+ create mode 100644 target/loongarch/Kconfig
+ create mode 100644 target/loongarch/README
+ create mode 100644 target/loongarch/constant_timer.c
+ create mode 100644 target/loongarch/cpu-csr.h
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/csr_helper.c
+ create mode 100644 target/loongarch/disas.c
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/gdbstub.c
+ create mode 100644 target/loongarch/helper.h
+ create mode 100644 target/loongarch/insn_trans/trans_arith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_bit.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_branch.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_extra.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_farith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcmp.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmemory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmov.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_memory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_privileged.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_shift.c.inc
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/internals.h
+ create mode 100644 target/loongarch/iocsr_helper.c
+ create mode 100644 target/loongarch/machine.c
+ create mode 100644 target/loongarch/meson.build
+ create mode 100644 target/loongarch/op_helper.c
+ create mode 100644 target/loongarch/tlb_helper.c
+ create mode 100644 target/loongarch/translate.c
+ create mode 100644 target/loongarch/translate.h
+ create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
+ create mode 100644 tests/tcg/loongarch64/system/boot.S
+ create mode 100644 tests/tcg/loongarch64/system/kernel.ld
+ create mode 100644 tests/tcg/loongarch64/system/regdef.h
+
+-- 
+2.31.1
 
 
