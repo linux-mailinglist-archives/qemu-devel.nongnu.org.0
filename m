@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3630650DE0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 12:38:54 +0200 (CEST)
-Received: from localhost ([::1]:44594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C40550DE35
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 12:51:01 +0200 (CEST)
+Received: from localhost ([::1]:58734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niw7I-0008BR-SL
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 06:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58402)
+	id 1niwJ2-0000EB-90
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 06:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nivVN-0001vz-1H; Mon, 25 Apr 2022 05:59:41 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:46483)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nivia-0006VD-7b
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:13:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nivVK-00007h-NV; Mon, 25 Apr 2022 05:59:40 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 4F3ED320100E;
- Mon, 25 Apr 2022 05:59:34 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 25 Apr 2022 05:59:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1650880773; x=1650967173; bh=LE
- vWLP1Jyz6venNBhTIr7jIiB9zWZMC1zXMpcNnrY1o=; b=gMKOpQ50OBdWhqLcC6
- PFn+1sW7Utb7XJ5hFW0+wUq41nTM+MxBB726acljN8IcSAPemPMETBpbZ9AVwCL4
- pC78suzHYgfsQUdLJINXQQtuegI/9tV+WIHgOuTUichxYIMSWb4bvLQeum5rvldv
- oX+aWYOvIbcz8TZBUh7I6BnpuXtnFDScAYYpivtkC1iWIbfv+qo2f6s/1w9oT5Z+
- 9kKZaTw09fD3sHHEbWIPya4w0g+rzP6Vw0dK2jD1AEi3S1+aUe3hsfMAY2WDPKOf
- fcfcGyKYHmaNUxYjfmpT31uRPCXr6itNC1nyaFPLHmoBL6DCz45YonSuQA5yY94L
- cExw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650880773; x=
- 1650967173; bh=LEvWLP1Jyz6venNBhTIr7jIiB9zWZMC1zXMpcNnrY1o=; b=z
- VW4tJ2TcYc+AiF4zb79c8gLwaWC2RXOfO378oO78kW2Pf1xUBxYkLDO5yPfJ/nGW
- O0tlLE3JVP2t1mqNwtENLlgEp3e4LBzrwfFhxAAGms5gCAb9BloITZjL3F1l4b3B
- dR07icgJCL/3QALJA25/fxTp0cCt6+tnlZ3Qs5rZQ5FRhBoX32NgKsRX5N1hRFm0
- 86Geu2bCQd9FxFn+gd7PpSznpNgVhQuB8gT0ADI3N99lmM2QrYKoknvE0zaGNcDu
- +kGeLxYHifFAdCJp4V0UEJq6cdwmLR5wzlLZINzDaqCwc5YDtf1gqAnHk0O6J2rX
- 0DIM/faSajZB9KAIliotA==
-X-ME-Sender: <xms:BXFmYuvJuCh4jGMw8zntOQ-ELMRs43xjkHD1kpnL0lw1h9I83X7xhg>
- <xme:BXFmYjc3sZJJk33bkaWFb_ae1cQHffWKFH3CO5Weo2YnhD8kVbGreTp2_9ZOIKoeg
- frSM3RBGGIcQ-181dQ>
-X-ME-Received: <xmr:BXFmYpxEJD25lUqsEYO7NCHkmVpDVyc624NqMOIHHtC2iHLclPvFDws>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddugddvudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeehgefgjeffheelfeejueejfeevvdeifeevhffhffdtjeffteeikeehuddvtdei
- hfenucffohhmrghinhepnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:BXFmYpPKyGpIJ1pvr8PW40o8atmovzjbgnCJhs9oDzQpskOpsRpPIw>
- <xmx:BXFmYu8WRlOFTb4XhY9LqgMvC9Equluh71_R7_gTczLONb2bBooaxw>
- <xmx:BXFmYhUarVSzWqX3gRtp17bVBv4xh80Hl3CL3977uCuxUIkjJvT-BQ>
- <xmx:BXFmYlbNNCPzVRrcAzi0vtczpxw4s6BHu4O4BjlmVQLMghaImbnTkw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Apr 2022 05:59:32 -0400 (EDT)
-Date: Mon, 25 Apr 2022 11:59:30 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] nvme: fix bit buckets
-Message-ID: <YmZxApttNqy6SNLi@apples>
-References: <20220422163721.3392373-1-kbusch@kernel.org>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1niviY-0002UU-MW
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:13:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650881596;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=isS09XiZpfF8/Gg3ZLoV1WlwaK6tdx7qWiFgCRiDXWM=;
+ b=Xn4Ju3RYdbTq/hHkBgBDNqfi7ytN9aX43S8K5SpCTp03NN/phC4njYOWf6m9BrX4MA7uHw
+ e5UL3sOIdAvHX1NkxIKkiwrxwjXwxl+gIyDYcO+ZVRclnJA4k+EjN4ullu5CfnH50EZydR
+ w38bGvbV8bFnF8LuEvHIu3JvPrGIDhE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-58-2mVWMxISMh6nLO04WEcdWg-1; Mon, 25 Apr 2022 06:13:15 -0400
+X-MC-Unique: 2mVWMxISMh6nLO04WEcdWg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ l14-20020aa7cace000000b003f7f8e1cbbdso8101362edt.20
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 03:13:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=isS09XiZpfF8/Gg3ZLoV1WlwaK6tdx7qWiFgCRiDXWM=;
+ b=gq3dEGM5CkrZ786uSupFNUzkCtLJG5MgMnhPaOvBQwjPWf2IJ3JV3DsvToMU2DaDov
+ Y5jzzmLNLcg0nuoNFdn3DfXlbeBQacyhDB45tnnlgo3ISuUT6ijBrbk0rfHefZevbFjK
+ rjkuUXv5wdD/Rigapj6I2NEvnHmEiqALSEHSYWT4MltwgI6ciyY1jNo4IFvvGe1PMgMQ
+ BsIxppPbhnyvmCmr4gq+lHWkCJMGEui+b7tnEWXKiB1BOV5b7KhhLl/Ln2T0YOHSS4qf
+ Qn4q3KiDiRcaNjKqiQamz6rxhlyKzPgLthmAaI9kwxwtNQZGeueVa2RYVSedpG8YJeE1
+ 1GGw==
+X-Gm-Message-State: AOAM5328YGNS71kOgEgu9znrzA6B7bBE2C38utyexBNAjexlW26MnF09
+ GglXJ0fVNQUv/d2TQ+XQgPn/PtqDjzLAa9Yy/HiXFdwn7mJLW8R3gcCtITEojqXh8uq+ouCDecr
+ vlDfTZ1ZsFvle+9Q=
+X-Received: by 2002:aa7:df0a:0:b0:425:d4bf:539 with SMTP id
+ c10-20020aa7df0a000000b00425d4bf0539mr10379255edy.24.1650881594564; 
+ Mon, 25 Apr 2022 03:13:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzSUTw5W4Xu3RubQZLKfEwmEetW+hghCqvbVw0lm4Dh48cGRVXIDNSSm2czQ5dLPyXwiTuBLA==
+X-Received: by 2002:aa7:df0a:0:b0:425:d4bf:539 with SMTP id
+ c10-20020aa7df0a000000b00425d4bf0539mr10379218edy.24.1650881594217; 
+ Mon, 25 Apr 2022 03:13:14 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ v2-20020a17090606c200b006a728f4a9bcsm3508392ejb.148.2022.04.25.03.13.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Apr 2022 03:13:13 -0700 (PDT)
+Message-ID: <18aa397c-23a9-ea1b-03a6-8e439b9d2f6b@redhat.com>
+Date: Mon, 25 Apr 2022 12:03:26 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YaSknU6HUkiOrMd2"
-Content-Disposition: inline
-In-Reply-To: <20220422163721.3392373-1-kbusch@kernel.org>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v3 for 7.1 1/1] block: add 'force' parameter to
+ 'blockdev-change-medium' command
+Content-Language: en-US
+To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220412221846.280723-1-den@openvz.org>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220412221846.280723-1-den@openvz.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,117 +99,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@fb.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---YaSknU6HUkiOrMd2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-+qemu-devel
-
-On Apr 22 09:37, Keith Busch wrote:
-> We can't just ignore the bit buckets since the data offsets read from
-> disk need to be accounted for. We could either split into multiple reads
-> for the actual user data requested and skip the buckets, or we could
-> have a place holder for bucket data. Splitting is too much over head, so
-> just allocate a memory region to dump unwanted data.
->=20
-> Signed-off-by: Keith Busch <kbusch@kernel.org>
+On 13.04.22 00:18, Denis V. Lunev wrote:
+> 'blockdev-change-medium' is a convinient wrapper for the following
+> sequence of commands:
+>   * blockdev-open-tray
+>   * blockdev-remove-medium
+>   * blockdev-insert-medium
+>   * blockdev-close-tray
+> and should be used f.e. to change ISO image inside the CD-ROM tray.
+> Though the guest could lock the tray and some linux guests like
+> CentOS 8.5 actually does that. In this case the execution if this
+> command results in the error like the following:
+>    Device 'scsi0-0-1-0' is locked and force was not specified,
+>    wait for tray to open and try again.
+>
+> This situation is could be resolved 'blockdev-open-tray' by passing
+> flag 'force' inside. Thus is seems reasonable to add the same
+> capability for 'blockdev-change-medium' too.
+>
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+> Acked-by: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> CC: Kevin Wolf <kwolf@redhat.com>
+> CC: Hanna Reitz <hreitz@redhat.com>
+> CC: Eric Blake <eblake@redhat.com>
+> CC: Markus Armbruster <armbru@redhat.com>
 > ---
-> This came out easier than I thought, so we can ignore my previous
-> feature removal patch:
->   https://lists.nongnu.org/archive/html/qemu-block/2022-04/msg00398.html
->=20
->  hw/nvme/ctrl.c | 9 +++++----
->  hw/nvme/nvme.h | 1 +
->  2 files changed, 6 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 03760ddeae..711c6fac29 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -845,11 +845,11 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, Nvme=
-Sg *sg,
->          trans_len =3D MIN(*len, dlen);
-> =20
->          if (type =3D=3D NVME_SGL_DESCR_TYPE_BIT_BUCKET) {
-> -            goto next;
-> +            addr =3D n->bitBucket.addr;
-> +        } else {
-> +            addr =3D le64_to_cpu(segment[i].addr);
->          }
-> =20
-> -        addr =3D le64_to_cpu(segment[i].addr);
-> -
->          if (UINT64_MAX - addr < dlen) {
->              return NVME_DATA_SGL_LEN_INVALID | NVME_DNR;
->          }
-> @@ -859,7 +859,6 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, NvmeSg=
- *sg,
->              return status;
->          }
-> =20
-> -next:
->          *len -=3D trans_len;
->      }
-> =20
-> @@ -6686,6 +6685,8 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pc=
-i_dev, Error **errp)
->          nvme_init_pmr(n, pci_dev);
->      }
-> =20
-> +    memory_region_init(&n->bitBucket, OBJECT(n), NULL, 0x100000);
-> +
->      return 0;
->  }
-> =20
-> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-> index 739c8b8f79..d59eadc69d 100644
-> --- a/hw/nvme/nvme.h
-> +++ b/hw/nvme/nvme.h
-> @@ -411,6 +411,7 @@ typedef struct NvmeCtrl {
->      PCIDevice    parent_obj;
->      MemoryRegion bar0;
->      MemoryRegion iomem;
-> +    MemoryRegion bitBucket;
->      NvmeBar      bar;
->      NvmeParams   params;
->      NvmeBus      bus;
-> --=20
-> 2.30.2
->=20
+>   block/qapi-sysemu.c |  3 ++-
+>   hmp-commands.hx     | 11 +++++++----
+>   monitor/hmp-cmds.c  |  4 +++-
+>   qapi/block.json     |  6 ++++++
+>   ui/cocoa.m          |  1 +
+>   5 files changed, 19 insertions(+), 6 deletions(-)
 
-The approach is neat and simple, but I don't think it has the intended
-effect. The memory region addr is just left at 0x0, so we just end up
-with mapping that directly into the qsg and in my test setup, this
-basically does DMA to the admin completion queue which happens to be at
-0x0.
+Thanks, applied to my block branch:
 
-I would have liked to handle it like we do for CMB addresses, and
-reserve some address known to the device (i.e. remapping to a local
-allocated buffer), but we can't easily do that because of the iov/qsg
-duality thingie. The dma helpers wont work with it.
+https://gitlab.com/hreitz/qemu/-/commits/block
 
-For now, I think we need to just rip out the bit bucket support.
-
---YaSknU6HUkiOrMd2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmJmcP4ACgkQTeGvMW1P
-Dek5vAf/Xg9E3cIinqjmaLzG+F5dALLCH+gN9bbOkcejZi0FonSHK+CX4O6C5ioG
-Xir70mtCVqHEY+wIGVnoMmR434LGwDwHQQjK4YKUj2jGWYYfTgPZAF5DTjptbx78
-MzgJXqpMfrF+YgHutqZShpeV4RIhepP8SABbm1keKT7QJVteOE3oU/Eqa8AZ3NNM
-FH/IhJq9/lmHjWBfYEJh1qk3yWegbPRNFhxKSrk9lRGTA+ySJduAjOMXz4SZqJxY
-0FueX63Kyt3hKog+S+WTnNm9KTSVq/dk8dH1VeNV3vM2NO9hWpzgXydrt8RpAWw3
-0FLJQ735HXFZAVkdFDxq6AlUvqpWAQ==
-=zU80
------END PGP SIGNATURE-----
-
---YaSknU6HUkiOrMd2--
 
