@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DA050E2C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:13:49 +0200 (CEST)
-Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85CB50E2D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:17:56 +0200 (CEST)
+Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nizTI-0005TT-QO
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:13:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60348)
+	id 1nizXH-000346-QS
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nizO3-00048l-4s
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:08:23 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:42877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1nizO0-0001vh-LP
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:08:22 -0400
-Received: by mail-ed1-x533.google.com with SMTP id z19so5297098edx.9
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 07:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=D9vtnrhAa9BfmH6dFS0gl9ifwcUMoQs3R0+bNFD0+NI=;
- b=JpS359SwFhJK/oKR+NlWskkn0WU9m0dMyOZ1SK8F0iuD+zjDTrFi2SQAVxiw1e4aZc
- lshi7c/mVyQWiEva0teQJ953V+J//ScWVGITTxUry8vGzOD0z+O7EBd7YBdemFP0Vegf
- SoZqH5DSQzMfDWlzIyZMUvxrn1Qz9JYQIH/Xrfrq8llDltYwfijvUO7ZXl9ASWdhubX6
- E7aA0wZNxQQ113b0V0um7sjzhcsZlG1YbrCZAZBQXTeseJC9RD+UR2oHfqLw5c5XhyLE
- amOors4lNwkKDkWuIwOqE5KikYE8QsPTdsv9Gvw9AXj2xOgMTv5IQRf64cPCbzm5PkaK
- XiNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=D9vtnrhAa9BfmH6dFS0gl9ifwcUMoQs3R0+bNFD0+NI=;
- b=F/FWXN7P7QWLraunsHOGZbjsF1mQC7rVRdgVFawkuOrKiDKMWUEbpiV/Ickfmk/K22
- PluzrAx+8TNApaDbkIjDxQuY/DzOnVVBtqvN0nRtlEJ9i7pws2bJ7bYaCZ9oBARJpoUL
- T8FRTfefkmIjgQHlZjMiTJLKubMzo+GhpnhS+TuPKHTyH+LhSNVBNSgkQyq9oEOHV8A/
- rmFQ9npYQg53aiL8LtcWh1zZLyFngvrodqMGONle1YAyf4/0QrdQW81ZXry2nPs+ou7P
- bgeCzNRmsU7bpQtq69gjUwaKIX5Zkftu9KgogRyv2l3M2488MPrn1U4Fnal2okQ7oE7p
- h3xQ==
-X-Gm-Message-State: AOAM5337ri08SVC9fPtpka7NQNUwTtsbWFxSy/xVAELV957rzSleowJv
- kWzRiGU8G4LyCxbesbf7COxEiWthQ94LtXRrqWw=
-X-Google-Smtp-Source: ABdhPJwSyFEfuaIraEouvyPj0JPp0SXTgYRfbMTZeFZlm+QF+RPUvkUp+CDr1PVyCJlKh8Rn/cuQF/1gtZxvl4NaIA4=
-X-Received: by 2002:a05:6402:1941:b0:413:2b5f:9074 with SMTP id
- f1-20020a056402194100b004132b5f9074mr19027138edz.414.1650895699050; Mon, 25
- Apr 2022 07:08:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nizO7-0004OD-Mk
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:08:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nizO6-0001wN-0m
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:08:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650895705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AJ9XbFgj9jPo6dU7Ccel7PO4pkey4h43trSNIOpdr3A=;
+ b=MBdA3msw9ZbvAJBhI1IS66OBUUMNGQoRwIHwGsJpOZc5omjVwQTs8RCwKIN4GziGAE1UEX
+ 0HZsqXXIPhbZG9A/RcX6sP9xW44NcWb2lpha/tI6P6Sqt3Bt23FcwneCNXAiLkeHw6cUk+
+ V5m9bhBtd/r8rGXDEHAz389yfUE8Tj4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-81-jHzlSKRQO5GAIhpPu7lFFQ-1; Mon, 25 Apr 2022 10:08:23 -0400
+X-MC-Unique: jHzlSKRQO5GAIhpPu7lFFQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41ADA380673A;
+ Mon, 25 Apr 2022 14:08:23 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.198])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EBE002024CBC;
+ Mon, 25 Apr 2022 14:08:22 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/14] Block patches
+Date: Mon, 25 Apr 2022 16:08:07 +0200
+Message-Id: <20220425140821.957511-1-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20220421155726.31986-1-simon@simonsafar.com>
- <CAMo8BfKPgZ29ReVE9CYmzfZ0sfem-fXqLf-2TW8qYQpO6fPA3g@mail.gmail.com>
- <331420f7-9bc8-44b6-b9db-e1d82cfdd399@www.fastmail.com>
- <CAMo8Bf+6gg4w1D_V8GBmePhC0Opf08Ctp3G90QpO69Yfk87B8w@mail.gmail.com>
- <b24c44b0-4cc0-4165-b794-44f1c61e3460@www.fastmail.com>
-In-Reply-To: <b24c44b0-4cc0-4165-b794-44f1c61e3460@www.fastmail.com>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Mon, 25 Apr 2022 07:08:07 -0700
-Message-ID: <CAMo8Bf+s_bL0-Y99AFYvsCme+7F+6wEAuYyMLdrrBU8mE4bJtg@mail.gmail.com>
-Subject: Re: [PATCH] target/xtensa: import core lx106
-To: Simon Safar <simon@simonsafar.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,38 +70,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Hanna Reitz <hreitz@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 24, 2022 at 10:40 PM Simon Safar <simon@simonsafar.com> wrote:
-> On Sat, Apr 23, 2022, at 2:26 PM, Max Filippov wrote:
-> > It's for a (future...) Lisp compiler! Somewhat in the style of MicroPython; the idea
-> > is to make code editable on the fly, without reflashing (... or restarting, even).
->
-> Interesting. Do you use libisa or do you do instruction encoding on your own?
->
-> It's my own; it's generating opcodes from the tree of tables in the Xtensa reference.
-> A large part of the actual code looks a lot like those tables themselves; there are still
-> some missing parts for some (e.g. overriding some defaults on which instruction is
-> taking what kinds of parameters), which I'm just filling in on the go.
+The following changes since commit 754f756cc4c6d9d14b7230c62b5bb20f9d655888:
 
-I see. I once did something like that for QEMU TCG:
-https://github.com/OSLL/qemu-xtensa/commit/53604287d6fdad1ce9659135a8ecbb569be90380
+  Merge tag 'pull-target-arm-20220422-1' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-04-22 08:03:18 -0700)
 
-> It's fairly hacky, but it might fit together well with the eventual purpose of maybe
-> running some of this in that 40k RAM onboard & keeping it all Lisp.
+are available in the Git repository at:
 
-40k of RAM is a reasonable concern (: I would guess though that libisa + xtensa
-core description are purely code and constant data, and as such they may be
-put into FLASH and not consume any RAM.
+  https://gitlab.com/hreitz/qemu.git tags/pull-block-2022-04-25
 
-> (I'll put it up somewhere eventually once it's not a complete mess & starts doing
-> something interesting! assuming this ever happens, of course.)
+for you to fetch changes up to 348a0740afc5b313599533eb69bbb2b95d2f1bba:
 
-Have fun and good luck!
+  iotests/108: Fix when missing user_allow_other (2022-04-25 14:46:45 +0200)
+
+----------------------------------------------------------------
+Block patches:
+- New @force parameter for blockdev-change-medium
+- Improvements to the iotests to help with debugging
+- Fix iotest 108 on systems without user_allow_other in fuse.conf
+
+----------------------------------------------------------------
+Denis V. Lunev (1):
+  block: add 'force' parameter to 'blockdev-change-medium' command
+
+Hanna Reitz (1):
+  iotests/108: Fix when missing user_allow_other
+
+John Snow (12):
+  iotests: replace calls to log(qemu_io(...)) with qemu_io_log()
+  iotests/163: Fix broken qemu-io invocation
+  iotests: Don't check qemu_io() output for specific error strings
+  iotests/040: Don't check image pattern on zero-length image
+  iotests/040: Fix TestCommitWithFilters test
+  iotests: create generic qemu_tool() function
+  iotests: rebase qemu_io() on top of qemu_tool()
+  iotests/migration-permissions: use assertRaises() for qemu_io()
+    negative test
+  iotests/image-fleecing: switch to qemu_io()
+  iotests: remove qemu_io_pipe_and_status()
+  iotests: remove qemu_io_silent() and qemu_io_silent_check().
+  iotests: make qemu_io_log() check return codes by default
+
+ qapi/block.json                               |  6 ++
+ block/qapi-sysemu.c                           |  3 +-
+ monitor/hmp-cmds.c                            |  4 +-
+ hmp-commands.hx                               | 11 ++-
+ tests/qemu-iotests/030                        | 85 +++++++++++--------
+ tests/qemu-iotests/040                        | 53 +++++++-----
+ tests/qemu-iotests/056                        |  2 +-
+ tests/qemu-iotests/108                        |  2 +-
+ tests/qemu-iotests/149                        |  6 +-
+ tests/qemu-iotests/163                        |  5 +-
+ tests/qemu-iotests/205                        |  4 +-
+ tests/qemu-iotests/216                        | 12 +--
+ tests/qemu-iotests/218                        |  5 +-
+ tests/qemu-iotests/224                        |  4 +-
+ tests/qemu-iotests/242                        |  6 +-
+ tests/qemu-iotests/245                        | 17 ++--
+ tests/qemu-iotests/255                        |  4 +-
+ tests/qemu-iotests/258                        | 11 ++-
+ tests/qemu-iotests/298                        | 17 ++--
+ tests/qemu-iotests/303                        |  4 +-
+ tests/qemu-iotests/310                        | 22 ++---
+ tests/qemu-iotests/iotests.py                 | 69 ++++++++-------
+ tests/qemu-iotests/tests/image-fleecing       | 30 ++++---
+ .../qemu-iotests/tests/migration-permissions  | 28 +++---
+ .../tests/mirror-ready-cancel-error           |  2 +-
+ .../qemu-iotests/tests/nbd-reconnect-on-open  |  2 +-
+ .../qemu-iotests/tests/stream-error-on-reset  |  4 +-
+ ui/cocoa.m                                    |  1 +
+ 28 files changed, 231 insertions(+), 188 deletions(-)
 
 -- 
-Thanks.
--- Max
+2.35.1
+
 
