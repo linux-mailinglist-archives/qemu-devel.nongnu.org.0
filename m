@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8AB450DB7A
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:43:50 +0200 (CEST)
-Received: from localhost ([::1]:36982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9A350DB5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:39:35 +0200 (CEST)
+Received: from localhost ([::1]:59410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niuJx-0005BW-Ou
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:43:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40110)
+	id 1niuFq-00019u-07
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:39:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1niu06-0006UM-4p
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50477)
+ id 1niu0B-0006am-Ja
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1niu01-0002fN-PY
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:17 -0400
+ id 1niu04-0002hJ-Lc
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650874992;
+ s=mimecast20190719; t=1650874995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PAZUwc5ZqVj8eUHH2Oe1Tiz0RIqORJb8+QvvQ1BqMLI=;
- b=jAYYJXBGl122yd0XGTPw9V7yOwWFSd5E7izCyvYir/FWPma+Nm5ckxdHax2kvHLWLf5uRC
- RsftVp0oq/v/Ol+4dP0AfYfIJ1Rr2fcuhgFuHfnUNm8wHCw+OVN4j5Pc0nHzz8BV0mzbCZ
- wgVUYB0iVl4hjKq0sZZgERDHXT55UHQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gedXaEU9mdSzLcQUY6OVe9Xoeu9dbw5uLfUiFLxMZHc=;
+ b=QplVIMD0JjH8T+FGu6+Q8ozaqnyYcz/yvg4IbvFYo8phlm4gSdG0Ne8UOEq+Y5cyzm3wkF
+ hfFPugtMtdUMNmuMg5/L7fAH7/ZJ+OX2b9R5ytiWZqGChSDvZ5kkvzQfu+LAEcQCDvoRUw
+ /r9N0eQl1ScCBzNg11KrObhbwcU2hyE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-0UY_C6VnMN2ClcYZDI0MJQ-1; Mon, 25 Apr 2022 04:22:06 -0400
-X-MC-Unique: 0UY_C6VnMN2ClcYZDI0MJQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- az27-20020a05600c601b00b0038ff021c8a4so9975318wmb.1
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 01:22:05 -0700 (PDT)
+ us-mta-356-37EaWVsUPfSusEPoxx2Hng-1; Mon, 25 Apr 2022 04:22:06 -0400
+X-MC-Unique: 37EaWVsUPfSusEPoxx2Hng-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s14-20020adfa28e000000b0020ac7532f08so1766541wra.15
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 01:22:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PAZUwc5ZqVj8eUHH2Oe1Tiz0RIqORJb8+QvvQ1BqMLI=;
- b=5cHvV5n2817EDUTC8Xne/dDUB1Qjqb2IslrErDXQHpX2Bdwj9DbxP25YArEDG/p87y
- QAMAK1UH67UQ60MnbBHRa0Q0ozHk+KNePEGe0YPlPikUHWlKC8JR4jOIWAKQ/SoC8DR+
- VAeC9jIruSitHiAYWB+p4uhRHgaWWHlNvy4ag3GXads9RE59N95HPigHsY+lU9e/r1fE
- Gd5v8uxYYc06bi3YXJ4jcNJlwx05Z+67jHG63eXebrNdBJqPYlDe0GwtXKVOvCxLcDZ5
- Y7ahniiSOj1pc2/IXY5hsLqU7RYT6mbTgf6ZbIY3U43tTmGo5YN3cUUDPHd4TsXr/BoQ
- RMPA==
-X-Gm-Message-State: AOAM533Z84RuRkY/quADWVDCzesLioF/G6NnTVqNFZCl7NmR42tp6R+q
- 9S8D/2IE75L6N1HsVgn5DiRF0P0/RG+ZfMdkWS4uwSx3ZfUDR3u+fr/EPk91z/dGu5trf4PUDiu
- qW1UiSKJUXeWZb4I=
-X-Received: by 2002:a5d:47a4:0:b0:20a:c95e:b3f3 with SMTP id
- 4-20020a5d47a4000000b0020ac95eb3f3mr12086549wrb.663.1650874924928; 
- Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz9AN3DTpD4mNyWicCScIo/ePV7PEwSCtTlMYdcy2N7R8rIsAaI7dxGdpvi0OKSlN4jAW/JFA==
-X-Received: by 2002:a5d:47a4:0:b0:20a:c95e:b3f3 with SMTP id
- 4-20020a5d47a4000000b0020ac95eb3f3mr12086529wrb.663.1650874924731; 
- Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
+ bh=gedXaEU9mdSzLcQUY6OVe9Xoeu9dbw5uLfUiFLxMZHc=;
+ b=NCo8vIUiCPjJauPJ5OtFyFaloKTNqn7iUO1KYKsiagIwHc6yMdcGU4yUggJmMdE2tG
+ oOB1h2diOQSuSIgz7EFhKIFV5ye/YHdKj7dUv05h0dn8pN4nEUzdQxsFnfkIJdCzDcZD
+ lRrjK+e9GinNWawdL+q2q849VgAmgunUnLjYgMY7c7MyRtk6Wz0+7OV2aYQhlhq3Pk1D
+ 3WWaU09B8hbeHIpOq/HhPthIOSl6zKWdqUezjQIdAruTXq7fwEDRVU4+IGWb9Jaw3gKP
+ UtHTGLXKVIZEuHwAoLnM4Wps9DGNT7z2UEFgfKwDIz/eKRWOLsNtn2FJpAqPQFJSHxPm
+ Ne+A==
+X-Gm-Message-State: AOAM532RLkw3L9BL4o34DkMBcIJLjPUOentQWNVGaJstuqFQp1vS280z
+ xRb7d7aj3Ewmim6iPBwY3YPdgqWivgyGSzMHPz3sXlUEAe1ucj4BOpkSVb/4ajxOkFHHSUeA95+
+ 0k6w4ZPV1DK5VFdY=
+X-Received: by 2002:a5d:64e4:0:b0:20a:e005:cc96 with SMTP id
+ g4-20020a5d64e4000000b0020ae005cc96mr708538wri.402.1650874925637; 
+ Mon, 25 Apr 2022 01:22:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvgkO0CivWwDJyQNO38wTOSZhz/sNkJZgmhGnuOhQaqju/u9/FUPpSUw0KbbYEt3haVP9WCA==
+X-Received: by 2002:a5d:64e4:0:b0:20a:e005:cc96 with SMTP id
+ g4-20020a5d64e4000000b0020ae005cc96mr708518wri.402.1650874925442; 
+ Mon, 25 Apr 2022 01:22:05 -0700 (PDT)
 Received: from wheatley.localdomain (nat-pool-brq-t.redhat.com.
  [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- g13-20020a5d64ed000000b0020a9e488976sm8952474wri.25.2022.04.25.01.22.04
+ e9-20020a056000178900b0020a9f995a3csm8466324wrg.24.2022.04.25.01.22.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
 Received: from wheatley.redhat.com (wheatley.k8r.cz [127.0.0.1])
- by wheatley.localdomain (Postfix) with ESMTP id 40E2E67B1B5D;
+ by wheatley.localdomain (Postfix) with ESMTP id 4D44467B1B5E;
  Mon, 25 Apr 2022 10:22:02 +0200 (CEST)
 From: Martin Kletzander <mkletzan@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/18] audio: Add easy dummy audio initialiser
-Date: Mon, 25 Apr 2022 10:21:51 +0200
-Message-Id: <7b0a067b8b0a32ef7ec7c040d1e79d40a9a6b0de.1650874791.git.mkletzan@redhat.com>
+Subject: [PATCH 09/18] hw/display/xlnx_dp.c: Add audiodev property
+Date: Mon, 25 Apr 2022 10:21:52 +0200
+Message-Id: <16963256573fcbfa7720aa2fd000ba74a4055222.1650874791.git.mkletzan@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1650874791.git.mkletzan@redhat.com>
 References: <cover.1650874791.git.mkletzan@redhat.com>
@@ -117,87 +117,38 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case of sound devices which are created by default (some of them even with
--nodefaults) it would not be nice to users if qemu required explicit:
-
-  -audiodev driver=none,id=audio0 -machine default-audiodev=audio0
-
-when they just want to run a VM and not care about any audio output.  Instead
-this little helper makes it easy to create a dummy audiodev (driver=none) in
-case there is no default-audiodev specified for the machine.  To make sure users
-are not surprised by no sound output a helping message is also printed out.
+There was no way to set this and we need that for it to be able to properly
+initialise.
 
 Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 ---
- audio/audio.c | 34 ++++++++++++++++++++++++++++++++++
- audio/audio.h |  2 ++
- 2 files changed, 36 insertions(+)
+ hw/display/xlnx_dp.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 9e91a5a4f2b8..671845c65d18 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -37,6 +37,7 @@
- #include "sysemu/runstate.h"
- #include "ui/qemu-spice.h"
- #include "trace.h"
-+#include "hw/boards.h"
- 
- #define AUDIO_CAP "audio"
- #include "audio_int.h"
-@@ -2122,6 +2123,39 @@ void audio_init_audiodevs(void)
-     }
+diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
+index 9bb781e31254..b16d6be2b5cc 100644
+--- a/hw/display/xlnx_dp.c
++++ b/hw/display/xlnx_dp.c
+@@ -1357,6 +1357,11 @@ static void xlnx_dp_reset(DeviceState *dev)
+     xlnx_dp_update_irq(s);
  }
  
-+static void audio_init_dummy(const char *id)
-+{
-+    Audiodev *dev = g_new0(Audiodev, 1);
-+    AudiodevListEntry *e = g_new0(AudiodevListEntry, 1);
++static Property xlnx_dp_device_properties[] = {
++    DEFINE_AUDIO_PROPERTIES(XlnxDPState, aud_card),
++    DEFINE_PROP_END_OF_LIST(),
++};
 +
-+    dev->driver = AUDIODEV_DRIVER_NONE;
-+    dev->id = g_strdup(id);
-+
-+    audio_validate_opts(dev, &error_abort);
-+    audio_init(dev, NULL);
-+
-+    e->dev = dev;
-+    QSIMPLEQ_INSERT_TAIL(&audiodevs, e, next);
-+}
-+
-+const char *audio_maybe_init_dummy(const char *default_id)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+
-+    if (ms->default_audiodev) {
-+        return ms->default_audiodev;
-+    }
-+
-+    dolog("warning: No audiodev specified for implicit machine devices, "
-+          "no audio output will be available for these. "
-+          "For setting a backend audiodev for such devices try using "
-+          "the default-audiodev machine option.\n");
-+
-+    audio_init_dummy(default_id);
-+
-+    return default_id;
-+}
-+
- audsettings audiodev_to_audsettings(AudiodevPerDirectionOptions *pdo)
+ static void xlnx_dp_class_init(ObjectClass *oc, void *data)
  {
-     return (audsettings) {
-diff --git a/audio/audio.h b/audio/audio.h
-index 3d5ecdecd5c1..335704a4ddb1 100644
---- a/audio/audio.h
-+++ b/audio/audio.h
-@@ -175,6 +175,8 @@ void audio_legacy_help(void);
- AudioState *audio_state_by_name(const char *name);
- const char *audio_get_id(QEMUSoundCard *card);
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -1364,6 +1369,7 @@ static void xlnx_dp_class_init(ObjectClass *oc, void *data)
+     dc->realize = xlnx_dp_realize;
+     dc->vmsd = &vmstate_dp;
+     dc->reset = xlnx_dp_reset;
++    device_class_set_props(dc, xlnx_dp_device_properties);
+ }
  
-+const char *audio_maybe_init_dummy(const char *default_id);
-+
- #define DEFINE_AUDIO_PROPERTIES(_s, _f)         \
-     DEFINE_PROP_AUDIODEV("audiodev", _s, _f)
- 
+ static const TypeInfo xlnx_dp_info = {
 -- 
 2.35.1
 
