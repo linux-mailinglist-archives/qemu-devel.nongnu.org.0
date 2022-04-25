@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160FB50ECF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:54:03 +0200 (CEST)
-Received: from localhost ([::1]:53404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D195350ECDA
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:51:21 +0200 (CEST)
+Received: from localhost ([::1]:44384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj8Wo-0007y0-5s
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43916)
+	id 1nj8UC-0001ot-VV
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:51:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8Ia-0007c8-08
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22714)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8Id-0007kZ-Cr
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IT-0007mA-8O
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:14 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IV-0007mV-Nr
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650929952;
+ s=mimecast20190719; t=1650929954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=97LnQX+iWnm8/SAWY3ZLNjNkHl1aDQ7WHKhz4ajwKNo=;
- b=K1sVJfsRTcch0X5Aaxd63pnJuhkaFaRNA+mbP2YO5e7aCn+4SjxIsFb/H03GUoOCUlftuZ
- wuBsYo3tLEJXFLEiUWfFJe52Ewi9877/jTJ4eZsWqw+RMIhPCVif65XKekOVxo2ZvG68FJ
- XDII6rKPMA0uCU9MCZ+I/FGkbPnpn+0=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QH87Re7xe36gxEh/hBeSf4W8MAZ344BFMLvEumNToms=;
+ b=IRhrzRD/LaEdPgVZnD8kzD7QLOMomDSODO877qF8f2r83+8GlZggqVuTwQ4I3nHTMjWKji
+ o5xFWrPMzJ4pZxgTJjmW7Q5gzzqhcCZvUSgirbkMTaZd0HZdFfNVN+8LCWk6zvR/F38tCv
+ NQJLGvze4LJllrpOIIlrBIjk1+odwdw=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-121-RzXLxdRDO4ahEMPC8jxIjA-1; Mon, 25 Apr 2022 19:39:11 -0400
-X-MC-Unique: RzXLxdRDO4ahEMPC8jxIjA-1
-Received: by mail-io1-f71.google.com with SMTP id
- m206-20020a6b3fd7000000b00657a48f1a70so7547ioa.4
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:39:11 -0700 (PDT)
+ us-mta-62-JUYsyVQmNcmTQ4FNrsD7ug-1; Mon, 25 Apr 2022 19:39:12 -0400
+X-MC-Unique: JUYsyVQmNcmTQ4FNrsD7ug-1
+Received: by mail-io1-f70.google.com with SMTP id
+ y20-20020a5e8714000000b0065494b96af2so12522483ioj.10
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:39:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=97LnQX+iWnm8/SAWY3ZLNjNkHl1aDQ7WHKhz4ajwKNo=;
- b=Ke5c6MxafOLRTETODnR73wQmgxYAjg5dE+D2TVX26F7smAaP+mEYsIPqTQ0reLUdzN
- CaIh2nx9qlBDmm6vX2UWC7rsBtQK5j+aFOwV290kNMOGf1d9NWqXg5OGiU8l/FnlvmJ+
- caGYluzLorm4OY0B9jIUCOCY5WCAHxir3P1JZVnlY8xQHjPMNEThKtI8EImRA1dhp2sX
- JdA/wqg7ccj50D+/BHTZ7yjNTeEnVJdyosgDNl/eLP16Kxasb5XfHpKnU1EH6o52nJMp
- owiiSFJuePvqFfmSC3NsTxMLAubfplmZKaZZoezqUIE1Gruy7PMK6MPuOjWJF5TcrtAH
- lunw==
-X-Gm-Message-State: AOAM531sJGGBwjOS8fHCOkLmkZ+MpkO74WKfLTSMxfa1FxMHYilVKr2l
- X3JzlD5gxo1wa9RZ3Kd+edJzXB3dxj7KhBdTcZGa4E2A3fowo2lEEPQF/a9gfbzXQyjtz1yM+CJ
- H1EAsq17PfMRQ+UvlkM4SFVePmPHS5GnBhnOyg6K1B7RmeKsDi8SBsMdy6hCNCMKo
-X-Received: by 2002:a02:a68d:0:b0:32a:f755:821f with SMTP id
- j13-20020a02a68d000000b0032af755821fmr2212534jam.185.1650929950812; 
- Mon, 25 Apr 2022 16:39:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzBI9Tad2Ea8iLqabEDhBhnV3YgRlRuyEp2TN2pH/tEs8NZvWtyUW8E96wg0M2atjA2Bgc6cw==
-X-Received: by 2002:a02:a68d:0:b0:32a:f755:821f with SMTP id
- j13-20020a02a68d000000b0032af755821fmr2212520jam.185.1650929950479; 
- Mon, 25 Apr 2022 16:39:10 -0700 (PDT)
+ bh=QH87Re7xe36gxEh/hBeSf4W8MAZ344BFMLvEumNToms=;
+ b=FtC9mrfb4rdvrxG/gb72Ne7Z3T5pwBipApHMWh1gD9uuXpz9DRgZEuHbXu/EkIr8+X
+ Ry5J7wZ3AvkzZ2Uenngmgn3Rk/3CslU0oY4RUT+6AT0ipvqFqzfueEEsqLuD/nzRcAK9
+ r6yYDyTj8GgrbHcmLdwZJMeW/UTqhx77YB0jj27K0DBkd5J5PROcurNjyR7hMTGiF01s
+ f2hsEC44Vbf1XTxVaQWDch0Y4ZZSJaRuucYDrANjTunQzmF1zSz6SfByWIQIzvarA51i
+ D7qXaJG7YAVCO0tYNOL0CjnW6ajqTxyuDOfMQc0mvUazKfcO5Q6ySx0WWuo2rOfMQHuP
+ rvAw==
+X-Gm-Message-State: AOAM530g2hvdIbOn+kYqr+lhYmYdCVUXe89qFEI2oi/3QF+JVUyBXk+R
+ kOzdFt7F2jVWr5rH0hL4PynoGpTfebZpmq7v3TpRmvqtdUlLhZ6rbaWOG2cEYOa3T1N4GyEdUP5
+ 8orhSag3fTFik8kLqS1tMjtD2l8fdx6vansxvH8JN58GJoq+uToHGqIpkUuoy621d
+X-Received: by 2002:a05:6638:40a5:b0:326:3bad:fe1 with SMTP id
+ m37-20020a05663840a500b003263bad0fe1mr8945138jam.127.1650929951901; 
+ Mon, 25 Apr 2022 16:39:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+wJjjhgl7pOQ0uCaqDLOJNgFng51Bolxom7+1yLBA9rsYP140DvnEZCabCBZhfPO2MkhhFw==
+X-Received: by 2002:a05:6638:40a5:b0:326:3bad:fe1 with SMTP id
+ m37-20020a05663840a500b003263bad0fe1mr8945122jam.127.1650929951644; 
+ Mon, 25 Apr 2022 16:39:11 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.39.09
+ h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.39.10
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 25 Apr 2022 16:39:10 -0700 (PDT)
+ Mon, 25 Apr 2022 16:39:11 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 18/21] migration: Enable TLS for preempt channel
-Date: Mon, 25 Apr 2022 19:38:44 -0400
-Message-Id: <20220425233847.10393-19-peterx@redhat.com>
+Subject: [PATCH v5 19/21] tests: Add postcopy tls migration test
+Date: Mon, 25 Apr 2022 19:38:45 -0400
+Message-Id: <20220425233847.10393-20-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220425233847.10393-1-peterx@redhat.com>
 References: <20220425233847.10393-1-peterx@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, T_SCC_BODY_TEXT_LINE=-0.01, T_SPF_HELO_TEMPERROR=0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,116 +101,122 @@ Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is based on the async preempt channel creation.  It continues
-wiring up the new channel with TLS handshake to destionation when enabled.
+We just added TLS tests for precopy but not postcopy.  Add the
+corresponding test for vanilla postcopy.
 
-Note that only the src QEMU needs such operation; the dest QEMU does not
-need any change for TLS support due to the fact that all channels are
-established synchronously there, so all the TLS magic is already properly
-handled by migration_tls_channel_process_incoming().
+Rename the vanilla postcopy to "postcopy/plain" because all postcopy tests
+will only use unix sockets as channel.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/postcopy-ram.c | 57 ++++++++++++++++++++++++++++++++++------
- migration/trace-events   |  1 +
- 2 files changed, 50 insertions(+), 8 deletions(-)
+ tests/qtest/migration-test.c | 50 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 43 insertions(+), 7 deletions(-)
 
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 1bb603051a..4a4da16389 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -36,6 +36,7 @@
- #include "socket.h"
- #include "qemu-file-channel.h"
- #include "yank_functions.h"
-+#include "tls.h"
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index d9f444ea14..c32b350aea 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -481,6 +481,10 @@ typedef struct {
+     bool only_target;
+     /* Use dirty ring if true; dirty logging otherwise */
+     bool use_dirty_ring;
++    /* Whether use TLS channels for postcopy test? */
++    bool postcopy_tls;
++    /* Used only if postcopy_tls==true, to cache the data object */
++    void *postcopy_tls_data;
+     const char *opts_source;
+     const char *opts_target;
+ } MigrateStart;
+@@ -980,6 +984,10 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+         return -1;
+     }
  
- /* Arbitrary limit on size of each discard command,
-  * keeps them around ~200 bytes
-@@ -1552,15 +1553,15 @@ bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
-     return true;
++    if (args->postcopy_tls) {
++        args->postcopy_tls_data = test_migrate_tls_psk_start_match(from, to);
++    }
++
+     migrate_set_capability(from, "postcopy-ram", true);
+     migrate_set_capability(to, "postcopy-ram", true);
+     migrate_set_capability(to, "postcopy-blocktime", true);
+@@ -1004,7 +1012,8 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+     return 0;
  }
  
-+/*
-+ * Setup the postcopy preempt channel with the IOC.  If ERROR is specified,
-+ * setup the error instead.  This helper will free the ERROR if specified.
-+ */
- static void
--postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
-+postcopy_preempt_send_channel_done(MigrationState *s,
-+                                   QIOChannel *ioc, Error *local_err)
+-static void migrate_postcopy_complete(QTestState *from, QTestState *to)
++static void migrate_postcopy_complete(QTestState *from, QTestState *to,
++                                      MigrateStart *args)
  {
--    MigrationState *s = opaque;
--    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
--    Error *local_err = NULL;
--
--    if (qio_task_propagate_error(task, &local_err)) {
--        /* Something wrong happened.. */
-+    if (local_err) {
-         migrate_set_error(s, local_err);
-         error_free(local_err);
-     } else {
-@@ -1574,7 +1575,47 @@ postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
-      * postcopy_qemufile_src to know whether it failed or not.
-      */
-     qemu_sem_post(&s->postcopy_qemufile_src_sem);
--    object_unref(OBJECT(ioc));
-+}
-+
-+static void
-+postcopy_preempt_tls_handshake(QIOTask *task, gpointer opaque)
-+{
-+    g_autoptr(QIOChannel) ioc = QIO_CHANNEL(qio_task_get_source(task));
-+    MigrationState *s = opaque;
-+    Error *local_err = NULL;
-+
-+    qio_task_propagate_error(task, &local_err);
-+    postcopy_preempt_send_channel_done(s, ioc, local_err);
-+}
-+
-+static void
-+postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
-+{
-+    g_autoptr(QIOChannel) ioc = QIO_CHANNEL(qio_task_get_source(task));
-+    MigrationState *s = opaque;
-+    QIOChannelTLS *tioc;
-+    Error *local_err = NULL;
-+
-+    if (qio_task_propagate_error(task, &local_err)) {
-+        goto out;
+     wait_for_migration_complete(from);
+ 
+@@ -1015,19 +1024,38 @@ static void migrate_postcopy_complete(QTestState *from, QTestState *to)
+         read_blocktime(to);
+     }
+ 
++    if (args->postcopy_tls) {
++        assert(args->postcopy_tls_data);
++        test_migrate_tls_psk_finish(from, to, args->postcopy_tls_data);
++        args->postcopy_tls_data = NULL;
 +    }
 +
-+    if (migrate_channel_requires_tls(ioc)) {
-+        tioc = migration_tls_client_create(s, ioc, s->hostname, &local_err);
-+        if (!tioc) {
-+            goto out;
-+        }
-+        trace_postcopy_preempt_tls_handshake();
-+        qio_channel_set_name(QIO_CHANNEL(tioc), "migration-tls-preempt");
-+        qio_channel_tls_handshake(tioc, postcopy_preempt_tls_handshake,
-+                                  s, NULL, NULL);
-+        /* Setup the channel until TLS handshake finished */
-+        return;
-+    }
-+
-+out:
-+    /* This handles both good and error cases */
-+    postcopy_preempt_send_channel_done(s, ioc, local_err);
+     test_migrate_end(from, to, true);
  }
  
- /* Returns 0 if channel established, -1 for error. */
-diff --git a/migration/trace-events b/migration/trace-events
-index 0e385c3a07..a34afe7b85 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -287,6 +287,7 @@ postcopy_request_shared_page(const char *sharer, const char *rb, uint64_t rb_off
- postcopy_request_shared_page_present(const char *sharer, const char *rb, uint64_t rb_offset) "%s already %s offset 0x%"PRIx64
- postcopy_wake_shared(uint64_t client_addr, const char *rb) "at 0x%"PRIx64" in %s"
- postcopy_page_req_del(void *addr, int count) "resolved page req %p total %d"
-+postcopy_preempt_tls_handshake(void) ""
- postcopy_preempt_new_channel(void) ""
- postcopy_preempt_thread_entry(void) ""
- postcopy_preempt_thread_exit(void) ""
+-static void test_postcopy(void)
++static void test_postcopy_common(MigrateStart *args)
+ {
+-    MigrateStart args = {};
+     QTestState *from, *to;
+ 
+-    if (migrate_postcopy_prepare(&from, &to, &args)) {
++    if (migrate_postcopy_prepare(&from, &to, args)) {
+         return;
+     }
+     migrate_postcopy_start(from, to);
+-    migrate_postcopy_complete(from, to);
++    migrate_postcopy_complete(from, to, args);
++}
++
++static void test_postcopy(void)
++{
++    MigrateStart args = { };
++
++    test_postcopy_common(&args);
++}
++
++static void test_postcopy_tls_psk(void)
++{
++    MigrateStart args = { .postcopy_tls = true };
++
++    test_postcopy_common(&args);
+ }
+ 
+ static void test_postcopy_recovery(void)
+@@ -1089,7 +1117,7 @@ static void test_postcopy_recovery(void)
+     /* Restore the postcopy bandwidth to unlimited */
+     migrate_set_parameter_int(from, "max-postcopy-bandwidth", 0);
+ 
+-    migrate_postcopy_complete(from, to);
++    migrate_postcopy_complete(from, to, &args);
+ }
+ 
+ static void test_baddest(void)
+@@ -2132,7 +2160,15 @@ int main(int argc, char **argv)
+ 
+     module_call_init(MODULE_INIT_QOM);
+ 
+-    qtest_add_func("/migration/postcopy/unix", test_postcopy);
++    qtest_add_func("/migration/postcopy/plain", test_postcopy);
++#ifdef CONFIG_GNUTLS
++    /*
++     * NOTE: psk test is enough for postcopy, as other types of TLS
++     * channels are tested under precopy.  Here what we want to test is the
++     * general postcopy path that has TLS channel enabled.
++     */
++    qtest_add_func("/migration/postcopy/tls/psk", test_postcopy_tls_psk);
++#endif /* CONFIG_GNUTLS */
+     qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
+     qtest_add_func("/migration/bad_dest", test_baddest);
+     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
 -- 
 2.32.0
 
