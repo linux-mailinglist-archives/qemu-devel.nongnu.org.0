@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E9050D985
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 08:34:58 +0200 (CEST)
-Received: from localhost ([::1]:58094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 493AE50D968
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 08:27:22 +0200 (CEST)
+Received: from localhost ([::1]:53690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nisJF-0004ik-I7
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 02:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60798)
+	id 1nisBt-000109-AY
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 02:27:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvx-00040q-2H
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 02:10:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20041)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvp-0003ov-B5
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 02:10:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvv-0006MJ-Cz
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 02:10:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvn-0006Ks-PU
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 02:10:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650867050;
+ s=mimecast20190719; t=1650867043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IUKl7FayplcAMe+oqYrNHhYGiZhfgVAqjMKZGJ6cvr8=;
- b=Aqw873gteWYlWdyLaWOvcY2M3Pu+XldudCGVWu135jwUk091WUdAImac+JzURKCGehYcYQ
- e8IA2yANDKK0/F6wt9Zv54O0mo4ayy1nqdW3G9zu1oESvvFcEyV1MVZpiS/OQ1ZSawvjt5
- fDN0hbYrrjUewl/ZMn4bTMJbJV2ZTUs=
+ bh=PrGCZVM389hjCQzgZPb8u6IS3jwWK0ndVF5vnCevEXQ=;
+ b=euLMNdRU6CjiAJMAFZ3GMGGRLQx2wfbW+8qMFSO2EmmwLQStgpurAHoe45r5ROYgUXQ+ge
+ XPgrZFQcX4RFKqwwPVmg16vcKnd+mrqwC1Qm0ytzYe6Oy/2MsoPEB3VvipupSQ0MxNTF3q
+ WhgfalglAbrt6OKN6/7uXBm5i7g2oLM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-31-kTx597jCPqmMBkD84O4qJw-1; Mon, 25 Apr 2022 02:10:49 -0400
-X-MC-Unique: kTx597jCPqmMBkD84O4qJw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-658-ZKD947F6NEmZiphjCZfGoQ-1; Mon, 25 Apr 2022 02:10:39 -0400
+X-MC-Unique: ZKD947F6NEmZiphjCZfGoQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ECCCB833942;
- Mon, 25 Apr 2022 06:10:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B7ED802809;
+ Mon, 25 Apr 2022 06:10:39 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DC8DA2166B26;
- Mon, 25 Apr 2022 06:10:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD0E2409B3F3;
+ Mon, 25 Apr 2022 06:10:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 204ED180062F; Mon, 25 Apr 2022 08:10:30 +0200 (CEST)
+ id 2E52A1800636; Mon, 25 Apr 2022 08:10:30 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/6] qapi/ui: add 'display-update' command for changing listen
- address
-Date: Mon, 25 Apr 2022 08:10:28 +0200
-Message-Id: <20220425061029.3932731-6-kraxel@redhat.com>
+Subject: [PULL 6/6] avocado/vnc: add test_change_listen
+Date: Mon, 25 Apr 2022 08:10:29 +0200
+Message-Id: <20220425061029.3932731-7-kraxel@redhat.com>
 In-Reply-To: <20220425061029.3932731-1-kraxel@redhat.com>
 References: <20220425061029.3932731-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,181 +90,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 
-Add possibility to change addresses where VNC server listens for new
-connections. Prior to 6.0 this functionality was available through
-'change' qmp command which was deleted.
+Add simple test-case for new display-update qmp command.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220401143936.356460-3-vsementsov@openvz.org>
+Message-Id: <20220401143936.356460-4-vsementsov@openvz.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/console.h            |  1 +
- monitor/qmp-cmds.c              | 15 ++++++++
- ui/vnc.c                        | 23 ++++++++++++
- docs/about/removed-features.rst |  3 +-
- qapi/ui.json                    | 65 +++++++++++++++++++++++++++++++++
- 5 files changed, 106 insertions(+), 1 deletion(-)
+ tests/avocado/vnc.py | 63 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index 0f84861933e1..c44b28a972ca 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -518,6 +518,7 @@ int vnc_display_pw_expire(const char *id, time_t expires);
- void vnc_parse(const char *str);
- int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
- bool vnc_display_reload_certs(const char *id,  Error **errp);
-+bool vnc_display_update(DisplayUpdateOptionsVNC *arg, Error **errp);
+diff --git a/tests/avocado/vnc.py b/tests/avocado/vnc.py
+index 096432988fbb..187fd3febca4 100644
+--- a/tests/avocado/vnc.py
++++ b/tests/avocado/vnc.py
+@@ -8,9 +8,48 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or
+ # later.  See the COPYING file in the top-level directory.
  
- /* input.c */
- int index_from_key(const char *key, size_t key_length);
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 5e7302cbb995..1ebb89f46c12 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -346,6 +346,21 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
-     }
- }
++import socket
++from typing import List
++
+ from avocado_qemu import QemuSystemTest
  
-+void qmp_display_update(DisplayUpdateOptions *arg, Error **errp)
-+{
-+    switch (arg->type) {
-+    case DISPLAY_UPDATE_TYPE_VNC:
-+#ifdef CONFIG_VNC
-+        vnc_display_update(&arg->u.vnc, errp);
-+#else
-+        error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
-+#endif
-+        break;
-+    default:
-+        abort();
-+    }
-+}
-+
- static int qmp_x_query_rdma_foreach(Object *obj, void *opaque)
- {
-     RdmaProvider *rdma;
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 77a660fccb3f..b02cb3f405b9 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -3981,6 +3981,29 @@ static int vnc_display_listen(VncDisplay *vd,
-     return 0;
- }
  
-+bool vnc_display_update(DisplayUpdateOptionsVNC *arg, Error **errp)
-+{
-+    VncDisplay *vd = vnc_display_find(NULL);
++VNC_ADDR = '127.0.0.1'
++VNC_PORT_START = 32768
++VNC_PORT_END = VNC_PORT_START + 1024
 +
-+    if (!vd) {
-+        error_setg(errp, "Can not find vnc display");
-+        return false;
-+    }
 +
-+    if (arg->has_addresses) {
-+        if (vd->listener) {
-+            qio_net_listener_disconnect(vd->listener);
-+            object_unref(OBJECT(vd->listener));
-+            vd->listener = NULL;
-+        }
++def check_bind(port: int) -> bool:
++    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
++        try:
++            sock.bind((VNC_ADDR, port))
++        except OSError:
++            return False
 +
-+        if (vnc_display_listen(vd, arg->addresses, NULL, errp) < 0) {
-+            return false;
-+        }
-+    }
++    return True
 +
-+    return true;
-+}
- 
- void vnc_display_open(const char *id, Error **errp)
- {
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 4b831ea29176..b367418ca7da 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -355,7 +355,8 @@ documentation of ``query-hotpluggable-cpus`` for additional details.
- ``change`` (removed in 6.0)
- '''''''''''''''''''''''''''
- 
--Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
-+Use ``blockdev-change-medium`` or ``change-vnc-password`` or
-+``display-update`` instead.
- 
- ``query-events`` (removed in 6.0)
- '''''''''''''''''''''''''''''''''
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 596f37fc37aa..059302a5efcb 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1468,3 +1468,68 @@
- { 'command': 'display-reload',
-   'data': 'DisplayReloadOptions',
-   'boxed' : true }
 +
-+##
-+# @DisplayUpdateType:
-+#
-+# Available DisplayUpdate types.
-+#
-+# @vnc: VNC display
-+#
-+# Since: 7.1
-+#
-+##
-+{ 'enum': 'DisplayUpdateType',
-+  'data': ['vnc'] }
++def check_connect(port: int) -> bool:
++    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
++        try:
++            sock.connect((VNC_ADDR, port))
++        except ConnectionRefusedError:
++            return False
 +
-+##
-+# @DisplayUpdateOptionsVNC:
-+#
-+# Specify the VNC reload options.
-+#
-+# @addresses: If specified, change set of addresses
-+#             to listen for connections. Addresses configured
-+#             for websockets are not touched.
-+#
-+# Since: 7.1
-+#
-+##
-+{ 'struct': 'DisplayUpdateOptionsVNC',
-+  'data': { '*addresses': ['SocketAddress'] } }
++    return True
 +
-+##
-+# @DisplayUpdateOptions:
-+#
-+# Options of the display configuration reload.
-+#
-+# @type: Specify the display type.
-+#
-+# Since: 7.1
-+#
-+##
-+{ 'union': 'DisplayUpdateOptions',
-+  'base': {'type': 'DisplayUpdateType'},
-+  'discriminator': 'type',
-+  'data': { 'vnc': 'DisplayUpdateOptionsVNC' } }
 +
-+##
-+# @display-update:
-+#
-+# Update display configuration.
-+#
-+# Returns: Nothing on success.
-+#
-+# Since: 7.1
-+#
-+# Example:
-+#
-+# -> { "execute": "display-update",
-+#      "arguments": { "type": "vnc", "addresses":
-+#                     [ { "type": "inet", "host": "0.0.0.0",
-+#                         "port": "5901" } ] } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'display-update',
-+  'data': 'DisplayUpdateOptions',
-+  'boxed' : true }
++def find_free_ports(count: int) -> List[int]:
++    result = []
++    for port in range(VNC_PORT_START, VNC_PORT_END):
++        if check_bind(port):
++            result.append(port)
++            if len(result) >= count:
++                break
++    assert len(result) == count
++    return result
++
++
+ class Vnc(QemuSystemTest):
+     """
+     :avocado: tags=vnc,quick
+@@ -51,3 +90,27 @@ def test_change_password(self):
+         set_password_response = self.vm.qmp('change-vnc-password',
+                                             password='new_password')
+         self.assertEqual(set_password_response['return'], {})
++
++    def test_change_listen(self):
++        a, b, c = find_free_ports(3)
++        self.assertFalse(check_connect(a))
++        self.assertFalse(check_connect(b))
++        self.assertFalse(check_connect(c))
++
++        self.vm.add_args('-nodefaults', '-S', '-vnc', f'{VNC_ADDR}:{a - 5900}')
++        self.vm.launch()
++        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], str(a))
++        self.assertTrue(check_connect(a))
++        self.assertFalse(check_connect(b))
++        self.assertFalse(check_connect(c))
++
++        res = self.vm.qmp('display-update', type='vnc',
++                          addresses=[{'type': 'inet', 'host': VNC_ADDR,
++                                      'port': str(b)},
++                                     {'type': 'inet', 'host': VNC_ADDR,
++                                      'port': str(c)}])
++        self.assertEqual(res['return'], {})
++        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], str(b))
++        self.assertFalse(check_connect(a))
++        self.assertTrue(check_connect(b))
++        self.assertTrue(check_connect(c))
 -- 
 2.35.1
 
