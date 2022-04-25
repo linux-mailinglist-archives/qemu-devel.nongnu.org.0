@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4052150DB27
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:28:53 +0200 (CEST)
-Received: from localhost ([::1]:47472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B247950DB51
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:37:29 +0200 (CEST)
+Received: from localhost ([::1]:56196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niu5U-00014o-7q
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:28:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40112)
+	id 1niuDo-0007IL-Ow
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:37:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1niu06-0006UN-4e
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28797)
+ id 1niu0p-0007Hh-EI
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:24:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1niu01-0002ez-Nf
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:17 -0400
+ id 1niu0n-0002qh-Ff
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:24:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650874992;
+ s=mimecast20190719; t=1650875040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CCG6lGxpSFBkTA/SRjKupJwKzVuo/aed5sg+24tDo9Y=;
- b=eYUJjFomUJ+noMS4sdTawLJGoaL9+4XvXKqHeAkqJtURHIlvWLa1ua9sVm2TPV46B4yWre
- j7jJbf4ttFysCHx6Vue3PgmGYP6l4LBEaEnPCb+M91BC5D95HB/21IIW09jo/bl3R15gJz
- TrppubIEJI+gwPMs7QLx/U5pNCpE/F4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lGr5ZYYCfBjIhbaCs5pjlimDwxXJN466WQPA6PrOrAg=;
+ b=UVfZBd+hFXf7yBA8qF6Fj2M94zJat09hKaZOh+j8suNNpu+WmLke+OukDaC2HfKUoqAXYX
+ alXBcxVkPtvhUUMLNAIJ36Y23Pm3Xy9kDpqWWjIZXytWKqNEjCGihN1YzGvxaQrVSjUIvM
+ NwUkRK4tg4baZyfwoWA/c6KJzH6LB4o=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-266-9gy9kMOjOAu57NWLtiFpeQ-1; Mon, 25 Apr 2022 04:22:05 -0400
-X-MC-Unique: 9gy9kMOjOAu57NWLtiFpeQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l7-20020adfa387000000b0020acc61dbaeso1628974wrb.7
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 01:22:05 -0700 (PDT)
+ us-mta-523-Q3VfF7yzNLuhd0q3ew4maw-1; Mon, 25 Apr 2022 04:22:05 -0400
+X-MC-Unique: Q3VfF7yzNLuhd0q3ew4maw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ q6-20020a1cf306000000b0038c5726365aso6872717wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CCG6lGxpSFBkTA/SRjKupJwKzVuo/aed5sg+24tDo9Y=;
- b=tLTYe6EmUJg5pyeNabpGc9Oa1CXPhezqdOVZuPVJU3GwECClMHxXjROCnBmN6W+6J2
- AZz8IB+LHwsqil2tmmDFJxbTCjX5C8kMr77LYhiGZ7oAjqwW8Fs40TT7zK0Gk7wgL1b1
- Ds8Dj8odNWDP0CzfR50SQ+n80UiRFP6V+noyq4LFzBZXy5aOWxX6lEdzwGK/4cKeyKYL
- YU5+Un8/zvn+6eVLlXgcdWsQQaeyOi3E4w3jgXFiGQ2D0XnraxO9nnSNTQdnLXP+EzCe
- jlUI/9bLx1KenD5DJDsY4nS6NbhfTGGfa9jhkd9lHzk0qiVo16W+l9BhZ3PgQbHQ3edv
- jLTg==
-X-Gm-Message-State: AOAM533cU5jtRlKkgGtPWuVIiGC5hQGijBnbR3fZV4WDMh5tWWYKHwC3
- t/WSnaCw9Mdkx7hNg0rNnhzItEYU1Fte5Fq6MXUE3GDf2NdzG5cpq1YvGxvzvQkH7XPivkhGS1O
- rQ3kLWLD6GnQ4/fI=
-X-Received: by 2002:a05:6000:502:b0:20a:d9d2:ccea with SMTP id
- a2-20020a056000050200b0020ad9d2cceamr3777304wrf.128.1650874924279; 
- Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztKBtML27ZuiUtmzFLfKd6O/K6tVFp8geq/7fMHO15eeahyGft38H6PnhGczSO8d9R+GOhaQ==
-X-Received: by 2002:a05:6000:502:b0:20a:d9d2:ccea with SMTP id
- a2-20020a056000050200b0020ad9d2cceamr3777285wrf.128.1650874923912; 
+ bh=lGr5ZYYCfBjIhbaCs5pjlimDwxXJN466WQPA6PrOrAg=;
+ b=jKazsCdPTPk6pfjyjFTxfToxd2tqc8kwpgHyxGGyTwCw2zeLaTjuYA8WlfZoRuIpoh
+ PRiIpENY7kZIIQF4liPZWrO+8Ck/fa4NOttR4Lts0lYLNMTu09wL0isfwyEJdt/1DDCK
+ RluI2lFz1s0RtJW/5gz98kl4iszVgTvwKV6VvuAty1rskaT/bF5i9q1XG/V9TaammibS
+ ujX3Mv1mmJ34vKpt2D9iVnbSNLeC89wVbPdAG42PaOGd2E/KyMUENe/uo+9qum5gi4Jm
+ EInnT9hn1ueT1fV/7x/z5ql4P+foFuErvEqHoH4MzcwTMZoKitiBD8YCGMi2YH51SIfA
+ HfYg==
+X-Gm-Message-State: AOAM531esxwTxwlwPLsFKgdj5saxrlGG7KQ9io/9cvMzNoO1dVRyFhDE
+ 9EaB4R91RUSUq43uFbqaX7tAycC8hDMyiC2m5IDmRjw232PT3hwmvHgDgpfwz/LOIoDo7V+qJ3F
+ zjE1Lsg90nRCh2JA=
+X-Received: by 2002:a05:600c:1552:b0:38e:c7a4:f056 with SMTP id
+ f18-20020a05600c155200b0038ec7a4f056mr24931337wmg.183.1650874923828; 
+ Mon, 25 Apr 2022 01:22:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxcPaXQaRYsRK7kFr7dw0OP7er2x/iw/gGtxg/5rbUQrr/TshLfhpO+Mel3UMnOji0xaPOGxg==
+X-Received: by 2002:a05:600c:1552:b0:38e:c7a4:f056 with SMTP id
+ f18-20020a05600c155200b0038ec7a4f056mr24931297wmg.183.1650874923619; 
  Mon, 25 Apr 2022 01:22:03 -0700 (PDT)
 Received: from wheatley.localdomain (nat-pool-brq-t.redhat.com.
  [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- d5-20020a056000186500b0020a8688963bsm9893771wri.89.2022.04.25.01.22.02
+ r17-20020a0560001b9100b00207afaa8987sm9545597wru.27.2022.04.25.01.22.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Apr 2022 01:22:03 -0700 (PDT)
+ Mon, 25 Apr 2022 01:22:02 -0700 (PDT)
 Received: from wheatley.redhat.com (wheatley.k8r.cz [127.0.0.1])
- by wheatley.localdomain (Postfix) with ESMTP id 0A1C167B1B56;
+ by wheatley.localdomain (Postfix) with ESMTP id 15F3967B1B57;
  Mon, 25 Apr 2022 10:22:02 +0200 (CEST)
 From: Martin Kletzander <mkletzan@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/18] hw/audio: Remove -soundhw support
-Date: Mon, 25 Apr 2022 10:21:44 +0200
-Message-Id: <aaa9e17ef9f35cb34acae2538240c11b911d9f6c.1650874791.git.mkletzan@redhat.com>
+Subject: [PATCH 02/18] hw/input/tsc210x: Extract common init code into new
+ function
+Date: Mon, 25 Apr 2022 10:21:45 +0200
+Message-Id: <1d75877cf4cc2a38f87633ff16f9fea3e1bb0c03.1650874791.git.mkletzan@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1650874791.git.mkletzan@redhat.com>
 References: <cover.1650874791.git.mkletzan@redhat.com>
@@ -117,630 +118,119 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One thing I am not sure about is whether to keep the aliases of ac97 and
-es1370 in the qdev_alias_table.
+This deduplicates several lines and will make future changes more
+concise.
 
 Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 ---
- docs/about/deprecated.rst                     |   9 -
- docs/about/removed-features.rst               |  10 +
- docs/qdev-device-use.txt                      |  21 +--
- docs/replay.txt                               |   2 +-
- hw/audio/ac97.c                               |   3 -
- hw/audio/adlib.c                              |   2 -
- hw/audio/cs4231a.c                            |   2 -
- hw/audio/es1370.c                             |   3 -
- hw/audio/gus.c                                |   2 -
- hw/audio/intel-hda.c                          |  21 ---
- hw/audio/meson.build                          |   1 -
- hw/audio/pcspk.c                              |  11 --
- hw/audio/sb16.c                               |   3 -
- hw/audio/soundhw.c                            | 177 ------------------
- include/hw/audio/soundhw.h                    |  15 --
- qemu-options.hx                               |  27 ---
- .../codeconverter/test_regexps.py             |   1 -
- softmmu/qdev-monitor.c                        |   2 -
- softmmu/vl.c                                  |   6 -
- 19 files changed, 19 insertions(+), 299 deletions(-)
- delete mode 100644 hw/audio/soundhw.c
- delete mode 100644 include/hw/audio/soundhw.h
+ hw/input/tsc210x.c | 68 ++++++++++++++++------------------------------
+ 1 file changed, 24 insertions(+), 44 deletions(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index cf02ef6821e4..7ba71ebd3435 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -39,15 +39,6 @@ should specify an ``audiodev=`` property.  Additionally, when using
- vnc, you should specify an ``audiodev=`` property if you plan to
- transmit audio through the VNC protocol.
- 
--Creating sound card devices using ``-soundhw`` (since 5.1)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--Sound card devices should be created using ``-device`` instead.  The
--names are the same for most devices.  The exceptions are ``hda`` which
--needs two devices (``-device intel-hda -device hda-duplex``) and
--``pcspk`` which can be activated using ``-machine
--pcspk-audiodev=<name>``.
--
- ``-chardev`` backend aliases ``tty`` and ``parport`` (since 6.0)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 4b831ea29176..086ba3edb042 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -336,6 +336,16 @@ for the RISC-V ``virt`` machine and ``sifive_u`` machine.
- The ``-no-quit`` was a synonym for ``-display ...,window-close=off`` which
- should be used instead.
- 
-+Creating sound card devices using ``-soundhw`` (removed in 7.1)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Sound card devices should be created using ``-device`` instead.  The
-+names are the same for most devices.  The exceptions are ``hda`` which
-+needs two devices (``-device intel-hda -device hda-duplex``) and
-+``pcspk`` which can be activated using ``-machine
-+pcspk-audiodev=<name>``.  And ``AC97`` and ``ES1370`` now have to be
-+specified in uppercase.
-+
- 
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
-index 240888933482..30e7eaa3e66d 100644
---- a/docs/qdev-device-use.txt
-+++ b/docs/qdev-device-use.txt
-@@ -311,21 +311,16 @@ constraints.
- 
- Host and guest part of audio devices have always been separate.
- 
--The old way to define guest audio devices is -soundhw C1,...
-+Host side (backend) is defined using -audiodev with a specific driver:
- 
--The new way is to define each guest audio device separately with
---device.
-+    spice
-+    pa
-+    none
- 
--Map from -soundhw sound card name to -device:
--
--    ac97        -device AC97
--    cs4231a     -device cs4231a,iobase=IOADDR,irq=IRQ,dma=DMA
--    es1370      -device ES1370
--    gus         -device gus,iobase=IOADDR,irq=IRQ,dma=DMA,freq=F
--    hda         -device intel-hda,msi=MSI -device hda-duplex
--    sb16        -device sb16,iobase=IOADDR,irq=IRQ,dma=DMA,dma16=DMA16,version=V
--    adlib       not yet available with -device
--    pcspk       not yet available with -device
-+And each guest audio device is then defined with -device with
-+audiodev=AUDIODEV_ID that refers to the audio backend above.  Exceptions are
-+pcspk and adlib which are note yet available with -device and are part of a
-+machine type.
- 
- For PCI devices, you can add bus=PCI-BUS,addr=DEVFN to control the PCI
- device address, as usual.
-diff --git a/docs/replay.txt b/docs/replay.txt
-index 5b008ca4911f..c329767c148a 100644
---- a/docs/replay.txt
-+++ b/docs/replay.txt
-@@ -294,7 +294,7 @@ Audio devices
- 
- Audio data is recorded and replay automatically. The command line for recording
- and replaying must contain identical specifications of audio hardware, e.g.:
-- -soundhw ac97
-+ -audiodev driver=pa -device ac97,audiodev=audio0
- 
- Serial ports
- ------------
-diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-index 3cb81310607f..fd0b3b97d5b5 100644
---- a/hw/audio/ac97.c
-+++ b/hw/audio/ac97.c
-@@ -18,7 +18,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "hw/pci/pci.h"
- #include "hw/qdev-properties.h"
-@@ -1430,8 +1429,6 @@ static const TypeInfo ac97_info = {
- static void ac97_register_types (void)
- {
-     type_register_static (&ac97_info);
--    deprecated_register_soundhw("ac97", "Intel 82801AA AC97 Audio",
--                                0, TYPE_AC97);
- }
- 
- type_init (ac97_register_types)
-diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
-index 5f979b1487d1..ba1be6c8378d 100644
---- a/hw/audio/adlib.c
-+++ b/hw/audio/adlib.c
-@@ -25,7 +25,6 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
--#include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "hw/isa/isa.h"
- #include "hw/qdev-properties.h"
-@@ -322,7 +321,6 @@ static const TypeInfo adlib_info = {
- static void adlib_register_types (void)
- {
-     type_register_static (&adlib_info);
--    deprecated_register_soundhw("adlib", ADLIB_DESC, 1, TYPE_ADLIB);
- }
- 
- type_init (adlib_register_types)
-diff --git a/hw/audio/cs4231a.c b/hw/audio/cs4231a.c
-index 0723e3943044..f510b862efbe 100644
---- a/hw/audio/cs4231a.c
-+++ b/hw/audio/cs4231a.c
-@@ -23,7 +23,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "hw/audio/soundhw.h"
- #include "audio/audio.h"
+diff --git a/hw/input/tsc210x.c b/hw/input/tsc210x.c
+index df7313db5d7f..f16a8090b7c7 100644
+--- a/hw/input/tsc210x.c
++++ b/hw/input/tsc210x.c
+@@ -31,6 +31,7 @@
+ #include "hw/input/tsc2xxx.h"
  #include "hw/irq.h"
- #include "hw/isa/isa.h"
-@@ -717,7 +716,6 @@ static const TypeInfo cs4231a_info = {
- static void cs4231a_register_types (void)
- {
-     type_register_static (&cs4231a_info);
--    deprecated_register_soundhw("cs4231a", "CS4231A", 1, TYPE_CS4231A);
- }
- 
- type_init (cs4231a_register_types)
-diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
-index 690458981471..62359b84f279 100644
---- a/hw/audio/es1370.c
-+++ b/hw/audio/es1370.c
-@@ -27,7 +27,6 @@
- #define SILENT_ES1370
- 
- #include "qemu/osdep.h"
--#include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "hw/pci/pci.h"
  #include "migration/vmstate.h"
-@@ -923,8 +922,6 @@ static const TypeInfo es1370_info = {
- static void es1370_register_types (void)
- {
-     type_register_static (&es1370_info);
--    deprecated_register_soundhw("es1370", "ENSONIQ AudioPCI ES1370",
--                                0, TYPE_ES1370);
- }
++#include "qapi/error.h"
  
- type_init (es1370_register_types)
-diff --git a/hw/audio/gus.c b/hw/audio/gus.c
-index 42f010b67193..c7710a684b88 100644
---- a/hw/audio/gus.c
-+++ b/hw/audio/gus.c
-@@ -25,7 +25,6 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
--#include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "hw/irq.h"
- #include "hw/isa/isa.h"
-@@ -317,7 +316,6 @@ static const TypeInfo gus_info = {
- static void gus_register_types (void)
- {
-     type_register_static (&gus_info);
--    deprecated_register_soundhw("gus", "Gravis Ultrasound GF1", 1, TYPE_GUS);
- }
- 
- type_init (gus_register_types)
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index bc77e3d8c9dc..e77552363a4c 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -26,7 +26,6 @@
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "qemu/error-report.h"
--#include "hw/audio/soundhw.h"
- #include "intel-hda.h"
- #include "migration/vmstate.h"
- #include "intel-hda-defs.h"
-@@ -1307,25 +1306,6 @@ static const TypeInfo hda_codec_device_type_info = {
-     .class_init = hda_codec_device_class_init,
+ #define TSC_DATA_REGISTERS_PAGE		0x0
+ #define TSC_CONTROL_REGISTERS_PAGE	0x1
+@@ -1070,20 +1071,10 @@ static const VMStateDescription vmstate_tsc2301 = {
+     .fields = vmstatefields_tsc210x,
  };
  
--/*
-- * create intel hda controller with codec attached to it,
-- * so '-soundhw hda' works.
-- */
--static int intel_hda_and_codec_init(PCIBus *bus)
--{
--    DeviceState *controller;
--    BusState *hdabus;
--    DeviceState *codec;
--
--    warn_report("'-soundhw hda' is deprecated, "
--                "please use '-device intel-hda -device hda-duplex' instead");
--    controller = DEVICE(pci_create_simple(bus, -1, "intel-hda"));
--    hdabus = QLIST_FIRST(&controller->child_bus);
--    codec = qdev_new("hda-duplex");
--    qdev_realize_and_unref(codec, hdabus, &error_fatal);
--    return 0;
--}
--
- static void intel_hda_register_types(void)
+-uWireSlave *tsc2102_init(qemu_irq pint)
++static void tsc210x_init(TSC210xState *s,
++                         const char *name,
++                         const VMStateDescription *vmsd)
  {
-     type_register_static(&hda_codec_bus_info);
-@@ -1333,7 +1313,6 @@ static void intel_hda_register_types(void)
-     type_register_static(&intel_hda_info_ich6);
-     type_register_static(&intel_hda_info_ich9);
-     type_register_static(&hda_codec_device_type_info);
--    pci_register_soundhw("hda", "Intel HD Audio", intel_hda_and_codec_init);
+-    TSC210xState *s;
+-
+-    s = g_new0(TSC210xState, 1);
+-    s->x = 160;
+-    s->y = 160;
+-    s->pressure = 0;
+-    s->precision = s->nextprecision = 0;
+-    s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, tsc210x_timer_tick, s);
+-    s->pint = pint;
+-    s->model = 0x2102;
+-    s->name = "tsc2102";
+-
+     s->tr[0] = 0;
+     s->tr[1] = 1;
+     s->tr[2] = 1;
+@@ -1105,13 +1096,29 @@ uWireSlave *tsc2102_init(qemu_irq pint)
+ 
+     tsc210x_reset(s);
+ 
+-    qemu_add_mouse_event_handler(tsc210x_touchscreen_event, s, 1,
+-                    "QEMU TSC2102-driven Touchscreen");
++    qemu_add_mouse_event_handler(tsc210x_touchscreen_event, s, 1, name);
+ 
+     AUD_register_card(s->name, &s->card);
+ 
+     qemu_register_reset((void *) tsc210x_reset, s);
+-    vmstate_register(NULL, 0, &vmstate_tsc2102, s);
++    vmstate_register(NULL, 0, vmsd, s);
++}
++
++uWireSlave *tsc2102_init(qemu_irq pint)
++{
++    TSC210xState *s;
++
++    s = g_new0(TSC210xState, 1);
++    s->x = 160;
++    s->y = 160;
++    s->pressure = 0;
++    s->precision = s->nextprecision = 0;
++    s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, tsc210x_timer_tick, s);
++    s->pint = pint;
++    s->model = 0x2102;
++    s->name = "tsc2102";
++
++    tsc210x_init(s, "QEMU TSC2102-driven Touchscreen", &vmstate_tsc2102);
+ 
+     return &s->chip;
  }
+@@ -1132,34 +1139,7 @@ uWireSlave *tsc2301_init(qemu_irq penirq, qemu_irq kbirq, qemu_irq dav)
+     s->model = 0x2301;
+     s->name = "tsc2301";
  
- type_init(intel_hda_register_types)
-diff --git a/hw/audio/meson.build b/hw/audio/meson.build
-index e48a9fc73d57..746b5b98d198 100644
---- a/hw/audio/meson.build
-+++ b/hw/audio/meson.build
-@@ -1,4 +1,3 @@
--softmmu_ss.add(files('soundhw.c'))
- softmmu_ss.add(when: 'CONFIG_AC97', if_true: files('ac97.c'))
- softmmu_ss.add(when: 'CONFIG_ADLIB', if_true: files('fmopl.c', 'adlib.c'))
- softmmu_ss.add(when: 'CONFIG_CS4231', if_true: files('cs4231.c'))
-diff --git a/hw/audio/pcspk.c b/hw/audio/pcspk.c
-index dfc7ebca4e17..72bea5fb202a 100644
---- a/hw/audio/pcspk.c
-+++ b/hw/audio/pcspk.c
-@@ -24,7 +24,6 @@
- 
- #include "qemu/osdep.h"
- #include "hw/isa/isa.h"
--#include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
-@@ -245,18 +244,8 @@ static const TypeInfo pcspk_info = {
-     .class_init     = pcspk_class_initfn,
- };
- 
--static int pcspk_audio_init_soundhw(ISABus *bus)
--{
--    PCSpkState *s = pcspk_state;
+-    s->tr[0] = 0;
+-    s->tr[1] = 1;
+-    s->tr[2] = 1;
+-    s->tr[3] = 0;
+-    s->tr[4] = 1;
+-    s->tr[5] = 0;
+-    s->tr[6] = 1;
+-    s->tr[7] = 0;
 -
--    warn_report("'-soundhw pcspk' is deprecated, "
--                "please set a backend using '-machine pcspk-audiodev=<name>' instead");
--    return pcspk_audio_init(s);
--}
+-    s->chip.opaque = s;
+-    s->chip.send = (void *) tsc210x_write;
+-    s->chip.receive = (void *) tsc210x_read;
 -
- static void pcspk_register(void)
- {
-     type_register_static(&pcspk_info);
--    isa_register_soundhw("pcspk", "PC speaker", pcspk_audio_init_soundhw);
+-    s->codec.opaque = s;
+-    s->codec.tx_swallow = (void *) tsc210x_i2s_swallow;
+-    s->codec.set_rate = (void *) tsc210x_i2s_set_rate;
+-    s->codec.in.fifo = s->in_fifo;
+-    s->codec.out.fifo = s->out_fifo;
+-
+-    tsc210x_reset(s);
+-
+-    qemu_add_mouse_event_handler(tsc210x_touchscreen_event, s, 1,
+-                    "QEMU TSC2301-driven Touchscreen");
+-
+-    AUD_register_card(s->name, &s->card);
+-
+-    qemu_register_reset((void *) tsc210x_reset, s);
+-    vmstate_register(NULL, 0, &vmstate_tsc2301, s);
++    tsc210x_init(s, "QEMU TSC2301-driven Touchscreen", &vmstate_tsc2301);
+ 
+     return &s->chip;
  }
- type_init(pcspk_register)
-diff --git a/hw/audio/sb16.c b/hw/audio/sb16.c
-index 2215386ddb2e..593da2478c14 100644
---- a/hw/audio/sb16.c
-+++ b/hw/audio/sb16.c
-@@ -23,7 +23,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "hw/irq.h"
- #include "hw/isa/isa.h"
-@@ -1469,8 +1468,6 @@ static const TypeInfo sb16_info = {
- static void sb16_register_types (void)
- {
-     type_register_static (&sb16_info);
--    deprecated_register_soundhw("sb16", "Creative Sound Blaster 16",
--                                1, TYPE_SB16);
- }
- 
- type_init (sb16_register_types)
-diff --git a/hw/audio/soundhw.c b/hw/audio/soundhw.c
-deleted file mode 100644
-index 173b674ff53a..000000000000
---- a/hw/audio/soundhw.c
-+++ /dev/null
-@@ -1,177 +0,0 @@
--/*
-- * QEMU System Emulator
-- *
-- * Copyright (c) 2003-2008 Fabrice Bellard
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--#include "qemu/osdep.h"
--#include "qemu/option.h"
--#include "qemu/help_option.h"
--#include "qemu/error-report.h"
--#include "qom/object.h"
--#include "hw/isa/isa.h"
--#include "hw/pci/pci.h"
--#include "hw/audio/soundhw.h"
--
--struct soundhw {
--    const char *name;
--    const char *descr;
--    const char *typename;
--    int enabled;
--    int isa;
--    union {
--        int (*init_isa) (ISABus *bus);
--        int (*init_pci) (PCIBus *bus);
--    } init;
--};
--
--static struct soundhw soundhw[9];
--static int soundhw_count;
--
--void isa_register_soundhw(const char *name, const char *descr,
--                          int (*init_isa)(ISABus *bus))
--{
--    assert(soundhw_count < ARRAY_SIZE(soundhw) - 1);
--    soundhw[soundhw_count].name = name;
--    soundhw[soundhw_count].descr = descr;
--    soundhw[soundhw_count].isa = 1;
--    soundhw[soundhw_count].init.init_isa = init_isa;
--    soundhw_count++;
--}
--
--void pci_register_soundhw(const char *name, const char *descr,
--                          int (*init_pci)(PCIBus *bus))
--{
--    assert(soundhw_count < ARRAY_SIZE(soundhw) - 1);
--    soundhw[soundhw_count].name = name;
--    soundhw[soundhw_count].descr = descr;
--    soundhw[soundhw_count].isa = 0;
--    soundhw[soundhw_count].init.init_pci = init_pci;
--    soundhw_count++;
--}
--
--void deprecated_register_soundhw(const char *name, const char *descr,
--                                 int isa, const char *typename)
--{
--    assert(soundhw_count < ARRAY_SIZE(soundhw) - 1);
--    soundhw[soundhw_count].name = name;
--    soundhw[soundhw_count].descr = descr;
--    soundhw[soundhw_count].isa = isa;
--    soundhw[soundhw_count].typename = typename;
--    soundhw_count++;
--}
--
--void select_soundhw(const char *optarg)
--{
--    struct soundhw *c;
--
--    if (is_help_option(optarg)) {
--    show_valid_cards:
--
--        if (soundhw_count) {
--             printf("Valid sound card names (comma separated):\n");
--             for (c = soundhw; c->name; ++c) {
--                 printf ("%-11s %s\n", c->name, c->descr);
--             }
--             printf("\n-soundhw all will enable all of the above\n");
--        } else {
--             printf("Machine has no user-selectable audio hardware "
--                    "(it may or may not have always-present audio hardware).\n");
--        }
--        exit(!is_help_option(optarg));
--    }
--    else {
--        size_t l;
--        const char *p;
--        char *e;
--        int bad_card = 0;
--
--        if (!strcmp(optarg, "all")) {
--            for (c = soundhw; c->name; ++c) {
--                c->enabled = 1;
--            }
--            return;
--        }
--
--        p = optarg;
--        while (*p) {
--            e = strchr(p, ',');
--            l = !e ? strlen(p) : (size_t) (e - p);
--
--            for (c = soundhw; c->name; ++c) {
--                if (!strncmp(c->name, p, l) && !c->name[l]) {
--                    c->enabled = 1;
--                    break;
--                }
--            }
--
--            if (!c->name) {
--                if (l > 80) {
--                    error_report("Unknown sound card name (too big to show)");
--                }
--                else {
--                    error_report("Unknown sound card name `%.*s'",
--                                 (int) l, p);
--                }
--                bad_card = 1;
--            }
--            p += l + (e != NULL);
--        }
--
--        if (bad_card) {
--            goto show_valid_cards;
--        }
--    }
--}
--
--void soundhw_init(void)
--{
--    struct soundhw *c;
--    ISABus *isa_bus = (ISABus *) object_resolve_path_type("", TYPE_ISA_BUS, NULL);
--    PCIBus *pci_bus = (PCIBus *) object_resolve_path_type("", TYPE_PCI_BUS, NULL);
--
--    for (c = soundhw; c->name; ++c) {
--        if (c->enabled) {
--            if (c->typename) {
--                warn_report("'-soundhw %s' is deprecated, "
--                            "please use '-device %s' instead",
--                            c->name, c->typename);
--                if (c->isa) {
--                    isa_create_simple(isa_bus, c->typename);
--                } else {
--                    pci_create_simple(pci_bus, -1, c->typename);
--                }
--            } else if (c->isa) {
--                if (!isa_bus) {
--                    error_report("ISA bus not available for %s", c->name);
--                    exit(1);
--                }
--                c->init.init_isa(isa_bus);
--            } else {
--                if (!pci_bus) {
--                    error_report("PCI bus not available for %s", c->name);
--                    exit(1);
--                }
--                c->init.init_pci(pci_bus);
--            }
--        }
--    }
--}
--
-diff --git a/include/hw/audio/soundhw.h b/include/hw/audio/soundhw.h
-deleted file mode 100644
-index f09a297854af..000000000000
---- a/include/hw/audio/soundhw.h
-+++ /dev/null
-@@ -1,15 +0,0 @@
--#ifndef HW_SOUNDHW_H
--#define HW_SOUNDHW_H
--
--void isa_register_soundhw(const char *name, const char *descr,
--                          int (*init_isa)(ISABus *bus));
--
--void pci_register_soundhw(const char *name, const char *descr,
--                          int (*init_pci)(PCIBus *bus));
--void deprecated_register_soundhw(const char *name, const char *descr,
--                                 int isa, const char *typename);
--
--void soundhw_init(void);
--void select_soundhw(const char *optarg);
--
--#endif
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 34e9b32a5c00..47bbd86a4533 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -892,33 +892,6 @@ SRST
-         ``qemu.wav``.
- ERST
- 
--DEF("soundhw", HAS_ARG, QEMU_OPTION_soundhw,
--    "-soundhw c1,... enable audio support\n"
--    "                and only specified sound cards (comma separated list)\n"
--    "                use '-soundhw help' to get the list of supported cards\n"
--    "                use '-soundhw all' to enable all of them\n", QEMU_ARCH_ALL)
--SRST
--``-soundhw card1[,card2,...] or -soundhw all``
--    Enable audio and selected sound hardware. Use 'help' to print all
--    available sound hardware. For example:
--
--    .. parsed-literal::
--
--        |qemu_system_x86| -soundhw sb16,adlib disk.img
--        |qemu_system_x86| -soundhw es1370 disk.img
--        |qemu_system_x86| -soundhw ac97 disk.img
--        |qemu_system_x86| -soundhw hda disk.img
--        |qemu_system_x86| -soundhw all disk.img
--        |qemu_system_x86| -soundhw help
--
--    Note that Linux's i810\_audio OSS kernel (for AC97) module might
--    require manually specifying clocking.
--
--    ::
--
--        modprobe i810_audio clocking=48000
--ERST
--
- DEF("device", HAS_ARG, QEMU_OPTION_device,
-     "-device driver[,prop[=value][,...]]\n"
-     "                add device (based on driver)\n"
-diff --git a/scripts/codeconverter/codeconverter/test_regexps.py b/scripts/codeconverter/codeconverter/test_regexps.py
-index a445634d88ac..0161cadffee6 100644
---- a/scripts/codeconverter/codeconverter/test_regexps.py
-+++ b/scripts/codeconverter/codeconverter/test_regexps.py
-@@ -264,7 +264,6 @@ def test_initial_includes():
- #define SILENT_ES1370
- 
- #include "qemu/osdep.h"
--#include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "hw/pci/pci.h"
- #include "migration/vmstate.h"
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 12fe60c4670d..5c80d135ebf0 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -66,9 +66,7 @@ typedef struct QDevAlias
- 
- /* Please keep this table sorted by typename. */
- static const QDevAlias qdev_alias_table[] = {
--    { "AC97", "ac97" }, /* -soundhw name */
-     { "e1000", "e1000-82540em" },
--    { "ES1370", "es1370" }, /* -soundhw name */
-     { "ich9-ahci", "ahci" },
-     { "lsi53c895a", "lsi" },
-     { "virtio-9p-device", "virtio-9p", QEMU_ARCH_VIRTIO_MMIO },
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 06a0e342fe9e..2f7158574e4f 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -80,7 +80,6 @@
- #include "migration/snapshot.h"
- #include "sysemu/tpm.h"
- #include "sysemu/dma.h"
--#include "hw/audio/soundhw.h"
- #include "audio/audio.h"
- #include "sysemu/cpus.h"
- #include "sysemu/cpu-timers.h"
-@@ -2669,8 +2668,6 @@ static void qemu_create_cli_devices(void)
- {
-     DeviceOption *opt;
- 
--    soundhw_init();
--
-     qemu_opts_foreach(qemu_find_opts("fw_cfg"),
-                       parse_fw_cfg, fw_cfg_find(), &error_fatal);
- 
-@@ -3018,9 +3015,6 @@ void qemu_init(int argc, char **argv, char **envp)
-             case QEMU_OPTION_audiodev:
-                 audio_parse_option(optarg);
-                 break;
--            case QEMU_OPTION_soundhw:
--                select_soundhw (optarg);
--                break;
-             case QEMU_OPTION_h:
-                 help(0);
-                 break;
 -- 
 2.35.1
 
