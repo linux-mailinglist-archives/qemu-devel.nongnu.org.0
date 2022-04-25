@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1427E50DC26
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:14:31 +0200 (CEST)
-Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC3F50DCDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:38:33 +0200 (CEST)
+Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niune-0002Yl-1q
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47790)
+	id 1nivAu-0004hI-N3
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1niuix-0006Nt-6g
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:09:39 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:38656 helo=loongson.cn)
+ id 1niujz-0007d0-A8
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:10:43 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:39112 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1niuiq-0000nm-LQ
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:09:37 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1niujw-0001Bp-Hn
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:10:42 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx3xBDZWZi47gwAA--.34426S2; 
- Mon, 25 Apr 2022 17:09:23 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn8+DZWZi+7gwAA--.18850S2; 
+ Mon, 25 Apr 2022 17:10:27 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Subject: [PATCH v2 00/43] Add LoongArch softmmu support
-Date: Mon, 25 Apr 2022 17:08:39 +0800
-Message-Id: <20220425090922.2877772-1-yangxiaojuan@loongson.cn>
+Date: Mon, 25 Apr 2022 17:09:44 +0800
+Message-Id: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx3xBDZWZi47gwAA--.34426S2
+X-CM-TRANSID: AQAAf9Dxn8+DZWZi+7gwAA--.18850S2
 X-Coremail-Antispam: 1UD129KBjvJXoW3uF13XrWfWF4UWr48Xw1UZFb_yoWDAFWUpr
  W7ur15KF4UGrZ7Jrsaqay5Xr95Xa1xGr4293WSqryrCrWIvry5ZF1kK3sFgFy3J3W8Wry0
- qF1Fkw1UWa1UXa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ qF1Fkw1UWa1UXa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
