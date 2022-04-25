@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7CF50DAD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:03:53 +0200 (CEST)
-Received: from localhost ([::1]:32836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6A750DB52
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:37:31 +0200 (CEST)
+Received: from localhost ([::1]:56274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nithI-0006qD-QN
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:03:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60126)
+	id 1niuDq-0007LR-Ck
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nitbG-0002YF-4x
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 03:57:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25956)
+ (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
+ id 1niu02-0006Sc-Pp
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nitbD-0006YH-Ty
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 03:57:37 -0400
+ (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
+ id 1nitzz-0002eV-1B
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650873455;
+ s=mimecast20190719; t=1650874989;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3QGv5UYuGLuXxeCIzIOHAA3ST7uBgOfx6EAflQHxWqM=;
- b=ZleCiZ9Rs9mM/RB2HaEYKLN22nwHfvbUIzro9zWcyBQ73JO/zKyFnQiM9AlEvqA6tU5HTc
- bgZLNdHpY8tkEHOy9a+vG5BHptArncWgliOYH4wJEYrRleREgUiqt9PuNMDVW9ADlbSyK2
- 7Zvb9DrMQPjlM0RHZgqzPYiyX1jfG0Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3VCPF3ik0R3B7rgVDOzVH4FeRPM3Hef7iAntqaagMd4=;
+ b=LJfq69kWkgYQZn8HOpQJrYEaJZF1zNpcubRtnj3YGqmGWwDX61DfRPy+/0qJF3nkRduL5E
+ R93ASeqNs+BNZ2YQ6q138PghyAcUOLogSHjSCfwMAlKtTfSjK+zzJZr70D3orVeplP2YxC
+ U5Y6fBYNRQNWEHnS4zhGxnsu1l8Jtqc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-YWg_mMUEO3yjX2ztYfFGbQ-1; Mon, 25 Apr 2022 03:57:31 -0400
-X-MC-Unique: YWg_mMUEO3yjX2ztYfFGbQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- q6-20020a1cf306000000b0038c5726365aso6846683wmq.3
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 00:57:31 -0700 (PDT)
+ us-mta-194-1n76OmBQNaykY1srIqswvw-1; Mon, 25 Apr 2022 04:22:05 -0400
+X-MC-Unique: 1n76OmBQNaykY1srIqswvw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k29-20020adfb35d000000b0020adc94662dso486902wrd.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 01:22:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3QGv5UYuGLuXxeCIzIOHAA3ST7uBgOfx6EAflQHxWqM=;
- b=lvdtdWbMlAGi4Vn3qY0yB/noYNcVu8U1nfUV5NIWdCa6E8MuHWQDA6sLm6UwXe+3/H
- 3uVxk7riHf4dOFcTLUE8UnieTSACuI46l4y3VqVKk6aiot1z94zvbEgRjQfIbwIRGT9q
- X0eBFcnPBWGDnKMjcDXjudDZZbRcEWMof0myGssGQH4ymmV/XI61qFZzzicT9RfxZ3Bu
- pZpmbJtq80IdaXWcx1LikW+TScJaEgAhBzWDVnp0qokhORZQy3klGStxcLkHeyvveoJ4
- sz47lV1iA8b+0OBZov88jZO71n468HgUYY3omwAlnHzvK0WW9t8XXg/2YSLs8AipH5FF
- CMWA==
-X-Gm-Message-State: AOAM530svJKGSlWJg/Or/76sxjJghmFhNZSRB79O58F9d/nmtJn+Aj77
- MhnhF2HBRFrynAkxbE/tFy5ZS4mKRzH5zDSSpO/GPlGY+qiYGG1UEVgfrg+qy7p2Tr8+RXGB8wj
- lIx8yCXhLInzxOQw=
-X-Received: by 2002:adf:fe84:0:b0:20a:dc0b:4f2d with SMTP id
- l4-20020adffe84000000b0020adc0b4f2dmr2730656wrr.229.1650873450306; 
- Mon, 25 Apr 2022 00:57:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyfkY3k+ERgnLu+tWDAAtgiw9VokIWjeahuDbuaU3T0OXpMkxWVWdBhzaR58D16GoT+odjV3Q==
-X-Received: by 2002:adf:fe84:0:b0:20a:dc0b:4f2d with SMTP id
- l4-20020adffe84000000b0020adc0b4f2dmr2730622wrr.229.1650873449995; 
- Mon, 25 Apr 2022 00:57:29 -0700 (PDT)
-Received: from vian.redhat.com ([2a0c:5a80:1306:2f00:cfcf:62cf:6f38:dd92])
- by smtp.gmail.com with ESMTPSA id
- v4-20020adfa1c4000000b0020ad7dd409fsm4254434wrv.108.2022.04.25.00.57.29
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3VCPF3ik0R3B7rgVDOzVH4FeRPM3Hef7iAntqaagMd4=;
+ b=mtpef9XQmy9sJdLoo2HYKdtk9Kf48yfVu99QGQIo1fpDLH6Lvitg8eB0ofD10QMqCl
+ Nzk7CnJ5vVs79jut84oO2YmLcKlBcHDJdvYzzhW/xixj5ANU/+cX6uOxAfI1rYLIIFyz
+ mQOJRA7HAdfBY6RSMZTYvO3qMqaVSXLHA3XZ0vePfwHLFT4qYpNmz3RDOs5j1CZsFQBL
+ CRcdZy7NZqe6IsgZwLZipIwZlaJnxRrMkqKJjrlTaDXARg5P8qAOy3y946SolulvWZ86
+ 7/MQQYP6DVjP+BI0RLQbawPEsLLae+GstCTwhe4DsUX4nOPvea8JZCQ4t6a3iAvG4Cqy
+ k9ow==
+X-Gm-Message-State: AOAM5326A71MwrzGsnAuPXdAQpV1CADGTgU2AdZvpaT8robdgcQ5Dwqt
+ u8DHIEpXEzvJ+O/3Faf1ZoWKXgDva8qAK7XDVxW42qMgwkLeux4viop6SuS9rwFnngNkC5CyL6E
+ 5n1Jo3GcD0SnjSAQ=
+X-Received: by 2002:a5d:6988:0:b0:20a:dff5:54c with SMTP id
+ g8-20020a5d6988000000b0020adff5054cmr747537wru.55.1650874923986; 
+ Mon, 25 Apr 2022 01:22:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx4j5DSj5q87OtxnzFybCikCereglf97SpsGgusAy1J75EpHExI9jf3zH9rZytwIsmXuBt0Tw==
+X-Received: by 2002:a5d:6988:0:b0:20a:dff5:54c with SMTP id
+ g8-20020a5d6988000000b0020adff5054cmr747496wru.55.1650874923751; 
+ Mon, 25 Apr 2022 01:22:03 -0700 (PDT)
+Received: from wheatley.localdomain (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ v13-20020a5d4b0d000000b00207a8815063sm8051445wrq.2.2022.04.25.01.22.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Apr 2022 00:57:29 -0700 (PDT)
-From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-To: kwolf@redhat.com,
-	stefanha@redhat.com,
-	berrange@redhat.com
-Subject: [PATCH v6 3/3] util/event-loop-base: Introduce options to set the
- thread pool size
-Date: Mon, 25 Apr 2022 09:57:23 +0200
-Message-Id: <20220425075723.20019-4-nsaenzju@redhat.com>
+ Mon, 25 Apr 2022 01:22:03 -0700 (PDT)
+Received: from wheatley.redhat.com (wheatley.k8r.cz [127.0.0.1])
+ by wheatley.localdomain (Postfix) with ESMTP id F1C2C67B1B55;
+ Mon, 25 Apr 2022 10:22:01 +0200 (CEST)
+From: Martin Kletzander <mkletzan@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/18] RFC: Remove deprecated audio features
+Date: Mon, 25 Apr 2022 10:21:43 +0200
+Message-Id: <cover.1650874791.git.mkletzan@redhat.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220425075723.20019-1-nsaenzju@redhat.com>
-References: <20220425075723.20019-1-nsaenzju@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsaenzju@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mkletzan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,399 +95,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, eduardo@habkost.net, qemu-block@nongnu.org,
- michael.roth@amd.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, hreitz@redhat.com, pbonzini@redhat.com,
- Nicolas Saenz Julienne <nsaenzju@redhat.com>, eblake@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, libvir-list@redhat.com,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, qemu-arm@nongnu.org,
+ Jan Kiszka <jan.kiszka@web.de>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Thomas Huth <huth@tuxfamily.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The thread pool regulates itself: when idle, it kills threads until
-empty, when in demand, it creates new threads until full. This behaviour
-doesn't play well with latency sensitive workloads where the price of
-creating a new thread is too high. For example, when paired with qemu's
-'-mlock', or using safety features like SafeStack, creating a new thread
-has been measured take multiple milliseconds.
-
-In order to mitigate this let's introduce a new 'EventLoopBase'
-property to set the thread pool size. The threads will be created during
-the pool's initialization or upon updating the property's value, remain
-available during its lifetime regardless of demand, and destroyed upon
-freeing it. A properly characterized workload will then be able to
-configure the pool to avoid any latency spikes.
-
-Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
----
-
-Changes since v4:
- - Remove redundant versioning comments
- - Reword thread-pool-min description
-
-Changes since v3:
- - Rework qom.json to avoid duplication
-
-Changes since v2:
- - Don't wait when decreasing pool size
- - Fix qapi versioning
-
-Changes since v1:
- - Add INT_MAX check
- - Have copy of thread pool sizes in AioContext to properly decouple
-   both instances
- - More coherent variable naming
- - Handle case where max_threads decreases
- - Code comments
-
- event-loop-base.c                | 23 +++++++++++++
- include/block/aio.h              | 10 ++++++
- include/block/thread-pool.h      |  3 ++
- include/sysemu/event-loop-base.h |  4 +++
- iothread.c                       |  3 ++
- qapi/qom.json                    | 10 +++++-
- util/aio-posix.c                 |  1 +
- util/async.c                     | 20 ++++++++++++
- util/main-loop.c                 |  9 ++++++
- util/thread-pool.c               | 55 +++++++++++++++++++++++++++++---
- 10 files changed, 133 insertions(+), 5 deletions(-)
-
-diff --git a/event-loop-base.c b/event-loop-base.c
-index e7f99a6ec8..d5be4dc6fc 100644
---- a/event-loop-base.c
-+++ b/event-loop-base.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include "qom/object_interfaces.h"
- #include "qapi/error.h"
-+#include "block/thread-pool.h"
- #include "sysemu/event-loop-base.h"
- 
- typedef struct {
-@@ -21,9 +22,22 @@ typedef struct {
-     ptrdiff_t offset; /* field's byte offset in EventLoopBase struct */
- } EventLoopBaseParamInfo;
- 
-+static void event_loop_base_instance_init(Object *obj)
-+{
-+    EventLoopBase *base = EVENT_LOOP_BASE(obj);
-+
-+    base->thread_pool_max = THREAD_POOL_MAX_THREADS_DEFAULT;
-+}
-+
- static EventLoopBaseParamInfo aio_max_batch_info = {
-     "aio-max-batch", offsetof(EventLoopBase, aio_max_batch),
- };
-+static EventLoopBaseParamInfo thread_pool_min_info = {
-+    "thread-pool-min", offsetof(EventLoopBase, thread_pool_min),
-+};
-+static EventLoopBaseParamInfo thread_pool_max_info = {
-+    "thread-pool-max", offsetof(EventLoopBase, thread_pool_max),
-+};
- 
- static void event_loop_base_get_param(Object *obj, Visitor *v,
-         const char *name, void *opaque, Error **errp)
-@@ -95,12 +109,21 @@ static void event_loop_base_class_init(ObjectClass *klass, void *class_data)
-                               event_loop_base_get_param,
-                               event_loop_base_set_param,
-                               NULL, &aio_max_batch_info);
-+    object_class_property_add(klass, "thread-pool-min", "int",
-+                              event_loop_base_get_param,
-+                              event_loop_base_set_param,
-+                              NULL, &thread_pool_min_info);
-+    object_class_property_add(klass, "thread-pool-max", "int",
-+                              event_loop_base_get_param,
-+                              event_loop_base_set_param,
-+                              NULL, &thread_pool_max_info);
- }
- 
- static const TypeInfo event_loop_base_info = {
-     .name = TYPE_EVENT_LOOP_BASE,
-     .parent = TYPE_OBJECT,
-     .instance_size = sizeof(EventLoopBase),
-+    .instance_init = event_loop_base_instance_init,
-     .class_size = sizeof(EventLoopBaseClass),
-     .class_init = event_loop_base_class_init,
-     .abstract = true,
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 5634173b12..d128558f1d 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -192,6 +192,8 @@ struct AioContext {
-     QSLIST_HEAD(, Coroutine) scheduled_coroutines;
-     QEMUBH *co_schedule_bh;
- 
-+    int thread_pool_min;
-+    int thread_pool_max;
-     /* Thread pool for performing work and receiving completion callbacks.
-      * Has its own locking.
-      */
-@@ -769,4 +771,12 @@ void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
- void aio_context_set_aio_params(AioContext *ctx, int64_t max_batch,
-                                 Error **errp);
- 
-+/**
-+ * aio_context_set_thread_pool_params:
-+ * @ctx: the aio context
-+ * @min: min number of threads to have readily available in the thread pool
-+ * @min: max number of threads the thread pool can contain
-+ */
-+void aio_context_set_thread_pool_params(AioContext *ctx, int64_t min,
-+                                        int64_t max, Error **errp);
- #endif
-diff --git a/include/block/thread-pool.h b/include/block/thread-pool.h
-index 7dd7d730a0..2020bcc92d 100644
---- a/include/block/thread-pool.h
-+++ b/include/block/thread-pool.h
-@@ -20,6 +20,8 @@
- 
- #include "block/block.h"
- 
-+#define THREAD_POOL_MAX_THREADS_DEFAULT         64
-+
- typedef int ThreadPoolFunc(void *opaque);
- 
- typedef struct ThreadPool ThreadPool;
-@@ -33,5 +35,6 @@ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
- int coroutine_fn thread_pool_submit_co(ThreadPool *pool,
-         ThreadPoolFunc *func, void *arg);
- void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg);
-+void thread_pool_update_params(ThreadPool *pool, struct AioContext *ctx);
- 
- #endif
-diff --git a/include/sysemu/event-loop-base.h b/include/sysemu/event-loop-base.h
-index fced4c9fea..2748bf6ae1 100644
---- a/include/sysemu/event-loop-base.h
-+++ b/include/sysemu/event-loop-base.h
-@@ -33,5 +33,9 @@ struct EventLoopBase {
- 
-     /* AioContext AIO engine parameters */
-     int64_t aio_max_batch;
-+
-+    /* AioContext thread pool parameters */
-+    int64_t thread_pool_min;
-+    int64_t thread_pool_max;
- };
- #endif
-diff --git a/iothread.c b/iothread.c
-index 8fa2f3bfb8..529194a566 100644
---- a/iothread.c
-+++ b/iothread.c
-@@ -174,6 +174,9 @@ static void iothread_set_aio_context_params(EventLoopBase *base, Error **errp)
-     aio_context_set_aio_params(iothread->ctx,
-                                iothread->parent_obj.aio_max_batch,
-                                errp);
-+
-+    aio_context_set_thread_pool_params(iothread->ctx, base->thread_pool_min,
-+                                       base->thread_pool_max, errp);
- }
- 
- 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 7d4a2ac1b9..6a653c6636 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -508,10 +508,18 @@
- #                 0 means that the engine will use its default.
- #                 (default: 0)
- #
-+# @thread-pool-min: minimum number of threads reserved in the thread pool
-+#                   (default:0)
-+#
-+# @thread-pool-max: maximum number of threads the thread pool can contain
-+#                   (default:64)
-+#
- # Since: 7.1
- ##
- { 'struct': 'EventLoopBaseProperties',
--  'data': { '*aio-max-batch': 'int' } }
-+  'data': { '*aio-max-batch': 'int',
-+            '*thread-pool-min': 'int',
-+            '*thread-pool-max': 'int' } }
- 
- ##
- # @IothreadProperties:
-diff --git a/util/aio-posix.c b/util/aio-posix.c
-index be0182a3c6..731f3826c0 100644
---- a/util/aio-posix.c
-+++ b/util/aio-posix.c
-@@ -15,6 +15,7 @@
- 
- #include "qemu/osdep.h"
- #include "block/block.h"
-+#include "block/thread-pool.h"
- #include "qemu/main-loop.h"
- #include "qemu/rcu.h"
- #include "qemu/rcu_queue.h"
-diff --git a/util/async.c b/util/async.c
-index 2ea1172f3e..554ba70cca 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -563,6 +563,9 @@ AioContext *aio_context_new(Error **errp)
- 
-     ctx->aio_max_batch = 0;
- 
-+    ctx->thread_pool_min = 0;
-+    ctx->thread_pool_max = THREAD_POOL_MAX_THREADS_DEFAULT;
-+
-     return ctx;
- fail:
-     g_source_destroy(&ctx->source);
-@@ -696,3 +699,20 @@ void qemu_set_current_aio_context(AioContext *ctx)
-     assert(!get_my_aiocontext());
-     set_my_aiocontext(ctx);
- }
-+
-+void aio_context_set_thread_pool_params(AioContext *ctx, int64_t min,
-+                                        int64_t max, Error **errp)
-+{
-+
-+    if (min > max || !max || min > INT_MAX || max > INT_MAX) {
-+        error_setg(errp, "bad thread-pool-min/thread-pool-max values");
-+        return;
-+    }
-+
-+    ctx->thread_pool_min = min;
-+    ctx->thread_pool_max = max;
-+
-+    if (ctx->thread_pool) {
-+        thread_pool_update_params(ctx->thread_pool, ctx);
-+    }
-+}
-diff --git a/util/main-loop.c b/util/main-loop.c
-index 5b13f456fa..a0f48186ab 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -30,6 +30,7 @@
- #include "sysemu/replay.h"
- #include "qemu/main-loop.h"
- #include "block/aio.h"
-+#include "block/thread-pool.h"
- #include "qemu/error-report.h"
- #include "qemu/queue.h"
- #include "qemu/compiler.h"
-@@ -187,12 +188,20 @@ int qemu_init_main_loop(Error **errp)
- 
- static void main_loop_update_params(EventLoopBase *base, Error **errp)
- {
-+    ERRP_GUARD();
-+
-     if (!qemu_aio_context) {
-         error_setg(errp, "qemu aio context not ready");
-         return;
-     }
- 
-     aio_context_set_aio_params(qemu_aio_context, base->aio_max_batch, errp);
-+    if (*errp) {
-+        return;
-+    }
-+
-+    aio_context_set_thread_pool_params(qemu_aio_context, base->thread_pool_min,
-+                                       base->thread_pool_max, errp);
- }
- 
- MainLoop *mloop;
-diff --git a/util/thread-pool.c b/util/thread-pool.c
-index d763cea505..196835b4d3 100644
---- a/util/thread-pool.c
-+++ b/util/thread-pool.c
-@@ -58,7 +58,6 @@ struct ThreadPool {
-     QemuMutex lock;
-     QemuCond worker_stopped;
-     QemuSemaphore sem;
--    int max_threads;
-     QEMUBH *new_thread_bh;
- 
-     /* The following variables are only accessed from one AioContext. */
-@@ -71,8 +70,27 @@ struct ThreadPool {
-     int new_threads;     /* backlog of threads we need to create */
-     int pending_threads; /* threads created but not running yet */
-     bool stopping;
-+    int min_threads;
-+    int max_threads;
- };
- 
-+static inline bool back_to_sleep(ThreadPool *pool, int ret)
-+{
-+    /*
-+     * The semaphore timed out, we should exit the loop except when:
-+     *  - There is work to do, we raced with the signal.
-+     *  - The max threads threshold just changed, we raced with the signal.
-+     *  - The thread pool forces a minimum number of readily available threads.
-+     */
-+    if (ret == -1 && (!QTAILQ_EMPTY(&pool->request_list) ||
-+            pool->cur_threads > pool->max_threads ||
-+            pool->cur_threads <= pool->min_threads)) {
-+            return true;
-+    }
-+
-+    return false;
-+}
-+
- static void *worker_thread(void *opaque)
- {
-     ThreadPool *pool = opaque;
-@@ -91,8 +109,9 @@ static void *worker_thread(void *opaque)
-             ret = qemu_sem_timedwait(&pool->sem, 10000);
-             qemu_mutex_lock(&pool->lock);
-             pool->idle_threads--;
--        } while (ret == -1 && !QTAILQ_EMPTY(&pool->request_list));
--        if (ret == -1 || pool->stopping) {
-+        } while (back_to_sleep(pool, ret));
-+        if (ret == -1 || pool->stopping ||
-+            pool->cur_threads > pool->max_threads) {
-             break;
-         }
- 
-@@ -294,6 +313,33 @@ void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg)
-     thread_pool_submit_aio(pool, func, arg, NULL, NULL);
- }
- 
-+void thread_pool_update_params(ThreadPool *pool, AioContext *ctx)
-+{
-+    qemu_mutex_lock(&pool->lock);
-+
-+    pool->min_threads = ctx->thread_pool_min;
-+    pool->max_threads = ctx->thread_pool_max;
-+
-+    /*
-+     * We either have to:
-+     *  - Increase the number available of threads until over the min_threads
-+     *    threshold.
-+     *  - Decrease the number of available threads until under the max_threads
-+     *    threshold.
-+     *  - Do nothing. The current number of threads fall in between the min and
-+     *    max thresholds. We'll let the pool manage itself.
-+     */
-+    for (int i = pool->cur_threads; i < pool->min_threads; i++) {
-+        spawn_thread(pool);
-+    }
-+
-+    for (int i = pool->cur_threads; i > pool->max_threads; i--) {
-+        qemu_sem_post(&pool->sem);
-+    }
-+
-+    qemu_mutex_unlock(&pool->lock);
-+}
-+
- static void thread_pool_init_one(ThreadPool *pool, AioContext *ctx)
- {
-     if (!ctx) {
-@@ -306,11 +352,12 @@ static void thread_pool_init_one(ThreadPool *pool, AioContext *ctx)
-     qemu_mutex_init(&pool->lock);
-     qemu_cond_init(&pool->worker_stopped);
-     qemu_sem_init(&pool->sem, 0);
--    pool->max_threads = 64;
-     pool->new_thread_bh = aio_bh_new(ctx, spawn_thread_bh_fn, pool);
- 
-     QLIST_INIT(&pool->head);
-     QTAILQ_INIT(&pool->request_list);
-+
-+    thread_pool_update_params(pool, ctx);
- }
- 
- ThreadPool *thread_pool_new(AioContext *ctx)
--- 
-2.35.1
+I wanted to deal with https://bugzilla.redhat.com/2043498 and I got a=0D
+suggesstion that removing deprecated features could actually make it=0D
+easier to propagate the error.  In the end (last patch) it turns out the=0D
+error is still just reported with error_fatal, so it probably is not=0D
+really needed, but I really wanted to dig into QEMU more and learn some=0D
+of the internals for quite some time now.  So I used the opportunity.=0D
+The one-liner ended up being an 18 patch series which was, for someone=0D
+who has just one commit in QEMU codebase, a pretty challenging task.=0D
+Although I tried my best to do things properly, I am not sure whether I=0D
+handled everything correctly, hence the RFC.=0D
+=0D
+Any comments are very much appreciated.  Thanks and have a nice day ;)=0D
+=0D
+Martin Kletzander (18):=0D
+  hw/audio: Remove -soundhw support=0D
+  hw/input/tsc210x: Extract common init code into new function=0D
+  hw/audio: Simplify hda audio init=0D
+  hw/audio/lm4549: Add errp error reporting to init function=0D
+  tests/qtest: Specify audiodev=3D and -audiodev=0D
+  ui/vnc: Require audiodev=3D=0D
+  Introduce machine's default-audiodev property=0D
+  audio: Add easy dummy audio initialiser=0D
+  hw/display/xlnx_dp.c: Add audiodev property=0D
+  hw/input/tsc210x.c: Support machine-default audiodev with fallback=0D
+  hw/arm: Support machine-default audiodev with fallback=0D
+  hw/ppc: Support machine-default audiodev with fallback=0D
+  audio: Make AUD_register_card fallible and require audiodev=3D=0D
+  audio: Require AudioState in AUD_add_capture=0D
+  audio: Be more strict during audio backend initialisation=0D
+  audio: Remove legacy audio environment variables and options=0D
+  audio: Remove unused can_be_default=0D
+  audio/spiceaudio: Fail initialisation when not using spice=0D
+=0D
+ audio/alsaaudio.c                             |   1 -=0D
+ audio/audio.c                                 | 204 +++----=0D
+ audio/audio.h                                 |   5 +-=0D
+ audio/audio_int.h                             |   1 -=0D
+ audio/audio_legacy.c                          | 555 ------------------=0D
+ audio/coreaudio.m                             |   1 -=0D
+ audio/dbusaudio.c                             |   1 -=0D
+ audio/dsoundaudio.c                           |   1 -=0D
+ audio/jackaudio.c                             |   1 -=0D
+ audio/meson.build                             |   1 -=0D
+ audio/noaudio.c                               |   1 -=0D
+ audio/ossaudio.c                              |   1 -=0D
+ audio/paaudio.c                               |   1 -=0D
+ audio/sdlaudio.c                              |   1 -=0D
+ audio/spiceaudio.c                            |   3 +-=0D
+ audio/wavaudio.c                              |   1 -=0D
+ docs/about/deprecated.rst                     |  24 -=0D
+ docs/about/removed-features.rst               |  27 +=0D
+ docs/qdev-device-use.txt                      |  21 +-=0D
+ docs/replay.txt                               |   2 +-=0D
+ hw/arm/integratorcp.c                         |   8 +-=0D
+ hw/arm/musicpal.c                             |   8 +-=0D
+ hw/arm/omap2.c                                |  11 +-=0D
+ hw/arm/realview.c                             |   3 +=0D
+ hw/arm/spitz.c                                |  10 +-=0D
+ hw/arm/versatilepb.c                          |   3 +=0D
+ hw/arm/vexpress.c                             |   3 +=0D
+ hw/arm/xlnx-zcu102.c                          |   4 +=0D
+ hw/arm/z2.c                                   |  12 +-=0D
+ hw/audio/ac97.c                               |   9 +-=0D
+ hw/audio/adlib.c                              |   9 +-=0D
+ hw/audio/cs4231a.c                            |   8 +-=0D
+ hw/audio/es1370.c                             |   8 +-=0D
+ hw/audio/gus.c                                |   6 +-=0D
+ hw/audio/hda-codec.c                          |  37 +-=0D
+ hw/audio/intel-hda.c                          |  25 +-=0D
+ hw/audio/intel-hda.h                          |   2 +-=0D
+ hw/audio/lm4549.c                             |   7 +-=0D
+ hw/audio/lm4549.h                             |   3 +-=0D
+ hw/audio/meson.build                          |   1 -=0D
+ hw/audio/pcspk.c                              |  15 +-=0D
+ hw/audio/pl041.c                              |   2 +-=0D
+ hw/audio/sb16.c                               |   9 +-=0D
+ hw/audio/soundhw.c                            | 177 ------=0D
+ hw/audio/wm8750.c                             |   5 +-=0D
+ hw/core/machine.c                             |  23 +=0D
+ hw/display/xlnx_dp.c                          |  12 +-=0D
+ hw/input/tsc210x.c                            |  79 ++-=0D
+ hw/ppc/prep.c                                 |   4 +=0D
+ hw/usb/dev-audio.c                            |   5 +-=0D
+ include/hw/audio/soundhw.h                    |  15 -=0D
+ include/hw/boards.h                           |   1 +=0D
+ qemu-options.hx                               |  37 --=0D
+ .../codeconverter/test_regexps.py             |   1 -=0D
+ softmmu/qdev-monitor.c                        |   2 -=0D
+ softmmu/vl.c                                  |  10 -=0D
+ tests/qtest/ac97-test.c                       |   3 +-=0D
+ tests/qtest/es1370-test.c                     |   3 +-=0D
+ tests/qtest/fuzz/generic_fuzz_configs.h       |   6 +-=0D
+ tests/qtest/intel-hda-test.c                  |  15 +-=0D
+ ui/vnc.c                                      |  15 +-=0D
+ 61 files changed, 329 insertions(+), 1140 deletions(-)=0D
+ delete mode 100644 audio/audio_legacy.c=0D
+ delete mode 100644 hw/audio/soundhw.c=0D
+ delete mode 100644 include/hw/audio/soundhw.h=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
 
 
