@@ -2,67 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493AE50D968
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 08:27:22 +0200 (CEST)
-Received: from localhost ([::1]:53690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4875A50DA60
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 09:47:49 +0200 (CEST)
+Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nisBt-000109-AY
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 02:27:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60686)
+	id 1nitRj-00043f-ST
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 03:47:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvp-0003ov-B5
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 02:10:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25900)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nitOQ-0003Ar-Da; Mon, 25 Apr 2022 03:44:22 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvn-0006Ks-PU
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 02:10:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650867043;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PrGCZVM389hjCQzgZPb8u6IS3jwWK0ndVF5vnCevEXQ=;
- b=euLMNdRU6CjiAJMAFZ3GMGGRLQx2wfbW+8qMFSO2EmmwLQStgpurAHoe45r5ROYgUXQ+ge
- XPgrZFQcX4RFKqwwPVmg16vcKnd+mrqwC1Qm0ytzYe6Oy/2MsoPEB3VvipupSQ0MxNTF3q
- WhgfalglAbrt6OKN6/7uXBm5i7g2oLM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-ZKD947F6NEmZiphjCZfGoQ-1; Mon, 25 Apr 2022 02:10:39 -0400
-X-MC-Unique: ZKD947F6NEmZiphjCZfGoQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B7ED802809;
- Mon, 25 Apr 2022 06:10:39 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD0E2409B3F3;
- Mon, 25 Apr 2022 06:10:38 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2E52A1800636; Mon, 25 Apr 2022 08:10:30 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] avocado/vnc: add test_change_listen
-Date: Mon, 25 Apr 2022 08:10:29 +0200
-Message-Id: <20220425061029.3932731-7-kraxel@redhat.com>
-In-Reply-To: <20220425061029.3932731-1-kraxel@redhat.com>
-References: <20220425061029.3932731-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1nitOO-0004XB-2M; Mon, 25 Apr 2022 03:44:21 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23P59J1k007224;
+ Mon, 25 Apr 2022 07:44:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=mDSdOtU32H6/hDLoFnMZrsEO1DUplC3VtqilWHGDEJo=;
+ b=dM0PToWLrErIyYLq+YKn6q946Ie8j5mrnnDoERT3Ao5ZTKVEYCKtM9PdFsHzUXCEmds6
+ nk4LFJgOQf/n8cKijUJhVwUftKHv3b8mQXWuA7z9iIAb91bqE5Zd4PXHOKygyhKexHPZ
+ oU+DWw0VxQkEU62ReWPxMLVPbYEQJoXMKSwpLaqWvwhjrDob3PVsZXcLBVhuNZfSGt7x
+ YTpCc3+BO6406yZJ4MWEbim8+xGoJESqy/Zh1jigjvflC9NRXMLWnqZXpWU4Ikj1ygXb
+ yctUlX3XNFtJK3CMkIMpvddM1Zo1i3BVkWctGLu5wAjdfNObQ+ldJChrKz8fHqDJLH+U 8w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fmuedapvj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Apr 2022 07:44:01 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23P7c09c003597;
+ Mon, 25 Apr 2022 07:44:01 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fmuedaput-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Apr 2022 07:44:00 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23P7bMmF022908;
+ Mon, 25 Apr 2022 07:43:58 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03fra.de.ibm.com with ESMTP id 3fm938smkr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Apr 2022 07:43:57 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23P7hsRq40108498
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 25 Apr 2022 07:43:54 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BB5084C052;
+ Mon, 25 Apr 2022 07:43:54 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4A2D34C044;
+ Mon, 25 Apr 2022 07:43:54 +0000 (GMT)
+Received: from [9.171.39.215] (unknown [9.171.39.215])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 25 Apr 2022 07:43:54 +0000 (GMT)
+Message-ID: <25e876da-c2ac-ad55-0830-6fe149e0691f@linux.ibm.com>
+Date: Mon, 25 Apr 2022 09:43:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 00/11] s390x/tcg: Implement Vector-Enhancements
+ Facility 2
+Content-Language: en-US
+To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220323135722.1623-1-dmiller423@gmail.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20220323135722.1623-1-dmiller423@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 49IvpNKPS3ONSipMKMvlpH0cwjDNW75e
+X-Proofpoint-ORIG-GUID: k9OjpjMEzBJ2zvf_q_GX37ENBlSUzNop
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-25_02,2022-04-22_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ bulkscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 clxscore=1011
+ impostorscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204250033
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,113 +113,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, farman@linux.ibm.com, pasic@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
+Am 23.03.22 um 14:57 schrieb David Miller:
+> Implement Vector-Enhancements Facility 2 for s390x
+> 
+> resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
+> 
+> implements:
+>      VECTOR LOAD ELEMENTS REVERSED               (VLER)
+>      VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
+>      VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
+>      VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
+>      VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
+>      VECTOR STORE ELEMENTS REVERSED              (VSTER)
+>      VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
+>      VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
+>      VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
+>      VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
+>      VECTOR STRING SEARCH                        (VSTRS)
+> 
+>      modifies:
+>      VECTOR FP CONVERT FROM FIXED                (VCFPS)
+>      VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
+>      VECTOR FP CONVERT TO FIXED                  (VCSFP)
+>      VECTOR FP CONVERT TO LOGICAL                (VCLFP)
+>      VECTOR SHIFT LEFT                           (VSL)
+>      VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
+>      VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
+> 
+> 
+> David Miller (9):
+>    tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+>    target/s390x: vxeh2: vector convert short/32b
+>    target/s390x: vxeh2: vector string search
+>    target/s390x: vxeh2: Update for changes to vector shifts
+>    target/s390x: vxeh2: vector shift double by bit
+>    target/s390x: vxeh2: vector {load, store} elements reversed
+>    target/s390x: vxeh2: vector {load, store} byte reversed elements
+>    target/s390x: vxeh2: vector {load, store} byte reversed element
+>    target/s390x: add S390_FEAT_VECTOR_ENH2 to qemu CPU model
+>    tests/tcg/s390x: Tests for Vector Enhancements Facility 2
+>    target/s390x: Fix writeback to v1 in helper_vstl
+> 
+> Richard Henderson (2):
+>    tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+>    target/s390x: Fix writeback to v1 in helper_vstl
 
-Add simple test-case for new display-update qmp command.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220401143936.356460-4-vsementsov@openvz.org>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- tests/avocado/vnc.py | 63 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
-
-diff --git a/tests/avocado/vnc.py b/tests/avocado/vnc.py
-index 096432988fbb..187fd3febca4 100644
---- a/tests/avocado/vnc.py
-+++ b/tests/avocado/vnc.py
-@@ -8,9 +8,48 @@
- # This work is licensed under the terms of the GNU GPL, version 2 or
- # later.  See the COPYING file in the top-level directory.
- 
-+import socket
-+from typing import List
-+
- from avocado_qemu import QemuSystemTest
- 
- 
-+VNC_ADDR = '127.0.0.1'
-+VNC_PORT_START = 32768
-+VNC_PORT_END = VNC_PORT_START + 1024
-+
-+
-+def check_bind(port: int) -> bool:
-+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-+        try:
-+            sock.bind((VNC_ADDR, port))
-+        except OSError:
-+            return False
-+
-+    return True
-+
-+
-+def check_connect(port: int) -> bool:
-+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-+        try:
-+            sock.connect((VNC_ADDR, port))
-+        except ConnectionRefusedError:
-+            return False
-+
-+    return True
-+
-+
-+def find_free_ports(count: int) -> List[int]:
-+    result = []
-+    for port in range(VNC_PORT_START, VNC_PORT_END):
-+        if check_bind(port):
-+            result.append(port)
-+            if len(result) >= count:
-+                break
-+    assert len(result) == count
-+    return result
-+
-+
- class Vnc(QemuSystemTest):
-     """
-     :avocado: tags=vnc,quick
-@@ -51,3 +90,27 @@ def test_change_password(self):
-         set_password_response = self.vm.qmp('change-vnc-password',
-                                             password='new_password')
-         self.assertEqual(set_password_response['return'], {})
-+
-+    def test_change_listen(self):
-+        a, b, c = find_free_ports(3)
-+        self.assertFalse(check_connect(a))
-+        self.assertFalse(check_connect(b))
-+        self.assertFalse(check_connect(c))
-+
-+        self.vm.add_args('-nodefaults', '-S', '-vnc', f'{VNC_ADDR}:{a - 5900}')
-+        self.vm.launch()
-+        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], str(a))
-+        self.assertTrue(check_connect(a))
-+        self.assertFalse(check_connect(b))
-+        self.assertFalse(check_connect(c))
-+
-+        res = self.vm.qmp('display-update', type='vnc',
-+                          addresses=[{'type': 'inet', 'host': VNC_ADDR,
-+                                      'port': str(b)},
-+                                     {'type': 'inet', 'host': VNC_ADDR,
-+                                      'port': str(c)}])
-+        self.assertEqual(res['return'], {})
-+        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], str(b))
-+        self.assertFalse(check_connect(a))
-+        self.assertTrue(check_connect(b))
-+        self.assertTrue(check_connect(c))
--- 
-2.35.1
-
+I guess we can now re-do this series against 7.1-devel (qemu/master) which does
+have the machine compat changes. Apart from that this should be ready now?
 
