@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE6850E392
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:47:07 +0200 (CEST)
-Received: from localhost ([::1]:56794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C409550E3AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:49:56 +0200 (CEST)
+Received: from localhost ([::1]:33362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nizzW-0006KJ-Fy
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
+	id 1nj02F-0001Dk-UX
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:49:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nizYX-00087y-FZ
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:19:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33001)
+ id 1nizYx-00010Y-S4
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:19:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nizYV-0003VS-Os
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:19:13 -0400
+ id 1nizYw-0003WV-3N
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:19:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650896351;
+ s=mimecast20190719; t=1650896377;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s+hsRuLCK45nvPg8Z6TGOVYlq5imMc+N9nydMmwrdQc=;
- b=TfojE/c95dYU5atXlwCDaISDw5pCjjZa7yh6QD4I4B+iQiBNUeYv+6Es9gHGPITgxRjWBY
- wcaaOxLBEx2tCRyFzuOQQu8y35owKq92LK2WDjhplOfJTK8fzLOZfnATvDcA4fjzC0tVGg
- H5WHcxrau1bpmHU4btbVlogaZ7e2hEQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=avopix5/SPzj09GMg0byl1AJgKDngwK6xIFGNAjjtFo=;
+ b=dSe7K8K2ovLWcPTpxDfGhLN8zOonvHDIE2+UarYwpMQbEnneatgyXBKfthlAUoGGJl802W
+ JGgY9O/gB7XZw9Mc4gB08gdwbIc8QEoM1TT67OoADob+HBZE9PxUgYcnyIH4OJ2EKY3Wfy
+ dbjAqvxl7fSDHxcKWyhgEQ02APJ6AZY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-agVwhRL5M5iR7qHhMqsVpA-1; Mon, 25 Apr 2022 10:19:07 -0400
-X-MC-Unique: agVwhRL5M5iR7qHhMqsVpA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-502-V_9R8X_dM3aNNMOxrR_2cA-1; Mon, 25 Apr 2022 10:19:34 -0400
+X-MC-Unique: V_9R8X_dM3aNNMOxrR_2cA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 014C23C025BB;
- Mon, 25 Apr 2022 14:19:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6066E811E80;
+ Mon, 25 Apr 2022 14:19:33 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FFA1404D8F6;
- Mon, 25 Apr 2022 14:19:03 +0000 (UTC)
-Date: Mon, 25 Apr 2022 15:19:01 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3FA854E885;
+ Mon, 25 Apr 2022 14:19:29 +0000 (UTC)
+Date: Mon, 25 Apr 2022 15:19:27 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Martin Kletzander <mkletzan@redhat.com>
-Subject: Re: [PATCH 16/18] audio: Remove legacy audio environment variables
- and options
-Message-ID: <Ymat1RrqvJudYl7r@redhat.com>
+Subject: Re: [PATCH 17/18] audio: Remove unused can_be_default
+Message-ID: <Ymat7+B1DQDB6cMu@redhat.com>
 References: <cover.1650874791.git.mkletzan@redhat.com>
- <c88cdd6f3b6d0d8e94753f36a154217a10fd4625.1650874791.git.mkletzan@redhat.com>
+ <31616bc6be45ba26e96beb54f7278d618f15a5fe.1650874791.git.mkletzan@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c88cdd6f3b6d0d8e94753f36a154217a10fd4625.1650874791.git.mkletzan@redhat.com>
+In-Reply-To: <31616bc6be45ba26e96beb54f7278d618f15a5fe.1650874791.git.mkletzan@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -100,19 +99,24 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 25, 2022 at 10:21:59AM +0200, Martin Kletzander wrote:
+On Mon, Apr 25, 2022 at 10:22:00AM +0200, Martin Kletzander wrote:
+> Since there is no fallback mechanism and default-guessing this is now
+> not used and can be safely removed.
+> 
 > Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 > ---
->  audio/audio.c                   |  13 -
->  audio/audio.h                   |   1 -
->  audio/audio_legacy.c            | 555 --------------------------------
->  audio/meson.build               |   1 -
->  docs/about/deprecated.rst       |   7 -
->  docs/about/removed-features.rst |   9 +
->  qemu-options.hx                 |  10 -
->  softmmu/vl.c                    |   4 -
->  8 files changed, 9 insertions(+), 591 deletions(-)
->  delete mode 100644 audio/audio_legacy.c
+>  audio/alsaaudio.c   | 1 -
+>  audio/audio_int.h   | 1 -
+>  audio/coreaudio.m   | 1 -
+>  audio/dbusaudio.c   | 1 -
+>  audio/dsoundaudio.c | 1 -
+>  audio/jackaudio.c   | 1 -
+>  audio/noaudio.c     | 1 -
+>  audio/ossaudio.c    | 1 -
+>  audio/paaudio.c     | 1 -
+>  audio/sdlaudio.c    | 1 -
+>  audio/wavaudio.c    | 1 -
+>  11 files changed, 11 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
