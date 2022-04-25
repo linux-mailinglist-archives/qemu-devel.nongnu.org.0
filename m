@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9FF50D792
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 05:32:22 +0200 (CEST)
-Received: from localhost ([::1]:41046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF4950D796
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 05:34:20 +0200 (CEST)
+Received: from localhost ([::1]:46206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nipSX-0006QQ-SY
-	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 23:32:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58452)
+	id 1nipUR-0001Qu-FH
+	for lists+qemu-devel@lfdr.de; Sun, 24 Apr 2022 23:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nipQ5-0003PN-V1
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 23:29:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38968)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nipQB-0003X9-Ec
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 23:29:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nipQ3-0002QA-AB
- for qemu-devel@nongnu.org; Sun, 24 Apr 2022 23:29:49 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nipQ9-0002Qa-Tu
+ for qemu-devel@nongnu.org; Sun, 24 Apr 2022 23:29:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650857386;
+ s=mimecast20190719; t=1650857393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:mime-version: content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uoHhIJ4R/67fuvZggh2sr/0tlBmhhnLYLXRVqyhFjss=;
- b=Ql2FtxDdSCAB8sdp7vsYwMFXjXIFb5M4DNQnpcDO/ZZ0MDkCcth2tNc+49BygF7k6SZcAs
- N7Kbfd1P55H5sFIS6ttF1ky/z9D314I2FcaLNBmSy8Rhts1NYlDnaclH6Vyj+3yOxdI2ON
- RJ4YPMZFtpauTQl3EBL6u7ifAk6XL4g=
+ bh=SN/ex92kVojKA/OkOUpDBw4NPGyT+0N4GH9m8KQ+aNQ=;
+ b=O5HpygXCIWube8y9kNKDFg/qmSHHlAamVwlGuBFdBap5iZGPQfzQvGGFtl3cZpfwj7XEL3
+ 0WE/THjAfhdgrbqois1+Z8uYv235kiRyTA75UW1suFAt/4a5YLQlT5ADXjP6fCsNMFVLC9
+ 1ZAJybTtZ/eWQ0ueWxnWBljy101oYtU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-218-vgWVbO2gMqSIeoVDGJGAmw-1; Sun, 24 Apr 2022 23:29:43 -0400
-X-MC-Unique: vgWVbO2gMqSIeoVDGJGAmw-1
+ us-mta-37-txbOkXomMy-FVVBIidwGnw-1; Sun, 24 Apr 2022 23:29:52 -0400
+X-MC-Unique: txbOkXomMy-FVVBIidwGnw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF37E185A79C;
- Mon, 25 Apr 2022 03:29:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81D86101AA42;
+ Mon, 25 Apr 2022 03:29:51 +0000 (UTC)
 Received: from gshan.redhat.com (ovpn-13-230.pek2.redhat.com [10.72.13.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7EAE91468940;
- Mon, 25 Apr 2022 03:29:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CC3F145BEF7;
+ Mon, 25 Apr 2022 03:29:43 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
-Subject: [PATCH v8 2/5] qtest/numa-test: Specify CPU topology in
- aarch64_numa_cpu()
-Date: Mon, 25 Apr 2022 11:27:59 +0800
-Message-Id: <20220425032802.365061-3-gshan@redhat.com>
+Subject: [PATCH v8 3/5] hw/arm/virt: Consider SMP configuration in CPU topology
+Date: Mon, 25 Apr 2022 11:28:00 +0800
+Message-Id: <20220425032802.365061-4-gshan@redhat.com>
 In-Reply-To: <20220425032802.365061-1-gshan@redhat.com>
 References: <20220425032802.365061-1-gshan@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,48 +82,57 @@ Cc: lvivier@redhat.com, eduardo@habkost.net, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CPU topology isn't enabled on arm/virt machine yet, but we're
-going to do it in next patch. After the CPU topology is enabled by
-next patch, "thrad-id=1" becomes invalid because the CPU core is
-preferred on arm/virt machine. It means these two CPUs have 0/1
-as their core IDs, but their thread IDs are all 0. It will trigger
-test failure as the following message indicates:
+Currently, the SMP configuration isn't considered when the CPU
+topology is populated. In this case, it's impossible to provide
+the default CPU-to-NUMA mapping or association based on the socket
+ID of the given CPU.
 
-  [14/21 qemu:qtest+qtest-aarch64 / qtest-aarch64/numa-test  ERROR
-  1.48s   killed by signal 6 SIGABRT
-  >>> G_TEST_DBUS_DAEMON=/home/gavin/sandbox/qemu.main/tests/dbus-vmstate-daemon.sh \
-      QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon         \
-      QTEST_QEMU_BINARY=./qemu-system-aarch64                                       \
-      QTEST_QEMU_IMG=./qemu-img MALLOC_PERTURB_=83                                  \
-      /home/gavin/sandbox/qemu.main/build/tests/qtest/numa-test --tap -k
-  ――――――――――――――――――――――――――――――――――――――――――――――
-  stderr:
-  qemu-system-aarch64: -numa cpu,node-id=0,thread-id=1: no match found
-
-This fixes the issue by providing comprehensive SMP configurations
-in aarch64_numa_cpu(). The SMP configurations aren't used before
-the CPU topology is enabled in next patch.
+This takes account of SMP configuration when the CPU topology
+is populated. The die ID for the given CPU isn't assigned since
+it's not supported on arm/virt machine. Besides, the used SMP
+configuration in qtest/numa-test/aarch64_numa_cpu() is corrcted
+to avoid testing failure
 
 Signed-off-by: Gavin Shan <gshan@redhat.com>
 Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- tests/qtest/numa-test.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/arm/virt.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index 90bf68a5b3..aeda8c774c 100644
---- a/tests/qtest/numa-test.c
-+++ b/tests/qtest/numa-test.c
-@@ -223,7 +223,8 @@ static void aarch64_numa_cpu(const void *data)
-     QTestState *qts;
-     g_autofree char *cli = NULL;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 5bdd98e4a1..0fd7f9a6a1 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2560,6 +2560,7 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+     int n;
+     unsigned int max_cpus = ms->smp.max_cpus;
+     VirtMachineState *vms = VIRT_MACHINE(ms);
++    MachineClass *mc = MACHINE_GET_CLASS(vms);
  
--    cli = make_cli(data, "-machine smp.cpus=2 "
-+    cli = make_cli(data, "-machine "
-+        "smp.cpus=2,smp.sockets=1,smp.clusters=1,smp.cores=1,smp.threads=2 "
-         "-numa node,nodeid=0,memdev=ram -numa node,nodeid=1 "
-         "-numa cpu,node-id=1,thread-id=0 "
-         "-numa cpu,node-id=0,thread-id=1");
+     if (ms->possible_cpus) {
+         assert(ms->possible_cpus->len == max_cpus);
+@@ -2573,8 +2574,20 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
+         ms->possible_cpus->cpus[n].type = ms->cpu_type;
+         ms->possible_cpus->cpus[n].arch_id =
+             virt_cpu_mp_affinity(vms, n);
++
++        assert(!mc->smp_props.dies_supported);
++        ms->possible_cpus->cpus[n].props.has_socket_id = true;
++        ms->possible_cpus->cpus[n].props.socket_id =
++            n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
++        ms->possible_cpus->cpus[n].props.has_cluster_id = true;
++        ms->possible_cpus->cpus[n].props.cluster_id =
++            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters;
++        ms->possible_cpus->cpus[n].props.has_core_id = true;
++        ms->possible_cpus->cpus[n].props.core_id =
++            (n / ms->smp.threads) % ms->smp.cores;
+         ms->possible_cpus->cpus[n].props.has_thread_id = true;
+-        ms->possible_cpus->cpus[n].props.thread_id = n;
++        ms->possible_cpus->cpus[n].props.thread_id =
++            n % ms->smp.threads;
+     }
+     return ms->possible_cpus;
+ }
 -- 
 2.23.0
 
