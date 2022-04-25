@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DBE150DE6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 13:04:23 +0200 (CEST)
-Received: from localhost ([::1]:47334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DF650DE10
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 12:39:57 +0200 (CEST)
+Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niwVy-0003nk-FA
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 07:04:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38214)
+	id 1niw8J-0001im-RM
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 06:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1niw1l-0005ix-LD
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:33:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44800)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1niw68-0000Cc-CB
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:37:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1niw1j-0005tU-LF
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:33:08 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1niw65-0006gE-M4
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:37:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650882786;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+dIFcigO5A4MJ0ZukNKDusYu71xF9+ppE0N/y1PnwTo=;
- b=G6NaAyT9NVdZA+OmdHtE56QoxuD1+MgJ7Iy4gXm4Xrn6XiRNyWqAOQChYzyV2BcOF/gDuW
- YoBRIA7Tq4RkK00pvoW+rO6o6uNAacTMFugEsI0oeclto0ulpvF4ggovNPnQU1wWpN4XZz
- CruW97dKAecEimADdg4HWJnWUdoUYP8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1650883057;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=0qIupDGWk/gdvCs6ZSnT15fZiBt7eYS0PJBgRIrzP6Q=;
+ b=FkOCg5hACkQEs6z2n5ajbUb3cajCcgvNS1WR3LLzk24IOQBuVLueD8TRW0UnJSVgU8X54+
+ YKZQwiuolw4Tyi6qubY/HF6QOe/yvBwePdm0nDf6iemGa8QlQURvTFd5NOTVXSBxHrHGIZ
+ lRc/RAe0I+YG+P6o8owQwkZL/qzLcdU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-576-0Qx8toldMTiU8QZ0lgBJbw-1; Mon, 25 Apr 2022 06:32:55 -0400
-X-MC-Unique: 0Qx8toldMTiU8QZ0lgBJbw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-632-ixe3ZlU3PuSk7ahAe7neDA-1; Mon, 25 Apr 2022 06:37:35 -0400
+X-MC-Unique: ixe3ZlU3PuSk7ahAe7neDA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E7D6185A79C;
- Mon, 25 Apr 2022 10:32:55 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC7E940CFD01;
- Mon, 25 Apr 2022 10:32:54 +0000 (UTC)
-Date: Mon, 25 Apr 2022 11:32:53 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v8 00/17] vfio-user server in QEMU
-Message-ID: <YmZ41Z4nO7xv3n6X@stefanha-x1.localdomain>
-References: <cover.1650379269.git.jag.raman@oracle.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FBEB1C05AFA
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 10:37:35 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B42B111F3C7;
+ Mon, 25 Apr 2022 10:37:33 +0000 (UTC)
+Date: Mon, 25 Apr 2022 11:37:31 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [qemu.qmp PATCH 01/12] fork qemu.qmp from qemu.git
+Message-ID: <YmZ567xK3o7kWBjE@redhat.com>
+References: <20220422184940.1763958-1-jsnow@redhat.com>
+ <20220422184940.1763958-2-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1Xvh630IjN202/vd"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1650379269.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20220422184940.1763958-2-jsnow@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -75,47 +76,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, thuth@redhat.com,
- john.g.johnson@oracle.com, berrange@redhat.com, bleal@redhat.com,
- john.levon@nutanix.com, mst@redhat.com, armbru@redhat.com, quintela@redhat.com,
- f4bug@amsat.org, qemu-devel@nongnu.org, thanos.makatos@nutanix.com,
- kanth.ghatraju@oracle.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- eblake@redhat.com, dgilbert@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Kashyap Chamarthy <kchamart@redhat.com>, Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Apr 22, 2022 at 02:49:29PM -0400, John Snow wrote:
+> Split python/ from qemu.git, using these commands:
+> 
+> > git subtree split -P python/ -b python-split-v3
+> > mkdir ~/src/tmp
+> > cd ~/src/tmp
+> > git clone --no-local --branch python-split-v3 --single-branch ~/src/qemu
+> > cd qemu
+> > git filter-repo --path qemu/machine/           \
+>                   --path qemu/utils/             \
+>                   --path tests/iotests-mypy.sh   \
+>                   --path tests/iotests-pylint.sh \
+>                   --invert-paths
 
---1Xvh630IjN202/vd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+So you're saying the repository is initialized with the output from
+the above commands, and then this commit is the first one on top
+of that.
 
-On Tue, Apr 19, 2022 at 04:44:05PM -0400, Jagannathan Raman wrote:
-> This is v8 of the server side changes to enable vfio-user in QEMU.
->=20
-> Thank you very much for reviewing the last revision of this series!
+> This commit, however, only performs some minimum cleanup to reflect the
+> deletion of the other subpackages. It is not intended to be exhaustive,
+> and further edits are made in forthcoming commits.
+> 
+> These fixes are broken apart into micro-changes to facilitate mailing
+> list review subject-by-subject. They *could* be squashed into a single
+> larger commit on merge if desired, but due to the nature of the fork,
+> bisectability across the fork boundary is going to be challenging
+> anyway. It may be better value to just leave these initial commits
+> as-is.
 
-I posted some minor comments. I hope the next revision or the one after
-it will be merged because the code will benefit from being in-tree where
-more people can easily try it out.
+Yep, I think bisectability is impractical to achieve across this kind
+of split. I think the filtered git history is simply there as a  way
+to give credit to the original authors, for historical research and
+to make 'git blame' work. 
 
-Stefan
+IOW, I'd declare bitsectability starts at the end of this patch
+series, as a goal.
 
---1Xvh630IjN202/vd
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+>  .gitignore |  2 +-
+>  Makefile   | 16 ++++++++--------
+>  setup.cfg  | 24 +-----------------------
+>  setup.py   |  2 +-
+>  4 files changed, 11 insertions(+), 33 deletions(-)
+> 
+> diff --git a/.gitignore b/.gitignore
+> index 904f324..b071f02 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -5,7 +5,7 @@
+>  # python packaging
+>  build/
+>  dist/
+> -qemu.egg-info/
+> +qemu.qmp.egg-info/
+>  
+>  # editor config
+>  .idea/
+> diff --git a/Makefile b/Makefile
+> index 3334311..a2d2f2c 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -30,7 +30,7 @@ help:
+>  	@echo ""
+>  	@echo "make develop:"
+>  	@echo "    Install deps needed for for 'make check',"
+> -	@echo "    and install the qemu package in editable mode."
+> +	@echo "    and install the qemu.qmp package in editable mode."
+>  	@echo "    (Can be used in or outside of a venv.)"
+>  	@echo ""
+>  	@echo "make pipenv"
+> @@ -43,7 +43,7 @@ help:
+>  	@echo "    Remove package build output."
+>  	@echo ""
+>  	@echo "make distclean:"
+> -	@echo "    remove pipenv/venv files, qemu package forwarder,"
+> +	@echo "    remove pipenv/venv files, qemu.qmp package forwarder,"
+>  	@echo "    built distribution files, and everything from 'make clean'."
+>  	@echo ""
+>  	@echo -e "Have a nice day ^_^\n"
+> @@ -64,11 +64,11 @@ dev-venv: $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate
+>  $(QEMU_VENV_DIR) $(QEMU_VENV_DIR)/bin/activate: setup.cfg
+>  	@echo "VENV $(QEMU_VENV_DIR)"
+>  	@python3 -m venv $(QEMU_VENV_DIR)
+> -	@(							\
+> -		echo "ACTIVATE $(QEMU_VENV_DIR)";		\
+> -		. $(QEMU_VENV_DIR)/bin/activate;		\
+> -		echo "INSTALL qemu[devel] $(QEMU_VENV_DIR)";	\
+> -		make develop 1>/dev/null;			\
+> +	@(								\
+> +		echo "ACTIVATE $(QEMU_VENV_DIR)";			\
+> +		. $(QEMU_VENV_DIR)/bin/activate;			\
+> +		echo "INSTALL qemu.qmp[devel] $(QEMU_VENV_DIR)";	\
+> +		make develop 1>/dev/null;				\
+>  	)
+>  	@touch $(QEMU_VENV_DIR)
+>  
+> @@ -106,6 +106,6 @@ clean:
+>  
+>  .PHONY: distclean
+>  distclean: clean
+> -	rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
+> +	rm -rf qemu.qmp.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
+>  	rm -f .coverage .coverage.*
+>  	rm -rf htmlcov/
+> diff --git a/setup.cfg b/setup.cfg
+> index e877ea5..4ffab73 100644
+> --- a/setup.cfg
+> +++ b/setup.cfg
+> @@ -1,5 +1,5 @@
+>  [metadata]
+> -name = qemu
+> +name = qemu.qmp
+>  version = file:VERSION
+>  maintainer = QEMU Developer Team
+>  maintainer_email = qemu-devel@nongnu.org
+> @@ -25,8 +25,6 @@ classifiers =
+>  python_requires = >= 3.6
+>  packages =
+>      qemu.qmp
+> -    qemu.machine
+> -    qemu.utils
+>  
+>  [options.package_data]
+>  * = py.typed
+> @@ -38,7 +36,6 @@ packages =
+>  devel =
+>      avocado-framework >= 90.0
+>      flake8 >= 3.6.0
+> -    fusepy >= 2.0.4
+>      isort >= 5.1.2
+>      mypy >= 0.780
+>      pylint >= 2.8.0
+> @@ -47,10 +44,6 @@ devel =
+>      urwid-readline >= 0.13
+>      Pygments >= 2.9.0
+>  
+> -# Provides qom-fuse functionality
+> -fuse =
+> -    fusepy >= 2.0.4
+> -
+>  # QMP TUI dependencies
+>  tui =
+>      urwid >= 2.1.2
+> @@ -59,13 +52,6 @@ tui =
+>  
+>  [options.entry_points]
+>  console_scripts =
+> -    qom = qemu.utils.qom:main
+> -    qom-set = qemu.utils.qom:QOMSet.entry_point
+> -    qom-get = qemu.utils.qom:QOMGet.entry_point
+> -    qom-list = qemu.utils.qom:QOMList.entry_point
+> -    qom-tree = qemu.utils.qom:QOMTree.entry_point
+> -    qom-fuse = qemu.utils.qom_fuse:QOMFuse.entry_point [fuse]
+> -    qemu-ga-client = qemu.utils.qemu_ga_client:main
+>      qmp-shell = qemu.qmp.qmp_shell:main
+>      qmp-shell-wrap = qemu.qmp.qmp_shell:main_wrap
+>      qmp-tui = qemu.qmp.qmp_tui:main [tui]
+> @@ -80,19 +66,12 @@ python_version = 3.6
+>  warn_unused_configs = True
+>  namespace_packages = True
+>  
+> -[mypy-qemu.utils.qom_fuse]
+> -# fusepy has no type stubs:
+> -allow_subclassing_any = True
+> -
+>  [mypy-qemu.qmp.qmp_tui]
+>  # urwid and urwid_readline have no type stubs:
+>  allow_subclassing_any = True
+>  
+>  # The following missing import directives are because these libraries do not
+>  # provide type stubs. Allow them on an as-needed basis for mypy.
+> -[mypy-fuse]
+> -ignore_missing_imports = True
+> -
+>  [mypy-urwid]
+>  ignore_missing_imports = True
+>  
+> @@ -164,7 +143,6 @@ skip_missing_interpreters = true
+>  allowlist_externals = make
+>  deps =
+>      .[devel]
+> -    .[fuse]  # Workaround to trigger tox venv rebuild
+>      .[tui]   # Workaround to trigger tox venv rebuild
+>  commands =
+>      make check
+> diff --git a/setup.py b/setup.py
+> index c5bc459..aba951a 100755
+> --- a/setup.py
+> +++ b/setup.py
+> @@ -1,6 +1,6 @@
+>  #!/usr/bin/env python3
+>  """
+> -QEMU tooling installer script
+> +QEMU QMP library installer script
+>  Copyright (c) 2020-2021 John Snow for Red Hat, Inc.
+>  """
+>  
+> -- 
+> 2.34.1
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJmeNUACgkQnKSrs4Gr
-c8hJnwgAhWKi9n0dlJDmzhRSnF5gUHy1+GsM3opFByhyo1BnWYZqdqK5L6j3BQef
-gJEtfI6Jgig8pgLGbtwNR9TSpC0N+LUUYa2jlTwMAypN+CWDtd0m1XXrSgNhqWUi
-Lf+s9ljq3y82nE+Rfi+VBLAR5DpeIueIfCdr4Ioymyl1Allo1JuvszrIJt/eTwpC
-GvBn/iYlwlpJ5nyezxFXNAlYFgvnKcjHs6KHomVzMDSopjp/tZ/lXhrklcyzG5Fg
-D2onB9Qey7bi1TldUFAIqRrcrpabTCsMgN+BhzEewWlwzedfGNCIQcwYTPIMpBD1
-AzIcHue7xk5OOihJIHV9XKr4bcV3xw==
-=G5K+
------END PGP SIGNATURE-----
-
---1Xvh630IjN202/vd--
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
