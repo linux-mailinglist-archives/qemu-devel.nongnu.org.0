@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F9350E241
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 15:47:17 +0200 (CEST)
-Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8879750E22B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 15:44:44 +0200 (CEST)
+Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niz3c-0000jg-JG
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 09:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54346)
+	id 1niz19-0004sv-JE
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 09:44:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1niz0z-0006H9-Bo
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:44:33 -0400
-Received: from mga14.intel.com ([192.55.52.115]:27047)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1niyzb-0002JS-4R
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:43:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1niz0w-0006WP-K2
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:44:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650894270; x=1682430270;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=11l8nWOAh8jVYp4pTM08c8ajsmoXROtLceTxJ8NiSMU=;
- b=FWY0/W+iMxrMtmMlKJmPlhtsXMMWIwthQVh05avkgEfvmVCuEgJDTMEC
- d0htyakrZkoQyrCki7qKNJzM5AiY5zWo5Xb9Tqf5T5K3bpOliBMBfUc0w
- nFBG1uJimJZrP9VmO6v16J33hpa0efVkg5AlZuiW9H7mQp8pToTMjcbcd
- lN1P0+qLuKedU9Rq4/Tpf5W7O4phQnW8tIX11G62ofA5UBHaT8M6M7SKa
- UYKRok7suaxBucYAio06dbYW4Ia45O3XkM1dwczqvPvKq/MgBUhzg+BOV
- /gmCZp9fEuVP+iyJOAKFItPymKZeQZkFbha8L3UHemFoavBXwH9FN8jJv Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10327"; a="265414235"
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="265414235"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 06:44:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="704562650"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by fmsmga001.fm.intel.com with ESMTP; 25 Apr 2022 06:44:19 -0700
-Date: Mon, 25 Apr 2022 21:40:51 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220425134051.GA175928@chaop.bj.intel.com>
-References: <80aad2f9-9612-4e87-a27a-755d3fa97c92@www.fastmail.com>
- <YkcTTY4YjQs5BRhE@google.com>
- <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
- <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
- <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
- <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
- <20220422105612.GB61987@chaop.bj.intel.com>
- <3b99f157-0f30-4b30-8399-dd659250ab8d@www.fastmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1niyzZ-0006LQ-BL
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:43:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650894184;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vI9/5+Pnwf2x7M8E69CU1K3S6mRtGVR7ogvY4goDUnY=;
+ b=XzQ8+JDy25Cr1MMYfDivL+GcJYsbPQm3yuGqlGcFFQyBokuxm9HjdG69PWx15dnMDO77/f
+ VV4uWUH5qyjE6eA1z7OLJDMe5o3i8FFmyVhkf5gVqyR+SL/remrz+tPhllPQYvS3JSjc3S
+ PUdm7g3EEGHzBwSQn2fVxmadTyCkRFs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-660-TZ613iq2N2yqqyEcNOEAhg-1; Mon, 25 Apr 2022 09:43:03 -0400
+X-MC-Unique: TZ613iq2N2yqqyEcNOEAhg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 593FE1C0512A;
+ Mon, 25 Apr 2022 13:43:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ECBAC53360;
+ Mon, 25 Apr 2022 13:42:56 +0000 (UTC)
+Date: Mon, 25 Apr 2022 14:42:53 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Martin Kletzander <mkletzan@redhat.com>
+Subject: Re: [PATCH 05/18] tests/qtest: Specify audiodev= and -audiodev
+Message-ID: <YmalXbNVd/knTxnB@redhat.com>
+References: <cover.1650874791.git.mkletzan@redhat.com>
+ <6e7f2808dd40679a415812767b88f2a411fc137f.1650874791.git.mkletzan@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3b99f157-0f30-4b30-8399-dd659250ab8d@www.fastmail.com>
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6e7f2808dd40679a415812767b88f2a411fc137f.1650874791.git.mkletzan@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,112 +79,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H. Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
- Dave Hansen <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, the arch/x86 maintainers <x86@kernel.org>,
- Hugh Dickins <hughd@google.com>, Steven Price <steven.price@arm.com>,
- Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, "Nakajima, Jun" <jun.nakajima@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>,
- Jim Mattson <jmattson@google.com>, Quentin Perret <qperret@google.com>,
- Sean Christopherson <seanjc@google.com>, Jeff Layton <jlayton@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Linux API <linux-api@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, libvir-list@redhat.com,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, qemu-arm@nongnu.org,
+ Jan Kiszka <jan.kiszka@web.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Darren Kenny <darren.kenny@oracle.com>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Apr 24, 2022 at 09:59:37AM -0700, Andy Lutomirski wrote:
+On Mon, Apr 25, 2022 at 10:21:48AM +0200, Martin Kletzander wrote:
+> This will enable removing deprecated default audiodev support.
 > 
-> 
-> On Fri, Apr 22, 2022, at 3:56 AM, Chao Peng wrote:
-> > On Tue, Apr 05, 2022 at 06:03:21PM +0000, Sean Christopherson wrote:
-> >> On Tue, Apr 05, 2022, Quentin Perret wrote:
-> >> > On Monday 04 Apr 2022 at 15:04:17 (-0700), Andy Lutomirski wrote:
-> >     Only when the register succeeds, the fd is
-> >     converted into a private fd, before that, the fd is just a normal (shared)
-> >     one. During this conversion, the previous data is preserved so you can put
-> >     some initial data in guest pages (whether the architecture allows this is
-> >     architecture-specific and out of the scope of this patch).
-> 
-> I think this can be made to work, but it will be awkward.  On TDX, for example, what exactly are the semantics supposed to be?  An error code if the memory isn't all zero?  An error code if it has ever been written?
-> 
-> Fundamentally, I think this is because your proposed lifecycle for these memfiles results in a lightweight API but is awkward for the intended use cases.  You're proposing, roughly:
-> 
-> 1. Create a memfile. 
-> 
-> Now it's in a shared state with an unknown virt technology.  It can be read and written.  Let's call this state BRAND_NEW.
-> 
-> 2. Bind to a VM.
-> 
-> Now it's an a bound state.  For TDX, for example, let's call the new state BOUND_TDX.  In this state, the TDX rules are followed (private memory can't be converted, etc).
-> 
-> The problem here is that the BOUND_NEW state allows things that are nonsensical in TDX, and the binding step needs to invent some kind of semantics for what happens when binding a nonempty memfile.
-> 
-> 
-> So I would propose a somewhat different order:
-> 
-> 1. Create a memfile.  It's in the UNBOUND state and no operations whatsoever are allowed except binding or closing.
+> I did not figure out how to make the audiodev represented as an
+> interface node, so this is a workaround.  I am not sure what would be
+> the proper way.
 
-OK, so we need invent new user API to indicate UNBOUND state. For memfd
-based, it can be a new feature-neutral flag at creation time.
+Not sure I understand what you mean by this 'interface node' reference ?
+
+The code looks fine though
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 > 
-> 2. Bind the memfile to a VM (or at least to a VM technology).  Now it's in the initial state appropriate for that VM.
+> Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
+> ---
+>  tests/qtest/ac97-test.c                 |  3 ++-
+>  tests/qtest/es1370-test.c               |  3 ++-
+>  tests/qtest/fuzz/generic_fuzz_configs.h |  6 ++++--
+>  tests/qtest/intel-hda-test.c            | 15 ++++++++++-----
+>  4 files changed, 18 insertions(+), 9 deletions(-)
 > 
-> For TDX, this completely bypasses the cases where the data is prepopulated and TDX can't handle it cleanly.  For SEV, it bypasses a situation in which data might be written to the memory before we find out whether that data will be unreclaimable or unmovable.
-
-This sounds a more strict rule to avoid semantics unclear.
-
-So userspace needs to know what excatly happens for a 'bind' operation.
-This is different when binds to different technologies. E.g. for SEV, it
-may imply after this call, the memfile can be accessed (through mmap or
-what ever) from userspace, while for current TDX this should be not allowed.
-
-And I feel we still need a third flow/operation to indicate the
-completion of the initialization on the memfile before the guest's 
-first-time launch. SEV needs to check previous mmap-ed areas are munmap-ed
-and prevent future userspace access. After this point, then the memfile
-becomes truely private fd.
-
+> diff --git a/tests/qtest/ac97-test.c b/tests/qtest/ac97-test.c
+> index e09f2495d24d..9711f1f6d966 100644
+> --- a/tests/qtest/ac97-test.c
+> +++ b/tests/qtest/ac97-test.c
+> @@ -45,7 +45,8 @@ static void *ac97_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
+>  static void ac97_register_nodes(void)
+>  {
+>      QOSGraphEdgeOptions opts = {
+> -        .extra_device_opts = "addr=04.0",
+> +        .extra_device_opts = "addr=04.0,audiodev=audio0",
+> +        .before_cmd_line = "-audiodev driver=none,id=audio0",
+>      };
+>      add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
+>  
+> diff --git a/tests/qtest/es1370-test.c b/tests/qtest/es1370-test.c
+> index 2fd7fd2d3d30..5facda8d0d8d 100644
+> --- a/tests/qtest/es1370-test.c
+> +++ b/tests/qtest/es1370-test.c
+> @@ -46,7 +46,8 @@ static void *es1370_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
+>  static void es1370_register_nodes(void)
+>  {
+>      QOSGraphEdgeOptions opts = {
+> -        .extra_device_opts = "addr=04.0",
+> +        .extra_device_opts = "addr=04.0,audiodev=audio0",
+> +        .before_cmd_line = "-audiodev driver=none,id=audio0",
+>      };
+>      add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
+>  
+> diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+> index 004c701915e1..84a93b3c350b 100644
+> --- a/tests/qtest/fuzz/generic_fuzz_configs.h
+> +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+> @@ -101,8 +101,10 @@ const generic_fuzz_config predefined_configs[] = {
+>      },{
+>          .name = "intel-hda",
+>          .args = "-machine q35 -nodefaults -device intel-hda,id=hda0 "
+> -        "-device hda-output,bus=hda0.0 -device hda-micro,bus=hda0.0 "
+> -        "-device hda-duplex,bus=hda0.0",
+> +        "-audiodev driver=none,id=audio0",
+> +        "-device hda-output,bus=hda0.0,audiodev=audio0 "
+> +        "-device hda-micro,bus=hda0.0,audiodev=audio0 "
+> +        "-device hda-duplex,bus=hda0.0,audiodev=audio0",
+>          .objects = "intel-hda",
+>      },{
+>          .name = "ide-hd",
+> diff --git a/tests/qtest/intel-hda-test.c b/tests/qtest/intel-hda-test.c
+> index a58c98e4d11b..39ced2bc6ac6 100644
+> --- a/tests/qtest/intel-hda-test.c
+> +++ b/tests/qtest/intel-hda-test.c
+> @@ -11,20 +11,24 @@
+>  #include "libqtest-single.h"
+>  
+>  #define HDA_ID "hda0"
+> -#define CODEC_DEVICES " -device hda-output,bus=" HDA_ID ".0" \
+> -                      " -device hda-micro,bus=" HDA_ID ".0" \
+> -                      " -device hda-duplex,bus=" HDA_ID ".0"
+> +#define AUDIODEV " -audiodev driver=none,id=audio0 "
+> +#define AUDIODEV_REF "audiodev=audio0"
+> +#define CODEC_DEVICES " -device hda-output,bus=" HDA_ID ".0," AUDIODEV_REF \
+> +                      " -device hda-micro,bus=" HDA_ID ".0," AUDIODEV_REF \
+> +                      " -device hda-duplex,bus=" HDA_ID ".0," AUDIODEV_REF
+>  
+>  /* Tests only initialization so far. TODO: Replace with functional tests */
+>  static void ich6_test(void)
+>  {
+> -    qtest_start("-device intel-hda,id=" HDA_ID CODEC_DEVICES);
+> +    qtest_start(AUDIODEV "-device intel-hda,id=" HDA_ID CODEC_DEVICES);
+>      qtest_end();
+>  }
+>  
+>  static void ich9_test(void)
+>  {
+> -    qtest_start("-machine q35 -device ich9-intel-hda,bus=pcie.0,addr=1b.0,id="
+> +    qtest_start("-machine q35"
+> +                AUDIODEV
+> +                "-device ich9-intel-hda,bus=pcie.0,addr=1b.0,id="
+>                  HDA_ID CODEC_DEVICES);
+>      qtest_end();
+>  }
+> @@ -39,6 +43,7 @@ static void test_issue542_ich6(void)
+>      QTestState *s;
+>  
+>      s = qtest_init("-nographic -nodefaults -M pc-q35-6.2 "
+> +                   AUDIODEV
+>                     "-device intel-hda,id=" HDA_ID CODEC_DEVICES);
+>  
+>      qtest_outl(s, 0xcf8, 0x80000804);
+> -- 
+> 2.35.1
 > 
-> 
-> ----------------------------------------------
-> 
-> Now I have a question, since I don't think anyone has really answered it: how does this all work with SEV- or pKVM-like technologies in which private and shared pages share the same address space?  I sounds like you're proposing to have a big memfile that contains private and shared pages and to use that same memfile as pages are converted back and forth.  IO and even real physical DMA could be done on that memfile.  Am I understanding correctly?
 
-For TDX case, and probably SEV as well, this memfile contains private memory
-only. But this design at least makes it possible for usage cases like
-pKVM which wants both private/shared memory in the same memfile and rely
-on other ways like mmap/munmap or mprotect to toggle private/shared instead
-of fallocate/hole punching.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> 
-> If so, I think this makes sense, but I'm wondering if the actual memslot setup should be different.  For TDX, private memory lives in a logically separate memslot space.  For SEV and pKVM, it doesn't.  I assume the API can reflect this straightforwardly.
-
-I believe so. The flow should be similar but we do need pass different
-flags during the 'bind' to the backing store for different usages. That
-should be some new flags for pKVM but the callbacks (API here) between
-memfile_notifile and its consumers can be reused.
-
-> 
-> And the corresponding TDX question: is the intent still that shared pages aren't allowed at all in a TDX memfile?  If so, that would be the most direct mapping to what the hardware actually does.
-
-Exactly. TDX will still use fallocate/hole punching to turn on/off the
-private page. Once off, the traditional shared page will become
-effective in KVM.
-
-Chao
-> 
-> --Andy
 
