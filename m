@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC0750D967
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 08:27:21 +0200 (CEST)
-Received: from localhost ([::1]:53670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D95F50D94F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 08:18:15 +0200 (CEST)
+Received: from localhost ([::1]:48736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nisBq-0000zN-BF
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 02:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60518)
+	id 1nis34-0005Zw-LN
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 02:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvi-0003gJ-UA
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvj-0003gP-SY
  for qemu-devel@nongnu.org; Mon, 25 Apr 2022 02:10:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46701)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvg-0006IT-8x
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 02:10:37 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nirvg-0006Il-95
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 02:10:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650867033;
+ s=mimecast20190719; t=1650867035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oJ9Ufvj12vzxAT3bkAQJ/3nh94mDOPCyRdbWI9L4yLw=;
- b=LnMogsVrBUlfho0McYJtZFS4WM9I/cjyRpFdfEBNV7y3h38youtmI0r5cd9z+vSW+iy+Od
- gSS0xz7jjIk4tSIN3YqHezxIoQIN1NVF3Jo69EN90w+NSx+zQuq3j4pVjQDnRXeUtwjjcA
- m1KLtaguKZR8eDczTYVnEm91JUkhHYA=
+ bh=FbYPk+94g04Moi0TxRdJRuTfjONgtgsT2fIdXHO79cU=;
+ b=eJMy2uCKpHYfL3FyqxtS4FPjXJzwZAYU97zIoFCUPEjXsrII0VOOqh2L86UHUQr8Nd42Va
+ U71pvwC7+Gns+RAG9zCjjthEzT+8Z+fo+0srec0LDlTxoI4qUlZ8iPoqMsgMt4ytVI/9PM
+ 89lQES3mSzULc1rFZWCJ7k2lf8YIl34=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-115-ftfI9Nr-PleUMiVIeY58Jw-1; Mon, 25 Apr 2022 02:10:31 -0400
-X-MC-Unique: ftfI9Nr-PleUMiVIeY58Jw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-442-hbUGocDkM5CK6VWjyAo8EQ-1; Mon, 25 Apr 2022 02:10:33 -0400
+X-MC-Unique: hbUGocDkM5CK6VWjyAo8EQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 574483804062;
- Mon, 25 Apr 2022 06:10:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 583E21C05EA2;
+ Mon, 25 Apr 2022 06:10:33 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 074E7463DF9;
- Mon, 25 Apr 2022 06:10:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB89C145BEF8;
+ Mon, 25 Apr 2022 06:10:32 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C568B18003BA; Mon, 25 Apr 2022 08:10:29 +0200 (CEST)
+ id DC71D1800617; Mon, 25 Apr 2022 08:10:29 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/6] hw/display/vmware_vga: do not discard screen updates
-Date: Mon, 25 Apr 2022 08:10:24 +0200
-Message-Id: <20220425061029.3932731-2-kraxel@redhat.com>
+Subject: [PULL 2/6] Replacing CONFIG_VNC_PNG with CONFIG_PNG
+Date: Mon, 25 Apr 2022 08:10:25 +0200
+Message-Id: <20220425061029.3932731-3-kraxel@redhat.com>
 In-Reply-To: <20220425061029.3932731-1-kraxel@redhat.com>
 References: <20220425061029.3932731-1-kraxel@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -74,129 +75,264 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Carwyn Ellis <carwynellis@gmail.com>,
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+ Kshitij Suri <kshitij.suri@nutanix.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Carwyn Ellis <carwynellis@gmail.com>
+From: Kshitij Suri <kshitij.suri@nutanix.com>
 
-In certain circumstances, typically when there is lots changing on the
-screen, updates will be discarded resulting in garbled output.
+Libpng is only detected if VNC is enabled currently. This patch adds a
+generalised png option in the meson build which is aimed to replace use of
+CONFIG_VNC_PNG with CONFIG_PNG.
 
-This change simplifies the traversal of the display update FIFO queue
-when applying updates. We just track the queue length and iterate up to
-the end of the queue.
+Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
 
-Additionally when adding updates to the queue, if the buffer reaches
-capacity we force a flush before accepting further events.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220408071336.99839-2-kshitij.suri@nutanix.com>
 
-Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
-Message-Id: <20220206183956.10694-3-carwynellis@gmail.com>
+[ kraxel: add meson-buildoptions.sh updates ]
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/vmware_vga.c | 45 +++++++++++++++++++++++------------------
- hw/display/trace-events |  1 +
- 2 files changed, 26 insertions(+), 20 deletions(-)
+ meson_options.txt             |  4 ++--
+ ui/vnc.h                      |  2 +-
+ ui/vnc-enc-tight.c            | 18 +++++++++---------
+ ui/vnc.c                      |  4 ++--
+ meson.build                   | 12 +++++++-----
+ scripts/meson-buildoptions.sh |  6 +++---
+ 6 files changed, 24 insertions(+), 22 deletions(-)
 
-diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-index 45d06cbe2544..cedbbde522ec 100644
---- a/hw/display/vmware_vga.c
-+++ b/hw/display/vmware_vga.c
-@@ -80,7 +80,7 @@ struct vmsvga_state_s {
-     struct vmsvga_rect_s {
-         int x, y, w, h;
-     } redraw_fifo[REDRAW_FIFO_LEN];
--    int redraw_fifo_first, redraw_fifo_last;
-+    int redraw_fifo_last;
+diff --git a/meson_options.txt b/meson_options.txt
+index 52b11cead44a..d85734f8e6bf 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -177,12 +177,12 @@ option('vde', type : 'feature', value : 'auto',
+        description: 'vde network backend support')
+ option('virglrenderer', type : 'feature', value : 'auto',
+        description: 'virgl rendering support')
++option('png', type : 'feature', value : 'auto',
++       description: 'PNG support with libpng')
+ option('vnc', type : 'feature', value : 'auto',
+        description: 'VNC server')
+ option('vnc_jpeg', type : 'feature', value : 'auto',
+        description: 'JPEG lossy compression for VNC server')
+-option('vnc_png', type : 'feature', value : 'auto',
+-       description: 'PNG compression for VNC server')
+ option('vnc_sasl', type : 'feature', value : 'auto',
+        description: 'SASL authentication for VNC server')
+ option('vte', type : 'feature', value : 'auto',
+diff --git a/ui/vnc.h b/ui/vnc.h
+index a7149831f906..a60fb13115c9 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -201,7 +201,7 @@ typedef struct VncTight {
+ #ifdef CONFIG_VNC_JPEG
+     Buffer jpeg;
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     Buffer png;
+ #endif
+     int levels[4];
+diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
+index 5a4b8a4fc0f6..09200d71b8cf 100644
+--- a/ui/vnc-enc-tight.c
++++ b/ui/vnc-enc-tight.c
+@@ -32,7 +32,7 @@
+    INT32 definitions between jmorecfg.h (included by jpeglib.h) and
+    Win32 basetsd.h (included by windows.h). */
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ /* The following define is needed by pngconf.h. Otherwise it won't compile,
+    because setjmp.h was already included by osdep.h. */
+ #define PNG_SKIP_SETJMP_CHECK
+@@ -95,7 +95,7 @@ static const struct {
  };
+ #endif
  
- #define TYPE_VMWARE_SVGA "vmware-svga"
-@@ -380,35 +380,41 @@ static inline void vmsvga_update_rect(struct vmsvga_state_s *s,
-     dpy_gfx_update(s->vga.con, x, y, w, h);
- }
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ static const struct {
+     int png_zlib_level, png_filters;
+ } tight_png_conf[] = {
+@@ -919,7 +919,7 @@ static int send_full_color_rect(VncState *vs, int x, int y, int w, int h)
+     int stream = 0;
+     ssize_t bytes;
  
-+static inline void vmsvga_update_rect_flush(struct vmsvga_state_s *s)
-+{
-+    struct vmsvga_rect_s *rect;
-+
-+    if (s->invalidated) {
-+        s->redraw_fifo_last = 0;
-+        return;
-+    }
-+    /* Overlapping region updates can be optimised out here - if someone
-+     * knows a smart algorithm to do that, please share.  */
-+    for (int i = 0; i < s->redraw_fifo_last; i++) {
-+        rect = &s->redraw_fifo[i];
-+        vmsvga_update_rect(s, rect->x, rect->y, rect->w, rect->h);
-+    }
-+
-+    s->redraw_fifo_last = 0;
-+}
-+
- static inline void vmsvga_update_rect_delayed(struct vmsvga_state_s *s,
-                 int x, int y, int w, int h)
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         return send_png_rect(vs, x, y, w, h, NULL);
+     }
+@@ -966,7 +966,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
+     int stream = 1;
+     int level = tight_conf[vs->tight->compression].mono_zlib_level;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         int ret;
+         int bpp = vs->client_pf.bytes_per_pixel * 8;
+@@ -1020,7 +1020,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
+ struct palette_cb_priv {
+     VncState *vs;
+     uint8_t *header;
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     png_colorp png_palette;
+ #endif
+ };
+@@ -1082,7 +1082,7 @@ static int send_palette_rect(VncState *vs, int x, int y,
+     int colors;
+     ssize_t bytes;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         return send_png_rect(vs, x, y, w, h, palette);
+     }
+@@ -1233,7 +1233,7 @@ static int send_jpeg_rect(VncState *vs, int x, int y, int w, int h, int quality)
+ /*
+  * PNG compression stuff.
+  */
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ static void write_png_palette(int idx, uint32_t pix, void *opaque)
  {
-+
-+    if (s->redraw_fifo_last >= REDRAW_FIFO_LEN) {
-+        trace_vmware_update_rect_delayed_flush();
-+        vmsvga_update_rect_flush(s);
-+    }
-+
-     struct vmsvga_rect_s *rect = &s->redraw_fifo[s->redraw_fifo_last++];
- 
--    s->redraw_fifo_last &= REDRAW_FIFO_LEN - 1;
-     rect->x = x;
-     rect->y = y;
-     rect->w = w;
-     rect->h = h;
+     struct palette_cb_priv *priv = opaque;
+@@ -1379,7 +1379,7 @@ static int send_png_rect(VncState *vs, int x, int y, int w, int h,
+     buffer_reset(&vs->tight->png);
+     return 1;
  }
+-#endif /* CONFIG_VNC_PNG */
++#endif /* CONFIG_PNG */
  
--static inline void vmsvga_update_rect_flush(struct vmsvga_state_s *s)
--{
--    struct vmsvga_rect_s *rect;
--
--    if (s->invalidated) {
--        s->redraw_fifo_first = s->redraw_fifo_last;
--        return;
--    }
--    /* Overlapping region updates can be optimised out here - if someone
--     * knows a smart algorithm to do that, please share.  */
--    while (s->redraw_fifo_first != s->redraw_fifo_last) {
--        rect = &s->redraw_fifo[s->redraw_fifo_first++];
--        s->redraw_fifo_first &= REDRAW_FIFO_LEN - 1;
--        vmsvga_update_rect(s, rect->x, rect->y, rect->w, rect->h);
--    }
--}
--
- #ifdef HW_RECT_ACCEL
- static inline int vmsvga_copy_rect(struct vmsvga_state_s *s,
-                 int x0, int y0, int x1, int y1, int w, int h)
-@@ -1161,7 +1167,6 @@ static void vmsvga_reset(DeviceState *dev)
-     s->config = 0;
-     s->svgaid = SVGA_ID;
-     s->cursor.on = 0;
--    s->redraw_fifo_first = 0;
-     s->redraw_fifo_last = 0;
-     s->syncing = 0;
- 
-diff --git a/hw/display/trace-events b/hw/display/trace-events
-index 91efc88f04f5..0c0ffcbe42c1 100644
---- a/hw/display/trace-events
-+++ b/hw/display/trace-events
-@@ -24,6 +24,7 @@ vmware_setmode(uint32_t w, uint32_t h, uint32_t bpp) "%dx%d @ %d bpp"
- vmware_verify_rect_less_than_zero(const char *name, const char *param, int x) "%s: %s was < 0 (%d)"
- vmware_verify_rect_greater_than_bound(const char *name, const char *param, int bound, int x) "%s: %s was > %d (%d)"
- vmware_verify_rect_surface_bound_exceeded(const char *name, const char *component, int bound, const char *param1, int value1, const char *param2, int value2) "%s: %s > %d (%s: %d, %s: %d)"
-+vmware_update_rect_delayed_flush(void) "display update FIFO full - forcing flush"
- 
- # virtio-gpu-base.c
- virtio_gpu_features(bool virgl) "virgl %d"
+ static void vnc_tight_start(VncState *vs)
+ {
+@@ -1706,7 +1706,7 @@ void vnc_tight_clear(VncState *vs)
+ #ifdef CONFIG_VNC_JPEG
+     buffer_free(&vs->tight->jpeg);
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     buffer_free(&vs->tight->png);
+ #endif
+ }
+diff --git a/ui/vnc.c b/ui/vnc.c
+index badf1d7664fe..7d55e1500a42 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -2165,7 +2165,7 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+             vs->features |= VNC_FEATURE_TIGHT_MASK;
+             vs->vnc_encoding = enc;
+             break;
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+         case VNC_ENCODING_TIGHT_PNG:
+             vs->features |= VNC_FEATURE_TIGHT_PNG_MASK;
+             vs->vnc_encoding = enc;
+@@ -3256,7 +3256,7 @@ static void vnc_connect(VncDisplay *vd, QIOChannelSocket *sioc,
+ #ifdef CONFIG_VNC_JPEG
+     buffer_init(&vs->tight->jpeg,     "vnc-tight-jpeg/%p", sioc);
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     buffer_init(&vs->tight->png,      "vnc-tight-png/%p", sioc);
+ #endif
+     buffer_init(&vs->zlib.zlib,      "vnc-zlib/%p", sioc);
+diff --git a/meson.build b/meson.build
+index d083c6b7bf90..0c38e491f488 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1115,14 +1115,16 @@ if gtkx11.found()
+   x11 = dependency('x11', method: 'pkg-config', required: gtkx11.found(),
+                    kwargs: static_kwargs)
+ endif
+-vnc = not_found
+ png = not_found
++if get_option('png').allowed() and have_system
++   png = dependency('libpng', required: get_option('png'),
++                    method: 'pkg-config', kwargs: static_kwargs)
++endif
++vnc = not_found
+ jpeg = not_found
+ sasl = not_found
+ if get_option('vnc').allowed() and have_system
+   vnc = declare_dependency() # dummy dependency
+-  png = dependency('libpng', required: get_option('vnc_png'),
+-                   method: 'pkg-config', kwargs: static_kwargs)
+   jpeg = dependency('libjpeg', required: get_option('vnc_jpeg'),
+                     method: 'pkg-config', kwargs: static_kwargs)
+   sasl = cc.find_library('sasl2', has_headers: ['sasl/sasl.h'],
+@@ -1554,9 +1556,9 @@ config_host_data.set('CONFIG_TPM', have_tpm)
+ config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+ config_host_data.set('CONFIG_VDE', vde.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
++config_host_data.set('CONFIG_PNG', png.found())
+ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+-config_host_data.set('CONFIG_VNC_PNG', png.found())
+ config_host_data.set('CONFIG_VNC_SASL', sasl.found())
+ config_host_data.set('CONFIG_VIRTFS', have_virtfs)
+ config_host_data.set('CONFIG_VTE', vte.found())
+@@ -3667,11 +3669,11 @@ summary_info += {'curses support':    curses}
+ summary_info += {'virgl support':     virgl}
+ summary_info += {'curl support':      curl}
+ summary_info += {'Multipath support': mpathpersist}
++summary_info += {'PNG support':       png}
+ summary_info += {'VNC support':       vnc}
+ if vnc.found()
+   summary_info += {'VNC SASL support':  sasl}
+   summary_info += {'VNC JPEG support':  jpeg}
+-  summary_info += {'VNC PNG support':   png}
+ endif
+ if targetos not in ['darwin', 'haiku', 'windows']
+   summary_info += {'OSS support':     oss}
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 1e26f4571ef4..ef0dcd4a7768 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -94,6 +94,7 @@ meson_options_help() {
+   printf "%s\n" '  oss             OSS sound support'
+   printf "%s\n" '  pa              PulseAudio sound support'
+   printf "%s\n" '  parallels       parallels image format support'
++  printf "%s\n" '  png             PNG support with libpng'
+   printf "%s\n" '  qcow1           qcow1 image format support'
+   printf "%s\n" '  qed             qed image format support'
+   printf "%s\n" '  qga-vss         build QGA VSS support (broken with MinGW)'
+@@ -123,7 +124,6 @@ meson_options_help() {
+   printf "%s\n" '  virtiofsd       build virtiofs daemon (virtiofsd)'
+   printf "%s\n" '  vnc             VNC server'
+   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
+-  printf "%s\n" '  vnc-png         PNG compression for VNC server'
+   printf "%s\n" '  vnc-sasl        SASL authentication for VNC server'
+   printf "%s\n" '  vte             vte support for the gtk UI'
+   printf "%s\n" '  vvfat           vvfat image format support'
+@@ -277,6 +277,8 @@ _meson_option_parse() {
+     --disable-pa) printf "%s" -Dpa=disabled ;;
+     --enable-parallels) printf "%s" -Dparallels=enabled ;;
+     --disable-parallels) printf "%s" -Dparallels=disabled ;;
++    --enable-png) printf "%s" -Dpng=enabled ;;
++    --disable-png) printf "%s" -Dpng=disabled ;;
+     --enable-profiler) printf "%s" -Dprofiler=true ;;
+     --disable-profiler) printf "%s" -Dprofiler=false ;;
+     --enable-qcow1) printf "%s" -Dqcow1=enabled ;;
+@@ -347,8 +349,6 @@ _meson_option_parse() {
+     --disable-vnc) printf "%s" -Dvnc=disabled ;;
+     --enable-vnc-jpeg) printf "%s" -Dvnc_jpeg=enabled ;;
+     --disable-vnc-jpeg) printf "%s" -Dvnc_jpeg=disabled ;;
+-    --enable-vnc-png) printf "%s" -Dvnc_png=enabled ;;
+-    --disable-vnc-png) printf "%s" -Dvnc_png=disabled ;;
+     --enable-vnc-sasl) printf "%s" -Dvnc_sasl=enabled ;;
+     --disable-vnc-sasl) printf "%s" -Dvnc_sasl=disabled ;;
+     --enable-vte) printf "%s" -Dvte=enabled ;;
 -- 
 2.35.1
 
