@@ -2,96 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D69150E9D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 21:56:56 +0200 (CEST)
-Received: from localhost ([::1]:42184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F98F50E9D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 21:59:53 +0200 (CEST)
+Received: from localhost ([::1]:45588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj4pL-0007E5-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 15:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60984)
+	id 1nj4sC-0001KT-FV
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 15:59:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nj4ny-0006Tt-HS
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 15:55:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42105)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nj4qm-0000RH-Q7
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 15:58:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nj4nu-0007wN-B0
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 15:55:28 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nj4qk-0008Mk-Bf
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 15:58:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650916525;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1650916701;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xmKpecro76Xro01UxU2zSjINsBj9OL2LONlNBXtVhw0=;
- b=i7OimxdxzLzP3yzA0LVEdQKNh69KyjpDIWEjbQXBM/kWnUStovzmJARwYAlNa3eSCJkHv9
- D9uzZgHtUIH1JvvwlCGCiY0Nu0KLFjOiWvU+8d3FaEn0i7LjdQETHzUyMmzt3qBiym3diH
- GMENUbf0WXnoz/hBKp8qMepdERz6w7Y=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WRA+/TwRZoYTlVNNziTPVnQhxJKOT9VOQ8rXq3HvAqY=;
+ b=MZpnOx7VFxa9NcJM1UmEawtSOAgyUuHAZ3xE38d2UsRN4Zevedj6pBvC4HUcMsPbZUkdm9
+ NEHQQBLAkakSQRoBtFnmXkb3f3IcsjtEfCP6tg/zQIcDGCO8GWNdiGwFGO7Ew+HIAhmXL+
+ vSjJBc0cnfRWDWk5iHFDwwjtsopftFQ=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-FoT7nJhxODuPjPeoxKJ69g-1; Mon, 25 Apr 2022 15:55:24 -0400
-X-MC-Unique: FoT7nJhxODuPjPeoxKJ69g-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u26-20020adfb21a000000b0020ac48a9aa4so2661173wra.5
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 12:55:23 -0700 (PDT)
+ us-mta-558-Osf2kd6LOyGBGO-bNcbQXw-1; Mon, 25 Apr 2022 15:58:18 -0400
+X-MC-Unique: Osf2kd6LOyGBGO-bNcbQXw-1
+Received: by mail-io1-f70.google.com with SMTP id
+ y10-20020a056602164a00b00653f388e244so12226118iow.22
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 12:58:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=xmKpecro76Xro01UxU2zSjINsBj9OL2LONlNBXtVhw0=;
- b=GmleGcMofXQf2HEUuq+CqmOeHvd+oidq/nFUHoTc5fBkOoZXI3iIgfari/tW2JmhFR
- unIYyyb5r9lYPbydIpWDTlITO1am2vOIfueO/fnFHQ6/AXW7g9HhGjf98+3t59FnGxG4
- y1QbS48x2nFIsfN0gJCm2D8jPMpq9oHpdn2dEBqwJtpg0ooCxWV2982rCBEVota1y5aq
- 3QJuHk4jaySyZJ+sswUScsXg5tH7LMXdWHv/d1NLIRDUTQBKUcDzS/XUqSzk9UEosmMq
- H6LA/SNiqZNIYw5zvgpuaPBaa2zlx5mzDip/pi+Jmm18RlM6Tz/MrXcajYhbwL3K6dcS
- 0YpQ==
-X-Gm-Message-State: AOAM533Cfhe1CbgkozWhUlNOi8DuFplpZLa4l8pOCKHxtKOynJr0sXas
- fr5AN8KrSbpl+jLQBYdDf+/9Wnn818yQaAtJSg33vGMiWrR5rK9PRzLP7BvNOoW2pZytKPHcNm3
- /0FW2ZR/xRMvbfBA=
-X-Received: by 2002:a5d:6a0a:0:b0:20a:c7dd:d2bb with SMTP id
- m10-20020a5d6a0a000000b0020ac7ddd2bbmr14640689wru.242.1650916522588; 
- Mon, 25 Apr 2022 12:55:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzS3GScJFYGnkqtQ5YSIIbXrYYZKzGsgOXxdw+vQNJe/L10jWm/Zdes7pTTQvY60aj8mUh0Q==
-X-Received: by 2002:a5d:6a0a:0:b0:20a:c7dd:d2bb with SMTP id
- m10-20020a5d6a0a000000b0020ac7ddd2bbmr14640674wru.242.1650916522259; 
- Mon, 25 Apr 2022 12:55:22 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- f13-20020a0560001a8d00b0020aab7cefc4sm9753307wry.46.2022.04.25.12.55.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 12:55:21 -0700 (PDT)
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-To: "Tian, Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <BN9PR11MB5276085CDF750807005A775B8CF39@BN9PR11MB5276.namprd11.prod.outlook.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <d1c63ea2-7396-7020-7a45-88e3d1918fb1@redhat.com>
-Date: Mon, 25 Apr 2022 21:55:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=WRA+/TwRZoYTlVNNziTPVnQhxJKOT9VOQ8rXq3HvAqY=;
+ b=l32OrhgNKu1HWyDhHArzJSB2DGUJCytqz3/jZ6QhNL+Oq4i0R+GeKsqH/MGqV43dBV
+ Rh2yQOtYBDlcOryzd0vDkFCH2xDQBri6vWXHw5OqqXVTrl4mebB7Jfq/MZo+CllIVMfL
+ iG+JHiMtjqpyu4U4cTIEObLghZjv5kQlThfCqdsJCA4RYNF2tdVzCXAZHmi0q4bQcdvc
+ 1bSe68Ik2B+lRM4qNO/03yMuSWY/CQtvMxGmL1cGIBTwJFan3vdNsLs0Ny3uAlBltmdF
+ vrM9NZFp1adzFrTfLoDZ9E7ROiq85O2YXNokl7zTVg+M2EnI9vpHdKrbVdGKS9nUmTlB
+ VQnA==
+X-Gm-Message-State: AOAM530d4elgrJLLgMDxDOx6fWxoP/SmpruadlQTN/u42r5o6WbHD/zm
+ Ch0UOrwq2cVrTZt1tX3k7FnS3Mo1BTJ/uGPQ/of6Jgq7CPX3fm3kkeJytEixkJg3g2M2KAi+IRf
+ RyPPkMy8ps9G+fKM=
+X-Received: by 2002:a6b:f403:0:b0:657:880c:f351 with SMTP id
+ i3-20020a6bf403000000b00657880cf351mr2081903iog.131.1650916697278; 
+ Mon, 25 Apr 2022 12:58:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxvYDmnQ1vPI/+fMI2/pwhYkDTEGzAFR1XK+yrU0c8uu+cTxxKeaEP5VUxIwBf7psDH7x+86A==
+X-Received: by 2002:a6b:f403:0:b0:657:880c:f351 with SMTP id
+ i3-20020a6bf403000000b00657880cf351mr2081892iog.131.1650916697048; 
+ Mon, 25 Apr 2022 12:58:17 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ c15-20020a5d8b4f000000b00648f75d0289sm7994446iot.6.2022.04.25.12.58.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Apr 2022 12:58:15 -0700 (PDT)
+Date: Mon, 25 Apr 2022 13:58:14 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 for-7.1] vfio/common: remove spurious tpm-crb-cmd
+ misalignment warning
+Message-ID: <20220425135814.37168ee1.alex.williamson@redhat.com>
+In-Reply-To: <20220323203119.360894-1-eric.auger@redhat.com>
+References: <20220323203119.360894-1-eric.auger@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <BN9PR11MB5276085CDF750807005A775B8CF39@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,207 +96,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "thuth@redhat.com" <thuth@redhat.com>, "Peng, Chao P" <chao.p.peng@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
- "nicolinc@nvidia.com" <nicolinc@nvidia.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, stefanb@linux.vnet.ibm.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kevin,
+On Wed, 23 Mar 2022 21:31:19 +0100
+Eric Auger <eric.auger@redhat.com> wrote:
 
-On 4/18/22 10:49 AM, Tian, Kevin wrote:
->> From: Liu, Yi L <yi.l.liu@intel.com>
->> Sent: Thursday, April 14, 2022 6:47 PM
->>
->> With the introduction of iommufd[1], the linux kernel provides a generic
->> interface for userspace drivers to propagate their DMA mappings to kernel
->> for assigned devices. This series does the porting of the VFIO devices
->> onto the /dev/iommu uapi and let it coexist with the legacy implementation.
->> Other devices like vpda, vfio mdev and etc. are not considered yet.
-> vfio mdev has no special support in Qemu. Just that it's not supported
-> by iommufd yet thus can only be operated in legacy container interface at
-> this point. Later once it's supported by the kernel suppose no additional
-> enabling work is required for mdev in Qemu.
->
->> For vfio devices, the new interface is tied with device fd and iommufd
->> as the iommufd solution is device-centric. This is different from legacy
->> vfio which is group-centric. To support both interfaces in QEMU, this
->> series introduces the iommu backend concept in the form of different
->> container classes. The existing vfio container is named legacy container
->> (equivalent with legacy iommu backend in this series), while the new
->> iommufd based container is named as iommufd container (may also be
->> mentioned
->> as iommufd backend in this series). The two backend types have their own
->> way to setup secure context and dma management interface. Below diagram
->> shows how it looks like with both BEs.
->>
->>                     VFIO                           AddressSpace/Memory
->>     +-------+  +----------+  +-----+  +-----+
->>     |  pci  |  | platform |  |  ap |  | ccw |
->>     +---+---+  +----+-----+  +--+--+  +--+--+     +----------------------+
->>         |           |           |        |        |   AddressSpace       |
->>         |           |           |        |        +------------+---------+
->>     +---V-----------V-----------V--------V----+               /
->>     |           VFIOAddressSpace              | <------------+
->>     |                  |                      |  MemoryListener
->>     |          VFIOContainer list             |
->>     +-------+----------------------------+----+
->>             |                            |
->>             |                            |
->>     +-------V------+            +--------V----------+
->>     |   iommufd    |            |    vfio legacy    |
->>     |  container   |            |     container     |
->>     +-------+------+            +--------+----------+
->>             |                            |
->>             | /dev/iommu                 | /dev/vfio/vfio
->>             | /dev/vfio/devices/vfioX    | /dev/vfio/$group_id
->>  Userspace  |                            |
->>
->> ===========+============================+=======================
->> =========
->>  Kernel     |  device fd                 |
->>             +---------------+            | group/container fd
->>             | (BIND_IOMMUFD |            | (SET_CONTAINER/SET_IOMMU)
->>             |  ATTACH_IOAS) |            | device fd
->>             |               |            |
->>             |       +-------V------------V-----------------+
->>     iommufd |       |                vfio                  |
->> (map/unmap  |       +---------+--------------------+-------+
->>  ioas_copy) |                 |                    | map/unmap
->>             |                 |                    |
->>      +------V------+    +-----V------+      +------V--------+
->>      | iommfd core |    |  device    |      |  vfio iommu   |
->>      +-------------+    +------------+      +---------------+
-> last row: s/iommfd/iommufd/
->
-> overall this sounds a reasonable abstraction. Later when vdpa starts
-> supporting iommufd probably the iommufd BE will become even
-> smaller with more logic shareable between vfio and vdpa.
->
->> [Secure Context setup]
->> - iommufd BE: uses device fd and iommufd to setup secure context
->>               (bind_iommufd, attach_ioas)
->> - vfio legacy BE: uses group fd and container fd to setup secure context
->>                   (set_container, set_iommu)
->> [Device access]
->> - iommufd BE: device fd is opened through /dev/vfio/devices/vfioX
->> - vfio legacy BE: device fd is retrieved from group fd ioctl
->> [DMA Mapping flow]
->> - VFIOAddressSpace receives MemoryRegion add/del via MemoryListener
->> - VFIO populates DMA map/unmap via the container BEs
->>   *) iommufd BE: uses iommufd
->>   *) vfio legacy BE: uses container fd
->>
->> This series qomifies the VFIOContainer object which acts as a base class
-> what does 'qomify' mean? I didn't find this word from dictionary...
-sorry this is pure QEMU terminology. This stands for "QEMU Object Model"
-additional info at:
-https://qemu.readthedocs.io/en/latest/devel/qom.html
+> The CRB command buffer currently is a RAM MemoryRegion and given
+> its base address alignment, it causes an error report on
+> vfio_listener_region_add(). This region could have been a RAM device
+> region, easing the detection of such safe situation but this option
+> was not well received. So let's add a helper function that uses the
+> memory region owner type to detect the situation is safe wrt
+> the assignment. Other device types can be checked here if such kind
+> of problem occurs again.
+>=20
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>=20
+> ---
+>=20
+> v2 -> v3:
+> - Use TPM_IS_CRB()
+>=20
+> v1 -> v2:
+> - do not check the MR name but rather the owner type
+> ---
+>  hw/vfio/common.c     | 27 ++++++++++++++++++++++++++-
+>  hw/vfio/trace-events |  1 +
+>  2 files changed, 27 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 080046e3f51..55bc116473e 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -40,6 +40,7 @@
+>  #include "trace.h"
+>  #include "qapi/error.h"
+>  #include "migration/migration.h"
+> +#include "sysemu/tpm.h"
+> =20
+>  VFIOGroupList vfio_group_list =3D
+>      QLIST_HEAD_INITIALIZER(vfio_group_list);
+> @@ -861,6 +862,22 @@ static void vfio_unregister_ram_discard_listener(VFI=
+OContainer *container,
+>      g_free(vrdl);
+>  }
+> =20
+> +static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+> +{
+> +    MemoryRegion *mr =3D section->mr;
+> +
+> +    if (!TPM_IS_CRB(mr->owner)) {
+> +        return false;
+> +    }
+> +
+> +    /* this is a known safe misaligned region, just trace for debug purp=
+ose */
+> +    trace_vfio_known_safe_misalignment(memory_region_name(mr),
+> +                                       section->offset_within_address_sp=
+ace,
+> +                                       section->offset_within_region,
+> +                                       qemu_real_host_page_size);
 
-Eric
->
->> for a container. This base class is derived into the legacy VFIO container
->> and the new iommufd based container. The base class implements generic
->> code
->> such as code related to memory_listener and address space management
->> whereas
->> the derived class implements callbacks that depend on the kernel user space
-> 'the kernel user space'?
->
->> being used.
->>
->> The selection of the backend is made on a device basis using the new
->> iommufd option (on/off/auto). By default the iommufd backend is selected
->> if supported by the host and by QEMU (iommufd KConfig). This option is
->> currently available only for the vfio-pci device. For other types of
->> devices, it does not yet exist and the legacy BE is chosen by default.
->>
->> Test done:
->> - PCI and Platform device were tested
-> In this case PCI uses iommufd while platform device uses legacy?
->
->> - ccw and ap were only compile-tested
->> - limited device hotplug test
->> - vIOMMU test run for both legacy and iommufd backends (limited tests)
->>
->> This series was co-developed by Eric Auger and me based on the exploration
->> iommufd kernel[2], complete code of this series is available in[3]. As
->> iommufd kernel is in the early step (only iommufd generic interface is in
->> mailing list), so this series hasn't made the iommufd backend fully on par
->> with legacy backend w.r.t. features like p2p mappings, coherency tracking,
-> what does 'coherency tracking' mean here? if related to iommu enforce
-> snoop it is fully handled by the kernel so far. I didn't find any use of
-> VFIO_DMA_CC_IOMMU in current Qemu.
->
->> live migration, etc. This series hasn't supported PCI devices without FLR
->> neither as the kernel doesn't support VFIO_DEVICE_PCI_HOT_RESET when
->> userspace
->> is using iommufd. The kernel needs to be updated to accept device fd list for
->> reset when userspace is using iommufd. Related work is in progress by
->> Jason[4].
->>
->> TODOs:
->> - Add DMA alias check for iommufd BE (group level)
->> - Make pci.c to be BE agnostic. Needs kernel change as well to fix the
->>   VFIO_DEVICE_PCI_HOT_RESET gap
->> - Cleanup the VFIODevice fields as it's used in both BEs
->> - Add locks
->> - Replace list with g_tree
->> - More tests
->>
->> Patch Overview:
->>
->> - Preparation:
->>   0001-scripts-update-linux-headers-Add-iommufd.h.patch
->>   0002-linux-headers-Import-latest-vfio.h-and-iommufd.h.patch
->>   0003-hw-vfio-pci-fix-vfio_pci_hot_reset_result-trace-poin.patch
->>   0004-vfio-pci-Use-vbasedev-local-variable-in-vfio_realize.patch
->>   0005-vfio-common-Rename-VFIOGuestIOMMU-iommu-into-
->> iommu_m.patch
-> 3-5 are pure cleanups which could be sent out separately 
->
->>   0006-vfio-common-Split-common.c-into-common.c-container.c.patch
->>
->> - Introduce container object and covert existing vfio to use it:
->>   0007-vfio-Add-base-object-for-VFIOContainer.patch
->>   0008-vfio-container-Introduce-vfio_attach-detach_device.patch
->>   0009-vfio-platform-Use-vfio_-attach-detach-_device.patch
->>   0010-vfio-ap-Use-vfio_-attach-detach-_device.patch
->>   0011-vfio-ccw-Use-vfio_-attach-detach-_device.patch
->>   0012-vfio-container-obj-Introduce-attach-detach-_device-c.patch
->>   0013-vfio-container-obj-Introduce-VFIOContainer-reset-cal.patch
->>
->> - Introduce iommufd based container:
->>   0014-hw-iommufd-Creation.patch
->>   0015-vfio-iommufd-Implement-iommufd-backend.patch
->>   0016-vfio-iommufd-Add-IOAS_COPY_DMA-support.patch
->>
->> - Add backend selection for vfio-pci:
->>   0017-vfio-as-Allow-the-selection-of-a-given-iommu-backend.patch
->>   0018-vfio-pci-Add-an-iommufd-option.patch
->>
->> [1] https://lore.kernel.org/kvm/0-v1-e79cd8d168e8+6-
->> iommufd_jgg@nvidia.com/
->> [2] https://github.com/luxis1999/iommufd/tree/iommufd-v5.17-rc6
->> [3] https://github.com/luxis1999/qemu/tree/qemu-for-5.17-rc6-vm-rfcv1
->> [4] https://lore.kernel.org/kvm/0-v1-a8faf768d202+125dd-
->> vfio_mdev_no_group_jgg@nvidia.com/
-> Following is probably more relevant to [4]:
->
-> https://lore.kernel.org/all/10-v1-33906a626da1+16b0-vfio_kvm_no_group_jgg@nvidia.com/
->
-> Thanks
-> Kevin
->
+qemu_real_host_page_size and qemu_real_host_page_mask are now functions.
+
+I thought I'd just append "()" in each case, but then the 32-bit build
+breaks...
+
+> +    return true;
+> +}
+> +
+>  static void vfio_listener_region_add(MemoryListener *listener,
+>                                       MemoryRegionSection *section)
+>  {
+> @@ -884,7 +901,15 @@ static void vfio_listener_region_add(MemoryListener =
+*listener,
+>      if (unlikely((section->offset_within_address_space &
+>                    ~qemu_real_host_page_mask) !=3D
+>                   (section->offset_within_region & ~qemu_real_host_page_m=
+ask))) {
+> -        error_report("%s received unaligned region", __func__);
+> +        if (!vfio_known_safe_misalignment(section)) {
+> +            error_report("%s received unaligned region %s iova=3D0x%"PRI=
+x64
+> +                         " offset_within_region=3D0x%"PRIx64
+> +                         " qemu_real_host_page_mask=3D0x%"PRIxPTR,
+> +                         __func__, memory_region_name(section->mr),
+> +                         section->offset_within_address_space,
+> +                         section->offset_within_region,
+> +                         qemu_real_host_page_mask);
+
+Note how here we're very verbosely printing
+"qemu_real_host_page_mask=3D0x%..." and we're passing the
+qemu_real_host_page_mask value.  In the previous trace command we're
+passing qemu_real_host_page_size.
+
+> +        }
+>          return;
+>      }
+> =20
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 0ef1b5f4a65..6f38a2e6991 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_=
+t end) "SKIPPING region_add
+>  vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d t=
+o liobn fd %d"
+>  vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add=
+ [iommu] 0x%"PRIx64" - 0x%"PRIx64
+>  vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, voi=
+d *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+> +vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t o=
+ffset_within_region, uint64_t page_size) "Region \"%s\" iova=3D0x%"PRIx64" =
+offset_within_region=3D0x%"PRIx64" qemu_real_host_page_mask=3D0x%"PRIxPTR "=
+: cannot be mapped for DMA"
+
+So here we've been passed qemu_real_host_page_size but we're again
+printing "qemu_real_host_page_mask=3D0x%...".  To make things slightly
+more complicated, qemu_real_host_page_mask is now an intptr_t, which is
+arbitrarily not supported in trace commands, while
+qemu_real_host_page_size is a uintptr_t which is supported in trace
+commands :-\  I'll let you decide how you want to resolve this.  Thanks,
+
+Alex
 
 
