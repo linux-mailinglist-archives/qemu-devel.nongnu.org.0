@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF6F50ECC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:46:02 +0200 (CEST)
-Received: from localhost ([::1]:55510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335ED50ECC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:43:05 +0200 (CEST)
+Received: from localhost ([::1]:47164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj8P3-00076R-BI
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:46:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43662)
+	id 1nj8MC-0001UI-9z
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:43:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8ID-0006rH-OP
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8ID-0006rG-Ly
  for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:38:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36574)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IB-0007hm-GO
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IA-0007hh-Un
  for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:38:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650929935;
+ s=mimecast20190719; t=1650929934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4IWpV0bLKv2V8Tzv3MqkG3QZdqlBVwJmDqV3FtfObSI=;
- b=PE0qQdP8IYO3IvG2H0Hxi6u4h6ltuLVUvUwEoVqYaTkbdEc/oSSZq6wH1G70p3SpmdQtyL
- Y7JtAfQqsTwnGGjOyFV51TqmiAldor/2P7dkaPgeQ5l168JFazwN8e9yoEEzMWZf7HND4T
- nihC8azZ+IBrkDlfO2kKyAZBEXYtk+U=
+ bh=u5X9bt/3RAsZQjwKglbnsbx8v9F0z8+wpzsDpKL6Fdo=;
+ b=b/1d438bygHY1xcTcAsGNBGGDFL4RDawx6xXPomZrkMISFEqunSINRhKJJ4O8RweHtqPdS
+ ydUIAvfN+2h1o5jaOrjvoiNy01aK/Mv6JEcrPTJ4D5hcPSizbxbBtQd8+UaLsSgHsClIaZ
+ tCsxBfjR+rBpMVt8UFCOTSK7YchDeT4=
 Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
  [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77-bIsJXW0sPEifw9C8oOi2fw-1; Mon, 25 Apr 2022 19:38:51 -0400
-X-MC-Unique: bIsJXW0sPEifw9C8oOi2fw-1
+ us-mta-257-rVAQaOCCN124MWOr0wDEIA-1; Mon, 25 Apr 2022 19:38:53 -0400
+X-MC-Unique: rVAQaOCCN124MWOr0wDEIA-1
 Received: by mail-io1-f70.google.com with SMTP id
- t1-20020a056602140100b0065393cc1dc3so12552290iov.5
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:38:51 -0700 (PDT)
+ k20-20020a5e9314000000b00649d55ffa67so12528253iom.20
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:38:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4IWpV0bLKv2V8Tzv3MqkG3QZdqlBVwJmDqV3FtfObSI=;
- b=2MjwRC3QAzdj6LtOO0AVraJDG0uAiGxxhE3gSts+58FHVnr+GoCR7GK6i1oNYFAIbQ
- /v/xBeTlgh0DzvQmc6ohgqMcnYDxwA4X30AMhirJA/TZ4wDQTzemavf0yW/+5Zfv8MuX
- Eb3s2l98ByGevTQknTRuWFNDlCE0JDnOx1DD2IGVUooHavnD/spS/tMACr18EE6hkBUM
- GzfaWo4GWhpaQT4I+syUciTZPDqhh7pa3oc0epEzwBuTl/9bZXQRzVeo/YsaK1h1MfGH
- SHL/dfmNFuipcHtwVI506/CoOps4dMBRs+5BTDOfmsjwlEsS8WCr7ytxdwmm8rGG4EEH
- vN2A==
-X-Gm-Message-State: AOAM5311u1zvav3O+d4HqQWSGNNToQ0Yp3y68bJ+85NsoOJJtD8oG7if
- 9+7Lb2M3x3TDWM0ifJCPH8MC4EW/Bw3B1hjRiLpJnNuiyMlAxF+T1x4TI9a5KhT0doo/ahOlqG6
- 8Qe6iDvxhFNyiJUMkRAqnlQXzDu7RKs8qg7yc6wJxx8PE5eua/wmnARCnActFIHPc
-X-Received: by 2002:a05:6638:3183:b0:32a:7cb1:a13 with SMTP id
- z3-20020a056638318300b0032a7cb10a13mr8505242jak.89.1650929931104; 
- Mon, 25 Apr 2022 16:38:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw5ZAyHNGRimpeJvvw3JxiloGQipHpae1uS+K5wLvMmpeX9GYf5Whcy+3+g/g8mTScOzIXsvQ==
-X-Received: by 2002:a05:6638:3183:b0:32a:7cb1:a13 with SMTP id
- z3-20020a056638318300b0032a7cb10a13mr8505228jak.89.1650929930771; 
- Mon, 25 Apr 2022 16:38:50 -0700 (PDT)
+ bh=u5X9bt/3RAsZQjwKglbnsbx8v9F0z8+wpzsDpKL6Fdo=;
+ b=HHRAI9XfvuOXV1euzOq2ZrSUYjJfPZrCgjO26kRT0/aa8NhO+PgUQKozhVvGPGkklS
+ ZKnH9n4F4FZ4PygQyQLGXtYeLXQYnMN+ahvnNFkftGvLP2eOM6tEDGE0635ic2jVi+ut
+ wRTyKHBZFrwrgmCFOXIKCwvhjmGF6kTtj0dL056voPGIZADDCYNlqCAti6pQChsHWYgJ
+ L2BntQTFUCK7MadJAVveLlUHdtlmLrLbbdObtXK+OMLECFiqFIHNrB2sGvVgun5Njq+Y
+ yxHHsdUAlthu87zGRsCjohSVn8d/PlaGZuWxwO1t/KQTXT3m6EIXpFNvV4AxR/fA2Apv
+ 5hTg==
+X-Gm-Message-State: AOAM533lSwyY/f8ELOyrP73yDsa8WASRhJhtJH6Mnn2yH8BwNn/d7Iqw
+ /ekREeFWTtUTTHhLSYKHtVZ71waKEUMDZBozuqmmSYfK1U04oOOOYwrnl0mgTxrG3pf1Vdyj9wZ
+ U24AWizG+0wcneIj4f4EMwJVXn3wo+U+cqfL+ANaYCy8ququI8uGk0Q6dTjUx9pLZ
+X-Received: by 2002:a5e:930e:0:b0:649:d7f0:ebc5 with SMTP id
+ k14-20020a5e930e000000b00649d7f0ebc5mr8152868iom.80.1650929932460; 
+ Mon, 25 Apr 2022 16:38:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4ZGsA4VU05kSkval1TzG4Mt9akMHE0HflCtXMA8YKzMo85PXBtyv5Y78L4Wh4bYnILrGl5g==
+X-Received: by 2002:a5e:930e:0:b0:649:d7f0:ebc5 with SMTP id
+ k14-20020a5e930e000000b00649d7f0ebc5mr8152857iom.80.1650929932209; 
+ Mon, 25 Apr 2022 16:38:52 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.38.49
+ h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.38.51
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 25 Apr 2022 16:38:50 -0700 (PDT)
+ Mon, 25 Apr 2022 16:38:51 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/21] tests: fix encoding of IP addresses in x509 certs
-Date: Mon, 25 Apr 2022 19:38:27 -0400
-Message-Id: <20220425233847.10393-2-peterx@redhat.com>
+Subject: [PATCH v5 02/21] tests: add more helper macros for creating TLS x509
+ certs
+Date: Mon, 25 Apr 2022 19:38:28 -0400
+Message-Id: <20220425233847.10393-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220425233847.10393-1-peterx@redhat.com>
 References: <20220425233847.10393-1-peterx@redhat.com>
@@ -104,69 +105,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-We need to encode just the address bytes, not the whole struct sockaddr
-data. Add a test case to validate that we're matching on SAN IP
-addresses correctly.
+These macros are more suited to the general consumers of certs in the
+test suite, where we don't need to exercise every single possible
+permutation.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/unit/crypto-tls-x509-helpers.c | 16 +++++++++++++---
- tests/unit/test-crypto-tlssession.c  | 11 +++++++++--
- 2 files changed, 22 insertions(+), 5 deletions(-)
+ tests/unit/crypto-tls-x509-helpers.h | 53 ++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/tests/unit/crypto-tls-x509-helpers.c b/tests/unit/crypto-tls-x509-helpers.c
-index fc609b3fd4..e9937f60d8 100644
---- a/tests/unit/crypto-tls-x509-helpers.c
-+++ b/tests/unit/crypto-tls-x509-helpers.c
-@@ -168,9 +168,19 @@ test_tls_get_ipaddr(const char *addrstr,
-     hints.ai_flags = AI_NUMERICHOST;
-     g_assert(getaddrinfo(addrstr, NULL, &hints, &res) == 0);
+diff --git a/tests/unit/crypto-tls-x509-helpers.h b/tests/unit/crypto-tls-x509-helpers.h
+index cf6329e653..247e7160eb 100644
+--- a/tests/unit/crypto-tls-x509-helpers.h
++++ b/tests/unit/crypto-tls-x509-helpers.h
+@@ -26,6 +26,9 @@
+ #include <libtasn1.h>
  
--    *datalen = res->ai_addrlen;
--    *data = g_new(char, *datalen);
--    memcpy(*data, res->ai_addr, *datalen);
-+    if (res->ai_family == AF_INET) {
-+        struct sockaddr_in *in = (struct sockaddr_in *)res->ai_addr;
-+        *datalen = sizeof(in->sin_addr);
-+        *data = g_new(char, *datalen);
-+        memcpy(*data, &in->sin_addr, *datalen);
-+    } else if (res->ai_family == AF_INET6) {
-+        struct sockaddr_in6 *in = (struct sockaddr_in6 *)res->ai_addr;
-+        *datalen = sizeof(in->sin6_addr);
-+        *data = g_new(char, *datalen);
-+        memcpy(*data, &in->sin6_addr, *datalen);
-+    } else {
-+        g_assert_not_reached();
-+    }
-     freeaddrinfo(res);
- }
  
-diff --git a/tests/unit/test-crypto-tlssession.c b/tests/unit/test-crypto-tlssession.c
-index 5f0da9192c..a6935d8497 100644
---- a/tests/unit/test-crypto-tlssession.c
-+++ b/tests/unit/test-crypto-tlssession.c
-@@ -512,12 +512,19 @@ int main(int argc, char **argv)
-                   false, true, "wiki.qemu.org", NULL);
- 
-     TEST_SESS_REG(altname4, cacertreq.filename,
-+                  servercertalt1req.filename, clientcertreq.filename,
-+                  false, false, "192.168.122.1", NULL);
-+    TEST_SESS_REG(altname5, cacertreq.filename,
-+                  servercertalt1req.filename, clientcertreq.filename,
-+                  false, false, "fec0::dead:beaf", NULL);
++#define QCRYPTO_TLS_TEST_CLIENT_NAME "ACME QEMU Client"
++#define QCRYPTO_TLS_TEST_CLIENT_HOSTILE_NAME "ACME Hostile Client"
 +
-+    TEST_SESS_REG(altname6, cacertreq.filename,
-                   servercertalt2req.filename, clientcertreq.filename,
-                   false, true, "qemu.org", NULL);
--    TEST_SESS_REG(altname5, cacertreq.filename,
-+    TEST_SESS_REG(altname7, cacertreq.filename,
-                   servercertalt2req.filename, clientcertreq.filename,
-                   false, false, "www.qemu.org", NULL);
--    TEST_SESS_REG(altname6, cacertreq.filename,
-+    TEST_SESS_REG(altname8, cacertreq.filename,
-                   servercertalt2req.filename, clientcertreq.filename,
-                   false, false, "wiki.qemu.org", NULL);
+ /*
+  * This contains parameter about how to generate
+  * certificates.
+@@ -118,6 +121,56 @@ void test_tls_cleanup(const char *keyfile);
+     };                                                                  \
+     test_tls_generate_cert(&varname, NULL)
  
++# define TLS_ROOT_REQ_SIMPLE(varname, fname)                            \
++    QCryptoTLSTestCertReq varname = {                                   \
++        .filename = fname,                                              \
++        .cn = "qemu-CA",                                                \
++        .basicConstraintsEnable = true,                                 \
++        .basicConstraintsCritical = true,                               \
++        .basicConstraintsIsCA = true,                                   \
++        .keyUsageEnable = true,                                         \
++        .keyUsageCritical = true,                                       \
++        .keyUsageValue = GNUTLS_KEY_KEY_CERT_SIGN,                      \
++    };                                                                  \
++    test_tls_generate_cert(&varname, NULL)
++
++# define TLS_CERT_REQ_SIMPLE_CLIENT(varname, cavarname, cname, fname)   \
++    QCryptoTLSTestCertReq varname = {                                   \
++        .filename = fname,                                              \
++        .cn = cname,                                                    \
++        .basicConstraintsEnable = true,                                 \
++        .basicConstraintsCritical = true,                               \
++        .basicConstraintsIsCA = false,                                  \
++        .keyUsageEnable = true,                                         \
++        .keyUsageCritical = true,                                       \
++        .keyUsageValue =                                                \
++        GNUTLS_KEY_DIGITAL_SIGNATURE | GNUTLS_KEY_KEY_ENCIPHERMENT,     \
++        .keyPurposeEnable = true,                                       \
++        .keyPurposeCritical = true,                                     \
++        .keyPurposeOID1 = GNUTLS_KP_TLS_WWW_CLIENT,                     \
++    };                                                                  \
++    test_tls_generate_cert(&varname, cavarname.crt)
++
++# define TLS_CERT_REQ_SIMPLE_SERVER(varname, cavarname, fname,          \
++                                    hostname, ipaddr)                   \
++    QCryptoTLSTestCertReq varname = {                                   \
++        .filename = fname,                                              \
++        .cn = hostname ? hostname : ipaddr,                             \
++        .altname1 = hostname,                                           \
++        .ipaddr1 = ipaddr,                                              \
++        .basicConstraintsEnable = true,                                 \
++        .basicConstraintsCritical = true,                               \
++        .basicConstraintsIsCA = false,                                  \
++        .keyUsageEnable = true,                                         \
++        .keyUsageCritical = true,                                       \
++        .keyUsageValue =                                                \
++        GNUTLS_KEY_DIGITAL_SIGNATURE | GNUTLS_KEY_KEY_ENCIPHERMENT,     \
++        .keyPurposeEnable = true,                                       \
++        .keyPurposeCritical = true,                                     \
++        .keyPurposeOID1 = GNUTLS_KP_TLS_WWW_SERVER,                     \
++    };                                                                  \
++    test_tls_generate_cert(&varname, cavarname.crt)
++
+ extern const asn1_static_node pkix_asn1_tab[];
+ 
+ #endif
 -- 
 2.32.0
 
