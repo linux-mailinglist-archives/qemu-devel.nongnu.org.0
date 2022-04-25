@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A508C50E149
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 15:13:21 +0200 (CEST)
-Received: from localhost ([::1]:44162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD7350E163
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 15:17:45 +0200 (CEST)
+Received: from localhost ([::1]:48658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niyWm-0003q4-Q5
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 09:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43422)
+	id 1niyb1-000786-Tv
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 09:17:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1niyS2-0008Ra-5T
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:08:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41041)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1niyZl-0005np-QD
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:16:25 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:21617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1niyRw-0007xt-Eq
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:08:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650892099;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=A1DW029SDw1sLQkzl7nCIfsNu34v/ERFCq8qQRD4wno=;
- b=UN6BB/H5vEFLkB52ruGmAJ1oTwQtLKH5Vb7DxEJCl+TRXr8BUQY3Wm0EUeg31mcjLeDNbA
- Dii6vdiFk3rN0URQ3fbIXes1DK3ZE6DlpDDbwgM75cKiEmL3O/xqCFXcK7RS/5VD1adCM2
- KfyY+rWGAqz/xc6cKJXkQ0xM5EPexeo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1niyZj-00019Q-Ms
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:16:25 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-378-zueK9MNOPgepF1xxCdoEoA-1; Mon, 25 Apr 2022 09:08:17 -0400
-X-MC-Unique: zueK9MNOPgepF1xxCdoEoA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-148-QvXvtK2pMQedaJdP_QGFxQ-1; Mon, 25 Apr 2022 09:16:11 -0400
+X-MC-Unique: QvXvtK2pMQedaJdP_QGFxQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0688C3C02B84;
- Mon, 25 Apr 2022 13:08:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29CBE401E97;
- Mon, 25 Apr 2022 13:08:11 +0000 (UTC)
-Date: Mon, 25 Apr 2022 14:08:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Martin Kletzander <mkletzan@redhat.com>
-Subject: Re: [PATCH 18/18] audio/spiceaudio: Fail initialisation when not
- using spice
-Message-ID: <YmadOLrKgNvyHCLX@redhat.com>
-References: <cover.1650874791.git.mkletzan@redhat.com>
- <5db1fdef0330f20ed6ae306b5a71dad1b5e9b44c.1650874791.git.mkletzan@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CECD6803D7C;
+ Mon, 25 Apr 2022 13:16:10 +0000 (UTC)
+Received: from bahia (unknown [10.39.193.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5DBE40C1241;
+ Mon, 25 Apr 2022 13:16:09 +0000 (UTC)
+Date: Mon, 25 Apr 2022 15:16:08 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v3 6/6] 9pfs: fix qemu_mknodat() to always return -1 on
+ error on macOS host
+Message-ID: <20220425151608.19c3b1db@bahia>
+In-Reply-To: <a48ced8707c1e07420e692088905ee23fde132f8.1650889269.git.qemu_oss@crudebyte.com>
+References: <cover.1650889268.git.qemu_oss@crudebyte.com>
+ <a48ced8707c1e07420e692088905ee23fde132f8.1650889269.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5db1fdef0330f20ed6ae306b5a71dad1b5e9b44c.1650874791.git.mkletzan@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,70 +64,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, libvir-list@redhat.com,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, qemu-arm@nongnu.org,
- Jan Kiszka <jan.kiszka@web.de>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Darren Kenny <darren.kenny@oracle.com>,
- Thomas Huth <huth@tuxfamily.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 25, 2022 at 10:22:01AM +0200, Martin Kletzander wrote:
-> The caller would already fail, but this way the message can better
-> express the reason for the failure.
+On Mon, 25 Apr 2022 14:21:00 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+
+> qemu_mknodat() is expected to behave according to its POSIX API, and
+> therefore should always return exactly -1 on any error, and errno
+> should be set for the actual error code.
 > 
-> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2043498
-> 
-> Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > ---
->  audio/spiceaudio.c | 3 ++-
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  hw/9pfs/9p-util-darwin.c | 3 ++-
 >  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-> index a8d370fe6f31..fdbd7dc285ad 100644
-> --- a/audio/spiceaudio.c
-> +++ b/audio/spiceaudio.c
-> @@ -74,8 +74,9 @@ static const SpiceRecordInterface record_sif = {
->  static void *spice_audio_init(Audiodev *dev)
->  {
->      if (!using_spice) {
-> -        return NULL;
-> +        error_setg(&error_fatal, "Cannot use spice audio without -spice");
-
-Typically one would not use error_fatal directly with a call
-to error_setg(). The usual pattern would be for the method
-calling error_setg() to have an 'Error **errp' parameter.
-The caller would then pass in &error_fatal when calling the
-method, or pass in a real error object if wishing to receive
-the error.
-
-If you don't want to plumb in an 'Error **errp' to the
-spice_audio_init() method, then it would be sufficient to
-instead just do
-
-   error_report("Cannot use spice....")
-
-Using 'Error **errp' is best practice in new code, but no one
-will blame you for not refactoring existing code to support
-this if looks like too much work.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> index 63797e60cd..7364da394c 100644
+> --- a/hw/9pfs/9p-util-darwin.c
+> +++ b/hw/9pfs/9p-util-darwin.c
+> @@ -116,7 +116,8 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+>      }
+>      if (!pthread_fchdir_np) {
+>          error_report_once("pthread_fchdir_np() not available on this version of macOS");
+> -        return -ENOTSUP;
+> +        errno = ENOTSUP;
+> +        return -1;
+>      }
+>      if (pthread_fchdir_np(dirfd) < 0) {
+>          return -1;
 
 
