@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CD950ECE3
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:53:49 +0200 (CEST)
-Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BA350ECDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:52:24 +0200 (CEST)
+Received: from localhost ([::1]:47624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj8Wb-0007RC-0J
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:53:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43864)
+	id 1nj8VD-00044U-4K
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IQ-0007PB-Ns
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59734)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IR-0007S6-KU
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IO-0007lJ-R5
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:10 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IQ-0007lW-12
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650929948;
+ s=mimecast20190719; t=1650929949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BsM5BPNa2FImfWHhVVrmnaKWQXhjdEE/jidXE0uGgKA=;
- b=ci5/I6D5S6qna7yUdkzgEV9l23IVMz1oaVqcVi/98HA+nHAPvFDnbWaIKWNBA+IbRiw26K
- 07xOt6IQHNz5bgAcCKa+7kdsPcUvafJRTvQlG0hvfe07Yx339wgzZ0H/GNuRUg74Bqnc+u
- oyTCeeCx/J+D93Pn3je/5egDmzvfEUA=
+ bh=gtNv1DxIePLTzveSRj6tKkTCkAbWSCUPFKNOY6OzAIg=;
+ b=METkfk96rNUsfUbsqk+c+gZNTVuctFUHhdzjn/nfuNR2RUYEGMKYHM2C6KXr5ZIylfGfoY
+ GDhJ9o6ZmQWkemM7Tzf+/W7HEsn7Ku6gS/nFK/LE5XPPhX/7xkjWTCVnww+vbhs+10/H0H
+ VQLcNMh4XiOKHcPN2bQ7xLYZ0H6vmDk=
 Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
  [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-yk2MuEtOPpu2rH5rsr0CkQ-1; Mon, 25 Apr 2022 19:39:07 -0400
-X-MC-Unique: yk2MuEtOPpu2rH5rsr0CkQ-1
+ us-mta-537-nn9xTvJzNkSbee9Pmd-d4w-1; Mon, 25 Apr 2022 19:39:08 -0400
+X-MC-Unique: nn9xTvJzNkSbee9Pmd-d4w-1
 Received: by mail-io1-f72.google.com with SMTP id
- u18-20020a5d8712000000b0064c7a7c497aso12501919iom.18
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:39:07 -0700 (PDT)
+ x8-20020a056602160800b00654b3a46b66so12501734iow.19
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:39:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BsM5BPNa2FImfWHhVVrmnaKWQXhjdEE/jidXE0uGgKA=;
- b=23/PHZ52yi7X4Uxu0pEkPdOktmo6fKUvCSBrkUpDL+9xU2VuNZYFUBSzk8+T+suNWs
- N8MQS/6yfFuKT0600EVO9StWgsx27rYc9KugPmktx2dt77FPeY6oVIMm5VC4UeZVY/kB
- v2Ou1Puw/w56zeeC6bI++xnghp9r5QrXeDEnZQCmfCjipaKGZNgxroThofuisAFhKTmv
- NJ9IUioXYoKm2pOjc/xzgEFkZJPszwCA4v1roa2Npbez+vmy9t1SC4MG+W/VBkldFqxQ
- QiRDmhNJpqHWwHahJvl1DfqsXN5v6PnRU/UaSlvp2RIMrHm9rA5HquPMRJxkyCw07Cau
- LE9Q==
-X-Gm-Message-State: AOAM533ToG+ePs4W2uqaMOLIN9yqpAFN3s3xILAkGnHZJMo3PS1/Fskn
- yZrzpYXk1U2i+Iv+Ar3R8SEoev+Zx05he2HXzEL1TOOjhYEaYfSDa2ouQE+qj6ZqeO/xrp3kdJd
- fKMMkMI9yGJx4uH7XjDNuTVXbR8PWiPUk3taBI0jcZVkqtBX1nLC2bwjxRLtvQmVg
-X-Received: by 2002:a05:6e02:15c6:b0:2c2:5ab0:948 with SMTP id
- q6-20020a056e0215c600b002c25ab00948mr7856342ilu.171.1650929946291; 
- Mon, 25 Apr 2022 16:39:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYORy0sRw1T2pMcA7Gh/GP0FMV8iyVsU9lslWT8eqEAYiI/CylzbeFKfA+OfLz7n1DrGb+mw==
-X-Received: by 2002:a05:6e02:15c6:b0:2c2:5ab0:948 with SMTP id
- q6-20020a056e0215c600b002c25ab00948mr7856326ilu.171.1650929945924; 
- Mon, 25 Apr 2022 16:39:05 -0700 (PDT)
+ bh=gtNv1DxIePLTzveSRj6tKkTCkAbWSCUPFKNOY6OzAIg=;
+ b=I5bTC6ZZfDLiGgRCjqGpgwueE937JfTJxuVh378ynPrwyxL/unzZybr6nPrq58FSa8
+ JgSPmGME52A5hf1+wWH48suATu9bBX6UqMuzBhUCbEsYXLhupeFi6rHHRXFq6ev7f1eV
+ CzcCIJjz2ds76SSS751AW1UWbrcisOegFdBJf2L9hbfUP5iflW6gMI+n+NuPJwFBYKer
+ DNBtEe0L67jrxAGKDAsQrj+ul1IRb03mZmaYCDwq1aSQch9609Ydn+lnOQvyBoeEThwe
+ rdVkogYtGybskvZt6J01/H0GufbC4lYby/lXLK3uT5vOhk25BqXFgr2FaUqE8w9ope+8
+ e51g==
+X-Gm-Message-State: AOAM533qBmqUYMex82kdbZui5jqagVCYQITrGswcbuML7nxGxj59urMn
+ E4PIL+APHDYkQ9F7iJ/uoqbmkR09AMfUggOCCv4URukWZ+/nUli8Fq7LsB78tpNzlHKOgmfv/2L
+ cRDpJ0TezoEUxGDfzilIwIz9cWbufvfS08xRhdrJEvJrD7y8vO8Go6s7YMKxukgam
+X-Received: by 2002:a05:6602:2d06:b0:655:3324:4cc8 with SMTP id
+ c6-20020a0566022d0600b0065533244cc8mr8596283iow.74.1650929947409; 
+ Mon, 25 Apr 2022 16:39:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnKIJRW7V+59IEcEwI2vPvoO9DZXWCZfl+yEAmh33fTim1XAJffdhEzg4jkvIQ3Fx4uZraIA==
+X-Received: by 2002:a05:6602:2d06:b0:655:3324:4cc8 with SMTP id
+ c6-20020a0566022d0600b0065533244cc8mr8596270iow.74.1650929947127; 
+ Mon, 25 Apr 2022 16:39:07 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.39.04
+ h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.39.06
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 25 Apr 2022 16:39:05 -0700 (PDT)
+ Mon, 25 Apr 2022 16:39:06 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 14/21] migration: Create the postcopy preempt channel
- asynchronously
-Date: Mon, 25 Apr 2022 19:38:40 -0400
-Message-Id: <20220425233847.10393-15-peterx@redhat.com>
+Subject: [PATCH v5 15/21] migration: Parameter x-postcopy-preempt-break-huge
+Date: Mon, 25 Apr 2022 19:38:41 -0400
+Message-Id: <20220425233847.10393-16-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220425233847.10393-1-peterx@redhat.com>
 References: <20220425233847.10393-1-peterx@redhat.com>
@@ -102,192 +101,73 @@ Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch allows the postcopy preempt channel to be created
-asynchronously.  The benefit is that when the connection is slow, we won't
-take the BQL (and potentially block all things like QMP) for a long time
-without releasing.
+Add a parameter that can conditionally disable the "break sending huge
+page" behavior in postcopy preemption.  By default it's enabled.
 
-A function postcopy_preempt_wait_channel() is introduced, allowing the
-migration thread to be able to wait on the channel creation.  The channel
-is always created by the main thread, in which we'll kick a new semaphore
-to tell the migration thread that the channel has created.
-
-We'll need to wait for the new channel in two places: (1) when there's a
-new postcopy migration that is starting, or (2) when there's a postcopy
-migration to resume.
-
-For the start of migration, we don't need to wait for this channel until
-when we want to start postcopy, aka, postcopy_start().  We'll fail the
-migration if we found that the channel creation failed (which should
-probably not happen at all in 99% of the cases, because the main channel is
-using the same network topology).
-
-For a postcopy recovery, we'll need to wait in postcopy_pause().  In that
-case if the channel creation failed, we can't fail the migration or we'll
-crash the VM, instead we keep in PAUSED state, waiting for yet another
-recovery.
+It should only be used for debugging purposes, and we should never remove
+the "x-" prefix.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c    | 16 ++++++++++++
- migration/migration.h    |  7 +++++
- migration/postcopy-ram.c | 56 +++++++++++++++++++++++++++++++---------
- migration/postcopy-ram.h |  1 +
- 4 files changed, 68 insertions(+), 12 deletions(-)
+ migration/migration.c | 2 ++
+ migration/migration.h | 7 +++++++
+ migration/ram.c       | 7 +++++++
+ 3 files changed, 16 insertions(+)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index a0db5de685..cce741e20e 100644
+index cce741e20e..cd9650f2e2 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -3020,6 +3020,12 @@ static int postcopy_start(MigrationState *ms)
-     int64_t bandwidth = migrate_max_postcopy_bandwidth();
-     bool restart_block = false;
-     int cur_state = MIGRATION_STATUS_ACTIVE;
-+
-+    if (postcopy_preempt_wait_channel(ms)) {
-+        migrate_set_state(&ms->state, ms->state, MIGRATION_STATUS_FAILED);
-+        return -1;
-+    }
-+
-     if (!migrate_pause_before_switchover()) {
-         migrate_set_state(&ms->state, MIGRATION_STATUS_ACTIVE,
-                           MIGRATION_STATUS_POSTCOPY_ACTIVE);
-@@ -3501,6 +3507,14 @@ static MigThrError postcopy_pause(MigrationState *s)
-         if (s->state == MIGRATION_STATUS_POSTCOPY_RECOVER) {
-             /* Woken up by a recover procedure. Give it a shot */
+@@ -4329,6 +4329,8 @@ static Property migration_properties[] = {
+     DEFINE_PROP_SIZE("announce-step", MigrationState,
+                       parameters.announce_step,
+                       DEFAULT_MIGRATE_ANNOUNCE_STEP),
++    DEFINE_PROP_BOOL("x-postcopy-preempt-break-huge", MigrationState,
++                      postcopy_preempt_break_huge, true),
  
-+            if (postcopy_preempt_wait_channel(s)) {
-+                /*
-+                 * Preempt enabled, and new channel create failed; loop
-+                 * back to wait for another recovery.
-+                 */
-+                continue;
-+            }
-+
-             /*
-              * Firstly, let's wake up the return path now, with a new
-              * return path channel.
-@@ -4360,6 +4374,7 @@ static void migration_instance_finalize(Object *obj)
-     qemu_sem_destroy(&ms->postcopy_pause_sem);
-     qemu_sem_destroy(&ms->postcopy_pause_rp_sem);
-     qemu_sem_destroy(&ms->rp_state.rp_sem);
-+    qemu_sem_destroy(&ms->postcopy_qemufile_src_sem);
-     error_free(ms->error);
- }
- 
-@@ -4406,6 +4421,7 @@ static void migration_instance_init(Object *obj)
-     qemu_sem_init(&ms->rp_state.rp_sem, 0);
-     qemu_sem_init(&ms->rate_limit_sem, 0);
-     qemu_sem_init(&ms->wait_unplug_sem, 0);
-+    qemu_sem_init(&ms->postcopy_qemufile_src_sem, 0);
-     qemu_mutex_init(&ms->qemu_file_lock);
- }
- 
+     /* Migration capabilities */
+     DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
 diff --git a/migration/migration.h b/migration/migration.h
-index 91f845e9e4..f898b8547a 100644
+index f898b8547a..6ee520642f 100644
 --- a/migration/migration.h
 +++ b/migration/migration.h
-@@ -219,6 +219,13 @@ struct MigrationState {
-     QEMUFile *to_dst_file;
-     /* Postcopy specific transfer channel */
-     QEMUFile *postcopy_qemufile_src;
+@@ -340,6 +340,13 @@ struct MigrationState {
+     bool send_configuration;
+     /* Whether we send section footer during migration */
+     bool send_section_footer;
 +    /*
-+     * It is posted when the preempt channel is established.  Note: this is
-+     * used for both the start or recover of a postcopy migration.  We'll
-+     * post to this sem every time a new preempt channel is created in the
-+     * main thread, and we keep post() and wait() in pair.
++     * Whether we allow break sending huge pages when postcopy preempt is
++     * enabled.  When disabled, we won't interrupt precopy within sending a
++     * host huge page, which is the old behavior of vanilla postcopy.
++     * NOTE: this parameter is ignored if postcopy preempt is not enabled.
 +     */
-+    QemuSemaphore postcopy_qemufile_src_sem;
-     QIOChannelBuffer *bioc;
-     /*
-      * Protects to_dst_file/from_dst_file pointers.  We need to make sure we
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index b3c81b46f6..1bb603051a 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -1552,10 +1552,50 @@ bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
-     return true;
- }
++    bool postcopy_preempt_break_huge;
  
--int postcopy_preempt_setup(MigrationState *s, Error **errp)
-+static void
-+postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
+     /* Needed by postcopy-pause state */
+     QemuSemaphore postcopy_pause_sem;
+diff --git a/migration/ram.c b/migration/ram.c
+index a4b39e3675..f3a79c8556 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2266,11 +2266,18 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
+ 
+ static bool postcopy_needs_preempt(RAMState *rs, PageSearchStatus *pss)
  {
--    QIOChannel *ioc;
-+    MigrationState *s = opaque;
-+    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
-+    Error *local_err = NULL;
++    MigrationState *ms = migrate_get_current();
 +
-+    if (qio_task_propagate_error(task, &local_err)) {
-+        /* Something wrong happened.. */
-+        migrate_set_error(s, local_err);
-+        error_free(local_err);
-+    } else {
-+        migration_ioc_register_yank(ioc);
-+        s->postcopy_qemufile_src = qemu_fopen_channel_output(ioc);
-+        trace_postcopy_preempt_new_channel();
-+    }
-+
-+    /*
-+     * Kick the waiter in all cases.  The waiter should check upon
-+     * postcopy_qemufile_src to know whether it failed or not.
-+     */
-+    qemu_sem_post(&s->postcopy_qemufile_src_sem);
-+    object_unref(OBJECT(ioc));
-+}
- 
-+/* Returns 0 if channel established, -1 for error. */
-+int postcopy_preempt_wait_channel(MigrationState *s)
-+{
-+    /* If preempt not enabled, no need to wait */
-+    if (!migrate_postcopy_preempt()) {
-+        return 0;
-+    }
-+
-+    /*
-+     * We need the postcopy preempt channel to be established before
-+     * starting doing anything.
-+     */
-+    qemu_sem_wait(&s->postcopy_qemufile_src_sem);
-+
-+    return s->postcopy_qemufile_src ? 0 : -1;
-+}
-+
-+int postcopy_preempt_setup(MigrationState *s, Error **errp)
-+{
+     /* Not enabled eager preempt?  Then never do that. */
      if (!migrate_postcopy_preempt()) {
-         return 0;
-     }
-@@ -1566,16 +1606,8 @@ int postcopy_preempt_setup(MigrationState *s, Error **errp)
-         return -1;
+         return false;
      }
  
--    ioc = socket_send_channel_create_sync(errp);
--
--    if (ioc == NULL) {
--        return -1;
--    }
--
--    migration_ioc_register_yank(ioc);
--    s->postcopy_qemufile_src = qemu_fopen_channel_output(ioc);
--
--    trace_postcopy_preempt_new_channel();
-+    /* Kick an async task to connect */
-+    socket_send_channel_create(postcopy_preempt_send_channel_new, s);
- 
-     return 0;
- }
-diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
-index 34b1080cde..6147bf7d1d 100644
---- a/migration/postcopy-ram.h
-+++ b/migration/postcopy-ram.h
-@@ -192,5 +192,6 @@ enum PostcopyChannels {
- 
- bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file);
- int postcopy_preempt_setup(MigrationState *s, Error **errp);
-+int postcopy_preempt_wait_channel(MigrationState *s);
- 
- #endif
++    /* If the user explicitly disabled breaking of huge page, skip */
++    if (!ms->postcopy_preempt_break_huge) {
++        return false;
++    }
++
+     /* If the ramblock we're sending is a small page?  Never bother. */
+     if (qemu_ram_pagesize(pss->block) == TARGET_PAGE_SIZE) {
+         return false;
 -- 
 2.32.0
 
