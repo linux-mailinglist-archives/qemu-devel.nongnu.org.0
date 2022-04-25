@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF6550DE1D
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 12:46:11 +0200 (CEST)
-Received: from localhost ([::1]:55048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AB950DE3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 12:53:59 +0200 (CEST)
+Received: from localhost ([::1]:34314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niwEL-00060X-AH
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 06:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
+	id 1niwLu-0002u8-DB
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 06:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nivfz-00055s-FN
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:10:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25720)
+ id 1nivoX-0003CI-RJ
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:19:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nivfw-00025T-J3
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:10:38 -0400
+ id 1nivoU-0003TV-Mq
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:19:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650881435;
+ s=mimecast20190719; t=1650881965;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=MJfV5S/BB/MbzPdioRgmTqclgIaNXTER802ZZLyJuik=;
- b=EJWTWelHJ44DyNVl/HrYY0Om23JwcUn/lss27/bQC19WLj3zbDYTh/YEJ4EoxoQE4HqNMw
- 5Uo1iUc0C5vOKP/MSbytXXJBI1QFYq1MwKm8JOWJaHRKvfj5DrujsvheOhhQdtqLfpIbt1
- NH0iT1NBiu+xRHY6J1XrgytLjvWyupA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eB3D1nk7M1P2d8zNUCUv6QeNLwaSETITmbv25fjIAeU=;
+ b=Ex/g5SugbnmnFqzAR6JaGCIREIKWTblNmH8Q1vpPnwWk+KVY7djSPMirTuZEx7dv/024rh
+ XXzccZ62jKKluKRYb4urcpJZ4j16XPny+S3g5J47p6P8YN6LiOKXGyILh/FgMME9PcH1LG
+ cKXL3gGCJDQFlPG/F+Jsy03dTVYowhM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-446-uzM-iZFhN1GTu9R6Jk9_qg-1; Mon, 25 Apr 2022 06:10:21 -0400
-X-MC-Unique: uzM-iZFhN1GTu9R6Jk9_qg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-73-fK0YKOcMMxiClMFXnRE4Cw-1; Mon, 25 Apr 2022 06:19:20 -0400
+X-MC-Unique: fK0YKOcMMxiClMFXnRE4Cw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FF1F833972;
- Mon, 25 Apr 2022 10:10:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD5213C02188;
+ Mon, 25 Apr 2022 10:19:19 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AECD463DF5;
- Mon, 25 Apr 2022 10:10:16 +0000 (UTC)
-Date: Mon, 25 Apr 2022 11:10:14 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB5E24639FD;
+ Mon, 25 Apr 2022 10:19:18 +0000 (UTC)
+Date: Mon, 25 Apr 2022 11:19:16 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-Message-ID: <YmZzhohO81z1PVKS@redhat.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <20220422160943.6ff4f330.alex.williamson@redhat.com>
+To: LABBE Corentin <clabbe@baylibre.com>
+Subject: Re: [PATCH] hw/crypto: add Allwinner sun4i-ss crypto device
+Message-ID: <YmZ1pCU+0bP/LFPU@redhat.com>
+References: <20220410191238.760733-1-clabbe@baylibre.com>
+ <CAFEAcA9L89oN5nfM4RRxyYPBMtwbH1VfO1FbnXFUyC+rmzk51A@mail.gmail.com>
+ <YmWgn2OGoZ9Uyirh@Red>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220422160943.6ff4f330.alex.williamson@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YmWgn2OGoZ9Uyirh@Red>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,116 +81,176 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: akrowiak@linux.ibm.com, jjherne@linux.ibm.com, thuth@redhat.com,
- chao.p.peng@intel.com, jgg@nvidia.com, kvm@vger.kernel.org,
- "libvir-list@redhat.com" <libvir-list@redhat.com>, jasowang@redhat.com,
- cohuck@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- pasic@linux.ibm.com, eric.auger@redhat.com, yi.y.sun@intel.com,
- Yi Liu <yi.l.liu@intel.com>, nicolinc@nvidia.com, kevin.tian@intel.com,
- Laine Stump <laine@redhat.com>, david@gibson.dropbear.id.au,
- eric.auger.pro@gmail.com
+Cc: b.galvani@gmail.com, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 22, 2022 at 04:09:43PM -0600, Alex Williamson wrote:
-> [Cc +libvirt folks]
+On Sun, Apr 24, 2022 at 09:10:23PM +0200, LABBE Corentin wrote:
+> Le Thu, Apr 21, 2022 at 01:38:00PM +0100, Peter Maydell a écrit :
+> > On Sun, 10 Apr 2022 at 20:12, Corentin Labbe <clabbe@baylibre.com> wrote:
+> > >
+> > > From: Corentin LABBE <clabbe@baylibre.com>
+> > >
+> > > The Allwinner A10 has a cryptographic offloader device which
+> > > could be easily emulated.
+> > > The emulated device is tested with Linux only as any of BSD does not
+> > > support it.
+> > >
+> > > Signed-off-by: Corentin LABBE <clabbe@baylibre.com>
+> > 
+> > Hi; thanks for this patch, and sorry it's taken me a while to get
+> > to reviewing it.
+> > 
+> > (Daniel, I cc'd you since this device model is making use of crypto
+> > related APIs.)
+> > 
+> > Firstly, a note on patch structure. This is quite a large patch,
+> > and I think it would be useful to split it at least into two parts:
+> >  (1) add the new device model
+> >  (2) change the allwinner SoC to create that new device
 > 
-> On Thu, 14 Apr 2022 03:46:52 -0700
-> Yi Liu <yi.l.liu@intel.com> wrote:
+> Hello
 > 
-> > With the introduction of iommufd[1], the linux kernel provides a generic
-> > interface for userspace drivers to propagate their DMA mappings to kernel
-> > for assigned devices. This series does the porting of the VFIO devices
-> > onto the /dev/iommu uapi and let it coexist with the legacy implementation.
-> > Other devices like vpda, vfio mdev and etc. are not considered yet.
-
-snip
-
-> > The selection of the backend is made on a device basis using the new
-> > iommufd option (on/off/auto). By default the iommufd backend is selected
-> > if supported by the host and by QEMU (iommufd KConfig). This option is
-> > currently available only for the vfio-pci device. For other types of
-> > devices, it does not yet exist and the legacy BE is chosen by default.
+> I will do it for next iteration
 > 
-> I've discussed this a bit with Eric, but let me propose a different
-> command line interface.  Libvirt generally likes to pass file
-> descriptors to QEMU rather than grant it access to those files
-> directly.  This was problematic with vfio-pci because libvirt can't
-> easily know when QEMU will want to grab another /dev/vfio/vfio
-> container.  Therefore we abandoned this approach and instead libvirt
-> grants file permissions.
+> > 
+> > > diff --git a/docs/system/arm/cubieboard.rst b/docs/system/arm/cubieboard.rst
+> > > index 344ff8cef9..7836643ba4 100644
+> > > --- a/docs/system/arm/cubieboard.rst
+> > > +++ b/docs/system/arm/cubieboard.rst
+> > > @@ -14,3 +14,4 @@ Emulated devices:
+> > >  - SDHCI
+> > >  - USB controller
+> > >  - SATA controller
+> > > +- crypto
+> > > diff --git a/docs/system/devices/allwinner-sun4i-ss.rst b/docs/system/devices/allwinner-sun4i-ss.rst
+> > > new file mode 100644
+> > > index 0000000000..6e7d2142b5
+> > > --- /dev/null
+> > > +++ b/docs/system/devices/allwinner-sun4i-ss.rst
+> > > @@ -0,0 +1,31 @@
+> > > +Allwinner sun4i-ss
+> > > +==================
+> > 
+> > If you create a new rst file in docs, you need to put it into the
+> > manual by adding it to some table of contents. Otherwise sphinx
+> > will complain when you build the documentation, and users won't be
+> > able to find it. (If you pass 'configure' the --enable-docs option
+> > that will check that you have everything installed to be able to
+> > build the docs.)
+> > 
+> > There are two options here: you can have this document, and
+> > add it to the toctree in docs/system/device-emulation.rst, and
+> > make the "crypto" bullet point in cubieboard.rst be a hyperlink to
+> > the device-emulation.rst file. Or you can compress the information
+> > down and put it into orangepi.rst.
+> > 
+> > > +The ``sun4i-ss`` emulates the Allwinner cryptographic offloader
+> > > +present on early Allwinner SoCs (A10, A10s, A13, A20, A33)
+> > > +In qemu only A10 via the cubieboard machine is supported.
+> > > +
+> > > +The emulated hardware is capable of handling the following algorithms:
+> > > +- SHA1 and MD5 hash algorithms
+> > > +- AES/DES/DES3 in CBC/ECB
+> > > +- PRNG
+> > > +
+> > > +The emulated hardware does not handle yet:
+> > > +- CTS for AES
+> > > +- CTR for AES/DES/DES3
+> > > +- IRQ and DMA mode
+> > > +Anyway the Linux driver also does not handle them yet.
+> > > +
+> > > +The emulation needs a real crypto backend, for the moment only gnutls/nettle is supported.
+> > > +So the device emulation needs qemu to be compiled with optionnal gnutls.
+> > 
+> > > diff --git a/hw/Kconfig b/hw/Kconfig
+> > > index ad20cce0a9..43bd7fc14d 100644
+> > > --- a/hw/Kconfig
+> > > +++ b/hw/Kconfig
+> > > @@ -6,6 +6,7 @@ source audio/Kconfig
+> > >  source block/Kconfig
+> > >  source char/Kconfig
+> > >  source core/Kconfig
+> > > +source crypto/Kconfig
+> > >  source display/Kconfig
+> > >  source dma/Kconfig
+> > >  source gpio/Kconfig
+> > 
+> > I don't think we really need a new subdirectory of hw/
+> > for a single device. If you can find two other devices that
+> > already exist in QEMU that would also belong in hw/crypto/
+> > then we can create it. Otherwise just put this device in
+> > hw/misc.
 > 
-> However, with iommufd there's no reason that QEMU ever needs more than
-> a single instance of /dev/iommufd and we're using per device vfio file
-> descriptors, so it seems like a good time to revisit this.
-
-I assume access to '/dev/iommufd' gives the process somewhat elevated
-privileges, such that you don't want to unconditionally give QEMU
-access to this device ?
-
-> The interface I was considering would be to add an iommufd object to
-> QEMU, so we might have a:
+> I plan to add at least one other hw/crypto device (allwinner H3 sun8i-ce).
+> I have another one already ready (rockchip rk3288) but I delay it since there are no related SoC in qemu yet.
 > 
-> -device iommufd[,fd=#][,id=foo]
+> > 
+> > > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> > > index 97f3b38019..fd8232b1d4 100644
+> > > --- a/hw/arm/Kconfig
+> > > +++ b/hw/arm/Kconfig
+> > > @@ -317,6 +317,7 @@ config ALLWINNER_A10
+> > >      select AHCI
+> > >      select ALLWINNER_A10_PIT
+> > >      select ALLWINNER_A10_PIC
+> > > +    select ALLWINNER_CRYPTO_SUN4I_SS
+> > >      select ALLWINNER_EMAC
+> > >      select SERIAL
+> > >      select UNIMP
+> > > diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+> > > index 05e84728cb..e9104ee028 100644
+> > > --- a/hw/arm/allwinner-a10.c
+> > > +++ b/hw/arm/allwinner-a10.c
+> > > @@ -23,6 +23,7 @@
+> > >  #include "hw/misc/unimp.h"
+> > >  #include "sysemu/sysemu.h"
+> > >  #include "hw/boards.h"
+> > > +#include "hw/crypto/allwinner-sun4i-ss.h"
+> > >  #include "hw/usb/hcd-ohci.h"
+> > >
+> > >  #define AW_A10_MMC0_BASE        0x01c0f000
+> > > @@ -32,6 +33,7 @@
+> > >  #define AW_A10_EMAC_BASE        0x01c0b000
+> > >  #define AW_A10_EHCI_BASE        0x01c14000
+> > >  #define AW_A10_OHCI_BASE        0x01c14400
+> > > +#define AW_A10_CRYPTO_BASE      0x01c15000
+> > >  #define AW_A10_SATA_BASE        0x01c18000
+> > >  #define AW_A10_RTC_BASE         0x01c20d00
+> > >
+> > > @@ -48,6 +50,10 @@ static void aw_a10_init(Object *obj)
+> > >
+> > >      object_initialize_child(obj, "emac", &s->emac, TYPE_AW_EMAC);
+> > >
+> > > +#if defined CONFIG_NETTLE
+> > > +    object_initialize_child(obj, "crypto", &s->crypto, TYPE_AW_SUN4I_SS);
+> > > +#endif
+> > 
+> > Don't put this kind of ifdef into device/SoC code, please.
+> > The device emulation needs to work regardless of what
+> > the specific crypto backends that got compiled into QEMU are.
+> > 
+> > > +#include <nettle/aes.h>
+> > > +#include <nettle/cbc.h>
+> > > +#include <nettle/des.h>
+> > > +#include <nettle/md5.h>
+> > > +#include <nettle/sha1.h>
+> > 
+> > Similarly, don't directly include nettle headers. The device needs
+> > to use the backend-agnostic headers from include/crypto. To the
+> > extent that they aren't sufficient to implement this device we
+> > can look at enhancing them.
 > 
-> For non-libivrt usage this would have the ability to open /dev/iommufd
-> itself if an fd is not provided.  This object could be shared with
-> other iommufd users in the VM and maybe we'd allow multiple instances
-> for more esoteric use cases.  [NB, maybe this should be a -object rather than
-> -device since the iommufd is not a guest visible device?]
+> Problem is that current qemu crypto backends do not have necessary
+> functions needed by this driver, I need to do basic MD5 transform
+> with custom IV.
+> I will check if it can be added in qemu crypto API.
 
-Yes,  -object would be the right answer for something that's purely
-a host side backend impl selector.
-
-> The vfio-pci device might then become:
-> 
-> -device vfio-pci[,host=DDDD:BB:DD.f][,sysfsdev=/sys/path/to/device][,fd=#][,iommufd=foo]
-> 
-> So essentially we can specify the device via host, sysfsdev, or passing
-> an fd to the vfio device file.  When an iommufd object is specified,
-> "foo" in the example above, each of those options would use the
-> vfio-device access mechanism, essentially the same as iommufd=on in
-> your example.  With the fd passing option, an iommufd object would be
-> required and necessarily use device level access.
-> 
-> In your example, the iommufd=auto seems especially troublesome for
-> libvirt because QEMU is going to have different locked memory
-> requirements based on whether we're using type1 or iommufd, where the
-> latter resolves the duplicate accounting issues.  libvirt needs to know
-> deterministically which backed is being used, which this proposal seems
-> to provide, while at the same time bringing us more in line with fd
-> passing.  Thoughts?  Thanks,
-
-Yep, I agree that libvirt needs to have more direct control over this.
-This is also even more important if there are notable feature differences
-in the 2 backends.
-
-I wonder if anyone has considered an even more distinct impl, whereby
-we have a completely different device type on the backend, eg
-
-  -device vfio-iommu-pci[,host=DDDD:BB:DD.f][,sysfsdev=/sys/path/to/device][,fd=#][,iommufd=foo]
-
-If a vendor wants to fully remove the legacy impl, they can then use the
-Kconfig mechanism to disable the build of the legacy impl device, while
-keeping the iommu impl (or vica-verca if the new iommu impl isn't considered
-reliable enough for them to support yet).
-
-Libvirt would use
-
-   -object iommu,id=iommu0,fd=NNN
-   -device vfio-iommu-pci,fd=MMM,iommu=iommu0
-
-Non-libvirt would use a simpler
-
-   -device vfio-iommu-pci,host=0000:03:22.1
-
-with QEMU auto-creating a 'iommu' object in the background.
-
-This would fit into libvirt's existing modelling better. We currently have
-a concept of a PCI assignment backend, which previously supported the
-legacy PCI assignment, vs the VFIO PCI assignment. This new iommu impl
-feels like a 3rd PCI assignment approach, and so fits with how we modelled
-it as a different device type in the past.
+If you don't want to/can't extend the crypto API, then at least
+use the crypto API for all the pieces where it is possible to do
+so. That way, we can clearly see where the gaps remain for this
+device.
 
 With regards,
 Daniel
