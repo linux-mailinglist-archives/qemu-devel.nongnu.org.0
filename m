@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3602F50DBB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:53:54 +0200 (CEST)
-Received: from localhost ([::1]:52860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDBD50DB83
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:46:15 +0200 (CEST)
+Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niuTh-0007Sx-4J
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40524)
+	id 1niuMI-0008JJ-Be
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1niu0G-0006kN-8P
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31221)
+ id 1niu3z-0002hQ-W6
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:27:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1niu0B-0002ke-Km
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:27 -0400
+ id 1niu3y-0003QR-FO
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:27:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650875002;
+ s=mimecast20190719; t=1650875237;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Z/L/ZknMNfEQ3o6kt7TmKa1CIoUksIAbvfZ3DejgADk=;
- b=fHAX/pNebShbVpY4hD8Mco1T6nT2bJBPFZjYYRF/5uRgya/yX5RGlqrg4W0z6QEu9p4Bmf
- IKzBjxPOxKeEvHj/3k23/+cer9HvcyVTb1btryDgP+7078Sf6u4F/u5PCQDZikSd7LSTi8
- dz+Ie1w7aoQcdD8XVyHH1TAl/H8BnY4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+mKA4yeP9uZXtzhnCquN3iktfhiti14D31AdNyu3AC4=;
+ b=Yoo1R+WwDvMq+4YegVYhoPQBDbF08GbZ3cmIjau7X3EiCulJj2Iya6/JhX76LhXVqxOIlQ
+ 8JYj0gUjLc9DRfha912cCcfoNxaoDCOHCinx09dH4iDcDDTA6n1JpMOvnqL1FJN7gX0JU/
+ bWQEpifHupOfplI2I22WicUyzmcDtWY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-154-DjAHIMvBNtSq_iPUjG1fSw-1; Mon, 25 Apr 2022 04:23:18 -0400
-X-MC-Unique: DjAHIMvBNtSq_iPUjG1fSw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-662-B9_dezBFOW2JJsK2a5agOA-1; Mon, 25 Apr 2022 04:27:14 -0400
+X-MC-Unique: B9_dezBFOW2JJsK2a5agOA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62CD6833962;
- Mon, 25 Apr 2022 08:23:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82EE41C0BF3A;
+ Mon, 25 Apr 2022 08:27:13 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F94D2166BDF;
- Mon, 25 Apr 2022 08:22:10 +0000 (UTC)
-Date: Mon, 25 Apr 2022 09:22:07 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D9BEC52D63;
+ Mon, 25 Apr 2022 08:27:07 +0000 (UTC)
+Date: Mon, 25 Apr 2022 09:27:06 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v8 06/17] vfio-user: build library
-Message-ID: <YmZaLzuUXh2ka6r1@stefanha-x1.localdomain>
+Subject: Re: [PATCH v8 07/17] vfio-user: define vfio-user-server object
+Message-ID: <YmZbWlQhF28FW4Lz@stefanha-x1.localdomain>
 References: <cover.1650379269.git.jag.raman@oracle.com>
- <049efa4ec96f2e9f195ee94cbe7b49b07861af41.1650379269.git.jag.raman@oracle.com>
+ <0ed6764870ae871ce03409f45c8e7dbe3bb31ba0.1650379269.git.jag.raman@oracle.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0k6SiXgE+/YV/fQ9"
+ protocol="application/pgp-signature"; boundary="gQ4nQ13n02ArczXu"
 Content-Disposition: inline
-In-Reply-To: <049efa4ec96f2e9f195ee94cbe7b49b07861af41.1650379269.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+In-Reply-To: <0ed6764870ae871ce03409f45c8e7dbe3bb31ba0.1650379269.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -86,53 +86,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---0k6SiXgE+/YV/fQ9
+--gQ4nQ13n02ArczXu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 19, 2022 at 04:44:11PM -0400, Jagannathan Raman wrote:
-> add the libvfio-user library as a submodule. build it as a cmake
-> subproject.
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  configure                                  | 20 +++++++++-
->  meson.build                                | 44 +++++++++++++++++++++-
->  .gitlab-ci.d/buildtest.yml                 |  2 +
->  .gitmodules                                |  3 ++
->  Kconfig.host                               |  4 ++
->  MAINTAINERS                                |  1 +
->  hw/remote/Kconfig                          |  4 ++
->  hw/remote/meson.build                      |  2 +
->  meson_options.txt                          |  3 ++
->  subprojects/libvfio-user                   |  1 +
->  tests/docker/dockerfiles/centos8.docker    |  2 +
->  tests/docker/dockerfiles/ubuntu2004.docker |  2 +
->  12 files changed, 86 insertions(+), 2 deletions(-)
->  create mode 160000 subprojects/libvfio-user
+On Tue, Apr 19, 2022 at 04:44:12PM -0400, Jagannathan Raman wrote:
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index eeb5395ff3..e7b1758a11 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -703,6 +703,20 @@
+>  { 'struct': 'RemoteObjectProperties',
+>    'data': { 'fd': 'str', 'devid': 'str' } }
+> =20
+> +##
+> +# @VfioUserServerProperties:
+> +#
+> +# Properties for x-vfio-user-server objects.
+> +#
+> +# @socket: socket to be used by the libvfiouser library
 
-libvfio-user is BSD-3-Clause and libjson-c is MIT (Expat).
+For consistency: libvfio-user library
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---0k6SiXgE+/YV/fQ9
+--gQ4nQ13n02ArczXu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJmWi8ACgkQnKSrs4Gr
-c8ieuwgAyLfphSaGrciZvBIESnyySaeY3iqPAFVs9qLO7dSwKfuEmMzK8A0+zYSP
-IgJdiA8IGe933BVAeO44ea+eTTy9pUwN20o0uElHwAc28x/h2NqFKh7onlMOVbEQ
-wbQ3ccWp8ibCHeJQpQo6xOsd7kKZcy1HrwPYTWg8+QynJz39MTVZ7h1CglC8VF0Z
-35x8P0dtrHgCWKjw3EeFVh8HlTVtkq2q735TMfQ3NEesqJpRsfpxpfTFBCyWyB3q
-P5zQPixH0SNzlfu4W30PL8a9hjK3AUyuc9XBR7tIgpae/OgEKaD5AjZqZPlr+RCJ
-IHAD2b1REwu8SG+38JsKFQpNZciqZQ==
-=b8wW
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJmW1oACgkQnKSrs4Gr
+c8gYDAgAnF/mYKFEIszkimfyLP0Rdg/qLSS4SFKwmkWFtWXJ2PfG8gR+UlM1ihMm
+TDBt3fASktQUEePi/ybID9123o9LetFGtDIn4iORiCrGphTEuvlFDMgCVvX3KJf1
+9TTyYSvfADGZCGT5zSgu9XcQji55+T+ZzsD857AhO5M5GVYtBTW9UXfQAnEIQoNe
+1GXq2Ku+IAjuIycT6Vc04NjKyyjPA8ifpXCe6vgDWnz1yqQKzv97w8P7b/RbdEkc
+pOsigIfu0CKjqS2fNu5BnWCjvIwgY45RauJqcQktB2hvTR1fD85OMQWnSTvZMEbE
+EQ2HNTGV2PkcfoF0Qx/hqixSb8BQ9g==
+=kPTy
 -----END PGP SIGNATURE-----
 
---0k6SiXgE+/YV/fQ9--
+--gQ4nQ13n02ArczXu--
 
 
