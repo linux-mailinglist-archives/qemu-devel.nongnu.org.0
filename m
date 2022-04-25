@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B8F50E35C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:36:21 +0200 (CEST)
-Received: from localhost ([::1]:56426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6205D50E37A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:42:34 +0200 (CEST)
+Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nizp6-0004B5-FJ
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:36:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36074)
+	id 1nizv7-0000Na-HC
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nizgV-0006W0-Eo
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:32 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39751)
+ id 1nizgZ-0006WG-Sm
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:35 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nizgT-0004hx-9h
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:27 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- bd19-20020a17090b0b9300b001d98af6dcd1so94333pjb.4
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 07:27:24 -0700 (PDT)
+ id 1nizgX-0004iK-PX
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:31 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id t13so13558160pgn.8
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 07:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cgH1nLMBp7dm1saUWSPVOv3Pj2nqgXKX1pYTbouhGLY=;
- b=EsnMLo7tCKfVqKoNvjdOBZY6ZlWcCxm8BWo/21jmVzb0AORQVUYe+qP30zoudIwypU
- xea0S1XUz2cckoXa6msLQUKjiyEjhQzA9pQVJc0bL0Fl+9Fq1V0iIqg2pEM3BZ6NVSrT
- SztZZbx+Uqoyj1IR4up3RLnDLS2V0tn5Vq9QGNivEBW83cuIZbIk1DU7tqwsdnZLU2Yb
- IPge+2OmHIwmElFqLO9u4X0MxXWvVlwZIKL4iPA/77v3nZCOLyl5p7ifkXIL1J0xNrTY
- pLa24AcI+liQ48sDUVPddjKrASeu9yq2zM2vXkacZKfsLBGzpfhjAq7zHuUPkGE5sMHk
- KW/w==
+ bh=KrgU3+IX4XWkPyP4DiZKgG5uVyLxX2CCY6D8wOC32zw=;
+ b=Q/LX7OCam4PEcRI3xgzXBE4UtssxTZzNGxzMZoeMI9Elr5gx+kw91aVHrWx7sB1N8G
+ uOj9zvYre/a2qf2FqwsDpiKUhUjhqkf7Lm+5BiWqfgac9J6Q2Vpkwmq3HgZtv4++7Hvd
+ v9vNGeUkO1qocu2yH6Tf520uDcgL2Yqao8AjQTnJw68gmtLTTykt39T+BhoiNc9AM/8d
+ wnNUdA/ryltqcWpv0wSe7xCsx/WFXaZZf0lmFP4UuWSRARApSJN1hrg6soRM3PIUjfsn
+ iQNFvt0W98Vbz70MeTGYOMLVui4pbhqELctpRRKk9j/aykyNmla3LOEi34jHIETZuYQB
+ khKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cgH1nLMBp7dm1saUWSPVOv3Pj2nqgXKX1pYTbouhGLY=;
- b=TMcj9IKepiMFc8SmGb4hrLpefWun83GCJsMaeN1ouO/bgvQ8wgYRazlZELoqNoOKYj
- APOEMlS8gKL3aFXjE3RdR4UfQPwjBK/VoPu47wQ0Jz5ackuXf0WY5blXp1HiaT7N2/RL
- kFlEMAoF392pgJY9S3Osnn1L7oCqFwbyW4hl8VtinPz3VwSR8chRchURZrtDGi9Ez79Y
- b3uxkLDCjAQsA4Gop/A0/s0plPVsiqiMQjBqFQKzfU2N52srrqs4HwspvrKvCMduYAI4
- T4voaWIe4X1zZGNXLp+FMAJaKTRA3TeWM6QzrD4lqhrnycKNv2iYYJSaqoezM6y2pBYw
- THXg==
-X-Gm-Message-State: AOAM531JZnsaRqHGA3OHKJx7LclQ5ePjSteBnHHfYW/stBaV2KPlS0TB
- 8+sebUQ/LVsjCuzB7w40woSvUGwCKsM=
-X-Google-Smtp-Source: ABdhPJz7+Utexi/OtniKH/v8bqHtMrhi6haKUsnWX+G325CwrQ3T7Bw6XkZ3V0YABldL6it8+5j+zw==
-X-Received: by 2002:a17:902:8605:b0:15d:10dc:1c6f with SMTP id
- f5-20020a170902860500b0015d10dc1c6fmr5851453plo.4.1650896843951; 
- Mon, 25 Apr 2022 07:27:23 -0700 (PDT)
+ bh=KrgU3+IX4XWkPyP4DiZKgG5uVyLxX2CCY6D8wOC32zw=;
+ b=Ba9U27fkSpBwDM3fldsTc86zOKQ4yrnbz75OoIru3Viyvv0/HCgWD8Iv+zx3b6CstK
+ t3jBD/1QRYcCuPHjq0J2xOKZdJ4ephReHsyeyvTEKT2sRrwqGweIaVO+E4c0VmLwaOVU
+ huNy1Oo3gHAtFIwK/VEMS5I0K+sN2N3BVthWzN5KhaOe4t2IS0zQ3im1Ixuc5sv2NqYu
+ Rdz8wyZcp8oOQXV4djCJbJpB1CfD7z7PsxqTf6LR1D4U9QBNoaw5mboEgiugMTX2HVpH
+ WHLP74oYLyqvham25ztusmODfwzGra/cpUhu4AT2HnY2cIB83aqx8maQg6JkJrPtmSJX
+ ocDg==
+X-Gm-Message-State: AOAM530a9ALUJH9trNaAqtP6hxKphIh0N5dLSd5pwxp/Sc9PKvzM3kVg
+ ItkO79fDfeFWFlBJRybCCHW7was7HcA=
+X-Google-Smtp-Source: ABdhPJxweqr0oWCPyvUdyFXzy6JvcnfGwUkp2kTFtiiZ8r6LhE84U4M4s8Cmy5cN2+NcSzCHbORx7g==
+X-Received: by 2002:a63:4412:0:b0:3a9:e7e1:81a6 with SMTP id
+ r18-20020a634412000000b003a9e7e181a6mr15269269pga.532.1650896847032; 
+ Mon, 25 Apr 2022 07:27:27 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
  [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
- t1-20020a628101000000b0050d47199857sm2437968pfd.73.2022.04.25.07.27.21
+ t1-20020a628101000000b0050d47199857sm2437968pfd.73.2022.04.25.07.27.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Apr 2022 07:27:23 -0700 (PDT)
+ Mon, 25 Apr 2022 07:27:26 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH 3/9] hw/9pfs: Extract common stuff to 9p-local.h
-Date: Mon, 25 Apr 2022 22:26:59 +0800
-Message-Id: <20220425142705.2099270-4-bmeng.cn@gmail.com>
+Subject: [PATCH 4/9] fsdev: Add missing definitions for Windows in file-op-9p.h
+Date: Mon, 25 Apr 2022 22:27:00 +0800
+Message-Id: <20220425142705.2099270-5-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220425142705.2099270-1-bmeng.cn@gmail.com>
 References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,93 +91,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Guohuai Shi <guohuai.shi@windriver.com>
 
-Some macros (e.g.: VIRTFS_META_DIR) are used by both Linux and macOS,
-and will be used by the upcoming Windows support too, extract them
-from 9p-local.c to 9p-local.h.
-
-Note local_is_mapped_file_metadata()is changed to an inline function.
+Add uid_t, gid_t and struct statfs definitions, which are currently
+missing from Windows headers, but are required when we add 9p file
+system support for Windows in later patches.
 
 Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- hw/9pfs/9p-local.h | 16 ++++++++++++++++
- hw/9pfs/9p-local.c | 14 --------------
- 2 files changed, 16 insertions(+), 14 deletions(-)
+ fsdev/file-op-9p.h | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/hw/9pfs/9p-local.h b/hw/9pfs/9p-local.h
-index 32c72749d9..55ea4b7883 100644
---- a/hw/9pfs/9p-local.h
-+++ b/hw/9pfs/9p-local.h
-@@ -13,6 +13,22 @@
- #ifndef QEMU_9P_LOCAL_H
- #define QEMU_9P_LOCAL_H
- 
-+#define VIRTFS_META_DIR ".virtfs_metadata"
-+#define VIRTFS_META_ROOT_FILE VIRTFS_META_DIR "_root"
-+
-+#define ATTR_MAX 100
-+
-+typedef struct {
-+    int mountfd;
-+} LocalData;
-+
-+static inline bool local_is_mapped_file_metadata(FsContext *fs_ctx,
-+                                                 const char *name)
-+{
-+    return
-+        !strcmp(name, VIRTFS_META_DIR) || !strcmp(name, VIRTFS_META_ROOT_FILE);
-+}
-+
- int local_open_nofollow(FsContext *fs_ctx, const char *path, int flags,
-                         mode_t mode);
- int local_opendir_nofollow(FsContext *fs_ctx, const char *path);
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index d42ce6d8b8..73beef84a9 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -53,10 +53,6 @@
- #define BTRFS_SUPER_MAGIC 0x9123683E
+diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+index 4997677460..7d9a736b66 100644
+--- a/fsdev/file-op-9p.h
++++ b/fsdev/file-op-9p.h
+@@ -27,6 +27,39 @@
+ # include <sys/mount.h>
  #endif
  
--typedef struct {
--    int mountfd;
--} LocalData;
--
- int local_open_nofollow(FsContext *fs_ctx, const char *path, int flags,
-                         mode_t mode)
- {
-@@ -114,9 +110,6 @@ static void unlinkat_preserve_errno(int dirfd, const char *path, int flags)
-     errno = serrno;
- }
++#ifdef CONFIG_WIN32
++
++/* POSIX structure not defined in Windows */
++
++typedef uint32_t uid_t;
++typedef uint32_t gid_t;
++
++/* from http://man7.org/linux/man-pages/man2/statfs.2.html */
++typedef uint32_t __fsword_t;
++typedef uint32_t fsblkcnt_t;
++typedef uint32_t fsfilcnt_t;
++
++/* from linux/include/uapi/asm-generic/posix_types.h */
++typedef struct {
++    long __val[2];
++} fsid_t;
++
++struct statfs {
++    __fsword_t f_type;
++    __fsword_t f_bsize;
++    fsblkcnt_t f_blocks;
++    fsblkcnt_t f_bfree;
++    fsblkcnt_t f_bavail;
++    fsfilcnt_t f_files;
++    fsfilcnt_t f_ffree;
++    fsid_t f_fsid;
++    __fsword_t f_namelen;
++    __fsword_t f_frsize;
++    __fsword_t f_flags;
++};
++
++#endif /* CONFIG_WIN32 */
++
+ #define SM_LOCAL_MODE_BITS    0600
+ #define SM_LOCAL_DIR_MODE_BITS    0700
  
--#define VIRTFS_META_DIR ".virtfs_metadata"
--#define VIRTFS_META_ROOT_FILE VIRTFS_META_DIR "_root"
--
- static FILE *local_fopenat(int dirfd, const char *name, const char *mode)
- {
-     int fd, o_mode = 0;
-@@ -144,7 +137,6 @@ static FILE *local_fopenat(int dirfd, const char *name, const char *mode)
-     return fp;
- }
- 
--#define ATTR_MAX 100
- static void local_mapped_file_attr(int dirfd, const char *name,
-                                    struct stat *stbuf)
- {
-@@ -547,12 +539,6 @@ static off_t local_telldir(FsContext *ctx, V9fsFidOpenState *fs)
-     return telldir(fs->dir.stream);
- }
- 
--static bool local_is_mapped_file_metadata(FsContext *fs_ctx, const char *name)
--{
--    return
--        !strcmp(name, VIRTFS_META_DIR) || !strcmp(name, VIRTFS_META_ROOT_FILE);
--}
--
- static struct dirent *local_readdir(FsContext *ctx, V9fsFidOpenState *fs)
- {
-     struct dirent *entry;
 -- 
 2.25.1
 
