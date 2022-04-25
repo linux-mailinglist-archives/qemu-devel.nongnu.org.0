@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8140950E216
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 15:43:52 +0200 (CEST)
-Received: from localhost ([::1]:60258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D073A50E215
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 15:43:44 +0200 (CEST)
+Received: from localhost ([::1]:59776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niz0J-0002Yt-KQ
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 09:43:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51998)
+	id 1niz0B-0002Cz-Uy
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 09:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1niyrB-00008C-Pi
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:34:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26693)
+ id 1niys5-0001RI-9C
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:35:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1niyr7-0004gM-3L
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:34:23 -0400
+ id 1niys0-0004zB-Ix
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:35:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650893659;
+ s=mimecast20190719; t=1650893714;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=pedaxoCU72iT7NEZVSntcaqcBblU2iePGz5jjDkgT8I=;
- b=ROocdiiXqinSgEyGWe7iCJ4k74rizA3JeuDazAt6n+prZJGBK3YDp6CphIyGZ7d/jlMOCx
- zkj3m5LulQKiVA3/gFOpUAGnbCEJhy/dQVj8otHa7AhvlsXCx00NG1FrrmAhBQsCXlqNZ8
- qQAZbME428IumpprodTOUD22QYY1FQw=
+ bh=WbNUh1I3jnfhyYa6Yds+ehnMZ1SLgNxHI5V/atzr5qU=;
+ b=bAKUZrHhkXn0PIST2b5Xe3i9AeAcOdq7QYsHLMv01uNHCuU3XrA5odcZ7gGNuGg3R8KGX0
+ ZuIDwVipBVPCluRQwzexghn7HCYiel/L5IJ/fpbCxgQOzuX6po5ZtqRP9j+OkNpgnXdJXb
+ wM9pG/IfY2TnIXWUx8S4rv9PpdGCPG0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-A_BUruE-NZSIvs9Ni2m0wA-1; Mon, 25 Apr 2022 09:34:16 -0400
-X-MC-Unique: A_BUruE-NZSIvs9Ni2m0wA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-313-Pyf9RvlINDiJCsa2fzZ7GQ-1; Mon, 25 Apr 2022 09:35:13 -0400
+X-MC-Unique: Pyf9RvlINDiJCsa2fzZ7GQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A99AC185A7A4;
- Mon, 25 Apr 2022 13:34:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E081800B28;
+ Mon, 25 Apr 2022 13:35:11 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7342840CF8F5;
- Mon, 25 Apr 2022 13:34:11 +0000 (UTC)
-Date: Mon, 25 Apr 2022 14:34:08 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BAAE74047D3D;
+ Mon, 25 Apr 2022 13:35:07 +0000 (UTC)
+Date: Mon, 25 Apr 2022 14:35:03 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Martin Kletzander <mkletzan@redhat.com>
-Subject: Re: [PATCH 13/18] audio: Make AUD_register_card fallible and require
- audiodev=
-Message-ID: <YmajUERGbzh4rj9C@redhat.com>
+Subject: Re: [PATCH 03/18] hw/audio: Simplify hda audio init
+Message-ID: <Ymajh0MgNfAWlWwC@redhat.com>
 References: <cover.1650874791.git.mkletzan@redhat.com>
- <92b31c6af268b8f2a4cc4ed5b20ee8d0e19f614d.1650874791.git.mkletzan@redhat.com>
+ <cd1df4ad2a6fae969c4a02a77955c4a8c0d430b6.1650874791.git.mkletzan@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <92b31c6af268b8f2a4cc4ed5b20ee8d0e19f614d.1650874791.git.mkletzan@redhat.com>
+In-Reply-To: <cd1df4ad2a6fae969c4a02a77955c4a8c0d430b6.1650874791.git.mkletzan@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -64,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,67 +96,20 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 25, 2022 at 10:21:56AM +0200, Martin Kletzander wrote:
-> Now that all callers support error reporting with errp and all machine-default
-> devices use an explicit audiodev, this can be changed.  To make the detection
-> easier make AUD_register_card() return false on error.
+On Mon, Apr 25, 2022 at 10:21:46AM +0200, Martin Kletzander wrote:
+> No return values are used anywhere, so switch the functions to be void
+> and add support for error reporting using errp for use in next patches.
+
+Making it 'void' makes sense, but I'm not sure we need the Error **errp
+addition, given my comment on patch #13.
+
 > 
 > Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 > ---
->  audio/audio.c        | 7 +++++--
->  audio/audio.h        | 2 +-
->  hw/arm/omap2.c       | 3 ++-
->  hw/audio/ac97.c      | 6 +++++-
->  hw/audio/adlib.c     | 7 +++++--
->  hw/audio/cs4231a.c   | 6 ++++--
->  hw/audio/es1370.c    | 5 ++++-
->  hw/audio/gus.c       | 4 +++-
->  hw/audio/hda-codec.c | 5 ++++-
->  hw/audio/lm4549.c    | 4 +++-
->  hw/audio/pcspk.c     | 4 +++-
->  hw/audio/sb16.c      | 6 ++++--
->  hw/audio/wm8750.c    | 5 ++++-
->  hw/display/xlnx_dp.c | 6 ++++--
->  hw/input/tsc210x.c   | 3 ++-
->  hw/usb/dev-audio.c   | 5 ++++-
->  16 files changed, 57 insertions(+), 21 deletions(-)
-> 
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 671845c65d18..b95aca444382 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -1822,15 +1822,18 @@ void audio_free_audiodev_list(AudiodevListHead *head)
->      }
->  }
->  
-> -void AUD_register_card (const char *name, QEMUSoundCard *card)
-> +bool AUD_register_card (const char *name, QEMUSoundCard *card, Error **errp)
->  {
->      if (!card->state) {
-> -        card->state = audio_init(NULL, name);
-> +        error_setg(errp, "No audiodev specified for %s", name);
-> +        return false;
->      }
-
-This is a significant change in semantics.
-
-  qemu-system-x86_64 -device ac97
-
-will currently automatically create a default audio backend for the
-user, but now it just reports an error. I don't think we want todo
-this, as allowing 'audiodev' to be optional was an intentionale
-thing to be more user friendly to casual userss. It lets command
-line args they use "just work" regardless of which audio subsystem
-their host OS happens to be using, which wouldn't be the case if we
-force them to use -audiodev every time.
-
->  
->      card->name = g_strdup (name);
->      memset (&card->entries, 0, sizeof (card->entries));
->      QLIST_INSERT_HEAD(&card->state->card_head, card, entries);
-> +
-> +    return true;
->  }
+>  hw/audio/hda-codec.c | 32 ++++++++++++++++++--------------
+>  hw/audio/intel-hda.c |  4 +---
+>  hw/audio/intel-hda.h |  2 +-
+>  3 files changed, 20 insertions(+), 18 deletions(-)
 
 With regards,
 Daniel
