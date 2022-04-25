@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABCC950DD04
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:43:08 +0200 (CEST)
-Received: from localhost ([::1]:47738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D8550DD09
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:43:42 +0200 (CEST)
+Received: from localhost ([::1]:48620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nivFL-0003YV-R8
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:43:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48366)
+	id 1nivFt-0004FR-FU
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:43:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1niukQ-0008Gx-5E
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:12 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:39498 helo=loongson.cn)
+ id 1niukb-0008MY-Dv
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:23 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:39748 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1niukN-0001Jg-KI
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:09 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1niukW-0001MA-7K
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:19 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn8+DZWZi+7gwAA--.18850S30; 
- Mon, 25 Apr 2022 17:10:53 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn8+DZWZi+7gwAA--.18850S33; 
+ Mon, 25 Apr 2022 17:10:56 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 28/43] target/loongarch: Add other core instructions support
-Date: Mon, 25 Apr 2022 17:10:12 +0800
-Message-Id: <20220425091027.2877892-29-yangxiaojuan@loongson.cn>
+Subject: [PATCH v2 31/43] hw/loongarch: Add LoongArch ipi interrupt
+ support(IPI)
+Date: Mon, 25 Apr 2022 17:10:15 +0800
+Message-Id: <20220425091027.2877892-32-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
 References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxn8+DZWZi+7gwAA--.18850S30
-X-Coremail-Antispam: 1UD129KBjvJXoW3Cr18Ar17Kr1ktryxZr1fZwb_yoWkWw1UpF
- 40kryjkr48JrZ7Zwn3Kw1Yyrn8Xw4Ika10qas3t34Fvr43XFykXr48trZxKFWUJwn8ZrWU
- ZFnxAryj9FyxX3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dxn8+DZWZi+7gwAA--.18850S33
+X-Coremail-Antispam: 1UD129KBjvJXoW3GF1fGrWDGr1DKr45uFyxAFb_yoWftr1xpF
+ 9ruF1rKr48GFsrGrZ7ta43XFn8G3Z7uFy2vF4a9a4IkF47Xw1FvF92yr9rZFyUA3yDGryF
+ vas3u3WjqF4UXw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -61,363 +62,325 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes:
--CACOP
--LDDIR
--LDPTE
--ERTN
--DBCL
--IDLE
+This patch realize the IPI interrupt controller.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/disas.c                      | 17 ++++
- target/loongarch/helper.h                     |  5 +
- .../insn_trans/trans_privileged.c.inc         | 65 +++++++++++++
- target/loongarch/insns.decode                 | 11 +++
- target/loongarch/internals.h                  |  5 +
- target/loongarch/op_helper.c                  | 36 +++++++
- target/loongarch/tlb_helper.c                 | 93 +++++++++++++++++++
- 7 files changed, 232 insertions(+)
+ MAINTAINERS                     |   2 +
+ hw/intc/Kconfig                 |   3 +
+ hw/intc/loongarch_ipi.c         | 166 ++++++++++++++++++++++++++++++++
+ hw/intc/meson.build             |   1 +
+ hw/intc/trace-events            |   4 +
+ hw/loongarch/Kconfig            |   1 +
+ include/hw/intc/loongarch_ipi.h |  50 ++++++++++
+ include/hw/loongarch/virt.h     |   2 +
+ 8 files changed, 229 insertions(+)
+ create mode 100644 hw/intc/loongarch_ipi.c
+ create mode 100644 include/hw/intc/loongarch_ipi.h
 
-diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 8e9a6443b7..ce71105ee3 100644
---- a/target/loongarch/disas.c
-+++ b/target/loongarch/disas.c
-@@ -308,6 +308,17 @@ static void output_i_rr(DisasContext *ctx, arg_i_rr *a, const char *mnemonic)
-     output(ctx, mnemonic, "%d, r%d, r%d", a->imm, a->rj, a->rk);
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 69f4f6e60b..c9ba2cc858 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1134,6 +1134,8 @@ F: configs/targets/loongarch64-softmmu.mak
+ F: configs/devices/loongarch64-softmmu/default.mak
+ F: hw/loongarch/
+ F: include/hw/loongarch/virt.h
++F: include/hw/intc/loongarch_*.h
++F: hw/intc/loongarch_*.c
  
-+static void output_cop_r_i(DisasContext *ctx, arg_cop_r_i *a,
-+                           const char *mnemonic)
-+{
-+    output(ctx, mnemonic, "%d, r%d, %d", a->cop, a->rj, a->imm);
-+}
-+
-+static void output_j_i(DisasContext *ctx, arg_j_i *a, const char *mnemonic)
-+{
-+    output(ctx, mnemonic, "r%d, %d", a->rj, a->imm);
-+}
-+
- #define INSN(insn, type)                                    \
- static bool trans_##insn(DisasContext *ctx, arg_##type * a) \
- {                                                           \
-@@ -635,6 +646,12 @@ INSN(tlbfill,      empty)
- INSN(tlbclr,       empty)
- INSN(tlbflush,     empty)
- INSN(invtlb,       i_rr)
-+INSN(cacop,        cop_r_i)
-+INSN(lddir,        rr_i)
-+INSN(ldpte,        j_i)
-+INSN(ertn,         empty)
-+INSN(idle,         i)
-+INSN(dbcl,         i)
+ M68K Machines
+ -------------
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index a7cf301eab..6c7e82da64 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -84,3 +84,6 @@ config GOLDFISH_PIC
  
- #define output_fcmp(C, PREFIX, SUFFIX)                                         \
- {                                                                              \
-diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index b092ca75fe..626fc32e1e 100644
---- a/target/loongarch/helper.h
-+++ b/target/loongarch/helper.h
-@@ -121,3 +121,8 @@ DEF_HELPER_2(invtlb_all_g, void, env, i32)
- DEF_HELPER_2(invtlb_all_asid, void, env, tl)
- DEF_HELPER_3(invtlb_page_asid, void, env, tl, tl)
- DEF_HELPER_3(invtlb_page_asid_or_g, void, env, tl, tl)
+ config M68K_IRQC
+     bool
 +
-+DEF_HELPER_4(lddir, tl, env, tl, tl, i32)
-+DEF_HELPER_4(ldpte, void, env, tl, tl, i32)
-+DEF_HELPER_1(ertn, void, env)
-+DEF_HELPER_1(idle, void, env)
-diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
-index 0363d1fda4..afadd68e2b 100644
---- a/target/loongarch/insn_trans/trans_privileged.c.inc
-+++ b/target/loongarch/insn_trans/trans_privileged.c.inc
-@@ -393,3 +393,68 @@ static bool trans_invtlb(DisasContext *ctx, arg_invtlb *a)
-     ctx->base.is_jmp = DISAS_STOP;
-     return true;
- }
++config LOONGARCH_IPI
++    bool
+diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+new file mode 100644
+index 0000000000..053d74ec70
+--- /dev/null
++++ b/hw/intc/loongarch_ipi.c
+@@ -0,0 +1,166 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * LoongArch ipi interrupt support
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
 +
-+static bool trans_cacop(DisasContext *ctx, arg_cacop *a)
-+{
-+    /* Treat the cacop as a nop */
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static bool trans_ldpte(DisasContext *ctx, arg_ldpte *a)
-+{
-+    TCGv_i32 mem_idx = tcg_constant_i32(ctx->mem_idx);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-+
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_ldpte(cpu_env, src1, tcg_constant_tl(a->imm), mem_idx);
-+    return true;
-+}
-+
-+static bool trans_lddir(DisasContext *ctx, arg_lddir *a)
-+{
-+    TCGv_i32 mem_idx = tcg_constant_i32(ctx->mem_idx);
-+    TCGv src = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_lddir(dest, cpu_env, src, tcg_constant_tl(a->imm), mem_idx);
-+    return true;
-+}
-+
-+static bool trans_ertn(DisasContext *ctx, arg_ertn *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    gen_helper_ertn(cpu_env);
-+    ctx->base.is_jmp = DISAS_EXIT;
-+    return true;
-+}
-+
-+static bool trans_dbcl(DisasContext *ctx, arg_dbcl *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+    generate_exception(ctx, EXCCODE_DBP);
-+    return true;
-+}
-+
-+static bool trans_idle(DisasContext *ctx, arg_idle *a)
-+{
-+    if (check_plv(ctx)) {
-+        return false;
-+    }
-+
-+    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
-+    gen_helper_idle(cpu_env);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+    return true;
-+}
-diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index f8ed11d83e..ebd3d505fb 100644
---- a/target/loongarch/insns.decode
-+++ b/target/loongarch/insns.decode
-@@ -49,6 +49,8 @@
- &rr_csr       rd rj csr
- &empty
- &i_rr         imm rj rk
-+&cop_r_i      cop rj imm
-+&j_i          rj imm
- 
- #
- # Formats
-@@ -60,6 +62,7 @@
- @r_i20                          .... ... imm:s20 rd:5    &r_i
- @rr_ui5           .... ........ ..... imm:5 rj:5 rd:5    &rr_i
- @rr_ui6            .... ........ .... imm:6 rj:5 rd:5    &rr_i
-+@rr_ui8              .. ........ .... imm:8 rj:5 rd:5    &rr_i
- @rr_i12                 .... ...... imm:s12 rj:5 rd:5    &rr_i
- @rr_ui12                 .... ...... imm:12 rj:5 rd:5    &rr_i
- @rr_i14s2         .... ....  .............. rj:5 rd:5    &rr_i imm=%i14s2
-@@ -93,6 +96,8 @@
- @rr_csr                    .... .... csr:14 rj:5 rd:5    &rr_csr
- @empty          .... ........ ..... ..... ..... .....    &empty
- @i_rr             ...... ...... ..... rk:5 rj:5 imm:5    &i_rr
-+@cop_r_i              .... ......  imm:s12 rj:5 cop:5    &cop_r_i
-+@j_i               .... ........ .. imm:8 rj:5 .....    &j_i
- 
- #
- # Fixed point arithmetic operation instruction
-@@ -470,3 +475,9 @@ tlbfill          0000 01100100 10000 01101 00000 00000    @empty
- tlbclr           0000 01100100 10000 01000 00000 00000    @empty
- tlbflush         0000 01100100 10000 01001 00000 00000    @empty
- invtlb           0000 01100100 10011 ..... ..... .....    @i_rr
-+cacop            0000 011000 ............ ..... .....     @cop_r_i
-+lddir            0000 01100100 00 ........ ..... .....    @rr_ui8
-+ldpte            0000 01100100 01 ........ ..... 00000    @j_i
-+ertn             0000 01100100 10000 01110 00000 00000    @empty
-+idle             0000 01100100 10001 ...............      @i15
-+dbcl             0000 00000010 10101 ...............      @i15
-diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
-index 4b1bcd7c0f..a410c41c37 100644
---- a/target/loongarch/internals.h
-+++ b/target/loongarch/internals.h
-@@ -16,6 +16,11 @@
- #define TARGET_PHYS_MASK MAKE_64BIT_MASK(0, TARGET_PHYS_ADDR_SPACE_BITS)
- #define TARGET_VIRT_MASK MAKE_64BIT_MASK(0, TARGET_VIRT_ADDR_SPACE_BITS)
- 
-+/* Global bit used for lddir/ldpte */
-+#define LOONGARCH_PAGE_HUGE_SHIFT   6
-+/* Global bit for huge page */
-+#define LOONGARCH_HGLOBAL_SHIFT     12
-+
- void loongarch_translate_init(void);
- 
- void loongarch_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index 18e565ce7f..2243fcfa44 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include "qemu/osdep.h"
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "hw/intc/loongarch_ipi.h"
++#include "hw/irq.h"
++#include "qapi/error.h"
 +#include "qemu/log.h"
- #include "qemu/main-loop.h"
- #include "cpu.h"
- #include "qemu/host-utils.h"
-@@ -15,6 +16,7 @@
- #include "internals.h"
- #include "qemu/crc32c.h"
- #include <zlib.h>
-+#include "cpu-csr.h"
- 
- /* Exceptions helpers */
- void helper_raise_exception(CPULoongArchState *env, uint32_t exception)
-@@ -81,3 +83,37 @@ target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
- {
-     return rj > 21 ? 0 : env->cpucfg[rj];
- }
++#include "exec/address-spaces.h"
++#include "hw/loongarch/virt.h"
++#include "migration/vmstate.h"
++#include "trace.h"
 +
-+void helper_ertn(CPULoongArchState *env)
++static uint64_t loongarch_ipi_readl(void *opaque, hwaddr addr, unsigned size)
 +{
-+    uint64_t csr_pplv, csr_pie;
-+    if (FIELD_EX64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR)) {
-+        csr_pplv = FIELD_EX64(env->CSR_TLBRPRMD, CSR_TLBRPRMD, PPLV);
-+        csr_pie = FIELD_EX64(env->CSR_TLBRPRMD, CSR_TLBRPRMD, PIE);
++    IPICore *s = opaque;
++    uint64_t ret = 0;
++    int index = 0;
 +
-+        env->CSR_TLBRERA = FIELD_DP64(env->CSR_TLBRERA, CSR_TLBRERA, ISTLBR, 0);
-+        env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, DA, 0);
-+        env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, PG, 1);
-+        env->pc = env->CSR_TLBRERA;
-+        qemu_log_mask(CPU_LOG_INT, "%s: TLBRERA 0x%lx\n",
-+                      __func__, env->CSR_TLBRERA);
-+    } else {
-+        csr_pplv = FIELD_EX64(env->CSR_PRMD, CSR_PRMD, PPLV);
-+        csr_pie = FIELD_EX64(env->CSR_PRMD, CSR_PRMD, PIE);
-+
-+        env->pc = env->CSR_ERA;
-+        qemu_log_mask(CPU_LOG_INT, "%s: ERA 0x%lx\n", __func__, env->CSR_ERA);
-+    }
-+    env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, PLV, csr_pplv);
-+    env->CSR_CRMD = FIELD_DP64(env->CSR_CRMD, CSR_CRMD, IE, csr_pie);
-+
-+    env->lladdr = 1;
-+}
-+
-+void helper_idle(CPULoongArchState *env)
-+{
-+    CPUState *cs = env_cpu(env);
-+
-+    cs->halted = 1;
-+    do_raise_exception(env, EXCP_HLT, 0);
-+}
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index 4f84ef3e4b..bab19c7e05 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -668,3 +668,96 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     raise_mmu_exception(env, address, access_type, ret);
-     cpu_loop_exit_restore(cs, retaddr);
- }
-+
-+target_ulong helper_lddir(CPULoongArchState *env, target_ulong base,
-+                          target_ulong level, uint32_t mem_idx)
-+{
-+    CPUState *cs = env_cpu(env);
-+    target_ulong badvaddr, index, phys, ret;
-+    int shift;
-+    uint64_t dir_base, dir_width;
-+    bool huge = (base >> LOONGARCH_PAGE_HUGE_SHIFT) & 0x1;
-+
-+    badvaddr = env->CSR_TLBRBADV;
-+    base = base & TARGET_PHYS_MASK;
-+
-+    /* 0:64bit, 1:128bit, 2:192bit, 3:256bit */
-+    shift = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTEWIDTH);
-+    shift = (shift + 1) * 3;
-+
-+    if (huge) {
-+        return base;
-+    }
-+    switch (level) {
-+    case 1:
-+        dir_base = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR1_BASE);
-+        dir_width = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR1_WIDTH);
++    addr &= 0xff;
++    switch (addr) {
++    case CORE_STATUS_OFF:
++        ret = s->status;
 +        break;
-+    case 2:
-+        dir_base = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR2_BASE);
-+        dir_width = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, DIR2_WIDTH);
++    case CORE_EN_OFF:
++        ret = s->en;
 +        break;
-+    case 3:
-+        dir_base = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR3_BASE);
-+        dir_width = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR3_WIDTH);
++    case CORE_SET_OFF:
++        ret = 0;
 +        break;
-+    case 4:
-+        dir_base = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR4_BASE);
-+        dir_width = FIELD_EX64(env->CSR_PWCH, CSR_PWCH, DIR4_WIDTH);
++    case CORE_CLEAR_OFF:
++        ret = 0;
++        break;
++    case CORE_BUF_20 ... CORE_BUF_38 + 4:
++        index = (addr - CORE_BUF_20) >> 2;
++        ret = s->buf[index];
 +        break;
 +    default:
-+        do_raise_exception(env, EXCCODE_INE, GETPC());
-+        return 0;
++        qemu_log_mask(LOG_UNIMP, "invalid read: %x", (uint32_t)addr);
++        break;
 +    }
-+    index = (badvaddr >> dir_base) & ((1 << dir_width) - 1);
-+    phys = base | index << shift;
-+    ret = ldq_phys(cs->as, phys) & TARGET_PHYS_MASK;
++
++    trace_loongarch_ipi_read(size, (uint64_t)addr, ret);
 +    return ret;
 +}
 +
-+void helper_ldpte(CPULoongArchState *env, target_ulong base, target_ulong odd,
-+                  uint32_t mem_idx)
++static void loongarch_ipi_writel(void *opaque, hwaddr addr, uint64_t val,
++                                 unsigned size)
 +{
-+    CPUState *cs = env_cpu(env);
-+    target_ulong phys, tmp0, ptindex, ptoffset0, ptoffset1, ps, badv;
-+    int shift;
-+    bool huge = (base >> LOONGARCH_PAGE_HUGE_SHIFT) & 0x1;
-+    uint64_t ptbase = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTBASE);
-+    uint64_t ptwidth = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTWIDTH);
++    IPICore *s = opaque;
++    int index = 0;
 +
-+    base = base & TARGET_PHYS_MASK;
-+
-+    if (huge) {
-+        /* Huge Page. base is paddr */
-+        tmp0 = base ^ (1 << LOONGARCH_PAGE_HUGE_SHIFT);
-+        /* Move Global bit */
-+        tmp0 = ((tmp0 & (1 << LOONGARCH_HGLOBAL_SHIFT))  >>
-+                LOONGARCH_HGLOBAL_SHIFT) << R_TLBENTRY_G_SHIFT |
-+                (tmp0 & (~(1 << R_TLBENTRY_G_SHIFT)));
-+        ps = ptbase + ptwidth - 1;
-+        if (odd) {
-+            tmp0 += (1 << ps);
++    addr &= 0xff;
++    trace_loongarch_ipi_write(size, (uint64_t)addr, val);
++    switch (addr) {
++    case CORE_STATUS_OFF:
++        qemu_log_mask(LOG_GUEST_ERROR, "can not be written");
++        break;
++    case CORE_EN_OFF:
++        s->en = val;
++        break;
++    case CORE_SET_OFF:
++        s->status |= val;
++        if (s->status != 0 && (s->status & s->en) != 0) {
++            qemu_irq_raise(s->irq);
 +        }
-+    } else {
-+        /* 0:64bit, 1:128bit, 2:192bit, 3:256bit */
-+        shift = FIELD_EX64(env->CSR_PWCL, CSR_PWCL, PTEWIDTH);
-+        shift = (shift + 1) * 3;
-+        badv = env->CSR_TLBRBADV;
-+
-+        ptindex = (badv >> ptbase) & ((1 << ptwidth) - 1);
-+        ptindex = ptindex & ~0x1;   /* clear bit 0 */
-+        ptoffset0 = ptindex << shift;
-+        ptoffset1 = (ptindex + 1) << shift;
-+
-+        phys = base | (odd ? ptoffset1 : ptoffset0);
-+        tmp0 = ldq_phys(cs->as, phys) & TARGET_PHYS_MASK;
-+        ps = ptbase;
++        break;
++    case CORE_CLEAR_OFF:
++        s->status &= ~val;
++        if (s->status == 0 && s->en != 0) {
++            qemu_irq_lower(s->irq);
++        }
++        break;
++    case CORE_BUF_20 ... CORE_BUF_38 + 4:
++        index = (addr - CORE_BUF_20) >> 2;
++        s->buf[index] = val;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "invalid write: %x", (uint32_t)addr);
++        break;
 +    }
-+
-+    if (odd) {
-+        env->CSR_TLBRELO1 = tmp0;
-+    } else {
-+        env->CSR_TLBRELO0 = tmp0;
-+    }
-+    env->CSR_TLBREHI = FIELD_DP64(env->CSR_TLBREHI, CSR_TLBREHI, PS, ps);
 +}
++
++static const MemoryRegionOps loongarch_ipi_ops = {
++    .read = loongarch_ipi_readl,
++    .write = loongarch_ipi_writel,
++    .impl.min_access_size = 4,
++    .impl.max_access_size = 4,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 8,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void loongarch_ipi_init(Object *obj)
++{
++    LoongArchIPI *s = LOONGARCH_IPI(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    int cpu;
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(qdev_get_machine());
++
++    for (cpu = 0; cpu < MAX_IPI_CORE_NUM; cpu++) {
++        /* There are two ways to access IPI: iocsr memory and system memory */
++        memory_region_init_io(&s->ipi_iocsr_mem[cpu], obj, &loongarch_ipi_ops,
++                            &lams->ipi_core[cpu], "loongarch_ipi_iocsr", 0x100);
++        sysbus_init_mmio(sbd, &s->ipi_iocsr_mem[cpu]);
++
++        memory_region_init_io(&s->ipi_system_mem[cpu], obj, &loongarch_ipi_ops,
++                              &lams->ipi_core[cpu], "loongarch_ipi", 0x100);
++        sysbus_init_mmio(sbd, &s->ipi_system_mem[cpu]);
++
++        qdev_init_gpio_out(DEVICE(obj), &lams->ipi_core[cpu].irq, 1);
++    }
++}
++
++static const VMStateDescription vmstate_ipi_core = {
++    .name = "ipi-single",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(status, IPICore),
++        VMSTATE_UINT32(en, IPICore),
++        VMSTATE_UINT32(set, IPICore),
++        VMSTATE_UINT32(clear, IPICore),
++        VMSTATE_UINT32_ARRAY(buf, IPICore, MAX_IPI_MBX_NUM * 2),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription vmstate_loongarch_ipi = {
++    .name = TYPE_LOONGARCH_IPI,
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT_ARRAY(ipi_core, LoongArchMachineState,
++                             MAX_IPI_CORE_NUM, 0,
++                             vmstate_ipi_core, IPICore),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void loongarch_ipi_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->vmsd = &vmstate_loongarch_ipi;
++}
++
++static const TypeInfo loongarch_ipi_info = {
++    .name          = TYPE_LOONGARCH_IPI,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(LoongArchIPI),
++    .instance_init = loongarch_ipi_init,
++    .class_init    = loongarch_ipi_class_init,
++};
++
++static void loongarch_ipi_register_types(void)
++{
++    type_register_static(&loongarch_ipi_info);
++}
++
++type_init(loongarch_ipi_register_types)
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index d6d012fb26..bf5ab44a78 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -62,3 +62,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+ 		if_true: files('spapr_xive_kvm.c'))
+ specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+ specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
++specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 5271590304..be8d5b167e 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -287,3 +287,7 @@ sh_intc_register(const char *s, int id, unsigned short v, int c, int m) "%s %u -
+ sh_intc_read(unsigned size, uint64_t offset, unsigned long val) "size %u 0x%" PRIx64 " -> 0x%lx"
+ sh_intc_write(unsigned size, uint64_t offset, unsigned long val) "size %u 0x%" PRIx64 " <- 0x%lx"
+ sh_intc_set(int id, int enable) "setting interrupt group %d to %d"
++
++# loongarch_ipi.c
++loongarch_ipi_read(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
++loongarch_ipi_write(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index 13e8501897..f0dad3329a 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -2,3 +2,4 @@ config LOONGARCH_VIRT
+     bool
+     select PCI
+     select PCI_EXPRESS_GENERIC_BRIDGE
++    select LOONGARCH_IPI
+diff --git a/include/hw/intc/loongarch_ipi.h b/include/hw/intc/loongarch_ipi.h
+new file mode 100644
+index 0000000000..08c550249a
+--- /dev/null
++++ b/include/hw/intc/loongarch_ipi.h
+@@ -0,0 +1,50 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * LoongArch ipi interrupt header files
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef HW_LOONGARCH_IPI_H
++#define HW_LOONGARCH_IPI_H
++
++#include "hw/sysbus.h"
++
++/* Mainy used by iocsr read and write */
++#define SMP_IPI_MAILBOX      0x1000ULL
++#define CORE_STATUS_OFF       0x0
++#define CORE_EN_OFF           0x4
++#define CORE_SET_OFF          0x8
++#define CORE_CLEAR_OFF        0xc
++#define CORE_BUF_20           0x20
++#define CORE_BUF_28           0x28
++#define CORE_BUF_30           0x30
++#define CORE_BUF_38           0x38
++#define IOCSR_IPI_SEND        0x40
++
++/* IPI system memory address */
++#define IPI_SYSTEM_MEM        0x1fe01000
++
++#define MAX_IPI_CORE_NUM      4
++#define MAX_IPI_MBX_NUM       4
++
++#define TYPE_LOONGARCH_IPI "loongarch_ipi"
++OBJECT_DECLARE_SIMPLE_TYPE(LoongArchIPI, LOONGARCH_IPI)
++
++typedef struct IPICore {
++    uint32_t status;
++    uint32_t en;
++    uint32_t set;
++    uint32_t clear;
++    /* 64bit buf divide into 2 32bit buf */
++    uint32_t buf[MAX_IPI_MBX_NUM * 2];
++    qemu_irq irq;
++} IPICore;
++
++struct LoongArchIPI {
++    SysBusDevice parent_obj;
++    MemoryRegion ipi_iocsr_mem[MAX_IPI_CORE_NUM];
++    MemoryRegion ipi_system_mem[MAX_IPI_CORE_NUM];
++};
++
++#endif
+diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
+index 4a4bb3f51f..09a816191c 100644
+--- a/include/hw/loongarch/virt.h
++++ b/include/hw/loongarch/virt.h
+@@ -11,6 +11,7 @@
+ #include "target/loongarch/cpu.h"
+ #include "hw/boards.h"
+ #include "qemu/queue.h"
++#include "hw/intc/loongarch_ipi.h"
+ 
+ #define LOONGARCH_MAX_VCPUS     4
+ 
+@@ -21,6 +22,7 @@ struct LoongArchMachineState {
+     /*< private >*/
+     MachineState parent_obj;
+ 
++    IPICore ipi_core[MAX_IPI_CORE_NUM];
+     MemoryRegion lowmem;
+     MemoryRegion highmem;
+     MemoryRegion isa_io;
 -- 
 2.31.1
 
