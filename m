@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27E750E33E
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:33:57 +0200 (CEST)
-Received: from localhost ([::1]:47652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBEA50E369
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:36:51 +0200 (CEST)
+Received: from localhost ([::1]:59004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nizmm-0006h4-Nv
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:33:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36018)
+	id 1nizpa-0005sX-7W
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:36:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nizgL-0006OW-IJ
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:17 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:47014)
+ id 1nizgO-0006Sk-F8
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:20 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:34527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nizgJ-0004hM-Qr
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:17 -0400
-Received: by mail-pg1-x529.google.com with SMTP id q12so13543397pgj.13
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 07:27:15 -0700 (PDT)
+ id 1nizgM-0004ha-RD
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:20 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id z21so5919933pgj.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 07:27:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=raH7bbqlvr9IGWHmqpVzD1SfptpB24bmxwg3rFEToUs=;
- b=KeGGuaOUA3nEJwswgJvayHY8MyZv1+Qz02887ZAfUjUyxBDhQyrxphmUqn6wGcm7LD
- KifZuGiodje4V6dLzMam6m6TUlgLoy/PFr6DkWTQrsVUn8+jTnFe0EL1VCet/PpThRzR
- on6CebahIJ/k/wB+UzIVsqFSeo5RdgZragDwRgKFwIqteBod87qVCIQUbn5ztE9uZgIA
- 0j6W1R3jWWwx4eDrtPCvPYAv/rvNRmBcrJQqT/HnPerS5Y9dEsyMyCGcVljE2Gcdxscm
- /OVfirVkIfYxeXOzjalufosdiqtXxcmnUlo7aIkY3O+koBoD/HJeUp45ofkDo2senDVd
- FZrw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=t9wxe2NnzThJXmH701I7MFDWCA+taSH4hJNR9Xh8jHE=;
+ b=E0SNec/PfBpADb6q0GdLmI7FqFdqdqcQqUO7+j+LaPshUKYShmm0auVBjpDE1n+KpE
+ bte09l2coi0gbuj0LYszp2LvJYCrtsazictokF7FRKqyvFk0sKPGiGrmasGe4spJ8x2C
+ PSbhtcj4X/WcfyJ0kGgA6F+uyAx3KBlXJbcWlxnLPNax75ozURbCTVmcwpaMn24HjTzn
+ dmMbYsF45SZD2jMzhQLJ1q2ifUd+xFZxZFxwIVfq7HQqHWqmRnIK9gwNFUQxnVLlj2qX
+ L1D9nDh6fMWCUSyW+efpfVvDFVeZXaAYB+P36VHeSzzVf8cZ5MVRduKrjIBBhVaLclz1
+ LLJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=raH7bbqlvr9IGWHmqpVzD1SfptpB24bmxwg3rFEToUs=;
- b=3R+4dewvPBu9pS+Ma+F9H13rsOZjKjOs/FCDOJQFbSST5ePzjDNWfCaGiGsCNI2TBY
- 8DP8gujGqz1edwqWDPb0GvPQgNWKLh4qIh39omyoRnB6hiVcyfC6BBzUI4a3eNorEWAv
- /53bilaYBVK+csmiimnUJYpQum/NF5phvu+UUGLJH41D4ROZQ4McQQLND6gJEWc6dIZQ
- J+obPV14ObbbgsloG2YRHlLLKy6xJRex/NFCkl13gKglt9tHR4RHRD1oipMgt81Hlpb0
- BGZdsEMpmegXvTNRt+fZ/BK9WAX9Si69gcYB02Gb6s4YINy96QkiCNbvJC6upBSLsoxB
- jplw==
-X-Gm-Message-State: AOAM5323HSjZnLKMOEznA92r03/Kw7stBClwzGn8FEvLP8HX4A6jvOe1
- HyCrJYam1O5i8DGVXqf4oKA=
-X-Google-Smtp-Source: ABdhPJyFhz9XJDiQb8flfO5s1+q4adCTuDlTKJkXQW8DUOeDcPSFpp3yMLneZseKKPPDDx7n85IJjA==
-X-Received: by 2002:a65:6149:0:b0:3a9:7e8f:6429 with SMTP id
- o9-20020a656149000000b003a97e8f6429mr15355057pgv.613.1650896833894; 
- Mon, 25 Apr 2022 07:27:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=t9wxe2NnzThJXmH701I7MFDWCA+taSH4hJNR9Xh8jHE=;
+ b=SyJeXxbeCQ1GezsnreZFjK2xkY5/GiMbTJzEVErZVv35jwAhPq+4OduB8Ru6XV0CPk
+ QThgsqz14QxpYKtXzxJyDsoCaCuzgf6C/bnjh1J4cPG2FQnpMb0ZHl1+1Nr0rZfvtObx
+ vVPtTAoe+3DuYtJL56+hwl9uUqDIbET6HeFC+R9Z9RYbV0nazFMzy9J+VbTc5ddZKAZ6
+ di2ZD9nfBMatrZYmJIgXAY8J63efVzCHqDbZ9VG+3jKGIxoRYMBNol4K2hwuClJxw7Nl
+ cfDqE/3v0o8sWDg3h+Z19C1sJFTHyQvBF3lGfhjSQoU2PsnDyP6B3HVrsVluZbEhk0ua
+ 9sTg==
+X-Gm-Message-State: AOAM533ChzOp9xyD8CXCXgf6w1NsTheF5ceHGT6glkQqNClnCQ0+ejJU
+ wmMnZczftE5IvoVQaJQErywcWZ5kJBI=
+X-Google-Smtp-Source: ABdhPJxJ2pl37kQWuiEBGuc9Nb7qdu4lBNVHGvXuUMd7IsVTKDiNJRg+zCK6t+LpJhMYn0bMEyT7dA==
+X-Received: by 2002:a63:88c3:0:b0:3ab:2edc:b95b with SMTP id
+ l186-20020a6388c3000000b003ab2edcb95bmr5355015pgd.233.1650896837626; 
+ Mon, 25 Apr 2022 07:27:17 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
  [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
- t1-20020a628101000000b0050d47199857sm2437968pfd.73.2022.04.25.07.27.11
+ t1-20020a628101000000b0050d47199857sm2437968pfd.73.2022.04.25.07.27.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Apr 2022 07:27:13 -0700 (PDT)
+ Mon, 25 Apr 2022 07:27:17 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH 0/9] 9pfs: Add 9pfs support for Windows host
-Date: Mon, 25 Apr 2022 22:26:56 +0800
-Message-Id: <20220425142705.2099270-1-bmeng.cn@gmail.com>
+Subject: [PATCH 1/9] hw/9pfs: Compile 9p-local.c and 9p-proxy.c for Linux and
+ macOS
+Date: Mon, 25 Apr 2022 22:26:57 +0800
+Message-Id: <20220425142705.2099270-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220425142705.2099270-1-bmeng.cn@gmail.com>
+References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,63 +86,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Guohuai Shi <guohuai.shi@windriver.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Guohuai Shi <guohuai.shi@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At present there is no Windows support for 9p file system.
-This series adds initial Windows support for 9p file system.
+From: Bin Meng <bin.meng@windriver.com>
 
-'local' file system backend driver is supported on Windows,
-including open, read, write, close, rename, remove, etc.
-All security models are supported. The mapped (mapped-xattr)
-security model is implemented using NTFS Alternate Data Stream
-(ADS) so the 9p export path shall be on an NTFS partition.
+For better readability, Windows support of 9pfs local backend driver
+will be provided in a separate 9p-local-win32.c file, hence let's
+only compile 9p-local.c for Linux and macOS.
 
-'synth' backend driver is updated only to build sucessuflly
-in a Windows build. Funtionalities are not tested as test
-cases do not run on Windows at present.
+As we don't plan to support 9p proxy on Windows, apply the same to
+9p-proxy.c.
 
-Example command line to test:
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-  "-fsdev local,path=c:\msys64,security_model=mapped,id=p9 -device virtio-9p-pci,fsdev=p9,mount_tag=p9fs"
+ hw/9pfs/meson.build | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-
-Bin Meng (2):
-  hw/9pfs: Compile 9p-local.c and 9p-proxy.c for Linux and macOS
-  qemu/xatth.h: Update for Windows build
-
-Guohuai Shi (7):
-  hw/9pfs: Extract common stuff to 9p-local.h
-  fsdev: Add missing definitions for Windows in file-op-9p.h
-  hw/9pfs: Add a 'local' file system backend driver for Windows
-  hw/9pfs: Update 9p-synth.c for Windows build
-  fsdev: Enable 'local' file system driver backend for Windows
-  meson.build: Turn on virtfs for Windows host
-  hw/9p: win32: Translate Windows error number to Linux value
-
- meson.build              |   10 +-
- fsdev/file-op-9p.h       |   33 +
- hw/9pfs/9p-linux-errno.h |  151 +++++
- hw/9pfs/9p-local.h       |   20 +
- hw/9pfs/9p-util.h        |   41 ++
- hw/9pfs/9p.h             |   27 +
- include/qemu/xattr.h     |    4 +-
- fsdev/qemu-fsdev.c       |    2 +
- hw/9pfs/9p-local-win32.c | 1242 ++++++++++++++++++++++++++++++++++++++
- hw/9pfs/9p-local.c       |   14 -
- hw/9pfs/9p-synth.c       |    5 +-
- hw/9pfs/9p-util-win32.c  |  341 +++++++++++
- hw/9pfs/9p-xattr.c       |  113 ++++
- hw/9pfs/9p.c             |   98 ++-
- hw/9pfs/codir.c          |   15 +
- fsdev/meson.build        |    1 +
- hw/9pfs/meson.build      |   12 +-
- 17 files changed, 2103 insertions(+), 26 deletions(-)
- create mode 100644 hw/9pfs/9p-linux-errno.h
- create mode 100644 hw/9pfs/9p-local-win32.c
- create mode 100644 hw/9pfs/9p-util-win32.c
-
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
+index 12443b6ad5..b4a8ff0913 100644
+--- a/hw/9pfs/meson.build
++++ b/hw/9pfs/meson.build
+@@ -1,8 +1,6 @@
+ fs_ss = ss.source_set()
+ fs_ss.add(files(
+-  '9p-local.c',
+   '9p-posix-acl.c',
+-  '9p-proxy.c',
+   '9p-synth.c',
+   '9p-xattr-user.c',
+   '9p-xattr.c',
+@@ -13,8 +11,12 @@ fs_ss.add(files(
+   'coth.c',
+   'coxattr.c',
+ ))
+-fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-util-linux.c'))
+-fs_ss.add(when: 'CONFIG_DARWIN', if_true: files('9p-util-darwin.c'))
++fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-local.c',
++                                               '9p-proxy.c',
++                                               '9p-util-linux.c'))
++fs_ss.add(when: 'CONFIG_DARWIN', if_true: files('9p-local.c',
++                                                '9p-proxy.c',
++                                                '9p-util-darwin.c'))
+ fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
+ softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
+ 
 -- 
 2.25.1
 
