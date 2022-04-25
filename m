@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1520050ECD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:48:50 +0200 (CEST)
-Received: from localhost ([::1]:35824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2284950ECD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:48:56 +0200 (CEST)
+Received: from localhost ([::1]:36316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj8Rl-0004UK-5d
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:48:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
+	id 1nj8Rr-0004pz-8F
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:48:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IJ-00072n-OM
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26126)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IL-00076u-JB
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IH-0007k1-Qr
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:03 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8II-0007kG-Tf
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650929941;
+ s=mimecast20190719; t=1650929942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CT/FgeDFU3KaQ+xOqXSypN9L0YEqphcA8dJYQb7JqyY=;
- b=cPHojK0HdG6RRuFtVEqeJYTTmmN81b3ewBq1sxe9rj55VOHoA7Tps6W+P79FDsZj89XrSn
- SZPFHfpEFQDf8N7yhyjqFahcjxGhmsNI7hhCYz39Q+uAiJusH1f6BvUOAXJ1LH8iiLUbLi
- HooEqAsDj1rEOJ8xMVJ85btjOrIijN8=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bA/Coxr0OviSm7/62XvQBXQFLB77tNKSIqC7Wwapa78=;
+ b=YXNHgY4ri0YW0OvtYMVDndoUKfWUgCPpVpGBbsYufKcmZBegYTTBz5o1ap7PI9Koa8ZCW5
+ OUEP4z6CXpuIirb5bLjXRZy9bfn1k5e10sEHTRDG8OCx8ATbIenODDCAqIQ4gVWPvxqxZs
+ wBZlhlWLvIIyg0iKEXrq4CvKa2FJGR8=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-177-MD15zIeMMCmQCQdnhwBfyA-1; Mon, 25 Apr 2022 19:38:59 -0400
-X-MC-Unique: MD15zIeMMCmQCQdnhwBfyA-1
-Received: by mail-io1-f71.google.com with SMTP id
- k20-20020a5e9314000000b00649d55ffa67so12528367iom.20
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:38:59 -0700 (PDT)
+ us-mta-575-Yrxf86-UOViZkTVz5477wA-1; Mon, 25 Apr 2022 19:39:01 -0400
+X-MC-Unique: Yrxf86-UOViZkTVz5477wA-1
+Received: by mail-il1-f198.google.com with SMTP id
+ u11-20020a056e021a4b00b002cc315db462so6944417ilv.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:39:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CT/FgeDFU3KaQ+xOqXSypN9L0YEqphcA8dJYQb7JqyY=;
- b=YFIE/EHNu+8SEIlzgYe9blWzBAt5YJ4kKJx4VWk21isEVyXarRXZzzgjrRwYmA7TVw
- mIJu7tacYNbpI8oXT4RHCUJEcEy+Z2mLAMKOBseSaYrRsXSxd6EQFvS5XoLusm9R0JY2
- vO5mXrnsIEyIUh4R5NEf28gVijionJrpEwWrjV/N+jLz0epSgvu4LNL4Kv8BPh26ZxMZ
- NGU61qBp12BCvmnwSVRyffiRYPYBgPaHa/sXnyH2eHaLQmYhwSXbDDRQjwTFCtStJb/3
- isfrMkn66Yqv3WtA+m8S9Bgx/GOzrG/A8nSUnGh26dul6jiLvnbj/kenZzCaB9vUlBMx
- W7mg==
-X-Gm-Message-State: AOAM532qb2KzSlNETMyt41Sp/gcRhdBwgwzIvuoA/E/tz/7b8AUyu8o+
- vBawhxpy/ZarpU7YiDPLc2hdEzthHgK96T9rc0glC/fYDaCrDd/E2jn0qJPcV/zRJc4tkouNF+K
- 2tCzmeo8NtCDIe0ArcWvBVlvSu0V8hYOJ1RE7Ah5TIcezAh1xjmKYP2w5ER9AyR4w
-X-Received: by 2002:a05:6602:1481:b0:657:2836:587c with SMTP id
- a1-20020a056602148100b006572836587cmr8419801iow.194.1650929939132; 
- Mon, 25 Apr 2022 16:38:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzcaZHM9xnjrIVPoYdaI1vWPpxbJ8WogWHNTCMdjAR0BFlnQTuVPbtnFu6wz/cXDF0xZuBdMw==
-X-Received: by 2002:a05:6602:1481:b0:657:2836:587c with SMTP id
- a1-20020a056602148100b006572836587cmr8419786iow.194.1650929938890; 
- Mon, 25 Apr 2022 16:38:58 -0700 (PDT)
+ bh=bA/Coxr0OviSm7/62XvQBXQFLB77tNKSIqC7Wwapa78=;
+ b=yVJds6JZpVfXhcKgPASg9ho7p7k4SiyQfbi1J785xqmkBr3ur43KHyBMEwT5hC25WF
+ sTsDZc5B4y9Fx/MbByxZ0+smuoJWryx2+AnPwMAQwz7vU75I6FzftN4rdIYBpVoBFGyH
+ AjGrF/6cmCqqJQOW0azsA0OlkcaGTb/QVnagdlItZpp0BaDy7B5daXP6M7WDK8PLJneq
+ fMSm+lBSJHSF0r1bfX9Ykn5+sx6KMughtng0vHEv2EuMd+o3WFZx4qXzl97wcQE/E+nO
+ ylPiDxnKyVquRzn4EQEvUc/M8FpZ8kTF0tyaBehOom5j9vPkEfeIjSIwSDpf9CSbSI4e
+ DQVQ==
+X-Gm-Message-State: AOAM533HNgpSy96rj0f//b6t+xEwHskueAtAp7BHmpLIbmjbM5gigecp
+ jLVFTIYkiXy0gpuo11wj0cd5pKyj9tQ/B67Yl8gpGo9aidSN+Eel+uxRfIl/san+81OFSM0yOlS
+ ywY/+0EPOQg5Cwd1+yrynrl/+3YpPIGzOUeWiafy7Wxh7sPnEWowA64wi9cB6aGd8
+X-Received: by 2002:a6b:ed06:0:b0:649:d35f:852c with SMTP id
+ n6-20020a6bed06000000b00649d35f852cmr8503394iog.186.1650929940355; 
+ Mon, 25 Apr 2022 16:39:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzPjxXwdHJxnBWLuYC89mHFrh2h2CZq9q3isF4jIAQNuhqmuei0MQOYKWP5Fsovu5YljiSfkQ==
+X-Received: by 2002:a6b:ed06:0:b0:649:d35f:852c with SMTP id
+ n6-20020a6bed06000000b00649d35f852cmr8503381iog.186.1650929940113; 
+ Mon, 25 Apr 2022 16:39:00 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.38.57
+ h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.38.59
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 25 Apr 2022 16:38:58 -0700 (PDT)
+ Mon, 25 Apr 2022 16:38:59 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/21] tests: add multifd migration tests of TLS with x509
- credentials
-Date: Mon, 25 Apr 2022 19:38:34 -0400
-Message-Id: <20220425233847.10393-9-peterx@redhat.com>
+Subject: [PATCH v5 09/21] tests: ensure migration status isn't reported as
+ failed
+Date: Mon, 25 Apr 2022 19:38:35 -0400
+Message-Id: <20220425233847.10393-10-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220425233847.10393-1-peterx@redhat.com>
 References: <20220425233847.10393-1-peterx@redhat.com>
@@ -105,169 +105,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-This validates that we correctly handle multifd migration success
-and failure scenarios when using TLS with x509 certificates. There
-are quite a few different scenarios that matter in relation to
-hostname validation, but we skip a couple as we can assume that
-the non-multifd coverage applies to some extent.
+Various methods in the migration test call 'query_migrate' to fetch the
+current status and then access a particular field. Almost all of these
+cases expect the migration to be in a non-failed state. In the case of
+'wait_for_migration_pass' in particular, if the status is 'failed' then
+it will get into an infinite loop. By validating that the status is
+not 'failed' the test suite will assert rather than hang when getting
+into an unexpected state.
 
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qtest/migration-test.c | 127 +++++++++++++++++++++++++++++++++++
- 1 file changed, 127 insertions(+)
+ tests/qtest/migration-helpers.c | 13 +++++++++++++
+ tests/qtest/migration-helpers.h |  1 +
+ tests/qtest/migration-test.c    |  6 +++---
+ 3 files changed, 17 insertions(+), 3 deletions(-)
 
+diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
+index 4ee26014b7..a6aa59e4e6 100644
+--- a/tests/qtest/migration-helpers.c
++++ b/tests/qtest/migration-helpers.c
+@@ -107,6 +107,19 @@ QDict *migrate_query(QTestState *who)
+     return wait_command(who, "{ 'execute': 'query-migrate' }");
+ }
+ 
++QDict *migrate_query_not_failed(QTestState *who)
++{
++    const char *status;
++    QDict *rsp = migrate_query(who);
++    status = qdict_get_str(rsp, "status");
++    if (g_str_equal(status, "failed")) {
++        g_printerr("query-migrate shows failed migration: %s\n",
++                   qdict_get_str(rsp, "error-desc"));
++    }
++    g_assert(!g_str_equal(status, "failed"));
++    return rsp;
++}
++
+ /*
+  * Note: caller is responsible to free the returned object via
+  * g_free() after use
+diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
+index 555adafce1..d07e0fb748 100644
+--- a/tests/qtest/migration-helpers.h
++++ b/tests/qtest/migration-helpers.h
+@@ -26,6 +26,7 @@ G_GNUC_PRINTF(3, 4)
+ void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...);
+ 
+ QDict *migrate_query(QTestState *who);
++QDict *migrate_query_not_failed(QTestState *who);
+ 
+ void wait_for_migration_status(QTestState *who,
+                                const char *goal, const char **ungoals);
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index f47e4797e2..5ea0b9360a 100644
+index 5ea0b9360a..d9f444ea14 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -1832,6 +1832,48 @@ test_migrate_multifd_tcp_tls_psk_start_mismatch(QTestState *from,
-     return test_migrate_tls_psk_start_mismatch(from, to);
- }
+@@ -181,7 +181,7 @@ static int64_t read_ram_property_int(QTestState *who, const char *property)
+     QDict *rsp_return, *rsp_ram;
+     int64_t result;
  
-+#ifdef CONFIG_TASN1
-+static void *
-+test_migrate_multifd_tls_x509_start_default_host(QTestState *from,
-+                                                 QTestState *to)
-+{
-+    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-+    return test_migrate_tls_x509_start_default_host(from, to);
-+}
-+
-+static void *
-+test_migrate_multifd_tls_x509_start_override_host(QTestState *from,
-+                                                  QTestState *to)
-+{
-+    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-+    return test_migrate_tls_x509_start_override_host(from, to);
-+}
-+
-+static void *
-+test_migrate_multifd_tls_x509_start_mismatch_host(QTestState *from,
-+                                                  QTestState *to)
-+{
-+    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-+    return test_migrate_tls_x509_start_mismatch_host(from, to);
-+}
-+
-+static void *
-+test_migrate_multifd_tls_x509_start_allow_anon_client(QTestState *from,
-+                                                      QTestState *to)
-+{
-+    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-+    return test_migrate_tls_x509_start_allow_anon_client(from, to);
-+}
-+
-+static void *
-+test_migrate_multifd_tls_x509_start_reject_anon_client(QTestState *from,
-+                                                       QTestState *to)
-+{
-+    test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-+    return test_migrate_tls_x509_start_reject_anon_client(from, to);
-+}
-+#endif /* CONFIG_TASN1 */
-+
- static void test_multifd_tcp_tls_psk_match(void)
+-    rsp_return = migrate_query(who);
++    rsp_return = migrate_query_not_failed(who);
+     if (!qdict_haskey(rsp_return, "ram")) {
+         /* Still in setup */
+         result = 0;
+@@ -198,7 +198,7 @@ static int64_t read_migrate_property_int(QTestState *who, const char *property)
+     QDict *rsp_return;
+     int64_t result;
+ 
+-    rsp_return = migrate_query(who);
++    rsp_return = migrate_query_not_failed(who);
+     result = qdict_get_try_int(rsp_return, property, 0);
+     qobject_unref(rsp_return);
+     return result;
+@@ -213,7 +213,7 @@ static void read_blocktime(QTestState *who)
  {
-     MigrateCommon args = {
-@@ -1855,6 +1897,79 @@ static void test_multifd_tcp_tls_psk_mismatch(void)
-     };
-     test_precopy_common(&args);
+     QDict *rsp_return;
+ 
+-    rsp_return = migrate_query(who);
++    rsp_return = migrate_query_not_failed(who);
+     g_assert(qdict_haskey(rsp_return, "postcopy-blocktime"));
+     qobject_unref(rsp_return);
  }
-+
-+#ifdef CONFIG_TASN1
-+static void test_multifd_tcp_tls_x509_default_host(void)
-+{
-+    MigrateCommon args = {
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_multifd_tls_x509_start_default_host,
-+        .finish_hook = test_migrate_tls_x509_finish,
-+    };
-+    test_precopy_common(&args);
-+}
-+
-+static void test_multifd_tcp_tls_x509_override_host(void)
-+{
-+    MigrateCommon args = {
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_multifd_tls_x509_start_override_host,
-+        .finish_hook = test_migrate_tls_x509_finish,
-+    };
-+    test_precopy_common(&args);
-+}
-+
-+static void test_multifd_tcp_tls_x509_mismatch_host(void)
-+{
-+    /*
-+     * This has different behaviour to the non-multifd case.
-+     *
-+     * In non-multifd case when client aborts due to mismatched
-+     * cert host, the server has already started trying to load
-+     * migration state, and so it exits with I/O  failure.
-+     *
-+     * In multifd case when client aborts due to mismatched
-+     * cert host, the server is still waiting for the other
-+     * multifd connections to arrive so hasn't started trying
-+     * to load migration state, and thus just aborts the migration
-+     * without exiting
-+     */
-+    MigrateCommon args = {
-+        .start = {
-+            .hide_stderr = true,
-+        },
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_multifd_tls_x509_start_mismatch_host,
-+        .finish_hook = test_migrate_tls_x509_finish,
-+        .result = MIG_TEST_FAIL,
-+    };
-+    test_precopy_common(&args);
-+}
-+
-+static void test_multifd_tcp_tls_x509_allow_anon_client(void)
-+{
-+    MigrateCommon args = {
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_multifd_tls_x509_start_allow_anon_client,
-+        .finish_hook = test_migrate_tls_x509_finish,
-+    };
-+    test_precopy_common(&args);
-+}
-+
-+static void test_multifd_tcp_tls_x509_reject_anon_client(void)
-+{
-+    MigrateCommon args = {
-+        .start = {
-+            .hide_stderr = true,
-+        },
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_multifd_tls_x509_start_reject_anon_client,
-+        .finish_hook = test_migrate_tls_x509_finish,
-+        .result = MIG_TEST_FAIL,
-+    };
-+    test_precopy_common(&args);
-+}
-+#endif /* CONFIG_TASN1 */
- #endif /* CONFIG_GNUTLS */
- 
- /*
-@@ -2082,6 +2197,18 @@ int main(int argc, char **argv)
-                    test_multifd_tcp_tls_psk_match);
-     qtest_add_func("/migration/multifd/tcp/tls/psk/mismatch",
-                    test_multifd_tcp_tls_psk_mismatch);
-+#ifdef CONFIG_TASN1
-+    qtest_add_func("/migration/multifd/tcp/tls/x509/default-host",
-+                   test_multifd_tcp_tls_x509_default_host);
-+    qtest_add_func("/migration/multifd/tcp/tls/x509/override-host",
-+                   test_multifd_tcp_tls_x509_override_host);
-+    qtest_add_func("/migration/multifd/tcp/tls/x509/mismatch-host",
-+                   test_multifd_tcp_tls_x509_mismatch_host);
-+    qtest_add_func("/migration/multifd/tcp/tls/x509/allow-anon-client",
-+                   test_multifd_tcp_tls_x509_allow_anon_client);
-+    qtest_add_func("/migration/multifd/tcp/tls/x509/reject-anon-client",
-+                   test_multifd_tcp_tls_x509_reject_anon_client);
-+#endif /* CONFIG_TASN1 */
- #endif /* CONFIG_GNUTLS */
- 
-     if (kvm_dirty_ring_supported()) {
 -- 
 2.32.0
 
