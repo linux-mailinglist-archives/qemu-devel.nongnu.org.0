@@ -2,88 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5D050EC4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 00:55:28 +0200 (CEST)
-Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C10650EC4E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 00:56:37 +0200 (CEST)
+Received: from localhost ([::1]:33622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj7c6-0003mY-WD
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 18:55:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38698)
+	id 1nj7dE-0005LT-45
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 18:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nj7aR-00036r-AY
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:53:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42514)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nj7aM-0001dJ-Oh
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:53:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650927218;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8KYvTG6fHslGLTAEOj7E7ypkGRqTXSPQpyoWIpPfwOQ=;
- b=AGMmA53HNEtYR8FUD+CD7BV76bh66ocpchKTuSde0xX2htMCotItAykYjPyd8fk0jVrV84
- mYLvXRwHakg9qetxRloCqHdMTAa6/EMHnVyuHSvifL4aaTtfKrzgQdlaE6T81KROzTAKLh
- ih87+B9CkVICzS4+eqIQ244CMT1Dle4=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-tDS06wfAPASAYu770GnI3A-1; Mon, 25 Apr 2022 18:53:37 -0400
-X-MC-Unique: tDS06wfAPASAYu770GnI3A-1
-Received: by mail-il1-f200.google.com with SMTP id
- u11-20020a056e021a4b00b002cc315db462so6901793ilv.4
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 15:53:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nj7cC-0004MF-93
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:55:33 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:38428)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nj7cA-00023o-L5
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:55:31 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ s14-20020a17090a880e00b001caaf6d3dd1so642922pjn.3
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 15:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=KxsJG3icAwurLci+IhOUGHqXCnueKOgNNcp9Vf1kbec=;
+ b=Hb4xb0HziqlmkQtLU5Awp8ykPxSr7SeW/7YElOJIc7nbMcX/RK8JO1S6b1bEomMVlV
+ 1iSce2Qt4F3dSLbmvERsK9OHTNM8t4QQxEmaA1+InBmYyN/Vf/iziLflFIFmbTpCkBWP
+ 2GzSn0LTLzR/kWlCuw9/3nNPzJWrTCvccoy32s8cTF7fe2OWar/SgWCghlu08Xvig8rC
+ j1nh8cbwbwGP+cu0fv+Uq5Ue7fXaYfHz9BJQOOk7+k8kZQbfhW3/gW1zidhe/BWuXN+p
+ +l+keThGeRsrdO1iV9E1kwntK+iow1D+waPfEfI1Vzj1MM3QGg5YjJXFbx8sgRNiqntI
+ eOTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=8KYvTG6fHslGLTAEOj7E7ypkGRqTXSPQpyoWIpPfwOQ=;
- b=igG+yQ1sr3KnnVUj0vV2VZgWTd+B4nFOr0jAVwEcgxkm6NbgTBujjatFi5tzOvcLD4
- BjJjfm3ekwQW6gOKiAmSP7QqZRqlOLm/On+1oQsZGHTdJ/KespZDQctBQP2406+v01iO
- KhxhGGE8uV+Rgqy/S5z04rlXsKWap9SYjqGtaZ8Zk67HZqfSJw6/35X7sp8rCgXsAmGF
- Eqcb3ivwSnlipmmlTaJ7vggFvNZPUuH4G4s3dRNdNuGJ6lhdqXIVYRIoIM3h3r6mpsil
- qxqQ1sGHCcX7583FDGQS7lV0FceQuUalYRqz9AWLufIav83RP8+7rUXjbFY15W2uxr6/
- 2aSQ==
-X-Gm-Message-State: AOAM531m0wpTUP/9yiLhS+gmQkMtcxQ0d9dUoDxy8mgFvGgs9OTLBBEk
- riZqe8dGJ4zj6lAhbfWZD1vMRrrBJTROWFO7NTZT8wrfXfrax9qyCLVm5uk28QlukjhffJs0wZ7
- m8Dj7tPekMjN0yC8=
-X-Received: by 2002:a05:6e02:1608:b0:2cc:1bf8:bf2f with SMTP id
- t8-20020a056e02160800b002cc1bf8bf2fmr8105880ilu.219.1650927216173; 
- Mon, 25 Apr 2022 15:53:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyGcyC03xq2TvlmJYcMx22EPxDF94K5SeUE/sXwrixAbxujdIriJqkWIKd0w2OhVivFjXAlNg==
-X-Received: by 2002:a05:6e02:1608:b0:2cc:1bf8:bf2f with SMTP id
- t8-20020a056e02160800b002cc1bf8bf2fmr8105855ilu.219.1650927215849; 
- Mon, 25 Apr 2022 15:53:35 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- s7-20020a5eaa07000000b00654bf640320sm8127085ioe.55.2022.04.25.15.53.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Apr 2022 15:53:34 -0700 (PDT)
-Date: Mon, 25 Apr 2022 16:53:33 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-Message-ID: <20220425165333.034bb2c8.alex.williamson@redhat.com>
-In-Reply-To: <fbe4728a-da58-e7de-aa36-97af48cbca0a@redhat.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <20220422160943.6ff4f330.alex.williamson@redhat.com>
- <fbe4728a-da58-e7de-aa36-97af48cbca0a@redhat.com>
-Organization: Red Hat
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KxsJG3icAwurLci+IhOUGHqXCnueKOgNNcp9Vf1kbec=;
+ b=WAk1lYJmV2eUgrzM3ELOu0l+hjzg1MvQLxDfzoXG9a48VRf2OeQujayEDpIVxxjLpq
+ LZ/waXbqOvurZ3y+b90aZEAr5ij4z5kdetqtWLfoFbyvu70/4z4C+eYs2iKpOQU04tc7
+ uiNMQpicetaHEdOAuuPQNRs/5nfd0mP1+P6GGjpcd1gJvh9jiR93SN0GZEGdkxaFne4f
+ gwylv7PBYB1CRGrGQa2hWILZ6BPa61pNCe42DzxfDUY2RaSDfEn3e/B9nDZhIC3kWF36
+ CSI1PaI93CbZyT6E6c4GXlpjKzK/yL/XdHkYf3gPvg5IW7v6PoEY+bGDYWDMGnMgafg6
+ ePHQ==
+X-Gm-Message-State: AOAM530pCBBMcma2piuSc4cK/RGT0fgCF+Icem6NVNjcCfj/VEobwKFx
+ r8DcV+wMSCMdv5QFh6f7yR7gHQ==
+X-Google-Smtp-Source: ABdhPJwXpTsfgGa4+bxJJTm0T3TaKBwtJaA1Xu3mpNt/eKQ20fKkH8+yAGtRTSUHJ6ZmDWYWNscZiA==
+X-Received: by 2002:a17:902:9b92:b0:158:9b65:a78 with SMTP id
+ y18-20020a1709029b9200b001589b650a78mr20498164plp.53.1650927329221; 
+ Mon, 25 Apr 2022 15:55:29 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ n4-20020a637204000000b00398522203a2sm11101495pgc.80.2022.04.25.15.55.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Apr 2022 15:55:28 -0700 (PDT)
+Message-ID: <cc6c67a1-d1c7-49dd-b661-23afdc5a308d@linaro.org>
+Date: Mon, 25 Apr 2022 15:55:27 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 25/43] target/loongarch: Add LoongArch CSR instruction
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
+ <20220425091027.2877892-26-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220425091027.2877892-26-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,176 +90,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: akrowiak@linux.ibm.com, jjherne@linux.ibm.com, farman@linux.ibm.com,
- Yi Liu <yi.l.liu@intel.com>, kvm@vger.kernel.org, mjrosato@linux.ibm.com,
- Laine Stump <laine@redhat.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>, jasowang@redhat.com,
- cohuck@redhat.com, thuth@redhat.com, peterx@redhat.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, yi.y.sun@intel.com, chao.p.peng@intel.com,
- nicolinc@nvidia.com, kevin.tian@intel.com, jgg@nvidia.com,
- eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
+Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Apr 2022 22:23:05 +0200
-Eric Auger <eric.auger@redhat.com> wrote:
+On 4/25/22 02:10, Xiaojuan Yang wrote:
+> +static void output_r_csr(DisasContext *ctx, arg_r_csr *a,
+> +                         const char *mnemonic)
+> +{
+> +    output(ctx, mnemonic, "r%d, %d # %s", a->rd, a->csr, csr_names[a->csr]);
+> +}
+> +
+> +static void output_rr_csr(DisasContext *ctx, arg_rr_csr *a,
+> +                          const char *mnemonic)
+> +{
+> +    output(ctx, mnemonic, "r%d, r%d, %d # %s",
+> +           a->rd, a->rj, a->csr, csr_names[a->csr]);
 
-> Hi Alex,
-> 
-> On 4/23/22 12:09 AM, Alex Williamson wrote:
-> > [Cc +libvirt folks]
-> >
-> > On Thu, 14 Apr 2022 03:46:52 -0700
-> > Yi Liu <yi.l.liu@intel.com> wrote:
-> >  
-> >> With the introduction of iommufd[1], the linux kernel provides a generic
-> >> interface for userspace drivers to propagate their DMA mappings to kernel
-> >> for assigned devices. This series does the porting of the VFIO devices
-> >> onto the /dev/iommu uapi and let it coexist with the legacy implementation.
-> >> Other devices like vpda, vfio mdev and etc. are not considered yet.
-> >>
-> >> For vfio devices, the new interface is tied with device fd and iommufd
-> >> as the iommufd solution is device-centric. This is different from legacy
-> >> vfio which is group-centric. To support both interfaces in QEMU, this
-> >> series introduces the iommu backend concept in the form of different
-> >> container classes. The existing vfio container is named legacy container
-> >> (equivalent with legacy iommu backend in this series), while the new
-> >> iommufd based container is named as iommufd container (may also be mentioned
-> >> as iommufd backend in this series). The two backend types have their own
-> >> way to setup secure context and dma management interface. Below diagram
-> >> shows how it looks like with both BEs.
-> >>
-> >>                     VFIO                           AddressSpace/Memory
-> >>     +-------+  +----------+  +-----+  +-----+
-> >>     |  pci  |  | platform |  |  ap |  | ccw |
-> >>     +---+---+  +----+-----+  +--+--+  +--+--+     +----------------------+
-> >>         |           |           |        |        |   AddressSpace       |
-> >>         |           |           |        |        +------------+---------+
-> >>     +---V-----------V-----------V--------V----+               /
-> >>     |           VFIOAddressSpace              | <------------+
-> >>     |                  |                      |  MemoryListener
-> >>     |          VFIOContainer list             |
-> >>     +-------+----------------------------+----+
-> >>             |                            |
-> >>             |                            |
-> >>     +-------V------+            +--------V----------+
-> >>     |   iommufd    |            |    vfio legacy    |
-> >>     |  container   |            |     container     |
-> >>     +-------+------+            +--------+----------+
-> >>             |                            |
-> >>             | /dev/iommu                 | /dev/vfio/vfio
-> >>             | /dev/vfio/devices/vfioX    | /dev/vfio/$group_id
-> >>  Userspace  |                            |
-> >>  ===========+============================+================================
-> >>  Kernel     |  device fd                 |
-> >>             +---------------+            | group/container fd
-> >>             | (BIND_IOMMUFD |            | (SET_CONTAINER/SET_IOMMU)
-> >>             |  ATTACH_IOAS) |            | device fd
-> >>             |               |            |
-> >>             |       +-------V------------V-----------------+
-> >>     iommufd |       |                vfio                  |
-> >> (map/unmap  |       +---------+--------------------+-------+
-> >>  ioas_copy) |                 |                    | map/unmap
-> >>             |                 |                    |
-> >>      +------V------+    +-----V------+      +------V--------+
-> >>      | iommfd core |    |  device    |      |  vfio iommu   |
-> >>      +-------------+    +------------+      +---------------+
-> >>
-> >> [Secure Context setup]
-> >> - iommufd BE: uses device fd and iommufd to setup secure context
-> >>               (bind_iommufd, attach_ioas)
-> >> - vfio legacy BE: uses group fd and container fd to setup secure context
-> >>                   (set_container, set_iommu)
-> >> [Device access]
-> >> - iommufd BE: device fd is opened through /dev/vfio/devices/vfioX
-> >> - vfio legacy BE: device fd is retrieved from group fd ioctl
-> >> [DMA Mapping flow]
-> >> - VFIOAddressSpace receives MemoryRegion add/del via MemoryListener
-> >> - VFIO populates DMA map/unmap via the container BEs
-> >>   *) iommufd BE: uses iommufd
-> >>   *) vfio legacy BE: uses container fd
-> >>
-> >> This series qomifies the VFIOContainer object which acts as a base class
-> >> for a container. This base class is derived into the legacy VFIO container
-> >> and the new iommufd based container. The base class implements generic code
-> >> such as code related to memory_listener and address space management whereas
-> >> the derived class implements callbacks that depend on the kernel user space
-> >> being used.
-> >>
-> >> The selection of the backend is made on a device basis using the new
-> >> iommufd option (on/off/auto). By default the iommufd backend is selected
-> >> if supported by the host and by QEMU (iommufd KConfig). This option is
-> >> currently available only for the vfio-pci device. For other types of
-> >> devices, it does not yet exist and the legacy BE is chosen by default.  
-> > I've discussed this a bit with Eric, but let me propose a different
-> > command line interface.  Libvirt generally likes to pass file
-> > descriptors to QEMU rather than grant it access to those files
-> > directly.  This was problematic with vfio-pci because libvirt can't
-> > easily know when QEMU will want to grab another /dev/vfio/vfio
-> > container.  Therefore we abandoned this approach and instead libvirt
-> > grants file permissions.
-> >
-> > However, with iommufd there's no reason that QEMU ever needs more than
-> > a single instance of /dev/iommufd and we're using per device vfio file
-> > descriptors, so it seems like a good time to revisit this.
-> >
-> > The interface I was considering would be to add an iommufd object to
-> > QEMU, so we might have a:
-> >
-> > -device iommufd[,fd=#][,id=foo]
-> >
-> > For non-libivrt usage this would have the ability to open /dev/iommufd
-> > itself if an fd is not provided.  This object could be shared with
-> > other iommufd users in the VM and maybe we'd allow multiple instances
-> > for more esoteric use cases.  [NB, maybe this should be a -object rather than
-> > -device since the iommufd is not a guest visible device?]
-> >
-> > The vfio-pci device might then become:
-> >
-> > -device vfio-pci[,host=DDDD:BB:DD.f][,sysfsdev=/sys/path/to/device][,fd=#][,iommufd=foo]
-> >
-> > So essentially we can specify the device via host, sysfsdev, or passing
-> > an fd to the vfio device file.  When an iommufd object is specified,
-> > "foo" in the example above, each of those options would use the
-> > vfio-device access mechanism, essentially the same as iommufd=on in
-> > your example.  With the fd passing option, an iommufd object would be
-> > required and necessarily use device level access.  
-> What is the use case you foresee for the "fd=#" option?
+Need to check for csr not in csr_names.
 
-On the vfio-pci device this was intended to be the actual vfio device
-file descriptor.  Once we have a file per device, QEMU doesn't really
-have any need to navigate through sysfs to determine which fd to use
-other than for user convenience on the command line.  For libvirt usage,
-I assume QEMU could accept the device fd, without ever really knowing
-anything about the host address or sysfs path of the device.
+> +    CSR_OFF_FLAGS(CPUID, CSRFL_READONLY),
 
-> >
-> > In your example, the iommufd=auto seems especially troublesome for
-> > libvirt because QEMU is going to have different locked memory
-> > requirements based on whether we're using type1 or iommufd, where the
-> > latter resolves the duplicate accounting issues.  libvirt needs to know
-> > deterministically which backed is being used, which this proposal seems
-> > to provide, while at the same time bringing us more in line with fd
-> > passing.  Thoughts?  Thanks,  
-> I like your proposal (based on the -object iommufd). The only thing that
-> may be missing I think is for a qemu end-user who actually does not care
-> about the iommu backend being used but just wishes to use the most
-> recent available one it adds some extra complexity. But this is not the
-> most important use case ;)
+You've dropped the special case from the previous version.  Why?
 
-Yeah, I can sympathize with that, but isn't that also why we're pursing
-a vfio compatibility interface at the kernel level?  Eventually, once
-the native vfio IOMMU backends go away, the vfio "container" device
-file will be provided by iommufd and that transition to the new
-interface can be both seamless to the user and apparent to tools like
-libvirt.
 
-An end-user with a fixed command line should continue to work and will
-eventually get iommufd via compatibility, but taking care of an
-end-user that "does not care" and "wishes to use the most recent" is a
-non-goal for me.  That would be more troublesome for tools and use cases
-that we do care about imo.  Thanks,
-
-Alex
-
+r~
 
