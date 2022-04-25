@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C22B50E395
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:47:56 +0200 (CEST)
-Received: from localhost ([::1]:58552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C24CF50E370
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:39:44 +0200 (CEST)
+Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj00J-0007a1-8B
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36148)
+	id 1nizsN-0003kT-Td
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nizgo-0006bS-0a
+ id 1nizgp-0006bs-FN
  for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:48 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51848)
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:33955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nizgh-0004nD-Js
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:40 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id p6so78301pjm.1
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 07:27:39 -0700 (PDT)
+ id 1nizgn-0004p0-RT
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:47 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ d23-20020a17090a115700b001d2bde6c234so48508pje.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 07:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uF55zfRGZGLp8oLCUwGZ2krUtjYw224zyy5ygc5qPWk=;
- b=PwNXe3HWc5sk/asa8EHJwPDQT+U2YuMUe7wXMbOA9EMR2jrCAsVxd71k4Acj3I6U8I
- kLQxWB7BLHvzSrrO7FoXJF1HdLuLrPuu9bv05tZ5aPq6ysdplFlFCqlsgI41Ymc7sYH0
- p28r3f26KPdUb53rFyYjKSkXCFNYQAUOPLXhX1LoKTKPGWg7pLYWNSWqCYGlw/DlVUyR
- vE0FzcFh72oyhpqSOykksd/HVpYeYWtLGru1EnYjA0R75Tr6neo0ic8fzBxsW+14do8g
- 3xetHWF0Llv9SUe5XIQ+RXZBdH1h2Sxok9mwxWBD1mHACii9MZYE39tkgzDx4p5onFmI
- Ssfw==
+ bh=xVhmwJN1yacivhyyGJyPocmRV53ZU/rr69UEm8cytaM=;
+ b=Wt/Xj3bef2u9D8YwqQTNKLY0reHLK+6gFJOcQ0DvCU994XBoZo4yAoCNnrh10VrJFO
+ TlbKJf/h/eYGAYoz2ppf8sJZUZ6AbkwlFWHGHh6aXpJBdCSeRRf2ZXkSOxae0CeREujV
+ vsep1Yqq+lLw6O4i6hynGY7Rgh7d+ENmhMcTFg7qCjDn0cemDPy3OEExNLtqYNQ9RPRm
+ /GaAMF6NTkGYcyKN3LaYXYr0e0r27eAM3kexIQM40ZzfD6tz5W/Lauw75p9HoiJFhC49
+ rcYMQghGPs5Puup86xDHxW/0KOxER7ydvU/VJ1+7fbRFbhg2FvHpx17kcfpSkY52e3Md
+ dG4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uF55zfRGZGLp8oLCUwGZ2krUtjYw224zyy5ygc5qPWk=;
- b=pJUZEki7ZfiPV39X4cMI1gqBu++mLsbgexi2Li4f61B8MXbXllekpxAZRunivMzAWI
- UKvFlWgGIowYSP02HLpb3nBJKRnVISLOEwiZI7TmeReDzgSzktFzHJI16S8Ulqy+SbHn
- eLnMxi3NF2CAHyi8TekCKJMnk9iK3x4bgNyJYDLUpjEB+mICz6nSr8lBn7Xn6s911Q05
- Ykxv549/M4u4Oh+l963LzPbUwntQvN673VQYTSuuSOoiqO6I7F/uNUCPZcK6fZ5NzRwf
- DpGnYpKQ4k0hEen8P2rmhnI6d5lM97cFhMW127qlFl7KFWWxtKPB7FCtW6mhHuvhWKeN
- q+1w==
-X-Gm-Message-State: AOAM5313SeQGzIDfxU6fl0ag8P4537Y/qVfDQyR8yBPJVA+dmQ7D70Fp
- 39NtmHTJDf/f1koT2vlgT/c=
-X-Google-Smtp-Source: ABdhPJyEZ89kZqYMvcerQ4bWot/pg9iJ/wnvLYtD62XARTmNKKgo6bBX7e1ObOikAVJlIyQoLRO06g==
-X-Received: by 2002:a17:902:b286:b0:15b:335b:53e6 with SMTP id
- u6-20020a170902b28600b0015b335b53e6mr18068383plr.169.1650896858442; 
- Mon, 25 Apr 2022 07:27:38 -0700 (PDT)
+ bh=xVhmwJN1yacivhyyGJyPocmRV53ZU/rr69UEm8cytaM=;
+ b=bcvV3tUD3Esjs9eSS6EMSSw8bevQdwwCEzSXBmtkN67bXTjRbgwu0Lh0y1WkWATmwG
+ ITJtYFFMJyO1Vxg29yLSnQPBenXrFCze7+d/TgIVlU0XPCxxfy7MoGlsLZWApyT/ZwN1
+ bpqL7n/QOqpOXBq75vrPd2LP6Z3PU9N3BwtlWHhYObBG3+09LITcDJiy4IbpSK5ZbeB2
+ N3LXRHXegVuDfbu2QsSZSJyyYsqPwm2lkEA0DOfrk60rGmm5fcB0IpmZLp6nV0u8YZps
+ OH1aD0jvKc4ICh2sWOduwiLQ07KCR4yM6tkY0LrDlADBquD37w50wxaEQHN3WFxFxBUz
+ /7Bw==
+X-Gm-Message-State: AOAM533IHMb85zyJsxBKyXzx9MkQTxvnJba19F7QNdpRl6b62k9JlrhA
+ /Lr4PdIaYWjUdYWb4A5yBeU=
+X-Google-Smtp-Source: ABdhPJzLJz/pFNwiwTGJygq4t6Q3EyYcZgZYpSyWM7Xeqf26zXnSzQW7uGKv5M7TcLMLfpQupl1lJw==
+X-Received: by 2002:a17:90b:3c84:b0:1d9:2a4c:5ee9 with SMTP id
+ pv4-20020a17090b3c8400b001d92a4c5ee9mr13879208pjb.121.1650896862638; 
+ Mon, 25 Apr 2022 07:27:42 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
  [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
- t1-20020a628101000000b0050d47199857sm2437968pfd.73.2022.04.25.07.27.35
+ t1-20020a628101000000b0050d47199857sm2437968pfd.73.2022.04.25.07.27.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Apr 2022 07:27:38 -0700 (PDT)
+ Mon, 25 Apr 2022 07:27:42 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH 7/9] fsdev: Enable 'local' file system driver backend for
- Windows
-Date: Mon, 25 Apr 2022 22:27:03 +0800
-Message-Id: <20220425142705.2099270-8-bmeng.cn@gmail.com>
+Subject: [PATCH 8/9] meson.build: Turn on virtfs for Windows host
+Date: Mon, 25 Apr 2022 22:27:04 +0800
+Message-Id: <20220425142705.2099270-9-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220425142705.2099270-1-bmeng.cn@gmail.com>
 References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,49 +92,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Guohuai Shi <guohuai.shi@windriver.com>
 
-Only 'local' file system driver will be supported for Windows host.
-'proxy' or 'synth' are not supported.
+Enable virtfs configuration option for Windows host.
 
 Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- fsdev/qemu-fsdev.c | 2 ++
- fsdev/meson.build  | 1 +
- 2 files changed, 3 insertions(+)
+ meson.build         | 10 +++++-----
+ hw/9pfs/meson.build |  2 ++
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/fsdev/qemu-fsdev.c b/fsdev/qemu-fsdev.c
-index 3da64e9f72..e1cc677ad8 100644
---- a/fsdev/qemu-fsdev.c
-+++ b/fsdev/qemu-fsdev.c
-@@ -81,6 +81,7 @@ static FsDriverTable FsDrivers[] = {
-             NULL
-         },
-     },
-+#ifndef CONFIG_WIN32
-     {
-         .name = "synth",
-         .ops = &synth_ops,
-@@ -100,6 +101,7 @@ static FsDriverTable FsDrivers[] = {
-             NULL
-         },
-     },
-+#endif
- };
+diff --git a/meson.build b/meson.build
+index d083c6b7bf..46f61b2a9d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1465,16 +1465,16 @@ dbus_display = get_option('dbus_display') \
+   .allowed()
  
- static int validate_opt(void *opaque, const char *name, const char *value,
-diff --git a/fsdev/meson.build b/fsdev/meson.build
-index b632b66348..2aad081aef 100644
---- a/fsdev/meson.build
-+++ b/fsdev/meson.build
-@@ -8,6 +8,7 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
- ), if_false: files('qemu-fsdev-dummy.c'))
- softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
- softmmu_ss.add_all(when: 'CONFIG_DARWIN', if_true: fsdev_ss)
-+softmmu_ss.add_all(when: 'CONFIG_WIN32', if_true: fsdev_ss)
+ have_virtfs = get_option('virtfs') \
+-    .require(targetos == 'linux' or targetos == 'darwin',
+-             error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
+-    .require(targetos == 'linux' or cc.has_function('pthread_fchdir_np'),
++    .require(targetos == 'linux' or targetos == 'darwin' or targetos == 'windows',
++             error_message: 'virtio-9p (virtfs) requires Linux or macOS or Windows') \
++    .require(targetos == 'linux' or targetos == 'windows' or cc.has_function('pthread_fchdir_np'),
+              error_message: 'virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np') \
+-    .require(targetos == 'darwin' or (libattr.found() and libcap_ng.found()),
++    .require(targetos == 'darwin' or targetos == 'windows' or (libattr.found() and libcap_ng.found()),
+              error_message: 'virtio-9p (virtfs) on Linux requires libcap-ng-devel and libattr-devel') \
+     .disable_auto_if(not have_tools and not have_system) \
+     .allowed()
  
- if have_virtfs_proxy_helper
-   executable('virtfs-proxy-helper',
+-have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
++have_virtfs_proxy_helper = targetos != 'darwin' and targetos != 'windows' and have_virtfs and have_tools
+ 
+ foreach k : get_option('trace_backends')
+   config_host_data.set('CONFIG_TRACE_' + k.to_upper(), true)
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
+index b4a8ff0913..50401848d9 100644
+--- a/hw/9pfs/meson.build
++++ b/hw/9pfs/meson.build
+@@ -17,6 +17,8 @@ fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-local.c',
+ fs_ss.add(when: 'CONFIG_DARWIN', if_true: files('9p-local.c',
+                                                 '9p-proxy.c',
+                                                 '9p-util-darwin.c'))
++fs_ss.add(when: 'CONFIG_WIN32', if_true: files('9p-local-win32.c',
++                                               '9p-util-win32.c'))
+ fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
+ softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
+ 
 -- 
 2.25.1
 
