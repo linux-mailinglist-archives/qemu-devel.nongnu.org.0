@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24CF50E370
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:39:44 +0200 (CEST)
-Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF8550E3AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 16:50:57 +0200 (CEST)
+Received: from localhost ([::1]:35864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nizsN-0003kT-Td
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
+	id 1nj03E-0002vk-9s
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 10:50:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nizgp-0006bs-FN
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:48 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:33955)
+ id 1nizgr-0006e8-Ml
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:52 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:35399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nizgn-0004p0-RT
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:47 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- d23-20020a17090a115700b001d2bde6c234so48508pje.1
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 07:27:43 -0700 (PDT)
+ id 1nizgp-0004pp-85
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 10:27:49 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ w5-20020a17090aaf8500b001d74c754128so1324267pjq.0
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 07:27:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xVhmwJN1yacivhyyGJyPocmRV53ZU/rr69UEm8cytaM=;
- b=Wt/Xj3bef2u9D8YwqQTNKLY0reHLK+6gFJOcQ0DvCU994XBoZo4yAoCNnrh10VrJFO
- TlbKJf/h/eYGAYoz2ppf8sJZUZ6AbkwlFWHGHh6aXpJBdCSeRRf2ZXkSOxae0CeREujV
- vsep1Yqq+lLw6O4i6hynGY7Rgh7d+ENmhMcTFg7qCjDn0cemDPy3OEExNLtqYNQ9RPRm
- /GaAMF6NTkGYcyKN3LaYXYr0e0r27eAM3kexIQM40ZzfD6tz5W/Lauw75p9HoiJFhC49
- rcYMQghGPs5Puup86xDHxW/0KOxER7ydvU/VJ1+7fbRFbhg2FvHpx17kcfpSkY52e3Md
- dG4w==
+ bh=MD+TlSLDLHY/kSu2Q8HsMnto1MgxQkrIjJ5UvAZq3eQ=;
+ b=GErlpZe44nq39km9zcAD9LtPCWaNJ4/ntka10jdJ1iTfjdpyDY9+1N8mOw+52pZf61
+ A6uk6gPUSy+mu6tjKP25mvJDY2aLwITv1S5xFPiY2bf+TAIGqm5i2OTuHs150snkmuP+
+ nGOyGMBRkz7NKrAPUwGggQDip3P7PeGElSJVcMr4wGWduBzgsT0BCYEm5OHu8WGByMah
+ HXTfsn3XEqIB104nGOLpf9VyjXShjjOIPHBV99ahwY9tNN4em1ss7xBuGtwBoPLtURe7
+ jhKwjf3CzE00N7LSOSGsbwXTEFta9k/PaG8wwWCx9vq116qFQ+FZUZsgALWsIp7FsHjr
+ eLLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xVhmwJN1yacivhyyGJyPocmRV53ZU/rr69UEm8cytaM=;
- b=bcvV3tUD3Esjs9eSS6EMSSw8bevQdwwCEzSXBmtkN67bXTjRbgwu0Lh0y1WkWATmwG
- ITJtYFFMJyO1Vxg29yLSnQPBenXrFCze7+d/TgIVlU0XPCxxfy7MoGlsLZWApyT/ZwN1
- bpqL7n/QOqpOXBq75vrPd2LP6Z3PU9N3BwtlWHhYObBG3+09LITcDJiy4IbpSK5ZbeB2
- N3LXRHXegVuDfbu2QsSZSJyyYsqPwm2lkEA0DOfrk60rGmm5fcB0IpmZLp6nV0u8YZps
- OH1aD0jvKc4ICh2sWOduwiLQ07KCR4yM6tkY0LrDlADBquD37w50wxaEQHN3WFxFxBUz
- /7Bw==
-X-Gm-Message-State: AOAM533IHMb85zyJsxBKyXzx9MkQTxvnJba19F7QNdpRl6b62k9JlrhA
- /Lr4PdIaYWjUdYWb4A5yBeU=
-X-Google-Smtp-Source: ABdhPJzLJz/pFNwiwTGJygq4t6Q3EyYcZgZYpSyWM7Xeqf26zXnSzQW7uGKv5M7TcLMLfpQupl1lJw==
-X-Received: by 2002:a17:90b:3c84:b0:1d9:2a4c:5ee9 with SMTP id
- pv4-20020a17090b3c8400b001d92a4c5ee9mr13879208pjb.121.1650896862638; 
- Mon, 25 Apr 2022 07:27:42 -0700 (PDT)
+ bh=MD+TlSLDLHY/kSu2Q8HsMnto1MgxQkrIjJ5UvAZq3eQ=;
+ b=h4tKRnLPDNikaxk+8VnKPmorR2XmKsfbpZ+H29RVy/dXoztWxTuWzBvg9ZTtRGTLui
+ 2vDwPxd1c0IqBCME6uOD1325W9C5I0xakq4+/jQMBhPkhWMf9CclXmvkewDwTa+wt0yH
+ 0H3o1ETJAH+M8Z26aI968HWL22N0/8mu1hJDPGC3hkcn2wuCWN6RZTBXYfHalh2fX8C/
+ cVJKxAmtvpkVzWdCyCiUvsRqDz+m0dt/PByzedEBJTwPYHbPBy7l1HmG862AE/IsoWRX
+ 9c1jLs2TfFofCF4Iq1VLuYDeHm26FA18eVdjoGLQ/z+4W7sLJdvfYPptVPzEfOL6R9h5
+ AASA==
+X-Gm-Message-State: AOAM530kf2znEC0vW46mLBo+dFpsDzkj3QaBQ0J4+/k1nXCBrHy6Utew
+ 889m6wEhijnkP+F8M+hmyLHotfarNrs=
+X-Google-Smtp-Source: ABdhPJyCrCXkfbOtCmPVZoqh9j8OTDRv0lihKhnECWo5xXCSyhxr3VjAKrfCsSxymUzmU+hWoUKsLw==
+X-Received: by 2002:a17:903:1246:b0:155:c376:e5a0 with SMTP id
+ u6-20020a170903124600b00155c376e5a0mr17637946plh.167.1650896866046; 
+ Mon, 25 Apr 2022 07:27:46 -0700 (PDT)
 Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
  [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
- t1-20020a628101000000b0050d47199857sm2437968pfd.73.2022.04.25.07.27.39
+ t1-20020a628101000000b0050d47199857sm2437968pfd.73.2022.04.25.07.27.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Apr 2022 07:27:42 -0700 (PDT)
+ Mon, 25 Apr 2022 07:27:45 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH 8/9] meson.build: Turn on virtfs for Windows host
-Date: Mon, 25 Apr 2022 22:27:04 +0800
-Message-Id: <20220425142705.2099270-9-bmeng.cn@gmail.com>
+Subject: [PATCH 9/9] hw/9p: win32: Translate Windows error number to Linux
+ value
+Date: Mon, 25 Apr 2022 22:27:05 +0800
+Message-Id: <20220425142705.2099270-10-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220425142705.2099270-1-bmeng.cn@gmail.com>
 References: <20220425142705.2099270-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,55 +93,125 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Guohuai Shi <guohuai.shi@windriver.com>
 
-Enable virtfs configuration option for Windows host.
+Some of Windows error numbers have different value from Linux ones.
+For example, ENOTEMPTY is defined to 39 in Linux, but is defined to
+41 in Windows. So deleting a directory from a Linux guest on top
+of QEMU from a Windows host complains:
+
+  # rmdir tmp
+  rmdir: 'tmp': Unknown error 41
+
+This commit provides error number traslation from Windows to Linux.
+It can make Linux guest OS happy with the error number when running
+on top of QEMU from a Windows host.
+
+This has a side effet that it requires all guest OSes' 9pfs drivers
+to use the same errno.
+
+It looks like macOS has different errno too so using 9p in a Linux
+on top of QEMU from a macOS host may also fail in the above case.
+I suspect we only tested 9p from a macOS guest on top of QEMU from
+a macOS host, so this issue was not exposed.
+
+I am not aware of Windows's native support for 9pfs so I think using
+the Linux errnor as the standard is probably okay, but I am open for
+suggestions.
 
 Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- meson.build         | 10 +++++-----
- hw/9pfs/meson.build |  2 ++
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ hw/9pfs/9p.h            |  4 ++++
+ hw/9pfs/9p-util-win32.c | 38 ++++++++++++++++++++++++++++++++++++++
+ hw/9pfs/9p.c            |  7 +++++++
+ 3 files changed, 49 insertions(+)
 
-diff --git a/meson.build b/meson.build
-index d083c6b7bf..46f61b2a9d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1465,16 +1465,16 @@ dbus_display = get_option('dbus_display') \
-   .allowed()
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 87e8eac840..db2013d549 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -490,6 +490,10 @@ void pdu_free(V9fsPDU *pdu);
+ void pdu_submit(V9fsPDU *pdu, P9MsgHeader *hdr);
+ void v9fs_reset(V9fsState *s);
  
- have_virtfs = get_option('virtfs') \
--    .require(targetos == 'linux' or targetos == 'darwin',
--             error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
--    .require(targetos == 'linux' or cc.has_function('pthread_fchdir_np'),
-+    .require(targetos == 'linux' or targetos == 'darwin' or targetos == 'windows',
-+             error_message: 'virtio-9p (virtfs) requires Linux or macOS or Windows') \
-+    .require(targetos == 'linux' or targetos == 'windows' or cc.has_function('pthread_fchdir_np'),
-              error_message: 'virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np') \
--    .require(targetos == 'darwin' or (libattr.found() and libcap_ng.found()),
-+    .require(targetos == 'darwin' or targetos == 'windows' or (libattr.found() and libcap_ng.found()),
-              error_message: 'virtio-9p (virtfs) on Linux requires libcap-ng-devel and libattr-devel') \
-     .disable_auto_if(not have_tools and not have_system) \
-     .allowed()
++#ifdef CONFIG_WIN32
++int errno_translate_win32(int errno_win32);
++#endif
++
+ struct V9fsTransport {
+     ssize_t     (*pdu_vmarshal)(V9fsPDU *pdu, size_t offset, const char *fmt,
+                                 va_list ap);
+diff --git a/hw/9pfs/9p-util-win32.c b/hw/9pfs/9p-util-win32.c
+index d9b35e7425..c4f90c6503 100644
+--- a/hw/9pfs/9p-util-win32.c
++++ b/hw/9pfs/9p-util-win32.c
+@@ -20,6 +20,11 @@
+ #define V9FS_MAGIC 0x53465039 /* string "9PFS" */
+ #endif
  
--have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
-+have_virtfs_proxy_helper = targetos != 'darwin' and targetos != 'windows' and have_virtfs and have_tools
++struct translate_map {
++    int output;     /* Linux error number */
++    int input;      /* Windows error number */
++};
++
+ static int build_ads_name(char *namebuf, size_t namebuflen,
+                           const char *dirname, const char *filename,
+                           const char *ads_name)
+@@ -301,3 +306,36 @@ int qemu_statfs(const char *fs_root, struct statfs *stbuf)
  
- foreach k : get_option('trace_backends')
-   config_host_data.set('CONFIG_TRACE_' + k.to_upper(), true)
-diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
-index b4a8ff0913..50401848d9 100644
---- a/hw/9pfs/meson.build
-+++ b/hw/9pfs/meson.build
-@@ -17,6 +17,8 @@ fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-local.c',
- fs_ss.add(when: 'CONFIG_DARWIN', if_true: files('9p-local.c',
-                                                 '9p-proxy.c',
-                                                 '9p-util-darwin.c'))
-+fs_ss.add(when: 'CONFIG_WIN32', if_true: files('9p-local-win32.c',
-+                                               '9p-util-win32.c'))
- fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
- softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
+     return 0;
+ }
++
++int errno_translate_win32(int errno_win32)
++    {
++    unsigned int i;
++
++    /*
++     * The translation table only contains values which could be returned
++     * as a result of a filesystem operation, i.e. network/socket related
++     * errno values need not be considered for translation.
++     */
++    static struct translate_map errno_map[] = {
++        /* Linux errno          Windows errno   */
++        { L_EDEADLK,            EDEADLK         },
++        { L_ENAMETOOLONG,       ENAMETOOLONG    },
++        { L_ENOLCK,             ENOLCK          },
++        { L_ENOSYS,             ENOSYS          },
++        { L_ENOTEMPTY,          ENOTEMPTY       },
++        { L_EILSEQ,             EILSEQ          },
++        { L_ELOOP,              ELOOP           },
++    };
++
++    /* scan errno_win32 table for a matching Linux errno value */
++
++    for (i = 0; i < sizeof(errno_map) / sizeof(errno_map[0]); i++) {
++        if (errno_win32 == errno_map[i].input) {
++            return errno_map[i].output;
++        }
++    }
++
++    /* no translation necessary */
++
++    return errno_win32;
++    }
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index a04889c1d6..0a9c0a509e 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -1062,6 +1062,13 @@ static void coroutine_fn pdu_complete(V9fsPDU *pdu, ssize_t len)
+             id = P9_RERROR;
+         }
  
++#ifdef CONFIG_WIN32
++        /*
++         * Some Windows errnos have different value from Linux,
++         * and they need to be translated to the Linux value.
++         */
++        err = errno_translate_win32(err);
++#endif
+         ret = pdu_marshal(pdu, len, "d", err);
+         if (ret < 0) {
+             goto out_notify;
 -- 
 2.25.1
 
