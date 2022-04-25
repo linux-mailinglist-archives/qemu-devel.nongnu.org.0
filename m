@@ -2,67 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22EE50DBB7
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:53:45 +0200 (CEST)
-Received: from localhost ([::1]:52500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A2D50DC09
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:09:52 +0200 (CEST)
+Received: from localhost ([::1]:44776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niuTY-0007Ec-Mh
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:53:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44416)
+	id 1niuj9-0004ul-0i
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:09:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1niuOx-0004Fj-RB
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:49:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48038)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1niug8-0002a2-0L
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:06:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1niuOw-0006JB-AR
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:48:59 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1niug5-0000Ix-4T
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:06:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650876537;
+ s=mimecast20190719; t=1650877600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O7t18hK/K/k7lCGKKYZHnUSzLdL67903i7SoEEbUv24=;
- b=E2IxQYUzF5jq/ThPbClLMfHie+n4ixUTgNudyvPkaUEFUd1GOY4RafESYCuvLm0HvtFUBf
- ptC0f7qB2SBGDnkHjNXbfAuH8Jt3k+sngMxXdFtg4KGXWexaUPpyEvP4qoEqfqCOVjAa9I
- WGB+8u7Iw3YjMeLD/TVR9vaQx0Rj2X0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jQc8p97oS+bHimoYEpbQ3L3KQ6NmZdE1p3HZh23obKY=;
+ b=fYiQDzgO0nvOjFKrmUaGnx1tmme4vWoxFcvFWjzZZo8rfYT2hzZgHEz5N9sPjHp/ewaAoL
+ c10mvc+/U5WY23eoeg1ctgYKD+WZZAhfgbkonQO27QzwND1aCJGChYJO40bko+GBI2SerD
+ xCfbHqVxX3HSB/jWr3VpfXMBTywAiJ4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-30-u1dE4t27O5WiLmuFngSwfQ-1; Mon, 25 Apr 2022 04:48:54 -0400
-X-MC-Unique: u1dE4t27O5WiLmuFngSwfQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E24B71857F09;
- Mon, 25 Apr 2022 08:48:53 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95D6D40FF407;
- Mon, 25 Apr 2022 08:48:53 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] virtiofsd: Add docs/helper for killpriv_v2/no_killpriv_v2
- option
-Date: Mon, 25 Apr 2022 09:48:44 +0100
-Message-Id: <20220425084844.1086768-4-stefanha@redhat.com>
-In-Reply-To: <20220425084844.1086768-1-stefanha@redhat.com>
-References: <20220425084844.1086768-1-stefanha@redhat.com>
+ us-mta-623-3viThj4dOKmRCKQ2h9JQNg-1; Mon, 25 Apr 2022 05:06:38 -0400
+X-MC-Unique: 3viThj4dOKmRCKQ2h9JQNg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w4-20020adfbac4000000b0020acba4b779so1687125wrg.22
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 02:06:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jQc8p97oS+bHimoYEpbQ3L3KQ6NmZdE1p3HZh23obKY=;
+ b=rCfpmAjcauqUaiaj0xXO9BdMhwZ94zmIKywGscEyvHtfZcqMBfixpdjuviolxJdoxD
+ vnNOsMaM/eFib8+rNqzHxFKYBZbQcOdDs0s4VHMS0tRWTSt3B5WnuuH2W4lBmNpRar0T
+ dwdqa5dDv3kYus7EFOfbes05txcvKTktgobTw+qG67zEHaZNiIgT/EErZ0JoHSOeKIi/
+ u0Lkiw/NyMnojI8lNP0YCS2yI9kLlqri1TRYVVrH5qtWdGBbgfVgTqagnwyRoxbLEHuE
+ RXMQmp8nFS1bYNxW9hWP69SMx2fht7hwSNm3hwA8mKdgnl6GmsJ6VuiDPFQYM1XlKy5k
+ bVcg==
+X-Gm-Message-State: AOAM5315ZLLZX7+dfegTDfm5jB5zDgkxovYlC+Ku9tjGB7re+MP36HHf
+ BRQJZlly6hJ+FALYmz4se7915yLV0uTSSFC0gHakqtLVl5sHIRLYnnwdEqzVTOZ6D6XWUMBYwy3
+ F7Cm51SdBmVIJ5VY=
+X-Received: by 2002:a1c:2706:0:b0:391:822c:83da with SMTP id
+ n6-20020a1c2706000000b00391822c83damr15350450wmn.100.1650877597197; 
+ Mon, 25 Apr 2022 02:06:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtkx495weS/A1UJB9JPPASVoWcQPB/WesAZXWJUQ/1cTwiUZS/MzBexPxVuYUSKJZOzINqKQ==
+X-Received: by 2002:a1c:2706:0:b0:391:822c:83da with SMTP id
+ n6-20020a1c2706000000b00391822c83damr15350432wmn.100.1650877596986; 
+ Mon, 25 Apr 2022 02:06:36 -0700 (PDT)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ i27-20020a1c541b000000b003928e866d32sm11414352wmb.37.2022.04.25.02.06.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Apr 2022 02:06:36 -0700 (PDT)
+Message-ID: <8082585e-600b-a137-241f-7b8320acf88b@redhat.com>
+Date: Mon, 25 Apr 2022 11:06:34 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 00/11] s390x/tcg: Implement Vector-Enhancements
+ Facility 2
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220323135722.1623-1-dmiller423@gmail.com>
+ <25e876da-c2ac-ad55-0830-6fe149e0691f@linux.ibm.com>
+ <6c44677b-50ee-5d4e-2aa6-d28f98142f49@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <6c44677b-50ee-5d4e-2aa6-d28f98142f49@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,61 +103,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Liu Yiding <liuyd.fnst@fujitsu.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org
+Cc: pasic@linux.ibm.com, farman@linux.ibm.com, cohuck@redhat.com,
+ richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Yiding <liuyd.fnst@fujitsu.com>
+On 25/04/2022 09.51, David Hildenbrand wrote:
+> On 25.04.22 09:43, Christian Borntraeger wrote:
+>> Am 23.03.22 um 14:57 schrieb David Miller:
+>>> Implement Vector-Enhancements Facility 2 for s390x
+>>>
+>>> resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
+>>>
+>>> implements:
+>>>       VECTOR LOAD ELEMENTS REVERSED               (VLER)
+>>>       VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
+>>>       VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
+>>>       VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
+>>>       VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
+>>>       VECTOR STORE ELEMENTS REVERSED              (VSTER)
+>>>       VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
+>>>       VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
+>>>       VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
+>>>       VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
+>>>       VECTOR STRING SEARCH                        (VSTRS)
+>>>
+>>>       modifies:
+>>>       VECTOR FP CONVERT FROM FIXED                (VCFPS)
+>>>       VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
+>>>       VECTOR FP CONVERT TO FIXED                  (VCSFP)
+>>>       VECTOR FP CONVERT TO LOGICAL                (VCLFP)
+>>>       VECTOR SHIFT LEFT                           (VSL)
+>>>       VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
+>>>       VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
+>>>
+>>>
+>>> David Miller (9):
+>>>     tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+>>>     target/s390x: vxeh2: vector convert short/32b
+>>>     target/s390x: vxeh2: vector string search
+>>>     target/s390x: vxeh2: Update for changes to vector shifts
+>>>     target/s390x: vxeh2: vector shift double by bit
+>>>     target/s390x: vxeh2: vector {load, store} elements reversed
+>>>     target/s390x: vxeh2: vector {load, store} byte reversed elements
+>>>     target/s390x: vxeh2: vector {load, store} byte reversed element
+>>>     target/s390x: add S390_FEAT_VECTOR_ENH2 to qemu CPU model
+>>>     tests/tcg/s390x: Tests for Vector Enhancements Facility 2
+>>>     target/s390x: Fix writeback to v1 in helper_vstl
+>>>
+>>> Richard Henderson (2):
+>>>     tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+>>>     target/s390x: Fix writeback to v1 in helper_vstl
+>>
+>>
+>> I guess we can now re-do this series against 7.1-devel (qemu/master) which does
+>> have the machine compat changes. Apart from that this should be ready now?
+>>
+> 
+> Yes, I think so. I can respin with the proper compat changes if requested.
 
-virtiofsd has introduced killpriv_v2/no_killpriv_v2 for a while. Add
-description of it to docs/helper.
+FWIW, I played with the series a little bit, and did not spot any obvious 
+problems anymore, so feel free to add:
 
-Signed-off-by: Liu Yiding <liuyd.fnst@fujitsu.com>
-Message-Id: <20220421095151.2231099-1-liuyd.fnst@fujitsu.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
 
-[Small documentation fixes: s/as client supports/as the client supports/
-and s/.  /. /.
---Stefan]
+If you send a v6 with the compat stuff fixed, I can queue it for my next 
+s390x pull request.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- docs/tools/virtiofsd.rst | 5 +++++
- tools/virtiofsd/helper.c | 3 +++
- 2 files changed, 8 insertions(+)
-
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 0c0560203c..e457b13d56 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -111,6 +111,11 @@ Options
-     label. Server will try to set that label on newly created file
-     atomically wherever possible.
- 
-+  * killpriv_v2|no_killpriv_v2 -
-+    Enable/disable ``FUSE_HANDLE_KILLPRIV_V2`` support. KILLPRIV_V2 is enabled
-+    by default as long as the client supports it. Enabling this option helps
-+    with performance in write path.
-+
- .. option:: --socket-path=PATH
- 
-   Listen on vhost-user UNIX domain socket at PATH.
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index e226fc590f..f8981e5bdf 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -188,6 +188,9 @@ void fuse_cmdline_help(void)
-            "    -o announce_submounts      Announce sub-mount points to the guest\n"
-            "    -o posix_acl/no_posix_acl  Enable/Disable posix_acl. (default: disabled)\n"
-            "    -o security_label/no_security_label  Enable/Disable security label. (default: disabled)\n"
-+           "    -o killpriv_v2/no_killpriv_v2\n"
-+           "                               Enable/Disable FUSE_HANDLE_KILLPRIV_V2.\n"
-+           "                               (default: enabled as long as client supports it)\n"
-            );
- }
- 
--- 
-2.35.1
+  Thomas
 
 
