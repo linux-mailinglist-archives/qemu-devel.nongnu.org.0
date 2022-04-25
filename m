@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944B650DB96
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:48:31 +0200 (CEST)
-Received: from localhost ([::1]:44754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465C750DB26
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:28:50 +0200 (CEST)
+Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niuOU-00021b-NZ
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:48:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40182)
+	id 1niu5R-0000zZ-4f
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:28:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1niu07-0006V1-Hh
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40872)
+ id 1niu06-0006Uj-NL
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1niu01-0002f8-R2
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:19 -0400
+ id 1niu01-0002f2-QP
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1650874992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O++t1zATSSDRwugsXR7Q5IVUhnhLz0oadJiOZXGBQI8=;
- b=gxCq92NdSZCVw3Kj9Xxakla3B+v/m6rod9eq5YJsQCnloG3WylVNRefh8211wryzZMAVYz
- 10ktplgcipIN9lHH9VjJNIuTNPEb5D45/JiwzKrkgMPeHpGmv4fYcdVTUbH9zE13t9ca4B
- pLEqq1yKHgo9gAB1FzBwLyirwgKGuno=
+ bh=LP+dkidDrA7cfJYHAisZQeWSrGU9PlpHAtpMlIl/SfU=;
+ b=W2X4SkT9/CzP9Ljv4Et/cXO+X0Y3bcBkk5HS82pe8HatLJQ303SNCEUOdtnwL6ziky8t+p
+ sT2ocww2LDe9UA76NCdetLX+9uAkTTUtW1eZb4irsvsn1l9iqHF0/AMUS+C1hqDPQD9tgI
+ 4Ne5p/DbUUGHoJNvru3LY9cww8nr7TY=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-262--F27XBhVMRWAv_Uy1Bpo_Q-1; Mon, 25 Apr 2022 04:22:05 -0400
-X-MC-Unique: -F27XBhVMRWAv_Uy1Bpo_Q-1
+ us-mta-523-3NzVTrl8OZGt-HCW4NULiw-1; Mon, 25 Apr 2022 04:22:04 -0400
+X-MC-Unique: 3NzVTrl8OZGt-HCW4NULiw-1
 Received: by mail-wr1-f70.google.com with SMTP id
- h61-20020adf9043000000b002079bbaa5d3so3076404wrh.16
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 01:22:05 -0700 (PDT)
+ l11-20020adfc78b000000b0020abc1ce7e4so2424172wrg.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O++t1zATSSDRwugsXR7Q5IVUhnhLz0oadJiOZXGBQI8=;
- b=PSQyiO3w3IApHtf0WI43vNnNw/ck+AShYIf6xdFbsRlKdBoxZyS95TPbwMzKsIUyp4
- QRHBCsvsPCZiP/+XFIhOgtci8Et+m6vwG7S5sCihtzC6TFXp7FmCJhdc4a27iX8j4QIF
- cvpLW4xlysCTmqzkpnXnqRMHDM9K6P7LGtCHkQAdhx5vBk6VOL/RuNqsUyLXVwfsWYZz
- 4JyQNn2fpkuBQ09sbhSRqkeKrgCrAYTeKltZF/iH+vfknh2O4tFuj/CnVsoVEgi+LjwP
- 8H7ehbpNp8yT0McN+PB9ZebQCj6zpn6e9IZGxM+keaMRUSp+qz1JIwBahGeUlKZsiv3J
- PT+Q==
-X-Gm-Message-State: AOAM532bo1Y0HZuOAOc55gAqL+JrbCzh/koQjvZfbWaTBdZLpvoUC1z9
- 87+DSQWi65rrsCEK4wd0N2f2Zk7x86tg3Z6NIDsUIb+DjcUBi7ZLCFaxZ15wOa3bBtxeIaXCFkj
- RJtkAxz2gZUlINf8=
-X-Received: by 2002:a05:600c:34c4:b0:38e:b628:da95 with SMTP id
- d4-20020a05600c34c400b0038eb628da95mr15717853wmq.150.1650874924305; 
- Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6ppccZBgA9uskRcnwRbeAZSUgXdhxq0J4Qj9y/UaMbfOl3mTT83uTPV77spRbZYTUOCkj3g==
-X-Received: by 2002:a05:600c:34c4:b0:38e:b628:da95 with SMTP id
- d4-20020a05600c34c400b0038eb628da95mr15717824wmq.150.1650874924044; 
- Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
+ bh=LP+dkidDrA7cfJYHAisZQeWSrGU9PlpHAtpMlIl/SfU=;
+ b=WtPykElShU14/3s1gBk17dDYCmkLFMwQUx+Y9XouimehN5t1SzwKx3zq3ltPfLTEHC
+ qPVfWRSR/3ivgLCgtwKq5bONfvPQvQHrnNfSdOyxzzDK4PO3aTvGBUoyB0U+GLVMj8er
+ bRcfUSBB1WYnKEKGnPW5/v7YZtWYRLmLciFvO3eYPyJoR5YHDLR5opWLfDM5kC2Yecoo
+ 0KzJAT7aWlqbIG2K4YFAdM09dV300tP+HlicFTrEzWG2bXycyzDNwI0gxLjwEqv0tQQa
+ VLE+0fZ4WfdDfEGvqOVaMqyFqTI2xM3LdM1AUkshpZRH6TTb8XubB6iMPvnCzCJ5Dber
+ OGTg==
+X-Gm-Message-State: AOAM531WgdaCgqoGkSPTe4v8awbhyWB36GzfBKqBYobxkwa4ql10+MDr
+ dTwmnQep7IQLySzlkbZVVM1DIHesqdsTdOToTHEYbS/T5a70Q37IOp7fOV5SQtPHENLckeTqtCt
+ 0Wf/rdc5VdStn+go=
+X-Received: by 2002:a7b:c155:0:b0:38e:b840:c99e with SMTP id
+ z21-20020a7bc155000000b0038eb840c99emr24205908wmi.201.1650874923791; 
+ Mon, 25 Apr 2022 01:22:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxF3yOmquu6AEfkG27LCAoxXCxRyK/bmeHLHRzKzd33HzQgGq5KPLwi+gafnv2wUQux0kat3w==
+X-Received: by 2002:a7b:c155:0:b0:38e:b840:c99e with SMTP id
+ z21-20020a7bc155000000b0038eb840c99emr24205866wmi.201.1650874923491; 
+ Mon, 25 Apr 2022 01:22:03 -0700 (PDT)
 Received: from wheatley.localdomain (nat-pool-brq-t.redhat.com.
  [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- g5-20020adfd1e5000000b0020a97e7ba9fsm9606190wrd.92.2022.04.25.01.22.02
+ s2-20020adfa282000000b0020ad9c40555sm2790490wra.94.2022.04.25.01.22.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 25 Apr 2022 01:22:02 -0700 (PDT)
 Received: from wheatley.redhat.com (wheatley.k8r.cz [127.0.0.1])
- by wheatley.localdomain (Postfix) with ESMTP id 17F0967B1B58;
+ by wheatley.localdomain (Postfix) with ESMTP id 23B7667B1B59;
  Mon, 25 Apr 2022 10:22:02 +0200 (CEST)
 From: Martin Kletzander <mkletzan@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/18] hw/audio: Simplify hda audio init
-Date: Mon, 25 Apr 2022 10:21:46 +0200
-Message-Id: <cd1df4ad2a6fae969c4a02a77955c4a8c0d430b6.1650874791.git.mkletzan@redhat.com>
+Subject: [PATCH 04/18] hw/audio/lm4549: Add errp error reporting to init
+ function
+Date: Mon, 25 Apr 2022 10:21:47 +0200
+Message-Id: <be1bf295b3c6a3dee272b4b4e8115e37c2a772b5.1650874791.git.mkletzan@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1650874791.git.mkletzan@redhat.com>
 References: <cover.1650874791.git.mkletzan@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mkletzan@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mkletzan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -117,120 +118,56 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No return values are used anywhere, so switch the functions to be void
-and add support for error reporting using errp for use in next patches.
+This will be used in future commit.
 
 Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 ---
- hw/audio/hda-codec.c | 32 ++++++++++++++++++--------------
- hw/audio/intel-hda.c |  4 +---
- hw/audio/intel-hda.h |  2 +-
- 3 files changed, 20 insertions(+), 18 deletions(-)
+ hw/audio/lm4549.c | 3 ++-
+ hw/audio/lm4549.h | 3 ++-
+ hw/audio/pl041.c  | 2 +-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/hw/audio/hda-codec.c b/hw/audio/hda-codec.c
-index feb8f9e2bb7a..e86a2adf31a0 100644
---- a/hw/audio/hda-codec.c
-+++ b/hw/audio/hda-codec.c
-@@ -676,7 +676,9 @@ static void hda_audio_stream(HDACodecDevice *hda, uint32_t stnr, bool running, b
-     }
+diff --git a/hw/audio/lm4549.c b/hw/audio/lm4549.c
+index 32b1481b5614..418041bc9c6c 100644
+--- a/hw/audio/lm4549.c
++++ b/hw/audio/lm4549.c
+@@ -276,7 +276,8 @@ static int lm4549_post_load(void *opaque, int version_id)
+     return 0;
  }
  
--static int hda_audio_init(HDACodecDevice *hda, const struct desc_codec *desc)
-+static void hda_audio_init(HDACodecDevice *hda,
-+                           const struct desc_codec *desc,
-+                           Error **errp)
+-void lm4549_init(lm4549_state *s, lm4549_callback data_req_cb, void* opaque)
++void lm4549_init(lm4549_state *s, lm4549_callback data_req_cb, void* opaque,
++                 Error **errp)
  {
-     HDAAudioState *a = HDA_AUDIO(hda);
-     HDAAudioStream *st;
-@@ -719,7 +721,6 @@ static int hda_audio_init(HDACodecDevice *hda, const struct desc_codec *desc)
-             break;
-         }
+     struct audsettings as;
+ 
+diff --git a/hw/audio/lm4549.h b/hw/audio/lm4549.h
+index aba9bb5b077c..61c3ab12dd33 100644
+--- a/hw/audio/lm4549.h
++++ b/hw/audio/lm4549.h
+@@ -36,7 +36,8 @@ typedef struct {
+ extern const VMStateDescription vmstate_lm4549_state;
+ 
+ 
+-void lm4549_init(lm4549_state *s, lm4549_callback data_req, void *opaque);
++void lm4549_init(lm4549_state *s, lm4549_callback data_req, void *opaque,
++                 Error **errp);
+ uint32_t lm4549_read(lm4549_state *s, hwaddr offset);
+ void lm4549_write(lm4549_state *s, hwaddr offset, uint32_t value);
+ uint32_t lm4549_write_samples(lm4549_state *s, uint32_t left, uint32_t right);
+diff --git a/hw/audio/pl041.c b/hw/audio/pl041.c
+index 03acd4fe344b..868dffbfd321 100644
+--- a/hw/audio/pl041.c
++++ b/hw/audio/pl041.c
+@@ -564,7 +564,7 @@ static void pl041_realize(DeviceState *dev, Error **errp)
      }
--    return 0;
+ 
+     /* Init the codec */
+-    lm4549_init(&s->codec, &pl041_request_data, (void *)s);
++    lm4549_init(&s->codec, &pl041_request_data, (void *)s, errp);
  }
  
- static void hda_audio_exit(HDACodecDevice *hda)
-@@ -849,37 +850,40 @@ static Property hda_audio_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--static int hda_audio_init_output(HDACodecDevice *hda)
-+static void hda_audio_init_output(HDACodecDevice *hda, Error **errp)
- {
-     HDAAudioState *a = HDA_AUDIO(hda);
-+    const struct desc_codec *desc = &output_nomixemu;
- 
-     if (!a->mixer) {
--        return hda_audio_init(hda, &output_nomixemu);
--    } else {
--        return hda_audio_init(hda, &output_mixemu);
-+        desc = &output_mixemu;
-     }
-+
-+    hda_audio_init(hda, desc, errp);
- }
- 
--static int hda_audio_init_duplex(HDACodecDevice *hda)
-+static void hda_audio_init_duplex(HDACodecDevice *hda, Error **errp)
- {
-     HDAAudioState *a = HDA_AUDIO(hda);
-+    const struct desc_codec *desc = &duplex_nomixemu;
- 
-     if (!a->mixer) {
--        return hda_audio_init(hda, &duplex_nomixemu);
--    } else {
--        return hda_audio_init(hda, &duplex_mixemu);
-+        desc = &duplex_mixemu;
-     }
-+
-+    hda_audio_init(hda, desc, errp);
- }
- 
--static int hda_audio_init_micro(HDACodecDevice *hda)
-+static void hda_audio_init_micro(HDACodecDevice *hda, Error **errp)
- {
-     HDAAudioState *a = HDA_AUDIO(hda);
-+    const struct desc_codec *desc = &micro_nomixemu;
- 
-     if (!a->mixer) {
--        return hda_audio_init(hda, &micro_nomixemu);
--    } else {
--        return hda_audio_init(hda, &micro_mixemu);
-+        desc = &micro_mixemu;
-     }
-+
-+    hda_audio_init(hda, desc, errp);
- }
- 
- static void hda_audio_base_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index e77552363a4c..a17002812240 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -70,9 +70,7 @@ static void hda_codec_dev_realize(DeviceState *qdev, Error **errp)
-         return;
-     }
-     bus->next_cad = dev->cad + 1;
--    if (cdc->init(dev) != 0) {
--        error_setg(errp, "HDA audio init failed");
--    }
-+    cdc->init(dev, errp);
- }
- 
- static void hda_codec_dev_unrealize(DeviceState *qdev)
-diff --git a/hw/audio/intel-hda.h b/hw/audio/intel-hda.h
-index f78c1833e341..8d710eee5d66 100644
---- a/hw/audio/intel-hda.h
-+++ b/hw/audio/intel-hda.h
-@@ -31,7 +31,7 @@ struct HDACodecBus {
- struct HDACodecDeviceClass {
-     DeviceClass parent_class;
- 
--    int (*init)(HDACodecDevice *dev);
-+    void (*init)(HDACodecDevice *dev, Error **errp);
-     void (*exit)(HDACodecDevice *dev);
-     void (*command)(HDACodecDevice *dev, uint32_t nid, uint32_t data);
-     void (*stream)(HDACodecDevice *dev, uint32_t stnr, bool running, bool output);
+ static const VMStateDescription vmstate_pl041_regfile = {
 -- 
 2.35.1
 
