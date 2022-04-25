@@ -2,105 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4875A50DA60
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 09:47:49 +0200 (CEST)
-Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896B250DA8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 09:53:36 +0200 (CEST)
+Received: from localhost ([::1]:49902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nitRj-00043f-ST
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 03:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
+	id 1nitXL-0006t9-LN
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 03:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nitOQ-0003Ar-Da; Mon, 25 Apr 2022 03:44:22 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28648)
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nitTd-00053j-76
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 03:49:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nitOO-0004XB-2M; Mon, 25 Apr 2022 03:44:21 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23P59J1k007224;
- Mon, 25 Apr 2022 07:44:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=mDSdOtU32H6/hDLoFnMZrsEO1DUplC3VtqilWHGDEJo=;
- b=dM0PToWLrErIyYLq+YKn6q946Ie8j5mrnnDoERT3Ao5ZTKVEYCKtM9PdFsHzUXCEmds6
- nk4LFJgOQf/n8cKijUJhVwUftKHv3b8mQXWuA7z9iIAb91bqE5Zd4PXHOKygyhKexHPZ
- oU+DWw0VxQkEU62ReWPxMLVPbYEQJoXMKSwpLaqWvwhjrDob3PVsZXcLBVhuNZfSGt7x
- YTpCc3+BO6406yZJ4MWEbim8+xGoJESqy/Zh1jigjvflC9NRXMLWnqZXpWU4Ikj1ygXb
- yctUlX3XNFtJK3CMkIMpvddM1Zo1i3BVkWctGLu5wAjdfNObQ+ldJChrKz8fHqDJLH+U 8w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fmuedapvj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Apr 2022 07:44:01 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23P7c09c003597;
- Mon, 25 Apr 2022 07:44:01 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fmuedaput-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Apr 2022 07:44:00 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23P7bMmF022908;
- Mon, 25 Apr 2022 07:43:58 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03fra.de.ibm.com with ESMTP id 3fm938smkr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Apr 2022 07:43:57 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 23P7hsRq40108498
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 25 Apr 2022 07:43:54 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BB5084C052;
- Mon, 25 Apr 2022 07:43:54 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4A2D34C044;
- Mon, 25 Apr 2022 07:43:54 +0000 (GMT)
-Received: from [9.171.39.215] (unknown [9.171.39.215])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 25 Apr 2022 07:43:54 +0000 (GMT)
-Message-ID: <25e876da-c2ac-ad55-0830-6fe149e0691f@linux.ibm.com>
-Date: Mon, 25 Apr 2022 09:43:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 00/11] s390x/tcg: Implement Vector-Enhancements
- Facility 2
-Content-Language: en-US
-To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220323135722.1623-1-dmiller423@gmail.com>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20220323135722.1623-1-dmiller423@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 49IvpNKPS3ONSipMKMvlpH0cwjDNW75e
-X-Proofpoint-ORIG-GUID: k9OjpjMEzBJ2zvf_q_GX37ENBlSUzNop
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nitTV-0005FF-KF
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 03:49:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650872975;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D2ZLe05nnlOVT7ZTNmy+2T9Wi5s1XHGni3I3xc4Kd5E=;
+ b=VPx/wTsUMz5dCcJNJJZ1o2K2oX3JbOlcW4C2CAGzDPUI5Md4D3ARDgyZ2fLorOM5zmo9Oz
+ J8TO5EZdBQyFyf/7Nn5z0wC+iTMz4PVxU0d1kmJuCEFjo4YUN9CPwJO39r/uQ5qKFfBzH3
+ XgsWstLZpLN2wgRqgXYVHpN7cLOf7cs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-489-KPMvHhlxMzumqgoHFKZTZw-1; Mon, 25 Apr 2022 03:49:34 -0400
+X-MC-Unique: KPMvHhlxMzumqgoHFKZTZw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v184-20020a1cacc1000000b00393e492a398so3340225wme.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 00:49:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=D2ZLe05nnlOVT7ZTNmy+2T9Wi5s1XHGni3I3xc4Kd5E=;
+ b=8RPapZb1osot6yfZ869D43+k93U/WhfU3GjHaENf8tPxFmQ0MshfsLleXbHH3qMLj1
+ CPh8N5jrgLfUdSvigeoyuweby+EAFLJD7zsHlkrmkX0vWv4kRCc466tK2cEZHfvd/kru
+ YomtgjgLoxv+vgU9xuSaxJJwRWNpeMTQNAQG3pU2a3Nipv6VXtWuVfs1lqL0mqkYpx01
+ rVApRrD9fXmIfoU4x8ZtuCCBx9ZoQn4J003feXTWVGVoXO29mxHMFW5yNwnzkxpBKuXd
+ c7lSwSPnbirtxlx6sa9y86UIgxB3Ft70iwOAdznu7IAQEBkrZc8t4Ayc47xyb/DAqTTS
+ zU4w==
+X-Gm-Message-State: AOAM530ClvKfsjxsftQCVg2r8+FT6J8LYMH9DkVMqxb0UZipVPNZJc/Q
+ QQi7ZS9FbOwfpvBE8Tn7RzP1gaurkhLFDLQY9dudL9wkej4R27WaqH0wYA7gPq09VLvENq1Dam7
+ JU/6r+LZ8qxBF3mE=
+X-Received: by 2002:a05:600c:1c9c:b0:393:ed77:5b6e with SMTP id
+ k28-20020a05600c1c9c00b00393ed775b6emr1681790wms.188.1650872972992; 
+ Mon, 25 Apr 2022 00:49:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz6iD7B3KBlWXsCiF0Mj29WO489vg00iB3rclw/JBRecRMrCLfbppLooBOPYsv8EPglIOvqQw==
+X-Received: by 2002:a05:600c:1c9c:b0:393:ed77:5b6e with SMTP id
+ k28-20020a05600c1c9c00b00393ed775b6emr1681767wms.188.1650872972753; 
+ Mon, 25 Apr 2022 00:49:32 -0700 (PDT)
+Received: from ?IPv6:2a0c:5a80:1306:2f00:cfcf:62cf:6f38:dd92?
+ ([2a0c:5a80:1306:2f00:cfcf:62cf:6f38:dd92])
+ by smtp.gmail.com with ESMTPSA id
+ j8-20020a05600c190800b00393e80a7970sm3896034wmq.7.2022.04.25.00.49.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Apr 2022 00:49:32 -0700 (PDT)
+Message-ID: <b739c1b70ea90892e561f4a2c3616a7b286c9640.camel@redhat.com>
+Subject: Re: [PATCH v5 0/3] util/thread-pool: Expose minimun and maximum size
+From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Date: Mon, 25 Apr 2022 09:49:31 +0200
+In-Reply-To: <87ee1lrb3y.fsf@pond.sub.org>
+References: <20220422163857.703111-1-nsaenzju@redhat.com>
+ <87ee1lrb3y.fsf@pond.sub.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-25_02,2022-04-22_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- bulkscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 clxscore=1011
- impostorscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204250033
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsaenzju@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,57 +97,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, farman@linux.ibm.com, pasic@linux.ibm.com
+Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
+ qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, eduardo@habkost.net, hreitz@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.03.22 um 14:57 schrieb David Miller:
-> Implement Vector-Enhancements Facility 2 for s390x
+On Mon, 2022-04-25 at 07:22 +0200, Markus Armbruster wrote:
+> Nicolas Saenz Julienne <nsaenzju@redhat.com> writes:
 > 
-> resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
+> > As discussed on the previous RFC[1] the thread-pool's dynamic thread
+> > management doesn't play well with real-time and latency sensitive
+> > systems. This series introduces a set of controls that'll permit
+> > achieving more deterministic behaviours, for example by fixing the
+> > pool's size.
+> > 
+> > We first introduce a new common interface to event loop configuration by
+> > moving iothread's already available properties into an abstract class
+> > called 'EventLooopBackend' and have both 'IOThread' and the newly
+> > created 'MainLoop' inherit the properties from that class.
+> > 
+> > With this new configuration interface in place it's relatively simple to
+> > introduce new options to fix the even loop's thread pool sizes. The
+> > resulting QAPI looks like this:
+> > 
+> >     -object main-loop,id=main-loop,thread-pool-min=1,thread-pool-max=1
+> > 
+> > Note that all patches are bisect friendly and pass all the tests.
+> > 
+> > [1] https://patchwork.ozlabs.org/project/qemu-devel/patch/20220202175234.656711-1-nsaenzju@redhat.com/
+> > 
+> > @Stefan I kept your Signed-off-by, since the changes trivial/not
+> > thread-pool related
 > 
-> implements:
->      VECTOR LOAD ELEMENTS REVERSED               (VLER)
->      VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
->      VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
->      VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
->      VECTOR LOAD BYTE REVERSED ELEMENT AND REPLICATE (VLBRREP)
->      VECTOR STORE ELEMENTS REVERSED              (VSTER)
->      VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
->      VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
->      VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
->      VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
->      VECTOR STRING SEARCH                        (VSTRS)
-> 
->      modifies:
->      VECTOR FP CONVERT FROM FIXED                (VCFPS)
->      VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
->      VECTOR FP CONVERT TO FIXED                  (VCSFP)
->      VECTOR FP CONVERT TO LOGICAL                (VCLFP)
->      VECTOR SHIFT LEFT                           (VSL)
->      VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
->      VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
-> 
-> 
-> David Miller (9):
->    tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
->    target/s390x: vxeh2: vector convert short/32b
->    target/s390x: vxeh2: vector string search
->    target/s390x: vxeh2: Update for changes to vector shifts
->    target/s390x: vxeh2: vector shift double by bit
->    target/s390x: vxeh2: vector {load, store} elements reversed
->    target/s390x: vxeh2: vector {load, store} byte reversed elements
->    target/s390x: vxeh2: vector {load, store} byte reversed element
->    target/s390x: add S390_FEAT_VECTOR_ENH2 to qemu CPU model
->    tests/tcg/s390x: Tests for Vector Enhancements Facility 2
->    target/s390x: Fix writeback to v1 in helper_vstl
-> 
-> Richard Henderson (2):
->    tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
->    target/s390x: Fix writeback to v1 in helper_vstl
+> With the doc nit in PATCH 2 addressed, QAPI schema
+> Acked-by: Markus Armbruster <armbru@redhat.com>
 
+Thanks!
 
-I guess we can now re-do this series against 7.1-devel (qemu/master) which does
-have the machine compat changes. Apart from that this should be ready now?
+-- 
+Nicolás Sáenz
+
 
