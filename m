@@ -2,88 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2284950ECD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:48:56 +0200 (CEST)
-Received: from localhost ([::1]:36316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AF650ECD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:51:19 +0200 (CEST)
+Received: from localhost ([::1]:44212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj8Rr-0004pz-8F
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:48:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43780)
+	id 1nj8UB-0001hp-1y
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:51:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IL-00076u-JB
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54317)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IM-00079C-3h
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8II-0007kG-Tf
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:04 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8IK-0007kQ-A2
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650929942;
+ s=mimecast20190719; t=1650929943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bA/Coxr0OviSm7/62XvQBXQFLB77tNKSIqC7Wwapa78=;
- b=YXNHgY4ri0YW0OvtYMVDndoUKfWUgCPpVpGBbsYufKcmZBegYTTBz5o1ap7PI9Koa8ZCW5
- OUEP4z6CXpuIirb5bLjXRZy9bfn1k5e10sEHTRDG8OCx8ATbIenODDCAqIQ4gVWPvxqxZs
- wBZlhlWLvIIyg0iKEXrq4CvKa2FJGR8=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bmwBWn3HuKl7CinqBKqF4WztBjlQylQ6C2I873h1Ezo=;
+ b=eRxEwrm6Uw6XWJkX3BNACDZPYcWfwvNsa7TwK2obOoUGTTSor8RyGapxK/aFJMAVb9RqEt
+ bOkWZWfj8czoLzN1JsL5j1f3aWHPPcGwcr1JdgifTiz1ZZ9N3c4M1iK4L8jDrAgEyOSm5L
+ zXpbSyBr3LDJM/DwxkJA6uhhp4Q7BFs=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-Yrxf86-UOViZkTVz5477wA-1; Mon, 25 Apr 2022 19:39:01 -0400
-X-MC-Unique: Yrxf86-UOViZkTVz5477wA-1
-Received: by mail-il1-f198.google.com with SMTP id
- u11-20020a056e021a4b00b002cc315db462so6944417ilv.4
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:39:01 -0700 (PDT)
+ us-mta-428-GeevIfcPNUW_gO0yLtfQmw-1; Mon, 25 Apr 2022 19:39:02 -0400
+X-MC-Unique: GeevIfcPNUW_gO0yLtfQmw-1
+Received: by mail-io1-f71.google.com with SMTP id
+ g16-20020a05660203d000b005f7b3b0642eso102713iov.16
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:39:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bA/Coxr0OviSm7/62XvQBXQFLB77tNKSIqC7Wwapa78=;
- b=yVJds6JZpVfXhcKgPASg9ho7p7k4SiyQfbi1J785xqmkBr3ur43KHyBMEwT5hC25WF
- sTsDZc5B4y9Fx/MbByxZ0+smuoJWryx2+AnPwMAQwz7vU75I6FzftN4rdIYBpVoBFGyH
- AjGrF/6cmCqqJQOW0azsA0OlkcaGTb/QVnagdlItZpp0BaDy7B5daXP6M7WDK8PLJneq
- fMSm+lBSJHSF0r1bfX9Ykn5+sx6KMughtng0vHEv2EuMd+o3WFZx4qXzl97wcQE/E+nO
- ylPiDxnKyVquRzn4EQEvUc/M8FpZ8kTF0tyaBehOom5j9vPkEfeIjSIwSDpf9CSbSI4e
- DQVQ==
-X-Gm-Message-State: AOAM533HNgpSy96rj0f//b6t+xEwHskueAtAp7BHmpLIbmjbM5gigecp
- jLVFTIYkiXy0gpuo11wj0cd5pKyj9tQ/B67Yl8gpGo9aidSN+Eel+uxRfIl/san+81OFSM0yOlS
- ywY/+0EPOQg5Cwd1+yrynrl/+3YpPIGzOUeWiafy7Wxh7sPnEWowA64wi9cB6aGd8
-X-Received: by 2002:a6b:ed06:0:b0:649:d35f:852c with SMTP id
- n6-20020a6bed06000000b00649d35f852cmr8503394iog.186.1650929940355; 
- Mon, 25 Apr 2022 16:39:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzPjxXwdHJxnBWLuYC89mHFrh2h2CZq9q3isF4jIAQNuhqmuei0MQOYKWP5Fsovu5YljiSfkQ==
-X-Received: by 2002:a6b:ed06:0:b0:649:d35f:852c with SMTP id
- n6-20020a6bed06000000b00649d35f852cmr8503381iog.186.1650929940113; 
- Mon, 25 Apr 2022 16:39:00 -0700 (PDT)
+ bh=bmwBWn3HuKl7CinqBKqF4WztBjlQylQ6C2I873h1Ezo=;
+ b=DOpmHPxBjPhHzSJCXL6FKBxrRtZUSmXj2F0okYIzPs5/jwY72QA+XOpVFK/U6JYbQ5
+ TaR8KCWfJ6v3FS2jdpZUPRAW8pQmn/kwhg020zJQoTZZ8KnENtddM3T8zOkPVcspIvAH
+ Xs9GgcvXCWXIKNcrhRQPTRfBsnH7/12Hrk22wFxB5mBNtDaubat6BBctFkpBEd0AYDy1
+ junB5r37b1ABfEqafU2eojWExLldoXcch8pw6ZPrmnXs0cGNkgnxjeZsGDrLtXMVH3BA
+ emAIUiCPirXeQIa2vjcQyL/er05tJkTiTBQWt5k1pKQV1uQp4dELD2GXz/KNRFki6/fz
+ hWCg==
+X-Gm-Message-State: AOAM530YigwukYcb1oEBn00A6stkLnSEVFGK8JdMjYm8hF3tgqRT1Rms
+ xP60zQidNRskXl7Nb2xQ9uaSp2Ce4UfsU2ueXu+DHo6bllE/7JVrMKnnd+YHjEy7MsdXXaSIH2B
+ 3pUrODKn+geNmGQ4/PJThmCa0IuIvyqZf6OzLOMzCdZMPYOWXl5JDmGU58gpWN+Of
+X-Received: by 2002:a6b:f80b:0:b0:649:a265:bcc3 with SMTP id
+ o11-20020a6bf80b000000b00649a265bcc3mr7912726ioh.18.1650929941445; 
+ Mon, 25 Apr 2022 16:39:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyECpnK6ddeNh5+kQ1J2twdrDb74QaptrJnY0j/Jjd30DIoR/lIxD8MIPnt9yyYEYtriERszw==
+X-Received: by 2002:a6b:f80b:0:b0:649:a265:bcc3 with SMTP id
+ o11-20020a6bf80b000000b00649a265bcc3mr7912710ioh.18.1650929941129; 
+ Mon, 25 Apr 2022 16:39:01 -0700 (PDT)
 Received: from localhost.localdomain
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.38.59
+ h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.39.00
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 25 Apr 2022 16:38:59 -0700 (PDT)
+ Mon, 25 Apr 2022 16:39:00 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 09/21] tests: ensure migration status isn't reported as
- failed
-Date: Mon, 25 Apr 2022 19:38:35 -0400
-Message-Id: <20220425233847.10393-10-peterx@redhat.com>
+Subject: [PATCH v5 10/21] migration: Add postcopy-preempt capability
+Date: Mon, 25 Apr 2022 19:38:36 -0400
+Message-Id: <20220425233847.10393-11-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220425233847.10393-1-peterx@redhat.com>
 References: <20220425233847.10393-1-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,91 +101,129 @@ Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+Firstly, postcopy already preempts precopy due to the fact that we do
+unqueue_page() first before looking into dirty bits.
 
-Various methods in the migration test call 'query_migrate' to fetch the
-current status and then access a particular field. Almost all of these
-cases expect the migration to be in a non-failed state. In the case of
-'wait_for_migration_pass' in particular, if the status is 'failed' then
-it will get into an infinite loop. By validating that the status is
-not 'failed' the test suite will assert rather than hang when getting
-into an unexpected state.
+However that's not enough, e.g., when there're host huge page enabled, when
+sending a precopy huge page, a postcopy request needs to wait until the whole
+huge page that is sending to finish.  That could introduce quite some delay,
+the bigger the huge page is the larger delay it'll bring.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+This patch adds a new capability to allow postcopy requests to preempt existing
+precopy page during sending a huge page, so that postcopy requests can be
+serviced even faster.
+
+Meanwhile to send it even faster, bypass the precopy stream by providing a
+standalone postcopy socket for sending requested pages.
+
+Since the new behavior will not be compatible with the old behavior, this will
+not be the default, it's enabled only when the new capability is set on both
+src/dst QEMUs.
+
+This patch only adds the capability itself, the logic will be added in follow
+up patches.
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- tests/qtest/migration-helpers.c | 13 +++++++++++++
- tests/qtest/migration-helpers.h |  1 +
- tests/qtest/migration-test.c    |  6 +++---
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ migration/migration.c | 23 +++++++++++++++++++++++
+ migration/migration.h |  1 +
+ qapi/migration.json   |  8 +++++++-
+ 3 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index 4ee26014b7..a6aa59e4e6 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -107,6 +107,19 @@ QDict *migrate_query(QTestState *who)
-     return wait_command(who, "{ 'execute': 'query-migrate' }");
+diff --git a/migration/migration.c b/migration/migration.c
+index 5a31b23bd6..75d9185c3a 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1236,6 +1236,11 @@ static bool migrate_caps_check(bool *cap_list,
+             error_setg(errp, "Postcopy is not compatible with ignore-shared");
+             return false;
+         }
++
++        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
++            error_setg(errp, "Multifd is not supported in postcopy");
++            return false;
++        }
+     }
+ 
+     if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
+@@ -1279,6 +1284,13 @@ static bool migrate_caps_check(bool *cap_list,
+         return false;
+     }
+ 
++    if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT]) {
++        if (!cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
++            error_setg(errp, "Postcopy preempt requires postcopy-ram");
++            return false;
++        }
++    }
++
+     return true;
  }
  
-+QDict *migrate_query_not_failed(QTestState *who)
+@@ -2626,6 +2638,15 @@ bool migrate_background_snapshot(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
+ }
+ 
++bool migrate_postcopy_preempt(void)
 +{
-+    const char *status;
-+    QDict *rsp = migrate_query(who);
-+    status = qdict_get_str(rsp, "status");
-+    if (g_str_equal(status, "failed")) {
-+        g_printerr("query-migrate shows failed migration: %s\n",
-+                   qdict_get_str(rsp, "error-desc"));
-+    }
-+    g_assert(!g_str_equal(status, "failed"));
-+    return rsp;
++    MigrationState *s;
++
++    s = migrate_get_current();
++
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT];
 +}
 +
+ /* migration thread support */
  /*
-  * Note: caller is responsible to free the returned object via
-  * g_free() after use
-diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
-index 555adafce1..d07e0fb748 100644
---- a/tests/qtest/migration-helpers.h
-+++ b/tests/qtest/migration-helpers.h
-@@ -26,6 +26,7 @@ G_GNUC_PRINTF(3, 4)
- void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...);
+  * Something bad happened to the RP stream, mark an error
+@@ -4236,6 +4257,8 @@ static Property migration_properties[] = {
+     DEFINE_PROP_MIG_CAP("x-compress", MIGRATION_CAPABILITY_COMPRESS),
+     DEFINE_PROP_MIG_CAP("x-events", MIGRATION_CAPABILITY_EVENTS),
+     DEFINE_PROP_MIG_CAP("x-postcopy-ram", MIGRATION_CAPABILITY_POSTCOPY_RAM),
++    DEFINE_PROP_MIG_CAP("x-postcopy-preempt",
++                        MIGRATION_CAPABILITY_POSTCOPY_PREEMPT),
+     DEFINE_PROP_MIG_CAP("x-colo", MIGRATION_CAPABILITY_X_COLO),
+     DEFINE_PROP_MIG_CAP("x-release-ram", MIGRATION_CAPABILITY_RELEASE_RAM),
+     DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
+diff --git a/migration/migration.h b/migration/migration.h
+index a863032b71..af4bcb19c2 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -394,6 +394,7 @@ int migrate_decompress_threads(void);
+ bool migrate_use_events(void);
+ bool migrate_postcopy_blocktime(void);
+ bool migrate_background_snapshot(void);
++bool migrate_postcopy_preempt(void);
  
- QDict *migrate_query(QTestState *who);
-+QDict *migrate_query_not_failed(QTestState *who);
+ /* Sending on the return path - generic and then for each message type */
+ void migrate_send_rp_shut(MigrationIncomingState *mis,
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 409eb086a2..f381a94c98 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -463,6 +463,12 @@
+ #                       procedure starts. The VM RAM is saved with running VM.
+ #                       (since 6.0)
+ #
++# @postcopy-preempt: If enabled, the migration process will allow postcopy
++#                    requests to preempt precopy stream, so postcopy requests
++#                    will be handled faster.  This is a performance feature and
++#                    should not affect the correctness of postcopy migration.
++#                    (since 7.1)
++#
+ # Features:
+ # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+ #
+@@ -476,7 +482,7 @@
+            'block', 'return-path', 'pause-before-switchover', 'multifd',
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+-           'validate-uuid', 'background-snapshot'] }
++           'validate-uuid', 'background-snapshot', 'postcopy-preempt'] }
  
- void wait_for_migration_status(QTestState *who,
-                                const char *goal, const char **ungoals);
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 5ea0b9360a..d9f444ea14 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -181,7 +181,7 @@ static int64_t read_ram_property_int(QTestState *who, const char *property)
-     QDict *rsp_return, *rsp_ram;
-     int64_t result;
- 
--    rsp_return = migrate_query(who);
-+    rsp_return = migrate_query_not_failed(who);
-     if (!qdict_haskey(rsp_return, "ram")) {
-         /* Still in setup */
-         result = 0;
-@@ -198,7 +198,7 @@ static int64_t read_migrate_property_int(QTestState *who, const char *property)
-     QDict *rsp_return;
-     int64_t result;
- 
--    rsp_return = migrate_query(who);
-+    rsp_return = migrate_query_not_failed(who);
-     result = qdict_get_try_int(rsp_return, property, 0);
-     qobject_unref(rsp_return);
-     return result;
-@@ -213,7 +213,7 @@ static void read_blocktime(QTestState *who)
- {
-     QDict *rsp_return;
- 
--    rsp_return = migrate_query(who);
-+    rsp_return = migrate_query_not_failed(who);
-     g_assert(qdict_haskey(rsp_return, "postcopy-blocktime"));
-     qobject_unref(rsp_return);
- }
+ ##
+ # @MigrationCapabilityStatus:
 -- 
 2.32.0
 
