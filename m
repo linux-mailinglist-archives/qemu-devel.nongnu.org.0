@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AD850EC3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 00:41:12 +0200 (CEST)
-Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C762050EC43
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 00:48:14 +0200 (CEST)
+Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj7OJ-0004sM-O3
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 18:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
+	id 1nj7V7-000838-FQ
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 18:48:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <starardev@gmail.com>)
- id 1nj7NM-0004Ck-Nu
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:40:12 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:53974)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nj7Tt-0006Kh-Ib
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:46:57 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:45885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <starardev@gmail.com>)
- id 1nj7NK-0008ED-RM
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:40:12 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id bx5so6913856pjb.3
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 15:40:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mvoSStx9PeiyLITi07lJBqPlMiKWf1fQ47dvAEeaiHM=;
- b=btuibId8NoBpz0BdW3aUvsvrh6AFjUFyWJfnBBuHfxiiZGHXPGGw5eWr8bfw1km87f
- 8eXqW/f1VQyq+LzT7X6nSc9XUGLXok2mV/C3360vso5z4xn7MkdtnNOrbyZqPefDiNrk
- YyxP2Dhec23G4P65yQidkHaUFCmB2AMNCIXsJ9RkIjrdHDbTZ8I8olDKZF5qI6G/BvUp
- jd84GH5szKrAjm8uktHwDcupO3xYpepXRw2FSVfx3bM4SJnOvFBswByFPmTz8XluJkyI
- RFUrMUkOkEgMES5/IRYtyYJ3yHMDICgMYx191HUfMWeofLL9e0RGkrmVu+o/imuPraVb
- 5tXA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nj7Ts-0000hW-1y
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:46:57 -0400
+Received: by mail-pg1-x530.google.com with SMTP id k29so14497726pgm.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 15:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=hzRAjEzPzU4YeZJm1BdaqHGFb4j4Hbz8i4U1hQX3ETw=;
+ b=e87d2HLLduPOaXbutmm7g33jUFBeA5ePKYoRVTgYx2OavlD/Yywc/fdbt5FigBf35Y
+ 9sqhbPPx5fZF0oS53CSOeuW1YohwakJdpzFvVYdJi+OEzv74CR3n34H9b/80eOSSPXVo
+ KboR0bmHDY8jIXZw9FoLBnvBw+L4/LezzZS3TfYamDohq8VWQXo3A2WDEqFd1hDm0J2X
+ zgHWSjBqXVmZvGA6lcJ6XJDJw2JDPe70H0UqdBZ6Sfo6Y9QbXOUq3iiacZKzzxbcPcXl
+ 5oZ9ohhAqFyN3YUj51G1QvaKD60n799F9mlc67SFJKhfaqLnv7xPp9fpsCbA5t6F5/cd
+ Ckjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mvoSStx9PeiyLITi07lJBqPlMiKWf1fQ47dvAEeaiHM=;
- b=1bb9vLEHf3+aqWm26UEEuK6DxCi6C4RgF/y2rliHpHdU/VKrUWQGVoU3RPaoFugpXF
- bZ+11hcn5btDJ0pvuFGdamiwlAcETrvKmt0bt4IScE3zZy2Ijz6L4YGsIYSQrGSkzJ1L
- 7XTPkqVQaVrUvn7X7M53X9vVHvcK9JtsfHpTnHttsVuO8vST8nUQyGMOT7qx4VbIavYt
- AltcYEsQZkjx/ynqQ7A5Dy3ALvv3RW5/pWkqzloTL6OH2U98mml+HuT0kDjxRJ0y6CUu
- 7wl+erMW4QdvLVnCZz3GTs3gYePhZnoTWfWsYDsF2+2voLggDwf6YLY4SLr/7xbvJrfR
- swag==
-X-Gm-Message-State: AOAM531wIO3sgz4GqkzOopme4iovWExxhsXc1juj1K2g0MtxGke8UH4/
- 5GGAOU4YXj6Toacdlh8AeFzSglgk+UAMDyvZWzE=
-X-Google-Smtp-Source: ABdhPJxviWZOb7JYKmGbBhThSDMH3U7VA7a961iLIb+Pyav2FJwKoVD95QbRcrImD6OmaMIa0C/VELeKxBXV/Ldyyig=
-X-Received: by 2002:a17:90a:a82:b0:1c9:ef95:486 with SMTP id
- 2-20020a17090a0a8200b001c9ef950486mr34081831pjw.93.1650926409276; Mon, 25 Apr
- 2022 15:40:09 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hzRAjEzPzU4YeZJm1BdaqHGFb4j4Hbz8i4U1hQX3ETw=;
+ b=oFQ8sHeW2pKwJdVXJCln0agxvyauB+EgblBSHmRg2sxBiss61zzAc1b4Slu/sXb8jL
+ 52Ls2HCIUWqX2kbFzyT+lYfOxl+iWN9OhctSb0KLCEAAp5M5wOitonyocHYbX7eH2EXJ
+ Le2UELnO4oiPsohG9wPcr1ZCg22Fy25wbYbWbbsHzaAdVVBYZFcyEvbq2y26ccUwN6gz
+ JSZEFus4mhUdOVLX51qLZPyIKz9X3c8pSJNYPpdCuf/gze0+xaF6jbDWF+JJKZs3o0eh
+ oP96HqOfWZuMiWQyxz4mPVnYhZ3p1K3De/lGWHJ+1WHEpZWy+jcVgPcTj8pGRpm3mRgX
+ adaQ==
+X-Gm-Message-State: AOAM531goYZb8Tz5IAEWVmS0uLQ6FBUZ9bb7eguAFL2lviMbt/shZOGB
+ qeD5hseKk7WopyTEukdIioGW5A==
+X-Google-Smtp-Source: ABdhPJxQpHosXJ7ZEsd/pPQ/fDVorsCP/qrPWeeFp7FdiumAi0cDfLniPhB0fq2WqVjh0kvrIgUa9w==
+X-Received: by 2002:a05:6a00:2482:b0:50d:481d:b516 with SMTP id
+ c2-20020a056a00248200b0050d481db516mr4339994pfv.10.1650926814488; 
+ Mon, 25 Apr 2022 15:46:54 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ e9-20020a17090ab38900b001cd4989fecdsm354799pjr.25.2022.04.25.15.46.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Apr 2022 15:46:53 -0700 (PDT)
+Message-ID: <d624aaf7-96eb-3350-2dc0-80810870f141@linaro.org>
+Date: Mon, 25 Apr 2022 15:46:52 -0700
 MIME-Version: 1.0
-References: <CA+inuZ85ktnAuvmmMcxJFX0EVZC6A_g2fR5BSQRTshDoxdv8=Q@mail.gmail.com>
- <YmbpoyhTXB4jdgx+@xz-m1.local>
-In-Reply-To: <YmbpoyhTXB4jdgx+@xz-m1.local>
-From: Artyom <starardev@gmail.com>
-Date: Tue, 26 Apr 2022 01:39:58 +0300
-Message-ID: <CA+inuZ_o5eyc+dFyTxKe1v1nw8fmhXP1P4gysY0+L7N6VRtMwQ@mail.gmail.com>
-Subject: Re: Live Migration ToDo
-To: Peter Xu <peterx@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000002ce13805dd8242b5"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=starardev@gmail.com; helo=mail-pj1-x1029.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 20/43] target/loongarch: Add basic vmstate description
+ of CPU.
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
+ <20220425091027.2877892-21-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220425091027.2877892-21-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,105 +90,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: leobras@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- quintela@redhat.com
+Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002ce13805dd8242b5
-Content-Type: text/plain; charset="UTF-8"
+On 4/25/22 02:10, Xiaojuan Yang wrote:
+> +        VMSTATE_UINT64(env.CSR_CPUID, LoongArchCPU),
 
-Thank you for your response. Yes, I would like to work on some task, and
-eventually I would like to use it as my student project. For example, it
-might be possible to implement the technique from the article Post-Copy,
-Hines, 2009: demand paging, active push, prepaging and dynamic
-self-ballooning. As far as I understood from the postcopy documentation,
-the pages are pushed sequentially, but it is possible to implement a new
-prepaging strategy. Or are there any obstacles to implementing the ideas of
-this paper in QEMU?
+Again, using cpu->cpu_index.
 
-On Mon, Apr 25, 2022 at 9:34 PM Peter Xu <peterx@redhat.com> wrote:
-
-> Hi,
->
-> On Mon, Apr 25, 2022 at 01:41:27PM +0300, Artyom wrote:
-> > Hello! I would like to see a list of suggestions/ideas/tickets for
-> > improving live migration (especially performance and algorithms). There
-> is
-> > a page https://wiki.qemu.org/ToDo/LiveMigration, but it has not been
-> > updated for a long time. Thanks
->
-> Yes I think you're right and it's a good idea we should at some point
-> revive the page so it always contains up-to-date contents.
->
-> Do you mean that you want to contribute to QEMU project by working on some
-> (obviously, not bit-sized) performance related tasks on live migration to
-> improve the software?
->
-> So far I am aware that Leonardo was working on zero-copy sender side for
-> it, Juan was experimenting some bitmap split researches, and I'm working on
-> a bit of the postcopy specific enhancements.  I'm not sure what I can do
-> here to help you start any form of contribution, maybe starting from
-> knowing more context of what you want and plan. :)
->
-> Thanks,
->
-> --
-> Peter Xu
->
->
-
---0000000000002ce13805dd8242b5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Thank you for your response. Yes, I would=
- like to work on some task, and eventually I would like to use it as my stu=
-dent project. For example, it might be possible to implement the technique =
-from the article Post-Copy, Hines, 2009: demand paging, active push, prepag=
-ing and dynamic self-ballooning. As far as I understood from the postcopy d=
-ocumentation, the pages are pushed sequentially, but it is possible to impl=
-ement a new prepaging strategy. Or are there any obstacles to implementing =
-the ideas of this paper in QEMU?<br><br></div><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr 25, 2022 at 9:34 PM Peter X=
-u &lt;<a href=3D"mailto:peterx@redhat.com">peterx@redhat.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<br>
-<br>
-On Mon, Apr 25, 2022 at 01:41:27PM +0300, Artyom wrote:<br>
-&gt; Hello! I would like to see a list of suggestions/ideas/tickets for<br>
-&gt; improving live migration (especially performance and algorithms). Ther=
-e is<br>
-&gt; a page <a href=3D"https://wiki.qemu.org/ToDo/LiveMigration" rel=3D"nor=
-eferrer" target=3D"_blank">https://wiki.qemu.org/ToDo/LiveMigration</a>, bu=
-t it has not been<br>
-&gt; updated for a long time. Thanks<br>
-<br>
-Yes I think you&#39;re right and it&#39;s a good idea we should at some poi=
-nt<br>
-revive the page so it always contains up-to-date contents.<br>
-<br>
-Do you mean that you want to contribute to QEMU project by working on some<=
-br>
-(obviously, not bit-sized) performance related tasks on live migration to<b=
-r>
-improve the software?<br>
-<br>
-So far I am aware that Leonardo was working on zero-copy sender side for<br=
->
-it, Juan was experimenting some bitmap split researches, and I&#39;m workin=
-g on<br>
-a bit of the postcopy specific enhancements.=C2=A0 I&#39;m not sure what I =
-can do<br>
-here to help you start any form of contribution, maybe starting from<br>
-knowing more context of what you want and plan. :)<br>
-<br>
-Thanks,<br>
-<br>
--- <br>
-Peter Xu<br>
-<br>
-</blockquote></div></div>
-
---0000000000002ce13805dd8242b5--
+r~
 
