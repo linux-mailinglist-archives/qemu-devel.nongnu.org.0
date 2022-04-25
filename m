@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6A850DFD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 14:21:20 +0200 (CEST)
-Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F7750E0AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 14:47:59 +0200 (CEST)
+Received: from localhost ([::1]:41320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nixiQ-0006eW-Qv
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 08:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
+	id 1niy8E-0005X3-H6
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 08:47:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1nixgB-0005po-J5
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 08:18:59 -0400
-Received: from [187.72.171.209] (port=32280 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>) id 1nixg9-0007AB-Si
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 08:18:59 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 25 Apr 2022 09:17:51 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 8CC3D8000D6;
- Mon, 25 Apr 2022 09:17:51 -0300 (-03)
-Message-ID: <ccd97ec9-4ed9-5132-0ba9-fbff105b8a70@eldorado.org.br>
-Date: Mon, 25 Apr 2022 09:17:51 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 2/3] hw/audio/ac97: Remove unimplemented reset functions
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1650706617.git.balaton@eik.bme.hu>
- <cc6e99fd498a9ae358ebce787fc04ab6e8201879.1650706617.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <cc6e99fd498a9ae358ebce787fc04ab6e8201879.1650706617.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 25 Apr 2022 12:17:51.0928 (UTC)
- FILETIME=[7C33DB80:01D8589E]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <45f83750655d27fae163e1169be44b72e9c72101@lizzy.crudebyte.com>)
+ id 1niy2E-00068g-Sm; Mon, 25 Apr 2022 08:41:46 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:40437)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <45f83750655d27fae163e1169be44b72e9c72101@lizzy.crudebyte.com>)
+ id 1niy2C-0002CQ-Gm; Mon, 25 Apr 2022 08:41:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=eiUhLnvniCRFRmHg94IspHR8zuzxCuN7kmOFel0V+B0=; b=BerNB
+ RbopCkoxgG5gOX5xxT49Z8FIqgiRSP/v1Y6cCcqb3cmWRzccbti7WPCbkOzOQho8wMrZ7WAthmya5
+ S+L/ZvTniSRt8t/Y31sRerVh8ArtwTPn2VvXiJA0/Sg9l8nkiXHwK+PsinGqPDSzPB/qA18rlLZvQ
+ IGFtxzZt/13v6LtTGS9DkbCFiFJPnwLuc6UkqFEczUcbaOSzxCg8AxHtnDkv1J4hy1NGtAHDyWLmQ
+ c6M6JIT0UuqOO0JvUqHTVDn4zi1uxAWBzIyNsTB8WykifQdYihlnjVXdCrKG/IrxZQGe1NpSspoRR
+ XqOS50B17YBo7Yz5Qu1GDyxD2gL1g==;
+Message-Id: <45f83750655d27fae163e1169be44b72e9c72101.1650889268.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1650889268.git.qemu_oss@crudebyte.com>
+References: <cover.1650889268.git.qemu_oss@crudebyte.com>
+Date: Mon, 25 Apr 2022 14:20:43 +0200
+Subject: [PATCH v3 1/6] 9pfs: fix qemu_mknodat(S_IFREG) on macOS
+To: qemu-devel@nongnu.org
+Cc: Will Cohen <wwcohen@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Keno Fischer <keno@juliacomputing.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, qemu-stable@nongnu.org
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=45f83750655d27fae163e1169be44b72e9c72101@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,58 +59,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Christian Schoenebeck <qemu_oss@crudebyte.com>
+From:  Christian Schoenebeck via <qemu-devel@nongnu.org>
 
-On 23/04/2022 06:36, BALATON Zoltan wrote:
-> The warm_reset() and cold_reset() functions are not implemented and do
-> nothing so no point in calling them or keep around as dead code.
-> Therefore remove them for now.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/audio/ac97.c | 17 +----------------
->   1 file changed, 1 insertion(+), 16 deletions(-)
-> 
-> diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
-> index 6b1c12bece..6584aa749e 100644
-> --- a/hw/audio/ac97.c
-> +++ b/hw/audio/ac97.c
-> @@ -222,16 +222,6 @@ static void po_callback(void *opaque, int free);
->   static void pi_callback(void *opaque, int avail);
->   static void mc_callback(void *opaque, int avail);
-> 
-> -static void warm_reset(AC97LinkState *s)
-> -{
-> -    (void)s;
-> -}
-> -
-> -static void cold_reset(AC97LinkState *s)
-> -{
-> -    (void)s;
-> -}
-> -
->   static void fetch_bd(AC97LinkState *s, AC97BusMasterRegs *r)
->   {
->       uint8_t b[8];
-> @@ -921,12 +911,7 @@ static void nabm_writel(void *opaque, uint32_t addr, uint32_t val)
->           dolog("BDBAR[%d] <- 0x%x (bdbar 0x%x)\n", GET_BM(index), val, r->bdbar);
->           break;
->       case GLOB_CNT:
-> -        if (val & GC_WR) {
-> -            warm_reset(s);
-> -        }
-> -        if (val & GC_CR) {
-> -            cold_reset(s);
-> -        }
-> +        /* TODO: Handle WR or CR being set (warm/cold reset requests) */
->           if (!(val & (GC_WR | GC_CR))) {
->               s->glob_cnt = val & GC_VALID_MASK;
->           }
-> --
-> 2.30.4
-> 
+mknod() on macOS does not support creating regular files, so
+divert to openat_file() if S_IFREG is passed with mode argument.
 
-Reviewed-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Furthermore, 'man 2 mknodat' on Linux says: "Zero file type is
+equivalent to type S_IFREG".
+
+Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Will Cohen <wwcohen@gmail.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+---
+ hw/9pfs/9p-util-darwin.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+index bec0253474..e24d09763a 100644
+--- a/hw/9pfs/9p-util-darwin.c
++++ b/hw/9pfs/9p-util-darwin.c
+@@ -77,6 +77,15 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+ {
+     int preserved_errno, err;
++
++    if (S_ISREG(mode) || !(mode & S_IFMT)) {
++        int fd = openat_file(dirfd, filename, O_CREAT, mode);
++        if (fd == -1) {
++            return fd;
++        }
++        close(fd);
++        return 0;
++    }
+     if (!pthread_fchdir_np) {
+         error_report_once("pthread_fchdir_np() not available on this version of macOS");
+         return -ENOTSUP;
+-- 
+2.32.0 (Apple Git-132)
+
 
