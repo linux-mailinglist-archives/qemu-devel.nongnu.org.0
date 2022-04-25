@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66B3650DDE8
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 12:31:17 +0200 (CEST)
-Received: from localhost ([::1]:36112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F9950DE50
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 12:56:36 +0200 (CEST)
+Received: from localhost ([::1]:38932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nivzv-0002rW-VT
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 06:31:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37032)
+	id 1niwOR-0006C8-7i
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 06:56:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nivwb-0001EC-Qv
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:27:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56124)
+ id 1nivwq-0001NZ-Nk
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:28:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nivwY-00053l-WF
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:27:48 -0400
+ id 1nivwn-00056Y-0A
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 06:28:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650882466;
+ s=mimecast20190719; t=1650882479;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=W3rmkyFK9OJpng5RgNnA9hNn6IwFgUsmVMBSt2+M7aI=;
- b=e2lvzuZWbnRs0kus6CnkakVNOL2e/BdKdcoSg+m9nhSfJOqKbdnIVQmyGTwVMB7uJHoewk
- 22HdOkBnrfNe2JJYLcnmxf43vy3p385gUwkJHWTs9Gynrze3cXru3AwLwlOMl7RR5hml8G
- 7CMsxdSjhlcWaMFO3VzDu5Tmen2LD7k=
+ bh=dnY7bnAc9jCSqBpEV3Ih/HOWf6PE5fTaJQLWXbI/xjk=;
+ b=Yulp1Axut7KEFmjhVptKs9hj5A2R/wzs1WeLzdTmlf+cpm64n+QPmKW2+uvil562CUX0ni
+ TT+zv61/inE2woWZO8oTSy+r9XivlP/AS8xw/HCapJjLx7JNRMl5jM8NQkqGN+txXbK4Mq
+ rkRrXAuMsiBYGY0JTppF3RupWXTCG98=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-BQ3loivSOMOzDjtnCP7oVQ-1; Mon, 25 Apr 2022 06:27:42 -0400
-X-MC-Unique: BQ3loivSOMOzDjtnCP7oVQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-311-lo_0FYTJPqOkQQLF_BJk4g-1; Mon, 25 Apr 2022 06:27:56 -0400
+X-MC-Unique: lo_0FYTJPqOkQQLF_BJk4g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DDA729AB3F2;
- Mon, 25 Apr 2022 10:27:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB28929ABA38;
+ Mon, 25 Apr 2022 10:27:55 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FA8240CF910;
- Mon, 25 Apr 2022 10:27:41 +0000 (UTC)
-Date: Mon, 25 Apr 2022 11:27:40 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 528ED1410F3B;
+ Mon, 25 Apr 2022 10:27:55 +0000 (UTC)
+Date: Mon, 25 Apr 2022 11:27:54 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v8 15/17] vfio-user: handle device interrupts
-Message-ID: <YmZ3nAtyjt+gjqvL@stefanha-x1.localdomain>
+Subject: Re: [PATCH v8 16/17] vfio-user: handle reset of remote device
+Message-ID: <YmZ3qgZoYLai7PoL@stefanha-x1.localdomain>
 References: <cover.1650379269.git.jag.raman@oracle.com>
- <847e6d373eb3d8ff4cdeb7a3ad9b935785bfbf8e.1650379269.git.jag.raman@oracle.com>
+ <9bbc332432abcf2b0a88ce04c6017a4b98f17801.1650379269.git.jag.raman@oracle.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AJaMlC+RasMS0HZ0"
+ protocol="application/pgp-signature"; boundary="Kgn47W1DIstGfI23"
 Content-Disposition: inline
-In-Reply-To: <847e6d373eb3d8ff4cdeb7a3ad9b935785bfbf8e.1650379269.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+In-Reply-To: <9bbc332432abcf2b0a88ce04c6017a4b98f17801.1650379269.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -86,49 +86,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---AJaMlC+RasMS0HZ0
+--Kgn47W1DIstGfI23
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 19, 2022 at 04:44:20PM -0400, Jagannathan Raman wrote:
-> +static MSIMessage vfu_object_msi_prepare_msg(PCIDevice *pci_dev,
-> +                                             unsigned int vector)
-> +{
-> +    MSIMessage msg;
-> +
-> +    msg.address = 0;
-> +    msg.data = vector;
-> +
-> +    return msg;
-> +}
-> +
-> +static void vfu_object_msi_trigger(PCIDevice *pci_dev, MSIMessage msg)
-> +{
-> +    vfu_ctx_t *vfu_ctx = pci_dev->irq_opaque;
-> +
-> +    vfu_irq_trigger(vfu_ctx, msg.data);
-> +}
+On Tue, Apr 19, 2022 at 04:44:21PM -0400, Jagannathan Raman wrote:
+> Adds handler to reset a remote device
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>  hw/remote/vfio-user-obj.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
 
-Why did you switch to vfu_object_msi_prepare_msg() +
-vfu_object_msi_trigger() in this revision?
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Stefan
-
---AJaMlC+RasMS0HZ0
+--Kgn47W1DIstGfI23
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJmd5wACgkQnKSrs4Gr
-c8j9Xwf/UhKH9B37fLp1lUf/daPbUyX6eWHWhMQW3WkRfp7uBzc9/JSUpInPmDyW
-nVEH1nx9AKXmoUQ2dMUuvXi+v9GV1YTQCbH+hlnyHtkdHQcvFEcdQPIpp+tZUhPq
-n+iQQUNVKdn9FALd0p+QInhB9Ot9AEm83NVT2eONBYqcswB5efZORMKceAuvrZJo
-lTqgLky5PqUOE8+TbbLH0DIUnG/vudWvucU2Nwg3ht6Ur++NbkM4hs9D7Izpl9Oj
-g3K9NmIDM6M5uV7x0uHorTdYSqqzBTc9zIQ4NLC+s9kBMmerugzTolOAJZ6RwzdM
-Cx2uXsAOYvu9d5ovaMVB2qYITPov6A==
-=Lx7Z
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJmd6oACgkQnKSrs4Gr
+c8j68AgAqIKGEmiC2DnZ05hx0wXkw8d2e7ZppI8d2cYcprcrTR3+VqJ8vNes+WAB
+7CSQD7fNpsRdwOMokqXzbUDZWSJ+KUSsFVxjo5imtYqCfYCBQeOFpAgVqM/xiaqB
+9iB6I27K9kwWtnuky3U9/OIyHMf1/Ruk3YIilcxtEwm8gh6xXGHC1sbK7QnumXTq
+r5rnl5fiuJGutK1vytDlTktA0ihLtY3GWBz5N9nx7RbwgKZpyNQ8Hr9/j0mnSMty
+0tG9Q0YA36+kciM/Sg6BQEVUCHDSDkNIvhcuJqdfRoIWxM4O2zodeiqePoalcySl
+MYeFgibZk9+cToEK1HIrLtW2CCq76A==
+=3/7e
 -----END PGP SIGNATURE-----
 
---AJaMlC+RasMS0HZ0--
+--Kgn47W1DIstGfI23--
 
 
