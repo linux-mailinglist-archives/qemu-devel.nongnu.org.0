@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0B550DD61
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:57:21 +0200 (CEST)
-Received: from localhost ([::1]:45110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3DF50DCE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:39:30 +0200 (CEST)
+Received: from localhost ([::1]:40012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nivT6-0004Hx-3C
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:57:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48570)
+	id 1nivBp-0006oQ-T0
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:39:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1niukb-0008Me-ME
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:23 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:39768 helo=loongson.cn)
+ id 1niukV-0008Jc-6M
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:16 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:39596 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1niukY-0001Mx-Ft
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:21 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1niukR-0001KO-6e
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 05:11:14 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn8+DZWZi+7gwAA--.18850S35; 
- Mon, 25 Apr 2022 17:10:57 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn8+DZWZi+7gwAA--.18850S36; 
+ Mon, 25 Apr 2022 17:10:58 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 33/43] hw/intc: Add LoongArch ls7a msi interrupt controller
- support(PCH-MSI)
-Date: Mon, 25 Apr 2022 17:10:17 +0800
-Message-Id: <20220425091027.2877892-34-yangxiaojuan@loongson.cn>
+Subject: [PATCH v2 34/43] hw/intc: Add LoongArch extioi interrupt
+ controller(EIOINTC)
+Date: Mon, 25 Apr 2022 17:10:18 +0800
+Message-Id: <20220425091027.2877892-35-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
 References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxn8+DZWZi+7gwAA--.18850S35
-X-Coremail-Antispam: 1UD129KBjvJXoW3GrW8Cr18JrWDCF43uryDWrg_yoW7trW5pr
- sxu34agr4kJa17WFZ3J34rAF95JFn7ury2vF4a9ryxCr4DAa4rXF1ktry7WFyUK3ykGryj
- va95Ca12qa1UGaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9Dxn8+DZWZi+7gwAA--.18850S36
+X-Coremail-Antispam: 1UD129KBjvAXoWfCw45AFy8tw1kuF48Cw15urg_yoW8Zw45Zo
+ W5JFW5X34rGr4xCrWkJwsrKFy7WFnFv3yUJa47Z39I9anxAFn8Wa9xKw1YkF1fXFs5KF15
+ A393uFykAay7t3W8n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -62,171 +62,622 @@ Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch realize PCH-MSI interrupt controller.
+This patch realize the EIOINTC interrupt controller.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/intc/Kconfig                     |  5 ++
- hw/intc/loongarch_pch_msi.c         | 75 +++++++++++++++++++++++++++++
- hw/intc/meson.build                 |  1 +
- hw/intc/trace-events                |  3 ++
- hw/loongarch/Kconfig                |  1 +
- include/hw/intc/loongarch_pch_msi.h | 20 ++++++++
- 6 files changed, 105 insertions(+)
- create mode 100644 hw/intc/loongarch_pch_msi.c
- create mode 100644 include/hw/intc/loongarch_pch_msi.h
+ hw/intc/Kconfig                    |   3 +
+ hw/intc/loongarch_extioi.c         | 483 +++++++++++++++++++++++++++++
+ hw/intc/meson.build                |   1 +
+ hw/intc/trace-events               |   9 +
+ hw/loongarch/Kconfig               |   1 +
+ include/hw/intc/loongarch_extioi.h |  60 ++++
+ 6 files changed, 557 insertions(+)
+ create mode 100644 hw/intc/loongarch_extioi.c
+ create mode 100644 include/hw/intc/loongarch_extioi.h
 
 diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index 1fbba2e728..71c04c328e 100644
+index 71c04c328e..28bd1f185d 100644
 --- a/hw/intc/Kconfig
 +++ b/hw/intc/Kconfig
-@@ -91,3 +91,8 @@ config LOONGARCH_IPI
- config LOONGARCH_PCH_PIC
+@@ -96,3 +96,6 @@ config LOONGARCH_PCH_MSI
+     select MSI_NONBROKEN
      bool
      select UNIMP
 +
-+config LOONGARCH_PCH_MSI
-+    select MSI_NONBROKEN
++config LOONGARCH_EXTIOI
 +    bool
-+    select UNIMP
-diff --git a/hw/intc/loongarch_pch_msi.c b/hw/intc/loongarch_pch_msi.c
+diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
 new file mode 100644
-index 0000000000..57a894f3e5
+index 0000000000..1d9317c5bd
 --- /dev/null
-+++ b/hw/intc/loongarch_pch_msi.c
-@@ -0,0 +1,75 @@
++++ b/hw/intc/loongarch_extioi.c
+@@ -0,0 +1,483 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * QEMU Loongson 7A1000 msi interrupt controller.
++ * Loongson 3A5000 ext interrupt controller emulation
 + *
 + * Copyright (C) 2021 Loongson Technology Corporation Limited
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/sysbus.h"
++#include "qemu/module.h"
++#include "qemu/log.h"
 +#include "hw/irq.h"
-+#include "hw/intc/loongarch_pch_msi.h"
-+#include "hw/intc/loongarch_pch_pic.h"
-+#include "hw/pci/msi.h"
-+#include "hw/misc/unimp.h"
++#include "hw/sysbus.h"
++#include "hw/loongarch/virt.h"
++#include "hw/qdev-properties.h"
++#include "exec/address-spaces.h"
++#include "hw/intc/loongarch_extioi.h"
 +#include "migration/vmstate.h"
 +#include "trace.h"
 +
-+static uint64_t loongarch_msi_mem_read(void *opaque, hwaddr addr, unsigned size)
++static void extioi_update_irq(LoongArchExtIOI *s, int irq_num, int level)
 +{
-+    return 0;
++    uint64_t ipnum, cpu;
++
++    /*
++     * Routing in group of 32 interrupts.
++     * The default value of csr[0x420][49]
++     * is 0 and nobody will change it,
++     * so 'ipmap' use bitmap function.
++     */
++    ipnum = ldub_p((void *)&s->ipmap + (irq_num / 32)) & 0xf;
++    ipnum = find_first_bit(&ipnum, 4);
++    ipnum = (ipnum == 4) ? 0 : ipnum;
++
++    cpu = ldub_p((void *)s->coremap + irq_num) & 0xf;
++    cpu = find_first_bit(&cpu, 4);
++    cpu = (cpu == 4) ? 0 : cpu;
++
++    if (level) {
++        if (test_bit(irq_num, (unsigned long *)s->enable) == false) {
++            return;
++        }
++        bitmap_set((unsigned long *)s->coreisr[cpu], irq_num, 1);
++        qemu_set_irq(s->parent_irq[cpu][ipnum], level);
++    } else {
++        bitmap_clear((unsigned long *)s->coreisr[cpu], irq_num, 1);
++        qemu_set_irq(s->parent_irq[cpu][ipnum], level);
++    }
 +}
 +
-+static void loongarch_msi_mem_write(void *opaque, hwaddr addr,
-+                                    uint64_t val, unsigned size)
++static void extioi_setirq(void *opaque, int irq, int level)
 +{
-+    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
-+    int irq_num = val & 0xff;
-+
-+    trace_loongarch_msi_set_irq(irq_num);
-+    qemu_set_irq(s->pch_msi_irq[irq_num - PCH_PIC_IRQ_NUM], 1);
++    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
++    trace_loongarch_extioi_setirq(irq, level);
++    extioi_update_irq(s, irq, level);
 +}
 +
-+static const MemoryRegionOps loongarch_pch_msi_ops = {
-+    .read  = loongarch_msi_mem_read,
-+    .write = loongarch_msi_mem_write,
++static uint32_t extioi_readb(void *opaque, hwaddr addr)
++{
++    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
++    unsigned long offset, reg_count;
++    uint8_t ret = 0;
++    int cpu;
++
++    offset = addr & 0xffff;
++    switch (offset) {
++    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
++        ret = ldub_p((void *)s->enable + (offset - EXTIOI_ENABLE_START));
++        break;
++    case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
++        ret = ldub_p((void *)s->bounce + (offset - EXTIOI_BOUNCE_START));
++        break;
++    case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
++        reg_count = ((offset - EXTIOI_COREISR_START) & 0x1f);
++        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
++        ret = ldub_p((void *)s->coreisr[cpu] + reg_count);
++        break;
++    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
++        ret = ldub_p((void *)&s->ipmap + (offset - EXTIOI_IPMAP_START));
++        break;
++    case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
++        ret = ldub_p((void *)s->coremap + (offset - EXTIOI_COREMAP_START));
++        break;
++    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
++        ret = ldub_p((void *)s->nodetype + (offset - EXTIOI_NODETYPE_START));
++        break;
++    default:
++        break;
++    }
++    trace_loongarch_extioi_readb((uint32_t)addr, ret);
++    return ret;
++}
++
++static uint32_t extioi_readw(void *opaque, hwaddr addr)
++{
++    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
++    unsigned long offset, reg_count;
++    uint32_t ret = 0;
++    int cpu;
++
++    offset = addr & 0xffff;
++    switch (offset) {
++    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
++        ret = ldl_p((void *)s->enable + (offset - EXTIOI_ENABLE_START));
++        break;
++    case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
++        ret = ldl_p((void *)s->bounce + (offset - EXTIOI_BOUNCE_START));
++        break;
++    case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
++        reg_count = ((offset - EXTIOI_COREISR_START) & 0x1f);
++        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
++        ret = ldl_p((void *)s->coreisr[cpu] + reg_count);
++        break;
++    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
++        ret = ldl_p((void *)&s->ipmap + (offset - EXTIOI_IPMAP_START));
++        break;
++    case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
++        ret = ldl_p((void *)s->coremap + (offset - EXTIOI_COREMAP_START));
++        break;
++    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
++        ret = ldl_p((void *)s->nodetype + (offset - EXTIOI_NODETYPE_START));
++        break;
++    default:
++        break;
++    }
++    trace_loongarch_extioi_readw((uint32_t)addr, ret);
++    return ret;
++}
++
++static uint64_t extioi_readl(void *opaque, hwaddr addr)
++{
++    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
++    unsigned long offset, reg_count;
++    uint64_t ret = 0;
++    int cpu;
++
++    offset = addr & 0xffff;
++
++    switch (offset) {
++    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
++        ret = ldq_p((void *)s->enable + (offset - EXTIOI_ENABLE_START));
++        break;
++    case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
++        ret = ldq_p((void *)s->bounce + (offset - EXTIOI_BOUNCE_START));
++        break;
++    case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
++        reg_count = ((offset - EXTIOI_COREISR_START) & 0x1f);
++        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
++        ret = ldq_p((void *)s->coreisr[cpu] + reg_count);
++        break;
++    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
++        ret = ldq_p((void *)&s->ipmap + (offset - EXTIOI_IPMAP_START));
++        break;
++    case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
++        ret = ldq_p((void *)s->coremap + (offset - EXTIOI_COREMAP_START));
++        break;
++    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
++        ret = ldq_p((void *)s->nodetype + (offset - EXTIOI_NODETYPE_START));
++        break;
++    default:
++        break;
++    }
++    trace_loongarch_extioi_readl((uint32_t)addr, ret);
++    return ret;
++}
++
++static void extioi_writeb(void *opaque, hwaddr addr, uint32_t value,
++                          unsigned size)
++{
++    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
++    unsigned long offset, reg_count;
++    int cpu, i, j, level, bits;
++    uint64_t old_data, val = value & 0xff;
++
++    offset = addr & 0xffff;
++
++    trace_loongarch_extioi_writeb(size, (uint32_t)addr, (uint8_t)val);
++    switch (offset) {
++    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
++        reg_count = (offset - EXTIOI_ENABLE_START);
++        old_data = ldub_p((void *)s->enable + reg_count);
++        if (old_data != val) {
++            stb_p((void *)s->enable + reg_count, (uint8_t)val);
++            old_data = old_data ^ val;
++            bits = size * 8;
++            while ((i = find_first_bit(&old_data, bits)) != bits) {
++                level = test_bit(i, &val);
++                extioi_update_irq(s, i + reg_count * 8, level);
++                clear_bit(i, &old_data);
++            }
++        }
++        break;
++    case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
++        stb_p((void *)s->bounce + (offset - EXTIOI_BOUNCE_START), (uint8_t)val);
++        break;
++    case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
++        reg_count = (offset - EXTIOI_COREISR_START) & 0x1f;
++        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
++
++        old_data = ldub_p((void *)s->coreisr[cpu] + reg_count);
++        stb_p((void *)s->coreisr[cpu] + reg_count, (uint8_t)(old_data & ~val));
++
++        if (old_data != (old_data & ~val)) {
++            bits = size * 8;
++
++            while ((i = find_first_bit(&val, bits)) != bits) {
++                j = test_bit(i, &old_data);
++                if (j) {
++                    extioi_update_irq(s, i + reg_count * 8, 0);
++                }
++                clear_bit(i, &val);
++            }
++        }
++        break;
++    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
++        /* Drop arch.core_ip_mask use s->ipmap */
++        reg_count = (offset - EXTIOI_IPMAP_START);
++        stb_p((void *)&s->ipmap + reg_count, (uint8_t)val);
++        break;
++    case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
++        reg_count = (offset - EXTIOI_COREMAP_START);
++
++        /* Only map the core */
++        while (val) {
++            stb_p((void *)s->coremap + reg_count, (uint8_t)val);
++            val = val >> 8;
++        }
++        break;
++    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
++        stb_p((void *)s->nodetype + (offset - EXTIOI_NODETYPE_START),
++                                     (uint8_t)val);
++        break;
++    default:
++        break;
++    }
++}
++
++static void extioi_writew(void *opaque, hwaddr addr, uint32_t val,
++                          unsigned size)
++{
++    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
++    int cpu, level;
++    uint32_t offset, reg_count, i, j, bits;
++    uint64_t old_data, value = val;
++    offset = addr & 0xffff;
++    trace_loongarch_extioi_writew(size, (uint32_t)addr, val);
++
++    switch (offset) {
++    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
++        reg_count = (offset - EXTIOI_ENABLE_START);
++        old_data = ldl_p((void *)s->enable + reg_count);
++        if (old_data != val) {
++            stl_p((void *)s->enable + reg_count, val);
++            old_data = old_data ^ val;
++
++            bits = size * 8;
++            while ((i = find_first_bit(&old_data, bits)) != bits) {
++                level = test_bit(i, &value);
++                extioi_update_irq(s, i + reg_count * 8, level);
++                clear_bit(i, &old_data);
++            }
++        }
++        break;
++    case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
++        stl_p((void *)s->bounce + (offset - EXTIOI_BOUNCE_START), val);
++        break;
++    case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
++        reg_count = ((offset - EXTIOI_COREISR_START) & 0x1f);
++        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
++        /* Ext_core_ioisr */
++        old_data = ldl_p((void *)s->coreisr[cpu] + reg_count);
++        stl_p((void *)s->coreisr[cpu] + reg_count, (old_data & ~val));
++
++        if (old_data != (old_data & ~val)) {
++            bits = size * 8;
++            while ((i = find_first_bit(&value, bits)) != bits) {
++                j = test_bit(i, &old_data);
++                if (j) {
++                    extioi_update_irq(s, i + reg_count * 8, 0);
++                }
++                clear_bit(i, &value);
++            }
++        }
++        break;
++    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
++        /* Drop arch.core_ip_mask use s->ipmap */
++        reg_count = (offset - EXTIOI_IPMAP_START);
++        stl_p((void *)&s->ipmap + reg_count, val);
++        break;
++    case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
++        reg_count = (offset - EXTIOI_COREMAP_START);
++        /* Only map the core */
++        while (val) {
++            stl_p((void *)s->coremap + reg_count, val);
++            val = val >> 8;
++        }
++        break;
++    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
++        stl_p((void *)s->nodetype + (offset - EXTIOI_NODETYPE_START), val);
++        break;
++    default:
++        break;
++    }
++}
++
++static void extioi_writel(void *opaque, hwaddr addr, uint64_t val,
++                          unsigned size)
++{
++    LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
++    int cpu, level, i, j, bits;
++    uint64_t offset, old_data, reg_count;
++
++    offset = addr & 0xffff;
++    trace_loongarch_extioi_writel(size, (uint32_t)addr, val);
++    switch (offset) {
++    case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
++        reg_count = (offset - EXTIOI_ENABLE_START);
++        old_data = s->enable[reg_count];
++        if (old_data != val) {
++            s->enable[reg_count] = val;
++            old_data = old_data ^ val;
++
++            bits = size * 8;
++            while ((i = find_first_bit(&old_data, bits)) != bits) {
++                level = test_bit(i, &val);
++                extioi_update_irq(s, i + reg_count * 8, level);
++                clear_bit(i, &old_data);
++            }
++        }
++        break;
++    case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
++        stq_p((void *)s->bounce + (offset - EXTIOI_BOUNCE_START), val);
++        break;
++    case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
++        reg_count = ((offset - EXTIOI_COREISR_START) & 0x1f);
++        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
++
++        /* core_ext_ioisr */
++        old_data = ldq_p((void *)s->coreisr[cpu] + reg_count);
++        stq_p((void *)s->coreisr[cpu] + reg_count, (old_data & ~val));
++
++        if (old_data != (old_data & ~val)) {
++            bits = size * 8;
++            while ((i = find_first_bit(&val, bits)) != bits) {
++                j = test_bit(i, &old_data);
++                if (j) {
++                    extioi_update_irq(s, i + reg_count * 8, 0);
++                }
++                clear_bit(i, &val);
++            }
++        }
++        break;
++    case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
++        /* Drop arch.core_ip_mask use s->ipmap */
++        reg_count = (offset - EXTIOI_IPMAP_START);
++        stq_p((void *)&s->ipmap + reg_count, val);
++        break;
++    case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
++        reg_count = (offset - EXTIOI_COREMAP_START);
++        /* Only map the core */
++        while (val) {
++            stq_p((void *)s->coremap + reg_count, val);
++            val = val >> 8;
++        }
++        break;
++    case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
++        stq_p((void *)s->nodetype + (offset - EXTIOI_NODETYPE_START), val);
++        break;
++    default:
++        break;
++    }
++}
++
++static uint64_t extioi_readfn(void *opaque, hwaddr addr, unsigned size)
++{
++    switch (size) {
++    case 1:
++        return extioi_readb(opaque, addr);
++    case 4:
++        return extioi_readw(opaque, addr);
++    case 8:
++        return extioi_readl(opaque, addr);
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static void extioi_writefn(void *opaque, hwaddr addr,
++                           uint64_t value, unsigned size)
++{
++    switch (size) {
++    case 1:
++        extioi_writeb(opaque, addr, value, size);
++        break;
++    case 4:
++        extioi_writew(opaque, addr, value, size);
++        break;
++    case 8:
++        extioi_writel(opaque, addr, value, size);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static const MemoryRegionOps extioi_ops = {
++    .read = extioi_readfn,
++    .write = extioi_writefn,
++    .impl.min_access_size = 1,
++    .impl.max_access_size = 8,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 8,
 +    .endianness = DEVICE_LITTLE_ENDIAN,
 +};
 +
-+static void pch_msi_irq_handler(void *opaque, int irq, int level)
++static void loongarch_extioi_realize(DeviceState *dev, Error **errp)
 +{
-+    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(opaque);
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(qdev_get_machine());
++    MachineState *ms = MACHINE(lams);
++    LoongArchExtIOI *p = LOONGARCH_EXTIOI(dev);
++    int i, cpu, pin;
 +
-+    qemu_set_irq(s->pch_msi_irq[irq], level);
-+}
++    qdev_init_gpio_in(dev, extioi_setirq, EXTIOI_IRQS);
 +
-+static void loongarch_pch_msi_init(Object *obj)
-+{
-+    LoongArchPCHMSI *s = LOONGARCH_PCH_MSI(obj);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    int i;
-+
-+    memory_region_init_io(&s->msi_mmio, obj, &loongarch_pch_msi_ops,
-+                          s, TYPE_LOONGARCH_PCH_MSI, 0x8);
-+    sysbus_init_mmio(sbd, &s->msi_mmio);
-+    msi_nonbroken = true;
-+
-+    for (i = 0; i < PCH_MSI_IRQ_NUM; i++) {
-+        sysbus_init_irq(sbd, &s->pch_msi_irq[i]);
++    for (i = 0; i < EXTIOI_IRQS; i++) {
++        sysbus_init_irq(SYS_BUS_DEVICE(dev), &p->irq[i]);
 +    }
-+    qdev_init_gpio_in(DEVICE(obj), pch_msi_irq_handler, PCH_MSI_IRQ_NUM);
++    /* two ways to access extioi: iocsr memory and system memory */
++    memory_region_init_io(&p->extioi_iocsr_mem, OBJECT(p), &extioi_ops, p,
++                          "loongarch_extioi_iocsr", 0x900);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &p->extioi_iocsr_mem);
++
++    memory_region_init_io(&p->extioi_system_mem, OBJECT(p), &extioi_ops, p,
++                          "loongarch_extioi", 0x900);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &p->extioi_system_mem);
++
++    for (cpu = 0; cpu < ms->smp.cpus; cpu++) {
++        for (pin = 0; pin < LS3A_INTC_IP; pin++) {
++            qdev_init_gpio_out(dev, &p->parent_irq[cpu][pin], 1);
++        }
++    }
 +}
 +
-+static const TypeInfo loongarch_pch_msi_info = {
-+    .name          = TYPE_LOONGARCH_PCH_MSI,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(LoongArchPCHMSI),
-+    .instance_init = loongarch_pch_msi_init,
++static const VMStateDescription vmstate_loongarch_extioi = {
++    .name = TYPE_LOONGARCH_EXTIOI,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64_ARRAY(enable, LoongArchExtIOI,
++                             EXTIOI_IRQS_BITMAP_SIZE / 8),
++        VMSTATE_UINT64_ARRAY(bounce, LoongArchExtIOI,
++                             EXTIOI_IRQS_BITMAP_SIZE / 8),
++        VMSTATE_UINT64_2DARRAY(coreisr, LoongArchExtIOI,
++                               MAX_CORES, EXTIOI_IRQS_BITMAP_SIZE / 8),
++        VMSTATE_UINT64(ipmap, LoongArchExtIOI),
++        VMSTATE_UINT64_ARRAY(coremap, LoongArchExtIOI,
++                             EXTIOI_IRQS_COREMAP_SIZE / 8),
++        VMSTATE_UINT64_ARRAY(nodetype, LoongArchExtIOI,
++                             EXTIOI_IRQS_NODETYPE_SIZE / 4),
++        VMSTATE_END_OF_LIST()
++    }
 +};
 +
-+static void loongarch_pch_msi_register_types(void)
++static void loongarch_extioi_class_init(ObjectClass *klass, void *data)
 +{
-+    type_register_static(&loongarch_pch_msi_info);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->vmsd = &vmstate_loongarch_extioi;
++    dc->realize = loongarch_extioi_realize;
 +}
 +
-+type_init(loongarch_pch_msi_register_types)
++static const TypeInfo loongarch_extioi_info = {
++    .name          = TYPE_LOONGARCH_EXTIOI,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(struct LoongArchExtIOI),
++    .class_init    = loongarch_extioi_class_init,
++};
++
++static void loongarch_extioi_register_types(void)
++{
++    type_register_static(&loongarch_extioi_info);
++}
++
++type_init(loongarch_extioi_register_types)
 diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index 960ce81a92..77a30cec33 100644
+index 77a30cec33..405e18f4bb 100644
 --- a/hw/intc/meson.build
 +++ b/hw/intc/meson.build
-@@ -64,3 +64,4 @@ specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
- specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
+@@ -65,3 +65,4 @@ specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
  specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
  specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
-+specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_MSI', if_true: files('loongarch_pch_msi.c'))
+ specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_MSI', if_true: files('loongarch_pch_msi.c'))
++specific_ss.add(when: 'CONFIG_LOONGARCH_EXTIOI', if_true: files('loongarch_extioi.c'))
 diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 1f343676ee..8bcc1b6992 100644
+index 8bcc1b6992..285d64ab83 100644
 --- a/hw/intc/trace-events
 +++ b/hw/intc/trace-events
-@@ -300,3 +300,6 @@ loongarch_pch_pic_high_readw(unsigned size, uint32_t addr, unsigned long val) "s
- loongarch_pch_pic_high_writew(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
- loongarch_pch_pic_readb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
- loongarch_pch_pic_writeb(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+@@ -303,3 +303,12 @@ loongarch_pch_pic_writeb(unsigned size, uint32_t addr, unsigned long val) "size:
+ 
+ # loongarch_pch_msi.c
+ loongarch_msi_set_irq(int irq_num) "set msi irq %d"
 +
-+# loongarch_pch_msi.c
-+loongarch_msi_set_irq(int irq_num) "set msi irq %d"
++# loongarch_extioi.c
++loongarch_extioi_setirq(int irq, int level) "set extirq irq %d level %d"
++loongarch_extioi_readb(uint32_t addr, uint8_t val) "addr: 0x%"PRIx32 "val: 0x%" PRIu8
++loongarch_extioi_readw(uint32_t addr, uint32_t val) "addr: 0x%"PRIx32 "val: 0x%" PRIx32
++loongarch_extioi_readl(uint32_t addr, uint64_t val) "addr: 0x%"PRIx32 "val: 0x%" PRIx64
++loongarch_extioi_writeb(unsigned size, uint32_t addr, uint8_t val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIu8
++loongarch_extioi_writew(unsigned size, uint32_t addr, uint32_t val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx32
++loongarch_extioi_writel(unsigned size, uint32_t addr, uint64_t val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
 diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index 2df45f7e8f..d814fc6103 100644
+index d814fc6103..f779087416 100644
 --- a/hw/loongarch/Kconfig
 +++ b/hw/loongarch/Kconfig
-@@ -4,3 +4,4 @@ config LOONGARCH_VIRT
-     select PCI_EXPRESS_GENERIC_BRIDGE
+@@ -5,3 +5,4 @@ config LOONGARCH_VIRT
      select LOONGARCH_IPI
      select LOONGARCH_PCH_PIC
-+    select LOONGARCH_PCH_MSI
-diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
+     select LOONGARCH_PCH_MSI
++    select LOONGARCH_EXTIOI
+diff --git a/include/hw/intc/loongarch_extioi.h b/include/hw/intc/loongarch_extioi.h
 new file mode 100644
-index 0000000000..f668bfca7a
+index 0000000000..5482483a5f
 --- /dev/null
-+++ b/include/hw/intc/loongarch_pch_msi.h
-@@ -0,0 +1,20 @@
++++ b/include/hw/intc/loongarch_extioi.h
+@@ -0,0 +1,60 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * LoongArch 7A1000 I/O interrupt controller definitions
++ * LoongArch 3A5000 ext interrupt controller definitions
 + *
 + * Copyright (C) 2021 Loongson Technology Corporation Limited
 + */
 +
-+#define TYPE_LOONGARCH_PCH_MSI "loongarch_pch_msi"
-+OBJECT_DECLARE_SIMPLE_TYPE(LoongArchPCHMSI, LOONGARCH_PCH_MSI)
++#include "hw/sysbus.h"
++#include "hw/loongarch/virt.h"
 +
-+/* Msi irq start start from 64 to 255 */
-+#define PCH_MSI_IRQ_START   64
-+#define PCH_MSI_IRQ_END     255
-+#define PCH_MSI_IRQ_NUM     192
++#ifndef LOONGARCH_EXTIOI_H
++#define LOONGARCH_EXTIOI_H
 +
-+struct LoongArchPCHMSI {
++#define LS3A_INTC_IP               8
++#define MAX_CORES                  LOONGARCH_MAX_VCPUS
++#define EXTIOI_IRQS                (256)
++#define EXTIOI_IRQS_BITMAP_SIZE    (256 / 8)
++/* map to ipnum per 32 irqs */
++#define EXTIOI_IRQS_IPMAP_SIZE     (256 / 32)
++#define EXTIOI_IRQS_COREMAP_SIZE   256
++#define EXTIOI_IRQS_NODETYPE_SIZE  16
++
++#define APIC_OFFSET                  0x400
++#define APIC_BASE                    (0x1000ULL + APIC_OFFSET)
++
++#define EXTIOI_NODETYPE_START        (0x4a0 - APIC_OFFSET)
++#define EXTIOI_NODETYPE_END          (0x4c0 - APIC_OFFSET)
++#define EXTIOI_IPMAP_START           (0x4c0 - APIC_OFFSET)
++#define EXTIOI_IPMAP_END             (0x4c8 - APIC_OFFSET)
++#define EXTIOI_ENABLE_START          (0x600 - APIC_OFFSET)
++#define EXTIOI_ENABLE_END            (0x620 - APIC_OFFSET)
++#define EXTIOI_BOUNCE_START          (0x680 - APIC_OFFSET)
++#define EXTIOI_BOUNCE_END            (0x6a0 - APIC_OFFSET)
++#define EXTIOI_ISR_START             (0x700 - APIC_OFFSET)
++#define EXTIOI_ISR_END               (0x720 - APIC_OFFSET)
++#define EXTIOI_COREISR_START         (0x800 - APIC_OFFSET)
++#define EXTIOI_COREISR_END           (0xB20 - APIC_OFFSET)
++#define EXTIOI_COREMAP_START         (0xC00 - APIC_OFFSET)
++#define EXTIOI_COREMAP_END           (0xD00 - APIC_OFFSET)
++
++#define EXTIOI_SYSTEM_MEM            0x1fe01400
++#define TYPE_LOONGARCH_EXTIOI "loongarch.extioi"
++OBJECT_DECLARE_SIMPLE_TYPE(LoongArchExtIOI, LOONGARCH_EXTIOI)
++struct LoongArchExtIOI {
 +    SysBusDevice parent_obj;
-+    qemu_irq pch_msi_irq[PCH_MSI_IRQ_NUM];
-+    MemoryRegion msi_mmio;
++    /* hardware state */
++    uint64_t enable[EXTIOI_IRQS_BITMAP_SIZE / 8];
++    uint64_t bounce[EXTIOI_IRQS_BITMAP_SIZE / 8];
++    uint64_t coreisr[MAX_CORES][EXTIOI_IRQS_BITMAP_SIZE / 8];
++    uint64_t ipmap;
++    uint64_t coremap[EXTIOI_IRQS_COREMAP_SIZE / 8];
++    uint64_t nodetype[EXTIOI_IRQS_NODETYPE_SIZE / 4];
++
++    qemu_irq parent_irq[MAX_CORES][LS3A_INTC_IP];
++    qemu_irq irq[EXTIOI_IRQS];
++    MemoryRegion extioi_iocsr_mem;
++    MemoryRegion extioi_system_mem;
 +};
++
++#endif /* LOONGARCH_EXTIOI_H */
 -- 
 2.31.1
 
