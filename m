@@ -2,144 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF0A50E240
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 15:47:16 +0200 (CEST)
-Received: from localhost ([::1]:41182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D6F50E23E
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 15:47:13 +0200 (CEST)
+Received: from localhost ([::1]:40956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niz3b-0000cX-78
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 09:47:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53732)
+	id 1niz3Y-0000Pv-73
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 09:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1niyxq-0000VQ-G4
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:41:19 -0400
-Received: from mail-dm6nam10on2080.outbound.protection.outlook.com
- ([40.107.93.80]:6144 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1niywK-0007fT-FA
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:39:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1niyxo-0006C1-7z
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:41:17 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a4XMmCtq91nFI1abZWXvMmlGtN0GJexbz72t2a4DDIqescEDjcD0Yf/adL82YkdyVHdyXrKh5lB5kVGmR0XAjJ8vw6pm9hLNC1zunztmZjqP6QJC1qkZTNP66lrHZGSEP9ApXaXNor2qm1sThf49enSFdFJsK1LfSAPJ9q/rsT278IK6OqRat2ZWQSwGOVA4+6Af0wveFHhkMuEw5Tms0GgpSl/zPmlrouqGseE44dkCLvDTEsOIl+/BA4sy7aHRqoXteEaqbMzaDhpElDC4j9BoSALpXGCCuvx3RApxsw24/WygrwDBbk2iJzUnycy7k/pTA3wX/0dI6wV9jCHBQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aYWK8rx8RAlb4fO93rc2x1ZmnM+UNGHCvAG3NxKRslY=;
- b=GJwRTcjFYSYDfKT5X13FlAmW6W31JHZQRjlqw/w4P2KvXmvMOZcM6xa/p829GX+kSCd8eA/lO+UMwXSW9ShUmP6p2u5GUwx/RsSB8FDYrCG8B2Z3uKl0RK7qg6OEK0tuNZlDbWS043dFRLK0Um5EpV02Zl5/BgHMCXurHFvDWlGqmJRzbg1IcgarM0A5bqaEfFxjUPEeIkdf1KcZ6fFlODesP31O3iWBv4l2XS9BVecTRYc+yu9lEg5EW1yMA4YGVoxuaLwWcijdjpTDJOzez75N9bW7t8K520878tEDmE9LuYEPrYhr2eggvTGBPuQFGlKLUPObeYCglsydBmdN/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aYWK8rx8RAlb4fO93rc2x1ZmnM+UNGHCvAG3NxKRslY=;
- b=kBXdCl7TLrFTvYL1nZGQ0451Y05SO9/r9YSfbAADQfzn1gDGKF44XCRvPG5pMmfhl/dNxkzxP/ndkL/u9f8y0qnv+ZsS/TN6Xtv1iJQwbs472XUj7m211OTJ7LjwvSZ0o/zhjsOxeJigjW1U6QVI6u3HCSlMQUXqvja0nwM1CJ3hfNAf/kM0bS160gaz5IYrc5oIwo0AvZfUo/L+ferOcwFOFv3Frx338IZKboWHO7cdgTUZAvY6JKMcs8he6s9gCIZQQyXOGbd9xoj/4JKYfR2VkVPH6SzMUXaX6K9TqIXBP2uzYJDYht/wHEvtW1l5YM/ZzTNmYxU27Sg7aFVvdg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by DS7PR12MB6072.namprd12.prod.outlook.com (2603:10b6:8:9c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.18; Mon, 25 Apr
- 2022 13:36:10 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5186.021; Mon, 25 Apr 2022
- 13:36:10 +0000
-Date: Mon, 25 Apr 2022 10:36:09 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Yi Liu <yi.l.liu@intel.com>, akrowiak@linux.ibm.com,
- jjherne@linux.ibm.com, chao.p.peng@intel.com, kvm@vger.kernel.org,
- Laine Stump <laine@redhat.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- jasowang@redhat.com, cohuck@redhat.com, thuth@redhat.com,
- peterx@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- eric.auger@redhat.com, yi.y.sun@intel.com, nicolinc@nvidia.com,
- kevin.tian@intel.com, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
-Subject: Re: [RFC 00/18] vfio: Adopt iommufd
-Message-ID: <20220425133609.GA2125828@nvidia.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <20220422160943.6ff4f330.alex.williamson@redhat.com>
- <YmZzhohO81z1PVKS@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1niywG-0005bk-BL
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 09:39:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650893978;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TQoCylF0Ad3tiAM4lojALsXfcEcinNPyvl4hVXYTfgc=;
+ b=LHMhBk5hz3QUV71r7/8QqWFkPkcyOoHfXGI7dD1WQgDkeCptKqKstPOq6605Jd3vH+AGWz
+ Kz0V/4leGxWqiMEATZXO8tWbH9nZ8pXYwBAiB61w5koX00fU4/VLh3rVjR/j1dqchL5b+r
+ pHy12hbW+4c5IAGMJHiYOn9rYyV5E48=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-210-JoJDgq__OYC42fRm3e5X7g-1; Mon, 25 Apr 2022 09:39:35 -0400
+X-MC-Unique: JoJDgq__OYC42fRm3e5X7g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5319780352D;
+ Mon, 25 Apr 2022 13:39:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E139D40CF910;
+ Mon, 25 Apr 2022 13:39:29 +0000 (UTC)
+Date: Mon, 25 Apr 2022 14:39:27 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Martin Kletzander <mkletzan@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, libvir-list@redhat.com,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Darren Kenny <darren.kenny@oracle.com>, Thomas Huth <huth@tuxfamily.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 13/18] audio: Make AUD_register_card fallible and require
+ audiodev=
+Message-ID: <Ymakj30ufqLPkVUg@redhat.com>
+References: <cover.1650874791.git.mkletzan@redhat.com>
+ <92b31c6af268b8f2a4cc4ed5b20ee8d0e19f614d.1650874791.git.mkletzan@redhat.com>
+ <YmajUERGbzh4rj9C@redhat.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YmZzhohO81z1PVKS@redhat.com>
-X-ClientProxiedBy: MN2PR19CA0017.namprd19.prod.outlook.com
- (2603:10b6:208:178::30) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d766c9f8-44f7-42fc-0521-08da26c08ef8
-X-MS-TrafficTypeDiagnostic: DS7PR12MB6072:EE_
-X-Microsoft-Antispam-PRVS: <DS7PR12MB6072E14DD719C63273A80B80C2F89@DS7PR12MB6072.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RQmtIb8iOaZl9oMMJLPe8SKhGDrNBgFETgZePLmVfZEWJtUApz+kM0lm1oae9GHIt5LukAso8soKfxwjasyQ73QpbzDHehm0duaw4JOXGwh6Lt54FRgytzLNlHDzIWFJUmoJUNJf6v9ejoEcfMzrxwBXt2FAjNca37Ib4rzk9XACEM6ZCoQ051py1TLQWpd2fgZps+5SZ8mj6AgdQ3nz1VCD5C8ZjhZcLgt24ZsD4dLkQ3adcaUPu8wSxbTpv42VThGLvy59J1VQDKrNyZOZAD4neMXswAyuF1QN7GGswEssnLxrvcskY3vI2+3KJdom4ztRHDAEN5Mxi7XlehJE+gh/yZ1pV3keEJEgc7lOva4pnJMbsYuqDJRes+d2ucLogOgXRPyuYMO76zIuGSnm9yXfHpjFM/Sc+EZFiv1mkSlkfFKYY/9Go52ttDB5Wd0lZMe54kRYmHDKUjWReY0CLDS2wnEtP7O+mTE/XJO4Rf7uFcbazFliLMxU+9IltlG7ujdIPEdpkT82nbh1ELoWma6E7G5UgMdDml8Dn7h+v+mh+X0jxzHWuP9NFwIo1p20qAZsj41ht1cZv9sEIZI17wM/5MFPIO/P5EI+40idF+ifVxoEfb+vaDhgBack4gtESYUvXOTTKU9OR3IT5Dz/bg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(66556008)(6506007)(8676002)(6486002)(508600001)(54906003)(316002)(186003)(86362001)(4744005)(2906002)(33656002)(2616005)(83380400001)(66946007)(66476007)(6916009)(4326008)(6512007)(1076003)(26005)(7416002)(8936002)(5660300002)(38100700002)(36756003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cUdYaG5KLys1TEJteldnRk1FU2VvdDVYYlNVeEZaNGRrM0RrQ1lDRStEb1BZ?=
- =?utf-8?B?SDV6cGFic2E2MERIMWNBVXBERWdZRjBiam5YcS9kenNocGU1dklMdWM0R2t4?=
- =?utf-8?B?VDhGVVZVYUhJUmU0TnVHSE5YQUlQMDZGdnhZRUJwQU1UUWhUTmhFcmMwaHRQ?=
- =?utf-8?B?dk1uMDkzRDNvWE5jN3g3bTdZRHpteXhNM29PSjQ2ZFI2akV1dzhhbW4wRFdX?=
- =?utf-8?B?aGIxZkZHdW53Ukk4NzZHUDFySEt2MVVQZ3VoN3dUSGdIYk9hckU0WXIrME5L?=
- =?utf-8?B?RXI3U2ZwSWRhRzN6R2ErWml0eXc5d1FSR09aVzJod2RYcWRTalpLc1ozYjVv?=
- =?utf-8?B?UVlTVFlzMUhiby9CbDA4aHk4aG1YQ3dTMXVtTnhqeEhFMVErdVlzdytGb1JK?=
- =?utf-8?B?dFA5aVhDeE9oelQ2TWY4MEFxRzFLMEtuSlRRa2g5d1lsQVdLRWRFVkpHc1l0?=
- =?utf-8?B?dHZmVTBUVVNhcFBMWDJLcXNyNHBCUzh0NlZTcUR2blRkMTIzSFc0NS9SWlpo?=
- =?utf-8?B?MEpmdzQ0a2NWRUwvOGg5UGE4dGpSNm1WSHlwSndXQVdCQUtMN2hMM2IwSEdZ?=
- =?utf-8?B?V1VaQ1FmZk9sMm1LL0w5cWRkVGkvN1hkTlpXbksveVIyWTlUNExPTUlpOTNR?=
- =?utf-8?B?MnliQllpOXpaaFNxY3N0My9TbllOelc3QTU5ZEcxKzJKOFFrMzR6Q0dkVG1t?=
- =?utf-8?B?UmQ0MVlKRHF0bEN1ZGJGVmJhblRpQ2VReE9vSnI1QUJBNi80RzB2L1diNXh6?=
- =?utf-8?B?U0RxK0dBVGVnT1QwZUZ5YlplQyt2Ry94TWR2aTJGN2hRM2E1TXArUkhCUCts?=
- =?utf-8?B?Wk9LdXc0SEt4WHBXWEIwSW42cnN6NHdKQVZJTkNCdVRReWpFNCtLSXFrZXVa?=
- =?utf-8?B?dVV1cHBjZk5yOWs5ZWp4SjNVNktabVhMSS8vM01yVHg2UldZVmVhU21iNnda?=
- =?utf-8?B?VjlEM0RTbExNcXRFN0FQV25zejhVUDJxaWVRb1JzOFMxSXlEWUM1RzU5UUh4?=
- =?utf-8?B?QkpqVFEyRkFJVTIzTFAvYVRFa2kvRFRwRXFuakpPZi90bUNMaWdsZHFiaWxa?=
- =?utf-8?B?ZmZianNVMGlSODVVdzRGREpxSUgyVk1Ic0RIWlBmbkNHdjI5RTFmWnp2bVRn?=
- =?utf-8?B?ejVGSkE4eEtnQWJNNDlOL2lKR2ZMV3R0dmszL3AwbTRsNGlibmJnVHBZSktv?=
- =?utf-8?B?cVBhZTBGYWtTS005aGx1MDJmdXpjYVRLZm5XcXdTalUwN3orWnlyaDNUSGNv?=
- =?utf-8?B?VzEweGdhU2wyM3o2aWtyN0FFU1FJRHFTTjRSYjNVbnJNMjE2c3F6OUdCa21O?=
- =?utf-8?B?V0diN3JSelgweGdKWlQvaUh1YzdwYWhkU2ZlZkRPQmlKTTRjYUh3eWlRMjVK?=
- =?utf-8?B?bHladExGVFQ2L0FNdkdxbU1rRTEyY3lCNmZzWURTWUpkd0tDU0FydEJmRXNO?=
- =?utf-8?B?Y1h0ODU1dUx4MDRKV1VhZ1RIc3ZjMHJtRVU4UnorVGdhR0oxY2VxNTVGcm1C?=
- =?utf-8?B?SFpaT21iQUhYUGE3TXRUZmFNVDFEVnZjWmszQ1JFRVRDUWh5MjluNFdZU0Fp?=
- =?utf-8?B?dVEwNXI2bmVtdWJYRTYzT25aazdkT0dLNFJrQVNBWlc2c1JpUG9jcUdpeVFF?=
- =?utf-8?B?R2U3aGd6K244c2Mya2I4NEtBK0Q2Vy9GS3JBMFZJOWE4VlpnekcvR3JFNXFH?=
- =?utf-8?B?ZDFoRXVHR1N0UVR2cXp0RGM1MWxWSmU4WUFMU2ZDZ2lTaEdLUGhncGplTmVi?=
- =?utf-8?B?Z1QycU5VY1pPMnRUQ2Rxb0luYU5seDVQaWJZWGJ6SUREaThLcVZoLy9jTHBV?=
- =?utf-8?B?MWFjcEJKRE1JRGJFNnhuS0NHUG1zcW83bVVuc0o3SFBMMU5qeXg5QWd3N2NB?=
- =?utf-8?B?a1RGanJKRnJVdzFNWDkxdDlnSWlPalQxb09Jd0puZ1k2dnBocjFrejh4eHcw?=
- =?utf-8?B?cnVPTndnMDh1MlZvUFZTVlJpQkowazRJOVF6S2FzbWtqRXp4UlFMUjBRSHRV?=
- =?utf-8?B?b1JSVzVEdFdyZ3F6Z2FUalptd0J3bVM0MVpRR0FQU3ZjYjBjNXozL28vRDk3?=
- =?utf-8?B?V25XSnhLQjVjRUxQSTlRdGN2eDBQZjJnTnV1cFRHWGdTNVJFM1hGYm9VNks0?=
- =?utf-8?B?aEZGSjVoSm5IdUxCL2hCTU91YmRBbDE1TThMc0VrWjJpM2N2bkVPQ1VRM3Fr?=
- =?utf-8?B?Rm13REFnQ0ZDKytBaCtBR01uTGptYkQ4aktpTFQwUnZ1bW5MWFFHWGd5eVZx?=
- =?utf-8?B?NmJVY0RONlljMGJQb2gwU3lwT21aK04yRlI2T1k0TkRnblFuY0Fzb1BkTFoy?=
- =?utf-8?B?UXVYZ1BIdzg4M1kyS0preWdXdHI5L296QXpicmFlUy83UXNad095dz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d766c9f8-44f7-42fc-0521-08da26c08ef8
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2022 13:36:10.3699 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YP2CYEFVW10XdabtZK/56WM9wMmwqoPbzcYXRM0lrvv/gMZgh6beDaTCwtOCJfQv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6072
-Received-SPF: softfail client-ip=40.107.93.80; envelope-from=jgg@nvidia.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+In-Reply-To: <YmajUERGbzh4rj9C@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -152,22 +100,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 25, 2022 at 11:10:14AM +0100, Daniel P. Berrangé wrote:
-
-> > However, with iommufd there's no reason that QEMU ever needs more than
-> > a single instance of /dev/iommufd and we're using per device vfio file
-> > descriptors, so it seems like a good time to revisit this.
+On Mon, Apr 25, 2022 at 02:34:08PM +0100, Daniel P. Berrangé wrote:
+> On Mon, Apr 25, 2022 at 10:21:56AM +0200, Martin Kletzander wrote:
+> > Now that all callers support error reporting with errp and all machine-default
+> > devices use an explicit audiodev, this can be changed.  To make the detection
+> > easier make AUD_register_card() return false on error.
+> > 
+> > Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
+> > ---
+> >  audio/audio.c        | 7 +++++--
+> >  audio/audio.h        | 2 +-
+> >  hw/arm/omap2.c       | 3 ++-
+> >  hw/audio/ac97.c      | 6 +++++-
+> >  hw/audio/adlib.c     | 7 +++++--
+> >  hw/audio/cs4231a.c   | 6 ++++--
+> >  hw/audio/es1370.c    | 5 ++++-
+> >  hw/audio/gus.c       | 4 +++-
+> >  hw/audio/hda-codec.c | 5 ++++-
+> >  hw/audio/lm4549.c    | 4 +++-
+> >  hw/audio/pcspk.c     | 4 +++-
+> >  hw/audio/sb16.c      | 6 ++++--
+> >  hw/audio/wm8750.c    | 5 ++++-
+> >  hw/display/xlnx_dp.c | 6 ++++--
+> >  hw/input/tsc210x.c   | 3 ++-
+> >  hw/usb/dev-audio.c   | 5 ++++-
+> >  16 files changed, 57 insertions(+), 21 deletions(-)
+> > 
+> > diff --git a/audio/audio.c b/audio/audio.c
+> > index 671845c65d18..b95aca444382 100644
+> > --- a/audio/audio.c
+> > +++ b/audio/audio.c
+> > @@ -1822,15 +1822,18 @@ void audio_free_audiodev_list(AudiodevListHead *head)
+> >      }
+> >  }
+> >  
+> > -void AUD_register_card (const char *name, QEMUSoundCard *card)
+> > +bool AUD_register_card (const char *name, QEMUSoundCard *card, Error **errp)
+> >  {
+> >      if (!card->state) {
+> > -        card->state = audio_init(NULL, name);
+> > +        error_setg(errp, "No audiodev specified for %s", name);
+> > +        return false;
+> >      }
 > 
-> I assume access to '/dev/iommufd' gives the process somewhat elevated
-> privileges, such that you don't want to unconditionally give QEMU
-> access to this device ?
+> This is a significant change in semantics.
+> 
+>   qemu-system-x86_64 -device ac97
+> 
+> will currently automatically create a default audio backend for the
+> user, but now it just reports an error. I don't think we want todo
+> this, as allowing 'audiodev' to be optional was an intentionale
+> thing to be more user friendly to casual userss. It lets command
+> line args they use "just work" regardless of which audio subsystem
+> their host OS happens to be using, which wouldn't be the case if we
+> force them to use -audiodev every time.
 
-I doesn't give much, at worst it allows userspace to allocate kernel
-memory and pin pages which can be already be done through all sorts of
-other interfaces qemu already has access to..
+Oh, I missed that we had already deprecated the omission of audiodev
+with the intent to make it mandatory (having previously tried to
+make it mandatory earlier)
 
-Jason
+commit 4b3b7793e18e1e3edb90bbc21112e875f9ff826d
+Author: Kővágó, Zoltán <dirty.ice.hu@gmail.com>
+Date:   Mon Aug 26 21:59:02 2019 +0200
+
+    audio: omitting audiodev= parameter is only deprecated
+
+> 
+> >  
+> >      card->name = g_strdup (name);
+> >      memset (&card->entries, 0, sizeof (card->entries));
+> >      QLIST_INSERT_HEAD(&card->state->card_head, card, entries);
+> > +
+> > +    return true;
+> >  }
+> 
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
