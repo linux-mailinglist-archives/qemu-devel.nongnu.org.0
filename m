@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31ACB50EAF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 23:02:26 +0200 (CEST)
-Received: from localhost ([::1]:59604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6018450EAF3
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 23:04:05 +0200 (CEST)
+Received: from localhost ([::1]:33540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj5qi-0008KJ-T9
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 17:02:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48130)
+	id 1nj5sK-0001PN-HM
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 17:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nj5og-0007WJ-Sf
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 17:00:18 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:45586)
+ id 1nj5rP-0000k2-3F
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 17:03:07 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nj5oe-0001qF-U2
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 17:00:18 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id h12so24613893plf.12
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 14:00:16 -0700 (PDT)
+ id 1nj5rN-0002DD-IH
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 17:03:06 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ w5-20020a17090aaf8500b001d74c754128so492072pjq.0
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 14:03:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VpCr0oDJ6L6VN10f/YhzcQaJvtwIvVQbyp/HCtV4U78=;
- b=ChrtspPGIr3MGlMFRMFVJmb80SFETUPtbjtKG4Vle+HPpPtWvfXtN2fK+bBxx47XlP
- h3cLtHKD7DhorWeXbeJsdcUJ/tFievc6eug4gA24lJ4LSWF+x7wM7IF570hzI8wXWRgZ
- 4zyjkKJ0sf8Sbl+N69ex601+ZmrN43ahtVGKbTrKg+akYbum0fKD4HMFdip+9NnagrSb
- qPIwJWihflj8FDNTMEJLhk92+FYDvULk3rO8LKOVF7Mx2tmtY542OZT58D3psO/pS8rb
- ARg/2WzP6/vWqn7WLFJsD5YwF5d2Cdmw7e3K8a0QcOwR+g0pmv65iuV54Fa+VhGw9h1l
- 5XMA==
+ bh=OunPaDf2cbw2Y7Mv2SHhzw5nUd6bM4EpLNrg7LONixc=;
+ b=jYeaUkcfNT//pVIaclNSvBAVvYNEo3974NvJwJQ2D4rdO+RI0VrIWR8g8sBitqGZIa
+ T3Pd256iDOp34lr2KD4T+ofRCBvZ600puylmiI1ynLb2lg05cANifLxxnY4ElphqrPTt
+ /XUuIZgjUqUyPem9FTRG/BwkRxdfK98/RsNpLkcR8zyvHZaJcoaBgOvgdEqaP3aF6AL3
+ 6IR0/FlnoGGSvQMDj5yYS+/u9aAfvZfxioSgphOAcxp+g0jMPxMdMx9tncVesoYxJo8t
+ OLCpYVfQp0eHYkBTQq1o8pOv2yA1wGiJsIcazE7vLhX3ot03gNKvNVAQo/qY04+FusCC
+ 1ayQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VpCr0oDJ6L6VN10f/YhzcQaJvtwIvVQbyp/HCtV4U78=;
- b=EUvBY4a5oLYHacadTg6OOMnLXUXROiqfBaQsv+9hQwH7fjQzBLoSPUXE5qoBTB5K8l
- QE3t4zQ4uivv/2402LMTI4Fui/TGjFEi0iccpqZIEj1t5agrKBH+rTIab9AF11ccexum
- if9M32psWCwMNim09rVPU1X87vHyavJ3IsHjZFfgabriCBbCqMbURdBVPr3fOTHV/g9u
- crY/LL9F8/z7p3s07pt+AsJHCRR+6Xylxbj7+mEkaiTiN+9qHjQZV1usOEJVcNkhTVpU
- yrGY9GvTa90DQHyIF7WEgrf04TlZpu3luZXAgW/lcC47mW41VybKx6Ov1ldS0Rr5ktXd
- D60g==
-X-Gm-Message-State: AOAM531z+M6ohhIg+5Kdcmoni5y7ZcwoajUZb4VUZBJs1xTc/39h62Ur
- 4nEq+RF8MaL0wxoLeeXY+8BHCA==
-X-Google-Smtp-Source: ABdhPJxlCHXut/UTF6cvfBr11oDY2fP1c1F8TL2KZqd4UAG4WsAMr7TKffrX/ZL9pjxW4X0J2dLSnQ==
-X-Received: by 2002:a17:902:8304:b0:155:d594:5c04 with SMTP id
- bd4-20020a170902830400b00155d5945c04mr19547553plb.105.1650920415023; 
- Mon, 25 Apr 2022 14:00:15 -0700 (PDT)
+ bh=OunPaDf2cbw2Y7Mv2SHhzw5nUd6bM4EpLNrg7LONixc=;
+ b=C1a/b2GJ8opaGJaqhbjIGeTi3gtSPAJpguIw863UtBvAMNQ/rdb5XXPIgPablfIK1S
+ OBrRH/Ha3hB2+6fQ1sK6/cl7ZXkbsLQMSNdAkwBAdk4pp8TRaH7K5jI+nyYfYly1b17g
+ hkrhsKrXXxAkmYh/AFvY+cXwSbMzi8AdzQi2q/40U5XaVlMonHSBruV3bypUYJPN+b+n
+ efWF0kn+/XsxYyk5MYQw1Z6X7KWMGFkqPjDApWdwA8VdcB5VDoaqhydnUrRmlAE5U5qc
+ jF4uJUNhWaYPKpAVA+jz1JytwiABdYMTSdUWUYpc6KoNPyrdLjq4JjyQCfPuECDe5Ojx
+ 6I3A==
+X-Gm-Message-State: AOAM5328rsO690ZmJ4M0c9TIhzExpO76ytiYm9Zrh/B0ffZb0bzh5Gs4
+ Ce44zv6HRvYod5Ggp/GSfr3Nmw==
+X-Google-Smtp-Source: ABdhPJwi8tsJzXZ+aKQJARqjN2yd+t2jTm70IRQFADtrBrqu4VVbVMdDBSR9kkC9tyKGg2Qjf0M6VQ==
+X-Received: by 2002:a17:902:d3cb:b0:15b:a002:d80c with SMTP id
+ w11-20020a170902d3cb00b0015ba002d80cmr19698312plb.108.1650920584027; 
+ Mon, 25 Apr 2022 14:03:04 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- y2-20020a17090a784200b001cd4989ff42sm239246pjl.9.2022.04.25.14.00.14
+ 130-20020a621488000000b00505e6092973sm11949153pfu.68.2022.04.25.14.03.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 14:00:14 -0700 (PDT)
-Message-ID: <3b42db38-748b-379a-442e-11af78f9b044@linaro.org>
-Date: Mon, 25 Apr 2022 14:00:12 -0700
+ Mon, 25 Apr 2022 14:03:03 -0700 (PDT)
+Message-ID: <290356ee-2186-e21b-5a86-d41b77b9a68c@linaro.org>
+Date: Mon, 25 Apr 2022 14:03:01 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 07/42] Enforce VEX encoding restrictions
+Subject: Re: [PATCH v2 08/42] i386: Add ZMM_OFFSET macro
 Content-Language: en-US
 To: Paul Brook <paul@nowt.org>, Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>
 References: <20220418173904.3746036-1-paul@nowt.org>
- <20220424220204.2493824-8-paul@nowt.org>
+ <20220424220204.2493824-9-paul@nowt.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220424220204.2493824-8-paul@nowt.org>
+In-Reply-To: <20220424220204.2493824-9-paul@nowt.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,117 +96,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/24/22 15:01, Paul Brook wrote:
-> Add CHECK_AVX* macros, and use them to validate VEX encoded AVX instructions
+> Add a convenience macro to get the address of an xmm_regs element within
+> CPUX86State.
 > 
-> All AVX instructions require both CPU and OS support, this is encapsulated
-> by HF_AVX_EN.
+> This was originally going to be the basis of an implementation that broke
+> operations into 128 bit chunks. I scrapped that idea, so this is now a purely
+> cosmetic change. But I think a worthwhile one - it reduces the number of
+> function calls that need to be split over multiple lines.
 > 
-> Some also require specific values in the VEX.L and VEX.V fields.
-> Some (mostly integer operations) also require AVX2
+> No functional changes.
 > 
-> Signed-off-by: Paul Brook <paul@nowt.org>
+> Signed-off-by: Paul Brook<paul@nowt.org>
 > ---
->   target/i386/tcg/translate.c | 159 +++++++++++++++++++++++++++++++++---
->   1 file changed, 149 insertions(+), 10 deletions(-)
-> 
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 66ba690b7d..2f5cc24e0c 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -3185,10 +3185,54 @@ static const struct SSEOpHelper_table7 sse_op_table7[256] = {
->           goto illegal_op; \
->       } while (0)
->   
-> +/*
-> + * VEX encodings require AVX
-> + * Allow legacy SSE encodings even if AVX not enabled
-> + */
-> +#define CHECK_AVX(s) do { \
-> +    if ((s->prefix & PREFIX_VEX) \
-> +        && !(env->hflags & HF_AVX_EN_MASK)) \
-> +        goto illegal_op; \
-> +    } while (0)
-> +
-> +/* If a VEX prefix is used then it must have V=1111b */
-> +#define CHECK_AVX_V0(s) do { \
-> +    CHECK_AVX(s); \
-> +    if ((s->prefix & PREFIX_VEX) && (s->vex_v != 0)) \
-> +        goto illegal_op; \
-> +    } while (0)
-> +
-> +/* If a VEX prefix is used then it must have L=0 */
-> +#define CHECK_AVX_128(s) do { \
-> +    CHECK_AVX(s); \
-> +    if ((s->prefix & PREFIX_VEX) && (s->vex_l != 0)) \
-> +        goto illegal_op; \
-> +    } while (0)
-> +
-> +/* If a VEX prefix is used then it must have V=1111b and L=0 */
-> +#define CHECK_AVX_V0_128(s) do { \
-> +    CHECK_AVX(s); \
-> +    if ((s->prefix & PREFIX_VEX) && (s->vex_v != 0 || s->vex_l != 0)) \
-> +        goto illegal_op; \
-> +    } while (0)
+>   target/i386/tcg/translate.c | 60 +++++++++++++++++--------------------
+>   1 file changed, 27 insertions(+), 33 deletions(-)
 
-These predicates have some overlap, but awkwardly.  It leaves you with cases like
-
-> +                if (op6.flags & SSE_OPF_V0) {
-> +                    CHECK_AVX_V0(s);
-> +                } else {
-> +                    CHECK_AVX(s);
-> +                }
-
-this, where clearly the CHECK_AVX is common across the IF, and would be better written as
-
-     CHECK_AVX(s);
-     if (flags & SSE_OPF_V0) {
-         CHECK_V0(s);
-     }
-
-> +            CHECK_AVX(s);
-> +            scalar_op = (s->prefix & PREFIX_VEX)
-> +                && (op7.flags & SSE_OPF_SCALAR)
-> +                && !(op7.flags & SSE_OPF_CMP);
-> +            if (is_xmm && (op7.flags & SSE_OPF_MMX)) {
-> +                CHECK_AVX2_256(s);
-> +            }
-> +            if (op7.flags & SSE_OPF_AVX2) {
-> +                CHECK_AVX2(s);
-> +            }
-> +            if ((op7.flags & SSE_OPF_V0) && !scalar_op) {
-> +                CHECK_AVX_V0(s);
-> +            }
-
-And these.  Also, it would appear as if there's overlap between the AVX2 checks.  Is this 
-clearer as
-
-     CHECK_AVX(s);
-     if (v0 && !scalar) {
-        CHECK_V0(s);
-     }
-     if ((flags & AVX2) || ((flags & MMX) && s->vex_l)) {
-         CHECK_AVX2(s);
-     }
-
-and perhaps these could be broken out into helpers, so that
-
->           if (is_xmm) {
-> +            scalar_op = (s->prefix & PREFIX_VEX)
-> +                && (sse_op.flags & SSE_OPF_SCALAR)
-> +                && !(sse_op.flags & SSE_OPF_CMP)
-> +                && (b1 == 2 || b1 == 3);
-> +            /* VEX encoded scalar ops always have 3 operands! */
-> +            if ((sse_op.flags & SSE_OPF_V0) && !scalar_op) {
-> +                CHECK_AVX_V0(s);
-> +            } else {
-> +                CHECK_AVX(s);
-> +            }
-> +            if (sse_op.flags & SSE_OPF_MMX) {
-> +                CHECK_AVX2_256(s);
-> +            }
-
-... you don't have to keep repeating stuff.  This is where a better decoder could really help.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
