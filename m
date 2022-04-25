@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 177F650DBEC
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 11:03:04 +0200 (CEST)
-Received: from localhost ([::1]:36792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA4950DB50
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Apr 2022 10:37:27 +0200 (CEST)
+Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1niucZ-0007hL-7H
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 05:03:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40804)
+	id 1niuDm-0007GL-1N
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 04:37:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1niu0p-0007Hi-HH
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:24:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25930)
+ id 1niu03-0006TD-6P
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mkletzan@redhat.com>)
- id 1niu0n-0002qj-FF
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:24:03 -0400
+ id 1niu01-0002ex-DZ
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 04:23:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650875040;
+ s=mimecast20190719; t=1650874992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CxH74JGUW7ryvtn4xS8i28T7ZhqNwBVbzuWMzVW6NKE=;
- b=HH5C9eQnhTmuP/XEUD6i8rOP2VueUriwqFEoPeJLsoOG0oy/9/SDMVMZ0ExBOfuTE/0H33
- LU207QKQARjWA+ly6Auuz2qCtHU9Csa517bkj8/f5Lw57mTuCr0oa+XkKEjo2TalPA7bYf
- /DUgEc2G0fSp4CgVp4WTB/+a0Aos3vI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/07G+KOnjwzPWs5gbVSF2lCzR4/Df0FQ6EC3Xytgne8=;
+ b=D0SbXmk22P32dFepvZGi6TdCFU3cH5Ep6mKDpDkLxb2ubKEHPm8E61wg3lGaE4lp1a5R21
+ 0DTQCirRlM+E62SMdS2bWpvEtCwlnpFl5CzVcxa9t6eEGSKFfFezstbQIX0zu/FnSWzPKB
+ q07MfNBw/50UJ8L4bLwpiaFSim+c5Mw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-581-3yt6W30-N8OvRT4UKBU43g-1; Mon, 25 Apr 2022 04:22:05 -0400
-X-MC-Unique: 3yt6W30-N8OvRT4UKBU43g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- h65-20020a1c2144000000b0038e9ce3b29cso9970920wmh.2
+ us-mta-300-mQtdEsG8O2ajILQKGn5DcQ-1; Mon, 25 Apr 2022 04:22:05 -0400
+X-MC-Unique: mQtdEsG8O2ajILQKGn5DcQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ d6-20020a05600c34c600b0039296a2ac7cso6875586wmq.1
  for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 01:22:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CxH74JGUW7ryvtn4xS8i28T7ZhqNwBVbzuWMzVW6NKE=;
- b=pEcmCAmLVmTY0ih2mm9cqFtC6ASqLvNJbpYIUVV8cQkvXb/hPtE/ugV++CAGcbr6IR
- lrXJM6f27gc8xypwNEvbouGwDaYmtLHCNW1ZhiL0+pS3HT64auO6bAb/55QReLA7ZeDy
- YtH/68kTJhXe6PC+6q47HPaduWK1FYOOJG/j+DqYtUtqk6cYr6L1a7Dz70+SJPBI+gEr
- ILav5j5ucSe5lm73m6kntgYL89yRciM2jkiQRix1NtLfu4wfXHFsu/LDk91LkyQ8giiP
- 26n71Wg7wyqoff7B+VPBb5FcNsnrB3LwSXMafVaHTm5R0mpG2KCzpKtn/tpp4jstYnG/
- 62Rg==
-X-Gm-Message-State: AOAM533eBS+GDpDXTElDPuX9QRTgK1Fb+G6LeIBbJLsZGCsvJGzZIkwM
- iVgLlT4fye5+J7TCFmEXSxRYErOFNzvYBrbszC7ZVkGdjRAGlu62Qi+11S4vnfbaLVXSq9by4Jv
- yohOq3Wu3dPyiKyM=
-X-Received: by 2002:a5d:598c:0:b0:20a:9194:22d4 with SMTP id
- n12-20020a5d598c000000b0020a919422d4mr13194369wri.124.1650874924651; 
+ bh=/07G+KOnjwzPWs5gbVSF2lCzR4/Df0FQ6EC3Xytgne8=;
+ b=z7aQpdkWH4XfJnyT29zmIVnTvIfxTrUNVIJPtMaiGd2iC8iio8JqaQJSD8BjoGzhgR
+ oRqV7w2LIlUROx6D4gg4bi92vkLU2/WKg0J05BMBipCROBKcUBsml8IgppcOXUMVjB9a
+ Dd/BVjmoZcHeBpExuu20FzLC9smsKmG933QjN4/Dm/CWahyOYE2AXQZ+s1KGdz17B6yt
+ T8kI56On3fTu5uquWNgsIsPIY81Xy+48cQ5MZxfcBGMKu3SOGAb18JaK99xhVk+Qpnmj
+ KcMCKPEvwCMkKsJALpLMcEDFqIY4kTqCyFH8utLQiRkiLy+0LKCRDwFCzgog0LdawPw+
+ xbYA==
+X-Gm-Message-State: AOAM533r9cIFGNDgb67U3pEq3Ym+VhGvz3n6LComijxVB49kSLIex1Qi
+ rg3U2tTPJk2V7TzPj3KBlSaBNQSCSLPxEwDqaxJ2x6i/cZItNgbX5sOXSAxL+rL8zhefohsoOaO
+ jz47dKeoqtZZhbYg=
+X-Received: by 2002:a05:600c:3b97:b0:393:ea66:77ef with SMTP id
+ n23-20020a05600c3b9700b00393ea6677efmr5295096wms.120.1650874924770; 
  Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXaqOa3YGloOuHdu9I/QDfXPNlBvXS0NM2gTP8aPnZlIrHdCUbxL8fl4ZTH69w0ylU0Ngz2g==
-X-Received: by 2002:a5d:598c:0:b0:20a:9194:22d4 with SMTP id
- n12-20020a5d598c000000b0020a919422d4mr13194350wri.124.1650874924450; 
+X-Google-Smtp-Source: ABdhPJxwVF3dK0i9vOzAY/PYvnp5i5lQER5yvkUNth9GcfEFLwk+oH+Lrsa2v9IyXQkqINxFUFcY9g==
+X-Received: by 2002:a05:600c:3b97:b0:393:ea66:77ef with SMTP id
+ n23-20020a05600c3b9700b00393ea6677efmr5295078wms.120.1650874924601; 
  Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
 Received: from wheatley.localdomain (nat-pool-brq-t.redhat.com.
  [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- h9-20020a05600c350900b00393f01c8f00sm77266wmq.47.2022.04.25.01.22.03
+ az20-20020a05600c601400b0038ffb253bb3sm12904265wmb.36.2022.04.25.01.22.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 25 Apr 2022 01:22:04 -0700 (PDT)
 Received: from wheatley.redhat.com (wheatley.k8r.cz [127.0.0.1])
- by wheatley.localdomain (Postfix) with ESMTP id 2FFDE67B1B5A;
+ by wheatley.localdomain (Postfix) with ESMTP id 31F3C67B1B5B;
  Mon, 25 Apr 2022 10:22:02 +0200 (CEST)
 From: Martin Kletzander <mkletzan@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/18] tests/qtest: Specify audiodev= and -audiodev
-Date: Mon, 25 Apr 2022 10:21:48 +0200
-Message-Id: <6e7f2808dd40679a415812767b88f2a411fc137f.1650874791.git.mkletzan@redhat.com>
+Subject: [PATCH 06/18] ui/vnc: Require audiodev=
+Date: Mon, 25 Apr 2022 10:21:49 +0200
+Message-Id: <a07513f1bf6123fef52ff5e7943f5704746b376b.1650874791.git.mkletzan@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1650874791.git.mkletzan@redhat.com>
 References: <cover.1650874791.git.mkletzan@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mkletzan@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mkletzan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,7 +84,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,107 +117,37 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will enable removing deprecated default audiodev support.
-
-I did not figure out how to make the audiodev represented as an
-interface node, so this is a workaround.  I am not sure what would be
-the proper way.
-
 Signed-off-by: Martin Kletzander <mkletzan@redhat.com>
 ---
- tests/qtest/ac97-test.c                 |  3 ++-
- tests/qtest/es1370-test.c               |  3 ++-
- tests/qtest/fuzz/generic_fuzz_configs.h |  6 ++++--
- tests/qtest/intel-hda-test.c            | 15 ++++++++++-----
- 4 files changed, 18 insertions(+), 9 deletions(-)
+ ui/vnc.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/ac97-test.c b/tests/qtest/ac97-test.c
-index e09f2495d24d..9711f1f6d966 100644
---- a/tests/qtest/ac97-test.c
-+++ b/tests/qtest/ac97-test.c
-@@ -45,7 +45,8 @@ static void *ac97_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
- static void ac97_register_nodes(void)
- {
-     QOSGraphEdgeOptions opts = {
--        .extra_device_opts = "addr=04.0",
-+        .extra_device_opts = "addr=04.0,audiodev=audio0",
-+        .before_cmd_line = "-audiodev driver=none,id=audio0",
-     };
-     add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
+diff --git a/ui/vnc.c b/ui/vnc.c
+index badf1d7664fe..2e7af139b030 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -4188,12 +4188,15 @@ void vnc_display_open(const char *id, Error **errp)
+     vd->ledstate = 0;
  
-diff --git a/tests/qtest/es1370-test.c b/tests/qtest/es1370-test.c
-index 2fd7fd2d3d30..5facda8d0d8d 100644
---- a/tests/qtest/es1370-test.c
-+++ b/tests/qtest/es1370-test.c
-@@ -46,7 +46,8 @@ static void *es1370_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
- static void es1370_register_nodes(void)
- {
-     QOSGraphEdgeOptions opts = {
--        .extra_device_opts = "addr=04.0",
-+        .extra_device_opts = "addr=04.0,audiodev=audio0",
-+        .before_cmd_line = "-audiodev driver=none,id=audio0",
-     };
-     add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
+     audiodev = qemu_opt_get(opts, "audiodev");
+-    if (audiodev) {
+-        vd->audio_state = audio_state_by_name(audiodev);
+-        if (!vd->audio_state) {
+-            error_setg(errp, "Audiodev '%s' not found", audiodev);
+-            goto fail;
+-        }
++    if (!audiodev) {
++        error_setg(errp, "Audiodev parameter for vnc required");
++        goto fail;
++    }
++
++    vd->audio_state = audio_state_by_name(audiodev);
++    if (!vd->audio_state) {
++        error_setg(errp, "Audiodev '%s' not found", audiodev);
++        goto fail;
+     }
  
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index 004c701915e1..84a93b3c350b 100644
---- a/tests/qtest/fuzz/generic_fuzz_configs.h
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -101,8 +101,10 @@ const generic_fuzz_config predefined_configs[] = {
-     },{
-         .name = "intel-hda",
-         .args = "-machine q35 -nodefaults -device intel-hda,id=hda0 "
--        "-device hda-output,bus=hda0.0 -device hda-micro,bus=hda0.0 "
--        "-device hda-duplex,bus=hda0.0",
-+        "-audiodev driver=none,id=audio0",
-+        "-device hda-output,bus=hda0.0,audiodev=audio0 "
-+        "-device hda-micro,bus=hda0.0,audiodev=audio0 "
-+        "-device hda-duplex,bus=hda0.0,audiodev=audio0",
-         .objects = "intel-hda",
-     },{
-         .name = "ide-hd",
-diff --git a/tests/qtest/intel-hda-test.c b/tests/qtest/intel-hda-test.c
-index a58c98e4d11b..39ced2bc6ac6 100644
---- a/tests/qtest/intel-hda-test.c
-+++ b/tests/qtest/intel-hda-test.c
-@@ -11,20 +11,24 @@
- #include "libqtest-single.h"
- 
- #define HDA_ID "hda0"
--#define CODEC_DEVICES " -device hda-output,bus=" HDA_ID ".0" \
--                      " -device hda-micro,bus=" HDA_ID ".0" \
--                      " -device hda-duplex,bus=" HDA_ID ".0"
-+#define AUDIODEV " -audiodev driver=none,id=audio0 "
-+#define AUDIODEV_REF "audiodev=audio0"
-+#define CODEC_DEVICES " -device hda-output,bus=" HDA_ID ".0," AUDIODEV_REF \
-+                      " -device hda-micro,bus=" HDA_ID ".0," AUDIODEV_REF \
-+                      " -device hda-duplex,bus=" HDA_ID ".0," AUDIODEV_REF
- 
- /* Tests only initialization so far. TODO: Replace with functional tests */
- static void ich6_test(void)
- {
--    qtest_start("-device intel-hda,id=" HDA_ID CODEC_DEVICES);
-+    qtest_start(AUDIODEV "-device intel-hda,id=" HDA_ID CODEC_DEVICES);
-     qtest_end();
- }
- 
- static void ich9_test(void)
- {
--    qtest_start("-machine q35 -device ich9-intel-hda,bus=pcie.0,addr=1b.0,id="
-+    qtest_start("-machine q35"
-+                AUDIODEV
-+                "-device ich9-intel-hda,bus=pcie.0,addr=1b.0,id="
-                 HDA_ID CODEC_DEVICES);
-     qtest_end();
- }
-@@ -39,6 +43,7 @@ static void test_issue542_ich6(void)
-     QTestState *s;
- 
-     s = qtest_init("-nographic -nodefaults -M pc-q35-6.2 "
-+                   AUDIODEV
-                    "-device intel-hda,id=" HDA_ID CODEC_DEVICES);
- 
-     qtest_outl(s, 0xcf8, 0x80000804);
+     device_id = qemu_opt_get(opts, "display");
 -- 
 2.35.1
 
