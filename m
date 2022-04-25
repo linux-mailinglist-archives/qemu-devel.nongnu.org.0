@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C10650EC4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 00:56:37 +0200 (CEST)
-Received: from localhost ([::1]:33622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D001D50EC8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:19:17 +0200 (CEST)
+Received: from localhost ([::1]:36690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj7dE-0005LT-45
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 18:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38916)
+	id 1nj7zA-0000rM-He
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nj7cC-0004MF-93
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:55:33 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:38428)
+ (Exim 4.90_1) (envelope-from <starardev@gmail.com>)
+ id 1nj7xs-0000A7-PM
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:17:56 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:46007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nj7cA-00023o-L5
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:55:31 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- s14-20020a17090a880e00b001caaf6d3dd1so642922pjn.3
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 15:55:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=KxsJG3icAwurLci+IhOUGHqXCnueKOgNNcp9Vf1kbec=;
- b=Hb4xb0HziqlmkQtLU5Awp8ykPxSr7SeW/7YElOJIc7nbMcX/RK8JO1S6b1bEomMVlV
- 1iSce2Qt4F3dSLbmvERsK9OHTNM8t4QQxEmaA1+InBmYyN/Vf/iziLflFIFmbTpCkBWP
- 2GzSn0LTLzR/kWlCuw9/3nNPzJWrTCvccoy32s8cTF7fe2OWar/SgWCghlu08Xvig8rC
- j1nh8cbwbwGP+cu0fv+Uq5Ue7fXaYfHz9BJQOOk7+k8kZQbfhW3/gW1zidhe/BWuXN+p
- +l+keThGeRsrdO1iV9E1kwntK+iow1D+waPfEfI1Vzj1MM3QGg5YjJXFbx8sgRNiqntI
- eOTA==
+ (Exim 4.90_1) (envelope-from <starardev@gmail.com>)
+ id 1nj7xq-0004x7-Tu
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:17:56 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id k29so14544385pgm.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:17:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=N/xZiOn41mXg3pXPx9xe+/P3d+0Jjlprql7axDPX8TI=;
+ b=L528nnKdLq06hh+DWdD1poGVgoIYZAD30PuGUsPqBqKc/TG+PxTuZKbQfBwAHy4wN6
+ pVQT/BiPe+8cRMlxhSDpWBelfBVB7RLOcVEDhA0M/zdYXEtbfUQua/ej28aW8Y23W5M6
+ 90k8jKmFhMDEfP3fHooPjp7Wik87E+WqOA7pyv3NzwBfSZA6sUNNFXKRXZ6mYlPsntST
+ sGN2iTJwqN8PRnDwGVvwEQg069tGtQ9MPQltYRgieNgNKhWSTjMGSpVTa3iglTzkBX2a
+ JfSRRv75iFQTFF8A7+OV1sIRFiPoHUDU0P6q5XRi8ZZrr0B1xQzlE6QK5JImt5UuouJq
+ w6gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KxsJG3icAwurLci+IhOUGHqXCnueKOgNNcp9Vf1kbec=;
- b=WAk1lYJmV2eUgrzM3ELOu0l+hjzg1MvQLxDfzoXG9a48VRf2OeQujayEDpIVxxjLpq
- LZ/waXbqOvurZ3y+b90aZEAr5ij4z5kdetqtWLfoFbyvu70/4z4C+eYs2iKpOQU04tc7
- uiNMQpicetaHEdOAuuPQNRs/5nfd0mP1+P6GGjpcd1gJvh9jiR93SN0GZEGdkxaFne4f
- gwylv7PBYB1CRGrGQa2hWILZ6BPa61pNCe42DzxfDUY2RaSDfEn3e/B9nDZhIC3kWF36
- CSI1PaI93CbZyT6E6c4GXlpjKzK/yL/XdHkYf3gPvg5IW7v6PoEY+bGDYWDMGnMgafg6
- ePHQ==
-X-Gm-Message-State: AOAM530pCBBMcma2piuSc4cK/RGT0fgCF+Icem6NVNjcCfj/VEobwKFx
- r8DcV+wMSCMdv5QFh6f7yR7gHQ==
-X-Google-Smtp-Source: ABdhPJwXpTsfgGa4+bxJJTm0T3TaKBwtJaA1Xu3mpNt/eKQ20fKkH8+yAGtRTSUHJ6ZmDWYWNscZiA==
-X-Received: by 2002:a17:902:9b92:b0:158:9b65:a78 with SMTP id
- y18-20020a1709029b9200b001589b650a78mr20498164plp.53.1650927329221; 
- Mon, 25 Apr 2022 15:55:29 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- n4-20020a637204000000b00398522203a2sm11101495pgc.80.2022.04.25.15.55.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 15:55:28 -0700 (PDT)
-Message-ID: <cc6c67a1-d1c7-49dd-b661-23afdc5a308d@linaro.org>
-Date: Mon, 25 Apr 2022 15:55:27 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=N/xZiOn41mXg3pXPx9xe+/P3d+0Jjlprql7axDPX8TI=;
+ b=koQw9Mx3Jrf0K6uTnHeaMYK9Jam8VcFMix3r4d+PyPvLCzSXg68Y1I8euBeOZsfU0R
+ znGdUt0sJwkwksif4TQwIluCCXhk5eQEzCV+oZvvwPLjT+tfiTjcHpz//p9dUO3eiDbO
+ RSbeFhPSr1edCaTKcgUB9SJEAeGQvRxwmaYbSP4ZkmUKLAAcmpcEpsQ+99HVD5oVcw8U
+ +xm1Br+rDFmhmFX7V/PFqpA9iPlpFPGtEsmr5rHk7Vce2rwmPXm6SPF4R8N9hRUrDEyt
+ qeLEUbPkdBxTRJblhNCnzgJJCh8QkmAGVnlvmu4fIahZ4uzMCZl89yj5DA1OJWjrZiEc
+ y0ag==
+X-Gm-Message-State: AOAM532Sf4eBWiYBbKgqagJWDtFC0rHxEhSL0l2ZRxFJs8EU9shvwt4L
+ TMzJsV84TYDUmAU5KUHm1gI/cHoknFQUugAvKgU=
+X-Google-Smtp-Source: ABdhPJwNeZyjSAko2PWZgWAm61IYcRsgcLWbkF27wFq2jlfqXdDrf5yIcgzRsfZUQXqwcibjk1Y7auWuYaINqUjFkAM=
+X-Received: by 2002:a63:8b4a:0:b0:3ab:255c:ff8e with SMTP id
+ j71-20020a638b4a000000b003ab255cff8emr7278337pge.285.1650928672263; Mon, 25
+ Apr 2022 16:17:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 25/43] target/loongarch: Add LoongArch CSR instruction
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
- <20220425091027.2877892-26-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220425091027.2877892-26-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+References: <CA+inuZ85ktnAuvmmMcxJFX0EVZC6A_g2fR5BSQRTshDoxdv8=Q@mail.gmail.com>
+ <YmbpoyhTXB4jdgx+@xz-m1.local>
+ <CA+inuZ_o5eyc+dFyTxKe1v1nw8fmhXP1P4gysY0+L7N6VRtMwQ@mail.gmail.com>
+ <Ymcl5OB8xpqP2bTx@xz-m1.local>
+In-Reply-To: <Ymcl5OB8xpqP2bTx@xz-m1.local>
+From: Artyom <starardev@gmail.com>
+Date: Tue, 26 Apr 2022 02:17:41 +0300
+Message-ID: <CA+inuZ9rxHFXtJZFBpwFWgBRHdtfM+NHe-9y=myDDyU8W2hsig@mail.gmail.com>
+Subject: Re: Live Migration ToDo
+To: Peter Xu <peterx@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000f536b05dd82c9fc"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=starardev@gmail.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,29 +80,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
+Cc: leobras@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/25/22 02:10, Xiaojuan Yang wrote:
-> +static void output_r_csr(DisasContext *ctx, arg_r_csr *a,
-> +                         const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, %d # %s", a->rd, a->csr, csr_names[a->csr]);
-> +}
-> +
-> +static void output_rr_csr(DisasContext *ctx, arg_rr_csr *a,
-> +                          const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, r%d, %d # %s",
-> +           a->rd, a->rj, a->csr, csr_names[a->csr]);
+--0000000000000f536b05dd82c9fc
+Content-Type: text/plain; charset="UTF-8"
 
-Need to check for csr not in csr_names.
+Yes, the original postcopy paper (
+https://kartikgopalan.github.io/publications/hines09postcopy_osr.pdf)
+suggests optimizations. For example, prepaging uses hints from the VM's
+page access patterns to reduce both the number of major network faults and
+the duration of the migration phase. After examining the code in
+migration/, I could not find any mention of these optimizations. Perhaps
+the ideas from the paper have already been tried to implement in QEMU, but
+they were abandoned?
 
-> +    CSR_OFF_FLAGS(CPUID, CSRFL_READONLY),
+On Tue, Apr 26, 2022 at 1:51 AM Peter Xu <peterx@redhat.com> wrote:
 
-You've dropped the special case from the previous version.  Why?
+> On Tue, Apr 26, 2022 at 01:39:58AM +0300, Artyom wrote:
+> > Thank you for your response. Yes, I would like to work on some task, and
+> > eventually I would like to use it as my student project. For example, it
+> > might be possible to implement the technique from the article Post-Copy,
+> > Hines, 2009: demand paging, active push, prepaging and dynamic
+> > self-ballooning. As far as I understood from the postcopy documentation,
+> > the pages are pushed sequentially, but it is possible to implement a new
+> > prepaging strategy. Or are there any obstacles to implementing the ideas
+> of
+> > this paper in QEMU?
+>
+> I'm a bit confused.  Firstly, Dave implemented postcopy for QEMU years ago,
+> please see migration/postcopy-ram.c.  Or do you mean you want to implement
+> some specific optimization for QEMU's postcopy?
+>
+> Thanks,
+>
+> --
+> Peter Xu
+>
+>
 
+--0000000000000f536b05dd82c9fc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-r~
+<div dir=3D"ltr"><div dir=3D"ltr">Yes, the original postcopy paper (<a href=
+=3D"https://kartikgopalan.github.io/publications/hines09postcopy_osr.pdf">h=
+ttps://kartikgopalan.github.io/publications/hines09postcopy_osr.pdf</a>) su=
+ggests optimizations. For example, prepaging uses hints from the VM&#39;s p=
+age access patterns to reduce=C2=A0both the number of major network faults =
+and the duration of the migration phase. After examining the code in migrat=
+ion/, I could not find any mention of these optimizations. Perhaps the idea=
+s from the paper have already been tried to implement in QEMU,=C2=A0but the=
+y were abandoned?<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Tue, Apr 26, 2022 at 1:51 AM Peter Xu &lt;<a href=
+=3D"mailto:peterx@redhat.com">peterx@redhat.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">On Tue, Apr 26, 2022 at 01:3=
+9:58AM +0300, Artyom wrote:<br>
+&gt; Thank you for your response. Yes, I would like to work on some task, a=
+nd<br>
+&gt; eventually I would like to use it as my student project. For example, =
+it<br>
+&gt; might be possible to implement the technique from the article Post-Cop=
+y,<br>
+&gt; Hines, 2009: demand paging, active push, prepaging and dynamic<br>
+&gt; self-ballooning. As far as I understood from the postcopy documentatio=
+n,<br>
+&gt; the pages are pushed sequentially, but it is possible to implement a n=
+ew<br>
+&gt; prepaging strategy. Or are there any obstacles to implementing the ide=
+as of<br>
+&gt; this paper in QEMU?<br>
+<br>
+I&#39;m a bit confused.=C2=A0 Firstly, Dave implemented postcopy for QEMU y=
+ears ago,<br>
+please see migration/postcopy-ram.c.=C2=A0 Or do you mean you want to imple=
+ment<br>
+some specific optimization for QEMU&#39;s postcopy?<br>
+<br>
+Thanks,<br>
+<br>
+-- <br>
+Peter Xu<br>
+<br>
+</blockquote></div></div>
+
+--0000000000000f536b05dd82c9fc--
 
