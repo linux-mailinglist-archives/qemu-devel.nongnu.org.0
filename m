@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EC850EC21
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 00:31:27 +0200 (CEST)
-Received: from localhost ([::1]:45278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC60F50EC33
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 00:38:18 +0200 (CEST)
+Received: from localhost ([::1]:47624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj7Es-0000sx-1M
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 18:31:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
+	id 1nj7LV-0002hj-Vw
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 18:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nj7Db-0008WF-0T
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:30:07 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:45814)
+ id 1nj7KJ-000230-RN
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:37:03 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nj7DZ-0006ei-G1
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:30:06 -0400
-Received: by mail-pg1-x536.google.com with SMTP id k29so14469438pgm.12
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 15:30:04 -0700 (PDT)
+ id 1nj7KI-0007og-Cr
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 18:37:03 -0400
+Received: by mail-pf1-x432.google.com with SMTP id z16so16177706pfh.3
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 15:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=BxdbBk8JYGXof/nG9ugtyfr/HFuKG0q6gTvNTSVdTg8=;
- b=WiRW5sYy/zawmopW27XOdKFPCbAuJROWixarFhco2lIASTz3yOcCqOyvqXKnhdz7Tc
- il/kAPrY8W45PWBJliT5HGOOMHyFIvGi60fINAZZHsCXOM1VhFcT+PU/GmGpHKhL7P/7
- yelGonMR1RO9dUp9+i0+XazN6Nvi9n8fB9ifFTiU/bJ1tRgcPnrfDlwUe4Xxi9ay0Qux
- ng9nqJHBvD1Y4LuzPKrY6spHHCM2U9QsL4jWTw8s5XrqqZ5yxBxu5R7s7skE4/rt0qQQ
- HAjv1fIbzve9+8PPP4aQvnoul4wd3QWUt0qM1ejv564HkKBo7dvXTs2A7n7kDHCrtorw
- 6KKA==
+ bh=AwtRMUVVorBIKXsV2I3H0vAroa0LqeT+KGfbFzgIoM8=;
+ b=W/56Hadd+3JBM7Py6av+TYUSSi9PPOfriA97q5WwoE0kHci57qyHhCzsjxURtcovD3
+ NHfRSZ+hpV4BSTuLNw1ziQG6iAswovVJPOmsT0P1SH1mtbt6QibnhfII2H8IPiunzOID
+ CN+9xzH5Jo+Dm4yrDuv4bv07NXwvz0p4RQCoqot79xUQcz/fIXu64IrWKBglAwgNIG66
+ rGF9Po4sNMOeU9Fj+Rc+nxnG6vimeaFDYTp/YqIL//lMA/Ti3xehCv8iYxCKKJff2oKI
+ Ley22htvbhBHfkDMJfELMzUBNgWQCcf9td1c5bTnq0GXWjcT3gc8e2RKUNTDAj2nK9hi
+ E06A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=BxdbBk8JYGXof/nG9ugtyfr/HFuKG0q6gTvNTSVdTg8=;
- b=Y8bb4O2xH2AXFFg2tzJuqAvl6Pp0sREVNs1vQs3RRjZr+vsmdxkdcPp86jVWiodza7
- XiPRq+qmpxVybiQHKG2zf2gdxVRA8BdaYXt2CwShuHyrHon/SItCMLTiCDuYpzDGuRlt
- fhR7H+Op9N4YILc5A7TAe9JAqHp8fiY5TVo6zKmJM2c9gAuhrmuHvP+kVNAQSwEAeB5S
- JW+dgCbdiIo2MLdAmR6fm/R76yR2InGe3uLYBoKCjz33bkGh6Z9KYjnTlV4CBdUCAhEr
- vmaR88wmltkDtNksO9ndS1opn2Q4+FTpxY9xSvoI9ditHFKqj+ZD0aF00XdVeX1HxtpU
- pnZw==
-X-Gm-Message-State: AOAM531a/FAmP5hmpTYqWV1uJa/I2RoEXPerTVYur9psjhRG3uZg0LrC
- hXRlhniMOkxW+7y5kC2rW7TKiEYlEl4VdA==
-X-Google-Smtp-Source: ABdhPJxCCvF+K3UJrFwKATn115AE/rWyL1D4YfTGl2+1Uq7n7zhgedOUHJ7E7bhD2zUFN5wHAn5Kbw==
-X-Received: by 2002:a65:6146:0:b0:384:6471:db2a with SMTP id
- o6-20020a656146000000b003846471db2amr17143211pgv.4.1650925803371; 
- Mon, 25 Apr 2022 15:30:03 -0700 (PDT)
+ bh=AwtRMUVVorBIKXsV2I3H0vAroa0LqeT+KGfbFzgIoM8=;
+ b=gt6PkqkKnI4GI/nzQObIQJtUvlCDXt9vyIw5kW6UoI8a4p/YIqhWNc87pctWmas3i1
+ aQiRxqN4MvVMJqOkC/PY8+ZV0rjA3pWUyCd871gccKBxychTzPlctlyYjF80bE7PtPC/
+ YGsnuhQwBSFYM09URcGS9jV20d5mtMa6SrUK3CPgZaMCx4bw4EjIwHPSN4oDrlnmNudS
+ bQQHnle7Sxlnm40NbK4Y3Z7JceQWusL/W+EvQUVq+XfwIH4OUnf6ut9ICRfkAo6Q9AV5
+ PaJiM2J1z4schyJGdiUHAuQgtFM2dC/QtLplGkvEq/sQ7oYuWn7JPWEiM5j2F9+wlKCm
+ YMCA==
+X-Gm-Message-State: AOAM530xl+vUlpG0wTiEhZByr+7NaPmwh47gKaBA1Y6AAcDaYBv9USkV
+ geu+IKomYxOi+flXKIqK/vrUHw==
+X-Google-Smtp-Source: ABdhPJzERQELWufneZiWIlfq7MSqggyTBYtSxLUbewAjRBqAkyAR8oKc8trq6V/kkjq3HoDz/e/fHQ==
+X-Received: by 2002:a65:6e0e:0:b0:399:26d7:a224 with SMTP id
+ bd14-20020a656e0e000000b0039926d7a224mr16927859pgb.437.1650926220694; 
+ Mon, 25 Apr 2022 15:37:00 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- p2-20020a634202000000b003a0c6ec24d2sm10818826pga.89.2022.04.25.15.30.02
+ x2-20020aa79182000000b00505a61ec387sm12353121pfa.138.2022.04.25.15.36.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 15:30:02 -0700 (PDT)
-Message-ID: <6cb0fbee-43bf-63d4-460e-e5e033d164d7@linaro.org>
-Date: Mon, 25 Apr 2022 15:30:01 -0700
+ Mon, 25 Apr 2022 15:37:00 -0700 (PDT)
+Message-ID: <cfdd2247-8b73-63fe-650b-a45a8e9b35ac@linaro.org>
+Date: Mon, 25 Apr 2022 15:36:58 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 23/43] target/loongarch: Add LoongArch interrupt and
- exception handle
+Subject: Re: [PATCH v2 19/43] target/loongarch: Add CSRs definition
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
- <20220425091027.2877892-24-yangxiaojuan@loongson.cn>
+ <20220425091027.2877892-20-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220425091027.2877892-24-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220425091027.2877892-20-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,15 +94,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/25/22 02:10, Xiaojuan Yang wrote:
-> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> ---
->   target/loongarch/cpu.c       | 229 +++++++++++++++++++++++++++++++++++
->   target/loongarch/cpu.h       |   2 +
->   target/loongarch/internals.h |   2 +
->   3 files changed, 233 insertions(+)
+> +    uint64_t CSR_CPUID;
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This should not exist; we're using cpu->cpu_index.
+
 
 r~
 
