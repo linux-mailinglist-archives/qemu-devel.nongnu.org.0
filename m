@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711165108C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:15:55 +0200 (CEST)
-Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2EE510896
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:08:43 +0200 (CEST)
+Received: from localhost ([::1]:45738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQfC-0001gy-AW
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:15:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45384)
+	id 1njQYF-00073c-33
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPpq-0001ns-JX
+ id 1njPpq-0001nt-TT
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:22:54 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:36364)
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:40840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPpo-0005LT-CJ
+ id 1njPpp-0005Lx-7N
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:22:50 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- gj17-20020a17090b109100b001d8b390f77bso2876923pjb.1
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:22:47 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ iq2-20020a17090afb4200b001d93cf33ae9so2848312pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:22:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6QGUpYO4ZAdRmNsQF40A07J1Y/QTqFdfV+kNvg7ol84=;
- b=KJM5JZJrQGZPyfA9LRZasdwu+QSeMQSTdeV53zeawwl084SlZNcFnXkqDN2XRQHH4O
- AuZpzYNGTaBbb9yZHk/nnJRe+ng0OcWu9LTZyPEI/oZEDYheE2ZfSgl9c5dDzpDRU9yM
- 3cOJUr200uFKDmm7uXstwUQDXcnL3DEfD7YFrp/C7G201aQY3H+l3RZTniJdZ7BwFHQT
- g0z2s26HA3TX+GMS54r+a6zPBZ6JZu73QEjAWWu0QKUp9FpEMsvc8ilQZozWWLhCi9Fy
- tFNl8l+CJBo/qfC6/ipt9GX8v55lWq1k6h6Qn4nCJwyO4M1Wpdi0ZLLPG2qVKUPm07L7
- lyxg==
+ bh=jeDOlvgCVk+y2B//qRod3Wvk+Oo9Yi7Y8REDz4Pr8oM=;
+ b=dmni/nSE9YRVpvUqP9arGePVhTwsLLzzlEAaN2JjhwMu3XLxHBW5muMDLH7i/feUsZ
+ iPpyj4rnQbjvTg8iCHrF3qLysStJLMal5zQxZWnoySaBtAvH8TxrWBjkneagL6LJ4FYO
+ P98xdozoGzr1tBoddbkOw/S6igSqgGwkqn5ZgLsFc6qQ1LlHA07HdipcOrgTKtMlGXv7
+ 2qFeVCpbrnxCNmgA/5MzC6sEuVQWC3+PbAKlez4iewcFEnGSgYuoePfxERDRoqP3iIaS
+ ME7fb69k0Z9DOyNA0+dTVhXxywR+W7x1KDteU/m9L2wsBRRqZZFH3ntwnkm0C8uhku1S
+ lcjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6QGUpYO4ZAdRmNsQF40A07J1Y/QTqFdfV+kNvg7ol84=;
- b=uZNINvbdG6TUAhOS3NZenfc+G6+ZAjwtpnJlV4Jqn+LI7CJ3HIHaPDaTSmv0r2UjXK
- L3tgFmzH39eotj+lE+DpdfJXyOrbgEeiDkU/RNXD+aqcrThY0BgmdLTfy9QcrCj/wT4b
- bQabz1vyZAYGA1gz0OPT3+HImSaUgI0ii/qd7ICwyZQOdoiGoe578nzNPtk+svhYKFe7
- cHtWc9Wf0jbImnCiCid9BsyuJHJBwomLmUEeYO8Zl7YGEtZs+P76GpOmdis+CbkaFpB2
- YT00V+xZt7Fk42Ri2IZ4ZVTTmqflxg9pxoT8kI7HnxWfYq+5UkiUbtCQejhQIfoFb6xP
- asdg==
-X-Gm-Message-State: AOAM531+O93jf4Ar1u9Hpn8UnjY0WueSB+S3JF7oAdKuu9h0jVbH/ci1
- WxtXwASq3boE8soKlri6IbUNELgdtXWEIw==
-X-Google-Smtp-Source: ABdhPJzI5yMrToMG/QjnSZ8PW2eIDnJ2+Mil9df0zwRUTP1CgKuFhLqq/W2S0yB6q/DBnNQGucATrQ==
-X-Received: by 2002:a17:902:a583:b0:15d:197b:9259 with SMTP id
- az3-20020a170902a58300b0015d197b9259mr10919111plb.51.1650997366923; 
- Tue, 26 Apr 2022 11:22:46 -0700 (PDT)
+ bh=jeDOlvgCVk+y2B//qRod3Wvk+Oo9Yi7Y8REDz4Pr8oM=;
+ b=RxYjLZr515Bdz0R/9awhVS5Evspk13bkMP3HyuWAggnrF7+k/HLx3N5TqnaQFn474z
+ nauBFzzP8JhvCTR4Up/b/f3PXxnUJlsfh88Q5PqF19r/bIEH1HrTmr9sjpMxcopV7Dzd
+ mrNLeaQXHW6TxHp8J8ZraKquTHMQRKo1+pnVKbiNqaNUg/jmmKuDFZ6v0rSjsdeySh1c
+ 1DCA8IWrpizdCIOywI6ZTNKAjrkWRjelrn7TH1qwNnL+UT/PamuxOf7ozbtsLPz2HCI+
+ RWWirjU8WV4BgnGggoLHOfEcsH60eHshQtFxDvBDmklKHlethgr5q36uFcrWppB3Nii6
+ OGCw==
+X-Gm-Message-State: AOAM5326rX7FCvBBYceKoaOvmqu+8VzIiJLwdnZ/NibqgUnXXKAzfsrB
+ 5h/eJbbeVCZL6LeVpXDpSbQT5tSuKCdyGQ==
+X-Google-Smtp-Source: ABdhPJwDp0gPKGMRkn5QuY37dJScETTqC41jJHClXKeHLuEyrbFqdNU5P/A6AiXADqCokItHj3o+YA==
+X-Received: by 2002:a17:90a:ca89:b0:1d9:7d1a:c337 with SMTP id
+ y9-20020a17090aca8900b001d97d1ac337mr11892923pjt.88.1650997367941; 
+ Tue, 26 Apr 2022 11:22:47 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- k187-20020a636fc4000000b003983a01b896sm13585053pgc.90.2022.04.26.11.22.46
+ k187-20020a636fc4000000b003983a01b896sm13585053pgc.90.2022.04.26.11.22.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 11:22:46 -0700 (PDT)
+ Tue, 26 Apr 2022 11:22:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 41/68] target/nios2: Support division error exception
-Date: Tue, 26 Apr 2022 11:18:40 -0700
-Message-Id: <20220426181907.103691-42-richard.henderson@linaro.org>
+Subject: [PULL 42/68] target/nios2: Use tcg_constant_tl
+Date: Tue, 26 Apr 2022 11:18:41 -0700
+Message-Id: <20220426181907.103691-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
 References: <20220426181907.103691-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,223 +89,80 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Division may (optionally) raise a division exception.
-Since the linux kernel has been prepared for this for
-some time, enable it by default.
+Replace current uses of tcg_const_tl, and remove the frees.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-42-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-43-richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h          |  2 ++
- target/nios2/helper.h       |  2 ++
- linux-user/nios2/cpu_loop.c |  4 +++
- target/nios2/cpu.c          |  1 +
- target/nios2/helper.c       |  4 +++
- target/nios2/op_helper.c    | 29 ++++++++++++++++++
- target/nios2/translate.c    | 60 +++++++++++++------------------------
- 7 files changed, 62 insertions(+), 40 deletions(-)
+ target/nios2/translate.c | 30 ++++++------------------------
+ 1 file changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 08284d7927..4d63006ffe 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -207,7 +207,9 @@ struct ArchCPU {
-     CPUNegativeOffsetState neg;
-     CPUNios2State env;
- 
-+    bool diverr_present;
-     bool mmu_present;
-+
-     uint32_t pid_num_bits;
-     uint32_t tlb_num_ways;
-     uint32_t tlb_num_entries;
-diff --git a/target/nios2/helper.h b/target/nios2/helper.h
-index 525b6b685b..6f5ec60b0d 100644
---- a/target/nios2/helper.h
-+++ b/target/nios2/helper.h
-@@ -19,6 +19,8 @@
-  */
- 
- DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, i32)
-+DEF_HELPER_FLAGS_3(divs, TCG_CALL_NO_WG, s32, env, s32, s32)
-+DEF_HELPER_FLAGS_3(divu, TCG_CALL_NO_WG, i32, env, i32, i32)
- 
- #if !defined(CONFIG_USER_ONLY)
- DEF_HELPER_3(eret, noreturn, env, i32, i32)
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index c5e68ac048..11ecb71843 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -38,6 +38,10 @@ void cpu_loop(CPUNios2State *env)
-             /* just indicate that signals should be handled asap */
-             break;
- 
-+        case EXCP_DIV:
-+            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->pc);
-+            break;
-+
-         case EXCP_TRAP:
-             /*
-              * TODO: This advance should be done in the translator, as
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 58e6ad0462..54e7071907 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -263,6 +263,7 @@ static int nios2_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
- }
- 
- static Property nios2_properties[] = {
-+    DEFINE_PROP_BOOL("diverr_present", Nios2CPU, diverr_present, true),
-     DEFINE_PROP_BOOL("mmu_present", Nios2CPU, mmu_present, true),
-     /* ALTR,pid-num-bits */
-     DEFINE_PROP_UINT32("mmu_pid_num_bits", Nios2CPU, pid_num_bits, 8),
-diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index 4d9085f22f..c5a2dd65b1 100644
---- a/target/nios2/helper.c
-+++ b/target/nios2/helper.c
-@@ -119,6 +119,9 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-         case EXCP_UNALIGND:
-             name = "Misaligned (destination)";
-             break;
-+        case EXCP_DIV:
-+            name = "DIV error";
-+            break;
-         case EXCP_TRAP:
-             name = "TRAP insn";
-             break;
-@@ -187,6 +190,7 @@ void nios2_cpu_do_interrupt(CPUState *cs)
- 
-     case EXCP_SUPERI:
-     case EXCP_ILLEGAL:
-+    case EXCP_DIV:
-     case EXCP_TRAP:
-         do_exception(cpu, cpu->exception_addr, 0, false);
-         break;
-diff --git a/target/nios2/op_helper.c b/target/nios2/op_helper.c
-index 49fccf2c2c..a19b504b0e 100644
---- a/target/nios2/op_helper.c
-+++ b/target/nios2/op_helper.c
-@@ -31,6 +31,35 @@ void helper_raise_exception(CPUNios2State *env, uint32_t index)
-     cpu_loop_exit(cs);
- }
- 
-+static void maybe_raise_div(CPUNios2State *env, uintptr_t ra)
-+{
-+    Nios2CPU *cpu = env_archcpu(env);
-+    CPUState *cs = env_cpu(env);
-+
-+    if (cpu->diverr_present) {
-+        cs->exception_index = EXCP_DIV;
-+        cpu_loop_exit_restore(cs, ra);
-+    }
-+}
-+
-+int32_t helper_divs(CPUNios2State *env, int32_t num, int32_t den)
-+{
-+    if (unlikely(den == 0) || unlikely(den == -1 && num == INT32_MIN)) {
-+        maybe_raise_div(env, GETPC());
-+        return num; /* undefined */
-+    }
-+    return num / den;
-+}
-+
-+uint32_t helper_divu(CPUNios2State *env, uint32_t num, uint32_t den)
-+{
-+    if (unlikely(den == 0)) {
-+        maybe_raise_div(env, GETPC());
-+        return num; /* undefined */
-+    }
-+    return num / den;
-+}
-+
- #ifndef CONFIG_USER_ONLY
- void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
- {
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index b8d75207a4..b27269bf08 100644
+index b27269bf08..f33015f942 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -654,59 +654,39 @@ gen_r_shift_s(ror, rotr_tl)
- static void divs(DisasContext *dc, uint32_t code, uint32_t flags)
- {
-     R_TYPE(instr, (code));
-+    TCGv dest;
+@@ -99,7 +99,6 @@
  
--    /* Stores into R_ZERO are ignored */
--    if (unlikely(instr.c == R_ZERO)) {
--        return;
-+    if (instr.c == R_ZERO) {
-+        dest = tcg_temp_new();
-+    } else {
-+        dest = cpu_R[instr.c];
-     }
- 
--    TCGv t0 = tcg_temp_new();
--    TCGv t1 = tcg_temp_new();
--    TCGv t2 = tcg_temp_new();
--    TCGv t3 = tcg_temp_new();
-+    gen_helper_divs(dest, cpu_env,
-+                    load_gpr(dc, instr.a), load_gpr(dc, instr.b));
- 
--    tcg_gen_ext32s_tl(t0, load_gpr(dc, instr.a));
--    tcg_gen_ext32s_tl(t1, load_gpr(dc, instr.b));
--    tcg_gen_setcondi_tl(TCG_COND_EQ, t2, t0, INT_MIN);
--    tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, -1);
--    tcg_gen_and_tl(t2, t2, t3);
--    tcg_gen_setcondi_tl(TCG_COND_EQ, t3, t1, 0);
--    tcg_gen_or_tl(t2, t2, t3);
--    tcg_gen_movi_tl(t3, 0);
--    tcg_gen_movcond_tl(TCG_COND_NE, t1, t2, t3, t2, t1);
--    tcg_gen_div_tl(cpu_R[instr.c], t0, t1);
--    tcg_gen_ext32s_tl(cpu_R[instr.c], cpu_R[instr.c]);
--
--    tcg_temp_free(t3);
--    tcg_temp_free(t2);
--    tcg_temp_free(t1);
--    tcg_temp_free(t0);
-+    if (instr.c == R_ZERO) {
-+        tcg_temp_free(dest);
-+    }
+ typedef struct DisasContext {
+     DisasContextBase  base;
+-    TCGv_i32          zero;
+     target_ulong      pc;
+     int               mem_idx;
+     const ControlRegState *cr_state;
+@@ -125,31 +124,20 @@ static uint8_t get_opxcode(uint32_t code)
+     return instr.opx;
  }
  
- static void divu(DisasContext *dc, uint32_t code, uint32_t flags)
+-static TCGv load_zero(DisasContext *dc)
++static TCGv load_gpr(DisasContext *dc, unsigned reg)
  {
-     R_TYPE(instr, (code));
-+    TCGv dest;
- 
--    /* Stores into R_ZERO are ignored */
--    if (unlikely(instr.c == R_ZERO)) {
--        return;
-+    if (instr.c == R_ZERO) {
-+        dest = tcg_temp_new();
-+    } else {
-+        dest = cpu_R[instr.c];
-     }
- 
--    TCGv t0 = tcg_temp_new();
--    TCGv t1 = tcg_temp_new();
--    TCGv t2 = tcg_const_tl(0);
--    TCGv t3 = tcg_const_tl(1);
-+    gen_helper_divu(dest, cpu_env,
-+                    load_gpr(dc, instr.a), load_gpr(dc, instr.b));
- 
--    tcg_gen_ext32u_tl(t0, load_gpr(dc, instr.a));
--    tcg_gen_ext32u_tl(t1, load_gpr(dc, instr.b));
--    tcg_gen_movcond_tl(TCG_COND_EQ, t1, t1, t2, t3, t1);
--    tcg_gen_divu_tl(cpu_R[instr.c], t0, t1);
--    tcg_gen_ext32s_tl(cpu_R[instr.c], cpu_R[instr.c]);
+-    if (!dc->zero) {
+-        dc->zero = tcg_const_i32(0);
+-    }
+-    return dc->zero;
+-}
 -
--    tcg_temp_free(t3);
--    tcg_temp_free(t2);
--    tcg_temp_free(t1);
--    tcg_temp_free(t0);
-+    if (instr.c == R_ZERO) {
-+        tcg_temp_free(dest);
-+    }
+-static TCGv load_gpr(DisasContext *dc, uint8_t reg)
+-{
+-    if (likely(reg != R_ZERO)) {
+-        return cpu_R[reg];
+-    } else {
+-        return load_zero(dc);
++    assert(reg < NUM_GP_REGS);
++    if (unlikely(reg == R_ZERO)) {
++        return tcg_constant_tl(0);
+     }
++    return cpu_R[reg];
  }
  
- static void trap(DisasContext *dc, uint32_t code, uint32_t flags)
+ static void t_gen_helper_raise_exception(DisasContext *dc,
+                                          uint32_t index)
+ {
+-    TCGv_i32 tmp = tcg_const_i32(index);
+-
+     tcg_gen_movi_tl(cpu_pc, dc->pc);
+-    gen_helper_raise_exception(cpu_env, tmp);
+-    tcg_temp_free_i32(tmp);
++    gen_helper_raise_exception(cpu_env, tcg_constant_i32(index));
+     dc->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+@@ -876,14 +864,8 @@ static void nios2_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+         return;
+     }
+ 
+-    dc->zero = NULL;
+-
+     instr = &i_type_instructions[op];
+     instr->handler(dc, code, instr->flags);
+-
+-    if (dc->zero) {
+-        tcg_temp_free(dc->zero);
+-    }
+ }
+ 
+ static void nios2_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.34.1
 
