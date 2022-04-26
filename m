@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDAB510CA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 01:28:40 +0200 (CEST)
-Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE75510CAA
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 01:30:01 +0200 (CEST)
+Received: from localhost ([::1]:54670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njUbn-0000YR-Ie
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 19:28:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48988)
+	id 1njUd6-00021I-5B
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 19:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1njUZr-0007W8-NU
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 19:26:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60595)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1njUa0-0007ct-P7
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 19:26:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1njUZp-00038v-1u
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 19:26:38 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1njUZz-0003D9-6u
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 19:26:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651015595;
+ s=mimecast20190719; t=1651015606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rocaEESmi8m7aOjSORyUEJf8073vW5iYqyFnAbH4GQg=;
- b=D6R51qIPI9nPZuRLl0eBKYJ5DrdW+qgbJ7Hx5JixT3jSBi8A+eweSMXbNkL0CDqbzXD1aE
- qkSrCuRvuKhF0AblGhyZ8u3sqAiaas0tKKxe06rrAI/TOm78xStmI4yTBaNd8DEPiJp3Qh
- nelKy0LxJgpkOVEoYP5QDzf+Q4NbWwo=
+ bh=dfZsKgUm68jPQPqnZtqfe+dv2C/iYcri2kgnyzyJiw0=;
+ b=V0CWJBuxMfa+g06XsSxhKnfabinxlTy29IQe9Ll0ipZ/d3N1DTe8jqpAVel2fVFXox1VNN
+ e9oiiev8K24BSCxTwE6W7El2Qgn7l3rv+YL9ojCL5C2ePCh2sO3vD+HOxVLkC9bWGle7+K
+ pT9FTDwBBiHMp1o7D7r06DpJtkO+PKM=
 Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
  [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-zOiePX5UNzaqQGZxoUamsw-1; Tue, 26 Apr 2022 19:26:34 -0400
-X-MC-Unique: zOiePX5UNzaqQGZxoUamsw-1
+ us-mta-460-X-d4k60GO8GD6eEMq_I7_w-1; Tue, 26 Apr 2022 19:26:45 -0400
+X-MC-Unique: X-d4k60GO8GD6eEMq_I7_w-1
 Received: by mail-io1-f70.google.com with SMTP id
- r17-20020a0566022b9100b00654b99e71dbso442913iov.3
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 16:26:33 -0700 (PDT)
+ h10-20020a05660224ca00b0064c77aa4477so387680ioe.17
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 16:26:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=rocaEESmi8m7aOjSORyUEJf8073vW5iYqyFnAbH4GQg=;
- b=Fnw9PVJ2nLeiMJxYmpVUV9zJACjPSOo56Ms7N2e+sjSQSznT6BzY0pgpbIkLHf1loC
- 3hJUfZ6l/Bco4iaWK9FkQHaW74QLhBIHQHZELTbs5VPr2vSLiXp06ujE137OJ3wzNkPw
- R/gVjQwr9L8FnyaT0+qE+3HZzBmJ4zNvdPicbPLxLi2BhEMDpPBNkFJ8A4lMu4yzpOdR
- RD3JE3FkjOUJIA4uW5cHQLugTm/lKUHr3RF4pUbQ33CL93C+WlWB73O3b709ceCjd8dA
- 1BGf7jGeTzFRX0v7BYrUAHGpDm4oQzT52ykYoDi88pFIyW+7zeQ6JjmdIUJ3Z7ImrFwP
- KUZw==
-X-Gm-Message-State: AOAM530IB0+tlKdfifpeHtYdsC9bzzai139NkER9I1udZ1VY+3s0Uy8F
- mVYok+cDJRTg0pVXRcM1sPhyBYjnQnwzh9hvQ6rqwaQKqO4bcxz3wg58HEWYQ6Kxs0rBNN670O+
- FXOZAgSYqwZXD53I=
-X-Received: by 2002:a05:6e02:219a:b0:2cd:8d4a:bdac with SMTP id
- j26-20020a056e02219a00b002cd8d4abdacmr6147192ila.83.1651015593328; 
- Tue, 26 Apr 2022 16:26:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwuejhw5eDeIJbLzrxXkLW/vmOeGFI05iREzHgrenoBBkLZcM4dFiucUZNClkKhlkssAjWOIQ==
-X-Received: by 2002:a05:6e02:219a:b0:2cd:8d4a:bdac with SMTP id
- j26-20020a056e02219a00b002cd8d4abdacmr6147171ila.83.1651015593041; 
- Tue, 26 Apr 2022 16:26:33 -0700 (PDT)
+ bh=dfZsKgUm68jPQPqnZtqfe+dv2C/iYcri2kgnyzyJiw0=;
+ b=atZPDvN6zIBAKy9KryaITZf2Fc455FgRhJKw+G6mJZa1Diw9btdjJzhAf7rvqruBCo
+ mU1vIpD/PpQ2tHmoA1bztxAE2CDSIcgpLrRIKRZ1isEBRAaULGJiWcc/dkKRfungQhq+
+ mpMzOq2nQS3/VW+JoX+DAvgDCYAVhecSapYdGIcDgjQk4Zgv4xYmKUUzvAK89v5ITchs
+ KW/hpjp1pZMEembxWCXQ98WgutFwi0FyzEIcY4uqpJGgED2ri09byzT+MaMYXVbCDl5K
+ G/2VGFsB82ZP8GaCSP1lpT6QZEb1SQd9yH6CBgCQdGkGY5HziYTGvnem6/J3oXrTqSOw
+ K8RQ==
+X-Gm-Message-State: AOAM531lp7sqPWnZt1kKRSn53fMqQiM2MNq1uQYgbLTyFjIz+w6jrfx5
+ DVCaUN97+WkxyewHkSHU/huQjngH3wllKON498/XDw/ml0gL2JqTNRJ9SMoBVc2r0Hs3CR9eB+U
+ Sjxvo7+SIevFP9Bg=
+X-Received: by 2002:a05:6638:22c7:b0:323:9349:fc42 with SMTP id
+ j7-20020a05663822c700b003239349fc42mr10744432jat.312.1651015604632; 
+ Tue, 26 Apr 2022 16:26:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwX3XgPvBgBNat3PX2OGUf20edDQka+aRYDmXthaaFfyiz9bzYW1PPGmYvEtV/wdJqCA1wp4Q==
+X-Received: by 2002:a05:6638:22c7:b0:323:9349:fc42 with SMTP id
+ j7-20020a05663822c700b003239349fc42mr10744425jat.312.1651015604457; 
+ Tue, 26 Apr 2022 16:26:44 -0700 (PDT)
 Received: from xz-m1.local
  (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
  by smtp.gmail.com with ESMTPSA id
- h22-20020a056e021d9600b002cd79a5cfd4sm8143338ila.23.2022.04.26.16.26.31
+ b21-20020a056602331500b006572790ed8dsm10459652ioz.40.2022.04.26.16.26.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 16:26:32 -0700 (PDT)
-Date: Tue, 26 Apr 2022 19:26:30 -0400
+ Tue, 26 Apr 2022 16:26:44 -0700 (PDT)
+Date: Tue, 26 Apr 2022 19:26:42 -0400
 From: Peter Xu <peterx@redhat.com>
 To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v10 6/7] multifd: Send header packet without flags if
- zero-copy-send is enabled
-Message-ID: <Ymh/pjIxBNCCNa9L@xz-m1.local>
+Subject: Re: [PATCH v10 7/7] multifd: Implement zero copy write in multifd
+ migration (multifd-zero-copy)
+Message-ID: <Ymh/svJH+MLS8L7I@xz-m1.local>
 References: <20220426230654.637939-1-leobras@redhat.com>
- <20220426230654.637939-7-leobras@redhat.com>
+ <20220426230654.637939-8-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220426230654.637939-7-leobras@redhat.com>
+In-Reply-To: <20220426230654.637939-8-leobras@redhat.com>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -107,94 +107,31 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 26, 2022 at 08:06:55PM -0300, Leonardo Bras wrote:
-> Since d48c3a0445 ("multifd: Use a single writev on the send side"),
-> sending the header packet and the memory pages happens in the same
-> writev, which can potentially make the migration faster.
+On Tue, Apr 26, 2022 at 08:06:56PM -0300, Leonardo Bras wrote:
+> Implement zero copy send on nocomp_send_write(), by making use of QIOChannel
+> writev + flags & flush interface.
 > 
-> Using channel-socket as example, this works well with the default copying
-> mechanism of sendmsg(), but with zero-copy-send=true, it will cause
-> the migration to often break.
+> Change multifd_send_sync_main() so flush_zero_copy() can be called
+> after each iteration in order to make sure all dirty pages are sent before
+> a new iteration is started. It will also flush at the beginning and at the
+> end of migration.
 > 
-> This happens because the header packet buffer gets reused quite often,
-> and there is a high chance that by the time the MSG_ZEROCOPY mechanism get
-> to send the buffer, it has already changed, sending the wrong data and
-> causing the migration to abort.
+> Also make it return -1 if flush_zero_copy() fails, in order to cancel
+> the migration process, and avoid resuming the guest in the target host
+> without receiving all current RAM.
 > 
-> It means that, as it is, the buffer for the header packet is not suitable
-> for sending with MSG_ZEROCOPY.
+> This will work fine on RAM migration because the RAM pages are not usually freed,
+> and there is no problem on changing the pages content between writev_zero_copy() and
+> the actual sending of the buffer, because this change will dirty the page and
+> cause it to be re-sent on a next iteration anyway.
 > 
-> In order to enable zero copy for multifd, send the header packet on an
-> individual write(), without any flags, and the remanining pages with a
-> writev(), as it was happening before. This only changes how a migration
-> with zero-copy-send=true works, not changing any current behavior for
-> migrations with zero-copy-send=false.
+> A lot of locked memory may be needed in order to use multifd migration
+> with zero-copy enabled, so disabling the feature should be necessary for
+> low-privileged users trying to perform multifd migrations.
 > 
 > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> ---
->  migration/multifd.c | 23 ++++++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
-> 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 15fb668e64..07b2e92d8d 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -617,6 +617,7 @@ static void *multifd_send_thread(void *opaque)
->      MultiFDSendParams *p = opaque;
->      Error *local_err = NULL;
->      int ret = 0;
-> +    bool use_zero_copy_send = migrate_use_zero_copy_send();
->  
->      trace_multifd_send_thread_start(p->id);
->      rcu_register_thread();
-> @@ -639,9 +640,14 @@ static void *multifd_send_thread(void *opaque)
->          if (p->pending_job) {
->              uint64_t packet_num = p->packet_num;
->              uint32_t flags = p->flags;
-> -            p->iovs_num = 1;
->              p->normal_num = 0;
->  
-> +            if (use_zero_copy_send) {
-> +                p->iovs_num = 0;
-> +            } else {
-> +                p->iovs_num = 1;
-> +            }
-> +
->              for (int i = 0; i < p->pages->num; i++) {
->                  p->normal[p->normal_num] = p->pages->offset[i];
->                  p->normal_num++;
-> @@ -665,8 +671,19 @@ static void *multifd_send_thread(void *opaque)
->              trace_multifd_send(p->id, packet_num, p->normal_num, flags,
->                                 p->next_packet_size);
->  
-> -            p->iov[0].iov_len = p->packet_len;
-> -            p->iov[0].iov_base = p->packet;
-> +            if (use_zero_copy_send) {
-> +                /* Send header first, without zerocopy */
-> +                ret = qio_channel_write_all(p->c, (void *)p->packet,
-> +                                            p->packet_len, &local_err);
-> +                if (ret != 0) {
-> +                    break;
-> +                }
-> +
-
-Extra but useless newline.. but not worth a repost.  Looks good here:
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
-
-Thanks,
-
-> +            } else {
-> +                /* Send header using the same writev call */
-> +                p->iov[0].iov_len = p->packet_len;
-> +                p->iov[0].iov_base = p->packet;
-> +            }
->  
->              ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
->                                           &local_err);
-> -- 
-> 2.36.0
-> 
 
 -- 
 Peter Xu
