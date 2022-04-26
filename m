@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDA050F2F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 09:48:46 +0200 (CEST)
-Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A42B50F34C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 10:01:54 +0200 (CEST)
+Received: from localhost ([::1]:54864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njFwD-0004BE-BW
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 03:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54364)
+	id 1njG8u-0000Lc-Ev
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 04:01:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njFth-0003N9-KS
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 03:46:10 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34433)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njFtd-0006Ni-EB
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 03:46:09 -0400
-Received: by mail-wr1-x430.google.com with SMTP id q23so11287829wra.1
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 00:46:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=F7uBz1WzndkPeuLtiMO7CNHxITaZTbymj/4i0ZBWjCV4v7++J4pb2aljXjWrxRObtr
- 5/Dni4Bh148DipApOZcVtRVm0QmIsyGcj1hWr8hNc7t9WvgcPESgE6GUywLobTklmnNS
- 6eS7xsu3TNcODcfz/k5YtSjzWKEnWTXjlf6vzhqD2PWoQ0HlFm4gRzqDfHFFeKjLxzV4
- DisEY6wGQ68qdr4XUNyIc3zeaGQdmYKv21v8LUoMKbhZmD5QsHqp92VssJ6dpGAGnQjU
- KKye6/t3mIENp/5cGG5mkF5lzHM1XuQx8IREesI+qgUGTKiYG2GeO9Qz+EyR45TScSDb
- GljA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=FAIixpSJyopY0cmnYzsjtTvUQVw7ZXkJXVz5auR4FbHZeqgdmWjjBAXDtlCoxO45rp
- IQmKmJGOIK9W/8tm5IG444AJEPSYqrM+7M5yvxwdZr6n5COLVSykc6mzXWwLLdUVtZXn
- aPLmZPIM8pvLQi3E+/TDtG3PCU9YQM+edJgK364sIch+TqZx56O38t9uRjtyKkcZsz47
- WVDiKfP10DO92gyP6y++VVhYduqYfOQTaXXAKEA1EiIcjlST5uBV260Dr2+8kgHvDbCs
- 9hTjQMLHmUOtrk9BW24mk85hMQd6sZFILfdf8t3jlzMDmY3+f9pHI9SjeyqaGQdQsZxi
- kJRg==
-X-Gm-Message-State: AOAM533ubAyU9b0gxKQ/5lHSUiwRnuTx/SqqvCl53BM+fz8QbcVZXoPf
- BebMR8GvbPJxpo3uPkzhMAQ=
-X-Google-Smtp-Source: ABdhPJwcSy64dlPXHRByb0R2I0jUb9qdF1B/nTBZ713ynj1qbTNY42stU8RBseNZ4/b41Bh+etuggQ==
-X-Received: by 2002:a5d:4e05:0:b0:20a:d4a6:32b1 with SMTP id
- p5-20020a5d4e05000000b0020ad4a632b1mr10958868wrt.174.1650959163371; 
- Tue, 26 Apr 2022 00:46:03 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- l9-20020a1c7909000000b0038eb8171fa5sm10402391wme.1.2022.04.26.00.46.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 00:46:02 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Haiyue Wang <haiyue.wang@intel.com>
-Subject: Re: [PATCH v2] error-report: fix g_date_time_format assertion
-Date: Tue, 26 Apr 2022 09:46:01 +0200
-Message-Id: <20220426074601.20797-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220424105036.291370-1-haiyue.wang@intel.com>
-References: 
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1njG34-0007en-AG
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 03:55:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51949)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1njG30-000081-JG
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 03:55:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650959743;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ilTxLNDUgFrWFwmf5FV1U/AGZLaeAzRIHn5HH/CfVsQ=;
+ b=ZZY/lWlf504cYIjGYADXkXGBt+gZE3nhwJG16Kc0dmeOu789M0vmL45P/I1qcsnxy1gzRy
+ L3YcE1cnytkAUjCUff+hN/IoXfI/4tVYgxF7afc6fLFKLaEnnhLjeOH+FZVzJHEcxmN/bq
+ 4DRzaCvgpjnYhRYyE0p9t11Yu+h0KyQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-483-iOm1yVYgOs-zM3cs8AYbXQ-1; Tue, 26 Apr 2022 03:55:42 -0400
+X-MC-Unique: iOm1yVYgOs-zM3cs8AYbXQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F4DB802803
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 07:55:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA7E314152E9;
+ Tue, 26 Apr 2022 07:55:40 +0000 (UTC)
+Date: Tue, 26 Apr 2022 08:55:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [qemu.qmp PATCH 04/12] update project URLs
+Message-ID: <YmelelTWDL9oLKC1@redhat.com>
+References: <20220422184940.1763958-1-jsnow@redhat.com>
+ <20220422184940.1763958-5-jsnow@redhat.com>
+ <YmZ+X0XK3kcCHtMm@redhat.com>
+ <CAFn=p-YAGKUscrVNWpVT6=n3Q_Xi4Bvt5YWV4mrAh3Eb4QRkNQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAFn=p-YAGKUscrVNWpVT6=n3Q_Xi4Bvt5YWV4mrAh3Eb4QRkNQ@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,15 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+On Mon, Apr 25, 2022 at 02:19:27PM -0400, John Snow wrote:
+> On Mon, Apr 25, 2022, 6:56 AM Daniel P. Berrangé <berrange@redhat.com>
+> wrote:
+> 
+> > On Fri, Apr 22, 2022 at 02:49:32PM -0400, John Snow wrote:
+> > > Point to this library's URLs instead of the entire project's.
+> > >
+> > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > ---
+> > >  setup.cfg | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/setup.cfg b/setup.cfg
+> > > index c21f2ce..0a1c215 100644
+> > > --- a/setup.cfg
+> > > +++ b/setup.cfg
+> > > @@ -5,8 +5,8 @@ author = QEMU Project
+> > >  author_email = qemu-devel@nongnu.org
+> > >  maintainer = John Snow
+> > >  maintainer_email = jsnow@redhat.com
+> > > -url = https://www.qemu.org/
+> > > -download_url = https://www.qemu.org/download/
+> > > +url = https://gitlab.com/qemu-project/python-qemu-qmp
+> > > +download_url =
+> > https://gitlab.com/qemu-project/python-qemu-qmp/-/packages
+> >
+> > Auto-generated tarballs are not guaranteed to have fixed content forever
+> > so I tend to avoid pointing to those. Assuming you're intending to upload
+> > to pypi, I'd link to that instead as the "official" tarball source.
+> >
+> 
+> This metadata will also be used for PyPI, so that seemed cyclic.
+> 
+> I linked it to the gitlab package repository, where I *intend* to push
+> built wheels (and dev interstitial builds) but maybe that's too "inside
+> baseball" for a pypi link.
 
-Paolo
+Oh wait, I mis-understood the URL. If it is the location for manually
+built & published dists, that's ok - it isn't the gitlab auto tarballs. 
 
+> Seems weird for a Pypi package to point to itself on pypi, but maybe that's
+> correct?
+
+I wonder what common practice is for some popular python libs....
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
