@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4928751072D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 20:36:41 +0200 (CEST)
-Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC92510743
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 20:39:45 +0200 (CEST)
+Received: from localhost ([::1]:58200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQ3E-0002kA-Cg
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 14:36:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43894)
+	id 1njQ6C-0007Sn-GB
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 14:39:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPmW-0002Uh-94
+ id 1njPmW-0002Uj-DB
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:24 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:41788)
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:35670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPmR-0004LZ-Je
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:23 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id s14so30970204plk.8
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:18 -0700 (PDT)
+ id 1njPmU-0004Ld-1n
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:24 -0400
+Received: by mail-pf1-x434.google.com with SMTP id t13so5055946pfg.2
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tSluLj2R1JhZMB4God4i50Z4RRfFTHgwIiUmh8NzNww=;
- b=fde1Z+V5XxB01cD+oNTb0/2SxrK9fd0jvGAHA/DVDwHd4eNjMoEvNK2dy9wvLkIUfU
- H/iNBqcm25GLwkAd9WkmsBvcplZXPAFPyZ6ScQ0kiDOSOYqywSMO+XTzv0Mb8rKrBIQB
- V/xYOvOCAp4EBSPT53PedbZxN4dkZWY9Sc7tguR2tMnTChv1r2FHeY9o17dUHV7ffQHZ
- kZHKf4DddnkqEf+eGbb4ixRSYyOEtDyCUVpsgyyv+psqvW1BIBOxEOqmd8huGOrDG1pH
- ifNG/788GDX45sqAFveMqa49qYNaK2HikSEYTs/qfyMey+s6ditcc7lZ6tLLbQdwgz5k
- vvRw==
+ bh=aSCpXgZFYrLKFx9z48EM2Iny/HfNa5ePJRFMiB+lNrQ=;
+ b=N+u9E1lwGhGsj2Xfdj9bGCMiknWs5MzgJDR78Xjee3FC6OaOyqejTzICzEjpWiaCqq
+ /uRu76GMnMCt4R95M03z7Sy4fr5iNCGUkORSS4W8r1gCgZdDORG4p5U/IDtT9Emns83I
+ fOFC3wqc4nfsJ318lbq470NkPenXmOneLCKdgYVGx1fpMYVRKTRN/Q3gM44w5x6MhUlg
+ m0iChju+7Y4wiQBAwJRFhbAZqP2/Pvx4rCG04mn7MMVCBA0FHHCeM9NBxfxG3dhzL7px
+ Ul8yLKDnCn247iGWZjWv6CjZpyFw55W8mdjzpSyd8L9F9ByiBDd3qT+3Gi3ZcLZsBkdN
+ 9IKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tSluLj2R1JhZMB4God4i50Z4RRfFTHgwIiUmh8NzNww=;
- b=7Z5toLJ0WVuQGnY8ejk8QKN88mgLI9Z6iEZfmA6N0SYQK8cwH0TEP1h9bg8Ouoakrt
- eDv/uAUiAvFypKTzGrtUXnUe61o9DHld5nB+VO1Lcs6bSZpjIbkLX6Q8VmRKm09RnMQk
- DvDjYxvzSiQBfzUi9zvC/nGw0YskxEkxZBdNX5iStCs3M4yIwyJWRrcs1j1xGQOCJ1e+
- DPDjfhuNHSmK7Qg53BbeAc2t+rOX/M0f05PwLDejBBRd8qrzt4D5XJWbi0qxeahw0Cof
- uSNMSYSQZD7UGMMufzaPO/5cegEPFE0pSlh0CiVvlLBWoqskZo+X86sDCLF2EigyofJA
- 8Bcw==
-X-Gm-Message-State: AOAM5300WLS4tcwi5mfu+1/94S0OEZ22dgv1kFv4T29s9RTRzG6bdHWx
- eui2cTdu01YyLM4M2RC0N8p6buxhYBoA3g==
-X-Google-Smtp-Source: ABdhPJyTKbTF4LMsduYnCBuFbKkJq904q8e47thxAUZYsdm83jrLiv58Y5PQCBGg8Hz6eQt+fAFBIw==
-X-Received: by 2002:a17:90b:3b4f:b0:1d2:7117:d758 with SMTP id
- ot15-20020a17090b3b4f00b001d27117d758mr39015938pjb.105.1650997157424; 
- Tue, 26 Apr 2022 11:19:17 -0700 (PDT)
+ bh=aSCpXgZFYrLKFx9z48EM2Iny/HfNa5ePJRFMiB+lNrQ=;
+ b=7wPLStG3BuGvIeRBeMqZTDHONCDueF3DnOv/NMf1uENtjM3spC6IVdh/ZJy7xrojp9
+ p8O3GeCVz7aknVnh7bfi0N/pAKlSLDW4T4S51xMJXuFmTkRxclVE8mBxNnV+LzB/ug9I
+ 8BbgPpZTYUiyjmMDORftC5+aXLwtqAf7Pqz1g44HqiObH9/w3GP6Xwzp9e+O94JwapOv
+ Ke2v8mxl3ILYF+RpjfB9uCdKiFnqTCrGZXDde5xctoVoNAHdo9vC52/ppQ8Ipuu5G2R4
+ nDRHjGhtZtHeIADCzvwTQzZghugT9A6bRNdG2DNat0evsWVi7enyd29pu+I+DUo/5B6g
+ v0sw==
+X-Gm-Message-State: AOAM530IDamvzvUFzqkxoaUDRQ59Vb9YpXqOEibgOUpEmXOLgFouNCop
+ P27LXJS7vDOElXSSJ6MkKP9U1KyQK6EoSQ==
+X-Google-Smtp-Source: ABdhPJxja3S+MkGHbbZtdFre7BOMxF+JeUIxfjlrvJ2htjROE+TOiMdG7ZI/vIoyGHPb6gI/sTwX8Q==
+X-Received: by 2002:aa7:8890:0:b0:50a:9b3d:bfa5 with SMTP id
+ z16-20020aa78890000000b0050a9b3dbfa5mr25997728pfe.48.1650997158227; 
+ Tue, 26 Apr 2022 11:19:18 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.16
+ j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Apr 2022 11:19:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/68] target/nios2: Remove nios2_cpu_record_sigsegv
-Date: Tue, 26 Apr 2022 11:18:09 -0700
-Message-Id: <20220426181907.103691-11-richard.henderson@linaro.org>
+Subject: [PULL 11/68] target/nios2: Build helper.c for system only
+Date: Tue, 26 Apr 2022 11:18:10 -0700
+Message-Id: <20220426181907.103691-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
 References: <20220426181907.103691-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,97 +88,59 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since f5ef0e518d0, we have a real page mapped for kuser,
-which means the special casing for SIGSEGV can go away.
+Remove the #ifdef !defined(CONFIG_USER_ONLY) that surrounds
+the whole file, and move helper.c to nios2_softmmu_ss.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220421151735.31996-11-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-12-richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h          |  6 +-----
- linux-user/nios2/cpu_loop.c | 10 ----------
- target/nios2/cpu.c          |  4 +---
- target/nios2/helper.c       | 14 +-------------
- 4 files changed, 3 insertions(+), 31 deletions(-)
+ target/nios2/helper.c    | 3 +--
+ target/nios2/meson.build | 7 +++++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 1bab805bb0..3198c17213 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -216,11 +216,7 @@ static inline int cpu_mmu_index(CPUNios2State *env, bool ifetch)
-                                                   MMU_SUPERVISOR_IDX;
- }
- 
--#ifdef CONFIG_USER_ONLY
--void nios2_cpu_record_sigsegv(CPUState *cpu, vaddr addr,
--                              MMUAccessType access_type,
--                              bool maperr, uintptr_t ra);
--#else
-+#ifndef CONFIG_USER_ONLY
- bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr);
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index 2963fc62b4..f37850fe81 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -126,16 +126,6 @@ void cpu_loop(CPUNios2State *env)
-             info.si_code = TARGET_TRAP_BRKPT;
-             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-             break;
--        case 0xaa:
--            {
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                /* TODO: check env->error_code */
--                info.si_code = TARGET_SEGV_MAPERR;
--                info._sifields._sigfault._addr = env->regs[R_PC];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            }
--            break;
-         default:
-             EXCP_DUMP(env, "\nqemu: unhandled CPU exception %#x - aborting\n",
-                      trapnr);
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index b0877cb39e..9774a3b8a4 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -210,9 +210,7 @@ static const struct SysemuCPUOps nios2_sysemu_ops = {
- static const struct TCGCPUOps nios2_tcg_ops = {
-     .initialize = nios2_tcg_init,
- 
--#ifdef CONFIG_USER_ONLY
--    .record_sigsegv = nios2_cpu_record_sigsegv,
--#else
-+#ifndef CONFIG_USER_ONLY
-     .tlb_fill = nios2_cpu_tlb_fill,
-     .cpu_exec_interrupt = nios2_cpu_exec_interrupt,
-     .do_interrupt = nios2_cpu_do_interrupt,
 diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index 678fd96c4e..55b8fb0bcb 100644
+index 55b8fb0bcb..04a8831443 100644
 --- a/target/nios2/helper.c
 +++ b/target/nios2/helper.c
-@@ -28,19 +28,7 @@
+@@ -28,7 +28,7 @@
  #include "exec/helper-proto.h"
  #include "semihosting/semihost.h"
  
--#if defined(CONFIG_USER_ONLY)
--
--void nios2_cpu_record_sigsegv(CPUState *cs, vaddr addr,
--                              MMUAccessType access_type,
--                              bool maperr, uintptr_t retaddr)
--{
--    /* FIXME: Disentangle kuser page from linux-user sigsegv handling. */
--    cs->exception_index = 0xaa;
--    cpu_loop_exit_restore(cs, retaddr);
--}
--
--#else /* !CONFIG_USER_ONLY */
--
-+#if !defined(CONFIG_USER_ONLY)
+-#if !defined(CONFIG_USER_ONLY)
++
  void nios2_cpu_do_interrupt(CPUState *cs)
  {
      Nios2CPU *cpu = NIOS2_CPU(cs);
+@@ -292,4 +292,3 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     env->regs[CR_BADADDR] = address;
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+-#endif /* !CONFIG_USER_ONLY */
+diff --git a/target/nios2/meson.build b/target/nios2/meson.build
+index 62b384702d..2bd60ba306 100644
+--- a/target/nios2/meson.build
++++ b/target/nios2/meson.build
+@@ -1,14 +1,17 @@
+ nios2_ss = ss.source_set()
+ nios2_ss.add(files(
+   'cpu.c',
+-  'helper.c',
+   'nios2-semi.c',
+   'op_helper.c',
+   'translate.c',
+ ))
+ 
+ nios2_softmmu_ss = ss.source_set()
+-nios2_softmmu_ss.add(files('monitor.c', 'mmu.c'))
++nios2_softmmu_ss.add(files(
++  'helper.c',
++  'monitor.c',
++  'mmu.c'
++))
+ 
+ target_arch += {'nios2': nios2_ss}
+ target_softmmu_arch += {'nios2': nios2_softmmu_ss}
 -- 
 2.34.1
 
