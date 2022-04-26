@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4CA5104E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 19:08:09 +0200 (CEST)
-Received: from localhost ([::1]:39560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182EC510553
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 19:23:10 +0200 (CEST)
+Received: from localhost ([::1]:48604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njOfY-0003im-Lo
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 13:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48302)
+	id 1njOu4-0004U9-TG
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 13:23:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1njOD3-0003xR-A4
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:38:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50523)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1njOEo-0006gu-8s
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:40:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1njOD0-00056M-NA
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:38:40 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1njOEm-0005Tq-3p
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:40:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650991117;
+ s=mimecast20190719; t=1650991227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tE5WZ9OANCCDflp6wo4FgJUYxnqtpz1R2/EH18a310Y=;
- b=jJxlig1CvlfLskhdSMhO+IPruXxdFsgt4BBWvfLp/34tw0f9g0sRdNmjz5vfEXlvpVmamz
- 184hHpkpXQo4IZ6xXS/S4BhJw2gMnQKDB6+izwGFhd/q1dH3PXa/GQs+MkuKCmtbiCbGFp
- jsQbewkT9UZECNWXBpFlJbIAlGgJ38Q=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DlUTzmlWWXWmOEa2ZTqBWhIO5l/xYHB68zWCwfFziHs=;
+ b=JYcUYni/gH4G7uB0KWNnWRcRTS/oltYxewHXWYd9BrKP8QFkvQmFbkx4/oN6e1GPaygm4q
+ zS0IbWqhI4Q5uGyjqKxu2lOoNEesqYZ54p2bKYpuqdvsrOkUsPzX9vi2qs0ynd45fKdJJt
+ kdw8bNuR+36QcbKSF98id1Tqps6MY2k=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-xa5jjn5ZMiq42vEbJNvdmw-1; Tue, 26 Apr 2022 12:38:36 -0400
-X-MC-Unique: xa5jjn5ZMiq42vEbJNvdmw-1
-Received: by mail-ua1-f70.google.com with SMTP id
- m16-20020ab05a50000000b003628807eda4so3347492uad.20
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:38:36 -0700 (PDT)
+ us-mta-213--ZHx1b7lO26KD6SKfljlNA-1; Tue, 26 Apr 2022 12:40:25 -0400
+X-MC-Unique: -ZHx1b7lO26KD6SKfljlNA-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ ay28-20020a056130031c00b003627ed11df0so4233915uab.7
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:40:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tE5WZ9OANCCDflp6wo4FgJUYxnqtpz1R2/EH18a310Y=;
- b=K7qu/NqgN3N3Wkle3hnwk9GakDb2QBcA2Jr65PiPB90dxdOZdNMP2EbTvu+Isv4Kmb
- jb2hpkjsN0IJyTW6xL5Nz0YOnc4JFkRQlWDw75bYW259kxSnMQHjrx0oz4Nsea9LsMY6
- FTNK5p43DEEKQt/x9eQn8zsZCC04CSc0lbO/VGbhAbgKjx2rIEAzsLOGGAoapo/yINOF
- TZ47CyKCRzO8QidBK8clSvBA3iTByeWtZLq88L6VS7BgTu0EM40Lu3fNQ6sLZHr4Vorm
- iLWU+uOg/J/VZ57NEBzvOqE6nSXcIgEGjmwdJzQND20Qya2HQVoSHH/FEjAp+ao5672K
- nyrA==
-X-Gm-Message-State: AOAM533KXXIXFrgyCYqhU65KsOICH+GPuZdRcAHAmTi61JrK4Tl8Q/kY
- 7hwqeCW0k8t0gijuHfGNBYbP4MJewxC/FSTPzZ9ta4MXegUzkF4YOtioobisVgtfMViUlpd5xHa
- WwpQr8PMnQAL3U4hyHa1dL1G3MIk3Rls=
-X-Received: by 2002:a9f:2046:0:b0:35d:bfc:2c9 with SMTP id
- 64-20020a9f2046000000b0035d0bfc02c9mr7177339uam.119.1650991115285; 
- Tue, 26 Apr 2022 09:38:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQZzMbSa8a9c5Rqu9HuwQ2fkmcCzWXLDyOhHrJllnj8pC7AoeXzqe1867GdBZSfCU3gltuSosBSIOk6aAF0kw=
-X-Received: by 2002:a9f:2046:0:b0:35d:bfc:2c9 with SMTP id
- 64-20020a9f2046000000b0035d0bfc02c9mr7177333uam.119.1650991115001; 
- Tue, 26 Apr 2022 09:38:35 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=DlUTzmlWWXWmOEa2ZTqBWhIO5l/xYHB68zWCwfFziHs=;
+ b=L5d7GLYs7oXGF//s/NVSWmuaH0NyfkbNMxlfFSKaOsK0L4AyXD7Yhv8RF3yBEUwbIz
+ xcJ6OS/0vkIGQpQEpVpLVdKwzUgFEL4TDWFTCDrG7iZH1aBlBr7ZK+rbaBh3Qau5ZR53
+ RX4ZFr2e/IYBoUgFX3jDiTSiOceBrgg6094tkVB3HF7ToFGM929DZ7leNCojWhbYQNZm
+ SKSSxAxRWe+T/goJ7UEGnP0CreWQ/2u9Y1PGfSTEpaa8MKlVHpDcB6SImt8wpOXqicqj
+ rJKrpqzVSh5eF8ab7LyWNB4XbfL4ov8LHx84r9IrpnL0Z8hSxHbar7wgOxglRSLNWplK
+ uf6w==
+X-Gm-Message-State: AOAM532azbNDsiTs6x2tv+R1SkVTmOVoUIw6aLKGRfPUvVtuXjWsJ6np
+ VRzFhFSt6eu0YdrBFS2FYPMor9DY+TV2Rf3uEf2jgJAKSR3Lq3FucHATbsRODY2W5iwbOAR2f8p
+ i5L4TcQB3IOTeMZhUwh02lr6cUYn+XHc=
+X-Received: by 2002:a67:c19e:0:b0:32a:4bc5:6e46 with SMTP id
+ h30-20020a67c19e000000b0032a4bc56e46mr7070477vsj.35.1650991225273; 
+ Tue, 26 Apr 2022 09:40:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwJcu++uiFy0xdZdkYFceQhLH8itz6A23jfuxRd1ZKGkCeFtLSgP0EiPmrrjXsIlK63fDRIuKUf8hW00lbFrQQ=
+X-Received: by 2002:a67:c19e:0:b0:32a:4bc5:6e46 with SMTP id
+ h30-20020a67c19e000000b0032a4bc56e46mr7070471vsj.35.1650991225071; Tue, 26
+ Apr 2022 09:40:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220422184940.1763958-1-jsnow@redhat.com>
- <20220422184940.1763958-5-jsnow@redhat.com>
- <YmZ+X0XK3kcCHtMm@redhat.com>
- <CAFn=p-YAGKUscrVNWpVT6=n3Q_Xi4Bvt5YWV4mrAh3Eb4QRkNQ@mail.gmail.com>
- <YmelelTWDL9oLKC1@redhat.com> <YmeqR3gbsZO9FH4u@paraplu>
-In-Reply-To: <YmeqR3gbsZO9FH4u@paraplu>
+References: <20220418211504.943969-1-jsnow@redhat.com>
+ <697e0e13-ed61-ec6c-b863-6959ac8e15cf@redhat.com>
+In-Reply-To: <697e0e13-ed61-ec6c-b863-6959ac8e15cf@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 26 Apr 2022 12:38:24 -0400
-Message-ID: <CAFn=p-aFu0eHZCWT2acuiQLWeLVHt5gMyqc11TfiM0i3tqwMrA@mail.gmail.com>
-Subject: Re: [qemu.qmp PATCH 04/12] update project URLs
-To: Kashyap Chamarthy <kchamart@redhat.com>
+Date: Tue, 26 Apr 2022 12:40:14 -0400
+Message-ID: <CAFn=p-aNX-NxzPJUC1-C+48Vw0Vb+W7kvc9kPY1YTVEcpuzKKw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/12] iotests: add enhanced debugging info to qemu-io
+ failures
+To: Hanna Reitz <hreitz@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -78,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,83 +87,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Beraldo Leal <bleal@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 26, 2022 at 4:16 AM Kashyap Chamarthy <kchamart@redhat.com> wro=
-te:
+On Mon, Apr 25, 2022 at 8:31 AM Hanna Reitz <hreitz@redhat.com> wrote:
 >
-> On Tue, Apr 26, 2022 at 08:55:38AM +0100, Daniel P. Berrang=C3=A9 wrote:
-> > On Mon, Apr 25, 2022 at 02:19:27PM -0400, John Snow wrote:
-> > > On Mon, Apr 25, 2022, 6:56 AM Daniel P. Berrang=C3=A9 <berrange@redha=
-t.com>
-> > > wrote:
-> > >
-> > > > On Fri, Apr 22, 2022 at 02:49:32PM -0400, John Snow wrote:
-> > > > > Point to this library's URLs instead of the entire project's.
-> > > > >
-> > > > > Signed-off-by: John Snow <jsnow@redhat.com>
-> > > > > ---
-> > > > >  setup.cfg | 4 ++--
-> > > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/setup.cfg b/setup.cfg
-> > > > > index c21f2ce..0a1c215 100644
-> > > > > --- a/setup.cfg
-> > > > > +++ b/setup.cfg
-> > > > > @@ -5,8 +5,8 @@ author =3D QEMU Project
-> > > > >  author_email =3D qemu-devel@nongnu.org
-> > > > >  maintainer =3D John Snow
-> > > > >  maintainer_email =3D jsnow@redhat.com
-> > > > > -url =3D https://www.qemu.org/
-> > > > > -download_url =3D https://www.qemu.org/download/
-> > > > > +url =3D https://gitlab.com/qemu-project/python-qemu-qmp
-> > > > > +download_url =3D
-> > > > https://gitlab.com/qemu-project/python-qemu-qmp/-/packages
-> > > >
-> > > > Auto-generated tarballs are not guaranteed to have fixed content fo=
-rever
-> > > > so I tend to avoid pointing to those. Assuming you're intending to =
-upload
-> > > > to pypi, I'd link to that instead as the "official" tarball source.
-> > > >
-> > >
-> > > This metadata will also be used for PyPI, so that seemed cyclic.
-> > >
-> > > I linked it to the gitlab package repository, where I *intend* to pus=
-h
-> > > built wheels (and dev interstitial builds) but maybe that's too "insi=
-de
-> > > baseball" for a pypi link.
+> On 18.04.22 23:14, John Snow wrote:
+> > GitLab: https://gitlab.com/jsnow/qemu/-/commits/iotests_qemu_io_diagnostics
 > >
-> > Oh wait, I mis-understood the URL. If it is the location for manually
-> > built & published dists, that's ok - it isn't the gitlab auto tarballs.
+> > Howdy,
 > >
-> > > Seems weird for a Pypi package to point to itself on pypi, but maybe =
-that's
-> > > correct?
+> > This series does for qemu_io() what we've done for qemu_img() and makes
+> > it a function that checks the return code by default and raises an
+> > Exception when things do not go according to plan.
 > >
-> > I wonder what common practice is for some popular python libs....
+> > This series removes qemu_io_pipe_and_status(), qemu_io_silent(), and
+> > qemu_io_silent_check() in favor of just qemu_io().
+> >
+> > V3:
+> >
+> > - Rebased
+> > - Squashed the patches that I said I would
 >
-> E.g. if you look at SQLAlchemy (definitely one of the popular
-> libraries), it is pointing to itself (see the Ufiles under the "Download
-> files" link):
+> Thanks, applied to my block branch:
 >
->     https://pypi.org/project/SQLAlchemy
+> https://gitlab.com/hreitz/qemu/-/commits/block
+>
+> Hanna
 >
 
-The "Files" link is, I believe, just a standard PyPI link. "Download"
-is the one being defined here.
-
-Check out my "Alpha 0" page, generated earlier this year:
-https://pypi.org/project/qemu.qmp/
-Download Files goes to the PyPI section, but "Download" goes to the
-GitLab package registry.
-
-I think I'll leave this as-is, then.
+Thanks! Please pester me if something comes up as a result of these patches. :)
 
 --js
 
