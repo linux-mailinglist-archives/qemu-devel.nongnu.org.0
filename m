@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D8450F210
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 09:19:02 +0200 (CEST)
-Received: from localhost ([::1]:36778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDA050F2F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 09:48:46 +0200 (CEST)
+Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njFTR-00024y-1A
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 03:19:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
+	id 1njFwD-0004BE-BW
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 03:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njFQY-00012H-3i
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 03:16:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60118)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njFQU-0001FV-5c
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 03:15:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650957356;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rRlyciOmW8eEAVve+AQtjwik24++lmBkE4PhJ2iAmMg=;
- b=XQiGpVMZwnIXIgFDpYa65YLbhHGMNSZNu466IzRm7M3Rl9hNjhkHx9kZ+ytPEqSre+1WV6
- Bze2SMk2I9HwyaPbxjBpsFM04NwzENdtS4ER1Oi/GooFqh5Fh8CHAtpj/8w+GuVX9DeMjL
- gv2L0TnB+g7rgIEY9R3FTVH5qowOltY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-52k6_hPyMvCPQ8ge5dHNug-1; Tue, 26 Apr 2022 03:15:53 -0400
-X-MC-Unique: 52k6_hPyMvCPQ8ge5dHNug-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F12873820F6B;
- Tue, 26 Apr 2022 07:15:51 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B624E43211F;
- Tue, 26 Apr 2022 07:15:51 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 46A66180038F; Tue, 26 Apr 2022 09:15:50 +0200 (CEST)
-Date: Tue, 26 Apr 2022 09:15:50 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PULL 0/6] Kraxel 20220425 patches
-Message-ID: <20220426071550.3y5h7ydyptppo777@sirius.home.kraxel.org>
-References: <20220425061029.3932731-1-kraxel@redhat.com>
- <4f3017ea-3f6b-dd43-275a-5012cf0f412a@linaro.org>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njFth-0003N9-KS
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 03:46:10 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1njFtd-0006Ni-EB
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 03:46:09 -0400
+Received: by mail-wr1-x430.google.com with SMTP id q23so11287829wra.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 00:46:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=F7uBz1WzndkPeuLtiMO7CNHxITaZTbymj/4i0ZBWjCV4v7++J4pb2aljXjWrxRObtr
+ 5/Dni4Bh148DipApOZcVtRVm0QmIsyGcj1hWr8hNc7t9WvgcPESgE6GUywLobTklmnNS
+ 6eS7xsu3TNcODcfz/k5YtSjzWKEnWTXjlf6vzhqD2PWoQ0HlFm4gRzqDfHFFeKjLxzV4
+ DisEY6wGQ68qdr4XUNyIc3zeaGQdmYKv21v8LUoMKbhZmD5QsHqp92VssJ6dpGAGnQjU
+ KKye6/t3mIENp/5cGG5mkF5lzHM1XuQx8IREesI+qgUGTKiYG2GeO9Qz+EyR45TScSDb
+ GljA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=FAIixpSJyopY0cmnYzsjtTvUQVw7ZXkJXVz5auR4FbHZeqgdmWjjBAXDtlCoxO45rp
+ IQmKmJGOIK9W/8tm5IG444AJEPSYqrM+7M5yvxwdZr6n5COLVSykc6mzXWwLLdUVtZXn
+ aPLmZPIM8pvLQi3E+/TDtG3PCU9YQM+edJgK364sIch+TqZx56O38t9uRjtyKkcZsz47
+ WVDiKfP10DO92gyP6y++VVhYduqYfOQTaXXAKEA1EiIcjlST5uBV260Dr2+8kgHvDbCs
+ 9hTjQMLHmUOtrk9BW24mk85hMQd6sZFILfdf8t3jlzMDmY3+f9pHI9SjeyqaGQdQsZxi
+ kJRg==
+X-Gm-Message-State: AOAM533ubAyU9b0gxKQ/5lHSUiwRnuTx/SqqvCl53BM+fz8QbcVZXoPf
+ BebMR8GvbPJxpo3uPkzhMAQ=
+X-Google-Smtp-Source: ABdhPJwcSy64dlPXHRByb0R2I0jUb9qdF1B/nTBZ713ynj1qbTNY42stU8RBseNZ4/b41Bh+etuggQ==
+X-Received: by 2002:a5d:4e05:0:b0:20a:d4a6:32b1 with SMTP id
+ p5-20020a5d4e05000000b0020ad4a632b1mr10958868wrt.174.1650959163371; 
+ Tue, 26 Apr 2022 00:46:03 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ l9-20020a1c7909000000b0038eb8171fa5sm10402391wme.1.2022.04.26.00.46.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Apr 2022 00:46:02 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Haiyue Wang <haiyue.wang@intel.com>
+Subject: Re: [PATCH v2] error-report: fix g_date_time_format assertion
+Date: Tue, 26 Apr 2022 09:46:01 +0200
+Message-Id: <20220426074601.20797-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220424105036.291370-1-haiyue.wang@intel.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4f3017ea-3f6b-dd43-275a-5012cf0f412a@linaro.org>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,59 +85,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 25, 2022 at 10:21:00AM -0700, Richard Henderson wrote:
-> On 4/24/22 23:10, Gerd Hoffmann wrote:
-> > The following changes since commit a74782936dc6e979ce371dabda4b1c05624ea87f:
-> > 
-> >    Merge tag 'pull-migration-20220421a' of https://gitlab.com/dagrh/qemu into staging (2022-04-21 18:48:18 -0700)
-> > 
-> > are available in the Git repository at:
-> > 
-> >    git://git.kraxel.org/qemu tags/kraxel-20220425-pull-request
-> > 
-> > for you to fetch changes up to ef798418a3037434951002d0afc5f3d919e294db:
-> > 
-> >    avocado/vnc: add test_change_listen (2022-04-22 13:43:28 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > vnc: add display-update monitor command.
-> > screendump: add png support.
-> > vmsvga: screen update fix.
-> > 
-> > ----------------------------------------------------------------
-> > 
-> > Carwyn Ellis (1):
-> >    hw/display/vmware_vga: do not discard screen updates
-> > 
-> > Kshitij Suri (2):
-> >    Replacing CONFIG_VNC_PNG with CONFIG_PNG
-> >    Added parameter to take screenshot with screendump as PNG
-> > 
-> > Vladimir Sementsov-Ogievskiy (3):
-> >    ui/vnc: refactor arrays of addresses to SocketAddressList
-> >    qapi/ui: add 'display-update' command for changing listen address
-> >    avocado/vnc: add test_change_listen
-> 
-> 
-> Fails testing with
-> 
->   ERROR: unknown option --disable-vnc-png
-> 
-> See https://gitlab.com/qemu-project/qemu/-/jobs/2374050341
+Queued, thanks.
 
-Hmm, how do I test that?  My CI run didn't include the centos test case
-for some reason: https://gitlab.com/kraxel/qemu/-/pipelines/522456078
+Paolo
 
-thanks,
-  Gerd
 
 
