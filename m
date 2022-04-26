@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9723550F96B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:02:19 +0200 (CEST)
-Received: from localhost ([::1]:38788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81F750F964
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:01:33 +0200 (CEST)
+Received: from localhost ([::1]:37612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njI1S-0007ok-Cp
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:02:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52412)
+	id 1njI0i-00073V-NL
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:01:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHWO-0004ev-RV
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30204)
+ id 1njHWU-0004fv-Rc
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHWL-0006cy-Fo
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:11 -0400
+ id 1njHWQ-0006ed-UO
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650965408;
+ s=mimecast20190719; t=1650965414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3KH/JywyPpUxHX2b2bhmGGvtNVgIF7kQVpeSS5FSX4Y=;
- b=aSMcAF+zdRv4QxZfytUwmMvfrh1l8wqXEWyLDjAsKOJNBNnwOZtySV8fwsQ1dUxOWB4g6R
- Pou+DtJGIqT2osZkFYyTfOJEhPHg2KvekBk2JY+cRnQk4cFRW60SF8c8zdOwLOtM1r7upB
- +R4YR29B4RiLNnHqT55t+hmzcEHI5zE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=d/FkD98lBZQxRLWuhJizunwF6YPqnt5gif6ey06gVJc=;
+ b=HSkpgWFzop0bahT0BpXW+xfTNmo6lxvoSLeHxAulcMAgwqZlwJNLSGiHVoEF1E9Y94SmOo
+ Rq14kmaWZSIZG6WrSKeh1ZSiHH5+UDu0V0KU1YhfpOHT8pkVM/yoa04PBtFPpygUxTqX5M
+ YU9OESxckBmbglWFnhkDmQ/Eg63cTW4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-Yeq42J5bPm2hea6hasv1ag-1; Tue, 26 Apr 2022 05:30:06 -0400
-X-MC-Unique: Yeq42J5bPm2hea6hasv1ag-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-384-_aq158E6NsWmGQcHUVFeBg-1; Tue, 26 Apr 2022 05:30:12 -0400
+X-MC-Unique: _aq158E6NsWmGQcHUVFeBg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A646C1E15C15
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:30:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 456F61014A67
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:30:12 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0975B112132D;
- Tue, 26 Apr 2022 09:29:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A2F8C15D5C;
+ Tue, 26 Apr 2022 09:30:10 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 23/26] ui: replace qemu_set_nonblock()
-Date: Tue, 26 Apr 2022 13:27:12 +0400
-Message-Id: <20220426092715.3931705-24-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 24/26] net: replace qemu_set_nonblock()
+Date: Tue, 26 Apr 2022 13:27:13 +0400
+Message-Id: <20220426092715.3931705-25-marcandre.lureau@redhat.com>
 In-Reply-To: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
 References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -77,36 +77,107 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+ Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The call is POSIX-specific. Use the dedicated GLib API.
+Those calls are POSIX-specific. Use the dedicated GLib
+API. (qemu_set_nonblock() is for socket-like)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/input-linux.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ net/tap.c | 33 +++++++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/ui/input-linux.c b/ui/input-linux.c
-index 05c0c988199a..e572a2e905b9 100644
---- a/ui/input-linux.c
-+++ b/ui/input-linux.c
-@@ -316,7 +316,10 @@ static void input_linux_complete(UserCreatable *uc, Error **errp)
-         error_setg_file_open(errp, errno, il->evdev);
-         return;
+diff --git a/net/tap.c b/net/tap.c
+index 6190fa699d2f..b3ddfd4a74b1 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -619,7 +619,10 @@ int net_init_bridge(const Netdev *netdev, const char *name,
+         return -1;
      }
--    qemu_set_nonblock(il->fd);
-+    if (!g_unix_set_fd_nonblocking(il->fd, true, NULL)) {
-+        error_setg_errno(errp, errno, "Failed to set FD nonblocking");
-+        return;
-+    }
  
-     rc = ioctl(il->fd, EVIOCGVERSION, &ver);
-     if (rc < 0) {
+-    qemu_set_nonblock(fd);
++    if (!g_unix_set_fd_nonblocking(fd, true, NULL)) {
++        error_setg_errno(errp, errno, "Failed to set FD nonblocking");
++        return -1;
++    }
+     vnet_hdr = tap_probe_vnet_hdr(fd, errp);
+     if (vnet_hdr < 0) {
+         close(fd);
+@@ -716,8 +719,6 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+         }
+ 
+         if (vhostfdname) {
+-            int ret;
+-
+             vhostfd = monitor_fd_param(monitor_cur(), vhostfdname, &err);
+             if (vhostfd == -1) {
+                 if (tap->has_vhostforce && tap->vhostforce) {
+@@ -727,9 +728,8 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+                 }
+                 return;
+             }
+-            ret = qemu_try_set_nonblock(vhostfd);
+-            if (ret < 0) {
+-                error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++            if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
++                error_setg_errno(errp, errno, "%s: Can't use file descriptor %d",
+                                  name, fd);
+                 return;
+             }
+@@ -745,7 +745,10 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+                 }
+                 return;
+             }
+-            qemu_set_nonblock(vhostfd);
++            if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
++                error_setg_errno(errp, errno, "Failed to set FD nonblocking");
++                return;
++            }
+         }
+         options.opaque = (void *)(uintptr_t)vhostfd;
+         options.nvqs = 2;
+@@ -832,9 +835,8 @@ int net_init_tap(const Netdev *netdev, const char *name,
+             return -1;
+         }
+ 
+-        ret = qemu_try_set_nonblock(fd);
+-        if (ret < 0) {
+-            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++        if (!g_unix_set_fd_nonblocking(fd, true, NULL)) {
++            error_setg_errno(errp, errno, "%s: Can't use file descriptor %d",
+                              name, fd);
+             close(fd);
+             return -1;
+@@ -889,9 +891,9 @@ int net_init_tap(const Netdev *netdev, const char *name,
+                 goto free_fail;
+             }
+ 
+-            ret = qemu_try_set_nonblock(fd);
+-            if (ret < 0) {
+-                error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++            ret = g_unix_set_fd_nonblocking(fd, true, NULL);
++            if (!ret) {
++                error_setg_errno(errp, errno, "%s: Can't use file descriptor %d",
+                                  name, fd);
+                 goto free_fail;
+             }
+@@ -946,7 +948,10 @@ free_fail:
+             return -1;
+         }
+ 
+-        qemu_set_nonblock(fd);
++        if (!g_unix_set_fd_nonblocking(fd, true, NULL)) {
++            error_setg_errno(errp, errno, "Failed to set FD nonblocking");
++            return -1;
++        }
+         vnet_hdr = tap_probe_vnet_hdr(fd, errp);
+         if (vnet_hdr < 0) {
+             close(fd);
 -- 
 2.36.0
 
