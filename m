@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE56510A97
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 22:34:21 +0200 (CEST)
-Received: from localhost ([::1]:59276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D28510AB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 22:45:10 +0200 (CEST)
+Received: from localhost ([::1]:34054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njRt6-0006qf-8f
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 16:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
+	id 1njS3Z-0001NU-H8
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 16:45:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njRsB-0005qb-LT
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:33:23 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:38516)
+ id 1njS1f-0000gS-9u
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:43:11 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:32854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njRsA-0002Et-01
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:33:23 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id b15so18998372pfm.5
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 13:33:21 -0700 (PDT)
+ id 1njS1d-0003ov-P8
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:43:10 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ cu23-20020a17090afa9700b001d98d8e53b7so2680157pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 13:43:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Jc2mc3Kyl93I9bgGjorekkSgbZOsfryDx9ya2EfMN9Q=;
- b=bieSBCQr5jMCBBTsW5Wh2a7XRXzB1+OJl16dp/7zNfluo4Wx5e6FRKRKL0Z+3oy90b
- 5P02lOObuXo2c+Ha7gyhnHYLSq/6BUJ/ClLdI7XjFr1c56jlvJOIvzahX0GYbdIRD22B
- rkP3KDzFF5zgbNnyYe9mczs6/yGLbkpgJNeQBSUp6nsbmHyf0aqs6FJbc4CyM+m+nXQU
- CS8V2FrnG26rwJnywtY3jjSnIzbhTIuLz/Ut88FCoyMBii+8lU723fIYc24gAs+Nbmix
- UkFRAYvVJGHODYCh9QYr+45HJB75paDNX4DemUarZYJgyd9gcRDeKp/xxCJrD8ihZz0I
- wN4g==
+ bh=s8ffOVDXNHtTiMimOKw9LHbR4IHWZZA3ytoqQ5+7aXA=;
+ b=Z9PVeDv6ipTCbSn6PwcQy6CgzD4ZLL5TbQ5A97F5H3ftK18qOpT9OdGiyf/xCmO4cx
+ hT3X4zLmHzIfjwGI91q5Y2r6aOtQfrufyWuof8ohD1dK1XNToh/iY2xqUacYB5RNjWKR
+ fioMv/zjsHwUq9+sh1dP23N5Evy3SnMcow5CK08S9hERsga7UphUkOtj+EBHQynoYtw3
+ hajWRE2FdOCP6ChcZ43rnLvE1MYZkh3N6wsQ/k0PJW3xQUyPd+1cpKy8AtmnXwIxoMQM
+ 2zwPMWCKL1iACC95tiaIG7io9sqQT3aoSwPusGIYAH28sv7e2IfqTUnNqZJ4OznTY2Fl
+ foew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Jc2mc3Kyl93I9bgGjorekkSgbZOsfryDx9ya2EfMN9Q=;
- b=nW5y+z1kxMpKhWycexw/30hg9d198b5SV94iFWz4ryYJrpuDw5nScpH0UQnupKln2J
- ZPXEuNPPwBdE8PFa4OpYgZxGGtP6vR/T2JjrRa7KdRjjtJm1Bl6tIelGrls4Woz5inPv
- DecWZ4m/2ggZWpTXMpT0zNqBXZJHfAFutka5NPOSUCcYYx4CNbA8Vd2dR3TW5z6C0D1j
- Dvo8EGfjwU/Vyo1KKQlBHtsV/1sqn/4112FVFQt3RvctfxJWmwZriyg5OFnEmqa+8k0i
- mocYbhtzZz/nSM7SSS5F8SCSz6vU9QavB1IoyrD5Diims5wV0J9c7mALgEnNb35a3FpX
- k4pQ==
-X-Gm-Message-State: AOAM533r0Crh3dOAW8wPW5aOZFc6bEZSFPfGbKCTH6K5GVxUABGAYrnA
- MartQLKAxrGzIUPMKkGNs0X7Xg==
-X-Google-Smtp-Source: ABdhPJxyuEbdT33WPflUmSgdbH8041WOglcWjyVo3w6AAdfTQ0UfdIpBQLix1IaUW1uO8CcFvPeC7w==
-X-Received: by 2002:aa7:9852:0:b0:50d:6d10:2094 with SMTP id
- n18-20020aa79852000000b0050d6d102094mr1785035pfq.4.1651005200181; 
- Tue, 26 Apr 2022 13:33:20 -0700 (PDT)
+ bh=s8ffOVDXNHtTiMimOKw9LHbR4IHWZZA3ytoqQ5+7aXA=;
+ b=FKi5RV4azeKFrDs49jlFi/ySB+XFp8zHiVHrdIyn9P9dtkJfsHBqlV1sT46QId1Vjr
+ e/UQezlbQyf5xUsQ4LPDf6Ghxd47xFn3umrrv0Id/It4IJM3NSuhouxbATQLFyfSEF78
+ 74sXvnIREuvMk+4XjfXyDUI3x6wVbHRlhM+VI5mTuLNZRodbxCJtl+NDlLgVFl6UGSPm
+ 7Uq/n5+JPguQGeb/RcqxlBloUIxQwgfjOJpRYdu0yHJIULv4vbau7XwChKqUcYsTjsOt
+ BKxqKVbTLlfXaREWHs4T1i10GU2cY8x8LJ1QJMyS6EVzMdVE+A+4RBGHtnWKb3GIulgL
+ QVCA==
+X-Gm-Message-State: AOAM532rIbakAvH3FB6LZR16G1+qnT8sOoXc7yKB3J+V6+ZOaV5v3rvp
+ Sv1ma6e0p3qgXjKx/sJxkX45uA==
+X-Google-Smtp-Source: ABdhPJw2+0VZE4zS8VHcR0n3p9no7VGCzrSEMheofK42arJzTVbAyVVpPu6tqTAqxgk0uQ1rRblvzA==
+X-Received: by 2002:a17:902:cf05:b0:156:9d:ca01 with SMTP id
+ i5-20020a170902cf0500b00156009dca01mr24706645plg.111.1651005788130; 
+ Tue, 26 Apr 2022 13:43:08 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- y126-20020a62ce84000000b0050d223013b6sm12654860pfg.11.2022.04.26.13.33.19
+ s3-20020a056a00194300b004f6da3a1a3bsm18026076pfk.8.2022.04.26.13.43.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 13:33:19 -0700 (PDT)
-Message-ID: <aab6cf8f-1d7a-4ebe-73f7-4d078d181aec@linaro.org>
-Date: Tue, 26 Apr 2022 13:33:17 -0700
+ Tue, 26 Apr 2022 13:43:07 -0700 (PDT)
+Message-ID: <161cf025-a591-dc16-2f17-a09d0aec766d@linaro.org>
+Date: Tue, 26 Apr 2022 13:43:05 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH 6/9] docs: move replay docs to docs/system/replay.rst
+Subject: Re: [PATCH v2 01/26] Use QEMU_SANITIZE_THREAD
 Content-Language: en-US
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <165062838915.526882.13230207960407998257.stgit@pasha-ThinkPad-X280>
- <165062842182.526882.9554594086439389972.stgit@pasha-ThinkPad-X280>
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
+ <20220426092715.3931705-2-marcandre.lureau@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <165062842182.526882.9554594086439389972.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <20220426092715.3931705-2-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,29 +90,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, pbonzini@redhat.com, philmd@redhat.com,
- wrampazz@redhat.com, crosa@redhat.com
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/22 04:53, Pavel Dovgalyuk wrote:
-> This patch adds replay description page, converting prior
-> text from docs/replay.txt.
-> The text was also updated and some sections were moved
-> to devel part of the docs.
+On 4/26/22 02:26, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Signed-off-by: Pavel Dovgalyuk<Pavel.Dovgalyuk@ispras.ru>
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   docs/devel/replay.rst  |  264 ++++++++++++++++++++++++++++++-
->   docs/replay.txt        |  407 ------------------------------------------------
->   docs/system/index.rst  |    1
->   docs/system/replay.rst |  237 ++++++++++++++++++++++++++++
->   4 files changed, 496 insertions(+), 413 deletions(-)
->   delete mode 100644 docs/replay.txt
->   create mode 100644 docs/system/replay.rst
+>   include/qemu/atomic.h                        | 8 +++++---
+>   subprojects/libvhost-user/include/compiler.h | 1 +
+>   2 files changed, 6 insertions(+), 3 deletions(-)
+>   create mode 120000 subprojects/libvhost-user/include/compiler.h
 
-Not thoroughly reviewed, but I browsed the outlines.
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+> +++ b/subprojects/libvhost-user/include/compiler.h
+> @@ -0,0 +1 @@
+> +../../../include/qemu/compiler.h
+> \ No newline at end of file
+
+Fix the missing newline.
 
 
 r~
