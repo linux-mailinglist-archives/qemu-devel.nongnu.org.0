@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8483E50F71D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 11:38:10 +0200 (CEST)
-Received: from localhost ([::1]:54614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C404B50F79B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 11:40:25 +0200 (CEST)
+Received: from localhost ([::1]:59234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njHe0-0004fF-DN
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 05:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52002)
+	id 1njHgG-00083e-RP
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 05:40:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHUo-0003LO-9Q
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:28:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31805)
+ id 1njHUs-0003Un-S2
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:28:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHUm-0006Hh-J8
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:28:33 -0400
+ id 1njHUr-0006Hs-7x
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:28:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650965311;
+ s=mimecast20190719; t=1650965316;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BjUPbGoUN/9grDSM5yUjjCnRcowdIxsj/rgFRQ48xnY=;
- b=U+UQ2kG8vUUI4iO01Q6r2T9ZGod6EYlZ4AtBEd0GldTvsjQf3wlQJ2LQavxc2LzZMUH9i/
- f13dkhYRymOe/AYZImZVm1t1OTwAy1l2bMBO9w/ljIMVHmoqTdYZO3sXwk5alldEWnxByE
- p3h0bGECh3TEUvfnWkBjmVohGIXrNG4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=q9bbYvJWLT9BBbgM1NVuoRbdhNEVGg4NKYM/okrT8iE=;
+ b=NJVKREG6LwTUInqrlZJ73/7Y0Nxh/7dHeelYQ9rdrwaNw7NUtbBYnn6Yexedwv91N02Ngr
+ JmtKFrrcB/6Xmx8oA2HlQ4P/Ff13IjL7j4AZBAcKMQUqhit45O00dwpYGbi3y2T5ioezyZ
+ 9mT92IrNQo6ZhPOx+zMRxpHT/tnKaQE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-6bHUD_PzMjWPMUPEX3XlEQ-1; Tue, 26 Apr 2022 05:28:30 -0400
-X-MC-Unique: 6bHUD_PzMjWPMUPEX3XlEQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-34-YAtSpn9bP2izVoCpoZEV1Q-1; Tue, 26 Apr 2022 05:28:35 -0400
+X-MC-Unique: YAtSpn9bP2izVoCpoZEV1Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 793E23838C82
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:28:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DAB3A8038E3
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:28:34 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93E80112132D;
- Tue, 26 Apr 2022 09:28:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E8BCC27EAB;
+ Tue, 26 Apr 2022 09:28:33 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/26] tests: make libqmp buildable for win32
-Date: Tue, 26 Apr 2022 13:26:56 +0400
-Message-Id: <20220426092715.3931705-8-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 08/26] Use g_unix_set_fd_nonblocking()
+Date: Tue, 26 Apr 2022 13:26:57 +0400
+Message-Id: <20220426092715.3931705-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
 References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -76,9 +76,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -86,124 +84,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+API available since glib 2.30. It also preserves errno.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/qtest/libqmp.h |  2 ++
- tests/qtest/libqmp.c | 37 +++++++++++++++++++++++++++++++------
- 2 files changed, 33 insertions(+), 6 deletions(-)
+ hw/misc/ivshmem.c           | 2 +-
+ util/event_notifier-posix.c | 6 ++----
+ util/main-loop.c            | 2 +-
+ 3 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/libqmp.h b/tests/qtest/libqmp.h
-index 94aa97328a17..772f18b73ba3 100644
---- a/tests/qtest/libqmp.h
-+++ b/tests/qtest/libqmp.h
-@@ -20,8 +20,10 @@
- #include "qapi/qmp/qdict.h"
+diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+index e7c0099bdaf6..8270db53cda7 100644
+--- a/hw/misc/ivshmem.c
++++ b/hw/misc/ivshmem.c
+@@ -537,7 +537,7 @@ static void process_msg_connect(IVShmemState *s, uint16_t posn, int fd,
  
- QDict *qmp_fd_receive(int fd);
-+#ifndef G_OS_WIN32
- void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-                       const char *fmt, va_list ap) G_GNUC_PRINTF(4, 0);
-+#endif
- void qmp_fd_vsend(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
- void qmp_fd_send(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
- void qmp_fd_send_raw(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
-diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
-index 0358b8313dc4..5f451ebee796 100644
---- a/tests/qtest/libqmp.c
-+++ b/tests/qtest/libqmp.c
-@@ -15,9 +15,15 @@
-  */
+     IVSHMEM_DPRINTF("eventfds[%d][%d] = %d\n", posn, vector, fd);
+     event_notifier_init_fd(&peer->eventfds[vector], fd);
+-    fcntl_setfl(fd, O_NONBLOCK); /* msix/irqfd poll non block */
++    g_unix_set_fd_nonblocking(fd, true, NULL); /* msix/irqfd poll non block */
  
- #include "qemu/osdep.h"
--
- #include "libqmp.h"
- 
-+#include <unistd.h>
-+#include <stdlib.h>
-+#ifndef G_OS_WIN32
-+#include <sys/socket.h>
-+#endif
-+
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "qapi/qmp/json-parser.h"
- #include "qapi/qmp/qjson.h"
-@@ -87,6 +93,7 @@ QDict *qmp_fd_receive(int fd)
-     return qmp.response;
- }
- 
-+#ifndef G_OS_WIN32
- /* Sends a message and file descriptors to the socket.
-  * It's needed for qmp-commands like getfd/add-fd */
- static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
-@@ -120,17 +127,23 @@ static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
-     } while (ret < 0 && errno == EINTR);
-     g_assert_cmpint(ret, >, 0);
- }
-+#endif
- 
- /**
-  * Allow users to send a message without waiting for the reply,
-  * in the case that they choose to discard all replies up until
-  * a particular EVENT is received.
-  */
--void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
--                      const char *fmt, va_list ap)
-+static void
-+_qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-+                  const char *fmt, va_list ap)
- {
-     QObject *qobj;
- 
-+#ifdef G_OS_WIN32
-+    assert(fds_num == 0);
-+#endif
-+
-     /* Going through qobject ensures we escape strings properly */
-     qobj = qobject_from_vjsonf_nofail(fmt, ap);
- 
-@@ -148,10 +161,14 @@ void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-         if (log) {
-             fprintf(stderr, "%s", str->str);
+     if (posn == s->vm_id) {
+         setup_interrupt(s, vector, errp);
+diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
+index 8dc30c51414d..2aa14eabb38e 100644
+--- a/util/event_notifier-posix.c
++++ b/util/event_notifier-posix.c
+@@ -52,13 +52,11 @@ int event_notifier_init(EventNotifier *e, int active)
+         if (qemu_pipe(fds) < 0) {
+             return -errno;
          }
-+
-+#ifndef G_OS_WIN32
-         /* Send QMP request */
-         if (fds && fds_num > 0) {
-             socket_send_fds(fd, fds, fds_num, str->str, str->len);
--        } else {
-+        } else
-+#endif
-+        {
-             socket_send(fd, str->str, str->len);
+-        ret = fcntl_setfl(fds[0], O_NONBLOCK);
+-        if (ret < 0) {
++        if (!g_unix_set_fd_nonblocking(fds[0], true, NULL)) {
+             ret = -errno;
+             goto fail;
          }
- 
-@@ -160,15 +177,23 @@ void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
+-        ret = fcntl_setfl(fds[1], O_NONBLOCK);
+-        if (ret < 0) {
++        if (!g_unix_set_fd_nonblocking(fds[1], true, NULL)) {
+             ret = -errno;
+             goto fail;
+         }
+diff --git a/util/main-loop.c b/util/main-loop.c
+index b7b0ce4ca087..9afac10dff0f 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -114,7 +114,7 @@ static int qemu_signal_init(Error **errp)
+         return -errno;
      }
- }
  
-+#ifndef G_OS_WIN32
-+void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
-+                      const char *fmt, va_list ap)
-+{
-+    _qmp_fd_vsend_fds(fd, fds, fds_num, fmt, ap);
-+}
-+#endif
-+
- void qmp_fd_vsend(int fd, const char *fmt, va_list ap)
- {
--    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
-+    _qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
- }
+-    fcntl_setfl(sigfd, O_NONBLOCK);
++    g_unix_set_fd_nonblocking(sigfd, true, NULL);
  
+     qemu_set_fd_handler(sigfd, sigfd_handler, NULL, (void *)(intptr_t)sigfd);
  
- QDict *qmp_fdv(int fd, const char *fmt, va_list ap)
- {
--    qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
-+    _qmp_fd_vsend_fds(fd, NULL, 0, fmt, ap);
- 
-     return qmp_fd_receive(fd);
- }
 -- 
 2.36.0
 
