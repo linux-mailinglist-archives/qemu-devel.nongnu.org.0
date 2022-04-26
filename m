@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43021510746
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 20:40:10 +0200 (CEST)
-Received: from localhost ([::1]:60132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC7451074B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 20:40:59 +0200 (CEST)
+Received: from localhost ([::1]:33808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQ6b-0000L0-By
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 14:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43960)
+	id 1njQ7O-0001e9-I3
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 14:40:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPmX-0002Xc-I3
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:25 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:43876)
+ id 1njPmV-0002U3-JT
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:24 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:38408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPmU-0004LA-M5
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:25 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- j8-20020a17090a060800b001cd4fb60dccso3273046pjj.2
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:14 -0700 (PDT)
+ id 1njPmR-0004LF-JP
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:22 -0400
+Received: by mail-pg1-x531.google.com with SMTP id s137so16737010pgs.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BaXzjQ4uHQf8aegyrwpNgla1ibfyULSXvI/9Vr/sAxc=;
- b=KRnKrTVMScpLU/xoFxQbQTW+SGx7PnSpEZder1TS6rUrnpqqA9g+L+vOOf7d63Rk09
- dgVpli8D5/GWTkSryl6aN1LNf8VwhNLAvIqB2dal2RBeq47Qz0QhG+pmn0glhvKD0Bj/
- KTbYOZxkhXhgCZiD9c8Rw4hHiDOMb0RgKqEYPSpGQjpRIaHAHeD9jJ0saf8IhDVukpTg
- DNyu0O9SNcGSB173h8IyFGrJ1xAPjghY0hfHYjrsT1zf7aYN5iTo2IWa+sAgjAqbRNbV
- tzl3YwJmVN+hhr9uOJWKtOiRJcoUBtuTk3fFGNRLcDDSExX3KDS1D0tCy37KYB7gdsKL
- e4Rw==
+ bh=nqaKUgAiXbPVN3N+PzEnaP4AnWTK8+75oezV6iZmBrU=;
+ b=Z7ZfNARVKLpCk5n9Lzj471DsDyvx4uGeSCFFAA7BwMQ+Q+lSMVisiWP/s3eacqkZpi
+ TCNkRl6c2hKWEtUjvrUEVYfT78ye9MoS/iYGetRbgZtphk1MfDITvF0037DwBzvl+UNq
+ jtg/b3Q7MnPEi/ECCt39dWpKgCK70DrwU/QkMgOJBqWpPK35N8Osn989sskJpoXztOaK
+ gcElw7S0vtMY0pAmw9UNxefqEhWHfvZhq59E7Adz1BWCnLkdldwwtS+3dTvZMt9E04wj
+ A4ev6/HHLv7vsxcboxLgYDuaTNCgp8Y+pFstk8/vLsPFn+zKl4vzc1FOvrS0JJCws16X
+ /75w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BaXzjQ4uHQf8aegyrwpNgla1ibfyULSXvI/9Vr/sAxc=;
- b=v3yE3+fBmilw6E+6GTz8jf+EAx2WtYH+2C2u4Ve/QC+9XrM1pSvk9OT/KOGNiDS428
- FOtbyUx5z4E/foruFveb/no+s7qbsJ40OWA2DEmzHGktczqnw4Xig+uHJr41DS2FlWHl
- L6qSg4OhgEG0GLpjAF8t0MRxuCGxEu8L5m7goQzGPPTHtRmhDl29kyM4DADfr9WebHZ/
- zmxqBWv1XWpKSMGz9Jtx24uEQrO+fQCSIutKstur8pnqTJwAKWzEO8bnM7oIVjTh36KZ
- YixpA4u8D6MVO9JtheFfdQiYG0hfzOThNjuUx7uAuX6J9rDpX1lf/J4UJNrbjNDoK5xy
- E2GQ==
-X-Gm-Message-State: AOAM531g4vf7rQGfXDnNHOmJVX4mOgcYAcRV7Rr9G6bwA7ezEs9UgDJL
- riPLX0v0OZ4rBek0p4C2EIuJ5Kh6LpHGoQ==
-X-Google-Smtp-Source: ABdhPJzTrjeML99g+aeNt8r3IZMrP0+82Atc/h/k/d7POg3C1o1cdmKwQdEdU6RMF3+USIPI4EARyQ==
-X-Received: by 2002:a17:90a:62c7:b0:1da:2c51:943e with SMTP id
- k7-20020a17090a62c700b001da2c51943emr132006pjs.208.1650997153292; 
- Tue, 26 Apr 2022 11:19:13 -0700 (PDT)
+ bh=nqaKUgAiXbPVN3N+PzEnaP4AnWTK8+75oezV6iZmBrU=;
+ b=eBpDaad5stVJVmdCcx0C5cPaO6JrGRxRI7mV0El06mGUISY3lB4+MA6i8A0tCQ7pan
+ nYAmEYKNBYbLZzCpQC+gkGQCPGF2lp9BFHe8TLyo6W26bebfDXhCHv1nUbc+ts4TJHPN
+ W0Mu572XQk+5CB9UHrwmD+PFimV6ve+rGGr7iDsDgXSIhzPmcl1Y4YAU/m08PPvplWGH
+ yjL7F420kXSRdjMWQBLAzqPVFnvJdMoNo8353K7j0OC2ImrXmt9RQz0yA0p93jqwB43i
+ 1tM06KI3ff2SfYGX79M/6tawYQ0GCEkFWWw10/8sqMksxAqoQ2Cq47Y89jUbXRU2DZxN
+ VNuw==
+X-Gm-Message-State: AOAM5316xj+laiW1qaYzBwEypGZYc0NOj10smwoZjcmiBmPljRcM17b0
+ ut5pQZneTDQYgA5wYqSXJvU8CjfMpEM57Q==
+X-Google-Smtp-Source: ABdhPJzbj6H/OVWDzZpAIo7mSNwGOtZXQugd23+VFQKyZstBn7Ss0OjB5y0Iqsan4Xq5ei8p+H722g==
+X-Received: by 2002:aa7:88d2:0:b0:50a:cf7d:6ff1 with SMTP id
+ k18-20020aa788d2000000b0050acf7d6ff1mr25849739pff.67.1650997154198; 
+ Tue, 26 Apr 2022 11:19:14 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.12
+ j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 11:19:12 -0700 (PDT)
+ Tue, 26 Apr 2022 11:19:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/68] linux-user/nios2: Handle special qemu syscall return
- values
-Date: Tue, 26 Apr 2022 11:18:04 -0700
-Message-Id: <20220426181907.103691-6-richard.henderson@linaro.org>
+Subject: [PULL 06/68] linux-user/nios2: Remove do_sigreturn
+Date: Tue, 26 Apr 2022 11:18:05 -0700
+Message-Id: <20220426181907.103691-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
 References: <20220426181907.103691-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,34 +88,34 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Honor QEMU_ESIGRETURN and QEMU_ERESTARTSYS.
+There is no sigreturn syscall, only rt_sigreturn.
+This function is unused.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-6-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-7-richard.henderson@linaro.org>
 ---
- linux-user/nios2/cpu_loop.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ linux-user/nios2/signal.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index 63afba5862..2963fc62b4 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -55,6 +55,14 @@ void cpu_loop(CPUNios2State *env)
-                                  env->regs[7], env->regs[8], env->regs[9],
-                                  0, 0);
+diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
+index 517cd39270..133bc05673 100644
+--- a/linux-user/nios2/signal.c
++++ b/linux-user/nios2/signal.c
+@@ -185,13 +185,6 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     unlock_user_struct(frame, frame_addr, 1);
+ }
  
-+                if (ret == -QEMU_ESIGRETURN) {
-+                    /* rt_sigreturn has set all state. */
-+                    break;
-+                }
-+                if (ret == -QEMU_ERESTARTSYS) {
-+                    env->regs[R_PC] -= 4;
-+                    break;
-+                }
-                 /*
-                  * See the code after translate_rc_and_ret: all negative
-                  * values are errors (aided by userspace restricted to 2G),
+-long do_sigreturn(CPUNios2State *env)
+-{
+-    trace_user_do_sigreturn(env, 0);
+-    qemu_log_mask(LOG_UNIMP, "do_sigreturn: not implemented\n");
+-    return -TARGET_ENOSYS;
+-}
+-
+ long do_rt_sigreturn(CPUNios2State *env)
+ {
+     /* Verify, can we follow the stack back */
 -- 
 2.34.1
 
