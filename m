@@ -2,56 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2840510329
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 18:20:50 +0200 (CEST)
-Received: from localhost ([::1]:37550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1718D510296
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 18:08:45 +0200 (CEST)
+Received: from localhost ([::1]:34820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njNvl-0007yq-WB
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 12:20:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37962)
+	id 1njNk3-0003Oq-PF
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 12:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1njNde-0004J6-KW
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:02:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23077)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1njNds-0004L3-6P
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:02:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1njNda-0007U9-MH
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:02:06 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1njNdq-0007Zm-Ce
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:02:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650988913;
+ s=mimecast20190719; t=1650988937;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5Jwa+WDfsHLJ7P34FTv247vcuokojGV+1lI8upbFNGQ=;
- b=WjOTY6Ld/nRcElnkksoPEywZoAbBKBqsGd2CArRnuq5CbfPYh6HoIc+z9TXgBP4Qb1fFH+
- W1InPYAcJZt3/5FOXQPR2g09bp4GpBeCtQZDmZfbWkfR3fmjw/Fm9BcI0KAvzQDqVE1AtV
- Nbp00Ph26pixIN1l9XWWjqlQVdphrqI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ in-reply-to:in-reply-to:references:references;
+ bh=VWOk6qPmvieWV391Izt/ljwwuJqoF15wKea0EP1kpSI=;
+ b=iiVjD6HhsK8o90NPTulcQZMHk4qqtP7DNSw0iKiRr3Nlay7/eSFvqCbtdpLtB8ijHErlbn
+ MJKgBcsIsTxVPeVMu/cQEnlbr3Ph8csLa0Xjl2BlJc6Sc32SE09bcJuI4F1gKs+6z/PaZl
+ OwVTOJYIW2VPeIqMbZJ/ItRpF0gfgCM=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-410-H6wJK039NAO0qMTqCpkjtg-1; Tue, 26 Apr 2022 12:01:51 -0400
-X-MC-Unique: H6wJK039NAO0qMTqCpkjtg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78EB13C0CD41
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 16:01:51 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC00940D0160;
- Tue, 26 Apr 2022 16:01:50 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] ui: move 'pc-bios/keymaps' to 'ui/keymaps'
-Date: Tue, 26 Apr 2022 17:01:50 +0100
-Message-Id: <20220426160150.812530-1-berrange@redhat.com>
+ us-mta-156-x4myDi1cOaqv738IMiGQ3g-1; Tue, 26 Apr 2022 12:02:16 -0400
+X-MC-Unique: x4myDi1cOaqv738IMiGQ3g-1
+Received: by mail-io1-f70.google.com with SMTP id
+ x16-20020a6bfe10000000b006409f03e39eso14457139ioh.7
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:02:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VWOk6qPmvieWV391Izt/ljwwuJqoF15wKea0EP1kpSI=;
+ b=bVweCRAO/VxgCsPOFnCc19nvnsnYb0Rim7dkkuMDPxR1Wn0kvEojm4P64PLB3ddHzP
+ meBv9hl44KoMqNpq6SP8XMZGE5DTgVkevMN5iFLhQHNqvYAdoXSL2YYO0JYdS5yvTuYb
+ IdFnTh6B06kgeIKP04VJGEMoG7QFUnU7oJDNvKx9x/9EVowI/ltu8HiDrdL/RH1LIx9R
+ IH8zkfyxxXFuxzAz6Twr0PGiNSTe5GRo4BAPBKq43zKLKd6jQQ+SvGVomw/0SdIALumx
+ RymEEKkcBh2/Iq4nCG10gfA7vL9jIxeEFlJkVEQzuZGHYjVNzJmyInH5jC1wT4WofSIg
+ VlLA==
+X-Gm-Message-State: AOAM532W7VmzIfgM0ld433r+pUKOBYHrD8dtG2x3YATQlAUqGnPAk/yc
+ PdiKIkQ5PpasuLbM3ZtvyaTPq56rv9LsplOJfSqsNINOTmHOXkqSu+8a/Jf/cRIxh72nNjqccLO
+ mlkkEFKOeH+8dSNo=
+X-Received: by 2002:a05:6e02:1c2d:b0:2cc:4986:3f61 with SMTP id
+ m13-20020a056e021c2d00b002cc49863f61mr9368735ilh.246.1650988935184; 
+ Tue, 26 Apr 2022 09:02:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTrFRuMDrFs34quT6Whw1nVAX6vzKcAiGRVsGfgp5qXlHp1YJtCJB4XmC/6BK9rjOZXdkd2A==
+X-Received: by 2002:a05:6e02:1c2d:b0:2cc:4986:3f61 with SMTP id
+ m13-20020a056e021c2d00b002cc49863f61mr9368709ilh.246.1650988934855; 
+ Tue, 26 Apr 2022 09:02:14 -0700 (PDT)
+Received: from xz-m1.local
+ (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ by smtp.gmail.com with ESMTPSA id
+ x3-20020a056e021bc300b002cc507aacddsm8438534ilv.66.2022.04.26.09.02.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Apr 2022 09:02:14 -0700 (PDT)
+Date: Tue, 26 Apr 2022 12:02:12 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v9 7/7] multifd: Implement zero copy write in multifd
+ migration (multifd-zero-copy)
+Message-ID: <YmgXhEI0AdQ2SILO@xz-m1.local>
+References: <20220425215055.611825-1-leobras@redhat.com>
+ <20220425215055.611825-8-leobras@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220425215055.611825-8-leobras@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -59,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,256 +94,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'keymaps' directory contents is nothing to do with the firmware
-blobs. The 'pc-bios/keymaps' directory appears to have been used
-previously as a convenience for getting the files installed into
-a subdir of the firmware install dir. This install time arrangement
-does not need to be reflected in the source tree arrangement. These
-keymaps logically belong with the UI code.
+Leo,
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- pc-bios/meson.build                 | 1 -
- {pc-bios => ui}/keymaps/ar          | 0
- {pc-bios => ui}/keymaps/bepo        | 0
- {pc-bios => ui}/keymaps/cz          | 0
- {pc-bios => ui}/keymaps/da          | 0
- {pc-bios => ui}/keymaps/de          | 0
- {pc-bios => ui}/keymaps/de-ch       | 0
- {pc-bios => ui}/keymaps/en-gb       | 0
- {pc-bios => ui}/keymaps/en-us       | 0
- {pc-bios => ui}/keymaps/es          | 0
- {pc-bios => ui}/keymaps/et          | 0
- {pc-bios => ui}/keymaps/fi          | 0
- {pc-bios => ui}/keymaps/fo          | 0
- {pc-bios => ui}/keymaps/fr          | 0
- {pc-bios => ui}/keymaps/fr-be       | 0
- {pc-bios => ui}/keymaps/fr-ca       | 0
- {pc-bios => ui}/keymaps/fr-ch       | 0
- {pc-bios => ui}/keymaps/hr          | 0
- {pc-bios => ui}/keymaps/hu          | 0
- {pc-bios => ui}/keymaps/is          | 0
- {pc-bios => ui}/keymaps/it          | 0
- {pc-bios => ui}/keymaps/ja          | 0
- {pc-bios => ui}/keymaps/lt          | 0
- {pc-bios => ui}/keymaps/lv          | 0
- {pc-bios => ui}/keymaps/meson.build | 0
- {pc-bios => ui}/keymaps/mk          | 0
- {pc-bios => ui}/keymaps/nl          | 0
- {pc-bios => ui}/keymaps/no          | 0
- {pc-bios => ui}/keymaps/pl          | 0
- {pc-bios => ui}/keymaps/pt          | 0
- {pc-bios => ui}/keymaps/pt-br       | 0
- {pc-bios => ui}/keymaps/ru          | 0
- {pc-bios => ui}/keymaps/sl          | 0
- {pc-bios => ui}/keymaps/sv          | 0
- {pc-bios => ui}/keymaps/th          | 0
- {pc-bios => ui}/keymaps/tr          | 0
- ui/meson.build                      | 1 +
- 37 files changed, 1 insertion(+), 1 deletion(-)
- rename {pc-bios => ui}/keymaps/ar (100%)
- rename {pc-bios => ui}/keymaps/bepo (100%)
- rename {pc-bios => ui}/keymaps/cz (100%)
- rename {pc-bios => ui}/keymaps/da (100%)
- rename {pc-bios => ui}/keymaps/de (100%)
- rename {pc-bios => ui}/keymaps/de-ch (100%)
- rename {pc-bios => ui}/keymaps/en-gb (100%)
- rename {pc-bios => ui}/keymaps/en-us (100%)
- rename {pc-bios => ui}/keymaps/es (100%)
- rename {pc-bios => ui}/keymaps/et (100%)
- rename {pc-bios => ui}/keymaps/fi (100%)
- rename {pc-bios => ui}/keymaps/fo (100%)
- rename {pc-bios => ui}/keymaps/fr (100%)
- rename {pc-bios => ui}/keymaps/fr-be (100%)
- rename {pc-bios => ui}/keymaps/fr-ca (100%)
- rename {pc-bios => ui}/keymaps/fr-ch (100%)
- rename {pc-bios => ui}/keymaps/hr (100%)
- rename {pc-bios => ui}/keymaps/hu (100%)
- rename {pc-bios => ui}/keymaps/is (100%)
- rename {pc-bios => ui}/keymaps/it (100%)
- rename {pc-bios => ui}/keymaps/ja (100%)
- rename {pc-bios => ui}/keymaps/lt (100%)
- rename {pc-bios => ui}/keymaps/lv (100%)
- rename {pc-bios => ui}/keymaps/meson.build (100%)
- rename {pc-bios => ui}/keymaps/mk (100%)
- rename {pc-bios => ui}/keymaps/nl (100%)
- rename {pc-bios => ui}/keymaps/no (100%)
- rename {pc-bios => ui}/keymaps/pl (100%)
- rename {pc-bios => ui}/keymaps/pt (100%)
- rename {pc-bios => ui}/keymaps/pt-br (100%)
- rename {pc-bios => ui}/keymaps/ru (100%)
- rename {pc-bios => ui}/keymaps/sl (100%)
- rename {pc-bios => ui}/keymaps/sv (100%)
- rename {pc-bios => ui}/keymaps/th (100%)
- rename {pc-bios => ui}/keymaps/tr (100%)
+This patch looks mostly good to me, a few nitpicks below.
 
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index c86dedf7df..8c7caa0164 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -90,4 +90,3 @@ if get_option('install_blobs')
- endif
- 
- subdir('descriptors')
--subdir('keymaps')
-diff --git a/pc-bios/keymaps/ar b/ui/keymaps/ar
-similarity index 100%
-rename from pc-bios/keymaps/ar
-rename to ui/keymaps/ar
-diff --git a/pc-bios/keymaps/bepo b/ui/keymaps/bepo
-similarity index 100%
-rename from pc-bios/keymaps/bepo
-rename to ui/keymaps/bepo
-diff --git a/pc-bios/keymaps/cz b/ui/keymaps/cz
-similarity index 100%
-rename from pc-bios/keymaps/cz
-rename to ui/keymaps/cz
-diff --git a/pc-bios/keymaps/da b/ui/keymaps/da
-similarity index 100%
-rename from pc-bios/keymaps/da
-rename to ui/keymaps/da
-diff --git a/pc-bios/keymaps/de b/ui/keymaps/de
-similarity index 100%
-rename from pc-bios/keymaps/de
-rename to ui/keymaps/de
-diff --git a/pc-bios/keymaps/de-ch b/ui/keymaps/de-ch
-similarity index 100%
-rename from pc-bios/keymaps/de-ch
-rename to ui/keymaps/de-ch
-diff --git a/pc-bios/keymaps/en-gb b/ui/keymaps/en-gb
-similarity index 100%
-rename from pc-bios/keymaps/en-gb
-rename to ui/keymaps/en-gb
-diff --git a/pc-bios/keymaps/en-us b/ui/keymaps/en-us
-similarity index 100%
-rename from pc-bios/keymaps/en-us
-rename to ui/keymaps/en-us
-diff --git a/pc-bios/keymaps/es b/ui/keymaps/es
-similarity index 100%
-rename from pc-bios/keymaps/es
-rename to ui/keymaps/es
-diff --git a/pc-bios/keymaps/et b/ui/keymaps/et
-similarity index 100%
-rename from pc-bios/keymaps/et
-rename to ui/keymaps/et
-diff --git a/pc-bios/keymaps/fi b/ui/keymaps/fi
-similarity index 100%
-rename from pc-bios/keymaps/fi
-rename to ui/keymaps/fi
-diff --git a/pc-bios/keymaps/fo b/ui/keymaps/fo
-similarity index 100%
-rename from pc-bios/keymaps/fo
-rename to ui/keymaps/fo
-diff --git a/pc-bios/keymaps/fr b/ui/keymaps/fr
-similarity index 100%
-rename from pc-bios/keymaps/fr
-rename to ui/keymaps/fr
-diff --git a/pc-bios/keymaps/fr-be b/ui/keymaps/fr-be
-similarity index 100%
-rename from pc-bios/keymaps/fr-be
-rename to ui/keymaps/fr-be
-diff --git a/pc-bios/keymaps/fr-ca b/ui/keymaps/fr-ca
-similarity index 100%
-rename from pc-bios/keymaps/fr-ca
-rename to ui/keymaps/fr-ca
-diff --git a/pc-bios/keymaps/fr-ch b/ui/keymaps/fr-ch
-similarity index 100%
-rename from pc-bios/keymaps/fr-ch
-rename to ui/keymaps/fr-ch
-diff --git a/pc-bios/keymaps/hr b/ui/keymaps/hr
-similarity index 100%
-rename from pc-bios/keymaps/hr
-rename to ui/keymaps/hr
-diff --git a/pc-bios/keymaps/hu b/ui/keymaps/hu
-similarity index 100%
-rename from pc-bios/keymaps/hu
-rename to ui/keymaps/hu
-diff --git a/pc-bios/keymaps/is b/ui/keymaps/is
-similarity index 100%
-rename from pc-bios/keymaps/is
-rename to ui/keymaps/is
-diff --git a/pc-bios/keymaps/it b/ui/keymaps/it
-similarity index 100%
-rename from pc-bios/keymaps/it
-rename to ui/keymaps/it
-diff --git a/pc-bios/keymaps/ja b/ui/keymaps/ja
-similarity index 100%
-rename from pc-bios/keymaps/ja
-rename to ui/keymaps/ja
-diff --git a/pc-bios/keymaps/lt b/ui/keymaps/lt
-similarity index 100%
-rename from pc-bios/keymaps/lt
-rename to ui/keymaps/lt
-diff --git a/pc-bios/keymaps/lv b/ui/keymaps/lv
-similarity index 100%
-rename from pc-bios/keymaps/lv
-rename to ui/keymaps/lv
-diff --git a/pc-bios/keymaps/meson.build b/ui/keymaps/meson.build
-similarity index 100%
-rename from pc-bios/keymaps/meson.build
-rename to ui/keymaps/meson.build
-diff --git a/pc-bios/keymaps/mk b/ui/keymaps/mk
-similarity index 100%
-rename from pc-bios/keymaps/mk
-rename to ui/keymaps/mk
-diff --git a/pc-bios/keymaps/nl b/ui/keymaps/nl
-similarity index 100%
-rename from pc-bios/keymaps/nl
-rename to ui/keymaps/nl
-diff --git a/pc-bios/keymaps/no b/ui/keymaps/no
-similarity index 100%
-rename from pc-bios/keymaps/no
-rename to ui/keymaps/no
-diff --git a/pc-bios/keymaps/pl b/ui/keymaps/pl
-similarity index 100%
-rename from pc-bios/keymaps/pl
-rename to ui/keymaps/pl
-diff --git a/pc-bios/keymaps/pt b/ui/keymaps/pt
-similarity index 100%
-rename from pc-bios/keymaps/pt
-rename to ui/keymaps/pt
-diff --git a/pc-bios/keymaps/pt-br b/ui/keymaps/pt-br
-similarity index 100%
-rename from pc-bios/keymaps/pt-br
-rename to ui/keymaps/pt-br
-diff --git a/pc-bios/keymaps/ru b/ui/keymaps/ru
-similarity index 100%
-rename from pc-bios/keymaps/ru
-rename to ui/keymaps/ru
-diff --git a/pc-bios/keymaps/sl b/ui/keymaps/sl
-similarity index 100%
-rename from pc-bios/keymaps/sl
-rename to ui/keymaps/sl
-diff --git a/pc-bios/keymaps/sv b/ui/keymaps/sv
-similarity index 100%
-rename from pc-bios/keymaps/sv
-rename to ui/keymaps/sv
-diff --git a/pc-bios/keymaps/th b/ui/keymaps/th
-similarity index 100%
-rename from pc-bios/keymaps/th
-rename to ui/keymaps/th
-diff --git a/pc-bios/keymaps/tr b/ui/keymaps/tr
-similarity index 100%
-rename from pc-bios/keymaps/tr
-rename to ui/keymaps/tr
-diff --git a/ui/meson.build b/ui/meson.build
-index 64286ba150..dc44610abb 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -169,6 +169,7 @@ if have_system or xkbcommon.found()
- endif
- 
- subdir('shader')
-+subdir('keymaps')
- 
- if have_system
-   subdir('icons')
+On Mon, Apr 25, 2022 at 06:50:56PM -0300, Leonardo Bras wrote:
+> Implement zero copy send on nocomp_send_write(), by making use of QIOChannel
+> writev + flags & flush interface.
+> 
+> Change multifd_send_sync_main() so flush_zero_copy() can be called
+> after each iteration in order to make sure all dirty pages are sent before
+> a new iteration is started. It will also flush at the beginning and at the
+> end of migration.
+> 
+> Also make it return -1 if flush_zero_copy() fails, in order to cancel
+> the migration process, and avoid resuming the guest in the target host
+> without receiving all current RAM.
+> 
+> This will work fine on RAM migration because the RAM pages are not usually freed,
+> and there is no problem on changing the pages content between writev_zero_copy() and
+> the actual sending of the buffer, because this change will dirty the page and
+> cause it to be re-sent on a next iteration anyway.
+> 
+> A lot of locked memory may be needed in order to use multifd migration
+> with zero-copy enabled, so disabling the feature should be necessary for
+> low-privileged users trying to perform multifd migrations.
+> 
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  migration/multifd.h   |  2 ++
+>  migration/migration.c | 11 ++++++++++-
+>  migration/multifd.c   | 34 ++++++++++++++++++++++++++++++----
+>  migration/socket.c    |  5 +++--
+>  4 files changed, 45 insertions(+), 7 deletions(-)
+> 
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index bcf5992945..4d8d89e5e5 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -92,6 +92,8 @@ typedef struct {
+>      uint32_t packet_len;
+>      /* pointer to the packet */
+>      MultiFDPacket_t *packet;
+> +    /* multifd flags for sending ram */
+> +    int write_flags;
+>      /* multifd flags for each packet */
+>      uint32_t flags;
+>      /* size of the next packet that contains pages */
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 4b6df2eb5e..31739b2af9 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1497,7 +1497,16 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+>          error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
+>          return false;
+>      }
+> -
+> +#ifdef CONFIG_LINUX
+> +    if (params->zero_copy_send &&
+> +        (!migrate_use_multifd() ||
+> +         params->multifd_compression != MULTIFD_COMPRESSION_NONE ||
+> +         (params->tls_creds && *params->tls_creds))) {
+> +        error_setg(errp,
+> +                   "Zero copy only available for non-compressed non-TLS multifd migration");
+> +        return false;
+> +    }
+> +#endif
+>      return true;
+>  }
+>  
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 6c940aaa98..e37cc6e0d9 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -569,6 +569,7 @@ void multifd_save_cleanup(void)
+>  int multifd_send_sync_main(QEMUFile *f)
+>  {
+>      int i;
+> +    bool flush_zero_copy;
+>  
+>      if (!migrate_use_multifd()) {
+>          return 0;
+> @@ -579,6 +580,14 @@ int multifd_send_sync_main(QEMUFile *f)
+>              return -1;
+>          }
+>      }
+> +
+> +    /*
+> +     * When using zero-copy, it's necessary to flush after each iteration to
+> +     * make sure pages from earlier iterations don't end up replacing newer
+> +     * pages.
+> +     */
+> +    flush_zero_copy = migrate_use_zero_copy_send();
+
+Would you mind inline it if it's only used once?
+
+It's great to have that comment, but IMHO it could be more explicit, even
+marking a TODO showing that maybe we could do better in the future:
+
+  /*
+   * When using zero-copy, it's necessary to flush the pages before any of
+   * the pages can be sent again, so we'll make sure the new version of the
+   * pages will always arrive _later_ than the old pages.
+   *
+   * Currently we achieve this by flushing the zero-page requested writes
+   * per ram iteration, but in the future we could potentially optimize it
+   * to be less frequent, e.g. only after we finished one whole scanning of
+   * all the dirty bitmaps.
+   */
+
+> +
+>      for (i = 0; i < migrate_multifd_channels(); i++) {
+>          MultiFDSendParams *p = &multifd_send_state->params[i];
+>  
+> @@ -600,6 +609,17 @@ int multifd_send_sync_main(QEMUFile *f)
+>          ram_counters.transferred += p->packet_len;
+>          qemu_mutex_unlock(&p->mutex);
+>          qemu_sem_post(&p->sem);
+> +
+> +        if (flush_zero_copy && p->c) {
+> +            int ret;
+> +            Error *err = NULL;
+> +
+> +            ret = qio_channel_flush(p->c, &err);
+> +            if (ret < 0) {
+> +                error_report_err(err);
+> +                return -1;
+> +            }
+> +        }
+>      }
+>      for (i = 0; i < migrate_multifd_channels(); i++) {
+>          MultiFDSendParams *p = &multifd_send_state->params[i];
+> @@ -688,10 +708,9 @@ static void *multifd_send_thread(void *opaque)
+>                  p->iov[0].iov_base = p->packet;
+>              }
+>  
+> -            ret = qio_channel_writev_all(p->c, p->iov + iov_offset,
+> -                                         p->iovs_num - iov_offset,
+> -                                         &local_err);
+> -
+> +            ret = qio_channel_writev_full_all(p->c, p->iov + iov_offset,
+> +                                              p->iovs_num - iov_offset, NULL,
+> +                                              0, p->write_flags, &local_err);
+
+I kind of agree with Dan in previous patch - this iov_offset is confusing,
+better drop it.
+
+>              if (ret != 0) {
+>                  break;
+>              }
+> @@ -920,6 +939,13 @@ int multifd_save_setup(Error **errp)
+>          /* We need one extra place for the packet header */
+>          p->iov = g_new0(struct iovec, page_count + 1);
+>          p->normal = g_new0(ram_addr_t, page_count);
+> +
+> +        if (migrate_use_zero_copy_send()) {
+> +            p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZERO_COPY;
+> +        } else {
+> +            p->write_flags = 0;
+> +        }
+> +
+>          socket_send_channel_create(multifd_new_send_channel_async, p);
+>      }
+>  
+> diff --git a/migration/socket.c b/migration/socket.c
+> index 3754d8f72c..4fd5e85f50 100644
+> --- a/migration/socket.c
+> +++ b/migration/socket.c
+> @@ -79,8 +79,9 @@ static void socket_outgoing_migration(QIOTask *task,
+>  
+>      trace_migration_socket_outgoing_connected(data->hostname);
+>  
+> -    if (migrate_use_zero_copy_send()) {
+> -        error_setg(&err, "Zero copy send not available in migration");
+> +    if (migrate_use_zero_copy_send() &&
+> +        !qio_channel_has_feature(sioc, QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY)) {
+> +        error_setg(&err, "Zero copy send feature not detected in host kernel");
+>      }
+>  
+>  out:
+> -- 
+> 2.36.0
+> 
+
 -- 
-2.35.1
+Peter Xu
 
 
