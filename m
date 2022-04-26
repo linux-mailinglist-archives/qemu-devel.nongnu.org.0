@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F144E510B6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 23:35:16 +0200 (CEST)
-Received: from localhost ([::1]:40956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2703A510B74
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 23:40:00 +0200 (CEST)
+Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njSq3-00038C-RE
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 17:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57688)
+	id 1njSud-0006kX-0r
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 17:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1njSoK-0002Hb-EP
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 17:33:28 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:44908)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njStU-0005d8-B2
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 17:38:48 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:35777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1njSo9-00032c-A4
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 17:33:19 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-2f7d621d1caso85436067b3.11
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 14:33:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bicrQf6L5IvNIYVLCVlKfJGYrRNuAPF+onbtnUafY0c=;
- b=mzP1zB/MK5v02oDKo+BSoL0Y6CcfiEOVEogYtcIcYjgxwqwlzA4zqyckNNJGuN6JUC
- h8CqPB+c4CX39e5TE+Bg2dQs2/zkMiXDHsQObB2b6qZTiND53cekZ8eWKwSTEY10WBkD
- ZYHP9Dl4MXEonfyUAZp/Rkj7LilQkr1BWfycc=
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njStS-0003q4-6q
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 17:38:47 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id d15so16973584plh.2
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 14:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:references:in-reply-to:content-transfer-encoding;
+ bh=3PxYc6tuCIstamZIsLVo8MYWHX7t4sYUOeVRQ/4pcy8=;
+ b=ylVvd1e/Q5Lqvho2l6lA+n2i1/X3NKU5dh6mzbvSDsMenzScXRDpY3INHioWJfRbmk
+ THu0LorvJjvAVofKFzzGpO8y4VP1//dhQyoxiaSTSLtPuu4dLDtErnThiV9g4P9igPTb
+ e5CPbTNM+32WuF0E8cTX70hfOv1iSX8iBFRUvDd99iZ883RN7hbVv4AdRpKBOPl2Qzmk
+ 177dTc63TdjtPm1lonlbApLz9OfGZ60YDGviAUE6UkoKCaVa/kQdnuTseOSgsu63b6m2
+ GBwojtxmioARQpLZtPDE/wUymurwJOe3F7AoUcp864QCrxpZOUWRzA+wazYnFPuCLUyV
+ Xmrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bicrQf6L5IvNIYVLCVlKfJGYrRNuAPF+onbtnUafY0c=;
- b=5vZaXZBXhLc34hQvPiAcFMC6F8UgX5y7HjNXA2WKR8LLpYX5lxp587GMDeTp6X9/H2
- bC2xz1i07lhhAqSEE2WxDpIveTi1VBP58x1ZNtuTT5bcBs8frWr2NmI0lt4T7Fioz60m
- 8jk0z5F/y7DzHpOQvgWsWorKW0pM4sWyho0AFQWSNTjzYcZuF1RGlL+kfcKESLM/kXmw
- /zidmm30uFbvYJvoO32v2UwATJaKh/MtBsGqCosNyBcMq55SX7hxz0p3guMXln5fdpdR
- qe1a2gfHG2AyhEVEDgo19gw/4iaq6CVByosCCK08Ue3d51bZxVR8pMf6HeVzUqAFbCnf
- 8nVw==
-X-Gm-Message-State: AOAM531gJhsiiMrpxZowjARiLoL3/HJqKlAhgFLm2Jw/oeSHTBTHetFE
- PNIaThr4WcZickduyTVtMYUhUCrUCcSOoSXyBeDg
-X-Google-Smtp-Source: ABdhPJzXrQzTdEYtn4n61Nc+ZMLMTDkMqpugQARRnDRxXD4oLhm9+E8EB6fYauTiE6U7ubvjewG6eNIxZabVQMHDvek=
-X-Received: by 2002:a81:9a56:0:b0:2f4:d346:7866 with SMTP id
- r83-20020a819a56000000b002f4d3467866mr24240930ywg.58.1651008795675; Tue, 26
- Apr 2022 14:33:15 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=3PxYc6tuCIstamZIsLVo8MYWHX7t4sYUOeVRQ/4pcy8=;
+ b=iYpBLDGMb0UpTvonWPJmxfyx4lP+yjBqpnJ0nX2pMbVpuQOecgQtsIM07HRStob4lL
+ gHci6Lw61gTRygVDUPADXPwHVIPi77BUuCySXo9DnhGD3F+h3u52n8QmO0nRjBZ/wADP
+ uO5ktYHm5ea+WCvt9nyZxckSO74zWpmTViQgMSubFnoxTCGUwTpaHUwh5Tat/nV0cYgL
+ nq4LetZRzMYXKG5wmQa2GBbLSqalnAsjxhOK2iq43IOT2EdL1XM5CE/vWfYEk9WdqBem
+ 9Lq3bU0Q/T2Qplw1kVjrdmESj9hSqwQwh3lBCnkdrRNl4shmTEdl762u0y1iolcICEMX
+ ySxg==
+X-Gm-Message-State: AOAM532KtJdlgmZ5UAC7L2Po4RdLCzEWB3MRT1Xyd+cdomCAV/xfUlli
+ 4VsYJr0ubrE9AUHmgUN8WxBHOIm/xUcZmQ==
+X-Google-Smtp-Source: ABdhPJwlaOVqrdRJAYEJNLq1JQJVo2W+ZPAw1ZozKu26Btrut1VeEGymJmyDib2vWnUfmjlJTrd75g==
+X-Received: by 2002:a17:90a:d0c1:b0:1d2:c00a:8656 with SMTP id
+ y1-20020a17090ad0c100b001d2c00a8656mr29216517pjw.235.1651009124768; 
+ Tue, 26 Apr 2022 14:38:44 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ b4-20020a62a104000000b0050cf012cba1sm16241974pff.91.2022.04.26.14.38.43
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Apr 2022 14:38:44 -0700 (PDT)
+Message-ID: <97700683-6771-a5fe-4b37-7296fab25243@linaro.org>
+Date: Tue, 26 Apr 2022 14:38:42 -0700
 MIME-Version: 1.0
-References: <20220331000127.2107823-1-atishp@rivosinc.com>
- <20220331000127.2107823-9-atishp@rivosinc.com>
- <CAKmqyKMmY_nfFpO7r2F+VHjFgLTO3BtB7kgCJ=H9OYJfZ7L2+Q@mail.gmail.com>
- <CAHBxVyEa5Hc7NC57c02VRL9OkjgZ6kOwsPczpts7i6+JpQcsJQ@mail.gmail.com>
- <CAKmqyKO8cpdfW3Y=62PYJJCS7e6yN96FYiyGYESeC8Tyq5EwyA@mail.gmail.com>
-In-Reply-To: <CAKmqyKO8cpdfW3Y=62PYJJCS7e6yN96FYiyGYESeC8Tyq5EwyA@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Tue, 26 Apr 2022 14:33:04 -0700
-Message-ID: <CAOnJCUKSrq2+voMtTdMPOVf5XE=Z42EyHrCSvy0Svz7kM-csEg@mail.gmail.com>
-Subject: Re: [PATCH v7 08/12] target/riscv: Add sscofpmf extension support
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=atishp@atishpatra.org; helo=mail-yw1-x112a.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PULL 00/68] nios2 patch queue
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20220426181907.103691-1-richard.henderson@linaro.org>
+In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,372 +89,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Atish Kumar Patra <atishp@rivosinc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 18, 2022 at 3:46 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Sat, Apr 16, 2022 at 9:54 AM Atish Kumar Patra <atishp@rivosinc.com> wrote:
-> >
-> > On Wed, Apr 13, 2022 at 12:08 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > >
-> > > On Thu, Mar 31, 2022 at 10:19 AM Atish Patra <atishp@rivosinc.com> wrote:
-> > > >
-> > > > The Sscofpmf ('Ss' for Privileged arch and Supervisor-level extensions,
-> > > > and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
-> > > > extension allows the perf to handle overflow interrupts and filtering
-> > > > support. This patch provides a framework for programmable
-> > > > counters to leverage the extension. As the extension doesn't have any
-> > > > provision for the overflow bit for fixed counters, the fixed events
-> > > > can also be monitoring using programmable counters. The underlying
-> > > > counters for cycle and instruction counters are always running. Thus,
-> > > > a separate timer device is programmed to handle the overflow.
-> > > >
-> > > > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > > > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > > > ---
-> > > >  target/riscv/cpu.c      |  11 ++
-> > > >  target/riscv/cpu.h      |  25 +++
-> > > >  target/riscv/cpu_bits.h |  55 +++++++
-> > > >  target/riscv/csr.c      | 156 ++++++++++++++++--
-> > > >  target/riscv/pmu.c      | 347 +++++++++++++++++++++++++++++++++++++++-
-> > > >  target/riscv/pmu.h      |   7 +
-> > > >  6 files changed, 590 insertions(+), 11 deletions(-)
-> > > >
-> > > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > > > index f63602828680..9715eed2fc4e 100644
-> > > > --- a/target/riscv/cpu.c
-> > > > +++ b/target/riscv/cpu.c
-> > > > @@ -22,6 +22,7 @@
-> > > >  #include "qemu/ctype.h"
-> > > >  #include "qemu/log.h"
-> > > >  #include "cpu.h"
-> > > > +#include "pmu.h"
-> > > >  #include "internals.h"
-> > > >  #include "exec/exec-all.h"
-> > > >  #include "qapi/error.h"
-> > > > @@ -696,6 +697,15 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-> > > >          set_misa(env, env->misa_mxl, ext);
-> > > >      }
-> > > >
-> > > > +#ifndef CONFIG_USER_ONLY
-> > > > +    if (cpu->cfg.pmu_num) {
-> > > > +        if (!riscv_pmu_init(cpu, cpu->cfg.pmu_num) && cpu->cfg.ext_sscofpmf) {
-> > > > +            cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-> > > > +                                          riscv_pmu_timer_cb, cpu);
-> > > > +        }
-> > > > +     }
-> > > > +#endif
-> > > > +
-> > > >      riscv_cpu_register_gdb_regs_for_features(cs);
-> > > >
-> > > >      qemu_init_vcpu(cs);
-> > > > @@ -795,6 +805,7 @@ static Property riscv_cpu_properties[] = {
-> > > >      DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
-> > > >      DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
-> > > >      DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
-> > > > +    DEFINE_PROP_BOOL("sscofpmf", RISCVCPU, cfg.ext_sscofpmf, false),
-> > > >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> > > >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> > > >      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-> > > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > > > index 0fa15595fb37..a0e2279ea5e6 100644
-> > > > --- a/target/riscv/cpu.h
-> > > > +++ b/target/riscv/cpu.h
-> > > > @@ -131,6 +131,8 @@ typedef struct PMUCTRState {
-> > > >      /* Snapshort value of a counter in RV32 */
-> > > >      target_ulong mhpmcounterh_prev;
-> > > >      bool started;
-> > > > +    /* Value beyond UINT32_MAX/UINT64_MAX before overflow interrupt trigger */
-> > > > +    target_ulong irq_overflow_left;
-> > > >  } PMUCTRState;
-> > > >
-> > > >  struct CPUArchState {
-> > > > @@ -291,6 +293,9 @@ struct CPUArchState {
-> > > >      /* PMU event selector configured values. First three are unused*/
-> > > >      target_ulong mhpmevent_val[RV_MAX_MHPMEVENTS];
-> > > >
-> > > > +    /* PMU event selector configured values for RV32*/
-> > > > +    target_ulong mhpmeventh_val[RV_MAX_MHPMEVENTS];
-> > > > +
-> > > >      target_ulong sscratch;
-> > > >      target_ulong mscratch;
-> > > >
-> > > > @@ -413,6 +418,7 @@ struct RISCVCPUConfig {
-> > > >      bool ext_zhinxmin;
-> > > >      bool ext_zve32f;
-> > > >      bool ext_zve64f;
-> > > > +    bool ext_sscofpmf;
-> > > >
-> > > >      /* Vendor-specific custom extensions */
-> > > >      bool ext_XVentanaCondOps;
-> > > > @@ -452,6 +458,12 @@ struct ArchCPU {
-> > > >
-> > > >      /* Configuration Settings */
-> > > >      RISCVCPUConfig cfg;
-> > > > +
-> > > > +    QEMUTimer *pmu_timer;
-> > > > +    /* A bitmask of Available programmable counters */
-> > > > +    uint32_t pmu_avail_ctrs;
-> > > > +    /* Mapping of events to counters */
-> > > > +    GHashTable *pmu_event_ctr_map;
-> > > >  };
-> > > >
-> > > >  static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
-> > > > @@ -709,6 +721,19 @@ enum {
-> > > >      CSR_TABLE_SIZE = 0x1000
-> > > >  };
-> > > >
-> > > > +/**
-> > > > + * The event id are encoded based on the encoding specified in the
-> > > > + * SBI specification v0.3
-> > > > + */
-> > > > +
-> > > > +enum riscv_pmu_event_idx {
-> > > > +    RISCV_PMU_EVENT_HW_CPU_CYCLES = 0x01,
-> > > > +    RISCV_PMU_EVENT_HW_INSTRUCTIONS = 0x02,
-> > > > +    RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS = 0x10019,
-> > > > +    RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS = 0x1001B,
-> > > > +    RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS = 0x10021,
-> > > > +};
-> > > > +
-> > > >  /* CSR function table */
-> > > >  extern riscv_csr_operations csr_ops[CSR_TABLE_SIZE];
-> > > >
-> > > > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > > > index 48b39e6d52a7..d0b53e5ea072 100644
-> > > > --- a/target/riscv/cpu_bits.h
-> > > > +++ b/target/riscv/cpu_bits.h
-> > > > @@ -400,6 +400,37 @@
-> > > >  #define CSR_MHPMEVENT29     0x33d
-> > > >  #define CSR_MHPMEVENT30     0x33e
-> > > >  #define CSR_MHPMEVENT31     0x33f
-> > > > +
-> > > > +#define CSR_MHPMEVENT3H     0x723
-> > > > +#define CSR_MHPMEVENT4H     0x724
-> > > > +#define CSR_MHPMEVENT5H     0x725
-> > > > +#define CSR_MHPMEVENT6H     0x726
-> > > > +#define CSR_MHPMEVENT7H     0x727
-> > > > +#define CSR_MHPMEVENT8H     0x728
-> > > > +#define CSR_MHPMEVENT9H     0x729
-> > > > +#define CSR_MHPMEVENT10H    0x72a
-> > > > +#define CSR_MHPMEVENT11H    0x72b
-> > > > +#define CSR_MHPMEVENT12H    0x72c
-> > > > +#define CSR_MHPMEVENT13H    0x72d
-> > > > +#define CSR_MHPMEVENT14H    0x72e
-> > > > +#define CSR_MHPMEVENT15H    0x72f
-> > > > +#define CSR_MHPMEVENT16H    0x730
-> > > > +#define CSR_MHPMEVENT17H    0x731
-> > > > +#define CSR_MHPMEVENT18H    0x732
-> > > > +#define CSR_MHPMEVENT19H    0x733
-> > > > +#define CSR_MHPMEVENT20H    0x734
-> > > > +#define CSR_MHPMEVENT21H    0x735
-> > > > +#define CSR_MHPMEVENT22H    0x736
-> > > > +#define CSR_MHPMEVENT23H    0x737
-> > > > +#define CSR_MHPMEVENT24H    0x738
-> > > > +#define CSR_MHPMEVENT25H    0x739
-> > > > +#define CSR_MHPMEVENT26H    0x73a
-> > > > +#define CSR_MHPMEVENT27H    0x73b
-> > > > +#define CSR_MHPMEVENT28H    0x73c
-> > > > +#define CSR_MHPMEVENT29H    0x73d
-> > > > +#define CSR_MHPMEVENT30H    0x73e
-> > > > +#define CSR_MHPMEVENT31H    0x73f
-> > > > +
-> > > >  #define CSR_MHPMCOUNTER3H   0xb83
-> > > >  #define CSR_MHPMCOUNTER4H   0xb84
-> > > >  #define CSR_MHPMCOUNTER5H   0xb85
-> > > > @@ -461,6 +492,7 @@
-> > > >  #define CSR_VSMTE           0x2c0
-> > > >  #define CSR_VSPMMASK        0x2c1
-> > > >  #define CSR_VSPMBASE        0x2c2
-> > > > +#define CSR_SCOUNTOVF       0xda0
-> > > >
-> > > >  /* mstatus CSR bits */
-> > > >  #define MSTATUS_UIE         0x00000001
-> > > > @@ -635,6 +667,7 @@ typedef enum RISCVException {
-> > > >  #define IRQ_VS_EXT                         10
-> > > >  #define IRQ_M_EXT                          11
-> > > >  #define IRQ_S_GEXT                         12
-> > > > +#define IRQ_PMU_OVF                        13
-> > > >  #define IRQ_LOCAL_MAX                      16
-> > > >  #define IRQ_LOCAL_GUEST_MAX                (TARGET_LONG_BITS - 1)
-> > > >
-> > > > @@ -652,11 +685,13 @@ typedef enum RISCVException {
-> > > >  #define MIP_VSEIP                          (1 << IRQ_VS_EXT)
-> > > >  #define MIP_MEIP                           (1 << IRQ_M_EXT)
-> > > >  #define MIP_SGEIP                          (1 << IRQ_S_GEXT)
-> > > > +#define MIP_LCOFIP                         (1 << IRQ_PMU_OVF)
-> > > >
-> > > >  /* sip masks */
-> > > >  #define SIP_SSIP                           MIP_SSIP
-> > > >  #define SIP_STIP                           MIP_STIP
-> > > >  #define SIP_SEIP                           MIP_SEIP
-> > > > +#define SIP_LCOFIP                         MIP_LCOFIP
-> > > >
-> > > >  /* MIE masks */
-> > > >  #define MIE_SEIE                           (1 << IRQ_S_EXT)
-> > > > @@ -804,4 +839,24 @@ typedef enum RISCVException {
-> > > >  #define HVICTL_VALID_MASK                  \
-> > > >      (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
-> > > >
-> > > > +/* PMU related bits */
-> > > > +#define MIE_LCOFIE                         (1 << IRQ_PMU_OVF)
-> > > > +
-> > > > +#define MHPMEVENT_BIT_OF                   BIT_ULL(63)
-> > > > +#define MHPMEVENTH_BIT_OF                  BIT(31)
-> > > > +#define MHPMEVENT_BIT_MINH                 BIT_ULL(62)
-> > > > +#define MHPMEVENTH_BIT_MINH                BIT(30)
-> > > > +#define MHPMEVENT_BIT_SINH                 BIT_ULL(61)
-> > > > +#define MHPMEVENTH_BIT_SINH                BIT(29)
-> > > > +#define MHPMEVENT_BIT_UINH                 BIT_ULL(60)
-> > > > +#define MHPMEVENTH_BIT_UINH                BIT(28)
-> > > > +#define MHPMEVENT_BIT_VSINH                BIT_ULL(59)
-> > > > +#define MHPMEVENTH_BIT_VSINH               BIT(27)
-> > > > +#define MHPMEVENT_BIT_VUINH                BIT_ULL(58)
-> > > > +#define MHPMEVENTH_BIT_VUINH               BIT(26)
-> > > > +
-> > > > +#define MHPMEVENT_SSCOF_MASK               _ULL(0xFFFF000000000000)
-> > > > +#define MHPMEVENT_IDX_MASK                 0xFFFFF
-> > > > +#define MHPMEVENT_SSCOF_RESVD              16
-> > > > +
-> > > >  #endif
-> > > > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > > > index 04796b99d0fe..519d6377fd9f 100644
-> > > > --- a/target/riscv/csr.c
-> > > > +++ b/target/riscv/csr.c
-> > > > @@ -72,7 +72,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > >      CPUState *cs = env_cpu(env);
-> > > >      RISCVCPU *cpu = RISCV_CPU(cs);
-> > > >      int ctr_index;
-> > > > -    int base_csrno = CSR_HPMCOUNTER3;
-> > > > +    int base_csrno = CSR_CYCLE;
-> > > >      bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
-> > > >
-> > > >      if (rv32 && csrno >= CSR_CYCLEH) {
-> > > > @@ -81,11 +81,18 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > >      }
-> > > >      ctr_index = csrno - base_csrno;
-> > > >
-> > > > -    if (!cpu->cfg.pmu_num || ctr_index >= (cpu->cfg.pmu_num)) {
-> > > > +    if ((csrno >= CSR_CYCLE && csrno <= CSR_INSTRET) ||
-> > > > +        (csrno >= CSR_CYCLEH && csrno <= CSR_INSTRETH)) {
-> > > > +        goto skip_ext_pmu_check;
-> > > > +    }
-> > > > +
-> > > > +    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & BIT(ctr_index)))) {
-> > > >          /* No counter is enabled in PMU or the counter is out of range */
-> > > >          return RISCV_EXCP_ILLEGAL_INST;
-> > > >      }
-> > > >
-> > > > +skip_ext_pmu_check:
-> > > > +
-> > > >      if (env->priv == PRV_S) {
-> > > >          switch (csrno) {
-> > > >          case CSR_CYCLE:
-> > > > @@ -104,7 +111,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > >              }
-> > > >              break;
-> > > >          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-> > > > -            ctr_index = csrno - CSR_CYCLE;
-> > > >              if (!get_field(env->mcounteren, 1 << ctr_index)) {
-> > > >                  return RISCV_EXCP_ILLEGAL_INST;
-> > > >              }
-> > > > @@ -128,7 +134,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > >                  }
-> > > >                  break;
-> > > >              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-> > > > -                ctr_index = csrno - CSR_CYCLEH;
-> > > >                  if (!get_field(env->mcounteren, 1 << ctr_index)) {
-> > > >                      return RISCV_EXCP_ILLEGAL_INST;
-> > > >                  }
-> > > > @@ -158,7 +163,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > >              }
-> > > >              break;
-> > > >          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-> > > > -            ctr_index = csrno - CSR_CYCLE;
-> > > >              if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> > > >                   get_field(env->mcounteren, 1 << ctr_index)) {
-> > > >                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> > > > @@ -186,7 +190,6 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> > > >                  }
-> > > >                  break;
-> > > >              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-> > > > -                ctr_index = csrno - CSR_CYCLEH;
-> > > >                  if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> > > >                       get_field(env->mcounteren, 1 << ctr_index)) {
-> > > >                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> > > > @@ -238,6 +241,18 @@ static RISCVException mctr32(CPURISCVState *env, int csrno)
-> > > >      return mctr(env, csrno);
-> > > >  }
-> > > >
-> > > > +static RISCVException sscofpmf(CPURISCVState *env, int csrno)
-> > > > +{
-> > > > +    CPUState *cs = env_cpu(env);
-> > > > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > > > +
-> > > > +    if (!cpu->cfg.ext_sscofpmf) {
-> > > > +        return RISCV_EXCP_ILLEGAL_INST;
-> > > > +    }
-> > > > +
-> > > > +    return RISCV_EXCP_NONE;
-> > > > +}
-> > > > +
-> > > >  static RISCVException any(CPURISCVState *env, int csrno)
-> > > >  {
-> > > >      return RISCV_EXCP_NONE;
-> > > > @@ -622,11 +637,36 @@ static int write_mhpmevent(CPURISCVState *env, int csrno, target_ulong val)
-> > > >  {
-> > > >      int evt_index = csrno - CSR_MCOUNTINHIBIT;
-> > > >
-> > > > +    if (riscv_cpu_mxl(env) != MXL_RV32) {
-> > >
-> > > Is this right? What if the guest writes the high bytes first?
-> > >
-> >
-> > Most of the current software is implemented with lower bytes first.
-> > But I understand your concern
-> > that it doesn't provide any guarantee. We probably can have another
-> > field that can track the order of the updates.
-> > riscv_pmu_update_event_map will be only called when both lower/upper
-> > half is complete.
->
-> Why can't you just update it on every write? Guest software should be
+On 4/26/22 11:17, Richard Henderson wrote:
+> The following changes since commit a1755db71e34df016ffc10aa0727360aae2c6036:
+> 
+>    Merge tag 'pull-block-2022-04-25' of https://gitlab.com/hreitz/qemu into staging (2022-04-25 13:35:41 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/rth7680/qemu.git tags/pull-nios2-20220426
+> 
+> for you to fetch changes up to 7f176c5a0bcb70492f3b158a36311e75f1eb87d7:
+> 
+>    tests/tcg/nios2: Add test-shadow-1 (2022-04-26 08:17:10 -0700)
+> 
+> ----------------------------------------------------------------
+> Fix nios2-linux-user syscalls.
+> Fix nios2-linux-user sigreturn.
+> Enable tests for nios2-linux-user.
+> Remove special handling of SIGSEGV.
+> Check supervisor for eret, bret.
+> Split special registers out of env->regs[].
+> Clean up interrupt processing.
+> Raise unaligned data and destination exceptions.
+> Set TLBMISC fields correctly on exceptions.
+> Prevent writes to read-only or reserved control fields.
+> Use tcg_constant_tl().
+> Implement shadow register sets.
+> Implement external interrupt controller interface.
+> Implement vectored interrupt controller.
+> Enable semihosting tests for nios2-softmmu.
 
-riscv_pmu_update_event_map maintains a hashmap between counter and event ID.
-Updating at every write is unnecessary as it will do the hashmap
-lookup and return fail
-for high bytes write.
-
-The events encoded as the SBI PMU spec will always have the event id
-in lower 20 bits.
-Technically, it is okay to just call riscv_pmu_update_event_map in
-write_mhpmevent not in
-write_mhpmeventh for rv32 as well.
-
-However, I want to keep riscv/pmu.c as generic as possible to allow
-future implementations
-to have different event ID value > UINT32_MAX.
-
-Let me know if you like to keep it simple and just update
-riscv_pmu_update_event_map in lower bits
-update right now.
-
-> setting the high bits to 0xFFFF_FFFF first to avoid any issues
->
-> Alistair
->
-> >
-> >
-> > > Alistair
->
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
--- 
-Regards,
-Atish
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Amir Gonnen (5):
+>        target/nios2: Check supervisor on eret
+>        target/nios2: Add NUM_GP_REGS and NUM_CP_REGS
+>        target/nios2: Split out helper for eret instruction
+>        hw/intc: Vectored Interrupt Controller (VIC)
+>        hw/nios2: Machine with a Vectored Interrupt Controller
+> 
+> Richard Henderson (63):
+>        linux-user/nios2: Hoist pc advance to the top of EXCP_TRAP
+>        linux-user/nios2: Fix clone child return
+>        linux-user/nios2: Drop syscall 0 "workaround"
+>        linux-user/nios2: Adjust error return
+>        linux-user/nios2: Handle special qemu syscall return values
+>        linux-user/nios2: Remove do_sigreturn
+>        linux-user/nios2: Use QEMU_ESIGRETURN from do_rt_sigreturn
+>        tests/tcg/nios2: Re-enable linux-user tests
+>        target/nios2: Remove user-only nios2_cpu_do_interrupt
+>        target/nios2: Remove nios2_cpu_record_sigsegv
+>        target/nios2: Build helper.c for system only
+>        linux-user/nios2: Use force_sig_fault for EXCP_DEBUG
+>        target/nios2: Stop generating code if gen_check_supervisor fails
+>        target/nios2: Split PC out of env->regs[]
+>        target/nios2: Fix BRET instruction
+>        target/nios2: Do not create TCGv for control registers
+>        linux-user/nios2: Only initialize SP and PC in target_cpu_copy_regs
+>        target/nios2: Remove cpu_interrupts_enabled
+>        target/nios2: Split control registers away from general registers
+>        target/nios2: Clean up nios2_cpu_dump_state
+>        target/nios2: Use hw/registerfields.h for CR_STATUS fields
+>        target/nios2: Use hw/registerfields.h for CR_EXCEPTION fields
+>        target/nios2: Use hw/registerfields.h for CR_TLBADDR fields
+>        target/nios2: Use hw/registerfields.h for CR_TLBACC fields
+>        target/nios2: Rename CR_TLBMISC_WR to CR_TLBMISC_WE
+>        target/nios2: Use hw/registerfields.h for CR_TLBMISC fields
+>        target/nios2: Move R_FOO and CR_BAR into enumerations
+>        target/nios2: Create EXCP_SEMIHOST for semi-hosting
+>        target/nios2: Clean up nios2_cpu_do_interrupt
+>        target/nios2: Hoist CPU_LOG_INT logging
+>        target/nios2: Handle EXCP_UNALIGN and EXCP_UNALIGND
+>        target/nios2: Cleanup set of CR_EXCEPTION for do_interrupt
+>        target/nios2: Clean up handling of tlbmisc in do_exception
+>        target/nios2: Prevent writes to read-only or reserved control fields
+>        target/nios2: Implement cpuid
+>        target/nios2: Implement CR_STATUS.RSIE
+>        target/nios2: Remove CPU_INTERRUPT_NMI
+>        target/nios2: Support division error exception
+>        target/nios2: Use tcg_constant_tl
+>        target/nios2: Split out named structs for [IRJ]_TYPE
+>        target/nios2: Split out helpers for gen_i_cmpxx
+>        target/nios2: Split out helpers for gen_i_math_logic
+>        target/nios2: Split out helpers for gen_r_math_logic
+>        target/nios2: Split out helpers for gen_rr_mul_high
+>        target/nios2: Split out helpers for gen_rr_shift
+>        target/nios2: Introduce dest_gpr
+>        target/nios2: Drop CR_STATUS_EH from tb->flags
+>        target/nios2: Enable unaligned traps for system mode
+>        target/nios2: Create gen_jumpr
+>        target/nios2: Hoist set of is_jmp into gen_goto_tb
+>        target/nios2: Use gen_goto_tb for DISAS_TOO_MANY
+>        target/nios2: Use tcg_gen_lookup_and_goto_ptr
+>        target/nios2: Implement Misaligned destination exception
+>        target/nios2: Introduce shadow register sets
+>        target/nios2: Implement rdprs, wrprs
+>        target/nios2: Update helper_eret for shadow registers
+>        target/nios2: Implement EIC interrupt processing
+>        target/nios2: Advance pc when raising exceptions
+>        linux-user/nios2: Handle various SIGILL exceptions
+>        hw/nios2: Introduce Nios2MachineState
+>        hw/nios2: Move memory regions into Nios2Machine
+>        tests/tcg/nios2: Add semihosting multiarch tests
+>        tests/tcg/nios2: Add test-shadow-1
+> 
+>   configs/targets/nios2-softmmu.mak       |   1 +
+>   include/hw/intc/nios2_vic.h             |  64 +++
+>   linux-user/nios2/target_cpu.h           |   1 +
+>   target/nios2/cpu.h                      | 250 +++++++----
+>   target/nios2/helper.h                   |   5 +
+>   tests/tcg/nios2/semicall.h              |  28 ++
+>   hw/intc/nios2_vic.c                     | 313 +++++++++++++
+>   hw/nios2/10m50_devboard.c               | 115 +++--
+>   linux-user/elfload.c                    |   3 +-
+>   linux-user/nios2/cpu_loop.c             |  96 ++--
+>   linux-user/nios2/signal.c               |  25 +-
+>   target/nios2/cpu.c                      | 213 +++++++--
+>   target/nios2/helper.c                   | 383 +++++++++-------
+>   target/nios2/mmu.c                      |  78 ++--
+>   target/nios2/op_helper.c                |  88 ++++
+>   target/nios2/translate.c                | 749 ++++++++++++++++++++------------
+>   hw/intc/Kconfig                         |   3 +
+>   hw/intc/meson.build                     |   1 +
+>   hw/nios2/Kconfig                        |   1 +
+>   target/nios2/meson.build                |   7 +-
+>   tests/tcg/nios2/10m50-ghrd.ld           |  66 +++
+>   tests/tcg/nios2/Makefile.softmmu-target |  33 ++
+>   tests/tcg/nios2/Makefile.target         |  11 -
+>   tests/tcg/nios2/boot.S                  | 218 ++++++++++
+>   tests/tcg/nios2/intr.S                  |  31 ++
+>   tests/tcg/nios2/test-shadow-1.S         |  40 ++
+>   26 files changed, 2113 insertions(+), 710 deletions(-)
+>   create mode 100644 include/hw/intc/nios2_vic.h
+>   create mode 100644 tests/tcg/nios2/semicall.h
+>   create mode 100644 hw/intc/nios2_vic.c
+>   create mode 100644 tests/tcg/nios2/10m50-ghrd.ld
+>   create mode 100644 tests/tcg/nios2/Makefile.softmmu-target
+>   delete mode 100644 tests/tcg/nios2/Makefile.target
+>   create mode 100644 tests/tcg/nios2/boot.S
+>   create mode 100644 tests/tcg/nios2/intr.S
+>   create mode 100644 tests/tcg/nios2/test-shadow-1.S
+
 
