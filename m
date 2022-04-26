@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A25250FBC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:12:29 +0200 (CEST)
-Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD0250FBBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:11:32 +0200 (CEST)
+Received: from localhost ([::1]:55234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njJ7M-0006PK-4U
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:12:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43888)
+	id 1njJ6Q-0004xY-57
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzP-0004eQ-5i
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41862)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzV-0004ft-5V
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzN-0004XC-Ei
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:14 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzT-0004Y5-Lp
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650971052;
+ s=mimecast20190719; t=1650971059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PrGCZVM389hjCQzgZPb8u6IS3jwWK0ndVF5vnCevEXQ=;
- b=hOUVI367ibFrJLb24uHhxS2woahcLsYRm1tXpqPCruuEsX/xXG/eRjyFAgeue57Trh53eo
- DgCShqefYQUpg+pGPEgEe7KyzBnzKKmLMQ7mlb/1K5SG4kdbmqFDqLBez1R5S7Lrjc1ppx
- H+3zVhjSeOffJHRTZP9iGwdwHLIcqbM=
+ bh=hW+idUemzWypyT6LHhDhKKKh85nJdc/SBTBGvca/61g=;
+ b=Rj0Ib7vYdLVxV6YJhki6c/jP5blDyhJ9Mm+JeS9gET7yNn8EI9rONxL6osdCcb2noKRnFG
+ 7E+32rN/dZv6hrSfoqyKZNv8MP8oQipKyxCvWTfY39yN2TOyMMQ6DdMPXF+tloc5YnOhyP
+ L70OD/+l4ygOcQirciJcuX3Y5wsPX9M=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-253-dtzrRfHRPJ6ejpW3fCI1rQ-1; Tue, 26 Apr 2022 07:04:11 -0400
-X-MC-Unique: dtzrRfHRPJ6ejpW3fCI1rQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-515--DQNLr9FNDSXoxa5qW4DRw-1; Tue, 26 Apr 2022 07:04:13 -0400
+X-MC-Unique: -DQNLr9FNDSXoxa5qW4DRw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 532033C02B7A;
- Tue, 26 Apr 2022 11:04:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 302A929ABA1E;
+ Tue, 26 Apr 2022 11:04:13 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AE8114C26A4;
- Tue, 26 Apr 2022 11:04:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D32C5401E97;
+ Tue, 26 Apr 2022 11:04:12 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 44C271800850; Tue, 26 Apr 2022 13:03:59 +0200 (CEST)
+ id 690031800902; Tue, 26 Apr 2022 13:03:59 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] avocado/vnc: add test_change_listen
-Date: Tue, 26 Apr 2022 13:03:54 +0200
-Message-Id: <20220426110358.1570723-7-kraxel@redhat.com>
+Subject: [PULL 7/9] i386: move bios load error message
+Date: Tue, 26 Apr 2022 13:03:55 +0200
+Message-Id: <20220426110358.1570723-8-kraxel@redhat.com>
 In-Reply-To: <20220426110358.1570723-1-kraxel@redhat.com>
 References: <20220426110358.1570723-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -75,109 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Xiaoyao Li <xiaoyao.li@intel.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
+Switch to usual goto-end-of-function error handling style.
+No functional change.
 
-Add simple test-case for new display-update qmp command.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220401143936.356460-4-vsementsov@openvz.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Tested-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20220425135051.551037-2-kraxel@redhat.com>
 ---
- tests/avocado/vnc.py | 63 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ hw/i386/x86.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/tests/avocado/vnc.py b/tests/avocado/vnc.py
-index 096432988fbb..187fd3febca4 100644
---- a/tests/avocado/vnc.py
-+++ b/tests/avocado/vnc.py
-@@ -8,9 +8,48 @@
- # This work is licensed under the terms of the GNU GPL, version 2 or
- # later.  See the COPYING file in the top-level directory.
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index bb6727279097..ced31f67b9a8 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1120,9 +1120,7 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
+     }
+     ret = rom_add_file_fixed(bios_name, (uint32_t)(-bios_size), -1);
+     if (ret != 0) {
+-    bios_error:
+-        fprintf(stderr, "qemu: could not load PC BIOS '%s'\n", bios_name);
+-        exit(1);
++        goto bios_error;
+     }
+     g_free(filename);
  
-+import socket
-+from typing import List
+@@ -1143,6 +1141,11 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
+     memory_region_add_subregion(rom_memory,
+                                 (uint32_t)(-bios_size),
+                                 bios);
++    return;
 +
- from avocado_qemu import QemuSystemTest
++bios_error:
++    fprintf(stderr, "qemu: could not load PC BIOS '%s'\n", bios_name);
++    exit(1);
+ }
  
- 
-+VNC_ADDR = '127.0.0.1'
-+VNC_PORT_START = 32768
-+VNC_PORT_END = VNC_PORT_START + 1024
-+
-+
-+def check_bind(port: int) -> bool:
-+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-+        try:
-+            sock.bind((VNC_ADDR, port))
-+        except OSError:
-+            return False
-+
-+    return True
-+
-+
-+def check_connect(port: int) -> bool:
-+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-+        try:
-+            sock.connect((VNC_ADDR, port))
-+        except ConnectionRefusedError:
-+            return False
-+
-+    return True
-+
-+
-+def find_free_ports(count: int) -> List[int]:
-+    result = []
-+    for port in range(VNC_PORT_START, VNC_PORT_END):
-+        if check_bind(port):
-+            result.append(port)
-+            if len(result) >= count:
-+                break
-+    assert len(result) == count
-+    return result
-+
-+
- class Vnc(QemuSystemTest):
-     """
-     :avocado: tags=vnc,quick
-@@ -51,3 +90,27 @@ def test_change_password(self):
-         set_password_response = self.vm.qmp('change-vnc-password',
-                                             password='new_password')
-         self.assertEqual(set_password_response['return'], {})
-+
-+    def test_change_listen(self):
-+        a, b, c = find_free_ports(3)
-+        self.assertFalse(check_connect(a))
-+        self.assertFalse(check_connect(b))
-+        self.assertFalse(check_connect(c))
-+
-+        self.vm.add_args('-nodefaults', '-S', '-vnc', f'{VNC_ADDR}:{a - 5900}')
-+        self.vm.launch()
-+        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], str(a))
-+        self.assertTrue(check_connect(a))
-+        self.assertFalse(check_connect(b))
-+        self.assertFalse(check_connect(c))
-+
-+        res = self.vm.qmp('display-update', type='vnc',
-+                          addresses=[{'type': 'inet', 'host': VNC_ADDR,
-+                                      'port': str(b)},
-+                                     {'type': 'inet', 'host': VNC_ADDR,
-+                                      'port': str(c)}])
-+        self.assertEqual(res['return'], {})
-+        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], str(b))
-+        self.assertFalse(check_connect(a))
-+        self.assertTrue(check_connect(b))
-+        self.assertTrue(check_connect(c))
+ bool x86_machine_is_smm_enabled(const X86MachineState *x86ms)
 -- 
 2.35.1
 
