@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F139510787
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 20:50:12 +0200 (CEST)
-Received: from localhost ([::1]:57056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909495107D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:01:35 +0200 (CEST)
+Received: from localhost ([::1]:56378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQGJ-00012M-8I
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 14:50:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44368)
+	id 1njQRK-0003Fy-75
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:01:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPmr-0002y5-4c
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:45 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:40498)
+ id 1njPms-00033L-LX
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:46 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:46858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPmp-0004TE-6G
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:44 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id i24so18692983pfa.7
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:42 -0700 (PDT)
+ id 1njPmq-0004TZ-FD
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:46 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id q12so16705168pgj.13
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xHxvfyaHHNAh6ZFog8b1i7xhm5MEp5/7nB+TsCbtI6Y=;
- b=YMQPXUxdRw4EfDpQSrhcUW+/H1MzWN9YowZiBdGjl08LDhvt9n3TsEWl5+urPIX6AZ
- Du5H6ZxjrChmnLBjSVYEYeXH2C3am3wt7UxWVDlRABacrwI4PJjadUxzELc+OLtbl+8n
- xqUqpt0PciBszzdBQJXnLLrHLe+z/2oBvo6cgEF6OveB2Q7S4IeDxRX3d+w/iRk6/CNO
- yC7mX2GbNM++4HyzKpVoRyb/YI7zQ2aH/lWN7DUi5dAeHd/U8mOlVyAEl8OoOZi2BbSV
- 8Gj6Aee9mapbdQXEPfIU86rH8A6Aqr3ZaU4fbrefIcWGLaPwHe13Em91e0cMAlEgoNXs
- qSDg==
+ bh=b91HmxjG0u6CLiTBN86Gl9ydinvbPQB9WXtZ8LXqaK4=;
+ b=azMJpw5AH1F8OZ4O33jYLdnWrEMOWpPIFsunDNCRTBWgol1xe9Hogxb+Y2tyEL7NlI
+ A/tZOMheXN9pKdyolIZbSTPLFY4IaB+LXbE6nKtSF2BGikuW5jh5UZFPrs0tODjsezco
+ zTmDVpv60H5mbwYN/wu7QvY8YkCqn1dHExCFxGH7FzXcvd1kf9bNLGMuwxWSsI+iW5M3
+ /dU80tCIwuNJ9dMV0Tvr08PXNs+8p/rNM6zXuoF33xaiy6wmcvYwt3JviRjZXPgdJlZh
+ ap3nwTbIMvftNPIfBGfe7XM+KjmCIN6jRo//zMqcbKCgH8htOxjHMPOCPOZKNf51kdT4
+ JQQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xHxvfyaHHNAh6ZFog8b1i7xhm5MEp5/7nB+TsCbtI6Y=;
- b=gvSexDQnKC+Cnm/0HQIkTkAdUgVUcwbB4bfgyRn5YVAjWBPcS1dWKuhn/1qTjBylT4
- oNTbw7I8JcLWhHS36vZrJMmKMolSVgX91WHSqIwZO3jWdxTTl1uHkTwaprehv+oeCNfH
- xfN0ZG/y1W5fDB8cZxl7D99qSiZAt1H+rzg2hotcQgzEAwSJv2bV8ZJ1/UXU3x1v11a+
- H/7puFNTW4bb4/Vdmv3LsETYY1/RqlG+S72qSAHx8uTHsUCcRLELMtCJKJg/gF1ldqB9
- tCVxiVArB1fNSXHH2aqvy2IntJjy7EHuQ/bECNnbU8HExbJomwalF+en82RaPz49sIjy
- DgwA==
-X-Gm-Message-State: AOAM530zGeCKHZeHt3p1JbWn4BOZ9M9qFdvwiq61VV0Ak3cpk2CYMgaf
- KAPUjA5/ek01sIT6mznDxEB5KLAo8HqauQ==
-X-Google-Smtp-Source: ABdhPJz1PTlaG89ZLfMSFGwXEtEox1hGg4LckXVmEPON1lunict3oZLhcWKfY18jkX/UQcyAl5KSAQ==
-X-Received: by 2002:a05:6a00:278d:b0:50d:5320:9ef4 with SMTP id
- bd13-20020a056a00278d00b0050d53209ef4mr5870965pfb.50.1650997181784; 
- Tue, 26 Apr 2022 11:19:41 -0700 (PDT)
+ bh=b91HmxjG0u6CLiTBN86Gl9ydinvbPQB9WXtZ8LXqaK4=;
+ b=nhv0uikPn1Y1YTOwcFxV6of/ol434I+h62lhzhv9mCnqIoS/Ww6e/uU4LAIVA8cRqm
+ 669v6l5hpmOPPZOzj4JaNvBWN0jIs18fhjFGj3UziWWc6dD5UOXD4cCEiRwKMgeEMi6r
+ Gws2SWSoI4xGlj3yo5e0UlsodIFhGkKe/hUIH5/Et8DwzqSjyfFR0iTHO//jCXOfv6vr
+ YnPJP+8ucld+anC7hIX7DmVYxgzYsKlhZlf2EzjsZLZjCsBp7N3i6kiHqanmZEfITC3K
+ sFDTZX67qRwlLu8Ds66OEhHxfLPYY2G9oXe+30S5lrjQ75yNLS8Czbw4o4ExOuWOLdgn
+ m5Kw==
+X-Gm-Message-State: AOAM530tXCt+4YX9O94N1SEJQnxy3/ax/5lHe+LXDJMLOWV8qeYk/wWW
+ 9RkXhvz5RZbHks1vNLTMnJHbquMFNIBISA==
+X-Google-Smtp-Source: ABdhPJzP6LdnM8Fl80ULNpJ30/7D4lnoG1WKfcdn2ynJU8rQ30eLN1r4Y1cC4Dnb4fVI9ApxuJJ+9Q==
+X-Received: by 2002:a65:6942:0:b0:378:9365:5963 with SMTP id
+ w2-20020a656942000000b0037893655963mr20339288pgq.142.1650997183018; 
+ Tue, 26 Apr 2022 11:19:43 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.41
+ j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 11:19:41 -0700 (PDT)
+ Tue, 26 Apr 2022 11:19:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/68] target/nios2: Clean up handling of tlbmisc in
- do_exception
-Date: Tue, 26 Apr 2022 11:18:35 -0700
-Message-Id: <20220426181907.103691-37-richard.henderson@linaro.org>
+Subject: [PULL 37/68] target/nios2: Prevent writes to read-only or reserved
+ control fields
+Date: Tue, 26 Apr 2022 11:18:36 -0700
+Message-Id: <20220426181907.103691-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
 References: <20220426181907.103691-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,245 +89,371 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 4 lower bits, D, PERM, BAD, DBL, are unconditionally set on any
-exception with EH=0, or so says Table 42 (Processor Status After
-Taking Exception).
+Create an array of masks which detail the writable and readonly
+bits for each control register.  Apply them when writing to
+control registers, including the write to status during eret.
 
-We currently do not set PERM or BAD at all, and only set/clear
-DBL for tlb miss, and do not clear DBL for any other exception.
-
-It is a bit confusing to set D in tlb_fill and the rest during
-do_interrupt, so move the setting of D to do_interrupt as well.
-To do this, split EXP_TLBD into two cases, EXCP_TLB_X and EXCP_TLB_D,
-which allows us to distinguish them during do_interrupt.  Choose
-a value for EXCP_TLB_D such that when truncated it produces the
-correct value for exception.CAUSE.
-
-Rename EXCP_TLB[RWX] to EXCP_PERM_[RWX], to emphasize that the
-exception is permissions related.  Rename EXCP_SUPER[AD] to
-EXCP_SUPERA_[DX] to emphasize that they are both "supervisor
-address" exceptions, data and execute.
-
-Retain the setting of tlbmisc.WE for the fast-tlb-miss path, as it
-is being relied upon, but remove it from the permission path.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-37-richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20220421151735.31996-38-richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h    | 13 +++---
- target/nios2/helper.c | 97 +++++++++++++++++++++++++++++--------------
- 2 files changed, 73 insertions(+), 37 deletions(-)
+ target/nios2/cpu.h       |  13 +++++
+ target/nios2/cpu.c       | 100 +++++++++++++++++++++++++++++++++------
+ target/nios2/op_helper.c |   9 ++++
+ target/nios2/translate.c |  80 ++++++++++++++++++++++++-------
+ 4 files changed, 171 insertions(+), 31 deletions(-)
 
 diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 01cead5502..0027416742 100644
+index 0027416742..da85d82faa 100644
 --- a/target/nios2/cpu.h
 +++ b/target/nios2/cpu.h
-@@ -166,13 +166,14 @@ FIELD(CR_TLBMISC, EE, 24, 1)
- #define EXCP_UNALIGN  6
- #define EXCP_UNALIGND 7
- #define EXCP_DIV      8
--#define EXCP_SUPERA   9
-+#define EXCP_SUPERA_X 9
- #define EXCP_SUPERI   10
--#define EXCP_SUPERD   11
--#define EXCP_TLBD     12
--#define EXCP_TLBX     13
--#define EXCP_TLBR     14
--#define EXCP_TLBW     15
-+#define EXCP_SUPERA_D 11
-+#define EXCP_TLB_X    12
-+#define EXCP_TLB_D    (0x1000 | EXCP_TLB_X)
-+#define EXCP_PERM_X   13
-+#define EXCP_PERM_R   14
-+#define EXCP_PERM_W   15
- #define EXCP_MPUI     16
- #define EXCP_MPUD     17
+@@ -190,6 +190,11 @@ struct CPUArchState {
+     int error_code;
+ };
  
-diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index 3d9869453b..4d9085f22f 100644
---- a/target/nios2/helper.c
-+++ b/target/nios2/helper.c
-@@ -29,7 +29,8 @@
- #include "semihosting/semihost.h"
- 
- 
--static void do_exception(Nios2CPU *cpu, uint32_t exception_addr, bool is_break)
-+static void do_exception(Nios2CPU *cpu, uint32_t exception_addr,
-+                         uint32_t tlbmisc_set, bool is_break)
- {
-     CPUNios2State *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
-@@ -48,6 +49,16 @@ static void do_exception(Nios2CPU *cpu, uint32_t exception_addr, bool is_break)
- 
-         if (cpu->mmu_present) {
-             new_status |= CR_STATUS_EH;
++typedef struct {
++    uint32_t writable;
++    uint32_t readonly;
++} ControlRegState;
 +
-+            /*
-+             * There are 4 bits that are always written.
-+             * Explicitly clear them, to be set via the argument.
-+             */
-+            env->ctrl[CR_TLBMISC] &= ~(CR_TLBMISC_D |
-+                                       CR_TLBMISC_PERM |
-+                                       CR_TLBMISC_BAD |
-+                                       CR_TLBMISC_DBL);
-+            env->ctrl[CR_TLBMISC] |= tlbmisc_set;
-         }
-     }
+ /**
+  * Nios2CPU:
+  * @env: #CPUNios2State
+@@ -213,9 +218,17 @@ struct ArchCPU {
+     uint32_t reset_addr;
+     uint32_t exception_addr;
+     uint32_t fast_tlb_miss_addr;
++
++    /* Bits within each control register which are reserved or readonly. */
++    ControlRegState cr_state[NUM_CR_REGS];
+ };
  
-@@ -63,13 +74,14 @@ static void do_exception(Nios2CPU *cpu, uint32_t exception_addr, bool is_break)
  
- static void do_iic_irq(Nios2CPU *cpu)
- {
--    do_exception(cpu, cpu->exception_addr, false);
-+    do_exception(cpu, cpu->exception_addr, 0, false);
++static inline bool nios2_cr_reserved(const ControlRegState *s)
++{
++    return (s->writable | s->readonly) == 0;
++}
++
+ void nios2_tcg_init(void);
+ void nios2_cpu_do_interrupt(CPUState *cs);
+ void dump_mmu(CPUNios2State *env);
+diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+index fce16a2e77..b3c5ae681c 100644
+--- a/target/nios2/cpu.c
++++ b/target/nios2/cpu.c
+@@ -102,6 +102,64 @@ static ObjectClass *nios2_cpu_class_by_name(const char *cpu_model)
+     return object_class_by_name(TYPE_NIOS2_CPU);
  }
  
- void nios2_cpu_do_interrupt(CPUState *cs)
- {
-     Nios2CPU *cpu = NIOS2_CPU(cs);
-     CPUNios2State *env = &cpu->env;
-+    uint32_t tlbmisc_set = 0;
- 
-     if (qemu_loglevel_mask(CPU_LOG_INT)) {
-         const char *name = NULL;
-@@ -78,20 +90,21 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-         case EXCP_IRQ:
-             name = "interrupt";
-             break;
--        case EXCP_TLBD:
-+        case EXCP_TLB_X:
-+        case EXCP_TLB_D:
-             if (env->ctrl[CR_STATUS] & CR_STATUS_EH) {
-                 name = "TLB MISS (double)";
-             } else {
-                 name = "TLB MISS (fast)";
-             }
-             break;
--        case EXCP_TLBR:
--        case EXCP_TLBW:
--        case EXCP_TLBX:
-+        case EXCP_PERM_R:
-+        case EXCP_PERM_W:
-+        case EXCP_PERM_X:
-             name = "TLB PERM";
-             break;
--        case EXCP_SUPERA:
--        case EXCP_SUPERD:
-+        case EXCP_SUPERA_X:
-+        case EXCP_SUPERA_D:
-             name = "SUPERVISOR (address)";
-             break;
-         case EXCP_SUPERI:
-@@ -129,38 +142,57 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-         do_iic_irq(cpu);
-         break;
- 
--    case EXCP_TLBD:
--        if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
--            env->ctrl[CR_TLBMISC] &= ~CR_TLBMISC_DBL;
--            env->ctrl[CR_TLBMISC] |= CR_TLBMISC_WE;
--            do_exception(cpu, cpu->fast_tlb_miss_addr, false);
-+    case EXCP_TLB_D:
-+        tlbmisc_set = CR_TLBMISC_D;
-+        /* fall through */
-+    case EXCP_TLB_X:
-+        if (env->ctrl[CR_STATUS] & CR_STATUS_EH) {
-+            tlbmisc_set |= CR_TLBMISC_DBL;
-+            /*
-+             * Normally, we don't write to tlbmisc unless !EH,
-+             * so do it manually for the double-tlb miss exception.
-+             */
-+            env->ctrl[CR_TLBMISC] &= ~(CR_TLBMISC_D |
-+                                       CR_TLBMISC_PERM |
-+                                       CR_TLBMISC_BAD);
-+            env->ctrl[CR_TLBMISC] |= tlbmisc_set;
-+            do_exception(cpu, cpu->exception_addr, 0, false);
-         } else {
--            env->ctrl[CR_TLBMISC] |= CR_TLBMISC_DBL;
--            do_exception(cpu, cpu->exception_addr, false);
-+            tlbmisc_set |= CR_TLBMISC_WE;
-+            do_exception(cpu, cpu->fast_tlb_miss_addr, tlbmisc_set, false);
-         }
-         break;
- 
--    case EXCP_TLBR:
--    case EXCP_TLBW:
--    case EXCP_TLBX:
--        if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
--            env->ctrl[CR_TLBMISC] |= CR_TLBMISC_WE;
-+    case EXCP_PERM_R:
-+    case EXCP_PERM_W:
-+        tlbmisc_set = CR_TLBMISC_D;
-+        /* fall through */
-+    case EXCP_PERM_X:
-+        tlbmisc_set |= CR_TLBMISC_PERM;
-+        if (!(env->ctrl[CR_STATUS] & CR_STATUS_EH)) {
-+            tlbmisc_set |= CR_TLBMISC_WE;
-         }
--        do_exception(cpu, cpu->exception_addr, false);
-+        do_exception(cpu, cpu->exception_addr, tlbmisc_set, false);
-+        break;
++static void realize_cr_status(CPUState *cs)
++{
++    Nios2CPU *cpu = NIOS2_CPU(cs);
 +
-+    case EXCP_SUPERA_D:
-+    case EXCP_UNALIGN:
-+        tlbmisc_set = CR_TLBMISC_D;
-+        /* fall through */
-+    case EXCP_SUPERA_X:
-+    case EXCP_UNALIGND:
-+        tlbmisc_set |= CR_TLBMISC_BAD;
-+        do_exception(cpu, cpu->exception_addr, tlbmisc_set, false);
-         break;
- 
--    case EXCP_SUPERA:
-     case EXCP_SUPERI:
--    case EXCP_SUPERD:
-     case EXCP_ILLEGAL:
-     case EXCP_TRAP:
--    case EXCP_UNALIGN:
--    case EXCP_UNALIGND:
--        do_exception(cpu, cpu->exception_addr, false);
-+        do_exception(cpu, cpu->exception_addr, 0, false);
-         break;
- 
-     case EXCP_BREAK:
--        do_exception(cpu, cpu->exception_addr, true);
-+        do_exception(cpu, cpu->exception_addr, 0, true);
-         break;
- 
-     case EXCP_SEMIHOST:
-@@ -215,7 +247,7 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++    /* Begin with all fields of all registers are reserved. */
++    memset(cpu->cr_state, 0, sizeof(cpu->cr_state));
++
++    /*
++     * The combination of writable and readonly is the set of all
++     * non-reserved fields.  We apply writable as a mask to bits,
++     * and merge in existing readonly bits, before storing.
++     */
++#define WR_REG(C)       cpu->cr_state[C].writable = -1
++#define RO_REG(C)       cpu->cr_state[C].readonly = -1
++#define WR_FIELD(C, F)  cpu->cr_state[C].writable |= R_##C##_##F##_MASK
++#define RO_FIELD(C, F)  cpu->cr_state[C].readonly |= R_##C##_##F##_MASK
++
++    WR_FIELD(CR_STATUS, PIE);
++    WR_REG(CR_ESTATUS);
++    WR_REG(CR_BSTATUS);
++    RO_REG(CR_CPUID);
++    RO_REG(CR_EXCEPTION);
++    WR_REG(CR_BADADDR);
++
++    /* TODO: These control registers are not present with the EIC. */
++    WR_REG(CR_IENABLE);
++    RO_REG(CR_IPENDING);
++
++    if (cpu->mmu_present) {
++        WR_FIELD(CR_STATUS, U);
++        WR_FIELD(CR_STATUS, EH);
++
++        WR_FIELD(CR_PTEADDR, VPN);
++        WR_FIELD(CR_PTEADDR, PTBASE);
++
++        RO_FIELD(CR_TLBMISC, D);
++        RO_FIELD(CR_TLBMISC, PERM);
++        RO_FIELD(CR_TLBMISC, BAD);
++        RO_FIELD(CR_TLBMISC, DBL);
++        WR_FIELD(CR_TLBMISC, PID);
++        WR_FIELD(CR_TLBMISC, WE);
++        WR_FIELD(CR_TLBMISC, RD);
++        WR_FIELD(CR_TLBMISC, WAY);
++
++        WR_REG(CR_TLBACC);
++    }
++
++    /*
++     * TODO: ECC (config, eccinj) and MPU (config, mpubase, mpuacc) are
++     * unimplemented, so their corresponding control regs remain reserved.
++     */
++
++#undef WR_REG
++#undef RO_REG
++#undef WR_FIELD
++#undef RO_FIELD
++}
++
+ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
  {
-     Nios2CPU *cpu = NIOS2_CPU(cs);
-     CPUNios2State *env = &cpu->env;
--    unsigned int excp = EXCP_TLBD;
-+    unsigned int excp;
-     target_ulong vaddr, paddr;
-     Nios2MMULookup lu;
-     unsigned int hit;
-@@ -242,7 +274,8 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-             if (probe) {
-                 return false;
-             }
--            cs->exception_index = EXCP_SUPERA;
-+            cs->exception_index = (access_type == MMU_INST_FETCH
-+                                   ? EXCP_SUPERA_X : EXCP_SUPERA_D);
-             env->ctrl[CR_BADADDR] = address;
-             cpu_loop_exit_restore(cs, retaddr);
-         }
-@@ -263,8 +296,10 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         }
- 
-         /* Permission violation */
--        excp = (access_type == MMU_DATA_LOAD ? EXCP_TLBR :
--                access_type == MMU_DATA_STORE ? EXCP_TLBW : EXCP_TLBX);
-+        excp = (access_type == MMU_DATA_LOAD ? EXCP_PERM_R :
-+                access_type == MMU_DATA_STORE ? EXCP_PERM_W : EXCP_PERM_X);
-+    } else {
-+        excp = (access_type == MMU_INST_FETCH ? EXCP_TLB_X: EXCP_TLB_D);
+     CPUState *cs = CPU(dev);
+@@ -114,6 +172,7 @@ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
      }
  
-     if (probe) {
++    realize_cr_status(cs);
+     qemu_init_vcpu(cs);
+     cpu_reset(cs);
+ 
+@@ -147,23 +206,26 @@ static void nios2_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
+ static int nios2_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+     Nios2CPU *cpu = NIOS2_CPU(cs);
+-    CPUClass *cc = CPU_GET_CLASS(cs);
+     CPUNios2State *env = &cpu->env;
++    uint32_t val;
+ 
+-    if (n > cc->gdb_num_core_regs) {
++    if (n < 32) {          /* GP regs */
++        val = env->regs[n];
++    } else if (n == 32) {    /* PC */
++        val = env->pc;
++    } else if (n < 49) {     /* Status regs */
++        unsigned cr = n - 33;
++        if (nios2_cr_reserved(&cpu->cr_state[cr])) {
++            val = 0;
++        } else {
++            val = env->ctrl[n - 33];
++        }
++    } else {
++        /* Invalid regs */
+         return 0;
+     }
+ 
+-    if (n < 32) {          /* GP regs */
+-        return gdb_get_reg32(mem_buf, env->regs[n]);
+-    } else if (n == 32) {    /* PC */
+-        return gdb_get_reg32(mem_buf, env->pc);
+-    } else if (n < 49) {     /* Status regs */
+-        return gdb_get_reg32(mem_buf, env->ctrl[n - 33]);
+-    }
+-
+-    /* Invalid regs */
+-    return 0;
++    return gdb_get_reg32(mem_buf, val);
+ }
+ 
+ static int nios2_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+@@ -171,17 +233,25 @@ static int nios2_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+     Nios2CPU *cpu = NIOS2_CPU(cs);
+     CPUClass *cc = CPU_GET_CLASS(cs);
+     CPUNios2State *env = &cpu->env;
++    uint32_t val;
+ 
+     if (n > cc->gdb_num_core_regs) {
+         return 0;
+     }
++    val = ldl_p(mem_buf);
+ 
+     if (n < 32) {            /* GP regs */
+-        env->regs[n] = ldl_p(mem_buf);
++        env->regs[n] = val;
+     } else if (n == 32) {    /* PC */
+-        env->pc = ldl_p(mem_buf);
++        env->pc = val;
+     } else if (n < 49) {     /* Status regs */
+-        env->ctrl[n - 33] = ldl_p(mem_buf);
++        unsigned cr = n - 33;
++        /* ??? Maybe allow the debugger to write to readonly fields. */
++        val &= cpu->cr_state[cr].writable;
++        val |= cpu->cr_state[cr].readonly & env->ctrl[cr];
++        env->ctrl[cr] = val;
++    } else {
++        g_assert_not_reached();
+     }
+ 
+     return 4;
+diff --git a/target/nios2/op_helper.c b/target/nios2/op_helper.c
+index 08ed3b4598..49fccf2c2c 100644
+--- a/target/nios2/op_helper.c
++++ b/target/nios2/op_helper.c
+@@ -34,6 +34,15 @@ void helper_raise_exception(CPUNios2State *env, uint32_t index)
+ #ifndef CONFIG_USER_ONLY
+ void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
+ {
++    Nios2CPU *cpu = env_archcpu(env);
++
++    /*
++     * Both estatus and bstatus have no constraints on write;
++     * do not allow reserved fields in status to be set.
++     * TODO: more than this is required for shadow registers.
++     */
++    new_status &= cpu->cr_state[CR_STATUS].writable;
++
+     env->ctrl[CR_STATUS] = new_status;
+     env->pc = new_pc;
+     cpu_loop_exit(env_cpu(env));
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index 97e531529f..b8d75207a4 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -102,6 +102,7 @@ typedef struct DisasContext {
+     TCGv_i32          zero;
+     target_ulong      pc;
+     int               mem_idx;
++    const ControlRegState *cr_state;
+ } DisasContext;
+ 
+ static TCGv cpu_R[NUM_GP_REGS];
+@@ -471,17 +472,26 @@ static void callr(DisasContext *dc, uint32_t code, uint32_t flags)
+ /* rC <- ctlN */
+ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+-    R_TYPE(instr, code);
+-    TCGv t1, t2;
+-
+     if (!gen_check_supervisor(dc)) {
+         return;
+     }
+ 
++#ifdef CONFIG_USER_ONLY
++    g_assert_not_reached();
++#else
++    R_TYPE(instr, code);
++    TCGv t1, t2;
++
+     if (unlikely(instr.c == R_ZERO)) {
+         return;
+     }
+ 
++    /* Reserved registers read as zero. */
++    if (nios2_cr_reserved(&dc->cr_state[instr.imm5])) {
++        tcg_gen_movi_tl(cpu_R[instr.c], 0);
++        return;
++    }
++
+     switch (instr.imm5) {
+     case CR_IPENDING:
+         /*
+@@ -505,6 +515,7 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
+                       offsetof(CPUNios2State, ctrl[instr.imm5]));
+         break;
+     }
++#endif
+ }
+ 
+ /* ctlN <- rA */
+@@ -519,6 +530,14 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
+ #else
+     R_TYPE(instr, code);
+     TCGv v = load_gpr(dc, instr.a);
++    uint32_t ofs = offsetof(CPUNios2State, ctrl[instr.imm5]);
++    uint32_t wr = dc->cr_state[instr.imm5].writable;
++    uint32_t ro = dc->cr_state[instr.imm5].readonly;
++
++    /* Skip reserved or readonly registers. */
++    if (wr == 0) {
++        return;
++    }
+ 
+     switch (instr.imm5) {
+     case CR_PTEADDR:
+@@ -530,17 +549,35 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
+     case CR_TLBMISC:
+         gen_helper_mmu_write_tlbmisc(cpu_env, v);
+         break;
+-    case CR_IPENDING:
+-        /* ipending is read only, writes ignored. */
+-        break;
+     case CR_STATUS:
+     case CR_IENABLE:
+         /* If interrupts were enabled using WRCTL, trigger them. */
+         dc->base.is_jmp = DISAS_UPDATE;
+         /* fall through */
+     default:
+-        tcg_gen_st_tl(v, cpu_env,
+-                      offsetof(CPUNios2State, ctrl[instr.imm5]));
++        if (wr == -1) {
++            /* The register is entirely writable. */
++            tcg_gen_st_tl(v, cpu_env, ofs);
++        } else {
++            /*
++             * The register is partially read-only or reserved:
++             * merge the value.
++             */
++            TCGv n = tcg_temp_new();
++
++            tcg_gen_andi_tl(n, v, wr);
++
++            if (ro != 0) {
++                TCGv o = tcg_temp_new();
++                tcg_gen_ld_tl(o, cpu_env, ofs);
++                tcg_gen_andi_tl(o, o, ro);
++                tcg_gen_or_tl(n, n, o);
++                tcg_temp_free(o);
++            }
++
++            tcg_gen_st_tl(n, cpu_env, ofs);
++            tcg_temp_free(n);
++        }
+         break;
+     }
+ #endif
+@@ -818,9 +855,11 @@ static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+     CPUNios2State *env = cs->env_ptr;
++    Nios2CPU *cpu = env_archcpu(env);
+     int page_insns;
+ 
+     dc->mem_idx = cpu_mmu_index(env, false);
++    dc->cr_state = cpu->cr_state;
+ 
+     /* Bound the number of insns to execute to those left on the page.  */
+     page_insns = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
+@@ -932,16 +971,25 @@ void nios2_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     }
+ 
+ #if !defined(CONFIG_USER_ONLY)
+-    for (i = 0; i < NUM_CR_REGS; i++) {
+-        qemu_fprintf(f, "%9s=%8.8x ", cr_regnames[i], env->ctrl[i]);
+-        if ((i + 1) % 4 == 0) {
+-            qemu_fprintf(f, "\n");
++    int j;
++
++    for (i = j = 0; i < NUM_CR_REGS; i++) {
++        if (!nios2_cr_reserved(&cpu->cr_state[i])) {
++            qemu_fprintf(f, "%9s=%8.8x ", cr_regnames[i], env->ctrl[i]);
++            if (++j % 4 == 0) {
++                qemu_fprintf(f, "\n");
++            }
+         }
+     }
+-    qemu_fprintf(f, " mmu write: VPN=%05X PID %02X TLBACC %08X\n",
+-                 env->mmu.pteaddr_wr & R_CR_PTEADDR_VPN_MASK,
+-                 FIELD_EX32(env->mmu.tlbmisc_wr, CR_TLBMISC, PID),
+-                 env->mmu.tlbacc_wr);
++    if (j % 4 != 0) {
++        qemu_fprintf(f, "\n");
++    }
++    if (cpu->mmu_present) {
++        qemu_fprintf(f, " mmu write: VPN=%05X PID %02X TLBACC %08X\n",
++                     env->mmu.pteaddr_wr & R_CR_PTEADDR_VPN_MASK,
++                     FIELD_EX32(env->mmu.tlbmisc_wr, CR_TLBMISC, PID),
++                     env->mmu.tlbacc_wr);
++    }
+ #endif
+     qemu_fprintf(f, "\n\n");
+ }
 -- 
 2.34.1
 
