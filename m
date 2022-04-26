@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D33F510A48
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 22:20:12 +0200 (CEST)
-Received: from localhost ([::1]:54896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5F4510A64
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 22:26:05 +0200 (CEST)
+Received: from localhost ([::1]:40914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njRfP-0000lV-OP
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 16:20:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43032)
+	id 1njRl6-000273-BI
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 16:26:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njRao-0008Iq-N8
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:15:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23431)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njRar-0008KL-3j
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:15:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njRam-0007fo-Hd
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:15:26 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njRan-0007g2-5e
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:15:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1651004124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ft/ilnNdQwlPwRASOzEt0hCHaG2JB3V0JR230KBSmK4=;
- b=NAlvnqCPkSX7Fw8ol5hnVBI+fAdYOUIqxF5TSkkON4DMbANy8tjXxd1VL1E6KCqSXxj96D
- 56cukI6zKVFKMuSSo5AKQvhB+y/u3o4fS5+8IiyrOOmUDeIxgNTfSUrUph8R7HCsyTRd+K
- ul3BOx2y/f553o1J3g5kdePG9Yh1Zn4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lrZuG4BACZaT1jIkxBzpTpfXmT38CDbucT7Tn5Cke2Y=;
+ b=JGOf0KhvaOcs6fno0JUe57+H1UIEN6Z0ZEOufeoONTzEaIqdR+EifzeiXhnfMjEOXCvDlH
+ YHLVCwK3ov3PJDp0ToQL9lsUvTtkJumi/d96b84+oqRLaRXGplndtdQwI1F6/LAjXeOi/l
+ pfFPZa7blYBPgNDdh3BMG4TxOsV2NA4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-377-cdlkkqjrPYKmtOBL3sEJTw-1; Tue, 26 Apr 2022 16:15:20 -0400
-X-MC-Unique: cdlkkqjrPYKmtOBL3sEJTw-1
+ us-mta-518-1FcoW6FpO6el6_HKcnFcOA-1; Tue, 26 Apr 2022 16:15:21 -0400
+X-MC-Unique: 1FcoW6FpO6el6_HKcnFcOA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E702B811E81;
- Tue, 26 Apr 2022 20:15:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DAA43C02B6F;
+ Tue, 26 Apr 2022 20:15:20 +0000 (UTC)
 Received: from blue.redhat.com (unknown [10.2.16.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F871556214;
- Tue, 26 Apr 2022 20:15:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27AC7556206;
+ Tue, 26 Apr 2022 20:15:20 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/13] qapi: nbd-export: allow select bitmaps by node/name pair
-Date: Tue, 26 Apr 2022 15:15:03 -0500
-Message-Id: <20220426201514.170410-3-eblake@redhat.com>
+Subject: [PULL 03/13] iotests/223: check new possibility of exporting bitmaps
+ by node/name
+Date: Tue, 26 Apr 2022 15:15:04 -0500
+Message-Id: <20220426201514.170410-4-eblake@redhat.com>
 In-Reply-To: <20220426201514.170410-1-eblake@redhat.com>
 References: <20220426201514.170410-1-eblake@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -73,216 +74,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 
-Hi all! Current logic of relying on search through backing chain is not
-safe neither convenient.
-
-Sometimes it leads to necessity of extra bitmap copying. Also, we are
-going to add "snapshot-access" driver, to access some snapshot state
-through NBD. And this driver is not formally a filter, and of course
-it's not a COW format driver. So, searching through backing chain will
-not work. Instead of widening the workaround of bitmap searching, let's
-extend the interface so that user can select bitmap precisely.
-
-Note, that checking for bitmap active status is not copied to the new
-API, I don't see a reason for it, user should understand the risks. And
-anyway, bitmap from other node is unrelated to this export being
-read-only or read-write.
+Add simple test that new interface introduced in previous commit works.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-Message-Id: <20220314213226.362217-3-v.sementsov-og@mail.ru>
+Message-Id: <20220314213226.362217-4-v.sementsov-og@mail.ru>
 [eblake: Adjust S-o-b to Vladimir's new email, with permission]
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- qapi/block-export.json |  5 +++-
- blockdev-nbd.c         |  8 +++++-
- nbd/server.c           | 63 +++++++++++++++++++++++++++---------------
- qemu-nbd.c             | 11 ++++++--
- 4 files changed, 61 insertions(+), 26 deletions(-)
+ tests/qemu-iotests/223     | 16 +++++++++++++
+ tests/qemu-iotests/223.out | 47 ++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 61 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index 1e34927f85e2..1de16d25899b 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -6,6 +6,7 @@
- ##
+diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
+index da87f2f4a233..0bbb28301076 100755
+--- a/tests/qemu-iotests/223
++++ b/tests/qemu-iotests/223
+@@ -120,6 +120,11 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
+     "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
+ _send_qemu_cmd $QEMU_HANDLE '{"execute":"block-dirty-bitmap-disable",
+   "arguments":{"node":"n", "name":"b"}}' "return"
++_send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
++  "arguments":{"driver":"null-co", "node-name":"null",
++    "size": 4194304}}' "return"
++_send_qemu_cmd $QEMU_HANDLE '{"execute":"block-dirty-bitmap-add",
++  "arguments":{"node":"null", "name":"b3"}}' "return"
 
- { 'include': 'sockets.json' }
-+{ 'include': 'block-core.json' }
+ for attempt in normal iothread; do
 
- ##
- # @NbdServerOptions:
-@@ -89,6 +90,7 @@
- #           @device, so the NBD client can use NBD_OPT_SET_META_CONTEXT with
- #           the metadata context name "qemu:dirty-bitmap:BITMAP" to inspect
- #           each bitmap.
-+#           Since 7.1 bitmap may be specified by node/name pair.
- #
- # @allocation-depth: Also export the allocation depth map for @device, so
- #                    the NBD client can use NBD_OPT_SET_META_CONTEXT with
-@@ -99,7 +101,8 @@
- ##
- { 'struct': 'BlockExportOptionsNbd',
-   'base': 'BlockExportOptionsNbdBase',
--  'data': { '*bitmaps': ['str'], '*allocation-depth': 'bool' } }
-+  'data': { '*bitmaps': ['BlockDirtyBitmapOrStr'],
-+            '*allocation-depth': 'bool' } }
+@@ -155,6 +160,9 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-add",
+ _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-add",
+   "arguments":{"device":"n", "name":"n2", "writable":true,
+   "description":"some text", "bitmap":"b2"}}' "return"
++_send_qemu_cmd $QEMU_HANDLE '{"execute":"block-export-add",
++  "arguments":{"type": "nbd", "node-name":"n", "id":"n3", "name": "n3",
++  "bitmaps":[{"node":"null","name":"b3"}]}}' "return"
+ $QEMU_NBD_PROG -L -k "$SOCK_DIR/nbd"
 
- ##
- # @BlockExportOptionsVhostUserBlk:
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index 9840d25a8298..7f6531cba00e 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -211,8 +211,14 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
-     QAPI_CLONE_MEMBERS(BlockExportOptionsNbdBase, &export_opts->u.nbd,
-                        qapi_NbdServerAddOptions_base(arg));
-     if (arg->has_bitmap) {
-+        BlockDirtyBitmapOrStr *el = g_new(BlockDirtyBitmapOrStr, 1);
+ echo
+@@ -178,6 +186,14 @@ IMG="driver=nbd,export=n2,server.type=unix,server.path=$SOCK_DIR/nbd"
+ $QEMU_IMG map --output=json --image-opts \
+   "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
+
++echo
++echo "=== Check bitmap taken from another node ==="
++echo
 +
-+        *el = (BlockDirtyBitmapOrStr) {
-+            .type = QTYPE_QSTRING,
-+            .u.local = g_strdup(arg->bitmap),
-+        };
-         export_opts->u.nbd.has_bitmaps = true;
--        QAPI_LIST_PREPEND(export_opts->u.nbd.bitmaps, g_strdup(arg->bitmap));
-+        QAPI_LIST_PREPEND(export_opts->u.nbd.bitmaps, el);
-     }
-
-     /*
-diff --git a/nbd/server.c b/nbd/server.c
-index c5644fd3f6ad..4cdbc062c1bf 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1643,7 +1643,7 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-     uint64_t perm, shared_perm;
-     bool readonly = !exp_args->writable;
-     bool shared = !exp_args->writable;
--    strList *bitmaps;
-+    BlockDirtyBitmapOrStrList *bitmaps;
-     size_t i;
-     int ret;
-
-@@ -1709,40 +1709,59 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-     }
-     exp->export_bitmaps = g_new0(BdrvDirtyBitmap *, exp->nr_export_bitmaps);
-     for (i = 0, bitmaps = arg->bitmaps; bitmaps;
--         i++, bitmaps = bitmaps->next) {
--        const char *bitmap = bitmaps->value;
-+         i++, bitmaps = bitmaps->next)
-+    {
-+        const char *bitmap;
-         BlockDriverState *bs = blk_bs(blk);
-         BdrvDirtyBitmap *bm = NULL;
-
--        while (bs) {
--            bm = bdrv_find_dirty_bitmap(bs, bitmap);
--            if (bm != NULL) {
--                break;
-+        switch (bitmaps->value->type) {
-+        case QTYPE_QSTRING:
-+            bitmap = bitmaps->value->u.local;
-+            while (bs) {
-+                bm = bdrv_find_dirty_bitmap(bs, bitmap);
-+                if (bm != NULL) {
-+                    break;
-+                }
++IMG="driver=nbd,export=n3,server.type=unix,server.path=$SOCK_DIR/nbd"
++$QEMU_IMG map --output=json --image-opts \
++  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b3" | _filter_qemu_img_map
 +
-+                bs = bdrv_filter_or_cow_bs(bs);
-             }
+ echo
+ echo "=== End qemu NBD server ==="
+ echo
+diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+index e58ea5abbd5a..06479415312b 100644
+--- a/tests/qemu-iotests/223.out
++++ b/tests/qemu-iotests/223.out
+@@ -33,6 +33,13 @@ wrote 2097152/2097152 bytes at offset 2097152
+ {"execute":"block-dirty-bitmap-disable",
+   "arguments":{"node":"n", "name":"b"}}
+ {"return": {}}
++{"execute":"blockdev-add",
++  "arguments":{"driver":"null-co", "node-name":"null",
++    "size": 4194304}}
++{"return": {}}
++{"execute":"block-dirty-bitmap-add",
++  "arguments":{"node":"null", "name":"b3"}}
++{"return": {}}
 
--            bs = bdrv_filter_or_cow_bs(bs);
--        }
-+            if (bm == NULL) {
-+                ret = -ENOENT;
-+                error_setg(errp, "Bitmap '%s' is not found",
-+                           bitmaps->value->u.local);
-+                goto fail;
-+            }
+ === Set up NBD with normal access ===
 
--        if (bm == NULL) {
--            ret = -ENOENT;
--            error_setg(errp, "Bitmap '%s' is not found", bitmap);
--            goto fail;
-+            if (readonly && bdrv_is_writable(bs) &&
-+                bdrv_dirty_bitmap_enabled(bm)) {
-+                ret = -EINVAL;
-+                error_setg(errp, "Enabled bitmap '%s' incompatible with "
-+                           "readonly export", bitmap);
-+                goto fail;
-+            }
-+            break;
-+        case QTYPE_QDICT:
-+            bitmap = bitmaps->value->u.external.name;
-+            bm = block_dirty_bitmap_lookup(bitmaps->value->u.external.node,
-+                                           bitmap, NULL, errp);
-+            if (!bm) {
-+                ret = -ENOENT;
-+                goto fail;
-+            }
-+            break;
-+        default:
-+            abort();
-         }
+@@ -69,7 +76,11 @@ exports available: 0
+   "arguments":{"device":"n", "name":"n2", "writable":true,
+   "description":"some text", "bitmap":"b2"}}
+ {"return": {}}
+-exports available: 2
++{"execute":"block-export-add",
++  "arguments":{"type": "nbd", "node-name":"n", "id":"n3", "name": "n3",
++  "bitmaps":[{"node":"null","name":"b3"}]}}
++{"return": {}}
++exports available: 3
+  export: 'n'
+   size:  4194304
+   flags: 0x58f ( readonly flush fua df multi cache )
+@@ -89,6 +100,15 @@ exports available: 2
+   available meta contexts: 2
+    base:allocation
+    qemu:dirty-bitmap:b2
++ export: 'n3'
++  size:  4194304
++  flags: 0x58f ( readonly flush fua df multi cache )
++  min block: 1
++  opt block: 4096
++  max block: 33554432
++  available meta contexts: 2
++   base:allocation
++   qemu:dirty-bitmap:b3
 
-+        assert(bm);
+ === Contrast normal status to large granularity dirty-bitmap ===
+
+@@ -114,6 +134,10 @@ read 2097152/2097152 bytes at offset 2097152
+ { "start": 1024, "length": 2096128, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 2097152, "length": 2097152, "depth": 0, "present": false, "zero": false, "data": false}]
+
++=== Check bitmap taken from another node ===
 +
-         if (bdrv_dirty_bitmap_check(bm, BDRV_BITMAP_ALLOW_RO, errp)) {
-             ret = -EINVAL;
-             goto fail;
-         }
++[{ "start": 0, "length": 4194304, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET}]
++
+ === End qemu NBD server ===
 
--        if (readonly && bdrv_is_writable(bs) &&
--            bdrv_dirty_bitmap_enabled(bm)) {
--            ret = -EINVAL;
--            error_setg(errp,
--                       "Enabled bitmap '%s' incompatible with readonly export",
--                       bitmap);
--            goto fail;
--        }
--
-         exp->export_bitmaps[i] = bm;
-         assert(strlen(bitmap) <= BDRV_BITMAP_MAX_NAME_SIZE);
-     }
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 397ffa64d768..db63980df1e4 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -567,7 +567,7 @@ int main(int argc, char **argv)
-     QDict *options = NULL;
-     const char *export_name = NULL; /* defaults to "" later for server mode */
-     const char *export_description = NULL;
--    strList *bitmaps = NULL;
-+    BlockDirtyBitmapOrStrList *bitmaps = NULL;
-     bool alloc_depth = false;
-     const char *tlscredsid = NULL;
-     const char *tlshostname = NULL;
-@@ -687,7 +687,14 @@ int main(int argc, char **argv)
-             alloc_depth = true;
-             break;
-         case 'B':
--            QAPI_LIST_PREPEND(bitmaps, g_strdup(optarg));
-+            {
-+                BlockDirtyBitmapOrStr *el = g_new(BlockDirtyBitmapOrStr, 1);
-+                *el = (BlockDirtyBitmapOrStr) {
-+                    .type = QTYPE_QSTRING,
-+                    .u.local = g_strdup(optarg),
-+                };
-+                QAPI_LIST_PREPEND(bitmaps, el);
-+            }
-             break;
-         case 'k':
-             sockpath = optarg;
+ {"execute":"nbd-server-remove",
+@@ -128,6 +152,7 @@ read 2097152/2097152 bytes at offset 2097152
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "n2"}}
+ {"error": {"class": "GenericError", "desc": "Export 'n2' is not found"}}
+ {"execute":"nbd-server-stop"}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "n3"}}
+ {"return": {}}
+ {"execute":"nbd-server-stop"}
+ {"error": {"class": "GenericError", "desc": "NBD server not running"}}
+@@ -170,7 +195,11 @@ exports available: 0
+   "arguments":{"device":"n", "name":"n2", "writable":true,
+   "description":"some text", "bitmap":"b2"}}
+ {"return": {}}
+-exports available: 2
++{"execute":"block-export-add",
++  "arguments":{"type": "nbd", "node-name":"n", "id":"n3", "name": "n3",
++  "bitmaps":[{"node":"null","name":"b3"}]}}
++{"return": {}}
++exports available: 3
+  export: 'n'
+   size:  4194304
+   flags: 0x58f ( readonly flush fua df multi cache )
+@@ -190,6 +219,15 @@ exports available: 2
+   available meta contexts: 2
+    base:allocation
+    qemu:dirty-bitmap:b2
++ export: 'n3'
++  size:  4194304
++  flags: 0x58f ( readonly flush fua df multi cache )
++  min block: 1
++  opt block: 4096
++  max block: 33554432
++  available meta contexts: 2
++   base:allocation
++   qemu:dirty-bitmap:b3
+
+ === Contrast normal status to large granularity dirty-bitmap ===
+
+@@ -215,6 +253,10 @@ read 2097152/2097152 bytes at offset 2097152
+ { "start": 1024, "length": 2096128, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 2097152, "length": 2097152, "depth": 0, "present": false, "zero": false, "data": false}]
+
++=== Check bitmap taken from another node ===
++
++[{ "start": 0, "length": 4194304, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET}]
++
+ === End qemu NBD server ===
+
+ {"execute":"nbd-server-remove",
+@@ -229,6 +271,7 @@ read 2097152/2097152 bytes at offset 2097152
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "n2"}}
+ {"error": {"class": "GenericError", "desc": "Export 'n2' is not found"}}
+ {"execute":"nbd-server-stop"}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "n3"}}
+ {"return": {}}
+ {"execute":"nbd-server-stop"}
+ {"error": {"class": "GenericError", "desc": "NBD server not running"}}
 -- 
 2.35.1
 
