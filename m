@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7859A5104D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 19:04:32 +0200 (CEST)
-Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BAF15104E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 19:07:17 +0200 (CEST)
+Received: from localhost ([::1]:37508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njOc3-0004km-Kf
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 13:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45788)
+	id 1njOei-0002IU-4F
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 13:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5u-00036A-8X
+ id 1njO5v-00036Q-Bl
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:31:23 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33425)
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:44029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5o-0003u2-U4
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:31:17 -0400
-Received: by mail-pl1-x631.google.com with SMTP id c23so30752179plo.0
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:31:12 -0700 (PDT)
+ id 1njO5s-0003uF-M3
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:31:19 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id d15so30708384pll.10
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zqPxzsOVci11FTYqMcAeRTTX6WFeSM6vs3YcepVF8+s=;
- b=Hwj23mMLdrr1U7OV2zrQ3m/mhiPlbnhQgcpGWBdssFfAmBRtM3M8f0jfITLT6W5uTj
- S/r0ePxzZQ97bEpyvPz4g8eSKrEMtgjfvzPNpiEq+81hSDVIj73CXPtcowir5lXSINQN
- t1Vu5IFzL3G27v2BsKpqJxYYxoMVVVVVdeNgqnYIc5vkJMZVdBl2pdBEvDDIzi3wXppb
- k4Km1r+w0mx6O0VMcmkCWkwiRR4x+KllHglWCjPS2KWogoe6P/6nIbg9hC5CIx4ZBZMh
- I3+mj7tvbgmNlTtTLoExLnl2xUrMMr4QCmtGZDbi4+b1AobQQGRRJPvA7UFtBfKkGhVj
- kXVg==
+ bh=0rp6VL6sGBeO43lHZ3pVwoan89wcSSiGWaAXpPEhCP4=;
+ b=oLpSw5Ie0WSnhvJ+WoiFheYwZj5N+sRohmSqMQOWGRsjJDvUMqJFdBXXn0pFduIPcb
+ M2RL5exjy6PbYiKRjKjmYeJsLnnoKXspfiMId61ckh0botDw5MAtI6GDvEIlOrV3IHBO
+ +0RDrUvJwZNye4nsvwpfABECuQHm9ZMJG2CH+gTW5NtdRF1RwPL6BYZvf4vItRbK9C8r
+ e4+aQsTYhpV4E1t82sfYDDE3ARABRszb5VyML/QuXvaCsTwmZKj5vmIjG9T7aNaGNoMb
+ XzAk3SAzq6ijEcFE7blFc0jlH0mbf/NnoRyb4osLunFs6okQ5dBDktqVyVTbjoYbRA3F
+ 5JNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zqPxzsOVci11FTYqMcAeRTTX6WFeSM6vs3YcepVF8+s=;
- b=d2SML9Wz21vu4RDk1MMq6JrjhxlXPBT0lWQ6pij2nBRkszyZ7oAA8SRbj3/OglxAcB
- HEmewSIKHksPL5DSz8+6l8yBiu2ZScwZVY5ksZAfl0vvxDWEQWR/zeQssffa1PActfiA
- Lyod2psiOao5MVlrzt6ClRJMWRHFhdUSw8PleaUFXe9MAOTSJuMjcLEbQush6kHWGFOi
- y2JHpAddcpfvzZWslFNYhfFOj4FU1qa0q1kEnsoy+qNGzTuWhsG+QiT5EFbY8M5/mpAw
- LyvKt8dUZk+aiTWtsMSqDTh55xjXODikSgjezaOk2dorrs+2+08k9OoqYv75ziVSku+M
- FDDA==
-X-Gm-Message-State: AOAM531OjDtKSUbg3ApqksTqHDJc6uV+7KPOkBf2DB6DjmDuLO5aFP7z
- 7utGqlhzevp7L9oAitVmUzAdi5Sch2sV7A==
-X-Google-Smtp-Source: ABdhPJwv7XiOr4lSlyG1Az+mL9QPsfrey+uQxjJfS2mlrdX8atGubZLnCaFqGVNQ1bg0t/LubuWvNw==
-X-Received: by 2002:a17:902:9b94:b0:156:2c08:14a5 with SMTP id
- y20-20020a1709029b9400b001562c0814a5mr23905606plp.60.1650990671653; 
- Tue, 26 Apr 2022 09:31:11 -0700 (PDT)
+ bh=0rp6VL6sGBeO43lHZ3pVwoan89wcSSiGWaAXpPEhCP4=;
+ b=cxh+Gdz49RvQhQYnBI9bHZ2Aq4da0PcbafpgCVFiBraiW+MWnnjqtZU7qdgJ3V436s
+ OeFYp4ysocO8PA5x+Ok6+ArWNW1XLUOiOdxentH5JHRunVfLqfj33RWuxBcFcinbD+Is
+ LH825TeWNA4d9HpKYbMOV4XY3Nb2GZricXRyJw12PUq02nYc8d6H2io6HtdkZ7I3Eblk
+ /xcLsogHWcGnXDRxr2HfLfyiV0jg/J1pw8cVJIQ6z1loN4fl2elJg13pbHKC7pWxxJTL
+ dH/TG/ZQHGC48l1nXv8O/aUAeZ4ELYxR0quNzVo7r2a+oLk8hmYimvZVn4gD+IbvUCwr
+ tVbg==
+X-Gm-Message-State: AOAM530vNS2506DT4EBreXPx1FaU5iN1+fwWSa/9Nrr2rNWXkmOJOG00
+ O5vh0uUqmdZgRQlarqCJUrhJRsfvR9wEfg==
+X-Google-Smtp-Source: ABdhPJx71F3M2f0KzOSQtEpM6MFV0irWLRKtB9Fd/kWKrUvyxOZNOuRNl4EOza/OtKsob7OafupFnQ==
+X-Received: by 2002:a17:90b:3b46:b0:1d9:b14c:cc6d with SMTP id
+ ot6-20020a17090b3b4600b001d9b14ccc6dmr4232600pjb.135.1650990672606; 
+ Tue, 26 Apr 2022 09:31:12 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- y131-20020a626489000000b00505a8f36965sm15655813pfb.184.2022.04.26.09.31.10
+ y131-20020a626489000000b00505a8f36965sm15655813pfb.184.2022.04.26.09.31.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 09:31:11 -0700 (PDT)
+ Tue, 26 Apr 2022 09:31:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 29/47] target/arm: Use tcg_constant for MOVW, UMAAL, CRC32
-Date: Tue, 26 Apr 2022 09:30:25 -0700
-Message-Id: <20220426163043.100432-30-richard.henderson@linaro.org>
+Subject: [PATCH 30/47] target/arm: Use tcg_constant for v7m MRS, MSR
+Date: Tue, 26 Apr 2022 09:30:26 -0700
+Message-Id: <20220426163043.100432-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426163043.100432-1-richard.henderson@linaro.org>
 References: <20220426163043.100432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,61 +90,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ target/arm/translate.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 223fd5fdfe..cc540f2b47 100644
+index cc540f2b47..b604a820c0 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -5652,14 +5652,11 @@ static bool trans_ADR(DisasContext *s, arg_ri *a)
- 
- static bool trans_MOVW(DisasContext *s, arg_MOVW *a)
- {
--    TCGv_i32 tmp;
--
-     if (!ENABLE_ARCH_6T2) {
+@@ -6369,8 +6369,8 @@ static bool trans_MRS_v7m(DisasContext *s, arg_MRS_v7m *a)
+     if (!arm_dc_feature(s, ARM_FEATURE_M)) {
          return false;
      }
- 
--    tmp = tcg_const_i32(a->imm);
--    store_reg(s, a->rd, tmp);
-+    store_reg(s, a->rd, tcg_constant_i32(a->imm));
+-    tmp = tcg_const_i32(a->sysm);
+-    gen_helper_v7m_mrs(tmp, cpu_env, tmp);
++    tmp = tcg_temp_new_i32();
++    gen_helper_v7m_mrs(tmp, cpu_env, tcg_constant_i32(a->sysm));
+     store_reg(s, a->rd, tmp);
      return true;
  }
- 
-@@ -6030,14 +6027,13 @@ static bool trans_UMAAL(DisasContext *s, arg_UMAAL *a)
-     t0 = load_reg(s, a->rm);
-     t1 = load_reg(s, a->rn);
-     tcg_gen_mulu2_i32(t0, t1, t0, t1);
--    zero = tcg_const_i32(0);
-+    zero = tcg_constant_i32(0);
-     t2 = load_reg(s, a->ra);
-     tcg_gen_add2_i32(t0, t1, t0, t1, t2, zero);
-     tcg_temp_free_i32(t2);
-     t2 = load_reg(s, a->rd);
-     tcg_gen_add2_i32(t0, t1, t0, t1, t2, zero);
-     tcg_temp_free_i32(t2);
--    tcg_temp_free_i32(zero);
-     store_reg(s, a->ra, t0);
-     store_reg(s, a->rd, t1);
-     return true;
-@@ -6284,14 +6280,13 @@ static bool op_crc32(DisasContext *s, arg_rrr *a, bool c, MemOp sz)
-     default:
-         g_assert_not_reached();
+@@ -6382,10 +6382,9 @@ static bool trans_MSR_v7m(DisasContext *s, arg_MSR_v7m *a)
+     if (!arm_dc_feature(s, ARM_FEATURE_M)) {
+         return false;
      }
--    t3 = tcg_const_i32(1 << sz);
-+    t3 = tcg_constant_i32(1 << sz);
-     if (c) {
-         gen_helper_crc32c(t1, t1, t2, t3);
-     } else {
-         gen_helper_crc32(t1, t1, t2, t3);
-     }
-     tcg_temp_free_i32(t2);
--    tcg_temp_free_i32(t3);
-     store_reg(s, a->rd, t1);
-     return true;
- }
+-    addr = tcg_const_i32((a->mask << 10) | a->sysm);
++    addr = tcg_constant_i32((a->mask << 10) | a->sysm);
+     reg = load_reg(s, a->rn);
+     gen_helper_v7m_msr(cpu_env, addr, reg);
+-    tcg_temp_free_i32(addr);
+     tcg_temp_free_i32(reg);
+     /* If we wrote to CONTROL, the EL might have changed */
+     gen_rebuild_hflags(s, true);
 -- 
 2.34.1
 
