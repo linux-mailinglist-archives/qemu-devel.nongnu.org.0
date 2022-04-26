@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE2E510891
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:08:00 +0200 (CEST)
-Received: from localhost ([::1]:43628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FB6510903
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:31:59 +0200 (CEST)
+Received: from localhost ([::1]:50532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQXX-0005cj-LF
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45792)
+	id 1njQuk-0006Kt-7r
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:31:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPqB-0002BB-7I
+ id 1njPqB-0002Dj-TC
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:23:11 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:43613)
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPq9-0005ZO-4B
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:23:10 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id d15so30990082pll.10
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:23:08 -0700 (PDT)
+ id 1njPqA-0005Zh-3P
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:23:11 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id g3so16109287pgg.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:23:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zhY6IsLbZViijjLfLFhbBpoo7RTXZotmcRSvMZEYx1c=;
- b=kB7uM1eR1iXTlyyVSB+DQZdgxL3yjE4Bq5uDgmUhifIrlYxN9DfKCoi3zyE3K2+tjr
- G4H7gUYVB/WyNh91BQhGLw5N0UlL0HI2CSMHSZzb8wmvFy3ZR0wDi9Q9s4VHgk6w/j/l
- MApyi4n1s2bcXlT9brQN4oY9lVvkFKM5vfjqWQzpyLibx7VUAafjp/AGsR0axEUaA+RG
- WM0z9m/tKa2DGuLyxmYmBi4Pt6m/qFOnKODDwAgoccabRtJPfLLBa354n1/hBUyAN4wK
- 7m8cq1TfVBpZtoHo5BUcTW2Gu6QoDHbm018ETKgP/euli+hsKY4ee91pJnRioMNBhCs1
- S+3Q==
+ bh=I9okil5+kJgTqcKaRaU/YcxpruIY39QBJzH8pAf+TqE=;
+ b=VFVGVo6q7wEhMHeMtx/WuHBY7iCITmkXOppRqsoIFltDLuuw2zH0EwMJVoH06ljYVd
+ pcoiYMBSID+ffDKxb/NvGrj6DXj8EidcWR37Ltm0AfWQwXeBi8Jq63MuGX9JzLiPoC2e
+ RGG8upRqP3M4LTbiktLM6DK82YAJl3VFXvsTgvVuzEneF04zt6KipfQdoQOSQ3AW96Aa
+ q/IafA5JaMWfEK0FmX1VEBwOI3lRJ4pAeVRMt9YV7o+OhX5jdWbRDk0hUd92Mm7iiM5e
+ fWRWgzOW4F0MhzDF3IO8Q3QXNUFZoIFQTd6JfkUi7cJTwj7ZRa9ElYtw2kIWJMWlHErW
+ dgrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zhY6IsLbZViijjLfLFhbBpoo7RTXZotmcRSvMZEYx1c=;
- b=4M6IhuIbOhN9Ti4l4/lMgrQBUC+oIa0gYOYQDyLElKlGChCGRWzPUu9E6a8yZgJJ9S
- xYAIHL68d0LMwwiCCMSuB7LkvlacmcpTAfSMlwjyB1YsWxY55DGh1uh4aj8SZFmlazbZ
- 9ib8j9Bwn/waMIqIGThR5x/5VVWfuwT1+OoRUaPB8FljGgOjlVWmJoz3MJl9emhewknC
- XzfKV7xWtCQpQPb+bba5hlEjsqITJ9KJWy5uYT2EevDI2JxpvIrx75RkM8+Oax/Ff2M0
- eUPRewkHu+XHnYEaXiGbpwNY1HRys5jgMPkr0CocIk8l1oYv+gPXt1Jq9dcsPYBOA/5D
- 2VdA==
-X-Gm-Message-State: AOAM531RWXfiCoDHvIj8P+aVgxw03yUDfU1+c01OliEDXK+5FWRGDh39
- CLo82tv+uURFqOO+S2V/cyJLKyH8o5Sjtg==
-X-Google-Smtp-Source: ABdhPJxJX+0+cZzl3h5tHTIZ7JXjMM2zBjg5HoCW+WdfsJD28YMJsz1Th5KnjhY0qO5NZ++moqGQeg==
-X-Received: by 2002:a17:902:ab43:b0:156:6f38:52b3 with SMTP id
- ij3-20020a170902ab4300b001566f3852b3mr24540276plb.135.1650997387841; 
- Tue, 26 Apr 2022 11:23:07 -0700 (PDT)
+ bh=I9okil5+kJgTqcKaRaU/YcxpruIY39QBJzH8pAf+TqE=;
+ b=bSsl+FGZodO+OFU/ZmMpg7CloRR8RY4qaiAb8eM/sd5AZ11rC62YU6c7gpeI0ClKtf
+ X/Qsk8pXhbcsO5nGJw+EQ2qXztIYwTiiY7mi0cfLhwC5P3rCjDpHcqd485tkhpQ3KSRB
+ D2JnBk8yOWN9h4MBThAn2awvBfbUebrBhp+qsASIUTFMxFltjeF1ZXXGkqf2KLpxFWaO
+ NafFtbsUSM1E4VYz82GwHj+nmfJkts+nuaxrP+qFS6HkRy7j6IyZRZRXodPyPTf6a9z/
+ W41gIViolnAWSpHDaNM56BFFzPIy4NQyGBFTb+igLhyrti8ts9zag2jSgx2WPD9VKsED
+ UsAQ==
+X-Gm-Message-State: AOAM53368R6eOuByVbGHwPA41kO6gEwf67TST9Lb5JWQIz+14yk8puRQ
+ S/8bPrpwtfKm9vMlbd9N88azNRxxqWwKhQ==
+X-Google-Smtp-Source: ABdhPJxzrpfOtyUA8IprwCZicWOTQ2GM1Q8zqXoxlV4+Xwb56CNyxKZfWyZYV4klYr/2wI26Yw6zQg==
+X-Received: by 2002:a63:8bc2:0:b0:3ab:b53:ab4e with SMTP id
+ j185-20020a638bc2000000b003ab0b53ab4emr13717745pge.423.1650997388746; 
+ Tue, 26 Apr 2022 11:23:08 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- k187-20020a636fc4000000b003983a01b896sm13585053pgc.90.2022.04.26.11.23.07
+ k187-20020a636fc4000000b003983a01b896sm13585053pgc.90.2022.04.26.11.23.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 11:23:07 -0700 (PDT)
+ Tue, 26 Apr 2022 11:23:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 65/68] hw/nios2: Move memory regions into Nios2Machine
-Date: Tue, 26 Apr 2022 11:19:04 -0700
-Message-Id: <20220426181907.103691-66-richard.henderson@linaro.org>
+Subject: [PULL 66/68] hw/nios2: Machine with a Vectored Interrupt Controller
+Date: Tue, 26 Apr 2022 11:19:05 -0700
+Message-Id: <20220426181907.103691-67-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
 References: <20220426181907.103691-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,84 +84,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Amir Gonnen <amir.gonnen@neuroblade.ai>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert to contiguous allocation, as much as possible so far.
-The two timer objects are not exposed for subobject allocation.
+From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+
+Demonstrate how to use nios2 VIC on a machine.
+Introduce a new machine property to attach a VIC.
+
+When VIC is present, let the CPU know that it should use the
+External Interrupt Interface instead of the Internal Interrupt Interface.
+The devices on the machine are attached to the VIC and not directly to cpu.
+To allow VIC update EIC fields, we set the "cpu" property of the VIC
+with a reference to the nios2 cpu.
+
+[rth: Put a property on the 10m50-ghrd machine, rather than
+      create a new machine class.]
 
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Message-Id: <20220303153906.2024748-6-amir.gonnen@neuroblade.ai>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-62-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-63-richard.henderson@linaro.org>
 ---
- hw/nios2/10m50_devboard.c | 30 ++++++++++++++++--------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+ hw/nios2/10m50_devboard.c | 61 +++++++++++++++++++++++++++++++++------
+ hw/nios2/Kconfig          |  1 +
+ 2 files changed, 53 insertions(+), 9 deletions(-)
 
 diff --git a/hw/nios2/10m50_devboard.c b/hw/nios2/10m50_devboard.c
-index bdc3ffd50d..dda4ab2bf5 100644
+index dda4ab2bf5..91383fb097 100644
 --- a/hw/nios2/10m50_devboard.c
 +++ b/hw/nios2/10m50_devboard.c
-@@ -38,6 +38,11 @@
+@@ -27,6 +27,7 @@
  
- struct Nios2MachineState {
-     MachineState parent_obj;
+ #include "hw/sysbus.h"
+ #include "hw/char/serial.h"
++#include "hw/intc/nios2_vic.h"
+ #include "hw/qdev-properties.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/boards.h"
+@@ -43,6 +44,8 @@ struct Nios2MachineState {
+     MemoryRegion phys_tcm_alias;
+     MemoryRegion phys_ram;
+     MemoryRegion phys_ram_alias;
 +
-+    MemoryRegion phys_tcm;
-+    MemoryRegion phys_tcm_alias;
-+    MemoryRegion phys_ram;
-+    MemoryRegion phys_ram_alias;
++    bool vic;
  };
  
  #define TYPE_NIOS2_MACHINE  MACHINE_TYPE_NAME("10m50-ghrd")
-@@ -47,13 +52,10 @@ OBJECT_DECLARE_TYPE(Nios2MachineState, MachineClass, NIOS2_MACHINE)
- 
- static void nios2_10m50_ghrd_init(MachineState *machine)
- {
-+    Nios2MachineState *nms = NIOS2_MACHINE(machine);
-     Nios2CPU *cpu;
-     DeviceState *dev;
-     MemoryRegion *address_space_mem = get_system_memory();
--    MemoryRegion *phys_tcm = g_new(MemoryRegion, 1);
--    MemoryRegion *phys_tcm_alias = g_new(MemoryRegion, 1);
--    MemoryRegion *phys_ram = g_new(MemoryRegion, 1);
--    MemoryRegion *phys_ram_alias = g_new(MemoryRegion, 1);
-     ram_addr_t tcm_base = 0x0;
-     ram_addr_t tcm_size = 0x1000;    /* 1 kiB, but QEMU limit is 4 kiB */
-     ram_addr_t ram_base = 0x08000000;
-@@ -62,22 +64,22 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
-     int i;
- 
-     /* Physical TCM (tb_ram_1k) with alias at 0xc0000000 */
--    memory_region_init_ram(phys_tcm, NULL, "nios2.tcm", tcm_size,
-+    memory_region_init_ram(&nms->phys_tcm, NULL, "nios2.tcm", tcm_size,
-                            &error_abort);
--    memory_region_init_alias(phys_tcm_alias, NULL, "nios2.tcm.alias",
--                             phys_tcm, 0, tcm_size);
--    memory_region_add_subregion(address_space_mem, tcm_base, phys_tcm);
-+    memory_region_init_alias(&nms->phys_tcm_alias, NULL, "nios2.tcm.alias",
-+                             &nms->phys_tcm, 0, tcm_size);
-+    memory_region_add_subregion(address_space_mem, tcm_base, &nms->phys_tcm);
-     memory_region_add_subregion(address_space_mem, 0xc0000000 + tcm_base,
--                                phys_tcm_alias);
-+                                &nms->phys_tcm_alias);
- 
-     /* Physical DRAM with alias at 0xc0000000 */
--    memory_region_init_ram(phys_ram, NULL, "nios2.ram", ram_size,
-+    memory_region_init_ram(&nms->phys_ram, NULL, "nios2.ram", ram_size,
-                            &error_abort);
--    memory_region_init_alias(phys_ram_alias, NULL, "nios2.ram.alias",
--                             phys_ram, 0, ram_size);
--    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
-+    memory_region_init_alias(&nms->phys_ram_alias, NULL, "nios2.ram.alias",
-+                             &nms->phys_ram, 0, ram_size);
-+    memory_region_add_subregion(address_space_mem, ram_base, &nms->phys_ram);
+@@ -81,10 +84,39 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
      memory_region_add_subregion(address_space_mem, 0xc0000000 + ram_base,
--                                phys_ram_alias);
-+                                &nms->phys_ram_alias);
+                                 &nms->phys_ram_alias);
  
-     /* Create CPU -- FIXME */
-     cpu = NIOS2_CPU(cpu_create(TYPE_NIOS2_CPU));
+-    /* Create CPU -- FIXME */
+-    cpu = NIOS2_CPU(cpu_create(TYPE_NIOS2_CPU));
+-    for (i = 0; i < 32; i++) {
+-        irq[i] = qdev_get_gpio_in_named(DEVICE(cpu), "IRQ", i);
++    /* Create CPU.  We need to set eic_present between init and realize. */
++    cpu = NIOS2_CPU(object_new(TYPE_NIOS2_CPU));
++
++    /* Enable the External Interrupt Controller within the CPU. */
++    cpu->eic_present = nms->vic;
++
++    /* Configure new exception vectors. */
++    cpu->reset_addr = 0xd4000000;
++    cpu->exception_addr = 0xc8000120;
++    cpu->fast_tlb_miss_addr = 0xc0000100;
++
++    qdev_realize_and_unref(DEVICE(cpu), NULL, &error_fatal);
++
++    if (nms->vic) {
++        DeviceState *dev = qdev_new(TYPE_NIOS2_VIC);
++        MemoryRegion *dev_mr;
++        qemu_irq cpu_irq;
++
++        object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_fatal);
++        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++
++        cpu_irq = qdev_get_gpio_in_named(DEVICE(cpu), "EIC", 0);
++        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irq);
++        for (int i = 0; i < 32; i++) {
++            irq[i] = qdev_get_gpio_in(dev, i);
++        }
++
++        dev_mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
++        memory_region_add_subregion(address_space_mem, 0x18002000, dev_mr);
++    } else {
++        for (i = 0; i < 32; i++) {
++            irq[i] = qdev_get_gpio_in_named(DEVICE(cpu), "IRQ", i);
++        }
+     }
+ 
+     /* Register: Altera 16550 UART */
+@@ -105,15 +137,22 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xe0000880);
+     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq[5]);
+ 
+-    /* Configure new exception vectors and reset CPU for it to take effect. */
+-    cpu->reset_addr = 0xd4000000;
+-    cpu->exception_addr = 0xc8000120;
+-    cpu->fast_tlb_miss_addr = 0xc0000100;
+-
+     nios2_load_kernel(cpu, ram_base, ram_size, machine->initrd_filename,
+                       BINARY_DEVICE_TREE_FILE, NULL);
+ }
+ 
++static bool get_vic(Object *obj, Error **errp)
++{
++    Nios2MachineState *nms = NIOS2_MACHINE(obj);
++    return nms->vic;
++}
++
++static void set_vic(Object *obj, bool value, Error **errp)
++{
++    Nios2MachineState *nms = NIOS2_MACHINE(obj);
++    nms->vic = value;
++}
++
+ static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -121,6 +160,10 @@ static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
+     mc->desc = "Altera 10M50 GHRD Nios II design";
+     mc->init = nios2_10m50_ghrd_init;
+     mc->is_default = true;
++
++    object_class_property_add_bool(oc, "vic", get_vic, set_vic);
++    object_class_property_set_description(oc, "vic",
++        "Set on/off to enable/disable the Vectored Interrupt Controller");
+ }
+ 
+ static const TypeInfo nios2_10m50_ghrd_type_info = {
+diff --git a/hw/nios2/Kconfig b/hw/nios2/Kconfig
+index b10ea640da..4748ae27b6 100644
+--- a/hw/nios2/Kconfig
++++ b/hw/nios2/Kconfig
+@@ -3,6 +3,7 @@ config NIOS2_10M50
+     select NIOS2
+     select SERIAL
+     select ALTERA_TIMER
++    select NIOS2_VIC
+ 
+ config NIOS2_GENERIC_NOMMU
+     bool
 -- 
 2.34.1
 
