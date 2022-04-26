@@ -2,77 +2,150 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2887D510C88
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 01:18:32 +0200 (CEST)
-Received: from localhost ([::1]:35332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4125C510C79
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 01:14:47 +0200 (CEST)
+Received: from localhost ([::1]:53496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njURz-00055I-2o
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 19:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45672)
+	id 1njUOM-0006Yj-CT
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 19:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1njUIz-0005di-QH
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 19:09:13 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:54021)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1njUIw-0000Jm-IQ
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 19:09:13 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id bx5so10233830pjb.3
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 16:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=w2Awd7FgMhf9sRznkKZ1XajZQfx8WtTyYAHGIDlM0AY=;
- b=wxfqWWpvN1YxK+oRZ8wNWnMp/FcPJphlsmJv7XZxXnFzxJjB0zk6SHfpsVOeTGp9yi
- e4qgsfvWdDmBB3oP2QJ/AJBjZu2ySYjYs13t6RK93SFZnDTH9ESrNS4MrCBWVqkWmoNg
- mcDR9IUdZafcxGfs/MPAoBN5jFI/F/CFRLatI0aMGZUQe/8d5+8DG60cJU7dwepSuqL1
- ehf5mTUWXzsq04+3kKQNzTC5OeqBTttZv33gqWZoXHGWzODh0CANtwI1XsqirPMFDVWk
- Iofa/PV+MamzG1J2nGszB/GuYTnupu/WyFc8BShsur50brysJcBquxu/HWLxwJuGOqKO
- M95A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=w2Awd7FgMhf9sRznkKZ1XajZQfx8WtTyYAHGIDlM0AY=;
- b=312KTqh3qq1MCxOpBrYC3Lux4/PkN+zbVkdIUyFjtOW6yQAgHRtTRXhJuizcDKPZrJ
- TVzikMeA1fa03mKbde1K6kbap7BtYNLoHXetKmYnS0/PsDBGzfGMv2Cin2l1ZhSuMsRl
- rb0SLBA325B4bD7kmAEPWCv7kejZ33reTkAKYAd363Z574JTObkwFlVwvWISa0NcUyAL
- YqV0XzMzj9Vt0bMynxl/ajT/j5P0KSmNQxcTRnghWAXA+77Ke9b47NC6LShltKEoDUD6
- DikM+tClauaeFDxbLCO6gVJgJQO6e5doOiRuVeQyFLRsY9OgklICXB8rKZOnOdqLtVKv
- mg5w==
-X-Gm-Message-State: AOAM531irNPxjaA0e0k4bK/qtqNg5tkPxF1MtYexFfIbNJqYiIowI8HS
- tPqE9SJtkj4MrPsQuQY9zRM82C6sBVO5+Q==
-X-Google-Smtp-Source: ABdhPJym/DVKE+RscdnKonNozF3dsbp0LmEoxRqYj29DzORz7FwBmKQ1tqXe0X3PtOZ9I0aU/6YEPg==
-X-Received: by 2002:a17:902:7ec1:b0:156:17a4:a2f8 with SMTP id
- p1-20020a1709027ec100b0015617a4a2f8mr26351088plb.155.1651014548462; 
- Tue, 26 Apr 2022 16:09:08 -0700 (PDT)
-Received: from atishp.ba.rivosinc.com ([66.220.2.162])
- by smtp.gmail.com with ESMTPSA id
- t29-20020a62d15d000000b0050d42864753sm7856490pfl.49.2022.04.26.16.09.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 16:09:07 -0700 (PDT)
-From: Atish Patra <atishp@rivosinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2  5/5] target/riscv: Add vstimecmp support
-Date: Tue, 26 Apr 2022 16:08:54 -0700
-Message-Id: <20220426230855.336292-6-atishp@rivosinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220426230855.336292-1-atishp@rivosinc.com>
-References: <20220426230855.336292-1-atishp@rivosinc.com>
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1njUIp-00059Y-UZ
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 19:09:04 -0400
+Received: from mail-mw2nam12on20627.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::627]:29760
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1njUIm-0000Hm-Uz
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 19:09:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dQ5DukxpI/DExe9HDAAOhqjkXZvcuuaVY0FbL9ueuDjq5+JJoTcQP7Y33XKuAAoFs9mhva1E7H0S/isCKx46k4H++IcG1O3Y/Rlx2hrWZNmt9wimmH/t86Z1jRLt1Bs/DtXAGYVc2Jvdz3mdJlSPLPt1RPa2cqK2+0l+eMEa7SBRajl/dssPJ8PmFGjX5PpREl0ltgL2hlLQpiGPzsdkLGfFVNBm881qCmnTUneP1DXRlIAVr9Kje9tN6s3iAyPPzwpJwBhX+h95KsgQ4SKdrG/SyFw442IescPjL19p8iDF59m+dRY3tNqWSaUdH+mu6bG4jsC7BCgGKIgkY8NqOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LoqofToO0tWWEy9sQyiJFyHPf5PMAAb7xxKJG4TqzbE=;
+ b=A+SvsgWNXv8CmO0F+GWVDLMWIRBb6vJJLbMIKPf2N6l69mjegmvYXkdPQ3DgH2QfPbJ49+atBjitBtazvx0NWn75gnF2q9iG2LWRihNyC4D5as5ycXnarTfDMFbY3MjYfFrvmIT8wuqAz+84XIL70InQ83mE4DutiAx/PGuNWlKHiHiu7C2FSkc98lHDsBnZ6x81zzIm/CxZUXrUe9Fte01MQ/erYJv26bAurZZwg7CnxdjGE0uTU2RfJvWDLBKG7F/0oQoh8AY2ru/Nl/Bao1HiyxATRXHchAJmqGmFU8uFdazRkopO5nkKlLs37wF7jooGBHGOkzW8Bcs4xIYFQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LoqofToO0tWWEy9sQyiJFyHPf5PMAAb7xxKJG4TqzbE=;
+ b=P/8OYSTfQq5s38fQrzQ5V3XiVmIZ11MaB7SV+TyfdJuI5jDCpYL3xr3eBTJrFsDHQG8RVoIrGBsqIzsBv42hEcaiaz8p4pHsUw904j+jddBZ0VkN27fJA9cyS5wWwjZ82SgOZkP7qkbeflAc1G7zdD0Q2xXZu4lOl7rYoMQhE9kVcNnUQGBqZoNduizTiJnRIdtlgLRF59xiMyJ+lzhItalgMkORL9ajC2N6vygK9jY6QUjPx3q0pdz1eM4CxKQwaagHE2W1XpSgW+Ir1gUF97YuM/bciVkRmQwpgE5szsErNiQ2cr5wmoKxlpUDB3GnbAbN8kJjKT0F0nNUlpaFvA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MN2PR12MB4607.namprd12.prod.outlook.com (2603:10b6:208:a1::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13; Tue, 26 Apr
+ 2022 23:08:56 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
+ 23:08:56 +0000
+Date: Tue, 26 Apr 2022 20:08:54 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Yi Liu <yi.l.liu@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ "Peng, Chao P" <chao.p.peng@intel.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>,
+ "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
+ "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
+ "peterx@redhat.com" <peterx@redhat.com>
+Subject: Re: [RFC 15/18] vfio/iommufd: Implement iommufd backend
+Message-ID: <20220426230854.GU2125828@nvidia.com>
+References: <20220414104710.28534-16-yi.l.liu@intel.com>
+ <20220422145815.GK2120790@nvidia.com>
+ <3576770b-e4c2-cf11-da0c-821c55ab9902@intel.com>
+ <BN9PR11MB5276AD0B0DAA59A44ED705618CFB9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20220426134114.GM2125828@nvidia.com>
+ <79de081d-31dc-41a4-d38f-1e28327b1152@intel.com>
+ <20220426141156.GO2125828@nvidia.com>
+ <20220426124541.5f33f357.alex.williamson@redhat.com>
+ <20220426192703.GS2125828@nvidia.com>
+ <20220426145931.23cb976b.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220426145931.23cb976b.alex.williamson@redhat.com>
+X-ClientProxiedBy: BL1P221CA0022.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c5::16) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=atishp@rivosinc.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6001c4b4-0e67-4043-b917-08da27d9bcf1
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4607:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB46074C13AE4C6A7EF87CEFC6C2FB9@MN2PR12MB4607.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jmZF+6ZpxahBnCvujCHKc7jua12RyabK38FS7P1uvS75LcLYEtIsJocjcUPCNCe6dGr1OhttEfceW2+Wv5CLqT2GXWXMxVqXYUPIVWvC42FWQBJuEyehirdnT7Wwchu32iG99wH9+o5FJzBxsnWUl08GmaI70aAvVUe2Jf1R9m5HGj6oDYdP3soXXwPYi5BdyxdJyf4pIYtiIFYa4x7xyTULrsestK16ur2YiAuGB7Jb3kK8GhsCL+Wx7vWh/41vPzIfp8V9bH7BWb15V4yRhJVQ/WC/BWJKXJNgGgzAg0pEuZMwRzuVHCjAdmPSYQqIFYJYAybaXLUEE2pTk6fuD+/mtdm4p+D/oqgKySpTYeeCHNFsMyWXUpAP8qJRasQW6tH0vZmx0KtBSQyP0fefiEUw+yszGwj3TaEOI3ojZqxJQXqla+48odzG9h9XHq4j/rpYwSqhc8C9Q6/ZQXKRcOZ3E76ZN2CDiNYPZCN9TmpUNThiaA6+zA3C+UykfxvIF1k0A8t8Lq8THSuEgTxguvSm8+Ti9jQPiMC5Q8EcMuvVwKPyTKJTVlBWI4db7vNa4JgMYVwOA78hH64QObZ/odrt0br/xIIMYqLEP5zNv2UE5Gl1sIUx4v/CzprDM6P6O85j98+TpJRVS1mrNoNMPg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(8676002)(5660300002)(2906002)(6486002)(66476007)(508600001)(7416002)(4326008)(186003)(2616005)(83380400001)(38100700002)(1076003)(6506007)(8936002)(26005)(86362001)(33656002)(66946007)(6916009)(66556008)(316002)(36756003)(6512007)(54906003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DtZ0mYLQ4Kzc8Zc+YsutqlNl8Gp9qipdwljArzUXLIkfO5oIY1DifArHJ4qk?=
+ =?us-ascii?Q?26I4qVsjUWOr1CZVOZ+iuYofSNYBEM1ZlKNKFHZeEWgDLDDlygELPRKpdwEL?=
+ =?us-ascii?Q?Fd3u0G/c1gmDNvcfHhW8bmW7fb9GPe9DuWccJfYsjxjArtcXdJzVdnVqmNfu?=
+ =?us-ascii?Q?/tKTmLyYTsmOjfsEiNY4aBbYCg1WRwhAUdZYsJvBeEhxsPddynR5hAkBxMJs?=
+ =?us-ascii?Q?DhdFL/+2BuffSKKX10z+4cyEFBigUFZ5TEIoUcMgviHtKZ8L5aQSjBFeT86I?=
+ =?us-ascii?Q?0W8FFaIhfgmRHtImXw25r+L5SSX94hzHaoPi3fm6lgB60OYrDQMH8H+eHq2T?=
+ =?us-ascii?Q?s7n38AFS2CjpgOAY3o5N82lzebgHNwwtggIAAYYiW3U6BrRMKzGevkf0Kekp?=
+ =?us-ascii?Q?qIvgbTzu6L/EJ4uNQ8I0rGqTUkPWzu4rVhvrFSqlDCpqzH742lh7rwROYi7n?=
+ =?us-ascii?Q?jySwgAdWsJ03DBrV9BsFRdAtRASDMEpaq7f+EIbcpi9qxgtDosdtnuit7hAt?=
+ =?us-ascii?Q?km4JE9HBMVwx9afrEmuvZao9LuFvs5EhJjXhh1LIie6GHYyzOFrwi04UVW3i?=
+ =?us-ascii?Q?thrl/ww4Sc/UcienpMsi2MpT7yk0+oxe1T/tFTUJ5K9B3NHrKRVQJUa4QbhY?=
+ =?us-ascii?Q?x1q4y0Zq2o5hQunOFKMBRhK4c15Jlg8bRNL5rH51oH9O/iF1/+lkHwyVhB4x?=
+ =?us-ascii?Q?i3NPscPsxdl5mX0GfvYil1H+XOHUJ/fvQXLtzg01w08PO2+BEXxjET8v+em5?=
+ =?us-ascii?Q?q5pqf30gjCPAwUERlpex7MSjfmC0GMwM4g9EuvY61UQ7v6b+K/8hYf20ys3c?=
+ =?us-ascii?Q?pZBfZl4koQf9udrBTaVQlvgT0G7mlrm3Rt9RGS+/NGNP9enf8kgOsk9RbmDN?=
+ =?us-ascii?Q?TdNJ3ATsYrI+c6yi7rMLklNK3ol3aLNLRjKXG9XWqnTkhrHVbQC00EQD8ek5?=
+ =?us-ascii?Q?OaBw2s4eNo8KBVqq/wawDsCjbJM0Lq4wLpSBn9ThVRzmmRTz01bx/poehuI4?=
+ =?us-ascii?Q?SznFLAXdtLU+8Tf0ceSXWScxjhWGaEIVZvQ/NP3RJIg2lXOzmTkqkPzXpw61?=
+ =?us-ascii?Q?flD57Q20/nMgIzi5gzaPrtfMxH5rfsySPZ0Tu2re5IV1UZ8PnPdGI2k3bk/y?=
+ =?us-ascii?Q?28wSHLVYPMt87du4Ki4SPmJ0P3HtcxbFgaga9sH6gKJm3ZRbouSMqJd9nxdN?=
+ =?us-ascii?Q?r3HVxa83YDhLGPLVtX6EJyGiiGItAqrmToPPwVwgBi6OvaCkUjsJY8ncGx6Q?=
+ =?us-ascii?Q?wBHioJZjhvNa4a7pmedEKoGdUl4JCIMAC5Drpln+AK7i+qxsLDsLfQNARnF8?=
+ =?us-ascii?Q?d70Q64um41zIxyiCEh6EANGmozuvU7weGQV0gWKlx64vBS6ZDJ531oxHxXxI?=
+ =?us-ascii?Q?xeW9R3FtVIL2SALnosFUeFCxN0meEA/s5Ekk7du3DxUYJgznNyjKlvQ4JPcM?=
+ =?us-ascii?Q?j1fYZ1X1qUweSBr5XhC3l2Q0WwbgVnZh5m5tMxm7li2Hrqt71fUHehc5YqiL?=
+ =?us-ascii?Q?jVX+H3r6o2DPkmUR1VkZGOlvQdp7xUlwadMjhfnUe5ij9yPcynjT4mixDzwM?=
+ =?us-ascii?Q?WGxILzYArnFPo/ZFkvB0dUXmDdqhYz7ZvyG/672CJsafVPAn9uO4I2BvsONP?=
+ =?us-ascii?Q?PJG4VWkt656/4c07DUN/a7H7rtjAcEl2kOyX0tQcllT0kg8RXSZc0AFNmnwJ?=
+ =?us-ascii?Q?LIhxbKeumMxpkNzjBiY2ipZ/vrJRCDl+iIjYXstrs9w6Ux/nkWKJCXRvhh/2?=
+ =?us-ascii?Q?JLJswb9tPg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6001c4b4-0e67-4043-b917-08da27d9bcf1
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 23:08:56.0815 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zMPkH+fZeQ7iMeDzFKfZp8x2ve/t2s7j6tunaykCG5zhgwnAl8DWROh8+zP7j1y9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4607
+Received-SPF: softfail client-ip=2a01:111:f400:fe5a::627;
+ envelope-from=jgg@nvidia.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,315 +158,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vstimecmp CSR allows the guest OS or to program the next guest timer
-interrupt directly. Thus, hypervisor no longer need to inject the
-timer interrupt to the guest if vstimecmp is used. This was ratified
-as a part of the Sstc extension.
+On Tue, Apr 26, 2022 at 02:59:31PM -0600, Alex Williamson wrote:
 
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
----
- target/riscv/cpu.h         |   3 ++
- target/riscv/cpu_bits.h    |   4 ++
- target/riscv/cpu_helper.c  |  11 ++--
- target/riscv/csr.c         | 102 ++++++++++++++++++++++++++++++++++++-
- target/riscv/machine.c     |   1 +
- target/riscv/time_helper.c |  16 ++++++
- 6 files changed, 132 insertions(+), 5 deletions(-)
+> > The best you could do is make a dummy IOAS then attach the device,
+> > read the mappings, detatch, and then do your unmaps.
+> 
+> Right, the same thing the kernel does currently.
+> 
+> > I'm imagining something like IOMMUFD_DEVICE_GET_RANGES that can be
+> > called prior to attaching on the device ID.
+> 
+> Something like /sys/kernel/iommu_groups/$GROUP/reserved_regions?
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 9a5e02f217ba..29d8ab1aaca6 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -278,6 +278,7 @@ struct CPUArchState {
- 
-     /* Sstc CSRs */
-     uint64_t stimecmp;
-+    uint64_t vstimecmp;
- 
-     /* physical memory protection */
-     pmp_table_t pmp_state;
-@@ -333,6 +334,8 @@ struct CPUArchState {
- 
-     /* Fields from here on are preserved across CPU reset. */
-     QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
-+    QEMUTimer *vstimer; /* Internal timer for VS-mode interrupt */
-+    bool vstime_irq;
- 
-     hwaddr kernel_addr;
-     hwaddr fdt_addr;
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 631b7c32b38f..ce33bf8befbb 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -269,6 +269,10 @@
- #define CSR_VSIP            0x244
- #define CSR_VSATP           0x280
- 
-+/* Sstc virtual CSRs */
-+#define CSR_VSTIMECMP       0x24D
-+#define CSR_VSTIMECMPH      0x25D
-+
- #define CSR_MTINST          0x34a
- #define CSR_MTVAL2          0x34b
- 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index e1aa4f2097c1..2715021c022e 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -344,8 +344,9 @@ static uint64_t riscv_cpu_all_pending(CPURISCVState *env)
- {
-     uint32_t gein = get_field(env->hstatus, HSTATUS_VGEIN);
-     uint64_t vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
-+    uint64_t vstip = (env->vstime_irq) ? MIP_VSTIP : 0;
- 
--    return (env->mip | vsgein) & env->mie;
-+    return (env->mip | vsgein | vstip) & env->mie;
- }
- 
- int riscv_cpu_mirq_pending(CPURISCVState *env)
-@@ -604,7 +605,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
- {
-     CPURISCVState *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
--    uint64_t gein, vsgein = 0, old = env->mip;
-+    uint64_t gein, vsgein = 0, vstip = 0, old = env->mip;
-     bool locked = false;
- 
-     if (riscv_cpu_virt_enabled(env)) {
-@@ -612,6 +613,10 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
-         vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
-     }
- 
-+    /* No need to update mip for VSTIP */
-+    mask = ((mask == MIP_VSTIP) && env->vstime_irq) ? 0 : mask;
-+    vstip = env->vstime_irq ? MIP_VSTIP : 0;
-+
-     if (!qemu_mutex_iothread_locked()) {
-         locked = true;
-         qemu_mutex_lock_iothread();
-@@ -619,7 +624,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
- 
-     env->mip = (env->mip & ~mask) | (value & mask);
- 
--    if (env->mip | vsgein) {
-+    if (env->mip | vsgein | vstip) {
-         cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-     } else {
-         cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index c51c05d2ea74..c96c12a8ac74 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -567,17 +567,100 @@ static RISCVException sstc(CPURISCVState *env, int csrno)
-     return RISCV_EXCP_NONE;
- }
- 
-+static RISCVException sstc_hmode(CPURISCVState *env, int csrno)
-+{
-+    CPUState *cs = env_cpu(env);
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    if (env->priv == PRV_M) {
-+        return RISCV_EXCP_NONE;
-+    }
-+
-+    if (!(get_field(env->mcounteren, COUNTEREN_TM) &
-+          get_field(env->menvcfg, MENVCFG_STCE))) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    if (!(get_field(env->hcounteren, COUNTEREN_TM) &
-+          get_field(env->henvcfg, HENVCFG_STCE))) {
-+        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-+    }
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
-+                                    target_ulong *val)
-+{
-+    *val = env->vstimecmp;
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
-+                                    target_ulong *val)
-+{
-+    *val = env->vstimecmp >> 32;
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
-+                                    target_ulong val)
-+{
-+    RISCVCPU *cpu = env_archcpu(env);
-+
-+    if (riscv_cpu_mxl(env) == MXL_RV32) {
-+        uint64_t vstimecmp_hi = env->vstimecmp >> 32;
-+        env->vstimecmp = (vstimecmp_hi << 32) | (val & 0xFFFFFFFF);
-+    } else {
-+        env->vstimecmp = val;
-+        riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
-+                                  env->htimedelta, MIP_VSTIP);
-+    }
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException write_vstimecmph(CPURISCVState *env, int csrno,
-+                                    target_ulong val)
-+{
-+    RISCVCPU *cpu = env_archcpu(env);
-+    uint64_t timer_val = 0;
-+
-+    timer_val = (uint64_t)val << 32 | (env->vstimecmp & 0xFFFFFFFF);
-+    env->vstimecmp = timer_val;
-+    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
-+                              env->htimedelta, MIP_VSTIP);
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
-                                     target_ulong *val)
- {
--    *val = env->stimecmp;
-+    if (riscv_cpu_virt_enabled(env)) {
-+        *val = env->vstimecmp;
-+    } else {
-+        *val = env->stimecmp;
-+    }
-+
-     return RISCV_EXCP_NONE;
- }
- 
- static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
-                                     target_ulong *val)
- {
--    *val = env->stimecmp >> 32;
-+    if (riscv_cpu_virt_enabled(env)) {
-+        *val = env->vstimecmp >> 32;
-+    } else {
-+        *val = env->stimecmp >> 32;
-+    }
-+
-     return RISCV_EXCP_NONE;
- }
- 
-@@ -586,6 +669,10 @@ static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
- {
-     RISCVCPU *cpu = env_archcpu(env);
- 
-+    if (riscv_cpu_virt_enabled(env)) {
-+        return write_vstimecmp(env, csrno, val);
-+    }
-+
-     if (riscv_cpu_mxl(env) == MXL_RV32) {
-         uint64_t stimecmp_hi = env->stimecmp >> 32;
-         env->stimecmp = (stimecmp_hi << 32) | (val & 0xFFFFFFFF);
-@@ -603,6 +690,10 @@ static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
-     RISCVCPU *cpu = env_archcpu(env);
-     uint64_t timer_val = 0;
- 
-+    if (riscv_cpu_virt_enabled(env)) {
-+        return write_vstimecmph(env, csrno, val);
-+    }
-+
-     timer_val = (uint64_t)val << 32 | (env->stimecmp & 0xFFFFFFFF);
-     env->stimecmp = timer_val;
-     riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
-@@ -1603,6 +1694,7 @@ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
-     if (csrno != CSR_HVIP) {
-         gin = get_field(env->hstatus, HSTATUS_VGEIN);
-         old_mip |= (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VSEIP : 0;
-+        old_mip |= env->vstime_irq ? MIP_VSTIP : 0;
-     }
- 
-     if (ret_val) {
-@@ -3422,6 +3514,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-                                           .min_priv_ver = PRIV_VERSION_1_12_0 },
-     [CSR_STIMECMPH] = { "stimecmph", sstc, read_stimecmph, write_stimecmph,
-                                           .min_priv_ver = PRIV_VERSION_1_12_0 },
-+    [CSR_VSTIMECMP] = { "vstimecmp", sstc_hmode, read_vstimecmp,
-+                                          write_vstimecmp,
-+                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-+    [CSR_VSTIMECMPH] = { "vstimecmph", sstc_hmode, read_vstimecmph,
-+                                          write_vstimecmph,
-+                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
- 
-     /* Supervisor Protection and Translation */
-     [CSR_SATP]     = { "satp",     smode, read_satp,    write_satp      },
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index e50d82a6085e..c3628c949640 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -92,6 +92,7 @@ static const VMStateDescription vmstate_hyper = {
-         VMSTATE_UINTTL(env.hgeie, RISCVCPU),
-         VMSTATE_UINTTL(env.hgeip, RISCVCPU),
-         VMSTATE_UINT64(env.htimedelta, RISCVCPU),
-+        VMSTATE_UINT64(env.vstimecmp, RISCVCPU),
- 
-         VMSTATE_UINTTL(env.hvictl, RISCVCPU),
-         VMSTATE_UINT8_ARRAY(env.hviprio, RISCVCPU, 64),
-diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
-index f3fb5eac7b7b..8cce667dfd47 100644
---- a/target/riscv/time_helper.c
-+++ b/target/riscv/time_helper.c
-@@ -22,6 +22,14 @@
- #include "time_helper.h"
- #include "hw/intc/riscv_aclint.h"
- 
-+static void riscv_vstimer_cb(void *opaque)
-+{
-+    RISCVCPU *cpu = opaque;
-+    CPURISCVState *env = &cpu->env;
-+    env->vstime_irq = 1;
-+    riscv_cpu_update_mip(cpu, MIP_VSTIP, BOOL_TO_MASK(1));
-+}
-+
- static void riscv_stimer_cb(void *opaque)
- {
-     RISCVCPU *cpu = opaque;
-@@ -47,10 +55,16 @@ void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
-          * If we're setting an stimecmp value in the "past",
-          * immediately raise the timer interrupt
-          */
-+        if (timer_irq == MIP_VSTIP) {
-+            env->vstime_irq = 1;
-+        }
-         riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(1));
-         return;
-     }
- 
-+    if (timer_irq == MIP_VSTIP) {
-+        env->vstime_irq = 0;
-+    }
-     /* Clear the [V]STIP bit in mip */
-     riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
- 
-@@ -95,4 +109,6 @@ void riscv_timer_init(RISCVCPU *cpu)
-     env->stimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_stimer_cb, cpu);
-     env->stimecmp = 0;
- 
-+    env->vstimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_vstimer_cb, cpu);
-+    env->vstimecmp = 0;
- }
--- 
-2.25.1
+If we do the above ioctl with iommufd I would want to include the domain
+aperture too, but yes.
 
+> > > We must be absolutely certain that there is no DMA to that range
+> > > before doing so.  
+> > 
+> > Yes, but at the same time if the VM thinks it can DMA to that memory
+> > then it is quite likely to DMA to it with the new device that doesn't
+> > have it mapped in the first place.
+> 
+> Sorry, this assertion doesn't make sense to me.  We can't assume a
+> vIOMMU on x86, so QEMU typically maps the entire VM address space (ie.
+> device address space == system memory).  Some of those mappings are
+> likely DMA targets (RAM), but only a tiny fraction of the address space
+> may actually be used for DMA.  Some of those mappings are exceedingly
+> unlikely P2P DMA targets (device memory), so we don't consider mapping
+> failures to be fatal to attaching the device.
+
+> If we have a case where a range failed for one device but worked for a
+> previous, we're in the latter scenario, because we should have failed
+> the device attach otherwise.  Your assertion would require that there
+> are existing devices (plural) making use of this mapping and that the
+> new device is also likely to make use of this mapping.  I have a hard
+> time believing that evidence exists to support that statement.
+
+This is quite normal, we often have multiple NICs and GPUs in the same
+system/VM and the expectation is that P2P between the MMIO regions of
+all the NICs and all the GPUs will work. Hotplugging in a NIC or GPU
+and having it be excluded from P2P maps would be fatal to the VM.
+
+So, while I think it is vanishingly unlikely that a reserved region
+conflict would cause a problem, my preference is that this stuff is
+deterministic. Either hotplugs fails or hotplug configures it to the
+same state it would be if the VM was started with this configuration.
+
+Perhaps this just suggests that qemu should be told by the operator
+what kind of P2P to export from a device 'never/auto/always' with auto
+being today's behavior.
+
+> P2P use cases are sufficiently rare that this hasn't been an issue.  I
+> think there's also still a sufficient healthy dose of FUD whether a
+> system supports P2P that drivers do some validation before relying on
+> it.
+
+I'm not sure what you mean here, the P2P capability discovery is a
+complete mess and never did get standardized. Linux has the
+expectation that drivers will use pci_p2pdma_distance() before doing
+P2P which weeds out only some of the worst non-working cases.
+
+> > This is why I find it bit strange that qemu doesn't check the
+> > ranges. eg I would expect that anything declared as memory in the E820
+> > map has to be mappable to the iommu_domain or the device should not
+> > attach at all.
+> 
+> You have some interesting assumptions around associating
+> MemoryRegionSegments from the device AddressSpace to something like an
+> x86 specific E820 table.  
+
+I'm thinking about it from an OS perspective in the VM, not from qemu
+internals. OS's do not randomly DMA everwhere, the firmware tables/etc
+do make it predictable where DMA will happen.
+
+> > The P2P is a bit trickier, and I know we don't have a good story
+> > because we lack ACPI description, but I would have expected the same
+> > kind of thing. Anything P2Pable should be in the iommu_domain or the
+> > device should not attach. As with system memory there are only certain
+> > parts of the E820 map that an OS would use for P2P.
+> > 
+> > (ideally ACPI would indicate exactly what combinations of devices are
+> > P2Pable and then qemu would use that drive the mandatory address
+> > ranges in the IOAS)
+> 
+> How exactly does ACPI indicate that devices can do P2P?  How can we
+> rely on ACPI for a problem that's not unique to platforms that
+> implement ACPI?
+
+I am trying to say this never did get standardized. It was talked about
+when the pci_p2pdma_distance() was merged and I thought some folks
+were going to go off and take care of an ACPI query for it to use. It
+would be useful here at least.
+ 
+> > > > > yeah. qemu can filter the P2P BAR mapping and just stop it in qemu. We
+> > > > > haven't added it as it is something you will add in future. so didn't
+> > > > > add it in this RFC. :-) Please let me know if it feels better to filter
+> > > > > it from today.    
+> > > > 
+> > > > I currently hope it will use a different map API entirely and not rely
+> > > > on discovering the P2P via the VMA. eg using a DMABUF FD or something.
+> > > > 
+> > > > So blocking it in qemu feels like the right thing to do.  
+> > > 
+> > > Wait a sec, so legacy vfio supports p2p between devices, which has a
+> > > least a couple known use cases, primarily involving GPUs for at least
+> > > one of the peers, and we're not going to make equivalent support a
+> > > feature requirement for iommufd?    
+> > 
+> > I said "different map API" - something like IOMMU_FD_MAP_DMABUF
+> > perhaps.
+> 
+> For future support, yes, but your last sentence above states to
+> outright block it for now, which would be a visible feature regression
+> vs legacy vfio.
+
+I'm not sure I understand. Today iommufd does not support MMIO vmas in
+IOMMUFD_MAP, and if we do the DMABUF stuff, it never will. So the
+correct thing is to block it in qemu and when we decide exactly the
+correct interface we will update qemu to use it. Surely this would be
+completed before we declare iommufd "ready". Hopefully this happens
+not long after we merge the basic iommufd kernel stuff.
+
+> that legacy vfio has various issues currently.  I'm only stating that
+> there are use cases for it and if we cannot support those use cases
+> then we can't do a transparent switch to iommufd when it's
+> available.
+
+P2P is very important to me, I will get it supported, but I can't
+tackle every problem at once.
+
+If we can't agree on a secure implementation after a lot of trying
+then we can implement follow_pfn like VFIO did.
+
+> Switching would depend not only on kernel/QEMU support, but the
+> necessary features for the VM, where we have no means to
+> programmatically determine the latter.  Thanks,
+
+I'm not sure what "features for the VM" means?
+
+Jason
 
