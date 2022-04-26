@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87FA8510812
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:05:25 +0200 (CEST)
-Received: from localhost ([::1]:35902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2AD51087E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:06:17 +0200 (CEST)
+Received: from localhost ([::1]:37570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQV2-0000D6-Kn
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:05:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44268)
+	id 1njQVs-0001MC-NN
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPml-0002hL-Kw
+ id 1njPmm-0002ha-3b
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:40 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:33437)
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:43922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPmj-0004Rs-CB
+ id 1njPmk-0004S1-Cg
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:39 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id p12so7000846pfn.0
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:36 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id y14so17926428pfe.10
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ye00+f937DzjmYFcQBAIIaxN5ODYSNdMuba5fZB95Nk=;
- b=cEgqXvwpOXaCg3eVrUzuOv0AHEB8YsY6xpXROzkOF4LS3qCsWFeZGQ3m2ViCk92pmP
- kDxM2VgMUWnmh6zvtjNbAl2xQYNTphx2VcDXOiQsi0xah6c5tcxK9Q62VAGEsmSg1Cfc
- npc+wiElVSV5JL5JGlb6Jf8wwRvC9GpN7xA1oyUhjHFAcTMdReolP1rqf3w5Iu0hzYJb
- Z8Ru72EhAR01gf0MQQRDljeijCZHPHkgQ6AwmObPhB3yDJM0GdeTc8F5wiOCXy52rgJh
- S3PVTk5c82cSsvYHjAM3w7YHyUSOTf4ChjU9IybfakzCJZs1YSYeIkXhvLuliIsGY8Iq
- bGjw==
+ bh=JGG1SeKnuAT2QHCjae7Ts/IpHjmxbOVPlNo/xG2utBk=;
+ b=ODGBhfon5dy7laNbX5Rp5wJwZRhk99HNMMoCbizdxAmmtTiTNVmwVdzwcq/ih/djji
+ +ieYo79vgnOsSz3i743swU14eceiaC2gdABczWS+hQMwQv6d3NP0eQwTvYRpYlddOak8
+ Wvh4V3Cbt2Im1OjhVBIeoYBZVO7YSjGI+1ALFk/C6c/MNCCTj81Q2xxxLVNcUVi23CFE
+ Mf5SiNQ1YClKWwyUTLNw+8mUEhYVu5cuJN8+c4lXg6CKbG62D5Ocaez5qzB2J5zB0x9f
+ 6L7KNxgA9NK1rNaxHmd/EtsxFEmWJFrj4S1fL5JC2z+C1PA4jXVZyzxznb0rkv+CLIZz
+ AZGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ye00+f937DzjmYFcQBAIIaxN5ODYSNdMuba5fZB95Nk=;
- b=U39x2oG+X6k4CuZseF8DIKwO0pYOh/uY9kZwv9ST9YtKx7jB7Dj+bRTn1hSo1cY1Xo
- dD2k4p6vAo5m55jlLLs6sWu86y/7au1qqV5epmV0PkVId/TaSK9DOSKZBOifQKlYnONt
- ZP/Zeu8KchA8apTcyOSYnojp7QaLYRrv8anVaeN6QqcunY94slFM+EgzB0rie3ekYiWS
- nSIsLFgVUnrECp6KjLoeJ1O88/fAWpw6+Ymnf2cBI7F/1CUuSCweyfN6ts8BVcJjkqbU
- U+MkY/jhTN7f9FQv5ugM3bJrlrzkK9kULRj3PIqEUHYyw2XNZEnjTxXoAddcOLvLkkX0
- ZKvA==
-X-Gm-Message-State: AOAM531uPl/L8/Y9VoN35VZV3RguSonc310dalOOcwYh0QU1h23C2c90
- S3LZ1TV5D4kHevL1Ds59kXyA/EqbuOD9PQ==
-X-Google-Smtp-Source: ABdhPJzQ5+lpPPoGItwxJxdp/3wZwrBtB/Qx/ccjhJ9BCbzNL+ute+gT9U4Hawmw9CRPuhdoKdlVVQ==
-X-Received: by 2002:aa7:84d9:0:b0:50d:3254:db8b with SMTP id
- x25-20020aa784d9000000b0050d3254db8bmr15583124pfn.78.1650997175943; 
- Tue, 26 Apr 2022 11:19:35 -0700 (PDT)
+ bh=JGG1SeKnuAT2QHCjae7Ts/IpHjmxbOVPlNo/xG2utBk=;
+ b=I75Y7xgDQ4i6lguOvEkLxEJUr7xm4uJT/XOm52GhHvl/dSsslHsyNWbjqPV8w2svyO
+ EdWzMnaQbdngb5kbA9+2owXjEGamWfOZVTh9obzXTRStu1z0M1XeZ9x7cKtBMmXdKjjQ
+ VNC1A+rAnc6slSTr3IXjfLBxxJgjqRfJTd7B9U1JIVwnBlhoPCv42lHojiR80+RuHDAC
+ /f0ggnkxCy3Q6LD3tfpI4ly0YNCYSjo0sJ1PRYL91ebumRdvMKSblv6T2+o8vz9Sbkpe
+ CQaASJiRllJXX446MMQkWwBhjlJurPZi2INkvHDLenwZ2SvMZ5+riXF2WHL9zTuEKotb
+ g+3w==
+X-Gm-Message-State: AOAM533Cogv+A4woeITqB9UHDDidF4Hkjq1uqWBOZkpTOpGsGyjsuSZR
+ w0AJmlmpjq4XUjYOBfqR4fWTgzchPSSzYQ==
+X-Google-Smtp-Source: ABdhPJx0hBUjw730r6urtog3qTCBOU4QgmryiYRJfN84+GspU+qCxRk+kiCqe4qH5mx8IsM/iz6nQw==
+X-Received: by 2002:aa7:9109:0:b0:50a:78c8:8603 with SMTP id
+ 9-20020aa79109000000b0050a78c88603mr25599642pfh.77.1650997176878; 
+ Tue, 26 Apr 2022 11:19:36 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.35
+ j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 11:19:35 -0700 (PDT)
+ Tue, 26 Apr 2022 11:19:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/68] target/nios2: Move R_FOO and CR_BAR into enumerations
-Date: Tue, 26 Apr 2022 11:18:29 -0700
-Message-Id: <20220426181907.103691-31-richard.henderson@linaro.org>
+Subject: [PULL 31/68] target/nios2: Create EXCP_SEMIHOST for semi-hosting
+Date: Tue, 26 Apr 2022 11:18:30 -0700
+Message-Id: <20220426181907.103691-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
 References: <20220426181907.103691-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,127 +88,104 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These symbols become available to the debugger.
+Decode 'break 1' during translation, rather than doing
+it again during exception processing.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-31-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-32-richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h | 72 ++++++++++++++++++++++------------------------
- 1 file changed, 35 insertions(+), 37 deletions(-)
+ target/nios2/cpu.h       |  1 +
+ target/nios2/helper.c    | 14 ++++++--------
+ target/nios2/translate.c | 17 ++++++++++++++++-
+ 3 files changed, 23 insertions(+), 9 deletions(-)
 
 diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index f312050ecd..65bcc5fc0e 100644
+index 65bcc5fc0e..01cead5502 100644
 --- a/target/nios2/cpu.h
 +++ b/target/nios2/cpu.h
-@@ -61,25 +61,43 @@ struct Nios2CPUClass {
- #define NUM_CR_REGS 32
+@@ -156,6 +156,7 @@ FIELD(CR_TLBMISC, EE, 24, 1)
  
- /* General purpose register aliases */
--#define R_ZERO   0
--#define R_AT     1
--#define R_RET0   2
--#define R_RET1   3
--#define R_ARG0   4
--#define R_ARG1   5
--#define R_ARG2   6
--#define R_ARG3   7
--#define R_ET     24
--#define R_BT     25
--#define R_GP     26
--#define R_SP     27
--#define R_FP     28
--#define R_EA     29
--#define R_BA     30
--#define R_RA     31
-+enum {
-+    R_ZERO   = 0,
-+    R_AT     = 1,
-+    R_RET0   = 2,
-+    R_RET1   = 3,
-+    R_ARG0   = 4,
-+    R_ARG1   = 5,
-+    R_ARG2   = 6,
-+    R_ARG3   = 7,
-+    R_ET     = 24,
-+    R_BT     = 25,
-+    R_GP     = 26,
-+    R_SP     = 27,
-+    R_FP     = 28,
-+    R_EA     = 29,
-+    R_BA     = 30,
-+    R_RA     = 31,
-+};
- 
- /* Control register aliases */
--#define CR_STATUS        0
-+enum {
-+    CR_STATUS        = 0,
-+    CR_ESTATUS       = 1,
-+    CR_BSTATUS       = 2,
-+    CR_IENABLE       = 3,
-+    CR_IPENDING      = 4,
-+    CR_CPUID         = 5,
-+    CR_EXCEPTION     = 7,
-+    CR_PTEADDR       = 8,
-+    CR_TLBACC        = 9,
-+    CR_TLBMISC       = 10,
-+    CR_ENCINJ        = 11,
-+    CR_BADADDR       = 12,
-+    CR_CONFIG        = 13,
-+    CR_MPUBASE       = 14,
-+    CR_MPUACC        = 15,
-+};
- 
- FIELD(CR_STATUS, PIE, 0, 1)
- FIELD(CR_STATUS, U, 1, 1)
-@@ -98,24 +116,12 @@ FIELD(CR_STATUS, RSIE, 23, 1)
- #define CR_STATUS_NMI    R_CR_STATUS_NMI_MASK
- #define CR_STATUS_RSIE   R_CR_STATUS_RSIE_MASK
- 
--#define CR_ESTATUS       1
--#define CR_BSTATUS       2
--#define CR_IENABLE       3
--#define CR_IPENDING      4
--#define CR_CPUID         5
--#define CR_CTL6          6
--#define CR_EXCEPTION     7
--
- FIELD(CR_EXCEPTION, CAUSE, 2, 5)
- FIELD(CR_EXCEPTION, ECCFTL, 31, 1)
- 
--#define CR_PTEADDR       8
--
- FIELD(CR_PTEADDR, VPN, 2, 20)
- FIELD(CR_PTEADDR, PTBASE, 22, 10)
- 
--#define CR_TLBACC        9
--
- FIELD(CR_TLBACC, PFN, 0, 20)
- FIELD(CR_TLBACC, G, 20, 1)
- FIELD(CR_TLBACC, X, 21, 1)
-@@ -130,8 +136,6 @@ FIELD(CR_TLBACC, IG, 25, 7)
- #define CR_TLBACC_X      R_CR_TLBACC_X_MASK
- #define CR_TLBACC_G      R_CR_TLBACC_G_MASK
- 
--#define CR_TLBMISC       10
--
- FIELD(CR_TLBMISC, D, 0, 1)
- FIELD(CR_TLBMISC, PERM, 1, 1)
- FIELD(CR_TLBMISC, BAD, 2, 1)
-@@ -150,12 +154,6 @@ FIELD(CR_TLBMISC, EE, 24, 1)
- #define CR_TLBMISC_PERM  R_CR_TLBMISC_PERM_MASK
- #define CR_TLBMISC_D     R_CR_TLBMISC_D_MASK
- 
--#define CR_ENCINJ        11
--#define CR_BADADDR       12
--#define CR_CONFIG        13
--#define CR_MPUBASE       14
--#define CR_MPUACC        15
--
  /* Exceptions */
  #define EXCP_BREAK    0x1000
++#define EXCP_SEMIHOST 0x1001
  #define EXCP_RESET    0
+ #define EXCP_PRESET   1
+ #define EXCP_IRQ      2
+diff --git a/target/nios2/helper.c b/target/nios2/helper.c
+index a56aaaea18..1d17c0379f 100644
+--- a/target/nios2/helper.c
++++ b/target/nios2/helper.c
+@@ -152,14 +152,6 @@ void nios2_cpu_do_interrupt(CPUState *cs)
+ 
+     case EXCP_BREAK:
+         qemu_log_mask(CPU_LOG_INT, "BREAK exception at pc=%x\n", env->pc);
+-        /* The semihosting instruction is "break 1".  */
+-        if (semihosting_enabled() &&
+-            cpu_ldl_code(env, env->pc) == 0x003da07a)  {
+-            qemu_log_mask(CPU_LOG_INT, "Entering semihosting\n");
+-            env->pc += 4;
+-            do_nios2_semihosting(env);
+-            break;
+-        }
+ 
+         if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
+             env->ctrl[CR_BSTATUS] = env->ctrl[CR_STATUS];
+@@ -176,6 +168,12 @@ void nios2_cpu_do_interrupt(CPUState *cs)
+         env->pc = cpu->exception_addr;
+         break;
+ 
++    case EXCP_SEMIHOST:
++        qemu_log_mask(CPU_LOG_INT, "BREAK semihosting at pc=%x\n", env->pc);
++        env->pc += 4;
++        do_nios2_semihosting(env);
++        break;
++
+     default:
+         cpu_abort(cs, "unhandled exception type=%d\n",
+                   cs->exception_index);
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index 4191db1342..97e531529f 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -33,6 +33,7 @@
+ #include "exec/translator.h"
+ #include "qemu/qemu-print.h"
+ #include "exec/gen-icount.h"
++#include "semihosting/semihost.h"
+ 
+ /* is_jmp field values */
+ #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+@@ -686,6 +687,20 @@ static void trap(DisasContext *dc, uint32_t code, uint32_t flags)
+     t_gen_helper_raise_exception(dc, EXCP_TRAP);
+ }
+ 
++static void gen_break(DisasContext *dc, uint32_t code, uint32_t flags)
++{
++#ifndef CONFIG_USER_ONLY
++    /* The semihosting instruction is "break 1".  */
++    R_TYPE(instr, code);
++    if (semihosting_enabled() && instr.imm5 == 1) {
++        t_gen_helper_raise_exception(dc, EXCP_SEMIHOST);
++        return;
++    }
++#endif
++
++    t_gen_helper_raise_exception(dc, EXCP_BREAK);
++}
++
+ static const Nios2Instruction r_type_instructions[] = {
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION(eret),                                /* eret */
+@@ -739,7 +754,7 @@ static const Nios2Instruction r_type_instructions[] = {
+     INSTRUCTION(add),                                 /* add */
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION_ILLEGAL(),
+-    INSTRUCTION_FLG(gen_excp, EXCP_BREAK),            /* break */
++    INSTRUCTION(gen_break),                           /* break */
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION(nop),                                 /* nop */
+     INSTRUCTION_ILLEGAL(),
 -- 
 2.34.1
 
