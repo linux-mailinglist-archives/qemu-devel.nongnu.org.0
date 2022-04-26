@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99FA5104F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 19:11:09 +0200 (CEST)
-Received: from localhost ([::1]:47840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA195104E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 19:07:30 +0200 (CEST)
+Received: from localhost ([::1]:38392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njOiS-0000xk-Uo
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 13:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45978)
+	id 1njOeu-0002vM-A3
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 13:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5z-00039M-N1
+ id 1njO5z-00039S-PV
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:31:27 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:39926)
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:54952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5t-0003ur-L2
+ id 1njO5t-0003vm-TZ
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:31:20 -0400
-Received: by mail-pl1-x632.google.com with SMTP id c12so30706765plr.6
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:31:16 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id fv2so3562903pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:31:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RL/cU2KUkEBT0HxlomYcXgHotXYUZUNOdsb4bQKVOHY=;
- b=J7CfEZwAfA1qRCxGxFPfcN1NZtL9btEfZ2Lnu1hHgQwVtF0GZ7r3nifDPBTDaghS6E
- 6BDAEwpuhkFuHvAYpohxLWirUwlRf9HdEulHacnbhz8LEtm0BuZvwZFJgPjga2d50N3R
- cp1SDJU4NvdqZ/YytvYXW1G7ExqF3e0dsHrH4bQ6c0VSrs9n84V1keajMvCZnSmPvYqv
- I8gD1V8SiFQ7tXqY8K1NaWZOnAfHCwM1XEB81tt8yMOcW/rv1hGDDSqQFXchWrE7BRTw
- 0buXLuFTrcqprYtKS5i58N/Z/NxdoPm2kmpkHyILautjCPQ2EQtRJBj3gVPnvlWLedtF
- otaw==
+ bh=BDYfwx12Hon85ohkvO8cwx1aoDQ7rAnJ54ZLVVZwl+0=;
+ b=HRx2VKmIkPk2haiJ37rUwuafLa+S2E1m3fpfnhQQbYdc9KRyj2MXf1EFq4IxNwBE+r
+ sSUdQf07Y7DHLQcb9cEeXVR3qZLURfsVOvJjP8HqGl/l+3kqbf7EnYWr7xDUm3cbqDjp
+ jCN8qRl112l+j+IhiAxHhqLJaNQrhhwQxDhwGxsPUjCHLbbP/iczz9oAQgOX05ve4Ayu
+ V+bMo7/xsQF9Qa/UB1nDbnKZu73qJeLTmpdeT0bEEowbUaSEOTwBRWeIhyrsjEGULu+b
+ 43pd90wgXgQdaM08Uxso1KFB2UaRxmGQZZBmPW9wsG30g7Gd/T4plG7XV4KsEO5wEaDE
+ z4Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RL/cU2KUkEBT0HxlomYcXgHotXYUZUNOdsb4bQKVOHY=;
- b=zNb2O1qaCZEpKB0OelVRFCoIn2UUTHZjQqT85GFLYFXw9b6SlPj3Xp2QlvS1XujY1/
- uuOaROW0zvIZS3sY4vOsUWJbHHEHGI/jEZ5zsl1PYxl6gVencyLOogN5ilwaXH+/UiWm
- 6pK1TUqupkDxte6BxtbqVLIFgEsrxYHih++H3kYnp0h27PC8tYFHPGNEokvKf7e67gUu
- de0L5Gcv6kP6klXO/C4SEGqA9AmAqZ4Pl8wCVWVxSVMk+3JziLyRazZKF3mW0AqtzdXz
- QqE33/v9vDX/ElbIrGGubTyb8AGl2tB2fkaiM41H0hDPjyUCk+q8hs54W0LP/8bs6KT3
- mWlw==
-X-Gm-Message-State: AOAM532UYQO6npJpd3VL/F9LvRxtyFByTLOAh6xxXSDJTCAtjDhHR0iz
- ohZEM/ujUfeMQPSzzIhfsxLjTgMCvaTGwg==
-X-Google-Smtp-Source: ABdhPJzOv4Lz2Z//R05CCQ+SAH3U5hz5VBJlDR5YCIPIuMirDLFa0gjrgRZUZLQJIB3WdPPYscMK6A==
-X-Received: by 2002:a17:90a:e008:b0:1d9:2f9a:b7f1 with SMTP id
- u8-20020a17090ae00800b001d92f9ab7f1mr20018882pjy.173.1650990675787; 
- Tue, 26 Apr 2022 09:31:15 -0700 (PDT)
+ bh=BDYfwx12Hon85ohkvO8cwx1aoDQ7rAnJ54ZLVVZwl+0=;
+ b=0DzxICFPD9R5OLGDWjrHbnBXiiFruCwJuD1dVLamQyvw0FXThE9NTlfl46Q9g6sjIK
+ L5op6ehiDrRdKlhe40u5olPZpNwZjK6eESouMJqwpR948zR35mHK8lEVFWEW6plIsO5l
+ yEXUb3uu6h79WOQw66DRN1lEzbFWCALyjAHE6VTG1ADnLwFziGxXDr5gsA3TtftpkL9V
+ Ow+/24sX4t7GfknsVdTEaLTuLokgh1/oqszJFXMQCTrZK7KRxnEnPXai4eLYZoQ7I/a+
+ eo8E4YjHCSN9aEs+Qm1PdMwZ7ru+DSn9zciayj++8hdFAmiS1kO+7oU9YjS11agmt51p
+ UjUQ==
+X-Gm-Message-State: AOAM531Z+p9ddV02g5tYg+NFlrt8vaOlAgP7KCbpYlHOCp4EZ/Mz410W
+ GVHvYYmuKJZbmv/rPOZJkNIPG8GNuTAv9g==
+X-Google-Smtp-Source: ABdhPJzLXdFQiaR06jr+2J3LX2uFj5WXaUQlzz6xZy9icfZKwocKHNVq34N2lc1B+CRvTv0bXjR9yw==
+X-Received: by 2002:a17:90b:2685:b0:1cb:6521:dd78 with SMTP id
+ pl5-20020a17090b268500b001cb6521dd78mr27971623pjb.194.1650990676484; 
+ Tue, 26 Apr 2022 09:31:16 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
  y131-20020a626489000000b00505a8f36965sm15655813pfb.184.2022.04.26.09.31.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 09:31:15 -0700 (PDT)
+ Tue, 26 Apr 2022 09:31:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 33/47] target/arm: Use tcg_constant in CLRM, DLS, WLS, LE
-Date: Tue, 26 Apr 2022 09:30:29 -0700
-Message-Id: <20220426163043.100432-34-richard.henderson@linaro.org>
+Subject: [PATCH 34/47] target/arm: Use tcg_constant in trans_CPS_v7m
+Date: Tue, 26 Apr 2022 09:30:30 -0700
+Message-Id: <20220426163043.100432-35-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426163043.100432-1-richard.henderson@linaro.org>
 References: <20220426163043.100432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,65 +90,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ target/arm/translate.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index e0469da0a1..0e9fde2589 100644
+index 0e9fde2589..5ce23947a1 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8257,7 +8257,7 @@ static bool trans_CLRM(DisasContext *s, arg_CLRM *a)
- 
-     s->eci_handled = true;
- 
--    zero = tcg_const_i32(0);
-+    zero = tcg_constant_i32(0);
-     for (i = 0; i < 15; i++) {
-         if (extract32(a->list, i, 1)) {
-             /* Clear R[i] */
-@@ -8269,11 +8269,8 @@ static bool trans_CLRM(DisasContext *s, arg_CLRM *a)
-          * Clear APSR (by calling the MSR helper with the same argument
-          * as for "MSR APSR_nzcvqg, Rn": mask = 0b1100, SYSM=0)
-          */
--        TCGv_i32 maskreg = tcg_const_i32(0xc << 8);
--        gen_helper_v7m_msr(cpu_env, maskreg, zero);
--        tcg_temp_free_i32(maskreg);
-+        gen_helper_v7m_msr(cpu_env, tcg_constant_i32(0xc00), zero);
+@@ -8835,21 +8835,18 @@ static bool trans_CPS_v7m(DisasContext *s, arg_CPS_v7m *a)
+         return true;
      }
--    tcg_temp_free_i32(zero);
-     clear_eci_state(s);
+ 
+-    tmp = tcg_const_i32(a->im);
++    tmp = tcg_constant_i32(a->im);
+     /* FAULTMASK */
+     if (a->F) {
+-        addr = tcg_const_i32(19);
++        addr = tcg_constant_i32(19);
+         gen_helper_v7m_msr(cpu_env, addr, tmp);
+-        tcg_temp_free_i32(addr);
+     }
+     /* PRIMASK */
+     if (a->I) {
+-        addr = tcg_const_i32(16);
++        addr = tcg_constant_i32(16);
+         gen_helper_v7m_msr(cpu_env, addr, tmp);
+-        tcg_temp_free_i32(addr);
+     }
+     gen_rebuild_hflags(s, false);
+-    tcg_temp_free_i32(tmp);
+     gen_lookup_tb(s);
      return true;
  }
-@@ -8416,8 +8413,7 @@ static bool trans_DLS(DisasContext *s, arg_DLS *a)
-     store_reg(s, 14, tmp);
-     if (a->size != 4) {
-         /* DLSTP: set FPSCR.LTPSIZE */
--        tmp = tcg_const_i32(a->size);
--        store_cpu_field(tmp, v7m.ltpsize);
-+        store_cpu_field(tcg_constant_i32(a->size), v7m.ltpsize);
-         s->base.is_jmp = DISAS_UPDATE_NOCHAIN;
-     }
-     return true;
-@@ -8482,8 +8478,7 @@ static bool trans_WLS(DisasContext *s, arg_WLS *a)
-          */
-         bool ok = vfp_access_check(s);
-         assert(ok);
--        tmp = tcg_const_i32(a->size);
--        store_cpu_field(tmp, v7m.ltpsize);
-+        store_cpu_field(tcg_constant_i32(a->size), v7m.ltpsize);
-         /*
-          * LTPSIZE updated, but MVE_NO_PRED will always be the same thing (0)
-          * when we take this upcoming exit from this TB, so gen_jmp_tb() is OK.
-@@ -8609,8 +8604,7 @@ static bool trans_LE(DisasContext *s, arg_LE *a)
-     gen_set_label(loopend);
-     if (a->tp) {
-         /* Exits from tail-pred loops must reset LTPSIZE to 4 */
--        tmp = tcg_const_i32(4);
--        store_cpu_field(tmp, v7m.ltpsize);
-+        store_cpu_field(tcg_constant_i32(4), v7m.ltpsize);
-     }
-     /* End TB, continuing to following insn */
-     gen_jmp_tb(s, s->base.pc_next, 1);
 -- 
 2.34.1
 
