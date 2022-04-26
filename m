@@ -2,66 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FBD50FB80
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:54:22 +0200 (CEST)
-Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF45B50FA3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:23:18 +0200 (CEST)
+Received: from localhost ([::1]:44330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njIpp-0000Yo-Bp
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:54:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58456)
+	id 1njILl-0006cb-F0
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:23:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1njI2y-0003Sj-3v
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 06:03:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41935)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1njIAd-0003dq-Nt; Tue, 26 Apr 2022 06:11:47 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1njI2u-0002pz-HG
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 06:03:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650967427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G349xE4gLp9GEInT6ZdbyTDJH94QpSVxgnCgetkxCzE=;
- b=V/p/+f9UXl50AnDGK8HD7OjZNNIvGv1STsYGb1qj75tSVTl3wqjGm8eFymC7bDVm0O/buj
- rDfQUAsz5CdwOawqBYjZsLS1fCF8cQ3IlR4GziOJTcRPawnue6RO7BSflzH05dVjYHOJme
- TFJaAm6MIYfWFW5uZsE2mJC7rTs6Gdo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-0yvzfen8MC-4LJtpYe9jqw-1; Tue, 26 Apr 2022 06:03:44 -0400
-X-MC-Unique: 0yvzfen8MC-4LJtpYe9jqw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A655811E75;
- Tue, 26 Apr 2022 10:03:38 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ACAA0463E1C;
- Tue, 26 Apr 2022 10:03:34 +0000 (UTC)
-Date: Tue, 26 Apr 2022 11:03:31 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-Subject: Re: [PATCH v6 0/3] util/thread-pool: Expose minimun and maximum size
-Message-ID: <YmfDc/dc/bRrO2r1@stefanha-x1.localdomain>
-References: <20220425075723.20019-1-nsaenzju@redhat.com>
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1njIAZ-00041f-Vp; Tue, 26 Apr 2022 06:11:46 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23Q9RLp2029798;
+ Tue, 26 Apr 2022 10:11:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=rDHtx0U86BqP6S+TggnsaQoKx1TCAOXFQ1hQVEuAhDQ=;
+ b=e58gp+qMk5dDZYaIz5pR5WZEkPFj/cUjOGmTIIrFg+xORlp6QPs7DMis4Nzq/18hCRaI
+ bHJMpDgfcxMfCBZH32jSN0x8Ux/SRARFvF9YUgg1yapByrqvfksSoAaduwRMF29/18Dd
+ CrkP0VDEveSeKyWUqXChGpKpCLLPHM43+DH7IYQXd7IZingXDq9b+LyP+MBb1xd+VooY
+ 4P2pCCmfpKFxp7ecR4Qp02vMZ4xkEXHnht1+fsx6YbNMMuBPKiYcRF/n1sq17bV4GKQG
+ L/b81IJhvQRhWcZJhJGsvX3+aEuCJR+aICcoKbxZHe4BZW1r2YE8DXDlC+AMAWy+2ZtE RQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fpbcev7vb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Apr 2022 10:11:31 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 23QA8SPp014045;
+ Tue, 26 Apr 2022 10:11:31 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3fpbcev7ub-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Apr 2022 10:11:31 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23QA8bDI015451;
+ Tue, 26 Apr 2022 10:11:28 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06fra.de.ibm.com with ESMTP id 3fm8qhk97e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Apr 2022 10:11:28 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 23Q9wPVv49480076
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 26 Apr 2022 09:58:25 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6B36DAE045;
+ Tue, 26 Apr 2022 10:11:26 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 321E6AE051;
+ Tue, 26 Apr 2022 10:11:26 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.145.148.40])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 26 Apr 2022 10:11:26 +0000 (GMT)
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+To: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH] ppc/xive: Save/restore state of the External interrupt
+Date: Tue, 26 Apr 2022 12:11:25 +0200
+Message-Id: <20220426101125.297064-1-fbarrat@linux.ibm.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PzNE479XKk6bVRrd"
-Content-Disposition: inline
-In-Reply-To: <20220425075723.20019-1-nsaenzju@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 0frC_zvjA8ghKBnaVF7QoMXYtzrOGdrD
+X-Proofpoint-ORIG-GUID: 6aT0KVgpotYySD5TMLBZg5-XnEljKsTe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-26_02,2022-04-26_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
+ suspectscore=0 bulkscore=0 mlxscore=0 clxscore=1015 adultscore=0
+ spamscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2202240000 definitions=main-2204260062
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,112 +105,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
- qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, eduardo@habkost.net,
- hreitz@redhat.com, pbonzini@redhat.com, eblake@redhat.com
+Cc: npiggin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When pulling an OS context from a vcpu, we should lower the External
+interrupt if it is pending. Otherwise, it may be delivered in the
+hypervisor context, which is unexpected. It can lead to an infinite
+loop where the hypervisor catches the External exception, looks for an
+interrupt, doesn't find any, exits the exception handler, repeat...
 
---PzNE479XKk6bVRrd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It also means that when pushing a new OS context on a vcpu, we need to
+always check the restored Interrupt Pending Buffer (IPB), potentially
+merge it with any escalation interrupt, and re-apply the External
+interrupt signal if needed.
 
-On Mon, Apr 25, 2022 at 09:57:20AM +0200, Nicolas Saenz Julienne wrote:
-> As discussed on the previous RFC[1] the thread-pool's dynamic thread
-> management doesn't play well with real-time and latency sensitive
-> systems. This series introduces a set of controls that'll permit
-> achieving more deterministic behaviours, for example by fixing the
-> pool's size.
->=20
-> We first introduce a new common interface to event loop configuration by
-> moving iothread's already available properties into an abstract class
-> called 'EventLooopBackend' and have both 'IOThread' and the newly
-> created 'MainLoop' inherit the properties from that class.
->=20
-> With this new configuration interface in place it's relatively simple to
-> introduce new options to fix the even loop's thread pool sizes. The
-> resulting QAPI looks like this:
->=20
->     -object main-loop,id=3Dmain-loop,thread-pool-min=3D1,thread-pool-max=
-=3D1
->=20
-> Note that all patches are bisect friendly and pass all the tests.
->=20
-> [1] https://patchwork.ozlabs.org/project/qemu-devel/patch/20220202175234.=
-656711-1-nsaenzju@redhat.com/
-> ---
->=20
-> Changes since v5:
->  - Add 'Since' versioning to MainLoopProperties
->=20
-> Changes since v4:
->  - Address Markus' comments WRT qom.json
->=20
-> Changes since v3:
->  - Avoid duplication in qom.json by creating EventLoopBaseProperties.
->  - Fix failures on first compilation due to race between
->    event-loop-base.o and qapi header generation.
->=20
-> Changes since v2:
->  - Get rid of wrong locking/waiting
->  - Fix qapi versioning
->  - Better commit messages
->=20
-> Changes since v1:
->  - Address all Stefan's comments
->  - Introduce new fix
->=20
-> Nicolas Saenz Julienne (3):
->   Introduce event-loop-base abstract class
->   util/main-loop: Introduce the main loop into QOM
->   util/event-loop-base: Introduce options to set the thread pool size
->=20
->  event-loop-base.c                | 140 +++++++++++++++++++++++++++++++
->  include/block/aio.h              |  10 +++
->  include/block/thread-pool.h      |   3 +
->  include/qemu/main-loop.h         |  10 +++
->  include/sysemu/event-loop-base.h |  41 +++++++++
->  include/sysemu/iothread.h        |   6 +-
->  iothread.c                       |  68 +++++----------
->  meson.build                      |  26 +++---
->  qapi/qom.json                    |  43 ++++++++--
->  util/aio-posix.c                 |   1 +
->  util/async.c                     |  20 +++++
->  util/main-loop.c                 |  65 ++++++++++++++
->  util/thread-pool.c               |  55 +++++++++++-
->  13 files changed, 419 insertions(+), 69 deletions(-)
->  create mode 100644 event-loop-base.c
->  create mode 100644 include/sysemu/event-loop-base.h
->=20
-> --=20
-> 2.35.1
->=20
+Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+---
 
-Thanks, applied to my block-next tree! If there are more comments I can
-drop it again.
+Cedric: I'm wondering the reason behind commit
+8256870ada9379abfd1f5b2c209ad01092dd0904, which makes the PIPR field
+of the OS context read-only. The comment says it is re-evaluated from
+the IPB when pushing a context, but I don't think it's true on P9
+if there's no escalation. It's not a problem on P10 because we always
+re-evaluate the PIPR if CPPR>0.
+In any case, it's no longer an issue with this patch, but I'm
+curious as to why restoring the PIPR was a problem in the first place.
 
-https://gitlab.com/stefanha/qemu/commits/block-next
 
-Stefan
+ hw/intc/xive.c        | 26 +++++++++++++++++++++++---
+ hw/intc/xive2.c       | 14 ++++++++------
+ include/hw/ppc/xive.h |  1 +
+ 3 files changed, 32 insertions(+), 9 deletions(-)
 
---PzNE479XKk6bVRrd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJnw3MACgkQnKSrs4Gr
-c8jzbQf9E0qZm02RFJypZNpKGaRJPZtIJlCp6oeYpen3nobbFlkQ+gxydGqGJleu
-JWyKo2e3hfNI9b4dlnrsXH2IbXFBDRz6am2H8MEg+igoj/DDScI9TaziUUeNiTTt
-41QZczx8hL4MwPZbmTtNZm9hfEBPHSa82kECPBHR1p6jFGLnP2D95Bmhz1UvVWvN
-EEDkCc9bJjqrBQAdafpZUJ5Z52GFJ9kHa/FR42YzXjHS0e43zwHzdRRl52mD4LjN
-a4ptcxv2oupcvfBuJ3yUF3/wWHfdmnGQbzNCT6jpMRjdpyDtfD8Vz0D9b84T7GX7
-JqXO58B5W1uX77u/cH4DRRyz95L09w==
-=So0o
------END PGP SIGNATURE-----
-
---PzNE479XKk6bVRrd--
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index b8e4c7294d..8430db687f 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -114,6 +114,21 @@ static void xive_tctx_notify(XiveTCTX *tctx, uint8_t ring)
+     }
+ }
+ 
++void xive_tctx_eval_ext_signal(XiveTCTX *tctx)
++{
++    uint8_t *regs = &tctx->regs[TM_QW1_OS];
++
++    /*
++     * Used when pulling an OS context.
++     * Lower the External interrupt if it's pending. It is necessary
++     * to avoid catching it in the hypervisor context. It should be
++     * raised again when re-pushing the OS context.
++     */
++    if (regs[TM_PIPR] < regs[TM_CPPR]) {
++        qemu_irq_lower(xive_tctx_output(tctx, TM_QW1_OS));
++    }
++}
++
+ static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8_t ring, uint8_t cppr)
+ {
+     uint8_t *regs = &tctx->regs[ring];
+@@ -388,6 +403,8 @@ static uint64_t xive_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+     /* Invalidate CAM line */
+     qw1w2_new = xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
+     xive_tctx_set_os_cam(tctx, qw1w2_new);
++
++    xive_tctx_eval_ext_signal(tctx);
+     return qw1w2;
+ }
+ 
+@@ -413,10 +430,13 @@ static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
+         /* Reset the NVT value */
+         nvt.w4 = xive_set_field32(NVT_W4_IPB, nvt.w4, 0);
+         xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
+-
+-        /* Merge in current context */
+-        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+     }
++    /*
++     * Always merge in current context. Even if there's no escalation,
++     * it will check with the IPB value restored before pushing the OS
++     * context and set the External interrupt signal if needed.
++     */
++    xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+ }
+ 
+ /*
+diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
+index 3aff42a69e..b7f1917cd2 100644
+--- a/hw/intc/xive2.c
++++ b/hw/intc/xive2.c
+@@ -269,6 +269,7 @@ uint64_t xive2_tm_pull_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
+         xive2_tctx_save_os_ctx(xrtr, tctx, nvp_blk, nvp_idx);
+     }
+ 
++    xive_tctx_eval_ext_signal(tctx);
+     return qw1w2;
+ }
+ 
+@@ -316,7 +317,6 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+ {
+     Xive2Nvp nvp;
+     uint8_t ipb;
+-    uint8_t cppr = 0;
+ 
+     /*
+      * Grab the associated thread interrupt context registers in the
+@@ -337,7 +337,7 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+     /* Automatically restore thread context registers */
+     if (xive2_router_get_config(xrtr) & XIVE2_VP_SAVE_RESTORE &&
+         do_restore) {
+-        cppr = xive2_tctx_restore_os_ctx(xrtr, tctx, nvp_blk, nvp_idx, &nvp);
++        xive2_tctx_restore_os_ctx(xrtr, tctx, nvp_blk, nvp_idx, &nvp);
+     }
+ 
+     ipb = xive_get_field32(NVP2_W2_IPB, nvp.w2);
+@@ -346,10 +346,12 @@ static void xive2_tctx_need_resend(Xive2Router *xrtr, XiveTCTX *tctx,
+         xive2_router_write_nvp(xrtr, nvp_blk, nvp_idx, &nvp, 2);
+     }
+ 
+-    /* An IPB or CPPR change can trigger a resend */
+-    if (ipb || cppr) {
+-        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+-    }
++    /*
++     * Always merge in current context. Even if there's no escalation,
++     * it will check with the IPB value restored and set the External
++     * interrupt signal if needed.
++     */
++    xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
+ }
+ 
+ /*
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 126e4e2c3a..91512ed5e6 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -527,6 +527,7 @@ Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp);
+ void xive_tctx_reset(XiveTCTX *tctx);
+ void xive_tctx_destroy(XiveTCTX *tctx);
+ void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
++void xive_tctx_eval_ext_signal(XiveTCTX *tctx);
+ 
+ /*
+  * KVM XIVE device helpers
+-- 
+2.35.1
 
 
