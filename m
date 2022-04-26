@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23E650F91A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 11:52:00 +0200 (CEST)
-Received: from localhost ([::1]:48792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5ED50F91B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 11:52:35 +0200 (CEST)
+Received: from localhost ([::1]:50044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njHrT-0003or-Lz
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 05:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52286)
+	id 1njHs2-0004hG-7A
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 05:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHVw-0003ta-AB
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:29:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28893)
+ id 1njHW2-00040a-8g
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:29:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHVu-0006Or-3q
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:29:43 -0400
+ id 1njHW0-0006PQ-G0
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:29:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650965381;
+ s=mimecast20190719; t=1650965387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PBsFZbCIModFxrfSbjiIhd8Jwn+/Up2dEEfU3ungScE=;
- b=M9TUgJm9HgN+1lx+CZWvg3uQRzsFCd+ZGDtnl97QDZGKHJeW2lOq50Oug5NI4zgKvcyfKV
- 4V4QydJUFXjTA1+dOsknj6Brn6oLQ5JxfVD5v/RXqDEgCnlsYziV9TJ3DoW1cvY74Gtu7d
- Qhq0wafXMpmyPve4CFTuwoCGkZPJTaU=
+ bh=j7U5HxdcYCBsUuDdGN3RkIBUrEeS1p3jxt8B8Mc5+Ow=;
+ b=Kn1qD4fjErh0mOntDwNcgDr3tIBfBEHvJUoe/qzd/Mw7Q/2gW7fHC53xyBUVOHtV1A5AoR
+ mbhNZQaCo3bYqv6QhknDZgoF1WYBNHYFrAjSc2VPpnZvjVbHrNn9+qTRNBNe1OlpH2wi2Z
+ gJENds8VUNRypHun0+hK70DmjdRK00o=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-UtHzYKYQPzycZu68YSW4kQ-1; Tue, 26 Apr 2022 05:29:40 -0400
-X-MC-Unique: UtHzYKYQPzycZu68YSW4kQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-638-zR0IQAU_PcuClpLHW8wdEg-1; Tue, 26 Apr 2022 05:29:44 -0400
+X-MC-Unique: zR0IQAU_PcuClpLHW8wdEg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 315AB1014A61
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:29:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1B7F800B28
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:29:44 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF78B40470DF;
- Tue, 26 Apr 2022 09:29:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9883241136E0;
+ Tue, 26 Apr 2022 09:29:43 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/26] chardev: replace qemu_set_nonblock()
-Date: Tue, 26 Apr 2022 13:27:08 +0400
-Message-Id: <20220426092715.3931705-20-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 20/26] io: replace qemu_set{_non}block()
+Date: Tue, 26 Apr 2022 13:27:09 +0400
+Message-Id: <20220426092715.3931705-21-marcandre.lureau@redhat.com>
 In-Reply-To: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
 References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -77,87 +77,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Those calls are either for non-socket fd, or are POSIX-specific. Use the
-dedicated GLib API. (qemu_set_nonblock() is for socket-like)
+Those calls are non-socket fd, or are POSIX-specific. Use the dedicated
+GLib API. (qemu_set_nonblock() is for socket-like)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- chardev/char-fd.c     | 4 ++--
- chardev/char-pty.c    | 5 ++++-
- chardev/char-serial.c | 5 ++++-
- chardev/char-stdio.c  | 5 ++++-
- 4 files changed, 14 insertions(+), 5 deletions(-)
+ io/channel-command.c | 16 +++++++++-------
+ io/channel-file.c    | 13 +++++++++----
+ 2 files changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/chardev/char-fd.c b/chardev/char-fd.c
-index 6ec9682b22f2..cf7845484174 100644
---- a/chardev/char-fd.c
-+++ b/chardev/char-fd.c
-@@ -212,8 +212,8 @@ void qemu_chr_open_fd(Chardev *chr,
-     FDChardev *s = FD_CHARDEV(chr);
-     g_autofree char *name = NULL;
+diff --git a/io/channel-command.c b/io/channel-command.c
+index 0790ac7895c0..4a1f969aaa8e 100644
+--- a/io/channel-command.c
++++ b/io/channel-command.c
+@@ -301,16 +301,18 @@ static int qio_channel_command_set_blocking(QIOChannel *ioc,
+                                             bool enabled,
+                                             Error **errp)
+ {
++#ifdef WIN32
++    /* command spawn is not supported on win32 */
++    g_assert_not_reached();
++#else
+     QIOChannelCommand *cioc = QIO_CHANNEL_COMMAND(ioc);
  
--    if (fd_out >= 0) {
--        qemu_set_nonblock(fd_out);
-+    if (fd_out >= 0 && !g_unix_set_fd_nonblocking(fd_out, true, NULL)) {
-+        assert(!"Failed to set FD nonblocking");
-     }
- 
-     if (fd_out == fd_in && fd_in >= 0) {
-diff --git a/chardev/char-pty.c b/chardev/char-pty.c
-index 1e2863f532a8..53f25c6bbd0c 100644
---- a/chardev/char-pty.c
-+++ b/chardev/char-pty.c
-@@ -324,7 +324,10 @@ static void char_pty_open(Chardev *chr,
-     }
- 
-     close(slave_fd);
--    qemu_set_nonblock(master_fd);
-+    if (!g_unix_set_fd_nonblocking(master_fd, true, NULL)) {
+-    if (enabled) {
+-        qemu_set_block(cioc->writefd);
+-        qemu_set_block(cioc->readfd);
+-    } else {
+-        qemu_set_nonblock(cioc->writefd);
+-        qemu_set_nonblock(cioc->readfd);
++    if (!g_unix_set_fd_nonblocking(cioc->writefd, !enabled, NULL) ||
++        !g_unix_set_fd_nonblocking(cioc->readfd, !enabled, NULL)) {
 +        error_setg_errno(errp, errno, "Failed to set FD nonblocking");
-+        return;
-+    }
- 
-     chr->filename = g_strdup_printf("pty:%s", pty_name);
-     qemu_printf("char device redirected to %s (label %s)\n",
-diff --git a/chardev/char-serial.c b/chardev/char-serial.c
-index 7c3d84ae243e..4b0b83d5b45e 100644
---- a/chardev/char-serial.c
-+++ b/chardev/char-serial.c
-@@ -271,7 +271,10 @@ static void qmp_chardev_open_serial(Chardev *chr,
-     if (fd < 0) {
-         return;
++        return -1;
      }
--    qemu_set_nonblock(fd);
-+    if (!g_unix_set_fd_nonblocking(fd, true, NULL)) {
-+        error_setg_errno(errp, errno, "Failed to set FD nonblocking");
-+        return;
-+    }
-     tty_serial_init(fd, 115200, 'N', 8, 1);
+-
++#endif
+     return 0;
+ }
  
-     qemu_chr_open_fd(chr, fd, fd);
-diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
-index 403da308c980..3c648678ab14 100644
---- a/chardev/char-stdio.c
-+++ b/chardev/char-stdio.c
-@@ -103,7 +103,10 @@ static void qemu_chr_open_stdio(Chardev *chr,
-     stdio_in_use = true;
-     old_fd0_flags = fcntl(0, F_GETFL);
-     tcgetattr(0, &oldtty);
--    qemu_set_nonblock(0);
-+    if (!g_unix_set_fd_nonblocking(0, true, NULL)) {
-+        error_setg_errno(errp, errno, "Failed to set FD nonblocking");
-+        return;
-+    }
-     atexit(term_exit);
+diff --git a/io/channel-file.c b/io/channel-file.c
+index d7cf6d278ff9..d146ace7db9f 100644
+--- a/io/channel-file.c
++++ b/io/channel-file.c
+@@ -139,14 +139,19 @@ static int qio_channel_file_set_blocking(QIOChannel *ioc,
+                                          bool enabled,
+                                          Error **errp)
+ {
++#ifdef WIN32
++    /* not implemented */
++    error_setg_errno(errp, errno, "Failed to set FD nonblocking");
++    return -1;
++#else
+     QIOChannelFile *fioc = QIO_CHANNEL_FILE(ioc);
  
-     memset(&act, 0, sizeof(act));
+-    if (enabled) {
+-        qemu_set_block(fioc->fd);
+-    } else {
+-        qemu_set_nonblock(fioc->fd);
++    if (!g_unix_set_fd_nonblocking(fioc->fd, !enabled, NULL)) {
++        error_setg_errno(errp, errno, "Failed to set FD nonblocking");
++        return -1;
+     }
+     return 0;
++#endif
+ }
+ 
+ 
 -- 
 2.36.0
 
