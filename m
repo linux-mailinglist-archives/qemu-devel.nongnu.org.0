@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66865103B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 18:40:01 +0200 (CEST)
-Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F165103A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 18:37:13 +0200 (CEST)
+Received: from localhost ([::1]:42512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njOEL-0003Rb-02
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 12:40:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44888)
+	id 1njOBc-0005zv-AO
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 12:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5Y-0002vk-IN
+ id 1njO5Y-0002vj-Hz
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:30:56 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:37731)
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:37481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5T-0003ll-Ig
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:30:53 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id bo5so18447721pfb.4
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:30:49 -0700 (PDT)
+ id 1njO5T-0003ly-Rv
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:30:54 -0400
+Received: by mail-pl1-x631.google.com with SMTP id b12so15947505plg.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:30:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vzxlqZXqhHtcD97hQvqP2vHJvqGZMZwhdj9ttXr1TGs=;
- b=y8iO9kJCUNraWPH69oG5RP/DabRLXthLftoNzUS90JagKAdAkHPe0eRrfCwMMSY/rH
- v22t7vFqfS+sdB2rqehNlz6qpOlA2Vlqs+vXpaFs10LzYPUyz09igVO4s3ZEnIixs8Ic
- UNhpqsXXn9QJIc7heEGjmz4ojGaa/fxtErnalQl5/M6WbhHIK6L2H1Q+vB0YiU6Q5XOs
- hbk2SDyrx1TWhWkOr1lD5lf6YRJi3cz1qr9ZoDba6qquRy/5H3Q+WcksFL9AGSiNLYWA
- 8WU2z8l3MHFsnvL/drLzD0pNsZiQVzBTevh3SKOXvV0pZbW0Ay8UxYchfWIClCxjVTSW
- J+sQ==
+ bh=d6D3pyx1DCMBlw0QHVOtWOZM5rgwOC/SMC0Uj796DwU=;
+ b=tYdEVbJmSEEeLPZMSQCVxYzC1yiA/94isaMKhS0jAnt8k8oTjuLn2YaBsz7SNUKIUs
+ RqJSPXU4z3sT+tlGOAPyaFaqxmsy+hgdRIFB5B2PJ4NJ/6MMCvsYEoWGXL1C/DfK3fb7
+ 60GstGhmlgDYV1nPYkRF7K3CXamMLizM2gdgp96hahwikVfuRFAQhNqNVTcAXbS3T140
+ 6qLVOM0acitKKX5nDIzaRWIbZWYlbTV4enRIyRX/UPg5FbDzkXgZed1WQULUt+ZySknP
+ CtNQYqWD0xNNcbW18XUV309VLg1iP6RUe2DM5fy2GxgPe8qs3k9DHM9rTyY6LPOwcWnE
+ l5AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vzxlqZXqhHtcD97hQvqP2vHJvqGZMZwhdj9ttXr1TGs=;
- b=PuLzTE7kIQ9887xc1xkLMWBTN+yht5uEKNO5JA/GMcj3AB8gGGghXcuILkwIzOL1d3
- og4dnxyYQvcYE0YdsVplN2qKuPptY1YpTiszjLsDhYdR3Q+XROnjwvk8soWd0w7h8brv
- e6D+rxawzphMPBDMFD8W/4TLCdAKlymHhtr2dVCwOjFdL/HtbobBm89Av17EZ64GREOC
- wubN5d5hl/W1rdoHUY5uuSw8U6R9TJUJR+Ns7D/W3zjo1RemGndozThtvLUDS5uioM6W
- Qo8Rsoggcr8Rm+eFkhqN9EtmKb5qyYWPH+Mp+9AmE0FVGMw1/xIE0VnDiqZGhIdcXooi
- XVdg==
-X-Gm-Message-State: AOAM530rKdLXpmzNRrWdnJoh/tYfQ0SljRVI0L6kIx6/DxFqCHXthB18
- uZ04TScdOix0soY3jlHudv6vGaDIk4dJdQ==
-X-Google-Smtp-Source: ABdhPJztaTejfrg9jKqohElds+hwPKXzuA32DosF82hywoi4P/vQkiJ5pbQ4hW+tI7Kz9mVBXp+jDw==
-X-Received: by 2002:aa7:9802:0:b0:50d:4f5d:fef6 with SMTP id
- e2-20020aa79802000000b0050d4f5dfef6mr6369753pfl.9.1650990648995; 
- Tue, 26 Apr 2022 09:30:48 -0700 (PDT)
+ bh=d6D3pyx1DCMBlw0QHVOtWOZM5rgwOC/SMC0Uj796DwU=;
+ b=YxpYQWcH3xeB7dBgXuJ6K0mYni4M+M/4RNUZqQ0jtlKhHthmUcEkjJ1DUtHywVCgRS
+ xjh+JcYvbui5viNCuocBqIbkiFM/tPJKSuSkC9bXU0Ikm9KiJW5+BJww6yjYQCiBkAjY
+ hXxOgnmbx2ThDJ2CBOisFCWwsncUBf+Odz3TWzs9L1RN1MxfF/VfRDz1+NaPJCu2J9vM
+ mY2xpfj667oJ5SsX0PJ9CPBJ9a43d7b5pCwNl/wsOrwOErnjGsUd90H/lAqf/Vjx7sou
+ pj/eB/4K5cjSLM4PPC3mT9qa3rp65XyeZzJJMsQSyRagRqQgeQ0Ztj+ZNFL/MESEEYgy
+ lOEQ==
+X-Gm-Message-State: AOAM533V71ge18bmx4GfADsaVjND7TKcPWzmK73QUBhkaEmmSZl39Tk3
+ 3JGPpcQgGk3DIhI+yMzL/lapx0LdC+xjpQ==
+X-Google-Smtp-Source: ABdhPJxVut0AwKrH46SwPzhZ8oSAKy9KdCHXvtIquUvCKVxwoOZR/oJ3s4t0TI4P1IrjQp7xcyM9Ng==
+X-Received: by 2002:a17:902:7088:b0:156:1aa9:79eb with SMTP id
+ z8-20020a170902708800b001561aa979ebmr24006486plk.71.1650990649878; 
+ Tue, 26 Apr 2022 09:30:49 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- y131-20020a626489000000b00505a8f36965sm15655813pfb.184.2022.04.26.09.30.48
+ y131-20020a626489000000b00505a8f36965sm15655813pfb.184.2022.04.26.09.30.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 09:30:48 -0700 (PDT)
+ Tue, 26 Apr 2022 09:30:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/47] target/arm: Use tcg_constant in gen_adc_CC
-Date: Tue, 26 Apr 2022 09:30:00 -0700
-Message-Id: <20220426163043.100432-5-richard.henderson@linaro.org>
+Subject: [PATCH 05/47] target/arm: Use tcg_constant in handle_msr_i
+Date: Tue, 26 Apr 2022 09:30:01 -0700
+Message-Id: <20220426163043.100432-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426163043.100432-1-richard.henderson@linaro.org>
 References: <20220426163043.100432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,64 +88,52 @@ Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that tmp was doing double-duty as zero
-and then later as a temporary in its own right.
-Split the use of 0 to a new variable 'zero'.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ target/arm/translate-a64.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index b0b5e8b26d..5c0fd897d6 100644
+index 5c0fd897d6..ec4765362b 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -814,15 +814,15 @@ static void gen_adc(int sf, TCGv_i64 dest, TCGv_i64 t0, TCGv_i64 t1)
- static void gen_adc_CC(int sf, TCGv_i64 dest, TCGv_i64 t0, TCGv_i64 t1)
+@@ -1615,7 +1615,6 @@ static void gen_axflag(void)
+ static void handle_msr_i(DisasContext *s, uint32_t insn,
+                          unsigned int op1, unsigned int op2, unsigned int crm)
  {
-     if (sf) {
--        TCGv_i64 result, cf_64, vf_64, tmp;
--        result = tcg_temp_new_i64();
--        cf_64 = tcg_temp_new_i64();
--        vf_64 = tcg_temp_new_i64();
--        tmp = tcg_const_i64(0);
-+        TCGv_i64 result = tcg_temp_new_i64();
-+        TCGv_i64 cf_64 = tcg_temp_new_i64();
-+        TCGv_i64 vf_64 = tcg_temp_new_i64();
-+        TCGv_i64 tmp = tcg_temp_new_i64();
-+        TCGv_i64 zero = tcg_constant_i64(0);
+-    TCGv_i32 t1;
+     int op = op1 << 3 | op2;
  
-         tcg_gen_extu_i32_i64(cf_64, cpu_CF);
--        tcg_gen_add2_i64(result, cf_64, t0, tmp, cf_64, tmp);
--        tcg_gen_add2_i64(result, cf_64, result, cf_64, t1, tmp);
-+        tcg_gen_add2_i64(result, cf_64, t0, zero, cf_64, zero);
-+        tcg_gen_add2_i64(result, cf_64, result, cf_64, t1, zero);
-         tcg_gen_extrl_i64_i32(cpu_CF, cf_64);
-         gen_set_NZ64(result);
+     /* End the TB by default, chaining is ok.  */
+@@ -1674,9 +1673,7 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
+         if (s->current_el == 0) {
+             goto do_unallocated;
+         }
+-        t1 = tcg_const_i32(crm & PSTATE_SP);
+-        gen_helper_msr_i_spsel(cpu_env, t1);
+-        tcg_temp_free_i32(t1);
++        gen_helper_msr_i_spsel(cpu_env, tcg_constant_i32(crm & PSTATE_SP));
+         break;
  
-@@ -838,15 +838,15 @@ static void gen_adc_CC(int sf, TCGv_i64 dest, TCGv_i64 t0, TCGv_i64 t1)
-         tcg_temp_free_i64(cf_64);
-         tcg_temp_free_i64(result);
-     } else {
--        TCGv_i32 t0_32, t1_32, tmp;
--        t0_32 = tcg_temp_new_i32();
--        t1_32 = tcg_temp_new_i32();
--        tmp = tcg_const_i32(0);
-+        TCGv_i32 t0_32 = tcg_temp_new_i32();
-+        TCGv_i32 t1_32 = tcg_temp_new_i32();
-+        TCGv_i32 tmp = tcg_temp_new_i32();
-+        TCGv_i32 zero = tcg_constant_i32(0);
+     case 0x19: /* SSBS */
+@@ -1704,15 +1701,11 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
+         break;
  
-         tcg_gen_extrl_i64_i32(t0_32, t0);
-         tcg_gen_extrl_i64_i32(t1_32, t1);
--        tcg_gen_add2_i32(cpu_NF, cpu_CF, t0_32, tmp, cpu_CF, tmp);
--        tcg_gen_add2_i32(cpu_NF, cpu_CF, cpu_NF, cpu_CF, t1_32, tmp);
-+        tcg_gen_add2_i32(cpu_NF, cpu_CF, t0_32, zero, cpu_CF, zero);
-+        tcg_gen_add2_i32(cpu_NF, cpu_CF, cpu_NF, cpu_CF, t1_32, zero);
+     case 0x1e: /* DAIFSet */
+-        t1 = tcg_const_i32(crm);
+-        gen_helper_msr_i_daifset(cpu_env, t1);
+-        tcg_temp_free_i32(t1);
++        gen_helper_msr_i_daifset(cpu_env, tcg_constant_i32(crm));
+         break;
  
-         tcg_gen_mov_i32(cpu_ZF, cpu_NF);
-         tcg_gen_xor_i32(cpu_VF, cpu_NF, t0_32);
+     case 0x1f: /* DAIFClear */
+-        t1 = tcg_const_i32(crm);
+-        gen_helper_msr_i_daifclear(cpu_env, t1);
+-        tcg_temp_free_i32(t1);
++        gen_helper_msr_i_daifclear(cpu_env, tcg_constant_i32(crm));
+         /* For DAIFClear, exit the cpu loop to re-evaluate pending IRQs.  */
+         s->base.is_jmp = DISAS_UPDATE_EXIT;
+         break;
 -- 
 2.34.1
 
