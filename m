@@ -2,80 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D38510AD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 22:57:02 +0200 (CEST)
-Received: from localhost ([::1]:54488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 325AF510AE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 23:01:18 +0200 (CEST)
+Received: from localhost ([::1]:57226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njSF3-00074X-6Z
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 16:57:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51086)
+	id 1njSJB-0000k2-A3
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 17:01:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njSDs-0006Ft-9R
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:55:48 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40507)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njSDq-00067I-QK
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:55:47 -0400
-Received: by mail-pl1-x633.google.com with SMTP id k4so19750463plk.7
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 13:55:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=WG2ytXrRRv+9OjdzoN18K6C53x+LAm3ClcagjA70czI=;
- b=IQOrNKFBnK+9QlivShsBLnG2Mt3ofB4eTiNuCXzHWtf4TYaRFlRxn/sFp6MTAiwuMc
- LT0qJwUkoHoCtju/10ZyOu3LhsuHtrMBPOB2rmowksh9lzPHjJndYBqncB2z+ZPetD/f
- B8v/JfzEp+6g33mJ7onljqELlgmbxSFOnkVku/3uoXZV7vKABbDIaAExb4PTu5tLKGNu
- qS6oxW4bXZK6A2qfOqTIBhQyulRbCf9NZZqbv9qE4dhmPR80PLQ3b5fxdR3dyQjAHJbJ
- eNlLSfskLlScFSh7Wfwp8/dlPgDdhYe+zb8wTiXDR1Da/Db1Mykk4XZxrMshe1sUXTiB
- rn1A==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1njSHc-0008Jb-0X
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:59:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1njSHY-0006Qn-Mz
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:59:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651006776;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yFssX/3Sirt7PD9ShzxinAjKs8uWAPR9IqbfxLYFptw=;
+ b=YXSvKU2n3Hfg/u6isSyRcYvyz9bUehH2E5eo7/dXBcfzSfZeXLruIr4GF3VDsLgpSXSko3
+ QeomDft1Opc0mC+D2hj7lKag80/7DNnFO9i/hvwpz8KWqiy8glUbPsuoH5WVB7fd6x4hRy
+ /TURyzgwNkkp7FzV9Zj6Q3qleeAwI4U=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-321-RZ9opwmsOOCiwUGkNcIPng-1; Tue, 26 Apr 2022 16:59:34 -0400
+X-MC-Unique: RZ9opwmsOOCiwUGkNcIPng-1
+Received: by mail-io1-f72.google.com with SMTP id
+ y10-20020a056602164a00b00653f388e244so26688iow.22
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 13:59:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WG2ytXrRRv+9OjdzoN18K6C53x+LAm3ClcagjA70czI=;
- b=I3AN//nHRL1Keg2HiK2mgwAniLhoaEDk+SyPSTDyDUolHYJmxw5TOz3fF13jCkW/hZ
- r6HCpbYjXoTOcvBWbQbvTwR9IiEG0V6/tpmXC0infeEa9EE0wlgDlrAcNe2SA3McltQg
- LZn36RMpmPq8zaShhCtpbsDeA0aro6xN+NEpZXbRgcUrxRGuJ80TvkKqG6ns+ppuaUJW
- Wkw2x/hSVuz2XETanMAMPpUHmMotsgmzutfHzeS9+tyI1W+Lrlrt8Hlt2hsOs1SB8KzO
- 0rG/BNDur/XUAPL/8cTr2MtgX3+28fL9rXQmB5I0ueneKrMCSwEc7OSR5lI5FsNr0VSn
- xUvw==
-X-Gm-Message-State: AOAM530XuzGVZp9V/MI03VSbFJ+RT6K8D6lVNr2RIfooWT5aVent3xkQ
- 5al5IRZnImHCmRZVTo1K4F3JEg==
-X-Google-Smtp-Source: ABdhPJygl03XrpSKjRJYccGNj8Q1KC9LjzgXkYE/pgtQHhOlZ98YdqxnwO8eXVrvibDZ1l9hkesUoQ==
-X-Received: by 2002:a17:902:b18d:b0:15d:1698:5d77 with SMTP id
- s13-20020a170902b18d00b0015d16985d77mr11732171plr.68.1651006545356; 
- Tue, 26 Apr 2022 13:55:45 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- h19-20020a632113000000b0039d9c5be7c8sm13614923pgh.21.2022.04.26.13.55.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 13:55:44 -0700 (PDT)
-Message-ID: <9c477785-4f5e-1fe9-26e4-d8ea4b15c569@linaro.org>
-Date: Tue, 26 Apr 2022 13:55:42 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=yFssX/3Sirt7PD9ShzxinAjKs8uWAPR9IqbfxLYFptw=;
+ b=4AfdCw9cRsROIA+9voos/JEqjjTiTi5Ie7uMfIaZlS4Gs6zccinIab8djgWTvC5lwb
+ 4EgS70BEP3u10GnLmqR6BA/Hyg3gycC4PM+sgFiBfRcwXWEVA2QFNwKn4Y+qM2U3zMje
+ S1SiVqJWtpTIj7GojHk2cwz1DdHZ01jjjytqRXFGzjKxiKRdTALJ4aUrWvRsCEBDsI42
+ bw05mZSDpkBHPG0qRtq2meRs7W+BK69IreRBME8Mty8xycdsECVb/WmfbecJwCAnvZBw
+ rRKGj9aErb/fTxQ98WPIeTNa8t+UV3ITc8k4GCY7IuNw9y1NZh39UXmL6vlr9hE6OvII
+ EYIw==
+X-Gm-Message-State: AOAM533CF7LuJODB6rA7Rb6p5lfLUx4jClMfaS4IsHfsdU9oGgur+2NB
+ VH85W4WFKws1ZQ5HrBYcrcoibNzzcpQYvVvHGZHddMiN26bNrKbTfM86uwHCy7+EjrklPznXmSa
+ DUFKsw17BT8s5llM=
+X-Received: by 2002:a05:6e02:148c:b0:2cd:9399:369b with SMTP id
+ n12-20020a056e02148c00b002cd9399369bmr4799711ilk.300.1651006773752; 
+ Tue, 26 Apr 2022 13:59:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzsRLDM6Lvs6heEinL0EeuS1qhq29rV39BskKBzgX31u3W5bIxR/6UBFUG9tcEZCsIIotsBQw==
+X-Received: by 2002:a05:6e02:148c:b0:2cd:9399:369b with SMTP id
+ n12-20020a056e02148c00b002cd9399369bmr4799693ilk.300.1651006773408; 
+ Tue, 26 Apr 2022 13:59:33 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ a9-20020a926609000000b002ca50234d00sm8449673ilc.2.2022.04.26.13.59.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Apr 2022 13:59:33 -0700 (PDT)
+Date: Tue, 26 Apr 2022 14:59:31 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RFC 15/18] vfio/iommufd: Implement iommufd backend
+Message-ID: <20220426145931.23cb976b.alex.williamson@redhat.com>
+In-Reply-To: <20220426192703.GS2125828@nvidia.com>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
+ <20220414104710.28534-16-yi.l.liu@intel.com>
+ <20220422145815.GK2120790@nvidia.com>
+ <3576770b-e4c2-cf11-da0c-821c55ab9902@intel.com>
+ <BN9PR11MB5276AD0B0DAA59A44ED705618CFB9@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20220426134114.GM2125828@nvidia.com>
+ <79de081d-31dc-41a4-d38f-1e28327b1152@intel.com>
+ <20220426141156.GO2125828@nvidia.com>
+ <20220426124541.5f33f357.alex.williamson@redhat.com>
+ <20220426192703.GS2125828@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 00/20] target/ppc: Remove hidden usages of *env
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220422185450.107256-1-victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,26 +104,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
+ "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Peng, Chao P" <chao.p.peng@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
+ "farman@linux.ibm.com" <farman@linux.ibm.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>, "Sun,
+ Yi Y" <yi.y.sun@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+ "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/22/22 11:54, Víctor Colombo wrote:
-> By running the grep command `git grep -nr 'define \(fpscr\|msr\)_[a-z0-9]\+\>'`
-> we can find multiple macros that use `env->fpscr` and `env->msr` but doesn't
-> take *env as a parameter.
+On Tue, 26 Apr 2022 16:27:03 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+
+> On Tue, Apr 26, 2022 at 12:45:41PM -0600, Alex Williamson wrote:
+> > On Tue, 26 Apr 2022 11:11:56 -0300
+> > Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >   
+> > > On Tue, Apr 26, 2022 at 10:08:30PM +0800, Yi Liu wrote:
+> > >   
+> > > > > I think it is strange that the allowed DMA a guest can do depends on
+> > > > > the order how devices are plugged into the guest, and varys from
+> > > > > device to device?
+> > > > > 
+> > > > > IMHO it would be nicer if qemu would be able to read the new reserved
+> > > > > regions and unmap the conflicts before hot plugging the new device. We
+> > > > > don't have a kernel API to do this, maybe we should have one?    
+> > > > 
+> > > > For userspace drivers, it is fine to do it. For QEMU, it's not quite easy
+> > > > since the IOVA is GPA which is determined per the e820 table.    
+> > > 
+> > > Sure, that is why I said we may need a new API to get this data back
+> > > so userspace can fix the address map before attempting to attach the
+> > > new device. Currently that is not possible at all, the device attach
+> > > fails and userspace has no way to learn what addresses are causing
+> > > problems.  
+> > 
+> > We have APIs to get the IOVA ranges, both with legacy vfio and the
+> > iommufd RFC, QEMU could compare these, but deciding to remove an
+> > existing mapping is not something to be done lightly.   
 > 
-> Richard Henderson said [1] that these macros hiding the usage of *env "are evil".
-> This patch series remove them and substitute with an explicit usage of *env by
-> adding macros in the same style of FP_* ones (e.g. FP_FI defined in cpu.h).
+> Not quite, you can get the IOVA ranges after you attach the device,
+> but device attach will fail if the new range restrictions intersect
+> with the existing mappings. So we don't have an easy way to learn the
+> new range restriction in a way that lets userspace ensure an attach
+> will not fail due to reserved ranged overlapping with mappings.
 > 
-> Patch 20 (target/ppc: Add unused M_MSR_* macros) implements unused macros, the
-> same that were removed in patch 02 (target/ppc: Remove unused msr_* macros). I
-> did that to keep the changes consistent with what was already present before.
+> The best you could do is make a dummy IOAS then attach the device,
+> read the mappings, detatch, and then do your unmaps.
 
-Oh frabjous day! Callooh! Callay!
+Right, the same thing the kernel does currently.
 
+> I'm imagining something like IOMMUFD_DEVICE_GET_RANGES that can be
+> called prior to attaching on the device ID.
 
-r~
+Something like /sys/kernel/iommu_groups/$GROUP/reserved_regions?
+
+> > We must be absolutely certain that there is no DMA to that range
+> > before doing so.  
+> 
+> Yes, but at the same time if the VM thinks it can DMA to that memory
+> then it is quite likely to DMA to it with the new device that doesn't
+> have it mapped in the first place.
+
+Sorry, this assertion doesn't make sense to me.  We can't assume a
+vIOMMU on x86, so QEMU typically maps the entire VM address space (ie.
+device address space == system memory).  Some of those mappings are
+likely DMA targets (RAM), but only a tiny fraction of the address space
+may actually be used for DMA.  Some of those mappings are exceedingly
+unlikely P2P DMA targets (device memory), so we don't consider mapping
+failures to be fatal to attaching the device.
+
+If we have a case where a range failed for one device but worked for a
+previous, we're in the latter scenario, because we should have failed
+the device attach otherwise.  Your assertion would require that there
+are existing devices (plural) making use of this mapping and that the
+new device is also likely to make use of this mapping.  I have a hard
+time believing that evidence exists to support that statement.
+ 
+> It is also a bit odd that the behavior depends on the order the
+> devices are installed as if you plug the narrower device first then
+> the next device will happily use the narrower ranges, but viceversa
+> will get a different result.
+
+P2P use cases are sufficiently rare that this hasn't been an issue.  I
+think there's also still a sufficient healthy dose of FUD whether a
+system supports P2P that drivers do some validation before relying on
+it.
+ 
+> This is why I find it bit strange that qemu doesn't check the
+> ranges. eg I would expect that anything declared as memory in the E820
+> map has to be mappable to the iommu_domain or the device should not
+> attach at all.
+
+You have some interesting assumptions around associating
+MemoryRegionSegments from the device AddressSpace to something like an
+x86 specific E820 table.  The currently used rule of thumb is that if
+we think it's memory, mapping failure is fatal to the device, otherwise
+it's not.  If we want each device to have the most complete mapping
+possible, then we'd use a container per device, but that implies a lot
+of extra overhead.  Instead we try to attach the device to an existing
+container within the address space and assume if it was good enough
+there, it's good enough here.
+
+> The P2P is a bit trickier, and I know we don't have a good story
+> because we lack ACPI description, but I would have expected the same
+> kind of thing. Anything P2Pable should be in the iommu_domain or the
+> device should not attach. As with system memory there are only certain
+> parts of the E820 map that an OS would use for P2P.
+> 
+> (ideally ACPI would indicate exactly what combinations of devices are
+> P2Pable and then qemu would use that drive the mandatory address
+> ranges in the IOAS)
+
+How exactly does ACPI indicate that devices can do P2P?  How can we
+rely on ACPI for a problem that's not unique to platforms that
+implement ACPI?
+
+> > > > yeah. qemu can filter the P2P BAR mapping and just stop it in qemu. We
+> > > > haven't added it as it is something you will add in future. so didn't
+> > > > add it in this RFC. :-) Please let me know if it feels better to filter
+> > > > it from today.    
+> > > 
+> > > I currently hope it will use a different map API entirely and not rely
+> > > on discovering the P2P via the VMA. eg using a DMABUF FD or something.
+> > > 
+> > > So blocking it in qemu feels like the right thing to do.  
+> > 
+> > Wait a sec, so legacy vfio supports p2p between devices, which has a
+> > least a couple known use cases, primarily involving GPUs for at least
+> > one of the peers, and we're not going to make equivalent support a
+> > feature requirement for iommufd?    
+> 
+> I said "different map API" - something like IOMMU_FD_MAP_DMABUF
+> perhaps.
+
+For future support, yes, but your last sentence above states to
+outright block it for now, which would be a visible feature regression
+vs legacy vfio.
+
+> The trouble with taking in a user pointer to MMIO memory is that it
+> becomes quite annoying to go from a VMA back to the actual owner
+> object so we can establish proper refcounting and lifetime of struct-page-less
+> memory. Requiring userspace to make that connection via a FD
+> simplifies and generalizes this.
+> 
+> So, qemu would say 'oh this memory is exported by VFIO, I will do
+> VFIO_EXPORT_DMA_BUF, then do IOMMU_FD_MAP_DMABUF, then close the FD'
+> 
+> For vfio_compat we'd have to build some hacky compat approach to
+> discover the dmabuf for vfio-pci from the VMA.
+> 
+> But if qemu is going this way with a new implementation I would prefer
+> the new implementation use the new way, when we decide what it should
+> be.
+> 
+> As I mentioned before I would like to use DMABUF since I already have
+> a use-case to expose DMABUF from vfio-pci to connect to RDMA. I will
+> post the vfio DMABUF patch I have already.
+
+I'm not suggesting there aren't issues with P2P mappings, we all know
+that legacy vfio has various issues currently.  I'm only stating that
+there are use cases for it and if we cannot support those use cases
+then we can't do a transparent switch to iommufd when it's available.
+Switching would depend not only on kernel/QEMU support, but the
+necessary features for the VM, where we have no means to
+programmatically determine the latter.  Thanks,
+
+Alex
+
 
