@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16342510041
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 16:18:56 +0200 (CEST)
-Received: from localhost ([::1]:42304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2115E510046
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 16:20:58 +0200 (CEST)
+Received: from localhost ([::1]:49940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njM1n-0008GA-3p
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 10:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38124)
+	id 1njM3l-0004t1-6T
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 10:20:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njLzO-0005RD-LC
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 10:16:26 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38426)
+ id 1njLzP-0005Rj-WF
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 10:16:28 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njLzM-0005W3-9N
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 10:16:26 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- 1-20020a05600c248100b00393fbf11a05so580240wms.3
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 07:16:23 -0700 (PDT)
+ id 1njLzM-0005WC-Ng
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 10:16:27 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ ay11-20020a05600c1e0b00b0038eb92fa965so1599094wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 07:16:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CCO3cumqklouz/cXZlyJMH925uFvy/ejsoSwQmeA6f0=;
- b=Sn7kYMV6y1VsV4TV9HXiamz9doZCOUwBnPb5RCG+g6iAUkRnpkgVn0xYlgezMZ7XuM
- Vq69vzahhnl+APD58oqw2hFQU5jyCgMEynqj8BygqyQPXf5/1S0xqXRD7R+bY0PiWrTK
- bjWRYNgu6cwyNZDurE79c0GQyrpBzyX0mAwhZc2i4d5cQ/F+d/drIybu8S1eFpcY/83M
- ytTyBuDaqKTIdaLk8mgVVju5g6UfH9hlrqI9es2BsaJh81eX6ntimtJtd5/d1ybQ4Xh6
- T0t+aU1D0b6f3A/+t8jnLspFiAZGiU56vF2TbbkgpXj0BWNidJguq9qTAZsnxPcWtb5H
- oxxw==
+ bh=UrgpwViBB1MFa3pBwnxNwPfyeMj8oxu0NkxVYcn1+4I=;
+ b=FmtheW/OWMu3wBgqSnCtbdgVo+puKpXXucR4xYMXTLue9YP+scaXYiqhZg5oAryAez
+ emoyRJYeR63lifYDd1f9QKgCWeQ6RwYzj2Yd1FF3AYmYZffYQVqMKRRLPYsYYa4LiHBP
+ WWvXoF/QNBOyFqF1TcuDtJWfaZxyqBH15lUCxIdRP2VyS15rQxBUJyA1frjeMlE0Fvnx
+ Go1mSWA0FxVt3ESV4/KoHyHDJ2zFVFumBP871dW0qlNLFiyLrcIR7xZRMiZYOnQ8FMCZ
+ qcogT18KfJpvLcFB1vK5ZnrZKL33aEHhjOZr+CrrrntgGlzogyHwl7odnWHwVpWGfHac
+ OM7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CCO3cumqklouz/cXZlyJMH925uFvy/ejsoSwQmeA6f0=;
- b=HCWHU1p2j7uT6cAPZ9SnrhJUZiaJiN+9xwkzYpJxKMR934C9rJqzfiq6ieoWiTYCOo
- xDvgjXpW3FIdmDB0RJbaIDldmWcrGBiLTjLgiyQSsYEx2xiUIymhWbJmOPkWDlwBQ1Jw
- tarsXH26eCh9rWQKYZXR1SyfNS9KvHoVoxDUDFDYo/12kR1wa8oY8Vvk/oLuzmB7sO0A
- 1ZQ4GNNjPyRpOju9UtWW/K6u/zVc6n7lvW2J8APq3rmkjB6Noj27Wz4MeBUlfwFqNtPH
- mlS2pKCrpl9bjN2RLcti0XIrAqlKiB5vT2cgunWjR3PW2Ph+gImDhP/ZxUQWsp4vLlJt
- MDvg==
-X-Gm-Message-State: AOAM533eWCKhxWk0EFMfZegBeAkQPGNHra8/GwaLaJe6T48AuhIzsnZd
- M0w2Pi663lvgIIQcEf+/nMxkcUuq2SIC7g==
-X-Google-Smtp-Source: ABdhPJzWirqLIpkcjF3Ez7HLQva57A1i2n3sp0LuBhqVPy4m34lSmMWj7D7AD27py4qrXyAjoIBRTA==
-X-Received: by 2002:a7b:c20c:0:b0:38f:fac1:fe05 with SMTP id
- x12-20020a7bc20c000000b0038ffac1fe05mr31261011wmi.144.1650982582433; 
- Tue, 26 Apr 2022 07:16:22 -0700 (PDT)
+ bh=UrgpwViBB1MFa3pBwnxNwPfyeMj8oxu0NkxVYcn1+4I=;
+ b=X2p8I3TdqjlZ8auAzNx+K+Nq/5UJpM4CAOek045wl+3MgfXUPKzI0k0/iAJJ5Lu26J
+ haCZw4Jd+pJ99xBlmAVMoiNj+FGe4rTZSJBzDCGlcNQYZouOw3+T0vpYMtzlM26GAiG1
+ LVU0tQV07VLPa6a02XpseuTRo2gOVoyQWppJR6Mb8Zl24fcLRhvTz14A44oZ1gqGqQgE
+ zEqPvhGW7Vo1pbXqtSishwEMgvLGLLZZ/94An8aDspuuVDZ9UWzuGZW0AUKqx4d/KIux
+ dlgBGmbGIolZJ7V+KNL915B20yKvXGvKVHh8DoN/BL5oz4G5s56Mo1wbmKC1RlZiecsC
+ 9Emg==
+X-Gm-Message-State: AOAM5313wtYe2XM6LHTc9sZ4xwlx6kHa0EkiiDud3LYuDnQTO+7uZ+Tq
+ qlzsMsV7HomokeF+k9+E0u/xvdtZiM5Mqg==
+X-Google-Smtp-Source: ABdhPJw2gdaX9cezQmzCF30tfj3iSoSKDLFzfk5L5gRIx9w6JsMRtciV8xRh1WZVDsVDNiPX0pNgRw==
+X-Received: by 2002:a05:600c:4982:b0:393:db93:7542 with SMTP id
+ h2-20020a05600c498200b00393db937542mr19482313wmp.88.1650982583275; 
+ Tue, 26 Apr 2022 07:16:23 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- o6-20020a05600c378600b0038eca3cdbb3sm11206464wmr.13.2022.04.26.07.16.21
+ o6-20020a05600c378600b0038eca3cdbb3sm11206464wmr.13.2022.04.26.07.16.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Apr 2022 07:16:22 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/8] qmp: Support for querying stats
-Date: Tue, 26 Apr 2022 16:16:12 +0200
-Message-Id: <20220426141619.304611-2-pbonzini@redhat.com>
+Subject: [PATCH 2/8] kvm: Support for querying fd-based stats
+Date: Tue, 26 Apr 2022 16:16:13 +0200
+Message-Id: <20220426141619.304611-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220426141619.304611-1-pbonzini@redhat.com>
 References: <20220426141619.304611-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,461 +93,466 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Kanda <mark.kanda@oracle.com>
 
-Introduce QMP support for querying stats. Provide a framework for adding new
-stats and support for the following commands:
+Add support for querying fd-based KVM stats - as introduced by Linux kernel
+commit:
 
-- query-stats
-Returns a list of all stats per target type (only VM and vCPU to start), with
-additional options for specifying stat names, vCPU qom paths, and providers.
+cb082bfab59a ("KVM: stats: Add fd-based API to read binary stats data")
 
-- query-stats-schemas
-Returns a list of stats included in each target type, with an option for
-specifying the provider.  The concepts in the schema are based on the
-KVM binary stats' own introspection data, just translated to QAPI.
-
-The framework provides a method to register callbacks for these QMP commands.
-Most of the work in fact is done by the callbacks, and a large majority of
-this patch is new QAPI structs and commands.
-
-The first use-case will be for fd-based KVM stats (in an upcoming patch).
-
-Examples (with fd-based KVM stats):
-
-- Query all VM stats:
-
-{ "execute": "query-stats", "arguments" : { "target": "vm" } }
-
-{ "return": [
-     { "provider": "kvm",
-       "stats": [
-          { "name": "max_mmu_page_hash_collisions", "value": 0 },
-          { "name": "max_mmu_rmap_size", "value": 0 },
-          { "name": "nx_lpage_splits", "value": 148 },
-          ... ] },
-     { "provider": "xyz",
-       "stats": [ ... ] }
-] }
-
-- Query all vCPU stats:
-
-{ "execute": "query-stats", "arguments" : { "target": "vcpu" } }
-
-{ "return": [
-     { "provider": "kvm",
-       "qom_path": "/machine/unattached/device[0]"
-       "stats": [
-          { "name": "guest_mode", "value": 0 },
-          { "name": "directed_yield_successful", "value": 0 },
-          { "name": "directed_yield_attempted", "value": 106 },
-          ... ] },
-     { "provider": "kvm",
-       "qom_path": "/machine/unattached/device[1]"
-       "stats": [
-          { "name": "guest_mode", "value": 0 },
-          { "name": "directed_yield_successful", "value": 0 },
-          { "name": "directed_yield_attempted", "value": 106 },
-          ... ] },
-] }
-
-- Retrieve the schemas:
-
-{ "execute": "query-stats-schemas" }
-
-{ "return": [
-    { "provider": "kvm",
-      "target": "vcpu",
-      "stats": [
-         { "name": "guest_mode",
-           "unit": "none",
-           "base": 10,
-           "exponent": 0,
-           "type": "instant" },
-        { "name": "directed_yield_successful",
-           "unit": "none",
-           "base": 10,
-           "exponent": 0,
-           "type": "cumulative" },
-        ... ]
-    },
-    { "provider": "kvm",
-      "target": "vm",
-      "stats": [
-        { "name": "max_mmu_page_hash_collisions",
-           "unit": "none",
-           "base": 10,
-           "exponent": 0,
-           "type": "peak" },
-        ... ]
-    },
-    { "provider": "xyz",
-      "target": "vm",
-      "stats": [ ... ]
-    }
-] }
+This allows the user to analyze the behavior of the VM without access
+to debugfs.
 
 Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/monitor/stats.h |  33 +++++++
- monitor/qmp-cmds.c      |  71 +++++++++++++++
- qapi/meson.build        |   1 +
- qapi/qapi-schema.json   |   1 +
- qapi/stats.json         | 192 ++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 298 insertions(+)
- create mode 100644 include/monitor/stats.h
- create mode 100644 qapi/stats.json
+ accel/kvm/kvm-all.c | 403 ++++++++++++++++++++++++++++++++++++++++++++
+ qapi/stats.json     |   2 +-
+ 2 files changed, 404 insertions(+), 1 deletion(-)
 
-diff --git a/include/monitor/stats.h b/include/monitor/stats.h
-new file mode 100644
-index 0000000000..89552ab06f
---- /dev/null
-+++ b/include/monitor/stats.h
-@@ -0,0 +1,33 @@
-+/*
-+ * Copyright (c) 2022 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef STATS_H
-+#define STATS_H
-+
-+#include "qapi/qapi-types-stats.h"
-+
-+typedef void StatRetrieveFunc(StatsResultList **result, StatsTarget target, Error **errp);
-+typedef void SchemaRetrieveFunc(StatsSchemaList **result, Error **errp);
-+
-+/*
-+ * Register callbacks for the QMP query-stats command.
-+ *
-+ * @stats_fn: routine to query stats:
-+ * @schema_fn: routine to query stat schemas:
-+ */
-+void add_stats_callbacks(StatRetrieveFunc *stats_fn,
-+                         SchemaRetrieveFunc *schemas_fn);
-+
-+/*
-+ * Helper routines for adding stats entries to the results lists.
-+ */
-+void add_stats_entry(StatsResultList **, StatsProvider, const char *id,
-+                     StatsList *stats_list);
-+void add_stats_schema(StatsSchemaList **, StatsProvider, StatsTarget,
-+                      StatsSchemaValueList *);
-+
-+#endif /* STATS_H */
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 5e7302cbb9..97825b25fa 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -35,6 +35,7 @@
- #include "qapi/qapi-commands-control.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-stats.h"
- #include "qapi/qapi-commands-ui.h"
- #include "qapi/type-helpers.h"
- #include "qapi/qmp/qerror.h"
-@@ -43,6 +44,7 @@
- #include "hw/acpi/acpi_dev_interface.h"
- #include "hw/intc/intc.h"
- #include "hw/rdma/rdma.h"
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 32e177bd26..4a753d4445 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -47,6 +47,7 @@
+ #include "kvm-cpus.h"
+ 
+ #include "hw/boards.h"
 +#include "monitor/stats.h"
  
- NameInfo *qmp_query_name(Error **errp)
- {
-@@ -426,3 +428,72 @@ HumanReadableText *qmp_x_query_irq(Error **errp)
- 
-     return human_readable_text_from_str(buf);
+ /* This check must be after config-host.h is included */
+ #ifdef CONFIG_EVENTFD
+@@ -2310,6 +2311,9 @@ bool kvm_dirty_ring_enabled(void)
+     return kvm_state->kvm_dirty_ring_size ? true : false;
  }
+ 
++static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp);
++static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
 +
-+typedef struct StatsCallbacks {
-+    StatRetrieveFunc *stats_cb;
-+    SchemaRetrieveFunc *schemas_cb;
-+    QTAILQ_ENTRY(StatsCallbacks) next;
-+} StatsCallbacks;
-+
-+static QTAILQ_HEAD(, StatsCallbacks) stats_callbacks =
-+    QTAILQ_HEAD_INITIALIZER(stats_callbacks);
-+
-+void add_stats_callbacks(StatRetrieveFunc *stats_fn,
-+                         SchemaRetrieveFunc *schemas_fn)
-+{
-+    StatsCallbacks *entry = g_new(StatsCallbacks, 1);
-+    entry->stats_cb = stats_fn;
-+    entry->schemas_cb = schemas_fn;
-+
-+    QTAILQ_INSERT_TAIL(&stats_callbacks, entry, next);
-+}
-+
-+StatsResultList *qmp_query_stats(StatsFilter *filter, Error **errp)
-+{
-+    StatsResultList *stats_results = NULL;
-+    StatsCallbacks *entry;
-+
-+    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
-+        entry->stats_cb(&stats_results, filter->target, errp);
+ static int kvm_init(MachineState *ms)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+@@ -2638,6 +2642,10 @@ static int kvm_init(MachineState *ms)
+         }
+     }
+ 
++    if (kvm_check_extension(kvm_state, KVM_CAP_BINARY_STATS_FD)) {
++        add_stats_callbacks(query_stats_cb, query_stats_schemas_cb);
 +    }
 +
-+    return stats_results;
-+}
+     return 0;
+ 
+ err:
+@@ -3697,3 +3705,398 @@ static void kvm_type_init(void)
+ }
+ 
+ type_init(kvm_type_init);
 +
-+StatsSchemaList *qmp_query_stats_schemas(Error **errp)
++typedef struct StatsArgs {
++    union StatsResultsType {
++        StatsResultList **stats;
++        StatsSchemaList **schema;
++    } result;
++    Error **errp;
++} StatsArgs;
++
++static StatsList *add_kvmstat_entry(struct kvm_stats_desc *pdesc,
++                                    uint64_t *stats_data,
++                                    StatsList *stats_list,
++                                    Error **errp)
 +{
-+    StatsSchemaList *stats_results = NULL;
-+    StatsCallbacks *entry;
 +
-+    QTAILQ_FOREACH(entry, &stats_callbacks, next) {
-+        entry->schemas_cb(&stats_results, errp);
++    StatsList *stats_entry;
++    Stats *stats;
++    uint64List *val_list = NULL;
++
++    switch (pdesc->flags & KVM_STATS_TYPE_MASK) {
++    case KVM_STATS_TYPE_CUMULATIVE:
++    case KVM_STATS_TYPE_INSTANT:
++    case KVM_STATS_TYPE_PEAK:
++    case KVM_STATS_TYPE_LINEAR_HIST:
++    case KVM_STATS_TYPE_LOG_HIST:
++        break;
++    default:
++        return stats_list;
 +    }
 +
-+    return stats_results;
-+}
-+
-+void add_stats_entry(StatsResultList **stats_results, StatsProvider provider,
-+                     const char *qom_path, StatsList *stats_list)
-+{
-+    StatsResult *entry = g_new0(StatsResult, 1);
-+    entry->provider = provider;
-+    if (qom_path) {
-+        entry->has_qom_path = true;
-+        entry->qom_path = g_strdup(qom_path);
++    switch (pdesc->flags & KVM_STATS_UNIT_MASK) {
++    case KVM_STATS_UNIT_NONE:
++    case KVM_STATS_UNIT_BYTES:
++    case KVM_STATS_UNIT_CYCLES:
++    case KVM_STATS_UNIT_SECONDS:
++        break;
++    default:
++        return stats_list;
 +    }
-+    entry->stats = stats_list;
 +
-+    QAPI_LIST_PREPEND(*stats_results, entry);
++    switch (pdesc->flags & KVM_STATS_BASE_MASK) {
++    case KVM_STATS_BASE_POW10:
++    case KVM_STATS_BASE_POW2:
++        break;
++    default:
++        return stats_list;
++    }
++
++    /* Alloc and populate data list */
++    stats_entry = g_new0(StatsList, 1);
++    stats = g_new0(Stats, 1);
++    stats->name = g_strdup(pdesc->name);
++    stats->value = g_new0(StatsValue, 1);;
++
++    if (pdesc->size == 1) {
++        stats->value->u.scalar = *stats_data;
++        stats->value->type = QTYPE_QNUM;
++    } else {
++        int i;
++        for (i = 0; i < pdesc->size; i++) {
++            uint64List *val_entry = g_new0(uint64List, 1);
++            val_entry->value = stats_data[i];
++            val_entry->next = val_list;
++            val_list = val_entry;
++        }
++        stats->value->u.list = val_list;
++        stats->value->type = QTYPE_QLIST;
++    }
++
++    stats_entry->value = stats;
++    stats_entry->next = stats_list;
++
++    return stats_entry;
 +}
 +
-+void add_stats_schema(StatsSchemaList **schema_results,
-+                      StatsProvider provider, StatsTarget target,
-+                      StatsSchemaValueList *stats_list)
++static StatsSchemaValueList *add_kvmschema_entry(struct kvm_stats_desc *pdesc,
++                                                 StatsSchemaValueList *list,
++                                                 Error **errp)
 +{
-+    StatsSchema *entry = g_new0(StatsSchema, 1);
++    StatsSchemaValueList *schema_entry = g_new0(StatsSchemaValueList, 1);
++    schema_entry->value = g_new0(StatsSchemaValue, 1);
 +
-+    entry->provider = provider;
-+    entry->target = target;
-+    entry->stats = stats_list;
-+    QAPI_LIST_PREPEND(*schema_results, entry);
++    switch (pdesc->flags & KVM_STATS_TYPE_MASK) {
++    case KVM_STATS_TYPE_CUMULATIVE:
++        schema_entry->value->type = STATS_TYPE_CUMULATIVE;
++        break;
++    case KVM_STATS_TYPE_INSTANT:
++        schema_entry->value->type = STATS_TYPE_INSTANT;
++        break;
++    case KVM_STATS_TYPE_PEAK:
++        schema_entry->value->type = STATS_TYPE_PEAK;
++        break;
++    case KVM_STATS_TYPE_LINEAR_HIST:
++        schema_entry->value->type = STATS_TYPE_LINEAR_HIST;
++        schema_entry->value->bucket_size = pdesc->bucket_size;
++        schema_entry->value->has_bucket_size = true;
++        break;
++    case KVM_STATS_TYPE_LOG_HIST:
++        schema_entry->value->type = STATS_TYPE_LOG_HIST;
++        break;
++    default:
++        goto exit;
++    }
++
++    switch (pdesc->flags & KVM_STATS_UNIT_MASK) {
++    case KVM_STATS_UNIT_NONE:
++        break;
++    case KVM_STATS_UNIT_BYTES:
++        schema_entry->value->has_unit = true;
++        schema_entry->value->unit = STATS_UNIT_BYTES;
++        break;
++    case KVM_STATS_UNIT_CYCLES:
++        schema_entry->value->has_unit = true;
++        schema_entry->value->unit = STATS_UNIT_CYCLES;
++        break;
++    case KVM_STATS_UNIT_SECONDS:
++        schema_entry->value->has_unit = true;
++        schema_entry->value->unit = STATS_UNIT_SECONDS;
++        break;
++    default:
++        goto exit;
++    }
++
++    schema_entry->value->exponent = pdesc->exponent;
++    if (pdesc->exponent) {
++        switch (pdesc->flags & KVM_STATS_BASE_MASK) {
++        case KVM_STATS_BASE_POW10:
++            schema_entry->value->has_base = true;
++            schema_entry->value->base = 10;
++            break;
++        case KVM_STATS_BASE_POW2:
++            schema_entry->value->has_base = true;
++            schema_entry->value->base = 2;
++            break;
++        default:
++            goto exit;
++        }
++    }
++
++    schema_entry->value->name = g_strdup(pdesc->name);
++    schema_entry->next = list;
++    return schema_entry;
++exit:
++    g_free(schema_entry->value);
++    g_free(schema_entry);
++    return list;
 +}
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 656ef0e039..fd5c93d643 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -46,6 +46,7 @@ qapi_all_modules = [
-   'replay',
-   'run-state',
-   'sockets',
-+  'stats',
-   'trace',
-   'transaction',
-   'yank',
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 4912b9744e..92d7ecc52c 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -93,3 +93,4 @@
- { 'include': 'audio.json' }
- { 'include': 'acpi.json' }
- { 'include': 'pci.json' }
-+{ 'include': 'stats.json' }
++
++/* Cached stats descriptors */
++typedef struct StatsDescriptors {
++    char *ident; /* 'vm' or vCPU qom path */
++    struct kvm_stats_desc *kvm_stats_desc;
++    struct kvm_stats_header *kvm_stats_header;
++    QTAILQ_ENTRY(StatsDescriptors) next;
++} StatsDescriptors;
++
++static QTAILQ_HEAD(, StatsDescriptors) stats_descriptors =
++    QTAILQ_HEAD_INITIALIZER(stats_descriptors);
++
++static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd,
++                                                Error **errp)
++{
++    StatsDescriptors *descriptors;
++    const char *ident;
++    struct kvm_stats_desc *kvm_stats_desc;
++    struct kvm_stats_header *kvm_stats_header;
++    size_t size_desc;
++    ssize_t ret;
++
++    switch (target) {
++    case STATS_TARGET_VM:
++        ident = StatsTarget_str(STATS_TARGET_VM);
++        break;
++    case STATS_TARGET_VCPU:
++        ident = current_cpu->parent_obj.canonical_path;
++        break;
++    default:
++        abort();
++    }
++
++    QTAILQ_FOREACH(descriptors, &stats_descriptors, next) {
++        if (g_str_equal(descriptors->ident, ident)) {
++            return descriptors;
++        }
++    }
++
++    descriptors = g_new0(StatsDescriptors, 1);
++
++    /* Read stats header */
++    kvm_stats_header = g_malloc(sizeof(*kvm_stats_header));
++    ret = read(stats_fd, kvm_stats_header, sizeof(*kvm_stats_header));
++    if (ret != sizeof(*kvm_stats_header)) {
++        error_setg(errp, "KVM stats: failed to read stats header: "
++                   "expected %zu actual %zu",
++                   sizeof(*kvm_stats_header), ret);
++        return NULL;
++    }
++    size_desc = sizeof(*kvm_stats_desc) + kvm_stats_header->name_size;
++
++    /* Read stats descriptors */
++    kvm_stats_desc = g_malloc0_n(kvm_stats_header->num_desc, size_desc);
++    ret = pread(stats_fd, kvm_stats_desc,
++                size_desc * kvm_stats_header->num_desc,
++                kvm_stats_header->desc_offset);
++
++    if (ret != size_desc * kvm_stats_header->num_desc) {
++        error_setg(errp, "KVM stats: failed to read stats descriptors: "
++                   "expected %zu actual %zu",
++                   size_desc * kvm_stats_header->num_desc, ret);
++        g_free(descriptors);
++        return NULL;
++    }
++    descriptors->kvm_stats_header = kvm_stats_header;
++    descriptors->kvm_stats_desc = kvm_stats_desc;
++    descriptors->ident = g_strdup(ident);
++    QTAILQ_INSERT_TAIL(&stats_descriptors, descriptors, next);
++    return descriptors;
++}
++
++static void query_stats(StatsResultList **result, StatsTarget target,
++                        int stats_fd, Error **errp)
++{
++    struct kvm_stats_desc *kvm_stats_desc;
++    struct kvm_stats_header *kvm_stats_header;
++    StatsDescriptors *descriptors;
++    g_autofree uint64_t *stats_data = NULL;
++    struct kvm_stats_desc *pdesc;
++    StatsList *stats_list = NULL;
++    size_t size_desc, size_data = 0;
++    ssize_t ret;
++    int i;
++
++    descriptors = find_stats_descriptors(target, stats_fd, errp);
++    if (!descriptors) {
++        return;
++    }
++
++    kvm_stats_header = descriptors->kvm_stats_header;
++    kvm_stats_desc = descriptors->kvm_stats_desc;
++    size_desc = sizeof(*kvm_stats_desc) + kvm_stats_header->name_size;
++
++    /* Tally the total data size; read schema data */
++    for (i = 0; i < kvm_stats_header->num_desc; ++i) {
++        pdesc = (void *)kvm_stats_desc + i * size_desc;
++        size_data += pdesc->size * sizeof(*stats_data);
++    }
++
++    stats_data = g_malloc0(size_data);
++    ret = pread(stats_fd, stats_data, size_data, kvm_stats_header->data_offset);
++
++    if (ret != size_data) {
++        error_setg(errp, "KVM stats: failed to read data: "
++                   "expected %zu actual %zu", size_data, ret);
++        return;
++    }
++
++    for (i = 0; i < kvm_stats_header->num_desc; ++i) {
++        uint64_t *stats;
++        pdesc = (void *)kvm_stats_desc + i * size_desc;
++
++        /* Add entry to the list */
++        stats = (void *)stats_data + pdesc->offset;
++        stats_list = add_kvmstat_entry(pdesc, stats, stats_list, errp);
++    }
++
++    if (!stats_list) {
++        return;
++    }
++
++    switch (target) {
++    case STATS_TARGET_VM:
++        add_stats_entry(result, STATS_PROVIDER_KVM, NULL, stats_list);
++        break;
++    case STATS_TARGET_VCPU:
++        add_stats_entry(result, STATS_PROVIDER_KVM,
++                        current_cpu->parent_obj.canonical_path,
++                        stats_list);
++        break;
++    default:
++        break;
++    }
++}
++
++static void query_stats_schema(StatsSchemaList **result, StatsTarget target,
++                               int stats_fd, Error **errp)
++{
++    struct kvm_stats_desc *kvm_stats_desc;
++    struct kvm_stats_header *kvm_stats_header;
++    StatsDescriptors *descriptors;
++    struct kvm_stats_desc *pdesc;
++    StatsSchemaValueList *stats_list = NULL;
++    size_t size_desc;
++    int i;
++
++    descriptors = find_stats_descriptors(target, stats_fd, errp);
++    if (!descriptors) {
++        return;
++    }
++
++    kvm_stats_header = descriptors->kvm_stats_header;
++    kvm_stats_desc = descriptors->kvm_stats_desc;
++    size_desc = sizeof(*kvm_stats_desc) + kvm_stats_header->name_size;
++
++    /* Tally the total data size; read schema data */
++    for (i = 0; i < kvm_stats_header->num_desc; ++i) {
++        pdesc = (void *)kvm_stats_desc + i * size_desc;
++        stats_list = add_kvmschema_entry(pdesc, stats_list, errp);
++    }
++
++    add_stats_schema(result, STATS_PROVIDER_KVM, target, stats_list);
++}
++
++static void query_stats_vcpu(CPUState *cpu, run_on_cpu_data data)
++{
++    StatsArgs *kvm_stats_args = (StatsArgs *) data.host_ptr;
++    int stats_fd = kvm_vcpu_ioctl(cpu, KVM_GET_STATS_FD, NULL);
++    Error *local_err = NULL;
++
++    if (stats_fd == -1) {
++        error_setg(&local_err, "KVM stats: ioctl failed");
++        error_propagate(kvm_stats_args->errp, local_err);
++        return;
++    }
++    query_stats(kvm_stats_args->result.stats, STATS_TARGET_VCPU, stats_fd,
++                kvm_stats_args->errp);
++    close(stats_fd);
++}
++
++static void query_stats_schema_vcpu(CPUState *cpu, run_on_cpu_data data)
++{
++    StatsArgs *kvm_stats_args = (StatsArgs *) data.host_ptr;
++    int stats_fd = kvm_vcpu_ioctl(cpu, KVM_GET_STATS_FD, NULL);
++    Error *local_err = NULL;
++
++    if (stats_fd == -1) {
++        error_setg(&local_err, "KVM stats: ioctl failed");
++        error_propagate(kvm_stats_args->errp, local_err);
++        return;
++    }
++    query_stats_schema(kvm_stats_args->result.schema, STATS_TARGET_VCPU, stats_fd,
++                       kvm_stats_args->errp);
++    close(stats_fd);
++}
++
++static void query_stats_cb(StatsResultList **result, StatsTarget target, Error **errp)
++{
++    KVMState *s = kvm_state;
++    CPUState *cpu;
++    int stats_fd;
++
++    switch (target) {
++    case STATS_TARGET_VM:
++    {
++        stats_fd = kvm_vm_ioctl(s, KVM_GET_STATS_FD, NULL);
++        if (stats_fd == -1) {
++            error_setg(errp, "KVM stats: ioctl failed");
++            return;
++        }
++        query_stats(result, target, stats_fd, errp);
++        close(stats_fd);
++        break;
++    }
++    case STATS_TARGET_VCPU:
++    {
++        StatsArgs stats_args;
++        stats_args.result.stats = result;
++        stats_args.errp = errp;
++        CPU_FOREACH(cpu) {
++            run_on_cpu(cpu, query_stats_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
++        }
++        break;
++    }
++    default:
++        break;
++    }
++}
++
++void query_stats_schemas_cb(StatsSchemaList **result, Error **errp)
++{
++    StatsArgs stats_args;
++    KVMState *s = kvm_state;
++    int stats_fd;
++
++    stats_fd = kvm_vm_ioctl(s, KVM_GET_STATS_FD, NULL);
++    if (stats_fd == -1) {
++        error_setg(errp, "KVM stats: ioctl failed");
++        return;
++    }
++    query_stats_schema(result, STATS_TARGET_VM, stats_fd, errp);
++    close(stats_fd);
++
++    stats_args.result.schema = result;
++    stats_args.errp = errp;
++    run_on_cpu(first_cpu, query_stats_schema_vcpu, RUN_ON_CPU_HOST_PTR(&stats_args));
++}
 diff --git a/qapi/stats.json b/qapi/stats.json
-new file mode 100644
-index 0000000000..7454dd7daa
---- /dev/null
+index 7454dd7daa..bcc897258a 100644
+--- a/qapi/stats.json
 +++ b/qapi/stats.json
-@@ -0,0 +1,192 @@
-+# -*- Mode: Python -*-
-+# vim: filetype=python
-+#
-+# Copyright (c) 2022 Oracle and/or its affiliates.
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+##
-+# = Statistics
-+##
-+
-+##
-+# @StatsType:
-+#
-+# Enumeration of statistics types
-+#
-+# @cumulative: stat is cumulative; value can only increase.
-+# @instant: stat is instantaneous; value can increase or decrease.
-+# @peak: stat is the peak value; value can only increase.
-+# @linear-hist: stat is a linear histogram.
-+# @log-hist: stat is a logarithmic histogram.
-+#
-+# Since: 7.1
-+##
-+{ 'enum' : 'StatsType',
-+  'data' : [ 'cumulative', 'instant', 'peak', 'linear-hist', 'log-hist' ] }
-+
-+##
-+# @StatsUnit:
-+#
-+# Enumeration of unit of measurement for statistics
-+#
-+# @bytes: stat reported in bytes.
-+# @seconds: stat reported in seconds.
-+# @cycles: stat reported in clock cycles.
-+#
-+# Since: 7.1
-+##
-+{ 'enum' : 'StatsUnit',
-+  'data' : [ 'bytes', 'seconds', 'cycles' ] }
-+
-+##
-+# @StatsProvider:
-+#
-+# Enumeration of statistics providers.
-+#
-+# Since: 7.1
-+##
-+{ 'enum': 'StatsProvider',
-+  'data': [ ] }
-+
-+##
-+# @StatsTarget:
-+#
-+# The kinds of objects on which one can request statistics.
-+#
-+# @vm: the entire virtual machine.
-+# @vcpu: a virtual CPU.
-+#
-+# Since: 7.1
-+##
-+{ 'enum': 'StatsTarget',
-+  'data': [ 'vm', 'vcpu' ] }
-+
-+##
-+# @StatsFilter:
-+#
-+# The arguments to the query-stats command; specifies a target for which to
-+# request statistics, and which statistics are requested from each provider.
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'StatsFilter',
-+  'data': { 'target': 'StatsTarget' } }
-+
-+##
-+# @StatsValue:
-+#
-+# @scalar: single uint64.
-+# @list: list of uint64.
-+#
-+# Since: 7.1
-+##
-+{ 'alternate': 'StatsValue',
-+  'data': { 'scalar': 'uint64',
-+            'list': [ 'uint64' ] } }
-+
-+##
-+# @Stats:
-+#
-+# @name: name of stat.
-+# @value: stat value.
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'Stats',
-+  'data': { 'name': 'str',
-+            'value' : 'StatsValue' } }
-+
-+##
-+# @StatsResult:
-+#
-+# @provider: provider for this set of statistics.
-+# @qom-path: QOM path of the object for which the statistics are returned
-+# @stats: list of statistics.
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'StatsResult',
-+  'data': { 'provider': 'StatsProvider',
-+            '*qom-path': 'str',
-+            'stats': [ 'Stats' ] } }
-+
-+##
-+# @query-stats:
-+#
-+# Return runtime-collected statistics for objects such as the
-+# VM or its vCPUs.
-+#
-+# The arguments are a StatsFilter and specify the provider and objects
-+# to return statistics about.
-+#
-+# Returns: a list of StatsResult, one for each provider and object
-+#          (e.g., for each vCPU).
-+#
-+# Since: 7.1
-+##
-+{ 'command': 'query-stats',
-+  'data': 'StatsFilter',
-+  'boxed': true,
-+  'returns': [ 'StatsResult' ] }
-+
-+##
-+# @StatsSchemaValue:
-+#
-+# Schema for a single statistic.
-+#
-+# @name: stat name.
-+#
-+# @type: kind of statistic, a @StatType.
-+#
-+# @unit: base unit of measurement for the statistics @StatUnit.
-+#
-+# @base: base for the multiple of @unit that the statistic uses, either 2 or 10.
-+#        Only present if @exponent is non-zero.
-+#
-+# @exponent: exponent for the multiple of @unit that the statistic uses
-+#
-+# @bucket-size: Used with linear-hist to report the width of each bucket
-+#               of the histogram.
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'StatsSchemaValue',
-+  'data': { 'name': 'str',
-+            'type': 'StatsType',
-+            '*unit': 'StatsUnit',
-+            '*base': 'int8',
-+            'exponent': 'int16',
-+            '*bucket-size': 'uint32' } }
-+
-+##
-+# @StatsSchema:
-+#
-+# Schema for all available statistics for a provider and target.
-+#
-+# @provider: provider for this set of statistics.
-+#
-+# @target: kind of object that can be queried through this provider.
-+#
-+# @stats: list of statistics.
-+#
-+# Since: 7.1
-+##
-+{ 'struct': 'StatsSchema',
-+  'data': { 'provider': 'StatsProvider',
-+            'target': 'StatsTarget',
-+            'stats': [ 'StatsSchemaValue' ] } }
-+
-+##
-+# @query-stats-schemas:
-+#
-+# Return the schema for all available runtime-collected statistics.
-+#
-+# Since: 7.1
-+##
-+{ 'command': 'query-stats-schemas',
-+  'data': { },
-+  'returns': [ 'StatsSchema' ] }
+@@ -50,7 +50,7 @@
+ # Since: 7.1
+ ##
+ { 'enum': 'StatsProvider',
+-  'data': [ ] }
++  'data': [ 'kvm' ] }
+ 
+ ##
+ # @StatsTarget:
 -- 
 2.35.1
 
