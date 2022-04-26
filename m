@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5C750FB5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:47:43 +0200 (CEST)
-Received: from localhost ([::1]:47246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38FBD50FB80
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:54:22 +0200 (CEST)
+Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njIjO-0004Kr-RF
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:47:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57396)
+	id 1njIpp-0000Yo-Bp
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1njHxJ-0004NF-8i
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:58:01 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:40352)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1njHxH-00024j-NP
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:58:00 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2f7ca2ce255so76663017b3.7
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 02:57:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ZyUI8xwqX4Qm5cLTTJbrzTQdQNI++B1QRHRh5X/89A8=;
- b=rEeXbuH+gHHinKR2bTOT3AYKZdNuqq5y3bJabTtOpPTMawBaFh4wUlxDlKHJc7klKR
- ACYrS63//j34VuezMfSAdnHUSEJvfIsfp8tvePI2NuAV4KbDSs8eF+fHmfGfAaBFUuNX
- 05czWHC2aCS8CjJgKXSuVD6PPyvZIKnYd1OwiASU4eO0XMVfy4d5KQXb6SAuSOqyIvLE
- AvHAKotgtSsUQUWWvXOFHVUWaEz/EhnAF0fdRM0vPnAsgaxSqYl0BHl41SwsghnZUxfs
- vauFcHeRNJLqtgDwYoN/0Bw+1xxp5VtQMRphaVghlS7RxYz6bGFYECo/KdGFMo0qULTY
- 7xtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ZyUI8xwqX4Qm5cLTTJbrzTQdQNI++B1QRHRh5X/89A8=;
- b=JljneVQuzAsN1Dq0OiObIZ+81krkhHt7jbJAaunRH+JunJysq5h95lXuixzYjSu+j7
- 2yb2YfxUVV5MApfZbaEP0PNWqhwNAOkPk190UqEm5ZMk2ji0ueH+EAjK8WeQrZNoBLaO
- TKbN2uutknYsM9+0tGgZiHZy0YZgX7gdEho3klMUpK43JJ8dD1kTraOiQEfKrVK8MDIt
- ilARfsRNmdoHjplVDSHRdC8lg8lOWvuv9ad151PAViT5rWeJOEc8K/2xGFkpeK2CVQKo
- /xjwnJKvF+LWYyL/uz5Rf9ExTkSkIc4rtfi+IJO0KTDnfDFPV4rqCj6d+96PYXLmY2H+
- F3NA==
-X-Gm-Message-State: AOAM531TUZtuPPvwk7AzBZTdYgY82Xl5hJ5KVSHNOpfXqLkfK0OKqomt
- GXs18AhpFGcafsUGIlQcLCYo5VUZY8kLNtEvQnEDCw==
-X-Google-Smtp-Source: ABdhPJwxNK/ncw7Zy2Z6+8LdonjF11g0ADEzjuQHmOZA8qaOpqMB9OewXLHVvBXkjPcKqwn93P/Ew+j6VFaZ5jqXwxw=
-X-Received: by 2002:a81:ac57:0:b0:2f1:99ec:91a2 with SMTP id
- z23-20020a81ac57000000b002f199ec91a2mr20966282ywj.329.1650967078672; Tue, 26
- Apr 2022 02:57:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1njI2y-0003Sj-3v
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 06:03:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1njI2u-0002pz-HG
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 06:03:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650967427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G349xE4gLp9GEInT6ZdbyTDJH94QpSVxgnCgetkxCzE=;
+ b=V/p/+f9UXl50AnDGK8HD7OjZNNIvGv1STsYGb1qj75tSVTl3wqjGm8eFymC7bDVm0O/buj
+ rDfQUAsz5CdwOawqBYjZsLS1fCF8cQ3IlR4GziOJTcRPawnue6RO7BSflzH05dVjYHOJme
+ TFJaAm6MIYfWFW5uZsE2mJC7rTs6Gdo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-483-0yvzfen8MC-4LJtpYe9jqw-1; Tue, 26 Apr 2022 06:03:44 -0400
+X-MC-Unique: 0yvzfen8MC-4LJtpYe9jqw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A655811E75;
+ Tue, 26 Apr 2022 10:03:38 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACAA0463E1C;
+ Tue, 26 Apr 2022 10:03:34 +0000 (UTC)
+Date: Tue, 26 Apr 2022 11:03:31 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Subject: Re: [PATCH v6 0/3] util/thread-pool: Expose minimun and maximum size
+Message-ID: <YmfDc/dc/bRrO2r1@stefanha-x1.localdomain>
+References: <20220425075723.20019-1-nsaenzju@redhat.com>
 MIME-Version: 1.0
-References: <20220422165238.1971496-1-richard.henderson@linaro.org>
- <20220422165238.1971496-68-richard.henderson@linaro.org>
-In-Reply-To: <20220422165238.1971496-68-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 26 Apr 2022 10:57:47 +0100
-Message-ID: <CAFEAcA9tFVZzk6rdpaYODLJhJ--WtZMxQOqJQ_gRYFfuEvnntg@mail.gmail.com>
-Subject: Re: [PATCH v8 67/68] tests/tcg/nios2: Add semihosting multiarch tests
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PzNE479XKk6bVRrd"
+Content-Disposition: inline
+In-Reply-To: <20220425075723.20019-1-nsaenzju@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,38 +75,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
+ qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, eduardo@habkost.net,
+ hreitz@redhat.com, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Apr 2022 at 18:53, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Add runtime supporting the nios2-semi.c interface.
-> Execute the hello and memory multiarch tests.
->
-> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20220421151735.31996-64-richard.henderson@linaro.org>
+
+--PzNE479XKk6bVRrd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Apr 25, 2022 at 09:57:20AM +0200, Nicolas Saenz Julienne wrote:
+> As discussed on the previous RFC[1] the thread-pool's dynamic thread
+> management doesn't play well with real-time and latency sensitive
+> systems. This series introduces a set of controls that'll permit
+> achieving more deterministic behaviours, for example by fixing the
+> pool's size.
+>=20
+> We first introduce a new common interface to event loop configuration by
+> moving iothread's already available properties into an abstract class
+> called 'EventLooopBackend' and have both 'IOThread' and the newly
+> created 'MainLoop' inherit the properties from that class.
+>=20
+> With this new configuration interface in place it's relatively simple to
+> introduce new options to fix the even loop's thread pool sizes. The
+> resulting QAPI looks like this:
+>=20
+>     -object main-loop,id=3Dmain-loop,thread-pool-min=3D1,thread-pool-max=
+=3D1
+>=20
+> Note that all patches are bisect friendly and pass all the tests.
+>=20
+> [1] https://patchwork.ozlabs.org/project/qemu-devel/patch/20220202175234.=
+656711-1-nsaenzju@redhat.com/
 > ---
->  tests/tcg/nios2/semicall.h              |  28 +++
->  tests/tcg/nios2/10m50-ghrd.ld           |  66 +++++++
->  tests/tcg/nios2/Makefile.softmmu-target |  32 ++++
->  tests/tcg/nios2/boot.S                  | 218 ++++++++++++++++++++++++
->  tests/tcg/nios2/intr.S                  |  31 ++++
->  5 files changed, 375 insertions(+)
->  create mode 100644 tests/tcg/nios2/semicall.h
->  create mode 100644 tests/tcg/nios2/10m50-ghrd.ld
->  create mode 100644 tests/tcg/nios2/Makefile.softmmu-target
->  create mode 100644 tests/tcg/nios2/boot.S
->  create mode 100644 tests/tcg/nios2/intr.S
+>=20
+> Changes since v5:
+>  - Add 'Since' versioning to MainLoopProperties
+>=20
+> Changes since v4:
+>  - Address Markus' comments WRT qom.json
+>=20
+> Changes since v3:
+>  - Avoid duplication in qom.json by creating EventLoopBaseProperties.
+>  - Fix failures on first compilation due to race between
+>    event-loop-base.o and qapi header generation.
+>=20
+> Changes since v2:
+>  - Get rid of wrong locking/waiting
+>  - Fix qapi versioning
+>  - Better commit messages
+>=20
+> Changes since v1:
+>  - Address all Stefan's comments
+>  - Introduce new fix
+>=20
+> Nicolas Saenz Julienne (3):
+>   Introduce event-loop-base abstract class
+>   util/main-loop: Introduce the main loop into QOM
+>   util/event-loop-base: Introduce options to set the thread pool size
+>=20
+>  event-loop-base.c                | 140 +++++++++++++++++++++++++++++++
+>  include/block/aio.h              |  10 +++
+>  include/block/thread-pool.h      |   3 +
+>  include/qemu/main-loop.h         |  10 +++
+>  include/sysemu/event-loop-base.h |  41 +++++++++
+>  include/sysemu/iothread.h        |   6 +-
+>  iothread.c                       |  68 +++++----------
+>  meson.build                      |  26 +++---
+>  qapi/qom.json                    |  43 ++++++++--
+>  util/aio-posix.c                 |   1 +
+>  util/async.c                     |  20 +++++
+>  util/main-loop.c                 |  65 ++++++++++++++
+>  util/thread-pool.c               |  55 +++++++++++-
+>  13 files changed, 419 insertions(+), 69 deletions(-)
+>  create mode 100644 event-loop-base.c
+>  create mode 100644 include/sysemu/event-loop-base.h
+>=20
+> --=20
+> 2.35.1
+>=20
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Thanks, applied to my block-next tree! If there are more comments I can
+drop it again.
 
-(I didn't check the details, but it's the right shape, and it's
-only test code, so if it can execute the tests it's probably right.)
+https://gitlab.com/stefanha/qemu/commits/block-next
 
-thanks
--- PMM
+Stefan
+
+--PzNE479XKk6bVRrd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmJnw3MACgkQnKSrs4Gr
+c8jzbQf9E0qZm02RFJypZNpKGaRJPZtIJlCp6oeYpen3nobbFlkQ+gxydGqGJleu
+JWyKo2e3hfNI9b4dlnrsXH2IbXFBDRz6am2H8MEg+igoj/DDScI9TaziUUeNiTTt
+41QZczx8hL4MwPZbmTtNZm9hfEBPHSa82kECPBHR1p6jFGLnP2D95Bmhz1UvVWvN
+EEDkCc9bJjqrBQAdafpZUJ5Z52GFJ9kHa/FR42YzXjHS0e43zwHzdRRl52mD4LjN
+a4ptcxv2oupcvfBuJ3yUF3/wWHfdmnGQbzNCT6jpMRjdpyDtfD8Vz0D9b84T7GX7
+JqXO58B5W1uX77u/cH4DRRyz95L09w==
+=So0o
+-----END PGP SIGNATURE-----
+
+--PzNE479XKk6bVRrd--
+
 
