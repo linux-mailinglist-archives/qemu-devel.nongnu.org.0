@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FEE250F36A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 10:08:24 +0200 (CEST)
-Received: from localhost ([::1]:60476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E74250F37D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 10:14:38 +0200 (CEST)
+Received: from localhost ([::1]:39166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njGFD-0004Za-K4
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 04:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60212)
+	id 1njGLE-0001g3-TS
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 04:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1njG8L-0001OE-Ph
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 04:01:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27665)
+ id 1njGHv-000091-60
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 04:11:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1njG8G-000166-7t
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 04:01:17 -0400
+ id 1njGHt-0002Y3-A8
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 04:11:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650960071;
+ s=mimecast20190719; t=1650960667;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KPYF6DMXqMVM3EQlHZ0xwqfSdr8iMKfmmFcSMWLSJIg=;
- b=K1qMUtLFhYRF1t7LPyskvzNSKeoJnS+oZ4rnfPvfi8tdJI60mSE0jTlMWZYy1LE/ahqRjm
- VukVwenG0OpFvt+rHuxXUHVAoh9KxiFdJWlsuxXcchthK940cvnYod/UJm/eucRWtM+Qdc
- cFhk5wXBapm7P5PJFqWYdPeeK/OOOIo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=XuqhaXGZBVq6PmA6B1OrGvDhdLPKzrLHKFkL1qwN+t4=;
+ b=fcSS0Ev4Al5501pGHSju3Cy/UI0yAdIpzyS28XGXrgEVM21PtgqgdaVXbvqQZOq6DJJ1os
+ lKYlIDV3SUVaC583BKmsS8A0FR57FOSYrCbR9V0RJ670VKWu9VHFjuCT/p3EK0NVgzv9W3
+ 173wVjNJ5xzSRHn/agPtEiBb0h8M62A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490--GIR0SYGN66MeBcWvLjXdQ-1; Tue, 26 Apr 2022 04:01:08 -0400
-X-MC-Unique: -GIR0SYGN66MeBcWvLjXdQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-149-W6vWJgOjNkubg7huBkyYlA-1; Tue, 26 Apr 2022 04:11:03 -0400
+X-MC-Unique: W6vWJgOjNkubg7huBkyYlA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA9EA1C08D2B;
- Tue, 26 Apr 2022 08:01:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4AFE885A5A8;
+ Tue, 26 Apr 2022 08:11:03 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A555F4021B7;
- Tue, 26 Apr 2022 08:01:04 +0000 (UTC)
-Date: Tue, 26 Apr 2022 09:01:02 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E2DD2024CB7;
+ Tue, 26 Apr 2022 08:10:26 +0000 (UTC)
+Date: Tue, 26 Apr 2022 09:10:23 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v9 5/7] multifd: multifd_send_sync_main now returns
- negative on error
-Message-ID: <Ymemvr2URRkZcEiM@redhat.com>
+Subject: Re: [PATCH v9 6/7] multifd: Send header packet without flags if
+ zero-copy-send is enabled
+Message-ID: <Ymeo74XfWOwe2Nob@redhat.com>
 References: <20220425215055.611825-1-leobras@redhat.com>
- <20220425215055.611825-6-leobras@redhat.com>
+ <20220425215055.611825-7-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220425215055.611825-6-leobras@redhat.com>
+In-Reply-To: <20220425215055.611825-7-leobras@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -92,26 +89,110 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 25, 2022 at 06:50:54PM -0300, Leonardo Bras wrote:
-> Even though multifd_send_sync_main() currently emits error_reports, it's
-> callers don't really check it before continuing.
+On Mon, Apr 25, 2022 at 06:50:55PM -0300, Leonardo Bras wrote:
+> Since d48c3a0445 ("multifd: Use a single writev on the send side"),
+> sending the header packet and the memory pages happens in the same
+> writev, which can potentially make the migration faster.
 > 
-> Change multifd_send_sync_main() to return -1 on error and 0 on success.
-> Also change all it's callers to make use of this change and possibly fail
-> earlier.
+> Using channel-socket as example, this works well with the default copying
+> mechanism of sendmsg(), but with zero-copy-send=true, it will cause
+> the migration to often break.
 > 
-> (This change is important to next patch on  multifd zero copy
-> implementation, to make it sure an error in zero-copy flush does not go
-> unnoticed.
+> This happens because the header packet buffer gets reused quite often,
+> and there is a high chance that by the time the MSG_ZEROCOPY mechanism get
+> to send the buffer, it has already changed, sending the wrong data and
+> causing the migration to abort.
+> 
+> It means that, as it is, the buffer for the header packet is not suitable
+> for sending with MSG_ZEROCOPY.
+> 
+> In order to enable zero copy for multifd, send the header packet on an
+> individual write(), without any flags, and the remanining pages with a
+> writev(), as it was happening before. This only changes how a migration
+> with zero-copy-send=true works, not changing any current behavior for
+> migrations with zero-copy-send=false.
 > 
 > Signed-off-by: Leonardo Bras <leobras@redhat.com>
 > ---
->  migration/multifd.h |  2 +-
->  migration/multifd.c | 10 ++++++----
->  migration/ram.c     | 29 ++++++++++++++++++++++-------
->  3 files changed, 29 insertions(+), 12 deletions(-)
+>  migration/multifd.c | 29 ++++++++++++++++++++++++++---
+>  1 file changed, 26 insertions(+), 3 deletions(-)
+> 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 15fb668e64..6c940aaa98 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -639,6 +639,8 @@ static void *multifd_send_thread(void *opaque)
+>          if (p->pending_job) {
+>              uint64_t packet_num = p->packet_num;
+>              uint32_t flags = p->flags;
+> +            int iov_offset = 0;
+> +
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+No need for this if you change:
+
+>              p->iovs_num = 1;
+
+   if (!migrate_use_zero_copy_send()) {
+      p->iovs_num = 1;
+   }
+
+
+>              p->normal_num = 0;
+>  
+> @@ -665,15 +667,36 @@ static void *multifd_send_thread(void *opaque)
+>              trace_multifd_send(p->id, packet_num, p->normal_num, flags,
+>                                 p->next_packet_size);
+>  
+> -            p->iov[0].iov_len = p->packet_len;
+> -            p->iov[0].iov_base = p->packet;
+> +            if (migrate_use_zero_copy_send()) {
+> +                /* Send header without zerocopy */
+> +                ret = qio_channel_write_all(p->c, (void *)p->packet,
+> +                                            p->packet_len, &local_err);
+> +                if (ret != 0) {
+> +                    break;
+> +                }
+> +
+> +                if (!p->normal_num) {
+> +                    /* No pages will be sent */
+> +                    goto skip_send;
+> +                }
+
+Don't need this AFAIK, because the qio_channel_writev_all
+call will be a no-op if  iovs_num is zero
+
+>  
+> -            ret = qio_channel_writev_all(p->c, p->iov, p->iovs_num,
+> +                /* Skip first iov : header */
+> +                iov_offset = 1;
+
+Don't need to set this
+
+> +            } else {
+> +                /* Send header using the same writev call */
+> +                p->iov[0].iov_len = p->packet_len;
+> +                p->iov[0].iov_base = p->packet;
+> +            }
+> +
+> +            ret = qio_channel_writev_all(p->c, p->iov + iov_offset,
+> +                                         p->iovs_num - iov_offset,
+>                                           &local_err);
+
+This wouldn't need changing if we don't reserve iovs[0] when
+not required.
+
+> +
+>              if (ret != 0) {
+>                  break;
+>              }
+>  
+> +skip_send:
+>              qemu_mutex_lock(&p->mutex);
+>              p->pending_job--;
+>              qemu_mutex_unlock(&p->mutex);
+> -- 
+> 2.36.0
+> 
 
 With regards,
 Daniel
