@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF8850FBC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:14:50 +0200 (CEST)
-Received: from localhost ([::1]:33464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88ED850FBDA
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:19:10 +0200 (CEST)
+Received: from localhost ([::1]:42426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njJ9d-0001FS-7h
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:14:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43946)
+	id 1njJDp-0007WD-KF
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzW-0004gJ-Hj
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26345)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1njJ9R-0002kZ-6F
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:14:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzU-0004YE-Ua
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:22 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1njJ9M-0006kq-Sw
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:14:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650971060;
+ s=mimecast20190719; t=1650971672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n8AIRST/QZMvSd7Xmn5iUy05ODB++l+Z4/5lqqOMYms=;
- b=YKDplpzRCaic4VOOH+rYD1gdRS8mj1S8+4e86kv80STKl0aZJ0o7Om0HGaj4EJwSzsBXqt
- C5eDtXwNSpLiCefZmdvVNRvshNI1nf1tXjmj2bKkQNFbOc3DPI1nrXcP9qAVi7z30q3iA2
- vnT/taplU8KVv2ZxPK974gu2kkO2lV0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xhXmZG5iZwTn6+1S5FYN5Jbjka1XBNynfo9Fvu3C/hI=;
+ b=hqTGIjdChRoQG0KgvCGgdOtqINWxkQlXcJ2iiL1Dv6JtdONAaHAymQasV1eCSs0hj1ysxk
+ Box8jFUePgybsGhvqSwrLlj63yXn7uLF7DaH20AA8bs0P8ddD5d3zB6P4rUCQdSEpDJdIW
+ q8uq/TDI/tIBcavgO8rvRtMj4Vy7QDo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103-Ke88ILt3NXadEAOayroF2A-1; Tue, 26 Apr 2022 07:04:17 -0400
-X-MC-Unique: Ke88ILt3NXadEAOayroF2A-1
+ us-mta-155-53eJRkoOMYapuML_bQyzWw-1; Tue, 26 Apr 2022 07:14:30 -0400
+X-MC-Unique: 53eJRkoOMYapuML_bQyzWw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C027729ABA13;
- Tue, 26 Apr 2022 11:04:16 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89203463ECD;
- Tue, 26 Apr 2022 11:04:16 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A8AAE1800920; Tue, 26 Apr 2022 13:03:59 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 9/9] i386: firmware parsing and sev setup for -bios loaded
- firmware
-Date: Tue, 26 Apr 2022 13:03:57 +0200
-Message-Id: <20220426110358.1570723-10-kraxel@redhat.com>
-In-Reply-To: <20220426110358.1570723-1-kraxel@redhat.com>
-References: <20220426110358.1570723-1-kraxel@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 68B1586B8A0
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:14:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D443463DF7;
+ Tue, 26 Apr 2022 11:14:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0643B21E6A1F; Tue, 26 Apr 2022 13:14:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Subject: Re: [RFC PATCH v1 0/8] qapi: add generator for Golang interface
+References: <20220401224104.145961-1-victortoso@redhat.com>
+Date: Tue, 26 Apr 2022 13:14:28 +0200
+In-Reply-To: <20220401224104.145961-1-victortoso@redhat.com> (Victor Toso's
+ message of "Sat, 2 Apr 2022 00:40:56 +0200")
+Message-ID: <87bkwonlkb.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -76,67 +75,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Xiaoyao Li <xiaoyao.li@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't register firmware as rom, not needed (see comment).
-Add x86_firmware_configure() call for proper sev initialization.
+Victor Toso <victortoso@redhat.com> writes:
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20220425135051.551037-4-kraxel@redhat.com>
----
- hw/i386/x86.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+> Hi,
+>
+> Happy 1st April. Not a joke :) /* ugh, took me too long to send */
+>
+> This series is about adding a generator in scripts/qapi to produce
+> Go data structures that can be used to communicate with QEMU over
+> QMP.
+>
+>
+> * Why Go?
+>
+> There are quite a few Go projects that interact with QEMU over QMP
+> and they endup using a mix of different libraries with their own
+> code.
+>
+>
+> ** Which projects?
+>
+> The ones I've found so far:
+>
+> - podman machine
+>   https://github.com/containers/podman/tree/main/pkg/machine/qemu
+>
+> - kata-containers (govmm)
+>   https://github.com/kata-containers/kata-containers/tree/main/src/runtime/pkg/govmm
+>
+> - lxd
+>   https://github.com/lxc/lxd/tree/master/lxd/instance/drivers
+>
+> - kubevirt (plain json strings)
+>   https://github.com/kubevirt/kubevirt
+>
+> (let me know if you know others)
+>
+>
+> * But Why?
+>
+> I'm particularly interested in 3 out of 4 of the projects above and
+> only Kubevirt uses libvirt to handle QEMU. That means that every
+> QEMU releases where a QMP command, event or other data struct is
+> added, removed or changed, those projects need to check what changed
+> in QEMU and then address those changes in their projects, if needed.
+>
+> The idea behind generating Go data structures is that we can keep a
+> Go module which can have releases that follow QEMU releases.
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index ced31f67b9a8..79ebdface6e2 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1115,12 +1115,25 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
-     }
-     bios = g_malloc(sizeof(*bios));
-     memory_region_init_ram(bios, NULL, "pc.bios", bios_size, &error_fatal);
--    if (!isapc_ram_fw) {
--        memory_region_set_readonly(bios, true);
--    }
--    ret = rom_add_file_fixed(bios_name, (uint32_t)(-bios_size), -1);
--    if (ret != 0) {
--        goto bios_error;
-+    if (sev_enabled()) {
-+        /*
-+         * The concept of a "reset" simply doesn't exist for
-+         * confidential computing guests, we have to destroy and
-+         * re-launch them instead.  So there is no need to register
-+         * the firmware as rom to properly re-initialize on reset.
-+         * Just go for a straight file load instead.
-+         */
-+        void *ptr = memory_region_get_ram_ptr(bios);
-+        load_image_size(filename, ptr, bios_size);
-+        x86_firmware_configure(ptr, bios_size);
-+    } else {
-+        if (!isapc_ram_fw) {
-+            memory_region_set_readonly(bios, true);
-+        }
-+        ret = rom_add_file_fixed(bios_name, (uint32_t)(-bios_size), -1);
-+        if (ret != 0) {
-+            goto bios_error;
-+        }
-     }
-     g_free(filename);
- 
--- 
-2.35.1
+We need to look at "following the QEMU releases" a bit more closely.
+
+Merging your patches gives us the capability to generate a Go interface
+to HEAD's version of QMP.
+
+The obvious way for an out-of-tree Go program to use this generated Go
+interface is to build with a specific version of it.  It can then talk
+QMP to any compatible QEMU version.
+
+Compatibility with older QEMUs is not assured: stuff added since is
+present on the Go QMP client end, but not on the QEMU QMP server end.
+
+Compatibility with newer QEMUs is subject to our deprecation policy:
+
+    In general features are intended to be supported indefinitely once
+    introduced into QEMU.  In the event that a feature needs to be
+    removed, it will be listed in this section.  The feature will remain
+    functional for the release in which it was deprecated and one
+    further release.  After these two releases, the feature is liable to
+    be removed.
+
+So, if you stay away from deprecated stuff, you're good for two more
+releases at least.
+
+Does this work for the projects you have in mind?
+
+Aside: graceful degradation in case of incompatibility seems desirable.
+
+> The project that uses this Go module, only need to bump the module
+> version and it shall receive all the changes in their own vendored
+> code base.
+
+Ideally, incompatible changes that affect the Go program show up as
+compile errors.  Do they?
+
+> * Status
+>
+> There are a few rough edges to work on but this is usable. The major
+> thing I forgot to add is handling Error from Commands. It'll be the
+> first thing I'll work on next week.
+>
+> If you want to start using this Today you can fetch it in at
+>
+>     https://gitlab.com/victortoso/qapi-go/
+>
+> There are quite a few tests that I took from the examples in the
+> qapi schema. Coverage using go's cover tool is giving `28.6% of
+> statements`
+>
+> I've uploaded the a static generated godoc output of the above Go
+> module here:
+>
+>     https://fedorapeople.org/~victortoso/qapi-go/rfc/victortoso.com/qapi-go/pkg/qapi/
+>
+>
+> * License
+>
+> While the generator (golang.py in this series) is GPL v2, the
+
+I'd make it v2+, just to express my displeasure with the decision to
+make the initial QAPI generator v2 only for no good reason at all.
+
+> generated code needs to be compatible with other Golang projects,
+> such as the ones mentioned above. My intention is to keep a Go
+> module with a MIT license.
+
+Meh.  Can't be helped, I guess.
+
+> * Disclaimer to reviewers
+>
+> This is my first serious python project so there'll be lots of
+> suggetions that I'll be happy to take and learn from.
+>
+>
+> Thanks for taking a look, let me know if you have questions, ideas
+> or suggestions.
+>
+> Cheers,
+> Victor
 
 
