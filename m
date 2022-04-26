@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69B450FBB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:09:13 +0200 (CEST)
-Received: from localhost ([::1]:50188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A6250FBD7
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:18:20 +0200 (CEST)
+Received: from localhost ([::1]:40482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njJ4D-0001D8-30
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:09:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43814)
+	id 1njJD1-0006EX-CX
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:18:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzJ-0004Zk-IE
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21482)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzj-0004xd-Lr
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzF-0004VG-J8
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:08 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzf-0004Yp-7T
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650971045;
+ s=mimecast20190719; t=1650971070;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+I1ngTZVLqcdmFgdt6x0Rr5TgDsIKRVdOnKz0z1zUdU=;
- b=d07Noj1ZFqk/0o3LDBi1ZgSYM0vhm7XSGjEO57oor/dJ3SOtHWUin7UGGTFyZzv6TZ4fn5
- Tjxc/BFiMlFBaKu1jQwEhA++ZpTQ+MDXe1qvRSKp1w3JF3R6dW/N2ng+RbXCTLufOfKmf7
- gTXcsBAdTxexXhkCQXjvSZWOkto9emg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=98j8qiT91Vb8seAfv03Kw8HQOkGmbfgKG/QLFVtoXss=;
+ b=LmoSQKvUtLB/CRHyr1YNN6HyDaoorAkfdtnEflcU6FuBanFfaXiag40wV+Vqimx/wNN3ob
+ SZ6YgiqrrvqsktO00PckTiJC0D8UD3D1vhVNLYmU3qp2Z1vrTcvZ+5BgrUHncatcP/5kbC
+ YJy0DhHKh/7gYeEsmtDGnOVlvDJTU8k=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-468-ga8hqbJVN46NINE1LPmPtA-1; Tue, 26 Apr 2022 07:04:02 -0400
-X-MC-Unique: ga8hqbJVN46NINE1LPmPtA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-540-GEh6o5Z9Pam0FRtZUNo-vg-1; Tue, 26 Apr 2022 07:04:27 -0400
+X-MC-Unique: GEh6o5Z9Pam0FRtZUNo-vg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6BA0800882;
- Tue, 26 Apr 2022 11:04:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ACCE93803902;
+ Tue, 26 Apr 2022 11:04:26 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B949C15D75;
- Tue, 26 Apr 2022 11:04:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E4482166B2F;
+ Tue, 26 Apr 2022 11:04:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BBCB9180078D; Tue, 26 Apr 2022 13:03:58 +0200 (CEST)
+ id DE71A1800794; Tue, 26 Apr 2022 13:03:58 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] Added parameter to take screenshot with screendump as PNG
-Date: Tue, 26 Apr 2022 13:03:51 +0200
-Message-Id: <20220426110358.1570723-4-kraxel@redhat.com>
+Subject: [PULL 4/9] ui/vnc: refactor arrays of addresses to SocketAddressList
+Date: Tue, 26 Apr 2022 13:03:52 +0200
+Message-Id: <20220426110358.1570723-5-kraxel@redhat.com>
 In-Reply-To: <20220426110358.1570723-1-kraxel@redhat.com>
 References: <20220426110358.1570723-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -75,276 +75,307 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Kshitij Suri <kshitij.suri@nutanix.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kshitij Suri <kshitij.suri@nutanix.com>
+From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 
-Currently screendump only supports PPM format, which is un-compressed. Added
-a "format" parameter to QMP and HMP screendump command to support PNG image
-capture using libpng.
+Let's use SocketAddressList instead of dynamic arrays.
+Benefits:
+ - Automatic cleanup: don't need specific freeing function and drop
+   some gotos.
+ - Less indirection: no triple asterix anymore!
+ - Prepare for the following commit, which will reuse new interface of
+   vnc_display_listen().
 
-QMP example usage:
-{ "execute": "screendump", "arguments": { "filename": "/tmp/image",
-"format":"png" } }
-
-HMP example usage:
-screendump /tmp/image -f png
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/718
-
-Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
-
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20220408071336.99839-3-kshitij.suri@nutanix.com>
+Message-Id: <20220401143936.356460-2-vsementsov@openvz.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- monitor/hmp-cmds.c |  12 +++++-
- ui/console.c       | 101 +++++++++++++++++++++++++++++++++++++++++++--
- hmp-commands.hx    |  11 ++---
- qapi/ui.json       |  24 +++++++++--
- 4 files changed, 136 insertions(+), 12 deletions(-)
+ ui/vnc.c | 129 ++++++++++++++++++++++---------------------------------
+ 1 file changed, 51 insertions(+), 78 deletions(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 634968498b58..2442bfa98984 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1720,9 +1720,19 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
-     const char *filename = qdict_get_str(qdict, "filename");
-     const char *id = qdict_get_try_str(qdict, "device");
-     int64_t head = qdict_get_try_int(qdict, "head", 0);
-+    const char *input_format  = qdict_get_try_str(qdict, "format");
-     Error *err = NULL;
-+    ImageFormat format;
- 
--    qmp_screendump(filename, id != NULL, id, id != NULL, head, &err);
-+    format = qapi_enum_parse(&ImageFormat_lookup, input_format,
-+                              IMAGE_FORMAT_PPM, &err);
-+    if (err) {
-+        goto end;
-+    }
-+
-+    qmp_screendump(filename, id != NULL, id, id != NULL, head,
-+                   input_format != NULL, format, &err);
-+end:
-     hmp_handle_error(mon, err);
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 7d55e1500a42..77a660fccb3f 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -3820,30 +3820,19 @@ static int vnc_display_get_address(const char *addrstr,
+     return ret;
  }
  
-diff --git a/ui/console.c b/ui/console.c
-index 1752f2ec8897..15d0f6affd4c 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -37,6 +37,9 @@
- #include "exec/memory.h"
- #include "io/channel-file.h"
- #include "qom/object.h"
-+#ifdef CONFIG_PNG
-+#include <png.h>
-+#endif
+-static void vnc_free_addresses(SocketAddress ***retsaddr,
+-                               size_t *retnsaddr)
+-{
+-    size_t i;
+-
+-    for (i = 0; i < *retnsaddr; i++) {
+-        qapi_free_SocketAddress((*retsaddr)[i]);
+-    }
+-    g_free(*retsaddr);
+-
+-    *retsaddr = NULL;
+-    *retnsaddr = 0;
+-}
+-
+ static int vnc_display_get_addresses(QemuOpts *opts,
+                                      bool reverse,
+-                                     SocketAddress ***retsaddr,
+-                                     size_t *retnsaddr,
+-                                     SocketAddress ***retwsaddr,
+-                                     size_t *retnwsaddr,
++                                     SocketAddressList **saddr_list_ret,
++                                     SocketAddressList **wsaddr_list_ret,
+                                      Error **errp)
+ {
+     SocketAddress *saddr = NULL;
+     SocketAddress *wsaddr = NULL;
++    g_autoptr(SocketAddressList) saddr_list = NULL;
++    SocketAddressList **saddr_tail = &saddr_list;
++    SocketAddress *single_saddr = NULL;
++    g_autoptr(SocketAddressList) wsaddr_list = NULL;
++    SocketAddressList **wsaddr_tail = &wsaddr_list;
+     QemuOptsIter addriter;
+     const char *addr;
+     int to = qemu_opt_get_number(opts, "to", 0);
+@@ -3852,23 +3841,16 @@ static int vnc_display_get_addresses(QemuOpts *opts,
+     bool ipv4 = qemu_opt_get_bool(opts, "ipv4", false);
+     bool ipv6 = qemu_opt_get_bool(opts, "ipv6", false);
+     int displaynum = -1;
+-    int ret = -1;
+-
+-    *retsaddr = NULL;
+-    *retnsaddr = 0;
+-    *retwsaddr = NULL;
+-    *retnwsaddr = 0;
  
- #define DEFAULT_BACKSCROLL 512
- #define CONSOLE_CURSOR_PERIOD 500
-@@ -291,6 +294,89 @@ void graphic_hw_invalidate(QemuConsole *con)
+     addr = qemu_opt_get(opts, "vnc");
+     if (addr == NULL || g_str_equal(addr, "none")) {
+-        ret = 0;
+-        goto cleanup;
++        return 0;
      }
- }
+     if (qemu_opt_get(opts, "websocket") &&
+         !qcrypto_hash_supports(QCRYPTO_HASH_ALG_SHA1)) {
+         error_setg(errp,
+                    "SHA1 hash support is required for websockets");
+-        goto cleanup;
++        return -1;
+     }
  
-+#ifdef CONFIG_PNG
-+/**
-+ * png_save: Take a screenshot as PNG
-+ *
-+ * Saves screendump as a PNG file
-+ *
-+ * Returns true for success or false for error.
-+ *
-+ * @fd: File descriptor for PNG file.
-+ * @image: Image data in pixman format.
-+ * @errp: Pointer to an error.
-+ */
-+static bool png_save(int fd, pixman_image_t *image, Error **errp)
-+{
-+    int width = pixman_image_get_width(image);
-+    int height = pixman_image_get_height(image);
-+    g_autofree png_struct *png_ptr = NULL;
-+    g_autofree png_info *info_ptr = NULL;
-+    g_autoptr(pixman_image_t) linebuf =
-+                            qemu_pixman_linebuf_create(PIXMAN_a8r8g8b8, width);
-+    uint8_t *buf = (uint8_t *)pixman_image_get_data(linebuf);
-+    FILE *f = fdopen(fd, "wb");
-+    int y;
-+    if (!f) {
-+        error_setg_errno(errp, errno,
-+                         "Failed to create file from file descriptor");
-+        return false;
-+    }
-+
-+    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL,
-+                                      NULL, NULL);
-+    if (!png_ptr) {
-+        error_setg(errp, "PNG creation failed. Unable to write struct");
-+        fclose(f);
-+        return false;
-+    }
-+
-+    info_ptr = png_create_info_struct(png_ptr);
-+
-+    if (!info_ptr) {
-+        error_setg(errp, "PNG creation failed. Unable to write info");
-+        fclose(f);
-+        png_destroy_write_struct(&png_ptr, &info_ptr);
-+        return false;
-+    }
-+
-+    png_init_io(png_ptr, f);
-+
-+    png_set_IHDR(png_ptr, info_ptr, width, height, 8,
-+                 PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
-+                 PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
-+
-+    png_write_info(png_ptr, info_ptr);
-+
-+    for (y = 0; y < height; ++y) {
-+        qemu_pixman_linebuf_fill(linebuf, image, width, 0, y);
-+        png_write_row(png_ptr, buf);
-+    }
-+    qemu_pixman_image_unref(linebuf);
-+
-+    png_write_end(png_ptr, NULL);
-+
-+    png_destroy_write_struct(&png_ptr, &info_ptr);
-+
-+    if (fclose(f) != 0) {
-+        error_setg_errno(errp, errno,
-+                         "PNG creation failed. Unable to close file");
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+#else /* no png support */
-+
-+static bool png_save(int fd, pixman_image_t *image, Error **errp)
-+{
-+    error_setg(errp, "Enable PNG support with libpng for screendump");
-+    return false;
-+}
-+
-+#endif /* CONFIG_PNG */
-+
- static bool ppm_save(int fd, pixman_image_t *image, Error **errp)
- {
-     int width = pixman_image_get_width(image);
-@@ -329,7 +415,8 @@ static void graphic_hw_update_bh(void *con)
- /* Safety: coroutine-only, concurrent-coroutine safe, main thread only */
- void coroutine_fn
- qmp_screendump(const char *filename, bool has_device, const char *device,
--               bool has_head, int64_t head, Error **errp)
-+               bool has_head, int64_t head,
-+               bool has_format, ImageFormat format, Error **errp)
- {
-     g_autoptr(pixman_image_t) image = NULL;
-     QemuConsole *con;
-@@ -385,8 +472,16 @@ qmp_screendump(const char *filename, bool has_device, const char *device,
-      * yields and releases the BQL. It could produce corrupted dump, but
-      * it should be otherwise safe.
-      */
--    if (!ppm_save(fd, image, errp)) {
--        qemu_unlink(filename);
-+    if (has_format && format == IMAGE_FORMAT_PNG) {
-+        /* PNG format specified for screendump */
-+        if (!png_save(fd, image, errp)) {
-+            qemu_unlink(filename);
-+        }
+     qemu_opt_iter_init(&addriter, opts, "vnc");
+@@ -3879,7 +3861,7 @@ static int vnc_display_get_addresses(QemuOpts *opts,
+                                      ipv4, ipv6,
+                                      &saddr, errp);
+         if (rv < 0) {
+-            goto cleanup;
++            return -1;
+         }
+         /* Historical compat - first listen address can be used
+          * to set the default websocket port
+@@ -3887,13 +3869,16 @@ static int vnc_display_get_addresses(QemuOpts *opts,
+         if (displaynum == -1) {
+             displaynum = rv;
+         }
+-        *retsaddr = g_renew(SocketAddress *, *retsaddr, *retnsaddr + 1);
+-        (*retsaddr)[(*retnsaddr)++] = saddr;
++        QAPI_LIST_APPEND(saddr_tail, saddr);
+     }
+ 
+-    /* If we had multiple primary displays, we don't do defaults
+-     * for websocket, and require explicit config instead. */
+-    if (*retnsaddr > 1) {
++    if (saddr_list && !saddr_list->next) {
++        single_saddr = saddr_list->value;
 +    } else {
-+        /* PPM format specified/default for screendump */
-+        if (!ppm_save(fd, image, errp)) {
-+            qemu_unlink(filename);
-+        }
++        /*
++         * If we had multiple primary displays, we don't do defaults
++         * for websocket, and require explicit config instead.
++         */
+         displaynum = -1;
      }
+ 
+@@ -3903,57 +3888,50 @@ static int vnc_display_get_addresses(QemuOpts *opts,
+                                     has_ipv4, has_ipv6,
+                                     ipv4, ipv6,
+                                     &wsaddr, errp) < 0) {
+-            goto cleanup;
++            return -1;
+         }
+ 
+         /* Historical compat - if only a single listen address was
+          * provided, then this is used to set the default listen
+          * address for websocket too
+          */
+-        if (*retnsaddr == 1 &&
+-            (*retsaddr)[0]->type == SOCKET_ADDRESS_TYPE_INET &&
++        if (single_saddr &&
++            single_saddr->type == SOCKET_ADDRESS_TYPE_INET &&
+             wsaddr->type == SOCKET_ADDRESS_TYPE_INET &&
+             g_str_equal(wsaddr->u.inet.host, "") &&
+-            !g_str_equal((*retsaddr)[0]->u.inet.host, "")) {
++            !g_str_equal(single_saddr->u.inet.host, "")) {
+             g_free(wsaddr->u.inet.host);
+-            wsaddr->u.inet.host = g_strdup((*retsaddr)[0]->u.inet.host);
++            wsaddr->u.inet.host = g_strdup(single_saddr->u.inet.host);
+         }
+ 
+-        *retwsaddr = g_renew(SocketAddress *, *retwsaddr, *retnwsaddr + 1);
+-        (*retwsaddr)[(*retnwsaddr)++] = wsaddr;
++        QAPI_LIST_APPEND(wsaddr_tail, wsaddr);
+     }
+ 
+-    ret = 0;
+- cleanup:
+-    if (ret < 0) {
+-        vnc_free_addresses(retsaddr, retnsaddr);
+-        vnc_free_addresses(retwsaddr, retnwsaddr);
+-    }
+-    return ret;
++    *saddr_list_ret = g_steal_pointer(&saddr_list);
++    *wsaddr_list_ret = g_steal_pointer(&wsaddr_list);
++    return 0;
  }
  
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 8476277aa9c9..808020d0051b 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -244,11 +244,12 @@ ERST
+ static int vnc_display_connect(VncDisplay *vd,
+-                               SocketAddress **saddr,
+-                               size_t nsaddr,
+-                               SocketAddress **wsaddr,
+-                               size_t nwsaddr,
++                               SocketAddressList *saddr_list,
++                               SocketAddressList *wsaddr_list,
+                                Error **errp)
+ {
+     /* connect to viewer */
+     QIOChannelSocket *sioc = NULL;
+-    if (nwsaddr != 0) {
++    if (wsaddr_list) {
+         error_setg(errp, "Cannot use websockets in reverse mode");
+         return -1;
+     }
+-    if (nsaddr != 1) {
++    if (!saddr_list || saddr_list->next) {
+         error_setg(errp, "Expected a single address in reverse mode");
+         return -1;
+     }
+     /* TODO SOCKET_ADDRESS_TYPE_FD when fd has AF_UNIX */
+-    vd->is_unix = saddr[0]->type == SOCKET_ADDRESS_TYPE_UNIX;
++    vd->is_unix = saddr_list->value->type == SOCKET_ADDRESS_TYPE_UNIX;
+     sioc = qio_channel_socket_new();
+     qio_channel_set_name(QIO_CHANNEL(sioc), "vnc-reverse");
+-    if (qio_channel_socket_connect_sync(sioc, saddr[0], errp) < 0) {
++    if (qio_channel_socket_connect_sync(sioc, saddr_list->value, errp) < 0) {
+         object_unref(OBJECT(sioc));
+         return -1;
+     }
+@@ -3964,20 +3942,18 @@ static int vnc_display_connect(VncDisplay *vd,
  
-     {
-         .name       = "screendump",
--        .args_type  = "filename:F,device:s?,head:i?",
--        .params     = "filename [device [head]]",
--        .help       = "save screen from head 'head' of display device 'device' "
--                      "into PPM image 'filename'",
--        .cmd        = hmp_screendump,
-+        .args_type  = "filename:F,format:-fs,device:s?,head:i?",
-+        .params     = "filename [-f format] [device [head]]",
-+        .help       = "save screen from head 'head' of display device 'device'"
-+                      "in specified format 'format' as image 'filename'."
-+                      "Currently only 'png' and 'ppm' formats are supported.",
-+         .cmd        = hmp_screendump,
-         .coroutine  = true,
-     },
  
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 13a8bb82aa05..596f37fc37aa 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -157,12 +157,27 @@
- ##
- { 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOptions' }
+ static int vnc_display_listen(VncDisplay *vd,
+-                              SocketAddress **saddr,
+-                              size_t nsaddr,
+-                              SocketAddress **wsaddr,
+-                              size_t nwsaddr,
++                              SocketAddressList *saddr_list,
++                              SocketAddressList *wsaddr_list,
+                               Error **errp)
+ {
+-    size_t i;
++    SocketAddressList *el;
  
-+##
-+# @ImageFormat:
-+#
-+# Supported image format types.
-+#
-+# @png: PNG format
-+#
-+# @ppm: PPM format
-+#
-+# Since: 7.1
-+#
-+##
-+{ 'enum': 'ImageFormat',
-+  'data': ['ppm', 'png'] }
-+
- ##
- # @screendump:
- #
--# Write a PPM of the VGA screen to a file.
-+# Capture the contents of a screen and write it to a file.
- #
--# @filename: the path of a new PPM file to store the image
-+# @filename: the path of a new file to store the image
- #
- # @device: ID of the display device that should be dumped. If this parameter
- #          is missing, the primary display will be used. (Since 2.12)
-@@ -171,6 +186,8 @@
- #        parameter is missing, head #0 will be used. Also note that the head
- #        can only be specified in conjunction with the device ID. (Since 2.12)
- #
-+# @format: image format for screendump. (default: ppm) (Since 7.1)
-+#
- # Returns: Nothing on success
- #
- # Since: 0.14
-@@ -183,7 +200,8 @@
- #
- ##
- { 'command': 'screendump',
--  'data': {'filename': 'str', '*device': 'str', '*head': 'int'},
-+  'data': {'filename': 'str', '*device': 'str', '*head': 'int',
-+           '*format': 'ImageFormat'},
-   'coroutine': true }
+-    if (nsaddr) {
++    if (saddr_list) {
+         vd->listener = qio_net_listener_new();
+         qio_net_listener_set_name(vd->listener, "vnc-listen");
+-        for (i = 0; i < nsaddr; i++) {
++        for (el = saddr_list; el; el = el->next) {
+             if (qio_net_listener_open_sync(vd->listener,
+-                                           saddr[i], 1,
++                                           el->value, 1,
+                                            errp) < 0)  {
+                 return -1;
+             }
+@@ -3987,12 +3963,12 @@ static int vnc_display_listen(VncDisplay *vd,
+                                          vnc_listen_io, vd, NULL);
+     }
  
- ##
+-    if (nwsaddr) {
++    if (wsaddr_list) {
+         vd->wslistener = qio_net_listener_new();
+         qio_net_listener_set_name(vd->wslistener, "vnc-ws-listen");
+-        for (i = 0; i < nwsaddr; i++) {
++        for (el = wsaddr_list; el; el = el->next) {
+             if (qio_net_listener_open_sync(vd->wslistener,
+-                                           wsaddr[i], 1,
++                                           el->value, 1,
+                                            errp) < 0)  {
+                 return -1;
+             }
+@@ -4010,8 +3986,8 @@ void vnc_display_open(const char *id, Error **errp)
+ {
+     VncDisplay *vd = vnc_display_find(id);
+     QemuOpts *opts = qemu_opts_find(&qemu_vnc_opts, id);
+-    SocketAddress **saddr = NULL, **wsaddr = NULL;
+-    size_t nsaddr, nwsaddr;
++    g_autoptr(SocketAddressList) saddr_list = NULL;
++    g_autoptr(SocketAddressList) wsaddr_list = NULL;
+     const char *share, *device_id;
+     QemuConsole *con;
+     bool password = false;
+@@ -4036,8 +4012,8 @@ void vnc_display_open(const char *id, Error **errp)
+     }
+ 
+     reverse = qemu_opt_get_bool(opts, "reverse", false);
+-    if (vnc_display_get_addresses(opts, reverse, &saddr, &nsaddr,
+-                                  &wsaddr, &nwsaddr, errp) < 0) {
++    if (vnc_display_get_addresses(opts, reverse, &saddr_list, &wsaddr_list,
++                                  errp) < 0) {
+         goto fail;
+     }
+ 
+@@ -4219,16 +4195,16 @@ void vnc_display_open(const char *id, Error **errp)
+     }
+     qkbd_state_set_delay(vd->kbd, key_delay_ms);
+ 
+-    if (saddr == NULL) {
+-        goto cleanup;
++    if (saddr_list == NULL) {
++        return;
+     }
+ 
+     if (reverse) {
+-        if (vnc_display_connect(vd, saddr, nsaddr, wsaddr, nwsaddr, errp) < 0) {
++        if (vnc_display_connect(vd, saddr_list, wsaddr_list, errp) < 0) {
+             goto fail;
+         }
+     } else {
+-        if (vnc_display_listen(vd, saddr, nsaddr, wsaddr, nwsaddr, errp) < 0) {
++        if (vnc_display_listen(vd, saddr_list, wsaddr_list, errp) < 0) {
+             goto fail;
+         }
+     }
+@@ -4237,14 +4213,11 @@ void vnc_display_open(const char *id, Error **errp)
+         vnc_display_print_local_addr(vd);
+     }
+ 
+- cleanup:
+-    vnc_free_addresses(&saddr, &nsaddr);
+-    vnc_free_addresses(&wsaddr, &nwsaddr);
++    /* Success */
+     return;
+ 
+ fail:
+     vnc_display_close(vd);
+-    goto cleanup;
+ }
+ 
+ void vnc_display_add_client(const char *id, int csock, bool skipauth)
 -- 
 2.35.1
 
