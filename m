@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2703A510B74
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 23:40:00 +0200 (CEST)
-Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 160B9510BA6
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 00:02:39 +0200 (CEST)
+Received: from localhost ([::1]:50550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njSud-0006kX-0r
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 17:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58710)
+	id 1njTGY-0003lj-IW
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 18:02:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njStU-0005d8-B2
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 17:38:48 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:35777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njStS-0003q4-6q
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 17:38:47 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id d15so16973584plh.2
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 14:38:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:references:in-reply-to:content-transfer-encoding;
- bh=3PxYc6tuCIstamZIsLVo8MYWHX7t4sYUOeVRQ/4pcy8=;
- b=ylVvd1e/Q5Lqvho2l6lA+n2i1/X3NKU5dh6mzbvSDsMenzScXRDpY3INHioWJfRbmk
- THu0LorvJjvAVofKFzzGpO8y4VP1//dhQyoxiaSTSLtPuu4dLDtErnThiV9g4P9igPTb
- e5CPbTNM+32WuF0E8cTX70hfOv1iSX8iBFRUvDd99iZ883RN7hbVv4AdRpKBOPl2Qzmk
- 177dTc63TdjtPm1lonlbApLz9OfGZ60YDGviAUE6UkoKCaVa/kQdnuTseOSgsu63b6m2
- GBwojtxmioARQpLZtPDE/wUymurwJOe3F7AoUcp864QCrxpZOUWRzA+wazYnFPuCLUyV
- Xmrw==
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1njTDz-0002p7-UL
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 18:00:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1njTDw-0006xA-LU
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 17:59:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651010394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QuCGT20pdrEHxS9Vpx5vOkUvui9Ney2ypJWANff9OOM=;
+ b=JGBpJcaPjySTqbuQtYg+GG49YcTYTGSyGFlAwzh5dN776MsEOEn+OlTYT5GKtNya4O4X4j
+ TwzYUDWx+GA2KsDBaWsgTpnzLXhP+/jTCNqbW7gNcWGlQ6Q+EUnYK6gotIu2gDxzCsuXG0
+ 4gBH/Ohd3G7C7LD4VEHOJCngjwBgF1Q=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-628-TrGiq4sHP-SwaugWjZq7sw-1; Tue, 26 Apr 2022 17:59:53 -0400
+X-MC-Unique: TrGiq4sHP-SwaugWjZq7sw-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ z15-20020a2e8e8f000000b0024f13acbbf1so59470ljk.13
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 14:59:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:references:in-reply-to
- :content-transfer-encoding;
- bh=3PxYc6tuCIstamZIsLVo8MYWHX7t4sYUOeVRQ/4pcy8=;
- b=iYpBLDGMb0UpTvonWPJmxfyx4lP+yjBqpnJ0nX2pMbVpuQOecgQtsIM07HRStob4lL
- gHci6Lw61gTRygVDUPADXPwHVIPi77BUuCySXo9DnhGD3F+h3u52n8QmO0nRjBZ/wADP
- uO5ktYHm5ea+WCvt9nyZxckSO74zWpmTViQgMSubFnoxTCGUwTpaHUwh5Tat/nV0cYgL
- nq4LetZRzMYXKG5wmQa2GBbLSqalnAsjxhOK2iq43IOT2EdL1XM5CE/vWfYEk9WdqBem
- 9Lq3bU0Q/T2Qplw1kVjrdmESj9hSqwQwh3lBCnkdrRNl4shmTEdl762u0y1iolcICEMX
- ySxg==
-X-Gm-Message-State: AOAM532KtJdlgmZ5UAC7L2Po4RdLCzEWB3MRT1Xyd+cdomCAV/xfUlli
- 4VsYJr0ubrE9AUHmgUN8WxBHOIm/xUcZmQ==
-X-Google-Smtp-Source: ABdhPJwlaOVqrdRJAYEJNLq1JQJVo2W+ZPAw1ZozKu26Btrut1VeEGymJmyDib2vWnUfmjlJTrd75g==
-X-Received: by 2002:a17:90a:d0c1:b0:1d2:c00a:8656 with SMTP id
- y1-20020a17090ad0c100b001d2c00a8656mr29216517pjw.235.1651009124768; 
- Tue, 26 Apr 2022 14:38:44 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- b4-20020a62a104000000b0050cf012cba1sm16241974pff.91.2022.04.26.14.38.43
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 14:38:44 -0700 (PDT)
-Message-ID: <97700683-6771-a5fe-4b37-7296fab25243@linaro.org>
-Date: Tue, 26 Apr 2022 14:38:42 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QuCGT20pdrEHxS9Vpx5vOkUvui9Ney2ypJWANff9OOM=;
+ b=8BHa1kLhTuLrQRd9d7HJkrR9mNlt3i/t79bA2O0BX6aUHbC+ulhEiU9pOz6UY+NId/
+ sKzLS+F1UqIooxXmwZDSsgzWy/IhN3yjiuH2pLn6mQVBJ+1viHkUS0MHH4OIbku6KA3l
+ igJSvCu9B3Jzxd5IOwl2yFSAjbN2yiobNNyAO3Zj0sdZGX4MzEd6cUdszYzyzUBUsUdb
+ JEDRmh3+jqcf+iranlSG9cpJwHRsJnKRXdVMF9ChkK5fAxL8nzSHCtmYoOGwrtA7Y+5Z
+ iQdgSVzBWIKS/SgTb4IvZDEzrl7L2SJwvWqmolyLC2yBCwgB/CDt75ZOqyg1Qv0v4jTc
+ k9cA==
+X-Gm-Message-State: AOAM530t+x8DlkYI+A7dxKkE04cnUSFCz52LxJwBzLVi6GVurTg3RnrA
+ snqfKfIAtzz33maZ+t72omrnVAPyaYvEDqrLovlPDR/BfTxqONZB5AhsH5EcVwVyGChd256UhSK
+ En/Rp2rvKwdH1fv3R0RQxkBz8XRtJolg=
+X-Received: by 2002:a05:651c:1a22:b0:24d:bb92:502e with SMTP id
+ by34-20020a05651c1a2200b0024dbb92502emr16211724ljb.10.1651010391888; 
+ Tue, 26 Apr 2022 14:59:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsouTaE8qxVAc91XEGynrbFLYkjIxxK+tagaExg7rqRyIep1nsl2elj1dCWNF1TY9Re69lVxTN3jd/jq/Kqgc=
+X-Received: by 2002:a05:651c:1a22:b0:24d:bb92:502e with SMTP id
+ by34-20020a05651c1a2200b0024dbb92502emr16211695ljb.10.1651010391472; Tue, 26
+ Apr 2022 14:59:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PULL 00/68] nios2 patch queue
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20220426181907.103691-1-richard.henderson@linaro.org>
-In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220425215055.611825-1-leobras@redhat.com>
+ <20220425215055.611825-7-leobras@redhat.com>
+ <Ymeo74XfWOwe2Nob@redhat.com>
+In-Reply-To: <Ymeo74XfWOwe2Nob@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Tue, 26 Apr 2022 18:59:40 -0300
+Message-ID: <CAJ6HWG4KhvrrTN4b_nE1HtAYrCGLH=ibqn30ZP=Cwuc6ykoSJw@mail.gmail.com>
+Subject: Re: [PATCH v9 6/7] multifd: Send header packet without flags if
+ zero-copy-send is enabled
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,154 +92,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/26/22 11:17, Richard Henderson wrote:
-> The following changes since commit a1755db71e34df016ffc10aa0727360aae2c6036:
-> 
->    Merge tag 'pull-block-2022-04-25' of https://gitlab.com/hreitz/qemu into staging (2022-04-25 13:35:41 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-nios2-20220426
-> 
-> for you to fetch changes up to 7f176c5a0bcb70492f3b158a36311e75f1eb87d7:
-> 
->    tests/tcg/nios2: Add test-shadow-1 (2022-04-26 08:17:10 -0700)
-> 
-> ----------------------------------------------------------------
-> Fix nios2-linux-user syscalls.
-> Fix nios2-linux-user sigreturn.
-> Enable tests for nios2-linux-user.
-> Remove special handling of SIGSEGV.
-> Check supervisor for eret, bret.
-> Split special registers out of env->regs[].
-> Clean up interrupt processing.
-> Raise unaligned data and destination exceptions.
-> Set TLBMISC fields correctly on exceptions.
-> Prevent writes to read-only or reserved control fields.
-> Use tcg_constant_tl().
-> Implement shadow register sets.
-> Implement external interrupt controller interface.
-> Implement vectored interrupt controller.
-> Enable semihosting tests for nios2-softmmu.
+Hello Daniel, thank you for the feedback!
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+On Tue, Apr 26, 2022 at 5:11 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Mon, Apr 25, 2022 at 06:50:55PM -0300, Leonardo Bras wrote:
+> > Since d48c3a0445 ("multifd: Use a single writev on the send side"),
+> > sending the header packet and the memory pages happens in the same
+> > writev, which can potentially make the migration faster.
+> >
+> > Using channel-socket as example, this works well with the default copyi=
+ng
+> > mechanism of sendmsg(), but with zero-copy-send=3Dtrue, it will cause
+> > the migration to often break.
+> >
+> > This happens because the header packet buffer gets reused quite often,
+> > and there is a high chance that by the time the MSG_ZEROCOPY mechanism =
+get
+> > to send the buffer, it has already changed, sending the wrong data and
+> > causing the migration to abort.
+> >
+> > It means that, as it is, the buffer for the header packet is not suitab=
+le
+> > for sending with MSG_ZEROCOPY.
+> >
+> > In order to enable zero copy for multifd, send the header packet on an
+> > individual write(), without any flags, and the remanining pages with a
+> > writev(), as it was happening before. This only changes how a migration
+> > with zero-copy-send=3Dtrue works, not changing any current behavior for
+> > migrations with zero-copy-send=3Dfalse.
+> >
+> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > ---
+> >  migration/multifd.c | 29 ++++++++++++++++++++++++++---
+> >  1 file changed, 26 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/migration/multifd.c b/migration/multifd.c
+> > index 15fb668e64..6c940aaa98 100644
+> > --- a/migration/multifd.c
+> > +++ b/migration/multifd.c
+> > @@ -639,6 +639,8 @@ static void *multifd_send_thread(void *opaque)
+> >          if (p->pending_job) {
+> >              uint64_t packet_num =3D p->packet_num;
+> >              uint32_t flags =3D p->flags;
+> > +            int iov_offset =3D 0;
+> > +
+>
+> No need for this if you change:
+>
+> >              p->iovs_num =3D 1;
+>
+>    if (!migrate_use_zero_copy_send()) {
+>       p->iovs_num =3D 1;
+>    }
+>
+
+I understand the point now: setting p->iovs_num =3D 0 before
+multifd_send_state->ops->send_prepare() causes p->iov[0] to be used for
+pages instead of the header. I was not aware, so thanks for pointing that o=
+ut!
+
+But it's also necessary to have an else clause with p->iovs_num =3D 0, righ=
+t?
+It seems like the variable is not set anywhere else, and it would keep grow=
+ing
+after the second loop iteration, causing prepare() to access p->iov[]
+outside bounds.
+
+Am I missing something here?
+
+>
+> >              p->normal_num =3D 0;
+> >
+> > @@ -665,15 +667,36 @@ static void *multifd_send_thread(void *opaque)
+> >              trace_multifd_send(p->id, packet_num, p->normal_num, flags=
+,
+> >                                 p->next_packet_size);
+> >
+> > -            p->iov[0].iov_len =3D p->packet_len;
+> > -            p->iov[0].iov_base =3D p->packet;
+> > +            if (migrate_use_zero_copy_send()) {
+> > +                /* Send header without zerocopy */
+> > +                ret =3D qio_channel_write_all(p->c, (void *)p->packet,
+> > +                                            p->packet_len, &local_err)=
+;
+> > +                if (ret !=3D 0) {
+> > +                    break;
+> > +                }
+> > +
+> > +                if (!p->normal_num) {
+> > +                    /* No pages will be sent */
+> > +                    goto skip_send;
+> > +                }
+>
+> Don't need this AFAIK, because the qio_channel_writev_all
+> call will be a no-op if  iovs_num is zero
+>
+
+Oh, I see:
+qio_channel_writev_all() will call qio_channel_writev_full_all() where
+niov =3D=3D 0 and thus nlocal_iov =3D=3D 0, avoiding the loop that calls
+qio_channel_writev_full().
+
+I will remove that in v10
 
 
-r~
+> >
+> > -            ret =3D qio_channel_writev_all(p->c, p->iov, p->iovs_num,
+> > +                /* Skip first iov : header */
+> > +                iov_offset =3D 1;
+>
+> Don't need to set this
 
+Agree, that makes sense since the offset part is discontinued.
 
-> 
-> ----------------------------------------------------------------
-> Amir Gonnen (5):
->        target/nios2: Check supervisor on eret
->        target/nios2: Add NUM_GP_REGS and NUM_CP_REGS
->        target/nios2: Split out helper for eret instruction
->        hw/intc: Vectored Interrupt Controller (VIC)
->        hw/nios2: Machine with a Vectored Interrupt Controller
-> 
-> Richard Henderson (63):
->        linux-user/nios2: Hoist pc advance to the top of EXCP_TRAP
->        linux-user/nios2: Fix clone child return
->        linux-user/nios2: Drop syscall 0 "workaround"
->        linux-user/nios2: Adjust error return
->        linux-user/nios2: Handle special qemu syscall return values
->        linux-user/nios2: Remove do_sigreturn
->        linux-user/nios2: Use QEMU_ESIGRETURN from do_rt_sigreturn
->        tests/tcg/nios2: Re-enable linux-user tests
->        target/nios2: Remove user-only nios2_cpu_do_interrupt
->        target/nios2: Remove nios2_cpu_record_sigsegv
->        target/nios2: Build helper.c for system only
->        linux-user/nios2: Use force_sig_fault for EXCP_DEBUG
->        target/nios2: Stop generating code if gen_check_supervisor fails
->        target/nios2: Split PC out of env->regs[]
->        target/nios2: Fix BRET instruction
->        target/nios2: Do not create TCGv for control registers
->        linux-user/nios2: Only initialize SP and PC in target_cpu_copy_regs
->        target/nios2: Remove cpu_interrupts_enabled
->        target/nios2: Split control registers away from general registers
->        target/nios2: Clean up nios2_cpu_dump_state
->        target/nios2: Use hw/registerfields.h for CR_STATUS fields
->        target/nios2: Use hw/registerfields.h for CR_EXCEPTION fields
->        target/nios2: Use hw/registerfields.h for CR_TLBADDR fields
->        target/nios2: Use hw/registerfields.h for CR_TLBACC fields
->        target/nios2: Rename CR_TLBMISC_WR to CR_TLBMISC_WE
->        target/nios2: Use hw/registerfields.h for CR_TLBMISC fields
->        target/nios2: Move R_FOO and CR_BAR into enumerations
->        target/nios2: Create EXCP_SEMIHOST for semi-hosting
->        target/nios2: Clean up nios2_cpu_do_interrupt
->        target/nios2: Hoist CPU_LOG_INT logging
->        target/nios2: Handle EXCP_UNALIGN and EXCP_UNALIGND
->        target/nios2: Cleanup set of CR_EXCEPTION for do_interrupt
->        target/nios2: Clean up handling of tlbmisc in do_exception
->        target/nios2: Prevent writes to read-only or reserved control fields
->        target/nios2: Implement cpuid
->        target/nios2: Implement CR_STATUS.RSIE
->        target/nios2: Remove CPU_INTERRUPT_NMI
->        target/nios2: Support division error exception
->        target/nios2: Use tcg_constant_tl
->        target/nios2: Split out named structs for [IRJ]_TYPE
->        target/nios2: Split out helpers for gen_i_cmpxx
->        target/nios2: Split out helpers for gen_i_math_logic
->        target/nios2: Split out helpers for gen_r_math_logic
->        target/nios2: Split out helpers for gen_rr_mul_high
->        target/nios2: Split out helpers for gen_rr_shift
->        target/nios2: Introduce dest_gpr
->        target/nios2: Drop CR_STATUS_EH from tb->flags
->        target/nios2: Enable unaligned traps for system mode
->        target/nios2: Create gen_jumpr
->        target/nios2: Hoist set of is_jmp into gen_goto_tb
->        target/nios2: Use gen_goto_tb for DISAS_TOO_MANY
->        target/nios2: Use tcg_gen_lookup_and_goto_ptr
->        target/nios2: Implement Misaligned destination exception
->        target/nios2: Introduce shadow register sets
->        target/nios2: Implement rdprs, wrprs
->        target/nios2: Update helper_eret for shadow registers
->        target/nios2: Implement EIC interrupt processing
->        target/nios2: Advance pc when raising exceptions
->        linux-user/nios2: Handle various SIGILL exceptions
->        hw/nios2: Introduce Nios2MachineState
->        hw/nios2: Move memory regions into Nios2Machine
->        tests/tcg/nios2: Add semihosting multiarch tests
->        tests/tcg/nios2: Add test-shadow-1
-> 
->   configs/targets/nios2-softmmu.mak       |   1 +
->   include/hw/intc/nios2_vic.h             |  64 +++
->   linux-user/nios2/target_cpu.h           |   1 +
->   target/nios2/cpu.h                      | 250 +++++++----
->   target/nios2/helper.h                   |   5 +
->   tests/tcg/nios2/semicall.h              |  28 ++
->   hw/intc/nios2_vic.c                     | 313 +++++++++++++
->   hw/nios2/10m50_devboard.c               | 115 +++--
->   linux-user/elfload.c                    |   3 +-
->   linux-user/nios2/cpu_loop.c             |  96 ++--
->   linux-user/nios2/signal.c               |  25 +-
->   target/nios2/cpu.c                      | 213 +++++++--
->   target/nios2/helper.c                   | 383 +++++++++-------
->   target/nios2/mmu.c                      |  78 ++--
->   target/nios2/op_helper.c                |  88 ++++
->   target/nios2/translate.c                | 749 ++++++++++++++++++++------------
->   hw/intc/Kconfig                         |   3 +
->   hw/intc/meson.build                     |   1 +
->   hw/nios2/Kconfig                        |   1 +
->   target/nios2/meson.build                |   7 +-
->   tests/tcg/nios2/10m50-ghrd.ld           |  66 +++
->   tests/tcg/nios2/Makefile.softmmu-target |  33 ++
->   tests/tcg/nios2/Makefile.target         |  11 -
->   tests/tcg/nios2/boot.S                  | 218 ++++++++++
->   tests/tcg/nios2/intr.S                  |  31 ++
->   tests/tcg/nios2/test-shadow-1.S         |  40 ++
->   26 files changed, 2113 insertions(+), 710 deletions(-)
->   create mode 100644 include/hw/intc/nios2_vic.h
->   create mode 100644 tests/tcg/nios2/semicall.h
->   create mode 100644 hw/intc/nios2_vic.c
->   create mode 100644 tests/tcg/nios2/10m50-ghrd.ld
->   create mode 100644 tests/tcg/nios2/Makefile.softmmu-target
->   delete mode 100644 tests/tcg/nios2/Makefile.target
->   create mode 100644 tests/tcg/nios2/boot.S
->   create mode 100644 tests/tcg/nios2/intr.S
->   create mode 100644 tests/tcg/nios2/test-shadow-1.S
+>
+> > +            } else {
+> > +                /* Send header using the same writev call */
+> > +                p->iov[0].iov_len =3D p->packet_len;
+> > +                p->iov[0].iov_base =3D p->packet;
+> > +            }
+> > +
+> > +            ret =3D qio_channel_writev_all(p->c, p->iov + iov_offset,
+> > +                                         p->iovs_num - iov_offset,
+> >                                           &local_err);
+>
+> This wouldn't need changing if we don't reserve iovs[0] when
+> not required.
+
+Agree.
+
+>
+> > +
+> >              if (ret !=3D 0) {
+> >                  break;
+> >              }
+> >
+> > +skip_send:
+> >              qemu_mutex_lock(&p->mutex);
+> >              p->pending_job--;
+> >              qemu_mutex_unlock(&p->mutex);
+> > --
+> > 2.36.0
+> >
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
+
+I will probably send a v10 shortly.
+
+Thanks for reviewing!
+
+Best regards,
+Leo
 
 
