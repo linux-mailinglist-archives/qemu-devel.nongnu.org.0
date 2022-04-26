@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6BC50FBB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:08:28 +0200 (CEST)
-Received: from localhost ([::1]:47382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69B450FBB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:09:13 +0200 (CEST)
+Received: from localhost ([::1]:50188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njJ3T-0007iX-Ez
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43812)
+	id 1njJ4D-0001D8-30
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:09:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzI-0004Zj-M9
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39090)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzJ-0004Zk-IE
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzF-0004VB-4w
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzF-0004VG-J8
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650971043;
+ s=mimecast20190719; t=1650971045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DbWyxpAN2CT7eVFuMh6Wd1UtGCO4v/8bV2zyxrPfnYQ=;
- b=ZvZWdGLlWWWFoYdSwyQyIqEUF+FdEOk0GMjaYYaUcOgZw3Z/cuy0e2zjzialwwxi3kBc+j
- RlIJvzAeyIMfGTS6WUIlmErlbVfTh1nUO/0aVzjpqhIgoHfpIu8L550JeC1PEc/r2H4srg
- iPZIOLGahBWjK3oKAaaH0tR/lkrkVdc=
+ bh=+I1ngTZVLqcdmFgdt6x0Rr5TgDsIKRVdOnKz0z1zUdU=;
+ b=d07Noj1ZFqk/0o3LDBi1ZgSYM0vhm7XSGjEO57oor/dJ3SOtHWUin7UGGTFyZzv6TZ4fn5
+ Tjxc/BFiMlFBaKu1jQwEhA++ZpTQ+MDXe1qvRSKp1w3JF3R6dW/N2ng+RbXCTLufOfKmf7
+ gTXcsBAdTxexXhkCQXjvSZWOkto9emg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-468-keBu_1eNO7Oh8oU1vFFQ6g-1; Tue, 26 Apr 2022 07:04:02 -0400
-X-MC-Unique: keBu_1eNO7Oh8oU1vFFQ6g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-468-ga8hqbJVN46NINE1LPmPtA-1; Tue, 26 Apr 2022 07:04:02 -0400
+X-MC-Unique: ga8hqbJVN46NINE1LPmPtA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2B7B802C16;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6BA0800882;
  Tue, 26 Apr 2022 11:04:01 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 60AA243E786;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B949C15D75;
  Tue, 26 Apr 2022 11:04:01 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 76BC91800639; Tue, 26 Apr 2022 13:03:58 +0200 (CEST)
+ id BBCB9180078D; Tue, 26 Apr 2022 13:03:58 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/9] Replacing CONFIG_VNC_PNG with CONFIG_PNG
-Date: Tue, 26 Apr 2022 13:03:50 +0200
-Message-Id: <20220426110358.1570723-3-kraxel@redhat.com>
+Subject: [PULL 3/9] Added parameter to take screenshot with screendump as PNG
+Date: Tue, 26 Apr 2022 13:03:51 +0200
+Message-Id: <20220426110358.1570723-4-kraxel@redhat.com>
 In-Reply-To: <20220426110358.1570723-1-kraxel@redhat.com>
 References: <20220426110358.1570723-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -75,279 +75,276 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Kshitij Suri <kshitij.suri@nutanix.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kshitij Suri <kshitij.suri@nutanix.com>
 
-Libpng is only detected if VNC is enabled currently. This patch adds a
-generalised png option in the meson build which is aimed to replace use of
-CONFIG_VNC_PNG with CONFIG_PNG.
+Currently screendump only supports PPM format, which is un-compressed. Added
+a "format" parameter to QMP and HMP screendump command to support PNG image
+capture using libpng.
+
+QMP example usage:
+{ "execute": "screendump", "arguments": { "filename": "/tmp/image",
+"format":"png" } }
+
+HMP example usage:
+screendump /tmp/image -f png
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/718
 
 Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220408071336.99839-2-kshitij.suri@nutanix.com>
-
-[ kraxel: add meson-buildoptions.sh updates ]
-[ kraxel: fix centos8 testcase ]
-
+Acked-by: Markus Armbruster <armbru@redhat.com>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20220408071336.99839-3-kshitij.suri@nutanix.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- meson_options.txt                              |  4 ++--
- ui/vnc.h                                       |  2 +-
- ui/vnc-enc-tight.c                             | 18 +++++++++---------
- ui/vnc.c                                       |  4 ++--
- meson.build                                    | 12 +++++++-----
- .../ci/org.centos/stream/8/x86_64/configure    |  2 +-
- scripts/meson-buildoptions.sh                  |  6 +++---
- 7 files changed, 25 insertions(+), 23 deletions(-)
+ monitor/hmp-cmds.c |  12 +++++-
+ ui/console.c       | 101 +++++++++++++++++++++++++++++++++++++++++++--
+ hmp-commands.hx    |  11 ++---
+ qapi/ui.json       |  24 +++++++++--
+ 4 files changed, 136 insertions(+), 12 deletions(-)
 
-diff --git a/meson_options.txt b/meson_options.txt
-index 52b11cead44a..d85734f8e6bf 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -177,12 +177,12 @@ option('vde', type : 'feature', value : 'auto',
-        description: 'vde network backend support')
- option('virglrenderer', type : 'feature', value : 'auto',
-        description: 'virgl rendering support')
-+option('png', type : 'feature', value : 'auto',
-+       description: 'PNG support with libpng')
- option('vnc', type : 'feature', value : 'auto',
-        description: 'VNC server')
- option('vnc_jpeg', type : 'feature', value : 'auto',
-        description: 'JPEG lossy compression for VNC server')
--option('vnc_png', type : 'feature', value : 'auto',
--       description: 'PNG compression for VNC server')
- option('vnc_sasl', type : 'feature', value : 'auto',
-        description: 'SASL authentication for VNC server')
- option('vte', type : 'feature', value : 'auto',
-diff --git a/ui/vnc.h b/ui/vnc.h
-index a7149831f906..a60fb13115c9 100644
---- a/ui/vnc.h
-+++ b/ui/vnc.h
-@@ -201,7 +201,7 @@ typedef struct VncTight {
- #ifdef CONFIG_VNC_JPEG
-     Buffer jpeg;
- #endif
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     Buffer png;
- #endif
-     int levels[4];
-diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
-index 5a4b8a4fc0f6..09200d71b8cf 100644
---- a/ui/vnc-enc-tight.c
-+++ b/ui/vnc-enc-tight.c
-@@ -32,7 +32,7 @@
-    INT32 definitions between jmorecfg.h (included by jpeglib.h) and
-    Win32 basetsd.h (included by windows.h). */
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 634968498b58..2442bfa98984 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1720,9 +1720,19 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
+     const char *filename = qdict_get_str(qdict, "filename");
+     const char *id = qdict_get_try_str(qdict, "device");
+     int64_t head = qdict_get_try_int(qdict, "head", 0);
++    const char *input_format  = qdict_get_try_str(qdict, "format");
+     Error *err = NULL;
++    ImageFormat format;
  
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
- /* The following define is needed by pngconf.h. Otherwise it won't compile,
-    because setjmp.h was already included by osdep.h. */
- #define PNG_SKIP_SETJMP_CHECK
-@@ -95,7 +95,7 @@ static const struct {
- };
- #endif
- 
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
- static const struct {
-     int png_zlib_level, png_filters;
- } tight_png_conf[] = {
-@@ -919,7 +919,7 @@ static int send_full_color_rect(VncState *vs, int x, int y, int w, int h)
-     int stream = 0;
-     ssize_t bytes;
- 
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     if (tight_can_send_png_rect(vs, w, h)) {
-         return send_png_rect(vs, x, y, w, h, NULL);
-     }
-@@ -966,7 +966,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
-     int stream = 1;
-     int level = tight_conf[vs->tight->compression].mono_zlib_level;
- 
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     if (tight_can_send_png_rect(vs, w, h)) {
-         int ret;
-         int bpp = vs->client_pf.bytes_per_pixel * 8;
-@@ -1020,7 +1020,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
- struct palette_cb_priv {
-     VncState *vs;
-     uint8_t *header;
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     png_colorp png_palette;
- #endif
- };
-@@ -1082,7 +1082,7 @@ static int send_palette_rect(VncState *vs, int x, int y,
-     int colors;
-     ssize_t bytes;
- 
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     if (tight_can_send_png_rect(vs, w, h)) {
-         return send_png_rect(vs, x, y, w, h, palette);
-     }
-@@ -1233,7 +1233,7 @@ static int send_jpeg_rect(VncState *vs, int x, int y, int w, int h, int quality)
- /*
-  * PNG compression stuff.
-  */
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
- static void write_png_palette(int idx, uint32_t pix, void *opaque)
- {
-     struct palette_cb_priv *priv = opaque;
-@@ -1379,7 +1379,7 @@ static int send_png_rect(VncState *vs, int x, int y, int w, int h,
-     buffer_reset(&vs->tight->png);
-     return 1;
+-    qmp_screendump(filename, id != NULL, id, id != NULL, head, &err);
++    format = qapi_enum_parse(&ImageFormat_lookup, input_format,
++                              IMAGE_FORMAT_PPM, &err);
++    if (err) {
++        goto end;
++    }
++
++    qmp_screendump(filename, id != NULL, id, id != NULL, head,
++                   input_format != NULL, format, &err);
++end:
+     hmp_handle_error(mon, err);
  }
--#endif /* CONFIG_VNC_PNG */
+ 
+diff --git a/ui/console.c b/ui/console.c
+index 1752f2ec8897..15d0f6affd4c 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -37,6 +37,9 @@
+ #include "exec/memory.h"
+ #include "io/channel-file.h"
+ #include "qom/object.h"
++#ifdef CONFIG_PNG
++#include <png.h>
++#endif
+ 
+ #define DEFAULT_BACKSCROLL 512
+ #define CONSOLE_CURSOR_PERIOD 500
+@@ -291,6 +294,89 @@ void graphic_hw_invalidate(QemuConsole *con)
+     }
+ }
+ 
++#ifdef CONFIG_PNG
++/**
++ * png_save: Take a screenshot as PNG
++ *
++ * Saves screendump as a PNG file
++ *
++ * Returns true for success or false for error.
++ *
++ * @fd: File descriptor for PNG file.
++ * @image: Image data in pixman format.
++ * @errp: Pointer to an error.
++ */
++static bool png_save(int fd, pixman_image_t *image, Error **errp)
++{
++    int width = pixman_image_get_width(image);
++    int height = pixman_image_get_height(image);
++    g_autofree png_struct *png_ptr = NULL;
++    g_autofree png_info *info_ptr = NULL;
++    g_autoptr(pixman_image_t) linebuf =
++                            qemu_pixman_linebuf_create(PIXMAN_a8r8g8b8, width);
++    uint8_t *buf = (uint8_t *)pixman_image_get_data(linebuf);
++    FILE *f = fdopen(fd, "wb");
++    int y;
++    if (!f) {
++        error_setg_errno(errp, errno,
++                         "Failed to create file from file descriptor");
++        return false;
++    }
++
++    png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL,
++                                      NULL, NULL);
++    if (!png_ptr) {
++        error_setg(errp, "PNG creation failed. Unable to write struct");
++        fclose(f);
++        return false;
++    }
++
++    info_ptr = png_create_info_struct(png_ptr);
++
++    if (!info_ptr) {
++        error_setg(errp, "PNG creation failed. Unable to write info");
++        fclose(f);
++        png_destroy_write_struct(&png_ptr, &info_ptr);
++        return false;
++    }
++
++    png_init_io(png_ptr, f);
++
++    png_set_IHDR(png_ptr, info_ptr, width, height, 8,
++                 PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE,
++                 PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
++
++    png_write_info(png_ptr, info_ptr);
++
++    for (y = 0; y < height; ++y) {
++        qemu_pixman_linebuf_fill(linebuf, image, width, 0, y);
++        png_write_row(png_ptr, buf);
++    }
++    qemu_pixman_image_unref(linebuf);
++
++    png_write_end(png_ptr, NULL);
++
++    png_destroy_write_struct(&png_ptr, &info_ptr);
++
++    if (fclose(f) != 0) {
++        error_setg_errno(errp, errno,
++                         "PNG creation failed. Unable to close file");
++        return false;
++    }
++
++    return true;
++}
++
++#else /* no png support */
++
++static bool png_save(int fd, pixman_image_t *image, Error **errp)
++{
++    error_setg(errp, "Enable PNG support with libpng for screendump");
++    return false;
++}
++
 +#endif /* CONFIG_PNG */
- 
- static void vnc_tight_start(VncState *vs)
++
+ static bool ppm_save(int fd, pixman_image_t *image, Error **errp)
  {
-@@ -1706,7 +1706,7 @@ void vnc_tight_clear(VncState *vs)
- #ifdef CONFIG_VNC_JPEG
-     buffer_free(&vs->tight->jpeg);
- #endif
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     buffer_free(&vs->tight->png);
- #endif
+     int width = pixman_image_get_width(image);
+@@ -329,7 +415,8 @@ static void graphic_hw_update_bh(void *con)
+ /* Safety: coroutine-only, concurrent-coroutine safe, main thread only */
+ void coroutine_fn
+ qmp_screendump(const char *filename, bool has_device, const char *device,
+-               bool has_head, int64_t head, Error **errp)
++               bool has_head, int64_t head,
++               bool has_format, ImageFormat format, Error **errp)
+ {
+     g_autoptr(pixman_image_t) image = NULL;
+     QemuConsole *con;
+@@ -385,8 +472,16 @@ qmp_screendump(const char *filename, bool has_device, const char *device,
+      * yields and releases the BQL. It could produce corrupted dump, but
+      * it should be otherwise safe.
+      */
+-    if (!ppm_save(fd, image, errp)) {
+-        qemu_unlink(filename);
++    if (has_format && format == IMAGE_FORMAT_PNG) {
++        /* PNG format specified for screendump */
++        if (!png_save(fd, image, errp)) {
++            qemu_unlink(filename);
++        }
++    } else {
++        /* PPM format specified/default for screendump */
++        if (!ppm_save(fd, image, errp)) {
++            qemu_unlink(filename);
++        }
+     }
  }
-diff --git a/ui/vnc.c b/ui/vnc.c
-index badf1d7664fe..7d55e1500a42 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -2165,7 +2165,7 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
-             vs->features |= VNC_FEATURE_TIGHT_MASK;
-             vs->vnc_encoding = enc;
-             break;
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-         case VNC_ENCODING_TIGHT_PNG:
-             vs->features |= VNC_FEATURE_TIGHT_PNG_MASK;
-             vs->vnc_encoding = enc;
-@@ -3256,7 +3256,7 @@ static void vnc_connect(VncDisplay *vd, QIOChannelSocket *sioc,
- #ifdef CONFIG_VNC_JPEG
-     buffer_init(&vs->tight->jpeg,     "vnc-tight-jpeg/%p", sioc);
- #endif
--#ifdef CONFIG_VNC_PNG
-+#ifdef CONFIG_PNG
-     buffer_init(&vs->tight->png,      "vnc-tight-png/%p", sioc);
- #endif
-     buffer_init(&vs->zlib.zlib,      "vnc-zlib/%p", sioc);
-diff --git a/meson.build b/meson.build
-index d083c6b7bf90..0c38e491f488 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1115,14 +1115,16 @@ if gtkx11.found()
-   x11 = dependency('x11', method: 'pkg-config', required: gtkx11.found(),
-                    kwargs: static_kwargs)
- endif
--vnc = not_found
- png = not_found
-+if get_option('png').allowed() and have_system
-+   png = dependency('libpng', required: get_option('png'),
-+                    method: 'pkg-config', kwargs: static_kwargs)
-+endif
-+vnc = not_found
- jpeg = not_found
- sasl = not_found
- if get_option('vnc').allowed() and have_system
-   vnc = declare_dependency() # dummy dependency
--  png = dependency('libpng', required: get_option('vnc_png'),
--                   method: 'pkg-config', kwargs: static_kwargs)
-   jpeg = dependency('libjpeg', required: get_option('vnc_jpeg'),
-                     method: 'pkg-config', kwargs: static_kwargs)
-   sasl = cc.find_library('sasl2', has_headers: ['sasl/sasl.h'],
-@@ -1554,9 +1556,9 @@ config_host_data.set('CONFIG_TPM', have_tpm)
- config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
- config_host_data.set('CONFIG_VDE', vde.found())
- config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
-+config_host_data.set('CONFIG_PNG', png.found())
- config_host_data.set('CONFIG_VNC', vnc.found())
- config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
--config_host_data.set('CONFIG_VNC_PNG', png.found())
- config_host_data.set('CONFIG_VNC_SASL', sasl.found())
- config_host_data.set('CONFIG_VIRTFS', have_virtfs)
- config_host_data.set('CONFIG_VTE', vte.found())
-@@ -3667,11 +3669,11 @@ summary_info += {'curses support':    curses}
- summary_info += {'virgl support':     virgl}
- summary_info += {'curl support':      curl}
- summary_info += {'Multipath support': mpathpersist}
-+summary_info += {'PNG support':       png}
- summary_info += {'VNC support':       vnc}
- if vnc.found()
-   summary_info += {'VNC SASL support':  sasl}
-   summary_info += {'VNC JPEG support':  jpeg}
--  summary_info += {'VNC PNG support':   png}
- endif
- if targetos not in ['darwin', 'haiku', 'windows']
-   summary_info += {'OSS support':     oss}
-diff --git a/scripts/ci/org.centos/stream/8/x86_64/configure b/scripts/ci/org.centos/stream/8/x86_64/configure
-index 9850dd44444a..65d6bc7eee96 100755
---- a/scripts/ci/org.centos/stream/8/x86_64/configure
-+++ b/scripts/ci/org.centos/stream/8/x86_64/configure
-@@ -142,7 +142,7 @@
- --disable-virtiofsd \
- --disable-vnc \
- --disable-vnc-jpeg \
----disable-vnc-png \
-+--disable-png \
- --disable-vnc-sasl \
- --disable-vte \
- --disable-vvfat \
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 1e26f4571ef4..ef0dcd4a7768 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -94,6 +94,7 @@ meson_options_help() {
-   printf "%s\n" '  oss             OSS sound support'
-   printf "%s\n" '  pa              PulseAudio sound support'
-   printf "%s\n" '  parallels       parallels image format support'
-+  printf "%s\n" '  png             PNG support with libpng'
-   printf "%s\n" '  qcow1           qcow1 image format support'
-   printf "%s\n" '  qed             qed image format support'
-   printf "%s\n" '  qga-vss         build QGA VSS support (broken with MinGW)'
-@@ -123,7 +124,6 @@ meson_options_help() {
-   printf "%s\n" '  virtiofsd       build virtiofs daemon (virtiofsd)'
-   printf "%s\n" '  vnc             VNC server'
-   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
--  printf "%s\n" '  vnc-png         PNG compression for VNC server'
-   printf "%s\n" '  vnc-sasl        SASL authentication for VNC server'
-   printf "%s\n" '  vte             vte support for the gtk UI'
-   printf "%s\n" '  vvfat           vvfat image format support'
-@@ -277,6 +277,8 @@ _meson_option_parse() {
-     --disable-pa) printf "%s" -Dpa=disabled ;;
-     --enable-parallels) printf "%s" -Dparallels=enabled ;;
-     --disable-parallels) printf "%s" -Dparallels=disabled ;;
-+    --enable-png) printf "%s" -Dpng=enabled ;;
-+    --disable-png) printf "%s" -Dpng=disabled ;;
-     --enable-profiler) printf "%s" -Dprofiler=true ;;
-     --disable-profiler) printf "%s" -Dprofiler=false ;;
-     --enable-qcow1) printf "%s" -Dqcow1=enabled ;;
-@@ -347,8 +349,6 @@ _meson_option_parse() {
-     --disable-vnc) printf "%s" -Dvnc=disabled ;;
-     --enable-vnc-jpeg) printf "%s" -Dvnc_jpeg=enabled ;;
-     --disable-vnc-jpeg) printf "%s" -Dvnc_jpeg=disabled ;;
--    --enable-vnc-png) printf "%s" -Dvnc_png=enabled ;;
--    --disable-vnc-png) printf "%s" -Dvnc_png=disabled ;;
-     --enable-vnc-sasl) printf "%s" -Dvnc_sasl=enabled ;;
-     --disable-vnc-sasl) printf "%s" -Dvnc_sasl=disabled ;;
-     --enable-vte) printf "%s" -Dvte=enabled ;;
+ 
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 8476277aa9c9..808020d0051b 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -244,11 +244,12 @@ ERST
+ 
+     {
+         .name       = "screendump",
+-        .args_type  = "filename:F,device:s?,head:i?",
+-        .params     = "filename [device [head]]",
+-        .help       = "save screen from head 'head' of display device 'device' "
+-                      "into PPM image 'filename'",
+-        .cmd        = hmp_screendump,
++        .args_type  = "filename:F,format:-fs,device:s?,head:i?",
++        .params     = "filename [-f format] [device [head]]",
++        .help       = "save screen from head 'head' of display device 'device'"
++                      "in specified format 'format' as image 'filename'."
++                      "Currently only 'png' and 'ppm' formats are supported.",
++         .cmd        = hmp_screendump,
+         .coroutine  = true,
+     },
+ 
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 13a8bb82aa05..596f37fc37aa 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -157,12 +157,27 @@
+ ##
+ { 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOptions' }
+ 
++##
++# @ImageFormat:
++#
++# Supported image format types.
++#
++# @png: PNG format
++#
++# @ppm: PPM format
++#
++# Since: 7.1
++#
++##
++{ 'enum': 'ImageFormat',
++  'data': ['ppm', 'png'] }
++
+ ##
+ # @screendump:
+ #
+-# Write a PPM of the VGA screen to a file.
++# Capture the contents of a screen and write it to a file.
+ #
+-# @filename: the path of a new PPM file to store the image
++# @filename: the path of a new file to store the image
+ #
+ # @device: ID of the display device that should be dumped. If this parameter
+ #          is missing, the primary display will be used. (Since 2.12)
+@@ -171,6 +186,8 @@
+ #        parameter is missing, head #0 will be used. Also note that the head
+ #        can only be specified in conjunction with the device ID. (Since 2.12)
+ #
++# @format: image format for screendump. (default: ppm) (Since 7.1)
++#
+ # Returns: Nothing on success
+ #
+ # Since: 0.14
+@@ -183,7 +200,8 @@
+ #
+ ##
+ { 'command': 'screendump',
+-  'data': {'filename': 'str', '*device': 'str', '*head': 'int'},
++  'data': {'filename': 'str', '*device': 'str', '*head': 'int',
++           '*format': 'ImageFormat'},
+   'coroutine': true }
+ 
+ ##
 -- 
 2.35.1
 
