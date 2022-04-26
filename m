@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6268450FD9A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 14:51:28 +0200 (CEST)
-Received: from localhost ([::1]:55828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0028B50FDA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 14:52:22 +0200 (CEST)
+Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njKf9-0004AO-6J
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 08:51:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43580)
+	id 1njKg2-0006pP-3J
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 08:52:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njKaA-0006F7-Su; Tue, 26 Apr 2022 08:46:18 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:53513)
+ id 1njKaC-0006KG-6b; Tue, 26 Apr 2022 08:46:20 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:40007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njKa9-0007Cj-53; Tue, 26 Apr 2022 08:46:18 -0400
+ id 1njKaA-0007D2-AD; Tue, 26 Apr 2022 08:46:19 -0400
 Received: from quad ([82.142.9.138]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mv2gw-1o0iuL0iTA-00r0u6; Tue, 26
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M7bND-1noZEu38fd-007zxj; Tue, 26
  Apr 2022 14:46:13 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] vdpa: Add missing tracing to batch mapping functions
-Date: Tue, 26 Apr 2022 14:46:07 +0200
-Message-Id: <20220426124610.639614-3-laurent@vivier.eu>
+Subject: [PULL 3/5] target/mips: Remove stale TODO file
+Date: Tue, 26 Apr 2022 14:46:08 +0200
+Message-Id: <20220426124610.639614-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220426124610.639614-1-laurent@vivier.eu>
 References: <20220426124610.639614-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jORt3lnNj4XyXmtbvkqEmtnODLHUMHrEPABvFO0gDoDJrmnZaJ4
- Hy2jGyboilxEOyO4daanT/+8qmfRJONUvcv4w8imN0ZXqRz7xt/jn9LA0FDRxPDY3rlr030
- SuwhSYy+/h+ZeyPdcEDxJjQbCWoFJLqB8wyLJcQ32JRNFUrY5qFrzsIelOdhRZj/q9iiXgC
- 5NJ9ybHHqH3mbIqpeiq6w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:37X0dHEP1cY=:f+df+o/j9DHZ+Eej+9Z+xr
- pzuRKXbvwWllpS2G1Roy2jw/K8ewH5AFnrY9N4DURFcYGmwR7Mt2IlCwt5mPsqrUyolUGZ3JW
- eYnIKqtxTpLfYyQh8y2MeYcmHExZhOh3UPOHPqeTtwxC2iAHxsIrZV5IlIsW/EP1Jk+agey2g
- 9m3FLysA/G8Hp2fEJZxU6jUl/XDN7g/Bn0AXFmm/5ofW+c9rdVonT/rS0FffKu26jxs0nE2qS
- cnIj2j5cc6+Pkg5EwndLPm/2mp9FnI+r8gImhDwf4MwwNx8hliWEDnaG+nxBdOD+zLV99N8rI
- m7ZIYgxjGummn4Y5cuT2TyqHDwdKbhyotA/G96tFCyyRppAJhFRrkbkTYyGXe4z3nAeFjKaPC
- dP9Y03x13HtDj+12cgN9TiaHPNyslzjmESThPNbJVvMSxIwbQYLfmTPmsOFZLsmi3bj84ePF3
- IZbvU8s/SmE4HHcO8nkBAkIq8fTtHFpqbcKkhRO3Uz4H4LiL0P7Up0vxwAtjwKK0OgcacH862
- 2H0jAhQodZrR4ZB/6xorT9fvjc2Da0e+WN61HwYmMUhR0XGBVUIn4Y7uCzGWdPmvJBauBPrjq
- 1wVYaOtUNhr5p+BdWKQdAFt/dmykSLWSR+XmqRfvppdb5F3CFDW03pXOCrDabf9bsMMq7n5WG
- fgkpbbDs30kZ550UWfOl0AyYT7jawPrPIqXTb5nKGJDRLw4JzVCT/cmduMHQj16j+ji4=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:jXV4HkMsm15ucqLXV6DMOV8Iivp+GGn+wfz9h1QZ9gcS5fXoPqP
+ w1FKx3r0csgs5vbBjR2rEMpGGZFdupLqdqKIalvjIZY7oabbTCSH16RVYvU1ATBPXvRgpTt
+ kbo9JDZDR/GXqwZD+8vSvngOIvWFXvC1cCAm29SWN4mogFqflzXKlB09bAG556vXhTUe/an
+ 3XS6zYU7rAKrvCCYlNjYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ew6NugmkP7E=:wWGwGojYQPKSuUgqzrbfct
+ 6fbdEEliVIonXldHpL3uztosq9KzjRYkwzq38jYRK0O1OT28ZT2iAn80IDKUVUv/4J7t0uibR
+ ntidsy7hjVm8bvKE/itrQVxM5BTWvb7lTkkTCszMOiWnEWtcszwkAUzniGxTzJDuFgy/G5Fkw
+ j8RRrHURFV6swQeBHb5vU/6Ndv32Qb05j4FfS+DxkI+0jiK86+bzrz2hVHUjzqCREfz5wHcnI
+ Yw1PX6lSh606wAld8XVYiKeO3dMhcCPuI6H+byxflYwe5SZDjrmN+qeqxYyALNBx1THlP4iF3
+ rgX2BKIBmh8CGPVDJMhnOW5t5Dqy2BbtMrPJ4ApvVYTi5SdWvvpqzTdvKFvRTv998iODFwVbt
+ YZqQgtSY7yvc74SfpejzlmRVbDH9hspsLg7BJFqCIhFKc+p9GuAc+wKVGmk4nou3sqQSaOV/5
+ CRehqvYS0CnDBReAnC97LqtXmAWizfPiY3rsyTwNX1CGaLxvGIVqY3AIakG8Vaqg+phzqGbHl
+ 1EOAx+3chRsmIeGdZ01apz1qw2J3hWObmWv2x4WcsnLuwVzHI9OFXJ2VMFdjVu2K7qdreBWXn
+ AtLCa8/NYz8LoM7TL/9uBtIssz1DZIeU4npFLRJDIUMfIDDQNVQLB8b83V2inunoiU0vuIlBr
+ joheL0qIcpt960ip83vdK8ccGSwgqbanC4IvsAgTCzuMy0d8/sbVKQemywe7w5sIkykY=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,61 +64,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eugenio Pérez <eperezma@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-These functions were not traced properly.
+The last change to this file has been done in 2012, so it
+seems like this is not really used anymore, and the content
+is likely very out of date now.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20220405063628.853745-1-eperezma@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220412113824.297108-1-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/virtio/trace-events | 2 ++
- hw/virtio/vhost-vdpa.c | 2 ++
- 2 files changed, 4 insertions(+)
+ target/mips/TODO | 51 ------------------------------------------------
+ 1 file changed, 51 deletions(-)
+ delete mode 100644 target/mips/TODO
 
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index a5102eac9e57..333348d9d5d0 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -25,6 +25,8 @@ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"
- # vhost-vdpa.c
- vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
- vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-+vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-+vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
- vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
- vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
- vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index b57be529c7eb..a30510ed17e4 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -129,6 +129,7 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
-         .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
-     };
- 
-+    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.iotlb.type);
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-                      fd, errno, strerror(errno));
-@@ -163,6 +164,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
-     msg.type = v->msg_type;
-     msg.iotlb.type = VHOST_IOTLB_BATCH_END;
- 
-+    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
-     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-                      fd, errno, strerror(errno));
+diff --git a/target/mips/TODO b/target/mips/TODO
+deleted file mode 100644
+index 1d782d8027e0..000000000000
+--- a/target/mips/TODO
++++ /dev/null
+@@ -1,51 +0,0 @@
+-Unsolved issues/bugs in the mips/mipsel backend
+------------------------------------------------
+-
+-General
+--------
+-- Unimplemented ASEs:
+-  - MDMX
+-  - SmartMIPS
+-  - microMIPS DSP r1 & r2 encodings
+-- MT ASE only partially implemented and not functional
+-- Shadow register support only partially implemented,
+-  lacks set switching on interrupt/exception.
+-- 34K ITC not implemented.
+-- A general lack of documentation, especially for technical internals.
+-  Existing documentation is x86-centric.
+-- Reverse endianness bit not implemented
+-- The TLB emulation is very inefficient:
+-  QEMU's softmmu implements a x86-style MMU, with separate entries
+-  for read/write/execute, a TLB index which is just a modulo of the
+-  virtual address, and a set of TLBs for each user/kernel/supervisor
+-  MMU mode.
+-  MIPS has a single entry for read/write/execute and only one MMU mode.
+-  But it is fully associative with randomized entry indices, and uses
+-  up to 256 ASID tags as additional matching criterion (which roughly
+-  equates to 256 MMU modes). It also has a global flag which causes
+-  entries to match regardless of ASID.
+-  To cope with these differences, QEMU currently flushes the TLB at
+-  each ASID change. Using the MMU modes to implement ASIDs hinges on
+-  implementing the global bit efficiently.
+-- save/restore of the CPU state is not implemented (see machine.c).
+-
+-MIPS64
+-------
+-- Userland emulation (both n32 and n64) not functional.
+-
+-"Generic" 4Kc system emulation
+-------------------------------
+-- Doesn't correspond to any real hardware. Should be removed some day,
+-  U-Boot is the last remaining user.
+-
+-PICA 61 system emulation
+-------------------------
+-- No framebuffer support yet.
+-
+-MALTA system emulation
+-----------------------
+-- We fake firmware support instead of doing the real thing
+-- Real firmware (YAMON) falls over when trying to init RAM, presumably
+-  due to lacking system controller emulation.
+-- Bonito system controller not implemented
+-- MSC1 system controller not implemented
 -- 
 2.35.1
 
