@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6601E510C61
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 01:01:18 +0200 (CEST)
-Received: from localhost ([::1]:57812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD5E510C62
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 01:02:12 +0200 (CEST)
+Received: from localhost ([::1]:60522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njUBI-0005gp-Mi
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 19:01:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
+	id 1njUCB-0007dR-QY
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 19:02:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1njU8b-0004y4-D4
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 18:58:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44653)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1njU8X-0007G4-GI
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 18:58:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651013904;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Sqg/iCltEfMXJGnOuQmYBp4h62JguDi0G/Yb+qi04DI=;
- b=GSC+lf1DH4izsEvEnG6kmBt8T+exr19Ew0zL9D144raYZY9NauFmmh5Ws5ytNF6d/u0Afj
- JCGuJF93b4kR55xn4dXnCkx5+0o4D+7e+RG1tv4JAPDqlNYDTTREaI4CMJnXv6pCqm35jd
- g+NNSpypIceUH03TukZr8yhYsqF+o5s=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-cBJHieobNZye4cb_RMdqAw-1; Tue, 26 Apr 2022 18:58:23 -0400
-X-MC-Unique: cBJHieobNZye4cb_RMdqAw-1
-Received: by mail-lj1-f198.google.com with SMTP id
- m5-20020a2e8705000000b0024f0fca4516so119923lji.3
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 15:58:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njU9u-0005zb-93
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 18:59:51 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:44549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njU9s-0007OK-GH
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 18:59:49 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ m14-20020a17090a34ce00b001d5fe250e23so279155pjf.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 15:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=6PXAxt7gMY1XeFJmkdFEJxN3+IZICl72JiIq07LpRj8=;
+ b=aOOjsC8g7ePDuP2DvllnmD4MBRQg5hSU43LECMjD0cuX+Eg0h5BACi0Tk8qSZXskGF
+ KqVxsqe8VaHH6ORQUn1KlnUGWsDi2kHUFBBBMOkKymxqFdeP9As2eGaCKFaPuOD1D5CM
+ BgAlHn5E7o3CY5daiyWYyXhrHYn8H0G27q+9KiBNJo46rHl+WOHE6MqJdAfjxuVtKn6a
+ WZXr4APM9HwzrfvTYZet/eu8wBs1MI9524j1SIE3QI4/GSwxZZHGheIm3xH1i9Qgv/kN
+ UdmfZTOigufiZRWf5I1+NUn8Tz7I1Wmu70mydX26kAfdAd8wFe09Pa8uJnuGUAzb8N57
+ RxWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Sqg/iCltEfMXJGnOuQmYBp4h62JguDi0G/Yb+qi04DI=;
- b=Hb8vX+Vz3JFAv3jnAKdurtzk1cV2aMhErRkwF3VJawj354+It+1z1wbmBhhi7mf9oq
- 9H5/4jqTU9omtyM14oA0H8E9qCDnq9fUpFB+bDTNDNEyf4MAVYUlV3DHilVgb1o3FBqP
- 6vQp9FUMq20g82GpoExmXTJfb5tba1gVVl3eqNsPaBDw0SMKSrWATlAFLXW054+2boFH
- lXCyztTic8YNoiyfLAKP+n9giAByKSuBbRLipuJcoZe12ttyCfTVDznLiMZ2wqUoKjX7
- tMrIdrTGvNkbJjg0zJk6+4C/8q3u1giIJhfzWWsRk5PL12wlNCIQmAwSwyGHE+42Q5kc
- MWDA==
-X-Gm-Message-State: AOAM532lkkL62lsURAEY8aOAqTTC96qfaBawtdaV6X6r9+lCWMsBe+as
- /83iG8JcVj+tnx7eS4uIfGBmxyArfrK5Pn/hos/cOGnKsZzJNlVbMVTpyDhTGCpq1BU030PdrnB
- H7gx1OGJJGQ+AkaQ5GQoFhxnWjODqtJs=
-X-Received: by 2002:a05:6512:1287:b0:472:2646:88c9 with SMTP id
- u7-20020a056512128700b00472264688c9mr1013721lfs.169.1651013901403; 
- Tue, 26 Apr 2022 15:58:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQ4TOYwKpgrTM2AEgQhWue4scp2gCeu3+Y/epQtERA1eCwbDPIzH2ecEG8bJZ7cSJh0wGsXvjxMejJnMn1//U=
-X-Received: by 2002:a05:6512:1287:b0:472:2646:88c9 with SMTP id
- u7-20020a056512128700b00472264688c9mr1013696lfs.169.1651013901022; Tue, 26
- Apr 2022 15:58:21 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6PXAxt7gMY1XeFJmkdFEJxN3+IZICl72JiIq07LpRj8=;
+ b=5XherASubCUhJg+zc7YthjgqL1keBEj/WlovP6tuN30+CZL5kGKjCVVwKAqKFSDpl2
+ dZgkXwj+2rNyALaz45+ZUoUWt9+NyzqcvoA1BAadSaOSNbpL8AxBptWJ0B94ZLbSxr+4
+ QqoD9P6mwWpmhw9uEDrlfjl4D0+3vzoeCjUI4GOS00bgVd7QItJuNIHZhOOy2bvlGHFD
+ 28+ozul0wefK6mrpWYYgiJDlnaQZyOpQJxhBJ49ZXPlVzvWJqjxU91S7P08CqOnGh+xY
+ DX5b3soOW7OC+oAZGA7cWdrDETGcfaqBNC8ClTDg2VGSh8+MpQymOA/GVTot0lmhXk3n
+ edtQ==
+X-Gm-Message-State: AOAM531uIzBSAZp7AgDm9hWvKdYheooPk4EVvDhH8AAm9UvTRgLeGv1y
+ o3i1G7Evo+YSyJH00w53G734FQ==
+X-Google-Smtp-Source: ABdhPJzRff1wgsDSuyU8+eEutxOdyNNEVGDv/P/lizKdJfhaEoS2qOa3u3SXXsWEcsakwMMj7+grTg==
+X-Received: by 2002:a17:903:110c:b0:153:1293:5624 with SMTP id
+ n12-20020a170903110c00b0015312935624mr25627760plh.149.1651013986931; 
+ Tue, 26 Apr 2022 15:59:46 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ y3-20020a056a00190300b004fa2411bb92sm17903039pfi.93.2022.04.26.15.59.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Apr 2022 15:59:46 -0700 (PDT)
+Message-ID: <54854d2c-aab2-0f85-4099-65dd1621b940@linaro.org>
+Date: Tue, 26 Apr 2022 15:59:44 -0700
 MIME-Version: 1.0
-References: <20220425215055.611825-1-leobras@redhat.com>
- <20220425215055.611825-8-leobras@redhat.com>
- <YmgXhEI0AdQ2SILO@xz-m1.local>
-In-Reply-To: <YmgXhEI0AdQ2SILO@xz-m1.local>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Tue, 26 Apr 2022 19:58:09 -0300
-Message-ID: <CAJ6HWG6Qu_-RV42Aj17gONHA5seUfPFmzLzmPf9-TuG=64Yhcw@mail.gmail.com>
-Subject: Re: [PATCH v9 7/7] multifd: Implement zero copy write in multifd
- migration (multifd-zero-copy)
-To: Peter Xu <peterx@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [RFC PATCH 1/7] target/ppc: Implement xxm[tf]acc and xxsetaccz
+Content-Language: en-US
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-ppc@nongnu.org
+References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
+ <20220426125028.18844-2-lucas.araujo@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220426125028.18844-2-lucas.araujo@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,91 +91,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Greg Kurz <groug@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter, thanks for helping!
+On 4/26/22 05:50, Lucas Mateus Castro(alqotel) wrote:
+> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
+> 
+> Implement the following PowerISA v3.1 instructions:
+> xxmfacc: VSX Move From Accumulator
+> xxmtacc: VSX Move To Accumulator
+> xxsetaccz: VSX Set Accumulator to Zero
+> 
+> The PowerISA 3.1 mentions that for the current version of the
+> architecture, "the hardware implementation provides the effect of ACC[i]
+> and VSRs 4*i to 4*i + 3 logically containing the same data" and "The
+> Accumulators introduce no new logical state at this time" (page 501).
+> For now it seems unnecessary to create new structures, so this patch
+> just uses ACC[i] as VSRs 4*i to 4*i+3 and therefore move to and from
+> accumulators are no-ops.
+> 
+> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
+> ---
+>   target/ppc/insn32.decode            |  9 ++++++++
+>   target/ppc/translate/vsx-impl.c.inc | 36 +++++++++++++++++++++++++++++
+>   2 files changed, 45 insertions(+)
 
-On Tue, Apr 26, 2022 at 1:02 PM Peter Xu <peterx@redhat.com> wrote:
->
-> Leo,
->
-> This patch looks mostly good to me, a few nitpicks below.
->
-> On Mon, Apr 25, 2022 at 06:50:56PM -0300, Leonardo Bras wrote:
-[...]
-> >      }
-> > +
-> > +    /*
-> > +     * When using zero-copy, it's necessary to flush after each iteration to
-> > +     * make sure pages from earlier iterations don't end up replacing newer
-> > +     * pages.
-> > +     */
-> > +    flush_zero_copy = migrate_use_zero_copy_send();
->
-> Would you mind inline it if it's only used once?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-It's not obvious in the diff, but this is used in a loop bellow, so I inserted
-the variable to avoid calling migrate_use_zero_copy_send() for each
-multifd channel.
 
->
-> It's great to have that comment, but IMHO it could be more explicit, even
-> marking a TODO showing that maybe we could do better in the future:
->
->   /*
->    * When using zero-copy, it's necessary to flush the pages before any of
->    * the pages can be sent again, so we'll make sure the new version of the
->    * pages will always arrive _later_ than the old pages.
->    *
->    * Currently we achieve this by flushing the zero-page requested writes
->    * per ram iteration, but in the future we could potentially optimize it
->    * to be less frequent, e.g. only after we finished one whole scanning of
->    * all the dirty bitmaps.
->    */
->
+> +    TCGv_i64 zero = tcg_constant_i64(0);
+> +    for (i = 0; i < 4; i++) {
+> +        set_cpu_vsr(a->ra * 4 + i, zero, false);
+> +        set_cpu_vsr(a->ra * 4 + i, zero, true);
+> +    }
 
-Thanks! I will insert that in the next version.
+or
 
-The thing here is that I was under the impression an iteration was equivalent to
-a whole scanning of all the dirty bitmaps. I see now that it may not
-be the case.
+   tcg_gen_gvec_dup_imm(MO_64, acc_full_offset(a->ra), 64, 64, 0);
 
-[...]
-> > @@ -688,10 +708,9 @@ static void *multifd_send_thread(void *opaque)
-> >                  p->iov[0].iov_base = p->packet;
-> >              }
-> >
-> > -            ret = qio_channel_writev_all(p->c, p->iov + iov_offset,
-> > -                                         p->iovs_num - iov_offset,
-> > -                                         &local_err);
-> > -
-> > +            ret = qio_channel_writev_full_all(p->c, p->iov + iov_offset,
-> > +                                              p->iovs_num - iov_offset, NULL,
-> > +                                              0, p->write_flags, &local_err);
->
-> I kind of agree with Dan in previous patch - this iov_offset is confusing,
-> better drop it.
 
-Sure, fixed for v10.
-
->
-[...]
-> --
-> Peter Xu
->
-
-Best regards,
-Leo
-
+r~
 
