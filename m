@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F165103A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 18:37:13 +0200 (CEST)
-Received: from localhost ([::1]:42512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6406451039F
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 18:37:06 +0200 (CEST)
+Received: from localhost ([::1]:41868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njOBc-0005zv-AO
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 12:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44886)
+	id 1njOBV-0005U3-FS
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 12:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5Y-0002vj-Hz
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:30:56 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:37481)
+ id 1njO5Z-0002vs-Mt
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:30:58 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:56154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5T-0003ly-Rv
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:30:54 -0400
-Received: by mail-pl1-x631.google.com with SMTP id b12so15947505plg.4
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:30:50 -0700 (PDT)
+ id 1njO5U-0003m7-Ma
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:30:55 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id r9so1858278pjo.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d6D3pyx1DCMBlw0QHVOtWOZM5rgwOC/SMC0Uj796DwU=;
- b=tYdEVbJmSEEeLPZMSQCVxYzC1yiA/94isaMKhS0jAnt8k8oTjuLn2YaBsz7SNUKIUs
- RqJSPXU4z3sT+tlGOAPyaFaqxmsy+hgdRIFB5B2PJ4NJ/6MMCvsYEoWGXL1C/DfK3fb7
- 60GstGhmlgDYV1nPYkRF7K3CXamMLizM2gdgp96hahwikVfuRFAQhNqNVTcAXbS3T140
- 6qLVOM0acitKKX5nDIzaRWIbZWYlbTV4enRIyRX/UPg5FbDzkXgZed1WQULUt+ZySknP
- CtNQYqWD0xNNcbW18XUV309VLg1iP6RUe2DM5fy2GxgPe8qs3k9DHM9rTyY6LPOwcWnE
- l5AA==
+ bh=i0bYNx9gMtvu3dlOAIwhnpYW7XVbsWcDBUkTNgwOrpw=;
+ b=Sx9RPNmKCVT1C2W34YVjGEQ5EcfDecgYJR47kQQEYUsL/9xrZCk0tIUd83mGJNBE90
+ DGJ2kf3b/cXg/Mp3CePtkMBwlZG228pde+6nVsOajDL3/Ao/fkwmcKOF60qawsTnGqhb
+ CzrbigbooAMyKuQsjBOvCi1OXWt6gNhtyAct8c8NZ8OE2tIGv+JTHcZtpH6SYfu8pNr2
+ qb7VVnJ0IroeIM8Ry+A45xHiHwbIs4VEKGn8nHBDhoSr+ZUrzmbq9EvvDr7Xff+KM8Uo
+ 07uksuKh1j3FT29AoP73rGmlBhjeA2ei9EulTav5PwleE6mnlaGOxs0rUxm8Oq7fT5fB
+ sIww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d6D3pyx1DCMBlw0QHVOtWOZM5rgwOC/SMC0Uj796DwU=;
- b=YxpYQWcH3xeB7dBgXuJ6K0mYni4M+M/4RNUZqQ0jtlKhHthmUcEkjJ1DUtHywVCgRS
- xjh+JcYvbui5viNCuocBqIbkiFM/tPJKSuSkC9bXU0Ikm9KiJW5+BJww6yjYQCiBkAjY
- hXxOgnmbx2ThDJ2CBOisFCWwsncUBf+Odz3TWzs9L1RN1MxfF/VfRDz1+NaPJCu2J9vM
- mY2xpfj667oJ5SsX0PJ9CPBJ9a43d7b5pCwNl/wsOrwOErnjGsUd90H/lAqf/Vjx7sou
- pj/eB/4K5cjSLM4PPC3mT9qa3rp65XyeZzJJMsQSyRagRqQgeQ0Ztj+ZNFL/MESEEYgy
- lOEQ==
-X-Gm-Message-State: AOAM533V71ge18bmx4GfADsaVjND7TKcPWzmK73QUBhkaEmmSZl39Tk3
- 3JGPpcQgGk3DIhI+yMzL/lapx0LdC+xjpQ==
-X-Google-Smtp-Source: ABdhPJxVut0AwKrH46SwPzhZ8oSAKy9KdCHXvtIquUvCKVxwoOZR/oJ3s4t0TI4P1IrjQp7xcyM9Ng==
-X-Received: by 2002:a17:902:7088:b0:156:1aa9:79eb with SMTP id
- z8-20020a170902708800b001561aa979ebmr24006486plk.71.1650990649878; 
- Tue, 26 Apr 2022 09:30:49 -0700 (PDT)
+ bh=i0bYNx9gMtvu3dlOAIwhnpYW7XVbsWcDBUkTNgwOrpw=;
+ b=kJe20A+xbsJOH1qJT87E8yZEfncvh3cEowP+risMuma23+xbq78NJsXTiMKDgeclVQ
+ MsxxeEPRTYO4cPwUtZihlQ21bv0N38ouBJ4yyvZ6o+W4awSC2QSV1fEAtAMxxSYe5GZY
+ KdmAMrDqgkzDFHzYHQHxSeSxirNziM/AtEEHVAreQHUuoCOiaWZMhdyq8CxOaQM8Bmh7
+ 37Eh5MDKyjpH8vR6E75y20MNV/HYX6dYFMhglobaYV++56wKnLai9ttkV3o92S6CgXE8
+ cKWSNi/9U7a1xSv13wGppuW+LsEvpJmrLZ/K+xtQnyPVX17n/9aVgY+tFiT6caIBW/AO
+ cyvg==
+X-Gm-Message-State: AOAM533HvcNWEKEVNzDex7Wt86D2+tqNTeqoU5EOH2w3wNkMN+O6VtMj
+ sv9esCHV4ZK3V1Df5fx6Vdeis185qSzTIg==
+X-Google-Smtp-Source: ABdhPJz26oud3wqOIDjWjMPNL+0q0fxBzv+eKB1y1JBVR0HUvxg18ZdJXJ3rxjkyzfaJUzGm/cArHA==
+X-Received: by 2002:a17:902:c2cc:b0:15b:a4e6:f58c with SMTP id
+ c12-20020a170902c2cc00b0015ba4e6f58cmr23902468pla.149.1650990651073; 
+ Tue, 26 Apr 2022 09:30:51 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- y131-20020a626489000000b00505a8f36965sm15655813pfb.184.2022.04.26.09.30.49
+ y131-20020a626489000000b00505a8f36965sm15655813pfb.184.2022.04.26.09.30.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 09:30:49 -0700 (PDT)
+ Tue, 26 Apr 2022 09:30:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/47] target/arm: Use tcg_constant in handle_msr_i
-Date: Tue, 26 Apr 2022 09:30:01 -0700
-Message-Id: <20220426163043.100432-6-richard.henderson@linaro.org>
+Subject: [PATCH 06/47] target/arm: Use tcg_constant in handle_sys
+Date: Tue, 26 Apr 2022 09:30:02 -0700
+Message-Id: <20220426163043.100432-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426163043.100432-1-richard.henderson@linaro.org>
 References: <20220426163043.100432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,50 +90,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
+ target/arm/translate-a64.c | 31 +++++++++----------------------
+ 1 file changed, 9 insertions(+), 22 deletions(-)
 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 5c0fd897d6..ec4765362b 100644
+index ec4765362b..5d1bccaf46 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -1615,7 +1615,6 @@ static void gen_axflag(void)
- static void handle_msr_i(DisasContext *s, uint32_t insn,
-                          unsigned int op1, unsigned int op2, unsigned int crm)
- {
--    TCGv_i32 t1;
-     int op = op1 << 3 | op2;
+@@ -1818,19 +1818,14 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+         /* Emit code to perform further access permissions checks at
+          * runtime; this may result in an exception.
+          */
+-        TCGv_ptr tmpptr;
+-        TCGv_i32 tcg_syn, tcg_isread;
+         uint32_t syndrome;
  
-     /* End the TB by default, chaining is ok.  */
-@@ -1674,9 +1673,7 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
-         if (s->current_el == 0) {
-             goto do_unallocated;
+-        gen_a64_set_pc_im(s->pc_curr);
+-        tmpptr = tcg_const_ptr(ri);
+         syndrome = syn_aa64_sysregtrap(op0, op1, op2, crn, crm, rt, isread);
+-        tcg_syn = tcg_const_i32(syndrome);
+-        tcg_isread = tcg_const_i32(isread);
+-        gen_helper_access_check_cp_reg(cpu_env, tmpptr, tcg_syn, tcg_isread);
+-        tcg_temp_free_ptr(tmpptr);
+-        tcg_temp_free_i32(tcg_syn);
+-        tcg_temp_free_i32(tcg_isread);
++        gen_a64_set_pc_im(s->pc_curr);
++        gen_helper_access_check_cp_reg(cpu_env,
++                                       tcg_constant_ptr(ri),
++                                       tcg_constant_i32(syndrome),
++                                       tcg_constant_i32(isread));
+     } else if (ri->type & ARM_CP_RAISES_EXC) {
+         /*
+          * The readfn or writefn might raise an exception;
+@@ -1861,17 +1856,15 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+     case ARM_CP_DC_ZVA:
+         /* Writes clear the aligned block of memory which rt points into. */
+         if (s->mte_active[0]) {
+-            TCGv_i32 t_desc;
+             int desc = 0;
+ 
+             desc = FIELD_DP32(desc, MTEDESC, MIDX, get_mem_index(s));
+             desc = FIELD_DP32(desc, MTEDESC, TBI, s->tbid);
+             desc = FIELD_DP32(desc, MTEDESC, TCMA, s->tcma);
+-            t_desc = tcg_const_i32(desc);
+ 
+             tcg_rt = new_tmp_a64(s);
+-            gen_helper_mte_check_zva(tcg_rt, cpu_env, t_desc, cpu_reg(s, rt));
+-            tcg_temp_free_i32(t_desc);
++            gen_helper_mte_check_zva(tcg_rt, cpu_env,
++                                     tcg_constant_i32(desc), cpu_reg(s, rt));
+         } else {
+             tcg_rt = clean_data_tbi(s, cpu_reg(s, rt));
          }
--        t1 = tcg_const_i32(crm & PSTATE_SP);
--        gen_helper_msr_i_spsel(cpu_env, t1);
--        tcg_temp_free_i32(t1);
-+        gen_helper_msr_i_spsel(cpu_env, tcg_constant_i32(crm & PSTATE_SP));
-         break;
- 
-     case 0x19: /* SSBS */
-@@ -1704,15 +1701,11 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
-         break;
- 
-     case 0x1e: /* DAIFSet */
--        t1 = tcg_const_i32(crm);
--        gen_helper_msr_i_daifset(cpu_env, t1);
--        tcg_temp_free_i32(t1);
-+        gen_helper_msr_i_daifset(cpu_env, tcg_constant_i32(crm));
-         break;
- 
-     case 0x1f: /* DAIFClear */
--        t1 = tcg_const_i32(crm);
--        gen_helper_msr_i_daifclear(cpu_env, t1);
--        tcg_temp_free_i32(t1);
-+        gen_helper_msr_i_daifclear(cpu_env, tcg_constant_i32(crm));
-         /* For DAIFClear, exit the cpu loop to re-evaluate pending IRQs.  */
-         s->base.is_jmp = DISAS_UPDATE_EXIT;
-         break;
+@@ -1935,10 +1928,7 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+         if (ri->type & ARM_CP_CONST) {
+             tcg_gen_movi_i64(tcg_rt, ri->resetvalue);
+         } else if (ri->readfn) {
+-            TCGv_ptr tmpptr;
+-            tmpptr = tcg_const_ptr(ri);
+-            gen_helper_get_cp_reg64(tcg_rt, cpu_env, tmpptr);
+-            tcg_temp_free_ptr(tmpptr);
++            gen_helper_get_cp_reg64(tcg_rt, cpu_env, tcg_constant_ptr(ri));
+         } else {
+             tcg_gen_ld_i64(tcg_rt, cpu_env, ri->fieldoffset);
+         }
+@@ -1947,10 +1937,7 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+             /* If not forbidden by access permissions, treat as WI */
+             return;
+         } else if (ri->writefn) {
+-            TCGv_ptr tmpptr;
+-            tmpptr = tcg_const_ptr(ri);
+-            gen_helper_set_cp_reg64(cpu_env, tmpptr, tcg_rt);
+-            tcg_temp_free_ptr(tmpptr);
++            gen_helper_set_cp_reg64(cpu_env, tcg_constant_ptr(ri), tcg_rt);
+         } else {
+             tcg_gen_st_i64(tcg_rt, cpu_env, ri->fieldoffset);
+         }
 -- 
 2.34.1
 
