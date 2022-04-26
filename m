@@ -2,54 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC7850EE9A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 04:13:48 +0200 (CEST)
-Received: from localhost ([::1]:39426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1DF50EF6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 05:59:09 +0200 (CEST)
+Received: from localhost ([::1]:33978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njAi3-0003xf-4E
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 22:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34712)
+	id 1njCM0-0001PO-33
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 23:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1njAga-0001ge-1C; Mon, 25 Apr 2022 22:12:16 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:54100)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1njAgW-0003C2-Ih; Mon, 25 Apr 2022 22:12:15 -0400
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 23Q1wwnV074072;
- Tue, 26 Apr 2022 09:58:58 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from localhost.localdomain (192.168.70.100) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 26 Apr
- 2022 10:11:24 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
- <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: [PATCH v6 3/3] tests/qtest: Add test for Aspeed HACE accumulative mode
-Date: Tue, 26 Apr 2022 10:11:20 +0800
-Message-ID: <20220426021120.28255-4-steven_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220426021120.28255-1-steven_lee@aspeedtech.com>
-References: <20220426021120.28255-1-steven_lee@aspeedtech.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1njCKh-0000WO-E9; Mon, 25 Apr 2022 23:57:47 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:36521)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1njCKf-0000G0-6J; Mon, 25 Apr 2022 23:57:47 -0400
+Received: by mail-pf1-x430.google.com with SMTP id z16so16771064pfh.3;
+ Mon, 25 Apr 2022 20:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=OpOE/h/hR9CW9GZv2fZjKkLwZWLwvnHbtm0Z7QGaw5A=;
+ b=Dk0nXxl/FKrxnG2A+2SZ59XSd2Xcv0MANY7zbuBZZ+I5duNNC/Mc7FiXFc8hCVTM60
+ lp7xCj0ucpY0Ixq/JAx3DEIPBPWn+rRocCACRSQgbNedchHF8huU3wvYpFdqo55wnJLR
+ P9QPzrSFhcdT9apwn0o0ow8lWqestVXF8kyc3HGJ7lwOwzXJ1M880Mrnv5H5Hl4KB5az
+ tqI8N0gBypS3mtPOrHg29/gr43fWE2exLnImG7Lbju39P7g7DSRjd9A+JryBv7BAh6zs
+ XLc0iWT6wHI1bP1qRa1EKNHFH0UfJVH0Zm/0MRa08vkZ9fSuyRi6tdj4mCRkxdLw8eoo
+ CaRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OpOE/h/hR9CW9GZv2fZjKkLwZWLwvnHbtm0Z7QGaw5A=;
+ b=luJlTR2E9I3E+nyE90P8L0MWR9YtXXYJ7N9OIFi+AU9KxtT2+ozl4dMb3vn3wVQR43
+ lYNmpZjJXSJsIXRrQ0K+FI+cNBgHy90mg8eLApJn73YLZHdKY8kM1GWLk8A8QKxxAbL6
+ X5IEXTzl20//eNUrj2NN1byOy0jcxtRdCwkYrA/AsLWaVJtZzvhfYQg0kInlfz81kZy4
+ Krxb8ZJRdhkk9neHh+jp3Ba95JrH+WyZiJF1z+xc5ELTzu8UgfTelYnJq1U2KNH7B0pz
+ dEQrRdZbQjRLSVrAdP1S2SLOI5sQLVxvx36atd4VN3W6ueCoYkZaHHi/RT40suLOHvDV
+ ojPA==
+X-Gm-Message-State: AOAM533TD4M4a4+/V2IF1w2+EvJoYF+DJXq9rFbtyCzqy2wCjYP+2Cpp
+ yiBINPwULMXeSLC9IPoxIyY=
+X-Google-Smtp-Source: ABdhPJw0rd4HJbUHU6n4lJAZWpjygt+E2VcGVg671VLav48a6kurvuzrT+hqSWCuEzO8WVbj7q29IA==
+X-Received: by 2002:a63:fd04:0:b0:3aa:6473:1859 with SMTP id
+ d4-20020a63fd04000000b003aa64731859mr18035646pgh.151.1650945462438; 
+ Mon, 25 Apr 2022 20:57:42 -0700 (PDT)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ f16-20020a056a00239000b004fa7103e13csm13916373pfc.41.2022.04.25.20.57.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Apr 2022 20:57:41 -0700 (PDT)
+Message-ID: <94dfcb65-6901-6a56-d527-581b9b088d2c@gmail.com>
+Date: Tue, 26 Apr 2022 12:57:37 +0900
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.70.100]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 23Q1wwnV074072
-Received-SPF: pass client-ip=211.20.114.71;
- envelope-from=steven_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 2/5] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <cover.1650553693.git.qemu_oss@crudebyte.com>
+ <1750044.XWheshbc2e@silver> <eafd4bbf-dbff-323a-179f-8f29905701e1@gmail.com>
+ <3849551.ofAv5PygDX@silver>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <3849551.ofAv5PygDX@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,213 +88,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jamin_lin@aspeedtech.com, troy_lee@aspeedtech.com,
- steven_lee@aspeedtech.com
+Cc: Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Greg Kurz <groug@kaod.org>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This add two addition test cases for accumulative mode under sg enabled.
+On 2022/04/25 3:45, Christian Schoenebeck wrote:
+>>>>> +    }
+>>>>> +    err = chmod(addr.sun_path, mode);
+>>>>
+>>>> I'm not sure if it is fine to have a time window between bind() and
+>>>> chmod(). Do you have some rationale?
+>>>
+>>> Good question. QEMU's 9p server is multi-threaded; all 9p requests come in
+>>> serialized and the 9p server controller portion (9p.c) is only running on
+>>> QEMU main thread, but the actual filesystem driver calls are then
+>>> dispatched to QEMU worker threads and therefore running concurrently at
+>>> this point:
+>>>
+>>> https://wiki.qemu.org/Documentation/9p#Threads_and_Coroutines
+>>>
+>>> Similar situation on Linux 9p client side: it handles access to a mounted
+>>> 9p filesystem concurrently, requests are then serialized by 9p driver on
+>>> Linux and sent over wire to 9p server (host).
+>>>
+>>> So yes, there might be implications by that short time windows. But could
+>>> that be exploited on macOS hosts in practice?
+>>>
+>>> The socket file would have mode srwxr-xr-x for a short moment.
+>>>
+>>> For security_model=mapped* this should not be a problem.
+>>>
+>>> For security_model=none|passhrough, in theory, maybe? But how likely is
+>>> that? If you are using a Linux client for instance, trying to brute-force
+>>> opening the socket file, the client would send several 9p commands
+>>> (Twalk, Tgetattr, Topen, probably more). The time window of the two
+>>> commands above should be much smaller than that and I would expect one of
+>>> the 9p commands to error out in between.
+>>>
+>>> What would be a viable approach to avoid this issue on macOS?
+>>
+>> It is unlikely that a naive brute-force approach will succeed to
+>> exploit. The more concerning scenario is that the attacker uses the
+>> knowledge of the underlying implementation of macOS to cause resource
+>> contention to widen the window. Whether an exploitation is viable
+>> depends on how much time you spend digging XNU.
+>>
+>> However, I'm also not sure if it really *has* a race condition. Looking
+>> at v9fs_co_mknod(), it sequentially calls s->ops->mknod() and
+>> s->ops->lstat(). It also results in an entity called "path name based
+>> fid" in the code, which inherently cannot identify a file when it is
+>> renamed or recreated.
+>>
+>> If there is some rationale it is safe, it may also be applied to the
+>> sequence of bind() and chmod(). Can anyone explain the sequence of
+>> s->ops->mknod() and s->ops->lstat() or path name based fid in general?
+> 
+> You are talking about 9p server's controller level: I don't see something that
+> would prevent a concurrent open() during this bind() ... chmod() time window
+> unfortunately.
+> 
+> Argument 'fidp' passed to function v9fs_co_mknod() reflects the directory in
+> which the new device file shall be created. So 'fidp' is not the device file
+> here, nor is 'fidp' modified during this function.
+> 
+> Function v9fs_co_mknod() is entered by 9p server on QEMU main thread. At the
+> beginning of the function it first acquires a read lock on a (per 9p export)
+> global coroutine mutex:
+> 
+>      v9fs_path_read_lock(s);
+> 
+> and holds this lock until returning from function v9fs_co_mknod(). But that's
+> just a read lock. Function v9fs_co_open() also just gains a read lock. So they
+> can happen concurrently.
+> 
+> Then v9fs_co_run_in_worker({...}) is called to dispatch and execute all the
+> code block (think of it as an Obj-C "block") inside this (macro actually) on a
+> QEMU worker thread. So an arbitrary background thread would then call the fs
+> driver functions:
+> 
+>      s->ops->mknod()
+>      v9fs_name_to_path()
+>      s->ops->lstat()
+> 
+> and then at the end of the code block the background thread would dispatch
+> back to QEMU main thread. So when we are reaching:
+> 
+>      v9fs_path_unlock(s);
+> 
+> we are already back on QEMU main thread, hence unlocking on main thread now
+> and finally leaving function v9fs_co_mknod().
+> 
+> The important thing to understand is, while that
+> 
+>      v9fs_co_run_in_worker({...})
+> 
+> code block is executed on a QEMU worker thread, the QEMU main thread (9p
+> server controller portion, i.e. 9p.c) is *not* sleeping, QEMU main thread
+> rather continues to process other (if any) client requests in the meantime. In
+> other words v9fs_co_run_in_worker() neither behaves exactly like Apple's GCD
+> dispatch_async(), nor like dispatch_sync(), as GCD is not coroutine based.
+> 
+> So 9p server might pull a pending 'Topen' client request from the input FIFO
+> in the meantime and likewise dispatch that to a worker thread, etc. Hence a
+> concurrent open() might in theory be possible, but I find it quite unlikely to
+> succeed in practice as the open() call on guest is translated by Linux client
+> into a bunch of synchronous 9p requests on the path passed with the open()
+> call on guest, and a round trip for each 9p message is like what, ~0.3ms or
+> something in this order. That's quite huge compared to the time window I would
+> expect between bind() ... open().
+> 
+> Does this answer your questions?
 
-The input vector was manually craft with "abc" + bit 1 + padding zeros + L.
-The padding length depends on algorithm, i.e. SHA512 (1024 bit),
-SHA256 (512 bit).
+The time window may be widened by a malicious actor if the actor knows 
+XNU well so the window length inferred from experiences is not really 
+enough to claim it safe, particularly when considering about security.
 
-The result was calculated by command line sha512sum/sha256sum utilities
-without padding, i.e. only "abc" ascii text.
+On the other hand, I'm wondering if there is same kind of a time window 
+between s->ops->mknodat() and s->ops->lstat(). Also, there should be 
+similar time windows among operations with "path name based fid" as they 
+also use path names as identifiers. If there is a rationale that it is 
+considered secure, we may be able to apply the same logic to the time 
+window between bind() and chmod() and claim it secure.
+I need a review from someone who understands that part of the code, 
+therefore.
 
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
----
- tests/qtest/aspeed_hace-test.c | 145 +++++++++++++++++++++++++++++++++
- 1 file changed, 145 insertions(+)
-
-diff --git a/tests/qtest/aspeed_hace-test.c b/tests/qtest/aspeed_hace-test.c
-index 58aa22014d..85d705ec50 100644
---- a/tests/qtest/aspeed_hace-test.c
-+++ b/tests/qtest/aspeed_hace-test.c
-@@ -20,6 +20,7 @@
- #define  HACE_ALGO_SHA512        (BIT(5) | BIT(6))
- #define  HACE_ALGO_SHA384        (BIT(5) | BIT(6) | BIT(10))
- #define  HACE_SG_EN              BIT(18)
-+#define  HACE_ACCUM_EN           BIT(8)
- 
- #define HACE_STS                 0x1c
- #define  HACE_RSA_ISR            BIT(13)
-@@ -95,6 +96,57 @@ static const uint8_t test_result_sg_sha256[] = {
-     0x55, 0x1e, 0x1e, 0xc5, 0x80, 0xdd, 0x6d, 0x5a, 0x6e, 0xcd, 0xe9, 0xf3,
-     0xd3, 0x5e, 0x6e, 0x4a, 0x71, 0x7f, 0xbd, 0xe4};
- 
-+/*
-+ * The accumulative mode requires firmware to provide internal initial state
-+ * and message padding (including length L at the end of padding).
-+ *
-+ * This test vector is a ascii text "abc" with padding message.
-+ *
-+ * Expected results were generated using command line utitiles:
-+ *
-+ *  echo -n -e 'abc' | dd of=/tmp/test
-+ *  for hash in sha512sum sha256sum; do $hash /tmp/test; done
-+ */
-+static const uint8_t test_vector_accum_512[] = {
-+    0x61, 0x62, 0x63, 0x80, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18};
-+
-+static const uint8_t test_vector_accum_256[] = {
-+    0x61, 0x62, 0x63, 0x80, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18};
-+
-+static const uint8_t test_result_accum_sha512[] = {
-+    0xdd, 0xaf, 0x35, 0xa1, 0x93, 0x61, 0x7a, 0xba, 0xcc, 0x41, 0x73, 0x49,
-+    0xae, 0x20, 0x41, 0x31, 0x12, 0xe6, 0xfa, 0x4e, 0x89, 0xa9, 0x7e, 0xa2,
-+    0x0a, 0x9e, 0xee, 0xe6, 0x4b, 0x55, 0xd3, 0x9a, 0x21, 0x92, 0x99, 0x2a,
-+    0x27, 0x4f, 0xc1, 0xa8, 0x36, 0xba, 0x3c, 0x23, 0xa3, 0xfe, 0xeb, 0xbd,
-+    0x45, 0x4d, 0x44, 0x23, 0x64, 0x3c, 0xe8, 0x0e, 0x2a, 0x9a, 0xc9, 0x4f,
-+    0xa5, 0x4c, 0xa4, 0x9f};
-+
-+static const uint8_t test_result_accum_sha256[] = {
-+    0xba, 0x78, 0x16, 0xbf, 0x8f, 0x01, 0xcf, 0xea, 0x41, 0x41, 0x40, 0xde,
-+    0x5d, 0xae, 0x22, 0x23, 0xb0, 0x03, 0x61, 0xa3, 0x96, 0x17, 0x7a, 0x9c,
-+    0xb4, 0x10, 0xff, 0x61, 0xf2, 0x00, 0x15, 0xad};
- 
- static void write_regs(QTestState *s, uint32_t base, uint32_t src,
-                        uint32_t length, uint32_t out, uint32_t method)
-@@ -307,6 +359,86 @@ static void test_sha512_sg(const char *machine, const uint32_t base,
-     qtest_quit(s);
- }
- 
-+static void test_sha256_accum(const char *machine, const uint32_t base,
-+                        const uint32_t src_addr)
-+{
-+    QTestState *s = qtest_init(machine);
-+
-+    const uint32_t buffer_addr = src_addr + 0x1000000;
-+    const uint32_t digest_addr = src_addr + 0x4000000;
-+    uint8_t digest[32] = {0};
-+    struct AspeedSgList array[] = {
-+        {  cpu_to_le32(sizeof(test_vector_accum_256) | SG_LIST_LEN_LAST),
-+           cpu_to_le32(buffer_addr) },
-+    };
-+
-+    /* Check engine is idle, no busy or irq bits set */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Write test vector into memory */
-+    qtest_memwrite(s, buffer_addr, test_vector_accum_256, sizeof(test_vector_accum_256));
-+    qtest_memwrite(s, src_addr, array, sizeof(array));
-+
-+    write_regs(s, base, src_addr, sizeof(test_vector_accum_256),
-+               digest_addr, HACE_ALGO_SHA256 | HACE_SG_EN | HACE_ACCUM_EN);
-+
-+    /* Check hash IRQ status is asserted */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-+
-+    /* Clear IRQ status and check status is deasserted */
-+    qtest_writel(s, base + HACE_STS, 0x00000200);
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Read computed digest from memory */
-+    qtest_memread(s, digest_addr, digest, sizeof(digest));
-+
-+    /* Check result of computation */
-+    g_assert_cmpmem(digest, sizeof(digest),
-+                    test_result_accum_sha256, sizeof(digest));
-+
-+    qtest_quit(s);
-+}
-+
-+static void test_sha512_accum(const char *machine, const uint32_t base,
-+                        const uint32_t src_addr)
-+{
-+    QTestState *s = qtest_init(machine);
-+
-+    const uint32_t buffer_addr = src_addr + 0x1000000;
-+    const uint32_t digest_addr = src_addr + 0x4000000;
-+    uint8_t digest[64] = {0};
-+    struct AspeedSgList array[] = {
-+        {  cpu_to_le32(sizeof(test_vector_accum_512) | SG_LIST_LEN_LAST),
-+           cpu_to_le32(buffer_addr) },
-+    };
-+
-+    /* Check engine is idle, no busy or irq bits set */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Write test vector into memory */
-+    qtest_memwrite(s, buffer_addr, test_vector_accum_512, sizeof(test_vector_accum_512));
-+    qtest_memwrite(s, src_addr, array, sizeof(array));
-+
-+    write_regs(s, base, src_addr, sizeof(test_vector_accum_512),
-+               digest_addr, HACE_ALGO_SHA512 | HACE_SG_EN | HACE_ACCUM_EN);
-+
-+    /* Check hash IRQ status is asserted */
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0x00000200);
-+
-+    /* Clear IRQ status and check status is deasserted */
-+    qtest_writel(s, base + HACE_STS, 0x00000200);
-+    g_assert_cmphex(qtest_readl(s, base + HACE_STS), ==, 0);
-+
-+    /* Read computed digest from memory */
-+    qtest_memread(s, digest_addr, digest, sizeof(digest));
-+
-+    /* Check result of computation */
-+    g_assert_cmpmem(digest, sizeof(digest),
-+                    test_result_accum_sha512, sizeof(digest));
-+
-+    qtest_quit(s);
-+}
-+
- struct masks {
-     uint32_t src;
-     uint32_t dest;
-@@ -395,6 +527,16 @@ static void test_sha512_sg_ast2600(void)
-     test_sha512_sg("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
- }
- 
-+static void test_sha256_accum_ast2600(void)
-+{
-+    test_sha256_accum("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-+}
-+
-+static void test_sha512_accum_ast2600(void)
-+{
-+    test_sha512_accum("-machine ast2600-evb", 0x1e6d0000, 0x80000000);
-+}
-+
- static void test_addresses_ast2600(void)
- {
-     test_addresses("-machine ast2600-evb", 0x1e6d0000, &ast2600_masks);
-@@ -454,6 +596,9 @@ int main(int argc, char **argv)
-     qtest_add_func("ast2600/hace/sha512_sg", test_sha512_sg_ast2600);
-     qtest_add_func("ast2600/hace/sha256_sg", test_sha256_sg_ast2600);
- 
-+    qtest_add_func("ast2600/hace/sha512_accum", test_sha512_accum_ast2600);
-+    qtest_add_func("ast2600/hace/sha256_accum", test_sha256_accum_ast2600);
-+
-     qtest_add_func("ast2500/hace/addresses", test_addresses_ast2500);
-     qtest_add_func("ast2500/hace/sha512", test_sha512_ast2500);
-     qtest_add_func("ast2500/hace/sha256", test_sha256_ast2500);
--- 
-2.17.1
-
+Regards,
+Akihiko Odaki
 
