@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2919950ED10
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 01:57:43 +0200 (CEST)
-Received: from localhost ([::1]:34258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D2750ED32
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 02:07:46 +0200 (CEST)
+Received: from localhost ([::1]:36628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nj8aM-0005kJ-9t
-	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 19:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43994)
+	id 1nj8k5-0007lh-3g
+	for lists+qemu-devel@lfdr.de; Mon, 25 Apr 2022 20:07:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8Ie-0007nG-3t
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nj8Ia-0007ml-RQ
- for qemu-devel@nongnu.org; Mon, 25 Apr 2022 19:39:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650929958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nbdXbPV/yHeCCxJoGKJzal9ZTZudP9VhG+RawmxDOkM=;
- b=GuySpFm7mN6upGsrF1WaIFQ+qead9Dg5H/cgmJjZuCZmR53qK0oDwj3mh2gK9lEJP/qzKD
- AucWz/ZoEoBWPJfEAWGxu+qjClrA92EhJNc82d9Ro2um0gCnwOPmhj+vONKBwFzwgx7XFC
- K8s1fuYQJCzuWxLyL1+lskMe3ctr6o8=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-357-Vzrp2tvxPSamAaUy5bqhDg-1; Mon, 25 Apr 2022 19:39:15 -0400
-X-MC-Unique: Vzrp2tvxPSamAaUy5bqhDg-1
-Received: by mail-il1-f198.google.com with SMTP id
- o17-20020a92c691000000b002c2c04aebe7so6917415ilg.8
- for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 16:39:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nj8iY-00074F-RS
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 20:06:10 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:38696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nj8iW-0003A3-3T
+ for qemu-devel@nongnu.org; Mon, 25 Apr 2022 20:06:10 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ s14-20020a17090a880e00b001caaf6d3dd1so755562pjn.3
+ for <qemu-devel@nongnu.org>; Mon, 25 Apr 2022 17:06:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=4edOecocKA9IyE06HTL+44+gp53Qmas0E39fHk4iqPM=;
+ b=hVml7plgTk5ShdQgsZb08fBjNBZXRR27XN8SoDHXCGR7ZDsKeGvCufsWr5+cRaDxzB
+ m4TX+Ex0coDouP1fnEiM57MhiB9rnH0hXaCZuzELUWsxoQ8uGSiFwXKt+B8PiH4nhZtN
+ GrRqE6PcfHAq2VXdh+lncFBwinodwwNCX/F2Ohb8SgvEA5yGaLDq2JjcDKBLjcr1i2Qc
+ VHwxd3oS+r/u3v5lLqv7ev/zQ78Ch0sbgFDrkQ4krVGufk/XrtPVT9k4JrByMexSLid6
+ 1Cd2H0EX7aR5zVfakCVzcdJyfLzWTSzIM2EGViyDstkuyJTdo6JePfn682pTePOxdgfc
+ 79tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nbdXbPV/yHeCCxJoGKJzal9ZTZudP9VhG+RawmxDOkM=;
- b=vBzYd8jRnYSgWBY3HKFyDMQ12wjcwx2aPxafm1+lfAicPlBKl3NSH3cZNOpWX+cmbK
- XXJS+J5GupkBcyTlnphoob8j4eQ7hED7DhWLsuRxhSsmtGVDG+N3a6ped8Xs0wEoqodC
- f4gciKen6LSNOXa02odnWEIzDC1Iqs+5y+Ko+47JeeOybOy+6Q6v486nBILsOgh9ndXp
- C9A1vWQS5mMYERzzNBAlxqooYJa5MLlQFP2q002hvKG7Y0AzCBpURvdnOu5xyDD1pSxV
- 2YtlRfqPc/idAeLrMinqm4d6FsvYXxizukI8UqL+Y8FcYhjuWOLe/lpkKDzo8AvMrqBs
- 7WSw==
-X-Gm-Message-State: AOAM531A38yr6OI3qQyCqrcZa5eqNm9gt0V2SVHdHR1k9xpOcIuy0MTx
- x7L4QGomEbrWevASmdJ/BJLsB4P/R0yjaOkyu3QGIgoMrM39mC1TgFseeLVZWjXz8XIH7ixDVFg
- VIuknOuD0HUYywnXwHoLeylfHXnqsij/FhxuqIyRHBtGmxBgIz9Dug24Iy8/mOvzj
-X-Received: by 2002:a92:c548:0:b0:2cc:47f1:815 with SMTP id
- a8-20020a92c548000000b002cc47f10815mr7892929ilj.257.1650929954384; 
- Mon, 25 Apr 2022 16:39:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxoCMMULNLVsVMgTdFSqqy/0zuibb91VTKZ4d/s4OGMpQ4cE7yaxccsxl6cDfNBXe14qO8bGg==
-X-Received: by 2002:a92:c548:0:b0:2cc:47f1:815 with SMTP id
- a8-20020a92c548000000b002cc47f10815mr7892912ilj.257.1650929954093; 
- Mon, 25 Apr 2022 16:39:14 -0700 (PDT)
-Received: from localhost.localdomain
- (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4edOecocKA9IyE06HTL+44+gp53Qmas0E39fHk4iqPM=;
+ b=S0bf8vsB3nWeVsC9p+SEEXwzrcQXNK6dDtmE8VK3cQlh0d0BOg/ou1KDN4LHOTiGDh
+ GY/7/BoX7R4hfdl8w0SXU/BFYfz671bXwJKAc2+/ImyOL1aQA4k70CgODyVtmSrehoiW
+ rBZW8/fAk8vqrupfsTYQOXNXdJVJEXmxZswDjFxv8o4S7cmYtR0AQoWX+vNt1Fqquc8t
+ qYdS6tFOLhdItjU2tH2Xo+vIzaXpoDuX/2tVNi2BToH9EFXMn7g7BDEld/rRAD58Ac8E
+ uhWzO03ueehFF0srNQeKPlWvoLp2RmlaEgaMeFEGjsvY275ofRO406OZw3ZiEjeFsXSb
+ w5dA==
+X-Gm-Message-State: AOAM531FBJEnbiMm1R1p9qGGLYJHYLNAOFCXNWv/0eMuVaHIFr1N9T6H
+ vBMoUnf9vrkaSg2E9fev/QJKTw==
+X-Google-Smtp-Source: ABdhPJxoWm1pfu3EKr6fy+RHqmnxMDMUeuq9xfbeGtCYbRr0Ee4oDjlBFRB6eZo4/1f3ogXWGYHCew==
+X-Received: by 2002:a17:902:ea53:b0:15b:1bb8:ac9e with SMTP id
+ r19-20020a170902ea5300b0015b1bb8ac9emr19992202plg.45.1650931566287; 
+ Mon, 25 Apr 2022 17:06:06 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a92c087000000b002cd809af4e4sm5435072ile.56.2022.04.25.16.39.13
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 25 Apr 2022 16:39:13 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 21/21] tests: Add postcopy preempt tests
-Date: Mon, 25 Apr 2022 19:38:47 -0400
-Message-Id: <20220425233847.10393-22-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220425233847.10393-1-peterx@redhat.com>
-References: <20220425233847.10393-1-peterx@redhat.com>
+ x123-20020a628681000000b0050d4614a535sm3509935pfd.170.2022.04.25.17.06.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Apr 2022 17:06:05 -0700 (PDT)
+Message-ID: <628c4138-1638-ef54-c292-64f4cb8a1353@linaro.org>
+Date: Mon, 25 Apr 2022 17:06:03 -0700
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 29/43] target/loongarch: Add timer related instructions
+ support.
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <20220425091027.2877892-1-yangxiaojuan@loongson.cn>
+ <20220425091027.2877892-30-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220425091027.2877892-30-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,119 +91,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Juan Quintela <quintela@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Four tests are added for preempt mode:
+On 4/25/22 02:10, Xiaojuan Yang wrote:
+> This includes:
+> -RDTIME{L/H}.W
+> -RDTIME.D
+> 
+> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> ---
+>   target/loongarch/disas.c                      |  3 ++
+>   target/loongarch/helper.h                     |  2 ++
+>   target/loongarch/insn_trans/trans_extra.c.inc | 33 +++++++++++++++++++
+>   target/loongarch/insns.decode                 |  3 ++
+>   target/loongarch/op_helper.c                  | 13 ++++++++
+>   target/loongarch/translate.c                  |  2 ++
+>   6 files changed, 56 insertions(+)
 
-  - Postcopy plain
-  - Postcopy recovery
-  - Postcopy tls
-  - Postcopy tls+recovery
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- tests/qtest/migration-test.c | 54 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
-
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index cbcf3f73a4..af8d33c898 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -477,6 +477,7 @@ typedef struct {
-      */
-     bool hide_stderr;
-     bool use_shmem;
-+    bool postcopy_preempt;
-     /* only launch the target process */
-     bool only_target;
-     /* Use dirty ring if true; dirty logging otherwise */
-@@ -992,6 +993,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
-     migrate_set_capability(to, "postcopy-ram", true);
-     migrate_set_capability(to, "postcopy-blocktime", true);
- 
-+    if (args->postcopy_preempt) {
-+        migrate_set_capability(from, "postcopy-preempt", true);
-+        migrate_set_capability(to, "postcopy-preempt", true);
-+    }
-+
-     /* We want to pick a speed slow enough that the test completes
-      * quickly, but that it doesn't complete precopy even on a slow
-      * machine, so also set the downtime.
-@@ -1058,6 +1064,25 @@ static void test_postcopy_tls_psk(void)
-     test_postcopy_common(&args);
- }
- 
-+static void test_postcopy_preempt(void)
-+{
-+    MigrateStart args = {
-+        .postcopy_preempt = true,
-+    };
-+
-+    test_postcopy_common(&args);
-+}
-+
-+static void test_postcopy_preempt_tls_psk(void)
-+{
-+    MigrateStart args = {
-+        .postcopy_preempt = true,
-+        .postcopy_tls = true,
-+    };
-+
-+    test_postcopy_common(&args);
-+}
-+
- static void test_postcopy_recovery_common(MigrateStart *args)
- {
-     QTestState *from, *to;
-@@ -1134,6 +1159,24 @@ static void test_postcopy_recovery_tls_psk(void)
-     test_postcopy_recovery_common(&args);
- }
- 
-+static void test_postcopy_preempt_recovery(void)
-+{
-+    MigrateStart args = { .postcopy_preempt = true };
-+
-+    test_postcopy_recovery_common(&args);
-+}
-+
-+/* This contains preempt+recovery+tls test altogether */
-+static void test_postcopy_preempt_all(void)
-+{
-+    MigrateStart args = {
-+        .postcopy_preempt = true,
-+        .postcopy_tls = true,
-+    };
-+
-+    test_postcopy_recovery_common(&args);
-+}
-+
- static void test_baddest(void)
- {
-     MigrateStart args = {
-@@ -2189,6 +2232,17 @@ int main(int argc, char **argv)
-     qtest_add_func("/migration/postcopy/recovery/tls/psk",
-                    test_postcopy_recovery_tls_psk);
- #endif /* CONFIG_GNUTLS */
-+
-+    qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
-+    qtest_add_func("/migration/postcopy/preempt/recovery/plain",
-+                   test_postcopy_preempt_recovery);
-+#ifdef CONFIG_GNUTLS
-+    qtest_add_func("/migration/postcopy/preempt/tls/psk",
-+                   test_postcopy_preempt_tls_psk);
-+    qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
-+                   test_postcopy_preempt_all);
-+#endif /* CONFIG_GNUTLS */
-+
-     qtest_add_func("/migration/bad_dest", test_baddest);
-     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
-     qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
--- 
-2.32.0
-
+r~
 
