@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 615695107B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 20:54:41 +0200 (CEST)
-Received: from localhost ([::1]:40194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF84251070A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 20:32:03 +0200 (CEST)
+Received: from localhost ([::1]:41896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQKe-0000iu-Gv
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 14:54:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44194)
+	id 1njPyk-00043A-NS
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 14:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPmh-0002g8-Oq
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:36 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:45755)
+ id 1njPmi-0002gQ-Uk
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:38 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:41733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPmf-0004R5-3r
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:35 -0400
-Received: by mail-pl1-x633.google.com with SMTP id h12so27286957plf.12
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:32 -0700 (PDT)
+ id 1njPmg-0004RE-AK
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:19:36 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ z5-20020a17090a468500b001d2bc2743c4so3310335pjf.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=C/u00nAmgF45yxO3zIMu5WmncM8sGR/FNykbnvTKhkM=;
- b=yanGUVQwNFfuuZDkOCb7BTrja9Jro/krMx0XiHF8bCYHiC1uAzADctrHBri6G/qhgW
- dSors3IY4/NsswvjTCIPTF1Uzp2rZokL/PCCSrRpMd5tWlyJdHPxGkcaTxa/T2wAggWS
- hJR7VmwFEyFnZvhysdRDsvYsdA9tQNAO1wD4SHVg+vmQ6qiTFY/JoUjhXdUo7Lq6l+p1
- OcYGxw5gWKOfXYuFo3S6a6jqKDsKy6s5Z/Q6903qdEmh9e1yhvF2i33NcksMvGu2LEQs
- z/36HwEACb7X0Vlt4/+d9vyxKvO2vrvj1dyzK547oDBb2JkTYkrp6BqbqjxgqOhW/O87
- IyrQ==
+ bh=JmB13VTyuzzFASmlJJ9jmm7vtSLnsoUw3SQpc47Yi90=;
+ b=g0Pd1C5CnXSYSs52J5VmMJeCH1fTh/QhEmbJ92GlzLKsUsx1OfJRFDCQ6/gr2svX0r
+ Wmx+KWOZeGMnpaff+K2yht169rRV7mshCfHyyX0UPsHHLlxYPsUa+g21H8J4VTthKHbl
+ U7RiLcypbQy3dOZFP2qs+mgsUSTCyCmNWWcaCsO1Dbz/xJJGrmFTdyzjaFg711FuhGuX
+ lP70vfNK19eNE1N7fLOhgF8cJ/g7mYZ4+1euoFmKjzJ6Cde5W72LzDCjDeb6/jYcC+kN
+ IEP+yetcd1IL4z4hsQU3GJcIbDeOfqzpOqUznwwbaEOyicv6ZzZM+xQj5jRejACahF0s
+ 57jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=C/u00nAmgF45yxO3zIMu5WmncM8sGR/FNykbnvTKhkM=;
- b=JaHFeeEBw92jVfAVORaUyzVdbmza00xNp5ZIBGLHxyE+Vzt0YY34eV+T3zi41yzJcN
- NeeZBKiAxB4kNDW7xEMnkJzbuuuoVqR3CJ1cjnaJnuNMWQgwZVTWVbvbzxPD2r1k1uVN
- 0u5bigxeIyMx0O3Pwaq1drcjGh3sUZNthgRr5I24rX2p5zwfI08iq8sryzMkNvrLLAWN
- JclsFdFPAPoG+M0buXt4MU+21/P73u9XafLEOjtyGMDF4+cFTACe6DQypwJBqfexPNbR
- 8d3SuJ/qFi1ipysBe9bkcDaOieeDtOwsW8C5E+JF3JBhnplN5ctyEWkXLhZQFMak5g8G
- cMew==
-X-Gm-Message-State: AOAM531NYyNpqC11TR3hsi4kPHuwQBMPo3pa7Jbas4e/P6LNFPgzL0x/
- 9nlYEgZyLPQct3UZA20VKkjPAngTnSDHxw==
-X-Google-Smtp-Source: ABdhPJzq2zMA8yTcBhzZNjezRSxFdVxV27poCl1bvBSekvxIOkJKAGbeytWpnlOZJEGqNKrVIJH7Zg==
-X-Received: by 2002:a17:902:7296:b0:151:62b1:e2b0 with SMTP id
- d22-20020a170902729600b0015162b1e2b0mr24469797pll.165.1650997171759; 
- Tue, 26 Apr 2022 11:19:31 -0700 (PDT)
+ bh=JmB13VTyuzzFASmlJJ9jmm7vtSLnsoUw3SQpc47Yi90=;
+ b=EuHrMI9zXqycqqbsWxlXAoRwIXfAfwAKGQpWL5k2JPnAYgeYwEJhUJTzq+8iC5Pk4t
+ eEavElYnTKZEBJ4oOVuRSOn5wglKz4HIgMxNiymO9WaqR6Q/tmQQ+4GDaM6Ff5sSHJWq
+ GWN0JBL8EsNnqn6KaF30i/20TQyArM7J1k8xmQFYoBZmC4CDSKOFW9ivIa150LSaCybb
+ xwa75ILTibgC4yeDRGkjDKgAGQyO/A1xhA+o6/f2nzAaq0XbK/bJr9KTE0srfvDHMVj9
+ XmuSzCX+WnUBQsWYal7ekmvQEIpkjWBj7R8LIetUIXD7XeDTg3I4fyjFDltrDYOiCZkQ
+ kUrg==
+X-Gm-Message-State: AOAM532za25DSytwxTHOCyw798k0b9SXIz8wYSJuZ6U72AfbZELDVVsG
+ SR9Mak2niJ8JXMF8+2OIA7OOXNDNgiD3eA==
+X-Google-Smtp-Source: ABdhPJwAwG1D+Cpu25yH+n27WTcoYLjaUe6+t+1LgbSXOUS7gw68v0n/0u3NbGG9ownR9od2fZy2Ag==
+X-Received: by 2002:a17:902:a710:b0:156:5650:f94a with SMTP id
+ w16-20020a170902a71000b001565650f94amr24026328plq.86.1650997172907; 
+ Tue, 26 Apr 2022 11:19:32 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.31
+ j7-20020a056a00130700b004b9f7cd94a4sm16482827pfu.56.2022.04.26.11.19.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 11:19:31 -0700 (PDT)
+ Tue, 26 Apr 2022 11:19:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/68] target/nios2: Use hw/registerfields.h for CR_TLBADDR
+Subject: [PULL 27/68] target/nios2: Use hw/registerfields.h for CR_TLBACC
  fields
-Date: Tue, 26 Apr 2022 11:18:25 -0700
-Message-Id: <20220426181907.103691-27-richard.henderson@linaro.org>
+Date: Tue, 26 Apr 2022 11:18:26 -0700
+Message-Id: <20220426181907.103691-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
 References: <20220426181907.103691-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,117 +90,120 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use FIELD_EX32 and FIELD_DP32 instead of manual manipulation
-of the fields.
+Retain the helper macros for single bit fields as aliases to
+the longer R_*_MASK names.  Use FIELD_EX32 and FIELD_DP32
+instead of manually manipulating the fields.
+
+Since we're rewriting the references to CR_TLBACC_IGN_* anyway,
+we correct the name of this field to IG, which is its name in
+the official CPU documentation.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220421151735.31996-27-richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-28-richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h       |  8 ++++----
- target/nios2/helper.c    |  4 ++--
- target/nios2/mmu.c       | 17 +++++++++--------
- target/nios2/translate.c |  2 +-
- 4 files changed, 16 insertions(+), 15 deletions(-)
+ target/nios2/cpu.h | 23 +++++++++++++++--------
+ target/nios2/mmu.c | 16 ++++++++--------
+ 2 files changed, 23 insertions(+), 16 deletions(-)
 
 diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index f8cd5dc218..a6811ff7ea 100644
+index a6811ff7ea..bfa86edd97 100644
 --- a/target/nios2/cpu.h
 +++ b/target/nios2/cpu.h
-@@ -110,10 +110,10 @@ FIELD(CR_EXCEPTION, CAUSE, 2, 5)
- FIELD(CR_EXCEPTION, ECCFTL, 31, 1)
+@@ -115,14 +115,21 @@ FIELD(CR_PTEADDR, VPN, 2, 20)
+ FIELD(CR_PTEADDR, PTBASE, 22, 10)
  
- #define CR_PTEADDR       8
--#define   CR_PTEADDR_PTBASE_SHIFT 22
--#define   CR_PTEADDR_PTBASE_MASK  (0x3FF << CR_PTEADDR_PTBASE_SHIFT)
--#define   CR_PTEADDR_VPN_SHIFT    2
--#define   CR_PTEADDR_VPN_MASK     (0xFFFFF << CR_PTEADDR_VPN_SHIFT)
-+
-+FIELD(CR_PTEADDR, VPN, 2, 20)
-+FIELD(CR_PTEADDR, PTBASE, 22, 10)
-+
  #define CR_TLBACC        9
- #define   CR_TLBACC_IGN_SHIFT 25
- #define   CR_TLBACC_IGN_MASK  (0x7F << CR_TLBACC_IGN_SHIFT)
-diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index b30740824c..c2d0afe1b6 100644
---- a/target/nios2/helper.c
-+++ b/target/nios2/helper.c
-@@ -286,8 +286,8 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     } else {
-         env->ctrl[CR_TLBMISC] |= CR_TLBMISC_D;
-     }
--    env->ctrl[CR_PTEADDR] &= CR_PTEADDR_PTBASE_MASK;
--    env->ctrl[CR_PTEADDR] |= (address >> 10) & CR_PTEADDR_VPN_MASK;
-+    env->ctrl[CR_PTEADDR] = FIELD_DP32(env->ctrl[CR_PTEADDR], CR_PTEADDR, VPN,
-+                                       address >> TARGET_PAGE_BITS);
-     env->mmu.pteaddr_wr = env->ctrl[CR_PTEADDR];
- 
-     cs->exception_index = excp;
+-#define   CR_TLBACC_IGN_SHIFT 25
+-#define   CR_TLBACC_IGN_MASK  (0x7F << CR_TLBACC_IGN_SHIFT)
+-#define   CR_TLBACC_C         (1 << 24)
+-#define   CR_TLBACC_R         (1 << 23)
+-#define   CR_TLBACC_W         (1 << 22)
+-#define   CR_TLBACC_X         (1 << 21)
+-#define   CR_TLBACC_G         (1 << 20)
+-#define   CR_TLBACC_PFN_MASK  0x000FFFFF
++
++FIELD(CR_TLBACC, PFN, 0, 20)
++FIELD(CR_TLBACC, G, 20, 1)
++FIELD(CR_TLBACC, X, 21, 1)
++FIELD(CR_TLBACC, W, 22, 1)
++FIELD(CR_TLBACC, R, 23, 1)
++FIELD(CR_TLBACC, C, 24, 1)
++FIELD(CR_TLBACC, IG, 25, 7)
++
++#define CR_TLBACC_C      R_CR_TLBACC_C_MASK
++#define CR_TLBACC_R      R_CR_TLBACC_R_MASK
++#define CR_TLBACC_W      R_CR_TLBACC_W_MASK
++#define CR_TLBACC_X      R_CR_TLBACC_X_MASK
++#define CR_TLBACC_G      R_CR_TLBACC_G_MASK
++
+ #define CR_TLBMISC       10
+ #define   CR_TLBMISC_WAY_SHIFT 20
+ #define   CR_TLBMISC_WAY_MASK  (0xF << CR_TLBMISC_WAY_SHIFT)
 diff --git a/target/nios2/mmu.c b/target/nios2/mmu.c
-index 95900724e8..75afc56daf 100644
+index 75afc56daf..826cd2afb4 100644
 --- a/target/nios2/mmu.c
 +++ b/target/nios2/mmu.c
-@@ -97,7 +97,7 @@ void helper_mmu_write_tlbacc(CPUNios2State *env, uint32_t v)
+@@ -49,7 +49,7 @@ unsigned int mmu_translate(CPUNios2State *env,
+         }
+ 
+         lu->vaddr = vaddr & TARGET_PAGE_MASK;
+-        lu->paddr = (entry->data & CR_TLBACC_PFN_MASK) << TARGET_PAGE_BITS;
++        lu->paddr = FIELD_EX32(entry->data, CR_TLBACC, PFN) << TARGET_PAGE_BITS;
+         lu->prot = ((entry->data & CR_TLBACC_R) ? PAGE_READ : 0) |
+                    ((entry->data & CR_TLBACC_W) ? PAGE_WRITE : 0) |
+                    ((entry->data & CR_TLBACC_X) ? PAGE_EXEC : 0);
+@@ -86,27 +86,27 @@ void helper_mmu_write_tlbacc(CPUNios2State *env, uint32_t v)
+     CPUState *cs = env_cpu(env);
+     Nios2CPU *cpu = env_archcpu(env);
+ 
+-    trace_nios2_mmu_write_tlbacc(v >> CR_TLBACC_IGN_SHIFT,
++    trace_nios2_mmu_write_tlbacc(FIELD_EX32(v, CR_TLBACC, IG),
+                                  (v & CR_TLBACC_C) ? 'C' : '.',
+                                  (v & CR_TLBACC_R) ? 'R' : '.',
+                                  (v & CR_TLBACC_W) ? 'W' : '.',
+                                  (v & CR_TLBACC_X) ? 'X' : '.',
+                                  (v & CR_TLBACC_G) ? 'G' : '.',
+-                                 v & CR_TLBACC_PFN_MASK);
++                                 FIELD_EX32(v, CR_TLBACC, PFN));
+ 
      /* if tlbmisc.WE == 1 then trigger a TLB write on writes to TLBACC */
      if (env->ctrl[CR_TLBMISC] & CR_TLBMISC_WR) {
          int way = (env->ctrl[CR_TLBMISC] >> CR_TLBMISC_WAY_SHIFT);
--        int vpn = (env->mmu.pteaddr_wr & CR_PTEADDR_VPN_MASK) >> 2;
-+        int vpn = FIELD_EX32(env->mmu.pteaddr_wr, CR_PTEADDR, VPN);
+         int vpn = FIELD_EX32(env->mmu.pteaddr_wr, CR_PTEADDR, VPN);
          int pid = (env->mmu.tlbmisc_wr & CR_TLBMISC_PID_MASK) >> 4;
-         int g = (v & CR_TLBACC_G) ? 1 : 0;
-         int valid = ((vpn & CR_TLBACC_PFN_MASK) < 0xC0000) ? 1 : 0;
-@@ -148,7 +148,7 @@ void helper_mmu_write_tlbmisc(CPUNios2State *env, uint32_t v)
-     /* if tlbmisc.RD == 1 then trigger a TLB read on writes to TLBMISC */
-     if (v & CR_TLBMISC_RD) {
-         int way = (v >> CR_TLBMISC_WAY_SHIFT);
--        int vpn = (env->mmu.pteaddr_wr & CR_PTEADDR_VPN_MASK) >> 2;
-+        int vpn = FIELD_EX32(env->mmu.pteaddr_wr, CR_PTEADDR, VPN);
+-        int g = (v & CR_TLBACC_G) ? 1 : 0;
+-        int valid = ((vpn & CR_TLBACC_PFN_MASK) < 0xC0000) ? 1 : 0;
++        int g = FIELD_EX32(v, CR_TLBACC, G);
++        int valid = FIELD_EX32(vpn, CR_TLBACC, PFN) < 0xC0000;
          Nios2TLBEntry *entry =
              &env->mmu.tlb[(way * cpu->tlb_num_ways) +
                            (vpn & env->mmu.tlb_entry_mask)];
-@@ -160,8 +160,9 @@ void helper_mmu_write_tlbmisc(CPUNios2State *env, uint32_t v)
-             (v & ~CR_TLBMISC_PID_MASK) |
-             ((entry->tag & ((1 << cpu->pid_num_bits) - 1)) <<
-              CR_TLBMISC_PID_SHIFT);
--        env->ctrl[CR_PTEADDR] &= ~CR_PTEADDR_VPN_MASK;
--        env->ctrl[CR_PTEADDR] |= (entry->tag >> 12) << CR_PTEADDR_VPN_SHIFT;
-+        env->ctrl[CR_PTEADDR] = FIELD_DP32(env->ctrl[CR_PTEADDR],
-+                                           CR_PTEADDR, VPN,
-+                                           entry->tag >> TARGET_PAGE_BITS);
-     } else {
-         env->ctrl[CR_TLBMISC] = v;
-     }
-@@ -171,12 +172,12 @@ void helper_mmu_write_tlbmisc(CPUNios2State *env, uint32_t v)
+         uint32_t newTag = (vpn << 12) | (g << 11) | (valid << 10) | pid;
+         uint32_t newData = v & (CR_TLBACC_C | CR_TLBACC_R | CR_TLBACC_W |
+-                                CR_TLBACC_X | CR_TLBACC_PFN_MASK);
++                                CR_TLBACC_X | R_CR_TLBACC_PFN_MASK);
  
- void helper_mmu_write_pteaddr(CPUNios2State *env, uint32_t v)
- {
--    trace_nios2_mmu_write_pteaddr(v >> CR_PTEADDR_PTBASE_SHIFT,
--                                  (v & CR_PTEADDR_VPN_MASK) >> CR_PTEADDR_VPN_SHIFT);
-+    trace_nios2_mmu_write_pteaddr(FIELD_EX32(v, CR_PTEADDR, PTBASE),
-+                                  FIELD_EX32(v, CR_PTEADDR, VPN));
+         if ((entry->tag != newTag) || (entry->data != newData)) {
+             if (entry->tag & (1 << 10)) {
+@@ -153,7 +153,7 @@ void helper_mmu_write_tlbmisc(CPUNios2State *env, uint32_t v)
+             &env->mmu.tlb[(way * cpu->tlb_num_ways) +
+                           (vpn & env->mmu.tlb_entry_mask)];
  
-     /* Writes to PTEADDR don't change the read-back VPN value */
--    env->ctrl[CR_PTEADDR] = ((v & ~CR_PTEADDR_VPN_MASK) |
--                             (env->ctrl[CR_PTEADDR] & CR_PTEADDR_VPN_MASK));
-+    env->ctrl[CR_PTEADDR] = ((v & ~R_CR_PTEADDR_VPN_MASK) |
-+                             (env->ctrl[CR_PTEADDR] & R_CR_PTEADDR_VPN_MASK));
-     env->mmu.pteaddr_wr = v;
- }
- 
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index fc49a7101f..baa22c5101 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -924,7 +924,7 @@ void nios2_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-         }
-     }
-     qemu_fprintf(f, " mmu write: VPN=%05X PID %02X TLBACC %08X\n",
--                 env->mmu.pteaddr_wr & CR_PTEADDR_VPN_MASK,
-+                 env->mmu.pteaddr_wr & R_CR_PTEADDR_VPN_MASK,
-                  (env->mmu.tlbmisc_wr & CR_TLBMISC_PID_MASK) >> 4,
-                  env->mmu.tlbacc_wr);
- #endif
+-        env->ctrl[CR_TLBACC] &= CR_TLBACC_IGN_MASK;
++        env->ctrl[CR_TLBACC] &= R_CR_TLBACC_IG_MASK;
+         env->ctrl[CR_TLBACC] |= entry->data;
+         env->ctrl[CR_TLBACC] |= (entry->tag & (1 << 11)) ? CR_TLBACC_G : 0;
+         env->ctrl[CR_TLBMISC] =
+@@ -208,7 +208,7 @@ void dump_mmu(CPUNios2State *env)
+                     entry->tag >> 12,
+                     entry->tag & ((1 << cpu->pid_num_bits) - 1),
+                     (entry->tag & (1 << 11)) ? 'G' : '-',
+-                    entry->data & CR_TLBACC_PFN_MASK,
++                    FIELD_EX32(entry->data, CR_TLBACC, PFN),
+                     (entry->data & CR_TLBACC_C) ? 'C' : '-',
+                     (entry->data & CR_TLBACC_R) ? 'R' : '-',
+                     (entry->data & CR_TLBACC_W) ? 'W' : '-',
 -- 
 2.34.1
 
