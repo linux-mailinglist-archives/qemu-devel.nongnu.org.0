@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA195104E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 19:07:30 +0200 (CEST)
-Received: from localhost ([::1]:38392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED6F5104A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 18:52:27 +0200 (CEST)
+Received: from localhost ([::1]:57264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njOeu-0002vM-A3
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 13:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
+	id 1njOQM-0002Ue-QE
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 12:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5z-00039S-PV
+ id 1njO5z-00039O-PP
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:31:27 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:54952)
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:47076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njO5t-0003vm-TZ
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:31:20 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id fv2so3562903pjb.4
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:31:17 -0700 (PDT)
+ id 1njO5u-0003wM-TD
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 12:31:21 -0400
+Received: by mail-pl1-x636.google.com with SMTP id u7so15374783plg.13
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BDYfwx12Hon85ohkvO8cwx1aoDQ7rAnJ54ZLVVZwl+0=;
- b=HRx2VKmIkPk2haiJ37rUwuafLa+S2E1m3fpfnhQQbYdc9KRyj2MXf1EFq4IxNwBE+r
- sSUdQf07Y7DHLQcb9cEeXVR3qZLURfsVOvJjP8HqGl/l+3kqbf7EnYWr7xDUm3cbqDjp
- jCN8qRl112l+j+IhiAxHhqLJaNQrhhwQxDhwGxsPUjCHLbbP/iczz9oAQgOX05ve4Ayu
- V+bMo7/xsQF9Qa/UB1nDbnKZu73qJeLTmpdeT0bEEowbUaSEOTwBRWeIhyrsjEGULu+b
- 43pd90wgXgQdaM08Uxso1KFB2UaRxmGQZZBmPW9wsG30g7Gd/T4plG7XV4KsEO5wEaDE
- z4Aw==
+ bh=fsC1JB/EB4F9x89YRYFuXT3L+skbijf1weu2wToVj8c=;
+ b=eCwWzpvv/B3fxSGIJ0R5K46fZLWQpFGtYtTtEjo0Fp/k5tht3LIyOWtpCVPTo+08O7
+ nXB4d0Jq7EQToBM5ra9S3MfPw7jom/dPjd4EhmV//jsZpsa7jBit6T6VQHaYHkOFIgP/
+ c+ZBfjCdYJNlFjy6cU9eCWxjHf1kahO+9Eb4dAzOWrzZ+uz3Bqk6hQGPcVp+fUVFjHjD
+ An9xcSEDEkXcVWfOotvULLnLZz9qwqDrwRVilF9Yu9kEGjssxmlQE1FT8hsnzVNx6a4u
+ P6cdT2hKI40pbnDnA4NLYf0NkfvnnvK7ARrfdFqaTYEg5S1iAixiu7YfwnK71IfVhx3B
+ FgWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BDYfwx12Hon85ohkvO8cwx1aoDQ7rAnJ54ZLVVZwl+0=;
- b=0DzxICFPD9R5OLGDWjrHbnBXiiFruCwJuD1dVLamQyvw0FXThE9NTlfl46Q9g6sjIK
- L5op6ehiDrRdKlhe40u5olPZpNwZjK6eESouMJqwpR948zR35mHK8lEVFWEW6plIsO5l
- yEXUb3uu6h79WOQw66DRN1lEzbFWCALyjAHE6VTG1ADnLwFziGxXDr5gsA3TtftpkL9V
- Ow+/24sX4t7GfknsVdTEaLTuLokgh1/oqszJFXMQCTrZK7KRxnEnPXai4eLYZoQ7I/a+
- eo8E4YjHCSN9aEs+Qm1PdMwZ7ru+DSn9zciayj++8hdFAmiS1kO+7oU9YjS11agmt51p
- UjUQ==
-X-Gm-Message-State: AOAM531Z+p9ddV02g5tYg+NFlrt8vaOlAgP7KCbpYlHOCp4EZ/Mz410W
- GVHvYYmuKJZbmv/rPOZJkNIPG8GNuTAv9g==
-X-Google-Smtp-Source: ABdhPJzLXdFQiaR06jr+2J3LX2uFj5WXaUQlzz6xZy9icfZKwocKHNVq34N2lc1B+CRvTv0bXjR9yw==
-X-Received: by 2002:a17:90b:2685:b0:1cb:6521:dd78 with SMTP id
- pl5-20020a17090b268500b001cb6521dd78mr27971623pjb.194.1650990676484; 
- Tue, 26 Apr 2022 09:31:16 -0700 (PDT)
+ bh=fsC1JB/EB4F9x89YRYFuXT3L+skbijf1weu2wToVj8c=;
+ b=XxqRrposKxNvTizej7iYoEByNq1ZRaK1zUQMHj7P33Rbw4gL6bVDpcng0L8gmmW71Q
+ 3ZxSkYqZ8WPyk80938Se+NZHV4UMWhV/o7KGZ9n2qhvRdaGHrBiIfOEPE6FBkipgjrLJ
+ 7czREMGTq9odfXb4XhdctOpaDI1Gc0WY6TQoDYdQlDIqxpVtOXEXxH7diHgAttmgjEQZ
+ /IAb1n7ueUPHfuyF2oP3Jt9dzFGsWwfwPtzijiLgO+jIsKDrbqBEPjuudlKYdTDGJGtn
+ kiDyTKRD3Viyyd+TouiKMLh0RxLPSfBJ+HXfvnnpQIgSiUD5inf16/mLYQGdROlrsxN6
+ qGww==
+X-Gm-Message-State: AOAM530OACXNVgnVLZUJTxQYgLwjtGLzQWYD0Lv5pQZ2c9+PHI0ucVs4
+ MtN9/yY8NY6scxIZczkDQfXPdtGzipj1PA==
+X-Google-Smtp-Source: ABdhPJxCGwWmc1s7idYin4a9wbPgi5AkbGWC6zW45f4rIiRSpOVQZHEGC0q8dJhJDoyRh9JPg/jLcA==
+X-Received: by 2002:a17:90b:1e10:b0:1d9:a68a:144f with SMTP id
+ pg16-20020a17090b1e1000b001d9a68a144fmr5834890pjb.17.1650990677440; 
+ Tue, 26 Apr 2022 09:31:17 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- y131-20020a626489000000b00505a8f36965sm15655813pfb.184.2022.04.26.09.31.15
+ y131-20020a626489000000b00505a8f36965sm15655813pfb.184.2022.04.26.09.31.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 09:31:16 -0700 (PDT)
+ Tue, 26 Apr 2022 09:31:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 34/47] target/arm: Use tcg_constant in trans_CPS_v7m
-Date: Tue, 26 Apr 2022 09:30:30 -0700
-Message-Id: <20220426163043.100432-35-richard.henderson@linaro.org>
+Subject: [PATCH 35/47] target/arm: Use tcg_constant in trans_CSEL
+Date: Tue, 26 Apr 2022 09:30:31 -0700
+Message-Id: <20220426163043.100432-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426163043.100432-1-richard.henderson@linaro.org>
 References: <20220426163043.100432-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,38 +90,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ target/arm/translate.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 0e9fde2589..5ce23947a1 100644
+index 5ce23947a1..37fb17cdaa 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8835,21 +8835,18 @@ static bool trans_CPS_v7m(DisasContext *s, arg_CPS_v7m *a)
-         return true;
+@@ -8982,13 +8982,14 @@ static bool trans_CSEL(DisasContext *s, arg_CSEL *a)
      }
  
--    tmp = tcg_const_i32(a->im);
-+    tmp = tcg_constant_i32(a->im);
-     /* FAULTMASK */
-     if (a->F) {
--        addr = tcg_const_i32(19);
-+        addr = tcg_constant_i32(19);
-         gen_helper_v7m_msr(cpu_env, addr, tmp);
--        tcg_temp_free_i32(addr);
+     /* In this insn input reg fields of 0b1111 mean "zero", not "PC" */
++    zero = tcg_constant_i32(0);
+     if (a->rn == 15) {
+-        rn = tcg_const_i32(0);
++        rn = zero;
+     } else {
+         rn = load_reg(s, a->rn);
      }
-     /* PRIMASK */
-     if (a->I) {
--        addr = tcg_const_i32(16);
-+        addr = tcg_constant_i32(16);
-         gen_helper_v7m_msr(cpu_env, addr, tmp);
--        tcg_temp_free_i32(addr);
+     if (a->rm == 15) {
+-        rm = tcg_const_i32(0);
++        rm = zero;
+     } else {
+         rm = load_reg(s, a->rm);
      }
-     gen_rebuild_hflags(s, false);
--    tcg_temp_free_i32(tmp);
-     gen_lookup_tb(s);
-     return true;
- }
+@@ -9010,10 +9011,8 @@ static bool trans_CSEL(DisasContext *s, arg_CSEL *a)
+     }
+ 
+     arm_test_cc(&c, a->fcond);
+-    zero = tcg_const_i32(0);
+     tcg_gen_movcond_i32(c.cond, rn, c.value, zero, rn, rm);
+     arm_free_cc(&c);
+-    tcg_temp_free_i32(zero);
+ 
+     store_reg(s, a->rd, rn);
+     tcg_temp_free_i32(rm);
 -- 
 2.34.1
 
