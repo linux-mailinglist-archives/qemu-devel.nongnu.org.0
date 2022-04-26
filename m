@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AFFD50FDAB
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 14:53:03 +0200 (CEST)
-Received: from localhost ([::1]:34450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7115450FDBD
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 14:54:34 +0200 (CEST)
+Received: from localhost ([::1]:39312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njKgg-0000TO-77
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 08:53:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43638)
+	id 1njKi9-0003hd-Ik
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 08:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njKaC-0006LT-Ng; Tue, 26 Apr 2022 08:46:20 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:48887)
+ id 1njKaC-0006KJ-Aj; Tue, 26 Apr 2022 08:46:20 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:46673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njKaA-0007DX-Ux; Tue, 26 Apr 2022 08:46:20 -0400
+ id 1njKaA-0007Cy-Az; Tue, 26 Apr 2022 08:46:20 -0400
 Received: from quad ([82.142.9.138]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MysBI-1o4amq2DJK-00vyii; Tue, 26
- Apr 2022 14:46:14 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MDgxt-1nYZsm0YJ5-00AluD; Tue, 26
+ Apr 2022 14:46:15 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] docs: Replace Qemu -> QEMU
-Date: Tue, 26 Apr 2022 14:46:09 +0200
-Message-Id: <20220426124610.639614-5-laurent@vivier.eu>
+Subject: [PULL 5/5] docs: Replace HomeBrew -> Homebrew
+Date: Tue, 26 Apr 2022 14:46:10 +0200
+Message-Id: <20220426124610.639614-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220426124610.639614-1-laurent@vivier.eu>
 References: <20220426124610.639614-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BVWSMNZ8ZzYQaSQNSyPt9gTkxJicL0/tTqyrH4Jq0/3HJOXoHxc
- WWnn39M/Nt3ITI3I96vibYh7h83rtwtHbckFgVg2L7jwHzLp6CIeKEhkOLF63XSmMqWqrNx
- oUXCbqs1X2T/Dl18Fjz5VuwdlXYQQ08CagujpuSGqqtbyBVlEj/abZdptDj4+tt1Rh9ZVwI
- yJLHWMdLsmFjrFTC8TX0g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oh0jsigXXpQ=:6evrnPj7txYUf2wdjmQOb0
- odq3to2/tHtbUuqWz3+yA8c7+e2JlUroycaFRa9TlAmWPOYkxRNaJstu2R1dVQmPir7ynva5U
- Uooq7jKNTWcOHMg0edv38B/QW729Yg6/2x/7tjzweGH4ZD6AGQXkZ4Lc3lLr3VeWxfdo9DF/S
- c2lUyOBsRAcz0b/7tPE1hGqXiiY5Eu9Xs1Rc2xF2B4ykJFbdC2WJMWgMe9FbQltYg0dqe/QLx
- YNfpqiXwTo2mQdBkUnwCd/7aNB+cHUwIYgXo0VO5KFjaEv1LVUJrytiCksRFf7Hz8ICKz5egR
- lWZo8fRohyifwPAHH7JEXtTPYhToR+OCLXYJ2E5YVym2bgpk8CNWXlAfftKmQkVNyns1+MCc6
- vwrGxMxM9DbEkKtfvkXTTRJlzfuXd0BFQtqGRYAyuoKcacDc2wnwXswL8iP2nfaj24xvOVH/6
- YentCh8YyJlFI+GE62FUEYuiDTbUQ5uyoH7x2uAoZihoy565vqENCPIAXeEIdneA4KPMzl3lh
- S3tYuBh4P9kt4RyBmjOt+MyyPQCFD+zeJqgTIpIj2RtsAtIXzOmQU9XA/VZ6BREolzwrBSqm5
- NvYGsm43RZA58MlFzR2/GFnJJJSRa/nWkD6L23fOa/v6RRn/mfj0m5oG8rQxLnBbvlp+I6ax2
- kfCteC1a2rLjYgYplsScHlNzs6i/hCGjvOR1GA+NZmQxGEkQ45bjFysqxlER1eF6SRts=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Yj+9ulMqoVosLV89hZcGIHowETN+ZkNPxG55W3Uk6xDp59pClYe
+ vfuUCPalBdFhVQ/8iftMn12XW11Y3sMC58afWq3teLHUrqLf74epAJXJzo6MSPw4T5RwXML
+ gd238oHz+bBbh1/Dce03bqzMKllxCR7IdEy0aZjuxXNRKdjPDLWgLngvZB+uJn20+eLU+Ki
+ ySqtDGgVltivdRU3353Ew==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xAjV5a74ze4=:Q3aIN4bYG1ePNIw0qSi0b9
+ uX3zAPI7eSIQqUEPs24vh3kBo3ppBxRliwTJ4cyQ1DOzNdcPBbB+j6qBy+EU4SCzX4YOYYTYC
+ QsuhXvzRRHsMtxeqLJkxW0TpGVApcRKmCmSskBbdxzBy7PgTJZ58X/SjjPwRmUKwjnmW/pdmS
+ 8tCeBJczpdjmaAO1QX66exRZdCNuslAvVxeSqjoNlYeos0Kelw+4inY3e5X/cXlRYu/+DwYp9
+ DcICp0X3/t0ihmk2WjOr1Gp7PJVv84KVjWGnwGJWL07BNFSwYxMRXeM+QC/Sfv6PPUVBO9UYF
+ gSTAQTDpFcM7pD/kVzaUo6lbRM1l+wW74l3lmWeP/piCbHfU/2/TWo5wFjAk0lT2k1RCpRrjl
+ 5+2ZV5+QwkJ89o1nFiCF/xvjVR/aBnKQn8RQBfH/MHS1UndyF9sbq2ZzCs9FbM4pQTTgsVhii
+ ImRp6NlVrbhIX2iuTh3lpSi1CF1kn/LX2XlsDmeKXktYUwaq0qgj7n/ZEmBpd8g/GG2zqiYDV
+ rUYD8lP85Lj73zLjNyJ24lsrEs7FuHgfWJ7oNW2ZHiIlZktHsCbNUCp6pRRkAf3UkglnWNKhM
+ 6AIb/sQuJrDGR6CXlY5WV4E6SvYNfC1FtejHEsiARzd3lIYbOpBusGDpBlb6kVE/jMBavQ/TA
+ YXIA/XyZ2lgu0pBaAkS94RjQnmOQhhP7Pm/DCaRw+XgV1cgWc0G2l/Sd352f0ryDxa54=
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,46 +66,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Bin Meng <bmeng.cn@gmail.com>, Knut Omang <knuto@ifi.uio.no>,
- Laurent Vivier <laurent@vivier.eu>
+ Bin Meng <bmeng.cn@gmail.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Weil <sw@weilnetz.de>
 
+The official spelling does not use camel case.
+
 Signed-off-by: Stefan Weil <sw@weilnetz.de>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Knut Omang <knuto@ifi.uio.no>
-Message-Id: <20220422083007.1082667-1-sw@weilnetz.de>
+Message-Id: <20220422083403.1082924-1-sw@weilnetz.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- docs/pcie_sriov.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ docs/about/build-platforms.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/pcie_sriov.txt b/docs/pcie_sriov.txt
-index f5e891e1d451..11158dbf8890 100644
---- a/docs/pcie_sriov.txt
-+++ b/docs/pcie_sriov.txt
-@@ -8,8 +8,8 @@ of a PCI Express device. It allows a single physical function (PF) to appear as
- virtual functions (VFs) for the main purpose of eliminating software
- overhead in I/O from virtual machines.
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index c29a4b8fe649..e9163ba5563f 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -80,7 +80,7 @@ Ubuntu LTS. Other distros will be assumed to ship similar software versions.
+ For FreeBSD and OpenBSD, decisions will be made based on the contents of the
+ respective ports repository, while NetBSD will use the pkgsrc repository.
  
--Qemu now implements the basic common functionality to enable an emulated device
--to support SR/IOV. Yet no fully implemented devices exists in Qemu, but a
-+QEMU now implements the basic common functionality to enable an emulated device
-+to support SR/IOV. Yet no fully implemented devices exists in QEMU, but a
- proof-of-concept hack of the Intel igb can be found here:
+-For macOS, `HomeBrew`_ will be used, although `MacPorts`_ is expected to carry
++For macOS, `Homebrew`_ will be used, although `MacPorts`_ is expected to carry
+ similar versions.
  
- git://github.com/knuto/qemu.git sriov_patches_v5
-@@ -18,7 +18,7 @@ Implementation
- ==============
- Implementing emulation of an SR/IOV capable device typically consists of
- implementing support for two types of device classes; the "normal" physical device
--(PF) and the virtual device (VF). From Qemu's perspective, the VFs are just
-+(PF) and the virtual device (VF). From QEMU's perspective, the VFs are just
- like other devices, except that some of their properties are derived from
- the PF.
+ Windows
+@@ -92,6 +92,6 @@ hosted on Linux (Debian/Fedora).
+ The version of the Windows API that's currently targeted is Vista / Server
+ 2008.
  
+-.. _HomeBrew: https://brew.sh/
++.. _Homebrew: https://brew.sh/
+ .. _MacPorts: https://www.macports.org/
+ .. _Repology: https://repology.org/
 -- 
 2.35.1
 
