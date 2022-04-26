@@ -2,68 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7502750F9A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:08:12 +0200 (CEST)
-Received: from localhost ([::1]:47164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F6FA50F9ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:13:50 +0200 (CEST)
+Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njI78-0005FJ-Ui
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:08:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52650)
+	id 1njICX-00032z-11
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHWz-0004vR-F1
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32166)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1njHYH-0006TM-1K
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:32:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHWx-0006h2-5u
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:49 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1njHYE-0006qu-ML
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:32:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650965446;
+ s=mimecast20190719; t=1650965525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CyoGk9TRNtSWKx4g2cltQehdT75YeEexcdxRqvGlsMo=;
- b=eQcKy2PododYfhPiyQGPrHkMVltccDxj1FOt8vTi9LnhW73/Ill4RptgDNdlJ3xNTyU2q2
- umIbFSLT32QdOoHHZqwbvJZcBSK02OtxLIJjqEJJ2csd3oGABvKE5xDD7lxueRHBwxDxNJ
- M14GSRbEYdTZfmqbsMU9iZCCFpBiYWU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=o6spAlwLhmUs0JYp+ViWVmbT568rwl1JZhmAo79h9dQ=;
+ b=c0tBbP02/PdVreXOjhqP6P/e3U1zd9IUsHpxYKmPTLtlbsvmGcoM2S7IqaLny6qoyiXEs1
+ Crg6WIHCxXBBM4nZWtZ54IV4bXE0+2gauLXJODxy7g/OkxWjfzHXfBsdjCYunvm1Ru6OM0
+ hRkxD2vjIo6ekQtKXdZVvKJ3L4kRqK0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-dJ2GHNo_NUuAzgVCyA-5gQ-1; Tue, 26 Apr 2022 05:30:42 -0400
-X-MC-Unique: dJ2GHNo_NUuAzgVCyA-5gQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9BC93838C9B;
- Tue, 26 Apr 2022 09:30:31 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13A7340470D5;
- Tue, 26 Apr 2022 09:30:20 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 26/26] util: rename qemu_*block() socket functions
-Date: Tue, 26 Apr 2022 13:27:15 +0400
-Message-Id: <20220426092715.3931705-27-marcandre.lureau@redhat.com>
-In-Reply-To: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
-References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
+ us-mta-668-oGUrfz6uNdG-CQEhMWJ1Sw-1; Tue, 26 Apr 2022 05:32:04 -0400
+X-MC-Unique: oGUrfz6uNdG-CQEhMWJ1Sw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ j21-20020adfa555000000b0020adb9ac14fso1679604wrb.13
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 02:32:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=o6spAlwLhmUs0JYp+ViWVmbT568rwl1JZhmAo79h9dQ=;
+ b=2m+cZFMmBZau7BVD2s6M8C8bYjBUUOPtp9qm9deMXFqRqKcaaljKx3J2u8oM7DFxJx
+ fuca7qK5Fgy3un0aKrVXOwrtrtt6M0EcE/pNts5pt+SBo+1bd/dyL500z3nlo5oCYHW8
+ uAbVTx5BF0YahFe8khuV8zTEyrFb4L97orB1ifj+RHMtHzQH34gmxNiHIoDYgATjGtwC
+ yIYlZkwQ19RVxG4QqPHCo0HyzOD3PJyDYZ6R2uXJlsDpfi6D7S8tC3friT6XXT3opnqA
+ A/jQ2HbADs8VpbfYDtoy3NpgxZZ6viBPUAK59IkgO9PxJO1OTVnVl+NCIazOc2/WRelC
+ wwHQ==
+X-Gm-Message-State: AOAM530j7VLGg/cnou3J6B/IlfJ4ZATjjCYyTwqQ9uokG4o6IT1BiUJh
+ 9yZ0XuNcg9uaR2p/IYSUvPsyaaFlAdfOuqeT1WhLIN+ALeT/3NTqNCxGAQBTn8RX2AZoYbMYetO
+ WCNFesJVCyf0SmnI=
+X-Received: by 2002:a05:6000:3cc:b0:20a:df53:9a0e with SMTP id
+ b12-20020a05600003cc00b0020adf539a0emr5413194wrg.264.1650965523000; 
+ Tue, 26 Apr 2022 02:32:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwELPS+4Ak2F15tG9lIUiz54OvdKhFUCipEVvxcVv7h0C+En1E/Y8w57gpgdSeXp9dolPzEAg==
+X-Received: by 2002:a05:6000:3cc:b0:20a:df53:9a0e with SMTP id
+ b12-20020a05600003cc00b0020adf539a0emr5413177wrg.264.1650965522788; 
+ Tue, 26 Apr 2022 02:32:02 -0700 (PDT)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ b5-20020adfd1c5000000b0020a7954a974sm12776324wrd.34.2022.04.26.02.32.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Apr 2022 02:32:02 -0700 (PDT)
+Message-ID: <50da3bb2-6199-ea6d-99de-b70b708c3d84@redhat.com>
+Date: Tue, 26 Apr 2022 11:32:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 07/26] tests: make libqmp buildable for win32
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
+ <20220426092715.3931705-8-marcandre.lureau@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220426092715.3931705-8-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,338 +97,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Jason Wang <jasowang@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 26/04/2022 11.26, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   tests/qtest/libqmp.h |  2 ++
+>   tests/qtest/libqmp.c | 37 +++++++++++++++++++++++++++++++------
+>   2 files changed, 33 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/qtest/libqmp.h b/tests/qtest/libqmp.h
+> index 94aa97328a17..772f18b73ba3 100644
+> --- a/tests/qtest/libqmp.h
+> +++ b/tests/qtest/libqmp.h
+> @@ -20,8 +20,10 @@
+>   #include "qapi/qmp/qdict.h"
+>   
+>   QDict *qmp_fd_receive(int fd);
+> +#ifndef G_OS_WIN32
+>   void qmp_fd_vsend_fds(int fd, int *fds, size_t fds_num,
+>                         const char *fmt, va_list ap) G_GNUC_PRINTF(4, 0);
+> +#endif
+>   void qmp_fd_vsend(int fd, const char *fmt, va_list ap) G_GNUC_PRINTF(2, 0);
+>   void qmp_fd_send(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+>   void qmp_fd_send_raw(int fd, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+> diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
+> index 0358b8313dc4..5f451ebee796 100644
+> --- a/tests/qtest/libqmp.c
+> +++ b/tests/qtest/libqmp.c
+> @@ -15,9 +15,15 @@
+>    */
+>   
+>   #include "qemu/osdep.h"
+> -
+>   #include "libqmp.h"
+>   
+> +#include <unistd.h>
+> +#include <stdlib.h>
 
-The qemu_*block() functions are meant to be be used with sockets (the
-win32 implementation expects SOCKET)
+unistd.h and stdlib.h should have been added by osdep.h already, so please 
+remove these two lines.
 
-Over time, those functions where used with Win32 SOCKET or
-file-descriptors interchangeably. But for portability, they must only be
-used with socket-like file-descriptors. FDs can use
-g_unix_set_fd_nonblocking() instead.
-
-Rename the functions with "socket" in the name to prevent bad usages.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- include/qemu/sockets.h                  |  6 +++---
- chardev/char-socket.c                   |  2 +-
- contrib/ivshmem-server/ivshmem-server.c |  2 +-
- hw/hyperv/syndbg.c                      |  2 +-
- hw/virtio/vhost-user.c                  |  2 +-
- io/channel-socket.c                     |  6 +++---
- net/l2tpv3.c                            |  2 +-
- net/socket.c                            | 10 +++++-----
- qga/channel-posix.c                     |  2 +-
- tests/unit/socket-helpers.c             |  2 +-
- tests/unit/test-crypto-tlssession.c     |  8 ++++----
- util/oslib-posix.c                      |  8 ++++----
- util/oslib-win32.c                      |  8 ++++----
- util/vhost-user-server.c                |  4 ++--
- 14 files changed, 32 insertions(+), 32 deletions(-)
-
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 0c34bf23987e..038faa157f59 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -17,9 +17,9 @@ int qemu_socket(int domain, int type, int protocol);
- int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
- int socket_set_cork(int fd, int v);
- int socket_set_nodelay(int fd);
--void qemu_set_block(int fd);
--int qemu_try_set_nonblock(int fd);
--void qemu_set_nonblock(int fd);
-+void qemu_socket_set_block(int fd);
-+int qemu_socket_try_set_nonblock(int fd);
-+void qemu_socket_set_nonblock(int fd);
- int socket_set_fast_reuse(int fd);
- 
- #ifdef WIN32
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index fab2d791d43d..dc4e218eeb6a 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -311,7 +311,7 @@ static ssize_t tcp_chr_recv(Chardev *chr, char *buf, size_t len)
-         }
- 
-         /* O_NONBLOCK is preserved across SCM_RIGHTS so reset it */
--        qemu_set_block(fd);
-+        qemu_socket_set_block(fd);
- 
- #ifndef MSG_CMSG_CLOEXEC
-         qemu_set_cloexec(fd);
-diff --git a/contrib/ivshmem-server/ivshmem-server.c b/contrib/ivshmem-server/ivshmem-server.c
-index 39a6ffdb5df9..2f3c7320a678 100644
---- a/contrib/ivshmem-server/ivshmem-server.c
-+++ b/contrib/ivshmem-server/ivshmem-server.c
-@@ -146,7 +146,7 @@ ivshmem_server_handle_new_conn(IvshmemServer *server)
-         return -1;
-     }
- 
--    qemu_set_nonblock(newfd);
-+    qemu_socket_set_nonblock(newfd);
-     IVSHMEM_SERVER_DEBUG(server, "accept()=%d\n", newfd);
- 
-     /* allocate new structure for this peer */
-diff --git a/hw/hyperv/syndbg.c b/hw/hyperv/syndbg.c
-index ebb8a29f7838..16d04cfdc669 100644
---- a/hw/hyperv/syndbg.c
-+++ b/hw/hyperv/syndbg.c
-@@ -334,7 +334,7 @@ static void hv_syndbg_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    qemu_set_nonblock(syndbg->socket);
-+    qemu_socket_set_nonblock(syndbg->socket);
- 
-     syndbg->servaddr.sin_port = htons(syndbg->host_port);
-     syndbg->servaddr.sin_family = AF_INET;
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 9c4f84f35f61..a80315ecfc40 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -1826,7 +1826,7 @@ static int vhost_user_postcopy_advise(struct vhost_dev *dev, Error **errp)
-         error_setg(errp, "%s: Failed to get ufd", __func__);
-         return -EIO;
-     }
--    qemu_set_nonblock(ufd);
-+    qemu_socket_set_nonblock(ufd);
- 
-     /* register ufd with userfault thread */
-     u->postcopy_fd.fd = ufd;
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index 9f5ddf68b687..e531d7bd2af5 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -460,7 +460,7 @@ static void qio_channel_socket_copy_fds(struct msghdr *msg,
-             }
- 
-             /* O_NONBLOCK is preserved across SCM_RIGHTS so reset it */
--            qemu_set_block(fd);
-+            qemu_socket_set_block(fd);
- 
- #ifndef MSG_CMSG_CLOEXEC
-             qemu_set_cloexec(fd);
-@@ -665,9 +665,9 @@ qio_channel_socket_set_blocking(QIOChannel *ioc,
-     QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
- 
-     if (enabled) {
--        qemu_set_block(sioc->fd);
-+        qemu_socket_set_block(sioc->fd);
-     } else {
--        qemu_set_nonblock(sioc->fd);
-+        qemu_socket_set_nonblock(sioc->fd);
-     }
-     return 0;
- }
-diff --git a/net/l2tpv3.c b/net/l2tpv3.c
-index b8faa8796c8f..af373e5c300c 100644
---- a/net/l2tpv3.c
-+++ b/net/l2tpv3.c
-@@ -716,7 +716,7 @@ int net_init_l2tpv3(const Netdev *netdev,
-     s->vec = g_new(struct iovec, MAX_L2TPV3_IOVCNT);
-     s->header_buf = g_malloc(s->header_size);
- 
--    qemu_set_nonblock(fd);
-+    qemu_socket_set_nonblock(fd);
- 
-     s->fd = fd;
-     s->counter = 0;
-diff --git a/net/socket.c b/net/socket.c
-index ea5220a2eb51..bfd8596250c4 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -297,7 +297,7 @@ static int net_socket_mcast_create(struct sockaddr_in *mcastaddr,
-         }
-     }
- 
--    qemu_set_nonblock(fd);
-+    qemu_socket_set_nonblock(fd);
-     return fd;
- fail:
-     if (fd >= 0)
-@@ -522,7 +522,7 @@ static int net_socket_listen_init(NetClientState *peer,
-         error_setg_errno(errp, errno, "can't create stream socket");
-         return -1;
-     }
--    qemu_set_nonblock(fd);
-+    qemu_socket_set_nonblock(fd);
- 
-     socket_set_fast_reuse(fd);
- 
-@@ -570,7 +570,7 @@ static int net_socket_connect_init(NetClientState *peer,
-         error_setg_errno(errp, errno, "can't create stream socket");
-         return -1;
-     }
--    qemu_set_nonblock(fd);
-+    qemu_socket_set_nonblock(fd);
- 
-     connected = 0;
-     for(;;) {
-@@ -688,7 +688,7 @@ static int net_socket_udp_init(NetClientState *peer,
-         closesocket(fd);
-         return -1;
-     }
--    qemu_set_nonblock(fd);
-+    qemu_socket_set_nonblock(fd);
- 
-     s = net_socket_fd_init(peer, model, name, fd, 0, NULL, errp);
-     if (!s) {
-@@ -730,7 +730,7 @@ int net_init_socket(const Netdev *netdev, const char *name,
-         if (fd == -1) {
-             return -1;
-         }
--        ret = qemu_try_set_nonblock(fd);
-+        ret = qemu_socket_try_set_nonblock(fd);
-         if (ret < 0) {
-             error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
-                              name, fd);
-diff --git a/qga/channel-posix.c b/qga/channel-posix.c
-index 03739753607d..a996858e2492 100644
---- a/qga/channel-posix.c
-+++ b/qga/channel-posix.c
-@@ -34,7 +34,7 @@ static gboolean ga_channel_listen_accept(GIOChannel *channel,
-         g_warning("error converting fd to gsocket: %s", strerror(errno));
-         goto out;
-     }
--    qemu_set_nonblock(client_fd);
-+    qemu_socket_set_nonblock(client_fd);
-     ret = ga_channel_client_add(c, client_fd);
-     if (ret) {
-         g_warning("error setting up connection");
-diff --git a/tests/unit/socket-helpers.c b/tests/unit/socket-helpers.c
-index 0a9e090a68dd..5af4de513bb6 100644
---- a/tests/unit/socket-helpers.c
-+++ b/tests/unit/socket-helpers.c
-@@ -88,7 +88,7 @@ static int socket_can_bind_connect(const char *hostname, int family)
-         goto cleanup;
-     }
- 
--    qemu_set_nonblock(cfd);
-+    qemu_socket_set_nonblock(cfd);
-     if (connect(cfd, (struct sockaddr *)&ss, sslen) < 0) {
-         if (errno == EINPROGRESS) {
-             check_soerr = true;
-diff --git a/tests/unit/test-crypto-tlssession.c b/tests/unit/test-crypto-tlssession.c
-index 5f0da9192c53..a266dc32dac9 100644
---- a/tests/unit/test-crypto-tlssession.c
-+++ b/tests/unit/test-crypto-tlssession.c
-@@ -90,8 +90,8 @@ static void test_crypto_tls_session_psk(void)
-      * thread, so we need these non-blocking to avoid deadlock
-      * of ourselves
-      */
--    qemu_set_nonblock(channel[0]);
--    qemu_set_nonblock(channel[1]);
-+    qemu_socket_set_nonblock(channel[0]);
-+    qemu_socket_set_nonblock(channel[1]);
- 
-     clientCreds = test_tls_creds_psk_create(
-         QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT,
-@@ -244,8 +244,8 @@ static void test_crypto_tls_session_x509(const void *opaque)
-      * thread, so we need these non-blocking to avoid deadlock
-      * of ourselves
-      */
--    qemu_set_nonblock(channel[0]);
--    qemu_set_nonblock(channel[1]);
-+    qemu_socket_set_nonblock(channel[0]);
-+    qemu_socket_set_nonblock(channel[1]);
- 
- #define CLIENT_CERT_DIR "tests/test-crypto-tlssession-client/"
- #define SERVER_CERT_DIR "tests/test-crypto-tlssession-server/"
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index d75dfad6b625..7ee612f3725c 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -224,20 +224,20 @@ void qemu_anon_ram_free(void *ptr, size_t size)
-     qemu_ram_munmap(-1, ptr, size);
- }
- 
--void qemu_set_block(int fd)
-+void qemu_socket_set_block(int fd)
- {
-     g_unix_set_fd_nonblocking(fd, false, NULL);
- }
- 
--int qemu_try_set_nonblock(int fd)
-+int qemu_socket_try_set_nonblock(int fd)
- {
-     return g_unix_set_fd_nonblocking(fd, true, NULL) ? 0 : -1;
- }
- 
--void qemu_set_nonblock(int fd)
-+void qemu_socket_set_nonblock(int fd)
- {
-     int f;
--    f = qemu_try_set_nonblock(fd);
-+    f = qemu_socket_try_set_nonblock(fd);
-     assert(f == 0);
- }
- 
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 8f8523693c02..5723d3eb4c5a 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -181,14 +181,14 @@ static int socket_error(void)
-     }
- }
- 
--void qemu_set_block(int fd)
-+void qemu_socket_set_block(int fd)
- {
-     unsigned long opt = 0;
-     WSAEventSelect(fd, NULL, 0);
-     ioctlsocket(fd, FIONBIO, &opt);
- }
- 
--int qemu_try_set_nonblock(int fd)
-+int qemu_socket_try_set_nonblock(int fd)
- {
-     unsigned long opt = 1;
-     if (ioctlsocket(fd, FIONBIO, &opt) != NO_ERROR) {
-@@ -197,9 +197,9 @@ int qemu_try_set_nonblock(int fd)
-     return 0;
- }
- 
--void qemu_set_nonblock(int fd)
-+void qemu_socket_set_nonblock(int fd)
- {
--    (void)qemu_try_set_nonblock(fd);
-+    (void)qemu_socket_try_set_nonblock(fd);
- }
- 
- int socket_set_fast_reuse(int fd)
-diff --git a/util/vhost-user-server.c b/util/vhost-user-server.c
-index f66fbba7108b..232984ace6d7 100644
---- a/util/vhost-user-server.c
-+++ b/util/vhost-user-server.c
-@@ -65,7 +65,7 @@ static void vmsg_unblock_fds(VhostUserMsg *vmsg)
- {
-     int i;
-     for (i = 0; i < vmsg->fd_num; i++) {
--        qemu_set_nonblock(vmsg->fds[i]);
-+        qemu_socket_set_nonblock(vmsg->fds[i]);
-     }
- }
- 
-@@ -270,7 +270,7 @@ set_watch(VuDev *vu_dev, int fd, int vu_evt,
- 
-         vu_fd_watch->fd = fd;
-         vu_fd_watch->cb = cb;
--        qemu_set_nonblock(fd);
-+        qemu_socket_set_nonblock(fd);
-         aio_set_fd_handler(server->ioc->ctx, fd, true, kick_handler,
-                            NULL, NULL, NULL, vu_fd_watch);
-         vu_fd_watch->vu_dev = vu_dev;
--- 
-2.36.0
+  Thomas
 
 
