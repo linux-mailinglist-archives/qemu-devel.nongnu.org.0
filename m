@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B466F50F528
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 10:52:07 +0200 (CEST)
-Received: from localhost ([::1]:54762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0B450F6AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 10:59:08 +0200 (CEST)
+Received: from localhost ([::1]:40510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njGvW-0006PC-HD
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 04:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42424)
+	id 1njH2J-0007ek-Pg
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 04:59:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1njGrJ-0005Xq-7j; Tue, 26 Apr 2022 04:47:47 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:50442 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1njGrF-0008FQ-Hk; Tue, 26 Apr 2022 04:47:44 -0400
-Received: from [192.168.3.6] (unknown [180.156.147.178])
- by APP-01 (Coremail) with SMTP id qwCowABHT4efsWdiUXL+AA--.24747S2;
- Tue, 26 Apr 2022 16:47:27 +0800 (CST)
-Subject: Re: [PATCH qemu 1/9] target/riscv: rvv: Add mask agnostic for vv
- instructions
-To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <165089631935.4839.7564289944057093570-1@git.sr.ht>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <9deca899-2041-2452-77e4-6fb8a58bc2b8@iscas.ac.cn>
-Date: Tue, 26 Apr 2022 16:47:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1njGux-0006uW-Ds
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 04:51:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1njGur-0000d3-S7
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 04:51:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650963081;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mt4Dwo5d1uyoLh80y129epnQLPmHPaI+RxaIAXCwU1Q=;
+ b=F2eYEsQmlacpQpiHzBhv958UwFkDFFqSkLNgLgVKmqIBYF/woXGUCuV8obv3Ioo9cQKZ7m
+ Lx7pcjvTHCJWx8DvD3uBRDApM0TR7ZLPjQtTa7BXFFuSGNjl7mxkkwUcxUnk6VEFFsHAvw
+ gaQloCuQhqxYJsVJHVIYj57iYs4b5l0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-246-bY9y2uKtO_SMeILOb-NBxw-1; Tue, 26 Apr 2022 04:51:18 -0400
+X-MC-Unique: bY9y2uKtO_SMeILOb-NBxw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A573F29ABA06;
+ Tue, 26 Apr 2022 08:51:17 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C6B44047D3B;
+ Tue, 26 Apr 2022 08:51:17 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [RFC PATCH v2 0/8] Removal of AioContext lock,
+ bs->parents and ->children: new rwlock
+Date: Tue, 26 Apr 2022 04:51:06 -0400
+Message-Id: <20220426085114.199647-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <165089631935.4839.7564289944057093570-1@git.sr.ht>
-Content-Type: multipart/alternative;
- boundary="------------98C1135EBEB0B15547A5137E"
-Content-Language: en-US
-X-CM-TRANSID: qwCowABHT4efsWdiUXL+AA--.24747S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3WF4xWw1fGr1UKr13JFyrWFg_yoWxArWrpr
- 48GrWxtrZxGFyfCw1fXF4UAr18Zrs5uw40kw4kuw4kuan5XrZ8XFZ8KF1xCFWUKF45Zr1F
- 93WqyryY9395ZFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r106r15McIj6I8E
- 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjI
- I2zVCS5cI20VAGYxC7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487
- MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
- I_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
- wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
- W8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI
- 42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JjjYL9UUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,390 +73,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- eop Chen <eop.chen@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------98C1135EBEB0B15547A5137E
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+This is a new attempt to replace the need to take the AioContext lock to
+protect graph modifications. In particular, we aim to remove
+(or better, substitute) the AioContext around bdrv_replace_child_noperm,
+since this function changes BlockDriverState's ->parents and ->children
+lists.
+
+In the previous version, we decided to discard using subtree_drains to
+protect the nodes, for different reasons: for those unfamiliar with it,
+please see https://patchew.org/QEMU/20220301142113.163174-1-eesposit@redhat.com/
+
+In this new attempt, we introduce a custom rwlock implementation.
+This is inspired from cpus-common.c implementation, and aims to
+reduce cacheline bouncing by having per-aiocontext counter of readers.
+All details and implementation of the lock are in patch 3.
+
+We distinguish between writer (main loop, under BQL) that modifies the
+graph, and readers (all other coroutines running in various AioContext),
+that go through the graph edges, reading ->parents and->children.
+The writer (main loop)  has an "exclusive" access, so it first waits for
+current read to finish, and then prevents incoming ones from
+entering while it has the exclusive access.
+The readers (coroutines in multiple AioContext) are free to
+access the graph as long the writer is not modifying the graph.
+In case it is, they go in a CoQueue and sleep until the writer
+is done.
+
+Patch 1 and 2 are in preparation for the lock, and fix bugs or missing
+cases that popped out while implementing this lock.
+Patch 3-7 implement and use the graph and assertions.
+Note that unfortunately assert_graph_readable is not very efficient,
+because it iterates through the list of all AioContexts to get the total number of readers.
+For now we will use it only for debugging purposes and to be sure all
+places are properly protected, but eventually we might want to disable it.
+
+Patch 8 is an example of usage: as you can see, it is not essential that
+the right coroutine takes the rdlock, but just that it is taken
+somewhere. Otherwise the writer is not aware of any readers, and can write
+while others are reading.
+
+Next step is the most complex one: figure where to put the rdlocks.
+While wrlock is easy, rdlock should ideally be:
+- not recursive, otherwise it is not very intuitive
+- not everywhere, prefereably only on the top caller of recursion trees
+- still manage to protect ->parents and ->children reads.
+
+Luckly, most of the cases where we recursively go through a graph are
+the BlockDriverState callback functions in block_int-common.h
+In order to understand what to protect, I categorized the callbacks in
+block_int-common.h depending on the type of function that calls them:
+
+1) If the caller is a generated_co_wrapper, this function must be
+   protected by rdlock. The reason is that generated_co_wrapper create
+   coroutines that run in the given bs AioContext, so it doesn't matter
+   if we are running in the main loop or not, the coroutine might run
+   in an iothread.
+2) If the caller calls it directly, and has the GLOBAL_STATE_CODE() macro,
+   then the function is safe. The main loop is the writer and thus won't
+   read and write at the same time.
+3) If the caller calls it directly, but has not the GLOBAL_STATE_CODE()
+   macro, then we need to check the callers and see case-by-case if the
+   caller is in the main loop, if it needs to take the lock, or delegate
+   this duty to its caller (to reduce the places where to take it).
+
+I used the vrc script (https://github.com/bonzini/vrc) to get help finding
+all the callers of a callback. Using its filter function, I can
+omit all functions protected by the added lock to avoid having duplicates
+when querying for new callbacks.
 
 
-在 2022/3/17 下午3:26, ~eopxd 写道:
-> From: Yueh-Ting (eop) Chen <eop.chen@sifive.com>
->
-> This is the first commit regarding the mask agnostic behavior.
-> Added option 'rvv_ma_all_1s' to enable the behavior, the option
-> is default to false.
->
-> Signed-off-by: eop Chen <eop.chen@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> ---
->   target/riscv/cpu.c                      | 1 +
->   target/riscv/cpu.h                      | 2 ++
->   target/riscv/cpu_helper.c               | 2 ++
->   target/riscv/insn_trans/trans_rvv.c.inc | 3 +++
->   target/riscv/internals.h                | 5 +++--
->   target/riscv/translate.c                | 2 ++
->   target/riscv/vector_helper.c            | 8 ++++++++
->   7 files changed, 21 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index cd4cf4b41e..2bf862a5e4 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -811,6 +811,7 @@ static Property riscv_cpu_properties[] = {
->   
->       DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
->       DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-> +    DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 8c4a79b5a0..c76ded515b 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -370,6 +370,7 @@ struct RISCVCPUConfig {
->       bool ext_zve32f;
->       bool ext_zve64f;
->       bool rvv_ta_all_1s;
-> +    bool rvv_ma_all_1s;
->   
->       /* Vendor-specific custom extensions */
->       bool ext_XVentanaCondOps;
-> @@ -518,6 +519,7 @@ FIELD(TB_FLAGS, XL, 20, 2)
->   FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
->   FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
->   FIELD(TB_FLAGS, VTA, 24, 1)
-> +FIELD(TB_FLAGS, VMA, 25, 1)
->   
->   #ifdef TARGET_RISCV32
->   #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 2941c88c31..be94d82ff8 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -67,6 +67,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
->           flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
->           flags = FIELD_DP32(flags, TB_FLAGS, VTA,
->                       FIELD_EX64(env->vtype, VTYPE, VTA));
-> +        flags = FIELD_DP32(flags, TB_FLAGS, VMA,
-> +                    FIELD_EX64(env->vtype, VTYPE, VMA));
->       } else {
->           flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
->       }
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 8d87501e03..4610107fb4 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -1251,6 +1251,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->           data = FIELD_DP32(data, VDATA, VTA, s->vta);
-> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
->                              vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
->                              cpu_env, s->cfg_ptr->vlen / 8,
-> @@ -1567,6 +1568,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->           data = FIELD_DP32(data, VDATA, VTA, s->vta);
-> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
->                              vreg_ofs(s, a->rs1),
->                              vreg_ofs(s, a->rs2),
-> @@ -1649,6 +1651,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
->           data = FIELD_DP32(data, VDATA, VM, a->vm);
->           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
->           data = FIELD_DP32(data, VDATA, VTA, s->vta);
-> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);
->           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
->                              vreg_ofs(s, a->rs1),
->                              vreg_ofs(s, a->rs2),
-> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
-> index 512c6c30cf..00b72fd767 100644
-> --- a/target/riscv/internals.h
-> +++ b/target/riscv/internals.h
-> @@ -25,8 +25,9 @@
->   FIELD(VDATA, VM, 0, 1)
->   FIELD(VDATA, LMUL, 1, 3)
->   FIELD(VDATA, VTA, 4, 1)
-> -FIELD(VDATA, NF, 5, 4)
-> -FIELD(VDATA, WD, 5, 1)
-> +FIELD(VDATA, VMA, 5, 1)
-> +FIELD(VDATA, NF, 6, 4)
-> +FIELD(VDATA, WD, 6, 1)
->   
->   /* float point classify helpers */
->   target_ulong fclass_h(uint64_t frs1);
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 7775dade26..37893aa348 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -95,6 +95,7 @@ typedef struct DisasContext {
->       int8_t lmul;
->       uint8_t sew;
->       uint8_t vta;
-> +    uint8_t vma;
->       target_ulong vstart;
->       bool vl_eq_vlmax;
->       uint8_t ntemp;
-> @@ -1085,6 +1086,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->       ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
->       ctx->lmul = sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
->       ctx->vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_1s;
-> +    ctx->vma = FIELD_EX32(tb_flags, TB_FLAGS, VMA) && cpu->cfg.rvv_ma_all_1s;
->       ctx->vstart = env->vstart;
->       ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
->       ctx->misa_mxl_max = env->misa_mxl_max;
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index fbde0c9248..141a06ddf0 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -127,6 +127,11 @@ static inline uint32_t vext_vta(uint32_t desc)
->       return FIELD_EX32(simd_data(desc), VDATA, VTA);
->   }
->   
-> +static inline uint32_t vext_vma(uint32_t desc)
-> +{
-> +    return FIELD_EX32(simd_data(desc), VDATA, VMA);
-> +}
-> +
->   /*
->    * Get the maximum number of elements can be operated.
->    *
-> @@ -797,10 +802,13 @@ static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
->       uint32_t vl = env->vl;
->       uint32_t total_elems = vext_get_total_elems(desc, esz);
->       uint32_t vta = vext_vta(desc);
-> +    uint32_t vma = vext_vma(desc);
->       uint32_t i;
->   
->       for (i = env->vstart; i < vl; i++) {
->           if (!vm && !vext_elem_mask(v0, i)) {
-> +            /* set masked-off elements to 1s */
-> +            vext_set_elems_1s_fns[ctzl(esz)](vd, vma, i, i * esz, (i + 1) * esz);
+Emanuele Giuseppe Esposito (8):
+  aio_wait_kick: add missing memory barrier
+  coroutine-lock: release lock when restarting all coroutines
+  block: introduce a lock to protect graph operations
+  async: register/unregister aiocontext in graph lock list
+  block.c: wrlock in bdrv_replace_child_noperm
+  block: assert that graph read and writes are performed correctly
+  graph-lock: implement WITH_GRAPH_RDLOCK_GUARD and GRAPH_RDLOCK_GUARD
+    macros
+  mirror: protect drains in coroutine with rdlock
 
-Similar to our last discussion,  vext_set_elems_1s_fns array can be 
-simplified to single vext_set_elems_1s,
+ block.c                                |  39 ++++-
+ block/block-backend.c                  |   6 +-
+ block/graph-lock.c                     | 227 +++++++++++++++++++++++++
+ block/meson.build                      |   1 +
+ block/mirror.c                         |   6 +
+ include/block/aio.h                    |   9 +
+ include/block/block_int-common.h       |   8 +-
+ include/block/block_int-global-state.h |  17 --
+ include/block/block_int.h              |   1 +
+ include/block/graph-lock.h             | 101 +++++++++++
+ include/qemu/coroutine.h               |  10 ++
+ util/aio-wait.c                        |   3 +-
+ util/async.c                           |   4 +
+ util/meson.build                       |   1 +
+ util/qemu-coroutine-lock.c             |  26 ++-
+ 15 files changed, 413 insertions(+), 46 deletions(-)
+ create mode 100644 block/graph-lock.c
+ create mode 100644 include/block/graph-lock.h
 
-since the fourth argement can be used as the start offset.
-
-Another question, may be not related to this patchset, in section 3.4.3 
-of the spec:
-
-/"Mask destination tail elements are always treated as tail-agnostic, 
-regardless of the setting of vta."/
-
-What does "Mask destination tail elements" mean?
-
-Regards,
-
-Weiwei Li
-
->               continue;
->           }
->           fn(vd, vs1, vs2, i);
-
---------------98C1135EBEB0B15547A5137E
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">在 2022/3/17 下午3:26, ~eopxd 写道:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:165089631935.4839.7564289944057093570-1@git.sr.ht">
-      <pre class="moz-quote-pre" wrap="">From: Yueh-Ting (eop) Chen <a class="moz-txt-link-rfc2396E" href="mailto:eop.chen@sifive.com">&lt;eop.chen@sifive.com&gt;</a>
-
-This is the first commit regarding the mask agnostic behavior.
-Added option 'rvv_ma_all_1s' to enable the behavior, the option
-is default to false.
-
-Signed-off-by: eop Chen <a class="moz-txt-link-rfc2396E" href="mailto:eop.chen@sifive.com">&lt;eop.chen@sifive.com&gt;</a>
-Reviewed-by: Frank Chang <a class="moz-txt-link-rfc2396E" href="mailto:frank.chang@sifive.com">&lt;frank.chang@sifive.com&gt;</a>
----
- target/riscv/cpu.c                      | 1 +
- target/riscv/cpu.h                      | 2 ++
- target/riscv/cpu_helper.c               | 2 ++
- target/riscv/insn_trans/trans_rvv.c.inc | 3 +++
- target/riscv/internals.h                | 5 +++--
- target/riscv/translate.c                | 2 ++
- target/riscv/vector_helper.c            | 8 ++++++++
- 7 files changed, 21 insertions(+), 2 deletions(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index cd4cf4b41e..2bf862a5e4 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -811,6 +811,7 @@ static Property riscv_cpu_properties[] = {
- 
-     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
-     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
-+    DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 8c4a79b5a0..c76ded515b 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -370,6 +370,7 @@ struct RISCVCPUConfig {
-     bool ext_zve32f;
-     bool ext_zve64f;
-     bool rvv_ta_all_1s;
-+    bool rvv_ma_all_1s;
- 
-     /* Vendor-specific custom extensions */
-     bool ext_XVentanaCondOps;
-@@ -518,6 +519,7 @@ FIELD(TB_FLAGS, XL, 20, 2)
- FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
- FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
- FIELD(TB_FLAGS, VTA, 24, 1)
-+FIELD(TB_FLAGS, VMA, 25, 1)
- 
- #ifdef TARGET_RISCV32
- #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 2941c88c31..be94d82ff8 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -67,6 +67,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-         flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
-         flags = FIELD_DP32(flags, TB_FLAGS, VTA,
-                     FIELD_EX64(env-&gt;vtype, VTYPE, VTA));
-+        flags = FIELD_DP32(flags, TB_FLAGS, VMA,
-+                    FIELD_EX64(env-&gt;vtype, VTYPE, VMA));
-     } else {
-         flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
-     }
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 8d87501e03..4610107fb4 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -1251,6 +1251,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
-         data = FIELD_DP32(data, VDATA, VM, a-&gt;vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s-&gt;lmul);
-         data = FIELD_DP32(data, VDATA, VTA, s-&gt;vta);
-+        data = FIELD_DP32(data, VDATA, VMA, s-&gt;vma);
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a-&gt;rd), vreg_ofs(s, 0),
-                            vreg_ofs(s, a-&gt;rs1), vreg_ofs(s, a-&gt;rs2),
-                            cpu_env, s-&gt;cfg_ptr-&gt;vlen / 8,
-@@ -1567,6 +1568,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
-         data = FIELD_DP32(data, VDATA, VM, a-&gt;vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s-&gt;lmul);
-         data = FIELD_DP32(data, VDATA, VTA, s-&gt;vta);
-+        data = FIELD_DP32(data, VDATA, VMA, s-&gt;vma);
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a-&gt;rd), vreg_ofs(s, 0),
-                            vreg_ofs(s, a-&gt;rs1),
-                            vreg_ofs(s, a-&gt;rs2),
-@@ -1649,6 +1651,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
-         data = FIELD_DP32(data, VDATA, VM, a-&gt;vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s-&gt;lmul);
-         data = FIELD_DP32(data, VDATA, VTA, s-&gt;vta);
-+        data = FIELD_DP32(data, VDATA, VMA, s-&gt;vma);
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a-&gt;rd), vreg_ofs(s, 0),
-                            vreg_ofs(s, a-&gt;rs1),
-                            vreg_ofs(s, a-&gt;rs2),
-diff --git a/target/riscv/internals.h b/target/riscv/internals.h
-index 512c6c30cf..00b72fd767 100644
---- a/target/riscv/internals.h
-+++ b/target/riscv/internals.h
-@@ -25,8 +25,9 @@
- FIELD(VDATA, VM, 0, 1)
- FIELD(VDATA, LMUL, 1, 3)
- FIELD(VDATA, VTA, 4, 1)
--FIELD(VDATA, NF, 5, 4)
--FIELD(VDATA, WD, 5, 1)
-+FIELD(VDATA, VMA, 5, 1)
-+FIELD(VDATA, NF, 6, 4)
-+FIELD(VDATA, WD, 6, 1)
- 
- /* float point classify helpers */
- target_ulong fclass_h(uint64_t frs1);
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 7775dade26..37893aa348 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -95,6 +95,7 @@ typedef struct DisasContext {
-     int8_t lmul;
-     uint8_t sew;
-     uint8_t vta;
-+    uint8_t vma;
-     target_ulong vstart;
-     bool vl_eq_vlmax;
-     uint8_t ntemp;
-@@ -1085,6 +1086,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx-&gt;sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
-     ctx-&gt;lmul = sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
-     ctx-&gt;vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) &amp;&amp; cpu-&gt;cfg.rvv_ta_all_1s;
-+    ctx-&gt;vma = FIELD_EX32(tb_flags, TB_FLAGS, VMA) &amp;&amp; cpu-&gt;cfg.rvv_ma_all_1s;
-     ctx-&gt;vstart = env-&gt;vstart;
-     ctx-&gt;vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
-     ctx-&gt;misa_mxl_max = env-&gt;misa_mxl_max;
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index fbde0c9248..141a06ddf0 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -127,6 +127,11 @@ static inline uint32_t vext_vta(uint32_t desc)
-     return FIELD_EX32(simd_data(desc), VDATA, VTA);
- }
- 
-+static inline uint32_t vext_vma(uint32_t desc)
-+{
-+    return FIELD_EX32(simd_data(desc), VDATA, VMA);
-+}
-+
- /*
-  * Get the maximum number of elements can be operated.
-  *
-@@ -797,10 +802,13 @@ static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
-     uint32_t vl = env-&gt;vl;
-     uint32_t total_elems = vext_get_total_elems(desc, esz);
-     uint32_t vta = vext_vta(desc);
-+    uint32_t vma = vext_vma(desc);
-     uint32_t i;
- 
-     for (i = env-&gt;vstart; i &lt; vl; i++) {
-         if (!vm &amp;&amp; !vext_elem_mask(v0, i)) {
-+            /* set masked-off elements to 1s */
-+            vext_set_elems_1s_fns[ctzl(esz)](vd, vma, i, i * esz, (i + 1) * esz);</pre>
-    </blockquote>
-    <p>Similar to our last discussion,  vext_set_elems_1s_fns array can
-      be simplified to single vext_set_elems_1s,<br>
-    </p>
-    <p>since the fourth argement can be used as the start offset. <br>
-    </p>
-    <p>Another question, may be not related to this patchset, in section
-      3.4.3 of the spec: <br>
-    </p>
-    <p><i>"Mask destination tail elements are always treated as
-        tail-agnostic, regardless of the setting of vta."</i></p>
-    <p>What does "Mask destination tail elements" mean?</p>
-    <p>Regards,</p>
-    <p>Weiwei Li<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:165089631935.4839.7564289944057093570-1@git.sr.ht">
-      <pre class="moz-quote-pre" wrap="">
-             continue;
-         }
-         fn(vd, vs1, vs2, i);
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------98C1135EBEB0B15547A5137E--
+-- 
+2.31.1
 
 
