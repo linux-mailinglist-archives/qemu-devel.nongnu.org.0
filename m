@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761E25108CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:17:13 +0200 (CEST)
-Received: from localhost ([::1]:37814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D87B5108E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:23:16 +0200 (CEST)
+Received: from localhost ([::1]:55748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQgS-0004C9-J6
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:17:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45648)
+	id 1njQmH-0007mB-4C
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:23:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPq4-0001sD-IN
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:23:04 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:46063)
+ id 1njPq4-0001sO-VB
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:23:05 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:36354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPq2-0005V0-My
+ id 1njPq3-0005Vj-3l
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:23:04 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- n33-20020a17090a5aa400b001d28f5ee3f9so3275232pji.4
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:23:01 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id z16so18714118pfh.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WyhHAN4kOdv5SP0UNYKZ/8CoTfSLfS0tLNbV671G8UI=;
- b=YwOMQoQnHGljzXhFZfPtKbCkJ8FJBDmaf07NbGUd6cP1xTibHqeP1Dw13FCkLnBqhY
- LCJX4IqKh6BL+eyh2yLdWRHNLFyelp7UW6nFtswI2pT4sgxS8z3Dq1P8K36HEVSIhNtw
- PhmL07AwY8xdEItJFg4soDVHvZGR5vrIwTAHDUwO8c8MPJWQNcTHUfuMzQCFjVIL3vyR
- LZoEY1vQB4yU+7HOqxTr4WjrFpIfjJ8pqJl2Qqcbd++GSIQ3/pbnWbZgVEZ4B1S7AkS6
- eAFH1MKBMCWhQU+FlGnSwdgo0tJ8SE/dbBrBSygYABVhAM0cQ9EyrekBwrU3njMqqIgh
- xIpQ==
+ bh=LKJfP1L1JthCk9j8S3dyGmOEwjYZHFg6bDruhwKHIGY=;
+ b=KLzTVlDDlO/eP7fMCfK+b8S6NioFcL0w2Q7BUY0ihqwO0PQkV0YyvWSCKWBkyEo7GR
+ Zei485bLbrOzsRyjsFWPUMs3/A32JyBpX+P7e/n1hjuGCKwjn51XP23ny0RJLsbTZB1l
+ NEKlxSAqdMwsbbA8rSDld5nyLDLARMzYtI1u5xIcvhZpFR9vteyHZDvrdSQVidWRa7vy
+ Qk21dXTR4PZT3nhKGj6FzmS/HaO7DRdHDWx0tSCztCNBNQh78tLDzVF3nG42VKpXUiTk
+ +04qLvw6fnx7ik+woT7VgWbqkFbb1PGH81mKNwQvJhWAQTG6bRLMiRHGgqiRbLxpX4Xv
+ kiBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WyhHAN4kOdv5SP0UNYKZ/8CoTfSLfS0tLNbV671G8UI=;
- b=RZWb4qvZsBfqxg//o/CNHK11e3xzUtTSgpJJooYyXZRupeQNPG1KneYQz7NkWX9YoS
- r8nay0KGdxTruVs/c4GtM4PRM1J1WCWxM56ukuRpQ93WRi9JMLcipiYRKwTw13RuInbU
- 0fmHu4EGQ5EopGKl3sefFl96/O/mPd0p0X4p9hxUXVVzr1XEvzKyBjMi6LMou3us17qU
- RfaS8SIx9uXCL6ZGMEF/hvwy5WEdqs4PfkEQ1M2r3ro73jOKWeS0LnLwo1Cvx0Kg4ihU
- tmncNJvo9L2ASAb+ucnD9xH/xfWkPz+oH+3rj5H2tgT9/9ZdZ7upYS59CXpjBiUPdTxT
- Sz0Q==
-X-Gm-Message-State: AOAM5310DR/B1ePtiC6Mc3hbdHbvAiYlgKi5iwGycdq4sJ3FuxRJyBwo
- arNUhfNyeoCWGXsEs7/htdDPmZzfqvWiVA==
-X-Google-Smtp-Source: ABdhPJxp/hEFdTIvjFR5D1YvFX8xz3GDotrcrEzwHtknMVbjJT3t0OIeqell4tqaFCL2s5ke0oII8w==
-X-Received: by 2002:a17:902:8608:b0:158:c532:d8b2 with SMTP id
- f8-20020a170902860800b00158c532d8b2mr24668327plo.46.1650997380700; 
- Tue, 26 Apr 2022 11:23:00 -0700 (PDT)
+ bh=LKJfP1L1JthCk9j8S3dyGmOEwjYZHFg6bDruhwKHIGY=;
+ b=RMEZ22tQ8S6pxkIVziQ9cwzpAKb/FcVHIGSoTxX4JS/EIRbs9Ac2+L74vlsdQoQEX0
+ gaABen3gbwL+MxG6S4FcHERkzPiacDJ2qYj3Gg2tgRMya153f3VoVHLagmWO/Y3ZvN4a
+ C7BVFzYlzsavigBLhFElNHMPMKtg50Hs/8vtCPQESbU4tB/sdaSdOGjbRsD7ZhIEsMtJ
+ ZOxawPfkQqNplkUcKbQQJJJ3OpNpl+M4HWqf2RbfT5F8gTVlLuiKA/XU6ay5HQXz6h6C
+ M9OpfgeY212xe1aEYBOk7e3nnwPDWoYpbwkoD1IaqwDylQvl8CKOjwyhjGC3jPoDFTCg
+ Xgvw==
+X-Gm-Message-State: AOAM5328xXzF6QI4dc1P0OF3o6G7MSjZdRf9uG48lSW+TKmqDrxuM1Ol
+ 1ucD3KP7ZgllQ3rZe2XO+PZ4ssjAwaFczw==
+X-Google-Smtp-Source: ABdhPJyNVzcOjPblukPvrkDP0KKgfET2Pzf1c2D77TMfKXpJ8GpbpHerZ4eFcMOI0mQTOPTnQwp8mA==
+X-Received: by 2002:a62:d155:0:b0:50d:3c4e:37ec with SMTP id
+ t21-20020a62d155000000b0050d3c4e37ecmr12942254pfl.60.1650997381663; 
+ Tue, 26 Apr 2022 11:23:01 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- k187-20020a636fc4000000b003983a01b896sm13585053pgc.90.2022.04.26.11.22.59
+ k187-20020a636fc4000000b003983a01b896sm13585053pgc.90.2022.04.26.11.23.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 11:23:00 -0700 (PDT)
+ Tue, 26 Apr 2022 11:23:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 57/68] target/nios2: Introduce shadow register sets
-Date: Tue, 26 Apr 2022 11:18:56 -0700
-Message-Id: <20220426181907.103691-58-richard.henderson@linaro.org>
+Subject: [PULL 58/68] target/nios2: Implement rdprs, wrprs
+Date: Tue, 26 Apr 2022 11:18:57 -0700
+Message-Id: <20220426181907.103691-59-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
 References: <20220426181907.103691-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,254 +88,174 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not actually enable them so far, in terms of being able
-to change the current register set, but add all of the
-plumbing to address them.  Do not enable them for user-only.
+Implement these out of line, so that tcg global temps
+(aka the architectural registers) are synced back to
+tcg storage as required.  This makes sure that we get
+the proper results when status.PRS == status.CRS.
 
-Add an env->regs pointer that handles the indirection to
-the current register set.  The naming of the pointer hides
-the difference between old and new, user-only and sysemu.
-
-From the notes on wrprs, which states that r0 must be initialized
-before use in shadow register sets, infer that R_ZERO is *not*
-hardwired to zero in shadow register sets, but that it is still
-read-only.  Introduce tbflags bit R0_0 to track that it has been
-properly set to zero.  Adjust load_gpr to reflect this.
-
-At the same time we might as well special case crs == 0 to avoid
-the indirection through env->regs during translation as well; this
-is intended to be the most common case for non-interrupt handlers.
-
-Init env->regs at reset.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220421151735.31996-54-richard.henderson@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220421151735.31996-55-richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h       | 29 ++++++++++++++++++-
- target/nios2/cpu.c       |  4 ++-
- target/nios2/translate.c | 61 ++++++++++++++++++++++++++++++++++------
- 3 files changed, 83 insertions(+), 11 deletions(-)
+ target/nios2/cpu.h       |  1 +
+ target/nios2/helper.h    |  2 ++
+ target/nios2/op_helper.c | 16 +++++++++++
+ target/nios2/translate.c | 57 ++++++++++++++++++++++++++++++++++++++--
+ 4 files changed, 74 insertions(+), 2 deletions(-)
 
 diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 477a661f17..f6efaa79b3 100644
+index f6efaa79b3..cca821cf80 100644
 --- a/target/nios2/cpu.h
 +++ b/target/nios2/cpu.h
-@@ -60,6 +60,11 @@ struct Nios2CPUClass {
- #define NUM_GP_REGS 32
- #define NUM_CR_REGS 32
+@@ -220,6 +220,7 @@ struct ArchCPU {
  
-+#ifndef CONFIG_USER_ONLY
-+/* 63 shadow register sets; index 0 is the primary register set. */
-+#define NUM_REG_SETS 64
-+#endif
-+
- /* General purpose register aliases */
- enum {
-     R_ZERO   = 0,
-@@ -178,7 +183,13 @@ FIELD(CR_TLBMISC, EE, 24, 1)
- #define EXCP_MPUD     17
+     bool diverr_present;
+     bool mmu_present;
++    bool eic_present;
  
- struct CPUArchState {
-+#ifdef CONFIG_USER_ONLY
-     uint32_t regs[NUM_GP_REGS];
-+#else
-+    uint32_t shadow_regs[NUM_REG_SETS][NUM_GP_REGS];
-+    /* Pointer into shadow_regs for the current register set. */
-+    uint32_t *regs;
-+#endif
-     uint32_t ctrl[NUM_CR_REGS];
-     uint32_t pc;
+     uint32_t pid_num_bits;
+     uint32_t tlb_num_ways;
+diff --git a/target/nios2/helper.h b/target/nios2/helper.h
+index 6f5ec60b0d..1648d76ade 100644
+--- a/target/nios2/helper.h
++++ b/target/nios2/helper.h
+@@ -24,6 +24,8 @@ DEF_HELPER_FLAGS_3(divu, TCG_CALL_NO_WG, i32, env, i32, i32)
  
-@@ -229,6 +240,14 @@ static inline bool nios2_cr_reserved(const ControlRegState *s)
-     return (s->writable | s->readonly) == 0;
+ #if !defined(CONFIG_USER_ONLY)
+ DEF_HELPER_3(eret, noreturn, env, i32, i32)
++DEF_HELPER_FLAGS_2(rdprs, TCG_CALL_NO_WG, i32, env, i32)
++DEF_HELPER_3(wrprs, void, env, i32, i32)
+ DEF_HELPER_2(mmu_write_tlbacc, void, env, i32)
+ DEF_HELPER_2(mmu_write_tlbmisc, void, env, i32)
+ DEF_HELPER_2(mmu_write_pteaddr, void, env, i32)
+diff --git a/target/nios2/op_helper.c b/target/nios2/op_helper.c
+index 38a71a1f2d..a3164f5356 100644
+--- a/target/nios2/op_helper.c
++++ b/target/nios2/op_helper.c
+@@ -83,4 +83,20 @@ void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
+     env->pc = new_pc;
+     cpu_loop_exit(cs);
  }
- 
-+static inline void nios2_update_crs(CPUNios2State *env)
++
++/*
++ * RDPRS and WRPRS are implemented out of line so that if PRS == CRS,
++ * all of the tcg global temporaries are synced back to ENV.
++ */
++uint32_t helper_rdprs(CPUNios2State *env, uint32_t regno)
 +{
-+#ifndef CONFIG_USER_ONLY
-+    unsigned crs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, CRS);
-+    env->regs = env->shadow_regs[crs];
-+#endif
++    unsigned prs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, PRS);
++    return env->shadow_regs[prs][regno];
 +}
 +
- void nios2_tcg_init(void);
- void nios2_cpu_do_interrupt(CPUState *cs);
- void dump_mmu(CPUNios2State *env);
-@@ -267,12 +286,20 @@ typedef Nios2CPU ArchCPU;
- 
- #include "exec/cpu-all.h"
- 
-+FIELD(TBFLAGS, CRS0, 0, 1)  /* Set if CRS == 0. */
-+FIELD(TBFLAGS, U, 1, 1)     /* Overlaps CR_STATUS_U */
-+FIELD(TBFLAGS, R0_0, 2, 1)  /* Set if R0 == 0. */
-+
- static inline void cpu_get_tb_cpu_state(CPUNios2State *env, target_ulong *pc,
-                                         target_ulong *cs_base, uint32_t *flags)
- {
-+    unsigned crs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, CRS);
-+
-     *pc = env->pc;
-     *cs_base = 0;
--    *flags = env->ctrl[CR_STATUS] & CR_STATUS_U;
-+    *flags = (env->ctrl[CR_STATUS] & CR_STATUS_U)
-+           | (crs ? 0 : R_TBFLAGS_CRS0_MASK)
-+           | (env->regs[0] ? 0 : R_TBFLAGS_R0_0_MASK);
- }
- 
- #endif /* NIOS2_CPU_H */
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 54e7071907..d043c02fcd 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -48,15 +48,17 @@ static void nios2_cpu_reset(DeviceState *dev)
- 
-     ncc->parent_reset(dev);
- 
--    memset(env->regs, 0, sizeof(env->regs));
-     memset(env->ctrl, 0, sizeof(env->ctrl));
-     env->pc = cpu->reset_addr;
- 
- #if defined(CONFIG_USER_ONLY)
-     /* Start in user mode with interrupts enabled. */
-     env->ctrl[CR_STATUS] = CR_STATUS_RSIE | CR_STATUS_U | CR_STATUS_PIE;
-+    memset(env->regs, 0, sizeof(env->regs));
- #else
-     env->ctrl[CR_STATUS] = CR_STATUS_RSIE;
-+    nios2_update_crs(env);
-+    memset(env->shadow_regs, 0, sizeof(env->shadow_regs));
- #endif
- }
- 
++void helper_wrprs(CPUNios2State *env, uint32_t regno, uint32_t val)
++{
++    unsigned prs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, PRS);
++    env->shadow_regs[prs][regno] = val;
++}
+ #endif /* !CONFIG_USER_ONLY */
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 794b763d8a..363f2ea3ca 100644
+index 363f2ea3ca..e566175db5 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -127,12 +127,16 @@ typedef struct DisasContext {
-     DisasContextBase  base;
-     target_ulong      pc;
-     int               mem_idx;
-+    uint32_t          tb_flags;
+@@ -130,6 +130,7 @@ typedef struct DisasContext {
+     uint32_t          tb_flags;
      TCGv              sink;
      const ControlRegState *cr_state;
++    bool              eic_present;
  } DisasContext;
  
  static TCGv cpu_R[NUM_GP_REGS];
- static TCGv cpu_pc;
-+#ifndef CONFIG_USER_ONLY
-+static TCGv cpu_crs_R[NUM_GP_REGS];
-+#endif
+@@ -387,6 +388,27 @@ gen_i_math_logic(andhi, andi, 0, imm_shifted)
+ gen_i_math_logic(orhi , ori,  1, imm_shifted)
+ gen_i_math_logic(xorhi, xori, 1, imm_shifted)
  
- typedef struct Nios2Instruction {
-     void     (*handler)(DisasContext *dc, uint32_t code, uint32_t flags);
-@@ -154,22 +158,47 @@ static uint8_t get_opxcode(uint32_t code)
- static TCGv load_gpr(DisasContext *dc, unsigned reg)
- {
-     assert(reg < NUM_GP_REGS);
--    if (unlikely(reg == R_ZERO)) {
-+
-+    /*
-+     * With shadow register sets, register r0 does not necessarily contain 0,
-+     * but it is overwhelmingly likely that it does -- software is supposed
-+     * to have set r0 to 0 in every shadow register set before use.
-+     */
-+    if (unlikely(reg == R_ZERO) && FIELD_EX32(dc->tb_flags, TBFLAGS, R0_0)) {
-         return tcg_constant_tl(0);
-     }
--    return cpu_R[reg];
-+    if (FIELD_EX32(dc->tb_flags, TBFLAGS, CRS0)) {
-+        return cpu_R[reg];
++/* rB <- prs.rA + sigma(IMM16) */
++static void rdprs(DisasContext *dc, uint32_t code, uint32_t flags)
++{
++    if (!dc->eic_present) {
++        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
++        return;
 +    }
++    if (!gen_check_supervisor(dc)) {
++        return;
++    }
++
 +#ifdef CONFIG_USER_ONLY
 +    g_assert_not_reached();
 +#else
-+    return cpu_crs_R[reg];
++    I_TYPE(instr, code);
++    TCGv dest = dest_gpr(dc, instr.b);
++    gen_helper_rdprs(dest, cpu_env, tcg_constant_i32(instr.a));
++    tcg_gen_addi_tl(dest, dest, instr.imm16.s);
 +#endif
++}
++
+ /* Prototype only, defined below */
+ static void handle_r_type_instr(DisasContext *dc, uint32_t code,
+                                 uint32_t flags);
+@@ -448,7 +470,7 @@ static const Nios2Instruction i_type_instructions[] = {
+     INSTRUCTION_FLG(gen_stx, MO_SL),                  /* stwio */
+     INSTRUCTION_FLG(gen_bxx, TCG_COND_LTU),           /* bltu */
+     INSTRUCTION_FLG(gen_ldx, MO_UL),                  /* ldwio */
+-    INSTRUCTION_UNIMPLEMENTED(),                      /* rdprs */
++    INSTRUCTION(rdprs),                               /* rdprs */
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION_FLG(handle_r_type_instr, 0),          /* R-Type */
+     INSTRUCTION_NOP(),                                /* flushd */
+@@ -648,6 +670,36 @@ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
+ #endif
  }
  
- static TCGv dest_gpr(DisasContext *dc, unsigned reg)
- {
-     assert(reg < NUM_GP_REGS);
-+
-+    /*
-+     * The spec for shadow register sets isn't clear, but we assume that
-+     * writes to r0 are discarded regardless of CRS.
-+     */
-     if (unlikely(reg == R_ZERO)) {
-         if (dc->sink == NULL) {
-             dc->sink = tcg_temp_new();
-         }
-         return dc->sink;
-     }
--    return cpu_R[reg];
-+    if (FIELD_EX32(dc->tb_flags, TBFLAGS, CRS0)) {
-+        return cpu_R[reg];
++/* prs.rC <- rA */
++static void wrprs(DisasContext *dc, uint32_t code, uint32_t flags)
++{
++    if (!dc->eic_present) {
++        t_gen_helper_raise_exception(dc, EXCP_ILLEGAL);
++        return;
 +    }
++    if (!gen_check_supervisor(dc)) {
++        return;
++    }
++
 +#ifdef CONFIG_USER_ONLY
 +    g_assert_not_reached();
 +#else
-+    return cpu_crs_R[reg];
++    R_TYPE(instr, code);
++    gen_helper_wrprs(cpu_env, tcg_constant_i32(instr.c),
++                     load_gpr(dc, instr.a));
++    /*
++     * The expected write to PRS[r0] is 0, from CRS[r0].
++     * If not, and CRS == PRS (which we cannot tell from here),
++     * we may now have a non-zero value in our current r0.
++     * By ending the TB, we re-evaluate tb_flags and find out.
++     */
++    if (instr.c == 0
++        && (instr.a != 0 || !FIELD_EX32(dc->tb_flags, TBFLAGS, R0_0))) {
++        dc->base.is_jmp = DISAS_UPDATE;
++    }
 +#endif
- }
- 
- static void t_gen_helper_raise_exception(DisasContext *dc,
-@@ -225,7 +254,7 @@ static void gen_excp(DisasContext *dc, uint32_t code, uint32_t flags)
- 
- static bool gen_check_supervisor(DisasContext *dc)
++}
++
+ /* Comparison instructions */
+ static void gen_cmpxx(DisasContext *dc, uint32_t code, uint32_t flags)
  {
--    if (dc->base.tb->flags & CR_STATUS_U) {
-+    if (FIELD_EX32(dc->tb_flags, TBFLAGS, U)) {
-         /* CPU in user mode, privileged instruction called, stop. */
-         t_gen_helper_raise_exception(dc, EXCP_SUPERI);
-         return false;
-@@ -335,7 +364,7 @@ static void do_i_math_logic(DisasContext *dc, uint32_t insn,
- 
-     val = imm(&instr);
- 
--    if (instr.a == R_ZERO) {
-+    if (instr.a == R_ZERO && FIELD_EX32(dc->tb_flags, TBFLAGS, R0_0)) {
-         /* This catches the canonical expansions of movi and movhi. */
-         tcg_gen_movi_tl(dest_gpr(dc, instr.b), x_op_0_eq_x ? val : 0);
-     } else {
-@@ -865,6 +894,7 @@ static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- 
+@@ -793,7 +845,7 @@ static const Nios2Instruction r_type_instructions[] = {
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION(slli),                                /* slli */
+     INSTRUCTION(sll),                                 /* sll */
+-    INSTRUCTION_UNIMPLEMENTED(),                      /* wrprs */
++    INSTRUCTION(wrprs),                               /* wrprs */
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION(or),                                  /* or */
+     INSTRUCTION(mulxsu),                              /* mulxsu */
+@@ -895,6 +947,7 @@ static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
      dc->mem_idx = cpu_mmu_index(env, false);
      dc->cr_state = cpu->cr_state;
-+    dc->tb_flags = dc->base.tb->flags;
+     dc->tb_flags = dc->base.tb->flags;
++    dc->eic_present = cpu->eic_present;
  
      /* Bound the number of insns to execute to those left on the page.  */
      page_insns = -(dc->base.pc_first | TARGET_PAGE_MASK) / 4;
-@@ -999,13 +1029,26 @@ void nios2_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- 
- void nios2_tcg_init(void)
- {
--    int i;
-+#ifndef CONFIG_USER_ONLY
-+    TCGv_ptr crs = tcg_global_mem_new_ptr(cpu_env,
-+                                          offsetof(CPUNios2State, regs), "crs");
- 
--    for (i = 0; i < NUM_GP_REGS; i++) {
--        cpu_R[i] = tcg_global_mem_new(cpu_env,
--                                      offsetof(CPUNios2State, regs[i]),
-+    for (int i = 0; i < NUM_GP_REGS; i++) {
-+        cpu_crs_R[i] = tcg_global_mem_new(crs, 4 * i, gr_regnames[i]);
-+    }
-+
-+#define offsetof_regs0(N)  offsetof(CPUNios2State, shadow_regs[0][N])
-+#else
-+#define offsetof_regs0(N)  offsetof(CPUNios2State, regs[N])
-+#endif
-+
-+    for (int i = 0; i < NUM_GP_REGS; i++) {
-+        cpu_R[i] = tcg_global_mem_new(cpu_env, offsetof_regs0(i),
-                                       gr_regnames[i]);
-     }
-+
-+#undef offsetof_regs0
-+
-     cpu_pc = tcg_global_mem_new(cpu_env,
-                                 offsetof(CPUNios2State, pc), "pc");
- }
 -- 
 2.34.1
 
