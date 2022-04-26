@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DA650F9EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:13:17 +0200 (CEST)
-Received: from localhost ([::1]:54602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47CA350F9FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:16:37 +0200 (CEST)
+Received: from localhost ([::1]:33014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njIC3-00023m-Dt
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55108)
+	id 1njIFI-0006ud-B9
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:16:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1njHkt-0005oj-DF
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:45:11 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:41846)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1njHkr-0008SU-Az
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:45:10 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2ebf4b91212so175844647b3.8
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 02:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OA6BlGU55E2+vK2JNWRG4p+wx1v4lMZJQ5nZBDPbFr4=;
- b=ywUkLjKOFjJKpy0USgGn9gFtqyIiHaNZsuhOMhT3t/FFBOCGaayoEULDc5ELD4FlXU
- HqRmaukpxqxI7SZkEhLCH/VpVsJi6LPVD+8WpOn41+lgyy8rfE+kVkUf++khB0EJO7Iz
- qBWAzZ9BAtrJpwHHr/r1hKQ+Fdi0/dKR0kM0yC0l9ocbetFDXrlOJzZ4jML5rGoAdiw+
- HPLWG6tyg4HRIDEGIk27e2qWS8bvD6D6WYLb4Cwnw0VKnUvGK9BsWAfSPz0zbjnk4VnN
- Y0X9SbaKieImoxTHjiFc1bLLGR9q9W6ZeZQ0wlbUGVXA6F0ZaZQfO46qDWi684w5H3SL
- 5IWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OA6BlGU55E2+vK2JNWRG4p+wx1v4lMZJQ5nZBDPbFr4=;
- b=QXuRSC1zXg7CBpXCrxlqRW5ogxhYsKolRQZRFudL0qjXg1LZkBzoL6/VCf4+Mof1cX
- QypENEyzbAfK156nDNNhdhA7VFHBUAH4IxVXSgjPsjGonHBIWi4OdyijxG3TRjrgNrkz
- LxaGVX6WPWSrePKrnvZZNDjcrb/jEZe1C9yhfnDVnc925kSDuDezVQO9LdJku2pyaQjh
- r5aVngn3F17IxNbrUcxIrPhR8V2b3Ic5cp2A2k9eEw192H+WCJdiBomexI6yKhHImgC9
- 4kWClTW9OowrJ/TPF4COR15vuVOInhG/aI9b3wpnystf/LwEyf4Gp3/m+jqeRXw1dFNq
- 4EDA==
-X-Gm-Message-State: AOAM5321vDLoRYBtYlBloRop3TuxtEhhajZDjaRo5wDKvpVuXbHsI2sl
- KHwhEDsXET4PHcxbcOVZepABLnG/8XlKwyT3dUeA4A==
-X-Google-Smtp-Source: ABdhPJyaGV7gLy9j4simU71ZYZeBk1m5hLVx3coWdTY9uSC3I8f7FQT/XkDlWHI6LP3smLazdHD36bxALj4RGI3qBHY=
-X-Received: by 2002:a81:13d6:0:b0:2ec:2b3f:28c6 with SMTP id
- 205-20020a8113d6000000b002ec2b3f28c6mr21169184ywt.10.1650966298602; Tue, 26
- Apr 2022 02:44:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1njHn0-0008EO-PD
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:47:23 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1njHmw-0000Y8-Ob
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:47:21 -0400
+Received: from fraeml736-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KncPk3w42z67XJ2;
+ Tue, 26 Apr 2022 17:43:06 +0800 (CST)
+Received: from lhreml721-chm.china.huawei.com (10.201.108.72) by
+ fraeml736-chm.china.huawei.com (10.206.15.217) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 26 Apr 2022 11:47:05 +0200
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ lhreml721-chm.china.huawei.com (10.201.108.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 26 Apr 2022 10:47:05 +0100
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.2375.024; Tue, 26 Apr 2022 10:47:05 +0100
+To: Yi Liu <yi.l.liu@intel.com>, "alex.williamson@redhat.com"
+ <alex.williamson@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>,
+ "thuth@redhat.com" <thuth@redhat.com>, "farman@linux.ibm.com"
+ <farman@linux.ibm.com>, "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
+ "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>, "pasic@linux.ibm.com"
+ <pasic@linux.ibm.com>, "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>, "kvm@vger.kernel.org"
+ <kvm@vger.kernel.org>, "jgg@nvidia.com" <jgg@nvidia.com>,
+ "nicolinc@nvidia.com" <nicolinc@nvidia.com>, "eric.auger@redhat.com"
+ <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
+ <eric.auger.pro@gmail.com>, "kevin.tian@intel.com" <kevin.tian@intel.com>,
+ "chao.p.peng@intel.com" <chao.p.peng@intel.com>, "yi.y.sun@intel.com"
+ <yi.y.sun@intel.com>, "peterx@redhat.com" <peterx@redhat.com>, Zhangfei Gao
+ <zhangfei.gao@linaro.org>
+Subject: RE: [RFC 00/18] vfio: Adopt iommufd
+Thread-Topic: [RFC 00/18] vfio: Adopt iommufd
+Thread-Index: AQHYT+0OTGNprklv2E6ANQZpjBJsW60CAlLg
+Date: Tue, 26 Apr 2022 09:47:05 +0000
+Message-ID: <4f920d463ebf414caa96419b625632d5@huawei.com>
+References: <20220414104710.28534-1-yi.l.liu@intel.com>
+In-Reply-To: <20220414104710.28534-1-yi.l.liu@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.202.227.178]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220422165238.1971496-1-richard.henderson@linaro.org>
- <20220422165238.1971496-45-richard.henderson@linaro.org>
-In-Reply-To: <20220422165238.1971496-45-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 26 Apr 2022 10:44:47 +0100
-Message-ID: <CAFEAcA_UUEgr61H+r05yt4mDEggSUoY8h7xcC4Tqn5XY8OGTkw@mail.gmail.com>
-Subject: Re: [PATCH v8 44/68] target/nios2: Split out helpers for gen_i_cmpxx
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=shameerali.kolothum.thodi@huawei.com;
+ helo=frasgout.his.huawei.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,23 +86,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+From:  Shameerali Kolothum Thodi via <qemu-devel@nongnu.org>
 
-On Fri, 22 Apr 2022 at 18:29, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Do as little work as possible within the macro.
-> Split out helper functions and pass in arguments instead.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/nios2/translate.c | 34 +++++++++++++++++++++++++++-------
->  1 file changed, 27 insertions(+), 7 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+> -----Original Message-----
+> From: Yi Liu [mailto:yi.l.liu@intel.com]
+> Sent: 14 April 2022 11:47
+> To: alex.williamson@redhat.com; cohuck@redhat.com;
+> qemu-devel@nongnu.org
+> Cc: david@gibson.dropbear.id.au; thuth@redhat.com; farman@linux.ibm.com;
+> mjrosato@linux.ibm.com; akrowiak@linux.ibm.com; pasic@linux.ibm.com;
+> jjherne@linux.ibm.com; jasowang@redhat.com; kvm@vger.kernel.org;
+> jgg@nvidia.com; nicolinc@nvidia.com; eric.auger@redhat.com;
+> eric.auger.pro@gmail.com; kevin.tian@intel.com; yi.l.liu@intel.com;
+> chao.p.peng@intel.com; yi.y.sun@intel.com; peterx@redhat.com
+> Subject: [RFC 00/18] vfio: Adopt iommufd
+>=20
+> With the introduction of iommufd[1], the linux kernel provides a generic
+> interface for userspace drivers to propagate their DMA mappings to kernel
+> for assigned devices. This series does the porting of the VFIO devices
+> onto the /dev/iommu uapi and let it coexist with the legacy implementatio=
+n.
+> Other devices like vpda, vfio mdev and etc. are not considered yet.
+>=20
+> For vfio devices, the new interface is tied with device fd and iommufd
+> as the iommufd solution is device-centric. This is different from legacy
+> vfio which is group-centric. To support both interfaces in QEMU, this
+> series introduces the iommu backend concept in the form of different
+> container classes. The existing vfio container is named legacy container
+> (equivalent with legacy iommu backend in this series), while the new
+> iommufd based container is named as iommufd container (may also be
+> mentioned
+> as iommufd backend in this series). The two backend types have their own
+> way to setup secure context and dma management interface. Below diagram
+> shows how it looks like with both BEs.
+>=20
+>                     VFIO
+> AddressSpace/Memory
+>     +-------+  +----------+  +-----+  +-----+
+>     |  pci  |  | platform |  |  ap |  | ccw |
+>     +---+---+  +----+-----+  +--+--+  +--+--+     +----------------------=
++
+>         |           |           |        |        |   AddressSpace
+> |
+>         |           |           |        |        +------------+---------=
++
+>     +---V-----------V-----------V--------V----+               /
+>     |           VFIOAddressSpace              | <------------+
+>     |                  |                      |  MemoryListener
+>     |          VFIOContainer list             |
+>     +-------+----------------------------+----+
+>             |                            |
+>             |                            |
+>     +-------V------+            +--------V----------+
+>     |   iommufd    |            |    vfio legacy    |
+>     |  container   |            |     container     |
+>     +-------+------+            +--------+----------+
+>             |                            |
+>             | /dev/iommu                 | /dev/vfio/vfio
+>             | /dev/vfio/devices/vfioX    | /dev/vfio/$group_id
+>  Userspace  |                            |
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D=3D
+>  Kernel     |  device fd                 |
+>             +---------------+            | group/container fd
+>             | (BIND_IOMMUFD |            |
+> (SET_CONTAINER/SET_IOMMU)
+>             |  ATTACH_IOAS) |            | device fd
+>             |               |            |
+>             |       +-------V------------V-----------------+
+>     iommufd |       |                vfio                  |
+> (map/unmap  |       +---------+--------------------+-------+
+>  ioas_copy) |                 |                    | map/unmap
+>             |                 |                    |
+>      +------V------+    +-----V------+      +------V--------+
+>      | iommfd core |    |  device    |      |  vfio iommu   |
+>      +-------------+    +------------+      +---------------+
+>=20
+> [Secure Context setup]
+> - iommufd BE: uses device fd and iommufd to setup secure context
+>               (bind_iommufd, attach_ioas)
+> - vfio legacy BE: uses group fd and container fd to setup secure context
+>                   (set_container, set_iommu)
+> [Device access]
+> - iommufd BE: device fd is opened through /dev/vfio/devices/vfioX
+> - vfio legacy BE: device fd is retrieved from group fd ioctl
+> [DMA Mapping flow]
+> - VFIOAddressSpace receives MemoryRegion add/del via MemoryListener
+> - VFIO populates DMA map/unmap via the container BEs
+>   *) iommufd BE: uses iommufd
+>   *) vfio legacy BE: uses container fd
+>=20
+> This series qomifies the VFIOContainer object which acts as a base class
+> for a container. This base class is derived into the legacy VFIO containe=
+r
+> and the new iommufd based container. The base class implements generic
+> code
+> such as code related to memory_listener and address space management
+> whereas
+> the derived class implements callbacks that depend on the kernel user spa=
+ce
+> being used.
+>=20
+> The selection of the backend is made on a device basis using the new
+> iommufd option (on/off/auto). By default the iommufd backend is selected
+> if supported by the host and by QEMU (iommufd KConfig). This option is
+> currently available only for the vfio-pci device. For other types of
+> devices, it does not yet exist and the legacy BE is chosen by default.
+>=20
+> Test done:
+> - PCI and Platform device were tested
+> - ccw and ap were only compile-tested
+> - limited device hotplug test
+> - vIOMMU test run for both legacy and iommufd backends (limited tests)
+>=20
+> This series was co-developed by Eric Auger and me based on the exploratio=
+n
+> iommufd kernel[2], complete code of this series is available in[3]. As
+> iommufd kernel is in the early step (only iommufd generic interface is in
+> mailing list), so this series hasn't made the iommufd backend fully on pa=
+r
+> with legacy backend w.r.t. features like p2p mappings, coherency tracking=
+,
+> live migration, etc. This series hasn't supported PCI devices without FLR
+> neither as the kernel doesn't support VFIO_DEVICE_PCI_HOT_RESET when
+> userspace
+> is using iommufd. The kernel needs to be updated to accept device fd list=
+ for
+> reset when userspace is using iommufd. Related work is in progress by
+> Jason[4].
+>=20
+> TODOs:
+> - Add DMA alias check for iommufd BE (group level)
+> - Make pci.c to be BE agnostic. Needs kernel change as well to fix the
+>   VFIO_DEVICE_PCI_HOT_RESET gap
+> - Cleanup the VFIODevice fields as it's used in both BEs
+> - Add locks
+> - Replace list with g_tree
+> - More tests
+>=20
+> Patch Overview:
+>=20
+> - Preparation:
+>   0001-scripts-update-linux-headers-Add-iommufd.h.patch
+>   0002-linux-headers-Import-latest-vfio.h-and-iommufd.h.patch
+>   0003-hw-vfio-pci-fix-vfio_pci_hot_reset_result-trace-poin.patch
+>   0004-vfio-pci-Use-vbasedev-local-variable-in-vfio_realize.patch
+>=20
+> 0005-vfio-common-Rename-VFIOGuestIOMMU-iommu-into-iommu_m.patch
+>   0006-vfio-common-Split-common.c-into-common.c-container.c.patch
+>=20
+> - Introduce container object and covert existing vfio to use it:
+>   0007-vfio-Add-base-object-for-VFIOContainer.patch
+>   0008-vfio-container-Introduce-vfio_attach-detach_device.patch
+>   0009-vfio-platform-Use-vfio_-attach-detach-_device.patch
+>   0010-vfio-ap-Use-vfio_-attach-detach-_device.patch
+>   0011-vfio-ccw-Use-vfio_-attach-detach-_device.patch
+>   0012-vfio-container-obj-Introduce-attach-detach-_device-c.patch
+>   0013-vfio-container-obj-Introduce-VFIOContainer-reset-cal.patch
+>=20
+> - Introduce iommufd based container:
+>   0014-hw-iommufd-Creation.patch
+>   0015-vfio-iommufd-Implement-iommufd-backend.patch
+>   0016-vfio-iommufd-Add-IOAS_COPY_DMA-support.patch
+>=20
+> - Add backend selection for vfio-pci:
+>   0017-vfio-as-Allow-the-selection-of-a-given-iommu-backend.patch
+>   0018-vfio-pci-Add-an-iommufd-option.patch
+>=20
+> [1]
+> https://lore.kernel.org/kvm/0-v1-e79cd8d168e8+6-iommufd_jgg@nvidia.com
+> /
+> [2] https://github.com/luxis1999/iommufd/tree/iommufd-v5.17-rc6
+> [3] https://github.com/luxis1999/qemu/tree/qemu-for-5.17-rc6-vm-rfcv1
+
+Hi,
+
+I had a go with the above branches on our ARM64 platform trying to pass-thr=
+ough
+a VF dev, but Qemu reports an error as below,
+
+[    0.444728] hisi_sec2 0000:00:01.0: enabling device (0000 -> 0002)
+qemu-system-aarch64-iommufd: IOMMU_IOAS_MAP failed: Bad address
+qemu-system-aarch64-iommufd: vfio_container_dma_map(0xaaaafeb40ce0, 0x80000=
+00000, 0x10000, 0xffffb40ef000) =3D -14 (Bad address)
+
+I think this happens for the dev BAR addr range. I haven't debugged the ker=
+nel
+yet to see where it actually reports that.=20
+
+Maybe I am missing something. Please let me know.
+
+Thanks,
+Shameer
+
 
