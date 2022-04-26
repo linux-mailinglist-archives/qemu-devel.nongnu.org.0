@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE3850FD91
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 14:50:43 +0200 (CEST)
-Received: from localhost ([::1]:53350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6268450FD9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 14:51:28 +0200 (CEST)
+Received: from localhost ([::1]:55828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njKeQ-0002TG-HX
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 08:50:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43532)
+	id 1njKf9-0004AO-6J
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 08:51:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njKa8-00068C-T6; Tue, 26 Apr 2022 08:46:16 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:49689)
+ id 1njKaA-0006F7-Su; Tue, 26 Apr 2022 08:46:18 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:53513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njKa7-0007CO-8L; Tue, 26 Apr 2022 08:46:16 -0400
+ id 1njKa9-0007Cj-53; Tue, 26 Apr 2022 08:46:18 -0400
 Received: from quad ([82.142.9.138]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M7bND-1noZEv1wY1-007zxj; Tue, 26
- Apr 2022 14:46:12 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mv2gw-1o0iuL0iTA-00r0u6; Tue, 26
+ Apr 2022 14:46:13 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] hw/pvrdma: Some cosmetic fixes
-Date: Tue, 26 Apr 2022 14:46:06 +0200
-Message-Id: <20220426124610.639614-2-laurent@vivier.eu>
+Subject: [PULL 2/5] vdpa: Add missing tracing to batch mapping functions
+Date: Tue, 26 Apr 2022 14:46:07 +0200
+Message-Id: <20220426124610.639614-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220426124610.639614-1-laurent@vivier.eu>
 References: <20220426124610.639614-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QI1KGqHB4RxbJZJMUyIIBLUM0qVUsPRZ6VjPgzKIbuqsgPMiHU7
- t/+6Z0mu5mdqrWj5DYJF04kUiNEPrTUyxGfutpLpFhQ9B29OyHGWku9ejIMeMWbFb4e7XRw
- 185TppclwDmrshdlHMCMTIarUcjtm57LL+MrU8sF5kpVWucmrAQAz0B/hURoIqUFUEAHkm2
- V99eQSckrnX01xDfr/euQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3kGSB5lzYgc=:UMpCuz9pqhscMyP6EGb6zf
- dbVunRJ2wMpMwmTsCd0eUsC2+uc1GZcd69quWY0ALPSa+Dg2C3hyhDz6BjOFufFFE/ksShN++
- BfG23Usp/9kjst5ITlGijApeobbqNf9N0h8JcuOAWQB9XYuMQOBj92A90g37Rp1dI6gaHcGfP
- EGcEkbClaZOHDn1jEyS6s410JslCGVFb4LoOAOggHeP9yPQsP5AIYVWsF5r45rWmcLpkY3v1F
- 4LPZxJKp/f6hXDFU4LkaCoDtUm4Vrc0e8eZ2i/3rym4a2aEG5ovwnsYOAnJ4TFhdSH5m939qF
- eUjjbAxw3fRep30XJ7iHVqCIBpttpDUfjcztsH4u01JJ7o0QpGZvZeQG2yyQHzZ/Du/JT+AT7
- 6/zk1QLCjtc4iZWj0/JxHrcFXb1pA/t8triYE3vleSxuOiJuewCVHkILNnPcoL8QB6mC9iplj
- R/mVPDj45bpIGoR18MEv8XHTir9MROfVbfESvH8Pbo8KxlMbAGI87w2MlqCSr8E37TQRDkfkm
- FfA3FyxUXNAwEC7TxVKuf9V1Nuq95vHR0owR9aj8c1BnKT0/m9IjY5Zl6Z5jOld39F7RjdIoX
- 4gJU36BxiW+SEcf+OqS1W8QHj3iCNe13/kDA2KCw7OkNMNXe7+keI5leCH91dFzqkTU4ZiUF3
- 0Mj5oMlSjUF1BCcDTjCseWGS79GcexhpvQvs78qhxwYE7ysR/JSk8d9EWOdNFbuC3aAI=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:jORt3lnNj4XyXmtbvkqEmtnODLHUMHrEPABvFO0gDoDJrmnZaJ4
+ Hy2jGyboilxEOyO4daanT/+8qmfRJONUvcv4w8imN0ZXqRz7xt/jn9LA0FDRxPDY3rlr030
+ SuwhSYy+/h+ZeyPdcEDxJjQbCWoFJLqB8wyLJcQ32JRNFUrY5qFrzsIelOdhRZj/q9iiXgC
+ 5NJ9ybHHqH3mbIqpeiq6w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:37X0dHEP1cY=:f+df+o/j9DHZ+Eej+9Z+xr
+ pzuRKXbvwWllpS2G1Roy2jw/K8ewH5AFnrY9N4DURFcYGmwR7Mt2IlCwt5mPsqrUyolUGZ3JW
+ eYnIKqtxTpLfYyQh8y2MeYcmHExZhOh3UPOHPqeTtwxC2iAHxsIrZV5IlIsW/EP1Jk+agey2g
+ 9m3FLysA/G8Hp2fEJZxU6jUl/XDN7g/Bn0AXFmm/5ofW+c9rdVonT/rS0FffKu26jxs0nE2qS
+ cnIj2j5cc6+Pkg5EwndLPm/2mp9FnI+r8gImhDwf4MwwNx8hliWEDnaG+nxBdOD+zLV99N8rI
+ m7ZIYgxjGummn4Y5cuT2TyqHDwdKbhyotA/G96tFCyyRppAJhFRrkbkTYyGXe4z3nAeFjKaPC
+ dP9Y03x13HtDj+12cgN9TiaHPNyslzjmESThPNbJVvMSxIwbQYLfmTPmsOFZLsmi3bj84ePF3
+ IZbvU8s/SmE4HHcO8nkBAkIq8fTtHFpqbcKkhRO3Uz4H4LiL0P7Up0vxwAtjwKK0OgcacH862
+ 2H0jAhQodZrR4ZB/6xorT9fvjc2Da0e+WN61HwYmMUhR0XGBVUIn4Y7uCzGWdPmvJBauBPrjq
+ 1wVYaOtUNhr5p+BdWKQdAFt/dmykSLWSR+XmqRfvppdb5F3CFDW03pXOCrDabf9bsMMq7n5WG
+ fgkpbbDs30kZ550UWfOl0AyYT7jawPrPIqXTb5nKGJDRLw4JzVCT/cmduMHQj16j+ji4=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,52 +65,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-trivial@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-Id: <20220403095837.2378-1-yuval.shaia.ml@gmail.com>
+These functions were not traced properly.
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20220405063628.853745-1-eperezma@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/rdma/vmw/pvrdma_main.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/virtio/trace-events | 2 ++
+ hw/virtio/vhost-vdpa.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 27a76224320e..58db0b8e3bb9 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -159,13 +159,13 @@ static void free_dsr(PVRDMADev *dev)
-     free_dev_ring(pci_dev, &dev->dsr_info.cq, dev->dsr_info.cq_ring_state);
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index a5102eac9e57..333348d9d5d0 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -25,6 +25,8 @@ vhost_user_postcopy_waker_nomatch(const char *rb, uint64_t rb_offset) "%s + 0x%"
+ # vhost-vdpa.c
+ vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+ vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
++vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
++vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+ vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
+ vhost_vdpa_listener_region_del(void *vdpa, uint64_t iova, uint64_t llend) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64
+ vhost_vdpa_add_status(void *dev, uint8_t status) "dev: %p status: 0x%"PRIx8
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index b57be529c7eb..a30510ed17e4 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -129,6 +129,7 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
+         .iotlb.type = VHOST_IOTLB_BATCH_BEGIN,
+     };
  
-     rdma_pci_dma_unmap(pci_dev, dev->dsr_info.req,
--                         sizeof(union pvrdma_cmd_req));
-+                       sizeof(union pvrdma_cmd_req));
++    trace_vhost_vdpa_listener_begin_batch(v, fd, msg.type, msg.iotlb.type);
+     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+         error_report("failed to write, fd=%d, errno=%d (%s)",
+                      fd, errno, strerror(errno));
+@@ -163,6 +164,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+     msg.type = v->msg_type;
+     msg.iotlb.type = VHOST_IOTLB_BATCH_END;
  
-     rdma_pci_dma_unmap(pci_dev, dev->dsr_info.rsp,
--                         sizeof(union pvrdma_cmd_resp));
-+                       sizeof(union pvrdma_cmd_resp));
- 
-     rdma_pci_dma_unmap(pci_dev, dev->dsr_info.dsr,
--                         sizeof(struct pvrdma_device_shared_region));
-+                       sizeof(struct pvrdma_device_shared_region));
- 
-     dev->dsr_info.dsr = NULL;
- }
-@@ -249,7 +249,8 @@ static void init_dsr_dev_caps(PVRDMADev *dev)
- {
-     struct pvrdma_device_shared_region *dsr;
- 
--    if (dev->dsr_info.dsr == NULL) {
-+    if (!dev->dsr_info.dsr) {
-+        /* Buggy or malicious guest driver */
-         rdma_error_report("Can't initialized DSR");
-         return;
-     }
++    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
+     if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+         error_report("failed to write, fd=%d, errno=%d (%s)",
+                      fd, errno, strerror(errno));
 -- 
 2.35.1
 
