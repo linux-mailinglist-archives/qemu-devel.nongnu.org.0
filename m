@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA5350F922
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 11:57:43 +0200 (CEST)
-Received: from localhost ([::1]:58518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9723550F96B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:02:19 +0200 (CEST)
+Received: from localhost ([::1]:38788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njHx0-00020T-NT
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 05:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52342)
+	id 1njI1S-0007ok-Cp
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:02:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHWC-0004Nn-OV
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24888)
+ id 1njHWO-0004ev-RV
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1njHWB-0006Pm-7w
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:00 -0400
+ id 1njHWL-0006cy-Fo
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 05:30:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650965398;
+ s=mimecast20190719; t=1650965408;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u+cC5wkVs7/1hqBpgTV1M4dYdMaeG61I7XyFbxrvTEI=;
- b=DxEiHS2XwzaWOAeyQvX5DNWbfpw71TpGVG3iXeNHT7nzZ/mnjApc9fhbOkCo5LgIeu2dMW
- jFGBvmSK9x9rJeO4QVOfrzT8I4FX78gzULZ6gzlnRnKwKRG4Y4zwuYM9ykn4jUtTk7HNhp
- Rz/myE0vif14jCRhA/FuiiME23QWsu8=
+ bh=3KH/JywyPpUxHX2b2bhmGGvtNVgIF7kQVpeSS5FSX4Y=;
+ b=aSMcAF+zdRv4QxZfytUwmMvfrh1l8wqXEWyLDjAsKOJNBNnwOZtySV8fwsQ1dUxOWB4g6R
+ Pou+DtJGIqT2osZkFYyTfOJEhPHg2KvekBk2JY+cRnQk4cFRW60SF8c8zdOwLOtM1r7upB
+ +R4YR29B4RiLNnHqT55t+hmzcEHI5zE=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-133-NZ6Wrp80Poerq1ZJiq8tEQ-1; Tue, 26 Apr 2022 05:29:55 -0400
-X-MC-Unique: NZ6Wrp80Poerq1ZJiq8tEQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-336-Yeq42J5bPm2hea6hasv1ag-1; Tue, 26 Apr 2022 05:30:06 -0400
+X-MC-Unique: Yeq42J5bPm2hea6hasv1ag-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B42873838C86
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:29:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A646C1E15C15
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 09:30:06 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A07A840470D5;
- Tue, 26 Apr 2022 09:29:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0975B112132D;
+ Tue, 26 Apr 2022 09:29:58 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 22/26] hw: replace qemu_set_nonblock()
-Date: Tue, 26 Apr 2022 13:27:11 +0400
-Message-Id: <20220426092715.3931705-23-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 23/26] ui: replace qemu_set_nonblock()
+Date: Tue, 26 Apr 2022 13:27:12 +0400
+Message-Id: <20220426092715.3931705-24-marcandre.lureau@redhat.com>
 In-Reply-To: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
 References: <20220426092715.3931705-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -78,66 +78,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Those calls are non-socket fd, or are POSIX-specific. Use the dedicated
-GLib API. (qemu_set_nonblock() is for socket-like)
+The call is POSIX-specific. Use the dedicated GLib API.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/input/virtio-input-host.c |  5 ++++-
- hw/virtio/vhost-vsock.c      | 11 +++++++----
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ ui/input-linux.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/input/virtio-input-host.c b/hw/input/virtio-input-host.c
-index 137efba57b0f..fea7139382a1 100644
---- a/hw/input/virtio-input-host.c
-+++ b/hw/input/virtio-input-host.c
-@@ -114,7 +114,10 @@ static void virtio_input_host_realize(DeviceState *dev, Error **errp)
-         error_setg_file_open(errp, errno, vih->evdev);
+diff --git a/ui/input-linux.c b/ui/input-linux.c
+index 05c0c988199a..e572a2e905b9 100644
+--- a/ui/input-linux.c
++++ b/ui/input-linux.c
+@@ -316,7 +316,10 @@ static void input_linux_complete(UserCreatable *uc, Error **errp)
+         error_setg_file_open(errp, errno, il->evdev);
          return;
      }
--    qemu_set_nonblock(vih->fd);
-+    if (!g_unix_set_fd_nonblocking(vih->fd, true, NULL)) {
+-    qemu_set_nonblock(il->fd);
++    if (!g_unix_set_fd_nonblocking(il->fd, true, NULL)) {
 +        error_setg_errno(errp, errno, "Failed to set FD nonblocking");
-+        goto err_close;
++        return;
 +    }
  
-     rc = ioctl(vih->fd, EVIOCGVERSION, &ver);
+     rc = ioctl(il->fd, EVIOCGVERSION, &ver);
      if (rc < 0) {
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index 433d42d897df..714046210bd3 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -149,9 +149,8 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
-             return;
-         }
- 
--        ret = qemu_try_set_nonblock(vhostfd);
--        if (ret < 0) {
--            error_setg_errno(errp, -ret,
-+        if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
-+            error_setg_errno(errp, errno,
-                              "vhost-vsock: unable to set non-blocking mode");
-             return;
-         }
-@@ -163,7 +162,11 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
-             return;
-         }
- 
--        qemu_set_nonblock(vhostfd);
-+        if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
-+            error_setg_errno(errp, errno,
-+                             "Failed to set FD nonblocking");
-+            return;
-+        }
-     }
- 
-     vhost_vsock_common_realize(vdev, "vhost-vsock");
 -- 
 2.36.0
 
