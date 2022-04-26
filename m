@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D966851092F
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:35:47 +0200 (CEST)
-Received: from localhost ([::1]:33880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F71F510926
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:33:54 +0200 (CEST)
+Received: from localhost ([::1]:57338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQyQ-0005nk-U4
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50596)
+	id 1njQwb-0002Yv-Oa
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njQBY-00037z-4I; Tue, 26 Apr 2022 14:45:16 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:54787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njQBW-0000gf-DA; Tue, 26 Apr 2022 14:45:15 -0400
-Received: from [192.168.100.1] ([82.142.9.138]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MTw02-1nJbrJ0s6M-00Qzte; Tue, 26 Apr 2022 20:45:11 +0200
-Message-ID: <3fd9f0a0-70d6-4b68-b8ca-318f69f4b1c0@vivier.eu>
-Date: Tue, 26 Apr 2022 20:45:10 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njQBt-0003cI-2d
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:45:37 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:39606)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njQBr-0000oR-Eh
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:45:36 -0400
+Received: by mail-pl1-x630.google.com with SMTP id c12so31037449plr.6
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=DBDwrP0L9Ax2VEe+wgAT2EfPtUE2Bkt+Cbi9q1zI43g=;
+ b=Pk941Oa/tkuF8062P6fiWglZYt5rebi+rFl0e+osb0mZUdqL4iLA9C1Rcqn3H6zTPB
+ 683n2AVYpY6Qz5Gp//ekgx9WTOi7J+CO0kCaTjluHfHBHZYhwoqmXeTkI0tmDTC6HhcZ
+ l91SHStoQRyBAfchimjYEGFcPBZzv85kdEotBVZJISRSgxRYG2bdzvns2z/dXdXuLfdF
+ 4xaX5ltcj2j88EXqU8NkSBYc5QJWGRNPWVWtB2M84Xm3/cUAziObatbjnUnzuZEkyt+8
+ luIZTEeAGnqSQP5ZxB2BQlj8gG4frK2hsZb9luRhXKhvy3tMfgduBOH2X+9W+JxJri0D
+ FRUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DBDwrP0L9Ax2VEe+wgAT2EfPtUE2Bkt+Cbi9q1zI43g=;
+ b=OBfa+zAlpSUuntxKBbE7Kjex04bLs5zQQ6l9K5BHaBoz64hTY2AOT6O3KtfPhVu4sF
+ ZmgT8xDsRKUsNqCnR+LZDzAIWEQfVdm/lN8gOOB65Oy4sOc02XUpam/bXAieCnOyNOwR
+ rMFsfB61kRdrpga1mLRSStBeHf6OOH2cMlIgSXse1mwnoZqaCkEh2GA4g9OIE5n6lgFz
+ ergpKfHXtf4ulrEcBa9PLkvkz2F5vZRNTaDznrWa1nnWAfxYqTnEfkiSgo2qTzpPusl4
+ lbHx1It4v+ldzSx0Ym8f+qUoxFtf1aRbHlSap0cmsciJsAUvILzddGOR4sxeIkgGRB69
+ L8MA==
+X-Gm-Message-State: AOAM533xZR34HSaQI27zpUS+cIDN0Nr/qS8/ugYku0vPXbozgkl/wOe5
+ 4nu9gzno8j7AkRr6Kn7q43ESLA==
+X-Google-Smtp-Source: ABdhPJx7A/7FljWobxb3CLwm1spMBXbyg28pSAHeWD0JtFbcDeawL7elmC0SxlxnWnJvcAPJ4gzToA==
+X-Received: by 2002:a17:90b:4c47:b0:1d9:88b2:1995 with SMTP id
+ np7-20020a17090b4c4700b001d988b21995mr10480203pjb.80.1650998734000; 
+ Tue, 26 Apr 2022 11:45:34 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ g6-20020a056a001a0600b004f7bd56cc08sm16110878pfv.123.2022.04.26.11.45.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Apr 2022 11:45:33 -0700 (PDT)
+Message-ID: <40c2ef33-2775-5d85-e9ff-122d6aae4ced@linaro.org>
+Date: Tue, 26 Apr 2022 11:45:31 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH] Fix 'writeable' typos
-Content-Language: fr
-To: Stefan Weil <sw@weilnetz.de>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220318173038.3350098-1-peter.maydell@linaro.org>
- <CAFEAcA_5=5uauENSDRYQdaXJQJ5pnf9eUBHicA3LWjyScZ2SuQ@mail.gmail.com>
- <2eb3f904-1b0c-d5bf-18f4-064f8b663cf6@weilnetz.de>
- <1531213e-b869-d760-2f84-89b9fd4f7467@weilnetz.de>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <1531213e-b869-d760-2f84-89b9fd4f7467@weilnetz.de>
+Subject: Re: [PATCH 2/9] replay: notify vCPU when BH is scheduled
+Content-Language: en-US
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <165062838915.526882.13230207960407998257.stgit@pasha-ThinkPad-X280>
+ <165062840023.526882.4524922830180183891.stgit@pasha-ThinkPad-X280>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <165062840023.526882.4524922830180183891.stgit@pasha-ThinkPad-X280>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9B0nCNWCPXsQsFBh/52/C+E+LmuamsvQIhABbNETzLCjy7I4uK5
- kypyPV0/zJiU8hKFLKLGLUndkG6hO6uq3bBVfPDH30UdRWCj++kYS5/XT1Bx31FTpacfxkX
- 1MXXIAMSECzHLcOY1gOWnC5nTbNN3MUgffPnHsTNVjCmsVWltSX/R0+lsIvmlvV9+irWCsf
- 60uRPqpYJzVPmhsRSBK7A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1pbch7GZ9MA=:SHDAx8ArJGd5yu4brYnJBW
- 2AvTcTLU/P1EwJgugr2hRANhNaIzhMN6NdHpPLpIA1MXOec7VlGao3nt6o7H5ozcP3GAyKx3O
- l48i7b2oey/aka6qCfadAG/WD80MXN+AAbqXBJoWwBGlcGZUdy5AvRsV9hmVWwcfx+6yXRrKf
- vdEbvLb/MCS37qMTHHW1xfX28lO9Bq5J46JD9lt57J4a2jsSn8CR48wAB7izDgn6VKm5Xm4Z1
- gHOZFKCbmsSeBpEg7ng4JUKUvqrOpVvoxIcJfnRevbDKj6g49tybgJxvjYZbx9Ebncd6k2TAe
- CG4FOBinAyO44NaBR9wX7gwJQGkgyQD46oivwwSBtRmwGrlmF65ayt+k4Ohlsjzh7y3WVPGoO
- msY9Od4H8mbLZQZr4MeKFCmoJNRYApRN5BaYzqzOqYYieANhkVoZiMiMTa9A18XCpjfTGb8jg
- uADtlYh6KR5rcASRr7b9UKzn+Zr2NnYviAm48lAedplni6Xxj3RoVUORnQUnq+IKaA4VuKeRI
- 9FFLccBqV43fg2M5psHUNxnPRERgqh0yl7GJL2H+uhNcTr7U26Pzq6YrGCCfyvHbfdAqopfz+
- htUDB1YOs41EQewI01cz7DzJvAFVrIigxsDFEY6ugMDSh4uR1mPacOdSmBIFTtuYFiEd7p1w0
- 003V8ypCKjrb+pHSD1xRKkynysB/b9V2Fvz9t/PFdx/5EBKDMQisrtEyYedgrcWkulIE=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,33 +89,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, wrampazz@redhat.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/04/2022 à 17:19, Stefan Weil a écrit :
-> Am 26.04.22 um 17:15 schrieb Stefan Weil:
->> Am 26.04.22 um 17:04 schrieb Peter Maydell:
->>> On Fri, 18 Mar 2022 at 17:30, Peter Maydell <peter.maydell@linaro.org> wrote:
->>>>
->>>> We have about 25 instances of the typo/variant spelling 'writeable',
->>>> and over 500 of the more common 'writable'.  Standardize on the
->>>> latter.
-> 
->> You missed the one and only "Writeable". :-)
->>
->> It's trivial to fix that, too, so maybe qemu-trivial can do that
->> without a v2.
->>
->> Reviewed-by: Stefan Weil <sw@weilnetz.de>
-> 
-> ... and I nearly missed several WRITEABLE.
-> Maybe those can be fixed later.
-> 
+On 4/22/22 04:53, Pavel Dovgalyuk wrote:
+> +void icount_notify_exit(void)
+> +{
+> +    if (icount_enabled() && first_cpu) {
+> +        cpu_exit(first_cpu);
+> +        qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
+> +    }
+> +}
 
-As I have missed this patch during my collect for the today pull request, perhaps we can have a v2?
+Why first_cpu?  Did you really want to continue to the end of the round-robin?
+Otherwise I'd expect qemu_cpu_kick(current_cpu), or something.
 
-Thanks,
-Laurent
 
+r~
 
