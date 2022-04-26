@@ -2,170 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B63850F51E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 10:43:58 +0200 (CEST)
-Received: from localhost ([::1]:50638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B466F50F528
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 10:52:07 +0200 (CEST)
+Received: from localhost ([::1]:54762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njGnd-0003LK-9P
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 04:43:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40392)
+	id 1njGvW-0006PC-HD
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 04:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
- id 1njGje-0001em-3j
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 04:39:50 -0400
-Received: from mga01.intel.com ([192.55.52.88]:55581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin.tian@intel.com>)
- id 1njGjX-0006ry-Mg
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 04:39:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650962383; x=1682498383;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=KHHg+nfB6P2ijKuQiljPBbLn6oMzUysVg47Lwlq6AuI=;
- b=JvNl76CALYWMXLOTpF8zdFJr6z32+1PNKPKv+P8IsKd0xe7ypnjY0JWo
- DyRlHst9ex2Y4NotnInmqGViFtGF2gBVOkw+uDt0eSUboBCnzg+1HKfY+
- ncAtyjr5SpjQeqiCTrYBEjF3vkkU7Yn7wr3yVxRBwuX2xue+BzYeN7u+c
- GNf+3nZchAe0gjefn9fQrUcQUs+3biy+D4r7sFBMYvgE5c7MGXTcy/vdm
- r7THp5AZ0NxPwqUJiQYZ6cBrVOj2T1msGrigdKwiax0B7RuJVdBQrUKLB
- GG61/NUYv22M9VtUrowICjrphQmxMk1FyUpZmXbXkXwOghXVVDUgERIeS w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="290642680"
-X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; d="scan'208";a="290642680"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 01:39:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; d="scan'208";a="579770101"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by orsmga008.jf.intel.com with ESMTP; 26 Apr 2022 01:39:41 -0700
-Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 26 Apr 2022 01:39:41 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 26 Apr 2022 01:39:41 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 26 Apr 2022 01:39:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BaaY9xftx5CvpbfPAQRRHGRoP2uMDCiY4hTuoY0cAmCS91zHOegKo9UyPdbhIkmPk8fb8ctDEKoJLRi5Ef5WP0AlwvuwXFSMpo9aprz59XofC+BSI4G0e36CzgrcXSc3maTxsZvUHpeE6/FhXD284mD7UJlvKXE/oQJbJc5AQuZEzzNP1QkCpnBfCT6z52Ey4mRUCwamqb8hAl4SVwF/eBRUUw3N87WZZJ9O5ptZf+e6BFSVYBPd6Ie3hYfejB45Fx4tSGiMxyFPpXeboHtz/1KTxMrRNvwxrAksMbg3jdI0+knDC+tExHSU2Y1jM8dqMql4E7RXEmyYIZjPaKLuMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KHHg+nfB6P2ijKuQiljPBbLn6oMzUysVg47Lwlq6AuI=;
- b=L+I3owdAkXSPueQPJHR8uNyH7FuUXTG5drI8mMhQhZQTDpylWqDT/4M+ZYWdHX8CKIS1ZD7gRC74vaNftkD87AzGuVcSxjIkvicTqtRLfCGqPUmcwlvjAUBWqJA93oMJk9m5hcn3NyAb9kPtdPeNOqESJjfpZwE5yKhopzR2iFOP/NKSnolOVL2p1iuX8UI8f5lC+Ya3anMoruprXz5PHCUzR6ofnaHGC4diwi81UhO0v+T2vkluqrr8DkKHkuHGg8f2xPog3kjS7dQDmh9/4IhOoPwDBAmLYOjGgSs8Lrenj9Jn+wjjK4ARMK5d3qsZ2W+0ssv6PmQ/RNMdax4krQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by CO6PR11MB5652.namprd11.prod.outlook.com (2603:10b6:5:35e::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13; Tue, 26 Apr
- 2022 08:39:34 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::24dd:37c2:3778:1adb]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::24dd:37c2:3778:1adb%2]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
- 08:39:34 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: "eric.auger@redhat.com" <eric.auger@redhat.com>, "Liu, Yi L"
- <yi.l.liu@intel.com>, "alex.williamson@redhat.com"
- <alex.williamson@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [RFC 00/18] vfio: Adopt iommufd
-Thread-Topic: [RFC 00/18] vfio: Adopt iommufd
-Thread-Index: AQHYT+0D1ejJho1As0eoIzmf/Uaf8qz1XItwgAvAYoCAANVegA==
-Date: Tue, 26 Apr 2022 08:39:34 +0000
-Message-ID: <BN9PR11MB52762773249668EF0BC5BDA48CFB9@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220414104710.28534-1-yi.l.liu@intel.com>
- <BN9PR11MB5276085CDF750807005A775B8CF39@BN9PR11MB5276.namprd11.prod.outlook.com>
- <d1c63ea2-7396-7020-7a45-88e3d1918fb1@redhat.com>
-In-Reply-To: <d1c63ea2-7396-7020-7a45-88e3d1918fb1@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ca4e0ac2-f677-4533-324c-08da27604a7b
-x-ms-traffictypediagnostic: CO6PR11MB5652:EE_
-x-microsoft-antispam-prvs: <CO6PR11MB56524BC63E2C721E6A6D85C18CFB9@CO6PR11MB5652.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5scBiAFBBiginjipY1lH/RGHRZrWBgrXyeb3lojz4zbyHEZxITVG0sMILQCMTd9fjCLD8/6XOZmMnkP1s9iMXoCg0dhs5vkbNFifB/k0KaOPzqhjRV3CyQ96WaR4s3L5GGCmYDVbc80SD4DxhnDxQ/gRvmZkYjnaXgknoP4nAA7H0cFw5NfqOt6nWeQbNZsAgdl+YMiajy6ZKhF/aIpaS2FU9bSeGrCVg5oOOmEtWRim4lV8gCJlZKOEdIzKHyZhuptP6S/mHm5CieYVWjiaQTHLpQtsx02mmVKiltcvJLgNtCgIVXkuHz5a/bXxbg/xvIX/Z2/d0CHQvvBCBjCAlqhkjWzPvhCgtUqPdTMt1XP2bmSgb637leRZdAst9T8Lp035WGp6w+oraqBZfGMrrRDcVyHjrRbodbWpczbwwu+opaEt/XvHrtkokbkyglOCAu5XMffVx1OHCJtRjqJRcH1aS8oI/WZxefnV/qgPMYKKxrH4JjBTLd2IF3b8YP1XMS99Cs3JShQwCmqL5sZGpvSqIpt0QQ3+pVobZRGTfYhvgHrx+HuhzMKWT45U/oCrQYKRfBgobOrt9SWZHOjOmXTUcSUaHSoipxlr8Sz23q2HOoU3WPT35ubnBpbRa6QiDVY7NzZq0Xxs2Sbjwd2MtEpH25VohOH2MzDE3OkLExgWLNlE3KqCOBUxYEKu+Kmo+gWlvnMC46a8c+hzpjDzXw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(9686003)(38070700005)(55016003)(53546011)(38100700002)(33656002)(7416002)(66446008)(4326008)(5660300002)(316002)(71200400001)(4744005)(2906002)(6506007)(7696005)(26005)(86362001)(186003)(82960400001)(122000001)(508600001)(8936002)(110136005)(54906003)(966005)(66946007)(52536014)(8676002)(64756008)(66476007)(76116006)(66556008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ME4yOHRxQlN1d2wzcGFFbG4wRkpZd21xVGVvVHYzYTdmeUthaWtUdDN2Q2Fz?=
- =?utf-8?B?cFJySU02TnFWbDYxSDUwYkJuZnhvY1hKOGsva1hRYVNXaUlqdmJDU1EvaEV1?=
- =?utf-8?B?SC9zeUtLYUM2VG1MTEc1RmJYbmNOdWlKcUlPZEVvUHBoRVBSNForNHJoeDlF?=
- =?utf-8?B?RC9QQUpWdmNmKzI0cldVVW1vTFVkblFReitUQWQ5K1Y1cHhiUDNRend2UTFH?=
- =?utf-8?B?L3JjbUdNZnExUVdFUTI0VlBYTXAzV21wZHFTayt3MHNrK1ZlQ1pkZVVEbi81?=
- =?utf-8?B?RjFtYmZyZnZXV0dEbFp5RDlwY1dCOTcwaFdQOFA4SmhTYzkrMmpWQnNod1k2?=
- =?utf-8?B?bnc4ekpxWlV1TWhYRGZteGMyRlpxdEJGbDRNK0luTXVGNGJLQTk3OEVTZUIy?=
- =?utf-8?B?VnQzZERjdkswRkdlYmJNYjFMU3JkRFJBMzUxWFFEYysxOWw5OVhWMXZ3QmIz?=
- =?utf-8?B?dU5leEJGMUMzVWRzSTNFZ200amlPSm5ZZnY0dWVPTXAzRW14OWhWenA3NFU1?=
- =?utf-8?B?S3ZseWlZT1pVbUgxaWJsakdtb0w3cWRFVDM1V0wyQW8vWXBFaXBDaHZ1bFNu?=
- =?utf-8?B?cXpNdVVYQi9hZ2VBUjdvZlNrUHhHUERUb0tDNnVETTdyMzdSUFBtSVcxUFc4?=
- =?utf-8?B?VG5QaU9SZ1JPTXNaNjI1THFUYzBwcUNJMUpkaWlFYmtId1poby9MblN4STZB?=
- =?utf-8?B?dTN6cmdHZk4vMTZBbGhVMWZZT0UvSVVHdXF5NkFSR01MUzRERnoyWkZnaTZU?=
- =?utf-8?B?dkFBVnJCb0FyN0FmcTNFRG1pWlBlVGZBMmEyamtSYXFKL2RxSUs5V1BYYkR3?=
- =?utf-8?B?RUh0emdnNkgxVWl4cWRhV1BETW84VjRKd2Z2WXo5NUQ1RnA5UURDV0NIR21J?=
- =?utf-8?B?b1lJaFNSdEk4dTIvSTN1YjJMWC95b3ZhODdzKy9ZQUJ1TlJ3cXpZaDV0ek41?=
- =?utf-8?B?d3loMWJPU2FNVldLRVNnN2JmYlRPR1BzbHNRbUliTE9hYi9oVUIzV0cvU0tJ?=
- =?utf-8?B?bUhLWFBrY0MxUHFTNEM5QkVRKzRPS2tNVzhFcFd4bFp1czJnNXRJNmNXaHRz?=
- =?utf-8?B?SiswcDdwMzR5NUhXS1MwdVBuM09OY0l4RHF6QlExTmlnaW9pZmszbHVncGp5?=
- =?utf-8?B?SVZYeFFLYVdjZm9pWFR3c2FhU0NYL3k4L0lwMVQ5UG9YK1VIMHJablRTM01n?=
- =?utf-8?B?SHRER1FJMCtJbDIzam1rTE9uMm5yY1JtRXNZQmdzWk9RMDFMVDErQ3dnaVBn?=
- =?utf-8?B?VmJncmE3NnlXazBVU2YydDlRbVdlU2tUNEdDWTA4aklvc1NQQU9kUm9ZcDVY?=
- =?utf-8?B?SW1CMWoxTERaSE1uR0J0VEQwcjltZTFjT2tobDFpa0gvM05DTHpzS05SMjlu?=
- =?utf-8?B?VU5MeUJQb3JLeG5EbGRZTGxsR0lFKzBRVlorOXRBVlVZSDB0dlRXL3g3NkRN?=
- =?utf-8?B?TDNYUVVwY2ZBWlpnYlQvUXdpNG51RTJYSlg2YlBFK2dUQUxpWU1qNW5acFdD?=
- =?utf-8?B?Q1N2TGhRVUR3ZC82bWFjMmU2TWMvcjViSlBseVNyUlRTVWlaRGxnYmRKcnhJ?=
- =?utf-8?B?WGl0b3k0UXhoVE9jOTFNOE5iT3J1aGhzVXVXTUNaZjhIYVBJN21sdTBrSTZK?=
- =?utf-8?B?N21mRDlZcXNkY1J0NzFBVzlab29WVUJmWkovdTFhV0YxeEM4eVRkWXpCTTBr?=
- =?utf-8?B?TEwzeVRKTFlEZHRtU3hvTXZqL1FOMHZ2KzA0a2dyZ0xJaGp3dmE1NUQ4eXRn?=
- =?utf-8?B?a2FXMWM3U0VpMTdpbVRxZTIyZDh4MGEwVlJhbm0xNDM2WVBnQWNxOS9CRWxT?=
- =?utf-8?B?UWsyb1RjZlIvZEU1NG9EbUdaWmFCaFhnNndYK2wvMmhlMmFJTEtrdllCbmN0?=
- =?utf-8?B?WFNiNkR5ZVhLalZLcWYzNzNKWUw0VFFuNkhpNGxZZGRjVFIvdDVZZlpRVDFu?=
- =?utf-8?B?MENlSDVBOVU5WXFOd0Zma0tvdmVSeEVKeWRQL295S3h3QUFuT21jakh5bEdo?=
- =?utf-8?B?QWpOaE44bDg0bU8yNnlVamlmNWlqSUFvVE40S09PQUxmS0FFRm0wQUhqamQ5?=
- =?utf-8?B?U3RWNCtDUGFqMXF3ZExPa1puaXpVeStLd0pqQmdJeldxK3oxMXdDQVI1OTJI?=
- =?utf-8?B?ZlIyVXk3bFRmd3BXV0IycHlCRjVRMDhXMHBhQ1U4NklGUFR0ZlI1TXFCZHZa?=
- =?utf-8?B?VVJxcVZnT0F2NllxbW9oYXZpT2VyaW5tZ1V0d0JmdXoxL1RvME1TdUpxSmtH?=
- =?utf-8?B?QVYxbHZqZUgzRmZFeThydjZZcEt6d3VlTXZCRThjUVR4a3EwYks3Nno4U3ZJ?=
- =?utf-8?B?Y2hCZzA3aENneWc3MW5vcDE1cVY0ZDFCT0xSdkVkbUxyQXkyWDE0Zz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1njGrJ-0005Xq-7j; Tue, 26 Apr 2022 04:47:47 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:50442 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1njGrF-0008FQ-Hk; Tue, 26 Apr 2022 04:47:44 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowABHT4efsWdiUXL+AA--.24747S2;
+ Tue, 26 Apr 2022 16:47:27 +0800 (CST)
+Subject: Re: [PATCH qemu 1/9] target/riscv: rvv: Add mask agnostic for vv
+ instructions
+To: ~eopxd <yueh.ting.chen@gmail.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <165089631935.4839.7564289944057093570-1@git.sr.ht>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <9deca899-2041-2452-77e4-6fb8a58bc2b8@iscas.ac.cn>
+Date: Tue, 26 Apr 2022 16:47:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca4e0ac2-f677-4533-324c-08da27604a7b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2022 08:39:34.6122 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oVdImOz1LywiOuuG5BxiT5QjmFO6OHE/cK2M4C2javxlxaf5lpQqW0HJG2BUVmBfTj68e8iQfNb0ZglHYqRZZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5652
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=kevin.tian@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <165089631935.4839.7564289944057093570-1@git.sr.ht>
+Content-Type: multipart/alternative;
+ boundary="------------98C1135EBEB0B15547A5137E"
+Content-Language: en-US
+X-CM-TRANSID: qwCowABHT4efsWdiUXL+AA--.24747S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3WF4xWw1fGr1UKr13JFyrWFg_yoWxArWrpr
+ 48GrWxtrZxGFyfCw1fXF4UAr18Zrs5uw40kw4kuw4kuan5XrZ8XFZ8KF1xCFWUKF45Zr1F
+ 93WqyryY9395ZFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r106r15McIj6I8E
+ 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjI
+ I2zVCS5cI20VAGYxC7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487
+ MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+ I_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
+ wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+ W8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JjjYL9UUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -178,31 +73,390 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
- "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
- "thuth@redhat.com" <thuth@redhat.com>, "Peng, Chao P" <chao.p.peng@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "farman@linux.ibm.com" <farman@linux.ibm.com>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "Sun, Yi
- Y" <yi.y.sun@intel.com>, "nicolinc@nvidia.com" <nicolinc@nvidia.com>,
- "jgg@nvidia.com" <jgg@nvidia.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: WeiWei Li <liweiwei@iscas.ac.cn>, Frank Chang <frank.chang@sifive.com>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ eop Chen <eop.chen@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBGcm9tOiBFcmljIEF1Z2VyIDxlcmljLmF1Z2VyQHJlZGhhdC5jb20+DQo+IFNlbnQ6IFR1ZXNk
-YXksIEFwcmlsIDI2LCAyMDIyIDM6NTUgQU0NCj4gDQo+IEhpIEtldmluLA0KPiANCj4gT24gNC8x
-OC8yMiAxMDo0OSBBTSwgVGlhbiwgS2V2aW4gd3JvdGU6DQo+ID4+IEZyb206IExpdSwgWWkgTCA8
-eWkubC5saXVAaW50ZWwuY29tPg0KPiA+PiBTZW50OiBUaHVyc2RheSwgQXByaWwgMTQsIDIwMjIg
-Njo0NyBQTQ0KPiA+Pg0KPiA+PiBUaGlzIHNlcmllcyBxb21pZmllcyB0aGUgVkZJT0NvbnRhaW5l
-ciBvYmplY3Qgd2hpY2ggYWN0cyBhcyBhIGJhc2UgY2xhc3MNCj4gPiB3aGF0IGRvZXMgJ3FvbWlm
-eScgbWVhbj8gSSBkaWRuJ3QgZmluZCB0aGlzIHdvcmQgZnJvbSBkaWN0aW9uYXJ5Li4uDQo+IHNv
-cnJ5IHRoaXMgaXMgcHVyZSBRRU1VIHRlcm1pbm9sb2d5LiBUaGlzIHN0YW5kcyBmb3IgIlFFTVUg
-T2JqZWN0IE1vZGVsIg0KPiBhZGRpdGlvbmFsIGluZm8gYXQ6DQo+IGh0dHBzOi8vcWVtdS5yZWFk
-dGhlZG9jcy5pby9lbi9sYXRlc3QvZGV2ZWwvcW9tLmh0bWwNCj4gDQoNCk5pY2UgdG8ga25vdyEN
-Cg==
+This is a multi-part message in MIME format.
+--------------98C1135EBEB0B15547A5137E
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+在 2022/3/17 下午3:26, ~eopxd 写道:
+> From: Yueh-Ting (eop) Chen <eop.chen@sifive.com>
+>
+> This is the first commit regarding the mask agnostic behavior.
+> Added option 'rvv_ma_all_1s' to enable the behavior, the option
+> is default to false.
+>
+> Signed-off-by: eop Chen <eop.chen@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>   target/riscv/cpu.c                      | 1 +
+>   target/riscv/cpu.h                      | 2 ++
+>   target/riscv/cpu_helper.c               | 2 ++
+>   target/riscv/insn_trans/trans_rvv.c.inc | 3 +++
+>   target/riscv/internals.h                | 5 +++--
+>   target/riscv/translate.c                | 2 ++
+>   target/riscv/vector_helper.c            | 8 ++++++++
+>   7 files changed, 21 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index cd4cf4b41e..2bf862a5e4 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -811,6 +811,7 @@ static Property riscv_cpu_properties[] = {
+>   
+>       DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
+>       DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
+> +    DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
+>       DEFINE_PROP_END_OF_LIST(),
+>   };
+>   
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 8c4a79b5a0..c76ded515b 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -370,6 +370,7 @@ struct RISCVCPUConfig {
+>       bool ext_zve32f;
+>       bool ext_zve64f;
+>       bool rvv_ta_all_1s;
+> +    bool rvv_ma_all_1s;
+>   
+>       /* Vendor-specific custom extensions */
+>       bool ext_XVentanaCondOps;
+> @@ -518,6 +519,7 @@ FIELD(TB_FLAGS, XL, 20, 2)
+>   FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
+>   FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
+>   FIELD(TB_FLAGS, VTA, 24, 1)
+> +FIELD(TB_FLAGS, VMA, 25, 1)
+>   
+>   #ifdef TARGET_RISCV32
+>   #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 2941c88c31..be94d82ff8 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -67,6 +67,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>           flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+>           flags = FIELD_DP32(flags, TB_FLAGS, VTA,
+>                       FIELD_EX64(env->vtype, VTYPE, VTA));
+> +        flags = FIELD_DP32(flags, TB_FLAGS, VMA,
+> +                    FIELD_EX64(env->vtype, VTYPE, VMA));
+>       } else {
+>           flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+>       }
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 8d87501e03..4610107fb4 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -1251,6 +1251,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
+>           data = FIELD_DP32(data, VDATA, VM, a->vm);
+>           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>           data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+>                              vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
+>                              cpu_env, s->cfg_ptr->vlen / 8,
+> @@ -1567,6 +1568,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
+>           data = FIELD_DP32(data, VDATA, VM, a->vm);
+>           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>           data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+>                              vreg_ofs(s, a->rs1),
+>                              vreg_ofs(s, a->rs2),
+> @@ -1649,6 +1651,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
+>           data = FIELD_DP32(data, VDATA, VM, a->vm);
+>           data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+>           data = FIELD_DP32(data, VDATA, VTA, s->vta);
+> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);
+>           tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+>                              vreg_ofs(s, a->rs1),
+>                              vreg_ofs(s, a->rs2),
+> diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+> index 512c6c30cf..00b72fd767 100644
+> --- a/target/riscv/internals.h
+> +++ b/target/riscv/internals.h
+> @@ -25,8 +25,9 @@
+>   FIELD(VDATA, VM, 0, 1)
+>   FIELD(VDATA, LMUL, 1, 3)
+>   FIELD(VDATA, VTA, 4, 1)
+> -FIELD(VDATA, NF, 5, 4)
+> -FIELD(VDATA, WD, 5, 1)
+> +FIELD(VDATA, VMA, 5, 1)
+> +FIELD(VDATA, NF, 6, 4)
+> +FIELD(VDATA, WD, 6, 1)
+>   
+>   /* float point classify helpers */
+>   target_ulong fclass_h(uint64_t frs1);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 7775dade26..37893aa348 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -95,6 +95,7 @@ typedef struct DisasContext {
+>       int8_t lmul;
+>       uint8_t sew;
+>       uint8_t vta;
+> +    uint8_t vma;
+>       target_ulong vstart;
+>       bool vl_eq_vlmax;
+>       uint8_t ntemp;
+> @@ -1085,6 +1086,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+>       ctx->lmul = sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
+>       ctx->vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) && cpu->cfg.rvv_ta_all_1s;
+> +    ctx->vma = FIELD_EX32(tb_flags, TB_FLAGS, VMA) && cpu->cfg.rvv_ma_all_1s;
+>       ctx->vstart = env->vstart;
+>       ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+>       ctx->misa_mxl_max = env->misa_mxl_max;
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index fbde0c9248..141a06ddf0 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -127,6 +127,11 @@ static inline uint32_t vext_vta(uint32_t desc)
+>       return FIELD_EX32(simd_data(desc), VDATA, VTA);
+>   }
+>   
+> +static inline uint32_t vext_vma(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VMA);
+> +}
+> +
+>   /*
+>    * Get the maximum number of elements can be operated.
+>    *
+> @@ -797,10 +802,13 @@ static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+>       uint32_t vl = env->vl;
+>       uint32_t total_elems = vext_get_total_elems(desc, esz);
+>       uint32_t vta = vext_vta(desc);
+> +    uint32_t vma = vext_vma(desc);
+>       uint32_t i;
+>   
+>       for (i = env->vstart; i < vl; i++) {
+>           if (!vm && !vext_elem_mask(v0, i)) {
+> +            /* set masked-off elements to 1s */
+> +            vext_set_elems_1s_fns[ctzl(esz)](vd, vma, i, i * esz, (i + 1) * esz);
+
+Similar to our last discussion,  vext_set_elems_1s_fns array can be 
+simplified to single vext_set_elems_1s,
+
+since the fourth argement can be used as the start offset.
+
+Another question, may be not related to this patchset, in section 3.4.3 
+of the spec:
+
+/"Mask destination tail elements are always treated as tail-agnostic, 
+regardless of the setting of vta."/
+
+What does "Mask destination tail elements" mean?
+
+Regards,
+
+Weiwei Li
+
+>               continue;
+>           }
+>           fn(vd, vs1, vs2, i);
+
+--------------98C1135EBEB0B15547A5137E
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">在 2022/3/17 下午3:26, ~eopxd 写道:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:165089631935.4839.7564289944057093570-1@git.sr.ht">
+      <pre class="moz-quote-pre" wrap="">From: Yueh-Ting (eop) Chen <a class="moz-txt-link-rfc2396E" href="mailto:eop.chen@sifive.com">&lt;eop.chen@sifive.com&gt;</a>
+
+This is the first commit regarding the mask agnostic behavior.
+Added option 'rvv_ma_all_1s' to enable the behavior, the option
+is default to false.
+
+Signed-off-by: eop Chen <a class="moz-txt-link-rfc2396E" href="mailto:eop.chen@sifive.com">&lt;eop.chen@sifive.com&gt;</a>
+Reviewed-by: Frank Chang <a class="moz-txt-link-rfc2396E" href="mailto:frank.chang@sifive.com">&lt;frank.chang@sifive.com&gt;</a>
+---
+ target/riscv/cpu.c                      | 1 +
+ target/riscv/cpu.h                      | 2 ++
+ target/riscv/cpu_helper.c               | 2 ++
+ target/riscv/insn_trans/trans_rvv.c.inc | 3 +++
+ target/riscv/internals.h                | 5 +++--
+ target/riscv/translate.c                | 2 ++
+ target/riscv/vector_helper.c            | 8 ++++++++
+ 7 files changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index cd4cf4b41e..2bf862a5e4 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -811,6 +811,7 @@ static Property riscv_cpu_properties[] = {
+ 
+     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
+     DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
++    DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 8c4a79b5a0..c76ded515b 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -370,6 +370,7 @@ struct RISCVCPUConfig {
+     bool ext_zve32f;
+     bool ext_zve64f;
+     bool rvv_ta_all_1s;
++    bool rvv_ma_all_1s;
+ 
+     /* Vendor-specific custom extensions */
+     bool ext_XVentanaCondOps;
+@@ -518,6 +519,7 @@ FIELD(TB_FLAGS, XL, 20, 2)
+ FIELD(TB_FLAGS, PM_MASK_ENABLED, 22, 1)
+ FIELD(TB_FLAGS, PM_BASE_ENABLED, 23, 1)
+ FIELD(TB_FLAGS, VTA, 24, 1)
++FIELD(TB_FLAGS, VMA, 25, 1)
+ 
+ #ifdef TARGET_RISCV32
+ #define riscv_cpu_mxl(env)  ((void)(env), MXL_RV32)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 2941c88c31..be94d82ff8 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -67,6 +67,8 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+         flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+         flags = FIELD_DP32(flags, TB_FLAGS, VTA,
+                     FIELD_EX64(env-&gt;vtype, VTYPE, VTA));
++        flags = FIELD_DP32(flags, TB_FLAGS, VMA,
++                    FIELD_EX64(env-&gt;vtype, VTYPE, VMA));
+     } else {
+         flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+     }
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index 8d87501e03..4610107fb4 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -1251,6 +1251,7 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
+         data = FIELD_DP32(data, VDATA, VM, a-&gt;vm);
+         data = FIELD_DP32(data, VDATA, LMUL, s-&gt;lmul);
+         data = FIELD_DP32(data, VDATA, VTA, s-&gt;vta);
++        data = FIELD_DP32(data, VDATA, VMA, s-&gt;vma);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a-&gt;rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a-&gt;rs1), vreg_ofs(s, a-&gt;rs2),
+                            cpu_env, s-&gt;cfg_ptr-&gt;vlen / 8,
+@@ -1567,6 +1568,7 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
+         data = FIELD_DP32(data, VDATA, VM, a-&gt;vm);
+         data = FIELD_DP32(data, VDATA, LMUL, s-&gt;lmul);
+         data = FIELD_DP32(data, VDATA, VTA, s-&gt;vta);
++        data = FIELD_DP32(data, VDATA, VMA, s-&gt;vma);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a-&gt;rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a-&gt;rs1),
+                            vreg_ofs(s, a-&gt;rs2),
+@@ -1649,6 +1651,7 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
+         data = FIELD_DP32(data, VDATA, VM, a-&gt;vm);
+         data = FIELD_DP32(data, VDATA, LMUL, s-&gt;lmul);
+         data = FIELD_DP32(data, VDATA, VTA, s-&gt;vta);
++        data = FIELD_DP32(data, VDATA, VMA, s-&gt;vma);
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a-&gt;rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a-&gt;rs1),
+                            vreg_ofs(s, a-&gt;rs2),
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index 512c6c30cf..00b72fd767 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -25,8 +25,9 @@
+ FIELD(VDATA, VM, 0, 1)
+ FIELD(VDATA, LMUL, 1, 3)
+ FIELD(VDATA, VTA, 4, 1)
+-FIELD(VDATA, NF, 5, 4)
+-FIELD(VDATA, WD, 5, 1)
++FIELD(VDATA, VMA, 5, 1)
++FIELD(VDATA, NF, 6, 4)
++FIELD(VDATA, WD, 6, 1)
+ 
+ /* float point classify helpers */
+ target_ulong fclass_h(uint64_t frs1);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 7775dade26..37893aa348 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -95,6 +95,7 @@ typedef struct DisasContext {
+     int8_t lmul;
+     uint8_t sew;
+     uint8_t vta;
++    uint8_t vma;
+     target_ulong vstart;
+     bool vl_eq_vlmax;
+     uint8_t ntemp;
+@@ -1085,6 +1086,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx-&gt;sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+     ctx-&gt;lmul = sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
+     ctx-&gt;vta = FIELD_EX32(tb_flags, TB_FLAGS, VTA) &amp;&amp; cpu-&gt;cfg.rvv_ta_all_1s;
++    ctx-&gt;vma = FIELD_EX32(tb_flags, TB_FLAGS, VMA) &amp;&amp; cpu-&gt;cfg.rvv_ma_all_1s;
+     ctx-&gt;vstart = env-&gt;vstart;
+     ctx-&gt;vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+     ctx-&gt;misa_mxl_max = env-&gt;misa_mxl_max;
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index fbde0c9248..141a06ddf0 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -127,6 +127,11 @@ static inline uint32_t vext_vta(uint32_t desc)
+     return FIELD_EX32(simd_data(desc), VDATA, VTA);
+ }
+ 
++static inline uint32_t vext_vma(uint32_t desc)
++{
++    return FIELD_EX32(simd_data(desc), VDATA, VMA);
++}
++
+ /*
+  * Get the maximum number of elements can be operated.
+  *
+@@ -797,10 +802,13 @@ static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+     uint32_t vl = env-&gt;vl;
+     uint32_t total_elems = vext_get_total_elems(desc, esz);
+     uint32_t vta = vext_vta(desc);
++    uint32_t vma = vext_vma(desc);
+     uint32_t i;
+ 
+     for (i = env-&gt;vstart; i &lt; vl; i++) {
+         if (!vm &amp;&amp; !vext_elem_mask(v0, i)) {
++            /* set masked-off elements to 1s */
++            vext_set_elems_1s_fns[ctzl(esz)](vd, vma, i, i * esz, (i + 1) * esz);</pre>
+    </blockquote>
+    <p>Similar to our last discussion,  vext_set_elems_1s_fns array can
+      be simplified to single vext_set_elems_1s,<br>
+    </p>
+    <p>since the fourth argement can be used as the start offset. <br>
+    </p>
+    <p>Another question, may be not related to this patchset, in section
+      3.4.3 of the spec: <br>
+    </p>
+    <p><i>"Mask destination tail elements are always treated as
+        tail-agnostic, regardless of the setting of vta."</i></p>
+    <p>What does "Mask destination tail elements" mean?</p>
+    <p>Regards,</p>
+    <p>Weiwei Li<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:165089631935.4839.7564289944057093570-1@git.sr.ht">
+      <pre class="moz-quote-pre" wrap="">
+             continue;
+         }
+         fn(vd, vs1, vs2, i);
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------98C1135EBEB0B15547A5137E--
+
 
