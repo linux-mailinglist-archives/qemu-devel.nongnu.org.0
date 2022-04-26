@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53A8510A6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 22:28:27 +0200 (CEST)
-Received: from localhost ([::1]:48416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFA8510A73
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 22:29:31 +0200 (CEST)
+Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njRnP-0007Bx-0X
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 16:28:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45020)
+	id 1njRoQ-0001An-7y
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 16:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njRls-0004zM-GE
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:26:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1njRlr-000152-1o
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:26:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651004809;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eIKDTCsGHMucCmYpVji/4hZO0Yk8P4j+qw+tKzv6eKA=;
- b=CTrOXZHsRdjBN4BM/HJK3LmOfV6R41ORetNURAlcEib5K2x5TxPXNlxZL+p7YQx7W75nTv
- 0xVQ88YOzsVQN1jOw1zc3I00SMkVbBHYs+Ufd0GD4YFS3yK35J7nqLr5tz1//gyWLXRgXF
- tasgGGsJdL96CjE3j6Ga1HtEED9ZC9U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-FLjGF3EWOmCeDly3txzqQw-1; Tue, 26 Apr 2022 16:26:46 -0400
-X-MC-Unique: FLjGF3EWOmCeDly3txzqQw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D7ED833942;
- Tue, 26 Apr 2022 20:26:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD0959D7A;
- Tue, 26 Apr 2022 20:26:35 +0000 (UTC)
-Date: Tue, 26 Apr 2022 15:26:34 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 10/26] nbd: add missing coroutine_fn annotations
-Message-ID: <20220426202619.b3gnzsvoajxjskom@redhat.com>
-References: <20220415131900.793161-1-pbonzini@redhat.com>
- <20220415131900.793161-11-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njRmg-00070U-T8
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:27:42 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:33597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1njRmf-0001CY-6b
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 16:27:42 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id c23so31301802plo.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 13:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=s22lZDRWh6uMPyoEVF6k214R2eDfgrO6tfYcK3nQ1nM=;
+ b=Vtxom1wdelM7cj1GTi7SbLgzOQlieoiSJ7iAhAKd8VqExtfm66ZQK5ytzE0oBbO5Ug
+ WZK+8GY1mZqRmp/b5IG/KcEx+eoxgIzzrq+d7X6guUtMvfljneK+4EWglIejPj5mg4cr
+ qjasP1jd1x47IPB5ueCOC0TbM6MidukZHma0nenSdNPvzFm5E53MiYjx3LTN3Ux7Qu5n
+ 5mx8X9GZOy3V0SlDEllgzAybpVNCk2bpH6KWyy4V3SMVgJAFJVZ0WIFtbx/DANJ6FqUu
+ 8vwFU3uA4cW91hPc030imZbG8rPjrSQdcWvkDHiHl2fRubM16h7wZKMx/rBD5PBr+1GL
+ WDIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=s22lZDRWh6uMPyoEVF6k214R2eDfgrO6tfYcK3nQ1nM=;
+ b=VB1z2A0qYS1zG0dR8Taug7SSL+mwrLU+xNGMYZU1LOMRcEskny5xmetVxRx3fh7aAP
+ Fh74iAcurMutEZ+BM7DH7hx9O2XK7qO1KxY7gwbyHTY1Z5eCWTKfIiYKGr+EJoHQ4AWj
+ YQ0UrJm4mNfaz4dtizLZT29AROYpLP3Kkgb9eHT/l9gsDOHy5+/PhH1wLrnyQ1t9sNIb
+ fVuDYGk/OTMiRPjXpzxF9YFAiw/7xE715d0EnCv84VH4xxraR4Rvc4No4OhKu6jZ6DiP
+ i/CScGCE24pEnKbHTRqP6+fabeD1pbrinVa1d8jd30rX+p8bcmfm+UhWNdjMnbYunRqN
+ FK1A==
+X-Gm-Message-State: AOAM532Zdu1Y35MSY11wh+uHI6xs9/l09qS8NAjG9EavJ14IaIq55Z/0
+ 8n0AUbp1qowcf+FJVEECXvEp1A==
+X-Google-Smtp-Source: ABdhPJwibV3LOhweFaMFlbbTgeVuSFiIjHN8/ga4J9oomjkjdHWBqd6fxp2V8ZsFxFDbYGDH7yAkiQ==
+X-Received: by 2002:a17:90a:db95:b0:1d9:782f:a4c8 with SMTP id
+ h21-20020a17090adb9500b001d9782fa4c8mr13153261pjv.154.1651004859753; 
+ Tue, 26 Apr 2022 13:27:39 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ z14-20020a17090a8b8e00b001d95cdb62d4sm4053798pjn.33.2022.04.26.13.27.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Apr 2022 13:27:39 -0700 (PDT)
+Message-ID: <f8d78d32-bf3f-bc6d-cd85-6ef0b369ffec@linaro.org>
+Date: Tue, 26 Apr 2022 13:27:37 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220415131900.793161-11-pbonzini@redhat.com>
-User-Agent: NeoMutt/20220415-26-c08bba
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 5/9] docs: convert docs/devel/replay page to rst
+Content-Language: en-US
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <165062838915.526882.13230207960407998257.stgit@pasha-ThinkPad-X280>
+ <165062841642.526882.11679119764732049695.stgit@pasha-ThinkPad-X280>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <165062841642.526882.11679119764732049695.stgit@pasha-ThinkPad-X280>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,55 +89,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: alex.bennee@linaro.org, pbonzini@redhat.com, philmd@redhat.com,
+ wrampazz@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 15, 2022 at 03:18:44PM +0200, Paolo Bonzini wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 4/22/22 04:53, Pavel Dovgalyuk wrote:
+> This patch converts prior .txt replay devel documentation to .rst.
+> 
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 > ---
->  block/nbd.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-
-As elsewhere in this series, a non-empty commit body would be useful.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
+>   docs/devel/index-tcg.rst |    2 ++
+>   docs/devel/replay.rst    |   54 ++++++++++++++++++++++++++++++++++++++++++++++
+>   docs/devel/replay.txt    |   46 ---------------------------------------
+>   3 files changed, 56 insertions(+), 46 deletions(-)
+>   create mode 100644 docs/devel/replay.rst
+>   delete mode 100644 docs/devel/replay.txt
 > 
-> diff --git a/block/nbd.c b/block/nbd.c
-> index 5af4deac3f..a4c8d661ad 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -974,11 +974,11 @@ static void nbd_iter_request_error(NBDReplyChunkIter *iter, int ret)
->   * nbd_reply_chunk_iter_receive
->   * The pointer stored in @payload requires g_free() to free it.
->   */
-> -static bool nbd_reply_chunk_iter_receive(BDRVNBDState *s,
-> -                                         NBDReplyChunkIter *iter,
-> -                                         uint64_t handle,
-> -                                         QEMUIOVector *qiov, NBDReply *reply,
-> -                                         void **payload)
-> +static bool coroutine_fn nbd_reply_chunk_iter_receive(BDRVNBDState *s,
-> +                                                      NBDReplyChunkIter *iter,
-> +                                                      uint64_t handle,
-> +                                                      QEMUIOVector *qiov, NBDReply *reply,
+> diff --git a/docs/devel/index-tcg.rst b/docs/devel/index-tcg.rst
+> index 0b0ad12c22..52af5444d6 100644
+> --- a/docs/devel/index-tcg.rst
+> +++ b/docs/devel/index-tcg.rst
+> @@ -8,8 +8,10 @@ are only implementing things for HW accelerated hypervisors.
+>   .. toctree::
+>      :maxdepth: 2
+>   
+> +
+>      tcg
+>      decodetree
 
-Perhaps worth rewrapping this line.
+Watch extra whitespace.  Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> +                                                      void **payload)
->  {
->      int ret, request_ret;
->      NBDReply local_reply;
-> -- 
-> 2.35.1
-> 
-> 
-> 
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
