@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6A45108CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:17:19 +0200 (CEST)
-Received: from localhost ([::1]:38332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB0B5108D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 21:18:34 +0200 (CEST)
+Received: from localhost ([::1]:42596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njQgY-0004ZZ-63
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:17:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45414)
+	id 1njQhl-0007QA-WC
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 15:18:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPpr-0001nv-Up
+ id 1njPps-0001nx-M7
  for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:22:54 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:34662)
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njPpq-0005MM-9t
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:22:51 -0400
-Received: by mail-pf1-x429.google.com with SMTP id a11so7479479pff.1
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:22:49 -0700 (PDT)
+ id 1njPpr-0005Mw-1N
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 14:22:52 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ bd19-20020a17090b0b9300b001d98af6dcd1so2848601pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1DWNIJERXpZmtblRaXcb0XPGH7uKHZT6j2hdc+1VfWU=;
- b=lQ3SMUA15RscWulhrEmMAzLqxPIB/uVaZKFlJvSB+3qmMcSwgixY8k8MkFteoGC8Lo
- YmDPuVkFK4YopQH4i5eCR8qVhnVMYkR/UQciZLbQ6D6m/5gbazBInjtDv8vT2q5AG+LL
- Ta4F+LvlcOypzjLzjSYHqDsQkbYtdhT3ypmrsSa+/2l8fRxX7msx5BN+O+u8wBteJqVh
- fDILOdWBpJSe1zXq8ikbnc9tx//+7dKGPKEfG+RJoAnvoor6dOMWRQvNqisZ1A+S8rH2
- QVj4s6IFkvmm+/Xnc9eSF/TcnrV3DLeVDxEBuHovUV695E7GbdbD+Gbi5+Mg4G1qv/25
- pxLw==
+ bh=mYrrK9wMFTiFo0vQpejbJip6v2871lt8Lm0SZNjZ9fM=;
+ b=V/P+yKyg/Kh6Ls2rYjzegeFFl1sgVIm6BrmqqWtghCGfyKxlzjU1QwJQYZdQ+XYwei
+ A59rWEEzypFjWfMjD51y2BKfnakPLgd3pGOE6o5IZQJTvc5DsDyZ+WpIpQ35op6Oh8xH
+ /vECJBCDZSNaCOOmQaGa0u1jfR1kKxB9bGyigk05K3K0aTVr/gVyOY8AmTN1fWSwHNtS
+ L6j9gfNrfRLlhk2oHJX/tQWg4EAmr4grbJGrGSaCTBhQYHA0wJS09W2GJg+Z9nl81CA/
+ ikPiGcCvNRLSu+qAtQ5djfEaaN1udGlhurDmc9oXhljyxjN9zflge2PjNZwrSJjTxHb7
+ 0YFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1DWNIJERXpZmtblRaXcb0XPGH7uKHZT6j2hdc+1VfWU=;
- b=x7tv3hKbeZY/JkZx9uoJkOMoqVRbdXmbga631CAkW5yCP+SUa4KBI5g8uEg5/uZHjE
- e4BbFz7scBHe2IpJHEWdTbh17CsyKZe+7I5ETyn1n4o8dcv2GvK2w9yzZu0MXjFABqsV
- GpmILD8koHbgXNMVj1J/5fcuD6eA0L3mvq6yolHJcqB8qRy9/jDJcMFNsLmMPOxfhzv0
- d2p9h5hq4T33q+6c/jiC5fpJTusVNha9DsYr0ixxCb1CuBWQP5B7AJ+gsVDbv4VW1ELu
- AhTqhh7s6cEIq4A2ykGhHpeaTIvbBW0TlIaav1E3b2RbMox3tp19fOyrVmMc4P2oIDz9
- wd9A==
-X-Gm-Message-State: AOAM531AkZJS5hEZONADIILPpWaj3tnJPbe6+nIJzP8tpHKWAJAbw4ba
- 5uCQaRHo3pgF91WZPAnf7gvjYO/fMeMvrA==
-X-Google-Smtp-Source: ABdhPJwKZ4Ju6mq4kc5bgHt1vdwz4T8A1FV28n0ZxVU3gm+89rUEDiqFykIvw7p65NnMdCdUrEwntg==
-X-Received: by 2002:a05:6a00:1d24:b0:50c:f8b5:974d with SMTP id
- a36-20020a056a001d2400b0050cf8b5974dmr21479759pfx.76.1650997368673; 
- Tue, 26 Apr 2022 11:22:48 -0700 (PDT)
+ bh=mYrrK9wMFTiFo0vQpejbJip6v2871lt8Lm0SZNjZ9fM=;
+ b=OYqHLcKHb8VBDOhOhMRWqWXdZv+Y9NxlSdwh6lMNxTnqLsL7wifQ33L+hfAYIjy6nY
+ V6uY50b5iuBjckqlaiBqHJ/TD5u1BNDnYmkO1o7noQ+0r7rnJJJbK2y87UahVIIZgjly
+ nBC94hkd/zhM5CyXr31qqW7e/xiG8V9gfjhIAWdv8JDDzE5uDl44mesH6CMPsJBonoYA
+ 40ydZjQeG41gKTLlaE14skG+gTysTGEq5DrMYv/YeKxy/sV8JapoZFYtAqmlovBwF4GD
+ +l7kLdoTYs1zEcHAlqloB4WxbhB69WFT+zYlKBadYIPQOJ9aUkUYX6YYtuGhPal0EAZt
+ tnXA==
+X-Gm-Message-State: AOAM533ke8zfAZzooJHcmTzSVIs/AHO7XFjYQG4Q7dvohpxAX9f4wxk3
+ KKb+ylkuDVFCNDJSdL8pRQ7bfBVJrJs1dQ==
+X-Google-Smtp-Source: ABdhPJw6y8IyyzI74EYwFlLhIzqWkZCl1vj0TxqfyIeAFQFufS3Gsk8hS0aq7ecmOCYrwFWzhNRf+w==
+X-Received: by 2002:a17:902:9887:b0:151:6e1c:7082 with SMTP id
+ s7-20020a170902988700b001516e1c7082mr24091460plp.162.1650997369487; 
+ Tue, 26 Apr 2022 11:22:49 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
  k187-20020a636fc4000000b003983a01b896sm13585053pgc.90.2022.04.26.11.22.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 11:22:48 -0700 (PDT)
+ Tue, 26 Apr 2022 11:22:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/68] target/nios2: Split out named structs for [IRJ]_TYPE
-Date: Tue, 26 Apr 2022 11:18:42 -0700
-Message-Id: <20220426181907.103691-44-richard.henderson@linaro.org>
+Subject: [PULL 44/68] target/nios2: Split out helpers for gen_i_cmpxx
+Date: Tue, 26 Apr 2022 11:18:43 -0700
+Message-Id: <20220426181907.103691-45-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220426181907.103691-1-richard.henderson@linaro.org>
 References: <20220426181907.103691-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,92 +89,69 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the structures are anonymous within the macro.
-Pull them out to standalone types.
+Do as little work as possible within the macro.
+Split out helper functions and pass in arguments instead.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220421151735.31996-44-richard.henderson@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 48 ++++++++++++++++++++++------------------
- 1 file changed, 27 insertions(+), 21 deletions(-)
+ target/nios2/translate.c | 34 +++++++++++++++++++++++++++-------
+ 1 file changed, 27 insertions(+), 7 deletions(-)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index f33015f942..a3c63dbbbd 100644
+index a3c63dbbbd..86978ba47a 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -53,16 +53,18 @@
- #define INSN_R_TYPE 0x3A
- 
- /* I-Type instruction parsing */
-+typedef struct {
-+    uint8_t op;
-+    union {
-+        uint16_t u;
-+        int16_t s;
-+    } imm16;
-+    uint8_t b;
-+    uint8_t a;
-+} InstrIType;
-+
- #define I_TYPE(instr, code)                \
--    struct {                               \
--        uint8_t op;                        \
--        union {                            \
--            uint16_t u;                    \
--            int16_t s;                     \
--        } imm16;                           \
--        uint8_t b;                         \
--        uint8_t a;                         \
--    } (instr) = {                          \
-+    InstrIType (instr) = {                 \
-         .op    = extract32((code), 0, 6),  \
-         .imm16.u = extract32((code), 6, 16), \
-         .b     = extract32((code), 22, 5), \
-@@ -70,15 +72,17 @@
+@@ -71,6 +71,18 @@ typedef struct {
+         .a     = extract32((code), 27, 5), \
      }
  
++typedef target_ulong ImmFromIType(const InstrIType *);
++
++static target_ulong imm_unsigned(const InstrIType *i)
++{
++    return i->imm16.u;
++}
++
++static target_ulong imm_signed(const InstrIType *i)
++{
++    return i->imm16.s;
++}
++
  /* R-Type instruction parsing */
-+typedef struct {
-+    uint8_t op;
-+    uint8_t imm5;
-+    uint8_t opx;
-+    uint8_t c;
-+    uint8_t b;
-+    uint8_t a;
-+} InstrRType;
-+
- #define R_TYPE(instr, code)                \
--    struct {                               \
--        uint8_t op;                        \
--        uint8_t imm5;                      \
--        uint8_t opx;                       \
--        uint8_t c;                         \
--        uint8_t b;                         \
--        uint8_t a;                         \
--    } (instr) = {                          \
-+    InstrRType (instr) = {                 \
-         .op    = extract32((code), 0, 6),  \
-         .imm5  = extract32((code), 6, 5),  \
-         .opx   = extract32((code), 11, 6), \
-@@ -88,11 +92,13 @@
-     }
+ typedef struct {
+     uint8_t op;
+@@ -268,15 +280,23 @@ static void gen_bxx(DisasContext *dc, uint32_t code, uint32_t flags)
+ }
  
- /* J-Type instruction parsing */
-+typedef struct {
-+    uint8_t op;
-+    uint32_t imm26;
-+} InstrJType;
+ /* Comparison instructions */
+-#define gen_i_cmpxx(fname, op3)                                              \
+-static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)         \
+-{                                                                            \
+-    I_TYPE(instr, (code));                                                   \
+-    tcg_gen_setcondi_tl(flags, cpu_R[instr.b], cpu_R[instr.a], (op3));       \
++static void do_i_cmpxx(DisasContext *dc, uint32_t insn,
++                       TCGCond cond, ImmFromIType *imm)
++{
++    I_TYPE(instr, insn);
 +
- #define J_TYPE(instr, code)                \
--    struct {                               \
--        uint8_t op;                        \
--        uint32_t imm26;                    \
--    } (instr) = {                          \
-+    InstrJType (instr) = {                 \
-         .op    = extract32((code), 0, 6),  \
-         .imm26 = extract32((code), 6, 26), \
-     }
++    if (likely(instr.b != R_ZERO)) {
++        tcg_gen_setcondi_tl(cond, cpu_R[instr.b],
++                            load_gpr(dc, instr.a), imm(&instr));
++    }
+ }
+ 
+-gen_i_cmpxx(gen_cmpxxsi, instr.imm16.s)
+-gen_i_cmpxx(gen_cmpxxui, instr.imm16.u)
++#define gen_i_cmpxx(fname, imm)                                             \
++    static void (fname)(DisasContext *dc, uint32_t code, uint32_t flags)    \
++    { do_i_cmpxx(dc, code, flags, imm); }
++
++gen_i_cmpxx(gen_cmpxxsi, imm_signed)
++gen_i_cmpxx(gen_cmpxxui, imm_unsigned)
+ 
+ /* Math/logic instructions */
+ #define gen_i_math_logic(fname, insn, resimm, op3)                          \
 -- 
 2.34.1
 
