@@ -2,60 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FB850FBC7
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:14:10 +0200 (CEST)
-Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7479B50FBB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 13:08:27 +0200 (CEST)
+Received: from localhost ([::1]:47348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njJ8z-0000Vq-Fr
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38848)
+	id 1njJ3S-0007h7-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 07:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1njIdH-0005gI-Js
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 06:41:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28635)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzJ-0004Zi-Jo
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1njIdE-0000jF-Hp
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 06:41:22 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njIzF-0004Uy-5L
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 07:04:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650969679;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=LzcR4oZfwZMTHbb6j/VNuKteazvnRy6lFF1T4dO+868=;
- b=auJTBYJTEORuADX7l8NNs0JcF+a6ORlIOM92IokQUw6kV52bsN2aIknTIA/YKcRSUlos6O
- 4ai88a936Ga7Cd41GbVhrymEfyA2qYCqhJvkgIHybluS2M1JF5jD2YKMEvWmQFl9e/fWl9
- 6F893778djRUayi+WM+k5EAH9a38410=
+ s=mimecast20190719; t=1650971041;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zVTbQ+Gd1hdQKLBzR2/TJ/TMHmkD5QCagG9BGuQGZ3c=;
+ b=KBhWALRK/mcvct5zaJMOPOuLhBeJRxiZZPqd2EhCUT9sL1RQpRLFonfYlWsqkB3QUW3/j3
+ TAtna4iyS9+jGb1NNnLsLkzr8dA7ciYPnOZ1u9y8s/Uj1CE2z5d9+r+AHGvXDMjyrLIXcF
+ ASHErxUNHd+ShvAPtLf3y0Q61rIBfmE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-zqu51MFcMFK5wM-l1iOZuA-1; Tue, 26 Apr 2022 06:41:14 -0400
-X-MC-Unique: zqu51MFcMFK5wM-l1iOZuA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-602-nxJgL6BDPOuKsxo0gW8gAw-1; Tue, 26 Apr 2022 07:04:00 -0400
+X-MC-Unique: nxJgL6BDPOuKsxo0gW8gAw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B36B086B8A4;
- Tue, 26 Apr 2022 10:41:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E341B43E77A;
- Tue, 26 Apr 2022 10:41:11 +0000 (UTC)
-Date: Tue, 26 Apr 2022 11:41:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH v4 3/8] crypto: Introduce akcipher crypto class
-Message-ID: <YmfMRd/45DUjRJsC@redhat.com>
-References: <20220411104327.197048-1-pizhenwei@bytedance.com>
- <20220411104327.197048-4-pizhenwei@bytedance.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C736319705AB
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 11:03:59 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9592340D2824;
+ Tue, 26 Apr 2022 11:03:59 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 18BFC180062F; Tue, 26 Apr 2022 13:03:58 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] Kraxel 20220426 patches
+Date: Tue, 26 Apr 2022 13:03:48 +0200
+Message-Id: <20220426110358.1570723-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220411104327.197048-4-pizhenwei@bytedance.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -76,255 +72,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: helei.sig11@bytedance.com, mst@redhat.com, jasowang@redhat.com,
- cohuck@redhat.com, qemu-devel@nongnu.org,
- virtualization@lists.linux-foundation.org, arei.gonglei@huawei.com,
- linux-crypto@vger.kernel.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 11, 2022 at 06:43:22PM +0800, zhenwei pi wrote:
-> Support basic asymmetric operations: encrypt, decrypt, sign and
-> verify.
-> 
-> Co-developed-by: lei he <helei.sig11@bytedance.com>
-> Signed-off-by: lei he <helei.sig11@bytedance.com>
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
->  crypto/akcipher.c         | 102 +++++++++++++++++++++++++
->  crypto/akcipherpriv.h     |  43 +++++++++++
->  crypto/meson.build        |   1 +
->  include/crypto/akcipher.h | 151 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 297 insertions(+)
->  create mode 100644 crypto/akcipher.c
->  create mode 100644 crypto/akcipherpriv.h
->  create mode 100644 include/crypto/akcipher.h
+The following changes since commit a74782936dc6e979ce371dabda4b1c05624ea87f:
 
+  Merge tag 'pull-migration-20220421a' of https://gitlab.com/dagrh/qemu into staging (2022-04-21 18:48:18 -0700)
 
-> diff --git a/crypto/akcipherpriv.h b/crypto/akcipherpriv.h
-> new file mode 100644
-> index 0000000000..da9e54a796
-> --- /dev/null
-> +++ b/crypto/akcipherpriv.h
-> @@ -0,0 +1,43 @@
-> +/*
-> + * QEMU Crypto asymmetric algorithms
-> + *
-> + * Copyright (c) 2022 Bytedance
-> + * Author: zhenwei pi <pizhenwei@bytedance.com>
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + *
-> + */
-> +
-> +#ifndef QCRYPTO_AKCIPHERPRIV_H
-> +#define QCRYPTO_AKCIPHERPRIV_H
-> +
-> +#include "qapi/qapi-types-crypto.h"
-> +
-> +struct QCryptoAkCipherDriver {
-> +    int (*encrypt)(QCryptoAkCipher *akcipher,
-> +                   const void *in, size_t in_len,
-> +                   void *out, size_t out_len, Error **errp);
-> +    int (*decrypt)(QCryptoAkCipher *akcipher,
-> +                   const void *out, size_t out_len,
-> +                   void *in, size_t in_len, Error **errp);
-> +    int (*sign)(QCryptoAkCipher *akcipher,
-> +                const void *in, size_t in_len,
-> +                void *out, size_t out_len, Error **errp);
-> +    int (*verify)(QCryptoAkCipher *akcipher,
-> +                  const void *in, size_t in_len,
-> +                  const void *in2, size_t in2_len, Error **errp);
-> +    int (*free)(QCryptoAkCipher *akcipher, Error **errp);
-> +};
-> +
-> +#endif /* QCRYPTO_AKCIPHER_H */
+are available in the Git repository at:
 
+  git://git.kraxel.org/qemu tags/kraxel-20220426-pull-request
 
-> diff --git a/include/crypto/akcipher.h b/include/crypto/akcipher.h
-> new file mode 100644
-> index 0000000000..c1970b3b3b
-> --- /dev/null
-> +++ b/include/crypto/akcipher.h
-> @@ -0,0 +1,151 @@
-> +/*
-> + * QEMU Crypto asymmetric algorithms
-> + *
-> + * Copyright (c) 2022 Bytedance
-> + * Author: zhenwei pi <pizhenwei@bytedance.com>
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + *
-> + */
-> +
-> +#ifndef QCRYPTO_AKCIPHER_H
-> +#define QCRYPTO_AKCIPHER_H
-> +
-> +#include "qapi/qapi-types-crypto.h"
-> +
-> +typedef struct QCryptoAkCipher QCryptoAkCipher;
+for you to fetch changes up to f7683b652742402f0bcd3b2714d2795ce524bd26:
 
-This belongs here.
+  i386: firmware parsing and sev setup for -bios loaded firmware (2022-04-26 13:01:34 +0200)
 
-> +typedef struct QCryptoAkCipherDriver QCryptoAkCipherDriver;
+----------------------------------------------------------------
+vnc: add display-update monitor command.
+screendump: add png support.
+vmsvga: screen update fix.
+i386: sev setup for -bios loaded firmware
 
-This and...
+----------------------------------------------------------------
 
-> +
-> +struct QCryptoAkCipher {
-> +    QCryptoAkCipherAlgorithm alg;
-> +    QCryptoAkCipherKeyType type;
-> +    int max_plaintext_len;
-> +    int max_ciphertext_len;
-> +    int max_signature_len;
-> +    int max_dgst_len;
-> +    QCryptoAkCipherDriver *driver;
-> +};
+Carwyn Ellis (1):
+  hw/display/vmware_vga: do not discard screen updates
 
-...this should be in the akcipherpriv.h file though, since
-they're only for internal usage.
+Gerd Hoffmann (3):
+  i386: move bios load error message
+  i386: factor out x86_firmware_configure()
+  i386: firmware parsing and sev setup for -bios loaded firmware
 
+Kshitij Suri (2):
+  Replacing CONFIG_VNC_PNG with CONFIG_PNG
+  Added parameter to take screenshot with screendump as PNG
 
+Vladimir Sementsov-Ogievskiy (3):
+  ui/vnc: refactor arrays of addresses to SocketAddressList
+  qapi/ui: add 'display-update' command for changing listen address
+  avocado/vnc: add test_change_listen
 
-> +/**
-> + * qcrypto_akcipher_encrypt:
-> + * @akcipher: akcipher context
-> + * @in: plaintext pending to be encrypted
-> + * @in_len: length of the plaintext, MUST less or equal to max_plaintext_len
-> + * @out: buffer to store the ciphertext
-> + * @out_len: the length of ciphertext buffer, usually equals to
-> + *           max_ciphertext_len
-> + * @errp: error pointer
-> + *
-> + * Encrypt data and write ciphertext into out
-> + *
-> + * Returns: length of ciphertext if encrypt succeed, otherwise -1 is returned
-> + */
-> +int qcrypto_akcipher_encrypt(QCryptoAkCipher *akcipher,
-> +                             const void *in, size_t in_len,
-> +                             void *out, size_t out_len, Error **errp);
-> +
-> +/**
-> + * qcrypto_akcipher_decrypt:
-> + * @akcipher: akcipher context
-> + * @in: ciphertext to be decrypted
-> + * @in_len: the length of ciphertext
-> + * @out: buffer to store the plaintext
-> + * @out_len: length of the plaintext buffer, usually less or equals to
-> + *           max_plaintext_len
+ meson_options.txt                             |   4 +-
+ tests/avocado/vnc.py                          |  63 +++++++
+ include/hw/i386/x86.h                         |   3 +
+ include/ui/console.h                          |   1 +
+ ui/vnc.h                                      |   2 +-
+ hw/display/vmware_vga.c                       |  45 ++---
+ hw/i386/pc_sysfw.c                            |  36 ++--
+ hw/i386/x86.c                                 |  32 +++-
+ monitor/hmp-cmds.c                            |  12 +-
+ monitor/qmp-cmds.c                            |  15 ++
+ ui/console.c                                  | 101 +++++++++++-
+ ui/vnc-enc-tight.c                            |  18 +-
+ ui/vnc.c                                      | 156 +++++++++---------
+ docs/about/removed-features.rst               |   3 +-
+ hmp-commands.hx                               |  11 +-
+ hw/display/trace-events                       |   1 +
+ meson.build                                   |  12 +-
+ qapi/ui.json                                  |  89 +++++++++-
+ .../ci/org.centos/stream/8/x86_64/configure   |   2 +-
+ scripts/meson-buildoptions.sh                 |   6 +-
+ 20 files changed, 456 insertions(+), 156 deletions(-)
 
-This field should be private, so we need to point people to the
-methods instead. Rather than making this line so long...
-
-> + * @errp: error pointer
-> + *
-> + * Decrypt ciphertext and write plaintext into out
-
-...put here
-
-  "@out_len should be less or equal to the size reported
-   by a call to qcrypto_akcipher_max_plaintext_len()'
-
-The same for other places where you mention limits.
-
-> + *
-> + * Returns: length of plaintext if decrypt succeed, otherwise -1 is returned
-> + */
-> +int qcrypto_akcipher_decrypt(QCryptoAkCipher *akcipher,
-> +                             const void *in, size_t in_len,
-> +                             void *out, size_t out_len, Error **errp);
-> +
-> +/**
-> + * qcrypto_akcipher_sign:
-> + * @akcipher: akcipher context
-> + * @in: data to be signed
-> + * @in_len: the length of data
-> + * @out: buffer to store the signature
-> + * @out_len: length of the signature buffer, usually equals to max_signature_len
-> + * @errp: error pointer
-> + *
-> + * Generate signature for data using akcipher
-> + *
-> + * Returns: length of signature if succeed, otherwise -1 is returned
-> + */
-> +int qcrypto_akcipher_sign(QCryptoAkCipher *akcipher,
-> +                          const void *in, size_t in_len,
-> +                          void *out, size_t out_len, Error **errp);
-> +
-> +/**
-> + * qcrypto_akcipher_verify:
-> + * @akcipher: akcipher used to do verifycation
-> + * @in: pointer to the signature
-> + * @in_len: length of the signature
-> + * @in2: pointer to original data
-> + * @in2_len: the length of original data
-> + * @errp: error pointer
-> + *
-> + * Verify the signature and the data match or not
-> + *
-> + * Returns: 0 for succeed, otherwise -1 is returned
-> + */
-> +int qcrypto_akcipher_verify(QCryptoAkCipher *akcipher,
-> +                            const void *in, size_t in_len,
-> +                            const void *in2, size_t in2_len, Error **errp);
-> +
-> +int qcrypto_akcipher_max_plaintext_len(QCryptoAkCipher *akcipher);
-> +
-> +int qcrypto_akcipher_max_ciphertext_len(QCryptoAkCipher *akcipher);
-> +
-> +int qcrypto_akcipher_max_signature_len(QCryptoAkCipher *akcipher);
-> +
-> +int qcrypto_akcipher_max_dgst_len(QCryptoAkCipher *akcipher);
-> +
-> +int qcrypto_akcipher_free(QCryptoAkCipher *akcipher, Error **errp);
-
-Add in
-
-G_DEFINE_AUTOPTR_CLEANUP_FUNC(QCryptoAkCipher, qcrypto_akcipher_free)
-
-
-This allows users to do
-
-   g_autoptr(QCryptoAkCIpher) cipher = qcrypto_akcipher_new(...)
-
-
-and get automatic free'ing when exiting the scope.
-
-> +
-> +
-> +#endif /* QCRYPTO_AKCIPHER_H */
-> -- 
-> 2.20.1
-> 
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.35.1
 
 
