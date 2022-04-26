@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8EE50FB2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:41:42 +0200 (CEST)
-Received: from localhost ([::1]:35384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C7150FB6D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Apr 2022 12:49:18 +0200 (CEST)
+Received: from localhost ([::1]:48600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njIdZ-0003rS-DK
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:41:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37856)
+	id 1njIkv-0005F5-4q
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 06:49:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njIYj-0001DN-4H; Tue, 26 Apr 2022 06:36:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:44809)
+ id 1njIbT-0004Eh-Qj; Tue, 26 Apr 2022 06:39:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:46049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1njIYh-0008LN-B8; Tue, 26 Apr 2022 06:36:40 -0400
+ id 1njIbR-0000AT-Vs; Tue, 26 Apr 2022 06:39:31 -0400
 Received: from [192.168.100.1] ([82.142.9.138]) by mrelayeu.kundenserver.de
  (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MCska-1naX713hEe-008ugp; Tue, 26 Apr 2022 12:36:24 +0200
-Message-ID: <739db399-e95a-ea02-6c2a-d353e1236171@vivier.eu>
-Date: Tue, 26 Apr 2022 12:36:22 +0200
+ 1MysmQ-1o4YVU1rKk-00vuWO; Tue, 26 Apr 2022 12:39:22 +0200
+Message-ID: <da6f749b-99d0-8f42-fb8a-9c5adb2e2e7d@vivier.eu>
+Date: Tue, 26 Apr 2022 12:39:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH for-7.1] target/mips: Remove stale TODO file
+Subject: Re: [PATCH] docs: Replace Qemu -> QEMU
 Content-Language: fr
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220412113824.297108-1-thuth@redhat.com>
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org, Knut Omang <knut.omang@oracle.com>
+References: <20220422083007.1082667-1-sw@weilnetz.de>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220412113824.297108-1-thuth@redhat.com>
+In-Reply-To: <20220422083007.1082667-1-sw@weilnetz.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+ZPqBOn9W4bbBl2Fq/yyIabaxcXes/R1mcWiTt38jYkDFot7UgF
- nqZPTs8aTG6gn53oMLq5j1JCSiYYbuiHLH3dMmXqDknkMmOaR62SUPz1ifDZbQ9Vz3yEiMK
- cjjUhdjxsiKfr55HftKDloXeC+kzjjqkZEX5N+XeJxBg9hgI0+tKhvxJr+0lWuJf01ZXIyf
- NcVvsQjFxEESuI/Gs1dQg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AjAYF6x+aiU=:tGrVMVTw7qNwxVPFuSi/9p
- +cG2eSEtXFIaEAiUWxwH6R3pH/+W6ZGRSKgLnEDKMPE+CsyyOMqMc8kExvbBspajAFARdjmD5
- Hh8af/N97wU1mYRlKge9cihsFT3FiWFasNr2dP4tRWlw3VC5xdXZ1jx6pFwNx0/mNnRhn8Qor
- zx7QhuOx+NX7gVDMvpnP+/7acdAlf8nGHF0+kL+/UJSHfFbG2LJPRS4D9ch/KQy7hjE28Ef2J
- mAy8XFIt4WxUykXrjAzfBIselszfBuOZQwgJ+Ebcd3wRo3Lkkoh7XE9Txdg6jYktNrhYPCXy0
- uCwAsQn5LhJihYnHxEaGHgRfSjzCI5pWMMkw3HcY5iPoLPAz8EGj0LD7/sDN1uq8ZAQCOkIsQ
- NyZk9TB023++oky0LcoZUpuZeDunDPGpySbaCVO2x/hvtzG+kGaHbN+myG6IiJMIgutSqyF/5
- irdvqGRIS6CG1S4i7yzA1Ec7LyM6m8xczMU5tIyPpseQCfEU2ixPEsCGuZGIAdYwEWwUbLeFT
- eCUfR8Ts9HDlWKSnMTayrhmFGTTlI/WQRBFhp38V4zLFAWNSdsT8FaczKdgBv+AraPQ6HcLhL
- fBXalQXX3ZsU60H1B8hA67d2aOj5YP5nMPeUnJ333V2JFQmixDnc4/MtSZzQtqiWOpuxlVQuW
- QiEH+EiNGkxUJyucCSjuLwJSlp8OjZIF96B1EiPEk0T/whtWeUKYrpKPfIvx7zHdb+vg=
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:j3+5+pFpFh6MOHAztdRa+W6Q5uIt+/0ts5+SNj3aRBruNacjeAs
+ t0VeagCZKYZ+K93zucvKsZjwJe3od6nyzL/poOCaT45gHBOd29ANHGJi3YTyV58AYGj1H19
+ IBBDOP8YxbaPAZSe4ELuEHdf8DDnrv7qkGlb1+0FhZy71nF27AijA1ljLEh8WHqsyve+2Mf
+ k60SGcGYdlcXavnTVuKYw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:V8hn2NYLrmQ=:B5KS8aUVOL7iKMsHoSE1MY
+ dSVahUKGDzeroPP/28cOnfxP+U7UzUT85WqzYTPMUA2GnUWwkhWuvHwWnaZXsMjeo9xuObh4b
+ IKiDpZ1K1nk8J6+gUEpjkGf3aojbtB1ck4JmSDYEE0OA/cp0GS9BK+nM7I1RKvoKYcfKclt/s
+ tDRinQ1d34aS6734neg4lQoX2ve/oUwq+gVZEjrCv4LE32HkPk8grdv1RiXbgpexBE7xTiy/i
+ DPkBooRn+z7WQzjOcxi/C/emKcSnC+fPtKjFYSBMnk9tu+1ktWR4eI5Ri/71EJkhVnjvbpQKa
+ JlAF/MWGXj5Z9WicTZ5K9zi45ZuVdy2n2ckXjcxPJ9q20eQmeooLaiab2NaNCc9sfzDBJDocO
+ YMV5NvPixLz6dGWlrk8mxv5vksdxKCifooOynm/i6Jt9rUr4kZf+Jk3TlbJtOF5czuvGuBf0e
+ x7WcG5L/e54s4WcEfPtdHm6A9y/xwB5KcvHWe2YKgczzK7m2Z4oogqPddljOxBb5uzaojspbK
+ fpzn2OQmHLvX4NOqkHbx+ZPaUgpHlVhxcTyltzVdrNW4ca5RRwAmqMG0XqI4ATnyEf44drxCm
+ sxTFH3rztHsrav+CEoUXyaSxIXVQc9d6877H+KA6WwXAcnwDKOQ4OtGJE2JqPLVXnDDcMhcBd
+ w95GALfj5FujtkoSLmFdV+GG2ui6rI1rxOUc6b7RfL+1aknrgBM5YGox8SQlqYJn1sK0=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,82 +69,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 12/04/2022 à 13:38, Thomas Huth a écrit :
-> The last change to this file has been done in 2012, so it
-> seems like this is not really used anymore, and the content
-> is likely very out of date now.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Le 22/04/2022 à 10:30, Stefan Weil a écrit :
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
 > ---
->   target/mips/TODO | 51 ------------------------------------------------
->   1 file changed, 51 deletions(-)
->   delete mode 100644 target/mips/TODO
+>   docs/pcie_sriov.txt | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/target/mips/TODO b/target/mips/TODO
-> deleted file mode 100644
-> index 1d782d8027..0000000000
-> --- a/target/mips/TODO
-> +++ /dev/null
-> @@ -1,51 +0,0 @@
-> -Unsolved issues/bugs in the mips/mipsel backend
-> ------------------------------------------------
-> -
-> -General
-> --------
-> -- Unimplemented ASEs:
-> -  - MDMX
-> -  - SmartMIPS
-> -  - microMIPS DSP r1 & r2 encodings
-> -- MT ASE only partially implemented and not functional
-> -- Shadow register support only partially implemented,
-> -  lacks set switching on interrupt/exception.
-> -- 34K ITC not implemented.
-> -- A general lack of documentation, especially for technical internals.
-> -  Existing documentation is x86-centric.
-> -- Reverse endianness bit not implemented
-> -- The TLB emulation is very inefficient:
-> -  QEMU's softmmu implements a x86-style MMU, with separate entries
-> -  for read/write/execute, a TLB index which is just a modulo of the
-> -  virtual address, and a set of TLBs for each user/kernel/supervisor
-> -  MMU mode.
-> -  MIPS has a single entry for read/write/execute and only one MMU mode.
-> -  But it is fully associative with randomized entry indices, and uses
-> -  up to 256 ASID tags as additional matching criterion (which roughly
-> -  equates to 256 MMU modes). It also has a global flag which causes
-> -  entries to match regardless of ASID.
-> -  To cope with these differences, QEMU currently flushes the TLB at
-> -  each ASID change. Using the MMU modes to implement ASIDs hinges on
-> -  implementing the global bit efficiently.
-> -- save/restore of the CPU state is not implemented (see machine.c).
-> -
-> -MIPS64
-> -------
-> -- Userland emulation (both n32 and n64) not functional.
-> -
-> -"Generic" 4Kc system emulation
-> -------------------------------
-> -- Doesn't correspond to any real hardware. Should be removed some day,
-> -  U-Boot is the last remaining user.
-> -
-> -PICA 61 system emulation
-> -------------------------
-> -- No framebuffer support yet.
-> -
-> -MALTA system emulation
-> -----------------------
-> -- We fake firmware support instead of doing the real thing
-> -- Real firmware (YAMON) falls over when trying to init RAM, presumably
-> -  due to lacking system controller emulation.
-> -- Bonito system controller not implemented
-> -- MSC1 system controller not implemented
+> diff --git a/docs/pcie_sriov.txt b/docs/pcie_sriov.txt
+> index f5e891e1d4..11158dbf88 100644
+> --- a/docs/pcie_sriov.txt
+> +++ b/docs/pcie_sriov.txt
+> @@ -8,8 +8,8 @@ of a PCI Express device. It allows a single physical function (PF) to appear as
+>   virtual functions (VFs) for the main purpose of eliminating software
+>   overhead in I/O from virtual machines.
+>   
+> -Qemu now implements the basic common functionality to enable an emulated device
+> -to support SR/IOV. Yet no fully implemented devices exists in Qemu, but a
+> +QEMU now implements the basic common functionality to enable an emulated device
+> +to support SR/IOV. Yet no fully implemented devices exists in QEMU, but a
+>   proof-of-concept hack of the Intel igb can be found here:
+>   
+>   git://github.com/knuto/qemu.git sriov_patches_v5
+> @@ -18,7 +18,7 @@ Implementation
+>   ==============
+>   Implementing emulation of an SR/IOV capable device typically consists of
+>   implementing support for two types of device classes; the "normal" physical device
+> -(PF) and the virtual device (VF). From Qemu's perspective, the VFs are just
+> +(PF) and the virtual device (VF). From QEMU's perspective, the VFs are just
+>   like other devices, except that some of their properties are derived from
+>   the PF.
+>   
+
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
-
 
