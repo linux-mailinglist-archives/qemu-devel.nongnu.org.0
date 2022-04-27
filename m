@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A375113B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 10:44:07 +0200 (CEST)
-Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414385113BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 10:48:02 +0200 (CEST)
+Received: from localhost ([::1]:51252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njdHK-0003w6-5e
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 04:44:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57974)
+	id 1njdL7-0000QE-Av
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 04:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1njd4V-0005Ha-US
+ id 1njd4V-0005HZ-UM
  for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:30:52 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:54712)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:54546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1njd4R-0005vl-1u
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:30:49 -0400
+ id 1njd4Q-0005vi-UY
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:30:48 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23R63tYk018591;
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23R5rGTQ018608;
  Wed, 27 Apr 2022 08:30:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=DspXsKZNXmo2/rCGCBj6kmSyCTVknJ40KrJIjBAAXjI=;
- b=B+5TsiZb4RYHS2uI/KKKgT6qONQZxmgdI863G6XO5L0llTcPrufAlE1v3UVp/8cRWmdI
- rtWQrAxUOBlod0h/ho6W0BnPSaNReODM1gi6WE2c8dlbakjrJtXuwnFWS3Ykzbaw19XZ
- XScC/D6+rghNy/2ltbcWvyDvYQs2JqKfP8nZ4c/MuTOhVUNd9YmFy5mTJqo/LBNW5pe+
- HBQnsAlE79PSiKTRQ8umpMTLaemM+KpRso8xH2Xk44yFcwv1pHC0g5XvTezBFJqt5QOW
- J0d+5AH8/dKFUIlRVyjZZf3+KULMcyqsz61M9LRW4A5kSfGsXI/89AgFW0jnHGf+Qsi8 Rg== 
+ bh=UH8ONQDqwjqYQ4lGiy+B4eQ6Ks2NSI+/jFWft0KaAxI=;
+ b=Kgr0YtxpIFHgUv+t60J9e3AJn4tl9r68KrD8t7x84ZJffa221mh2jGJTwlPFKlUYHP70
+ tLdIcqnDRsH7MEgOyoPLflqRNAd+15ntuJ+FUk2wIY+unuQdC0c77rzPdl3Q+xw+WyyY
+ TLTQVoGtokRKhTYkpnt2yqcu4APmpTDNmTBFyod6OwHE/tsCDVEDPzFI56Hh5KUIzPZq
+ rzLL/WfCkFU7uTGWlmL1SPYQ3s6fyBACipXUFMl44suSM3C1r/0G+eEhRk9fPzCJ9ZvX
+ 90xKJ82PHiQ+7Uoh/EeBF3n7Drz6aHftRh8W4T8yZ+blSmRetCaFezIixX6aP8Fq6OCg BQ== 
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmb5k0b0w-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmb5k0b10-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Apr 2022 08:30:42 +0000
+ Wed, 27 Apr 2022 08:30:43 +0000
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 23R8UfWA030459; Wed, 27 Apr 2022 08:30:42 GMT
+ with SMTP id 23R8UfWD030459; Wed, 27 Apr 2022 08:30:43 GMT
 Received: from nam02-dm3-obe.outbound.protection.outlook.com
  (mail-dm3nam07lp2048.outbound.protection.outlook.com [104.47.56.48])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3fp5ykf12n-2
+ 3fp5ykf12n-3
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 27 Apr 2022 08:30:42 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g1EfaISOhHI/psgPO0uQngeBiZBiXxmGzsJnRpJ1vNmiX8Alxz/im+TTAuVg6kEgzkiI6hEThB4dB9lwprKSsCbzy/1KLWMhcJLnEtGQjMiiIttfAvwBtWRFyXryxetL46XwbbzZomZpwUpT72XRtVp9vVfwKwyX8jgyVo/7fcxiFQKSdvAQHCQ4tlhGe8jFQFSc3MEazxcpNuF+xDykTVPdGtedDPR2/o9VlqHDCq3gEhcKloq+XM1z8+OlRftuUwadcLo/Jqdv4KNpjy95tYmYjyn0o1Jig0tajUIGVAY1tSZUDAVjm4g6ef7dbYWhcvPBL71AGiTOQolRzTOiig==
+ b=d5MJs5orxz4UU0Wx/zS9XbfIJOmKZYU4xjx1tb+QKXC2h61AyGPDYNTTvJn0DpPebiczIrEwb1FptLLBQAjqEDtjKFFttEv/j9dh2sGpzBFpxhmq/buaIKrDHH8T0OSD7YWhO5kODGHj4+lbPK8UPuTDpJGQEILUgLcaFxsRjEFB8UaxVXAIzggiMHz0R5PvhOczRf6bSkYN8zSM+C71bJ/fiIXi4ocPgWPrX+08Uo6NuerePE4ED/qmvHMzQC56qaziKCCuqGi//puepJndGfhpV16A/7809WUJhsVOpeWnMVRkgqcJztm467W7jYGtvNksfaQqC1fSXnzf/PdzmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DspXsKZNXmo2/rCGCBj6kmSyCTVknJ40KrJIjBAAXjI=;
- b=WqOMzdfGjN0vg15CkZjhcoOwziq9d98jRmVIWCN9FxhkO72KLW0Jhr47ege5Z+ufBEwSVrV4gOh/20/ZGBz9i9XqfUGkt4bI3y1EDl1zt42EVfmUrpBvT97IpNW1TjRNsgKHohnPhZNaoEcIgu8lHAerU7o2RDGRPl/j3S3av1oCsEV7mLWcZOIJsPwkOTpa1XwgHvHhXeCsxrzT/AiFgWgzwGkaF5hptramnWhYgCIMTCv4m+O06EQXYF1xeJirEnXIMs2iQj6kdwm9/zCVt5P8vBFUSLfpwuB9ZAYRROff5hqGfrTagQO6dZvFAj4C+tLputBBeGt++PeVyozJtg==
+ bh=UH8ONQDqwjqYQ4lGiy+B4eQ6Ks2NSI+/jFWft0KaAxI=;
+ b=kuOsLLxRxGER7RI7CqQvM3Jflok8VZU+TDFaaoOXC7wUFetgMAJx+IvaofC8xUUBdMq7iS81iG9ASsjoMAefICd6JXoQmr1pmR62YBFH/9T8/dtU13e+Is3tev8QItFnAHB6B/tmDcvfA77LOclTUKeQ20cMXPQsC7CsqDpkJsU28rgtwa/XwOJFlTt/Mfh+8uqhh83ZNNUVOQfHS38/SZVTMDWvr24hvaKVGYbOfC044QexKtW8pVC602PWNkC2Yd2WVyKWE/L7xdeGlH+hqP3p3u462c9bLXWwt2Bk7fUM7t9aL6aPU3WxHyeQDVaUHIHO+hMDi22SMDpF5vKIXA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DspXsKZNXmo2/rCGCBj6kmSyCTVknJ40KrJIjBAAXjI=;
- b=gFb/JoyzP6Kb7QyfuavtMn7ZnJeJCt02P+oBLG5dXBcc9lR3Qo6vbGlpNRCTYWZCz/xSsg5/3FVjctDXzD9s5ZK6rRt+ajylvAk40HNnMbcQSDleySbWWTS3qsSQ1/zBARCRe9bY96m93+iYNHLEIU9bgppeWFQA70UhpyaXPds=
+ bh=UH8ONQDqwjqYQ4lGiy+B4eQ6Ks2NSI+/jFWft0KaAxI=;
+ b=uvZi2VKYSv03sC2Dwhj/DXTs5TUYYLq9+KiWkQ14XzcrTNZnioV4t47c60BcRD3av5NSGv1tORMQovt9IW0vnlGoMAiRR3EG66Tb8QRUkRMglCDP+FPZ/CgBjDB3NgRXgzThcBfp/s0ktILh3xtdiWPA/UU6Ci1EroBpAV4ZOTU=
 Received: from BYAPR10MB3287.namprd10.prod.outlook.com (2603:10b6:a03:15c::11)
  by CY4PR10MB2007.namprd10.prod.outlook.com (2603:10b6:903:123::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 27 Apr
- 2022 08:30:35 +0000
+ 2022 08:30:36 +0000
 Received: from BYAPR10MB3287.namprd10.prod.outlook.com
  ([fe80::c89:e3f5:ea4a:8d30]) by BYAPR10MB3287.namprd10.prod.outlook.com
  ([fe80::c89:e3f5:ea4a:8d30%2]) with mapi id 15.20.5206.013; Wed, 27 Apr 2022
- 08:30:35 +0000
+ 08:30:36 +0000
 From: Si-Wei Liu <si-wei.liu@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/5] virtio-net: align ctrl_vq index for non-mq guest for
- vhost_vdpa
-Date: Wed, 27 Apr 2022 01:30:13 -0700
-Message-Id: <1651048216-3365-3-git-send-email-si-wei.liu@oracle.com>
+Subject: [PATCH v2 3/5] vhost-vdpa: fix improper cleanup in net_init_vhost_vdpa
+Date: Wed, 27 Apr 2022 01:30:14 -0700
+Message-Id: <1651048216-3365-4-git-send-email-si-wei.liu@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1651048216-3365-1-git-send-email-si-wei.liu@oracle.com>
 References: <1651048216-3365-1-git-send-email-si-wei.liu@oracle.com>
@@ -86,57 +85,57 @@ X-ClientProxiedBy: BY5PR20CA0030.namprd20.prod.outlook.com
  (2603:10b6:a03:15c::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 00f08e0c-700a-4f98-b067-08da2828333b
+X-MS-Office365-Filtering-Correlation-Id: eeaf614c-b918-4d48-7da8-08da282833ee
 X-MS-TrafficTypeDiagnostic: CY4PR10MB2007:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR10MB20072D3765238F9CBD9995F4B1FA9@CY4PR10MB2007.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <CY4PR10MB200786B41BE414276FC35B66B1FA9@CY4PR10MB2007.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oZo36sGY8siID90RjelqvuknT8fAjQmhewgPP25WpaYp17RlmbAjQ7rqVsW/HVPrvRmI/HF7JU55w7cYw4/f7QgvBv6Q4YEeyctsK8TqVk9OzQRj4Fnnz3FRhrrN7Iy2qUwyU/mWTdosV22XOmZsX23j1Fnz1DAzrhdvBnh0w2xMTJvHOHzbgQq+QKnBSwOfmrzziAKVidtNdrUqBbNVN05w1AhUzXdQdbSJz7VO66/rAyPVav7pQoOlx3vznCPpim+b21+DVVq47r+G+F/99vppSEnO7OSwEfJq25O0aBlNMV2IZ5SG0m1rOq5SIQmDnkNf3ftIEXn7K+Wm6GLvbdrf4ztWURx3N5WJaS9qqg/CgXbQBhexm49y5cNVDeLSBskVxFtXmJ6mBu5W8RjkMnrGDQQRUVACNjFw9QJMlSKoho29tWI/XhJ2XS6i5Gqyxvt5kxkKTqnbuI+yDzU/GPDNGTWdihhEKu7Dy214TEJ9ZOLd6YMOlHITTjhAvi4hD+4CCTmoETStlhVDY9XxEWr98sOD57EsUjYy8OsMVCO0AD25xUvG0iCR6m3QFN2GFwrza9WlLB2Zm2qRwWMpZKFE/XqxCklqp8+F5n/z3FyBPtGhSL7F5xTrrIMbiwky5W+t5CeVRm9Y+rsHOb5icc0zzqueNLBhWqndHnY6R/sUm18wPsTDECwe5i3IXTETDDLVtCTE8+CP7qIbkjEB6A==
+X-Microsoft-Antispam-Message-Info: xqmmwTNCV1ugtSfMhYWtKnvKtASg0iJ2riswU5A/ET03+nrBJW/6xBTcGkdg9qGUUmxkTDm+/XAcbwmdWDQnzOZsl3eAfHm0aKsFbo46mtrjevdbJtcD9oPHi+dZlD7nDYS9scOQ218wC1MwmWA08/LjZWu1Za0Mr5IwEwzKLg93aoBwWSua3lOl2fJ71k3Qhx1cETvLIn772eUXgyfezKGQ/DhiqRCKNP3M0oPQwl7+Orn4F5bpW9sSgtt8svWlZEAUBo0LG/23g0cFToJVORvoWp5I8+tj8mA7Me4H/1zEQpMK/LnzotpBsflzL+jOx6B/HdTyy1ZfV/HBnRD9hWFJF2EuSH9GzRdSwU/QtnnpBe2sZU0wkduBv6xqfHTpZ9n07wx07E4ynOW3+gAWEcgZR6z3WxMPeA84Js1KtSBEMn0WKEPPn79Daxfj76griQKynlF5kW59S3uQGXgKscYvN2Q/M96mTVE/8AM3BwdKnz7wTvZuQ6iwxp7CRs6RedsPU4BNoOWwaWMpUWdxN5K98s26lVBD4xNoZGLiTeOTn2Z2wJ3Z/3hNVWXe5VqPaeFyXcFT0Pi6TDMo92gta9UQd37u+QLOxzMp5zXaaYYTewQpMfuIkcSR9AFkyc1OYiezEenXZh39TNnHTo/zTDtB3vP6DYDdYpQWigek5c5u8Wu7d20q8Zkbp26nK7cqKA9sRYPYnoi1JfMzyjAD8A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3287.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(38350700002)(36756003)(2906002)(316002)(508600001)(38100700002)(107886003)(4326008)(6666004)(6506007)(6512007)(52116002)(6486002)(83380400001)(8676002)(186003)(66476007)(66946007)(66556008)(6916009)(86362001)(5660300002)(8936002)(26005)(2616005);
+ SFS:(13230001)(366004)(38350700002)(36756003)(2906002)(316002)(508600001)(38100700002)(107886003)(4326008)(6666004)(6506007)(6512007)(52116002)(6486002)(83380400001)(8676002)(186003)(66476007)(66946007)(66556008)(6916009)(86362001)(5660300002)(4744005)(8936002)(26005)(2616005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WN8wkuGV1a0e79fHlgbmzd/3es3zR5UwT91GQk+UeFdw8Qpw5+w52+y0hy/a?=
- =?us-ascii?Q?WIn0PGtm2MJBetNf31n443tUYG1VL5WmWD6Q4wA7g+dLozdqvgGI9MBUtq08?=
- =?us-ascii?Q?QuIFzNl1pKFypalOlCqgwjQelyJeGrL5GsN6q0sLfQ9VJLENzgEebdoA679d?=
- =?us-ascii?Q?U+Htl/+uHPvi7FafECV1BU5Trqfu57LhO3Y/9M2vd8U0bXufTqQ6mx0lkmsI?=
- =?us-ascii?Q?7pIYFw5clhpml/b9zyBQfMjobgrBwwec0mk4rjpU7dycQkw/v1eBL7HNmDMW?=
- =?us-ascii?Q?ATU0pqYt4baao+P8cN53ZZePANEpqRUkHxJ8HzydH9EM+A/rR6Q2eLqRVgpm?=
- =?us-ascii?Q?6NgneIdZGnw6dO/srUBfhSlc88U7yF1g7veMADJpl2SuRnI1hwSr9gmFHgyq?=
- =?us-ascii?Q?MVVf1MUr3MLmfKY6TgKkQvZWqJxHQCQYABhl/HnDDLRseQl0l0prYyBIci5D?=
- =?us-ascii?Q?w3B5/U71RJfOnUlg+tP8MT5iUEQ7UKeYxhlp8xWjYexq21MwNrntLgk+V9M7?=
- =?us-ascii?Q?1B037pQ4KWXxxWsPAk7DGWk6tekJnSkgsEGP4lQ4OGLDxoI01jtToaCpsU6K?=
- =?us-ascii?Q?kjs0JFBEIUrTfWF/B9vAOKYenbNp/akC1BtH4XjJ5c49nCWoRofa8kyAYrT0?=
- =?us-ascii?Q?kkIkBB98NRd+e+td0u/23Pm9swBEoG9tAso1emI5EBA4F597HqGOlT3lItzU?=
- =?us-ascii?Q?jrXQJ5NYK1bQUaz22w5EPqNjfOMznG7q8C+zyqYvXXtgGywKx+NSSQ7C/Cp9?=
- =?us-ascii?Q?yvORziCjz5IFRvMivHtO234JdjXPcJ1yFtfpivW8/YudJR7tdG5miSisy5kB?=
- =?us-ascii?Q?a7HIg8W74CAiuGnFB3Ob7eL4NrI1dJWGL4viFdHQstaEs1EaSqyp0qQVON2W?=
- =?us-ascii?Q?i6CXfo8x+d5tyIRxChScTT2ByXOJT2GzdxeG3MY9yhQC950xM0UpIIwCG9ti?=
- =?us-ascii?Q?42qhKBoOlhoLCl13Ec/Fjvf3rGZlts7LJbBacxUwd4Z+KXgn9LJkLUsmzMDD?=
- =?us-ascii?Q?0T+DtHWNYQvXfw0001n2IoyWiKoKzGPEez0PRZofhxsuEewL9kcUMFEdkXGH?=
- =?us-ascii?Q?FOrqXJOgBhcvDpeKJ27Vze6z6GUXRBd3d60O5yiFo1LVFpVDRzN2v7Hf2rNw?=
- =?us-ascii?Q?BLIaj0+kXshXpJqFEpy2mZWx/350nGLZavxfvDfxbyPoxG9Vu7IBL5jcW0NS?=
- =?us-ascii?Q?Q9BuVhoxFtSdcLHjD4RoJxrN6gI9WVDaInesdcg3kNZ/fA119YbTGbafK8cO?=
- =?us-ascii?Q?ZA2Z6Ti0JBGMZAGq8JyVBu+AEXvPBpXeQURhtYp2ChfpxWmI67kDYNIXkI/B?=
- =?us-ascii?Q?2mjKRNXXqg4Hz2jUAuegWZr64dYtCgunaCx0i9dshSDnR7gINstY2zpkf7wO?=
- =?us-ascii?Q?hiU3kN40UwoNkJEsxC98bfhyo3d6TJh9yIUEllKSDPW7J2b8n9RONf2FnDnZ?=
- =?us-ascii?Q?aIDTMtu18vb9Y0nb4+OGFjnoyYeaxnfCq4/UnP70/bkGYPiUc5qjfxGFi9e0?=
- =?us-ascii?Q?aPbUanbxjaZE975tatWy5F6x6dHPqjFdxl6IgVghmYSwNyFZ45HWzlEUi4TX?=
- =?us-ascii?Q?Yiqt78s4oJG3gm5uGrV4ko84jy6XS34nkmursZfpgT5GFeBmOPicr/i+zx+J?=
- =?us-ascii?Q?O1ZHEoG0K1q5eK4M1qPBfdknY5WW8QP9Ap3s8rq4BXP9bQR8UmeMy2Fuxkhl?=
- =?us-ascii?Q?GpL5GhhnULCG7bXFY2hIfRlFRh+yjdXVXHwHTsA/AY7XDg5rgE6GLi4jX9Np?=
- =?us-ascii?Q?ugtj34qRy0gwhj0gG6qhtlzFvtXwo5E=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2e3kktCfI5bwC3PLSgZDqd1CXr7f25nV5SypX1voADYrBuX2JlkG1zdgCpLI?=
+ =?us-ascii?Q?Mh4SJNcKzc9dLDT7ux9MUgZFoumJxsghxLaK1HDgt9s2/o908ZjKl/hCkn1f?=
+ =?us-ascii?Q?iiqzElFbZcsysg+dIMsDLkrkQUDcKKNAnQjmnBuL4woEDfLOd0eJo63WjO67?=
+ =?us-ascii?Q?+8sV4DS+eeE4IJMgu29lrv1NH9+PIwVo87+KVkB6hDLAfhvgQYXLXQh0kD2G?=
+ =?us-ascii?Q?apadnv/n5kfY4No/HOVnjFefOyVDyJkMnrjUQxuF3z/mFeuTPxRxZzfYFIAR?=
+ =?us-ascii?Q?cfJ/ctOL5aPqDvyPETqowfkgeaZ3nNELWQIJa7SkfrPMStYTUeNPYRy8laW+?=
+ =?us-ascii?Q?ADVT1L1PEu82dzCOTnNjGZGeBcwgz0JqDunnwUlL6Fo4f2t7TmvWoRBnRpV+?=
+ =?us-ascii?Q?XI1CjidRCxT/fGtCe7fdi4+kOshvVv2x1OqLlVgF+Mwd8THnw5ayjsbl5RmO?=
+ =?us-ascii?Q?qRGjQT4RWz2yUyYEtLHC669Ea3qc01I1HlRWuWKgiYM38CwIewEdhhM47Kj2?=
+ =?us-ascii?Q?YVg8w9DqAzGcQL4MbYDpfqYMjcMnFfEzjpwr2nWqkvVx6FUoZGo9vOxGf/4i?=
+ =?us-ascii?Q?DMP36OAWPyYq+rE3weNlnxfJ62mmGeU3dklYXA+m0MIrwmUDtMF2ox+55u06?=
+ =?us-ascii?Q?WlIfQxpcRnQxp8K5kSCWGh73dfLQojgjDbTCM1HlsDYxTAqi5od2FnvVx2RV?=
+ =?us-ascii?Q?80jAvHbkale4m2lSXzfWVf1HTt92FD1WRZMviuctS52bsVDeWCNtdGw4JD0H?=
+ =?us-ascii?Q?L4S4aXoUHrEx1U4Zm1X3PtAteDMVuk5l7D2i923iM80CWukETlL1Efn9jZce?=
+ =?us-ascii?Q?PHhS3uToVZ6U7BoMV2ns3Nk4MskItHTRkm/+jlSD7lQH+olwHzXIK3WWJWC+?=
+ =?us-ascii?Q?OhFy4AqjLrBvpeuR7rubc7CikBc0tNeQKeN3jwiXQ6v2FhjYAFl+qGwSl4nD?=
+ =?us-ascii?Q?HeJqCB+1mUYx7qqM3+bCRnZn5Kkdmjd3sUfOP2+MFfmqzvB6eWEFoF0cLG7l?=
+ =?us-ascii?Q?sr7UruqnETutYRJiOdqUMVbEE2/Yu1BZeiMrFahP1ZbD7FVT2SflgD+1C/yE?=
+ =?us-ascii?Q?UCYHf46N3J+PeWlrouaCW/CybugKSYwv8IeCatCCMn0fryR8Up3QyJQfSnqn?=
+ =?us-ascii?Q?P9mHSajMrRBEt39l0X+iqTcZ2s25xdNaOLzGTRFIyRpCW9rMSG5fmNt+KcWI?=
+ =?us-ascii?Q?9o604Wjt3B4KCXcq7C11kEPnDz8MWf+MzuFw5gltoTfUrJYHW31nruAXd3ug?=
+ =?us-ascii?Q?ZOdYcl+mHDXOKmw6EPwzaNdkbD1f7Qjz4kJjebsDSGdjY+hVKxtubLSOEXO8?=
+ =?us-ascii?Q?LQUt+9csR1Q2T5M8qvRjFFis1Q8oXSnKwp5diid9CkpS2mHGnb32jxLAKdsm?=
+ =?us-ascii?Q?cmmQrKJ1PKDGcHfFG5m4AKG3Gug3XzcriS6Rsce6QPbqvawj7xsuMsmlJhog?=
+ =?us-ascii?Q?+l6J3Iw0pnE85eCcpN/InWG9ZYup7UXiN0UP7HsLm1F8FntadxQfZHeaZnSI?=
+ =?us-ascii?Q?i+Jm830JOs7r0ZSDrgVAs9V+t16uO9OskZ4yYc1fGSNfiYzoL6vfXn1mmhEE?=
+ =?us-ascii?Q?sXCpWraqyu9Uu+8OUos7nZHsnofLTHNhh+jB7F53cFNn6wjaRKVcGa7lZE4m?=
+ =?us-ascii?Q?tZi8j51Gex9ZBtR1V8fLJJh9bz4dJ4v+4GMxE4t9TEuvUVrWbN/Fq6g4AaaJ?=
+ =?us-ascii?Q?BRzvceGZxBpi6rmQCKBZs6W2DvTvfzsGu1jcoh/0gpKKiBrf0dg/qSJBW2DF?=
+ =?us-ascii?Q?nrXZ3jOX8TeIxiSDT/riOb/NfGAz9pk=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00f08e0c-700a-4f98-b067-08da2828333b
+X-MS-Exchange-CrossTenant-Network-Message-Id: eeaf614c-b918-4d48-7da8-08da282833ee
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 08:30:35.1886 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 08:30:36.3604 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XW4Kbkw14CTh2t05G5aQ4i972m999ja1JmxkJOaQ3TQM6Wqk0cq8p0P+9bpN7C6MBsv4nDzm9ct5qGrcb1RIhw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: xduYlCNNMWubWNSGkqNAKGFuZyNWCT+8CAwOi/HQgsUUcNGRAdguZ5ZwwC3IPlNmQUtn3pTZGN2B9Gkwqs31pw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB2007
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
  definitions=2022-04-27_02:2022-04-26,
@@ -146,8 +145,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  suspectscore=0 malwarescore=0 spamscore=0 adultscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
  definitions=main-2204270056
-X-Proofpoint-GUID: F8TBjAg4OSyYiE8rUzYUh-y-ojQUGfCQ
-X-Proofpoint-ORIG-GUID: F8TBjAg4OSyYiE8rUzYUh-y-ojQUGfCQ
+X-Proofpoint-GUID: A2kMDwNtrwkUxdQrCWjObNPnI6mo1dsH
+X-Proofpoint-ORIG-GUID: A2kMDwNtrwkUxdQrCWjObNPnI6mo1dsH
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=si-wei.liu@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -174,105 +173,30 @@ Cc: mst@redhat.com, jasowang@redhat.com, eperezma@redhat.com, eli@mellanox.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With MQ enabled vdpa device and non-MQ supporting guest e.g.
-booting vdpa with mq=on over OVMF of single vqp, below assert
-failure is seen:
+... such that no memory leaks on dangling net clients in case of
+error.
 
-../hw/virtio/vhost-vdpa.c:560: vhost_vdpa_get_vq_index: Assertion `idx >= dev->vq_index && idx < dev->vq_index + dev->nvqs' failed.
-
-0  0x00007f8ce3ff3387 in raise () at /lib64/libc.so.6
-1  0x00007f8ce3ff4a78 in abort () at /lib64/libc.so.6
-2  0x00007f8ce3fec1a6 in __assert_fail_base () at /lib64/libc.so.6
-3  0x00007f8ce3fec252 in  () at /lib64/libc.so.6
-4  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=<optimized out>, idx=<optimized out>) at ../hw/virtio/vhost-vdpa.c:563
-5  0x0000558f52d79421 in vhost_vdpa_get_vq_index (dev=<optimized out>, idx=<optimized out>) at ../hw/virtio/vhost-vdpa.c:558
-6  0x0000558f52d7329a in vhost_virtqueue_mask (hdev=0x558f55c01800, vdev=0x558f568f91f0, n=2, mask=<optimized out>) at ../hw/virtio/vhost.c:1557
-7  0x0000558f52c6b89a in virtio_pci_set_guest_notifier (d=d@entry=0x558f568f0f60, n=n@entry=2, assign=assign@entry=true, with_irqfd=with_irqfd@entry=false)
-   at ../hw/virtio/virtio-pci.c:974
-8  0x0000558f52c6c0d8 in virtio_pci_set_guest_notifiers (d=0x558f568f0f60, nvqs=3, assign=true) at ../hw/virtio/virtio-pci.c:1019
-9  0x0000558f52bf091d in vhost_net_start (dev=dev@entry=0x558f568f91f0, ncs=0x558f56937cd0, data_queue_pairs=data_queue_pairs@entry=1, cvq=cvq@entry=1)
-   at ../hw/net/vhost_net.c:361
-10 0x0000558f52d4e5e7 in virtio_net_set_status (status=<optimized out>, n=0x558f568f91f0) at ../hw/net/virtio-net.c:289
-11 0x0000558f52d4e5e7 in virtio_net_set_status (vdev=0x558f568f91f0, status=15 '\017') at ../hw/net/virtio-net.c:370
-12 0x0000558f52d6c4b2 in virtio_set_status (vdev=vdev@entry=0x558f568f91f0, val=val@entry=15 '\017') at ../hw/virtio/virtio.c:1945
-13 0x0000558f52c69eff in virtio_pci_common_write (opaque=0x558f568f0f60, addr=<optimized out>, val=<optimized out>, size=<optimized out>) at ../hw/virtio/virtio-pci.c:1292
-14 0x0000558f52d15d6e in memory_region_write_accessor (mr=0x558f568f19d0, addr=20, value=<optimized out>, size=1, shift=<optimized out>, mask=<optimized out>, attrs=...)
-   at ../softmmu/memory.c:492
-15 0x0000558f52d127de in access_with_adjusted_size (addr=addr@entry=20, value=value@entry=0x7f8cdbffe748, size=size@entry=1, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=0x558f52d15cf0 <memory_region_write_accessor>, mr=0x558f568f19d0, attrs=...) at ../softmmu/memory.c:554
-16 0x0000558f52d157ef in memory_region_dispatch_write (mr=mr@entry=0x558f568f19d0, addr=20, data=<optimized out>, op=<optimized out>, attrs=attrs@entry=...)
-   at ../softmmu/memory.c:1504
-17 0x0000558f52d078e7 in flatview_write_continue (fv=fv@entry=0x7f8accbc3b90, addr=addr@entry=103079215124, attrs=..., ptr=ptr@entry=0x7f8ce6300028, len=len@entry=1, addr1=<optimized out>, l=<optimized out>, mr=0x558f568f19d0) at /home/opc/qemu-upstream/include/qemu/host-utils.h:165
-18 0x0000558f52d07b06 in flatview_write (fv=0x7f8accbc3b90, addr=103079215124, attrs=..., buf=0x7f8ce6300028, len=1) at ../softmmu/physmem.c:2822
-19 0x0000558f52d0b36b in address_space_write (as=<optimized out>, addr=<optimized out>, attrs=..., buf=buf@entry=0x7f8ce6300028, len=<optimized out>)
-   at ../softmmu/physmem.c:2914
-20 0x0000558f52d0b3da in address_space_rw (as=<optimized out>, addr=<optimized out>, attrs=...,
-   attrs@entry=..., buf=buf@entry=0x7f8ce6300028, len=<optimized out>, is_write=<optimized out>) at ../softmmu/physmem.c:2924
-21 0x0000558f52dced09 in kvm_cpu_exec (cpu=cpu@entry=0x558f55c2da60) at ../accel/kvm/kvm-all.c:2903
-22 0x0000558f52dcfabd in kvm_vcpu_thread_fn (arg=arg@entry=0x558f55c2da60) at ../accel/kvm/kvm-accel-ops.c:49
-23 0x0000558f52f9f04a in qemu_thread_start (args=<optimized out>) at ../util/qemu-thread-posix.c:556
-24 0x00007f8ce4392ea5 in start_thread () at /lib64/libpthread.so.0
-25 0x00007f8ce40bb9fd in clone () at /lib64/libc.so.6
-
-The cause for the assert failure is due to that the vhost_dev index
-for the ctrl vq was not aligned with actual one in use by the guest.
-Upon multiqueue feature negotiation in virtio_net_set_multiqueue(),
-if guest doesn't support multiqueue, the guest vq layout would shrink
-to a single queue pair, consisting of 3 vqs in total (rx, tx and ctrl).
-This results in ctrl_vq taking a different vhost_dev group index than
-the default. We can map vq to the correct vhost_dev group by checking
-if MQ is supported by guest and successfully negotiated. Since the
-MQ feature is only present along with CTRL_VQ, we make sure the index
-2 is only meant for the control vq while MQ is not supported by guest.
-
-Fixes: 22288fe ("virtio-net: vhost control virtqueue support")
-Suggested-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/virtio-net.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ net/vhost-vdpa.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index ffb3475..8ca0b80 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3171,8 +3171,17 @@ static NetClientInfo net_virtio_info = {
- static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
- {
-     VirtIONet *n = VIRTIO_NET(vdev);
--    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
-+    NetClientState *nc;
-     assert(n->vhost_started);
-+    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx == 2) {
-+        if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ)) {
-+           error_report("virtio-net: bogus vq index ignored");
-+           return false;
-+        }
-+        nc = qemu_get_subqueue(n->nic, n->max_queue_pairs);
-+    } else {
-+        nc = qemu_get_subqueue(n->nic, vq2q(idx));
-+    }
-     return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
- }
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 1e9fe47..df1e69e 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -306,7 +306,9 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
  
-@@ -3180,8 +3189,17 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
-                                            bool mask)
- {
-     VirtIONet *n = VIRTIO_NET(vdev);
--    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
-+    NetClientState *nc;
-     assert(n->vhost_started);
-+    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_MQ) && idx == 2) {
-+        if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ)) {
-+           error_report("virtio-net: bogus vq index ignored");
-+           return;
+ err:
+     if (i) {
+-        qemu_del_net_client(ncs[0]);
++        for (i--; i >= 0; i--) {
++            qemu_del_net_client(ncs[i]);
 +        }
-+        nc = qemu_get_subqueue(n->nic, n->max_queue_pairs);
-+    } else {
-+        nc = qemu_get_subqueue(n->nic, vq2q(idx));
-+    }
-     vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
-                              vdev, idx, mask);
- }
+     }
+     qemu_close(vdpa_device_fd);
+ 
 -- 
 1.8.3.1
 
