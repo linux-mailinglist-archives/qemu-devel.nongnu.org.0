@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48788511C91
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:24:12 +0200 (CEST)
-Received: from localhost ([::1]:40126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 768C7511C90
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:24:11 +0200 (CEST)
+Received: from localhost ([::1]:40026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njlOc-0000Qa-V9
+	id 1njlOc-0000Mb-Az
 	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 13:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40362)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1njlMU-00063C-It
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:22:00 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:33292)
+ id 1njlMY-00063W-Tg
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:22:04 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:45878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1njlMS-00017i-Vq
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:21:58 -0400
-Received: by mail-pg1-x536.google.com with SMTP id k14so1996195pga.0
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 10:21:56 -0700 (PDT)
+ id 1njlMU-00017v-BT
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:22:02 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id h1so2110558pfv.12
+ for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 10:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Mz2/9eV0IoghSDMPYEyso5gtPhOCnLD/4wgUqk1RGY8=;
- b=cbQ6iqPsNB9xpp7yky/LieKx97cePwJc79UjjBZdG2WTqoPlyOW5VZQLJXaZpun2bI
- aCM27Tpdusuz6DRtnXoCVnjCV4o0DjTbdLmTT4zd5JuEiHdMzbsiSEgNgHOaafyXZoaA
- vDfBlwA5nRRGRuXgUfBfCSeM5VIhlX3UvwBBC+Ff47xOj1l+QBK/6HFA/7sTm2gk6WLG
- njZR9giDwPOdp4FjIiBqi/WpgRP1eqWunz51BE8t4Y2gU/DqJRqWO0T+UTWzBoxbzewb
- RBuAqrSQjG8HpwfQHAh5GwNGBuZt0K3v0OYmFg2LGLZ/bf6Ho6v1k66cnzJVN8/QveJ4
- ByAw==
+ bh=BEd4+7M6Tx8gR8spKKlq17Z4n7cYpoQSdj6J9B2o2EI=;
+ b=FmkaCUkKqZchGj9PgA47oK6fTwVceVGk4Xzp8wOhpXmhS19mNCVKpV10OOx4hB9RWi
+ v2abQQs5b1oPMAhKxwaeOCn0TfijI761RCeemAYtMKicJIj1GlSlMNRMrcrsa9eNx5co
+ kqSVzI5jIPvTr2bc5bFj/oOqkOuyKaP0y9N8xO3CL3DC0QaxlDegaBQk82HTrD8IsKw8
+ 9rrZ1ScG15PdZFT1e9k0Ro97fvDRIqYgKgIUyu4bAkh80Y5+JHmJrJM7azzpXoesf6Fp
+ vUSnTYCl2NWm9XwLcjFc7ocg0r0UbFsH56984Ynk23KZWQxzRT8YiDWjR5AC/CTDi7ZH
+ A3fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Mz2/9eV0IoghSDMPYEyso5gtPhOCnLD/4wgUqk1RGY8=;
- b=A/+Uu29pF+AqTg7jRJ6nowsAKyD1SE7U+nJdRsW4JE+MTmiCQjIDHpcI3VrvBGw89x
- 7fME0IAZoYjg5Rjs/eEQLMvhscfujpGK3dbodozuMHAdPSoS0cYIId8K6T7L3BTaoVBj
- 0lL9XQpoiYv8hXtRRQfaRMO5ku2ISapqyqnnikFjBmeTUio6o2N3h10btSiGFld4GZE7
- G4aA0WQhY7jsSEr1XOfwI0bQ2mVfpEEiEcQyjaXTa0i7ziFEyhaKhb+QraAp0ZewRRYN
- k0mwLFtUsVEZd4YFbAH2Axq0lLoKa6qes0p7qT5XN2eUGfV2akN3fvEeowbFTB4UaTIG
- 3XCw==
-X-Gm-Message-State: AOAM530cDCNm7Fk5a4oCqGxTUqcHmpJCq3cdMDMV6D8dGw5exw2XL+Jk
- sKQfc2ClQuB9r0pqo45/s/8QBjRtdjw=
-X-Google-Smtp-Source: ABdhPJzUktSGOuKwryAmx/RY227cI+8UxHdNGvYsIFQe3t8QvKpoatAixd9x+3umTtLWEMPD/wmkXQ==
-X-Received: by 2002:a65:524b:0:b0:383:1b87:2d21 with SMTP id
- q11-20020a65524b000000b003831b872d21mr24737101pgp.482.1651080115153; 
- Wed, 27 Apr 2022 10:21:55 -0700 (PDT)
+ bh=BEd4+7M6Tx8gR8spKKlq17Z4n7cYpoQSdj6J9B2o2EI=;
+ b=IQlfwYCQSOqx0qTTlifBKYA0i/FBgLHHwbSUYvlcslikxEso00gJXeMmu21C6t9W5A
+ l/No7CcS6H7sj44cfC1B2xCFeJHKrYJfEeZS6Vjkpdh/eUyEatOwpP/AwVVLR01AqIx6
+ +kGN0AU0iFHzH3rDkhrJReafZblWAC0t5a17GmY7AmkwUesEraYjwqJjWQIIrBiBkThP
+ q1r5GnGmBxFNLHAAERaWACusYNwWYHyN6PkVchNlSrRyzNKxX/HGrjt2qnU4DzMVYUkn
+ n7nLus3b+NRQ42AI9ZdGx9Jega7uZ21BGEmkxKzMeQiSzF0BAjHCYqS3OLaSEBtLgGA4
+ FEjw==
+X-Gm-Message-State: AOAM530N05J4ku2Giybg66PKEypHrJ+4vzDDmM2kBVbnhiFi6q7KOcVG
+ F3igLo1eJMzMd78PfTkU7SLEvzbIxWY=
+X-Google-Smtp-Source: ABdhPJwR17l5RfAaIVM4DNLFxCIt6xlot99f+UqgZMS3mWfUtBxwTXg0+QkDtosYe/8gJX1ZTNCUVQ==
+X-Received: by 2002:a63:7c42:0:b0:39c:c333:b3d4 with SMTP id
+ l2-20020a637c42000000b0039cc333b3d4mr25048059pgn.456.1651080116648; 
+ Wed, 27 Apr 2022 10:21:56 -0700 (PDT)
 Received: from octofox.hsd1.ca.comcast.net
  ([2601:641:401:1d20:76e8:b785:3fb9:b6d6])
  by smtp.gmail.com with ESMTPSA id
- f16-20020a056a00239000b004fa7103e13csm21202124pfc.41.2022.04.27.10.21.53
+ f16-20020a056a00239000b004fa7103e13csm21202124pfc.41.2022.04.27.10.21.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 10:21:54 -0700 (PDT)
+ Wed, 27 Apr 2022 10:21:56 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/7] tests/tcg/xtensa: fix watchpoint test
-Date: Wed, 27 Apr 2022 10:21:36 -0700
-Message-Id: <20220427172140.1406059-4-jcmvbkbc@gmail.com>
+Subject: [PATCH 4/7] tests/tcg/xtensa: remove dependency on the loop option
+Date: Wed, 27 Apr 2022 10:21:37 -0700
+Message-Id: <20220427172140.1406059-5-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220427172140.1406059-1-jcmvbkbc@gmail.com>
 References: <20220427172140.1406059-1-jcmvbkbc@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -90,130 +90,84 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-xtensa core may have only one set of DBREAKA/DBREAKC registers. Don't
-hardcode register numbers in the test as 0 and 1, use macros that only
-index valid DBREAK* registers.
+xtensa core may not have the loop option, but still have timers. Don't
+use loop opcode in the timer test.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- tests/tcg/xtensa/test_break.S | 86 +++++++++++++++++++----------------
- 1 file changed, 46 insertions(+), 40 deletions(-)
+ tests/tcg/xtensa/test_timer.S | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/tests/tcg/xtensa/test_break.S b/tests/tcg/xtensa/test_break.S
-index 3379a3f9f06e..3aa18b5cec3f 100644
---- a/tests/tcg/xtensa/test_break.S
-+++ b/tests/tcg/xtensa/test_break.S
-@@ -200,64 +200,70 @@ test_end
- .endm
- 
- #if XCHAL_NUM_DBREAK
-+#define DB0 0
-+#if XCHAL_NUM_DBREAK > 1
-+#define DB1 1
-+#else
-+#define DB1 0
-+#endif
- test dbreak_exact
--    dbreak_test 0, 0x4000003f, 0xd000007f, 0xd000007f, l8ui
--    dbreak_test 1, 0x4000003e, 0xd000007e, 0xd000007e, l16ui
--    dbreak_test 0, 0x4000003c, 0xd000007c, 0xd000007c, l32i
-+    dbreak_test DB0, 0x4000003f, 0xd000007f, 0xd000007f, l8ui
-+    dbreak_test DB1, 0x4000003e, 0xd000007e, 0xd000007e, l16ui
-+    dbreak_test DB0, 0x4000003c, 0xd000007c, 0xd000007c, l32i
- 
--    dbreak_test 1, 0x8000003f, 0xd000007f, 0xd000007f, s8i
--    dbreak_test 0, 0x8000003e, 0xd000007e, 0xd000007e, s16i
--    dbreak_test 1, 0x8000003c, 0xd000007c, 0xd000007c, s32i
-+    dbreak_test DB1, 0x8000003f, 0xd000007f, 0xd000007f, s8i
-+    dbreak_test DB0, 0x8000003e, 0xd000007e, 0xd000007e, s16i
-+    dbreak_test DB1, 0x8000003c, 0xd000007c, 0xd000007c, s32i
+diff --git a/tests/tcg/xtensa/test_timer.S b/tests/tcg/xtensa/test_timer.S
+index 1ec8e20883ff..2a383e77190e 100644
+--- a/tests/tcg/xtensa/test_timer.S
++++ b/tests/tcg/xtensa/test_timer.S
+@@ -115,9 +115,9 @@ test ccompare0_interrupt
+     movi    a2, 1 << XCHAL_TIMER0_INTERRUPT
+     wsr     a2, intenable
+     rsil    a2, 0
+-    loop    a3, 1f
+-    nop
+ 1:
++    addi    a3, a3, -1
++    bnez    a3, 1b
+     test_fail
+ 2:
+     rsr     a2, exccause
+@@ -148,9 +148,9 @@ test ccompare1_interrupt
+     movi    a2, 1 << XCHAL_TIMER1_INTERRUPT
+     wsr     a2, intenable
+     rsil    a2, INTERRUPT_LEVEL(XCHAL_TIMER1_INTERRUPT) - 1
+-    loop    a3, 1f
+-    nop
+ 1:
++    addi    a3, a3, -1
++    bnez    a3, 1b
+     test_fail
+ 2:
  test_end
- 
--test dbreak_overlap
--    dbreak_test 0, 0x4000003f, 0xd000007d, 0xd000007c, l16ui
--    dbreak_test 1, 0x4000003f, 0xd000007d, 0xd000007c, l32i
-+test DBdbreak_overlap
-+    dbreak_test DB0, 0x4000003f, 0xd000007d, 0xd000007c, l16ui
-+    dbreak_test DB1, 0x4000003f, 0xd000007d, 0xd000007c, l32i
- 
--    dbreak_test 0, 0x4000003e, 0xd000007e, 0xd000007f, l8ui
--    dbreak_test 1, 0x4000003e, 0xd000007e, 0xd000007c, l32i
-+    dbreak_test DB0, 0x4000003e, 0xd000007e, 0xd000007f, l8ui
-+    dbreak_test DB1, 0x4000003e, 0xd000007e, 0xd000007c, l32i
- 
--    dbreak_test 0, 0x4000003c, 0xd000007c, 0xd000007d, l8ui
--    dbreak_test 1, 0x4000003c, 0xd000007c, 0xd000007c, l16ui
-+    dbreak_test DB0, 0x4000003c, 0xd000007c, 0xd000007d, l8ui
-+    dbreak_test DB1, 0x4000003c, 0xd000007c, 0xd000007c, l16ui
- 
--    dbreak_test 0, 0x40000038, 0xd0000078, 0xd000007b, l8ui
--    dbreak_test 1, 0x40000038, 0xd0000078, 0xd000007a, l16ui
--    dbreak_test 0, 0x40000038, 0xd0000078, 0xd000007c, l32i
-+    dbreak_test DB0, 0x40000038, 0xd0000078, 0xd000007b, l8ui
-+    dbreak_test DB1, 0x40000038, 0xd0000078, 0xd000007a, l16ui
-+    dbreak_test DB0, 0x40000038, 0xd0000078, 0xd000007c, l32i
- 
--    dbreak_test 1, 0x40000030, 0xd0000070, 0xd0000075, l8ui
--    dbreak_test 0, 0x40000030, 0xd0000070, 0xd0000076, l16ui
--    dbreak_test 1, 0x40000030, 0xd0000070, 0xd0000078, l32i
-+    dbreak_test DB1, 0x40000030, 0xd0000070, 0xd0000075, l8ui
-+    dbreak_test DB0, 0x40000030, 0xd0000070, 0xd0000076, l16ui
-+    dbreak_test DB1, 0x40000030, 0xd0000070, 0xd0000078, l32i
- 
--    dbreak_test 0, 0x40000020, 0xd0000060, 0xd000006f, l8ui
--    dbreak_test 1, 0x40000020, 0xd0000060, 0xd0000070, l16ui
--    dbreak_test 0, 0x40000020, 0xd0000060, 0xd0000074, l32i
-+    dbreak_test DB0, 0x40000020, 0xd0000060, 0xd000006f, l8ui
-+    dbreak_test DB1, 0x40000020, 0xd0000060, 0xd0000070, l16ui
-+    dbreak_test DB0, 0x40000020, 0xd0000060, 0xd0000074, l32i
- 
- 
--    dbreak_test 0, 0x8000003f, 0xd000007d, 0xd000007c, s16i
--    dbreak_test 1, 0x8000003f, 0xd000007d, 0xd000007c, s32i
-+    dbreak_test DB0, 0x8000003f, 0xd000007d, 0xd000007c, s16i
-+    dbreak_test DB1, 0x8000003f, 0xd000007d, 0xd000007c, s32i
- 
--    dbreak_test 0, 0x8000003e, 0xd000007e, 0xd000007f, s8i
--    dbreak_test 1, 0x8000003e, 0xd000007e, 0xd000007c, s32i
-+    dbreak_test DB0, 0x8000003e, 0xd000007e, 0xd000007f, s8i
-+    dbreak_test DB1, 0x8000003e, 0xd000007e, 0xd000007c, s32i
- 
--    dbreak_test 0, 0x8000003c, 0xd000007c, 0xd000007d, s8i
--    dbreak_test 1, 0x8000003c, 0xd000007c, 0xd000007c, s16i
-+    dbreak_test DB0, 0x8000003c, 0xd000007c, 0xd000007d, s8i
-+    dbreak_test DB1, 0x8000003c, 0xd000007c, 0xd000007c, s16i
- 
--    dbreak_test 0, 0x80000038, 0xd0000078, 0xd000007b, s8i
--    dbreak_test 1, 0x80000038, 0xd0000078, 0xd000007a, s16i
--    dbreak_test 0, 0x80000038, 0xd0000078, 0xd000007c, s32i
-+    dbreak_test DB0, 0x80000038, 0xd0000078, 0xd000007b, s8i
-+    dbreak_test DB1, 0x80000038, 0xd0000078, 0xd000007a, s16i
-+    dbreak_test DB0, 0x80000038, 0xd0000078, 0xd000007c, s32i
- 
--    dbreak_test 1, 0x80000030, 0xd0000070, 0xd0000075, s8i
--    dbreak_test 0, 0x80000030, 0xd0000070, 0xd0000076, s16i
--    dbreak_test 1, 0x80000030, 0xd0000070, 0xd0000078, s32i
-+    dbreak_test DB1, 0x80000030, 0xd0000070, 0xd0000075, s8i
-+    dbreak_test DB0, 0x80000030, 0xd0000070, 0xd0000076, s16i
-+    dbreak_test DB1, 0x80000030, 0xd0000070, 0xd0000078, s32i
- 
--    dbreak_test 0, 0x80000020, 0xd0000060, 0xd000006f, s8i
--    dbreak_test 1, 0x80000020, 0xd0000060, 0xd0000070, s16i
--    dbreak_test 0, 0x80000020, 0xd0000060, 0xd0000074, s32i
-+    dbreak_test DB0, 0x80000020, 0xd0000060, 0xd000006f, s8i
-+    dbreak_test DB1, 0x80000020, 0xd0000060, 0xd0000070, s16i
-+    dbreak_test DB0, 0x80000020, 0xd0000060, 0xd0000074, s32i
+@@ -177,9 +177,9 @@ test ccompare2_interrupt
+     movi    a2, 1 << XCHAL_TIMER2_INTERRUPT
+     wsr     a2, intenable
+     rsil    a2, INTERRUPT_LEVEL(XCHAL_TIMER2_INTERRUPT) - 1
+-    loop    a3, 1f
+-    nop
+ 1:
++    addi    a3, a3, -1
++    bnez    a3, 1b
+     test_fail
+ 2:
  test_end
- 
--test dbreak_invalid
--    dbreak_test 0, 0x40000030, 0xd0000071, 0xd0000070, l16ui
--    dbreak_test 1, 0x40000035, 0xd0000072, 0xd0000070, l32i
-+test DBdbreak_invalid
-+    dbreak_test DB0, 0x40000030, 0xd0000071, 0xd0000070, l16ui
-+    dbreak_test DB1, 0x40000035, 0xd0000072, 0xd0000070, l32i
- test_end
+@@ -197,7 +197,7 @@ test ccompare_interrupt_masked
+     wsr     a2, ccompare2
  #endif
  
+-    movi    a3, 2 * WAIT_LOOPS
++    movi    a3, WAIT_LOOPS
+     make_ccount_delta a2, a15
+ #if XCHAL_NUM_TIMERS > 1
+     wsr     a2, ccompare1
+@@ -211,9 +211,10 @@ test ccompare_interrupt_masked
+     movi    a2, 1 << XCHAL_TIMER0_INTERRUPT
+     wsr     a2, intenable
+     rsil    a2, 0
+-    loop    a3, 1f
+-    nop
+ 1:
++    addi    a3, a3, -1
++    bnez    a3, 1b
++
+     test_fail
+ 2:
+     rsr     a2, exccause
+@@ -231,7 +232,6 @@ test ccompare_interrupt_masked_waiti
+     wsr     a2, ccompare2
+ #endif
+ 
+-    movi    a3, 2 * WAIT_LOOPS
+     make_ccount_delta a2, a15
+ #if XCHAL_NUM_TIMERS > 1
+     wsr     a2, ccompare1
 -- 
 2.30.2
 
