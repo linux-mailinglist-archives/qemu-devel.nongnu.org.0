@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF88511042
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 06:42:29 +0200 (CEST)
-Received: from localhost ([::1]:52328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FF2511046
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 06:46:43 +0200 (CEST)
+Received: from localhost ([::1]:35352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njZVV-000472-1X
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 00:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50374)
+	id 1njZZa-0003E7-8z
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 00:46:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njZSx-0001IQ-1L
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 00:39:51 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:35539)
+ id 1njZSy-0001Jd-C2
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 00:39:52 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:40737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njZSu-0007SU-Sb
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 00:39:50 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id r83so554126pgr.2
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 21:39:48 -0700 (PDT)
+ id 1njZSw-0007Sc-PN
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 00:39:52 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id i24so599453pfa.7
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 21:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mvRig1nFgvxtwsEdF8GyeeEoyjVTBGh15NALcLN7Zm0=;
- b=Yu7d/kXROEeLSqJaaAVounzKK/oo825RWn0/DAOqWyeI+jBIlBjRenjbp+4DwsMYP8
- 8K4xK0Z/x/fXjr5yItF+8M9/KDdhMlvJ2cKxK1qdustLMo1fQWJhsoQH/4uhrHN9a31N
- NUaL2HoA/dnQSY4het0P735RJLj7zRm1uqfJJUCBqCM0gO9PhWDC3O/ZzSqWbcLYWDpk
- QcVfpwE1HxMsarEjBCePRumXlyRnqea3nSpS1uYNMxuKnt2MTubxVsBg3Cii8Rx2MVNf
- q50Pqi0fyqIfHAfhd9iQ0ukZK2BXA4HmiPm16vnqVHdQFJAfKrNNQO8kes4Yi5ffXM7c
- bl7A==
+ bh=1o9si1s5HiM2x4iDuDzWhxWXoWFSwko9HR+xkw5Bkro=;
+ b=RqU2SZ3MnBRRWZG0WzVeLaiPs8q8KL7AWEqyvpVJDxs3XUvO78jAP4+cQsuqaeXQi6
+ OHODAs9jjkfCc62gko5Mdt0eVN0Z4pxqGOHddZXEUTw4sg5ms5+NRa8jyld9i8JRQA5x
+ 5Dlb+upSCfIk2k6XiW0aUGcUYXHJZ/5gz5cQRHodZjmgHBvQeW41n/YVCahP1Wz9Zw41
+ 3DU89XIqh2TP0qiXbbStF6V/lIQZWyyMyLy+TSwVUWXgqHiiuLIp4mLW8Hxh9UykdsHV
+ hjt099KZV//S0GFGvBGxcLuIW0SWg1tIkehJlagTgbda83lmwIqBDn7URyV2zrh7gjze
+ PHHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mvRig1nFgvxtwsEdF8GyeeEoyjVTBGh15NALcLN7Zm0=;
- b=tlZpzr40zxAXVlMWuaYpv9vU+tEb1XZ9sAftOBEOYyqUjgFJARCZSTuNZeTJHLGJOw
- ZbkgFDe2+ZWZgFUKdZcZbosISWXrAVxUwUemlwRa2XhYFBuH+wnMIpYjrnd9Gng8kPwb
- TwNVPLeEVcfOAV4JVKDi7JZkCEdQFtxNG5kS/94toVaB6JDUVZuG3gDSrCNyVgAxfIvb
- liJ/4279zDhruIyPFOQcAIDm6k30Krw8D6ngrdhNCXuzYeeK90ODZYo1+pSCCBCvyh+d
- LXQqFvXBEmZKggXaM3RavPcBEtKuj55wxYyiLkKxlP1ZRUJDxlj4WslrwfvcEDN1PhEZ
- C2Bw==
-X-Gm-Message-State: AOAM532ynFJOqek1HgBTIfMwaibTj8weJEMgz1Zc5hS975RN0WwQoQUR
- 55y0keVmUIoW+XS0PAk/9X5oJWcGEm+RiA==
-X-Google-Smtp-Source: ABdhPJwnzOOPKmcBijrF7ndT1Ote2KNX+BRc7pUpfOJJzxiyxWvwJ19Vye2chyRZhSX4Aw0vh5vn6w==
-X-Received: by 2002:a63:5d60:0:b0:3a9:ef9f:eac2 with SMTP id
- o32-20020a635d60000000b003a9ef9feac2mr22280086pgm.553.1651034387372; 
- Tue, 26 Apr 2022 21:39:47 -0700 (PDT)
+ bh=1o9si1s5HiM2x4iDuDzWhxWXoWFSwko9HR+xkw5Bkro=;
+ b=KCwhXos6Nunoz23OaW7lSifI1HbgfhHUeKb3mWZM7FhaDIYD+Xp3C2eiTCGnAe3cKc
+ +mipSgbj3dYGKvN/RewVTQBwOp5FJK6Xf0YYbrSPCkRQT0VKJb3Kyj1scP0ORV5K04pa
+ Rnwx3R4eg9PpPLEPbBj68u5TaOWS29iOkKyaF4VFWJOPpmPqQtsxQBzV/BPm6dhwIhQb
+ 0BqFANmlMj4OKb82L77gFx5qcx3THgGUeYe1nlwVo8FBu3XB14l4hneFI7Xzof8FaSBN
+ L2W9YyN3av+L5apIIz6OCRTt0kIHqFTTjAiL1Eyrq06O+BSieG1Uda2itcPhh5ARTPPk
+ OV9A==
+X-Gm-Message-State: AOAM530nGFg4NLNjCu0yOdbfo14Tc6HKw1Pslm6gQYndAr6By/s0i5eY
+ 3A4oOQJ6Wyo6jIVLRqRRRH1unDxFxOuzqg==
+X-Google-Smtp-Source: ABdhPJyD8m0rsAsf+DBzbfPSWnchZt6X2C4u/Y9ZnKcZSC12Ck0XqsZ4Z288MOGcsTQEh5er9kpTYA==
+X-Received: by 2002:a05:6a00:1a8f:b0:50a:8c2d:2edf with SMTP id
+ e15-20020a056a001a8f00b0050a8c2d2edfmr27666752pfv.82.1651034388360; 
+ Tue, 26 Apr 2022 21:39:48 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- f16-20020aa78b10000000b0050a81508653sm16875632pfd.198.2022.04.26.21.39.46
+ f16-20020aa78b10000000b0050a81508653sm16875632pfd.198.2022.04.26.21.39.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 21:39:46 -0700 (PDT)
+ Tue, 26 Apr 2022 21:39:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/6] softfloat: Fix declaration of partsN_compare
-Date: Tue, 26 Apr 2022 21:39:40 -0700
-Message-Id: <20220427043942.294654-5-richard.henderson@linaro.org>
+Subject: [PULL 5/6] softfloat: Use FloatRelation within partsN_compare
+Date: Tue, 26 Apr 2022 21:39:41 -0700
+Message-Id: <20220427043942.294654-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220427043942.294654-1-richard.henderson@linaro.org>
 References: <20220427043942.294654-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,35 +88,44 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The declaration used 'int', while the definition used 'FloatRelation'.
-This should have resulted in a compiler error, but mysteriously didn't.
+As the return type is FloatRelation, it's clearer to
+use the type for 'cmp' within the function.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220401132240.79730-2-richard.henderson@linaro.org>
+Message-Id: <20220401132240.79730-3-richard.henderson@linaro.org>
 ---
- fpu/softfloat.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ fpu/softfloat-parts.c.inc | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 5e2cf20448..e7d7ad56bc 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -874,10 +874,10 @@ static FloatParts128 *parts128_minmax(FloatParts128 *a, FloatParts128 *b,
- #define parts_minmax(A, B, S, F) \
-     PARTS_GENERIC_64_128(minmax, A)(A, B, S, F)
+diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
+index db3e1f393d..bbeadaa189 100644
+--- a/fpu/softfloat-parts.c.inc
++++ b/fpu/softfloat-parts.c.inc
+@@ -1327,16 +1327,19 @@ static FloatRelation partsN(compare)(FloatPartsN *a, FloatPartsN *b,
+                                      float_status *s, bool is_quiet)
+ {
+     int ab_mask = float_cmask(a->cls) | float_cmask(b->cls);
+-    int cmp;
  
--static int parts64_compare(FloatParts64 *a, FloatParts64 *b,
--                           float_status *s, bool q);
--static int parts128_compare(FloatParts128 *a, FloatParts128 *b,
--                            float_status *s, bool q);
-+static FloatRelation parts64_compare(FloatParts64 *a, FloatParts64 *b,
-+                                     float_status *s, bool q);
-+static FloatRelation parts128_compare(FloatParts128 *a, FloatParts128 *b,
-+                                      float_status *s, bool q);
- 
- #define parts_compare(A, B, S, Q) \
-     PARTS_GENERIC_64_128(compare, A)(A, B, S, Q)
+     if (likely(ab_mask == float_cmask_normal)) {
++        FloatRelation cmp;
++
+         if (a->sign != b->sign) {
+             goto a_sign;
+         }
+-        if (a->exp != b->exp) {
+-            cmp = a->exp < b->exp ? -1 : 1;
+-        } else {
++        if (a->exp == b->exp) {
+             cmp = frac_cmp(a, b);
++        } else if (a->exp < b->exp) {
++            cmp = float_relation_less;
++        } else {
++            cmp = float_relation_greater;
+         }
+         if (a->sign) {
+             cmp = -cmp;
 -- 
 2.34.1
 
