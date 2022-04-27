@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1539D511413
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 11:09:41 +0200 (CEST)
-Received: from localhost ([::1]:47926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46F55113C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 10:50:38 +0200 (CEST)
+Received: from localhost ([::1]:56330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njdg3-0001rc-AP
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 05:09:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34684)
+	id 1njdNe-0003u1-1G
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 04:50:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1njdHg-0006Rk-6P
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:44:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26599)
+ id 1njdJp-0008UZ-E7
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:46:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1njdHe-0007Q7-E8
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:44:27 -0400
+ id 1njdJn-0007ho-N8
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 04:46:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651049065;
+ s=mimecast20190719; t=1651049199;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tfG2TA+gM/SFhOYEObiAq6sdxie0Nqp05JqhYUIyjYU=;
- b=XslpdPGHNbTmVI56a5QnpciU3SqdfB7coRHWst9OnfFmMrsgJO7cCVKnvlLNziVnpyfFqh
- z+DsQR6+W4qxIwPALnAimO/ry5Ow2istoq5RGiQapvShS9cAxnj1207w6hlEcNeI8UUjvO
- u27KCLQBsF1N5ybKttUMnM6n4v6pzN4=
+ bh=gwcu194HBvb8Ksff9n2Zlo6tHmrzGq0NNX1/7weJwm4=;
+ b=RoR2CmEb+wsO1HIonV0hsvUrT4HAFsFba8FcT4dDr11oBEjyAcKKAQxrhOd9phhtqD7dL9
+ W+O1R85c2dmAs78QdyHHAWgloe5K+Ve6lKck42LUCPAqoRAGhf4wjh/L3CSrId8KOqKtSg
+ oJjPupWXpm0xNNNR/NocLNFHkh4rtuQ=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-lPNuBy55MvuEEm-oT_9N2w-1; Wed, 27 Apr 2022 04:44:21 -0400
-X-MC-Unique: lPNuBy55MvuEEm-oT_9N2w-1
+ us-mta-327-TUrxAD42MMCtFNEAVluv3w-1; Wed, 27 Apr 2022 04:46:35 -0400
+X-MC-Unique: TUrxAD42MMCtFNEAVluv3w-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E10329ABA25;
- Wed, 27 Apr 2022 08:44:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 73B563C0F086;
+ Wed, 27 Apr 2022 08:46:35 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.193])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E4A5A5690E5;
- Wed, 27 Apr 2022 08:44:17 +0000 (UTC)
-Date: Wed, 27 Apr 2022 09:44:15 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 744AC5690E5;
+ Wed, 27 Apr 2022 08:46:33 +0000 (UTC)
+Date: Wed, 27 Apr 2022 09:46:31 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v10 6/7] multifd: Send header packet without flags if
- zero-copy-send is enabled
-Message-ID: <YmkCXwVA6PnwGHmH@redhat.com>
+Subject: Re: [PATCH v10 7/7] multifd: Implement zero copy write in multifd
+ migration (multifd-zero-copy)
+Message-ID: <YmkC51KEA1+SOoc9@redhat.com>
 References: <20220426230654.637939-1-leobras@redhat.com>
- <20220426230654.637939-7-leobras@redhat.com>
+ <20220426230654.637939-8-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220426230654.637939-7-leobras@redhat.com>
+In-Reply-To: <20220426230654.637939-8-leobras@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -92,33 +92,35 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 26, 2022 at 08:06:55PM -0300, Leonardo Bras wrote:
-> Since d48c3a0445 ("multifd: Use a single writev on the send side"),
-> sending the header packet and the memory pages happens in the same
-> writev, which can potentially make the migration faster.
+On Tue, Apr 26, 2022 at 08:06:56PM -0300, Leonardo Bras wrote:
+> Implement zero copy send on nocomp_send_write(), by making use of QIOChannel
+> writev + flags & flush interface.
 > 
-> Using channel-socket as example, this works well with the default copying
-> mechanism of sendmsg(), but with zero-copy-send=true, it will cause
-> the migration to often break.
+> Change multifd_send_sync_main() so flush_zero_copy() can be called
+> after each iteration in order to make sure all dirty pages are sent before
+> a new iteration is started. It will also flush at the beginning and at the
+> end of migration.
 > 
-> This happens because the header packet buffer gets reused quite often,
-> and there is a high chance that by the time the MSG_ZEROCOPY mechanism get
-> to send the buffer, it has already changed, sending the wrong data and
-> causing the migration to abort.
+> Also make it return -1 if flush_zero_copy() fails, in order to cancel
+> the migration process, and avoid resuming the guest in the target host
+> without receiving all current RAM.
 > 
-> It means that, as it is, the buffer for the header packet is not suitable
-> for sending with MSG_ZEROCOPY.
+> This will work fine on RAM migration because the RAM pages are not usually freed,
+> and there is no problem on changing the pages content between writev_zero_copy() and
+> the actual sending of the buffer, because this change will dirty the page and
+> cause it to be re-sent on a next iteration anyway.
 > 
-> In order to enable zero copy for multifd, send the header packet on an
-> individual write(), without any flags, and the remanining pages with a
-> writev(), as it was happening before. This only changes how a migration
-> with zero-copy-send=true works, not changing any current behavior for
-> migrations with zero-copy-send=false.
+> A lot of locked memory may be needed in order to use multifd migration
+> with zero-copy enabled, so disabling the feature should be necessary for
+> low-privileged users trying to perform multifd migrations.
 > 
 > Signed-off-by: Leonardo Bras <leobras@redhat.com>
 > ---
->  migration/multifd.c | 23 ++++++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
+>  migration/multifd.h   |  2 ++
+>  migration/migration.c | 11 ++++++++++-
+>  migration/multifd.c   | 37 +++++++++++++++++++++++++++++++++++--
+>  migration/socket.c    |  5 +++--
+>  4 files changed, 50 insertions(+), 5 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
