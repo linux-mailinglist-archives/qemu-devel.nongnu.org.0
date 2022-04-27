@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F8A511CAA
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:37:33 +0200 (CEST)
-Received: from localhost ([::1]:46348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB8A511CA9
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 19:37:13 +0200 (CEST)
+Received: from localhost ([::1]:45142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njlbY-000072-QI
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 13:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42292)
+	id 1njlbE-0007j4-MH
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 13:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njlUU-0004mP-R2
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njlUU-0004ms-VZ
  for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:30:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44359)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njlUT-0002a4-37
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1njlUT-0002aA-8k
  for qemu-devel@nongnu.org; Wed, 27 Apr 2022 13:30:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1651080612;
@@ -23,38 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hW+idUemzWypyT6LHhDhKKKh85nJdc/SBTBGvca/61g=;
- b=Mcby/zz0wZdrV2NXmLaxYdExjdwJyXTWjjQa+Sx37BVnO8XQOb8pqpwiyAxSTq2ETcy1VJ
- hmi+ou25O4bHI424iYcYaOy82OIIyt7Vkfs86IPEpWx3cRRVIZd3reemhcnBSlVVmGJlcI
- KqUWyi0dng2gCFTk4AzPSpI03y8j6kI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4yKM7F9RXp6EXuFbg8mXwP2PsK6u5eSTJyT+LzdhNyk=;
+ b=iJGUEEOjHpHEYcpmBMFft4YLRhpz1NEJRK+gaOdxEiGzL2R6CkHQY4NT2SYQNCywPwrQpg
+ nmctK2gNq8J994UrM96YvDHqUxlNggsQu8fz0vuuj/YE7LSB3RE7kwyxc4rsjjpQ2E0TDq
+ ZbC6xaTAcyodh6dMLqK9l2QZ1Ovghm8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-uNoq-G06PjWndpFwu1Q2HA-1; Wed, 27 Apr 2022 13:30:09 -0400
-X-MC-Unique: uNoq-G06PjWndpFwu1Q2HA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-425-9NVFOV62MtG43HOqXk67Xw-1; Wed, 27 Apr 2022 13:30:09 -0400
+X-MC-Unique: 9NVFOV62MtG43HOqXk67Xw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B215D3838C80;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE6EF85A5BE;
  Wed, 27 Apr 2022 17:30:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CCC1C2813D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 51D4342D3C1;
  Wed, 27 Apr 2022 17:30:08 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8DEEA1800D68; Wed, 27 Apr 2022 19:29:52 +0200 (CEST)
+ id 9C8D11800D6C; Wed, 27 Apr 2022 19:29:52 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] i386: move bios load error message
-Date: Wed, 27 Apr 2022 19:29:50 +0200
-Message-Id: <20220427172952.2986839-8-kraxel@redhat.com>
+Subject: [PULL 8/9] i386: factor out x86_firmware_configure()
+Date: Wed, 27 Apr 2022 19:29:51 +0200
+Message-Id: <20220427172952.2986839-9-kraxel@redhat.com>
 In-Reply-To: <20220427172952.2986839-1-kraxel@redhat.com>
 References: <20220427172952.2986839-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -85,46 +85,90 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch to usual goto-end-of-function error handling style.
-No functional change.
+move sev firmware setup to separate function so it can be used from
+other code paths.  No functional change.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Tested-by: Xiaoyao Li <xiaoyao.li@intel.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20220425135051.551037-2-kraxel@redhat.com>
+Message-Id: <20220425135051.551037-3-kraxel@redhat.com>
 ---
- hw/i386/x86.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ include/hw/i386/x86.h |  3 +++
+ hw/i386/pc_sysfw.c    | 36 ++++++++++++++++++++++--------------
+ 2 files changed, 25 insertions(+), 14 deletions(-)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index bb6727279097..ced31f67b9a8 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1120,9 +1120,7 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
-     }
-     ret = rom_add_file_fixed(bios_name, (uint32_t)(-bios_size), -1);
-     if (ret != 0) {
--    bios_error:
--        fprintf(stderr, "qemu: could not load PC BIOS '%s'\n", bios_name);
--        exit(1);
-+        goto bios_error;
-     }
-     g_free(filename);
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 916cc325eeb1..4841a49f86c0 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -140,4 +140,7 @@ void gsi_handler(void *opaque, int n, int level);
+ void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
+ DeviceState *ioapic_init_secondary(GSIState *gsi_state);
  
-@@ -1143,6 +1141,11 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
-     memory_region_add_subregion(rom_memory,
-                                 (uint32_t)(-bios_size),
-                                 bios);
-+    return;
++/* pc_sysfw.c */
++void x86_firmware_configure(void *ptr, int size);
 +
-+bios_error:
-+    fprintf(stderr, "qemu: could not load PC BIOS '%s'\n", bios_name);
-+    exit(1);
- }
+ #endif
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index 0540047bad22..c8d9e71b889b 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -147,7 +147,6 @@ static void pc_system_flash_map(PCMachineState *pcms,
+     MemoryRegion *flash_mem;
+     void *flash_ptr;
+     int flash_size;
+-    int ret;
  
- bool x86_machine_is_smm_enabled(const X86MachineState *x86ms)
+     assert(PC_MACHINE_GET_CLASS(pcms)->pci_enabled);
+ 
+@@ -195,19 +194,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
+             if (sev_enabled()) {
+                 flash_ptr = memory_region_get_ram_ptr(flash_mem);
+                 flash_size = memory_region_size(flash_mem);
+-                /*
+-                 * OVMF places a GUIDed structures in the flash, so
+-                 * search for them
+-                 */
+-                pc_system_parse_ovmf_flash(flash_ptr, flash_size);
+-
+-                ret = sev_es_save_reset_vector(flash_ptr, flash_size);
+-                if (ret) {
+-                    error_report("failed to locate and/or save reset vector");
+-                    exit(1);
+-                }
+-
+-                sev_encrypt_flash(flash_ptr, flash_size, &error_fatal);
++                x86_firmware_configure(flash_ptr, flash_size);
+             }
+         }
+     }
+@@ -259,3 +246,24 @@ void pc_system_firmware_init(PCMachineState *pcms,
+ 
+     pc_system_flash_cleanup_unused(pcms);
+ }
++
++void x86_firmware_configure(void *ptr, int size)
++{
++    int ret;
++
++    /*
++     * OVMF places a GUIDed structures in the flash, so
++     * search for them
++     */
++    pc_system_parse_ovmf_flash(ptr, size);
++
++    if (sev_enabled()) {
++        ret = sev_es_save_reset_vector(ptr, size);
++        if (ret) {
++            error_report("failed to locate and/or save reset vector");
++            exit(1);
++        }
++
++        sev_encrypt_flash(ptr, size, &error_fatal);
++    }
++}
 -- 
 2.35.1
 
