@@ -2,53 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF035114E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 12:38:53 +0200 (CEST)
-Received: from localhost ([::1]:35990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5815114D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 12:26:00 +0200 (CEST)
+Received: from localhost ([::1]:47760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njf4O-00009n-D3
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 06:38:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56550)
+	id 1njerv-0004fz-IA
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 06:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1njekk-0004rg-EZ
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 06:18:34 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:36070)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1njelS-0005y6-Gp
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 06:19:18 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:58423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1njeki-0005YS-K5
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 06:18:33 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1njelQ-0005fR-UJ
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 06:19:18 -0400
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-148-venGHAzNO3iXELUbMhSTcQ-1; Wed, 27 Apr 2022 06:18:19 -0400
-X-MC-Unique: venGHAzNO3iXELUbMhSTcQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-465-34jF-_MBNj-Y8wpO3Musjg-1; Wed, 27 Apr 2022 06:19:13 -0400
+X-MC-Unique: 34jF-_MBNj-Y8wpO3Musjg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED5DC811E83;
- Wed, 27 Apr 2022 10:18:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CDD2188143E;
+ Wed, 27 Apr 2022 10:19:13 +0000 (UTC)
 Received: from bahia (unknown [10.39.195.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF7B09E61;
- Wed, 27 Apr 2022 10:18:16 +0000 (UTC)
-Date: Wed, 27 Apr 2022 12:18:10 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF260401474;
+ Wed, 27 Apr 2022 10:19:11 +0000 (UTC)
+Date: Wed, 27 Apr 2022 12:19:10 +0200
 From: Greg Kurz <groug@kaod.org>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v2 2/5] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
-Message-ID: <20220427121810.15783101@bahia>
-In-Reply-To: <26d489bd-90c5-5b92-309b-4e07c83ec778@gmail.com>
-References: <cover.1650553693.git.qemu_oss@crudebyte.com>
- <1750044.XWheshbc2e@silver>
- <eafd4bbf-dbff-323a-179f-8f29905701e1@gmail.com>
- <3849551.ofAv5PygDX@silver>
- <94dfcb65-6901-6a56-d527-581b9b088d2c@gmail.com>
- <20220426143857.716b9f33@bahia>
- <26d489bd-90c5-5b92-309b-4e07c83ec778@gmail.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v3 2/6] 9pfs: fix qemu_mknodat(S_IFSOCK) on macOS
+Message-ID: <20220427121910.51de756b@bahia>
+In-Reply-To: <8420904094828b74404bd61cf1668e5c2f005158.1650889268.git.qemu_oss@crudebyte.com>
+References: <cover.1650889268.git.qemu_oss@crudebyte.com>
+ <8420904094828b74404bd61cf1668e5c2f005158.1650889268.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,89 +63,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roitzsch <reactorcontrol@icloud.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, Keno Fischer <keno@juliacomputing.com>,
- Will Cohen <wwcohen@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Apr 2022 11:27:28 +0900
-Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+On Mon, 25 Apr 2022 14:20:46 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> On 2022/04/26 21:38, Greg Kurz wrote:
-
-[..skip..]
-
-> > 
-> > I think Christian's explanation is clear enough. We don't guarantee
-> > that v9fs_co_foo() calls run atomically. As a consequence, the client
-> > might see transient states or be able to interact with an ongoing
-> > request. And to answer your question, we have no specific rationale
-> > on security with that.
-> > 
-> > I'm not sure what the concerns are but unless you come up with a
-> > valid scenario [*] I don't see any reason to prevent this patch
-> > to go forward.
-> > 
-> > [*] things like:
-> >      - client escaping the shared directory
-> >      - QEMU crashing
-> >      - QEMU hogging host resources
-> >      - client-side unprivileged user gaining elevated privleges
-> >        in the guest
+> mknod() on macOS does not support creating sockets, so divert to
+> call sequence socket(), bind() and chmod() respectively if S_IFSOCK
+> was passed with mode argument.
 > 
-> I was just not sure if such transient states are safe. The past 
-> discussion was about the length of the non-atomic time window where a 
-> path name is used to identify a particular file, but if such states are 
-> not considered problematic, the length does not matter all and we can 
-> confidently say the sequence of bind() and chmod() is safe.
+> Link: https://lore.kernel.org/qemu-devel/17933734.zYzKuhC07K@silver/
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Reviewed-by: Will Cohen <wwcohen@gmail.com>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> ---
+
+Nack until the chmod() issue is addressed. :-\
+
+>  hw/9pfs/9p-util-darwin.c | 34 +++++++++++++++++++++++++++++++++-
+>  1 file changed, 33 insertions(+), 1 deletion(-)
 > 
-> Considering the transient states are tolerated in 9pfs, we need to 
-> design this function to be tolerant with transient states as well. The 
-> use of chmod() is not safe when we consider about transient states. A 
-> malicious actor may replace the file at the path with a symlink which 
-> may escape the shared directory and chmod() will naively follow it. 
-
-You get a point here. Thanks for your tenacity ! :-)
-
-> chmod() should be replaced with fchmodat_nofollow() or something similar.
-> 
-
-On a GNU/Linux system, this could be achieved by calling fchmod() on
-the socket fd *before* calling bind() but I'm afraid this hack might
-not work with a BSDish OS.
-
-Replacing chmod() with fchmodat_nofollow(dirfd, addr.sun_path, mode)
-won't make things atomic as above but at least it won't follow a
-malicious symbolic link : mknod() on the client will fail with
-ELOOP, which is fine when it comes to not breaking out of the shared
-directory.
-
-This brings up a new problem I hadn't realized before : the
-fchmodat_nofollow() implementation in 9p-local.c is really
-a linux only thing to cope with AT_SYMLINK_NOFOLLOW not being
-supported with fchmodat(). It looks that this should move to
-9p-util-linux.c and a proper version should be added for macOS
-in 9p-util-darwin.c
-
-Cheers,
-
---
-Greg
-
-> Regards,
-> Akihiko Odaki
-> 
-> > 
-> > Cheers,
-> > 
-> > --
-> > Greg
-> > 
-> >> Regards,
-> >> Akihiko Odaki
-> > 
-> 
+> diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+> index e24d09763a..63797e60cd 100644
+> --- a/hw/9pfs/9p-util-darwin.c
+> +++ b/hw/9pfs/9p-util-darwin.c
+> @@ -74,6 +74,34 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+>   */
+>  #if defined CONFIG_PTHREAD_FCHDIR_NP
+>  
+> +static int create_socket_file_at_cwd(const char *filename, mode_t mode) {
+> +    int fd, err;
+> +    struct sockaddr_un addr = {
+> +        .sun_family = AF_UNIX
+> +    };
+> +
+> +    /*
+> +     * sun_path is only 104 bytes, explicit filename length check required
+> +     */
+> +    if (sizeof(addr.sun_path) - 1 < strlen(filename) + 2) {
+> +        errno = ENAMETOOLONG;
+> +        return -1;
+> +    }
+> +    fd = socket(PF_UNIX, SOCK_DGRAM, 0);
+> +    if (fd == -1) {
+> +        return fd;
+> +    }
+> +    snprintf(addr.sun_path, sizeof(addr.sun_path), "./%s", filename);
+> +    err = bind(fd, (struct sockaddr *) &addr, sizeof(addr));
+> +    if (err == -1) {
+> +        goto out;
+> +    }
+> +    err = chmod(addr.sun_path, mode);
+> +out:
+> +    close_preserve_errno(fd);
+> +    return err;
+> +}
+> +
+>  int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+>  {
+>      int preserved_errno, err;
+> @@ -93,7 +121,11 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+>      if (pthread_fchdir_np(dirfd) < 0) {
+>          return -1;
+>      }
+> -    err = mknod(filename, mode, dev);
+> +    if (S_ISSOCK(mode)) {
+> +        err = create_socket_file_at_cwd(filename, mode);
+> +    } else {
+> +        err = mknod(filename, mode, dev);
+> +    }
+>      preserved_errno = errno;
+>      /* Stop using the thread-local cwd */
+>      pthread_fchdir_np(-1);
 
 
