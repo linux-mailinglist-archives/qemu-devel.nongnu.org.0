@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB81C51103F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 06:42:27 +0200 (CEST)
-Received: from localhost ([::1]:52222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A92511043
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 06:44:40 +0200 (CEST)
+Received: from localhost ([::1]:60104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njZVT-000435-1R
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 00:42:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50350)
+	id 1njZXb-0000rS-Lv
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 00:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njZSv-0001IB-AR
+ id 1njZSv-0001IA-77
  for qemu-devel@nongnu.org; Wed, 27 Apr 2022 00:39:50 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:40935)
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:41735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njZSr-0007S8-C6
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 00:39:47 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- iq2-20020a17090afb4200b001d93cf33ae9so3969784pjb.5
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 21:39:44 -0700 (PDT)
+ id 1njZSs-0007SE-FO
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 00:39:48 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id p8so595981pfh.8
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 21:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HW+naBqjZdn/GXJMPZXG6R8cx4JVBgAwhc3aQpkdKQE=;
- b=I3FWpPFPaMyQVNJrLO/9oLJ+f+fvjFHStlesRpI/PIsNnwR+WMG0gxlqEMmtm9TyMo
- cxcuUPmwBPG6lGT7DkYPiXkV59gEVj6lVyEG9slLbn045vI/o/tSBCd6lh/vSq213Fgd
- 0iIvBc8hq4+9dAYkgD48yxdWP2goW+I1CsVBJODF5+2KWV1+vv04AirmQcLFl6iT1MKs
- lzZZdzNFILCtzTLFklfaYHmbdZeblycswbccwIdACc089zWnOTglgLedTQr3A72U0bb5
- pQJSVl7XzP+JA8EiikZzpLwM7/4qswEHhyFpOMhbZoQztKDMZ2TUEAtPS+TUdtMnKQ4v
- 9PCw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ULcFg+YQtMFDdmUsYGTe6VlNAYytQ0q+FNB9e1xihHc=;
+ b=vAHCnIJFKSGzke1kR1JTpgjaVhRtkKvSwQ0XWmYh6+yYRuhV4GN4Zbxb500XajiSIO
+ BzQYgG7jaG9RYtjLGPUajRHdBaQHLe4WkUDu1rToRm+AW5uPSaCg0gIvfVmDmr+bSAx3
+ Wsmu6eTK/0nXPt94V7OV+ODzefs7yfq50SmxKyKamRsQ5VGzqYjqll0Y7gTjkHV8dsFT
+ NILzs8ZW0f7fqxOJfjekrIQhQBF7Zb7EfCug8xx7AKEPt6MccE3q4lXeY2F4A28y8nXg
+ TQue+bT/AJlJrNaL9OVsQwSvCFcAiZ1rf92JkwHevEGUffmqY7MGqCgZUqR4APgEvPKP
+ sPGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HW+naBqjZdn/GXJMPZXG6R8cx4JVBgAwhc3aQpkdKQE=;
- b=PjuPjt3bYq7QHFFawapqNidspLl6uxUrEVk5kLEBdqY8Y/LM9NRbG4qm6EzV/saOVM
- /+edn4udIDqjmC3A4ePh4OxWg5AERgq/VTYe9/AGD0BC+jAH8zgUXliCKYk0eCpHW/jD
- AeCMtuXCLWpyPxlRxcj21Lukz+60bFvR/tUFqfqN5zwwirSMKkqTIqBEnsatxCLD+QzA
- /Ck+5tpqva8g4pX0Djl7nBZBR4k7/2RUBpgzY9JRZVepBdMO3d7uvTv4I8hmEr3L+H47
- RkWUWO/iVgfMv4VEk9xiChjUj6pjQylTzbWtlIGAJ42MSbJcuivIo4piuucLWEAuj4QG
- cluQ==
-X-Gm-Message-State: AOAM530x8nHdthLRVBHn2z7N8qNlul39ya7bKpYzhH33Y70YTmliiYsr
- TtdkNggJo129uAqT2L3LPUYVa+dogTpZbg==
-X-Google-Smtp-Source: ABdhPJxku3Oz1idTo34hkPnpuc2yxu5eHeFIF+cN+tyz5j5woCKSCZbTZSjciOpc0iFUYDkygJS3aQ==
-X-Received: by 2002:a17:902:c411:b0:15c:e82a:e854 with SMTP id
- k17-20020a170902c41100b0015ce82ae854mr19850280plk.18.1651034383644; 
- Tue, 26 Apr 2022 21:39:43 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ULcFg+YQtMFDdmUsYGTe6VlNAYytQ0q+FNB9e1xihHc=;
+ b=s6yWLYOnVpvaRvbLuKBuPBHHyV8Yj+8v7OOduLimVXHHgL8UWoOLZ8gdnKCrEZ6ETE
+ dgRvgVwAZiM+ZyjckyH8Y9jHwdh8KIBpxVCpWIUIIRRbsV9RBjVxSELg53vUU5St7afd
+ p1a5c1gFdy5zf8hdRlY2MEy/BK7lKzeYfa1224RbE1B8a3vMwMhP9FpRJk3YashYx4tO
+ 2Sp/gwxLHJIaCR2Ig59KI3QDE6oE0qAns7i4M9RKeOlJvfyAg5lpWIJ6fCGs0IeAhsC1
+ IUDkVcUCm8qSZGfBQYsQYQbZVb4/inXcoYGO5TA1cutiUHyrhSl8CwrbdhzoLjkCAWk1
+ usNA==
+X-Gm-Message-State: AOAM532NLQB8zh5dHyLWUobHEGZrRkBnkkkU8+pjupYFbZtNcsLutIoj
+ K3OiX/IODvxhGxFHsKcc+iyqKTdi5Kdbmw==
+X-Google-Smtp-Source: ABdhPJzD6IgNCVa4R4Kuq6BCJ3nd/EZx0EB2vCas3uOAMpDg05ZEIgmX9dWqIjBgJRsjYm5cweBkDQ==
+X-Received: by 2002:a63:88c8:0:b0:3ab:1871:13b4 with SMTP id
+ l191-20020a6388c8000000b003ab187113b4mr15034786pgd.85.1651034384548; 
+ Tue, 26 Apr 2022 21:39:44 -0700 (PDT)
 Received: from stoup.. (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- f16-20020aa78b10000000b0050a81508653sm16875632pfd.198.2022.04.26.21.39.42
- for <qemu-devel@nongnu.org>
+ f16-20020aa78b10000000b0050a81508653sm16875632pfd.198.2022.04.26.21.39.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 21:39:43 -0700 (PDT)
+ Tue, 26 Apr 2022 21:39:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/6] Coverity patch queue
-Date: Tue, 26 Apr 2022 21:39:36 -0700
-Message-Id: <20220427043942.294654-1-richard.henderson@linaro.org>
+Subject: [PULL 1/6] accel/tcg: Assert mmu_idx in range before use in cputlb
+Date: Tue, 26 Apr 2022 21:39:37 -0700
+Message-Id: <20220427043942.294654-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220427043942.294654-1-richard.henderson@linaro.org>
+References: <20220427043942.294654-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,38 +85,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a72d9008092e39c2c37e47a91bae4e170d0f1b33:
+Coverity reports out-of-bound accesses within cputlb.c.
+This should be a false positive due to how the index is
+decoded from MemOpIdx.  To be fair, nothing is checking
+the correct bounds during encoding either.
 
-  Merge tag 'pull-nbd-2022-04-26' of https://repo.or.cz/qemu/ericb into staging (2022-04-26 14:39:09 -0700)
+Assert index in range before use, both to catch user errors
+and to pacify static analysis.
 
-are available in the Git repository at:
+Fixes: Coverity CID 1487120, 1487127, 1487170, 1487196, 1487215, 1487238
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220401170813.318609-1-richard.henderson@linaro.org>
+---
+ accel/tcg/cputlb.c | 40 +++++++++++++++++++++++++++-------------
+ 1 file changed, 27 insertions(+), 13 deletions(-)
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20220426
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index dd45e0467b..f90f4312ea 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1761,7 +1761,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+                                MemOpIdx oi, int size, int prot,
+                                uintptr_t retaddr)
+ {
+-    size_t mmu_idx = get_mmuidx(oi);
++    uintptr_t mmu_idx = get_mmuidx(oi);
+     MemOp mop = get_memop(oi);
+     int a_bits = get_alignment_bits(mop);
+     uintptr_t index;
+@@ -1769,6 +1769,8 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+     target_ulong tlb_addr;
+     void *hostaddr;
+ 
++    tcg_debug_assert(mmu_idx < NB_MMU_MODES);
++
+     /* Adjust the given return address.  */
+     retaddr -= GETPC_ADJ;
+ 
+@@ -1908,18 +1910,20 @@ load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
+             uintptr_t retaddr, MemOp op, bool code_read,
+             FullLoadHelper *full_load)
+ {
+-    uintptr_t mmu_idx = get_mmuidx(oi);
+-    uintptr_t index = tlb_index(env, mmu_idx, addr);
+-    CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
+-    target_ulong tlb_addr = code_read ? entry->addr_code : entry->addr_read;
+     const size_t tlb_off = code_read ?
+         offsetof(CPUTLBEntry, addr_code) : offsetof(CPUTLBEntry, addr_read);
+     const MMUAccessType access_type =
+         code_read ? MMU_INST_FETCH : MMU_DATA_LOAD;
+-    unsigned a_bits = get_alignment_bits(get_memop(oi));
++    const unsigned a_bits = get_alignment_bits(get_memop(oi));
++    const size_t size = memop_size(op);
++    uintptr_t mmu_idx = get_mmuidx(oi);
++    uintptr_t index;
++    CPUTLBEntry *entry;
++    target_ulong tlb_addr;
+     void *haddr;
+     uint64_t res;
+-    size_t size = memop_size(op);
++
++    tcg_debug_assert(mmu_idx < NB_MMU_MODES);
+ 
+     /* Handle CPU specific unaligned behaviour */
+     if (addr & ((1 << a_bits) - 1)) {
+@@ -1927,6 +1931,10 @@ load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
+                              mmu_idx, retaddr);
+     }
+ 
++    index = tlb_index(env, mmu_idx, addr);
++    entry = tlb_entry(env, mmu_idx, addr);
++    tlb_addr = code_read ? entry->addr_code : entry->addr_read;
++
+     /* If the TLB entry is for a different page, reload and try again.  */
+     if (!tlb_hit(tlb_addr, addr)) {
+         if (!victim_tlb_hit(env, mmu_idx, index, tlb_off,
+@@ -2310,14 +2318,16 @@ static inline void QEMU_ALWAYS_INLINE
+ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+              MemOpIdx oi, uintptr_t retaddr, MemOp op)
+ {
+-    uintptr_t mmu_idx = get_mmuidx(oi);
+-    uintptr_t index = tlb_index(env, mmu_idx, addr);
+-    CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
+-    target_ulong tlb_addr = tlb_addr_write(entry);
+     const size_t tlb_off = offsetof(CPUTLBEntry, addr_write);
+-    unsigned a_bits = get_alignment_bits(get_memop(oi));
++    const unsigned a_bits = get_alignment_bits(get_memop(oi));
++    const size_t size = memop_size(op);
++    uintptr_t mmu_idx = get_mmuidx(oi);
++    uintptr_t index;
++    CPUTLBEntry *entry;
++    target_ulong tlb_addr;
+     void *haddr;
+-    size_t size = memop_size(op);
++
++    tcg_debug_assert(mmu_idx < NB_MMU_MODES);
+ 
+     /* Handle CPU specific unaligned behaviour */
+     if (addr & ((1 << a_bits) - 1)) {
+@@ -2325,6 +2335,10 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+                              mmu_idx, retaddr);
+     }
+ 
++    index = tlb_index(env, mmu_idx, addr);
++    entry = tlb_entry(env, mmu_idx, addr);
++    tlb_addr = tlb_addr_write(entry);
++
+     /* If the TLB entry is for a different page, reload and try again.  */
+     if (!tlb_hit(tlb_addr, addr)) {
+         if (!victim_tlb_hit(env, mmu_idx, index, tlb_off,
+-- 
+2.34.1
 
-for you to fetch changes up to dee3fcfbb399a0e4ccedbf737b5b0b7f56ecd398:
-
-  softfloat: Use FloatRelation for fracN_cmp (2022-04-26 20:01:55 -0700)
-
-----------------------------------------------------------------
-Fix s390x ICMH cc computation.
-Minor adjustments to satisfy Coverity.
-
-----------------------------------------------------------------
-Richard Henderson (6):
-      accel/tcg: Assert mmu_idx in range before use in cputlb
-      target/s390x: Fix the accumulation of ccm in op_icm
-      target/i386: Suppress coverity warning on fsave/frstor
-      softfloat: Fix declaration of partsN_compare
-      softfloat: Use FloatRelation within partsN_compare
-      softfloat: Use FloatRelation for fracN_cmp
-
- accel/tcg/cputlb.c           | 40 +++++++++++++++++++++++++++-------------
- fpu/softfloat.c              | 20 +++++++++++---------
- target/i386/tcg/fpu_helper.c |  4 ++--
- target/s390x/tcg/translate.c |  2 +-
- fpu/softfloat-parts.c.inc    | 11 +++++++----
- 5 files changed, 48 insertions(+), 29 deletions(-)
 
