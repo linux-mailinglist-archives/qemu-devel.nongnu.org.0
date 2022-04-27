@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6354F510F27
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 05:06:07 +0200 (CEST)
-Received: from localhost ([::1]:45218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF29510F4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 05:12:49 +0200 (CEST)
+Received: from localhost ([::1]:49720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njY0E-0005Gp-HJ
-	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 23:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35574)
+	id 1njY6j-0001C6-2E
+	for lists+qemu-devel@lfdr.de; Tue, 26 Apr 2022 23:12:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njXy2-0003Kx-Qz
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:03:55 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:44734)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1njY4y-00006X-6J
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:11:00 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:37545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1njXy1-0002NI-8Y
- for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:03:50 -0400
-Received: by mail-pl1-x636.google.com with SMTP id j8so428771pll.11
- for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 20:03:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=HO4glNFPsYOApCs8m1Fpe3iMrRuJe0rdbYbKX7a2aSQ=;
- b=SajjO98FCypH1OA65cR2hu6KNXxIIVgJC9F5js60dZJ/mr+FdurEu5vHP1ptsTKDFx
- 9FU65Rm9iIobBfHzaKoR2XO4MNoQYFLF9ExVZUgj9TGuXxY4T6ojCtnJHpxdMR4ciuMf
- 3ti1feAfYgEXKfFHY9LX7alxAQi8wL69+4SeBt8o4hv63B4vl7xEUhfpSXODSmmLQ7/L
- iOECMaWqv5k4ZKKq5eSPtiDKnPxZZGlHfrJt6oemh71HFhu537QyjvSjyeA1ZWQJXbfR
- nlZjSq3SdqGeX0589lls/ZKUFxLFJQyHE4eed9tfPFqPaxNkY4qoCbO66QlhSkO6vHW3
- E4HA==
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1njY4u-0003Mv-59
+ for qemu-devel@nongnu.org; Tue, 26 Apr 2022 23:10:57 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id kq17so773034ejb.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Apr 2022 20:10:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wgZ7QW8ZOkEM7gq6v4Y5TE/A7C6E5yAklLVpPNDJKQY=;
+ b=79r5qdF2p3gFLojkXktLznabY4Az0GMjTmrCfieiH1KnBm53Qu0CSi5V+ApFWfrUGG
+ JnHx9MHG5AD+jbmu3BH7xL+F2QKo23A/koXMD5ycUz2s9m5gQeAVqqx42E6bchXYtbJv
+ QHYvhLOPFcszpzbKghcpGVna0Xc5S90fmwepZURK8T9+P8KOSVG4QQy+JCTeHRwXaEhe
+ 1BvO8gwdXWhFAekSI9gd+xCd06RnV5p5qzkHSrUwIwtVXZ0IWhC9r9YZkx/AGuS0xP/o
+ +FLXhDQ9KNXcAHhH8zwsIz6nB3MryGgH4xYL9owOV8W/FtYHJjvINaXuyXmmZBB9iBL6
+ dq4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=HO4glNFPsYOApCs8m1Fpe3iMrRuJe0rdbYbKX7a2aSQ=;
- b=v1YftQxnhhG+fUpDQrTkrU1icyyKn75EM3ea0MnvC1clvCZaKJm3xcIRtt3SQGkWpe
- 7u+fOolKGe9AZufZ74GcjJGNUpukjHbzmy1D+fNAcuMLmEX8g8v57SYnUvvsWjqPvytk
- xX3s05JcHKmKgYhLH+eNEqQnuVo4/HLyCB2ZXhdrVFcB1Lgg9YELLn4n78zwciWgCyPy
- Z5uRY7Y63C3Mxl8dqZc6TvXMDUgSU8nvpJA+0thMwyW/1q5ScoIiseHzUxlEKA2zhf7k
- wFYlZSMVZ5H80Tfz5w7f2bOeijxQ5f4J1XClNh84FkbM5ppIYzB2gr+KKvKY8PyolhY6
- r3wg==
-X-Gm-Message-State: AOAM531JfhRJtJ1PQEivYHdXiHEjGaEvr7UiJOpRD6ZlRVgYL48IA7lC
- ANsZQChz/sjyu1SHlN8ahtV65J5nDuv6OQ==
-X-Google-Smtp-Source: ABdhPJyF5kDvkbJf0B9Zx+cQsXDe5Ds7SXQYkAEBeYw8bOgLGhC8GY6K93XnIiFTsMgbq3biE1dgBQ==
-X-Received: by 2002:a17:90b:3b8c:b0:1d4:c5e9:db89 with SMTP id
- pc12-20020a17090b3b8c00b001d4c5e9db89mr38425324pjb.178.1651028617124; 
- Tue, 26 Apr 2022 20:03:37 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- w2-20020a62c702000000b0050d299e3b7dsm4341691pfg.186.2022.04.26.20.03.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 20:03:36 -0700 (PDT)
-Message-ID: <dae39a89-5961-07da-cbd8-63e086351d69@linaro.org>
-Date: Tue, 26 Apr 2022 20:03:34 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wgZ7QW8ZOkEM7gq6v4Y5TE/A7C6E5yAklLVpPNDJKQY=;
+ b=JIvkqBaoYW/4rUXUGPX3tC3NPkjrqy9Vz1cXYXteODoqTWur+NBPZ5QtlfAu1HX9I4
+ lqrOenipd7jwvvzCRVz8m6XxcLnqPvkD423yIKbqdTWdeol8e1F7u0thO1S82fOydK6k
+ lY4qiW9T2ku5WTZuFIBkvekBKLBb++a4yut1uSdTmA/ngAS/eT59BcUADpKTroQjw8nm
+ +q1bdDrorDDAu3469rED6ip6uKXtOYuFH1FvYC6B39yx7yn9TIyoYL1cWJk6vTmTRke+
+ cgd/8ckWY1EWI17bRUstPJdQOEt35WVlVHp2okN5lO4pvrAJOQZIDzS83gpFq0O5BPtr
+ ko5g==
+X-Gm-Message-State: AOAM530DlmxSrF2BTxvM0ud50nE6eLkW3QXvIfLk3QRz75JodFh1V66l
+ Ril3jbLXUZY7ujsFvhyDUsopP3oejcTbroaDfDoO
+X-Google-Smtp-Source: ABdhPJyWb2Mh5/zOwyooBR8rkdQy0TiXbZvPB4UVfY4IV4ih+j1wR9gpjoM0xOZ9G7ObCmLi0vHUbYOW+0DfTdBWsG4=
+X-Received: by 2002:a17:906:7954:b0:6f3:b2f4:b22b with SMTP id
+ l20-20020a170906795400b006f3b2f4b22bmr5738981ejo.536.1651029053200; Tue, 26
+ Apr 2022 20:10:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] accel/tcg: Assert mmu_idx in range before use in cputlb
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20220401170813.318609-1-richard.henderson@linaro.org>
-In-Reply-To: <20220401170813.318609-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220406075921.105-1-xieyongji@bytedance.com>
+ <20220406075921.105-5-xieyongji@bytedance.com>
+ <Ymglzs0iKKUFiFNW@redhat.com>
+In-Reply-To: <Ymglzs0iKKUFiFNW@redhat.com>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Wed, 27 Apr 2022 11:11:24 +0800
+Message-ID: <CACycT3t5YJmo=zwVUF=gbfK5eczqZ1rx1ZaP6iePr7PLBJPzfQ@mail.gmail.com>
+Subject: Re: [PATCH v4 4/6] vduse-blk: implements vduse-blk export
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,23 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, jsnow@redhat.com,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/1/22 10:08, Richard Henderson wrote:
-> Coverity reports out-of-bound accesses within cputlb.c.
-> This should be a false positive due to how the index is
-> decoded from MemOpIdx.  To be fair, nothing is checking
-> the correct bounds during encoding either.
-> 
-> Assert index in range before use, both to catch user errors
-> and to pacify static analysis.
-> 
-> Fixes: Coverity CID 1487120, 1487127, 1487170, 1487196, 1487215, 1487238
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Wed, Apr 27, 2022 at 1:03 AM Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> Am 06.04.2022 um 09:59 hat Xie Yongji geschrieben:
+> > This implements a VDUSE block backends based on
+> > the libvduse library. We can use it to export the BDSs
+> > for both VM and container (host) usage.
+> >
+> > The new command-line syntax is:
+> >
+> > $ qemu-storage-daemon \
+> >     --blockdev file,node-name=drive0,filename=test.img \
+> >     --export vduse-blk,node-name=drive0,id=vduse-export0,writable=on
+> >
+> > After the qemu-storage-daemon started, we need to use
+> > the "vdpa" command to attach the device to vDPA bus:
+> >
+> > $ vdpa dev add name vduse-export0 mgmtdev vduse
+> >
+> > Also the device must be removed via the "vdpa" command
+> > before we stop the qemu-storage-daemon.
+> >
+> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+>
+> The request handling code is almos the same as for the vhost-user-blk
+> export. I wonder if we could share this code instead of copying.
+>
 
-Queuing to tcg-next.
+I think we can. Will do it v5.
 
-r~
+> The main difference seems to be that you chose not to support discard
+> and write_zeroes yet. I'm curious if there is a reason why the
+> vhost-user-blk code wouldn't work for vdpa there?
+>
+
+They are different protocols. The data plane is similar, so we can
+share some codes. But the control plane is different, e.g., vhost-user
+can only work for guests but vdpa can work for both guests and hosts.
+
+> > +    features = vduse_get_virtio_features() |
+> > +               (1ULL << VIRTIO_BLK_F_SIZE_MAX) |
+> > +               (1ULL << VIRTIO_BLK_F_SEG_MAX) |
+> > +               (1ULL << VIRTIO_BLK_F_TOPOLOGY) |
+> > +               (1ULL << VIRTIO_BLK_F_BLK_SIZE);
+> > +
+> > +    if (num_queues > 1) {
+> > +        features |= 1ULL << VIRTIO_BLK_F_MQ;
+> > +    }
+> > +    if (!vblk_exp->writable) {
+> > +        features |= 1ULL << VIRTIO_BLK_F_RO;
+> > +    }
+>
+> VIRTIO_BLK_F_FLUSH seems to be missing even though the flush command is
+> implemented.
+>
+
+Oops. Will fix it.
+
+> (This is not a full review yet, just two or three things I noticed while
+> having a quick look.)
+>
+
+Thank you for your time!
+
+Thanks,
+Yongji
 
