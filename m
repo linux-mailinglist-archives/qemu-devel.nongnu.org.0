@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D994D5111E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 09:04:43 +0200 (CEST)
-Received: from localhost ([::1]:48224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDAE51123C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Apr 2022 09:17:07 +0200 (CEST)
+Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1njbj8-0005hX-Ug
-	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 03:04:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41248)
+	id 1njbv8-0005lw-Hk
+	for lists+qemu-devel@lfdr.de; Wed, 27 Apr 2022 03:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njbfA-0004n1-Hc
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 03:00:37 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:45717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1njbf8-0001JL-J3
- for qemu-devel@nongnu.org; Wed, 27 Apr 2022 03:00:36 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id y3so1462567ejo.12
- for <qemu-devel@nongnu.org>; Wed, 27 Apr 2022 00:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0f0plXion9R3CzG61wij8R100MD3Y9XM9i1nCgRHTzk=;
- b=eui4QfX0yB9KclJWNpiRam+QsMoRxtDlsp9DByj59xFs1ZjOSiWZvbS27o5AFZC3XY
- fdaiqhMEKSSc1m0sxEKE2GjciUEXj/s79eWJfCrsc9mqiniOWh+ZeD/Q+CXF2dVakRlt
- 5mv+wgtbsObCbmoGhUFde6n5VYba4c3zXjlxQ1YLZqqH1toQi4ojtkgxM79CYThMDHwk
- M0xwLVHYQoY4IVfr+XM7/mWnzr+f3ZqedWGASROBXGVs5eJVUF9Bct0hfj96k0jMHvt/
- ebJgzRwH+THEcOKkEWF+g3LqoFkDs9yqu455acBLQmOuWnCn5HWdw5iW9jhWcG0jYEUQ
- hRzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0f0plXion9R3CzG61wij8R100MD3Y9XM9i1nCgRHTzk=;
- b=XTIxewmlSMf2wRfRHdTou6idPoFp/zfI/fb5XvlpKN2BQyZ2Q2D7lJxU4soxBIzU4N
- nRAj+fl/ZqZBGFN+bRs4Mq6oSZBYSfFL13aOlUF5BiNbapKTaK2yxLiymRxOOKtBcXXJ
- Uees3QUwdrUcnhyIdsv1UcritRXAUhnFc0Z5enwmWN3vbnCTTsL5n7d3orU9Mo+oyL7g
- StiHBbD+GrmgwEqSPR+mI8DWPeYdrjUzYQaEqwGNwJF0fcg9OSOdKyB30cNQcy+tm6k+
- F6rokZn5ads+QF3QHNRVdE7eD3iRoo01jGjYJWyy8eJeJH/hCHz/58b3FombLMC92qC4
- VcrQ==
-X-Gm-Message-State: AOAM530U8npjpiwrZUeIWvl9bLSAd3BXwoyD2zD5lC8NC9lsmJ/hrqv2
- qWEpSuSUFQieGz+wm03ZnBc=
-X-Google-Smtp-Source: ABdhPJwC2x4vtc2gCuKn/GrAbVsCcOucrLIry43vrasqnEBgZKozFroiQgAnaGlIGMogJye8bv24Ww==
-X-Received: by 2002:a17:907:50a3:b0:6f3:a302:96aa with SMTP id
- fv35-20020a17090750a300b006f3a30296aamr10192175ejc.2.1651042832967; 
- Wed, 27 Apr 2022 00:00:32 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- w14-20020a056402268e00b00425f02088d2sm4275780edd.26.2022.04.27.00.00.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Apr 2022 00:00:32 -0700 (PDT)
-Message-ID: <860ea92c-355a-07df-23b7-a46c7e84d9b2@redhat.com>
-Date: Wed, 27 Apr 2022 09:00:31 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1njboc-0002Ie-FZ
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 03:10:22 -0400
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:35141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1njboa-0002Nt-5k
+ for qemu-devel@nongnu.org; Wed, 27 Apr 2022 03:10:21 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C87822126F;
+ Wed, 27 Apr 2022 07:10:15 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 27 Apr
+ 2022 09:10:14 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R00364a010f4-c6fa-486a-ac98-955a272b7b01,
+ 17BF23367636C0D6DAFD61CED3DAD67CB3096C97) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <eb7ec5f6-effb-fba5-21fa-60707754f9d3@kaod.org>
+Date: Wed, 27 Apr 2022 09:10:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 01/42] i386: pcmpestr 64-bit sign extension bug
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 0/7] VSX MMA Implementation
 Content-Language: en-US
-To: Paul Brook <paul@nowt.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-References: <20220418173904.3746036-1-paul@nowt.org>
- <20220424220204.2493824-2-paul@nowt.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220424220204.2493824-2-paul@nowt.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Joel Stanley <joel@jms.id.au>, "Lucas Mateus Castro(alqotel)"
+ <lucas.araujo@eldorado.org.br>
+References: <20220426125028.18844-1-lucas.araujo@eldorado.org.br>
+ <CACPK8Xea8cE3bAPKqDDgQ671m+rxTo57OPYrDTBOEDrpLSD9tg@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CACPK8Xea8cE3bAPKqDDgQ671m+rxTo57OPYrDTBOEDrpLSD9tg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 0f6ba559-8d8a-4ff7-ab43-ab1eae7b53eb
+X-Ovh-Tracer-Id: 17030080519717882802
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeggdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffgefgkeevvedvvdffleefheelfffhhfetgeekudeuveffffekjeeiveffledthfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,69 +71,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Leandro Lupori <leandro.lupori@eldorado.org.br>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/25/22 00:01, Paul Brook wrote:
-> The abs1 function in ops_sse.h only works sorrectly when the result fits
-> in a signed int. This is fine most of the time because we're only dealing
-> with byte sized values.
-> 
-> However pcmp_elen helper function uses abs1 to calculate the absolute value
-> of a cpu register. This incorrectly truncates to 32 bits, and will give
-> the wrong anser for the most negative value.
-> 
-> Fix by open coding the saturation check before taking the absolute value.
-> 
-> Signed-off-by: Paul Brook <paul@nowt.org>
+Hello,
 
-Queued, thanks.
-
-Paolo
-
-> ---
->   target/i386/ops_sse.h | 20 +++++++++-----------
->   1 file changed, 9 insertions(+), 11 deletions(-)
+On 4/27/22 08:21, Joel Stanley wrote:
+> On Tue, 26 Apr 2022 at 12:51, Lucas Mateus Castro(alqotel)
+> <lucas.araujo@eldorado.org.br> wrote:
+>>
+>> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+>>
+>> This patch series is an RFC of the Matrix-Multiply Assist (MMA)
+>> instructions implementation from the PowerISA 3.1
+>>
+>> These and the VDIV/VMOD implementation are the last new PowerISA 3.1
+>> instructions left to be implemented.
+>>
+>> Thanks
+>> Lucas Mateus Castro (alqotel) (7):
+>>    target/ppc: Implement xxm[tf]acc and xxsetaccz
+>>    target/ppc: Implemented xvi*ger* instructions
+>>    target/ppc: Implemented pmxvi*ger* instructions
+>>    target/ppc: Implemented xvf*ger*
+>>    target/ppc: Implemented xvf16ger*
+>>    target/ppc: Implemented pmxvf*ger*
+>>    target/ppc: Implemented [pm]xvbf16ger2*
 > 
-> diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-> index e4d74b814a..535440f882 100644
-> --- a/target/i386/ops_sse.h
-> +++ b/target/i386/ops_sse.h
-> @@ -2011,25 +2011,23 @@ SSE_HELPER_Q(helper_pcmpgtq, FCMPGTQ)
->   
->   static inline int pcmp_elen(CPUX86State *env, int reg, uint32_t ctrl)
->   {
-> -    int val;
-> +    target_long val, limit;
->   
->       /* Presence of REX.W is indicated by a bit higher than 7 set */
->       if (ctrl >> 8) {
-> -        val = abs1((int64_t)env->regs[reg]);
-> +        val = (target_long)env->regs[reg];
->       } else {
-> -        val = abs1((int32_t)env->regs[reg]);
-> +        val = (int32_t)env->regs[reg];
->       }
-> -
->       if (ctrl & 1) {
-> -        if (val > 8) {
-> -            return 8;
-> -        }
-> +        limit = 8;
->       } else {
-> -        if (val > 16) {
-> -            return 16;
-> -        }
-> +        limit = 16;
->       }
-> -    return val;
-> +    if ((val > limit) || (val < -limit)) {
-> +        return limit;
-> +    }
-> +    return abs1(val);
->   }
->   
->   static inline int pcmp_ilen(Reg *r, uint8_t ctrl)
+> I have a small test case for the MMA instructions that Alistair wrote
+> a while back[1]. It passes when run with these patches applied
+> (previously it would sigill).
+
+Could we have your Tested-by then ?
+
+
+> 
+> $ qemu-ppc64le -cpu power10  -L ~/ppc64le/ ./test -m
+> Smoke test MMA
+> MMA[0] = 1 (Correct)
+> MMA[1] = 2 (Correct)
+> MMA[2] = 3 (Correct)
+> MMA[3] = 4 (Correct)
+> MMA[4] = 2 (Correct)
+> MMA[5] = 4 (Correct)
+> MMA[6] = 6 (Correct)
+> MMA[7] = 8 (Correct)
+> MMA[8] = 3 (Correct)
+> MMA[9] = 6 (Correct)
+> MMA[10] = 9 (Correct)
+> MMA[11] = 12 (Correct)
+> MMA[12] = 4 (Correct)
+> MMA[13] = 8 (Correct)
+> MMA[14] = 12 (Correct)
+> MMA[15] = 16 (Correct)
+> 
+> [1] https://github.com/shenki/p10_tests
+
+Looks like a good candidate for tests/tcg/ppc64le/. Adding Matheus and Leandro.
+
+Thanks,
+
+C.
+
+
+
+> 
+> 
+>>
+>>   include/fpu/softfloat.h             |   9 ++
+>>   target/ppc/cpu.h                    |  15 +++
+>>   target/ppc/fpu_helper.c             | 130 ++++++++++++++++++
+>>   target/ppc/helper.h                 |   7 +
+>>   target/ppc/insn32.decode            |  49 +++++++
+>>   target/ppc/insn64.decode            |  80 +++++++++++
+>>   target/ppc/int_helper.c             |  85 ++++++++++++
+>>   target/ppc/internal.h               |  28 ++++
+>>   target/ppc/translate/vsx-impl.c.inc | 200 ++++++++++++++++++++++++++++
+>>   9 files changed, 603 insertions(+)
+>>
+>> --
+>> 2.31.1
+>>
+>>
 
 
